@@ -7,57 +7,57 @@ app_name = 'international_online_offer'
 urlpatterns = [
     path(
         '',
-        views.ExpandYourBusinessIndex.as_view(),
+        views.Index.as_view(),
         name='index',
     ),
     path(
         'sector/',
-        views.ExpandYourBusinessSector.as_view(),
+        views.Sector.as_view(),
         name='sector',
     ),
     path(
         'intent/',
-        views.ExpandYourBusinessIntent.as_view(),
+        views.Intent.as_view(),
         name='intent',
     ),
     path(
         'location/',
-        views.ExpandYourBusinessLocation.as_view(),
+        views.Location.as_view(),
         name='location',
     ),
     path(
         'hiring/',
-        views.ExpandYourBusinessHiring.as_view(),
+        views.Hiring.as_view(),
         name='hiring',
     ),
     path(
         'spend/',
-        views.ExpandYourBusinessSpend.as_view(),
+        views.Spend.as_view(),
         name='spend',
     ),
     path(
         'profile/',
-        views.ExpandYourBusinessProfile.as_view(),
+        views.Profile.as_view(),
         name='profile',
     ),
     path(
         'login/',
-        views.ExpandYourBusinessLogin.as_view(),
+        views.Login.as_view(),
         name='login',
     ),
     path(
         'signup/',
-        views.ExpandYourBusinessSignUp.as_view(),
+        views.SignUp.as_view(),
         name='signup',
     ),
     path(
         'edit-your-answers/',
-        views.ExpandYourBusinessEditYourAnswers.as_view(),
+        views.EditYourAnswers.as_view(),
         name='edit-your-answers',
     ),
     path(
         'feedback/',
-        views.ExpandYourBusinessFeedback.as_view(),
+        views.Feedback.as_view(),
         name='feedback',
     ),
 ]

@@ -19,7 +19,7 @@ BLANK_COUNTRY_CHOICE = [('', '')]
 COUNTRIES = BLANK_COUNTRY_CHOICE + COUNTRY_CHOICES
 
 
-class SectorForm(forms.Form):
+class Sector(forms.Form):
     sector = forms.fields.ChoiceField(
         label='',
         required=True,
@@ -28,7 +28,7 @@ class SectorForm(forms.Form):
     )
 
 
-class IntentForm(forms.Form):
+class Intent(forms.Form):
     intent = forms.fields.MultipleChoiceField(
         label='',
         required=True,
@@ -47,7 +47,7 @@ class IntentForm(forms.Form):
             return cleaned_data
 
 
-class LocationForm(forms.Form):
+class Location(forms.Form):
     VALIDATION_MESSAGE_SELECT_OPTION = 'Please select a location or "not decided" to continue'
     VALIDATION_MESSAGE_SELECT_ONE_OPTION = 'Please select only one choice to continue'
     location = forms.fields.ChoiceField(
@@ -66,16 +66,16 @@ class LocationForm(forms.Form):
         location = cleaned_data.get('location')
         location_none = cleaned_data.get('location_none')
         if not location and not location_none:
-            self.add_error('location', LocationForm.VALIDATION_MESSAGE_SELECT_OPTION)
-            self.add_error('location_none', LocationForm.VALIDATION_MESSAGE_SELECT_OPTION)
+            self.add_error('location', self.VALIDATION_MESSAGE_SELECT_OPTION)
+            self.add_error('location_none', self.VALIDATION_MESSAGE_SELECT_OPTION)
         if location and location_none:
-            self.add_error('location', LocationForm.VALIDATION_MESSAGE_SELECT_ONE_OPTION)
-            self.add_error('location_none', LocationForm.VALIDATION_MESSAGE_SELECT_ONE_OPTION)
+            self.add_error('location', self.VALIDATION_MESSAGE_SELECT_ONE_OPTION)
+            self.add_error('location_none', self.VALIDATION_MESSAGE_SELECT_ONE_OPTION)
         else:
             return cleaned_data
 
 
-class HiringForm(forms.Form):
+class Hiring(forms.Form):
     hiring = forms.fields.ChoiceField(
         label='',
         required=True,
@@ -84,7 +84,7 @@ class HiringForm(forms.Form):
     )
 
 
-class SpendForm(forms.Form):
+class Spend(forms.Form):
     spend = forms.fields.ChoiceField(
         label='',
         required=True,
@@ -106,7 +106,7 @@ class SpendForm(forms.Form):
             return cleaned_data
 
 
-class ProfileForm(forms.Form):
+class Profile(forms.Form):
     company_name = forms.CharField(
         label='',
         required=True,
@@ -160,28 +160,28 @@ class ProfileForm(forms.Form):
             return cleaned_data
 
 
-class LoginForm(forms.Form):
+class Login(forms.Form):
     email = forms.EmailField(label='', required=True)
     password = forms.CharField(label='', required=True, widget=PasswordInput)
 
 
-class SignUpForm(forms.Form):
+class SignUp(forms.Form):
     email = forms.EmailField(label='', required=True)
     password = forms.CharField(label='', required=True, widget=PasswordInput)
 
 
-class CodeConfirmForm(forms.Form):
+class CodeConfirm(forms.Form):
     code_confirm = forms.CharField(label='')
 
 
-class LocationSelectForm(forms.Form):
+class LocationSelect(forms.Form):
     location = forms.ChoiceField(
         label='Select a location',
         choices=choices.REGION_CHOICES,
     )
 
 
-class FeedbackForm(forms.Form):
+class Feedback(forms.Form):
     satisfaction = ChoiceField(
         label='1. Overall, how do you feel about your use of the Expand your Business digital service today?',
         choices=choices.SATISFACTION_CHOICES,

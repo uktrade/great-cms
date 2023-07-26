@@ -37,7 +37,7 @@ def calculate_and_store_is_high_value(request):
         request.session['is_high_value'] = is_high_value
 
 
-class ExpandYourBusinessIndex(GA360Mixin, TemplateView):
+class Index(GA360Mixin, TemplateView):
     template_name = 'eyb/index.html'
 
     def __init__(self):
@@ -49,8 +49,8 @@ class ExpandYourBusinessIndex(GA360Mixin, TemplateView):
         )
 
 
-class ExpandYourBusinessSector(GA360Mixin, FormView):
-    form_class = forms.SectorForm
+class Sector(GA360Mixin, FormView):
+    form_class = forms.Sector
     template_name = 'eyb/triage/sector.html'
 
     def __init__(self):
@@ -105,8 +105,8 @@ class ExpandYourBusinessSector(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
-class ExpandYourBusinessIntent(GA360Mixin, FormView):
-    form_class = forms.IntentForm
+class Intent(GA360Mixin, FormView):
+    form_class = forms.Intent
     template_name = 'eyb/triage/intent.html'
 
     def __init__(self):
@@ -163,8 +163,8 @@ class ExpandYourBusinessIntent(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
-class ExpandYourBusinessLocation(GA360Mixin, FormView):
-    form_class = forms.LocationForm
+class Location(GA360Mixin, FormView):
+    form_class = forms.Location
     template_name = 'eyb/triage/location.html'
 
     def __init__(self):
@@ -224,8 +224,8 @@ class ExpandYourBusinessLocation(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
-class ExpandYourBusinessHiring(GA360Mixin, FormView):
-    form_class = forms.HiringForm
+class Hiring(GA360Mixin, FormView):
+    form_class = forms.Hiring
     template_name = 'eyb/triage/hiring.html'
 
     def __init__(self):
@@ -280,8 +280,8 @@ class ExpandYourBusinessHiring(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
-class ExpandYourBusinessSpend(GA360Mixin, FormView):
-    form_class = forms.SpendForm
+class Spend(GA360Mixin, FormView):
+    form_class = forms.Spend
     template_name = 'eyb/triage/spend.html'
 
     def __init__(self):
@@ -338,8 +338,8 @@ class ExpandYourBusinessSpend(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
-class ExpandYourBusinessProfile(GA360Mixin, FormView):
-    form_class = forms.ProfileForm
+class Profile(GA360Mixin, FormView):
+    form_class = forms.Profile
     template_name = 'eyb/profile.html'
 
     def get_success_url(self) -> str:
@@ -447,8 +447,8 @@ class ExpandYourBusinessProfile(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
-class ExpandYourBusinessLogin(GA360Mixin, sso_mixins.SignInMixin, TemplateView):
-    form_class = forms.LoginForm
+class Login(GA360Mixin, sso_mixins.SignInMixin, TemplateView):
+    form_class = forms.Login
     template_name = 'eyb/login.html'
     success_url = '/international/expand-your-business-in-the-uk/guide/'
 
@@ -465,7 +465,7 @@ class ExpandYourBusinessLogin(GA360Mixin, sso_mixins.SignInMixin, TemplateView):
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
-        form = forms.LoginForm(request.POST)
+        form = forms.Login(request.POST)
         if form.is_valid():
             data = {
                 'password': form.cleaned_data['password'],
@@ -485,7 +485,7 @@ class ExpandYourBusinessLogin(GA360Mixin, sso_mixins.SignInMixin, TemplateView):
         return render(request, self.template_name, {'form': form})
 
 
-class ExpandYourBusinessSignUp(
+class SignUp(
     GA360Mixin, sso_mixins.ResendVerificationMixin, sso_mixins.VerifyCodeMixin, sso_mixins.SignUpMixin, TemplateView
 ):
     template_name = 'eyb/signup.html'
@@ -507,9 +507,9 @@ class ExpandYourBusinessSignUp(
         if helpers.is_authenticated(request):
             response = redirect(reverse_lazy('international_online_offer:profile') + '?signup=true')
             return response
-        form = forms.SignUpForm
+        form = forms.SignUp
         if self.is_validate_code_flow():
-            form = forms.CodeConfirmForm
+            form = forms.CodeConfirm
         return render(request, self.template_name, {'form': form})
 
     def get_login_url(self):
@@ -519,7 +519,7 @@ class ExpandYourBusinessSignUp(
         return self.request.GET.get('uidb64') is not None and self.request.GET.get('token') is not None
 
     def do_validate_code_flow(self, request):
-        form = forms.CodeConfirmForm(request.POST)
+        form = forms.CodeConfirm(request.POST)
         if form.is_valid():
             uidb64 = self.request.GET.get('uidb64')
             token = self.request.GET.get('token')
@@ -542,7 +542,7 @@ class ExpandYourBusinessSignUp(
         return render(request, self.template_name, {'form': form})
 
     def do_sign_up_flow(self, request):
-        form = forms.SignUpForm(request.POST)
+        form = forms.SignUp(request.POST)
         if form.is_valid():
             response = sso_api_client.user.create_user(
                 email=form.cleaned_data['email'].lower(), password=form.cleaned_data['password']
@@ -588,7 +588,7 @@ class ExpandYourBusinessSignUp(
             return self.do_sign_up_flow(request)
 
 
-class ExpandYourBusinessEditYourAnswers(GA360Mixin, TemplateView):
+class EditYourAnswers(GA360Mixin, TemplateView):
     template_name = 'eyb/edit_your_answers.html'
 
     def __init__(self):
@@ -610,8 +610,8 @@ class ExpandYourBusinessEditYourAnswers(GA360Mixin, TemplateView):
         )
 
 
-class ExpandYourBusinessFeedback(GA360Mixin, FormView):
-    form_class = forms.FeedbackForm
+class Feedback(GA360Mixin, FormView):
+    form_class = forms.Feedback
     template_name = 'eyb/feedback.html'
     subject = 'EYB Feedback form'
 

@@ -16,7 +16,7 @@ from core.models import CMSGenericPage
 from directory_constants.choices import COUNTRY_CHOICES
 from domestic.models import BaseContentPage
 from international_online_offer.core import choices, constants, helpers
-from international_online_offer.forms import LocationSelectForm
+from international_online_offer.forms import LocationSelect
 
 
 def get_triage_data(hashed_uuid):
@@ -272,7 +272,7 @@ class IOOArticlePage(BaseContentPage):
 
                 context.update(
                     triage_data=triage_data,
-                    location_form=LocationSelectForm(initial={'location': location}),
+                    location_form=LocationSelect(initial={'location': location}),
                     entry_salary=entry_salary,
                     mid_salary=mid_salary,
                     executive_salary=executive_salary,
