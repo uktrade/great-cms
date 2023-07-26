@@ -216,13 +216,17 @@ class IOOArticlePage(BaseContentPage):
                 sector_display = triage_data.get_sector_display()
 
                 entry_salary = SalaryData.objects.filter(
-                    region=region, vertical__iexact=sector_display, professional_level='Entry-level'
+                    region=region, vertical__icontains=sector_display, professional_level__icontains='Entry-level'
                 ).aggregate(Avg('median_salary'))
                 mid_salary = SalaryData.objects.filter(
-                    region=region, vertical__iexact=sector_display, professional_level='Middle/Senior Management'
+                    region=region,
+                    vertical__icontains=sector_display,
+                    professional_level__icontains='Middle/Senior Management',
                 ).aggregate(Avg('median_salary'))
                 executive_salary = SalaryData.objects.filter(
-                    region=region, vertical__iexact=sector_display, professional_level='Director/Executive'
+                    region=region,
+                    vertical__icontains=sector_display,
+                    professional_level__icontains='Director/Executive',
                 ).aggregate(Avg('median_salary'))
 
                 entry_salary, mid_salary, executive_salary = helpers.get_salary_data(

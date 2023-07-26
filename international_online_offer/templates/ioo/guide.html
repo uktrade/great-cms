@@ -35,12 +35,12 @@
     {% endif %}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
-            <h1 class="govuk-heading-xl">Welcome to your UK expansion guide</h1>
-            <p class="govuk-body">
+            <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">Welcome to your UK expansion guide</h1>
+            {% if not eyb_user and not triage_data.is_high_value %}
+            <p class="govuk-body govuk-!-margin-bottom-6">
                 You’ll find a step by step guide with the most important things to consider when expanding your business in the UK.
             </p>
-            {% if not eyb_user %}
-            <p class="govuk-body">
+            <p class="govuk-body govuk-!-margin-bottom-6">
                 <a class="govuk-link" href="{% url 'international_online_offer:signup' %}">Sign up to our free self-service tool</a> to access a personalised guide that’s tailored to your expansion plans.
             </p>
             {% endif %}
@@ -542,20 +542,18 @@
                 <div class="govuk-notification-banner__content">
                     <div class="govuk-grid-row" style="max-width: 100%">
                         <div class="govuk-grid-column-full">
-                            <p class="govuk-notification-banner__heading">
-                                <h2 class="govuk-heading-l">Access your personalised guide to help you grow in the UK</h2>
-                                <p class="govuk-body">
-                                    Sign up for:
-                                </p>
-                                <ul class="govuk-list govuk-list--bullet">
-                                    {% if triage_data.is_high_value %}
-                                        <li>1-to-1 support from specialist UK government advisers</li>
-                                    {% endif %}
-                                    <li>a personalised guide tailored to your expansion plans</li>
-                                    <li>opportunities customised to your sector</li>
-                                    <li>access at any time, without entering your details again</li>
-                                </ul>
+                            <h2 class="govuk-heading-l">Access your personalised guide to help you grow in the UK</h2>
+                            <p class="govuk-body">
+                                Sign up for:
                             </p>
+                            <ul class="govuk-list govuk-list--bullet">
+                                {% if triage_data.is_high_value %}
+                                    <li>1-to-1 support from specialist UK government advisers</li>
+                                {% endif %}
+                                <li>a personalised guide tailored to your expansion plans</li>
+                                <li>opportunities customised to your sector</li>
+                                <li>access at any time, without entering your details again</li>
+                            </ul>
                         </div>
                     </div>
                     <div class="govuk-grid-row">
@@ -743,9 +741,9 @@
     {% endif %}
     {% if not eyb_user %}
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
+        <div class="govuk-grid-column-full">
             <div class="govuk-inset-text">
-                <strong>Dont forget to share your contact details</strong> to keep up to date with our personalised service. You may be eligible for 1 to 1 support.
+                <strong>Don't forget to share your contact details</strong> to keep up to date with our personalised service. You may be eligible for 1 to 1 support.
                 {% if complete_contact_form_link and complete_contact_form_link_text %}
                     <a class="govuk-notification-banner__link" href="{% url complete_contact_form_link %}">{{ complete_contact_form_link_text }}</a>.
                 {% endif %}
