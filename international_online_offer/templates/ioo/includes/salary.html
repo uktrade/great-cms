@@ -30,6 +30,7 @@
         </div>
         <div class="govuk-grid-row">
           <div class="govuk-grid-column-full govuk-!-margin-3 govuk-!-padding-8 salary-component-body">
+            {% if entry_level or mid_salary or executive_salary %}
             <div class="govuk-grid-row">
               <div class="govuk-grid-column-one-third">
                 <p class="govuk-heading-m govuk-!-font-weight-regular">Entry level</p>
@@ -47,6 +48,15 @@
                 <p class="govuk-body body-text">For professions like {{ professions_by_sector.executive_level|default:'-' }}</p>
               </div>
             </div>
+            {% else %}
+            <div class="govuk-grid-row">
+              <div class="govuk-grid-column-full">
+                <p class="govuk-body">
+                  There currently is no data available for the selected criteria.
+                </p>
+              </div>
+            </div>
+            {% endif %}
             <div class="govuk-grid-row">
               <div class="govuk-grid-column-full">
                 <span class="govuk-body body-text source-text">
