@@ -3,12 +3,12 @@ import pytest
 from directory_constants import sectors as directory_constants_sectors
 from international_online_offer.core import hirings, intents, regions, spends
 from international_online_offer.forms import (
-    HiringForm,
-    IntentForm,
-    LocationForm,
-    ProfileForm,
-    SectorForm,
-    SpendForm,
+    Hiring,
+    Intent,
+    Location,
+    Profile,
+    Sector,
+    Spend,
 )
 
 
@@ -22,7 +22,7 @@ from international_online_offer.forms import (
 @pytest.mark.django_db
 def test_triage_sector_validation(form_data, is_valid):
     data = form_data
-    form = SectorForm(data)
+    form = Sector(data)
     assert form.is_valid() == is_valid
     if not is_valid:
         assert form.errors['sector'][0] == 'This field is required.'
@@ -38,7 +38,7 @@ def test_triage_sector_validation(form_data, is_valid):
 @pytest.mark.django_db
 def test_triage_intent_form_validation(form_data, is_valid):
     data = form_data
-    form = IntentForm(data)
+    form = Intent(data)
     assert form.is_valid() == is_valid
     if not is_valid:
         assert form.errors['intent_other'][0] == 'This field is required.'
@@ -51,16 +51,16 @@ def test_triage_intent_form_validation(form_data, is_valid):
         (
             {'location': regions.LONDON, 'location_none': 'true'},
             False,
-            LocationForm.VALIDATION_MESSAGE_SELECT_ONE_OPTION,
+            Location.VALIDATION_MESSAGE_SELECT_ONE_OPTION,
         ),
         ({'location': '', 'location_none': 'true'}, True, ''),
-        ({'location': '', 'location_none': ''}, False, LocationForm.VALIDATION_MESSAGE_SELECT_OPTION),
+        ({'location': '', 'location_none': ''}, False, Location.VALIDATION_MESSAGE_SELECT_OPTION),
     ),
 )
 @pytest.mark.django_db
 def test_triage_location_form_validation(form_data, is_valid, error_message):
     data = form_data
-    form = LocationForm(data)
+    form = Location(data)
     assert form.is_valid() == is_valid
     if not is_valid:
         assert form.errors['location'][0] == error_message
@@ -77,7 +77,7 @@ def test_triage_location_form_validation(form_data, is_valid, error_message):
 @pytest.mark.django_db
 def test_triage_hiring_form_validation(form_data, is_valid):
     data = form_data
-    form = HiringForm(data)
+    form = Hiring(data)
     assert form.is_valid() == is_valid
     if not is_valid:
         assert form.errors['hiring'][0] == 'This field is required.'
@@ -94,7 +94,7 @@ def test_triage_hiring_form_validation(form_data, is_valid):
 @pytest.mark.django_db
 def test_triage_spend_form_validation(form_data, is_valid):
     data = form_data
-    form = SpendForm(data)
+    form = Spend(data)
     assert form.is_valid() == is_valid
     if not is_valid:
         assert form.errors['spend_other'][0] == 'This field is required.'
@@ -165,5 +165,5 @@ def test_triage_spend_form_validation(form_data, is_valid):
 @pytest.mark.django_db
 def test_profile_form_validation(form_data, is_valid):
     data = form_data
-    form = ProfileForm(data)
+    form = Profile(data)
     assert form.is_valid() == is_valid
