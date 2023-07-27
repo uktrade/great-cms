@@ -23,6 +23,10 @@ from wagtail.admin.menu import DismissibleMenuItem
 from wagtail.admin.views.pages.bulk_actions.page_bulk_action import PageBulkAction
 from wagtail.core import hooks
 from wagtail.core.models import Page
+from wagtail.templatetags.wagtailcore_tags import (
+    wagtail_feature_release_editor_guide_link,
+    wagtail_feature_release_whats_new_link,
+)
 from wagtail_transfer.field_adapters import FieldAdapter
 from wagtail_transfer.files import File as WTFile, FileTransferError
 from wagtail_transfer.models import ImportedFile
@@ -510,12 +514,43 @@ def convert_related_links(page):
 
 
 @hooks.register('register_help_menu_item')
-def register_help_link_menu_item():
+def register_ourhelp_link_menu_item():
     return DismissibleMenuItem(
         _('Add an Event'),
         MENU_ITEM_ADD_AN_EVENT_LINK,
         icon_name='help',
-        order=1200,
+        order=900,
         attrs={'target': '_blank', 'rel': 'noreferrer'},
         name='help-link',
     )
+
+
+@hooks.register("register_help_menu_item")
+def register_our_whats_new_in_wagtail_version_menu_item():
+    version = "4.2"
+    return DismissibleMenuItem(
+        _("Our Whats New"),
+        wagtail_feature_release_whats_new_link(),
+        icon_name="help",
+        order=1000,
+        attrs={"target": "_blank", "rel": "noreferrer"},
+        name=f"our-whats-new-in-wagtail-{version}",
+    )
+
+
+@hooks.register("register_help_menu_item")
+def register_our_editors_guide_menu_item():
+    return DismissibleMenuItem(
+        _("Our Guide"),
+        wagtail_feature_release_editor_guide_link(),
+        icon_name="help",
+        order=1100,
+        attrs={"target": "_blank", "rel": "noreferrer"},
+        name="our_editor-guide",
+    )
+
+
+@hooks.register('construct_help_menu')
+def hide_help_menu_item(request, menu_items):
+    menu_items[:] = [item for item in menu_items if item.name not in ['editor-guide', 'whats-new-in-wagtail-4.2']]
+    return menu_items
