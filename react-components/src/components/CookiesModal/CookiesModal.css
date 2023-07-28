@@ -14,15 +14,10 @@
   cursor: pointer;
   font-size: 19px;
   margin-bottom: 0;
-  height: 52px;
+  height: 50px;
   padding: 0;
-  line-height: 52px;
+  line-height: 44px;
   font-weight: normal;
-}
-
-:root[dir="rtl"] .button {
-  line-height: 25px;
-  text-align: right;
 }
 
 :global .ReactModal__Overlay {
