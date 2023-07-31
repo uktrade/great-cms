@@ -9,7 +9,7 @@
     {% if block.block_type == 'form' %}
      {% filter add_govuk_classes %}
         {% if form %}
-            <div class="form-container {{form_class}} govuk-!-static-padding-0 govuk-!-margin-top-6 govuk-!-margin-bottom-6">
+            <div class="form-container {{form_class}} govuk-!-static-padding-0 margin-top-15 margin-bottom-15">
                 {% if form_success %}
                     <div class="success-message-container">
                         <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"
@@ -29,6 +29,10 @@
             </div>
         {% endif %}
         {% endfilter %}
+    {% elif block.block_type == 'pull_quote' %}
+        <div class="margin-top-15 margin-bottom-15">
+            {% include_block block %}
+        </div>
     {% else %}
         {% filter replace_emphasis_tags %}
             {% include_block block %}
