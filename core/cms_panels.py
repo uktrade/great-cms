@@ -51,3 +51,24 @@ class MicrositePanels:
     ]
 
     settings_panels = [FieldPanel('title'), FieldPanel('slug'), FieldPanel('use_domestic_header_logo')]
+
+
+class SupportPanels:
+    content_panels = [
+        MultiFieldPanel(
+            heading='Page intro',
+            children=[
+                FieldPanel('page_title'),
+                FieldPanel('page_teaser'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='Media',
+            children=[
+                FieldPanel('hero_image'),
+            ],
+        ),
+        FieldPanel('page_body'),
+    ]
+
+    settings_panels = [FieldPanel('title'), FieldPanel('slug')]
