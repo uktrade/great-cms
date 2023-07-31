@@ -17,6 +17,7 @@ from core.templatetags.content_tags import (
     get_link_blocks,
     get_template_translation_enabled,
     get_text_blocks,
+    get_topic_blocks,
     get_topic_title_for_lesson,
     highlighted_text,
     is_lesson_page,
@@ -694,6 +695,14 @@ def test_get_link_blocks(input, expected_instances):
 )
 def test_get_text_blocks(input, expected_instances):
     assert len(get_text_blocks(input)) == expected_instances
+
+
+@pytest.mark.parametrize(
+    'input, expected_instances',
+    (([factories.BlockFactory('a_block')], 1),),
+)
+def test_get_topic_blocks(input, expected_instances):
+    assert len(get_topic_blocks(input, 'some_topic')) == expected_instances
 
 
 def test_get_template_translation_enabled_matches_settings():

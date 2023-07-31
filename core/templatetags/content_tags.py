@@ -258,6 +258,23 @@ def get_text_blocks(list_of_blocks):
     return [block for block in list_of_blocks if block.block_type == 'text']
 
 
+@register.filter
+def get_topic_blocks(list_of_blocks, topic):
+    index_of_topic = 0
+    result = []
+
+    for parent_index, parent_block in enumerate(list_of_blocks):
+        for block in parent_block.value:
+            if block.block_type == 'title' and block.value == topic:
+                index_of_topic = parent_index
+
+    for index, block in enumerate(list_of_blocks):
+        if index == index_of_topic:
+            result = [block]
+
+    return result
+
+
 @register.simple_tag
 def get_template_translation_enabled():
     return getattr(settings, 'FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION', False)

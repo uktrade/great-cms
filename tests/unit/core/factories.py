@@ -178,3 +178,4 @@ class MicrositeFactory(wagtail_factories.PageFactory):
 class BlockFactory:
     def __init__(self, block_type):
         self.block_type = block_type
+        self.value = []
