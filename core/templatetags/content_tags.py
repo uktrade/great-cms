@@ -232,7 +232,7 @@ def add_govuk_classes(value):
         ({'tag': 'input', 'class': 'form-control'}, 'govuk-form-control'),
         ({'tag': 'label', 'class': 'form-label'}, 'govuk-form-label'),
         ({'tag': 'div', 'class': 'form-group-error'}, 'govuk-form-group-error'),
-        ({'tag': 'iframe', 'wrap': True}, 'great-video-embed-16-9'),
+        ({'tag': 'iframe', 'wrap': False}, 'great-video-embed-16-9'),
     ]
     for tag_name, class_name in mapping:
         if 'wrap' in tag_name:
