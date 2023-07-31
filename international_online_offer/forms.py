@@ -1,12 +1,16 @@
 from django.forms import (
+    BooleanField,
     CharField,
+    CheckboxInput,
     CheckboxSelectMultiple,
     ChoiceField,
+    EmailInput,
     MultipleChoiceField,
     PasswordInput,
     RadioSelect,
     Select,
     Textarea,
+    TextInput,
 )
 from django.utils.html import mark_safe
 from great_components import forms
@@ -107,48 +111,59 @@ class Spend(forms.Form):
 
 
 class Profile(forms.Form):
-    company_name = forms.CharField(
-        label='',
+    company_name = CharField(
+        label='Company name',
         required=True,
+        widget=TextInput(attrs={'class': 'govuk-input'}),
     )
-    company_location = forms.fields.ChoiceField(
-        label='',
+    company_location = ChoiceField(
+        label='Company headquarters',
+        help_text='Type to search and choose a country from the list',
         required=False,
-        widget=Select(attrs={'id': 'js-company-location-select'}),
+        widget=Select(attrs={'id': 'js-company-location-select', 'class': 'govuk-input'}),
         choices=COUNTRIES,
     )
-    full_name = forms.CharField(
-        label='',
+    full_name = CharField(
+        label='Full name',
         required=True,
+        widget=TextInput(attrs={'class': 'govuk-input'}),
     )
-    role = forms.CharField(
-        label='',
+    role = CharField(
+        label='Role',
+        help_text='Your role within the company',
         required=True,
+        widget=TextInput(attrs={'class': 'govuk-input'}),
     )
     email = forms.EmailField(
-        label='',
+        label='Email',
         required=True,
+        widget=EmailInput(attrs={'class': 'govuk-input'}),
     )
-    telephone_number = forms.CharField(
-        label='',
+    telephone_number = CharField(
+        label='Telephone number',
+        help_text='Please include the country code',
         required=True,
+        widget=TextInput(attrs={'class': 'govuk-input'}),
     )
-    landing_timeframe = forms.fields.ChoiceField(
-        label='',
+    landing_timeframe = ChoiceField(
+        label='When do you expect to launch your new UK operation?',
         required=True,
         choices=(('', ''),) + choices.LANDING_TIMEFRAME_CHOICES,
+        widget=Select(attrs={'class': 'govuk-select'}),
     )
-    agree_terms = forms.BooleanField(
+    agree_terms = BooleanField(
         required=True,
         label=TERMS_LABEL,
     )
-    agree_info_email = forms.BooleanField(
+    agree_info_email = BooleanField(
         required=False,
         label='I would like to receive additional information by email (optional)',
+        widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
     )
-    agree_info_telephone = forms.BooleanField(
+    agree_info_telephone = BooleanField(
         required=False,
         label='I would like to receive additional information by telephone (optional)',
+        widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
     )
 
     def clean(self):
