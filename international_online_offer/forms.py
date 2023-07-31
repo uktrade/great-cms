@@ -183,7 +183,7 @@ class LocationSelectForm(forms.Form):
 
 class FeedbackForm(forms.Form):
     satisfaction = ChoiceField(
-        label='1. Overall, how do you feel about your use of the expand your business in the UK service today?',
+        label='1. Overall, how do you feel about your use of the Expand your Business digital service today?',
         choices=choices.SATISFACTION_CHOICES,
         widget=RadioSelect(attrs={'class': 'govuk-radios__input'}),
         error_messages={

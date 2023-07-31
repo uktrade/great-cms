@@ -61,7 +61,7 @@ INTENT_CHOICES = (
 
 # Copy of EXPERTISE_REGION_CHOICES in directory constants but using non const keys needed for scorecard service
 REGION_CHOICES = (
-    (regions.EASTERN, 'East of England'),
+    (regions.EASTERN, 'East'),
     (regions.EAST_MIDLANDS, 'East Midlands'),
     (regions.LONDON, 'London'),
     (regions.NORTH_EAST, 'North East'),
@@ -111,10 +111,11 @@ SATISFACTION_CHOICES = (
 
 EXPERIENCE_CHOICES = (
     ('I_DID_NOT_EXPERIENCE_ANY_ISSUE', 'I did not experience any issue'),
-    ('PROCESS_IS_NOT_CLEAR', 'Process is not clear'),
-    ('NOT_ENOUGH_GUIDANCE', 'Not enough guidance'),
-    ('I_WAS_ASKED_FOR_INFORMATION_I_DID_NOT_HAVE', 'I was asked for information I did not have'),
-    ('I_DID_NOT_GET_THE_INFORMATION_I_EXPECTED', 'I did not get the information I expected'),
+    ('I_DID_NOT_FIND_WHAT_I_WAS_LOOKING_FOR', 'I did not find what I was looking for'),
+    ('I_FOUND_IT_DIFFICULT_TO_NAVIGATE_THE_SITE', 'I found it difficult to navigate the site'),
+    ('THE_SYSTEM_LACKS_THE_FEATURE_I_NEED', 'The system lacks the feature I need'),
+    ('I_WAS_UNABLE_TO_LOAD_REFRESH_ENTER_A_PAGE', 'I was unable to load/refresh/enter a page'),
+    ('OTHER', 'Other'),
 )
 
 LIKELIHOOD_CHOICES = (
