@@ -34,7 +34,7 @@ class Sector(forms.Form):
         widget=Select(attrs={'id': 'js-sector-select', 'class': 'govuk-input'}),
         choices=(('', ''),) + choices.SECTOR_CHOICES,
         error_messages={
-            'required': 'Please enter your business sector',
+            'required': 'You must enter your business sector',
         },
     )
 

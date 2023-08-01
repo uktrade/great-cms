@@ -25,7 +25,7 @@ def test_triage_sector_validation(form_data, is_valid):
     form = Sector(data)
     assert form.is_valid() == is_valid
     if not is_valid:
-        assert form.errors['sector'][0] == 'This field is required.'
+        assert form.errors['sector'][0] == 'You must enter your business sector'
 
 
 @pytest.mark.parametrize(
@@ -41,7 +41,7 @@ def test_triage_intent_form_validation(form_data, is_valid):
     form = Intent(data)
     assert form.is_valid() == is_valid
     if not is_valid:
-        assert form.errors['intent_other'][0] == 'This field is required.'
+        assert form.errors['intent_other'][0] == 'Please enter more information here'
 
 
 @pytest.mark.parametrize(
@@ -80,7 +80,7 @@ def test_triage_hiring_form_validation(form_data, is_valid):
     form = Hiring(data)
     assert form.is_valid() == is_valid
     if not is_valid:
-        assert form.errors['hiring'][0] == 'This field is required.'
+        assert form.errors['hiring'][0] == 'You must select at least one hiring option'
 
 
 @pytest.mark.parametrize(
@@ -97,7 +97,7 @@ def test_triage_spend_form_validation(form_data, is_valid):
     form = Spend(data)
     assert form.is_valid() == is_valid
     if not is_valid:
-        assert form.errors['spend_other'][0] == 'This field is required.'
+        assert form.errors['spend_other'][0] == 'You must enter a value in pounds'
 
 
 @pytest.mark.parametrize(
