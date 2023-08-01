@@ -86,30 +86,8 @@ hr {
     }
 }
 
-.autocomplete__input {
-    height: 40px !important;
-}
-
-.autocomplete__input--focused {
-    outline: 3px solid #fd0 !important;
-    outline-offset: 0 !important;
-    box-shadow: inset 0 0 0 2px !important;
-}
-
-.autocomplete__menu {
-    margin-top: 10px !important;
-    border-top: 2px solid black !important;
-}
-
 .autocomplete__option {
     font-family: $govuk-font-family;
-    color: $atlas-dark-blue;
-    font-size: 24px;
-}
-
-.autocomplete__menu li:hover, .SelectiveLookupDisplay li:focus, .SelectiveLookupDisplay li:hover {
-    background-color: #DDE5ED !important;
-    color: $atlas-dark-blue;
 }
 
 .form-group {

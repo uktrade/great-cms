@@ -6,6 +6,10 @@
 @import 'article-list-item.scss';
 @import 'govuk-step-by-step.scss';
 
+body {
+    margin: 0;
+}
+
 .home-image {
     width: 100%;
 }

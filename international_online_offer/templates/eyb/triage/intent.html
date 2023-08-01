@@ -17,21 +17,42 @@
 {% block content %}
 <div class="govuk-width-container">
   {% include '../includes/triage_header.html' with back_url=back_url step_text=step_text question_text=question_text %}
-  <div class="govuk-grid-row">
+  <div class="govuk-grid-row govuk-!-margin-bottom-3">
     <div class="govuk-grid-column-two-thirds">
       <form method="post">
         {% csrf_token %}
-        <div class="form-group">
-          <div class="govuk-hint govuk-!-margin-bottom-3">Choose one or more options from the list</div>
-          <div id="id_intent_container">
-            {% include 'core/includes/form_field.html' with field=form.intent %}
+          <div class="govuk-form-group{% if form.intent.errors or form.intent_other.errors %} govuk-form-group--error{% endif %}">
+            <fieldset class="govuk-fieldset">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                    <h2 class="govuk-fieldset__heading govuk-hint govuk-!-margin-bottom-0" id="{{form.intent.auto_id}}">
+                        {{ form.intent.help_text }}
+                    </h2>
+                </legend>
+                {% for error in form.intent.errors %}
+                  <p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> {{ error }}</p>
+                {% endfor %}
+                <div class="govuk-checkboxes" data-module="govuk-checkboxes" id="site_intentions">
+                  {% for action in form.intent %}
+                      <div class="govuk-checkboxes__item">
+                        <input {% if action.data.value in form.intent.value %} checked {% endif %} {% if action.data.value == 'OTHER' %} data-aria-controls="conditional-intent-{{forloop.counter0}}" {% endif %} type="checkbox" name="intent" value="{{action.data.value}}" class="govuk-checkboxes__input" id="{{ action.id_for_label }}">
+                        <label class="govuk-label govuk-checkboxes__label" for="{{ action.id_for_label }}">
+                            {{ action.choice_label }}
+                        </label>
+                      </div>
+                      {% if action.data.value == 'OTHER' %}
+                        <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="conditional-intent-{{forloop.counter0}}">
+                          <div class="govuk-form-group">
+                            {% include '../includes/form_field.html' with field=form.intent_other %}
+                          </div>
+                        </div>
+                      {% endif %}
+                  {% endfor %}
+                </div>
+            </fieldset>
           </div>
-          <div id="id_intent_other-container" class="govuk-inset-text">
-            <span class='govuk-body'>Type your answer</span>
-            {% include 'core/includes/form_field.html' with field=form.intent_other %}
-          </div>
+
           {% include '../includes/submit_button.html' with button_text='Continue'  %}
-        </div>
+
       </form>
     </div>
   </div>
@@ -43,19 +64,4 @@
   {{ block.super }}
   <script type="text/javascript" src="{% static 'javascript/dit.components.toggleOther.js' %}"></script>
   <script type="text/javascript" src="{% static 'javascript/expand-your-business.js' %}"></script>
-  <script type="text/javascript">
-    const intentContainer = document.getElementById('id_intent_container');
-    const otherInputs = document.getElementById('id_intent_other-container');
-    const otherCheckboxElement = document.getElementById('intent-select-other');
-    GOVUK.utils.toggleRadioOtherOnClick(otherCheckboxElement, otherInputs);
-    GOVUK.utils.toggleFieldsetClassOnClick(
-        [intentContainer],
-        otherCheckboxElement
-    );
-    otherCheckboxElement.addEventListener("change", (e) => {
-        if (otherCheckboxElement.checked == false) {
-          document.getElementById('id_intent_other').value = '';
-        }
-    })
-  </script>
 {% endblock %}

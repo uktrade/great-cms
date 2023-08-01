@@ -24,29 +24,40 @@ COUNTRIES = BLANK_COUNTRY_CHOICE + COUNTRY_CHOICES
 
 
 class Sector(forms.Form):
-    sector = forms.fields.ChoiceField(
-        label='',
+    sector = ChoiceField(
+        label='Enter a sector',
+        help_text='Start searching for your sector and choose the best match from the suggested list',
         required=True,
-        widget=Select(attrs={'id': 'js-sector-select'}),
+        widget=Select(attrs={'id': 'js-sector-select', 'class': 'govuk-input'}),
         choices=(('', ''),) + choices.SECTOR_CHOICES,
     )
 
 
 class Intent(forms.Form):
-    intent = forms.fields.MultipleChoiceField(
-        label='',
-        required=True,
-        widget=forms.CheckboxSelectInlineLabelMultiple(attrs={'id': 'intent-select'}, use_nice_ids=True),
+    intent = MultipleChoiceField(
+        label='Select your expansion plans',
+        help_text='Choose one or more options from the list',
         choices=choices.INTENT_CHOICES,
+        required=True,
+        widget=CheckboxSelectMultiple(attrs={'class': 'govuk-checkboxes__input'}),
+        error_messages={
+            'required': 'You must select one or more options',
+        },
     )
-    intent_other = forms.CharField(label='', min_length=2, max_length=50, required=False)
+    intent_other = CharField(
+        label='Type your answer',
+        min_length=2,
+        max_length=50,
+        required=False,
+        widget=TextInput(attrs={'class': 'govuk-input'}),
+    )
 
     def clean(self):
         cleaned_data = super().clean()
         intent = cleaned_data.get('intent')
         intent_other = cleaned_data.get('intent_other')
         if intent and any(intents.OTHER in s for s in intent) and not intent_other:
-            self.add_error('intent_other', 'This field is required.')
+            self.add_error('intent_other', 'Please enter more information here')
         else:
             return cleaned_data
 

@@ -12,7 +12,7 @@
 
 {% block head_css %}
   {{ block.super }}
-  <link href="{% static 'directory_components/js/vendor/accessible-autocomplete.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'core/css/accessible-autocomplete.min.css' %}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block content %}
@@ -23,11 +23,17 @@
       {{ test_sector }}
       <form method="post" onsubmit="return onSubmitSector()">
         {% csrf_token %}
-        <div class="form-group" id="id_sector-container">
-          <label class="govuk-label govuk-label--m" for="js-sector-select">Enter a sector</label>
-          <div id="hint" class="govuk-hint govuk-!-margin-bottom-3">Start searching for your sector and choose the best match from the suggested list</div>
-          {% include 'core/includes/form_field.html' with field=form.sector %}
-          {% include '../includes/submit_button.html' with button_text='Continue'  %}
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full">
+            <div class="form-group" id="id_sector-container">
+              {% include '../includes/form_field.html' with field=form.sector %}
+            </div>
+          </div>
+        </div>
+        <div class="govuk-grid-row govuk-!-margin-bottom-3">
+          <div class="govuk-grid-column-full">
+            {% include '../includes/submit_button.html' with button_text='Continue'  %}
+          </div>
         </div>
       </form>
     </div>
@@ -38,7 +44,7 @@
 
 {% block body_js %}
   {{ block.super }}
-  <script type="text/javascript" src="{% static 'directory_components/js/vendor/accessible-autocomplete.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'javascript/accessible-autocomplete.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'javascript/expand-your-business.js' %}"></script>
   <script type="text/javascript">
     accessibleAutocomplete.enhanceSelectElement({
