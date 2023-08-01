@@ -294,13 +294,13 @@ pycparser==2.21
     # via cffi
 pygments==2.15.1
     # via sphinx
-pyhanko==0.19.0
+pyhanko==0.20.0
     # via xhtml2pdf
 pyhanko-certvalidator==0.23.0
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==3.13.0
+pypdf==3.14.0
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode

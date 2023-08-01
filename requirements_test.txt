@@ -279,7 +279,7 @@ faker==19.2.0
     # via factory-boy
 filelock==3.12.2
     # via virtualenv
-flake8==6.0.0
+flake8==6.1.0
     # via
     #   -r requirements_test.in
     #   flake8-debugger
@@ -363,7 +363,7 @@ isort==5.12.0
     #   pylint
 itsdangerous==2.1.2
     # via flask
-jedi==0.18.2
+jedi==0.19.0
     # via ipython
 jinja2==3.1.2
     # via
@@ -442,7 +442,7 @@ packaging==23.1
     #   webdriver-manager
 parso==0.8.3
     # via jedi
-pathspec==0.11.1
+pathspec==0.11.2
     # via black
 pep8-naming==0.13.3
     # via -r requirements_test.in
@@ -460,7 +460,7 @@ pillow==9.5.0
     #   xhtml2pdf
 pip-tools==7.1.0
     # via -r requirements_test.in
-platformdirs==3.9.1
+platformdirs==3.10.0
     # via
     #   black
     #   pylint
@@ -490,26 +490,26 @@ ptyprocess==0.7.0
     # via pexpect
 pure-eval==0.2.2
     # via stack-data
-pycodestyle==2.10.0
+pycodestyle==2.11.0
     # via
     #   flake8
     #   flake8-debugger
     #   flake8-print
 pycparser==2.21
     # via cffi
-pyflakes==3.0.1
+pyflakes==3.1.0
     # via flake8
 pygments==2.15.1
     # via
     #   ipython
     #   sphinx
-pyhanko==0.19.0
+pyhanko==0.20.0
     # via xhtml2pdf
 pyhanko-certvalidator==0.23.0
     # via
     #   pyhanko
     #   xhtml2pdf
-pylint==2.17.4
+pylint==2.17.5
     # via
     #   pylint-django
     #   pylint-plugin-utils
@@ -517,7 +517,7 @@ pylint-django==2.5.3
     # via -r requirements_test.in
 pylint-plugin-utils==0.8.2
     # via pylint-django
-pypdf==3.13.0
+pypdf==3.14.0
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -631,7 +631,7 @@ ruamel-yaml-clib==0.2.7
     # via ruamel-yaml
 s3transfer==0.6.1
     # via boto3
-selenium==4.10.0
+selenium==4.11.2
     # via -r requirements_test.in
 sentry-sdk==1.14.0
     # via -r requirements.in
@@ -699,7 +699,7 @@ tomli==2.0.1
     #   pylint
     #   pyproject-hooks
     #   pytest
-tomlkit==0.11.8
+tomlkit==0.12.1
     # via pylint
 traitlets==5.9.0
     # via
@@ -783,7 +783,7 @@ wagtailmedia==0.14.0
     # via -r requirements.in
 wcwidth==0.2.6
     # via prompt-toolkit
-webdriver-manager==3.9.1
+webdriver-manager==4.0.0
     # via -r requirements_test.in
 webencodings==0.5.1
     # via
