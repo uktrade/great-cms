@@ -211,7 +211,9 @@ class IOOArticlePage(BaseContentPage):
         if helpers.is_authenticated(request):
             triage_data = get_triage_data(request.user.hashed_uuid)
             if triage_data:
-                location = request.GET.get('location', triage_data.location)
+                location = request.GET.get(
+                    'location', triage_data.location if triage_data.location else choices.regions.LONDON
+                )
                 region = helpers.get_salary_region_from_region(location)
                 sector_display = triage_data.get_sector_display()
 
