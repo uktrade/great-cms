@@ -523,10 +523,10 @@ def toolbar_sticky_by_default():
 
 
 @hooks.register('register_help_menu_item')
-def register_ourhelp_link_menu_item():
+def register_campaign_site_help_menu_item():
     return DismissibleMenuItem(
         _('Campaign Site, getting started'),
-        constants.MENU_ITEM_ADD_AN_EVENT_LINK,
+        constants.MENU_ITEM_ADD_CAMPAIGN_SITE_LINK,
         icon_name='help',
         order=900,
         attrs={'target': '_blank', 'rel': 'noreferrer'},
