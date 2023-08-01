@@ -206,11 +206,9 @@ def get_css_class_from_string(string):
 
 
 def wrap_tag_in_div(soup, tag_name, wrapper_class):
-    wrapper = soup.new_tag('div')
-    wrapper.attrs['class'] = wrapper_class
-
     for element in soup.findAll(tag_name['tag']):
-        element.wrap(wrapper)
+        div = soup.new_tag('div', **{'class': wrapper_class})
+        element.wrap(div)
 
 
 @register.filter
