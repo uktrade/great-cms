@@ -495,6 +495,10 @@
       &:hover {
         text-decoration: underline;
       }
+
+      &:focus {
+        outline-offset: -4px;
+      }
     }
   }
 
@@ -558,6 +562,8 @@
   display: none;
 
   @media screen and (min-width: 1251px) {
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
     display: inline-flex;
   }
 }
