@@ -30,6 +30,9 @@ class Sector(forms.Form):
         required=True,
         widget=Select(attrs={'id': 'js-sector-select', 'class': 'govuk-input'}),
         choices=(('', ''),) + choices.SECTOR_CHOICES,
+        error_messages={
+            'required': 'Please enter your business sector',
+        },
     )
 
 
@@ -41,7 +44,7 @@ class Intent(forms.Form):
         required=True,
         widget=CheckboxSelectMultiple(attrs={'class': 'govuk-checkboxes__input'}),
         error_messages={
-            'required': 'You must select one or more options',
+            'required': 'You must select one or more expansion options',
         },
     )
     intent_other = CharField(
@@ -99,6 +102,9 @@ class Hiring(forms.Form):
         required=True,
         widget=RadioSelect(attrs={'id': 'hiring-select', 'class': 'govuk-radios__input'}),
         choices=choices.HIRING_CHOICES,
+        error_messages={
+            'required': 'You must select at least one hiring option',
+        },
     )
 
 
