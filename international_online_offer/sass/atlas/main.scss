@@ -6,7 +6,7 @@ body {
   // Base styles
   @import 'typography';
   @import 'layout';
-  @import 'colours';
+  @import 'tokens';
 
   // Atlas-specific components
   @import 'components/header';

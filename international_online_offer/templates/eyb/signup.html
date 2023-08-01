@@ -25,11 +25,16 @@
   {% if form.non_field_errors %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <div id="error-summary-container" class="govuk-error-summary" data-module="govuk-error-summary">
+      <div class="govuk-error-summary" data-module="govuk-error-summary">
         <div role="alert">
+          <h2 class="govuk-error-summary__title">
+            There is a problem
+          </h2>
           <div class="govuk-error-summary__body">
-            <ul class="govuk-list govuk-error-summary__list" id="errors-list">
-              {{ form.non_field_errors }}
+            <ul class="govuk-list govuk-error-summary__list">
+              <li>
+                <a href="#">{{form.non_field_errors}}</a>
+              </li>
             </ul>
           </div>
         </div>
@@ -41,15 +46,24 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-3">
         <div id="sign-up-confirm">
-          <h3 class="govuk-heading-m">Check your email</h3>
+          <h2 class="govuk-heading-m">Check your email</h2>
           <p class="govuk-body">We've sent a code to your email address.
             Don't forget to check your spam folder if you can't see it.
             Enter the code below to complete registration:</p>
             <form method="post">
               {% csrf_token %}
-              <label class="govuk-label" for="id_code_confirm">Confirmation code</label>
-              {% include 'core/includes/form_field.html' with field=form.code_confirm %}
-              {% include './includes/submit_button.html' with button_text='Continue'  %}
+              <div class="govuk-grid-row govuk-!-margin-bottom-7">
+                <div class="govuk-grid-column-full">
+                  <div class="{% if form.code_confirm.errors %} govuk-form-group--error{% endif %}">
+                    {% include './includes/form_field.html' with field=form.code_confirm %}
+                  </div>
+                </div>
+              </div>
+              <div class="govuk-grid-row govuk-!-margin-bottom-3">
+                <div class="govuk-grid-column-full">
+                  {% include './includes/submit_button.html' with button_text='Continue'  %}
+                </div>
+              </div>
             </form>
         </div>
     </div>
@@ -59,22 +73,33 @@
     <div class="govuk-grid-column-two-thirds">
       <form method="post">
         {% csrf_token %}
-        <label class="govuk-label" for="id_email">Email</label>
-        {% include 'core/includes/form_field.html' with field=form.email %}
-        <label class="govuk-label" for="id_password">Password</label>
-        <div id="password-hint" class="govuk-hint">
-          Your password should be a minimum of 10 characters and include letters, numbers or special characters
+        <div class="govuk-grid-row govuk-!-margin-bottom-3">
+          <div class="govuk-grid-column-full">
+            <div class="{% if form.email.errors %} govuk-form-group--error{% endif %}">
+              {% include './includes/form_field.html' with field=form.email %}
+            </div>
+          </div>
         </div>
-        {% include 'core/includes/form_field.html' with field=form.password %}
-        {% include './includes/submit_button.html' with button_text='Sign up'  %}
+        <div class="govuk-grid-row govuk-!-margin-bottom-7">
+          <div class="govuk-grid-column-full">
+            <div class="{% if form.password.errors %} govuk-form-group--error{% endif %}">
+              {% include './includes/form_field.html' with field=form.password %}
+            </div>
+          </div>
+        </div>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full">
+            {% include './includes/submit_button.html' with button_text='Sign up'  %}
+          </div>
+        </div>
       </form>
     </div>
   </div>
   <div class="govuk-grid-row govuk-!-margin-top-4">
     <div class="govuk-grid-column-two-thirds">
       <p class="govuk-body">By signing up, you agree to our
-      <a class="govuk-link" href="/terms-and-conditions/">terms and conditions</a> and
-      <a class="govuk-link" href="/privacy-and-cookies/">privacy notice</a>
+        <a class="govuk-link" href="/terms-and-conditions/">terms and conditions</a> and
+        <a class="govuk-link" href="/privacy-and-cookies/">privacy notice</a>
       </p>
     </div>
   </div>

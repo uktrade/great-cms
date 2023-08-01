@@ -1,12 +1,3 @@
-.form-label {
-    font-family: $govuk-font-family;
-    color: $atlas-dark-blue;
-}
-
-.form-control {
-    font-family: $govuk-font-family;
-}
-
 .block-text, .block-Columns {
     b {
         font-weight: bold;
@@ -76,14 +67,6 @@ hr {
 
 .full-width {
     width: 100%;
-}
-
-.error-reporting {
-    font-family: $govuk-font-family !important;
-
-    .container {
-        margin: 0px !important;
-    }
 }
 
 .autocomplete__input {

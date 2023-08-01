@@ -25,11 +25,16 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-3">
       {% if form.non_field_errors %}
-      <div id="error-summary-container" class="govuk-error-summary" data-module="govuk-error-summary">
+      <div class="govuk-error-summary" data-module="govuk-error-summary">
         <div role="alert">
+          <h2 class="govuk-error-summary__title">
+            There is a problem
+          </h2>
           <div class="govuk-error-summary__body">
-            <ul class="govuk-list govuk-error-summary__list" id="errors-list">
-              {{ form.non_field_errors }}
+            <ul class="govuk-list govuk-error-summary__list">
+              <li>
+                <a href="#">{{form.non_field_errors}}</a>
+              </li>
             </ul>
           </div>
         </div>
@@ -38,12 +43,32 @@
       <div id="login">
         <form method="post">
           {% csrf_token %}
-          <label class="govuk-label" for="id_email">Email</label>
-          {% include 'core/includes/form_field.html' with field=form.email %}
-          <label class="govuk-label" for="id_password">Password</label>
-          {% include 'core/includes/form_field.html' with field=form.password %}
-          <p><a class="govuk-link" href="{{ javascript_components.password_reset_url }}">Forgotten password?</a></p>
-          {% include './includes/submit_button.html' with button_text='Sign in'  %}
+
+          <div class="govuk-grid-row govuk-!-margin-bottom-3">
+            <div class="govuk-grid-column-full">
+              <div class="{% if form.email.errors %} govuk-form-group--error{% endif %}">
+                {% include './includes/form_field.html' with field=form.email %}
+              </div>
+            </div>
+          </div>
+          <div class="govuk-grid-row govuk-!-margin-bottom-3">
+            <div class="govuk-grid-column-full">
+              <div class="{% if form.password.errors %} govuk-form-group--error{% endif %}">
+                {% include './includes/form_field.html' with field=form.password %}
+              </div>
+            </div>
+          </div>
+          <div class="govuk-grid-row govuk-!-margin-bottom-3">
+            <div class="govuk-grid-column-full">
+              <p><a class="govuk-link" href="{{ javascript_components.password_reset_url }}">Forgotten password?</a></p>
+            </div>
+          </div>
+          <div class="govuk-grid-row govuk-!-margin-bottom-3">
+            <div class="govuk-grid-column-full">
+              {% include './includes/submit_button.html' with button_text='Sign in'  %}
+            </div>
+          </div>
+
         </form>
       </div>
     </div>

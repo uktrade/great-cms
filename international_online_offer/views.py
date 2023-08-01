@@ -505,8 +505,7 @@ class SignUp(
 
     def get(self, request, *args, **kwargs):
         if helpers.is_authenticated(request):
-            response = redirect(reverse_lazy('international_online_offer:profile') + '?signup=true')
-            return response
+            return redirect(reverse_lazy('international_online_offer:profile') + '?signup=true')
         form = forms.SignUp
         if self.is_validate_code_flow():
             form = forms.CodeConfirm
@@ -528,7 +527,7 @@ class SignUp(
                 {'uidb64': uidb64, 'token': token, 'code': code_confirm}
             )
             if upstream_response.status_code in [400, 404]:
-                form.add_error('__all__', 'Invalid code')
+                form.add_error('__all__', 'You have entered an invalid code')
             elif upstream_response.status_code == 422:
                 # Resend verification code if it has expired.
                 self.handle_code_expired(

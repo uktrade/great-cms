@@ -4,6 +4,7 @@ from django.forms import (
     CheckboxInput,
     CheckboxSelectMultiple,
     ChoiceField,
+    EmailField,
     EmailInput,
     IntegerField,
     MultipleChoiceField,
@@ -204,23 +205,60 @@ class Profile(forms.Form):
 
 
 class Login(forms.Form):
-    email = forms.EmailField(label='', required=True)
-    password = forms.CharField(label='', required=True, widget=PasswordInput)
+    email = EmailField(
+        label='Email',
+        required=True,
+        widget=EmailInput(attrs={'class': 'govuk-input'}),
+        error_messages={
+            'required': 'You must enter an email address',
+        },
+    )
+    password = CharField(
+        label='Password',
+        required=True,
+        widget=PasswordInput(attrs={'class': 'govuk-input'}),
+        error_messages={
+            'required': 'You must enter a password',
+        },
+    )
 
 
 class SignUp(forms.Form):
-    email = forms.EmailField(label='', required=True)
-    password = forms.CharField(label='', required=True, widget=PasswordInput)
+    email = EmailField(
+        label='Email',
+        required=True,
+        widget=EmailInput(attrs={'class': 'govuk-input'}),
+        error_messages={
+            'required': 'You must enter an email address',
+        },
+    )
+    password = CharField(
+        label='Password',
+        help_text="""Your password should be a minimum of 10
+        characters and include letters, numbers or special characters""",
+        required=True,
+        widget=PasswordInput(attrs={'class': 'govuk-input'}),
+        error_messages={
+            'required': 'You must enter a password',
+        },
+    )
 
 
 class CodeConfirm(forms.Form):
-    code_confirm = forms.CharField(label='')
+    code_confirm = CharField(
+        label='Confirmation code',
+        widget=TextInput(attrs={'class': 'govuk-input'}),
+        error_messages={
+            'required': 'You must enter a confirmation code',
+        },
+    )
 
 
 class LocationSelect(forms.Form):
-    location = forms.ChoiceField(
+    location = ChoiceField(
         label='Select a location',
         choices=choices.REGION_CHOICES,
+        widget=Select(attrs={'class': 'govuk-select'}),
     )
 
 
