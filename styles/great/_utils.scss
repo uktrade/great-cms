@@ -657,5 +657,10 @@
   }
  img.full-width {
       height: auto;
+ img.richtext-image {
+  height: auto;
+  max-width: 100%;
+  &.full-width {
       width: 100%;
-}
+  }
+ }
