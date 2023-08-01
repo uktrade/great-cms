@@ -5,6 +5,7 @@ from unittest.mock import Mock, patch
 from urllib.parse import urlencode
 
 import pytest
+from directory_forms_api_client import actions
 from django.conf import settings
 from django.http.cookie import SimpleCookie
 from django.test import Client, TestCase, override_settings
@@ -1193,3 +1194,128 @@ class TestMicrositeLocales(TestCase):
         response = self.client.get(url_french)
         html_response = response.content.decode('utf-8')
         assert 'Les informations ont été envoyées avec succès' in html_response
+
+
+@pytest.mark.django_db
+def test_get_export_help_page(client):
+    url = reverse('core:get-export-help')
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert 'What do you need help with?' in response.content.decode()
+
+
+@pytest.mark.parametrize(
+    'form_data, error_message, redirect_url_params',
+    (
+        ({}, 'Select up to 2 options', None),
+        (
+            {'type_of_help_needed': ['finding_an_overseas_buyer', 'choosing_a_market', 'cost_of_exporting']},
+            'Select a maximum of 2 options',
+            None,
+        ),
+        (
+            {'type_of_help_needed': ['finding_an_overseas_buyer', 'choosing_a_market']},
+            None,
+            '?choice_1=finding_an_overseas_buyer&choice_2=choosing_a_market',
+        ),
+        (
+            {'type_of_help_needed': ['not_sure']},
+            None,
+            '?choice_1=not_sure',
+        ),
+    ),
+)
+@mock.patch.object(actions, 'SaveOnlyInDatabaseAction')
+@pytest.mark.django_db
+def test_get_export_help_form(mock_forms_api_submission, client, form_data, error_message, redirect_url_params):
+    url = reverse('core:get-export-help')
+    response = client.post(url, data=form_data)
+    if error_message:
+        assert response.context['form'].errors['type_of_help_needed'] == [error_message]
+    else:
+        assert response.status_code == 302
+        assert response['Location'] == f"{reverse('core:get-export-help-results')}{redirect_url_params}"
+        assert mock_forms_api_submission.call_count == 1
+
+
+@pytest.mark.parametrize(
+    'query_params, expected_content',
+    (
+        ('?choice_1=other', ['Suggestions for you', 'Choose a route to market >']),
+        ('?choice_1=not_sure', ['Suggestions for you', 'Export Academy >']),
+        (
+            '?choice_1=not_sure&choice_2=other',
+            ['Suggestions for you', 'Export Academy >', 'Choose a route to market >'],
+        ),
+        (
+            '?choice_1=finding_an_overseas_buyer',
+            ['Find an overseas buyer', 'Find an export opportunity >', 'Ask the export support team a question >'],
+        ),
+        (
+            '?choice_1=duties_and_taxes&choice_2=how_to_start_exporting_today',
+            [
+                'Duties &amp; Taxes',
+                'Understand duties and taxes',
+                'How to start exporting today',
+                'Learn to export >',
+            ],
+        ),
+        (
+            '?choice_1=other&choice_2=how_to_start_exporting_today',
+            ['Suggestions for you', 'Learn to export >', 'Choose a route to market >'],
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_get_export_help_results_page(client, query_params, expected_content):
+    url = reverse('core:get-export-help-results') + query_params
+    response = client.get(url)
+
+    assert response.status_code == 200
+    for content in expected_content:
+        assert content in response.content.decode()
+
+
+@pytest.mark.parametrize(
+    'form_data, error_messages',
+    (
+        (
+            {},
+            [
+                {'field': 'email_address', 'message': 'Enter your email address'},
+                {'field': 'email_consent', 'message': 'You must agree to be contacted before submitting'},
+                {'field': 'terms_agreed', 'message': 'You must agree to the terms and conditions before submitting'},
+            ],
+        ),
+        (
+            {'email_address': 'bad_email', 'email_consent': True, 'terms_agreed': True},
+            [{'field': 'email_address', 'message': 'Enter a valid email address.'}],
+        ),
+        (
+            {'email_address': 'test@email.com', 'email_consent': True, 'terms_agreed': True},
+            [],
+        ),
+    ),
+)
+@mock.patch.object(actions, 'SaveOnlyInDatabaseAction')
+@pytest.mark.django_db
+def test_get_export_help_results_form(mock_forms_api_submission, client, form_data, error_messages):
+    url = reverse('core:get-export-help-results')
+    response = client.post(url, data=form_data)
+    if len(error_messages):
+        for error in error_messages:
+            assert response.context['form'].errors[error['field']] == [error['message']]
+    else:
+        assert response.status_code == 302
+        assert response['Location'] == reverse('core:get-export-help-confirmation')
+        assert mock_forms_api_submission.call_count == 1
+
+
+@pytest.mark.django_db
+def test_get_export_help_confirmation_page(client):
+    url = reverse('core:get-export-help-confirmation')
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert 'Thank you' in response.content.decode()

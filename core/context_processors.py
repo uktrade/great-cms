@@ -69,6 +69,7 @@ def feature_flags(request):
     """General way to make feature flags available in the template"""
     retval = {'features': {}}
     retval['features'].update(settings.SSO_PROFILE_FEATURE_FLAGS)
+    retval['features']['FEATURE_GET_EXPORT_HELP_EXPERIMENT'] = settings.FEATURE_GET_EXPORT_HELP_EXPERIMENT
     return retval
 
 
