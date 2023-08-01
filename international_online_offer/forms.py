@@ -5,7 +5,9 @@ from django.forms import (
     CheckboxSelectMultiple,
     ChoiceField,
     EmailInput,
+    IntegerField,
     MultipleChoiceField,
+    NumberInput,
     PasswordInput,
     RadioSelect,
     Select,
@@ -109,15 +111,21 @@ class Hiring(forms.Form):
 
 
 class Spend(forms.Form):
-    spend = forms.fields.ChoiceField(
-        label='',
+    spend = ChoiceField(
+        label='What is your planned spend for UK entry or expansion?',
+        help_text="""This is for the first three years of your project.
+        Choose an estimated amount from the list, or enter a specific amount""",
         required=True,
         widget=forms.RadioSelect(attrs={'id': 'spend-select', 'onclick': 'handleSpendRadioClick(this);'}),
         choices=choices.SPEND_CHOICES,
+        error_messages={
+            'required': 'You must select at least one spend option',
+        },
     )
-    spend_other = forms.IntegerField(
-        label='',
+    spend_other = IntegerField(
+        label='Enter specific spend amount, in pounds',
         required=False,
+        widget=NumberInput(attrs={'class': 'govuk-input'}),
     )
 
     def clean(self):
@@ -125,7 +133,7 @@ class Spend(forms.Form):
         spend = cleaned_data.get('spend')
         spend_other = cleaned_data.get('spend_other')
         if spend == spends.SPECIFIC_AMOUNT and not spend_other:
-            self.add_error('spend_other', 'This field is required.')
+            self.add_error('spend_other', 'You must enter a value in pounds')
         else:
             return cleaned_data
 
