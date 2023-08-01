@@ -21,13 +21,26 @@
     <div class="govuk-grid-column-two-thirds">
       <form method="post">
         {% csrf_token %}
-        <div class="form-group">
-          <div class="govuk-hint govuk-!-margin-bottom-3">Choose an estimate for the first three years of your project</div>
-          <div id="id_hiring_container" style="display: block;">
-            {% include 'core/includes/form_field.html' with field=form.hiring %}
+          <div class="govuk-form-group{% if form.hiring.errors %} govuk-form-group--error{% endif %}">
+            <fieldset class="govuk-fieldset govuk-!-margin-bottom-7">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                <h2 class="govuk-fieldset__heading govuk-hint govuk-!-margin-bottom-0" id="{{form.hiring.auto_id}}">
+                    {{ form.hiring.help_text }}
+                </h2>
+                </legend>
+                <div class="govuk-radios" data-module="govuk-radios" id="satisfaction">
+                {% for hire in form.hiring %}
+                    <div class="govuk-radios__item">
+                        {{  hire.tag }}
+                        <label class="govuk-label govuk-radios__label" for="{{ hire.id_for_label }}">
+                            {{ hire.choice_label }}
+                        </label>
+                    </div>
+                {% endfor %}
+                </div>
+            </fieldset>
+            {% include '../includes/submit_button.html' with button_text='Continue'  %}
           </div>
-          {% include '../includes/submit_button.html' with button_text='Continue'  %}
-        </div>
       </form>
     </div>
   </div>

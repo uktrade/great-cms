@@ -93,10 +93,11 @@ class Location(forms.Form):
 
 
 class Hiring(forms.Form):
-    hiring = forms.fields.ChoiceField(
-        label='',
+    hiring = ChoiceField(
+        label='How many people are you looking to hire in the UK?',
+        help_text='Choose an estimate for the first three years of your project',
         required=True,
-        widget=forms.RadioSelect(attrs={'id': 'hiring-select'}),
+        widget=RadioSelect(attrs={'id': 'hiring-select', 'class': 'govuk-radios__input'}),
         choices=choices.HIRING_CHOICES,
     )
 
