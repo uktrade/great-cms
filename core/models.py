@@ -1536,12 +1536,12 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
     def get_parent_page(self):
         current_page = self.specific
         parent_page = self.get_parent().specific
-        while type(parent_page) != Microsite:
-            if type(parent_page) != MicrositePage:
+        while type(parent_page) is not Microsite:
+            if type(parent_page) is not MicrositePage:
                 break
             current_page = parent_page
             parent_page = parent_page.get_parent().specific
-        if type(parent_page) == Microsite and type(current_page) == MicrositePage:
+        if type(parent_page) is Microsite and type(current_page) is MicrositePage:
             return current_page
         else:
             return None
@@ -1561,7 +1561,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
 
     def get_use_domestic_header_logo(self):
         parent_page = self.get_parent_page()
-        if parent_page and type(parent_page.specific) == MicrositePage:
+        if parent_page and type(parent_page.specific) is MicrositePage:
             return parent_page.specific.use_domestic_header_logo
         else:
             return False
