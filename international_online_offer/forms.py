@@ -65,15 +65,17 @@ class Intent(forms.Form):
 class Location(forms.Form):
     VALIDATION_MESSAGE_SELECT_OPTION = 'Please select a location or "not decided" to continue'
     VALIDATION_MESSAGE_SELECT_ONE_OPTION = 'Please select only one choice to continue'
-    location = forms.fields.ChoiceField(
-        label='',
+    location = ChoiceField(
+        label='Enter a city, county or region',
+        help_text='Type to search and choose from the list',
         required=False,
-        widget=Select(attrs={'id': 'js-location-select'}),
+        widget=Select(attrs={'id': 'js-location-select', 'class': 'govuk-input'}),
         choices=(('', ''),) + choices.REGION_CHOICES,
     )
-    location_none = forms.BooleanField(
+    location_none = BooleanField(
         required=False,
         label='I have not decided on a location yet',
+        widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
     )
 
     def clean(self):
