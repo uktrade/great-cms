@@ -8,7 +8,7 @@ function parseJsonForAutoComplete(json) {
   return out;
 }
 
-function customIOOSectorSuggest (query, populateResults) {
+function eybSectorSuggest (query, populateResults) {
   const sectorJson = [
     {
       "en":"Financial and Professional Services",
@@ -176,7 +176,7 @@ function filterResults(data, query) {
   return dataParentNames;
 }
 
-function customIOOLocationSuggest (query, populateResults) {
+function eybLocationSuggest (query, populateResults) {
   const locationJson = [
     {
       "en":"Wales",
@@ -200,7 +200,7 @@ function customIOOLocationSuggest (query, populateResults) {
     },
     {
       "en":"East Midlands",
-      "tags":["Derby","Leicester","Rutland","Nottingham","North Northamptonshire ","West Northamptonshire ","Amber Valley","Bolsover","Chesterfield","Derbyshire Dales","Erewash","High Peak","North East Derbyshire","South Derbyshire","Blaby","Charnwood","Harborough","Hinckley and Bosworth","Melton","North West Leicestershire","Oadby and Wigston","Boston","East Lindsey","Lincoln","North Kesteven","South Holland","South Kesteven","West Lindsey","Ashfield","Bassetlaw","Broxtowe","Gedling","Mansfield","Newark and Sherwood","Rushcliffe"]
+      "tags":["Derby","Leicester","Rutland","Nottingham","North Northamptonshire","West Northamptonshire","Amber Valley","Bolsover","Chesterfield","Derbyshire Dales","Erewash","High Peak","North East Derbyshire","South Derbyshire","Blaby","Charnwood","Harborough","Hinckley and Bosworth","Melton","North West Leicestershire","Oadby and Wigston","Boston","East Lindsey","Lincoln","North Kesteven","South Holland","South Kesteven","West Lindsey","Ashfield","Bassetlaw","Broxtowe","Gedling","Mansfield","Newark and Sherwood","Rushcliffe"]
     },
     {
       "en":"North East",

@@ -1,0 +1,50 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="great">
+<section class="great-container">
+    <div class="great-bg-white govuk-!-margin-top-7 three-quarters-width-centered-desktop">
+        <div class="govuk-!-margin-7">
+            <h1 class="govuk-heading-l govuk-!-padding-top-7 govuk-!-margin-bottom-3">We’re improving this website</h1>
+            <p class="govuk-body">We’re working to understand how to make this website better for you. We would love to <a href="https://www.great.gov.uk/search/feedback/" class="govuk-link">hear your feedback</a>.</p>
+            <p class="govuk-body">For now, here are some links we think you’ll find useful based on the topics you selected.</p>
+            {% if other_or_not_sure_chosen %}
+                <h2 class="govuk-heading-m">Suggestions for you:</h2>
+                <div class="great-border-top-hr-blue govuk-!-margin-bottom-5">
+                    <div class="govuk-!-margin-top-4">
+                    {% for content in suggested_content %}
+                        {% for link in content.links %}
+                            <p class="govuk-!-margin-top-0 govuk-!-margin-bottom-3"><a href="{{ link.link }}" target="_blank" class="govuk-link">{{ link.text }} ></a></p>
+                        {% endfor %}
+                    {% endfor %}
+                    </div>
+                </div>
+            {% else %}
+                <h2 class="govuk-heading-m">You said you were interested in:</h2>
+                {% for content in suggested_content %}
+                <div class="great-border-top-hr-blue govuk-!-margin-bottom-5">
+                    <p class="govuk-!-margin-top-4 govuk-heading-m govuk-!-font-weight-regular">{{ content.title }}</p>
+                    {% for link in content.links %}
+                        <p class="govuk-!-margin-top-0 govuk-!-margin-bottom-3"><a href="{{ link.link }}" target="_blank" class="govuk-link">{{ link.text }} ></a></p>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            {% endif %}
+            <div class="great-border-top-hr-blue govuk-!-margin-bottom-5">
+                <h4 class="govuk-!-margin-top-4">Get involved</h4>
+                <p class="govuk-hint govuk-!-margin-top-3">If you would like to help us develop this service, enter your email:</p>
+                <form method="post" action="" novalidate="novalidate">
+                    {% csrf_token %}
+                    {% for field in form.visible_fields %}
+                    <div class="govuk-form-group {% if field.name == 'email_address' %}govuk-!-margin-bottom-7{% else %}govuk-!-margin-bottom-2{% endif %} {% if field.errors %}govuk-form-group--error{% endif %}">
+                        {% include 'domestic/contact/includes/govuk-form-field.html' with field=field hide_label=True %}
+                    </div>
+                    {% endfor %}
+                    <button type="submit" class="govuk-button great-min-width-250-desktop">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+</div>
+{% endblock %}

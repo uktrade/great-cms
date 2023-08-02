@@ -37,8 +37,8 @@ def calculate_and_store_is_high_value(request):
         request.session['is_high_value'] = is_high_value
 
 
-class IOOIndex(GA360Mixin, TemplateView):
-    template_name = 'ioo/index.html'
+class Index(GA360Mixin, TemplateView):
+    template_name = 'eyb/index.html'
 
     def __init__(self):
         super().__init__()
@@ -49,9 +49,9 @@ class IOOIndex(GA360Mixin, TemplateView):
         )
 
 
-class IOOSector(GA360Mixin, FormView):
-    form_class = forms.SectorForm
-    template_name = 'ioo/triage/sector.html'
+class Sector(GA360Mixin, FormView):
+    form_class = forms.Sector
+    template_name = 'eyb/triage/sector.html'
 
     def __init__(self):
         super().__init__()
@@ -105,9 +105,9 @@ class IOOSector(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
-class IOOIntent(GA360Mixin, FormView):
-    form_class = forms.IntentForm
-    template_name = 'ioo/triage/intent.html'
+class Intent(GA360Mixin, FormView):
+    form_class = forms.Intent
+    template_name = 'eyb/triage/intent.html'
 
     def __init__(self):
         super().__init__()
@@ -163,9 +163,9 @@ class IOOIntent(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
-class IOOLocation(GA360Mixin, FormView):
-    form_class = forms.LocationForm
-    template_name = 'ioo/triage/location.html'
+class Location(GA360Mixin, FormView):
+    form_class = forms.Location
+    template_name = 'eyb/triage/location.html'
 
     def __init__(self):
         super().__init__()
@@ -224,9 +224,9 @@ class IOOLocation(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
-class IOOHiring(GA360Mixin, FormView):
-    form_class = forms.HiringForm
-    template_name = 'ioo/triage/hiring.html'
+class Hiring(GA360Mixin, FormView):
+    form_class = forms.Hiring
+    template_name = 'eyb/triage/hiring.html'
 
     def __init__(self):
         super().__init__()
@@ -280,9 +280,9 @@ class IOOHiring(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
-class IOOSpend(GA360Mixin, FormView):
-    form_class = forms.SpendForm
-    template_name = 'ioo/triage/spend.html'
+class Spend(GA360Mixin, FormView):
+    form_class = forms.Spend
+    template_name = 'eyb/triage/spend.html'
 
     def __init__(self):
         super().__init__()
@@ -338,9 +338,9 @@ class IOOSpend(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
-class IOOProfile(GA360Mixin, FormView):
-    form_class = forms.ProfileForm
-    template_name = 'ioo/profile.html'
+class Profile(GA360Mixin, FormView):
+    form_class = forms.Profile
+    template_name = 'eyb/profile.html'
 
     def get_success_url(self) -> str:
         if self.request.GET.get('signup'):
@@ -447,9 +447,9 @@ class IOOProfile(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
-class IOOLogin(GA360Mixin, sso_mixins.SignInMixin, TemplateView):
-    form_class = forms.LoginForm
-    template_name = 'ioo/login.html'
+class Login(GA360Mixin, sso_mixins.SignInMixin, TemplateView):
+    form_class = forms.Login
+    template_name = 'eyb/login.html'
     success_url = '/international/expand-your-business-in-the-uk/guide/'
 
     def __init__(self):
@@ -465,7 +465,7 @@ class IOOLogin(GA360Mixin, sso_mixins.SignInMixin, TemplateView):
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
-        form = forms.LoginForm(request.POST)
+        form = forms.Login(request.POST)
         if form.is_valid():
             data = {
                 'password': form.cleaned_data['password'],
@@ -485,10 +485,10 @@ class IOOLogin(GA360Mixin, sso_mixins.SignInMixin, TemplateView):
         return render(request, self.template_name, {'form': form})
 
 
-class IOOSignUp(
+class SignUp(
     GA360Mixin, sso_mixins.ResendVerificationMixin, sso_mixins.VerifyCodeMixin, sso_mixins.SignUpMixin, TemplateView
 ):
-    template_name = 'ioo/signup.html'
+    template_name = 'eyb/signup.html'
     success_url = '/international/expand-your-business-in-the-uk/guide/'
 
     def __init__(self):
@@ -505,11 +505,10 @@ class IOOSignUp(
 
     def get(self, request, *args, **kwargs):
         if helpers.is_authenticated(request):
-            response = redirect(reverse_lazy('international_online_offer:profile') + '?signup=true')
-            return response
-        form = forms.SignUpForm
+            return redirect(reverse_lazy('international_online_offer:profile') + '?signup=true')
+        form = forms.SignUp
         if self.is_validate_code_flow():
-            form = forms.CodeConfirmForm
+            form = forms.CodeConfirm
         return render(request, self.template_name, {'form': form})
 
     def get_login_url(self):
@@ -519,7 +518,7 @@ class IOOSignUp(
         return self.request.GET.get('uidb64') is not None and self.request.GET.get('token') is not None
 
     def do_validate_code_flow(self, request):
-        form = forms.CodeConfirmForm(request.POST)
+        form = forms.CodeConfirm(request.POST)
         if form.is_valid():
             uidb64 = self.request.GET.get('uidb64')
             token = self.request.GET.get('token')
@@ -528,7 +527,7 @@ class IOOSignUp(
                 {'uidb64': uidb64, 'token': token, 'code': code_confirm}
             )
             if upstream_response.status_code in [400, 404]:
-                form.add_error('__all__', 'Invalid code')
+                form.add_error('__all__', 'You have entered an invalid code')
             elif upstream_response.status_code == 422:
                 # Resend verification code if it has expired.
                 self.handle_code_expired(
@@ -542,7 +541,7 @@ class IOOSignUp(
         return render(request, self.template_name, {'form': form})
 
     def do_sign_up_flow(self, request):
-        form = forms.SignUpForm(request.POST)
+        form = forms.SignUp(request.POST)
         if form.is_valid():
             response = sso_api_client.user.create_user(
                 email=form.cleaned_data['email'].lower(), password=form.cleaned_data['password']
@@ -588,8 +587,8 @@ class IOOSignUp(
             return self.do_sign_up_flow(request)
 
 
-class IOOEditYourAnswers(GA360Mixin, TemplateView):
-    template_name = 'ioo/edit_your_answers.html'
+class EditYourAnswers(GA360Mixin, TemplateView):
+    template_name = 'eyb/edit_your_answers.html'
 
     def __init__(self):
         super().__init__()
@@ -610,9 +609,9 @@ class IOOEditYourAnswers(GA360Mixin, TemplateView):
         )
 
 
-class IOOFeedback(GA360Mixin, FormView):
-    form_class = forms.FeedbackForm
-    template_name = 'ioo/feedback.html'
+class Feedback(GA360Mixin, FormView):
+    form_class = forms.Feedback
+    template_name = 'eyb/feedback.html'
     subject = 'EYB Feedback form'
 
     def __init__(self):

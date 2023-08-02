@@ -7,57 +7,57 @@ app_name = 'international_online_offer'
 urlpatterns = [
     path(
         '',
-        views.IOOIndex.as_view(),
+        views.Index.as_view(),
         name='index',
     ),
     path(
         'sector/',
-        views.IOOSector.as_view(),
+        views.Sector.as_view(),
         name='sector',
     ),
     path(
         'intent/',
-        views.IOOIntent.as_view(),
+        views.Intent.as_view(),
         name='intent',
     ),
     path(
         'location/',
-        views.IOOLocation.as_view(),
+        views.Location.as_view(),
         name='location',
     ),
     path(
         'hiring/',
-        views.IOOHiring.as_view(),
+        views.Hiring.as_view(),
         name='hiring',
     ),
     path(
         'spend/',
-        views.IOOSpend.as_view(),
+        views.Spend.as_view(),
         name='spend',
     ),
     path(
         'profile/',
-        views.IOOProfile.as_view(),
+        views.Profile.as_view(),
         name='profile',
     ),
     path(
         'login/',
-        views.IOOLogin.as_view(),
+        views.Login.as_view(),
         name='login',
     ),
     path(
         'signup/',
-        views.IOOSignUp.as_view(),
+        views.SignUp.as_view(),
         name='signup',
     ),
     path(
         'edit-your-answers/',
-        views.IOOEditYourAnswers.as_view(),
+        views.EditYourAnswers.as_view(),
         name='edit-your-answers',
     ),
     path(
         'feedback/',
-        views.IOOFeedback.as_view(),
+        views.Feedback.as_view(),
         name='feedback',
     ),
 ]
