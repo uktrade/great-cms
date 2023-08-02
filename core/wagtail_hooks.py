@@ -20,6 +20,7 @@ from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from great_components.helpers import add_next
+from wagtail.admin.menu import DismissibleMenuItem
 from wagtail.admin.views.pages.bulk_actions.page_bulk_action import PageBulkAction
 from wagtail.core import hooks
 from wagtail.core.models import Page
@@ -518,4 +519,16 @@ def toolbar_sticky_by_default():
             };
         </script>
         """
+    )
+
+
+@hooks.register('register_help_menu_item')
+def register_campaign_site_help_menu_item():
+    return DismissibleMenuItem(
+        _('Campaign Site, getting started'),
+        constants.MENU_ITEM_ADD_CAMPAIGN_SITE_LINK,
+        icon_name='help',
+        order=900,
+        attrs={'target': '_blank', 'rel': 'noreferrer'},
+        name='campaign-site',
     )

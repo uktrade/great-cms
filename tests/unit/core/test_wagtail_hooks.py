@@ -9,10 +9,12 @@ from django.contrib.sessions.middleware import SessionMiddleware
 from django.db.models import FileField
 from django.test import TestCase, override_settings
 from django.utils.safestring import mark_safe
+from wagtail.admin.menu import DismissibleMenuItem
 from wagtail.core.rich_text import RichText
 from wagtail.tests.utils import WagtailPageTests
 
 from core import cms_slugs, wagtail_hooks
+from core.constants import MENU_ITEM_ADD_CAMPAIGN_SITE_LINK
 from core.models import DetailPage, MicrositePage
 from core.wagtail_hooks import (
     FileTransferError,
@@ -29,6 +31,7 @@ from core.wagtail_hooks import (
     convert_video,
     editor_css,
     get_microsite_page_body,
+    register_campaign_site_help_menu_item,
     register_s3_media_file_adapter,
     toolbar_sticky_by_default,
 )
@@ -1214,3 +1217,15 @@ class WagtailInsertEditorJsTestCase(TestCase):
         """
         )
         assert return_value == expected_value
+
+
+def test_register_campaign_site_help_menu_item():
+    actual = register_campaign_site_help_menu_item()
+
+    assert isinstance(actual, DismissibleMenuItem)
+    assert actual.label == 'Campaign Site, getting started'
+    assert actual.url == MENU_ITEM_ADD_CAMPAIGN_SITE_LINK
+    assert actual.icon_name == 'help'
+    assert actual.order == 900
+    assert actual.attrs == {'target': '_blank', 'rel': 'noreferrer', 'data-wagtail-dismissible-id': 'campaign-site'}
+    assert actual.name == 'campaign-site'
