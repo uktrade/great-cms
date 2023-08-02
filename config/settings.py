@@ -140,6 +140,7 @@ TEMPLATES = [
                 'core.context_processors.analytics_vars',
                 'core.context_processors.migration_support_vars',
                 'core.context_processors.cms_slug_urls',
+                'core.context_processors.feature_flags',
                 'core.context_processors.cookie_management_vars',
                 'great_components.context_processors.analytics',
                 'wagtail.contrib.settings.context_processors.settings',
@@ -857,6 +858,7 @@ FEATURE_INTERNATIONAL_ONLINE_OFFER = env.bool('FEATURE_INTERNATIONAL_ONLINE_OFFE
 FEATURE_EXPORT_ACADEMY_RELEASE_2 = env.bool('FEATURE_EXPORT_ACADEMY_RELEASE_2', False)
 FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION = env.bool('FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION', False)
 FEATURE_DIGITAL_POINT_OF_ENTRY = env.bool('FEATURE_DIGITAL_POINT_OF_ENTRY', False)
+FEATURE_GET_EXPORT_HELP_EXPERIMENT = env.bool('FEATURE_GET_EXPORT_HELP_EXPERIMENT', False)
 
 MAX_COMPARE_PLACES_ALLOWED = env.int('MAX_COMPARE_PLACES_ALLOWED', 10)
 
