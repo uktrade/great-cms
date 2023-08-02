@@ -122,7 +122,7 @@ coverage[toml]==7.2.7
     #   pytest-cov
 cron-descriptor==1.4.0
     # via django-celery-beat
-cryptography==41.0.2
+cryptography==41.0.3
     # via
     #   -r requirements.in
     #   pyhanko
@@ -642,6 +642,7 @@ sigauth==5.2.0
 six==1.16.0
     # via
     #   airtable-python-wrapper
+    #   asttokens
     #   elasticsearch-dsl
     #   geventhttpclient
     #   html5lib
