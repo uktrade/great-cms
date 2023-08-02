@@ -21,10 +21,14 @@
         <div class="govuk-grid-row">
           <div class="govuk-grid-column-full">
             <form class="salary-location-form" action="" method="GET">
-              {% filter add_govuk_classes %}
-                {{ salary_location_form }}
-              {% endfilter %}
-              <button type="submit" class="atlas-button" id="salary-location-submit">Change</button>
+              <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full govuk-!-margin-bottom-3">
+                  <div class="govuk-!-margin-bottom-2">
+                    {% include '../includes/form_field.html' with field=salary_location_form.location %}
+                  </div>
+                  <button type="submit" class="atlas-button" id="salary-location-submit">Change</button>
+                </div>
+              </div>
             </form>
           </div>
         </div>

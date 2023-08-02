@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class IOOConfig(AppConfig):
+class ExpandYourBusinessConfig(AppConfig):
     name = 'international_online_offer'

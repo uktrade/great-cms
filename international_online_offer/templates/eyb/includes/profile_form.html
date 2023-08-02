@@ -1,0 +1,72 @@
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-3">
+      <form method="post">
+        {% csrf_token %}
+        <div class="govuk-grid-row govuk-!-margin-bottom-3">
+          <div class="govuk-grid-column-full">
+            {% include './form_field.html' with field=form.company_name %}
+          </div>
+        </div>
+        <div class="govuk-grid-row govuk-!-margin-bottom-3">
+          <div class="govuk-grid-column-full">
+            {% include './form_field.html' with field=form.company_location %}
+          </div>
+        </div>
+        <div class="govuk-grid-row govuk-!-margin-bottom-3">
+          <div class="govuk-grid-column-full">
+            {% include './form_field.html' with field=form.full_name %}
+          </div>
+        </div>
+        <div class="govuk-grid-row govuk-!-margin-bottom-3">
+          <div class="govuk-grid-column-full">
+            {% include './form_field.html' with field=form.role %}
+          </div>
+        </div>
+        <div class="govuk-grid-row" style="display: none;">
+          <div class="govuk-grid-column-full">
+            {% include './form_field.html' with field=form.email %}
+          </div>
+        </div>
+        <div class="govuk-grid-row govuk-!-margin-bottom-3">
+          <div class="govuk-grid-column-full">
+            {% include './form_field.html' with field=form.telephone_number %}
+          </div>
+        </div>
+        <div class="govuk-grid-row govuk-!-margin-bottom-5">
+          <div class="govuk-grid-column-full">
+            {% include './form_field.html' with field=form.landing_timeframe %}
+          </div>
+        </div>
+        <div class="govuk-grid-row" style="display: none;">
+          <div class="govuk-grid-column-full">
+            {% include './form_field.html' with field=form.agree_terms %}
+          </div>
+        </div>
+        <div class="govuk-grid-row govuk-!-margin-bottom-5">
+          <div class="govuk-grid-column-full">
+            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+              <div class="govuk-checkboxes__item">
+                {{form.agree_info_email}}
+                <label class="govuk-label govuk-checkboxes__label" for="id_agree_info_email">{{form.agree_info_email.label}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="govuk-grid-row govuk-!-margin-bottom-5">
+          <div class="govuk-grid-column-full">
+            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+              <div class="govuk-checkboxes__item">
+                {{form.agree_info_telephone}}
+                <label class="govuk-label govuk-checkboxes__label" for="id_agree_info_telephone">{{form.agree_info_telephone.label}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="govuk-grid-row govuk-!-margin-bottom-5">
+          <div class="govuk-grid-column-full">
+            {% include './submit_button.html' with button_text='Submit'  %}
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
