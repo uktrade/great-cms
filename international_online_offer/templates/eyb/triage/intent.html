@@ -29,7 +29,7 @@
                     </h2>
                 </legend>
                 {% for error in form.intent.errors %}
-                  <p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> {{ error }}</p>
+                  <p class="govuk-error-message" role="alert"><span class="govuk-visually-hidden">Error:</span> {{ error }}</p>
                 {% endfor %}
                 <div class="govuk-checkboxes" data-module="govuk-checkboxes" id="site_intentions">
                   {% for action in form.intent %}

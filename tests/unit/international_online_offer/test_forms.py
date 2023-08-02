@@ -3,12 +3,12 @@ import pytest
 from directory_constants import sectors as directory_constants_sectors
 from international_online_offer.core import hirings, intents, regions, spends
 from international_online_offer.forms import (
-    Hiring,
-    Intent,
-    Location,
-    Profile,
-    Sector,
-    Spend,
+    HiringForm,
+    IntentForm,
+    LocationForm,
+    ProfileForm,
+    SectorForm,
+    SpendForm,
 )
 
 
@@ -22,7 +22,7 @@ from international_online_offer.forms import (
 @pytest.mark.django_db
 def test_triage_sector_validation(form_data, is_valid):
     data = form_data
-    form = Sector(data)
+    form = SectorForm(data)
     assert form.is_valid() == is_valid
     if not is_valid:
         assert form.errors['sector'][0] == 'You must enter your business sector'
@@ -38,7 +38,7 @@ def test_triage_sector_validation(form_data, is_valid):
 @pytest.mark.django_db
 def test_triage_intent_form_validation(form_data, is_valid):
     data = form_data
-    form = Intent(data)
+    form = IntentForm(data)
     assert form.is_valid() == is_valid
     if not is_valid:
         assert form.errors['intent_other'][0] == 'Please enter more information here'
@@ -51,16 +51,16 @@ def test_triage_intent_form_validation(form_data, is_valid):
         (
             {'location': regions.LONDON, 'location_none': 'true'},
             False,
-            Location.VALIDATION_MESSAGE_SELECT_ONE_OPTION,
+            LocationForm.VALIDATION_MESSAGE_SELECT_ONE_OPTION,
         ),
         ({'location': '', 'location_none': 'true'}, True, ''),
-        ({'location': '', 'location_none': ''}, False, Location.VALIDATION_MESSAGE_SELECT_OPTION),
+        ({'location': '', 'location_none': ''}, False, LocationForm.VALIDATION_MESSAGE_SELECT_OPTION),
     ),
 )
 @pytest.mark.django_db
 def test_triage_location_form_validation(form_data, is_valid, error_message):
     data = form_data
-    form = Location(data)
+    form = LocationForm(data)
     assert form.is_valid() == is_valid
     if not is_valid:
         assert form.errors['location'][0] == error_message
@@ -77,7 +77,7 @@ def test_triage_location_form_validation(form_data, is_valid, error_message):
 @pytest.mark.django_db
 def test_triage_hiring_form_validation(form_data, is_valid):
     data = form_data
-    form = Hiring(data)
+    form = HiringForm(data)
     assert form.is_valid() == is_valid
     if not is_valid:
         assert form.errors['hiring'][0] == 'You must select at least one hiring option'
@@ -94,7 +94,7 @@ def test_triage_hiring_form_validation(form_data, is_valid):
 @pytest.mark.django_db
 def test_triage_spend_form_validation(form_data, is_valid):
     data = form_data
-    form = Spend(data)
+    form = SpendForm(data)
     assert form.is_valid() == is_valid
     if not is_valid:
         assert form.errors['spend_other'][0] == 'You must enter a value in pounds'
@@ -165,5 +165,5 @@ def test_triage_spend_form_validation(form_data, is_valid):
 @pytest.mark.django_db
 def test_profile_form_validation(form_data, is_valid):
     data = form_data
-    form = Profile(data)
+    form = ProfileForm(data)
     assert form.is_valid() == is_valid
