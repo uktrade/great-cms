@@ -94,9 +94,13 @@ class CampaignView(BaseNotifyUserFormView):
         rtl_languages.add('ar')
         if settings.FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
             current_language_code = get_language()
+
             page_locales = Locale.objects.filter(
-                id__in=self.page_class.objects.live().filter(slug=self.page_slug).values_list('locale_id', flat=True)
+                id__in=self.page_class.objects.live()
+                .filter(url_path__contains=self.path)
+                .values_list('locale_id', flat=True)
             )
+
             return {
                 'available_languages': [
                     {
