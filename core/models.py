@@ -1687,7 +1687,7 @@ class SupportPage(cms_panels.SupportPanels, Page):
     page_title = models.TextField(
         null=True,
     )
-    page_teaser = models.TextField(
+    page_teaser = RichTextField(
         blank=True,
         null=True,
     )
