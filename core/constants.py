@@ -84,7 +84,6 @@ MENU_ITEM_ADD_CAMPAIGN_SITE_LINK = (
     'https://workspace.trade.gov.uk/working-at-dbt/how-do-i/editing-greatgovuk-campaign-sites-getting-started/'
 )
 
-
 GET_EXPORT_HELP_CHOICE_TO_CONTENT_MAPPING = {
     'finding_an_overseas_buyer': {
         'title': 'Find an overseas buyer',
@@ -146,4 +145,3 @@ GET_EXPORT_HELP_CHOICE_TO_CONTENT_MAPPING = {
         ],
     },
 }
-
