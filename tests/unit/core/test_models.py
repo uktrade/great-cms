@@ -301,7 +301,7 @@ def test_case_study_body_validation(block_type_values, exception_message):
 
     value = []
     for block_spec in block_type_values:
-        if type(block_spec) == tuple:
+        if type(block_spec) is tuple:
             parent_block = _create_block(block_spec[0])
             children = []
             for subblock_spec in block_spec[1]:

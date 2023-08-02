@@ -472,7 +472,7 @@ class StaticViewSitemap(DjangoSitemap):
         ]
         return url_names
 
-    def changefreq(self, item):
+    def changefreq(self, item):  # noqa: F811
         # The Django-rendered pages don't change very often and we can always request
         # a re-crawl if we have something we edit that we want to get out there ASAP.
         # 'Monthly' seems like a reasonable middle ground, even though it might not be

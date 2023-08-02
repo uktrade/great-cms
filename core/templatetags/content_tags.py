@@ -142,7 +142,7 @@ def multiply_by_exponent(val, exponent=3, base=10):
             The base
     """
 
-    if type(val) == int:
+    if type(val) is int:
         int_val = int(val)
     else:
         int_val = 0
@@ -162,7 +162,7 @@ def friendly_number(val):
             The input value
     """
 
-    if type(val) == int:
+    if type(val) is int:
         int_val = int(val)
     else:
         int_val = 0
