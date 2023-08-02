@@ -376,10 +376,10 @@ def mock_api_get_country_data_by_country(multiple_country_data):
         out = {}
         country = kwargs.get('countries', [])[0]
         fields = kwargs.get('fields', [])
-        if (type(fields[0]) == str) and ('[' in fields[0]):
+        if (type(fields[0]) is str) and ('[' in fields[0]):
             fields = json.loads(fields)
         for field in fields:
-            fieldname = field if type(field) == str else field.get('model')
+            fieldname = field if type(field) is str else field.get('model')
             out[fieldname] = multiple_country_data.get(country, {}).get(fieldname)
         return create_response(json_body={country: out})
 

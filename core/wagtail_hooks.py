@@ -351,13 +351,13 @@ class MigratePage(PageBulkAction):
 
     # Only gives permission to change pages of the ArticlePage type currently
     def check_perm(self, page):
-        return type(page.specific) == ArticlePage
+        return type(page.specific) is ArticlePage
 
     # TODO update action to create microsite pages from the article pages contained in objects
     # Collect target page from the form in the template and append new pages as the children of that page
     @classmethod
     def execute_action(cls, objects, **kwargs):
-        if all(type(object.specific) == ArticlePage for object in objects):
+        if all(type(object.specific) is ArticlePage for object in objects):
             return len(objects), len([migrate_article_page_to_microsite(object.specific) for object in objects])
         else:
             raise NotImplementedError('execute_action needs to be implemented')
