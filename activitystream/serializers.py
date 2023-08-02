@@ -58,7 +58,7 @@ class ArticlePageSerializer(serializers.Serializer):
                 continue
 
             block_value = streamchild.value
-            if type(block_value) == RichText:
+            if type(block_value) is RichText:
                 searchable_items.append(get_text_for_indexing(block_value.__html__()))
 
             if streamchild.block_type == 'pull_quote':

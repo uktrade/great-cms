@@ -1221,19 +1221,11 @@ class WagtailInsertEditorJsTestCase(TestCase):
 
 def test_register_campaign_site_help_menu_item():
     actual = register_campaign_site_help_menu_item()
-    expected = DismissibleMenuItem(
-        _('Campaign Site, getting started'),  # noqa: F821
-        MENU_ITEM_ADD_CAMPAIGN_SITE_LINK,
-        icon_name='help',
-        order=900,
-        attrs={'target': '_blank', 'rel': 'noreferrer'},
-        name='campaign-site',
-    )
 
     assert isinstance(actual, DismissibleMenuItem)
-    assert actual.label == expected.label
-    assert actual.url == expected.url
-    assert actual.icon_name == expected.icon_name
-    assert actual.order == expected.order
-    assert actual.attrs == expected.attrs
-    assert actual.name == expected.name
+    assert actual.label == 'Campaign Site, getting started'
+    assert actual.url == MENU_ITEM_ADD_CAMPAIGN_SITE_LINK
+    assert actual.icon_name == 'help'
+    assert actual.order == 900
+    assert actual.attrs == {'target': '_blank', 'rel': 'noreferrer', 'data-wagtail-dismissible-id': 'campaign-site'}
+    assert actual.name == 'campaign-site'
