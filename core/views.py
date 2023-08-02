@@ -2,6 +2,7 @@ import abc
 import json
 import logging
 
+from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import Sender
 from django.conf import settings
 from django.contrib.sitemaps import Sitemap as DjangoSitemap
@@ -23,6 +24,7 @@ from storages.backends.s3boto3 import S3Boto3Storage
 from wagtail.contrib.sitemaps import Sitemap as WagtailSitemap
 
 from core import cms_slugs, forms, helpers, serializers
+from core.constants import GET_EXPORT_HELP_CHOICE_TO_CONTENT_MAPPING
 from core.mixins import AuthenticatedUserRequired, PageTitleMixin
 from core.models import GreatMedia
 from directory_constants import choices
@@ -472,7 +474,7 @@ class StaticViewSitemap(DjangoSitemap):
         ]
         return url_names
 
-    def changefreq(self, item):
+    def changefreq(self, item):  # noqa: F811
         # The Django-rendered pages don't change very often and we can always request
         # a re-crawl if we have something we edit that we want to get out there ASAP.
         # 'Monthly' seems like a reasonable middle ground, even though it might not be
@@ -507,3 +509,70 @@ class SignedURLView(GenericAPIView):
             ExpiresIn=3600,
         )
         return Response({'url': url, 'key': key})
+
+
+class GetExportHelpExperimentView(FormView):
+    template_name = 'core/get_export_help_experiment.html'
+    form_class = forms.GetExportHelpExperimentForm
+
+    def get_success_url(self):
+        choices = self.form.cleaned_data['type_of_help_needed']
+        if len(choices) == 2:
+            return reverse_lazy('core:get-export-help-results') + f'?choice_1={choices[0]}&choice_2={choices[1]}'
+        else:
+            return reverse_lazy('core:get-export-help-results') + f'?choice_1={choices[0]}'
+
+    def submit_form(self, form):
+        cleaned_data = form.cleaned_data
+
+        action = actions.SaveOnlyInDatabaseAction(
+            full_name='Anonymous user',
+            subject='Get export help experiment form',
+            email_address='anonymous-user@test.com',
+            form_url=self.request.get_full_path(),
+        )
+
+        response = action.save(cleaned_data)
+        response.raise_for_status()
+
+    def form_valid(self, form):
+        # makes form data accessible in get_success_url
+        self.form = form
+        self.submit_form(form)
+        return super().form_valid(form)
+
+
+class GetExportHelpExperimentResultView(FormView):
+    template_name = 'core/get_export_help_experiment_results.html'
+    form_class = forms.GetExportHelpExperimentEmailForm
+    success_url = reverse_lazy('core:get-export-help-confirmation')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        choices = list(self.request.GET.dict().values())
+        context['other_or_not_sure_chosen'] = 'other' in choices or 'not_sure' in choices
+        context['suggested_content'] = []
+        for choice in choices:
+            context['suggested_content'].append(GET_EXPORT_HELP_CHOICE_TO_CONTENT_MAPPING[choice])
+        return context
+
+    def submit_form(self, form):
+        cleaned_data = form.cleaned_data
+
+        action = actions.SaveOnlyInDatabaseAction(
+            full_name='Anonymous user',
+            subject='Get export help experiment email sign up form',
+            email_address='anonymous-user@test.com',
+            form_url=self.request.get_full_path(),
+        )
+
+        response = action.save(cleaned_data)
+        response.raise_for_status()
+
+    def form_valid(self, form):
+        self.submit_form(form)
+        return super().form_valid(form)
+
+
+class GetExportHelpExperimentConfirmationView(TemplateView):
+    template_name = 'core/get_export_help_experiment_confirmation.html'

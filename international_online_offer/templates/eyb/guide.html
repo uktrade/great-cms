@@ -36,12 +36,12 @@
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
             <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">Welcome to your UK expansion guide</h1>
-            {% if not eyb_user and not triage_data.is_high_value %}
             <p class="govuk-body govuk-!-margin-bottom-6">
-                You’ll find a step by step guide with the most important things to consider when expanding your business in the UK.
+                Your expansion guide will take you through the most important things to consider when expanding your business in the UK. You'll find a step by step guide to setting up in the UK and a personalised guide tailored for your sector.
             </p>
+            {% if not eyb_user %}
             <p class="govuk-body govuk-!-margin-bottom-6">
-                <a class="govuk-link" href="{% url 'international_online_offer:signup' %}">Sign up to our free self-service tool</a> to access a personalised guide that’s tailored to your expansion plans.
+                <a class="govuk-link" href="{% url 'international_online_offer:signup' %}">Sign up to our free self-service tool</a> to access a personalised guide that's tailored to your expansion plans.
             </p>
             {% endif %}
         </div>
@@ -173,15 +173,15 @@
                             There are many types of work visa you can apply for depending on your circumstances.
                         </p>
                         <p class="govuk-body">
-                            You can set up a business with a <a class="govuk-link" href="https://www.gov.uk/start-up-visa" target="_blank">Start-up visa</a> or an <a class="govuk-link" href="https://www.gov.uk/innovator-founder-visa" target="_blank">Innovator Founder visa</a>.
+                            You can set up a business with an <a class="govuk-link" href="https://www.gov.uk/innovator-founder-visa" target="_blank">Innovator Founder visa</a>.
                         </p>
                         <p class="govuk-body">
-                            If you’re transferring an employee from overseas to set up a new UK operation, they’ll need a <a class="govuk-link" href="https://www.gov.uk/representative-overseas-business" target="_blank">Representative of an Overseas Business visa</a>.
+                            If you're a representative of an overseas business planning to set up its first UK branch, you should apply for a UK Expansion Worker visa.
                         </p>
-                        <p class="govuk-body">
-                            Check if you need a visa on <a class="govuk-link" href="https://www.gov.uk/check-uk-visa">GOV.UK</a>
-                        </p>
-                        <ol class="app-step-nav__list" data-length="1">
+                        <ol class="app-step-nav__list" data-length="2">
+                            <li class="app-step-nav__list-item js-list-item">
+                                Check if you need a visa on <a class="govuk-link" href="https://www.gov.uk/check-uk-visa">GOV.UK</a>
+                            </li>
                             <li class="app-step-nav__list-item js-list-item">
                                 <a class="govuk-link" href="/international/expand-your-business-in-the-uk/guide/how-to-apply-for-a-visa">Find out how to apply for a visa in the UK</a>
                             </li>
@@ -374,10 +374,10 @@
                         </p>
                         <ol class="app-step-nav__list" data-length="3">
                             <li class="app-step-nav__list-item js-list-item">
-                                <a data-position="6.1" class="govuk-link" href="/international/expand-your-business-in-the-uk/guide/find-the-right-location-and-premises">Learn more about finding a business property</a>
+                                <a data-position="6.1" class="govuk-link" href="/international/expand-your-business-in-the-uk/guide/find-the-right-location-and-premises">Read our guide on how to find the right business property.</a>
                             </li>
                             <li class="app-step-nav__list-item js-list-item">
-                                <a data-position="6.2" class="govuk-link" href="https://www.great.gov.uk/international/content/investment/regions/" target="_blank">Learn more about the UK’s nations and regions</a>
+                                <a data-position="6.2" class="govuk-link" href="https://www.great.gov.uk/international/content/investment/regions/" target="_blank">Learn more about the UK's nations and regions</a>
                             </li>
                             <li class="app-step-nav__list-item js-list-item">
                                 <a data-position="6.3" class="govuk-link" href="https://www.great.gov.uk/international/investment-support-directory" target="_blank">Find professional help to locate in the UK</a>
@@ -526,7 +526,7 @@
                             </li>
                         </ol>
                         <p class="govuk-body">
-                            Time it takes: Two weeks to one month
+                            Time it takes: 2 weeks to 1 month
                         </p>
                     </div>
 
@@ -577,7 +577,7 @@
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
             <h2 class="govuk-heading-l">Your personalised guide to expanding your business</h2>
-            <p class="govuk-body">Your personalised guide is based on information you’ve given us about your sector and expansion plans.</p>
+            <p class="govuk-body">Your personalised guide is based on information you've given us about your sector and expansion plans.</p>
         </div>
     </div>
     <div class="govuk-grid-row govuk-!-margin-bottom-6">
@@ -756,7 +756,7 @@
 
 {% block body_js %}
   {{ block.super }}
-  <script type="text/javascript" src="{% static 'javascript/international-online-offer.js' %}"></script>
+  <script type="text/javascript" src="{% static 'javascript/expand-your-business.js' %}"></script>
   <script type="text/javascript" src="{% static 'javascript/govuk-step-by-step.js' %}"></script>
   <script type="text/javascript">
     var $element = document.querySelector('#step-by-step-navigation')

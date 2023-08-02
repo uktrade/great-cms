@@ -8,70 +8,32 @@ from international_online_offer.core import filter_tags, helpers, regions
 
 
 def test_find_articles_based_on_tags():
-    tag = type(
-        'obj',
-        (object,),
-        {'name': 'tag1'},
-    )
-    tag2 = type(
-        'obj',
-        (object,),
-        {'name': 'tag2'},
-    )
+    class MockArticle:
+        def __init__(self, specific):
+            self.specific = specific
 
-    tag3 = type(
-        'obj',
-        (object,),
-        {'name': filter_tags.SUPPORT_AND_INCENTIVES},
-    )
+    class MockSpecific:
+        def __init__(self, tags):
+            self.tags = tags
 
-    specific = type(
-        'obj',
-        (object,),
-        {'tags': [tag, tag2]},
-    )
+    class MockTag:
+        def __init__(self, name):
+            self.name = name
 
-    specific2 = type(
-        'obj',
-        (object,),
-        {'tags': [tag3]},
-    )
+    tag = MockTag('tag1')
+    tag2 = MockTag('tag2')
+    tag3 = MockTag(filter_tags.SUPPORT_AND_INCENTIVES)
 
-    specific3 = type(
-        'obj',
-        (object,),
-        {'tags': [tag]},
-    )
+    specific = MockSpecific([tag, tag2])
+    specific2 = MockSpecific([tag3])
+    specific3 = MockSpecific([tag])
 
-    article = type(
-        'obj',
-        (object,),
-        {'specific': specific},
-    )
+    article = MockArticle(specific)
+    article2 = MockArticle(specific)
+    article3 = MockArticle(specific2)
+    article4 = MockArticle(specific3)
 
-    article2 = type(
-        'obj',
-        (object,),
-        {'specific': specific},
-    )
-
-    article3 = type(
-        'obj',
-        (object,),
-        {'specific': specific2},
-    )
-
-    article4 = type(
-        'obj',
-        (object,),
-        {'specific': specific3},
-    )
-
-    articles = []
-    articles.append(article)
-    articles.append(article2)
-    articles.append(article3)
-    articles.append(article4)
+    articles = [article, article2, article3, article4]
 
     assert len(helpers.find_get_to_know_market_articles(articles, 'tag1', ['tag2'])) == 3
     assert len(helpers.find_get_support_and_incentives_articles(articles)) == 1

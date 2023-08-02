@@ -13,7 +13,7 @@ from tests.helpers import create_response
 
 
 @pytest.mark.django_db
-def test_ioo_index(client, settings):
+def test_index(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:index')
     response = client.get(url)
@@ -21,21 +21,21 @@ def test_ioo_index(client, settings):
 
 
 @pytest.mark.django_db
-def test_ioo_sector(client, settings):
+def test_sector(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     response = client.get(reverse('international_online_offer:sector'))
     assert response.status_code == 200
 
 
 @pytest.mark.django_db
-def test_ioo_sector_next(client, settings):
+def test_sector_next(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     response = client.get(reverse('international_online_offer:sector') + '?next=edit-your-answers')
     assert response.status_code == 200
 
 
 @pytest.mark.django_db
-def test_ioo_sector_initial(client, user, settings):
+def test_sector_initial(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     TriageData.objects.update_or_create(
         hashed_uuid='123',
@@ -49,7 +49,7 @@ def test_ioo_sector_initial(client, user, settings):
 
 
 @pytest.mark.django_db
-def test_ioo_sector_form_valid_saves_to_db(client, user, settings):
+def test_sector_form_valid_saves_to_db(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:sector')
     user.hashed_uuid = '123'
@@ -59,7 +59,7 @@ def test_ioo_sector_form_valid_saves_to_db(client, user, settings):
 
 
 @pytest.mark.django_db
-def test_ioo_sector_form_valid_saves_to_session(client, settings):
+def test_sector_form_valid_saves_to_session(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:sector')
     response = client.post(url, {'sector': directory_constants_sectors.FOOD_AND_DRINK})
@@ -75,7 +75,7 @@ def test_triage_sector_session(client, settings):
 
 
 @pytest.mark.django_db
-def test_ioo_intent(client, settings):
+def test_intent(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:intent')
     response = client.get(url)
@@ -83,14 +83,14 @@ def test_ioo_intent(client, settings):
 
 
 @pytest.mark.django_db
-def test_ioo_intent_next(client, settings):
+def test_intent_next(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     response = client.get(reverse('international_online_offer:intent') + '?next=edit-your-answers')
     assert response.status_code == 200
 
 
 @pytest.mark.django_db
-def test_ioo_intent_initial(client, user, settings):
+def test_intent_initial(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     TriageData.objects.update_or_create(
         hashed_uuid='123',
@@ -104,7 +104,7 @@ def test_ioo_intent_initial(client, user, settings):
 
 
 @pytest.mark.django_db
-def test_ioo_intent_form_valid_saves_to_db(client, user, settings):
+def test_intent_form_valid_saves_to_db(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:intent')
     user.hashed_uuid = '123'
@@ -114,7 +114,7 @@ def test_ioo_intent_form_valid_saves_to_db(client, user, settings):
 
 
 @pytest.mark.django_db
-def test_ioo_intent_form_valid_saves_to_session(client, settings):
+def test_intent_form_valid_saves_to_session(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:intent')
     response = client.post(url, {'intent': intents.SET_UP_NEW_PREMISES, 'intent_other': ''})
@@ -131,7 +131,7 @@ def test_triage_intent_session(client, settings):
 
 
 @pytest.mark.django_db
-def test_ioo_location(client, settings):
+def test_location(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:location')
     response = client.get(url)
@@ -139,14 +139,14 @@ def test_ioo_location(client, settings):
 
 
 @pytest.mark.django_db
-def test_ioo_location_next(client, settings):
+def test_location_next(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     response = client.get(reverse('international_online_offer:location') + '?next=edit-your-answers')
     assert response.status_code == 200
 
 
 @pytest.mark.django_db
-def test_ioo_location_initial(client, user, settings):
+def test_location_initial(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     TriageData.objects.update_or_create(
         hashed_uuid='123',
@@ -160,7 +160,7 @@ def test_ioo_location_initial(client, user, settings):
 
 
 @pytest.mark.django_db
-def test_ioo_location_form_valid_saves_to_db(client, user, settings):
+def test_location_form_valid_saves_to_db(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:location')
     user.hashed_uuid = '123'
@@ -170,7 +170,7 @@ def test_ioo_location_form_valid_saves_to_db(client, user, settings):
 
 
 @pytest.mark.django_db
-def test_ioo_location_form_valid_saves_to_session(client, settings):
+def test_location_form_valid_saves_to_session(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:location')
     response = client.post(url, {'location': regions.WALES})
@@ -187,7 +187,7 @@ def test_triage_location_session(client, settings):
 
 
 @pytest.mark.django_db
-def test_ioo_hiring(client, settings):
+def test_hiring(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:hiring')
     response = client.get(url)
@@ -195,14 +195,14 @@ def test_ioo_hiring(client, settings):
 
 
 @pytest.mark.django_db
-def test_ioo_hiring_next(client, settings):
+def test_hiring_next(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     response = client.get(reverse('international_online_offer:hiring') + '?next=edit-your-answers')
     assert response.status_code == 200
 
 
 @pytest.mark.django_db
-def test_ioo_hiring_initial(client, user, settings):
+def test_hiring_initial(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     TriageData.objects.update_or_create(
         hashed_uuid='123',
@@ -216,7 +216,7 @@ def test_ioo_hiring_initial(client, user, settings):
 
 
 @pytest.mark.django_db
-def test_ioo_hiring_form_valid_saves_to_db(client, user, settings):
+def test_hiring_form_valid_saves_to_db(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:hiring')
     user.hashed_uuid = '123'
@@ -226,7 +226,7 @@ def test_ioo_hiring_form_valid_saves_to_db(client, user, settings):
 
 
 @pytest.mark.django_db
-def test_ioo_hiring_form_valid_saves_to_session(client, settings):
+def test_hiring_form_valid_saves_to_session(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:hiring')
     response = client.post(url, {'hiring': hirings.ONE_TO_TEN})
@@ -242,7 +242,7 @@ def test_triage_hiring_session(client, settings):
 
 
 @pytest.mark.django_db
-def test_ioo_spend(client, settings):
+def test_spend(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:spend')
     response = client.get(url)
@@ -250,7 +250,7 @@ def test_ioo_spend(client, settings):
 
 
 @pytest.mark.django_db
-def test_ioo_login(client, settings):
+def test_login(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:login')
     response = client.get(url)
@@ -258,7 +258,7 @@ def test_ioo_login(client, settings):
 
 
 @pytest.mark.django_db
-def test_ioo_signup(client, settings):
+def test_signup(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:signup')
     response = client.get(url)
@@ -266,14 +266,14 @@ def test_ioo_signup(client, settings):
 
 
 @pytest.mark.django_db
-def test_ioo_spend_next(client, settings):
+def test_spend_next(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     response = client.get(reverse('international_online_offer:spend') + '?next=edit-your-answers')
     assert response.status_code == 200
 
 
 @pytest.mark.django_db
-def test_ioo_spend_initial(client, user, settings):
+def test_spend_initial(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     TriageData.objects.update_or_create(
         hashed_uuid='123',
@@ -287,7 +287,7 @@ def test_ioo_spend_initial(client, user, settings):
 
 
 @pytest.mark.django_db
-def test_ioo_spend_form_valid_saves_to_db(client, user, settings):
+def test_spend_form_valid_saves_to_db(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:spend')
     user.hashed_uuid = '123'
@@ -297,7 +297,7 @@ def test_ioo_spend_form_valid_saves_to_db(client, user, settings):
 
 
 @pytest.mark.django_db
-def test_ioo_spend_form_valid_saves_to_session(client, settings):
+def test_spend_form_valid_saves_to_session(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:spend')
     response = client.post(url, {'spend': spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND})
@@ -314,7 +314,7 @@ def test_triage_spend_session(client, settings):
 
 
 @pytest.mark.django_db
-def test_ioo_profile(client, user, settings):
+def test_profile(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:profile')
     user.email = 'test@test.com'
@@ -359,7 +359,7 @@ def test_ioo_profile(client, user, settings):
     ),
 )
 @pytest.mark.django_db
-def test_ioo_profile_new_signup_vs_update(client, settings, form_data, expected_query_param):
+def test_profile_new_signup_vs_update(client, settings, form_data, expected_query_param):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:profile') + expected_query_param
     response = client.post(
@@ -371,7 +371,7 @@ def test_ioo_profile_new_signup_vs_update(client, settings, form_data, expected_
 
 
 @pytest.mark.django_db
-def test_ioo_profile_initial(client, user, settings):
+def test_profile_initial(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     UserData.objects.create(
         hashed_uuid='123',
@@ -393,7 +393,7 @@ def test_ioo_profile_initial(client, user, settings):
 
 
 @pytest.mark.django_db
-def test_ioo_edit_your_answers(client, settings):
+def test_edit_your_answers(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:edit-your-answers')
     response = client.get(url)
@@ -401,7 +401,7 @@ def test_ioo_edit_your_answers(client, settings):
 
 
 @pytest.mark.django_db
-def test_ioo_feedback(client, settings):
+def test_feedback(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:feedback')
     response = client.get(url)
@@ -424,7 +424,7 @@ def test_ioo_feedback(client, settings):
 )
 @mock.patch('directory_forms_api_client.actions.SaveOnlyInDatabaseAction')
 @pytest.mark.django_db
-def test_ioo_feedback_submit(mock_save_only_in_database_action, form_data, client, settings):
+def test_feedback_submit(mock_save_only_in_database_action, form_data, client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:feedback')
     response = client.post(

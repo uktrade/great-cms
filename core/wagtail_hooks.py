@@ -20,6 +20,7 @@ from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from great_components.helpers import add_next
+from wagtail.admin.menu import DismissibleMenuItem
 from wagtail.admin.views.pages.bulk_actions.page_bulk_action import PageBulkAction
 from wagtail.core import hooks
 from wagtail.core.models import Page
@@ -350,13 +351,13 @@ class MigratePage(PageBulkAction):
 
     # Only gives permission to change pages of the ArticlePage type currently
     def check_perm(self, page):
-        return type(page.specific) == ArticlePage
+        return type(page.specific) is ArticlePage
 
     # TODO update action to create microsite pages from the article pages contained in objects
     # Collect target page from the form in the template and append new pages as the children of that page
     @classmethod
     def execute_action(cls, objects, **kwargs):
-        if all(type(object.specific) == ArticlePage for object in objects):
+        if all(type(object.specific) is ArticlePage for object in objects):
             return len(objects), len([migrate_article_page_to_microsite(object.specific) for object in objects])
         else:
             raise NotImplementedError('execute_action needs to be implemented')
@@ -518,4 +519,16 @@ def toolbar_sticky_by_default():
             };
         </script>
         """
+    )
+
+
+@hooks.register('register_help_menu_item')
+def register_campaign_site_help_menu_item():
+    return DismissibleMenuItem(
+        _('Campaign Site, getting started'),
+        constants.MENU_ITEM_ADD_CAMPAIGN_SITE_LINK,
+        icon_name='help',
+        order=900,
+        attrs={'target': '_blank', 'rel': 'noreferrer'},
+        name='campaign-site',
     )

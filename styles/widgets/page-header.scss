@@ -132,16 +132,32 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
     margin-left: $x-large-padding;
     display: inline-flex;
 
+    &.experiment-landing-page-header {
+      margin-right: $x-large-padding;
+    }
+
     @media only screen and (min-width: $mobile-size) and (max-width: 980px) {
       margin-left: $large-padding;
+
+      &.experiment-landing-page-header {
+        margin-right: $large-padding;
+      }
     }
 
     @media only screen and (min-width: (1290px + $x-large-padding)) and (max-width: $max-header-width) {
       margin-left: calc((100vw - 1290px) / 2 + 23px);
+
+      &.experiment-landing-page-header {
+          margin-right: calc((100vw - 1290px) / 2 + 23px);
+      }
     }
 
     @media only screen and (min-width: $max-header-width) {
       margin-left: 0;
+
+      &.experiment-landing-page-header {
+          margin-right: 0;
+      }
     }
 
     >div:first-child {
@@ -149,8 +165,11 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
       padding-bottom: 60px;
       flex: 1;
       min-width: 420px;
-
       box-sizing: border-box;
+
+      &.experiment-landing-page-header {
+        min-width: 0;
+      }
 
       h1 {
         @media only screen and (max-width: 980px) {

@@ -15,7 +15,7 @@ module.exports = {
     components_styles:
       './core/components/sass/components/elements-components.scss',
     profile_styles: './sso_profile/common/sass/profile.scss',
-    ioo_styles: './international_online_offer/sass/main.scss',
+    expand_your_business_styles: './international_online_offer/sass/main.scss',
     microsite_styles: './styles/microsite/main.scss',
   },
   output: {

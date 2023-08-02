@@ -79,3 +79,69 @@ CONSENT_CHOICES = (
 USER_DATA_NAMES = {'ComparisonMarkets': 16384, 'UserProducts': 16384, 'UserMarkets': 16384, 'ActiveProduct': 256}
 
 COUNTRY_FACTSHEET_CTA_TITLE = 'View latest trade statistics'
+
+MENU_ITEM_ADD_CAMPAIGN_SITE_LINK = (
+    'https://workspace.trade.gov.uk/working-at-dbt/how-do-i/editing-greatgovuk-campaign-sites-getting-started/'
+)
+
+GET_EXPORT_HELP_CHOICE_TO_CONTENT_MAPPING = {
+    'finding_an_overseas_buyer': {
+        'title': 'Find an overseas buyer',
+        'links': [
+            {'text': 'Find an export opportunity', 'link': 'https://www.great.gov.uk/export-opportunities'},
+            {
+                'text': 'Ask the export support team a question',
+                'link': 'https://www.gov.uk/ask-export-support-team',
+            },
+        ],
+    },
+    'choosing_a_market': {
+        'title': 'Choose a market',
+        'links': [
+            {'text': 'Research a market', 'link': 'https://www.great.gov.uk/markets/'},
+            {'text': 'Find an export market', 'link': 'https://www.great.gov.uk/advice/find-an-export-market/'},
+        ],
+    },
+    'cost_of_exporting': {
+        'title': 'Cost of Exporting',
+        'links': [
+            {'text': 'Create an export plan', 'link': 'https://www.great.gov.uk/export-plan/'},
+            {
+                'text': 'Understand business risks when exporting',
+                'link': 'https://www.great.gov.uk/advice/prepare-to-do-business-in-a-foreign-country/understand-business-risks-when-exporting/',  # noqa: E501
+            },
+            {
+                'text': 'Get export finance',
+                'link': 'https://www.great.gov.uk/advice/get-export-finance-and-funding/',
+            },
+        ],
+    },
+    'duties_and_taxes': {
+        'title': 'Duties & Taxes',
+        'links': [
+            {
+                'text': 'Learn to Export  > Understand duties and taxes',
+                'link': 'https://www.great.gov.uk/learn/categories/selling-across-borders-product-and-services-regulations-licensing-and-logistics/get-your-goods-into-the-destination-country/understand-duties-and-taxes/',  # noqa: E501
+            }
+        ],
+    },
+    'how_to_start_exporting_today': {
+        'title': 'How to start exporting today',
+        'links': [
+            {'text': 'Learn to export', 'link': 'https://www.great.gov.uk/learn/categories/'},
+        ],
+    },
+    'other': {
+        'title': '',
+        'links': [
+            {'text': 'Choose a route to market', 'link': 'https://www.great.gov.uk/advice/define-route-to-market/'},
+            {'text': 'Sell services overseas', 'link': 'https://www.great.gov.uk/advice/sell-services-overseas/'},
+        ],
+    },
+    'not_sure': {
+        'title': '',
+        'links': [
+            {'text': 'Export Academy', 'link': 'https://www.great.gov.uk/export-academy/'},
+        ],
+    },
+}

@@ -16,7 +16,7 @@ from core.models import CMSGenericPage
 from directory_constants.choices import COUNTRY_CHOICES
 from domestic.models import BaseContentPage
 from international_online_offer.core import choices, constants, helpers
-from international_online_offer.forms import LocationSelectForm
+from international_online_offer.forms import LocationSelect
 
 
 def get_triage_data(hashed_uuid):
@@ -85,13 +85,13 @@ class IOOIndexPage(BaseContentPage):
     subpage_types = [
         'international_online_offer.IOOGuidePage',
     ]
-    template = 'ioo/index.html'
+    template = 'eyb/index.html'
 
 
 class IOOGuidePage(BaseContentPage):
     parent_page_types = ['international_online_offer.IOOIndexPage']
     subpage_types = ['international_online_offer.IOOArticlePage', 'international_online_offer.IOOTradePage']
-    template = 'ioo/guide.html'
+    template = 'eyb/guide.html'
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
@@ -146,7 +146,7 @@ class IOOArticlePage(BaseContentPage):
         'international_online_offer.IOOGuidePage',
     ]
     subpage_types = []
-    template = 'ioo/article.html'
+    template = 'eyb/article.html'
     article_title = models.TextField()
     article_subheading = StreamField(
         [
@@ -211,7 +211,9 @@ class IOOArticlePage(BaseContentPage):
         if helpers.is_authenticated(request):
             triage_data = get_triage_data(request.user.hashed_uuid)
             if triage_data:
-                location = request.GET.get('location', triage_data.location)
+                location = request.GET.get(
+                    'location', triage_data.location if triage_data.location else choices.regions.LONDON
+                )
                 region = helpers.get_salary_region_from_region(location)
                 sector_display = triage_data.get_sector_display()
 
@@ -272,7 +274,7 @@ class IOOArticlePage(BaseContentPage):
 
                 context.update(
                     triage_data=triage_data,
-                    location_form=LocationSelectForm(initial={'location': location}),
+                    location_form=LocationSelect(initial={'location': location}),
                     entry_salary=entry_salary,
                     mid_salary=mid_salary,
                     executive_salary=executive_salary,
@@ -299,7 +301,7 @@ class IOOArticlePage(BaseContentPage):
 class IOOTradePage(BaseContentPage):
     parent_page_types = ['international_online_offer.IOOGuidePage']
     subpage_types = ['international_online_offer.IOOTradeShowPage']
-    template = 'ioo/trade.html'
+    template = 'eyb/trade.html'
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
@@ -345,7 +347,7 @@ class IOOTradeShowPageTag(TaggedItemBase):
 class IOOTradeShowPage(BaseContentPage):
     parent_page_types = ['international_online_offer.IOOTradePage']
     subpage_types = []
-    template = 'ioo/trade.html'
+    template = 'eyb/trade.html'
     tradeshow_title = models.TextField()
     tradeshow_subheading = StreamField(
         [

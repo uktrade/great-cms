@@ -1,3 +1,8 @@
+ul {
+    list-style-type: none;
+    padding-inline-start: 0px;
+}
+
 @import "govuk-token-overrides";
 @import 'atlas/main.scss';
 @import "node_modules/govuk-frontend/govuk/all";
@@ -6,12 +11,22 @@
 @import 'article-list-item.scss';
 @import 'govuk-step-by-step.scss';
 
+body {
+    margin: 0;
+}
+
 .home-image {
     width: 100%;
 }
 
 .guide-edit-panel {
     border: 1px solid #C7C7C7;
+}
+
+.salary-location-form {
+    .atlas-button {
+        height: 40px;
+    }
 }
 
 .salary-component {
@@ -31,41 +46,6 @@
         margin-bottom: 10px;
     }
 
-    .salary-location-form {
-        display: inline-flex;
-        flex-wrap: wrap;
-
-        .govuk-form-label {
-            @extend %govuk-body-m;
-            margin-bottom: 0px;
-            display: block;
-        }
-
-        .atlas-button {
-            height: 49px;
-            margin-top: 25px;
-            margin-left: 10px;
-
-        }
-
-        .govuk-form-control {
-            min-width: 280px;
-            width: 286px;
-            height: 49px;
-            @extend %govuk-body-m;
-        }
-
-        @media (max-width: 640px) {
-            .atlas-button {
-                margin-left: 0px;
-                margin-top: 0px;
-                max-width: 286px;
-            }
-
-        }
-
-    }
-
     .salary-component-body {
         background-color: white;
 
@@ -83,12 +63,4 @@
         }
     }
 
-}
-
-.eyb-select {
-    .form-control {
-        height: 38px;
-        padding: 5px;
-        background-position: calc(100% - 20px) 0.75em, calc(100% - 10px) 0.75em;
-    }
 }
