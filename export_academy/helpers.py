@@ -1,4 +1,5 @@
 import hashlib
+import json
 from functools import wraps
 
 from django.conf import settings
@@ -7,10 +8,11 @@ from django.contrib.auth.views import redirect_to_login
 from django.db.models import Q
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 
-from export_academy.models import Event, Registration
+from export_academy.models import Booking, Event, Registration
 
 
 def get_register_button():
@@ -204,3 +206,19 @@ def get_registration_from_unique_link(idb64, token):
             return None
     except Registration.DoesNotExist:
         return None
+
+
+def update_booking(email, event_id, request):
+    try:
+        booking = Booking.objects.get(registration__email=email, event__id=event_id)
+    except Booking.DoesNotExist:
+        return
+
+    if booking.cookies_accepted_on_details_view:
+        return
+
+    cookies = json.loads(request.COOKIES.get('cookies_policy', '{}'))
+    cookies_set = cookies.get('usage', False)
+    booking.cookies_accepted_on_details_view = cookies_set
+    booking.details_viewed = timezone.now()
+    booking.save()

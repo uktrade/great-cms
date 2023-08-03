@@ -1,5 +1,6 @@
 import base64
 import hashlib
+import json
 from datetime import datetime, timedelta
 from unittest import mock
 
@@ -464,6 +465,8 @@ def test_export_academy_booking_cancellation_success(mock_notify_cancellation, c
 def test_event_detail_view_with_video(client, user):
     event = factories.EventFactory(name='Test event name', description='Test description')
     url = reverse('export_academy:event-details', kwargs=dict(pk=event.id))
+    client.force_login(user)
+
     response = client.get(url)
 
     assert response.status_code == 200
@@ -477,6 +480,23 @@ def test_event_detail_view_with_video(client, user):
     assert 'Duration:' in str(response.rendered_content)
     assert 'Test event name' in str(response.rendered_content)
     assert 'Test description' in str(response.rendered_content)
+
+
+@pytest.mark.django_db
+def test_event_detail_view_with_booking(client, user):
+    event = factories.EventFactory(name='Test event name', description='Test description')
+    url = reverse('export_academy:event-details', kwargs=dict(pk=event.id))
+    registration = factories.RegistrationFactory(email=user.email)
+    booking = factories.BookingFactory(event=event, registration=registration, status='Confirmed')
+    client.force_login(user)
+    client.cookies.load({'cookies_policy': json.dumps({'usage': True})})
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    booking = Booking.objects.get(id=booking.id)
+    assert booking.details_viewed is not None
+    assert booking.cookies_accepted_on_details_view is True
 
 
 @pytest.mark.django_db
