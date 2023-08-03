@@ -1,0 +1,25 @@
+{% load wagtailimages_tags %}
+{% load get_topic_blocks tag_text_mapper from content_tags %}
+
+{% for topic in cards|get_topic_blocks:request.GET.topic %}
+    {% if topic.block_type == 'topic' %}
+        {% for block in topic.value %}
+            {% if block.block_type == 'card' %}
+            <a href="{{block.value.link_url}}" class="govuk-!-margin-right-6 govuk-!-margin-bottom-6 govuk-!-padding-6 {% if block.value.full_width == 'yes' %}govuk-!-padding-bottom-8 {% endif %}great-topic-card {% if block.value.full_width == 'yes' %}great-topic-card--full-width{% else %}great-topic-card--half-width{% endif %}">
+                {% if block.value.image %}
+                    <div>{% image block.value.image width-450 %}</div>
+                {% endif %}
+                <div>
+                    <span class="govuk-tag great-tag great-tag--{{block.value.type}}">{{block.value.type|tag_text_mapper}}</span>
+                    <h2 class="{% if block.value.full_width == 'yes' %}govuk-heading-l {% else %}govuk-heading-xs {% endif %}govuk-!-margin-top-3 govuk-!-margin-bottom-2">{{block.value.title}}</h2>
+                    <p class="govuk-body govuk-!-margin-bottom-2">{{block.value.description}}</p>
+                    <span class="govuk-link great-text-blue great-chevron-link">{{block.value.link_text}}</span>
+                    {% if '/learn' in block.value.link_url %}
+                        <p class="govuk-body great-text-grey">(Sign in required)</p>
+                    {% endif %}
+                </div>
+            </a>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endfor %}

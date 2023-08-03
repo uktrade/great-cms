@@ -1723,12 +1723,12 @@ class SupportPage(cms_panels.SupportPanels, Page):
                         ('type', blocks.ChoiceBlock(choices=[('topic', 'Topic')], label='Type')),
                         ('card', SupportCardBlock()),
                         ('sidebar_item', SupportCardBlock()),
+                        ('related_item', SupportCardBlock()),
                     ],
                     block_counts={
                         'title': {'max_num': 1},
                         'description': {'max_num': 1},
                         'type': {'max_num': 1},
-                        'sidebar_item': {'min_num': 1},
                     },
                 ),
             ),

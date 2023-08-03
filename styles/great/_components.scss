@@ -619,6 +619,18 @@
   color: $great-white;
 }
 
+.great-tag--govuk {
+  background: $great-darker-grey;
+}
+
+.great-tag--howTo {
+  background: $great-purple;
+}
+
+.great-tag--tools {
+  background: $great-red;
+}
+
 .great-topic-card {
   background: $great-white;
   text-decoration: none;
@@ -627,11 +639,58 @@
   &:focus:active {
     background: $great-white;
   }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
 }
 
-.great-topic-card-wrapper {
+.great-topic-card--half-width {
+  flex-basis: calc(50% - 30px);
+}
+
+.great-topic-card--full-width {
+  display: flex;
+  position: relative;
+  flex-basis: calc(100% - 30px);
+
+  > div {
+    flex-basis: 50%;
+  }
+
+  img {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+}
+
+.great-card-wrapper {
   @include govuk-media-query($from: desktop) {
     flex-wrap: wrap;
     margin-right: -30px;
+  }
+}
+
+.great-sidebar-items {
+  .great-hr-blue:last-of-type {
+    display: none;
+  }
+}
+
+.great-related-items {
+  flex-wrap: wrap;
+}
+
+.great-related-item {
+  flex-basis: calc(33.333% - 20px);
+
+  @include govuk-media-query($from: desktop) {
+    margin-right: 30px;
+  }
+
+  &:nth-of-type(3n) {
+    margin-right: 0;
   }
 }
