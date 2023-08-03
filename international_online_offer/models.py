@@ -16,7 +16,7 @@ from core.models import CMSGenericPage
 from directory_constants.choices import COUNTRY_CHOICES
 from domestic.models import BaseContentPage
 from international_online_offer.core import choices, constants, helpers
-from international_online_offer.forms import LocationSelect
+from international_online_offer.forms import LocationSelectForm
 
 
 def get_triage_data(hashed_uuid):
@@ -205,7 +205,6 @@ class IOOArticlePage(BaseContentPage):
         FieldPanel('tags'),
     ]
 
-    # flake8: noqa: C901
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         if helpers.is_authenticated(request):
@@ -235,30 +234,19 @@ class IOOArticlePage(BaseContentPage):
                     entry_salary, mid_salary, executive_salary
                 )
 
-                try:
-                    large_warehouse_rent = RentData.objects.get(region__iexact=region, sub_vertical='Large Warehouses')
-                except RentData.DoesNotExist:
-                    large_warehouse_rent = None
-
-                try:
-                    small_warehouse_rent = RentData.objects.get(region__iexact=region, sub_vertical='Small Warehouses')
-                except RentData.DoesNotExist:
-                    small_warehouse_rent = None
-
-                try:
-                    shopping_centre = RentData.objects.get(region__iexact=region, sub_vertical='Prime shopping centre')
-                except RentData.DoesNotExist:
-                    shopping_centre = None
-
-                try:
-                    high_street_retail = RentData.objects.get(region__iexact=region, sub_vertical='High Street Retail')
-                except RentData.DoesNotExist:
-                    high_street_retail = None
-
-                try:
-                    work_office = RentData.objects.get(region__iexact=region, sub_vertical='Work Office')
-                except RentData.DoesNotExist:
-                    work_office = None
+                large_warehouse_rent = RentData.objects.filter(
+                    region__iexact=region, sub_vertical='Large Warehouses'
+                ).first()
+                small_warehouse_rent = RentData.objects.filter(
+                    region__iexact=region, sub_vertical='Small Warehouses'
+                ).first()
+                shopping_centre = RentData.objects.filter(
+                    region__iexact=region, sub_vertical='Prime shopping centre'
+                ).first()
+                high_street_retail = RentData.objects.filter(
+                    region__iexact=region, sub_vertical='High Street Retail'
+                ).first()
+                work_office = RentData.objects.filter(region__iexact=region, sub_vertical='Work Office').first()
 
                 (
                     large_warehouse_rent,
@@ -274,7 +262,7 @@ class IOOArticlePage(BaseContentPage):
 
                 context.update(
                     triage_data=triage_data,
-                    location_form=LocationSelect(initial={'location': location}),
+                    location_form=LocationSelectForm(initial={'location': location}),
                     entry_salary=entry_salary,
                     mid_salary=mid_salary,
                     executive_salary=executive_salary,
