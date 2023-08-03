@@ -15,7 +15,7 @@ from international_online_offer.models import (
     get_triage_data,
     get_triage_data_from_db_or_session,
     get_user_data,
-    get_user_data_from_db_or_session,
+    get_user_data_from_db,
 )
 from sso import helpers as sso_helpers, mixins as sso_mixins
 
@@ -367,7 +367,7 @@ class ProfileView(GA360Mixin, FormView):
     def get_context_data(self, **kwargs):
         title = self.COMPLETE_SIGN_UP_TITLE
         sub_title = self.COMPLETE_SIGN_UP_LOW_VALUE_SUB_TITLE
-        user_data = get_user_data_from_db_or_session(self.request)
+        user_data = get_user_data_from_db(self.request)
         triage_data = get_triage_data_from_db_or_session(self.request)
         # if full_name has been provided then the user has setup a profile before
         if user_data.full_name:
@@ -598,7 +598,7 @@ class EditYourAnswersView(GA360Mixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         triage_data = get_triage_data_from_db_or_session(self.request)
-        user_data = get_user_data_from_db_or_session(self.request)
+        user_data = get_user_data_from_db(self.request)
         return super().get_context_data(
             **kwargs,
             triage_data=triage_data,

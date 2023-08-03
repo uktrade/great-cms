@@ -236,7 +236,6 @@ class ActivityStreamExpandYourBusinessUserDataSerializer(serializers.ModelSerial
             'telephoneNumber',
             'agreeTerms',
             'agreeInfoEmail',
-            'agreeInfoTelephone',
             'landingTimeframe',
         ]
 
