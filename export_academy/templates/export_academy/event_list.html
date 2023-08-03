@@ -85,16 +85,18 @@
                                 </div>
 
                                 <div class="govuk-grid-column-one-quarter govuk-!-text-align-centre">
-                                    <div class="great-background-light-blue event-date-container">
-                                        <p class="weekday">{{ event.start_date|date:"D" }}</p>
-                                        <p class="date">{{ event.start_date|date:"j M" }}</p>
-                                        <p class="time">{{ event.start_date|date:"g:iA"|lower }}</p>
-                                    </div>
-                                    <div class="event-tags">
-                                        {% for type in event.types.all %}
-                                            <p class="great-background-light-blue margin-0 event-tag-item">{{ type }}</p>
-                                        {% endfor %}
-                                        <p class="great-background-light-blue margin-0 event-tag-item">{{ event.get_format_display }}</p>
+                                    <div class="event-wrapper great-background-light-blue">
+                                        <div class="event-date-container">
+                                            <p class="weekday">{{ event.start_date|date:"D" }}</p>
+                                            <p class="date">{{ event.start_date|date:"j M" }}</p>
+                                            <p class="time">{{ event.start_date|date:"g:iA"|lower }}</p>
+                                        </div>
+                                        <div class="event-tags">
+                                            {% for type in event.types.all %}
+                                                <p class="margin-0 event-tag-item">{{ type }}</p>
+                                            {% endfor %}
+                                            <p class="margin-0 event-tag-item">{{ event.get_format_display }}</p>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="govuk-grid-column-three-quarters">
