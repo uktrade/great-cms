@@ -64,19 +64,6 @@ def get_user_data_from_db_or_session(request):
                     if user_data:
                         return user_data
 
-    if hasattr(request, 'session'):
-        return UserData(
-            company_name=request.session.get('company_name'),
-            company_location=request.session.get('company_location'),
-            full_name=request.session.get('full_name'),
-            role=request.session.get('role'),
-            email=request.session.get('email'),
-            telephone_number=request.session.get('telephone_number'),
-            agree_terms=request.session.get('agree_terms'),
-            agree_info_email=request.session.get('agree_info_email'),
-            agree_info_telephone=request.session.get('agree_info_telephone'),
-        )
-
 
 class IOOIndexPage(BaseContentPage):
     parent_page_types = [
@@ -393,7 +380,6 @@ class UserData(models.Model):
     telephone_number = models.CharField(max_length=255)
     agree_terms = models.BooleanField(default=False)
     agree_info_email = models.BooleanField(default=False)
-    agree_info_telephone = models.BooleanField(default=False)
     landing_timeframe = models.CharField(
         null=True, default=None, max_length=255, choices=choices.LANDING_TIMEFRAME_CHOICES
     )

@@ -336,7 +336,6 @@ def test_profile(client, user, settings):
                 'telephone_number': '+447923456789',
                 'agree_terms': 'true',
                 'agree_info_email': '',
-                'agree_info_telephone': '',
                 'landing_timeframe': 'UNDER_SIX_MONTHS',
             },
             '?signup=true',
@@ -351,7 +350,6 @@ def test_profile(client, user, settings):
                 'telephone_number': '+447923456789',
                 'agree_terms': 'true',
                 'agree_info_email': '',
-                'agree_info_telephone': '',
                 'landing_timeframe': 'UNDER_SIX_MONTHS',
             },
             '',
@@ -383,7 +381,6 @@ def test_profile_initial(client, user, settings):
         telephone_number='07923456787',
         agree_terms=True,
         agree_info_email=False,
-        agree_info_telephone=False,
     )
     url = reverse('international_online_offer:spend')
     user.hashed_uuid = '123'

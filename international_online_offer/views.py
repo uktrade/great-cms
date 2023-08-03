@@ -397,7 +397,6 @@ class ProfileView(GA360Mixin, FormView):
             'telephone_number': '',
             'agree_terms': True,
             'agree_info_email': '',
-            'agree_info_telephone': '',
             'landing_timeframe': '',
         }
         if self.request.user.is_authenticated:
@@ -411,7 +410,6 @@ class ProfileView(GA360Mixin, FormView):
                 init_user_form_data['telephone_number'] = user_data.telephone_number
                 init_user_form_data['agree_terms'] = user_data.agree_terms
                 init_user_form_data['agree_info_email'] = user_data.agree_info_email
-                init_user_form_data['agree_info_telephone'] = user_data.agree_info_telephone
                 init_user_form_data['landing_timeframe'] = user_data.landing_timeframe
 
         return init_user_form_data
