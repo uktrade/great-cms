@@ -314,7 +314,7 @@ def test_triage_spend_session(client, settings):
 
 
 @pytest.mark.django_db
-def test_profile(client, user, settings):
+def test_eyb_profile(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:profile')
     user.email = 'test@test.com'
@@ -369,7 +369,7 @@ def test_profile_new_signup_vs_update(client, settings, form_data, expected_quer
 
 
 @pytest.mark.django_db
-def test_profile_initial(client, user, settings):
+def test_eyb_profile_initial(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     UserData.objects.create(
         hashed_uuid='123',
