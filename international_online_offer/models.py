@@ -73,9 +73,11 @@ class IOOGuidePage(BaseContentPage):
         )
         triage_data = get_triage_data_from_db_or_session(request)
 
-        trade_page = IOOTradePage.objects.filter().first()
+        # Get trade association and shows page (should only be one)
+        trade_page = IOOTradePage.objects.live().filter().first()
 
-        all_articles = self.get_children().live().type(IOOArticlePage)
+        # Get all live CMS created eyb articles
+        all_articles = IOOArticlePage.objects.live()
 
         get_to_know_market_articles = []
         complete_contact_form_message = constants.LOW_VALUE_INVESTOR_SIGNUP_MESSAGE

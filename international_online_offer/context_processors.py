@@ -2,8 +2,9 @@ from international_online_offer.models import UserData
 
 
 def eyb_user(request):
-    if request.user.is_authenticated:
-        return {'eyb_user': UserData.objects.filter(hashed_uuid=request.user.hashed_uuid).first()}
+    if hasattr(request.user, 'is_authenticated'):
+        if request.user.is_authenticated:
+            return {'eyb_user': UserData.objects.filter(hashed_uuid=request.user.hashed_uuid).first()}
     return {}
 
 

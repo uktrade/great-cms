@@ -79,9 +79,11 @@ class IOOTradeShowPageTests(WagtailPageTests):
 
 
 @pytest.mark.django_db
-def test_ioo_guide_page_content(rf):
+def test_ioo_guide_page_content(rf, user):
     guide_page = IOOGuidePage(title='Guide')
     request = rf.get(guide_page.url)
+    request.user = user
+    request.user.hashed_uuid = '123'
     context = guide_page.get_context(request)
     assert context['complete_contact_form_message'] == constants.LOW_VALUE_INVESTOR_SIGNUP_MESSAGE
     assert context['complete_contact_form_link_text'] == 'Sign up'

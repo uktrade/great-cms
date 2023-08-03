@@ -357,9 +357,11 @@ def test_eyb_profile(client, user, settings):
     ),
 )
 @pytest.mark.django_db
-def test_profile_new_signup_vs_update(client, settings, form_data, expected_query_param):
+def test_profile_new_signup_vs_update(client, settings, user, form_data, expected_query_param):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:profile') + expected_query_param
+    user.email = 'test@test.com'
+    client.force_login(user)
     response = client.post(
         url,
         form_data,
@@ -390,9 +392,11 @@ def test_eyb_profile_initial(client, user, settings):
 
 
 @pytest.mark.django_db
-def test_edit_your_answers(client, settings):
+def test_edit_your_answers(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:edit-your-answers')
+    user.hashed_uuid = '123'
+    client.force_login(user)
     response = client.get(url)
     assert response.status_code == 200
 
