@@ -206,11 +206,6 @@ class ProfileForm(forms.Form):
         label='I would like to receive additional information by email (optional)',
         widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
     )
-    agree_info_telephone = BooleanField(
-        required=False,
-        label='I would like to receive additional information by telephone (optional)',
-        widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
-    )
 
     def clean(self):
         cleaned_data = super().clean()
