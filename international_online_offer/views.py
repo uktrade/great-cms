@@ -15,7 +15,7 @@ from international_online_offer.models import (
     get_triage_data,
     get_triage_data_from_db_or_session,
     get_user_data,
-    get_user_data_from_db_or_session,
+    get_user_data_from_db,
 )
 from sso import helpers as sso_helpers, mixins as sso_mixins
 
@@ -367,10 +367,10 @@ class ProfileView(GA360Mixin, FormView):
     def get_context_data(self, **kwargs):
         title = self.COMPLETE_SIGN_UP_TITLE
         sub_title = self.COMPLETE_SIGN_UP_LOW_VALUE_SUB_TITLE
-        user_data = get_user_data_from_db_or_session(self.request)
+        user_data = get_user_data_from_db(self.request)
         triage_data = get_triage_data_from_db_or_session(self.request)
-        # if full_name has been provided then the user has setup a profile before
-        if user_data.full_name:
+        # if user_data has been provided then the user has setup a profile before
+        if user_data:
             title = self.PROFILE_DETAILS_TITLE
             sub_title = self.PROFILE_DETAILS_SUB_TITLE
         elif triage_data.is_high_value:
@@ -397,7 +397,6 @@ class ProfileView(GA360Mixin, FormView):
             'telephone_number': '',
             'agree_terms': True,
             'agree_info_email': '',
-            'agree_info_telephone': '',
             'landing_timeframe': '',
         }
         if self.request.user.is_authenticated:
@@ -411,7 +410,6 @@ class ProfileView(GA360Mixin, FormView):
                 init_user_form_data['telephone_number'] = user_data.telephone_number
                 init_user_form_data['agree_terms'] = user_data.agree_terms
                 init_user_form_data['agree_info_email'] = user_data.agree_info_email
-                init_user_form_data['agree_info_telephone'] = user_data.agree_info_telephone
                 init_user_form_data['landing_timeframe'] = user_data.landing_timeframe
 
         return init_user_form_data
@@ -600,7 +598,7 @@ class EditYourAnswersView(GA360Mixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         triage_data = get_triage_data_from_db_or_session(self.request)
-        user_data = get_user_data_from_db_or_session(self.request)
+        user_data = get_user_data_from_db(self.request)
         return super().get_context_data(
             **kwargs,
             triage_data=triage_data,
