@@ -182,6 +182,8 @@ class Booking(TimeStampedModel):
     event = ParentalKey(Event, on_delete=models.CASCADE, related_name='bookings')
     registration = models.ForeignKey(Registration, on_delete=models.CASCADE)
     status = models.CharField(choices=STATUSES, default=CONFIRMED, max_length=15)
+    details_viewed = models.DateTimeField(null=True, blank=True)
+    cookies_accepted_on_details_view = models.BooleanField(default=False)
 
     @property
     def is_cancelled(self):
