@@ -26,7 +26,7 @@ BLANK_COUNTRY_CHOICE = [('', '')]
 COUNTRIES = BLANK_COUNTRY_CHOICE + COUNTRY_CHOICES
 
 
-class Sector(forms.Form):
+class SectorForm(forms.Form):
     sector = ChoiceField(
         label='Enter a sector',
         help_text='Start searching for your sector and choose the best match from the suggested list',
@@ -39,7 +39,7 @@ class Sector(forms.Form):
     )
 
 
-class Intent(forms.Form):
+class IntentForm(forms.Form):
     intent = MultipleChoiceField(
         label='Select your expansion plans',
         help_text='Choose one or more options from the list',
@@ -68,7 +68,7 @@ class Intent(forms.Form):
             return cleaned_data
 
 
-class Location(forms.Form):
+class LocationForm(forms.Form):
     VALIDATION_MESSAGE_SELECT_OPTION = 'Please select a location or "not decided" to continue'
     VALIDATION_MESSAGE_SELECT_ONE_OPTION = 'Please select only one choice to continue'
     location = ChoiceField(
@@ -98,7 +98,7 @@ class Location(forms.Form):
             return cleaned_data
 
 
-class Hiring(forms.Form):
+class HiringForm(forms.Form):
     hiring = ChoiceField(
         label='How many people are you looking to hire in the UK?',
         help_text='Choose an estimate for the first three years of your project',
@@ -111,7 +111,7 @@ class Hiring(forms.Form):
     )
 
 
-class Spend(forms.Form):
+class SpendForm(forms.Form):
     spend = ChoiceField(
         label='What is your planned spend for UK entry or expansion?',
         help_text="""This is for the first three years of your project.
@@ -139,11 +139,14 @@ class Spend(forms.Form):
             return cleaned_data
 
 
-class Profile(forms.Form):
+class ProfileForm(forms.Form):
     company_name = CharField(
         label='Company name',
         required=True,
         widget=TextInput(attrs={'class': 'govuk-input'}),
+        error_messages={
+            'required': 'Enter your company name',
+        },
     )
     company_location = ChoiceField(
         label='Company headquarters',
@@ -156,33 +159,47 @@ class Profile(forms.Form):
         label='Full name',
         required=True,
         widget=TextInput(attrs={'class': 'govuk-input'}),
+        error_messages={
+            'required': 'Enter your full name',
+        },
     )
     role = CharField(
         label='Role',
         help_text='Your role within the company',
         required=True,
         widget=TextInput(attrs={'class': 'govuk-input'}),
+        error_messages={
+            'required': 'Enter your role within the company',
+        },
     )
     email = forms.EmailField(
         label='Email',
         required=True,
         widget=EmailInput(attrs={'class': 'govuk-input'}),
+        error_messages={
+            'required': 'You must enter an email address',
+        },
     )
     telephone_number = CharField(
         label='Telephone number',
         help_text='Please include the country code',
         required=True,
         widget=TextInput(attrs={'class': 'govuk-input'}),
+        error_messages={
+            'required': 'Enter your telephone number',
+        },
     )
     landing_timeframe = ChoiceField(
         label='When do you expect to launch your new UK operation?',
         required=True,
         choices=(('', ''),) + choices.LANDING_TIMEFRAME_CHOICES,
         widget=Select(attrs={'class': 'govuk-select'}),
+        error_messages={
+            'required': 'Select when you expect to launch your new UK operation from the list',
+        },
     )
     agree_terms = BooleanField(
-        required=True,
-        label=TERMS_LABEL,
+        required=True, label=TERMS_LABEL, widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'})
     )
     agree_info_email = BooleanField(
         required=False,
@@ -199,12 +216,12 @@ class Profile(forms.Form):
         cleaned_data = super().clean()
         company_location = cleaned_data.get('company_location')
         if not company_location:
-            self.add_error('company_location', 'This field is required.')
+            self.add_error('company_location', 'Enter the country of your company headquarters')
         else:
             return cleaned_data
 
 
-class Login(forms.Form):
+class LoginForm(forms.Form):
     email = EmailField(
         label='Email',
         required=True,
@@ -223,7 +240,7 @@ class Login(forms.Form):
     )
 
 
-class SignUp(forms.Form):
+class SignUpForm(forms.Form):
     email = EmailField(
         label='Email',
         required=True,
@@ -233,9 +250,9 @@ class SignUp(forms.Form):
         },
     )
     password = CharField(
-        label='Password',
-        help_text="""Your password should be a minimum of 10
-        characters and include letters, numbers or special characters""",
+        label='Create password',
+        help_text="""Your password must be a minimum of 10 characters and must include
+          a combination of letters, numbers or special characters.""",
         required=True,
         widget=PasswordInput(attrs={'class': 'govuk-input'}),
         error_messages={
@@ -244,7 +261,7 @@ class SignUp(forms.Form):
     )
 
 
-class CodeConfirm(forms.Form):
+class CodeConfirmForm(forms.Form):
     code_confirm = CharField(
         label='Confirmation code',
         widget=TextInput(attrs={'class': 'govuk-input'}),
@@ -254,7 +271,7 @@ class CodeConfirm(forms.Form):
     )
 
 
-class LocationSelect(forms.Form):
+class LocationSelectForm(forms.Form):
     location = ChoiceField(
         label='Select a location',
         choices=choices.REGION_CHOICES,
@@ -262,7 +279,7 @@ class LocationSelect(forms.Form):
     )
 
 
-class Feedback(forms.Form):
+class FeedbackForm(forms.Form):
     satisfaction = ChoiceField(
         label='1. Overall, how do you feel about your use of the Expand your Business digital service today?',
         choices=choices.SATISFACTION_CHOICES,
