@@ -26,13 +26,6 @@ def get_triage_data(hashed_uuid):
         return None
 
 
-def get_user_data(hashed_uuid):
-    try:
-        return UserData.objects.get(hashed_uuid=hashed_uuid)
-    except UserData.DoesNotExist:
-        return None
-
-
 def get_triage_data_from_db_or_session(request):
     if hasattr(request, 'user'):
         if hasattr(request.user, 'is_authenticated'):
@@ -55,16 +48,6 @@ def get_triage_data_from_db_or_session(request):
         )
 
 
-def get_user_data_from_db(request):
-    if hasattr(request, 'user'):
-        if hasattr(request.user, 'is_authenticated'):
-            if request.user.is_authenticated:
-                if hasattr(request.user, 'hashed_uuid'):
-                    user_data = get_user_data(request.user.hashed_uuid)
-                    if user_data:
-                        return user_data
-
-
 class IOOIndexPage(BaseContentPage):
     parent_page_types = [
         'domestic.StructuralPage',
@@ -82,10 +65,18 @@ class IOOGuidePage(BaseContentPage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
+
+        user_data = (
+            UserData.objects.filter(hashed_uuid=request.user.hashed_uuid).first()
+            if request.user.is_authenticated
+            else None
+        )
         triage_data = get_triage_data_from_db_or_session(request)
-        user_data = get_user_data_from_db(request)
-        trade_page = helpers.get_trade_page(self.get_children().live().type(IOOTradePage))
+
+        trade_page = IOOTradePage.objects.filter().first()
+
         all_articles = self.get_children().live().type(IOOArticlePage)
+
         get_to_know_market_articles = []
         complete_contact_form_message = constants.LOW_VALUE_INVESTOR_SIGNUP_MESSAGE
         if triage_data:

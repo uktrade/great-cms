@@ -575,7 +575,7 @@
         </div>
     </div>
     {% endif %}
-    {% if get_to_know_market_articles %}
+    {% if get_to_know_market_articles or trade_page and triage_data.sector %}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
             <h2 class="govuk-heading-l">Your personalised guide to expanding your business</h2>
@@ -583,7 +583,7 @@
         </div>
     </div>
     <div class="govuk-grid-row govuk-!-margin-bottom-6">
-        {% if trade_page %}
+        {% if trade_page and triage_data.sector %}
         <div class="govuk-grid-column-full">
             <div class="article-list-item">
                 {% if eyb_user %}

@@ -15,8 +15,6 @@ from international_online_offer.models import (
     UserData,
     get_triage_data,
     get_triage_data_from_db_or_session,
-    get_user_data,
-    get_user_data_from_db,
 )
 
 
@@ -121,25 +119,6 @@ def test_ioo_guide_get_triage_data(rf):
 
 
 @pytest.mark.django_db
-def test_ioo_guide_get_user_data_none(rf):
-    data = get_user_data('testId')
-    assert data is None
-
-
-@pytest.mark.django_db
-def test_ioo_guide_get_user_data(rf):
-    UserData.objects.update_or_create(
-        hashed_uuid='testId',
-        defaults={'full_name': 'Joe', 'company_name': 'DBT'},
-    )
-    data = get_user_data('testId')
-    assert data is not None
-    assert data.hashed_uuid == 'testId'
-    assert data.full_name == 'Joe'
-    assert data.company_name == 'DBT'
-
-
-@pytest.mark.django_db
 def test_ioo_guide_get_triage_from_db_not_session(rf, user, get_response):
     TriageData.objects.update_or_create(
         hashed_uuid='123',
@@ -180,7 +159,7 @@ def test_ioo_guide_get_user_from_db(rf, user):
     request = rf.get(guide_page.url)
     request.user = user
     request.user.hashed_uuid = '123'
-    user_data = get_user_data_from_db(request)
+    user_data = UserData.objects.filter(hashed_uuid=request.user.hashed_uuid).first()
     assert user_data is not None
     assert user_data.full_name == 'Joe'
     assert user_data.company_name == 'DBT'
