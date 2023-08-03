@@ -1,6 +1,5 @@
 {% extends 'domestic/base.html' %}
 {% load breadcrumbs from component_tags %}
-{% load get_topic_blocks from content_tags %}
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
 {% load static %}
@@ -18,9 +17,8 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
                 {% if request.GET.topic %}
-                    <a href="/support/support/" class="govuk-link">Back</a>
-                    <p class="govuk-body govuk-!-margin-bottom-0">Support</p>
-                    <h1 class="govuk-heading-xl govuk-!-margin-bottom-4">{{ request.GET.topic }}</h1>
+                    <p class="govuk-body govuk-!-margin-top-7 govuk-!-margin-bottom-0">Support</p>
+                    <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">{{ request.GET.topic }}</h1>
                 {% else %}
                 <div class="govuk-grid-row great-height-360-desktop great-overflow-hidden">
                     <div class="govuk-grid-column-one-third">
@@ -43,48 +41,21 @@
                 {% if page.page_body %}
                     {% if request.GET.topic %}
                     <div class="govuk-grid-row">
-                        <div class="govuk-grid-column-two-thirds">
-                            <div class="govuk-!-padding-top-6 govuk-!-padding-bottom-6 great-display-flex-desktop great-flex-wrap">
-                            {% for topic in page.page_body|get_topic_blocks:request.GET.topic %}
-                                {% if topic.block_type == 'topic' %}
-                                    {% for block in topic.value %}
-                                        {% if block.block_type == 'card' %}
-                                        <div class="govuk-!-margin-right-6 govuk-!-padding-6 great-bg-white {% if block.value.full_width == 'yes' %}govuk-!-margin-top-6 govuk-!-margin-bottom-6 great-full-width{% endif %}">
-                                            {% if block.value.image %}
-                                                <div>{% image block.value.image width-200 %}</div>
-                                            {% endif %}
-                                            <span class="govuk-tag great-text-white">{{block.value.type}}</span>
-                                            <h3 class="govuk-heading-s govuk-!-margin-bottom-0">{{block.value.title}}</h3>
-                                            <p class="govuk-body govuk-!-margin-bottom-0">{{block.value.description}}</p>
-                                            <a href="{{block.value.link_url}}" class="govuk-link" target="_blank">{{block.value.link_text}}</a>
-                                        </div>
-                                        {% endif %}
-                                    {% endfor %}
-                                {% endif %}
-                            {% endfor %}
+                        <div class="govuk-grid-column-three-quarters">
+                            <div class="govuk-!-padding-top-6 great-display-flex-desktop great-card-wrapper">
+                                {% include 'domestic/contact/export-support/includes/topic-landing-card.html' with cards=page.page_body %}
+                            </div>
+                            <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-bg-white great-display-flex-desktop great-related-items">
+                                {% include 'domestic/contact/export-support/includes/related-items.html' with items=page.page_body %}
                             </div>
                         </div>
-                        <div class="govuk-grid-column-one-third govuk-!-padding-top-6">
-                            {% for topic in page.page_body|get_topic_blocks:request.GET.topic %}
-                                {% if topic.block_type == 'topic' %}
-                                <div class="govuk-!-margin-right-6 govuk-!-margin-bottom-6 govuk-!-padding-6 great-bg-white">
-                                    {% for block in topic.value %}
-                                        {% if block.block_type == 'sidebar_item' %}
-                                        <div class="govuk-!-margin-bottom-4">
-                                            <h3 class="govuk-heading-s govuk-!-margin-bottom-0">{{block.value.title}}</h3>
-                                            <p class="govuk-body govuk-!-margin-bottom-0">{{block.value.description}}</p>
-                                            <a href="{{block.value.link_url}}" class="govuk-link" target="_blank">{{block.value.link_text}}</a>
-                                        </div>
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
-                                {% endif %}
-                            {% endfor %}
+                        <div class="govuk-grid-column-one-quarter govuk-!-padding-top-6">
+                            {% include 'domestic/contact/export-support/includes/sidebar-items.html' with items=page.page_body %}
                         </div>
                     </div>
                     {% else %}
                     <div class="great-full-width-bar great-bg-lighter-grey">
-                        <div class="govuk-!-padding-top-6 govuk-!-padding-bottom-9 great-display-flex-desktop great-topic-card-wrapper">
+                        <div class="govuk-!-padding-top-6 govuk-!-padding-bottom-9 great-display-flex-desktop great-card-wrapper">
                             {% include 'domestic/contact/export-support/includes/topic-card.html' with topics=page.page_body %}
                         </div>
                     {% endif %}

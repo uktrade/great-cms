@@ -24,6 +24,7 @@ from core.templatetags.content_tags import (
     is_placeholder_page,
     make_bold,
     str_to_datetime,
+    tag_text_mapper,
 )
 from core.templatetags.object_tags import get_item
 from core.templatetags.progress_bar import progress_bar
@@ -750,4 +751,17 @@ def test_make_bold_tag():
 def test_highlighted_text():
     result = highlighted_text(['a', 'b'])
     expected_output = '<span class="great-highlighted-text">a, </span><span class="great-highlighted-text">b</span>'
+    assert result == expected_output
+
+
+@pytest.mark.parametrize(
+    'input, expected_output',
+    (
+        ('howTo', 'How to'),
+        ('govuk', 'GOV.UK'),
+        ('something else', 'something else'),
+    ),
+)
+def test_tag_text_mapper(input, expected_output):
+    result = tag_text_mapper(input)
     assert result == expected_output

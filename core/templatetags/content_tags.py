@@ -308,3 +308,13 @@ def highlighted_text(elems):
         s += f'<span class="great-highlighted-text">{text}</span>'
 
     return mark_safe(s)
+
+
+@register.filter
+def tag_text_mapper(text):
+    if text == 'howTo':
+        return 'How to'
+    if text == 'govuk':
+        return 'GOV.UK'
+
+    return text
