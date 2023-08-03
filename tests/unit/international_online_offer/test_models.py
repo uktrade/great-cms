@@ -16,7 +16,7 @@ from international_online_offer.models import (
     get_triage_data,
     get_triage_data_from_db_or_session,
     get_user_data,
-    get_user_data_from_db_or_session,
+    get_user_data_from_db,
 )
 
 
@@ -171,20 +171,7 @@ def test_ioo_guide_get_triage_from_session_not_db(rf, get_response):
 
 
 @pytest.mark.django_db
-def test_ioo_guide_get_user_from_session_not_db(rf, get_response):
-    guide_page = IOOGuidePage(title='Guide')
-    request = rf.get(guide_page.url)
-    middleware = SessionMiddleware(get_response)
-    middleware.process_request(request)
-    request.session.save()
-    request.session['full_name'] = 'full_name'
-    user_data_session = get_user_data_from_db_or_session(request)
-    assert user_data_session is not None
-    assert user_data_session.full_name == 'full_name'
-
-
-@pytest.mark.django_db
-def test_ioo_guide_get_user_from_db_not_session(rf, user):
+def test_ioo_guide_get_user_from_db(rf, user):
     UserData.objects.update_or_create(
         hashed_uuid='123',
         defaults={'full_name': 'Joe', 'company_name': 'DBT'},
@@ -193,7 +180,7 @@ def test_ioo_guide_get_user_from_db_not_session(rf, user):
     request = rf.get(guide_page.url)
     request.user = user
     request.user.hashed_uuid = '123'
-    user_data = get_user_data_from_db_or_session(request)
+    user_data = get_user_data_from_db(request)
     assert user_data is not None
     assert user_data.full_name == 'Joe'
     assert user_data.company_name == 'DBT'

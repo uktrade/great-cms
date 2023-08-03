@@ -120,7 +120,7 @@ GET_EXPORT_HELP_CHOICE_TO_CONTENT_MAPPING = {
         'title': 'Duties & Taxes',
         'links': [
             {
-                'text': 'Learn to Export  > Understand duties and taxes',
+                'text': 'Understand duties and taxes',
                 'link': 'https://www.great.gov.uk/learn/categories/selling-across-borders-product-and-services-regulations-licensing-and-logistics/get-your-goods-into-the-destination-country/understand-duties-and-taxes/',  # noqa: E501
             }
         ],

@@ -178,6 +178,16 @@ def get_salary_data(entry_salary, mid_salary, executive_salary):
     if executive_salary:
         executive_salary = int(executive_salary)
 
+    # Change requested to hide salary if numbers are smaller than lower band
+    if executive_salary and mid_salary and executive_salary < mid_salary:
+        executive_salary = None
+
+    if executive_salary and entry_salary and executive_salary < entry_salary:
+        executive_salary = None
+
+    if mid_salary and entry_salary and mid_salary < entry_salary:
+        mid_salary = None
+
     return entry_salary, mid_salary, executive_salary
 
 

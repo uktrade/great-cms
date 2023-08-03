@@ -16,7 +16,7 @@ from core.models import CMSGenericPage
 from directory_constants.choices import COUNTRY_CHOICES
 from domestic.models import BaseContentPage
 from international_online_offer.core import choices, constants, helpers
-from international_online_offer.forms import LocationSelect
+from international_online_offer.forms import LocationSelectForm
 
 
 def get_triage_data(hashed_uuid):
@@ -55,7 +55,7 @@ def get_triage_data_from_db_or_session(request):
         )
 
 
-def get_user_data_from_db_or_session(request):
+def get_user_data_from_db(request):
     if hasattr(request, 'user'):
         if hasattr(request.user, 'is_authenticated'):
             if request.user.is_authenticated:
@@ -63,19 +63,6 @@ def get_user_data_from_db_or_session(request):
                     user_data = get_user_data(request.user.hashed_uuid)
                     if user_data:
                         return user_data
-
-    if hasattr(request, 'session'):
-        return UserData(
-            company_name=request.session.get('company_name'),
-            company_location=request.session.get('company_location'),
-            full_name=request.session.get('full_name'),
-            role=request.session.get('role'),
-            email=request.session.get('email'),
-            telephone_number=request.session.get('telephone_number'),
-            agree_terms=request.session.get('agree_terms'),
-            agree_info_email=request.session.get('agree_info_email'),
-            agree_info_telephone=request.session.get('agree_info_telephone'),
-        )
 
 
 class IOOIndexPage(BaseContentPage):
@@ -96,7 +83,7 @@ class IOOGuidePage(BaseContentPage):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         triage_data = get_triage_data_from_db_or_session(request)
-        user_data = get_user_data_from_db_or_session(request)
+        user_data = get_user_data_from_db(request)
         trade_page = helpers.get_trade_page(self.get_children().live().type(IOOTradePage))
         all_articles = self.get_children().live().type(IOOArticlePage)
         get_to_know_market_articles = []
@@ -205,7 +192,6 @@ class IOOArticlePage(BaseContentPage):
         FieldPanel('tags'),
     ]
 
-    # flake8: noqa: C901
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         if helpers.is_authenticated(request):
@@ -235,30 +221,19 @@ class IOOArticlePage(BaseContentPage):
                     entry_salary, mid_salary, executive_salary
                 )
 
-                try:
-                    large_warehouse_rent = RentData.objects.get(region__iexact=region, sub_vertical='Large Warehouses')
-                except RentData.DoesNotExist:
-                    large_warehouse_rent = None
-
-                try:
-                    small_warehouse_rent = RentData.objects.get(region__iexact=region, sub_vertical='Small Warehouses')
-                except RentData.DoesNotExist:
-                    small_warehouse_rent = None
-
-                try:
-                    shopping_centre = RentData.objects.get(region__iexact=region, sub_vertical='Prime shopping centre')
-                except RentData.DoesNotExist:
-                    shopping_centre = None
-
-                try:
-                    high_street_retail = RentData.objects.get(region__iexact=region, sub_vertical='High Street Retail')
-                except RentData.DoesNotExist:
-                    high_street_retail = None
-
-                try:
-                    work_office = RentData.objects.get(region__iexact=region, sub_vertical='Work Office')
-                except RentData.DoesNotExist:
-                    work_office = None
+                large_warehouse_rent = RentData.objects.filter(
+                    region__iexact=region, sub_vertical='Large Warehouses'
+                ).first()
+                small_warehouse_rent = RentData.objects.filter(
+                    region__iexact=region, sub_vertical='Small Warehouses'
+                ).first()
+                shopping_centre = RentData.objects.filter(
+                    region__iexact=region, sub_vertical='Prime shopping centre'
+                ).first()
+                high_street_retail = RentData.objects.filter(
+                    region__iexact=region, sub_vertical='High Street Retail'
+                ).first()
+                work_office = RentData.objects.filter(region__iexact=region, sub_vertical='Work Office').first()
 
                 (
                     large_warehouse_rent,
@@ -274,7 +249,7 @@ class IOOArticlePage(BaseContentPage):
 
                 context.update(
                     triage_data=triage_data,
-                    location_form=LocationSelect(initial={'location': location}),
+                    location_form=LocationSelectForm(initial={'location': location}),
                     entry_salary=entry_salary,
                     mid_salary=mid_salary,
                     executive_salary=executive_salary,
@@ -405,7 +380,6 @@ class UserData(models.Model):
     telephone_number = models.CharField(max_length=255)
     agree_terms = models.BooleanField(default=False)
     agree_info_email = models.BooleanField(default=False)
-    agree_info_telephone = models.BooleanField(default=False)
     landing_timeframe = models.CharField(
         null=True, default=None, max_length=255, choices=choices.LANDING_TIMEFRAME_CHOICES
     )
