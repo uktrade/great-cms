@@ -503,6 +503,7 @@ def test_event_detail_view_with_booking(client, user):
 def test_event_detail_view_no_video(client, user):
     event = factories.EventFactory(video_recording=None)
     url = reverse('export_academy:event-details', kwargs=dict(pk=event.id))
+    client.force_login(user)
     response = client.get(url)
 
     assert response.status_code == 200
