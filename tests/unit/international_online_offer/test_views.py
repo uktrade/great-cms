@@ -314,7 +314,7 @@ def test_triage_spend_session(client, settings):
 
 
 @pytest.mark.django_db
-def test_profile(client, user, settings):
+def test_eyb_profile(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:profile')
     user.email = 'test@test.com'
@@ -336,7 +336,6 @@ def test_profile(client, user, settings):
                 'telephone_number': '+447923456789',
                 'agree_terms': 'true',
                 'agree_info_email': '',
-                'agree_info_telephone': '',
                 'landing_timeframe': 'UNDER_SIX_MONTHS',
             },
             '?signup=true',
@@ -351,7 +350,6 @@ def test_profile(client, user, settings):
                 'telephone_number': '+447923456789',
                 'agree_terms': 'true',
                 'agree_info_email': '',
-                'agree_info_telephone': '',
                 'landing_timeframe': 'UNDER_SIX_MONTHS',
             },
             '',
@@ -371,7 +369,7 @@ def test_profile_new_signup_vs_update(client, settings, form_data, expected_quer
 
 
 @pytest.mark.django_db
-def test_profile_initial(client, user, settings):
+def test_eyb_profile_initial(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     UserData.objects.create(
         hashed_uuid='123',
@@ -383,7 +381,6 @@ def test_profile_initial(client, user, settings):
         telephone_number='07923456787',
         agree_terms=True,
         agree_info_email=False,
-        agree_info_telephone=False,
     )
     url = reverse('international_online_offer:spend')
     user.hashed_uuid = '123'

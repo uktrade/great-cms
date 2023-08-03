@@ -29,6 +29,7 @@ from export_academy.helpers import (
     calender_content,
     get_badges_for_event,
     get_buttons_for_event,
+    update_booking,
 )
 from export_academy.mixins import (
     BookingMixin,
@@ -148,6 +149,10 @@ class EventDetailsView(DetailView):
             ctx['video_duration'] = format_timedelta(timedelta(seconds=event.video_recording.duration))
 
         return ctx
+
+    def get(self, request, *args, **kwargs):
+        update_booking(request.user.email, kwargs['pk'], request)
+        return super().get(request, *args, **kwargs)
 
 
 @extend_schema(exclude=True)
