@@ -166,7 +166,6 @@ def is_authenticated(request):
     return request.user.is_authenticated
 
 
-# flake8: noqa: C901
 def get_salary_data(entry_salary, mid_salary, executive_salary):
     entry_salary = entry_salary.get('median_salary__avg')
     mid_salary = mid_salary.get('median_salary__avg')
@@ -180,17 +179,14 @@ def get_salary_data(entry_salary, mid_salary, executive_salary):
         executive_salary = int(executive_salary)
 
     # Change requested to hide salary if numbers are smaller than lower band
-    if executive_salary and mid_salary:
-        if executive_salary < mid_salary:
-            executive_salary = None
+    if executive_salary and mid_salary and executive_salary < mid_salary:
+        executive_salary = None
 
-    if executive_salary and entry_salary:
-        if executive_salary < entry_salary:
-            executive_salary = None
+    if executive_salary and entry_salary and executive_salary < entry_salary:
+        executive_salary = None
 
-    if mid_salary and entry_salary:
-        if mid_salary < entry_salary:
-            mid_salary = None
+    if mid_salary and entry_salary and mid_salary < entry_salary:
+        mid_salary = None
 
     return entry_salary, mid_salary, executive_salary
 
