@@ -8,7 +8,7 @@
 <div class="govuk-hint govuk-!-margin-bottom-2">{{field.help_text|safe }}</div>
 {% endif %}
 {% for error in field.errors %}
-    <p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> {{ error }}</p>
+    <p class="govuk-error-message" role="alert"><span class="govuk-visually-hidden">Error:</span> {{ error }}</p>
 {% endfor %}
 {% if inputWrapperClass %}
 <div class="{{inputWrapperClass}}">

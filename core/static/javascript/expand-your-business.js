@@ -243,6 +243,11 @@ function onSubmitLocation() {
     document.getElementById('js-location-select-select').value = '';
 }
 
+function onSubmitProfile() {
+  if (!document.getElementById('js-company-location-select').value)
+    document.getElementById('js-company-location-select-select').value = '';
+}
+
 function handleSpendRadioClick(radio) {
   if (otherRadioElement.checked == false) {
     document.getElementById('id_spend_other').value = '';

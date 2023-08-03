@@ -40,9 +40,11 @@
                 Your expansion guide will take you through the most important things to consider when expanding your business in the UK. You'll find a step by step guide to setting up in the UK and a personalised guide tailored for your sector.
             </p>
             {% if not eyb_user %}
-            <p class="govuk-body govuk-!-margin-bottom-6">
-                <a class="govuk-link" href="{% url 'international_online_offer:signup' %}">Sign up to our free self-service tool</a> to access a personalised guide that's tailored to your expansion plans.
-            </p>
+                {% if not triage_data.is_high_value %}
+                    <p class="govuk-body govuk-!-margin-bottom-6">
+                        <a class="govuk-link" href="{% url 'international_online_offer:signup' %}">Sign up to our free self-service tool</a> to access a personalised guide that's tailored to your expansion plans.
+                    </p>
+                {% endif %}
             {% endif %}
         </div>
     </div>
