@@ -145,7 +145,7 @@ class ProfileForm(forms.Form):
         required=True,
         widget=TextInput(attrs={'class': 'govuk-input'}),
         error_messages={
-            'required': 'You must enter a company name',
+            'required': 'Enter your company name',
         },
     )
     company_location = ChoiceField(
@@ -160,7 +160,7 @@ class ProfileForm(forms.Form):
         required=True,
         widget=TextInput(attrs={'class': 'govuk-input'}),
         error_messages={
-            'required': 'You must enter a full name',
+            'required': 'Enter your full name',
         },
     )
     role = CharField(
@@ -169,7 +169,7 @@ class ProfileForm(forms.Form):
         required=True,
         widget=TextInput(attrs={'class': 'govuk-input'}),
         error_messages={
-            'required': 'You must enter a role',
+            'required': 'Enter your role within the company',
         },
     )
     email = forms.EmailField(
@@ -186,7 +186,7 @@ class ProfileForm(forms.Form):
         required=True,
         widget=TextInput(attrs={'class': 'govuk-input'}),
         error_messages={
-            'required': 'You must enter a telephone number',
+            'required': 'Enter your telephone number',
         },
     )
     landing_timeframe = ChoiceField(
@@ -195,7 +195,7 @@ class ProfileForm(forms.Form):
         choices=(('', ''),) + choices.LANDING_TIMEFRAME_CHOICES,
         widget=Select(attrs={'class': 'govuk-select'}),
         error_messages={
-            'required': 'You must select an expected launch timeframe',
+            'required': 'Select when you expect to launch your new UK operation from the list',
         },
     )
     agree_terms = BooleanField(
@@ -216,7 +216,7 @@ class ProfileForm(forms.Form):
         cleaned_data = super().clean()
         company_location = cleaned_data.get('company_location')
         if not company_location:
-            self.add_error('company_location', 'You must select a company headquarters location')
+            self.add_error('company_location', 'Enter the country of your company headquarters')
         else:
             return cleaned_data
 
