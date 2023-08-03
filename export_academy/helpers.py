@@ -217,7 +217,7 @@ def update_booking(email, event_id, request):
     if booking.cookies_accepted_on_details_view:
         return
 
-    cookies = json.loads(request.COOKIES.get('cookies_policy', '{}'))
+    cookies = json.loads(request.COOKIES.get('cookies_policy', '{}'))  # noqa: P103
     cookies_set = cookies.get('usage', False)
     booking.cookies_accepted_on_details_view = cookies_set
     booking.details_viewed = timezone.now()
