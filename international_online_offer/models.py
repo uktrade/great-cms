@@ -290,7 +290,7 @@ class IOOTradePage(BaseContentPage):
         all_tradeshows = []
         all_trade_associations = []
         if triage_data:
-            all_tradeshows = IOOTradeShowPage.live().filter(tags__name=triage_data.sector)
+            all_tradeshows = IOOTradeShowPage.objects.live().filter(tags__name=triage_data.sector)
             # Given the sector selected we need to get mapped trade association sectors to query
             # with due to misalignment of sector names across DBT
             trade_association_sectors = helpers.get_trade_assoication_sectors_from_sector(triage_data.sector)
