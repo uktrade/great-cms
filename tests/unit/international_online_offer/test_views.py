@@ -384,7 +384,7 @@ def test_eyb_profile_initial(client, user, settings):
         agree_terms=True,
         agree_info_email=False,
     )
-    url = reverse('international_online_offer:spend')
+    url = reverse('international_online_offer:profile')
     user.hashed_uuid = '123'
     client.force_login(user)
     response = client.get(url)
