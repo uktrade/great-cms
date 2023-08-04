@@ -14,6 +14,7 @@ footer {
       align-items: center;
       display: inline-flex;
       flex-direction: row;
+      justify-content: space-between;
       max-width: $content-max-width;
       padding: $large-padding $x-large-padding;
       gap: $large-padding;
@@ -35,7 +36,6 @@ footer {
         font-size: 18px;
         padding-top: 3px;
         margin: 0;
-        margin-left: auto;
         @media only screen and (max-width: $mobile-size) {
           font-size: 16px;
           margin: 0;
