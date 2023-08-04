@@ -1,3 +1,5 @@
+from itertools import chain
+
 from django.contrib.postgres.fields import ArrayField
 from django.core.paginator import Paginator
 from django.db import models
@@ -15,7 +17,7 @@ from core.blocks import ColumnsBlock
 from core.models import CMSGenericPage
 from directory_constants.choices import COUNTRY_CHOICES
 from domestic.models import BaseContentPage
-from international_online_offer.core import choices, helpers
+from international_online_offer.core import choices, filter_tags, helpers
 from international_online_offer.forms import LocationSelectForm
 
 
@@ -76,13 +78,25 @@ class IOOGuidePage(BaseContentPage):
         # Get trade association and shows page (should only be one)
         trade_page = IOOTradePage.objects.live().filter().first()
 
-        # Get all live CMS created eyb articles
-        all_articles = IOOArticlePage.objects.live()
+        # Get any EYB articles that have been tagged with user selected sector
+        all_articles_tagged_with_sector = (
+            IOOArticlePage.objects.live().filter(tags__name=triage_data.sector) if triage_data.sector else []
+        )
+        # Get any EYB articles that have been tagged with user selected intent(s)
+        all_articles_tagged_with_intent = (
+            IOOArticlePage.objects.live().filter(tags__name__in=triage_data.intent) if triage_data.intent else []
+        )
+        # Get any EYB articles that have been tagged with SUPPORT_AND_INCENTIVES
+        all_articles_tagged_with_support_and_incentives = IOOArticlePage.objects.live().filter(
+            tags__name=filter_tags.SUPPORT_AND_INCENTIVES
+        )
 
-        support_and_incentives_articles = helpers.find_get_support_and_incentives_articles(all_articles)
-        get_to_know_market_articles = (
-            helpers.find_get_to_know_market_articles(all_articles, triage_data.sector, triage_data.intent)
-            if triage_data
+        # Filter rule to get articles that have ONLY been tagged with the users selected sector
+        sector_only_articles = helpers.filter_articles_sector_only(all_articles_tagged_with_sector)
+        # Filter rule to get intent articles that are tagged with the users selected sector
+        intent_articles_specific_to_sector = (
+            helpers.filter_intent_articles_specific_to_sector(all_articles_tagged_with_intent, triage_data.sector)
+            if triage_data.sector
             else []
         )
 
@@ -91,8 +105,8 @@ class IOOGuidePage(BaseContentPage):
             complete_contact_form_link_text='Sign up',
             triage_data=triage_data,
             user_data=user_data,
-            get_to_know_market_articles=get_to_know_market_articles,
-            support_and_incentives_articles=support_and_incentives_articles,
+            get_to_know_market_articles=list(chain(sector_only_articles, intent_articles_specific_to_sector)),
+            support_and_incentives_articles=all_articles_tagged_with_support_and_incentives,
             trade_page=trade_page,
         )
 
@@ -276,9 +290,7 @@ class IOOTradePage(BaseContentPage):
         all_tradeshows = []
         all_trade_associations = []
         if triage_data:
-            all_tradeshows = helpers.find_trade_shows_for_sector(
-                self.get_children().live().type(IOOTradeShowPage), triage_data.sector
-            )
+            all_tradeshows = IOOTradeShowPage.live().filter(tags__name=triage_data.sector)
             # Given the sector selected we need to get mapped trade association sectors to query
             # with due to misalignment of sector names across DBT
             trade_association_sectors = helpers.get_trade_assoication_sectors_from_sector(triage_data.sector)
