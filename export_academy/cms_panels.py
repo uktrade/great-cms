@@ -1,6 +1,5 @@
-from wagtail.admin.panels import (
+from wagtail.admin.panels import (  # InlinePanel,
     FieldPanel,
-    InlinePanel,
     MultiFieldPanel,
     ObjectList,
     TabbedInterface,
@@ -94,11 +93,12 @@ class EventPanel:
         FieldPanel('closed', heading='closed for bookings'),
     ]
 
-    attendance_panel = [InlinePanel('bookings', label='Bookings')]
+    # disabling the attendance_panel temporarily to support UKEA V2 release. refer to KLS-989 for further details.
+    # attendance_panel = [InlinePanel('bookings', label='Bookings')]
 
     edit_handler = TabbedInterface(
         [
             ObjectList(event_panel, heading='Event'),
-            ObjectList(attendance_panel, heading='Attendance'),
+            # ObjectList(attendance_panel, heading='Attendance'),
         ]
     )

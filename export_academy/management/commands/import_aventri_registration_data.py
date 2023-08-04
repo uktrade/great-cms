@@ -28,7 +28,7 @@ class Command(AventriDataIngestionBaseCommand):
                     end as last_lobby_login
                 from {AventriDataIngestionBaseCommand.DATA_WORKSPACE_DATASETS_BASE_SCHEMA}.{TABLE_NAME_ATTENDEES} inner_attendees
                 left join dit.last_lobby_login_report last_login
-                on inner_attendees.id = last_login."Conf #"
+                on inner_attendees.id = last_login."conf"
             ) as attendees
             left join {AventriDataIngestionBaseCommand.DATA_WORKSPACE_DATASETS_BASE_SCHEMA}.{TABLE_NAME_SSO_USERS} sso_users ON attendees.email = sso_users.email
         where (
