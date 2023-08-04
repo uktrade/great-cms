@@ -147,64 +147,64 @@
   }
 
   .govuk-heading-xl {
-      font-size: 36px;
-      letter-spacing: -0.03rem;
-      line-height: 50px;
+    font-size: 36px;
+    letter-spacing: -0.03rem;
+    line-height: 50px;
 
-      @include govuk-media-query($from: tablet) {
-          font-size: 44px;
-          line-height: 60px;
-      }
+    @include govuk-media-query($from: tablet) {
+      font-size: 44px;
+      line-height: 60px;
+    }
   }
 
   .govuk-heading-l {
-      font-size: 28px;
-      line-height: 40px;
+    font-size: 28px;
+    line-height: 40px;
 
-      @include govuk-media-query($from: tablet) {
-          font-size: 36px;
-          line-height: 50px;
-      }
+    @include govuk-media-query($from: tablet) {
+      font-size: 36px;
+      line-height: 50px;
+    }
   }
 
   .govuk-heading-m {
-      font-size: 24px;
-      line-height: 34px;
+    font-size: 24px;
+    line-height: 34px;
 
-      @include govuk-media-query($from: tablet) {
-          font-size: 28px;
-          line-height: 40px;
-      }
+    @include govuk-media-query($from: tablet) {
+      font-size: 28px;
+      line-height: 40px;
+    }
   }
 
   .govuk-heading-s {
-      font-size: 20px;
-      line-height: 30px;
+    font-size: 20px;
+    line-height: 30px;
 
-      @include govuk-media-query($from: tablet) {
-          font-size: 24px;
-          line-height: 34px;
-      }
+    @include govuk-media-query($from: tablet) {
+      font-size: 24px;
+      line-height: 34px;
+    }
   }
 
-    .govuk-heading-xs {
-      font-size: 16px;
-      line-height: 20px;
+  .govuk-heading-xs {
+    font-size: 16px;
+    line-height: 20px;
 
-      @include govuk-media-query($from: tablet) {
-          font-size: 20px;
-          line-height: 30px;
-      }
+    @include govuk-media-query($from: tablet) {
+      font-size: 20px;
+      line-height: 30px;
+    }
   }
 
   .govuk-body-l {
-      font-size: 20px;
-      line-height: 30px;
+    font-size: 20px;
+    line-height: 30px;
 
-      @include govuk-media-query($from: tablet) {
-          font-size: 28px;
-          line-height: 40px;
-      }
+    @include govuk-media-query($from: tablet) {
+      font-size: 28px;
+      line-height: 40px;
+    }
   }
 
   .govuk-body,
@@ -216,35 +216,35 @@
   .govuk-summary-list__value,
   .govuk-link,
   .govuk-warning-text__text {
-      font-size: 16px;
-      line-height: 24px;
+    font-size: 16px;
+    line-height: 24px;
 
-      @include govuk-media-query($from: tablet) {
-          font-size: 18px;
-          line-height: 30px;
-      }
+    @include govuk-media-query($from: tablet) {
+      font-size: 18px;
+      line-height: 30px;
+    }
   }
 
   .govuk-body-s {
-      font-size: 14px;
-      line-height: 20px;
+    font-size: 14px;
+    line-height: 20px;
 
-      @include govuk-media-query($from: tablet) {
-          font-size: 16px;
-          line-height: 24px;
-      }
+    @include govuk-media-query($from: tablet) {
+      font-size: 16px;
+      line-height: 24px;
+    }
   }
 
   .govuk-label {
-      font-family: $great-font-bold;
+    font-family: $great-font-bold;
   }
 
   .govuk-list {
-      -webkit-font-smoothing: auto;
+    -webkit-font-smoothing: auto;
   }
 
   .govuk-hint {
-      color: $great-grey;
+    color: $great-grey;
   }
 
   .govuk-hint,
@@ -252,115 +252,115 @@
   .govuk-radios__label,
   .govuk-details,
   .govuk-link {
-      font-family: $great-font;
+    font-family: $great-font;
   }
 
   .govuk-radios__label,
   .govuk-checkboxes__label {
-      @include govuk-media-query($from: tablet) {
-          padding-top: 5px;
-      }
+    @include govuk-media-query($from: tablet) {
+      padding-top: 5px;
+    }
   }
 
   .govuk-form-group--error {
-      input[type=text] {
-          border-color: govuk-colour("red");
+    input[type='text'] {
+      border-color: govuk-colour('red');
 
-          &:focus {
-              border-color: govuk-colour("black");
-          }
+      &:focus {
+        border-color: govuk-colour('black');
       }
+    }
   }
 
   .govuk-button {
-      background-color: $govuk-brand-colour;
-      box-shadow: none;
-      box-shadow: none;
-      font-family: $great-font-bold;
-      padding: 8px 20px;
-      font-size: 16px;
-      line-height: 24px;
-      min-height: 44px;
-      -webkit-font-smoothing: auto;
+    background-color: $govuk-brand-colour;
+    box-shadow: none;
+    box-shadow: none;
+    font-family: $great-font-bold;
+    padding: 8px 20px;
+    font-size: 16px;
+    line-height: 24px;
+    min-height: 44px;
+    -webkit-font-smoothing: auto;
 
-      &:hover,
-      &:focus {
-          background-color: $great-white;
-          border-color: $govuk-brand-colour;
-          color: $govuk-brand-colour;
-      }
-
-      &:focus:not(:active):not(:hover) {
-          background-color: $great-white;
-          border-color: $govuk-brand-colour;
-          box-shadow: none;
-          color: $govuk-brand-colour;
-      }
-
-      &:focus {
-          outline: 3px solid $great-yellow;
-          outline-offset: 0;
-      }
-
-      i {
-          font-size: inherit;
-          margin-right: 8px;
-      }
-
-      @include govuk-media-query($from: tablet) {
-          font-size: 20px;
-          min-height: 50px;
-          line-height: 34px;
-      }
-  }
-
-  .govuk-button--secondary {
+    &:hover,
+    &:focus {
       background-color: $great-white;
       border-color: $govuk-brand-colour;
       color: $govuk-brand-colour;
+    }
 
-      &:hover,
-      &:focus {
-          background-color: $govuk-brand-colour;
-          border-color: $govuk-brand-colour;
-          color: $great-white;
-      }
+    &:focus:not(:active):not(:hover) {
+      background-color: $great-white;
+      border-color: $govuk-brand-colour;
+      box-shadow: none;
+      color: $govuk-brand-colour;
+    }
+
+    &:focus {
+      outline: 3px solid $great-yellow;
+      outline-offset: 0;
+    }
+
+    i {
+      font-size: inherit;
+      margin-right: 8px;
+    }
+
+    @include govuk-media-query($from: tablet) {
+      font-size: 20px;
+      min-height: 50px;
+      line-height: 34px;
+    }
+  }
+
+  .govuk-button--secondary {
+    background-color: $great-white;
+    border-color: $govuk-brand-colour;
+    color: $govuk-brand-colour;
+
+    &:hover,
+    &:focus {
+      background-color: $govuk-brand-colour;
+      border-color: $govuk-brand-colour;
+      color: $great-white;
+    }
   }
 
   .great-text-grey {
-      @extend %great-text-grey;
+    @extend %great-text-grey;
   }
 
   .great-text-light-grey {
-      @extend %great-text-light-grey;
+    @extend %great-text-light-grey;
   }
 
   .great-text-white {
-      @extend %great-text-white;
+    @extend %great-text-white;
   }
 
   // govuk elements overides
   .form-control:focus {
-      border-width: 2px;
-      margin: 0;
+    border-width: 2px;
+    margin: 0;
   }
   .great-font-bold {
-      font-family: $great-font-bold;
+    font-family: $great-font-bold;
   }
 }
 
 .great-container {
-    max-width: 1230px;
-    margin: auto;
-    padding: 0 15px;
+  max-width: 1230px;
+  margin: auto;
+  padding: 0 15px;
 
-    @media (min-width: 1025px) {
-      padding: 0 30px;
+  @media (min-width: 1025px) {
+    padding: 0 30px;
   }
 
-    @media (min-width: 1280px) {
-        padding: 0;
-    }
+  @media (min-width: 1280px) {
+    padding: 0;
+  }
 }
 
 .great-border-top-blue {
@@ -385,6 +385,10 @@
 
 .great-bg-light-blue {
   background-color: $great-light-blue;
+}
+
+.great-bg-dark-blue {
+  background-color: $great-dark-blue;
 }
 
 .great-text-darker-grey {
@@ -566,7 +570,6 @@
 }
 
 .great-padding-left-35 {
-
   padding-left: 30px !important;
 
   @include govuk-media-query($from: tablet) {
