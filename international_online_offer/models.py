@@ -80,11 +80,15 @@ class IOOGuidePage(BaseContentPage):
 
         # Get any EYB articles that have been tagged with user selected sector
         all_articles_tagged_with_sector = (
-            IOOArticlePage.objects.live().filter(tags__name=triage_data.sector) if triage_data.sector else []
+            IOOArticlePage.objects.live().filter(tags__name=triage_data.sector)
+            if triage_data and triage_data.sector
+            else []
         )
         # Get any EYB articles that have been tagged with user selected intent(s)
         all_articles_tagged_with_intent = (
-            IOOArticlePage.objects.live().filter(tags__name__in=triage_data.intent) if triage_data.intent else []
+            IOOArticlePage.objects.live().filter(tags__name__in=triage_data.intent)
+            if triage_data and triage_data.intent
+            else []
         )
         # Get any EYB articles that have been tagged with SUPPORT_AND_INCENTIVES
         all_articles_tagged_with_support_and_incentives = IOOArticlePage.objects.live().filter(
@@ -96,7 +100,7 @@ class IOOGuidePage(BaseContentPage):
         # Filter rule to get intent articles that are tagged with the users selected sector
         intent_articles_specific_to_sector = (
             helpers.filter_intent_articles_specific_to_sector(all_articles_tagged_with_intent, triage_data.sector)
-            if triage_data.sector
+            if triage_data and triage_data.sector
             else []
         )
 

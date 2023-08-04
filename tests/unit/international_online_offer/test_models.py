@@ -86,8 +86,8 @@ def test_ioo_guide_page_content(rf, user):
     context = guide_page.get_context(request)
     assert context['complete_contact_form_link_text'] == 'Sign up'
     assert context['complete_contact_form_link'] == 'international_online_offer:signup'
-    assert context['get_to_know_market_articles'] == []
-    assert context['support_and_incentives_articles'] == []
+    assert len(context['get_to_know_market_articles']) == 0
+    assert len(context['support_and_incentives_articles']) == 0
     assert context['trade_page'] is None
 
 
