@@ -15,7 +15,7 @@ from core.blocks import ColumnsBlock
 from core.models import CMSGenericPage
 from directory_constants.choices import COUNTRY_CHOICES
 from domestic.models import BaseContentPage
-from international_online_offer.core import choices, constants, helpers
+from international_online_offer.core import choices, helpers
 from international_online_offer.forms import LocationSelectForm
 
 
@@ -79,17 +79,14 @@ class IOOGuidePage(BaseContentPage):
         # Get all live CMS created eyb articles
         all_articles = IOOArticlePage.objects.live()
 
-        get_to_know_market_articles = []
-        complete_contact_form_message = constants.LOW_VALUE_INVESTOR_SIGNUP_MESSAGE
-        if triage_data:
-            if triage_data.is_high_value:
-                complete_contact_form_message = constants.HIGH_VALUE_INVESTOR_SIGNUP_MESSAGE
-            get_to_know_market_articles = helpers.find_get_to_know_market_articles(
-                all_articles, triage_data.sector, triage_data.intent
-            )
         support_and_incentives_articles = helpers.find_get_support_and_incentives_articles(all_articles)
+        get_to_know_market_articles = (
+            helpers.find_get_to_know_market_articles(all_articles, triage_data.sector, triage_data.intent)
+            if triage_data
+            else []
+        )
+
         context.update(
-            complete_contact_form_message=complete_contact_form_message,
             complete_contact_form_link='international_online_offer:signup',
             complete_contact_form_link_text='Sign up',
             triage_data=triage_data,
@@ -98,6 +95,7 @@ class IOOGuidePage(BaseContentPage):
             support_and_incentives_articles=support_and_incentives_articles,
             trade_page=trade_page,
         )
+
         self.set_ga360_payload(
             page_id='Guide',
             business_unit='ExpandYourBusiness',
@@ -105,6 +103,7 @@ class IOOGuidePage(BaseContentPage):
         )
         self.add_ga360_data_to_payload(request)
         context['ga360'] = self.ga360_payload
+
         return context
 
 
