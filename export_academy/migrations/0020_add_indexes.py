@@ -5,7 +5,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('export_academy', '0018_booking_external_id_alter_event_description'),
+        ('export_academy', '0019_booking_external_id_alter_event_description'),
     ]
 
     operations = [
