@@ -23,6 +23,7 @@
                     {% for number in pagination.paginator.page_range %}
                         {% include 'components/pagination/number.html' %}
                     {% endfor %}
+                {% endif %}
                 <!-- {% elif pagination.number < 5 %}
                     {% comment %} 1 2 3 ... 7 {% endcomment %}
                     {% for number in pagination.paginator.page_range|slice:':4' %}
