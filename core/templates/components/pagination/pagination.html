@@ -18,12 +18,12 @@
             <a id="pagination-previous" class="button primary-button" href="{{ url }}{{ page_param_name }}={{ pagination.previous_page_number}}"><span class="govuk-visually-hidden">Go to previous page</span>Previous</a>
         {% endif %}
             <ol class="{{ pagination.has_previous|yesno:'has-previous ,' }}{{ pagination.has_next|yesno:'has-next,' }}">
-                {% if pagination.paginator.num_pages <= 6 %}
+                {% if True %}
                     {% comment %} 1 2 3 4 5 6 {% endcomment %}
                     {% for number in pagination.paginator.page_range %}
                         {% include 'components/pagination/number.html' %}
                     {% endfor %}
-                {% elif pagination.number < 5 %}
+                <!-- {% elif pagination.number < 5 %}
                     {% comment %} 1 2 3 ... 7 {% endcomment %}
                     {% for number in pagination.paginator.page_range|slice:':4' %}
                         {% include 'components/pagination/number.html' %}
@@ -42,7 +42,7 @@
                     {% include 'components/pagination/number.html' with number=pagination.number %}
                     {% include 'components/pagination/number.html' with number=pagination.next_page_number ellipsis_after=True %}
                     {% include 'components/pagination/number.html' with number=pagination.paginator.num_pages %}
-                {% endif %}
+                {% endif %} -->
             </ol>
         {% if pagination.has_next %}
             <a id="pagination-next" class="button primary-button" href="{{ url }}{{ page_param_name }}={{ pagination.next_page_number }}"><span class="govuk-visually-hidden">Go to next page </span>Next</a>
