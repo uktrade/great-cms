@@ -356,7 +356,6 @@ def test_eyb_user_serializer():
     instance.telephone_number = '07123567896'
     instance.agree_terms = True
     instance.agree_info_email = False
-    instance.agree_info_telephone = False
     instance.landing_timeframe = 'UNDER_SIX_MONTHS'
 
     serializer = ActivityStreamExpandYourBusinessUserDataSerializer()
@@ -377,7 +376,6 @@ def test_eyb_user_serializer():
             'telephoneNumber': instance.telephone_number,
             'agreeTerms': instance.agree_terms,
             'agreeInfoEmail': instance.agree_info_email,
-            'agreeInfoTelephone': instance.agree_info_telephone,
             'landingTimeframe': instance.landing_timeframe,
         },
     }
