@@ -1,6 +1,9 @@
-from django.urls import path
+from django.contrib.auth.decorators import login_required
+from django.urls import path, reverse_lazy
 
 from international_online_offer import views
+
+SIGNUP_URL = reverse_lazy('international_online_offer:login')
 
 app_name = 'international_online_offer'
 
@@ -37,7 +40,7 @@ urlpatterns = [
     ),
     path(
         'profile/',
-        views.ProfileView.as_view(),
+        login_required(views.ProfileView.as_view(), login_url=SIGNUP_URL),
         name='profile',
     ),
     path(
@@ -52,7 +55,7 @@ urlpatterns = [
     ),
     path(
         'edit-your-answers/',
-        views.EditYourAnswersView.as_view(),
+        login_required(views.EditYourAnswersView.as_view(), login_url=SIGNUP_URL),
         name='edit-your-answers',
     ),
     path(

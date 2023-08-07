@@ -40,6 +40,15 @@
                 </ul>
             </nav>
             {% endif %}
+            {% if request.user.is_authenticated and not eyb_user.email %}
+            <nav id="atlas-nav-flat" class="atlas-nav-flat" aria-label="Main menu">
+                <ul class="atlas-nav__list-flat">
+                    <li>
+                        <a class="atlas-nav__item" style="cursor: pointer;" href="{% url 'international_online_offer:profile' %}?signup=true">Complete sign up</a>
+                    </li>
+                </ul>
+            </nav>
+            {% endif %}
             {% if request.user.is_authenticated and eyb_user.email %}
             <nav id="atlas-nav" class="atlas-nav" aria-label="Main menu" aria-expanded="false">
                 <ul class="atlas-nav__list atlas-list--bare">
