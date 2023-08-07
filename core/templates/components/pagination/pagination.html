@@ -24,26 +24,7 @@
                         {% include 'components/pagination/number.html' %}
                     {% endfor %}
                 {% endif %}
-                <!-- {% elif pagination.number < 5 %}
-                    {% comment %} 1 2 3 ... 7 {% endcomment %}
-                    {% for number in pagination.paginator.page_range|slice:':4' %}
-                        {% include 'components/pagination/number.html' %}
-                    {% endfor %}
-                    {% include 'components/pagination/number.html' with number=pagination.paginator.num_pages ellipsis_before=True %}
-                {% elif pages_after_current < 4 %}
-                    {% comment %} 1 ... 4 5 6 7 {% endcomment %}
-                    {% include 'components/pagination/number.html' with number='1' ellipsis_after=True %}
-                    {% for number in pagination.paginator.page_range|slice:'-4:' %}
-                        {% include 'components/pagination/number.html' %}
-                    {% endfor %}
-                {% else %}
-                    {% comment %} 1 ... 9 10 11 ... 15{% endcomment %}
-                    {% include 'components/pagination/number.html' with number='1' ellipsis_after=True%}
-                    {% include 'components/pagination/number.html' with number=pagination.previous_page_number%}
-                    {% include 'components/pagination/number.html' with number=pagination.number %}
-                    {% include 'components/pagination/number.html' with number=pagination.next_page_number ellipsis_after=True %}
-                    {% include 'components/pagination/number.html' with number=pagination.paginator.num_pages %}
-                {% endif %} -->
+
             </ol>
         {% if pagination.has_next %}
             <a id="pagination-next" class="button primary-button" href="{{ url }}{{ page_param_name }}={{ pagination.next_page_number }}"><span class="govuk-visually-hidden">Go to next page </span>Next</a>
