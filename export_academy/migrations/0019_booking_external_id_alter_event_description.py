@@ -5,7 +5,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('export_academy', '0017_alter_external_id_fields_and_more'),
+        ('export_academy', '0018_expand_booking'),
     ]
 
     operations = [
