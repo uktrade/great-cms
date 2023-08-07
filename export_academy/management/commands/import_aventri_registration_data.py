@@ -23,12 +23,12 @@ class Command(AventriDataIngestionBaseCommand):
             (
                 select
                     inner_attendees.*,
-                    case when length(last_login."Last Lobby Login") < 1 then null
-                        else to_date(substring(last_login."Last Lobby Login", 0, position(' ' in last_login."Last Lobby Login")), 'DD/MM/YYYY' )
+                    case when length(last_login.last_lobby_login) < 1 then null
+                        else to_date(substring(last_login.last_lobby_login, 0, position(' ' in last_login.last_lobby_login)), 'DD/MM/YYYY' )
                     end as last_lobby_login
                 from {AventriDataIngestionBaseCommand.DATA_WORKSPACE_DATASETS_BASE_SCHEMA}.{TABLE_NAME_ATTENDEES} inner_attendees
                 left join dit.last_lobby_login_report last_login
-                on inner_attendees.id = last_login."conf"
+                on inner_attendees.id = last_login.conf
             ) as attendees
             left join {AventriDataIngestionBaseCommand.DATA_WORKSPACE_DATASETS_BASE_SCHEMA}.{TABLE_NAME_SSO_USERS} sso_users ON attendees.email = sso_users.email
         where (
