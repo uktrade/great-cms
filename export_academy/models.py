@@ -70,7 +70,7 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     external_id = models.PositiveIntegerField(null=True)
     name = models.CharField(max_length=255)
-    description = models.CharField(max_length=2500)
+    description = models.CharField(max_length=2500, null=True)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     format = models.CharField(max_length=15, choices=FORMAT_CHOICES, default=ONLINE)
@@ -117,6 +117,10 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
 
     class Meta:
         ordering = ('-start_date', '-end_date')
+        indexes = [
+            models.Index(fields=['external_id'], name='event_external_id_idx'),
+            models.Index(fields=['format'], name='format_idx'),
+        ]
 
     def __str__(self):
         return f'{self.id}:{self.name}'
@@ -157,6 +161,11 @@ class Registration(TimeStampedModel):
 
     class Meta:
         ordering = ('-created', '-modified')
+        indexes = [
+            models.Index(fields=['hashed_sso_id'], name='hashed_sso_id_idx'),
+            models.Index(fields=['external_id'], name='registration_external_id_idx'),
+            models.Index(fields=['email'], name='email_idx'),
+        ]
 
     def __str__(self):
         return self.email
@@ -188,6 +197,13 @@ class Booking(TimeStampedModel):
     @property
     def is_cancelled(self):
         return self.status == self.CANCELLED
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['event_id'], name='event_id_idx'),
+            models.Index(fields=['registration_id'], name='registration_id_idx'),
+            models.Index(fields=['status'], name='status_idx'),
+        ]
 
 
 class ExportAcademyHomePage(ExportAcademyPagePanels, BaseContentPage):

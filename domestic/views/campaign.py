@@ -85,6 +85,12 @@ class CampaignView(BaseNotifyUserFormView):
         return display_name
 
     def get_languages(self):
+        def modify_language_display_names(display_name):
+            strings_to_replace = {'(United Kingdom)'}
+            for string in strings_to_replace:
+                display_name = display_name.replace(string, '')
+            return display_name
+
         default_value = {
             'available_languages': [{'language_code': 'en-gb', 'display_name': 'English'}],
             'current_language': 'en-gb',
@@ -94,14 +100,20 @@ class CampaignView(BaseNotifyUserFormView):
         rtl_languages.add('ar')
         if settings.FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
             current_language_code = get_language()
+
             page_locales = Locale.objects.filter(
-                id__in=self.page_class.objects.live().filter(slug=self.page_slug).values_list('locale_id', flat=True)
+                id__in=self.page_class.objects.live()
+                .filter(url_path__contains=self.path)
+                .values_list('locale_id', flat=True)
             )
+
             return {
                 'available_languages': [
                     {
                         'language_code': locale.language_code,
-                        'display_name': self.get_language_display_name(locale.language_code),
+                        'display_name': modify_language_display_names(
+                            self.get_language_display_name(locale.language_code)
+                        ),
                         'is_rtl_language': locale.language_code in rtl_languages,
                     }
                     for locale in page_locales
