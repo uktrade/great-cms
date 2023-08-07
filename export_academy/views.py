@@ -48,7 +48,7 @@ class EventListView(GA360Mixin, core_mixins.GetSnippetContentMixin, FilterView, 
     queryset = model.upcoming
     filterset_class = filters.EventFilter
     template_name = 'export_academy/event_list.html'
-    paginate_by = 10
+    paginate_by = 1
 
     def __init__(self):
         super().__init__()
