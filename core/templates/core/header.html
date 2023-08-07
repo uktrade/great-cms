@@ -25,6 +25,9 @@
           <li><a id="header-link-advice" href="/advice/" class="govuk-!-padding-3">Advice</a></li>
           <li><a id="header-link-markets-lo" href="/markets/" class="govuk-!-padding-3">Markets</a></li>
           <li><a id="header-link-services" href="/services/" class="govuk-!-padding-3">Services</a></li>
+          {% if FEATURE_DIGITAL_POINT_OF_ENTRY %}
+            <li><a id="header-link-support" href="/support/support" class="govuk-!-padding-3">Support</a></li>
+          {% endif %}
         {% endif %}
       </ul>
 
@@ -59,6 +62,9 @@
             <li><a href="/advice/">Advice</a></li>
             <li><a href="/markets/">Markets</a></li>
             <li><a href="/services/">Services</a></li>
+            {% if FEATURE_DIGITAL_POINT_OF_ENTRY %}
+              <li><a href="/support/support">Support</a></li>
+            {% endif %}
 
             {% if request.user.is_authenticated %}
               <li>
