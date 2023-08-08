@@ -34,6 +34,23 @@ def test_find_articles_based_on_tags():
     assert helpers.filter_intent_articles_specific_to_sector([], sectors.TECHNOLOGY_AND_SMART_CITIES) == []
 
 
+def test_can_show_salary_rent_component():
+    class MockTag:
+        def __init__(self, name):
+            self.name = name
+
+    tag = MockTag(sectors.TECHNOLOGY_AND_SMART_CITIES)
+    tag2 = MockTag(intents.SET_UP_A_NEW_DISTRIBUTION_CENTRE)
+    tag3 = MockTag(intents.SET_UP_NEW_PREMISES)
+    tag4 = MockTag(intents.FIND_PEOPLE_WITH_SPECIALIST_SKILLS)
+
+    assert helpers.can_show_salary_component([tag]) is False
+    assert helpers.can_show_salary_component([tag, tag4]) is True
+    assert helpers.can_show_rent_component([tag]) is False
+    assert helpers.can_show_rent_component([tag, tag2]) is True
+    assert helpers.can_show_rent_component([tag, tag3]) is True
+
+
 def test_get_trade_assoication_sectors_from_sector():
     assert helpers.get_trade_assoication_sectors_from_sector(directory_constants_sectors.AEROSPACE) == []
     assert helpers.get_trade_assoication_sectors_from_sector(directory_constants_sectors.FOOD_AND_DRINK) == [

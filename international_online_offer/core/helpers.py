@@ -4,6 +4,7 @@ from django.conf import settings
 from directory_constants import sectors as directory_constants_sectors
 from international_online_offer.core import (
     choices,
+    intents,
     professions,
     regions,
     sectors as sectors,
@@ -164,3 +165,19 @@ def get_sector_professions_by_level(sector):
         if profession_by_sector_and_level['sector'] == sector:
             return profession_by_sector_and_level
     return None
+
+
+def can_show_salary_component(tags):
+    for tag in tags:
+        if tag.name == intents.FIND_PEOPLE_WITH_SPECIALIST_SKILLS:
+            return True
+
+    return False
+
+
+def can_show_rent_component(tags):
+    for tag in tags:
+        if tag.name == intents.SET_UP_NEW_PREMISES or tag.name == intents.SET_UP_A_NEW_DISTRIBUTION_CENTRE:
+            return True
+
+    return False

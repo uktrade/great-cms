@@ -206,6 +206,11 @@ class IOOArticlePage(BaseContentPage):
         context = super().get_context(request, *args, **kwargs)
         if helpers.is_authenticated(request):
             triage_data = get_triage_data(request.user.hashed_uuid)
+
+            tags = self.tags.all()
+            show_salary_component = helpers.can_show_salary_component(tags)
+            show_rent_component = helpers.can_show_rent_component(tags)
+
             if triage_data:
                 location = request.GET.get(
                     'location', triage_data.location if triage_data.location else choices.regions.LONDON
@@ -214,15 +219,17 @@ class IOOArticlePage(BaseContentPage):
                 sector_display = triage_data.get_sector_display()
 
                 entry_salary = SalaryData.objects.filter(
-                    region=region, vertical__icontains=sector_display, professional_level__icontains='Entry-level'
+                    region__iexact=region,
+                    vertical__icontains=sector_display,
+                    professional_level__icontains='Entry-level',
                 ).aggregate(Avg('median_salary'))
                 mid_salary = SalaryData.objects.filter(
-                    region=region,
+                    region__iexact=region,
                     vertical__icontains=sector_display,
                     professional_level__icontains='Middle/Senior Management',
                 ).aggregate(Avg('median_salary'))
                 executive_salary = SalaryData.objects.filter(
-                    region=region,
+                    region__iexact=region,
                     vertical__icontains=sector_display,
                     professional_level__icontains='Director/Executive',
                 ).aggregate(Avg('median_salary'))
@@ -269,6 +276,8 @@ class IOOArticlePage(BaseContentPage):
                     high_street_retail=high_street_retail,
                     work_office=work_office,
                     professions_by_sector=professions_by_sector,
+                    show_salary_component=show_salary_component,
+                    show_rent_component=show_rent_component,
                 )
         site_section_url = ''
         if self.url:
