@@ -4,15 +4,11 @@ import pytest
 from directory_forms_api_client import actions
 
 from directory_constants import sectors as directory_constants_sectors
-from international_online_offer.core import filter_tags, helpers, regions
+from international_online_offer.core import helpers, intents, regions, sectors
 
 
 def test_find_articles_based_on_tags():
     class MockArticle:
-        def __init__(self, specific):
-            self.specific = specific
-
-    class MockSpecific:
         def __init__(self, tags):
             self.tags = tags
 
@@ -20,29 +16,22 @@ def test_find_articles_based_on_tags():
         def __init__(self, name):
             self.name = name
 
-    tag = MockTag('tag1')
-    tag2 = MockTag('tag2')
-    tag3 = MockTag(filter_tags.SUPPORT_AND_INCENTIVES)
+    tag = MockTag(sectors.TECHNOLOGY_AND_SMART_CITIES)
+    tag2 = MockTag(sectors.CREATIVE_INDUSTRIES)
+    tag3 = MockTag(intents.SET_UP_A_NEW_DISTRIBUTION_CENTRE)
+    tag4 = MockTag(intents.SET_UP_NEW_PREMISES)
 
-    specific = MockSpecific([tag, tag2])
-    specific2 = MockSpecific([tag3])
-    specific3 = MockSpecific([tag])
+    article_tech = MockArticle([tag])
+    article_creative = MockArticle([tag2])
+    article_tech_and_dist_centre = MockArticle([tag, tag3])
+    article_tech_and_premises = MockArticle([tag, tag4])
 
-    article = MockArticle(specific)
-    article2 = MockArticle(specific)
-    article3 = MockArticle(specific2)
-    article4 = MockArticle(specific3)
+    articles = [article_tech, article_creative, article_tech_and_dist_centre, article_tech_and_premises]
 
-    articles = [article, article2, article3, article4]
-
-    assert len(helpers.find_get_to_know_market_articles(articles, 'tag1', ['tag2'])) == 3
-    assert len(helpers.find_get_support_and_incentives_articles(articles)) == 1
-    assert helpers.find_get_to_know_market_articles([], '', []) == []
-    assert helpers.find_get_support_and_incentives_articles([]) == []
-    assert helpers.find_trade_shows_for_sector([], 'tag1') == []
-    assert len(helpers.find_trade_shows_for_sector(articles, 'tag1')) == 1
-    assert helpers.get_trade_page([]) is None
-    assert helpers.get_trade_page(articles) is not None
+    assert len(helpers.filter_articles_sector_only(articles)) == 2
+    assert len(helpers.filter_intent_articles_specific_to_sector(articles, sectors.TECHNOLOGY_AND_SMART_CITIES)) == 3
+    assert helpers.filter_articles_sector_only([]) == []
+    assert helpers.filter_intent_articles_specific_to_sector([], sectors.TECHNOLOGY_AND_SMART_CITIES) == []
 
 
 def test_get_trade_assoication_sectors_from_sector():
@@ -53,10 +42,6 @@ def test_get_trade_assoication_sectors_from_sector():
     assert helpers.get_trade_assoication_sectors_from_sector(directory_constants_sectors.CONSUMER_AND_RETAIL) == [
         'Retail'
     ]
-
-
-def test_concat_filters():
-    assert helpers.concat_filters('test', ['test']) == ['test', 'test']
 
 
 @mock.patch.object(actions, 'GovNotifyEmailAction')
