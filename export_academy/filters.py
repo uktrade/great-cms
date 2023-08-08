@@ -97,5 +97,7 @@ class EventFilter(FilterSet):
                 queryset = self.Meta.model.objects.exclude(live__isnull=True).filter(
                     bookings__registration__email=self.request.user.email, end_date__lt=timezone.now()  # type: ignore
                 )
+        else:
+            queryset = queryset.none()
 
         return queryset

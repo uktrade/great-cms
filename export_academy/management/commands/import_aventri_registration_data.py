@@ -13,7 +13,7 @@ class Command(AventriDataIngestionBaseCommand):
 
     sql = f"""
         select
-            distinct on (attendees.email) lower(trim(both ' ' from attendees.email)) as email,
+            distinct on (lower(trim(both ' ' from attendees.email))) lower(trim(both ' ' from attendees.email)) as email,
             attendees.id as id,
             sso_users.hashed_uuid as hashed_sso_id,
             attendees.first_name,
@@ -23,11 +23,9 @@ class Command(AventriDataIngestionBaseCommand):
             (
                 select
                     inner_attendees.*,
-                    case when length(last_login.last_lobby_login) < 1 then null
-                        else to_date(substring(last_login.last_lobby_login, 0, position(' ' in last_login.last_lobby_login)), 'DD/MM/YYYY' )
-                    end as last_lobby_login
+                    last_login.last_lobby_login as last_lobby_login
                 from {AventriDataIngestionBaseCommand.DATA_WORKSPACE_DATASETS_BASE_SCHEMA}.{TABLE_NAME_ATTENDEES} inner_attendees
-                left join dit.last_lobby_login_report last_login
+                left join dit.last_lobby_login_report_v2 last_login
                 on inner_attendees.id = last_login.conf
             ) as attendees
             left join {AventriDataIngestionBaseCommand.DATA_WORKSPACE_DATASETS_BASE_SCHEMA}.{TABLE_NAME_SSO_USERS} sso_users ON attendees.email = sso_users.email
@@ -42,7 +40,7 @@ class Command(AventriDataIngestionBaseCommand):
                 attendees.email <> '@' and attendees.email <> 'na' and (attendees.email not ilike '@test.%') and (attendees.email not ilike '%@na.%') and (attendees.email not ilike '%@example.%')
             )
         )
-        order by attendees.email, attendees.modified desc
+        order by 1, attendees.modified desc
     """  # noqa
 
     attributes_to_update = ['email', 'first_name', 'last_name', 'data']

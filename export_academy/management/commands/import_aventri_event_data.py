@@ -20,6 +20,7 @@ class Command(AventriDataIngestionBaseCommand):
             session_id,
             name as event_name,
             description,
+            session_date,
             start_time,
             end_time
         FROM
@@ -46,14 +47,14 @@ class Command(AventriDataIngestionBaseCommand):
     ]
 
     def load_data(self):
-        date = datetime.datetime.now().date()
         data = []
         chunks = pd.read_sql(sa.text(self.sql), self.engine, chunksize=5000)
+        migration_date_time = timezone.now()
 
         for chunk in chunks:
             for _idx, row in chunk.iterrows():
-                start_datetime = datetime.datetime.combine(date, row.start_time)
-                end_datetime = datetime.datetime.combine(date, row.end_time)
+                start_datetime = datetime.datetime.combine(row.session_date, row.start_time)
+                end_datetime = datetime.datetime.combine(row.session_date, row.end_time)
 
                 data.append(
                     Event(
@@ -62,7 +63,7 @@ class Command(AventriDataIngestionBaseCommand):
                         description=row.description,
                         start_date=start_datetime,
                         end_date=end_datetime,
-                        live=timezone.now(),
+                        live=migration_date_time,
                     )
                 )
 
@@ -82,6 +83,7 @@ class Command(AventriDataIngestionBaseCommand):
                 'start_date': record.start_date,
                 'end_date': record.end_date,
                 'external_id': record.external_id,
+                'live': record.live,
             }
             for record in data
         ]
