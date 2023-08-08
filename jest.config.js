@@ -16,6 +16,6 @@ module.exports = {
   setupFilesAfterEnv: [
     '<rootDir>/react-components/setupJest.js',
   ],
-  testEnvironment: 'jsdom',
+  testEnvironment: 'jest-environment-jsdom',
   timers: 'modern',
 }
