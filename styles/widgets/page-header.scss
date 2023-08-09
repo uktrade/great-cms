@@ -233,7 +233,7 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
       &.ea-landing-image-container {
         @media screen and (min-width: 901px) {
           background-size: auto 90% !important;
-          margin-top: 35px;
+          background-position-y: bottom!important;;
         }
       }
 
