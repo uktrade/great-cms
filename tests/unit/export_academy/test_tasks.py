@@ -26,8 +26,11 @@ def test_notify_registration(mock_notify_action, user):
     factories.BookingFactory(event=event, registration=registration, status='Confirmed')
 
     send_automated_events_notification()
-    expected_start_day = event.start_date.strftime('%-d %B %Y')
-    expected_event_time = f'{event.start_date.strftime("%H:%M")} - {event.end_date.strftime("%H:%M")}'
+    current_timezone = timezone.get_current_timezone()
+    event_start_date = event.start_date.astimezone(current_timezone)
+    event_end_date = event.end_date.astimezone(current_timezone)
+    expected_start_day = event_start_date.strftime('%-d %B %Y')
+    expected_event_time = f'{event_start_date.strftime("%H:%M")} - {event_end_date.strftime("%H:%M")}'
     assert mock_notify_action.call_count == 2
     assert mock_notify_action().save.call_count == 1
     assert mock_notify_action().save.call_args == mock.call(
