@@ -22,7 +22,7 @@ from export_academy.forms import EventAdminModelForm
 
 
 def send_notifications_for_all_bookings(event, template_id, additional_notify_data=None):
-    bookings = Booking.objects.filter(event_id=event.id)
+    bookings = Booking.objects.exclude(status="Cancelled").filter(event_id=event.id)
     for booking in bookings:
         email = booking.registration.email
 
