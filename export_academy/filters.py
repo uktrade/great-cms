@@ -80,6 +80,10 @@ class EventFilter(FilterSet):
         return queryset
 
     def filter_booking_period(self, queryset, _name, value):
+        # All events are returned regardless of whether the user is registered or not
+        if value == self.ALL:
+            return queryset
+
         if is_export_academy_registered(self.request.user):  # type: ignore
             if value == self.UPCOMING:
                 queryset = queryset.exclude(live__isnull=True).filter(
@@ -97,5 +101,8 @@ class EventFilter(FilterSet):
                 queryset = self.Meta.model.objects.exclude(live__isnull=True).filter(
                     bookings__registration__email=self.request.user.email, end_date__lt=timezone.now()  # type: ignore
                 )
+        else:
+            # At this point an unregistered user has no past/future bookings
+            queryset = queryset.none()
 
         return queryset

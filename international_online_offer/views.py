@@ -14,8 +14,6 @@ from international_online_offer.models import (
     UserData,
     get_triage_data,
     get_triage_data_from_db_or_session,
-    get_user_data,
-    get_user_data_from_db,
 )
 from sso import helpers as sso_helpers, mixins as sso_mixins
 
@@ -367,7 +365,7 @@ class ProfileView(GA360Mixin, FormView):
     def get_context_data(self, **kwargs):
         title = self.COMPLETE_SIGN_UP_TITLE
         sub_title = self.COMPLETE_SIGN_UP_LOW_VALUE_SUB_TITLE
-        user_data = get_user_data_from_db(self.request)
+        user_data = UserData.objects.filter(hashed_uuid=self.request.user.hashed_uuid).first()
         triage_data = get_triage_data_from_db_or_session(self.request)
         # if user_data has been provided then the user has setup a profile before
         if user_data:
@@ -384,10 +382,8 @@ class ProfileView(GA360Mixin, FormView):
         )
 
     def get_initial(self):
-        email = ''
-        if hasattr(self.request, 'user'):
-            if hasattr(self.request.user, 'email'):
-                email = self.request.user.email
+        email = self.request.user.email
+        # Setting form data up for first time use (signup)
         init_user_form_data = {
             'company_name': '',
             'company_location': '',
@@ -399,18 +395,18 @@ class ProfileView(GA360Mixin, FormView):
             'agree_info_email': '',
             'landing_timeframe': '',
         }
-        if self.request.user.is_authenticated:
-            user_data = get_user_data(self.request.user.hashed_uuid)
-            if user_data:
-                init_user_form_data['email'] = user_data.email
-                init_user_form_data['company_name'] = user_data.company_name
-                init_user_form_data['company_location'] = user_data.company_location
-                init_user_form_data['full_name'] = user_data.full_name
-                init_user_form_data['role'] = user_data.role
-                init_user_form_data['telephone_number'] = user_data.telephone_number
-                init_user_form_data['agree_terms'] = user_data.agree_terms
-                init_user_form_data['agree_info_email'] = user_data.agree_info_email
-                init_user_form_data['landing_timeframe'] = user_data.landing_timeframe
+        user_data = UserData.objects.filter(hashed_uuid=self.request.user.hashed_uuid).first()
+        if user_data:
+            # If user_data then we're dealing with an existing user accessing their profile
+            init_user_form_data['email'] = user_data.email
+            init_user_form_data['company_name'] = user_data.company_name
+            init_user_form_data['company_location'] = user_data.company_location
+            init_user_form_data['full_name'] = user_data.full_name
+            init_user_form_data['role'] = user_data.role
+            init_user_form_data['telephone_number'] = user_data.telephone_number
+            init_user_form_data['agree_terms'] = user_data.agree_terms
+            init_user_form_data['agree_info_email'] = user_data.agree_info_email
+            init_user_form_data['landing_timeframe'] = user_data.landing_timeframe
 
         return init_user_form_data
 
@@ -598,7 +594,7 @@ class EditYourAnswersView(GA360Mixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         triage_data = get_triage_data_from_db_or_session(self.request)
-        user_data = get_user_data_from_db(self.request)
+        user_data = UserData.objects.filter(hashed_uuid=self.request.user.hashed_uuid).first()
         return super().get_context_data(
             **kwargs,
             triage_data=triage_data,

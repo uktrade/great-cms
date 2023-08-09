@@ -4,56 +4,32 @@ from django.conf import settings
 from directory_constants import sectors as directory_constants_sectors
 from international_online_offer.core import (
     choices,
-    filter_tags,
+    intents,
     professions,
     regions,
     sectors as sectors,
 )
 
 
-def concat_filters(*filters):
-    filters_out = []
-    if filters:
-        for filter in filters:
-            if type(filter) is str:
-                filter = [filter]
-            if filter is not None:
-                filters_out = filters_out + filter
-    return filters_out
+def filter_articles_sector_only(all_sector_tagged_articles):
+    sector_only_articles = []
+    for page in all_sector_tagged_articles:
+        all_tags = page.tags.all() if hasattr(page.tags, 'all') else page.tags
+        if len(all_tags) == 1:
+            sector_only_articles.append(page)
+
+    return sector_only_articles
 
 
-def find_get_to_know_market_articles(articles, sector_filter, intent_filters):
-    filters = concat_filters(sector_filter, intent_filters)
-    filtered_pages = []
-    for page in articles:
-        all_tags = page.specific.tags.all() if hasattr(page.specific.tags, 'all') else page.specific.tags
-        tag_match_count = 0
+def filter_intent_articles_specific_to_sector(all_intent_tagged_articles, sector_filter):
+    intent_articles_specific_to_sector = []
+    for page in all_intent_tagged_articles:
+        all_tags = page.tags.all() if hasattr(page.tags, 'all') else page.tags
         for tag in all_tags:
-            for filter in filters:
-                if tag.name == filter:
-                    tag_match_count += 1
+            if tag.name == sector_filter:
+                intent_articles_specific_to_sector.append(page)
 
-        if len(all_tags) == tag_match_count and tag_match_count > 0:
-            filtered_pages.append(page.specific)
-
-    return filtered_pages
-
-
-def find_get_support_and_incentives_articles(articles):
-    filters = [filter_tags.SUPPORT_AND_INCENTIVES]
-    filtered_pages = []
-    for page in articles:
-        all_tags = page.specific.tags.all() if hasattr(page.specific.tags, 'all') else page.specific.tags
-        tag_match_count = 0
-        for tag in all_tags:
-            for filter in filters:
-                if tag.name == filter:
-                    tag_match_count += 1
-
-        if len(all_tags) == tag_match_count and tag_match_count > 0:
-            filtered_pages.append(page.specific)
-
-    return filtered_pages
+    return intent_articles_specific_to_sector
 
 
 def send_welcome_notification(email, form_url):
@@ -65,32 +41,6 @@ def send_welcome_notification(email, form_url):
     response = action.save({})
     response.raise_for_status()
     return response
-
-
-def find_trade_shows_for_sector(all_trade_shows, sector_filter):
-    filters = concat_filters(sector_filter)
-    filtered_pages = []
-    for page in all_trade_shows:
-        all_tags = page.specific.tags.all() if hasattr(page.specific.tags, 'all') else page.specific.tags
-        tag_match_count = 0
-        for tag in all_tags:
-            for filter in filters:
-                if tag.name == filter:
-                    tag_match_count += 1
-
-        if len(all_tags) == tag_match_count and tag_match_count > 0:
-            filtered_pages.append(page.specific)
-
-    return filtered_pages
-
-
-def get_trade_page(all_trade_pages):
-    filtered_pages = []
-    for page in all_trade_pages:
-        filtered_pages.append(page.specific)
-    if len(filtered_pages) > 0:
-        return filtered_pages[0]
-    return None
 
 
 def get_trade_assoication_sectors_from_sector(sector):
@@ -215,3 +165,19 @@ def get_sector_professions_by_level(sector):
         if profession_by_sector_and_level['sector'] == sector:
             return profession_by_sector_and_level
     return None
+
+
+def can_show_salary_component(tags):
+    for tag in tags:
+        if tag.name == intents.FIND_PEOPLE_WITH_SPECIALIST_SKILLS:
+            return True
+
+    return False
+
+
+def can_show_rent_component(tags):
+    for tag in tags:
+        if tag.name == intents.SET_UP_NEW_PREMISES or tag.name == intents.SET_UP_A_NEW_DISTRIBUTION_CENTRE:
+            return True
+
+    return False

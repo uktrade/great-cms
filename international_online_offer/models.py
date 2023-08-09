@@ -1,3 +1,5 @@
+from itertools import chain
+
 from django.contrib.postgres.fields import ArrayField
 from django.core.paginator import Paginator
 from django.db import models
@@ -15,7 +17,7 @@ from core.blocks import ColumnsBlock
 from core.models import CMSGenericPage
 from directory_constants.choices import COUNTRY_CHOICES
 from domestic.models import BaseContentPage
-from international_online_offer.core import choices, constants, helpers
+from international_online_offer.core import choices, filter_tags, helpers
 from international_online_offer.forms import LocationSelectForm
 
 
@@ -23,13 +25,6 @@ def get_triage_data(hashed_uuid):
     try:
         return TriageData.objects.get(hashed_uuid=hashed_uuid)
     except TriageData.DoesNotExist:
-        return None
-
-
-def get_user_data(hashed_uuid):
-    try:
-        return UserData.objects.get(hashed_uuid=hashed_uuid)
-    except UserData.DoesNotExist:
         return None
 
 
@@ -55,16 +50,6 @@ def get_triage_data_from_db_or_session(request):
         )
 
 
-def get_user_data_from_db(request):
-    if hasattr(request, 'user'):
-        if hasattr(request.user, 'is_authenticated'):
-            if request.user.is_authenticated:
-                if hasattr(request.user, 'hashed_uuid'):
-                    user_data = get_user_data(request.user.hashed_uuid)
-                    if user_data:
-                        return user_data
-
-
 class IOOIndexPage(BaseContentPage):
     parent_page_types = [
         'domestic.StructuralPage',
@@ -82,29 +67,53 @@ class IOOGuidePage(BaseContentPage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
+
+        user_data = (
+            UserData.objects.filter(hashed_uuid=request.user.hashed_uuid).first()
+            if request.user.is_authenticated
+            else None
+        )
         triage_data = get_triage_data_from_db_or_session(request)
-        user_data = get_user_data_from_db(request)
-        trade_page = helpers.get_trade_page(self.get_children().live().type(IOOTradePage))
-        all_articles = self.get_children().live().type(IOOArticlePage)
-        get_to_know_market_articles = []
-        complete_contact_form_message = constants.LOW_VALUE_INVESTOR_SIGNUP_MESSAGE
-        if triage_data:
-            if triage_data.is_high_value:
-                complete_contact_form_message = constants.HIGH_VALUE_INVESTOR_SIGNUP_MESSAGE
-            get_to_know_market_articles = helpers.find_get_to_know_market_articles(
-                all_articles, triage_data.sector, triage_data.intent
-            )
-        support_and_incentives_articles = helpers.find_get_support_and_incentives_articles(all_articles)
+
+        # Get trade association and shows page (should only be one)
+        trade_page = IOOTradePage.objects.live().filter().first()
+
+        # Get any EYB articles that have been tagged with user selected sector
+        all_articles_tagged_with_sector = (
+            IOOArticlePage.objects.live().filter(tags__name=triage_data.sector)
+            if triage_data and triage_data.sector
+            else []
+        )
+        # Get any EYB articles that have been tagged with user selected intent(s)
+        all_articles_tagged_with_intent = (
+            IOOArticlePage.objects.live().filter(tags__name__in=triage_data.intent)
+            if triage_data and triage_data.intent
+            else []
+        )
+        # Get any EYB articles that have been tagged with SUPPORT_AND_INCENTIVES
+        all_articles_tagged_with_support_and_incentives = IOOArticlePage.objects.live().filter(
+            tags__name=filter_tags.SUPPORT_AND_INCENTIVES
+        )
+
+        # Filter rule to get articles that have ONLY been tagged with the users selected sector
+        sector_only_articles = helpers.filter_articles_sector_only(all_articles_tagged_with_sector)
+        # Filter rule to get intent articles that are tagged with the users selected sector
+        intent_articles_specific_to_sector = (
+            helpers.filter_intent_articles_specific_to_sector(all_articles_tagged_with_intent, triage_data.sector)
+            if triage_data and triage_data.sector
+            else []
+        )
+
         context.update(
-            complete_contact_form_message=complete_contact_form_message,
             complete_contact_form_link='international_online_offer:signup',
             complete_contact_form_link_text='Sign up',
             triage_data=triage_data,
             user_data=user_data,
-            get_to_know_market_articles=get_to_know_market_articles,
-            support_and_incentives_articles=support_and_incentives_articles,
+            get_to_know_market_articles=list(chain(sector_only_articles, intent_articles_specific_to_sector)),
+            support_and_incentives_articles=all_articles_tagged_with_support_and_incentives,
             trade_page=trade_page,
         )
+
         self.set_ga360_payload(
             page_id='Guide',
             business_unit='ExpandYourBusiness',
@@ -112,6 +121,7 @@ class IOOGuidePage(BaseContentPage):
         )
         self.add_ga360_data_to_payload(request)
         context['ga360'] = self.ga360_payload
+
         return context
 
 
@@ -196,6 +206,11 @@ class IOOArticlePage(BaseContentPage):
         context = super().get_context(request, *args, **kwargs)
         if helpers.is_authenticated(request):
             triage_data = get_triage_data(request.user.hashed_uuid)
+
+            tags = self.tags.all()
+            show_salary_component = helpers.can_show_salary_component(tags)
+            show_rent_component = helpers.can_show_rent_component(tags)
+
             if triage_data:
                 location = request.GET.get(
                     'location', triage_data.location if triage_data.location else choices.regions.LONDON
@@ -204,15 +219,17 @@ class IOOArticlePage(BaseContentPage):
                 sector_display = triage_data.get_sector_display()
 
                 entry_salary = SalaryData.objects.filter(
-                    region=region, vertical__icontains=sector_display, professional_level__icontains='Entry-level'
+                    region__iexact=region,
+                    vertical__icontains=sector_display,
+                    professional_level__icontains='Entry-level',
                 ).aggregate(Avg('median_salary'))
                 mid_salary = SalaryData.objects.filter(
-                    region=region,
+                    region__iexact=region,
                     vertical__icontains=sector_display,
                     professional_level__icontains='Middle/Senior Management',
                 ).aggregate(Avg('median_salary'))
                 executive_salary = SalaryData.objects.filter(
-                    region=region,
+                    region__iexact=region,
                     vertical__icontains=sector_display,
                     professional_level__icontains='Director/Executive',
                 ).aggregate(Avg('median_salary'))
@@ -259,6 +276,8 @@ class IOOArticlePage(BaseContentPage):
                     high_street_retail=high_street_retail,
                     work_office=work_office,
                     professions_by_sector=professions_by_sector,
+                    show_salary_component=show_salary_component,
+                    show_rent_component=show_rent_component,
                 )
         site_section_url = ''
         if self.url:
@@ -284,16 +303,20 @@ class IOOTradePage(BaseContentPage):
         all_tradeshows = []
         all_trade_associations = []
         if triage_data:
-            all_tradeshows = helpers.find_trade_shows_for_sector(
-                self.get_children().live().type(IOOTradeShowPage), triage_data.sector
+            all_tradeshows = (
+                IOOTradeShowPage.objects.live().filter(tags__name=triage_data.sector) if triage_data.sector else []
             )
             # Given the sector selected we need to get mapped trade association sectors to query
             # with due to misalignment of sector names across DBT
             trade_association_sectors = helpers.get_trade_assoication_sectors_from_sector(triage_data.sector)
-            all_trade_associations = TradeAssociation.objects.filter(sector__in=trade_association_sectors)
+            all_trade_associations = (
+                TradeAssociation.objects.filter(sector__in=trade_association_sectors)
+                if trade_association_sectors
+                else []
+            )
             # if we still have no matching trade associations then we'll
             # try a search based a sector display name that we might not have mapped yet
-            if len(all_trade_associations) == 0:
+            if len(all_trade_associations) == 0 and triage_data.sector:
                 all_trade_associations = TradeAssociation.objects.filter(sector=triage_data.get_sector_display())
 
         page = request.GET.get('page', 1)
