@@ -17,12 +17,14 @@ from core.templatetags.content_tags import (
     get_link_blocks,
     get_template_translation_enabled,
     get_text_blocks,
+    get_topic_blocks,
     get_topic_title_for_lesson,
     highlighted_text,
     is_lesson_page,
     is_placeholder_page,
     make_bold,
     str_to_datetime,
+    tag_text_mapper,
 )
 from core.templatetags.object_tags import get_item
 from core.templatetags.progress_bar import progress_bar
@@ -696,6 +698,14 @@ def test_get_text_blocks(input, expected_instances):
     assert len(get_text_blocks(input)) == expected_instances
 
 
+@pytest.mark.parametrize(
+    'input, expected_instances',
+    (([factories.BlockFactory('a_block')], 1),),
+)
+def test_get_topic_blocks(input, expected_instances):
+    assert len(get_topic_blocks(input, 'some_topic')) == expected_instances
+
+
 def test_get_template_translation_enabled_matches_settings():
     assert get_template_translation_enabled() == settings.FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION
 
@@ -741,4 +751,17 @@ def test_make_bold_tag():
 def test_highlighted_text():
     result = highlighted_text(['a', 'b'])
     expected_output = '<span class="great-highlighted-text">a, </span><span class="great-highlighted-text">b</span>'
+    assert result == expected_output
+
+
+@pytest.mark.parametrize(
+    'input, expected_output',
+    (
+        ('howTo', 'How to'),
+        ('govuk', 'GOV.UK'),
+        ('something else', 'something else'),
+    ),
+)
+def test_tag_text_mapper(input, expected_output):
+    result = tag_text_mapper(input)
     assert result == expected_output

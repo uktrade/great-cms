@@ -1,0 +1,28 @@
+{% for topic in topics %}
+    {% if topic.block_type == 'topic' %}
+        {% for block in topic.value %}
+            {% if block.block_type == 'title' %}
+                <a href="?topic={{block.value}}" class="govuk-!-margin-right-6 govuk-!-margin-bottom-6 govuk-!-padding-6 great-topic-card great-min-height-300-desktop">
+            {% endif %}
+        {% endfor %}
+        {% for block in topic.value %}
+            {% if block.block_type == 'type' %}
+                <span class="govuk-tag great-tag">{{block.value}}</span>
+            {% elif block.block_type == 'title' %}
+                <h3 class="govuk-heading-xs govuk-!-margin-top-3 govuk-!-margin-bottom-2">{{block.value}}</h3>
+            {% elif block.block_type == 'description' %}
+                <p class="govuk-body govuk-!-margin-bottom-2">{{block.value}}</p>
+            {% endif %}
+        {% endfor %}
+        {% for block in topic.value %}
+            {% if block.block_type == 'title' %}
+                <span class="govuk-link great-text-blue great-chevron-link">Go to topic</span>
+            {% endif %}
+        {% endfor %}
+        {% for block in topic.value %}
+            {% if block.block_type == 'title' %}
+                </a>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endfor %}
