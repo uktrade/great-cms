@@ -392,6 +392,16 @@ class TriageData(models.Model):
     spend_other = models.CharField(max_length=255, null=True)
     is_high_value = models.BooleanField(default=False)
 
+    @property
+    def is_complete(self):
+        if self.sector:
+            if self.intent or self.intent_other:
+                if self.location or self.location_none:
+                    if self.hiring:
+                        if self.spend or self.spend_other:
+                            return True
+        return False
+
 
 class UserData(models.Model):
     hashed_uuid = models.CharField(max_length=200)
