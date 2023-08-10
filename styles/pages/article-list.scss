@@ -8,9 +8,11 @@
   }
   .card {
     background-color: transparent;
+    height:100%;
+    background: $color-main-background;
 
     .card-inner {
-      min-height: 148px;
+      min-height: 148px !important;
       background-color: $color-main-background;
 
       h2 {
