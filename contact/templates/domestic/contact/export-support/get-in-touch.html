@@ -1,0 +1,58 @@
+{% extends 'domestic/base.html' %}
+{% load breadcrumbs from component_tags %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+{% load static %}
+{% load add_govuk_classes from content_tags %}
+
+{% block head_title %}Get in touch{% endblock %}
+
+{% block body_js %}
+  {{ block.super }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-!-padding-bottom-9 great great-bg-lighter-grey">
+    <div class="great-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-one-third">
+                        <p class="govuk-body govuk-!-margin-top-7 govuk-!-margin-bottom-0">Support</p>
+
+                        {% if page.page_title %}
+                            <h1 class="govuk-heading-xl govuk-!-margin-top-0 govuk-!-margin-bottom-2">{{ page.page_title }}</h1>
+                        {% endif %}
+
+                        {% if page.page_teaser %}
+                            {{ page.page_teaser| richtext | add_govuk_classes}}
+                        {% endif %}
+                    </div>
+                </div>
+                {% if page.page_body %}
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-full">
+                        <div class="govuk-!-padding-top-6 great-display-flex-desktop great-card-wrapper">
+                            {% include 'domestic/contact/export-support/includes/get-in-touch-card.html' with cards=page.page_body %}
+                        </div>
+                        <hr class="great-hr-blue" />
+                    </div>
+                </div>
+                {% endif %}
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-one-half">
+                        <div class="govuk-!-padding-6 great-bg-white">
+                            <h2 class="govuk-heading-m">Contact us online</h2>
+                            <p class="govuk-body">Answer a few questions about your business and the nature of your enquiry.</p>
+                            <p class="govuk-body">What we can help with:</p>
+                            <p class="govuk-body">What we can't help with:</p>
+                            <a href="{% url 'contact:export-support' %}" class="govuk-button govuk-!-margin-bottom-4 great-full-width">Contact us</a>
+                            <p class="govuk-body govuk-!-margin-bottom-0">We aim to respond within three days.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+{% endblock %}

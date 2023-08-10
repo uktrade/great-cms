@@ -562,3 +562,13 @@ class CampaignFormBlock(blocks.StructBlock):
     email_subject = blocks.TextBlock(required=True)
     email_title = blocks.TextBlock(required=True)
     email_body = blocks.TextBlock(required=True)
+
+
+class SupportCardBlock(blocks.StructBlock):
+    image = ImageChooserBlock(required=False, label='Card Image')
+    type = blocks.ChoiceBlock(choices=[('govuk', 'GOV.UK'), ('tools', 'Tools'), ('howTo', 'How to')], label='Type')
+    title = blocks.CharBlock(max_length=255, label='Title')
+    description = blocks.CharBlock(max_length=255, label='Description')
+    link_text = blocks.CharBlock(label='Link text')
+    link_url = blocks.CharBlock(label='Link url')
+    full_width = blocks.ChoiceBlock(choices=[('yes', 'Yes'), ('no', 'No')], label='Full width?', required=False)

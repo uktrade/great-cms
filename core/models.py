@@ -43,7 +43,12 @@ from wagtailmedia.models import Media
 from wagtailseo.models import SeoMixin
 
 from core import blocks as core_blocks, cms_panels, mixins, snippet_slugs
-from core.blocks import CampaignFormBlock, LinksBlock, MicrositeColumnBlock
+from core.blocks import (
+    CampaignFormBlock,
+    LinksBlock,
+    MicrositeColumnBlock,
+    SupportCardBlock,
+)
 from core.case_study_index import delete_cs_index, update_cs_index
 from core.cms_snippets import NonPageContentSEOMixin, NonPageContentSnippetBase
 from core.constants import (
@@ -1642,3 +1647,129 @@ class HeroSnippet(NonPageContentSnippetBase, NonPageContentSEOMixin):
             ],
         ),
     ]
+
+
+class Support(Page):
+    folder_page = True
+    settings_panels = [FieldPanel('slug')]
+
+    parent_page_types = [
+        'domestic.DomesticHomePage',
+        'domestic.GreatDomesticHomePage',
+    ]
+
+    subpage_types = ['core.SupportPage', 'core.GetInTouchPage']
+
+    class Meta:
+        verbose_name = 'Support'
+        verbose_name_plural = 'Support'
+
+    def serve_preview(self, request, mode_name='dummy'):
+        # It doesn't matter what is passed as mode_name - we always HTTP404
+        raise Http404()
+
+    def serve(self, request):
+        raise Http404()
+
+
+class SupportPage(cms_panels.SupportPanels, Page):
+    template = 'domestic/contact/export-support/support.html'
+    parent_page_types = [
+        'core.Support',
+        'core.SupportPage',
+    ]
+    subpage_types = ['core.SupportPage']
+
+    class Meta:
+        verbose_name = 'Support page'
+        verbose_name_plural = 'Support pages'
+
+    page_title = models.TextField(
+        null=True,
+    )
+    page_teaser = RichTextField(
+        blank=True,
+        null=True,
+    )
+    hero_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    page_body = StreamField(
+        [
+            (
+                'topic',
+                StreamBlock(
+                    [
+                        (
+                            'title',
+                            blocks.CharBlock(
+                                form_classname='title',
+                                default='',
+                                required=True,
+                            ),
+                        ),
+                        (
+                            'description',
+                            blocks.CharBlock(
+                                form_classname='description',
+                                default='',
+                                required=True,
+                            ),
+                        ),
+                        ('type', blocks.ChoiceBlock(choices=[('topic', 'Topic')], label='Type')),
+                        ('card', SupportCardBlock()),
+                        ('sidebar_item', SupportCardBlock()),
+                        ('related_item', SupportCardBlock()),
+                    ],
+                    block_counts={
+                        'title': {'max_num': 1},
+                        'description': {'max_num': 1},
+                        'type': {'max_num': 1},
+                    },
+                ),
+            ),
+        ],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
+
+
+class GetInTouchPage(cms_panels.GetInTouchPanels, Page):
+    template = 'domestic/contact/export-support/get-in-touch.html'
+    parent_page_types = [
+        'core.Support',
+        'core.SupportPage',
+    ]
+    subpage_types = ['core.SupportPage']
+
+    class Meta:
+        verbose_name = 'Get in touch page'
+        verbose_name_plural = 'Get in touch pages'
+
+    page_title = models.TextField(
+        null=True,
+    )
+    page_teaser = RichTextField(
+        blank=True,
+        null=True,
+    )
+    page_body = StreamField(
+        [
+            (
+                'cards',
+                StreamBlock(
+                    [
+                        ('card', SupportCardBlock()),
+                    ],
+                ),
+            ),
+        ],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
