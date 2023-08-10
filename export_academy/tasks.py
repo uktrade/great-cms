@@ -16,7 +16,10 @@ def send_automated_events_notification():
     )
 
     for event in events:
-        event_time = f'{event.start_date.strftime("%H:%M")} - {event.end_date.strftime("%H:%M")}'
+        current_timezone = timezone.get_current_timezone()
+        event_start_date = event.start_date.astimezone(current_timezone)
+        event_end_date = event.end_date.astimezone(current_timezone)
+        event_time = f'{event_start_date.strftime("%H:%M")} - {event_end_date.strftime("%H:%M")}'
         additional_notify_data = dict(
             event_date=event.start_date.strftime('%-d %B %Y'),
             event_time=event_time,
