@@ -8,7 +8,7 @@
                 <span class="govuk-tag great-tag great-tag--{{block.value.type}}">{{block.value.type|tag_text_mapper}}</span>
                 <h2 class="govuk-heading-xs govuk-!-margin-top-3 govuk-!-margin-bottom-2">{{block.value.title}}</h2>
                 <p class="govuk-body govuk-!-margin-bottom-2">{{block.value.description}}</p>
-                <a href="{{block.value.link_url}}" class="govuk-link great-text-blue" target="_blank">{{block.value.link_text}}</a>
+                <a href="{{block.value.link_url}}" class="govuk-link great-text-blue" target="_blank" rel="noopener noreferrer">{{block.value.link_text}}</a>
             </div>
             {% endif %}
         {% endfor %}
