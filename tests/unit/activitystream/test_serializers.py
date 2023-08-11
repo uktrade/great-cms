@@ -451,7 +451,7 @@ class TestMicrositeSerializer(TestCase):
                 'summary': self.microsite.page_teaser,
                 'name': self.microsite.page_title,
                 'url': 'https://www.great.gov.uk/homepage/landing-page/root/microsite-title/',
-                'locale_id': 1,
+                'locale_id': 9,
             },
         }
 
