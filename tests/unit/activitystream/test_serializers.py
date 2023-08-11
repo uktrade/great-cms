@@ -1,6 +1,8 @@
 import json
+from datetime import datetime
 
 import pytest
+from django.test import TestCase
 from django.utils import timezone
 
 from activitystream.serializers import (
@@ -11,9 +13,11 @@ from activitystream.serializers import (
     ActivityStreamExportAcademyRegistrationSerializer,
     ArticlePageSerializer,
     CountryGuidePageSerializer,
+    MicrositePageSerializer,
 )
 from domestic.models import ArticlePage
 from international_online_offer.models import TriageData, UserData
+from tests.unit.core.factories import MicrositeFactory, MicrositePageFactory
 from tests.unit.domestic.factories import ArticlePageFactory, CountryGuidePageFactory
 from tests.unit.export_academy.factories import (
     BookingFactory,
@@ -419,3 +423,78 @@ def test_eyb_triage_serializer():
         },
     }
     assert output == expected
+
+
+@pytest.mark.django_db
+def test_microsite_serializer():
+    instance = TriageData()
+
+    instance.id = 123
+    instance.hashed_uuid = '456'
+    instance.sector = 'FOOD_AND_DRINK'
+    instance.intent = ['SET_UP_NEW_PREMISES', 'SET_UP_A_NEW_DISTRIBUTION_CENTRE']
+    instance.intent_other = 'OTHER'
+    instance.location = 'WALES'
+    instance.location_none = True
+    instance.hiring = '1-10'
+    instance.spend = '5000001-10000000'
+    instance.spend_other = '456774'
+    instance.is_high_value = True
+
+    serializer = ActivityStreamExpandYourBusinessTriageDataSerializer()
+    output = serializer.to_representation(instance)
+    expected = {
+        'id': f'dit:expandYourBusiness:triageData:{instance.id}:Update',
+        'type': 'Update',
+        'object': {
+            'id': instance.id,
+            'type': 'dit:expandYourBusiness:triageData',
+            'hashedUuid': instance.hashed_uuid,
+            'sector': instance.sector,
+            'intent': instance.intent,
+            'intentOther': instance.intent_other,
+            'location': instance.location,
+            'locationNone': instance.location_none,
+            'hiring': instance.hiring,
+            'spend': instance.spend,
+            'spendOther': instance.spend_other,
+            'isHighValue': instance.is_high_value,
+        },
+    }
+    assert output == expected
+
+
+@pytest.mark.django_db
+class TestMicrositeSerializer(TestCase):
+    @pytest.fixture(autouse=True)
+    def domestic_homepage_fixture(self, domestic_homepage):
+        self.domestic_homepage = domestic_homepage
+
+    def setUp(self):
+        root = MicrositeFactory(title='root', slug='microsites', parent=self.domestic_homepage)
+
+        self.microsite = MicrositePageFactory(
+            page_title='microsite home title en-gb',
+            page_teaser='this is an example microsite page',
+            slug='microsite-page-home',
+            parent=root,
+            last_published_at=datetime.strptime("2023-08-10 15:30:00", "%Y-%m-%d %H:%M:%S"),
+            id=12345,
+        )
+
+    def test_serializer(self):
+        serializer = MicrositePageSerializer()
+        output = serializer.to_representation(self.microsite)
+
+        expected = {
+            'id': f'dit:greatCms:Microsite:{self.microsite.id}:Update',
+            'type': 'Update',
+            'object': {
+                'id': 'dit:greatCms:Microsite::' + self.microsite.id,
+                'type': 'dit:greatCms:Microsite',
+                'summary': self.microsite.page_teaser,
+                'name': self.microsite.page_title,
+                'url': 'test',
+            },
+        }
+        assert output == expected
