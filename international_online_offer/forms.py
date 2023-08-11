@@ -61,6 +61,8 @@ class IntentForm(forms.Form):
     def clean(self):
         cleaned_data = super().clean()
         intent = cleaned_data.get('intent')
+        if intents.OTHER not in intent:
+            cleaned_data['intent_other'] = ''
         intent_other = cleaned_data.get('intent_other')
         if intent and any(intents.OTHER in s for s in intent) and not intent_other:
             self.add_error('intent_other', 'Please enter more information here')
@@ -132,6 +134,8 @@ class SpendForm(forms.Form):
     def clean(self):
         cleaned_data = super().clean()
         spend = cleaned_data.get('spend')
+        if spend != spends.SPECIFIC_AMOUNT:
+            cleaned_data['spend_other'] = ''
         spend_other = cleaned_data.get('spend_other')
         if spend == spends.SPECIFIC_AMOUNT and not spend_other:
             self.add_error('spend_other', 'You must enter a value in pounds')
