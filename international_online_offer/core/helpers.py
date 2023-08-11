@@ -181,3 +181,14 @@ def can_show_rent_component(tags):
             return True
 
     return False
+
+
+def is_triage_complete(triage_data):
+    if triage_data:
+        if triage_data.sector:
+            if triage_data.intent or triage_data.intent_other:
+                if triage_data.location or triage_data.location_none:
+                    if triage_data.hiring:
+                        if triage_data.spend or triage_data.spend_other:
+                            return True
+    return False

@@ -75,14 +75,7 @@ class IOOGuidePage(BaseContentPage):
         )
         triage_data = get_triage_data_from_db_or_session(request)
 
-        is_triage_complete = False
-        if triage_data:
-            if triage_data.sector:
-                if triage_data.intent or triage_data.intent_other:
-                    if triage_data.location or triage_data.location_none:
-                        if triage_data.hiring:
-                            if triage_data.spend or triage_data.spend_other:
-                                is_triage_complete = True
+        is_triage_complete = helpers.is_triage_complete(triage_data)
 
         # Get trade association and shows page (should only be one)
         trade_page = IOOTradePage.objects.live().filter().first()
