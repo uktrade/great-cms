@@ -5,6 +5,10 @@
 {% load static %}
 {% load add_govuk_classes from content_tags %}
 
+{% block meta_tags %}
+  <meta name="robots" content="noindex">
+{% endblock %}
+
 {% block head_title %}Get in touch{% endblock %}
 
 {% block body_js %}
