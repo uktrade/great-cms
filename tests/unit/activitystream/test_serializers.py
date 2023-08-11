@@ -13,6 +13,7 @@ from activitystream.serializers import (
     ArticlePageSerializer,
     CountryGuidePageSerializer,
     MicrositePageSerializer,
+    PageSerializer,
 )
 from domestic.models import ArticlePage
 from international_online_offer.models import TriageData, UserData
@@ -435,23 +436,33 @@ class TestMicrositeSerializer(TestCase):
         self.domestic_homepage = domestic_homepage
         self.landing_page = LandingPageFactory(parent=self.domestic_homepage)
 
-    def test_microsite_serializer(self):
-        root = MicrositeFactory(title='root', parent=self.landing_page)
-        microsite = MicrositePageFactory(page_title='home', title='microsite-title', parent=root)
-        microsite.last_published_at = timezone.now()
-        microsite.save()
-        serializer = MicrositePageSerializer()
-        output = serializer.to_representation(microsite)
-        expected = {
-            'id': f'dit:greatCms:Microsite:{microsite.id}:Update',
+    def setUp(self):
+        self.root = MicrositeFactory(title='root', parent=self.landing_page)
+        self.microsite = MicrositePageFactory(page_title='home', title='microsite-title', parent=self.root)
+        self.microsite.last_published_at = timezone.now()
+        self.microsite.save()
+        self.expected = {
+            'id': f'dit:greatCms:Microsite:{self.microsite.id}:Update',
             'type': 'Update',
-            'published': microsite.last_published_at.isoformat('T'),
+            'published': self.microsite.last_published_at.isoformat('T'),
             'object': {
-                'id': 'dit:greatCms:Microsite::' + str(microsite.id),
+                'id': 'dit:greatCms:Microsite::' + str(self.microsite.id),
                 'type': 'dit:greatCms:Microsite',
-                'summary': microsite.page_teaser,
-                'name': microsite.page_title,
+                'summary': self.microsite.page_teaser,
+                'name': self.microsite.page_title,
                 'url': 'https://www.great.gov.uk/homepage/landing-page/root/microsite-title/',
+                'locale_id': 1,
             },
         }
-        assert output == expected
+
+    def test_microsite_serializer(self):
+        serializer = MicrositePageSerializer()
+        output = serializer.to_representation(self.microsite)
+
+        assert output == self.expected
+
+    def test_page_serializer(self):
+        serializer = PageSerializer()
+        output = serializer.to_representation(self.microsite)
+
+        assert output == self.expected
