@@ -1658,7 +1658,7 @@ class Support(Page):
         'domestic.GreatDomesticHomePage',
     ]
 
-    subpage_types = ['core.SupportPage']
+    subpage_types = ['core.SupportPage', 'core.GetInTouchPage']
 
     class Meta:
         verbose_name = 'Support'
@@ -1730,6 +1730,42 @@ class SupportPage(cms_panels.SupportPanels, Page):
                         'description': {'max_num': 1},
                         'type': {'max_num': 1},
                     },
+                ),
+            ),
+        ],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
+
+
+class GetInTouchPage(cms_panels.GetInTouchPanels, Page):
+    template = 'domestic/contact/export-support/get-in-touch.html'
+    parent_page_types = [
+        'core.Support',
+        'core.SupportPage',
+    ]
+    subpage_types = ['core.SupportPage']
+
+    class Meta:
+        verbose_name = 'Get in touch page'
+        verbose_name_plural = 'Get in touch pages'
+
+    page_title = models.TextField(
+        null=True,
+    )
+    page_teaser = RichTextField(
+        blank=True,
+        null=True,
+    )
+    page_body = StreamField(
+        [
+            (
+                'cards',
+                StreamBlock(
+                    [
+                        ('card', SupportCardBlock()),
+                    ],
                 ),
             ),
         ],
