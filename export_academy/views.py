@@ -17,7 +17,7 @@ from django.views.generic import (
 from django_filters.views import FilterView
 from drf_spectacular.utils import extend_schema
 from great_components.mixins import GA360Mixin
-from icalendar import Alarm, Calendar, Event, vText
+from icalendar import Alarm, Calendar, Event
 from rest_framework.generics import GenericAPIView
 
 from config import settings
@@ -172,7 +172,6 @@ class DownloadCalendarView(GenericAPIView):
         meeting.add('DTSTART', event.start_date)
         meeting.add('DTEND', event.end_date)
         meeting['LOCATION'] = event.location if event.format == event.IN_PERSON else 'Microsoft Teams Meeting'
-        meeting['LOCATION'] = vText(meeting['LOCATION'])
         meeting['UID'] = uuid4()
 
         description = f'{event.name}\n\n{event.description}{calender_content()}'
