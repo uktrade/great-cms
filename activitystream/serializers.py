@@ -96,7 +96,7 @@ class MicrositePageSerializer(serializers.Serializer):
                 'id': 'dit:greatCms:Microsite::' + str(obj.id),
                 'name': obj.page_title,
                 'summary': obj.page_teaser,
-                'url': obj.get_absolute_url(),
+                'url': 'https://www.great.gov.uk' + obj.url_path,
                 # 'keywords': ' '.join(obj.tags.all().values_list('name', flat=True)),
             },
         }

@@ -1,5 +1,4 @@
 import json
-from datetime import datetime
 
 import pytest
 from django.test import TestCase
@@ -17,7 +16,11 @@ from activitystream.serializers import (
 )
 from domestic.models import ArticlePage
 from international_online_offer.models import TriageData, UserData
-from tests.unit.core.factories import MicrositeFactory, MicrositePageFactory
+from tests.unit.core.factories import (
+    LandingPageFactory,
+    MicrositeFactory,
+    MicrositePageFactory,
+)
 from tests.unit.domestic.factories import ArticlePageFactory, CountryGuidePageFactory
 from tests.unit.export_academy.factories import (
     BookingFactory,
@@ -430,32 +433,25 @@ class TestMicrositeSerializer(TestCase):
     @pytest.fixture(autouse=True)
     def domestic_homepage_fixture(self, domestic_homepage):
         self.domestic_homepage = domestic_homepage
+        self.landing_page = LandingPageFactory(parent=self.domestic_homepage)
 
-    def setUp(self):
-        root = MicrositeFactory(title='root', slug='microsites', parent=self.domestic_homepage)
-
-        self.microsite = MicrositePageFactory(
-            page_title='microsite home title en-gb',
-            page_teaser='this is an example microsite page',
-            slug='microsite-page-home',
-            parent=root,
-            last_published_at=datetime.strptime('2023-08-10 15:30:00', '%Y-%m-%d %H:%M:%S'),
-            id=12345,
-        )
-
-    def test_serializer(self):
+    def test_microsite_serializer(self):
+        root = MicrositeFactory(title='root', parent=self.landing_page)
+        microsite = MicrositePageFactory(page_title='home', title='microsite-title', parent=root)
+        microsite.last_published_at = timezone.now()
+        microsite.save()
         serializer = MicrositePageSerializer()
-        output = serializer.to_representation(self.microsite)
-
+        output = serializer.to_representation(microsite)
         expected = {
-            'id': f'dit:greatCms:Microsite:{self.microsite.id}:Update',
+            'id': f'dit:greatCms:Microsite:{microsite.id}:Update',
             'type': 'Update',
+            'published': microsite.last_published_at.isoformat('T'),
             'object': {
-                'id': 'dit:greatCms:Microsite::' + self.microsite.id,
+                'id': 'dit:greatCms:Microsite::' + str(microsite.id),
                 'type': 'dit:greatCms:Microsite',
-                'summary': self.microsite.page_teaser,
-                'name': self.microsite.page_title,
-                'url': 'test',
+                'summary': microsite.page_teaser,
+                'name': microsite.page_title,
+                'url': 'https://www.great.gov.uk/homepage/landing-page/root/microsite-title/',
             },
         }
         assert output == expected
