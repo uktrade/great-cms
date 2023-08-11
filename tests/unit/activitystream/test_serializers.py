@@ -426,45 +426,6 @@ def test_eyb_triage_serializer():
 
 
 @pytest.mark.django_db
-def test_microsite_serializer():
-    instance = TriageData()
-
-    instance.id = 123
-    instance.hashed_uuid = '456'
-    instance.sector = 'FOOD_AND_DRINK'
-    instance.intent = ['SET_UP_NEW_PREMISES', 'SET_UP_A_NEW_DISTRIBUTION_CENTRE']
-    instance.intent_other = 'OTHER'
-    instance.location = 'WALES'
-    instance.location_none = True
-    instance.hiring = '1-10'
-    instance.spend = '5000001-10000000'
-    instance.spend_other = '456774'
-    instance.is_high_value = True
-
-    serializer = ActivityStreamExpandYourBusinessTriageDataSerializer()
-    output = serializer.to_representation(instance)
-    expected = {
-        'id': f'dit:expandYourBusiness:triageData:{instance.id}:Update',
-        'type': 'Update',
-        'object': {
-            'id': instance.id,
-            'type': 'dit:expandYourBusiness:triageData',
-            'hashedUuid': instance.hashed_uuid,
-            'sector': instance.sector,
-            'intent': instance.intent,
-            'intentOther': instance.intent_other,
-            'location': instance.location,
-            'locationNone': instance.location_none,
-            'hiring': instance.hiring,
-            'spend': instance.spend,
-            'spendOther': instance.spend_other,
-            'isHighValue': instance.is_high_value,
-        },
-    }
-    assert output == expected
-
-
-@pytest.mark.django_db
 class TestMicrositeSerializer(TestCase):
     @pytest.fixture(autouse=True)
     def domestic_homepage_fixture(self, domestic_homepage):
@@ -478,7 +439,7 @@ class TestMicrositeSerializer(TestCase):
             page_teaser='this is an example microsite page',
             slug='microsite-page-home',
             parent=root,
-            last_published_at=datetime.strptime("2023-08-10 15:30:00", "%Y-%m-%d %H:%M:%S"),
+            last_published_at=datetime.strptime('2023-08-10 15:30:00', '%Y-%m-%d %H:%M:%S'),
             id=12345,
         )
 
