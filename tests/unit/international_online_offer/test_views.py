@@ -310,7 +310,7 @@ def test_triage_spend_session(client, settings):
     url = reverse('international_online_offer:spend')
     client.post(url, {'spend': spends.TWO_MILLION_ONE_TO_FIVE_MILLION})
     assert client.session['spend'] == spends.TWO_MILLION_ONE_TO_FIVE_MILLION
-    assert client.session['spend_other'] is None
+    assert client.session['spend_other'] == ''
 
 
 @pytest.mark.django_db
