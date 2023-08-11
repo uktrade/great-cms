@@ -33,7 +33,7 @@
         </div>
     </div>
     {% endif %}
-    {% if not triage_data.is_complete %}
+    {% if not is_triage_complete %}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
             {% include './includes/govuk/notification_banner.html' with banner_title="Important" banner_heading='Complete a 2-minute step by step process to ensure this guide is tailored to your specific needs.' banner_link='international_online_offer:sector' banner_link_text='Start now' %}

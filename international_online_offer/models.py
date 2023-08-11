@@ -75,6 +75,14 @@ class IOOGuidePage(BaseContentPage):
         )
         triage_data = get_triage_data_from_db_or_session(request)
 
+        is_triage_complete = False
+        if triage_data.sector:
+            if triage_data.intent or triage_data.intent_other:
+                if triage_data.location or triage_data.location_none:
+                    if triage_data.hiring:
+                        if triage_data.spend or triage_data.spend_other:
+                            is_triage_complete = True
+
         # Get trade association and shows page (should only be one)
         trade_page = IOOTradePage.objects.live().filter().first()
 
@@ -112,6 +120,7 @@ class IOOGuidePage(BaseContentPage):
             get_to_know_market_articles=list(chain(sector_only_articles, intent_articles_specific_to_sector)),
             support_and_incentives_articles=all_articles_tagged_with_support_and_incentives,
             trade_page=trade_page,
+            is_triage_complete=is_triage_complete,
         )
 
         self.set_ga360_payload(
@@ -391,16 +400,6 @@ class TriageData(models.Model):
     spend = models.CharField(max_length=255, choices=choices.SPEND_CHOICES)
     spend_other = models.CharField(max_length=255, null=True)
     is_high_value = models.BooleanField(default=False)
-
-    @property
-    def is_complete(self):
-        if self.sector:
-            if self.intent or self.intent_other:
-                if self.location or self.location_none:
-                    if self.hiring:
-                        if self.spend or self.spend_other:
-                            return True
-        return False
 
 
 class UserData(models.Model):
