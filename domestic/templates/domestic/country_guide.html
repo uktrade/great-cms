@@ -29,6 +29,11 @@
         <p class='sub-header'>Exporting guide to</p>
         <h1>{{ page.heading }}</h1>
         <h2 class="visually-hidden">Overview</h2>
+        {% if features.FEATURE_PRODUCT_EXPERIMENT_LINKS %}
+          <div class="govuk-!-margin-bottom-6">
+            <a href="{% url 'core:compare-countries'%}" class="govuk-link">Find information about your product</a>
+          </div>
+        {% endif %}
 
         <p class="margin-bottom-30">{{ page.heading_teaser }}</p>
 

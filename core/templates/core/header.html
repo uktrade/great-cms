@@ -23,7 +23,21 @@
           <li><a id="header-link-exporting-plan" class="govuk-!-padding-3 {% if in_exportplan %}active{% endif %}" href="/export-plan/">Make an export plan</a></li>
         {% else %}
           <li><a id="header-link-advice" href="/advice/" class="govuk-!-padding-3">Advice</a></li>
-          <li><a id="header-link-markets-lo" href="/markets/" class="govuk-!-padding-3">Markets</a></li>
+          {% if features.FEATURE_PRODUCT_EXPERIMENT_HEADER %}
+            <li class="great-header-dropdown-item">
+              <button type="button" class="govuk-!-padding-3" data-reveal-button data-reveal-modal aria-controls="guides-menu">
+                Guides <i class="fas fa-chevron-down" aria-hidden="true"></i>
+              </button>
+              <div id="guides-menu">
+                <ul>
+                  <li><a href="/markets/" class="govuk-!-padding-top-3 govuk-!-padding-bottom-3">Markets</a></li>
+                  <li><a href="{% url 'core:compare-countries'%}" class="govuk-!-padding-top-3 govuk-!-padding-bottom-3">Products</a></li>
+                </ul>
+              </div>
+            </li>
+          {% else %}
+            <li><a id="header-link-markets-lo" href="/markets/" class="govuk-!-padding-3">Markets</a></li>
+          {% endif %}
           <li><a id="header-link-services" href="/services/" class="govuk-!-padding-3">Services</a></li>
           {% if FEATURE_DIGITAL_POINT_OF_ENTRY %}
             <li><a id="header-link-support" href="/support/support" class="govuk-!-padding-3">Support</a></li>
@@ -60,7 +74,12 @@
             {% endif %}
 
             <li><a href="/advice/">Advice</a></li>
-            <li><a href="/markets/">Markets</a></li>
+            {% if features.FEATURE_PRODUCT_EXPERIMENT_HEADER %}
+              <li><a href="/markets/">Markets</a></li>
+              <li><a href="{% url 'core:compare-countries'%}">Products</a></li>
+            {% else %}
+              <li><a href="/markets/">Markets</a></li>
+            {% endif %}
             <li><a href="/services/">Services</a></li>
             {% if FEATURE_DIGITAL_POINT_OF_ENTRY %}
               <li><a href="/support/support">Support</a></li>
