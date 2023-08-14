@@ -4,7 +4,15 @@ import pytest
 from directory_forms_api_client import actions
 
 from directory_constants import sectors as directory_constants_sectors
-from international_online_offer.core import helpers, intents, regions, sectors
+from international_online_offer.core import (
+    helpers,
+    hirings,
+    intents,
+    regions,
+    sectors,
+    spends,
+)
+from international_online_offer.models import TriageData
 
 
 def test_find_articles_based_on_tags():
@@ -139,3 +147,15 @@ def test_get_rent_data():
 def test_get_sector_professions_by_level():
     food_drink_profession = helpers.get_sector_professions_by_level(directory_constants_sectors.FOOD_AND_DRINK)
     assert food_drink_profession['entry_level'] == 'bartenders, waiting staff and cooks'
+
+
+@pytest.mark.django_db
+def test_is_triage_complete():
+    mock_triage_data = TriageData()
+    mock_triage_data.sector = directory_constants_sectors.FOOD_AND_DRINK
+    mock_triage_data.intent_other = 'TEST OTHER INTENT'
+    mock_triage_data.location = regions.LONDON
+    mock_triage_data.hiring = hirings.ELEVEN_TO_FIFTY
+    mock_triage_data.spend = spends.FIVE_HUNDRED_THOUSAND_ONE_TO_ONE_MILLION
+    assert helpers.is_triage_complete(None) is False
+    assert helpers.is_triage_complete(mock_triage_data) is True

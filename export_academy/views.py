@@ -171,7 +171,7 @@ class DownloadCalendarView(GenericAPIView):
         meeting.add('SUMMARY', f'UK Export Academy event - {event.name}')
         meeting.add('DTSTART', event.start_date)
         meeting.add('DTEND', event.end_date)
-        meeting['LOCATION'] = event.location if event.format == event.IN_PERSON else 'MS Teams'
+        meeting['LOCATION'] = event.location if event.format == event.IN_PERSON else 'Microsoft Teams Meeting'
         meeting['UID'] = uuid4()
 
         description = f'{event.name}\n\n{event.description}{calender_content()}'

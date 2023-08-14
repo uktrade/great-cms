@@ -75,6 +75,8 @@ class IOOGuidePage(BaseContentPage):
         )
         triage_data = get_triage_data_from_db_or_session(request)
 
+        is_triage_complete = helpers.is_triage_complete(triage_data)
+
         # Get trade association and shows page (should only be one)
         trade_page = IOOTradePage.objects.live().filter().first()
 
@@ -112,6 +114,7 @@ class IOOGuidePage(BaseContentPage):
             get_to_know_market_articles=list(chain(sector_only_articles, intent_articles_specific_to_sector)),
             support_and_incentives_articles=all_articles_tagged_with_support_and_incentives,
             trade_page=trade_page,
+            is_triage_complete=is_triage_complete,
         )
 
         self.set_ga360_payload(
