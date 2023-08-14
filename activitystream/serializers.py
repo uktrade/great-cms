@@ -4,6 +4,7 @@ from rest_framework import serializers
 from taggit.serializers import TagListSerializerField
 from wagtail.rich_text import RichText, get_text_for_indexing
 
+from core.models import MicrositePage
 from domestic.models import ArticlePage
 from export_academy.models import Booking, Event, Registration
 from international_online_offer.models import TriageData, UserData
@@ -84,10 +85,30 @@ class ArticlePageSerializer(serializers.Serializer):
         }
 
 
+class MicrositePageSerializer(serializers.Serializer):
+    def to_representation(self, obj):
+        return {
+            'id': ('dit:greatCms:Microsite:' + str(obj.id) + ':Update'),
+            'type': 'Update',
+            'published': obj.last_published_at.isoformat('T'),
+            'object': {
+                'type': 'dit:greatCms:Microsite',
+                'id': 'dit:greatCms:Microsite::' + str(obj.id),
+                'name': obj.page_title,
+                'summary': obj.page_teaser,
+                'url': 'https://www.great.gov.uk' + obj.url_path,
+                'locale_id': obj.locale_id
+                # 'keywords': ' '.join(obj.tags.all().values_list('name', flat=True)),
+            },
+        }
+
+
 class PageSerializer(serializers.Serializer):
     def to_representation(self, obj):
         if isinstance(obj, ArticlePage):
             return ArticlePageSerializer(obj).data
+        elif isinstance(obj, MicrositePage):
+            return MicrositePageSerializer(obj).data
         else:
             return CountryGuidePageSerializer(obj).data
 
