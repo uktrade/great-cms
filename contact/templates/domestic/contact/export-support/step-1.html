@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block body_js %}
+  {{ block.super }}
   <script src="{% static 'javascript/company-lookup.js' %}"></script>
   <script type="text/javascript">
     var companyName = document.getElementById('id_business_name');
