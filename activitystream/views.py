@@ -30,6 +30,7 @@ from activitystream.serializers import (
     ActivityStreamExportAcademyRegistrationSerializer,
     PageSerializer,
 )
+from core.models import MicrositePage
 from domestic.models import ArticlePage, CountryGuidePage
 from export_academy.models import Booking, Event, Registration
 from international_online_offer.models import TriageData, UserData
@@ -61,12 +62,7 @@ class ActivityStreamView(ListAPIView):
 
         filter = PageFilter(
             request.GET,
-            queryset=Page.objects.type(
-                (
-                    ArticlePage,
-                    CountryGuidePage,
-                )
-            ).filter(live=True),
+            queryset=Page.objects.type((ArticlePage, CountryGuidePage, MicrositePage)).filter(live=True),
         )
         page_qs = filter.qs.specific().order_by('last_published_at', 'id')[: self.MAX_PER_PAGE]
 

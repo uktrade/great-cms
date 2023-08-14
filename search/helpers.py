@@ -124,6 +124,7 @@ def format_query(query, page):
                                                     'dit:Market',
                                                     'dit:greatCms:Article',
                                                     'dit:greatCms:Service',
+                                                    'dit:greatCms:Microsite',
                                                 ],
                                             },
                                         },
@@ -167,6 +168,14 @@ def format_query(query, page):
                         'filter': {
                             'terms': {
                                 'type': ['dit:greatCms:Article'],
+                            }
+                        },
+                        'weight': 400,
+                    },
+                    {
+                        'filter': {
+                            'terms': {
+                                'type': ['dit:greatCms:Microsite'],
                             }
                         },
                         'weight': 400,
