@@ -1,6 +1,7 @@
 {% extends 'domestic/base.html' %}
 
 {% load pagination from component_tags %}
+
 {% load static %}
 
 {% block head_title %}Markets{% endblock %}
@@ -132,6 +133,9 @@
                     <option value="{{ option.value }}" {% if sortby == option.value %}selected{% endif %}>{{ option.label }}</option>
                     {% endfor %}
                   </select>
+                  {% if features.FEATURE_PRODUCT_EXPERIMENT_LINKS %}
+                    <a href="{% url 'core:compare-countries'%}" class="govuk-link govuk-!-margin-left-6">Find information about your product</a>
+                  {% endif %}
                 </div>
                 {% endif %}
               </div>
