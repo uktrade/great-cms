@@ -1,5 +1,16 @@
 {% extends 'domestic/contact/export-support/base.html' %}
 
+{% block body_js %}
+  {{ block.super }}
+  <script type="text/javascript">
+    if (localStorage.getItem('dep_triage_journey') && document.getElementById('id_triage_journey')) {
+      document.getElementById('id_triage_journey').value = localStorage.getItem('dep_triage_journey');
+
+      localStorage.removeItem('dep_triage_journey');
+    }
+  </script>
+{% endblock %}
+
 {% block form_fields %}
     <hr class="great-hr-blue great-hr-blue--thin" />
     {% for step in steps %}
