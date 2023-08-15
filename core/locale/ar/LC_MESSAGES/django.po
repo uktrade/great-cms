@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-27 15:19+0100\n"
+"POT-Creation-Date: 2023-08-15 14:06+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,23 +19,276 @@ msgstr ""
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: context_processors.py:81
-msgid "great.gov.uk international"
+#: blocks.py:108 models.py:1435
+msgid "Video"
 msgstr ""
 
-#: models.py:68
+#: blocks.py:111
+msgid "Include a video"
+msgstr ""
+
+#: blocks.py:537
+msgid "Hero Image"
+msgstr ""
+
+#: blocks.py:538 blocks.py:556 blocks.py:572 models.py:73
 msgid "Description"
 msgstr ""
 
-#: models.py:72
+#: blocks.py:539
+msgid "Button label"
+msgstr ""
+
+#: blocks.py:540
+msgid "Button url"
+msgstr ""
+
+#: blocks.py:555 blocks.py:571 models.py:1467 models.py:1531
+msgid "Title"
+msgstr ""
+
+#: blocks.py:557 blocks.py:573
+msgid "Link text"
+msgstr ""
+
+#: blocks.py:558 blocks.py:574
+msgid "Link url"
+msgstr ""
+
+#: blocks.py:562
+msgid "type"
+msgstr ""
+
+#: blocks.py:563
+msgid "Email subject"
+msgstr ""
+
+#: blocks.py:564
+#, fuzzy
+#| msgid "Email"
+msgid "Email title"
+msgstr "البريد الإلكتروني"
+
+#: blocks.py:565
+#, fuzzy
+#| msgid "Email"
+msgid "Email body"
+msgstr "البريد الإلكتروني"
+
+#: blocks.py:569
+msgid "Card Image"
+msgstr ""
+
+#: blocks.py:570
+msgid "GOV.UK"
+msgstr ""
+
+#: blocks.py:570
+msgid "Tools"
+msgstr ""
+
+#: blocks.py:570
+msgid "How to"
+msgstr ""
+
+#: blocks.py:570
+msgid "Type"
+msgstr ""
+
+#: blocks.py:575
+msgid "Yes"
+msgstr ""
+
+#: blocks.py:575
+msgid "No"
+msgstr ""
+
+#: blocks.py:575
+msgid "Full width?"
+msgstr ""
+
+#: context_processors.py:84
+msgid "great.gov.uk international"
+msgstr ""
+
+#: models.py:77
 msgid "Transcript"
 msgstr "النص المحول"
 
-#: models.py:76
+#: models.py:81
 msgid "English subtitles"
 msgstr "ترجمة باللغة الإنجليزية"
 
-#: models.py:1552
+#: models.py:1366
+msgid "Microsite page"
+msgstr ""
+
+#: models.py:1367
+msgid "Microsite pages"
+msgstr ""
+
+#: models.py:1369
+msgid "Page title"
+msgstr ""
+
+#: models.py:1372
+msgid ""
+"This is a subheading that displays below the main title on the microsite page"
+msgstr ""
+
+#: models.py:1373
+msgid "Page subheading"
+msgstr ""
+
+#: models.py:1378
+msgid ""
+"This is a subheading that displays when the microsite is featured on another "
+"page"
+msgstr ""
+
+#: models.py:1379
+msgid "Page teaser"
+msgstr ""
+
+#: models.py:1385
+msgid ""
+"If selected the dbt logo will be displayed in the header. Otherwise the UK "
+"Gov logo will be shown. Note this checkbox only works on the root page"
+msgstr ""
+
+#: models.py:1389
+msgid "Use domestic header logo"
+msgstr ""
+
+#: models.py:1393
+msgid "The label to be included within the menu items."
+msgstr ""
+
+#: models.py:1393
+msgid "External link label"
+msgstr ""
+
+#: models.py:1396
+msgid "The url of the external link"
+msgstr ""
+
+#: models.py:1396
+msgid "External link url"
+msgstr ""
+
+#: models.py:1404
+msgid "Hero image"
+msgstr ""
+
+#: models.py:1412
+msgid "Hero video"
+msgstr ""
+
+#: models.py:1419
+#, fuzzy
+#| msgid "View video transcript"
+msgid "Hero video transcript"
+msgstr "عرض نص الفيديو"
+
+#: models.py:1423
+msgid "Form"
+msgstr ""
+
+#: models.py:1426 models.py:1454
+msgid "Text"
+msgstr ""
+
+#: models.py:1428
+msgid "Image"
+msgstr ""
+
+#: models.py:1432
+msgid "Image full width"
+msgstr ""
+
+#: models.py:1442
+msgid "Add two or three columns text"
+msgstr ""
+
+#: models.py:1446
+msgid "Columns"
+msgstr ""
+
+#: models.py:1453
+msgid "Link block"
+msgstr ""
+
+#: models.py:1458
+msgid "Links block"
+msgstr ""
+
+#: models.py:1471
+msgid "Teaser"
+msgstr ""
+
+#: models.py:1475
+msgid "Link label"
+msgstr ""
+
+#: models.py:1479 models.py:1538
+#, fuzzy
+#| msgid "LinkedIn"
+msgid "Link"
+msgstr "لينكد إن"
+
+#: models.py:1483
+msgid "CTA"
+msgstr ""
+
+#: models.py:1488
+msgid "Pull quote"
+msgstr ""
+
+#: models.py:1494
+msgid "Page body"
+msgstr ""
+
+#: models.py:1500
+msgid "CTA title"
+msgstr ""
+
+#: models.py:1505
+msgid "CTA teaser"
+msgstr ""
+
+#: models.py:1511
+msgid "CTA link label"
+msgstr ""
+
+#: models.py:1516
+msgid "CTA link"
+msgstr ""
+
+#: models.py:1523
+msgid "Page"
+msgstr ""
+
+#: models.py:1535
+msgid "Full url"
+msgstr ""
+
+#: models.py:1548 templates/microsites/blocks/social_media.html:24
+msgid "Twitter"
+msgstr "تويتر"
+
+#: models.py:1549 templates/microsites/blocks/social_media.html:39
+msgid "Facebook"
+msgstr "فيسبوك"
+
+#: models.py:1551 templates/microsites/blocks/social_media.html:54
+msgid "LinkedIn"
+msgstr "لينكد إن"
+
+#: models.py:1552 templates/microsites/blocks/social_media.html:69
+msgid "Email"
+msgstr "البريد الإلكتروني"
+
+#: models.py:1572
 msgid "Home"
 msgstr "الصفحة الرئيسية"
 
@@ -98,34 +351,14 @@ msgid "Skip to main content"
 msgstr "الانتقال إلى المحتوى الرئيسي"
 
 #: templates/microsites/blocks/social_media.html:10
-msgid "Share this page"
-msgstr "مشاركة هذه الصفحة"
+msgid "Follow us"
+msgstr ""
 
-#: templates/microsites/blocks/social_media.html:17
-msgid "Sharing will open the page in a new tab."
-msgstr "سيفتح المشاركة الصفحة في علامة تبويب جديدة"
-
-#: templates/microsites/blocks/social_media.html:31
-msgid "Twitter"
-msgstr "تويتر"
-
-#: templates/microsites/blocks/social_media.html:46
-msgid "Facebook"
-msgstr "فيسبوك"
-
-#: templates/microsites/blocks/social_media.html:61
-msgid "LinkedIn"
-msgstr "لينكد إن"
-
-#: templates/microsites/blocks/social_media.html:76
-msgid "Email"
-msgstr "البريد الإلكتروني"
-
-#: templates/microsites/blocks/streamfield.html:19
+#: templates/microsites/blocks/streamfield.html:18
 msgid "Information has been submitted successfully"
 msgstr "تم إرسال المعلومات بنجاح"
 
-#: templates/microsites/blocks/streamfield.html:26
+#: templates/microsites/blocks/streamfield.html:25
 msgid "Submit"
 msgstr "إرسال"
 
@@ -178,7 +411,7 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: templates/wagtailadmin/microsite_migrate.html:7 wagtail_hooks.py:345
+#: templates/wagtailadmin/microsite_migrate.html:7 wagtail_hooks.py:347
 msgid "Migrate"
 msgstr ""
 
@@ -208,6 +441,16 @@ msgstr ""
 msgid "Please enter a UK postcode"
 msgstr "الرجاء إدخال الرمز البريدي للمملكة المتحدة"
 
-#: wagtail_hooks.py:346
+#: wagtail_hooks.py:348
 msgid "Create page from page"
 msgstr ""
+
+#: wagtail_hooks.py:528
+msgid "Campaign Site, getting started"
+msgstr ""
+
+#~ msgid "Share this page"
+#~ msgstr "مشاركة هذه الصفحة"
+
+#~ msgid "Sharing will open the page in a new tab."
+#~ msgstr "سيفتح المشاركة الصفحة في علامة تبويب جديدة"
