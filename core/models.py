@@ -1386,6 +1386,12 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
         'Note this checkbox only works on the root page',
     )
 
+    external_link_label = models.CharField(
+        default='', help_text='The label to be included within the menu items.', max_length=256, blank=True, null=True
+    )
+
+    external_link_url = models.URLField(help_text='The url of the external link', blank=True, null=True)
+
     hero_image = models.ForeignKey(
         'core.AltTextImage',
         null=True,
@@ -1554,15 +1560,16 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
     # Return the children of the top level Microsite parent of current page
     def get_menu_items(self):
         parent_page = self.get_parent_page()
+        menu_items = []
         if parent_page:
-            return [{'url': parent_page.get_url(), 'title': _('Home')}] + [
+            menu_items = [{'url': parent_page.get_url(), 'title': _('Home')}] + [
                 {
                     'url': child.get_url(),
                     'title': child.title,
                 }
                 for child in parent_page.get_children().live()
             ]
-        return []
+        return menu_items + self.get_external_menu_link()
 
     def get_use_domestic_header_logo(self):
         parent_page = self.get_parent_page()
@@ -1581,6 +1588,13 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
             return parent_page.title
         else:
             return None
+
+    def get_external_menu_link(self):
+        parent = self.get_parent_page()
+        if parent.external_link_label and parent.external_link_url:
+            return [{'url': parent.external_link_url, 'title': parent.external_link_label}]
+
+        return []
 
 
 @register_snippet
