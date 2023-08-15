@@ -16,7 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: blocks.py:108 models.py:1435
 msgid "Video"
@@ -63,16 +63,12 @@ msgid "Email subject"
 msgstr ""
 
 #: blocks.py:564
-#, fuzzy
-#| msgid "Email"
 msgid "Email title"
-msgstr "E-mel"
+msgstr ""
 
 #: blocks.py:565
-#, fuzzy
-#| msgid "Email"
 msgid "Email body"
-msgstr "E-mel"
+msgstr ""
 
 #: blocks.py:569
 msgid "Card Image"
@@ -108,15 +104,15 @@ msgstr ""
 
 #: context_processors.py:84
 msgid "great.gov.uk international"
-msgstr "great.gov.uk antarabangsa"
+msgstr ""
 
 #: models.py:77
 msgid "Transcript"
-msgstr "Transkrip"
+msgstr ""
 
 #: models.py:81
 msgid "English subtitles"
-msgstr "sarikata Bahasa Inggeris"
+msgstr ""
 
 #: models.py:1366
 msgid "Microsite page"
@@ -184,10 +180,8 @@ msgid "Hero video"
 msgstr ""
 
 #: models.py:1419
-#, fuzzy
-#| msgid "View video transcript"
 msgid "Hero video transcript"
-msgstr "Lihat transkrip video"
+msgstr ""
 
 #: models.py:1423
 msgid "Form"
@@ -230,10 +224,8 @@ msgid "Link label"
 msgstr ""
 
 #: models.py:1479 models.py:1538
-#, fuzzy
-#| msgid "LinkedIn"
 msgid "Link"
-msgstr "LinkedIn"
+msgstr ""
 
 #: models.py:1483
 msgid "CTA"
@@ -273,80 +265,77 @@ msgstr ""
 
 #: models.py:1548 templates/microsites/blocks/social_media.html:24
 msgid "Twitter"
-msgstr "Twitter"
+msgstr ""
 
 #: models.py:1549 templates/microsites/blocks/social_media.html:39
 msgid "Facebook"
-msgstr "Facebook"
+msgstr ""
 
 #: models.py:1551 templates/microsites/blocks/social_media.html:54
 msgid "LinkedIn"
-msgstr "LinkedIn"
+msgstr ""
 
 #: models.py:1552 templates/microsites/blocks/social_media.html:69
 msgid "Email"
-msgstr "E-mel"
+msgstr ""
 
 #: models.py:1572
 msgid "Home"
-msgstr "Rumah"
+msgstr ""
 
 #: templates/components/card.html:13 templates/components/cta_card.html:6
 msgid "Opens in a new window"
-msgstr "Dibuka dalam tetingkap baharu"
+msgstr ""
 
 #: templates/components/cookie_notice.html:8
 msgid "Tell us whether you accept cookies"
-msgstr "Beritahu kami sama ada anda menerima kuki"
+msgstr ""
 
 #: templates/components/cookie_notice.html:10
 msgid "We use "
-msgstr "Kami guna "
+msgstr ""
 
 #: templates/components/cookie_notice.html:10
 msgid "cookies to collect information"
-msgstr "kuki untuk mengumpul maklumat "
+msgstr ""
 
 #: templates/components/cookie_notice.html:10
 msgid ""
 "about how you use great.gov.uk. We use this information to make the website "
 "work as well as possible and improve government services."
 msgstr ""
-"tentang cara anda menggunakan great.gov.uk. Kami menggunakan maklumat ini "
-"untuk membuat laman web bekerja sebaik mungkin dan meningkatkan perkhidmatan "
-"kerajaan."
 
 #: templates/components/cookie_notice.html:14
 msgid "Accept all cookies"
-msgstr "Terima semua kuki"
+msgstr ""
 
 #: templates/components/cookie_notice.html:15
 msgid "Set cookie preferences"
-msgstr "Tetapkan pilihan kuki"
+msgstr ""
 
 #: templates/components/cookie_notice.html:20
 msgid "You've accepted all cookies.  You can "
-msgstr "Anda telah menerima semua kuki. Awak boleh "
+msgstr ""
 
 #: templates/components/cookie_notice.html:20
 msgid "change your settings"
-msgstr "tukar tetapan anda"
+msgstr ""
 
 #: templates/components/cookie_notice.html:20
 msgid "at any time."
-msgstr "pada bila bila masa"
+msgstr ""
 
 #: templates/components/header_footer/global_header.html:7
 msgid "For UK businesses"
-msgstr "pada bila bila masa."
+msgstr ""
 
 #: templates/components/header_footer/global_header.html:8
 msgid "For international businesses"
-msgstr "Untuk perniagaan antarabangsa"
+msgstr ""
 
 #: templates/microsites/base.html:173
 msgid "Skip to main content"
-msgstr "Langkau ke kandungan utama"
+msgstr ""
 
 #: templates/microsites/blocks/social_media.html:10
 msgid "Follow us"
@@ -354,11 +343,11 @@ msgstr ""
 
 #: templates/microsites/blocks/streamfield.html:18
 msgid "Information has been submitted successfully"
-msgstr "Maklumat telah berjaya dihantar"
+msgstr ""
 
 #: templates/microsites/blocks/streamfield.html:25
 msgid "Submit"
-msgstr "Hantar"
+msgstr ""
 
 #: templates/microsites/blocks/video.html:13
 #, python-format
@@ -368,75 +357,64 @@ msgid ""
 "<a class=\"link\" href=\"%(video_url)s\">link to the video</a> instead.</p>\n"
 "                  "
 msgstr ""
-"\n"
-"                    <p>YPenyemak imbas anda tidak menyokong video HTML5. "
-"Berikut ialah  <a class=\"link\" href=\"%(video_url)s\">pautan ke video</a> "
-"sebaliknya.</p>\n"
-"                  "
 
 #: templates/microsites/blocks/video.html:31
 msgid "View video transcript"
-msgstr "Lihat transkrip video"
+msgstr ""
 
 #: templates/microsites/includes/microsite_detail_content.html:37
 msgid "Last updated:"
-msgstr "Kemas kini terakhir:"
+msgstr ""
 
 #: templates/microsites/includes/microsite_menu_button.html:14
 msgid "Menu"
-msgstr "Menu"
+msgstr ""
 
 #: templates/microsites/includes/microsite_related_content_list.html:10
 msgid "Related content"
-msgstr "Kandungan berkaitan"
+msgstr ""
 
 #: templates/modeladmin/index.html:16
 msgid "Download CSV"
-msgstr "Muat turun CSV"
+msgstr ""
 
 #: templates/wagtailadmin/microsite_migrate.html:4
 #, python-format
 msgid "Migrate 1 item"
 msgid_plural "Migrate %(counter)s items"
-msgstr[0] "Pindahkan 1 item"
-msgstr[1] "Pindahkan %(counter)s item"
+msgstr[0] ""
+msgstr[1] ""
 
 #: templates/wagtailadmin/microsite_migrate.html:7 wagtail_hooks.py:347
 msgid "Migrate"
-msgstr "Berhijrah"
+msgstr ""
 
 #: templates/wagtailadmin/microsite_migrate.html:13
 msgid "Are you sure you want to migrate these items?"
-msgstr "Adakah anda pasti mahu memindahkan item ini?"
+msgstr ""
 
 #: templates/wagtailadmin/microsite_migrate.html:26
 msgid "You don't have permission to migrate this item"
 msgid_plural "You don't have permission to migrate these items"
-msgstr[0] "Anda tiada kebenaran untuk memindahkan item ini"
-msgstr[1] "Anda tidak mempunyai kebenaran untuk memindahkan item ini"
+msgstr[0] ""
+msgstr[1] ""
 
 #: templates/wagtailadmin/microsite_migrate.html:33
 msgid "Yes, migrate"
-msgstr "Ya, berhijrah"
+msgstr ""
 
 #: templates/wagtailadmin/microsite_migrate.html:34
 msgid "No, don't migrate"
-msgstr "Tidak, jangan berhijrah"
+msgstr ""
 
 #: validators.py:11
 msgid "Please enter a UK postcode"
-msgstr "Sila masukkan poskod UK"
+msgstr ""
 
 #: wagtail_hooks.py:348
 msgid "Create page from page"
-msgstr "Buat halaman dari halaman"
+msgstr ""
 
 #: wagtail_hooks.py:528
 msgid "Campaign Site, getting started"
 msgstr ""
-
-#~ msgid "Share this page"
-#~ msgstr "Kongsi halaman ini"
-
-#~ msgid "Sharing will open the page in a new tab."
-#~ msgstr "Perkongsian akan membuka halaman dalam tab baharu."
