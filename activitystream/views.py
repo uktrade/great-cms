@@ -62,9 +62,15 @@ class ActivityStreamView(ListAPIView):
 
         filter = PageFilter(
             request.GET,
-            queryset=Page.objects.type((ArticlePage, CountryGuidePage, MicrositePage)).filter(live=True),
+            queryset=Page.objects.type((ArticlePage, CountryGuidePage)).filter(live=True),
         )
-        page_qs = filter.qs.specific().order_by('last_published_at', 'id')[: self.MAX_PER_PAGE]
+        microsites_filter = Page.objects.type(MicrositePage).filter(live=True, locale_id=1)
+
+        filtered_microsites = PageFilter(request.GET, queryset=microsites_filter)
+
+        page_qs = (
+            filter.union(filtered_microsites).qs.specific().order_by('last_published_at', 'id')[: self.MAX_PER_PAGE]
+        )
 
         items = {
             '@context': 'https://www.w3.org/ns/activitystreams',
