@@ -47,7 +47,7 @@ def test_search_with_activitystream(mock_session_send):
     issued_request = mock_session_send.call_args_list[0][0][0]
 
     for key, val in {
-        'Content-Length': '876',
+        'Content-Length': '978',
         'X-Forwarded-Proto': 'https',
         'X-Forwarded-For': 'debug',
         'Content-Type': 'application/json',

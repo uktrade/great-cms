@@ -11,6 +11,31 @@
 
 {% block body_js %}
   {{ block.super }}
+
+  {% if form.errors %}
+  <script type="text/javascript">
+    const errors = JSON.parse('{{form.errors.as_json}}'.replaceAll('&quot;', '"'));
+    const errorFieldNames = Object.keys(errors);
+    const mappedErrors = [];
+
+    errorFieldNames.forEach(error => {
+      mappedErrors.push({
+        'field_name': error,
+        'error_message': errors[error][0].message
+      })
+    })
+
+    mappedErrors.forEach(error => {
+      if (window.dataLayer) {
+        window.dataLayer.push({
+          event: 'DEPFormError',
+          field_name: error.field_name,
+          error_message: error.error_message,
+        })
+      }
+    })
+  </script>
+  {% endif %}
 {% endblock %}
 
 {% block content %}

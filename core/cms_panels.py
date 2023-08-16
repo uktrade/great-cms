@@ -50,7 +50,18 @@ class MicrositePanels:
         FieldPanel('related_links'),
     ]
 
-    settings_panels = [FieldPanel('title'), FieldPanel('slug'), FieldPanel('use_domestic_header_logo')]
+    settings_panels = [
+        FieldPanel('title'),
+        FieldPanel('slug'),
+        FieldPanel('use_domestic_header_logo'),
+        MultiFieldPanel(
+            heading=(
+                'External Menu Link (Note this is only included in the menu '
+                'if its set on the top level microsite page)'
+            ),
+            children=[FieldPanel('external_link_label'), FieldPanel('external_link_url')],
+        ),
+    ]
 
 
 class SupportPanels:

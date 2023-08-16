@@ -177,13 +177,12 @@ def calender_content():
         'www.great.gov.uk/export-academy/events '
         'and click the “Join” button shortly before'
         ' the session is due to start. \n\n'
-        'All online events are hosted through Microsoft Teams, '
+        'All online events are hosted through Microsoft Teams Meeting, '
         'which will open in a new browser window automatically. \n\n'
         'Kind regards, \n'
         'UK Export Academy Team,\n'
         'Department for Business and Trade\n'
-        'E: exportacademy@trade.gov.uk <mailto:exportacademy@trade.gov.uk>\n'
-        'T: +44 (0) 2045 665 651'
+        'E: exportacademy@businessandtrade.gov.uk <mailto:exportacademy@businessandtrade.gov.uk>'
     )
 
 
