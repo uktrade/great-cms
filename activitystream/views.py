@@ -1,3 +1,5 @@
+from itertools import chain
+
 import django_filters.rest_framework
 from django.conf import settings
 from django.http import Http404
@@ -69,7 +71,7 @@ class ActivityStreamView(ListAPIView):
         filtered_microsites = PageFilter(request.GET, queryset=microsites_filter)
 
         page_qs = (
-            filter.union(filtered_microsites).qs.specific().order_by('last_published_at', 'id')[: self.MAX_PER_PAGE]
+            chain(filter, filtered_microsites).qs.specific().order_by('last_published_at', 'id')[: self.MAX_PER_PAGE]
         )
 
         items = {
