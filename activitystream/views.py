@@ -1,5 +1,6 @@
 import django_filters.rest_framework
 from django.conf import settings
+from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import render
 from django.utils.decorators import decorator_from_middleware
@@ -59,17 +60,10 @@ class ActivityStreamView(ListAPIView):
     @decorator_from_middleware(ActivityStreamHawkResponseMiddleware)
     def list(self, request):
         """A single page of activities"""
-
-        page_types = (ArticlePage, CountryGuidePage, MicrositePage)
-        queryset = Page.objects.type(page_types).filter(live=True)
-
-        filter_with_locale_id = queryset.filter(locale_id=1)
-
-        filter_without_locale_id = queryset.exclude(locale_id__isnull=False)
-
-        combined_queryset = filter_with_locale_id.union(filter_without_locale_id)
-
-        filter = PageFilter(request.GET, queryset=combined_queryset)
+        query_set = Page.objects.type((ArticlePage, CountryGuidePage, MicrositePage)).filter(
+            Q(locale_id=1) | Q(locale_id__isnull=True), live=True
+        )
+        filter = PageFilter(request.GET, queryset=query_set)
 
         page_qs = filter.qs.specific().order_by('last_published_at', 'id')[: self.MAX_PER_PAGE]
 
