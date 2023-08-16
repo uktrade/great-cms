@@ -659,6 +659,14 @@
       a:focus:active {
         color: $great-dark-blue;
       }
+
+      a:focus,
+      a:focus:active {
+        padding: 0 15px;
+        position: relative;
+        width: calc(100% + 30px);
+        left: -15px;
+      }
     }
   }
 }
