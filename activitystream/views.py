@@ -1,5 +1,3 @@
-from itertools import chain
-
 import django_filters.rest_framework
 from django.conf import settings
 from django.http import Http404
@@ -62,17 +60,18 @@ class ActivityStreamView(ListAPIView):
     def list(self, request):
         """A single page of activities"""
 
-        filter = PageFilter(
-            request.GET,
-            queryset=Page.objects.type((ArticlePage, CountryGuidePage)).filter(live=True),
-        )
-        microsites_filter = Page.objects.type(MicrositePage).filter(live=True, locale_id=1)
+        page_types = (ArticlePage, CountryGuidePage, MicrositePage)
+        queryset = Page.objects.type(page_types).filter(live=True)
 
-        filtered_microsites = PageFilter(request.GET, queryset=microsites_filter)
+        filter_with_local_id = queryset.filter(local_id=1)
 
-        page_qs = (
-            chain(filter, filtered_microsites).qs.specific().order_by('last_published_at', 'id')[: self.MAX_PER_PAGE]
-        )
+        filter_without_local_id = queryset.exclude(local_id__isnull=False)
+
+        combined_queryset = filter_with_local_id.union(filter_without_local_id)
+
+        filter = PageFilter(request.GET, queryset=combined_queryset)
+
+        page_qs = filter.qs.specific().order_by('last_published_at', 'id')[: self.MAX_PER_PAGE]
 
         items = {
             '@context': 'https://www.w3.org/ns/activitystreams',
