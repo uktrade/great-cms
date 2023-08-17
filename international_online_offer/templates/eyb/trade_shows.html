@@ -44,7 +44,7 @@
             {% for page in all_tradeshows %}
                 <div class="article-list-item">
                     {% if request.user.is_authenticated %}
-                    <a class="article-list-item-a" target="_blank" href="{{ page.specific.tradeshow_link }}">
+                    <a class="article-list-item-a" rel="noopener noreferrer" target="_blank" href="{{ page.specific.tradeshow_link }}">
                     {% else %}
                     <a class="article-list-item-a" href="{% url 'international_online_offer:signup' %}">
                     {% endif %}
