@@ -1,10 +1,16 @@
-from wagtail.admin.panels import (  # InlinePanel,
+from wagtail.admin.panels import (
     FieldPanel,
+    InlinePanel,
     MultiFieldPanel,
     ObjectList,
     TabbedInterface,
 )
 from wagtailmedia.widgets import AdminMediaChooser
+
+
+class BookingsInlinePanel(InlinePanel):
+    class BoundPanel(InlinePanel.BoundPanel):
+        template_name = 'wagtailadmin/export_academy/panels/bookings_inline_panel.html'
 
 
 class ExportAcademyPagePanels:
@@ -93,12 +99,11 @@ class EventPanel:
         FieldPanel('closed', heading='closed for bookings'),
     ]
 
-    # disabling the attendance_panel temporarily to support UKEA V2 release. refer to KLS-989 for further details.
-    # attendance_panel = [InlinePanel('bookings', label='Bookings')]
+    attendance_panel = [BookingsInlinePanel('bookings', panels=[FieldPanel('status')], label='Bookings')]
 
     edit_handler = TabbedInterface(
         [
             ObjectList(event_panel, heading='Event'),
-            # ObjectList(attendance_panel, heading='Attendance'),
+            ObjectList(attendance_panel, heading='Attendance'),
         ]
     )
