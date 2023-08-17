@@ -1,7 +1,6 @@
 from itertools import chain
 
 from django.contrib.postgres.fields import ArrayField
-from django.core.paginator import Paginator
 from django.db import models
 from django.db.models import Avg
 from modelcluster.contrib.taggit import ClusterTaggableManager
@@ -62,7 +61,7 @@ class IOOIndexPage(BaseContentPage):
 
 class IOOGuidePage(BaseContentPage):
     parent_page_types = ['international_online_offer.IOOIndexPage']
-    subpage_types = ['international_online_offer.IOOArticlePage', 'international_online_offer.IOOTradePage']
+    subpage_types = ['international_online_offer.IOOArticlePage', 'international_online_offer.IOOTradeShowsPage']
     template = 'eyb/guide.html'
 
     def get_context(self, request, *args, **kwargs):
@@ -77,8 +76,8 @@ class IOOGuidePage(BaseContentPage):
 
         is_triage_complete = helpers.is_triage_complete(triage_data)
 
-        # Get trade association and shows page (should only be one)
-        trade_page = IOOTradePage.objects.live().filter().first()
+        # Get trade shows page (should only be one, is a parent / container page for all trade show pages)
+        trade_shows_page = IOOTradeShowsPage.objects.live().filter().first()
 
         # Get any EYB articles that have been tagged with user selected sector
         all_articles_tagged_with_sector = (
@@ -113,7 +112,7 @@ class IOOGuidePage(BaseContentPage):
             user_data=user_data,
             get_to_know_market_articles=list(chain(sector_only_articles, intent_articles_specific_to_sector)),
             support_and_incentives_articles=all_articles_tagged_with_support_and_incentives,
-            trade_page=trade_page,
+            trade_shows_page=trade_shows_page,
             is_triage_complete=is_triage_complete,
         )
 
@@ -295,43 +294,41 @@ class IOOArticlePage(BaseContentPage):
         return context
 
 
-class IOOTradePage(BaseContentPage):
+class IOOTradeShowsPage(BaseContentPage):
     parent_page_types = ['international_online_offer.IOOGuidePage']
     subpage_types = ['international_online_offer.IOOTradeShowPage']
-    template = 'eyb/trade.html'
+    template = 'eyb/trade_shows.html'
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         triage_data = get_triage_data_from_db_or_session(request)
         all_tradeshows = []
-        all_trade_associations = []
+        # all_trade_associations = []
         if triage_data:
             all_tradeshows = (
                 IOOTradeShowPage.objects.live().filter(tags__name=triage_data.sector) if triage_data.sector else []
             )
             # Given the sector selected we need to get mapped trade association sectors to query
             # with due to misalignment of sector names across DBT
-            trade_association_sectors = helpers.get_trade_assoication_sectors_from_sector(triage_data.sector)
-            all_trade_associations = (
-                TradeAssociation.objects.filter(sector__in=trade_association_sectors)
-                if trade_association_sectors
-                else []
-            )
+            # trade_association_sectors = helpers.get_trade_assoication_sectors_from_sector(triage_data.sector)
+            # all_trade_associations = (
+            #     TradeAssociation.objects.filter(sector__in=trade_association_sectors)
+            #     if trade_association_sectors
+            #     else []
+            # )
             # if we still have no matching trade associations then we'll
             # try a search based a sector display name that we might not have mapped yet
-            if len(all_trade_associations) == 0 and triage_data.sector:
-                all_trade_associations = TradeAssociation.objects.filter(sector=triage_data.get_sector_display())
+            # if len(all_trade_associations) == 0 and triage_data.sector:
+            #     all_trade_associations = TradeAssociation.objects.filter(sector=triage_data.get_sector_display())
 
-        page = request.GET.get('page', 1)
-        paginator = Paginator(all_trade_associations, 10)
-        all_trade_associations = paginator.page(page)
-        context.update(
-            triage_data=triage_data, all_tradeshows=all_tradeshows, all_trade_associations=all_trade_associations
-        )
+        # page = request.GET.get('page', 1)
+        # paginator = Paginator(all_trade_associations, 10)
+        # all_trade_associations = paginator.page(page)
+        context.update(triage_data=triage_data, all_tradeshows=all_tradeshows)
         self.set_ga360_payload(
-            page_id='TradeShowsAndAssociations',
+            page_id='TradeShows',
             business_unit='ExpandYourBusiness',
-            site_section='trade',
+            site_section='trade-shows',
         )
         self.add_ga360_data_to_payload(request)
         context['ga360'] = self.ga360_payload
@@ -346,7 +343,7 @@ class IOOTradeShowPageTag(TaggedItemBase):
 
 
 class IOOTradeShowPage(BaseContentPage):
-    parent_page_types = ['international_online_offer.IOOTradePage']
+    parent_page_types = ['international_online_offer.IOOTradeShowsPage']
     subpage_types = []
     template = 'eyb/trade.html'
     tradeshow_title = models.TextField()
