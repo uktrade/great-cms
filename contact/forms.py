@@ -6,6 +6,7 @@ from directory_forms_api_client.forms import (
     ZendeskActionMixin,
 )
 from django.forms import (
+    HiddenInput,
     IntegerField as DjangoIntegerField,
     Select,
     Textarea,
@@ -395,6 +396,7 @@ class DomesticExportSupportStep7Form(forms.Form):
         ),
         required=False,
     )
+    triage_journey = forms.CharField(label='Triage journey', required=False, widget=HiddenInput)
 
 
 class DomesticExportSupportStep8Form(forms.Form):
