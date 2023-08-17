@@ -5,10 +5,10 @@
     <div class="govuk-!-margin-right-6 govuk-!-margin-bottom-6 govuk-!-padding-6 great-bg-white great-sidebar-items">
         {% for block in item.value %}
             {% if block.block_type == 'sidebar_item' %}
-            <div class="govuk-!-margin-bottom-3">
-                <span class="govuk-tag great-tag great-tag--{{block.value.type}}">{{block.value.type|tag_text_mapper}}</span>
-                <h2 class="govuk-heading-xs govuk-!-margin-top-3 govuk-!-margin-bottom-2">{{block.value.title}}</h2>
-                <p class="govuk-body govuk-!-margin-bottom-2">{{block.value.description}}</p>
+            <div class="govuk-!-margin-bottom-3" data-ga-digital-entry-point>
+                <span class="govuk-tag great-tag great-tag--{{block.value.type}}" data-category="{{block.value.type|tag_text_mapper}}">{{block.value.type|tag_text_mapper}}</span>
+                <h2 class="govuk-heading-xs govuk-!-margin-top-3 govuk-!-margin-bottom-2" data-title="{{block.value.title}}">{{block.value.title}}</h2>
+                <p class="govuk-body govuk-!-margin-bottom-2" data-location="sidebar">{{block.value.description}}</p>
                 <a href="{{block.value.link_url}}" class="govuk-link great-text-blue" target="_blank" rel="noopener noreferrer">{{block.value.link_text}}</a>
             </div>
             <hr class="govuk-!-margin-top-0 great-hr-blue great-hr-blue--thin" />

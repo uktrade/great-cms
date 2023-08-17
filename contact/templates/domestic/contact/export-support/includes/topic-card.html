@@ -2,14 +2,18 @@
     {% if topic.block_type == 'topic' %}
         {% for block in topic.value %}
             {% if block.block_type == 'title' %}
-                <a href="?topic={{block.value}}" class="govuk-!-margin-right-6 govuk-!-margin-bottom-6 govuk-!-padding-6 great-topic-card great-min-height-300-desktop">
+                <a
+                  href="?topic={{block.value}}"
+                  class="govuk-!-margin-right-6 govuk-!-margin-bottom-6 govuk-!-padding-6 great-topic-card great-min-height-300-desktop"
+                  data-ga-digital-entry-point
+                >
             {% endif %}
         {% endfor %}
         {% for block in topic.value %}
             {% if block.block_type == 'type' %}
-                <span class="govuk-tag great-tag">{{block.value}}</span>
+                <span class="govuk-tag great-tag" data-category="{{block.value}}">{{block.value}}</span>
             {% elif block.block_type == 'title' %}
-                <h3 class="govuk-heading-xs govuk-!-margin-top-3 govuk-!-margin-bottom-2">{{block.value}}</h3>
+                <h3 class="govuk-heading-xs govuk-!-margin-top-3 govuk-!-margin-bottom-2" data-title="{{block.value}}">{{block.value}}</h3>
             {% elif block.block_type == 'description' %}
                 <p class="govuk-body govuk-!-margin-bottom-2">{{block.value}}</p>
             {% endif %}
