@@ -8,8 +8,8 @@ from international_online_offer.models import (
     IOOArticlePage,
     IOOGuidePage,
     IOOIndexPage,
-    IOOTradePage,
     IOOTradeShowPage,
+    IOOTradeShowsPage,
     TriageData,
     UserData,
     get_triage_data,
@@ -47,14 +47,14 @@ class IOOGuidePageTests(WagtailPageTests):
     def test_allowed_children(self):
         self.assertAllowedSubpageTypes(
             IOOGuidePage,
-            {IOOArticlePage, IOOTradePage},
+            {IOOArticlePage, IOOTradeShowsPage},
         )
 
 
-class IOOTradePageTests(WagtailPageTests):
+class IOOTradeShowsPageTests(WagtailPageTests):
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
-            IOOTradePage,
+            IOOTradeShowsPage,
             {
                 IOOGuidePage,
             },
@@ -62,7 +62,7 @@ class IOOTradePageTests(WagtailPageTests):
 
     def test_allowed_children(self):
         self.assertAllowedSubpageTypes(
-            IOOTradePage,
+            IOOTradeShowsPage,
             {IOOTradeShowPage},
         )
 
@@ -72,7 +72,7 @@ class IOOTradeShowPageTests(WagtailPageTests):
         self.assertAllowedParentPageTypes(
             IOOTradeShowPage,
             {
-                IOOTradePage,
+                IOOTradeShowsPage,
             },
         )
 
@@ -93,7 +93,7 @@ def test_ioo_guide_page_content(rf, user):
 
 @pytest.mark.django_db
 def test_ioo_trade_page_content(rf):
-    guide_page = IOOTradePage(title='Trade')
+    guide_page = IOOTradeShowsPage(title='Trade')
     request = rf.get(guide_page.url)
     context = guide_page.get_context(request)
     assert context['all_tradeshows'] == []
