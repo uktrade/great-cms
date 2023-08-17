@@ -88,7 +88,7 @@ def test_ioo_guide_page_content(rf, user):
     assert context['complete_contact_form_link'] == 'international_online_offer:signup'
     assert len(context['get_to_know_market_articles']) == 0
     assert len(context['support_and_incentives_articles']) == 0
-    assert context['trade_page'] is None
+    assert context['trade_shows_page'] is None
 
 
 @pytest.mark.django_db
