@@ -60,6 +60,7 @@ class ActivityStreamView(ListAPIView):
     def list(self, request):
         """A single page of activities"""
         query_set1 = Page.objects.type((ArticlePage, CountryGuidePage)).filter(live=True)
+        # locale_id = 1 just filters for english pages (atm we only want english pages in the search results)
         query_set2 = Page.objects.type((MicrositePage)).filter(live=True, locale_id=1)
 
         combined_query_set = query_set1 | query_set2
