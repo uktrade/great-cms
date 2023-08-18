@@ -49,19 +49,19 @@ def get_triage_data_from_db_or_session(request):
         )
 
 
-class IOOIndexPage(BaseContentPage):
+class EYBIndexPage(BaseContentPage):
     parent_page_types = [
         'domestic.StructuralPage',
     ]
     subpage_types = [
-        'international_online_offer.IOOGuidePage',
+        'international_online_offer.EYBGuidePage',
     ]
     template = 'eyb/index.html'
 
 
-class IOOGuidePage(BaseContentPage):
-    parent_page_types = ['international_online_offer.IOOIndexPage']
-    subpage_types = ['international_online_offer.IOOArticlePage', 'international_online_offer.IOOTradeShowsPage']
+class EYBGuidePage(BaseContentPage):
+    parent_page_types = ['international_online_offer.EYBIndexPage']
+    subpage_types = ['international_online_offer.EYBArticlePage', 'international_online_offer.EYBTradeShowsPage']
     template = 'eyb/guide.html'
 
     def get_context(self, request, *args, **kwargs):
@@ -77,22 +77,22 @@ class IOOGuidePage(BaseContentPage):
         is_triage_complete = helpers.is_triage_complete(triage_data)
 
         # Get trade shows page (should only be one, is a parent / container page for all trade show pages)
-        trade_shows_page = IOOTradeShowsPage.objects.live().filter().first()
+        trade_shows_page = EYBTradeShowsPage.objects.live().filter().first()
 
         # Get any EYB articles that have been tagged with user selected sector
         all_articles_tagged_with_sector = (
-            IOOArticlePage.objects.live().filter(tags__name=triage_data.sector)
+            EYBArticlePage.objects.live().filter(tags__name=triage_data.sector)
             if triage_data and triage_data.sector
             else []
         )
         # Get any EYB articles that have been tagged with user selected intent(s)
         all_articles_tagged_with_intent = (
-            IOOArticlePage.objects.live().filter(tags__name__in=triage_data.intent)
+            EYBArticlePage.objects.live().filter(tags__name__in=triage_data.intent)
             if triage_data and triage_data.intent
             else []
         )
         # Get any EYB articles that have been tagged with SUPPORT_AND_INCENTIVES
-        all_articles_tagged_with_support_and_incentives = IOOArticlePage.objects.live().filter(
+        all_articles_tagged_with_support_and_incentives = EYBArticlePage.objects.live().filter(
             tags__name=filter_tags.SUPPORT_AND_INCENTIVES
         )
 
@@ -128,21 +128,21 @@ class IOOGuidePage(BaseContentPage):
 
 
 class IOOArticleTag(TagBase):
-    """IOO article tag for filtering out content based on triage answers."""
+    """EYB article tag for filtering out content based on triage answers."""
 
     class Meta:
-        verbose_name = 'IOO article tag for link to triage answer'
-        verbose_name_plural = 'IOO article tags for links to triage answers'
+        verbose_name = 'EYB article tag for link to triage answer'
+        verbose_name_plural = 'EYB article tags for links to triage answers'
 
 
 class IOOArticlePageTag(TaggedItemBase):
     tag = models.ForeignKey(IOOArticleTag, related_name='ioo_tagged_articles', on_delete=models.CASCADE)
-    content_object = ParentalKey('international_online_offer.IOOArticlePage', related_name='ioo_article_tagged_items')
+    content_object = ParentalKey('international_online_offer.EYBArticlePage', related_name='ioo_article_tagged_items')
 
 
-class IOOArticlePage(BaseContentPage):
+class EYBArticlePage(BaseContentPage):
     parent_page_types = [
-        'international_online_offer.IOOGuidePage',
+        'international_online_offer.EYBGuidePage',
     ]
     subpage_types = []
     template = 'eyb/article.html'
@@ -294,9 +294,9 @@ class IOOArticlePage(BaseContentPage):
         return context
 
 
-class IOOTradeShowsPage(BaseContentPage):
-    parent_page_types = ['international_online_offer.IOOGuidePage']
-    subpage_types = ['international_online_offer.IOOTradeShowPage']
+class EYBTradeShowsPage(BaseContentPage):
+    parent_page_types = ['international_online_offer.EYBGuidePage']
+    subpage_types = ['international_online_offer.EYBTradeShowPage']
     template = 'eyb/trade_shows.html'
 
     def get_context(self, request, *args, **kwargs):
@@ -306,7 +306,7 @@ class IOOTradeShowsPage(BaseContentPage):
 
         if triage_data:
             all_tradeshows = (
-                IOOTradeShowPage.objects.live().filter(tags__name=triage_data.sector) if triage_data.sector else []
+                EYBTradeShowPage.objects.live().filter(tags__name=triage_data.sector) if triage_data.sector else []
             )
 
         context.update(triage_data=triage_data, all_tradeshows=all_tradeshows)
@@ -320,15 +320,15 @@ class IOOTradeShowsPage(BaseContentPage):
         return context
 
 
-class IOOTradeShowPageTag(TaggedItemBase):
-    tag = models.ForeignKey(IOOArticleTag, related_name='ioo_tagged_tradeshows', on_delete=models.CASCADE)
+class EYBTradeShowPageTag(TaggedItemBase):
+    tag = models.ForeignKey(IOOArticleTag, related_name='eyb_tagged_tradeshows', on_delete=models.CASCADE)
     content_object = ParentalKey(
-        'international_online_offer.IOOTradeShowPage', related_name='ioo_tradeshow_tagged_items'
+        'international_online_offer.EYBTradeShowPage', related_name='eyb_tradeshow_tagged_items'
     )
 
 
-class IOOTradeShowPage(BaseContentPage):
-    parent_page_types = ['international_online_offer.IOOTradeShowsPage']
+class EYBTradeShowPage(BaseContentPage):
+    parent_page_types = ['international_online_offer.EYBTradeShowsPage']
     subpage_types = []
     template = 'eyb/trade.html'
     tradeshow_title = models.TextField()
@@ -344,7 +344,7 @@ class IOOTradeShowPage(BaseContentPage):
         blank=True,
     )
     tradeshow_link = models.URLField(blank=True, max_length=255, null=True)
-    tags = ClusterTaggableManager(through=IOOTradeShowPageTag, blank=True, verbose_name='Trade Show Tags')
+    tags = ClusterTaggableManager(through=EYBTradeShowPageTag, blank=True, verbose_name='Trade Show Tags')
     content_panels = CMSGenericPage.content_panels + [
         FieldPanel('tradeshow_title'),
         FieldPanel('tradeshow_subheading'),
