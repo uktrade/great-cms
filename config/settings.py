@@ -69,8 +69,8 @@ INSTALLED_APPS = [
     'django.forms',
     'django.contrib.humanize',
     'sso',
-    'core.apps.CoreConfig',
     'wagtail.admin',
+    'core.apps.CoreConfig',
     'cms_extras.apps.CmsExtrasConfig',
     'domestic',
     'exportplan.apps.ExportPlanConfig',
@@ -384,7 +384,8 @@ SECURE_HSTS_SECONDS = env.int('SECURE_HSTS_SECONDS', 16070400)
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_SSL_REDIRECT = env.bool('SECURE_SSL_REDIRECT', True)
 
-SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+# SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
 SESSION_COOKIE_SECURE = env.bool('SESSION_COOKIE_SECURE', True)
 SESSION_COOKIE_HTTPONLY = True
@@ -989,6 +990,3 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False,
     'PREPROCESSING_HOOKS': ['config.preprocessors.preprocessing_filter_admin_spec'],
 }
-
-# Data Workspace
-DATA_WORKSPACE_DATASETS_URL = env.str('DATA_WORKSPACE_DATASETS_URL', 'postgresql://')

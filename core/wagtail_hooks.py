@@ -532,3 +532,10 @@ def register_campaign_site_help_menu_item():
         attrs={'target': '_blank', 'rel': 'noreferrer'},
         name='campaign-site',
     )
+
+from core.views import alt_image_chooser_viewset
+
+@hooks.register("register_admin_viewset", order=-1)
+def register_image_chooser_viewset():
+    return alt_image_chooser_viewset
+
