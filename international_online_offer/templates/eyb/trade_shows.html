@@ -1,0 +1,79 @@
+{% extends './base.html' %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+{% load static %}
+
+{% block head_title %}Trade events {{ block.super }}{% endblock %}
+
+{% block head_other %}
+  <meta
+    name="description"
+    content="Find information to help invest within the UK"
+  />
+{% endblock %}
+
+{% block head_css %}
+  {{ block.super }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-width-container">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <a href="{{ '/international/expand-your-business-in-the-uk/guide/' }}" class="govuk-back-link govuk-!-margin-bottom-4">Back</a>
+    </div>
+  </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <h1 class="govuk-heading-xl">Trade events</h1>
+      <p class="govuk-body">
+        Explore networking opportunities and find clients and partners in your sector.
+      </p>
+    </div>
+  </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <h2 class="govuk-heading-l">UK trade events for the {{ triage_data.get_sector_display|lower }} sector</h2>
+    </div>
+  </div>
+
+
+  <div class="govuk-grid-row govuk-!-margin-bottom-6">
+    {% if all_tradeshows %}
+        <div class="govuk-grid-column-full">
+            {% for page in all_tradeshows %}
+                <div class="article-list-item">
+                    {% if request.user.is_authenticated %}
+                    <a class="article-list-item-a" rel="noopener noreferrer" target="_blank" href="{{ page.specific.tradeshow_link }}">
+                    {% else %}
+                    <a class="article-list-item-a" href="{% url 'international_online_offer:signup' %}">
+                    {% endif %}
+                        <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-full">
+                                <h3 class="govuk-heading-m article-list-item-title trade-show-link">{{ page.specific.tradeshow_title }}</h3>
+                                <p class="govuk-body article-list-item-teaser">{{ page.specific.tradeshow_subheading }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="govuk-grid-column-full">
+            <div class="govuk-warning-text">
+                <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                <strong class="govuk-warning-text__text">
+                  <span class="govuk-warning-text__assistive">Warning</span>
+                  There are currently no related trade shows
+                </strong>
+            </div>
+        </div>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}
+
+{% block body_js %}
+  {{ block.super }}
+{% endblock %}

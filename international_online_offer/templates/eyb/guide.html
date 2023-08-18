@@ -582,7 +582,7 @@
         </div>
     </div>
     {% endif %}
-    {% if get_to_know_market_articles or trade_page and triage_data.sector %}
+    {% if get_to_know_market_articles or trade_shows_page and triage_data.sector %}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
             <h2 class="govuk-heading-l">Your personalised guide to expanding your business</h2>
@@ -590,11 +590,11 @@
         </div>
     </div>
     <div class="govuk-grid-row govuk-!-margin-bottom-6">
-        {% if trade_page and triage_data.sector %}
+        {% if trade_shows_page and triage_data.sector %}
         <div class="govuk-grid-column-full">
             <div class="article-list-item">
                 {% if eyb_user %}
-                <a class="article-list-item-a" href="{{ trade_page.url }}">
+                <a class="article-list-item-a" href="{{ trade_shows_page.url }}">
                 {% else %}
                 <a class="article-list-item-a" href="{% url 'international_online_offer:signup' %}">
                 {% endif %}
@@ -609,7 +609,39 @@
                             </div>
                         </div>
                         <div class="govuk-grid-column-two-thirds">
-                            <h3 class="govuk-heading-m article-list-item-title">Trade associations and events</h3>
+                            <h3 class="govuk-heading-m article-list-item-title">Trade events</h3>
+                            <p class="govuk-body article-list-item-teaser">Explore networking opportunities and find clients and partners in your sector</p>
+                            {% if not eyb_user %}
+                            <div class="article-lock-text">
+                                <strong class="govuk-tag govuk-tag--blue">
+                                    SIGN UP TO UNLOCK
+                                </strong>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="govuk-grid-column-full">
+            <div class="article-list-item">
+                {% if eyb_user %}
+                <a class="article-list-item-a" href="{% url 'international_online_offer:trade-associations' %}">
+                {% else %}
+                <a class="article-list-item-a" href="{% url 'international_online_offer:signup' %}">
+                {% endif %}
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-one-third">
+                            <div class="image-container" alt="Buinsess people talking at networking event" style="background-image: url({% static 'images/ioo_networking.jpg' %});">
+                                {% if not eyb_user %}
+                                <div class="image-container-lock-overlay">
+                                    <div class="article-lock"></div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="govuk-grid-column-two-thirds">
+                            <h3 class="govuk-heading-m article-list-item-title">Trade associations</h3>
                             <p class="govuk-body article-list-item-teaser">Explore networking opportunities and find clients and partners in your sector</p>
                             {% if not eyb_user %}
                             <div class="article-lock-text">
