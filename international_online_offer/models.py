@@ -127,7 +127,7 @@ class EYBGuidePage(BaseContentPage):
         return context
 
 
-class IOOArticleTag(TagBase):
+class EYBArticleTag(TagBase):
     """EYB article tag for filtering out content based on triage answers."""
 
     class Meta:
@@ -135,8 +135,8 @@ class IOOArticleTag(TagBase):
         verbose_name_plural = 'EYB article tags for links to triage answers'
 
 
-class IOOArticlePageTag(TaggedItemBase):
-    tag = models.ForeignKey(IOOArticleTag, related_name='ioo_tagged_articles', on_delete=models.CASCADE)
+class EYBArticlePageTag(TaggedItemBase):
+    tag = models.ForeignKey(EYBArticleTag, related_name='ioo_tagged_articles', on_delete=models.CASCADE)
     content_object = ParentalKey('international_online_offer.EYBArticlePage', related_name='ioo_article_tagged_items')
 
 
@@ -194,7 +194,7 @@ class EYBArticlePage(BaseContentPage):
         null=True,
         blank=True,
     )
-    tags = ClusterTaggableManager(through=IOOArticlePageTag, blank=True, verbose_name='Article Tags')
+    tags = ClusterTaggableManager(through=EYBArticlePageTag, blank=True, verbose_name='Article Tags')
     content_panels = CMSGenericPage.content_panels + [
         FieldPanel('article_title'),
         FieldPanel('article_subheading'),
@@ -321,7 +321,7 @@ class EYBTradeShowsPage(BaseContentPage):
 
 
 class EYBTradeShowPageTag(TaggedItemBase):
-    tag = models.ForeignKey(IOOArticleTag, related_name='eyb_tagged_tradeshows', on_delete=models.CASCADE)
+    tag = models.ForeignKey(EYBArticleTag, related_name='eyb_tagged_tradeshows', on_delete=models.CASCADE)
     content_object = ParentalKey(
         'international_online_offer.EYBTradeShowPage', related_name='eyb_tradeshow_tagged_items'
     )
