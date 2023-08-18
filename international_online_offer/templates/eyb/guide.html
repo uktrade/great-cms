@@ -623,6 +623,38 @@
                 </a>
             </div>
         </div>
+        <div class="govuk-grid-column-full">
+            <div class="article-list-item">
+                {% if eyb_user %}
+                <a class="article-list-item-a" href="{% url 'international_online_offer:trade-associations' %}">
+                {% else %}
+                <a class="article-list-item-a" href="{% url 'international_online_offer:signup' %}">
+                {% endif %}
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-one-third">
+                            <div class="image-container" alt="Buinsess people talking at networking event" style="background-image: url({% static 'images/ioo_networking.jpg' %});">
+                                {% if not eyb_user %}
+                                <div class="image-container-lock-overlay">
+                                    <div class="article-lock"></div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="govuk-grid-column-two-thirds">
+                            <h3 class="govuk-heading-m article-list-item-title">Trade associations</h3>
+                            <p class="govuk-body article-list-item-teaser">Explore networking opportunities and find clients and partners in your sector</p>
+                            {% if not eyb_user %}
+                            <div class="article-lock-text">
+                                <strong class="govuk-tag govuk-tag--blue">
+                                    SIGN UP TO UNLOCK
+                                </strong>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
         {% endif %}
         <div class="govuk-grid-column-full">
             {% for page in get_to_know_market_articles %}
