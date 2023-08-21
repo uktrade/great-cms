@@ -6,7 +6,8 @@ figure.great-blockquote {
     font-size: 70px;
     font-family: $header-font;
     &::after{
-         display: none;
+         opacity: 0;
+         font-size: 0px;
     }
 
   }
