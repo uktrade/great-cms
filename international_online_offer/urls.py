@@ -63,4 +63,9 @@ urlpatterns = [
         views.FeedbackView.as_view(),
         name='feedback',
     ),
+    path(
+        'trade-associations/',
+        views.TradeAssociationsView.as_view(),
+        name='trade-associations',
+    ),
 ]
