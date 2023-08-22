@@ -30,17 +30,6 @@
             {% if page.page_subheading %}
               <p class="govuk-heading-m great-max-width-75">{{ page.page_subheading }}</p>
             {% endif %}
-
-            {% if page.last_published_at %}
-              <p class="govuk-body great-text-grey">
-                {% if TRANSLATE_TEXT %}
-                  {% translate "Last updated:" %}
-                {% else %}
-                  Last updated:
-                {% endif %}
-                <time datetime="{{page.last_published_at|date:'c'}}">{{page.last_published_at|date:"j F Y"}}</time>
-              </p>
-            {% endif %}
           </div>
           <div class="govuk-grid-column-one-quarter" id="related-content">
             {% block related_content %}
@@ -58,6 +47,19 @@
         {% block social_media %}
             {%include 'microsites/blocks/social_media.html' with twitter=page.twitter email=page.email facebook=page.facebook linkedin=page.linkedin%}
         {%endblock%}
+        <section class="govuk-grid-column-three-quarters govuk-!-static-padding-left-0 govuk-!-static-padding-top-9">
+          {% if page.last_published_at %}
+            <p class="govuk-body great-text-grey govuk-!-static-margin-bottom-0">
+              {% if TRANSLATE_TEXT %}
+                {% translate "Last updated:" %}
+              {% else %}
+                Last updated:
+              {% endif %}
+              <time datetime="{{page.last_published_at|date:'c'}}">{{page.last_published_at|date:"j F Y"}}</time>
+            </p>
+          {% endif %}
+          </section>
+
 
         {% block microsite_footer %}{% endblock %}
 
