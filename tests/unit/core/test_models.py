@@ -872,6 +872,15 @@ class MicrositePageTests(SetUpLocaleMixin, WagtailPageTests):
         home_grandchild = MicrositePageFactory(page_title='home-grandchild', title='home-grandchild', parent=home_child)
         self.assertEqual(home_grandchild.get_parent_page(), home)
 
+    def test_get_url_parts(self):
+        root = MicrositeFactory(title='root')
+        home = MicrositePageFactory(page_title='home', title='microsite-title', parent=root)
+        home_child = MicrositePageFactory(page_title='home-child', title='home-child', parent=home)
+        home_grandchild = MicrositePageFactory(page_title='home-grandchild', title='home-grandchild', parent=home_child)
+        self.assertEqual(home.get_url_parts(), None)
+        self.assertEqual(home_child.get_url_parts(), None)
+        self.assertEqual(home_grandchild.get_url_parts(), None)
+
     def test_get_use_domestic_logo(self):
         root = MicrositeFactory(title='root')
         home = MicrositePageFactory(
