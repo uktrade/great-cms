@@ -1575,12 +1575,13 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
         parts = super().get_url_parts(*args, **kwargs)
         if not parts:
             return None
-        site_id, root_url, page_path = parts
-        try:
-            page_path = page_path.replace('micrositecontent', 'microsites')
-        except (AttributeError, TypeError):
-            pass
-        return (site_id, root_url, page_path)
+        else:
+            site_id, root_url, page_path = parts
+            try:
+                page_path = page_path.replace('micrositecontent', 'microsites')
+            except (AttributeError, TypeError):
+                pass
+            return (site_id, root_url, page_path)
 
     # Return the children of the top level Microsite parent of current page
     def get_menu_items(self):
