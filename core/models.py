@@ -1574,7 +1574,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
     def get_url_parts(self, *args, **kwargs):
         site_id, root_url, page_path = super().get_url_parts(*args, **kwargs)
         try:
-            page_path = page_path.replace("micrositecontent", "microsites")
+            page_path = page_path.replace('micrositecontent', 'microsites')
         except AttributeError:
             pass
         return site_id, root_url, page_path
