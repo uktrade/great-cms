@@ -1363,27 +1363,43 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
     subpage_types = ['core.MicrositePage']
 
     class Meta:
-        verbose_name = 'Microsite page'
-        verbose_name_plural = 'Microsite pages'
+        verbose_name = _('Microsite page')
+        verbose_name_plural = _('Microsite pages')
 
-    page_title = models.TextField(
-        null=True,
-    )
+    page_title = models.TextField(null=True, verbose_name=_('Page title'))
     page_subheading = models.TextField(
         blank=True,
-        help_text='This is a subheading that displays below the main title on the microsite page',
+        help_text=_('This is a subheading that displays below the main title on the microsite page'),
+        verbose_name=_('Page subheading'),
     )
     page_teaser = models.TextField(
         blank=True,
         null=True,
-        help_text='This is a subheading that displays when the microsite is featured on another page',
+        help_text=_('This is a subheading that displays when the microsite is featured on another page'),
+        verbose_name=_('Page teaser'),
     )
 
     use_domestic_header_logo = models.BooleanField(
         default=True,
-        help_text='If selected the dbt logo will be displayed in the header.'
-        ' Otherwise the UK Gov logo will be shown. '
-        'Note this checkbox only works on the root page',
+        help_text=_(
+            'If selected the dbt logo will be displayed in the header.'
+            ' Otherwise the UK Gov logo will be shown. '
+            'Note this checkbox only works on the root page'
+        ),
+        verbose_name=_('Use domestic header logo'),
+    )
+
+    external_link_label = models.CharField(
+        default='',
+        help_text=_('The label to be included within the menu items.'),
+        max_length=256,
+        blank=True,
+        null=True,
+        verbose_name=_('External link label'),
+    )
+
+    external_link_url = models.URLField(
+        help_text=_('The url of the external link'), blank=True, null=True, verbose_name=_('External link url')
     )
 
     hero_image = models.ForeignKey(
@@ -1392,6 +1408,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
+        verbose_name=_('Hero image'),
     )
     hero_video = models.ForeignKey(
         'wagtailmedia.Media',
@@ -1399,46 +1416,53 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
+        verbose_name=_('Hero video'),
     )
     hero_video_transcript = RichTextField(
         features=RICHTEXT_FEATURES__REDUCED,
         null=True,
         blank=True,
         help_text=VIDEO_TRANSCRIPT_HELP_TEXT,
+        verbose_name=_('Hero video transcript'),
     )
     page_body = StreamField(
         [
-            ('form', CampaignFormBlock()),
+            ('form', CampaignFormBlock(label=_('Form'))),
             (
                 'text',
-                RichTextBlock(
-                    template='microsites/blocks/text.html',
+                RichTextBlock(template='microsites/blocks/text.html', label=_('Text')),
+            ),
+            ('image', ImageChooserBlock(required=False, template='microsites/blocks/image.html', label=_('Image'))),
+            (
+                'image_full_width',
+                ImageChooserBlock(
+                    required=False, template='microsites/blocks/image_full_width.html', label=_('Image full width')
                 ),
             ),
-            ('image', ImageChooserBlock(required=False, template='microsites/blocks/image.html')),
-            ('image_full_width', ImageChooserBlock(required=False, template='microsites/blocks/image_full_width.html')),
-            ('video', core_blocks.SimpleVideoBlock(template='microsites/blocks/video.html')),
+            ('video', core_blocks.SimpleVideoBlock(template='microsites/blocks/video.html', label=_('Video'))),
             (
                 'columns',
                 StreamBlock(
                     [
                         ('column', MicrositeColumnBlock()),
                     ],
-                    help_text='Add two or three columns text',
+                    help_text=_('Add two or three columns text'),
                     min_num=2,
                     max_num=3,
                     template='microsites/blocks/columns.html',
+                    label=_('Columns'),
                 ),
             ),
             (
                 'links_block',
                 StreamBlock(
                     [
-                        ('link_block', LinksBlock()),
-                        ('text', RichTextBlock()),
+                        ('link_block', LinksBlock(label=_('Link block'))),
+                        ('text', RichTextBlock(label=_('Text'))),
                     ],
                     template='microsites/blocks/link.html',
                     block_counts={'text': {'max_num': 1}, 'link_block': {'max_num': 6}},
+                    label=_('Links block'),
                 ),
             ),
             (
@@ -1447,68 +1471,63 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                     [
                         (
                             'title',
-                            blocks.CharBlock(required=True, max_length=255, label='Title'),
+                            blocks.CharBlock(required=True, max_length=255, label=_('Title')),
                         ),
                         (
                             'teaser',
-                            blocks.RichTextBlock(
-                                template='microsites/blocks/text.html',
-                            ),
+                            blocks.RichTextBlock(template='microsites/blocks/text.html', label=_('Teaser')),
                         ),
                         (
                             'link_label',
-                            blocks.CharBlock(required=True, max_length=255, label='Link label'),
+                            blocks.CharBlock(required=True, max_length=255, label=_('Link label')),
                         ),
                         (
                             'link',
-                            blocks.CharBlock(required=True, max_length=255, label='Link'),
+                            blocks.CharBlock(required=True, max_length=255, label=_('Link')),
                         ),
                     ],
                     template='microsites/blocks/cta.html',
+                    label=_('CTA'),
                 ),
             ),
             (  # alt text lives on the custom Image class
                 'pull_quote',
-                core_blocks.PullQuoteBlock(
-                    template='domestic/blocks/pull_quote_block.html',
-                ),
+                core_blocks.PullQuoteBlock(template='domestic/blocks/pull_quote_block.html', label=_('Pull quote')),
             ),
         ],
         use_json_field=True,
         null=True,
         blank=True,
+        verbose_name=_('Page body'),
     )
 
     cta_title = models.CharField(
         max_length=255,
         blank=True,
-        verbose_name='CTA title',
+        verbose_name=_('CTA title'),
     )
     cta_teaser = RichTextField(
         null=True,
         blank=True,
-        verbose_name='CTA teaser',
+        verbose_name=_('CTA teaser'),
     )
 
     cta_link_label = models.CharField(
         max_length=255,
         blank=True,
-        verbose_name='CTA link label',
+        verbose_name=_('CTA link label'),
     )
     cta_link = models.CharField(
         max_length=255,
         blank=True,
-        verbose_name='CTA link',
+        verbose_name=_('CTA link'),
     )
 
     related_links = StreamField(
         [
             (
                 'page',
-                blocks.PageChooserBlock(
-                    null=True,
-                    blank=True,
-                ),
+                blocks.PageChooserBlock(null=True, blank=True, label=_('Page')),
             ),
             (
                 'link',
@@ -1516,13 +1535,14 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                     [
                         (
                             'title',
-                            blocks.CharBlock(form_classname='title', default=''),
+                            blocks.CharBlock(form_classname='title', default='', label=_('Title')),
                         ),
                         (
                             'full_url',
-                            blocks.URLBlock(form_classname='url', default=''),
+                            blocks.URLBlock(form_classname='url', default='', label=_('Full url')),
                         ),
-                    ]
+                    ],
+                    label=_('Link'),
                 ),
             ),
         ],
@@ -1532,11 +1552,11 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
         blank=True,
     )
 
-    twitter = models.URLField(blank=True)
-    facebook = models.URLField(blank=True)
+    twitter = models.URLField(blank=True, verbose_name=_('Twitter'))
+    facebook = models.URLField(blank=True, verbose_name=_('Facebook'))
 
-    linkedin = models.URLField(blank=True)
-    email = models.EmailField(blank=True)
+    linkedin = models.URLField(blank=True, verbose_name=_('LinkedIn'))
+    email = models.EmailField(blank=True, verbose_name=_('Email'))
 
     def get_parent_page(self):
         current_page = self.specific
@@ -1554,15 +1574,16 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
     # Return the children of the top level Microsite parent of current page
     def get_menu_items(self):
         parent_page = self.get_parent_page()
+        menu_items = []
         if parent_page:
-            return [{'url': parent_page.get_url(), 'title': _('Home')}] + [
+            menu_items = [{'url': parent_page.get_url(), 'title': _('Home')}] + [
                 {
                     'url': child.get_url(),
                     'title': child.title,
                 }
                 for child in parent_page.get_children().live()
             ]
-        return []
+        return menu_items + self.get_external_menu_link()
 
     def get_use_domestic_header_logo(self):
         parent_page = self.get_parent_page()
@@ -1581,6 +1602,13 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
             return parent_page.title
         else:
             return None
+
+    def get_external_menu_link(self):
+        parent = self.get_parent_page()
+        if parent.external_link_label and parent.external_link_url:
+            return [{'url': parent.external_link_url, 'title': parent.external_link_label}]
+
+        return []
 
 
 @register_snippet

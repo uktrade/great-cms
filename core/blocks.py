@@ -2,6 +2,7 @@ import logging
 
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.utils.translation import gettext_lazy as _
 from elasticsearch.exceptions import ConnectionError, NotFoundError
 from wagtail import blocks
 from wagtail.blocks.field_block import RichTextBlock
@@ -104,10 +105,10 @@ class ImageBlock(ImageChooserBlock):
 
 
 class SimpleVideoBlock(blocks.StructBlock):
-    video = MediaChooserBlock()
+    video = MediaChooserBlock(label=_('Video'))
 
     class Meta:
-        help_text = 'Include a video'
+        help_text = _('Include a video')
         template = 'core/includes/_video.html'
         icon = 'fa-play'
 
@@ -533,10 +534,10 @@ class ColumnsBlock(blocks.StructBlock):
 
 
 class MicrositeColumnBlock(blocks.StructBlock):
-    image = ImageChooserBlock(required=False, label='Hero Image')
-    text = blocks.RichTextBlock(required=False, label='Description')
-    button_label = blocks.CharBlock(required=False)
-    button_url = blocks.URLBlock(required=False)
+    image = ImageChooserBlock(required=False, label=_('Hero Image'))
+    text = blocks.RichTextBlock(required=False, label=_('Description'))
+    button_label = blocks.CharBlock(required=False, label=_('Button label'))
+    button_url = blocks.URLBlock(required=False, label=_('Button url'))
 
 
 class SingleRichTextBlock(blocks.StructBlock):
@@ -551,24 +552,28 @@ class TopicPageCardBlockRichText(blocks.StructBlock):
 
 
 class LinksBlock(blocks.StructBlock):
-    title = blocks.CharBlock(required=False, max_length=255, label='Title')
-    description = blocks.RichTextBlock(features=RICHTEXT_FEATURES__REDUCED, required=False, label='Description')
-    link_text = blocks.CharBlock()
-    link_url = blocks.CharBlock()
+    title = blocks.CharBlock(required=False, max_length=255, label=_('Title'))
+    description = blocks.RichTextBlock(features=RICHTEXT_FEATURES__REDUCED, required=False, label=_('Description'))
+    link_text = blocks.CharBlock(label=_('Link text'))
+    link_url = blocks.CharBlock(label=_('Link url'))
 
 
 class CampaignFormBlock(blocks.StructBlock):
-    type = blocks.ChoiceBlock(choices=CAMPAIGN_FORM_CHOICES, null=False, blank=False, required=True)
-    email_subject = blocks.TextBlock(required=True)
-    email_title = blocks.TextBlock(required=True)
-    email_body = blocks.TextBlock(required=True)
+    type = blocks.ChoiceBlock(choices=CAMPAIGN_FORM_CHOICES, null=False, blank=False, required=True, label=_('type'))
+    email_subject = blocks.TextBlock(required=True, label=_('Email subject'))
+    email_title = blocks.TextBlock(required=True, label=_('Email title'))
+    email_body = blocks.TextBlock(required=True, label=_('Email body'))
 
 
 class SupportCardBlock(blocks.StructBlock):
-    image = ImageChooserBlock(required=False, label='Card Image')
-    type = blocks.ChoiceBlock(choices=[('govuk', 'GOV.UK'), ('tools', 'Tools'), ('howTo', 'How to')], label='Type')
-    title = blocks.CharBlock(max_length=255, label='Title')
-    description = blocks.CharBlock(max_length=255, label='Description')
-    link_text = blocks.CharBlock(label='Link text')
-    link_url = blocks.CharBlock(label='Link url')
-    full_width = blocks.ChoiceBlock(choices=[('yes', 'Yes'), ('no', 'No')], label='Full width?', required=False)
+    image = ImageChooserBlock(required=False, label=_('Card Image'))
+    type = blocks.ChoiceBlock(
+        choices=[('govuk', _('GOV.UK')), ('tools', _('Tools')), ('howTo', _('How to'))], label=_('Type')
+    )
+    title = blocks.CharBlock(max_length=255, label=_('Title'))
+    description = blocks.CharBlock(max_length=255, label=_('Description'))
+    link_text = blocks.CharBlock(label=_('Link text'))
+    link_url = blocks.CharBlock(label=_('Link url'))
+    full_width = blocks.ChoiceBlock(
+        choices=[('yes', _('Yes')), ('no', _('No'))], label=_('Full width?'), required=False
+    )

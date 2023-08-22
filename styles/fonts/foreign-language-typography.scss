@@ -32,7 +32,7 @@ $arabic-header-text-font: 'Noto Arabic SemiBold', 'Noto SemiBold', Arial,
   button,
   a,
   li {
-    font-family: $arabic-main-text-font;
+    font-family: $arabic-main-text-font !important;
   }
 }
 

@@ -36,6 +36,7 @@ def _format_display_type(result):
         # from Great V1, whereas V2's content is namespaced ONLY with dit:greatCms
         'dit:greatCms:Article': 'Article',
         'dit:greatCms:Service': 'Service',
+        'dit:greatCms:Microsite': 'Campaign',
     }
     for value, replacement in mappings.items():
         if value in result['type']:
