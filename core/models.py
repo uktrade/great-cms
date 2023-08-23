@@ -1343,8 +1343,8 @@ class Microsite(Page):
     subpage_types = ['core.MicrositePage']
 
     class Meta:
-        verbose_name = 'Microsite'
-        verbose_name_plural = 'Microsite'
+        verbose_name = 'Campaign site'
+        verbose_name_plural = 'Campaign sites'
 
     def serve_preview(self, request, mode_name='dummy'):
         # It doesn't matter what is passed as mode_name - we always HTTP404
@@ -1363,8 +1363,8 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
     subpage_types = ['core.MicrositePage']
 
     class Meta:
-        verbose_name = _('Microsite page')
-        verbose_name_plural = _('Microsite pages')
+        verbose_name = _('Campaign site page')
+        verbose_name_plural = _('Campaign site pages')
 
     page_title = models.TextField(null=True, verbose_name=_('Page title'))
     page_subheading = models.TextField(

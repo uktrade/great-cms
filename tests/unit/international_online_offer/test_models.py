@@ -8,8 +8,8 @@ from international_online_offer.models import (
     EYBArticlePage,
     EYBGuidePage,
     EYBIndexPage,
-    EYBTradeShowPage,
     EYBTradeShowsPage,
+    IOOTradeShowPage,
     TriageData,
     UserData,
     get_triage_data,
@@ -63,14 +63,14 @@ class EYBTradeShowsPageTests(WagtailPageTests):
     def test_allowed_children(self):
         self.assertAllowedSubpageTypes(
             EYBTradeShowsPage,
-            {EYBTradeShowPage},
+            {IOOTradeShowPage},
         )
 
 
 class EYBTradeShowPageTests(WagtailPageTests):
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
-            EYBTradeShowPage,
+            IOOTradeShowPage,
             {
                 EYBTradeShowsPage,
             },
