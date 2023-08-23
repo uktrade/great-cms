@@ -95,6 +95,9 @@
   <main id="content" class="{% block css_layout_class %}{% endblock %}">
       {% block content_header %}{% endblock %}
       {% block content %}{% endblock %}
+      {% if "search/feedback" not in request.path %}
+        {% include 'domestic/includes/feedback_button.html' %}
+      {% endif %}
   </main>
 {% endblock %}
 
@@ -127,5 +130,8 @@
         },
       })
       magna.createSnackbar({element:document.getElementById('snackbar-container')})
-  </script>
+    </script>
+    {% if "search/feedback" not in request.path %}
+      <script src="{% static 'javascript/feedbackButton.js'%}"></script>
+    {% endif %}
 {% endblock %}
