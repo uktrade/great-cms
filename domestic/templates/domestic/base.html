@@ -180,7 +180,7 @@
       {% include 'components/error_reporting.html' %}
     {% endblock %}
     {% block content_after %}{% endblock %}
-    {% if "search/feedback" not in request.path %}
+    {% if features.FEATURE_FEEDBACK_BUTTON_EXPERIMENT and "search/feedback" not in request.path  %}
       {% include 'domestic/includes/feedback_button.html' %}
     {% endif %}
   </main>
@@ -202,7 +202,7 @@
         preferencesUrl: '{% url "core:cookie-preferences" %}',
       })
     </script>
-    {% if "search/feedback" not in request.path %}
+    {% if features.FEATURE_FEEDBACK_BUTTON_EXPERIMENT and "search/feedback" not in request.path  %}
       <script src="{% static 'javascript/feedbackButton.js'%}"></script>
     {% endif %}
   {% endif %}
