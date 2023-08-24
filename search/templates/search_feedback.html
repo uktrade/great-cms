@@ -12,7 +12,7 @@
 {% block head_title %}Feedback Form{% endblock %}
 
 {% block content %}
-<section id="search-results-information">
+<section id="search-results-information" class="great govuk-!-padding-bottom-0">
   <div class="breadcrumb-wrapper">
   <div class="container">
     {% breadcrumbs "Feedback" %}
@@ -21,14 +21,13 @@
     {% endbreadcrumbs %}
   </div>
 </div>
-  <div class="container">
-    <h1 class="heading-xlarge">Your feedback will help us improve great.gov.uk</h1>
+  <div class="container govuk-!-padding-top-8">
+    <h1 class="govuk-heading-l">Your feedback will help us improve the website</h1>
   </div>
 </section>
 <div class="results-wrapper">
   <div class="container search-results-container">
-    <br>
-    <form action="{% url 'search:feedback' %}" method="POST">
+    <form action="{% url 'search:feedback' %}?{{ request.GET.urlencode }}" method="POST">
     {% csrf_token %}
     {{ form.non_field_errors }}
     {% include 'core/includes/form_field.html' with field=form.result_found %}

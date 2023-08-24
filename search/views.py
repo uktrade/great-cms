@@ -1,5 +1,6 @@
 import datetime
 import logging
+import urllib
 
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
@@ -75,9 +76,10 @@ class SearchFeedbackFormView(FormView):
         page = self.request.POST['from_search_page']
         query = self.request.POST['from_search_query']
         url = reverse_lazy('search:search')
+        if self.request.GET.get('next'):
+            return reverse_lazy('search:feedback-success') + f'?next={self.request.GET["next"]}'
         return f'{url}?page={page}&q={query}&submitted=true'
 
-    #
     # email_address and full_name are required by FormsAPI.
     # However, in the UI, the user is given the option
     # to give contact details or not. Therefore defaults
@@ -93,7 +95,7 @@ class SearchFeedbackFormView(FormView):
             email_address=email,
             full_name=name,
             subject=subject,
-            form_url=self.request.path,
+            form_url=self.get_form_url(),
         )
         response.raise_for_status()
         return super().form_valid(form)
@@ -113,3 +115,16 @@ class SearchFeedbackFormView(FormView):
             }
         )
         return context
+
+    def get_form_url(self):
+        # pass through next parameter to forms API
+        # search params get passed in request body
+        if self.request.GET.get('next'):
+            url = self.request.get_full_path()
+            return urllib.parse.unquote(url)
+        else:
+            return self.request.path
+
+
+class SearchFeedbackSuccessView(TemplateView):
+    template_name = 'search_feedback_confirmation.html'

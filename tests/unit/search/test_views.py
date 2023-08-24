@@ -162,3 +162,33 @@ def test_search_feedback_submit_success(mock_save, client, captcha_stub):
         subject='Search Feedback - 00:00 01 Jan 2020',
         form_url='/search/feedback/',
     )
+
+
+@patch.object(views.SearchFeedbackFormView.form_class, 'save')
+@freeze_time('2020-01-01')
+def test_search_feedback_form_success_with_next_parameter(mock_save, client, captcha_stub):
+    url = reverse('search:feedback') + '?next=/'
+
+    # No contact details
+    data = {
+        'result_found': 'no',
+        'search_target': 'Test',
+        'reason_for_site_visit': 'Test',
+        'from_search_query': '',
+        'from_search_page': '',
+        'contactable': 'no',
+        'g-recaptcha-response': captcha_stub,
+    }
+
+    response = client.post(url, data)
+
+    assert response.status_code == 302
+    assert response.url == f"{reverse('search:feedback-success')}?next=/"
+
+    assert mock_save.call_count == 1
+    assert mock_save.call_args == call(
+        email_address='emailnotgiven@example.com',
+        full_name='Name not given',
+        subject='Search Feedback - 00:00 01 Jan 2020',
+        form_url='/search/feedback/?next=/',
+    )
