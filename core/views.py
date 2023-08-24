@@ -13,7 +13,7 @@ from django.template.response import TemplateResponse
 from django.urls import reverse, reverse_lazy
 from django.utils.crypto import get_random_string
 from django.views.generic import FormView, TemplateView
-from django.views.generic.base import RedirectView
+from django.views.generic.base import RedirectView, View
 from formtools.wizard.views import NamedUrlSessionWizardView
 from great_components.mixins import GA360Mixin
 from rest_framework import generics
@@ -22,6 +22,15 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from storages.backends.s3boto3 import S3Boto3Storage
 from wagtail.contrib.sitemaps import Sitemap as WagtailSitemap
+from wagtail.images import get_image_model
+from wagtail.images.views import chooser
+from wagtail.images.views.chooser import (
+    ImageChooserViewSet,
+    ImageChosenResponseMixin,
+    ImageCreationFormMixin,
+    ImageInsertionForm,
+    ImageUploadViewMixin,
+)
 
 from core import cms_slugs, forms, helpers, serializers
 from core.constants import GET_EXPORT_HELP_CHOICE_TO_CONTENT_MAPPING
@@ -577,18 +586,8 @@ class GetExportHelpExperimentResultView(FormView):
 class GetExportHelpExperimentConfirmationView(TemplateView):
     template_name = 'core/get_export_help_experiment_confirmation.html'
 
-from wagtail.images.views.chooser import ImageChooserViewSet, ImageCreationFormMixin, ImageChosenResponseMixin, SelectFormatResponseMixin, CreateViewMixin
-from wagtail.images.views import chooser
-from wagtail.images import get_image_model
-from django.views.generic.base import View
-from django.utils.http import urlencode
 
-# below copied from wagtail/images/views/chooser.py
-class ImageUploadViewMixin(SelectFormatResponseMixin, CreateViewMixin):
-    def get(self, request):
-        self.model = get_image_model()
-        return super().get(request)
-
+class AltImageUploadView(ImageUploadViewMixin, ImageCreationFormMixin, ImageChosenResponseMixin, View):
     def post(self, request):
         self.model = get_image_model()
         self.form = self.get_creation_form()
@@ -603,14 +602,12 @@ class ImageUploadViewMixin(SelectFormatResponseMixin, CreateViewMixin):
             )
             existing_image = duplicates.first()
             if existing_image:
-                return self.render_duplicate_found_response(
-                    request, image, existing_image
-                )
+                return self.render_duplicate_found_response(request, image, existing_image)
 
-            if request.GET.get("select_format"):
-                insertion_form = chooser.ImageInsertionForm(
-                    initial={"alt_text": image.alt_text if image.alt_text else image.default_alt_text},
-                    prefix="image-chooser-insertion",
+            if request.GET.get('select_format'):
+                insertion_form = ImageInsertionForm(
+                    initial={'alt_text': image.alt_text if image.alt_text else image.default_alt_text},
+                    prefix='image-chooser-insertion',
                 )
                 return self.render_select_format_response(image, insertion_form)
             else:
@@ -620,49 +617,6 @@ class ImageUploadViewMixin(SelectFormatResponseMixin, CreateViewMixin):
         else:  # form is invalid
             return self.get_reshow_creation_form_response()
 
-    def render_duplicate_found_response(self, request, new_image, existing_image):
-        next_step_url = (
-            "wagtailimages_chooser:select_format"
-            if request.GET.get("select_format")
-            else "wagtailimages_chooser:chosen"
-        )
-        choose_new_image_url = self.append_preserved_url_parameters(
-            reverse(next_step_url, args=(new_image.id,))
-        )
-        choose_existing_image_url = self.append_preserved_url_parameters(
-            reverse(next_step_url, args=(existing_image.id,))
-        )
-
-        cancel_duplicate_upload_action = (
-            f"{reverse('wagtailimages:delete', args=(new_image.id,))}?"
-            f"{urlencode({'next': choose_existing_image_url})}"
-        )
-
-        duplicate_upload_html = chooser.render_to_string(
-            "wagtailimages/chooser/confirm_duplicate_upload.html",
-            {
-                "new_image": new_image,
-                "existing_image": existing_image,
-                "confirm_duplicate_upload_action": choose_new_image_url,
-                "cancel_duplicate_upload_action": cancel_duplicate_upload_action,
-            },
-            request,
-        )
-        return chooser.render_modal_workflow(
-            request,
-            None,
-            None,
-            None,
-            json_data={
-                "step": "duplicate_found",
-                "htmlFragment": duplicate_upload_html,
-            },
-        )
-
-class AltImageUploadView(
-    ImageUploadViewMixin, ImageCreationFormMixin, ImageChosenResponseMixin, View
-):
-    pass
 
 class AltImageChooserViewSet(ImageChooserViewSet):
     model = get_image_model()
@@ -670,9 +624,4 @@ class AltImageChooserViewSet(ImageChooserViewSet):
     register_widget = True
 
     def on_register(self):
-        print("custom hook is being registered")
         return super().on_register()
-
-alt_image_chooser_viewset = AltImageChooserViewSet("wagtailimages_chooser", model=get_image_model(),
-    url_prefix="images/chooser",)
-

@@ -30,6 +30,7 @@ from wagtail_transfer.models import ImportedFile
 
 from core import constants, mixins, views
 from core.models import MicrositePage
+from core.views import AltImageChooserViewSet
 from domestic.models import ArticlePage
 
 logger = logging.getLogger(__name__)
@@ -533,9 +534,10 @@ def register_campaign_site_help_menu_item():
         name='campaign-site',
     )
 
-from core.views import alt_image_chooser_viewset
 
-@hooks.register("register_admin_viewset", order=-1)
+@hooks.register('register_admin_viewset', order=-1)
 def register_image_chooser_viewset():
-    return alt_image_chooser_viewset
-
+    return AltImageChooserViewSet(
+        'alt_wagtailimages_chooser',
+        url_prefix='images/chooser',
+    )
