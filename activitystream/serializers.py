@@ -258,6 +258,8 @@ class ActivityStreamExpandYourBusinessUserDataSerializer(serializers.ModelSerial
             'agreeTerms',
             'agreeInfoEmail',
             'landingTimeframe',
+            'created',
+            'modified',
         ]
 
     def to_representation(self, instance):
@@ -306,6 +308,8 @@ class ActivityStreamExpandYourBusinessTriageDataSerializer(serializers.ModelSeri
             'spend',
             'spendOther',
             'isHighValue',
+            'created',
+            'modified',
         ]
 
     def to_representation(self, instance):

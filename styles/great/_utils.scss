@@ -700,3 +700,18 @@ img.richtext-image {
 .great-overflow-hidden {
   overflow: hidden;
 }
+
+.great-hidden {
+  display: none;
+}
+
+.great-box-shadow {
+  box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.25);
+}
+
+.great-feedback-button-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 300px;
+}
