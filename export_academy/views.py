@@ -594,7 +594,7 @@ class SignInView(HandleNewAndExistingUsersMixin, sso_mixins.SignInMixin, FormVie
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx['heading'] = 'UK Export Academy on Great.gov.uk' if self.get_ea_user() else 'Join the UK Export Academy'
-        ctx['nexturl'] = '/great/export-academy'
+        ctx['nexturl'] = self.request.META.get('HTTP_REFERER')
         return ctx
 
 
