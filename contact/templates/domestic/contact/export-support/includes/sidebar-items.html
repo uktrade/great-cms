@@ -1,7 +1,7 @@
-{% load get_topic_blocks tag_text_mapper from content_tags %}
+{% load tag_text_mapper from content_tags %}
 
-{% for item in items|get_topic_blocks:request.GET.topic %}
-    {% if item.block_type == 'topic' %}
+{% for item in items %}
+    {% if item.block_type == 'cards' %}
     <div class="govuk-!-margin-right-6 govuk-!-margin-bottom-6 govuk-!-padding-6 great-bg-white great-sidebar-items">
         {% for block in item.value %}
             {% if block.block_type == 'sidebar_item' %}

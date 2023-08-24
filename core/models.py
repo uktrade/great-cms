@@ -48,6 +48,7 @@ from core.blocks import (
     LinksBlock,
     MicrositeColumnBlock,
     SupportCardBlock,
+    SupportTopicCardBlock,
 )
 from core.case_study_index import delete_cs_index, update_cs_index
 from core.cms_snippets import NonPageContentSEOMixin, NonPageContentSnippetBase
@@ -1686,7 +1687,7 @@ class Support(Page):
         'domestic.GreatDomesticHomePage',
     ]
 
-    subpage_types = ['core.SupportPage', 'core.GetInTouchPage']
+    subpage_types = ['core.SupportPage', 'core.GetInTouchPage', 'core.SupportTopicLandingPage']
 
     class Meta:
         verbose_name = 'Support'
@@ -1729,35 +1730,48 @@ class SupportPage(cms_panels.SupportPanels, Page):
     page_body = StreamField(
         [
             (
-                'topic',
+                'topic_cards',
                 StreamBlock(
                     [
-                        (
-                            'title',
-                            blocks.CharBlock(
-                                form_classname='title',
-                                default='',
-                                required=True,
-                            ),
-                        ),
-                        (
-                            'description',
-                            blocks.CharBlock(
-                                form_classname='description',
-                                default='',
-                                required=True,
-                            ),
-                        ),
-                        ('type', blocks.ChoiceBlock(choices=[('topic', 'Topic')], label='Type')),
+                        ('topic_card', SupportTopicCardBlock()),
+                    ],
+                    block_counts={
+                        'topic_card': {'min_num': 1},
+                    },
+                ),
+            ),
+        ],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
+
+
+class SupportTopicLandingPage(cms_panels.SupportTopicLandingPanels, Page):
+    template = 'domestic/contact/export-support/topic-landing.html'
+    parent_page_types = [
+        'core.Support',
+        'core.SupportPage',
+    ]
+    subpage_types = ['core.SupportPage']
+
+    class Meta:
+        verbose_name = 'Topic landing page'
+        verbose_name_plural = 'Topic landing pages'
+
+    page_title = models.TextField(
+        null=True,
+    )
+    page_body = StreamField(
+        [
+            (
+                'cards',
+                StreamBlock(
+                    [
                         ('card', SupportCardBlock()),
                         ('sidebar_item', SupportCardBlock()),
                         ('related_item', SupportCardBlock()),
                     ],
-                    block_counts={
-                        'title': {'max_num': 1},
-                        'description': {'max_num': 1},
-                        'type': {'max_num': 1},
-                    },
                 ),
             ),
         ],

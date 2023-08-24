@@ -577,3 +577,10 @@ class SupportCardBlock(blocks.StructBlock):
     full_width = blocks.ChoiceBlock(
         choices=[('yes', _('Yes')), ('no', _('No'))], label=_('Full width?'), required=False
     )
+
+
+class SupportTopicCardBlock(blocks.StructBlock):
+    title = blocks.CharBlock(max_length=255, label=_('Title'))
+    description = blocks.CharBlock(max_length=255, label=_('Description'))
+    link_text = blocks.CharBlock(label=_('Link text'))
+    link_url = blocks.CharBlock(label=_('Link url'))
