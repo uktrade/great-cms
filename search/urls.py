@@ -19,4 +19,5 @@ urlpatterns = [
         search.views.SearchFeedbackFormView.as_view(),
         name='feedback',
     ),
+    path('feedback/success', search.views.SearchFeedbackSuccessView.as_view(), name='feedback-success'),
 ]
