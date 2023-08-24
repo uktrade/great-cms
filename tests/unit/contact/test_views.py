@@ -1,3 +1,4 @@
+import pickle
 from unittest import mock
 
 import django.forms
@@ -1619,6 +1620,7 @@ def test_domestic_export_support_form_pages(
         assert response.status_code == 200
         assert error_messages[key] in str(response.rendered_content)
         assert '<meta name="robots" content="noindex">' in str(response.rendered_content)
+
         invalid_form_data = form_data.copy()
 
     #   Redirect succeeds with valid data
@@ -1787,3 +1789,39 @@ def test_feedback_form_success(
     assert mock_action_class().save.call_args_list[0] == mock.call(
         {'help_us_improve': 'easy', 'help_us_further': 'yes'}
     )
+
+
+@mock.patch('contact.helpers.retrieve_regional_offices')
+def test_regional_office_displayed_on_confirmation_page(
+    mock_retrieve_regional_offices,
+    client,
+    user,
+):
+    mock_retrieve_regional_offices.return_value = [
+        {
+            'address': (
+                'The International Trade Centre\n' '5 Merus Court\n' 'Meridian Business Park\n' 'Leicester\n' 'LE19 1RJ'
+            ),
+            'is_match': True,
+            'region_id': 'east_midlands',
+            'name': 'DIT East Midlands',
+            'address_street': ('The International Trade Centre, ' '5 Merus Court, ' 'Meridian Business Park'),
+            'address_city': 'Leicester',
+            'address_postcode': 'LE19 1RJ',
+            'email': 'test+east_midlands@examoke.com',
+            'phone': '0345 052 4001',
+            'phone_other': '',
+            'phone_other_comment': '',
+            'website': None,
+        }
+    ]
+    client.force_login(user)
+    session = client.session
+    form_data = ({'business_postcode': 'LE19 1RJ'},)
+    form_data = pickle.dumps(form_data).hex()
+    session['form_data'] = form_data
+    session.save()
+
+    response = client.get(reverse('contact:export-support-step-8'))
+
+    assert '<address>' in str(response.rendered_content)
