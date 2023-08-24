@@ -296,7 +296,7 @@ class EYBArticlePage(BaseContentPage):
 
 class EYBTradeShowsPage(BaseContentPage):
     parent_page_types = ['international_online_offer.EYBGuidePage']
-    subpage_types = ['international_online_offer.EYBTradeShowPage']
+    subpage_types = ['international_online_offer.IOOTradeShowPage']
     template = 'eyb/trade_shows.html'
 
     def get_context(self, request, *args, **kwargs):
@@ -306,7 +306,7 @@ class EYBTradeShowsPage(BaseContentPage):
 
         if triage_data:
             all_tradeshows = (
-                EYBTradeShowPage.objects.live().filter(tags__name=triage_data.sector) if triage_data.sector else []
+                IOOTradeShowPage.objects.live().filter(tags__name=triage_data.sector) if triage_data.sector else []
             )
 
         context.update(triage_data=triage_data, all_tradeshows=all_tradeshows)
@@ -323,14 +323,14 @@ class EYBTradeShowsPage(BaseContentPage):
 class EYBTradeShowPageTag(TaggedItemBase):
     tag = models.ForeignKey(EYBArticleTag, related_name='eyb_tagged_tradeshows', on_delete=models.CASCADE)
     content_object = ParentalKey(
-        'international_online_offer.EYBTradeShowPage', related_name='eyb_tradeshow_tagged_items'
+        'international_online_offer.IOOTradeShowPage', related_name='eyb_tradeshow_tagged_items'
     )
 
 
-class EYBTradeShowPage(BaseContentPage):
+class IOOTradeShowPage(BaseContentPage):
     parent_page_types = ['international_online_offer.EYBTradeShowsPage']
     subpage_types = []
-    template = 'eyb/trade.html'
+    template = 'eyb/trade-shows.html'
     tradeshow_title = models.TextField()
     tradeshow_subheading = StreamField(
         [

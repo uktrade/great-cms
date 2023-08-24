@@ -53,7 +53,7 @@ class PersonalDetails(forms.Form):
         widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
     )
     last_name = forms.CharField(
-        label=_('Surname'),
+        label=_('Last name'),
         min_length=2,
         max_length=50,
         error_messages={
