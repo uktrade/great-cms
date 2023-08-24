@@ -1,5 +1,4 @@
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
-from wagtailmedia.widgets import AdminMediaChooser
 
 
 # TODO: remove -  Deprecated - keeping it incase if we need to go back
@@ -17,6 +16,10 @@ class SearchEngineOptimisationPanel(MultiFieldPanel):
 class MicrositePanels:
     content_panels = [
         MultiFieldPanel(
+            heading='Media',
+            children=[FieldPanel('hero_image')],
+        ),
+        MultiFieldPanel(
             heading='Page intro',
             children=[
                 FieldPanel('page_title'),
@@ -24,18 +27,10 @@ class MicrositePanels:
                 FieldPanel('page_teaser'),
             ],
         ),
-        MultiFieldPanel(
-            heading='Media',
-            children=[
-                FieldPanel('hero_image'),
-                FieldPanel('hero_video', widget=AdminMediaChooser),
-                FieldPanel('hero_video_transcript'),
-            ],
-            help_text='If both video and image are specified, only the video will be shown',
-        ),
+        FieldPanel('related_links', heading='Related Content'),
         FieldPanel('page_body'),
         MultiFieldPanel(
-            heading='CTA fields',
+            heading='Call to Action (CTA)',
             children=[
                 FieldPanel('cta_title'),
                 FieldPanel('cta_teaser'),
@@ -47,7 +42,6 @@ class MicrositePanels:
             heading='Social media',
             children=[FieldPanel('twitter'), FieldPanel('facebook'), FieldPanel('linkedin'), FieldPanel('email')],
         ),
-        FieldPanel('related_links'),
     ]
 
     settings_panels = [
