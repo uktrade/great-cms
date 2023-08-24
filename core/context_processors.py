@@ -72,6 +72,7 @@ def feature_flags(request):
     retval['features']['FEATURE_GET_EXPORT_HELP_EXPERIMENT'] = settings.FEATURE_GET_EXPORT_HELP_EXPERIMENT
     retval['features']['FEATURE_PRODUCT_EXPERIMENT_HEADER'] = settings.FEATURE_PRODUCT_EXPERIMENT_HEADER
     retval['features']['FEATURE_PRODUCT_EXPERIMENT_LINKS'] = settings.FEATURE_PRODUCT_EXPERIMENT_LINKS
+    retval['features']['FEATURE_FEEDBACK_BUTTON_EXPERIMENT'] = settings.FEATURE_FEEDBACK_BUTTON_EXPERIMENT
     return retval
 
 

@@ -13,7 +13,7 @@ from wagtail.fields import StreamField
 from wagtail.images.blocks import ImageChooserBlock
 
 from core.blocks import ColumnsBlock
-from core.models import CMSGenericPage
+from core.models import CMSGenericPage, TimeStampedModel
 from directory_constants.choices import COUNTRY_CHOICES
 from domestic.models import BaseContentPage
 from international_online_offer.core import choices, filter_tags, helpers
@@ -353,7 +353,7 @@ class IOOTradeShowPage(BaseContentPage):
     ]
 
 
-class TriageData(models.Model):
+class TriageData(TimeStampedModel):
     hashed_uuid = models.CharField(max_length=200)
     sector = models.CharField(max_length=255, choices=choices.SECTOR_CHOICES)
     intent = ArrayField(
@@ -378,7 +378,7 @@ class TriageData(models.Model):
     is_high_value = models.BooleanField(default=False)
 
 
-class UserData(models.Model):
+class UserData(TimeStampedModel):
     hashed_uuid = models.CharField(max_length=200)
     company_name = models.CharField(max_length=255)
     company_location = models.CharField(max_length=255, choices=COUNTRY_CHOICES)
