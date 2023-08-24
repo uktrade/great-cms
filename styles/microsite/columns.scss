@@ -1,8 +1,16 @@
 .microsite {
-    .microsite-column {
-        .richtext-image {
-            height: auto;
-            width: -webkit-fill-available;
-        }
+  .microsite-column {
+    .richtext-image {
+      height: auto;
+      width: -webkit-fill-available;
     }
+  }
+  .richtext {
+    display: flex;
+    flex-direction: column;
+
+    img.richtext-image.right {
+      margin-left: auto;
+    }
+  }
 }

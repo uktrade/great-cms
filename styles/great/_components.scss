@@ -1,3 +1,44 @@
+@import '../fonts/typography.scss';
+
+figure.great-blockquote {
+  padding: 0;
+  margin: 0;
+
+  blockquote {
+    display: flex;
+    gap: 10px;
+    margin: 0;
+    position: relative;
+    background-color: transparent;
+
+    &:before {
+      content: open-quote;
+      font-size: 70px;
+      $font-family: $header-font;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    &::after {
+      content: close-quote;
+      font-size: 0;
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    p {
+      font-size: 24px;
+      margin: 0;
+      display: inline;
+      margin-left: 30px;
+    }
+  }
+}
+
+
 .great-full-width-header-image {
   height: 200px;
   background-position: 50%;
@@ -658,6 +699,14 @@
       a:visited,
       a:focus:active {
         color: $great-dark-blue;
+      }
+
+      a:focus,
+      a:focus:active {
+        padding: 0 15px;
+        position: relative;
+        width: calc(100% + 30px);
+        left: -15px;
       }
     }
   }

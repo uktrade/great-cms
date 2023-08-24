@@ -18,12 +18,11 @@
                     <p>{{ page.hero_text | richtext | add_govuk_classes }}</p>
                     {% feature_ea_release_two_enabled as ea_release_two_enabled %}
                     {% if ea_release_two_enabled %}
-                        {% is_logged_in as ea_user_logged_in %}
-                        {% if ea_user_logged_in %}
-                            {% include_block page.hero_cta_logged_in %}
-                        {% else %}
+                        {% if user.is_anonymous %}
                             {% include_block page.hero_cta %}
                             <p>{{ page.hero_text_below_cta_logged_out | richtext | add_govuk_classes }}</p>
+                        {% else %}
+                            {% include_block page.hero_cta_logged_in %}
                         {% endif %}
                     {% else %}
                         {% include_block page.hero_cta %}

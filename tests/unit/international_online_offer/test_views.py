@@ -402,6 +402,16 @@ def test_edit_your_answers(client, user, settings):
 
 
 @pytest.mark.django_db
+def test_trade_associations(client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:trade-associations')
+    user.hashed_uuid = '123'
+    client.force_login(user)
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
 def test_feedback(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:feedback')

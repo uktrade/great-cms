@@ -5,13 +5,13 @@
     {% if card.block_type == 'cards' %}
         {% for block in card.value %}
             {% if block.block_type == 'card' %}
-            <a href="{{block.value.link_url}}" class="govuk-!-margin-right-6 govuk-!-padding-6 great-topic-card great-min-height-300-desktop">
+            <a href="{{block.value.link_url}}" class="govuk-!-margin-right-6 govuk-!-padding-6 great-topic-card great-min-height-300-desktop" data-ga-digital-entry-point>
                 {% if block.value.image %}
                     <div>{% image block.value.image width-450 %}</div>
                 {% endif %}
-                <span class="govuk-tag great-tag great-tag--{{block.value.type}}">{{block.value.type|tag_text_mapper}}</span>
-                <h2 class="govuk-heading-xs govuk-!-margin-top-3 govuk-!-margin-bottom-2">{{block.value.title}}</h2>
-                <p class="govuk-body govuk-!-margin-bottom-2">{{block.value.description}}</p>
+                <span class="govuk-tag great-tag great-tag--{{block.value.type}}" data-category="{{block.value.type|tag_text_mapper}}">{{block.value.type|tag_text_mapper}}</span>
+                <h2 class="govuk-heading-xs govuk-!-margin-top-3 govuk-!-margin-bottom-2" data-title="{{block.value.title}}">{{block.value.title}}</h2>
+                <p class="govuk-body govuk-!-margin-bottom-2" data-location="get-in-touch">{{block.value.description}}</p>
                 <span class="govuk-link great-text-blue">{{block.value.link_text}}</span>
             </a>
             {% endif %}

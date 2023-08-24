@@ -5,10 +5,10 @@ from wagtail.test.utils import WagtailPageTests
 
 from domestic.models import StructuralPage
 from international_online_offer.models import (
-    IOOArticlePage,
-    IOOGuidePage,
-    IOOIndexPage,
-    IOOTradePage,
+    EYBArticlePage,
+    EYBGuidePage,
+    EYBIndexPage,
+    EYBTradeShowsPage,
     IOOTradeShowPage,
     TriageData,
     UserData,
@@ -17,10 +17,10 @@ from international_online_offer.models import (
 )
 
 
-class IOOIndexPageTests(WagtailPageTests):
+class EYBIndexPageTests(WagtailPageTests):
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
-            IOOIndexPage,
+            EYBIndexPage,
             {
                 StructuralPage,
             },
@@ -28,58 +28,58 @@ class IOOIndexPageTests(WagtailPageTests):
 
     def test_allowed_children(self):
         self.assertAllowedSubpageTypes(
-            IOOIndexPage,
+            EYBIndexPage,
             {
-                IOOGuidePage,
+                EYBGuidePage,
             },
         )
 
 
-class IOOGuidePageTests(WagtailPageTests):
+class EYBGuidePageTests(WagtailPageTests):
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
-            IOOGuidePage,
+            EYBGuidePage,
             {
-                IOOIndexPage,
+                EYBIndexPage,
             },
         )
 
     def test_allowed_children(self):
         self.assertAllowedSubpageTypes(
-            IOOGuidePage,
-            {IOOArticlePage, IOOTradePage},
+            EYBGuidePage,
+            {EYBArticlePage, EYBTradeShowsPage},
         )
 
 
-class IOOTradePageTests(WagtailPageTests):
+class EYBTradeShowsPageTests(WagtailPageTests):
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
-            IOOTradePage,
+            EYBTradeShowsPage,
             {
-                IOOGuidePage,
+                EYBGuidePage,
             },
         )
 
     def test_allowed_children(self):
         self.assertAllowedSubpageTypes(
-            IOOTradePage,
+            EYBTradeShowsPage,
             {IOOTradeShowPage},
         )
 
 
-class IOOTradeShowPageTests(WagtailPageTests):
+class EYBTradeShowPageTests(WagtailPageTests):
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
             IOOTradeShowPage,
             {
-                IOOTradePage,
+                EYBTradeShowsPage,
             },
         )
 
 
 @pytest.mark.django_db
-def test_ioo_guide_page_content(rf, user):
-    guide_page = IOOGuidePage(title='Guide')
+def test_eyb_guide_page_content(rf, user):
+    guide_page = EYBGuidePage(title='Guide')
     request = rf.get(guide_page.url)
     request.user = user
     request.user.hashed_uuid = '123'
@@ -88,25 +88,25 @@ def test_ioo_guide_page_content(rf, user):
     assert context['complete_contact_form_link'] == 'international_online_offer:signup'
     assert len(context['get_to_know_market_articles']) == 0
     assert len(context['support_and_incentives_articles']) == 0
-    assert context['trade_page'] is None
+    assert context['trade_shows_page'] is None
 
 
 @pytest.mark.django_db
-def test_ioo_trade_page_content(rf):
-    guide_page = IOOTradePage(title='Trade')
+def test_eyb_trade_page_content(rf):
+    guide_page = EYBTradeShowsPage(title='Trade')
     request = rf.get(guide_page.url)
     context = guide_page.get_context(request)
     assert context['all_tradeshows'] == []
 
 
 @pytest.mark.django_db
-def test_ioo_guide_get_triage_data_none(rf):
+def test_eyb_guide_get_triage_data_none(rf):
     data = get_triage_data('testId')
     assert data is None
 
 
 @pytest.mark.django_db
-def test_ioo_guide_get_triage_data(rf):
+def test_eyb_guide_get_triage_data(rf):
     TriageData.objects.update_or_create(
         hashed_uuid='testId',
         defaults={'spend': 'spend', 'spend_other': 'spend_other'},
@@ -119,12 +119,12 @@ def test_ioo_guide_get_triage_data(rf):
 
 
 @pytest.mark.django_db
-def test_ioo_guide_get_triage_from_db_not_session(rf, user, get_response):
+def test_eyb_guide_get_triage_from_db_not_session(rf, user, get_response):
     TriageData.objects.update_or_create(
         hashed_uuid='123',
         defaults={'sector': 'sector'},
     )
-    guide_page = IOOGuidePage(title='Guide')
+    guide_page = EYBGuidePage(title='Guide')
     request = rf.get(guide_page.url)
     request.user = user
     request.user.hashed_uuid = '123'
@@ -137,8 +137,8 @@ def test_ioo_guide_get_triage_from_db_not_session(rf, user, get_response):
 
 
 @pytest.mark.django_db
-def test_ioo_guide_get_triage_from_session_not_db(rf, get_response):
-    guide_page = IOOGuidePage(title='Guide')
+def test_eyb_guide_get_triage_from_session_not_db(rf, get_response):
+    guide_page = EYBGuidePage(title='Guide')
     request = rf.get(guide_page.url)
     middleware = SessionMiddleware(get_response)
     middleware.process_request(request)
@@ -150,12 +150,12 @@ def test_ioo_guide_get_triage_from_session_not_db(rf, get_response):
 
 
 @pytest.mark.django_db
-def test_ioo_guide_get_user_from_db(rf, user):
+def test_eyb_guide_get_user_from_db(rf, user):
     UserData.objects.update_or_create(
         hashed_uuid='123',
         defaults={'full_name': 'Joe', 'company_name': 'DBT'},
     )
-    guide_page = IOOGuidePage(title='Guide')
+    guide_page = EYBGuidePage(title='Guide')
     request = rf.get(guide_page.url)
     request.user = user
     request.user.hashed_uuid = '123'
@@ -165,18 +165,18 @@ def test_ioo_guide_get_user_from_db(rf, user):
     assert user_data.company_name == 'DBT'
 
 
-class IOOArticlePageTests(WagtailPageTests):
+class EYBArticlePageTests(WagtailPageTests):
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
-            IOOArticlePage,
+            EYBArticlePage,
             {
-                IOOGuidePage,
+                EYBGuidePage,
             },
         )
 
     def test_allowed_children(self):
         self.assertAllowedSubpageTypes(
-            IOOArticlePage,
+            EYBArticlePage,
             {},
         )
 
@@ -188,8 +188,8 @@ def test_article_page_context(client, user):
         defaults={'sector': 'FOOD_AND_DRINK', 'location': 'WALES'},
     )
 
-    page = IOOArticlePage(
-        title='Test IOO Article Page',
+    page = EYBArticlePage(
+        title='Test EYB Article Page',
         article_title='Test Article',
     )
 
