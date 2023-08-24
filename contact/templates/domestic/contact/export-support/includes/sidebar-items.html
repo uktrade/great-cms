@@ -1,8 +1,9 @@
-{% load get_topic_blocks tag_text_mapper from content_tags %}
+{% load tag_text_mapper from content_tags %}
 
-{% for item in items|get_topic_blocks:request.GET.topic %}
-    {% if item.block_type == 'topic' %}
-    <div class="govuk-!-margin-right-6 govuk-!-margin-bottom-6 govuk-!-padding-6 great-bg-white great-sidebar-items">
+{% for item in items %}
+    {% if item.block_type == 'cards' %}
+    <div class="govuk-!-margin-right-6 govuk-!-margin-bottom-6 great-sidebar-items great-border-top-blue">
+        <div class="govuk-!-margin-top-6">
         {% for block in item.value %}
             {% if block.block_type == 'sidebar_item' %}
             <div class="govuk-!-margin-bottom-3" data-ga-digital-entry-point>
@@ -14,6 +15,7 @@
             <hr class="govuk-!-margin-top-0 great-hr-blue great-hr-blue--thin" />
             {% endif %}
         {% endfor %}
+        </div>
     </div>
     {% endif %}
 {% endfor %}
