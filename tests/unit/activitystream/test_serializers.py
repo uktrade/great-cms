@@ -365,6 +365,8 @@ def test_eyb_user_serializer():
     instance.agree_terms = True
     instance.agree_info_email = False
     instance.landing_timeframe = 'UNDER_SIX_MONTHS'
+    instance.created = '2023-08-24 10:48:19.018536+00'
+    instance.modified = '2023-08-24 10:48:19.018536+00'
 
     serializer = ActivityStreamExpandYourBusinessUserDataSerializer()
 
@@ -385,6 +387,8 @@ def test_eyb_user_serializer():
             'agreeTerms': instance.agree_terms,
             'agreeInfoEmail': instance.agree_info_email,
             'landingTimeframe': instance.landing_timeframe,
+            'created': instance.created,
+            'modified': instance.modified,
         },
     }
     assert output == expected
@@ -405,6 +409,8 @@ def test_eyb_triage_serializer():
     instance.spend = '5000001-10000000'
     instance.spend_other = '456774'
     instance.is_high_value = True
+    instance.created = '2023-08-24 10:48:19.018536+00'
+    instance.modified = '2023-08-24 10:48:19.018536+00'
 
     serializer = ActivityStreamExpandYourBusinessTriageDataSerializer()
     output = serializer.to_representation(instance)
@@ -424,6 +430,8 @@ def test_eyb_triage_serializer():
             'spend': instance.spend,
             'spendOther': instance.spend_other,
             'isHighValue': instance.is_high_value,
+            'created': instance.created,
+            'modified': instance.modified,
         },
     }
     assert output == expected
