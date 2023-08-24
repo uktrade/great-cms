@@ -16,7 +16,7 @@ class SearchEngineOptimisationPanel(MultiFieldPanel):
 class MicrositePanels:
     content_panels = [
         MultiFieldPanel(
-            heading='Media',
+            heading='Hero Image',
             children=[FieldPanel('hero_image')],
         ),
         MultiFieldPanel(
