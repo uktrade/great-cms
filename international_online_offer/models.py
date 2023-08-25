@@ -13,7 +13,7 @@ from wagtail.fields import StreamField
 from wagtail.images.blocks import ImageChooserBlock
 
 from core.blocks import ColumnsBlock
-from core.models import CMSGenericPage
+from core.models import CMSGenericPage, TimeStampedModel
 from directory_constants.choices import COUNTRY_CHOICES
 from domestic.models import BaseContentPage
 from international_online_offer.core import choices, filter_tags, helpers
@@ -296,7 +296,7 @@ class EYBArticlePage(BaseContentPage):
 
 class EYBTradeShowsPage(BaseContentPage):
     parent_page_types = ['international_online_offer.EYBGuidePage']
-    subpage_types = ['international_online_offer.EYBTradeShowPage']
+    subpage_types = ['international_online_offer.IOOTradeShowPage']
     template = 'eyb/trade_shows.html'
 
     def get_context(self, request, *args, **kwargs):
@@ -306,7 +306,7 @@ class EYBTradeShowsPage(BaseContentPage):
 
         if triage_data:
             all_tradeshows = (
-                EYBTradeShowPage.objects.live().filter(tags__name=triage_data.sector) if triage_data.sector else []
+                IOOTradeShowPage.objects.live().filter(tags__name=triage_data.sector) if triage_data.sector else []
             )
 
         context.update(triage_data=triage_data, all_tradeshows=all_tradeshows)
@@ -323,14 +323,14 @@ class EYBTradeShowsPage(BaseContentPage):
 class EYBTradeShowPageTag(TaggedItemBase):
     tag = models.ForeignKey(EYBArticleTag, related_name='eyb_tagged_tradeshows', on_delete=models.CASCADE)
     content_object = ParentalKey(
-        'international_online_offer.EYBTradeShowPage', related_name='eyb_tradeshow_tagged_items'
+        'international_online_offer.IOOTradeShowPage', related_name='eyb_tradeshow_tagged_items'
     )
 
 
-class EYBTradeShowPage(BaseContentPage):
+class IOOTradeShowPage(BaseContentPage):
     parent_page_types = ['international_online_offer.EYBTradeShowsPage']
     subpage_types = []
-    template = 'eyb/trade.html'
+    template = 'eyb/trade-shows.html'
     tradeshow_title = models.TextField()
     tradeshow_subheading = StreamField(
         [
@@ -353,7 +353,7 @@ class EYBTradeShowPage(BaseContentPage):
     ]
 
 
-class TriageData(models.Model):
+class TriageData(TimeStampedModel):
     hashed_uuid = models.CharField(max_length=200)
     sector = models.CharField(max_length=255, choices=choices.SECTOR_CHOICES)
     intent = ArrayField(
@@ -378,7 +378,7 @@ class TriageData(models.Model):
     is_high_value = models.BooleanField(default=False)
 
 
-class UserData(models.Model):
+class UserData(TimeStampedModel):
     hashed_uuid = models.CharField(max_length=200)
     company_name = models.CharField(max_length=255)
     company_location = models.CharField(max_length=255, choices=COUNTRY_CHOICES)
