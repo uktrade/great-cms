@@ -55,7 +55,6 @@ from core.constants import (
     BACKLINK_QUERYSTRING_NAME,
     RICHTEXT_FEATURES__MINIMAL,
     RICHTEXT_FEATURES__REDUCED,
-    VIDEO_TRANSCRIPT_HELP_TEXT,
 )
 from core.context import get_context_provider
 from core.utils import PageTopicHelper, get_first_lesson
@@ -1410,24 +1409,9 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
         related_name='+',
         verbose_name=_('Hero image'),
     )
-    hero_video = models.ForeignKey(
-        'wagtailmedia.Media',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name=_('Hero video'),
-    )
-    hero_video_transcript = RichTextField(
-        features=RICHTEXT_FEATURES__REDUCED,
-        null=True,
-        blank=True,
-        help_text=VIDEO_TRANSCRIPT_HELP_TEXT,
-        verbose_name=_('Hero video transcript'),
-    )
+
     page_body = StreamField(
         [
-            ('form', CampaignFormBlock(label=_('Form'))),
             (
                 'text',
                 RichTextBlock(template='microsites/blocks/text.html', label=_('Text')),
@@ -1451,6 +1435,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                     max_num=3,
                     template='microsites/blocks/columns.html',
                     label=_('Columns'),
+                    icon='grip',
                 ),
             ),
             (
@@ -1463,6 +1448,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                     template='microsites/blocks/link.html',
                     block_counts={'text': {'max_num': 1}, 'link_block': {'max_num': 6}},
                     label=_('Links block'),
+                    icon='link',
                 ),
             ),
             (
@@ -1488,12 +1474,14 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                     ],
                     template='microsites/blocks/cta.html',
                     label=_('CTA'),
+                    icon='crosshairs',
                 ),
             ),
             (  # alt text lives on the custom Image class
                 'pull_quote',
                 core_blocks.PullQuoteBlock(template='domestic/blocks/pull_quote_block.html', label=_('Pull quote')),
             ),
+            ('form', CampaignFormBlock(label=_('Form'))),
         ],
         use_json_field=True,
         null=True,

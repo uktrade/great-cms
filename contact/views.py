@@ -561,12 +561,29 @@ class DomesticExportSupportFormStep8View(contact_mixins.ExportSupportFormMixin, 
         response = action.save(cleaned_data)
         response.raise_for_status()
 
+    def get_office_details(self):
+        postcode = ''
+
+        if self.request.session.get('form_data'):
+            postcode = pickle.loads(bytes.fromhex(self.request.session.get('form_data')))[0].get('business_postcode')
+            regional_offices = helpers.retrieve_regional_offices(postcode)
+
+        return (
+            helpers.extract_regional_office_details(regional_offices) if self.request.session.get('form_data') else None
+        )
+
     def get_context_data(self, **kwargs):
+        office_details = self.get_office_details()
+        is_feedback_form = True
+        show_regional_office = True
+
         return super().get_context_data(
             **kwargs,
             heading_text='Thank you for your enquiry',
             strapline_text="We've sent a confirmation email to the email address you provided.",
-            is_feedback_form=True,
+            is_feedback_form=is_feedback_form,
+            office_details=office_details,
+            show_regional_office=show_regional_office,
         )
 
     def form_valid(self, form):
