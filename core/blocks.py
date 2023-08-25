@@ -110,7 +110,7 @@ class SimpleVideoBlock(blocks.StructBlock):
     class Meta:
         help_text = _('Include a video')
         template = 'core/includes/_video.html'
-        icon = 'fa-play'
+        icon = 'media'
 
 
 class ButtonBlock(blocks.StructBlock):
@@ -449,7 +449,7 @@ class PullQuoteBlock(blocks.StructBlock):
     )
 
     class Meta:
-        icon = 'fa-quote-left'
+        icon = 'openquote'
 
 
 class PerformanceDashboardDataBlock(blocks.StructBlock):
@@ -557,12 +557,18 @@ class LinksBlock(blocks.StructBlock):
     link_text = blocks.CharBlock(label=_('Link text'))
     link_url = blocks.CharBlock(label=_('Link url'))
 
+    class Meta:
+        icon = 'link'
+
 
 class CampaignFormBlock(blocks.StructBlock):
     type = blocks.ChoiceBlock(choices=CAMPAIGN_FORM_CHOICES, null=False, blank=False, required=True, label=_('type'))
     email_subject = blocks.TextBlock(required=True, label=_('Email subject'))
     email_title = blocks.TextBlock(required=True, label=_('Email title'))
     email_body = blocks.TextBlock(required=True, label=_('Email body'))
+
+    class Meta:
+        icon = 'form'
 
 
 class SupportCardBlock(blocks.StructBlock):

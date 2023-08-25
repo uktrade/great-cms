@@ -2,7 +2,6 @@ import hashlib
 import json
 from functools import wraps
 
-from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.views import redirect_to_login
 from django.db.models import Q
@@ -20,9 +19,6 @@ def get_register_button():
 
 
 def get_buttons_for_event(user, event, on_confirmation=False):
-    if not settings.FEATURE_EXPORT_ACADEMY_RELEASE_2:
-        return get_register_button()
-
     result = dict(form_event_booking_buttons=[], event_action_buttons=[])
 
     if is_export_academy_registered(user):
