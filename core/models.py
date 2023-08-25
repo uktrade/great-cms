@@ -55,7 +55,6 @@ from core.constants import (
     BACKLINK_QUERYSTRING_NAME,
     RICHTEXT_FEATURES__MINIMAL,
     RICHTEXT_FEATURES__REDUCED,
-    VIDEO_TRANSCRIPT_HELP_TEXT,
 )
 from core.context import get_context_provider
 from core.utils import PageTopicHelper, get_first_lesson
@@ -1410,21 +1409,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
         related_name='+',
         verbose_name=_('Hero image'),
     )
-    hero_video = models.ForeignKey(
-        'wagtailmedia.Media',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name=_('Hero video'),
-    )
-    hero_video_transcript = RichTextField(
-        features=RICHTEXT_FEATURES__REDUCED,
-        null=True,
-        blank=True,
-        help_text=VIDEO_TRANSCRIPT_HELP_TEXT,
-        verbose_name=_('Hero video transcript'),
-    )
+
     page_body = StreamField(
         [
             (
