@@ -23,7 +23,7 @@ from great_components.helpers import add_next
 from wagtail.admin.menu import DismissibleMenuItem
 from wagtail.admin.views.pages.bulk_actions.page_bulk_action import PageBulkAction
 from wagtail.core import hooks
-from wagtail.core.models import Page
+from wagtail.models import Page
 from wagtail_transfer.field_adapters import FieldAdapter
 from wagtail_transfer.files import File as WTFile, FileTransferError
 from wagtail_transfer.models import ImportedFile
