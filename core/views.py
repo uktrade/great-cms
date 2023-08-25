@@ -602,20 +602,24 @@ class AltImageUploadView(ImageUploadViewMixin, ImageCreationFormMixin, ImageChos
             )
             existing_image = duplicates.first()
             if existing_image:
-                return self.render_duplicate_found_response(request, image, existing_image)
+                response = self.render_duplicate_found_response(request, image, existing_image)
+                return response
 
             if request.GET.get('select_format'):
                 insertion_form = ImageInsertionForm(
                     initial={'alt_text': image.alt_text if image.alt_text else image.default_alt_text},
                     prefix='image-chooser-insertion',
                 )
-                return self.render_select_format_response(image, insertion_form)
+                response = self.render_select_format_response(image, insertion_form)
+                return response
             else:
                 # not specifying a format; return the image details now
-                return self.get_chosen_response(image)
+                response = self.get_chosen_response(image)
+                return response
 
         else:  # form is invalid
-            return self.get_reshow_creation_form_response()
+            response = self.get_reshow_creation_form_response()
+            return response
 
 
 class AltImageChooserViewSet(ImageChooserViewSet):

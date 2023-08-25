@@ -373,6 +373,8 @@ def migrate_article_page_to_microsite(page):
         page_subheading=page.article_subheading,
         page_teaser=page.article_teaser,
         hero_image=page.article_image,
+        hero_video=page.article_video,
+        hero_video_transcript=page.article_video_transcript,
         page_body=json.dumps(get_microsite_page_body(page.article_body)),
         cta_title=page.cta_title,
         cta_teaser=page.cta_teaser,
@@ -536,6 +538,6 @@ def register_campaign_site_help_menu_item():
 @hooks.register('register_admin_viewset', order=-1)
 def register_image_chooser_viewset():
     return AltImageChooserViewSet(
-        'alt_wagtailimages_chooser',
+        name='alt_wagtailimages_chooser',
         url_prefix='images/chooser',
     )
