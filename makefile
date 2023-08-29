@@ -32,7 +32,7 @@ ENV_FILES?='test,dev'
 pytest_codecov:
 	ENV_FILES=$(ENV_FILES) \
 	pytest \
-		tests/unit/core \
+		tests/unit \
 		--junit-xml=./results/pytest_unit_report.xml \
 		--cov-config=.coveragerc \
 		--cov-report=html \
