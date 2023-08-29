@@ -16,16 +16,11 @@
                 <div>
                     <h1>{{ page.title }}</h1>
                     <p>{{ page.hero_text | richtext | add_govuk_classes }}</p>
-                    {% feature_ea_release_two_enabled as ea_release_two_enabled %}
-                    {% if ea_release_two_enabled %}
-                        {% if user.is_anonymous %}
-                            {% include_block page.hero_cta %}
-                            <p>{{ page.hero_text_below_cta_logged_out | richtext | add_govuk_classes }}</p>
-                        {% else %}
-                            {% include_block page.hero_cta_logged_in %}
-                        {% endif %}
-                    {% else %}
+                    {% if user.is_anonymous %}
                         {% include_block page.hero_cta %}
+                        <p>{{ page.hero_text_below_cta_logged_out | richtext | add_govuk_classes }}</p>
+                    {% else %}
+                        {% include_block page.hero_cta_logged_in %}
                     {% endif %}
                 </div>
                 <div class="image-container image-full-width great-display-from-tablet ea-landing-image-container" style="background: url({{ rendition.url }})">

@@ -1,32 +1,16 @@
 {% for topic in topics %}
-    {% if topic.block_type == 'topic' %}
+    {% if topic.block_type == 'topic_cards' %}
         {% for block in topic.value %}
-            {% if block.block_type == 'title' %}
-                <a
-                  href="?topic={{block.value}}"
-                  class="govuk-!-margin-right-6 govuk-!-margin-bottom-6 govuk-!-padding-6 great-topic-card great-min-height-300-desktop"
-                  data-ga-digital-entry-point
-                >
-            {% endif %}
-        {% endfor %}
-        {% for block in topic.value %}
-            {% if block.block_type == 'type' %}
-                <span class="govuk-tag great-tag" data-category="{{block.value}}">{{block.value}}</span>
-            {% elif block.block_type == 'title' %}
-                <h3 class="govuk-heading-xs govuk-!-margin-top-3 govuk-!-margin-bottom-2" data-title="{{block.value}}">{{block.value}}</h3>
-            {% elif block.block_type == 'description' %}
-                <p class="govuk-body govuk-!-margin-bottom-2">{{block.value}}</p>
-            {% endif %}
-        {% endfor %}
-        {% for block in topic.value %}
-            {% if block.block_type == 'title' %}
-                <span class="govuk-link great-text-blue great-chevron-link">Go to topic</span>
-            {% endif %}
-        {% endfor %}
-        {% for block in topic.value %}
-            {% if block.block_type == 'title' %}
-                </a>
-            {% endif %}
+        <a
+            href="{{block.value.link_url}}"
+            class="govuk-!-margin-right-6 govuk-!-margin-bottom-6 govuk-!-padding-6 great-topic-card great-min-height-300-desktop"
+            data-ga-digital-entry-point
+        >
+            <span class="govuk-tag great-tag" data-category="topic">Topic</span>
+            <h3 class="govuk-heading-xs govuk-!-margin-top-3 govuk-!-margin-bottom-2" data-title="{{block.value}}">{{block.value.title}}</h3>
+            <p class="govuk-body govuk-!-margin-bottom-2">{{block.value.description}}</p>
+            <span class="govuk-link great-text-blue great-chevron-link">{{block.value.link_text}}</span>
+        </a>
         {% endfor %}
     {% endif %}
 {% endfor %}
