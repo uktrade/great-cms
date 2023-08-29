@@ -207,14 +207,12 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==19.3.0
+faker==19.3.1
     # via factory-boy
 geoip2==2.9.0
     # via -r requirements.in
 great-components==2.3.0
     # via -r requirements.in
-greenlet==2.0.2
-    # via sqlalchemy
 gunicorn==20.1.0
     # via -r requirements.in
 hashids==0.8.4
