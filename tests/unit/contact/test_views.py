@@ -279,6 +279,7 @@ success_view_params = (
 @pytest.mark.parametrize('url', success_view_params)
 @mock.patch.object(views.FormSessionMixin.form_session_class, 'clear')
 @mock.patch('core.mixins.GetSnippetContentMixin.get_snippet_instance')
+@pytest.mark.skipif(settings.FEATURE_DIGITAL_POINT_OF_ENTRY, reason='Redirect to new contact form')
 def test_ingress_url_cleared_on_success(
     mock_get_snippet_instance,
     mock_clear,
@@ -308,6 +309,7 @@ def test_ingress_url_cleared_on_success(
 @pytest.mark.parametrize('url', success_view_params)
 @mock.patch.object(views.FormSessionMixin.form_session_class, 'clear')
 @mock.patch('core.mixins.GetSnippetContentMixin.get_snippet_instance')
+@pytest.mark.skipif(settings.FEATURE_DIGITAL_POINT_OF_ENTRY, reason='Redirect to new contact form')
 def test_ingress_url_special_cases_on_success(
     mock_get_snippet_instance,
     mock_clear,
@@ -363,6 +365,7 @@ def test_always_landing_for_soo_ingress_url_on_success(
 @pytest.mark.parametrize('url', success_view_params)
 @mock.patch('core.mixins.GetSnippetContentMixin.get_snippet_instance')
 @mock.patch.object(views.FormSessionMixin.form_session_class, 'clear')
+@pytest.mark.skipif(settings.FEATURE_DIGITAL_POINT_OF_ENTRY, reason='Redirect to new contact form')
 def test_external_ingress_url_not_used_on_success(
     mock_clear,
     mock_get_snippet_instance,
@@ -390,6 +393,7 @@ def test_external_ingress_url_not_used_on_success(
 @pytest.mark.parametrize('url', success_view_params)
 @mock.patch('core.mixins.GetSnippetContentMixin.get_snippet_instance')
 @mock.patch.object(views.FormSessionMixin.form_session_class, 'clear')
+@pytest.mark.skipif(settings.FEATURE_DIGITAL_POINT_OF_ENTRY, reason='Redirect to new contact form')
 def test_ingress_url_not_set_on_success(
     mock_clear,
     mock_get_snippet_instance,
@@ -411,6 +415,7 @@ def test_ingress_url_not_set_on_success(
     assert mock_get_snippet_instance.call_count == 1
 
 
+@pytest.mark.skipif(settings.FEATURE_DIGITAL_POINT_OF_ENTRY, reason='Redirect to new contact form')
 def test_internal_ingress_url_used_on_first_step(client):
     # when an internal ingress url is set
     response = client.get(
@@ -424,6 +429,7 @@ def test_internal_ingress_url_used_on_first_step(client):
     assert response.status_code == 200
 
 
+@pytest.mark.skipif(settings.FEATURE_DIGITAL_POINT_OF_ENTRY, reason='Redirect to new contact form')
 def test_external_ingress_url_not_used_on_first_step(client):
     # when an external ingress url is set
     response = client.get(
@@ -654,6 +660,7 @@ def test_get_previous_step(current_step, expected_step):
     assert view.get_prev_step() == expected_step
 
 
+@pytest.mark.skipif(settings.FEATURE_DIGITAL_POINT_OF_ENTRY, reason='Redirect to new contact form')
 def test_office_finder_valid(all_office_details, client):
     with requests_mock.mock() as mock:
         mock.get(url_lookup_by_postcode.format(postcode='LE191RJ'), json=all_office_details)
@@ -733,6 +740,7 @@ def test_office_finder_valid(all_office_details, client):
     ),
 )
 @mock.patch('core.mixins.GetSnippetContentMixin.get_snippet_instance')
+@pytest.mark.skipif(settings.FEATURE_DIGITAL_POINT_OF_ENTRY, reason='Redirect to new contact form')
 def test_success_view_cms_snippet_data(mock_get_snippet_instance, url, slug, client):
     response = client.get(url)
 
@@ -780,6 +788,7 @@ def test_contact_us_feedback_prepopulate(
 @mock.patch('directory_forms_api_client.actions.EmailAction')
 @mock.patch('contact.helpers.retrieve_regional_office_email')
 @mock.patch.object(views.FormSessionMixin, 'form_session_class')
+@pytest.mark.skipif(settings.FEATURE_DIGITAL_POINT_OF_ENTRY, reason='Redirect to new contact form')
 def test_exporting_from_uk_contact_form_submission(
     mock_form_session,
     mock_retrieve_regional_office_email,
@@ -894,6 +903,7 @@ def test_exporting_from_uk_contact_form_submission(
 @mock.patch('directory_forms_api_client.actions.GovNotifyEmailAction')
 @mock.patch('directory_forms_api_client.actions.EmailAction')
 @mock.patch('contact.helpers.retrieve_regional_office_email')
+@pytest.mark.skipif(settings.FEATURE_DIGITAL_POINT_OF_ENTRY, reason='Redirect to new contact form')
 def test_exporting_from_uk_contact_form_initial_data_business(
     mock_retrieve_regional_office_email,
     mock_email_action,

@@ -1,9 +1,12 @@
+from django.conf import settings
 from django.urls import path
 from django.views.generic import TemplateView
 from great_components.decorators import skip_ga360
 
 import domestic.views.marketaccess
 import domestic.views.ukef
+from core.cms_slugs import DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE
+from core.views import QuerystringRedirectView
 from domestic.views.campaign import CampaignView
 
 app_name = 'domestic'
@@ -100,10 +103,12 @@ urlpatterns = [
     path(
         'report-trade-barrier/report/<slug:step>/',
         skip_ga360(
-            domestic.views.marketaccess.ReportMarketAccessBarrierFormView.as_view(
+            settings.FEATURE_DIGITAL_POINT_OF_ENTRY
+            if not domestic.views.marketaccess.ReportMarketAccessBarrierFormView.as_view(
                 url_name='domestic:report-ma-barrier',
                 done_step_name='finished',
             )
+            else QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE)
         ),
         name='report-ma-barrier',
     ),

@@ -1,10 +1,15 @@
 from functools import partial
 from urllib.parse import urljoin
 
+from django.conf import settings
 from django.urls import re_path, reverse_lazy
 from django.views.generic.base import RedirectView
 
-from core.cms_slugs import PRIVACY_POLICY_URL, TERMS_URL
+from core.cms_slugs import (
+    DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE,
+    PRIVACY_POLICY_URL,
+    TERMS_URL,
+)
 from core.views import (
     OpportunitiesRedirectView,
     QuerystringRedirectView,
@@ -476,6 +481,59 @@ contact_redirects = [
         ),
     ),
 ]
+
+if settings.FEATURE_DIGITAL_POINT_OF_ENTRY:
+    contact_redirects += [
+        re_path(
+            r'^contact/triage/location/$',
+            QuerystringRedirectView.as_view(url=reverse_lazy('contact:export-support')),
+        ),
+        re_path(
+            r'^contact/export-advice/comment/$',
+            QuerystringRedirectView.as_view(url=reverse_lazy('contact:export-support')),
+        ),
+        re_path(
+            r'^contact/export-advice/personal/$',
+            QuerystringRedirectView.as_view(url=reverse_lazy('contact:export-support')),
+        ),
+        re_path(
+            r'^contact/export-advice/business/$',
+            QuerystringRedirectView.as_view(url=reverse_lazy('contact:export-support')),
+        ),
+        re_path(
+            r'^contact/domestic/success/$',
+            QuerystringRedirectView.as_view(url=reverse_lazy('contact:export-support')),
+        ),
+        re_path(
+            r'^contact/office-finder/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^contact/office-finder/<str:postcode>/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^contact/office-finder/<str:postcode>/success/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^report-trade-barrier/report/about/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^report-trade-barrier/report/problem-details/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^report-trade-barrier/report/summary/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^report-trade-barrier/report/finished/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+    ]
+
 
 articles_redirects = [
     re_path(r'^market-research/$', QuerystringRedirectView.as_view(url='/advice/find-an-export-market/')),
