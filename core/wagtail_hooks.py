@@ -543,12 +543,4 @@ def register_image_chooser_viewset():
     
 @hooks.register('register_icons')
 def register_icons(icons):
-    return icons + [
-        'wagtailfontawesomesvg/solid/video.svg',
-        # 'static/wagtailfontawesomesvg/solid/image.svg',
-        # 'static/wagtailfontawesomesvg/solid/crosshairs.svg',
-        # 'static/wagtailfontawesomesvg/solid/gear.svg',
-        # 'static/wagtailfontawesomesvg/solid/quote-left.svg',
-        # 'static/wagtailfontawesomesvg/solid/video.svg',
-        # 'static/wagtailfontawesomesvg/solid/bookmark.svg',
-    ]
+    return icons + ['wagtailfontawesomesvg/solid/video.svg']
