@@ -7,7 +7,6 @@ from urllib.parse import urlencode
 import pytest
 from directory_forms_api_client import actions
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.http.cookie import SimpleCookie
 from django.test import Client, TestCase, override_settings
@@ -1330,8 +1329,12 @@ def test_get_export_help_confirmation_page(client):
 
 
 @pytest.fixture
-def image_user():
-    return User.objects.create_user(username='testuser', email='testuser@test.com', password='testpassword')
+def image_user(django_user_model):
+    return django_user_model.objects.create_user(
+        username='username',
+        password='password',
+        is_staff=True,
+    )
 
 
 @mock.patch.object(views.AltImageUploadView, 'get_creation_form')
@@ -1351,16 +1354,15 @@ def test_alt_image_upload_view_select_format_true_not_duplicate(
     alt_text = image_data['image-chooser-upload-alt_text'][0]
     mock_get_creation_form.return_value.save.return_value = MagicMock(id=id, alt_text=alt_text)
     mock_find_image_duplicates.return_value.first.return_value = None
-    mock_render_select_format_response.return_value = JsonResponse(
-        status=200, data={'step': 'select_format', 'html': ''}
-    )
+    expected_result = {'step': 'select_format', 'html': '<html>Test Image</html>'}
+    mock_render_select_format_response.return_value = JsonResponse(status=200, data=expected_result)
     request = rf.post('/admin/images/chooser/create/?select_format=true', data=image_data)
 
     request.user = image_user
     response = views.AltImageUploadView.as_view()(request)
     assert isinstance(response, JsonResponse)
     assert response.status_code == 200
-    assert json.loads(response.content.decode('utf8')) == {'step': 'select_format', 'html': ''}
+    assert json.loads(response.content.decode('utf8')) == expected_result
 
 
 @mock.patch.object(views.AltImageUploadView, 'get_creation_form')
@@ -1384,7 +1386,7 @@ def test_alt_image_upload_view_select_format_false_not_duplicate(
     expected_result = {
         'id': id,
         'title': title,
-        'edit_url': '',
+        'edit_url': f'/admin/images/{id}/',
         'preview': {'url': '', 'width': width, 'height': height},
     }
     mock_get_creation_form.return_value.save.return_value = MagicMock(id=id, alt_text=alt_text)
