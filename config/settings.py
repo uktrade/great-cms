@@ -69,8 +69,8 @@ INSTALLED_APPS = [
     'django.forms',
     'django.contrib.humanize',
     'sso',
-    'core.apps.CoreConfig',
     'wagtail.admin',
+    'core.apps.CoreConfig',
     'cms_extras.apps.CmsExtrasConfig',
     'domestic',
     'exportplan.apps.ExportPlanConfig',
@@ -855,7 +855,6 @@ FEATURE_SHOW_MAGNA_LINKS_IN_HEADER = env.bool('FEATURE_SHOW_MAGNA_LINKS_IN_HEADE
 FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK = env.bool('FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK', False)
 FEATURE_SHOW_CASE_STUDY_RANKINGS = env.bool('FEATURE_SHOW_CASE_STUDY_RANKINGS', False)
 FEATURE_INTERNATIONAL_ONLINE_OFFER = env.bool('FEATURE_INTERNATIONAL_ONLINE_OFFER', False)
-FEATURE_EXPORT_ACADEMY_RELEASE_2 = env.bool('FEATURE_EXPORT_ACADEMY_RELEASE_2', False)
 FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION = env.bool('FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION', False)
 FEATURE_DIGITAL_POINT_OF_ENTRY = env.bool('FEATURE_DIGITAL_POINT_OF_ENTRY', False)
 FEATURE_GET_EXPORT_HELP_EXPERIMENT = env.bool('FEATURE_GET_EXPORT_HELP_EXPERIMENT', False)
@@ -990,6 +989,3 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False,
     'PREPROCESSING_HOOKS': ['config.preprocessors.preprocessing_filter_admin_spec'],
 }
-
-# Data Workspace
-DATA_WORKSPACE_DATASETS_URL = env.str('DATA_WORKSPACE_DATASETS_URL', 'postgresql://')
