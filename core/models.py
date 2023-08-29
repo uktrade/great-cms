@@ -48,6 +48,7 @@ from core.blocks import (
     LinksBlock,
     MicrositeColumnBlock,
     SupportCardBlock,
+    SupportTopicCardBlock,
 )
 from core.case_study_index import delete_cs_index, update_cs_index
 from core.cms_snippets import NonPageContentSEOMixin, NonPageContentSnippetBase
@@ -55,7 +56,6 @@ from core.constants import (
     BACKLINK_QUERYSTRING_NAME,
     RICHTEXT_FEATURES__MINIMAL,
     RICHTEXT_FEATURES__REDUCED,
-    VIDEO_TRANSCRIPT_HELP_TEXT,
 )
 from core.context import get_context_provider
 from core.utils import PageTopicHelper, get_first_lesson
@@ -1343,8 +1343,8 @@ class Microsite(Page):
     subpage_types = ['core.MicrositePage']
 
     class Meta:
-        verbose_name = 'Microsite'
-        verbose_name_plural = 'Microsite'
+        verbose_name = 'Campaign site'
+        verbose_name_plural = 'Campaign sites'
 
     def serve_preview(self, request, mode_name='dummy'):
         # It doesn't matter what is passed as mode_name - we always HTTP404
@@ -1363,8 +1363,8 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
     subpage_types = ['core.MicrositePage']
 
     class Meta:
-        verbose_name = _('Microsite page')
-        verbose_name_plural = _('Microsite pages')
+        verbose_name = _('Campaign site page')
+        verbose_name_plural = _('Campaign site pages')
 
     page_title = models.TextField(null=True, verbose_name=_('Page title'))
     page_subheading = models.TextField(
@@ -1410,24 +1410,9 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
         related_name='+',
         verbose_name=_('Hero image'),
     )
-    hero_video = models.ForeignKey(
-        'wagtailmedia.Media',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name=_('Hero video'),
-    )
-    hero_video_transcript = RichTextField(
-        features=RICHTEXT_FEATURES__REDUCED,
-        null=True,
-        blank=True,
-        help_text=VIDEO_TRANSCRIPT_HELP_TEXT,
-        verbose_name=_('Hero video transcript'),
-    )
+
     page_body = StreamField(
         [
-            ('form', CampaignFormBlock(label=_('Form'))),
             (
                 'text',
                 RichTextBlock(template='microsites/blocks/text.html', label=_('Text')),
@@ -1451,6 +1436,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                     max_num=3,
                     template='microsites/blocks/columns.html',
                     label=_('Columns'),
+                    icon='grip',
                 ),
             ),
             (
@@ -1463,6 +1449,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                     template='microsites/blocks/link.html',
                     block_counts={'text': {'max_num': 1}, 'link_block': {'max_num': 6}},
                     label=_('Links block'),
+                    icon='link',
                 ),
             ),
             (
@@ -1488,12 +1475,14 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                     ],
                     template='microsites/blocks/cta.html',
                     label=_('CTA'),
+                    icon='crosshairs',
                 ),
             ),
             (  # alt text lives on the custom Image class
                 'pull_quote',
                 core_blocks.PullQuoteBlock(template='domestic/blocks/pull_quote_block.html', label=_('Pull quote')),
             ),
+            ('form', CampaignFormBlock(label=_('Form'))),
         ],
         use_json_field=True,
         null=True,
@@ -1686,7 +1675,7 @@ class Support(Page):
         'domestic.GreatDomesticHomePage',
     ]
 
-    subpage_types = ['core.SupportPage', 'core.GetInTouchPage']
+    subpage_types = ['core.SupportPage', 'core.GetInTouchPage', 'core.SupportTopicLandingPage']
 
     class Meta:
         verbose_name = 'Support'
@@ -1729,35 +1718,48 @@ class SupportPage(cms_panels.SupportPanels, Page):
     page_body = StreamField(
         [
             (
-                'topic',
+                'topic_cards',
                 StreamBlock(
                     [
-                        (
-                            'title',
-                            blocks.CharBlock(
-                                form_classname='title',
-                                default='',
-                                required=True,
-                            ),
-                        ),
-                        (
-                            'description',
-                            blocks.CharBlock(
-                                form_classname='description',
-                                default='',
-                                required=True,
-                            ),
-                        ),
-                        ('type', blocks.ChoiceBlock(choices=[('topic', 'Topic')], label='Type')),
+                        ('topic_card', SupportTopicCardBlock()),
+                    ],
+                    block_counts={
+                        'topic_card': {'min_num': 1},
+                    },
+                ),
+            ),
+        ],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
+
+
+class SupportTopicLandingPage(cms_panels.SupportTopicLandingPanels, Page):
+    template = 'domestic/contact/export-support/topic-landing.html'
+    parent_page_types = [
+        'core.Support',
+        'core.SupportPage',
+    ]
+    subpage_types = ['core.SupportPage']
+
+    class Meta:
+        verbose_name = 'Topic landing page'
+        verbose_name_plural = 'Topic landing pages'
+
+    page_title = models.TextField(
+        null=True,
+    )
+    page_body = StreamField(
+        [
+            (
+                'cards',
+                StreamBlock(
+                    [
                         ('card', SupportCardBlock()),
                         ('sidebar_item', SupportCardBlock()),
                         ('related_item', SupportCardBlock()),
                     ],
-                    block_counts={
-                        'title': {'max_num': 1},
-                        'description': {'max_num': 1},
-                        'type': {'max_num': 1},
-                    },
                 ),
             ),
         ],

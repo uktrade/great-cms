@@ -6,9 +6,9 @@
 {% load get_template_translation_enabled from content_tags %}
 {% get_template_translation_enabled as TRANSLATE_TEXT %}
 
-<div class="govuk-grid-row govuk-!-margin-top-3">
+<div class="govuk-grid-row govuk-!-margin-bottom-6">
 {% for item in value %}
-<div class="microsite-column govuk-grid-column-one-{% if value|length == 3 %}third{% else %}half{% endif %} govuk-!-margin-bottom-3">
+<div class="microsite-column govuk-grid-column-one-{% if value|length == 3 %}third{% else %}half{% endif %}">
     {%if item.value.image%}
         <div class="govuk-!-margin-bottom-6 great-scaled-full-img">
             {% image item.value.image width-700 %}
@@ -18,7 +18,7 @@
         {{ item.value.text }}
     {% endfilter %}
     {%if item.value.button_url%}
-        <a href="{{ item.value.button_url|persist_language:request.GET }}" class="govuk-button">
+        <a href="{{ item.value.button_url|persist_language:request.GET }}" class="govuk-button govuk-!-margin-bottom-0">
             {% comment %} I'm assuming this will change but including for completeness {% endcomment %}
             {% if TRANSLATE_TEXT %}
                 {% translate item.value.button_label %}

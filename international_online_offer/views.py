@@ -1,4 +1,5 @@
 from directory_forms_api_client import actions
+from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
@@ -10,6 +11,7 @@ from directory_sso_api_client import sso_api_client
 from international_online_offer import forms
 from international_online_offer.core import helpers, scorecard
 from international_online_offer.models import (
+    TradeAssociation,
     TriageData,
     UserData,
     get_triage_data,
@@ -647,3 +649,43 @@ class FeedbackView(GA360Mixin, FormView):
     def form_valid(self, form):
         self.submit_feedback(form)
         return super().form_valid(form)
+
+
+class TradeAssociationsView(GA360Mixin, TemplateView):
+    template_name = 'eyb/trade_associations.html'
+
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='TradeAssociations',
+            business_unit='ExpandYourBusiness',
+            site_section='trade-associations',
+        )
+
+    def get_context_data(self, **kwargs):
+        triage_data = get_triage_data_from_db_or_session(self.request)
+        all_trade_associations = []
+
+        if triage_data:
+            # Given the sector selected we need to get mapped trade association sectors to query
+            # with due to misalignment of sector names across DBT
+            trade_association_sectors = helpers.get_trade_assoication_sectors_from_sector(triage_data.sector)
+            all_trade_associations = (
+                TradeAssociation.objects.filter(sector__in=trade_association_sectors)
+                if trade_association_sectors
+                else []
+            )
+            # if we still have no matching trade associations then we'll
+            # try a search based a sector display name that we might not have mapped yet
+            if len(all_trade_associations) == 0 and triage_data.sector:
+                all_trade_associations = TradeAssociation.objects.filter(sector=triage_data.get_sector_display())
+
+        page = self.request.GET.get('page', 1)
+        paginator = Paginator(all_trade_associations, 10)
+        all_trade_associations = paginator.page(page)
+
+        return super().get_context_data(
+            triage_data=triage_data,
+            all_trade_associations=all_trade_associations,
+            **kwargs,
+        )
