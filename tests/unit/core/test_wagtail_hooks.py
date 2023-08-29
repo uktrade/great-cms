@@ -10,12 +10,13 @@ from django.db.models import FileField
 from django.test import TestCase, override_settings
 from django.utils.safestring import mark_safe
 from wagtail.admin.menu import DismissibleMenuItem
-from wagtail.core.rich_text import RichText
+from wagtail.rich_text import RichText
 from wagtail.tests.utils import WagtailPageTests
 
 from core import cms_slugs, wagtail_hooks
 from core.constants import MENU_ITEM_ADD_CAMPAIGN_SITE_LINK
 from core.models import DetailPage, MicrositePage
+from core.views import AltImageChooserViewSet
 from core.wagtail_hooks import (
     FileTransferError,
     MigratePage,
@@ -32,6 +33,7 @@ from core.wagtail_hooks import (
     editor_css,
     get_microsite_page_body,
     register_campaign_site_help_menu_item,
+    register_image_chooser_viewset,
     register_s3_media_file_adapter,
     toolbar_sticky_by_default,
 )
@@ -1229,3 +1231,10 @@ def test_register_campaign_site_help_menu_item():
     assert actual.order == 900
     assert actual.attrs == {'target': '_blank', 'rel': 'noreferrer', 'data-wagtail-dismissible-id': 'campaign-site'}
     assert actual.name == 'campaign-site'
+
+
+def test_register_image_chooser_viewset():
+    actual = register_image_chooser_viewset()
+    assert isinstance(actual, AltImageChooserViewSet)
+    assert actual.name == 'alt_wagtailimages_chooser'
+    assert actual.url_prefix == 'images/chooser'

@@ -13,7 +13,7 @@ from django.template.response import TemplateResponse
 from django.urls import reverse, reverse_lazy
 from django.utils.crypto import get_random_string
 from django.views.generic import FormView, TemplateView
-from django.views.generic.base import RedirectView
+from django.views.generic.base import RedirectView, View
 from formtools.wizard.views import NamedUrlSessionWizardView
 from great_components.mixins import GA360Mixin
 from rest_framework import generics
@@ -22,6 +22,15 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from storages.backends.s3boto3 import S3Boto3Storage
 from wagtail.contrib.sitemaps import Sitemap as WagtailSitemap
+from wagtail.images import get_image_model
+from wagtail.images.views import chooser
+from wagtail.images.views.chooser import (
+    ImageChooserViewSet,
+    ImageChosenResponseMixin,
+    ImageCreationFormMixin,
+    ImageInsertionForm,
+    ImageUploadViewMixin,
+)
 
 from core import cms_slugs, forms, helpers, serializers
 from core.constants import GET_EXPORT_HELP_CHOICE_TO_CONTENT_MAPPING
@@ -576,3 +585,43 @@ class GetExportHelpExperimentResultView(FormView):
 
 class GetExportHelpExperimentConfirmationView(TemplateView):
     template_name = 'core/get_export_help_experiment_confirmation.html'
+
+
+class AltImageUploadView(ImageUploadViewMixin, ImageCreationFormMixin, ImageChosenResponseMixin, View):
+    def post(self, request):
+        self.model = get_image_model()
+        self.form = self.get_creation_form()
+
+        if self.form.is_valid():
+            image = self.save_form(self.form)
+
+            duplicates = chooser.find_image_duplicates(
+                image=image,
+                user=request.user,
+                permission_policy=chooser.permission_policy,
+            )
+            existing_image = duplicates.first()
+            if existing_image:
+                return self.render_duplicate_found_response(request, image, existing_image)
+
+            if request.GET.get('select_format'):
+                insertion_form = ImageInsertionForm(
+                    initial={'alt_text': image.alt_text if image.alt_text else image.default_alt_text},
+                    prefix='image-chooser-insertion',
+                )
+                return self.render_select_format_response(image, insertion_form)
+            else:
+                # not specifying a format; return the image details now
+                return self.get_chosen_response(image)
+
+        else:  # form is invalid
+            return self.get_reshow_creation_form_response()
+
+
+class AltImageChooserViewSet(ImageChooserViewSet):
+    model = get_image_model()
+    create_view_class = AltImageUploadView
+    register_widget = True
+
+    def on_register(self):
+        return super().on_register()

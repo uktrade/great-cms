@@ -23,13 +23,14 @@ from great_components.helpers import add_next
 from wagtail.admin.menu import DismissibleMenuItem
 from wagtail.admin.views.pages.bulk_actions.page_bulk_action import PageBulkAction
 from wagtail.core import hooks
-from wagtail.core.models import Page
+from wagtail.models import Page
 from wagtail_transfer.field_adapters import FieldAdapter
 from wagtail_transfer.files import File as WTFile, FileTransferError
 from wagtail_transfer.models import ImportedFile
 
 from core import constants, mixins, views
 from core.models import MicrositePage
+from core.views import AltImageChooserViewSet
 from domestic.models import ArticlePage
 
 logger = logging.getLogger(__name__)
@@ -372,6 +373,8 @@ def migrate_article_page_to_microsite(page):
         page_subheading=page.article_subheading,
         page_teaser=page.article_teaser,
         hero_image=page.article_image,
+        hero_video=page.article_video,
+        hero_video_transcript=page.article_video_transcript,
         page_body=json.dumps(get_microsite_page_body(page.article_body)),
         cta_title=page.cta_title,
         cta_teaser=page.cta_teaser,
@@ -529,4 +532,12 @@ def register_campaign_site_help_menu_item():
         order=900,
         attrs={'target': '_blank', 'rel': 'noreferrer'},
         name='campaign-site',
+    )
+
+
+@hooks.register('register_admin_viewset', order=-1)
+def register_image_chooser_viewset():
+    return AltImageChooserViewSet(
+        name='alt_wagtailimages_chooser',
+        url_prefix='images/chooser',
     )

@@ -160,7 +160,7 @@ class Rendition(AbstractRendition):
 
     @property
     def alt(self):
-        return self.image.alt_text
+        return self.image.alt_text if self.image.alt_text else self.image.default_alt_text
 
 
 @register_snippet
