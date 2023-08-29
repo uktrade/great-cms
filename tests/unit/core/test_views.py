@@ -10,22 +10,20 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.http.cookie import SimpleCookie
-from django.test import Client, RequestFactory, TestCase, override_settings
+from django.test import Client, TestCase, override_settings
 from django.urls import reverse, reverse_lazy
 from formtools.wizard.views import normalize_name
 from pytest_django.asserts import assertTemplateUsed
 from rest_framework import status
-from wagtail.images import get_image_model
 from wagtail.images.views.chooser import (
     ChosenResponseMixin,
     CreateViewMixin,
     ImageUploadViewMixin,
     SelectFormatResponseMixin,
 )
-from wagtail.models import Collection, Locale
+from wagtail.models import Locale
 
 from core import cms_slugs, forms, helpers, serializers, views
-from core.tests.test_model_admin import get_test_image_file
 from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
 from tests.helpers import create_response, make_test_video
@@ -1332,31 +1330,6 @@ def test_get_export_help_confirmation_page(client):
 
 
 @pytest.fixture
-def image_data():
-    root_collection, _ = Collection.objects.get_or_create(name='Root', depth=0)
-    great_image_collection = root_collection.add_child(name='Great Images')
-    AltTextImage = get_image_model()  # Noqa
-    image = AltTextImage.objects.create(
-        title='Test image',
-        file=get_test_image_file(),
-        alt_text='Test Image Alt Text',
-        collection=great_image_collection,
-    )
-
-    return {
-        'image-chooser-upload-focal_point_x': [''],
-        'image-chooser-upload-focal_point_y': [''],
-        'image-chooser-upload-focal_point_width': [''],
-        'image-chooser-upload-focal_point_height': [''],
-        'image-chooser-upload-title': [image.title],
-        'image-chooser-upload-collection': ['1'],
-        'image-chooser-upload-tags': [''],
-        'image-chooser-upload-alt_text': [image.alt_text],
-        'files': {'image-chooser-upload-file': image},
-    }
-
-
-@pytest.fixture
 def image_user():
     return User.objects.create_user(username='testuser', email='testuser@test.com', password='testpassword')
 
@@ -1371,19 +1344,23 @@ def test_alt_image_upload_view_select_format_true_not_duplicate(
     mock_get_creation_form,
     image_data,
     image_user,
+    rf,
 ):
     mock_get_creation_form.return_value.is_valid.return_value = True
-    mock_get_creation_form.return_value.save.return_value = MagicMock(id=999, alt_text='Test Image Alt Text')
+    id = image_data['files']['image-chooser-upload-file'].id
+    alt_text = image_data['image-chooser-upload-alt_text'][0]
+    mock_get_creation_form.return_value.save.return_value = MagicMock(id=id, alt_text=alt_text)
     mock_find_image_duplicates.return_value.first.return_value = None
-    mock_render_select_format_response.return_value = JsonResponse(status=200, data={'data': 'hello'})
-    factory = RequestFactory()
-    request = factory.post('/admin/images/chooser/create/?select_format=true', data=image_data)
+    mock_render_select_format_response.return_value = JsonResponse(
+        status=200, data={'step': 'select_format', 'html': ''}
+    )
+    request = rf.post('/admin/images/chooser/create/?select_format=true', data=image_data)
 
     request.user = image_user
     response = views.AltImageUploadView.as_view()(request)
     assert isinstance(response, JsonResponse)
     assert response.status_code == 200
-    assert json.loads(response.content.decode('utf8')) == {'data': 'hello'}
+    assert json.loads(response.content.decode('utf8')) == {'step': 'select_format', 'html': ''}
 
 
 @mock.patch.object(views.AltImageUploadView, 'get_creation_form')
@@ -1391,19 +1368,36 @@ def test_alt_image_upload_view_select_format_true_not_duplicate(
 @mock.patch.object(ChosenResponseMixin, 'get_chosen_response')
 @pytest.mark.django_db
 def test_alt_image_upload_view_select_format_false_not_duplicate(
-    mock_get_chosen_response, mock_find_image_duplicates, mock_get_creation_form, image_data, image_user
+    mock_get_chosen_response,
+    mock_find_image_duplicates,
+    mock_get_creation_form,
+    image_data,
+    image_user,
+    rf,
 ):
     mock_get_creation_form.return_value.is_valid.return_value = True
-    mock_get_creation_form.return_value.save.return_value = MagicMock(id=999, alt_text='Test Image Alt Text')
-    mock_get_chosen_response.return_value = JsonResponse(status=200, data={'data': 'hello'})
+    id = image_data['files']['image-chooser-upload-file'].id
+    alt_text = image_data['image-chooser-upload-alt_text'][0]
+    title = image_data['image-chooser-upload-title'][0]
+    width = image_data['image-chooser-upload-focal_point_width'][0]
+    height = image_data['image-chooser-upload-focal_point_height'][0]
+    expected_result = {
+        'id': id,
+        'title': title,
+        'edit_url': '',
+        'preview': {'url': '', 'width': width, 'height': height},
+    }
+    mock_get_creation_form.return_value.save.return_value = MagicMock(id=id, alt_text=alt_text)
+    mock_get_chosen_response.return_value = JsonResponse(status=200, data={'step': 'chosen', 'result': expected_result})
     mock_find_image_duplicates.return_value.first.return_value = None
-    factory = RequestFactory()
-    request = factory.post('/admin/images/chooser/create', data=image_data)
+    request = rf.post('/admin/images/chooser/create', data=image_data)
     request.user = image_user
     response = views.AltImageUploadView.as_view()(request)
     assert isinstance(response, JsonResponse)
     assert response.status_code == 200
-    assert json.loads(response.content.decode('utf8')) == {'data': 'hello'}
+    response_json = json.loads(response.content.decode('utf8'))
+    assert response_json['step'] == 'chosen'
+    assert response_json['result'] == expected_result
 
 
 @mock.patch.object(views.AltImageUploadView, 'get_creation_form')
@@ -1411,33 +1405,36 @@ def test_alt_image_upload_view_select_format_false_not_duplicate(
 @mock.patch.object(ImageUploadViewMixin, 'render_duplicate_found_response')
 @pytest.mark.django_db
 def test_alt_image_upload_view_select_format_false_is_duplicate(
-    mock_render_duplicate_found_response, mock_find_image_duplicates, mock_get_creation_form, image_data, image_user
+    mock_render_duplicate_found_response, mock_find_image_duplicates, mock_get_creation_form, image_data, image_user, rf
 ):
     mock_get_creation_form.return_value.is_valid.return_value = True
-    mock_get_creation_form.return_value.save.return_value = MagicMock(id=999, alt_text='Test Image Alt Text')
-    mock_find_image_duplicates.return_value.first.return_value = MagicMock(id=999, alt_text='Test Image Alt Text')
-    mock_render_duplicate_found_response.return_value = JsonResponse(status=200, data={'data': 'hello'})
-    factory = RequestFactory()
-    request = factory.post('/admin/images/chooser/create?select_format=true', data=image_data)
+    id = image_data['files']['image-chooser-upload-file'].id
+    alt_text = image_data['image-chooser-upload-alt_text'][0]
+    create_form_return = MagicMock(id=id, alt_text=alt_text)
+    mock_get_creation_form.return_value.save.return_value = create_form_return
+    mock_find_image_duplicates.return_value.first.return_value = create_form_return
+    mock_render_duplicate_found_response.return_value = JsonResponse(status=200, data={'step': 'duplicate_found'})
+    request = rf.post('/admin/images/chooser/create?select_format=true', data=image_data)
     request.user = image_user
     response = views.AltImageUploadView.as_view()(request)
     assert isinstance(response, JsonResponse)
     assert response.status_code == 200
-    assert json.loads(response.content.decode('utf8')) == {'data': 'hello'}
+    assert json.loads(response.content.decode('utf8'))['step'] == 'duplicate_found'
 
 
 @mock.patch.object(views.AltImageUploadView, 'get_creation_form')
 @mock.patch.object(CreateViewMixin, 'get_reshow_creation_form_response')
 @pytest.mark.django_db
 def test_alt_image_upload_view_form_is_invalid(
-    mock_get_reshow_creation_form_response, mock_get_creation_form, image_data, image_user
+    mock_get_reshow_creation_form_response, mock_get_creation_form, image_data, image_user, rf
 ):
     mock_get_creation_form.return_value.is_valid.return_value = False
-    mock_get_reshow_creation_form_response.return_value = JsonResponse(status=200, data={'data': 'hello'})
-    factory = RequestFactory()
-    request = factory.post('/admin/images/chooser/create?select_format=true', data=image_data)
+    mock_get_reshow_creation_form_response.return_value = JsonResponse(
+        status=200, data={'step': 'reshow_creation_form'}
+    )
+    request = rf.post('/admin/images/chooser/create?select_format=true', data=image_data)
     request.user = image_user
     response = views.AltImageUploadView.as_view()(request)
     assert isinstance(response, JsonResponse)
     assert response.status_code == 200
-    assert json.loads(response.content.decode('utf8')) == {'data': 'hello'}
+    assert json.loads(response.content.decode('utf8'))['step'] == 'reshow_creation_form'
