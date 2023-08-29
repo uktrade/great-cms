@@ -10,7 +10,7 @@ from django.db.models import FileField
 from django.test import TestCase, override_settings
 from django.utils.safestring import mark_safe
 from wagtail.admin.menu import DismissibleMenuItem
-from wagtail.core.rich_text import RichText
+from wagtail.rich_text import RichText
 from wagtail.tests.utils import WagtailPageTests
 
 from core import cms_slugs, wagtail_hooks
