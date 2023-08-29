@@ -588,6 +588,13 @@ class GetExportHelpExperimentConfirmationView(TemplateView):
 
 
 class AltImageUploadView(ImageUploadViewMixin, ImageCreationFormMixin, ImageChosenResponseMixin, View):
+    """
+    AltImageUploadView class created to override ImageUploadViewMixin
+    This view is required to prevent the alt text of an Uploaded image being
+    set to the Image file name, which is the default Wagtail behaviour, see
+    https://github.com/wagtail/wagtail/issues/10800
+    """
+
     def post(self, request):
         self.model = get_image_model()
         self.form = self.get_creation_form()
