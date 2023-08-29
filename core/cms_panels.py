@@ -92,3 +92,17 @@ class GetInTouchPanels:
     ]
 
     settings_panels = [FieldPanel('title'), FieldPanel('slug')]
+
+
+class SupportTopicLandingPanels:
+    content_panels = [
+        MultiFieldPanel(
+            heading='Page intro',
+            children=[
+                FieldPanel('page_title'),
+            ],
+        ),
+        FieldPanel('page_body'),
+    ]
+
+    settings_panels = [FieldPanel('title'), FieldPanel('slug')]

@@ -1,7 +1,7 @@
-{% load get_topic_blocks tag_text_mapper from content_tags %}
+{% load tag_text_mapper from content_tags %}
 
-{% for item in items|get_topic_blocks:request.GET.topic %}
-    {% if item.block_type == 'topic' %}
+{% for item in items %}
+    {% if item.block_type == 'cards' %}
         {% for block in item.value %}
             {% if block.block_type == 'related_item' %}
             <div class="govuk-!-margin-bottom-6 great-related-item" data-ga-digital-entry-point>
