@@ -1387,7 +1387,7 @@ def test_alt_image_upload_view_select_format_false_not_duplicate(
         'id': id,
         'title': title,
         'edit_url': f'/admin/images/{id}/',
-        'preview': {'url': '', 'width': width, 'height': height},
+        'preview': {'url': f'/admin/images/{id}/', 'width': width, 'height': height},
     }
     mock_get_creation_form.return_value.save.return_value = MagicMock(id=id, alt_text=alt_text)
     mock_get_chosen_response.return_value = JsonResponse(status=200, data={'step': 'chosen', 'result': expected_result})
