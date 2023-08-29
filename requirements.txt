@@ -304,7 +304,7 @@ pyhanko-certvalidator==0.23.0
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==3.15.2
+pypdf==3.15.4
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -459,6 +459,7 @@ wagtail==4.2.2
     #   wagtail-trash
     #   wagtailfontawesome
     #   wagtailmedia
+    #   wagtailset
 wagtail-cache==2.2.0
     # via -r requirements.in
 wagtail-factories==2.0.1
@@ -474,6 +475,8 @@ wagtail-trash==1.0.0
 wagtailfontawesome==1.2.1
     # via -r requirements.in
 wagtailmedia==0.14.0
+    # via -r requirements.in
+wagtailset==1.0.0
     # via -r requirements.in
 wcwidth==0.2.6
     # via prompt-toolkit
