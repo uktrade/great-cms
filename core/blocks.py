@@ -561,6 +561,14 @@ class LinksBlock(blocks.StructBlock):
         icon = 'link'
 
 
+class LinkBlockWithHeading(blocks.StructBlock):
+    heading = blocks.RichTextBlock(required=False)
+    links = blocks.StreamBlock([('link', LinksBlock(label=_('Link block')))], max_num=6, required=False)
+
+    class Meta:
+        icon = 'link'
+
+
 class CampaignFormBlock(blocks.StructBlock):
     type = blocks.ChoiceBlock(choices=CAMPAIGN_FORM_CHOICES, null=False, blank=False, required=True, label=_('type'))
     email_subject = blocks.TextBlock(required=True, label=_('Email subject'))
