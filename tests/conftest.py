@@ -5,13 +5,15 @@ from unittest import mock
 
 import pytest
 from django.test.client import RequestFactory
-from wagtail.models import Locale, Page
+from wagtail.images import get_image_model
+from wagtail.models import Collection, Locale, Page
 from wagtail_factories import PageFactory, SiteFactory
 
 import tests.unit.domestic.factories
 import tests.unit.export_academy.factories
 from core.case_study_index import case_study_to_index
 from core.models import CaseStudy
+from core.tests.test_model_admin import get_test_image_file
 from directory_api_client import api_client
 from sso import helpers as sso_helpers
 from sso.models import BusinessSSOUser
@@ -774,3 +776,28 @@ def mock_regenerate_verification_code():
     patch = mock.patch.object(sso_helpers, 'regenerate_verification_code', return_value=body)
     yield patch.start()
     patch.stop()
+
+
+@pytest.fixture
+def image_data():
+    root_collection, _ = Collection.objects.get_or_create(name='Root', depth=0)
+    great_image_collection = root_collection.add_child(name='Great Images')
+    AltTextImage = get_image_model()  # Noqa
+    image = AltTextImage.objects.create(
+        title='Test image',
+        file=get_test_image_file(),
+        alt_text='Test Image Alt Text',
+        collection=great_image_collection,
+    )
+
+    return {
+        'image-chooser-upload-focal_point_x': [''],
+        'image-chooser-upload-focal_point_y': [''],
+        'image-chooser-upload-focal_point_width': [''],
+        'image-chooser-upload-focal_point_height': [''],
+        'image-chooser-upload-title': [image.title],
+        'image-chooser-upload-collection': ['1'],
+        'image-chooser-upload-tags': [''],
+        'image-chooser-upload-alt_text': [image.alt_text],
+        'files': {'image-chooser-upload-file': image},
+    }

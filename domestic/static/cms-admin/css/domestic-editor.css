@@ -103,3 +103,7 @@ button.button.action-choose.button-small.button-secondary {
   top: 5px;
   left: 11px;
 }
+
+.Draftail-ToolbarButton--active {
+    border: 1px solid black !important;
+}
