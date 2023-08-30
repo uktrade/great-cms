@@ -1,8 +1,15 @@
+@import '../sizes/sizes.scss';
+
 .microsite {
   .microsite-column {
     .richtext-image {
       height: auto;
       width: -webkit-fill-available;
+    }
+    &.govuk-grid-column-one-quarter {
+        @media only screen and (min-width: $mobile-size) {
+          min-width: 174px;
+        }
     }
   }
   .richtext {
