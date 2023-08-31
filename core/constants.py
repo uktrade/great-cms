@@ -10,6 +10,7 @@ RICHTEXT_FEATURES__MINIMAL = ()
 
 # Define rich-text features that disable embeds, images and document links
 RICHTEXT_FEATURES__REDUCED = [
+    'anchor-identifier',
     'h2',
     'h3',
     'h4',
