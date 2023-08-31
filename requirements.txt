@@ -242,7 +242,7 @@ jsonschema==3.2.0
     #   directory-components
     #   drf-spectacular
     #   great-components
-kombu==5.3.1
+kombu==5.3.2
     # via celery
 l18n==2021.3
     # via wagtail
@@ -304,7 +304,7 @@ pyhanko-certvalidator==0.23.0
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==3.15.2
+pypdf==3.15.4
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -430,7 +430,7 @@ uk-postcode-utils==1.1
     # via -r requirements.in
 uritemplate==4.1.1
     # via drf-spectacular
-uritools==4.0.1
+uritools==4.0.2
     # via pyhanko-certvalidator
 urllib3==1.26.16
     # via
