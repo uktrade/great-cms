@@ -6,6 +6,7 @@ from wagtail.test.utils import WagtailPageTests
 from domestic.models import StructuralPage
 from international_online_offer.models import (
     EYBArticlePage,
+    EYBArticlesPage,
     EYBGuidePage,
     EYBIndexPage,
     EYBTradeShowsPage,
@@ -47,7 +48,7 @@ class EYBGuidePageTests(WagtailPageTests):
     def test_allowed_children(self):
         self.assertAllowedSubpageTypes(
             EYBGuidePage,
-            {EYBArticlePage, EYBTradeShowsPage},
+            {EYBArticlePage, EYBTradeShowsPage, EYBArticlesPage},
         )
 
 
@@ -169,15 +170,30 @@ class EYBArticlePageTests(WagtailPageTests):
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
             EYBArticlePage,
-            {
-                EYBGuidePage,
-            },
+            {EYBGuidePage, EYBArticlesPage},
         )
 
     def test_allowed_children(self):
         self.assertAllowedSubpageTypes(
             EYBArticlePage,
             {},
+        )
+
+
+class EYBArticlesPageTests(WagtailPageTests):
+    def test_allowed_parents(self):
+        self.assertAllowedParentPageTypes(
+            EYBArticlesPage,
+            {
+                EYBGuidePage,
+                EYBArticlesPage,
+            },
+        )
+
+    def test_allowed_children(self):
+        self.assertAllowedSubpageTypes(
+            EYBArticlesPage,
+            {EYBArticlesPage, EYBArticlePage},
         )
 
 
