@@ -17,6 +17,7 @@ from core.snippet_slugs import EA_REGISTRATION_PAGE_HERO
 from directory_sso_api_client import sso_api_client
 from export_academy.filters import EventFilter
 from export_academy.models import Booking, Registration
+from export_academy.views import EventListView
 from sso import helpers as sso_helpers
 from tests.helpers import create_response
 from tests.unit.export_academy import factories
@@ -1009,3 +1010,17 @@ def test_signin_invalid_password(client, requests_mock, test_unique_link_query_p
     assert response.status_code == 200
     if unique_link:
         assert response.context['form'].initial['email'] == 'test@example.com'
+
+
+@pytest.mark.django_db
+def test_video_button_returned_for_completed_event(user, rf):
+    event = factories.EventFactory(name='Test event name', description='Test description')
+    request = rf.get('/export-academy/events/')
+    request.user = user
+
+    view = EventListView()
+    view.setup(request)
+
+    buttons = view.get_buttons_for_event(event)
+
+    assert buttons == {'form_event_booking_buttons': [], 'event_action_buttons': []}
