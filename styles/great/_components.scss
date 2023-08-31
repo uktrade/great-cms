@@ -38,7 +38,6 @@ figure.great-blockquote {
   }
 }
 
-
 .great-full-width-header-image {
   height: 200px;
   background-position: 50%;
@@ -755,9 +754,14 @@ figure.great-blockquote {
 }
 
 .great-topic-card {
+  display: block;
   background: $great-white;
   text-decoration: none;
-  flex-basis: calc(25% - 30px);
+  width: calc(100%);
+
+  @include govuk-media-query($from: tablet) {
+    flex-basis: calc(33.333% - 30px);
+  }
 
   &:focus:active {
     background: $great-white;
@@ -815,5 +819,42 @@ figure.great-blockquote {
 
   &:nth-of-type(3n) {
     margin-right: 0;
+  }
+}
+
+.great-dep-triage-hero {
+  position: relative;
+  overflow: hidden;
+
+  @include govuk-media-query($from: desktop) {
+    min-height: 367px;
+  }
+
+  img {
+    display: none;
+    bottom: 0;
+    position: absolute;
+    right: 0;
+
+    @include govuk-media-query($from: tablet) {
+      display: block;
+      max-width: 450px;
+    }
+
+    @media screen and (min-width: 851px) {
+      max-width: 550px;
+    }
+
+    @media screen and (min-width: 1251px) {
+      max-width: 642px;
+    }
+  }
+}
+
+.great-dep-tools-and-services {
+  h2 {
+    @include govuk-media-query($until: tablet) {
+      border: none;
+    }
   }
 }
