@@ -99,11 +99,12 @@ class EventPanel:
         FieldPanel('closed', heading='closed for bookings'),
     ]
 
-    attendance_panel = [BookingsInlinePanel('bookings', panels=[FieldPanel('status')], label='Bookings')]
+    # temporarily disabling the 'Attendance' tab. See KLS-1142 for further details.
+    # attendance_panel = [BookingsInlinePanel('bookings', panels=[FieldPanel('status')], label='Bookings')]
 
     edit_handler = TabbedInterface(
         [
             ObjectList(event_panel, heading='Event'),
-            ObjectList(attendance_panel, heading='Attendance'),
+            # ObjectList(attendance_panel, heading='Attendance'),
         ]
     )

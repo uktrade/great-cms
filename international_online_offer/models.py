@@ -61,7 +61,11 @@ class EYBIndexPage(BaseContentPage):
 
 class EYBGuidePage(BaseContentPage):
     parent_page_types = ['international_online_offer.EYBIndexPage']
-    subpage_types = ['international_online_offer.EYBArticlePage', 'international_online_offer.EYBTradeShowsPage']
+    subpage_types = [
+        'international_online_offer.EYBArticlePage',
+        'international_online_offer.EYBTradeShowsPage',
+        'international_online_offer.EYBArticlesPage',
+    ]
     template = 'eyb/guide.html'
 
     def get_context(self, request, *args, **kwargs):
@@ -143,6 +147,7 @@ class EYBArticlePageTag(TaggedItemBase):
 class EYBArticlePage(BaseContentPage):
     parent_page_types = [
         'international_online_offer.EYBGuidePage',
+        'international_online_offer.EYBArticlesPage',
     ]
     subpage_types = []
     template = 'eyb/article.html'
@@ -351,6 +356,11 @@ class IOOTradeShowPage(BaseContentPage):
         FieldPanel('tradeshow_link'),
         FieldPanel('tags'),
     ]
+
+
+class EYBArticlesPage(BaseContentPage):
+    parent_page_types = ['international_online_offer.EYBGuidePage', 'international_online_offer.EYBArticlesPage']
+    subpage_types = ['international_online_offer.EYBArticlePage', 'international_online_offer.EYBArticlesPage']
 
 
 class TriageData(TimeStampedModel):
