@@ -536,7 +536,7 @@ def test_release_views(client, user):
 
     response = client.get(url)
 
-    assert '<button type="submit"' not in response.rendered_content
+    assert 'title="Play recording of Test event name"' not in response.rendered_content
 
 
 @pytest.mark.django_db
