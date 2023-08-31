@@ -156,7 +156,6 @@ class EventVideoView(DetailView):
             document = getattr(event, 'document')
             ctx['event_document'] = {'event_document': document}
             ctx['event_document_size'] = f'{math.floor(document.file_size * 0.001)}KB'
-            ctx['event_document_name'] = document.name
 
         return ctx
 

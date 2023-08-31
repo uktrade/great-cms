@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from unittest import mock
 
 import pytest
+import wagtail_factories
 from directory_forms_api_client import actions
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -482,7 +483,21 @@ def test_event_video_view_with_video(client, user):
 
 
 @pytest.mark.django_db
-def test_event_detail_view_with_booking(client, user):
+def test_event_video_view_with_document(client, user):
+    document = wagtail_factories.DocumentFactory(file_size=1395)
+    event = factories.EventFactory(name='Test event name', description='Test description', document=document)
+    url = reverse('export_academy:event-video', kwargs=dict(pk=event.id))
+    client.force_login(user)
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.context['event_document']
+    assert response.context['event_document_size']
+
+
+@pytest.mark.django_db
+def test_event_video_view_with_booking(client, user):
     event = factories.EventFactory(name='Test event name', description='Test description')
     url = reverse('export_academy:event-video', kwargs=dict(pk=event.id))
     registration = factories.RegistrationFactory(email=user.email)
