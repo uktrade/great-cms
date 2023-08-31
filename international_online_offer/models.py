@@ -1,7 +1,6 @@
 from itertools import chain
 
 from django.contrib.postgres.fields import ArrayField
-from django.core.paginator import Paginator
 from django.db import models
 from django.db.models import Avg
 from modelcluster.contrib.taggit import ClusterTaggableManager
@@ -14,7 +13,7 @@ from wagtail.fields import StreamField
 from wagtail.images.blocks import ImageChooserBlock
 
 from core.blocks import ColumnsBlock
-from core.models import CMSGenericPage
+from core.models import CMSGenericPage, TimeStampedModel
 from directory_constants.choices import COUNTRY_CHOICES
 from domestic.models import BaseContentPage
 from international_online_offer.core import choices, filter_tags, helpers
@@ -50,19 +49,19 @@ def get_triage_data_from_db_or_session(request):
         )
 
 
-class IOOIndexPage(BaseContentPage):
+class EYBIndexPage(BaseContentPage):
     parent_page_types = [
         'domestic.StructuralPage',
     ]
     subpage_types = [
-        'international_online_offer.IOOGuidePage',
+        'international_online_offer.EYBGuidePage',
     ]
     template = 'eyb/index.html'
 
 
-class IOOGuidePage(BaseContentPage):
-    parent_page_types = ['international_online_offer.IOOIndexPage']
-    subpage_types = ['international_online_offer.IOOArticlePage', 'international_online_offer.IOOTradePage']
+class EYBGuidePage(BaseContentPage):
+    parent_page_types = ['international_online_offer.EYBIndexPage']
+    subpage_types = ['international_online_offer.EYBArticlePage', 'international_online_offer.EYBTradeShowsPage']
     template = 'eyb/guide.html'
 
     def get_context(self, request, *args, **kwargs):
@@ -77,23 +76,23 @@ class IOOGuidePage(BaseContentPage):
 
         is_triage_complete = helpers.is_triage_complete(triage_data)
 
-        # Get trade association and shows page (should only be one)
-        trade_page = IOOTradePage.objects.live().filter().first()
+        # Get trade shows page (should only be one, is a parent / container page for all trade show pages)
+        trade_shows_page = EYBTradeShowsPage.objects.live().filter().first()
 
         # Get any EYB articles that have been tagged with user selected sector
         all_articles_tagged_with_sector = (
-            IOOArticlePage.objects.live().filter(tags__name=triage_data.sector)
+            EYBArticlePage.objects.live().filter(tags__name=triage_data.sector)
             if triage_data and triage_data.sector
             else []
         )
         # Get any EYB articles that have been tagged with user selected intent(s)
         all_articles_tagged_with_intent = (
-            IOOArticlePage.objects.live().filter(tags__name__in=triage_data.intent)
+            EYBArticlePage.objects.live().filter(tags__name__in=triage_data.intent)
             if triage_data and triage_data.intent
             else []
         )
         # Get any EYB articles that have been tagged with SUPPORT_AND_INCENTIVES
-        all_articles_tagged_with_support_and_incentives = IOOArticlePage.objects.live().filter(
+        all_articles_tagged_with_support_and_incentives = EYBArticlePage.objects.live().filter(
             tags__name=filter_tags.SUPPORT_AND_INCENTIVES
         )
 
@@ -113,7 +112,7 @@ class IOOGuidePage(BaseContentPage):
             user_data=user_data,
             get_to_know_market_articles=list(chain(sector_only_articles, intent_articles_specific_to_sector)),
             support_and_incentives_articles=all_articles_tagged_with_support_and_incentives,
-            trade_page=trade_page,
+            trade_shows_page=trade_shows_page,
             is_triage_complete=is_triage_complete,
         )
 
@@ -128,22 +127,22 @@ class IOOGuidePage(BaseContentPage):
         return context
 
 
-class IOOArticleTag(TagBase):
-    """IOO article tag for filtering out content based on triage answers."""
+class EYBArticleTag(TagBase):
+    """EYB article tag for filtering out content based on triage answers."""
 
     class Meta:
-        verbose_name = 'IOO article tag for link to triage answer'
-        verbose_name_plural = 'IOO article tags for links to triage answers'
+        verbose_name = 'EYB article tag for link to triage answer'
+        verbose_name_plural = 'EYB article tags for links to triage answers'
 
 
-class IOOArticlePageTag(TaggedItemBase):
-    tag = models.ForeignKey(IOOArticleTag, related_name='ioo_tagged_articles', on_delete=models.CASCADE)
-    content_object = ParentalKey('international_online_offer.IOOArticlePage', related_name='ioo_article_tagged_items')
+class EYBArticlePageTag(TaggedItemBase):
+    tag = models.ForeignKey(EYBArticleTag, related_name='ioo_tagged_articles', on_delete=models.CASCADE)
+    content_object = ParentalKey('international_online_offer.EYBArticlePage', related_name='ioo_article_tagged_items')
 
 
-class IOOArticlePage(BaseContentPage):
+class EYBArticlePage(BaseContentPage):
     parent_page_types = [
-        'international_online_offer.IOOGuidePage',
+        'international_online_offer.EYBGuidePage',
     ]
     subpage_types = []
     template = 'eyb/article.html'
@@ -195,7 +194,7 @@ class IOOArticlePage(BaseContentPage):
         null=True,
         blank=True,
     )
-    tags = ClusterTaggableManager(through=IOOArticlePageTag, blank=True, verbose_name='Article Tags')
+    tags = ClusterTaggableManager(through=EYBArticlePageTag, blank=True, verbose_name='Article Tags')
     content_panels = CMSGenericPage.content_panels + [
         FieldPanel('article_title'),
         FieldPanel('article_subheading'),
@@ -295,60 +294,43 @@ class IOOArticlePage(BaseContentPage):
         return context
 
 
-class IOOTradePage(BaseContentPage):
-    parent_page_types = ['international_online_offer.IOOGuidePage']
+class EYBTradeShowsPage(BaseContentPage):
+    parent_page_types = ['international_online_offer.EYBGuidePage']
     subpage_types = ['international_online_offer.IOOTradeShowPage']
-    template = 'eyb/trade.html'
+    template = 'eyb/trade_shows.html'
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         triage_data = get_triage_data_from_db_or_session(request)
         all_tradeshows = []
-        all_trade_associations = []
+
         if triage_data:
             all_tradeshows = (
                 IOOTradeShowPage.objects.live().filter(tags__name=triage_data.sector) if triage_data.sector else []
             )
-            # Given the sector selected we need to get mapped trade association sectors to query
-            # with due to misalignment of sector names across DBT
-            trade_association_sectors = helpers.get_trade_assoication_sectors_from_sector(triage_data.sector)
-            all_trade_associations = (
-                TradeAssociation.objects.filter(sector__in=trade_association_sectors)
-                if trade_association_sectors
-                else []
-            )
-            # if we still have no matching trade associations then we'll
-            # try a search based a sector display name that we might not have mapped yet
-            if len(all_trade_associations) == 0 and triage_data.sector:
-                all_trade_associations = TradeAssociation.objects.filter(sector=triage_data.get_sector_display())
 
-        page = request.GET.get('page', 1)
-        paginator = Paginator(all_trade_associations, 10)
-        all_trade_associations = paginator.page(page)
-        context.update(
-            triage_data=triage_data, all_tradeshows=all_tradeshows, all_trade_associations=all_trade_associations
-        )
+        context.update(triage_data=triage_data, all_tradeshows=all_tradeshows)
         self.set_ga360_payload(
-            page_id='TradeShowsAndAssociations',
+            page_id='TradeShows',
             business_unit='ExpandYourBusiness',
-            site_section='trade',
+            site_section='trade-shows',
         )
         self.add_ga360_data_to_payload(request)
         context['ga360'] = self.ga360_payload
         return context
 
 
-class IOOTradeShowPageTag(TaggedItemBase):
-    tag = models.ForeignKey(IOOArticleTag, related_name='ioo_tagged_tradeshows', on_delete=models.CASCADE)
+class EYBTradeShowPageTag(TaggedItemBase):
+    tag = models.ForeignKey(EYBArticleTag, related_name='eyb_tagged_tradeshows', on_delete=models.CASCADE)
     content_object = ParentalKey(
-        'international_online_offer.IOOTradeShowPage', related_name='ioo_tradeshow_tagged_items'
+        'international_online_offer.IOOTradeShowPage', related_name='eyb_tradeshow_tagged_items'
     )
 
 
 class IOOTradeShowPage(BaseContentPage):
-    parent_page_types = ['international_online_offer.IOOTradePage']
+    parent_page_types = ['international_online_offer.EYBTradeShowsPage']
     subpage_types = []
-    template = 'eyb/trade.html'
+    template = 'eyb/trade-shows.html'
     tradeshow_title = models.TextField()
     tradeshow_subheading = StreamField(
         [
@@ -362,7 +344,7 @@ class IOOTradeShowPage(BaseContentPage):
         blank=True,
     )
     tradeshow_link = models.URLField(blank=True, max_length=255, null=True)
-    tags = ClusterTaggableManager(through=IOOTradeShowPageTag, blank=True, verbose_name='Trade Show Tags')
+    tags = ClusterTaggableManager(through=EYBTradeShowPageTag, blank=True, verbose_name='Trade Show Tags')
     content_panels = CMSGenericPage.content_panels + [
         FieldPanel('tradeshow_title'),
         FieldPanel('tradeshow_subheading'),
@@ -371,7 +353,7 @@ class IOOTradeShowPage(BaseContentPage):
     ]
 
 
-class TriageData(models.Model):
+class TriageData(TimeStampedModel):
     hashed_uuid = models.CharField(max_length=200)
     sector = models.CharField(max_length=255, choices=choices.SECTOR_CHOICES)
     intent = ArrayField(
@@ -396,7 +378,7 @@ class TriageData(models.Model):
     is_high_value = models.BooleanField(default=False)
 
 
-class UserData(models.Model):
+class UserData(TimeStampedModel):
     hashed_uuid = models.CharField(max_length=200)
     company_name = models.CharField(max_length=255)
     company_location = models.CharField(max_length=255, choices=COUNTRY_CHOICES)

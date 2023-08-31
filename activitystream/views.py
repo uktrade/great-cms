@@ -59,11 +59,14 @@ class ActivityStreamView(ListAPIView):
     @decorator_from_middleware(ActivityStreamHawkResponseMiddleware)
     def list(self, request):
         """A single page of activities"""
+        query_set1 = Page.objects.type((ArticlePage, CountryGuidePage)).filter(live=True)
+        # locale_id = 1 just filters for english pages (atm we only want english pages in the search results)
+        query_set2 = Page.objects.type((MicrositePage)).filter(live=True, locale_id=1)
 
-        filter = PageFilter(
-            request.GET,
-            queryset=Page.objects.type((ArticlePage, CountryGuidePage, MicrositePage)).filter(live=True),
-        )
+        combined_query_set = query_set1 | query_set2
+
+        filter = PageFilter(request.GET, queryset=combined_query_set)
+
         page_qs = filter.qs.specific().order_by('last_published_at', 'id')[: self.MAX_PER_PAGE]
 
         items = {

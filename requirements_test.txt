@@ -33,7 +33,7 @@ astroid==2.15.6
     # via pylint
 asttokens==2.2.1
     # via stack-data
-async-timeout==4.0.2
+async-timeout==4.0.3
     # via redis
 attrs==23.1.0
     # via
@@ -74,7 +74,7 @@ botocore==1.27.96
     #   s3transfer
 brotli==1.0.9
     # via geventhttpclient
-browserstack-local==1.2.5
+browserstack-local==1.2.7
     # via browserstack-sdk
 browserstack-sdk==1.12.0
     # via -r requirements_test.in
@@ -94,11 +94,11 @@ certifi==2023.7.22
     #   sentry-sdk
 cffi==1.15.1
     # via cryptography
-cfgv==3.3.1
+cfgv==3.4.0
     # via pre-commit
 charset-normalizer==3.2.0
     # via requests
-click==8.1.6
+click==8.1.7
     # via
     #   black
     #   celery
@@ -116,7 +116,7 @@ click-repl==0.3.0
     # via celery
 configargparse==1.7
     # via locust
-coverage[toml]==7.2.7
+coverage[toml]==7.3.0
     # via
     #   pytest-codecov
     #   pytest-cov
@@ -234,7 +234,7 @@ django-storages[boto3]==1.13.2
     # via -r requirements.in
 django-taggit==3.1.0
     # via wagtail
-django-timezone-field==5.1
+django-timezone-field==6.0
     # via django-celery-beat
 django-treebeard==4.7
     # via
@@ -262,7 +262,7 @@ elasticsearch-dsl==7.4.1
     # via -r requirements.in
 et-xmlfile==1.1.0
     # via openpyxl
-exceptiongroup==1.1.2
+exceptiongroup==1.1.3
     # via
     #   pytest
     #   trio
@@ -275,7 +275,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==19.2.0
+faker==19.3.1
     # via factory-boy
 filelock==3.12.2
     # via virtualenv
@@ -297,7 +297,7 @@ flake8-quotes==3.3.2
     # via -r requirements_test.in
 flake8-string-format==0.3.0
     # via -r requirements_test.in
-flask==2.3.2
+flask==2.3.3
     # via
     #   -r requirements_test.in
     #   flask-basicauth
@@ -337,7 +337,7 @@ html5lib==1.1
     #   xhtml2pdf
 icalendar==5.0.7
     # via -r requirements.in
-identify==2.5.26
+identify==2.5.27
     # via pre-commit
 idna==3.4
     # via
@@ -419,7 +419,7 @@ mypy-extensions==1.0.0
     # via black
 nodeenv==1.8.0
     # via pre-commit
-numpy==1.25.1
+numpy==1.25.2
     # via pandas
 oauthlib==3.2.2
     # via
@@ -462,7 +462,7 @@ pillow==9.5.0
     #   reportlab
     #   wagtail
     #   xhtml2pdf
-pip-tools==7.1.0
+pip-tools==7.3.0
     # via -r requirements_test.in
 platformdirs==3.10.0
     # via
@@ -488,7 +488,7 @@ psutil==5.9.5
     #   browserstack-local
     #   browserstack-sdk
     #   locust
-psycopg2==2.9.6
+psycopg2==2.9.7
     # via -r requirements.in
 ptyprocess==0.7.0
     # via pexpect
@@ -503,7 +503,7 @@ pycparser==2.21
     # via cffi
 pyflakes==3.1.0
     # via flake8
-pygments==2.15.1
+pygments==2.16.1
     # via
     #   ipython
     #   sphinx
@@ -521,7 +521,7 @@ pylint-django==2.5.3
     # via -r requirements_test.in
 pylint-plugin-utils==0.8.2
     # via pylint-django
-pypdf==3.14.0
+pypdf==3.15.2
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -578,7 +578,6 @@ pytz==2023.3
     #   dateparser
     #   directory-validators
     #   django-modelcluster
-    #   django-timezone-field
     #   djangorestframework
     #   icalendar
     #   l18n
@@ -589,17 +588,17 @@ pyyaml==6.0.1
     #   drf-spectacular
     #   pre-commit
     #   pyhanko
-pyzmq==25.1.0
+pyzmq==25.1.1
     # via locust
 qrcode==7.4.2
     # via pyhanko
 readtime==1.1.1
     # via -r requirements.in
-redis==4.6.0
+redis==5.0.0
     # via
     #   celery
     #   django-redis
-regex==2023.6.3
+regex==2023.8.8
     # via dateparser
 reportlab==3.6.13
     # via
@@ -635,7 +634,7 @@ ruamel-yaml==0.17.32
     # via pre-commit-hooks
 ruamel-yaml-clib==0.2.7
     # via ruamel-yaml
-s3transfer==0.6.1
+s3transfer==0.6.2
     # via boto3
 selenium==4.11.2
     # via -r requirements_test.in
@@ -759,7 +758,7 @@ vine==5.0.0
     #   amqp
     #   celery
     #   kombu
-virtualenv==20.24.2
+virtualenv==20.24.3
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core
@@ -799,12 +798,12 @@ webencodings==0.5.1
     #   cssselect2
     #   html5lib
     #   tinycss2
-werkzeug==2.3.6
+werkzeug==2.3.7
     # via
     #   -r requirements_test.in
     #   flask
     #   locust
-wheel==0.41.0
+wheel==0.41.2
     # via pip-tools
 whitenoise==6.5.0
     # via -r requirements.in

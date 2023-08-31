@@ -186,18 +186,11 @@ dit.tagging.base = new function() {
             return linkEvent;
         }
 
-        function formEvent(action, type, element, value, data, url) {
+        function formEvent(action, type, element, value, data) {
             var formEvent = event(action, type, element, value);
 
-
-            formEvent['dLV - Next URL'] = '/example';
             if (data) {
                 formEvent['formData'] = data;
-                formEvent['dLV - Next URL'] = '/example';
-            }
-
-            if (url) {
-                formEvent['dLV - Next URL'] = '/example';
             }
 
             return formEvent;
