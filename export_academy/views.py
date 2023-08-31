@@ -27,6 +27,7 @@ from directory_sso_api_client import sso_api_client
 from export_academy import filters, forms, helpers, models
 from export_academy.helpers import (
     calender_content,
+    get_badges_for_event,
     get_buttons_for_event,
     update_booking,
 )
@@ -57,6 +58,14 @@ class EventListView(GA360Mixin, core_mixins.GetSnippetContentMixin, FilterView, 
             site_section='export-academy',
             site_subsection='events',
         )
+
+    def get_buttons_for_event(self, event):
+        user = self.request.user
+        return get_buttons_for_event(user, event)
+
+    def get_badges_for_event(self, event):
+        user = self.request.user
+        return get_badges_for_event(user, event)
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
