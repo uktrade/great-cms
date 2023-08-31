@@ -130,16 +130,6 @@ def get_event_completed_buttons(event):
                     'title': f'Play recording of {event.name}',
                 },
             ]
-        if event.document:
-            result += [
-                {
-                    'url': event.document.url,
-                    'label': f"""<i class="fa fa-download" aria-hidden="true"></i>
-                            Download PDF<span class="great-visually-hidden"> for {event.name}</span>""",
-                    'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
-                    'title': f'Download PDF for {event.name}',
-                },
-            ]
 
     return result
 
