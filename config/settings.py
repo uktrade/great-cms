@@ -69,8 +69,8 @@ INSTALLED_APPS = [
     'django.forms',
     'django.contrib.humanize',
     'sso',
-    'core.apps.CoreConfig',
     'wagtail.admin',
+    'core.apps.CoreConfig',
     'cms_extras.apps.CmsExtrasConfig',
     'domestic',
     'exportplan.apps.ExportPlanConfig',
@@ -989,6 +989,3 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False,
     'PREPROCESSING_HOOKS': ['config.preprocessors.preprocessing_filter_admin_spec'],
 }
-
-# Data Workspace
-DATA_WORKSPACE_DATASETS_URL = env.str('DATA_WORKSPACE_DATASETS_URL', 'postgresql://')

@@ -102,7 +102,9 @@ jobs:
       - *install_postgresql_client
       - restore_cache:
           key: v1-deps-{{ checksum "requirements_test.txt" }}
-      - browser-tools/install-chrome
+      - run: sudo apt-get update
+      - browser-tools/install-chrome:
+          chrome-version: "116.0.5845.110"
       - browser-tools/install-chromedriver
       - run:
           name: Install Allure CLI
