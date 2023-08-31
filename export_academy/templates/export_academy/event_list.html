@@ -73,16 +73,6 @@
                                     <h2 class="past-year-seperator govuk-!-padding-left-3 govuk-!-padding-bottom-30">{{event.past_year_seperator}}</h2>
                                 {%endif%}
                                     <h4 class="govuk-!-padding-left-3 govuk-!-padding-right-3 event-title">{{ event.name }}</h4>
-                                <div class="govuk-!-padding-left-3 govuk-!-padding-right-3 great-display-until-tablet">
-                                    {% include 'export_academy/includes/event_duration.html' %}
-
-                                    {% is_logged_in as show_logged_in_features %}
-                                    {% if show_logged_in_features  %}
-                                    <div class="govuk-!-margin-bottom-3">
-                                        {% event_list_badges event %}
-                                    </div>
-                                    {% endif %}
-                                </div>
 
                                 <div class="govuk-grid-column-one-quarter govuk-!-text-align-centre">
                                     <div class="event-wrapper great-background-light-blue">
@@ -100,20 +90,7 @@
                                     </div>
                                 </div>
                                 <div class="govuk-grid-column-three-quarters">
-                                    <div class="great-display-from-tablet">
-                                        {% include 'export_academy/includes/event_duration.html' %}
-                                    </div>
-
-                                    {% is_logged_in as show_logged_in_features %}
-                                    {% if show_logged_in_features  %}
-                                    <div class="govuk-!-margin-bottom-1 great-display-from-tablet">
-                                        {% event_list_badges event %}
-                                    </div>
-                                    {% endif %}
-
                                     <p class='event-description'>{{event.description}}</p>
-
-                                    {% event_list_buttons event %}
                                 </div>
                             </div>
                             {% endfor %}
