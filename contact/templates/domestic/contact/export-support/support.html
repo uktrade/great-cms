@@ -17,11 +17,7 @@
     <div class="great-container">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
-                {% if request.GET.topic %}
-                    <p class="govuk-body govuk-!-margin-top-7 govuk-!-margin-bottom-0">Support</p>
-                    <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">{{ request.GET.topic }}</h1>
-                {% else %}
-                <div class="govuk-grid-row great-height-360-desktop great-overflow-hidden">
+                <div class="govuk-grid-row great-dep-triage-hero">
                     <div class="govuk-grid-column-one-third">
                         {% if page.page_title %}
                             <h1 class="govuk-heading-xl govuk-!-margin-top-8 govuk-!-margin-bottom-2">{{ page.page_title }}</h1>
@@ -38,29 +34,41 @@
                     </div>
                     {% endif %}
                 </div>
-                {% endif %}
                 {% if page.page_body %}
-                    {% if request.GET.topic %}
-                    <div class="govuk-grid-row">
-                        <div class="govuk-grid-column-three-quarters">
-                            <div class="govuk-!-padding-top-6 great-display-flex-desktop great-card-wrapper">
-                                {% include 'domestic/contact/export-support/includes/topic-landing-card.html' with cards=page.page_body %}
+                    <div class="govuk-!-padding-top-7 great-full-width-bar great-bg-light-blue">
+                        <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Online answers</h2>
+                        <p class="govuk-body govuk-!-margin-bottom-0">Get your answer quickly with 24/7 access to our range of support tools, services and how-to articles.</p>
+                        <div class="govuk-grid-row govuk-!-padding-top-7">
+                            <div class="govuk-grid-column-three-quarters">
+                                <div class="govuk-!-padding-bottom-4 great-display-flex-desktop great-card-wrapper">
+                                    {% include 'domestic/contact/export-support/includes/topic-card.html' with topics=page.page_body %}
+                                </div>
+                                <hr class="govuk-!-margin-top-0 govuk-!-margin-bottom-7 great-hr-blue" />
                             </div>
-                            <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-bg-white great-display-flex-desktop great-related-items">
-                                {% include 'domestic/contact/export-support/includes/related-items.html' with items=page.page_body %}
+                            <div class="govuk-grid-column-one-quarter govuk-!-margin-bottom-7">
+                                <div class="great-dep-tools-and-services">
+                                    <h2 class="govuk-heading-s govuk-!-margin-bottom-5 govuk-!-padding-bottom-1 great-border-bottom-blue">Popular tools and services</h2>
+                                    <div data-ga-digital-entry-point>
+                                        <span class="govuk-!-margin-bottom-3 govuk-tag great-tag" data-category="topic">Topic</span>
+                                        <h3 class="govuk-heading-xs govuk-!-margin-bottom-2" data-title="Account management">Account management</h3>
+                                        <p class="govuk-body govuk-!-margin-bottom-2" data-location="sidebar">Setup your profile before your search for opportunities.</p>
+                                        <a href="/profile/about/" class="govuk-link great-text-blue great-chevron-link"  target="_blank">Manage your account</a>
+                                    </div>
+                                    <hr class="govuk-!-margin-top-4 govuk-!-margin-bottom-7 great-hr-blue great-hr-blue--thin" />
+                                </div>
                             </div>
-                            <p class="govuk-body-l great-display-flex-desktop great-justify-content-end great-align-items-center">Can't find what your looking for? <a href="/support/get-in-touch" class="govuk-button great-min-300-button govuk-!-margin-bottom-0 govuk-!-margin-left-4">Get in touch</a></p>
                         </div>
-                        <div class="govuk-grid-column-one-quarter govuk-!-padding-top-6">
-                            {% include 'domestic/contact/export-support/includes/sidebar-items.html' with items=page.page_body %}
+                        <div class="govuk-grid-row govuk-!-margin-bottom-9">
+                            <div class="govuk-grid-column-one-half">
+                                <h2 class="govuk-heading-m govuk-!-margin-bottom-7">Can't find your answer?</h2>
+                                <div class="govuk-!-padding-6 great-bg-white">
+                                    <h3 class="govuk-heading-xs govuk-!-margin-bottom-5">Ask any question</h3>
+                                    <p class="govuk-body govuk-!-margin-bottom-4">Contact the Export Support Service for questions on rules, paperwork, markets and much more.</p>
+                                    <a href="/support/get-in-touch" class="govuk-button govuk-!-margin-bottom-4">Contact us</a>
+                                    <p class="govuk-body govuk-!-margin-bottom-0">We aim to respond in 3 working days.</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    {% else %}
-                    <div class="great-full-width-bar great-bg-lighter-grey">
-                        <div class="govuk-!-padding-top-6 govuk-!-padding-bottom-9 great-display-flex-desktop great-card-wrapper">
-                            {% include 'domestic/contact/export-support/includes/topic-card.html' with topics=page.page_body %}
-                        </div>
-                    {% endif %}
                     </div>
                 {% endif %}
             </div>
