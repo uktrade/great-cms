@@ -3,11 +3,10 @@
         {% for block in topic.value %}
         <a
             href="{{block.value.link_url}}"
-            class="govuk-!-margin-right-6 govuk-!-margin-bottom-6 govuk-!-padding-6 great-topic-card great-min-height-300-desktop"
+            class="govuk-!-margin-right-6 govuk-!-margin-bottom-6 govuk-!-padding-6 great-topic-card great-min-height-300"
             data-ga-digital-entry-point
         >
-            <span class="govuk-tag great-tag" data-category="topic">Topic</span>
-            <h3 class="govuk-heading-xs govuk-!-margin-top-3 govuk-!-margin-bottom-2" data-title="{{block.value}}">{{block.value.title}}</h3>
+            <h3 class="govuk-heading-xs govuk-!-margin-bottom-2" data-title="{{block.value}}">{{block.value.title}}</h3>
             <p class="govuk-body govuk-!-margin-bottom-2">{{block.value.description}}</p>
             <span class="govuk-link great-text-blue great-chevron-link">{{block.value.link_text}}</span>
         </a>
