@@ -35,7 +35,17 @@
                     </span>
                     {% endif %}
                 </p>
-                <p class="govuk-body">{{event.description}}</p>
+                <p class="govuk-body govuk-!-margin-bottom-7">{{event.description}}</p>
+
+                {% if event_document %}
+                    <a href="{{ event_document.url }}"
+                       target="_blank"
+                       class="govuk-link ukea-ga-tracking"
+                       title="Download slide deck for {{ event.name }}">
+                          <i class="fa fa-download govuk-!-margin-right-1" aria-hidden="true"></i>
+                          Download slide deck (PDF {{ event_document_size }})<span class="great-visually-hidden"> for {{ event.name }}</span>
+                    </a>
+                {% endif %}
             </div>
         </div>
     </div>

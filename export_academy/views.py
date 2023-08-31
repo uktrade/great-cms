@@ -1,4 +1,5 @@
 import logging
+import math
 from datetime import timedelta
 from uuid import uuid4
 
@@ -27,6 +28,7 @@ from directory_sso_api_client import sso_api_client
 from export_academy import filters, forms, helpers, models
 from export_academy.helpers import (
     calender_content,
+    get_badges_for_event,
     get_buttons_for_event,
     update_booking,
 )
@@ -57,6 +59,14 @@ class EventListView(GA360Mixin, core_mixins.GetSnippetContentMixin, FilterView, 
             site_section='export-academy',
             site_subsection='events',
         )
+
+    def get_buttons_for_event(self, event):
+        user = self.request.user
+        return get_buttons_for_event(user, event)
+
+    def get_badges_for_event(self, event):
+        user = self.request.user
+        return get_badges_for_event(user, event)
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
@@ -124,7 +134,7 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, TemplateView):
         return ctx
 
 
-class EventDetailsView(DetailView):
+class EventVideoView(DetailView):
     template_name = 'export_academy/event_details.html'
     model = models.Event
 
@@ -138,6 +148,15 @@ class EventDetailsView(DetailView):
         if video:
             ctx['event_video'] = {'video': video}
             ctx['video_duration'] = format_timedelta(timedelta(seconds=event.video_recording.duration))
+
+        document = getattr(event, 'document', None)
+        completed = getattr(event, 'completed', None)
+
+        if document and completed:
+            document = getattr(event, 'document')
+            ctx['event_document'] = {'event_document': document}
+            ctx['event_document_size'] = f'{math.floor(document.file_size * 0.001)}KB'
+            ctx['event_document_name'] = document.name
 
         return ctx
 

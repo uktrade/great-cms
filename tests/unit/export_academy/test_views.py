@@ -461,9 +461,9 @@ def test_export_academy_booking_cancellation_success(mock_notify_cancellation, c
 
 
 @pytest.mark.django_db
-def test_event_detail_view_with_video(client, user):
+def test_event_video_view_with_video(client, user):
     event = factories.EventFactory(name='Test event name', description='Test description')
-    url = reverse('export_academy:event-details', kwargs=dict(pk=event.id))
+    url = reverse('export_academy:event-video', kwargs=dict(pk=event.id))
     client.force_login(user)
 
     response = client.get(url)
@@ -484,7 +484,7 @@ def test_event_detail_view_with_video(client, user):
 @pytest.mark.django_db
 def test_event_detail_view_with_booking(client, user):
     event = factories.EventFactory(name='Test event name', description='Test description')
-    url = reverse('export_academy:event-details', kwargs=dict(pk=event.id))
+    url = reverse('export_academy:event-video', kwargs=dict(pk=event.id))
     registration = factories.RegistrationFactory(email=user.email)
     booking = factories.BookingFactory(event=event, registration=registration, status='Confirmed')
     client.force_login(user)
@@ -501,7 +501,7 @@ def test_event_detail_view_with_booking(client, user):
 @pytest.mark.django_db
 def test_event_detail_view_no_video(client, user):
     event = factories.EventFactory(video_recording=None)
-    url = reverse('export_academy:event-details', kwargs=dict(pk=event.id))
+    url = reverse('export_academy:event-video', kwargs=dict(pk=event.id))
     client.force_login(user)
     response = client.get(url)
 
