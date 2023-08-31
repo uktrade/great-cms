@@ -185,6 +185,7 @@ class EYBArticlesPageTests(WagtailPageTests):
         self.assertAllowedParentPageTypes(
             EYBArticlesPage,
             {
+                EYBGuidePage,
                 EYBArticlesPage,
             },
         )
