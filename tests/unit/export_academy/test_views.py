@@ -492,7 +492,7 @@ def test_event_video_view_with_document(client, user):
     response = client.get(url)
 
     assert response.status_code == 200
-    assert response.context['event_document']
+    assert response.context['event_document_url']
     assert response.context['event_document_size']
 
 
