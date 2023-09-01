@@ -37,8 +37,8 @@
                 </p>
                 <p class="govuk-body govuk-!-margin-bottom-7">{{event.description}}</p>
 
-                {% if event_document %}
-                    <a href="{{ event_document.url }}"
+                {% if event_document_url %}
+                    <a href="{{ event_document_url }}"
                        class="govuk-link ukea-ga-tracking"
                        title="Download slide deck for {{ event.name }}">
                           <i class="fa fa-download govuk-!-margin-right-1" aria-hidden="true"></i>

@@ -135,7 +135,7 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, TemplateView):
 
 
 class EventVideoView(DetailView):
-    template_name = 'export_academy/event_details.html'
+    template_name = 'export_academy/event_video.html'
     model = models.Event
 
     def get_context_data(self, **kwargs):
@@ -154,8 +154,8 @@ class EventVideoView(DetailView):
 
         if document and completed:
             document = getattr(event, 'document')
-            ctx['event_document'] = {'event_document': document}
             ctx['event_document_size'] = f'{math.floor(document.file_size * 0.001)}KB'
+            ctx['event_document_url'] = document.url
 
         return ctx
 
