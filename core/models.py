@@ -294,7 +294,7 @@ class Speaker(models.Model):
     ]
 
     def __str__(self):
-        return "{} {}".format(self.first_name, self.last_name)
+        return "{} - {}".format(self.name, self.role)
 
 
 class TimeStampedModel(models.Model):
