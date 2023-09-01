@@ -283,6 +283,20 @@ class IndustryTag(models.Model):
         return self.name
 
 
+@register_snippet
+class Speaker(models.Model):
+    name = models.CharField(max_length=255)
+    role = models.CharField(max_length=255)
+
+    panels = [
+        FieldPanel('name'),
+        FieldPanel('role'),
+    ]
+
+    def __str__(self):
+        return "{} {}".format(self.first_name, self.last_name)
+
+
 class TimeStampedModel(models.Model):
     """Modified version of django_extensions.db.models.TimeStampedModel
 

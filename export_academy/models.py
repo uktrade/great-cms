@@ -71,6 +71,11 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
     external_id = models.PositiveIntegerField(null=True)
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=2500, null=True)
+    detail = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
+    )
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     format = models.CharField(max_length=15, choices=FORMAT_CHOICES, default=ONLINE)
