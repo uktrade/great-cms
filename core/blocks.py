@@ -574,7 +574,14 @@ class CampaignFormBlock(blocks.StructBlock):
 class SupportCardBlock(blocks.StructBlock):
     image = ImageChooserBlock(required=False, label=_('Card Image'))
     type = blocks.ChoiceBlock(
-        choices=[('govuk', _('GOV.UK')), ('tools', _('Tools')), ('howTo', _('How to'))], label=_('Type')
+        choices=[
+            ('govuk', _('GOV.UK')),
+            ('tools', _('Tools')),
+            ('howTo', _('How to')),
+            ('topic', _('Topic')),
+            ('service', _('Service')),
+        ],
+        label=_('Type'),
     )
     title = blocks.CharBlock(max_length=255, label=_('Title'))
     description = blocks.CharBlock(max_length=255, label=_('Description'))
