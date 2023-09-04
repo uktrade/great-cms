@@ -464,6 +464,8 @@ wagtail-cache==2.2.0
     # via -r requirements.in
 wagtail-factories==2.0.1
     # via -r requirements.in
+wagtail-font-awesome-svg==0.0.3
+    # via -r requirements.in
 wagtail-localize==1.4
     # via -r requirements.in
 wagtail-seo==2.3.0
