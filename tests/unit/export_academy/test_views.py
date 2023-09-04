@@ -514,7 +514,7 @@ def test_event_video_view_no_video(client, user):
 
 @pytest.mark.django_db
 def test_event_video_view_with_video_and_document(client, user, test_uuid):
-    document = DocumentFactory(id=test_uuid, file_size=13754, url='/admin/media/document/1/')
+    document = DocumentFactory()
     event = factories.EventFactory(name='Test event name', description='Test description', document=document)
     url = reverse('export_academy:event-video', kwargs=dict(pk=event.id))
     client.force_login(user)
@@ -528,15 +528,15 @@ def test_event_video_view_with_video_and_document(client, user, test_uuid):
 
 @pytest.mark.django_db
 def test_event_video_view_with_video_no_document(client, user, test_uuid):
-    event = factories.EventFactory(name='Test event name', description='Test description')
+    event = factories.EventFactory(name='Test event name', description='Test description', document=None)
     url = reverse('export_academy:event-video', kwargs=dict(pk=event.id))
     client.force_login(user)
 
     response = client.get(url)
 
     assert response.status_code == 200
-    assert not response.context['event_document_size']
-    assert not response.context['event_document_url']
+    assert not response.context.get('event_document_size')
+    assert not response.context.get('event_document_url')
     assert response.context['event_video']
     assert response.context['video_duration']
 

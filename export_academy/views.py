@@ -154,7 +154,7 @@ class EventVideoView(DetailView):
 
         if document and completed:
             document = getattr(event, 'document')
-            ctx['event_document_size'] = f'{math.floor(document.file_size * 0.001)}KB'
+            ctx['event_document_size'] = f'{math.floor(document.file_size * 0.001)}KB' if document.file_size else '0KB'
             ctx['event_document_url'] = document.url
 
         return ctx
