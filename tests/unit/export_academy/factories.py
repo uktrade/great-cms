@@ -61,6 +61,8 @@ class BookingFactory(factory.django.DjangoModelFactory):
     event = factory.SubFactory(EventFactory)
     registration = factory.SubFactory(RegistrationFactory)
     status = factory.fuzzy.FuzzyChoice([i[0] for i in Booking.STATUSES])
+    details_viewed = timezone.localtime()
+    cookies_accepted_on_details_view = False
 
     class Meta:
         model = Booking
