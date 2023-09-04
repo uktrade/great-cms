@@ -293,6 +293,9 @@ class Speaker(models.Model):
         FieldPanel('role'),
     ]
 
+    class Meta:
+        ordering = ('name',)
+
     def __str__(self):
         return "{} - {}".format(self.name, self.role)
 

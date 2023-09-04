@@ -13,6 +13,11 @@ class BookingsInlinePanel(InlinePanel):
         template_name = 'wagtailadmin/export_academy/panels/bookings_inline_panel.html'
 
 
+class SpeakersInlinePanel(InlinePanel):
+    class BoundPanel(InlinePanel.BoundPanel):
+        template_name = 'wagtailadmin/export_academy/panels/bookings_inline_panel.html'
+
+
 class ExportAcademyPagePanels:
     content_panels = [
         FieldPanel('title'),
@@ -74,6 +79,7 @@ class EventPanel:
             children=[
                 FieldPanel('name'),
                 FieldPanel('description'),
+                FieldPanel('detail'),
                 FieldPanel('link'),
                 FieldPanel('format'),
                 FieldPanel('types', heading='Types'),
@@ -100,10 +106,12 @@ class EventPanel:
     ]
 
     attendance_panel = [BookingsInlinePanel('bookings', panels=[FieldPanel('status')], label='Bookings')]
+    speaker_panel = [SpeakersInlinePanel('bookings', panels=[FieldPanel('status')], label='Bookings')]
 
     edit_handler = TabbedInterface(
         [
             ObjectList(event_panel, heading='Event'),
             ObjectList(attendance_panel, heading='Attendance'),
+            ObjectList(speaker_panel, heading='Speakers'),
         ]
     )
