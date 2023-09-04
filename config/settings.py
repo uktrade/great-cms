@@ -91,6 +91,7 @@ INSTALLED_APPS = [
     'export_academy.apps.ExportAcademyConfig',
     'django_celery_beat',
     'drf_spectacular',
+    'wagtailfontawesomesvg',
 ]
 
 MIDDLEWARE = [
