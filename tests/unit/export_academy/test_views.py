@@ -5,11 +5,11 @@ from datetime import datetime, timedelta
 from unittest import mock
 
 import pytest
-import wagtail_factories
 from directory_forms_api_client import actions
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
+from wagtail_factories import DocumentFactory
 
 from config import settings
 from core.models import HeroSnippet
@@ -464,7 +464,7 @@ def test_export_academy_booking_cancellation_success(mock_notify_cancellation, c
 @pytest.mark.django_db
 def test_event_video_view_with_video(client, user):
     event = factories.EventFactory(name='Test event name', description='Test description')
-    url = reverse('export_academy:event-video', kwargs=dict(pk=event.id))
+    url = reverse('export_academy:event-details', kwargs=dict(pk=event.id))
     client.force_login(user)
 
     response = client.get(url)
@@ -483,23 +483,9 @@ def test_event_video_view_with_video(client, user):
 
 
 @pytest.mark.django_db
-def test_event_video_view_with_document(client, user):
-    document = wagtail_factories.DocumentFactory(file_size=1395)
-    event = factories.EventFactory(name='Test event name', description='Test description', document=document)
-    url = reverse('export_academy:event-video', kwargs=dict(pk=event.id))
-    client.force_login(user)
-
-    response = client.get(url)
-
-    assert response.status_code == 200
-    assert response.context['event_document_url']
-    assert response.context['event_document_size']
-
-
-@pytest.mark.django_db
 def test_event_video_view_with_booking(client, user):
     event = factories.EventFactory(name='Test event name', description='Test description')
-    url = reverse('export_academy:event-video', kwargs=dict(pk=event.id))
+    url = reverse('export_academy:event-details', kwargs=dict(pk=event.id))
     registration = factories.RegistrationFactory(email=user.email)
     booking = factories.BookingFactory(event=event, registration=registration, status='Confirmed')
     client.force_login(user)
@@ -514,9 +500,9 @@ def test_event_video_view_with_booking(client, user):
 
 
 @pytest.mark.django_db
-def test_event_detail_view_no_video(client, user):
+def test_event_video_view_no_video(client, user):
     event = factories.EventFactory(video_recording=None)
-    url = reverse('export_academy:event-video', kwargs=dict(pk=event.id))
+    url = reverse('export_academy:event-details', kwargs=dict(pk=event.id))
     client.force_login(user)
     response = client.get(url)
 
@@ -524,6 +510,35 @@ def test_event_detail_view_no_video(client, user):
     assert not response.context.get('event_video')
     assert not response.context.get('video_duration')
     assert 'This video is no longer available.' in str(response.rendered_content)
+
+
+@pytest.mark.django_db
+def test_event_video_view_with_video_and_document(client, user, test_uuid):
+    document = DocumentFactory(id=test_uuid, file_size=13754, url='/admin/media/document/1/')
+    event = factories.EventFactory(name='Test event name', description='Test description', document=document)
+    url = reverse('export_academy:event-details', kwargs=dict(pk=event.id))
+    client.force_login(user)
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.context['event_document_size']
+    assert response.context['event_document_url']
+
+
+@pytest.mark.django_db
+def test_event_video_view_with_video_no_document(client, user, test_uuid):
+    event = factories.EventFactory(name='Test event name', description='Test description')
+    url = reverse('export_academy:event-details', kwargs=dict(pk=event.id))
+    client.force_login(user)
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert not response.context['event_document_size']
+    assert not response.context['event_document_url']
+    assert response.context['event_video']
+    assert response.context['video_duration']
 
 
 @pytest.mark.django_db
