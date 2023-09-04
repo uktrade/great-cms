@@ -451,14 +451,16 @@ wagtail==4.2.2
     # via
     #   -r requirements.in
     #   wagtail-cache
+    #   wagtail-draftail-anchors
     #   wagtail-factories
     #   wagtail-localize
     #   wagtail-seo
     #   wagtail-transfer
     #   wagtail-trash
     #   wagtailmedia
-    #   wagtailset
 wagtail-cache==2.2.0
+    # via -r requirements.in
+wagtail-draftail-anchors==0.6.0
     # via -r requirements.in
 wagtail-factories==2.0.1
     # via -r requirements.in
@@ -473,8 +475,6 @@ wagtail-transfer==0.9.1
 wagtail-trash==1.0.0
     # via -r requirements.in
 wagtailmedia==0.14.0
-    # via -r requirements.in
-wagtailset==1.0.0
     # via -r requirements.in
 wcwidth==0.2.6
     # via prompt-toolkit
