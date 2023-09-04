@@ -202,10 +202,12 @@ class ActivityStreamExportAcademyBookingSerializer(serializers.ModelSerializer):
 
     eventId = serializers.UUIDField(source='event_id')  # noqa: N815
     registrationId = serializers.UUIDField(source='registration_id')  # noqa: N815
+    detailsViewed = serializers.DateTimeField(source='details_viewed')  # noqa: N815
+    cookiesAcceptedOnDetailsView = serializers.BooleanField(source='cookies_accepted_on_details_view')  # noqa: N815
 
     class Meta:
         model = Booking
-        fields = ['eventId', 'registrationId', 'status']
+        fields = ['eventId', 'registrationId', 'status', 'detailsViewed', 'cookiesAcceptedOnDetailsView']
 
     def to_representation(self, instance):
         """
