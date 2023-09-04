@@ -606,6 +606,28 @@ class SignInView(HandleNewAndExistingUsersMixin, sso_mixins.SignInMixin, FormVie
         return ctx
 
 
+class EventsDetailsView(DetailView):
+    template_name = 'export_academy/events_details.html'
+    model = models.Event
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+
+        # video_render tag which helps in adding subtitles
+        # needs input in specific way as below
+        event: models.Event = kwargs.get('object', {})
+        video = getattr(event, 'video_recording', None)
+        if video:
+            ctx['event_video'] = {'video': video}
+            ctx['video_duration'] = format_timedelta(timedelta(seconds=event.video_recording.duration))
+
+        return ctx
+
+    def get(self, request, *args, **kwargs):
+        update_booking(request.user.email, kwargs['pk'], request)
+        return super().get(request, *args, **kwargs)
+
+
 class SignUpCompleteView(TemplateView):
     template_name = 'export_academy/accounts/signup_complete.html'
 
