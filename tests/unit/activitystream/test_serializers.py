@@ -342,6 +342,8 @@ def test_ukea_booking_serializer():
         'object': {
             'id': f'dit:exportAcademy:booking:{instance.id}',
             'type': 'dit:exportAcademy:booking',
+            'cookiesAcceptedOnDetailsView': instance.cookies_accepted_on_details_view,
+            'detailsViewed': instance.details_viewed.isoformat(),
             'created': instance.created.isoformat(),
             'modified': instance.modified.isoformat(),
             'eventId': instance.event_id,
