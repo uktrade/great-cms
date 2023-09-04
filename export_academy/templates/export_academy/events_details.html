@@ -1,0 +1,99 @@
+{% extends 'domestic/base.html' %}
+{% load static %}
+{% load event_list_buttons %}
+{% load wagtailcore_tags %}
+{% load breadcrumbs from component_tags %}
+{% load pagination from component_tags %}
+{% load replace_underscores from component_tags %}
+{% load append_past_year_seperator from component_tags %}
+{% load video_tags %}
+
+{% block head_title %}Events – UK Export Academy{% endblock %}
+
+{% block content %}
+<div class="great">
+    <div id="breadcrumbs" class="great-display-from-tablet">
+        {% breadcrumbs event.name %}
+            <a href="/">great.gov.uk</a>
+            <a href="/events">events</a>
+        {% endbreadcrumbs %}
+    </div>
+    <div class="great-bg-white govuk-!-padding-top-9 govuk-!-padding-bottom-6">
+        <div class="great-container event-details-header-container">
+            <div class="event-details-header-info">
+                <h4>{{event.format|replace_underscores}} event</h4>
+                <h2>{{event.name}}</h2>
+                <ul>
+                    <li>
+                        <time>
+                            {{ event.start_date|date:"D" }} {{ event.start_date|date:"j M" }} at {{ event.start_date|date:"g:iA"|lower }}
+                        </time>
+                    </li>
+
+                    {%if event.location%}
+                        <li>{{event.location}}</li>
+                    {%endif%}
+                </ul>
+                {% include 'export_academy/includes/event_badges.html' %}
+            </div>
+            <div class="event-details-header-logo">
+                <img class="ea-logo" src="/static/images/uk-export-academy-logo.svg" />
+            </div>
+        </div>
+    </div>
+
+    <div class="great-container govuk-!-static-padding-top-4 govuk-!-static-padding-bottom-4">
+        {% if event_video %}
+            <div class="govuk-!-margin-top-4 govuk-!-margin-bottom-6 great-media-container">
+                {% render_video event_video %}
+            </div>
+        {% else %}
+            <div class="govuk-warning-text great-max-width-75 govuk-!-margin-top-4 govuk-!-padding-0">
+                <span class="great-warning-text__icon govuk-!-margin-top-1" aria-hidden="true">!</span>
+                <strong class="govuk-warning-text__text great-padding-left-35">
+                    <span class="govuk-warning-text__assistive">Warning</span>
+                    This video is no longer available. Event recordings are only available for 4 weeks after the event.
+                </strong>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="great-bg-white govuk-!-static-padding-top-4 event-details-main-content">
+        <div class="great-container govuk-grid-column-two-thirds-from-desktop">
+            {% comment %} <div class="govuk-grid-column-two-thirds-from-desktop"> {% endcomment %}
+                <div class="event-metadata govuk-!-static-padding-bottom-7 govuk-!-static-padding-top-2">
+                    <div>
+                        <p>Duration</p>
+                        <p>Content</p>
+                    </div>
+
+                    <div>
+                        <p>{{ event.start_date|timesince:event.end_date }}</p>
+                        <a class="govuk-link" href=''>Link to somewhere</a>
+                    </div>
+                </div>
+
+                <div class="event-details-summary govuk-!-static-padding-top-6 govuk-!-static-padding-bottom-4">
+                    <p class="govuk-!-static-margin-0">Understand the key benefits and barriers of exporting and how to create an export plan.</p>
+                </div>
+                <div class="event-details-what-you-will-learn govuk-!-static-padding-bottom-6">
+                    <h3 class="govuk-!-static-padding-bottom-4">What you will learn</h3>
+                    <p class="govuk-!-static-margin-0">Understand the key benefits and barriers of exporting and how to create an export plan.</p>
+                </div>
+                {%if event.description%}
+                    <div class="event-details-description govuk-!-static-padding-bottom-6">
+                        <h3 class="govuk-!-static-padding-bottom-4">Description</h3>
+                        <p class="govuk-!-static-margin-0">{{event.description}}</p>
+                    </div>
+                {%endif%}
+                <div class="event-details-speakers govuk-!-static-padding-bottom-6">
+                    <h3 class="govuk-!-static-padding-bottom-2 govuk-!-static-padding-bottom-4">Speakers</h3>
+                    <h5 class="govuk-!-static-padding-bottom-2">Speaker 1</h5>
+                    <p class='job-title govuk-!-static-margin-0 govuk-!-static-padding-bottom-2'>CPTPP Trade Adviser, Department for Business and Trade</p>
+                    <p class="govuk-!-static-margin-0">Anita is a trade adviser with over 14 years of experience in the field. She is an expert on the Comprehensive and Progressive Agreement for Trans-Pacific Partnership (CPTPP), and has worked on a number of trade deals.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
