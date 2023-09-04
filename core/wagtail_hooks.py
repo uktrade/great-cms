@@ -539,3 +539,8 @@ def register_image_chooser_viewset():
         name='alt_wagtailimages_chooser',
         url_prefix='images/chooser',
     )
+
+
+@hooks.register('register_icons')
+def register_icons(icons):
+    return icons + ['wagtailfontawesomesvg/solid/video.svg']
