@@ -8,7 +8,7 @@ from .models import ContactSuccessSnippet, ContactUsGuidanceSnippet
 class ContactSuccessSnippetAdmin(ModelAdmin):
     model = ContactSuccessSnippet
     exclude_from_explorer = False
-    menu_icon = 'fa-check'
+    menu_icon = 'check'
     list_display = [
         'internal_title',
     ]
@@ -18,7 +18,7 @@ class ContactSuccessSnippetAdmin(ModelAdmin):
 class ContactUsGuidanceSnippetAdmin(ModelAdmin):
     model = ContactUsGuidanceSnippet
     exclude_from_explorer = False
-    menu_icon = 'fa-check'
+    menu_icon = 'check'
     list_display = [
         'internal_title',
     ]
