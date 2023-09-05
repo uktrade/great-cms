@@ -70,7 +70,7 @@ INSTALLED_APPS = [
     'sso',
     'wagtail.admin',
     'core.apps.CoreConfig',
-    'wagtailset.draftail_anchors',
+    'wagtail_draftail_anchors',
     'cms_extras.apps.CmsExtrasConfig',
     'domestic',
     'exportplan.apps.ExportPlanConfig',
@@ -992,4 +992,4 @@ SPECTACULAR_SETTINGS = {
 }
 
 # Wagtail Draftail Anchors
-DRAFTAIL_ANCHORS_RENDERER = env.str('DRAFTAIL_ANCHORS_RENDERER', 'wagtailset.draftail_anchors.rich_text.render_span')
+DRAFTAIL_ANCHORS_RENDERER = env.str('DRAFTAIL_ANCHORS_RENDERER', 'wagtail_draftail_anchors.rich_text.render_span')
