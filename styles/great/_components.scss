@@ -815,6 +815,11 @@ figure.great-blockquote {
   }
 }
 
+.great-topic-card--quarter-width {
+  flex-basis: calc(25% - 30px);
+  height: auto;
+}
+
 .great-topic-card--half-width {
   flex-basis: calc(50% - 30px);
 }
