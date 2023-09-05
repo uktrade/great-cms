@@ -342,3 +342,32 @@ p.job-title{
 }
 
 }
+
+
+.event-details-media-wrapper{
+    display: inline-flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    .great-media-container{
+    max-width: 810px;
+    }
+
+    >div:nth-child(2){
+         width: calc(30% - 30px);
+         flex-grow: 1;
+
+        .event-details-video-warning{
+    display: flex;
+
+         flex-direction: column;
+         gap:20px;
+
+         >div:first-of-type{
+            display: flex;
+            align-items: center;
+         }
+
+}
+
+    }
+}
