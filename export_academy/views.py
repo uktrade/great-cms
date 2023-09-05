@@ -623,6 +623,14 @@ class EventsDetailsView(DetailView):
 
         return ctx
 
+    def get_buttons_for_event(self, event):
+        user = self.request.user
+        return get_buttons_for_event(user, event)
+
+    def get_badges_for_event(self, event):
+        user = self.request.user
+        return get_badges_for_event(user, event)
+
     def get(self, request, *args, **kwargs):
         update_booking(request.user.email, kwargs['pk'], request)
         return super().get(request, *args, **kwargs)
