@@ -681,7 +681,7 @@ class DetailPage(CMSGenericPage):
                 blocks.StructBlock(
                     [('paragraph', blocks.RichTextBlock())],
                     template='core/struct_paragraph_block.html',
-                    icon='fa-font',
+                    icon='font',
                 ),
             ),
             (
@@ -689,7 +689,7 @@ class DetailPage(CMSGenericPage):
                 blocks.StructBlock(
                     [('video', core_blocks.VideoBlock())],
                     template='core/struct_video_block.html',
-                    icon='fa-play',
+                    icon='play',
                 ),
             ),
             ('case_study', core_blocks.CaseStudyStaticBlock(icon='fa-book')),
@@ -702,12 +702,12 @@ class DetailPage(CMSGenericPage):
                 blocks.StructBlock(
                     [('fiction_body', blocks.RichTextBlock(icon='openquote'))],
                     template='learn/fictional_company_example.html',
-                    icon='fa-commenting-o',
+                    icon='comment-dots',
                 ),
             ),
             (
                 'ITA_Quote',
-                core_blocks.ITAQuoteBlock(icon='fa-quote-left'),
+                core_blocks.ITAQuoteBlock(icon='quote-left'),
             ),
             (
                 'pros_cons',
@@ -719,7 +719,7 @@ class DetailPage(CMSGenericPage):
                                 [
                                     (
                                         'item',
-                                        core_blocks.Item(icon='fa-arrow-right'),
+                                        core_blocks.Item(icon='arrow-right'),
                                     )
                                 ]
                             ),
@@ -730,14 +730,14 @@ class DetailPage(CMSGenericPage):
                                 [
                                     (
                                         'item',
-                                        core_blocks.Item(icon='fa-arrow-right'),
+                                        core_blocks.Item(icon='arrow-right'),
                                     )
                                 ]
                             ),
                         ),
                     ],
                     template='learn/pros_and_cons.html',
-                    icon='fa-arrow-right',
+                    icon='arrow-right',
                 ),
             ),
             ('choose_do_not_choose', core_blocks.ChooseDoNotChooseBlock()),
@@ -764,7 +764,7 @@ class DetailPage(CMSGenericPage):
                 'recap_item',
                 blocks.StructBlock(
                     [
-                        ('title', blocks.CharBlock(icon='fa-header')),
+                        ('title', blocks.CharBlock(icon='heading')),
                         (
                             'item',
                             blocks.StreamBlock(
@@ -778,7 +778,7 @@ class DetailPage(CMSGenericPage):
                         ),
                     ],
                     template='learn/recap.html',
-                    icon='fa-commenting-o',
+                    icon='comment-dots',
                 ),
             )
         ],
@@ -1784,8 +1784,7 @@ class GetInTouchPage(cms_panels.GetInTouchPanels, Page):
     page_title = models.TextField(
         null=True,
     )
-    page_teaser = RichTextField(
-        blank=True,
+    page_teaser = models.TextField(
         null=True,
     )
     page_body = StreamField(

@@ -25,6 +25,7 @@ from core.templatetags.content_tags import (
     make_bold,
     str_to_datetime,
     tag_text_mapper,
+    url_type,
 )
 from core.templatetags.object_tags import get_item
 from core.templatetags.progress_bar import progress_bar
@@ -764,4 +765,16 @@ def test_highlighted_text():
 )
 def test_tag_text_mapper(input, expected_output):
     result = tag_text_mapper(input)
+    assert result == expected_output
+
+
+@pytest.mark.parametrize(
+    'input, expected_output',
+    (
+        ('https://www.gov.uk/', 'external'),
+        ('/learn', 'internal'),
+    ),
+)
+def test_url_type(input, expected_output):
+    result = url_type(input)
     assert result == expected_output

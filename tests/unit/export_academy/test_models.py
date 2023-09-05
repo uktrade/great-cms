@@ -8,14 +8,16 @@ from export_academy.models import Booking
 from .factories import BookingFactory, EventFactory, RegistrationFactory
 
 
-@pytest.mark.parametrize(
-    'factory,attrs',
-    ((EventFactory, ['id', 'name']), (RegistrationFactory, ['email'])),
-)
 @pytest.mark.django_db
-def test_model_to_string(factory, attrs):
-    instance = factory()
-    assert str(instance) == ':'.join([str(getattr(instance, attr)) for attr in attrs])
+def test_event_model_to_string():
+    instance = EventFactory()
+    assert str(instance) == f"{instance.name} ({instance.start_date.strftime('%d-%m-%Y')})"
+
+
+@pytest.mark.django_db
+def test_registration_model_to_string():
+    instance = RegistrationFactory()
+    assert str(instance) == instance.email
 
 
 @pytest.mark.parametrize('status,is_cancelled', ((Booking.CANCELLED, True), (Booking.CONFIRMED, False)))

@@ -2,6 +2,7 @@ import calendar
 import datetime
 import logging
 import math
+import re
 from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
@@ -323,3 +324,11 @@ def tag_text_mapper(text):
         return 'GOV.UK'
 
     return text
+
+
+@register.filter
+def url_type(url):
+    if re.search('gov.uk', url):
+        return 'external'
+    else:
+        return 'internal'

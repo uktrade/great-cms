@@ -1,4 +1,4 @@
-{% load tag_text_mapper from content_tags %}
+{% load tag_text_mapper url_type from content_tags %}
 
 {% for item in items %}
     {% if item.block_type == 'cards' %}
@@ -8,7 +8,7 @@
                 <span class="govuk-tag great-tag great-tag--{{block.value.type}}" data-category="{{block.value.type|tag_text_mapper}}">{{block.value.type|tag_text_mapper}}</span>
                 <h2 class="govuk-heading-xs govuk-!-margin-top-3 govuk-!-margin-bottom-2" data-title="{{block.value.title}}">{{block.value.title}}</h2>
                 <p class="govuk-body govuk-!-margin-bottom-2" data-location="related-items">{{block.value.description}}</p>
-                <a href="{{block.value.link_url}}" class="govuk-link great-text-blue" target="_blank" rel="noopener noreferrer">{{block.value.link_text}}</a>
+                <a href="{{block.value.link_url}}" class="govuk-link great-text-blue great-link--{{block.value.link_url|url_type}}" target="_blank" rel="noopener noreferrer">{{block.value.link_text}}</a>
             </div>
             {% endif %}
         {% endfor %}

@@ -143,7 +143,6 @@ django==4.1.10
     #   sigauth
     #   wagtail
     #   wagtail-localize
-    #   wagtailfontawesome
     #   wagtailmedia
 django-celery-beat==2.5.0
     # via -r requirements.in
@@ -242,7 +241,7 @@ jsonschema==3.2.0
     #   directory-components
     #   drf-spectacular
     #   great-components
-kombu==5.3.1
+kombu==5.3.2
     # via celery
 l18n==2021.3
     # via wagtail
@@ -304,7 +303,7 @@ pyhanko-certvalidator==0.23.0
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==3.15.4
+pypdf==3.15.5
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -391,7 +390,7 @@ six==1.16.0
     #   w3lib
 snowballstemmer==2.2.0
     # via sphinx
-soupsieve==2.4.1
+soupsieve==2.5
     # via beautifulsoup4
 sphinx==1.8.6
     # via -r requirements.in
@@ -430,7 +429,7 @@ uk-postcode-utils==1.1
     # via -r requirements.in
 uritemplate==4.1.1
     # via drf-spectacular
-uritools==4.0.1
+uritools==4.0.2
     # via pyhanko-certvalidator
 urllib3==1.26.16
     # via
@@ -452,17 +451,20 @@ wagtail==4.2.2
     # via
     #   -r requirements.in
     #   wagtail-cache
+    #   wagtail-draftail-anchors
     #   wagtail-factories
     #   wagtail-localize
     #   wagtail-seo
     #   wagtail-transfer
     #   wagtail-trash
-    #   wagtailfontawesome
     #   wagtailmedia
-    #   wagtailset
 wagtail-cache==2.2.0
     # via -r requirements.in
+wagtail-draftail-anchors==0.6.0
+    # via -r requirements.in
 wagtail-factories==2.0.1
+    # via -r requirements.in
+wagtail-font-awesome-svg==0.0.3
     # via -r requirements.in
 wagtail-localize==1.4
     # via -r requirements.in
@@ -472,11 +474,7 @@ wagtail-transfer==0.9.1
     # via -r requirements.in
 wagtail-trash==1.0.0
     # via -r requirements.in
-wagtailfontawesome==1.2.1
-    # via -r requirements.in
 wagtailmedia==0.14.0
-    # via -r requirements.in
-wagtailset==1.0.0
     # via -r requirements.in
 wcwidth==0.2.6
     # via prompt-toolkit

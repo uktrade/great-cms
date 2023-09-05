@@ -1,3 +1,5 @@
+{% load url_type from content_tags %}
+
 {% for topic in topics %}
     {% if topic.block_type == 'topic_cards' %}
         {% for block in topic.value %}
@@ -8,7 +10,7 @@
         >
             <h3 class="govuk-heading-xs govuk-!-margin-bottom-2" data-title="{{block.value}}">{{block.value.title}}</h3>
             <p class="govuk-body govuk-!-margin-bottom-2">{{block.value.description}}</p>
-            <span class="govuk-link great-text-blue great-chevron-link">{{block.value.link_text}}</span>
+            <span class="govuk-link great-text-blue great-link--{{block.value.link_url|url_type}}">{{block.value.link_text}}</span>
         </a>
         {% endfor %}
     {% endif %}
