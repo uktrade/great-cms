@@ -424,6 +424,43 @@ figure.great-blockquote {
   }
 }
 
+.great-link--internal,
+.great-link--external {
+  position: relative;
+  padding-right: 25px;
+
+  &::after {
+    background-repeat: no-repeat;
+    background-position: 50%;
+    position: absolute;
+    display: inline-block;
+    content: '';
+    pointer-events: none;
+  }
+}
+
+.great-link--internal {
+  &::after {
+    background-image: url(/static/icons/internal-link.svg);
+    background-size: 8px;
+    height: 20px;
+    width: 26px;
+    top: 3px;
+    right: 0;
+  }
+}
+
+.great-link--external {
+  &::after {
+    background-image: url(/static/icons/external-link.svg);
+    background-size: 14px;
+    height: 21px;
+    width: 16px;
+    top: 2px;
+    right: 0;
+  }
+}
+
 .great-checkboxes-wrapper {
   max-height: 463px;
   overflow: auto;
@@ -753,9 +790,14 @@ figure.great-blockquote {
   background: $great-red;
 }
 
+.great-tag--service {
+  background: $great-dbt-green;
+}
+
 .great-topic-card {
   display: block;
   background: $great-white;
+  height: fit-content;
   text-decoration: none;
   width: calc(100%);
 
@@ -781,28 +823,30 @@ figure.great-blockquote {
   display: flex;
   position: relative;
   flex-basis: calc(100% - 30px);
+  flex-direction: column;
+
+  @include govuk-media-query($from: desktop) {
+    flex-direction: row;
+  }
 
   > div {
     flex-basis: 50%;
   }
 
   img {
-    position: absolute;
-    bottom: 0;
-    left: 0;
+    @include govuk-media-query($from: desktop) {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
   }
 }
 
 .great-card-wrapper {
-  @include govuk-media-query($from: desktop) {
-    flex-wrap: wrap;
-    margin-right: -30px;
-  }
-}
+  flex-wrap: wrap;
 
-.great-sidebar-items {
-  .great-hr-blue:last-of-type {
-    display: none;
+  @include govuk-media-query($from: desktop) {
+    margin-right: -30px;
   }
 }
 
