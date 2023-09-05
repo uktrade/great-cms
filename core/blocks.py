@@ -34,7 +34,7 @@ class VideoBlock(blocks.StructBlock):
     video = MediaChooserBlock()
 
     class Meta:
-        icon = 'fa-play'
+        icon = 'play'
 
 
 class Item(blocks.StructBlock):
@@ -46,7 +46,7 @@ class LessonPlaceholderBlock(blocks.StructBlock):
 
     class Meta:
         help_text = 'Placeholder block for a lesson which will be shown as "Coming Soon"'
-        icon = 'fa-expand'
+        icon = 'expand'
         template = 'learn/_lesson_placeholder.html'
 
 
@@ -199,7 +199,7 @@ class SectionBlock(blocks.StreamBlock):
 class ModularContentStaticBlock(blocks.StaticBlock):
     class Meta:
         admin_text = 'Content modules will be automatically displayed, no configuration needed.'
-        icon = 'fa-archive'
+        icon = 'archive'
         template = 'core/cs_block.html'
 
     def get_context(self, value, parent_context=None):
@@ -238,7 +238,7 @@ class ChooseDoNotChooseBlock(blocks.StructBlock):
 
     class Meta:
         help_text = 'A pair of custom rich-text areas with titles, one for Choose and the other for Do Not Choose'
-        icon = 'fa-question-circle'
+        icon = 'question-circle'
         template = 'learn/choose_do_not_choose.html'
 
 
@@ -249,7 +249,7 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
             'personalisation rules; no configuration needed beyond '
             'adding this block to the page.'
         )
-        icon = 'fa-book'
+        icon = 'book'
         template = 'core/case_study_block.html'
 
     def _get_case_study_list(self, user, cs_settings, page_context):
@@ -351,7 +351,7 @@ class CaseStudyQuoteBlock(blocks.StructBlock):
     )
 
     class Meta:
-        icon = 'fa-quote-left'
+        icon = 'quote-left'
         template = 'core/includes/_case_study_quote_block.html'
 
 
@@ -405,7 +405,7 @@ class CountryGuideIndustryBlock(blocks.StructBlock):
             (
                 'statistic',
                 IndividualStatisticBlock(
-                    icon='fa-calculator',
+                    icon='calculator',
                     required=False,
                 ),
             )
