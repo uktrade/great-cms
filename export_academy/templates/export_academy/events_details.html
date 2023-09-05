@@ -10,15 +10,15 @@
 {% block head_title %}Events – UK Export Academy{% endblock %}
 {% block content %}
 {% load add_govuk_classes from content_tags %}
-<div class="great">
-    <div id="breadcrumbs" class="great-display-from-tablet">
+<div class="great great-bg-white">
+    <div id="breadcrumbs" class="great-display-from-tablet great-bg-light-blue">
         {% breadcrumbs event.name %}
             <a href="/">great.gov.uk</a>
             <a href="/events">events</a>
         {% endbreadcrumbs %}
     </div>
 
-    <section class="great-bg-white govuk-!-padding-top-9 govuk-!-padding-bottom-6">
+    <section class="govuk-!-padding-top-9 govuk-!-padding-bottom-6">
        <div class="great-container event-details-header-container">
             <div class="event-details-header-info">
                 <h4>{{ event.format|replace_underscores }} event</h4>
@@ -38,10 +38,30 @@
             </div>
         </div>
     </section>
-    <section class="great-container govuk-!-static-padding-top-4 govuk-!-static-padding-bottom-4">
+    <section class="great-bg-light-blue govuk-!-static-padding-bottom-0">
         {% if event_video %}
-            <div class="govuk-!-margin-top-4 govuk-!-margin-bottom-6 great-media-container">{% render_video event_video %}</div>
+            <div class="great-container event-details-media-wrapper">
+                <div class="great-media-container">{% render_video event_video %}</div>
+                <div>
+                <div class="event-details-video-warning govuk-!-static-padding-top-4 govuk-!-static-padding-bottom-4">
+                       <div>
+                        <i class="fa fa-exclamation-circle"></i><strong class="govuk-warning-text__text govuk-!-static-padding-left-3  ">
+                        <span class="govuk-warning-text__assistive">Warning</span>
+                        Event recordings are only available for 4 weeks after the event
+                    </strong>
+                </div>
+                    <a href="{% static 'pdfs/sample_export_plan_document.pdf' %}" class="govuk-link">
+              <i class="fa fa-file-pdf govuk-!-static-padding-right-2"></i>Download what a good export plan looks like
+            </a>
+             <a href="{% static 'pdfs/sample_export_plan_document.pdf' %}" class="govuk-link">
+              <i class="fa fa-file-pdf govuk-!-static-padding-right-2"></i>Download what a good export plan looks like
+            </a>
+                </div>
+            </div>
+            </div>
         {% else %}
+        <div class="govuk-!-static-padding-top-4 govuk-!-static-padding-bottom-4">
+        {% event_list_buttons event %}
             <div class="govuk-warning-text great-max-width-75 govuk-!-margin-top-4 govuk-!-padding-0">
                 <span class="great-warning-text__icon govuk-!-margin-top-1"
                       aria-hidden="true">!</span>
@@ -50,13 +70,14 @@
                     This video is no longer available. Event recordings are only available for 4 weeks after the event.
                 </strong>
             </div>
+        </div>
         {% endif %}
-        {% event_list_buttons event %}
+
     </section>
     <section class="great-bg-white govuk-!-static-padding-top-4 event-details-main-content">
 
         <div class="great-container">
-            <div class="govuk-grid-column-two-thirds-from-desktop">
+            <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-static-padding-0">
                 <div class="event-metadata govuk-!-static-padding-bottom-7 govuk-!-static-padding-top-2">
                     <div>
                         <p>Duration</p>
