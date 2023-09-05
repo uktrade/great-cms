@@ -1784,8 +1784,7 @@ class GetInTouchPage(cms_panels.GetInTouchPanels, Page):
     page_title = models.TextField(
         null=True,
     )
-    page_teaser = RichTextField(
-        blank=True,
+    page_teaser = models.TextField(
         null=True,
     )
     page_body = StreamField(
