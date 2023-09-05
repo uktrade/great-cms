@@ -37,6 +37,7 @@ from wagtail.images import get_image_model_string
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.models import AbstractImage, AbstractRendition, Image
 from wagtail.models import Orderable, Page
+from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.snippets.models import register_snippet
 from wagtail.utils.decorators import cached_classmethod
 from wagtailmedia.models import Media
@@ -283,14 +284,29 @@ class IndustryTag(models.Model):
         return self.name
 
 
+class SpeakerOrderable(Orderable):
+    """
+    This allows us to select one or more speakers.
+    """
+
+    page = ParentalKey("export_academy.Event", related_name="event_speakers")
+    speaker = models.ForeignKey("core.Speaker", on_delete=models.CASCADE)
+
+    panels = [SnippetChooserPanel("speaker")]
+
+
 @register_snippet
-class Speaker(models.Model):
+class Speaker(ClusterableModel):
     name = models.CharField(max_length=255)
     role = models.CharField(max_length=255)
+    organisation = models.CharField(max_length=255)
+    description = RichTextField(features=[])
 
     panels = [
         FieldPanel('name'),
         FieldPanel('role'),
+        FieldPanel('organisation'),
+        FieldPanel('description'),
     ]
 
     class Meta:
