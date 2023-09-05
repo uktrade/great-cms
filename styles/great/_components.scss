@@ -907,3 +907,15 @@ figure.great-blockquote {
     }
   }
 }
+
+.great-link--download {
+  &::before {
+    background-image: url(/static/icons/internal-link.svg);
+    background-size: 8px;
+    height: 20px;
+    width: 26px;
+    top: 3px;
+    right: 0;
+    margin-right: 15px;
+  }
+}

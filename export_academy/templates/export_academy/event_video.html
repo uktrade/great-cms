@@ -38,12 +38,7 @@
                 <p class="govuk-body govuk-!-margin-bottom-7">{{event.description}}</p>
 
                 {% if event_document_url %}
-                    <a href="{{ event_document_url }}"
-                       class="govuk-link ukea-ga-tracking"
-                       title="Download slide deck for {{ event.name }}">
-                          <i class="fa fa-download govuk-!-margin-right-1" aria-hidden="true"></i>
-                          Download slide deck (PDF {{ event_document_size }})<span class="great-visually-hidden"> for {{ event.name }}</span>
-                    </a>
+                    <a href="{{ event_document_url }}" class="great govuk-link great-link--download ukea-ga-tracking">Download event presentation (PDF {{ event_document_size }})</a>
                 {% endif %}
             </div>
         </div>
