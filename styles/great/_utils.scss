@@ -367,6 +367,10 @@
   border-top: 6px solid $great-blue;
 }
 
+.great-border-bottom-blue {
+  border-bottom: 6px solid $great-blue;
+}
+
 .great-border-left-blue {
   border-left: 6px solid $great-blue;
 }
@@ -695,6 +699,10 @@ img.richtext-image {
   @include govuk-media-query($from: desktop) {
     min-height: 300px;
   }
+}
+
+.great-min-height-300 {
+  min-height: 300px;
 }
 
 .great-overflow-hidden {

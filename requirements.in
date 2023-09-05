@@ -17,12 +17,12 @@ wagtail==4.2.2
 wagtail-factories==2.0.*
 wagtail-cache==2.2.0
 wagtailmedia==0.14.0
-wagtailfontawesome==1.2.1
 wagtail-transfer==0.9.1
 wagtail-seo==2.3.0
 wagtail-trash==1.0.0
 wagtail-localize==1.4
 wagtailset==1.0.0
+wagtail-font-awesome-svg==0.0.3
 
 # Prod tools
 # ------------
