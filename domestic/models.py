@@ -735,7 +735,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
             (
                 'statistic',
                 core_blocks.IndividualStatisticBlock(
-                    icon='fa-calculator',
+                    icon='calculator',
                     min_num=2,
                     max_num=6,
                 ),

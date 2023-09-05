@@ -16,16 +16,16 @@
 {% endblock %}
 
 {% block content %}
-  <div class="govuk-!-padding-bottom-9 great great-bg-lighter-grey">
+  <div class="govuk-!-padding-bottom-9 great great-bg-light-blue">
     <div class="great-container">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds">
-                        <p class="govuk-body govuk-!-margin-top-7 govuk-!-margin-bottom-0">Support</p>
+                        <p class="govuk-body govuk-!-margin-top-8 govuk-!-margin-bottom-0">Support</p>
 
                         {% if page.page_title %}
-                            <h1 class="govuk-heading-xl govuk-!-margin-top-0 govuk-!-margin-bottom-2">{{ page.page_title }}</h1>
+                            <h1 class="govuk-heading-xl govuk-!-margin-top-0 govuk-!-margin-bottom-8">{{ page.page_title }}</h1>
                         {% endif %}
 
                         {% if page.page_teaser %}
@@ -36,22 +36,29 @@
                 {% if page.page_body %}
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-three-quarters">
-                        <div class="govuk-!-padding-top-6 great-display-flex-desktop great-card-wrapper">
+                        <div class="great-display-flex-desktop great-card-wrapper">
                             {% include 'domestic/contact/export-support/includes/topic-landing-card.html' with cards=page.page_body %}
                         </div>
-                        <h2 class="govuk-heading-xs govuk-!-margin-top-3 govuk-!-margin-bottom-6">Further support</h2>
+                        <hr class="govuk-!-margin-top-0 great-hr-blue great-hr-blue--thin" />
+                        <h2 class="govuk-heading-s govuk-!-margin-top-3 govuk-!-margin-bottom-6">Further support</h2>
                         <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-bg-white great-display-flex-desktop great-related-items">
                             {% include 'domestic/contact/export-support/includes/related-items.html' with items=page.page_body %}
                         </div>
-                        <p class="govuk-body-l great-display-flex-desktop great-justify-content-end great-align-items-center">Can't find what your looking for? <a href="/support/get-in-touch" class="govuk-button great-min-300-button govuk-!-margin-bottom-0 govuk-!-margin-left-4">Get in touch</a></p>
+                        <hr class="govuk-!-margin-top-0 great-hr-blue" />
                     </div>
-                    <div class="govuk-grid-column-one-quarter govuk-!-padding-top-6">
-                        <h2 class="govuk-heading-xs govuk-!-margin-top-0 govuk-!-margin-bottom-2">Popular tools and services</h2>
-
-                        {% include 'domestic/contact/export-support/includes/sidebar-items.html' with items=page.page_body %}
+                    <div class="govuk-grid-column-one-quarter">
+                        <div class="great-dep-tools-and-services">
+                            <h2 class="govuk-heading-s govuk-!-margin-bottom-5 govuk-!-padding-bottom-1 great-border-bottom-blue">Popular tools and services</h2>
+                            {% include 'domestic/contact/export-support/includes/sidebar-items.html' with items=page.page_body %}
+                        </div>
                     </div>
                 </div>
                 {% endif %}
+            </div>
+        </div>
+        <div class="govuk-grid-row govuk-!-margin-bottom-9">
+            <div class="govuk-grid-column-one-half">
+                {% include 'domestic/contact/export-support/includes/get-in-touch.html' %}
             </div>
         </div>
     </div>

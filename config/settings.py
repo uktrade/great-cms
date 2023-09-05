@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     'wagtail.contrib.settings',
     'wagtailmedia',
     'wagtailcache',
-    'wagtailfontawesome',
     'wagtail_transfer',
     'wagtailseo',
     'wagtail_trash',
