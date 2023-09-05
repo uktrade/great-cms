@@ -32,7 +32,7 @@ sentry-sdk==1.14.*
 
 # DIT packages
 # ------------
-great-components==2.3.0
+great-components==2.4.0
 directory-constants==23.1
 directory-healthcheck==3.1.2
 directory-validators==9.3.0
