@@ -210,7 +210,7 @@ faker==19.3.1
     # via factory-boy
 geoip2==2.9.0
     # via -r requirements.in
-great-components==2.3.0
+great-components==2.4.0
     # via -r requirements.in
 gunicorn==20.1.0
     # via -r requirements.in
