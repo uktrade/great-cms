@@ -532,6 +532,26 @@ if settings.FEATURE_DIGITAL_POINT_OF_ENTRY:
             r'^report-trade-barrier/report/finished/$',
             QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
         ),
+        re_path(
+            r'^contact/triage/great-services/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^contact/triage/export-opportunities/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^contact/triage/export-opportunities/opportunity-no-response/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^contact/domestic/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^contact/triage/export-opportunities/alerts-not-relevant/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
     ]
 
 
