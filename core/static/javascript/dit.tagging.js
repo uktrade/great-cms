@@ -86,8 +86,9 @@ dit.tagging.base = new function() {
 
             var includeFormData = form.data('ga-include-form-data');
             var formData = includeFormData && includeFormData.toLowerCase() === "true" ? form.serialize() : null;
+            var nextUrl = inferNextUrlValue(form);
 
-            sendEvent(formEvent(action, type, element, value, formData));
+            sendEvent(formEvent(action, type, element, value, formData, nextUrl));
         }
 
         function inferLinkType(link) {
@@ -130,6 +131,10 @@ dit.tagging.base = new function() {
 
         function inferFormValue(form) {
             return form.attr('action') || '';
+        }
+
+        function inferNextUrlValue(form) {
+           return form.attr('data-next-url') || '';
         }
 
         function isCta(link) {
@@ -186,11 +191,15 @@ dit.tagging.base = new function() {
             return linkEvent;
         }
 
-        function formEvent(action, type, element, value, data) {
+        function formEvent(action, type, element, value, data, nextUrl) {
             var formEvent = event(action, type, element, value);
 
             if (data) {
                 formEvent['formData'] = data;
+            }
+
+            if (nextUrl) {
+                formEvent['dLV - Next URL'] = nextUrl;
             }
 
             return formEvent;
