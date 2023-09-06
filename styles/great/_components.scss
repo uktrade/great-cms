@@ -479,6 +479,13 @@ figure.great-blockquote {
     top: 3px;
     left: 0;
   }
+
+  &:focus {
+    &::before {
+      background-image: url(/static/icons/download-black-background.svg);
+    }
+
+  }
 }
 
 .great-checkboxes-wrapper {
