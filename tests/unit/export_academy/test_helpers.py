@@ -158,18 +158,11 @@ def test_view_buttons_returned_for_booked_online_past_event(user):
 
     assert buttons['event_action_buttons'] == [
         {
-            'url': reverse_lazy('export_academy:event-details', kwargs=dict(pk=event.pk)),
+            'url': reverse_lazy('export_academy:event-video', kwargs=dict(pk=event.pk)),
             'label': """<i class="fa fa-play" aria-hidden="true"></i>Play
                             <span class="great-visually-hidden"> recording of Test event name</span>""",
             'classname': 'govuk-button ukea-ga-tracking',
             'title': 'Play recording of Test event name',
-        },
-        {
-            'url': event.document.url,
-            'label': """<i class="fa fa-download" aria-hidden="true"></i>
-                            Download PDF<span class="great-visually-hidden"> for Test event name</span>""",
-            'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
-            'title': 'Download PDF for Test event name',
         },
     ]
 
