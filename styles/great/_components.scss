@@ -462,22 +462,22 @@ figure.great-blockquote {
 }
 
 .great-link--download {
-  position: relative !important;
-  padding-left: 25px !important;
+  position: relative;
+  padding-left: 25px;
 
-  &::after {
-    background-repeat: no-repeat !important;
-    background-position: 50% !important;
-    position: absolute !important;
-    display: inline-block !important;
-    content: '' !important;
-    pointer-events: none !important;
+  &::before {
+    background-repeat: no-repeat;
+    background-position: 50%;
+    position: absolute;
+    display: inline-block;
+    content: '';
+    pointer-events: none;
     background-image: url(/static/icons/download.svg);
-    background-size: 8px !important;
-    height: 20px !important;
-    width: 26px !important;
-    top: 3px !important;
-    right: 0 !important;
+    background-size: 15px;
+    height: 20px;
+    width: 26px;
+    top: 3px;
+    left: 0;
   }
 }
 
