@@ -1,4 +1,5 @@
 import logging
+import math
 from datetime import timedelta
 from uuid import uuid4
 
@@ -133,8 +134,8 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, TemplateView):
         return ctx
 
 
-class EventDetailsView(DetailView):
-    template_name = 'export_academy/event_details.html'
+class EventVideoView(DetailView):
+    template_name = 'export_academy/event_video.html'
     model = models.Event
 
     def get_context_data(self, **kwargs):
@@ -147,6 +148,13 @@ class EventDetailsView(DetailView):
         if video:
             ctx['event_video'] = {'video': video}
             ctx['video_duration'] = format_timedelta(timedelta(seconds=event.video_recording.duration))
+
+        document = getattr(event, 'document', None)
+        completed = getattr(event, 'completed', None)
+
+        if document and completed:
+            ctx['event_document_size'] = f'{math.floor(document.file_size * 0.001)}KB' if document.file_size else '0KB'
+            ctx['event_document_url'] = document.url
 
         return ctx
 
@@ -594,6 +602,7 @@ class SignInView(HandleNewAndExistingUsersMixin, sso_mixins.SignInMixin, FormVie
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx['heading'] = 'UK Export Academy on Great.gov.uk' if self.get_ea_user() else 'Join the UK Export Academy'
+        ctx['nexturl'] = self.request.META.get('HTTP_REFERER') or self.request.build_absolute_uri()
         return ctx
 
 

@@ -424,6 +424,70 @@ figure.great-blockquote {
   }
 }
 
+.great-link--internal,
+.great-link--external {
+  position: relative;
+  padding-right: 25px;
+
+  &::after {
+    background-repeat: no-repeat;
+    background-position: 50%;
+    position: absolute;
+    display: inline-block;
+    content: '';
+    pointer-events: none;
+  }
+}
+
+.great-link--internal {
+  &::after {
+    background-image: url(/static/icons/internal-link.svg);
+    background-size: 8px;
+    height: 20px;
+    width: 26px;
+    top: 3px;
+    right: 0;
+  }
+}
+
+.great-link--external {
+  &::after {
+    background-image: url(/static/icons/external-link.svg);
+    background-size: 14px;
+    height: 21px;
+    width: 16px;
+    top: 2px;
+    right: 0;
+  }
+}
+
+.great-link--download {
+  position: relative;
+  padding-left: 25px;
+
+  &::before {
+    background-repeat: no-repeat;
+    background-position: 50%;
+    position: absolute;
+    display: inline-block;
+    content: '';
+    pointer-events: none;
+    background-image: url(/static/icons/download.svg);
+    background-size: 15px;
+    height: 20px;
+    width: 26px;
+    top: 3px;
+    left: 0;
+  }
+
+  &:focus {
+    &::before {
+      background-image: url(/static/icons/download-black-background.svg);
+    }
+
+  }
+}
+
 .great-checkboxes-wrapper {
   max-height: 463px;
   overflow: auto;
@@ -753,6 +817,10 @@ figure.great-blockquote {
   background: $great-red;
 }
 
+.great-tag--service {
+  background: $great-dbt-green;
+}
+
 .great-topic-card {
   display: block;
   background: $great-white;
@@ -773,36 +841,44 @@ figure.great-blockquote {
   }
 }
 
+.great-topic-card--quarter-width {
+  flex-basis: calc(25% - 30px);
+  height: auto;
+}
+
 .great-topic-card--half-width {
   flex-basis: calc(50% - 30px);
+  height: fit-content;
 }
 
 .great-topic-card--full-width {
   display: flex;
   position: relative;
   flex-basis: calc(100% - 30px);
+  flex-direction: column;
+
+  @include govuk-media-query($from: desktop) {
+    flex-direction: row;
+  }
 
   > div {
     flex-basis: 50%;
   }
 
   img {
-    position: absolute;
-    bottom: 0;
-    left: 0;
+    @include govuk-media-query($from: desktop) {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
   }
 }
 
 .great-card-wrapper {
-  @include govuk-media-query($from: desktop) {
-    flex-wrap: wrap;
-    margin-right: -30px;
-  }
-}
+  flex-wrap: wrap;
 
-.great-sidebar-items {
-  .great-hr-blue:last-of-type {
-    display: none;
+  @include govuk-media-query($from: desktop) {
+    margin-right: -30px;
   }
 }
 

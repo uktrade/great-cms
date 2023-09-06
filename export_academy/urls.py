@@ -152,8 +152,8 @@ urlpatterns = [
     ),
     path(
         'event/<uuid:pk>/',
-        views.EventDetailsView.as_view(),
-        name='event-details',
+        views.EventVideoView.as_view(),
+        name='event-video',
     ),
     path(
         'calendar/',

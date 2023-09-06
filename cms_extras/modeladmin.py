@@ -119,7 +119,7 @@ class CaseStudyAdmin(ModelAdmin):
     add_to_settings_menu = False
     button_helper_class = CaseStudyAdminButtonHelper
     exclude_from_explorer = False
-    menu_icon = 'fa-book'
+    menu_icon = 'book'
     export_filename = 'casestudies-export'
     index_view_class = CaseStudyIndexView
 

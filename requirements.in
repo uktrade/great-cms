@@ -17,13 +17,12 @@ wagtail==4.2.2
 wagtail-factories==2.0.*
 wagtail-cache==2.2.0
 wagtailmedia==0.14.0
-wagtailfontawesome==1.2.1
 wagtail-transfer==0.9.1
 wagtail-seo==2.3.0
 wagtail-trash==1.0.0
 wagtail-localize==1.4
-wagtailset==1.0.0
 wagtail-font-awesome-svg==0.0.3
+wagtail-draftail-anchors==0.6.0
 
 # Prod tools
 # ------------
@@ -33,7 +32,7 @@ sentry-sdk==1.14.*
 
 # DIT packages
 # ------------
-great-components==2.3.0
+great-components==2.4.0
 directory-constants==23.1
 directory-healthcheck==3.1.2
 directory-validators==9.3.0

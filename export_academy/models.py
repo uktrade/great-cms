@@ -123,7 +123,7 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
         ]
 
     def __str__(self):
-        return f'{self.id}:{self.name}'
+        return f"{self.name} ({self.start_date.strftime('%d-%m-%Y')})"
 
     @classmethod
     def from_db(cls, db, field_names, values):
@@ -199,6 +199,7 @@ class Booking(TimeStampedModel):
         return self.status == self.CANCELLED
 
     class Meta:
+        ordering = ('-created',)
         indexes = [
             models.Index(fields=['event_id'], name='event_id_idx'),
             models.Index(fields=['registration_id'], name='registration_id_idx'),

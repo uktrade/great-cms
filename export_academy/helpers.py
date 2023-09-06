@@ -123,21 +123,11 @@ def get_event_completed_buttons(event):
         if event.video_recording:
             result += [
                 {
-                    'url': reverse_lazy('export_academy:event-details', kwargs=dict(pk=event.pk)),
+                    'url': reverse_lazy('export_academy:event-video', kwargs=dict(pk=event.pk)),
                     'label': f"""<i class="fa fa-play" aria-hidden="true"></i>Play
                             <span class="great-visually-hidden"> recording of {event.name}</span>""",
                     'classname': 'govuk-button ukea-ga-tracking',
                     'title': f'Play recording of {event.name}',
-                },
-            ]
-        if event.document:
-            result += [
-                {
-                    'url': event.document.url,
-                    'label': f"""<i class="fa fa-download" aria-hidden="true"></i>
-                            Download PDF<span class="great-visually-hidden"> for {event.name}</span>""",
-                    'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
-                    'title': f'Download PDF for {event.name}',
                 },
             ]
 
