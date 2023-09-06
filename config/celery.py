@@ -21,7 +21,7 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 app.conf.beat_schedule = {
     "send_reminder_email_30_mins_start_at_mid_night": {
         "task": "export_academy.tasks.send_automated_events_notification",
-        "schedule": crontab(minute="*/30", hour="0")
+        "schedule": crontab(minute="*/30", hour="0"),
     },
 }
 
