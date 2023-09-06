@@ -576,9 +576,8 @@ class SupportCardBlock(blocks.StructBlock):
     type = blocks.ChoiceBlock(
         choices=[
             ('govuk', _('GOV.UK')),
-            ('tools', _('Tools')),
+            ('tool', _('Tool')),
             ('howTo', _('How to')),
-            ('topic', _('Topic')),
             ('service', _('Service')),
         ],
         label=_('Type'),
