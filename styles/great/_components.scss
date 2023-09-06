@@ -817,7 +817,6 @@ figure.great-blockquote {
 .great-topic-card {
   display: block;
   background: $great-white;
-  height: fit-content;
   text-decoration: none;
   width: calc(100%);
 
@@ -842,6 +841,7 @@ figure.great-blockquote {
 
 .great-topic-card--half-width {
   flex-basis: calc(50% - 30px);
+  height: fit-content;
 }
 
 .great-topic-card--full-width {

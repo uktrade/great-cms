@@ -3,7 +3,7 @@
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
 {% load static %}
-{% load add_govuk_classes from content_tags %}
+{% load add_govuk_classes url_type from content_tags %}
 
 {% block head_title %}Support{% endblock %}
 
@@ -52,7 +52,7 @@
                                         <span class="govuk-!-margin-bottom-3 govuk-tag great-tag" data-category="topic">Topic</span>
                                         <h3 class="govuk-heading-xs govuk-!-margin-bottom-2" data-title="Account management">Account management</h3>
                                         <p class="govuk-body govuk-!-margin-bottom-2" data-location="sidebar">Setup your profile before your search for opportunities.</p>
-                                        <a href="/profile/about/" class="govuk-link great-text-blue"  target="_blank">Manage your account</a>
+                                        <a href="/profile/about/" class="govuk-link great-text-blue great-link--{{block.value.link_url|url_type}}" target="_blank">Manage your account</a>
                                     </div>
                                     <hr class="govuk-!-margin-top-4 govuk-!-margin-bottom-7 great-hr-blue great-hr-blue--thin" />
                                 </div>
