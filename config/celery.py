@@ -4,6 +4,7 @@ import os
 from ssl import CERT_NONE
 
 from celery import Celery
+from celery.schedules import crontab
 from django.conf import settings
 
 # set the default Django settings module for the 'celery' program.
@@ -16,6 +17,13 @@ app = Celery('cms')
 # - namespace='CELERY' means all celery-related configuration keys
 #   should have a `CELERY_` prefix.
 app.config_from_object('django.conf:settings', namespace='CELERY')
+
+app.conf.beat_schedule = {
+    "send_reminder_email_30_mins_start_at_mid_night": {
+        "task": "export_academy.tasks.send_automated_events_notification",
+        "schedule": crontab(minute="*/30", hour="0")
+    },
+}
 
 if settings.FEATURE_REDIS_USE_SSL:
     ssl_conf = {'ssl_cert_reqs': CERT_NONE, 'ssl_ca_certs': None, 'ssl_certfile': None, 'ssl_keyfile': None}
