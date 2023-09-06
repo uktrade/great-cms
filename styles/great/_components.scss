@@ -461,6 +461,26 @@ figure.great-blockquote {
   }
 }
 
+.great-link--download {
+  position: relative !important;
+  padding-left: 25px !important;
+
+  &::after {
+    background-repeat: no-repeat !important;
+    background-position: 50% !important;
+    position: absolute !important;
+    display: inline-block !important;
+    content: '' !important;
+    pointer-events: none !important;
+    background-image: url(/static/icons/download.svg);
+    background-size: 8px !important;
+    height: 20px !important;
+    width: 26px !important;
+    top: 3px !important;
+    right: 0 !important;
+  }
+}
+
 .great-checkboxes-wrapper {
   max-height: 463px;
   overflow: auto;
@@ -905,17 +925,5 @@ figure.great-blockquote {
     @include govuk-media-query($until: tablet) {
       border: none;
     }
-  }
-}
-
-.great-link--download {
-  &::before {
-    background-image: url(/static/icons/internal-link.svg);
-    background-size: 8px;
-    height: 20px;
-    width: 26px;
-    top: 3px;
-    right: 0;
-    margin-right: 15px;
   }
 }

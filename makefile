@@ -130,4 +130,8 @@ beat:
 	ENV_FILES='secrets-do-not-commit,dev' celery -A conf beat -l info -S django
 
 
-.PHONY: clean autoformat checks pytest test_load flake8 manage webserver requirements install_requirements css worker secrets check_migrations database recreate worker beat
+checkmigrations:
+	ENV_FILES='secrets-do-not-commit,dev' python manage.py makemigrations --dry-run --check
+
+
+.PHONY: checkmigrations clean autoformat checks pytest test_load flake8 manage webserver requirements install_requirements css worker secrets check_migrations database recreate worker beat
