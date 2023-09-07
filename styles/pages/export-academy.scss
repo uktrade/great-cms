@@ -297,8 +297,33 @@
     }
   }
 }
+
+.event-warning-wrapper {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 .event-details-main-content {
-  .event-metadata {
+  p {
+    font-size: 18px;
+    line-height: 25px;
+  }
+
+  .richtext {
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .event-details-speakers {
+    p.job-title {
+      color: #505a5f;
+    }
+  }
+
+   .event-metadata {
     border-bottom: 1px solid #b1b4b6;
     p {
       margin: 0;
@@ -319,14 +344,4 @@
       font-family: $header-font;
     }
   }
-  p.job-title {
-    color: #505a5f;
-  }
-}
-
-.event-warning-wrapper {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
 }
