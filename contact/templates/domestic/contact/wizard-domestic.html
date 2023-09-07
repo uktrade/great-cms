@@ -1,6 +1,7 @@
 {% extends 'domestic/base.html' %}
 {% load static %}
 {% load breadcrumbs from component_tags %}
+{% load get_contact_breadcrumb_details from dep_tags %}
 
 {% block sharing_metadata %}{% endblock %}
 
@@ -12,9 +13,11 @@
 {% block content %}
 {% block breadcrumbs %}
 
+{% get_contact_breadcrumb_details as dep_breadcrumbs %}
+
 {% breadcrumbs 'Contact' %}
     <a href="/">great.gov.uk</a>
-    <a href="{% url 'contact:contact-us-routing-form' step='location' %}">Contact us</a>
+    <a href="{% url dep_breadcrumbs.url step='location' %}">{{ dep_breadcrumbs.text }}</a>
 {% endbreadcrumbs %}
 
 {% endblock %}

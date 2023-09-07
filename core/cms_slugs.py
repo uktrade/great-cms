@@ -16,3 +16,5 @@ TERMS_URL = '/terms-and-conditions/'
 # These ones will be removed when the V1->V2 migration is complete
 CONTACT_URL = '/contact/'
 FEEDBACK_CONTACT_URL = '/contact/feedback/'
+
+DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE = '/support/help-and-support/'
