@@ -9,7 +9,11 @@ from config.url_redirects import (
     INTERNATIONAL_LANGUAGE_REDIRECTS_MAPPING,
     TOS_AND_PRIVACY_REDIRECT_LANGUAGES,
 )
-from core.cms_slugs import PRIVACY_POLICY_URL, TERMS_URL
+from core.cms_slugs import (
+    DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE,
+    PRIVACY_POLICY_URL,
+    TERMS_URL,
+)
 from core.tests.helpers import reload_urlconf, reload_urlconf_redirects
 
 pytestmark = pytest.mark.django_db
@@ -388,6 +392,46 @@ redirects = [
     (
         '/legacy/contact/terms-and-conditions/',
         TERMS_URL,
+    ),
+    (
+        '/contact/triage/location/',
+        '/contact/domestic/export-support/',
+    ),
+    (
+        '/contact/export-advice/comment/',
+        '/contact/domestic/export-support/',
+    ),
+    (
+        '/contact/export-advice/personal/',
+        '/contact/domestic/export-support/',
+    ),
+    (
+        '/contact/export-advice/business/',
+        '/contact/domestic/export-support/',
+    ),
+    (
+        '/contact/domestic/success/',
+        '/contact/domestic/export-support/',
+    ),
+    (
+        '/contact/office-finder/',
+        DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE,
+    ),
+    (
+        '/report-trade-barrier/report/about/',
+        DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE,
+    ),
+    (
+        '/report-trade-barrier/report/problem-details/',
+        DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE,
+    ),
+    (
+        '/report-trade-barrier/report/summary/',
+        DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE,
+    ),
+    (
+        '/report-trade-barrier/report/finished/',
+        DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE,
     ),
     # CMS-1410 redirects for updated 'export advice' articles
     (

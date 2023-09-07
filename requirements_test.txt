@@ -78,7 +78,7 @@ browserstack-local==1.2.7
     # via browserstack-sdk
 browserstack-sdk==1.12.0
     # via -r requirements_test.in
-build==1.0.0
+build==1.0.3
     # via pip-tools
 celery[redis]==5.2.7
     # via
@@ -116,7 +116,7 @@ click-repl==0.3.0
     # via celery
 configargparse==1.7
     # via locust
-coverage[toml]==7.3.0
+coverage[toml]==7.3.1
     # via
     #   pytest-codecov
     #   pytest-cov
@@ -719,7 +719,7 @@ trio==0.22.2
     # via
     #   selenium
     #   trio-websocket
-trio-websocket==0.10.3
+trio-websocket==0.10.4
     # via selenium
 typing-extensions==4.7.1
     # via

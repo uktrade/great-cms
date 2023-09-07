@@ -162,6 +162,7 @@ def test_ukef_get_finance_card_bullets(client):
 
 
 @pytest.mark.parametrize('step', ('your-details', 'company-details', 'help'))
+@pytest.mark.skipif(settings.FEATURE_DIGITAL_POINT_OF_ENTRY, reason='Redirect to new contact form')
 def test_ukef_lead_generation(client, step):
     url = reverse(
         'domestic:uk-export-finance-lead-generation-form',
@@ -177,6 +178,7 @@ def test_ukef_lead_generation(client, step):
 
 @mock.patch('captcha.fields.ReCaptchaField.clean')
 @mock.patch('domestic.views.ukef.PardotAction')
+@pytest.mark.skipif(settings.FEATURE_DIGITAL_POINT_OF_ENTRY, reason='Redirect to new contact form')
 def test_ukef_lead_generation_captcha_revalidation(
     mock_action,
     mock_clean,
@@ -301,6 +303,7 @@ def test_ukef_lead_generation_submit(mock_action, client, settings, captcha_stub
     )
 
 
+@pytest.mark.skipif(settings.FEATURE_DIGITAL_POINT_OF_ENTRY, reason='Redirect to new contact form')
 def test_ukef_lead_generation_success_page(client):
     url = reverse('domestic:uk-export-finance-lead-generation-form-success')
     response = client.get(url)
@@ -311,6 +314,7 @@ def test_ukef_lead_generation_success_page(client):
     ]
 
 
+@pytest.mark.skipif(settings.FEATURE_DIGITAL_POINT_OF_ENTRY, reason='Redirect to new contact form')
 def test_ukef_lead_generation_initial_data(client, user, mock_get_company_profile):
     mock_get_company_profile.return_value = {
         # Full spec of CompanySerializer is in

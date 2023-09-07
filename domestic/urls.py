@@ -1,9 +1,12 @@
+from django.conf import settings
 from django.urls import path
 from django.views.generic import TemplateView
 from great_components.decorators import skip_ga360
 
 import domestic.views.marketaccess
 import domestic.views.ukef
+from core.cms_slugs import DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE
+from core.views import QuerystringRedirectView
 from domestic.views.campaign import CampaignView
 
 app_name = 'domestic'
@@ -23,6 +26,8 @@ urlpatterns = [
                 url_name='domestic:uk-export-finance-lead-generation-form',
                 done_step_name='finished',
             )
+            if not settings.FEATURE_DIGITAL_POINT_OF_ENTRY
+            else QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE)
         ),
         name='uk-export-finance-lead-generation-form',
     ),
@@ -32,6 +37,8 @@ urlpatterns = [
             TemplateView.as_view(
                 template_name='domestic/finance/lead_generation_form/success.html',
             )
+            if not settings.FEATURE_DIGITAL_POINT_OF_ENTRY
+            else QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE)
         ),
         name='uk-export-finance-lead-generation-form-success',
     ),
@@ -104,6 +111,8 @@ urlpatterns = [
                 url_name='domestic:report-ma-barrier',
                 done_step_name='finished',
             )
+            if not settings.FEATURE_DIGITAL_POINT_OF_ENTRY
+            else QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE)
         ),
         name='report-ma-barrier',
     ),
