@@ -1,4 +1,4 @@
-from wagtail.admin.panels import FieldPanel, HelpPanel, MultiFieldPanel, InlinePanel
+from wagtail.admin.panels import FieldPanel, HelpPanel, InlinePanel, MultiFieldPanel
 from wagtailmedia.widgets import AdminMediaChooser
 
 
