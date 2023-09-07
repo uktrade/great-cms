@@ -552,6 +552,18 @@ if settings.FEATURE_DIGITAL_POINT_OF_ENTRY:
             r'^contact/triage/export-opportunities/alerts-not-relevant/$',
             QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
         ),
+        re_path(
+            r'^contact/defence-and-security-organisation/success/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^contact/defence-and-security-organisation/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^contact/domestic/enquiries/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
     ]
 
 

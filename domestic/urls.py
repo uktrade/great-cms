@@ -26,6 +26,8 @@ urlpatterns = [
                 url_name='domestic:uk-export-finance-lead-generation-form',
                 done_step_name='finished',
             )
+            if not settings.FEATURE_DIGITAL_POINT_OF_ENTRY
+            else QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE)
         ),
         name='uk-export-finance-lead-generation-form',
     ),
@@ -35,6 +37,8 @@ urlpatterns = [
             TemplateView.as_view(
                 template_name='domestic/finance/lead_generation_form/success.html',
             )
+            if not settings.FEATURE_DIGITAL_POINT_OF_ENTRY
+            else QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE)
         ),
         name='uk-export-finance-lead-generation-form-success',
     ),
