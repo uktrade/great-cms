@@ -64,7 +64,7 @@ class EventPanel:
                 FieldPanel('name'),
                 FieldPanel('description', heading='Summary'),
                 FieldPanel('description_long', heading='Description'),
-                FieldPanel('outcomes', heading='What You\'ll Learn'),
+                FieldPanel('outcomes', heading="What You\'ll Learn"),
                 FieldPanel('link'),
                 FieldPanel('format'),
                 FieldPanel('types', heading='Types'),
@@ -88,6 +88,6 @@ class EventPanel:
         ),
         FieldPanel('live'),
         FieldPanel('closed', heading='closed for bookings'),
-        MultiFieldPanel([InlinePanel('event_speakers', label="Speakers")], heading="speaker(s)"),
+        MultiFieldPanel([InlinePanel('event_speakers', label='Speakers')], heading='speaker(s)'),
         HelpPanel(template='wagtailadmin/export_academy/panels/bookings_table_display.html'),
     ]

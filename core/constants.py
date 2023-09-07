@@ -30,7 +30,7 @@ RICHTEXT_FEATURES__REDUCED = [
 RICHTEXT_FEATURES__REDUCED__ALLOW_H1 = ['h1'] + RICHTEXT_FEATURES__REDUCED
 
 # For certain pages, we want H2 disabled also (e.g. Description field in speakers snippet).
-RICHTEXT_FEATURES__REDUCED__DISALLOW_H2 = [value for value in RICHTEXT_FEATURES__REDUCED if value != "h2"]
+RICHTEXT_FEATURES__REDUCED__DISALLOW_H2 = [value for value in RICHTEXT_FEATURES__REDUCED if value != 'h2']
 
 AWS_S3_MAIN_HOSTNAME_OPTIONS = [
     # https://docs.aws.amazon.com/general/latest/gr/s3.html

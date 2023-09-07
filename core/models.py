@@ -289,10 +289,10 @@ class SpeakerOrderable(Orderable):
     This allows us to select one or more speakers.
     """
 
-    page = ParentalKey("export_academy.Event", related_name="event_speakers")
-    speaker = models.ForeignKey("core.Speaker", on_delete=models.CASCADE)
+    page = ParentalKey('export_academy.Event', related_name='event_speakers')
+    speaker = models.ForeignKey('core.Speaker', on_delete=models.CASCADE)
 
-    panels = [SnippetChooserPanel("speaker")]
+    panels = [SnippetChooserPanel('speaker')]
 
 
 @register_snippet
@@ -313,7 +313,7 @@ class Speaker(ClusterableModel):
         ordering = ('name',)
 
     def __str__(self):
-        return "{} - {}".format(self.name, self.role)
+        return '{0} - {1}'.format(self.name, self.role)
 
 
 class TimeStampedModel(models.Model):
