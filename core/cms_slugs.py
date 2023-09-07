@@ -17,4 +17,4 @@ TERMS_URL = '/terms-and-conditions/'
 CONTACT_URL = '/contact/'
 FEEDBACK_CONTACT_URL = '/contact/feedback/'
 
-DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE = '/help-and-support/help-and-support/'
+DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE = '/support/help-and-support/'
