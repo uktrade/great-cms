@@ -621,7 +621,6 @@ class EventsDetailsView(DetailView):
         current_datetime = datetime.datetime.now(datetime.timezone.utc)
         ctx['ended'] = ctx['event'].end_date < current_datetime
         ctx['has_video'] = True if video else False
-        ctx['uuid'] = self.kwargs['pk']
         ctx['event_types'] = self.get_event_types(event)
         return ctx
 

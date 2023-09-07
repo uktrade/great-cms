@@ -48,7 +48,7 @@
                     </strong>
                     {% if has_video %}
                         <a class="govuk-link"
-                           href="/export-academy/event/{{ uuid }}">Watch video recording</a>
+                           href="/export-academy/event/{{ event.id }}">Watch video recording</a>
                     {% endif %}
                 </div>
             {% elif event.closed %}
@@ -60,7 +60,7 @@
                     <a class="govuk-link" href="/export-academy/events">View more events</a>
                     {% if has_video %}
                         <a class="govuk-link govuk-!-static-padding-left-2"
-                           href="/export-academy/event/{{ uuid }}">Watch video recording</a>
+                           href="/export-academy/event/{{ event.id }}">Watch video recording</a>
                     {% endif %}
                 </div>
             {% else %}

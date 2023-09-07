@@ -79,7 +79,7 @@ def get_event_booking_button(user, event):
     result = []
     if event.status is not Event.STATUS_FINISHED and not event.completed and not event.closed:
         button = {
-            'label': f'Book<span class="great-visually-hidden"> {event.name}</span>',
+            'label': f'Book event<span class="great-visually-hidden"> {event.name}</span>',
             'classname': 'govuk-button govuk-!-margin-bottom-0 ukea-ga-tracking',
             'value': 'Confirmed',
             'type': 'submit',
@@ -88,7 +88,7 @@ def get_event_booking_button(user, event):
             button['label'] = f'Sign up<span class="great-visually-hidden"> {event.name}</span>'
             result += [button]
         elif not user_booked_on_event(user, event):
-            button['label'] = f'Book<span class="great-visually-hidden"> {event.name}</span>'
+            button['label'] = f'Book event<span class="great-visually-hidden"> {event.name}</span>'
             result += [button]
     return result
 
@@ -97,7 +97,7 @@ def get_event_join_button(event):
     return [
         {
             'url': reverse_lazy('export_academy:join', kwargs=dict(event_id=event.pk)),
-            'label': f'Join<span class="great-visually-hidden"> {event.name}</span>',
+            'label': f'Join event<span class="great-visually-hidden"> {event.name}</span>',
             'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
             'title': f'Join {event.name}',
         },
