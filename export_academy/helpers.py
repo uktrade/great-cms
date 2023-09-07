@@ -1,3 +1,4 @@
+import datetime
 import hashlib
 import json
 from functools import wraps
@@ -57,14 +58,40 @@ def update_booked_user_buttons(event, result, on_confirmation):
 def get_badges_for_event(user, event):
     result = []
 
+    def event_has_ended(event):
+        current_datetime = datetime.datetime.now(datetime.timezone.utc)
+        return event.end_date < current_datetime
+
     if is_export_academy_registered(user):
         if user_booked_on_event(user, event):
             result += [
                 {
-                    'label': '<i class="fa fa-check" aria-hidden="true"></i>Booked',
+                    'label': 'Booked',
                     'classname': 'great-badge govuk-!-margin-bottom-3',
                 }
             ]
+    elif event_has_ended(event):
+        result += [
+            {
+                'label': 'Ended',
+                'classname': 'great-badge ended govuk-!-margin-bottom-3',
+            }
+        ]
+    elif event.completed:
+        result += [
+            {
+                'label': 'Completed',
+                'classname': 'great-badge completed govuk-!-margin-bottom-3',
+            }
+        ]
+
+    elif event.closed:
+        result += [
+            {
+                'label': 'Closed',
+                'classname': 'great-badge closed govuk-!-margin-bottom-3',
+            }
+        ]
 
     return result
 
