@@ -581,6 +581,7 @@ class SupportCardBlock(blocks.StructBlock):
             ('service', _('Service')),
         ],
         label=_('Type'),
+        required=False,
     )
     title = blocks.CharBlock(max_length=255, label=_('Title'))
     description = blocks.CharBlock(max_length=255, label=_('Description'))

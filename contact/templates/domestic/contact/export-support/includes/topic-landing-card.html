@@ -10,7 +10,9 @@
                     <div>{% image block.value.image width-450 %}</div>
                 {% endif %}
                 <div data-location="main-area">
+                    {% if block.value.type %}
                     <span class="govuk-tag great-tag great-tag--{{block.value.type}}" data-category="{{block.value.type|tag_text_mapper}}">{{block.value.type|tag_text_mapper}}</span>
+                    {% endif %}
                     <h2 class="{% if block.value.full_width == 'yes' %}govuk-heading-l {% else %}govuk-heading-xs {% endif %}govuk-!-margin-top-3 govuk-!-margin-bottom-2" data-title="{{block.value.title}}">{{block.value.title}}</h2>
                     <p class="govuk-body govuk-!-margin-bottom-2">{{block.value.description}}</p>
                     <span class="govuk-link great-text-blue great-link--{{block.value.link_url|url_type}}">{{block.value.link_text}}</span>
