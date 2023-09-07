@@ -37,7 +37,6 @@ from wagtail.images import get_image_model_string
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.models import AbstractImage, AbstractRendition, Image
 from wagtail.models import Orderable, Page
-from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.snippets.models import register_snippet
 from wagtail.utils.decorators import cached_classmethod
 from wagtailmedia.models import Media
@@ -292,7 +291,7 @@ class SpeakerOrderable(Orderable):
     page = ParentalKey('export_academy.Event', related_name='event_speakers')
     speaker = models.ForeignKey('core.Speaker', on_delete=models.CASCADE)
 
-    panels = [SnippetChooserPanel('speaker')]
+    panels = [FieldPanel('speaker')]
 
 
 @register_snippet
