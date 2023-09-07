@@ -7,7 +7,7 @@
 {% load replace_underscores from component_tags %}
 {% load append_past_year_seperator from component_tags %}
 {% load video_tags %}
-{% block head_title %}Events – {{event.name}}{% endblock %}
+{% block head_title %}Events – {{ event.name }}{% endblock %}
 {% block content %}
     {% load add_govuk_classes from content_tags %}
     <div class="great great-bg-white">
@@ -42,21 +42,22 @@
         <div class="govuk-!-static-padding-top-4 govuk-!-static-padding-bottom-4 great-container">
             {% if ended %}
                 <div class="event-warning-wrapper">
-                    <i class="fa fa-exclamation-circle"></i><strong class="govuk-warning-text__text govuk-!-static-padding-left-3  ">
+                    <i class="fa fa-exclamation-circle"></i><strong class="govuk-warning-text__text govuk-!-static-padding-left-0">
                         <span class="govuk-warning-text__assistive">Warning</span>
                         This event has ended
                     </strong>
                     {% if has_video %}
-                        <a class="govuk-link govuk-!-static-padding-left-2"
+                        <a class="govuk-link"
                            href="/export-academy/event/{{ uuid }}">Watch video recording</a>
                     {% endif %}
                 </div>
             {% elif event.closed %}
                 <div class="event-warning-wrapper">
-                    <i class="fa fa-exclamation-circle"></i><strong class="govuk-warning-text__text govuk-!-static-padding-left-3  ">
+                    <i class="fa fa-exclamation-circle"></i><strong class="govuk-warning-text__text govuk-!-static-padding-left-0">
                         <span class="govuk-warning-text__assistive">Warning</span>
                         This event is closed
                     </strong>
+                    <a class="govuk-link" href="/export-academy/events">View more events</a>
                     {% if has_video %}
                         <a class="govuk-link govuk-!-static-padding-left-2"
                            href="/export-academy/event/{{ uuid }}">Watch video recording</a>
@@ -67,17 +68,22 @@
             {% endif %}
         </div>
     </section>
-    <section class="great-bg-white govuk-!-static-padding-top-4 event-details-main-content">
+    <section class="great-bg-white govuk-!-static-padding-top-4 event-details-main-content govuk-!-static-padding-bottom-4 ">
         <div class="great-container">
             <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-static-padding-0">
                 <div class="event-metadata govuk-!-static-padding-bottom-7 govuk-!-static-padding-top-2">
                     <div>
                         <p>Duration</p>
-                        <p>Content</p>
+                        <p>{{ event.start_date|timesince:event.end_date }}</p>
                     </div>
                     <div>
-                        <p>{{ event.start_date|timesince:event.end_date }}</p>
-                        <a class="govuk-link" href='{{ event.link }}'>{{ event.types }}</a>
+                        <p>Content</p>
+                        <div class="event-details-tags">
+                            {% for type in event_types %}
+                                <a class="govuk-link  {% if not forloop.last %}govuk-!-static-padding-right-1{% endif %}"
+                                   href='/export-academy/events/?type={{ type|lower }}'>{{ type }}</a>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
                 {% if event.description %}

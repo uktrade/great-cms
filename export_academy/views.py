@@ -611,6 +611,9 @@ class EventsDetailsView(DetailView):
     template_name = 'export_academy/events_details.html'
     model = models.Event
 
+    def get_event_types(self, event):
+        return [item.name for item in event.types.all()]
+
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         event: models.Event = kwargs.get('object', {})
@@ -619,6 +622,7 @@ class EventsDetailsView(DetailView):
         ctx['ended'] = ctx['event'].end_date < current_datetime
         ctx['has_video'] = True if video else False
         ctx['uuid'] = self.kwargs['pk']
+        ctx['event_types'] = self.get_event_types(event)
         return ctx
 
     def get_buttons_for_event(self, event):
