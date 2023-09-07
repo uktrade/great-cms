@@ -1,3 +1,4 @@
+import datetime
 import logging
 import math
 from datetime import timedelta
@@ -612,15 +613,12 @@ class EventsDetailsView(DetailView):
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-
-        # video_render tag which helps in adding subtitles
-        # needs input in specific way as below
         event: models.Event = kwargs.get('object', {})
         video = getattr(event, 'video_recording', None)
-        if video:
-            ctx['event_video'] = {'video': video}
-            ctx['video_duration'] = format_timedelta(timedelta(seconds=event.video_recording.duration))
-
+        current_datetime = datetime.datetime.now(datetime.timezone.utc)
+        ctx['ended'] = ctx['event'].end_date < current_datetime
+        ctx['has_video'] = True if video else False
+        ctx['uuid'] = self.kwargs['pk']
         return ctx
 
     def get_buttons_for_event(self, event):
