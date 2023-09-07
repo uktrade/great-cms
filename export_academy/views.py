@@ -622,6 +622,7 @@ class EventsDetailsView(DetailView):
         ctx['ended'] = ctx['event'].end_date < current_datetime
         ctx['has_video'] = True if video else False
         ctx['event_types'] = self.get_event_types(event)
+        ctx['speakers'] = [speaker_object.speaker for speaker_object in event.event_speakers.all()]
         return ctx
 
     def get_buttons_for_event(self, event):
