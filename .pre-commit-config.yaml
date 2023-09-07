@@ -60,11 +60,9 @@ repos:
       hooks:
         - id: check-django-migrations
           name: Check django migrations
-<<<<<<< HEAD
           entry: make checkmigrations
-=======
-          entry: python manage.py makemigrations --dry-run --check
->>>>>>> f0d34fee4 (redo migrations and change min width)
+          #if the above doesnt work for you
+          # entry: python manage.py makemigrations --dry-run --check
           language: system
           types: [python] # hook only runs if a python file is staged
           pass_filenames: false
