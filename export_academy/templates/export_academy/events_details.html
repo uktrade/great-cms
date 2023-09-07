@@ -7,19 +7,19 @@
 {% load replace_underscores from component_tags %}
 {% load append_past_year_seperator from component_tags %}
 {% load video_tags %}
-{% block head_title %}Events – UK Export Academy{% endblock %}
+{% block head_title %}Events – {{event.name}}{% endblock %}
 {% block content %}
-{% load add_govuk_classes from content_tags %}
-<div class="great great-bg-white">
-    <div id="breadcrumbs" class="great-display-from-tablet great-bg-light-blue">
-        {% breadcrumbs event.name %}
+    {% load add_govuk_classes from content_tags %}
+    <div class="great great-bg-white">
+        <div id="breadcrumbs"
+             class="great-display-from-tablet great-bg-light-blue">
+            {% breadcrumbs event.name %}
             <a href="/">great.gov.uk</a>
             <a href="/events">events</a>
         {% endbreadcrumbs %}
     </div>
-
     <section class="govuk-!-padding-top-9 govuk-!-padding-bottom-6">
-       <div class="great-container event-details-header-container">
+        <div class="great-container event-details-header-container">
             <div class="event-details-header-info">
                 <h4>{{ event.format|replace_underscores }} event</h4>
                 <h2>{{ event.name }}</h2>
@@ -31,7 +31,7 @@
                     </li>
                     {% if event.location %}<li>{{ event.location }}</li>{% endif %}
                 </ul>
-                 {% event_list_badges event %}
+                {% event_list_badges event %}
             </div>
             <div class="event-details-header-logo">
                 <img class="ea-logo" src="/static/images/uk-export-academy-logo.svg" />
@@ -39,43 +39,35 @@
         </div>
     </section>
     <section class="great-bg-light-blue govuk-!-static-padding-bottom-0">
-        {% if event_video %}
-            <div class="great-container event-details-media-wrapper">
-                <div class="great-media-container">{% render_video event_video %}</div>
-                <div>
-                <div class="event-details-video-warning govuk-!-static-padding-top-4 govuk-!-static-padding-bottom-4">
-                       <div>
-                        <i class="fa fa-exclamation-circle"></i><strong class="govuk-warning-text__text govuk-!-static-padding-left-3  ">
+        <div class="govuk-!-static-padding-top-4 govuk-!-static-padding-bottom-4 great-container">
+            {% if ended %}
+                <div class="event-warning-wrapper">
+                    <i class="fa fa-exclamation-circle"></i><strong class="govuk-warning-text__text govuk-!-static-padding-left-3  ">
                         <span class="govuk-warning-text__assistive">Warning</span>
-                        Event recordings are only available for 4 weeks after the event
+                        This event has ended
                     </strong>
+                    {% if has_video %}
+                        <a class="govuk-link govuk-!-static-padding-left-2"
+                           href="/export-academy/event/{{ uuid }}">Watch video recording</a>
+                    {% endif %}
                 </div>
-                    <a href="{% static 'pdfs/sample_export_plan_document.pdf' %}" class="govuk-link">
-              <i class="fa fa-file-pdf govuk-!-static-padding-right-2"></i>Download what a good export plan looks like
-            </a>
-             <a href="{% static 'pdfs/sample_export_plan_document.pdf' %}" class="govuk-link">
-              <i class="fa fa-file-pdf govuk-!-static-padding-right-2"></i>Download what a good export plan looks like
-            </a>
+            {% elif event.closed %}
+                <div class="event-warning-wrapper">
+                    <i class="fa fa-exclamation-circle"></i><strong class="govuk-warning-text__text govuk-!-static-padding-left-3  ">
+                        <span class="govuk-warning-text__assistive">Warning</span>
+                        This event is closed
+                    </strong>
+                    {% if has_video %}
+                        <a class="govuk-link govuk-!-static-padding-left-2"
+                           href="/export-academy/event/{{ uuid }}">Watch video recording</a>
+                    {% endif %}
                 </div>
-            </div>
-            </div>
-        {% else %}
-        <div class="govuk-!-static-padding-top-4 govuk-!-static-padding-bottom-4">
-        {% event_list_buttons event %}
-            <div class="govuk-warning-text great-max-width-75 govuk-!-margin-top-4 govuk-!-padding-0">
-                <span class="great-warning-text__icon govuk-!-margin-top-1"
-                      aria-hidden="true">!</span>
-                <strong class="govuk-warning-text__text great-padding-left-35">
-                    <span class="govuk-warning-text__assistive">Warning</span>
-                    This video is no longer available. Event recordings are only available for 4 weeks after the event.
-                </strong>
-            </div>
+            {% else %}
+                {% event_list_buttons event %}
+            {% endif %}
         </div>
-        {% endif %}
-
     </section>
     <section class="great-bg-white govuk-!-static-padding-top-4 event-details-main-content">
-
         <div class="great-container">
             <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-static-padding-0">
                 <div class="event-metadata govuk-!-static-padding-bottom-7 govuk-!-static-padding-top-2">
@@ -85,17 +77,15 @@
                     </div>
                     <div>
                         <p>{{ event.start_date|timesince:event.end_date }}</p>
-                        <a class="govuk-link" href='{{event.link}}'>{{event.types}}</a>
+                        <a class="govuk-link" href='{{ event.link }}'>{{ event.types }}</a>
                     </div>
                 </div>
-                {%if event.description%}
+                {% if event.description %}
                     <div class="event-details-summary govuk-!-static-padding-top-6 govuk-!-static-padding-bottom-4">
-                        <p class="govuk-!-static-margin-0">
-                            {{event.description}}
-                        </p>
+                        <p class="govuk-!-static-margin-0">{{ event.description }}</p>
                     </div>
                 {% endif %}
-                {%if event.outcomes%}
+                {% if event.outcomes %}
                     <div class="event-details-what-you-will-learn govuk-!-static-padding-bottom-6">
                         <h3 class="govuk-!-static-padding-bottom-4">What you will learn</h3>
                         <div class="richtext">
@@ -105,32 +95,32 @@
                         </div>
                     </div>
                 {% endif %}
-                {% if event.description_long  %}
+                {% if event.description_long %}
                     <div class="event-details-description govuk-!-static-padding-bottom-6">
                         <h3 class="govuk-!-static-padding-bottom-4">Description</h3>
-                         <div class="richtext">
-                             {% filter add_govuk_classes %}
-                                {{ event.description_long  }}
-                             {% endfilter %}
+                        <div class="richtext">
+                            {% filter add_govuk_classes %}
+                                {{ event.description_long }}
+                            {% endfilter %}
                         </div>
                     </div>
                 {% endif %}
-                {%if event__speaker and event__speaker|length > 1 %}
+                {% if event__speaker and event__speaker|length > 1 %}
                     <div class="event-details-speakers govuk-!-static-padding-bottom-6">
                         <h3 class="govuk-!-static-padding-bottom-2 govuk-!-static-padding-bottom-4">Speakers</h3>
-                        {%for speaker in event__speaker%}
-                            <h5 class="govuk-!-static-padding-bottom-2">{{speaker.name}}</h5>
+                        {% for speaker in event__speaker %}
+                            <h5 class="govuk-!-static-padding-bottom-2">{{ speaker.name }}</h5>
                             <p class='job-title govuk-!-static-margin-0 govuk-!-static-padding-bottom-2'>
-                                {{speaker.role}}, {{speaker.organisation}}
+                                {{ speaker.role }}, {{ speaker.organisation }}
                             </p>
                             <div class="richtext">
                                 {% filter add_govuk_classes %}
                                     {{ speaker.description }}
                                 {% endfilter %}
                             </div>
-                        {%endfor%}
+                        {% endfor %}
                     </div>
-                {%endif%}
+                {% endif %}
             </div>
         </div>
     </section>
