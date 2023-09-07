@@ -105,6 +105,7 @@ def all_office_details():
     ),
 )
 @mock.patch.object(views.FormSessionMixin, 'form_session_class')
+@pytest.mark.skipif(settings.FEATURE_DIGITAL_POINT_OF_ENTRY, reason='Redirect to new contact form')
 def test_zendesk_submit_success(mock_form_session, client, url, success_url, view_class, subject, settings, subdomain):
     class Form(forms.SerializeDataMixin, django.forms.Form):
         email = django.forms.EmailField()
@@ -177,6 +178,7 @@ def test_zendesk_submit_success(mock_form_session, client, url, success_url, vie
     ),
 )
 @mock.patch.object(views.FormSessionMixin, 'form_session_class')
+@pytest.mark.skipif(settings.FEATURE_DIGITAL_POINT_OF_ENTRY, reason='Redirect to new contact form')
 def test_notify_form_submit_success(
     mock_form_session,
     client,
@@ -230,6 +232,7 @@ contact_urls_for_prefill_tests = (
 
 
 @pytest.mark.parametrize('url', contact_urls_for_prefill_tests)
+@pytest.mark.skipif(settings.FEATURE_DIGITAL_POINT_OF_ENTRY, reason='Redirect to new contact form')
 def test_contact_us_short_form_prepopulated_when_logged_in(
     client,
     url,
@@ -259,6 +262,7 @@ def test_contact_us_short_form_prepopulated_when_logged_in(
 
 
 @pytest.mark.parametrize('url', contact_urls_for_prefill_tests)
+@pytest.mark.skipif(settings.FEATURE_DIGITAL_POINT_OF_ENTRY, reason='Redirect to new contact form')
 def test_contact_us_short_form_not_prepopulated_if_logged_out(client, url, user):
     response = client.get(url)
 
@@ -763,6 +767,7 @@ def test_contact_us_office_success_next_url(mock_get_snippet_instance, client):
     mock_get_snippet_instance.assert_called_once()
 
 
+@pytest.mark.skipif(settings.FEATURE_DIGITAL_POINT_OF_ENTRY, reason='Redirect to new contact form')
 def test_contact_us_feedback_prepopulate(
     client,
     user,
@@ -1444,6 +1449,7 @@ def test_fta_form_submit_success(mock_form_session, client, settings):
     ]
 
 
+@pytest.mark.skipif(settings.FEATURE_DIGITAL_POINT_OF_ENTRY, reason='Redirect to new contact form')
 def test_privacy_url_passed_to_fta_form_view(client, mock_free_trade_agreements):
     response = client.get(reverse('contact:contact-free-trade-agreements'))
     assert response.context['privacy_url'] == PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE
