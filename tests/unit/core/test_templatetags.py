@@ -772,7 +772,7 @@ def test_tag_text_mapper(input, expected_output):
     'input, expected_output',
     (
         ('https://www.gov.uk/', 'external'),
-        ('/learn', 'internal'),
+        ('https://www.great.gov.uk/learn', 'internal'),
     ),
 )
 def test_url_type(input, expected_output):
