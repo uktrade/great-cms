@@ -1728,6 +1728,17 @@ class SupportPage(cms_panels.SupportPanels, Page):
                     },
                 ),
             ),
+            (
+                'sidebar_items',
+                StreamBlock(
+                    [
+                        ('sidebar_item', SupportCardBlock()),
+                    ],
+                    block_counts={
+                        'sidebar_item': {'min_num': 1},
+                    },
+                ),
+            ),
         ],
         use_json_field=True,
         null=True,
@@ -1784,7 +1795,8 @@ class GetInTouchPage(cms_panels.GetInTouchPanels, Page):
     page_title = models.TextField(
         null=True,
     )
-    page_teaser = models.TextField(
+    page_teaser = RichTextField(
+        blank=True,
         null=True,
     )
     page_body = StreamField(
