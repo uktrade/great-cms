@@ -276,7 +276,7 @@ def test_booking_success_view(
         (
             reverse('export_academy:registration-marketing'),
             {
-                'marketing_sources': 'Other',
+                'marketing_sources': 'Other (please specify below)',
             },
             reverse('export_academy:registration-confirm'),
             {

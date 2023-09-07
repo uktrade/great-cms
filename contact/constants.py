@@ -49,18 +49,19 @@ NO_VERIFICATION_LETTER = 'no-verification-letter'
 NO_VERIFICATION_MISSING = 'verification-missing'
 
 
-MARKETING_SOURCES = [
-    'From an International Trade Advisor in my region',
-    'I saw this being promoted online',
-    'I read about this in the press',
-    'I was searching for export advice online',
-    'I received an email',
-    'Export Support Service',
-    'Growth hubs',
-    'Local Enterprise Partnership',
-    'Chamber of Commerce',
-    'Other (please specify below)',
-]
+MARKETING_SOURCES_CHOICES = (
+    ('', 'Please select'),
+    ('From an International Trade Advisor in my region', 'From an International Trade Advisor in my region'),
+    ('I saw this being promoted online', 'I saw this being promoted online'),
+    ('I read about this in the press', 'I read about this in the press'),
+    ('I was searching for export advice online', 'I was searching for export advice online'),
+    ('I received an email', 'I received an email'),
+    ('Export Support Service', 'Export Support Service'),
+    ('Growth hubs', 'Growth hubs'),
+    ('Local Enterprise Partnership', 'Local Enterprise Partnership'),
+    ('Chamber of Commerce', 'Chamber of Commerce'),
+    ('Other (please specify below)', 'Other (please specify below)'),
+)
 
 
 CONTACT_FORM_INDUSTRIES = [
@@ -94,7 +95,6 @@ CONTACT_FORM_INDUSTRIES = [
 ]
 
 INDUSTRY_CHOICES = [('', 'Please select')] + [(item, item) for item in CONTACT_FORM_INDUSTRIES] + [('OTHER', 'Other')]
-MARKETING_SOURCES_CHOICES = [{'', 'Please select'}] + [(item, item) for item in MARKETING_SOURCES]
 
 INDUSTRY_MAP = dict(INDUSTRY_CHOICES)
 
