@@ -6,7 +6,6 @@
 {% load pagination from component_tags %}
 {% load replace_underscores from component_tags %}
 {% load append_past_year_seperator from component_tags %}
-{% load video_tags %}
 {% block head_title %}Events – {{ event.name }}{% endblock %}
 {% block content %}
     {% load add_govuk_classes from content_tags %}
@@ -38,38 +37,7 @@
             </div>
         </div>
     </section>
-    <section class="great great-bg-light-blue govuk-!-static-padding-bottom-0">
-        <div class="govuk-!-static-padding-top-4 govuk-!-static-padding-bottom-4 great-container">
-            {% if ended %}
-                <div class="event-warning-wrapper">
-                     <div>
-                        <i class="fa fa-exclamation-circle"></i><strong class="govuk-warning-text__text govuk-!-static-padding-left-0">
-                            <span class="govuk-warning-text__assistive">Warning</span>
-                            This event has ended
-                        </strong>
-                    </div>
-                    {% if has_video %}<a class="govuk-link" href="../{{ event.id }}">Watch video recording</a>{% endif %}
-                </div>
-            {% elif event.closed or event.completed %}
-                <div class="event-warning-wrapper">
-                    <div>
-                        <i class="fa fa-exclamation-circle"></i><strong class="govuk-warning-text__text govuk-!-static-padding-left-0">
-                            <span class="govuk-warning-text__assistive">Warning</span>
-                            This event is closed.
-                            {% if has_video %}Event recordings are only available for 4 weeks after the event{% endif %}
-                        </strong>
-                    </div>
-                    {% if has_video %}
-                        <a class="govuk-link" href="../../event/{{ event.id }}">Watch video recording</a>
-                    {% else %}
-                        <a class="govuk-link" href="../">View more events</a>
-                    {% endif %}
-                </div>
-            {% else %}
-                {% event_list_buttons event %}
-            {% endif %}
-        </div>
-    </section>
+    {% include './includes/event_details_banner.html'%}
     <section class="great great-bg-white govuk-!-static-padding-top-4 event-details-main-content govuk-!-static-padding-bottom-4 ">
         <div class="great-container">
             <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-static-padding-0">

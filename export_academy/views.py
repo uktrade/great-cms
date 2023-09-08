@@ -608,7 +608,7 @@ class SignInView(HandleNewAndExistingUsersMixin, sso_mixins.SignInMixin, FormVie
 
 
 class EventsDetailsView(DetailView):
-    template_name = 'export_academy/events_details.html'
+    template_name = 'export_academy/event_details.html'
     model = models.Event
 
     def get_event_types(self, event):
@@ -623,6 +623,7 @@ class EventsDetailsView(DetailView):
         ctx['has_video'] = True if video else False
         ctx['event_types'] = self.get_event_types(event)
         ctx['speakers'] = [speaker_object.speaker for speaker_object in event.event_speakers.all()]
+        ctx['signed_in'] = True if self.request.user else False
         return ctx
 
     def get_buttons_for_event(self, event):

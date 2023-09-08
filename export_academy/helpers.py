@@ -124,8 +124,8 @@ def get_event_join_button(event):
     return [
         {
             'url': reverse_lazy('export_academy:join', kwargs=dict(event_id=event.pk)),
-            'label': f"""Join event<span class="great-visually-hidden"> {event.name}</span>
-            '<i class="fa fa-external-link" aria-hidden="true"></i>""",
+            'label': f"""Join event<span class="great-visually-hidden">{event.name}</span>
+            <i class="fa fa-external-link-alt" aria-hidden="true"></i>""",
             'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
             'title': f'Join {event.name}',
         },
@@ -134,7 +134,7 @@ def get_event_join_button(event):
 
 def get_ics_button(event, on_confirmation):
     return {
-        'label': f'<i class="fa fa-plus" aria-hidden="true"></i>Add to calendar<span '
+        'label': f'<i class="fa fa-calendar" aria-hidden="true"></i>Add to calendar<span '
         f'class="great-visually-hidden">{event.name}</span>',
         'value': 'Confirmed',
         'type': 'submit',
