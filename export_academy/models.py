@@ -3,7 +3,9 @@ from datetime import timedelta
 
 from directory_forms_api_client import actions
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
+from django.utils.text import slugify
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
@@ -107,6 +109,7 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
     completed = models.DateTimeField(null=True, blank=True)
     live = models.DateTimeField(null=True, blank=True)
     closed = models.BooleanField(default=False)
+    slug = models.SlugField(null=True, unique=True, max_length=255)
 
     objects = models.Manager()
     upcoming = managers.EventManager.from_queryset(managers.EventQuerySet)()
@@ -127,6 +130,9 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
     @property
     def timezone(self):
         return timezone.get_current_timezone_name()
+
+    def get_absolute_url(self):
+        return reverse("export_academy:event-details", kwargs={"slug": self.slug})
 
     class Meta:
         ordering = ('-start_date', '-end_date')
@@ -149,6 +155,9 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
         return instance
 
     def save(self, **kwargs):
+        if not self.slug:
+            self.slug = f'{slugify(self.name)}-{self.start_date.strftime("%Y-%m-%d")}'
+
         # Send notification when completed is updated
         if not self._state.adding:
             if self._loaded_values['completed'] is None and self.completed:
