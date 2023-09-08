@@ -48,13 +48,7 @@
                             <div class="govuk-grid-column-one-quarter govuk-!-margin-bottom-7">
                                 <div class="great-dep-tools-and-services">
                                     <h2 class="govuk-heading-s govuk-!-margin-bottom-5 govuk-!-padding-bottom-1 great-border-bottom-blue">Popular tools and services</h2>
-                                    <div data-ga-digital-entry-point>
-                                        <span class="govuk-!-margin-bottom-3 govuk-tag great-tag" data-category="topic">Topic</span>
-                                        <h3 class="govuk-heading-xs govuk-!-margin-bottom-2" data-title="Account management">Account management</h3>
-                                        <p class="govuk-body govuk-!-margin-bottom-2" data-location="sidebar">Setup your profile before your search for opportunities.</p>
-                                        <a href="/profile/about/" class="govuk-link great-text-blue great-link--{{block.value.link_url|url_type}}" target="_blank">Manage your account</a>
-                                    </div>
-                                    <hr class="govuk-!-margin-top-4 govuk-!-margin-bottom-7 great-hr-blue great-hr-blue--thin" />
+                                    {% include 'domestic/contact/export-support/includes/sidebar-items.html' with items=page.page_body %}
                                 </div>
                             </div>
                         </div>

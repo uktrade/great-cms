@@ -12,7 +12,10 @@ from wagtail.fields import RichTextField, StreamField
 
 from config import settings
 from core.blocks import ButtonBlock, SingleRichTextBlock, TopicPageCardBlockRichText
-from core.constants import RICHTEXT_FEATURES__REDUCED
+from core.constants import (
+    RICHTEXT_FEATURES__REDUCED,
+    RICHTEXT_FEATURES__REDUCED__DISALLOW_H2,
+)
 from core.fields import single_struct_block_stream_field_factory
 from core.models import GreatMedia, TimeStampedModel
 from domestic.models import BaseContentPage
@@ -71,6 +74,16 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
     external_id = models.PositiveIntegerField(null=True)
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=2500, null=True)
+    description_long = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED__DISALLOW_H2,
+        null=True,
+        blank=True,
+    )
+    outcomes = RichTextField(
+        features=['ul'],
+        null=True,
+        blank=True,
+    )
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     format = models.CharField(max_length=15, choices=FORMAT_CHOICES, default=ONLINE)
