@@ -307,6 +307,11 @@
   i {
     font-size: 35px;
   }
+  >div {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+  }
 }
 
 .event-details-main-content {
