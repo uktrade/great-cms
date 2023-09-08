@@ -283,6 +283,38 @@ class IndustryTag(models.Model):
         return self.name
 
 
+class SpeakerOrderable(Orderable):
+    """
+    This allows us to select one or more speakers.
+    """
+
+    page = ParentalKey('export_academy.Event', related_name='event_speakers')
+    speaker = models.ForeignKey('core.Speaker', on_delete=models.CASCADE)
+
+    panels = [FieldPanel('speaker')]
+
+
+@register_snippet
+class Speaker(ClusterableModel):
+    name = models.CharField(max_length=255)
+    role = models.CharField(max_length=255)
+    organisation = models.CharField(max_length=255)
+    description = RichTextField(features=[])
+
+    panels = [
+        FieldPanel('name'),
+        FieldPanel('role'),
+        FieldPanel('organisation'),
+        FieldPanel('description'),
+    ]
+
+    class Meta:
+        ordering = ('name',)
+
+    def __str__(self):
+        return '{0} - {1}'.format(self.name, self.role)
+
+
 class TimeStampedModel(models.Model):
     """Modified version of django_extensions.db.models.TimeStampedModel
 
@@ -1728,6 +1760,17 @@ class SupportPage(cms_panels.SupportPanels, Page):
                     },
                 ),
             ),
+            (
+                'sidebar_items',
+                StreamBlock(
+                    [
+                        ('sidebar_item', SupportCardBlock()),
+                    ],
+                    block_counts={
+                        'sidebar_item': {'min_num': 1},
+                    },
+                ),
+            ),
         ],
         use_json_field=True,
         null=True,
@@ -1784,7 +1827,8 @@ class GetInTouchPage(cms_panels.GetInTouchPanels, Page):
     page_title = models.TextField(
         null=True,
     )
-    page_teaser = models.TextField(
+    page_teaser = RichTextField(
+        blank=True,
         null=True,
     )
     page_body = StreamField(

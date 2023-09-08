@@ -23,6 +23,7 @@ def test_form_feature_flag_on(client, settings):
     assert response.status_code == 200
 
 
+@pytest.mark.skipif(settings.FEATURE_DIGITAL_POINT_OF_ENTRY, reason='Redirect to new contact form')
 def test_error_box_at_top_of_page_shows(client):
     settings.FEATURE_SHOW_REPORT_BARRIER_CONTENT = True
     url_name = 'domestic:report-ma-barrier'
@@ -46,6 +47,7 @@ def test_error_box_at_top_of_page_shows(client):
 
 
 @mock.patch('directory_forms_api_client.actions.ZendeskAction')
+@pytest.mark.skipif(settings.FEATURE_DIGITAL_POINT_OF_ENTRY, reason='Redirect to new contact form')
 def test_form_submission(mock_zendesk_action, client):
     settings.FEATURE_SHOW_REPORT_BARRIER_CONTENT = True
     url_name = 'domestic:report-ma-barrier'
@@ -138,6 +140,7 @@ def test_form_submission(mock_zendesk_action, client):
     )
 
 
+@pytest.mark.skipif(settings.FEATURE_DIGITAL_POINT_OF_ENTRY, reason='Redirect to new contact form')
 def test_form_initial_data(client):
     settings.FEATURE_SHOW_REPORT_BARRIER_CONTENT = True
     response_one = client.get(

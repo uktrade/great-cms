@@ -328,7 +328,7 @@ def tag_text_mapper(text):
 
 @register.filter
 def url_type(url):
-    if re.search('gov.uk', url):
-        return 'external'
-    else:
+    if re.search('great', url):
         return 'internal'
+    else:
+        return 'external'

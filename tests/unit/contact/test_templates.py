@@ -1,10 +1,12 @@
 import pytest
+from django.conf import settings
 from django.template.loader import render_to_string
 from great_components.context_processors import urls_processor
 
 pytestmark = pytest.mark.django_db
 
 
+@pytest.mark.skipif(settings.FEATURE_DIGITAL_POINT_OF_ENTRY, reason='Redirect to new contact form')
 def test_contact_domestic_descriptive_page_title_override_is_rendered():
     context = urls_processor(None)
     html = render_to_string('domestic/contact/step.html', context)

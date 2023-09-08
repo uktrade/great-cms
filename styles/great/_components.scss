@@ -461,6 +461,33 @@ figure.great-blockquote {
   }
 }
 
+.great-link--download {
+  position: relative;
+  padding-left: 25px;
+
+  &::before {
+    background-repeat: no-repeat;
+    background-position: 50%;
+    position: absolute;
+    display: inline-block;
+    content: '';
+    pointer-events: none;
+    background-image: url(/static/icons/download.svg);
+    background-size: 15px;
+    height: 20px;
+    width: 26px;
+    top: 3px;
+    left: 0;
+  }
+
+  &:focus {
+    &::before {
+      background-image: url(/static/icons/download-black-background.svg);
+    }
+
+  }
+}
+
 .great-checkboxes-wrapper {
   max-height: 463px;
   overflow: auto;
@@ -786,7 +813,7 @@ figure.great-blockquote {
   background: $great-purple;
 }
 
-.great-tag--tools {
+.great-tag--tool {
   background: $great-red;
 }
 

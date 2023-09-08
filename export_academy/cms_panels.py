@@ -1,4 +1,4 @@
-from wagtail.admin.panels import FieldPanel, HelpPanel, MultiFieldPanel
+from wagtail.admin.panels import FieldPanel, HelpPanel, InlinePanel, MultiFieldPanel
 from wagtailmedia.widgets import AdminMediaChooser
 
 
@@ -62,7 +62,9 @@ class EventPanel:
             heading='Details',
             children=[
                 FieldPanel('name'),
-                FieldPanel('description'),
+                FieldPanel('description', heading='Summary'),
+                FieldPanel('description_long', heading='Description'),
+                FieldPanel('outcomes', heading="What You\'ll Learn"),
                 FieldPanel('link'),
                 FieldPanel('format'),
                 FieldPanel('types', heading='Types'),
@@ -86,5 +88,6 @@ class EventPanel:
         ),
         FieldPanel('live'),
         FieldPanel('closed', heading='closed for bookings'),
+        MultiFieldPanel([InlinePanel('event_speakers', label='Speakers')], heading='speaker(s)'),
         HelpPanel(template='wagtailadmin/export_academy/panels/bookings_table_display.html'),
     ]
