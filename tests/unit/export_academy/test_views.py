@@ -473,7 +473,7 @@ def test_event_video_view_with_video(client, user):
     assert response.context['event_video']
     assert response.context['video_duration']
     assert '/subtitles/' in str(response.rendered_content)
-    assert '<a href="../../events/{{event.id}}">Back to event</a>' in str(response.rendered_content)
+    assert '<a href="../../events/{}/">Back to event</a>'.format(event.id) in str(response.rendered_content)
     assert 'time' in str(response.rendered_content)
     assert 'Duration:' in str(response.rendered_content)
     assert 'Test event name' in str(response.rendered_content)
