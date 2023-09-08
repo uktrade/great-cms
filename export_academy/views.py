@@ -611,10 +611,6 @@ class EventsDetailsView(DetailView):
     template_name = 'export_academy/events_details.html'
     model = models.Event
 
-    # @property
-    # def slug(self):
-    #     return self.kwargs['slug']
-
     def get_event_types(self, event):
         return [item.name for item in event.types.all()]
 
@@ -636,9 +632,6 @@ class EventsDetailsView(DetailView):
     def get_badges_for_event(self, event):
         user = self.request.user
         return get_badges_for_event(user, event)
-
-    def get_absolute_url(self):
-        return reverse("export_academy:event-details", kwargs={"slug": self.slug})
 
     def get_object(self, **kwargs):
         return self.model.objects.get(slug=self.kwargs['slug'])

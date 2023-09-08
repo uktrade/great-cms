@@ -132,7 +132,7 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
         return timezone.get_current_timezone_name()
 
     def get_absolute_url(self):
-        return reverse("export_academy:event-details", kwargs={"slug": self.slug})
+        return reverse('export_academy:event-details', kwargs={'slug': self.slug})
 
     class Meta:
         ordering = ('-start_date', '-end_date')
