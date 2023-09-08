@@ -110,8 +110,8 @@ def test_join_button_returned_for_booked_in_progress_event(user):
     assert buttons['event_action_buttons'] == [
         {
             'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
-            'label': """Join event<span class="great-visually-hidden"> Test event name</span>
-            '<i class="fa fa-external-link" aria-hidden="true"></i>""",
+            'label': f"""Join event<span class="great-visually-hidden">{event.name}</span>
+            <i class="fa fa-external-link-alt" aria-hidden="true"></i>""",
             'title': 'Join Test event name',
             'url': reverse_lazy('export_academy:join', kwargs=dict(event_id=event.id)),
         }
@@ -135,8 +135,8 @@ def test_join_button_returned_for_booked_in_upcoming_event(user):
     assert buttons['event_action_buttons'] == [
         {
             'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
-            'label': """Join event<span class="great-visually-hidden"> Test event name</span>
-            '<i class="fa fa-external-link" aria-hidden="true"></i>""",
+            'label': f"""Join event<span class="great-visually-hidden">{event.name}</span>
+            <i class="fa fa-external-link-alt" aria-hidden="true"></i>""",
             'title': 'Join Test event name',
             'url': reverse_lazy('export_academy:join', kwargs=dict(event_id=event.id)),
         }
