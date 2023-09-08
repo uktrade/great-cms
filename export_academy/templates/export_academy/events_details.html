@@ -19,8 +19,8 @@
         {% endbreadcrumbs %}
     </div>
     <section class="great govuk-!-padding-top-9 govuk-!-padding-bottom-6">
-        <div class="great-container event-details-header-container">
-            <div class="event-details-header-info">
+        <div class="great-container event-details-header-container ">
+            <div class="event-details-header-info govuk-grid-column-three-quarters-from-desktop">
                 <h4>{{ event.format|replace_underscores }} event</h4>
                 <h2>{{ event.name }}</h2>
                 <ul>
@@ -42,19 +42,23 @@
         <div class="govuk-!-static-padding-top-4 govuk-!-static-padding-bottom-4 great-container">
             {% if ended %}
                 <div class="event-warning-wrapper">
-                    <i class="fa fa-exclamation-circle"></i><strong class="govuk-warning-text__text govuk-!-static-padding-left-0">
-                        <span class="govuk-warning-text__assistive">Warning</span>
-                        This event has ended
-                    </strong>
+                     <div>
+                        <i class="fa fa-exclamation-circle"></i><strong class="govuk-warning-text__text govuk-!-static-padding-left-0">
+                            <span class="govuk-warning-text__assistive">Warning</span>
+                            This event has ended
+                        </strong>
+                    </div>
                     {% if has_video %}<a class="govuk-link" href="../{{ event.id }}">Watch video recording</a>{% endif %}
                 </div>
             {% elif event.closed or event.completed %}
                 <div class="event-warning-wrapper">
-                    <i class="fa fa-exclamation-circle"></i><strong class="govuk-warning-text__text govuk-!-static-padding-left-0">
-                        <span class="govuk-warning-text__assistive">Warning</span>
-                        This event is closed.
-                        {% if has_video %}Event recordings are only available for 4 weeks after the event{% endif %}
-                    </strong>
+                    <div>
+                        <i class="fa fa-exclamation-circle"></i><strong class="govuk-warning-text__text govuk-!-static-padding-left-0">
+                            <span class="govuk-warning-text__assistive">Warning</span>
+                            This event is closed.
+                            {% if has_video %}Event recordings are only available for 4 weeks after the event{% endif %}
+                        </strong>
+                    </div>
                     {% if has_video %}
                         <a class="govuk-link" href="../../event/{{ event.id }}">Watch video recording</a>
                     {% else %}
