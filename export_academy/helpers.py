@@ -112,7 +112,7 @@ def get_event_booking_button(user, event):
             'type': 'submit',
         }
         if user.is_anonymous:
-            button['label'] = f'Sign up<span class="great-visually-hidden"> {event.name}</span>'
+            button['label'] = f'Sign up to book event<span class="great-visually-hidden"> {event.name}</span>'
             result += [button]
         elif not user_booked_on_event(user, event):
             button['label'] = f'Book event<span class="great-visually-hidden"> {event.name}</span>'
