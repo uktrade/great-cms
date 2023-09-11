@@ -1,0 +1,11 @@
+<div class="event-warning-wrapper">
+    {% if warning_text %}
+        <div>
+            <i class="fa fa-exclamation-circle"></i><strong class="govuk-warning-text__text govuk-!-static-padding-left-0">
+                <span class="govuk-warning-text__assistive">Warning</span>
+                {{ warning_text }}
+            </strong>
+        </div>
+    {% endif %}
+    {% if warning_call_to_action %}{{warning_call_to_action|safe }}</a>{% endif %}
+</div>

@@ -6,6 +6,7 @@ from uuid import uuid4
 
 from directory_forms_api_client import actions
 from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.text import get_valid_filename
 from django.views.generic import (
@@ -614,16 +615,58 @@ class EventsDetailsView(DetailView):
     def get_event_types(self, event):
         return [item.name for item in event.types.all()]
 
+    def get_warning_text(self):
+        warning_text = ''
+        video_text = (
+            ' A recording is only available for 4 weeks after the event.'
+            if self.signed_in
+            else ' If you booked this event, a recording is only available for 4 weeks after the event.'
+        )
+
+        if self.ended or self.event.completed or self.event.closed:
+            warning_text = 'Event has ended.' if self.ended else 'This event is closed.'
+
+            if self.has_video:
+                warning_text += video_text
+
+        return warning_text
+
+    def get_warning_call_to_action(self):
+        if self.ended or self.event.completed or self.event.closed:
+            view_more_events = '<a class="govuk-link" href="../">View more events</a>'
+            if self.has_video:
+                if self.signed_in:
+                    if self.booked:
+                        return f'<a class="govuk-link" href="../event/{ self.event.id }">Watch now<span class="govuk-visually-hidden">{self.event.id}</span></a>'
+                    else:
+                        return view_more_events
+                link_url = redirect(reverse_lazy('export_academy:registration', kwargs=dict(event_id=self.event.id)))
+                return f'<a class="govuk-link" href="../{ link_url }">Sign in to watch<span class="govuk-visually-hidden">{self.event.id}</span></a>'
+
+            else:
+                return view_more_events
+        return ''
+
     def get_context_data(self, **kwargs):
-        ctx = super().get_context_data(**kwargs)
-        event: models.Event = kwargs.get('object', {})
-        video = getattr(event, 'video_recording', None)
+        self.event: models.Event = kwargs.get('object', {})
+        self.video = getattr(self.event, 'video_recording', None)
+        self.user = self.request.user
         current_datetime = datetime.datetime.now(datetime.timezone.utc)
-        ctx['ended'] = ctx['event'].end_date < current_datetime
-        ctx['has_video'] = True if video else False
-        ctx['event_types'] = self.get_event_types(event)
-        ctx['speakers'] = [speaker_object.speaker for speaker_object in event.event_speakers.all()]
-        ctx['signed_in'] = True if self.request.user else False
+        self.ended = self.event.end_date < current_datetime
+        self.has_video = True if self.video else False
+        self.signed_in = True if self.request.user else False
+        self.booked = helpers.user_booked_on_event(self.user, self.event)
+        self.warning_call_to_action = self.get_warning_call_to_action()
+
+        ctx = super().get_context_data(**kwargs)
+        ctx['ended'] = self.ended
+        ctx['has_video'] = self.has_video
+        ctx['event_types'] = self.get_event_types(self.event)
+        ctx['speakers'] = [speaker_object.speaker for speaker_object in self.event.event_speakers.all()]
+        ctx['signed_in'] = self.signed_in
+        ctx['booked'] = self.booked
+        ctx['warning_text'] = self.get_warning_text()
+        ctx['warning_call_to_action'] = self.warning_call_to_action
         return ctx
 
     def get_buttons_for_event(self, event):
