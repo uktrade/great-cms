@@ -669,12 +669,12 @@ class EventsDetailsView(DetailView):
                 if self.signed_in:
                     if self.booked:
                         return f"""<a class="govuk-link" href="../event/{ self.event.id }">
-                    Watch now<span class="govuk-visually-hidden">{self.event.id}</span></a>"""
+                    Watch now<span class="govuk-visually-hidden">{self.event.name}</span></a>"""
                     else:
                         return view_more_events
                 link_url = redirect(reverse_lazy('export_academy:registration', kwargs=dict(event_id=self.event.id)))
                 return f"""<a class="govuk-link" href="../{ link_url }">
-            Sign in to watch<span class="govuk-visually-hidden">{self.event.id}</span></a>"""
+            Sign in to watch<span class="govuk-visually-hidden">{self.event.name}</span></a>"""
 
             else:
                 return view_more_events
