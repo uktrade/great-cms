@@ -1106,10 +1106,8 @@ class EventsDetailsViewTestCase(TestCase):
 
         call_to_action = view.get_warning_call_to_action()
 
-        expected_text = (
-            f'<a class="govuk-link" href="../event/{self.event.id}">'
-            'Watch now<span class="govuk-visually-hidden">{event.name}</span></a>'
-        )
+        expected_text = f"""<a class="govuk-link" href="../event/{self.event.id}">
+            Watch now<span class="govuk-visually-hidden">{self.event.name}</span></a>"""
         self.assertEqual(call_to_action, expected_text)
 
     def test_get_warning_call_to_action_event_ended_with_video_signed_in_and_booked(self):
@@ -1122,10 +1120,8 @@ class EventsDetailsViewTestCase(TestCase):
 
         call_to_action = view.get_warning_call_to_action()
 
-        expected_text = (
-            f'<a class="govuk-link" href="../event/{self.event.id}">'
-            'Watch now<span class="govuk-visually-hidden">{event.name}</span></a>'
-        )
+        expected_text = f"""<a class="govuk-link" href="../event/{self.event.id}">
+            Watch now<span class="govuk-visually-hidden">{self.event.name}</span></a>"""
         self.assertEqual(call_to_action, expected_text)
 
     def tearDown(self):
