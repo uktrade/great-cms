@@ -67,8 +67,7 @@ def test_book_button_returned_for_upcoming_event_not_registered_user(user, test_
 
     assert buttons['form_event_booking_buttons'] == [
         {
-            'label': """Book event<span class="great-visually-hidden">Test event name</span>\n
-                     <i class="fa fa-external-link" aria-hidden="true"></i>""",
+            'label': 'Book event<span class="great-visually-hidden">Test event name</span>',
             'classname': 'govuk-button govuk-!-margin-bottom-0 ukea-ga-tracking',
             'value': 'Confirmed',
             'type': 'submit',
