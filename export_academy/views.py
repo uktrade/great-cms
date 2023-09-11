@@ -627,7 +627,9 @@ class EventsDetailsView(DetailView):
             return warning_text
 
         elif self.ended or self.event.completed or self.event.closed:
-            warning_text = 'This event has ended.' if self.ended or self.event.completed else 'This event is closed.'
+            warning_text = (
+                'This event has ended.' if self.ended or self.event.completed else 'This event is closed for bookings.'
+            )
 
         if self.has_video:
             warning_text += video_text
