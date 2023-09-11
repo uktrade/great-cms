@@ -41,6 +41,7 @@ def test_book_button_returned_for_upcoming_event_registered_user(user, test_futu
 
     assert buttons['form_event_booking_buttons'] == [
         {
+            'label': 'Book event<span class="great-visually-hidden"> Test event name</span>',
             'classname': 'govuk-button govuk-!-margin-bottom-0 ukea-ga-tracking',
             'label': 'Book event<span class="great-visually-hidden"> Test event ' 'name</span>',
             'type': 'submit',
@@ -53,7 +54,7 @@ def test_book_button_returned_for_upcoming_event_registered_user(user, test_futu
 
     assert buttons['form_event_booking_buttons'] == [
         {
-            'label': 'Sign up<span class="great-visually-hidden"> Test event name</span>',
+            'label': 'Sign up to book event<span class="great-visually-hidden"> Test event name</span>',
             'classname': 'govuk-button govuk-!-margin-bottom-0 ukea-ga-tracking',
             'value': 'Confirmed',
             'type': 'submit',
@@ -61,13 +62,13 @@ def test_book_button_returned_for_upcoming_event_registered_user(user, test_futu
     ]
 
 
-@pytest.mark.django_db
 def test_book_button_returned_for_upcoming_event_not_registered_user(user, test_future_event):
     buttons = helpers.get_buttons_for_event(user, test_future_event)
 
     assert buttons['form_event_booking_buttons'] == [
         {
-            'label': 'Book event<span class="great-visually-hidden"> Test event name</span>',
+            'label': """Book event<span class="great-visually-hidden"> Test event name</span>
+                     <i class="fa fa-external-link" aria-hidden="true"></i>""",
             'classname': 'govuk-button govuk-!-margin-bottom-0 ukea-ga-tracking',
             'value': 'Confirmed',
             'type': 'submit',
@@ -109,7 +110,8 @@ def test_join_button_returned_for_booked_in_progress_event(user):
     assert buttons['event_action_buttons'] == [
         {
             'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
-            'label': 'Join event<span class="great-visually-hidden"> Test event name</span>',
+            'label': """Join event<span class="great-visually-hidden"> Test event name</span>
+            '<i class="fa fa-external-link" aria-hidden="true"></i>""",
             'title': 'Join Test event name',
             'url': reverse_lazy('export_academy:join', kwargs=dict(event_id=event.id)),
         }
@@ -133,7 +135,8 @@ def test_join_button_returned_for_booked_in_upcoming_event(user):
     assert buttons['event_action_buttons'] == [
         {
             'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
-            'label': 'Join event<span class="great-visually-hidden"> Test event name</span>',
+            'label': """Join event<span class="great-visually-hidden"> Test event name</span>
+            '<i class="fa fa-external-link" aria-hidden="true"></i>""",
             'title': 'Join Test event name',
             'url': reverse_lazy('export_academy:join', kwargs=dict(event_id=event.id)),
         }

@@ -112,7 +112,7 @@ def get_event_booking_button(user, event):
             'type': 'submit',
         }
         if user.is_anonymous:
-            button['label'] = f'Sign up<span class="great-visually-hidden"> {event.name}</span>'
+            button['label'] = f'Sign up to book event<span class="great-visually-hidden"> {event.name}</span>'
             result += [button]
         elif not user_booked_on_event(user, event):
             button['label'] = f'Book event<span class="great-visually-hidden"> {event.name}</span>'
@@ -124,7 +124,8 @@ def get_event_join_button(event):
     return [
         {
             'url': reverse_lazy('export_academy:join', kwargs=dict(event_id=event.pk)),
-            'label': f'Join event<span class="great-visually-hidden"> {event.name}</span>',
+            'label': f"""Join event<span class="great-visually-hidden"> {event.name}</span>
+            '<i class="fa fa-external-link" aria-hidden="true"></i>""",
             'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
             'title': f'Join {event.name}',
         },

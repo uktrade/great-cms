@@ -279,5 +279,5 @@ def persist_language(url, query_params=None):
 
 
 @register.filter(name='replace_underscores')
-def replace_underscores(value, replacement=' '):
+def replace_underscores(value, replacement='-'):
     return value.replace('_', replacement)

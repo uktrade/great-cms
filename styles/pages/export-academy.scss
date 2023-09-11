@@ -303,6 +303,16 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 10px;
+
+  i {
+    font-size: 35px;
+  }
+  >div {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+    align-items: center;
+  }
 }
 
 .event-details-main-content {
@@ -324,6 +334,9 @@
   }
 
    .event-metadata {
+    > div{
+      max-width: 400px;
+    }
     border-bottom: 1px solid #b1b4b6;
     p {
       margin: 0;

@@ -725,7 +725,23 @@ img.richtext-image {
   width: 300px;
 }
 
-
 .great-title-link {
   text-decoration: none;
+  color: $great-blue;
+  &:hover {
+    text-decoration: underline;
+    text-decoration-color: #003078;;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: $great-blue;
+    &:hover {
+      color: #003078;
+    }
+  }
 }

@@ -11,8 +11,8 @@ from export_academy.models import Event, send_notifications_for_all_bookings
 def send_automated_events_notification():
     time_delay = settings.EXPORT_ACADEMY_AUTOMATED_NOTIFY_TIME_DELAY_MINUTES
     events = Event.objects.filter(
-        start_date__gte=timezone.now() + timedelta(minutes=time_delay),
-        start_date__lt=timezone.now() + timedelta(minutes=time_delay * 2),
+        start_date__gte=timezone.now() + timedelta(minutes=time_delay * 2),
+        start_date__lt=timezone.now() + timedelta(minutes=time_delay * 3),
     )
 
     for event in events:
