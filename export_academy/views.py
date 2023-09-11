@@ -620,15 +620,17 @@ class EventsDetailsView(DetailView):
         video_text = (
             ' A recording is only available for 4 weeks after the event.'
             if self.signed_in
-            else ' If you booked this event, a recording is only available for 4 weeks after the event.'
+            else 'If you booked this event, a recording is only available for 4 weeks after the event.'
         )
         if self.booked and not self.ended and not self.event.completed:
             return warning_text
-        elif self.ended or self.event.completed or self.event.closed:
-            warning_text = 'Event has ended.' if self.ended or self.event.completed else 'This event is closed.'
 
-            if self.has_video:
-                warning_text += video_text
+        elif self.ended or self.event.completed or self.event.closed:
+            if self.signed_in:
+                warning_text = 'Event has ended.' if self.ended or self.event.completed else 'This event is closed.'
+
+        if self.has_video:
+            warning_text += video_text
 
         return warning_text
 
@@ -672,8 +674,10 @@ class EventsDetailsView(DetailView):
                     Watch now<span class="govuk-visually-hidden">{self.event.id}</span></a>"""
                     else:
                         return view_more_events
-                link_url = redirect(reverse_lazy('export_academy:registration', kwargs=dict(event_id=self.event.id)))
-                return f"""<a class="govuk-link" href="../{ link_url }">
+                registration_link = redirect(
+                    reverse_lazy('export_academy:registration', kwargs=dict(event_id=self.event.id))
+                )
+                return f"""<a class="govuk-link" href="../{ registration_link }">
             Sign in to watch<span class="govuk-visually-hidden">{self.event.id}</span></a>"""
 
             else:
