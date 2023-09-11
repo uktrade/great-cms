@@ -20,7 +20,7 @@
         {% endbreadcrumbs %}
     </div>
     <section class="great govuk-!-padding-top-9 govuk-!-padding-bottom-6">
-        <div class="great-container event-details-header-container ">
+        <div class="great-container event-details-header-container">
             <div class="event-details-header-info govuk-grid-column-two-thirds-from-desktop govuk-!-static-padding-0">
                 <h2 class="govuk-caption-l">{{ event.format|replace_underscores }} event</h4>
                 <h1 class="govuk-heading-l govuk-!-static-margin-0">{{ event.name }}</h2>
@@ -88,7 +88,7 @@
                     <div class="event-details-speakers govuk-!-static-padding-bottom-6">
                         <h2 class="govuk-heading-m govuk-!-static-margin-0">Speakers</h2>
                         {% for speaker in speakers %}
-                            <h3 class="govuk-heading-s govuk-!-static-padding-bottom-2 govuk-!-static-padding-top-4 govuk-!-static-margin-0">{{ speaker.name }}</h3>
+                            <h3 class="govuk-heading-s govuk-!-static-padding-bottom-2 {% if forloop.first %}govuk-!-static-padding-top-4{%else%}govuk-!-static-padding-top-6{%endif%} govuk-!-static-margin-0">{{ speaker.name }}</h3>
                             <p class='job-title govuk-!-static-margin-0 govuk-!-static-padding-bottom-2'>
                                 {{ speaker.role }}, {{ speaker.organisation }}
                             </p>
