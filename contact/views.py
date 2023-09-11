@@ -575,7 +575,7 @@ class DomesticExportSupportFormStep8View(contact_mixins.ExportSupportFormMixin, 
     def get_context_data(self, **kwargs):
         office_details = self.get_office_details()
         is_feedback_form = True
-        show_regional_office = True
+        show_regional_office = False
 
         return super().get_context_data(
             **kwargs,
