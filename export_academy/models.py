@@ -156,11 +156,11 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
 
     def save(self, **kwargs):
         if not self.slug:
-            slug = f'{slugify(self.name)}-{self.start_date.strftime("%Y-%m-%d")}'
+            slug = f'{slugify(self.name)}-{self.start_date.strftime("%d-%B-%Y")}'.lower()
             n = 1
             while True:
                 if Event.objects.filter(slug=slug).exists():
-                    slug = f'{slugify(self.name)}-{self.start_date.strftime(f"%Y-%m-%d-{n}")}'
+                    slug = f'{slugify(self.name)}-{self.start_date.strftime(f"%d-%B-%Y-{n}")}'.lower()
                     n += 1
                 else:
                     self.slug = slug
