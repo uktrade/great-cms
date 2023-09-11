@@ -4,6 +4,7 @@ import json
 from functools import wraps
 
 from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth.views import redirect_to_login
 from django.db.models import Q
 from django.shortcuts import redirect
@@ -89,6 +90,8 @@ def get_badges_for_event(user, event):
 
 
 def user_booked_on_event(user, event):
+    if user == AnonymousUser():
+        return False
     return event.bookings.filter(
         Q(registration__email=user.email, status='Confirmed') | Q(registration__email=user.email, status='Joined')
     ).exists()

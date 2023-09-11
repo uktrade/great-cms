@@ -135,7 +135,7 @@ def test_join_button_returned_for_booked_in_upcoming_event(user):
     assert buttons['event_action_buttons'] == [
         {
             'classname': 'govuk-button ukea-ga-tracking govuk-!-margin-bottom-0',
-            'label': """Join event<span class="great-visually-hidden">opens in tab</span>
+            'label': """Join event<span class="great-visually-hidden">opens in new tab</span>
             <i class="fa fa-external-link-alt" aria-hidden="true"></i>""",
             'title': 'Join Test event name',
             'url': reverse_lazy('export_academy:join', kwargs=dict(event_id=event.id)),
