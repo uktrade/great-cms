@@ -1039,7 +1039,7 @@ class EventsDetailsViewTestCase(TestCase):
 
         warning_text = view.get_warning_text()
 
-        expected_text = ' A recording is only available for 4 weeks after the event.'
+        expected_text = ''
         self.assertEqual(warning_text, expected_text)
 
     def test_get_warning_text_event_ended_no_video(self):
@@ -1052,7 +1052,7 @@ class EventsDetailsViewTestCase(TestCase):
 
         warning_text = view.get_warning_text()
 
-        expected_text = ''
+        expected_text = 'Event has ended. A recording is only available for 4 weeks after the event.'
         self.assertEqual(warning_text, expected_text)
 
     def test_get_warning_text_event_ended_with_video_not_signed_in(self):
@@ -1065,7 +1065,7 @@ class EventsDetailsViewTestCase(TestCase):
 
         warning_text = view.get_warning_text()
 
-        expected_text = ' If you booked this event, a recording is only available for 4 weeks after the event.'
+        expected_text = 'If you booked this event, a recording is only available for 4 weeks after the event.'
         self.assertEqual(warning_text, expected_text)
 
     def test_get_warning_text_event_completed(self):
@@ -1093,7 +1093,7 @@ class EventsDetailsViewTestCase(TestCase):
 
         warning_text = view.get_warning_text()
 
-        expected_text = 'This event is closed. A recording is only available for 4 weeks after the event.'
+        expected_text = ''
         self.assertEqual(warning_text, expected_text)
 
     def test_get_warning_call_to_action_event_not_ended_with_video_signed_in_and_booked(self):
