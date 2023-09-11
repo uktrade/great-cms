@@ -288,8 +288,9 @@
         }
       }
     }
-    h4 {
+    h2.govuk-caption-l {
       font-family: $main-text-font;
+      font-weight: 300;
       color: #505a5f;
       &::first-letter {
         text-transform: uppercase;
