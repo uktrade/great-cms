@@ -266,6 +266,11 @@
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 30px;
+
+  time {
+    color: #505A5F;
+  }
+
   .event-details-header-logo {
     width: 132px;
     margin-left: auto;
