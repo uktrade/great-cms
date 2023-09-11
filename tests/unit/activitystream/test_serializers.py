@@ -459,6 +459,7 @@ class TestMicrositeSerializer(TestCase):
                 'id': 'dit:greatCms:Microsite::' + str(self.microsite.id),
                 'type': 'dit:greatCms:Microsite',
                 'summary': self.microsite.page_teaser,
+                'content': '',
                 'name': self.microsite.page_title,
                 'url': 'https://www.great.gov.uk/homepage/landing-page/root/microsite-title/',
                 'locale_id': 9,
