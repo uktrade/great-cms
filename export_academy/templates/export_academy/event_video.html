@@ -10,7 +10,7 @@
  <div id="breadcrumbs"
              class="great-display-from-tablet great-bg-light-blue back-breadcrumbs">
             {% breadcrumbs event.name %}
-            <a href="../../events/{{event.id}}">Back to event</a>
+            <a href="{{event.get_absolute_url}}">Back to event</a>
         {% endbreadcrumbs %}
     </div>
     <div class="container great">
