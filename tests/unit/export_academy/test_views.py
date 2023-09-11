@@ -7,6 +7,7 @@ from unittest import mock
 import pytest
 from directory_forms_api_client import actions
 from django.http import HttpResponseRedirect
+from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 from wagtail_factories import DocumentFactory
@@ -17,6 +18,7 @@ from core.snippet_slugs import EA_REGISTRATION_PAGE_HERO
 from directory_sso_api_client import sso_api_client
 from export_academy.filters import EventFilter
 from export_academy.models import Booking, Registration
+from export_academy.views import EventsDetailsView
 from sso import helpers as sso_helpers
 from tests.helpers import create_response
 from tests.unit.export_academy import factories
@@ -1021,3 +1023,110 @@ def test_signin_invalid_password(client, requests_mock, test_unique_link_query_p
     assert response.status_code == 200
     if unique_link:
         assert response.context['form'].initial['email'] == 'test@example.com'
+
+
+class EventsDetailsViewTestCase(TestCase):
+    def setUp(self):
+        self.event = factories.EventFactory()
+
+    def test_get_warning_text_event_not_ended(self):
+        view = EventsDetailsView()
+        view.event = self.event
+        view.ended = False
+        view.has_video = True
+        view.signed_in = True
+        view.booked = True
+
+        warning_text = view.get_warning_text()
+
+        expected_text = ' A recording is only available for 4 weeks after the event.'
+        self.assertEqual(warning_text, expected_text)
+
+    def test_get_warning_text_event_ended_no_video(self):
+        view = EventsDetailsView()
+        view.event = self.event
+        view.ended = True
+        view.has_video = False
+        view.signed_in = True
+        view.booked = True
+
+        warning_text = view.get_warning_text()
+
+        expected_text = ''
+        self.assertEqual(warning_text, expected_text)
+
+    def test_get_warning_text_event_ended_with_video_not_signed_in(self):
+        view = EventsDetailsView()
+        view.event = self.event
+        view.ended = True
+        view.has_video = True
+        view.signed_in = False
+        view.booked = True
+
+        warning_text = view.get_warning_text()
+
+        expected_text = ' If you booked this event, a recording is only available for 4 weeks after the event.'
+        self.assertEqual(warning_text, expected_text)
+
+    def test_get_warning_text_event_completed(self):
+        view = EventsDetailsView()
+        view.event = self.event
+        view.ended = False
+        view.has_video = True
+        view.signed_in = True
+        view.booked = True
+        view.event.completed = True
+
+        warning_text = view.get_warning_text()
+
+        expected_text = 'Event has ended. A recording is only available for 4 weeks after the event.'
+        self.assertEqual(warning_text, expected_text)
+
+    def test_get_warning_text_event_closed(self):
+        view = EventsDetailsView()
+        view.event = self.event
+        view.ended = False
+        view.has_video = True
+        view.signed_in = True
+        view.booked = True
+        view.event.closed = True
+
+        warning_text = view.get_warning_text()
+
+        expected_text = 'This event is closed. A recording is only available for 4 weeks after the event.'
+        self.assertEqual(warning_text, expected_text)
+
+    def test_get_warning_call_to_action_event_not_ended_with_video_signed_in_and_booked(self):
+        view = EventsDetailsView()
+        view.event = self.event
+        view.ended = False
+        view.has_video = True
+        view.signed_in = True
+        view.booked = True
+
+        call_to_action = view.get_warning_call_to_action()
+
+        expected_text = (
+            f'<a class="govuk-link" href="../event/{self.event.id}">'
+            'Watch now<span class="govuk-visually-hidden">{event.name}</span></a>'
+        )
+        self.assertEqual(call_to_action, expected_text)
+
+    def test_get_warning_call_to_action_event_ended_with_video_signed_in_and_booked(self):
+        view = EventsDetailsView()
+        view.event = self.event
+        view.ended = True
+        view.has_video = True
+        view.signed_in = True
+        view.booked = True
+
+        call_to_action = view.get_warning_call_to_action()
+
+        expected_text = (
+            f'<a class="govuk-link" href="../event/{self.event.id}">'
+            'Watch now<span class="govuk-visually-hidden">{event.name}</span></a>'
+        )
+        self.assertEqual(call_to_action, expected_text)
+
+    def tearDown(self):
+        self.event.delete()
