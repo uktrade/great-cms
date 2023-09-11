@@ -62,6 +62,7 @@ def test_book_button_returned_for_upcoming_event_registered_user(user, test_futu
     ]
 
 
+@pytest.mark.django_db
 def test_book_button_returned_for_upcoming_event_not_registered_user(user, test_future_event):
     buttons = helpers.get_buttons_for_event(user, test_future_event)
 
