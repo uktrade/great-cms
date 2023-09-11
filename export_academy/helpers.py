@@ -101,7 +101,7 @@ def get_event_booking_button(user, event):
     result = []
     if event.status is not Event.STATUS_FINISHED and not event.completed and not event.closed:
         button = {
-            'label': f'Book event<span class="great-visually-hidden"> {event.name}</span>',
+            'label': f'Book event<span class="great-visually-hidden">{event.name}</span>',
             'classname': 'govuk-button govuk-!-margin-bottom-0 ukea-ga-tracking',
             'value': 'Confirmed',
             'type': 'submit',
@@ -110,7 +110,7 @@ def get_event_booking_button(user, event):
             button['label'] = f'Sign up to book event<span class="great-visually-hidden"> {event.name}</span>'
             result += [button]
         elif not user_booked_on_event(user, event):
-            button['label'] = f'Book event<span class="great-visually-hidden"> {event.name}</span>'
+            button['label'] = f'Book event<span class="great-visually-hidden">{event.name}</span>'
             result += [button]
     return result
 
