@@ -20,7 +20,7 @@ urlpatterns = [
         name='upcoming-events',
     ),
     path(
-        'events/<uuid:pk>/',
+        'events/<slug:slug>/',
         views.EventsDetailsView.as_view(),
         name='event-details',
     ),
