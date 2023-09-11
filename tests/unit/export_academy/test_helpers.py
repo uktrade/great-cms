@@ -43,9 +43,10 @@ def test_book_button_returned_for_upcoming_event_registered_user(user, test_futu
         {
             'label': 'Book event<span class="great-visually-hidden"> Test event name</span>',
             'classname': 'govuk-button govuk-!-margin-bottom-0 ukea-ga-tracking',
-            'value': 'Confirmed',
+            'label': 'Book event<span class="great-visually-hidden"> Test event ' 'name</span>',
             'type': 'submit',
-        },
+            'value': 'Confirmed',
+        }
     ]
 
     user = AnonymousUser()

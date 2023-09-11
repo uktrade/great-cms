@@ -633,9 +633,8 @@ class EventsDetailsView(DetailView):
         user = self.request.user
         return get_badges_for_event(user, event)
 
-    def get(self, request, *args, **kwargs):
-        update_booking(request.user.email, kwargs['pk'], request)
-        return super().get(request, *args, **kwargs)
+    def get_object(self, **kwargs):
+        return self.model.objects.get(slug=self.kwargs['slug'])
 
 
 class SignUpCompleteView(TemplateView):
