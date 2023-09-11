@@ -1,4 +1,5 @@
 @import '../fonts/main.scss';
+@import '../sizes/sizes.scss';
 
 .intro-text-container {
   margin-top: 5px;
@@ -270,6 +271,10 @@
     margin-left: auto;
     display: flex;
     align-items: flex-end;
+    @media only screen and (max-width: $mobile-size) {
+      margin-left: 0;
+      margin-right: auto;
+    }
   }
   .event-details-header-info {
     display: flex;
@@ -308,7 +313,7 @@
   i {
     font-size: 35px;
   }
-  >div {
+  > div {
     display: flex;
     flex-wrap: nowrap;
     gap: 10px;
@@ -334,8 +339,8 @@
     }
   }
 
-   .event-metadata {
-    > div{
+  .event-metadata {
+    > div {
       max-width: 400px;
     }
     border-bottom: 1px solid #b1b4b6;
