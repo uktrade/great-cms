@@ -378,3 +378,9 @@ class GetBadgesForEventTestCase(TestCase):
 
         self.assertEqual(len(badges), 1)
         self.assertEqual(badges[0]['label'], 'Booked')
+
+
+@pytest.mark.django_db
+def test_anonymous_user_booked_on_event(test_future_event, user):
+    anonymous_user = AnonymousUser()
+    assert not helpers.user_booked_on_event(anonymous_user, test_future_event)
