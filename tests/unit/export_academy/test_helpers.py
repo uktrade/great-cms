@@ -109,7 +109,7 @@ def test_join_button_returned_for_booked_in_progress_event(user):
 
     assert buttons['event_action_buttons'] == [
         {
-            'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking govuk-!-margin-bottom-0',
+            'classname': 'govuk-button ukea-ga-tracking govuk-!-margin-bottom-0',
             'label': """Join event<span class="great-visually-hidden">opens in new tab</span>
             <i class="fa fa-external-link-alt" aria-hidden="true"></i>""",
             'title': 'Join Test event name',
@@ -134,7 +134,7 @@ def test_join_button_returned_for_booked_in_upcoming_event(user):
 
     assert buttons['event_action_buttons'] == [
         {
-            'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking govuk-!-margin-bottom-0',
+            'classname': 'govuk-button ukea-ga-tracking govuk-!-margin-bottom-0',
             'label': """Join event<span class="great-visually-hidden">opens in tab</span>
             <i class="fa fa-external-link-alt" aria-hidden="true"></i>""",
             'title': 'Join Test event name',
