@@ -660,7 +660,7 @@ class EventsDetailsView(DetailView):
     def get_badges_for_event(self, event):
         user = self.request.user
         return get_badges_for_event(user, event)
-    
+
     def get_warning_call_to_action(self):
         if self.ended or self.event.completed or self.event.closed:
             view_more_events = '<a class="govuk-link" href="../">View more events</a>'
