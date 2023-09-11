@@ -551,10 +551,12 @@
 }
 
 .great-actions-group {
+  display: flex;
+  gap: 10px 20px;
   > * {
     @include govuk-media-query($from: tablet) {
       display: inline-block;
-      margin-right: 20px;
+      flex-grow: 1;
     }
   }
 
