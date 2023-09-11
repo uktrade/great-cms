@@ -1108,18 +1108,16 @@ class EventsDetailsViewTestCase(TestCase):
         call_to_action = view.get_warning_call_to_action()
         assert 'Watch now' in call_to_action
 
-    # def test_get_warning_call_to_action_event_ended_with_video_signed_in_and_booked(self):
-    #     view = EventsDetailsView()
-    #     view.event = self.event_with_video
-    #     view.ended = True
-    #     view.has_video = True
-    #     view.signed_in = True
-    #     view.booked = True
-    #     call_to_action = view.get_warning_call_to_action()
+    def test_get_warning_call_to_action_event_ended_with_video_signed_in_and_booked_and_not_completed(self):
+        view = EventsDetailsView()
+        view.event = self.event_with_video
+        view.ended = True
+        view.has_video = True
+        view.signed_in = True
+        view.booked = True
+        call_to_action = view.get_warning_call_to_action()
 
-    #     expected_text = f"""<a class="govuk-link" href="../event/{self.event.id}">
-    #         Watch now<span class="govuk-visually-hidden">{self.event.name}</span></a>"""
-    #     self.assertEqual(call_to_action, expected_text)
+        assert 'Watch now' in call_to_action
 
     def tearDown(self):
         self.event_with_video.delete()
