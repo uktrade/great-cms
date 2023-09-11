@@ -622,9 +622,10 @@ class EventsDetailsView(DetailView):
             if self.signed_in
             else ' If you booked this event, a recording is only available for 4 weeks after the event.'
         )
-
-        if self.ended or self.event.completed or self.event.closed:
-            warning_text = 'Event has ended.' if self.ended else 'This event is closed.'
+        if self.booked and not self.ended and not self.event.completed:
+            return warning_text
+        elif self.ended or self.event.completed or self.event.closed:
+            warning_text = 'Event has ended.' if self.ended or self.event.completed else 'This event is closed.'
 
             if self.has_video:
                 warning_text += video_text

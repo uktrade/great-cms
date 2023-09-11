@@ -67,29 +67,21 @@ def get_badges_for_event(user, event):
             result += [
                 {
                     'label': 'Booked',
-                    'classname': 'great-badge govuk-!-margin-bottom-3',
+                    'classname': 'great-badge govuk-!-margin-bottom-0',
                 }
             ]
-    elif event_has_ended(event):
+    elif event_has_ended(event) or event.completed:
         result += [
             {
                 'label': 'Ended',
-                'classname': 'great-badge ended govuk-!-margin-bottom-3',
+                'classname': 'great-badge ended govuk-!-margin-bottom-0',
             }
         ]
-    elif event.completed:
-        result += [
-            {
-                'label': 'Completed',
-                'classname': 'great-badge completed govuk-!-margin-bottom-3',
-            }
-        ]
-
     elif event.closed:
         result += [
             {
                 'label': 'Closed',
-                'classname': 'great-badge closed govuk-!-margin-bottom-3',
+                'classname': 'great-badge closed govuk-!-margin-bottom-0',
             }
         ]
 
@@ -134,7 +126,7 @@ def get_event_join_button(event):
 
 def get_ics_button(event, on_confirmation):
     return {
-        'label': f'<i class="fa fa-calendar" aria-hidden="true"></i>Add to calendar<span '
+        'label': f'<i class="fa fa-calendar-plus" aria-hidden="true"></i>Add to calendar<span '
         f'class="great-visually-hidden">{event.name}</span>',
         'value': 'Confirmed',
         'type': 'submit',

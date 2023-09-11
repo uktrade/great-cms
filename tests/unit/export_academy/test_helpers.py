@@ -86,7 +86,7 @@ def test_cancel_button_returned_for_booked_upcoming_event(user, test_future_even
     assert buttons['form_event_booking_buttons'] == [
         {
             'label': 'Cancel booking<span class="great-visually-hidden"> for Test event name</span>',
-            'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
+            'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking govuk-!-margin-bottom-0',
             'value': 'Cancelled',
             'type': 'submit',
         },
@@ -109,8 +109,8 @@ def test_join_button_returned_for_booked_in_progress_event(user):
 
     assert buttons['event_action_buttons'] == [
         {
-            'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
-            'label': f"""Join event<span class="great-visually-hidden">{event.name}</span>
+            'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking govuk-!-margin-bottom-0',
+            'label': """Join event<span class="great-visually-hidden">opens in new tab</span>
             <i class="fa fa-external-link-alt" aria-hidden="true"></i>""",
             'title': 'Join Test event name',
             'url': reverse_lazy('export_academy:join', kwargs=dict(event_id=event.id)),
@@ -134,8 +134,8 @@ def test_join_button_returned_for_booked_in_upcoming_event(user):
 
     assert buttons['event_action_buttons'] == [
         {
-            'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
-            'label': f"""Join event<span class="great-visually-hidden">{event.name}</span>
+            'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking govuk-!-margin-bottom-0',
+            'label': """Join event<span class="great-visually-hidden">opens in tab</span>
             <i class="fa fa-external-link-alt" aria-hidden="true"></i>""",
             'title': 'Join Test event name',
             'url': reverse_lazy('export_academy:join', kwargs=dict(event_id=event.id)),
@@ -164,7 +164,7 @@ def test_view_buttons_returned_for_booked_online_past_event(user):
             'url': reverse_lazy('export_academy:event-video', kwargs=dict(pk=event.pk)),
             'label': """<i class="fa fa-play" aria-hidden="true"></i>Play
                             <span class="great-visually-hidden"> recording of Test event name</span>""",
-            'classname': 'govuk-button ukea-ga-tracking',
+            'classname': 'govuk-button ukea-ga-tracking govuk-!-margin-bottom-0',
             'title': 'Play recording of Test event name',
         },
     ]
