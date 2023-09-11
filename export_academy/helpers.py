@@ -63,7 +63,15 @@ def get_badges_for_event(user, event):
         current_datetime = datetime.datetime.now(datetime.timezone.utc)
         return event.end_date < current_datetime
 
-    if is_export_academy_registered(user):
+    if event_has_ended(event) or event.completed:
+        result += [
+            {
+                'label': 'Ended',
+                'classname': 'great-badge ended govuk-!-margin-bottom-0',
+            }
+        ]
+
+    elif is_export_academy_registered(user):
         if user_booked_on_event(user, event):
             result += [
                 {
@@ -71,13 +79,6 @@ def get_badges_for_event(user, event):
                     'classname': 'great-badge govuk-!-margin-bottom-0',
                 }
             ]
-    elif event_has_ended(event) or event.completed:
-        result += [
-            {
-                'label': 'Ended',
-                'classname': 'great-badge ended govuk-!-margin-bottom-0',
-            }
-        ]
     elif event.closed:
         result += [
             {

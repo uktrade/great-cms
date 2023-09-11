@@ -1,9 +1,11 @@
 import base64
+import datetime
 import hashlib
 from datetime import timedelta
 
 import pytest
 from django.contrib.auth.models import AnonymousUser
+from django.test import TestCase
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.encoding import force_str
@@ -20,6 +22,17 @@ def test_future_event():
     return factories.EventFactory(
         start_date=now + timedelta(hours=6),
         end_date=now + timedelta(hours=7),
+        completed=None,
+        name='Test event name',
+    )
+
+
+@pytest.fixture
+def test_past_event():
+    now = timezone.now()
+    return factories.EventFactory(
+        start_date=now - timedelta(hours=6),
+        end_date=now - timedelta(hours=5),
         completed=None,
         name='Test event name',
     )
@@ -282,3 +295,86 @@ def test_get_registration_from_unique_link_failure(test_registration, external_i
     idb64 = force_str(base64.b64encode(bytes(external_id, 'utf-8')))
     token = hashlib.sha256(email.encode('UTF-8')).hexdigest()
     assert helpers.get_registration_from_unique_link(token=token, idb64=idb64) is None
+
+
+@pytest.mark.django_db
+class GetBadgesForEventTestCase(TestCase):
+    @pytest.fixture(autouse=True)
+    def set_fixtures(self, test_future_event, test_past_event, user):
+        self.user = user
+        self.future_event = test_future_event
+        self.past_event = test_past_event
+
+    def test_user_registered_and_booked(self):
+        registration = factories.RegistrationFactory(email=self.user.email)
+        factories.BookingFactory(event=self.future_event, registration=registration, status='Confirmed')
+        badges = helpers.get_badges_for_event(self.user, self.future_event)
+
+        self.assertEqual(len(badges), 1)
+        self.assertEqual(badges[0]['label'], 'Booked')
+
+    def test_user_not_registered_event_ended(self):
+        user = AnonymousUser()
+        event = factories.EventFactory(
+            end_date=datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=1),
+            completed=None,
+            closed=False,
+        )
+
+        badges = helpers.get_badges_for_event(user, event)
+
+        self.assertEqual(len(badges), 1)
+        self.assertEqual(badges[0]['label'], 'Ended')
+
+    def test_user_not_registered_event_completed(self):
+        user = AnonymousUser()
+        event = factories.EventFactory(
+            end_date=datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=1),
+            completed=None,
+            closed=False,
+        )
+
+        badges = helpers.get_badges_for_event(user, event)
+
+        self.assertEqual(len(badges), 1)
+        self.assertEqual(badges[0]['label'], 'Ended')
+
+    def test_user_not_registered_event_closed(self):
+        user = AnonymousUser()
+        event = factories.EventFactory(
+            end_date=datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=1),
+            completed=None,
+            closed=True,
+        )
+
+        badges = helpers.get_badges_for_event(user, event)
+
+        self.assertEqual(len(badges), 1)
+        self.assertEqual(badges[0]['label'], 'Closed')
+
+    def test_user_registered_event_ended(self):
+        registration = factories.RegistrationFactory(email=self.user.email)
+        factories.BookingFactory(event=self.past_event, registration=registration, status='Confirmed')
+        badges = helpers.get_badges_for_event(self.user, self.past_event)
+        self.assertEqual(len(badges), 1)
+        self.assertEqual(badges[0]['label'], 'Ended')
+
+    def test_user_registered_event_completed(self):
+        registration = factories.RegistrationFactory(email=self.user.email)
+        factories.BookingFactory(event=self.past_event, registration=registration, status='Confirmed')
+        event = factories.EventFactory()
+
+        badges = helpers.get_badges_for_event(self.user, event)
+
+        self.assertEqual(len(badges), 1)
+        self.assertEqual(badges[0]['label'], 'Ended')
+
+    def test_user_registered_event_closed(self):
+        registration = factories.RegistrationFactory(email=self.user.email)
+        factories.BookingFactory(event=self.future_event, registration=registration, status='Confirmed')
+        event = self.future_event
+        event.closed = True
+        badges = helpers.get_badges_for_event(self.user, event)
+
+        self.assertEqual(len(badges), 1)
+        self.assertEqual(badges[0]['label'], 'Booked')
