@@ -640,7 +640,7 @@ class EventsDetailsView(DetailView):
         self.ended = self.event.end_date < current_datetime
         self.has_video = True if self.video else False
         self.signed_in = True if self.request.user else False
-        self.booked = helpers.user_booked_on_event(self.user, self.event)
+        self.booked = False if not self.user else helpers.user_booked_on_event(self.user, self.event)
         self.warning_call_to_action = self.get_warning_call_to_action()
 
         ctx = super().get_context_data(**kwargs)
