@@ -156,7 +156,15 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
 
     def save(self, **kwargs):
         if not self.slug:
-            self.slug = f'{slugify(self.name)}-{self.start_date.strftime("%Y-%m-%d")}'
+            slug = f'{slugify(self.name)}-{self.start_date.strftime("%Y-%m-%d")}'
+            n = 1
+            while True:
+                if Event.objects.filter(slug=slug).exists():
+                    slug = f'{slugify(self.name)}-{self.start_date.strftime(f"%Y-%m-%d-{n}")}'
+                    n += 1
+                else:
+                    self.slug = slug
+                    break
 
         # Send notification when completed is updated
         if not self._state.adding:
