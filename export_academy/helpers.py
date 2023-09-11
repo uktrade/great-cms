@@ -48,7 +48,7 @@ def update_booked_user_buttons(event, result, on_confirmation):
     result['form_event_booking_buttons'] += [
         {
             'label': f'Cancel booking<span class="great-visually-hidden"> for {event.name}</span>',
-            'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
+            'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking govuk-!-margin-bottom-0',
             'value': 'Cancelled',
             'type': 'submit',
         },
@@ -124,9 +124,9 @@ def get_event_join_button(event):
     return [
         {
             'url': reverse_lazy('export_academy:join', kwargs=dict(event_id=event.pk)),
-            'label': f"""Join event<span class="great-visually-hidden">{event.name}</span>
+            'label': f"""Join event<span class="great-visually-hidden">opens in new tab</span>
             <i class="fa fa-external-link-alt" aria-hidden="true"></i>""",
-            'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
+            'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking govuk-!-margin-bottom-0',
             'title': f'Join {event.name}',
         },
     ]
@@ -138,9 +138,9 @@ def get_ics_button(event, on_confirmation):
         f'class="great-visually-hidden">{event.name}</span>',
         'value': 'Confirmed',
         'type': 'submit',
-        'classname': 'govuk-button ukea-ga-tracking'
+        'classname': 'govuk-button ukea-ga-tracking govuk-!-margin-bottom-0'
         if on_confirmation
-        else 'govuk-button govuk-button--secondary ukea-ga-tracking',
+        else 'govuk-button govuk-button--secondary ukea-ga-tracking govuk-!-margin-bottom-0',
     }
 
 
@@ -154,7 +154,7 @@ def get_event_completed_buttons(event):
                     'url': reverse_lazy('export_academy:event-video', kwargs=dict(pk=event.pk)),
                     'label': f"""<i class="fa fa-play" aria-hidden="true"></i>Play
                             <span class="great-visually-hidden"> recording of {event.name}</span>""",
-                    'classname': 'govuk-button ukea-ga-tracking',
+                    'classname': 'govuk-button ukea-ga-tracking govuk-!-margin-bottom-0',
                     'title': f'Play recording of {event.name}',
                 },
             ]

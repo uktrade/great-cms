@@ -631,24 +631,6 @@ class EventsDetailsView(DetailView):
 
         return warning_text
 
-    def get_warning_call_to_action(self):
-        if self.ended or self.event.completed or self.event.closed:
-            view_more_events = '<a class="govuk-link" href="../">View more events</a>'
-            if self.has_video:
-                if self.signed_in:
-                    if self.booked:
-                        return f"""<a class="govuk-link" href="../event/{ self.event.id }">
-                    Watch now<span class="govuk-visually-hidden">{self.event.id}</span></a>"""
-                    else:
-                        return view_more_events
-                link_url = redirect(reverse_lazy('export_academy:registration', kwargs=dict(event_id=self.event.id)))
-                return f"""<a class="govuk-link" href="../{ link_url }">
-            Sign in to watch<span class="govuk-visually-hidden">{self.event.id}</span></a>"""
-
-            else:
-                return view_more_events
-        return ''
-
     def get_context_data(self, **kwargs):
         self.event: models.Event = kwargs.get('object', {})
         self.video = getattr(self.event, 'video_recording', None)
@@ -678,6 +660,24 @@ class EventsDetailsView(DetailView):
     def get_badges_for_event(self, event):
         user = self.request.user
         return get_badges_for_event(user, event)
+    
+    def get_warning_call_to_action(self):
+        if self.ended or self.event.completed or self.event.closed:
+            view_more_events = '<a class="govuk-link" href="../">View more events</a>'
+            if self.has_video:
+                if self.signed_in:
+                    if self.booked:
+                        return f"""<a class="govuk-link" href="../event/{ self.event.id }">
+                    Watch now<span class="govuk-visually-hidden">{self.event.id}</span></a>"""
+                    else:
+                        return view_more_events
+                link_url = redirect(reverse_lazy('export_academy:registration', kwargs=dict(event_id=self.event.id)))
+                return f"""<a class="govuk-link" href="../{ link_url }">
+            Sign in to watch<span class="govuk-visually-hidden">{self.event.id}</span></a>"""
+
+            else:
+                return view_more_events
+        return ''
 
     def get_object(self, **kwargs):
         return self.model.objects.get(slug=self.kwargs['slug'])
