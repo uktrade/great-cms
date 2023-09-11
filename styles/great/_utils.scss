@@ -553,6 +553,7 @@
 .great-actions-group {
   display: flex;
   gap: 10px 20px;
+  flex-wrap: wrap;
   > * {
     @include govuk-media-query($from: tablet) {
       display: inline-block;

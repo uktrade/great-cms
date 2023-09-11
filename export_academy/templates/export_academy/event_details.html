@@ -41,13 +41,13 @@
                 <div class="event-metadata govuk-!-static-padding-top-2">
                     <div>
                         <dl class="govuk-summary-list govuk-summary-list--no-border">
-                            <div class="govuk-summary-list__row">
+                            <div class="govuk-summary-list__row govuk-!-margin-bottom-0">
                                 <dt class="govuk-summary-list__key govuk-!-margin-0 govuk-!-padding-bottom-1 govuk-!-padding-top-1">Duration</dt>
                                 <dd class="govuk-summary-list__value govuk-!-margin-0 govuk-!-padding-bottom-1 govuk-!-padding-top-1">
                                     {{ event.start_date|timesince:event.end_date }}
                                 </dd>
                             </div>
-                            <div class="govuk-summary-list__row">
+                            <div class="govuk-summary-list__row govuk-!-margin-bottom-0">
                                 <dt class="govuk-summary-list__key govuk-!-margin-0 govuk-!-padding-bottom-1 govuk-!-padding-top-1">Content</dt>
                                 <dd class="govuk-summary-list__value govuk-!-margin-0 govuk-!-padding-bottom-1 govuk-!-padding-top-1">
                                     {% for type in event_types %}
@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 {% if event.description %}
-                    <div class="event-details-summary govuk-!-static-padding-top-6 govuk-!-static-padding-bottom-4">
+                    <div class="event-details-summary govuk-!-static-padding-top-6 govuk-!-static-padding-bottom-6">
                         <p class="govuk-!-static-margin-0">{{ event.description }}</p>
                     </div>
                 {% endif %}
