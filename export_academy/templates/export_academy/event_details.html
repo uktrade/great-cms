@@ -9,7 +9,7 @@
 {% load add_govuk_classes from content_tags %}
 
 {% block head_title %}Events – {{ event.name }}{% endblock %}
-{% block content %}
+{% block body_header  %}
     <div class="great great-bg-white">
         <div id="breadcrumbs"
              class="great-display-from-tablet great-bg-light-blue">
@@ -18,6 +18,8 @@
             <a href="../">Events</a>
         {% endbreadcrumbs %}
     </div>
+{%endblock%}
+{% block content  %}
     <section class="great govuk-!-padding-top-9 govuk-!-padding-bottom-6">
         <div class="great-container event-details-header-container ">
             <div class="event-details-header-info govuk-grid-column-two-thirds-from-desktop govuk-!-static-padding-0">
