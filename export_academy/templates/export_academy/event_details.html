@@ -16,18 +16,19 @@
              class="great-bg-light-blue">
             {% breadcrumbs event.name %}
             <a href="/">great.gov.uk</a>
+            <a href="../../">UK Export Academy</a>
             <a href="../">Events</a>
         {% endbreadcrumbs %}
     </div>
-    <section class="great govuk-!-padding-top-9 govuk-!-padding-bottom-6">
+    <section class="great govuk-!-padding-bottom-6 govuk-!-padding-top-9">
         <div class="great-container event-details-header-container">
             <div class="event-details-header-info govuk-grid-column-two-thirds-from-desktop govuk-!-static-padding-0">
                 <h2 class="govuk-caption-l">{{ event.format|replace_underscores }} event</h4>
-                <h1 class="govuk-heading-l govuk-!-static-margin-0">{{ event.name }}</h2>
-                <time class="govuk-!-static-padding-top-2" datetime="{{event.start_date|date:"Y-m-d" }}T{{event.start_date|time:"H:i:s" }}{{ event.start_date|date:"O" }}">
+                <h1 class="govuk-heading-l govuk-!-static-margin-0 govuk-!-static-margin-bottom-2">{{ event.name }}</h2>
+                <time class="govuk-!-margin-bottom-2" datetime="{{event.start_date|date:"Y-m-d" }}T{{event.start_date|time:"H:i:s" }}{{ event.start_date|date:"O" }}">
                     {{ event.start_date|date:"l" }} {{ event.start_date|date:"j F" }} at {{ event.start_date|date:"g:iA"|lower }}
                 </time>
-                <div class="govuk-!-padding-top-2">{% event_list_badges event %}</div>
+                <div>{% event_list_badges event %}</div>
             </div>
             <div class="event-details-header-logo">
                 <img class="ea-logo" src="/static/images/uk-export-academy-logo.svg" alt="UK Export Academy logo" />
@@ -35,7 +36,7 @@
         </div>
     </section>
     {% include './includes/event_details_banner.html'%}
-    <section class="great great-bg-white govuk-!-static-padding-top-4 event-details-main-content govuk-!-static-padding-bottom-4 ">
+    <section class="great great-bg-white govuk-!-static-padding-0 govuk-!-static-margin-top-4 event-details-main-content govuk-!-static-margin-bottom-4 ">
         <div class="great-container">
             <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-static-padding-0">
                 <div class="event-metadata govuk-!-static-padding-top-2">
@@ -60,13 +61,13 @@
                     </div>
                 </div>
                 {% if event.description %}
-                    <div class="event-details-summary govuk-!-static-padding-top-6 govuk-!-static-padding-bottom-6">
+                    <div class="event-details-summary govuk-!-static-margin-top-6 govuk-!-static-margin-bottom-6">
                         <p class="govuk-!-static-margin-0">{{ event.description }}</p>
                     </div>
                 {% endif %}
                 {% if event.outcomes %}
-                    <div class="event-details-what-you-will-learn govuk-!-static-padding-bottom-6">
-                        <h2 class="govuk-heading-m">What you will learn</h2>
+                    <div class="event-details-what-you-will-learn govuk-!-static-margin-bottom-6">
+                        <h2 class="govuk-heading-m">What you’ll learn</h2>
                         <div class="richtext">
                             {% filter add_govuk_classes %}
                                 {{ event.outcomes|richtext }}
@@ -86,16 +87,18 @@
                 {% endif %}
                 {% if speakers %}
                     <div class="event-details-speakers govuk-!-static-padding-bottom-6">
-                        <h2 class="govuk-heading-m govuk-!-static-margin-0">Speakers</h2>
+                        <h2 class="govuk-heading-m govuk-!-static-margin-0 govuk-!-static-margin-bottom-4">Speakers</h2>
                         {% for speaker in speakers %}
-                            <h3 class="govuk-heading-s govuk-!-static-padding-bottom-2 {% if forloop.first %}govuk-!-static-padding-top-4{%else%}govuk-!-static-padding-top-6{%endif%} govuk-!-static-margin-0">{{ speaker.name }}</h3>
-                            <p class='job-title govuk-!-static-margin-0 govuk-!-static-padding-bottom-2'>
-                                {{ speaker.role }}, {{ speaker.organisation }}
-                            </p>
-                            <div class="richtext">
-                                {% filter add_govuk_classes %}
-                                    {{ speaker.description|richtext }}
-                                {% endfilter %}
+                            <div class="{%if not forloop.last%}govuk-!-static-margin-bottom-6{%endif%}">
+                                <h3 class="govuk-heading-s govuk-!-static-margin-bottom-2 govuk-!-static-margin-0">{{ speaker.name }}</h3>
+                                <p class='job-title govuk-!-static-margin-0 govuk-!-static-padding-bottom-2'>
+                                    {{ speaker.role }}, {{ speaker.organisation }}
+                                </p>
+                                <div class="richtext">
+                                    {% filter add_govuk_classes %}
+                                        {{ speaker.description|richtext }}
+                                    {% endfilter %}
+                                </div>
                             </div>
                         {% endfor %}
                     </div>

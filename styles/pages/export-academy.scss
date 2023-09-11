@@ -268,7 +268,7 @@
   gap: 30px;
 
   time {
-    color: #505A5F;
+    color: #505a5f;
   }
 
   .event-details-header-logo {
@@ -280,7 +280,7 @@
       margin-left: 0;
       margin-right: auto;
       width: 100%;
-      img{
+      img {
         max-width: 132px;
       }
     }
@@ -308,6 +308,9 @@
       color: #505a5f;
       &::first-letter {
         text-transform: uppercase;
+      }
+      @media (max-width: $tablet-size) {
+        font-size: 24px;
       }
     }
   }
@@ -339,6 +342,9 @@
   .richtext {
     p:last-child {
       margin-bottom: 0;
+    }
+    .govuk-list .govuk-list--bullet {
+      padding: 0;
     }
   }
 
