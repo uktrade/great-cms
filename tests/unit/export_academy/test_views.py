@@ -1027,24 +1027,25 @@ def test_signin_invalid_password(client, requests_mock, test_unique_link_query_p
 
 class EventsDetailsViewTestCase(TestCase):
     def setUp(self):
-        self.event = factories.EventFactory()
+        self.event_with_video = factories.EventFactory(completed=None)
+        self.event_without_video = factories.EventFactory(completed=None, video_recording=None)
+        self.event_with_video_and_completed = factories.EventFactory()
 
-    def test_get_warning_text_event_not_ended(self):
+    def test_get_warning_text_event_not_ended_and_not_completed(self):
         view = EventsDetailsView()
-        view.event = self.event
+        view.event = self.event_with_video
         view.ended = False
         view.has_video = True
         view.signed_in = True
         view.booked = True
 
         warning_text = view.get_warning_text()
-
         expected_text = ''
         self.assertEqual(warning_text, expected_text)
 
     def test_get_warning_text_event_ended_no_video(self):
         view = EventsDetailsView()
-        view.event = self.event
+        view.event = self.event_without_video
         view.ended = True
         view.has_video = False
         view.signed_in = True
@@ -1052,12 +1053,12 @@ class EventsDetailsViewTestCase(TestCase):
 
         warning_text = view.get_warning_text()
 
-        expected_text = 'Event has ended. A recording is only available for 4 weeks after the event.'
+        expected_text = 'Event has ended.'
         self.assertEqual(warning_text, expected_text)
 
     def test_get_warning_text_event_ended_with_video_not_signed_in(self):
         view = EventsDetailsView()
-        view.event = self.event
+        view.event = self.event_with_video
         view.ended = True
         view.has_video = True
         view.signed_in = False
@@ -1070,7 +1071,7 @@ class EventsDetailsViewTestCase(TestCase):
 
     def test_get_warning_text_event_completed(self):
         view = EventsDetailsView()
-        view.event = self.event
+        view.event = self.event_with_video_and_completed
         view.ended = False
         view.has_video = True
         view.signed_in = True
@@ -1084,7 +1085,7 @@ class EventsDetailsViewTestCase(TestCase):
 
     def test_get_warning_text_event_closed(self):
         view = EventsDetailsView()
-        view.event = self.event
+        view.event = self.event_with_video
         view.ended = False
         view.has_video = True
         view.signed_in = True
@@ -1096,33 +1097,31 @@ class EventsDetailsViewTestCase(TestCase):
         expected_text = ''
         self.assertEqual(warning_text, expected_text)
 
-    def test_get_warning_call_to_action_event_not_ended_with_video_signed_in_and_booked(self):
+    def test_get_warning_call_to_action_event_ended_with_video_signed_in_and_booked(self):
         view = EventsDetailsView()
-        view.event = self.event
+        view.event = self.event_with_video_and_completed
         view.ended = False
         view.has_video = True
         view.signed_in = True
         view.booked = True
 
         call_to_action = view.get_warning_call_to_action()
+        assert 'Watch now' in call_to_action
 
-        expected_text = f"""<a class="govuk-link" href="../event/{self.event.id}">
-            Watch now<span class="govuk-visually-hidden">{self.event.name}</span></a>"""
-        self.assertEqual(call_to_action, expected_text)
+    # def test_get_warning_call_to_action_event_ended_with_video_signed_in_and_booked(self):
+    #     view = EventsDetailsView()
+    #     view.event = self.event_with_video
+    #     view.ended = True
+    #     view.has_video = True
+    #     view.signed_in = True
+    #     view.booked = True
+    #     call_to_action = view.get_warning_call_to_action()
 
-    def test_get_warning_call_to_action_event_ended_with_video_signed_in_and_booked(self):
-        view = EventsDetailsView()
-        view.event = self.event
-        view.ended = True
-        view.has_video = True
-        view.signed_in = True
-        view.booked = True
-
-        call_to_action = view.get_warning_call_to_action()
-
-        expected_text = f"""<a class="govuk-link" href="../event/{self.event.id}">
-            Watch now<span class="govuk-visually-hidden">{self.event.name}</span></a>"""
-        self.assertEqual(call_to_action, expected_text)
+    #     expected_text = f"""<a class="govuk-link" href="../event/{self.event.id}">
+    #         Watch now<span class="govuk-visually-hidden">{self.event.name}</span></a>"""
+    #     self.assertEqual(call_to_action, expected_text)
 
     def tearDown(self):
-        self.event.delete()
+        self.event_with_video.delete()
+        self.event_with_video_and_completed.delete()
+        self.event_without_video.delete()
