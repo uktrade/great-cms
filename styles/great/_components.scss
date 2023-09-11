@@ -484,7 +484,6 @@ figure.great-blockquote {
     &::before {
       background-image: url(/static/icons/download-black-background.svg);
     }
-
   }
 }
 
@@ -859,6 +858,7 @@ figure.great-blockquote {
 
   @include govuk-media-query($from: desktop) {
     flex-direction: row;
+    min-height: 280px;
   }
 
   > div {
@@ -870,6 +870,7 @@ figure.great-blockquote {
       position: absolute;
       bottom: 0;
       left: 0;
+      max-width: calc(50% - 30px);
     }
   }
 }
