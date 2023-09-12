@@ -1129,7 +1129,7 @@ class EventsDetailsViewTestCase(TestCase):
         view.booked = True
 
         call_to_action = view.get_warning_call_to_action()
-        assert 'Watch <span class="govuk-visually-hidden">event recording</span></a>now' in call_to_action
+        assert 'Watch <span class="govuk-visually-hidden">event recording</span>now</a>' in call_to_action
 
     def test_get_warning_call_to_action_event_ended_with_video_signed_in_and_booked_and_not_completed(self):
         view = EventsDetailsView()
