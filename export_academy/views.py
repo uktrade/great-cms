@@ -656,6 +656,7 @@ class EventsDetailsView(DetailView):
         ctx['booked'] = self.booked
         ctx['warning_text'] = self.get_warning_text()
         ctx['warning_call_to_action'] = self.warning_call_to_action
+        ctx['has_event_badges'] = len(self.get_badges_for_event(self.event)) > 0
         return ctx
 
     def get_buttons_for_event(self, event):

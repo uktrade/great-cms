@@ -1160,6 +1160,7 @@ class EventsDetailsViewTestCase(TestCase):
         self.assertTrue('booked' in context)
         self.assertTrue('warning_text' in context)
         self.assertTrue('warning_call_to_action' in context)
+        self.assertTrue('has_event_badges' in context)
 
         self.assertEqual(context['ended'], False)
         self.assertEqual(context['booked'], False)
@@ -1169,6 +1170,7 @@ class EventsDetailsViewTestCase(TestCase):
         self.assertEqual(context['signed_in'], False)
         self.assertTrue('This event has ended.' in context['warning_text'])
         self.assertTrue('Sign in' in context['warning_call_to_action'])
+        self.assertTrue(context['has_event_badges'])
 
     def tearDown(self):
         self.event_with_video.delete()

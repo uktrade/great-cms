@@ -30,7 +30,9 @@
                 <time datetime="{{event.start_date|date:"Y-m-d" }}T{{event.start_date|time:"H:i:s" }}{{ event.start_date|date:"O" }}">
                     {{ event.start_date|date:"l" }} {{ event.start_date|date:"j F" }} at {{ event.start_date|date:"g:iA"|lower }}
                 </time>
-                <div class="govuk-!-margin-top-2">{% event_list_badges event %}</div>
+                {%if has_event_badges%}
+                    <div class="govuk-!-margin-top-2">{% event_list_badges event %}</div>
+                {%endif%}
             </div>
             <div class="event-details-header-logo">
                 <img class="ea-logo" src="/static/images/uk-export-academy-logo.svg" alt="UK Export Academy logo" />
