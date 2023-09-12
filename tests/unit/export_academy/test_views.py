@@ -1026,6 +1026,10 @@ def test_signin_invalid_password(client, requests_mock, test_unique_link_query_p
 
 
 class EventsDetailsViewTestCase(TestCase):
+    @pytest.fixture(autouse=True)
+    def set_fixtures(self, user):
+        self.user = user
+
     def setUp(self):
         now = timezone.now()
         self.event_with_video = factories.EventFactory(completed=None)
@@ -1125,7 +1129,7 @@ class EventsDetailsViewTestCase(TestCase):
         view.booked = True
 
         call_to_action = view.get_warning_call_to_action()
-        assert 'Watch now' in call_to_action
+        assert 'Watch <span class="govuk-visually-hidden">event recording</span></a>now' in call_to_action
 
     def test_get_warning_call_to_action_event_ended_with_video_signed_in_and_booked_and_not_completed(self):
         view = EventsDetailsView()
@@ -1136,7 +1140,7 @@ class EventsDetailsViewTestCase(TestCase):
         view.booked = True
         call_to_action = view.get_warning_call_to_action()
 
-        assert 'Watch now' in call_to_action
+        assert 'Watch <span class="govuk-visually-hidden">event recording</span></a>now' in call_to_action
 
     def test_event_has_ended(self):
         view = EventsDetailsView()
@@ -1162,9 +1166,9 @@ class EventsDetailsViewTestCase(TestCase):
         self.assertEqual(context['has_video'], True)
         self.assertEqual(len(context['speakers']), 0)
         self.assertEqual(len(context['event_types']), 0)
-        self.assertEqual(context['signed_in'], True)
-        self.assertEqual(context['warning_text'], 'This event has ended.')
-        self.assertTrue('View more events' in context['warning_call_to_action'])
+        self.assertEqual(context['signed_in'], False)
+        self.assertTrue('This event has ended.' in context['warning_text'])
+        self.assertTrue('Sign in' in context['warning_call_to_action'])
 
     def tearDown(self):
         self.event_with_video.delete()

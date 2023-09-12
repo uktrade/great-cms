@@ -336,7 +336,7 @@
 .event-details-main-content {
   p {
     font-size: 18px;
-    line-height: 25px;
+    line-height: 30px;
   }
 
   .richtext {
@@ -345,6 +345,10 @@
     }
     .govuk-list .govuk-list--bullet {
       padding: 0;
+    }
+
+    h3{
+      @include h4-mixin();
     }
   }
 

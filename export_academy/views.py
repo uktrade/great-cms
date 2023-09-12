@@ -672,8 +672,8 @@ class EventsDetailsView(DetailView):
             if self.has_video:
                 if self.signed_in:
                     if self.booked:
-                        return f"""<a class='govuk-link' href='../event/{ self.event.id }'>
-                    Watch now<span class="govuk-visually-hidden">{self.event.id}</span></a>"""
+                        return f"""<a class='govuk-link' href='../../event/{ self.event.id }'>
+                    Watch <span class="govuk-visually-hidden">event recording</span></a>now"""
                     else:
                         return view_more_events
                 registration_link = redirect(
