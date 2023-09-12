@@ -848,6 +848,10 @@ figure.great-blockquote {
 .great-topic-card--half-width {
   flex-basis: calc(50% - 30px);
   height: fit-content;
+
+  @include govuk-media-query($from: desktop) {
+    min-height: 270px;
+  }
 }
 
 .great-topic-card--full-width {
