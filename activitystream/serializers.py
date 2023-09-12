@@ -86,6 +86,45 @@ class ArticlePageSerializer(serializers.Serializer):
 
 
 class MicrositePageSerializer(serializers.Serializer):
+    expected_block_types = [
+        'text',
+        'cta',
+        'image',
+        'image_full_width',
+        'video',
+        'columns',
+        'pull_quote',
+        'form',
+        'links_block',
+    ]
+
+    def _get_microsite_body_content_for_search(self, obj: MicrositePage) -> str:
+        """Selectively extract streamfield data from the blocks in ArticlePage's article_body streamfield.
+        Strips markup from RichText objects, too."""
+
+        streamfield_content = getattr(obj, 'page_body')
+
+        searchable_items = []
+
+        for streamchild in streamfield_content:
+            if streamchild.block_type not in self.expected_block_types:
+                logger.error(
+                    f'Unhandled block type "{streamchild.block_type}" in '
+                    'Microsite.page_body. Leaving out of search index content.'
+                )
+                continue
+
+            block_value = streamchild.value
+            if type(block_value) is RichText:
+                searchable_items.append(get_text_for_indexing(block_value.__html__()))
+
+            if streamchild.block_type == 'pull_quote':
+                pull_quote_items = block_value.values()
+                if any(pull_quote_items):
+                    searchable_items.append(get_text_for_indexing(' '.join(pull_quote_items)))
+
+        return ' '.join(searchable_items)
+
     def to_representation(self, obj):
         return {
             'id': ('dit:greatCms:Microsite:' + str(obj.id) + ':Update'),
@@ -96,6 +135,7 @@ class MicrositePageSerializer(serializers.Serializer):
                 'id': 'dit:greatCms:Microsite::' + str(obj.id),
                 'name': obj.page_title,
                 'summary': obj.page_teaser,
+                'content': self._get_microsite_body_content_for_search(obj),
                 'url': 'https://www.great.gov.uk' + obj.url_path,
                 'locale_id': obj.locale_id
                 # 'keywords': ' '.join(obj.tags.all().values_list('name', flat=True)),
