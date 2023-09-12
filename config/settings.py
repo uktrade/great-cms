@@ -72,7 +72,6 @@ INSTALLED_APPS = [
     'sso',
     'wagtail.admin',
     'core.apps.CoreConfig',
-    'wagtail_draftail_anchors',
     'cms_extras.apps.CmsExtrasConfig',
     'domestic.apps.DomesticAdminAppConfig',
     'exportplan.apps.ExportPlanConfig',

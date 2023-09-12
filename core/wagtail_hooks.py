@@ -6,6 +6,7 @@ from urllib.parse import urlparse
 
 import boto3
 import readtime
+import wagtail.admin.rich_text.editors.draftail.features as draftail_features
 from bs4 import BeautifulSoup
 from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME
@@ -32,6 +33,11 @@ from core import constants, mixins, views
 from core.models import MicrositePage
 from core.views import AltImageChooserViewSet
 from domestic.models import ArticlePage
+from .rich_text import (
+    AnchorIdentifierLinkHandler,
+    AnchorIndentifierEntityElementHandler,
+    anchor_identifier_entity_decorator,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -546,4 +552,45 @@ def register_icons(icons):
         'wagtailfontawesomesvg/solid/font.svg',
         'wagtailfontawesomesvg/solid/arrow-right.svg',
         'wagtailfontawesomesvg/solid/comment-dots.svg',
+        'anchor-icon/anchor.svg',
     ]
+
+
+@hooks.register("register_rich_text_features")
+def register_rich_text_anchor_identifier_feature(features):
+    features.default_features.insert(0, "anchor-identifier")
+    """
+    Registering the `anchor-identifier` feature, which uses the `ANCHOR-IDENTIFIER` Draft.js entity type,
+    and is stored as HTML with a `<a data-anchor href="#my-anchor" id="my-anchor">` tag.
+    """
+    feature_name = "anchor-identifier"
+    type_ = "ANCHOR-IDENTIFIER"
+
+    control = {
+        "type": type_,
+        "label": "",
+        "icon": "anchor",
+        "description": "Anchor Identifier",
+    }
+
+    features.register_editor_plugin(
+        "draftail",
+        feature_name,
+        draftail_features.EntityFeature(
+            control,
+            js=["custom_wagtaildraftailanchors.js"],
+        ),
+    )
+
+    features.register_converter_rule(
+        "contentstate",
+        feature_name,
+        {
+            # Note here that the conversion is more complicated than for blocks and inline styles.
+            # 'from_database_format': {'a[data-anchor][id]': AnchorIndentifierEntityElementHandler(type_)},
+            "from_database_format": {"a[data-id]": AnchorIndentifierEntityElementHandler(type_)},
+            "to_database_format": {"entity_decorators": {type_: anchor_identifier_entity_decorator}},
+        },
+    )
+
+    features.register_link_type(AnchorIdentifierLinkHandler)
