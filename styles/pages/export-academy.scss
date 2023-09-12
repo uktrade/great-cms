@@ -334,11 +334,9 @@
 }
 
 .event-details-main-content {
-  p {
-    font-size: 18px;
-    line-height: 30px;
+  .govuk-body {
+    font-size: $font-size-p;
   }
-
   .richtext {
     p:last-child {
       margin-bottom: 0;

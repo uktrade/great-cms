@@ -680,8 +680,8 @@ class EventsDetailsView(DetailView):
                 registration_link = redirect(
                     reverse_lazy('export_academy:registration', kwargs=dict(event_id=self.event.id))
                 )
-                return f"""<a class='govuk-link'∂ href='../../../{ registration_link.url }'>
-            Sign in to watch<span class="govuk-visually-hidden">{self.event.id}</span></a>"""
+                return f"""<a class='govuk-link'∂ href='../../..{ registration_link.url }'>
+            Sign in to watch<span class="govuk-visually-hidden"> event recording</span></a>"""
 
             else:
                 return view_more_events
