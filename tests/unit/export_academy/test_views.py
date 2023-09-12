@@ -1088,9 +1088,7 @@ class EventsDetailsViewTestCase(TestCase):
 
         warning_text = view.get_warning_text()
 
-        expected_text = (
-            'This event is closed for bookings. Event recordings are only available for 4 weeks after the event.'
-        )
+        expected_text = 'This event has ended. Event recordings are only available for 4 weeks after the event.'
         self.assertEqual(warning_text, expected_text)
 
     def test_get_warning_text_event_closed(self):
