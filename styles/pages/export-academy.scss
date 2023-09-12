@@ -1,16 +1,19 @@
+@import '../fonts/main.scss';
+@import '../sizes/sizes.scss';
+
 .intro-text-container {
-    margin-top: 5px;
+  margin-top: 5px;
 }
 
 .steps-list-container {
-    margin-top: 20px;
-    gap: $large-padding;
-    // Display steps on a single line above tablet size
-    @media (min-width: $tablet-size) {
-        padding-left: 0;
-        display: grid;
-        grid-auto-flow: column;
-    }
+  margin-top: 20px;
+  gap: $large-padding;
+  // Display steps on a single line above tablet size
+  @media (min-width: $tablet-size) {
+    padding-left: 0;
+    display: grid;
+    grid-auto-flow: column;
+  }
 }
 
 .steps-list-item {
@@ -29,7 +32,6 @@
   }
 
   @media (max-width: $tablet-size) {
-
     > div:not(.steps-description) {
       font-size: 76px;
     }
@@ -37,227 +39,345 @@
 }
 
 .steps-description {
-    width: 85%;
+  width: 85%;
 }
 
 .panels-container {
-    padding-top: 24px;
+  padding-top: 24px;
 }
 
 .filters .filter-section {
-    border-bottom: 1px solid $color-main-text;
+  border-bottom: 1px solid $color-main-text;
 
-    div.options {
-        max-height: none;
+  div.options {
+    max-height: none;
+  }
+
+  .multiple-choice {
+    label,
+    label:before,
+    label:after {
+      color: $color-main-text;
     }
-
-    .multiple-choice {
-
-        label,
-        label:before,
-        label:after {
-            color: $color-main-text;
-        }
-    }
+  }
 }
 
 .event-list-card {
-    padding: 30px 15px 0px;
+  padding: 30px 15px 0px;
 
-    h2.past-year-seperator {
-        padding-bottom: $large-padding;
-        color: #AEAEAE;
-    }
+  h2.past-year-seperator {
+    padding-bottom: $large-padding;
+    color: #aeaeae;
+  }
 }
 
 .event-list-card::after {
-    margin-left: 15px;
-    border-bottom: solid 4px $color-thematic-break;
-    padding-bottom: 30px;
+  margin-left: 15px;
+  border-bottom: solid 4px $color-thematic-break;
+  padding-bottom: 30px;
 }
 
 .event-tags {
-    @media screen and (max-width: 640px) {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 16px;
-        margin-top: 16px;
-    }
+  @media screen and (max-width: 640px) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+  }
 }
 
 .event-tag-item {
-    @media (max-width: $tablet-size) {
-        font-size: 18px;
-    }
+  @media (max-width: $tablet-size) {
+    font-size: 18px;
+  }
 
-    @media screen and (max-width: 640px) {
-        flex-basis: calc(50% - 8px);
-    }
+  @media screen and (max-width: 640px) {
+    flex-basis: calc(50% - 8px);
+  }
 
-    @media screen and (min-width: 641px) {
-        border-top: 1px solid #979797;
-    }
+  @media screen and (min-width: 641px) {
+    border-top: 1px solid #979797;
+  }
 }
 
 .ea-signup-panel {
-    .ea-logo {
-        position: absolute;
-        width: 210px;
-        bottom: 65px;
-        right: 30px;
+  .ea-logo {
+    position: absolute;
+    width: 210px;
+    bottom: 65px;
+    right: 30px;
 
-        @media only screen and (max-width: 900px) {
-            width: 30%;
-        }
-
-        @media only screen and (min-width: 1400px) {
-            right: 0;
-            left: calc(50% + 200px);
-        }
-
-        &.hide-logo-below-1200 {
-            @media only screen and (max-width: 1200px) {
-                display: none;
-            }
-        }
+    @media only screen and (max-width: 900px) {
+      width: 30%;
     }
 
-    .standard-ea-sign-in-text {
-
-        >p,
-        span,
-        a {
-            line-height: 32px !important;
-            font-size: 24px !important;
-            @media screen and (min-width:1200px) and (max-width: 1310px) {
-                font-size: 20px !important;
-            }
-        }
+    @media only screen and (min-width: 1400px) {
+      right: 0;
+      left: calc(50% + 200px);
     }
+
+    &.hide-logo-below-1200 {
+      @media only screen and (max-width: 1200px) {
+        display: none;
+      }
+    }
+  }
+
+  .standard-ea-sign-in-text {
+    > p,
+    span,
+    a {
+      line-height: 32px !important;
+      font-size: 24px !important;
+      @media screen and (min-width: 1200px) and (max-width: 1310px) {
+        font-size: 20px !important;
+      }
+    }
+  }
 }
 .event-wrapper {
-    min-width: fit-content;
+  min-width: fit-content;
 }
 
 .event-date-container {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+
+  > p {
+    font-weight: bold;
+    padding: 0;
+  }
+
+  @media screen and (min-width: 641px) {
+    padding: 10px;
+    > p {
+      margin: 0;
+      &.date {
+        font-size: 24px;
+      }
+      &.time {
+        font-size: 18px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 640px) {
+    flex-direction: row;
+    justify-content: center;
 
     > p {
-        font-weight: bold;
-        padding: 0;
-    }
+      font-size: 18px;
+      margin: 2px 0;
 
-    @media screen and (min-width: 641px) {
-        padding: 10px;
-        >p {
-            margin: 0;
-            &.date {
-                font-size: 24px;
-            }
-            &.time {
-                font-size: 18px;
-            }
+      &.date {
+        &:before {
+          content: ',\a0';
         }
-    }
 
-     @media screen and (max-width: 640px) {
-        flex-direction: row;
-        justify-content: center;
-
-        >p {
-            font-size: 18px;
-            margin: 2px 0;
-
-            &.date {
-                &:before {
-                    content: ',\a0';
-                }
-
-                &:after {
-                    content: '\a0';
-                }
-            }
+        &:after {
+          content: '\a0';
         }
+      }
     }
+  }
 }
 
 .event-title {
-    font-size: 24px;
-    line-height: 30px;
-    margin-bottom: 10px;
+  font-size: 24px;
+  line-height: 30px;
+  margin-bottom: 10px;
 }
 
 .event-description,
 .event-description p {
-    @media screen and (max-width: 640px) {
-        font-size: 18px;
-        margin-top: 10px;
-    }
+  @media screen and (max-width: 640px) {
+    font-size: 18px;
+    margin-top: 10px;
+  }
 }
 
 .ea-landing-page {
-    &.page-header {
-        .inner-header>div:first-child {
-            @media screen and (max-width: 640px) {
-                min-width: auto;
-            }
+  &.page-header {
+    .inner-header > div:first-child {
+      @media screen and (max-width: 640px) {
+        min-width: auto;
+      }
 
-            min-width: 570px;
-        }
+      min-width: 570px;
+    }
+  }
+
+  .ea-logo {
+    position: absolute;
+    bottom: 20px;
+    right: 0;
+    width: 200px;
+
+    @media only screen and (max-width: 340px) {
+      bottom: 10px;
     }
 
-    .ea-logo {
-        position: absolute;
-        bottom: 20px;
-        right: 0;
-        width: 200px;
-
-        @media only screen and (max-width: 340px) {
-            bottom: 10px;
-        }
-
-        @media only screen and (min-width: 341px) and (max-width: 640px) {
-            bottom: 15px;
-        }
-
-        @media only screen and (max-width: 900px) {
-            width: 30%;
-        }
+    @media only screen and (min-width: 341px) and (max-width: 640px) {
+      bottom: 15px;
     }
+
+    @media only screen and (max-width: 900px) {
+      width: 30%;
+    }
+  }
 }
 
 .ea-listing-page {
-    >.page-header {
-        @media screen and (max-width: 640px) {
-            height: auto;
-        }
-
-        .inner-header>div:first-child {
-            @media screen and (max-width: 640px) {
-                min-width: auto;
-                padding-bottom: 0;
-            }
-
-            min-width: 570px;
-        }
+  > .page-header {
+    @media screen and (max-width: 640px) {
+      height: auto;
     }
+
+    .inner-header > div:first-child {
+      @media screen and (max-width: 640px) {
+        min-width: auto;
+        padding-bottom: 0;
+      }
+
+      min-width: 570px;
+    }
+  }
 }
 
 .ea-filter-summary::after {
-    content: "";
-    display: block;
-    border-bottom: solid 4px $color-thematic-break;
-    padding-bottom: 30px;
+  content: '';
+  display: block;
+  border-bottom: solid 4px $color-thematic-break;
+  padding-bottom: 30px;
 }
 
 .ea-filter-summary,
 .ea-filters-no-results {
+  > p,
+  a {
+    font-size: 20px;
+    line-height: 20px;
+  }
+}
 
-    >p,
-    a {
-        font-size: 20px;
-        line-height: 20px;
+.event-details-header-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 30px;
+
+  time {
+    color: #505a5f;
+  }
+
+  .event-details-header-logo {
+    width: 132px;
+    margin-left: auto;
+    display: flex;
+    align-items: flex-end;
+    @media only screen and (max-width: $mobile-size) {
+      margin-left: 0;
+      margin-right: auto;
+      width: 100%;
+      img {
+        max-width: 132px;
+      }
     }
+  }
+  .event-details-header-info {
+    display: flex;
+    flex-direction: column;
+
+    ul {
+      li {
+        display: inline;
+        color: #505a5f;
+      }
+
+      li + li {
+        &::before {
+          content: '\2022';
+          margin-right: 5px;
+        }
+      }
+    }
+    h2.govuk-caption-l {
+      font-family: $main-text-font;
+      font-weight: 300;
+      color: #505a5f;
+      &::first-letter {
+        text-transform: uppercase;
+      }
+      @media (max-width: $tablet-size) {
+        font-size: 18px;
+      }
+    }
+  }
+}
+
+.event-warning-wrapper {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  i {
+    font-size: 35px;
+  }
+  > div {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+    align-items: center;
+  }
+}
+
+.event-details-main-content {
+  .govuk-body {
+    font-size: $font-size-p;
+  }
+  .richtext {
+    p:last-child {
+      margin-bottom: 0;
+    }
+    .govuk-list .govuk-list--bullet {
+      padding: 0;
+    }
+
+    h3{
+      @include h4-mixin();
+    }
+  }
+
+  .event-details-speakers {
+    p.job-title {
+      color: #505a5f;
+    }
+  }
+
+  .event-metadata {
+    > div {
+      max-width: 400px;
+    }
+    border-bottom: 1px solid #b1b4b6;
+    p {
+      margin: 0;
+    }
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    div:not(.event-details-tags) {
+      display: flex;
+      align-items: center;
+      gap: 0px 20px;
+      flex-wrap: wrap;
+    }
+
+    > div > p:first-of-type {
+      font-family: $header-font;
+    }
+  }
 }

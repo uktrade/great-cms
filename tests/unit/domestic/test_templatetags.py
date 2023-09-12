@@ -16,6 +16,7 @@ from domestic.templatetags.component_tags import (
     industry_accordion_case_study_is_viable,
     industry_accordion_is_viable,
     persist_language,
+    replace_underscores,
 )
 from tests.unit.export_academy.factories import EventFactory
 
@@ -432,3 +433,8 @@ def test_append_past_year_seperator():
 )
 def test_persist_language(url, language, expected_output):
     assert persist_language(url, language) == expected_output
+
+
+def test_replace_underscores():
+    assert replace_underscores('hello_world') == 'hello-world'
+    assert replace_underscores('hello world') == 'hello world'
