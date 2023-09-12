@@ -466,6 +466,7 @@ class DomesticExportSupportFormStep6View(contact_mixins.ExportSupportFormMixin, 
                 ]
                 if product_or_service
             ],
+            business_name=form_data.get('business_name'),
             back_link=back_link,
         )
 

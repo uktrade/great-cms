@@ -5,7 +5,7 @@
 {% block form_fields %}
     <div class="govuk-!-padding-5 govuk-!-margin-bottom-7 great-border-left-blue">
         <p class="govuk-heading-m govuk-!-margin-bottom-0">
-            You've told us that you're exporting {{products_and_services|highlighted_text}} {% if markets %}to {{markets|highlighted_text}}{% endif %}
+            You have told us that {{business_name|highlighted_text}} is exporting {{products_and_services|highlighted_text}} {% if markets %}to {{markets|highlighted_text}}{% endif %}.
         </p>
     </div>
     {% for field in form.visible_fields %}
