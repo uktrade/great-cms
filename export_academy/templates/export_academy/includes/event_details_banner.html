@@ -1,0 +1,11 @@
+
+{% load event_list_buttons %}
+<section class="great great-bg-light-blue govuk-!-static-padding-bottom-0">
+    <div class="govuk-!-static-padding-top-4 govuk-!-static-padding-bottom-4 great-container">
+        {% if warning_text %}
+        {% include './event_warning.html' with warning_text=warning_text warning_call_to_action=warning_call_to_action%}
+        {% else %}
+            {% event_list_buttons event %}
+        {% endif %}
+    </div>
+</section>

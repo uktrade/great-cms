@@ -20,6 +20,11 @@ urlpatterns = [
         name='upcoming-events',
     ),
     path(
+        'events/<slug:slug>/',
+        views.EventsDetailsView.as_view(),
+        name='event-details',
+    ),
+    path(
         'registration/<uuid:event_id>',
         login_required(views.RegistrationPersonalDetails.as_view(), login_url=SIGNUP_URL),
         {

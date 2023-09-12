@@ -2,6 +2,8 @@
     {% if button.url %} href="{{ button.url }}"{% endif %}
     class="{{ button.classname }}"
     title="{{ button.title }}"
+    target="_blank"
+    role="button"
     {% if button.target %} target="{{ button.target }}"{% endif %}
     {% if button.rel %} rel="{{ button.rel }}"{% endif %}
 >
