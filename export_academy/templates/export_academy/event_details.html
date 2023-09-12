@@ -10,7 +10,7 @@
 
 {% block head_title %}Events – {{ event.name }}{% endblock %}
 
-{% block content  %}
+{% block breadcrumbs %}
     <div class="great great-bg-white">
         <div id="breadcrumbs"
              class="great-bg-light-blue">
@@ -20,6 +20,8 @@
             <a href="../">Events</a>
         {% endbreadcrumbs %}
     </div>
+    {%endblock%}
+    {% block content  %}
     <section class="great govuk-!-padding-bottom-6 govuk-!-padding-top-9">
         <div class="great-container event-details-header-container">
             <div class="event-details-header-info govuk-grid-column-two-thirds-from-desktop govuk-!-static-padding-0">
