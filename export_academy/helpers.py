@@ -41,7 +41,7 @@ def get_buttons_for_event(user, event, on_confirmation=False):
 
 
 def update_booked_user_buttons(event, result, on_confirmation):
-    if event.format == event.ONLINE and not on_confirmation:
+    if event.format == event.ONLINE and not on_confirmation and event.link:
         result['event_action_buttons'] += get_event_join_button(event)
 
     result['calendar_button'] = get_ics_button(event, on_confirmation)

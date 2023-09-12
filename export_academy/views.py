@@ -5,6 +5,7 @@ from datetime import timedelta
 from uuid import uuid4
 
 from directory_forms_api_client import actions
+from django.contrib.auth.models import AnonymousUser
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
@@ -642,7 +643,7 @@ class EventsDetailsView(DetailView):
         current_datetime = datetime.datetime.now(datetime.timezone.utc)
         self.ended = self.event.end_date < current_datetime
         self.has_video = True if self.video else False
-        self.signed_in = True if self.request.user else False
+        self.signed_in = True if self.request.user != AnonymousUser() else False
         self.booked = helpers.user_booked_on_event(self.user, self.event)
         self.warning_call_to_action = self.get_warning_call_to_action()
 
@@ -671,14 +672,14 @@ class EventsDetailsView(DetailView):
             if self.has_video:
                 if self.signed_in:
                     if self.booked:
-                        return f"""<a class="govuk-link" href="../event/{ self.event.id }">
+                        return f"""<a class='govuk-link' href='../event/{ self.event.id }'>
                     Watch now<span class="govuk-visually-hidden">{self.event.id}</span></a>"""
                     else:
                         return view_more_events
                 registration_link = redirect(
                     reverse_lazy('export_academy:registration', kwargs=dict(event_id=self.event.id))
                 )
-                return f"""<a class="govuk-link" href="../{ registration_link }">
+                return f"""<a class='govuk-link'∂ href='../../../{ registration_link.url }'>
             Sign in to watch<span class="govuk-visually-hidden">{self.event.id}</span></a>"""
 
             else:

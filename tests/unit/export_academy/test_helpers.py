@@ -113,6 +113,7 @@ def test_join_button_returned_for_booked_in_progress_event(user):
         end_date=now + timedelta(hours=1),
         completed=None,
         name='Test event name',
+        link='www.google.com',
     )
     registration = factories.RegistrationFactory(email=user.email, first_name=user.first_name)
     factories.BookingFactory(event=event, registration=registration, status='Confirmed')
@@ -128,6 +129,24 @@ def test_join_button_returned_for_booked_in_progress_event(user):
             'url': reverse_lazy('export_academy:join', kwargs=dict(event_id=event.id)),
         }
     ]
+
+
+@pytest.mark.django_db
+def test_join_button_returned_for_booked_in_progress_event_but_no_link(user):
+    now = timezone.now()
+    event = factories.EventFactory(
+        start_date=now - timedelta(minutes=settings.EXPORT_ACADEMY_EVENT_ALLOW_JOIN_BEFORE_START_MINS),  # type: ignore
+        end_date=now + timedelta(hours=1),
+        completed=None,
+        name='Test event name',
+        link=None,
+    )
+    registration = factories.RegistrationFactory(email=user.email, first_name=user.first_name)
+    factories.BookingFactory(event=event, registration=registration, status='Confirmed')
+
+    buttons = helpers.get_buttons_for_event(user, event)
+
+    assert buttons['event_action_buttons'] == []
 
 
 @pytest.mark.django_db
