@@ -625,15 +625,15 @@ class EventsDetailsView(DetailView):
             return ''
 
         if self.ended or self.event.completed:
-            warning_text = 'This event has ended.' + get_video_text(self)
+            return 'This event has ended.' + get_video_text(self)
 
         elif self.booked:
-            warning_text = ''
+            return ''
 
         elif self.event.closed:
-            warning_text = 'This event is closed for bookings.' + get_video_text(self)
+            return 'This event is closed for bookings.' + get_video_text(self)
 
-        return warning_text
+        return ''
 
     def get_context_data(self, **kwargs):
         self.event: models.Event = kwargs.get('object', {})
