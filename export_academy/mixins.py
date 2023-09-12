@@ -23,7 +23,11 @@ class BookingMixin(GovNotifyEmailActionMixin):
         else:
             self.notify_template = settings.EXPORT_ACADEMY_NOTIFY_CANCELLATION_TEMPLATE_ID
 
-        notify_data = dict(first_name=booking_object.registration.first_name, event_names=booking_object.event.name)
+        notify_data = dict(
+            first_name=booking_object.registration.first_name,
+            event_names=booking_object.event.name,
+            event_url=booking_object.event.get_absolute_url(),
+        )
         self.send_gov_notify(notify_data)
 
     def save_model(self, data):
