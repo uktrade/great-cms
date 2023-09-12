@@ -86,7 +86,17 @@ class ArticlePageSerializer(serializers.Serializer):
 
 
 class MicrositePageSerializer(serializers.Serializer):
-    expected_block_types = ['text', 'cta', 'image', 'video', 'columns', 'pull_quote', 'form', 'links_block']
+    expected_block_types = [
+        'text',
+        'cta',
+        'image',
+        'image_full_width',
+        'video',
+        'columns',
+        'pull_quote',
+        'form',
+        'links_block',
+    ]
 
     def _get_microsite_body_content_for_search(self, obj: MicrositePage) -> str:
         """Selectively extract streamfield data from the blocks in ArticlePage's article_body streamfield.

@@ -15,6 +15,7 @@ from activitystream.serializers import (
     MicrositePageSerializer,
     PageSerializer,
 )
+from core.models import MicrositePage
 from domestic.models import ArticlePage
 from international_online_offer.models import TriageData, UserData
 from tests.unit.core.factories import (
@@ -477,3 +478,135 @@ class TestMicrositeSerializer(TestCase):
         output = serializer.to_representation(self.microsite)
 
         assert output == self.expected
+
+    def test_micrositeserializer__get_microsite_body_content_for_search__simple(self):
+        self.microsite.page_body = json.dumps(
+            [
+                {
+                    'type': 'text',
+                    'value': '<p>Hello, World!</p>',
+                }
+            ]
+        )
+        self.microsite.save()
+
+        serializer = MicrositePageSerializer()
+        searchable_content = serializer._get_microsite_body_content_for_search(self.microsite)
+
+        assert searchable_content == 'Hello, World!'
+
+    def test_micrositeserializer__get_microsite_body_content_for_search__pull_quote_entirely_included(self):
+        self.microsite.page_body = json.dumps(
+            [
+                {
+                    'type': 'text',
+                    'value': '<p>Hello, World!</p>',
+                },
+                {
+                    'type': 'pull_quote',
+                    'value': {
+                        'quote': 'dummy quotestring',
+                        'attribution': 'dummy attribution string',
+                        'role': 'dummy role string',
+                        'organisation': 'dummy organisation string',
+                        'organisation_link': 'https://example.com/dummy-org-link',
+                    },
+                },
+            ]
+        )
+        self.microsite.save()
+
+        serializer = MicrositePageSerializer()
+        searchable_content = serializer._get_microsite_body_content_for_search(self.microsite)
+
+        assert searchable_content == (
+            'Hello, World! dummy quotestring dummy attribution string dummy role string '
+            'dummy organisation string https://example.com/dummy-org-link'
+        )
+
+    def test_micrositeserializer__get_microsite_body_content_for_search__more_complex_content(self):
+        self.microsite.page_body = json.dumps(
+            [
+                {
+                    'type': 'text',
+                    'value': '<p>Hello, World!</p>',
+                },
+                {
+                    'type': 'pull_quote',
+                    'value': {
+                        'quote': 'dummy quotestring',
+                        'attribution': 'dummy attribution string',
+                        'role': 'dummy role string',
+                        'organisation': 'dummy organisation string',
+                        'organisation_link': 'https://example.com/dummy-org-link',
+                    },
+                },
+                {
+                    'type': 'text',
+                    'value': '<h2>Goodbye, World!</h2><p>Lorem <b>ipsum</b> <i>dolor</i> sit amet.</p>',
+                },
+            ]
+        )
+        self.microsite.save()
+
+        serializer = MicrositePageSerializer()
+        searchable_content = serializer._get_microsite_body_content_for_search(self.microsite)
+
+        assert searchable_content == (
+            'Hello, World! dummy quotestring dummy attribution string dummy role string '
+            'dummy organisation string https://example.com/dummy-org-link '
+            'Goodbye, World! Lorem ipsum dolor sit amet.'
+        )
+
+    def test_micrositeserializer__get_article_body_content_for_search__skipping_unknown_block(self):
+        # Rather than add a new block to the streamfield and then confirm its skipped, we can test
+        # the core code by removing a block type from the list that the serializer knows about
+
+        self.microsite.page_body = json.dumps(
+            [
+                {
+                    'type': 'text',
+                    'value': '<p>Hello, World!</p>',
+                },
+                {
+                    'type': 'pull_quote',
+                    'value': {
+                        'quote': 'dummy quotestring',
+                        'attribution': 'dummy attribution string',
+                        'role': 'dummy role string',
+                        'organisation': 'dummy organisation string',
+                        'organisation_link': 'https://example.com/dummy-org-link',
+                    },
+                },
+                {
+                    'type': 'text',
+                    'value': '<h2>Goodbye, World!</h2><p>Lorem <b>ipsum</b> <i>dolor</i> sit amet.</p>',
+                },
+            ]
+        )
+        self.microsite.save()
+
+        serializer = MicrositePageSerializer()
+        serializer.expected_block_types = [
+            'pull_quote',
+        ]  # ie, 'text' is not in here
+
+        searchable_content = serializer._get_microsite_body_content_for_search(self.microsite)
+
+        assert searchable_content == (
+            'dummy quotestring dummy attribution string dummy role string '
+            'dummy organisation string https://example.com/dummy-org-link'
+        )
+
+
+@pytest.mark.django_db
+def test_micrositeserializer_is_aware_of_all_streamfield_blocks():
+    # If this test fails, MicrositePageSerializer._get_microsite_body_content_for_search needs to be extended
+    # to know what to do with StreamField blocks which have been added to MicrositePage.page_body
+
+    available_blocks_for_microsite_body = [
+        x.name for x in MicrositePage.page_body.field.stream_block.sorted_child_blocks()
+    ]
+
+    serializer = MicrositePageSerializer()
+    assert sorted(serializer.expected_block_types) == sorted(available_blocks_for_microsite_body)
