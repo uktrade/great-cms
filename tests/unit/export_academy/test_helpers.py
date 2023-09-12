@@ -376,9 +376,8 @@ class GetBadgesForEventTestCase(TestCase):
         event.closed = True
         badges = helpers.get_badges_for_event(self.user, event)
 
-        self.assertEqual(len(badges), 2)
+        self.assertEqual(len(badges), 1)
         self.assertEqual(badges[0]['label'], 'Booked')
-        self.assertEqual(badges[1]['label'], 'Closed')
 
 
 @pytest.mark.django_db
