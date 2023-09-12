@@ -23,6 +23,7 @@ def send_automated_events_notification():
         additional_notify_data = dict(
             event_date=event.start_date.strftime('%-d %B %Y'),
             event_time=event_time,
+            event_url=event.get_absolute_url(),
         )
         send_notifications_for_all_bookings(
             event,
