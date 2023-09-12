@@ -1,10 +1,13 @@
+import datetime
 import logging
 import math
 from datetime import timedelta
 from uuid import uuid4
 
 from directory_forms_api_client import actions
+from django.contrib.auth.models import AnonymousUser
 from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.text import get_valid_filename
 from django.views.generic import (
@@ -604,6 +607,88 @@ class SignInView(HandleNewAndExistingUsersMixin, sso_mixins.SignInMixin, FormVie
         ctx['heading'] = 'UK Export Academy on Great.gov.uk' if self.get_ea_user() else 'Join the UK Export Academy'
         ctx['nexturl'] = self.request.META.get('HTTP_REFERER') or self.request.build_absolute_uri()
         return ctx
+
+
+class EventsDetailsView(DetailView):
+    template_name = 'export_academy/event_details.html'
+    model = models.Event
+
+    def get_event_types(self, event):
+        return [item.name for item in event.types.all()]
+
+    def get_warning_text(self):
+        def get_video_text(self):
+            if self.has_video:
+                if self.signed_in:
+                    return ' Event recordings are only available for 4 weeks after the event.' if self.booked else ''
+                else:
+                    return ' Event recordings are only available for attendees to view for 4 weeks after the event.'
+            return ''
+
+        if self.ended or self.event.completed:
+            return 'This event has ended.' + get_video_text(self)
+
+        elif self.booked:
+            return ''
+
+        elif self.event.closed:
+            return 'This event is closed for bookings.' + get_video_text(self)
+
+        return ''
+
+    def get_context_data(self, **kwargs):
+        self.event: models.Event = kwargs.get('object', {})
+        self.video = getattr(self.event, 'video_recording', None)
+        self.user = self.request.user
+        current_datetime = datetime.datetime.now(datetime.timezone.utc)
+        self.ended = self.event.end_date < current_datetime
+        self.has_video = True if self.video else False
+        self.signed_in = True if self.request.user != AnonymousUser() else False
+        self.booked = helpers.user_booked_on_event(self.user, self.event)
+        self.warning_call_to_action = self.get_warning_call_to_action()
+
+        ctx = super().get_context_data(**kwargs)
+        ctx['ended'] = self.ended
+        ctx['has_video'] = self.has_video
+        ctx['event_types'] = self.get_event_types(self.event)
+        ctx['speakers'] = [speaker_object.speaker for speaker_object in self.event.event_speakers.all()]
+        ctx['signed_in'] = self.signed_in
+        ctx['booked'] = self.booked
+        ctx['warning_text'] = self.get_warning_text()
+        ctx['warning_call_to_action'] = self.warning_call_to_action
+        ctx['has_event_badges'] = len(self.get_badges_for_event(self.event)) > 0
+        return ctx
+
+    def get_buttons_for_event(self, event):
+        user = self.request.user
+        return get_buttons_for_event(user, event)
+
+    def get_badges_for_event(self, event):
+        user = self.request.user
+        return get_badges_for_event(user, event)
+
+    def get_warning_call_to_action(self):
+        if self.ended or self.event.completed or self.event.closed:
+            view_more_events = '<a class="govuk-link" href="../">View more events</a>'
+            if self.has_video:
+                if self.signed_in:
+                    if self.booked:
+                        return f"""<a class='govuk-link' href='../../event/{ self.event.id }'>
+                    Watch <span class="govuk-visually-hidden">event recording</span>now</a>"""
+                    else:
+                        return view_more_events
+                registration_link = redirect(
+                    reverse_lazy('export_academy:registration', kwargs=dict(event_id=self.event.id))
+                )
+                return f"""<a class='govuk-link'∂ href='../../..{ registration_link.url }'>
+            Sign in to watch<span class="govuk-visually-hidden"> event recording</span></a>"""
+
+            else:
+                return view_more_events
+        return ''
+
+    def get_object(self, **kwargs):
+        return self.model.objects.get(slug=self.kwargs['slug'])
 
 
 class SignUpCompleteView(TemplateView):

@@ -1,9 +1,11 @@
 import base64
+import datetime
 import hashlib
 from datetime import timedelta
 
 import pytest
 from django.contrib.auth.models import AnonymousUser
+from django.test import TestCase
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.encoding import force_str
@@ -26,6 +28,17 @@ def test_future_event():
 
 
 @pytest.fixture
+def test_past_event():
+    now = timezone.now()
+    return factories.EventFactory(
+        start_date=now - timedelta(hours=6),
+        end_date=now - timedelta(hours=5),
+        completed=None,
+        name='Test event name',
+    )
+
+
+@pytest.fixture
 def test_registration():
     registration = models.Registration(
         first_name='test', last_name='test', email='test@example.com', external_id='123456789'
@@ -41,11 +54,11 @@ def test_book_button_returned_for_upcoming_event_registered_user(user, test_futu
 
     assert buttons['form_event_booking_buttons'] == [
         {
-            'label': 'Book<span class="great-visually-hidden"> Test event name</span>',
+            'label': 'Book event<span class="great-visually-hidden">Test event name</span>',
             'classname': 'govuk-button govuk-!-margin-bottom-0 ukea-ga-tracking',
-            'value': 'Confirmed',
             'type': 'submit',
-        },
+            'value': 'Confirmed',
+        }
     ]
 
     user = AnonymousUser()
@@ -53,7 +66,7 @@ def test_book_button_returned_for_upcoming_event_registered_user(user, test_futu
 
     assert buttons['form_event_booking_buttons'] == [
         {
-            'label': 'Sign up<span class="great-visually-hidden"> Test event name</span>',
+            'label': 'Sign up to book event<span class="great-visually-hidden"> Test event name</span>',
             'classname': 'govuk-button govuk-!-margin-bottom-0 ukea-ga-tracking',
             'value': 'Confirmed',
             'type': 'submit',
@@ -67,7 +80,7 @@ def test_book_button_returned_for_upcoming_event_not_registered_user(user, test_
 
     assert buttons['form_event_booking_buttons'] == [
         {
-            'label': 'Book<span class="great-visually-hidden"> Test event name</span>',
+            'label': 'Book event<span class="great-visually-hidden">Test event name</span>',
             'classname': 'govuk-button govuk-!-margin-bottom-0 ukea-ga-tracking',
             'value': 'Confirmed',
             'type': 'submit',
@@ -85,7 +98,7 @@ def test_cancel_button_returned_for_booked_upcoming_event(user, test_future_even
     assert buttons['form_event_booking_buttons'] == [
         {
             'label': 'Cancel booking<span class="great-visually-hidden"> for Test event name</span>',
-            'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
+            'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking govuk-!-margin-bottom-0',
             'value': 'Cancelled',
             'type': 'submit',
         },
@@ -100,6 +113,7 @@ def test_join_button_returned_for_booked_in_progress_event(user):
         end_date=now + timedelta(hours=1),
         completed=None,
         name='Test event name',
+        link='www.google.com',
     )
     registration = factories.RegistrationFactory(email=user.email, first_name=user.first_name)
     factories.BookingFactory(event=event, registration=registration, status='Confirmed')
@@ -108,12 +122,31 @@ def test_join_button_returned_for_booked_in_progress_event(user):
 
     assert buttons['event_action_buttons'] == [
         {
-            'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
-            'label': 'Join<span class="great-visually-hidden"> Test event name</span>',
+            'classname': 'govuk-button ukea-ga-tracking govuk-!-margin-bottom-0',
+            'label': """Join event<span class="great-visually-hidden">opens in new tab</span>
+            <i class="fa fa-external-link-alt govuk-!-margin-right-0 govuk-!-margin-left-2" aria-hidden="true"></i>""",
             'title': 'Join Test event name',
             'url': reverse_lazy('export_academy:join', kwargs=dict(event_id=event.id)),
         }
     ]
+
+
+@pytest.mark.django_db
+def test_join_button_returned_for_booked_in_progress_event_but_no_link(user):
+    now = timezone.now()
+    event = factories.EventFactory(
+        start_date=now - timedelta(minutes=settings.EXPORT_ACADEMY_EVENT_ALLOW_JOIN_BEFORE_START_MINS),  # type: ignore
+        end_date=now + timedelta(hours=1),
+        completed=None,
+        name='Test event name',
+        link=None,
+    )
+    registration = factories.RegistrationFactory(email=user.email, first_name=user.first_name)
+    factories.BookingFactory(event=event, registration=registration, status='Confirmed')
+
+    buttons = helpers.get_buttons_for_event(user, event)
+
+    assert buttons['event_action_buttons'] == []
 
 
 @pytest.mark.django_db
@@ -132,8 +165,9 @@ def test_join_button_returned_for_booked_in_upcoming_event(user):
 
     assert buttons['event_action_buttons'] == [
         {
-            'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
-            'label': 'Join<span class="great-visually-hidden"> Test event name</span>',
+            'classname': 'govuk-button ukea-ga-tracking govuk-!-margin-bottom-0',
+            'label': """Join event<span class="great-visually-hidden">opens in new tab</span>
+            <i class="fa fa-external-link-alt govuk-!-margin-right-0 govuk-!-margin-left-2" aria-hidden="true"></i>""",
             'title': 'Join Test event name',
             'url': reverse_lazy('export_academy:join', kwargs=dict(event_id=event.id)),
         }
@@ -161,7 +195,7 @@ def test_view_buttons_returned_for_booked_online_past_event(user):
             'url': reverse_lazy('export_academy:event-video', kwargs=dict(pk=event.pk)),
             'label': """<i class="fa fa-play" aria-hidden="true"></i>Play
                             <span class="great-visually-hidden"> recording of Test event name</span>""",
-            'classname': 'govuk-button ukea-ga-tracking',
+            'classname': 'govuk-button ukea-ga-tracking govuk-!-margin-bottom-0',
             'title': 'Play recording of Test event name',
         },
     ]
@@ -280,3 +314,92 @@ def test_get_registration_from_unique_link_failure(test_registration, external_i
     idb64 = force_str(base64.b64encode(bytes(external_id, 'utf-8')))
     token = hashlib.sha256(email.encode('UTF-8')).hexdigest()
     assert helpers.get_registration_from_unique_link(token=token, idb64=idb64) is None
+
+
+@pytest.mark.django_db
+class GetBadgesForEventTestCase(TestCase):
+    @pytest.fixture(autouse=True)
+    def set_fixtures(self, test_future_event, test_past_event, user):
+        self.user = user
+        self.future_event = test_future_event
+        self.past_event = test_past_event
+
+    def test_user_registered_and_booked(self):
+        registration = factories.RegistrationFactory(email=self.user.email)
+        factories.BookingFactory(event=self.future_event, registration=registration, status='Confirmed')
+        badges = helpers.get_badges_for_event(self.user, self.future_event)
+
+        self.assertEqual(len(badges), 1)
+        self.assertEqual(badges[0]['label'], 'Booked')
+
+    def test_user_not_registered_event_ended(self):
+        user = AnonymousUser()
+        event = factories.EventFactory(
+            end_date=datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=1),
+            completed=None,
+            closed=False,
+        )
+
+        badges = helpers.get_badges_for_event(user, event)
+
+        self.assertEqual(len(badges), 1)
+        self.assertEqual(badges[0]['label'], 'Ended')
+
+    def test_user_not_registered_event_completed(self):
+        user = AnonymousUser()
+        event = factories.EventFactory(
+            end_date=datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=1),
+            completed=None,
+            closed=False,
+        )
+
+        badges = helpers.get_badges_for_event(user, event)
+
+        self.assertEqual(len(badges), 1)
+        self.assertEqual(badges[0]['label'], 'Ended')
+
+    def test_user_not_registered_event_closed(self):
+        user = AnonymousUser()
+        event = factories.EventFactory(
+            end_date=datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=1),
+            completed=None,
+            closed=True,
+        )
+
+        badges = helpers.get_badges_for_event(user, event)
+
+        self.assertEqual(len(badges), 1)
+        self.assertEqual(badges[0]['label'], 'Closed')
+
+    def test_user_registered_event_ended(self):
+        registration = factories.RegistrationFactory(email=self.user.email)
+        factories.BookingFactory(event=self.past_event, registration=registration, status='Confirmed')
+        badges = helpers.get_badges_for_event(self.user, self.past_event)
+        self.assertEqual(len(badges), 1)
+        self.assertEqual(badges[0]['label'], 'Ended')
+
+    def test_user_registered_event_completed(self):
+        registration = factories.RegistrationFactory(email=self.user.email)
+        factories.BookingFactory(event=self.past_event, registration=registration, status='Confirmed')
+        event = factories.EventFactory()
+
+        badges = helpers.get_badges_for_event(self.user, event)
+
+        self.assertEqual(len(badges), 1)
+        self.assertEqual(badges[0]['label'], 'Ended')
+
+    def test_user_registered_event_closed(self):
+        registration = factories.RegistrationFactory(email=self.user.email)
+        factories.BookingFactory(event=self.future_event, registration=registration, status='Confirmed')
+        event = self.future_event
+        event.closed = True
+        badges = helpers.get_badges_for_event(self.user, event)
+
+        self.assertEqual(len(badges), 1)
+        self.assertEqual(badges[0]['label'], 'Booked')
+
+
+@pytest.mark.django_db
+def test_anonymous_user_booked_on_event(test_future_event, user):
+    anonymous_user = AnonymousUser()
+    assert not helpers.user_booked_on_event(anonymous_user, test_future_event)
