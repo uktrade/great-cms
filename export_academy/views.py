@@ -616,23 +616,22 @@ class EventsDetailsView(DetailView):
         return [item.name for item in event.types.all()]
 
     def get_warning_text(self):
-        warning_text = ''
-        video_text = ''
-        if self.signed_in and self.booked:
-            video_text = ' Event recordings are only available for 4 weeks after the event.'
-        elif not self.signed_in:
-            video_text = ' Event recordings are only available for attendees to view for 4 weeks after the event.'
+        def get_video_text(self):
+            if self.has_video:
+                if self.signed_in:
+                    return ' Event recordings are only available for 4 weeks after the event.' if self.booked else ''
+                else:
+                    return ' Event recordings are only available for attendees to view for 4 weeks after the event.'
+            return ''
 
-        if self.booked and not self.ended and not self.event.completed:
-            return warning_text
+        if self.ended or self.event.completed:
+            warning_text = 'This event has ended.' + get_video_text(self)
 
-        elif self.ended or self.event.completed or self.event.closed:
-            warning_text = (
-                'This event has ended.' if self.ended or self.event.completed else 'This event is closed for bookings.'
-            )
+        elif self.booked:
+            warning_text = ''
 
-        if self.has_video:
-            warning_text += video_text
+        elif self.event.closed:
+            warning_text = 'This event is closed for bookings.' + get_video_text(self)
 
         return warning_text
 
