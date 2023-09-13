@@ -1,0 +1,43 @@
+{% load i18n wagtailimages_tags %}
+
+<section class="great great-bg-white govuk-!-padding-top-5 govuk-!-padding-bottom-1">
+    <div class="govuk-width-container great-container">
+      {% if data.dep_title %}
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-5">{{data.dep_title}}</h2>
+      {% endif %}
+      <div class="govuk-grid-row great-display-flex-desktop">
+        <div class="govuk-grid-column-two-thirds great-card">
+          {% if data.dep_primary_cta_url %}
+          <a href="{{data.dep_primary_cta_url}}" class="govuk-!-display-block govuk-!-padding-5 great-bg-light-blue great-height-100-desktop">
+            <div class="great-display-flex-from-desktop">
+                <div>
+                    {% if data.dep_primary_cta_title %}
+                    <h3 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2 great-text-blue">{{data.dep_primary_cta_title}}</h3>
+                    {% endif %}
+                    {% if data.dep_primary_cta_text %}
+                    <p class="govuk-body">{{data.dep_primary_cta_text}}</p>
+                    {% endif %}
+                </div>
+                {% if data.dep_primary_cta_image %}
+                    {% image data.dep_primary_cta_image fill-640x360 as thumbnail %}
+                    <img src="{{ thumbnail.url }}" alt="{{ thumbnail.alt_text }}" />
+                {% endif %}
+            </div>
+          </a>
+          {% endif %}
+        </div>
+        <div class="govuk-grid-column-one-third great-card">
+          {% if data.dep_secondary_cta_url %}
+          <a href="{{data.dep_secondary_cta_url}}" class="govuk-!-display-block govuk-!-padding-5 great-bg-light-blue great-height-100-desktop">
+            {% if data.dep_secondary_cta_title %}
+            <h3 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2 great-text-blue">{{data.dep_secondary_cta_title}}</h3>
+            {% endif %}
+            {% if data.dep_secondary_cta_text %}
+            <p class="govuk-body">{{data.dep_secondary_cta_text}}</p>
+            {% endif %}
+          </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+</section>

@@ -279,6 +279,28 @@ class GreatDomesticHomePage(
     hero_cta_url_signedin = models.CharField(null=True, blank=True, max_length=255)
     # EU exit chevrons StreamField WAS here in V1 - no longer the case
 
+    dep_title = models.TextField(null=True, blank=True)
+    dep_primary_cta_title = models.TextField(null=True, blank=True)
+    dep_primary_cta_text = models.CharField(null=True, blank=True, max_length=255)
+    dep_primary_cta_url = models.TextField(null=True, blank=True)
+    dep_primary_cta_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    dep_secondary_cta_title = models.TextField(null=True, blank=True)
+    dep_secondary_cta_text = models.CharField(null=True, blank=True, max_length=255)
+    dep_secondary_cta_url = models.TextField(null=True, blank=True)
+    dep_secondary_cta_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+
     # Slice
     slice_title = models.TextField(null=True, blank=True)
     slice_columns = single_struct_block_stream_field_factory(

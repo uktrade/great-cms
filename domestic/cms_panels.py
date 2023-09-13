@@ -37,6 +37,21 @@ class GreatDomesticHomePagePanels:
             ],
         ),
         MultiFieldPanel(
+            heading='Digital Entry Point CTA',
+            classname='collapsible',
+            children=[
+                FieldPanel('dep_title'),
+                FieldPanel('dep_primary_cta_title'),
+                FieldPanel('dep_primary_cta_text'),
+                FieldPanel('dep_primary_cta_url'),
+                FieldPanel('dep_primary_cta_image'),
+                FieldPanel('dep_secondary_cta_title'),
+                FieldPanel('dep_secondary_cta_text'),
+                FieldPanel('dep_secondary_cta_url'),
+                FieldPanel('dep_secondary_cta_image'),
+            ],
+        ),
+        MultiFieldPanel(
             heading='Optional Slice',
             classname='collapsible',
             children=[FieldPanel('slice_title'), FieldPanel('slice_columns')],
