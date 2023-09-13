@@ -479,10 +479,25 @@ class DomesticExportSupportFormStep7View(contact_mixins.ExportSupportFormMixin, 
     template_name = 'domestic/contact/export-support/cya.html'
     success_url = reverse_lazy('contact:export-support-step-8')
 
+    def populate_custom_fields(self, form_data):
+        # mapping should live in constants file
+        # this whole function could also live in the helpers file or be added to the ZendeskAction's save method
+        custom_field_mapping = {
+            'business_name': '360026802637',
+            'business_postcode': '360026802657',
+        }
+
+        for field in form_data.keys():
+            custom_field_id = custom_field_mapping.get(field)
+            if custom_field_id:
+                form_data['_custom_fields'].append({custom_field_id: form_data[field]})
+
     def submit_enquiry(self, form):
         cleaned_data = form.cleaned_data
 
         form_data = {**self.initial_data, **cleaned_data}
+
+        self.populate_custom_fields(form_data)
 
         sender = Sender(
             email_address=form_data.get('email'),
