@@ -1808,7 +1808,7 @@ def test_feedback_form_success(
 
 
 @mock.patch('contact.helpers.retrieve_regional_offices')
-def test_regional_office_displayed_on_confirmation_page(
+def test_regional_office_not_displayed_on_confirmation_page(
     mock_retrieve_regional_offices,
     client,
     user,
@@ -1840,4 +1840,4 @@ def test_regional_office_displayed_on_confirmation_page(
 
     response = client.get(reverse('contact:export-support-step-8'))
 
-    assert '<address>' in str(response.rendered_content)
+    assert '<address>' not in str(response.rendered_content)
