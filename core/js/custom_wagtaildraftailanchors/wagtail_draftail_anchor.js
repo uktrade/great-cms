@@ -82,6 +82,31 @@ class AnchorIdentifierSource extends React.Component {
   }
 }
 
+class ExtendedTooltipEntity extends draftail.TooltipEntity {
+    render() {
+        console.log("Rendering ExtendedTooltipEntity");
+        const baseRender = super.render();
+
+        // Check if this is the AnchorIdentifier entity.
+        // We're assuming the presence of an `anchor` property to differentiate.
+        const isAnchorEntity = this.props.entityKey && this.props.contentState.getEntity(this.props.entityKey).getData().anchor;
+
+        if (isAnchorEntity) {
+            const data = this.props.contentState.getEntity(this.props.entityKey).getData();
+            const slugified = slugify(data.anchor);
+
+            return (
+                <React.Fragment>
+                    {baseRender}
+                    <CopyAnchorButton identifier={slugified} />
+                </React.Fragment>
+            );
+        }
+
+        return baseRender;
+    }
+}
+
 const getAnchorIdentifierAttributes = (data) => {
   const url = data.anchor || null;
   let icon = <Icon name="anchor" />;
@@ -98,7 +123,7 @@ const AnchorIdentifier = (props) => {
   const { entityKey, contentState } = props;
   const data = contentState.getEntity(entityKey).getData();
 
-  return <TooltipEntity {...props} {...getAnchorIdentifierAttributes(data)} />;
+  return <ExtendedTooltipEntity {...props} {...getAnchorIdentifierAttributes(data)} />;
 };
 
 window.draftail.registerPlugin({
