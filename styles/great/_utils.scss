@@ -737,22 +737,21 @@ img.richtext-image {
 }
 
 .great-title-link {
-  text-decoration: none;
-  color: $great-blue;
+  @extend %govuk-link;
+  text-decoration: none !important;
   &:hover {
-    text-decoration: underline;
-    text-decoration-color: #003078;
+    text-decoration: underline !important;
   }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    color: $great-blue;
-    &:hover {
-      color: #003078;
+  &:focus {
+    text-decoration: none !important;
+  }
+  &.great-title-medium-link {
+    font-size: 24px !important;
+    line-height: 34px !important;
+    @include govuk-media-query($until: tablet) {
+      font-size: 20px !important;
+      line-height: 30px !important;
     }
   }
+  font-family: $header-font !important;
 }
