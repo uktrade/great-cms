@@ -34,6 +34,7 @@ class EventFactory(factory.django.DjangoModelFactory):
     video_recording = factory.SubFactory(GreatMediaFactory)
     completed = timezone.localtime()
     live = timezone.localtime()
+    slug = factory.fuzzy.FuzzyText(length=15)
 
     @factory.lazy_attribute
     def end_date(self):

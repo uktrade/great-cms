@@ -1463,9 +1463,9 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                     [
                         ('column', MicrositeColumnBlock()),
                     ],
-                    help_text=_('Add two or three columns text'),
+                    help_text=_('Add between 2 and 4 columns of text'),
                     min_num=2,
-                    max_num=3,
+                    max_num=4,
                     template='microsites/blocks/columns.html',
                     label=_('Columns'),
                     icon='grip',

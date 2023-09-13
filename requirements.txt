@@ -174,7 +174,7 @@ django-storages[boto3]==1.13.2
     # via -r requirements.in
 django-taggit==3.1.0
     # via wagtail
-django-timezone-field==6.0
+django-timezone-field==6.0.1
     # via django-celery-beat
 django-treebeard==4.7
     # via
@@ -206,7 +206,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==19.3.1
+faker==19.6.0
     # via factory-boy
 geoip2==2.9.0
     # via -r requirements.in
@@ -303,7 +303,7 @@ pyhanko-certvalidator==0.23.0
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==3.15.5
+pypdf==3.16.0
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode

@@ -276,3 +276,8 @@ def persist_language(url, query_params=None):
     if query_params.get('lang'):
         return f"{url}?lang={query_params.get('lang')}"
     return url
+
+
+@register.filter(name='replace_underscores')
+def replace_underscores(value, replacement='-'):
+    return value.replace('_', replacement)
