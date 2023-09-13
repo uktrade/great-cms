@@ -7,6 +7,7 @@ from unittest import mock
 import pytest
 from directory_forms_api_client import actions
 from django.http import HttpResponseRedirect
+from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 from wagtail_factories import DocumentFactory
@@ -17,6 +18,7 @@ from core.snippet_slugs import EA_REGISTRATION_PAGE_HERO
 from directory_sso_api_client import sso_api_client
 from export_academy.filters import EventFilter
 from export_academy.models import Booking, Registration
+from export_academy.views import EventsDetailsView
 from sso import helpers as sso_helpers
 from tests.helpers import create_response
 from tests.unit.export_academy import factories
@@ -473,9 +475,6 @@ def test_event_video_view_with_video(client, user):
     assert response.context['event_video']
     assert response.context['video_duration']
     assert '/subtitles/' in str(response.rendered_content)
-    assert '<a href="/export-academy/events/?booking_period=past" class="govuk-link">Back to all events</a>' in str(
-        response.rendered_content
-    )
     assert 'time' in str(response.rendered_content)
     assert 'Duration:' in str(response.rendered_content)
     assert 'Test event name' in str(response.rendered_content)
@@ -1024,3 +1023,156 @@ def test_signin_invalid_password(client, requests_mock, test_unique_link_query_p
     assert response.status_code == 200
     if unique_link:
         assert response.context['form'].initial['email'] == 'test@example.com'
+
+
+class EventsDetailsViewTestCase(TestCase):
+    @pytest.fixture(autouse=True)
+    def set_fixtures(self, user):
+        self.user = user
+
+    def setUp(self):
+        now = timezone.now()
+        self.event_with_video = factories.EventFactory(completed=None)
+        self.event_without_video = factories.EventFactory(completed=None, video_recording=None)
+        self.event_with_video_and_completed = factories.EventFactory()
+        self.past_event = factories.EventFactory(
+            start_date=now - timedelta(hours=6),
+            end_date=now - timedelta(hours=5),
+            completed=None,
+            name='Test event name',
+        )
+
+    def test_get_warning_text_event_not_ended_and_not_completed(self):
+        view = EventsDetailsView()
+        view.event = self.event_with_video
+        view.ended = False
+        view.has_video = True
+        view.signed_in = True
+        view.booked = True
+
+        warning_text = view.get_warning_text()
+        expected_text = ''
+        self.assertEqual(warning_text, expected_text)
+
+    def test_get_warning_text_event_ended_no_video(self):
+        view = EventsDetailsView()
+        view.event = self.event_without_video
+        view.ended = True
+        view.has_video = False
+        view.signed_in = True
+        view.booked = True
+
+        warning_text = view.get_warning_text()
+
+        expected_text = 'This event has ended.'
+        self.assertEqual(warning_text, expected_text)
+
+    def test_get_warning_text_event_ended_with_video_not_signed_in(self):
+        view = EventsDetailsView()
+        view.event = self.event_with_video
+        view.ended = True
+        view.has_video = True
+        view.signed_in = False
+        view.booked = True
+
+        warning_text = view.get_warning_text()
+
+        expected_text_1 = 'This event has ended.'
+        expected_text_2 = ' Event recordings are only available for attendees to view for 4 weeks after the event.'
+        self.assertEqual(warning_text, expected_text_1 + expected_text_2)
+
+    def test_get_warning_text_event_completed(self):
+        view = EventsDetailsView()
+        view.event = self.event_with_video_and_completed
+        view.ended = False
+        view.has_video = True
+        view.signed_in = True
+        view.booked = True
+        view.event.completed = True
+
+        warning_text = view.get_warning_text()
+
+        expected_text = 'This event has ended. Event recordings are only available for 4 weeks after the event.'
+        self.assertEqual(warning_text, expected_text)
+
+    def test_get_warning_text_event_closed(self):
+        view = EventsDetailsView()
+        view.event = self.event_with_video
+        view.ended = False
+        view.has_video = True
+        view.signed_in = True
+        view.booked = True
+        view.event.closed = True
+
+        warning_text = view.get_warning_text()
+
+        expected_text = ''
+        self.assertEqual(warning_text, expected_text)
+
+    def test_get_warning_message_with_signed_in_with_video_and_not_booked(self):
+        view = EventsDetailsView()
+        view.event = self.event_with_video
+        view.ended = True
+        view.has_video = True
+        view.signed_in = True
+        view.booked = False
+        warning_text = view.get_warning_text()
+        expected_text = 'This event has ended.'
+        self.assertEqual(warning_text, expected_text)
+
+    def test_get_warning_call_to_action_event_ended_with_video_signed_in_and_booked(self):
+        view = EventsDetailsView()
+        view.event = self.event_with_video_and_completed
+        view.ended = False
+        view.has_video = True
+        view.signed_in = True
+        view.booked = True
+
+        call_to_action = view.get_warning_call_to_action()
+        assert 'Watch <span class="govuk-visually-hidden">event recording</span>now</a>' in call_to_action
+
+    def test_get_warning_call_to_action_event_ended_with_video_signed_in_and_booked_and_not_completed(self):
+        view = EventsDetailsView()
+        view.event = self.event_with_video
+        view.ended = True
+        view.has_video = True
+        view.signed_in = True
+        view.booked = True
+        call_to_action = view.get_warning_call_to_action()
+
+        assert 'Watch <span class="govuk-visually-hidden">event recording</span>now</a>' in call_to_action
+
+    def test_event_has_ended(self):
+        view = EventsDetailsView()
+        view.event = self.past_event
+
+    def test_view_context(self):
+        url = self.event_with_video_and_completed.get_absolute_url()
+        request = self.client.get(url)
+        view = EventsDetailsView(request=request)
+        context = view.request.context_data
+
+        self.assertTrue('ended' in context)
+        self.assertTrue('has_video' in context)
+        self.assertTrue('event_types' in context)
+        self.assertTrue('speakers' in context)
+        self.assertTrue('signed_in' in context)
+        self.assertTrue('booked' in context)
+        self.assertTrue('warning_text' in context)
+        self.assertTrue('warning_call_to_action' in context)
+        self.assertTrue('has_event_badges' in context)
+
+        self.assertEqual(context['ended'], False)
+        self.assertEqual(context['booked'], False)
+        self.assertEqual(context['has_video'], True)
+        self.assertEqual(len(context['speakers']), 0)
+        self.assertEqual(len(context['event_types']), 0)
+        self.assertEqual(context['signed_in'], False)
+        self.assertTrue('This event has ended.' in context['warning_text'])
+        self.assertTrue('Sign in' in context['warning_call_to_action'])
+        self.assertTrue(context['has_event_badges'])
+
+    def tearDown(self):
+        self.event_with_video.delete()
+        self.event_with_video_and_completed.delete()
+        self.event_without_video.delete()

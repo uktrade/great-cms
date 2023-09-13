@@ -2,6 +2,7 @@ from datetime import timedelta
 from unittest import mock
 
 import pytest
+from django.urls import reverse
 from django.utils import timezone
 
 from config import settings
@@ -20,12 +21,13 @@ def test_notify_registration(mock_notify_action, user):
     mock_notify_action().save.return_value = create_response(status_code=201)
     event = factories.EventFactory(
         name='Event name',
-        start_date=timezone.now() + timedelta(minutes=settings.EXPORT_ACADEMY_AUTOMATED_NOTIFY_TIME_DELAY_MINUTES + 1),
+        start_date=timezone.now() + timedelta(minutes=settings.EXPORT_ACADEMY_AUTOMATED_NOTIFY_TIME_DELAY_MINUTES + 31),
     )
     registration = factories.RegistrationFactory(email=user.email, first_name=user.first_name)
     factories.BookingFactory(event=event, registration=registration, status='Confirmed')
 
     send_automated_events_notification()
+    expected_event_url = reverse('export_academy:event-details', kwargs={'slug': event.slug})
     current_timezone = timezone.get_current_timezone()
     event_start_date = event.start_date.astimezone(current_timezone)
     event_end_date = event.end_date.astimezone(current_timezone)
@@ -39,6 +41,7 @@ def test_notify_registration(mock_notify_action, user):
             'event_name': event.name,
             'event_date': expected_start_day,
             'event_time': expected_event_time,
+            'event_url': expected_event_url,
         }
     )
 

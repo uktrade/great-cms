@@ -72,9 +72,9 @@
                                 {%if event.past_year_seperator %}
                                     <h2 class="past-year-seperator govuk-!-padding-left-3 govuk-!-padding-bottom-30">{{event.past_year_seperator}}</h2>
                                 {%endif%}
-                                    <h4 class="govuk-!-padding-left-3 govuk-!-padding-right-3 event-title">{{ event.name }}</h4>
-                                    <div class="govuk-!-padding-left-3 govuk-!-padding-right-3 great-display-until-tablet">
-                                        {% include 'export_academy/includes/event_duration.html' %}
+                                   <a href="{{event.get_absolute_url}}" class="great-title-link"><h4 class="govuk-!-padding-left-3 govuk-!-padding-right-3 event-title">{{ event.name }}</h4></a>
+                                <div class="govuk-!-padding-left-3 govuk-!-padding-right-3 great-display-until-tablet">
+                                    {% include 'export_academy/includes/event_duration.html' %}
 
                                         {% is_logged_in as show_logged_in_features %}
                                         {% if show_logged_in_features  %}
@@ -112,8 +112,6 @@
                                     {% endif %}
 
                                     <p class='event-description'>{{event.description}}</p>
-
-                                    {% event_list_buttons event %}
                                 </div>
                             </div>
                             {% endfor %}
