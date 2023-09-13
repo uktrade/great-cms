@@ -176,6 +176,29 @@
   {% endif %}
 {% endif %}
 
+{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
+<section class="great great-bg-white govuk-!-padding-top-5 govuk-!-padding-bottom-3">
+  <div class="govuk-width-container great-container">
+    <h2 class="govuk-heading-l govuk-!-margin-bottom-5">How to get exporting</h2>
+    <div class="govuk-grid-row great-display-flex-desktop">
+      <div class="govuk-grid-column-two-thirds">
+        <div class="govuk-!-padding-5 great-bg-light-blue great-height-100-desktop">
+          <h3 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2 great-text-blue">Find the answers to your exporting questions</h3>
+          <p class="govuk-body">Get instant help from our support tools, services and how-to articles, or use our new online form to ask the Export Support Service a specific question.</p>
+          <a href="/support/support" class="govuk-button great-min-300-button">Access guidance and support</a>
+        </div>
+      </div>
+      <div class="govuk-grid-column-one-third">
+        <div class="govuk-!-padding-5 great-bg-light-blue great-height-100-desktop">
+          <h3 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2 great-text-blue">Join the UK Export Academy</h3>
+          <p class="govuk-body">Sign up for our online and in-person events and learn how to sell confidently to overseas customers.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
 {% if page.slice_columns|length == 3 %}
   {% include 'components/great/three_card_section.html' with title=page.slice_title columns=page.slice_columns %}
 {% endif %}
@@ -194,6 +217,7 @@
   </div>
 </section>
 
+{% if not features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
 <section class="landing-page-section padding-bottom-15 padding-bottom-30-m">
   <div class="container wrap-tight">
     <h2 class="margin-bottom-30">Here to help with your exporting journey</h2>
@@ -207,6 +231,7 @@
       <hr></hr>
   </div>
 </section>
+{% endif %}
 
 {% if FEATURE_SHOW_BRAND_BANNER %}
   <section class="padding-bottom-45 padding-top-45 padding-bottom-60-l padding-top-60-l background-grey">
