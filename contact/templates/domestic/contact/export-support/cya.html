@@ -39,12 +39,12 @@
     </div>
     {% endfor %}
 
-    <div class="govuk-!-margin-bottom-7 govuk-!-padding-6 govuk-!-padding-top-7 great-bg-light-blue">
+    <div class="govuk-!-margin-bottom-7 govuk-!-padding-6 govuk-!-padding-top-7 great-border-left-blue">
         <h2 class="govuk-heading-m govuk-!-margin-bottom-6">Before you go...</h2>
         {% for field in form.visible_fields %}
             {% if field.name == 'find_out_about' %}
             <div class="govuk-form-group govuk-!-margin-bottom-0 {% if field.errors %}govuk-form-group--error{% endif %}">
-                {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='great-text-select--arrow' %}
+                {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='great-text-select--arrow' optional=True %}
             </div>
             {% else %}
             <div class="govuk-form-group govuk-!-margin-bottom-8 {% if field.errors %}govuk-form-group--error{% endif %}">

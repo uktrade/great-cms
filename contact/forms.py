@@ -146,8 +146,8 @@ class DomesticExportSupportStep1Form(forms.Form):
         help_text='Understanding the business type will help us provide you with a better service',
         choices=(
             ('limitedcompany', 'UK private or public limited company'),
-            ('other', 'Other type of UK organisation'),
             ('soletrader', 'Sole trader or private individual'),
+            ('other', 'Other type of UK organisation'),
         ),
         widget=contact_widgets.GreatRadioSelect,
         error_messages={

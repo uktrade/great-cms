@@ -11,7 +11,8 @@
         const val = e.target.value.toLowerCase();
 
         document.querySelectorAll('[data-label]').forEach((el) => {
-            el.style.display = !el.dataset.label.toLowerCase().includes(val) ? 'none' : 'block';
+            el.style.display = !el.dataset.label.toLowerCase().includes(val) && el.dataset.value.toLowerCase() !== 'notspecificcountry' ? 'none' : 'block';
+            document.querySelector('.great-checkboxes-wrapper').style.display = 'block';
         });
     });
 
@@ -19,6 +20,11 @@
         document.querySelector('label[for="id_markets_0"]').after(document.getElementById('search_markets'));
         $(".govuk-checkboxes__item").wrapAll("<div class='great-checkboxes-wrapper'></div>");
         document.querySelector('.great-checkboxes-wrapper').after(document.querySelector('[data-value="notspecificcountry"]'));
+
+        const p = document.createElement('p');
+        p.innerHTML = 'Or';
+        p.classList.add('govuk-body');
+        document.querySelector('.great-checkboxes-wrapper').after(p);
     }
 
     customizeLayout();

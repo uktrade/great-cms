@@ -238,7 +238,6 @@ figure.great-blockquote {
   }
 }
 
-
 .great-info-text {
   @include govuk-media-query($until: tablet) {
     display: flex;
@@ -451,7 +450,7 @@ figure.great-blockquote {
     background-size: 8px;
     height: 20px;
     width: 26px;
-    top: 3px;
+    bottom: 1px;
     right: 0;
   }
 }
@@ -462,7 +461,7 @@ figure.great-blockquote {
     background-size: 14px;
     height: 21px;
     width: 16px;
-    top: 2px;
+    bottom: 1px;
     right: 0;
   }
 }
@@ -497,7 +496,7 @@ figure.great-blockquote {
   max-height: 463px;
   overflow: auto;
   border-bottom: 2px solid $great-lighter-grey;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   padding: 3px 0 0 3px;
 }
 
