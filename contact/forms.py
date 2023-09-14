@@ -337,11 +337,11 @@ class DomesticExportSupportStep6Form(forms.Form):
         choices=(
             (
                 'neverexported',
-                'I have never exported but have a product suitable or that could be developed for export',
+                'I have never exported but have a product or service suitable or that could be developed for export',
             ),
             ('notinlast12months', 'I have exported before but not in the last 12 months'),
             ('last12months', 'I have exported in the last 12 months'),
-            ('noproduct', 'I do not have a product for export'),
+            ('noproduct', 'I do not have a product or service for export'),
         ),
         error_messages={
             'required': 'Choose your export experience',
@@ -365,7 +365,7 @@ class DomesticExportSupportStep7Form(forms.Form):
         },
     )
     contacted_gov_departments = forms.ChoiceField(
-        label='Have you previously received export support?',
+        label='Have you contacted other government departments for export support?',
         widget=contact_widgets.GreatRadioSelect,
         choices=(
             (
@@ -405,9 +405,11 @@ class DomesticExportSupportStep8Form(forms.Form):
         help_text='Overall, how easy did you feel the form was to understand and complete?',
         widget=contact_widgets.GreatRadioSelect,
         choices=(
+            ('veryEasy', 'Very easy'),
             ('easy', 'Easy'),
             ('neither', 'Neither easy or difficult'),
             ('difficult', 'Difficult'),
+            ('veryDifficult', 'Very difficult'),
         ),
         error_messages={
             'required': 'Choose an option',
