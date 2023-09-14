@@ -176,6 +176,10 @@
   {% endif %}
 {% endif %}
 
+{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
+  {% include 'components/digital_entry_point_homepage_row.html' with data=page %}
+{% endif %}
+
 {% if page.slice_columns|length == 3 %}
   {% include 'components/great/three_card_section.html' with title=page.slice_title columns=page.slice_columns %}
 {% endif %}
@@ -194,6 +198,7 @@
   </div>
 </section>
 
+{% if not features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
 <section class="landing-page-section padding-bottom-15 padding-bottom-30-m">
   <div class="container wrap-tight">
     <h2 class="margin-bottom-30">Here to help with your exporting journey</h2>
@@ -207,6 +212,7 @@
       <hr></hr>
   </div>
 </section>
+{% endif %}
 
 {% if FEATURE_SHOW_BRAND_BANNER %}
   <section class="padding-bottom-45 padding-top-45 padding-bottom-60-l padding-top-60-l background-grey">
