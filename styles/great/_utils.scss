@@ -739,7 +739,7 @@ img.richtext-image {
 .great-title-link {
   @extend %govuk-link;
   text-decoration: none !important;
-  &:hover {
+  &:hover:not(:focus) {
     text-decoration: underline !important;
   }
   &:focus {
