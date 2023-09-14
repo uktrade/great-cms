@@ -91,7 +91,7 @@ from export_academy.models import Event
         (
             MarketingSources(
                 {
-                    'marketing_sources': 'Other',
+                    'marketing_sources': 'Other (please specify below)',
                 },
             ),
             MarketingSources(

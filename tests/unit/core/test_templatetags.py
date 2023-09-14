@@ -749,9 +749,22 @@ def test_make_bold_tag():
     assert expected_output == '<span class="govuk-!-font-weight-bold">Hello</span>'
 
 
-def test_highlighted_text():
-    result = highlighted_text(['a', 'b'])
-    expected_output = '<span class="great-highlighted-text">a, </span><span class="great-highlighted-text">b</span>'
+@pytest.mark.parametrize(
+    'input, expected_output',
+    (
+        (
+            ['a', 'b', 'c'],
+            (
+                '<span class="great-highlighted-text">a</span>, <span class="great-highlighted-text">b</span>'
+                ' and <span class="great-highlighted-text">c</span>'
+            ),
+        ),
+        (['a', 'b'], '<span class="great-highlighted-text">a</span> and <span class="great-highlighted-text">b</span>'),
+        ('a', '<span class="great-highlighted-text">a</span>'),
+    ),
+)
+def test_highlighted_text(input, expected_output):
+    result = highlighted_text(input)
     assert result == expected_output
 
 

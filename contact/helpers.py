@@ -128,7 +128,7 @@ def get_steps(form_data, second_step_edit_page, markets):
 
     return [
         {
-            'title': 'Get started',
+            'title': 'Contact us',
             'answers': [
                 ('Business type', get_export_support_field_mappings('business_type', form_data)),
                 ('Business name', form_data.get('business_name')),
@@ -136,6 +136,7 @@ def get_steps(form_data, second_step_edit_page, markets):
                 ('Business postcode', form_data.get('business_postcode')),
             ],
             'change_url': reverse_lazy('contact:export-support-edit'),
+            'change_text': 'Amend contact us section',
         },
         {
             'title': 'About your business',
@@ -160,9 +161,10 @@ def get_steps(form_data, second_step_edit_page, markets):
                 ),
             ],
             'change_url': second_step_edit_page,
+            'change_text': 'Amend about your business section',
         },
         {
-            'title': 'Your contact details',
+            'title': 'About you',
             'answers': [
                 ('First name', form_data.get('first_name')),
                 ('Last name', form_data.get('last_name')),
@@ -172,9 +174,10 @@ def get_steps(form_data, second_step_edit_page, markets):
             ],
             'change_url': reverse_lazy('contact:export-support-step-3-edit'),
             'business_name': form_data.get('business_name'),
+            'change_text': 'Amend about you section',
         },
         {
-            'title': 'Your product or service',
+            'title': 'About your product or service',
             'answers': [
                 ('Product or service', form_data.get('product_or_service_1')),
                 ('Second product or service', form_data.get('product_or_service_2')),
@@ -183,6 +186,7 @@ def get_steps(form_data, second_step_edit_page, markets):
                 ('Fifth product or service', form_data.get('product_or_service_5')),
             ],
             'change_url': reverse_lazy('contact:export-support-step-4-edit'),
+            'change_text': 'Amend about your product or service section',
         },
         {
             'title': 'About your export markets',
@@ -190,6 +194,7 @@ def get_steps(form_data, second_step_edit_page, markets):
                 ('Export markets', ', '.join([markets_mapping[market] for market in markets if market])),
             ],
             'change_url': reverse_lazy('contact:export-support-step-5-edit'),
+            'change_text': 'Amend about your export markets section',
         },
         {
             'title': 'About your enquiry',
@@ -198,5 +203,6 @@ def get_steps(form_data, second_step_edit_page, markets):
                 ('About your export experience', get_export_support_field_mappings('about_your_experience', form_data)),
             ],
             'change_url': reverse_lazy('contact:export-support-step-6-edit'),
+            'change_text': 'Amend about your enquiry section',
         },
     ]

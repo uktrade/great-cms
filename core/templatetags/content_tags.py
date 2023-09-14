@@ -305,15 +305,23 @@ def make_bold(text):
 @register.filter
 def highlighted_text(elems):
     s = ''
-    for elem in elems:
-        text = elem
 
-        if elem != elems[-1]:
-            text = f'{elem}, '
+    if isinstance(elems, str):
+        return mark_safe(f'<span class="great-highlighted-text">{elems}</span>')
+    elif isinstance(elems, list):
+        for index, item in enumerate(elems):
+            text = f'<span class="great-highlighted-text">{item}</span>'
 
-        s += f'<span class="great-highlighted-text">{text}</span>'
+            if len(elems) == 1 or index == 0:
+                s += text
+            elif index != len(elems) - 1:
+                s += ', ' + text
+            else:
+                s += ' and ' + text
 
-    return mark_safe(s)
+        return mark_safe(s)
+    else:
+        return s
 
 
 @register.filter

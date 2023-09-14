@@ -466,6 +466,7 @@ class DomesticExportSupportFormStep6View(contact_mixins.ExportSupportFormMixin, 
                 ]
                 if product_or_service
             ],
+            business_name=form_data.get('business_name'),
             back_link=back_link,
         )
 
@@ -521,7 +522,7 @@ class DomesticExportSupportFormStep7View(contact_mixins.ExportSupportFormMixin, 
 
         return super().get_context_data(
             **kwargs,
-            heading_text='Your enquiry',
+            heading_text='Check your answers',
             strapline_text="Check the information you've provided before you submit your enquiry.",
             steps=helpers.get_steps(form_data, second_step_edit_page, markets),
             back_link=reverse_lazy('contact:export-support-step-5'),
@@ -575,7 +576,7 @@ class DomesticExportSupportFormStep8View(contact_mixins.ExportSupportFormMixin, 
     def get_context_data(self, **kwargs):
         office_details = self.get_office_details()
         is_feedback_form = True
-        show_regional_office = True
+        show_regional_office = False
 
         return super().get_context_data(
             **kwargs,
