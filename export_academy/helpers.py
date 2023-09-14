@@ -186,10 +186,10 @@ def check_registration(function):
     return _wrapped_view_function
 
 
-def calender_content():
+def calender_content(url):
     return (
         '\n\nTo join your online event, sign in to '
-        'www.great.gov.uk/export-academy/events '
+        f'www.great.gov.uk{url} '
         'and click the “Join” button shortly before'
         ' the session is due to start. \n\n'
         'All online events are hosted through Microsoft Teams Meeting, '
