@@ -8,11 +8,11 @@
       <div class="govuk-grid-row great-display-flex-desktop">
         <div class="govuk-grid-column-two-thirds great-card">
           {% if data.dep_primary_cta_url %}
-          <a href="{{data.dep_primary_cta_url}}" class="govuk-!-display-block govuk-!-padding-5 great-bg-light-blue great-height-100-desktop">
-            <div class="great-display-flex-from-desktop">
+          <a href="{{data.dep_primary_cta_url}}" class="govuk-!-display-block govuk-!-padding-5 great-bg-light-blue great-height-100-desktop" data-ga-digital-entry-point>
+            <div class="great-display-flex-from-desktop" data-location="homepage">
                 <div>
                     {% if data.dep_primary_cta_title %}
-                    <h3 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2 great-text-blue">{{data.dep_primary_cta_title}}</h3>
+                    <h3 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2 great-text-blue" data-title="{{data.dep_primary_cta_title}}">{{data.dep_primary_cta_title}}</h3>
                     {% endif %}
                     {% if data.dep_primary_cta_text %}
                     <p class="govuk-body">{{data.dep_primary_cta_text}}</p>
@@ -28,12 +28,12 @@
         </div>
         <div class="govuk-grid-column-one-third great-card">
           {% if data.dep_secondary_cta_url %}
-          <a href="{{data.dep_secondary_cta_url}}" class="govuk-!-display-block govuk-!-padding-5 great-bg-light-blue great-height-100-desktop">
+          <a href="{{data.dep_secondary_cta_url}}" class="govuk-!-display-block govuk-!-padding-5 great-bg-light-blue great-height-100-desktop" data-ga-digital-entry-point>
             {% if data.dep_secondary_cta_title %}
-            <h3 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2 great-text-blue">{{data.dep_secondary_cta_title}}</h3>
+            <h3 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2 great-text-blue" data-title="{{data.dep_secondary_cta_title}}">{{data.dep_secondary_cta_title}}</h3>
             {% endif %}
             {% if data.dep_secondary_cta_text %}
-            <p class="govuk-body">{{data.dep_secondary_cta_text}}</p>
+            <p class="govuk-body" data-location="homepage">{{data.dep_secondary_cta_text}}</p>
             {% endif %}
           </a>
           {% endif %}
