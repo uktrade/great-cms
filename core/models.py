@@ -46,6 +46,7 @@ from core import blocks as core_blocks, cms_panels, mixins, snippet_slugs
 from core.blocks import (
     CampaignFormBlock,
     LinkBlockWithHeading,
+    LinksBlock,
     MicrositeColumnBlock,
     SupportCardBlock,
     SupportTopicCardBlock,
@@ -1502,7 +1503,6 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                 'pull_quote',
                 core_blocks.PullQuoteBlock(template='domestic/blocks/pull_quote_block.html', label=_('Pull quote')),
             ),
-            ('form', CampaignFormBlock(label=_('Form'))),
         ],
         use_json_field=True,
         null=True,
