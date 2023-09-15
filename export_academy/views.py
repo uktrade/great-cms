@@ -125,8 +125,12 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, TemplateView):
             ctx['heading'] = 'Registration'
         elif booking.status == 'Confirmed':
             ctx['heading'] = 'Booking'
+            ctx['return_url'] = booking.event.get_absolute_url()
+            ctx['return_msg'] = 'Back to event'
         else:
             ctx['heading'] = 'Cancellation'
+            ctx['return_url'] = reverse('export_academy:upcoming-events')
+            ctx['return_msg'] = 'Explore more events'
 
         ctx['booking'] = booking
         ctx['event'] = booking.event
