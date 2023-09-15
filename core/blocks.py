@@ -555,7 +555,7 @@ class LinksBlock(blocks.StructBlock):
     title = blocks.CharBlock(required=False, max_length=255, label=_('Title'))
     description = blocks.RichTextBlock(features=RICHTEXT_FEATURES__REDUCED, required=False, label=_('Description'))
     link_text = blocks.CharBlock(label=_('Link text'))
-    link_url = blocks.CharBlock(label=_('Link url'))
+    link_url = blocks.URLBlock(label=_('Link url'))
 
     class Meta:
         icon = 'link'
