@@ -944,3 +944,22 @@ figure.great-blockquote {
     }
   }
 }
+
+.great-dep-homepage-title {
+  position: relative;
+
+  img {
+    @include govuk-media-query($from: desktop) {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      max-width: 50%;
+    }
+  }
+
+  &__text {
+    @include govuk-media-query($from: desktop) {
+      flex-basis: 50%;
+    }
+  }
+}

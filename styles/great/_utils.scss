@@ -380,7 +380,7 @@
 }
 
 .great-bg-white {
-  background-color: $great-white;
+  background-color: $great-white !important;
   background: $great-white;
 }
 
@@ -389,7 +389,7 @@
 }
 
 .great-bg-light-blue {
-  background-color: $great-light-blue;
+  background-color: $great-light-blue !important;
 }
 
 .great-bg-dark-blue {
