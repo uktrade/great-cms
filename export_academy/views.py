@@ -185,7 +185,7 @@ class DownloadCalendarView(GenericAPIView):
         meeting['LOCATION'] = event.location if event.format == event.IN_PERSON else 'Microsoft Teams Meeting'
         meeting['UID'] = uuid4()
 
-        description = f'{event.name}\n\n{event.description}{calender_content()}'
+        description = f'{event.name}\n\n{event.description}{calender_content(event.get_absolute_url())}'
         meeting.add('DESCRIPTION', description)
 
         file_name = get_valid_filename(event.name)
