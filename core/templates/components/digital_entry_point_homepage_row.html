@@ -1,6 +1,6 @@
 {% load i18n wagtailimages_tags %}
 
-<section class="great great-bg-white govuk-!-padding-top-5 govuk-!-padding-bottom-1">
+<section class="great great-bg-light-blue govuk-!-padding-top-5 govuk-!-padding-bottom-1">
     <div class="govuk-width-container great-container">
       {% if data.dep_title %}
       <h2 class="govuk-heading-l govuk-!-margin-bottom-5">{{data.dep_title}}</h2>
@@ -8,9 +8,9 @@
       <div class="govuk-grid-row great-display-flex-desktop">
         <div class="govuk-grid-column-two-thirds great-card">
           {% if data.dep_primary_cta_url %}
-          <a href="{{data.dep_primary_cta_url}}" class="govuk-!-display-block govuk-!-padding-5 great-bg-light-blue great-height-100-desktop" data-ga-digital-entry-point>
+          <a href="{{data.dep_primary_cta_url}}" class="govuk-!-display-block govuk-!-padding-5 great-bg-white great-height-100-desktop great-dep-homepage-title" data-ga-digital-entry-point>
             <div class="great-display-flex-from-desktop" data-location="homepage">
-                <div>
+                <div class="great-dep-homepage-title__text">
                     {% if data.dep_primary_cta_title %}
                     <h3 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2 great-text-blue" data-title="{{data.dep_primary_cta_title}}">{{data.dep_primary_cta_title}}</h3>
                     {% endif %}
@@ -28,7 +28,7 @@
         </div>
         <div class="govuk-grid-column-one-third great-card">
           {% if data.dep_secondary_cta_url %}
-          <a href="{{data.dep_secondary_cta_url}}" class="govuk-!-display-block govuk-!-padding-5 great-bg-light-blue great-height-100-desktop" data-ga-digital-entry-point>
+          <a href="{{data.dep_secondary_cta_url}}" class="govuk-!-display-block govuk-!-padding-5 great-bg-white great-height-100-desktop" data-ga-digital-entry-point>
             {% if data.dep_secondary_cta_title %}
             <h3 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2 great-text-blue" data-title="{{data.dep_secondary_cta_title}}">{{data.dep_secondary_cta_title}}</h3>
             {% endif %}
