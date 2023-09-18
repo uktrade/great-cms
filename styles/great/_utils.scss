@@ -436,7 +436,13 @@
 
 .great-height-100-desktop {
   @include govuk-media-query($from: tablet) {
-    height: 100%;
+    height: 100% !important;
+  }
+}
+
+.great-height-100-minus-30-desktop {
+  @include govuk-media-query($from: tablet) {
+    height: calc(100% - 30px) !important;
   }
 }
 
