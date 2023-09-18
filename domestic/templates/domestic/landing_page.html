@@ -187,7 +187,7 @@
 <section class="landing-page-section padding-bottom-15 padding-bottom-30-m padding-top-0 padding-top-60-m{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-bg-light-blue{% endif %}">
   <div class="container wrap-tight">
     <h2 class="margin-bottom-30">{{ page.magna_ctas_title }}</h2>
-    <div class="grid-row wrap-tight">
+    <div class="grid-row wrap-tight{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-display-flex-from-desktop{% endif %}">
       {% for column_block in page.magna_ctas_columns %}
         <div class="column-third-m column-full">
           {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
@@ -325,7 +325,7 @@
   {% endif %}
 
   {% if page.what_is_new_pages %}
-    <div class="grid-row">
+    <div class="grid-row{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-display-flex-from-desktop{% endif %}">
       {% for link_block in page.what_is_new_pages %}
           <div class="column-third-m column-full">
             {% include 'components/card.html' with title=link_block.value.text subheading=link_block.value.source url=link_block.value.url card_image=link_block.value.image html_snippet=link_block.value.content no_padding_card=True transparent_card=True show_sign_in_required=False white_bg_card=features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
