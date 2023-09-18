@@ -19,7 +19,7 @@
 
 {% block head_title %}{% firstof page.seo_title page.title %}{% endblock %}
 
-{% block css_layout_class %}landing-page{% endblock %}
+{% block css_layout_class %}landing-page{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-bg-white{% endif %}{% endblock %}
 
 {% block content %}
 
@@ -176,17 +176,25 @@
   {% endif %}
 {% endif %}
 
+{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
+  {% include 'components/digital_entry_point_homepage_row.html' with data=page %}
+{% endif %}
+
 {% if page.slice_columns|length == 3 %}
   {% include 'components/great/three_card_section.html' with title=page.slice_title columns=page.slice_columns %}
 {% endif %}
 
-<section class="landing-page-section padding-bottom-15 padding-bottom-30-m padding-top-0 padding-top-60-m">
+<section class="landing-page-section padding-bottom-15 padding-bottom-30-m padding-top-0 padding-top-60-m{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-bg-light-blue{% endif %}">
   <div class="container wrap-tight">
     <h2 class="margin-bottom-30">{{ page.magna_ctas_title }}</h2>
-    <div class="grid-row wrap-tight">
+    <div class="grid-row wrap-tight{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-display-flex-from-desktop{% endif %}">
       {% for column_block in page.magna_ctas_columns %}
         <div class="column-third-m column-full">
-          {% include 'components/card.html' with title=column_block.value.text url=column_block.value.url card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True transparent_card=True show_sign_in_required=True %}
+          {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
+            {% include 'components/card.html' with title=column_block.value.text url=column_block.value.url card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True transparent_card=False show_sign_in_required=False white_bg_card=True %}
+          {% else %}
+            {% include 'components/card.html' with title=column_block.value.text url=column_block.value.url card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True transparent_card=True show_sign_in_required=True white_bg_card=False %}
+          {% endif %}
         </div>
       {% endfor %}
     </div>
@@ -194,6 +202,7 @@
   </div>
 </section>
 
+{% if not features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
 <section class="landing-page-section padding-bottom-15 padding-bottom-30-m">
   <div class="container wrap-tight">
     <h2 class="margin-bottom-30">Here to help with your exporting journey</h2>
@@ -207,6 +216,7 @@
       <hr></hr>
   </div>
 </section>
+{% endif %}
 
 {% if FEATURE_SHOW_BRAND_BANNER %}
   <section class="padding-bottom-45 padding-top-45 padding-bottom-60-l padding-top-60-l background-grey">
@@ -223,13 +233,13 @@
 
 
 {% if FEATURE_SHOW_REPORT_BARRIER_CONTENT %}
-  <section class="report-trade-barrier padding-bottom-30 padding-bottom-45-m padding-top-30">
+  <section class="report-trade-barrier padding-bottom-30 padding-bottom-45-m padding-top-30{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-bg-light-blue{% endif %}">
     {% include 'components/informative_banner.html' with banner_label='Report a trade barrier' banner_content='Tell us about trade barriers affecting your business, including COVID-19, so we can help fix them. <a href="/report-trade-barrier/">Report a trade barrier</a>' %}
   </section>
 {% endif %}
 
 <section class="sector-potential-section padding-bottom-0">
-  <div class="sector-potential-wrapper padding-top-45 padding-top-60-m padding-bottom-45 padding-bottom-60-m">
+  <div class="sector-potential-wrapper padding-top-45 padding-top-60-m padding-bottom-45 padding-bottom-60-m{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-bg-white{% endif %}">
     <div class="container padding-bottom-45-m">
       <div class="width-full width-two-thirds-l">
           <h2 class="heading-large margin-top-0">Find new markets for your business</h2>
@@ -293,7 +303,7 @@
 
 {% with page.campaign.0.value as campaign_block_value %}
 
-<section class="landing-page-section padding-bottom-45 padding-bottom-60-m padding-top-30 padding-top-30-m">
+<section class="landing-page-section padding-bottom-45 padding-bottom-60-m padding-top-30 padding-top-30-m{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-bg-light-blue{% endif %}">
   <div class="container">
     <h2 class="heading-large margin-top-0 margin-bottom-30">{{ page.what_is_new_title|default:"What's new" }}</h2>
   {% if page.campaign %}
@@ -315,10 +325,10 @@
   {% endif %}
 
   {% if page.what_is_new_pages %}
-    <div class="grid-row">
+    <div class="grid-row{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-display-flex-from-desktop{% endif %}">
       {% for link_block in page.what_is_new_pages %}
           <div class="column-third-m column-full">
-            {% include 'components/card.html' with title=link_block.value.text subheading=link_block.value.source url=link_block.value.url card_image=link_block.value.image html_snippet=link_block.value.content no_padding_card=True transparent_card=True show_sign_in_required=False %}
+            {% include 'components/card.html' with title=link_block.value.text subheading=link_block.value.source url=link_block.value.url card_image=link_block.value.image html_snippet=link_block.value.content no_padding_card=True transparent_card=True show_sign_in_required=False white_bg_card=features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
           </div>
       {% endfor %}
     </div>
@@ -379,5 +389,8 @@
   });
 </script>
 
+{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
+<script src="{% static 'javascript/digital-entry-point.js' %}"></script>
+{% endif %}
 
 {% endblock %}
