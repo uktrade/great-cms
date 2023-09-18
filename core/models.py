@@ -1563,9 +1563,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
 
     twitter = models.URLField(blank=True, verbose_name=_('Twitter'))
     facebook = models.URLField(blank=True, verbose_name=_('Facebook'))
-
     linkedin = models.URLField(blank=True, verbose_name=_('LinkedIn'))
-    email = models.EmailField(blank=True, verbose_name=_('Email'))
 
     def get_parent_page(self):
         current_page = self.specific
