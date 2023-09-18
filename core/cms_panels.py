@@ -40,7 +40,7 @@ class MicrositePanels:
         ),
         MultiFieldPanel(
             heading='Social media',
-            children=[FieldPanel('twitter'), FieldPanel('facebook'), FieldPanel('linkedin'), FieldPanel('email')],
+            children=[FieldPanel('twitter'), FieldPanel('facebook'), FieldPanel('linkedin')],
         ),
     ]
 
