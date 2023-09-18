@@ -594,3 +594,14 @@ def register_rich_text_anchor_identifier_feature(features):
     )
 
     features.register_link_type(AnchorIdentifierLinkHandler)
+
+
+# from yourapp.forms import CustomAnchorLinkForm
+
+# @hooks.register('register_page_anchor_link')
+# def register_custom_anchor_link():
+#     return {
+#         'name': 'custom_anchor_link',
+#         'label': 'Custom Anchor Link',
+#         'form_class': CustomAnchorLinkForm,
+#     }

@@ -1,245 +1,228 @@
-const React = window.React;
-const RichUtils = window.DraftJS.RichUtils;
-const Modifier = window.DraftJS.Modifier;
-const SelectionState = window.DraftJS.SelectionState;
-const TooltipEntity = window.draftail.TooltipEntity;
-const Icon = window.wagtail.components.Icon;
-const EditorState = window.DraftJS.EditorState;
-const Portal = window.wagtail.components.Portal;
-const Tooltip = window.draftail.Tooltip;
-import slugify from "slugify";
+const React = window.React
+const RichUtils = window.DraftJS.RichUtils
+const TooltipEntity = window.draftail.TooltipEntity
+const Icon = window.wagtail.components.Icon
+const Portal = window.wagtail.components.Portal
+const Tooltip = window.draftail.Tooltip
+import slugify from 'slugify'
 
 // Implement the new APIs.
 
-const DECORATORS = [];
-const CONTROLS = [];
-const DRAFT_PLUGINS = [];
+const DECORATORS = []
+const CONTROLS = []
+const DRAFT_PLUGINS = []
 
 const registerDecorator = (decorator) => {
-  DECORATORS.push(decorator);
-  return DECORATORS;
-};
+  DECORATORS.push(decorator)
+  return DECORATORS
+}
 
 const registerControl = (control) => {
-  CONTROLS.push(control);
-  return CONTROLS;
-};
+  CONTROLS.push(control)
+  return CONTROLS
+}
 
-const registerDraftPlugin = (plugin) => {
-  DRAFT_PLUGINS.push(plugin);
-  return DRAFT_PLUGINS;
-};
 
 // Override the existing initEditor to hook the new APIs into it.
 // This works in Wagtail 2.0 but will definitely break in a future release.
-const initEditor = window.draftail.initEditor;
+const initEditor = window.draftail.initEditor
 
 const initEditorOverride = (selector, options, currentScript) => {
   const overrides = {
     decorators: DECORATORS.concat(options.decorators || []),
     controls: CONTROLS.concat(options.controls || []),
     plugins: DRAFT_PLUGINS.concat(options.plugins || []),
-  };
+  }
 
-  const newOptions = Object.assign({}, options, overrides);
+  const newOptions = Object.assign({}, options, overrides)
 
-  return initEditor(selector, newOptions, currentScript);
-};
+  return initEditor(selector, newOptions, currentScript)
+}
 
-window.draftail.registerControl = registerControl;
-window.draftail.registerDecorator = registerDecorator;
-window.draftail.initEditor = initEditorOverride;
+window.draftail.registerControl = registerControl
+window.draftail.registerDecorator = registerDecorator
+window.draftail.initEditor = initEditorOverride
 
 class AnchorIdentifierSource extends React.Component {
   componentDidMount() {
-    const { editorState, entityType, onComplete } = this.props;
+    const { editorState, entityType, onComplete } = this.props
 
-    const content = editorState.getCurrentContent();
+    const content = editorState.getCurrentContent()
 
-    const anchor = window.prompt("Anchor identifier:");
+    const anchor = window.prompt('Anchor identifier:')
 
     // Uses the Draft.js API to create a new entity with the right data.
     if (anchor) {
       const contentWithEntity = content.createEntity(
         entityType.type,
-        "MUTABLE",
+        'MUTABLE',
         {
           anchor: slugify(anchor.toLowerCase()),
         }
-      );
-      const entityKey = contentWithEntity.getLastCreatedEntityKey();
-      const selection = editorState.getSelection();
-      const nextState = RichUtils.toggleLink(editorState, selection, entityKey);
+      )
+      const entityKey = contentWithEntity.getLastCreatedEntityKey()
+      const selection = editorState.getSelection()
+      const nextState = RichUtils.toggleLink(editorState, selection, entityKey)
 
-      onComplete(nextState);
+      onComplete(nextState)
     } else {
-      onComplete(editorState);
+      onComplete(editorState)
     }
   }
 
   render() {
-    return null;
+    return null
   }
 }
 
-class ExtendedTooltipEntity extends draftail.TooltipEntity {
-    render() {
-        console.log("Rendering ExtendedTooltipEntity");
-        const baseRender = super.render();
-
-        // Check if this is the AnchorIdentifier entity.
-        // We're assuming the presence of an `anchor` property to differentiate.
-        const isAnchorEntity = this.props.entityKey && this.props.contentState.getEntity(this.props.entityKey).getData().anchor;
-
-        if (isAnchorEntity) {
-            const data = this.props.contentState.getEntity(this.props.entityKey).getData();
-            const slugified = slugify(data.anchor);
-
-            return (
-                <React.Fragment>
-                    {baseRender}
-                    <CopyAnchorButton identifier={slugified} />
-                </React.Fragment>
-            );
-        }
-
-        return baseRender;
-    }
-}
-
-const getAnchorIdentifierAttributes = (data) => {
-  const url = data.anchor || null;
-  let icon = <Icon name="anchor" />;
-  let label = `#${url}`;
-
-  return {
-    url,
-    icon,
-    label,
-  };
-};
-
-const AnchorIdentifier = (props) => {
-  const { entityKey, contentState } = props;
-  const data = contentState.getEntity(entityKey).getData();
-
-  return <ExtendedTooltipEntity {...props} {...getAnchorIdentifierAttributes(data)} />;
-};
-
-window.draftail.registerPlugin({
-  type: "ANCHOR-IDENTIFIER",
-  source: AnchorIdentifierSource,
-  decorator: AnchorIdentifier,
-});
-
-const CopyAnchorButton = ({identifier}) => {
-  const [didCopy, setDidCopy] = React.useState(false);
-
-  const copyText = (event) => {
-    // Prevent the button click event from submitting the page form
-    event.preventDefault();
-    navigator.clipboard.writeText(identifier);
-    setDidCopy(true);
-  }
-
-  const classes = 'button button-small';
-  return (
-    <button
-      class={classes}
-      style={{ marginLeft: "1rem" }}
-      aria-label="Copy anchor identifier"
-      aria-live="polite"
-      role="button"
-      onClick={copyText}
-    >
-      {didCopy ? "Copied" : "Copy"}
-    </button>
-  );
-}
-
-class UneditableAnchorDecorator extends React.Component {
+class ExtendedTooltipEntity extends TooltipEntity {
   constructor(props) {
     super(props);
 
+    // Initialize the state with the extended property.
     this.state = {
+      ...this.state,
       showTooltipAt: null,
     };
 
+    // Bind the methods to the instance.
     this.openTooltip = this.openTooltip.bind(this);
     this.closeTooltip = this.closeTooltip.bind(this);
   }
 
+  // Handle opening the tooltip when a trigger element is clicked.
   openTooltip(e) {
-    const trigger = e.target.closest("[data-draftail-trigger]");
+    const trigger = e.target.closest('[data-draftail-trigger]');
 
-    // Click is within the tooltip.
+    // If the click is not within the tooltip trigger, return early.
     if (!trigger) {
       return;
     }
 
-    const container = trigger.closest("[data-draftail-editor-wrapper]");
+    const container = trigger.closest('[data-draftail-editor-wrapper]');
     const containerRect = container.getBoundingClientRect();
     const rect = trigger.getBoundingClientRect();
 
+    // Update the state to show the tooltip at the correct position.
     this.setState({
       showTooltipAt: {
         container: container,
-        top:
-          rect.top -
-          containerRect.top -
-          (document.documentElement.scrollTop || document.body.scrollTop),
-        left:
-          rect.left -
-          containerRect.left -
-          (document.documentElement.scrollLeft || document.body.scrollLeft),
+        top: rect.top - containerRect.top - window.scrollY,
+        left: rect.left - containerRect.left - window.scrollX,
         width: rect.width,
         height: rect.height,
       },
     });
   }
 
+  // Handle closing the tooltip.
   closeTooltip() {
     this.setState({ showTooltipAt: null });
   }
 
   render() {
-    const children = this.props.children;
+    const isAnchorEntity =
+      this.props.entityKey &&
+      this.props.contentState.getEntity(this.props.entityKey).getData().anchor;
 
-    const slugified = slugify(this.props.decoratedText.toLowerCase());
-    const anchor = `#${slugified}`;
-    const { showTooltipAt } = this.state;
+      const baseRender = super.render()
 
-    // Contrary to what JSX A11Y says, this should be a button but it shouldn't be focusable.
-    /* eslint-disable springload/jsx-a11y/interactive-supports-focus */
-    return (
-      <a
-        href=""
-        name={anchor}
-        role="button"
-        // Use onMouseUp to preserve focus in the text even after clicking.
-        onMouseUp={this.openTooltip}
-        className="TooltipEntity"
-        data-draftail-trigger
-      >
-        <sub>
-          <Icon name="anchor" className="TooltipEntity__icon" />
-        </sub>
-        {children}
-        {showTooltipAt && (
-          <Portal
-            node={showTooltipAt.container}
-            onClose={this.closeTooltip}
-            closeOnClick
-            closeOnType
-            closeOnResize
-          >
-            <Tooltip target={showTooltipAt} direction="top">
-	      {anchor}
-	      <CopyAnchorButton identifier={slugified} />
-            </Tooltip>
-          </Portal>
-        )}
-      </a>
-    );
+    if (isAnchorEntity) {
+      const data = this.props.contentState
+        .getEntity(this.props.entityKey)
+        .getData();
+      const slugified = slugify(data.anchor);
+      const anchor = `#${slugified}`;
+
+      return (
+        <a
+          href=""
+          name={anchor}
+          role="button"
+          // Use onMouseUp to preserve focus in the text even after clicking.
+          onMouseUp={(e) => this.openTooltip(e)}
+          className="TooltipEntity"
+          data-draftail-trigger
+        >
+          <sub>
+            <Icon name="anchor" className="TooltipEntity__icon" />
+          </sub>
+          <span>{this.props.decoratedText}</span>
+          {this.state.showTooltipAt && (
+            <Portal
+              node={this.state.showTooltipAt.container}
+              onClose={this.closeTooltip}
+              closeOnClick
+              closeOnType
+              closeOnResize
+            >
+              <Tooltip target={this.state.showTooltipAt} direction="top">
+                {anchor}
+                <CopyAnchorButton identifier={slugified} />
+              </Tooltip>
+            </Portal>
+          )}
+        </a>
+      );
+    }
+
+    // If it's not an anchor entity, render the base content.
+    return baseRender;
   }
+}
+
+const getAnchorIdentifierAttributes = (data) => {
+  const url = data.anchor || null
+  let icon = <Icon name="anchor" />
+  let label = `#${url}`
+
+  return {
+    url,
+    icon,
+    label,
+  }
+}
+
+const AnchorIdentifier = (props) => {
+  const { entityKey, contentState } = props
+  const data = contentState.getEntity(entityKey).getData()
+
+  return (
+    <ExtendedTooltipEntity
+      {...props}
+      {...getAnchorIdentifierAttributes(data)}
+    />
+  )
+}
+
+window.draftail.registerPlugin({
+  type: 'ANCHOR-IDENTIFIER',
+  source: AnchorIdentifierSource,
+  decorator: AnchorIdentifier,
+})
+
+const CopyAnchorButton = ({ identifier }) => {
+  const [didCopy, setDidCopy] = React.useState(false)
+
+  const copyText = (event) => {
+    event.preventDefault()
+    if(navigator.clipboard){
+    navigator.clipboard.writeText(identifier)
+    setDidCopy(true)
+    }
+  }
+
+  const classes = 'button button-small'
+  return (
+    <button
+      class={classes}
+      style={{ marginLeft: '1rem' }}
+      aria-label="Copy anchor identifier"
+      aria-live="polite"
+      role="button"
+      onClick={copyText}
+    >
+      {didCopy ? 'Copied' : 'Copy'}
+    </button>
+  )
 }
