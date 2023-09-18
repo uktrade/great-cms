@@ -44,9 +44,7 @@ from wagtailseo.models import SeoMixin
 
 from core import blocks as core_blocks, cms_panels, mixins, snippet_slugs
 from core.blocks import (
-    CampaignFormBlock,
     LinkBlockWithHeading,
-    LinksBlock,
     MicrositeColumnBlock,
     SupportCardBlock,
     SupportTopicCardBlock,
