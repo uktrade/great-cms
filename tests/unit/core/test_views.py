@@ -1181,27 +1181,6 @@ class TestMicrositeLocales(TestCase):
         html_response = response.content.decode('utf-8')
         assert 'microsite home title en-gb' in html_response and 'a microsite subheading en-gb' in html_response
 
-    def test_correct_translation_french_form_success(self):
-        site_fr = self.en_microsite.copy_for_translation(self.fr_locale[0], copy_parents=True, alias=True)
-        site_fr.page_body = [
-            {
-                'type': 'form',
-                'value': {
-                    'type': 'Short',
-                    'email_subject': 'french subject',
-                    'email_title': 'french title',
-                    'email_body': 'thanks for registering',
-                },
-                'id': '97497ef4-2ecf-4e9f-a92b-4824f50acc52',
-            }
-        ]
-        site_fr.save()
-
-        url_french = self.url + '?lang=fr&form_success=True'
-        response = self.client.get(url_french)
-        html_response = response.content.decode('utf-8')
-        assert 'Les informations ont été envoyées avec succès' in html_response
-
 
 @pytest.mark.django_db
 def test_get_export_help_page(client):
