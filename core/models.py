@@ -45,7 +45,7 @@ from wagtailseo.models import SeoMixin
 from core import blocks as core_blocks, cms_panels, mixins, snippet_slugs
 from core.blocks import (
     CampaignFormBlock,
-    LinksBlock,
+    LinkBlockWithHeading,
     MicrositeColumnBlock,
     SupportCardBlock,
     SupportTopicCardBlock,
@@ -1471,19 +1471,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                     icon='grip',
                 ),
             ),
-            (
-                'links_block',
-                StreamBlock(
-                    [
-                        ('link_block', LinksBlock(label=_('Link block'))),
-                        ('text', RichTextBlock(label=_('Text'))),
-                    ],
-                    template='microsites/blocks/link.html',
-                    block_counts={'text': {'max_num': 1}, 'link_block': {'max_num': 6}},
-                    label=_('Links block'),
-                    icon='link',
-                ),
-            ),
+            ('links_block', LinkBlockWithHeading(template='microsites/blocks/link.html', label=_('Links block'))),
             (
                 'cta',
                 blocks.StructBlock(
