@@ -32,8 +32,8 @@
                 {% endif %}
             {% endfor %}
         </dl>
-        {% if step.change_url %}
-            <a href="{{step.change_url}}" class="govuk-link">Change</a>
+        {% if step.change_url and step.change_text %}
+            <a href="{{step.change_url}}" class="govuk-link">Change<span class="great-visually-hidden">{{step.change_text}}</span></a>
         {% endif %}
         <hr class="great-hr-blue great-hr-blue--thin" />
     </div>

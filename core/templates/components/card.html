@@ -6,7 +6,7 @@
 >
   {% if url %}
     <a
-      class="card-link"
+      class="card-link {% if white_bg_card %}great-bg-white{% endif %}"
       href="{{ url }}"
       {% if card_id %}id="{{ card_id|add:'-link' }}"{% endif %}
       {% if external_link %}target="_blank" rel="noopener noreferrer"
@@ -23,7 +23,7 @@
     {% endif %}
   {% endblock %}
 
-  <div class="card-inner rich-text">
+  <div class="card-inner rich-text{% if white_bg_card %} govuk-!-padding-4{% endif %}">
     {% block content %}
       {% if html_content %}
         {{ html_content }}

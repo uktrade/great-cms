@@ -522,7 +522,7 @@ class DomesticExportSupportFormStep7View(contact_mixins.ExportSupportFormMixin, 
 
         return super().get_context_data(
             **kwargs,
-            heading_text='Your enquiry',
+            heading_text='Check your answers',
             strapline_text="Check the information you've provided before you submit your enquiry.",
             steps=helpers.get_steps(form_data, second_step_edit_page, markets),
             back_link=reverse_lazy('contact:export-support-step-5'),

@@ -62,10 +62,7 @@
         })
       })
 
-      if (
-        window.location.pathname === '/support/support/' &&
-        window.location.search === ''
-      ) {
+      if (window.location.pathname.includes('/support/guidance-and-support/')) {
         if (localStorage.getItem('dep_triage_journey')) {
           localStorage.setItem(
             'dep_triage_journey',
