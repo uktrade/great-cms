@@ -132,7 +132,7 @@ class MicrositePageSerializer(serializers.Serializer):
             'published': obj.last_published_at.isoformat('T'),
             'object': {
                 'type': 'dit:greatCms:Microsite',
-                'id': 'dit:greatCms:Microsite::' + str(obj.id),
+                'id': 'dit:greatCms:Microsite:' + str(obj.id),
                 'name': obj.page_title,
                 'summary': obj.page_teaser,
                 'content': self._get_microsite_body_content_for_search(obj),
@@ -147,10 +147,9 @@ class PageSerializer(serializers.Serializer):
     def to_representation(self, obj):
         if isinstance(obj, ArticlePage):
             return ArticlePageSerializer(obj).data
-        elif isinstance(obj, MicrositePage):
+        if isinstance(obj, MicrositePage):
             return MicrositePageSerializer(obj).data
-        else:
-            return CountryGuidePageSerializer(obj).data
+        return CountryGuidePageSerializer(obj).data
 
 
 class ActivityStreamExportAcademyEventSerializer(serializers.ModelSerializer):

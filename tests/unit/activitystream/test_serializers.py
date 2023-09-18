@@ -457,7 +457,7 @@ class TestMicrositeSerializer(TestCase):
             'type': 'Update',
             'published': self.microsite.last_published_at.isoformat('T'),
             'object': {
-                'id': 'dit:greatCms:Microsite::' + str(self.microsite.id),
+                'id': 'dit:greatCms:Microsite:' + str(self.microsite.id),
                 'type': 'dit:greatCms:Microsite',
                 'summary': self.microsite.page_teaser,
                 'content': '',
