@@ -4,6 +4,11 @@
 <footer class="magna-footer shared-footer" id="footer">
   <nav class="footer">
     <ul>
+      {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
+      <li>
+          <a href="/support/guidance-and-support" title="Guidance and support">Guidance and support</a>
+      </li>
+      {% endif %}
       <li>
         <a href="{% url_map 'contact_url' %}" title="Contact us">Contact us</a>
       </li>

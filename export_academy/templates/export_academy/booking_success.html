@@ -62,7 +62,7 @@
                             watch recordings of past events you’ve booked and cancel any events you can no longer attend.
                         </p>
                     {% endif %}
-                    <a href="{% url 'export_academy:upcoming-events' %}" class="link block margin-top-30 margin-bottom-60">See all events</a>
+                    <a href="{{ return_url }}" class="link block margin-top-30 margin-bottom-60">{{ return_msg }}</a>
                 </div>
             </div>
         </section>

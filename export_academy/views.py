@@ -125,8 +125,12 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, TemplateView):
             ctx['heading'] = 'Registration'
         elif booking.status == 'Confirmed':
             ctx['heading'] = 'Booking'
+            ctx['return_url'] = booking.event.get_absolute_url()
+            ctx['return_msg'] = 'Back to event'
         else:
             ctx['heading'] = 'Cancellation'
+            ctx['return_url'] = reverse('export_academy:upcoming-events')
+            ctx['return_msg'] = 'Explore more events'
 
         ctx['booking'] = booking
         ctx['event'] = booking.event
@@ -185,7 +189,7 @@ class DownloadCalendarView(GenericAPIView):
         meeting['LOCATION'] = event.location if event.format == event.IN_PERSON else 'Microsoft Teams Meeting'
         meeting['UID'] = uuid4()
 
-        description = f'{event.name}\n\n{event.description}{calender_content()}'
+        description = f'{event.name}\n\n{event.description}{calender_content(event.get_absolute_url())}'
         meeting.add('DESCRIPTION', description)
 
         file_name = get_valid_filename(event.name)

@@ -13,6 +13,7 @@
 
 {% block body_js %}
   {{ block.super }}
+  <script src="{% static 'javascript/digital-entry-point.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -29,7 +30,7 @@
                         {% endif %}
 
                         {% if page.page_teaser %}
-                            <p class="govuk-body-l govuk-!-margin-bottom-0">{{ page.page_teaser}}</p>
+                            <p class="govuk-body-l govuk-!-margin-bottom-0">{{ page.page_teaser }}</p>
                         {% endif %}
                     </div>
                 </div>
@@ -45,12 +46,11 @@
                 {% endif %}
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-one-half">
-                        <h2 class="govuk-heading-m govuk-!-margin-bottom-7">Contact us</h2>
-                        <div class="govuk-!-padding-6 great-bg-white">
-                            <h3 class="govuk-heading-xs govuk-!-margin-bottom-5">Ask any question</h3>
-                            <p class="govuk-body govuk-!-margin-bottom-4">Contact the Export Support Service for questions on rules, paperwork, markets and much more.</p>
-                            <a href="{% url 'contact:export-support' %}" class="govuk-button govuk-!-margin-bottom-4">Contact us</a>
-                            <p class="govuk-body govuk-!-margin-bottom-0">We aim to respond in 3 working days.</p>
+                        <div class="govuk-!-padding-5 great-bg-white">
+                            <h2 class="govuk-heading-xs govuk-!-margin-bottom-4">Can’t find your answer?</h2>
+                            <p class="govuk-body govuk-!-margin-bottom-4">Contact the Export Support Service with a specific question on anything, from rules and paperwork to markets and much more.</p>
+                            <a href="{% url 'contact:export-support' %}" class="govuk-button govuk-!-margin-bottom-4">Start your enquiry</a>
+                            <p class="govuk-body govuk-!-margin-bottom-0">We aim to respond within 3 working days.</p>
                         </div>
                     </div>
                 </div>

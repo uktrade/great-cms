@@ -517,22 +517,6 @@ if settings.FEATURE_DIGITAL_POINT_OF_ENTRY:
             QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
         ),
         re_path(
-            r'^report-trade-barrier/report/about/$',
-            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
-        ),
-        re_path(
-            r'^report-trade-barrier/report/problem-details/$',
-            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
-        ),
-        re_path(
-            r'^report-trade-barrier/report/summary/$',
-            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
-        ),
-        re_path(
-            r'^report-trade-barrier/report/finished/$',
-            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
-        ),
-        re_path(
             r'^contact/triage/great-services/$',
             QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
         ),
