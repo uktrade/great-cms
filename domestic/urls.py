@@ -111,8 +111,6 @@ urlpatterns = [
                 url_name='domestic:report-ma-barrier',
                 done_step_name='finished',
             )
-            if not settings.FEATURE_DIGITAL_POINT_OF_ENTRY
-            else QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE)
         ),
         name='report-ma-barrier',
     ),

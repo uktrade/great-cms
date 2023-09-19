@@ -417,22 +417,6 @@ redirects = [
         '/contact/office-finder/',
         DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE,
     ),
-    (
-        '/report-trade-barrier/report/about/',
-        DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE,
-    ),
-    (
-        '/report-trade-barrier/report/problem-details/',
-        DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE,
-    ),
-    (
-        '/report-trade-barrier/report/summary/',
-        DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE,
-    ),
-    (
-        '/report-trade-barrier/report/finished/',
-        DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE,
-    ),
     # CMS-1410 redirects for updated 'export advice' articles
     (
         '/advice/find-an-export-market/plan-export-market-research/',
