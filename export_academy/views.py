@@ -123,6 +123,8 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, TemplateView):
         booking = models.Booking.objects.get(id=ctx['booking_id'])
         if self.user_just_registered(booking):
             ctx['heading'] = 'Registration'
+            ctx['return_url'] = booking.event.get_absolute_url()
+            ctx['return_msg'] = 'Back to event'
         elif booking.status == 'Confirmed':
             ctx['heading'] = 'Booking'
             ctx['return_url'] = booking.event.get_absolute_url()
