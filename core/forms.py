@@ -94,3 +94,57 @@ class ConsentFieldMixin(forms.Form):
         if 'captcha' in field_order:
             self.move_to_end(fields=field_order, name='captcha')
         return super().order_fields(field_order)
+<<<<<<< HEAD
+=======
+
+
+class GetExportHelpExperimentForm(forms.Form):
+    CHOICES = (
+        ('finding_an_overseas_buyer', 'Finding an overseas buyer'),
+        ('choosing_a_market', 'Choosing a market'),
+        ('cost_of_exporting', 'Cost of exporting'),
+        ('duties_and_taxes', 'Duties and taxes'),
+        ('how_to_start_exporting_today', 'How to start exporting today'),
+        ('other', 'Other'),
+        ('not_sure', 'Not sure, just taking a look around'),
+    )
+    type_of_help_needed = forms.MultipleChoiceField(
+        choices=CHOICES,
+        widget=forms.CheckboxSelectInlineLabelMultiple,
+        error_messages={
+            'required': 'Select up to 2 options',
+        },
+    )
+
+    def clean_type_of_help_needed(self):
+        data = self.cleaned_data['type_of_help_needed']
+        if len(data) > 2:
+            raise ValidationError('Select a maximum of 2 options')
+        return data
+
+
+class GetExportHelpExperimentEmailForm(forms.Form):
+    email_address = forms.EmailField(
+        error_messages={
+            'required': 'Enter your email address',
+        },
+    )
+    email_consent = forms.BooleanField(
+        label=mark_safe(
+            '<p class="great-margin-top-negative-10 govuk-!-margin-bottom-0">I would like to be contacted via email</p>'
+        ),
+        error_messages={
+            'required': 'You must agree to be contacted before submitting',
+        },
+    )
+    terms_agreed = forms.BooleanField(
+        label=mark_safe(
+            '<p class="great-margin-top-negative-10 govuk-!-margin-bottom-0">Tick this box to accept the '
+            f'<a href="{TERMS_URL}" target="_blank">terms and '
+            'conditions</a> of the great.gov.uk service.</p>'
+        ),
+        error_messages={
+            'required': 'You must agree to the terms and conditions before submitting',
+        },
+    )
+>>>>>>> 276a2ae95 (fixed anchor)
