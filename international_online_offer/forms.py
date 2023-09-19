@@ -61,7 +61,7 @@ class IntentForm(forms.Form):
     def clean(self):
         cleaned_data = super().clean()
         intent = cleaned_data.get('intent')
-        if intents.OTHER not in intent:
+        if intent and intents.OTHER not in intent:
             cleaned_data['intent_other'] = ''
         intent_other = cleaned_data.get('intent_other')
         if intent and any(intents.OTHER in s for s in intent) and not intent_other:
