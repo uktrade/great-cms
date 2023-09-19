@@ -2,14 +2,14 @@ from django.conf import settings
 from django.utils.html import format_html
 from django.utils.module_loading import import_string
 from draftjs_exporter.dom import DOM
-from wagtail import VERSION as wagtail_version
+from wagtail import VERSION as WAGTAIL_VERSION
 from wagtail.admin.rich_text.converters.contentstate_models import Block
 from wagtail.admin.rich_text.converters.html_to_contentstate import (
     BlockElementHandler,
     InlineEntityElementHandler,
 )
 
-if wagtail_version >= (3, 0):
+if WAGTAIL_VERSION >= (3, 0):
     from wagtail.rich_text import LinkHandler
 else:
     from wagtail.core.rich_text import LinkHandler
@@ -17,15 +17,15 @@ else:
 
 # We can't use "anchor", as Wagtail uses this internally for links whose hrefs
 # start with "#"
-ANCHOR_TARGET_IDENTIFIER = "anchor-target"
+ANCHOR_TARGET_IDENTIFIER = 'anchor-target'
 
 
 def render_span(attrs):
-    return format_html('<span id="{}">', attrs["id"])
+    return format_html('<span id="{}">', attrs['id'])
 
 
 def render_a(attrs):
-    return format_html('<a href="#{id}" id="{id}" data-id="{id}">', id=attrs["id"])
+    return format_html('<a href="#{id}" id="{id}" data-id="{id}">', id=attrs['id'])
 
 
 class AnchorIdentifierLinkHandler(LinkHandler):
@@ -33,9 +33,9 @@ class AnchorIdentifierLinkHandler(LinkHandler):
 
     @classmethod
     def get_renderer(cls):
-        renderer = getattr(cls, "_renderer", None)
+        renderer = getattr(cls, '_renderer', None)
         if renderer is None:
-            renderer = getattr(settings, "DRAFTAIL_ANCHORS_RENDERER", render_a)
+            renderer = getattr(settings, 'DRAFTAIL_ANCHORS_RENDERER', render_a)
             if isinstance(renderer, str):
                 renderer = import_string(renderer)
             cls._renderer = renderer
@@ -53,15 +53,15 @@ def anchor_identifier_entity_decorator(props):
     Converts the ANCHOR entities into <a> tags.
     """
     return DOM.create_element(
-        "a",
+        'a',
         {
-            "data-id": props["anchor"].lstrip("#"),
-            "id": props["anchor"].lstrip("#"),
-            "href": "#{}".format(props["anchor"].lstrip("#")),
+            'data-id': props['anchor'].lstrip('#'),
+            'id': props['anchor'].lstrip('#'),
+            'href': f'#{props["anchor"].lstrip("#")}',
             # Add a custom linktype so we can handle the DB -> HTML transformation
-            "linktype": ANCHOR_TARGET_IDENTIFIER,
+            'linktype': ANCHOR_TARGET_IDENTIFIER,
         },
-        props["children"],
+        props['children'],
     )
 
 
@@ -72,15 +72,15 @@ class AnchorIndentifierEntityElementHandler(InlineEntityElementHandler):
     """
 
     # In Draft.js entity terms, anchors identifier are "mutable".
-    mutability = "MUTABLE"
+    mutability = 'MUTABLE'
 
     def get_attribute_data(self, attrs):
         """
         Take the ``anchor`` value from the ``href`` HTML attribute.
         """
         return {
-            "anchor": attrs["href"].lstrip("#"),
-            "data-id": attrs["id"],
+            'anchor': attrs['href'].lstrip('#'),
+            'data-id': attrs['id'],
         }
 
 
@@ -94,10 +94,10 @@ class AnchorBlockConverter:
         self.tag = tag
 
     def __call__(self, props):
-        block_data = props["block"]["data"]
+        block_data = props['block']['data']
 
         # Here, we want to display the block's content so we pass the `children` prop as the last parameter.
-        return DOM.create_element(self.tag, {"id": block_data.get("anchor")}, props["children"])
+        return DOM.create_element(self.tag, {'id': block_data.get('anchor')}, props['children'])
 
 
 class DataBlock(Block):
@@ -106,7 +106,7 @@ class DataBlock(Block):
     """
 
     def __init__(self, *args, **kwargs):
-        self.data = kwargs.pop("data")
+        self.data = kwargs.pop('data')
         super().__init__(*args, **kwargs)
 
     def as_dict(self):
@@ -120,5 +120,5 @@ class AnchorBlockHandler(BlockElementHandler):
         return DataBlock(
             self.block_type,
             depth=state.list_depth,
-            data={"anchor": attrs.get("id", "")},
+            data={'anchor': attrs.get('id', '')},
         )

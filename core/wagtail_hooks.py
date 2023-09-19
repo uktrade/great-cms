@@ -556,52 +556,41 @@ def register_icons(icons):
     ]
 
 
-@hooks.register("register_rich_text_features")
+@hooks.register('register_rich_text_features')
 def register_rich_text_anchor_identifier_feature(features):
-    features.default_features.insert(0, "anchor-identifier")
+    features.default_features.insert(0, 'anchor-identifier')
     """
     Registering the `anchor-identifier` feature, which uses the `ANCHOR-IDENTIFIER` Draft.js entity type,
     and is stored as HTML with a `<a data-anchor href="#my-anchor" id="my-anchor">` tag.
     """
-    feature_name = "anchor-identifier"
-    type_ = "ANCHOR-IDENTIFIER"
+    feature_name = 'anchor-identifier'
+    type_ = 'ANCHOR-IDENTIFIER'
 
     control = {
-        "type": type_,
-        "label": "",
-        "icon": "anchor",
-        "description": "Anchor Identifier",
+        'type': type_,
+        'label': '',
+        'icon': 'anchor',
+        'description': 'Anchor Identifier',
     }
 
     features.register_editor_plugin(
-        "draftail",
+        'draftail',
         feature_name,
         draftail_features.EntityFeature(
             control,
-            js=["custom_wagtaildraftailanchors.js"],
+            js=['custom_wagtaildraftailanchors.js'],
         ),
     )
 
     features.register_converter_rule(
-        "contentstate",
+        'contentstate',
         feature_name,
         {
             # Note here that the conversion is more complicated than for blocks and inline styles.
             # 'from_database_format': {'a[data-anchor][id]': AnchorIndentifierEntityElementHandler(type_)},
-            "from_database_format": {"a[data-id]": AnchorIndentifierEntityElementHandler(type_)},
-            "to_database_format": {"entity_decorators": {type_: anchor_identifier_entity_decorator}},
+            'from_database_format': {'a[data-id]': AnchorIndentifierEntityElementHandler(type_)},
+            'to_database_format': {'entity_decorators': {type_: anchor_identifier_entity_decorator}},
         },
     )
 
     features.register_link_type(AnchorIdentifierLinkHandler)
-
-
-# from yourapp.forms import CustomAnchorLinkForm
-
-# @hooks.register('register_page_anchor_link')
-# def register_custom_anchor_link():
-#     return {
-#         'name': 'custom_anchor_link',
-#         'label': 'Custom Anchor Link',
-#         'form_class': CustomAnchorLinkForm,
-#     }
