@@ -136,7 +136,7 @@ class MicrositePageSerializer(serializers.Serializer):
                 'name': obj.page_title,
                 'summary': obj.page_teaser,
                 'content': self._get_microsite_body_content_for_search(obj),
-                'url': 'https://www.great.gov.uk' + obj.url_path,
+                'url': f'https://www.great.gov.uk{obj.get_url()}',
                 'locale_id': obj.locale_id
                 # 'keywords': ' '.join(obj.tags.all().values_list('name', flat=True)),
             },
