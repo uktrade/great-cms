@@ -1813,7 +1813,7 @@ class GetInTouchPage(cms_panels.GetInTouchPanels, Page):
     page_title = models.TextField(
         null=True,
     )
-    page_teaser = RichTextField(
+    page_teaser = models.TextField(
         blank=True,
         null=True,
     )
