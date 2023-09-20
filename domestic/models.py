@@ -9,7 +9,6 @@ from django.http import Http404
 from django.utils.functional import cached_property
 from great_components.mixins import GA360Mixin
 from modelcluster.fields import ParentalManyToManyField
-from treebeard.mp_tree import get_result_class
 from wagtail import blocks
 from wagtail.admin.panels import (
     FieldPanel,
@@ -24,7 +23,6 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.models import Page
-from wagtail.url_routing import RouteResult
 from wagtailseo.models import SeoMixin
 
 from core import blocks as core_blocks, cache_keys, helpers, mixins, service_urls
@@ -228,9 +226,6 @@ class StructuralPage(BaseContentPage):
 
     def serve(self, request):
         raise Http404()
-
-    def get_specific(self, deferred=False, copy_attrs=None, copy_attrs_exclude=None):
-        return super().get_specific(deferred,copy_attrs,copy_attrs_exclude)
 
 
 class GreatDomesticHomePage(
@@ -445,9 +440,6 @@ class GreatDomesticHomePage(
         )
 
         return context
-
-    def get_specific(self, deferred=False, copy_attrs=None, copy_attrs_exclude=None):
-        return super().get_specific(deferred,copy_attrs,copy_attrs_exclude)
 
 
 class TopicLandingBasePage(BaseContentPage):
@@ -1243,7 +1235,6 @@ class ArticlePage(
             elif page:
                 output.append(page.specific)
         return output
-
 
 
 class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):

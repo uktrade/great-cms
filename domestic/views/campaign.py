@@ -39,38 +39,46 @@ class CampaignView(BaseNotifyUserFormView):
             return None
         try:
             if settings.FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
-                from config.settings import LANGUAGE_CODE
-
                 current_language_code = get_language()
                 current_locale = Locale.objects.get(language_code=current_language_code)
-
-                if self.page_class.objects.live().filter(slug=self.page_slug).count() > 0:
-                    if (
-                        self.page_class.objects.live()
-                        .filter(slug=self.page_slug, locale_id=current_locale, url_path__endswith=self.path)
-                        .count()
-                        == 1  # noqa: W503
-                    ):
-                        return self.page_class.objects.live().get(
-                            slug=self.page_slug, locale_id=current_locale, url_path__endswith=self.path
-                        )
-                    else:
-                        default_locale = Locale.objects.get(language_code=LANGUAGE_CODE)
-                        if self.page_class.objects.live().filter(
-                            slug=self.page_slug, locale_id=default_locale, url_path__endswith=self.path
-                        ).count() == 1:
-                            return self.page_class.objects.live().get(
-                                slug=self.page_slug, locale_id=default_locale, url_path__endswith=self.path
-                            )
-                        else:
-                            return self.page_class.objects.live().filter(
-                                slug=self.page_slug, url_path__endswith=self.path
-                            ).order_by('-path').first()
+                return self.get_correct_page(current_locale)
 
             return self.page_class.objects.live().get(slug=self.page_slug, url_path__endswith=self.path)
 
         except ObjectDoesNotExist:
             return None
+
+    def get_correct_page(self, current_locale):
+        if self.page_class.objects.live().filter(slug=self.page_slug).count() > 0:
+            if (
+                self.page_class.objects.live()
+                .filter(slug=self.page_slug, locale_id=current_locale, url_path__endswith=self.path)
+                .count()
+                == 1  # noqa: W503
+            ):
+                return self.page_class.objects.live().get(
+                    slug=self.page_slug, locale_id=current_locale, url_path__endswith=self.path
+                )
+            else:
+                from config.settings import LANGUAGE_CODE
+
+                default_locale = Locale.objects.get(language_code=LANGUAGE_CODE)
+                if (
+                    self.page_class.objects.live()
+                    .filter(slug=self.page_slug, locale_id=default_locale, url_path__endswith=self.path)
+                    .count()
+                    == 1
+                ):
+                    return self.page_class.objects.live().get(
+                        slug=self.page_slug, locale_id=default_locale, url_path__endswith=self.path
+                    )
+                else:
+                    return (
+                        self.page_class.objects.live()
+                        .filter(slug=self.page_slug, url_path__endswith=self.path)
+                        .order_by('-path')
+                        .first()
+                    )
 
     def get_form_value(self):
         values = [
