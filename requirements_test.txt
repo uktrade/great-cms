@@ -359,6 +359,7 @@ gitdb==4.0.11
     # via gitpython
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 gitpython==3.1.40
 =======
 gitpython==3.1.36
@@ -366,6 +367,12 @@ gitpython==3.1.36
 =======
 gitpython==3.1.37
 >>>>>>> 1eb9de2d0 (KLS-1126 remove draftail-anchor lib implementation)
+=======
+gitpython==3.1.37
+=======
+gitpython==3.1.36
+>>>>>>> e80e8b749 (add tests)
+>>>>>>> fd43c9025 (add tests)
     # via -r requirements_test.in
 great-components==2.4.0
     # via -r requirements.in
@@ -387,6 +394,7 @@ html5lib==1.1
     #   xhtml2pdf
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 icalendar==5.0.10
     # via -r requirements.in
 identify==2.5.30
@@ -395,6 +403,12 @@ icalendar==5.0.8
 =======
 icalendar==5.0.9
 >>>>>>> 1eb9de2d0 (KLS-1126 remove draftail-anchor lib implementation)
+=======
+icalendar==5.0.9
+=======
+icalendar==5.0.8
+>>>>>>> e80e8b749 (add tests)
+>>>>>>> fd43c9025 (add tests)
     # via -r requirements.in
 identify==2.5.29
 >>>>>>> 5920961c1 (add tests)
@@ -607,6 +621,7 @@ pylint-plugin-utils==0.8.2
     # via pylint-django
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 pypdf==3.16.4
 =======
 pypdf==3.16.1
@@ -614,6 +629,12 @@ pypdf==3.16.1
 =======
 pypdf==3.16.2
 >>>>>>> 1eb9de2d0 (KLS-1126 remove draftail-anchor lib implementation)
+=======
+pypdf==3.16.2
+=======
+pypdf==3.16.1
+>>>>>>> e80e8b749 (add tests)
+>>>>>>> fd43c9025 (add tests)
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -874,6 +895,7 @@ wagtail==4.2.2
     # via
     #   -r requirements.in
     #   wagtail-cache
+    #   wagtail-draftail-anchors
     #   wagtail-factories
     #   wagtail-localize
     #   wagtail-seo
@@ -881,6 +903,8 @@ wagtail==4.2.2
     #   wagtail-trash
     #   wagtailmedia
 wagtail-cache==2.2.0
+    # via -r requirements.in
+wagtail-draftail-anchors==0.6.0
     # via -r requirements.in
 wagtail-factories==2.0.1
     # via -r requirements.in

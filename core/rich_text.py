@@ -2,6 +2,10 @@ from django.conf import settings
 from django.utils.html import format_html
 from django.utils.module_loading import import_string
 from draftjs_exporter.dom import DOM
+<<<<<<< HEAD
+=======
+from wagtail import VERSION as WAGTAIL_VERSION
+>>>>>>> e80e8b749 (add tests)
 from wagtail.admin.rich_text.converters.html_to_contentstate import (
     InlineEntityElementHandler,
 )

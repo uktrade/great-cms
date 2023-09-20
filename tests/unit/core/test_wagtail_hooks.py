@@ -1233,6 +1233,18 @@ def test_anchor_identifier_link_handler():
     assert 'id="test-id"' in result
 
 
+<<<<<<< HEAD
+=======
+# def test_anchor_identifier_entity_decorator():
+#     props = {'anchor': '#test-id', 'children': '<div>Test Content</div>'}
+#     result = anchor_identifier_entity_decorator(props)
+#     assert 'href="#test-id"' in result
+#     assert 'id="test-id"' in result
+#     assert 'data-id="test-id"' in result
+#     assert 'Test Content' in result
+
+
+>>>>>>> e80e8b749 (add tests)
 def test_anchor_identifier_entity_element_handler():
     handler = AnchorIndentifierEntityElementHandler('ANCHOR-IDENTIFIER')
     attrs = {'href': '#test-id', 'id': 'test-id'}
