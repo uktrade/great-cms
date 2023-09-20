@@ -40,7 +40,7 @@ class CountryGuidePageSerializer(serializers.Serializer):
 
 
 class ArticlePageSerializer(serializers.Serializer):
-    expected_block_types = ['text', 'cta', 'image', 'Video', 'Columns', 'pull_quote', 'form']
+    expected_block_types = ['text', 'cta', 'image', 'Video', 'Columns', 'pull_quote']
 
     def _get_article_body_content_for_search(self, obj: ArticlePage) -> str:
         """Selectively extract streamfield data from the blocks in ArticlePage's article_body streamfield.
@@ -94,7 +94,6 @@ class MicrositePageSerializer(serializers.Serializer):
         'video',
         'columns',
         'pull_quote',
-        'form',
         'links_block',
     ]
 

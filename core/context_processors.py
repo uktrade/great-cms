@@ -69,7 +69,6 @@ def feature_flags(request):
     """General way to make feature flags available in the template"""
     retval = {'features': {}}
     retval['features'].update(settings.SSO_PROFILE_FEATURE_FLAGS)
-    retval['features']['FEATURE_GET_EXPORT_HELP_EXPERIMENT'] = settings.FEATURE_GET_EXPORT_HELP_EXPERIMENT
     retval['features']['FEATURE_PRODUCT_EXPERIMENT_HEADER'] = settings.FEATURE_PRODUCT_EXPERIMENT_HEADER
     retval['features']['FEATURE_PRODUCT_EXPERIMENT_LINKS'] = settings.FEATURE_PRODUCT_EXPERIMENT_LINKS
     retval['features']['FEATURE_FEEDBACK_BUTTON_EXPERIMENT'] = settings.FEATURE_FEEDBACK_BUTTON_EXPERIMENT

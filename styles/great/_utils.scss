@@ -375,10 +375,6 @@
   border-left: 6px solid $great-blue;
 }
 
-.great-border-top-hr-blue {
-  border-top: 3px solid $great-hr-blue;
-}
-
 .great-bg-white {
   background-color: $great-white !important;
   background: $great-white;
@@ -660,43 +656,6 @@
   -ms-user-select: none;
   user-select: none;
   forced-color-adjust: none;
-}
-
-.great-margin-top-negative-10 {
-  margin-top: -10px;
-}
-
-.great-backround-cover-no-repeat {
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.white-button-black-text {
-  background-color: white;
-  color: black;
-  min-width: 250px;
-
-  &:hover,
-  &:focus {
-    background-color: black;
-    color: white;
-  }
-
-  @media screen and (max-width: 900px) {
-    min-width: 200px;
-    width: 100%;
-  }
-
-  @media screen and (min-width: 640px) and (max-width: 900px) {
-    margin-top: 40px;
-  }
-}
-
-.three-quarters-width-centered-desktop {
-  @media screen and (min-width: 901px) {
-    margin: auto;
-    max-width: 75%;
-  }
 }
 
 img.richtext-image {

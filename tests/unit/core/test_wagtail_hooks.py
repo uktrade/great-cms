@@ -23,7 +23,6 @@ from core.wagtail_hooks import (
     S3WagtailTransferFile,
     convert_all_columns,
     convert_cta,
-    convert_form,
     convert_image,
     convert_quote,
     convert_related_links,
@@ -1040,15 +1039,6 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
         self.parent_page = StructurePageFactory(parent=self.domestic_homepage, title='campaigns', slug='campaigns')
         article_body1 = json.dumps(
             [
-                {
-                    'type': 'form',
-                    'value': {
-                        'type': 'Short',
-                        'email_title': 'title1',
-                        'email_subject': 'subject1',
-                        'email_body': 'body1',
-                    },
-                },
                 {'type': 'Video', 'value': {'video': 44}, 'id': 'b965f2ea-c030-41ff-b121-32895a0b7cb0'},
                 {'type': 'image', 'value': 682, 'id': '5a176e7e-4fa8-42b5-b89e-202d8946910c'},
                 {
@@ -1145,14 +1135,6 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
         self.assertEqual(text_block['type'], 'text')
         self.assertEqual(text_block['value'], '<p data-block-key="r0g5h">dssdsdds</p>')
 
-    def test_convert_form(self):
-        form = convert_form([block for block in self.article1.article_body if block.block_type == 'form'][0])
-        self.assertEqual(form['type'], 'form')
-        self.assertEqual(form['value']['type'], 'Short')
-        self.assertEqual(form['value']['email_title'], 'title1')
-        self.assertEqual(form['value']['email_subject'], 'subject1')
-        self.assertEqual(form['value']['email_body'], 'body1')
-
     def test_convert_columns(self):
         columns = convert_all_columns(
             [block for block in self.article1.article_body if block.block_type == 'Columns'][0]
@@ -1179,8 +1161,8 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
 
     def test_get_microsite_page_body(self):
         page_body = get_microsite_page_body(self.article1.article_body)
-        self.assertEqual(len(page_body), 7)
-        self.assertEqual(len([item for item in page_body if item['type'] == 'form']), 1)
+        self.assertEqual(len(page_body), 6)
+        self.assertEqual(len([item for item in page_body if item['type'] == 'form']), 0)
         self.assertEqual(len([item for item in page_body if item['type'] == 'pull_quote']), 1)
         self.assertEqual(len([item for item in page_body if item['type'] == 'cta']), 1)
         self.assertEqual(len([item for item in page_body if item['type'] == 'columns']), 1)
