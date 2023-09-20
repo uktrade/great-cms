@@ -39,6 +39,8 @@
           </div>
         </div>
       </div>
+      {% else %}
+      {% include './includes/error_summary.html' %}
       {% endif %}
       <div id="login">
         <form method="post">
