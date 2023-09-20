@@ -235,7 +235,11 @@ html5lib==1.1
     # via
     #   wagtail
     #   xhtml2pdf
+<<<<<<< HEAD
 icalendar==5.0.10
+=======
+icalendar==5.0.8
+>>>>>>> 9e27fa518 (change requirements)
     # via -r requirements.in
 idna==3.4
     # via requests
@@ -279,7 +283,11 @@ monotonic==1.6
     # via
     #   directory-ch-client
     #   directory-client-core
+<<<<<<< HEAD
 numpy==1.26.1
+=======
+numpy==1.26.0
+>>>>>>> 9e27fa518 (change requirements)
     # via pandas
 oauthlib==3.2.2
     # via
@@ -318,7 +326,11 @@ pyhanko-certvalidator==0.24.1
     # via
     #   pyhanko
     #   xhtml2pdf
+<<<<<<< HEAD
 pypdf==3.16.4
+=======
+pypdf==3.16.1
+>>>>>>> 9e27fa518 (change requirements)
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -466,6 +478,7 @@ wagtail==4.2.2
     # via
     #   -r requirements.in
     #   wagtail-cache
+    #   wagtail-draftail-anchors
     #   wagtail-factories
     #   wagtail-localize
     #   wagtail-seo
@@ -473,6 +486,8 @@ wagtail==4.2.2
     #   wagtail-trash
     #   wagtailmedia
 wagtail-cache==2.2.0
+    # via -r requirements.in
+wagtail-draftail-anchors==0.6.0
     # via -r requirements.in
 wagtail-factories==2.0.1
     # via -r requirements.in
