@@ -92,6 +92,7 @@ INSTALLED_APPS = [
     'django_celery_beat',
     'drf_spectacular',
     'wagtailfontawesomesvg',
+    'wagtail_draftail_anchors',
 ]
 
 MIDDLEWARE = [
