@@ -31,6 +31,8 @@
       </div>
     </div>
   </div>
+  {% else %}
+      {% include './includes/error_summary.html' %}
   {% endif %}
   {% if not form.code_confirm %}
   <div class="govuk-grid-row">

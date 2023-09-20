@@ -71,8 +71,9 @@ class IntentForm(forms.Form):
 
 
 class LocationForm(forms.Form):
-    VALIDATION_MESSAGE_SELECT_OPTION = 'Please select a location or "not decided" to continue'
-    VALIDATION_MESSAGE_SELECT_ONE_OPTION = 'Please select only one choice to continue'
+    VALIDATION_MESSAGE_SELECT_OPTION = 'You must select a location or not decided'
+    VALIDATION_MESSAGE_SELECT_NONE_OPTION = 'You must select not decided or a location'
+
     location = ChoiceField(
         label='Enter a city, county or region',
         help_text='Type to search and choose from the list',
@@ -90,12 +91,9 @@ class LocationForm(forms.Form):
         cleaned_data = super().clean()
         location = cleaned_data.get('location')
         location_none = cleaned_data.get('location_none')
-        if not location and not location_none:
+        if not location and not location_none or location and location_none:
             self.add_error('location', self.VALIDATION_MESSAGE_SELECT_OPTION)
-            self.add_error('location_none', self.VALIDATION_MESSAGE_SELECT_OPTION)
-        if location and location_none:
-            self.add_error('location', self.VALIDATION_MESSAGE_SELECT_ONE_OPTION)
-            self.add_error('location_none', self.VALIDATION_MESSAGE_SELECT_ONE_OPTION)
+            self.add_error('location_none', self.VALIDATION_MESSAGE_SELECT_NONE_OPTION)
         else:
             return cleaned_data
 
@@ -126,9 +124,9 @@ class SpendForm(forms.Form):
         },
     )
     spend_other = IntegerField(
-        label='Enter specific spend amount, in pounds',
+        label='',
         required=False,
-        widget=NumberInput(attrs={'class': 'govuk-input'}),
+        widget=NumberInput(attrs={'class': 'govuk-input govuk-input--width-5'}),
     )
 
     def clean(self):
