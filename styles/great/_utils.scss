@@ -860,3 +860,9 @@ img.richtext-image {
     padding-left: 30px;
   }
 }
+
+.great-anchor-link {
+  @include great-title-link();
+  font-family: inherit !important;
+  font-size: inherit !important;
+}

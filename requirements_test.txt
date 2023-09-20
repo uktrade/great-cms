@@ -345,7 +345,11 @@ geventhttpclient==2.0.11
     # via locust
 gitdb==4.0.11
     # via gitpython
+<<<<<<< HEAD
 gitpython==3.1.40
+=======
+gitpython==3.1.36
+>>>>>>> 5920961c1 (add tests)
     # via -r requirements_test.in
 great-components==2.4.0
     # via -r requirements.in
@@ -365,9 +369,15 @@ html5lib==1.1
     # via
     #   wagtail
     #   xhtml2pdf
+<<<<<<< HEAD
 icalendar==5.0.10
     # via -r requirements.in
 identify==2.5.30
+=======
+icalendar==5.0.8
+    # via -r requirements.in
+identify==2.5.29
+>>>>>>> 5920961c1 (add tests)
     # via pre-commit
 idna==3.4
     # via
@@ -455,7 +465,11 @@ mypy-extensions==1.0.0
     # via black
 nodeenv==1.8.0
     # via pre-commit
+<<<<<<< HEAD
 numpy==1.26.1
+=======
+numpy==1.26.0
+>>>>>>> 5920961c1 (add tests)
     # via pandas
 oauthlib==3.2.2
     # via
@@ -559,7 +573,11 @@ pylint-django==2.5.4
     # via -r requirements_test.in
 pylint-plugin-utils==0.8.2
     # via pylint-django
+<<<<<<< HEAD
 pypdf==3.16.4
+=======
+pypdf==3.16.1
+>>>>>>> 5920961c1 (add tests)
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -753,9 +771,13 @@ tomli==2.0.1
     #   pytest
 tomlkit==0.12.1
     # via pylint
+<<<<<<< HEAD
 tqdm==4.66.1
     # via djlint
 traitlets==5.11.2
+=======
+traitlets==5.10.0
+>>>>>>> 5920961c1 (add tests)
     # via
     #   ipython
     #   matplotlib-inline
@@ -812,6 +834,7 @@ wagtail==4.2.2
     # via
     #   -r requirements.in
     #   wagtail-cache
+    #   wagtail-draftail-anchors
     #   wagtail-factories
     #   wagtail-localize
     #   wagtail-seo
@@ -819,6 +842,8 @@ wagtail==4.2.2
     #   wagtail-trash
     #   wagtailmedia
 wagtail-cache==2.2.0
+    # via -r requirements.in
+wagtail-draftail-anchors==0.6.0
     # via -r requirements.in
 wagtail-factories==2.0.1
     # via -r requirements.in

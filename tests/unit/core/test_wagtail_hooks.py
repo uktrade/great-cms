@@ -16,6 +16,11 @@ from wagtail.tests.utils import WagtailPageTests
 from core import cms_slugs, wagtail_hooks
 from core.constants import MENU_ITEM_ADD_CAMPAIGN_SITE_LINK
 from core.models import DetailPage, MicrositePage
+from core.rich_text import (
+    AnchorIdentifierLinkHandler,
+    AnchorIndentifierEntityElementHandler,
+    render_a,
+)
 from core.wagtail_hooks import (
     FileTransferError,
     MigratePage,
@@ -1211,3 +1216,36 @@ def test_register_campaign_site_help_menu_item():
     assert actual.order == 900
     assert actual.attrs == {'target': '_blank', 'rel': 'noreferrer', 'data-wagtail-dismissible-id': 'campaign-site'}
     assert actual.name == 'campaign-site'
+
+
+def test_render_a():
+    attrs = {'id': 'test-id'}
+    result = render_a(attrs)
+    assert 'href="#test-id"' in result
+    assert 'id="test-id"' in result
+    assert 'data-id="test-id"' in result
+
+
+def test_anchor_identifier_link_handler():
+    handler = AnchorIdentifierLinkHandler()
+    attrs = {'id': 'test-id'}
+    result = handler.expand_db_attributes(attrs)
+    assert 'id="test-id"' in result
+
+
+# def test_anchor_identifier_entity_decorator():
+#     props = {'anchor': '#test-id', 'children': '<div>Test Content</div>'}
+#     result = anchor_identifier_entity_decorator(props)
+#     assert 'href="#test-id"' in result
+#     assert 'id="test-id"' in result
+#     assert 'data-id="test-id"' in result
+#     assert 'Test Content' in result
+
+
+def test_anchor_identifier_entity_element_handler():
+    handler = AnchorIndentifierEntityElementHandler('ANCHOR-IDENTIFIER')
+    attrs = {'href': '#test-id', 'id': 'test-id'}
+    data = handler.get_attribute_data(attrs)
+    assert data['anchor'] == 'test-id'
+    assert data['data-id'] in 'test-id'
+    assert handler.mutability == 'MUTABLE'
