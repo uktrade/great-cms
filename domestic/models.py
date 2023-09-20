@@ -26,7 +26,7 @@ from wagtail.models import Page
 from wagtailseo.models import SeoMixin
 
 from core import blocks as core_blocks, cache_keys, helpers, mixins, service_urls
-from core.blocks import AdvantageBlock, CampaignFormBlock, ColumnsBlock
+from core.blocks import AdvantageBlock, ColumnsBlock
 from core.constants import (
     ARTICLE_TYPES,
     COUNTRY_FACTSHEET_CTA_TITLE,
@@ -1049,7 +1049,6 @@ class ArticlePage(
                 'text',
                 RichTextBlock(),
             ),
-            ('form', CampaignFormBlock()),
             ('image', ImageChooserBlock(required=False, template='core/includes/_article_image.html')),
             ('Video', core_blocks.SimpleVideoBlock(template='core/includes/_article_video.html')),
             (

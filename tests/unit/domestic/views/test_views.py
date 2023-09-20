@@ -3,7 +3,7 @@ from unittest import mock
 
 import pytest
 from django.conf import settings
-from django.test import Client, TestCase, override_settings
+from django.test import TestCase, override_settings
 from django.urls import reverse, reverse_lazy
 from wagtail.models import Locale
 from wagtail.test.utils import WagtailPageTests
@@ -14,7 +14,6 @@ import domestic.views.ukef
 from core import cms_slugs
 from core.constants import CONSENT_EMAIL
 from domestic import forms
-from domestic.forms import CampaignLongForm, CampaignShortForm
 from domestic.views.ukef import GetFinanceLeadGenerationFormView
 from tests.unit.core.factories import StructurePageFactory
 from tests.unit.domestic.factories import ArticleListingPageFactory, ArticlePageFactory
@@ -405,35 +404,6 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
         self.article3 = ArticlePageFactory(
             slug='test-article-three', article_body=article_body3, parent=self.parent_page, article_title='test'
         )
-
-    def test_get_form_class_is_short(self):
-        url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-one'})
-        request = self.client.get(url)
-        view = domestic.views.campaign.CampaignView(request=request)
-        form_class = view.request.context_data['view'].get_form_class()
-        self.assertEqual(form_class, CampaignShortForm)
-
-    def test_get_form_class_is_none(self):
-        url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-two'})
-        request = self.client.get(url)
-        view = domestic.views.campaign.CampaignView(request=request)
-        form_class = view.request.context_data['view'].get_form_class()
-        self.assertEqual(form_class, None)
-
-    def test_get_form_class_is_long(self):
-        url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-three'})
-        request = self.client.get(url)
-        view = domestic.views.campaign.CampaignView(request=request)
-        form_class = view.request.context_data['view'].get_form_class()
-        self.assertEqual(form_class, CampaignLongForm)
-
-    def test_campaign_form_success(self):
-        client = Client()
-        url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-one'})
-        request = client.get(url)
-        domestic.views.campaign.CampaignView(request=request)
-        response = client.post(url)
-        assert response.status_code == 200
 
     def test_no_page_slug(self):
         url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': None})

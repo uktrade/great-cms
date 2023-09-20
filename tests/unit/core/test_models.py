@@ -10,6 +10,7 @@ from django.test import RequestFactory, TestCase
 from django.urls import reverse
 from wagtail.admin.panels import ObjectList
 from wagtail.blocks.stream_block import StreamBlockValidationError
+from wagtail.core.fields import StreamField
 from wagtail.images import get_image_model
 from wagtail.images.tests.utils import get_test_image_file
 from wagtail.models import Collection
@@ -883,3 +884,10 @@ class MicrositePageTests(SetUpLocaleMixin, WagtailPageTests):
         home = DetailPageFactory()
         home_child = MicrositePageFactory(page_title='home-child', title='home-child', parent=home)
         self.assertEqual(home_child.get_use_domestic_header_logo(), False)
+
+    def test_can_not_create_form_blocks_in_page_body(self):
+        page_body = MicrositePage._meta.get_field('page_body')
+        self.assertIsInstance(page_body, StreamField)
+
+        block_keys = [block[0] for block in page_body.stream_block.child_blocks.items()]
+        self.assertNotIn('form', block_keys)
