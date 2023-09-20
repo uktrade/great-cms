@@ -51,7 +51,7 @@ def test_triage_intent_form_validation(form_data, is_valid):
         (
             {'location': regions.LONDON, 'location_none': 'true'},
             False,
-            LocationForm.VALIDATION_MESSAGE_SELECT_ONE_OPTION,
+            LocationForm.VALIDATION_MESSAGE_SELECT_OPTION,
         ),
         ({'location': '', 'location_none': 'true'}, True, ''),
         ({'location': '', 'location_none': ''}, False, LocationForm.VALIDATION_MESSAGE_SELECT_OPTION),
