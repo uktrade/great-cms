@@ -9,6 +9,7 @@ from django.http import Http404
 from django.utils.functional import cached_property
 from great_components.mixins import GA360Mixin
 from modelcluster.fields import ParentalManyToManyField
+from treebeard.mp_tree import get_result_class
 from wagtail import blocks
 from wagtail.admin.panels import (
     FieldPanel,
@@ -23,6 +24,7 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.models import Page
+from wagtail.url_routing import RouteResult
 from wagtailseo.models import SeoMixin
 
 from core import blocks as core_blocks, cache_keys, helpers, mixins, service_urls
@@ -128,6 +130,37 @@ class BaseContentPage(
         path = self.get_url()
         return base_url + path if path else ''
 
+    def route(self, request, path_components):
+        if settings.FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
+            try:
+                return super().route(request, path_components)
+            except Http404:
+                return self.check_in_other_locales(request, path_components)
+        else:
+            return super().route(request, path_components)
+
+    def check_in_other_locales(self, request, path_components):
+        if path_components:
+            # request is for a child of this page
+            child_slug = path_components[0]
+            remaining_components = path_components[1:]
+
+            try:
+                subpage = get_result_class(self.__class__).objects.filter(
+                    depth=self.depth + 1
+                ).order_by(
+                    'path'
+                ).get(slug=child_slug)
+            except Page.DoesNotExist:
+                raise Http404
+            return subpage.specific.route(request, remaining_components)
+        else:
+            # request is for this very page
+            if self.live:
+                return RouteResult(self)
+            else:
+                raise Http404
+
 
 class SocialLinksPageMixin(Page):
     """Abstract base class that adds social sharing links to the context
@@ -226,6 +259,9 @@ class StructuralPage(BaseContentPage):
 
     def serve(self, request):
         raise Http404()
+
+    def get_specific(self, deferred=False, copy_attrs=None, copy_attrs_exclude=None):
+        return super().get_specific(deferred,copy_attrs,copy_attrs_exclude)
 
 
 class GreatDomesticHomePage(
@@ -440,6 +476,9 @@ class GreatDomesticHomePage(
         )
 
         return context
+
+    def get_specific(self, deferred=False, copy_attrs=None, copy_attrs_exclude=None):
+        return super().get_specific(deferred,copy_attrs,copy_attrs_exclude)
 
 
 class TopicLandingBasePage(BaseContentPage):
@@ -1235,6 +1274,7 @@ class ArticlePage(
             elif page:
                 output.append(page.specific)
         return output
+
 
 
 class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):
