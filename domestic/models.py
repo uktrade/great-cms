@@ -130,37 +130,6 @@ class BaseContentPage(
         path = self.get_url()
         return base_url + path if path else ''
 
-    def route(self, request, path_components):
-        if settings.FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
-            try:
-                return super().route(request, path_components)
-            except Http404:
-                return self.check_in_other_locales(request, path_components)
-        else:
-            return super().route(request, path_components)
-
-    def check_in_other_locales(self, request, path_components):
-        if path_components:
-            # request is for a child of this page
-            child_slug = path_components[0]
-            remaining_components = path_components[1:]
-
-            try:
-                subpage = get_result_class(self.__class__).objects.filter(
-                    depth=self.depth + 1
-                ).order_by(
-                    'path'
-                ).get(slug=child_slug)
-            except Page.DoesNotExist:
-                raise Http404
-            return subpage.specific.route(request, remaining_components)
-        else:
-            # request is for this very page
-            if self.live:
-                return RouteResult(self)
-            else:
-                raise Http404
-
 
 class SocialLinksPageMixin(Page):
     """Abstract base class that adds social sharing links to the context

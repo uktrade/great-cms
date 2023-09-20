@@ -56,9 +56,16 @@ class CampaignView(BaseNotifyUserFormView):
                         )
                     else:
                         default_locale = Locale.objects.get(language_code=LANGUAGE_CODE)
-                        return self.page_class.objects.live().get(
+                        if self.page_class.objects.live().filter(
                             slug=self.page_slug, locale_id=default_locale, url_path__endswith=self.path
-                        )
+                        ).count() == 1:
+                            return self.page_class.objects.live().get(
+                                slug=self.page_slug, locale_id=default_locale, url_path__endswith=self.path
+                            )
+                        else:
+                            return self.page_class.objects.live().filter(
+                                slug=self.page_slug, url_path__endswith=self.path
+                            ).order_by('-path').first()
 
             return self.page_class.objects.live().get(slug=self.page_slug, url_path__endswith=self.path)
 
