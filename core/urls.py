@@ -1,5 +1,4 @@
 import directory_healthcheck.views
-from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import path, re_path, reverse_lazy
 from great_components.decorators import skip_ga360
@@ -175,18 +174,3 @@ urlpatterns = [
     # TO core.views.StaticViewSitemap
 ]
 urlpatterns += redirects
-
-if settings.FEATURE_GET_EXPORT_HELP_EXPERIMENT:
-    urlpatterns += [
-        path('get-export-help/', view=views.GetExportHelpExperimentView.as_view(), name='get-export-help'),
-        path(
-            'get-export-help/results',
-            view=views.GetExportHelpExperimentResultView.as_view(),
-            name='get-export-help-results',
-        ),
-        path(
-            'get-export-help/confirmation',
-            view=views.GetExportHelpExperimentConfirmationView.as_view(),
-            name='get-export-help-confirmation',
-        ),
-    ]
