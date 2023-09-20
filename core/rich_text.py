@@ -20,10 +20,6 @@ else:
 ANCHOR_TARGET_IDENTIFIER = 'anchor-target'
 
 
-def render_span(attrs):
-    return format_html('<span id="{}">', attrs['id'])
-
-
 def render_a(attrs):
     return format_html('<a href="#{id}" id="{id}" data-id="{id}">', id=attrs['id'])
 
