@@ -703,7 +703,7 @@ def test_add_anchor_classes():
     # Check if classes were added correctly
     anchor_tags = soup.find_all('a')
     for anchor_tag in anchor_tags:
-        if anchor_tag['href'].startswith('#'):
+        if len(anchor_tag.find_parents(['h1', 'h2', 'h3'])):
             assert class_name in anchor_tag.get('class', [])
         else:
             assert class_name not in anchor_tag.get('class', [])
