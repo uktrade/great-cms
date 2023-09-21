@@ -71,8 +71,8 @@ class IntentForm(forms.Form):
 
 
 class LocationForm(forms.Form):
-    VALIDATION_MESSAGE_SELECT_OPTION = 'You must select a location or not decided'
-    VALIDATION_MESSAGE_SELECT_NONE_OPTION = 'You must select not decided or a location'
+    VALIDATION_MESSAGE_SELECT_OPTION = 'You must select a location'
+    VALIDATION_MESSAGE_SELECT_NONE_OPTION = 'You must select not decided'
 
     location = ChoiceField(
         label='Enter a city, county or region',

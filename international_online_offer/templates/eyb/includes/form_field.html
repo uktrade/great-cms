@@ -12,6 +12,9 @@
 {% endfor %}
 {% if inputWrapperClass %}
 <div class="{{inputWrapperClass}}">
+    {% if inputPrefixClass %}
+    <div class="{{inputPrefixClass}}" aria-hidden="true">{{inputPrefixText}}</div>
+    {% endif %}
 {% endif %}
 {{field}}
 {% if inputWrapperClass %}
