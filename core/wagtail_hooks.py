@@ -388,7 +388,6 @@ def migrate_article_page_to_microsite(page):
 
 def convert_block_based_on_type(block):
     block_type_conversion_dict = {
-        'form': convert_form,
         'text': convert_text,
         'cta': convert_cta,
         'Columns': convert_all_columns,
@@ -433,18 +432,6 @@ def convert_column(block):
             'image': block.get('image').id if block.get('image') else None,
             'button_url': block.get('link'),
             'button_label': None,
-        },
-    }
-
-
-def convert_form(block):
-    return {
-        'type': 'form',
-        'value': {
-            'type': block.value.get('type'),
-            'email_title': block.value.get('email_title'),
-            'email_subject': block.value.get('email_subject'),
-            'email_body': block.value.get('email_body'),
         },
     }
 

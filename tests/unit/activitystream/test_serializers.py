@@ -457,12 +457,12 @@ class TestMicrositeSerializer(TestCase):
             'type': 'Update',
             'published': self.microsite.last_published_at.isoformat('T'),
             'object': {
-                'id': 'dit:greatCms:Microsite::' + str(self.microsite.id),
+                'id': 'dit:greatCms:Microsite:' + str(self.microsite.id),
                 'type': 'dit:greatCms:Microsite',
                 'summary': self.microsite.page_teaser,
                 'content': '',
                 'name': self.microsite.page_title,
-                'url': 'https://www.great.gov.uk/homepage/landing-page/root/microsite-title/',
+                'url': f'https://www.great.gov.uk{self.microsite.get_url()}',
                 'locale_id': 9,
             },
         }

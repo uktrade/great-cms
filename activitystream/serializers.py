@@ -40,7 +40,7 @@ class CountryGuidePageSerializer(serializers.Serializer):
 
 
 class ArticlePageSerializer(serializers.Serializer):
-    expected_block_types = ['text', 'cta', 'image', 'Video', 'Columns', 'pull_quote', 'form']
+    expected_block_types = ['text', 'cta', 'image', 'Video', 'Columns', 'pull_quote']
 
     def _get_article_body_content_for_search(self, obj: ArticlePage) -> str:
         """Selectively extract streamfield data from the blocks in ArticlePage's article_body streamfield.
@@ -94,7 +94,6 @@ class MicrositePageSerializer(serializers.Serializer):
         'video',
         'columns',
         'pull_quote',
-        'form',
         'links_block',
     ]
 
@@ -132,11 +131,11 @@ class MicrositePageSerializer(serializers.Serializer):
             'published': obj.last_published_at.isoformat('T'),
             'object': {
                 'type': 'dit:greatCms:Microsite',
-                'id': 'dit:greatCms:Microsite::' + str(obj.id),
+                'id': 'dit:greatCms:Microsite:' + str(obj.id),
                 'name': obj.page_title,
                 'summary': obj.page_teaser,
                 'content': self._get_microsite_body_content_for_search(obj),
-                'url': 'https://www.great.gov.uk' + obj.url_path,
+                'url': f'https://www.great.gov.uk{obj.get_url()}',
                 'locale_id': obj.locale_id
                 # 'keywords': ' '.join(obj.tags.all().values_list('name', flat=True)),
             },
@@ -147,10 +146,9 @@ class PageSerializer(serializers.Serializer):
     def to_representation(self, obj):
         if isinstance(obj, ArticlePage):
             return ArticlePageSerializer(obj).data
-        elif isinstance(obj, MicrositePage):
+        if isinstance(obj, MicrositePage):
             return MicrositePageSerializer(obj).data
-        else:
-            return CountryGuidePageSerializer(obj).data
+        return CountryGuidePageSerializer(obj).data
 
 
 class ActivityStreamExportAcademyEventSerializer(serializers.ModelSerializer):

@@ -31,7 +31,7 @@
                 {% for error in form.hiring.errors %}
                   <p class="govuk-error-message" role="alert"><span class="govuk-visually-hidden">Error:</span> {{ error }}</p>
                 {% endfor %}
-                <div class="govuk-radios" data-module="govuk-radios" id="satisfaction">
+                <div class="govuk-radios" data-module="govuk-radios" id="hiring">
                 {% for hire in form.hiring %}
                     <div class="govuk-radios__item">
                         {{  hire.tag }}
