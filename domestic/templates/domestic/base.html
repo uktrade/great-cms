@@ -173,6 +173,9 @@
   {% include 'core/header.html' %}
 {% endblock %}
 
+{% block breadcrumbs-block %}
+{% endblock %}
+
 {% block body_content_container %}
   <main id="content" tabindex="-1" class="{% block css_layout_class %}{% endblock css_layout_class %}">
     {% block content %}{% endblock %}
