@@ -324,7 +324,7 @@ def test_eyb_profile(client, user, settings):
 
 
 @pytest.mark.parametrize(
-    'form_data,expected_query_param',
+    'form_data,expected_query_param,jump_to_link',
     (
         (
             {
@@ -339,6 +339,7 @@ def test_eyb_profile(client, user, settings):
                 'landing_timeframe': 'UNDER_SIX_MONTHS',
             },
             '?signup=true',
+            '#personalised-guide',
         ),
         (
             {
@@ -353,11 +354,12 @@ def test_eyb_profile(client, user, settings):
                 'landing_timeframe': 'UNDER_SIX_MONTHS',
             },
             '',
+            '',
         ),
     ),
 )
 @pytest.mark.django_db
-def test_profile_new_signup_vs_update(client, settings, user, form_data, expected_query_param):
+def test_profile_new_signup_vs_update(client, settings, user, form_data, expected_query_param, jump_to_link):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:profile') + expected_query_param
     user.email = 'test@test.com'
@@ -367,7 +369,10 @@ def test_profile_new_signup_vs_update(client, settings, user, form_data, expecte
         form_data,
     )
     assert response.status_code == 302
-    assert response['Location'] == f"{'/international/expand-your-business-in-the-uk/guide/'}" + expected_query_param
+    assert (
+        response['Location']
+        == f"{'/international/expand-your-business-in-the-uk/guide/'}" + expected_query_param + jump_to_link
+    )
 
 
 @pytest.mark.django_db
