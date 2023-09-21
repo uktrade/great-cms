@@ -76,7 +76,7 @@ click-repl==0.3.0
     # via celery
 cron-descriptor==1.4.0
     # via django-celery-beat
-cryptography==41.0.3
+cryptography==41.0.4
     # via
     #   -r requirements.in
     #   pyhanko
@@ -212,6 +212,8 @@ geoip2==2.9.0
     # via -r requirements.in
 great-components==2.4.0
     # via -r requirements.in
+greenlet==2.0.2
+    # via sqlalchemy
 gunicorn==20.1.0
     # via -r requirements.in
 hashids==0.8.4
