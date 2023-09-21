@@ -736,6 +736,7 @@ img.richtext-image {
 }
 
 .great-title-link {
+<<<<<<< HEAD
   border-top: 2px solid transparent;
   border-bottom: 2px solid transparent;
   display: inline-block;
@@ -745,6 +746,15 @@ img.richtext-image {
   &:hover:not(:focus) {
     color: #003078;
     text-decoration-thickness: 3px;
+=======
+  text-decoration: underline;
+  &:hover:not(:focus) {
+    text-decoration-thickness: 3px;
+    color: #003078;
+  }
+  &:focus {
+    display: inline;
+>>>>>>> 8f8872c74 (Update event title css)
   }
 }
 
