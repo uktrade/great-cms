@@ -35,6 +35,9 @@
             <div class="govuk-checkboxes" data-module="govuk-checkboxes">
               <div class="govuk-checkboxes__divider">or</div>
               <div class="{% if form.location.errors %} govuk-form-group--error{% endif %}">
+                {% for error in form.location_none.errors %}
+                  <p class="govuk-error-message" role="alert"><span class="govuk-visually-hidden">Error:</span> {{ error }}</p>
+                {% endfor %}
                 <div class="govuk-checkboxes__item">
                   {{form.location_none}}
                   <label class="govuk-label govuk-checkboxes__label" for="id_location_none">{{form.location_none.label}}</label>
