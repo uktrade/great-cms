@@ -122,9 +122,7 @@ def get_export_support_field_mappings(key, form_data):
 
 
 def get_steps(form_data, second_step_edit_page, markets):
-    markets_mapping = dict(
-        COUNTRY_CHOICES + [('not_specific_country', 'My query is not related to a specific country')]
-    )
+    markets_mapping = dict(COUNTRY_CHOICES + [('notspecificcountry', 'My query is not related to a specific country')])
 
     return [
         {
