@@ -77,6 +77,14 @@ $menu-border: 5px solid $color-alternative-text;
       display: none;
       &.language_menu {
         display: block;
+        @media only screen and (min-width: $mobile-size) and (max-width: $tablet-size){
+          position: absolute;
+          right: 20px;
+          top: 20px;
+        }
+        @media only screen and (min-width: $tablet-size) {
+          margin: auto;
+        }
       }
       @media only screen and (max-width: $mobile-size) {
         display: grid;
@@ -155,7 +163,7 @@ $menu-border: 5px solid $color-alternative-text;
       }
 
       ul {
-        padding: govuk-spacing(2) 0 0 0;
+        padding: govuk-spacing(2) 0 govuk-spacing(1) 0;
         gap: 45px;
         margin: 0;
         display: inline-flex;
@@ -230,7 +238,7 @@ $menu-border: 5px solid $color-alternative-text;
       }
     }
     li + li::before {
-      content: ' | ';
+      content: '|';
       color: $color-alternative-text;
     }
   }
@@ -242,6 +250,9 @@ $menu-border: 5px solid $color-alternative-text;
       display: inline-flex;
       li:not(:last-of-type){
         margin-right: 5px;
+        &.rtl {
+            margin-left: 5px
+          }
       }
     }
     @media only screen and (max-width: $mobile-size) {
