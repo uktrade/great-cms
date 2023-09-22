@@ -381,3 +381,23 @@
     }
   }
 }
+
+
+.course-tick-marks{
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap:30px;
+  >div{
+    display: inline-flex;
+    gap: 10px;
+    min-width: 390px;
+    flex:1;
+  }
+  p{
+    margin: 0;
+  }
+  span::before{
+    color:#1D70B8;
+    font-size: 30px;
+  }
+}

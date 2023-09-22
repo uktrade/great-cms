@@ -1,0 +1,84 @@
+{% extends 'domestic/base.html' %}
+{% load static %}
+{% load wagtailcore_tags %}
+{% load breadcrumbs from component_tags %}
+{% load add_govuk_classes from content_tags %}
+{% block head_title %}{{ 'course page title'}}{% endblock %}
+{% block breadcrumbs-block %}
+    <div id="breadcrumbs" class="great-bg-light-blue">
+        {% breadcrumbs 'Course Name' %}
+        <a href="/">great.gov.uk</a>
+        <a href="../../">UK Export Academy</a>
+    {% endbreadcrumbs %}
+</div>
+{% endblock %}
+{% block content %}
+    {% block hero %}
+        {% with content_snippet as hero %}
+            <div class="ea-listing-page">
+                {% include 'components/hero.html' with image=hero.image hero_title=hero.title hero_text=hero.text hide_image_for_mobile=True %}
+            </div>
+        {% endwith %}
+    {% endblock %}
+    <section class="great-container govuk-!-padding-top-6 govuk-!-padding-bottom-6">
+        <h2 class="govuk-heading-m">Is this the right course for you?</h2>
+        <div class="course-tick-marks">
+            <div>
+                <span class="fa fa-check-circle"></span><p class="govuk-body">Designed for those who are new to exporting</p>
+            </div>
+            <div>
+                <span class="fa fa-check-circle"></span><p class="govuk-body">Designed for those who are new to exporting</p>
+            </div>
+            <div>
+                <span class="fa fa-check-circle"></span><p class="govuk-body">Designed for those who are new to exporting</p>
+            </div>
+        </div>
+    </section>
+    <div class="great-bg-white">
+        <div class="great-container">
+            <section class="govuk-grid-column-two-thirds-from-desktop govuk-!-padding-0 govuk-!-margin-top-7 govuk-!-margin-bottom-7">
+                <div>
+                    <dl class="govuk-summary-list govuk-summary-list--no-border">
+                        <div class="govuk-summary-list__row govuk-!-margin-bottom-0">
+                            <dt class="govuk-summary-list__key govuk-!-margin-0 govuk-!-padding-bottom-1 govuk-!-padding-top-1">Length</dt>
+                            <dd class="govuk-summary-list__value govuk-!-margin-0 govuk-!-padding-bottom-1 govuk-!-padding-top-1">
+                                10
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row govuk-!-margin-bottom-0">
+                            <dt class="govuk-summary-list__key govuk-!-margin-0 govuk-!-padding-bottom-1 govuk-!-padding-top-1">Total duration</dt>
+                            <dd class="govuk-summary-list__value govuk-!-margin-0 govuk-!-padding-bottom-1 govuk-!-padding-top-1">
+                                10hrs
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </section>
+
+        <section id='join-live-events'>
+            <h2 class="govuk-heading-l">Join our live events and learn from experts</h2>
+            <div>
+                 <img class="presentation-icon" src="/static/images/icon-presentation.svg" alt="presentation" />
+                <ul>
+                    <li>ddd</li>
+                    <li>ddd</li>
+                    <li>ddd</li>
+                </ul>
+            </div>
+        </section>
+        <section class="govuk-grid-column-two-thirds-from-desktop govuk-!-padding-0">
+                  <h2>Course content</h2>
+        <p class="govuk-body">Choose a module to begin or follow the course step-by-step.</p>
+            {% include './includes/module_list.html' with signed_in=signed_in %}
+        </section>
+    </div>
+    </div>
+    <div class="great-bg-white">
+        <div class="great-container">
+        <section>
+            <h2>Speakers</h2>
+            <p>Our UK Export Academy advisors have many years of experience in exporting goods and services across the globe. They can offer specific guidance and advise on the many topics required to start exporting as a business.</p>
+        </section>
+    </div>
+    </div>
+{% endblock %}

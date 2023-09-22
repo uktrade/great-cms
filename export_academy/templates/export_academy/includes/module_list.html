@@ -1,0 +1,40 @@
+{% load static %}
+{% load wagtailcore_tags %}
+
+{%if modules|length > 1%}
+    <section>
+        <div class="govuk-accordion"
+            data-module="govuk-accordion"
+            id="accordion-default">
+            {%for module in modules%}
+                <div class="govuk-accordion__section">
+                    <div class="govuk-accordion__section-header">
+                        <h3 class="govuk-accordion__section-heading">
+                            <span class="govuk-accordion__section-button"
+                                id="accordion-default-heading-1">{{module.header}}</span>
+                        </h3>
+                    </div>
+                    <div id="accordion-default-content-1"
+                        class="govuk-accordion__section-content"
+                        aria-labelledby="accordion-default-heading-1">
+                        <p class="govuk-body">{{module.summary}}</p>
+                        <h4>Join next live event {%if not signed_in%}(sign in required){%endif%}<h4>
+                        <div class="great-bg-light-blue event-listing-summary-info">
+                            {%if module.event%}
+                                <div class="event-date-badge">
+                                    <span>22<span>
+                                    <span>Aug<span>
+                                </div>
+                                <div>
+
+                                </div>
+                            {%else%}
+                                {% include './event_warning.html' with warning_text='There is currently no scheduled live event for this module. Check back soon'%}
+                            {%endif%}
+                        </div>
+                    </div>
+                </div>
+            {%endfor%}
+        </div>
+    </section>
+{%endif%}

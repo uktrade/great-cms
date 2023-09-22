@@ -704,3 +704,13 @@ class SignUpCompleteView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['existing_ea_user'] = self.request.GET.get('existing-ea-user')
         return context
+
+
+class EACourseView(TemplateView):
+    template_name = 'export_academy/course_page.html'
+
+    def get_context_data(self, **kwargs):
+        self.signed_in = True if self.request.user != AnonymousUser() else False
+        ctx = super().get_context_data(**kwargs)
+        ctx['signed_in'] = self.signed_in
+        return ctx
