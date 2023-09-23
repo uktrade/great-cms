@@ -10,6 +10,7 @@ module.exports = {
     magna_styles: './core/sass/main.scss',
     common: './core/js/common.js',
     largevideoupload: './core/js/largevideoupload.js',
+    removevideoupload: './core/js/removevideoupload.js',
     loggedout_styles: './domestic/sass/main.scss',
     components: './react-components/src/bundle-components.js',
     components_styles:

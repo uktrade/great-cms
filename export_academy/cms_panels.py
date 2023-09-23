@@ -1,5 +1,18 @@
+from django import forms
 from wagtail.admin.panels import FieldPanel, HelpPanel, InlinePanel, MultiFieldPanel
 from wagtailmedia.widgets import AdminMediaChooser
+
+
+class AdminMediaChooserWithoutUploadVideo(AdminMediaChooser):
+    @property
+    def media(self):
+        return forms.Media(
+            js=[
+                "removevideoupload.js",
+                "wagtailmedia/js/media-chooser-modal.js",
+                "wagtailmedia/js/media-chooser.js",
+            ]
+        )
 
 
 class ExportAcademyPagePanels:
@@ -82,7 +95,7 @@ class EventPanel:
             heading='Event Complete Actions',
             children=[
                 FieldPanel('document'),
-                FieldPanel('video_recording', widget=AdminMediaChooser),
+                FieldPanel('video_recording', widget=AdminMediaChooserWithoutUploadVideo),
                 FieldPanel('completed'),
             ],
         ),
