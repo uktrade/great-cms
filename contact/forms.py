@@ -570,7 +570,6 @@ class LocationRoutingForm(forms.Form):
 
 class DomesticRoutingForm(forms.Form):
     CHOICES = (
-        (constants.TRADE_OFFICE, 'Find your local trade office'),
         (constants.EXPORT_ADVICE, 'Advice to export from the UK'),
         (constants.GREAT_SERVICES, 'great.gov.uk account and services support'),
         (constants.FINANCE, 'UK Export Finance (UKEF)'),

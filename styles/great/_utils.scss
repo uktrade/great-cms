@@ -214,7 +214,7 @@
   .govuk-list,
   .govuk-summary-list__key,
   .govuk-summary-list__value,
-  .govuk-link,
+  .govuk-link:not(.govuk-heading-m, .govuk-heading-s),
   .govuk-warning-text__text {
     font-size: 16px;
     line-height: 24px;
@@ -701,24 +701,13 @@ img.richtext-image {
   width: 300px;
 }
 
-@mixin great-title-link {
-  @extend %govuk-link;
-  text-decoration: none !important;
+.great-title-link {
+  text-decoration: underline;
   &:hover:not(:focus) {
-    text-decoration: underline !important;
+    text-decoration-thickness: 3px;
+    color: #003078;
   }
   &:focus {
-    text-decoration: none !important;
-  }
-  font-family: $header-font !important;
-}
-
-.great-title-medium-link {
-  @include great-title-link();
-  font-size: 24px !important;
-  line-height: 34px !important;
-  @include govuk-media-query($until: tablet) {
-    font-size: 20px !important;
-    line-height: 30px !important;
+    display: inline;
   }
 }

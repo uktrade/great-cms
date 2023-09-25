@@ -429,7 +429,6 @@ def test_domestic_form_routing():
 
     # expect these choices to result in a redirect to a new form
     choices_expect_redirect = {
-        constants.TRADE_OFFICE,
         constants.EXPORT_ADVICE,
         constants.FINANCE,
         constants.EVENTS,

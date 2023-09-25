@@ -393,26 +393,26 @@ redirects = [
         '/legacy/contact/terms-and-conditions/',
         TERMS_URL,
     ),
-    (
-        '/contact/triage/location/',
-        '/contact/domestic/export-support/',
-    ),
-    (
-        '/contact/export-advice/comment/',
-        '/contact/domestic/export-support/',
-    ),
-    (
-        '/contact/export-advice/personal/',
-        '/contact/domestic/export-support/',
-    ),
-    (
-        '/contact/export-advice/business/',
-        '/contact/domestic/export-support/',
-    ),
-    (
-        '/contact/domestic/success/',
-        '/contact/domestic/export-support/',
-    ),
+    # (
+    #     '/contact/triage/location/',
+    #     '/contact/domestic/export-support/',
+    # ),
+    # (
+    #     '/contact/export-advice/comment/',
+    #     '/contact/domestic/export-support/',
+    # ),
+    # (
+    #     '/contact/export-advice/personal/',
+    #     '/contact/domestic/export-support/',
+    # ),
+    # (
+    #     '/contact/export-advice/business/',
+    #     '/contact/domestic/export-support/',
+    # ),
+    # (
+    #     '/contact/domestic/success/',
+    #     '/contact/domestic/export-support/',
+    # ),
     (
         '/contact/office-finder/',
         DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE,

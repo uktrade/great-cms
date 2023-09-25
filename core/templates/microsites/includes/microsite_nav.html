@@ -20,6 +20,7 @@
                                 <li>
                                     <a href="?lang={{ language.language_code }}"
                                     aria-current="false"
+                                    lang="{{ language.language_code }}"
                                     >{{ language.display_name }}</a>
                                 </li>
                             {% endif %}
@@ -39,9 +40,10 @@
           <nav aria-label="Langugages" class="desktop-language-selector">
                 <ul>
                     {% for language in available_languages %}
-                        <li class="{% if current_language == language.language_code %}active{% endif %}">
+                        <li class="{% if lang_info.bidi %}rtl{% endif %} {% if current_language == language.language_code %}active{% endif %}">
                             <a href="?lang={{ language.language_code }}"
                             aria-current="{% if current_language == language.language_code %}true{%else%}false{%endif%}"
+                            lang="{{ language.language_code }}"
                             >{{ language.display_name }}</a>
                         </li>
                     {% endfor %}

@@ -17,7 +17,11 @@
 
 {% breadcrumbs 'Contact' %}
     <a href="/">great.gov.uk</a>
+    {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
+    <a href="{{dep_breadcrumbs.url}}">{{ dep_breadcrumbs.text }}</a>
+    {% else %}
     <a href="{% url dep_breadcrumbs.url step='location' %}">{{ dep_breadcrumbs.text }}</a>
+    {% endif %}
 {% endbreadcrumbs %}
 
 {% endblock %}
