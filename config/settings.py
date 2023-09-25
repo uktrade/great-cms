@@ -992,3 +992,19 @@ SPECTACULAR_SETTINGS = {
 
 # Wagtail Draftail Anchors
 DRAFTAIL_ANCHORS_RENDERER = env.str('DRAFTAIL_ANCHORS_RENDERER', 'wagtail_draftail_anchors.rich_text.render_span')
+
+
+WAGTAILADMIN_NOTIFICATION_FROM_EMAIL = 'no-reply@mail.ci.uktrade.digital'
+WAGTAILADMIN_NOTIFICATION_USE_HTML = True
+
+EMAIL_BACKED_CLASSES = {
+    'default': 'django.core.mail.backends.smtp.EmailBackend',
+    'console': 'django.core.mail.backends.console.EmailBackend',
+}
+EMAIL_BACKEND_CLASS_NAME = env.str('EMAIL_BACKEND_CLASS_NAME', 'console')
+EMAIL_BACKEND = EMAIL_BACKED_CLASSES[EMAIL_BACKEND_CLASS_NAME]
+EMAIL_HOST = env.str('EMAIL_HOST', '')
+EMAIL_PORT = env.int('EMAIL_HOST_PORT', 587)
+EMAIL_HOST_USER = env.str('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD', '')
+EMAIL_USE_TLS = True
