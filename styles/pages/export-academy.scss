@@ -345,7 +345,7 @@
       padding: 0;
     }
 
-    h3{
+    h3 {
       @include h4-mixin();
     }
   }
@@ -382,28 +382,26 @@
   }
 }
 
-
-.course-tick-marks{
+.course-tick-marks {
   display: inline-flex;
   flex-wrap: wrap;
-  gap:30px;
-  >div{
+  gap: 30px;
+  > div {
     display: inline-flex;
     gap: 10px;
     min-width: 390px;
-    flex:1;
+    flex: 1;
   }
-  p{
+  p {
     margin: 0;
   }
-  span::before{
-    color:#1D70B8;
+  span::before {
+    color: #1d70b8;
     font-size: 30px;
   }
 }
 
-
-#join-live-events{
+#join-live-events {
   div {
     display: inline-flex;
     flex-wrap: wrap;
@@ -413,4 +411,33 @@
       align-items: flex-start;
     }
   }
+}
+.event-listing-summary-info {
+  display: flex;
+  gap: 20px;
+     div{
+    display: flex;
+    flex-direction: column;
+
+   }
+
+.event-date-badge {
+  background-color: #1e1348;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  justify-content: center;
+  time {
+    color: white;
+    &:first-of-type {
+      font-size: 24px;
+      line-height: 24px;
+      font-family: $header-font;
+    }
+    &:nth-of-type(2) {
+      font-size: 16px;
+      line-height: 16px;
+    }
+  }
+}
 }

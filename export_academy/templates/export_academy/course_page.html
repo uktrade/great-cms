@@ -12,6 +12,13 @@
     {% endbreadcrumbs %}
 </div>
 {% endblock %}
+{% block body_js %}
+    <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
+    <script src="{% static 'javascript/govuk.js' %}"></script>
+    <script>
+        window.GOVUKFrontend.initAll()
+    </script>
+{% endblock %}
 {% block content %}
     {% block hero %}
         {% with content_snippet as hero %}
@@ -69,8 +76,7 @@
             <section class="govuk-grid-column-two-thirds-from-desktop great-no-float govuk-!-padding-0 govuk-!-static-padding-bottom-6">
                 <h2 class="govuk-heading-m">{{page.course_content_heading}}</h2>
                 <p class="govuk-body">{{page.course_content_desc}}</p>
-                <p class="govuk-body">{{page.get_events}}</p>
-                {% include './includes/module_list.html' with signed_in=signed_in %}
+                {% include './includes/module_list.html' with signed_in=signed_in events=page.get_events %}
             </section>
         </div>
     </div>
