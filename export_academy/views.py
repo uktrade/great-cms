@@ -728,7 +728,8 @@ class EACourseView(TemplateView):
     template_name = 'export_academy/course_page.html'
 
     def get_context_data(self, **kwargs):
-        self.signed_in = True if self.request.user != AnonymousUser() else False
+        self.page = models.CoursePage.objects.live().filter(slug=kwargs['slug']).first()
         ctx = super().get_context_data(**kwargs)
-        ctx['signed_in'] = self.signed_in
+        ctx['signed_in'] = True if self.request.user != AnonymousUser() else False
+        ctx['page'] = self.page
         return ctx
