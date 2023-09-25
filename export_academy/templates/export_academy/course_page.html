@@ -16,7 +16,7 @@
     {% block hero %}
         {% with content_snippet as hero %}
             <div class="ea-listing-page">
-                {% include 'components/hero.html' with image=hero.image hero_title=page.page_heading hero_text=hero.text hide_image_for_mobile=True %}
+                {% include 'components/hero.html' with image=hero.image hero_title=page.page_heading hero_subeading='Course' hero_text=hero.text hide_image_for_mobile=True %}
             </div>
         {% endwith %}
     {% endblock %}

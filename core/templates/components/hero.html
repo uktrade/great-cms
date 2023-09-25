@@ -13,13 +13,16 @@ If both are available, `image_url` will be used over `image`
 {% load wagtailcore_tags %}
 
 {% if not image_url %}
-{% image image original as rendition %}
+{% image i mage original as rendition %}
 {% endif %}
 {% firstof image_url rendition.url as image_url %}
 
 <div class="page-header article-header" id="hero">
     <div class="inner-header">
     <div >
+        {%if hero_subeading%}
+            <h2 class="govuk-caption-l">{{hero_subeading}}</h2>
+        {%endif%}
         <h1>{{ hero_title }}</h1>
         <p>{{ hero_text|richtext }}</p>
     </div>
