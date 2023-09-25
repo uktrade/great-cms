@@ -91,3 +91,42 @@ class EventPanel:
         MultiFieldPanel([InlinePanel('event_speakers', label='Speakers')], heading='speaker(s)'),
         HelpPanel(template='wagtailadmin/export_academy/panels/bookings_table_display.html'),
     ]
+
+
+class CoursePagePanels:
+    content_panels = [
+        FieldPanel('page_heading'),
+        FieldPanel('summary'),
+        MultiFieldPanel(
+            heading='Is this course right for you?',
+            classname='collapsible',
+            children=[
+                FieldPanel('is_course_right_for_you_heading'),
+                FieldPanel('is_course_right_for_you_list'),
+            ],
+        ),
+        # MultiFieldPanel(
+        #     heading='is_course_right_for_you',
+        #     classname='collapsible',
+        #     children=[
+        #         FieldPanel('is_course_right_for_you_list'),
+        #     ],
+        # ),
+        FieldPanel('metadata'),
+        FieldPanel('benefits_heading'),
+        MultiFieldPanel(
+            heading='benefits',
+            classname='collapsible',
+            children=[
+                FieldPanel('benefits_list'),
+            ],
+        ),
+        FieldPanel('course_content_heading'),
+        FieldPanel('course_content_desc'),
+        MultiFieldPanel([InlinePanel('course_events', label='Events')], heading='Modules'),
+    ]
+
+    settings_panels = [
+        FieldPanel('title'),
+        FieldPanel('slug'),
+    ]

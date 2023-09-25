@@ -10,7 +10,10 @@ from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from taggit.models import ItemBase, TagBase
+from wagtail.admin.panels import FieldPanel
 from wagtail.fields import RichTextField, StreamField
+from wagtail.models import Orderable
+from wagtail.snippets.models import register_snippet
 
 from config import settings
 from core.blocks import ButtonBlock, SingleRichTextBlock, TopicPageCardBlockRichText
@@ -22,7 +25,11 @@ from core.fields import single_struct_block_stream_field_factory
 from core.models import GreatMedia, TimeStampedModel
 from domestic.models import BaseContentPage
 from export_academy import managers
-from export_academy.cms_panels import EventPanel, ExportAcademyPagePanels
+from export_academy.cms_panels import (
+    CoursePagePanels,
+    EventPanel,
+    ExportAcademyPagePanels,
+)
 from export_academy.forms import EventAdminModelForm
 
 
@@ -54,6 +61,7 @@ class TaggedEventType(ItemBase):
     content_object = ParentalKey(to='export_academy.Event', on_delete=models.CASCADE)
 
 
+@register_snippet
 class Event(TimeStampedModel, ClusterableModel, EventPanel):
     """
     Represents an Export Academy event.
@@ -316,3 +324,82 @@ class ExportAcademyHomePage(ExportAcademyPagePanels, BaseContentPage):
     )
 
     next_cta = StreamField([('button', ButtonBlock())], use_json_field=True, null=True, blank=True)
+
+
+class EventOrderable(Orderable):
+    """
+    This allows us to select one or more events.
+    """
+
+    page = ParentalKey('export_academy.CoursePage', related_name='course_events')
+    title = models.TextField(
+        null=True,
+        blank=True,
+        max_length=255,
+    )
+    summary = models.TextField(
+        null=True,
+        blank=True,
+        max_length=255,
+    )
+    event = models.ForeignKey('export_academy.Event', on_delete=models.CASCADE)
+
+    panels = [FieldPanel('title'), FieldPanel('summary'), FieldPanel('event')]
+
+
+class CoursePage(CoursePagePanels, BaseContentPage):
+    parent_page_types = [
+        'export_academy.ExportAcademyHomePage',
+    ]
+    subpage_types = []
+
+    page_heading = models.TextField(
+        null=True,
+        blank=True,
+        max_length=255,
+    )
+
+    summary = models.TextField(
+        null=True,
+        blank=True,
+        max_length=255,
+    )
+    is_course_right_for_you_heading = models.TextField(
+        null=True,
+        blank=True,
+        max_length=255,
+    )
+
+    is_course_right_for_you_list = single_struct_block_stream_field_factory(
+        field_name='is_course_right_for_you_list',
+        block_class_instance=SingleRichTextBlock(),
+        null=True,
+        blank=True,
+    )
+    metadata = models.TextField(
+        null=True,
+        blank=True,
+        max_length=255,
+    )
+
+    benefits_heading = models.TextField(
+        null=True,
+        blank=True,
+        max_length=255,
+    )
+    benefits_list = single_struct_block_stream_field_factory(
+        field_name='benefits_list',
+        block_class_instance=SingleRichTextBlock(),
+        null=True,
+        blank=True,
+    )
+    course_content_heading = models.TextField(
+        null=True,
+        blank=True,
+        max_length=255,
+    )
+    course_content_desc = models.TextField(
+        null=True,
+        blank=True,
+        max_length=255,
+    )
