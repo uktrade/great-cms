@@ -1446,7 +1446,11 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
         [
             (
                 'text',
-                RichTextBlock(template='microsites/blocks/text.html', label=_('Text')),
+                RichTextBlock(
+                    template='microsites/blocks/text.html',
+                    label=_('Text'),
+                    help_text=_('Note: any indent seen here will not be visible in the live page'),
+                ),
             ),
             ('image', ImageChooserBlock(required=False, template='microsites/blocks/image.html', label=_('Image'))),
             (
@@ -1481,7 +1485,11 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                         ),
                         (
                             'teaser',
-                            blocks.RichTextBlock(template='microsites/blocks/text.html', label=_('Teaser')),
+                            blocks.RichTextBlock(
+                                template='microsites/blocks/text.html',
+                                label=_('Teaser'),
+                                help_text=_('Note: any indent seen here will not be visible in the live page'),
+                            ),
                         ),
                         (
                             'link_label',
@@ -1517,6 +1525,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
         null=True,
         blank=True,
         verbose_name=_('CTA teaser'),
+        help_text=_('Note: any indent seen here will not be visible in the live page'),
     )
 
     cta_link_label = models.CharField(

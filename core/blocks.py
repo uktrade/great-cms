@@ -535,7 +535,11 @@ class ColumnsBlock(blocks.StructBlock):
 
 class MicrositeColumnBlock(blocks.StructBlock):
     image = ImageChooserBlock(required=False, label=_('Hero Image'))
-    text = blocks.RichTextBlock(required=False, label=_('Description'))
+    text = blocks.RichTextBlock(
+        required=False,
+        label=_('Description'),
+        help_text=_('Note: any indent seen here will not be visible in the live page'),
+    )
     button_label = blocks.CharBlock(required=False, label=_('Button label'))
     button_url = blocks.URLBlock(required=False, label=_('Button url'))
 
