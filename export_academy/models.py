@@ -375,6 +375,7 @@ class CoursePage(CoursePagePanels, BaseContentPage):
         block_class_instance=SingleRichTextBlock(),
         null=True,
         blank=True,
+        max_num=3,
     )
     metadata = models.TextField(
         null=True,
@@ -403,3 +404,6 @@ class CoursePage(CoursePagePanels, BaseContentPage):
         blank=True,
         max_length=255,
     )
+
+    def get_events(self):
+        return [e.event for e in self.course_events.get_object_list()]
