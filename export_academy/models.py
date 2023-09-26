@@ -416,9 +416,19 @@ class CoursePage(CoursePagePanels, BaseContentPage):
             event_list = []
             for event in modules.module_events.get_object_list():
                 event_list.append(event.event)
-            event = self.get_latest_event(event_list)
+            event = self._get_first_available_event(modules)
             latest_event[modules] = event
         return latest_event
 
-    def get_latest_event(self, event_list):
-        return event_list.pop()
+    def _get_first_available_event(self, modules):
+        first_available_event = None
+        for event_model in modules.module_events.get_object_list():
+            event = event_model.event
+            if event.start_date > timezone.now():
+                if event.live:
+                    if first_available_event:
+                        if event.start_date < first_available_event.start_date:
+                            first_available_event = event
+                    else:
+                        first_available_event = event
+        return first_available_event
