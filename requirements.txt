@@ -211,6 +211,7 @@ factory-boy==2.12.0
     #   wagtail-factories
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 faker==19.11.0
 =======
 <<<<<<< HEAD
@@ -222,6 +223,9 @@ faker==19.6.1
 =======
 faker==19.6.1
 >>>>>>> 303eafed0 (resolve conflicts)
+=======
+faker==19.6.2
+>>>>>>> 1eb9de2d0 (KLS-1126 remove draftail-anchor lib implementation)
     # via factory-boy
 geoip2==2.9.0
     # via -r requirements.in
@@ -236,10 +240,14 @@ html5lib==1.1
     #   wagtail
     #   xhtml2pdf
 <<<<<<< HEAD
+<<<<<<< HEAD
 icalendar==5.0.10
 =======
 icalendar==5.0.8
 >>>>>>> 9e27fa518 (change requirements)
+=======
+icalendar==5.0.9
+>>>>>>> 1eb9de2d0 (KLS-1126 remove draftail-anchor lib implementation)
     # via -r requirements.in
 idna==3.4
     # via requests
@@ -327,10 +335,14 @@ pyhanko-certvalidator==0.24.1
     #   pyhanko
     #   xhtml2pdf
 <<<<<<< HEAD
+<<<<<<< HEAD
 pypdf==3.16.4
 =======
 pypdf==3.16.1
 >>>>>>> 9e27fa518 (change requirements)
+=======
+pypdf==3.16.2
+>>>>>>> 1eb9de2d0 (KLS-1126 remove draftail-anchor lib implementation)
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -478,7 +490,6 @@ wagtail==4.2.2
     # via
     #   -r requirements.in
     #   wagtail-cache
-    #   wagtail-draftail-anchors
     #   wagtail-factories
     #   wagtail-localize
     #   wagtail-seo
@@ -486,8 +497,6 @@ wagtail==4.2.2
     #   wagtail-trash
     #   wagtailmedia
 wagtail-cache==2.2.0
-    # via -r requirements.in
-wagtail-draftail-anchors==0.6.0
     # via -r requirements.in
 wagtail-factories==2.0.1
     # via -r requirements.in
