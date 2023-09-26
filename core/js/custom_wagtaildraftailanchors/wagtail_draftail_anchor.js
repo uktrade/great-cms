@@ -22,7 +22,6 @@ const registerControl = (control) => {
   return CONTROLS
 }
 
-
 // Override the existing initEditor to hook the new APIs into it.
 // This works in Wagtail 2.0 but will definitely break in a future release.
 const initEditor = window.draftail.initEditor
@@ -77,31 +76,31 @@ class AnchorIdentifierSource extends React.Component {
 
 class ExtendedTooltipEntity extends TooltipEntity {
   constructor(props) {
-    super(props);
+    super(props)
 
     // Initialize the state with the extended property.
     this.state = {
       ...this.state,
       showTooltipAt: null,
-    };
+    }
 
     // Bind the methods to the instance.
-    this.openTooltip = this.openTooltip.bind(this);
-    this.closeTooltip = this.closeTooltip.bind(this);
+    this.openTooltip = this.openTooltip.bind(this)
+    this.closeTooltip = this.closeTooltip.bind(this)
   }
 
   // Handle opening the tooltip when a trigger element is clicked.
   openTooltip(e) {
-    const trigger = e.target.closest('[data-draftail-trigger]');
+    const trigger = e.target.closest('[data-draftail-trigger]')
 
     // If the click is not within the tooltip trigger, return early.
     if (!trigger) {
-      return;
+      return
     }
 
-    const container = trigger.closest('[data-draftail-editor-wrapper]');
-    const containerRect = container.getBoundingClientRect();
-    const rect = trigger.getBoundingClientRect();
+    const container = trigger.closest('[data-draftail-editor-wrapper]')
+    const containerRect = container.getBoundingClientRect()
+    const rect = trigger.getBoundingClientRect()
 
     // Update the state to show the tooltip at the correct position.
     this.setState({
@@ -112,27 +111,36 @@ class ExtendedTooltipEntity extends TooltipEntity {
         width: rect.width,
         height: rect.height,
       },
-    });
+    })
   }
 
   // Handle closing the tooltip.
   closeTooltip() {
-    this.setState({ showTooltipAt: null });
+    this.setState({ showTooltipAt: null })
+  }
+
+  onRemove(){
+    this.props.onRemove(this.props.entityKey)
+  }
+
+  onEdit(){
+    this.props.onEdit(this.props.entityKey)
   }
 
   render() {
     const isAnchorEntity =
       this.props.entityKey &&
-      this.props.contentState.getEntity(this.props.entityKey).getData().anchor;
+      this.props.contentState.getEntity(this.props.entityKey).getData().anchor
 
-      const baseRender = super.render()
+    const baseRender = super.render()
+
 
     if (isAnchorEntity) {
       const data = this.props.contentState
         .getEntity(this.props.entityKey)
-        .getData();
-      const slugified = slugify(data.anchor);
-      const anchor = `#${slugified}`;
+        .getData()
+      const slugified = slugify(data.anchor)
+      const anchor = `#${slugified}`
 
       return (
         <a
@@ -158,16 +166,18 @@ class ExtendedTooltipEntity extends TooltipEntity {
             >
               <Tooltip target={this.state.showTooltipAt} direction="top">
                 {anchor}
+                <EditButton onEdit={this.onEdit} />
+                <RemoveButton onRemove={this.onRemove} />
                 <CopyAnchorButton identifier={slugified} />
               </Tooltip>
             </Portal>
           )}
         </a>
-      );
+      )
     }
 
     // If it's not an anchor entity, render the base content.
-    return baseRender;
+    return baseRender
   }
 }
 
@@ -206,13 +216,13 @@ const CopyAnchorButton = ({ identifier }) => {
 
   const copyText = (event) => {
     event.preventDefault()
-    if(navigator.clipboard){
-    navigator.clipboard.writeText(identifier)
-    setDidCopy(true)
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(identifier)
+      setDidCopy(true)
     }
   }
 
-  const classes = 'button button-small'
+  const classes = 'button Tooltip__button'
   return (
     <button
       class={classes}
@@ -223,6 +233,38 @@ const CopyAnchorButton = ({ identifier }) => {
       onClick={copyText}
     >
       {didCopy ? 'Copied' : 'Copy'}
+    </button>
+  )
+}
+
+const EditButton = ({ onEdit}) => {
+  const classes = 'button Tooltip__button'
+  return (
+    <button
+      class={classes}
+      style={{ marginLeft: '1rem' }}
+      aria-label="Edit anchor identifier"
+      aria-live="polite"
+      role="button"
+      onClick={onEdit}
+    >
+      Edit
+    </button>
+  )
+}
+
+const RemoveButton = ({ onRemove }) => {
+  const classes = 'button button-secondary no Tooltip__button'
+  return (
+    <button
+      class={classes}
+      style={{ marginLeft: '1rem' }}
+      aria-label="Remove anchor identifier"
+      aria-live="polite"
+      role="button"
+      onClick={onRemove}
+    >
+      Remove
     </button>
   )
 }

@@ -2,16 +2,10 @@ from django.conf import settings
 from django.utils.html import format_html
 from django.utils.module_loading import import_string
 from draftjs_exporter.dom import DOM
-from wagtail import VERSION as WAGTAIL_VERSION
 from wagtail.admin.rich_text.converters.html_to_contentstate import (
     InlineEntityElementHandler,
 )
-
-if WAGTAIL_VERSION >= (3, 0):
-    from wagtail.rich_text import LinkHandler
-else:
-    from wagtail.core.rich_text import LinkHandler
-
+from wagtail.rich_text import LinkHandler
 
 # We can't use "anchor", as Wagtail uses this internally for links whose hrefs
 # start with "#"
