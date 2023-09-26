@@ -381,3 +381,22 @@
     }
   }
 }
+
+.courses-container {
+  ul {
+    > li > img {
+      vertical-align: middle;
+    }
+
+    > li > span {
+      vertical-align: middle;
+    }
+  }
+
+  img {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    max-width: 50%;
+  }
+}

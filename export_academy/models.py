@@ -302,6 +302,57 @@ class ExportAcademyHomePage(ExportAcademyPagePanels, BaseContentPage):
         blank=True,
     )
 
+    course_heading = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        verbose_name='Course Heading',
+    )
+
+    course_subheading = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        verbose_name='Course Subheading',
+    )
+
+    course_name = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        verbose_name='Course Name',
+    )
+
+    course_description = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        verbose_name='Course Description',
+    )
+
+    course_feature_one = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        verbose_name='Course Feature One',
+    )
+
+    course_feature_two = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        verbose_name='Course Feature Two',
+    )
+
+    course_feature_three = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        verbose_name='Course Feature Three',
+    )
+
+    course_cta = StreamField([('button', ButtonBlock())], use_json_field=True, null=True, blank=True)
+
     panel_description = RichTextField(
         features=RICHTEXT_FEATURES__REDUCED,
         null=True,
