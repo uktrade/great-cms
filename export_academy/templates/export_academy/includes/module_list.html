@@ -20,8 +20,9 @@
                         aria-labelledby="accordion-default-heading-1">
                         <p class="govuk-body govuk-!-margin-bottom-0">{{ module.summary }}</p>
                         <h4 class="govuk-heading-s great-font-size-18 govuk-!-margin-bottom-2">Join next live event {%if not signed_in%}(sign in required){%endif%}<h4>
-                            {% if event %}
+
                         <div class="great-bg-light-blue event-listing-summary-info govuk-!-padding-3">
+                             {% if event %}
                             {% comment %} {%if module.event%} {% endcomment %}
                             {% comment %} {{event}} {% endcomment %}
                                 <div class="event-date-badge">
@@ -33,11 +34,11 @@
                                     <p class="govuk-body-s govuk-!-margin-0 great-text-light-grey event-location">{{ event.format|replace_underscores|title }} event</p>
                                     <p class="govuk-body-s govuk-!-margin-0">{{ event.start_date|date:"j F Y" }} at {{ event.start_date|date:"g:iA" }} &bull; {{ event.start_date|timesince:event.end_date }}</p>
                                 </div>
-
-                        </div>
-                                {% else %}
+{% else %}
                                 {% include './event_warning.html' with warning_text='There is currently no scheduled live event for this module. Check back soon'%}
                             {% endif %}
+                        </div>
+
                     </div>
                 </div>
             {%endfor%}

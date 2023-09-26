@@ -415,29 +415,33 @@
 .event-listing-summary-info {
   display: flex;
   gap: 20px;
-     div{
+  div {
     display: flex;
     flex-direction: column;
-
-   }
-
-.event-date-badge {
-  background-color: #1e1348;
-  align-items: center;
-  width: 60px;
-  height: 60px;
-  justify-content: center;
-  time {
-    color: white;
-    &:first-of-type {
-      font-size: 24px;
-      line-height: 24px;
-      font-family: $header-font;
-    }
-    &:nth-of-type(2) {
-      font-size: 16px;
-      line-height: 16px;
+    &.event-warning-wrapper {
+      >div{
+        flex-direction: row;
+      }
     }
   }
-}
+
+  .event-date-badge {
+    background-color: #1e1348;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    justify-content: center;
+    time {
+      color: white;
+      &:first-of-type {
+        font-size: 24px;
+        line-height: 24px;
+        font-family: $header-font;
+      }
+      &:nth-of-type(2) {
+        font-size: 16px;
+        line-height: 16px;
+      }
+    }
+  }
 }
