@@ -1293,3 +1293,12 @@ def test_alt_image_upload_view_form_is_invalid(
     assert isinstance(response, JsonResponse)
     assert response.status_code == 200
     assert json.loads(response.content.decode('utf8'))['step'] == 'reshow_creation_form'
+
+
+@pytest.mark.django_db
+def test_design_system_page(
+    client,
+):
+    response = client.get(reverse('core:design-system'))
+
+    assert 'GREAT Design System' in str(response.rendered_content)

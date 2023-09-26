@@ -1,4 +1,5 @@
 import directory_healthcheck.views
+from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import path, re_path, reverse_lazy
 from great_components.decorators import skip_ga360
@@ -173,4 +174,14 @@ urlpatterns = [
     # WHEN ADDING TO THIS LIST CONSIDER WHETHER YOU SHOULD ALSO ADD THE URL NAME
     # TO core.views.StaticViewSitemap
 ]
+
+if settings.FEATURE_DESIGN_SYSTEM:
+    urlpatterns += [
+        path(
+            'design-system',
+            skip_ga360(views.DesignSystemView.as_view()),
+            name='design-system',
+        ),
+    ]
+
 urlpatterns += redirects
