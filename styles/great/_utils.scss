@@ -706,6 +706,7 @@ img.richtext-image {
   border-bottom: 2px solid transparent;
   display: inline-block;
   text-decoration: underline;
+  text-underline-position: under;
 
   &:hover:not(:focus) {
     color: #003078;
