@@ -10,9 +10,7 @@ from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from taggit.models import ItemBase, TagBase
-from wagtail.admin.panels import FieldPanel
 from wagtail.fields import RichTextField, StreamField
-from wagtail.models import Orderable
 from wagtail.snippets.models import register_snippet
 
 from config import settings
@@ -28,6 +26,7 @@ from export_academy import managers
 from export_academy.cms_panels import (
     CoursePagePanels,
     EventPanel,
+    EventsInCoursePanel,
     ExportAcademyPagePanels,
 )
 from export_academy.forms import EventAdminModelForm
@@ -326,9 +325,18 @@ class ExportAcademyHomePage(ExportAcademyPagePanels, BaseContentPage):
     next_cta = StreamField([('button', ButtonBlock())], use_json_field=True, null=True, blank=True)
 
 
-class EventOrderable(Orderable):
+class ModuleEventSet(models.Model):
     """
-    This allows us to select one or more events.
+    List of all similar events. Only active/latest will be shown on the course.
+    """
+
+    page = ParentalKey('export_academy.EventsOnCourse', related_name='module_events')
+    event = models.ForeignKey('export_academy.Event', on_delete=models.DO_NOTHING)
+
+
+class EventsOnCourse(ClusterableModel, EventsInCoursePanel):
+    """
+    List of all events in a course.
     """
 
     page = ParentalKey('export_academy.CoursePage', related_name='course_events')
@@ -342,9 +350,6 @@ class EventOrderable(Orderable):
         blank=True,
         max_length=255,
     )
-    event = models.ForeignKey('export_academy.Event', on_delete=models.CASCADE)
-
-    panels = [FieldPanel('title'), FieldPanel('summary'), FieldPanel('event')]
 
 
 class CoursePage(CoursePagePanels, BaseContentPage):
@@ -406,4 +411,14 @@ class CoursePage(CoursePagePanels, BaseContentPage):
     )
 
     def get_events(self):
-        return [e.event for e in self.course_events.get_object_list()]
+        latest_event = {}
+        for modules in self.course_events.get_object_list():
+            event_list = []
+            for event in modules.module_events.get_object_list():
+                event_list.append(event.event)
+            event = self.get_latest_event(event_list)
+            latest_event[modules] = event
+        return latest_event
+
+    def get_latest_event(self, event_list):
+        return event_list.pop()

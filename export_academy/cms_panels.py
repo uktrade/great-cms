@@ -93,6 +93,14 @@ class EventPanel:
     ]
 
 
+class EventsInCoursePanel:
+    panels = [
+        FieldPanel('title'),
+        FieldPanel('summary'),
+        MultiFieldPanel([InlinePanel('module_events', label='Events in this module')], heading='Events'),
+    ]
+
+
 class CoursePagePanels:
     content_panels = [
         FieldPanel('page_heading'),
@@ -105,25 +113,24 @@ class CoursePagePanels:
                 FieldPanel('is_course_right_for_you_list'),
             ],
         ),
-        # MultiFieldPanel(
-        #     heading='is_course_right_for_you',
-        #     classname='collapsible',
-        #     children=[
-        #         FieldPanel('is_course_right_for_you_list'),
-        #     ],
-        # ),
         FieldPanel('metadata'),
-        FieldPanel('benefits_heading'),
         MultiFieldPanel(
             heading='benefits',
             classname='collapsible',
             children=[
+                FieldPanel('benefits_heading'),
                 FieldPanel('benefits_list'),
             ],
         ),
-        FieldPanel('course_content_heading'),
-        FieldPanel('course_content_desc'),
-        MultiFieldPanel([InlinePanel('course_events', label='Events')], heading='Modules'),
+        MultiFieldPanel(
+            heading='Course content',
+            classname='collapsible',
+            children=[
+                FieldPanel('course_content_heading'),
+                FieldPanel('course_content_desc'),
+                MultiFieldPanel([InlinePanel('course_events', label='Module in this course')], heading='Modules'),
+            ],
+        ),
     ]
 
     settings_panels = [
