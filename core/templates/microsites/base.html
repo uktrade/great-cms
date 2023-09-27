@@ -176,18 +176,18 @@
 
 
 {% block cookie_notice %}
-  {% include 'components/cookie_notice.html' %}
+  {% include 'components/cookie_notice.html' with lang=page.locale.language_code %}
 {% endblock %}
 
 
 {% block body_content_container %}
-  
+
     {% block content %}{% endblock %}
     {% block feedback_reporter %}
       {% include 'components/error_reporting.html' %}
     {% endblock %}
     {% block content_after %}{% endblock %}
-  
+
 {% endblock %}
 
 {% block body_footer %}
