@@ -105,6 +105,7 @@ class CoursePagePanels:
     content_panels = [
         FieldPanel('page_heading'),
         FieldPanel('summary'),
+        FieldPanel('hero_image'),
         MultiFieldPanel(
             heading='Is this course right for you?',
             classname='collapsible',
@@ -131,6 +132,7 @@ class CoursePagePanels:
                 MultiFieldPanel([InlinePanel('course_events', label='Module in this course')], heading='Modules'),
             ],
         ),
+        FieldPanel('speakers'),
     ]
 
     settings_panels = [

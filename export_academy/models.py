@@ -23,6 +23,7 @@ from core.fields import single_struct_block_stream_field_factory
 from core.models import GreatMedia, TimeStampedModel
 from domestic.models import BaseContentPage
 from export_academy import managers
+from export_academy.blocks import MetaDataBlock
 from export_academy.cms_panels import (
     CoursePagePanels,
     EventPanel,
@@ -358,6 +359,13 @@ class CoursePage(CoursePagePanels, BaseContentPage):
     ]
     subpage_types = []
 
+    hero_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
     page_heading = models.TextField(
         null=True,
         blank=True,
@@ -382,10 +390,13 @@ class CoursePage(CoursePagePanels, BaseContentPage):
         blank=True,
         max_num=3,
     )
-    metadata = models.TextField(
-        null=True,
+
+    metadata = StreamField(
+        [
+            ('metadata_item', MetaDataBlock()),
+        ],
         blank=True,
-        max_length=255,
+        default=[],
     )
 
     benefits_heading = models.TextField(
@@ -408,6 +419,11 @@ class CoursePage(CoursePagePanels, BaseContentPage):
         null=True,
         blank=True,
         max_length=255,
+    )
+    speakers = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
     )
 
     def get_events(self):
