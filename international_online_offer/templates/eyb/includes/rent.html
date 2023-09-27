@@ -9,13 +9,9 @@
       <div class="govuk-width-container">
         <div class="govuk-grid-row">
           <div class="govuk-grid-column-full">
-            <h2 class="govuk-heading-l">Rent costs for {{ triage_data.get_sector_display }} premises</h2>
-          </div>
-        </div>
-        <div class="govuk-grid-row">
-          <div class="govuk-grid-column-full">
-            <p class="govuk-body-l">
-              These figures show typical mid-point costs for renting business premises. Choose a different location to compare costs.
+            <h2 class="govuk-heading-l">Average rent data at a glance</h2>
+            <p class="govuk-body">
+              For your selected sector: <strong class="govuk-!-font-weight-bold">{{ triage_data.get_sector_display }}</strong>
             </p>
           </div>
         </div>
@@ -24,17 +20,15 @@
             <form class="salary-location-form" action="" method="GET">
               <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full govuk-!-margin-bottom-3">
-                  <div class="govuk-!-margin-bottom-2">
-                    {% include '../includes/form_field.html' with field=rent_location_form.location %}
-                  </div>
-                  <button type="submit" class="atlas-button" id="rent-location-submit">Change</button>
+                  {% include '../includes/form_field.html' with field=rent_location_form.location %}
+                  <button type="submit" class="atlas-button govuk-!-margin-top-1" id="rent-location-submit">Change</button>
                 </div>
               </div>
             </form>
           </div>
         </div>
         <div class="govuk-grid-row">
-          <div class="govuk-grid-column-full">
+          <div class="govuk-grid-column-full govuk-!-margin-top-3">
             {% if large_warehouse_rent or small_warehouse_rent or shopping_centre or high_street_retail or work_office %}
             <div class="govuk-tabs" data-module="govuk-tabs">
               <h2 class="govuk-tabs__title">
@@ -81,12 +75,12 @@
                 <div class="govuk-tabs__panel" id="large-warehouse">
                   <div class="govuk-grid-row">
                     <div class="govuk-grid-column-full">
-                      <h2 class="govuk-heading-l">Large warehouse, average rent for {{ rent_location_form.location.value|get_location_display }}</h2>
+                      <h3 class="govuk-heading-m">Large warehouse, average rent for {{ rent_location_form.location.value|get_location_display }}</h3>
                     </div>
                   </div>
                   <div class="govuk-grid-row">
                     <div class="govuk-grid-column-one-half">
-                      <p class="govuk-heading-m"><span class="govuk-heading-l">£{{large_warehouse_rent|default:'-'|intcomma}}</span> per calendar month for 2023</p>
+                      <p class="govuk-body-m"><strong class="govuk-!-font-weight-bold">£{{large_warehouse_rent|default:'-'|intcomma}}</strong><br>per calendar month for 2023</p>
                     </div>
                     <div class="govuk-grid-column-one-half">
                       <p class="govuk-body">A large warehouse is an industrial unit that is <strong class="govuk-!-font-weight-bold">340,000 sq foot</strong> on average in the UK.</p>
@@ -98,12 +92,12 @@
                 <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="small-warehouse">
                   <div class="govuk-grid-row">
                     <div class="govuk-grid-column-full">
-                      <h2 class="govuk-heading-l">Small warehouse, average rent for {{ rent_location_form.location.value|get_location_display }}</h2>
+                      <h3 class="govuk-heading-m">Small warehouse, average rent for {{ rent_location_form.location.value|get_location_display }}</h3>
                     </div>
                   </div>
                   <div class="govuk-grid-row">
                     <div class="govuk-grid-column-one-half">
-                      <p class="govuk-heading-m"><span class="govuk-heading-l">£{{small_warehouse_rent|default:'-'|intcomma}}</span> per calendar month for 2023</p>
+                      <p class="govuk-body-m"><strong class="govuk-!-font-weight-bold">£{{small_warehouse_rent|default:'-'|intcomma}}</strong><br>per calendar month for 2023</p>
                     </div>
                     <div class="govuk-grid-column-one-half">
                       <p class="govuk-body">A small warehouse is an industrial unit. Calculation based on a small warehouse being <strong class="govuk-!-font-weight-bold">5000 sq foot</strong></p>
@@ -115,12 +109,12 @@
                 <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="shopping-centre">
                   <div class="govuk-grid-row">
                     <div class="govuk-grid-column-full">
-                      <h2 class="govuk-heading-l">Shopping centre, average rent for {{ rent_location_form.location.value|get_location_display }}</h2>
+                      <h3 class="govuk-heading-m">Shopping centre, average rent for {{ rent_location_form.location.value|get_location_display }}</h3>
                     </div>
                   </div>
                   <div class="govuk-grid-row">
                     <div class="govuk-grid-column-one-half">
-                      <p class="govuk-heading-m"><span class="govuk-heading-l">£{{shopping_centre|default:'-'|intcomma}}</span> per calendar month for 2023</p>
+                      <p class="govuk-body-m"><strong class="govuk-!-font-weight-bold">£{{shopping_centre|default:'-'|intcomma}}</strong><br>per calendar month for 2023</p>
                     </div>
                     <div class="govuk-grid-column-one-half">
                       <p class="govuk-body">A shopping centre unit is near a group of shops, sometimes under one roof. Calculation based on average UK unit being <strong class="govuk-!-font-weight-bold">204 sq foot</strong></p>
@@ -132,12 +126,12 @@
                 <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="high-street-retail">
                   <div class="govuk-grid-row">
                     <div class="govuk-grid-column-full">
-                      <h2 class="govuk-heading-l">High street retail, average rent for {{ rent_location_form.location.value|get_location_display }}</h2>
+                      <h3 class="govuk-heading-m">High street retail, average rent for {{ rent_location_form.location.value|get_location_display }}</h3>
                     </div>
                   </div>
                   <div class="govuk-grid-row">
                     <div class="govuk-grid-column-one-half">
-                      <p class="govuk-heading-m"><span class="govuk-heading-l">£{{high_street_retail|default:'-'|intcomma}}</span> per calendar month for 2023</p>
+                      <p class="govuk-body-m"><strong class="govuk-!-font-weight-bold">£{{high_street_retail|default:'-'|intcomma}}</strong><br>per calendar month for 2023</p>
                     </div>
                     <div class="govuk-grid-column-one-half">
                       <p class="govuk-body">High street retail is a concentration of shops in either urban or urban-like areas. Calculation based on average UK unit being <strong class="govuk-!-font-weight-bold">2195 sq foot</strong></p>
@@ -148,12 +142,12 @@
               <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="work-office">
                 <div class="govuk-grid-row">
                   <div class="govuk-grid-column-full">
-                    <h2 class="govuk-heading-l">Work office, average rent for {{ rent_location_form.location.value|get_location_display }}</h2>
+                    <h3 class="govuk-heading-m">Work office, average rent for {{ rent_location_form.location.value|get_location_display }}</h3>
                   </div>
                 </div>
                 <div class="govuk-grid-row">
                   <div class="govuk-grid-column-one-half">
-                    <p class="govuk-heading-m"><span class="govuk-heading-l">£{{work_office|default:'-'|intcomma}}</span> per calendar month for 2023</p>
+                    <p class="govuk-body-m"><strong class="govuk-!-font-weight-bold">£{{work_office|default:'-'|intcomma}}</strong><br>per calendar month for 2023</p>
                   </div>
                   <div class="govuk-grid-column-one-half">
                     <p class="govuk-body">A work office is a room or set of rooms in which business, professional duties, clerical work, etc, are carried out. Calculation based on average UK work office being <strong class="govuk-!-font-weight-bold">16,671 sq foot</strong></p>

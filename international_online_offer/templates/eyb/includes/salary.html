@@ -8,13 +8,13 @@
       <div class="govuk-width-container">
         <div class="govuk-grid-row">
           <div class="govuk-grid-column-full">
-            <h2 class="govuk-heading-l">{{ triage_data.get_sector_display }} salaries</h2>
+            <h2 class="govuk-heading-l">Average annual salary data at a glance</h2>
           </div>
         </div>
         <div class="govuk-grid-row">
           <div class="govuk-grid-column-full">
-            <p class="govuk-body-l">
-              These figures show typical mid-point salaries from a range of jobs at a similar level. Choose a different location to compare salaries.
+            <p class="govuk-body-m">
+              For your selected sector: <span class="govuk-!-font-weight-bold">{{ triage_data.get_sector_display }}</span>
             </p>
           </div>
         </div>
@@ -23,10 +23,8 @@
             <form class="salary-location-form" action="" method="GET">
               <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full govuk-!-margin-bottom-3">
-                  <div class="govuk-!-margin-bottom-2">
-                    {% include '../includes/form_field.html' with field=salary_location_form.location %}
-                  </div>
-                  <button type="submit" class="atlas-button" id="salary-location-submit">Change</button>
+                  {% include '../includes/form_field.html' with field=salary_location_form.location %}
+                  <button type="submit" class="atlas-button govuk-!-margin-top-1" id="salary-location-submit">Change</button>
                 </div>
               </div>
             </form>
@@ -37,18 +35,18 @@
             {% if entry_level or mid_salary or executive_salary %}
             <div class="govuk-grid-row">
               <div class="govuk-grid-column-one-third">
-                <p class="govuk-heading-m govuk-!-font-weight-regular">Entry level</p>
-                <p class="govuk-heading-m"><span class="govuk-heading-l salary-text">£{{entry_salary|default_if_none:'-'|intcomma}}</span> per year</p>
+                <p class="govuk-body-m govuk-!-font-weight-bold">Entry level</p>
+                <p class="govuk-heading-m">£{{entry_salary|default_if_none:'-'|intcomma}}</p>
                 <p class="govuk-body body-text">For professions like {{ professions_by_sector.entry_level|default:'-' }}</p>
               </div>
               <div class="govuk-grid-column-one-third">
-                <p class="govuk-heading-m govuk-!-font-weight-regular">Mid level</p>
-                <p class="govuk-heading-m"><span class="govuk-heading-l salary-text">£{{mid_salary|default:'-'|intcomma}}</span> per year</p>
+                <p class="govuk-body-m govuk-!-font-weight-bold">Mid level</p>
+                <p class="govuk-heading-m">£{{mid_salary|default:'-'|intcomma}}</p>
                 <p class="govuk-body body-text">For professions like {{ professions_by_sector.mid_level|default:'-' }}</p>
               </div>
               <div class="govuk-grid-column-one-third">
-                <p class="govuk-heading-m govuk-!-font-weight-regular">Executive level</p>
-                <p class="govuk-heading-m"><span class="govuk-heading-l salary-text">£{{executive_salary|default:'-'|intcomma}}</span> per year</p>
+                <p class="govuk-body-m govuk-!-font-weight-bold">Executive level</p>
+                <p class="govuk-heading-m">£{{executive_salary|default:'-'|intcomma}}</p>
                 <p class="govuk-body body-text">For professions like {{ professions_by_sector.executive_level|default:'-' }}</p>
               </div>
             </div>
