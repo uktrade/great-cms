@@ -65,10 +65,9 @@
             </div>
         </div>
     </section>
-
     <section class="great-bg-white panels-container">
         <div class="great-container">
-            <div class="govuk-grid-row govuk-!-static-padding-top-5">
+            <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full">
                     <h2>{{ page.course_heading }}</h2>
                     <p></p>
@@ -76,43 +75,36 @@
                 </div>
             </div>
         </div>
-        <div class="great-container great-bg-light-blue govuk-!-padding-5" style="background: url({% static 'images/learn-to-export-topic5-header.png' %}); background-size: auto 90% !important;
-    background-position-y: bottom !important;
-    background-position-x: right !important;
-    background-repeat: no-repeat;">
-
-
-<!--            <div class="image-container image-full-width great-display-from-tablet ea-landing-image-container" >-->
-<!--                    <img class="ea-logo" src="/static/images/uk-export-academy-logo.svg" alt="UK Export Academy logo">-->
-<!--                </div>-->
-<!--            -->
-
-
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-one-half courses-container">
-                    <h3>{{ page.course_name }}</h3>
-                    <p></p>
-                    <p class="govuk-body govuk-!-static-margin-bottom-3">{{ page.course_description }}</p>
-                    <ul>
-                        <li class="govuk-!-static-margin-top-2">
-                            <img class="great-blue-tick" src="{% static 'icons/blue-tick.svg' %}" height="30px" aria-hidden="true" />
-                            <span style="vertical-align: middle;">{{ page.course_feature_one }}</span>
-                        </li>
-                        <li class="govuk-!-static-margin-top-2">
-                            <img class="great-blue-tick" src="{% static 'icons/blue-tick.svg' %}" height="30px" aria-hidden="true" />
-                            <span>{{ page.course_feature_two }}</span>
-                        </li>
-                        <li class="govuk-!-static-margin-top-2">
-                            <img class="great-blue-tick" src="{% static 'icons/blue-tick.svg' %}" height="30px" aria-hidden="true" />
-                            <span>{{ page.course_feature_three }}</span>
-                        </li>
-                    </ul>
-                    <div class="govuk-!-static-margin-top-2 govuk-!-static-padding-top-2">
-                        {% include_block page.course_cta %}
+        <div class="great-container">
+            <div class="govuk-grid-row great-display-flex-desktop">
+                <div class="govuk-grid-column-full">
+                    <div class="great-display-flex-from-desktop courses-container great-bg-light-blue">
+                        <div class="courses-container__text">
+                            <div class="govuk-!-static-padding-5">
+                                <h3>{{ page.course_name }}</h3>
+                                <p></p>
+                                <p class="govuk-body govuk-!-static-margin-bottom-3">{{ page.course_description }}</p>
+                                <ul>
+                                    <li class="govuk-!-static-margin-top-2">
+                                        <img class="great-blue-tick" src="{% static 'icons/blue-tick.svg' %}" height="30px" aria-hidden="true" />
+                                        <span style="vertical-align: middle;">{{ page.course_feature_one }}</span>
+                                    </li>
+                                    <li class="govuk-!-static-margin-top-2">
+                                        <img class="great-blue-tick" src="{% static 'icons/blue-tick.svg' %}" height="30px" aria-hidden="true" />
+                                        <span>{{ page.course_feature_two }}</span>
+                                    </li>
+                                    <li class="govuk-!-static-margin-top-2">
+                                        <img class="great-blue-tick" src="{% static 'icons/blue-tick.svg' %}" height="30px" aria-hidden="true" />
+                                        <span>{{ page.course_feature_three }}</span>
+                                    </li>
+                                </ul>
+                                <div class="govuk-!-static-margin-top-2 govuk-!-static-padding-top-2">
+                                    {% include_block page.course_cta %}
+                                </div>
+                            </div>
+                        </div>
+                        <img class="courses-container__img" src="{% static 'images/16x9+400px-export-essentials.png' %}" width="100%" alt="Courses">
                     </div>
-                </div>
-                <div class="govuk-grid-column-one-half">
-<!--                    <img class='' width="100%" src='{% static "images/learn-to-export-topic5-header.png" %}' alt='Courses logo' />-->
                 </div>
             </div>
         </div>

@@ -383,6 +383,8 @@
 }
 
 .courses-container {
+  position: relative;
+
   ul {
     > li > img {
       vertical-align: middle;
@@ -393,10 +395,21 @@
     }
   }
 
-  img {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    max-width: 50%;
+  &__img {
+   @media (min-width: $tablet-size) {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      max-width: 50%;
+    }
+   @media (max-width: $tablet-size) {
+      vertical-align: bottom;
+    }
+  }
+
+  &__text {
+  @media (min-width: $tablet-size)  {
+      flex-basis: 50%;
+    }
   }
 }
