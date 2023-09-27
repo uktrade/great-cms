@@ -563,3 +563,7 @@ class AltImageChooserViewSet(ImageChooserViewSet):
 
     def on_register(self):
         return super().on_register()
+
+
+class DesignSystemView(TemplateView):
+    template_name = 'design-system/design-system.html'

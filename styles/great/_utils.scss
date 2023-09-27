@@ -702,12 +702,14 @@ img.richtext-image {
 }
 
 .great-title-link {
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+  display: inline-block;
   text-decoration: underline;
+  text-underline-position: under;
+
   &:hover:not(:focus) {
-    text-decoration-thickness: 3px;
     color: #003078;
-  }
-  &:focus {
-    display: inline;
+    text-decoration-thickness: 3px;
   }
 }
