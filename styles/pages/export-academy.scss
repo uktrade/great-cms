@@ -385,7 +385,7 @@
 .course-tick-marks {
   display: inline-flex;
   flex-wrap: wrap;
-  gap: 30px;
+  gap: 20px 30px;
   > div {
     display: inline-flex;
     gap: 10px;
@@ -410,6 +410,10 @@
       flex-direction: column;
       align-items: flex-start;
     }
+  }
+
+  li > p {
+    margin: 0;
   }
 }
 .event-listing-summary-info {

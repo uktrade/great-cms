@@ -23,7 +23,8 @@
     {% block hero %}
         {% with content_snippet as hero %}
             <div class="ea-listing-page">
-                {% include 'components/hero.html' with image=hero.image hero_title=page.page_heading hero_subeading='Course' hero_text=hero.text hide_image_for_mobile=True %}
+                {% static 'images/learn-to-export-header.png' as need_help_image_url %}
+                {% include 'components/hero.html' with image=hero.image hero_title=page.page_heading hero_subeading='Course' hero_text='Learn the fundamentals of selling your products in other countries, your routes to market, export controls and how your business can benefit.' hide_image_for_mobile=True image_url=need_help_image_url  %}
             </div>
         {% endwith %}
     {% endblock %}
@@ -34,7 +35,7 @@
             {%for item in page.is_course_right_for_you_list%}
                 <div>
                     <span class="fa fa-check-circle"></span>
-                    <p class="govuk-body">{{item.value.description}}</p>
+                    {{item.value.description}}
                 </div>
             {%endfor%}
         </div>
@@ -47,7 +48,7 @@
                         <div class="govuk-summary-list__row govuk-!-margin-bottom-0">
                             <dt class="govuk-summary-list__key govuk-!-margin-0 govuk-!-padding-bottom-1 govuk-!-padding-top-1">Length</dt>
                             <dd class="govuk-summary-list__value govuk-!-margin-0 govuk-!-padding-bottom-1 govuk-!-padding-top-1">
-                                10
+                                {{page.get_events.items |length}} modules
                             </dd>
                         </div>
                         <div class="govuk-summary-list__row govuk-!-margin-bottom-0">

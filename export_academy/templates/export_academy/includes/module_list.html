@@ -1,47 +1,47 @@
 {% load static %}
 {% load wagtailcore_tags %}
 {% load replace_underscores from component_tags %}
-{% comment %} {%if modules|length > 1%} {% endcomment %}
-
-    <section class="govuk-!-static-padding-bottom-0">
-        <div class="govuk-accordion"
-            data-module="govuk-accordion"
-            id="accordion-default">
-            {%for module, event in events.items%}
-                <div class="govuk-accordion__section">
-                    <div class="govuk-accordion__section-header">
-                        <h3 class="govuk-accordion__section-heading">
-                            <span class="govuk-accordion__section-button"
-                                id="accordion-default-heading-1">{{forloop.counter}}. {{ module.title }}</span>
-                        </h3>
-                    </div>
-                    <div id="accordion-default-content-1"
-                        class="govuk-accordion__section-content govuk-!-padding-top-0"
-                        aria-labelledby="accordion-default-heading-1">
-                        <p class="govuk-body govuk-!-margin-bottom-0">{{ module.summary }}</p>
-                        <h4 class="govuk-heading-s great-font-size-18 govuk-!-margin-bottom-2">Join next live event {%if not signed_in%}(sign in required){%endif%}<h4>
-
-                        <div class="great-bg-light-blue event-listing-summary-info govuk-!-padding-3">
-                             {% if event %}
-                            {% comment %} {%if module.event%} {% endcomment %}
-                            {% comment %} {{event}} {% endcomment %}
-                                <div class="event-date-badge">
-                                    <time>{{event.start_date|date:"d" }}</time>
-                                    <time>{{event.start_date|date:"M"}}</time>
-                                </div>
-                                <div>
-                                    <a class="govuk-link" href="{{event.get_absolute_url}}">{{event.name}}</a>
-                                    <p class="govuk-body-s govuk-!-margin-0 great-text-light-grey event-location">{{ event.format|replace_underscores|title }} event</p>
-                                    <p class="govuk-body-s govuk-!-margin-0">{{ event.start_date|date:"j F Y" }} at {{ event.start_date|date:"g:iA" }} &bull; {{ event.start_date|timesince:event.end_date }}</p>
-                                </div>
-{% else %}
-                                {% include './event_warning.html' with warning_text='There is currently no scheduled live event for this module. Check back soon'%}
-                            {% endif %}
-                        </div>
-
-                    </div>
+<section class="govuk-!-static-padding-bottom-0">
+    <div class="govuk-accordion"
+         data-module="govuk-accordion"
+         id="accordion-default">
+        {% for module, event in events.items %}
+            <div class="govuk-accordion__section">
+                <div class="govuk-accordion__section-header">
+                    <h3 class="govuk-accordion__section-heading">
+                        <span class="govuk-accordion__section-button"
+                              id="accordion-default-heading-1">{{ forloop.counter }}. {{ module.title }}</span>
+                    </h3>
                 </div>
-            {%endfor%}
-        </div>
-    </section>
-{% comment %} {%endif%} {% endcomment %}
+                <div id="accordion-default-content-1"
+                     class="govuk-accordion__section-content govuk-!-padding-top-0"
+                     aria-labelledby="accordion-default-heading-1">
+                    <p class="govuk-body govuk-!-margin-bottom-0">{{ module.summary }}</p>
+                    <h4 class="govuk-heading-s great-font-size-18 govuk-!-margin-bottom-2">
+                        Join next live event
+                        {% if not signed_in %}(sign in required){% endif %}
+                            <h4>
+                                <div class="great-bg-light-blue event-listing-summary-info govuk-!-padding-3">
+                                    {% if event %}
+                                        <div class="event-date-badge">
+                                            <time>{{ event.start_date|date:"d" }}</time>
+                                            <time>{{ event.start_date|date:"M" }}</time>
+                                        </div>
+                                        <div>
+                                            <a class="govuk-link" href="{{ event.get_absolute_url }}">{{ event.name }}</a>
+                                            <p class="govuk-body-s govuk-!-margin-0 great-text-light-grey event-location">
+                                                {{ event.format|replace_underscores|title }} event
+                                            </p>
+                                            <p class="govuk-body-s govuk-!-margin-0">
+                                                {{ event.start_date|date:"j F Y" }} at {{ event.start_date|date:"g:iA" }} &bull; {{ event.start_date|timesince:event.end_date }}
+                                            </p>
+                                        </div>
+                                    {% else %}
+                                        {% include './event_warning.html' with warning_text='There is currently no scheduled live event for this module. Check back soon' %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
