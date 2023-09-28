@@ -17,11 +17,9 @@ class GroupBaseUserApprovalTaskStateEmailNotifier(EmailNotificationMixin, Notifi
     def send_notifications(self, template_set, context, recipients, **kwargs):
         self.send_emails(template_set, context, self.recipient, **kwargs)
         # send to Requestor
-        triggering_user = kwargs.get("user", None)
+        triggering_user = kwargs.get('user', None)
         return self.send_emails(template_set, context, {triggering_user}, **kwargs)
 
 
 class GroupApprovalTaskStateSubmissionEmailNotifier(GroupBaseUserApprovalTaskStateEmailNotifier):
-    """A notifier to send updates for UserApprovalTask submission events"""
-
-    notification = "submitted"
+    notification = 'submitted'
