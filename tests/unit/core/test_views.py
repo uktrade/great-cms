@@ -1046,14 +1046,6 @@ def test_serve_subtitles__login_required(client):
     assert resp.headers['location'] == reverse('core:login') + f'?next={dest}'
 
 
-@pytest.mark.django_db
-def test_get_survey_view_api_view(client, mock_get_survey):
-    url = reverse('core:api-survey', kwargs={'id': '123'})
-    client.get(url)
-    assert mock_get_survey.call_count == 1
-    assert mock_get_survey.call_args == mock.call(id='123')
-
-
 @pytest.mark.skipif(
     not settings.FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE, reason='Multiple translations not enabled'
 )
