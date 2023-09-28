@@ -463,13 +463,18 @@ class SignUpView(HandleNewAndExistingUsersMixin, VerificationLinksMixin, sso_mix
         )
 
     def get_redirect_url(self, uidb64=None, token=None, user_registered=False):
+        next = self.request.GET.get('next', '')
+        redirect_url = reverse_lazy('export_academy:signup-verification')
         if uidb64 and token:
-            redirect_url = self.get_verification_link(uidb64, token, user_registered=self.get_ea_user())
+            redirect_url += f'?uidb64={uidb64}&token={token}'
+            if user_registered:
+                redirect_url += '&existing-ea-user=true'
+            if next:
+                redirect_url += f'&next={next}'
         elif not (uidb64 or token) and user_registered:
-            redirect_url = (
-                self.request.build_absolute_uri(reverse('export_academy:signup-verification'))
-                + '?existing-ea-user=true'
-            )
+            redirect_url += '?existing-ea-user=true'
+        elif next:
+            redirect_url += f'?next={next}'
         return redirect_url
 
     def handle_already_registered(self, email):
