@@ -590,7 +590,7 @@ class SignInView(HandleNewAndExistingUsersMixin, sso_mixins.SignInMixin, FormVie
     success_url = reverse_lazy('export_academy:upcoming-events')
 
     def get_success_url(self):
-        next = self.request.GET.get("next")
+        next = self.request.GET.get('next')
         return self.success_url if not next else next
 
     def do_sign_in_flow(self, request):
