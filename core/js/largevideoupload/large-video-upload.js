@@ -216,17 +216,17 @@ export const largeVideoUpload = () => {
 
         if (mediaChooserButton) {
           mediaChooserButton.addEventListener('click', (e) => {
-            function isItThere(){
+            function isUploadTabVisible(){
               const uploadVideoTab = document.querySelector(
                 '#tab-label-upload-video'
               )
               if (uploadVideoTab) {
                 uploadVideoTab.style.display = 'none'
               } else{
-                setTimeout(isItThere, 100);
+                setTimeout(isUploadTabVisible, 100);
               }
             }
-            isItThere()
+            isUploadTabVisible()
           })
         }
       } else {
