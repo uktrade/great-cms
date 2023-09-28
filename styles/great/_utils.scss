@@ -735,8 +735,7 @@ img.richtext-image {
   width: 300px;
 }
 
-.great-title-link {
-<<<<<<< HEAD
+@mixin great-title-link-mixin {
   border-top: 2px solid transparent;
   border-bottom: 2px solid transparent;
   display: inline-block;
@@ -746,18 +745,10 @@ img.richtext-image {
   &:hover:not(:focus) {
     color: #003078;
     text-decoration-thickness: 3px;
-=======
-  text-decoration: underline;
-  &:hover:not(:focus) {
-    text-decoration-thickness: 3px;
-    color: #003078;
-  }
-  &:focus {
-    display: inline;
->>>>>>> 8f8872c74 (Update event title css)
   }
 }
 
+<<<<<<< HEAD
 .great-grey-bottom-border {
   border-bottom: 1px solid $great-border-grey;
 }
@@ -780,6 +771,7 @@ img.richtext-image {
 .great-inline {
   display: inline-block;
 }
+<<<<<<< HEAD
 
 .great-circle-image {
   height: 80px;
@@ -875,4 +867,16 @@ img.richtext-image {
   @include great-title-link();
   font-family: inherit !important;
   font-size: inherit !important;
+=======
+=======
+.great-title-link{
+  @include great-title-link-mixin();
+}
+
+>>>>>>> 82ffe2628 (rebased)
+.great-anchor-link {
+  @include great-title-link-mixin();
+  font-family: inherit!important;
+  font-size: inherit!important;
+>>>>>>> eaeae30e1 (rebased)
 }
