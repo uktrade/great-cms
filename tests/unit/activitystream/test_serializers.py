@@ -3,8 +3,10 @@ import json
 import pytest
 from django.test import TestCase
 from django.utils import timezone
+from wagtail_factories import PageFactory
 
 from activitystream.serializers import (
+    ActivityStreamCmsContentSerializer,
     ActivityStreamExpandYourBusinessTriageDataSerializer,
     ActivityStreamExpandYourBusinessUserDataSerializer,
     ActivityStreamExportAcademyBookingSerializer,
@@ -610,3 +612,30 @@ def test_micrositeserializer_is_aware_of_all_streamfield_blocks():
 
     serializer = MicrositePageSerializer()
     assert sorted(serializer.expected_block_types) == sorted(available_blocks_for_microsite_body)
+
+
+@pytest.mark.django_db
+def test_cms_content_serializer():
+    now = timezone.now()
+    instance = PageFactory(first_published_at=now, last_published_at=now)
+
+    serializer = ActivityStreamCmsContentSerializer()
+
+    output = serializer.to_representation(instance)
+    assert output == {
+        'id': f'dit:cmsContent:domestic:{instance.id}:Update',
+        'type': 'Update',
+        'published': instance.last_published_at.isoformat(),
+        'object': {
+            'id': f'dit:cmsContent:domestic:{instance.id}',
+            'type': 'dit:cmsContent',
+            'name': instance.title,
+            'url': instance.full_url,
+            'seo_title': instance.seo_title,
+            'search_description': instance.search_description,
+            'first_published_at': instance.first_published_at.isoformat(),
+            'last_published_at': instance.last_published_at.isoformat(),
+            'content_type_id': instance.content_type_id,
+            'content': '',
+        },
+    }

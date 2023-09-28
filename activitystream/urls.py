@@ -12,6 +12,11 @@ urlpatterns = [
         name='search-key-pages',
     ),
     path(
+        r'cms-content/',
+        skip_ga360(activitystream.views.ActivityStreamCmsContentView.as_view()),
+        name='cms-content',
+    ),
+    path(
         'test-api/',
         skip_ga360(activitystream.views.TestSearchAPIView.as_view()),
         name='search-test-api',
@@ -19,7 +24,7 @@ urlpatterns = [
     path(
         'v1/',  # v1 refers to OUR version of the endpoint we're making available
         skip_ga360(activitystream.views.ActivityStreamView.as_view()),
-        name='cms-content',
+        name='articles',
     ),
     path(
         'ukea-events/',

@@ -1,5 +1,6 @@
 import django_filters.rest_framework
 from django.conf import settings
+from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import render
 from django.utils.decorators import decorator_from_middleware
@@ -14,15 +15,18 @@ from activitystream.authentication import (
     ActivityStreamHawkResponseMiddleware,
 )
 from activitystream.filters import (
+    ActivityStreamCmsContentFilter,
     ActivityStreamExpandYourBusinessFilter,
     ActivityStreamExportAcademyFilter,
     PageFilter,
 )
 from activitystream.pagination import (
+    ActivityStreamCmsContentPagination,
     ActivityStreamExpandYourBusinessPagination,
     ActivityStreamExportAcademyPagination,
 )
 from activitystream.serializers import (
+    ActivityStreamCmsContentSerializer,
     ActivityStreamExpandYourBusinessTriageDataSerializer,
     ActivityStreamExpandYourBusinessUserDataSerializer,
     ActivityStreamExportAcademyBookingSerializer,
@@ -51,7 +55,7 @@ class ActivityStreamView(ListAPIView):
 
     @staticmethod
     def _build_after(request, after_ts, after_id):
-        return request.build_absolute_uri(reverse('activitystream:cms-content')) + '?after={ts}_{id}'.format(
+        return request.build_absolute_uri(reverse('activitystream:articles')) + '?after={ts}_{id}'.format(
             ts=str(after_ts.timestamp()),
             id=str(after_id),
         )
@@ -211,3 +215,14 @@ class ActivityStreamExpandYourBusinessTriageDataView(ActivityStreamExpandYourBus
 
     queryset = TriageData.objects.all()
     serializer_class = ActivityStreamExpandYourBusinessTriageDataSerializer
+
+
+class ActivityStreamCmsContentView(ActivityStreamBaseView):
+    """List view which live CMS content to the ActivityStream service"""
+
+    serializer_class = ActivityStreamCmsContentSerializer
+    filterset_class = ActivityStreamCmsContentFilter
+    pagination_class = ActivityStreamCmsContentPagination
+    queryset = Page.objects.exclude(
+        Q(live=False) | Q(first_published_at__isnull=True) | Q(last_published_at__isnull=True)
+    )

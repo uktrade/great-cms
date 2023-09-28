@@ -36,3 +36,7 @@ class ActivityStreamExpandYourBusinessFilter(FilterSet):
     def filter_after(self, queryset, name, value):
         value = value or '0'
         return queryset.filter(id__gt=value)
+
+
+class ActivityStreamCmsContentFilter(FilterSet):
+    pass
