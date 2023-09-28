@@ -963,3 +963,20 @@ figure.great-blockquote {
     }
   }
 }
+
+.great-button--chevron {
+  &::after {
+    background-image: url(/static/icons/internal-link.svg);
+    background-size: 8px;
+    height: 20px;
+    width: 26px;
+    bottom: 1px;
+    right: 0;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    position: absolute;
+    display: inline-block;
+    content: '';
+    pointer-events: none;
+  }
+}

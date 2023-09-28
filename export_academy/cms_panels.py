@@ -42,14 +42,14 @@ class ExportAcademyPagePanels:
             heading='Courses',
             classname='collapsible',
             children=[
-                FieldPanel('course_heading'),
-                FieldPanel('course_subheading'),
                 FieldPanel('course_name'),
                 FieldPanel('course_description'),
+                FieldPanel('course_image'),
                 FieldPanel('course_feature_one'),
                 FieldPanel('course_feature_two'),
                 FieldPanel('course_feature_three'),
-                FieldPanel('course_cta'),
+                FieldPanel('course_cta_text'),
+                FieldPanel('course_cta_url'),
             ],
         ),
         MultiFieldPanel(

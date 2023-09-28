@@ -9,7 +9,7 @@
 {% block content %}
 <div class="great">
     {% image page.hero_image original as rendition %}
-    <section class="background-white govuk-!-padding-bottom-0">
+    <section class="great-bg-white govuk-!-padding-bottom-0">
     <div class="container">
         <div class="page-header article-header stack-at-tablet-width ea-landing-page govuk-!-padding-left-0" id="hero">
             <div class="inner-header govuk-!-margin-left-0 govuk-!-static-padding-0">
@@ -41,7 +41,7 @@
     </div>
     {% endif %}
 
-    <section class="govuk-!-static-padding-bottom-3">
+    <section class="great-bg-white govuk-!-static-padding-bottom-3 govuk-!-static-padding-top-6">
         <div class="great-container ">
             <div class="govuk-grid-row {% if page.banner_label %} intro-text-container {% else %} govuk-!-static-margin-bottom-6 {% endif %}">
                 <div class="govuk-grid-column-three-quarters">
@@ -65,46 +65,37 @@
             </div>
         </div>
     </section>
-    <section class="great-bg-white panels-container">
+    <section class="great-bg-light-blue panels-container">
         {% if features.FEATURE_COURSES_LANDING_PAGE %}
-        <div class="great-container">
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-full">
-                    <h2>{{ page.course_heading }}</h2>
-                    <p></p>
-                    <p class="govuk-body">{{ page.course_subheading }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="great-container">
+        <div class="great-container govuk-!-static-padding-top-5">
+            {% image page.course_image original as course_rendition %}
             <div class="govuk-grid-row great-display-flex-desktop">
                 <div class="govuk-grid-column-full">
-                    <div class="great-display-flex-from-desktop courses-container great-bg-light-blue">
-                        <div class="courses-container__text">
-                            <div class="govuk-!-static-padding-5">
-                                <h3>{{ page.course_name }}</h3>
-                                <p></p>
-                                <p class="govuk-body govuk-!-static-margin-bottom-3">{{ page.course_description }}</p>
+                    <div class="great-display-flex-from-desktop courses-container great-bg-white">
+                        <a href="{{ page.course_cta_link }}">
+                            <div class="courses-container__text">
+                                <h3 class="govuk-!-static-margin-bottom-4">{{ page.course_name }}</h3>
+                                <p class="govuk-!-static-margin-bottom-3">{{ page.course_description }}</p>
                                 <ul>
-                                    <li class="govuk-!-static-margin-top-2">
-                                        <img class="great-blue-tick" src="{% static 'icons/blue-tick.svg' %}" height="30px" aria-hidden="true" />
+                                    <li class="govuk-!-static-margin-top-3">
+                                        <img class="great-blue-tick" src="{% static 'icons/blue-tick.svg' %}" height="30" aria-hidden="true" />
                                         <span style="vertical-align: middle;">{{ page.course_feature_one }}</span>
                                     </li>
-                                    <li class="govuk-!-static-margin-top-2">
-                                        <img class="great-blue-tick" src="{% static 'icons/blue-tick.svg' %}" height="30px" aria-hidden="true" />
+                                    <li class="govuk-!-static-margin-top-3">
+                                        <img class="great-blue-tick" src="{% static 'icons/blue-tick.svg' %}" height="30" aria-hidden="true" />
                                         <span>{{ page.course_feature_two }}</span>
                                     </li>
-                                    <li class="govuk-!-static-margin-top-2">
-                                        <img class="great-blue-tick" src="{% static 'icons/blue-tick.svg' %}" height="30px" aria-hidden="true" />
+                                    <li class="govuk-!-static-margin-top-3">
+                                        <img class="great-blue-tick" src="{% static 'icons/blue-tick.svg' %}" height="30" aria-hidden="true" />
                                         <span>{{ page.course_feature_three }}</span>
                                     </li>
                                 </ul>
-                                <div class="govuk-!-static-margin-top-2 govuk-!-static-padding-top-2">
-                                    {% include_block page.course_cta %}
+                                <div class="govuk-!-static-margin-top-3">
+                                    <span class="govuk-link great-text-blue great-link--internal">{{ page.course_cta_text }}</span>
                                 </div>
                             </div>
-                        </div>
-                        <img class="courses-container__img" src="{% static 'images/16x9+400px-export-essentials.png' %}" width="100%" alt="Courses">
+                            <img class="courses-container__img" src="{{ course_rendition.url }}" alt="">
+                        </a>
                     </div>
                 </div>
             </div>
@@ -119,12 +110,12 @@
             <div class="flex-grid">
                 {% for panel in page.panels %}
                 <div class="column-third-xl column-half-l card-large-blue-heading">
-                    {% include 'components/card.html' with url=panel.value.link title=panel.value.title card_image=panel.value.image html_snippet=panel.value.description no_padding_card=True card_id="card-"|add:panel.value.title|lower %}
+                    {% include 'components/card.html' with url=panel.value.link title=panel.value.title card_image=panel.value.image html_snippet=panel.value.description no_padding_card=False card_id="card-"|add:panel.value.title|lower %}
                 </div>
                 {% endfor %}
             </div>
         </div>
-        <div class="great-container centre-children">
+        <div class="great-container">
             {% include_block page.next_cta %}
         </div>
     </section>

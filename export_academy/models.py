@@ -302,20 +302,6 @@ class ExportAcademyHomePage(ExportAcademyPagePanels, BaseContentPage):
         blank=True,
     )
 
-    course_heading = models.CharField(
-        null=True,
-        blank=True,
-        max_length=255,
-        verbose_name='Course Heading',
-    )
-
-    course_subheading = models.CharField(
-        null=True,
-        blank=True,
-        max_length=255,
-        verbose_name='Course Subheading',
-    )
-
     course_name = models.CharField(
         null=True,
         blank=True,
@@ -328,6 +314,14 @@ class ExportAcademyHomePage(ExportAcademyPagePanels, BaseContentPage):
         blank=True,
         max_length=255,
         verbose_name='Course Description',
+    )
+
+    course_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
     )
 
     course_feature_one = models.CharField(
@@ -351,7 +345,19 @@ class ExportAcademyHomePage(ExportAcademyPagePanels, BaseContentPage):
         verbose_name='Course Feature Three',
     )
 
-    course_cta = StreamField([('button', ButtonBlock())], use_json_field=True, null=True, blank=True)
+    course_cta_text = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        verbose_name='Course CTA Text',
+    )
+
+    course_cta_url = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        verbose_name='Course CTA URL',
+    )
 
     panel_description = RichTextField(
         features=RICHTEXT_FEATURES__REDUCED,
