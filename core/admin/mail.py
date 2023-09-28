@@ -22,4 +22,6 @@ class GroupBaseUserApprovalTaskStateEmailNotifier(EmailNotificationMixin, Notifi
 
 
 class GroupApprovalTaskStateSubmissionEmailNotifier(GroupBaseUserApprovalTaskStateEmailNotifier):
+    """A notifier to send updates for UserApprovalTask submission events"""
+
     notification = 'submitted'
