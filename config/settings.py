@@ -993,3 +993,5 @@ SPECTACULAR_SETTINGS = {
 
 # Wagtail Draftail Anchors
 DRAFTAIL_ANCHORS_RENDERER = env.str('DRAFTAIL_ANCHORS_RENDERER', 'wagtail_draftail_anchors.rich_text.render_span')
+
+MODERATION_EMAIL_DIST_LIST = env.str('MODERATION_EMAIL_DIST_LIST', 'campaign-sites@businessandtrade.gov.uk')
