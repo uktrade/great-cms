@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-15 14:06+0100\n"
+"POT-Creation-Date: 2023-09-27 15:12+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: blocks.py:108 models.py:1435
+#: blocks.py:108 models.py:1462
 msgid "Video"
 msgstr ""
 
@@ -26,272 +26,262 @@ msgstr ""
 msgid "Include a video"
 msgstr ""
 
-#: blocks.py:537
-msgid "Hero Image"
+#: blocks.py:537 models.py:1442
+msgid "Hero image"
 msgstr ""
 
-#: blocks.py:538 blocks.py:556 blocks.py:572 models.py:73
+#: blocks.py:538
+msgid "Hero image hyperlink"
+msgstr ""
+
+#: blocks.py:541 blocks.py:561 blocks.py:600 blocks.py:610 models.py:72
 msgid "Description"
 msgstr ""
 
-#: blocks.py:539
+#: blocks.py:542 models.py:1452 models.py:1491 models.py:1528
+msgid "Note: any indent seen here will not be visible in the live page"
+msgstr ""
+
+#: blocks.py:544
 #, fuzzy
 #| msgid "Button Label"
 msgid "Button label"
 msgstr "Etiqueta de botón"
 
-#: blocks.py:540
+#: blocks.py:545
 #, fuzzy
 #| msgid "Button Label"
 msgid "Button url"
 msgstr "Etiqueta de botón"
 
-#: blocks.py:555 blocks.py:571 models.py:1467 models.py:1531
+#: blocks.py:560 blocks.py:599 blocks.py:609 models.py:1484 models.py:1554
 msgid "Title"
 msgstr ""
 
-#: blocks.py:557 blocks.py:573
+#: blocks.py:562 blocks.py:601 blocks.py:611
 msgid "Link text"
 msgstr ""
 
-#: blocks.py:558 blocks.py:574
+#: blocks.py:563 blocks.py:602 blocks.py:612
 msgid "Link url"
 msgstr ""
 
-#: blocks.py:562
+#: blocks.py:571
+msgid "Link block"
+msgstr ""
+
+#: blocks.py:578
 msgid "type"
 msgstr ""
 
-#: blocks.py:563
+#: blocks.py:579
 msgid "Email subject"
 msgstr ""
 
-#: blocks.py:564
+#: blocks.py:580
 #, fuzzy
 #| msgid "Email"
 msgid "Email title"
 msgstr "Correo electrónico"
 
-#: blocks.py:565
+#: blocks.py:581
 #, fuzzy
 #| msgid "Email"
 msgid "Email body"
 msgstr "Correo electrónico"
 
-#: blocks.py:569
+#: blocks.py:588
 msgid "Card Image"
 msgstr ""
 
-#: blocks.py:570
+#: blocks.py:591
 msgid "GOV.UK"
 msgstr ""
 
-#: blocks.py:570
-msgid "Tools"
+#: blocks.py:592
+msgid "Tool"
 msgstr ""
 
-#: blocks.py:570
+#: blocks.py:593
 msgid "How to"
 msgstr ""
 
-#: blocks.py:570
+#: blocks.py:594
+msgid "Service"
+msgstr ""
+
+#: blocks.py:596
 msgid "Type"
 msgstr ""
 
-#: blocks.py:575
+#: blocks.py:604
 msgid "Yes"
 msgstr ""
 
-#: blocks.py:575
+#: blocks.py:604
 msgid "No"
 msgstr ""
 
-#: blocks.py:575
+#: blocks.py:604
 msgid "Full width?"
 msgstr ""
 
-#: context_processors.py:84
+#: context_processors.py:86
 msgid "great.gov.uk international"
 msgstr "great.gov.uk Internacional"
 
-#: models.py:77
+#: models.py:76
 msgid "Transcript"
 msgstr "Transcripción"
 
-#: models.py:81
+#: models.py:80
 msgid "English subtitles"
 msgstr "Subtítulos en inglés"
 
-#: models.py:1366
-msgid "Microsite page"
+#: models.py:1397
+msgid "Campaign site page"
 msgstr ""
 
-#: models.py:1367
-msgid "Microsite pages"
+#: models.py:1398
+msgid "Campaign site pages"
 msgstr ""
 
-#: models.py:1369
+#: models.py:1400
 msgid "Page title"
 msgstr ""
 
-#: models.py:1372
+#: models.py:1403
 msgid ""
 "This is a subheading that displays below the main title on the microsite page"
 msgstr ""
 
-#: models.py:1373
+#: models.py:1404
 msgid "Page subheading"
 msgstr ""
 
-#: models.py:1378
+#: models.py:1409
 msgid ""
 "This is a subheading that displays when the microsite is featured on another "
 "page"
 msgstr ""
 
-#: models.py:1379
+#: models.py:1410
 msgid "Page teaser"
 msgstr ""
 
-#: models.py:1385
+#: models.py:1416
 msgid ""
 "If selected the dbt logo will be displayed in the header. Otherwise the UK "
 "Gov logo will be shown. Note this checkbox only works on the root page"
 msgstr ""
 
-#: models.py:1389
+#: models.py:1420
 msgid "Use domestic header logo"
 msgstr ""
 
-#: models.py:1393
+#: models.py:1425
 msgid "The label to be included within the menu items."
 msgstr ""
 
-#: models.py:1393
+#: models.py:1429
 msgid "External link label"
 msgstr ""
 
-#: models.py:1396
+#: models.py:1433
 msgid "The url of the external link"
 msgstr ""
 
-#: models.py:1396
+#: models.py:1433
 msgid "External link url"
 msgstr ""
 
-#: models.py:1404
-msgid "Hero image"
-msgstr ""
-
-#: models.py:1412
-msgid "Hero video"
-msgstr ""
-
-#: models.py:1419
-#, fuzzy
-#| msgid "View video transcript"
-msgid "Hero video transcript"
-msgstr "Ver transcripción del video"
-
-#: models.py:1423
-msgid "Form"
-msgstr ""
-
-#: models.py:1426 models.py:1454
+#: models.py:1451
 msgid "Text"
 msgstr ""
 
-#: models.py:1428
+#: models.py:1455
 msgid "Image"
 msgstr ""
 
-#: models.py:1432
+#: models.py:1459
 msgid "Image full width"
 msgstr ""
 
-#: models.py:1442
-msgid "Add two or three columns text"
+#: models.py:1469
+msgid "Add between 2 and 4 columns of text"
 msgstr ""
 
-#: models.py:1446
+#: models.py:1473
 msgid "Columns"
 msgstr ""
 
-#: models.py:1453
-msgid "Link block"
-msgstr ""
-
-#: models.py:1458
+#: models.py:1477
 msgid "Links block"
 msgstr ""
 
-#: models.py:1471
+#: models.py:1490
 msgid "Teaser"
 msgstr ""
 
-#: models.py:1475
+#: models.py:1496
 msgid "Link label"
 msgstr ""
 
-#: models.py:1479 models.py:1538
+#: models.py:1500 models.py:1561
 #, fuzzy
 #| msgid "LinkedIn"
 msgid "Link"
 msgstr "LinkedIn"
 
-#: models.py:1483
+#: models.py:1504
 msgid "CTA"
 msgstr ""
 
-#: models.py:1488
+#: models.py:1510
 msgid "Pull quote"
 msgstr ""
 
-#: models.py:1494
+#: models.py:1516
 msgid "Page body"
 msgstr ""
 
-#: models.py:1500
+#: models.py:1522
 msgid "CTA title"
 msgstr ""
 
-#: models.py:1505
+#: models.py:1527
 msgid "CTA teaser"
 msgstr ""
 
-#: models.py:1511
+#: models.py:1534
 msgid "CTA link label"
 msgstr ""
 
-#: models.py:1516
+#: models.py:1539
 msgid "CTA link"
 msgstr ""
 
-#: models.py:1523
+#: models.py:1546
 msgid "Page"
 msgstr ""
 
-#: models.py:1535
+#: models.py:1558
 msgid "Full url"
 msgstr ""
 
-#: models.py:1548 templates/microsites/blocks/social_media.html:24
+#: models.py:1571 templates/microsites/blocks/social_media.html:24
 msgid "Twitter"
 msgstr "Twitter"
 
-#: models.py:1549 templates/microsites/blocks/social_media.html:39
+#: models.py:1572 templates/microsites/blocks/social_media.html:39
 msgid "Facebook"
 msgstr "Facebook"
 
-#: models.py:1551 templates/microsites/blocks/social_media.html:54
+#: models.py:1573 templates/microsites/blocks/social_media.html:54
 msgid "LinkedIn"
 msgstr "LinkedIn"
 
-#: models.py:1552 templates/microsites/blocks/social_media.html:69
-msgid "Email"
-msgstr "Correo electrónico"
-
-#: models.py:1572
+#: models.py:1593
 msgid "Home"
 msgstr "Inicio"
 
@@ -299,19 +289,19 @@ msgstr "Inicio"
 msgid "Opens in a new window"
 msgstr "Se abre en una ventana nueva"
 
-#: templates/components/cookie_notice.html:8
+#: templates/components/cookie_notice.html:15
 msgid "Tell us whether you accept cookies"
 msgstr "Díganos si acepta las cookies"
 
-#: templates/components/cookie_notice.html:10
+#: templates/components/cookie_notice.html:17
 msgid "We use "
 msgstr "Usamos "
 
-#: templates/components/cookie_notice.html:10
+#: templates/components/cookie_notice.html:17
 msgid "cookies to collect information"
 msgstr "cookies para recopilar información"
 
-#: templates/components/cookie_notice.html:10
+#: templates/components/cookie_notice.html:17
 msgid ""
 "about how you use great.gov.uk. We use this information to make the website "
 "work as well as possible and improve government services."
@@ -320,25 +310,23 @@ msgstr ""
 "que el sitio web funcione de la mejor manera posible y mejorar los servicios "
 "gubernamentales."
 
-#: templates/components/cookie_notice.html:14
+#: templates/components/cookie_notice.html:21
 msgid "Accept all cookies"
 msgstr "Aceptar todas las cookies"
 
-#: templates/components/cookie_notice.html:15
+#: templates/components/cookie_notice.html:22
 msgid "Set cookie preferences"
 msgstr "Configurar preferencias de cookies"
 
-#: templates/components/cookie_notice.html:20
-#, fuzzy
-#| msgid "You've accepted all cookies. You can "
-msgid "You've accepted all cookies.  You can "
+#: templates/components/cookie_notice.html:27
+msgid "You've accepted all cookies. You can "
 msgstr "Ha aceptado todas las cookies. Puede "
 
-#: templates/components/cookie_notice.html:20
+#: templates/components/cookie_notice.html:27
 msgid "change your settings"
 msgstr "cambiar su configuración"
 
-#: templates/components/cookie_notice.html:20
+#: templates/components/cookie_notice.html:27
 msgid "at any time."
 msgstr "en cualquier momento."
 
@@ -357,6 +345,10 @@ msgstr "Ir al contenido principal"
 #: templates/microsites/blocks/social_media.html:10
 msgid "Follow us"
 msgstr ""
+
+#: templates/microsites/blocks/social_media.html:69
+msgid "Email"
+msgstr "Correo electrónico"
 
 #: templates/microsites/blocks/streamfield.html:18
 msgid "Information has been submitted successfully"
@@ -383,11 +375,11 @@ msgstr ""
 msgid "View video transcript"
 msgstr "Ver transcripción del video"
 
-#: templates/microsites/includes/microsite_detail_content.html:37
+#: templates/microsites/includes/microsite_detail_content.html:54
 msgid "Last updated:"
 msgstr "Última actualización:"
 
-#: templates/microsites/includes/microsite_menu_button.html:14
+#: templates/microsites/includes/microsite_menu_button.html:15
 msgid "Menu"
 msgstr "Menú"
 
@@ -406,7 +398,7 @@ msgid_plural "Migrate %(counter)s items"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/wagtailadmin/microsite_migrate.html:7 wagtail_hooks.py:347
+#: templates/wagtailadmin/microsite_migrate.html:7 wagtail_hooks.py:348
 msgid "Migrate"
 msgstr ""
 
@@ -432,13 +424,21 @@ msgstr ""
 msgid "Please enter a UK postcode"
 msgstr "Por favor, introduzca un código postal del Reino Unido"
 
-#: wagtail_hooks.py:348
+#: wagtail_hooks.py:349
 msgid "Create page from page"
 msgstr ""
 
-#: wagtail_hooks.py:528
+#: wagtail_hooks.py:514
 msgid "Campaign Site, getting started"
 msgstr ""
+
+#~ msgid "Something else"
+#~ msgstr "spanish words"
+
+#, fuzzy
+#~| msgid "View video transcript"
+#~ msgid "Hero video transcript"
+#~ msgstr "Ver transcripción del video"
 
 #~ msgid "Share this page"
 #~ msgstr "Compartir esta página"
