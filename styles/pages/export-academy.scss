@@ -386,18 +386,21 @@
   display: inline-flex;
   flex-wrap: wrap;
   gap: 20px 30px;
-  > div {
-    display: inline-flex;
-    gap: 10px;
+  > li {
     min-width: 390px;
-    flex: 1;
+    display: inline-flex;
+
+    &:before {
+      color: #1d70b8;
+      font-size: 30px;
+      content: '\f058';
+      margin-right: 10px;
+      font-family: 'Font Awesome 5 Free';
+      display: block;
+    }
   }
   p {
     margin: 0;
-  }
-  span::before {
-    color: #1d70b8;
-    font-size: 30px;
   }
 }
 
@@ -423,9 +426,12 @@
     display: flex;
     flex-direction: column;
     &.event-warning-wrapper {
-      >div{
+      > div {
         flex-direction: row;
       }
+    }
+    &.event-summary-text {
+      gap: 5px;
     }
   }
 
@@ -433,6 +439,7 @@
     background-color: #1e1348;
     align-items: center;
     width: 60px;
+    min-width: 60px;
     height: 60px;
     justify-content: center;
     time {
@@ -446,6 +453,36 @@
         font-size: 16px;
         line-height: 16px;
       }
+    }
+    .event-location {
+      color: #505a5f !important;
+    }
+  }
+}
+
+#ea-course-page-header {
+  .inner-header {
+    padding-top: 60px;
+    > div:first-of-type {
+      padding-top: 0px;
+    }
+  }
+}
+.presentation-icon {
+  height: 100px;
+}
+
+.image-container {
+  position: relative;
+  .ea-logo {
+    position: absolute;
+    bottom: 20px;
+    left: 400px;
+    width: 138px;
+       @media only screen and (max-width: 900px) {
+     left: auto;
+     right: 0px;
+     width: 30%;
     }
   }
 }

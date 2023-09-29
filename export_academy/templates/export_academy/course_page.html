@@ -5,12 +5,12 @@
 {% load component_tags wagtailcore_tags wagtailimages_tags content_tags %}
 {% load breadcrumbs from component_tags %}
 {% load add_govuk_classes from content_tags %}
-{% block head_title %}{{ 'course page title'}}{% endblock %}
+{% block head_title %}{{ page.title }}{% endblock %}
 {% block breadcrumbs-block %}
     <div id="breadcrumbs" class="great-bg-light-blue">
         {% breadcrumbs page.page_heading %}
         <a href="/">great.gov.uk</a>
-        <a href="../../">UK Export Academy</a>
+        <a href="../">UK Export Academy</a>
     {% endbreadcrumbs %}
 </div>
 {% endblock %}
@@ -22,28 +22,26 @@
 {% block content %}
     {% block hero %}
         {% with content_snippet as hero %}
-            <div class="ea-listing-page">
+            <div class="great" id="ea-course-page-header">
                 {% image page.hero_image max-800x600 as hero_image %}
-                {% static 'images/learn-to-export-header.png' as need_help_image_url %}
-                {% include 'components/hero.html' with image_url=hero_image.url hero_title=page.page_heading hero_subeading='Course' hero_text=page.summary hide_image_for_mobile=True %}
+                {% include 'components/course_page_hero.html' with image_url=hero_image.url hero_title=page.page_heading hero_subeading='Course' hero_text=page.summary%}
             </div>
         {% endwith %}
     {% endblock %}
-    <div>
+    <div class="great">
         <section class="great-container govuk-!-static-padding-top-6 govuk-!-static-padding-bottom-6">
             <h2 class="govuk-heading-m">{{ page.is_course_right_for_you_heading }}</h2>
-            <div class="course-tick-marks">
+            <ul class="course-tick-marks">
                 {% for item in page.is_course_right_for_you_list %}
-                    <div>
-                        <span class="fa fa-check-circle"></span>
+                    <li class="fas">
                         {{ item.value.description }}
-                    </div>
+                    </li>
                 {% endfor %}
-            </div>
+                </ul>
         </section>
         <div class="great-bg-white">
             <div class="great-container">
-                <section class="govuk-grid-column-two-thirds-from-desktop govuk-!-padding-0 govuk-!-margin-top-7 govuk-!-margin-bottom-7 great-grey-bottom-border">
+                <section class="govuk-grid-column-two-thirds-from-desktop govuk-!-padding-0 govuk-!-padding-top-7 govuk-!-margin-bottom-7 great-grey-bottom-border">
                     <div>
                         <dl class="govuk-summary-list govuk-summary-list--no-border">
                             {% for block in page.metadata %}
@@ -65,7 +63,7 @@
                     <div>
                         <img class="presentation-icon"
                              src="/static/images/icon-presentation.svg"
-                             alt="presentation" />
+                             alt="" />
                         <ul class="govuk-list govuk-list--bullet govuk-!-static-margin-bottom-0">
                             {% for item in page.benefits_list %}<li>{{ item.value.description }}</li>{% endfor %}
                         </ul>
