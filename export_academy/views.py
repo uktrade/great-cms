@@ -540,6 +540,7 @@ class VerificationCodeView(VerificationLinksMixin, sso_mixins.VerifyCodeMixin, F
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['existing_ea_user'] = self.user_ea_registered()
+        context['next'] = self.request.GET.get('next')
         context['heading'] = (
             'Set password for UK Export Academy' if self.user_ea_registered() else 'Join the UK Export Academy'
         )
@@ -560,6 +561,8 @@ class VerificationCodeView(VerificationLinksMixin, sso_mixins.VerifyCodeMixin, F
         if form.is_valid():
             uidb64 = self.request.GET.get('uidb64')
             token = self.request.GET.get('token')
+            next = self.request.GET.get('next')
+            existing_ea_user = self.request.GET.get('existing-ea-user')
             code_confirm = form.cleaned_data['code_confirm']
             upstream_response = sso_api_client.user.verify_verification_code(
                 {'uidb64': uidb64, 'token': token, 'code': code_confirm}
@@ -573,8 +576,6 @@ class VerificationCodeView(VerificationLinksMixin, sso_mixins.VerifyCodeMixin, F
                 self.handle_code_expired(upstream_response, request, form, verification_link)
             else:
                 redirect_url = reverse_lazy('export_academy:signup-complete')
-                next = self.request.GET.get('next')
-                existing_ea_user = self.request.GET.get('existing-ea-user')
                 if existing_ea_user:
                     redirect_url += '?existing-ea-user=true'
                     if next:
