@@ -2,20 +2,14 @@
 {% load breadcrumbs from great_components %}
 {% load get_intended_destination from url_tags %}
 {% load static %}
-
 {% block head_other %}
-    <meta name="description" content="Enter your username and password to access great.gov.uk tools and services" />
+    <meta name="description"
+          content="Enter your username and password to access great.gov.uk tools and services" />
 {% endblock %}
-
-{% block inner_content %}
-    <div id="login"></div>
-{% endblock %}
-
+{% block inner_content %}<div id="login"></div>{% endblock %}
 {% block body_js %}
     {{ block.super }}
-
     {% get_intended_destination request as onward_destination %}
-
     <script type="text/javascript">
         var element = document.getElementById('login');
         var email = '{{ request.GET.email }}';
@@ -27,9 +21,10 @@
             isOpen: true,
             nextUrl: '{{onward_destination}}',
             email: email,
-            errors: (error) ? {'__all__': [error]} : {}
+            errors: (error) ? {
+                '__all__': [error]
+            } : {}
         })
     </script>
 {% endblock %}
-{% block body_footer %}
-{% endblock %}
+{% block body_footer %}{% endblock %}

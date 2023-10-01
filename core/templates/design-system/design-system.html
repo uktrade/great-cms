@@ -2,80 +2,79 @@
 {% load breadcrumbs from component_tags %}
 {% load wagtailcore_tags %}
 {% load static %}
-
-{% block meta_tags %}
-  <meta name="robots" content="noindex">
-{% endblock %}
-
+{% block meta_tags %}<meta name="robots" content="noindex">{% endblock %}
 {% block head_title %}Design System{% endblock %}
-
-{% block body_js %}
-  {{ block.super }}
-{% endblock %}
-
+{% block body_js %}{{ block.super }}{% endblock %}
 {% block content %}
-  <div class="great great-bg-white">
-    <div class="great-container govuk-!-padding-top-4">
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-full great-grid-column-seven-twelfths">
-                <h1 class="govuk-heading-xl">
-                    GREAT Design System
-                  </h1>
-                  <nav class="components-list">
-                    <ul>
-                      <li><a class="govuk-link" href="#typography">Typography</a></li>
-                      <li><a class="govuk-link" href="#buttons">Buttons</a></li>
-                      <li><a class="govuk-link" href="#backgrounds">Backgrounds</a></li>
-                      <li><a class="govuk-link" href="#hrs">Horizontal Rules</a></li>
-                      <li><a class="govuk-link" href="#links">Links</a></li>
-                      <li><a class="govuk-link" href="#forms">Forms</a></li>
-                      <li><a class="govuk-link" href="#spacing">Spacing</a></li>
-                      <li><a class="govuk-link" href="#cards">Cards</a></li>
-                      <li><a class="govuk-link" href="#notificationbanner">Notification Banner</a></li>
-                    </ul>
-                  </nav>
-
-                  {% include 'design-system/typography.html' %}
-
-                  {% include 'design-system/buttons.html' %}
-
-                  {% include 'design-system/backgrounds.html' %}
-
-                  {% include 'design-system/hrs.html' %}
-
-                  {% include 'design-system/links.html' %}
-
-                  {% include 'design-system/forms.html' %}
-
-                  {% include 'design-system/spacing.html' %}
-
-                  {% include 'design-system/cards.html' %}
-
-                  {% include 'design-system/notification-banner.html' %}
+    <div class="great great-bg-white">
+        <div class="great-container govuk-!-padding-top-4">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full great-grid-column-seven-twelfths">
+                    <h1 class="govuk-heading-xl">GREAT Design System</h1>
+                    <nav class="components-list">
+                        <ul>
+                            <li>
+                                <a class="govuk-link" href="#typography">Typography</a>
+                            </li>
+                            <li>
+                                <a class="govuk-link" href="#buttons">Buttons</a>
+                            </li>
+                            <li>
+                                <a class="govuk-link" href="#backgrounds">Backgrounds</a>
+                            </li>
+                            <li>
+                                <a class="govuk-link" href="#hrs">Horizontal Rules</a>
+                            </li>
+                            <li>
+                                <a class="govuk-link" href="#links">Links</a>
+                            </li>
+                            <li>
+                                <a class="govuk-link" href="#forms">Forms</a>
+                            </li>
+                            <li>
+                                <a class="govuk-link" href="#spacing">Spacing</a>
+                            </li>
+                            <li>
+                                <a class="govuk-link" href="#cards">Cards</a>
+                            </li>
+                            <li>
+                                <a class="govuk-link" href="#notificationbanner">Notification Banner</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    {% include 'design-system/typography.html' %}
+                    {% include 'design-system/buttons.html' %}
+                    {% include 'design-system/backgrounds.html' %}
+                    {% include 'design-system/hrs.html' %}
+                    {% include 'design-system/links.html' %}
+                    {% include 'design-system/forms.html' %}
+                    {% include 'design-system/spacing.html' %}
+                    {% include 'design-system/cards.html' %}
+                    {% include 'design-system/notification-banner.html' %}
+                </div>
             </div>
         </div>
     </div>
-  </div>
-  <style>
-    .components-list {
-        position: absolute;
-        left: 30px;
+    <style>
+        .components-list {
+            position: absolute;
+            left: 30px;
 
-        ul {
-            list-style: none;
+            ul {
+                list-style: none;
+            }
+
+            a:visited {
+                color: #1d70b8;
+            }
         }
 
-        a:visited {
-            color: #1d70b8;
+        pre {
+            background-color: #f3f2f1;
         }
-    }
 
-    pre {
-        background-color: #f3f2f1;
-    }
-
-    code {
-        font-size: 14px;
-    }
-  </style>
+        code {
+            font-size: 14px;
+        }
+    </style>
 {% endblock %}

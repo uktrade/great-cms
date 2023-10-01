@@ -1,51 +1,42 @@
 {% extends "core/base.html" %}
 {% load static %}
 {% load wagtailcore_tags %}
-
 {% block head_other %}
-  <meta name="description" content="Find information to help choose the right export market for your product. Compare data for up to 10 markets, using dynamic feeds from some of the world’s most trusted sources" />
+    <meta name="description"
+          content="Find information to help choose the right export market for your product. Compare data for up to 10 markets, using dynamic feeds from some of the world’s most trusted sources" />
 {% endblock %}
-
 {% block content %}
-  <div id="where-to-export">
-      <section class="bg-white">
-           <div class="page-header where-to-export-header">
-             <div class="inner-header">
-                <div>
-                  <h1>{{ page.title }}</h1>
-                   {% if data_tabs_enabled %}
-                   <div id="cta-container"></div>
-                   {% endif %}
+    <div id="where-to-export">
+        <section class="bg-white">
+            <div class="page-header where-to-export-header">
+                <div class="inner-header">
+                    <div>
+                        <h1>{{ page.title }}</h1>
+                        {% if data_tabs_enabled %}<div id="cta-container"></div>{% endif %}
+                    </div>
+                    <div class="image-container"></div>
                 </div>
-                <div class="image-container">
             </div>
-            </div>
-            </div>
-
-           </div>
-      </section>
-  </div>
-    <div class="hidden" id="next-steps">
-      {% for component in dashboard_components %}
-          {% if component.value.route_type == 'learn' or component.value.route_type == 'plan' %}
-              <article class="dashboard__routing-block c-1-2 wide">
-                  {% include_block component with wide=True %}
-              </article>
-          {% endif %}
-      {% endfor %}
-    </div>
-
-    <div id="compare-markets"
-    class="container"
-      data-tabs="{{ data_tabs_enabled }}"
-      data-max-places-allowed="{{ max_compare_places_allowed }}"
-      role="region"
-      tabindex="-1"
-    ></div>
-    <script>
-      magna.CompareMarkets({
+        </div>
+    </section>
+</div>
+<div class="hidden" id="next-steps">
+    {% for component in dashboard_components %}
+        {% if component.value.route_type == 'learn' or component.value.route_type == 'plan' %}
+            <article class="dashboard__routing-block c-1-2 wide">{% include_block component with wide=True %}</article>
+        {% endif %}
+    {% endfor %}
+</div>
+<div id="compare-markets"
+     class="container"
+     data-tabs="{{ data_tabs_enabled }}"
+     data-max-places-allowed="{{ max_compare_places_allowed }}"
+     role="region"
+     tabindex="-1"></div>
+<script>
+    magna.CompareMarkets({
         element: document.querySelector("#compare-markets"),
         cta_container: document.querySelector("#cta-container"),
-      })
-    </script>
+    })
+</script>
 {% endblock %}
