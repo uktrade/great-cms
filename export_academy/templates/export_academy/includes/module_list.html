@@ -1,6 +1,7 @@
 {% load static %}
 {% load wagtailcore_tags %}
 {% load replace_underscores from component_tags %}
+{% load remove_string from component_tags %}
 <section class="govuk-!-static-padding-bottom-0">
     <div class="govuk-accordion"
          data-module="govuk-accordion"
@@ -17,24 +18,26 @@
                      class="govuk-accordion__section-content govuk-!-padding-top-0"
                      aria-labelledby="accordion-default-heading-{{forloop.counter}}">
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ module.summary }}</p>
-                    <h4 class="govuk-heading-s great-font-size-18 govuk-!-margin-bottom-3 govuk-!-padding-top-3">
+                    <h4 class="govuk-heading-xs great-font-size-18 govuk-!-margin-bottom-3 govuk-!-padding-top-3">
                         Join next live event
                         {% if not signed_in %}(sign in required){% endif %}
-                            <h4>
+                    </h4>
                                 <div class="great-bg-light-blue event-listing-summary-info govuk-!-padding-3">
                                     {% if event %}
                                         <div class="event-date-badge">
-                                            <time>{{ event.start_date|date:"d" }}</time>
-                                            <time>{{ event.start_date|date:"M" }}</time>
+                                            <time datetime="{{event.start_date|date:"Y-m-d" }}T{{event.start_date|time:"H:i:s" }}{{ event.start_date|date:"O" }}">
+                                                <span>{{ event.start_date|date:"d" }}</span>
+                                                <span>{{ event.start_date|date:"M" }}</span>
+                                            </time>
                                         </div>
                                         <div class="event-summary-text">
                                             <a class="govuk-link" href="{{ event.get_absolute_url }}">{{ event.name }}</a>
                                             <p class="govuk-body-s govuk-!-margin-0 great-text-dark-grey event-location">
                                                 {{ event.format|replace_underscores|capfirst }} event
                                             </p>
-                                            <p class="govuk-body-s govuk-!-margin-0">
-                                                {{ event.start_date|date:"j F Y" }} at {{ event.start_date|date:"g:ia" }} &bull; {{ event.start_date|timesince:event.end_date }}
-                                            </p>
+                                            <time datetime="{{event.start_date|date:"Y-m-d" }}T{{event.start_date|time:"H:i:s" }}{{ event.start_date|date:"O" }}" class="govuk-body-s govuk-!-margin-0">
+                                                {{ event.start_date|date:"j F Y" }} at {{ event.start_date|date:"g:ia"|remove_string }} &bull; {{ event.start_date|timesince:event.end_date }}
+                                            </time>
                                         </div>
                                     {% else %}
                                         {% include './event_warning.html' with warning_text='There is currently no live event scheduled. Please check back soon.' %}

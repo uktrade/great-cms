@@ -384,10 +384,11 @@
 
 .course-tick-marks {
   display: inline-flex;
-  flex-wrap: wrap;
   gap: 20px 30px;
+  @media only screen and (max-width: 768px) {
+    flex-direction: column;
+  }
   > li {
-    min-width: 390px;
     display: inline-flex;
 
     &:before {
@@ -435,14 +436,16 @@
     }
   }
 
-  .event-date-badge {
+  .event-date-badge time {
     background-color: #1e1348;
-    align-items: center;
     width: 60px;
     min-width: 60px;
     height: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    time {
+    span {
       color: white;
       &:first-of-type {
         font-size: 24px;
@@ -454,17 +457,21 @@
         line-height: 16px;
       }
     }
-    .event-location {
-      color: #505a5f !important;
-    }
   }
+}
+
+.event-location {
+  color: #505a5f !important;
 }
 
 #ea-course-page-header {
   .inner-header {
+    max-width: 1230px;
     padding-top: 60px;
     > div:first-of-type {
       padding-top: 0px;
+    }
+    .image-container {
     }
   }
 }
@@ -477,12 +484,12 @@
   .ea-logo {
     position: absolute;
     bottom: 20px;
-    left: 400px;
+    right: 0px;
     width: 138px;
-       @media only screen and (max-width: 900px) {
-     left: auto;
-     right: 0px;
-     width: 30%;
+    @media only screen and (max-width: 900px) {
+      left: auto;
+      right: 0px;
+      width: 30%;
     }
   }
 }
