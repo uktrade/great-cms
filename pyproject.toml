@@ -37,3 +37,7 @@ line_length = 120
 [tool.flake8]
 exclude = '.venv,venv,env,node_modules,migrations'
 max-line-length = 120
+
+[tool.djlint]
+format_css=true
+format_js=true
