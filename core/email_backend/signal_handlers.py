@@ -25,5 +25,5 @@ def register_signal_handlers():
         dispatch_uid='workflow_state_submitted_email_notification',
     )
     task_submitted.connect(
-        task_submission_email_notifier, dispatch_uid='user_approval_task_submitted_email_notification'
+        task_submission_email_notifier, dispatch_uid='group_approval_task_submitted_email_notification'
     )
