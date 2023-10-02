@@ -1,8 +1,12 @@
+import logging
+
 from django.conf import settings
 from wagtail.admin.mail import EmailNotificationMixin, Notifier
 
 from core.helpers import send_campaign_moderation_notification
 from domestic.models import ArticlePage
+
+logger = logging.getLogger(__name__)
 
 
 class GroupBaseUserApprovalTaskStateEmailNotifier(EmailNotificationMixin, Notifier):
@@ -19,6 +23,7 @@ class GroupBaseUserApprovalTaskStateEmailNotifier(EmailNotificationMixin, Notifi
         return {triggering_user}
 
     def send_emails(self, template_set, context, recipients, **kwargs):
+        logging.error(f"""Sending moderation email: {kwargs['email']}""")
         template_id = kwargs['template_id']
         email = kwargs['email']
         full_name = kwargs.get('full_name', '')

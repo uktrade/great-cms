@@ -1,19 +1,22 @@
 # <project>/signal_handlers.py
+import logging
 
 from wagtail.admin.mail import (
-    GroupApprovalTaskStateSubmissionEmailNotifier as DisConnect,
-    WorkflowStateSubmissionEmailNotifier as DisConnect2,
+    GroupApprovalTaskStateSubmissionEmailNotifier,
+    WorkflowStateSubmissionEmailNotifier,
 )
 from wagtail.models import TaskState, WorkflowState
 from wagtail.signals import task_submitted, workflow_submitted
 
-from .mail import GroupApprovalTaskStateSubmissionEmailNotifier
+from .mail import GroupApprovalTaskStateSubmissionEmailNotifier as my_notifier
+
+logger = logging.getLogger(__name__)
 
 
 def register_signal_handlers():
-    task_submission_email_notifier = DisConnect()
-    workflow_submission_email_notifier = DisConnect2()
-    task_submission_email_notifier = GroupApprovalTaskStateSubmissionEmailNotifier((TaskState, WorkflowState))
+    task_submission_email_notifier = GroupApprovalTaskStateSubmissionEmailNotifier()
+    workflow_submission_email_notifier = WorkflowStateSubmissionEmailNotifier()
+
     task_submitted.disconnect(
         task_submission_email_notifier,
         sender=TaskState,
@@ -24,6 +27,8 @@ def register_signal_handlers():
         sender=WorkflowState,
         dispatch_uid='workflow_state_submitted_email_notification',
     )
+    task_submission_email_notifier = my_notifier((TaskState, WorkflowState))
     task_submitted.connect(
         task_submission_email_notifier, dispatch_uid='group_approval_task_submitted_email_notification'
     )
+    logger.error('signal connected')
