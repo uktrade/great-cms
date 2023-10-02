@@ -1,4 +1,4 @@
-<a class="button {% if value.secondary %} secondary-button {% else %} primary-button {% endif %}"
+<a class="button {% if value.secondary %} secondary-button {% if value.chevron %}great-secondary-button--chevron {% endif %}{% else %} primary-button {% if value.chevron %}great-primary-button--chevron {% endif %}{% endif %}"
     href="{% if value.link %}{{value.link.internal_link.get_url|default:value.link.external_link}}{% endif %}">
-    {{ value.label }}<span class="great-button--chevron">A</span>
+    {{ value.label }}
 </a>
