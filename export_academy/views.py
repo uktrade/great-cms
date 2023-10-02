@@ -463,13 +463,18 @@ class SignUpView(HandleNewAndExistingUsersMixin, VerificationLinksMixin, sso_mix
         )
 
     def get_redirect_url(self, uidb64=None, token=None, user_registered=False):
+        next = self.request.GET.get('next', '')
         redirect_url = reverse_lazy('export_academy:signup-verification')
         if uidb64 and token:
             redirect_url += f'?uidb64={uidb64}&token={token}'
             if user_registered:
                 redirect_url += '&existing-ea-user=true'
+            if next:
+                redirect_url += f'&next={next}'
         elif not (uidb64 or token) and user_registered:
             redirect_url += '?existing-ea-user=true'
+        elif next:
+            redirect_url += f'?next={next}'
         return redirect_url
 
     def handle_already_registered(self, email):
@@ -511,6 +516,7 @@ class SignUpView(HandleNewAndExistingUsersMixin, VerificationLinksMixin, sso_mix
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['next'] = self.request.GET.get('next')
         context['heading'] = (
             'Set password for UK Export Academy' if self.get_ea_user() else 'Join the UK Export Academy'
         )
@@ -534,6 +540,7 @@ class VerificationCodeView(VerificationLinksMixin, sso_mixins.VerifyCodeMixin, F
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['existing_ea_user'] = self.user_ea_registered()
+        context['next'] = self.request.GET.get('next')
         context['heading'] = (
             'Set password for UK Export Academy' if self.user_ea_registered() else 'Join the UK Export Academy'
         )
@@ -554,6 +561,8 @@ class VerificationCodeView(VerificationLinksMixin, sso_mixins.VerifyCodeMixin, F
         if form.is_valid():
             uidb64 = self.request.GET.get('uidb64')
             token = self.request.GET.get('token')
+            next = self.request.GET.get('next')
+            existing_ea_user = self.request.GET.get('existing-ea-user')
             code_confirm = form.cleaned_data['code_confirm']
             upstream_response = sso_api_client.user.verify_verification_code(
                 {'uidb64': uidb64, 'token': token, 'code': code_confirm}
@@ -567,8 +576,12 @@ class VerificationCodeView(VerificationLinksMixin, sso_mixins.VerifyCodeMixin, F
                 self.handle_code_expired(upstream_response, request, form, verification_link)
             else:
                 redirect_url = reverse_lazy('export_academy:signup-complete')
-                if self.request.GET.get('existing-ea-user'):
+                if existing_ea_user:
                     redirect_url += '?existing-ea-user=true'
+                    if next:
+                        redirect_url += f'&next={next}'
+                elif next:
+                    redirect_url += f'?next={next}'
                 return self.handle_verification_code_success(
                     upstream_response=upstream_response, redirect_url=redirect_url
                 )
@@ -582,6 +595,10 @@ class SignInView(HandleNewAndExistingUsersMixin, sso_mixins.SignInMixin, FormVie
     template_name = 'export_academy/accounts/signin.html'
     success_url = reverse_lazy('export_academy:upcoming-events')
 
+    def get_success_url(self):
+        next = self.request.GET.get('next')
+        return self.success_url if not next else next
+
     def do_sign_in_flow(self, request):
         form = self.get_form()
         if form.is_valid():
@@ -593,7 +610,7 @@ class SignInView(HandleNewAndExistingUsersMixin, sso_mixins.SignInMixin, FormVie
                 data,
                 form,
                 request,
-                self.success_url,
+                self.get_success_url(),
             )
             if isinstance(response, HttpResponseRedirect):
                 return response
@@ -610,8 +627,8 @@ class SignInView(HandleNewAndExistingUsersMixin, sso_mixins.SignInMixin, FormVie
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
+        ctx['next'] = self.request.GET.get('next')
         ctx['heading'] = 'UK Export Academy on Great.gov.uk' if self.get_ea_user() else 'Join the UK Export Academy'
-        ctx['nexturl'] = self.request.META.get('HTTP_REFERER') or self.request.build_absolute_uri()
         return ctx
 
 
@@ -703,4 +720,5 @@ class SignUpCompleteView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['existing_ea_user'] = self.request.GET.get('existing-ea-user')
+        context['next'] = self.request.GET.get('next')
         return context

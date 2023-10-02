@@ -615,7 +615,7 @@ def test_micrositeserializer_is_aware_of_all_streamfield_blocks():
 
 
 @pytest.mark.django_db
-def test_cms_content_serializer():
+def test_cms_content_serializer(en_locale):
     now = timezone.now()
     instance = PageFactory(first_published_at=now, last_published_at=now)
 

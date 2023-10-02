@@ -515,7 +515,7 @@ def test_activity_stream_eyb_views(api_client, resource, expected_count):
 
 
 @pytest.mark.django_db
-def test_activity_stream_cms_content_view(api_client):
+def test_activity_stream_cms_content_view(api_client, en_locale):
     url = 'http://testserver' + reverse('activitystream:cms-content')
     sender = auth_sender(url=url)
     auth_headers = {
