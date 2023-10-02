@@ -621,11 +621,17 @@ def test_list_page_uses_right_template(domestic_homepage, rf, user):
     assert response.template_name == 'learn/detail_page.html'
 
 
+@pytest.mark.parametrize(
+    'test_url,template_name',
+    (
+        ('/hey-kid-do-a-kickflip/', 'core/404.html'),
+        ('/international/expand-your-business-in-the-uk/hey-kid-do-a-kickflip/', 'eyb/404.html'),
+    ),
+)
 @pytest.mark.django_db
-def test_handler404(client, settings):
-    response = client.get('/hey-kid-do-a-kickflip/')
-
-    assert response.template_name == 'core/404.html'
+def test_handler404(client, settings, test_url, template_name):
+    response = client.get(test_url)
+    assert response.template_name == template_name
     assert response.status_code == 404
 
 
