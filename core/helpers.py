@@ -12,6 +12,7 @@ from logging import getLogger
 import boto3
 import great_components.helpers
 import requests
+from directory_forms_api_client import actions
 from django.conf import settings
 from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
 from django.contrib.humanize.templatetags.humanize import intword
@@ -652,3 +653,15 @@ class ClamAvClient:
 
 
 clam_av_client = ClamAvClient()
+
+
+def send_campaign_moderation_notification(email, template_id, full_name=None):
+    action = actions.GovNotifyEmailAction(
+        template_id=template_id,
+        email_address=email,
+        email_reply_to_id=settings.CAMPAIGN_MODERATION_REPLY_TO_ID,
+        form_url=str(),
+    )
+    response = action.save({'full_name': full_name} if full_name else {})
+    response.raise_for_status()
+    return response
