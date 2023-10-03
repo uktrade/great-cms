@@ -1,14 +1,14 @@
 {% load static %}
-
 <footer id="great-footer" class="atlas-footer" data-ga-section="footer">
     <div class="atlas-footer__main">
         <div class="atlas-container">
             <div class="atlas-footer__logo">
-                <img src="{% static 'images/great.png' %}" width="217" height="81"
-                     alt="Great Britain and Northern Ireland"/>
+                <img src="{% static 'images/great.png' %}"
+                     width="217"
+                     height="81"
+                     alt="Great Britain and Northern Ireland" />
             </div>
         </div>
-
         <div class="atlas-container atlas-container--footer">
             <nav class="atlas-footer__nav">
                 <ul class="atlas-list--bare atlas-m-0">
@@ -21,24 +21,24 @@
                            href="{{ header_footer_urls.terms_and_conditions }}">Terms and conditions</a>
                     </li>
                     <li>
-                        <a id="footer-contact" href="{{ services_urls.feedback }}">
-                            Contact us</a>
+                        <a id="footer-contact" href="{{ services_urls.feedback }}">Contact us</a>
                     </li>
                     <li>
-                        <a id="footer-dit" href="https://www.gov.uk/government/organisations/department-for-business-and-trade"
-                           title="Opens in a new window" rel="noopener noreferrer"
+                        <a id="footer-dit"
+                           href="https://www.gov.uk/government/organisations/department-for-business-and-trade"
+                           title="Opens in a new window"
+                           rel="noopener noreferrer"
                            target="_blank">Department for Business and Trade on GOV.UK</a>
                     </li>
                 </ul>
             </nav>
         </div>
     </div>
-
     <div class="atlas-footer__global">
         <div class="atlas-container atlas-container--footer">
-            <img height="30" alt="Department for Business and Trade"
+            <img height="30"
+                 alt="Department for Business and Trade"
                  src="{% static 'images/dbt-red-footer-logo.93fc9e99b781.svg' %}">
-
             <p>&copy; Crown copyright {% now "Y" %}. All rights reserved.</p>
         </div>
     </div>

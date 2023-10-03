@@ -1,83 +1,79 @@
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-     {% include './error_summary.html' %}
-  </div>
+    <div class="govuk-grid-column-two-thirds">{% include './error_summary.html' %}</div>
 </div>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-3">
-      <form method="post" onsubmit="return onSubmitProfile()">
-        {% csrf_token %}
-        <div class="govuk-grid-row govuk-!-margin-bottom-3">
-          <div class="govuk-grid-column-full">
-            <div class="{% if form.company_name.errors %} govuk-form-group--error{% endif %}">
-              {% include './form_field.html' with field=form.company_name %}
+        <form method="post" onsubmit="return onSubmitProfile()">
+            {% csrf_token %}
+            <div class="govuk-grid-row govuk-!-margin-bottom-3">
+                <div class="govuk-grid-column-full">
+                    <div class="{% if form.company_name.errors %} govuk-form-group--error{% endif %}">
+                        {% include './form_field.html' with field=form.company_name %}
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="govuk-grid-row govuk-!-margin-bottom-3">
-          <div class="govuk-grid-column-full">
-            <div class="{% if form.company_location.errors %} govuk-form-group--error{% endif %}">
-              {% include './form_field.html' with field=form.company_location %}
+            <div class="govuk-grid-row govuk-!-margin-bottom-3">
+                <div class="govuk-grid-column-full">
+                    <div class="{% if form.company_location.errors %} govuk-form-group--error{% endif %}">
+                        {% include './form_field.html' with field=form.company_location %}
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="govuk-grid-row govuk-!-margin-bottom-3">
-          <div class="govuk-grid-column-full">
-            <div class="{% if form.full_name.errors %} govuk-form-group--error{% endif %}">
-              {% include './form_field.html' with field=form.full_name %}
+            <div class="govuk-grid-row govuk-!-margin-bottom-3">
+                <div class="govuk-grid-column-full">
+                    <div class="{% if form.full_name.errors %} govuk-form-group--error{% endif %}">
+                        {% include './form_field.html' with field=form.full_name %}
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="govuk-grid-row govuk-!-margin-bottom-3">
-          <div class="govuk-grid-column-full">
-            <div class="{% if form.role.errors %} govuk-form-group--error{% endif %}">
-              {% include './form_field.html' with field=form.role %}
+            <div class="govuk-grid-row govuk-!-margin-bottom-3">
+                <div class="govuk-grid-column-full">
+                    <div class="{% if form.role.errors %} govuk-form-group--error{% endif %}">
+                        {% include './form_field.html' with field=form.role %}
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="govuk-grid-row" style="display: none;">
-          <div class="govuk-grid-column-full">
-            <div class="{% if form.email.errors %} govuk-form-group--error{% endif %}">
-              {% include './form_field.html' with field=form.email %}
+            <div class="govuk-grid-row" style="display: none;">
+                <div class="govuk-grid-column-full">
+                    <div class="{% if form.email.errors %} govuk-form-group--error{% endif %}">
+                        {% include './form_field.html' with field=form.email %}
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="govuk-grid-row govuk-!-margin-bottom-3">
-          <div class="govuk-grid-column-full">
-            <div class="{% if form.telephone_number.errors %} govuk-form-group--error{% endif %}">
-              {% include './form_field.html' with field=form.telephone_number %}
+            <div class="govuk-grid-row govuk-!-margin-bottom-3">
+                <div class="govuk-grid-column-full">
+                    <div class="{% if form.telephone_number.errors %} govuk-form-group--error{% endif %}">
+                        {% include './form_field.html' with field=form.telephone_number %}
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="govuk-grid-row govuk-!-margin-bottom-5">
-          <div class="govuk-grid-column-full">
-            <div class="{% if form.landing_timeframe.errors %} govuk-form-group--error{% endif %}">
-              {% include './form_field.html' with field=form.landing_timeframe %}
+            <div class="govuk-grid-row govuk-!-margin-bottom-5">
+                <div class="govuk-grid-column-full">
+                    <div class="{% if form.landing_timeframe.errors %} govuk-form-group--error{% endif %}">
+                        {% include './form_field.html' with field=form.landing_timeframe %}
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="govuk-grid-row" style="display: none;">
-          <div class="govuk-grid-column-full">
-            <div class="{% if form.agree_terms.errors %} govuk-form-group--error{% endif %}">
-              {% include './form_field.html' with field=form.agree_terms %}
+            <div class="govuk-grid-row" style="display: none;">
+                <div class="govuk-grid-column-full">
+                    <div class="{% if form.agree_terms.errors %} govuk-form-group--error{% endif %}">
+                        {% include './form_field.html' with field=form.agree_terms %}
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="govuk-grid-row govuk-!-margin-bottom-5">
-          <div class="govuk-grid-column-full">
-            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-              <div class="govuk-checkboxes__item">
-                {{form.agree_info_email}}
-                <label class="govuk-label govuk-checkboxes__label" for="id_agree_info_email">{{form.agree_info_email.label}}</label>
-              </div>
+            <div class="govuk-grid-row govuk-!-margin-bottom-5">
+                <div class="govuk-grid-column-full">
+                    <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                        <div class="govuk-checkboxes__item">
+                            {{ form.agree_info_email }}
+                            <label class="govuk-label govuk-checkboxes__label" for="id_agree_info_email">{{ form.agree_info_email.label }}</label>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="govuk-grid-row govuk-!-margin-bottom-5">
-          <div class="govuk-grid-column-full">
-            {% include './submit_button.html' with button_text='Submit'  %}
-          </div>
-        </div>
-      </form>
+            <div class="govuk-grid-row govuk-!-margin-bottom-5">
+                <div class="govuk-grid-column-full">{% include './submit_button.html' with button_text='Submit' %}</div>
+            </div>
+        </form>
     </div>
-  </div>
+</div>
