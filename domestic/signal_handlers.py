@@ -34,9 +34,8 @@ def register_signal_handlers():
         sender=WorkflowState,
         dispatch_uid='workflow_state_submitted_email_notification',
     )
+
     logger.debug(f'workflow_submission_email_notifier: {stat}')
     task_submission_email_notifier = MyApprovalTaskStateSubmissionEmailNotifier((TaskState, WorkflowState))
-    stat = task_submitted.connect(
-        task_submission_email_notifier, dispatch_uid='group_approval_task_submitted_email_notification'
-    )
+    task_submitted.connect(task_submission_email_notifier, dispatch_uid='my-unique-identifier')
     logger.debug('register_signal_handlers() exited')

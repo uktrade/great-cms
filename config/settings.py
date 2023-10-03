@@ -72,7 +72,7 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'wagtail_draftail_anchors',
     'cms_extras.apps.CmsExtrasConfig',
-    'domestic',
+    'domestic.apps.DomesticConfig',
     'exportplan.apps.ExportPlanConfig',
     'international_online_offer.apps.ExpandYourBusinessConfig',
     'users.apps.UsersConfig',
