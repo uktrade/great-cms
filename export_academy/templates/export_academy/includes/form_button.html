@@ -1,6 +1,2 @@
-<button
-    {% if button.type %} type="{{ button.type }}"{% endif %}
-    {% if button.classname %} class="{{ button.classname }}"{% endif %}
->
-{{button.label|safe}}
-</button>
+<button {% if button.type %}type="{{ button.type }}"{% endif %}
+        {% if button.classname %}class="{{ button.classname }}"{% endif %}>{{ button.label|safe }}</button>

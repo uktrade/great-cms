@@ -2,64 +2,61 @@
 {% load breadcrumbs from component_tags %}
 {% load wagtailcore_tags %}
 {% load static %}
-
-{% block head_title %}{{title}} – {% if is_editing %}Edit your details{% else %}Booking your first event{% endif %} – UK Export Academy{% endblock %}
-
-{% block body_js %}
-  {{ block.super }}
-  <script type="text/javascript" src="{% static 'javascript/dit.components.toggleOther.js' %}"></script>
-  <script type="text/javascript">
-    var likeToDiscussInputYes = document.getElementById('id_like_to_discuss_1');
-    var likeToDiscussOther = document.getElementById('id_like_to_discuss_other-container');
-    GOVUK.utils.toggleRadioOtherOnClick(likeToDiscussInputYes, likeToDiscussOther);
-  </script>
-
+{% block head_title %}
+    {{ title }} –
+    {% if is_editing %}
+        Edit your details
+    {% else %}
+        Booking your first event
+    {% endif %}
+    – UK Export Academy
 {% endblock %}
-
+{% block body_js %}
+    {{ block.super }}
+    <script type="text/javascript"
+            src="{% static 'javascript/dit.components.toggleOther.js' %}"></script>
+    <script type="text/javascript">
+        var likeToDiscussInputYes = document.getElementById('id_like_to_discuss_1');
+        var likeToDiscussOther = document.getElementById('id_like_to_discuss_other-container');
+        GOVUK.utils.toggleRadioOtherOnClick(likeToDiscussInputYes, likeToDiscussOther);
+    </script>
+{% endblock %}
 {% block content %}
-
-  {% block content_top %}
-    {% block hero %}
-      {% with content_snippet as hero %}
-          <div class="great ea-listing-page">
-              {% include 'components/export_academy_hero.html' with hero=hero hide_image_for_mobile=True %}
-          </div>
-      {% endwith %}
-    {% endblock %}
-
-    {% breadcrumbs current_page_breadcrumb %}
-          <a href="/">great.gov.uk</a>
-          <a href="{% pageurl landing_page %}">Export Academy</a>
-          <a href="{% url 'export_academy:upcoming-events' %}">Events</a>
+    {% block content_top %}
+        {% block hero %}
+            {% with content_snippet as hero %}
+                <div class="great ea-listing-page">
+                    {% include 'components/export_academy_hero.html' with hero=hero hide_image_for_mobile=True %}
+                </div>
+            {% endwith %}
+        {% endblock %}
+        {% breadcrumbs current_page_breadcrumb %}
+        <a href="/">great.gov.uk</a>
+        <a href="{% pageurl landing_page %}">Export Academy</a>
+        <a href="{% url 'export_academy:upcoming-events' %}">Events</a>
     {% endbreadcrumbs %}
-  {% endblock %}
-
-    <div class="great great-bg-white govuk-!-margin-top-4">
-      <div class="great-container govuk-!-padding-top-4">
-          <div class="govuk-grid-row  govuk-!-padding-left-3 govuk-!-padding-right-3">
-              <div class="great-grid-column-seven-twelfths">
-
-                <p class="govuk-body govuk-!-margin-top-4">{{step_text}}</p>
-                <h1 class="govuk-heading-l govuk-!-margin-bottom-6">{{title}}</h1>
+{% endblock %}
+<div class="great great-bg-white govuk-!-margin-top-4">
+    <div class="great-container govuk-!-padding-top-4">
+        <div class="govuk-grid-row  govuk-!-padding-left-3 govuk-!-padding-right-3">
+            <div class="great-grid-column-seven-twelfths">
+                <p class="govuk-body govuk-!-margin-top-4">{{ step_text }}</p>
+                <h1 class="govuk-heading-l govuk-!-margin-bottom-6">{{ title }}</h1>
                 {% if email %}
-                <p class="govuk-padding-top-30 govuk-!-margin-bottom-30">Your registered email is <span class='bold'>{{ email }}</span></p>
+                    <p class="govuk-padding-top-30 govuk-!-margin-bottom-30">
+                        Your registered email is <span class='bold'>{{ email }}</span>
+                    </p>
                 {% endif %}
-
                 <form method="post" autocomplete="off">
-                  {% csrf_token %}
-
-                  {% block form_fields %}{% endblock %}
-
-                  <button type="submit" class="govuk-button great-min-width-250-desktop">{{button_text}}</button>
-              </form>
-
-                  <div class="govuk-padding-top-30">
+                    {% csrf_token %}
+                    {% block form_fields %}{% endblock %}
+                    <button type="submit" class="govuk-button great-min-width-250-desktop">{{ button_text }}</button>
+                </form>
+                <div class="govuk-padding-top-30">
                     <a href="{% url back_url %}" class="govuk-link great-back-link">Back</a>
-                  </div>
-              </div>
-
-          </div>
-      </div>
+                </div>
+            </div>
+        </div>
     </div>
-
+</div>
 {% endblock %}

@@ -1,6 +1,5 @@
 {% extends 'export_academy/accounts/base.html' %}
 {% load wagtailcore_tags %}
-
 {% block form %}
     <h3 class="govuk-!-margin-top-3 govuk-!-margin-bottom-6">Sign up</h3>
     <p class="govuk-body govuk-!-margin-top-6 govuk-!-margin-bottom-6">Already have an account? <a class="govuk-link" href="{% url 'export_academy:signin' %}{% if next %}?next={{next}}{%endif%}">Sign in</a>
