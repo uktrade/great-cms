@@ -4,26 +4,28 @@ from django.conf import settings
 from wagtail.admin.mail import EmailNotificationMixin, Notifier
 
 from core.helpers import send_campaign_moderation_notification
-from domestic.models import ArticlePage
+
+# from domestic.models import ArticlePage
 
 logger = logging.getLogger(__name__)
 
 
 class GroupBaseUserApprovalTaskStateEmailNotifier(EmailNotificationMixin, Notifier):
     def can_handle(self, instance, **kwargs):
-        logger.exception('Can Handle entered')
-        logger.exception(f'Can Handle Type: {type(instance.revision.content_object)}')
-        if not isinstance(instance.revision.content_object, ArticlePage):
-            return False
-        logger.exception(f'Can Handle: {instance.revision.content_object.type_of_article}')
-        return True if instance.revision.content_object.type_of_article.strip() == 'Campaign' else False
+        # logger.exception('Can Handle entered')
+        # logger.exception(f'Can Handle Type: {type(instance.revision.content_object)}')
+        # if not isinstance(instance.revision.content_object, ArticlePage):
+        #     return False
+        # logger.exception(f'Can Handle: {instance.revision.content_object.type_of_article}')
+        # return True if instance.revision.content_object.type_of_article.strip() == 'Campaign' else False
+        return True
 
     def get_recipient_users(self, task_state, **kwargs):
         triggering_user = kwargs.get('user', None)
         return {triggering_user}
 
     def send_emails(self, template_set, context, recipients, **kwargs):
-        logger.exception(f"""Sending moderation email: {kwargs['email']}""")
+        # logger.exception(f"""Sending moderation email: {kwargs['email']}""")
         template_id = kwargs['template_id']
         email = kwargs['email']
         full_name = kwargs.get('full_name', '')
@@ -35,7 +37,7 @@ class GroupBaseUserApprovalTaskStateEmailNotifier(EmailNotificationMixin, Notifi
         template_id = settings.CAMPAIGN_MODERATORS_EMAIL_TEMPLATE_ID
         email = settings.MODERATION_EMAIL_DIST_LIST
         kwargs = {**kwargs, 'email': email, 'template_id': template_id}
-        self.send_emails(template_set, context, {}, **kwargs)
+        self.send_emails(template_set, context, recipients, **kwargs)
         # send email to moderation Requestor
         triggering_user = kwargs.get('user', None)
         if triggering_user:
