@@ -1,11 +1,9 @@
 {% extends 'enrolment/base.html' %}
-
 {% load static %}
 {% load message_box_with_icon breadcrumbs from component_tags %}
-
 {% block content %}
-  <section class="container">
-    {% breadcrumbs 'Create a great.gov.uk account' %}
+    <section class="container">
+        {% breadcrumbs 'Create a great.gov.uk account' %}
         <a href="{{ services_urls.great_domestic }}">Home</a>
     {% endbreadcrumbs %}
     <div class="grid-row">
@@ -15,18 +13,26 @@
             </div>
         </div>
     </div>
-  </section>
-  <section class="container">
+</section>
+<section class="container">
     <h2 class="heading-medium margin-0">What you can do next</h2>
     <p>Now you are registered you can:</p>
     <ul class="list list-bullet">
-      <li><a href="{{ services_urls.soo }}" id="next-events">find the right digital marketplace for your products</a> so you can sell online overseas and reach the best markets for your business whenever they are</li>
-      <li><a href="{{ services_urls.events }}/ehome/index.php?eventid=200183029">apply to take part in events and visits</a> that will help you generate new leads and opportunities to grow your business</li>
+        <li>
+            <a href="{{ services_urls.soo }}" id="next-events">find the right digital marketplace for your products</a> so you can sell online overseas and reach the best markets for your business whenever they are
+        </li>
+        <li>
+            <a href="{{ services_urls.events }}/ehome/index.php?eventid=200183029">apply to take part in events and visits</a> that will help you generate new leads and opportunities to grow your business
+        </li>
     </ul>
     {% if ingress_url %}
-      <p>Continue to <a href="{{ ingress_url }}">great.gov.uk</a></p>
+        <p>
+            Continue to <a href="{{ ingress_url }}">great.gov.uk</a>
+        </p>
     {% else %}
-      <p>Return to the <a href="{% url 'sso_profile:index' %}">home page</p>
+        <p>
+            Return to the <a href="{% url 'sso_profile:index' %}">home page
+        </p>
     {% endif %}
-  </section>
+</section>
 {% endblock %}

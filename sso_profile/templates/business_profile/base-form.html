@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
-
 {% load static %}
 {% block head_title %}Business profile - Account - great.gov.uk{% endblock %}
-
 {% block head_css %}
     {{ block.super }}
     <style type="text/css">
@@ -15,18 +13,15 @@
         }
     </style>
 {% endblock %}
-
 {% block content %}
     <div class="container">
-       <div class="grid-row">
+        <div class="grid-row">
             <div class="column-one-half">
                 {% block form_contents %}
                     <form method="post" enctype="multipart/form-data" novalidate="novalidate">
                         {% csrf_token %}
                         {% block form %}{{ form }}{% endblock %}
-                        {% block form_button %}
-                            <button class="primary-button button">Save and continue</button>
-                        {% endblock %}
+                        {% block form_button %}<button class="primary-button button">Save and continue</button>{% endblock %}
                         <div>
                             <br>
                             <br>
@@ -34,7 +29,7 @@
                                 <a class="link" href="{% url 'sso_profile:business-profile' %}">Back</a>
                             {% endblock %}
                         </div>
-                     </form>
+                    </form>
                 {% endblock %}
             </div>
         </div>

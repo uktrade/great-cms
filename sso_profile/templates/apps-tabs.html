@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% block content %}
     <div>
         {% block breadcrumbs %}{% endblock %}
@@ -13,29 +12,35 @@
                 {% include 'components/banner.html' with banner_content='Complete your profile to help overseas buyers find you. <a href="'|add:url|add:'">Complete Business Profile</a>.</p>'|safe badge_content='Business Profile incomplete' %}
             </div>
         {% endif %}
-
         <div class="page-header account-header">
-             <div class="inner-header">
-            <div>
-                <h1 class="heading-xlarge margin-top-30 margin-bottom-15" id="tabs-title">Account</h1>
-                {% if request.user.is_authenticated %}
-                    <p>You are signed in as {{ request.user.email }}.</p>
-                {% endif %}
-            </div>
-            <div class="image-container">
+            <div class="inner-header">
+                <div>
+                    <h1 class="heading-xlarge margin-top-30 margin-bottom-15" id="tabs-title">Account</h1>
+                    {% if request.user.is_authenticated %}<p>You are signed in as {{ request.user.email }}.</p>{% endif %}
+                </div>
+                <div class="image-container"></div>
             </div>
         </div>
     </div>
-    </div>
     <div class="sso-profile-tab-container">
         <div class="container">
-                <ul>
-                    <li class="{{ exops_tab_classes }}"><a href="{% url 'sso_profile:export-opportunities-applications' %}">Export opportunities</a></li>
-                    <li class="{{ fab_tab_classes }}" ><a href="{% url 'sso_profile:business-profile' %}">Business profile</a></li>
-					<li {% if request.resolver_match.namespace == 'personal-profile' %} class="active"{% endif %}><a href="{% url 'sso_profile:personal-profile:display' %}">Personal details</a></li>
-                    <li class="{{ soo_tab_classes }}"><a href="{% url 'sso_profile:selling-online-overseas' %}">Selling online overseas</a></li>
-                    <li class="{{ about_tab_classes }}"><a href="{% url 'sso_profile:about' %}">About</a></li>
-                </ul>
+            <ul>
+                <li class="{{ exops_tab_classes }}">
+                    <a href="{% url 'sso_profile:export-opportunities-applications' %}">Export opportunities</a>
+                </li>
+                <li class="{{ fab_tab_classes }}">
+                    <a href="{% url 'sso_profile:business-profile' %}">Business profile</a>
+                </li>
+                <li {% if request.resolver_match.namespace == 'personal-profile' %}class="active"{% endif %}>
+                    <a href="{% url 'sso_profile:personal-profile:display' %}">Personal details</a>
+                </li>
+                <li class="{{ soo_tab_classes }}">
+                    <a href="{% url 'sso_profile:selling-online-overseas' %}">Selling online overseas</a>
+                </li>
+                <li class="{{ about_tab_classes }}">
+                    <a href="{% url 'sso_profile:about' %}">About</a>
+                </li>
+            </ul>
         </div>
     </div>
     <div class="container">
