@@ -90,8 +90,6 @@ class EventTypeTagFactory(factory.django.DjangoModelFactory):
 
 
 class ModuleEventSetFactory(factory.django.DjangoModelFactory):
-    # page_id = factory.fuzzy.FuzzyInteger(200000000, 299999999)
-
     class Meta:
         model = ModuleEventSet
 

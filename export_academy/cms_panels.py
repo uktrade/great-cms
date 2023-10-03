@@ -97,7 +97,7 @@ class EventsInCoursePanel:
     panels = [
         FieldPanel('title'),
         FieldPanel('summary'),
-        MultiFieldPanel([InlinePanel('module_events', label='Events in this module')], heading='Events'),
+        MultiFieldPanel([InlinePanel('module_events', label='Next live event')], heading=''),
     ]
 
 
@@ -107,16 +107,16 @@ class CoursePagePanels:
         FieldPanel('summary'),
         FieldPanel('hero_image'),
         MultiFieldPanel(
-            heading='Is this course right for you?',
+            heading='Is this series right for you?',
             classname='collapsible',
             children=[
-                FieldPanel('is_course_right_for_you_heading'),
-                FieldPanel('is_course_right_for_you_list'),
+                FieldPanel('is_course_right_for_you_heading', heading='Heading'),
+                FieldPanel('is_course_right_for_you_list', heading='Reason List'),
             ],
         ),
         FieldPanel('metadata'),
         MultiFieldPanel(
-            heading='benefits',
+            heading='Benefits',
             classname='collapsible',
             children=[
                 FieldPanel('benefits_heading'),
@@ -124,12 +124,12 @@ class CoursePagePanels:
             ],
         ),
         MultiFieldPanel(
-            heading='Course content',
+            heading='Series content',
             classname='collapsible',
             children=[
-                FieldPanel('course_content_heading'),
-                FieldPanel('course_content_desc'),
-                MultiFieldPanel([InlinePanel('course_events', label='Module in this course')], heading='Modules'),
+                FieldPanel('course_content_heading', heading='Heading'),
+                FieldPanel('course_content_desc', heading='Description'),
+                MultiFieldPanel([InlinePanel('course_events', label='Events in this Series')], heading=''),
             ],
         ),
         FieldPanel('speakers'),
