@@ -1,6 +1,3 @@
-# <project>/signal_handlers.py
-import logging
-
 from wagtail.admin.mail import (
     GroupApprovalTaskStateSubmissionEmailNotifier,
     WorkflowStateSubmissionEmailNotifier,
@@ -11,8 +8,6 @@ from wagtail.signals import task_submitted, workflow_submitted
 from .mail import (
     GroupApprovalTaskStateSubmissionEmailNotifier as MyApprovalTaskStateSubmissionEmailNotifier,
 )
-
-logger = logging.getLogger(__name__)
 
 
 def register_signal_handlers():
@@ -33,4 +28,3 @@ def register_signal_handlers():
     task_submitted.connect(
         task_submission_email_notifier, dispatch_uid='group_approval_task_submitted_email_notification'
     )
-    # logger.error('signal connected')

@@ -14,16 +14,18 @@ class GroupBaseUserApprovalTaskStateEmailNotifier(EmailNotificationMixin, Notifi
     sent_count = 1
 
     def can_handle(self, instance, **kwargs):
+        logging.error('Can Handle entered')
         if not isinstance(instance.revision.content_object, ArticlePage):
             return False
-        return True if instance.revision.content_object.type_of_article.trim() == 'Campaign' else False
+        logging.error(f'Can Handle: {instance.revision.content_object.type_of_article}')
+        return True if instance.revision.content_object.type_of_article.strip() == 'Campaign' else False
 
     def get_recipient_users(self, task_state, **kwargs):
         triggering_user = kwargs.get('user', None)
         return {triggering_user}
 
     def send_emails(self, template_set, context, recipients, **kwargs):
-        logging.error(f"""   {kwargs['email']}""")
+        logging.error(f"""Sending moderation email: {kwargs['email']}""")
         template_id = kwargs['template_id']
         email = kwargs['email']
         full_name = kwargs.get('full_name', '')
