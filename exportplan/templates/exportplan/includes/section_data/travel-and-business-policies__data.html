@@ -1,81 +1,105 @@
 {% load to_json %}
-
 <script type="text/javascript">
-  magna.travelPlanSnapshot({
-    element: document.getElementById('stats-for-target-market'),
-    tooltip: {
-      title: 'Target market language',
-      content: `
+    magna.travelPlanSnapshot({
+        element: document.getElementById('stats-for-target-market'),
+        tooltip: {
+            title: 'Target market language',
+            content: `
         <p>Make sure you know what language business is conducted in in your target market. If you can't speak the language make sure you bring along an interpreter so you can communicate and have a successful trip.</p>
       `
-    },
-  })
-  magna.travelPlanCultureRules({
-    element: document.getElementById('culture-and-rules'),
-    field: 'travel_business_policies',
-    formData: {{ travel_business_policies|to_json }},
-    formFields: [
-      {
-        description: "Find out about any important travel information by using the Foreign and Commonwealth and Development office travel advice.",
-        field_type: "Textarea",
-        label: "Travel information",
-        name: "travel_information",
-        placeholder: "Add some text",
-      },
-      {
-        description: "Researching the culture of your target market will help you to build successful business relationships.",
-        field_type: "Textarea",
-        label: "Cultural information",
-        name: "cultural_information",
-        placeholder: "Add some text",
-        lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 0),
-      },
-    ],
-    companyexportplan: {{ export_plan.pk }},
-    tooltip: {
-      content: `
+        },
+    })
+    magna.travelPlanCultureRules({
+        element: document.getElementById('culture-and-rules'),
+        field: 'travel_business_policies',
+        formData: {
+            {
+                travel_business_policies | to_json
+            }
+        },
+        formFields: [{
+            description: "Find out about any important travel information by using the Foreign and Commonwealth and Development office travel advice.",
+            field_type: "Textarea",
+            label: "Travel information",
+            name: "travel_information",
+            placeholder: "Add some text",
+        }, {
+            description: "Researching the culture of your target market will help you to build successful business relationships.",
+            field_type: "Textarea",
+            label: "Cultural information",
+            name: "cultural_information",
+            placeholder: "Add some text",
+            lesson: magna.formatLessonLearned({
+                {
+                    lesson_details | safe
+                }
+            }, {
+                {
+                    current_section | to_json
+                }
+            }, 0),
+        }, ],
+        companyexportplan: {
+            {
+                export_plan.pk
+            }
+        },
+        tooltip: {
+            content: `
         <p>Visit great.gov.uk market guides to find more information about your target market and its business culture.</p>
       `
-    },
-  })
-  magna.travelPlanVisaInformation({
-    element: document.getElementById('visa-information'),
-    field: 'travel_business_policies',
-    name: "visa_information",
-    formData: {{ travel_business_policies.visa_information|to_json }},
-    travel_advice_link: "{{ travel_advice_foreign }}",
-    formFields: [
-      {
-        field_type: "Textarea",
-        label: "How and where will you get your visa",
-        id: "how_where_visa",
-        name: "how_where_visa",
-        placeholder: "Add some text",
-      },
-      {
-        field_type: "Text",
-        label: "How long will it last",
-        id: "how_long",
-        name: "how_long",
-        placeholder: "",
-      },
-      {
-        field_type: "Textarea",
-        label: "Add notes",
-        id: "notes",
-        name: "notes",
-        placeholder: "Add some text",
-      },
-    ],
-    companyexportplan: {{ export_plan.pk }},
-  })
-  magna.plannedTravel({
-    element: document.getElementById('planned-travel'),
-    formData: {{ business_trips|to_json }},
-    model_name: 'businesstrips',
-    companyexportplan: {{ export_plan.pk }},
-    tooltip: {
-      content: `
+        },
+    })
+    magna.travelPlanVisaInformation({
+        element: document.getElementById('visa-information'),
+        field: 'travel_business_policies',
+        name: "visa_information",
+        formData: {
+            {
+                travel_business_policies.visa_information | to_json
+            }
+        },
+        travel_advice_link: "{{ travel_advice_foreign }}",
+        formFields: [{
+            field_type: "Textarea",
+            label: "How and where will you get your visa",
+            id: "how_where_visa",
+            name: "how_where_visa",
+            placeholder: "Add some text",
+        }, {
+            field_type: "Text",
+            label: "How long will it last",
+            id: "how_long",
+            name: "how_long",
+            placeholder: "",
+        }, {
+            field_type: "Textarea",
+            label: "Add notes",
+            id: "notes",
+            name: "notes",
+            placeholder: "Add some text",
+        }, ],
+        companyexportplan: {
+            {
+                export_plan.pk
+            }
+        },
+    })
+    magna.plannedTravel({
+        element: document.getElementById('planned-travel'),
+        formData: {
+            {
+                business_trips | to_json
+            }
+        },
+        model_name: 'businesstrips',
+        companyexportplan: {
+            {
+                export_plan.pk
+            }
+        },
+        tooltip: {
+            content: `
         <p>Record how often you'll need to visit your chosen market and what actions you need to take to have a successful trip.</p>
         <p>Some things to think about are:</p>
         <ul>
@@ -84,6 +108,6 @@
           <li>flights and accommodation</li>
         </ul>
       `
-    },
-  })
+        },
+    })
 </script>

@@ -1,85 +1,107 @@
 {% extends 'exportplan/section.html' %}
 {% load static %}
 {% load to_json %}
-
 {% block head_other %}
-  <meta name="description" content="Complete the Business objectives section of your export plan" />
+    <meta name="description"
+          content="Complete the Business objectives section of your export plan" />
 {% endblock %}
 {% block intro_title %}Business objectives{% endblock %}
-{% block intro_description %} To build a strong export plan you’ll need to establish clear objectives and record your progress on them.{% endblock %}
-
-{% block user_input %}
-
-<section class="container">
-  <div class="grid">
-    <div class="c-1-4">&nbsp;</div>
-    <div class="c-1-1 c-2-3-m c-1-2-xl">
-      <h2 class="h-m">Think about why you want to export</h2>
-      <p>What are your hopes and ambitions for your company in 5 or 10 years' time?
-      If you have a good idea of where you want your company to be,
-      you're ready to consider how exporting can help you achieve this.</p>
-      <p>Common benefits of exporting include:</p>
-        <ul class="list-dot">
-          <li>growing the business by selling overseas</li>
-          <li>maintaining growth when sales in the UK have levelled off</li>
-          <li>spreading risk by selling in other countries</li>
-          <li>widening your customer base</li>
-        </ul>
-      <div id="objectives-reasons"></div>
-    </div>
-    <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
-  </div>
-</section>
-
-<section class="container">
-  <div class="grid">
-    <div class="c-1-4">&nbsp;</div>
-    <div class="c-1-1 c-2-3-m c-1-2-xl">
-      <h2 class="h-m m-b-s">Create your exporting objectives</h2>
-      <p>Establishing clear objectives will help you realise your export ambitions. To give you the best chance of success, they should be:</p>
-      <ul class="list-dot">
-        <li>specific - well defined and easily understandable</li>
-        <li>measurable - use things like quantity, cost and time frame so you can judge how well you're doing</li>
-        <li>realistic - ambition is good, but make sure your objective is within reach</li>
-      </ul>
-      <p>Don’t list too many – around 5 is a good number. You can change or amend your objectives as you refine your export plan.</p>
-      <div id="objectives-form--objectives">
-        <input type="submit" class="g-button" value="Save">
-      </div>
-    </div>
-    <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
-  </div>
-</section>
+{% block intro_description %}
+    To build a strong export plan you’ll need to establish clear objectives and record your progress on them.
 {% endblock %}
-
+{% block user_input %}
+    <section class="container">
+        <div class="grid">
+            <div class="c-1-4">&nbsp;</div>
+            <div class="c-1-1 c-2-3-m c-1-2-xl">
+                <h2 class="h-m">Think about why you want to export</h2>
+                <p>
+                    What are your hopes and ambitions for your company in 5 or 10 years' time?
+                    If you have a good idea of where you want your company to be,
+                    you're ready to consider how exporting can help you achieve this.
+                </p>
+                <p>Common benefits of exporting include:</p>
+                <ul class="list-dot">
+                    <li>growing the business by selling overseas</li>
+                    <li>maintaining growth when sales in the UK have levelled off</li>
+                    <li>spreading risk by selling in other countries</li>
+                    <li>widening your customer base</li>
+                </ul>
+                <div id="objectives-reasons"></div>
+            </div>
+            <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
+        </div>
+    </section>
+    <section class="container">
+        <div class="grid">
+            <div class="c-1-4">&nbsp;</div>
+            <div class="c-1-1 c-2-3-m c-1-2-xl">
+                <h2 class="h-m m-b-s">Create your exporting objectives</h2>
+                <p>
+                    Establishing clear objectives will help you realise your export ambitions. To give you the best chance of success, they should be:
+                </p>
+                <ul class="list-dot">
+                    <li>specific - well defined and easily understandable</li>
+                    <li>measurable - use things like quantity, cost and time frame so you can judge how well you're doing</li>
+                    <li>realistic - ambition is good, but make sure your objective is within reach</li>
+                </ul>
+                <p>
+                    Don’t list too many – around 5 is a good number. You can change or amend your objectives as you refine your export plan.
+                </p>
+                <div id="objectives-form--objectives">
+                    <input type="submit" class="g-button" value="Save">
+                </div>
+            </div>
+            <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
+        </div>
+    </section>
+{% endblock %}
 {% block body_js %}
-  {{ block.super }}
-  <script type="text/javascript">
-    magna.createObjectivesReasons({
-      element: document.getElementById('objectives-reasons'),
-      field: 'objectives',
-      formData: {{ objectives|to_json }},
-      formFields: [
-        {
-          name: 'rationale',
-          label: 'Record your reasons for exporting below.',
-          field_type: 'Textarea',
-          placeholder: 'Add some text',
-          example: {
-            content: 'Dove Gin is established and selling well in the UK. However, the domestic gin market is now fiercely competitive. We feel that to realise our goal of doubling turnover in the next 3 years we need to look at new markets to assure this growth. Dove has a uniquely British, crafted appeal that is well placed to attract drinkers in overseas markets. We feel that the potential to widen our customer base, especially in the still-developing Asian and Australasian craft gin scene, is immense.'
-          },
-          lesson: magna.formatLessonLearned({{ lesson_details|to_json }}, {{ current_section|to_json }}, 0),
-        },
-      ],
-    })
-    magna.createObjectivesList({
-      element: document.getElementById('objectives-form--objectives'),
-      objectives: {{ company_objectives|to_json }},
-      exportPlanID: {{ export_plan.pk }},
-      model_name: 'companyobjectives',
-      example: {
-        content: 'Establish the Dove Gin brand in 3 Australian cities by end of March 2023, selling at least 500 units per month to supermarkets or drinks outlets in each city. '
-      }
-    })
-  </script>
+    {{ block.super }}
+    <script type="text/javascript">
+        magna.createObjectivesReasons({
+            element: document.getElementById('objectives-reasons'),
+            field: 'objectives',
+            formData: {
+                {
+                    objectives | to_json
+                }
+            },
+            formFields: [{
+                name: 'rationale',
+                label: 'Record your reasons for exporting below.',
+                field_type: 'Textarea',
+                placeholder: 'Add some text',
+                example: {
+                    content: 'Dove Gin is established and selling well in the UK. However, the domestic gin market is now fiercely competitive. We feel that to realise our goal of doubling turnover in the next 3 years we need to look at new markets to assure this growth. Dove has a uniquely British, crafted appeal that is well placed to attract drinkers in overseas markets. We feel that the potential to widen our customer base, especially in the still-developing Asian and Australasian craft gin scene, is immense.'
+                },
+                lesson: magna.formatLessonLearned({
+                    {
+                        lesson_details | to_json
+                    }
+                }, {
+                    {
+                        current_section | to_json
+                    }
+                }, 0),
+            }, ],
+        })
+        magna.createObjectivesList({
+            element: document.getElementById('objectives-form--objectives'),
+            objectives: {
+                {
+                    company_objectives | to_json
+                }
+            },
+            exportPlanID: {
+                {
+                    export_plan.pk
+                }
+            },
+            model_name: 'companyobjectives',
+            example: {
+                content: 'Establish the Dove Gin brand in 3 Australian cities by end of March 2023, selling at least 500 units per month to supermarkets or drinks outlets in each city. '
+            }
+        })
+    </script>
 {% endblock %}

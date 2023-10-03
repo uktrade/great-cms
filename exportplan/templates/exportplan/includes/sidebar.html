@@ -1,23 +1,26 @@
 {% load to_json %}
 {% load url_map %}
-
-
 <div id="sidebar-content">
     <nav class="sidebar p-f-s p-r-m p-b-m sidebar__close"
-          id="collapseNav"
-          role="navigation"
-        >
-        <div class="sidebar-sticky">
-        </div>
+         id="collapseNav"
+         role="navigation">
+        <div class="sidebar-sticky"></div>
     </nav>
 </div>
-
 {% block body_js %}
     <script type="text/javascript">
         magna.sectionSidebar({
             element: document.getElementById('sidebar-content'),
-            sections: {{ sections|to_json}},
-            currentSection: {{ current_section|to_json}},
+            sections: {
+                {
+                    sections | to_json
+                }
+            },
+            currentSection: {
+                {
+                    current_section | to_json
+                }
+            },
             logo: '{{ request.user.company.logo|default_if_none:"" }}',
             company: '{{ request.user.company.name }}',
             epTitle: `{{ export_plan.name }}`,

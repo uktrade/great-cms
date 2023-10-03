@@ -1,46 +1,69 @@
 {% load to_json %}
-
 <script type="text/javascript">
-  magna.businessRisks({
-    element: document.getElementById('business-risks'),
-    model_name: 'businessrisks',
-    formFields: {{ business_risks|to_json }},
-    formData: {
-      risk_extras: {
-        placeholder: "Add some text",
-        tooltip: {
-          content: `<p>Describe the risk and how it could happen.</p>`
+    magna.businessRisks({
+        element: document.getElementById('business-risks'),
+        model_name: 'businessrisks',
+        formFields: {
+            {
+                business_risks | to_json
+            }
         },
-        example: {
-          content: "Accusation from other companies that we've infringed their IP.",
-          bgColour: "white",
+        formData: {
+            risk_extras: {
+                placeholder: "Add some text",
+                tooltip: {
+                    content: `<p>Describe the risk and how it could happen.</p>`
+                },
+                example: {
+                    content: "Accusation from other companies that we've infringed their IP.",
+                    bgColour: "white",
+                },
+            },
+            likelihood_extras: {
+                tooltip: {
+                    content: `<p>This is the chance of the risk occurring.</p>`
+                },
+            },
+            impact_extras: {
+                tooltip: {
+                    content: `<p>The risk impact refers to the potential losses to your business. The bigger the loss, the greater the impact.</p>`
+                },
+            },
+            contingency_plan_extras: {
+                label: "Contingency plan",
+                placeholder: "Add some text",
+                tooltip: {
+                    content: `<p>A contingency plan is a course of action designed to respond effectively to a significant future event or situation that may or may not happen.</p>`
+                },
+                example: {
+                    content: "Although any infringement would be unintentional, we have already taken professional advice on our IP from a patent attorney. We have legal paperwork all prepared.",
+                    bgColour: "white",
+                },
+            },
         },
-      },
-      likelihood_extras: {
-        tooltip: {
-          content: `<p>This is the chance of the risk occurring.</p>`
+        risk_likelihood_options: {
+            {
+                risk_likelihood_options | to_json
+            }
         },
-      },
-      impact_extras: {
-        tooltip: {
-          content: `<p>The risk impact refers to the potential losses to your business. The bigger the loss, the greater the impact.</p>`
+        risk_impact_options: {
+            {
+                risk_impact_options | to_json
+            }
         },
-      },
-      contingency_plan_extras: {
-        label: "Contingency plan",
-        placeholder: "Add some text",
-        tooltip: {
-          content: `<p>A contingency plan is a course of action designed to respond effectively to a significant future event or situation that may or may not happen.</p>`
+        companyexportplan: {
+            {
+                export_plan.pk
+            }
         },
-        example: {
-          content: "Although any infringement would be unintentional, we have already taken professional advice on our IP from a patent attorney. We have legal paperwork all prepared.",
-          bgColour: "white",
-        },
-      },
-    },
-    risk_likelihood_options: {{ risk_likelihood_options|to_json }},
-    risk_impact_options: {{ risk_impact_options|to_json }},
-    companyexportplan: {{ export_plan.pk }},
-    lesson: magna.formatLessonLearned({{ lesson_details|to_json }}, {{ current_section|to_json}}, 0),
-  })
+        lesson: magna.formatLessonLearned({
+            {
+                lesson_details | to_json
+            }
+        }, {
+            {
+                current_section | to_json
+            }
+        }, 0),
+    })
 </script>

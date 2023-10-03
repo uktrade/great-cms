@@ -2,93 +2,97 @@
 {% load static %}
 {% load to_json %}
 {% block head_other %}
-  <meta name="description" content="Complete the About your business section of your export plan" />
+    <meta name="description"
+          content="Complete the About your business section of your export plan" />
 {% endblock %}
 {% block intro_title %}About your business{% endblock %}
 {% block intro_description %}
-You know your business and product inside out. Your bank manager or a potential business partner may need an introduction. Tell them about who you are and what you do.
+    You know your business and product inside out. Your bank manager or a potential business partner may need an introduction. Tell them about who you are and what you do.
 {% endblock %}
-
 {% block main_content %}
-<div class="g-panel">
-  <p class='m-b-s'>Include anything different about your company or product that makes you stand out from the competition.</p>
-  <p class='body-s m-t-0'>Do not share any personal information that could identify you as a person. This includes your name, phone number, address or card details.</p>
-</div>
-{% endblock %}
-
-{% block user_input %}
-<section class="container">
-  <div class="grid">
-    <div class="c-1-4-l">&nbsp;</div>
-    <div class="c-1-1 c-2-3-m c-1-2-xl">
-      <form class="" action="" method="post" id="about-your-business-form">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" class="g-button" value="Save">
-      </form>
+    <div class="g-panel">
+        <p class='m-b-s'>
+            Include anything different about your company or product that makes you stand out from the competition.
+        </p>
+        <p class='body-s m-t-0'>
+            Do not share any personal information that could identify you as a person. This includes your name, phone number, address or card details.
+        </p>
     </div>
-    <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
-  </div>
-</section>
 {% endblock %}
-
+{% block user_input %}
+    <section class="container">
+        <div class="grid">
+            <div class="c-1-4-l">&nbsp;</div>
+            <div class="c-1-1 c-2-3-m c-1-2-xl">
+                <form class="" action="" method="post" id="about-your-business-form">
+                    {% csrf_token %}
+                    {{ form }}
+                    <input type="submit" class="g-button" value="Save">
+                </form>
+            </div>
+            <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
+        </div>
+    </section>
+{% endblock %}
 {% block body_js %}
-  {{ block.super }}
-  <script type="text/javascript">
-    magna.aboutYourBusinessForm({
-      element: document.getElementById('about-your-business-form'),
-      field: 'about_your_business',
-      formData: {{ about_your_business_data|to_json }},
-      formFields: [
-        {
-          name: 'story',
-          label: 'How you started',
-          field_type: 'Textarea',
-          tooltip: {
-            content: 'It’s best to stick to the facts and keep things simple for each bit of text you add to your plan.'
-          },
-          example: {
-            content: 'My name is Simon Dove and I founded Dove Gin in 2012 when I started to distil gin in my garage in Shrewsbury. I came across a book of gin recipes on a visit to The Gin Museum of London. This inspired me to recreate the gin as it was distilled in the Midlands 200 years ago, with a modern twist.'
-          },
-          placeholder: '',
-        },
-        {
-          name: 'location',
-          label: "Where you're based",
-          field_type: 'Textarea',
-          placeholder: '',
-          example: {
-            content: 'By 2015 the garage was too small for the volumes we produced so we moved to larger premises in rented, shared business space in Shrewsbury.'
-          }
-        },
-        {
-          name: 'processes',
-          label: 'How you make your products',
-          field_type: 'Textarea',
-          placeholder: '',
-          example:{
-            content: 'We use vacuum distillation instead of traditional pot distillation. This  preserves the richness of flavour and aromas of the botanicals that give our gin its purity of taste.'
-          },
-        },
-        {
-          name: 'packaging',
-          label: 'Your product packaging',
-          field_type: 'Textarea',
-          placeholder: '',
-          example: {
-            content: 'Our packaging is themed around purity and we use: <br> <li>elegant clear glass bottles</li><li>twist caps</li><li>unbleached paper label printed with natural dyes</li>Our distribution and delivery boxes are 100% recycled cardboard. Each features our distinctive Dove label.'
-          },
-        },
-        {
-          name: 'performance',
-          label: 'Your business performance',
-          field_type: 'Select',
-          placeholder: 'Select one',
-          description: 'What is the annual turnover of your business?',
-          currency: '',
-          choices: {{ turnover_choices|safe }},
-        },
-      ]
-    })
-  </script>
+    {{ block.super }}
+    <script type="text/javascript">
+        magna.aboutYourBusinessForm({
+            element: document.getElementById('about-your-business-form'),
+            field: 'about_your_business',
+            formData: {
+                {
+                    about_your_business_data | to_json
+                }
+            },
+            formFields: [{
+                name: 'story',
+                label: 'How you started',
+                field_type: 'Textarea',
+                tooltip: {
+                    content: 'It’s best to stick to the facts and keep things simple for each bit of text you add to your plan.'
+                },
+                example: {
+                    content: 'My name is Simon Dove and I founded Dove Gin in 2012 when I started to distil gin in my garage in Shrewsbury. I came across a book of gin recipes on a visit to The Gin Museum of London. This inspired me to recreate the gin as it was distilled in the Midlands 200 years ago, with a modern twist.'
+                },
+                placeholder: '',
+            }, {
+                name: 'location',
+                label: "Where you're based",
+                field_type: 'Textarea',
+                placeholder: '',
+                example: {
+                    content: 'By 2015 the garage was too small for the volumes we produced so we moved to larger premises in rented, shared business space in Shrewsbury.'
+                }
+            }, {
+                name: 'processes',
+                label: 'How you make your products',
+                field_type: 'Textarea',
+                placeholder: '',
+                example: {
+                    content: 'We use vacuum distillation instead of traditional pot distillation. This  preserves the richness of flavour and aromas of the botanicals that give our gin its purity of taste.'
+                },
+            }, {
+                name: 'packaging',
+                label: 'Your product packaging',
+                field_type: 'Textarea',
+                placeholder: '',
+                example: {
+                    content: 'Our packaging is themed around purity and we use: <br> <li>elegant clear glass bottles</li><li>twist caps</li><li>unbleached paper label printed with natural dyes</li>Our distribution and delivery boxes are 100% recycled cardboard. Each features our distinctive Dove label.'
+                },
+            }, {
+                name: 'performance',
+                label: 'Your business performance',
+                field_type: 'Select',
+                placeholder: 'Select one',
+                description: 'What is the annual turnover of your business?',
+                currency: '',
+                choices: {
+                    {
+                        turnover_choices | safe
+                    }
+                },
+            }, ]
+        })
+    </script>
 {% endblock %}
