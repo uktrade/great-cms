@@ -1,22 +1,19 @@
 {% extends 'business_profile/base.html' %}
-
 {% load success_box from component_tags %}
-
 {% block head_other %}
-  <meta name="description" content="Create a business profile to promote your company to thousands of overseas buyers and generate more sales leads." />
+    <meta name="description"
+          content="Create a business profile to promote your company to thousands of overseas buyers and generate more sales leads." />
 {% endblock %}
-
 {% block tab_content_main %}
     {% if messages %}
         <div>
-        {% for message in messages %}
-            {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-                {% success_box heading=message box_class='width-full background-white margin-top-30' %}
-            {% endif %}
-        {% endfor %}
+            {% for message in messages %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                    {% success_box heading=message box_class='width-full background-white margin-top-30' %}
+                {% endif %}
+            {% endfor %}
         </div>
     {% endif %}
-
     <div class="grid-row" id="tab-content">
         <div class="column-full">
             <section id="profile-required">
@@ -28,7 +25,8 @@
                     <li>add case studies of your best work to make your company stand out</li>
                     <li>have buyers contact your sales team directly to get deals moving</li>
                 </ul>
-                <a class="button primary-button" href="{% url 'sso_profile:enrolment-start' %}?business-profile-intent=True">Create a business profile</a>
+                <a class="button primary-button"
+                   href="{% url 'sso_profile:enrolment-start' %}?business-profile-intent=True">Create a business profile</a>
             </section>
         </div>
     </div>
