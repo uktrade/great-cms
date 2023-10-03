@@ -5,59 +5,54 @@
 {% load get_item from object_tags %}
 {% load pluralize from content_tags %}
 {% load url_map %}
-
-
 {% block head_other %}
-  <meta name="description" content="Learn how to successfully export your products to new markets with our comprehensive lessons and case studies" />
+    <meta name="description"
+          content="Learn how to successfully export your products to new markets with our comprehensive lessons and case studies" />
 {% endblock %}
-
 {% block content %}
-
-     <div class="page-header learn-header">
-       <div class="inner-header">
+    <div class="page-header learn-header">
+        <div class="inner-header">
             <div>
-              <h1>Learn to export</h1>
-              <p>Step by step lessons to accelerate your exporting ability.</p>
-              {% if next_lesson %}
-              <a class="button primary-button" href={% pageurl next_lesson %}>
-                Continue next lesson
-              </a>
-              {% endif %}
-            </div>
-            <div class="image-container">
-
-            </div>
-          </div>
-     </div>
-    <section id="learn-root" class="learn__page learn__categories-page container">
-
-
-        <section class="learn-to-export-card">
-        {% for learning_module in page.get_children.specific.live %}
-        {% with high_level_completion_progress|get_item:learning_module.id as module_completion_data %}
-          <article>
-            <a href="{% pageurl learning_module %}" >
-             <div>
-                <h2>{{ learning_module.title }}</h2>
-                  <p>{{ learning_module.heading | richtext }}</p>
-                  <div class="duration-container">
-                    <i class="fa fa-clock"></i>
-                    <span class="learn__category-topics">{{ learning_module.count_topics }} topic{% pluralize learning_module.count_topics %}, </span>
-                    <span class="learn__category-lessons"> {{ learning_module.count_detail_pages }} lesson{% pluralize learning_module.count_detail_pages %}</span>
-                  </div>
-                </div>
-                 <div class="progess-container">
-                {% if not module_completion_data.completion_count %}
-                    <span class="button primary-button" title="{{ page.button_label }}">{{ page.button_label }}</span>
-                {% else %}
-                    {% include "learn/_high_level_progress.html" with module_completion_data=module_completion_data only %}
+                <h1>Learn to export</h1>
+                <p>Step by step lessons to accelerate your exporting ability.</p>
+                {% if next_lesson %}
+                    <a class="button primary-button" href={% pageurl next_lesson %}>Continue next lesson</a>
                 {% endif %}
-                </div>
             </div>
-            </a>
-          </article>
-        {% endwith %}
+            <div class="image-container"></div>
+        </div>
+    </div>
+    <section id="learn-root" class="learn__page learn__categories-page container">
+        <section class="learn-to-export-card">
+            {% for learning_module in page.get_children.specific.live %}
+                {% with high_level_completion_progress|get_item:learning_module.id as module_completion_data %}
+                    <article>
+                        <a href="{% pageurl learning_module %}">
+                            <div>
+                                <h2>{{ learning_module.title }}</h2>
+                                <p>{{ learning_module.heading | richtext }}</p>
+                                <div class="duration-container">
+                                    <i class="fa fa-clock"></i>
+                                    <span class="learn__category-topics">{{ learning_module.count_topics }} topic
+                                    {% pluralize learning_module.count_topics %}
+                                    , </span>
+                                    <span class="learn__category-lessons"> {{ learning_module.count_detail_pages }} lesson
+                                    {% pluralize learning_module.count_detail_pages %}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="progess-container">
+                                {% if not module_completion_data.completion_count %}
+                                    <span class="button primary-button" title="{{ page.button_label }}">{{ page.button_label }}</span>
+                                {% else %}
+                                    {% include "learn/_high_level_progress.html" with module_completion_data=module_completion_data only %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </a>
+                </article>
+            {% endwith %}
         {% endfor %}
-        </section>
     </section>
+</section>
 {% endblock %}
