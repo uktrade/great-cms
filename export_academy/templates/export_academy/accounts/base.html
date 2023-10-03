@@ -1,39 +1,24 @@
 {% extends 'core/page_blank.html' %}
 {% block head_title %}UK Export Academy{% endblock %}
 {% block content %}
-<div id="sign-up" class="great">
-    <div class="great-signup">
-        <div class="great-signup__form-panel">
-            <a href="/" class="inline-block">
-            <img
-                class="great-signup__logo"
-                src="/static/images/dbt_logo_335x160.png"
-                alt="Department for Business and Trade"
-                width="335"
-                height="160"
-            />
-            </a>
-            <h1 class="great-display-until-desktop govuk-!-text-align-left govuk-!-padding-top-4">
-                {% block small_screen_heading %}
-                {% endblock %}
-            </h1>
-            <form class="great-signup__form govuk-!-margin-top-6" action="" method="post" autocomplete="off" novalidate="novalidate">
-                {% block form %}
-                {% endblock %}
-            </form>
-        </div>
-        <div class="great-signup__info-panel ea-signup-panel {% if not existing_ea_user %}hide_image_below_1200{% endif %}">
-            <div class="great-signup__info-panel__content">
-                <h1 class="govuk-!-text-align-left govuk-!-padding-top-7">
-                    {% block left_panel_heading %}
-                    {% endblock %}
+    <div id="sign-up" class="great">
+        <div class="great-signup">
+            <div class="great-signup__form-panel">
+                <a href="/" class="inline-block">
+                    <img class="great-signup__logo"
+                         src="/static/images/dbt_logo_335x160.png"
+                         alt="Department for Business and Trade"
+                         width="335"
+                         height="160" />
+                </a>
+                <h1 class="great-display-until-desktop govuk-!-text-align-left govuk-!-padding-top-4">
+                    {% block small_screen_heading %}{% endblock %}
                 </h1>
                 <form class="great-signup__form govuk-!-margin-top-6"
                       action=""
                       method="post"
                       autocomplete="off"
-                      novalidate="novalidate"
-                      {% if nexturl %}data-next-url="{{ nexturl }}"{% endif %}>
+                      novalidate="novalidate">
                     {% block form %}{% endblock %}
                 </form>
             </div>
@@ -42,14 +27,28 @@
                     <h1 class="govuk-!-text-align-left govuk-!-padding-top-7">
                         {% block left_panel_heading %}{% endblock %}
                     </h1>
-                    <div class="govuk-!-margin-top-6 great-signup__info-panel__subheadings">
-                        {% block left_panel_content %}{% endblock %}
-                        <img class='ea-logo {% if not existing_ea_user %}hide-logo-below-1200{% endif %}'
-                             src='/static/images/uk-export-academy-logo.svg'
-                             alt='UK Export Academy' />
+                    <form class="great-signup__form govuk-!-margin-top-6"
+                          action=""
+                          method="post"
+                          autocomplete="off"
+                          novalidate="novalidate"
+                          {% if nexturl %}data-next-url="{{ nexturl }}"{% endif %}>
+                        {% block form %}{% endblock %}
+                    </form>
+                </div>
+                <div class="great-signup__info-panel ea-signup-panel {% if not existing_ea_user %}hide_image_below_1200{% endif %}">
+                    <div class="great-signup__info-panel__content">
+                        <h1 class="govuk-!-text-align-left govuk-!-padding-top-7">
+                            {% block left_panel_heading %}{% endblock %}
+                        </h1>
+                        <div class="govuk-!-margin-top-6 great-signup__info-panel__subheadings">
+                            {% block left_panel_content %}{% endblock %}
+                            <img class='ea-logo {% if not existing_ea_user %}hide-logo-below-1200{% endif %}'
+                                 src='/static/images/uk-export-academy-logo.svg'
+                                 alt='UK Export Academy' />
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-{% endblock %}
+    {% endblock %}
