@@ -168,7 +168,7 @@ urlpatterns = [
     path(
         '<slug:slug>/',
         views.EACourseView.as_view(),
-        name='calendar',
+        name='course',
     ),
     path('event/join/<uuid:event_id>', views.JoinBookingView.as_view(), name='join'),
     path('signup', views.SignUpView.as_view(), name='signup'),

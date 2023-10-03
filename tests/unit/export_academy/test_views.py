@@ -1289,3 +1289,10 @@ class EventsDetailsViewTestCase(TestCase):
         self.event_with_video.delete()
         self.event_with_video_and_completed.delete()
         self.event_without_video.delete()
+
+
+@pytest.mark.django_db
+def test_course_page(export_academy_course_page, client):
+    url = reverse('export_academy:course', kwargs=dict(slug=export_academy_course_page.slug))
+    response = client.get(url)
+    assert response.status_code == 200

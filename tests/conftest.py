@@ -232,6 +232,11 @@ def export_academy_landing_page(root_page):
 
 
 @pytest.fixture
+def export_academy_course_page(root_page):
+    return tests.unit.export_academy.factories.CoursePageFactory(parent=root_page)
+
+
+@pytest.fixture
 def export_academy_site(root_page, client):
     return SiteFactory(
         root_page=root_page,
