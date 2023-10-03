@@ -470,8 +470,15 @@
     padding-top: 60px;
     > div:first-of-type {
       padding-top: 0px;
+      @media only screen and (min-width: 901px) {
+        min-width: 50%;
+      }
     }
     .image-container {
+      @media only screen and (min-width: 901px) {
+        background-size: 100% auto!important;
+        background-position-y: bottom !important;
+      }
     }
   }
 }
