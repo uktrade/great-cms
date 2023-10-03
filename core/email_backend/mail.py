@@ -10,14 +10,12 @@ logger = logging.getLogger(__name__)
 
 
 class GroupBaseUserApprovalTaskStateEmailNotifier(EmailNotificationMixin, Notifier):
-    recipient = None
-    sent_count = 1
-
     def can_handle(self, instance, **kwargs):
-        logger.error('Can Handle entered')
+        logger.exception('Can Handle entered')
+        logger.exception(f'Can Handle Type: {type(instance.revision.content_object)}')
         if not isinstance(instance.revision.content_object, ArticlePage):
             return False
-        logger.error(f'Can Handle: {instance.revision.content_object.type_of_article}')
+        logger.exception(f'Can Handle: {instance.revision.content_object.type_of_article}')
         return True if instance.revision.content_object.type_of_article.strip() == 'Campaign' else False
 
     def get_recipient_users(self, task_state, **kwargs):
@@ -25,19 +23,19 @@ class GroupBaseUserApprovalTaskStateEmailNotifier(EmailNotificationMixin, Notifi
         return {triggering_user}
 
     def send_emails(self, template_set, context, recipients, **kwargs):
-        logger.error(f"""Sending moderation email: {kwargs['email']}""")
+        logger.exception(f"""Sending moderation email: {kwargs['email']}""")
         template_id = kwargs['template_id']
         email = kwargs['email']
         full_name = kwargs.get('full_name', '')
         send_campaign_moderation_notification(email, template_id, full_name)
-        return self.sent_count
+        return True
 
     def send_notifications(self, template_set, context, recipients, **kwargs):
         # send email to campaign moderators group
         template_id = settings.CAMPAIGN_MODERATORS_EMAIL_TEMPLATE_ID
         email = settings.MODERATION_EMAIL_DIST_LIST
         kwargs = {**kwargs, 'email': email, 'template_id': template_id}
-        self.send_emails(template_set, context, self.recipient, **kwargs)
+        self.send_emails(template_set, context, {}, **kwargs)
         # send email to moderation Requestor
         triggering_user = kwargs.get('user', None)
         if triggering_user:
