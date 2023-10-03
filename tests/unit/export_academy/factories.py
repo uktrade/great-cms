@@ -10,8 +10,10 @@ from export_academy.models import (
     Booking,
     CoursePage,
     Event,
+    EventsOnCourse,
     EventTypeTag,
     ExportAcademyHomePage,
+    ModuleEventSet,
     Registration,
 )
 
@@ -85,6 +87,18 @@ class EventTypeTagFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = EventTypeTag
+
+
+class ModuleEventSetFactory(factory.django.DjangoModelFactory):
+    # page_id = factory.fuzzy.FuzzyInteger(200000000, 299999999)
+
+    class Meta:
+        model = ModuleEventSet
+
+
+class EventsOnCourseFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = EventsOnCourse
 
 
 class CoursePageFactory(wagtail_factories.PageFactory):

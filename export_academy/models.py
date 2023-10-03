@@ -429,9 +429,6 @@ class CoursePage(CoursePagePanels, BaseContentPage):
     def get_events(self):
         latest_event = {}
         for modules in self.course_events.get_object_list():
-            event_list = []
-            for event in modules.module_events.get_object_list():
-                event_list.append(event.event)
             event = self._get_first_available_event(modules)
             latest_event[modules] = event
         return latest_event

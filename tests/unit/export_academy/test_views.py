@@ -1292,7 +1292,21 @@ class EventsDetailsViewTestCase(TestCase):
 
 
 @pytest.mark.django_db
-def test_course_page(export_academy_course_page, client):
-    url = reverse('export_academy:course', kwargs=dict(slug=export_academy_course_page.slug))
+def test_course_page(client, root_page):
+    course_page = factories.CoursePageFactory(parent=root_page)
+    course_events = factories.EventsOnCourseFactory(page_id=course_page.id)
+
+    # create events
+    latest_event = factories.EventFactory(start_date=timezone.now() + timedelta(days=1))
+    factories.ModuleEventSetFactory(page_id=course_events.id, event_id=latest_event.id)
+
+    later_event = factories.EventFactory(start_date=timezone.now() + timedelta(days=2))
+    factories.ModuleEventSetFactory(page_id=course_events.id, event_id=later_event.id)
+
+    past_event = factories.EventFactory(start_date=timezone.now() - timedelta(days=2))
+    factories.ModuleEventSetFactory(page_id=course_events.id, event_id=past_event.id)
+
+    url = reverse('export_academy:course', kwargs=dict(slug=course_page.slug))
     response = client.get(url)
     assert response.status_code == 200
+    assert latest_event.name in response.rendered_content
