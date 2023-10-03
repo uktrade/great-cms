@@ -14,6 +14,7 @@ class GroupBaseUserApprovalTaskStateEmailNotifier(EmailNotificationMixin, Notifi
     sent_count = 1
 
     def can_handle(self, instance, **kwargs):
+        breakpoint()
         logging.error('Can Handle entered')
         if not isinstance(instance.revision.content_object, ArticlePage):
             return False
