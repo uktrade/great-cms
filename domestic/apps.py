@@ -5,6 +5,6 @@ class DomesticConfig(AppConfig):
     name = 'domestic'
 
     def ready(self):
-        from .signal_handlers import register_signal_handlers
+        from domestic.signal_handlers import register_signal_handlers
 
         register_signal_handlers()

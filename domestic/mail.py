@@ -7,13 +7,13 @@ from wagtail.admin.mail import EmailNotificationMixin, Notifier
 from core.helpers import send_campaign_moderation_notification
 from domestic.models import ArticlePage
 
-logger = logging.getLogger('my_logger')
+logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
-handler = RotatingFileHandler('/tmp/my_log.log', maxBytes=2000, backupCount=10)
+handler = RotatingFileHandler('/tmp/my_log1.log', maxBytes=2000, backupCount=10)
 logger.addHandler(handler)
 
 
-class GroupBaseUserApprovalTaskStateEmailNotifier(EmailNotificationMixin, Notifier):
+class ModerationTaskStateEmailNotifier(EmailNotificationMixin, Notifier):
     def can_handle(self, instance, **kwargs):
         logger.debug('Can Handle entered')
         logger.debug(f'Can Handle Type: {type(instance.revision.content_object)}')
@@ -51,7 +51,7 @@ class GroupBaseUserApprovalTaskStateEmailNotifier(EmailNotificationMixin, Notifi
                 return self.send_emails(template_set, context, {triggering_user}, **kwargs)
 
 
-class GroupApprovalTaskStateSubmissionEmailNotifier(GroupBaseUserApprovalTaskStateEmailNotifier):
+class ModerationTaskStateSubmissionEmailNotifier(ModerationTaskStateEmailNotifier):
     """A notifier to send updates for Campaign page Moderation submission events"""
 
     notification = 'submitted'

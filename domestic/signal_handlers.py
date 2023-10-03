@@ -8,11 +8,9 @@ from wagtail.admin.mail import (
 from wagtail.models import TaskState, WorkflowState
 from wagtail.signals import task_submitted, workflow_submitted
 
-from .mail import (
-    GroupApprovalTaskStateSubmissionEmailNotifier as MyApprovalTaskStateSubmissionEmailNotifier,
-)
+from .mail import ModerationTaskStateSubmissionEmailNotifier
 
-logger = logging.getLogger('my_logger')
+logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 handler = RotatingFileHandler('/tmp/my_log.log', maxBytes=2000, backupCount=10)
 logger.addHandler(handler)
@@ -36,6 +34,6 @@ def register_signal_handlers():
     )
 
     logger.debug(f'workflow_submission_email_notifier: {stat}')
-    task_submission_email_notifier = MyApprovalTaskStateSubmissionEmailNotifier((TaskState, WorkflowState))
+    task_submission_email_notifier = ModerationTaskStateSubmissionEmailNotifier((TaskState, WorkflowState))
     task_submitted.connect(task_submission_email_notifier, dispatch_uid='my-unique-identifier')
     logger.debug('register_signal_handlers() exited')
