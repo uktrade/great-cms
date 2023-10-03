@@ -970,12 +970,12 @@ figure.great-blockquote {
 
   &::after {
     background-repeat: no-repeat;
-    background-position: 50% 110%;
+    background-position: 50% 180%;
     display: inline-block;
     content: '';
     pointer-events: none;
     background-image: url(/static/icons/internal-link-white.svg);
-    background-size: 8px;
+    background-size: 11px;
     height: 20px;
     width: 26px;
     bottom: 1px;
@@ -995,12 +995,12 @@ figure.great-blockquote {
 
   &::after {
     background-repeat: no-repeat;
-    background-position: 50% 110%;
+    background-position: 50% 180%;
     display: inline-block;
     content: '';
     pointer-events: none;
     background-image: url(/static/icons/internal-link.svg);
-    background-size: 8px;
+    background-size: 11px;
     height: 20px;
     width: 26px;
     bottom: 1px;
