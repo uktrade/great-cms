@@ -1,29 +1,23 @@
 <figure class="great-blockquote govuk-grid-column-three-quarters-from-desktop govuk-!-margin-bottom-6 govuk-!-margin-top-6">
-    <blockquote class="{%if value.attribution or value.role or value.organisation%}govuk-!-margin-bottom-6{%endif%}">
-       {{value.quote|linebreaks}}
+    <blockquote class="{% if value.attribution or value.role or value.organisation %}govuk-!-margin-bottom-6{% endif %}">
+        {{ value.quote|linebreaks }}
     </blockquote>
-
     {% if value.attribution or value.role or value.organisation %}
-    <figcaption>
-        {% if value.attribution %}
-            <span>
-                {{value.attribution}}{% if value.attribution and value.role %},{%endif%}
-            </span>
+        <figcaption>
+            {% if value.attribution %}
+                <span>
+                    {{ value.attribution }}
+                    {% if value.attribution and value.role %},{% endif %}
+                    </span>
+                {% endif %}
+                {% if value.role %}<span>{{ value.role }}</span>{% endif %}
+                {% if value.organisation %}
+                    {% if value.organisation_link %}
+                        <a target='_blank' href='{{ value.organisation_link }}'>{{ value.organisation }}</a>
+                    {% else %}
+                        <span>{{ value.organisation }}</span>
+                    {% endif %}
+                {% endif %}
+            </figcaption>
         {% endif %}
-
-        {% if value.role %}
-            <span>{{value.role}}</span>
-        {% endif %}
-
-        {% if value.organisation %}
-            {% if value.organisation_link %}
-                <a target='_blank' href='{{value.organisation_link}}'>
-                    {{value.organisation}}
-                </a>
-            {% else %}
-                <span>{{value.organisation}}</span>
-            {% endif %}
-        {% endif %}
-    </figcaption>
-    {% endif %}
-</figure>
+    </figure>
