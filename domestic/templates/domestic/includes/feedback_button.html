@@ -1,8 +1,17 @@
-<div id="feedback_container" class="great great-display-from-tablet great-feedback-button-container js-enabled-only">
+<div id="feedback_container"
+     class="great great-display-from-tablet great-feedback-button-container js-enabled-only">
     <button id="feedback_button" class="secondary-button ">Find everything you needed?</button>
-    <div id="feedback-text" class="great-bg-white great-hidden govuk-!-padding-4">
-        <p class="govuk-!-margin-bottom-5 govuk-!-margin-top-1">Tell us about your experience today and help us improve the website.</p>
-        <a class="button primary-button great-full-width" href="{% url 'search:feedback' %}?next={{ request.get_full_path }}">Give feedback</a>
-        <p class="govuk-!-text-align-centre govuk-!-margin-top-3 govuk-!-margin-bottom-0 govuk-!-padding-bottom-6"><a id="no_thanks" href="javascript:;" class="govuk-link govuk-link--no-visited-state">No thanks</a></p>
+    <div id="feedback-text"
+         class="great-bg-white great-hidden govuk-!-padding-4">
+        <p class="govuk-!-margin-bottom-5 govuk-!-margin-top-1">
+            Tell us about your experience today and help us improve the website.
+        </p>
+        <a class="button primary-button great-full-width"
+           href="{% url 'search:feedback' %}?next={{ request.get_full_path }}">Give feedback</a>
+        <p class="govuk-!-text-align-centre govuk-!-margin-top-3 govuk-!-margin-bottom-0 govuk-!-padding-bottom-6">
+            <a id="no_thanks"
+               href="javascript:;"
+               class="govuk-link govuk-link--no-visited-state">No thanks</a>
+        </p>
     </div>
 </div>
