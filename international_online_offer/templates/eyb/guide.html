@@ -257,9 +257,9 @@
                             {% image page.article_image original as rendition %}
                             <div class="article-list-item">
                                 {% if eyb_user %}
-                                <a class="article-list-item-a" href="{{ page.url }}">
+                                <a class="" href="{{ page.url }}?back=true">
                                 {% else %}
-                                <a class="article-list-item-a" href="{% url 'international_online_offer:signup' %}">
+                                <a class="" href="{% url 'international_online_offer:signup' %}">
                                 {% endif %}
                                     <div class="govuk-grid-row">
                                         <div class="govuk-grid-column-one-third">
@@ -302,7 +302,7 @@
                             {% image page.article_image original as rendition %}
                             <div class="article-list-item">
                                 {% if eyb_user %}
-                                <a href="{{ page.url }}">
+                                <a href="{{ page.url }}?back=true">
                                 {% else %}
                                 <a href="{% url 'international_online_offer:signup' %}">
                                 {% endif %}

@@ -1,4 +1,8 @@
 .block-text, .block-Columns {
+    a {
+        @extend %govuk-link;
+    }
+
     b {
         font-weight: bold;
     }
