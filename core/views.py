@@ -153,7 +153,10 @@ class SuggestedCountriesView(generics.GenericAPIView):
 
 
 def handler404(request, *args, **kwargs):
-    return TemplateResponse(request=request, template='core/404.html', context={}, status=404)
+    if 'expand-your-business-in-the-uk' in request.path:
+        return TemplateResponse(request=request, template='eyb/404.html', context={}, status=404)
+    else:
+        return TemplateResponse(request=request, template='core/404.html', context={}, status=404)
 
 
 def handler500(request, *args, **kwargs):
@@ -563,3 +566,7 @@ class AltImageChooserViewSet(ImageChooserViewSet):
 
     def on_register(self):
         return super().on_register()
+
+
+class DesignSystemView(TemplateView):
+    template_name = 'design-system/design-system.html'

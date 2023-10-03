@@ -534,7 +534,8 @@ class ColumnsBlock(blocks.StructBlock):
 
 
 class MicrositeColumnBlock(blocks.StructBlock):
-    image = ImageChooserBlock(required=False, label=_('Hero Image'))
+    image = ImageChooserBlock(required=False, label=_('Hero image'))
+    image_url = blocks.URLBlock(required=False, label=_('Hero image hyperlink'))
     text = blocks.RichTextBlock(
         required=False,
         label=_('Description'),

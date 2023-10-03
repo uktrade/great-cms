@@ -3,6 +3,7 @@ import hashlib
 import json
 from datetime import datetime, timedelta
 from unittest import mock
+from urllib import parse
 
 import pytest
 from directory_forms_api_client import actions
@@ -37,6 +38,12 @@ def test_uuid():
 
 
 @pytest.fixture
+def next_url():
+    event = factories.EventFactory()
+    return event.get_absolute_url()
+
+
+@pytest.fixture
 def test_unique_link_query_params():
     registration = Registration(first_name='test', last_name='test', email='test@example.com', external_id='123456789')
     registration.save()
@@ -61,6 +68,28 @@ def signup_form_post_request_new_user(client):
 
     def post_request():
         return client.post(reverse('export_academy:signup'), data=form_data)
+
+    return post_request
+
+
+@pytest.fixture
+def signup_post_request_unique_link_with_next(client, test_unique_link_query_params, next_url):
+    form_data = {'email': 'test@example.com', 'password': 'newPassword'}
+
+    def post_request():
+        return client.post(
+            reverse('export_academy:signup') + test_unique_link_query_params + f'&next={next_url}', data=form_data
+        )
+
+    return post_request
+
+
+@pytest.fixture
+def signup_form_post_request_new_user_with_next(client, next_url):
+    form_data = {'email': 'test@example.com', 'password': 'newPassword'}
+
+    def post_request():
+        return client.post(reverse('export_academy:signup') + f'?next={next_url}', data=form_data)
 
     return post_request
 
@@ -664,27 +693,35 @@ def test_sign_up_400_error(
 
 
 @pytest.mark.parametrize(
-    'user_ea_registered, expected_query_params',
+    'query_params, user_ea_registered, next',
     (
-        (True, '&existing-ea-user=true'),
-        (False, ''),
+        ('&next=next_url&existing-ea-user=true', 'true', 'next_url'),
+        ('&existing-ea-user=true', 'true', None),
+        ('&next=next_url', None, 'next_url'),
+        ('', None, None),
     ),
 )
 @pytest.mark.django_db
 def test_signup_create_password_success(
     mock_create_user_success,
     mock_send_verification_code_email,
-    signup_post_request_unique_link,
-    signup_form_post_request_new_user,
     uidb64,
     token,
+    next_url,
+    signup_post_request_unique_link,
+    signup_post_request_unique_link_with_next,
+    signup_form_post_request_new_user,
+    signup_form_post_request_new_user_with_next,
+    query_params,
     user_ea_registered,
-    expected_query_params,
+    next,
 ):
     if user_ea_registered:
-        response = signup_post_request_unique_link()
+        response = signup_post_request_unique_link() if not next else signup_post_request_unique_link_with_next()
     else:
-        response = signup_form_post_request_new_user()
+        response = signup_form_post_request_new_user() if not next else signup_form_post_request_new_user_with_next()
+
+    query_params = query_params.replace('next_url', next_url)
 
     assert mock_send_verification_code_email.call_count == 1
     assert mock_send_verification_code_email.call_args == mock.call(
@@ -695,22 +732,25 @@ def test_signup_create_password_success(
         },
         form_url='/export-academy/signup',
         verification_link=(
-            f'http://testserver/export-academy/signup/verification?uidb64={uidb64}&token={token}{expected_query_params}'
+            f'http://testserver/export-academy/signup/verification?uidb64={uidb64}&token={token}{query_params}'
         ),
         resend_verification_link=('http://testserver/profile/enrol/resend-verification/resend/'),
     )
     assert response.status_code == 302
-    assert (
-        response['Location']
-        == f"{reverse('export_academy:signup-verification')}?uidb64={uidb64}&token={token}{expected_query_params}"
-    )
+
+    response_location_url = response['Location'].split('?')[0]
+    assert response_location_url == reverse('export_academy:signup-verification')
+    response_location_params = dict(parse.parse_qsl(parse.urlsplit(response['Location']).query))
+    assert response_location_params == dict(parse.parse_qsl(f'uidb64={uidb64}&token={token}{query_params}'))
 
 
 @pytest.mark.parametrize(
-    'user_ea_registered, expected_query_params',
+    'query_params, user_ea_registered, next',
     (
-        (True, '&existing-ea-user=true'),
-        (False, ''),
+        ('&next=next_url&existing-ea-user=true', 'true', 'next_url'),
+        ('&existing-ea-user=true', 'true', None),
+        ('&next=next_url', None, 'next_url'),
+        ('', None, None),
     ),
 )
 @mock.patch.object(sso_api_client.user, 'create_user')
@@ -719,33 +759,42 @@ def test_sign_up_code_already_sent(
     mock_create_user,
     mock_regenerate_verification_code,
     mock_send_verification_code_email,
+    next_url,
     signup_post_request_unique_link,
+    signup_post_request_unique_link_with_next,
     signup_form_post_request_new_user,
+    signup_form_post_request_new_user_with_next,
+    query_params,
     user_ea_registered,
-    expected_query_params,
+    next,
 ):
     uidb64 = 'MjE1ODk1'
     token = 'bq1ftj-e82fb7b694d200b144012bfac0c866b2'
     mock_create_user.return_value = create_response(status_code=409)
 
     if user_ea_registered:
-        response = signup_post_request_unique_link()
+        response = signup_post_request_unique_link() if not next else signup_post_request_unique_link_with_next()
     else:
-        response = signup_form_post_request_new_user()
+        response = signup_form_post_request_new_user() if not next else signup_form_post_request_new_user_with_next()
+
+    query_params = query_params.replace('next_url', next_url)
 
     assert mock_send_verification_code_email.call_count == 1
     assert response.status_code == 302
-    assert (
-        response['Location']
-        == f"{reverse('export_academy:signup-verification')}?uidb64={uidb64}&token={token}{expected_query_params}"
-    )
+
+    response_location_url = response['Location'].split('?')[0]
+    assert response_location_url == reverse('export_academy:signup-verification')
+    response_location_params = dict(parse.parse_qsl(parse.urlsplit(response['Location']).query))
+    assert response_location_params == dict(parse.parse_qsl(f'uidb64={uidb64}&token={token}{query_params}'))
 
 
 @pytest.mark.parametrize(
-    'user_ea_registered, expected_query_params',
+    'query_params, user_ea_registered, next',
     (
-        (True, 'existing-ea-user=true'),
-        (False, ''),
+        ('next=next_url&existing-ea-user=true', 'true', 'next_url'),
+        ('existing-ea-user=true', 'true', None),
+        ('next=next_url', None, 'next_url'),
+        ('', None, None),
     ),
 )
 @mock.patch.object(sso_api_client.user, 'create_user')
@@ -756,37 +805,46 @@ def test_sign_up_already_registered(
     mock_notify_already_registered,
     mock_regenerate_verification_code,
     mock_create_user,
+    next_url,
     signup_post_request_unique_link,
+    signup_post_request_unique_link_with_next,
     signup_form_post_request_new_user,
+    signup_form_post_request_new_user_with_next,
+    query_params,
     user_ea_registered,
-    expected_query_params,
+    next,
 ):
     mock_create_user.return_value = create_response(status_code=409)
     mock_regenerate_verification_code.return_value = None
 
     if user_ea_registered:
-        response = signup_post_request_unique_link()
+        response = signup_post_request_unique_link() if not next else signup_post_request_unique_link_with_next()
     else:
-        response = signup_form_post_request_new_user()
+        response = signup_form_post_request_new_user() if not next else signup_form_post_request_new_user_with_next()
+
+    query_params = query_params.replace('next_url', next_url)
 
     assert mock_notify_already_registered.call_count == 1
     assert mock_notify_already_registered.call_args == mock.call(
         email='test@example.com', form_url='/export-academy/signup', login_url='http://testserver/export-academy/signin'
     )
     assert response.status_code == 302
-    assert response['Location'].startswith(reverse('export_academy:signup-verification'))
-    assert expected_query_params in response['Location']
+    response_location_url = response['Location'].split('?')[0]
+    assert response_location_url == reverse('export_academy:signup-verification')
 
 
 @pytest.mark.parametrize(
     'query_params, user_ea_registered, expected_page_heading',
     (
+        ('&next=next_url&existing-ea-user=true', 'true', 'Set password for UK Export Academy'),
         ('&existing-ea-user=true', 'true', 'Set password for UK Export Academy'),
+        ('&next=next_url', None, 'Join the UK Export Academy'),
         ('', None, 'Join the UK Export Academy'),
     ),
 )
 @pytest.mark.django_db
-def test_verification_page(client, uidb64, token, query_params, user_ea_registered, expected_page_heading):
+def test_verification_page(client, uidb64, token, next_url, query_params, user_ea_registered, expected_page_heading):
+    query_params = query_params.replace('next_url', next_url)
     response = client.get(
         reverse('export_academy:signup-verification') + f'?uidb64={uidb64}&token={token}{query_params}'
     )
@@ -816,10 +874,7 @@ def test_verification_page_incorrect_code(mock_verify_verification_code, client,
 
 @pytest.mark.parametrize(
     'query_params',
-    (
-        ('&existing-ea-user=true'),
-        (''),
-    ),
+    (('&next=next_url&existing-ea-user=true'), ('&next=next_url'), ('')),
 )
 @mock.patch.object(sso_api_client.user, 'verify_verification_code')
 @pytest.mark.django_db
@@ -827,6 +882,7 @@ def test_verification_page_code_expired(
     mock_verify_verification_code,
     mock_regenerate_verification_code,
     mock_send_verification_code_email,
+    next_url,
     client,
     uidb64,
     token,
@@ -835,6 +891,7 @@ def test_verification_page_code_expired(
     mock_verify_verification_code.return_value = create_response(
         status_code=422, json_body={'email': 'test@example.com'}
     )
+    query_params = query_params.replace('next_url', next_url)
     response = client.post(
         reverse('export_academy:signup-verification') + f'?uidb64={uidb64}&token={token}{query_params}',
         data={'code_confirm': '1234'},
@@ -861,10 +918,7 @@ def test_verification_page_code_expired(
 
 @pytest.mark.parametrize(
     'query_params',
-    (
-        ('existing-ea-user=true'),
-        (''),
-    ),
+    (('next=next_url&existing-ea-user=true'), ('next=next_url'), ('')),
 )
 @mock.patch.object(sso_helpers, 'set_cookies_from_cookie_jar')
 @mock.patch.object(sso_helpers, 'get_cookie_jar')
@@ -877,11 +931,13 @@ def test_verification_page_success(
     mock_get_cookie_jar,
     mock_set_cookies_from_cookie_jar,
     client,
+    next_url,
     query_params,
 ):
     mock_verify_verification_code.return_value = create_response(
         status_code=200, json_body={'email': 'test@example.com'}
     )
+    query_params = query_params.replace('next_url', next_url)
     response = client.post(
         reverse('export_academy:signup-verification') + f'?uidb64={uidb64}&token={token}&{query_params}',
         data={'code_confirm': '1234'},
@@ -894,19 +950,25 @@ def test_verification_page_success(
     )
     assert mock_set_cookies_from_cookie_jar.call_count == 1
     assert response.status_code == 302
-    assert response['Location'].startswith(reverse('export_academy:signup-complete'))
-    assert query_params in response['Location']
+
+    response_location_url = response['Location'].split('?')[0]
+    assert response_location_url == reverse('export_academy:signup-complete')
+    response_location_params = dict(parse.parse_qsl(parse.urlsplit(response['Location']).query))
+    assert response_location_params == dict(parse.parse_qsl(query_params))
 
 
 @pytest.mark.parametrize(
     'query_params, user_ea_registered, expected_page_heading',
     (
+        ('?next=next_url&existing-ea-user=true', 'true', 'Set password for UK Export Academy'),
         ('?existing-ea-user=true', 'true', 'Set password for UK Export Academy'),
+        ('?next=next_url', None, 'Join the UK Export Academy'),
         ('', None, 'Join the UK Export Academy'),
     ),
 )
 @pytest.mark.django_db
-def test_signup_complete_page(client, query_params, user_ea_registered, expected_page_heading):
+def test_signup_complete_page(client, next_url, query_params, user_ea_registered, expected_page_heading):
+    query_params = query_params.replace('next_url', next_url)
     response = client.get(reverse('export_academy:signup-complete') + query_params)
     assert response.status_code == 200
     assert response.context.get('existing_ea_user') == user_ea_registered
@@ -914,17 +976,26 @@ def test_signup_complete_page(client, query_params, user_ea_registered, expected
 
 
 @pytest.mark.parametrize(
-    'unique_link, expected_page_heading',
+    'unique_link, query_params, next, expected_page_heading',
     (
-        (True, 'UK Export Academy on Great.gov.uk'),
-        (False, 'Join the UK Export Academy'),
+        (True, '?next=next_url', 'next_url', 'UK Export Academy on Great.gov.uk'),
+        (True, '', None, 'UK Export Academy on Great.gov.uk'),
+        (False, '?next=next_url', 'next_url', 'Join the UK Export Academy'),
+        (False, '', None, 'Join the UK Export Academy'),
     ),
 )
 @pytest.mark.django_db
-def test_signin_page(client, test_unique_link_query_params, unique_link, expected_page_heading):
+def test_signin_page(
+    client, test_unique_link_query_params, next_url, unique_link, query_params, next, expected_page_heading
+):
     url = reverse('export_academy:signin')
+    query_params = query_params.replace('next_url', next_url)
     if unique_link:
         url += test_unique_link_query_params
+        if next:
+            url += query_params.replace('?', '&')
+    elif next:
+        url += query_params
     response = client.get(url)
     assert response.status_code == 200
     if unique_link:
@@ -933,17 +1004,24 @@ def test_signin_page(client, test_unique_link_query_params, unique_link, expecte
 
 
 @pytest.mark.parametrize(
-    'unique_link',
+    'unique_link, query_params, next',
     (
-        (True),
-        (False),
+        (True, '?next=next_url', 'next_url'),
+        (True, '', None),
+        (False, '?next=next_url', 'next_url'),
+        (False, '', None),
     ),
 )
 @pytest.mark.django_db
-def test_signin_empty_password(client, unique_link, test_unique_link_query_params):
+def test_signin_empty_password(client, next_url, unique_link, query_params, next, test_unique_link_query_params):
     url = reverse('export_academy:signin')
+    query_params = query_params.replace('next_url', next_url)
     if unique_link:
         url += test_unique_link_query_params
+        if next:
+            url += query_params.replace('?', '&')
+    elif next:
+        url += query_params
     form_data = {'email': 'test@example.com'}
     response = client.post(url, data=form_data)
 
@@ -954,47 +1032,73 @@ def test_signin_empty_password(client, unique_link, test_unique_link_query_param
 
 
 @pytest.mark.parametrize(
-    'unique_link',
+    'unique_link, query_params, next',
     (
-        (True),
-        (False),
+        (True, '?next=next_url', 'next_url'),
+        (True, '', None),
+        (False, '?next=next_url', 'next_url'),
+        (False, '', None),
     ),
 )
 @pytest.mark.django_db
-def test_signin_success(client, requests_mock, unique_link, test_unique_link_query_params):
+def test_signin_success(
+    client, next_url, requests_mock, unique_link, query_params, next, test_unique_link_query_params
+):
     requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=302)
     form_data = {'email': 'test@example.com', 'password': 'test-password'}
 
     url = reverse('export_academy:signin')
+    query_params = query_params.replace('next_url', next_url)
     if unique_link:
         url += test_unique_link_query_params
+        if next:
+            url += query_params.replace('?', '&')
+    elif next:
+        url += query_params
     response = client.post(url, data=form_data)
+
+    redirect_url = reverse('export_academy:upcoming-events') if not next else next_url
 
     assert isinstance(response, HttpResponseRedirect)
     assert response.status_code == 302
-    assert response.url == reverse('export_academy:upcoming-events')
+    assert response.url == redirect_url
 
 
 @pytest.mark.parametrize(
-    'unique_link',
+    'unique_link, query_params, next',
     (
-        (True),
-        (False),
+        (True, '?next=next_url', 'next_url'),
+        (True, '', None),
+        (False, '?next=next_url', 'next_url'),
+        (False, '', None),
     ),
 )
 @pytest.mark.django_db
 @mock.patch.object(sso_helpers, 'regenerate_verification_code')
 @mock.patch.object(sso_helpers, 'send_verification_code_email')
 def test_signin_send_verification(
-    mock_send_code, mock_regenerate_code, client, requests_mock, test_unique_link_query_params, unique_link
+    mock_send_code,
+    mock_regenerate_code,
+    client,
+    next_url,
+    requests_mock,
+    test_unique_link_query_params,
+    unique_link,
+    query_params,
+    next,
 ):
     mock_regenerate_code.return_value = {'code': '12345', 'user_uidb64': 'aBcDe', 'verification_token': '1ab-123abc'}
     requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=401)
     form_data = {'email': 'test@example.com', 'password': 'test-password'}
 
     url = reverse('export_academy:signin')
+    query_params = query_params.replace('next_url', next_url)
     if unique_link:
         url += test_unique_link_query_params
+        if next:
+            url += query_params.replace('?', '&')
+    elif next:
+        url += query_params
     response = client.post(url, data=form_data)
 
     assert mock_send_code.call_count == 1
@@ -1003,20 +1107,29 @@ def test_signin_send_verification(
 
 
 @pytest.mark.parametrize(
-    'unique_link',
+    'unique_link, query_params, next',
     (
-        (True),
-        (False),
+        (True, '?next=next_url', 'next_url'),
+        (True, '', None),
+        (False, '?next=next_url', 'next_url'),
+        (False, '', None),
     ),
 )
 @pytest.mark.django_db
-def test_signin_invalid_password(client, requests_mock, test_unique_link_query_params, unique_link):
+def test_signin_invalid_password(
+    client, next_url, requests_mock, test_unique_link_query_params, unique_link, query_params, next
+):
     requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=200)
     form_data = {'email': 'test@example.com', 'password': 'test-password'}
 
     url = reverse('export_academy:signin')
+    query_params = query_params.replace('next_url', next_url)
     if unique_link:
         url += test_unique_link_query_params
+        if next:
+            url += query_params.replace('?', '&')
+    elif next:
+        url += query_params
     response = client.post(url, data=form_data)
 
     assert response.context['form'].errors['password'] == ['Invalid email / password']

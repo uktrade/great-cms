@@ -1,4 +1,5 @@
 import directory_healthcheck.views
+from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import path, re_path, reverse_lazy
 from great_components.decorators import skip_ga360
@@ -138,7 +139,6 @@ urlpatterns = [
         skip_ga360(views_api.CompaniesHouseAPIView.as_view()),
         name='api-companies-house',
     ),
-    path('api/survey/<str:id>/', skip_ga360(views_api.SurveyDetailView.as_view()), name='api-survey'),
     path(
         'subtitles/<int:great_media_id>/<str:language>/content.vtt',
         login_required(
@@ -173,4 +173,14 @@ urlpatterns = [
     # WHEN ADDING TO THIS LIST CONSIDER WHETHER YOU SHOULD ALSO ADD THE URL NAME
     # TO core.views.StaticViewSitemap
 ]
+
+if settings.FEATURE_DESIGN_SYSTEM:
+    urlpatterns += [
+        path(
+            'design-system',
+            skip_ga360(views.DesignSystemView.as_view()),
+            name='design-system',
+        ),
+    ]
+
 urlpatterns += redirects

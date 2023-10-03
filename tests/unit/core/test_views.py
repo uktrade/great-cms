@@ -621,11 +621,17 @@ def test_list_page_uses_right_template(domestic_homepage, rf, user):
     assert response.template_name == 'learn/detail_page.html'
 
 
+@pytest.mark.parametrize(
+    'test_url,template_name',
+    (
+        ('/hey-kid-do-a-kickflip/', 'core/404.html'),
+        ('/international/expand-your-business-in-the-uk/hey-kid-do-a-kickflip/', 'eyb/404.html'),
+    ),
+)
 @pytest.mark.django_db
-def test_handler404(client, settings):
-    response = client.get('/hey-kid-do-a-kickflip/')
-
-    assert response.template_name == 'core/404.html'
+def test_handler404(client, settings, test_url, template_name):
+    response = client.get(test_url)
+    assert response.template_name == template_name
     assert response.status_code == 404
 
 
@@ -1046,14 +1052,6 @@ def test_serve_subtitles__login_required(client):
     assert resp.headers['location'] == reverse('core:login') + f'?next={dest}'
 
 
-@pytest.mark.django_db
-def test_get_survey_view_api_view(client, mock_get_survey):
-    url = reverse('core:api-survey', kwargs={'id': '123'})
-    client.get(url)
-    assert mock_get_survey.call_count == 1
-    assert mock_get_survey.call_args == mock.call(id='123')
-
-
 @pytest.mark.skipif(
     not settings.FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE, reason='Multiple translations not enabled'
 )
@@ -1293,3 +1291,12 @@ def test_alt_image_upload_view_form_is_invalid(
     assert isinstance(response, JsonResponse)
     assert response.status_code == 200
     assert json.loads(response.content.decode('utf8'))['step'] == 'reshow_creation_form'
+
+
+@pytest.mark.django_db
+def test_design_system_page(
+    client,
+):
+    response = client.get(reverse('core:design-system'))
+
+    assert 'GREAT Design System' in str(response.rendered_content)

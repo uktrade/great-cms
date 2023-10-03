@@ -11,6 +11,7 @@ from freezegun import freeze_time
 from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APIClient
+from wagtail_factories import PageFactory
 
 from tests.unit.core.factories import IndustryTagFactory
 from tests.unit.domestic.factories import ArticlePageFactory, CountryGuidePageFactory
@@ -20,9 +21,9 @@ from tests.unit.export_academy.factories import (
     RegistrationFactory,
 )
 
-URL = 'http://testserver' + reverse('activitystream:cms-content')
-URL_INCORRECT_DOMAIN = 'http://incorrect' + reverse('activitystream:cms-content')
-URL_INCORRECT_PATH = 'http://testserver' + reverse('activitystream:cms-content') + 'incorrect/'
+URL = 'http://testserver' + reverse('activitystream:articles')
+URL_INCORRECT_DOMAIN = 'http://incorrect' + reverse('activitystream:articles')
+URL_INCORRECT_PATH = 'http://testserver' + reverse('activitystream:articles') + 'incorrect/'
 EMPTY_COLLECTION = {
     '@context': 'https://www.w3.org/ns/activitystreams',
     'type': 'Collection',
@@ -154,7 +155,7 @@ def test_if_61_seconds_in_past_401_returned(api_client, en_locale):
         auth = auth_sender().request_header
 
     response = api_client.get(
-        reverse('activitystream:cms-content'),
+        reverse('activitystream:articles'),
         content_type='',
         HTTP_AUTHORIZATION=auth,
         HTTP_X_FORWARDED_FOR='1.2.3.4, 123.123.123.123',
@@ -511,3 +512,27 @@ def test_activity_stream_eyb_views(api_client, resource, expected_count):
 
     assert response.status_code == 200
     assert response.json() == EMPTY_COLLECTION
+
+
+@pytest.mark.django_db
+def test_activity_stream_cms_content_view(api_client, en_locale):
+    url = 'http://testserver' + reverse('activitystream:cms-content')
+    sender = auth_sender(url=url)
+    auth_headers = {
+        'content_type': '',
+        'HTTP_AUTHORIZATION': sender.request_header,
+        'HTTP_X_FORWARDED_FOR': '1.2.3.4, 123.123.123.123',
+    }
+    now = timezone.now()
+    response = api_client.get(url, **auth_headers)
+
+    assert response.status_code == 200
+    assert response.json() == EMPTY_COLLECTION
+    assert len(response.json()['orderedItems']) == 0
+
+    PageFactory.create_batch(10, live=True, first_published_at=now, last_published_at=now)
+
+    response = api_client.get(url, **auth_headers)
+
+    assert response.status_code == 200
+    assert len(response.json()['orderedItems']) == 10
