@@ -1,3 +1,4 @@
+# <project>/signal_handlers.py
 from wagtail.admin.mail import (
     GroupApprovalTaskStateSubmissionEmailNotifier,
     WorkflowStateSubmissionEmailNotifier,
