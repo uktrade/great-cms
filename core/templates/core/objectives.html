@@ -1,19 +1,14 @@
 {% load  wagtailcore_tags %}
-
 <div class="objectives">
     <h2 class="h-m">Lesson objective</h2>
     {% for block in page.objective %}
         <div class="rich-text">
-        {% if block.block_type == 'paragraph' %}
-            <p> {{ block.value }}</p>
-        {% endif %}
+            {% if block.block_type == 'paragraph' %}<p>{{ block.value }}</p>{% endif %}
         </div>
     {% endfor %}
     <ul class="list-dot">
         {% for block in page.objective %}
-            {% if block.block_type == 'ListItem' %}
-                <li>{{ block.value.item }}</li>
-            {% endif %}
+            {% if block.block_type == 'ListItem' %}<li>{{ block.value.item }}</li>{% endif %}
         {% endfor %}
     </ul>
     <hr class="hr hr--dark m-b-m m-t-m" />

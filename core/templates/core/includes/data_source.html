@@ -1,12 +1,13 @@
 {% load content_tags %}
 <p class="font-xsmall statistic-smallprint margin-top-0 padding-top-15">
-  (Source:
-  {% spaceless %}
-    {% if source.url %}
-      <a class="link" target="_blank" href="{{ source.url }}">{{ source.organisation }} {{ source.label }}</a>
-    {% else %}
-      {{ source.label }}
-    {% endif %}
-    <br/>Last updated: {{ source.last_release|str_to_datetime|date:"F Y"}})
-  {% endspaceless %}
+    (Source:
+    {% spaceless %}
+        {% if source.url %}
+            <a class="link" target="_blank" href="{{ source.url }}">{{ source.organisation }} {{ source.label }}</a>
+        {% else %}
+            {{ source.label }}
+        {% endif %}
+        <br />
+        Last updated: {{ source.last_release|str_to_datetime|date:"F Y" }})
+    {% endspaceless %}
 </p>

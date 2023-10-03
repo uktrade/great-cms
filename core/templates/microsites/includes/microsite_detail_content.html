@@ -5,64 +5,55 @@
 {% load get_template_translation_enabled from content_tags %}
 {% get_current_language_bidi as LANGUAGE_BIDI %}
 {% get_template_translation_enabled as TRANSLATE_TEXT %}
-
-<div class="microsite-main {{ view.slug }}-microsite" lang="{{current_language}}" dir="{%if current_language == 'ar' %}rtl{%else%}ltr{%endif%}">
-
-  <header>
-  {% include 'microsites/includes/microsite_nav.html' with current_language=current_language available_languages=available_languages title=page.get_site_title  menu_items=page.get_menu_items active_url=request.path use_domestic_logo=page.get_use_domestic_header_logo %}
-
-
-  {% image page.hero_image original as hero_image %}
-
-  {% if hero_image %}
-  <div class="great-full-width-header-image" style="background-image: url({{ hero_image.url }})"></div>
-  {% endif %}
-  </header>
-  <main id="content" tabindex="-1" class="{% block css_layout_class %}{% endblock css_layout_class %}" role="main">
-    <div class="container govuk-!-padding-top-7 {% if LANGUAGE_BIDI  and TRANSLATE_TEXT %} great-rtl {% endif %}">
-
-        <div class="govuk-grid-row great-floating-right-column">
-          <div class="govuk-grid-column-three-quarters govuk-!-margin-bottom-7">
-            {% if page.page_title %}
-              <h1 class="govuk-heading-xl govuk-!-margin-bottom-4">{{ page.page_title }}</h1>
-            {% endif %}
-
-            {% if page.page_subheading %}
-              <p class="govuk-heading-m great-max-width-75">{{ page.page_subheading }}</p>
-            {% endif %}
-          </div>
-          <div class="govuk-grid-column-one-quarter" id="related-content">
-            {% block related_content %}
-              {% include 'microsites/includes/microsite_related_content_list.html' %}
+<div class="microsite-main {{ view.slug }}-microsite"
+     lang="{{ current_language }}"
+     dir="{% if current_language == 'ar' %}rtl{% else %}ltr{% endif %}">
+    <header>
+        {% include 'microsites/includes/microsite_nav.html' with current_language=current_language available_languages=available_languages title=page.get_site_title  menu_items=page.get_menu_items active_url=request.path use_domestic_logo=page.get_use_domestic_header_logo %}
+        {% image page.hero_image original as hero_image %}
+        {% if hero_image %}
+            <div class="great-full-width-header-image"
+                 style="background-image: url({{ hero_image.url }})"></div>
+        {% endif %}
+    </header>
+    <main id="content"
+          tabindex="-1"
+          class="{% block css_layout_class %}{% endblock css_layout_class %}"
+          role="main">
+        <div class="container govuk-!-padding-top-7 {% if LANGUAGE_BIDI  and TRANSLATE_TEXT %}great-rtl{% endif %}">
+            <div class="govuk-grid-row great-floating-right-column">
+                <div class="govuk-grid-column-three-quarters govuk-!-margin-bottom-7">
+                    {% if page.page_title %}<h1 class="govuk-heading-xl govuk-!-margin-bottom-4">{{ page.page_title }}</h1>{% endif %}
+                    {% if page.page_subheading %}<p class="govuk-heading-m great-max-width-75">{{ page.page_subheading }}</p>{% endif %}
+                </div>
+                <div class="govuk-grid-column-one-quarter" id="related-content">
+                    {% block related_content %}
+                        {% include 'microsites/includes/microsite_related_content_list.html' %}
+                    {% endblock %}
+                </div>
+            </div>
+            {% include 'microsites/blocks/streamfield.html' with streamfield_content=page.page_body  form_class='govuk-grid-column-two-thirds' %}
+            {% block related_ctas %}
+                {% if page.cta_title or page.cta_teaser or page.cta_link_label and page.cta_link %}
+                    {% include 'microsites/blocks/cta.html' with title=page.cta_title teaser=page.cta_teaser link=page.cta_link link_label=page.cta_link_label %}
+                {% endif %}
             {% endblock %}
-          </div>
+            {% block social_media %}
+                {% include 'microsites/blocks/social_media.html' with twitter=page.twitter email=page.email facebook=page.facebook linkedin=page.linkedin %}
+            {% endblock %}
+            <section class="govuk-grid-column-three-quarters govuk-!-static-padding-left-0 govuk-!-static-padding-top-9">
+                {% if page.last_published_at %}
+                    <p class="govuk-body great-text-grey govuk-!-static-margin-bottom-0">
+                        {% if TRANSLATE_TEXT %}
+                            {% translate "Last updated:" %}
+                        {% else %}
+                            Last updated:
+                        {% endif %}
+                        <time datetime="{{ page.last_published_at|date:'c' }}">{{ page.last_published_at|date:"j F Y" }}</time>
+                    </p>
+                {% endif %}
+            </section>
+            {% block microsite_footer %}{% endblock %}
         </div>
-        {%include 'microsites/blocks/streamfield.html' with streamfield_content=page.page_body  form_class='govuk-grid-column-two-thirds'%}
-        {% block related_ctas %}
-          {% if page.cta_title or page.cta_teaser or page.cta_link_label and page.cta_link %}
-            {% include 'microsites/blocks/cta.html' with title=page.cta_title teaser=page.cta_teaser link=page.cta_link link_label=page.cta_link_label %}
-          {% endif %}
-        {% endblock %}
-
-        {% block social_media %}
-            {%include 'microsites/blocks/social_media.html' with twitter=page.twitter email=page.email facebook=page.facebook linkedin=page.linkedin%}
-        {%endblock%}
-        <section class="govuk-grid-column-three-quarters govuk-!-static-padding-left-0 govuk-!-static-padding-top-9">
-          {% if page.last_published_at %}
-            <p class="govuk-body great-text-grey govuk-!-static-margin-bottom-0">
-              {% if TRANSLATE_TEXT %}
-                {% translate "Last updated:" %}
-              {% else %}
-                Last updated:
-              {% endif %}
-              <time datetime="{{page.last_published_at|date:'c'}}">{{page.last_published_at|date:"j F Y"}}</time>
-            </p>
-          {% endif %}
-          </section>
-
-
-        {% block microsite_footer %}{% endblock %}
-
-    </div>
-  </main>
+    </main>
 </div>

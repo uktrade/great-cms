@@ -1,19 +1,18 @@
 {% extends 'microsites/base.html' %}
-
 {% load static %}
 {% load component_tags %}
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
-
 {% block head_title %}{{ page.page_title }}{% endblock %}
-
-{% block meta_description %}{% get_meta_description site %}{% endblock %}
-{% block css_layout_class %}microsite-detail-page{% endblock css_layout_class %}
-
+{% block meta_description %}
+    {% get_meta_description site %}
+{% endblock %}
+{% block css_layout_class %}
+    microsite-detail-page
+{% endblock css_layout_class %}
 {% block content %}
-
-<section id="microsite" class="microsite great great-bg-white govuk-!-static-padding-bottom-0">
-  {% include 'microsites/includes/microsite_detail_content.html' %}
-</section>
-
+    <section id="microsite"
+             class="microsite great great-bg-white govuk-!-static-padding-bottom-0">
+        {% include 'microsites/includes/microsite_detail_content.html' %}
+    </section>
 {% endblock %}
