@@ -19,7 +19,7 @@ class GroupBaseUserApprovalTaskStateEmailNotifier(EmailNotificationMixin, Notifi
         logger.debug(f'Can Handle Type: {type(instance.revision.content_object)}')
         if not isinstance(instance.revision.content_object, ArticlePage):
             return False
-        logger.debuf(f'Can Handle: {instance.revision.content_object.type_of_article}')
+        logger.debug(f'Can Handle: {instance.revision.content_object.type_of_article}')
         return True if instance.revision.content_object.type_of_article.strip() == 'Campaign' else False
 
     def get_recipient_users(self, task_state, **kwargs):
