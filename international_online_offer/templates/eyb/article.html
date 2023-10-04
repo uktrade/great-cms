@@ -9,20 +9,22 @@
 {% endblock %}
 {% block head_css %}{{ block.super }}{% endblock %}
 {% block content %}
-<div class="govuk-width-container">
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      {% if request.GET.back %}
-        <a href="{{ '/international/expand-your-business-in-the-uk/guide/#personalised-guide' }}" class="govuk-back-link govuk-!-margin-bottom-4">Back</a>
-      {% else %}
-        <a href="{{ '/international/expand-your-business-in-the-uk/guide' }}" class="govuk-back-link govuk-!-margin-bottom-4">Back</a>
-      {% endif %}
-    </div>
-    {% if 'find-expert-talent' in request.path or show_salary_component %}
-        {% include './includes/salary.html' with salary_location_form=location_form entry_salary=entry_salary mid_salary=mid_salary executive_salary=executive_salary professions_by_sector=professions_by_sector %}
-    {% endif %}
-    {% if 'find-the-right-location-and-premises' in request.path or show_rent_component %}
-        {% include './includes/rent.html' with rent_location_form=location_form large_warehouse_rent=large_warehouse_rent small_warehouse_rent=small_warehouse_rent shopping_centre=shopping_centre high_street_retail=high_street_retail work_office=work_office %}
-    {% endif %}
-{% endblock %}
-{% block body_js %}{{ block.super }}{% endblock %}
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                {% if request.GET.back %}
+                    <a href="{{ '/international/expand-your-business-in-the-uk/guide/#personalised-guide' }}"
+                       class="govuk-back-link govuk-!-margin-bottom-4">Back</a>
+                {% else %}
+                    <a href="{{ '/international/expand-your-business-in-the-uk/guide' }}"
+                       class="govuk-back-link govuk-!-margin-bottom-4">Back</a>
+                {% endif %}
+            </div>
+            {% if 'find-expert-talent' in request.path or show_salary_component %}
+                {% include './includes/salary.html' with salary_location_form=location_form entry_salary=entry_salary mid_salary=mid_salary executive_salary=executive_salary professions_by_sector=professions_by_sector %}
+            {% endif %}
+            {% if 'find-the-right-location-and-premises' in request.path or show_rent_component %}
+                {% include './includes/rent.html' with rent_location_form=location_form large_warehouse_rent=large_warehouse_rent small_warehouse_rent=small_warehouse_rent shopping_centre=shopping_centre high_street_retail=high_street_retail work_office=work_office %}
+            {% endif %}
+        {% endblock %}
+        {% block body_js %}{{ block.super }}{% endblock %}
