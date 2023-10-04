@@ -447,16 +447,6 @@ vine==5.0.0
     #   kombu
 w3lib==1.22.0
     # via directory-client-core
-wagtail==4.2.4
-    # via
-    #   wagtail-cache
-    #   wagtail-draftail-anchors
-    #   wagtail-factories
-    #   wagtail-localize
-    #   wagtail-seo
-    #   wagtail-transfer
-    #   wagtail-trash
-    #   wagtailmedia
 wagtail-cache==2.2.0
     # via -r requirements.in
 wagtail-draftail-anchors==0.6.0
