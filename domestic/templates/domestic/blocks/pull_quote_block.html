@@ -8,16 +8,18 @@
                 <span>
                     {{ value.attribution }}
                     {% if value.attribution and value.role %},{% endif %}
-                    </span>
+                </span>
+            {% endif %}
+            {% if value.role %}<span>{{ value.role }}</span>{% endif %}
+            {% if value.organisation %}
+                {% if value.organisation_link %}
+                    <a target='_blank'
+                       href='{{ value.organisation_link }}'
+                       rel='noopener noreferrer'>{{ value.organisation }}</a>
+                {% else %}
+                    <span>{{ value.organisation }}</span>
                 {% endif %}
-                {% if value.role %}<span>{{ value.role }}</span>{% endif %}
-                {% if value.organisation %}
-                    {% if value.organisation_link %}
-                        <a target='_blank' href='{{ value.organisation_link }}'>{{ value.organisation }}</a>
-                    {% else %}
-                        <span>{{ value.organisation }}</span>
-                    {% endif %}
-                {% endif %}
-            </figcaption>
-        {% endif %}
-    </figure>
+            {% endif %}
+        </figcaption>
+    {% endif %}
+</figure>

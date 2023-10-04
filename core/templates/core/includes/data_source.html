@@ -3,7 +3,10 @@
     (Source:
     {% spaceless %}
         {% if source.url %}
-            <a class="link" target="_blank" href="{{ source.url }}">{{ source.organisation }} {{ source.label }}</a>
+            <a class="link"
+               target="_blank"
+               href="{{ source.url }}"
+               rel="noopener noreferrer">{{ source.organisation }} {{ source.label }}</a>
         {% else %}
             {{ source.label }}
         {% endif %}
