@@ -11,8 +11,7 @@ from wagtail.admin.mail import (
     GroupApprovalTaskStateSubmissionEmailNotifier,
     WorkflowStateSubmissionEmailNotifier,
 )
-from wagtail.admin.views.pages.edit import EditView
-from wagtail.models import Task, TaskState, WorkflowState
+from wagtail.models import TaskState, WorkflowState
 from wagtail.signals import task_submitted, workflow_submitted
 from .mail import ModerationTaskStateSubmissionEmailNotifier
 
@@ -386,6 +385,9 @@ def register_signal_handlers():
         )
     )
 
+    task_submitted.connect(
+        receiver=task_submission_email_notifier, sender=TaskState, dispatch_uid='my-unique-identifier'
+    )
     workflow_submitted.connect(
         receiver=task_submission_email_notifier, sender=TaskState, dispatch_uid='my-unique-identifier'
     )
