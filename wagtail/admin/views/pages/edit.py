@@ -600,7 +600,7 @@ class EditView(TemplateResponseMixin, ContextMixin, HookResponseMixin, View):
             changes = self.get_commenting_changes()
             self.log_commenting_changes(changes, revision)
             self.send_commenting_notifications(changes)
-        breakpoint()
+
         if self.workflow_state and self.workflow_state.status == WorkflowState.STATUS_NEEDS_CHANGES:
             # If the workflow was in the needs changes state, resume the existing workflow on submission
             self.workflow_state.resume(self.request.user)

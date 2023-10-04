@@ -3553,7 +3553,7 @@ class Task(models.Model):
         task_state.revision = workflow_state.content_object.get_latest_revision()
         task_state.task = self
         task_state.save()
-        breakpoint()
+
         task_submitted.send(
             sender=task_state.specific.__class__,
             instance=task_state.specific,
@@ -3677,7 +3677,7 @@ class Workflow(ClusterableModel):
         )
         state.save()
         state.update(user=user)
-        breakpoint()
+
         workflow_submitted.send(sender=state.__class__, instance=state, user=user)
 
         next_task_data = None

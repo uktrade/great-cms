@@ -16,7 +16,6 @@ logger.addHandler(handler)
 
 class ModerationTaskStateEmailNotifier(EmailNotificationMixin, Notifier):
     def can_handle(self, instance, **kwargs):
-        breakpoint()
         logger.debug('Can Handle entered')
         if isinstance(instance, TaskState):
             if not isinstance(instance.revision.content_object, ArticlePage):
