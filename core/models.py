@@ -19,26 +19,6 @@ from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.models import ClusterableModel, ParentalKey
 from taggit.managers import TaggableManager
 from taggit.models import ItemBase, TagBase, TaggedItemBase
-from wagtail import blocks
-from wagtail.admin.panels import (
-    FieldPanel,
-    InlinePanel,
-    MultiFieldPanel,
-    ObjectList,
-    PageChooserPanel,
-    TabbedInterface,
-)
-from wagtail.blocks.field_block import RichTextBlock
-from wagtail.blocks.stream_block import StreamBlock, StreamBlockValidationError
-from wagtail.contrib.redirects.models import Redirect
-from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
-from wagtail.fields import RichTextField, StreamField
-from wagtail.images import get_image_model_string
-from wagtail.images.blocks import ImageChooserBlock
-from wagtail.images.models import AbstractImage, AbstractRendition, Image
-from wagtail.models import Orderable, Page
-from wagtail.snippets.models import register_snippet
-from wagtail.utils.decorators import cached_classmethod
 from wagtailmedia.models import Media
 from wagtailseo.models import SeoMixin
 
@@ -62,6 +42,26 @@ from exportplan.core.data import (
     SECTION_SLUGS as EXPORTPLAN_SLUGS,
     SECTIONS as EXPORTPLAN_URL_MAP,
 )
+from wagtail import blocks
+from wagtail.admin.panels import (
+    FieldPanel,
+    InlinePanel,
+    MultiFieldPanel,
+    ObjectList,
+    PageChooserPanel,
+    TabbedInterface,
+)
+from wagtail.blocks.field_block import RichTextBlock
+from wagtail.blocks.stream_block import StreamBlock, StreamBlockValidationError
+from wagtail.contrib.redirects.models import Redirect
+from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
+from wagtail.fields import RichTextField, StreamField
+from wagtail.images import get_image_model_string
+from wagtail.images.blocks import ImageChooserBlock
+from wagtail.images.models import AbstractImage, AbstractRendition, Image
+from wagtail.models import Orderable, Page
+from wagtail.snippets.models import register_snippet
+from wagtail.utils.decorators import cached_classmethod
 
 # If we make a Redirect appear as a Snippet, we can sync it via Wagtail-Transfer
 register_snippet(Redirect)

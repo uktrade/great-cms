@@ -1,8 +1,8 @@
 import pytest
-from wagtail import blocks
-from wagtail.fields import StreamField
 
 from core import fields
+from wagtail import blocks
+from wagtail.fields import StreamField
 
 
 @pytest.mark.django_db

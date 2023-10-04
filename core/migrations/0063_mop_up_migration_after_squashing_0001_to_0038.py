@@ -8,9 +8,10 @@ reflected in the real model code. (This implies some editing of migrations
 might have taken place in the past.) They don't look like problematic changes.
 """
 
+from django.db import migrations, models
+
 import wagtail.blocks
 import wagtail.fields
-from django.db import migrations, models
 
 
 class Migration(migrations.Migration):

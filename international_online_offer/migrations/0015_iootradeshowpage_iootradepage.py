@@ -3,11 +3,11 @@
 import django.db.models.deletion
 import great_components.mixins
 import modelcluster.contrib.taggit
-import wagtail.blocks
-import wagtail.fields
 from django.db import migrations, models
 
 import core.mixins
+import wagtail.blocks
+import wagtail.fields
 
 
 class Migration(migrations.Migration):

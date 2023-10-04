@@ -1,11 +1,11 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+
+from core import models
 from wagtail.contrib.modeladmin import views
 from wagtail.contrib.modeladmin.mixins import ThumbnailMixin
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
 from wagtail.images.views.images import add as image_add_view, edit as image_edit_view
-
-from core import models
 
 
 @admin.register(models.PageView)

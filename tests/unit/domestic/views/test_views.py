@@ -5,8 +5,6 @@ import pytest
 from django.conf import settings
 from django.test import TestCase, override_settings
 from django.urls import reverse, reverse_lazy
-from wagtail.models import Locale
-from wagtail.test.utils import WagtailPageTests
 
 import domestic.forms
 import domestic.views.campaign
@@ -17,6 +15,8 @@ from domestic import forms
 from domestic.views.ukef import GetFinanceLeadGenerationFormView
 from tests.unit.core.factories import StructurePageFactory
 from tests.unit.domestic.factories import ArticleListingPageFactory, ArticlePageFactory
+from wagtail.models import Locale
+from wagtail.test.utils import WagtailPageTests
 
 pytestmark = [
     pytest.mark.django_db,

@@ -5,8 +5,6 @@ from unittest import mock
 
 import pytest
 from django.test.client import RequestFactory
-from wagtail.images import get_image_model
-from wagtail.models import Collection, Locale, Page
 from wagtail_factories import PageFactory, SiteFactory
 
 import tests.unit.domestic.factories
@@ -18,6 +16,8 @@ from directory_api_client import api_client
 from sso import helpers as sso_helpers
 from sso.models import BusinessSSOUser
 from tests.helpers import create_response
+from wagtail.images import get_image_model
+from wagtail.models import Collection, Locale, Page
 
 # This is to reduce logging verbosity of these two libraries when running pytests
 # with DEBUG=true and --log-cli-level=DEBUG

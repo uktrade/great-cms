@@ -13,13 +13,6 @@ from django.urls import reverse, reverse_lazy
 from formtools.wizard.views import normalize_name
 from pytest_django.asserts import assertTemplateUsed
 from rest_framework import status
-from wagtail.images.views.chooser import (
-    ChosenResponseMixin,
-    CreateViewMixin,
-    ImageUploadViewMixin,
-    SelectFormatResponseMixin,
-)
-from wagtail.models import Locale
 
 from core import cms_slugs, forms, helpers, serializers, views
 from directory_api_client import api_client
@@ -41,6 +34,13 @@ from tests.unit.domestic.factories import (
     TopicLandingPageFactory,
 )
 from tests.unit.learn.factories import LessonPageFactory
+from wagtail.images.views.chooser import (
+    ChosenResponseMixin,
+    CreateViewMixin,
+    ImageUploadViewMixin,
+    SelectFormatResponseMixin,
+)
+from wagtail.models import Locale
 
 BETA_AUTH_TOKEN_PAST = (
     'gAAAAABfCpH53lJcM0TiiXTqD7X18yRoZHOjy-rbSogRxB0v011FMb6rCkMeizffou-z80D9DPL1PWRA7sn9NBrUS'

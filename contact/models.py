@@ -1,11 +1,11 @@
 from django.db import models
 from django.forms import Select
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel
-from wagtail.fields import RichTextField
-from wagtail.snippets.models import register_snippet
 
 from core import snippet_slugs
 from core.cms_snippets import NonPageContentSEOMixin, NonPageContentSnippetBase
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from wagtail.fields import RichTextField
+from wagtail.snippets.models import register_snippet
 
 
 class ContactUsGuidanceSnippet(

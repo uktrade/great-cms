@@ -8,7 +8,6 @@ from django.views.generic import TemplateView
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from wagtail.models import Page
 
 from activitystream.authentication import (
     ActivityStreamAuthentication,
@@ -38,6 +37,7 @@ from core.models import MicrositePage
 from domestic.models import ArticlePage, CountryGuidePage
 from export_academy.models import Booking, Event, Registration
 from international_online_offer.models import TriageData, UserData
+from wagtail.models import Page
 
 
 class ActivityStreamView(ListAPIView):

@@ -4,10 +4,10 @@ import pytest
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import override_settings
-from wagtail.documents import models
-from wagtail.models import Collection
 
 from tests.helpers import create_response
+from wagtail.documents import models
+from wagtail.models import Collection
 
 
 @pytest.fixture

@@ -9,9 +9,6 @@ from django.contrib.sessions.middleware import SessionMiddleware
 from django.db.models import FileField
 from django.test import TestCase, override_settings
 from django.utils.safestring import mark_safe
-from wagtail.admin.menu import DismissibleMenuItem
-from wagtail.core.rich_text import RichText
-from wagtail.tests.utils import WagtailPageTests
 
 from core import cms_slugs, wagtail_hooks
 from core.constants import MENU_ITEM_ADD_CAMPAIGN_SITE_LINK
@@ -39,6 +36,9 @@ from tests.unit.core import factories
 from tests.unit.core.factories import StructurePageFactory
 from tests.unit.domestic.factories import ArticlePageFactory
 from tests.unit.learn.factories import LessonPageFactory
+from wagtail.admin.menu import DismissibleMenuItem
+from wagtail.core.rich_text import RichText
+from wagtail.tests.utils import WagtailPageTests
 
 LOREM_IPSUM = (
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '

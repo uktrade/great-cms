@@ -4,12 +4,12 @@ import django.db.models.deletion
 import great_components.mixins
 import modelcluster.fields
 import taggit.managers
-import wagtail.blocks
-import wagtail.fields
-import wagtail.images.blocks
 from django.db import migrations, models
 
 import core.mixins
+import wagtail.blocks
+import wagtail.fields
+import wagtail.images.blocks
 
 
 class Migration(migrations.Migration):

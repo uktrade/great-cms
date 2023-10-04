@@ -10,7 +10,6 @@ from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from taggit.models import ItemBase, TagBase
-from wagtail.fields import RichTextField, StreamField
 
 from config import settings
 from core.blocks import ButtonBlock, SingleRichTextBlock, TopicPageCardBlockRichText
@@ -24,6 +23,7 @@ from domestic.models import BaseContentPage
 from export_academy import managers
 from export_academy.cms_panels import EventPanel, ExportAcademyPagePanels
 from export_academy.forms import EventAdminModelForm
+from wagtail.fields import RichTextField, StreamField
 
 
 def send_notifications_for_all_bookings(event, template_id, additional_notify_data=None):

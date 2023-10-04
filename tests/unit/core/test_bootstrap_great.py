@@ -1,10 +1,10 @@
 import pytest
 from django.contrib.auth import get_user_model
 from django.core.management import call_command
-from wagtail.models import Page, Site
 from wagtail_factories import PageFactory, SiteFactory
 
 from domestic.models import DomesticHomePage
+from wagtail.models import Page, Site
 
 User = get_user_model()
 

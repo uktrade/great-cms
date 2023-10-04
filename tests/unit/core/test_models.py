@@ -8,13 +8,6 @@ from django.db import IntegrityError
 from django.http import Http404
 from django.test import RequestFactory, TestCase
 from django.urls import reverse
-from wagtail.admin.panels import ObjectList
-from wagtail.blocks.stream_block import StreamBlockValidationError
-from wagtail.core.fields import StreamField
-from wagtail.images import get_image_model
-from wagtail.images.tests.utils import get_test_image_file
-from wagtail.models import Collection
-from wagtail.test.utils import WagtailPageTests, WagtailTestUtils
 from wagtail_factories import ImageFactory
 
 from core.mixins import AuthenticatedUserRequired
@@ -41,6 +34,13 @@ from core.models import (
 from domestic.models import DomesticDashboard, DomesticHomePage, GreatDomesticHomePage
 from tests.helpers import SetUpLocaleMixin, make_test_video
 from tests.unit.core import factories
+from wagtail.admin.panels import ObjectList
+from wagtail.blocks.stream_block import StreamBlockValidationError
+from wagtail.core.fields import StreamField
+from wagtail.images import get_image_model
+from wagtail.images.tests.utils import get_test_image_file
+from wagtail.models import Collection
+from wagtail.test.utils import WagtailPageTests, WagtailTestUtils
 from .factories import (
     CaseStudyFactory,
     DetailPageFactory,

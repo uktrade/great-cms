@@ -13,7 +13,6 @@ django-treebeard==4.7
 
 # Wagtail
 # ------------
-wagtail==4.2.2
 wagtail-factories==2.0.*
 wagtail-cache==2.2.0
 wagtailmedia==0.14.0

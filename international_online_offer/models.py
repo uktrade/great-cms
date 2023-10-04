@@ -6,11 +6,6 @@ from django.db.models import Avg
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.models import ParentalKey
 from taggit.models import TagBase, TaggedItemBase
-from wagtail.admin.panels import FieldPanel
-from wagtail.blocks.field_block import RichTextBlock
-from wagtail.blocks.stream_block import StreamBlock
-from wagtail.fields import StreamField
-from wagtail.images.blocks import ImageChooserBlock
 
 from core.blocks import ColumnsBlock
 from core.models import CMSGenericPage, TimeStampedModel
@@ -18,6 +13,11 @@ from directory_constants.choices import COUNTRY_CHOICES
 from domestic.models import BaseContentPage
 from international_online_offer.core import choices, filter_tags, helpers
 from international_online_offer.forms import LocationSelectForm
+from wagtail.admin.panels import FieldPanel
+from wagtail.blocks.field_block import RichTextBlock
+from wagtail.blocks.stream_block import StreamBlock
+from wagtail.fields import StreamField
+from wagtail.images.blocks import ImageChooserBlock
 
 
 def get_triage_data(hashed_uuid):

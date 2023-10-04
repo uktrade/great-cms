@@ -1,7 +1,6 @@
 import pytest
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.test import RequestFactory
-from wagtail.test.utils import WagtailPageTests
 
 from domestic.models import StructuralPage
 from international_online_offer.models import (
@@ -16,6 +15,7 @@ from international_online_offer.models import (
     get_triage_data,
     get_triage_data_from_db_or_session,
 )
+from wagtail.test.utils import WagtailPageTests
 
 
 class EYBIndexPageTests(WagtailPageTests):

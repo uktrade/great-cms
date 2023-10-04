@@ -7,10 +7,6 @@ from bs4 import BeautifulSoup
 from django.core.cache import cache
 from django.test import RequestFactory, override_settings
 from django.utils.timezone import now as tz_now
-from wagtail.blocks.stream_block import StreamBlockValidationError
-from wagtail.models import Page
-from wagtail.rich_text import RichText
-from wagtail.test.utils import WagtailPageTests
 from wagtail_factories import SiteFactory
 
 from core import cache_keys, mixins, models as core_models, service_urls
@@ -44,6 +40,10 @@ from tests.unit.core.factories import (
     ListPageFactory,
     TopicPageFactory,
 )
+from wagtail.blocks.stream_block import StreamBlockValidationError
+from wagtail.models import Page
+from wagtail.rich_text import RichText
+from wagtail.test.utils import WagtailPageTests
 from .factories import (
     ArticleListingPageFactory,
     ArticlePageFactory,

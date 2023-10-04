@@ -2,10 +2,10 @@ import logging
 from logging.handlers import RotatingFileHandler
 
 from django.conf import settings
-from wagtail.admin.mail import EmailNotificationMixin, Notifier
 
 from core.helpers import send_campaign_moderation_notification
 from domestic.models import ArticlePage
+from wagtail.admin.mail import EmailNotificationMixin, Notifier
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)

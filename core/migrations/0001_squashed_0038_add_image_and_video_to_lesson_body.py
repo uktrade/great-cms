@@ -5,18 +5,18 @@ import django_extensions.db.fields
 import modelcluster.contrib.taggit
 import modelcluster.fields
 import taggit.managers
-import wagtail.blocks
-import wagtail.fields
-import wagtail.images.blocks
-import wagtail.images.models
-import wagtail.models
-import wagtail.search.index
 from django.conf import settings
 from django.db import migrations, models
 
 import core.blocks
 import core.mixins
 import core.models
+import wagtail.blocks
+import wagtail.fields
+import wagtail.images.blocks
+import wagtail.images.models
+import wagtail.models
+import wagtail.search.index
 
 # DELIBERATELY OMITTED as part of controlled removal of the app
 # import wagtail_personalisation.blocks

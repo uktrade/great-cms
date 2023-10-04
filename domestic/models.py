@@ -9,20 +9,6 @@ from django.http import Http404
 from django.utils.functional import cached_property
 from great_components.mixins import GA360Mixin
 from modelcluster.fields import ParentalManyToManyField
-from wagtail import blocks
-from wagtail.admin.panels import (
-    FieldPanel,
-    ObjectList,
-    TabbedInterface,
-    cached_classmethod,
-)
-from wagtail.blocks.field_block import RichTextBlock
-from wagtail.blocks.stream_block import StreamBlock, StreamBlockValidationError
-from wagtail.contrib.table_block.blocks import TableBlock
-from wagtail.fields import RichTextField, StreamField
-from wagtail.images import get_image_model_string
-from wagtail.images.blocks import ImageChooserBlock
-from wagtail.models import Page
 from wagtailseo.models import SeoMixin
 
 from core import blocks as core_blocks, cache_keys, helpers, mixins, service_urls
@@ -41,6 +27,20 @@ from core.models import CMSGenericPage, Country, IndustryTag, Region, Tag
 from domestic import cms_panels, forms as domestic_forms
 from domestic.helpers import build_route_context, get_lesson_completion_status
 from exportplan.core import helpers as exportplan_helpers
+from wagtail import blocks
+from wagtail.admin.panels import (
+    FieldPanel,
+    ObjectList,
+    TabbedInterface,
+    cached_classmethod,
+)
+from wagtail.blocks.field_block import RichTextBlock
+from wagtail.blocks.stream_block import StreamBlock, StreamBlockValidationError
+from wagtail.contrib.table_block.blocks import TableBlock
+from wagtail.fields import RichTextField, StreamField
+from wagtail.images import get_image_model_string
+from wagtail.images.blocks import ImageChooserBlock
+from wagtail.models import Page
 
 DUTIES_AND_CUSTOMS_SERVICE = 'https://www.check-duties-customs-exporting-goods.service.gov.uk'
 TRADE_BARRIERS_SERVICE = 'https://www.check-international-trade-barriers.service.gov.uk/barriers/'

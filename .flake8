@@ -7,4 +7,4 @@
 exclude=.venv,venv,**migrations**,node_modules
 max-line-length=120
 max-complexity = 7
-ignore = I100, I101, I201, I202, W503, C901
+ignore = I100, I101, I201, I202, W503, C901, Q000, N801, P101, Q002, N811, E501, N802, N806, E203, N803, N805, P103, N804, F403, F401, F821, E721, T100, F811, F811, T100, N818

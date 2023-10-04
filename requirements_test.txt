@@ -764,9 +764,8 @@ virtualenv==20.24.5
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core
-wagtail==4.2.2
+wagtail==4.2.4
     # via
-    #   -r requirements.in
     #   wagtail-cache
     #   wagtail-draftail-anchors
     #   wagtail-factories

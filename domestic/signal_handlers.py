@@ -5,13 +5,15 @@ from logging.handlers import RotatingFileHandler
 
 from django.dispatch.dispatcher import Signal
 from django.utils.inspect import func_accepts_kwargs
+
+from wagtail.admin import messages
 from wagtail.admin.mail import (
     GroupApprovalTaskStateSubmissionEmailNotifier,
     WorkflowStateSubmissionEmailNotifier,
 )
+from wagtail.admin.views.pages.edit import EditView
 from wagtail.models import Task, TaskState, WorkflowState
 from wagtail.signals import task_submitted, workflow_submitted
-
 from .mail import ModerationTaskStateSubmissionEmailNotifier
 
 logger = logging.getLogger(__name__)
@@ -313,6 +315,52 @@ class MySignal(Signal):
         self._dead_receivers = True
 
 
+class MyEditPageView(EditView):
+    def submit_action(self):
+        self.page = self.form.save(commit=False)
+        self.subscription.save()
+
+        # Save revision
+        revision = self.page.save_revision(
+            user=self.request.user,
+            log_action=True,  # Always log the new revision on edit
+            previous_revision=(self.previous_revision if self.is_reverting else None),
+        )
+
+        if self.has_content_changes and "comments" in self.form.formsets:
+            changes = self.get_commenting_changes()
+            self.log_commenting_changes(changes, revision)
+            self.send_commenting_notifications(changes)
+
+        if self.workflow_state and self.workflow_state.status == WorkflowState.STATUS_NEEDS_CHANGES:
+            # If the workflow was in the needs changes state, resume the existing workflow on submission
+            self.workflow_state.resume(self.request.user)
+        else:
+            # Otherwise start a new workflow
+            workflow = self.page.get_workflow()
+            workflow.start(self.page, self.request.user)
+
+        message = _("Page '%(page_title)s' has been submitted for moderation.") % {
+            "page_title": self.page.get_admin_display_title()
+        }
+
+        messages.success(
+            self.request,
+            message,
+            buttons=[
+                self.get_view_draft_message_button(),
+                self.get_edit_message_button(),
+            ],
+        )
+
+        response = self.run_hook("after_edit_page", self.request, self.page)
+        if response:
+            return response
+
+        # we're done here - redirect back to the explorer
+        return self.redirect_away()
+
+
 def register_signal_handlers():
     logger.debug('register_signal_handlers() entered')
     group_approval_email_notifier = GroupApprovalTaskStateSubmissionEmailNotifier()
@@ -337,12 +385,10 @@ def register_signal_handlers():
             WorkflowState,
         )
     )
-    my_signal = MySignal()
-    task_submitted.send = my_signal.send
-    task = Task()
-    my_task = MyTask()
-    task.start = my_task.start
-    my_signal.connect(receiver=task_submission_email_notifier, sender=TaskState, dispatch_uid='my-unique-identifier')
+
+    task_submitted.connect(
+        receiver=task_submission_email_notifier, sender=TaskState, dispatch_uid='my-unique-identifier'
+    )
     logger.debug('register_signal_handlers() exited')
 
 
