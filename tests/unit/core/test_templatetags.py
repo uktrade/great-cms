@@ -99,8 +99,14 @@ def test_render_video_tag__with_subtitles():
     assert '<video preload="metadata" controls controlsList="nodownload"\n            data-v-duration="120">' in html
     assert '<source src="/media/foo.mp4#t=0.1" type="video/mp4">' in html
     assert 'Your browser does not support the video tag.' in html
-    assert '<track label="TestLang" kind="subtitles" srclang="tt" src="/subtitles/123/tt/content.vtt" default>' in html
-    assert '<track label="English" kind="subtitles" srclang="en" src="/subtitles/123/en/content.vtt">' in html
+    assert (
+        '<track label="TestLang"\n       kind="subtitles"\n       srclang="tt"\n       src="/subtitles/123/tt/content.vtt"\n       default>'  # noqa:E501
+        in html
+    )
+    assert (
+        '<track label="English"\n       kind="subtitles"\n       srclang="en"\n       src="/subtitles/123/en/content.vtt"'  # noqa:E501
+        in html
+    )
 
 
 def test_empty_block_render_video_tag():

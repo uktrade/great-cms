@@ -1227,7 +1227,7 @@ def test_markets_page__no_results__page_content(
     body_text = soup.get_text().replace('  ', '').replace('\n', '')
 
     # lack of space `inAntarctica` is correct for this test, where we've stripped whitespace
-    assert "Currently, we don't have any market guides with information inAntarctica." in body_text
+    assert "Currently, we don't have any market guides with information\xa0inAntarctica." in body_text
 
     assert (
         'There are other ways the Department for Business and Trade '
