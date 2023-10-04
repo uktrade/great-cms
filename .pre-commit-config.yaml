@@ -67,6 +67,11 @@ repos:
           types: [python] # hook only runs if a python file is staged
           pass_filenames: false
 
+    - repo: https://github.com/Riverside-Healthcare/djLint
+      rev: v1.33.0
+      hooks:
+        - id: djlint-reformat-django
+
 # -   repo: https://github.com/pre-commit/pygrep-hooks
 #     rev: v1.7.0
 #     hooks:
