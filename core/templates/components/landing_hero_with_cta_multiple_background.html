@@ -21,17 +21,17 @@ subheading - text # Not used for GreatDomesticHomepage
 
 {% image page.hero_mobile_image original as first_image %}
 {% image page.hero_ipad_image original as second_image %}
-{% image page.hero_smalldesktop_image original as third_image %}
+{% image page.hero_smalldesktop_image original as third_image %} 
+{% image page.hero_bigdesktop_image original as forth_image %}
 
 <section
 class="great-hero great-hero-multiple-background {% if not hero_image %}great-hero-no-image{% endif %}" id="hero"
-  style="background: url({{ third_image.url }}), url({{ second_image.url }}), url({{ first_image.url }})"
+style="background: url({{ forth_image.url }}), url({{ third_image.url }}), url({{ second_image.url }}), url({{ first_image.url }})"
 >
 <div class="container padding-top-90-l padding-top-45 padding-bottom-45-l">
   <div class="great-hero-text width-half-xl width-two-thirds-l width-full">
     <h1
     class="heading-xlarge {% if subheading or subtitle %} margin-bottom-0 {% else %} margin-bottom-30 {% endif %}"
-    style="max-width: 500px;"
     >
       {{ heading | safe }}
     </h1>
