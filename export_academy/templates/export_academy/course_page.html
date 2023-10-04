@@ -24,7 +24,7 @@
         {% with content_snippet as hero %}
             <div class="great" id="ea-course-page-header">
                 {% image page.hero_image max-800x600 as hero_image %}
-                {% include 'components/course_page_hero.html' with image_url=hero_image.url hero_title=page.page_heading hero_subeading='Series' hero_text=page.summary%}
+                {% include 'components/course_page_hero.html' with image_url=hero_image.url hero_title=page.page_heading hero_subeading='Series' hero_text=page.summary %}
             </div>
         {% endwith %}
     {% endblock %}
@@ -32,12 +32,8 @@
         <section class="great-container govuk-!-static-padding-top-6 govuk-!-static-padding-bottom-6">
             <h2 class="govuk-heading-m">{{ page.is_course_right_for_you_heading }}</h2>
             <ul class="course-tick-marks">
-                {% for item in page.is_course_right_for_you_list %}
-                    <li class="fas">
-                        {{ item.value.description }}
-                    </li>
-                {% endfor %}
-                </ul>
+                {% for item in page.is_course_right_for_you_list %}<li class="fas">{{ item.value.description }}</li>{% endfor %}
+            </ul>
         </section>
         <div class="great-bg-white">
             <div class="great-container">
