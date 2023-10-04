@@ -3558,12 +3558,13 @@ class Task(models.Model):
         task_state.revision = workflow_state.content_object.get_latest_revision()
         task_state.task = self
         task_state.save()
-        logger.debug(f'sending Task start  {task_state.specific.__class__}:{task_state.specific}')
+        logger.debug(f'sending Task signal {task_state.specific.__class__}:{task_state.specific}')
         task_submitted.send(
             sender=task_state.specific.__class__,
             instance=task_state.specific,
             user=user,
         )
+        logger.debug('Sent task signal')
         return task_state
 
     @transaction.atomic
@@ -3682,8 +3683,9 @@ class Workflow(ClusterableModel):
         )
         state.save()
         state.update(user=user)
-        logger.debug(f'sending Workflow start  {state.__class__}:{state}')
+        logger.debug(f'sending Workflow signal  {state.__class__}:{state}')
         workflow_submitted.send(sender=state.__class__, instance=state, user=user)
+        logger.debug('Sent workflow signal')
 
         next_task_data = None
         if state.current_task_state:
