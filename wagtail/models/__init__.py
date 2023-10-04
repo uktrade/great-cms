@@ -14,6 +14,7 @@ import logging
 import uuid
 import warnings
 from io import StringIO
+from logging.handlers import RotatingFileHandler
 from urllib.parse import urlparse
 
 from django import forms
@@ -124,7 +125,11 @@ from .reference_index import ReferenceIndex  # noqa
 from .sites import Site, SiteManager, SiteRootPath  # noqa
 from .view_restrictions import BaseViewRestriction
 
-logger = logging.getLogger("wagtail")
+logger = logging.getLogger('my_init_logger')
+logger.setLevel(logging.DEBUG)
+handler = RotatingFileHandler('/tmp/init.log', maxBytes=2000, backupCount=10)
+logger.addHandler(handler)
+
 
 PAGE_TEMPLATE_VAR = "page"
 COMMENTS_RELATION_NAME = getattr(settings, "WAGTAIL_COMMENTS_RELATION_NAME", "wagtail_admin_comments")
@@ -3553,7 +3558,7 @@ class Task(models.Model):
         task_state.revision = workflow_state.content_object.get_latest_revision()
         task_state.task = self
         task_state.save()
-
+        logger.debug(f'sending Task start  {task_state.specific.__class__}:{task_state.specific}')
         task_submitted.send(
             sender=task_state.specific.__class__,
             instance=task_state.specific,
@@ -3677,7 +3682,7 @@ class Workflow(ClusterableModel):
         )
         state.save()
         state.update(user=user)
-
+        logger.debug(f'sending Workflow start  {state.__class__}:{state}')
         workflow_submitted.send(sender=state.__class__, instance=state, user=user)
 
         next_task_data = None
