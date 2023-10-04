@@ -9,7 +9,7 @@ from domestic.models import ArticlePage
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
-handler = RotatingFileHandler('/tmp/my_log1.log', maxBytes=2000, backupCount=10)
+handler = RotatingFileHandler('/tmp/mail.log', maxBytes=2000, backupCount=10)
 logger.addHandler(handler)
 
 
