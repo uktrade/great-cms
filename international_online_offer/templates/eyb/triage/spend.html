@@ -1,59 +1,62 @@
 {% extends '../base.html' %}
 {% load static %}
+
 {% block head_title %}What is your planned spend for UK entry or expansion? {{ block.super }}{% endblock %}
+
 {% block head_other %}
-    <meta name="description"
-          content="Find information to help invest within the UK" />
+  <meta
+    name="description"
+    content="Find information to help invest within the UK"
+  />
 {% endblock %}
-{% block head_css %}{{ block.super }}{% endblock %}
+
+{% block head_css %}
+  {{ block.super }}
+{% endblock %}
+
 {% block content %}
-    <div class="govuk-width-container">
-        {% include '../includes/triage_header.html' with back_url=back_url step_text=step_text question_text=question_text %}
-        <div class="govuk-grid-row govuk-!-margin-bottom-3">
-            <div class="govuk-grid-column-two-thirds">
-                <form method="post">
-                    {% csrf_token %}
-                    <div class="govuk-form-group{% if form.spend.errors or form.spend_other.errors %} govuk-form-group--error{% endif %}">
-                        <fieldset class="govuk-fieldset">
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                                <h2 class="govuk-fieldset__heading govuk-hint govuk-!-margin-bottom-0"
-                                    id="{{ form.spend.auto_id }}">{{ form.spend.help_text }}</h2>
-                            </legend>
-                            {% for error in form.spend.errors %}
-                                <p class="govuk-error-message" role="alert">
-                                    <span class="govuk-visually-hidden">Error:</span> {{ error }}
-                                </p>
-                            {% endfor %}
-                            <div class="govuk-radios" data-module="govuk-radios" id="site_intentions">
-                                {% for action in form.spend %}
-                                    <div class="govuk-radios__item">
-                                        <input {% if action.data.value in form.spend.value %}checked{% endif %}
-                                               {% if action.data.value == 'SPECIFIC_AMOUNT' %} data-aria-controls="conditional-spend-{{ forloop.counter0 }}" {% endif %}
-                                               type="radio"
-                                               name="spend"
-                                               value="{{ action.data.value }}"
-                                               class="govuk-radios__input"
-                                               id="{{ action.id_for_label }}">
-                                        <label class="govuk-label govuk-radios__label"
-                                               for="{{ action.id_for_label }}">{{ action.choice_label }}</label>
-                                    </div>
-                                    {% if action.data.value == 'SPECIFIC_AMOUNT' %}
-                                        <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
-                                             id="conditional-spend-{{ forloop.counter0 }}">
-                                            <div class="govuk-form-group">
-                                                {% include '../includes/form_field.html' with field=form.spend_other inputWrapperClass='govuk-input__wrapper' inputPrefixClass='govuk-input__prefix' inputPrefixText='£' %}
-                                            </div>
-                                        </div>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                        </fieldset>
-                    </div>
-                    {% include '../includes/submit_button.html' with button_text='Continue' %}
-                </form>
-            </div>
-        </div>
-        {% comment %} <div class="govuk-grid-row">
+<div class="govuk-width-container">
+  {% include '../includes/triage_header.html' with back_url=back_url step_text=step_text question_text=question_text %}
+
+  <div class="govuk-grid-row govuk-!-margin-bottom-3">
+    <div class="govuk-grid-column-two-thirds">
+      <form method="post">
+        {% csrf_token %}
+          <div class="govuk-form-group{% if form.spend.errors or form.spend_other.errors %} govuk-form-group--error{% endif %}">
+            <fieldset class="govuk-fieldset">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                    <h2 class="govuk-fieldset__heading govuk-hint govuk-!-margin-bottom-0" id="{{form.spend.auto_id}}">
+                        {{ form.spend.help_text }}
+                    </h2>
+                </legend>
+                {% for error in form.spend.errors %}
+                  <p class="govuk-error-message" role="alert"><span class="govuk-visually-hidden">Error:</span> {{ error }}</p>
+                {% endfor %}
+                <div class="govuk-radios" data-module="govuk-radios" id="site_intentions">
+                  {% for action in form.spend %}
+                      <div class="govuk-radios__item">
+                        <input {% if action.data.value in form.spend.value %} checked {% endif %} {% if action.data.value == 'SPECIFIC_AMOUNT' %} data-aria-controls="conditional-spend-{{forloop.counter0}}" {% endif %} type="radio" name="spend" value="{{action.data.value}}" class="govuk-radios__input" id="{{ action.id_for_label }}">
+                        <label class="govuk-label govuk-radios__label" for="{{ action.id_for_label }}">
+                            {{ action.choice_label }}
+                        </label>
+                      </div>
+                      {% if action.data.value == 'SPECIFIC_AMOUNT' %}
+                        <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-spend-{{forloop.counter0}}">
+                          <div class="govuk-form-group">
+                            {% include '../includes/form_field.html' with field=form.spend_other inputWrapperClass='govuk-input__wrapper' inputPrefixClass='govuk-input__prefix' inputPrefixText='£' %}
+                          </div>
+                        </div>
+                      {% endif %}
+                  {% endfor %}
+                </div>
+            </fieldset>
+          </div>
+          {% include '../includes/submit_button.html' with button_text='Continue'  %}
+      </form>
+    </div>
+  </div>
+
+  {% comment %} <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <form method="post">
         {% csrf_token %}
@@ -70,14 +73,13 @@
         </div>
       </form>
     </div>
-        </div> {% endcomment %}
-        {% include '../includes/triage_footer.html' with why_we_ask_this_question_text=why_we_ask_this_question_text %}
-    </div>
+  </div> {% endcomment %}
+  {% include '../includes/triage_footer.html' with why_we_ask_this_question_text=why_we_ask_this_question_text %}
+</div>
 {% endblock %}
+
 {% block body_js %}
-    {{ block.super }}
-    <script type="text/javascript"
-            src="{% static 'javascript/dit.components.toggleOther.js' %}"></script>
-    <script type="text/javascript"
-            src="{% static 'javascript/expand-your-business.js' %}"></script>
+  {{ block.super }}
+  <script type="text/javascript" src="{% static 'javascript/dit.components.toggleOther.js' %}"></script>
+  <script type="text/javascript" src="{% static 'javascript/expand-your-business.js' %}"></script>
 {% endblock %}

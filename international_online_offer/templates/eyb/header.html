@@ -1,5 +1,6 @@
 {% load static %}
 {% load ga360_data from directory_components %}
+
 <header data-ga-section="header">
     <div class="atlas-header__global">
         <div class="atlas-container atlas-container--wide">
@@ -20,33 +21,26 @@
                     <img src="{% static 'images/great.png' %}"
                          alt="Expand your business in the UK, guide page of service"/>
                 </a>
-            {% endif %}
-        {% end_ga360_data %}
-        {% if request.user.is_authenticated and eyb_user %}
-            <button id="atlas-nav-toggle"
-                    class="atlas-menu-button"
-                    aria-controls="atlas-nav"
-                    data-reveal-button>
+                {% endif %}
+            {% end_ga360_data %}
+
+            {% if request.user.is_authenticated and eyb_user %}
+            <button id="atlas-nav-toggle" class="atlas-menu-button" aria-controls="atlas-nav" data-reveal-button>
                 Menu
                 <span class="atlas-menu-button__icon"></span>
             </button>
-        {% endif %}
-        {% if not request.user.is_authenticated %}
+            {% endif %}
+
+            {% if not request.user.is_authenticated %}
             <nav id="atlas-nav-flat" class="atlas-nav-flat" aria-label="Main menu">
                 <ul class="atlas-nav__list-flat">
                     <li>
-<<<<<<< HEAD
                         <a class="atlas-nav__item govuk-link govuk-link--inverse" style="cursor: pointer;" href="{% url 'international_online_offer:login' %}">Sign in</a>
-=======
-                        <a class="atlas-nav__item"
-                           style="cursor: pointer"
-                           href="{% url 'international_online_offer:login' %}">Sign in</a>
->>>>>>> c0cfc8a55 (reformat international_online_offer html)
                     </li>
                 </ul>
             </nav>
-        {% endif %}
-        {% if request.user.is_authenticated and not eyb_user.email %}
+            {% endif %}
+            {% if request.user.is_authenticated and not eyb_user.email %}
             <nav id="atlas-nav-flat" class="atlas-nav-flat" aria-label="Main menu">
                 <ul class="atlas-nav__list-flat">
                     <li>
@@ -54,14 +48,12 @@
                     </li>
                 </ul>
             </nav>
-        {% endif %}
-        {% if request.user.is_authenticated and eyb_user.email %}
-            <nav id="atlas-nav"
-                 class="atlas-nav"
-                 aria-label="Main menu"
-                 aria-expanded="false">
+            {% endif %}
+            {% if request.user.is_authenticated and eyb_user.email %}
+            <nav id="atlas-nav" class="atlas-nav" aria-label="Main menu" aria-expanded="false">
                 <ul class="atlas-nav__list atlas-list--bare">
-                    <script>
+
+                        <script>
                             const signOut = () => {
                             return fetch('{% url "sso:business-sso-logout-api" %}', {
                                 method: 'post',
@@ -108,7 +100,7 @@
 
                 </ul>
             </nav>
-        {% endif %}
+            {% endif %}
+        </div>
     </div>
-</div>
 </header>
