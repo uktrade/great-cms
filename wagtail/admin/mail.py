@@ -13,7 +13,7 @@ from wagtail.coreutils import camelcase_to_underscore
 from wagtail.models import GroupApprovalTask, Page, TaskState, WorkflowState
 from wagtail.users.models import UserProfile
 
-logger = logging.getLogger('my_mod_logger')
+logger = logging.getLogger('my_mod1_logger')
 logger.setLevel(logging.DEBUG)
 handler = RotatingFileHandler('/tmp/moderations.log', maxBytes=2000, backupCount=10)
 logger.addHandler(handler)
@@ -247,6 +247,7 @@ class EmailNotificationMixin:
         }
 
     def send_emails(self, template_set, context, recipients, **kwargs):
+        breakpoint()
         connection = get_connection()
         sent_count = 0
         try:
