@@ -36,7 +36,7 @@ from wagtail.models import (
 
 logger = logging.getLogger('my_logger')
 logger.setLevel(logging.DEBUG)
-handler = RotatingFileHandler('/tmp/signals.log', maxBytes=2000, backupCount=10)
+handler = RotatingFileHandler('/tmp/signals_log.log', maxBytes=2000, backupCount=10)
 logger.addHandler(handler)
 
 
@@ -600,7 +600,7 @@ class EditView(TemplateResponseMixin, ContextMixin, HookResponseMixin, View):
             changes = self.get_commenting_changes()
             self.log_commenting_changes(changes, revision)
             self.send_commenting_notifications(changes)
-
+        breakpoint()
         if self.workflow_state and self.workflow_state.status == WorkflowState.STATUS_NEEDS_CHANGES:
             # If the workflow was in the needs changes state, resume the existing workflow on submission
             self.workflow_state.resume(self.request.user)

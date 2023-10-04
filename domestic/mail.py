@@ -6,6 +6,7 @@ from django.conf import settings
 from core.helpers import send_campaign_moderation_notification
 from domestic.models import ArticlePage
 from wagtail.admin.mail import EmailNotificationMixin, Notifier
+from wagtail.models import TaskState, WorkflowState
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -15,12 +16,20 @@ logger.addHandler(handler)
 
 class ModerationTaskStateEmailNotifier(EmailNotificationMixin, Notifier):
     def can_handle(self, instance, **kwargs):
+        breakpoint()
         logger.debug('Can Handle entered')
-        logger.debug(f'Can Handle Type: {type(instance.revision.content_object)}')
-        if not isinstance(instance.revision.content_object, ArticlePage):
+        if isinstance(instance, TaskState):
+            if not isinstance(instance.revision.content_object, ArticlePage):
+                return False
+            logger.debug(f'Can Handle: {instance.revision.content_object.type_of_article}')
+            return True if instance.revision.content_object.type_of_article.strip() == 'Campaign' else False
+        elif isinstance(instance, WorkflowState):
+            if not isinstance(instance.content_object, ArticlePage):
+                return False
+            logger.debug(f'Can Handle: {instance.content_object.type_of_article}')
+            return True if instance.content_object.type_of_article.strip() == 'Campaign' else False
+        else:
             return False
-        logger.debug(f'Can Handle: {instance.revision.content_object.type_of_article}')
-        return True if instance.revision.content_object.type_of_article.strip() == 'Campaign' else False
 
     def get_recipient_users(self, task_state, **kwargs):
         triggering_user = kwargs.get('user', None)

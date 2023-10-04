@@ -3546,11 +3546,14 @@ class Task(models.Model):
 
     def start(self, workflow_state, user=None):
         """Start this task on the provided workflow state by creating an instance of TaskState"""
+
+        # Task
         task_state = self.get_task_state_class()(workflow_state=workflow_state)
         task_state.status = TaskState.STATUS_IN_PROGRESS
         task_state.revision = workflow_state.content_object.get_latest_revision()
         task_state.task = self
         task_state.save()
+        breakpoint()
         task_submitted.send(
             sender=task_state.specific.__class__,
             instance=task_state.specific,
@@ -3662,6 +3665,8 @@ class Workflow(ClusterableModel):
     @transaction.atomic
     def start(self, obj, user):
         """Initiates a workflow by creating an instance of ``WorkflowState``"""
+
+        # Workflow
         state = WorkflowState(
             content_type=obj.get_content_type(),
             base_content_type=obj.get_base_content_type(),
@@ -3672,6 +3677,7 @@ class Workflow(ClusterableModel):
         )
         state.save()
         state.update(user=user)
+        breakpoint()
         workflow_submitted.send(sender=state.__class__, instance=state, user=user)
 
         next_task_data = None

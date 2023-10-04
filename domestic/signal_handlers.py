@@ -379,14 +379,16 @@ def register_signal_handlers():
     )
 
     logger.debug(f'workflow_submission_email_notifier: {stat}')
-    task_submission_email_notifier = ModerationTaskStateSubmissionEmailNotifier(
-        (
-            TaskState,
-            WorkflowState,
-        )
-    )
+    task_submission_email_notifier = ModerationTaskStateSubmissionEmailNotifier((TaskState,))
+
+    workflow_submission_email_notifier = ModerationTaskStateSubmissionEmailNotifier((WorkflowState,))
 
     task_submitted.connect(
         receiver=task_submission_email_notifier, sender=TaskState, dispatch_uid='my-unique-identifier'
     )
+
+    workflow_submitted.connect(
+        receiver=workflow_submission_email_notifier, sender=WorkflowState, dispatch_uid='my-unique-identifier'
+    )
+
     logger.debug('register_signal_handlers() exited')
