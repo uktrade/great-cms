@@ -12,6 +12,32 @@ $prepare-to-sell-header: url(/static/images/learn-to-export-topic3-header.png);
 $regulations-licensing-header: url(/static/images/learn-to-export-topic4-header.png);
 $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png);
 
+@mixin page-header-container-mixin() {
+  max-width: 1230px; /* Initial max width until 1660px */
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 15px;
+
+  @media (min-width: 1025px) {
+    padding: 0 30px;
+  }
+
+  @media (min-width: 1280px) {
+    padding: 0;
+  }
+
+  @media (min-width: 1600px) {
+    max-width: 1600px; /* Change max width beyond 1660px */
+    margin-left: calc(
+      (100% - 1230px) / 2
+    ); /* Calculate left margin dynamically */
+  }
+
+  @media (min-width: 1660px) {
+    max-width: 1600px; /* Ensure max-width remains 1600px beyond 1660px */
+  }
+}
+
 @mixin vertical-alignment {
   background: $color-main-background !important;
   height: auto;
@@ -37,7 +63,7 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
     flex-direction: column;
     gap: $standard-padding;
 
-    >div:first-child {
+    > div:first-child {
       height: auto;
       min-width: fit-content;
       flex: 1;
@@ -57,6 +83,11 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
     background-size: 100% auto !important;
     background-position-y: bottom !important;
     background-position-x: 5vw !important;
+
+    &.full-height-img {
+      background-size: 90% auto !important;
+      background-position-x: right !important;
+    }
   }
 }
 
@@ -111,20 +142,6 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
     background: $learn-to-export-image;
   }
 
-  @media only screen and (min-width: 1290px) {
-    margin-left: auto;
-  }
-
-  @media only screen and (min-width: 2030px) {
-    margin: auto;
-    padding-left: 380px;
-  }
-
-  @media only screen and (min-width: $max-header-width) and (max-width: 2030px) {
-    margin: auto;
-    padding-left: calc((100vw - $max-header-width) / 2 + 170px);
-  }
-
   .inner-header {
     max-width: $max-header-width;
     width: 100%;
@@ -132,29 +149,28 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
     margin-left: $x-large-padding;
     display: inline-flex;
 
-    @media only screen and (min-width: $mobile-size) and (max-width: 980px) {
-      margin-left: $large-padding;
-    }
+    @include page-header-container-mixin();
 
-    @media only screen and (min-width: (1290px + $x-large-padding)) and (max-width: $max-header-width) {
-      margin-left: calc((100vw - 1290px) / 2 + 23px);
-    }
-
-    @media only screen and (min-width: $max-header-width) {
-      margin-left: 0;
-    }
-
-    >div:first-child {
+    > div:first-child {
       padding-top: 60px;
       padding-bottom: 60px;
       flex: 1;
       min-width: 420px;
       box-sizing: border-box;
 
-      h1 {
-        @media only screen and (max-width: 980px) {
-          font-size: $font-size-h2;
-          line-height: 40px;
+      @media (max-width: $tablet-size) {
+        min-width: -webkit-fill-available;
+      }
+
+      .govuk-caption-l {
+        font-family: $main-text-font;
+        font-weight: 300;
+        color: #505a5f;
+        &::first-letter {
+          text-transform: uppercase;
+        }
+        @media (max-width: $tablet-size) {
+          font-size: 18px;
         }
       }
 
@@ -207,8 +223,15 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
       background-repeat: no-repeat !important;
       background-size: auto 100% !important;
 
+      &.right-aligned {
+        background-position-x: right !important;
+      }
+
       @media only screen and (min-width: $mobile-size) and (max-width: 980px) {
         margin-left: -8%;
+        &.right-aligned {
+        margin-left: 0;
+      }
       }
       &.ea-landing-image-container {
         @media screen and (min-width: 901px) {
@@ -231,7 +254,7 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
 
   &.stack-at-tablet-width {
     @media only screen and (max-width: 900px) {
-      @include vertical-alignment
+      @include vertical-alignment;
     }
 
     @media only screen and (max-width: $mobile-size) {
@@ -280,22 +303,22 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
       }
     }
 
-  @media only screen and (max-width: $mobile-size) {
-    @include vertical-alignment
-  }
+    @media only screen and (max-width: $mobile-size) {
+      @include vertical-alignment;
+    }
 
-  .image-container:not(.great-display-from-tablet) {
-    display: flex;
-    flex: 1;
-    height: 0;
-    padding-top: 45%;
-    width: 100%;
-    background-repeat: no-repeat !important;
-    background-size: 100% auto !important;
-    background-position-y: bottom !important;
-    background-position-x: 5vw !important;
+    .image-container:not(.great-display-from-tablet) {
+      display: flex;
+      flex: 1;
+      height: 0;
+      padding-top: 45%;
+      width: 100%;
+      background-repeat: no-repeat !important;
+      background-size: 100% auto !important;
+      background-position-y: bottom !important;
+      background-position-x: 5vw !important;
+    }
   }
-}
 }
 
 .market-details-header {

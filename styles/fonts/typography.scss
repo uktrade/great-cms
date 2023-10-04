@@ -34,7 +34,8 @@
   font-weight: 400;
   font-display: block;
   src: url('/static/fonts/fa-regular-400.eot');
-  src: url('/static/fonts/fa-regular-400.eot?#iefix') format('embedded-opentype'),
+  src: url('/static/fonts/fa-regular-400.eot?#iefix')
+      format('embedded-opentype'),
     url('/static/fonts/fa-regular-400.woff2') format('woff2'),
     url('/static/fonts/fa-regular-400.woff') format('woff'),
     url('/static/fonts/fa-regular-400.ttf') format('truetype'),
@@ -47,11 +48,10 @@
   font-weight: 900;
 }
 
-.fa-regular{
+.fa-regular {
   font-family: 'Font Awesome 5 Free Regular';
   font-weight: 400;
 }
-
 
 $main-text-font: 'Noto Regular', Arial, Helvetica, Verdana;
 $header-font: 'Noto SemiBold', Arial, Helvetica, Verdana;
@@ -177,3 +177,11 @@ p {
 }
 
 $regular-font-weight: 400;
+
+.great {
+  .govuk-body,
+  .govuk-body-s, .govuk-accordion__show-all-text,
+  .govuk-accordion__section-toggle-text {
+    font-family: $main-text-font;
+  }
+}

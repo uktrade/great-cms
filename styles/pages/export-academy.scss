@@ -345,7 +345,7 @@
       padding: 0;
     }
 
-    h3{
+    h3 {
       @include h4-mixin();
     }
   }
@@ -378,6 +378,125 @@
 
     > div > p:first-of-type {
       font-family: $header-font;
+    }
+  }
+}
+
+.course-tick-marks {
+  display: inline-flex;
+  gap: 20px 30px;
+  @media only screen and (max-width: 768px) {
+    flex-direction: column;
+  }
+  > li {
+    display: inline-flex;
+
+    &:before {
+      color: #1d70b8;
+      font-size: 30px;
+      content: '\f058';
+      margin-right: 10px;
+      font-family: 'Font Awesome 5 Free';
+      display: block;
+    }
+  }
+  p {
+    margin: 0;
+  }
+}
+
+#join-live-events {
+  div {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 20px 30px;
+    @media (max-width: $tablet-size) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  li > p {
+    margin: 0;
+  }
+}
+.event-listing-summary-info {
+  display: flex;
+  gap: 20px;
+  div {
+    display: flex;
+    flex-direction: column;
+    &.event-warning-wrapper {
+      > div {
+        flex-direction: row;
+      }
+    }
+    &.event-summary-text {
+      gap: 5px;
+    }
+  }
+
+  .event-date-badge time {
+    background-color: #1e1348;
+    width: 60px;
+    min-width: 60px;
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    span {
+      color: white;
+      &:first-of-type {
+        font-size: 24px;
+        line-height: 24px;
+        font-family: $header-font;
+      }
+      &:nth-of-type(2) {
+        font-size: 16px;
+        line-height: 16px;
+      }
+    }
+  }
+}
+
+.event-location {
+  color: #505a5f !important;
+}
+
+#ea-course-page-header {
+  .inner-header {
+    max-width: 1230px;
+    padding-top: 60px;
+    > div:first-of-type {
+      padding-top: 0px;
+      @media only screen and (min-width: 901px) {
+        min-width: 50%;
+      }
+    }
+    .image-container {
+      @media only screen and (min-width: 901px) {
+        background-size: 100% auto!important;
+        background-position-y: bottom !important;
+      }
+    }
+  }
+}
+.presentation-icon {
+  height: 100px;
+}
+
+.image-container {
+  position: relative;
+  .ea-logo {
+    position: absolute;
+    bottom: 20px;
+    right: 0px;
+    width: 138px;
+    @media only screen and (max-width: 900px) {
+      left: auto;
+      right: 0px;
+      width: 30%;
     }
   }
 }
