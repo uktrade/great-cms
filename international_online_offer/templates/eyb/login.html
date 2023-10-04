@@ -19,28 +19,21 @@
     class="govuk-link">Sign up</a>
                 </h2>
             </div>
-        </div>
-    {% endfor %}
-    <div class="govuk-checkboxes govuk-checkboxes--small govuk-!-margin-top-1"
-         data-module="govuk-checkboxes">
-        <div class="govuk-checkboxes__item">
-            <input class="govuk-checkboxes__input"
-                   id="showHidePassword"
-                   name="showHidePassword"
-                   type="checkbox"
-                   value="1"
-                   onclick="document.getElementById('id_password').type == 'password'? document.getElementById('id_password').type = 'text': document.getElementById('id_password').type = 'password'">
-            <label class="govuk-label govuk-checkboxes__label" for="showHidePassword">Show password</label>
-        </div>
-    </div>
-    <div class="govuk-grid-row govuk-!-margin-bottom-3">
-        <div class="govuk-grid-column-full">
-            <p>
-                <a class="govuk-link"
-                   href="{{ javascript_components.password_reset_url }}">Forgotten password?</a>
-            </p>
+          </div>
+          {% endfor %}
+          <div class="govuk-checkboxes govuk-checkboxes--small govuk-!-margin-top-1" data-module="govuk-checkboxes">
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="showHidePassword" name="showHidePassword" type="checkbox" value="1" onclick="document.getElementById('id_password').type == 'password'? document.getElementById('id_password').type = 'text': document.getElementById('id_password').type = 'password'">
+              <label class="govuk-label govuk-checkboxes__label" for="showHidePassword">
+                Show password
+              </label>
+            </div>
+          </div>
+          <div class="govuk-grid-row govuk-!-margin-bottom-3">
+            <div class="govuk-grid-column-full">
+              <p><a class="govuk-link" href="{{ javascript_components.password_reset_url }}">Forgotten password?</a></p>
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}
 {% block body_js %}{{ block.super }}{% endblock %}
