@@ -1,4 +1,6 @@
 import json
+import logging
+from logging.handlers import RotatingFileHandler
 from urllib.parse import quote
 
 from django.conf import settings
@@ -31,6 +33,11 @@ from wagtail.models import (
     UserPagePermissionsProxy,
     WorkflowState,
 )
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+handler = RotatingFileHandler('/tmp/signals.log', maxBytes=2000, backupCount=10)
+logger.addHandler(handler)
 
 
 class EditView(TemplateResponseMixin, ContextMixin, HookResponseMixin, View):
@@ -574,7 +581,7 @@ class EditView(TemplateResponseMixin, ContextMixin, HookResponseMixin, View):
         return self.redirect_away()
 
     def submit_action(self):
-        breakpoint()
+        logger.debug('WTF!')
         self.page = self.form.save(commit=False)
         self.subscription.save()
 

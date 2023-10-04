@@ -315,50 +315,50 @@ class MySignal(Signal):
         self._dead_receivers = True
 
 
-class MyEditPageView(EditView):
-    def submit_action(self):
-        self.page = self.form.save(commit=False)
-        self.subscription.save()
+# class MyEditPageView(EditView):
+#     def submit_action(self):
+#         self.page = self.form.save(commit=False)
+#         self.subscription.save()
 
-        # Save revision
-        revision = self.page.save_revision(
-            user=self.request.user,
-            log_action=True,  # Always log the new revision on edit
-            previous_revision=(self.previous_revision if self.is_reverting else None),
-        )
+#         # Save revision
+#         revision = self.page.save_revision(
+#             user=self.request.user,
+#             log_action=True,  # Always log the new revision on edit
+#             previous_revision=(self.previous_revision if self.is_reverting else None),
+#         )
 
-        if self.has_content_changes and "comments" in self.form.formsets:
-            changes = self.get_commenting_changes()
-            self.log_commenting_changes(changes, revision)
-            self.send_commenting_notifications(changes)
+#         if self.has_content_changes and "comments" in self.form.formsets:
+#             changes = self.get_commenting_changes()
+#             self.log_commenting_changes(changes, revision)
+#             self.send_commenting_notifications(changes)
 
-        if self.workflow_state and self.workflow_state.status == WorkflowState.STATUS_NEEDS_CHANGES:
-            # If the workflow was in the needs changes state, resume the existing workflow on submission
-            self.workflow_state.resume(self.request.user)
-        else:
-            # Otherwise start a new workflow
-            workflow = self.page.get_workflow()
-            workflow.start(self.page, self.request.user)
+#         if self.workflow_state and self.workflow_state.status == WorkflowState.STATUS_NEEDS_CHANGES:
+#             # If the workflow was in the needs changes state, resume the existing workflow on submission
+#             self.workflow_state.resume(self.request.user)
+#         else:
+#             # Otherwise start a new workflow
+#             workflow = self.page.get_workflow()
+#             workflow.start(self.page, self.request.user)
 
-        message = _("Page '%(page_title)s' has been submitted for moderation.") % {
-            "page_title": self.page.get_admin_display_title()
-        }
+#         message = _("Page '%(page_title)s' has been submitted for moderation.") % {
+#             "page_title": self.page.get_admin_display_title()
+#         }
 
-        messages.success(
-            self.request,
-            message,
-            buttons=[
-                self.get_view_draft_message_button(),
-                self.get_edit_message_button(),
-            ],
-        )
+#         messages.success(
+#             self.request,
+#             message,
+#             buttons=[
+#                 self.get_view_draft_message_button(),
+#                 self.get_edit_message_button(),
+#             ],
+#         )
 
-        response = self.run_hook("after_edit_page", self.request, self.page)
-        if response:
-            return response
+#         response = self.run_hook("after_edit_page", self.request, self.page)
+#         if response:
+#             return response
 
-        # we're done here - redirect back to the explorer
-        return self.redirect_away()
+#         # we're done here - redirect back to the explorer
+#         return self.redirect_away()
 
 
 def register_signal_handlers():
@@ -390,26 +390,3 @@ def register_signal_handlers():
         receiver=task_submission_email_notifier, sender=TaskState, dispatch_uid='my-unique-identifier'
     )
     logger.debug('register_signal_handlers() exited')
-
-
-class MyTask(Task):
-    class Meta:
-        managed = False
-
-    def start(self, workflow_state, user=None):
-        """Start this task on the provided workflow state by creating an instance of TaskState"""
-        logger.debug('MyTask: start entered')
-        task_state = self.get_task_state_class()(workflow_state=workflow_state)
-        task_state.status = TaskState.STATUS_IN_PROGRESS
-        task_state.revision = workflow_state.content_object.get_latest_revision()
-        task_state.task = self
-        task_state.save()
-        logger.debug(f'MyTask: sending signal {task_state.specific.__class__}:{task_state.specific}')
-        task_submitted.send(
-            sender=task_state.specific.__class__,
-            instance=task_state.specific,
-            user=user,
-        )
-
-        logger.debug('MyTask: start exiting')
-        return task_state
