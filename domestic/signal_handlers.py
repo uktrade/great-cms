@@ -117,6 +117,7 @@ class MySignal(Signal):
         """
         from django.conf import settings
 
+        logger.debug(f'Moderation Connect Entered {receiver}')
         # If DEBUG is on, check that we got a good receiver
         if settings.configured and settings.DEBUG:
             if not callable(receiver):
@@ -143,6 +144,7 @@ class MySignal(Signal):
         with self.lock:
             self._clear_dead_receivers()
             if not any(r_key == lookup_key for r_key, _ in self.receivers):
+                logger.debug(f'Moderation Added Receiver {receiver}')
                 self.receivers.append((lookup_key, receiver))
             self.sender_receivers_cache.clear()
 
@@ -165,6 +167,7 @@ class MySignal(Signal):
             dispatch_uid
                 the unique identifier of the receiver to disconnect
         """
+        logger.debug(f'Moderation Disconnect Entered {receiver}:{sender}:{dispatch_uid}')
         if dispatch_uid:
             lookup_key = (dispatch_uid, _make_id(sender))
         else:
@@ -180,6 +183,7 @@ class MySignal(Signal):
                     del self.receivers[index]
                     break
             self.sender_receivers_cache.clear()
+        logger.debug(f'Moderation Disconnect {disconnected}')
         return disconnected
 
     def has_listeners(self, sender=None):
