@@ -45,3 +45,14 @@ class ActivityStreamExpandYourBusinessPagination(ActivityStreamBasePagination):
         self.next_value = page[-1].id if page else ''
         self.request = request
         return page
+
+
+class ActivityStreamCmsContentPagination(ActivityStreamBasePagination):
+    page_size = 20
+
+    def paginate_queryset(self, queryset, request, view=None):
+        self.has_next = queryset.count() > self.page_size
+        page = list(queryset[: self.page_size])
+        self.next_value = page[-1].id if page else ''
+        self.request = request
+        return page

@@ -44,7 +44,10 @@
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">Welcome to your UK expansion guide</h1>
                 <p class="govuk-body govuk-!-margin-bottom-6">
-                    Your free expansion guide will take you through the most important things to consider when expanding your business in the UK. You'll find a step by step guide to setting up in the UK and a personalised guide tailored for your sector.
+                    Whether you've decided on the UK or you're still exploring your options, your free guide will take you through what you need to know.
+                </p>
+                <p class="govuk-body govuk-!-margin-bottom-6">
+                    You'll find a checklist of things you'll need to consider when you're setting up, and a personalised guide tailored for your sector.
                 </p>
                 {% if not eyb_user %}
                     {% if not triage_data.is_high_value %}
@@ -111,20 +114,20 @@
             <ul class="govuk-tabs__list">
                 <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
                     <a class="govuk-tabs__tab" href="#step-by-step-guide">
-                    Step by step guide
+                        Checklist for UK expansion
                     </a>
                 </li>
                 <li class="govuk-tabs__list-item">
                     <a class="govuk-tabs__tab" href="#personalised-guide">
-                    Personalised guide
+                        Personalised guide
                     </a>
                 </li>
             </ul>
             <div class="govuk-tabs__panel" id="step-by-step-guide">
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-full">
-                        <h2 class="govuk-heading-l">Step by step guide</h2>
-                        <p class="govuk-body">Depending on your business, you may not need to complete every step, or you may need to complete them in a different order.</p>
+                        <h2 class="govuk-heading-l">Checklist for UK expansion</h2>
+                        <p class="govuk-body">An overview of topics you may need to know more about and tasks you may need to complete.</p>
                     </div>
                 </div>
                 <div class="govuk-grid-row">
@@ -257,9 +260,9 @@
                             {% image page.article_image original as rendition %}
                             <div class="article-list-item">
                                 {% if eyb_user %}
-                                <a class="article-list-item-a" href="{{ page.url }}">
+                                <a class="" href="{{ page.url }}?back=true">
                                 {% else %}
-                                <a class="article-list-item-a" href="{% url 'international_online_offer:signup' %}">
+                                <a class="" href="{% url 'international_online_offer:signup' %}">
                                 {% endif %}
                                     <div class="govuk-grid-row">
                                         <div class="govuk-grid-column-one-third">
@@ -302,7 +305,7 @@
                             {% image page.article_image original as rendition %}
                             <div class="article-list-item">
                                 {% if eyb_user %}
-                                <a href="{{ page.url }}">
+                                <a href="{{ page.url }}?back=true">
                                 {% else %}
                                 <a href="{% url 'international_online_offer:signup' %}">
                                 {% endif %}
