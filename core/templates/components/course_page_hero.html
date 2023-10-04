@@ -13,7 +13,7 @@ If both are available, `image_url` will be used over `image`
 {% load wagtailcore_tags %}
 
 {% if not image_url %}
-{% image i mage original as rendition %}
+{% image image original as rendition %}
 {% endif %}
 {% firstof image_url rendition.url as image_url %}
 
