@@ -585,7 +585,7 @@ class EditView(TemplateResponseMixin, ContextMixin, HookResponseMixin, View):
         return self.redirect_away()
 
     def submit_action(self):
-        logger.log('WTF')
+        logger.debug('WTF')
         self.page = self.form.save(commit=False)
         self.subscription.save()
 

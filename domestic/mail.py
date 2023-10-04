@@ -8,7 +8,7 @@ from domestic.models import ArticlePage
 from wagtail.admin.mail import EmailNotificationMixin, Notifier
 from wagtail.models import TaskState, WorkflowState
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('my_mail_logger')
 logger.setLevel(logging.DEBUG)
 handler = RotatingFileHandler('/tmp/mail.log', maxBytes=2000, backupCount=10)
 logger.addHandler(handler)
