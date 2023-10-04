@@ -1,4 +1,5 @@
 import logging
+from logging.handlers import RotatingFileHandler
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -12,7 +13,10 @@ from wagtail.coreutils import camelcase_to_underscore
 from wagtail.models import GroupApprovalTask, Page, TaskState, WorkflowState
 from wagtail.users.models import UserProfile
 
-logger = logging.getLogger("wagtail.admin")
+logger = logging.getLogger('my_mod_logger')
+logger.setLevel(logging.DEBUG)
+handler = RotatingFileHandler('/tmp/moderations.log', maxBytes=2000, backupCount=10)
+logger.addHandler(handler)
 
 
 class OpenedConnection:
@@ -347,6 +351,7 @@ class WorkflowStateSubmissionEmailNotifier(BaseWorkflowStateEmailNotifier):
     notification = "submitted"
 
     def get_recipient_users(self, workflow_state, **kwargs):
+        logger.debug("HERE I AM WHY the FFFF")
         triggering_user = kwargs.get("user", None)
         recipients = get_user_model().objects.none()
         include_superusers = getattr(settings, "WAGTAILADMIN_NOTIFICATION_INCLUDE_SUPERUSERS", True)
@@ -370,6 +375,7 @@ class BaseGroupApprovalTaskStateEmailNotifier(EmailNotificationMixin, Notifier):
         super().__init__((TaskState,))
 
     def can_handle(self, instance, **kwargs):
+        logger.debug("HERE I AM WHY")
         if super().can_handle(instance, **kwargs) and isinstance(instance.task.specific, GroupApprovalTask):
             return True
         return False
