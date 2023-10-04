@@ -9,7 +9,7 @@ from wagtail.admin.mail import (
     GroupApprovalTaskStateSubmissionEmailNotifier,
     WorkflowStateSubmissionEmailNotifier,
 )
-from wagtail.models import TaskState, WorkflowState
+from wagtail.models import Task, TaskState, WorkflowState
 from wagtail.signals import task_submitted, workflow_submitted
 
 from .mail import ModerationTaskStateSubmissionEmailNotifier
@@ -339,5 +339,31 @@ def register_signal_handlers():
     )
     my_signal = MySignal()
     task_submitted.send = my_signal.send
+    task = Task()
+    my_task = MyTask()
+    task.start = my_task.start
     my_signal.connect(receiver=task_submission_email_notifier, sender=TaskState, dispatch_uid='my-unique-identifier')
     logger.debug('register_signal_handlers() exited')
+
+
+class MyTask(Task):
+    class Meta:
+        managed = False
+
+    def start(self, workflow_state, user=None):
+        """Start this task on the provided workflow state by creating an instance of TaskState"""
+        logger.debug('MyTask: start entered')
+        task_state = self.get_task_state_class()(workflow_state=workflow_state)
+        task_state.status = TaskState.STATUS_IN_PROGRESS
+        task_state.revision = workflow_state.content_object.get_latest_revision()
+        task_state.task = self
+        task_state.save()
+        logger.debug(f'MyTask: sending signal {task_state.specific.__class__}:{task_state.specific}')
+        task_submitted.send(
+            sender=task_state.specific.__class__,
+            instance=task_state.specific,
+            user=user,
+        )
+
+        logger.debug('MyTask: start exiting')
+        return task_state
