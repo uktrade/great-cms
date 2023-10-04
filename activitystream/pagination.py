@@ -53,6 +53,6 @@ class ActivityStreamCmsContentPagination(ActivityStreamBasePagination):
     def paginate_queryset(self, queryset, request, view=None):
         self.has_next = queryset.count() > self.page_size
         page = list(queryset[: self.page_size])
-        self.next_value = page[-1].last_published_at.timestamp() if page else ''
+        self.next_value = page[-1].id if page else ''
         self.request = request
         return page

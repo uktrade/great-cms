@@ -226,3 +226,6 @@ class ActivityStreamCmsContentView(ActivityStreamBaseView):
     queryset = Page.objects.exclude(
         Q(live=False) | Q(first_published_at__isnull=True) | Q(last_published_at__isnull=True)
     )
+
+    def get_queryset(self):
+        return self.queryset.order_by('id')
