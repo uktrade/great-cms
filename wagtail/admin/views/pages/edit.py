@@ -34,7 +34,7 @@ from wagtail.models import (
     WorkflowState,
 )
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('my_logger')
 logger.setLevel(logging.DEBUG)
 handler = RotatingFileHandler('/tmp/signals.log', maxBytes=2000, backupCount=10)
 logger.addHandler(handler)
