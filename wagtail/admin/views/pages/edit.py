@@ -439,7 +439,6 @@ class EditView(TemplateResponseMixin, ContextMixin, HookResponseMixin, View):
         return self.workflow_action in available_action_names
 
     def form_valid(self, form):
-        logger.debug('In form_valid')
         self.is_reverting = bool(self.request.POST.get("revision"))
         # If a revision ID was passed in the form, get that revision so its
         # date can be referenced in notification messages
@@ -448,9 +447,6 @@ class EditView(TemplateResponseMixin, ContextMixin, HookResponseMixin, View):
 
         self.has_content_changes = self.form.has_changed()
 
-        logger.debug(
-            f'In form_valid {self.request.POST.get("action-submit")}:{self.page_perms.can_submit_for_moderation()}'
-        )
         if self.request.POST.get("action-publish") and self.page_perms.can_publish():
             return self.publish_action()
         elif self.request.POST.get("action-submit") and self.page_perms.can_submit_for_moderation():
@@ -585,7 +581,6 @@ class EditView(TemplateResponseMixin, ContextMixin, HookResponseMixin, View):
         return self.redirect_away()
 
     def submit_action(self):
-        logger.debug('WTF')
         self.page = self.form.save(commit=False)
         self.subscription.save()
 
@@ -601,14 +596,12 @@ class EditView(TemplateResponseMixin, ContextMixin, HookResponseMixin, View):
             self.log_commenting_changes(changes, revision)
             self.send_commenting_notifications(changes)
 
-        logger.debug(f'Here I am {self.workflow_state}:{self.workflow_state.status}')
         if self.workflow_state and self.workflow_state.status == WorkflowState.STATUS_NEEDS_CHANGES:
             # If the workflow was in the needs changes state, resume the existing workflow on submission
             self.workflow_state.resume(self.request.user)
         else:
             # Otherwise start a new workflow
             workflow = self.page.get_workflow()
-            logger.debug(f'Here I am sending signal to {workflow}')
             workflow.start(self.page, self.request.user)
 
         message = _("Page '%(page_title)s' has been submitted for moderation.") % {

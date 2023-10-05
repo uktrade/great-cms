@@ -17,7 +17,7 @@ logger.addHandler(handler)
 
 class ModerationTaskStateEmailNotifier(EmailNotificationMixin, Notifier):
     def get_valid_recipients(self, instance, **kwargs):
-        breakpoint()
+        logger.debug('In Our get_valid_recipients')
         return {
             recipient
             for recipient in self.get_recipient_users(instance, **kwargs)
@@ -30,7 +30,6 @@ class ModerationTaskStateEmailNotifier(EmailNotificationMixin, Notifier):
         }
 
     def __call__(self, instance=None, **kwargs):
-        breakpoint()
         logger.debug('In Our Call')
         if not self.can_handle(instance, **kwargs):
             return False
@@ -47,8 +46,7 @@ class ModerationTaskStateEmailNotifier(EmailNotificationMixin, Notifier):
         return self.send_notifications(template_set, context, recipients, **kwargs)
 
     def can_handle(self, instance, **kwargs):
-        breakpoint()
-        logger.debug('Can Handle entered')
+        logger.debug('In Our Can Handle')
         if isinstance(instance, TaskState):
             if not isinstance(instance.revision.content_object, ArticlePage):
                 return False
@@ -63,12 +61,12 @@ class ModerationTaskStateEmailNotifier(EmailNotificationMixin, Notifier):
             return False
 
     def get_recipient_users(self, task_state, **kwargs):
-        breakpoint()
+        logger.debug('In Our get_recipient_users')
         triggering_user = kwargs.get('user', None)
         return {triggering_user}
 
     def send_emails(self, template_set, context, recipients, **kwargs):
-        breakpoint()
+        logger.debug('In Our send_emails')
         logger.debug(f"""Sending moderation email: {kwargs['email']}""")
         template_id = kwargs['template_id']
         email = kwargs['email']
@@ -77,7 +75,7 @@ class ModerationTaskStateEmailNotifier(EmailNotificationMixin, Notifier):
         return True
 
     def send_notifications(self, template_set, context, recipients, **kwargs):
-        breakpoint()
+        logger.debug('In Our send_notifications')
         # send email to campaign moderators group
         template_id = settings.CAMPAIGN_MODERATORS_EMAIL_TEMPLATE_ID
         email = settings.MODERATION_EMAIL_DIST_LIST

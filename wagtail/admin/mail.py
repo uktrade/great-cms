@@ -214,12 +214,13 @@ class EmailNotificationMixin:
 
     def get_recipient_users(self, instance, **kwargs):
         """Gets the ideal set of recipient users, without accounting for notification preferences or missing email addresses"""
-
+        logger.debug('In Their get_recipient_users')
         return set()
 
     def get_valid_recipients(self, instance, **kwargs):
         """Filters notification recipients to those allowing the notification type on their UserProfile, and those
         with an email address"""
+        logger.debug('In Their get_valid_recipients')
         return {
             recipient
             for recipient in self.get_recipient_users(instance, **kwargs)
@@ -247,7 +248,7 @@ class EmailNotificationMixin:
         }
 
     def send_emails(self, template_set, context, recipients, **kwargs):
-        logger.debug('In send_emails')
+        logger.debug('In Their send_emails')
         connection = get_connection()
         sent_count = 0
         try:
@@ -289,6 +290,7 @@ class EmailNotificationMixin:
         return sent_count == len(recipients)
 
     def send_notifications(self, template_set, context, recipients, **kwargs):
+        logger.debug('In Their send_notifications')
         return self.send_emails(template_set, context, recipients, **kwargs)
 
 
