@@ -363,15 +363,15 @@ class MySignal(Signal):
 
 def register_signal_handlers():
     logger.debug('register_signal_handlers() entered')
-    # group_approval_email_notifier = GroupApprovalTaskStateSubmissionEmailNotifier()
+    group_approval_email_notifier = GroupApprovalTaskStateSubmissionEmailNotifier()
     # workflow_submission_email_notifier = WorkflowStateSubmissionEmailNotifier()
 
-    # stat = task_submitted.disconnect(
-    #     group_approval_email_notifier,
-    #     sender=TaskState,
-    #     dispatch_uid='group_approval_task_submitted_email_notification',
-    # )
-    # logger.debug(f'task_submission_email_notifier: {stat}')
+    stat = task_submitted.disconnect(
+        group_approval_email_notifier,
+        sender=TaskState,
+        dispatch_uid='group_approval_task_submitted_email_notification',
+    )
+    logger.debug(f'task_submission_email_notifier: {stat}')
     # stat = workflow_submitted.disconnect(
     #     workflow_submission_email_notifier,
     #     sender=WorkflowState,

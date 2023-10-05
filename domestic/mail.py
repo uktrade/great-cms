@@ -7,6 +7,7 @@ from core.helpers import send_campaign_moderation_notification
 from domestic.models import ArticlePage
 from wagtail.admin.mail import EmailNotificationMixin, Notifier
 from wagtail.models import TaskState, WorkflowState
+from wagtail.users.models import UserProfile
 
 logger = logging.getLogger('my_mod_logger')
 logger.setLevel(logging.DEBUG)
@@ -15,7 +16,38 @@ logger.addHandler(handler)
 
 
 class ModerationTaskStateEmailNotifier(EmailNotificationMixin, Notifier):
+    def get_valid_recipients(self, instance, **kwargs):
+        breakpoint()
+        return {
+            recipient
+            for recipient in self.get_recipient_users(instance, **kwargs)
+            if recipient.is_active
+            and recipient.email
+            and getattr(
+                UserProfile.get_for_user(recipient),
+                self.notification + "_notifications",
+            )
+        }
+
+    def __call__(self, instance=None, **kwargs):
+        breakpoint()
+        logger.debug('In Our Call')
+        if not self.can_handle(instance, **kwargs):
+            return False
+
+        recipients = self.get_valid_recipients(instance, **kwargs)
+
+        if not recipients:
+            return True
+
+        template_set = self.get_template_set(instance, **kwargs)
+
+        context = self.get_context(instance, **kwargs)
+
+        return self.send_notifications(template_set, context, recipients, **kwargs)
+
     def can_handle(self, instance, **kwargs):
+        breakpoint()
         logger.debug('Can Handle entered')
         if isinstance(instance, TaskState):
             if not isinstance(instance.revision.content_object, ArticlePage):
@@ -31,10 +63,12 @@ class ModerationTaskStateEmailNotifier(EmailNotificationMixin, Notifier):
             return False
 
     def get_recipient_users(self, task_state, **kwargs):
+        breakpoint()
         triggering_user = kwargs.get('user', None)
         return {triggering_user}
 
     def send_emails(self, template_set, context, recipients, **kwargs):
+        breakpoint()
         logger.debug(f"""Sending moderation email: {kwargs['email']}""")
         template_id = kwargs['template_id']
         email = kwargs['email']
@@ -43,6 +77,7 @@ class ModerationTaskStateEmailNotifier(EmailNotificationMixin, Notifier):
         return True
 
     def send_notifications(self, template_set, context, recipients, **kwargs):
+        breakpoint()
         # send email to campaign moderators group
         template_id = settings.CAMPAIGN_MODERATORS_EMAIL_TEMPLATE_ID
         email = settings.MODERATION_EMAIL_DIST_LIST

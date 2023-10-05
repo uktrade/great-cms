@@ -193,7 +193,7 @@ class Notifier:
     def __call__(self, instance=None, **kwargs):
         """Send notifications from an instance (intended to be the signal sender), returning True if all sent correctly
         and False otherwise"""
-        logger.debug('In Call')
+        logger.debug('In Their Call')
         if not self.can_handle(instance, **kwargs):
             return False
 
