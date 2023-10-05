@@ -42,12 +42,7 @@
             {% include 'components/informative_banner.html' with banner_label=page.banner_label banner_content=page.banner_content %}
         </div>
     {% endif %}
-<<<<<<< HEAD
-
     <section class="great-bg-white govuk-!-static-padding-bottom-3 govuk-!-static-padding-top-6">
-=======
-    <section class="govuk-!-static-padding-bottom-3">
->>>>>>> 9e88d18c6 (reformat export_academy html)
         <div class="great-container ">
             <div class="govuk-grid-row {% if page.banner_label %} intro-text-container {% else %} govuk-!-static-margin-bottom-6 {% endif %}">
                 <div class="govuk-grid-column-three-quarters">
@@ -67,46 +62,53 @@
             </div>
         </div>
     </section>
-<<<<<<< HEAD
     <section class="great-bg-light-blue panels-container">
         {% if features.FEATURE_COURSES_LANDING_PAGE %}
-        <div class="govuk-width-container great-container govuk-!-static-padding-top-5">
-            <div class="govuk-grid-row great-display-flex-desktop">
-                <div class="govuk-grid-column-full courses-container">
-                    <a href="{{ page.course_cta_link }}" class="govuk-!-display-block">
-                        <div class="great-bg-white great-display-flex-from-desktop">
-                            <div class="courses-container__text great-dep-homepage-title__text">
-                                <h2 class="govuk-!-static-margin-bottom-4">{{ page.course_name }}</h2>
-                                <p class="govuk-!-static-margin-bottom-3">{{ page.course_description }}</p>
-                                <ul>
-                                    <li class="govuk-!-static-margin-top-3">
-                                        <img class="great-blue-tick govuk-!-static-margin-right-1" src="{% static 'icons/blue-tick.svg' %}" height="30" aria-hidden="true" />
-                                        <span style="vertical-align: middle;">{{ page.course_feature_one }}</span>
-                                    </li>
-                                    <li class="govuk-!-static-margin-top-3">
-                                        <img class="great-blue-tick govuk-!-static-margin-right-1" src="{% static 'icons/blue-tick.svg' %}" height="30" aria-hidden="true" />
-                                        <span>{{ page.course_feature_two }}</span>
-                                    </li>
-                                    <li class="govuk-!-static-margin-top-3">
-                                        <img class="great-blue-tick govuk-!-static-margin-right-1" src="{% static 'icons/blue-tick.svg' %}" height="30" aria-hidden="true" />
-                                        <span>{{ page.course_feature_three }}</span>
-                                    </li>
-                                </ul>
-                                <div class="govuk-!-static-margin-top-3">
-                                    <span class="govuk-link great-text-blue great-link--internal">{{ page.course_cta_text }}</span>
+            <div class="govuk-width-container great-container govuk-!-static-padding-top-5">
+                <div class="govuk-grid-row great-display-flex-desktop">
+                    <div class="govuk-grid-column-full courses-container">
+                        <a href="{{ page.course_cta_link }}" class="govuk-!-display-block">
+                            <div class="great-bg-white great-display-flex-from-desktop">
+                                <div class="courses-container__text great-dep-homepage-title__text">
+                                    <h2 class="govuk-!-static-margin-bottom-4">{{ page.course_name }}</h2>
+                                    <p class="govuk-!-static-margin-bottom-3">{{ page.course_description }}</p>
+                                    <ul>
+                                        <li class="govuk-!-static-margin-top-3">
+                                            <img class="great-blue-tick govuk-!-static-margin-right-1"
+                                                 src="{% static 'icons/blue-tick.svg' %}"
+                                                 height="30"
+                                                 aria-hidden="true" />
+                                            <span style="vertical-align: middle;">{{ page.course_feature_one }}</span>
+                                        </li>
+                                        <li class="govuk-!-static-margin-top-3">
+                                            <img class="great-blue-tick govuk-!-static-margin-right-1"
+                                                 src="{% static 'icons/blue-tick.svg' %}"
+                                                 height="30"
+                                                 aria-hidden="true" />
+                                            <span>{{ page.course_feature_two }}</span>
+                                        </li>
+                                        <li class="govuk-!-static-margin-top-3">
+                                            <img class="great-blue-tick govuk-!-static-margin-right-1"
+                                                 src="{% static 'icons/blue-tick.svg' %}"
+                                                 height="30"
+                                                 aria-hidden="true" />
+                                            <span>{{ page.course_feature_three }}</span>
+                                        </li>
+                                    </ul>
+                                    <div class="govuk-!-static-margin-top-3">
+                                        <span class="govuk-link great-text-blue great-link--internal">{{ page.course_cta_text }}</span>
+                                    </div>
                                 </div>
+                                {% image page.course_image original as course_rendition %}
+                                <img class="courses-container__img"
+                                     src="{{ course_rendition.url }}"
+                                     alt="">
                             </div>
-                            {% image page.course_image original as course_rendition %}
-                            <img class="courses-container__img" src="{{ course_rendition.url }}" alt="">
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
         {% endif %}
-=======
-    <section class="great-bg-white panels-container">
->>>>>>> 9e88d18c6 (reformat export_academy html)
         <div class="great-container">
             <div class="govuk-grid-row govuk-!-static-padding-top-5">
                 <div class="govuk-grid-column-three-quarters">
@@ -115,25 +117,13 @@
             </div>
             <div class="flex-grid">
                 {% for panel in page.panels %}
-<<<<<<< HEAD
-                <div class="column-third-xl column-half-l card-large-blue-heading">
-                    {% include 'components/card.html' with url=panel.value.link title=panel.value.title card_image=panel.value.image html_snippet=panel.value.description no_padding_card=False card_id="card-"|add:panel.value.title|lower %}
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="great-container">
-            {% include_block page.next_cta %}
-        </div>
-=======
                     <div class="column-third-xl column-half-l card-large-blue-heading">
-                        {% include 'components/card.html' with url=panel.value.link title=panel.value.title card_image=panel.value.image html_snippet=panel.value.description no_padding_card=True card_id="card-"|add:panel.value.title|lower %}
+                        {% include 'components/card.html' with url=panel.value.link title=panel.value.title card_image=panel.value.image html_snippet=panel.value.description no_padding_card=False card_id="card-"|add:panel.value.title|lower %}
                     </div>
                 {% endfor %}
             </div>
         </div>
-        <div class="great-container centre-children">{% include_block page.next_cta %}</div>
->>>>>>> 9e88d18c6 (reformat export_academy html)
+        <div class="great-container">{% include_block page.next_cta %}</div>
     </section>
 </div>
 {% endblock %}
