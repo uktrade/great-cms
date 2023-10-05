@@ -160,7 +160,7 @@ django-health-check==3.17.0
     # via directory-healthcheck
 django-ipware==2.1.0
     # via -r requirements.in
-django-modelcluster==6.0
+django-modelcluster==6.1
     # via wagtail
 django-permissionedforms==0.1
     # via wagtail
@@ -421,7 +421,7 @@ typing-extensions==4.8.0
     #   wagtail-localize
 tzdata==2023.3
     # via django-celery-beat
-tzlocal==5.0.1
+tzlocal==5.1
     # via
     #   dateparser
     #   pyhanko
@@ -447,6 +447,17 @@ vine==5.0.0
     #   kombu
 w3lib==1.22.0
     # via directory-client-core
+wagtail==4.2.2
+    # via
+    #   -r requirements.in
+    #   wagtail-cache
+    #   wagtail-draftail-anchors
+    #   wagtail-factories
+    #   wagtail-localize
+    #   wagtail-seo
+    #   wagtail-transfer
+    #   wagtail-trash
+    #   wagtailmedia
 wagtail-cache==2.2.0
     # via -r requirements.in
 wagtail-draftail-anchors==0.6.0
