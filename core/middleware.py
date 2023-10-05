@@ -11,12 +11,12 @@ from django.shortcuts import redirect
 from django.utils.deprecation import MiddlewareMixin
 from great_components.mixins import GA360Mixin
 from jsonschema import ValidationError
+from wagtail.contrib.redirects import models
+from wagtail.contrib.redirects.middleware import get_redirect
 
 from core import helpers
 from core.fern import Fern
 from sso.models import BusinessSSOUser
-from wagtail.contrib.redirects import models
-from wagtail.contrib.redirects.middleware import get_redirect
 
 logger = logging.getLogger(__name__)
 

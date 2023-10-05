@@ -4,6 +4,10 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.utils.translation import gettext_lazy as _
 from elasticsearch.exceptions import ConnectionError, NotFoundError
+from wagtail import blocks
+from wagtail.blocks.field_block import RichTextBlock
+from wagtail.blocks.stream_block import StreamBlockValidationError
+from wagtail.images.blocks import ImageChooserBlock
 from wagtailmedia.blocks import AbstractMediaChooserBlock
 
 from core import models
@@ -14,10 +18,6 @@ from core.constants import (
     RICHTEXT_FEATURES__REDUCED,
 )
 from core.utils import get_cs_ranking, get_personalised_choices
-from wagtail import blocks
-from wagtail.blocks.field_block import RichTextBlock
-from wagtail.blocks.stream_block import StreamBlockValidationError
-from wagtail.images.blocks import ImageChooserBlock
 
 logger = logging.getLogger(__name__)
 

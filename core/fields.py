@@ -1,5 +1,4 @@
 from django.db.models import TextField
-
 from wagtail import blocks
 from wagtail.fields import StreamField
 

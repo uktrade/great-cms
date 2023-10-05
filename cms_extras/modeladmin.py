@@ -1,9 +1,6 @@
 import csv
 
 from django.utils.html import format_html_join, strip_tags
-
-from contact.modeladmin import ContactSuccessSnippetAdmin, ContactUsGuidanceSnippetAdmin
-from core.models import CaseStudy
 from wagtail.admin.views.mixins import Echo
 from wagtail.contrib.modeladmin.helpers import ButtonHelper
 from wagtail.contrib.modeladmin.options import (
@@ -12,6 +9,9 @@ from wagtail.contrib.modeladmin.options import (
     modeladmin_register,
 )
 from wagtail.contrib.modeladmin.views import IndexView
+
+from contact.modeladmin import ContactSuccessSnippetAdmin, ContactUsGuidanceSnippetAdmin
+from core.models import CaseStudy
 
 
 class CaseStudyAdminButtonHelper(ButtonHelper):

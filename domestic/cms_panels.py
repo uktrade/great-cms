@@ -1,6 +1,4 @@
 from django.forms import CheckboxSelectMultiple, Select
-from wagtailmedia.widgets import AdminMediaChooser
-
 from wagtail.admin.panels import (
     FieldPanel,
     FieldRowPanel,
@@ -8,6 +6,7 @@ from wagtail.admin.panels import (
     MultiFieldPanel,
     PageChooserPanel,
 )
+from wagtailmedia.widgets import AdminMediaChooser
 
 ACCORDION_FIELDS_HELP_TEXT = (
     'Add up to six blocks of Industry Info. '

@@ -2,10 +2,10 @@ import logging
 from logging.handlers import RotatingFileHandler
 
 from django.conf import settings
-
-from core.helpers import send_campaign_moderation_notification
 from wagtail.models import TaskState, WorkflowState
 from wagtail.users.models import UserProfile
+
+from core.helpers import send_campaign_moderation_notification
 
 logger = logging.getLogger('my_domestic_mail_logger')
 logger.setLevel(logging.DEBUG)

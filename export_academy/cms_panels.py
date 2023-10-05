@@ -1,6 +1,5 @@
-from wagtailmedia.widgets import AdminMediaChooser
-
 from wagtail.admin.panels import FieldPanel, HelpPanel, InlinePanel, MultiFieldPanel
+from wagtailmedia.widgets import AdminMediaChooser
 
 
 class ExportAcademyPagePanels:

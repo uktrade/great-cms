@@ -3,6 +3,8 @@ from unittest import mock
 
 import pytest
 from elasticsearch.exceptions import ConnectionError, NotFoundError
+from wagtail import blocks
+from wagtail.blocks.stream_block import StreamBlockValidationError
 
 from core import blocks as core_blocks, case_study_index
 from core.models import CaseStudyScoringSettings
@@ -13,8 +15,6 @@ from tests.unit.core.factories import (
     DetailPageFactory,
     ListPageFactory,
 )
-from wagtail import blocks
-from wagtail.blocks.stream_block import StreamBlockValidationError
 
 
 def test_link_block():

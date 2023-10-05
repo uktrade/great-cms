@@ -20,13 +20,6 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from storages.backends.s3boto3 import S3Boto3Storage
-
-from core import cms_slugs, forms, helpers, serializers
-from core.mixins import AuthenticatedUserRequired, PageTitleMixin
-from core.models import GreatMedia
-from directory_constants import choices
-from domestic.models import DomesticDashboard, TopicLandingPage
-from sso.views import SSOBusinessUserLogoutView
 from wagtail.contrib.sitemaps import Sitemap as WagtailSitemap
 from wagtail.images import get_image_model
 from wagtail.images.views import chooser
@@ -37,6 +30,13 @@ from wagtail.images.views.chooser import (
     ImageInsertionForm,
     ImageUploadViewMixin,
 )
+
+from core import cms_slugs, forms, helpers, serializers
+from core.mixins import AuthenticatedUserRequired, PageTitleMixin
+from core.models import GreatMedia
+from directory_constants import choices
+from domestic.models import DomesticDashboard, TopicLandingPage
+from sso.views import SSOBusinessUserLogoutView
 
 logger = logging.getLogger(__name__)
 

@@ -11,6 +11,9 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
 )
 from great_components.decorators import skip_ga360
+from wagtail import urls as wagtail_urls
+from wagtail.admin import urls as wagtailadmin_urls
+from wagtail.documents import urls as wagtaildocs_urls
 from wagtail_transfer import urls as wagtailtransfer_urls
 
 import activitystream.urls
@@ -24,9 +27,6 @@ import international_online_offer.urls
 import search.urls
 import sso.urls
 import sso_profile.urls
-from wagtail import urls as wagtail_urls
-from wagtail.admin import urls as wagtailadmin_urls
-from wagtail.documents import urls as wagtaildocs_urls
 
 urlpatterns = []
 

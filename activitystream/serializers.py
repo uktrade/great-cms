@@ -2,13 +2,13 @@ import logging
 
 from rest_framework import serializers
 from taggit.serializers import TagListSerializerField
+from wagtail.models import Page
+from wagtail.rich_text import RichText, get_text_for_indexing
 
 from core.models import MicrositePage
 from domestic.models import ArticlePage
 from export_academy.models import Booking, Event, Registration
 from international_online_offer.models import TriageData, UserData
-from wagtail.models import Page
-from wagtail.rich_text import RichText, get_text_for_indexing
 
 logger = logging.getLogger(__name__)
 

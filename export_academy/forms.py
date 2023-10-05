@@ -11,12 +11,12 @@ from django.forms.widgets import ChoiceWidget
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from great_components import forms
+from wagtail.admin.forms import WagtailAdminModelForm
 
 from contact import constants
 from core.validators import is_valid_uk_postcode
 from directory_constants.choices import COUNTRY_CHOICES
 from regex import PHONE_NUMBER_REGEX
-from wagtail.admin.forms import WagtailAdminModelForm
 
 COUNTRIES = COUNTRY_CHOICES.copy()
 COUNTRIES.insert(0, ('', 'Select a country'))

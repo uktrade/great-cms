@@ -1,4 +1,5 @@
 from wagtail.contrib.modeladmin.options import ModelAdmin
+
 from .models import ContactSuccessSnippet, ContactUsGuidanceSnippet
 
 # All of these are registered via cms_extras.modeladmin

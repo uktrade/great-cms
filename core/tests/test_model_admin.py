@@ -3,11 +3,11 @@ from io import BytesIO
 import PIL.Image
 from django.core.files.images import ImageFile
 from django.test import TestCase
+from wagtail.models import Collection
+from wagtail.test.utils.wagtail_tests import WagtailTestUtils
 
 from core import models
 from core.admin import ImageAdmin
-from wagtail.models import Collection
-from wagtail.test.utils.wagtail_tests import WagtailTestUtils
 
 
 def get_test_image_file(filename='test.png', colour='white', size=(640, 480)):

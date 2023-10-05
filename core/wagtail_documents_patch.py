@@ -1,10 +1,10 @@
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
+from wagtail.documents.models import AbstractDocument
 
 from core.utils import get_mime_type
 from core.validators import validate_file_infection
-from wagtail.documents.models import AbstractDocument
 
 
 def clean(self):

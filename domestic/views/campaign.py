@@ -4,13 +4,13 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
 from django.utils.http import urlencode
 from django.utils.translation import get_language
+from wagtail.models import Locale
 
 from contact.views import BaseNotifyUserFormView
 from core.datastructures import NotifySettings
 from core.models import MicrositePage
 from domestic.forms import CampaignLongForm, CampaignShortForm
 from domestic.models import ArticlePage
-from wagtail.models import Locale
 
 
 def reverse_querystring(view, urlconf=None, args=None, kwargs=None, current_app=None, query_kwargs=None):

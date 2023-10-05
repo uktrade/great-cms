@@ -6,11 +6,11 @@ from django.contrib.auth.models import AnonymousUser
 from django.http import HttpResponse
 from django.test import override_settings
 from pytest_django.asserts import assertRedirects
+from wagtail.contrib.redirects import models
 
 from core import helpers, middleware
 from core.middleware import GADataMissingException, TimedAccessMiddleware
 from tests.unit.core import factories
-from wagtail.contrib.redirects import models
 
 
 @pytest.fixture(autouse=True)

@@ -2,13 +2,13 @@
 
 import django.db.models.deletion
 import great_components.mixins
+import wagtail.blocks
+import wagtail.fields
+import wagtail.images.blocks
 from django.db import migrations, models
 
 import core.mixins
 import domestic.cms_panels
-import wagtail.blocks
-import wagtail.fields
-import wagtail.images.blocks
 
 
 class Migration(migrations.Migration):

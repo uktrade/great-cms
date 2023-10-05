@@ -1,11 +1,11 @@
 from django.contrib.admin.utils import quote
 from django.urls import re_path
 from django.utils.translation import gettext_lazy
-
-from export_academy.models import Event
 from wagtail.contrib.modeladmin.helpers import ButtonHelper
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
 from wagtail.contrib.modeladmin.views import CreateView, InstanceSpecificView
+
+from export_academy.models import Event
 
 
 class CloneView(CreateView, InstanceSpecificView):

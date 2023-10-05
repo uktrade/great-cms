@@ -2,7 +2,6 @@ import datetime
 
 from django.db.models import Q
 from django_filters import CharFilter, FilterSet
-
 from wagtail.models import Page
 
 
