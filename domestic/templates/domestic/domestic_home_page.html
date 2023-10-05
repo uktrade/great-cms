@@ -3,17 +3,19 @@
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
 {% load static %}
-{% block header_class %} sign-up--header__single {% endblock %}
+{% block header_class %}sign-up--header__single{% endblock %}
 {% block inner_content %}
     <section id="learn-root">
         <div class="grid">
             <div class="col-12 col-md-8">
                 <h1 class="h-m">{{ page.title }}</h1>
-                 {% image page.image width-630%}
+                {% image page.image width-630 %}
                 <div class="body-l text-black-100">{{ page.body | richtext }}</div>
                 {% include_block page.button %}
             </div>
         </div>
-        <p>Or <a href='/login' class='inline-block m-t-xs'>login</a> to your account</p>
+        <p>
+            Or <a href='/login' class='inline-block m-t-xs'>login</a> to your account
+        </p>
     </section>
 {% endblock %}

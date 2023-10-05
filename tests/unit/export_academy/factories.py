@@ -8,9 +8,12 @@ from django.utils import timezone
 from core.models import GreatMedia
 from export_academy.models import (
     Booking,
+    CoursePage,
     Event,
+    EventsOnCourse,
     EventTypeTag,
     ExportAcademyHomePage,
+    ModuleEventSet,
     Registration,
 )
 
@@ -84,3 +87,20 @@ class EventTypeTagFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = EventTypeTag
+
+
+class ModuleEventSetFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = ModuleEventSet
+
+
+class EventsOnCourseFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = EventsOnCourse
+
+
+class CoursePageFactory(wagtail_factories.PageFactory):
+    slug = 'essentials'
+
+    class Meta:
+        model = CoursePage

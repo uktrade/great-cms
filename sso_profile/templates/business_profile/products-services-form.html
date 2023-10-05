@@ -1,31 +1,31 @@
 {% extends 'business_profile/base-form.html' %}
-
 {% load breadcrumbs from component_tags %}
 {% load static %}
-
-
 {% block form_contents %}
     {% breadcrumbs 'Products and services' %}
-        <a href="{% url 'sso_profile:about' %}">Home</a>
-        <a href="{% url 'sso_profile:business-profile' %}">Business profile</a>
-    {% endbreadcrumbs %}
-    <div id="selected-values-container" class="js-enabled-only">
-      <h2 class="heading-large">Products and services</h2>
-      <div id="selected-values"></div>
-    </div>
-    <h1 class="heading-large margin-top-30">Add {{ category }} services</h1>
-    {{ block.super }}
+    <a href="{% url 'sso_profile:about' %}">Home</a>
+    <a href="{% url 'sso_profile:business-profile' %}">Business profile</a>
+{% endbreadcrumbs %}
+<div id="selected-values-container" class="js-enabled-only">
+    <h2 class="heading-large">Products and services</h2>
+    <div id="selected-values"></div>
+</div>
+<h1 class="heading-large margin-top-30">Add {{ category }} services</h1>
+{{ block.super }}
 {% endblock %}
-
 {% block back_link %}
-    <a class="link" href="{% url 'sso_profile:business-profile-expertise-products-services-routing' %}">Back</a>
+    <a class="link"
+       href="{% url 'sso_profile:business-profile-expertise-products-services-routing' %}">Back</a>
 {% endblock %}
-
 {% block body_js %}
-  <link href="{% static 'javascript/vendor/accessible-autocomplete.min.css' %}" media="all" rel="stylesheet" />
-  <script type="text/javascript" src="{% static 'javascript/vendor/accessible-autocomplete.min.js' %}"></script>
-  <script type="text/javascript" src="{% static 'javascript/products-services.js' %}"></script>
-  <script type="text/javascript">
+    <link href="{% static 'javascript/vendor/accessible-autocomplete.min.css' %}"
+          media="all"
+          rel="stylesheet" />
+    <script type="text/javascript"
+            src="{% static 'javascript/vendor/accessible-autocomplete.min.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'javascript/products-services.js' %}"></script>
+    <script type="text/javascript">
     var keywordsElement = document.getElementById('id_expertise_products_services');
     var choices = keywordsElement.getAttribute('data-choices');
     dit.components.productsServicesTypeahead({
@@ -36,5 +36,5 @@
       showAllValues: true,
       placeholder: keywordsElement.getAttribute('placeholder'),
     });
-  </script>
+    </script>
 {% endblock %}

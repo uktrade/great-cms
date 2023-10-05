@@ -6,19 +6,17 @@ Only show if > 0 plans in list
 {% load progress_bar %}
 {% load static %}
 <div class="card">
-  <div class="g-card-header flex-jc-space-between flex-ai-center">
-    <h2>My export plans</h2>
-    <a class="button secondary-button" href="{% url 'exportplan:start' %}"><i class="fas fa-plus"></i><span>Create a new plan</span></a>
-  </div>
-  {% for plan in exportplan_list|slice:":3" %}
-  <div class="g-card-full">
-    {% include 'exportplan/includes/list_card_small.html' %}
-    {% if not forloop.last %}
-    <hr class="hr hr--light m-v-0 m-h-s">
-    {% endif %}
-  </div>
-  {% endfor %}
-  <div class="card-row">
-  <a class="button primary-button" href="{% url 'exportplan:index' %}">View all export plans</a>
-  </div>
+    <div class="g-card-header flex-jc-space-between flex-ai-center">
+        <h2>My export plans</h2>
+        <a class="button secondary-button" href="{% url 'exportplan:start' %}"><i class="fas fa-plus"></i><span>Create a new plan</span></a>
+    </div>
+    {% for plan in exportplan_list|slice:":3" %}
+        <div class="g-card-full">
+            {% include 'exportplan/includes/list_card_small.html' %}
+            {% if not forloop.last %}<hr class="hr hr--light m-v-0 m-h-s">{% endif %}
+        </div>
+    {% endfor %}
+    <div class="card-row">
+        <a class="button primary-button" href="{% url 'exportplan:index' %}">View all export plans</a>
+    </div>
 </div>

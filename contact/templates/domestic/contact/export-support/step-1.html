@@ -1,10 +1,9 @@
 {% extends 'domestic/contact/export-support/base.html' %}
 {% load static %}
-
 {% block body_js %}
-  {{ block.super }}
-  <script src="{% static 'javascript/company-lookup.js' %}"></script>
-  <script type="text/javascript">
+    {{ block.super }}
+    <script src="{% static 'javascript/company-lookup.js' %}"></script>
+    <script type="text/javascript">
     var companyName = document.getElementById('id_business_name');
     var companyNumber = document.getElementById('id_company_registration_number');
 
@@ -24,9 +23,8 @@
       $(companyNumber),
       '{% url "sso_profile:api:companies-house-search" %}'
      );
-  </script>
+    </script>
 {% endblock %}
-
 {% block form_fields %}
     {% for field in form.visible_fields %}
         {% if field.name == 'company_registration_number' %}

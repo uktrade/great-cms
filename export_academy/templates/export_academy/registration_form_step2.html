@@ -2,11 +2,9 @@
 {% load breadcrumbs from component_tags %}
 {% load wagtailcore_tags %}
 {% load static %}
-
 {% block body_js %}
-  {{ block.super }}
-
-  <script type="text/javascript">
+    {{ block.super }}
+    <script type="text/javascript">
     const add_another_sector_button = document.getElementById('add_another_sector');
 
     document.querySelectorAll('[data-hidden]').forEach(el => el.style.display = 'none');
@@ -35,37 +33,34 @@
           }
       }
     });
-  </script>
-
+    </script>
 {% endblock %}
-
 {% block form_fields %}
-
-  {% for field in form.visible_fields %}
-    {% if field.name == 'sector' %}
-      <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
-          {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='great-text-select--arrow' %}
-      </div>
-    {% elif field.name == 'second_sector' or field.name == 'third_sector' %}
-      <div class="govuk-form-group govuk-!-margin-bottom-7 data-other-field {% if field.errors %}govuk-form-group--error{% endif %}" {% if not field.value %}data-hidden{% endif %}>
-          {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='great-text-select--arrow' %}
-      </div>
-    {% elif field.name == 'export_product' %}
-      <div class="govuk-!-margin-bottom-7">
-        <a href="" class="govuk-link" role="button" id="add_another_sector">Add another sector</a>
-      </div>
-      <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %} govuk-!-margin-bottom-2">
-        <fieldset class="govuk-fieldset">
-            {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
-        </fieldset>
-      </div>
-    {% else %}
-      <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %} govuk-!-margin-bottom-2">
-        <fieldset class="govuk-fieldset">
-            {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
-        </fieldset>
-      </div>
-    {% endif %}
-  {% endfor %}
-
+    {% for field in form.visible_fields %}
+        {% if field.name == 'sector' %}
+            <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
+                {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='great-text-select--arrow' %}
+            </div>
+        {% elif field.name == 'second_sector' or field.name == 'third_sector' %}
+            <div class="govuk-form-group govuk-!-margin-bottom-7 data-other-field {% if field.errors %}govuk-form-group--error{% endif %}"
+                 {% if not field.value %}data-hidden{% endif %}>
+                {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='great-text-select--arrow' %}
+            </div>
+        {% elif field.name == 'export_product' %}
+            <div class="govuk-!-margin-bottom-7">
+                <a href="" class="govuk-link" role="button" id="add_another_sector">Add another sector</a>
+            </div>
+            <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %} govuk-!-margin-bottom-2">
+                <fieldset class="govuk-fieldset">
+                    {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
+                </fieldset>
+            </div>
+        {% else %}
+            <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %} govuk-!-margin-bottom-2">
+                <fieldset class="govuk-fieldset">
+                    {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
+                </fieldset>
+            </div>
+        {% endif %}
+    {% endfor %}
 {% endblock %}

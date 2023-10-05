@@ -1,70 +1,81 @@
 {% extends 'domestic/base.html' %}
-
 {% load static %}
 {% load wagtailcore_tags %}
 {% load breadcrumbs from component_tags %}
 {% load event_list_buttons %}
-
 {% block head_title %}{{ heading }} confirmed – Events – UK Export Academy{% endblock %}
-
 {% block head_css %}
-{{ block.super }}
-
-<link href="{% static 'styles/ukef-contact-page-success.css' %}" rel="stylesheet" type="text/css" />
+    {{ block.super }}
+    <link href="{% static 'styles/ukef-contact-page-success.css' %}"
+          rel="stylesheet"
+          type="text/css" />
 {% endblock %}
-
 {% block css_layout_class %}uk-export-contact-form-success{% endblock %}
-
 {% block content %}
     {% block hero %}
         {% with content_snippet as hero %}
-            <div class="ea-listing-page">{% include 'components/hero.html' with image=hero.image hero_title=hero.title hero_text=hero.text hide_image_for_mobile=True %}</div>
+            <div class="ea-listing-page">
+                {% include 'components/hero.html' with image=hero.image hero_title=hero.title hero_text=hero.text hide_image_for_mobile=True %}
+            </div>
         {% endwith %}
     {% endblock %}
-        {% breadcrumbs current_page_breadcrumb %}
-        <a href="/">great.gov.uk</a>
-        <a href="{% pageurl landing_page %}">UK Export Academy</a>
-    {% endbreadcrumbs %}
-    <div class="great">
-        <section class="govuk-!-padding-top-3 background-white clearfix">
-            <div class="container">
-                <div class="govuk-grid-column-two-thirds">
-                    <div class="govuk-notification-banner govuk-notification-banner--success govuk-!-margin-top-7" role="alert"
-                        aria-labelledby="govuk-notification-banner-title"
-                        data-module="govuk-notification-banner">
-                        <div class="govuk-notification-banner__header">
-                            <h2 class="great-text-white">
-                                {{ heading }} confirmed
-                            </h2>
-                        </div>
-                        <div class="govuk-notification-banner__content">
-                            {% if editing_registration %}
-                                <p class="great-font-size-desktop-24 padding-top-30-l padding-bottom-30-l">Your registration details have been successfully updated.</p>
-                            {% else %}
-                                <p class="great-font-size-desktop-24">Event details:</p>
-                                <div class="informative-banner govuk-!-margin-bottom-4">
-                                    <p class="great-font-size-desktop-24 govuk-!-font-weight-bold">{{ event.name }}</p><br>
-                                    <p class="great-font-size-desktop-24">
-                                        On {{ event.start_date|date:"D, j M" }} at {{ event.start_date|date:"g:iA"|lower }}
-                                    </p>
-                                </div>
-                                <span class="great-break-word"><p class="great-font-size-mobile-18 govuk-!-margin-right-7">We've emailed a {% if booking.status == 'Confirmed' %}booking{% else %}cancellation{% endif %} confirmation to {{ booking.registration.email }}</p></span>
-                                {% if booking.status == 'Confirmed' %}
-                                    {% event_list_buttons event %}
-                                {% endif %}
-                            {% endif %}
-                        </div>
+    {% breadcrumbs current_page_breadcrumb %}
+    <a href="/">great.gov.uk</a>
+    <a href="{% pageurl landing_page %}">UK Export Academy</a>
+{% endbreadcrumbs %}
+<div class="great">
+    <section class="govuk-!-padding-top-3 background-white clearfix">
+        <div class="container">
+            <div class="govuk-grid-column-two-thirds">
+                <div class="govuk-notification-banner govuk-notification-banner--success govuk-!-margin-top-7"
+                     role="alert"
+                     aria-labelledby="govuk-notification-banner-title"
+                     data-module="govuk-notification-banner">
+                    <div class="govuk-notification-banner__header">
+                        <h2 class="great-text-white">{{ heading }} confirmed</h2>
                     </div>
-                    {% if just_registered %}
-                        <h4 class="govuk-!-margin-bottom-3">What happens next</h4>
-                        <p class="great-font-size-mobile-18">
-                            You are now able to book a place on any of our Export Academy events,
-                            watch recordings of past events you’ve booked and cancel any events you can no longer attend.
-                        </p>
-                    {% endif %}
-                    <a href="{{ return_url }}" class="link block margin-top-30 margin-bottom-60">{{ return_msg }}</a>
+                    <div class="govuk-notification-banner__content">
+                        {% if editing_registration %}
+                            <p class="great-font-size-desktop-24 padding-top-30-l padding-bottom-30-l">
+                                Your registration details have been successfully updated.
+                            </p>
+                        {% else %}
+                            <p class="great-font-size-desktop-24">Event details:</p>
+                            <div class="informative-banner govuk-!-margin-bottom-4">
+                                <p class="great-font-size-desktop-24 govuk-!-font-weight-bold">{{ event.name }}</p>
+                                <br>
+                                <p class="great-font-size-desktop-24">
+                                    On {{ event.start_date|date:"D, j M" }} at {{ event.start_date|date:"g:iA"|lower }}
+                                </p>
+                            </div>
+                            <span class="great-break-word">
+                                <p class="great-font-size-mobile-18 govuk-!-margin-right-7">
+                                    We've emailed a
+                                    {% if booking.status == 'Confirmed' %}
+                                        booking
+                                    {% else %}
+                                        cancellation
+                                    {% endif %}
+                                    confirmation to {{ booking.registration.email }}
+                                </p>
+                            </span>
+                            {% if booking.status == 'Confirmed' %}
+                                {% event_list_buttons event %}
+                            {% endif %}
+                        {% endif %}
+                    </div>
                 </div>
+                {% if just_registered %}
+                    <h4 class="govuk-!-margin-bottom-3">What happens next</h4>
+                    <p class="great-font-size-mobile-18">
+                        You are now able to book a place on any of our Export Academy events,
+                        watch recordings of past events you’ve booked and cancel any events you can no longer attend.
+                    </p>
+                {% endif %}
+                <a href="{{ return_url }}"
+                   class="link block margin-top-30 margin-bottom-60">{{ return_msg }}</a>
             </div>
-        </section>
-    </div>
+        </div>
+    </section>
+</div>
 {% endblock content %}

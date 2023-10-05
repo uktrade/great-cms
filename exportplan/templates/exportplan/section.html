@@ -1,69 +1,69 @@
 {% extends "core/base.html" %}
 {% load static %}
 {% load url_map %}
-
 {% block css_layout_class %}export-plan{% endblock %}
-
 {% block content %}
-
-{% block sidebar %}{% include "exportplan/includes/sidebar.html" %}{% endblock %}
-
-<div class="main-section export-plan-content {% block mainclasses %} {% endblock %} {{ view.slug }}-content" id="{{ view.slug }}-content">
-
-  <section class="m-b-l">
-    <div class="page-header">
-      <div class="inner-header">
-        <div>
-          <p class='sub-header'> {{ export_plan.name }}</p>
-          <h1> {{ view.title }} </h1>
-          <p>{{view.text}}</p>
-          </div>
-          <div class = "image-container" style="background: url({{view.image }})">
-
-          </div> </div> </div>
-  </section>
-
-  <section class="container">
-    <div class="grid">
-      <div class="c-1-4-l">&nbsp;</div>
-      <div class="c-2-3-m c-1-2-xl">
-        {% block main_content %}{% endblock %}
-      </div>
-      <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
-    </div>
-  </section>
-
-  {% block user_input %}{% endblock %}
-
-  {% block additional_content %}{% endblock %}
-
-  {% block next_section %}
-  <section class="p-v-m section-complete">
-    <div class="container">
-      <div class="grid">
-        <div class="c-1-4-l">&nbsp;</div>
-        <div class="c-2-3-m c-1-2-xl">
-          {% block section_complete %}{% include "exportplan/includes/section_complete.html" %}{% endblock %}
-          {% if next_section and not next_section.disabled %}
-            <p class="h-xs m-b-0 text-white">Next</p>
-            <a class="link" href="{{ next_section.url }}" title="{{ next_section.title }}">
-              <span class="inline-block h-l link--underline text-white p-0 m-b-xs">{{ next_section.title }}</span>
-              <br />
-              <i class="fas fa-arrow-circle-right text-white"></i>
-            </a>
-          {% endif %}
-          {% block back_button %}
-            <div class="m-t-l">
-              <a class="text-white link body-m-b" href="{{ export_plan_landing_page_url }}" title="Export Plan home">
-                <i class="fas fa-arrow-circle-left"></i><span class="inline-block m-f-xs">Export Plan home</span>
-              </a>
+    {% block sidebar %}
+        {% include "exportplan/includes/sidebar.html" %}
+    {% endblock %}
+    <div class="main-section export-plan-content {% block mainclasses %}{% endblock %} {{ view.slug }}-content"
+         id="{{ view.slug }}-content">
+        <section class="m-b-l">
+            <div class="page-header">
+                <div class="inner-header">
+                    <div>
+                        <p class='sub-header'>{{ export_plan.name }}</p>
+                        <h1>{{ view.title }}</h1>
+                        <p>{{ view.text }}</p>
+                    </div>
+                    <div class = "image-container" style="background: url({{ view.image }})"></div>
+                </div>
             </div>
-          {% endblock %}
-        </div>
-        <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
-      </div>
+        </section>
+        <section class="container">
+            <div class="grid">
+                <div class="c-1-4-l">&nbsp;</div>
+                <div class="c-2-3-m c-1-2-xl">
+                    {% block main_content %}{% endblock %}
+                </div>
+                <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
+            </div>
+        </section>
+        {% block user_input %}{% endblock %}
+        {% block additional_content %}{% endblock %}
+        {% block next_section %}
+            <section class="p-v-m section-complete">
+                <div class="container">
+                    <div class="grid">
+                        <div class="c-1-4-l">&nbsp;</div>
+                        <div class="c-2-3-m c-1-2-xl">
+                            {% block section_complete %}
+                                {% include "exportplan/includes/section_complete.html" %}
+                            {% endblock %}
+                            {% if next_section and not next_section.disabled %}
+                                <p class="h-xs m-b-0 text-white">Next</p>
+                                <a class="link"
+                                   href="{{ next_section.url }}"
+                                   title="{{ next_section.title }}">
+                                    <span class="inline-block h-l link--underline text-white p-0 m-b-xs">{{ next_section.title }}</span>
+                                    <br />
+                                    <i class="fas fa-arrow-circle-right text-white"></i>
+                                </a>
+                            {% endif %}
+                            {% block back_button %}
+                                <div class="m-t-l">
+                                    <a class="text-white link body-m-b"
+                                       href="{{ export_plan_landing_page_url }}"
+                                       title="Export Plan home">
+                                        <i class="fas fa-arrow-circle-left"></i><span class="inline-block m-f-xs">Export Plan home</span>
+                                    </a>
+                                </div>
+                            {% endblock %}
+                        </div>
+                        <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
+                    </div>
+                </div>
+            </section>
+        {% endblock %}
     </div>
-  </section>
-  {% endblock %}
-</div>
 {% endblock %}

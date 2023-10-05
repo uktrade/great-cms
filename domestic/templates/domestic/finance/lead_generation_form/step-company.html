@@ -1,6 +1,5 @@
 {% extends 'domestic/finance/lead_generation_form/base.html' %}
 {% load static %}
-
 {% block head_title %}Company details - UK Export Finance{% endblock %}
 {% block step_title_container %}
     <div id="heading-container">
@@ -8,10 +7,10 @@
         <span class="font-xsmall">Your answers to the questions below help us decide the best way to support your business</span>
     </div>
 {% endblock %}
-
 {% block body_js %}
     {{ block.super }}
-    <script type="text/javascript" src="{% static 'javascript/dit.components.toggleOther.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'javascript/dit.components.toggleOther.js' %}"></script>
     <script type="text/javascript">
         var otherInputs = document.getElementsByClassName('js-field-other');
         var selectBoxes = document.getElementsByTagName('select');
@@ -20,7 +19,8 @@
         }
     </script>
     <script src="{% static 'javascript/company-lookup.js' %}"></script>
-    <script type="text/javascript" src="{% static 'javascript/dit.components.toggleOther.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'javascript/dit.components.toggleOther.js' %}"></script>
     <script type="text/javascript">
         var companyNumberContainer = document.getElementById('id_company-details-company_number-container');
         companyNumberContainer.style.display = 'none';
@@ -51,5 +51,4 @@
         }
         createCompaniesHouseLookup();
     </script>
-
 {% endblock %}

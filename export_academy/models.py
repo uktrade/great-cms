@@ -10,6 +10,8 @@ from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from taggit.models import ItemBase, TagBase
+from wagtail.fields import RichTextField, StreamField
+from wagtail.snippets.models import register_snippet
 
 from config import settings
 from core.blocks import ButtonBlock, SingleRichTextBlock, TopicPageCardBlockRichText
@@ -21,9 +23,14 @@ from core.fields import single_struct_block_stream_field_factory
 from core.models import GreatMedia, TimeStampedModel
 from domestic.models import BaseContentPage
 from export_academy import managers
-from export_academy.cms_panels import EventPanel, ExportAcademyPagePanels
+from export_academy.blocks import MetaDataBlock
+from export_academy.cms_panels import (
+    CoursePagePanels,
+    EventPanel,
+    EventsInCoursePanel,
+    ExportAcademyPagePanels,
+)
 from export_academy.forms import EventAdminModelForm
-from wagtail.fields import RichTextField, StreamField
 
 
 def send_notifications_for_all_bookings(event, template_id, additional_notify_data=None):
@@ -54,6 +61,7 @@ class TaggedEventType(ItemBase):
     content_object = ParentalKey(to='export_academy.Event', on_delete=models.CASCADE)
 
 
+@register_snippet
 class Event(TimeStampedModel, ClusterableModel, EventPanel):
     """
     Represents an Export Academy event.
@@ -302,6 +310,63 @@ class ExportAcademyHomePage(ExportAcademyPagePanels, BaseContentPage):
         blank=True,
     )
 
+    course_name = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        verbose_name='Course Name',
+    )
+
+    course_description = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        verbose_name='Course Description',
+    )
+
+    course_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+
+    course_feature_one = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        verbose_name='Course Feature One',
+    )
+
+    course_feature_two = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        verbose_name='Course Feature Two',
+    )
+
+    course_feature_three = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        verbose_name='Course Feature Three',
+    )
+
+    course_cta_text = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        verbose_name='Course CTA Text',
+    )
+
+    course_cta_url = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        verbose_name='Course CTA URL',
+    )
+
     panel_description = RichTextField(
         features=RICHTEXT_FEATURES__REDUCED,
         null=True,
@@ -316,3 +381,124 @@ class ExportAcademyHomePage(ExportAcademyPagePanels, BaseContentPage):
     )
 
     next_cta = StreamField([('button', ButtonBlock())], use_json_field=True, null=True, blank=True)
+
+
+class ModuleEventSet(models.Model):
+    """
+    List of all similar events. Only active/latest will be shown on the course.
+    """
+
+    page = ParentalKey('export_academy.EventsOnCourse', related_name='module_events')
+    event = models.ForeignKey('export_academy.Event', on_delete=models.DO_NOTHING)
+
+
+class EventsOnCourse(ClusterableModel, EventsInCoursePanel):
+    """
+    List of all events in a course.
+    """
+
+    page = ParentalKey('export_academy.CoursePage', related_name='course_events')
+    title = models.TextField(
+        null=True,
+        blank=True,
+        max_length=255,
+    )
+    summary = models.TextField(
+        null=True,
+        blank=True,
+        max_length=255,
+    )
+
+
+class CoursePage(CoursePagePanels, BaseContentPage):
+    parent_page_types = [
+        'export_academy.ExportAcademyHomePage',
+    ]
+    subpage_types = []
+
+    hero_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    page_heading = models.TextField(
+        null=True,
+        blank=True,
+        max_length=255,
+    )
+
+    summary = models.TextField(
+        null=True,
+        blank=True,
+        max_length=255,
+    )
+    is_course_right_for_you_heading = models.TextField(
+        null=True,
+        blank=True,
+        max_length=255,
+    )
+
+    is_course_right_for_you_list = single_struct_block_stream_field_factory(
+        field_name='is_course_right_for_you_list',
+        block_class_instance=SingleRichTextBlock(),
+        null=True,
+        blank=True,
+        max_num=3,
+    )
+
+    metadata = StreamField(
+        [
+            ('metadata_item', MetaDataBlock()),
+        ],
+        blank=True,
+        default=[],
+    )
+
+    benefits_heading = models.TextField(
+        null=True,
+        blank=True,
+        max_length=255,
+    )
+    benefits_list = single_struct_block_stream_field_factory(
+        field_name='benefits_list',
+        block_class_instance=SingleRichTextBlock(),
+        null=True,
+        blank=True,
+    )
+    course_content_heading = models.TextField(
+        null=True,
+        blank=True,
+        max_length=255,
+    )
+    course_content_desc = models.TextField(
+        null=True,
+        blank=True,
+        max_length=255,
+    )
+    speakers = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
+    )
+
+    def get_events(self):
+        latest_event = {}
+        for modules in self.course_events.get_object_list():
+            event = self._get_first_available_event(modules)
+            latest_event[modules] = event
+        return latest_event
+
+    def _get_first_available_event(self, modules):
+        first_available_event = None
+        for event_model in modules.module_events.get_object_list():
+            event = event_model.event
+            if event.start_date > timezone.now():
+                if event.live:
+                    if first_available_event:
+                        if event.start_date < first_available_event.start_date:
+                            first_available_event = event
+                    else:
+                        first_available_event = event
+        return first_available_event

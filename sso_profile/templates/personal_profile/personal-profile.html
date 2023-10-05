@@ -1,8 +1,6 @@
 {% extends 'apps-tabs.html' %}
-
 {% load success_box from component_tags %}
 {% block head_title %}Personal details - Account{% endblock %}
-
 {% block tab_content %}
     <div class="grid-row" id="tab-content">
         {% if messages %}
@@ -16,17 +14,28 @@
             <h2>Personal Details</h2>
             <dl>
                 <dt class="body-text margin-bottom-0">Email</dt>
-                <dd class="heading-small margin-bottom-30 margin-top-0">{{ request.user.email|default:"" }}</dd>
+                <dd class="heading-small margin-bottom-30 margin-top-0">
+                    {{ request.user.email|default:"" }}
+                </dd>
                 <dt class="body-text margin-bottom-0">First name</dt>
-                <dd class="heading-small margin-bottom-30 margin-top-0">{{ request.user.first_name|default:"" }}</dd>
+                <dd class="heading-small margin-bottom-30 margin-top-0">
+                    {{ request.user.first_name|default:"" }}
+                </dd>
                 <dt class="body-text margin-bottom-0">Last name</dt>
-                <dd class="heading-small margin-bottom-30 margin-top-0">{{ request.user.last_name|default:"" }}</dd>
+                <dd class="heading-small margin-bottom-30 margin-top-0">
+                    {{ request.user.last_name|default:"" }}
+                </dd>
                 <dt class="body-text margin-bottom-0">Job title</dt>
-                <dd class="heading-small margin-bottom-30 margin-top-0">{{ request.user.job_title|default:"" }}</dd>
+                <dd class="heading-small margin-bottom-30 margin-top-0">
+                    {{ request.user.job_title|default:"" }}
+                </dd>
                 <dt class="body-text margin-bottom-0">Telephone number</dt>
-                <dd class="heading-small margin-bottom-30 margin-top-0">{{ request.user.mobile_phone_number|default:"" }}</dd>
-			</dl>
-            <a class="button primary-button padding-left-60 padding-right-60" href="{% url 'sso_profile:personal-profile:edit' %}">Edit</a>
+                <dd class="heading-small margin-bottom-30 margin-top-0">
+                    {{ request.user.mobile_phone_number|default:"" }}
+                </dd>
+            </dl>
+            <a class="button primary-button padding-left-60 padding-right-60"
+               href="{% url 'sso_profile:personal-profile:edit' %}">Edit</a>
         </div>
     </div>
 {% endblock %}

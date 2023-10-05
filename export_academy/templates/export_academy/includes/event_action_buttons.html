@@ -1,43 +1,35 @@
-
 {% if action_buttons.event_action_buttons and is_completed %}
-<p class="great-info-text">
-    <i class="fa fa-info-circle" aria-hidden="true"></i><span>Event recordings are only available for 4 weeks after the event.</span>
-</p>
+    <p class="great-info-text">
+        <i class="fa fa-info-circle" aria-hidden="true"></i><span>Event recordings are only available for 4 weeks after the event.</span>
+    </p>
 {% endif %}
 <div class="great-actions-group">
-{% if action_buttons.event_action_buttons %}
-    {% for button in action_buttons.event_action_buttons %}
-        {% include 'export_academy/includes/link_button.html' %}
-    {% endfor %}
-{% endif %}
-
-{% if action_buttons.calendar_button %}
-    <form action="{% url 'export_academy:calendar' %}" method="post">
-        {% csrf_token %}
-
-        <input type="hidden" name="event_id" value="{{ event.id }}">
-        {% include 'export_academy/includes/form_button.html' with button=action_buttons.calendar_button %}
-    </form>
-{% endif %}
-
-{% if action_buttons.form_event_booking_buttons %}
-    <form action="{% url 'export_academy:booking' %}" method="post">
-        {% csrf_token %}
-        <input type="hidden" name="event_id" value="{{ event.id }}">
-
-        {% for button in action_buttons.form_event_booking_buttons %}
-            <input type="hidden" name="status" value="{{ button.value }}">
-            {% include 'export_academy/includes/form_button.html' %}
-            {% if button.disable_text %} <a>{{ button.disable_text }}</a>{% endif %}
+    {% if action_buttons.event_action_buttons %}
+        {% for button in action_buttons.event_action_buttons %}
+            {% include 'export_academy/includes/link_button.html' %}
         {% endfor %}
-    </form>
-{% endif %}
-
-{% if action_buttons.register %}
-    <a href="https://www.events.great.gov.uk/ereg/newreg.php?eventid=200236512&language=eng" class="button secondary-button ukea-ga-tracking"><span class="govuk-visually-hidden">Register for an Export Academy account</span>Register</a>
-{% endif %}
-
-{% if action_buttons.disable_text %}
-    <a>{{ action_buttons.disable_text }}</a>
-{% endif %}
+    {% endif %}
+    {% if action_buttons.calendar_button %}
+        <form action="{% url 'export_academy:calendar' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="event_id" value="{{ event.id }}">
+            {% include 'export_academy/includes/form_button.html' with button=action_buttons.calendar_button %}
+        </form>
+    {% endif %}
+    {% if action_buttons.form_event_booking_buttons %}
+        <form action="{% url 'export_academy:booking' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="event_id" value="{{ event.id }}">
+            {% for button in action_buttons.form_event_booking_buttons %}
+                <input type="hidden" name="status" value="{{ button.value }}">
+                {% include 'export_academy/includes/form_button.html' %}
+                {% if button.disable_text %}<a>{{ button.disable_text }}</a>{% endif %}
+            {% endfor %}
+        </form>
+    {% endif %}
+    {% if action_buttons.register %}
+        <a href="https://www.events.great.gov.uk/ereg/newreg.php?eventid=200236512&language=eng"
+           class="button secondary-button ukea-ga-tracking"><span class="govuk-visually-hidden">Register for an Export Academy account</span>Register</a>
+    {% endif %}
+    {% if action_buttons.disable_text %}<a>{{ action_buttons.disable_text }}</a>{% endif %}
 </div>
