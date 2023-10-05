@@ -1,0 +1,40 @@
+{% extends 'domestic/base.html' %}
+{% load static %}
+{% load component_tags %}
+{% load video_tags %}
+{% load breadcrumbs from component_tags %}
+{% block head_title %}{{ object.name }}{% endblock %}
+{% block css_layout_class %}great-bg-white{% endblock %}
+{% block breadcrumb-block %}
+    <div id="breadcrumbs"
+         class="great-display-from-tablet great-bg-light-blue back-breadcrumbs">
+        {% breadcrumbs 'Example' %}
+        <a href="placeholder">Back to event</a>
+    {% endbreadcrumbs %}
+</div>
+{% endblock %}
+{% block content %}
+    <div class="great">
+        <section class="govuk-!-padding-bottom-6 govuk-!-padding-top-9 great-bg-white">
+            <div class="great-container event-details-header-container">
+                <div class="event-details-header-info govuk-grid-column-two-thirds-from-desktop govuk-!-static-padding-0">
+                    <h2 class="govuk-caption-l">Event Recording</h2>
+                    <h1 class="govuk-heading-l govuk-!-static-margin-0 govuk-!-static-margin-bottom-2">
+                        Exploring the benefits and barriers of export
+                    </h1>
+                    <time datetime="dsdsdsds">Recorded: Tuesday 5 September 2023</time>
+                </div>
+                <div class="event-details-header-logo">
+                    <img class="ea-logo"
+                         src="/static/images/uk-export-academy-logo.svg"
+                         alt="UK Export Academy logo" />
+                </div>
+            </div>
+        </section>
+        <section class"great-container">
+            <div class="">{% render_video event_video %}</div>
+            <div></div>
+        </section>
+        {% include './includes/event_details_main_content.html' %}
+    </div>
+{% endblock %}
