@@ -2,45 +2,51 @@
 {% load wagtailcore_tags %}
 {% load url_map %}
 <footer class="magna-footer shared-footer" id="footer">
-  <nav class="footer">
-    <ul>
-      {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
-      <li>
-          <a href="/support/guidance-and-support" title="Guidance and support">Guidance and support</a>
-      </li>
-      {% endif %}
-      <li>
-        <a href="{% url_map 'contact_url' %}" title="Contact us">Contact us</a>
-      </li>
-      <li>
-        <a href="{% slugurl 'privacy-and-cookies' %}" title="Privacy and cookies">Privacy and cookies</a>
-      </li>
-      <li>
-        <a href="{% slugurl 'terms-and-conditions' %}" title="Terms and conditions">Terms and conditions</a>
-      </li>
-      <li>
-        <a href="{% slugurl 'accessibility-statement' %}" title="Accessibility">Accessibility</a>
-      </li>
-      <li>
-        <a href="{% slugurl 'performance-dashboard' %}" title="Performance">Performance</a>
-      </li>
-      <li>
-        <a href="https://{{ dit_on_govuk }}" target="_blank"
-          rel="noopener" title="Department for Business and Trade on GOV.UK">Department for Business and Trade on GOV.UK</a>
-      </li>
-      {% if FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK %}
-      <li>
-        <a href="/international" title="International business">Go to the page for international business</a>
-      </li>
-      {% endif %}
-    </ul>
-  </nav>
-  <div class="copyright-container">
-  <div>
-    <img id="great-global-footer-logo" class="footer-logo" alt="Department for Business and Trade" height="30" src="{% static 'images/DBT_Red_DIGI.svg' %}">
-      <p class="copy-right m-0">
-        &lrm;&copy; Crown copyright {% now "Y" %}. All rights reserved.&lrm;
-      </p>
+    <nav class="footer">
+        <ul>
+            {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
+                <li>
+                    <a href="/support/guidance-and-support" title="Guidance and support">Guidance and support</a>
+                </li>
+            {% endif %}
+            <li>
+                <a href="{% url_map 'contact_url' %}" title="Contact us">Contact us</a>
+            </li>
+            <li>
+                <a href="{% slugurl 'privacy-and-cookies' %}"
+                   title="Privacy and cookies">Privacy and cookies</a>
+            </li>
+            <li>
+                <a href="{% slugurl 'terms-and-conditions' %}"
+                   title="Terms and conditions">Terms and conditions</a>
+            </li>
+            <li>
+                <a href="{% slugurl 'accessibility-statement' %}" title="Accessibility">Accessibility</a>
+            </li>
+            <li>
+                <a href="{% slugurl 'performance-dashboard' %}" title="Performance">Performance</a>
+            </li>
+            <li>
+                <a href="https://{{ dit_on_govuk }}"
+                   target="_blank"
+                   rel="noopener"
+                   title="Department for Business and Trade on GOV.UK">Department for Business and Trade on GOV.UK</a>
+            </li>
+            {% if FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK %}
+                <li>
+                    <a href="/international" title="International business">Go to the page for international business</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    <div class="copyright-container">
+        <div>
+            <img id="great-global-footer-logo"
+                 class="footer-logo"
+                 alt="Department for Business and Trade"
+                 height="30"
+                 src="{% static 'images/DBT_Red_DIGI.svg' %}">
+            <p class="copy-right m-0">&lrm;&copy; Crown copyright {% now "Y" %}. All rights reserved.&lrm;</p>
+        </div>
     </div>
-  </div>
 </footer>

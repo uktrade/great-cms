@@ -2,39 +2,41 @@
 {% load static %}
 {% load to_json %}
 {% block head_other %}
-  <meta name="description" content="Complete the About your business section of your export plan" />
+    <meta name="description"
+          content="Complete the About your business section of your export plan" />
 {% endblock %}
 {% block intro_title %}About your business{% endblock %}
 {% block intro_description %}
-You know your business and product inside out. Your bank manager or a potential business partner may need an introduction. Tell them about who you are and what you do.
+    You know your business and product inside out. Your bank manager or a potential business partner may need an introduction. Tell them about who you are and what you do.
 {% endblock %}
-
 {% block main_content %}
-<div class="g-panel">
-  <p class='m-b-s'>Include anything different about your company or product that makes you stand out from the competition.</p>
-  <p class='body-s m-t-0'>Do not share any personal information that could identify you as a person. This includes your name, phone number, address or card details.</p>
-</div>
-{% endblock %}
-
-{% block user_input %}
-<section class="container">
-  <div class="grid">
-    <div class="c-1-4-l">&nbsp;</div>
-    <div class="c-1-1 c-2-3-m c-1-2-xl">
-      <form class="" action="" method="post" id="about-your-business-form">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" class="g-button" value="Save">
-      </form>
+    <div class="g-panel">
+        <p class='m-b-s'>
+            Include anything different about your company or product that makes you stand out from the competition.
+        </p>
+        <p class='body-s m-t-0'>
+            Do not share any personal information that could identify you as a person. This includes your name, phone number, address or card details.
+        </p>
     </div>
-    <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
-  </div>
-</section>
 {% endblock %}
-
+{% block user_input %}
+    <section class="container">
+        <div class="grid">
+            <div class="c-1-4-l">&nbsp;</div>
+            <div class="c-1-1 c-2-3-m c-1-2-xl">
+                <form class="" action="" method="post" id="about-your-business-form">
+                    {% csrf_token %}
+                    {{ form }}
+                    <input type="submit" class="g-button" value="Save">
+                </form>
+            </div>
+            <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
+        </div>
+    </section>
+{% endblock %}
 {% block body_js %}
-  {{ block.super }}
-  <script type="text/javascript">
+    {{ block.super }}
+    <script type="text/javascript">
     magna.aboutYourBusinessForm({
       element: document.getElementById('about-your-business-form'),
       field: 'about_your_business',
@@ -90,5 +92,5 @@ You know your business and product inside out. Your bank manager or a potential 
         },
       ]
     })
-  </script>
+    </script>
 {% endblock %}

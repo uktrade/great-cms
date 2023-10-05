@@ -5,28 +5,27 @@
 {% get_current_language as current_language %}
 {% get_current_language_bidi as language_bidi %}
 {% get_language_info for current_language as lang_info %}
-
 <div class="microsite-nav-container">
     <div>
         <div>
             <div class="nav-content">
-                <img alt="Great Britain and Northern Ireland" src="/static/images/great-logo.svg" />
+                <img alt="Great Britain and Northern Ireland"
+                     src="/static/images/great-logo.svg" />
                 <h3>{{ title }}</h3>
                 {% if available_languages|length == 2 %}
-                <nav aria-label="Langugages" class="mobile-single-language-toggle">
-                    <ul>
-                        {% for language in available_languages %}
-                            {% if current_language != language.language_code %}
-                                <li>
-                                    <a href="?lang={{ language.language_code }}"
-                                    aria-current="false"
-                                    lang="{{ language.language_code }}"
-                                    >{{ language.display_name }}</a>
-                                </li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                </nav>
+                    <nav aria-label="Langugages" class="mobile-single-language-toggle">
+                        <ul>
+                            {% for language in available_languages %}
+                                {% if current_language != language.language_code %}
+                                    <li>
+                                        <a href="?lang={{ language.language_code }}"
+                                           aria-current="false"
+                                           lang="{{ language.language_code }}">{{ language.display_name }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </nav>
                 {% endif %}
             </div>
             <div class="mobile-nav-buttons">
@@ -37,18 +36,17 @@
             </div>
         </div>
         {% if available_languages|length == 2 %}
-          <nav aria-label="Langugages" class="desktop-language-selector">
+            <nav aria-label="Langugages" class="desktop-language-selector">
                 <ul>
                     {% for language in available_languages %}
                         <li class="{% if lang_info.bidi %}rtl{% endif %} {% if current_language == language.language_code %}active{% endif %}">
                             <a href="?lang={{ language.language_code }}"
-                            aria-current="{% if current_language == language.language_code %}true{%else%}false{%endif%}"
-                            lang="{{ language.language_code }}"
-                            >{{ language.display_name }}</a>
+                               aria-current="{% if current_language == language.language_code %}true{% else %}false{% endif %}"
+                               lang="{{ language.language_code }}">{{ language.display_name }}</a>
                         </li>
                     {% endfor %}
                 </ul>
-           </nav>
+            </nav>
         {% endif %}
     </div>
     <div>

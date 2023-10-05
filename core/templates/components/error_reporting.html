@@ -1,9 +1,10 @@
 {% load url_map %}
-
 {% url_map 'feedback_contact_url' as feedback_url %}
-
 <section class="error-reporting" data-ga-section="feedback">
     <div class="container">
-        <a id="error-reporting-section-contact-us" href="{{ url|default:feedback_url }}" target="_blank">Is there anything wrong with this page?&lrm;</a>
+        <a id="error-reporting-section-contact-us"
+           href="{{ url|default:feedback_url }}"
+           target="_blank"
+           rel="noopener noreferrer">Is there anything wrong with this page?&lrm;</a>
     </div>
 </section>

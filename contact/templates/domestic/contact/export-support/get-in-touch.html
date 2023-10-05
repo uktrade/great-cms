@@ -4,60 +4,53 @@
 {% load wagtailimages_tags %}
 {% load static %}
 {% load add_govuk_classes from content_tags %}
-
-{% block meta_tags %}
-  <meta name="robots" content="noindex">
-{% endblock %}
-
+{% block meta_tags %}<meta name="robots" content="noindex">{% endblock %}
 {% block head_title %}Get in touch{% endblock %}
-
 {% block body_js %}
-  {{ block.super }}
-  <script src="{% static 'javascript/digital-entry-point.js' %}"></script>
+    {{ block.super }}
+    <script src="{% static 'javascript/digital-entry-point.js' %}"></script>
 {% endblock %}
-
 {% block content %}
-  <div class="govuk-!-padding-bottom-9 great great-bg-light-blue"">
-    <div class="great-container">
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-full">
-                <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-full">
-                        <p class="govuk-body govuk-!-margin-top-7 govuk-!-margin-bottom-0">Support</p>
-
-                        {% if page.page_title %}
-                            <h1 class="govuk-heading-xl govuk-!-margin-top-0 govuk-!-margin-bottom-2">{{ page.page_title }}</h1>
-                        {% endif %}
-
-                        {% if page.page_teaser %}
-                            <p class="govuk-body-l govuk-!-margin-bottom-0">{{ page.page_teaser }}</p>
-                        {% endif %}
-                    </div>
-                </div>
-                {% if page.page_body %}
-                <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-full">
-                        <div class="govuk-!-padding-top-7 great-display-flex-desktop great-card-wrapper">
-                            {% include 'domestic/contact/export-support/includes/get-in-touch-card.html' with cards=page.page_body %}
-                        </div>
-                        <hr class="great-hr-blue govuk-!-margin-top-4" />
-                    </div>
-                </div>
-                {% endif %}
-                {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
-                <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-one-half">
-                        <div class="govuk-!-padding-5 great-bg-white">
-                            <h2 class="govuk-heading-xs govuk-!-margin-bottom-4">Can't find your answer?</h2>
-                            <p class="govuk-body govuk-!-margin-bottom-4">Contact the Export Support Service with a specific question or to find out how DBT's wider network of in-person support can help you sell your product or service overseas.</p>
-                            <a href="{% url 'contact:export-support' %}" class="govuk-button govuk-!-margin-bottom-4">Start your enquiry</a>
-                            <p class="govuk-body govuk-!-margin-bottom-0">We aim to respond within 3 working days.</p>
+    <div class="govuk-!-padding-bottom-9 great great-bg-light-blue"">
+        <div class="great-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-full">
+                            <p class="govuk-body govuk-!-margin-top-7 govuk-!-margin-bottom-0">Support</p>
+                            {% if page.page_title %}
+                                <h1 class="govuk-heading-xl govuk-!-margin-top-0 govuk-!-margin-bottom-2">{{ page.page_title }}</h1>
+                            {% endif %}
+                            {% if page.page_teaser %}<p class="govuk-body-l govuk-!-margin-bottom-0">{{ page.page_teaser }}</p>{% endif %}
                         </div>
                     </div>
+                    {% if page.page_body %}
+                        <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-full">
+                                <div class="govuk-!-padding-top-7 great-display-flex-desktop great-card-wrapper">
+                                    {% include 'domestic/contact/export-support/includes/get-in-touch-card.html' with cards=page.page_body %}
+                                </div>
+                                <hr class="great-hr-blue govuk-!-margin-top-4" />
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
+                        <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-one-half">
+                                <div class="govuk-!-padding-5 great-bg-white">
+                                    <h2 class="govuk-heading-xs govuk-!-margin-bottom-4">Can't find your answer?</h2>
+                                    <p class="govuk-body govuk-!-margin-bottom-4">
+                                        Contact the Export Support Service with a specific question or to find out how DBT's wider network of in-person support can help you sell your product or service overseas.
+                                    </p>
+                                    <a href="{% url 'contact:export-support' %}"
+                                       class="govuk-button govuk-!-margin-bottom-4">Start your enquiry</a>
+                                    <p class="govuk-body govuk-!-margin-bottom-0">We aim to respond within 3 working days.</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
-                {% endif %}
             </div>
         </div>
     </div>
-  </div>
 {% endblock %}

@@ -1,18 +1,17 @@
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <a href="{% url back_url %}" class="govuk-back-link govuk-!-font-size-19">Back</a>
-  </div>
-  <div class="govuk-grid-column-one-third">
-    <p class="govuk-body" style="margin-top: 10px;">{{ step_text }}</p>
-  </div>
+    <div class="govuk-grid-column-two-thirds">
+        <a href="{% url back_url %}"
+           class="govuk-back-link govuk-!-font-size-19">Back</a>
+    </div>
+    <div class="govuk-grid-column-one-third">
+        <p class="govuk-body" style="margin-top: 10px;">{{ step_text }}</p>
+    </div>
 </div>
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">{{ question_text }}</h1>
-  </div>
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">{{ question_text }}</h1>
+    </div>
 </div>
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-     {% include '../includes/error_summary.html' %}
-  </div>
+    <div class="govuk-grid-column-two-thirds">{% include '../includes/error_summary.html' %}</div>
 </div>

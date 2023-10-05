@@ -1,13 +1,13 @@
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
-
 <div class="card">
-	<div class="dashboard-card">
-		    <h2>{{value.title|default:'Learn'}}</h2>
-		    <p>{{value.body|linebreaksbr}}</p>
-			    <a class="button primary-button" href="{% if value.button.link %}{{value.button.link.internal_link.get_url|default:value.button.link.external_link}}{% endif %}">
-		      {{button_label_override|default:value.button.label}}
-		    </a>
-          {% image value.image max-700x300 %}
-		</div>
- </div>
+    <div class="dashboard-card">
+        <h2>{{ value.title|default:'Learn' }}</h2>
+        <p>{{ value.body|linebreaksbr }}</p>
+        <a class="button primary-button"
+           href="{% if value.button.link %}{{ value.button.link.internal_link.get_url|default:value.button.link.external_link }}{% endif %}">
+            {{ button_label_override|default:value.button.label }}
+        </a>
+        {% image value.image max-700x300 %}
+    </div>
+</div>

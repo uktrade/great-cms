@@ -49,7 +49,7 @@ def test_modular_content_static_block_render():
     block = core_blocks.ModularContentStaticBlock()
     context = {'request': request}
     html = block.render(context=context, value=module.content)
-    expected_html = f'\n<div class="modules">\n\n     <p class="m-b-0 ">{module.content}</p>\n\n</div>\n'
+    expected_html = f'\n<div class="modules">\n    \n        <p class="m-b-0 ">{module.content}</p>\n    \n</div>\n'
     assert html == expected_html
 
 

@@ -1,8 +1,7 @@
 {% extends 'domestic/contact/export-support/base.html' %}
-
 {% block body_js %}
-{{ block.super }}
-<script type="text/javascript">
+    {{ block.super }}
+    <script type="text/javascript">
   const add_another_sector_button = document.getElementById('add_another_sector');
 
   document.querySelectorAll('[data-hidden]').forEach(el => el.style.display = 'none');
@@ -49,24 +48,24 @@
   }
 
   sectorSelects();
-</script>
+    </script>
 {% endblock %}
-
 {% block form_fields %}
     {% for field in form.visible_fields %}
-    {% if field.name == 'sector_secondary' or field.name == 'sector_tertiary' %}
-        <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}" {% if not field.value %}data-hidden{% endif %}>
-            {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='great-text-select--arrow' %}
-        </div>
-    {% elif field.name == 'sector_primary_other' %}
-        <div class="govuk-form-group govuk-!-margin-bottom-7" data-other-field>
-            {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
-        </div>
-    {% else %}
-    <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
-        {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='great-text-select--arrow' %}
-    </div>
-    {% endif %}
+        {% if field.name == 'sector_secondary' or field.name == 'sector_tertiary' %}
+            <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}"
+                 {% if not field.value %}data-hidden{% endif %}>
+                {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='great-text-select--arrow' %}
+            </div>
+        {% elif field.name == 'sector_primary_other' %}
+            <div class="govuk-form-group govuk-!-margin-bottom-7" data-other-field>
+                {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
+            </div>
+        {% else %}
+            <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
+                {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='great-text-select--arrow' %}
+            </div>
+        {% endif %}
     {% endfor %}
     <div class="govuk-!-margin-bottom-7">
         <a href="" class="govuk-link" role="button" id="add_another_sector">Add another sector</a>

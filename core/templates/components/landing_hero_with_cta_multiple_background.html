@@ -12,13 +12,9 @@ cta_link - URL
 subheading - text # Not used for GreatDomesticHomepage
 
 {% endcomment %}
-
-
 {% load wagtailimages_tags %}
 {% load static %}
-
 {% image hero_image original as rendition %}
-
 {% image page.hero_mobile_image original as first_image %}
 {% image page.hero_ipad_image original as second_image %}
 {% image page.hero_smalldesktop_image original as third_image %} 
@@ -47,5 +43,4 @@ style="background: url({{ forth_image.url }}), url({{ third_image.url }}), url({
     {% endif %}
     {% endblock %}
     </div>
-  </div>
 </section>

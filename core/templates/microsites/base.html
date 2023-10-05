@@ -8,70 +8,62 @@
 {% load wagtailimages_tags %}
 {% get_current_language_bidi as LANGUAGE_BIDI %}
 {% get_template_translation_enabled as TRANSLATE_TEXT %}
-
 <!DOCTYPE html>
 <!--[if lt IE 9]>
 <html class="lte-ie8" lang="en-gb"><![endif]-->
 <!--[if gt IE 8]><!-->
-<html
-  {% if LANGUAGE_BIDI %}
-    dir="rtl"
-  {% else %}
-    dir="ltr"
-  {% endif %}
-  lang="{{page.locale.language_code}}"
-><!--<![endif]-->
-<head>
-  <meta charset="utf-8" />
-  {% block sharing_description %}
-    <meta
-      name="description" content="{% block meta_description %}{% firstof page.search_description content_snippet.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description %}{% endblock %}"
-    >
-  {% endblock %}
-  {% block sharing_title %}
-    <meta
-      name="title" content="{% block meta_title %}{% firstof page.title %}{% endblock %}"
-    >
-  {% endblock %}
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  {% block head_google_tag_manager %}
-    {% if UTM_COOKIE_DOMAIN %}
-      <meta id="utmCookieDomain" value="{{ UTM_COOKIE_DOMAIN }}" />
-    {% endif %}
-    {% include 'components/google_tag_manager_head.html' %}
-  {% endblock %}
-  {% block cookie_domain_meta %}
-    <meta id="privacyCookieDomain" value="{{ PRIVACY_COOKIE_DOMAIN }}" />
-  {% endblock %}
-  <title>
-    {% block head_title %}
-      {% if page.seo_title %}
-        {{ page.seo_title }}
-      {% else %}
-        {{ page.title }}
-      {% endif %}
-    {% endblock %} - great.gov.uk
-  </title>
-
-  {% block head_favicon %}
-    <link href='{% static 'images/favicon-192x192.png' %}' rel='shortcut icon' type='image/png'>
-    <!--[if IE]> <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon" /> <![endif]-->
-  {% endblock %}
-
-  {% block head_css %}
-    <link href="{% static 'components_styles.css' %}" media="all" rel="stylesheet" />
-    {{ block.super }}
-    <link href="{% static 'loggedout_styles.css' %}" rel="stylesheet" type="text/css" />
-    <link href="{% static 'microsite_styles.css' %}" rel="stylesheet" type="text/css" />
-  {% endblock %}
-
-  <style>
+<html {% if LANGUAGE_BIDI %} dir="rtl" {% else %} dir="ltr" {% endif %}
+      lang="{{ page.locale.language_code }}">
+    <!--<![endif]-->
+    <head>
+        <meta charset="utf-8" />
+        {% block sharing_description %}
+            <meta name="description"
+                  content="{% block meta_description %}{% firstof page.search_description content_snippet.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description %}{% endblock %}">
+        {% endblock %}
+        {% block sharing_title %}
+            <meta name="title"
+                  content="{% block meta_title %}{% firstof page.title %}{% endblock %}">
+        {% endblock %}
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% block head_google_tag_manager %}
+            {% if UTM_COOKIE_DOMAIN %}<meta id="utmCookieDomain" value="{{ UTM_COOKIE_DOMAIN }}" />{% endif %}
+            {% include 'components/google_tag_manager_head.html' %}
+        {% endblock %}
+        {% block cookie_domain_meta %}<meta id="privacyCookieDomain" value="{{ PRIVACY_COOKIE_DOMAIN }}" />{% endblock %}
+        <title>
+            {% block head_title %}
+                {% if page.seo_title %}
+                    {{ page.seo_title }}
+                {% else %}
+                    {{ page.title }}
+                {% endif %}
+            {% endblock %}
+            - great.gov.uk
+        </title>
+        {% block head_favicon %}
+            <link href='{% static 'images/favicon-192x192.png' %}' rel='shortcut icon' type='image/png'>
+            <!--[if IE]> <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon" /> <![endif]-->
+        {% endblock %}
+        {% block head_css %}
+            <link href="{% static 'components_styles.css' %}"
+                  media="all"
+                  rel="stylesheet" />
+            {{ block.super }}
+            <link href="{% static 'loggedout_styles.css' %}"
+                  rel="stylesheet"
+                  type="text/css" />
+            <link href="{% static 'microsite_styles.css' %}"
+                  rel="stylesheet"
+                  type="text/css" />
+        {% endblock %}
+        <style>
       .js-disabled-only {
           display: none;
       }
-  </style>
-  <noscript>
-    <style>
+        </style>
+        <noscript>
+            <style>
         .navigation-toggle {
             display: block;
         }
@@ -83,30 +75,27 @@
         .js-enabled-only {
             display: none;
         }
-    </style>
-  </noscript>
-
-  {% block vendor_js %}
-    <script src="{% static 'javascript/vendor/details-polyfill.js' %}"></script>
-    <script src="{% static 'javascript/vendor/jquery-3.6.0.min.js' %}"></script>
-  {% endblock %}
-
-  {% block head_js %}
-    <script src="{% static 'javascript/dit.js' %}"></script>
-    <script src="{% static 'components.js' %}"></script>
-    <script>
+            </style>
+        </noscript>
+        {% block vendor_js %}
+            <script src="{% static 'javascript/vendor/details-polyfill.js' %}"></script>
+            <script src="{% static 'javascript/vendor/jquery-3.6.0.min.js' %}"></script>
+        {% endblock %}
+        {% block head_js %}
+            <script src="{% static 'javascript/dit.js' %}"></script>
+            <script src="{% static 'components.js' %}"></script>
+            <script>
       // Safari saves a snapshot of a page as it was when the user left, so upon going "back" it doesn’t have to reload and instead it loads the saved snapshot state. That has an unwanted side effect that cookie modal is shown when clicking "go back to the page you came from".
       window.onpageshow = function(event) {
         if (event.persisted) {
           window.location.reload()
         }
       }
-    </script>
-  {% endblock %}
-
-  {% block head_js_ga360 %}
-    <script src="{% static 'javascript/dit.tagging.js' %}"></script>
-    <script>
+            </script>
+        {% endblock %}
+        {% block head_js_ga360 %}
+            <script src="{% static 'javascript/dit.tagging.js' %}"></script>
+            <script>
       window.dataLayer = window.dataLayer || []
       {% if ga360 and not skip_ga360 %}
         window.dataLayer.push({
@@ -119,89 +108,67 @@
         })
         dit.tagging.base.init()
       {% endif %}
-    </script>
-  {% endblock %}
-
-  {% block header_js %}
-    <script src="{% static 'javascript/dit.responsive.js' %}"></script>
-    <script src="{% static 'javascript/dit.utils.js' %}"></script>
-    <script src="{% static 'common.js' %}"></script>
-  {% endblock %}
-
-  {% block head_other %}
-    {% include 'components/browser_check.html' %}
-  {% endblock %}
-
-  {% block head_sharing_metadata %}
-    {% if request %}
-      {% comment %} There are one or two OG image tags rendered.
+            </script>
+        {% endblock %}
+        {% block header_js %}
+            <script src="{% static 'javascript/dit.responsive.js' %}"></script>
+            <script src="{% static 'javascript/dit.utils.js' %}"></script>
+            <script src="{% static 'common.js' %}"></script>
+        {% endblock %}
+        {% block head_other %}
+            {% include 'components/browser_check.html' %}
+        {% endblock %}
+        {% block head_sharing_metadata %}
+            {% if request %}
+                {% comment %} There are one or two OG image tags rendered.
         This is the first/default one, which can be overridden at the template level
-      {% endcomment %}
-      <meta
-        property="og:image"
-        content="{% block og_image %}{% static_absolute 'images/opengraph-image.png' %}{% endblock %}"
-      >
-      <meta property="og:url" content="{{ request.build_absolute_uri }}" />
-    {% endif %}
-
-    {% comment %} This is the second OG image, optional{% endcomment %}
-    {% block sharing_image %}
-      {% comment %} There are a number of fields which might be workable as a sharing image {% endcomment %}
-      {% image page.hero_image width-1200 as hero_image %}
-      {% image page.hero_medium width-1200 as hero_image_medium %}
-      {% image page.article_image width-1200 as article_image %}
-      {% firstof hero_image.url hero_image_medium.url article_image.url as sharable_image_url %}
-      {% if sharable_image_url %}
-        <meta property="og:image" content="{{ sharable_image_url }}">
-      {% endif %}
-    {% endblock %}
-  {% endblock %}
-</head>
-
-<body {% block body_attributes %}{% endblock %}>
-{% block body_google_tag_manager %}
-  {% include 'components/google_tag_manager_body.html' %}
-{% endblock %}
-<script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled')</script>
-
-{% block skip_link %}
-  <a id="skip-link" href="#content">
-    {% if TRANSLATE_TEXT %}
-      {% translate "Skip to main content" %}
-    {% else %}
-      Skip to main content
-    {% endif %}
-  </a>
-{% endblock %}
-
-
-{% block cookie_notice %}
-  {% include 'components/cookie_notice.html' with lang=page.locale.language_code %}
-{% endblock %}
-
-
-{% block body_content_container %}
-
-    {% block content %}{% endblock %}
-    {% block feedback_reporter %}
-      {% include 'components/error_reporting.html' %}
-    {% endblock %}
-    {% block content_after %}{% endblock %}
-
-{% endblock %}
-
-{% block body_footer %}
-  {% include 'core/footer.html' %}
-{% endblock %}
-
-{% block body_js %}
-  {% slugurl "privacy-and-cookies" as privacy_and_cookies_path %}
-  {% if request.path != privacy_and_cookies_path %}
-
-    <script
-      data-language-code={{page.locale.language_code}}
-      data-translate-text-feat-flag={{TRANSLATE_TEXT}}
-    >
+                {% endcomment %}
+                <meta property="og:image"
+                      content="{% block og_image %}{% static_absolute 'images/opengraph-image.png' %}{% endblock %}">
+                <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+            {% endif %}
+            {% comment %} This is the second OG image, optional{% endcomment %}
+            {% block sharing_image %}
+                {% comment %} There are a number of fields which might be workable as a sharing image {% endcomment %}
+                {% image page.hero_image width-1200 as hero_image %}
+                {% image page.hero_medium width-1200 as hero_image_medium %}
+                {% image page.article_image width-1200 as article_image %}
+                {% firstof hero_image.url hero_image_medium.url article_image.url as sharable_image_url %}
+                {% if sharable_image_url %}<meta property="og:image" content="{{ sharable_image_url }}">{% endif %}
+            {% endblock %}
+        {% endblock %}
+    </head>
+    <body {% block body_attributes %}{% endblock %}>
+        {% block body_google_tag_manager %}
+            {% include 'components/google_tag_manager_body.html' %}
+        {% endblock %}
+        <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled')</script>
+        {% block skip_link %}
+            <a id="skip-link" href="#content">
+                {% if TRANSLATE_TEXT %}
+                    {% translate "Skip to main content" %}
+                {% else %}
+                    Skip to main content
+                {% endif %}
+            </a>
+        {% endblock %}
+        {% block cookie_notice %}
+            {% include 'components/cookie_notice.html' with lang=page.locale.language_code %}
+        {% endblock %}
+        {% block body_content_container %}
+            {% block content %}{% endblock %}
+            {% block feedback_reporter %}
+                {% include 'components/error_reporting.html' %}
+            {% endblock %}
+            {% block content_after %}{% endblock %}
+        {% endblock %}
+        {% block body_footer %}
+            {% include 'core/footer.html' %}
+        {% endblock %}
+        {% block body_js %}
+            {% slugurl "privacy-and-cookies" as privacy_and_cookies_path %}
+            {% if request.path != privacy_and_cookies_path %}
+                <script data-language-code={{page.locale.language_code}} data-translate-text-feat-flag={{TRANSLATE_TEXT}}>
       const data = document.currentScript.dataset
       const lang = (data.translateTextFeatFlag === 'True') ? data.languageCode : 'en-gb'
 
@@ -213,8 +180,8 @@
         preferencesUrl: '{% url "core:cookie-preferences" %}',
         lang: lang
       })
-    </script>
-  {% endif %}
-{% endblock %}
-</body>
+                </script>
+            {% endif %}
+        {% endblock %}
+    </body>
 </html>
