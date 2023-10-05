@@ -119,6 +119,7 @@ class ButtonBlock(blocks.StructBlock):
     secondary = blocks.BooleanBlock(
         required=False, help_text='Determines the appearance of the button. Default is primary.'
     )
+    chevron = blocks.BooleanBlock(required=False, help_text='Adds a right chevron to the button. Default is None.')
 
     class Meta:
         template = 'core/button.html'
