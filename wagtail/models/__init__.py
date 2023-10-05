@@ -36,7 +36,6 @@ from django.db import models, transaction
 from django.db.models import DEFERRED, Q, Value
 from django.db.models.expressions import OuterRef, Subquery
 from django.db.models.functions import Cast, Concat, Substr
-from django.dispatch import receiver
 from django.http import Http404
 from django.template.response import TemplateResponse
 from django.urls import NoReverseMatch, reverse
@@ -55,6 +54,7 @@ from modelcluster.models import (
 )
 from treebeard.mp_tree import MP_Node
 
+from domestic.dispatcher import receiver
 from wagtail.actions.copy_for_translation import CopyPageForTranslationAction
 from wagtail.actions.copy_page import CopyPageAction
 from wagtail.actions.create_alias import CreatePageAliasAction
@@ -3559,6 +3559,7 @@ class Task(models.Model):
         task_state.task = self
         task_state.save()
         logger.debug(f'sending Task signal {task_state.specific.__class__}:{task_state.specific}')
+
         task_submitted.send(
             sender=task_state.specific.__class__,
             instance=task_state.specific,

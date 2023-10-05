@@ -1,4 +1,4 @@
-from django.dispatch import Signal
+from domestic.dispatcher import Signal
 
 # Generic object signals
 

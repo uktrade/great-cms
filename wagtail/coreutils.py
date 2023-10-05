@@ -13,7 +13,6 @@ from django.core.exceptions import ImproperlyConfigured, SuspiciousOperation
 from django.core.signals import setting_changed
 from django.db.models import Model
 from django.db.models.base import ModelBase
-from django.dispatch import receiver
 from django.http import HttpRequest
 from django.test import RequestFactory
 from django.utils.encoding import force_str
@@ -23,6 +22,8 @@ from django.utils.translation import (
     get_supported_language_variant,
     gettext_lazy as _,
 )
+
+from domestic.dispatcher import receiver
 
 if TYPE_CHECKING:
     from wagtail.models import Site

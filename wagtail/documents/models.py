@@ -6,11 +6,11 @@ from mimetypes import guess_type
 from django.conf import settings
 from django.core.validators import FileExtensionValidator
 from django.db import models
-from django.dispatch import Signal
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from taggit.managers import TaggableManager
 
+from domestic.dispatcher import Signal
 from wagtail.models import CollectionMember, ReferenceIndex
 from wagtail.search import index
 from wagtail.search.queryset import SearchableQuerySetMixin

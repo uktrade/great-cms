@@ -1,6 +1,6 @@
-from django.dispatch import receiver
 from django.test.signals import setting_changed
 
+from domestic.dispatcher import receiver
 from wagtail.images import get_image_model
 from wagtail.images.models import Image
 from wagtail.permission_policies.collections import CollectionOwnershipPermissionPolicy

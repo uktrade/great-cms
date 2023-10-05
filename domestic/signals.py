@@ -11,8 +11,7 @@ from wagtail.admin.mail import (
     GroupApprovalTaskStateSubmissionEmailNotifier,
     WorkflowStateSubmissionEmailNotifier,
 )
-from wagtail.admin.views.pages.edit import EditView
-from wagtail.models import Task, TaskState, WorkflowState
+from wagtail.models import TaskState, WorkflowState
 from wagtail.signals import task_submitted, workflow_submitted
 from .mail import ModerationTaskStateSubmissionEmailNotifier
 
@@ -363,33 +362,36 @@ class MySignal(Signal):
 
 def register_signal_handlers():
     logger.debug('register_signal_handlers() entered')
-    group_approval_email_notifier = GroupApprovalTaskStateSubmissionEmailNotifier()
+    # group_approval_email_notifier = GroupApprovalTaskStateSubmissionEmailNotifier()
     workflow_submission_email_notifier = WorkflowStateSubmissionEmailNotifier()
 
-    stat = task_submitted.disconnect(
-        group_approval_email_notifier,
-        sender=TaskState,
-        dispatch_uid='group_approval_task_submitted_email_notification',
-    )
-    logger.debug(f'task_submission_email_notifier: {stat}')
+    # stat = task_submitted.disconnect(
+    #     group_approval_email_notifier,
+    #     sender=TaskState,
+    #     dispatch_uid='group_approval_task_submitted_email_notification',
+    # )
+    # logger.debug(f'task_submission_email_notifier: {stat}')
     stat = workflow_submitted.disconnect(
         workflow_submission_email_notifier,
         sender=WorkflowState,
         dispatch_uid='workflow_state_submitted_email_notification',
     )
 
-    # logger.debug(f'workflow_submission_email_notifier: {stat}')
-    # task_submission_email_notifier = ModerationTaskStateSubmissionEmailNotifier((TaskState,))
-    task_submission_email_notifier = ModerationTaskStateSubmissionEmailNotifier()
-
-    # workflow_submission_email_notifier = ModerationTaskStateSubmissionEmailNotifier((WorkflowState,))
-
-    task_submitted.connect(
-        receiver=task_submission_email_notifier, sender=TaskState, dispatch_uid='my_unique_identifier'
-    )
-
-    # workflow_submitted.connect(
-    #     receiver=workflow_submission_email_notifier, sender=WorkflowState, dispatch_uid='my_unique-dentifier'
+    logger.debug(f'workflow_submission_email_notifier: {stat}')
+    # task_submission_email_notifier = ModerationTaskStateSubmissionEmailNotifier(
+    #     (
+    #         TaskState,
+    #     )
     # )
 
+    new_workflow_submission_email_notifier = ModerationTaskStateSubmissionEmailNotifier((WorkflowState,))
+
+    # task_submitted.connect(
+    #     receiver=task_submission_email_notifier, sender=TaskState, dispatch_uid='my_task_unique_identifier'
+    # )
+    workflow_submitted.connect(
+        receiver=new_workflow_submission_email_notifier,
+        sender=WorkflowState,
+        dispatch_uid='my_workflow_unique_identifier',
+    )
     logger.debug('register_signal_handlers() exited')

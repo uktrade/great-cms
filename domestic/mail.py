@@ -55,7 +55,6 @@ class ModerationTaskStateEmailNotifier:
         return self.send_notifications(template_set, context, recipients, **kwargs)
 
     def can_handle(self, instance, **kwargs):
-        breakpoint()
         logger.debug('In Our Can Handle')
         if isinstance(instance, TaskState):
             if not isinstance(instance.revision.content_object, ArticlePage):

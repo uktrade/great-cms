@@ -5,61 +5,25 @@ from logging.handlers import RotatingFileHandler
 
 from django.utils.inspect import func_accepts_kwargs
 
-from domestic.dispatcher import Signal
-from wagtail.admin import messages
-from wagtail.admin.mail import (
-    GroupApprovalTaskStateSubmissionEmailNotifier,
-    WorkflowStateSubmissionEmailNotifier,
-)
-from wagtail.admin.views.pages.edit import EditView
-from wagtail.models import Task, TaskState, WorkflowState
-from wagtail.signals import task_submitted, workflow_submitted
-from .mail import ModerationTaskStateSubmissionEmailNotifier
-
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('my_wtf_logger')
 logger.setLevel(logging.DEBUG)
-handler = RotatingFileHandler('/tmp/signals.log', maxBytes=2000, backupCount=10)
+handler = RotatingFileHandler('/tmp/wtf.log', maxBytes=2000, backupCount=10)
 logger.addHandler(handler)
-
-# A marker for caching
-NO_RECEIVERS = object()
 
 
 def _make_id(target):
-    if hasattr(target, '__func__'):
+    if hasattr(target, "__func__"):
         return (id(target.__self__), id(target.__func__))
     return id(target)
 
 
 NONE_ID = _make_id(None)
 
-
-def receiver(signal, **kwargs):
-    """
-    A decorator for connecting receivers to signals. Used by passing in the
-    signal (or list of signals) and keyword arguments to connect::
-
-        @receiver(post_save, sender=MyModel)
-        def signal_receiver(sender, **kwargs):
-            ...
-
-        @receiver([post_save, post_delete], sender=MyModel)
-        def signals_receiver(sender, **kwargs):
-            ...
-    """
-
-    def _decorator(func):
-        if isinstance(signal, (list, tuple)):
-            for s in signal:
-                s.connect(func, **kwargs)
-        else:
-            signal.connect(func, **kwargs)
-        return func
-
-    return _decorator
+# A marker for caching
+NO_RECEIVERS = object()
 
 
-class MySignal(Signal):
+class Signal:
     """
     Base class for all signals
 
@@ -119,14 +83,13 @@ class MySignal(Signal):
         """
         from django.conf import settings
 
-        logger.debug(f'Moderation Connect Entered {receiver}')
         # If DEBUG is on, check that we got a good receiver
         if settings.configured and settings.DEBUG:
             if not callable(receiver):
-                raise TypeError('Signal receivers must be callable.')
+                raise TypeError("Signal receivers must be callable.")
             # Check for **kwargs
             if not func_accepts_kwargs(receiver):
-                raise ValueError('Signal receivers must accept keyword arguments (**kwargs).')
+                raise ValueError("Signal receivers must accept keyword arguments (**kwargs).")
 
         if dispatch_uid:
             lookup_key = (dispatch_uid, _make_id(sender))
@@ -137,7 +100,7 @@ class MySignal(Signal):
             ref = weakref.ref
             receiver_object = receiver
             # Check for bound methods
-            if hasattr(receiver, '__self__') and hasattr(receiver, '__func__'):
+            if hasattr(receiver, "__self__") and hasattr(receiver, "__func__"):
                 ref = weakref.WeakMethod
                 receiver_object = receiver.__self__
             receiver = ref(receiver)
@@ -146,7 +109,6 @@ class MySignal(Signal):
         with self.lock:
             self._clear_dead_receivers()
             if not any(r_key == lookup_key for r_key, _ in self.receivers):
-                logger.debug(f'Moderation Added Receiver {receiver}')
                 self.receivers.append((lookup_key, receiver))
             self.sender_receivers_cache.clear()
 
@@ -169,7 +131,6 @@ class MySignal(Signal):
             dispatch_uid
                 the unique identifier of the receiver to disconnect
         """
-        logger.debug(f'Moderation Disconnect Entered {receiver}:{sender}:{dispatch_uid}')
         if dispatch_uid:
             lookup_key = (dispatch_uid, _make_id(sender))
         else:
@@ -185,7 +146,6 @@ class MySignal(Signal):
                     del self.receivers[index]
                     break
             self.sender_receivers_cache.clear()
-        logger.debug(f'Moderation Disconnect {disconnected}')
         return disconnected
 
     def has_listeners(self, sender=None):
@@ -209,14 +169,14 @@ class MySignal(Signal):
 
         Return a list of tuple pairs [(receiver, response), ... ].
         """
-        logger.debug('Moderation Send Entered')
+
+        logger.debug("in our  duspatcher send")
         if not self.receivers or self.sender_receivers_cache.get(sender) is NO_RECEIVERS:
-            logger.debug('Moderation Send returning []')
+            logger.debug("no receivers wtf!")
             return []
 
-        ret = [(receiver, receiver(signal=self, sender=sender, **named)) for receiver in self._live_receivers(sender)]
-        logger.debug(f'Moderation Send returning {ret}')
-        return ret
+        logger.debug(f'live receivers {self._live_receivers(sender)}:{sender}')
+        return [(receiver, receiver(signal=self, sender=sender, **named)) for receiver in self._live_receivers(sender)]
 
     def send_robust(self, sender, **named):
         """
@@ -248,7 +208,7 @@ class MySignal(Signal):
                 response = receiver(signal=self, sender=sender, **named)
             except Exception as err:
                 logger.error(
-                    'Error calling %s in Signal.send_robust() (%s)',
+                    "Error calling %s in Signal.send_robust() (%s)",
                     receiver.__qualname__,
                     err,
                     exc_info=err,
@@ -273,6 +233,7 @@ class MySignal(Signal):
         This checks for weak references and resolves them, then returning only
         live receivers.
         """
+
         receivers = None
         if self.use_caching and not self._dead_receivers:
             receivers = self.sender_receivers_cache.get(sender)
@@ -303,6 +264,7 @@ class MySignal(Signal):
                     non_weak_receivers.append(receiver)
             else:
                 non_weak_receivers.append(receiver)
+
         return non_weak_receivers
 
     def _remove_receiver(self, receiver=None):
@@ -315,81 +277,26 @@ class MySignal(Signal):
         self._dead_receivers = True
 
 
-# class MyEditPageView(EditView):
-#     def submit_action(self):
-#         self.page = self.form.save(commit=False)
-#         self.subscription.save()
+def receiver(signal, **kwargs):
+    """
+    A decorator for connecting receivers to signals. Used by passing in the
+    signal (or list of signals) and keyword arguments to connect::
 
-#         # Save revision
-#         revision = self.page.save_revision(
-#             user=self.request.user,
-#             log_action=True,  # Always log the new revision on edit
-#             previous_revision=(self.previous_revision if self.is_reverting else None),
-#         )
+        @receiver(post_save, sender=MyModel)
+        def signal_receiver(sender, **kwargs):
+            ...
 
-#         if self.has_content_changes and "comments" in self.form.formsets:
-#             changes = self.get_commenting_changes()
-#             self.log_commenting_changes(changes, revision)
-#             self.send_commenting_notifications(changes)
+        @receiver([post_save, post_delete], sender=MyModel)
+        def signals_receiver(sender, **kwargs):
+            ...
+    """
 
-#         if self.workflow_state and self.workflow_state.status == WorkflowState.STATUS_NEEDS_CHANGES:
-#             # If the workflow was in the needs changes state, resume the existing workflow on submission
-#             self.workflow_state.resume(self.request.user)
-#         else:
-#             # Otherwise start a new workflow
-#             workflow = self.page.get_workflow()
-#             workflow.start(self.page, self.request.user)
+    def _decorator(func):
+        if isinstance(signal, (list, tuple)):
+            for s in signal:
+                s.connect(func, **kwargs)
+        else:
+            signal.connect(func, **kwargs)
+        return func
 
-#         message = _("Page '%(page_title)s' has been submitted for moderation.") % {
-#             "page_title": self.page.get_admin_display_title()
-#         }
-
-#         messages.success(
-#             self.request,
-#             message,
-#             buttons=[
-#                 self.get_view_draft_message_button(),
-#                 self.get_edit_message_button(),
-#             ],
-#         )
-
-#         response = self.run_hook("after_edit_page", self.request, self.page)
-#         if response:
-#             return response
-
-#         # we're done here - redirect back to the explorer
-#         return self.redirect_away()
-
-
-def register_signal_handlers():
-    logger.debug('register_signal_handlers() entered')
-    group_approval_email_notifier = GroupApprovalTaskStateSubmissionEmailNotifier()
-    workflow_submission_email_notifier = WorkflowStateSubmissionEmailNotifier()
-
-    stat = task_submitted.disconnect(
-        group_approval_email_notifier,
-        sender=TaskState,
-        dispatch_uid='group_approval_task_submitted_email_notification',
-    )
-    logger.debug(f'task_submission_email_notifier: {stat}')
-    stat = workflow_submitted.disconnect(
-        workflow_submission_email_notifier,
-        sender=WorkflowState,
-        dispatch_uid='workflow_state_submitted_email_notification',
-    )
-
-    # logger.debug(f'workflow_submission_email_notifier: {stat}')
-    # task_submission_email_notifier = ModerationTaskStateSubmissionEmailNotifier((TaskState,))
-    task_submission_email_notifier = ModerationTaskStateSubmissionEmailNotifier()
-
-    # workflow_submission_email_notifier = ModerationTaskStateSubmissionEmailNotifier((WorkflowState,))
-
-    task_submitted.connect(
-        receiver=task_submission_email_notifier, sender=TaskState, dispatch_uid='my_unique_identifier'
-    )
-
-    # workflow_submitted.connect(
-    #     receiver=workflow_submission_email_notifier, sender=WorkflowState, dispatch_uid='my_unique-dentifier'
-    # )
-
-    logger.debug('register_signal_handlers() exited')
+    return _decorator

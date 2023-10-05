@@ -1,7 +1,7 @@
 from django.apps import apps
 from django.core.signals import setting_changed
-from django.dispatch import receiver
 
+from domestic.dispatcher import receiver
 from wagtail.models import Page
 from .model_utils import get_edit_handler
 from .page_utils import set_default_page_edit_handlers

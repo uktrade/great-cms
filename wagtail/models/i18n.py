@@ -5,11 +5,11 @@ from django.conf import settings
 from django.core import checks
 from django.db import migrations, models, transaction
 from django.db.models.signals import pre_save
-from django.dispatch import receiver
 from django.utils import translation
 from django.utils.encoding import force_str
 from modelcluster.fields import ParentalKey
 
+from domestic.dispatcher import receiver
 from wagtail.actions.copy_for_translation import CopyForTranslationAction
 from wagtail.coreutils import (
     get_content_languages,
