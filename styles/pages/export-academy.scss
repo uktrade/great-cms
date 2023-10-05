@@ -505,11 +505,7 @@
   position: relative;
 
   ul {
-    > li > img {
-      vertical-align: middle;
-    }
-
-    > li > span {
+    li > img, >li > span {
       vertical-align: middle;
     }
   }
