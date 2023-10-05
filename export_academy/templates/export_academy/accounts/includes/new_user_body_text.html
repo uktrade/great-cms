@@ -2,21 +2,32 @@
 <div class="standard-ea-sign-in-text">
     <p class="govuk-!-margin-bottom-6">It’s free and only takes a few minutes.</p>
     <ul class="signup__info-panel__subheadings">
-        <li><img class="great-blue-tick govuk-!-margin-right-6" src="{% static 'icons/blue-tick.svg' %}" aria-hidden="true" />
+        <li>
+            <img class="great-blue-tick govuk-!-margin-right-6"
+                 src="{% static 'icons/blue-tick.svg' %}"
+                 aria-hidden="true" />
             {% if is_signin %}
-                <span>Sign in to great.gov.uk, or if you don't have an account already, <a class="govuk-link" href="{% url 'export_academy:signup' %}{% if next %}?next={{next}}{% endif %}">sign up</a></span>
+                <span>Sign in to great.gov.uk, or if you don't have an account already, <a class="govuk-link"
+    href="{% url 'export_academy:signup' %}{% if next %}?next={{ next }}{% endif %}">sign up</a></span>
             {% else %}
-                <span>Sign up to great.gov.uk, or if you have an account already, <a class="govuk-link" href="{% url 'export_academy:signin' %}{% if next %}?next={{next}}{% endif %}">sign in</a></span>
+                <span>Sign up to great.gov.uk, or if you have an account already, <a class="govuk-link"
+    href="{% url 'export_academy:signin' %}{% if next %}?next={{ next }}{% endif %}">sign in</a></span>
             {% endif %}
         </li>
         <li>
-            <img class="great-blue-tick govuk-!-margin-right-6" src="{% static 'icons/blue-tick.svg' %}" aria-hidden="true" />
+            <img class="great-blue-tick govuk-!-margin-right-6"
+                 src="{% static 'icons/blue-tick.svg' %}"
+                 aria-hidden="true" />
             <span>Book an event. You can <a class="govuk-link" href={% url 'export_academy:upcoming-events' %}>see what’s currently on offer here</a></span>
         </li>
         <li>
-            <img class="great-blue-tick govuk-!-margin-right-6" src="{% static 'icons/blue-tick.svg' %}" aria-hidden="true" />
+            <img class="great-blue-tick govuk-!-margin-right-6"
+                 src="{% static 'icons/blue-tick.svg' %}"
+                 aria-hidden="true" />
             <span>Answer a few questions about your business. That’s it. You only need to do this once, just sign in with your great.gov.uk password every time you visit.</span>
         </li>
     </ul>
-    <p>If you have any questions or feedback please <a class="govuk-link" href={% url 'contact:contact-us-feedback' %}>get in touch</a>.</p>
+    <p>
+        If you have any questions or feedback please <a class="govuk-link" href={% url 'contact:contact-us-feedback' %}>get in touch</a>.
+    </p>
 </div>

@@ -1,5 +1,3 @@
 {% if badges %}
-    {% for badge in badges %}
-    <span class="{{ badge.classname }}">{{ badge.label|safe }}</span>
-    {% endfor %}
+    {% for badge in badges %}<span class="{{ badge.classname }}">{{ badge.label|safe }}</span>{% endfor %}
 {% endif %}

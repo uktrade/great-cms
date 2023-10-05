@@ -1,15 +1,15 @@
 {% extends 'domestic/contact/export-support/base.html' %}
-
 {% block form_fields %}
     {% for field in form.visible_fields %}
-    {% if field.name == 'job_title' and form_data.business_name %}
-        <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}" {% if not field.value %}data-hidden{% endif %}>
-            {% include 'domestic/contact/includes/govuk-form-field.html' with field=field dynamicText='at '|add:form_data.business_name %}
-        </div>
-    {% else %}
-    <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
-        {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
-    </div>
-    {% endif %}
+        {% if field.name == 'job_title' and form_data.business_name %}
+            <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}"
+                 {% if not field.value %}data-hidden{% endif %}>
+                {% include 'domestic/contact/includes/govuk-form-field.html' with field=field dynamicText='at '|add:form_data.business_name %}
+            </div>
+        {% else %}
+            <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
+                {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
+            </div>
+        {% endif %}
     {% endfor %}
 {% endblock %}

@@ -1,81 +1,78 @@
 {% extends 'exportplan/section.html' %}
 {% load to_json %}
 {% load static %}
-
 {% load intcomma from humanize %}
-
 {% block head_other %}
-  <meta name="description" content="Complete the Marketing approach section of your export plan" />
+    <meta name="description"
+          content="Complete the Marketing approach section of your export plan" />
 {% endblock %}
 {% block intro_title %}Marketing approach{% endblock %}
-{% block intro_description %}There are many ways to market a product or service. This page will help you detail the best marketing approaches for your business.{% endblock %}
-
+{% block intro_description %}
+    There are many ways to market a product or service. This page will help you detail the best marketing approaches for your business.
+{% endblock %}
 {% block main_content %}
-<div class="g-panel m-b-s">
-  <p>Some of the ways you can sell your product to customers are:</p>
-  <ul class="list-dot">
-    <li>selling direct</li>
-    <li>online marketplaces</li>
-    <li>licensing or franchising your product</li>
-  </ul>
-</div>
+    <div class="g-panel m-b-s">
+        <p>Some of the ways you can sell your product to customers are:</p>
+        <ul class="list-dot">
+            <li>selling direct</li>
+            <li>online marketplaces</li>
+            <li>licensing or franchising your product</li>
+        </ul>
+    </div>
 {% endblock %}
-
 {% block user_input %}
-<section class="export-plan-statistics">
-  <div class="container">
-    <div class="grid">
-      <div class="c-1-4">&nbsp;</div>
-      <div class="c-1-1 c-2-3-m c-1-2-xl">
-        <div id="target-age-groups" class="m-b-s">
+    <section class="export-plan-statistics">
+        <div class="container">
+            <div class="grid">
+                <div class="c-1-4">&nbsp;</div>
+                <div class="c-1-1 c-2-3-m c-1-2-xl">
+                    <div id="target-age-groups" class="m-b-s"></div>
+                </div>
+                <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
+            </div>
         </div>
-      </div>
-      <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
+    </section>
+    <div class="container m-b-s">
+        <div class="grid">
+            <div class="c-1-4">&nbsp;</div>
+            <div class="c-1-1 c-2-3-m c-1-2-xl">
+                <p class="m-0 body-s caption">
+                    <strong class="body-s-b">Population statistics:</strong>:
+                    <a href="{{ united_nations_url }}" title="United Nations">United Nations</a>.
+                    <strong class="body-s-b">Access to Internet,Consumer Price Index:</strong>:
+                    <a href="{{ world_bank_url }}" title="World Bank">World Bank</a>.
+                    <strong class="body-s-b">Languages:</strong>
+                    <a href="{{ cia_factbook_url }}" title="CIA World Factbook">CIA World Factbook</a>.
+                </p>
+                <p class="m-0 body-s caption">
+                    *Data not available* will show where our sources have missing data. We're always working on adding more data sources.
+                </p>
+            </div>
+            <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
+        </div>
     </div>
-  </div>
-</section>
-
-<div class="container m-b-s">
-  <div class="grid">
-    <div class="c-1-4">&nbsp;</div>
-    <div class="c-1-1 c-2-3-m c-1-2-xl">
-      <p class="m-0 body-s caption">
-        <strong class="body-s-b">Population statistics:</strong>:
-        <a href="{{ united_nations_url }}" title="United Nations">United Nations</a>.
-        <strong class="body-s-b">Access to Internet,Consumer Price Index:</strong>:
-        <a href="{{ world_bank_url }}" title="World Bank">World Bank</a>.
-        <strong class="body-s-b">Languages:</strong>
-        <a href="{{ cia_factbook_url }}" title="CIA World Factbook">CIA World Factbook</a>.
-      </p>
-      <p class="m-0 body-s caption">*Data not available* will show where our sources have missing data. We're always working on adding more data sources.</p>
-    </div>
-    <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
-  </div>
-</div>
-
-<section class="container m-b-l">
-  <div class="grid">
-    <div class="c-1-4">&nbsp;</div>
-    <div class="c-1-1 c-2-3-m c-1-2-xl">
-      <div id="route-to-market"></div>
-    </div>
-    <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
-  </div>
-</section>
-<section class="container">
-  <div class="grid">
-    <div class="c-1-4 m-t-s">&nbsp;</div>
-    <div class="c-1-1 c-2-3-m c-1-2-xl">
-      <div id="resources"></div>
-    </div>
-    <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
-  </div>
-</section>
+    <section class="container m-b-l">
+        <div class="grid">
+            <div class="c-1-4">&nbsp;</div>
+            <div class="c-1-1 c-2-3-m c-1-2-xl">
+                <div id="route-to-market"></div>
+            </div>
+            <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
+        </div>
+    </section>
+    <section class="container">
+        <div class="grid">
+            <div class="c-1-4 m-t-s">&nbsp;</div>
+            <div class="c-1-1 c-2-3-m c-1-2-xl">
+                <div id="resources"></div>
+            </div>
+            <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
+        </div>
+    </section>
 {% endblock %}
-
 {% block body_js %}
-  {{ block.super }}
-  <script type="text/javascript">
+    {{ block.super }}
+    <script type="text/javascript">
     magna.createTargetAgeGroupInsights({
       element: document.getElementById('target-age-groups'),
       groups: {{ target_age_group_choices|safe }},
@@ -134,5 +131,5 @@
         model_name: 'routetomarkets',
       }
     })
-  </script>
+    </script>
 {% endblock %}

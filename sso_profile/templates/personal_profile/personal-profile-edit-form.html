@@ -12,9 +12,7 @@
                     <form method="post" enctype="multipart/form-data" novalidate="novalidate">
                         {% csrf_token %}
                         {% block form %}{{ form }}{% endblock %}
-                        {% block form_button %}
-                            <button class="primary-button button margin-top-30">Save</button>
-                        {% endblock %}
+                        {% block form_button %}<button class="primary-button button margin-top-30">Save</button>{% endblock %}
                         <div>
                             <br>
                             <br>
@@ -22,7 +20,7 @@
                                 <a class="link" href="{% url 'sso_profile:personal-profile:display' %}">Back</a>
                             {% endblock %}
                         </div>
-                     </form>
+                    </form>
                 </div>
             </section>
         </div>

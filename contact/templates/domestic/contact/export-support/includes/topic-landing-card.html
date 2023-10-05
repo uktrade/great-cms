@@ -1,23 +1,28 @@
 {% load wagtailimages_tags %}
 {% load tag_text_mapper url_type from content_tags %}
-
 {% for topic in cards %}
     {% if topic.block_type == 'cards' %}
         {% for block in topic.value %}
             {% if block.block_type == 'card' %}
-            <a href="{{block.value.link_url}}" target="_blank" rel="noopener noreferrer" class="govuk-!-margin-right-6 govuk-!-margin-bottom-6 govuk-!-padding-6 {% if block.value.full_width == 'yes' %}govuk-!-padding-bottom-8 {% endif %}great-topic-card {% if block.value.full_width == 'yes' %}great-topic-card--full-width{% else %}great-topic-card--half-width{% endif %}" data-ga-digital-entry-point>
-                {% if block.value.image %}
-                    <div>{% image block.value.image width-450 %}</div>
-                {% endif %}
-                <div data-location="main-area">
-                    {% if block.value.type %}
-                    <span class="govuk-tag great-tag great-tag--{{block.value.type}}" data-category="{{block.value.type|tag_text_mapper}}">{{block.value.type|tag_text_mapper}}</span>
+                <a href="{{ block.value.link_url }}"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="govuk-!-margin-right-6 govuk-!-margin-bottom-6 govuk-!-padding-6 {% if block.value.full_width == 'yes' %}govuk-!-padding-bottom-8{% endif %}great-topic-card {% if block.value.full_width == 'yes' %}great-topic-card--full-width{% else %}great-topic-card--half-width{% endif %}"
+                   data-ga-digital-entry-point>
+                    {% if block.value.image %}
+                        <div>{% image block.value.image width-450 %}</div>
                     {% endif %}
-                    <h2 class="{% if block.value.full_width == 'yes' %}govuk-heading-l {% else %}govuk-heading-xs {% endif %}govuk-!-margin-top-3 govuk-!-margin-bottom-2" data-title="{{block.value.title}}">{{block.value.title}}</h2>
-                    <p class="govuk-body govuk-!-margin-bottom-2">{{block.value.description}}</p>
-                    <span class="govuk-link great-text-blue great-link--{{block.value.link_url|url_type}}">{{block.value.link_text}}</span>
-                </div>
-            </a>
+                    <div data-location="main-area">
+                        {% if block.value.type %}
+                            <span class="govuk-tag great-tag great-tag--{{ block.value.type }}"
+                                  data-category="{{ block.value.type|tag_text_mapper }}">{{ block.value.type|tag_text_mapper }}</span>
+                        {% endif %}
+                        <h2 class="{% if block.value.full_width == 'yes' %}govuk-heading-l {% else %}govuk-heading-xs {% endif %}govuk-!-margin-top-3 govuk-!-margin-bottom-2"
+                            data-title="{{ block.value.title }}">{{ block.value.title }}</h2>
+                        <p class="govuk-body govuk-!-margin-bottom-2">{{ block.value.description }}</p>
+                        <span class="govuk-link great-text-blue great-link--{{ block.value.link_url|url_type }}">{{ block.value.link_text }}</span>
+                    </div>
+                </a>
             {% endif %}
         {% endfor %}
     {% endif %}

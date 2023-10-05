@@ -1,20 +1,18 @@
 {% load add_govuk_classes from content_tags %}
 {% load persist_language from component_tags %}
-
 {% for item in value %}
     {% if not forloop.counter|divisibleby:"2" or value|length == 1 %}
-    <div class="govuk-grid-row great-display-flex-desktop">
-    {% endif %}
-    <div class="govuk-grid-column-one-half govuk-!-margin-bottom-6">
-        <div class="govuk-!-padding-4 great-height-100-desktop great-bg-white">
-            <h3 class="govuk-heading-m great-font-size-28">{{ item.value.title }}</h3>
-            {% filter add_govuk_classes %}
-                {{ item.value.description }}
-            {% endfilter %}
-            <a href="{{ item.value.link_url|persist_language:request.GET }}" class="govuk-button govuk-!-margin-bottom-0">{{ item.value.link_text }}</a>
+        <div class="govuk-grid-row great-display-flex-desktop">
+        {% endif %}
+        <div class="govuk-grid-column-one-half govuk-!-margin-bottom-6">
+            <div class="govuk-!-padding-4 great-height-100-desktop great-bg-white">
+                <h3 class="govuk-heading-m great-font-size-28">{{ item.value.title }}</h3>
+                {% filter add_govuk_classes %}
+                    {{ item.value.description }}
+                {% endfilter %}
+                <a href="{{ item.value.link_url|persist_language:request.GET }}"
+                   class="govuk-button govuk-!-margin-bottom-0">{{ item.value.link_text }}</a>
+            </div>
         </div>
-    </div>
-    {% if forloop.counter|divisibleby:"2" or value|length == 1 or forloop.last %}
-    </div>
-    {% endif %}
+        {% if forloop.counter|divisibleby:"2" or value|length == 1 or forloop.last %}</div>{% endif %}
 {% endfor %}

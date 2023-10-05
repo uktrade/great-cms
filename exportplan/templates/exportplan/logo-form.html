@@ -1,25 +1,19 @@
 {% extends "core/base.html" %}
-
 {% load pageurl from wagtailcore_tags %}
-
 {% block content %}
     <div class="container">
-       <div class="grid-row">
+        <div class="grid-row">
             <div class="column-one-half">
                 {% block form_contents %}
                     <form method="post" class="m-t-m" enctype="multipart/form-data">
                         {% block form %}
-                        {% csrf_token %}
-                          {{ form }}
+                            {% csrf_token %}
+                            {{ form }}
                         {% endblock %}
-                        {% block form_button %}
-                            <button class="primary-button button m-v-s">Save and continue</button>
-                        {% endblock %}
-                     </form>
+                        {% block form_button %}<button class="primary-button button m-v-s">Save and continue</button>{% endblock %}
+                    </form>
                 {% endblock %}
-                {% block back_link %}
-                    <a class="link" href="/export-plan/">Back</a>
-                {% endblock %}
+                {% block back_link %}<a class="link" href="/export-plan/">Back</a>{% endblock %}
             </div>
         </div>
     </div>

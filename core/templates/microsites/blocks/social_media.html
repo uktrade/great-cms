@@ -2,8 +2,7 @@
 {% load i18n %}
 {% load get_template_translation_enabled from content_tags %}
 {% get_template_translation_enabled as TRANSLATE_TEXT %}
-
-{%if twitter or email or facebook or linkedin%}
+{% if twitter or email or facebook or linkedin %}
     <div class="social-media-container">
         <h3 class="govuk-!-margin-bottom-4">
             {% if TRANSLATE_TEXT %}
@@ -16,9 +15,9 @@
             {% if twitter %}
                 <a href="{{ twitter }}">
                     <img alt="with Twitter"
-                        height="36px"
-                        src="{% static 'great_components/icons/twitter.svg' %}"
-                        width="36px">
+                         height="36px"
+                         src="{% static 'great_components/icons/twitter.svg' %}"
+                         width="36px">
                     <p>
                         {% if TRANSLATE_TEXT %}
                             {% translate "Twitter" %}
@@ -31,9 +30,9 @@
             {% if facebook %}
                 <a href="{{ facebook }}">
                     <img alt="with Facebook"
-                        height="36px"
-                        src="{% static 'great_components/icons/facebook.svg' %}"
-                        width="36px">
+                         height="36px"
+                         src="{% static 'great_components/icons/facebook.svg' %}"
+                         width="36px">
                     <p>
                         {% if TRANSLATE_TEXT %}
                             {% translate "Facebook" %}
@@ -46,9 +45,9 @@
             {% if linkedin %}
                 <a href="{{ linkedin }}">
                     <img alt="with LinkedIn"
-                        height="36px"
-                        src="{% static 'great_components/icons/linkedin.svg' %}"
-                        width="36px">
+                         height="36px"
+                         src="{% static 'great_components/icons/linkedin.svg' %}"
+                         width="36px">
                     <p>
                         {% if TRANSLATE_TEXT %}
                             {% translate "LinkedIn" %}
@@ -61,9 +60,9 @@
             {% if email %}
                 <a href="mailto:{{ email }}">
                     <img alt="with Email"
-                        height="36px"
-                        src="{% static 'great_components/icons/email.svg' %}"
-                        width="36px">
+                         height="36px"
+                         src="{% static 'great_components/icons/email.svg' %}"
+                         width="36px">
                     <p>
                         {% if TRANSLATE_TEXT %}
                             {% translate "Email" %}
@@ -75,4 +74,4 @@
             {% endif %}
         </div>
     </div>
-{%endif%}
+{% endif %}

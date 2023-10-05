@@ -1,19 +1,15 @@
 {% extends 'business_profile/base-form.html' %}
-
 {% load breadcrumbs from component_tags %}
 {% load static %}
-
-
 {% block form_contents %}
     {% breadcrumbs 'Products and services' %}
-        <a href="{% url 'sso_profile:about' %}">Home</a>
-        <a href="{% url 'sso_profile:business-profile' %}">Business profile</a>
-    {% endbreadcrumbs %}
-
-    <h1 class="heading-large margin-top-0">Add other products and services</h1>
-    {{ block.super }}
+    <a href="{% url 'sso_profile:about' %}">Home</a>
+    <a href="{% url 'sso_profile:business-profile' %}">Business profile</a>
+{% endbreadcrumbs %}
+<h1 class="heading-large margin-top-0">Add other products and services</h1>
+{{ block.super }}
 {% endblock %}
-
 {% block back_link %}
-    <a class="link" href="{% url 'sso_profile:business-profile-expertise-products-services-routing' %}">Back</a>
+    <a class="link"
+       href="{% url 'sso_profile:business-profile-expertise-products-services-routing' %}">Back</a>
 {% endblock %}

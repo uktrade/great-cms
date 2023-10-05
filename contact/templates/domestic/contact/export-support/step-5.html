@@ -1,8 +1,7 @@
 {% extends 'domestic/contact/export-support/base.html' %}
-
 {% block body_js %}
-{{ block.super }}
-<script type="text/javascript">
+    {{ block.super }}
+    <script type="text/javascript">
     const search = document.querySelector('#search_markets input');
 
     $(search).on("keyup", (e) => {
@@ -28,21 +27,20 @@
     }
 
     customizeLayout();
-</script>
+    </script>
 {% endblock %}
-
 {% block form_fields %}
     {% for field in form.visible_fields %}
-    {% if field.name == 'search' %}
-        <div class="govuk-form-group govuk-!-margin-bottom-6" id="search_markets">
-            {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='great-text-input--search' hideLabel=True %}
-        </div>
-    {% else %}
-    <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
-        <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-            {% include 'domestic/contact/includes/govuk-form-field.html' with field=field labelForId='id_markets_0' %}
-        </div>
-    </div>
-    {% endif %}
+        {% if field.name == 'search' %}
+            <div class="govuk-form-group govuk-!-margin-bottom-6" id="search_markets">
+                {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='great-text-input--search' hideLabel=True %}
+            </div>
+        {% else %}
+            <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
+                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                    {% include 'domestic/contact/includes/govuk-form-field.html' with field=field labelForId='id_markets_0' %}
+                </div>
+            </div>
+        {% endif %}
     {% endfor %}
 {% endblock %}

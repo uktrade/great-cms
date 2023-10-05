@@ -1,18 +1,15 @@
 {% load breadcrumbs from component_tags %}
-
 {% with current_page=page.specific.get_breadcrumbs|last %}
-{% if hide_breadcrumbs %}
-  {% breadcrumbs current_page.title %}
-      <a href="{{BREADCRUMBS_ROOT_URL}}">great.gov.uk</a>
-  {% endbreadcrumbs %}
+    {% if hide_breadcrumbs %}
+        {% breadcrumbs current_page.title %}
+        <a href="{{ BREADCRUMBS_ROOT_URL }}">great.gov.uk</a>
+    {% endbreadcrumbs %}
 {% else %}
-  {% breadcrumbs current_page.title %}
-    <a href="{{BREADCRUMBS_ROOT_URL}}">great.gov.uk</a>
-      {% for crumb in page.get_breadcrumbs %}
-        {% if not forloop.last %}
-          <a href="{{ crumb.url }}">{{ crumb.title }}</a>
-        {% endif %}
+    {% breadcrumbs current_page.title %}
+    <a href="{{ BREADCRUMBS_ROOT_URL }}">great.gov.uk</a>
+    {% for crumb in page.get_breadcrumbs %}
+        {% if not forloop.last %}<a href="{{ crumb.url }}">{{ crumb.title }}</a>{% endif %}
     {% endfor %}
-  {% endbreadcrumbs %}
+{% endbreadcrumbs %}
 {% endif %}
 {% endwith %}

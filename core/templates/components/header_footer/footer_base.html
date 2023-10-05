@@ -2,53 +2,55 @@
 {% load i18n %}
 {% load url_map %}
 {% load wagtailcore_tags %}
-
-<footer id="great-footer" class="great-footer light-grey-text background-great-blue" dir="ltr" data-ga-section="footer">
-
-  <div class="magna-footer shared-footer">
-    {% block footer_left_logo %}{% endblock %}
-    {% block footer_right_logo %}{% endblock %}
-  </div>
-
-  <nav class="footer">
-    <ul>
-        {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
-        <li>
-            <a href="/support/guidance-and-support" title="Guidance and support">Guidance and support</a>
-        </li>
-        {% endif %}
-        <li>
-            <a href="{% url_map 'contact_url' %}" title="Contact us">Contact us</a>
-        </li>
-        <li>
-            <a href="{% slugurl 'privacy-and-cookies' %}" title="Privacy and cookies">Privacy and cookies</a>
-        </li>
-        <li>
-            <a href="{% slugurl 'terms-and-conditions' %}"  title="Terms and conditions">Terms and conditions</a>
-        </li>
-        <li>
-            <a href="{% slugurl 'accessibility-statement' %}" title="Accessibility">Accessibility</a>
-        </li>
-        <li>
-            <a href="{% slugurl 'performance-dashboard' %}" title="Performance">Performance</a>
-        </li>
-        <li>
-            <a href="https://{{ dit_on_govuk }}" target="_blank" rel="noopener" title="Department for Business and Trade on GOV.UK">Department for Business and Trade on GOV.UK</a>
-        </li>
-        {% if FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK %}
-        <li>
-            <a href="/international" title="International business">Go to the page for international business</a>
-        </li>
-        {% endif %}
-    </ul>
-  </nav>
-
-
-  <div class="copyright-container {% block global_footer_class %}{% endblock %}">
-    <div>
-        {% block global_footer_logo %}
-        {% endblock %}
-        <p class="copy-right">&copy; Crown copyright {% now "Y" %}. All rights reserved.</p>
-  </div>
-</div>
+<footer id="great-footer"
+        class="great-footer light-grey-text background-great-blue"
+        dir="ltr"
+        data-ga-section="footer">
+    <div class="magna-footer shared-footer">
+        {% block footer_left_logo %}{% endblock %}
+        {% block footer_right_logo %}{% endblock %}
+    </div>
+    <nav class="footer">
+        <ul>
+            {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
+                <li>
+                    <a href="/support/guidance-and-support" title="Guidance and support">Guidance and support</a>
+                </li>
+            {% endif %}
+            <li>
+                <a href="{% url_map 'contact_url' %}" title="Contact us">Contact us</a>
+            </li>
+            <li>
+                <a href="{% slugurl 'privacy-and-cookies' %}"
+                   title="Privacy and cookies">Privacy and cookies</a>
+            </li>
+            <li>
+                <a href="{% slugurl 'terms-and-conditions' %}"
+                   title="Terms and conditions">Terms and conditions</a>
+            </li>
+            <li>
+                <a href="{% slugurl 'accessibility-statement' %}" title="Accessibility">Accessibility</a>
+            </li>
+            <li>
+                <a href="{% slugurl 'performance-dashboard' %}" title="Performance">Performance</a>
+            </li>
+            <li>
+                <a href="https://{{ dit_on_govuk }}"
+                   target="_blank"
+                   rel="noopener"
+                   title="Department for Business and Trade on GOV.UK">Department for Business and Trade on GOV.UK</a>
+            </li>
+            {% if FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK %}
+                <li>
+                    <a href="/international" title="International business">Go to the page for international business</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    <div class="copyright-container {% block global_footer_class %}{% endblock %}">
+        <div>
+            {% block global_footer_logo %}{% endblock %}
+            <p class="copy-right">&copy; Crown copyright {% now "Y" %}. All rights reserved.</p>
+        </div>
+    </div>
 </footer>
