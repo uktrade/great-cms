@@ -173,6 +173,9 @@ class Signal:
         logger.debug("in our  duspatcher send")
         if not self.receivers or self.sender_receivers_cache.get(sender) is NO_RECEIVERS:
             logger.debug("no receivers wtf!")
+            logger.debug(f"sender {sender}")
+            logger.debug(f"self.receivers {self.receivers}")
+            logger.debug(f"self.sender_receivers_cache.get(sender) {self.sender_receivers_cache.get(sender)}")
             return []
 
         logger.debug(f'live receivers {self._live_receivers(sender)}:{sender}')
