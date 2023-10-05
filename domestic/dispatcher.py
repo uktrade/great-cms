@@ -250,7 +250,11 @@ class Signal:
                 self._clear_dead_receivers()
                 senderkey = _make_id(sender)
                 receivers = []
+                logger.debug("checking sender key")
                 for (receiverkey, r_senderkey), receiver in self.receivers:
+                    logger.debug(f"receiver {receiver}")
+                    logger.debug(f"r_senderkey {r_senderkey}")
+                    logger.debug(f"senderkey {senderkey}")
                     if r_senderkey == NONE_ID or r_senderkey == senderkey:
                         receivers.append(receiver)
                 if self.use_caching:
