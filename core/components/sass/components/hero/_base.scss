@@ -114,9 +114,9 @@
   image-rendering: auto;
 
   .great-hero-text {
-    h1 {
-      visibility: hidden
-    }
+    // h1 {
+    //   visibility: hidden
+    // }
     a {
       position: relative;
       left: 235px;
@@ -135,11 +135,18 @@
     }
     .great-hero-text {
       h1 {
-        visibility: hidden
+        border: 0; 
+        clip: rect(0 0 0 0); 
+        height: 1px;  
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
       }
       a {
         position: relative;
-        top: 243px;
+        top: 450px;
         left: 0;
       }
     }
@@ -218,11 +225,18 @@
     }
     .great-hero-text {
       h1 {
-        visibility: hidden
+        border: 0; 
+        clip: rect(0 0 0 0); 
+        height: 1px;  
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
       }
       a {
         position: relative;
-        top: 160px;
+        top: 450px;
         left: 0;
         width: 100%;
       }
@@ -274,12 +288,19 @@
         margin: 0;
       }
       h1 {
-        visibility: hidden
+        border: 0; 
+        clip: rect(0 0 0 0); 
+        height: 1px;  
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
       }
       a {
         position: relative;
         left: 200px;
-        top: 90px;
+        top: 250px;
       }
     }
   }
