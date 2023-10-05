@@ -4,6 +4,12 @@ repos:
       rev: 23.1.0
       hooks:
           - id: black
+          # Config for black lives in pyproject.toml
+    - repo: https://github.com/asottile/blacken-docs
+      rev: 1.13.0
+      hooks:
+          - id: blacken-docs
+            additional_dependencies: [black==23.1.0]
     - repo: https://github.com/PyCQA/isort
       rev: 5.12.0
       hooks:
@@ -24,30 +30,30 @@ repos:
           - id: check-ast
           - id: fix-byte-order-marker
           - id: check-merge-conflict
-          # - id: debug-statements
+          - id: debug-statements
           - id: detect-private-key
           - id: detect-aws-credentials
             args: ["--allow-missing-credentials"]
-    # - repo: https://github.com/uktrade/pii-secret-check-hooks
-    #   rev: 0.0.0.35
-    #   hooks:
-    #       - id: pii_secret_filename
-    #         files: ''
-    #         language: python
-    #         args: [exclude]
-    #         pass_filenames: true
-    #         require_serial: true
-    #       - id: pii_secret_file_content
-    #         files: ''
-    #         language: python
-    #         args: [--exclude=pii-secret-exclude.txt]
-    #         pass_filenames: true
-    #         require_serial: true
-    #         exclude: core/static/fonts/
-    #       - id: hooks_version_check
-    #         name: Checking local hooks against latest release
-    #         verbose: true
-    #         require_serial: true
+    - repo: https://github.com/uktrade/pii-secret-check-hooks
+      rev: 0.0.0.35
+      hooks:
+          - id: pii_secret_filename
+            files: ''
+            language: python
+            args: [exclude]
+            pass_filenames: true
+            require_serial: true
+          - id: pii_secret_file_content
+            files: ''
+            language: python
+            args: [--exclude=pii-secret-exclude.txt]
+            pass_filenames: true
+            require_serial: true
+            exclude: core/static/fonts/
+          - id: hooks_version_check
+            name: Checking local hooks against latest release
+            verbose: true
+            require_serial: true
 
 
     - repo: local
