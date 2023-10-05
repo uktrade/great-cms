@@ -1,3 +1,4 @@
+from domestic.mail import ModerationTaskStateSubmissionEmailNotifier
 from wagtail.admin.mail import (
     GroupApprovalTaskStateSubmissionEmailNotifier,
     WorkflowStateApprovalEmailNotifier,
@@ -32,7 +33,6 @@ def register_signal_handlers():
     )
     workflow_rejected.connect(
         workflow_rejection_email_notifier,
-        sender=WorkflowState,
         dispatch_uid="workflow_state_rejected_email_notification",
     )
     workflow_approved.connect(
@@ -40,3 +40,19 @@ def register_signal_handlers():
         sender=WorkflowState,
         dispatch_uid="workflow_state_approved_email_notification",
     )
+
+    task_submitted.disconnect(
+        task_submission_email_notifier,
+        sender=TaskState,
+        dispatch_uid='group_approval_task_submitted_email_notification',
+    )
+
+    workflow_submitted.disconnect(
+        workflow_submission_email_notifier,
+        sender=WorkflowState,
+        dispatch_uid='workflow_state_submitted_email_notification',
+    )
+
+    my_notifier = ModerationTaskStateSubmissionEmailNotifier()
+
+    task_submitted.connect(receiver=my_notifier, sender=TaskState, dispatch_uid='my_unique_identifier')
