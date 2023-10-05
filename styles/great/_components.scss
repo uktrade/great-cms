@@ -963,3 +963,53 @@ figure.great-blockquote {
     }
   }
 }
+
+.great-primary-button--chevron {
+  position: relative;
+  padding-right: 25px;
+
+  &::after {
+    background-repeat: no-repeat;
+    background-position: 50% 180%;
+    display: inline-block;
+    content: '';
+    pointer-events: none;
+    background-image: url(/static/icons/internal-link-white.svg);
+    background-size: 11px;
+    height: 20px;
+    width: 26px;
+    bottom: 1px;
+    right: 0;
+  }
+
+  &:hover{
+    &::after{
+    background-image: url(/static/icons/internal-link.svg);
+    }
+  }
+}
+
+.great-secondary-button--chevron {
+  position: relative;
+  padding-right: 25px;
+
+  &::after {
+    background-repeat: no-repeat;
+    background-position: 50% 180%;
+    display: inline-block;
+    content: '';
+    pointer-events: none;
+    background-image: url(/static/icons/internal-link.svg);
+    background-size: 11px;
+    height: 20px;
+    width: 26px;
+    bottom: 1px;
+    right: 0;
+  }
+
+  &:hover{
+    &::after{
+    background-image: url(/static/icons/internal-link-white.svg);
+    }
+  }
+}
