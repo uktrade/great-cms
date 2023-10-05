@@ -379,7 +379,8 @@ def register_signal_handlers():
     )
 
     # logger.debug(f'workflow_submission_email_notifier: {stat}')
-    task_submission_email_notifier = ModerationTaskStateSubmissionEmailNotifier((TaskState,))
+    # task_submission_email_notifier = ModerationTaskStateSubmissionEmailNotifier((TaskState,))
+    task_submission_email_notifier = ModerationTaskStateSubmissionEmailNotifier()
 
     # workflow_submission_email_notifier = ModerationTaskStateSubmissionEmailNotifier((WorkflowState,))
 

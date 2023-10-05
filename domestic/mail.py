@@ -5,7 +5,6 @@ from django.conf import settings
 
 from core.helpers import send_campaign_moderation_notification
 from domestic.models import ArticlePage
-from wagtail.admin.mail import EmailNotificationMixin, Notifier
 from wagtail.models import TaskState, WorkflowState
 from wagtail.users.models import UserProfile
 
@@ -15,7 +14,17 @@ handler = RotatingFileHandler('/tmp/moderations.log', maxBytes=2000, backupCount
 logger.addHandler(handler)
 
 
-class ModerationTaskStateEmailNotifier(EmailNotificationMixin, Notifier):
+class ModerationTaskStateEmailNotifier:
+    def get_context(self, instance, **kwargs):
+        logger.debug('In Our get_context')
+        return {"settings": settings}
+
+    def get_template_set(self, instance, **kwargs):
+        logger.debug('In Our get_template_set')
+        return {
+            "text": '',
+        }
+
     def get_valid_recipients(self, instance, **kwargs):
         logger.debug('In Our get_valid_recipients')
         return {
