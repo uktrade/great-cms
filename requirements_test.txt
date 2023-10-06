@@ -224,7 +224,7 @@ django-health-check==3.17.0
     # via directory-healthcheck
 django-ipware==2.1.0
     # via -r requirements.in
-django-modelcluster==6.0
+django-modelcluster==6.1
     # via wagtail
 django-permissionedforms==0.1
     # via wagtail
@@ -658,7 +658,7 @@ requests-toolbelt==1.0.0
     # via browserstack-sdk
 roundrobin==0.0.4
     # via locust
-ruamel-yaml==0.17.33
+ruamel-yaml==0.17.35
     # via pre-commit-hooks
 ruamel-yaml-clib==0.2.8
     # via ruamel-yaml
@@ -742,7 +742,7 @@ tomlkit==0.12.1
     # via pylint
 tqdm==4.66.1
     # via djlint
-traitlets==5.11.1
+traitlets==5.11.2
     # via
     #   ipython
     #   matplotlib-inline
@@ -766,7 +766,7 @@ typing-extensions==4.8.0
     #   wagtail-localize
 tzdata==2023.3
     # via django-celery-beat
-tzlocal==5.0.1
+tzlocal==5.1
     # via
     #   dateparser
     #   pyhanko
@@ -854,7 +854,7 @@ zipp==3.17.0
     # via importlib-metadata
 zope-event==5.0
     # via gevent
-zope-interface==6.0
+zope-interface==6.1
     # via gevent
 
 # The following packages are considered to be unsafe in a requirements file:

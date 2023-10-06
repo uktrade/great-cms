@@ -160,7 +160,7 @@ django-health-check==3.17.0
     # via directory-healthcheck
 django-ipware==2.1.0
     # via -r requirements.in
-django-modelcluster==6.0
+django-modelcluster==6.1
     # via wagtail
 django-permissionedforms==0.1
     # via wagtail
@@ -421,7 +421,7 @@ typing-extensions==4.8.0
     #   wagtail-localize
 tzdata==2023.3
     # via django-celery-beat
-tzlocal==5.0.1
+tzlocal==5.1
     # via
     #   dateparser
     #   pyhanko
