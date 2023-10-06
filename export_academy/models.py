@@ -302,63 +302,6 @@ class ExportAcademyHomePage(ExportAcademyPagePanels, BaseContentPage):
         blank=True,
     )
 
-    course_name = models.CharField(
-        null=True,
-        blank=True,
-        max_length=255,
-        verbose_name='Course Name',
-    )
-
-    course_description = models.CharField(
-        null=True,
-        blank=True,
-        max_length=255,
-        verbose_name='Course Description',
-    )
-
-    course_image = models.ForeignKey(
-        'core.AltTextImage',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
-
-    course_feature_one = models.CharField(
-        null=True,
-        blank=True,
-        max_length=255,
-        verbose_name='Course Feature One',
-    )
-
-    course_feature_two = models.CharField(
-        null=True,
-        blank=True,
-        max_length=255,
-        verbose_name='Course Feature Two',
-    )
-
-    course_feature_three = models.CharField(
-        null=True,
-        blank=True,
-        max_length=255,
-        verbose_name='Course Feature Three',
-    )
-
-    course_cta_text = models.CharField(
-        null=True,
-        blank=True,
-        max_length=255,
-        verbose_name='Course CTA Text',
-    )
-
-    course_cta_url = models.CharField(
-        null=True,
-        blank=True,
-        max_length=255,
-        verbose_name='Course CTA URL',
-    )
-
     panel_description = RichTextField(
         features=RICHTEXT_FEATURES__REDUCED,
         null=True,
