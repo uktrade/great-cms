@@ -277,6 +277,19 @@ class LocationSelectForm(forms.Form):
 
 
 class FeedbackForm(forms.Form):
+    feedback_text = CharField(
+        label='How could we improve this service?',
+        help_text="Don't include any personal information, like your name or email address.",
+        max_length=1000,
+        required=True,
+        error_messages={
+            'required': 'You must enter information on how we could improve this service',
+        },
+        widget=Textarea(attrs={'class': 'govuk-textarea govuk-js-character-count', 'rows': 7}),
+    )
+
+
+class CsatFeedbackForm(forms.Form):
     satisfaction = ChoiceField(
         label='1. Overall, how do you feel about your use of the Expand your Business digital service today?',
         choices=choices.SATISFACTION_CHOICES,
