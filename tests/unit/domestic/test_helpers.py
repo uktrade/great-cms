@@ -147,8 +147,8 @@ def test_send_campaign_moderation_notification_without_full_name(mock_action_cla
 
     assert mock_action_class.call_count == 1
     assert mock_action_class.call_args == mock.call(
-        template_id=settings.CAMPAIGN_MODERATORS_EMAIL_TEMPLATE_ID,
-        email_address=settings.MODERATION_EMAIL_DIST_LIST,
+        template_id=template_id,
+        email_address=email,
         email_reply_to_id=settings.CAMPAIGN_MODERATION_REPLY_TO_ID,
         form_url=str(),
     )
@@ -165,8 +165,8 @@ def test_send_campaign_moderation_notification_with_full_name(mock_action_class,
 
     assert mock_action_class.call_count == 1
     assert mock_action_class.call_args == mock.call(
-        template_id=settings.CAMPAIGN_MODERATORS_EMAIL_TEMPLATE_ID,
-        email_address=settings.MODERATION_EMAIL_DIST_LIST,
+        template_id=template_id,
+        email_address=email,
         email_reply_to_id=settings.CAMPAIGN_MODERATION_REPLY_TO_ID,
         form_url=str(),
     )
