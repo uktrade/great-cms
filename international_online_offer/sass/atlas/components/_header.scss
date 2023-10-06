@@ -39,6 +39,9 @@
   }
 }
 
+.atlas-menu-button:focus {
+  outline: 2px solid #FFDD00;
+}
 
 .atlas-menu-button {
   @include atlas-bold;

@@ -281,3 +281,8 @@ def persist_language(url, query_params=None):
 @register.filter(name='replace_underscores')
 def replace_underscores(value, replacement='-'):
     return value.replace('_', replacement)
+
+
+@register.filter(name='remove_string')
+def remove_string(value, replacement=''):
+    return value.replace('.', replacement)

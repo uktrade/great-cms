@@ -1,45 +1,39 @@
 {% load i18n %}
-
 {% load add_govuk_classes from content_tags %}
 {% load replace_emphasis_tags from content_tags %}
 {% load wagtailcore_tags %}
-
 {% for block in streamfield_content %}
-
     {% if block.block_type == 'form' %}
-     {% filter add_govuk_classes %}
-        {% if form %}
-            <div class="form-container {{form_class}} govuk-!-static-padding-0 govuk-!-margin-bottom-6">
-                {% if form_success %}
-                    <div class="success-message-container">
-                        <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"
-                              rel="stylesheet">
-                        <i class="fa fa-check"></i>
-                        {% trans "Information has been submitted successfully" as success_message_text %}
-                        <p>{{success_message_text}}</p>
-                    </div>
-                {% else %}
-                    <form action="" method="post" autocomplete="off">
-                        {% csrf_token %}
-                        {{ form }}
-                        {% trans "Submit" as submit_button_text %}
-                        <button type="submit" class="primary-button">{{submit_button_text}}</button>
-                    </form>
-                {% endif %}
-            </div>
-        {% endif %}
+        {% filter add_govuk_classes %}
+            {% if form %}
+                <div class="form-container {{ form_class }} govuk-!-static-padding-0 govuk-!-margin-bottom-6">
+                    {% if form_success %}
+                        <div class="success-message-container">
+                            <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"
+                                  rel="stylesheet">
+                            <i class="fa fa-check"></i>
+                            {% trans "Information has been submitted successfully" as success_message_text %}
+                            <p>{{ success_message_text }}</p>
+                        </div>
+                    {% else %}
+                        <form action="" method="post" autocomplete="off">
+                            {% csrf_token %}
+                            {{ form }}
+                            {% trans "Submit" as submit_button_text %}
+                            <button type="submit" class="primary-button">{{ submit_button_text }}</button>
+                        </form>
+                    {% endif %}
+                </div>
+            {% endif %}
         {% endfilter %}
     {% elif block.block_type == 'pull_quote' %}
-        <div class="govuk-!-margin-top-3 govuk-!-margin-bottom-3">
-            {% include_block block %}
-        </div>
+        <div class="govuk-!-margin-top-3 govuk-!-margin-bottom-3">{% include_block block %}</div>
     {% else %}
         {% filter replace_emphasis_tags %}
             {% include_block block %}
-        {%endfilter%}
+        {% endfilter %}
     {% endif %}
 {% endfor %}
-
 {% block body_js %}
     <script type="text/javascript">
       const elements = document.getElementsByClassName("success-message-container");

@@ -1,49 +1,44 @@
 {% extends 'exportplan/section.html' %}
 {% load static %}
-
 {% block head_other %}
-  <meta name="description" content="Complete the Business risk section of your export plan" />
+    <meta name="description"
+          content="Complete the Business risk section of your export plan" />
 {% endblock %}
-{% block intro_title %}Business risk{%endblock %}
+{% block intro_title %}Business risk{% endblock %}
 {% block intro_description %}
-There will always be risks when doing business abroad. However, having a plan before you travel will help you mitigate
-those risks.
+    There will always be risks when doing business abroad. However, having a plan before you travel will help you mitigate
+    those risks.
 {% endblock %}
 {% block main_content %}
-<div class="g-panel m-b-s">
-  <p>
-    Think about the risks you might face when exporting and what you can do to avoid or minimise them. Some things to
-    think about are:
-  </p>
-  <ul class="list-dot">
-    <li>commercial risk including intellectual property</li>
-    <li>political risk</li>
-    <li>economic risk</li>
-    <li>bribery and corruption</li>
-    <li>human rights violations</li>
-  </ul>
-</div>
-{% endblock %}
-
-{% block user_input %}
-<section class="container m-b-l">
-  <div class="grid">
-    <div class="c-1-4-l">&nbsp;</div>
-    <div class="c-1-1 c-2-3-m c-1-2-xl">
-      <div id="business-risks">
-        <h2 class="h-m m-b-xs">Risks</h2>
+    <div class="g-panel m-b-s">
         <p>
-          Record any risks you think your business might face in the table below.
+            Think about the risks you might face when exporting and what you can do to avoid or minimise them. Some things to
+            think about are:
         </p>
-      </div>
+        <ul class="list-dot">
+            <li>commercial risk including intellectual property</li>
+            <li>political risk</li>
+            <li>economic risk</li>
+            <li>bribery and corruption</li>
+            <li>human rights violations</li>
+        </ul>
     </div>
-    <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
-  </div>
-</section>
 {% endblock %}
-
-
+{% block user_input %}
+    <section class="container m-b-l">
+        <div class="grid">
+            <div class="c-1-4-l">&nbsp;</div>
+            <div class="c-1-1 c-2-3-m c-1-2-xl">
+                <div id="business-risks">
+                    <h2 class="h-m m-b-xs">Risks</h2>
+                    <p>Record any risks you think your business might face in the table below.</p>
+                </div>
+            </div>
+            <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
+        </div>
+    </section>
+{% endblock %}
 {% block body_js %}
-{{ block.super }}
-{% include 'exportplan/includes/section_data/business-risk__data.html' %}
+    {{ block.super }}
+    {% include 'exportplan/includes/section_data/business-risk__data.html' %}
 {% endblock %}
