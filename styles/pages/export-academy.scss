@@ -476,7 +476,7 @@
     }
     .image-container {
       @media only screen and (min-width: 901px) {
-        background-size: 100% auto!important;
+        background-size: 100% auto !important;
         background-position-y: bottom !important;
       }
     }
@@ -505,7 +505,8 @@
   position: relative;
 
   ul {
-    li > img, >li > span {
+    li > img,
+    > li > span {
       vertical-align: middle;
     }
   }
@@ -515,25 +516,49 @@
   }
 
   &__img {
-   @media (min-width: $tablet-size) {
+    @media (min-width: $tablet-size) {
       position: absolute;
       bottom: 0;
       right: 20px;
       max-width: 50%;
     }
-   @media (max-width: $tablet-size) {
+    @media (max-width: $tablet-size) {
       vertical-align: bottom;
       width: 100%;
     }
   }
 
   &__text {
-  @media (min-width: $tablet-size)  {
+    @media (min-width: $tablet-size) {
       flex-basis: 50%;
       padding: 30px !important;
     }
-  @media (max-width: $tablet-size)  {
+    @media (max-width: $tablet-size) {
       padding: 20px !important;
     }
   }
+}
+
+.event-on-demand-video-container {
+  display: inline-flex;
+  gap: 30px;
+  .video-wrapper{
+    position: relative;
+    video{
+      width: 810px;
+    }
+    .video-button-overlay{
+     height: 100%;
+     width: 100%;
+     position: absolute;
+     z-index: 1;
+     top:0;
+     background: rgba(#000000D9, 0.85);
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
+    }
+  }
+  
 }

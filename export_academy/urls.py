@@ -171,7 +171,7 @@ urlpatterns = [
         name='course',
     ),
     path(
-        'test/video-on-demand/',
+        'event-recordings/<slug:slug>/',
         views.EventVideoOnDemandView.as_view(),
         name='video-on-demand',
     ),
