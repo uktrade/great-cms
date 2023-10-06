@@ -1,165 +1,78 @@
 {% extends './base.html' %}
 {% load static %}
-
 {% block page_title %}Feedback {{ block.super }}{% endblock %}
-
 {% block content %}
-
-<div class="govuk-width-container">
-
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <a href="{{back_url}}" class="govuk-back-link govuk-!-margin-bottom-4">Back</a>
-        </div>
-    </div>
-
-    {% if request.GET.success %}
-        <div class="govuk-grid-row" id="complete_contact_form_message">
-            <div class="govuk-grid-column-full">
-                {% include './includes/govuk/notification_banner.html' with css_class="govuk-notification-banner--success" banner_title="Success" banner_heading='Thanks for your feedback, it has been successfully submitted' %}
-            </div>
-        </div>
-    {% else %}
-
+    <div class="govuk-width-container">
         <div class="govuk-grid-row">
-            <div class="govuk-grid-column-one-half-from-desktop">
-                <h1 class="govuk-heading-xl">Give feedback</h1>
+            <div class="govuk-grid-column-two-thirds">
+                <a href="{{ back_url }}" class="govuk-back-link govuk-!-margin-bottom-4">Back</a>
+                <h1 class="govuk-heading-xl">Give feedback on Expand your business in the UK</h1>
             </div>
         </div>
-
-        {% if form.errors and not form.non_field_errors %}
-            <div class="govuk-error-summary restrict-width" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="error-summary">
-                <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
-                <div class="govuk-error-summary__body">
-                    <ul class="govuk-list govuk-error-summary__list">
-                    {% for field in form %}
-                        {% if field.errors %}
-                            {% for error in field.errors %}
-                                <li>
-                                    <a href="#{{ field.auto_id }}">{{ error }}</a>
-                                </li>
-                            {% endfor %}
-                        {% endif %}
-                    {% endfor %}
-                    </ul>
+        {% if request.GET.success %}
+            <div class="govuk-grid-row" id="complete_contact_form_message">
+                <div class="govuk-grid-column-full">
+                    {% include './includes/govuk/notification_banner.html' with css_class="govuk-notification-banner--success" banner_title="Success" banner_heading='Thanks for your feedback, it has been successfully submitted' %}
                 </div>
             </div>
-        {% endif %}
-        <form method="post" novalidate action="{{ request.build_absolute_uri }}">
-            {% csrf_token %}
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-one-half-from-desktop">
-                    <div class="govuk-form-group{% if form.satisfaction.errors %} govuk-form-group--error{% endif %}">
-                        <fieldset class="govuk-fieldset">
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                            <h2 class="govuk-fieldset__heading" id="{{form.satisfaction.auto_id}}">
-                                {{ form.satisfaction.label }}
-                            </h2>
-                            </legend>
-                            <div class="govuk-radios govuk-radios--small" data-module="govuk-radios" id="satisfaction">
-                            {% for satisfaction_level in form.satisfaction %}
-                                <div class="govuk-radios__item">
-                                    {{  satisfaction_level.tag }}
-                                    <label class="govuk-label govuk-radios__label" for="{{ satisfaction_level.id_for_label }}">
-                                        {{ satisfaction_level.choice_label }}
-                                    </label>
-                                </div>
+        {% else %}
+            {% if form.errors and not form.non_field_errors %}
+                <div class="govuk-error-summary restrict-width"
+                     aria-labelledby="error-summary-title"
+                     role="alert"
+                     tabindex="-1"
+                     data-module="error-summary">
+                    <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
+                    <div class="govuk-error-summary__body">
+                        <ul class="govuk-list govuk-error-summary__list">
+                            {% for field in form %}
+                                {% if field.errors %}
+                                    {% for error in field.errors %}
+                                        <li>
+                                            <a href="#{{ field.auto_id }}">{{ error }}</a>
+                                        </li>
+                                    {% endfor %}
+                                {% endif %}
                             {% endfor %}
-                            </div>
-                        </fieldset>
+                        </ul>
                     </div>
                 </div>
-            </div>
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-one-half-from-desktop">
-                    <div class="govuk-form-group{% if form.experience.errors %} govuk-form-group--error{% endif %}">
-                        <fieldset class="govuk-fieldset">
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                                <h2 class="govuk-fieldset__heading" id="{{form.experience.auto_id}}">
-                                    {{ form.experience.label }}
-                                </h2>
-                            </legend>
-                            <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes" id="experience">
-                            {% for action in form.experience %}
-                                <div class="govuk-checkboxes__item">
-                                    {{  action.tag }}
-                                    <label class="govuk-label govuk-checkboxes__label" for="{{ action.id_for_label }}">
-                                        {{ action.choice_label }}
+            {% endif %}
+            <form method="post" novalidate action="{{ request.build_absolute_uri }}">
+                {% csrf_token %}
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds">
+                        <div class="govuk-character-count"
+                             data-module="govuk-character-count"
+                             data-maxlength="1000">
+                            <div class="govuk-form-group{% if form.feedback_text.errors %} govuk-form-group--error{% endif %}">
+                                <h1 class="govuk-label-wrapper">
+                                    <label class="govuk-label govuk-label--m"
+                                           for="{{ form.feedback_text.id_for_label }}">
+                                        {{ form.feedback_text.label }}
                                     </label>
-                                </div>
-                            {% endfor %}
+                                </h1>
+                                <div id="more-detail-hint" class="govuk-hint">{{ form.feedback_text.help_text }}</div>
+                                {% for error in form.feedback_text.errors %}
+                                    <p class="govuk-error-message" role="alert">
+                                        <span class="govuk-visually-hidden">Error:</span> {{ error }}
+                                    </p>
+                                {% endfor %}
+                                {{ form.feedback_text }}
                             </div>
-                        </fieldset>
-                    </div>
-                </div>
-            </div>
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-one-half-from-desktop">
-                    <div class="govuk-form-group{% if form.feedback_text.errors %} govuk-form-group--error{% endif %}">
-                        <h1 class="govuk-label-wrapper">
-                            <label class="govuk-label govuk-label--m" for="{{ form.feedback_text.id_for_label }}">
-                                {{ form.feedback_text.label }}
-                            </label>
-                        </h1>
-                        <div id="more-detail-hint" class="govuk-hint">
-                            {{ form.feedback_text.help_text }}
+                            <div id="id_feedback_text-info"
+                                 class="govuk-hint govuk-character-count__message">
+                                You can enter up to 1000 characters
+                            </div>
                         </div>
-                        {{ form.feedback_text }}
                     </div>
                 </div>
-            </div>
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-one-half-from-desktop">
-                    <div class="govuk-form-group{% if form.likelihood_of_return.errors %} govuk-form-group--error{% endif %}">
-                        <fieldset class="govuk-fieldset">
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                                <h2 class="govuk-fieldset__heading" id="{{form.likelihood_of_return.auto_id}}">
-                                    {{ form.likelihood_of_return.label }}
-                                </h2>
-                            </legend>
-                            <div class="govuk-radios govuk-radios--small" data-module="govuk-radios" id="likelihood_of_return">
-                            {% for likelihood_of_return_level in form.likelihood_of_return %}
-                                <div class="govuk-radios__item">
-                                    {{ likelihood_of_return_level.tag }}
-                                    <label class="govuk-label govuk-radios__label" for="{{ likelihood_of_return_level.id_for_label }}">
-                                        {{ likelihood_of_return_level.choice_label }}
-                                    </label>
-                                </div>
-                            {% endfor %}
-                            </div>
-                        </fieldset>
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-4">
+                        {% include './includes/submit_button.html' with button_text='Send feedback' %}
                     </div>
                 </div>
-            </div>
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-one-half-from-desktop">
-                    <div class="govuk-form-group{% if form.site_intentions.errors %} govuk-form-group--error{% endif %}">
-                        <fieldset class="govuk-fieldset">
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                                <h2 class="govuk-fieldset__heading" id="{{form.site_intentions.auto_id}}">
-                                    {{ form.site_intentions.label   }}
-                                </h2>
-                            </legend>
-                            <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes" id="site_intentions">
-                            {% for action in form.site_intentions %}
-                                <div class="govuk-checkboxes__item">
-                                    {{ action.tag }}
-                                    <label class="govuk-label govuk-checkboxes__label" for="{{ action.id_for_label }}">
-                                        {{ action.choice_label }}
-                                    </label>
-                                </div>
-                            {% endfor %}
-                            </div>
-                        </fieldset>
-                    </div>
-                </div>
-            </div>
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-one-half-from-desktop govuk-!-margin-bottom-4">
-                    {% include './includes/submit_button.html' with button_text='Submit feedback'  %}
-                </div>
-            </div>
-        </form>
-    {% endif %}
-</div>
+            </form>
+        {% endif %}
+    </div>
 {% endblock content %}

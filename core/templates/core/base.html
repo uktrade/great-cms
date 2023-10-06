@@ -3,15 +3,14 @@
 {% load static_absolute from great_components %}
 {% load url_map %}
 {% load to_json %}
-
 {% block head_title %}
-  {% if page.title %}
-    {{ page.title }}
-  {% else %}
-    Welcome to great.gov.uk
-  {% endif %} - great.gov.uk
+    {% if page.title %}
+        {{ page.title }}
+    {% else %}
+        Welcome to great.gov.uk
+    {% endif %}
+    - great.gov.uk
 {% endblock %}
-
 {% block head_css %}
     <link href="{% static 'magna_styles.css' %}" media="all" rel="stylesheet" />
 {% endblock %}
@@ -21,21 +20,18 @@
             display: none;
         }
     </style>
-  </noscript>
-
+</noscript>
 {% block head_other %}
-  {% with is_wagtail_page=page %}
-    {% if is_wagtail_page %}
-      {% include "wagtailseo/meta.html" %}
-    {% endif %}
-  {% endwith %}
+    {% with is_wagtail_page=page %}
+        {% if is_wagtail_page %}
+            {% include "wagtailseo/meta.html" %}
+        {% endif %}
+    {% endwith %}
 {% endblock %}
-
 {% block head_js %}
-  {{ block.super }}
+    {{ block.super }}
     <script src="{% static 'common.js' %}"></script>
     <script type="text/javascript" src="{% static 'magna.js' %}"></script>
-
     <script type="text/javascript">
       // static values that will not be updated by user interacting with react components
       magna.setConfig({
@@ -84,37 +80,28 @@
       });
     </script>
 {% endblock %}
-
-{% block skip_link %}
-  <a id="skip-link" href="#content" tabindex="1">Skip to main content</a>
-{% endblock %}
-
+{% block skip_link %}<a id="skip-link" href="#content" tabindex="1">Skip to main content</a>{% endblock %}
 {% block body_header %}
-  {% include 'core/header.html' %}
-
-  {% if request.user.is_authenticated %}
-    {% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
-  {% endif %}
+    {% include 'core/header.html' %}
+    {% if request.user.is_authenticated %}
+        {% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
+    {% endif %}
 {% endblock %}
-
 {% block body_content_container %}
     {% include "wagtailseo/struct_data.html" %}
-  <main id="content" class="{% block css_layout_class %}{% endblock %}">
-      {% block content_header %}{% endblock %}
-      {% block content %}{% endblock %}
-      {% if features.FEATURE_FEEDBACK_BUTTON_EXPERIMENT and "search/feedback" not in request.path  %}
-        {% include 'domestic/includes/feedback_button.html' %}
-      {% endif %}
-  </main>
+    <main id="content" class="{% block css_layout_class %}{% endblock %}">
+        {% block content_header %}{% endblock %}
+        {% block content %}{% endblock %}
+        {% if features.FEATURE_FEEDBACK_BUTTON_EXPERIMENT and "search/feedback" not in request.path %}
+            {% include 'domestic/includes/feedback_button.html' %}
+        {% endif %}
+    </main>
 {% endblock %}
-
 {% block cookie_notice %}{% endblock %}
-
 {% block body_footer %}
-  <div id="snackbar-container"></div>
-  {% include 'core/footer.html' %}
+    <div id="snackbar-container"></div>
+    {% include 'core/footer.html' %}
 {% endblock %}
-
 {% block body_js %}
     {{ block.super }}
     <script type="text/javascript">
@@ -138,7 +125,7 @@
       })
       magna.createSnackbar({element:document.getElementById('snackbar-container')})
     </script>
-    {% if features.FEATURE_FEEDBACK_BUTTON_EXPERIMENT and "search/feedback" not in request.path  %}
-      <script src="{% static 'javascript/feedbackButton.js'%}"></script>
+    {% if features.FEATURE_FEEDBACK_BUTTON_EXPERIMENT and "search/feedback" not in request.path %}
+        <script src="{% static 'javascript/feedbackButton.js'%}"></script>
     {% endif %}
 {% endblock %}

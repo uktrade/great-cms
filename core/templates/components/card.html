@@ -1,66 +1,47 @@
 {% load i18n wagtailimages_tags %}
-
-<div
-  class="card{% if title and not description and not html_content %} only-title{% endif %}{% if no_padding_card %} no-padding-card{% endif %}{% if transparent_card %} transparent-card{% endif %}{% if white_bg_card %} great-height-100-minus-30-desktop great-bg-white{% endif %}"
-  {% if card_id %}id="{{ card_id }}"{% endif %}
->
-  {% if url %}
-    <a
-      class="card-link {% if white_bg_card %}great-bg-white{% endif %}"
-      href="{{ url }}"
-      {% if card_id %}id="{{ card_id|add:'-link' }}"{% endif %}
-      {% if external_link %}target="_blank" rel="noopener noreferrer"
-      title="{% trans 'Opens in a new window' %}"{% endif %}
-    >
-  {% endif %}
-
-  {% block image %}
-    {% if card_image %}
-      {% image card_image fill-640x360 as thumbnail %}
-      <img
-        src="{{ thumbnail.url }}" alt="{{ card_image.alt_text }}" class="card-image"{% if card_id %}
-        id="{{ card_id|add:'-image' }}"{% endif %}>
-    {% endif %}
-  {% endblock %}
-
-  <div class="card-inner rich-text{% if white_bg_card %} govuk-!-padding-4{% endif %}">
-    {% block content %}
-      {% if html_content %}
-        {{ html_content }}
-      {% else %}
-        {% if subheading %}
-          <p class="subheading">{{ subheading }}</p>
+<div class="card{% if title and not description and not html_content %} only-title{% endif %}{% if no_padding_card %} no-padding-card{% endif %}{% if transparent_card %} transparent-card{% endif %}{% if white_bg_card %} great-height-100-minus-30-desktop great-bg-white{% endif %}"
+     {% if card_id %}id="{{ card_id }}"{% endif %}>
+    {% if url %}
+        <a class="card-link {% if white_bg_card %}great-bg-white{% endif %}"
+           href="{{ url }}"
+           {% if card_id %}id="{{ card_id|add:'-link' }}"{% endif %}
+           {% if external_link %}target="_blank" rel="noopener noreferrer" title="{% trans 'Opens in a new window' %}"{% endif %}>
         {% endif %}
-
-        {% if title or heading %}
-          <h4 {% if card_id %} id="{{ card_id|add:'-heading' }}" {% endif %} class="{% if white_bg_card %}great-text-blue{% endif %}">{% firstof title heading %}</h4>
-        {% endif %}
-
-        {% if html_snippet %}
-          <div {% if card_id %} id="{{ card_id|add:'-body' }}" {% endif %}>{{ html_snippet }}</div>
-        {% endif %}
-
-        {% if description %}
-          <p>{{ description }}</p>
-        {% endif %}
-        {% if url and not show_sign_in_required  %}
-          <button class="button primary-button">
-            View
-          </button>
-        {% endif %}
-        {% if show_sign_in_required and not request.user.is_authenticated %}
-          {% if request.path == '/' %}
-            <div class="sign-in-button-wrapper">
-              <a href="/login/"><button class="primary-button small-button">Sign in required</button></a>
-            </div>
-          {% endif %}
-        {% endif %}
-      {% endif %}
-    {% endblock %}
-  </div>
-
-  {% if url %}
-    </a>
-  {% endif %}
-
+        {% block image %}
+            {% if card_image %}
+                {% image card_image fill-640x360 as thumbnail %}
+                <img src="{{ thumbnail.url }}"
+                     alt="{{ card_image.alt_text }}"
+                     class="card-image"
+                     {% if card_id %}id="{{ card_id|add:'-image' }}"{% endif %}>
+            {% endif %}
+        {% endblock %}
+        <div class="card-inner rich-text{% if white_bg_card %} govuk-!-padding-4{% endif %}">
+            {% block content %}
+                {% if html_content %}
+                    {{ html_content }}
+                {% else %}
+                    {% if subheading %}<p class="subheading">{{ subheading }}</p>{% endif %}
+                    {% if title or heading %}
+                        <h4 {% if card_id %}id="{{ card_id|add:'-heading' }}"{% endif %}
+                            class="{% if white_bg_card %}great-text-blue{% endif %}">{% firstof title heading %}</h4>
+                    {% endif %}
+                    {% if html_snippet %}
+                        <div {% if card_id %}id="{{ card_id|add:'-body' }}"{% endif %}>{{ html_snippet }}</div>
+                    {% endif %}
+                    {% if description %}<p>{{ description }}</p>{% endif %}
+                    {% if url and not show_sign_in_required %}<button class="button primary-button">View</button>{% endif %}
+                    {% if show_sign_in_required and not request.user.is_authenticated %}
+                        {% if request.path == '/' %}
+                            <div class="sign-in-button-wrapper">
+                                <a href="/login/">
+                                    <button class="primary-button small-button">Sign in required</button>
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            {% endblock %}
+        </div>
+        {% if url %}</a>{% endif %}
 </div>

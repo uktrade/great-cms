@@ -1,84 +1,82 @@
 {% extends './base.html' %}
 {% load static %}
-
 {% block head_title %}Sign in {{ block.super }}{% endblock %}
-
 {% block head_other %}
-  <meta
-    name="description"
-    content="Find information to help invest within the UK"
-  />
+    <meta name="description"
+          content="Find information to help invest within the UK" />
 {% endblock %}
-
 {% block content %}
-<div class="govuk-width-container">
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-l">Sign in</h1>
-    </div>
-  </div>
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-body-m">Don't have an account? <a href="{% url 'international_online_offer:signup' %}" class="govuk-link">Sign up</a></h2>
-    </div>
-  </div>
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-3">
-      {% if form.non_field_errors %}
-      <div class="govuk-error-summary" data-module="govuk-error-summary">
-        <div role="alert">
-          <h2 class="govuk-error-summary__title">
-            There is a problem
-          </h2>
-          <div class="govuk-error-summary__body">
-            <ul class="govuk-list govuk-error-summary__list">
-              <li>
-                <a href="#">{{form.non_field_errors}}</a>
-              </li>
-            </ul>
-          </div>
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h1 class="govuk-heading-l">Sign in</h1>
+            </div>
         </div>
-      </div>
-      {% else %}
-      {% include './includes/error_summary.html' %}
-      {% endif %}
-      <div id="login">
-        <form method="post">
-          {% csrf_token %}
-          {% for field in form %}
-          <div class="govuk-grid-row govuk-!-margin-bottom-3">
-            <div class="govuk-grid-column-full">
-              <div class="{% if field.errors %} govuk-form-group--error{% endif %}">
-                {% include './includes/form_field.html' with field=field %}
-              </div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h2 class="govuk-body-m">
+                    Don't have an account? <a href="{% url 'international_online_offer:signup' %}"
+    class="govuk-link">Sign up</a>
+                </h2>
             </div>
-          </div>
-          {% endfor %}
-          <div class="govuk-checkboxes govuk-checkboxes--small govuk-!-margin-top-1" data-module="govuk-checkboxes">
-            <div class="govuk-checkboxes__item">
-              <input class="govuk-checkboxes__input" id="showHidePassword" name="showHidePassword" type="checkbox" value="1" onclick="document.getElementById('id_password').type == 'password'? document.getElementById('id_password').type = 'text': document.getElementById('id_password').type = 'password'">
-              <label class="govuk-label govuk-checkboxes__label" for="showHidePassword">
-                Show password
-              </label>
+        </div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-3">
+                {% if form.non_field_errors %}
+                    <div class="govuk-error-summary" data-module="govuk-error-summary">
+                        <div role="alert">
+                            <h2 class="govuk-error-summary__title">There is a problem</h2>
+                            <div class="govuk-error-summary__body">
+                                <ul class="govuk-list govuk-error-summary__list">
+                                    <li>
+                                        <a href="#">{{ form.non_field_errors }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    {% include './includes/error_summary.html' %}
+                {% endif %}
+                <div id="login">
+                    <form method="post">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="govuk-grid-row govuk-!-margin-bottom-3">
+                                <div class="govuk-grid-column-full">
+                                    <div class="{% if field.errors %} govuk-form-group--error{% endif %}">
+                                        {% include './includes/form_field.html' with field=field %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="govuk-checkboxes govuk-checkboxes--small govuk-!-margin-top-1"
+                             data-module="govuk-checkboxes">
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input"
+                                       id="showHidePassword"
+                                       name="showHidePassword"
+                                       type="checkbox"
+                                       value="1"
+                                       onclick="document.getElementById('id_password').type == 'password'? document.getElementById('id_password').type = 'text': document.getElementById('id_password').type = 'password'">
+                                <label class="govuk-label govuk-checkboxes__label" for="showHidePassword">Show password</label>
+                            </div>
+                        </div>
+                        <div class="govuk-grid-row govuk-!-margin-bottom-3">
+                            <div class="govuk-grid-column-full">
+                                <p>
+                                    <a class="govuk-link"
+                                       href="{{ javascript_components.password_reset_url }}">Forgotten password?</a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="govuk-grid-row govuk-!-margin-bottom-3">
+                            <div class="govuk-grid-column-full">{% include './includes/submit_button.html' with button_text='Sign in' %}</div>
+                        </div>
+                    </form>
+                </div>
             </div>
-          </div>
-          <div class="govuk-grid-row govuk-!-margin-bottom-3">
-            <div class="govuk-grid-column-full">
-              <p><a class="govuk-link" href="{{ javascript_components.password_reset_url }}">Forgotten password?</a></p>
-            </div>
-          </div>
-          <div class="govuk-grid-row govuk-!-margin-bottom-3">
-            <div class="govuk-grid-column-full">
-              {% include './includes/submit_button.html' with button_text='Sign in'  %}
-            </div>
-          </div>
-        </form>
-      </div>
+        </div>
     </div>
-  </div>
-</div>
 {% endblock %}
-
-{% block body_js %}
-  {{ block.super }}
-{% endblock %}
+{% block body_js %}{{ block.super }}{% endblock %}

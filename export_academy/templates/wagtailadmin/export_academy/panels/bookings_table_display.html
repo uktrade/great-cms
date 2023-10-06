@@ -1,9 +1,7 @@
 {% load i18n wagtailadmin_tags %}
-
 {% with bookings=self.instance.bookings.all %}
-
     <div data-inline-panel-child data-contentpath-disabled>
-        <h1> {{bookings|length}} attendee{{bookings|length|pluralize}} </h1>
+        <h1>{{ bookings|length }} attendee{{ bookings|length|pluralize }}</h1>
         <table class="listing">
             <thead>
                 <tr class="table-headers">
@@ -15,13 +13,12 @@
             <tbody>
                 {% for booking in bookings %}
                     <tr>
-                        <td> {{booking.registration.email}} </td>
-                        <td> {{booking.created}} </td>
-                        <td> {{booking.status}} </td>
+                        <td>{{ booking.registration.email }}</td>
+                        <td>{{ booking.created }}</td>
+                        <td>{{ booking.status }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-
 {% endwith %}
