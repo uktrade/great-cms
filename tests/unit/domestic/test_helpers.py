@@ -1,6 +1,7 @@
 from unittest import mock
 
 import pytest
+from directory_forms_api_client import actions
 
 from core.models import DetailPage
 from domestic import helpers
@@ -136,3 +137,38 @@ def test_get_lesson_completion_status(mock_get_lesson_completed, en_locale):
 def test_get_last_completed_lesson_id(mock_get_lesson_completed, user, lesson_completed_data, expected_result):
     mock_get_lesson_completed.return_value = lesson_completed_data
     assert helpers.get_last_completed_lesson_id(user) == expected_result
+
+
+@mock.patch.object(actions, 'GovNotifyEmailAction')
+def test_send_campaign_moderation_notification_without_full_name(mock_action_class, settings):
+    template_id = settings.CAMPAIGN_MODERATORS_EMAIL_TEMPLATE_ID
+    email = settings.MODERATION_EMAIL_DIST_LIST
+    helpers.send_campaign_moderation_notification(email=email, template_id=template_id)
+
+    assert mock_action_class.call_count == 1
+    assert mock_action_class.call_args == mock.call(
+        template_id=settings.CAMPAIGN_MODERATORS_EMAIL_TEMPLATE_ID,
+        email_address=settings.MODERATION_EMAIL_DIST_LIST,
+        email_reply_to_id=settings.CAMPAIGN_MODERATION_REPLY_TO_ID,
+        form_url=str(),
+    )
+    mock_action_class().save.assert_called_with({})
+    assert mock_action_class().save.call_count == 1
+
+
+@mock.patch.object(actions, 'GovNotifyEmailAction')
+def test_send_campaign_moderation_notification_with_full_name(mock_action_class, settings):
+    template_id = settings.CAMPAIGN_MODERATORS_EMAIL_TEMPLATE_ID
+    email = settings.MODERATION_EMAIL_DIST_LIST
+    full_name = 'Joe Bloggs'
+    helpers.send_campaign_moderation_notification(email=email, template_id=template_id, full_name=full_name)
+
+    assert mock_action_class.call_count == 1
+    assert mock_action_class.call_args == mock.call(
+        template_id=settings.CAMPAIGN_MODERATORS_EMAIL_TEMPLATE_ID,
+        email_address=settings.MODERATION_EMAIL_DIST_LIST,
+        email_reply_to_id=settings.CAMPAIGN_MODERATION_REPLY_TO_ID,
+        form_url=str(),
+    )
+    mock_action_class().save.assert_called_with({'full_name': full_name})
+    assert mock_action_class().save.call_count == 1
