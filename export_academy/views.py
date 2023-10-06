@@ -1,4 +1,3 @@
-import datetime
 import logging
 import math
 from datetime import timedelta
@@ -636,9 +635,6 @@ class EventsDetailsView(DetailView):
     template_name = 'export_academy/event_details.html'
     model = models.Event
 
-    def get_event_types(self, event):
-        return [item.name for item in event.types.all()]
-
     def get_warning_text(self):
         def get_video_text(self):
             if self.has_video:
@@ -663,8 +659,7 @@ class EventsDetailsView(DetailView):
         self.event: models.Event = kwargs.get('object', {})
         self.video = getattr(self.event, 'video_recording', None)
         self.user = self.request.user
-        current_datetime = datetime.datetime.now(datetime.timezone.utc)
-        self.ended = self.event.end_date < current_datetime
+        self.ended = self.event.has_ended()
         self.has_video = True if self.video else False
         self.signed_in = True if self.request.user != AnonymousUser() else False
         self.booked = helpers.user_booked_on_event(self.user, self.event)
@@ -673,8 +668,8 @@ class EventsDetailsView(DetailView):
         ctx = super().get_context_data(**kwargs)
         ctx['ended'] = self.ended
         ctx['has_video'] = self.has_video
-        ctx['event_types'] = self.get_event_types(self.event)
-        ctx['speakers'] = [speaker_object.speaker for speaker_object in self.event.event_speakers.all()]
+        ctx['event_types'] = self.event.get_event_types()
+        ctx['speakers'] = self.event.get_speakers()
         ctx['signed_in'] = self.signed_in
         ctx['booked'] = self.booked
         ctx['warning_text'] = self.get_warning_text()
@@ -735,26 +730,31 @@ class EACourseView(TemplateView):
         return ctx
 
 
-class EventVideoOnDemandView(TemplateView):
+class EventVideoOnDemandView(DetailView):
     template_name = 'export_academy/event_on_demand_video.html'
     model = models.Event
 
-    # def get_context_data(self, **kwargs):
-    #     ctx = super().get_context_data(**kwargs)
+    def get_context_data(self, **kwargs):
+        self.user = self.request.user
+        self.signed_in = True if self.request.user != AnonymousUser() else False
+        ctx = super().get_context_data(**kwargs)
 
-    #     # video_render tag which helps in adding subtitles
-    #     # needs input in specific way as below
-    #     event: models.Event = kwargs.get('object', {})
-    #     video = getattr(event, 'video_recording', None)
-    #     if video:
-    #         ctx['event_video'] = {'video': video}
-    #         ctx['video_duration'] = format_timedelta(timedelta(seconds=event.video_recording.duration))
+        # video_render tag which helps in adding subtitles
+        # needs input in specific way as below
+        event: models.Event = kwargs.get('object', {})
+        video = getattr(event, 'video_recording', None)
+        if video:
+            ctx['event_video'] = {'video': video}
+            ctx['video_duration'] = format_timedelta(timedelta(seconds=event.video_recording.duration))
 
-    #     document = getattr(event, 'document', None)
-    #     completed = getattr(event, 'completed', None)
+        document = getattr(event, 'document', None)
+        completed = getattr(event, 'completed', None)
 
-    #     if document and completed:
-    #         ctx['event_document_size'] = f'{math.floor(document.file_size * 0.001)}KB' if document.file_size else '0KB'
-    #         ctx['event_document_url'] = document.url
-
-    #     return ctx
+        if document and completed:
+            ctx['event_document_size'] = f'{math.floor(document.file_size * 0.001)}KB' if document.file_size else '0KB'
+            ctx['event_document_url'] = document.url
+        ctx['speakers'] = event.get_speakers()
+        ctx['event_types'] = event.get_event_types()    
+        ctx['signed_in'] = self.signed_in
+        ctx['event'] = event
+        return ctx
