@@ -1,5 +1,8 @@
 from collections import defaultdict
 
+from directory_forms_api_client import actions
+from django.conf import settings
+
 from core.models import CuratedListPage, DetailPage
 from sso import helpers as sso_helpers
 
@@ -116,3 +119,15 @@ def get_last_completed_lesson_id(user):
     sorted_lessons = sorted(data['lesson_completed'], key=lambda lesson: lesson['modified'], reverse=True)
 
     return sorted_lessons[0]['lesson']
+
+
+def send_campaign_moderation_notification(email, template_id, full_name=None):
+    action = actions.GovNotifyEmailAction(
+        template_id=template_id,
+        email_address=email,
+        email_reply_to_id=settings.CAMPAIGN_MODERATION_REPLY_TO_ID,
+        form_url=str(),
+    )
+    response = action.save({'full_name': full_name} if full_name else {})
+    response.raise_for_status()
+    return response

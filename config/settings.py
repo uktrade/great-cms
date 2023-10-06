@@ -72,7 +72,7 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'wagtail_draftail_anchors',
     'cms_extras.apps.CmsExtrasConfig',
-    'domestic',
+    'domestic.apps.DomesticAdminAppConfig',
     'exportplan.apps.ExportPlanConfig',
     'international_online_offer.apps.ExpandYourBusinessConfig',
     'users.apps.UsersConfig',
@@ -994,3 +994,14 @@ SPECTACULAR_SETTINGS = {
 
 # Wagtail Draftail Anchors
 DRAFTAIL_ANCHORS_RENDERER = env.str('DRAFTAIL_ANCHORS_RENDERER', 'wagtail_draftail_anchors.rich_text.render_span')
+
+# Wagtail Campaign pages notification settings:
+MODERATION_EMAIL_DIST_LIST = env.str('MODERATION_EMAIL_DIST_LIST', 'campaign-sites@businessandtrade.gov.uk')
+
+CAMPAIGN_MODERATORS_EMAIL_TEMPLATE_ID = env.str(
+    'CAMPAIGN_MODERATORS_EMAIL_TEMPLATE_ID', '75c6fde4-f27c-4f75-b7ed-2b526912a041'
+)
+CAMPAIGN_MODERATION_REQUESTOR_EMAIL_TEMPLATE_ID = env.str(
+    'CAMPAIGN_MODERATION_REQUESTOR_EMAIL_TEMPLATE_ID', '321db5bd-362c-45de-b8ce-6e9b0f36198e'
+)
+CAMPAIGN_MODERATION_REPLY_TO_ID = env.str('CAMPAIGN_MODERATION_REPLY_TO_ID', '654df5da-c214-4297-bb55-27690ce1813d')
