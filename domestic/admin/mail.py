@@ -22,7 +22,7 @@ class ModerationTaskStateEmailNotifier:
 
         return False
 
-    def send_emails(self, email, template_id, full_name=None):
+    def send_email(self, email, template_id, full_name=None):
         send_campaign_moderation_notification(email, template_id, full_name)
         return True
 
@@ -30,14 +30,14 @@ class ModerationTaskStateEmailNotifier:
         # send email to campaign moderators group
         template_id = settings.CAMPAIGN_MODERATORS_EMAIL_TEMPLATE_ID
         email = settings.MODERATION_EMAIL_DIST_LIST
-        self.send_emails(email, template_id)
+        self.send_email(email, template_id)
         # send email to moderation Requestor
         if triggering_user:
             email = triggering_user.email
             if email:
                 full_name = f'{triggering_user.first_name} {triggering_user.last_name}'
                 template_id = settings.CAMPAIGN_MODERATION_REQUESTOR_EMAIL_TEMPLATE_ID
-                return self.send_emails(email, template_id, full_name)
+                return self.send_email(email, template_id, full_name)
 
 
 class ModerationTaskStateSubmissionEmailNotifier(ModerationTaskStateEmailNotifier):
