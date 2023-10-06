@@ -1,5 +1,5 @@
 from django.conf import settings
-from wagtail.models import TaskState, WorkflowState
+from wagtail.models import TaskState
 
 from domestic.helpers import send_campaign_moderation_notification
 
@@ -19,10 +19,6 @@ class ModerationTaskStateEmailNotifier:
             if not isinstance(instance.revision.content_object, ArticlePage):
                 return False
             return True if instance.revision.content_object.type_of_article.strip() == 'Campaign' else False
-        elif isinstance(instance, WorkflowState):
-            if not isinstance(instance.content_object, ArticlePage):
-                return False
-            return True if instance.content_object.type_of_article.strip() == 'Campaign' else False
         else:
             return False
 
