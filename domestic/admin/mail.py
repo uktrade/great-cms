@@ -22,7 +22,6 @@ class ModerationTaskStateEmailNotifier:
 
     def send_email(self, email, template_id, full_name=None):
         send_campaign_moderation_notification(email, template_id, full_name)
-        return True
 
     def send_notifications(self, triggering_user):
         # send email to campaign moderators group
