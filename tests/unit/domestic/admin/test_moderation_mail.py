@@ -163,8 +163,6 @@ def test_moderation_email_invoked_with_article_campaign_page_and_both_email_sent
 @mock.patch.object(Notifier, '__call__')
 @mock.patch.object(TaskState, 'save')
 def test_moderation_email_invoked_with_article_campaign_page_and_moderator_email_sent(
-    mock_task_state,
-    mock_notifier_call,
     mock_receiver_send_email,
     user,
     task_state,
@@ -196,8 +194,6 @@ def test_moderation_email_invoked_with_article_campaign_page_and_moderator_email
 @mock.patch.object(Notifier, '__call__')
 @mock.patch.object(TaskState, 'save')
 def test_moderation_email_invoked_with_article_advice_page_and_emails_not_sent(
-    mock_task_state,
-    mock_notifier_call,
     mock_receiver_send_email,
     user,
     workflow_state,
@@ -229,8 +225,6 @@ def test_moderation_email_invoked_with_article_advice_page_and_emails_not_sent(
 @mock.patch.object(Notifier, '__call__')
 @mock.patch.object(TaskState, 'save')
 def test_moderation_email_invoked_with_country_guide_page_and_emails_not_sent(
-    mock_task_state,
-    mock_notifier_call,
     mock_receiver_send_email,
     user,
     workflow_state,
@@ -257,9 +251,9 @@ def test_moderation_email_invoked_with_country_guide_page_and_emails_not_sent(
     assert mock_receiver_send_email.call_count == 0
 
 
-@mock.patch.object(ModerationTaskStateSubmissionEmailNotifier, 'send_email')
-def test_moderation_email_send_notificaiton(mock_receiver_send_email, user, settings):
-    test_user = user(has_email=True)
-    receiver = ModerationTaskStateSubmissionEmailNotifier()
-    receiver.send_notifications(test_user)
-    assert mock_receiver_send_email.call_count == 2
+@mock.patch('domestic.admin.mail.send_campaign_moderation_notification')
+def test_moderation_email_send_notification(mock_send_campaign_moderation_notification, settings):
+    ModerationTaskStateSubmissionEmailNotifier().send_email(
+        'joe.bloggs@gmail.com', settings.CAMPAIGN_MODERATORS_EMAIL_TEMPLATE_ID, 'Joe Bloggs'
+    )
+    assert mock_send_campaign_moderation_notification.call_count == 1
