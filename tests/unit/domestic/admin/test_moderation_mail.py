@@ -255,3 +255,11 @@ def test_moderation_email_invoked_with_country_guide_page_and_emails_not_sent(
 
     group_approval_task.start(workflow_state=test_workflow_state, user=test_user)
     assert mock_receiver_send_email.call_count == 0
+
+
+@mock.patch.object(ModerationTaskStateSubmissionEmailNotifier, 'send_email')
+def test_moderation_email_send_email(mock_receiver_send_email, user, settings):
+    test_user = user(has_email=True)
+    receiver = ModerationTaskStateSubmissionEmailNotifier()
+    receiver.send_notifications(test_user)
+    assert mock_receiver_send_email.call_count == 2
