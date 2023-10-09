@@ -22,9 +22,7 @@
                         Join next live event
                         {% if not signed_in %}(sign in required){% endif %}
                     </h4>
-                    <div class="great-bg-light-blue govuk-!-padding-3">
-                         {% include './event_item_badge.html' with event=event %}
-                    </div>
+                    <div class="great-bg-light-blue govuk-!-padding-3">{% include './event_item_badge.html' with event=event %}</div>
                 </div>
             </div>
         {% endfor %}

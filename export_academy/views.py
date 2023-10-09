@@ -754,7 +754,8 @@ class EventVideoOnDemandView(DetailView):
             ctx['event_document_size'] = f'{math.floor(document.file_size * 0.001)}KB' if document.file_size else '0KB'
             ctx['event_document_url'] = document.url
         ctx['speakers'] = event.get_speakers()
-        ctx['event_types'] = event.get_event_types()    
+        ctx['event_types'] = event.get_event_types()
         ctx['signed_in'] = self.signed_in
         ctx['event'] = event
+        ctx['slug'] = kwargs['object'].slug
         return ctx
