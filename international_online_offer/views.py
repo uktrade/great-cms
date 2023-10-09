@@ -635,6 +635,8 @@ class FeedbackView(GA360Mixin, FormView):
 
     def submit_feedback(self, form):
         cleaned_data = form.cleaned_data
+        if self.request.GET.get('next'):
+            cleaned_data['from_url'] = self.request.GET.get('next')
 
         action = actions.SaveOnlyInDatabaseAction(
             full_name='EYB User',

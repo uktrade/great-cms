@@ -426,23 +426,13 @@ def test_feedback(client, settings):
 
 @pytest.mark.parametrize(
     'form_data',
-    (
-        (
-            {
-                'satisfaction': 'SATISFIED',
-                'experience': 'I_DID_NOT_EXPERIENCE_ANY_ISSUE',
-                'feedback_text': 'Some example feedback',
-                'likelihood_of_return': 'LIKELY',
-                'site_intentions': 'HELP_US_SET_UP_IN_THE_UK',
-            }
-        ),
-    ),
+    (({'feedback_text': 'Some example feedback', 'next': 'http://www.somerefererurl.com'}),),
 )
 @mock.patch('directory_forms_api_client.actions.SaveOnlyInDatabaseAction')
 @pytest.mark.django_db
 def test_feedback_submit(mock_save_only_in_database_action, form_data, client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:feedback')
+    url = reverse('international_online_offer:feedback') + '?next=' + form_data['next']
     response = client.post(
         url,
         form_data,
