@@ -20,8 +20,6 @@ class ModerationTaskStateEmailNotifier:
                 return False
             return True if instance.revision.content_object.type_of_article.strip() == 'Campaign' else False
 
-        return False
-
     def send_email(self, email, template_id, full_name=None):
         send_campaign_moderation_notification(email, template_id, full_name)
         return True
