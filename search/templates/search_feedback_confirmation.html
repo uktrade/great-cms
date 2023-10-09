@@ -5,7 +5,7 @@
         <section class="great-container">
             <div class="govuk-!-margin-top-7 govuk-grid-column-two-thirds govuk-!-padding-bottom-6 govuk-!-padding-left-0">
                 {% include 'components/great/notification-banner.html' with title='Thank you for your feedback' message="Your feedback has been successfully submitted." %}
-                <a class="button primary-button" href="{{ request.GET.next }}">Continue</a>
+                <a class="button primary-button" href="{{ next_url }}">Continue</a>
             </div>
         </section>
     </div>
