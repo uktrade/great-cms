@@ -22,6 +22,7 @@ class GreatDomesticHomePagePanels:
             classname='collapsible',
             children=[
                 FieldPanel('hero_image'),
+                FieldPanel('hero_bigdesktop_image'),
                 FieldPanel('hero_mobile_image'),
                 FieldPanel('hero_ipad_image'),
                 FieldPanel('hero_smalldesktop_image'),

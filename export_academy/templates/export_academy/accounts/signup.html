@@ -1,23 +1,26 @@
 {% extends 'export_academy/accounts/base.html' %}
 {% load wagtailcore_tags %}
-
 {% block form %}
     <h3 class="govuk-!-margin-top-3 govuk-!-margin-bottom-6">Sign up</h3>
-    <p class="govuk-body govuk-!-margin-top-6 govuk-!-margin-bottom-6">Already have an account? <a class="govuk-link" href="{% url 'export_academy:signin' %}">Sign in</a>
-    {% csrf_token %}
-    {% for field in form.visible_fields %}
-    <div class="govuk-form-group {% if field.errors %}govuk-form-group--error govuk-!-margin-top-6{% endif %}">
-        {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
-    </div>
-    {% endfor %}
-    <p class="govuk-!-margin-bottom-2">By signing up, you agree to our
-        <a class="govuk-link" href="{% slugurl 'terms-and-conditions' %}">terms and conditions</a> and
-        <a class="govuk-link" href="{% slugurl 'privacy-and-cookies' %}">privacy notice</a>
-    </p>
-    <button type="submit" class="govuk-button govuk-!-margin-top-6 great-full-width-button">Sign up</button>
-{% endblock %}
-{% block small_screen_heading %}{{ heading }}{% endblock %}
-{% block left_panel_heading %}{{ heading }}{% endblock %}
-{% block left_panel_content %}
-    {% include 'export_academy/accounts/includes/new_user_body_text.html' %}
-{% endblock %}
+    <p class="govuk-body govuk-!-margin-top-6 govuk-!-margin-bottom-6">
+        Already have an account? <a class="govuk-link"
+    href="{% url 'export_academy:signin' %}{% if next %}?next={{ next }}{% endif %}">Sign in</a>
+        {% csrf_token %}
+        {% for field in form.visible_fields %}
+            <div class="govuk-form-group {% if field.errors %}govuk-form-group--error govuk-!-margin-top-6{% endif %}">
+                {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
+            </div>
+        {% endfor %}
+        <p class="govuk-!-margin-bottom-2">
+            By signing up, you agree to our
+            <a class="govuk-link" href="{% slugurl 'terms-and-conditions' %}">terms and conditions</a> and
+            <a class="govuk-link" href="{% slugurl 'privacy-and-cookies' %}">privacy notice</a>
+        </p>
+        <button type="submit"
+                class="govuk-button govuk-!-margin-top-6 great-full-width-button">Sign up</button>
+    {% endblock %}
+    {% block small_screen_heading %}{{ heading }}{% endblock %}
+    {% block left_panel_heading %}{{ heading }}{% endblock %}
+    {% block left_panel_content %}
+        {% include 'export_academy/accounts/includes/new_user_body_text.html' %}
+    {% endblock %}

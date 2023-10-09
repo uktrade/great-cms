@@ -1,24 +1,18 @@
 {% extends 'domestic/base.html' %}
-
 {% load static %}
 {% load breadcrumbs message_box from component_tags %}
-
 {% block head_css %}
-{{ block.super }}
-<link href="{% static 'styles/marketaccess.css' %}" rel="stylesheet" type="text/css" />
+    {{ block.super }}
+    <link href="{% static 'styles/marketaccess.css' %}"
+          rel="stylesheet"
+          type="text/css" />
 {% endblock %}
-
-{% block head_title %}
-Report a trade barrier{{block.super}}
-{% endblock %}
-
-
+{% block head_title %}Report a trade barrier{{ block.super }}{% endblock %}
 {% block content %}
-{% breadcrumbs 'Report a trade barrier' %}
+    {% breadcrumbs 'Report a trade barrier' %}
     <a href="/">great.gov.uk</a>
     <a href="{% url 'domestic:market-access' %}">Trade barriers</a>
 {% endbreadcrumbs %}
-
 <section>
     <div class="container">
         <div class="grid-row">
@@ -33,10 +27,8 @@ Report a trade barrier{{block.super}}
         <div class="column-two-thirds">
             <h1 class="heading-large">Next steps</h1>
             <p>We’ll now look at what you’ve told us.</p>
-            <p>We’ll aim to email you within 5 working days to tell you if we can help resolve your barrier. </p>
+            <p>We’ll aim to email you within 5 working days to tell you if we can help resolve your barrier.</p>
         </div>
     </div>
 </div>
-
-
 {% endblock %}

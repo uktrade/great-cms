@@ -1,25 +1,35 @@
 {% load i18n %}
 {% load wagtailcore_tags %}
-
-<div id="header-cookie-notice" class="cookie-notice" dir="ltr" data-ga-section="cookieNotice">
-  <div class="container cookie-notice-container">
-    <div class="grid-row">
-      <div class="cookie-initial">
-        <h2 class="heading-medium margin-top-0 margin-bottom-30 column-full">{% trans 'Tell us whether you accept cookies' %}</h2>
-        <div class="column-half">
-          <p>{% trans 'We use '%}<a class="link" href='{% slugurl "privacy-and-cookies" %}'>{% trans 'cookies to collect information' %}</a> {% trans 'about how you use great.gov.uk. We use this information to make the website work as well as possible and improve government services.' %}
-          </p>
+{% language lang|default:"en-gb" %}
+    <div id="header-cookie-notice"
+         class="cookie-notice"
+         dir="ltr"
+         data-ga-section="cookieNotice">
+        <div class="container cookie-notice-container">
+            <div class="grid-row">
+                <div class="cookie-initial">
+                    <h2 class="heading-medium margin-top-0 margin-bottom-30 column-full">
+                        {% translate 'Tell us whether you accept cookies' %}
+                    </h2>
+                    <div class="column-half">
+                        <p>
+                            {% translate 'We use ' %}<a class="link" href='{% slugurl "privacy-and-cookies" %}'>{% translate 'cookies to collect information' %}</a> {% translate 'about how you use great.gov.uk. We use this information to make the website work as well as possible and improve government services.' %}
+                        </p>
+                    </div>
+                    <div class="column-half">
+                        <a href="#"
+                           class="button margin-top-30 margin-top-0-m  margin-right-15-m margin-bottom-30 margin-bottom-15-m button-accept">{% translate 'Accept all cookies' %}</a>
+                        <a href="{% url 'core:cookie-preferences' %}" class="button">{% translate 'Set cookie preferences' %}</a>
+                    </div>
+                </div>
+                <div class="cookie-confirmation">
+                    <div class="column-full padding-right-30">
+                        <p>
+                            {% translate "You've accepted all cookies. You can " %}<a class="link" href="{% url 'core:cookie-preferences' %}">{% translate 'change your settings' %}</a> {% translate 'at any time.' %}
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="column-half">
-          <a href="#" class="button margin-top-30 margin-top-0-m  margin-right-15-m margin-bottom-30 margin-bottom-15-m button-accept">{% trans 'Accept all cookies' %}</a>
-          <a href="{% url 'core:cookie-preferences' %}" class="button">{% trans 'Set cookie preferences' %}</a>
-        </div>
-      </div>
-      <div class="cookie-confirmation">
-        <div class="column-full padding-right-30">
-          <p>{% trans "You've accepted all cookies.  You can "%}<a class="link" href="{% url 'core:cookie-preferences' %}">{% trans 'change your settings' %}</a> {% trans 'at any time.' %}</p>
-        </div>
-      </div>
     </div>
-  </div>
-</div>
+{% endlanguage %}

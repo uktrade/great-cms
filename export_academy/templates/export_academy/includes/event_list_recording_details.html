@@ -1,5 +1,4 @@
 {% load event_list_buttons %}
-
 {% user_is_booked_on_event request.user event as event_is_booked %}
 {% if event_is_booked %}
     {% if event.video_recording %}
@@ -7,6 +6,7 @@
             <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
             <strong class="govuk-warning-text__text"><span class="govuk-warning-text__assistive">Warning</span>Event recordings are only available for 4 weeks after the event.</strong>
         </div>
-        <a class="govuk-link" href="{% url 'export_academy:event-video' event.id %}">Watch event recording</a>
+        <a class="govuk-link"
+           href="{% url 'export_academy:event-video' event.id %}">Watch event recording</a>
     {% endif %}
 {% endif %}

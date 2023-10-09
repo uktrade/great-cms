@@ -247,6 +247,13 @@ class GreatDomesticHomePage(
         on_delete=models.SET_NULL,
         related_name='+',
     )
+    hero_bigdesktop_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
     hero_mobile_image = models.ForeignKey(
         'core.AltTextImage',
         null=True,

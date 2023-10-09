@@ -5,10 +5,7 @@
 {% load breadcrumbs from component_tags %}
 {% load pagination from component_tags %}
 {% load append_past_year_seperator from component_tags %}
-
-
 {% block head_title %}Events – UK Export Academy{% endblock %}
-
 {% block content %}
     <div class="great">
         {% block hero %}
@@ -20,24 +17,33 @@
         {% endblock %}
         <div id="breadcrumbs" class="great-display-from-tablet">
             {% breadcrumbs 'Events' %}
-                <a href="/">great.gov.uk</a>
-                <a href="{% pageurl landing_page %}">UK Export Academy</a>
-            {% endbreadcrumbs %}
-        </div>
-        <section class="govuk-!-padding-top-3 background-white clearfix">
-            <div class="container">
-                <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-one-quarter govuk-!-padding-left-2">
-                        <form id="events-form" action="" method="GET">
-                            <div class="filters great-filters event-filters">
-                                <a href="#" class="button primary-button mobile-filter-toggle" id="mobile-filter-toggle">Filters</a>
-                                <ul>
-                                    {% for field in filter.form|get_filters:request.user %}
+            <a href="/">great.gov.uk</a>
+            <a href="{% pageurl landing_page %}">UK Export Academy</a>
+        {% endbreadcrumbs %}
+    </div>
+    <section class="govuk-!-padding-top-3 background-white clearfix">
+        <div class="container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-one-quarter govuk-!-padding-left-2">
+                    <form id="events-form" action="" method="GET">
+                        <div class="filters great-filters event-filters">
+                            <a href="#"
+                               class="button primary-button mobile-filter-toggle"
+                               id="mobile-filter-toggle">Filters</a>
+                            <ul>
+                                {% for field in filter.form|get_filters:request.user %}
                                     <li>
                                         <fieldset class="filter-section" aria-describedby="{{ field.label }}_label">
                                             <legend class="great-visually-hidden">{{ field.label }}</legend>
-                                            <input type="checkbox" id="{{ field.label }}" class="filter-section-toggle" role="button" aria-expanded="false" aria-controls="{{ field.label }}_fields" />
-                                            <label class="arrows-left filter-section-headings govuk-!-padding-left-2" for="{{ field.label }}" id="{{ field.label }}_label">{{ field.label }}</label>
+                                            <input type="checkbox"
+                                                   id="{{ field.label }}"
+                                                   class="filter-section-toggle"
+                                                   role="button"
+                                                   aria-expanded="false"
+                                                   aria-controls="{{ field.label }}_fields" />
+                                            <label class="arrows-left filter-section-headings govuk-!-padding-left-2"
+                                                   for="{{ field.label }}"
+                                                   id="{{ field.label }}_label">{{ field.label }}</label>
                                             <div id="{{ field.label }}_fields" class="options checkbox-small">
                                                 {% if request.GET.booking_period == 'upcoming' or request.GET.booking_period == 'past' %}
                                                     {% filter disable_period_radios %}
@@ -51,41 +57,40 @@
                                             </div>
                                         </fieldset>
                                     </li>
-                                    {% endfor %}
-                                </ul>
-                                <div class="filters-sticky-footer govuk-!-margin-top-7" id="filters-sticky-footer">
-                                    <a href="#" class="button primary-button update" role="button">Apply filters<span class="verbose">With Javascript enabled, click this button to filter the results.</span></a>
-                                    <a href="#" class="cancel link">Cancel</a>
-                                </div>
-                                <input type="submit" class="button primary-button govuk-!-margin-top-7" value="Update results">
+                                {% endfor %}
+                            </ul>
+                            <div class="filters-sticky-footer govuk-!-margin-top-7"
+                                 id="filters-sticky-footer">
+                                <a href="#" class="button primary-button update" role="button">Apply filters<span class="verbose">With Javascript enabled, click this button to filter the results.</span></a>
+                                <a href="#" class="cancel link">Cancel</a>
                             </div>
-                        </form>
-                    </div>
-                    <div id="event-list" class="govuk-grid-column-three-quarters">
-                        {% include 'export_academy/includes/filter_summary.html' %}
-                        {% if not page_obj %}
-                            {% include 'export_academy/includes/no_results.html' %}
-                        {% else %}
-                            {% for event in page_obj|append_past_year_seperator%}
-
+                            <input type="submit"
+                                   class="button primary-button govuk-!-margin-top-7"
+                                   value="Update results">
+                        </div>
+                    </form>
+                </div>
+                <div id="event-list" class="govuk-grid-column-three-quarters">
+                    {% include 'export_academy/includes/filter_summary.html' %}
+                    {% if not page_obj %}
+                        {% include 'export_academy/includes/no_results.html' %}
+                    {% else %}
+                        {% for event in page_obj|append_past_year_seperator %}
                             <div class="govuk-grid-row event-list-card">
-                                {%if event.past_year_seperator %}
-                                    <h2 class="past-year-seperator govuk-!-padding-left-3 govuk-!-padding-bottom-30">{{event.past_year_seperator}}</h2>
-                                {%endif%}
+                                {% if event.past_year_seperator %}
+                                    <h2 class="past-year-seperator govuk-!-padding-left-3 govuk-!-padding-bottom-30">{{ event.past_year_seperator }}</h2>
+                                {% endif %}
                                 <div class="govuk-!-padding-left-3 govuk-!-margin-bottom-2 govuk-!-padding-right-3">
-                                   <a href="{{event.get_absolute_url}}" class="govuk-link govuk-heading-s great-title-link">{{ event.name }}</a>
+                                    <a href="{{ event.get_absolute_url }}"
+                                       class="govuk-link govuk-heading-s great-title-link">{{ event.name }}</a>
                                 </div>
                                 <div class="govuk-!-padding-left-3 govuk-!-padding-right-3 great-display-until-tablet">
                                     {% include 'export_academy/includes/event_duration.html' %}
-
-                                        {% is_logged_in as show_logged_in_features %}
-                                        {% if show_logged_in_features  %}
-                                        <div class="govuk-!-margin-bottom-3">
-                                            {% event_list_badges event %}
-                                        </div>
-                                        {% endif %}
-                                    </div>
-
+                                    {% is_logged_in as show_logged_in_features %}
+                                    {% if show_logged_in_features %}
+                                        <div class="govuk-!-margin-bottom-3">{% event_list_badges event %}</div>
+                                    {% endif %}
+                                </div>
                                 <div class="govuk-grid-column-one-quarter govuk-!-text-align-centre">
                                     <div class="event-wrapper great-background-light-blue">
                                         <div class="event-date-container">
@@ -94,49 +99,39 @@
                                             <p class="time">{{ event.start_date|date:"g:iA"|lower }}</p>
                                         </div>
                                         <div class="event-tags">
-                                            {% for type in event.types.all %}
-                                                <p class="margin-0 event-tag-item">{{ type }}</p>
-                                            {% endfor %}
+                                            {% for type in event.types.all %}<p class="margin-0 event-tag-item">{{ type }}</p>{% endfor %}
                                             <p class="margin-0 event-tag-item">{{ event.get_format_display }}</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="govuk-grid-column-three-quarters">
-                                    <div class="great-display-from-tablet">
-                                        {% include 'export_academy/includes/event_duration.html' %}
-                                    </div>
-
+                                    <div class="great-display-from-tablet">{% include 'export_academy/includes/event_duration.html' %}</div>
                                     {% is_logged_in as show_logged_in_features %}
-                                    {% if show_logged_in_features  %}
-                                    <div class="govuk-!-margin-bottom-2 great-display-from-tablet">
-                                        {% event_list_badges event %}
-                                    </div>
+                                    {% if show_logged_in_features %}
+                                        <div class="govuk-!-margin-bottom-2 great-display-from-tablet">{% event_list_badges event %}</div>
                                     {% endif %}
-
-                                    <p class='event-description'>{{event.description}}</p>
-
+                                    <p class='event-description'>{{ event.description }}</p>
                                     {% include 'export_academy/includes/event_list_recording_details.html' %}
                                 </div>
                             </div>
-                            {% endfor %}
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="govuk-grid-row background-white govuk-grid-column-three-quarters markets-pagination">
-                    {% pagination pagination_page=page_obj %}
+                        {% endfor %}
+                    {% endif %}
                 </div>
             </div>
-        </section>
-    </div>
+            <div class="govuk-grid-row background-white govuk-grid-column-three-quarters markets-pagination">
+                {% pagination pagination_page=page_obj %}
+            </div>
+        </div>
+    </section>
+</div>
 {% endblock %}
-
 {% block body_js %}
-{{ block.super }}
-<script src="{% static 'javascript/eventFilters.js' %}"></script>
-<script src="{% static 'javascript/showMore.js'%}"></script>
-<script type="text/javascript">
+    {{ block.super }}
+    <script src="{% static 'javascript/eventFilters.js' %}"></script>
+    <script src="{% static 'javascript/showMore.js'%}"></script>
+    <script type="text/javascript">
     $(function() {
         eventFilters.init();
     });
-</script>
+    </script>
 {% endblock %}

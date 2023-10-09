@@ -1,0 +1,34 @@
+{% comment %}
+
+Optional params
+
+    * image_url:string -  absolute URL for an image (eg from /static/)
+    * image:Image - Wagtail image instance, from which we need to make a rendition
+
+If both are available, `image_url` will be used over `image`
+
+{% endcomment %}
+
+{% load wagtailimages_tags %}
+{% load wagtailcore_tags %}
+
+{% if not image_url %}
+{% image image original as rendition %}
+{% endif %}
+{% firstof image_url rendition.url as image_url %}
+
+<div class="page-header article-header stack-at-tablet-width govuk-!-padding-top-9" id="hero">
+    <div class="inner-header govuk-!-padding-top-0">
+    <div >
+        {%if hero_subeading%}
+            <h2 class="govuk-caption-l">{{hero_subeading}}</h2>
+        {%endif%}
+        <h1 class="govuk-heading-l govuk-!-static-margin-0 govuk-!-static-margin-bottom-2">{{ hero_title }}</h1>
+        <p>{{ hero_text|richtext }}</p>
+    </div>
+    <div class="image-container image-full-width great-display-from-tablet full-height-img right-aligned" style="background: url({{ image_url }})">
+            <img class='ea-logo' src='/static/images/uk-export-academy-logo.svg' alt='UK Export Academy logo' />
+
+    </div>
+    </div>
+</div>

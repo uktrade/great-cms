@@ -2,6 +2,7 @@ import logging
 
 from rest_framework import serializers
 from taggit.serializers import TagListSerializerField
+from wagtail.models import Page
 from wagtail.rich_text import RichText, get_text_for_indexing
 
 from core.models import MicrositePage
@@ -366,5 +367,41 @@ class ActivityStreamExpandYourBusinessTriageDataSerializer(serializers.ModelSeri
                 'id': f'{prefix}:{instance.id}',
                 'type': prefix,
                 **{f'{k}': v for k, v in super().to_representation(instance).items()},
+            },
+        }
+
+
+class ActivityStreamCmsContentSerializer(serializers.ModelSerializer):
+    """
+    CMS content serializer for Activity Stream.
+    """
+
+    class Meta:
+        model = Page
+        fields = ['title', 'first_published_at', 'last_published_at']
+
+    def to_representation(self, instance):
+        """
+        Prefix field names to match activity stream format
+        """
+        prefix = 'dit:cmsContent'
+        subtype = 'domestic'
+        operation = 'Update'
+        return {
+            'id': f'{prefix}:{subtype}:{instance.id}:{operation}',
+            'type': f'{operation}',
+            'published': instance.last_published_at.isoformat(),
+            'object': {
+                'id': f'{prefix}:{subtype}:{instance.id}',
+                'type': prefix,
+                'title': instance.title,
+                'seoTitle': instance.seo_title,
+                'url': instance.full_url,
+                'searchDescription': instance.search_description,
+                'firstPublishedAt': instance.first_published_at.isoformat(),
+                'lastPublishedAt': instance.last_published_at.isoformat(),
+                'contentTypeId': instance.content_type_id,
+                # TODO: add content via page type serialisers
+                'content': '',
             },
         }

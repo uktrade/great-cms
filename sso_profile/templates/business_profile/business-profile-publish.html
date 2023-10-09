@@ -1,31 +1,33 @@
 {% extends 'business_profile/admin-base.html' %}
-
 {% load breadcrumbs from component_tags %}
 {% load static %}
-
-
 {% block breadcrumbs %}
     {% breadcrumbs 'Publish your profile' %}
-        <a href="{% url 'sso_profile:about' %}">Home</a>
-        <a href="{% url 'sso_profile:business-profile' %}">Business profile</a>
-    {% endbreadcrumbs %}
+    <a href="{% url 'sso_profile:about' %}">Home</a>
+    <a href="{% url 'sso_profile:business-profile' %}">Business profile</a>
+{% endbreadcrumbs %}
 {% endblock %}
-
 {% block inner_content %}
-    <form method="post" enctype="multipart/form-data" class="no-default-margin margin-bottom-45" novalidate="novalidate">
+    <form method="post"
+          enctype="multipart/form-data"
+          class="no-default-margin margin-bottom-45"
+          novalidate="novalidate">
         {% csrf_token %}
         <h1 class="heading-large margin-top-0">Publishing your profile on great.gov.uk</h1>
         {% if company.is_uk_isd_company %}
-            <p>You can publish your profile on 2 great.gov.uk platforms – great.gov.uk/trade/ and great.gov.uk UK Investment Support Directory.</p>
+            <p>
+                You can publish your profile on 2 great.gov.uk platforms – great.gov.uk/trade/ and great.gov.uk UK Investment Support Directory.
+            </p>
             <p>You can publish on either or both of these.</p>
             <p>Choose where you want to publish below.</p>
         {% endif %}
         {{ block.super }}
-
         {% if company.is_uk_isd_company %}
             {% with company.is_published_investment_support_directory as is_published %}
                 <div class="publish-box border-medium {{ is_published|yesno:'border-teal,border-stone-60' }}">
-                    <h2 class="heading-small">{{ is_published|yesno:"Already published on great.gov.uk UK Investment Support Directory,Publish on great.gov.uk UK Investment Support Directory" }}</h2>
+                    <h2 class="heading-small">
+                        {{ is_published|yesno:"Already published on great.gov.uk UK Investment Support Directory,Publish on great.gov.uk UK Investment Support Directory" }}
+                    </h2>
                     <p>This business profile is ready to be published on UK Investment Support Directory on great.gov.uk.</p>
                     {% include 'great_components/form_widgets/form_field.html' with field=form.is_published_investment_support_directory %}
                 </div>
@@ -33,8 +35,12 @@
         {% endif %}
         {% with company.is_published_find_a_supplier as is_published %}
             <div class="publish-box border-medium {{ is_published|yesno:'border-teal,border-stone-60' }}">
-                <h2 class="heading-small">{{ is_published|yesno:"Already published on great.gov.uk/trade/,Publish on great.gov.uk/trade/" }}</h2>
-                <p>This business profile can be published now on <a class="link" target="_blank" href="https://www.great.gov.uk/trade/">great.gov.uk/trade/</a>.</p>
+                <h2 class="heading-small">
+                    {{ is_published|yesno:"Already published on great.gov.uk/trade/,Publish on great.gov.uk/trade/" }}
+                </h2>
+                <p>
+                    This business profile can be published now on <a class="link" target="_blank" href="https://www.great.gov.uk/trade/">great.gov.uk/trade/</a>.
+                </p>
                 {% include 'great_components/form_widgets/form_field.html' with field=form.is_published_find_a_supplier %}
             </div>
         {% endwith %}
@@ -44,5 +50,6 @@
         </div>
         <button class="button primary-button">Save</button>
     </form>
-    <a class="link" href="{% url 'sso_profile:business-profile-admin-tools' %}">Cancel</a>
+    <a class="link"
+       href="{% url 'sso_profile:business-profile-admin-tools' %}">Cancel</a>
 {% endblock %}

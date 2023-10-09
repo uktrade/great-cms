@@ -1,48 +1,45 @@
 {% extends './base.html' %}
 {% load static %}
-
 {% block head_title %}Complete profile {{ block.super }}{% endblock %}
-
 {% block head_other %}
-  <meta
-    name="description"
-    content="Find information to help invest within the UK"
-  />
+    <meta name="description"
+          content="Find information to help invest within the UK" />
 {% endblock %}
-
 {% block head_css %}
-  {{ block.super }}
-  <link href="{% static 'core/css/accessible-autocomplete.min.css' %}" rel="stylesheet" type="text/css">
+    {{ block.super }}
+    <link href="{% static 'core/css/accessible-autocomplete.min.css' %}"
+          rel="stylesheet"
+          type="text/css">
 {% endblock %}
-
 {% block content %}
-<div class="govuk-width-container">
-  {% if eyb_user %}
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <a href="{{ back_url }}" class="govuk-back-link govuk-!-margin-bottom-4">Back</a>
+    <div class="govuk-width-container">
+        {% if eyb_user %}
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    <a href="{{ back_url }}" class="govuk-back-link govuk-!-margin-bottom-4">Back</a>
+                </div>
+            </div>
+        {% endif %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h3 class="govuk-heading-l">{{ title }}</h3>
+            </div>
+        </div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <p class="govuk-body">{{ sub_title }}</p>
+            </div>
+        </div>
+        {% include './includes/profile_form.html' %}
     </div>
-  </div>
-  {% endif %}
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <h3 class="govuk-heading-l">{{ title }}</h3>
-    </div>
-  </div>
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <p class="govuk-body">{{ sub_title }}</p>
-    </div>
-  </div>
-  {% include './includes/profile_form.html' %}
-</div>
 {% endblock %}
-
 {% block body_js %}
-  {{ block.super }}
-  <script type="text/javascript" src="{% static 'javascript/accessible-autocomplete.min.js' %}"></script>
-  <script type="text/javascript" src="{% static 'javascript/expand-your-business.js' %}"></script>
-  <script type="text/javascript">
+    {{ block.super }}
+    <script type="text/javascript"
+            src="{% static 'javascript/accessible-autocomplete.min.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'javascript/expand-your-business.js' %}"></script>
+    <script type="text/javascript">
     const countries = [
       'Afghanistan','Albania','Algeria','Andorra','Angola','Antigua and Barbuda','Argentina','Armenia','Australia','Austria','Azerbaijan','Bahrain','Bangladesh','Barbados','Belarus','Belgium','Belize','Benin','Bhutan','Bolivia','Bosnia and Herzegovina','Botswana','Brazil','Brunei','Bulgaria','Burkina Faso','Burundi','Cambodia','Cameroon','Canada','Cape Verde','Central African Republic','Chad','Chile','China','Colombia','Comoros','Congo','Congo (Democratic Republic)','Costa Rica','Croatia','Cuba','Cyprus','Czechia','Denmark','Djibouti','Dominica','Dominican Republic','East Timor','Ecuador','Egypt','El Salvador','Equatorial Guinea','Eritrea','Estonia','Eswatini','Ethiopia','Fiji','Finland','France','Gabon','Georgia','Germany','Ghana','Greece','Grenada','Guatemala','Guinea','Guinea-Bissau','Guyana','Haiti','Honduras','Hungary','Iceland','India','Indonesia','Iran','Iraq','Ireland','Israel','Italy','Ivory Coast','Jamaica','Japan','Jordan','Kazakhstan','Kenya','Kiribati','Kosovo','Kuwait','Kyrgyzstan','Laos','Latvia','Lebanon','Lesotho','Liberia','Libya','Liechtenstein','Lithuania','Luxembourg','Madagascar','Malawi','Malaysia','Maldives','Mali','Malta','Marshall Islands','Mauritania','Mauritius','Mexico','Micronesia','Moldova','Monaco','Mongolia','Montenegro','Morocco','Mozambique','Myanmar (Burma)','Namibia','Nauru','Nepal','Netherlands','New Zealand','Nicaragua','Niger','Nigeria','North Korea','North Macedonia','Norway','Oman','Pakistan','Palau','Panama','Papua New Guinea','Paraguay','Peru','Philippines','Poland','Portugal','Qatar','Romania','Russia','Rwanda','Samoa','San Marino','Sao Tome and Principe','Saudi Arabia','Senegal','Serbia','Seychelles','Sierra Leone','Singapore','Slovakia','Slovenia','Solomon Islands','Somalia','South Africa','South Korea','South Sudan','Spain','Sri Lanka','St Kitts and Nevis','St Lucia','St Vincent','Sudan','Suriname','Sweden','Switzerland','Syria','Tajikistan','Tanzania','Thailand','The Bahamas','The Gambia','Togo','Tonga','Trinidad and Tobago','Tunisia','Turkey','Turkmenistan','Tuvalu','Uganda','Ukraine','United Arab Emirates','United Kingdom','United States','Uruguay','Uzbekistan','Vanuatu','Vatican City','Venezuela','Vietnam','Yemen','Zambia','Zimbabwe'
     ]
@@ -52,8 +49,5 @@
       autoselect: false,
       minLength: 2,
     });
-  </script>
-
-
-
+    </script>
 {% endblock %}
