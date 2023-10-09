@@ -3,14 +3,7 @@ from unittest import mock
 
 import pytest
 from wagtail.admin.mail import Notifier
-from wagtail.models import (
-    GroupApprovalTask,
-    Revision,
-    Task,
-    TaskState,
-    WorkflowState,
-    task_submitted,
-)
+from wagtail.models import GroupApprovalTask, Revision, Task, TaskState, WorkflowState
 
 from domestic.admin.mail import ModerationTaskStateSubmissionEmailNotifier
 from domestic.models import ArticlePage, CountryGuidePage
@@ -18,62 +11,37 @@ from domestic.models import ArticlePage, CountryGuidePage
 receiver = ModerationTaskStateSubmissionEmailNotifier()
 
 
-@pytest.mark.django_db
-@mock.patch.object(ModerationTaskStateSubmissionEmailNotifier, 'send_email')
-@mock.patch.object(Notifier, '__call__')
-@mock.patch.object(TaskState, 'save')
-def test_moderation_email_invoked_with_article_campaign_page_and_emails_sent(
-    mock_task_state, mock_notifier_call, mock_receiver_send_email, django_user_model
-):
-    mock_task_state.save().return_value = None
-    user = django_user_model.objects.create_user(
+@pytest.fixture
+def task():
+    return Task(
+        id='test_task_id',
+        active=True,
+    )
+
+
+@pytest.fixture
+def user(django_user_model):
+    return django_user_model.objects.create_user(
         username='Joe Blogs',
         password='password',
         email='joe.bloggs@hotmail.com',
         is_staff=True,
     )
 
-    try:
-        task_submitted.connect(receiver=receiver, sender=TaskState, dispatch_uid='my_test_receiver_id')
 
-        task = Task(
-            id='test_task_id',
-            active=True,
-        )
-        latest_article_page = ArticlePage(
-            id='test_article_page_id',
-            title='Test Article',
-            type_of_article='Campaign',
-            latest_revision=None,
-        )
-        latest_revision = Revision(
-            id='test_latest_revision_id',
-            created_at=datetime.datetime.now(),
-            user=user,
-            submitted_for_moderation=False,
-            content_object=latest_article_page,
-        )
-        article_page = ArticlePage(
-            id='test_article_page_id',
-            title='Test Article',
-            type_of_article='Campaign',
-            latest_revision=latest_revision,
-        )
-        revision = Revision(
-            id='test_revision_id',
-            created_at=datetime.datetime.now(),
-            user=user,
-            submitted_for_moderation=True,
-            content_object=article_page,
-        )
-        task_state = TaskState(
-            id='test_task_state_id',
-            task=task,
-            revision=revision,
-            status=TaskState.STATUS_IN_PROGRESS,
-            started_at=datetime.datetime.now(),
-        )
-        workflow_state = WorkflowState(
+@pytest.fixture
+def group_approval_task():
+    return GroupApprovalTask(
+        id='test_group_approval_task',
+        name='Fred',
+        active=True,
+    )
+
+
+@pytest.fixture
+def workflow_state(user):
+    def _workflow_state(article_page, task_state):
+        return WorkflowState(
             id='test_workflow_state_id',
             status=WorkflowState.STATUS_IN_PROGRESS,
             created_at=datetime.datetime.now(),
@@ -82,16 +50,91 @@ def test_moderation_email_invoked_with_article_campaign_page_and_emails_sent(
             requested_by=user,
         )
 
-        group_approval_task = GroupApprovalTask(
-            id='test_group_approval_task',
-            name='Fred',
-            active=True,
+    yield _workflow_state
+
+
+@pytest.fixture
+def article_page():
+    def _article_page(type_of_article, latest_revision):
+        return ArticlePage(
+            id='test_article_page_id',
+            title='Test Article Page',
+            type_of_article=type_of_article,
+            latest_revision=latest_revision,
         )
 
-        group_approval_task.start(workflow_state=workflow_state, user=user)
-        assert mock_receiver_send_email.call_count == 4  # 2 * 2 == includes default receiver
-    finally:
-        task_submitted.disconnect(receiver=receiver, sender=TaskState, dispatch_uid='my_test_receiver_id')
+    yield _article_page
+
+
+@pytest.fixture
+def country_guide_page():
+    def _country_guide_page(revision):
+        return CountryGuidePage(
+            id='test_country_guide_page_id',
+            title='Test Country Guidd Page',
+            latest_revision=revision,
+        )
+
+    yield _country_guide_page
+
+
+@pytest.fixture
+def revision(user):
+    def _revision(article_page):
+        return Revision(
+            id='test_revision_id',
+            created_at=datetime.datetime.now(),
+            user=user,
+            submitted_for_moderation=True,
+            content_object=article_page,
+        )
+
+    yield _revision
+
+
+@pytest.fixture
+def task_state(task):
+    def _task_state(revision):
+        return TaskState(
+            id='test_task_state_id',
+            task=task,
+            revision=revision,
+            status=TaskState.STATUS_IN_PROGRESS,
+            started_at=datetime.datetime.now(),
+        )
+
+    yield _task_state
+
+
+@pytest.mark.django_db
+@mock.patch.object(ModerationTaskStateSubmissionEmailNotifier, 'send_email')
+@mock.patch.object(Notifier, '__call__')
+@mock.patch.object(TaskState, 'save')
+def test_moderation_email_invoked_with_article_campaign_page_and_emails_sent(
+    mock_task_state,
+    mock_notifier_call,
+    mock_receiver_send_email,
+    user,
+    task_state,
+    workflow_state,
+    group_approval_task,
+    article_page,
+    revision,
+):
+    latest_article_page = article_page('Campaign', None)
+
+    latest_revision = revision(latest_article_page)
+
+    test_article_page = article_page('Campaign', latest_revision)
+
+    test_revision = revision(test_article_page)
+
+    test_task_state = task_state(test_revision)
+
+    test_workflow_state = workflow_state(test_article_page, test_task_state)
+
+    group_approval_task.start(workflow_state=test_workflow_state, user=user)
+    assert mock_receiver_send_email.call_count == 2
 
 
 @pytest.mark.django_db
@@ -99,75 +142,30 @@ def test_moderation_email_invoked_with_article_campaign_page_and_emails_sent(
 @mock.patch.object(Notifier, '__call__')
 @mock.patch.object(TaskState, 'save')
 def test_moderation_email_invoked_with_article_advice_page_and_emails_not_sent(
-    mock_task_state, mock_notifier_call, mock_receiver_send_email, django_user_model
+    mock_task_state,
+    mock_notifier_call,
+    mock_receiver_send_email,
+    user,
+    workflow_state,
+    group_approval_task,
+    task_state,
+    article_page,
+    revision,
 ):
-    mock_task_state.save().return_value = None
-    user = django_user_model.objects.create_user(
-        username='Joe Blogs',
-        password='password',
-        email='joe.bloggs@hotmail.com',
-        is_staff=True,
-    )
+    latest_article_page = article_page('Advice', None)
 
-    try:
-        task_submitted.connect(receiver=receiver, sender=TaskState, dispatch_uid='my_test_receiver_id')
+    latest_revision = revision(latest_article_page)
 
-        task = Task(
-            id='test_task_id',
-            active=True,
-        )
-        latest_article_page = ArticlePage(
-            id='test_article_page_id',
-            title='Test Article',
-            type_of_article='Advice',
-            latest_revision=None,
-        )
-        latest_revision = Revision(
-            id='test_latest_revision_id',
-            created_at=datetime.datetime.now(),
-            user=user,
-            submitted_for_moderation=False,
-            content_object=latest_article_page,
-        )
-        article_page = ArticlePage(
-            id='test_article_page_id',
-            title='Test Article',
-            type_of_article='Advice',
-            latest_revision=latest_revision,
-        )
-        revision = Revision(
-            id='test_revision_id',
-            created_at=datetime.datetime.now(),
-            user=user,
-            submitted_for_moderation=True,
-            content_object=article_page,
-        )
-        task_state = TaskState(
-            id='test_task_state_id',
-            task=task,
-            revision=revision,
-            status=TaskState.STATUS_IN_PROGRESS,
-            started_at=datetime.datetime.now(),
-        )
-        workflow_state = WorkflowState(
-            id='test_workflow_state_id',
-            status=WorkflowState.STATUS_IN_PROGRESS,
-            created_at=datetime.datetime.now(),
-            content_object=article_page,
-            current_task_state=task_state,
-            requested_by=user,
-        )
+    test_article_page = article_page('Advice', latest_revision)
 
-        group_approval_task = GroupApprovalTask(
-            id='test_group_approval_task',
-            name='Fred',
-            active=True,
-        )
+    test_revision = revision(test_article_page)
 
-        group_approval_task.start(workflow_state=workflow_state, user=user)
-        assert mock_receiver_send_email.call_count == 0
-    finally:
-        task_submitted.disconnect(receiver=receiver, sender=TaskState, dispatch_uid='my_test_receiver_id')
+    test_task_state = task_state(test_revision)
+
+    test_workflow_state = workflow_state(test_article_page, test_task_state)
+
+    group_approval_task.start(workflow_state=test_workflow_state, user=user)
+    assert mock_receiver_send_email.call_count == 0
 
 
 @pytest.mark.django_db
@@ -175,70 +173,27 @@ def test_moderation_email_invoked_with_article_advice_page_and_emails_not_sent(
 @mock.patch.object(Notifier, '__call__')
 @mock.patch.object(TaskState, 'save')
 def test_moderation_email_invoked_with_country_guide_page_and_emails_not_sent(
-    mock_task_state, mock_notifier_call, mock_receiver_send_email, django_user_model
+    mock_task_state,
+    mock_notifier_call,
+    mock_receiver_send_email,
+    user,
+    workflow_state,
+    task_state,
+    country_guide_page,
+    group_approval_task,
+    revision,
 ):
-    mock_task_state.save().return_value = None
-    user = django_user_model.objects.create_user(
-        username='Joe Blogs',
-        password='password',
-        email='joe.bloggs@hotmail.com',
-        is_staff=True,
-    )
+    latest_country_guiide_page = country_guide_page(None)
 
-    try:
-        task_submitted.connect(receiver=receiver, sender=TaskState, dispatch_uid='my_test_receiver_id')
+    latest_revision = revision(latest_country_guiide_page)
 
-        task = Task(
-            id='test_task_id',
-            active=True,
-        )
-        latest_country_guide_page = CountryGuidePage(
-            id='test_latest_country_guide_page_id',
-            title='Latest Test Country Guide Page',
-            latest_revision=None,
-        )
-        latest_revision = Revision(
-            id='test_latest_revision_id',
-            created_at=datetime.datetime.now(),
-            user=user,
-            submitted_for_moderation=False,
-            content_object=latest_country_guide_page,
-        )
-        country_guide_page = CountryGuidePage(
-            id='test_country_guide_page_id',
-            title='Test Coounty Guide Page',
-            latest_revision=latest_revision,
-        )
-        revision = Revision(
-            id='test_revision_id',
-            created_at=datetime.datetime.now(),
-            user=user,
-            submitted_for_moderation=True,
-            content_object=country_guide_page,
-        )
-        task_state = TaskState(
-            id='test_task_state_id',
-            task=task,
-            revision=revision,
-            status=TaskState.STATUS_IN_PROGRESS,
-            started_at=datetime.datetime.now(),
-        )
-        workflow_state = WorkflowState(
-            id='test_workflow_state_id',
-            status=WorkflowState.STATUS_IN_PROGRESS,
-            created_at=datetime.datetime.now(),
-            content_object=country_guide_page,
-            current_task_state=task_state,
-            requested_by=user,
-        )
+    test_country_guide_page = country_guide_page(latest_revision)
 
-        group_approval_task = GroupApprovalTask(
-            id='test_group_approval_task',
-            name='Fred',
-            active=True,
-        )
+    test_revision = revision(test_country_guide_page)
 
-        group_approval_task.start(workflow_state=workflow_state, user=user)
-        assert mock_receiver_send_email.call_count == 0
-    finally:
-        task_submitted.disconnect(receiver=receiver, sender=TaskState, dispatch_uid='my_test_receiver_id')
+    test_task_state = task_state(test_revision)
+
+    test_workflow_state = workflow_state(test_country_guide_page, test_task_state)
+
+    group_approval_task.start(workflow_state=test_workflow_state, user=user)
+    assert mock_receiver_send_email.call_count == 0
