@@ -508,6 +508,14 @@
   overflow: auto;
 }
 
+.great-display-flex {
+  display: flex;
+}
+
+.great-align-items-flex-end{
+  align-items: flex-end;
+}
+
 .great-display-flex-desktop {
   @include govuk-media-query($from: tablet) {
     display: flex;

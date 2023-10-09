@@ -115,6 +115,15 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
         on_delete=models.SET_NULL,
         related_name='+',
     )
+
+    past_event_video_recording = models.ForeignKey(
+        GreatMedia, null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
+    )
+    past_event_recorded_date = models.DateTimeField(null=True, blank=True)
+    past_event_presentation_file = models.ForeignKey(
+        'wagtaildocs.Document', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
+    )
+
     completed = models.DateTimeField(null=True, blank=True)
     live = models.DateTimeField(null=True, blank=True)
     closed = models.BooleanField(default=False)

@@ -12,18 +12,31 @@
                             <div class="govuk-summary-list__row govuk-!-margin-bottom-0">
                                 <dt class="govuk-summary-list__key govuk-!-margin-0 govuk-!-padding-bottom-1 govuk-!-padding-top-1">Duration</dt>
                                 <dd class="govuk-summary-list__value govuk-!-margin-0 govuk-!-padding-bottom-1 govuk-!-padding-top-1">
-                                    {{ event.start_date|timesince:event.end_date }}
+                                    {% if duration %}
+                                        {{ duration }}
+                                    {% else %}
+                                        {{ event.start_date|timesince:event.end_date }}
+                                    {% endif %}
                                 </dd>
                             </div>
                             <div class="govuk-summary-list__row govuk-!-margin-bottom-0">
                                 <dt class="govuk-summary-list__key govuk-!-margin-0 govuk-!-padding-bottom-1 govuk-!-padding-top-1">Content</dt>
                                 <dd class="govuk-summary-list__value govuk-!-margin-0 govuk-!-padding-bottom-1 govuk-!-padding-top-1">
                                     {% for type in event_types %}
-                                        <a class="govuk-link  {% if not forloop.last %}govuk-!-static-padding-right-1{% endif %}"
+                                        <a class="govuk-link govuk-link--no-visited-state  {% if not forloop.last %}govuk-!-static-padding-right-1{% endif %}"
                                            href='/export-academy/events/?type={{ type|lower }}'>{{ type }}</a>
                                     {% endfor %}
                                 </dd>
                             </div>
+                            {% if series %}
+                                <div class="govuk-summary-list__row govuk-!-margin-bottom-0">
+                                    <dt class="govuk-summary-list__key govuk-!-margin-0 govuk-!-padding-bottom-1 govuk-!-padding-top-1">Part of</dt>
+                                    <dd class="govuk-summary-list__value govuk-!-margin-0 govuk-!-padding-bottom-1 govuk-!-padding-top-1">
+                                        <a class="govuk-link govuk-link--no-visited-state {% if not forloop.last %}govuk-!-static-padding-right-1{% endif %}"
+                                           href='/export-academy/{{ series.value }}'>{{ series.label }}</a>
+                                    </dd>
+                                </div>
+                            {% endif %}
                         </dl>
                     </div>
                 </div>
