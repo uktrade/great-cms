@@ -8,7 +8,7 @@
     <div class="grid">
         <div class="c-2-3">
             <div id="signup-app-root">
-                <a href="{% url 'core:login' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">I already have a great.gov.uk account<a/>
+                <a href="{% url 'core:login' %}{% if next_url %}?next={{ request.GET.next }}{% endif %}">I already have a great.gov.uk account<a/>
             </div>
         </div>
     </div>

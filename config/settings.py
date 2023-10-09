@@ -28,6 +28,8 @@ SECRET_KEY = env.str('SECRET_KEY')
 # As the app is running behind a host-based router supplied by GDS PaaS, we can open ALLOWED_HOSTS
 ALLOWED_HOSTS = ['*']
 
+SAFELIST_HOSTS = env.list('SAFELIST_HOSTS', default=None)
+
 # https://docs.djangoproject.com/en/dev/ref/settings/#append-slash
 APPEND_SLASH = True
 
@@ -106,6 +108,9 @@ MIDDLEWARE = [
     'core.middleware.UserSpecificRedirectMiddleware',
     'core.middleware.StoreUserExpertiseMiddleware',
     'core.middleware.CheckGATags',
+    # 'core.middleware.SafelistedURLMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
     # 'directory_sso_api_client.middleware.AuthenticationMiddleware',
     'great_components.middleware.NoCacheMiddlware',
 ]

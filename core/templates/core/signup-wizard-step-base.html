@@ -56,8 +56,8 @@
                         {% endblock %}
                         {% block below_submit_button %}{% endblock %}
                         {% block generic_content_button %}
-                            {% if allow_skip_signup and request.GET.next %}
-                                <p class="m-b-0 m-t-0"><a class="link great-mvp-grey-link" href="{{ request.GET.next}}{% if '?' in request.GET.next %}&{%else%}?{% endif %}show-generic-content=true">I do not want tailored content, thanks</a></p>
+                            {% if allow_skip_signup and next_url %}
+                                <p class="m-b-0 m-t-0"><a class="link great-mvp-grey-link" href="{{ next_url }}{% if '?' in request.GET.next %}&{%else%}?{% endif %}show-generic-content=true">I do not want tailored content, thanks</a></p>
                             {% endif %}
                         {% endblock %}
                     </div>
