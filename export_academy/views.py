@@ -753,6 +753,6 @@ class EventVideoOnDemandView(DetailView):
         ctx['event_types'] = event.get_event_types()
         ctx['signed_in'] = self.signed_in
         ctx['event'] = event
-        ctx['series'] = {'label': "The Essential Series", 'value': 'the-essentials-series'}
+        ctx['series'] = {'label': 'The Essential Series', 'value': 'the-essentials-series'}
         ctx['slug'] = kwargs['object'].slug
         return ctx
