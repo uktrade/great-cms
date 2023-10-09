@@ -1,6 +1,7 @@
+import datetime
 import uuid
 from datetime import timedelta
-import datetime
+
 from directory_forms_api_client import actions
 from django.db import models
 from django.urls import reverse
@@ -180,17 +181,16 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
                 send_notifications_for_all_bookings(self, settings.EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID)
 
         return super().save(**kwargs)
-    
+
     def get_event_types(self):
         return [item.name for item in self.types.all()]
-    
+
     def get_speakers(self):
         return [speaker_object.speaker for speaker_object in self.event_speakers.all()]
-    
+
     def has_ended(self):
         current_datetime = datetime.datetime.now(datetime.timezone.utc)
         return self.end_date < current_datetime
-
 
 
 class Registration(TimeStampedModel):
