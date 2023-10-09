@@ -258,7 +258,7 @@ def test_moderation_email_invoked_with_country_guide_page_and_emails_not_sent(
 
 
 @mock.patch.object(ModerationTaskStateSubmissionEmailNotifier, 'send_email')
-def test_moderation_email_send_email(mock_receiver_send_email, user, settings):
+def test_moderation_email_send_notificaiton(mock_receiver_send_email, user, settings):
     test_user = user(has_email=True)
     receiver = ModerationTaskStateSubmissionEmailNotifier()
     receiver.send_notifications(test_user)
