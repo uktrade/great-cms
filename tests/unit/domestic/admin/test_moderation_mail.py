@@ -163,6 +163,8 @@ def test_moderation_email_invoked_with_article_campaign_page_and_both_email_sent
 @mock.patch.object(Notifier, '__call__')
 @mock.patch.object(TaskState, 'save')
 def test_moderation_email_invoked_with_article_campaign_page_and_moderator_email_sent(
+    mock_task_state_save,
+    mock_notifier_call,
     mock_receiver_send_email,
     user,
     task_state,
@@ -194,6 +196,8 @@ def test_moderation_email_invoked_with_article_campaign_page_and_moderator_email
 @mock.patch.object(Notifier, '__call__')
 @mock.patch.object(TaskState, 'save')
 def test_moderation_email_invoked_with_article_advice_page_and_emails_not_sent(
+    mock_task_state_save,
+    mock_notifier_call,
     mock_receiver_send_email,
     user,
     workflow_state,
@@ -225,6 +229,8 @@ def test_moderation_email_invoked_with_article_advice_page_and_emails_not_sent(
 @mock.patch.object(Notifier, '__call__')
 @mock.patch.object(TaskState, 'save')
 def test_moderation_email_invoked_with_country_guide_page_and_emails_not_sent(
+    mock_task_state_save,
+    mock_notifier_call,
     mock_receiver_send_email,
     user,
     workflow_state,
