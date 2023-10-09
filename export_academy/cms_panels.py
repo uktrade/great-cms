@@ -93,10 +93,17 @@ class EventPanel:
             ],
         ),
         MultiFieldPanel(
+            heading='Past event recording',
+            children=[
+                FieldPanel('past_event_video_recording', widget=AdminMediaChooser),
+                FieldPanel('past_event_recorded_date'),
+                FieldPanel('past_event_presentation_file'),
+            ],
+        ),
+        MultiFieldPanel(
             heading='Event Complete Actions',
             children=[
                 FieldPanel('document'),
-                FieldPanel('video_recording', widget=AdminMediaChooser),
                 FieldPanel('completed'),
             ],
         ),

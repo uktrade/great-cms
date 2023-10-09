@@ -742,20 +742,17 @@ class EventVideoOnDemandView(DetailView):
         # video_render tag which helps in adding subtitles
         # needs input in specific way as below
         event: models.Event = kwargs.get('object', {})
-        video = getattr(event, 'video_recording', None)
+        video = getattr(event, 'past_event_video_recording', None)
         if video:
             ctx['event_video'] = {'video': video}
-            ctx['video_duration'] = format_timedelta(timedelta(seconds=event.video_recording.duration))
+            ctx['video_duration'] = format_timedelta(timedelta(seconds=event.past_event_video_recording.duration))
 
-        document = getattr(event, 'document', None)
-        completed = getattr(event, 'completed', None)
-
-        if document and completed:
-            ctx['event_document_size'] = f'{math.floor(document.file_size * 0.001)}KB' if document.file_size else '0KB'
-            ctx['event_document_url'] = document.url
+        document = getattr(event, 'past_event_presentation_file', None)
+        ctx['event_document_url'] = document.url if document else None
         ctx['speakers'] = event.get_speakers()
         ctx['event_types'] = event.get_event_types()
         ctx['signed_in'] = self.signed_in
         ctx['event'] = event
+        ctx['series'] = {'label': "The Essential Series", 'value': 'the-essentials-series'}
         ctx['slug'] = kwargs['object'].slug
         return ctx
