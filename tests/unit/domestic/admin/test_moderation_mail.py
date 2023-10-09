@@ -258,7 +258,7 @@ def test_moderation_email_invoked_with_country_guide_page_and_emails_not_sent(
 
 
 @mock.patch('domestic.admin.mail.send_campaign_moderation_notification')
-def test_moderation_email_send_notification(mock_send_campaign_moderation_notification, settings):
+def test_moderation_email_send_email(mock_send_campaign_moderation_notification, settings):
     ModerationTaskStateSubmissionEmailNotifier().send_email(
         'joe.bloggs@gmail.com', settings.CAMPAIGN_MODERATORS_EMAIL_TEMPLATE_ID, 'Joe Bloggs'
     )
