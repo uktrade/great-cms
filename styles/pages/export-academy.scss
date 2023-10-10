@@ -540,6 +540,7 @@
 }
 
 #past-video-recording{
+  line-height: 0;
   @media only screen and (max-width: 1230px) {
     padding-left: 0!important;
     padding-right: 0!important;
@@ -550,9 +551,16 @@
   gap: 30px;
 
   .video-wrapper {
+    line-height: 0;
     position: relative;
-    video {
+    min-width: 810px;
+    video, #thumbnail {
       width: 810px;
+    }
+    #thumbnail {
+      height: auto;
+      width: 810px;
+      min-height: 400px;
     }
     .video-button-overlay {
       height: 100%;
@@ -570,8 +578,13 @@
 
   @media only screen and (max-width: 1230px) {
     flex-direction: column;
-    .video-wrapper video {
+     width: 100%;
+    .video-wrapper{
+      min-width: initial;
+    }
+    .video-wrapper video, .video-wrapper #thumbnail {
       width: 100%;
+      height: auto;
     }
     #next-live-event{
       margin: 0 15px;
@@ -580,5 +593,9 @@
 }
 
 #ask-the-experts{
-  height: 54px;
+  max-width: 390px;
+  justify-content: space-between;
+  img{
+    height: 54px;
+  }
 }

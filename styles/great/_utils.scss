@@ -66,7 +66,10 @@
   .govuk-error-message,
   .govuk-radios__label,
   .govuk-details,
-  .govuk-link {
+  .govuk-link,
+  .govuk-caption-m,
+  .govuk-caption-s,
+  .govuk-caption-lm .govuk-list {
     font-family: $great-font;
   }
 
@@ -512,7 +515,7 @@
   display: flex;
 }
 
-.great-align-items-flex-end{
+.great-align-items-flex-end {
   align-items: flex-end;
 }
 
@@ -729,9 +732,20 @@ img.richtext-image {
 }
 
 .great-grey-bottom-border {
-  border-bottom: 1px solid #B1B4B6;
+  border-bottom: 1px solid #b1b4b6;
 }
 
 .great-no-float {
-  float: none!important;
+  float: none !important;
+}
+
+.great-white-overlay-link {
+  color: white;
+  font-family: $header-font;
+  &:hover {
+    text-decoration-thickness: 3px;
+  }
+  // &:focus {
+  //   color: #0b0c0c;
+  // }
 }
