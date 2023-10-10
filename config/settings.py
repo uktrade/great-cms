@@ -172,7 +172,9 @@ else:
     REDIS_URL = env.str('REDIS_URL')
 
 
-if env.bool('API_CACHE_DISABLED', False):
+DEFAULT_SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+API_CACHE_DISABLED = env.bool('API_CACHE_DISABLED', False)
+if API_CACHE_DISABLED and not env.str('SESSION_ENGINE', DEFAULT_SESSION_ENGINE) == DEFAULT_SESSION_ENGINE:
     cache = {'BACKEND': 'django.core.cache.backends.dummy.DummyCache'}
 else:
     cache = {
@@ -385,7 +387,7 @@ SECURE_HSTS_SECONDS = env.int('SECURE_HSTS_SECONDS', 16070400)
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_SSL_REDIRECT = env.bool('SECURE_SSL_REDIRECT', True)
 
-SESSION_ENGINE = env.str('SESSION_ENGINE', 'django.contrib.sessions.backends.cache')
+SESSION_ENGINE = env.str('SESSION_ENGINE', DEFAULT_SESSION_ENGINE)
 
 SESSION_COOKIE_SECURE = env.bool('SESSION_COOKIE_SECURE', True)
 SESSION_COOKIE_HTTPONLY = True
