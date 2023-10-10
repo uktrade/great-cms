@@ -103,9 +103,11 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'wagtail.contrib.legacy.sitemiddleware.SiteMiddleware',
+    'csp.middleware.CSPMiddleware',
     'core.middleware.UserSpecificRedirectMiddleware',
     'core.middleware.StoreUserExpertiseMiddleware',
     'core.middleware.CheckGATags',
+    'core.middleware.HHTPHeaderDisallowEmbeddingMiddleware',
     # 'directory_sso_api_client.middleware.AuthenticationMiddleware',
     'great_components.middleware.NoCacheMiddlware',
 ]
@@ -172,9 +174,7 @@ else:
     REDIS_URL = env.str('REDIS_URL')
 
 
-DEFAULT_SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
-API_CACHE_DISABLED = env.bool('API_CACHE_DISABLED', False)
-if API_CACHE_DISABLED and not env.str('SESSION_ENGINE', DEFAULT_SESSION_ENGINE) == DEFAULT_SESSION_ENGINE:
+if env.bool('API_CACHE_DISABLED', False):
     cache = {'BACKEND': 'django.core.cache.backends.dummy.DummyCache'}
 else:
     cache = {
@@ -387,7 +387,7 @@ SECURE_HSTS_SECONDS = env.int('SECURE_HSTS_SECONDS', 16070400)
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_SSL_REDIRECT = env.bool('SECURE_SSL_REDIRECT', True)
 
-SESSION_ENGINE = env.str('SESSION_ENGINE', DEFAULT_SESSION_ENGINE)
+SESSION_ENGINE = env.str('SESSION_ENGINE', 'django.contrib.sessions.backends.cache')
 
 SESSION_COOKIE_SECURE = env.bool('SESSION_COOKIE_SECURE', True)
 SESSION_COOKIE_HTTPONLY = True
@@ -996,3 +996,11 @@ SPECTACULAR_SETTINGS = {
 
 # Wagtail Draftail Anchors
 DRAFTAIL_ANCHORS_RENDERER = env.str('DRAFTAIL_ANCHORS_RENDERER', 'wagtail_draftail_anchors.rich_text.render_span')
+
+# django-csp config
+CSP_DEFAULT_SRC = 'self'
+CSP_CHILD_SRC = 'self'
+CSP_OBJECT_SRC = 'none'
+CSP_FRAME_ANCESTORS = 'none'
+CSP_UPGRADE_INSECURE_REQUESTS = True
+CSP_BLOCK_ALL_MIXED_CONTENT = True
