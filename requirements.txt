@@ -123,6 +123,7 @@ django==4.1.10
     #   directory-healthcheck
     #   directory-validators
     #   django-celery-beat
+    #   django-csp
     #   django-decorator-include
     #   django-extensions
     #   django-filter
@@ -146,6 +147,8 @@ django==4.1.10
     #   wagtailmedia
 django-celery-beat==2.5.0
     # via -r requirements.in
+django-csp==3.7
+    # via -r requirements.in
 django-decorator-include==3.0
     # via -r requirements.in
 django-environ==0.4.5
@@ -160,7 +163,7 @@ django-health-check==3.17.0
     # via directory-healthcheck
 django-ipware==2.1.0
     # via -r requirements.in
-django-modelcluster==6.0
+django-modelcluster==6.1
     # via wagtail
 django-permissionedforms==0.1
     # via wagtail
@@ -212,6 +215,8 @@ geoip2==2.9.0
     # via -r requirements.in
 great-components==2.4.0
     # via -r requirements.in
+greenlet==3.0.0
+    # via sqlalchemy
 gunicorn==20.1.0
     # via -r requirements.in
 hashids==0.8.4
@@ -303,7 +308,7 @@ pyhanko-certvalidator==0.24.1
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==3.16.2
+pypdf==3.16.3
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -421,7 +426,7 @@ typing-extensions==4.8.0
     #   wagtail-localize
 tzdata==2023.3
     # via django-celery-beat
-tzlocal==5.0.1
+tzlocal==5.1
     # via
     #   dateparser
     #   pyhanko
