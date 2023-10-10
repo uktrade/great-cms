@@ -103,11 +103,9 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'wagtail.contrib.legacy.sitemiddleware.SiteMiddleware',
-    'csp.middleware.CSPMiddleware',
     'core.middleware.UserSpecificRedirectMiddleware',
     'core.middleware.StoreUserExpertiseMiddleware',
     'core.middleware.CheckGATags',
-    'core.middleware.HHTPHeaderDisallowEmbeddingMiddleware',
     # 'directory_sso_api_client.middleware.AuthenticationMiddleware',
     'great_components.middleware.NoCacheMiddlware',
 ]
@@ -996,11 +994,3 @@ SPECTACULAR_SETTINGS = {
 
 # Wagtail Draftail Anchors
 DRAFTAIL_ANCHORS_RENDERER = env.str('DRAFTAIL_ANCHORS_RENDERER', 'wagtail_draftail_anchors.rich_text.render_span')
-
-# django-csp config
-CSP_DEFAULT_SRC = 'self'
-CSP_CHILD_SRC = 'self'
-CSP_OBJECT_SRC = 'none'
-CSP_FRAME_ANCESTORS = 'none'
-CSP_UPGRADE_INSECURE_REQUESTS = True
-CSP_BLOCK_ALL_MIXED_CONTENT = True

@@ -272,10 +272,3 @@ ga_schema = {
         'user_id',
     ],
 }
-
-
-class HHTPHeaderDisallowEmbeddingMiddleware(MiddlewareMixin):
-    def __call__(self, request):
-        response = super().__call__(request)
-        response['X-Permitted-Cross-Domain-Policies'] = 'none'
-        return response
