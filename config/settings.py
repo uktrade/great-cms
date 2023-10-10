@@ -103,9 +103,11 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'wagtail.contrib.legacy.sitemiddleware.SiteMiddleware',
+    'csp.middleware.CSPMiddleware',
     'core.middleware.UserSpecificRedirectMiddleware',
     'core.middleware.StoreUserExpertiseMiddleware',
     'core.middleware.CheckGATags',
+    'core.middleware.HHTPHeaderDisallowEmbeddingMiddleware',
     # 'directory_sso_api_client.middleware.AuthenticationMiddleware',
     'great_components.middleware.NoCacheMiddlware',
 ]
@@ -1005,3 +1007,11 @@ CAMPAIGN_MODERATION_REQUESTOR_EMAIL_TEMPLATE_ID = env.str(
     'CAMPAIGN_MODERATION_REQUESTOR_EMAIL_TEMPLATE_ID', '321db5bd-362c-45de-b8ce-6e9b0f36198e'
 )
 CAMPAIGN_MODERATION_REPLY_TO_ID = env.str('CAMPAIGN_MODERATION_REPLY_TO_ID', '654df5da-c214-4297-bb55-27690ce1813d')
+
+# django-csp config
+CSP_DEFAULT_SRC = 'self'
+CSP_CHILD_SRC = 'self'
+CSP_OBJECT_SRC = 'none'
+CSP_FRAME_ANCESTORS = 'none'
+CSP_UPGRADE_INSECURE_REQUESTS = True
+CSP_BLOCK_ALL_MIXED_CONTENT = True
