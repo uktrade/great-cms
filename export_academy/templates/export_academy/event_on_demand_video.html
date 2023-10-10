@@ -35,30 +35,36 @@
                      class="great-container govuk-!-padding-top-0  govuk-!-padding-bottom-0">
                 <div class="event-on-demand-video-container">
                     <div class="video-wrapper">
-                        {% render_video event_video %}
+                        {% if signed_in %}
+                            {% render_video event_video %}
+                        {% else %}
+                            <img id="thumbnail"
+                                 src="{{ video_instance.thumbnail.url }}"
+                                 alt="Video Thumbnail" />
+                        {% endif %}
                         {% if not signed_in %}
-                            <div class="video-button-overlay">
+                            <div class="video-button-overlay great-container">
                                 <a role="button"
                                    class="button  primary-button great-primary-button--chevron"
                                    href="{% url 'export_academy:signup' %}?next={% url 'export_academy:video-on-demand' slug=slug %}">Sign up to watch</a>
-                                <p class="great-text-white govuk-!-static-margin-top-2 govuk-!-static-margin-bottom-2">
+                                <p class="great-text-white govuk-!-static-margin-top-3 govuk-!-static-margin-bottom-1">
                                     Already joined the UK Export Academy?
                                 </p>
-                                <a class="govuk-link great-text-white great-font-bold"
+                                <a class="govuk-link great-text-white great-font-bold geat-white-overlay-link"
                                    href="{% url 'export_academy:signin' %}?next={% url 'export_academy:video-on-demand' slug=slug %}">Sign in</a>
                             </div>
                         {% endif %}
                     </div>
                     <div id='next-live-event' class="govuk-!-static-padding-bottom-6">
-                        <div class="great-display-flex great-align-items-flex-end">
+                        <div id="ask-the-experts"
+                             class="great-display-flex great-align-items-flex-end">
                             <div>
-                                <span class="govuk-caption-m govuk-!-static-margin-top-3">Ask the experts</span>
-                                <h2 class="govuk-heading-s">Next live event</h2>
+                                <span class="govuk-caption-m govuk-!-static-margin-top-4">Ask the experts</span>
+                                <h2 class="govuk-heading-s">Next live event with Q&A</h2>
                             </div>
-                            <img id='ask-the-experts'
-                                 class="govuk-!-margin-bottom-5 govuk-!-static-margin-left-4"
+                            <img class="govuk-!-margin-bottom-5"
                                  src="/static/images/ask-the-experts.svg"
-                                 alt="ask-the-experts" />
+                                 alt="null" />
                         </div>
                         <div class="govuk-!-static-margin-bottom-2">{% include './includes/event_item_badge.html' with event=event %}</div>
                         <a href="../../events" class="govuk-link">View all live events</a>
@@ -74,7 +80,7 @@
                            href="{{ event_document_url }}"><i class="fa fa-file-download govuk-!-padding-right-2"></i>Download event presentation</a>
                     {% else %}
                         <a class="govuk-link govuk-link--no-visited-state"
-                           href="{% url 'export_academy:signin' %}?next={{ event_document_url }}"><i class="fa fa-file-download govuk-!-padding-right-2"></i>Sign up to download event presentation</a>
+                           href="{% url 'export_academy:signup' %}?next={{ event_document_url }}"><i class="fa fa-file-download govuk-!-padding-right-2"></i>Sign up to download event presentation</a>
                     {% endif %}
                 </div>
             </section>
