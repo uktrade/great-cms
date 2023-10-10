@@ -998,7 +998,7 @@ SPECTACULAR_SETTINGS = {
 DRAFTAIL_ANCHORS_RENDERER = env.str('DRAFTAIL_ANCHORS_RENDERER', 'wagtail_draftail_anchors.rich_text.render_span')
 
 # Wagtail Campaign pages notification settings:
-MODERATION_EMAIL_DIST_LIST = env.str('MODERATION_EMAIL_DIST_LIST', 'campaign-sites@businessandtrade.gov.uk')
+MODERATION_EMAIL_DIST_LIST = env.str('MODERATION_EMAIL_DIST_LIST')
 
 CAMPAIGN_MODERATORS_EMAIL_TEMPLATE_ID = env.str(
     'CAMPAIGN_MODERATORS_EMAIL_TEMPLATE_ID', '75c6fde4-f27c-4f75-b7ed-2b526912a041'
