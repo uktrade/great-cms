@@ -1,11 +1,12 @@
 import logging
 import math
-from datetime import timedelta
+import re
+from datetime import datetime, timedelta
 from uuid import uuid4
 
 from directory_forms_api_client import actions
 from django.contrib.auth.models import AnonymousUser
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.text import get_valid_filename
@@ -156,6 +157,9 @@ class EventVideoView(DetailView):
         if video:
             ctx['event_video'] = {'video': video}
             ctx['video_duration'] = format_timedelta(timedelta(seconds=event.video_recording.duration))
+
+        if not event.name or not video:
+            raise Http404
 
         document = getattr(event, 'document', None)
         completed = getattr(event, 'completed', None)
@@ -675,6 +679,7 @@ class EventsDetailsView(DetailView):
         ctx['warning_text'] = self.get_warning_text()
         ctx['warning_call_to_action'] = self.warning_call_to_action
         ctx['has_event_badges'] = len(self.get_badges_for_event(self.event)) > 0
+        ctx['series'] = self.event.get_course()[0] if len(self.event.get_course()) else None
         return ctx
 
     def get_buttons_for_event(self, event):
@@ -734,6 +739,43 @@ class EventVideoOnDemandView(DetailView):
     template_name = 'export_academy/event_on_demand_video.html'
     model = models.Event
 
+    def extract_date_and_event_name(self, input_string):
+        # Define a regular expression pattern for extracting the date
+        date_pattern = r'(\d{2}-[a-zA-Z]+-\d{4})$'
+
+        # Use re.search to find the match at the end of the string
+        date_match = re.search(date_pattern, input_string)
+
+        if date_match:
+            # Extract the date from the match
+            date = date_match.group(1)
+
+            # Get the remaining part of the string before the date
+            text_before_date = input_string[: date_match.start()].rstrip('-').strip()
+
+            return text_before_date, date
+        else:
+            # If no date is found, return None for both parts
+            return None, None
+
+    def get_object(self, queryset=None):
+        slug = self.kwargs.pop('slug', None)
+        if not slug:
+            raise Http404
+        event_slug, recording_date = self.extract_date_and_event_name(slug)
+        recorded_datetime = datetime.strptime(recording_date, '%d-%B-%Y').date()
+        event = models.Event.objects.filter(
+            slug__contains=event_slug, past_event_recorded_date__date=recorded_datetime
+        ).first()
+        video = getattr(event, 'past_event_video_recording', None)
+        if not event or not video:
+            raise Http404
+        self.kwargs['pk'] = event.id
+        obj = super().get_object(queryset=None)
+        if obj:
+            return obj
+        raise Http404
+
     def get_context_data(self, **kwargs):
         self.user = self.request.user
         self.signed_in = True if self.request.user != AnonymousUser() else False
@@ -753,6 +795,7 @@ class EventVideoOnDemandView(DetailView):
         ctx['event_types'] = event.get_event_types()
         ctx['signed_in'] = self.signed_in
         ctx['event'] = event
-        ctx['series'] = {'label': 'The Essential Series', 'value': 'the-essentials-series'}
+        ctx['series'] = event.get_course()[0] if len(event.get_course()) else None
         ctx['slug'] = kwargs['object'].slug
+        ctx['video_page_slug'] = event.get_past_event_recording_slug()
         return ctx
