@@ -588,6 +588,12 @@
       height: auto;
     }
     #next-live-event{
+      margin: 0 30px;
+    }
+  }
+
+  @media only screen and (max-width: $mobile-size) {
+   #next-live-event{
       margin: 0 15px;
     }
   }

@@ -69,7 +69,8 @@
   .govuk-link,
   .govuk-caption-m,
   .govuk-caption-s,
-  .govuk-caption-lm, .govuk-list {
+  .govuk-caption-lm,
+  .govuk-list {
     font-family: $great-font;
   }
 
@@ -225,12 +226,21 @@
   .govuk-warning-text__text {
     font-size: 16px;
     line-height: 24px;
-    color: $color-main-text;
 
     @include govuk-media-query($from: tablet) {
       font-size: 18px;
       line-height: 30px;
     }
+  }
+  .govuk-body,
+  .govuk-label,
+  .govuk-hint,
+  .govuk-input,
+  .govuk-body-s,
+  .govuk-summary-list__key,
+  .govuk-summary-list__value,
+  .govuk-warning-text__text {
+    color: $color-main-text;
   }
 
   .govuk-body-s {
@@ -747,6 +757,6 @@ img.richtext-image {
     text-decoration-thickness: 3px;
   }
   &:focus:not(:hover) {
-    color: #0b0c0c!important;
+    color: #0b0c0c !important;
   }
 }
