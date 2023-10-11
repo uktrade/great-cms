@@ -1,0 +1,39 @@
+{% if not request.session.csat_complete %}
+    <form method="POST"
+          novalidate
+          action="{% url 'international_online_offer:csat-widget-submit' %}?url={{ request.build_absolute_uri }}">
+        {% csrf_token %}
+        <h2 class="govuk-heading-l govuk-!-margin-bottom-2">
+            Overall, how would you rate your experience with the Expand Your Business in the UK service today?
+        </h2>
+        <div class="barrier-rating">
+            <div class="rating-box-new govuk-heading-xl">
+                <input type="radio"
+                       name="satisfaction"
+                       id="zero"
+                       value=""
+                       display="hidden"
+                       checked />
+                <input type="radio" name="satisfaction" id="one" value="VERY_DISSATISFIED" />
+                <label for="one" class="rating-star-item"></label>
+                <input type="radio" name="satisfaction" id="two" value="DISSATISFIED" />
+                <label for="two" class="rating-star-item"></label>
+                <input type="radio" name="satisfaction" id="three" value="NEITHER" />
+                <label for="three" class="rating-star-item"></label>
+                <input type="radio" name="satisfaction" id="four" value="SATISFIED" />
+                <label for="four" class="rating-star-item"></label>
+                <input type="radio" name="satisfaction" id="five" value="VERY_SATISFIED" />
+                <label for="five" class="rating-star-item"></label>
+                <div class="flex-break"></div>
+                <div id="rating1" class="govuk-body-l">Very dissatisfied</div>
+                <div id="rating2" class="govuk-body-l">Dissatisfied</div>
+                <div id="rating3" class="govuk-body-l">Neither satisfied or dissatisfied</div>
+                <div id="rating4" class="govuk-body-l">Satisfied</div>
+                <div id="rating5" class="govuk-body-l">Very satisfied</div>
+            </div>
+            <button type="submit"
+                    class="govuk-button csat-button"
+                    data-module="govuk-button">Continue</button>
+        </div>
+    </form>
+{% endif %}
