@@ -745,7 +745,7 @@ img.richtext-image {
   &:hover {
     text-decoration-thickness: 3px;
   }
-  // &:focus {
-  //   color: #0b0c0c;
-  // }
+  &:focus:not(:hover) {
+    color: #0b0c0c!important;
+  }
 }

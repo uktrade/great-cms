@@ -1,4 +1,5 @@
 import datetime
+import re
 import uuid
 from datetime import timedelta
 
@@ -200,6 +201,28 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
     def has_ended(self):
         current_datetime = datetime.datetime.now(datetime.timezone.utc)
         return self.end_date < current_datetime
+
+    def get_course(self):
+        unique_courses = set()
+
+        for course in CoursePage.objects.live():
+            for event in course.get_all_events():
+                if event.get_absolute_url() == self.get_absolute_url():
+                    unique_courses.add((course.page_heading, course.slug))
+
+        return [{'label': title, 'value': slug} for title, slug in unique_courses]
+
+    def get_past_event_recording_slug(self):
+        if not self.past_event_recorded_date:
+            return None
+
+        date_pattern = r'(\d{2}-[a-zA-Z]+-\d{4})$'
+        date_match = re.search(date_pattern, self.slug)
+
+        if date_match:
+            text_before_date = self.slug[: date_match.start()].strip()
+            return text_before_date + self.past_event_recorded_date.strftime("%d-%B-%Y")
+        return None
 
 
 class Registration(TimeStampedModel):
@@ -502,6 +525,12 @@ class CoursePage(CoursePagePanels, BaseContentPage):
         null=True,
         blank=True,
     )
+
+    def get_all_events(self):
+        events = []
+        for modules in self.course_events.get_object_list():
+            events += [event_model.event for event_model in modules.module_events.get_object_list()]
+        return events
 
     def get_events(self):
         latest_event = {}

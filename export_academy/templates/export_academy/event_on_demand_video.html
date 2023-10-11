@@ -3,7 +3,7 @@
 {% load component_tags %}
 {% load video_tags %}
 {% load breadcrumbs from component_tags %}
-{% block head_title %}Past video recording –{{ object.name }}{% endblock %}
+{% block head_title %}Event recording –{{ object.name }}{% endblock %}
 {% block css_layout_class %}great-bg-white{% endblock %}
 {% block breadcrumbs_block %}
     <div id="breadcrumbs"
@@ -46,12 +46,12 @@
                             <div class="video-button-overlay great-container">
                                 <a role="button"
                                    class="button  primary-button great-primary-button--chevron"
-                                   href="{% url 'export_academy:signup' %}?next={% url 'export_academy:video-on-demand' slug=slug %}">Sign up to watch</a>
+                                   href="{% url 'export_academy:signup' %}?next={% url 'export_academy:video-on-demand' slug=video_page_slug %}">Sign up to watch</a>
                                 <p class="great-text-white govuk-!-static-margin-top-3 govuk-!-static-margin-bottom-1">
                                     Already joined the UK Export Academy?
                                 </p>
-                                <a class="govuk-link great-text-white great-font-bold geat-white-overlay-link"
-                                   href="{% url 'export_academy:signin' %}?next={% url 'export_academy:video-on-demand' slug=slug %}">Sign in</a>
+                                <a class="govuk-link great-text-white great-font-bold great-white-overlay-link"
+                                   href="{% url 'export_academy:signin' %}?next={% url 'export_academy:video-on-demand' slug=video_page_slug %}">Sign in</a>
                             </div>
                         {% endif %}
                     </div>
@@ -80,7 +80,7 @@
                            href="{{ event_document_url }}"><i class="fa fa-file-download govuk-!-padding-right-2"></i>Download event presentation</a>
                     {% else %}
                         <a class="govuk-link govuk-link--no-visited-state"
-                           href="{% url 'export_academy:signup' %}?next={{ event_document_url }}"><i class="fa fa-file-download govuk-!-padding-right-2"></i>Sign up to download event presentation</a>
+                           href="{% url 'export_academy:signup' %}?next={% url 'export_academy:video-on-demand' slug=video_page_slug %}"><i class="fa fa-file-download govuk-!-padding-right-2"></i>Sign up to download event presentation</a>
                     {% endif %}
                 </div>
             </section>

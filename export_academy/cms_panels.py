@@ -93,17 +93,10 @@ class EventPanel:
             ],
         ),
         MultiFieldPanel(
-            heading='Past event recording',
-            children=[
-                FieldPanel('past_event_video_recording', widget=AdminMediaChooser),
-                FieldPanel('past_event_recorded_date'),
-                FieldPanel('past_event_presentation_file'),
-            ],
-        ),
-        MultiFieldPanel(
             heading='Event Complete Actions',
             children=[
                 FieldPanel('document'),
+                FieldPanel('video_recording', widget=AdminMediaChooser),
                 FieldPanel('completed'),
             ],
         ),
@@ -111,6 +104,14 @@ class EventPanel:
         FieldPanel('closed', heading='closed for bookings'),
         MultiFieldPanel([InlinePanel('event_speakers', label='Speakers')], heading='speaker(s)'),
         HelpPanel(template='wagtailadmin/export_academy/panels/bookings_table_display.html'),
+        MultiFieldPanel(
+            heading='Past event recording',
+            children=[
+                FieldPanel('past_event_video_recording', widget=AdminMediaChooser),
+                FieldPanel('past_event_recorded_date'),
+                FieldPanel('past_event_presentation_file'),
+            ],
+        ),
     ]
 
 
