@@ -221,7 +221,7 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
 
         if date_match:
             text_before_date = self.slug[: date_match.start()].strip()
-            return text_before_date + self.past_event_recorded_date.strftime("%d-%B-%Y")
+            return text_before_date + self.past_event_recorded_date.strftime('%d-%B-%Y')
         return None
 
 
