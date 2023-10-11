@@ -330,11 +330,3 @@ def test_redirect_edge_cases(client):
     # Navigate to it
     response = client.get('/redirectme/')
     assert response.status_code == 404
-
-
-@pytest.mark.django_db
-def test_http_headers_disallow_embedding(domestic_site, client):
-    response = client.get(domestic_site.root_page.url)
-
-    assert response.status_code == 200
-    assert 'X-Permitted-Cross-Domain-Policies' in response.headers

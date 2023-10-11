@@ -78,4 +78,3 @@ drf-spectacular==0.26.2
 Babel==2.12.1
 pandas==1.5.3
 sqlalchemy==1.4.49
-django-csp
