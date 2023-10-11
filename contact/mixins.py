@@ -23,7 +23,6 @@ class ExportSupportFormMixin:
 
         form_data = ({**self.initial_data, **cleaned_data},)
         form_data = pickle.dumps(form_data).hex()
-
         self.request.session['form_data'] = form_data
 
     def get_context_data(self, **kwargs):

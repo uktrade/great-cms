@@ -204,3 +204,37 @@ def get_steps(form_data, second_step_edit_page, markets):
             'change_text': 'Amend about your enquiry section',
         },
     ]
+
+
+def dpe_clean_submission_for_zendesk(submission_data: dict):
+    sorted_submission = dpe_sort_submission_data(submission_data)
+    return dpe_map_fields_to_human_readable_values(sorted_submission)
+
+
+def dpe_sort_submission_data(submission_data_unsorted: dict):
+    priority = [
+        'enquiry',
+        'first_name',
+        'last_name',
+        'job_title',
+        'uk_telephone_number',
+        'email',
+        'business_name',
+        'business_type',
+        'business_postcode',
+        'company_registration_number',
+    ]
+
+    sorted = {field: submission_data_unsorted.get(field) for field in priority}
+    unsorted = {field: value for field, value in submission_data_unsorted.items() if field not in priority}
+
+    return {**sorted, **unsorted}
+
+
+def dpe_map_fields_to_human_readable_values(submission_data: dict):
+    fields_to_map = ['business_type', 'type', 'annual_turnover', 'number_of_employees', 'about_your_experience']
+    result = {**submission_data}
+
+    result.update({field: get_export_support_field_mappings(field, submission_data) for field in fields_to_map})
+
+    return result
