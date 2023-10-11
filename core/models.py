@@ -87,7 +87,9 @@ class GreatMedia(Media):
 
     def save(self, *args, **kwargs):
         self.file._committed = True
-        self.file.name = f'media/{self.file.name}'
+        # make sure to append media/ to key
+        if not self.file.name.startswith('media/'):
+            self.file.name = f'media/{self.file.name}'
         return super().save(*args, **kwargs)
 
     @property
