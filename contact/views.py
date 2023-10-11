@@ -500,6 +500,9 @@ class DomesticExportSupportFormStep7View(contact_mixins.ExportSupportFormMixin, 
             sender=sender,
         )
 
+        market_choices_long_form = [country[1] for country in COUNTRY_CHOICES if country[0] in form_data['markets']]
+        form_data['markets'] = market_choices_long_form
+
         response = action.save(form_data)
         response.raise_for_status()
 
