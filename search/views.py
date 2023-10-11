@@ -134,5 +134,7 @@ class SearchFeedbackSuccessView(TemplateView):
     template_name = 'search_feedback_confirmation.html'
 
     def get_context_data(self, **kwargs):
-        next_url = core_helpers.check_url_host_is_safelisted(self.request)
-        return super().get_context_data(**kwargs, next_url=next_url)
+        if self.request.GET.get('next'):
+            next_url = core_helpers.check_url_host_is_safelisted(self.request)
+            return super().get_context_data(**kwargs, next_url=next_url)
+        return super().get_context_data(**kwargs)

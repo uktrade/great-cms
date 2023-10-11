@@ -223,8 +223,10 @@ class SignupForTailoredContentWizardView(GA360Mixin, AbstractSignupWizardView, N
     )
 
     def get_context_data(self, **kwargs):
-        next_url = helpers.check_url_host_is_safelisted(self.request)
-        return super().get_context_data(**kwargs, next_url=next_url)
+        if self.request.GET.get('next'):
+            next_url = helpers.check_url_host_is_safelisted(self.request)
+            return super().get_context_data(**kwargs, next_url=next_url)
+        return super().get_context_data(**kwargs)
 
 
 class SignupForExportPlanWizardView(GA360Mixin, AbstractSignupWizardView, NamedUrlSessionWizardView):
@@ -244,8 +246,10 @@ class SignupForExportPlanWizardView(GA360Mixin, AbstractSignupWizardView, NamedU
     )
 
     def get_context_data(self, **kwargs):
-        next_url = helpers.check_url_host_is_safelisted(self.request)
-        return super().get_context_data(**kwargs, next_url=next_url)
+        if self.request.GET.get('next'):
+            next_url = helpers.check_url_host_is_safelisted(self.request)
+            return super().get_context_data(**kwargs, next_url=next_url)
+        return super().get_context_data(**kwargs)
 
 
 class CompanyNameFormView(GA360Mixin, FormView):

@@ -1300,3 +1300,20 @@ def test_design_system_page(
     response = client.get(reverse('core:design-system'))
 
     assert 'GREAT Design System' in str(response.rendered_content)
+
+
+@pytest.mark.django_db
+def test_signup_for_tailored_content_wizard_view_next_url(client):
+    response1 = client.get(reverse('core:signup-wizard-tailored-content', kwargs={'step': views.STEP_START}))
+    assert 'next_url' not in response1.context_data
+
+    response2 = client.get(
+        reverse('core:signup-wizard-tailored-content', kwargs={'step': views.STEP_START}) + '?next=http://www.safe.com'
+    )
+    assert response2.context_data['next_url'] == '/'
+
+    settings.SAFELIST_HOSTS += ['www.safe.com']
+    response3 = client.get(
+        reverse('core:signup-wizard-tailored-content', kwargs={'step': views.STEP_START}) + '?next=http://www.safe.com'
+    )
+    assert response3.context_data['next_url'] == 'http://www.safe.com'
