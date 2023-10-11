@@ -22,7 +22,6 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from hashids import Hashids
 from ipware import get_client_ip
 
-from config.settings import SAFELIST_HOSTS
 from core.models import CuratedListPage
 from core.serializers import parse_opportunities
 from directory_api_client import api_client
@@ -39,7 +38,7 @@ logger = getLogger(__name__)
 
 def check_url_host_is_safelisted(request):
     if request.GET.get('next'):
-        if url_has_allowed_host_and_scheme(request.GET.get('next'), SAFELIST_HOSTS):
+        if url_has_allowed_host_and_scheme(request.GET.get('next'), settings.SAFELIST_HOSTS):
             return iri_to_uri(request.GET.get('next'))
         else:
             logger.error('Host is not on the safe list - %s', request.GET.get('next'))

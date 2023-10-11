@@ -6,7 +6,7 @@ import pytest
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.http import HttpRequest
-from django.test import RequestFactory, override_settings
+from django.test import RequestFactory, modify_settings, override_settings
 from PIL import Image, ImageDraw
 from requests.exceptions import HTTPError
 
@@ -954,11 +954,12 @@ def test_clam_av_client(mock_requests_post):
     )
 
 
-def test_check_host_safelist(settings):
-    request = RequestFactory().get('/?next=http://www.safe.com')
-    actual = helpers.check_url_host_is_safelisted(request)
-    assert actual == '/'
+@modify_settings(SAFELIST_HOSTS={'append': 'www.safe.com'})
+def test_check_host_safelist():
+    request1 = RequestFactory().get('/?next=http://www.unsafe.com')
+    actual1 = helpers.check_url_host_is_safelisted(request1)
+    assert actual1 == '/'
 
-    settings.SAFELIST_HOSTS += ['www.safe.com']
-    actual = helpers.check_url_host_is_safelisted(request)
-    assert actual == 'http://www.safe.com'
+    request2 = RequestFactory().get('/?next=http://www.safe.com')
+    actual2 = helpers.check_url_host_is_safelisted(request2)
+    assert actual2 == 'http://www.safe.com'

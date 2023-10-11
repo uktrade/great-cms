@@ -8,7 +8,7 @@ import pytest
 from django.conf import settings
 from django.http import JsonResponse
 from django.http.cookie import SimpleCookie
-from django.test import Client, TestCase, override_settings
+from django.test import Client, TestCase, modify_settings, override_settings
 from django.urls import reverse, reverse_lazy
 from formtools.wizard.views import normalize_name
 from pytest_django.asserts import assertTemplateUsed
@@ -1303,16 +1303,17 @@ def test_design_system_page(
 
 
 @pytest.mark.django_db
+@modify_settings(SAFELIST_HOSTS={'append': 'www.safe.com'})
 def test_signup_for_tailored_content_wizard_view_next_url(client):
     response1 = client.get(reverse('core:signup-wizard-tailored-content', kwargs={'step': views.STEP_START}))
     assert 'next_url' not in response1.context_data
 
     response2 = client.get(
-        reverse('core:signup-wizard-tailored-content', kwargs={'step': views.STEP_START}) + '?next=http://www.safe.com'
+        reverse('core:signup-wizard-tailored-content', kwargs={'step': views.STEP_START})
+        + '?next=http://www.unsafe.com'
     )
     assert response2.context_data['next_url'] == '/'
 
-    settings.SAFELIST_HOSTS += ['www.safe.com']
     response3 = client.get(
         reverse('core:signup-wizard-tailored-content', kwargs={'step': views.STEP_START}) + '?next=http://www.safe.com'
     )
