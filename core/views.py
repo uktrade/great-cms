@@ -245,12 +245,6 @@ class SignupForExportPlanWizardView(GA360Mixin, AbstractSignupWizardView, NamedU
         (STEP_SIGN_UP, forms.NoOperationForm),
     )
 
-    def get_context_data(self, **kwargs):
-        if self.request.GET.get('next'):
-            next_url = helpers.check_url_host_is_safelisted(self.request)
-            return super().get_context_data(**kwargs, next_url=next_url)
-        return super().get_context_data(**kwargs)
-
 
 class CompanyNameFormView(GA360Mixin, FormView):
     def __init__(self):
