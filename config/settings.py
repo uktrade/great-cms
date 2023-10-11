@@ -103,11 +103,9 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'wagtail.contrib.legacy.sitemiddleware.SiteMiddleware',
-    'csp.middleware.CSPMiddleware',
     'core.middleware.UserSpecificRedirectMiddleware',
     'core.middleware.StoreUserExpertiseMiddleware',
     'core.middleware.CheckGATags',
-    'core.middleware.HHTPHeaderDisallowEmbeddingMiddleware',
     # 'directory_sso_api_client.middleware.AuthenticationMiddleware',
     'great_components.middleware.NoCacheMiddlware',
 ]
