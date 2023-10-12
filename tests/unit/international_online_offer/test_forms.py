@@ -204,6 +204,18 @@ def test_feedback_form_validation(form_data, is_valid):
             },
             True,
         ),
+        (
+            {
+                'satisfaction': 'VERY_SATISFIED',
+                'experience': ['OTHER'],
+                'experience_other': '',
+                'feedback_text': 'This is some feedback',
+                'likelihood_of_return': 'LIKELY',
+                'site_intentions': ['OTHER'],
+                'site_intentions_other': '',
+            },
+            False,
+        ),
         ({'satisfaction': 'VERY_SATISFIED', '': '', '': '', '': '', '': '', '': ''}, False),
     ),
 )
