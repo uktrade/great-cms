@@ -190,3 +190,9 @@ class MicrositeView(CampaignView):
             self.success_url_path += f'&lang={get_language()}'
 
         return self.success_url_path
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            campaign_site_page=True,
+        )

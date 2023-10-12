@@ -17,11 +17,4 @@
             {% include 'domestic/includes/article_related_content_footer.html' %}
         {% endif %}
     {% endblock %}
-    {% block footer_base_campaign %}
-        {% if page.type_of_article.strip == 'Campaign' and FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK %}
-            <li>
-                <a href="/international" title="International business">Get support for UK export or investment at great.gov.uk</a>
-            </li>
-        {% endif %}
-    {% endblock %}
 {% endblock %}
