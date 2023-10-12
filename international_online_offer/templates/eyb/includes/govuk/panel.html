@@ -1,0 +1,6 @@
+{% if title_text or body_text %}
+    <div class="govuk-panel govuk-panel--confirmation">
+        {% if title_text %}<h1 class="govuk-panel__title">{{ title_text }}</h1>{% endif %}
+        {% if body_text %}<div class="govuk-panel__body">{{ body_text }}</div>{% endif %}
+    </div>
+{% endif %}

@@ -291,7 +291,7 @@ class FeedbackForm(forms.Form):
 
 class CsatFeedbackForm(forms.Form):
     satisfaction = ChoiceField(
-        label='1. Overall, how do you feel about your use of the Expand your Business digital service today?',
+        label='Overall, how do you feel about your use of the Expand your Business digital service today?',
         choices=choices.SATISFACTION_CHOICES,
         widget=RadioSelect(attrs={'class': 'govuk-radios__input'}),
         error_messages={
@@ -299,7 +299,7 @@ class CsatFeedbackForm(forms.Form):
         },
     )
     experience = MultipleChoiceField(
-        label='2. Did you experience any of the following issues?',
+        label='Did you experience any of the following issues?',
         help_text='Tick all that apply.',
         choices=choices.EXPERIENCE_CHOICES,
         widget=CheckboxSelectMultiple(attrs={'class': 'govuk-checkboxes__input'}),
@@ -307,15 +307,22 @@ class CsatFeedbackForm(forms.Form):
             'required': 'You must select one or more issues',
         },
     )
+    experience_other = CharField(
+        label='Type your answer',
+        min_length=2,
+        max_length=100,
+        required=False,
+        widget=TextInput(attrs={'class': 'govuk-input'}),
+    )
     feedback_text = CharField(
-        label='3. How could we improve the service?',
+        label='How could we improve this service?',
         help_text="Don't include any personal information, like your name or email address. (optional)",
         max_length=3000,
         required=False,
         widget=Textarea(attrs={'class': 'govuk-textarea', 'rows': 7}),
     )
     likelihood_of_return = ChoiceField(
-        label='4. What is the likelihood of you returning to this site?',
+        label='How likely are you to use this service again?',
         choices=choices.LIKELIHOOD_CHOICES,
         widget=RadioSelect(attrs={'class': 'govuk-radios__input'}),
         error_messages={
@@ -323,7 +330,7 @@ class CsatFeedbackForm(forms.Form):
         },
     )
     site_intentions = MultipleChoiceField(
-        label='5. What will your business use this site for?',
+        label='What did you get out of this service today?',
         help_text='Tick all that apply.',
         choices=choices.INTENSION_CHOICES,
         widget=CheckboxSelectMultiple(attrs={'class': 'govuk-checkboxes__input'}),
@@ -331,3 +338,31 @@ class CsatFeedbackForm(forms.Form):
             'required': 'You must select one or more site use options',
         },
     )
+    site_intentions_other = CharField(
+        label='Type your answer',
+        min_length=2,
+        max_length=100,
+        required=False,
+        widget=TextInput(attrs={'class': 'govuk-input'}),
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        experience = cleaned_data.get('experience')
+        site_intentions = cleaned_data.get('site_intentions')
+
+        if experience and 'OTHER' not in experience:
+            cleaned_data['experience_other'] = ''
+        if site_intentions and 'OTHER' not in site_intentions:
+            cleaned_data['site_intentions_other'] = ''
+
+        experience_other = cleaned_data.get('experience_other')
+        site_intentions_other = cleaned_data.get('site_intentions_other')
+
+        if experience and any('OTHER' in s for s in experience) and not experience_other:
+            self.add_error('experience_other', 'You must enter more information regarding other experience')
+
+        if site_intentions and any('OTHER' in s for s in site_intentions) and not site_intentions_other:
+            self.add_error('site_intentions_other', 'You must enter more information regarding other service use')
+
+        return cleaned_data
