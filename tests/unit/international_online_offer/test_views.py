@@ -424,6 +424,22 @@ def test_feedback(client, settings):
     assert response.status_code == 200
 
 
+@pytest.mark.django_db
+def test_csat_feedback(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:csat-feedback')
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_csat_widget(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:csat-widget-submit') + '?url=http://testurl.com'
+    response = client.post(url, {'satisfaction': 'SATISFIED', 'user_journey': 'DASHBOARD'})
+    assert response.status_code == 302
+
+
 @pytest.mark.parametrize(
     'form_data',
     (({'feedback_text': 'Some example feedback', 'next': 'http://www.somerefererurl.com'}),),
