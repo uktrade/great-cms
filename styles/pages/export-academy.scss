@@ -436,7 +436,7 @@
     }
   }
 
-  .event-date-badge time {
+  .event-date-badge {
     background-color: #1e1348;
     width: 60px;
     min-width: 60px;
@@ -445,16 +445,25 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    span {
+    i {
       color: white;
-      &:first-of-type {
-        font-size: 24px;
-        line-height: 24px;
-        font-family: $header-font;
-      }
-      &:nth-of-type(2) {
-        font-size: 16px;
-        line-height: 16px;
+      font-size: 18px;
+    }
+    time {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      span {
+        color: white;
+        &:first-of-type {
+          font-size: 24px;
+          line-height: 24px;
+          font-family: $header-font;
+        }
+        &:nth-of-type(2) {
+          font-size: 16px;
+          line-height: 16px;
+        }
       }
     }
   }
@@ -539,11 +548,11 @@
   }
 }
 
-#past-video-recording{
+#past-video-recording {
   line-height: 0;
   @media only screen and (max-width: 1230px) {
-    padding-left: 0!important;
-    padding-right: 0!important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 }
 .event-on-demand-video-container {
@@ -554,7 +563,8 @@
     line-height: 0;
     position: relative;
     min-width: 810px;
-    video, #thumbnail {
+    video,
+    #thumbnail {
       width: 810px;
     }
     #thumbnail {
@@ -579,29 +589,30 @@
 
   @media only screen and (max-width: 1230px) {
     flex-direction: column;
-     width: 100%;
-    .video-wrapper{
+    width: 100%;
+    .video-wrapper {
       min-width: initial;
     }
-    .video-wrapper video, .video-wrapper #thumbnail {
+    .video-wrapper video,
+    .video-wrapper #thumbnail {
       width: 100%;
       height: auto;
     }
-    #next-live-event{
+    #next-live-event {
       margin: 0 30px;
     }
   }
 
   @media only screen and (max-width: $mobile-size) {
-   #next-live-event{
+    #next-live-event {
       margin: 0 15px;
     }
   }
 }
 
-#ask-the-experts{
+#ask-the-experts {
   justify-content: space-between;
-  img{
+  img {
     height: 54px;
   }
 }
@@ -610,10 +621,9 @@
   max-width: 390px;
 }
 
-
 .event-metadata .govuk-summary-list__row {
   @media only screen and (max-width: $mobile-size) {
     flex-direction: column;
-    align-items: flex-start!important;
+    align-items: flex-start !important;
   }
 }

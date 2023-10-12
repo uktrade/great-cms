@@ -24,7 +24,7 @@
         {% with content_snippet as hero %}
             <div class="great" id="ea-course-page-header">
                 {% image page.hero_image max-800x600 as hero_image %}
-                {% include 'components/course_page_hero.html' with image_url=hero_image.url hero_title=page.page_heading hero_subeading='Series' hero_text=page.summary %}
+                {% include 'components/course_page_hero.html' with image_url=hero_image.url hero_title=page.page_heading hero_subeading='Series' hero_text=page.summary signed_in=signed_in slug=slug %}
             </div>
         {% endwith %}
     {% endblock %}

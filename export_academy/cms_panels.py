@@ -103,7 +103,6 @@ class EventPanel:
         FieldPanel('live'),
         FieldPanel('closed', heading='closed for bookings'),
         MultiFieldPanel([InlinePanel('event_speakers', label='Speakers')], heading='speaker(s)'),
-        HelpPanel(template='wagtailadmin/export_academy/panels/bookings_table_display.html'),
         MultiFieldPanel(
             heading='Past event recording',
             children=[
@@ -112,6 +111,7 @@ class EventPanel:
                 FieldPanel('past_event_presentation_file'),
             ],
         ),
+        HelpPanel(template='wagtailadmin/export_academy/panels/bookings_table_display.html'),
     ]
 
 
