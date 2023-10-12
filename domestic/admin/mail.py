@@ -13,12 +13,12 @@ class ModerationTaskStateEmailNotifier:
         return self.send_notifications(triggering_user)
 
     def can_handle(self, instance, **kwargs):
-        from domestic.models import ArticlePage
+        from core.models import MicrositePage
 
         if isinstance(instance, TaskState):
-            if not isinstance(instance.revision.content_object, ArticlePage):
+            if not isinstance(instance.revision.content_object, MicrositePage):
                 return False
-            return True if instance.revision.content_object.type_of_article.strip() == 'Campaign' else False
+            return True if instance.revision.content_object.get_verbose_name() == 'Campaign site page' else False
 
     def send_email(self, email, template_id, full_name=None):
         send_campaign_moderation_notification(email, template_id, full_name)

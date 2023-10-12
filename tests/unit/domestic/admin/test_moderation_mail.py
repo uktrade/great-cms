@@ -5,8 +5,9 @@ import pytest
 from wagtail.admin.mail import Notifier
 from wagtail.models import GroupApprovalTask, Revision, Task, TaskState, WorkflowState
 
+from core.models import MicrositePage
 from domestic.admin.mail import ModerationTaskStateSubmissionEmailNotifier
-from domestic.models import ArticlePage, CountryGuidePage
+from domestic.models import CountryGuidePage
 
 receiver = ModerationTaskStateSubmissionEmailNotifier()
 
@@ -59,12 +60,12 @@ def group_approval_task():
 
 @pytest.fixture
 def workflow_state():
-    def _workflow_state(article_page, task_state, user):
+    def _workflow_state(campaign_site_page, task_state, user):
         return WorkflowState(
             id='test_workflow_state_id',
             status=WorkflowState.STATUS_IN_PROGRESS,
             created_at=datetime.datetime.now(),
-            content_object=article_page,
+            content_object=campaign_site_page,
             current_task_state=task_state,
             requested_by=user,
         )
@@ -73,16 +74,15 @@ def workflow_state():
 
 
 @pytest.fixture
-def article_page():
-    def _article_page(type_of_article, latest_revision):
-        return ArticlePage(
-            id='test_article_page_id',
-            title='Test Article Page',
-            type_of_article=type_of_article,
+def campaign_site_page():
+    def _campaign_site_page(latest_revision):
+        return MicrositePage(
+            id='test_campaign_site_page_id',
+            title='Test Camppaign Site Page',
             latest_revision=latest_revision,
         )
 
-    yield _article_page
+    yield _campaign_site_page
 
 
 @pytest.fixture
@@ -99,13 +99,13 @@ def country_guide_page():
 
 @pytest.fixture
 def revision():
-    def _revision(article_page, user):
+    def _revision(campaign_site_page, user):
         return Revision(
             id='test_revision_id',
             created_at=datetime.datetime.now(),
             user=user,
             submitted_for_moderation=True,
-            content_object=article_page,
+            content_object=campaign_site_page,
         )
 
     yield _revision
@@ -129,7 +129,7 @@ def task_state(task):
 @mock.patch.object(ModerationTaskStateSubmissionEmailNotifier, 'send_email')
 @mock.patch.object(Notifier, '__call__')
 @mock.patch.object(TaskState, 'save')
-def test_moderation_email_invoked_with_article_campaign_page_and_both_email_sent(
+def test_moderation_email_invoked_with_campaign_site_page_and_both_email_sent(
     mock_task_state,
     mock_notifier_call,
     mock_receiver_send_email,
@@ -137,22 +137,22 @@ def test_moderation_email_invoked_with_article_campaign_page_and_both_email_sent
     task_state,
     workflow_state,
     group_approval_task,
-    article_page,
+    campaign_site_page,
     revision,
 ):
     test_user = user(has_email=True)
 
-    latest_article_page = article_page('Campaign', None)
+    latest_campaign_site_page = campaign_site_page(None)
 
-    latest_revision = revision(latest_article_page, test_user)
+    latest_revision = revision(latest_campaign_site_page, test_user)
 
-    test_article_page = article_page('Campaign', latest_revision)
+    test_campaign_site_page = campaign_site_page(latest_revision)
 
-    test_revision = revision(test_article_page, test_user)
+    test_revision = revision(test_campaign_site_page, test_user)
 
     test_task_state = task_state(test_revision)
 
-    test_workflow_state = workflow_state(test_article_page, test_task_state, test_user)
+    test_workflow_state = workflow_state(test_campaign_site_page, test_task_state, test_user)
 
     group_approval_task.start(workflow_state=test_workflow_state, user=test_user)
     assert mock_receiver_send_email.call_count == 2
@@ -162,7 +162,7 @@ def test_moderation_email_invoked_with_article_campaign_page_and_both_email_sent
 @mock.patch.object(ModerationTaskStateSubmissionEmailNotifier, 'send_email')
 @mock.patch.object(Notifier, '__call__')
 @mock.patch.object(TaskState, 'save')
-def test_moderation_email_invoked_with_article_campaign_page_and_moderator_email_sent(
+def test_moderation_email_invoked_with_campaign_site_page_and_moderator_email_sent(
     mock_task_state_save,
     mock_notifier_call,
     mock_receiver_send_email,
@@ -170,58 +170,25 @@ def test_moderation_email_invoked_with_article_campaign_page_and_moderator_email
     task_state,
     workflow_state,
     group_approval_task,
-    article_page,
+    campaign_site_page,
     revision,
 ):
     test_user = user(has_email=False)
 
-    latest_article_page = article_page('Campaign', None)
+    latest_campaign_site_page = campaign_site_page(None)
 
-    latest_revision = revision(latest_article_page, test_user)
+    latest_revision = revision(latest_campaign_site_page, test_user)
 
-    test_article_page = article_page('Campaign', latest_revision)
+    test_campaign_site_page = campaign_site_page(latest_revision)
 
-    test_revision = revision(test_article_page, test_user)
+    test_revision = revision(test_campaign_site_page, test_user)
 
     test_task_state = task_state(test_revision)
 
-    test_workflow_state = workflow_state(test_article_page, test_task_state, test_user)
+    test_workflow_state = workflow_state(test_campaign_site_page, test_task_state, test_user)
 
     group_approval_task.start(workflow_state=test_workflow_state, user=test_user)
     assert mock_receiver_send_email.call_count == 1
-
-
-@pytest.mark.django_db
-@mock.patch.object(ModerationTaskStateSubmissionEmailNotifier, 'send_email')
-@mock.patch.object(Notifier, '__call__')
-@mock.patch.object(TaskState, 'save')
-def test_moderation_email_invoked_with_article_advice_page_and_emails_not_sent(
-    mock_task_state_save,
-    mock_notifier_call,
-    mock_receiver_send_email,
-    user,
-    workflow_state,
-    group_approval_task,
-    task_state,
-    article_page,
-    revision,
-):
-    test_user = user(has_email=False)
-
-    latest_article_page = article_page('Advice', None)
-
-    latest_revision = revision(latest_article_page, test_user)
-
-    test_article_page = article_page('Advice', latest_revision)
-
-    test_revision = revision(test_article_page, test_user)
-
-    test_task_state = task_state(test_revision)
-
-    test_workflow_state = workflow_state(test_article_page, test_task_state, test_user)
-
-    group_approval_task.start(workflow_state=test_workflow_state, user=test_user)
-    assert mock_receiver_send_email.call_count == 0
 
 
 @pytest.mark.django_db
