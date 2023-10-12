@@ -6,16 +6,18 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <a href="{{ back_url }}" class="govuk-back-link govuk-!-margin-bottom-4">Back</a>
-                <h1 class="govuk-heading-xl">Give feedback on Expand your business in the UK</h1>
             </div>
         </div>
         {% if request.GET.success %}
             <div class="govuk-grid-row" id="complete_contact_form_message">
-                <div class="govuk-grid-column-full">
-                    {% include './includes/govuk/notification_banner.html' with css_class="govuk-notification-banner--success" banner_title="Success" banner_heading='Thanks for your feedback, it has been successfully submitted' %}
-                </div>
+                <div class="govuk-grid-column-full">{% include './includes/feedback_success.html' %}</div>
             </div>
         {% else %}
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    <h1 class="govuk-heading-xl">Give feedback on Expand your business in the UK</h1>
+                </div>
+            </div>
             {% if form.errors and not form.non_field_errors %}
                 <div class="govuk-error-summary restrict-width"
                      aria-labelledby="error-summary-title"

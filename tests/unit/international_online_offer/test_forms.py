@@ -3,6 +3,8 @@ import pytest
 from directory_constants import sectors as directory_constants_sectors
 from international_online_offer.core import hirings, intents, regions, spends
 from international_online_offer.forms import (
+    CsatFeedbackForm,
+    FeedbackForm,
     HiringForm,
     IntentForm,
     LocationForm,
@@ -168,4 +170,57 @@ def test_triage_spend_form_validation(form_data, is_valid):
 def test_profile_form_validation(form_data, is_valid):
     data = form_data
     form = ProfileForm(data)
+    assert form.is_valid() == is_valid
+
+
+@pytest.mark.parametrize(
+    'form_data,is_valid',
+    (
+        ({'feedback_text': 'Some improvements please'}, True),
+        ({'feedback_text': ''}, False),
+    ),
+)
+@pytest.mark.django_db
+def test_feedback_form_validation(form_data, is_valid):
+    data = form_data
+    form = FeedbackForm(data)
+    assert form.is_valid() == is_valid
+    if not is_valid:
+        assert form.errors['feedback_text'][0] == 'You must enter information on how we could improve this service'
+
+
+@pytest.mark.parametrize(
+    'form_data,is_valid',
+    (
+        (
+            {
+                'satisfaction': 'VERY_SATISFIED',
+                'experience': ['I_DID_NOT_FIND_WHAT_I_WAS_LOOKING_FOR'],
+                'experience_other': '',
+                'feedback_text': 'This is some feedback',
+                'likelihood_of_return': 'LIKELY',
+                'site_intentions': ['PUT_US_IN_TOUCH_WITH_EXPERTS'],
+                'site_intentions_other': '',
+            },
+            True,
+        ),
+        (
+            {
+                'satisfaction': 'VERY_SATISFIED',
+                'experience': ['OTHER'],
+                'experience_other': '',
+                'feedback_text': 'This is some feedback',
+                'likelihood_of_return': 'LIKELY',
+                'site_intentions': ['OTHER'],
+                'site_intentions_other': '',
+            },
+            False,
+        ),
+        ({'satisfaction': 'VERY_SATISFIED', '': '', '': '', '': '', '': '', '': ''}, False),
+    ),
+)
+@pytest.mark.django_db
+def test_csat_feedback_form_validation(form_data, is_valid):
+    data = form_data
+    form = CsatFeedbackForm(data)
     assert form.is_valid() == is_valid
