@@ -16,7 +16,9 @@ from django.conf import settings
 from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
 from django.contrib.humanize.templatetags.humanize import intword
 from django.shortcuts import redirect
+from django.utils.encoding import iri_to_uri
 from django.utils.functional import cached_property
+from django.utils.http import url_has_allowed_host_and_scheme
 from hashids import Hashids
 from ipware import get_client_ip
 
@@ -32,6 +34,15 @@ MALE = 'xy'
 FEMALE = 'xx'
 
 logger = getLogger(__name__)
+
+
+def check_url_host_is_safelisted(request):
+    if request.GET.get('next'):
+        if url_has_allowed_host_and_scheme(request.GET.get('next'), settings.SAFELIST_HOSTS):
+            return iri_to_uri(request.GET.get('next'))
+        else:
+            logger.error('Host is not on the safe list - %s', request.GET.get('next'))
+    return '/'
 
 
 def age_group_mapping(target_ages):

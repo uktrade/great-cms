@@ -6,7 +6,7 @@ import pytest
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.http import HttpRequest
-from django.test import override_settings
+from django.test import RequestFactory, modify_settings, override_settings
 from PIL import Image, ImageDraw
 from requests.exceptions import HTTPError
 
@@ -952,3 +952,14 @@ def test_clam_av_client(mock_requests_post):
     assert mock_requests_post.call_args == mock.call(
         'v2/scan-chunked', auth=mock.ANY, headers={'Transfer-encoding': 'chunked'}, data=mock.ANY
     )
+
+
+@modify_settings(SAFELIST_HOSTS={'append': 'www.safe.com'})
+def test_check_host_safelist():
+    request1 = RequestFactory().get('/?next=http://www.unsafe.com')
+    actual1 = helpers.check_url_host_is_safelisted(request1)
+    assert actual1 == '/'
+
+    request2 = RequestFactory().get('/?next=http://www.safe.com')
+    actual2 = helpers.check_url_host_is_safelisted(request2)
+    assert actual2 == 'http://www.safe.com'
