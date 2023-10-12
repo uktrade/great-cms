@@ -433,6 +433,31 @@ def test_csat_feedback(client, settings):
 
 
 @pytest.mark.django_db
+def test_csat_feedback_with_param(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:csat-feedback') + '?satisfaction=SATISFIED'
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_csat_feedback_submit(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:csat-feedback') + '?url=http://testurl.com'
+    response = client.post(
+        url,
+        {
+            'satisfaction': 'SATISFIED',
+            'user_journey': 'DASHBOARD',
+            'experience': ['I_DID_NOT_FIND_WHAT_I_WAS_LOOKING_FOR'],
+            'likelihood_of_return': 'LIKELY',
+            'site_intentions': ['PUT_US_IN_TOUCH_WITH_EXPERTS'],
+        },
+    )
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
 def test_csat_widget(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:csat-widget-submit') + '?url=http://testurl.com'
