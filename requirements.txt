@@ -160,7 +160,7 @@ django-health-check==3.17.0
     # via directory-healthcheck
 django-ipware==2.1.0
     # via -r requirements.in
-django-modelcluster==6.0
+django-modelcluster==6.1
     # via wagtail
 django-permissionedforms==0.1
     # via wagtail
@@ -206,7 +206,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==19.6.2
+faker==19.10.0
     # via factory-boy
 geoip2==2.9.0
     # via -r requirements.in
@@ -303,7 +303,7 @@ pyhanko-certvalidator==0.24.1
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==3.16.2
+pypdf==3.16.4
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -421,7 +421,7 @@ typing-extensions==4.8.0
     #   wagtail-localize
 tzdata==2023.3
     # via django-celery-beat
-tzlocal==5.0.1
+tzlocal==5.1
     # via
     #   dateparser
     #   pyhanko
@@ -483,7 +483,7 @@ webencodings==0.5.1
     #   cssselect2
     #   html5lib
     #   tinycss2
-whitenoise==6.5.0
+whitenoise==6.6.0
     # via -r requirements.in
 willow==1.4.1
     # via wagtail
