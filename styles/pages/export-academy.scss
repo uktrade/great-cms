@@ -609,3 +609,11 @@
 #next-live-event {
   max-width: 390px;
 }
+
+
+.event-metadata .govuk-summary-list__row {
+  @media only screen and (max-width: $mobile-size) {
+    flex-direction: column;
+    align-items: flex-start!important;
+  }
+}
