@@ -28,6 +28,8 @@ SECRET_KEY = env.str('SECRET_KEY')
 # As the app is running behind a host-based router supplied by GDS PaaS, we can open ALLOWED_HOSTS
 ALLOWED_HOSTS = ['*']
 
+SAFELIST_HOSTS = env.list('SAFELIST_HOSTS', default=[])
+
 # https://docs.djangoproject.com/en/dev/ref/settings/#append-slash
 APPEND_SLASH = True
 
@@ -72,7 +74,7 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'wagtail_draftail_anchors',
     'cms_extras.apps.CmsExtrasConfig',
-    'domestic',
+    'domestic.apps.DomesticAdminAppConfig',
     'exportplan.apps.ExportPlanConfig',
     'international_online_offer.apps.ExpandYourBusinessConfig',
     'users.apps.UsersConfig',
@@ -994,3 +996,22 @@ SPECTACULAR_SETTINGS = {
 
 # Wagtail Draftail Anchors
 DRAFTAIL_ANCHORS_RENDERER = env.str('DRAFTAIL_ANCHORS_RENDERER', 'wagtail_draftail_anchors.rich_text.render_span')
+
+# Wagtail Campaign pages notification settings:
+MODERATION_EMAIL_DIST_LIST = env.str('MODERATION_EMAIL_DIST_LIST', '')
+
+CAMPAIGN_MODERATORS_EMAIL_TEMPLATE_ID = env.str(
+    'CAMPAIGN_MODERATORS_EMAIL_TEMPLATE_ID', '75c6fde4-f27c-4f75-b7ed-2b526912a041'
+)
+CAMPAIGN_MODERATION_REQUESTOR_EMAIL_TEMPLATE_ID = env.str(
+    'CAMPAIGN_MODERATION_REQUESTOR_EMAIL_TEMPLATE_ID', '321db5bd-362c-45de-b8ce-6e9b0f36198e'
+)
+CAMPAIGN_MODERATION_REPLY_TO_ID = env.str('CAMPAIGN_MODERATION_REPLY_TO_ID', '654df5da-c214-4297-bb55-27690ce1813d')
+
+# django-csp config
+CSP_DEFAULT_SRC = 'self'
+CSP_CHILD_SRC = 'self'
+CSP_OBJECT_SRC = 'none'
+CSP_FRAME_ANCESTORS = 'none'
+CSP_UPGRADE_INSECURE_REQUESTS = True
+CSP_BLOCK_ALL_MIXED_CONTENT = True

@@ -9,6 +9,6 @@
 {% block below_submit_button %}
     <p class="m-t-xl m-b-xxs great-mvp-grey-link">
         <a class="link"
-           href="{% url 'core:login' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">I already have a great.gov.uk account</a>
+           href="{% url 'core:login' %}{% if next_url %}?next={{ next_url }}{% endif %}">I already have a great.gov.uk account</a>
     </p>
 {% endblock %}

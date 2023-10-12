@@ -3,6 +3,7 @@ from unittest.mock import Mock, call, patch
 
 import pytest
 import requests
+from django.test import RequestFactory, modify_settings
 from django.urls import reverse
 from freezegun import freeze_time
 
@@ -192,3 +193,18 @@ def test_search_feedback_form_success_with_next_parameter(mock_save, client, cap
         subject='Search Feedback - 00:00 01 Jan 2020',
         form_url='/search/feedback/?next=/',
     )
+
+
+@modify_settings(SAFELIST_HOSTS={'append': 'www.safe.com'})
+def test_search_feedback_success_view_next_url():
+    request1 = RequestFactory().get('')
+    response1 = views.SearchFeedbackSuccessView.as_view()(request1)
+    assert 'next_url' not in response1.context_data
+
+    request2 = RequestFactory().get('/?next=http://www.unsafe.com')
+    response2 = views.SearchFeedbackSuccessView.as_view()(request2)
+    assert response2.context_data['next_url'] == '/'
+
+    request3 = RequestFactory().get('/?next=http://www.safe.com')
+    response3 = views.SearchFeedbackSuccessView.as_view()(request3)
+    assert response3.context_data['next_url'] == 'http://www.safe.com'
