@@ -222,6 +222,12 @@ class SignupForTailoredContentWizardView(GA360Mixin, AbstractSignupWizardView, N
         (STEP_SIGN_UP, forms.NoOperationForm),
     )
 
+    def get_context_data(self, **kwargs):
+        if self.request.GET.get('next'):
+            next_url = helpers.check_url_host_is_safelisted(self.request)
+            return super().get_context_data(**kwargs, next_url=next_url)
+        return super().get_context_data(**kwargs)
+
 
 class SignupForExportPlanWizardView(GA360Mixin, AbstractSignupWizardView, NamedUrlSessionWizardView):
     extra_context = {'allow_skip_signup': False}

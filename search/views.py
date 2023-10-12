@@ -7,6 +7,7 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from requests.exceptions import RequestException
 
+from core import helpers as core_helpers
 from search import forms, helpers
 
 logger = logging.getLogger(__name__)
@@ -77,7 +78,10 @@ class SearchFeedbackFormView(FormView):
         query = self.request.POST['from_search_query']
         url = reverse_lazy('search:search')
         if self.request.GET.get('next'):
-            return reverse_lazy('search:feedback-success') + f'?next={self.request.GET["next"]}'
+            return (
+                reverse_lazy('search:feedback-success')
+                + f'?next={core_helpers.check_url_host_is_safelisted(self.request)}'
+            )
         return f'{url}?page={page}&q={query}&submitted=true'
 
     # email_address and full_name are required by FormsAPI.
@@ -128,3 +132,9 @@ class SearchFeedbackFormView(FormView):
 
 class SearchFeedbackSuccessView(TemplateView):
     template_name = 'search_feedback_confirmation.html'
+
+    def get_context_data(self, **kwargs):
+        if self.request.GET.get('next'):
+            next_url = core_helpers.check_url_host_is_safelisted(self.request)
+            return super().get_context_data(**kwargs, next_url=next_url)
+        return super().get_context_data(**kwargs)

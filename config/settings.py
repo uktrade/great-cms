@@ -28,6 +28,8 @@ SECRET_KEY = env.str('SECRET_KEY')
 # As the app is running behind a host-based router supplied by GDS PaaS, we can open ALLOWED_HOSTS
 ALLOWED_HOSTS = ['*']
 
+SAFELIST_HOSTS = env.list('SAFELIST_HOSTS', default=[])
+
 # https://docs.djangoproject.com/en/dev/ref/settings/#append-slash
 APPEND_SLASH = True
 
