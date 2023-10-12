@@ -657,8 +657,11 @@ class FeedbackView(GA360Mixin, FormView):
 class CsatWidgetView(FormView):
     def post(self, request, *args, **kwargs):
         satisfaction = request.POST.get('satisfaction')
+        user_journey = request.POST.get('user_journey')
         url = request.GET.get('url')
-        csat_feedback = CsatFeedback.objects.create(satisfaction_rating=satisfaction, URL=url)
+        csat_feedback = CsatFeedback.objects.create(
+            satisfaction_rating=satisfaction, URL=url, user_journey=user_journey
+        )
         request.session['csat_complete'] = True
         response = HttpResponseRedirect(
             reverse_lazy('international_online_offer:csat-feedback')

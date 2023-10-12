@@ -311,11 +311,8 @@ class CsatFeedbackForm(forms.Form):
         label='Type your answer',
         min_length=2,
         max_length=100,
-        required=True,
+        required=False,
         widget=TextInput(attrs={'class': 'govuk-input'}),
-        error_messages={
-            'required': 'You must enter other experience',
-        },
     )
     feedback_text = CharField(
         label='How could we improve this service?',
@@ -345,9 +342,27 @@ class CsatFeedbackForm(forms.Form):
         label='Type your answer',
         min_length=2,
         max_length=100,
-        required=True,
+        required=False,
         widget=TextInput(attrs={'class': 'govuk-input'}),
-        error_messages={
-            'required': 'You must enter other use',
-        },
     )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        experience = cleaned_data.get('experience')
+        site_intentions = cleaned_data.get('site_intentions')
+
+        if experience and 'OTHER' not in experience:
+            cleaned_data['experience_other'] = ''
+        if site_intentions and 'OTHER' not in site_intentions:
+            cleaned_data['site_intentions_other'] = ''
+
+        experience_other = cleaned_data.get('experience_other')
+        site_intentions_other = cleaned_data.get('site_intentions_other')
+
+        if experience and any('OTHER' in s for s in experience) and not experience_other:
+            self.add_error('experience_other', 'You must enter more information regarding other experience')
+
+        if site_intentions and any('OTHER' in s for s in site_intentions) and not site_intentions_other:
+            self.add_error('site_intentions_other', 'You must enter more information regarding other service use')
+
+        return cleaned_data
