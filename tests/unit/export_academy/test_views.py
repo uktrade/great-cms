@@ -1313,8 +1313,9 @@ def test_course_page(client, root_page):
 
 class EventVideoOnDemandViewTest(TestCase):
     @pytest.fixture(autouse=True)
-    def set_fixtures(self, user):
+    def set_fixtures(self, user, root_page):
         self.user = user
+        self.root_page = root_page
 
     def setUp(self):
         self.past_event_date = datetime(2023, 9, 13)
@@ -1322,7 +1323,14 @@ class EventVideoOnDemandViewTest(TestCase):
         self.event2 = factories.EventFactory(
             slug='event-slug2-17-october-2023', past_event_recorded_date=self.past_event_date
         )
-        self.event_with_no_past_recording = factories.EventFactory(past_event_video_recording=None)
+        self.event_with_no_past_recording = factories.EventFactory(
+            past_event_video_recording=None, past_event_recorded_date=None
+        )
+        self.event_with_incorrect_slug = factories.EventFactory(slug='event-slug')
+
+        self.course_page = factories.CoursePageFactory(parent=self.root_page, page_heading='essentials_title')
+        course_events = factories.EventsOnCourseFactory(page_id=self.course_page.id)
+        factories.ModuleEventSetFactory(page_id=course_events.id, event_id=self.event2.id)
 
     def test_extract_date_and_event_name(self):
         view = EventVideoOnDemandView()
@@ -1355,3 +1363,11 @@ class EventVideoOnDemandViewTest(TestCase):
         self.assertIn('series', response.context)
         self.assertIn('slug', response.context)
         self.assertIn('video_page_slug', response.context)
+
+    def test_get_past_event_recording_slug_is_none(self):
+        self.assertIsNone(self.event_with_no_past_recording.get_past_event_recording_slug())
+        self.assertIsNone(self.event_with_incorrect_slug.get_past_event_recording_slug())
+
+    def test_get_course_page_details(self):
+        self.assertEqual(self.event_with_no_past_recording.get_course(), [])
+        self.assertEqual(self.event2.get_course(), [{'label': 'essentials_title', 'value': 'essentials'}])
