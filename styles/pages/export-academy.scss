@@ -562,6 +562,7 @@
   }
 }
 .event-on-demand-video-container {
+  width: 100%;
   display: inline-flex;
   gap: 30px;
 
@@ -625,6 +626,7 @@
 
 #next-live-event {
   max-width: 390px;
+  flex: 1;
 }
 
 .event-metadata .govuk-summary-list__row {
