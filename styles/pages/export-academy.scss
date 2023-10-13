@@ -489,6 +489,7 @@
     }
     .image-container {
       @media only screen and (min-width: 901px) {
+        height: auto;
         background-size: 100% auto !important;
         background-position-y: bottom !important;
       }
@@ -501,6 +502,7 @@
 
 .image-container {
   position: relative;
+
   .ea-logo {
     position: absolute;
     bottom: 20px;
