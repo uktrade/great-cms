@@ -32,13 +32,14 @@
                    rel="noopener"
                    title="Department for Business and Trade on GOV.UK">Department for Business and Trade on GOV.UK</a>
             </li>
-            {% if FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK or campaign_site_page %}
+            <!-- TODO DEU check this logic is correct -->
+            {% if FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK and not campaign_site_page %}
                 <li>
                     <a href="/international" title="International business">Go to the page for international business</a>
                 </li>
-            {% else %}
+            {% elif FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK and campaign_site_page %}
                 <li>
-                    <a href="/international" title="International business">Get support for UK export or investment at great.gov.uk</a>
+                    <a href="{{ campaign_site_page_link }}" title="International business">Get support for UK export or investment at great.gov.uk</a>
                 </li>
             {% endif %}
         </ul>

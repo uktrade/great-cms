@@ -519,7 +519,7 @@ ptyprocess==0.7.0
     # via pexpect
 pure-eval==0.2.2
     # via stack-data
-pycodestyle==2.11.0
+pycodestyle==2.11.1
     # via
     #   flake8
     #   flake8-debugger

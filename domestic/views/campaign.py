@@ -8,6 +8,7 @@ from wagtail.models import Locale
 
 from contact.views import BaseNotifyUserFormView
 from core.datastructures import NotifySettings
+from core.helpers import get_location
 from core.models import MicrositePage
 from domestic.forms import CampaignLongForm, CampaignShortForm
 from domestic.models import ArticlePage
@@ -184,6 +185,7 @@ class MicrositeView(CampaignView):
     page_class = MicrositePage
     template_name = '../../core/templates/microsites/micro_site_page.html'
     streamfield_name = 'page_body'
+    UK_COUNTRY_CODE = 'UK'
 
     def get_success_url(self):
         if settings.FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
@@ -191,8 +193,16 @@ class MicrositeView(CampaignView):
 
         return self.success_url_path
 
+    def _get_request_location_link(self):
+        location = get_location(self.request)
+        if not location or location['country_code'] == self.UK_COUNTRY_CODE:
+            return '/'
+        else:
+            return '/internatonal/'
+
     def get_context_data(self, **kwargs):
         return super().get_context_data(
             **kwargs,
             campaign_site_page=True,
+            campaign_site_page_link=self._get_request_location_link(),
         )
