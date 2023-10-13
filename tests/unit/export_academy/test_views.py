@@ -19,7 +19,7 @@ from core.snippet_slugs import EA_REGISTRATION_PAGE_HERO
 from directory_sso_api_client import sso_api_client
 from export_academy.filters import EventFilter
 from export_academy.models import Booking, Registration
-from export_academy.views import EventsDetailsView
+from export_academy.views import EventsDetailsView, EventVideoOnDemandView
 from sso import helpers as sso_helpers
 from tests.helpers import create_response
 from tests.unit.export_academy import factories
@@ -1309,3 +1309,49 @@ def test_course_page(client, root_page):
     response = client.get(url)
     assert response.status_code == 200
     assert latest_event.name in response.rendered_content
+
+
+class EventVideoOnDemandViewTest(TestCase):
+    @pytest.fixture(autouse=True)
+    def set_fixtures(self, user):
+        self.user = user
+
+    def setUp(self):
+        self.past_event_date = datetime(2023, 9, 13)
+        self.event = factories.EventFactory(slug='event-slug-17-october-2023')
+        self.event2 = factories.EventFactory(
+            slug='event-slug2-17-october-2023', past_event_recorded_date=self.past_event_date
+        )
+        self.event_with_no_past_recording = factories.EventFactory(past_event_video_recording=None)
+
+    def test_extract_date_and_event_name(self):
+        view = EventVideoOnDemandView()
+        input_string = 'event-slug-12-September-2023'
+        text_before_date, date = view.extract_date_and_event_name(input_string)
+        self.assertEqual(text_before_date, 'event-slug')
+        self.assertEqual(date, '12-September-2023')
+
+    def test_get_object(self):
+        view = EventVideoOnDemandView()
+        slug = 'event-slug2-13-September-2023'
+        view.kwargs = {'slug': slug}
+        recorded_date = self.past_event_date.date()
+        self.event.past_event_recorded_date = recorded_date
+        obj = view.get_object()
+        self.assertEqual(obj.slug, self.event2.slug)
+        self.assertEqual(obj.name, self.event2.name)
+
+    def test_get_context_data(self):
+        self.client.login(username='testuser', password='testpassword')
+        url = reverse('export_academy:video-on-demand', kwargs={'slug': self.event.get_past_event_recording_slug()})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('event_video', response.context)
+        self.assertIn('video_duration', response.context)
+        self.assertIn('speakers', response.context)
+        self.assertIn('event_types', response.context)
+        self.assertIn('signed_in', response.context)
+        self.assertIn('event', response.context)
+        self.assertIn('series', response.context)
+        self.assertIn('slug', response.context)
+        self.assertIn('video_page_slug', response.context)
