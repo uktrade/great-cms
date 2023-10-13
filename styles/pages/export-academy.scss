@@ -474,6 +474,10 @@
 }
 
 #ea-course-page-header {
+  >div{
+    min-height: 355px;
+    height: auto;
+  }
   .inner-header {
     max-width: 1230px;
     padding-top: 60px;
