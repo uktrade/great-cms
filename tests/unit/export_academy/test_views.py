@@ -534,7 +534,7 @@ def test_event_video_view_no_video(client, user):
     client.force_login(user)
     response = client.get(url)
 
-    assert response.status_code == 200
+    assert response.status_code == 404
     assert not response.context.get('event_video')
     assert not response.context.get('video_duration')
     assert 'This video is no longer available.' in str(response.rendered_content)
