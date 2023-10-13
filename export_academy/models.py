@@ -23,6 +23,7 @@ from core.constants import (
 )
 from core.fields import single_struct_block_stream_field_factory
 from core.models import GreatMedia, TimeStampedModel
+from core.templatetags.content_tags import format_timedelta
 from domestic.models import BaseContentPage
 from export_academy import managers
 from export_academy.blocks import MetaDataBlock
@@ -223,6 +224,11 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
             text_before_date = self.slug[: date_match.start()].strip()
             return text_before_date + self.past_event_recorded_date.strftime('%d-%B-%Y')
         return None
+
+    def get_past_event_recording_duration(self):
+        if not self.past_event_video_recording:
+            return None
+        return format_timedelta(timedelta(seconds=self.past_event_video_recording.duration))
 
 
 class Registration(TimeStampedModel):
