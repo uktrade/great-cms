@@ -27,8 +27,7 @@ class ModerationTaskStateEmailNotifier:
         # send email to campaign moderators group
         template_id = settings.CAMPAIGN_MODERATORS_EMAIL_TEMPLATE_ID
         email = settings.MODERATION_EMAIL_DIST_LIST
-        if email:
-            self.send_email(email, template_id)
+        self.send_email(email, template_id)
         # send email to moderation Requestor
         if triggering_user:
             email = triggering_user.email
