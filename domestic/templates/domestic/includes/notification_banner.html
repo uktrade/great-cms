@@ -1,0 +1,13 @@
+<div class="govuk-notification-banner {{ css_class }}"
+     role="region"
+     aria-labelledby="govuk-notification-banner-title"
+     data-module="govuk-notification-banner">
+    <div class="govuk-notification-banner__header">
+        <h2 class="govuk-notification-banner__title"
+            id="govuk-notification-banner-title">{{ banner_title }}</h2>
+    </div>
+    <div class="govuk-notification-banner__content">
+        <p class="govuk-notification-banner__heading">{{ banner_heading }}</p>
+        {% if banner_body %}<p class="govuk-body">{{ banner_body }}</p>{% endif %}
+    </div>
+</div>
