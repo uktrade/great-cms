@@ -7,7 +7,7 @@
             id="govuk-notification-banner-title">{{ banner_title }}</h2>
     </div>
     <div class="govuk-notification-banner__content">
-        <p class="govuk-notification-banner__heading">{{ banner_heading }}</p>
+        {% if banner_heading %}<p class="govuk-notification-banner__heading">{{ banner_heading }}</p>{% endif %}
         {% if banner_body %}<p class="govuk-body">{{ banner_body }}</p>{% endif %}
     </div>
 </div>
