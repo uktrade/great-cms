@@ -39,7 +39,7 @@
                             {% render_video event_video %}
                         {% else %}
                             <img id="thumbnail"
-                                 src="{% if video.thumbnail.url %}{{ video.thumbnail.url }}{% else %}{% static 'images/video-placeholder.png' %}{% endif %}"
+                                 src="{% if video_thumbnail.url %}{{ video_thumbnail.url }}{% else %}{% static 'images/video-placeholder.png' %}{% endif %}"
                                  alt="" />
                         {% endif %}
                         {% if not signed_in %}

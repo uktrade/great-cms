@@ -788,6 +788,7 @@ class EventVideoOnDemandView(DetailView):
         if video:
             ctx['event_video'] = {'video': video}
             ctx['video_duration'] = format_timedelta(timedelta(seconds=event.past_event_video_recording.duration))
+            ctx['video_thumbnail'] = ctx['event_video']['video'].thumbnail
 
         document = getattr(event, 'past_event_presentation_file', None)
         ctx['event_document_url'] = document.url if document else None
@@ -798,4 +799,5 @@ class EventVideoOnDemandView(DetailView):
         ctx['series'] = event.get_course()[0] if len(event.get_course()) else None
         ctx['slug'] = kwargs['object'].slug
         ctx['video_page_slug'] = event.get_past_event_recording_slug()
+        ctx['event_video']['video'].thumbnail
         return ctx

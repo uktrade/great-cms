@@ -15,7 +15,8 @@
             {% endif %}
         </div>
         <div class="event-summary-text">
-            <a class="govuk-link" href="{{ event.get_absolute_url }}">{{ event.name }}</a>
+            <a class="govuk-link"
+               href="{% if display_past_recording %}{% url 'export_academy:video-on-demand' slug=event.get_past_event_recording_slug %}{% else %}{{ event.get_absolute_url }}{% endif %}">{{ event.name }}</a>
             <p class="govuk-body-s govuk-!-margin-0 great-text-dark-grey event-location">
                 {% if display_past_recording %}
                     Event recording
