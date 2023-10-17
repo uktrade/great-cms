@@ -569,7 +569,7 @@ class LinksBlock(blocks.StructBlock):
 
 class LinkBlockWithHeading(blocks.StructBlock):
     text = blocks.RichTextBlock(required=False, label='Text (optional)')
-    links = blocks.StreamBlock([('link', LinksBlock(label=_('Link block')))], max_num=6, required=False)
+    links = blocks.StreamBlock([('link', LinksBlock(label=_('Link block')))], max_num=6, required=True)
 
     class Meta:
         icon = 'link'

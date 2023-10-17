@@ -93,6 +93,7 @@ class MicrositePageSerializer(serializers.Serializer):
         'image',
         'image_full_width',
         'video',
+        'embed_video',
         'columns',
         'pull_quote',
         'links_block',
