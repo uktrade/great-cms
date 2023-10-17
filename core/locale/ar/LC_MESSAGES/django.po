@@ -316,6 +316,7 @@ msgstr ""
 "حول كيفية استخدامك لموقع great.gov.uk. نستخدم هذه المعلومات لجعل الموقع يعمل "
 "بأفضل طريقة ممكنة وتحسين خدمات الحكومة."
 
+
 #: templates/components/cookie_notice.html:14
 msgid "Accept all cookies"
 msgstr "قبول جميع الملفات"
@@ -351,8 +352,8 @@ msgid "Skip to main content"
 msgstr "الانتقال إلى المحتوى الرئيسي"
 
 #: templates/microsites/blocks/social_media.html:10
-msgid "Follow us"
-msgstr ""
+msgid "Follow us" 
+msgstr "تابعنا"
 
 #: templates/microsites/blocks/streamfield.html:18
 msgid "Information has been submitted successfully"
@@ -379,6 +380,7 @@ msgstr ""
 " <p>المتصفح الخاص بك لا يدعم فيديو HTML5. هنا رابط للفيديو بدلاً من ذلك: <a "
 "class=\"link\" href=\"%(video_url)s\"> </a></p>\n"
 " "
+
 
 #: templates/microsites/blocks/video.html:31
 msgid "View video transcript"
