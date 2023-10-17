@@ -352,7 +352,7 @@ msgstr "الانتقال إلى المحتوى الرئيسي"
 
 #: templates/microsites/blocks/social_media.html:10
 msgid "Follow us"
-msgstr ""
+msgstr "تابعنا"
 
 #: templates/microsites/blocks/streamfield.html:18
 msgid "Information has been submitted successfully"
@@ -376,9 +376,11 @@ msgid ""
 "                  "
 msgstr ""
 "\n"
+Same feedback stated above about set text direction when there’s an english word within Arabic text. The below is correct
 " <p>المتصفح الخاص بك لا يدعم فيديو HTML5. هنا رابط للفيديو بدلاً من ذلك: <a "
 "class=\"link\" href=\"%(video_url)s\"> </a></p>\n"
 " "
+
 
 #: templates/microsites/blocks/video.html:31
 msgid "View video transcript"
