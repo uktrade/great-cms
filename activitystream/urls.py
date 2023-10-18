@@ -51,4 +51,9 @@ urlpatterns = [
         skip_ga360(activitystream.views.ActivityStreamExpandYourBusinessUserDataView.as_view()),
         name='eyb-users',
     ),
+    path(
+        'eyb-csats/',
+        skip_ga360(activitystream.views.ActivityStreamExpandYourBusinessCsatFeedbackDataView.as_view()),
+        name='eyb-csats',
+    ),
 ]
