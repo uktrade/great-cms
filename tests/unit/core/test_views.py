@@ -1178,11 +1178,6 @@ class TestMicrositeLocales(TestCase):
         html_response = response.content.decode('utf-8')
         assert 'microsite home title en-gb' in html_response and 'a microsite subheading en-gb' in html_response
 
-    def test_correct_footer_logic_for_campaign_page(self):
-        response = self.client.get(self.url)
-        html_response = response.content.decode('utf-8')
-        assert 'Get support for UK export or investment at great.gov.uk' in html_response
-
 
 @pytest.fixture
 def image_user(django_user_model):
@@ -1323,3 +1318,31 @@ def test_signup_for_tailored_content_wizard_view_next_url(client):
         reverse('core:signup-wizard-tailored-content', kwargs={'step': views.STEP_START}) + '?next=http://www.safe.com'
     )
     assert response3.context_data['next_url'] == 'http://www.safe.com'
+
+
+class TestCampaginPage(TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    @pytest.fixture(autouse=True)
+    def domestic_homepage_fixture(self, domestic_homepage):
+        self.domestic_homepage = domestic_homepage
+
+    @pytest.fixture(autouse=True)
+    def en_campaign(self):
+        root = MicrositeFactory(title='root', slug='campaigns', parent=self.domestic_homepage)
+
+        self.microsite = MicrositePageFactory(
+            page_title='campaign site title en-gb',
+            page_subheading='a campaign subheading en-gb',
+            slug='campaign-site-home',
+            parent=root,
+        )
+        self.url = reverse_lazy('core:campaigns', kwargs={'page_slug': '/campaign-site-home'})
+
+    def test_correct_footer_location_link_domestic(self):
+        assert self.microsite._get_request_location_link == '/'
+
+    def test_correct_footer_location_link_international(self):
+        self.microsite.location = 'ES'
+        assert self.microsite._get_request_location_link == '/internatonal/'

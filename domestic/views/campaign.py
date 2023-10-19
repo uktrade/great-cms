@@ -140,8 +140,7 @@ class CampaignView(BaseNotifyUserFormView):
         return default_value
 
     def _get_request_location_link(self):
-        location = get_location(self.request)
-        if not location or location['country_code'] == self.UK_COUNTRY_CODE:
+        if not self.location or self.location['country_code'] == self.UK_COUNTRY_CODE:
             return '/'
         else:
             return '/internatonal/'
@@ -159,6 +158,7 @@ class CampaignView(BaseNotifyUserFormView):
         self.email_title = self.form_config['email_title'] if self.form_type else None
         self.email_body = self.form_config['email_body'] if self.form_type else None
         self.email_subject = self.form_config['email_subject'] if self.form_type else None
+        self.location = get_location(request)
         return super().setup(request, *args, **kwargs)
 
     def get_form_class(self):
