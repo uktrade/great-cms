@@ -1178,6 +1178,11 @@ class TestMicrositeLocales(TestCase):
         html_response = response.content.decode('utf-8')
         assert 'microsite home title en-gb' in html_response and 'a microsite subheading en-gb' in html_response
 
+    def test_correct_footer_logic_for_campaign_page(self):
+        response = self.client.get(self.url)
+        html_response = response.content.decode('utf-8')
+        assert 'Get support for UK export or investment at great.gov.uk' in html_response
+
 
 @pytest.fixture
 def image_user(django_user_model):
