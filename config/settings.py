@@ -110,6 +110,7 @@ MIDDLEWARE = [
     'core.middleware.CheckGATags',
     # 'directory_sso_api_client.middleware.AuthenticationMiddleware',
     'great_components.middleware.NoCacheMiddlware',
+    'csp.middleware.CSPMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -1009,9 +1010,30 @@ CAMPAIGN_MODERATION_REQUESTOR_EMAIL_TEMPLATE_ID = env.str(
 CAMPAIGN_MODERATION_REPLY_TO_ID = env.str('CAMPAIGN_MODERATION_REPLY_TO_ID', '654df5da-c214-4297-bb55-27690ce1813d')
 
 # django-csp config
-CSP_DEFAULT_SRC = 'self'
-CSP_CHILD_SRC = 'self'
-CSP_OBJECT_SRC = 'none'
-CSP_FRAME_ANCESTORS = 'none'
+CSP_DEFAULT_SRC = ("'self'", "https:")  # noqa
+CSP_CHILD_SRC = ("'self'",)  # noqa
+CSP_OBJECT_SRC = ("'none'",)  # noqa
+CSP_SCRIPT_SRC = (
+    "'self'",
+    "'unsafe-inline'",
+    "'unsafe-eval'",
+    'https://www.google.com',
+    'https://www.gstatic.com',
+    'https://www.googletagmanager.com',
+    'https://www.google-analytics.com',
+    'https:',
+)
+CSP_STYLE_SRC = (
+    "'self'",
+    "'unsafe-inline'",
+    'https://fonts.googleapis.com',
+)
+CSP_FONT_SRC = (
+    "'self'",
+    'https://fonts.gstatic.com',
+)  # noqa
+CSP_IMG_SRC = ("'self'", "data:", "https:")  # noqa
+CSP_FRAME_SRC = ('https://www.google.com',)
+CSP_FRAME_ANCESTORS = ("'none'",)  # noqa
 CSP_UPGRADE_INSECURE_REQUESTS = True
 CSP_BLOCK_ALL_MIXED_CONTENT = True
