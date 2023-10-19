@@ -594,6 +594,11 @@ figure.great-blockquote {
   }
 }
 
+.govuk-notification-banner__content > * {
+  box-sizing: border-box;
+  max-width: none;
+}
+
 .great-header {
   > div {
     justify-content: space-between;

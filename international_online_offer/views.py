@@ -11,6 +11,7 @@ from directory_sso_api_client import sso_api_client
 from international_online_offer import forms
 from international_online_offer.core import helpers, scorecard
 from international_online_offer.models import (
+    CsatFeedback,
     TradeAssociation,
     TriageData,
     UserData,
@@ -650,6 +651,80 @@ class FeedbackView(GA360Mixin, FormView):
 
     def form_valid(self, form):
         self.submit_feedback(form)
+        return super().form_valid(form)
+
+
+class CsatWidgetView(FormView):
+    def post(self, request, *args, **kwargs):
+        satisfaction = request.POST.get('satisfaction')
+        user_journey = request.POST.get('user_journey')
+        url = request.GET.get('url')
+        csat_feedback = CsatFeedback.objects.create(
+            satisfaction_rating=satisfaction, URL=url, user_journey=user_journey
+        )
+        request.session['csat_complete'] = True
+        response = HttpResponseRedirect(
+            reverse_lazy('international_online_offer:csat-feedback')
+            + '?url='
+            + url
+            + '&id='
+            + str(csat_feedback.id)
+            + '&satisfaction='
+            + satisfaction
+        )
+        return response
+
+
+class CsatFeedbackView(GA360Mixin, FormView):
+    form_class = forms.CsatFeedbackForm
+    template_name = 'eyb/csat_feedback.html'
+
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='CSAT Feedback',
+            business_unit='ExpandYourBusiness',
+            site_section='csat-feedback',
+        )
+
+    def get_initial(self):
+        satisfaction = self.request.GET.get('satisfaction')
+        if satisfaction:
+            return {'satisfaction': satisfaction}
+        else:
+            return {'satisfaction': ''}
+
+    def get_success_url(self):
+        success_url = reverse_lazy('international_online_offer:csat-feedback') + '?success=true'
+        if self.request.GET.get('url'):
+            success_url = success_url + '&url=' + self.request.GET.get('url')
+        return success_url
+
+    def form_valid(self, form):
+        id = self.request.GET.get('id')
+        if id:
+            CsatFeedback.objects.update_or_create(
+                id=id,
+                defaults={
+                    'experienced_issue': form.cleaned_data['experience'],
+                    'other_detail': form.cleaned_data['experience_other'],
+                    'likelihood_of_return': form.cleaned_data['likelihood_of_return'],
+                    'site_intentions': form.cleaned_data['site_intentions'],
+                    'site_intentions_other': form.cleaned_data['site_intentions_other'],
+                    'service_improvements_feedback': form.cleaned_data['feedback_text'],
+                },
+            )
+        else:
+            CsatFeedback.objects.create(
+                satisfaction_rating=form.cleaned_data['satisfaction'],
+                experienced_issue=form.cleaned_data['experience'],
+                other_detail=form.cleaned_data['experience_other'],
+                likelihood_of_return=form.cleaned_data['likelihood_of_return'],
+                site_intentions=form.cleaned_data['site_intentions'],
+                service_improvements_feedback=form.cleaned_data['feedback_text'],
+                site_intentions_other=form.cleaned_data['site_intentions_other'],
+                URL=self.request.GET.get('url'),
+            )
         return super().form_valid(form)
 
 

@@ -16,6 +16,9 @@
     <section class="help-pages">
         <div class="container">
             <div class="performance">
+                {# djlint:off #}
+                {% include 'components/great/notification_banner.html' with banner_title='Important' banner_heading="We're thinking of discontinuing the current publication of Official Statistics on the Great Performance Dashboard and would like your feedback." banner_body='To find out more and submit your feedback please visit <a class="govuk-notification-banner__link" href="https://www.gov.uk/government/consultations/changes-to-official-statistics-on-the-greatgovuk-performance-dashboard">https://www.gov.uk/government/consultations/changes-to-official-statistics-on-the-greatgovuk-performance-dashboard</a>. The public consultation will close on Monday 4 December.' %}
+                {# djlint:on #}
                 <p class="font-small subheading">Performance dashboard</p>
                 <h2 class="heading-large">{{ page.heading }}</h2>
                 <div class="grid-row">

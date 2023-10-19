@@ -32,6 +32,7 @@ from wagtail.blocks.field_block import RichTextBlock
 from wagtail.blocks.stream_block import StreamBlock, StreamBlockValidationError
 from wagtail.contrib.redirects.models import Redirect
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
+from wagtail.embeds.blocks import EmbedBlock
 from wagtail.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.blocks import ImageChooserBlock
@@ -1462,6 +1463,31 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                 ),
             ),
             ('video', core_blocks.SimpleVideoBlock(template='microsites/blocks/video.html', label=_('Video'))),
+            (
+                'embed_video',
+                blocks.StructBlock(
+                    [
+                        (
+                            'embed_link',
+                            EmbedBlock(
+                                max_width=200,
+                                max_height=150,
+                                required=True,
+                                label=_('Embed link'),
+                            ),
+                        ),
+                        (
+                            'transcript',
+                            blocks.RichTextBlock(
+                                required=False,
+                                features=['h2', 'h3', 'bold', 'italic', 'link', 'ol', 'ul'],
+                                label=_('Transcript'),
+                            ),
+                        ),
+                    ],
+                    template='microsites/blocks/embed_video.html',
+                ),
+            ),
             (
                 'columns',
                 StreamBlock(
