@@ -24,6 +24,7 @@ from wagtail.models import Locale
 from core import cms_slugs, forms, helpers, serializers, views
 from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
+from domestic.views.campaign import CampaignView
 from tests.helpers import create_response, make_test_video
 from tests.unit.core.factories import (
     CuratedListPageFactory,
@@ -1179,6 +1180,19 @@ class TestMicrositeLocales(TestCase):
         assert 'microsite home title en-gb' in html_response and 'a microsite subheading en-gb' in html_response
 
 
+@pytest.mark.django_db
+def test_correct_footer_location_link_domestic():
+    campaign_view = CampaignView()
+    campaign_view.location = {'country_code': 'UK'}
+    assert campaign_view._get_request_location_link() == '/'
+
+
+def test_correct_footer_location_link_international():
+    campaign_view = CampaignView()
+    campaign_view.location = {'country_code': 'ES'}
+    assert campaign_view._get_request_location_link() == '/internatonal/'
+
+
 @pytest.fixture
 def image_user(django_user_model):
     return django_user_model.objects.create_user(
@@ -1318,31 +1332,3 @@ def test_signup_for_tailored_content_wizard_view_next_url(client):
         reverse('core:signup-wizard-tailored-content', kwargs={'step': views.STEP_START}) + '?next=http://www.safe.com'
     )
     assert response3.context_data['next_url'] == 'http://www.safe.com'
-
-
-class TestCampaginPage(TestCase):
-    def setUp(self):
-        self.client = Client()
-
-    @pytest.fixture(autouse=True)
-    def domestic_homepage_fixture(self, domestic_homepage):
-        self.domestic_homepage = domestic_homepage
-
-    @pytest.fixture(autouse=True)
-    def en_campaign(self):
-        root = MicrositeFactory(title='root', slug='campaigns', parent=self.domestic_homepage)
-
-        self.microsite = MicrositePageFactory(
-            page_title='campaign site title en-gb',
-            page_subheading='a campaign subheading en-gb',
-            slug='campaign-site-home',
-            parent=root,
-        )
-        self.url = reverse_lazy('core:campaigns', kwargs={'page_slug': '/campaign-site-home'})
-
-    def test_correct_footer_location_link_domestic(self):
-        assert self.microsite._get_request_location_link == '/'
-
-    def test_correct_footer_location_link_international(self):
-        self.microsite.location = 'ES'
-        assert self.microsite._get_request_location_link == '/internatonal/'
