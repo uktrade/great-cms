@@ -67,7 +67,7 @@ msgid "Set cookie preferences"
 msgstr "設定cookies偏好"
 
 #: templates/components/cookie_notice.html:20
-msgid "You've accepted all cookies.  You can "
+msgid "You've accepted all cookies. You can "
 msgstr "您已接受所有 cookie。你可以 "
 
 #: templates/components/cookie_notice.html:20

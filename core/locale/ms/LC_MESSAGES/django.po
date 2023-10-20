@@ -325,7 +325,7 @@ msgid "Set cookie preferences"
 msgstr "Tetapkan pilihan kuki"
 
 #: templates/components/cookie_notice.html:20
-msgid "You've accepted all cookies.  You can "
+msgid "You've accepted all cookies. You can "
 msgstr "Anda telah menerima semua kuki. Awak boleh "
 
 #: templates/components/cookie_notice.html:20
