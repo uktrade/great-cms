@@ -1183,7 +1183,7 @@ class TestMicrositeLocales(TestCase):
 @pytest.mark.django_db
 def test_correct_footer_location_link_domestic():
     campaign_view = CampaignView()
-    campaign_view.location = {'country': 'UK'}
+    campaign_view.location = {'country': 'GB'}
     assert campaign_view._get_request_location_link() == '/'
 
 
