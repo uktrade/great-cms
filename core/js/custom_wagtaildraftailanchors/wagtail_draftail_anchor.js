@@ -1,10 +1,126 @@
 const React = window.React
+import { Component } from 'react'
 const RichUtils = window.DraftJS.RichUtils
-const TooltipEntity = window.draftail.TooltipEntity
 const Icon = window.wagtail.components.Icon
 const Portal = window.wagtail.components.Portal
 const Tooltip = window.draftail.Tooltip
 import slugify from 'slugify'
+
+const CopyAnchorButton = ({ identifier }) => {
+  const [didCopy, setDidCopy] = React.useState(false)
+
+  const copyText = (event) => {
+    event.preventDefault()
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(identifier)
+      setDidCopy(true)
+    }
+  }
+
+  const classes = 'button Tooltip__button'
+  return (
+    <button
+      class={classes}
+      style={{ marginLeft: '1rem' }}
+      aria-label="Copy anchor identifier"
+      aria-live="polite"
+      role="button"
+      onClick={copyText}
+    >
+      {didCopy ? 'Copied' : 'Copy'}
+    </button>
+  )
+}
+
+// Modifies draftail Tooltip Entity component
+class _TooltipEntity extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      showTooltipAt: null,
+    }
+
+    this.openTooltip = this.openTooltip.bind(this)
+    this.closeTooltip = this.closeTooltip.bind(this)
+  }
+
+  openTooltip(e) {
+    const trigger = e.target
+
+    if (trigger instanceof Element) {
+      this.setState({ showTooltipAt: trigger.getBoundingClientRect() })
+    }
+  }
+
+  closeTooltip() {
+    this.setState({ showTooltipAt: null })
+  }
+
+  render() {
+    const {
+      entityKey,
+      contentState,
+      children,
+      onEdit,
+      onRemove,
+      icon,
+    } = this.props
+    const { showTooltipAt } = this.state
+    const { url, anchor } = contentState.getEntity(entityKey).getData()
+
+    const slugified = slugify(anchor)
+    const anchorText = `#${slugified}`
+
+    return (
+      <a role="button" onMouseUp={this.openTooltip} className="TooltipEntity">
+        <Icon icon={icon} className="TooltipEntity__icon" />
+        <span className="TooltipEntity__text">{children}</span>
+        {showTooltipAt && (
+          <Portal
+            onClose={this.closeTooltip}
+            closeOnClick
+            closeOnType
+            closeOnResize
+          >
+            <Tooltip target={showTooltipAt} direction="top">
+              <a
+                href={url}
+                title={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="Tooltip__link"
+              >
+                {anchorText}
+              </a>
+              <button
+                style={{ marginLeft: '1rem' }}
+                aria-label="Edit anchor identifier"
+                aria-live="polite"
+                role="button"
+                className="button Tooltip__button"
+                onClick={onEdit.bind(null, entityKey)}
+              >
+                Edit
+              </button>
+              <button
+                className="button button-secondary no Tooltip__button"
+                style={{ marginLeft: '1rem' }}
+                aria-label="Remove anchor identifier"
+                aria-live="polite"
+                role="button"
+                onClick={onRemove.bind(null, entityKey)}
+              >
+                Remove
+              </button>
+              <CopyAnchorButton identifier={slugified} />
+            </Tooltip>
+          </Portal>
+        )}
+      </a>
+    )
+  }
+}
 
 // Implement the new APIs.
 
@@ -74,112 +190,6 @@ class AnchorIdentifierSource extends React.Component {
   }
 }
 
-class ExtendedTooltipEntity extends TooltipEntity {
-  constructor(props) {
-    super(props)
-
-    // Initialize the state with the extended property.
-    this.state = {
-      ...this.state,
-      showTooltipAt: null,
-    }
-
-    // Bind the methods to the instance.
-    this.openTooltip = this.openTooltip.bind(this)
-    this.closeTooltip = this.closeTooltip.bind(this)
-  }
-
-  // Handle opening the tooltip when a trigger element is clicked.
-  openTooltip(e) {
-    const trigger = e.target.closest('[data-draftail-trigger]')
-
-    // If the click is not within the tooltip trigger, return early.
-    if (!trigger) {
-      return
-    }
-
-    const container = trigger.closest('[data-draftail-editor-wrapper]')
-    const containerRect = container.getBoundingClientRect()
-    const rect = trigger.getBoundingClientRect()
-
-    // Update the state to show the tooltip at the correct position.
-    this.setState({
-      showTooltipAt: {
-        container: container,
-        top: rect.top - containerRect.top - window.scrollY,
-        left: rect.left - containerRect.left - window.scrollX,
-        width: rect.width,
-        height: rect.height,
-      },
-    })
-  }
-
-  // Handle closing the tooltip.
-  closeTooltip() {
-    this.setState({ showTooltipAt: null })
-  }
-
-  onRemove() {
-    this.props.onRemove(this.props.entityKey)
-  }
-
-  onEdit() {
-    this.props.onEdit(this.props.entityKey)
-  }
-
-  render() {
-    const isAnchorEntity =
-      this.props.entityKey &&
-      this.props.contentState.getEntity(this.props.entityKey).getData().anchor
-
-    const baseRender = super.render()
-
-    if (isAnchorEntity) {
-      const data = this.props.contentState
-        .getEntity(this.props.entityKey)
-        .getData()
-      const slugified = slugify(data.anchor)
-      const anchor = `#${slugified}`
-
-      return (
-        <a
-          href=""
-          name={anchor}
-          role="button"
-          // Use onMouseUp to preserve focus in the text even after clicking.
-          onMouseUp={(e) => this.openTooltip(e)}
-          className="TooltipEntity"
-          data-draftail-trigger
-        >
-          <sub>
-            <Icon name="anchor" className="TooltipEntity__icon" />
-          </sub>
-          <span>{this.props.decoratedText}</span>
-          {this.state.showTooltipAt && (
-            <Portal
-              node={this.state.showTooltipAt.container}
-              onClose={this.closeTooltip}
-              closeOnClick
-              closeOnType
-              closeOnResize
-            >
-              <Tooltip target={this.state.showTooltipAt} direction="top">
-                {anchor}
-                <EditButton onEdit={this.onEdit} />
-                <RemoveButton onRemove={this.onRemove} />
-                <CopyAnchorButton identifier={slugified} />
-              </Tooltip>
-            </Portal>
-          )}
-        </a>
-      )
-    }
-
-    // If it's not an anchor entity, render the base content.
-    return baseRender
-  }
-}
-
 const getAnchorIdentifierAttributes = (data) => {
   const url = data.anchor || null
   let icon = <Icon name="anchor" />
@@ -196,12 +206,7 @@ const AnchorIdentifier = (props) => {
   const { entityKey, contentState } = props
   const data = contentState.getEntity(entityKey).getData()
 
-  return (
-    <ExtendedTooltipEntity
-      {...props}
-      {...getAnchorIdentifierAttributes(data)}
-    />
-  )
+  return <_TooltipEntity {...props} {...getAnchorIdentifierAttributes(data)} />
 }
 
 window.draftail.registerPlugin({
@@ -209,61 +214,3 @@ window.draftail.registerPlugin({
   source: AnchorIdentifierSource,
   decorator: AnchorIdentifier,
 })
-
-const CopyAnchorButton = ({ identifier }) => {
-  const [didCopy, setDidCopy] = React.useState(false)
-
-  const copyText = (event) => {
-    event.preventDefault()
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(identifier)
-      setDidCopy(true)
-    }
-  }
-
-  const classes = 'button Tooltip__button'
-  return (
-    <button
-      class={classes}
-      style={{ marginLeft: '1rem' }}
-      aria-label="Copy anchor identifier"
-      aria-live="polite"
-      role="button"
-      onClick={copyText}
-    >
-      {didCopy ? 'Copied' : 'Copy'}
-    </button>
-  )
-}
-
-const EditButton = ({ onEdit }) => {
-  const classes = 'button Tooltip__button'
-  return (
-    <button
-      class={classes}
-      style={{ marginLeft: '1rem' }}
-      aria-label="Edit anchor identifier"
-      aria-live="polite"
-      role="button"
-      onClick={onEdit}
-    >
-      Edit
-    </button>
-  )
-}
-
-const RemoveButton = ({ onRemove }) => {
-  const classes = 'button button-secondary no Tooltip__button'
-  return (
-    <button
-      class={classes}
-      style={{ marginLeft: '1rem' }}
-      aria-label="Remove anchor identifier"
-      aria-live="polite"
-      role="button"
-      onClick={onRemove}
-    >
-      Remove
-    </button>
-  )
-}
