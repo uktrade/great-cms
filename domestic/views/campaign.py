@@ -31,7 +31,7 @@ class CampaignView(BaseNotifyUserFormView):
     page_class = ArticlePage
     template_name = 'domestic/article_page.html'
     streamfield_name = 'article_body'
-    UK_COUNTRY_CODE = 'UK'
+    UK_COUNTRY_CODE = 'GB'
     notify_settings = NotifySettings(
         user_template=settings.CAMPAIGN_USER_NOTIFY_TEMPLATE_ID,
     )
