@@ -119,11 +119,11 @@ class ExtendedTooltipEntity extends TooltipEntity {
     this.setState({ showTooltipAt: null })
   }
 
-  onRemove(){
+  onRemove() {
     this.props.onRemove(this.props.entityKey)
   }
 
-  onEdit(){
+  onEdit() {
     this.props.onEdit(this.props.entityKey)
   }
 
@@ -133,7 +133,6 @@ class ExtendedTooltipEntity extends TooltipEntity {
       this.props.contentState.getEntity(this.props.entityKey).getData().anchor
 
     const baseRender = super.render()
-
 
     if (isAnchorEntity) {
       const data = this.props.contentState
@@ -237,7 +236,7 @@ const CopyAnchorButton = ({ identifier }) => {
   )
 }
 
-const EditButton = ({ onEdit}) => {
+const EditButton = ({ onEdit }) => {
   const classes = 'button Tooltip__button'
   return (
     <button

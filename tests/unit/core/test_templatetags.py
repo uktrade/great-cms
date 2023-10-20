@@ -683,11 +683,7 @@ def test_add_govuk_classes(input_html, expected_html):
     assert html == expected_html
 
 
-<<<<<<< HEAD
 def test_add_anchor_classes():
-=======
-def test_add_anchor_classes(self):
->>>>>>> e80e8b749 (add tests)
     # Create a sample HTML string with header tags and anchor tags
     html = """
     <h1><a href="#section1">Header 1</a></h1>
@@ -707,17 +703,10 @@ def test_add_anchor_classes(self):
     # Check if classes were added correctly
     anchor_tags = soup.find_all('a')
     for anchor_tag in anchor_tags:
-<<<<<<< HEAD
         if len(anchor_tag.find_parents(['h1', 'h2', 'h3'])):
             assert class_name in anchor_tag.get('class', [])
         else:
             assert class_name not in anchor_tag.get('class', [])
-=======
-        if anchor_tag['href'].startswith('#'):
-            self.assertIn(class_name, anchor_tag.get('class', []))
-        else:
-            self.assertNotIn(class_name, anchor_tag.get('class', []))
->>>>>>> e80e8b749 (add tests)
 
 
 @pytest.mark.parametrize(
