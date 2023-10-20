@@ -799,5 +799,4 @@ class EventVideoOnDemandView(DetailView):
         ctx['series'] = event.get_course()[0] if len(event.get_course()) else None
         ctx['slug'] = kwargs['object'].slug
         ctx['video_page_slug'] = event.get_past_event_recording_slug()
-        ctx['event_video']['video'].thumbnail
         return ctx
