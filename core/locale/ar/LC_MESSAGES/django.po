@@ -326,7 +326,7 @@ msgid "Set cookie preferences"
 msgstr "تحديد تفضيلات ملفات التعريف الخاصة بك"
 
 #: templates/components/cookie_notice.html:20
-msgid "You've accepted all cookies.  You can "
+msgid "You've accepted all cookies. You can "
 msgstr "لقد قبلت جميع الملفات. يمكنك"
 
 #: templates/components/cookie_notice.html:20

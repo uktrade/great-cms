@@ -327,7 +327,7 @@ msgstr "쿠키 선호도 설정"
 #: templates/components/cookie_notice.html:20
 #, fuzzy
 #| msgid "You've accepted all cookies. You can "
-msgid "You've accepted all cookies.  You can "
+msgid "You've accepted all cookies. You can "
 msgstr "모든 쿠키를 허용하셨습니다. 언제든지"
 
 #: templates/components/cookie_notice.html:20
