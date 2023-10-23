@@ -33,9 +33,16 @@
                    title="Department for Business and Trade on GOV.UK">Department for Business and Trade on GOV.UK</a>
             </li>
             {% if FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK %}
-                <li>
-                    <a href="/international" title="International business">Go to the page for international business</a>
-                </li>
+                {% if campaign_site_page %}
+                    <li>
+                        <a href="{{ campaign_site_page_link }}"
+                           title="Support for UK export or investment">Get support for UK export or investment at great.gov.uk</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="/international" title="International business">Go to the page for international business</a>
+                    </li>
+                {% endif %}
             {% endif %}
         </ul>
     </nav>
