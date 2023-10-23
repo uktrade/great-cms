@@ -75,7 +75,7 @@
         {% if page.speakers|length > 0 %}
             <div class="great-bg-white">
                 <div class="great-container">
-                    <section class="govuk-grid-column-two-thirds-from-desktop govuk-!-padding-0 govuk-!-static-padding-bottom-8 great-no-float">
+                    <section class="govuk-grid-column-two-thirds-from-desktop govuk-!-padding-0 govuk-!-padding-bottom-6 great-no-float">
                         <h2 class="govuk-heading-m">Speakers</h2>
                         {% filter add_govuk_classes %}
                             {{ page.speakers|richtext }}
@@ -83,6 +83,9 @@
                     </section>
                 </div>
             </div>
+        {% endif %}
+        {% if page.reviews|length > 0 %}
+            {% include './includes/review_block.html' with reviews=page.reviews %}
         {% endif %}
         {% if not signed_in %}
             <div class="container">
@@ -105,8 +108,5 @@
                     </div>
                 </section>
             </div>
-        {% endif %}
-        {% if page.reviews|length > 0 %}
-            {% include './includes/review_block.html' with reviews=page.reviews %}
         {% endif %}
     {% endblock %}
