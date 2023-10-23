@@ -21,6 +21,5 @@ class Migration(migrations.Migration):
             name='slug',
             field=models.SlugField(unique=True, null=True, max_length=255),
             preserve_default=False,
-        ),
-        migrations.RunPython(migrate_data_forward, migrations.RunPython.noop),
+        )
     ]

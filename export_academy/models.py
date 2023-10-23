@@ -1,3 +1,5 @@
+import datetime
+import re
 import uuid
 from datetime import timedelta
 
@@ -21,6 +23,7 @@ from core.constants import (
 )
 from core.fields import single_struct_block_stream_field_factory
 from core.models import GreatMedia, TimeStampedModel
+from core.templatetags.content_tags import format_timedelta
 from domestic.models import BaseContentPage
 from export_academy import managers
 from export_academy.blocks import MetaDataBlock
@@ -114,6 +117,15 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
         on_delete=models.SET_NULL,
         related_name='+',
     )
+
+    past_event_video_recording = models.ForeignKey(
+        GreatMedia, null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
+    )
+    past_event_recorded_date = models.DateTimeField(null=True, blank=True)
+    past_event_presentation_file = models.ForeignKey(
+        'wagtaildocs.Document', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
+    )
+
     completed = models.DateTimeField(null=True, blank=True)
     live = models.DateTimeField(null=True, blank=True)
     closed = models.BooleanField(default=False)
@@ -180,6 +192,43 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
                 send_notifications_for_all_bookings(self, settings.EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID)
 
         return super().save(**kwargs)
+
+    def get_event_types(self):
+        return [item.name for item in self.types.all()]
+
+    def get_speakers(self):
+        return [speaker_object.speaker for speaker_object in self.event_speakers.all()]
+
+    def has_ended(self):
+        current_datetime = datetime.datetime.now(datetime.timezone.utc)
+        return self.end_date < current_datetime
+
+    def get_course(self):
+        unique_courses = set()
+
+        for course in CoursePage.objects.live():
+            for event in course.get_all_events():
+                if event.get_absolute_url() == self.get_absolute_url():
+                    unique_courses.add((course.page_heading, course.slug))
+
+        return [{'label': title, 'value': slug} for title, slug in unique_courses]
+
+    def get_past_event_recording_slug(self):
+        if not self.past_event_recorded_date:
+            return None
+
+        date_pattern = r'(\d{2}-[a-zA-Z]+-\d{4})$'
+        date_match = re.search(date_pattern, self.slug)
+
+        if date_match:
+            text_before_date = self.slug[: date_match.start()].strip()
+            return text_before_date + self.past_event_recorded_date.strftime('%d-%B-%Y')
+        return None
+
+    def get_past_event_recording_duration(self):
+        if not self.past_event_video_recording:
+            return None
+        return format_timedelta(timedelta(seconds=self.past_event_video_recording.duration))
 
 
 class Registration(TimeStampedModel):
@@ -482,6 +531,12 @@ class CoursePage(CoursePagePanels, BaseContentPage):
         null=True,
         blank=True,
     )
+
+    def get_all_events(self):
+        events = []
+        for modules in self.course_events.get_object_list():
+            events += [event_model.event for event_model in modules.module_events.get_object_list()]
+        return events
 
     def get_events(self):
         latest_event = {}
