@@ -35,6 +35,8 @@ class EventFactory(factory.django.DjangoModelFactory):
     start_date = timezone.localtime()
     link = factory.LazyAttribute(lambda event: 'https://example.com/%s' % event.id)
     video_recording = factory.SubFactory(GreatMediaFactory)
+    past_event_video_recording = factory.SubFactory(GreatMediaFactory)
+    past_event_recorded_date = timezone.localtime()
     completed = timezone.localtime()
     live = timezone.localtime()
     slug = factory.fuzzy.FuzzyText(length=15)

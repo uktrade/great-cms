@@ -8,6 +8,7 @@ from wagtail.models import Locale
 
 from contact.views import BaseNotifyUserFormView
 from core.datastructures import NotifySettings
+from core.helpers import get_location
 from core.models import MicrositePage
 from domestic.forms import CampaignLongForm, CampaignShortForm
 from domestic.models import ArticlePage
@@ -30,6 +31,7 @@ class CampaignView(BaseNotifyUserFormView):
     page_class = ArticlePage
     template_name = 'domestic/article_page.html'
     streamfield_name = 'article_body'
+    UK_COUNTRY_CODE = 'GB'
     notify_settings = NotifySettings(
         user_template=settings.CAMPAIGN_USER_NOTIFY_TEMPLATE_ID,
     )
@@ -137,6 +139,12 @@ class CampaignView(BaseNotifyUserFormView):
             }
         return default_value
 
+    def _get_request_location_link(self):
+        if not self.location or self.location['country'] == self.UK_COUNTRY_CODE:
+            return '/'
+        else:
+            return '/internatonal/'
+
     def setup(self, request, *args, **kwargs):
         self.page_slug = kwargs['page_slug'] if 'page_slug' in kwargs else None
         self.form_success = True if 'form_success=True' in request.get_full_path() else False
@@ -150,6 +158,7 @@ class CampaignView(BaseNotifyUserFormView):
         self.email_title = self.form_config['email_title'] if self.form_type else None
         self.email_body = self.form_config['email_body'] if self.form_type else None
         self.email_subject = self.form_config['email_subject'] if self.form_type else None
+        self.location = get_location(request)
         return super().setup(request, *args, **kwargs)
 
     def get_form_class(self):
@@ -176,6 +185,8 @@ class CampaignView(BaseNotifyUserFormView):
             form_success=self.form_success,
             available_languages=self.available_languages,
             current_language=self.current_language,
+            campaign_site_page=True,
+            campaign_site_page_link=self._get_request_location_link(),
         )
 
 
