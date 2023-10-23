@@ -24,6 +24,7 @@ from wagtail.models import Locale
 from core import cms_slugs, forms, helpers, serializers, views
 from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
+from domestic.views.campaign import CampaignView
 from tests.helpers import create_response, make_test_video
 from tests.unit.core.factories import (
     CuratedListPageFactory,
@@ -1177,6 +1178,19 @@ class TestMicrositeLocales(TestCase):
         response = self.client.get(url_za)
         html_response = response.content.decode('utf-8')
         assert 'microsite home title en-gb' in html_response and 'a microsite subheading en-gb' in html_response
+
+
+@pytest.mark.django_db
+def test_correct_footer_location_link_domestic():
+    campaign_view = CampaignView()
+    campaign_view.location = {'country': 'GB'}
+    assert campaign_view._get_request_location_link() == '/'
+
+
+def test_correct_footer_location_link_international():
+    campaign_view = CampaignView()
+    campaign_view.location = {'country': 'ES'}
+    assert campaign_view._get_request_location_link() == '/internatonal/'
 
 
 @pytest.fixture
