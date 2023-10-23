@@ -42,7 +42,11 @@ from export_academy.mixins import (
     RegistrationMixin,
     VerificationLinksMixin,
 )
-from export_academy.models import ExportAcademyHomePage, Registration, VideoPageTracking
+from export_academy.models import (
+    ExportAcademyHomePage,
+    Registration,
+    VideoOnDemandPageTracking,
+)
 from sso import helpers as sso_helpers, mixins as sso_mixins
 
 logger = logging.getLogger(__name__)
@@ -173,7 +177,7 @@ class EventVideoView(DetailView):
 
     def _save_video_tracking(self):
         try:
-            video_page_tracking = VideoPageTracking.objects.create(
+            video_page_tracking = VideoOnDemandPageTracking.objects.create(
                 user_id=self.request.user.id,
             )
             video_page_tracking.save()

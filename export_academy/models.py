@@ -561,7 +561,7 @@ class CoursePage(CoursePagePanels, BaseContentPage):
         return first_available_event
 
 
-class VideoPageTracking(TimeStampedModel):
+class VideoOnDemandPageTracking(TimeStampedModel):
     """
     Tracks Video Details Page access
     """
@@ -583,14 +583,12 @@ class VideoPageTracking(TimeStampedModel):
         cookies = json.loads(self.request.COOKIES.get('cookies_policy', '{}'))  # noqa: P103
         return cookies.get('usage', False)
 
-    def _user_logged_in(self):
-        return True
-
     def save(self, **kwargs):
         # is the User logged in
         user = get_user(self.request)
         is_logged_in = get_is_authenticated(self.request)
-        if user and is_logged_in and not self._user_already_recorded(user.id):
+        aleady_tracked = self._user_already_recorded(user.id)
+        if user and is_logged_in and not aleady_tracked:
             # has the user accepted cookies
             self.user_id = user.id
             self.cookies_accepted_on_details_view = self._user_has_accepted_cookies()
