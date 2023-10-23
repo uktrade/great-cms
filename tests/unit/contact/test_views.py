@@ -1606,16 +1606,6 @@ def test_privacy_url_passed_to_fta_form_view(client, mock_free_trade_agreements)
                 'contacted_gov_departments': 'Choose an option',
             },
         ),
-        (
-            reverse('contact:export-support-step-8'),
-            {
-                'help_us_improve': 'easy',
-            },
-            reverse('contact:export-support-step-9'),
-            {
-                'help_us_improve': 'Choose an option',
-            },
-        ),
     ),
 )
 @pytest.mark.django_db
@@ -1643,6 +1633,39 @@ def test_domestic_export_support_form_pages(
     response = client.post(page_url, form_data)
     assert response.status_code == 302
     assert response.url == redirect_url
+
+
+@pytest.mark.parametrize(
+    'page_url,form_data,redirect_url,error_messages',
+    (
+        (
+            reverse('contact:export-support-step-8'),
+            {
+                'help_us_improve': 'easy',
+            },
+            reverse('contact:export-support-step-9'),
+            {
+                'help_us_improve': 'Choose an option',
+            },
+        ),
+    ),
+)
+@mock.patch('directory_forms_api_client.actions.SaveOnlyInDatabaseAction')
+@pytest.mark.django_db
+def test_feedback_submit(mock_save_only_in_database_action, page_url, form_data, redirect_url, error_messages, client):
+    response = client.post(
+        page_url,
+        form_data,
+    )
+
+    assert mock_save_only_in_database_action.call_count == 1
+    assert response.status_code == 302
+    assert response.url == redirect_url
+
+    error_response = client.post(page_url, {})
+
+    assert error_response.status_code == 200
+    assert error_messages['help_us_improve'] in str(error_response.rendered_content)
 
 
 @pytest.mark.parametrize(
@@ -1783,7 +1806,7 @@ def test_domestic_export_support_edit_form_pages(
     assert response.url == redirect_url
 
 
-@mock.patch.object(actions, 'ZendeskAction')
+@mock.patch.object(actions, 'SaveOnlyInDatabaseAction')
 @pytest.mark.django_db
 def test_feedback_form_success(
     mock_action_class,
