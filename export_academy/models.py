@@ -516,6 +516,14 @@ class VideoPageTracking(TimeStampedModel):
     details_viewed = models.DateTimeField(auto_now_add=True, blank=True)
     cookies_accepted_on_details_view = models.BooleanField(default=False)
 
+    @classmethod
+    def _user_already_recorded(cls, user_id):
+        try:
+            cls.objects.get(pk=user_id)
+            return True
+        except cls.DoesNotExist:
+            return False
+
     def _user_has_accepted_cookies(self):
         cookies = json.loads(self.request.COOKIES.get('cookies_policy', '{}'))  # noqa: P103
         return cookies.get('usage', False)
@@ -527,7 +535,7 @@ class VideoPageTracking(TimeStampedModel):
         # is the User logged in
         user = get_user(self.request)
         is_logged_in = get_is_authenticated(self.request)
-        if user and is_logged_in:
+        if user and is_logged_in and not self._user_already_recorded(user.id):
             # has the user accepted cookies
             self.user_id = user.id
             self.cookies_accepted_on_details_view = self._user_has_accepted_cookies()
