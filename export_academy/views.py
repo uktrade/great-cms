@@ -6,6 +6,7 @@ from uuid import uuid4
 
 from directory_forms_api_client import actions
 from django.contrib.auth.models import AnonymousUser
+from django.core.exceptions import ValidationError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
@@ -41,7 +42,7 @@ from export_academy.mixins import (
     RegistrationMixin,
     VerificationLinksMixin,
 )
-from export_academy.models import ExportAcademyHomePage, Registration
+from export_academy.models import ExportAcademyHomePage, Registration, VideoPageTracking
 from sso import helpers as sso_helpers, mixins as sso_mixins
 
 logger = logging.getLogger(__name__)
@@ -167,8 +168,18 @@ class EventVideoView(DetailView):
 
         return ctx
 
+    def _save_video_tracking(self):
+        try:
+            video_page_tracking = VideoPageTracking.objects.create(
+                user_id=self.request.user.id,
+            )
+            video_page_tracking.save()
+        except ValidationError as ve:
+            logger.debug(ve, exc_info=ve)
+
     def get(self, request, *args, **kwargs):
         update_booking(request.user.email, kwargs['pk'], request)
+        self._save_video_tracking()
         return super().get(request, *args, **kwargs)
 
 

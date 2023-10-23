@@ -1,3 +1,4 @@
+import json
 import uuid
 from datetime import timedelta
 
@@ -6,6 +7,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
+from great_components.helpers import get_is_authenticated, get_user
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
@@ -502,3 +504,36 @@ class CoursePage(CoursePagePanels, BaseContentPage):
                     else:
                         first_available_event = event
         return first_available_event
+
+
+class VideoPageTracking(TimeStampedModel):
+    """
+    Tracks Video Details Page access
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    user_id = models.UUIDField(null=False)
+    details_viewed = models.DateTimeField(auto_now_add=True, blank=True)
+    cookies_accepted_on_details_view = models.BooleanField(default=False)
+
+    def _user_has_accepted_cookies(self):
+        cookies = json.loads(self.request.COOKIES.get('cookies_policy', '{}'))  # noqa: P103
+        return cookies.get('usage', False)
+
+    def _user_logged_in(self):
+        return True
+
+    def save(self, **kwargs):
+        # is the User logged in
+        user = get_user(self.request)
+        is_logged_in = get_is_authenticated(self.request)
+        if user and is_logged_in:
+            # has the user accepted cookies
+            self.user_id = user.id
+            self.cookies_accepted_on_details_view = self._user_has_accepted_cookies()
+            return super().save(**kwargs)
+        else:
+            return
+
+    def __str__(self):
+        return f'User: {self.user_id} Viewed Video Details Page'
