@@ -2,6 +2,7 @@ import pytest
 import requests
 
 from contact.helpers import (
+    dpe_clean_submission_for_zendesk,
     extract_other_offices_details,
     extract_regional_office_details,
     format_office_details,
@@ -205,3 +206,42 @@ def test_retrieve_regional_office_email_success(requests_mock):
 def test_get_free_trade_agreements_success(mock_free_trade_agreements):
     response = get_free_trade_agreements()
     assert response['data'] == ['FTA 1', 'FTA 2', 'FTA 3']
+
+
+def test_dpe_clean_submission_for_zendesk():
+    test_form_data = {
+        'business_postcode': 'BT809QD',
+        'about_your_experience': 'neverexported',
+        'last_name': 'Jones',
+        'business_name': 'Test name',
+        'annual_turnover': '<85k',
+        'job_title': 'Tester',
+        'company_registration_number': 'NI12345',
+        'enquiry': 'A test enquiry',
+        'random_field': 123454,
+        'first_name': 'Bob',
+        'type': 'privatelimitedcompany',
+        'uk_telephone_number': '123456',
+        'number_of_employees': '1-9',
+        'email': 'test@test.com',
+        'business_type': 'limitedcompany',
+    }
+
+    assert dpe_clean_submission_for_zendesk(test_form_data) == {
+        'enquiry': 'A test enquiry',
+        'first_name': 'Bob',
+        'last_name': 'Jones',
+        'job_title': 'Tester',
+        'uk_telephone_number': '123456',
+        'email': 'test@test.com',
+        'business_name': 'Test name',
+        'business_type': 'UK private or public limited company',
+        'business_postcode': 'BT809QD',
+        'company_registration_number': 'NI12345',
+        'type': 'Private limited company',
+        'annual_turnover': 'Below £85,000 (Below VAT threshold)',
+        'number_of_employees': '1 to 9',
+        'about_your_experience': """I have never exported but have a product suitable or that
+            could be developed for export""",
+        'random_field': 123454,
+    }

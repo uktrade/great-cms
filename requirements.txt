@@ -59,7 +59,7 @@ certifi==2023.7.22
     #   sentry-sdk
 cffi==1.16.0
     # via cryptography
-charset-normalizer==3.3.0
+charset-normalizer==3.3.1
     # via requests
 click==8.1.7
     # via
@@ -104,7 +104,7 @@ directory-constants==23.1.0
     #   -r requirements.in
     #   directory-components
     #   great-components
-directory-forms-api-client==7.2.2
+directory-forms-api-client==7.3.1
     # via -r requirements.in
 directory-healthcheck==3.1.2
     # via -r requirements.in
@@ -424,7 +424,7 @@ typing-extensions==4.8.0
     #   wagtail-localize
 tzdata==2023.3
     # via django-celery-beat
-tzlocal==5.1
+tzlocal==5.2
     # via
     #   dateparser
     #   pyhanko

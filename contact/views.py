@@ -483,7 +483,8 @@ class DomesticExportSupportFormStep7View(contact_mixins.ExportSupportFormMixin, 
     def submit_enquiry(self, form):
         cleaned_data = form.cleaned_data
 
-        form_data = {**self.initial_data, **cleaned_data}
+        original_form_data = {**self.initial_data, **cleaned_data}
+        form_data = helpers.dpe_clean_submission_for_zendesk(original_form_data)
 
         sender = Sender(
             email_address=form_data.get('email'),
@@ -493,11 +494,12 @@ class DomesticExportSupportFormStep7View(contact_mixins.ExportSupportFormMixin, 
         action = actions.ZendeskAction(
             full_name=f"{form_data.get('first_name')} {form_data.get('last_name')}",
             email_address=form_data.get('email'),
-            subject=f"DPE Contact form - {form_data.get('product_or_service_1')}",
+            subject=f"{form_data.get('product_or_service_1')}",
             service_name='great',
             subdomain=settings.EU_EXIT_ZENDESK_SUBDOMAIN,
             form_url=self.request.get_full_path(),
             sender=sender,
+            sort_fields_alphabetically=False,
         )
 
         response = action.save(form_data)

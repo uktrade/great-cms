@@ -322,6 +322,18 @@ class DomesticExportSupportStep5Form(forms.Form):
         required=True,
     )
 
+    def clean(self):
+        cleaned_data = super().clean()
+        if cleaned_data.get('markets'):
+            cleaned_data['market_choices_long_form'] = [
+                country[1] for country in COUNTRY_CHOICES if country[0] in cleaned_data.get('markets')
+            ]
+
+        # user's input in 'search for a country' not wanted in Zendesk ticket (Jira ticket DPE-529)
+        del cleaned_data['search']
+
+        return cleaned_data
+
 
 class DomesticExportSupportStep6Form(forms.Form):
     enquiry = forms.CharField(
@@ -397,6 +409,14 @@ class DomesticExportSupportStep7Form(forms.Form):
         required=False,
     )
     triage_journey = forms.CharField(label='Triage journey', required=False, widget=HiddenInput)
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        if len(cleaned_data['triage_journey']) == 0:
+            cleaned_data['triage_journey'] = 'Cookies not accepted'
+
+        return cleaned_data
 
 
 class DomesticExportSupportStep8Form(forms.Form):
