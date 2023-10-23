@@ -72,7 +72,7 @@
                 </section>
             </div>
         </div>
-        {% if page.speakers|length > 1 %}
+        {% if page.speakers|length > 0 %}
             <div class="great-bg-white">
                 <div class="great-container">
                     <section class="govuk-grid-column-two-thirds-from-desktop govuk-!-padding-0 govuk-!-static-padding-bottom-8 great-no-float">
@@ -104,7 +104,9 @@
                         </div>
                     </div>
                 </section>
-                {% include './includes/review_block.html' with reviews=page.reviewers %}
             </div>
+        {% endif %}
+        {% if page.reviews|length > 0 %}
+            {% include './includes/review_block.html' with reviews=page.reviews %}
         {% endif %}
     {% endblock %}

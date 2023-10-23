@@ -531,8 +531,8 @@ class CoursePage(CoursePagePanels, BaseContentPage):
         null=True,
         blank=True,
     )
-    
-    reviewers = StreamField(
+
+    reviews = StreamField(
         [
             ('review', ReviewBlock()),
         ],
@@ -540,7 +540,7 @@ class CoursePage(CoursePagePanels, BaseContentPage):
         default=[],
         max_num=2,
     )
-    
+
     def get_all_events(self):
         events = []
         for modules in self.course_events.get_object_list():

@@ -1,23 +1,27 @@
 {% load wagtailcore_tags %}
 {% load component_tags wagtailcore_tags wagtailimages_tags content_tags %}
-<section id='reviews'>
-    <h2 class="govuk-heading-m govuk-!-margin-bottom-6">Reviews</h2>
-    <div class="great-inline-flex great-gap great-mobile-flex-column">
-        {% for review in reviews %}
-            <div class="great-flex-1 great-min-column-width">
-                <div class="great-inline-flex great-no-wrap">
-                    {% image review.value.image  max-100x100 as review_img %}
-                    <img src="{{ review_img.url }}"
-                         alt="{{ review.value.image.alt }}"
-                         class='great-circle-image'>
-                    <blockquote class="great-quote govuk-!-margin-left-2">
-                        <p class="govuk-heading-s">{{ review.value.quote }}</p>
-                    </blockquote>
-                </div>
-                <p class="govuk-body great-text-dark-grey govuk-!-static-margin-top-4">
-                    {{ review.value.name }}, {{ review.value.role }}, {{ review.value.company_name }}
-                </p>
+<div class="great-bg-white">
+    <div class="container">
+        <section id='reviews'>
+            <h2 class="govuk-heading-m govuk-!-margin-bottom-6">Reviews</h2>
+            <div class="great-inline-flex great-gap great-mobile-flex-column">
+                {% for review in reviews %}
+                    <div class="great-flex-1 great-min-column-width">
+                        <div class="great-inline-flex great-no-wrap">
+                            {% image review.value.image  max-100x100 as review_img %}
+                            <img src="{{ review_img.url }}"
+                                 alt="{{ review.value.image.alt }}"
+                                 class='great-circle-image'>
+                            <blockquote class="great-quote govuk-!-margin-left-2">
+                                <p class="govuk-heading-s">{{ review.value.quote }}</p>
+                            </blockquote>
+                        </div>
+                        <p class="govuk-body great-text-dark-grey govuk-!-static-margin-top-4">
+                            {{ review.value.name }}, {{ review.value.role }}, {{ review.value.company_name }}
+                        </p>
+                    </div>
+                {% endfor %}
             </div>
-        {% endfor %}
+        </section>
     </div>
-</section>
+</div>

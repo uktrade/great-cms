@@ -155,7 +155,7 @@ class CoursePagePanels:
             ],
         ),
         FieldPanel('speakers'),
-        FieldPanel('reviewers'),
+        FieldPanel('reviews'),
     ]
 
     settings_panels = [
