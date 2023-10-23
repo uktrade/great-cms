@@ -436,7 +436,7 @@
     }
   }
 
-  .event-date-badge time {
+  .event-date-badge {
     background-color: #1e1348;
     width: 60px;
     min-width: 60px;
@@ -445,16 +445,25 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    span {
+    i {
       color: white;
-      &:first-of-type {
-        font-size: 24px;
-        line-height: 24px;
-        font-family: $header-font;
-      }
-      &:nth-of-type(2) {
-        font-size: 16px;
-        line-height: 16px;
+      font-size: 18px;
+    }
+    time {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      span {
+        color: white;
+        &:first-of-type {
+          font-size: 24px;
+          line-height: 24px;
+          font-family: $header-font;
+        }
+        &:nth-of-type(2) {
+          font-size: 16px;
+          line-height: 16px;
+        }
       }
     }
   }
@@ -465,18 +474,25 @@
 }
 
 #ea-course-page-header {
+  > div {
+    height: auto;
+
+  }
   .inner-header {
+    min-height: 300px;
     max-width: 1230px;
     padding-top: 60px;
     > div:first-of-type {
       padding-top: 0px;
+      padding-bottom: 30px;
       @media only screen and (min-width: 901px) {
         min-width: 50%;
       }
     }
     .image-container {
       @media only screen and (min-width: 901px) {
-        background-size: 100% auto!important;
+        height: auto;
+        background-size: 100% auto !important;
         background-position-y: bottom !important;
       }
     }
@@ -488,6 +504,7 @@
 
 .image-container {
   position: relative;
+
   .ea-logo {
     position: absolute;
     bottom: 20px;
@@ -505,7 +522,8 @@
   position: relative;
 
   ul {
-    li > img, >li > span {
+    li > img,
+    > li > span {
       vertical-align: middle;
     }
   }
@@ -515,25 +533,107 @@
   }
 
   &__img {
-   @media (min-width: $tablet-size) {
+    @media (min-width: $tablet-size) {
       position: absolute;
       bottom: 0;
       right: 20px;
       max-width: 50%;
     }
-   @media (max-width: $tablet-size) {
+    @media (max-width: $tablet-size) {
       vertical-align: bottom;
       width: 100%;
     }
   }
 
   &__text {
-  @media (min-width: $tablet-size)  {
+    @media (min-width: $tablet-size) {
       flex-basis: 50%;
       padding: 30px !important;
     }
-  @media (max-width: $tablet-size)  {
+    @media (max-width: $tablet-size) {
       padding: 20px !important;
     }
+  }
+}
+
+#past-video-recording {
+  line-height: 0;
+  @media only screen and (max-width: 1230px) {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+.event-on-demand-video-container {
+  width: 100%;
+  display: inline-flex;
+  gap: 30px;
+
+  .video-wrapper {
+    line-height: 0;
+    position: relative;
+    min-width: 810px;
+    video,
+    #thumbnail {
+      width: 810px;
+    }
+    #thumbnail {
+      height: auto;
+      width: 810px;
+      min-width: 100%;
+      min-height: 400px;
+    }
+    .video-button-overlay {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      background: rgba(#000000d9, 0.85);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  @media only screen and (max-width: 1230px) {
+    flex-direction: column;
+    width: 100%;
+    .video-wrapper {
+      min-width: initial;
+    }
+    .video-wrapper video,
+    .video-wrapper #thumbnail {
+      width: 100%;
+      height: auto;
+    }
+    #next-live-event {
+      margin: 0 30px;
+    }
+  }
+
+  @media only screen and (max-width: $mobile-size) {
+    #next-live-event {
+      margin: 0 15px;
+    }
+  }
+}
+
+#ask-the-experts {
+  justify-content: space-between;
+  img {
+    height: 54px;
+  }
+}
+
+#next-live-event {
+  max-width: 390px;
+  flex: 1;
+}
+
+.event-metadata .govuk-summary-list__row {
+  @media only screen and (max-width: $mobile-size) {
+    flex-direction: column;
+    align-items: flex-start !important;
   }
 }
