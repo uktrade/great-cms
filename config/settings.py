@@ -993,10 +993,6 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False,
     'PREPROCESSING_HOOKS': ['config.preprocessors.preprocessing_filter_admin_spec'],
 }
-<<<<<<< HEAD
-
-# Wagtail Draftail Anchors
-DRAFTAIL_ANCHORS_RENDERER = env.str('DRAFTAIL_ANCHORS_RENDERER', 'wagtail_draftail_anchors.rich_text.render_span')
 
 # Wagtail Campaign pages notification settings:
 MODERATION_EMAIL_DIST_LIST = env.str('MODERATION_EMAIL_DIST_LIST', '')
@@ -1040,5 +1036,3 @@ CSP_FRAME_ANCESTORS = (
 )  # noqa
 CSP_UPGRADE_INSECURE_REQUESTS = env.bool('CSP_UPGRADE_INSECURE_REQUESTS', True)
 CSP_BLOCK_ALL_MIXED_CONTENT = True
-=======
->>>>>>> 1eb9de2d0 (KLS-1126 remove draftail-anchor lib implementation)

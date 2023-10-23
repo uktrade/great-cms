@@ -748,7 +748,6 @@ img.richtext-image {
   }
 }
 
-<<<<<<< HEAD
 .great-grey-bottom-border {
   border-bottom: 1px solid $great-border-grey;
 }
@@ -771,6 +770,7 @@ img.richtext-image {
 .great-inline {
   display: inline-block;
 }
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 .great-circle-image {
@@ -869,11 +869,12 @@ img.richtext-image {
   font-size: inherit !important;
 =======
 =======
+=======
+>>>>>>> 97c8f2ab2 (rebased)
 .great-title-link{
   @include great-title-link-mixin();
 }
 
->>>>>>> 82ffe2628 (rebased)
 .great-anchor-link {
   @include great-title-link-mixin();
   font-family: inherit!important;

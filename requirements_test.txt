@@ -30,6 +30,7 @@ asn1crypto==1.5.1
     #   pyhanko
     #   pyhanko-certvalidator
 <<<<<<< HEAD
+<<<<<<< HEAD
 astroid==3.0.1
 =======
 <<<<<<< HEAD
@@ -38,6 +39,9 @@ astroid==2.15.8
 astroid==2.15.7
 >>>>>>> 1eb9de2d0 (KLS-1126 remove draftail-anchor lib implementation)
 >>>>>>> 62a52905f (KLS-1126 remove draftail-anchor lib implementation)
+=======
+astroid==3.0.1
+>>>>>>> 33716f3ca (rebased)
     # via pylint
 asttokens==2.4.0
     # via stack-data
@@ -297,23 +301,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 faker==19.11.0
-=======
-<<<<<<< HEAD
-faker==19.6.0
-=======
-faker==19.6.1
->>>>>>> ec44d9864 (initail draft implementation)
->>>>>>> 84a49e607 (initail draft implementation)
-=======
-faker==19.6.1
->>>>>>> 303eafed0 (resolve conflicts)
-=======
-faker==19.6.2
->>>>>>> 1eb9de2d0 (KLS-1126 remove draftail-anchor lib implementation)
     # via factory-boy
 filelock==3.12.4
     # via virtualenv
@@ -357,22 +345,7 @@ geventhttpclient==2.0.11
     # via locust
 gitdb==4.0.11
     # via gitpython
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 gitpython==3.1.40
-=======
-gitpython==3.1.36
->>>>>>> 5920961c1 (add tests)
-=======
-gitpython==3.1.37
->>>>>>> 1eb9de2d0 (KLS-1126 remove draftail-anchor lib implementation)
-=======
-gitpython==3.1.37
-=======
-gitpython==3.1.36
->>>>>>> e80e8b749 (add tests)
->>>>>>> fd43c9025 (add tests)
     # via -r requirements_test.in
 great-components==2.4.0
     # via -r requirements.in
@@ -392,26 +365,9 @@ html5lib==1.1
     # via
     #   wagtail
     #   xhtml2pdf
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 icalendar==5.0.10
     # via -r requirements.in
 identify==2.5.30
-=======
-icalendar==5.0.8
-=======
-icalendar==5.0.9
->>>>>>> 1eb9de2d0 (KLS-1126 remove draftail-anchor lib implementation)
-=======
-icalendar==5.0.9
-=======
-icalendar==5.0.8
->>>>>>> e80e8b749 (add tests)
->>>>>>> fd43c9025 (add tests)
-    # via -r requirements.in
-identify==2.5.29
->>>>>>> 5920961c1 (add tests)
     # via pre-commit
 idna==3.4
     # via
@@ -493,21 +449,13 @@ monotonic==1.6
     # via
     #   directory-ch-client
     #   directory-client-core
-<<<<<<< HEAD
 msgpack==1.0.7
-=======
-msgpack==1.0.6
->>>>>>> 1eb9de2d0 (KLS-1126 remove draftail-anchor lib implementation)
     # via locust
 mypy-extensions==1.0.0
     # via black
 nodeenv==1.8.0
     # via pre-commit
-<<<<<<< HEAD
 numpy==1.26.1
-=======
-numpy==1.26.0
->>>>>>> 5920961c1 (add tests)
     # via pandas
 oauthlib==3.2.2
     # via
@@ -604,6 +552,7 @@ pyhanko-certvalidator==0.24.1
     #   pyhanko
     #   xhtml2pdf
 <<<<<<< HEAD
+<<<<<<< HEAD
 pylint==3.0.2
 =======
 <<<<<<< HEAD
@@ -612,6 +561,9 @@ pylint==2.17.7
 pylint==2.17.6
 >>>>>>> 1eb9de2d0 (KLS-1126 remove draftail-anchor lib implementation)
 >>>>>>> 62a52905f (KLS-1126 remove draftail-anchor lib implementation)
+=======
+pylint==3.0.2
+>>>>>>> 33716f3ca (rebased)
     # via
     #   pylint-django
     #   pylint-plugin-utils
@@ -619,22 +571,7 @@ pylint-django==2.5.4
     # via -r requirements_test.in
 pylint-plugin-utils==0.8.2
     # via pylint-django
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 pypdf==3.16.4
-=======
-pypdf==3.16.1
->>>>>>> 5920961c1 (add tests)
-=======
-pypdf==3.16.2
->>>>>>> 1eb9de2d0 (KLS-1126 remove draftail-anchor lib implementation)
-=======
-pypdf==3.16.2
-=======
-pypdf==3.16.1
->>>>>>> e80e8b749 (add tests)
->>>>>>> fd43c9025 (add tests)
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -752,11 +689,7 @@ ruamel-yaml-clib==0.2.8
     # via ruamel-yaml
 s3transfer==0.6.2
     # via boto3
-<<<<<<< HEAD
 selenium==4.14.0
-=======
-selenium==4.13.0
->>>>>>> 1eb9de2d0 (KLS-1126 remove draftail-anchor lib implementation)
     # via -r requirements_test.in
 sentry-sdk==1.14.0
     # via -r requirements.in
@@ -832,13 +765,9 @@ tomli==2.0.1
     #   pytest
 tomlkit==0.12.1
     # via pylint
-<<<<<<< HEAD
 tqdm==4.66.1
     # via djlint
 traitlets==5.11.2
-=======
-traitlets==5.10.0
->>>>>>> 5920961c1 (add tests)
     # via
     #   ipython
     #   matplotlib-inline
@@ -895,7 +824,6 @@ wagtail==4.2.2
     # via
     #   -r requirements.in
     #   wagtail-cache
-    #   wagtail-draftail-anchors
     #   wagtail-factories
     #   wagtail-localize
     #   wagtail-seo
@@ -903,8 +831,6 @@ wagtail==4.2.2
     #   wagtail-trash
     #   wagtailmedia
 wagtail-cache==2.2.0
-    # via -r requirements.in
-wagtail-draftail-anchors==0.6.0
     # via -r requirements.in
 wagtail-factories==2.0.1
     # via -r requirements.in
