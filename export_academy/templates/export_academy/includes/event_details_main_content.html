@@ -97,7 +97,8 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <a href="{{ event.get_past_event_recording_slug }}" class="govuk-link">{{ event.past_event_video_recording }}</a>
+                                        <a href="/export-academy/event-recordings/{{ event.get_past_event_recording_slug }}"
+                                           class="govuk-link">{{ event.past_event_video_recording }}</a>
                                         <p class="govuk-body-s govuk-!-static-margin-bottom-0 great-text-grey">Event recording</p>
                                         <p class="govuk-body-s">
                                             Recorded {{ event.past_event_recorded_date|date:'d M Y' }} • {{ event.get_past_event_recording_duration }}
