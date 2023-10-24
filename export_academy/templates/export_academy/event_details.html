@@ -112,23 +112,25 @@
                 {% endif %}
             </div>
             <div class="govuk-grid-column-one-third-from-desktop govuk-!-static-padding-0">
-                <div class="great-icon-box-container">
-                    <div class="govuk-!-static-padding-top-2 great-border-thin-top-light-blue">
-                        <h3 class="govuk-heading-s govuk-!-static-margin-bottom-4">Watch a past event recording</h3>
-                        <div class="great-flex">
-                            <div class="great-flex-basis-25">
-                                <div class="great-icon-box">
-                                    <i class="fa fa-play" aria-hidden="true"></i>
+                {% if event.past_event_video_recording %}
+                    <div class="great-icon-box-container">
+                        <div class="govuk-!-static-padding-top-2 great-border-thin-top-light-blue">
+                            <h3 class="govuk-heading-s govuk-!-static-margin-bottom-4">Watch a past event recording</h3>
+                            <div class="great-flex">
+                                <div class="great-flex-basis-25">
+                                    <div class="great-icon-box">
+                                        <i class="fa fa-play" aria-hidden="true"></i>
+                                    </div>
                                 </div>
-                            </div>
-                            <div>
-                                <a href="/" class="govuk-link">Exploring the benefits and barriers of export</a>
-                                <p class="govuk-body-s govuk-!-static-margin-bottom-0 great-text-grey">Event recording</p>
-                                <p class="govuk-body-s">Recording 6th September 2023 • 1 hr</p>
+                                <div>
+                                    <a href="/" class="govuk-link">Exploring the benefits and barriers of export</a>
+                                    <p class="govuk-body-s govuk-!-static-margin-bottom-0 great-text-grey">Event recording</p>
+                                    <p class="govuk-body-s">Recording 6th September 2023 • 1 hr</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                {% endif %}
             </div>
         </div>
     </section>
