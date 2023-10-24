@@ -29,7 +29,7 @@ asn1crypto==1.5.1
     #   oscrypto
     #   pyhanko
     #   pyhanko-certvalidator
-astroid==2.15.8
+astroid==3.0.1
     # via pylint
 asttokens==2.4.0
     # via stack-data
@@ -96,7 +96,7 @@ cffi==1.16.0
     # via cryptography
 cfgv==3.4.0
     # via pre-commit
-charset-normalizer==3.3.0
+charset-normalizer==3.3.1
     # via requests
 click==8.1.7
     # via
@@ -163,7 +163,7 @@ directory-constants==23.1.0
     #   -r requirements.in
     #   directory-components
     #   great-components
-directory-forms-api-client==7.2.2
+directory-forms-api-client==7.3.1
     # via -r requirements.in
 directory-healthcheck==3.1.2
     # via -r requirements.in
@@ -331,7 +331,7 @@ gevent==23.9.1
     #   locust
 geventhttpclient==2.0.11
     # via locust
-gitdb==4.0.10
+gitdb==4.0.11
     # via gitpython
 gitpython==3.1.40
     # via -r requirements_test.in
@@ -408,8 +408,6 @@ kombu==5.3.2
     # via celery
 l18n==2021.3
     # via wagtail
-lazy-object-proxy==1.9.0
-    # via astroid
 locust==2.15.1
     # via -r requirements_test.in
 lxml==4.9.3
@@ -541,11 +539,11 @@ pyhanko-certvalidator==0.24.1
     # via
     #   pyhanko
     #   xhtml2pdf
-pylint==2.17.7
+pylint==3.0.2
     # via
     #   pylint-django
     #   pylint-plugin-utils
-pylint-django==2.5.3
+pylint-django==2.5.4
     # via -r requirements_test.in
 pylint-plugin-utils==0.8.2
     # via pylint-django
@@ -661,7 +659,7 @@ requests-toolbelt==1.0.0
     # via browserstack-sdk
 roundrobin==0.0.4
     # via locust
-ruamel-yaml==0.17.38
+ruamel-yaml==0.17.40
     # via pre-commit-hooks
 ruamel-yaml-clib==0.2.8
     # via ruamel-yaml
@@ -769,7 +767,7 @@ typing-extensions==4.8.0
     #   wagtail-localize
 tzdata==2023.3
     # via django-celery-beat
-tzlocal==5.1
+tzlocal==5.2
     # via
     #   dateparser
     #   pyhanko
@@ -847,8 +845,6 @@ whitenoise==6.6.0
     # via -r requirements.in
 willow==1.4.1
     # via wagtail
-wrapt==1.15.0
-    # via astroid
 wsproto==1.2.0
     # via trio-websocket
 xhtml2pdf==0.2.11
