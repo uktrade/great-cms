@@ -26,6 +26,11 @@
                 {% if button.disable_text %}<a>{{ button.disable_text }}</a>{% endif %}
             {% endfor %}
         </form>
+        {% if not request.user.is_authenticated %}
+            <p class="govuk-body govuk-body govuk-!-static-padding-top-2">
+                Already joined? <a href="/login/" class="govuk-link">Sign in</a>
+            </p>
+        {% endif %}
     {% endif %}
     {% if action_buttons.register %}
         <a href="https://www.events.great.gov.uk/ereg/newreg.php?eventid=200236512&language=eng"

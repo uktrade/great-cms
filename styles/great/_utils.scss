@@ -774,23 +774,8 @@ img.richtext-image {
   display: inline-block;
 }
 
-.great-icon-box {
-  height: 60px;
-  width: 60px;
-  background-color: $great-dark-blue;
-  display: table-cell;
-  vertical-align: middle;
-  text-align:center;
-
-
-  > i {
-    color: white;
-    font-size: 22px;
-  }
-}
-
 .great-icon-box-container{
   @include govuk-media-query($from: tablet) {
-    padding-left: 40px;
+    padding-left: 30px;
   }
 }

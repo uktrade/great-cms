@@ -85,33 +85,29 @@
                 {% endif %}
             </div>
             <div class="govuk-grid-column-one-third-from-desktop govuk-!-static-padding-0">
-                {% if event.past_event_video_recording %}
-                    <div class="great-icon-box-container">
-                        <div class="govuk-!-static-padding-top-2 great-border-thin-top-light-blue">
-                            <h3 class="govuk-heading-s govuk-!-static-margin-bottom-4">Watch a past event recording</h3>
-                            {% if request.user.is_authenticated %}
-                                <div class="great-flex">
-                                    <div class="great-flex-basis-25">
-                                        <div class="great-icon-box">
+                {% if show_past_events %}
+                    {% if event.past_event_video_recording %}
+                        <div class="great-icon-box-container">
+                            <div class="govuk-!-static-padding-top-2 great-border-thin-top-light-blue">
+                                <h2 class="govuk-heading-s">Watch a past event recording</h2>
+                                <div class="event-listing-summary-info">
+                                    <div>
+                                        <div class="event-date-badge">
                                             <i class="fa fa-play" aria-hidden="true"></i>
                                         </div>
                                     </div>
                                     <div>
                                         <a href="/export-academy/event-recordings/{{ event.get_past_event_recording_slug }}"
-                                           class="govuk-link">{{ event.past_event_video_recording }}</a>
-                                        <p class="govuk-body-s govuk-!-static-margin-bottom-0 great-text-grey">Event recording</p>
-                                        <p class="govuk-body-s">
-                                            Recorded {{ event.past_event_recorded_date|date:'d M Y' }} • {{ event.get_past_event_recording_duration }}
+                                           class="govuk-link">{{ event.name }}</a>
+                                        <p class="govuk-body-s govuk-!-margin-0 great-text-grey">Event recording</p>
+                                        <p class="govuk-body-s govuk-!-margin-0">
+                                            Recorded: {{ event.past_event_recorded_date|date:'n F Y' }} • {{ event.get_past_event_recording_duration }}
                                         </p>
                                     </div>
                                 </div>
-                            {% else %}
-                                <p class="govuk-body">
-                                    Already joined? <a href="/login/" class="govuk-link">Sign in</a>
-                                </p>
-                            {% endif %}
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>
