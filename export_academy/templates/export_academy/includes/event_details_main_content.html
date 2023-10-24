@@ -84,6 +84,35 @@
                     </div>
                 {% endif %}
             </div>
+            <div class="govuk-grid-column-one-third-from-desktop govuk-!-static-padding-0">
+                {% if event.past_event_video_recording %}
+                    <div class="great-icon-box-container">
+                        <div class="govuk-!-static-padding-top-2 great-border-thin-top-light-blue">
+                            <h3 class="govuk-heading-s govuk-!-static-margin-bottom-4">Watch a past event recording</h3>
+                            {% if is_logged_in %}
+                                <div class="great-flex">
+                                    <div class="great-flex-basis-25">
+                                        <div class="great-icon-box">
+                                            <i class="fa fa-play" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <a href="{{ event.get_past_event_recording_slug }}" class="govuk-link">{{ event.past_event_video_recording }}</a>
+                                        <p class="govuk-body-s govuk-!-static-margin-bottom-0 great-text-grey">Event recording</p>
+                                        <p class="govuk-body-s">
+                                            Recorded {{ event.past_event_recorded_date|date:'d M Y' }} • {{ event.get_past_event_recording_duration }}
+                                        </p>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <p class="govuk-body">
+                                    Already joined? <a href="/login/" class="govuk-link">Sign in</a>
+                                </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
         </div>
     </section>
 {% endif %}

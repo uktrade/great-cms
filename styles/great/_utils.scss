@@ -394,6 +394,10 @@
   border-left: 6px solid $great-blue;
 }
 
+.great-border-thin-top-light-blue {
+  border-top: 3px solid #1D70B8;
+}
+
 .great-bg-white {
   background-color: $great-white !important;
   background: $great-white;
@@ -524,6 +528,10 @@
 }
 
 .great-display-flex {
+  display: flex;
+}
+
+.great-flex {
   display: flex;
 }
 
@@ -764,4 +772,25 @@ img.richtext-image {
 
 .great-inline {
   display: inline-block;
+}
+
+.great-icon-box {
+  height: 60px;
+  width: 60px;
+  background-color: $great-dark-blue;
+  display: table-cell;
+  vertical-align: middle;
+  text-align:center;
+
+
+  > i {
+    color: white;
+    font-size: 22px;
+  }
+}
+
+.great-icon-box-container{
+  @include govuk-media-query($from: tablet) {
+    padding-left: 40px;
+  }
 }
