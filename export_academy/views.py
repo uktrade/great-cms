@@ -8,7 +8,6 @@ from uuid import uuid4
 
 from directory_forms_api_client import actions
 from django.contrib.auth.models import AnonymousUser
-from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.http import Http404, HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
@@ -180,18 +179,8 @@ class EventVideoView(DetailView):
 
         return ctx
 
-    def _save_video_tracking(self):
-        try:
-            video_page_tracking = VideoOnDemandPageTracking.objects.create(
-                user_id=self.request.user.id,
-            )
-            video_page_tracking.save()
-        except ValidationError as ve:
-            logger.debug(ve, exc_info=ve)
-
     def get(self, request, *args, **kwargs):
         update_booking(request.user.email, kwargs['pk'], request)
-        self._save_video_tracking()
         return super().get(request, *args, **kwargs)
 
 
@@ -816,7 +805,7 @@ class EventVideoOnDemandView(DetailView):
             raise Http404
         self.event_slug, self.recording_date = self.extract_date_and_event_name(self.slug)
         self.recorded_datetime = datetime.strptime(self.recording_date, '%d-%B-%Y').date()
-        self.event, self.video = self._get_event_and_video(self.event_slug, self.recorded_datetime)
+        self.event, self.video = self._get_event_and_video()
         if not self.event or not self.video:
             raise Http404
         self.kwargs['pk'] = self.event.id
@@ -825,9 +814,9 @@ class EventVideoOnDemandView(DetailView):
             return obj
         raise Http404
 
-    def _get_event_and_video(self, event_slug, recorded_datetime):
+    def _get_event_and_video(self):
         event = models.Event.objects.filter(
-            slug__contains=event_slug, past_event_recorded_date__date=recorded_datetime
+            slug__contains=self.event_slug, past_event_recorded_date__date=self.recorded_datetime
         ).first()
         video = getattr(event, 'past_event_video_recording', None)
         return event, video
