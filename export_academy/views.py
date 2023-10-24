@@ -752,7 +752,7 @@ class EventVideoOnDemandView(DetailView):
     slug = None
     event_slug = None
     recording_date = None
-    recorded_datetim = None
+    recorded_datetime = None
     event = None
     video = None
 
