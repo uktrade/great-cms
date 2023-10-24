@@ -565,7 +565,7 @@
 .event-on-demand-video-container {
   width: 100%;
   display: inline-flex;
-  gap: 30px;
+  gap: 0 30px;
 
   .video-wrapper {
     line-height: 0;
@@ -645,12 +645,12 @@
 
     @media only screen and (max-width: 1230px) {
       padding: 0 30px;
-      margin-bottom: 0;
+      margin-bottom: 0!important
     }
 
     @media only screen and (max-width: $mobile-size) {
       padding: 0 15px;
-      margin-bottom: 0;
+      margin-bottom: 0!important;
     }
   }
 }

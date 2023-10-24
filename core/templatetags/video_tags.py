@@ -1,5 +1,6 @@
 from django import template
 from django.forms.utils import flatatt
+from django.template.defaultfilters import linebreaksbr
 from django.template.loader import render_to_string
 from django.utils.html import format_html, format_html_join
 
@@ -57,16 +58,18 @@ def render_video(block):
         subtitles = ''
 
     transcript_container = ''
+
     if video_transcript is not None:
         transcript_container = f"""
-            <details class="govuk-details govuk-!-static-padding-top-4" data-module="govuk-details">
+            <details class="govuk-details govuk-!-static-padding-top-4 govuk-!-static-margin-bottom-4"
+            data-module="govuk-details">
                 <summary class="govuk-details__summary">
                     <span class="govuk-details__summary-text">
                         View transcript
                     </span>
                 </summary>
                 <div class="govuk-details__text govuk-body video_transcipt_text">
-                    {video_transcript}
+                    {linebreaksbr(video_transcript)}
                 </div>
             </details>
         """
