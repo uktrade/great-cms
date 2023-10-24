@@ -89,7 +89,7 @@
                     <div class="great-icon-box-container">
                         <div class="govuk-!-static-padding-top-2 great-border-thin-top-light-blue">
                             <h3 class="govuk-heading-s govuk-!-static-margin-bottom-4">Watch a past event recording</h3>
-                            {% if is_logged_in %}
+                            {% if request.user.is_authenticated %}
                                 <div class="great-flex">
                                     <div class="great-flex-basis-25">
                                         <div class="great-icon-box">
