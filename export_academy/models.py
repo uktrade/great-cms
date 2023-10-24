@@ -1,5 +1,4 @@
 import datetime
-import json
 import re
 import uuid
 from datetime import timedelta
@@ -9,7 +8,6 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
-from great_components.helpers import get_is_authenticated, get_user
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
@@ -563,38 +561,22 @@ class CoursePage(CoursePagePanels, BaseContentPage):
 
 class VideoOnDemandPageTracking(TimeStampedModel):
     """
-    Tracks Video Details Page access
+    Tracks Video On Demand Page access
     """
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    user_id = models.UUIDField(null=False)
-    details_viewed = models.DateTimeField(auto_now_add=True, blank=True)
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+    )
+    user_id = models.PositiveIntegerField(null=False)
+    event = models.ForeignKey(Event, null=True, on_delete=models.SET_NULL, related_name='events')
+    details_viewed = models.DateTimeField(blank=True, null=True)
     cookies_accepted_on_details_view = models.BooleanField(default=False)
 
     @classmethod
-    def _user_already_recorded(cls, user_id):
-        try:
-            cls.objects.get(pk=user_id)
-            return True
-        except cls.DoesNotExist:
-            return False
-
-    def _user_has_accepted_cookies(self):
-        cookies = json.loads(self.request.COOKIES.get('cookies_policy', '{}'))  # noqa: P103
-        return cookies.get('usage', False)
-
-    def save(self, **kwargs):
-        # is the User logged in
-        user = get_user(self.request)
-        is_logged_in = get_is_authenticated(self.request)
-        aleady_tracked = self._user_already_recorded(user.id)
-        if user and is_logged_in and not aleady_tracked:
-            # has the user accepted cookies
-            self.user_id = user.id
-            self.cookies_accepted_on_details_view = self._user_has_accepted_cookies()
-            return super().save(**kwargs)
-        else:
-            return
+    def user_already_recorded(cls, user_id):
+        user = cls.objects.filter(user_id=user_id).first()
+        return True if user else False
 
     def __str__(self):
-        return f'User: {self.user_id} Viewed Video Details Page'
+        return f'User: {self.user_id}, Event: {self.event.id}'
