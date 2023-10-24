@@ -412,7 +412,7 @@
 }
 
 .great-text-dark-grey {
-  color: #505a5f;
+  color: #505a5f!important;
 }
 
 .great-text-grey {
@@ -769,6 +769,8 @@ img.richtext-image {
 .great-circle-image {
   height: 80px;
   width: 80px;
+  min-width: 80px;
+  min-height: 80px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -835,5 +837,11 @@ img.richtext-image {
   @media only screen and (max-width: $mobile-size) {
     width: 100%;
     min-width: auto;
+  }
+}
+
+.great-max-width-half-desktop {
+  @include govuk-media-query($from: desktop) {
+    max-width: 615px;
   }
 }
