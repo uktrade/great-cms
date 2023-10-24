@@ -551,14 +551,12 @@ class DomesticExportSupportFormStep8View(contact_mixins.ExportSupportFormMixin, 
             country_code=None,
         )
 
-        action = actions.ZendeskAction(
+        action = actions.SaveOnlyInDatabaseAction(
             full_name=f"{form_data.get('first_name')} {form_data.get('last_name')}",
             email_address=form_data.get('email'),
             subject=self.subject,
-            service_name='great',
-            subdomain=settings.EU_EXIT_ZENDESK_SUBDOMAIN,
-            form_url=self.request.get_full_path(),
             sender=sender,
+            form_url=self.request.get_full_path(),
         )
 
         response = action.save(cleaned_data)
