@@ -58,7 +58,7 @@ def render_video(block):
 
     transcript_container = ''
     if video_transcript is not None:
-        transcript_container = f'''
+        transcript_container = f"""
             <details class="govuk-details govuk-!-static-padding-top-4" data-module="govuk-details">
                 <summary class="govuk-details__summary">
                     <span class="govuk-details__summary-text">
@@ -69,7 +69,7 @@ def render_video(block):
                     {video_transcript}
                 </div>
             </details>
-        '''
+        """
 
     rendered = format_html(
         f"""
