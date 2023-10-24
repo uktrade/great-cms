@@ -59,7 +59,7 @@ certifi==2023.7.22
     #   sentry-sdk
 cffi==1.16.0
     # via cryptography
-charset-normalizer==3.3.0
+charset-normalizer==3.3.1
     # via requests
 click==8.1.7
     # via
@@ -104,7 +104,7 @@ directory-constants==23.1.0
     #   -r requirements.in
     #   directory-components
     #   great-components
-directory-forms-api-client==7.2.2
+directory-forms-api-client==7.3.1
     # via -r requirements.in
 directory-healthcheck==3.1.2
     # via -r requirements.in
@@ -123,6 +123,7 @@ django==4.1.10
     #   directory-healthcheck
     #   directory-validators
     #   django-celery-beat
+    #   django-csp
     #   django-decorator-include
     #   django-extensions
     #   django-filter
@@ -145,6 +146,8 @@ django==4.1.10
     #   wagtail-localize
     #   wagtailmedia
 django-celery-beat==2.5.0
+    # via -r requirements.in
+django-csp==3.7
     # via -r requirements.in
 django-decorator-include==3.0
     # via -r requirements.in
@@ -206,7 +209,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==19.10.0
+faker==19.11.0
     # via factory-boy
 geoip2==2.9.0
     # via -r requirements.in
@@ -264,7 +267,7 @@ monotonic==1.6
     # via
     #   directory-ch-client
     #   directory-client-core
-numpy==1.26.0
+numpy==1.26.1
     # via pandas
 oauthlib==3.2.2
     # via
@@ -421,7 +424,7 @@ typing-extensions==4.8.0
     #   wagtail-localize
 tzdata==2023.3
     # via django-celery-beat
-tzlocal==5.1
+tzlocal==5.2
     # via
     #   dateparser
     #   pyhanko
@@ -431,7 +434,7 @@ uritemplate==4.1.1
     # via drf-spectacular
 uritools==4.0.2
     # via pyhanko-certvalidator
-urllib3==1.26.17
+urllib3==1.26.18
     # via
     #   -r requirements.in
     #   botocore

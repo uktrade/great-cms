@@ -91,6 +91,7 @@
   },
   "overrides": {
     "optionator": "0.9.3",
-    "tough-cookie": "^4.1.3"
+    "tough-cookie": "^4.1.3",
+    "postcss": "8.4.31"
   }
 }
