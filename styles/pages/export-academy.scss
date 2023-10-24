@@ -476,7 +476,6 @@
 #ea-course-page-header {
   > div {
     height: auto;
-
   }
   .inner-header {
     min-height: 300px;
@@ -636,4 +635,26 @@
     flex-direction: column;
     align-items: flex-start !important;
   }
+}
+
+#video-on-demand-page {
+  details {
+    @media only screen and (min-width: 1229px) {
+      max-width: 810px;
+    }
+
+    @media only screen and (max-width: 1230px) {
+      padding: 0 30px;
+      margin-bottom: 0;
+    }
+
+    @media only screen and (max-width: $mobile-size) {
+      padding: 0 15px;
+      margin-bottom: 0;
+    }
+  }
+}
+.video_transcipt_text {
+  max-height: 200px;
+  overflow: auto;
 }
