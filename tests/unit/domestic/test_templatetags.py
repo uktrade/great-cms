@@ -414,7 +414,7 @@ def test_get_projected_or_actual(is_projected, capitalize, expected_output):
 @pytest.mark.django_db
 def test_append_past_year_seperator():
     objects = [
-        EventFactory(start_date=timezone.make_aware(datetime.datetime(2023, 10, 24, 15, 0))),
+        EventFactory(start_date=timezone.make_aware(datetime.datetime.now() + datetime.timedelta(days=1, hours=3))),
         EventFactory(start_date=timezone.make_aware(datetime.datetime(2023, 1, 24, 15, 0))),
         EventFactory(start_date=timezone.make_aware(datetime.datetime(2023, 1, 24, 15, 0))),
         EventFactory(start_date=timezone.make_aware(datetime.datetime(2022, 1, 24, 15, 0))),
