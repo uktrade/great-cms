@@ -12,29 +12,27 @@ export function modifyAnchorLinkFormLabel() {
     }
   }
 
-  if (isEditPage()) {
-    waitForAnchorLabel().then((element) => {
-      if (element) {
-        replaceOldLabelWithNew(element);
-      }
-    });
-  }
-}
+  function observeAnchorLabelAndReplace() {
+    const anchorLabelId = 'id_anchor-link-chooser-url-label';
 
-function waitForAnchorLabel() {
-  return new Promise((resolve) => {
     function isAnchorLabelPresent() {
-      return document.getElementById('id_anchor-link-chooser-url-label');
+      return document.getElementById(anchorLabelId);
     }
 
-    const observer = new MutationObserver((mutationsList, observer) => {
+    const observer = new MutationObserver((mutationsList) => {
       const anchorElement = isAnchorLabelPresent();
       if (anchorElement) {
-        resolve(anchorElement);
-        observer.disconnect();
+        replaceOldLabelWithNew(anchorElement);
       }
     });
 
-    observer.observe(document, { childList: true, subtree: true });
-  });
+    if (!isAnchorLabelPresent()) {
+      // If the label is not present, start observing
+      observer.observe(document, { childList: true, subtree: true });
+    }
+  }
+
+  if (isEditPage()) {
+    observeAnchorLabelAndReplace();
+  }
 }
