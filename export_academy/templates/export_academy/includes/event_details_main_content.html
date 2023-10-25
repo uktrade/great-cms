@@ -85,7 +85,7 @@
                 {% endif %}
             </div>
             <div class="govuk-grid-column-one-third-from-desktop govuk-!-static-padding-0">
-                {% if request.user.is_authenticated and event.ended and event.booked and event.has_video %}
+                {% if request.user.is_authenticated and ended and has_video and booked %}
                     <!-- Don't show the past event recording -->
                 {% elif show_past_events and event.past_event_video_recording %}
                     <div class="great-icon-box-container">
