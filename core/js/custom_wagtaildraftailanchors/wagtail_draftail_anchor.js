@@ -74,7 +74,9 @@ class _TooltipEntity extends Component {
 
     return (
       <a role="button" onMouseUp={this.openTooltip} className="TooltipEntity">
-        <Icon icon={icon} className="TooltipEntity__icon" />
+         <sub>
+            <Icon name="anchor" className="TooltipEntity__icon" />
+          </sub>
         <span className="TooltipEntity__text">{children}</span>
         {showTooltipAt && (
           <Portal
