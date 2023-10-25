@@ -3,7 +3,7 @@
 {% load add_govuk_classes from content_tags %}
 {% load humanize %}
 {% if triage_data.sector %}
-    <div class="govuk-grid-row" id="rent-component">
+    <div class="govuk-grid-row" id="location-component">
         <div class="govuk-grid-column-full govuk-!-padding-6 salary-component">
             <div class="govuk-width-container">
                 <div class="govuk-grid-row">
@@ -16,7 +16,9 @@
                 </div>
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-full">
-                        <form class="salary-location-form" action="" method="GET">
+                        <form class="salary-location-form"
+                              action="{{ request.build_absolute_uri }}#location-component"
+                              method="GET">
                             <div class="govuk-grid-row">
                                 <div class="govuk-grid-column-full govuk-!-margin-bottom-3">
                                     {% include '../includes/form_field.html' with field=rent_location_form.location %}
