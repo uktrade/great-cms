@@ -1035,5 +1035,5 @@ CSP_FONT_SRC = (
 CSP_IMG_SRC = ("'self'", "data:", "https:")  # noqa
 CSP_FRAME_SRC = ('https://www.google.com',)
 CSP_FRAME_ANCESTORS = ("'none'",)  # noqa
-CSP_UPGRADE_INSECURE_REQUESTS = True
+CSP_UPGRADE_INSECURE_REQUESTS = env.bool('CSP_UPGRADE_INSECURE_REQUESTS', True)
 CSP_BLOCK_ALL_MIXED_CONTENT = True
