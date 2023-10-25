@@ -25,7 +25,7 @@
 
   & > .container {
     min-height: 200px;
-    position: relative;
+    // position: initial;
     overflow: visible;
     padding-top: 45px;
   }
@@ -112,6 +112,11 @@
   max-width: 2000px;
   background-repeat: no-repeat !important;
   image-rendering: auto;
+  position: relative;
+
+  >div {
+    position: initial
+  };
 
   .great-hero-text {
     h1 {
@@ -152,9 +157,11 @@
         width: 1px;
       }
       a {
-        position: relative;
-        top: 450px;
-        left: 0;
+        position: absolute;
+        bottom: -70px;
+        margin:0;
+        left: 15px;
+        width: calc(100% - 30px);
       }
     }
   }
@@ -242,10 +249,12 @@
         width: 1px;
       }
       a {
-        position: relative;
-        top: 450px;
-        left: 0;
+        position: absolute;
+        bottom: -70px;
+        margin: 0;
+        left: 30px;
         width: 100%;
+        width: calc(100% - 60px);
       }
     }
   }
