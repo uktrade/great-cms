@@ -335,7 +335,7 @@ msgstr "تغيير إعداداتك"
 
 #: templates/components/cookie_notice.html:20
 msgid "at any time."
-msgstr "في أي وقت."
+msgstr "في أي وقت"
 
 #: templates/components/header_footer/global_header.html:7
 msgid "For UK businesses"
