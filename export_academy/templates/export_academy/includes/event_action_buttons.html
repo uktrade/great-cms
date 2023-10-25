@@ -27,8 +27,9 @@
             {% endfor %}
         </form>
         {% if not request.user.is_authenticated %}
-            <p class="govuk-body govuk-body govuk-!-static-padding-top-2">
-                Already joined? <a href="/login/" class="govuk-link">Sign in</a>
+            <p class="govuk-body govuk-body govuk-!-margin-0">
+                Already joined the UK Export Academy? <a href="{% url 'core:login' %}?next={{ request.get_full_path }}"
+    class="govuk-link govuk-link--no-visited-state">Sign in</a>
             </p>
         {% endif %}
     {% endif %}

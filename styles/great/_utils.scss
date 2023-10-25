@@ -599,6 +599,7 @@
   display: flex;
   gap: 10px 20px;
   flex-wrap: wrap;
+  align-items: center;
   > * {
     @include govuk-media-query($from: tablet) {
       display: inline-block;
@@ -775,7 +776,7 @@ img.richtext-image {
 }
 
 .great-icon-box-container{
-  @include govuk-media-query($from: tablet) {
+  @include govuk-media-query($from: desktop) {
     padding-left: 30px;
   }
 }
