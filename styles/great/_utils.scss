@@ -386,6 +386,10 @@
   border-top: 6px solid $great-blue;
 }
 
+.great-border-thin-top-light-blue {
+  border-top: 3px solid #1D70B8;
+}
+
 .great-border-bottom-blue {
   border-bottom: 6px solid $great-blue;
 }
@@ -591,6 +595,7 @@
   display: flex;
   gap: 10px 20px;
   flex-wrap: wrap;
+  align-items: center;
   > * {
     @include govuk-media-query($from: tablet) {
       display: inline-block;
@@ -848,4 +853,10 @@ img.richtext-image {
 .great-video-transcipt-text {
   max-height: 200px;
   overflow: auto;
+}
+
+.great-icon-box-container{
+  @include govuk-media-query($from: desktop) {
+    padding-left: 30px;
+  }
 }
