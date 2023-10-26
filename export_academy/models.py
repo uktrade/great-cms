@@ -458,6 +458,9 @@ class EventsOnCourse(ClusterableModel, EventsInCoursePanel):
         max_length=255,
     )
 
+    class Meta:
+        ordering = ['id']
+
 
 class CoursePage(CoursePagePanels, BaseContentPage):
     parent_page_types = [
