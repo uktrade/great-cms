@@ -5,7 +5,7 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('export_academy', '0028_event_past_event_presentation_file_and_more'),
+        ('export_academy', '0029_coursepage_reviews'),
     ]
 
     operations = [
