@@ -363,14 +363,14 @@ class ExportAcademyHomePage(ExportAcademyPagePanels, BaseContentPage):
         null=True,
         blank=True,
         max_length=255,
-        verbose_name='Course Name',
+        verbose_name='Series Name',
     )
 
     course_description = models.CharField(
         null=True,
         blank=True,
         max_length=255,
-        verbose_name='Course Description',
+        verbose_name='Series Description',
     )
 
     course_image = models.ForeignKey(
@@ -379,41 +379,42 @@ class ExportAcademyHomePage(ExportAcademyPagePanels, BaseContentPage):
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
+        verbose_name='Series image',
     )
 
     course_feature_one = models.CharField(
         null=True,
         blank=True,
         max_length=255,
-        verbose_name='Course Feature One',
+        verbose_name='Series Feature One',
     )
 
     course_feature_two = models.CharField(
         null=True,
         blank=True,
         max_length=255,
-        verbose_name='Course Feature Two',
+        verbose_name='Series Feature Two',
     )
 
     course_feature_three = models.CharField(
         null=True,
         blank=True,
         max_length=255,
-        verbose_name='Course Feature Three',
+        verbose_name='Series Feature Three',
     )
 
     course_cta_text = models.CharField(
         null=True,
         blank=True,
         max_length=255,
-        verbose_name='Course CTA Text',
+        verbose_name='Series CTA Text',
     )
 
     course_cta_url = models.CharField(
         null=True,
         blank=True,
         max_length=255,
-        verbose_name='Course CTA URL',
+        verbose_name='Series CTA URL',
     )
 
     panel_description = RichTextField(
@@ -463,6 +464,10 @@ class EventsOnCourse(ClusterableModel, EventsInCoursePanel):
 
 
 class CoursePage(CoursePagePanels, BaseContentPage):
+    class Meta:
+        verbose_name = 'Series page'
+        verbose_name_plural = 'Series pages'
+
     parent_page_types = [
         'export_academy.ExportAcademyHomePage',
     ]
@@ -493,7 +498,7 @@ class CoursePage(CoursePagePanels, BaseContentPage):
     )
 
     is_course_right_for_you_list = single_struct_block_stream_field_factory(
-        field_name='is_course_right_for_you_list',
+        field_name='is_this_series_right_for_you_list',
         block_class_instance=SingleRichTextBlock(),
         null=True,
         blank=True,

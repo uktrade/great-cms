@@ -39,7 +39,7 @@ class ExportAcademyPagePanels:
             ],
         ),
         MultiFieldPanel(
-            heading='Courses',
+            heading='Series',
             classname='collapsible',
             children=[
                 FieldPanel('course_name'),
