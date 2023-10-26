@@ -860,3 +860,9 @@ img.richtext-image {
     padding-left: 30px;
   }
 }
+
+.great-icon-box-container{
+  @include govuk-media-query($from: desktop) {
+    padding-left: 30px;
+  }
+}
