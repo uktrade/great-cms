@@ -659,18 +659,25 @@ class CsatWidgetView(FormView):
         satisfaction = request.POST.get('satisfaction')
         user_journey = request.POST.get('user_journey')
         url = request.GET.get('url')
-        csat_feedback = CsatFeedback.objects.create(
-            satisfaction_rating=satisfaction, URL=url, user_journey=user_journey
-        )
-        request.session['csat_complete'] = True
+        id_params = ''
+        satisfaction_params = ''
+
+        if user_journey:
+            user_journey_params = '&user_journey=' + user_journey
+        if satisfaction:
+            csat_feedback = CsatFeedback.objects.create(
+                satisfaction_rating=satisfaction, URL=url, user_journey=user_journey
+            )
+            request.session['csat_complete'] = True
+            id_params = '&id=' + str(csat_feedback.id)
+            satisfaction_params = '&satisfaction=' + satisfaction
         response = HttpResponseRedirect(
             reverse_lazy('international_online_offer:csat-feedback')
             + '?url='
             + url
-            + '&id='
-            + str(csat_feedback.id)
-            + '&satisfaction='
-            + satisfaction
+            + id_params
+            + satisfaction_params
+            + user_journey_params
         )
         return response
 
@@ -724,6 +731,7 @@ class CsatFeedbackView(GA360Mixin, FormView):
                 service_improvements_feedback=form.cleaned_data['feedback_text'],
                 site_intentions_other=form.cleaned_data['site_intentions_other'],
                 URL=self.request.GET.get('url'),
+                user_journey=self.request.GET.get('user_journey'),
             )
         return super().form_valid(form)
 
