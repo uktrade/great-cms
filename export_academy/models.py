@@ -26,7 +26,7 @@ from core.models import GreatMedia, TimeStampedModel
 from core.templatetags.content_tags import format_timedelta
 from domestic.models import BaseContentPage
 from export_academy import managers
-from export_academy.blocks import MetaDataBlock
+from export_academy.blocks import MetaDataBlock, ReviewBlock
 from export_academy.cms_panels import (
     CoursePagePanels,
     EventPanel,
@@ -533,6 +533,15 @@ class CoursePage(CoursePagePanels, BaseContentPage):
         features=RICHTEXT_FEATURES__REDUCED,
         null=True,
         blank=True,
+    )
+
+    reviews = StreamField(
+        [
+            ('review', ReviewBlock()),
+        ],
+        blank=True,
+        default=[],
+        max_num=2,
     )
 
     def get_all_events(self):
