@@ -26,6 +26,10 @@
                 {% if button.disable_text %}<a>{{ button.disable_text }}</a>{% endif %}
             {% endfor %}
         </form>
+        <p class="govuk-body govuk-body govuk-!-margin-0">
+            Already joined the UK Export Academy? <a href="{% url 'core:login' %}?next={{ request.get_full_path }}"
+    class="govuk-link govuk-link--no-visited-state">Sign in</a>
+        </p>
     {% endif %}
     {% if action_buttons.register %}
         <a href="https://www.events.great.gov.uk/ereg/newreg.php?eventid=200236512&language=eng"
