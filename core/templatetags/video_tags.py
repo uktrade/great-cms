@@ -61,7 +61,7 @@ def render_video(block):
 
     if video_transcript is not None:
         transcript_container = f"""
-            <details class="govuk-details govuk-!-static-padding-top-4 govuk-!-static-margin-bottom-4"
+            <details class="govuk-details govuk-!-static-padding-top-4 govuk-!-static-margin-bottom-0"
             data-module="govuk-details">
                 <summary class="govuk-details__summary">
                     <span class="govuk-details__summary-text">
