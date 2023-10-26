@@ -412,7 +412,7 @@
 }
 
 .great-text-dark-grey {
-  color: #505a5f!important;
+  color: #505a5f !important;
 }
 
 .great-text-grey {
@@ -467,7 +467,7 @@
 
 .great-font-size-mobile-18 {
   @media (max-width: 640px) {
-    font-size: 18px!important;
+    font-size: 18px !important;
   }
 }
 
@@ -844,4 +844,8 @@ img.richtext-image {
   @include govuk-media-query($from: desktop) {
     max-width: 615px;
   }
+}
+.great-video-transcipt-text {
+  max-height: 200px;
+  overflow: auto;
 }

@@ -68,7 +68,7 @@ def render_video(block):
                         View transcript
                     </span>
                 </summary>
-                <div class="govuk-details__text govuk-body video_transcipt_text">
+                <div class="govuk-details__text govuk-body great-video-transcipt-text">
                     {linebreaksbr(video_transcript)}
                 </div>
             </details>
