@@ -440,6 +440,22 @@ def test_contact_with_param(client, settings):
     assert response.status_code == 200
 
 
+@mock.patch('directory_forms_api_client.actions.ZendeskAction')
+@pytest.mark.django_db
+def test_contact_submit(mock_action_class, client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:contact')
+    response = client.post(
+        url,
+        {
+            'full_name': 'Joe Bloggs',
+            'email': 'test@test.com',
+            'how_we_can_help': 'Help me please.',
+        },
+    )
+    assert response.status_code == 302
+
+
 @pytest.mark.django_db
 def test_csat_feedback(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
