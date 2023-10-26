@@ -770,8 +770,6 @@ img.richtext-image {
 .great-inline {
   display: inline-block;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 .great-circle-image {
   height: 80px;
@@ -863,21 +861,12 @@ img.richtext-image {
   }
 }
 
-.great-anchor-link {
-  @include great-title-link();
-  font-family: inherit !important;
-  font-size: inherit !important;
-=======
-=======
-=======
->>>>>>> 97c8f2ab2 (rebased)
-.great-title-link{
+.great-title-link {
   @include great-title-link-mixin();
 }
 
 .great-anchor-link {
   @include great-title-link-mixin();
-  font-family: inherit!important;
-  font-size: inherit!important;
->>>>>>> eaeae30e1 (rebased)
+  font-family: inherit !important;
+  font-size: inherit !important;
 }
