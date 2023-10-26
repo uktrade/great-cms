@@ -778,6 +778,7 @@ img.richtext-image {
   display: inline-block;
 }
 
+<<<<<<< HEAD
 .great-circle-image {
   height: 80px;
   width: 80px;
@@ -866,6 +867,13 @@ img.richtext-image {
   @include govuk-media-query($from: desktop) {
     padding-left: 30px;
   }
+=======
+.great-highlight-text {
+  margin: 0;
+  padding: 5px;
+  display: inline-block;
+  background:rgb(238 242 246 / 100%);
+>>>>>>> e86d70fe5 (fix search)
 }
 
 .great-title-link {
