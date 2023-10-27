@@ -480,8 +480,9 @@ def test_csat_feedback_with_session_value(client, settings):
 def test_csat_feedback_submit(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:csat-feedback') + '?url=http://testurl.com'
+    CsatFeedback.objects.create(id=1, URL='http://test.com')
     session = client.session
-    session['csat_id'] = '123'
+    session['csat_id'] = 1
     session['user_journey'] = 'DASHBOARD'
     session.save()
     response = client.post(
