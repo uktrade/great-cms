@@ -166,7 +166,7 @@ class AnchorIdentifierSource extends React.Component {
 
     const content = editorState.getCurrentContent()
 
-    const anchor = window.prompt('Anchor identifier:')
+    const anchor = window.prompt('Create/ Edit an anchor link name')
 
     // Uses the Draft.js API to create a new entity with the right data.
     if (anchor) {
