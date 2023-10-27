@@ -7,7 +7,7 @@ from django.urls import reverse, reverse_lazy
 from directory_constants import sectors as directory_constants_sectors
 from directory_sso_api_client import sso_api_client
 from international_online_offer.core import helpers, hirings, intents, regions, spends
-from international_online_offer.models import TriageData, UserData
+from international_online_offer.models import CsatFeedback, TriageData, UserData
 from sso import helpers as sso_helpers
 from tests.helpers import create_response
 
@@ -468,7 +468,10 @@ def test_csat_feedback(client, settings):
 def test_csat_feedback_with_session_value(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:csat-feedback')
-    client.session['csat_id'] = 123
+    CsatFeedback.objects.create(id=1, URL='http://test.com')
+    session = client.session
+    session['csat_id'] = 1
+    session.save()
     response = client.get(url)
     assert response.status_code == 200
 
@@ -477,8 +480,10 @@ def test_csat_feedback_with_session_value(client, settings):
 def test_csat_feedback_submit(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:csat-feedback') + '?url=http://testurl.com'
-    client.session['csat_id'] = 123
-    client.session['user_journey'] = 'DASHBOARD'
+    session = client.session
+    session['csat_id'] = '123'
+    session['user_journey'] = 'DASHBOARD'
+    session.save()
     response = client.post(
         url,
         {
