@@ -735,7 +735,8 @@ img.richtext-image {
   width: 300px;
 }
 
-.great-title-link {
+@mixin great-title-link-mixin {
+  @extend %govuk-link;
   border-top: 2px solid transparent;
   border-bottom: 2px solid transparent;
   display: inline-block;
@@ -859,4 +860,14 @@ img.richtext-image {
   @include govuk-media-query($from: desktop) {
     padding-left: 30px;
   }
+}
+
+.great-title-link {
+  @include great-title-link-mixin();
+}
+
+.great-anchor-link {
+  @include great-title-link-mixin();
+  font-family: inherit !important;
+  font-size: inherit !important;
 }
