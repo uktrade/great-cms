@@ -465,9 +465,10 @@ def test_csat_feedback(client, settings):
 
 
 @pytest.mark.django_db
-def test_csat_feedback_with_param(client, settings):
+def test_csat_feedback_with_session_value(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:csat-feedback') + '?satisfaction=SATISFIED'
+    url = reverse('international_online_offer:csat-feedback')
+    client.session['csat_id'] = 123
     response = client.get(url)
     assert response.status_code == 200
 
