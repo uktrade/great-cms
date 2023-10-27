@@ -9,6 +9,7 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin
 
+from core.helpers import check_url_host_is_safelisted
 from directory_sso_api_client import sso_api_client
 from international_online_offer import forms
 from international_online_offer.core import helpers, scorecard
@@ -624,13 +625,13 @@ class FeedbackView(GA360Mixin, FormView):
     def get_back_url(self):
         back_url = '/international/expand-your-business-in-the-uk/guide/'
         if self.request.GET.get('next'):
-            back_url = self.request.GET.get('next')
+            back_url = check_url_host_is_safelisted(self.request)
         return back_url
 
     def get_success_url(self):
         success_url = reverse_lazy('international_online_offer:feedback') + '?success=true'
         if self.request.GET.get('next'):
-            success_url = success_url + '&next=' + self.request.GET.get('next')
+            success_url = success_url + '&next=' + check_url_host_is_safelisted(self.request)
         return success_url
 
     def get_context_data(self, **kwargs):
@@ -639,7 +640,7 @@ class FeedbackView(GA360Mixin, FormView):
     def submit_feedback(self, form):
         cleaned_data = form.cleaned_data
         if self.request.GET.get('next'):
-            cleaned_data['from_url'] = self.request.GET.get('next')
+            cleaned_data['from_url'] = check_url_host_is_safelisted(self.request)
 
         action = actions.SaveOnlyInDatabaseAction(
             full_name='EYB User',
@@ -672,13 +673,13 @@ class ContactView(GA360Mixin, FormView):
     def get_back_url(self):
         back_url = '/international/expand-your-business-in-the-uk/guide/'
         if self.request.GET.get('next'):
-            back_url = self.request.GET.get('next')
+            back_url = check_url_host_is_safelisted(self.request)
         return back_url
 
     def get_success_url(self):
         success_url = reverse_lazy('international_online_offer:contact') + '?success=true'
         if self.request.GET.get('next'):
-            success_url = success_url + '&next=' + self.request.GET.get('next')
+            success_url = success_url + '&next=' + check_url_host_is_safelisted(self.request)
         return success_url
 
     def get_context_data(self, **kwargs):
@@ -687,7 +688,7 @@ class ContactView(GA360Mixin, FormView):
     def submit_feedback(self, form):
         cleaned_data = form.cleaned_data
         if self.request.GET.get('next'):
-            cleaned_data['from_url'] = self.request.GET.get('next')
+            cleaned_data['from_url'] = check_url_host_is_safelisted(self.request)
 
         sender = Sender(
             email_address=cleaned_data['email'],
@@ -716,27 +717,17 @@ class CsatWidgetView(FormView):
     def post(self, request, *args, **kwargs):
         satisfaction = request.POST.get('satisfaction')
         user_journey = request.POST.get('user_journey')
-        url = request.GET.get('url')
-        id_params = ''
-        satisfaction_params = ''
+        url = check_url_host_is_safelisted(request)
+        request.session['csat_user_journey'] = user_journey
 
-        if user_journey:
-            user_journey_params = '&user_journey=' + user_journey
         if satisfaction:
             csat_feedback = CsatFeedback.objects.create(
                 satisfaction_rating=satisfaction, URL=url, user_journey=user_journey
             )
             request.session['csat_complete'] = True
-            id_params = '&id=' + str(csat_feedback.id)
-            satisfaction_params = '&satisfaction=' + satisfaction
-        response = HttpResponseRedirect(
-            reverse_lazy('international_online_offer:csat-feedback')
-            + '?url='
-            + url
-            + id_params
-            + satisfaction_params
-            + user_journey_params
-        )
+            request.session['csat_id'] = csat_feedback.id
+
+        response = HttpResponseRedirect(reverse_lazy('international_online_offer:csat-feedback') + '?next=' + url)
         return response
 
 
@@ -753,23 +744,26 @@ class CsatFeedbackView(GA360Mixin, FormView):
         )
 
     def get_initial(self):
-        satisfaction = self.request.GET.get('satisfaction')
-        if satisfaction:
-            return {'satisfaction': satisfaction}
+        csat_id = self.request.session.get('csat_id')
+        if csat_id:
+            csat_record = CsatFeedback.objects.get(id=csat_id)
+            satisfaction = csat_record.satisfaction_rating
+            if satisfaction:
+                return {'satisfaction': satisfaction}
         else:
             return {'satisfaction': ''}
 
     def get_success_url(self):
         success_url = reverse_lazy('international_online_offer:csat-feedback') + '?success=true'
-        if self.request.GET.get('url'):
-            success_url = success_url + '&url=' + self.request.GET.get('url')
+        if self.request.GET.get('next'):
+            success_url = success_url + '&next=' + check_url_host_is_safelisted(self.request)
         return success_url
 
     def form_valid(self, form):
-        id = self.request.GET.get('id')
-        if id:
+        csat_id = self.request.session.get('csat_id')
+        if csat_id:
             CsatFeedback.objects.update_or_create(
-                id=id,
+                id=csat_id,
                 defaults={
                     'experienced_issue': form.cleaned_data['experience'],
                     'other_detail': form.cleaned_data['experience_other'],
@@ -779,6 +773,7 @@ class CsatFeedbackView(GA360Mixin, FormView):
                     'service_improvements_feedback': form.cleaned_data['feedback_text'],
                 },
             )
+            del self.request.session['csat_id']
         else:
             CsatFeedback.objects.create(
                 satisfaction_rating=form.cleaned_data['satisfaction'],
@@ -788,9 +783,10 @@ class CsatFeedbackView(GA360Mixin, FormView):
                 site_intentions=form.cleaned_data['site_intentions'],
                 service_improvements_feedback=form.cleaned_data['feedback_text'],
                 site_intentions_other=form.cleaned_data['site_intentions_other'],
-                URL=self.request.GET.get('url'),
-                user_journey=self.request.GET.get('user_journey'),
+                URL=check_url_host_is_safelisted(self.request),
+                user_journey=self.request.session.get('csat_user_journey'),
             )
+            del self.request.session['csat_user_journey']
         return super().form_valid(form)
 
 
