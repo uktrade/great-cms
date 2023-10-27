@@ -72,7 +72,6 @@ INSTALLED_APPS = [
     'sso',
     'wagtail.admin',
     'core.apps.CoreConfig',
-    'wagtail_draftail_anchors',
     'cms_extras.apps.CmsExtrasConfig',
     'domestic.apps.DomesticAdminAppConfig',
     'exportplan.apps.ExportPlanConfig',
@@ -994,9 +993,6 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False,
     'PREPROCESSING_HOOKS': ['config.preprocessors.preprocessing_filter_admin_spec'],
 }
-
-# Wagtail Draftail Anchors
-DRAFTAIL_ANCHORS_RENDERER = env.str('DRAFTAIL_ANCHORS_RENDERER', 'wagtail_draftail_anchors.rich_text.render_span')
 
 # Wagtail Campaign pages notification settings:
 MODERATION_EMAIL_DIST_LIST = env.str('MODERATION_EMAIL_DIST_LIST', '')

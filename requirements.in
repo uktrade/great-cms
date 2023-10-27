@@ -23,7 +23,6 @@ wagtail-seo==2.3.0
 wagtail-trash==1.0.0
 wagtail-localize==1.4
 wagtail-font-awesome-svg==0.0.3
-wagtail-draftail-anchors==0.6.0
 
 # Prod tools
 # ------------

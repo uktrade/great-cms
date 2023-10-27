@@ -5,12 +5,14 @@ from unittest import mock
 from urllib.parse import quote, quote_plus
 
 import pytest
+from bs4 import BeautifulSoup
 from django.conf import settings
 from django.template import Context, Template
 from django.urls import reverse
 
 from core.models import CuratedListPage, DetailPage, LessonPlaceholderPage, TopicPage
 from core.templatetags.content_tags import (
+    add_anchor_classes,
     get_backlinked_url,
     get_category_title_for_lesson,
     get_lesson_progress_for_topic,
@@ -679,6 +681,32 @@ def test_add_govuk_classes(input_html, expected_html):
     context = Context({'html': input_html})
     html = template.render(context)
     assert html == expected_html
+
+
+def test_add_anchor_classes():
+    # Create a sample HTML string with header tags and anchor tags
+    html = """
+    <h1><a href="#section1">Header 1</a></h1>
+    <h2><a href="#section2">Header 2</a></h2>
+    <h3><a href="#section3">Header 3</a></h3>
+    <p><a href="#section4">Paragraph Link</a></p>
+    <a href="#section5">Outside Header</a>
+    """
+
+    # Parse the HTML string
+    soup = BeautifulSoup(html, 'html.parser')
+
+    # Call the function to add classes to anchor tags
+    class_name = 'test-class'
+    add_anchor_classes(soup, class_name)
+
+    # Check if classes were added correctly
+    anchor_tags = soup.find_all('a')
+    for anchor_tag in anchor_tags:
+        if len(anchor_tag.find_parents(['h1', 'h2', 'h3'])):
+            assert class_name in anchor_tag.get('class', [])
+        else:
+            assert class_name not in anchor_tag.get('class', [])
 
 
 @pytest.mark.parametrize(

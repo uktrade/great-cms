@@ -10,6 +10,8 @@ module.exports = {
     magna_styles: './core/sass/main.scss',
     common: './core/js/common.js',
     largevideoupload: './core/js/largevideoupload.js',
+    custom_wagtaildraftailanchors: "./core/js/custom_wagtaildraftailanchors/wagtail_draftail_anchor.js",
+    modifyAnchorLinkLabel: "./core/js/modifyAnchorLinkLabel.js",
     loggedout_styles: './domestic/sass/main.scss',
     components: './react-components/src/bundle-components.js',
     components_styles:
