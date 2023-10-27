@@ -773,7 +773,8 @@ class CsatFeedbackView(GA360Mixin, FormView):
                     'service_improvements_feedback': form.cleaned_data['feedback_text'],
                 },
             )
-            del self.request.session['csat_id']
+            if self.request.session.get('csat_id'):
+                del self.request.session['csat_id']
         else:
             CsatFeedback.objects.create(
                 satisfaction_rating=form.cleaned_data['satisfaction'],
@@ -786,7 +787,8 @@ class CsatFeedbackView(GA360Mixin, FormView):
                 URL=check_url_host_is_safelisted(self.request),
                 user_journey=self.request.session.get('csat_user_journey'),
             )
-            del self.request.session['csat_user_journey']
+            if self.request.session.get('csat_user_journey'):
+                del self.request.session['csat_user_journey']
         return super().form_valid(form)
 
 
