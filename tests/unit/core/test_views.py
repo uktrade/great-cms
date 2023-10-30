@@ -1052,10 +1052,6 @@ def test_serve_subtitles__login_required(client):
 
     assert resp.headers['location'] == reverse('core:login') + f'?next={dest}'
 
-
-@pytest.mark.skipif(
-    not settings.FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE, reason='Multiple translations not enabled'
-)
 class TestMicrositeLocales(TestCase):
     def setUp(self):
         self.client = Client()
