@@ -476,7 +476,6 @@
 #ea-course-page-header {
   > div {
     height: auto;
-
   }
   .inner-header {
     min-height: 300px;
@@ -566,7 +565,7 @@
 .event-on-demand-video-container {
   width: 100%;
   display: inline-flex;
-  gap: 30px;
+  gap: 0 30px;
 
   .video-wrapper {
     line-height: 0;
@@ -635,5 +634,23 @@
   @media only screen and (max-width: $mobile-size) {
     flex-direction: column;
     align-items: flex-start !important;
+  }
+}
+
+#video-on-demand-page {
+  details {
+    @media only screen and (min-width: 1229px) {
+      max-width: 810px;
+    }
+
+    @media only screen and (max-width: 1230px) {
+      padding: 0 30px;
+      margin-bottom: 0!important
+    }
+
+    @media only screen and (max-width: $mobile-size) {
+      padding: 0 15px;
+      margin-bottom: 0!important;
+    }
   }
 }

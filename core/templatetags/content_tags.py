@@ -212,6 +212,15 @@ def wrap_tag_in_div(soup, tag_name, wrapper_class):
         element.wrap(div)
 
 
+def add_anchor_classes(soup, class_name):
+    header_tags = soup.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])
+    for header_tag in header_tags:
+        a_tags = header_tag.find_all('a', href=True)
+        for a_tag in a_tags:
+            if a_tag['href'].startswith('#'):
+                a_tag.attrs['class'] = [class_name]
+
+
 @register.filter
 def add_govuk_classes(value):
     soup = BeautifulSoup(value, 'html.parser')
@@ -232,7 +241,9 @@ def add_govuk_classes(value):
         ({'tag': 'label', 'class': 'form-label'}, 'govuk-form-label'),
         ({'tag': 'div', 'class': 'form-group-error'}, 'govuk-form-group-error'),
         ({'tag': 'iframe', 'wrap': True}, 'great-video-embed-16-9'),
+        ({'tag': 'a', 'header_parent': True}, 'great-anchor-link'),  # New mapping for <a> tags inside headers
     ]
+
     for tag_name, class_name in mapping:
         if 'wrap' in tag_name:
             wrap_tag_in_div(soup, tag_name, class_name)
@@ -241,9 +252,12 @@ def add_govuk_classes(value):
                 element.attrs['class'] = [
                     class_name if classname == tag_name['class'] else classname for classname in element.attrs['class']
                 ]
+        elif 'header_parent' in tag_name:
+            add_anchor_classes(soup, class_name)
         else:
             for element in soup.findAll(tag_name['tag']):
                 element.attrs['class'] = class_name
+
     return mark_safe(str(soup))
 
 

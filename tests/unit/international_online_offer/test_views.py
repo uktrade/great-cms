@@ -7,7 +7,7 @@ from django.urls import reverse, reverse_lazy
 from directory_constants import sectors as directory_constants_sectors
 from directory_sso_api_client import sso_api_client
 from international_online_offer.core import helpers, hirings, intents, regions, spends
-from international_online_offer.models import TriageData, UserData
+from international_online_offer.models import CsatFeedback, TriageData, UserData
 from sso import helpers as sso_helpers
 from tests.helpers import create_response
 
@@ -425,6 +425,38 @@ def test_feedback(client, settings):
 
 
 @pytest.mark.django_db
+def test_contact(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:contact')
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_contact_with_param(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:contact') + '?next=http://anyurl.com'
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@mock.patch('directory_forms_api_client.actions.ZendeskAction')
+@pytest.mark.django_db
+def test_contact_submit(mock_action_class, client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:contact')
+    response = client.post(
+        url,
+        {
+            'full_name': 'Joe Bloggs',
+            'email': 'test@test.com',
+            'how_we_can_help': 'Help me please.',
+        },
+    )
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
 def test_csat_feedback(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:csat-feedback')
@@ -433,9 +465,13 @@ def test_csat_feedback(client, settings):
 
 
 @pytest.mark.django_db
-def test_csat_feedback_with_param(client, settings):
+def test_csat_feedback_with_session_value(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:csat-feedback') + '?satisfaction=SATISFIED'
+    url = reverse('international_online_offer:csat-feedback')
+    CsatFeedback.objects.create(id=1, URL='http://test.com')
+    session = client.session
+    session['csat_id'] = 1
+    session.save()
     response = client.get(url)
     assert response.status_code == 200
 
@@ -444,6 +480,11 @@ def test_csat_feedback_with_param(client, settings):
 def test_csat_feedback_submit(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:csat-feedback') + '?url=http://testurl.com'
+    CsatFeedback.objects.create(id=1, URL='http://test.com')
+    session = client.session
+    session['csat_id'] = 1
+    session['user_journey'] = 'DASHBOARD'
+    session.save()
     response = client.post(
         url,
         {

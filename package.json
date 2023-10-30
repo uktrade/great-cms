@@ -87,7 +87,8 @@
     "redux-thunk": "^2.3.0",
     "semver": "^5.7.2",
     "slick-carousel": "^1.8.1",
-    "styled-components": "5.0.1"
+    "styled-components": "5.0.1",
+    "slugify": "^1.4.0"
   },
   "overrides": {
     "optionator": "0.9.3",

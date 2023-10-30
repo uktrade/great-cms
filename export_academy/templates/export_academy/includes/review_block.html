@@ -1,0 +1,29 @@
+{% load wagtailcore_tags %}
+{% load component_tags wagtailcore_tags wagtailimages_tags content_tags %}
+<div class="great great-bg-white govuk-!-padding-bottom-6">
+    <div class="container">
+        <section id='reviews' class="govuk-!-padding-0">
+            <h2 class="govuk-heading-m govuk-!-margin-bottom-6">Reviews</h2>
+            <div class="great-inline-flex great-gap great-mobile-flex-column">
+                {% for review in reviews %}
+                    <div class="great-flex-1 great-min-column-width great-max-width-half-desktop">
+                        <div class="great-inline-flex great-no-wrap">
+                            {% image review.value.image  max-100x100 as review_img %}
+                            <img src="{{ review_img.url }}"
+                                 alt="{{ review.value.image.alt }}"
+                                 class='great-circle-image'>
+                            <blockquote class="great-quote govuk-!-margin-left-2">
+                                <p class="govuk-heading-s">{{ review.value.quote }}</p>
+                            </blockquote>
+                        </div>
+                        <p class="govuk-body great-text-dark-grey govuk-!-static-margin-top-4">
+                            {% if review.value.name %}{{ review.value.name }},{% endif %}
+                            {% if review.value.role %}{{ review.value.role }}{% endif %}
+                            {% if review.value.company_name %}at {{ review.value.company_name }}{% endif %}
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+</div>

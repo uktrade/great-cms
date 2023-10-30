@@ -72,7 +72,6 @@ INSTALLED_APPS = [
     'sso',
     'wagtail.admin',
     'core.apps.CoreConfig',
-    'wagtail_draftail_anchors',
     'cms_extras.apps.CmsExtrasConfig',
     'domestic.apps.DomesticAdminAppConfig',
     'exportplan.apps.ExportPlanConfig',
@@ -995,9 +994,6 @@ SPECTACULAR_SETTINGS = {
     'PREPROCESSING_HOOKS': ['config.preprocessors.preprocessing_filter_admin_spec'],
 }
 
-# Wagtail Draftail Anchors
-DRAFTAIL_ANCHORS_RENDERER = env.str('DRAFTAIL_ANCHORS_RENDERER', 'wagtail_draftail_anchors.rich_text.render_span')
-
 # Wagtail Campaign pages notification settings:
 MODERATION_EMAIL_DIST_LIST = env.str('MODERATION_EMAIL_DIST_LIST', '')
 
@@ -1033,7 +1029,10 @@ CSP_FONT_SRC = (
     'https://fonts.gstatic.com',
 )  # noqa
 CSP_IMG_SRC = ("'self'", "data:", "https:")  # noqa
-CSP_FRAME_SRC = ('https://www.google.com', 'https:')
-CSP_FRAME_ANCESTORS = ("'none'",)  # noqa
+CSP_FRAME_SRC = ("'self'", 'https://www.google.com', 'https:')
+CSP_FRAME_ANCESTORS = (
+    "'self'",
+    "'none'",
+)  # noqa
 CSP_UPGRADE_INSECURE_REQUESTS = env.bool('CSP_UPGRADE_INSECURE_REQUESTS', True)
 CSP_BLOCK_ALL_MIXED_CONTENT = True
