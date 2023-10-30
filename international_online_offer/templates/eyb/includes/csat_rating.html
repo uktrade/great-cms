@@ -3,7 +3,7 @@
          style="border: 1px solid #b1b4b6">
         <form method="POST"
               novalidate
-              action="{% url 'international_online_offer:csat-widget-submit' %}?url={{ request.build_absolute_uri }}">
+              action="{% url 'international_online_offer:csat-widget-submit' %}?next={{ request.build_absolute_uri }}">
             {% csrf_token %}
             <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
                 Overall, how would you rate your experience with the Expand Your Business in the UK service today?
