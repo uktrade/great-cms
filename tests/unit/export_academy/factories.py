@@ -36,9 +36,9 @@ class EventFactory(factory.django.DjangoModelFactory):
     link = factory.LazyAttribute(lambda event: 'https://example.com/%s' % event.id)
     video_recording = factory.SubFactory(GreatMediaFactory)
     past_event_video_recording = factory.SubFactory(GreatMediaFactory)
-    past_event_recorded_date = timezone.localtime()
-    completed = timezone.localtime()
-    live = timezone.localtime()
+    past_event_recorded_date = timezone.localtime().isoformat().replace("+00:00", "Z")
+    completed = timezone.localtime().isoformat().replace("+00:00", "Z")
+    live = timezone.localtime().isoformat().replace("+00:00", "Z")
     slug = factory.fuzzy.FuzzyText(length=15)
 
     @factory.lazy_attribute
@@ -67,7 +67,7 @@ class BookingFactory(factory.django.DjangoModelFactory):
     event = factory.SubFactory(EventFactory)
     registration = factory.SubFactory(RegistrationFactory)
     status = factory.fuzzy.FuzzyChoice([i[0] for i in Booking.STATUSES])
-    details_viewed = timezone.localtime()
+    details_viewed = timezone.localtime().isoformat().replace("+00:00", "Z")
     cookies_accepted_on_details_view = False
 
     class Meta:
