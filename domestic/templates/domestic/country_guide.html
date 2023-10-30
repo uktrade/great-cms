@@ -431,21 +431,21 @@
             </div>
         </section>
     {% endif %}
-    <section id="country-guide-need-help-section">
+    <section id="country-guide-need-help-section" class="great">
         <h2 class="heading-large margin-top-0">Next steps</h2>
         <div>
             <div>
                 {% static 'images/learn-to-export-header.png' as need_help_image_url %}
                 {% slugurl 'advice' as advice_url %}
                 <img src={{ need_help_image_url }} alt="Contact us">
-                <h3>Get ready to do business abroad</h3>
+                <h3 class="govuk-heading-m govuk-!-margin-0">Get ready to do business abroad</h3>
                 <p>Step-by-step lessons to accelerate your exporting ability.</p>
                 <a class="button primary-button" href= {{ advice_url }}>Read more</a>
             </div>
             <div>
                 {% static 'images/find_export_answers.png' as find_export_answers_img %}
                 <img src={{ find_export_answers_img }} alt="Contact us">
-                <h3>Find the answers to your exporting questions</h3>
+                <h3 class="govuk-heading-m govuk-!-margin-0">Find the answers to your exporting questions</h3>
                 <p>
                     Get instant help from our online services and how-to articles or contact our Export Support Service to access our wider network of support.
                 </p>
