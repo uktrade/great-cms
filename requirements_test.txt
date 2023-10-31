@@ -18,8 +18,6 @@ amqp==5.1.1
     # via kombu
 anyascii==0.3.2
     # via wagtail
-appnope==0.1.3
-    # via ipython
 arabic-reshaper==3.0.0
     # via xhtml2pdf
 asgiref==3.7.2
@@ -83,6 +81,7 @@ build==1.0.3
 celery[redis]==5.2.7
     # via
     #   -r requirements.in
+    #   celery
     #   django-celery-beat
 certifi==2023.7.22
     # via
@@ -121,6 +120,7 @@ configargparse==1.7
     # via locust
 coverage[toml]==7.3.2
     # via
+    #   coverage
     #   pytest-codecov
     #   pytest-cov
 cron-descriptor==1.4.0
@@ -238,7 +238,9 @@ django-redis==5.2.0
 django-staff-sso-client==4.2.0
     # via -r requirements.in
 django-storages[boto3]==1.13.2
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   django-storages
 django-taggit==3.1.0
     # via wagtail
 django-timezone-field==6.0.1
@@ -338,7 +340,9 @@ gitpython==3.1.40
 great-components==2.4.0
     # via -r requirements.in
 greenlet==3.0.1
-    # via gevent
+    # via
+    #   gevent
+    #   sqlalchemy
 gunicorn==20.1.0
     # via -r requirements.in
 h11==0.14.0
@@ -547,7 +551,7 @@ pylint-django==2.5.5
     # via -r requirements_test.in
 pylint-plugin-utils==0.8.2
     # via pylint-django
-pypdf==3.16.4
+pypdf==3.17.0
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
