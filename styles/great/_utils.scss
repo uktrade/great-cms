@@ -366,6 +366,12 @@
   .great-font-bold {
     font-family: $great-font-bold;
   }
+
+  .govuk-\!-padding-top-9 {
+    @include govuk-media-query($until: tablet) {
+      padding-top: 30px !important;
+    }
+  }
 }
 
 .great-container {
@@ -387,7 +393,7 @@
 }
 
 .great-border-thin-top-light-blue {
-  border-top: 3px solid #1D70B8;
+  border-top: 3px solid #1d70b8;
 }
 
 .great-border-bottom-blue {
@@ -856,7 +862,7 @@ img.richtext-image {
   overflow: auto;
 }
 
-.great-icon-box-container{
+.great-icon-box-container {
   @include govuk-media-query($from: desktop) {
     padding-left: 30px;
   }

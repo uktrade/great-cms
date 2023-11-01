@@ -25,6 +25,8 @@
     if (has_ga_items) {
       ga_items.forEach((item) => {
         item.addEventListener('click', (e) => {
+          e.preventDefault()
+
           let data = {}
           const isNestedAnchor = item.parentElement.dataset.hasOwnProperty(
             'gaDigitalEntryPoint'
@@ -59,6 +61,8 @@
               `${localStorage.getItem('dep_triage_journey')} > ${data.title}`
             )
           }
+
+          window.location = item.href
         })
       })
 
