@@ -2,6 +2,7 @@
 {% load get_template_translation_enabled from content_tags %}
 {% load persist_language from component_tags %}
 {% get_template_translation_enabled as TRANSLATE_TEXT %}
+{% load is_email from content_tags %}
 {% if page.related_links %}
     <div>
         <h2 class="govuk-heading-m">
@@ -10,8 +11,13 @@
         <ul class="govuk-list govuk-!-padding-top-6 great-border-top-blue">
             {% for link in page.related_links %}
                 <li>
-                    <a href="{{ link.value.full_url|persist_language:request.GET }}"
-                       class="govuk-link govuk-heading-s govuk-!-margin-bottom-3">{{ link.value.title }}</a>
+                    {% if link.value.full_url|is_email %}
+                        <a href="mailto:{{ link.value.full_url }}"
+                           class="govuk-link govuk-heading-s govuk-!-margin-bottom-3">{{ link.value.title }}</a>
+                    {% else %}
+                        <a href="{{ link.value.full_url|persist_language:request.GET }}"
+                           class="govuk-link govuk-heading-s govuk-!-margin-bottom-3">{{ link.value.title }}</a>
+                    {% endif %}
                 </li>
             {% endfor %}
         </ul>
