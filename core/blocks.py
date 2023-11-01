@@ -7,6 +7,7 @@ from elasticsearch.exceptions import ConnectionError, NotFoundError
 from wagtail import blocks
 from wagtail.blocks.field_block import RichTextBlock
 from wagtail.blocks.stream_block import StreamBlockValidationError
+from wagtail.contrib.table_block.blocks import TableBlock
 from wagtail.images.blocks import ImageChooserBlock
 from wagtailmedia.blocks import AbstractMediaChooserBlock
 
@@ -611,3 +612,10 @@ class SupportTopicCardBlock(blocks.StructBlock):
     description = blocks.CharBlock(max_length=255, label=_('Description'))
     link_text = blocks.CharBlock(label=_('Link text'))
     link_url = blocks.CharBlock(label=_('Link url'))
+
+
+class DataTableBlock(TableBlock):
+    """A simple table block"""
+
+    class Meta:
+        template = 'core/table.html'
