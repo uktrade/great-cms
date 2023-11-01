@@ -354,3 +354,9 @@ def url_type(url):
         return 'internal'
     else:
         return 'external'
+
+
+@register.filter
+def is_email(value):
+    # Use regular expression to check if the value is an email address
+    return bool(re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$', value))

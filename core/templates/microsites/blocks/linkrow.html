@@ -1,5 +1,6 @@
 {% load add_govuk_classes from content_tags %}
 {% load persist_language from component_tags %}
+{% load is_email from content_tags %}
 {% for item in value %}
     {% if not forloop.counter|divisibleby:"2" or value|length == 1 %}
         <div class="govuk-grid-row great-display-flex-desktop">
@@ -10,8 +11,13 @@
                 {% filter add_govuk_classes %}
                     {{ item.value.description }}
                 {% endfilter %}
-                <a href="{{ item.value.link_url|persist_language:request.GET }}"
-                   class="govuk-button govuk-!-margin-bottom-0">{{ item.value.link_text }}</a>
+                {% if item.value.link_url and item.value.link_url|is_email %}
+                    <a href="mailto:{{ item.value.link_url }}"
+                       class="govuk-button govuk-!-margin-bottom-0">{{ item.value.link_text }}</a>
+                {% else %}
+                    <a href="{{ item.value.link_url|persist_language:request.GET }}"
+                       class="govuk-button govuk-!-margin-bottom-0">{{ item.value.link_text }}</a>
+                {% endif %}
             </div>
         </div>
         {% if forloop.counter|divisibleby:"2" or value|length == 1 or forloop.last %}</div>{% endif %}
