@@ -98,7 +98,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware'
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'sso.middleware.AuthenticationMiddleware',
@@ -113,7 +113,7 @@ MIDDLEWARE = [
     # 'directory_sso_api_client.middleware.AuthenticationMiddleware',
     'great_components.middleware.NoCacheMiddlware',
     'csp.middleware.CSPMiddleware',
-    'directory_components.middleware.LocaleQuerystringMiddleware'
+    'directory_components.middleware.LocaleQuerystringMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -214,15 +214,15 @@ USE_TZ = True
 WAGTAIL_I18N_ENABLED = True
 
 WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
-        ('ar', 'Arabic'),
-        ('en-gb', 'English'),
-        ('es', 'Spanish'),
-        ('fr', 'French'),
-        ('ko', 'Korean'),
-        ('pt', 'Portuguese'),
-        ('zh-cn', 'Mandarin'),
-        ('ms', 'Malay'),
-    ]
+    ('ar', 'Arabic'),
+    ('en-gb', 'English'),
+    ('es', 'Spanish'),
+    ('fr', 'French'),
+    ('ko', 'Korean'),
+    ('pt', 'Portuguese'),
+    ('zh-cn', 'Mandarin'),
+    ('ms', 'Malay'),
+]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/

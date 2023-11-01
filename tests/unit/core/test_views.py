@@ -1052,6 +1052,7 @@ def test_serve_subtitles__login_required(client):
 
     assert resp.headers['location'] == reverse('core:login') + f'?next={dest}'
 
+
 class TestMicrositeLocales(TestCase):
     def setUp(self):
         self.client = Client()
