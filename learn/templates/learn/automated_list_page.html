@@ -24,6 +24,7 @@
             <div class="image-container"></div>
         </div>
     </div>
+<<<<<<< HEAD
     {% breadcrumbs 'Learn to export' %}
     <a href={{ BREADCRUMBS_ROOT_URL }}>great.gov.uk</a>
 {% endbreadcrumbs %}
@@ -42,6 +43,33 @@
                                     <span class="learn__category-topics">{{ learning_module.count_topics }} topic{% pluralize learning_module.count_topics %}, </span>
                                     <span class="learn__category-lessons"> {{ learning_module.count_detail_pages }} lesson{% pluralize learning_module.count_detail_pages %}</span>
                                 {# djlint:on #}
+=======
+    <section id="learn-root" class="learn__page learn__categories-page container">
+        <section class="learn-to-export-card">
+            {% for learning_module in page.get_children.specific.live %}
+                {% with high_level_completion_progress|get_item:learning_module.id as module_completion_data %}
+                    <article>
+                        <a href="{% pageurl learning_module %}">
+                            <div>
+                                <h2>{{ learning_module.title }}</h2>
+                                <p>{{ learning_module.heading | richtext }}</p>
+                                <div class="duration-container">
+                                    <span role="img" class="fa fa-clock"></span>
+                                    <span class="learn__category-topics">{{ learning_module.count_topics }} topic
+                                    {% pluralize learning_module.count_topics %}
+                                    , </span>
+                                    <span class="learn__category-lessons"> {{ learning_module.count_detail_pages }} lesson
+                                    {% pluralize learning_module.count_detail_pages %}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="progess-container">
+                                {% if not module_completion_data.completion_count %}
+                                    <span class="button primary-button" title="{{ page.button_label }}">{{ page.button_label }}</span>
+                                {% else %}
+                                    {% include "learn/_high_level_progress.html" with module_completion_data=module_completion_data only %}
+                                {% endif %}
+>>>>>>> ed4914b1b (replace i tags)
                             </div>
                         </div>
                         <div class="progess-container">

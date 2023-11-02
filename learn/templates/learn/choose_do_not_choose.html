@@ -1,14 +1,14 @@
 {% load  wagtailcore_tags %}
 <div class="choose-dont-choose">
     <div class="media-block media-block--round-image m-b-m">
-        <i class="fas fa-check"></i>
+        <span role="img" class="fas fa-check"></span>
         <div class="g-panel g-panel--horizontal-mobile p-t-0">
             <h3>{{ value.choose_title }}</h3>
             <div>{{ value.choose_body|richtext }}</div>
         </div>
     </div>
     <div class="media-block media-block--round-image m-b-m">
-        <i class="fas fa-ban"></i>
+        <span role="img" class="fas fa-ban"></span>
         <div class="g-panel g-panel--horizontal-mobile p-t-0">
             <h3>{{ value.do_not_choose_title }}</h3>
             <div>{{ value.do_not_choose_body|richtext }}</div>

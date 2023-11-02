@@ -2,7 +2,7 @@
 {% load format_timedelta from content_tags %}
 {% load get_lesson_progress_for_topic is_lesson_page is_placeholder_page from content_tags %}
 {% comment %} `completed_lessons` only features lessons FOR THIS PARTIAL'S TOPIC {% endcomment %}
-<div class="grid" id="{{ topic.id }}">
+<div class="great grid" id="{{ topic.id }}">
     <div class="learn__topic-item-details c-1-3-l">
         <h2 class="learn__topic-item-title h-m p-b-xxs p-t-0">{{ topic.title }}</h2>
         {% get_lesson_progress_for_topic completed_lessons topic.id as topic_progress_data %}
@@ -22,7 +22,7 @@
                         <span class="learn__lesson-item-link-text">{{ page.title }}</span>
                         {% if page.id in completed_lessons %}
                             <button class="quaternary-button">
-                                <i class="fa fa-check"></i>
+                                <span class="great-icon fa fa-check"></span>
                                 <span>Completed</span>
                             </button>
                         {% else %}
@@ -30,7 +30,7 @@
                                 Start
                                 {{ page.specific.estimated_read_duration|format_timedelta }}
                                 lesson
-                                <i class="fa fa-chevron-right"></i>
+                                <span role="img" class="fa fa-chevron-right govuk-!-static-margin-left-2"></span>
                             </button>
                         {% endif %}
                     </a>
