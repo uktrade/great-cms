@@ -96,6 +96,7 @@ class MicrositePageSerializer(serializers.Serializer):
         'embed_video',
         'columns',
         'pull_quote',
+        'data_table',
         'links_block',
     ]
 
