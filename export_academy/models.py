@@ -587,6 +587,7 @@ class VideoOnDemandPageTracking(TimeStampedModel):
     )
     user_id = models.PositiveIntegerField(null=False)
     event = models.ForeignKey(Event, null=True, on_delete=models.SET_NULL, related_name='events')
+    video = models.ForeignKey(GreatMedia, null=True, blank=True, on_delete=models.SET_NULL, related_name='video')
     details_viewed = models.DateTimeField(blank=True, null=True)
     cookies_accepted_on_details_view = models.BooleanField(default=False)
 

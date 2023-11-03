@@ -796,6 +796,7 @@ class EventVideoOnDemandView(DetailView):
                     details_viewed=details_viewed,
                     cookies_accepted_on_details_view=cookies_accepted_on_details_view,
                     event=self.event,
+                    video=self.video,
                 ).save()
 
         return super().get(request, *args, **kwargs)
