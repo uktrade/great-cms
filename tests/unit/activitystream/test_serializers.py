@@ -695,6 +695,7 @@ def test_ukea_videoondemandpagetracking_serializer():
     serializer = ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer()
 
     output = serializer.to_representation(instance)
+
     assert output == {
         'id': f'dit:exportAcademy:videoondemandpagetracking:{instance.id}:Update',
         'type': 'Update',

@@ -466,7 +466,7 @@ class ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer(serializers
 
     userId = serializers.IntegerField(source='user_id')  # noqa: N815
     eventId = serializers.UUIDField(source='event_id')  # noqa: N815
-    videoId = serializers.UUIDField(source='video_id')  # noqa: N815
+    videoId = serializers.IntegerField(source='video_id')  # noqa: N815
     detailsViewed = serializers.DateTimeField(source='details_viewed')  # noqa: N815
     cookiesAcceptedOnDetailsView = serializers.BooleanField(source='cookies_accepted_on_details_view')  # noqa: N815
 
