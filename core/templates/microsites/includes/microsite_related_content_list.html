@@ -3,11 +3,10 @@
 {% load persist_language from component_tags %}
 {% get_template_translation_enabled as TRANSLATE_TEXT %}
 {% load is_email from content_tags %}
+{% load extract_domain from content_tags %}
 {% if page.related_links %}
     <div>
-        <h2 class="govuk-heading-m">
-            {% translate "Related content" %}
-        </h2>
+        <h2 class="govuk-heading-m">{% translate "Related content" %}</h2>
         <ul class="govuk-list govuk-!-padding-top-6 great-border-top-blue">
             {% for link in page.related_links %}
                 <li>
@@ -16,6 +15,7 @@
                            class="govuk-link govuk-heading-s govuk-!-margin-bottom-3">{{ link.value.title }}</a>
                     {% else %}
                         <a href="{{ link.value.full_url|persist_language:request.GET }}"
+                           {% if link.value.full_url|extract_domain != current_domain %}target="_blank"{% endif %}
                            class="govuk-link govuk-heading-s govuk-!-margin-bottom-3">{{ link.value.title }}</a>
                     {% endif %}
                 </li>

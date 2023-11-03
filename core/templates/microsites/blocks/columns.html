@@ -5,6 +5,7 @@
 {% load persist_language from component_tags %}
 {% load get_template_translation_enabled from content_tags %}
 {% load is_email from content_tags %}
+{% load extract_domain from content_tags %}
 {% get_template_translation_enabled as TRANSLATE_TEXT %}
 <div class="govuk-grid-row govuk-!-margin-bottom-6">
     {% for item in value %}
@@ -24,14 +25,13 @@
             {% if item.value.button_url %}
                 {% if item.value.button_url|is_email %}
                     <a href="mailto:{{ item.value.button_url }}"
-                       class="govuk-button govuk-!-margin-bottom-0">
-                         {% translate item.value.button_label %}
-                    </a>
+                       class="govuk-button govuk-!-margin-bottom-0">{% translate item.value.button_label %}</a>
                 {% else %}
-                    <a href="{{ item.value.button_url|persist_language:request.GET }}"
-                       class="govuk-button govuk-!-margin-bottom-0">
-                        {% translate item.value.button_label %}
-                    </a>
+                    {% with current_domain=request.get_host %}
+                        <a href="{{ item.value.button_url|persist_language:request.GET }}"
+                           {% if item.value.button_url|extract_domain != current_domain %}target="_blank"{% endif %}
+                           class="govuk-button govuk-!-margin-bottom-0">{% translate item.value.button_label %}</a>
+                    {% endwith %}
                 {% endif %}
             {% endif %}
         </div>

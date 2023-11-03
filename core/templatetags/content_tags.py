@@ -360,3 +360,9 @@ def url_type(url):
 def is_email(value):
     # Use regular expression to check if the value is an email address
     return bool(re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$', value))
+
+
+@register.filter
+def extract_domain(url):
+    parsed_url = urlparse(url)
+    return parsed_url.netloc
