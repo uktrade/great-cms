@@ -9,13 +9,9 @@
                 data-reveal-button
                 data-reveal-modal
                 aria-controls="main-menu">
-            {% if TRANSLATE_TEXT %}
                 {% if rtl_language %}<span class="govuk-!-padding-left-2 great-text-white">{% endif %}
                     {% translate "Menu" %}
                     {% if rtl_language %}</span>{% endif %}
-            {% else %}
-                Menu
-            {% endif %}
             <span class="magna-header__dropdown-button__icon"></span>
         </button>
         <div id="main-menu"
