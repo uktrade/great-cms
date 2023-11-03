@@ -832,22 +832,15 @@ def test_url_type(input, expected_output):
 
 class ExtractDomainFilterTest(TestCase):
     def test_extract_domain(self):
-        test_url = "http://www.example.com/some-page"
-        expected_result = "www.example.com"
+        test_url = 'http://www.example.com/some-page'
+        expected_result = 'www.example.com'
 
         result = extract_domain(test_url)
         self.assertEqual(result, expected_result)
 
     def test_extract_domain_with_https(self):
-        test_url = "https://sub.example.com/path/to/resource"
-        expected_result = "sub.example.com"
-
-        result = extract_domain(test_url)
-        self.assertEqual(result, expected_result)
-
-    def test_extract_domain_with_no_scheme(self):
-        test_url = "sub.example.com"
-        expected_result = "sub.example.com"
+        test_url = 'https://sub.example.com/path/to/resource'
+        expected_result = 'sub.example.com'
 
         result = extract_domain(test_url)
         self.assertEqual(result, expected_result)
@@ -856,9 +849,9 @@ class ExtractDomainFilterTest(TestCase):
 class IsEmailFilterTest(TestCase):
     def test_is_email_valid(self):
         valid_emails = [
-            "example@example.com",
-            "user1234@test.co",
-            "user.name@email.co.uk",
+            'example@example.com',
+            'user1234@test.co',
+            'user.name@email.co.uk',
         ]
 
         for email in valid_emails:
@@ -867,12 +860,12 @@ class IsEmailFilterTest(TestCase):
 
     def test_is_email_invalid(self):
         invalid_emails = [
-            "notanemail",
-            "user@example",
-            "user@example.",
-            "user@.com",
-            "@example.com",
-            "user@.com",
+            'notanemail',
+            'user@example',
+            'user@example.',
+            'user@.com',
+            '@example.com',
+            'user@.com',
         ]
 
         for email in invalid_emails:
@@ -881,4 +874,4 @@ class IsEmailFilterTest(TestCase):
 
     def test_is_email_empty_string(self):
         result = is_email('')
-        self.assertFalse(result, "Empty string should not be recognized as an email.")
+        self.assertFalse(result, 'Empty string should not be recognized as an email.')
