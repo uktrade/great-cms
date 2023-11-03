@@ -597,4 +597,4 @@ class VideoOnDemandPageTracking(TimeStampedModel):
         return True if user else False
 
     def __str__(self):
-        return f'User: {self.user_id}, Event: {self.event.id}'
+        return f'User: {self.user_id}, Event: {self.event.id}, Video: {self.video.id}'
