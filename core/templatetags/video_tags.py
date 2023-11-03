@@ -1,5 +1,6 @@
 from django import template
 from django.forms.utils import flatatt
+from django.template.defaultfilters import linebreaksbr
 from django.template.loader import render_to_string
 from django.utils.html import format_html, format_html_join
 
@@ -28,6 +29,7 @@ def render_video(block):
 
     video_duration = getattr(block['video'], 'duration', 0)
     # The default, above, _should_ never be needed because field is mandatory in the CMS
+    video_transcript = getattr(block['video'], 'transcript', None)
 
     video = block['video']
 
@@ -55,6 +57,23 @@ def render_video(block):
     else:
         subtitles = ''
 
+    transcript_container = ''
+
+    if video_transcript is not None:
+        transcript_container = f"""
+            <details class="govuk-details govuk-!-static-padding-top-4 govuk-!-static-margin-bottom-0"
+            data-module="govuk-details">
+                <summary class="govuk-details__summary">
+                    <span class="govuk-details__summary-text">
+                        View transcript
+                    </span>
+                </summary>
+                <div class="govuk-details__text govuk-body great-video-transcipt-text">
+                    {linebreaksbr(video_transcript)}
+                </div>
+            </details>
+        """
+
     rendered = format_html(
         f"""
             <video preload="metadata" controls controlsList="nodownload"
@@ -63,7 +82,7 @@ def render_video(block):
                 {subtitles}
                 Your browser does not support the video tag.
             </video>
-            <div class="video-transcript-container"></div>
+            {transcript_container}
         """
     )
 

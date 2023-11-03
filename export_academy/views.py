@@ -689,6 +689,7 @@ class EventsDetailsView(DetailView):
         ctx['warning_call_to_action'] = self.warning_call_to_action
         ctx['has_event_badges'] = len(self.get_badges_for_event(self.event)) > 0
         ctx['series'] = self.event.get_course()[0] if len(self.event.get_course()) else None
+        ctx['show_past_events'] = True
         return ctx
 
     def get_buttons_for_event(self, event):

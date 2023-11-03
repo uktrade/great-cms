@@ -5,11 +5,7 @@
 {% if page.related_links %}
     <div>
         <h2 class="govuk-heading-m">
-            {% if TRANSLATE_TEXT %}
-                {% translate "Related content" %}
-            {% else %}
-                Related content
-            {% endif %}
+            {% translate "Related content" %}
         </h2>
         <ul class="govuk-list govuk-!-padding-top-6 great-border-top-blue">
             {% for link in page.related_links %}

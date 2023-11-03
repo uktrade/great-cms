@@ -25,7 +25,7 @@
                     <li>
                         <a class="govuk-link govuk-link--inverse"
                            id="footer-contact"
-                           href="{{ services_urls.feedback }}">Contact us</a>
+                           href="{% url 'international_online_offer:contact' %}?next={{ feedback_next_url }}">Contact us</a>
                     </li>
                     <li>
                         <a class="govuk-link govuk-link--inverse"

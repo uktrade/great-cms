@@ -72,7 +72,6 @@ INSTALLED_APPS = [
     'sso',
     'wagtail.admin',
     'core.apps.CoreConfig',
-    'wagtail_draftail_anchors',
     'cms_extras.apps.CmsExtrasConfig',
     'domestic.apps.DomesticAdminAppConfig',
     'exportplan.apps.ExportPlanConfig',
@@ -93,10 +92,13 @@ INSTALLED_APPS = [
     'django_celery_beat',
     'drf_spectacular',
     'wagtailfontawesomesvg',
+    'wagtail_localize',
+    'wagtail_localize.locales',
 ]
 
 MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'sso.middleware.AuthenticationMiddleware',
@@ -111,6 +113,7 @@ MIDDLEWARE = [
     # 'directory_sso_api_client.middleware.AuthenticationMiddleware',
     'great_components.middleware.NoCacheMiddlware',
     'csp.middleware.CSPMiddleware',
+    'directory_components.middleware.LocaleQuerystringMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -208,34 +211,18 @@ USE_L10N = True
 
 USE_TZ = True
 
-FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE = env.bool('FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE', False)
+WAGTAIL_I18N_ENABLED = True
 
-if FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
-    # below assignments behind feature flag temporarily while we experiment with
-    # additional language support. They will be promoted to main initilisation once
-    # we have proven one non-English language.
-    WAGTAIL_I18N_ENABLED = True
-
-    WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
-        ('ar', 'Arabic'),
-        ('en-gb', 'English'),
-        ('es', 'Spanish'),
-        ('fr', 'French'),
-        ('ko', 'Korean'),
-        ('pt', 'Portuguese'),
-        ('zh-cn', 'Mandarin'),
-        ('ms', 'Malay'),
-    ]
-
-    INSTALLED_APPS += [
-        'wagtail_localize',
-        'wagtail_localize.locales',
-    ]
-
-    # LocaleMiddleware needs to be after SessionMiddleware but before CommonMiddleware
-    MIDDLEWARE.insert(1, 'django.middleware.locale.LocaleMiddleware')
-
-    MIDDLEWARE += ['directory_components.middleware.LocaleQuerystringMiddleware']
+WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
+    ('ar', 'Arabic'),
+    ('en-gb', 'English'),
+    ('es', 'Spanish'),
+    ('fr', 'French'),
+    ('ko', 'Korean'),
+    ('pt', 'Portuguese'),
+    ('zh-cn', 'Mandarin'),
+    ('ms', 'Malay'),
+]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
@@ -995,9 +982,6 @@ SPECTACULAR_SETTINGS = {
     'PREPROCESSING_HOOKS': ['config.preprocessors.preprocessing_filter_admin_spec'],
 }
 
-# Wagtail Draftail Anchors
-DRAFTAIL_ANCHORS_RENDERER = env.str('DRAFTAIL_ANCHORS_RENDERER', 'wagtail_draftail_anchors.rich_text.render_span')
-
 # Wagtail Campaign pages notification settings:
 MODERATION_EMAIL_DIST_LIST = env.str('MODERATION_EMAIL_DIST_LIST', '')
 
@@ -1033,7 +1017,10 @@ CSP_FONT_SRC = (
     'https://fonts.gstatic.com',
 )  # noqa
 CSP_IMG_SRC = ("'self'", "data:", "https:")  # noqa
-CSP_FRAME_SRC = ('https://www.google.com',)
-CSP_FRAME_ANCESTORS = ("'none'",)  # noqa
-CSP_UPGRADE_INSECURE_REQUESTS = True
+CSP_FRAME_SRC = ("'self'", 'https://www.google.com', 'https:')
+CSP_FRAME_ANCESTORS = (
+    "'self'",
+    "'none'",
+)  # noqa
+CSP_UPGRADE_INSECURE_REQUESTS = env.bool('CSP_UPGRADE_INSECURE_REQUESTS', True)
 CSP_BLOCK_ALL_MIXED_CONTENT = True

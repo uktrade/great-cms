@@ -40,13 +40,9 @@ class CampaignView(BaseNotifyUserFormView):
         if self.page_slug is None:
             return None
         try:
-            if settings.FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
-                current_language_code = get_language()
-                current_locale = Locale.objects.get(language_code=current_language_code)
-                return self.get_correct_page(current_locale)
-
-            return self.page_class.objects.live().get(slug=self.page_slug, url_path__endswith=self.path)
-
+            current_language_code = get_language()
+            current_locale = Locale.objects.get(language_code=current_language_code)
+            return self.get_correct_page(current_locale)
         except ObjectDoesNotExist:
             return None
 
@@ -108,36 +104,28 @@ class CampaignView(BaseNotifyUserFormView):
                 display_name = display_name.replace(string, '')
             return display_name
 
-        default_value = {
-            'available_languages': [{'language_code': 'en-gb', 'display_name': 'English'}],
-            'current_language': 'en-gb',
-        }
-
         rtl_languages = set()
         rtl_languages.add('ar')
-        if settings.FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
-            current_language_code = get_language()
 
-            page_locales = Locale.objects.filter(
-                id__in=self.page_class.objects.live()
-                .filter(url_path__contains=self.path)
-                .values_list('locale_id', flat=True)
-            )
+        current_language_code = get_language()
 
-            return {
-                'available_languages': [
-                    {
-                        'language_code': locale.language_code,
-                        'display_name': modify_language_display_names(
-                            self.get_language_display_name(locale.language_code)
-                        ),
-                        'is_rtl_language': locale.language_code in rtl_languages,
-                    }
-                    for locale in page_locales
-                ],
-                'current_language': current_language_code,
-            }
-        return default_value
+        page_locales = Locale.objects.filter(
+            id__in=self.page_class.objects.live()
+            .filter(url_path__contains=self.path)
+            .values_list('locale_id', flat=True)
+        )
+
+        return {
+            'available_languages': [
+                {
+                    'language_code': locale.language_code,
+                    'display_name': modify_language_display_names(self.get_language_display_name(locale.language_code)),
+                    'is_rtl_language': locale.language_code in rtl_languages,
+                }
+                for locale in page_locales
+            ],
+            'current_language': current_language_code,
+        }
 
     def _get_request_location_link(self):
         if not self.location or self.location['country'] == self.UK_COUNTRY_CODE:
@@ -197,7 +185,4 @@ class MicrositeView(CampaignView):
     streamfield_name = 'page_body'
 
     def get_success_url(self):
-        if settings.FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
-            self.success_url_path += f'&lang={get_language()}'
-
-        return self.success_url_path
+        self.success_url_path += f'&lang={get_language()}'

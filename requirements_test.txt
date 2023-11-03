@@ -56,7 +56,7 @@ beautifulsoup4==4.11.2
     #   wagtail
 billiard==3.6.4.0
     # via celery
-black==23.10.0
+black==23.10.1
     # via
     #   -r requirements_test.in
     #   blacken-docs
@@ -125,7 +125,7 @@ coverage[toml]==7.3.2
     #   pytest-cov
 cron-descriptor==1.4.0
     # via django-celery-beat
-cryptography==41.0.4
+cryptography==41.0.5
     # via
     #   -r requirements.in
     #   pyhanko
@@ -289,7 +289,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==19.11.0
+faker==19.12.0
     # via factory-boy
 filelock==3.12.4
     # via virtualenv
@@ -337,7 +337,7 @@ gitpython==3.1.40
     # via -r requirements_test.in
 great-components==2.4.0
     # via -r requirements.in
-greenlet==3.0.0
+greenlet==3.0.1
     # via gevent
 gunicorn==20.1.0
     # via -r requirements.in
@@ -543,7 +543,7 @@ pylint==3.0.2
     # via
     #   pylint-django
     #   pylint-plugin-utils
-pylint-django==2.5.4
+pylint-django==2.5.5
     # via -r requirements_test.in
 pylint-plugin-utils==0.8.2
     # via pylint-django
@@ -559,7 +559,7 @@ pyrsistent==0.19.3
     # via jsonschema
 pysocks==1.7.1
     # via urllib3
-pytest==7.4.2
+pytest==7.4.3
     # via
     #   -r requirements_test.in
     #   allure-pytest
@@ -659,7 +659,7 @@ requests-toolbelt==1.0.0
     # via browserstack-sdk
 roundrobin==0.0.4
     # via locust
-ruamel-yaml==0.17.40
+ruamel-yaml==0.18.2
     # via pre-commit-hooks
 ruamel-yaml-clib==0.2.8
     # via ruamel-yaml
@@ -743,7 +743,7 @@ tomlkit==0.12.1
     # via pylint
 tqdm==4.66.1
     # via djlint
-traitlets==5.11.2
+traitlets==5.12.0
     # via
     #   ipython
     #   matplotlib-inline
@@ -792,7 +792,7 @@ vine==5.0.0
     #   amqp
     #   celery
     #   kombu
-virtualenv==20.24.5
+virtualenv==20.24.6
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core
@@ -800,7 +800,6 @@ wagtail==4.2.2
     # via
     #   -r requirements.in
     #   wagtail-cache
-    #   wagtail-draftail-anchors
     #   wagtail-factories
     #   wagtail-localize
     #   wagtail-seo
@@ -808,8 +807,6 @@ wagtail==4.2.2
     #   wagtail-trash
     #   wagtailmedia
 wagtail-cache==2.2.0
-    # via -r requirements.in
-wagtail-draftail-anchors==0.6.0
     # via -r requirements.in
 wagtail-factories==2.0.1
     # via -r requirements.in
@@ -834,7 +831,7 @@ webencodings==0.5.1
     #   cssselect2
     #   html5lib
     #   tinycss2
-werkzeug==3.0.0
+werkzeug==3.0.1
     # via
     #   -r requirements_test.in
     #   flask

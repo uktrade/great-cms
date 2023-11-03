@@ -5,11 +5,7 @@
 {% if twitter or email or facebook or linkedin %}
     <div class="social-media-container">
         <h3 class="govuk-!-margin-bottom-4">
-            {% if TRANSLATE_TEXT %}
-                {% translate "Follow us" %}
-            {% else %}
-                Follow us
-            {% endif %}
+            {% translate "Follow us" %}
         </h3>
         <div class="social-media-items-wrapper">
             {% if twitter %}
@@ -19,11 +15,7 @@
                          src="{% static 'great_components/icons/twitter.svg' %}"
                          width="36px">
                     <p>
-                        {% if TRANSLATE_TEXT %}
-                            {% translate "Twitter" %}
-                        {% else %}
-                            Twitter
-                        {% endif %}
+                        {% translate "Twitter" %}
                     </p>
                 </a>
             {% endif %}
@@ -34,11 +26,7 @@
                          src="{% static 'great_components/icons/facebook.svg' %}"
                          width="36px">
                     <p>
-                        {% if TRANSLATE_TEXT %}
-                            {% translate "Facebook" %}
-                        {% else %}
-                            Facebook
-                        {% endif %}
+                        {% translate "Facebook" %}
                     </p>
                 </a>
             {% endif %}
@@ -49,11 +37,7 @@
                          src="{% static 'great_components/icons/linkedin.svg' %}"
                          width="36px">
                     <p>
-                        {% if TRANSLATE_TEXT %}
-                            {% translate "LinkedIn" %}
-                        {% else %}
-                            LinkedIn
-                        {% endif %}
+                        {% translate "LinkedIn" %}
                     </p>
                 </a>
             {% endif %}
@@ -64,11 +48,7 @@
                          src="{% static 'great_components/icons/email.svg' %}"
                          width="36px">
                     <p>
-                        {% if TRANSLATE_TEXT %}
-                            {% translate "Email" %}
-                        {% else %}
-                            Email
-                        {% endif %}
+                        {% translate "Email" %}
                     </p>
                 </a>
             {% endif %}

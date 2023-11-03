@@ -39,7 +39,7 @@ class ExportAcademyPagePanels:
             ],
         ),
         MultiFieldPanel(
-            heading='Courses',
+            heading='Series',
             classname='collapsible',
             children=[
                 FieldPanel('course_name'),
@@ -155,6 +155,7 @@ class CoursePagePanels:
             ],
         ),
         FieldPanel('speakers'),
+        FieldPanel('reviews'),
     ]
 
     settings_panels = [

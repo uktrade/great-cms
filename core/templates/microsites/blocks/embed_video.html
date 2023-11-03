@@ -14,11 +14,7 @@
             <details closed class="govuk-details govuk-!-margin-bottom-5">
                 <summary class="govuk-details__summary">
                     <span class="govuk-details__summary-text">
-                        {% if TRANSLATE_TEXT %}
-                            {% translate "View video transcript" %}
-                        {% else %}
-                            View video transcript
-                        {% endif %}
+                        {% translate "View video transcript" %}
                     </span>
                 </summary>
                 <div class="govuk-details__text">{{ value.transcript|richtext }}</div>
