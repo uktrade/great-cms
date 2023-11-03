@@ -18,7 +18,7 @@ from core.models import HeroSnippet
 from core.snippet_slugs import EA_REGISTRATION_PAGE_HERO
 from directory_sso_api_client import sso_api_client
 from export_academy.filters import EventFilter
-from export_academy.models import Booking, Registration
+from export_academy.models import Booking, Registration, VideoOnDemandPageTracking
 from export_academy.views import EventsDetailsView, EventVideoOnDemandView
 from sso import helpers as sso_helpers
 from tests.helpers import create_response
@@ -1313,9 +1313,12 @@ def test_course_page(client, root_page):
 
 class EventVideoOnDemandViewTest(TestCase):
     @pytest.fixture(autouse=True)
-    def set_fixtures(self, user, root_page):
+    def set_fixtures(self, user, root_page, rf, client):
         self.user = user
         self.root_page = root_page
+        self.rf = rf
+        self.client = client
+        self.USER_ID = 123456
 
     def setUp(self):
         self.past_event_date = datetime(2023, 9, 13)
@@ -1371,3 +1374,33 @@ class EventVideoOnDemandViewTest(TestCase):
     def test_get_course_page_details(self):
         self.assertEqual(self.event_with_no_past_recording.get_course(), [])
         self.assertEqual(self.event2.get_course(), [{'label': 'essentials_title', 'value': 'essentials'}])
+
+    def test_get_logged_in_user(self):
+        self.client.force_login(self.user)
+        kwargs = kwargs = {'slug': self.event2.get_past_event_recording_slug()}
+        url = reverse('export_academy:video-on-demand', kwargs=kwargs)
+        request = self.rf.get(url)
+        request.user = self.user
+        response = EventVideoOnDemandView.as_view(event=self.event2)(request, **kwargs)
+        assert response.status_code == 200
+
+    def test_get_logged_in_user_already_tracked(self):
+        kwargs = kwargs = {'slug': self.event2.get_past_event_recording_slug()}
+        self.user.id = self.USER_ID
+        VideoOnDemandPageTracking.objects.create(
+            user_id=self.USER_ID,
+        )
+        self.client.force_login(self.user)
+        url = reverse('export_academy:video-on-demand', kwargs=kwargs)
+        request = self.rf.get(url)
+        request.user = self.user
+        response = EventVideoOnDemandView.as_view(event=self.event2)(request, **kwargs)
+        assert response.status_code == 200
+
+    def test_get_not_logged_in_user(self):
+        kwargs = kwargs = {'slug': self.event2.get_past_event_recording_slug()}
+        url = reverse('export_academy:video-on-demand', kwargs=kwargs)
+        request = self.rf.get(url)
+        request.user = self.user
+        response = EventVideoOnDemandView.as_view(event=self.event2)(request, **kwargs)
+        assert response.status_code == 200
