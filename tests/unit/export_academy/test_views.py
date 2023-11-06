@@ -1391,6 +1391,7 @@ class EventVideoOnDemandViewTest(TestCase):
         self.user.id = self.USER_ID
         VideoOnDemandPageTracking.objects.create(
             user_id=self.USER_ID,
+            event=self.event,
         )
         self.client.force_login(self.user)
         url = reverse('export_academy:video-on-demand', kwargs=kwargs)

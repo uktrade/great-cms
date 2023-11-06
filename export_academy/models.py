@@ -592,8 +592,8 @@ class VideoOnDemandPageTracking(TimeStampedModel):
     cookies_accepted_on_details_view = models.BooleanField(default=False)
 
     @classmethod
-    def user_already_recorded(cls, user_id):
-        user = cls.objects.filter(user_id=user_id).first()
+    def user_already_recorded(cls, user_id, event):
+        user = cls.objects.filter(user_id=user_id, event=event).first()
         return True if user else False
 
     def __str__(self):
