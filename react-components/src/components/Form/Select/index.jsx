@@ -84,7 +84,7 @@ export const Select = memo(
                   }}
                 >
                   {options.find((option) => item === option.value).label}{' '}
-                  <i className="fas fa-times-circle" />
+                  <span className="great-icon fas fa-times-circle" />
                 </button>
               </li>
             ))}

@@ -90,7 +90,7 @@ export const Signup = (props) => {
           <ul className="signup__info-panel__subheadings">
             {subHeadings.map((heading) => (
               <li key={heading}>
-                <i className="fas fa-check-circle" aria-hidden="true" />
+                <span role="img" className="fas fa-check-circle" aria-hidden="true" />
                 <span>{heading}</span>
               </li>
             ))}

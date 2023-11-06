@@ -46,7 +46,7 @@ function ProductFinderButton() {
                   className="remove-product"
                   onClick={() => setDeleteConfirm({index:mapIndex})}
                 >
-                  <i className="fas fa-trash" />
+                  <span role="img" className="great-icon fas fa-trash" />
                   <span className="visually-hidden">
                     Remove product {ReactHtmlParser(product.commodity_name)}
                   </span>
@@ -60,7 +60,7 @@ function ProductFinderButton() {
           className="button primary-button button--icon m-t-xs button--full-width hidden"
           onClick={() => setIsOpen(true)}
         >
-          <i className="fas fa-plus" />
+          <span className="fas fa-plus" />
           Add product
       </button>
       </BasketViewer>

@@ -82,7 +82,7 @@ const CaseStudy = memo(({ content: { heading, company, blocks } }) => {
     <>
       <div className="case-study p-t-xs p-b-s">
         <div className="case-study__content media-block m-t-s">
-          <i className="fa fa-comment" aria-hidden="true" />
+          <span className="fa fa-comment" aria-hidden="true" />
           <div>
             <h3 className="cast-study__lead_title  h-m m-b-xs p-0">
               {ReactHtmlParser(heading)}

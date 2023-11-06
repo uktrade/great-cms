@@ -70,7 +70,7 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
       className="button primary-button button--icon"
       onClick={() => setProductModalIsOpen(true)}
     >
-      <i className="fa fa-plus" />
+      <span className="fa fa-plus govuk-!-margin-right-2" />
       Add product
     </button>
   )
@@ -84,7 +84,7 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
           className="button primary-button button--icon add-market m-t-xs"
           onClick={() => setMarketModalIsOpen(true)}
         >
-          <i className="fa fa-plus" />
+          <span className="fa fa-plus" />
           Add market
         </button>
       )}

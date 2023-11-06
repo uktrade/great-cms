@@ -55,7 +55,7 @@ export default function ActionBar({exportPlanProgress}) {
         type="button"
         onClick={downloadPlan}
       >
-        <i className="fas fa-download" />
+        <span className="fas fa-download" />
         Download plan
       </button>
 
@@ -65,7 +65,7 @@ export default function ActionBar({exportPlanProgress}) {
         type="button"
         onClick={() => setDeleteConfirm(true)}
       >
-        <i className="fas fa-trash-alt" />
+        <span className="fas fa-trash-alt" />
         <span>Delete plan</span>
       </button>
       {deleteConfirm ? (

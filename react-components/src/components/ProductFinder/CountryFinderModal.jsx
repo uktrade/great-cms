@@ -170,7 +170,7 @@ export default function CountryFinderModal(props) {
           data-suggested
         >
           {country.country_name}
-          <i className="fa fa-plus" />
+          <span role="img" className="fa fa-plus" />
         </button>
       )
     })
@@ -343,7 +343,7 @@ export default function CountryFinderModal(props) {
                   }`}
                   onClick={() => setMobilePage('initial')}
                 >
-                  <i className="fa fa-arrow-left" />
+                  <span className="fa fa-arrow-left" />
                   Back
                 </button>
                 {mobileSection[mobilePage]}
