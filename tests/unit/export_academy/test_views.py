@@ -1383,6 +1383,8 @@ class EventVideoOnDemandViewTest(TestCase):
         request.user = self.user
         response = EventVideoOnDemandView.as_view(event=self.event2)(request, **kwargs)
         assert response.status_code == 200
+        video_on_demand_page_tracking = VideoOnDemandPageTracking.objects.filter(user_id=self.user.id)
+        assert video_on_demand_page_tracking is not None
 
     def test_get_logged_in_user_already_tracked(self):
         kwargs = kwargs = {'slug': self.event2.get_past_event_recording_slug()}
