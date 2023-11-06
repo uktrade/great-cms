@@ -59,7 +59,7 @@ certifi==2023.7.22
     #   sentry-sdk
 cffi==1.16.0
     # via cryptography
-charset-normalizer==3.3.1
+charset-normalizer==3.3.2
     # via requests
 click==8.1.7
     # via
@@ -209,7 +209,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==19.12.0
+faker==19.13.0
     # via factory-boy
 geoip2==2.9.0
     # via -r requirements.in
@@ -306,13 +306,13 @@ pyhanko-certvalidator==0.24.1
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==3.16.4
+pypdf==3.17.0
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
 pyquery==2.0.0
     # via readtime
-pyrsistent==0.19.3
+pyrsistent==0.20.0
     # via jsonschema
 python-bidi==0.4.2
     # via xhtml2pdf
@@ -476,7 +476,7 @@ wagtail-trash==1.0.0
     # via -r requirements.in
 wagtailmedia==0.14.0
     # via -r requirements.in
-wcwidth==0.2.8
+wcwidth==0.2.9
     # via prompt-toolkit
 webencodings==0.5.1
     # via
