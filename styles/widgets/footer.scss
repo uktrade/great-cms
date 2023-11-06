@@ -24,8 +24,7 @@ footer {
         align-items: flex-start;
       }
       @media only screen and (min-width: (1290px + ($x-large-padding * 2) )) {
-         padding: 40px 0 $large-padding 0;
-
+        padding: 40px 0 $large-padding 0;
       }
 
       @media only screen and (min-width: calc($content-max-width + (2 * $large-padding))) {
@@ -43,7 +42,7 @@ footer {
       }
     }
   }
-  nav.footer {
+  div.footer {
     background-color: $color-footer;
     display: flex;
     justify-content: center;
