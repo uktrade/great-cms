@@ -540,7 +540,7 @@ def test_activity_stream_cms_content_view(api_client, en_locale):
 
 
 @pytest.mark.django_db
-def test_activity_stream_videoondemandpagetraking_no_data_view(api_client):
+def test_activity_stream_videoondemandpagetracking_no_data_view(api_client):
     url = 'http://testserver' + reverse('activitystream:ukea-videoondemandpagetracking')
     sender = auth_sender(url=url)
     response = api_client.get(
@@ -559,7 +559,7 @@ def test_activity_stream_videoondemandpagetraking_no_data_view(api_client):
     (('videoondemandpagetrackings', VideoOnDemandPageTrackingFactory),),
 )
 @pytest.mark.django_db
-def test_activity_stream_videoondemandpagetraking_with_data_view(api_client, resource, factory):
+def test_activity_stream_videoondemandpagetracking_with_data_view(api_client, resource, factory):
     url = 'http://testserver' + reverse('activitystream:ukea-videoondemandpagetracking')
     sender = auth_sender(url=url)
 
