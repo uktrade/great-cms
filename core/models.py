@@ -910,7 +910,6 @@ class DetailPage(CMSGenericPage):
             # In a conditional because a DetailPage currently MAY be used as
             # a child of another page type...
             page_topic_helper = PageTopicHelper(self)
-            next_lesson = page_topic_helper.get_next_lesson()
             context['current_lesson'] = self
             context['current_module'] = page_topic_helper.module
             if page_topic_helper:
@@ -919,8 +918,6 @@ class DetailPage(CMSGenericPage):
                     context['current_topic'] = topic_page
                     context['page_topic'] = topic_page.title
 
-            if next_lesson:
-                context['next_lesson'] = next_lesson
             else:
                 next_module = self.module.get_next_sibling()
                 if not next_module:
