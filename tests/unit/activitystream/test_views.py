@@ -364,7 +364,7 @@ def test_pagination(
     # TODO: Improve performance of page.url, full_url, full_path
     # Since page.url needs to get the slugs of the article's parent
     # pages it is doing a TON of queries each time this endpoint is hit
-    expected_queries = 114 if settings.FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE else 64
+    expected_queries = 114
     with django_assert_num_queries(expected_queries):
         while next_url:
             num_pages += 1
