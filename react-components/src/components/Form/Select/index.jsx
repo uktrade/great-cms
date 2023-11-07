@@ -194,7 +194,7 @@ export const Select = memo(
                     isOpen ? 'select__button--close' : ''
                   }`}
                 >
-                  <i className={`fas ${'fa-chevron-down'}`} />
+                  <span className={`fas ${'fa-chevron-down'}`} />
                 </div>
               ) : (
                 ''

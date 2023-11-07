@@ -18,7 +18,7 @@ export const ConfirmModal = memo(({ deleteItem, hasData }) => {
           }
         }}
       >
-        <span className="fas fa-trash-alt" title="delete Objective" />
+        <span className="fas fa-trash-alt govuk-!-margin-right-2 great-red-text" title="delete Objective" />
         <span>Delete</span>
       </button>
       <ReactModal
@@ -43,7 +43,7 @@ export const ConfirmModal = memo(({ deleteItem, hasData }) => {
                   setModal(false)
                 }}
               >
-                <span className="fas fa-trash-alt" />
+                <span className="fas fa-trash-alt great-red-text" />
                 <span>Yes</span>
               </button>
               <button

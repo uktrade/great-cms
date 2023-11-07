@@ -170,7 +170,7 @@ export default function CountryFinderModal(props) {
           data-suggested
         >
           {country.country_name}
-          <span role="img" className="fa fa-plus" />
+          <span role="img" className="fa fa-plus govuk-!-margin-left-2" />
         </button>
       )
     })

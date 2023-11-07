@@ -20,7 +20,7 @@ export const ToggleSnapshot = memo(({
           aria-controls="data-snapshot"
           aria-expanded={toggle}
         >
-          <i className='fas fa-chart-bar' />{`${toggle ? 'Hide' : 'Open'} Data Snapshot`}
+          <span role='img' className='great-icon fas fa-chart-bar govuk-!-margin-right-2' />{`${toggle ? 'Hide' : 'Open'} Data Snapshot`}
         </button>
       </div>
     </>
