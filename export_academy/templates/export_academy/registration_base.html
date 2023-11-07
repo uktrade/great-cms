@@ -26,7 +26,7 @@
         {% block hero %}
             {% with content_snippet as hero %}
                 <div class="great ea-listing-page">
-                    {% include 'components/export_academy_hero.html' with hero=hero hide_image_for_mobile=True %}
+                    {% include 'components/export_academy_hero.html' with hero=hero hide_image_for_mobile=True useHeaderLevel2=True %}
                 </div>
             {% endwith %}
         {% endblock %}
@@ -41,7 +41,7 @@
         <div class="govuk-grid-row  govuk-!-padding-left-3 govuk-!-padding-right-3">
             <div class="great-grid-column-seven-twelfths">
                 <p class="govuk-body govuk-!-margin-top-4">{{ step_text }}</p>
-                <h2 class="govuk-heading-l govuk-!-margin-bottom-6">{{ title }}</h2>
+                <h1 class="govuk-heading-l govuk-!-margin-bottom-6">{{ title }}</h1>
                 {% if email %}
                     <p class="govuk-padding-top-30 govuk-!-margin-bottom-30">
                         Your registered email is <span class='bold'>{{ email }}</span>
