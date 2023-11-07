@@ -2,14 +2,13 @@ import json
 import logging
 import math
 import re
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from datetime import datetime, timedelta
 from uuid import uuid4
 
 from directory_forms_api_client import actions
 from django.contrib.auth.models import AnonymousUser
 from django.db import transaction
-from django.http import Http404, HttpRequest, HttpResponse, HttpResponseRedirect
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
@@ -24,7 +23,6 @@ from django.views.generic import (
 )
 from django_filters.views import FilterView
 from drf_spectacular.utils import extend_schema
-from great_components.helpers import get_is_authenticated, get_user
 from great_components.mixins import GA360Mixin
 from icalendar import Alarm, Calendar, Event
 from rest_framework.generics import GenericAPIView
@@ -46,11 +44,7 @@ from export_academy.mixins import (
     RegistrationMixin,
     VerificationLinksMixin,
 )
-from export_academy.models import (
-    ExportAcademyHomePage,
-    Registration,
-    VideoOnDemandPageTracking,
-)
+from export_academy.models import ExportAcademyHomePage, Registration
 from sso import helpers as sso_helpers, mixins as sso_mixins
 
 logger = logging.getLogger(__name__)
@@ -779,27 +773,6 @@ class EventVideoOnDemandView(DetailView):
     def _user_has_accepted_cookies(self):
         cookies = json.loads(self.request.COOKIES.get('cookies_policy', '{}'))  # noqa: P103
         return cookies.get('usage', False)
-
-    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
-        user = get_user(self.request)
-        is_logged_in = get_is_authenticated(self.request)
-
-        if user and is_logged_in:
-            already_tracked = VideoOnDemandPageTracking.user_already_recorded(user.id)
-            if not already_tracked:
-                cookies_accepted_on_details_view = self._user_has_accepted_cookies()
-                details_viewed = datetime.now(timezone.utc)
-
-                VideoOnDemandPageTracking.objects.create(
-                    id=uuid4(),
-                    user_id=user.id,
-                    details_viewed=details_viewed,
-                    cookies_accepted_on_details_view=cookies_accepted_on_details_view,
-                    event=self.event,
-                    video=self.video,
-                ).save()
-
-        return super().get(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
         self.slug = self.kwargs.pop('slug', None)
