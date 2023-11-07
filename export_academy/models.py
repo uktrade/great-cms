@@ -585,16 +585,19 @@ class VideoOnDemandPageTracking(TimeStampedModel):
         primary_key=True,
         default=uuid.uuid4,
     )
-    user_id = models.PositiveIntegerField(null=False)
+    user_email = models.EmailField(blank=True)
     event = models.ForeignKey(Event, null=True, on_delete=models.SET_NULL, related_name='events')
     video = models.ForeignKey(GreatMedia, null=True, blank=True, on_delete=models.SET_NULL, related_name='video')
     details_viewed = models.DateTimeField(blank=True, null=True)
     cookies_accepted_on_details_view = models.BooleanField(default=False)
 
     @classmethod
-    def user_already_recorded(cls, user_id, event):
-        user = cls.objects.filter(user_id=user_id, event=event).first()
-        return True if user else False
+    def user_already_recorded(cls, user_email, event, video):
+        if not event or not video:
+            # dont record in this case
+            return True
+        video_on_demand_page_tracking = cls.objects.filter(user_email=user_email, event=event, video=video).first()
+        return True if video_on_demand_page_tracking else False
 
     def __str__(self):
-        return f'User: {self.user_id}, Event: {self.event.id}, Video: {self.video.id}'
+        return f'User: {self.user_email}, Event: {self.event.id}, Video: {self.video.id}'

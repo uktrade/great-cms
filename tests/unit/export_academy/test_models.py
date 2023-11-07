@@ -4,8 +4,13 @@ from unittest import mock
 import pytest
 from directory_forms_api_client import actions
 
-from export_academy.models import Booking
-from .factories import BookingFactory, EventFactory, RegistrationFactory
+from export_academy.models import Booking, VideoOnDemandPageTracking
+from .factories import (
+    BookingFactory,
+    EventFactory,
+    RegistrationFactory,
+    VideoOnDemandPageTrackingFactory,
+)
 
 
 @pytest.mark.django_db
@@ -43,3 +48,14 @@ def test_event_model_save_notification(mock_notify_cancellation, client, user):
     event.save()
     # Now that event is completed, notify should be called
     assert mock_notify_cancellation.call_count == 1
+
+
+@pytest.mark.django_db
+def test_video_on_demand_page_tracking_model_user_already_recorded(user):
+    event = EventFactory()
+    already_tracked = VideoOnDemandPageTracking.user_already_recorded(user.email, event, event.video_recording)
+    assert already_tracked is False
+
+    VideoOnDemandPageTrackingFactory(user_email=user.email, event=event, video=event.video_recording)
+    already_tracked = VideoOnDemandPageTracking.user_already_recorded(user.email, event, event.video_recording)
+    assert already_tracked is True

@@ -1318,7 +1318,7 @@ class EventVideoOnDemandViewTest(TestCase):
         self.root_page = root_page
         self.rf = rf
         self.client = client
-        self.USER_ID = 123456
+        self.USER_EMAIL = 'joe.bloggs@gmail.com'
 
     def setUp(self):
         self.past_event_date = datetime(2023, 9, 13)
@@ -1334,6 +1334,12 @@ class EventVideoOnDemandViewTest(TestCase):
         self.course_page = factories.CoursePageFactory(parent=self.root_page, page_heading='essentials_title')
         course_events = factories.EventsOnCourseFactory(page_id=self.course_page.id)
         factories.ModuleEventSetFactory(page_id=course_events.id, event_id=self.event2.id)
+        self.video = factories.GreatMediaFactory()
+        self.event3 = factories.EventFactory(
+            slug='event-slug3-13-september-2023',
+            past_event_video_recording=self.video,
+            past_event_recorded_date=self.past_event_date,
+        )
 
     def test_extract_date_and_event_name(self):
         view = EventVideoOnDemandView()
@@ -1375,35 +1381,47 @@ class EventVideoOnDemandViewTest(TestCase):
         self.assertEqual(self.event_with_no_past_recording.get_course(), [])
         self.assertEqual(self.event2.get_course(), [{'label': 'essentials_title', 'value': 'essentials'}])
 
-    def test_get_logged_in_user(self):
+    @mock.patch.object(VideoOnDemandPageTracking, 'save')
+    def test_get_logged_in_user(self, mock_tracking_save):
         self.client.force_login(self.user)
-        kwargs = kwargs = {'slug': self.event2.get_past_event_recording_slug()}
+        kwargs = {'slug': self.event3.get_past_event_recording_slug()}
         url = reverse('export_academy:video-on-demand', kwargs=kwargs)
         request = self.rf.get(url)
         request.user = self.user
-        response = EventVideoOnDemandView.as_view(event=self.event2)(request, **kwargs)
+        response = EventVideoOnDemandView.as_view(event=self.event3, video=self.event3.past_event_video_recording)(
+            request, **kwargs
+        )
         assert response.status_code == 200
-        video_on_demand_page_tracking = VideoOnDemandPageTracking.objects.filter(user_id=self.user.id)
-        assert video_on_demand_page_tracking is not None
+        assert mock_tracking_save.call_count == 1
 
     def test_get_logged_in_user_already_tracked(self):
-        kwargs = kwargs = {'slug': self.event2.get_past_event_recording_slug()}
-        self.user.id = self.USER_ID
+        kwargs = {'slug': self.event3.get_past_event_recording_slug()}
+        self.user.email = self.USER_EMAIL
         VideoOnDemandPageTracking.objects.create(
-            user_id=self.USER_ID,
-            event=self.event,
+            user_email=self.USER_EMAIL,
+            event=self.event3,
+            video=self.event3.past_event_video_recording,
         )
         self.client.force_login(self.user)
         url = reverse('export_academy:video-on-demand', kwargs=kwargs)
         request = self.rf.get(url)
         request.user = self.user
-        response = EventVideoOnDemandView.as_view(event=self.event2)(request, **kwargs)
+        response = EventVideoOnDemandView.as_view(event=self.event3)(request, **kwargs)
         assert response.status_code == 200
+        video_on_demand_page_tracking = VideoOnDemandPageTracking.objects.filter(
+            user_email=self.user.email, event=self.event3, video=self.event3.past_event_video_recording
+        )
+        assert video_on_demand_page_tracking.count() == 1
 
-    def test_get_not_logged_in_user(self):
-        kwargs = kwargs = {'slug': self.event2.get_past_event_recording_slug()}
+    def test_get_logged_out_user(self):
+        kwargs = kwargs = {'slug': self.event3.slug}
         url = reverse('export_academy:video-on-demand', kwargs=kwargs)
         request = self.rf.get(url)
-        request.user = self.user
-        response = EventVideoOnDemandView.as_view(event=self.event2)(request, **kwargs)
+        user_not_logged_in = type(
+            'obj',
+            (object,),
+            {'is_authenticated': False},
+        )
+        request.user = user_not_logged_in
+        response = EventVideoOnDemandView.as_view(event=self.event3)(request, **kwargs)
         assert response.status_code == 200

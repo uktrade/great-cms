@@ -19,6 +19,7 @@ from tests.unit.export_academy.factories import (
     BookingFactory,
     EventFactory,
     RegistrationFactory,
+    VideoOnDemandPageTrackingFactory,
 )
 
 URL = 'http://testserver' + reverse('activitystream:articles')
@@ -536,3 +537,32 @@ def test_activity_stream_cms_content_view(api_client, en_locale):
 
     assert response.status_code == 200
     assert len(response.json()['orderedItems']) == 10
+
+
+@pytest.mark.parametrize(
+    'resource,factory',
+    (('videoondemandpagetrackings', VideoOnDemandPageTrackingFactory),),
+)
+@pytest.mark.django_db
+def test_activity_stream_ukea_video_on_demand_page_tracking_views(api_client, resource, factory):
+    records_count = 10
+    url = 'http://testserver' + reverse('activitystream:ukea-videoondemandpagetracking')
+    sender = auth_sender(url=url)
+    auth_headers = {
+        'content_type': '',
+        'HTTP_AUTHORIZATION': sender.request_header,
+        'HTTP_X_FORWARDED_FOR': '1.2.3.4, 123.123.123.123',
+    }
+
+    response = api_client.get(url, **auth_headers)
+
+    assert response.status_code == 200
+    assert response.json() == EMPTY_COLLECTION
+    assert len(response.json()['orderedItems']) == 0
+
+    factory.create_batch(records_count)
+
+    response = api_client.get(url, **auth_headers)
+
+    assert response.status_code == 200
+    assert len(response.json()['orderedItems']) == records_count

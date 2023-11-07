@@ -15,6 +15,7 @@ from export_academy.models import (
     ExportAcademyHomePage,
     ModuleEventSet,
     Registration,
+    VideoOnDemandPageTracking,
 )
 
 
@@ -106,3 +107,15 @@ class CoursePageFactory(wagtail_factories.PageFactory):
 
     class Meta:
         model = CoursePage
+
+
+class VideoOnDemandPageTrackingFactory(factory.django.DjangoModelFactory):
+    id = factory.Faker('uuid4')
+    event = factory.SubFactory(EventFactory)
+    video = factory.SubFactory(GreatMediaFactory)
+    user_email = factory.Sequence(lambda n: f'person{n}@example.com')
+    details_viewed = timezone.localtime()
+    cookies_accepted_on_details_view = False
+
+    class Meta:
+        model = VideoOnDemandPageTracking
