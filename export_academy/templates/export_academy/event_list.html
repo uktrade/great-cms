@@ -82,8 +82,7 @@
                                 {% endif %}
                                 <div class="govuk-!-padding-left-3 govuk-!-margin-bottom-2 govuk-!-padding-right-3">
                                     <a href="{{ event.get_absolute_url }}"
-                                       class="govuk-link govuk-heading-s great-title-link">{{ event.name }}</a>
-                                    <span class="great-visually-hidden">– at {{ event.start_date|date:"d F" }} at {{ event.start_date|time:"gA" }}</span>
+                                       class="govuk-link govuk-heading-s great-title-link">{{ event.name }}<span class="great-visually-hidden"> – {{ event.start_date|date:"d F" }} at {{ event.start_date|time:"gA" }}</span></a>
                                 </div>
                                 <div class="govuk-!-padding-left-3 govuk-!-padding-right-3 great-display-until-tablet">
                                     {% include 'export_academy/includes/event_duration.html' %}
