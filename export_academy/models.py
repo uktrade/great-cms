@@ -574,27 +574,3 @@ class CoursePage(CoursePagePanels, BaseContentPage):
                     else:
                         first_available_event = event
         return first_available_event
-
-
-class VideoOnDemandPageTracking(TimeStampedModel):
-    """
-    Tracks Video On Demand Page access
-    """
-
-    id = models.UUIDField(
-        primary_key=True,
-        default=uuid.uuid4,
-    )
-    user_id = models.PositiveIntegerField(null=False)
-    event = models.ForeignKey(Event, null=True, on_delete=models.SET_NULL, related_name='events')
-    video = models.ForeignKey(GreatMedia, null=True, blank=True, on_delete=models.SET_NULL, related_name='video')
-    details_viewed = models.DateTimeField(blank=True, null=True)
-    cookies_accepted_on_details_view = models.BooleanField(default=False)
-
-    @classmethod
-    def user_already_recorded(cls, user_id):
-        user = cls.objects.filter(user_id=user_id).first()
-        return True if user else False
-
-    def __str__(self):
-        return f'User: {self.user_id}, Event: {self.event.id}, Video: {self.video.id}'

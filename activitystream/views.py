@@ -33,17 +33,11 @@ from activitystream.serializers import (
     ActivityStreamExportAcademyBookingSerializer,
     ActivityStreamExportAcademyEventSerializer,
     ActivityStreamExportAcademyRegistrationSerializer,
-    ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer,
     PageSerializer,
 )
 from core.models import MicrositePage
 from domestic.models import ArticlePage, CountryGuidePage
-from export_academy.models import (
-    Booking,
-    Event,
-    Registration,
-    VideoOnDemandPageTracking,
-)
+from export_academy.models import Booking, Event, Registration
 from international_online_offer.models import CsatFeedback, TriageData, UserData
 
 
@@ -243,8 +237,3 @@ class ActivityStreamExpandYourBusinessCsatFeedbackDataView(ActivityStreamExpandY
 
     queryset = CsatFeedback.objects.all()
     serializer_class = ActivityStreamExpandYourBusinessCsatFeedbackDataSerializer
-
-
-class ActivityStreamExportAcademyVideoOnDemandPageTrackingView(ActivityStreamExportAcademyBaseView):
-    queryset = VideoOnDemandPageTracking.objects.all()
-    serializer_class = ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer
