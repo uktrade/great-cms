@@ -7,12 +7,7 @@ from wagtail.rich_text import RichText, get_text_for_indexing
 
 from core.models import MicrositePage
 from domestic.models import ArticlePage
-from export_academy.models import (
-    Booking,
-    Event,
-    Registration,
-    VideoOnDemandPageTracking,
-)
+from export_academy.models import Booking, Event, Registration
 from international_online_offer.models import CsatFeedback, TriageData, UserData
 
 logger = logging.getLogger(__name__)
@@ -455,40 +450,5 @@ class ActivityStreamCmsContentSerializer(serializers.ModelSerializer):
                 'contentTypeId': instance.content_type_id,
                 # TODO: add content via page type serialisers
                 'content': '',
-            },
-        }
-
-
-class ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer(serializers.ModelSerializer):
-    """
-    UKEA's VideoOnDemandPageTracking serializer for Activity Stream.
-    """
-
-    userId = serializers.IntegerField(source='user_id')  # noqa: N815
-    eventId = serializers.UUIDField(source='event_id')  # noqa: N815
-    videoId = serializers.IntegerField(source='video_id')  # noqa: N815
-    detailsViewed = serializers.DateTimeField(source='details_viewed')  # noqa: N815
-    cookiesAcceptedOnDetailsView = serializers.BooleanField(source='cookies_accepted_on_details_view')  # noqa: N815
-
-    class Meta:
-        model = VideoOnDemandPageTracking
-        fields = ['eventId', 'userId', 'videoId', 'detailsViewed', 'cookiesAcceptedOnDetailsView']
-
-    def to_representation(self, instance):
-        """
-        Prefix field names to match activity stream format
-        """
-        prefix = 'dit:exportAcademy:videoondemandpagetracking'
-        type = 'Update'
-        return {
-            'id': f'{prefix}:{instance.id}:{type}',
-            'type': f'{type}',
-            'published': instance.modified.isoformat(),
-            'object': {
-                'id': f'{prefix}:{instance.id}',
-                'type': prefix,
-                'created': instance.created.isoformat(),
-                'modified': instance.modified.isoformat(),
-                **{f'{k}': v for k, v in super().to_representation(instance).items()},
             },
         }
