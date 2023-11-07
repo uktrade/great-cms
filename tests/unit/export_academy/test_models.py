@@ -5,12 +5,7 @@ import pytest
 from directory_forms_api_client import actions
 
 from export_academy.models import Booking
-from .factories import (
-    BookingFactory,
-    EventFactory,
-    RegistrationFactory,
-    VideoOnDemandPageTrackingFactory,
-)
+from .factories import BookingFactory, EventFactory, RegistrationFactory
 
 
 @pytest.mark.django_db
@@ -48,9 +43,3 @@ def test_event_model_save_notification(mock_notify_cancellation, client, user):
     event.save()
     # Now that event is completed, notify should be called
     assert mock_notify_cancellation.call_count == 1
-
-
-@pytest.mark.django_db
-def test_video_on_demand_page_tracking_model_to_string():
-    instance = VideoOnDemandPageTrackingFactory()
-    assert str(instance) == f'User: {instance.user_id}, Event: {instance.event_id}, Video: {instance.video_id}'
