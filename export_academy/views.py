@@ -1,3 +1,4 @@
+import json
 import logging
 import math
 import re
@@ -6,9 +7,11 @@ from uuid import uuid4
 
 from directory_forms_api_client import actions
 from django.contrib.auth.models import AnonymousUser
+from django.db import transaction
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
+from django.utils.decorators import method_decorator
 from django.utils.text import get_valid_filename
 from django.views.generic import (
     DetailView,
@@ -736,9 +739,17 @@ class EACourseView(TemplateView):
         return ctx
 
 
+@method_decorator(transaction.non_atomic_requests, name='dispatch')
 class EventVideoOnDemandView(DetailView):
     template_name = 'export_academy/event_on_demand_video.html'
     model = models.Event
+
+    slug = None
+    event_slug = None
+    recording_date = None
+    recorded_datetime = None
+    event = None
+    video = None
 
     def extract_date_and_event_name(self, input_string):
         # Define a regular expression pattern for extracting the date
@@ -759,23 +770,31 @@ class EventVideoOnDemandView(DetailView):
             # If no date is found, return None for both parts
             return None, None
 
+    def _user_has_accepted_cookies(self):
+        cookies = json.loads(self.request.COOKIES.get('cookies_policy', '{}'))  # noqa: P103
+        return cookies.get('usage', False)
+
     def get_object(self, queryset=None):
-        slug = self.kwargs.pop('slug', None)
-        if not slug:
+        self.slug = self.kwargs.pop('slug', None)
+        if not self.slug:
             raise Http404
-        event_slug, recording_date = self.extract_date_and_event_name(slug)
-        recorded_datetime = datetime.strptime(recording_date, '%d-%B-%Y').date()
-        event = models.Event.objects.filter(
-            slug__contains=event_slug, past_event_recorded_date__date=recorded_datetime
-        ).first()
-        video = getattr(event, 'past_event_video_recording', None)
-        if not event or not video:
+        self.event_slug, self.recording_date = self.extract_date_and_event_name(self.slug)
+        self.recorded_datetime = datetime.strptime(self.recording_date, '%d-%B-%Y').date()
+        self.event, self.video = self._get_event_and_video()
+        if not self.event or not self.video:
             raise Http404
-        self.kwargs['pk'] = event.id
+        self.kwargs['pk'] = self.event.id
         obj = super().get_object(queryset=None)
         if obj:
             return obj
         raise Http404
+
+    def _get_event_and_video(self):
+        event = models.Event.objects.filter(
+            slug__contains=self.event_slug, past_event_recorded_date__date=self.recorded_datetime
+        ).first()
+        video = getattr(event, 'past_event_video_recording', None)
+        return event, video
 
     def get_context_data(self, **kwargs):
         self.user = self.request.user
