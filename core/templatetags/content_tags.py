@@ -390,8 +390,7 @@ def is_external_link(url, current_domain):
 
     # Check if the URL has a scheme
     if not parsed_url.scheme:
-        url = f'http://{url}'
-        parsed_url = urlparse(url)
+        return True
 
     # Check if the URL is not on the current domain
     return parsed_url.netloc != current_domain
