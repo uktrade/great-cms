@@ -35,7 +35,7 @@ install_postgresql_client: &install_postgresql_client
       sudo apt-get update
       sudo apt-get install postgresql-client
 
-install_libpycairo2: &install_libcairo2
+install_libcairo2: &install_libcairo2
   run:
     name: Install libcairo2-dev
     command: |
