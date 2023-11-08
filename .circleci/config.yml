@@ -35,6 +35,13 @@ install_postgresql_client: &install_postgresql_client
       sudo apt-get update
       sudo apt-get install postgresql-client
 
+install_libpycairo2: &install_libpycairo2
+  run:
+    name: Install libcairo2
+    command: |
+      sudo apt-get update
+      sudo apt-get install libcairo2
+
 create_virtualenv_and_install_dependencies:
   &create_virtualenv_and_install_dependencies
   run:
@@ -152,6 +159,7 @@ jobs:
     steps:
       - checkout
       - *install_postgresql_client
+      - *install_libpycairo2
       - *create_virtualenv_and_install_dependencies
       - *setup_secrets
       - *setup_db
