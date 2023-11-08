@@ -209,3 +209,19 @@ class ContactSuccessSnippet(
 
     def __str__(self):
         return f'Contact Success Snippet: {self.internal_title}'
+
+
+class DPEFormToZendeskFieldMapping(models.Model):
+    dpe_form_field_id = models.CharField(
+        max_length=255,
+        null=True,
+    )
+
+    zendesk_field_id = models.CharField(
+        max_length=255,
+        null=True,
+    )
+
+    # this field stores the mapping for form value to zendesk tags
+    # and is used for zendesk fields that are multi-select
+    dpe_form_value_to_zendesk_field_value = models.JSONField(null=True, blank=True)

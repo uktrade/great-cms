@@ -7,10 +7,12 @@ from contact.helpers import (
     extract_regional_office_details,
     format_office_details,
     get_free_trade_agreements,
+    populate_custom_fields,
     retrieve_regional_office,
     retrieve_regional_office_email,
 )
 from directory_api_client.exporting import url_lookup_by_postcode
+from tests.unit.contact.factories import DPEFormToZendeskFieldMappingFactory
 
 
 @pytest.fixture()
@@ -245,3 +247,43 @@ def test_dpe_clean_submission_for_zendesk():
             could be developed for export""",
         'random_field': 123454,
     }
+
+
+@pytest.mark.django_db
+def test_export_support_zendesk_mapping():
+    DPEFormToZendeskFieldMappingFactory(dpe_form_field_id='business_postcode', zendesk_field_id='ab123')
+    DPEFormToZendeskFieldMappingFactory(
+        dpe_form_field_id='business_type',
+        zendesk_field_id='ab456',
+        dpe_form_value_to_zendesk_field_value={
+            'other': 'other_education_institution__ess_organistation',
+            'soletrader': 'soletrader__ess_organistation',
+            'limitedcompany': 'public_limited_company__ess_organistation',
+        },
+    )
+    DPEFormToZendeskFieldMappingFactory(dpe_form_field_id='markets', zendesk_field_id='ab789')
+    DPEFormToZendeskFieldMappingFactory(dpe_form_field_id='sector_primary', zendesk_field_id='cd123')
+
+    form_data = {
+        'business_postcode': 'BT809QS',
+        'business_type': 'limitedcompany',
+        'markets': ['GR', 'MK'],
+        'sector_primary': 'Airports',
+        'sector_secondary': 'Creative Industries',
+        'sector_tertiary': 'Agriculture, horticulture, fisheries and pets',
+    }
+
+    form_data_with_custom_fields = populate_custom_fields(form_data)
+
+    assert form_data_with_custom_fields['_custom_fields'] == [
+        {'ab123': 'BT809QS'},
+        {'ab456': 'public_limited_company__ess_organistation'},
+        {'ab789': ['greece__ess_export', 'north_macedonia__ess_export']},
+        {
+            'cd123': [
+                'airports__ess_sector_l1',
+                'creative_industries__ess_sector_l1',
+                'agriculture_horticulture_fisheries_and_pets__ess_sector_l1',
+            ]
+        },
+    ]
