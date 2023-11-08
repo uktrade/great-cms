@@ -40,7 +40,7 @@ install_libpycairo2: &install_libcairo2
     name: Install libcairo2
     command: |
       sudo apt-get update
-      sudo apt-get install libcairo2
+      sudo apt-get install libcairo2-dev
 
 create_virtualenv_and_install_dependencies:
   &create_virtualenv_and_install_dependencies
