@@ -93,8 +93,13 @@ def get_trade_assoication_sectors_from_sector(sector):
             'Sports',
             'Tourism',
         ],
-        directory_constants_sectors.BIOTECHNOLOGY_AND_PHARMACEUTICALS: ['Pharmaceuticals'],
+        directory_constants_sectors.BIOTECHNOLOGY_AND_PHARMACEUTICALS: [
+            'Pharmaceuticals',
+            'Pharmaceutical',
+            'Biotechnology',
+        ],
         directory_constants_sectors.ENERGY: ['Energy'],
+        directory_constants_sectors.HEALTHCARE_AND_MEDICAL: ['Healthcare', 'Medical'],
     }
     mapping = mappings.get(sector)
     return mapping if mapping else []
