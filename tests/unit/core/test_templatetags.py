@@ -31,7 +31,7 @@ from core.templatetags.content_tags import (
     str_to_datetime,
     tag_text_mapper,
     url_type,
-    handle_external_links
+    handle_external_links,
 )
 from core.templatetags.object_tags import get_item
 from core.templatetags.progress_bar import progress_bar
@@ -848,7 +848,6 @@ class ExtractDomainFilterTest(TestCase):
 
 
 class HandleExternalLinksFilterTest(TestCase):
-
     def test_should_add_target_blank_to_external_links(self):
         # Create a mock request object
         request = HttpRequest()
@@ -858,7 +857,7 @@ class HandleExternalLinksFilterTest(TestCase):
         """
         soup = BeautifulSoup(html_content, 'html.parser')
         filtered_html_content = handle_external_links(str(soup), request)
-        assert('_blank' in filtered_html_content)
+        assert '_blank' in filtered_html_content
 
     def test_should_not_add_target_blank_to_internal_links(self):
         request = HttpRequest()
@@ -868,7 +867,7 @@ class HandleExternalLinksFilterTest(TestCase):
         """
         soup = BeautifulSoup(html_content, 'html.parser')
         filtered_html_content = handle_external_links(str(soup), request)
-        assert('_blank' not in filtered_html_content)
+        assert '_blank' not in filtered_html_content
 
 
 class IsEmailFilterTest(TestCase):
