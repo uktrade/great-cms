@@ -31,6 +31,7 @@ from core.templatetags.content_tags import (
     str_to_datetime,
     tag_text_mapper,
     url_type,
+    handle_external_links
 )
 from core.templatetags.object_tags import get_item
 from core.templatetags.progress_bar import progress_bar
@@ -844,6 +845,33 @@ class ExtractDomainFilterTest(TestCase):
 
         result = extract_domain(test_url)
         self.assertEqual(result, expected_result)
+
+
+class HandleExternalLinksFilterTest(TestCase):
+
+    def test_should_add_target_blank_to_external_links(self):
+        html_content = """
+        <a href="https://www.example.com">Example</a>
+        <a href="/internal/link">Internal Link</a>
+        """
+        expected_html_content = """
+        <a href="https://www.example.com" target="_blank">Example</a>
+        <a href="/internal/link">Internal Link</a>
+        """
+        soup = BeautifulSoup(html_content, 'html.parser')
+        filtered_html_content = handle_external_links(str(soup), self.request)
+        self.assertEqual(filtered_html_content, escape(expected_html_content))
+
+    def test_should_not_add_target_blank_to_internal_links(self):
+        html_content = """
+        <a href="/internal/link">Internal Link</a>
+        """
+        expected_html_content = """
+        <a href="/internal/link">Internal Link</a>
+        """
+        soup = BeautifulSoup(html_content, 'html.parser')
+        filtered_html_content = handle_external_links(str(soup), self.request)
+        self.assertEqual(filtered_html_content, escape(expected_html_content))
 
 
 class IsEmailFilterTest(TestCase):

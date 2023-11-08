@@ -6,6 +6,7 @@
 {% load get_template_translation_enabled from content_tags %}
 {% load is_email from content_tags %}
 {% load extract_domain from content_tags %}
+{% load handle_external_links from content_tags %}
 {% get_template_translation_enabled as TRANSLATE_TEXT %}
 <div class="govuk-grid-row govuk-!-margin-bottom-6">
     {% for item in value %}
@@ -20,7 +21,9 @@
                 </div>
             {% endif %}
             {% filter add_govuk_classes %}
+             {% filter handle_external_links:request%}
                 {{ item.value.text }}
+                  {% endfilter %}
             {% endfilter %}
             {% if item.value.button_url %}
                 {% if item.value.button_url|is_email %}

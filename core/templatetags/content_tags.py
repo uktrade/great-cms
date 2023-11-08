@@ -366,3 +366,15 @@ def is_email(value):
 def extract_domain(url):
     parsed_url = urlparse(url)
     return parsed_url.netloc
+
+
+@register.filter
+def handle_external_links(html_content, request):
+    current_domain = request.get_host()
+    soup = BeautifulSoup(html_content, 'html.parser')
+    for a_tag in soup.find_all('a'):
+        if a_tag.has_attr('href'):
+            href = a_tag['href']
+            if extract_domain(href) != current_domain:
+                a_tag['target'] = '_blank'
+    return str(soup)
