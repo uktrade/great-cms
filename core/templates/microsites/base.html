@@ -145,11 +145,7 @@
         <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled')</script>
         {% block skip_link %}
             <a id="skip-link" href="#content">
-                {% if TRANSLATE_TEXT %}
-                    {% translate "Skip to main content" %}
-                {% else %}
-                    Skip to main content
-                {% endif %}
+                {% translate "Skip to main content" %}
             </a>
         {% endblock %}
         {% block cookie_notice %}

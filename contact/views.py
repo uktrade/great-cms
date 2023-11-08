@@ -1,3 +1,4 @@
+import logging
 import pickle
 from urllib.parse import urlparse
 
@@ -16,6 +17,7 @@ from django.views.generic.edit import FormView
 from formtools.wizard.views import NamedUrlSessionWizardView
 
 from contact import constants, forms as contact_forms, helpers, mixins as contact_mixins
+from contact.models import DPEFormToZendeskFieldMapping
 from core import mixins as core_mixins, snippet_slugs
 from core.cms_slugs import PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE
 from core.datastructures import NotifySettings
@@ -25,6 +27,8 @@ from sso.helpers import update_user_profile
 
 SESSION_KEY_SOO_MARKET = 'SESSION_KEY_SOO_MARKET'
 SOO_SUBMISSION_CACHE_TIMEOUT = 2592000  # 30 days
+
+logger = logging.getLogger(__name__)
 
 
 class PrepopulateInternationalFormMixin:
@@ -480,11 +484,37 @@ class DomesticExportSupportFormStep7View(contact_mixins.ExportSupportFormMixin, 
     template_name = 'domestic/contact/export-support/cya.html'
     success_url = reverse_lazy('contact:export-support-step-8')
 
+    def populate_custom_fields(self, form_data):
+        form_data['_custom_fields'] = []
+        for field in form_data.keys():
+            if DPEFormToZendeskFieldMapping.objects.filter(dpe_form_field_id=field).exists():
+                mapping_obj = DPEFormToZendeskFieldMapping.objects.get(dpe_form_field_id=field)
+
+                try:
+                    if mapping_obj.dpe_form_value_to_zendesk_field_value is not None:
+                        mapped_value = mapping_obj.dpe_form_value_to_zendesk_field_value[form_data[field]]
+                    elif field == 'markets':
+                        markets_long_form = [
+                            country[1] for country in COUNTRY_CHOICES if country[0] in form_data[field]
+                        ]
+                        mapped_value = [
+                            f"{country.lower().replace(' ', '_')}__ess_export" for country in markets_long_form
+                        ]
+                    else:
+                        mapped_value = form_data[field]
+
+                    form_data['_custom_fields'].append({mapping_obj.zendesk_field_id: mapped_value})
+                except Exception as e:
+                    logger.error(e)
+
     def submit_enquiry(self, form):
         cleaned_data = form.cleaned_data
 
-        original_form_data = {**self.initial_data, **cleaned_data}
-        form_data = helpers.dpe_clean_submission_for_zendesk(original_form_data)
+        form_data = {**self.initial_data, **cleaned_data}
+
+        self.populate_custom_fields(form_data)
+
+        human_readable_form_data = helpers.dpe_clean_submission_for_zendesk(form_data)
 
         sender = Sender(
             email_address=form_data.get('email'),
@@ -502,7 +532,7 @@ class DomesticExportSupportFormStep7View(contact_mixins.ExportSupportFormMixin, 
             sort_fields_alphabetically=False,
         )
 
-        response = action.save(form_data)
+        response = action.save(human_readable_form_data)
         response.raise_for_status()
 
     def get_context_data(self, **kwargs):

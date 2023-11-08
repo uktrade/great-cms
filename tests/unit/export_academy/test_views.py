@@ -1313,9 +1313,12 @@ def test_course_page(client, root_page):
 
 class EventVideoOnDemandViewTest(TestCase):
     @pytest.fixture(autouse=True)
-    def set_fixtures(self, user, root_page):
+    def set_fixtures(self, user, root_page, rf, client):
         self.user = user
         self.root_page = root_page
+        self.rf = rf
+        self.client = client
+        self.USER_ID = 123456
 
     def setUp(self):
         self.past_event_date = datetime(2023, 9, 13)
