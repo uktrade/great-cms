@@ -375,6 +375,23 @@ def handle_external_links(html_content, request):
     for a_tag in soup.find_all('a'):
         if a_tag.has_attr('href'):
             href = a_tag['href']
-            if extract_domain(href) != current_domain:
-                a_tag['target'] = '_blank'
+
+            # Check if the URL is an internal link
+            if not is_external_link(href, current_domain):
+                continue
+
+            a_tag['target'] = '_blank'
     return str(soup)
+
+
+def is_external_link(url, current_domain):
+    # Parse the URL
+    parsed_url = urlparse(url)
+
+    # Check if the URL has a scheme
+    if not parsed_url.scheme:
+        url = f'http://{url}'
+        parsed_url = urlparse(url)
+
+    # Check if the URL is not on the current domain
+    return parsed_url.netloc != current_domain
