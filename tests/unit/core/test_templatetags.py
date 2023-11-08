@@ -862,7 +862,7 @@ class HandleExternalLinksFilterTest(TestCase):
         <a href="/internal/link">Internal Link</a>
         """
         soup = BeautifulSoup(html_content, 'html.parser')
-        filtered_html_content = handle_external_links(str(soup), self.request)
+        filtered_html_content = handle_external_links(str(soup), request)
         self.assertEqual(filtered_html_content, escape(expected_html_content))
 
     def test_should_not_add_target_blank_to_internal_links(self):
@@ -875,7 +875,7 @@ class HandleExternalLinksFilterTest(TestCase):
         <a href="/internal/link">Internal Link</a>
         """
         soup = BeautifulSoup(html_content, 'html.parser')
-        filtered_html_content = handle_external_links(str(soup), self.request)
+        filtered_html_content = handle_external_links(str(soup), request)
         self.assertEqual(filtered_html_content, escape(expected_html_content))
 
 
