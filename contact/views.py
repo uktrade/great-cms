@@ -484,6 +484,22 @@ class DomesticExportSupportFormStep7View(contact_mixins.ExportSupportFormMixin, 
     template_name = 'domestic/contact/export-support/cya.html'
     success_url = reverse_lazy('contact:export-support-step-8')
 
+    def get_field_zendesk_mapping_value(self, mapping_obj, field, form_data):
+        if mapping_obj.dpe_form_value_to_zendesk_field_value is not None:
+            return mapping_obj.dpe_form_value_to_zendesk_field_value[form_data[field]]
+        elif field == 'markets':
+            markets_long_form = [country[1] for country in COUNTRY_CHOICES if country[0] in form_data[field]]
+            return [f"{country.lower().replace(' ', '_')}__ess_export" for country in markets_long_form]
+        elif field == 'sector_primary':
+            # maps all l1 sectors (sector_primary, sector_secondary, sector_tertiary)
+            return [
+                f"{sector.lower().replace(',', '').replace(' ', '_')}__ess_sector_l1"
+                for k, sector in form_data.items()
+                if 'sector' in k
+            ]
+        else:
+            return form_data[field]
+
     def populate_custom_fields(self, form_data):
         form_data['_custom_fields'] = []
         for field in form_data.keys():
@@ -491,19 +507,13 @@ class DomesticExportSupportFormStep7View(contact_mixins.ExportSupportFormMixin, 
                 mapping_obj = DPEFormToZendeskFieldMapping.objects.get(dpe_form_field_id=field)
 
                 try:
-                    if mapping_obj.dpe_form_value_to_zendesk_field_value is not None:
-                        mapped_value = mapping_obj.dpe_form_value_to_zendesk_field_value[form_data[field]]
-                    elif field == 'markets':
-                        markets_long_form = [
-                            country[1] for country in COUNTRY_CHOICES if country[0] in form_data[field]
-                        ]
-                        mapped_value = [
-                            f"{country.lower().replace(' ', '_')}__ess_export" for country in markets_long_form
-                        ]
-                    else:
-                        mapped_value = form_data[field]
-
-                    form_data['_custom_fields'].append({mapping_obj.zendesk_field_id: mapped_value})
+                    form_data['_custom_fields'].append(
+                        {
+                            mapping_obj.zendesk_field_id: self.get_field_zendesk_mapping_value(
+                                mapping_obj, field, form_data
+                            )
+                        }
+                    )
                 except Exception as e:
                     logger.error(e)
 

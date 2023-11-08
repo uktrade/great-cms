@@ -1649,8 +1649,16 @@ def test_export_support_zendesk_mapping():
         },
     )
     DPEFormToZendeskFieldMappingFactory(dpe_form_field_id='markets', zendesk_field_id='ab789')
+    DPEFormToZendeskFieldMappingFactory(dpe_form_field_id='sector_primary', zendesk_field_id='cd123')
 
-    form_data = {'business_postcode': 'BT809QS', 'business_type': 'limitedcompany', 'markets': ['GR', 'MK']}
+    form_data = {
+        'business_postcode': 'BT809QS',
+        'business_type': 'limitedcompany',
+        'markets': ['GR', 'MK'],
+        'sector_primary': 'Airports',
+        'sector_secondary': 'Creative Industries',
+        'sector_tertiary': 'Agriculture, horticulture, fisheries and pets',
+    }
 
     views.DomesticExportSupportFormStep7View().populate_custom_fields(form_data)
 
@@ -1658,6 +1666,13 @@ def test_export_support_zendesk_mapping():
         {'ab123': 'BT809QS'},
         {'ab456': 'public_limited_company__ess_organistation'},
         {'ab789': ['greece__ess_export', 'north_macedonia__ess_export']},
+        {
+            'cd123': [
+                'airports__ess_sector_l1',
+                'creative_industries__ess_sector_l1',
+                'agriculture_horticulture_fisheries_and_pets__ess_sector_l1',
+            ]
+        },
     ]
 
 
