@@ -858,7 +858,7 @@ class HandleExternalLinksFilterTest(TestCase):
         """
         soup = BeautifulSoup(html_content, 'html.parser')
         filtered_html_content = handle_external_links(str(soup), request)
-        self.assertContains(filtered_html_content, '_blank')
+        assert('_blank' in filtered_html_content)
 
     def test_should_not_add_target_blank_to_internal_links(self):
         request = HttpRequest()
@@ -868,7 +868,7 @@ class HandleExternalLinksFilterTest(TestCase):
         """
         soup = BeautifulSoup(html_content, 'html.parser')
         filtered_html_content = handle_external_links(str(soup), request)
-        self.assertNotContains(filtered_html_content, '_blank')
+        assert('_blank' not in filtered_html_content)
 
 
 class IsEmailFilterTest(TestCase):
