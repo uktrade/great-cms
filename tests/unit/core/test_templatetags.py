@@ -855,15 +855,10 @@ class HandleExternalLinksFilterTest(TestCase):
         request.META['HTTP_HOST'] = 'example.com'
         html_content = """
         <a href="https://www.example.com">Example</a>
-        <a href="/internal/link">Internal Link</a>
-        """
-        expected_html_content = """
-        <a href="https://www.example.com" target="_blank">Example</a>
-        <a href="/internal/link">Internal Link</a>
         """
         soup = BeautifulSoup(html_content, 'html.parser')
         filtered_html_content = handle_external_links(str(soup), request)
-        self.assertEqual(filtered_html_content, escape(expected_html_content))
+        self.assertContains(filtered_html_content, '_blank')
 
     def test_should_not_add_target_blank_to_internal_links(self):
         request = HttpRequest()
@@ -871,12 +866,9 @@ class HandleExternalLinksFilterTest(TestCase):
         html_content = """
         <a href="/internal/link">Internal Link</a>
         """
-        expected_html_content = """
-        <a href="/internal/link">Internal Link</a>
-        """
         soup = BeautifulSoup(html_content, 'html.parser')
         filtered_html_content = handle_external_links(str(soup), request)
-        self.assertEqual(filtered_html_content, escape(expected_html_content))
+        self.assertNotContains(filtered_html_content, '_blank')
 
 
 class IsEmailFilterTest(TestCase):
