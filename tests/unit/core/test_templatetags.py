@@ -3,7 +3,7 @@ from datetime import timedelta
 from html import escape
 from unittest import mock
 from urllib.parse import quote, quote_plus
-
+from django.http import HttpRequest
 import pytest
 from bs4 import BeautifulSoup
 from django.conf import settings
@@ -850,6 +850,9 @@ class ExtractDomainFilterTest(TestCase):
 class HandleExternalLinksFilterTest(TestCase):
 
     def test_should_add_target_blank_to_external_links(self):
+        # Create a mock request object
+        request = HttpRequest()
+        request.META['HTTP_HOST'] = 'example.com'
         html_content = """
         <a href="https://www.example.com">Example</a>
         <a href="/internal/link">Internal Link</a>
@@ -863,6 +866,8 @@ class HandleExternalLinksFilterTest(TestCase):
         self.assertEqual(filtered_html_content, escape(expected_html_content))
 
     def test_should_not_add_target_blank_to_internal_links(self):
+        request = HttpRequest()
+        request.META['HTTP_HOST'] = 'example.com'
         html_content = """
         <a href="/internal/link">Internal Link</a>
         """
