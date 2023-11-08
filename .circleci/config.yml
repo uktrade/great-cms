@@ -37,7 +37,7 @@ install_postgresql_client: &install_postgresql_client
 
 install_libpycairo2: &install_libcairo2
   run:
-    name: Install libcairo2
+    name: Install libcairo2-dev
     command: |
       sudo apt-get update
       sudo apt-get install libcairo2-dev
@@ -82,7 +82,6 @@ jobs:
     steps:
       - checkout
       - *install_postgresql_client
-      - *install_libcairo2
       - restore_cache:
           key: v1-deps-{{ checksum "requirements_test.txt" }}
       - *create_virtualenv_and_install_dependencies
@@ -198,6 +197,7 @@ jobs:
       - <<: *python
     steps:
       - checkout
+      - *install_libcairo2
       - run:
           name: Run flake8
           command: |
