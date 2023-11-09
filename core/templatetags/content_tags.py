@@ -372,7 +372,7 @@ def extract_domain(url):
 def handle_external_links(html_content, request):
     current_domain = request.get_host()
     soup = BeautifulSoup(html_content, 'html.parser')
-    
+
     for a_tag in soup.find_all('a'):
         if a_tag.has_attr('href'):
             href = a_tag['href']
