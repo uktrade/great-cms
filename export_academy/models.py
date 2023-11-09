@@ -603,11 +603,12 @@ class VideoOnDemandPageTracking(TimeStampedModel):
 
     @classmethod
     def user_already_recorded(cls, user_email, event, video):
-        if not event or not video:
-            # dont record in this case
-            return True
         video_on_demand_page_tracking = cls.objects.filter(user_email=user_email, event=event, video=video).first()
         return True if video_on_demand_page_tracking else False
 
     def __str__(self):
         return f'User: {self.user_email}, Event: {self.event.id}, Video: {self.video.id}'
+
+    class Meta:
+        ordering = ('-created',)
+        models.UniqueConstraint(fields=['user_email', 'event', 'video'], name='unique_vodpagetracking')

@@ -819,6 +819,7 @@ class EventVideoOnDemandView(DetailView):
                 details_viewed = datetime.now(timezone.utc)
                 company_name, company_postcode, company_phone = self._get_company_details(user)
                 registration, booking = self._get_registration_and_booking(user)
+
                 VideoOnDemandPageTracking.objects.create(
                     id=uuid4(),
                     user_email=user.email,
