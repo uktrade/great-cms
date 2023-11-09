@@ -7,7 +7,7 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-three-quarters great-max-width-75">
                 {% filter add_govuk_classes %}
-                    {% filter handle_external_links:request%}
+                    {% filter handle_external_links:request %}
                         {{ value.text }}
                     {% endfilter %}
                 {% endfilter %}
