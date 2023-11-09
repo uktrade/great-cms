@@ -14,9 +14,11 @@
                         <a href="mailto:{{ link.value.full_url }}"
                            class="govuk-link govuk-heading-s govuk-!-margin-bottom-3">{{ link.value.title }}</a>
                     {% else %}
-                        <a href="{{ link.value.full_url|persist_language:request.GET }}"
-                           {% if link.value.full_url|extract_domain != current_domain %}target="_blank"{% endif %}
-                           class="govuk-link govuk-heading-s govuk-!-margin-bottom-3">{{ link.value.title }}</a>
+                        {% with current_domain=request.get_host %}
+                            <a href="{{ link.value.full_url|persist_language:request.GET }}"
+                            {% if link.value.full_url|extract_domain != current_domain %}target="_blank"{% endif %}
+                            class="govuk-link govuk-heading-s govuk-!-margin-bottom-3">{{ link.value.title }}</a>
+                        {% endwith %}    
                     {% endif %}
                 </li>
             {% endfor %}

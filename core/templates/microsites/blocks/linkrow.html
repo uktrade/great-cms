@@ -19,9 +19,11 @@
                     <a href="mailto:{{ item.value.link_url }}"
                        class="govuk-button govuk-!-margin-bottom-0">{{ item.value.link_text }}</a>
                 {% else %}
-                    <a href="{{ item.value.link_url|persist_language:request.GET }}"
-                       {% if item.value.link_url|extract_domain != current_domain %}target="_blank"{% endif %}
-                       class="govuk-button govuk-!-margin-bottom-0">{{ item.value.link_text }}</a>
+                    {% with current_domain=request.get_host %}
+                        <a href="{{ item.value.link_url|persist_language:request.GET }}"
+                        {% if item.value.link_url|extract_domain != current_domain %}target="_blank"{% endif %}
+                        class="govuk-button govuk-!-margin-bottom-0">{{ item.value.link_text }}</a>
+                    {% endwith %}    
                 {% endif %}
             </div>
         </div>
