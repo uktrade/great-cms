@@ -31,6 +31,7 @@ from rest_framework.generics import GenericAPIView
 
 from config import settings
 from core import mixins as core_mixins
+from core.helpers import get_location
 from core.templatetags.content_tags import format_timedelta
 from directory_sso_api_client import sso_api_client
 from export_academy import filters, forms, helpers, models
@@ -47,11 +48,13 @@ from export_academy.mixins import (
     VerificationLinksMixin,
 )
 from export_academy.models import (
+    Booking,
     ExportAcademyHomePage,
     Registration,
     VideoOnDemandPageTracking,
 )
 from sso import helpers as sso_helpers, mixins as sso_mixins
+from sso.models import BusinessSSOUser
 
 logger = logging.getLogger(__name__)
 
@@ -757,6 +760,8 @@ class EventVideoOnDemandView(DetailView):
     event = None
     video = None
 
+    NO_COMPANY_INFO = ('', '', '')
+
     def extract_date_and_event_name(self, input_string):
         # Define a regular expression pattern for extracting the date
         date_pattern = r'(\d{2}-[a-zA-Z]+-\d{4})$'
@@ -780,6 +785,30 @@ class EventVideoOnDemandView(DetailView):
         cookies = json.loads(self.request.COOKIES.get('cookies_policy', '{}'))  # noqa: P103
         return cookies.get('usage', False)
 
+    def _get_region(self):
+        location = get_location(self.request)
+        if not location:
+            return None
+        return location.get('region', None)
+
+    def _get_company_details(self, user):
+        if not isinstance(user, BusinessSSOUser):
+            return self.NO_COMPANY_INFO
+
+        company = user.company
+        if not company:
+            return self.NO_COMPANY_INFO
+        return (company.name, company.postcode, '')
+
+    def _get_registration_and_booking(self, user_email):
+        registration = Registration.objects.filter(email=user_email).first()
+        if not registration:
+            return None, None
+        booking = Booking.objects.filter(event=self.event, registration=registration).first()
+        if not booking:
+            return registration, None
+        return registration, booking
+
     def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
         user = get_user(self.request)
         is_logged_in = get_is_authenticated(self.request)
@@ -788,13 +817,21 @@ class EventVideoOnDemandView(DetailView):
             if not already_tracked:
                 cookies_accepted_on_details_view = self._user_has_accepted_cookies()
                 details_viewed = datetime.now(timezone.utc)
-
+                company_name, company_postcode, company_phone = self._get_company_details(user)
+                registration, booking = self._get_registration_and_booking(user)
                 VideoOnDemandPageTracking.objects.create(
                     id=uuid4(),
                     user_email=user.email,
+                    hashed_uuid=user.hashed_uuid,
+                    region=self._get_region(),
+                    company_name=company_name,
+                    company_postcode=company_postcode,
+                    company_phone=company_phone,
                     details_viewed=details_viewed,
                     cookies_accepted_on_details_view=cookies_accepted_on_details_view,
                     event=self.event,
+                    booking=booking,
+                    registration=registration,
                     video=self.video,
                 )
 
