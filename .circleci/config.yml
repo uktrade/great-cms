@@ -192,6 +192,27 @@ jobs:
           name: Run Javascript tests
           command: npm test -- --maxWorkers=1
 
+  test_webpage_quality:
+    docker:
+      - *python_node_browsers
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-deps-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install node modules
+          command: npm ci
+      - run:
+          name: Install lighthouse CI
+          command: sudo npm install -g @lhci/cli@0.12.x
+      - save_cache:
+          key: v1-deps-{{ checksum "package-lock.json" }}
+          paths:
+            - 'node_modules'
+      - run:
+          name: Run lighthouse ci
+          command: lhci autorun
+
   flake8:
     docker:
       - <<: *python
@@ -227,6 +248,7 @@ workflows:
       - test
       - test_browser
       - test_javascript
+      - test_webpage_quality
       - test_load
       - black
       - flake8
