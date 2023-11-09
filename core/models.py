@@ -838,7 +838,6 @@ class DetailPage(CMSGenericPage):
                 ObjectList(cls.content_panels, heading='Content'),
                 # Added custom SEO panels in new tab.
                 ObjectList(SeoMixin.seo_meta_panels, heading='SEO', classname='seo'),
-                ObjectList(cls.layout_panels, heading='Layout'),
                 ObjectList(cls.settings_panels, heading='Settings', classname='settings'),
             ]
             return TabbedInterface(panels).bind_to_model(model=cls)
