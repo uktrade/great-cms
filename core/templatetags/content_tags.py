@@ -377,7 +377,7 @@ def handle_external_links(html_content, request):
             href = a_tag['href']
 
             # Check if the URL is an internal link
-            if not is_external_link(href, current_domain):
+            if not is_external_link(href, current_domain) or is_email(href):
                 continue
 
             a_tag['target'] = '_blank'
