@@ -150,7 +150,7 @@ jobs:
           command: sudo npm install -g @lhci/cli@0.12.x
       - run:
           name: Run lighthouse ci
-          command: lhci autorun --collect.staticDistDir=staticfiles
+          command: lhci autorun --collect.staticDistDir=react-components/dist
 
   test_load:
     working_directory: ~/greatcms
