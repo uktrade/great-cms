@@ -1,6 +1,6 @@
 # Django
 # ------------
-django==4.1.10
+django==4.1.13
 django-environ==0.4.*
 django-redis==5.2.*
 django_storages[boto3]==1.13.2
@@ -14,7 +14,7 @@ django-csp==3.7
 
 # Wagtail
 # ------------
-wagtail==4.2.2
+wagtail==4.1.9
 wagtail-factories==2.0.*
 wagtail-cache==2.2.0
 wagtailmedia==0.14.0
@@ -56,7 +56,7 @@ iso3166==1.0.1
 sphinx==1.8.*
 readtime==1.*
 cryptography>=38.0.3
-pillow>=7.1.0
+pillow>=10.1.0
 factory-boy==2.12.*
 dateparser==0.7.2
 xhtml2pdf==0.2.*

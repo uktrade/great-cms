@@ -4,7 +4,7 @@
 # ------------
 Werkzeug
 allure-pytest
-pillow>=7.1.0
+pillow>=10.1.0
 selenium
 flask
 locust==2.15.1
