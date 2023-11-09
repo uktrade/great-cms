@@ -22,7 +22,13 @@
                     {% with current_domain=request.get_host %}
                         <a href="{{ item.value.link_url|persist_language:request.GET }}"
                         {% if item.value.link_url|extract_domain != current_domain %}target="_blank"{% endif %}
-                        class="govuk-button govuk-!-margin-bottom-0">{{ item.value.link_text }}</a>
+                        class="govuk-button govuk-!-margin-bottom-0">{{ item.value.link_text }}
+                            {% if item.value.link_url|extract_domain != current_domain %}
+                                <span class="great-visually-hidden"> 
+                                    opens {{ item.value.link_text }} in a new tab
+                                </span>
+                            {% endif %}
+                    </a>
                     {% endwith %}    
                 {% endif %}
             </div>

@@ -41,6 +41,14 @@
                                 {% else %}
                                     {{ link_label }}
                                 {% endif %}
+                                {% if value.link|extract_domain != current_domain and link|extract_domain != current_domain %}
+                                <span class="great-visually-hidden"> opens 
+                                    {% if value.teaser %}
+                                        {{ value.link_label }}
+                                    {% else %}
+                                        {{ link_label }}
+                                    {% endif %} in a new tab</span>
+                                {% endif %}
                             </a>
                         {% endwith %}
                     {% endif %}

@@ -372,6 +372,7 @@ def extract_domain(url):
 def handle_external_links(html_content, request):
     current_domain = request.get_host()
     soup = BeautifulSoup(html_content, 'html.parser')
+    
     for a_tag in soup.find_all('a'):
         if a_tag.has_attr('href'):
             href = a_tag['href']
@@ -381,6 +382,12 @@ def handle_external_links(html_content, request):
                 continue
 
             a_tag['target'] = '_blank'
+
+            # Add hidden content after the label
+            hidden_content = soup.new_tag('span', attrs={'class': 'great-visually-hidden'})
+            hidden_content.string = f'opens {a_tag.text} in a new tab'
+            a_tag.append(hidden_content)
+
     return str(soup)
 
 
