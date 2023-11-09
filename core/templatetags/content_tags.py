@@ -359,7 +359,7 @@ def url_type(url):
 @register.filter
 def is_email(value):
     # Use regular expression to check if the value is an email address
-    return bool(re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$', value))
+    return bool(re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$', value)) or value.startswith('mailto:')
 
 
 @register.filter
@@ -377,7 +377,7 @@ def handle_external_links(html_content, request):
             href = a_tag['href']
 
             # Check if the URL is an internal link
-            if not is_external_link(href, current_domain) or is_email(href) or href.startswith('mailto:'):
+            if not is_external_link(href, current_domain) or is_email(href):
                 continue
 
             a_tag['target'] = '_blank'
