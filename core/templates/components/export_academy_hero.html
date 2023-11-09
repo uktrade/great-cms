@@ -19,11 +19,11 @@ If both are available, `image_url` will be used over `image`
 <div class="page-header article-header" id="hero">
     <div class="inner-header">
         <div>
-            {%if useHeaderLevel2%}
+            {% if useHeaderLevel2 %}
                 <h2>{{ hero.title }}</h2>
-            {%else%}
+            {% else %}
                  <h1>{{ hero.title }}</h1>
-            {%endif%}
+            {% endif %}
             <p>{{ hero.text| richtext | add_govuk_classes }}</p>
             <p>
                 {% is_logged_in as user_is_registered %}
