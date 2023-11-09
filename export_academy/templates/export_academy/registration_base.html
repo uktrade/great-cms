@@ -26,7 +26,7 @@
         {% block hero %}
             {% with content_snippet as hero %}
                 <div class="great ea-listing-page">
-                    {% include 'components/export_academy_hero.html' with hero=hero hide_image_for_mobile=True %}
+                    {% include 'components/export_academy_hero.html' with hero=hero hide_image_for_mobile=True useHeaderLevel2=True %}
                 </div>
             {% endwith %}
         {% endblock %}
