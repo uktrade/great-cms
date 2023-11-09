@@ -34,7 +34,7 @@
                     {% else %}
                         {% with current_domain=request.get_host %}
                             <a href="{% if value.link %}{{ value.link|persist_language:request.GET }}{% else %}{{ link|persist_language:request.GET }}{% endif %}"
-                               {% if target_link|extract_domain != current_domain %}target="_blank"{% endif %}
+                               {% if value.link|extract_domain != current_domain and link|extract_domain != current_domain %}target="_blank"{% endif %}
                                class="govuk-button govuk-!-margin-bottom-0">
                                 {% if value.teaser %}
                                     {{ value.link_label }}
