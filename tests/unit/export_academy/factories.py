@@ -111,11 +111,18 @@ class CoursePageFactory(wagtail_factories.PageFactory):
 
 class VideoOnDemandPageTrackingFactory(factory.django.DjangoModelFactory):
     id = factory.Faker('uuid4')
-    event = factory.SubFactory(EventFactory)
-    video = factory.SubFactory(GreatMediaFactory)
     user_email = factory.Sequence(lambda n: f'person{n}@example.com')
+    hashed_uuid = factory.Faker('uuid4')
+    region = factory.fuzzy.FuzzyText(length=10)
+    company_name = factory.fuzzy.FuzzyText(length=50)
+    company_postcode = factory.fuzzy.FuzzyText(length=50)
+    company_phone = factory.fuzzy.FuzzyText(length=50)
     details_viewed = timezone.localtime()
     cookies_accepted_on_details_view = False
+    event = factory.SubFactory(EventFactory)
+    booking = factory.SubFactory(BookingFactory)
+    registration = factory.SubFactory(RegistrationFactory)
+    video = factory.SubFactory(GreatMediaFactory)
 
     class Meta:
         model = VideoOnDemandPageTracking

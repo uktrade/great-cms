@@ -465,14 +465,34 @@ class ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer(serializers
     """
 
     userEmail = serializers.EmailField(source='user_email')  # noqa: N815
-    eventId = serializers.UUIDField(source='event_id')  # noqa: N815
-    videoId = serializers.UUIDField(source='video_id')  # noqa: N815
+    hashedUuid = serializers.CharField(source='hashed_uuid')  # noqa: N815
+    region = serializers.CharField()  # noqa: N815
+    companyName = serializers.CharField(source='company_name')  # noqa: N815
+    companyPostcode = serializers.CharField(source='company_postcode')  # noqa: N815
+    companyPhone = serializers.CharField(source='company_phone')  # noqa: N815
     detailsViewed = serializers.DateTimeField(source='details_viewed')  # noqa: N815
     cookiesAcceptedOnDetailsView = serializers.BooleanField(source='cookies_accepted_on_details_view')  # noqa: N815
+    eventId = serializers.UUIDField(source='event_id')  # noqa: N815
+    bookingId = serializers.UUIDField(source='booking_id')  # noqa: N815
+    registrationId = serializers.UUIDField(source='registration_id')  # noqa: N815
+    videoId = serializers.UUIDField(source='video_id')  # noqa: N815
 
     class Meta:
         model = VideoOnDemandPageTracking
-        fields = ['eventId', 'userEmail', 'videoId', 'detailsViewed', 'cookiesAcceptedOnDetailsView']
+        fields = [
+            'userEmail',
+            'hashedUuid',
+            'region',
+            'companyName',
+            'companyPostcode',
+            'companyPhone',
+            'detailsViewed',
+            'cookiesAcceptedOnDetailsView',
+            'eventId',
+            'bookingId',
+            'registrationId',
+            'videoId',
+        ]
 
     def to_representation(self, instance):
         """

@@ -585,11 +585,21 @@ class VideoOnDemandPageTracking(TimeStampedModel):
         primary_key=True,
         default=uuid.uuid4,
     )
-    user_email = models.EmailField(blank=True)
-    event = models.ForeignKey(Event, null=True, on_delete=models.SET_NULL, related_name='events')
-    video = models.ForeignKey(GreatMedia, null=True, blank=True, on_delete=models.SET_NULL, related_name='video')
+
+    user_email = models.EmailField(null=False, blank=False)
+    hashed_uuid = models.CharField(max_length=200)
+    region = models.CharField(max_length=10, null=True, blank=True)
+    company_name = models.CharField(max_length=50, null=True, blank=True)
+    company_postcode = models.CharField(max_length=50, null=True, blank=True)
+    company_phone = models.CharField(max_length=50, null=True, blank=True)
     details_viewed = models.DateTimeField(blank=True, null=True)
     cookies_accepted_on_details_view = models.BooleanField(default=False)
+    event = models.ForeignKey(Event, null=True, on_delete=models.SET_NULL, related_name='vod_event')
+    booking = models.ForeignKey(Booking, null=True, on_delete=models.SET_NULL, related_name='vod_booking')
+    registration = models.ForeignKey(
+        Registration, null=True, on_delete=models.SET_NULL, related_name='vod_registration'
+    )
+    video = models.ForeignKey(GreatMedia, null=True, blank=True, on_delete=models.SET_NULL, related_name='vod_video')
 
     @classmethod
     def user_already_recorded(cls, user_email, event, video):
