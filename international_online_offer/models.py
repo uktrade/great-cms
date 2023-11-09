@@ -271,6 +271,12 @@ class EYBArticlePage(BaseContentPage):
 
                 professions_by_sector = helpers.get_sector_professions_by_level(triage_data.sector)
 
+                home_url = '/international/expand-your-business-in-the-uk/guide/'
+                if request.GET.get('back'):
+                    home_url += '#personalised-guide'
+
+                breadcrumbs = [{'name': 'Guide', 'url': home_url}, {'name': self.article_title, 'url': self.url}]
+
                 context.update(
                     triage_data=triage_data,
                     location_form=LocationSelectForm(initial={'location': location}),
@@ -285,6 +291,7 @@ class EYBArticlePage(BaseContentPage):
                     professions_by_sector=professions_by_sector,
                     show_salary_component=show_salary_component,
                     show_rent_component=show_rent_component,
+                    breadcrumbs=breadcrumbs,
                 )
         site_section_url = ''
         if self.url:
@@ -314,7 +321,15 @@ class EYBTradeShowsPage(BaseContentPage):
                 IOOTradeShowPage.objects.live().filter(tags__name=triage_data.sector) if triage_data.sector else []
             )
 
-        context.update(triage_data=triage_data, all_tradeshows=all_tradeshows)
+        breadcrumbs = [
+            {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#personalised-guide'},
+            {'name': 'Trade events', 'url': request.path},
+        ]
+        context.update(
+            triage_data=triage_data,
+            all_tradeshows=all_tradeshows,
+            breadcrumbs=breadcrumbs,
+        )
         self.set_ga360_payload(
             page_id='TradeShows',
             business_unit='ExpandYourBusiness',
