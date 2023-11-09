@@ -483,8 +483,11 @@ class DomesticExportSupportFormStep7View(contact_mixins.ExportSupportFormMixin, 
     def submit_enquiry(self, form):
         cleaned_data = form.cleaned_data
 
-        original_form_data = {**self.initial_data, **cleaned_data}
-        form_data = helpers.dpe_clean_submission_for_zendesk(original_form_data)
+        form_data = {**self.initial_data, **cleaned_data}
+
+        form_with_custom_fields = helpers.populate_custom_fields(form_data)
+
+        human_readable_form_data = helpers.dpe_clean_submission_for_zendesk(form_with_custom_fields)
 
         sender = Sender(
             email_address=form_data.get('email'),
@@ -502,7 +505,7 @@ class DomesticExportSupportFormStep7View(contact_mixins.ExportSupportFormMixin, 
             sort_fields_alphabetically=False,
         )
 
-        response = action.save(form_data)
+        response = action.save(human_readable_form_data)
         response.raise_for_status()
 
     def get_context_data(self, **kwargs):

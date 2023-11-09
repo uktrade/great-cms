@@ -1,8 +1,13 @@
+import logging
+
 import requests
 from django.urls import reverse_lazy
 
+from contact.models import DPEFormToZendeskFieldMapping
 from directory_api_client import api_client
 from directory_constants.choices import COUNTRY_CHOICES
+
+logger = logging.getLogger(__name__)
 
 
 def get_free_trade_agreements():
@@ -204,6 +209,40 @@ def get_steps(form_data, second_step_edit_page, markets):
             'change_text': 'Amend about your enquiry section',
         },
     ]
+
+
+def get_field_zendesk_mapping_value(mapping_obj, field, form_data):
+    if mapping_obj.dpe_form_value_to_zendesk_field_value is not None:
+        return mapping_obj.dpe_form_value_to_zendesk_field_value[form_data[field]]
+    elif field == 'markets':
+        markets_long_form = [country[1] for country in COUNTRY_CHOICES if country[0] in form_data[field]]
+        return [f"{country.lower().replace(' ', '_')}__ess_export" for country in markets_long_form]
+    elif field == 'sector_primary':
+        # maps all l1 sectors (sector_primary, sector_secondary, sector_tertiary)
+        return [
+            f"{sector.lower().replace(',', '').replace(' ', '_')}__ess_sector_l1"
+            for k, sector in form_data.items()
+            if 'sector' in k
+        ]
+    else:
+        return form_data[field]
+
+
+def populate_custom_fields(form_data):
+    result = {**form_data}
+    result['_custom_fields'] = []
+    for field in form_data.keys():
+        if DPEFormToZendeskFieldMapping.objects.filter(dpe_form_field_id=field).exists():
+            mapping_obj = DPEFormToZendeskFieldMapping.objects.get(dpe_form_field_id=field)
+
+            try:
+                result['_custom_fields'].append(
+                    {mapping_obj.zendesk_field_id: get_field_zendesk_mapping_value(mapping_obj, field, form_data)}
+                )
+            except Exception as e:
+                logger.error(e)
+
+    return result
 
 
 def dpe_clean_submission_for_zendesk(submission_data: dict):
