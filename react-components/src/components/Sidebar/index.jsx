@@ -24,7 +24,7 @@ export const Sidebar = memo(
               className="sidebar__button text-blue-deep-40"
               onClick={() => setToggle(!toggle)}
             >
-              <i
+              <span role='img'
                 className={`fas fa-angle-double-${toggle ? 'left' : 'right'}`}
               />
               <span className="visually-hidden">{toggle ? 'Close' : 'Expand'}</span>

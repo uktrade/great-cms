@@ -126,7 +126,7 @@ def get_event_join_button(event):
         {
             'url': reverse_lazy('export_academy:join', kwargs=dict(event_id=event.pk)),
             'label': """Join event<span class="great-visually-hidden">opens in new tab</span>
-            <i class="fa fa-external-link-alt govuk-!-margin-right-0 govuk-!-margin-left-2" aria-hidden="true"></i>""",
+            <span role="img" class="fa fa-external-link-alt govuk-!-margin-right-0 govuk-!-margin-left-2" aria-hidden="true"></span>""",
             'classname': 'govuk-button ukea-ga-tracking govuk-!-margin-bottom-0',
             'title': f'Join {event.name}',
         },
@@ -135,7 +135,7 @@ def get_event_join_button(event):
 
 def get_ics_button(event, on_confirmation):
     return {
-        'label': f'<i class="fa fa-calendar-plus" aria-hidden="true"></i>Add to calendar<span '
+        'label': f'<span role="img"  class="fa fa-calendar-plus" aria-hidden="true"></span>Add to calendar<span '
         f'class="great-visually-hidden">{event.name}</span>',
         'value': 'Confirmed',
         'type': 'submit',
@@ -153,7 +153,7 @@ def get_event_completed_buttons(event):
             result += [
                 {
                     'url': reverse_lazy('export_academy:event-video', kwargs=dict(pk=event.pk)),
-                    'label': f"""<i class="fa fa-play" aria-hidden="true"></i>Play
+                    'label': f"""<span role="img"  class="fa fa-play" aria-hidden="true"></span>Play
                             <span class="great-visually-hidden"> recording of {event.name}</span>""",
                     'classname': 'govuk-button ukea-ga-tracking govuk-!-margin-bottom-0',
                     'title': f'Play recording of {event.name}',
