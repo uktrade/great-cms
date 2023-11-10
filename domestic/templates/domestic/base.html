@@ -153,9 +153,6 @@
         {% endblock %}
         <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled')</script>
         {% block skip_link %}<a id="skip-link" href="#content">Skip to main content</a>{% endblock %}
-        {% block cookie_notice %}
-            {% include 'components/cookie_notice.html' %}
-        {% endblock %}
         {% block body_header %}
             {% include 'core/header.html' %}
         {% endblock %}
