@@ -24,7 +24,7 @@ export const Confirmation = memo(
                 className="button primary-button delete-button inline m-r-xs m-b-s"
                 onClick={onYes}
               >
-                {yesIcon && <span role='img' className={`govuk-!-margin-right fas ${yesIcon}`} />}
+                {yesIcon && <span role='img' className={`govuk-!-margin-right-2 fas ${yesIcon}`} />}
                 <span>{yesLabel}</span>
               </button>
               <button
@@ -32,7 +32,7 @@ export const Confirmation = memo(
                 className="button secondary-button inline m-b-s"
                 onClick={onNo}
               >
-                {noIcon && <span role='img' className={`govuk-!-margin-right fas ${noIcon}`} />}
+                {noIcon && <span role='img' className={`govuk-!-margin-right-2 fas ${noIcon}`} />}
                 <span>{noLabel}</span>
               </button>
             </div>

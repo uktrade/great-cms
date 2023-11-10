@@ -55,7 +55,7 @@ export default function ActionBar({exportPlanProgress}) {
         type="button"
         onClick={downloadPlan}
       >
-        <span className="fas fa-download" />
+        <span className="fas fa-download govuk-!-margin-right-2" />
         Download plan
       </button>
 

@@ -126,7 +126,8 @@ def get_event_join_button(event):
         {
             'url': reverse_lazy('export_academy:join', kwargs=dict(event_id=event.pk)),
             'label': """Join event<span class="great-visually-hidden">opens in new tab</span>
-            <span role="img" class="fa fa-external-link-alt govuk-!-margin-right-0 govuk-!-margin-left-2" aria-hidden="true"></span>""",
+            <span role="img" class="fa fa-external-link-alt govuk-!-margin-right-0 
+            govuk-!-margin-left-2" aria-hidden="true"></span>""",
             'classname': 'govuk-button ukea-ga-tracking govuk-!-margin-bottom-0',
             'title': f'Join {event.name}',
         },
