@@ -510,7 +510,7 @@ class TestMicrositeSerializer(TestCase):
                 'content': '',
                 'name': self.microsite.page_title,
                 'url': f'https://www.great.gov.uk{self.microsite.get_url()}',
-                'locale_id': 9,
+                'locale_id': self.microsite.locale_id,
             },
         }
 
