@@ -1,7 +1,6 @@
 {% load add_govuk_classes from content_tags %}
 {% load persist_language from component_tags %}
 {% load is_email from content_tags %}
-{% load extract_domain from content_tags %}
 {% load handle_external_links from content_tags %}
 {% for item in value %}
     {% if not forloop.counter|divisibleby:"2" or value|length == 1 %}
