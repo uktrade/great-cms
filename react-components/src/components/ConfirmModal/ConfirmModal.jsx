@@ -18,7 +18,7 @@ export const ConfirmModal = memo(({ deleteItem, hasData }) => {
           }
         }}
       >
-        <span className="fas fa-trash-alt govuk-!-margin-right-2 great-red-text" title="delete Objective" />
+        <span role='img' className="fas fa-trash-alt govuk-!-margin-right-2" title="delete Objective" />
         <span>Delete</span>
       </button>
       <ReactModal
