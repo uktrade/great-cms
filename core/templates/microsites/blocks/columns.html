@@ -21,7 +21,7 @@
                 </div>
             {% endif %}
             {% filter add_govuk_classes %}
-             {% filter handle_external_links:request%}
+             {% filter handle_external_links:request %}
                 {{ item.value.text }}
                   {% endfilter %}
             {% endfilter %}
@@ -30,11 +30,10 @@
                     <a href="mailto:{{ item.value.button_url }}"
                        class="govuk-button govuk-!-margin-bottom-0">{% translate item.value.button_label %}</a>
                 {% else %}
-                    {% with current_domain=request.get_host %}
+                    {% filter handle_external_links:request %}
                         <a href="{{ item.value.button_url|persist_language:request.GET }}"
-                           {% if item.value.button_url|extract_domain != current_domain %}target="_blank"{% endif %}
                            class="govuk-button govuk-!-margin-bottom-0">{% translate item.value.button_label %}</a>
-                    {% endwith %}
+                    {% endfilter %}
                 {% endif %}
             {% endif %}
         </div>

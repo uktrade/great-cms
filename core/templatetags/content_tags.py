@@ -385,7 +385,7 @@ def handle_external_links(html_content, request):
 
             # Add hidden content after the label
             hidden_content = soup.new_tag('span', attrs={'class': 'great-visually-hidden'})
-            hidden_content.string = f'opens {a_tag.text} in a new tab'
+            hidden_content.string = f'opens www.{extract_domain(href)} in a new tab'
             a_tag.append(hidden_content)
 
     return str(soup)

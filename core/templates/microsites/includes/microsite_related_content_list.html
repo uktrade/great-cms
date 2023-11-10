@@ -4,6 +4,7 @@
 {% get_template_translation_enabled as TRANSLATE_TEXT %}
 {% load is_email from content_tags %}
 {% load extract_domain from content_tags %}
+{% load handle_external_links from content_tags %}
 {% if page.related_links %}
     <div>
         <h2 class="govuk-heading-m">{% translate "Related content" %}</h2>
@@ -14,17 +15,11 @@
                         <a href="mailto:{{ link.value.full_url }}"
                            class="govuk-link govuk-heading-s govuk-!-margin-bottom-3">{{ link.value.title }}</a>
                     {% else %}
-                        {% with current_domain=request.get_host %}
+                        {% filter handle_external_links:request %}
                             <a href="{{ link.value.full_url|persist_language:request.GET }}"
-                            {% if link.value.full_url|extract_domain != current_domain %}target="_blank"{% endif %}
                             class="govuk-link govuk-heading-s govuk-!-margin-bottom-3">{{ link.value.title }}
-                        {% if link.value.full_url|extract_domain != current_domain %}
-                                <span class="great-visually-hidden"> 
-                                    opens {{ link.value.title }} in a new tab
-                                </span>
-                            {% endif %}
-                        </a>
-                        {% endwith %}    
+                            </a>
+                        {% endfilter %}
                     {% endif %}
                 </li>
             {% endfor %}
