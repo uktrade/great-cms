@@ -14,7 +14,7 @@ allure-pytest==2.13.2
     # via -r requirements_test.in
 allure-python-commons==2.13.2
     # via allure-pytest
-amqp==5.1.1
+amqp==5.2.0
     # via kombu
 anyascii==0.3.2
     # via wagtail
@@ -54,7 +54,7 @@ beautifulsoup4==4.11.2
     #   wagtail
 billiard==3.6.4.0
     # via celery
-black==23.10.1
+black==23.11.0
     # via
     #   -r requirements_test.in
     #   blacken-docs
@@ -81,6 +81,7 @@ build==1.0.3
 celery[redis]==5.2.7
     # via
     #   -r requirements.in
+    #   celery
     #   django-celery-beat
 certifi==2023.7.22
     # via
@@ -119,6 +120,7 @@ configargparse==1.7
     # via locust
 coverage[toml]==7.3.2
     # via
+    #   coverage
     #   pytest-codecov
     #   pytest-cov
 cron-descriptor==1.4.0
@@ -128,7 +130,7 @@ cryptography==41.0.5
     #   -r requirements.in
     #   pyhanko
     #   pyhanko-certvalidator
-cssbeautifier==1.14.9
+cssbeautifier==1.14.11
     # via djlint
 cssselect==1.2.0
     # via pyquery
@@ -236,7 +238,9 @@ django-redis==5.2.0
 django-staff-sso-client==4.2.0
     # via -r requirements.in
 django-storages[boto3]==1.13.2
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   django-storages
 django-taggit==3.1.0
     # via wagtail
 django-timezone-field==6.0.1
@@ -319,6 +323,10 @@ flask-basicauth==0.2.0
     # via locust
 flask-cors==4.0.0
     # via locust
+freetype-py==2.3.0
+    # via
+    #   reportlab
+    #   rlpycairo
 freezegun==1.1.0
     # via -r requirements_test.in
 geoip2==2.9.0
@@ -351,7 +359,7 @@ html5lib==1.1
     # via
     #   wagtail
     #   xhtml2pdf
-icalendar==5.0.10
+icalendar==5.0.11
     # via -r requirements.in
 identify==2.5.31
     # via pre-commit
@@ -391,7 +399,7 @@ jmespath==1.0.1
     # via
     #   boto3
     #   botocore
-jsbeautifier==1.14.9
+jsbeautifier==1.14.11
     # via
     #   cssbeautifier
     #   djlint
@@ -402,7 +410,7 @@ jsonschema==3.2.0
     #   directory-components
     #   drf-spectacular
     #   great-components
-kombu==5.3.2
+kombu==5.3.3
     # via celery
 l18n==2021.3
     # via wagtail
@@ -516,6 +524,8 @@ ptyprocess==0.7.0
     # via pexpect
 pure-eval==0.2.2
     # via stack-data
+pycairo==1.25.1
+    # via rlpycairo
 pycodestyle==2.11.1
     # via
     #   flake8
@@ -570,7 +580,7 @@ pytest-cov==4.1.0
     # via
     #   -r requirements_test.in
     #   pytest-codecov
-pytest-django==4.6.0
+pytest-django==4.7.0
     # via -r requirements_test.in
 pytest-sugar==0.9.7
     # via -r requirements_test.in
@@ -625,8 +635,9 @@ regex==2023.10.3
     # via
     #   dateparser
     #   djlint
-reportlab==3.6.13
+reportlab[pycairo]==4.0.7
     # via
+    #   reportlab
     #   svglib
     #   xhtml2pdf
 requests==2.31.0
@@ -653,6 +664,8 @@ requests-oauthlib==1.3.1
     # via django-staff-sso-client
 requests-toolbelt==1.0.0
     # via browserstack-sdk
+rlpycairo==0.3.0
+    # via reportlab
 roundrobin==0.0.4
     # via locust
 ruamel-yaml==0.18.5
@@ -661,7 +674,7 @@ ruamel-yaml-clib==0.2.8
     # via ruamel-yaml
 s3transfer==0.6.2
     # via boto3
-selenium==4.15.1
+selenium==4.15.2
     # via -r requirements_test.in
 sentry-sdk==1.14.0
     # via -r requirements.in
@@ -743,7 +756,7 @@ traitlets==5.13.0
     # via
     #   ipython
     #   matplotlib-inline
-trio==0.23.0
+trio==0.23.1
     # via
     #   selenium
     #   trio-websocket
@@ -783,7 +796,7 @@ urllib3[socks]==1.26.18
     #   requests
     #   selenium
     #   sentry-sdk
-vine==5.0.0
+vine==5.1.0
     # via
     #   amqp
     #   celery
@@ -840,7 +853,7 @@ willow==1.4.1
     # via wagtail
 wsproto==1.2.0
     # via trio-websocket
-xhtml2pdf==0.2.11
+xhtml2pdf==0.2.12
     # via -r requirements.in
 zipp==3.17.0
     # via importlib-metadata
