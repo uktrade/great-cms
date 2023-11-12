@@ -154,7 +154,7 @@ def get_event_completed_buttons(event):
             result += [
                 {
                     'url': reverse_lazy('export_academy:event-video', kwargs=dict(pk=event.pk)),
-                    'label': f"""<span role="img"  class="fa fa-play" aria-hidden="true"></span>Play
+                    'label': f"""<span role="img" class="fa fa-play" aria-hidden="true"></span>Play
                             <span class="great-visually-hidden"> recording of {event.name}</span>""",
                     'classname': 'govuk-button ukea-ga-tracking govuk-!-margin-bottom-0',
                     'title': f'Play recording of {event.name}',
