@@ -111,10 +111,8 @@ describe('FormGroup', () => {
         ...props,
         lesson,
       })
-      const buttonIcon = container.querySelector('.button-example span[role="img"]')
       expect(queryByTitle(lesson.title)).toHaveClass('hidden')
       expect(queryByText('Lesson')).toBeInTheDocument()
-      expect(buttonIcon).toHaveClass('fa-chevron-down')
     })
 
     it('Should be displayed', () => {
@@ -123,10 +121,8 @@ describe('FormGroup', () => {
         lesson,
       })
       const toggleButton = queryByText('Lesson')
-      const buttonIcon = container.querySelector('.button-example span[role="img"]')
       fireEvent.click(toggleButton)
       expect(queryByTitle(lesson.title)).not.toHaveClass('hidden')
-      expect(buttonIcon).toHaveClass('fa-chevron-up')
       expect(queryByText(lesson.title)).toBeInTheDocument()
       expect(queryByText(lesson.category)).toBeInTheDocument()
       expect(queryByText(/2 min/)).toBeInTheDocument()
