@@ -834,9 +834,8 @@ class DetailPage(CMSGenericPage):
         @cached_classmethod
         def get_edit_handler(cls):  # noqa
             panels = [
-                # Normal Wagtail panels.
                 ObjectList(cls.content_panels, heading='Content'),
-                # Added custom SEO panels in new tab.
+                ObjectList(cls.layout_panels, heading='Layout'),
                 ObjectList(SeoMixin.seo_meta_panels, heading='SEO', classname='seo'),
                 ObjectList(cls.settings_panels, heading='Settings', classname='settings'),
             ]
