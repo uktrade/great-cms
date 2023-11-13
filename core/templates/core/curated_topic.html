@@ -22,7 +22,7 @@
                     <a class="learn__lesson-item-link h-xs"
                        href="{% pageurl page %}"
                        title="{{ page.title }}">
-                        <span class="learn__lesson-item-link-text great-title-link">{{ page.title }}</span>
+                        <span class="learn__lesson-item-link-text great-title-link no-underline">{{ page.title }}</span>
                         {% if page.id in completed_lessons %}
                                 <span class="great-badge completed">Completed</span>
                         {% endif %}

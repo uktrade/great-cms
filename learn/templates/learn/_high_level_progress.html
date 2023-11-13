@@ -1,5 +1,4 @@
 {% if module_completion_data.completion_count and module_completion_data.total_pages %}
-    {% if module_completion_data.completion_count != module_completion_data.total_pages %}
     <div class="learn__category-progress-container">
         <div class="learn__category-progress">
             <span style="width: {{ module_completion_data.completion_percentage }}%"></span>
@@ -11,9 +10,4 @@
             lesson{{ module_completion_data.total_pages|pluralize }} completed
         </p>
     </div>
-    {% else %}
-        <div class="learn__category-progress-container">
-            <span class="great-badge completed float-right">Completed</span>
-        </div>
-    {% endif %}
 {% endif %}

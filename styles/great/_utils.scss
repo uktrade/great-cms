@@ -26,7 +26,7 @@
     font-family: $great-font-bold;
     -webkit-font-smoothing: auto;
     &:not(.great-title-link) {
-    color: $great-dark-grey;
+      color: $great-dark-grey;
     }
   }
 
@@ -760,6 +760,14 @@ img.richtext-image {
   text-underline-position: under;
   color: $color-gov-link;
   text-decoration-color: $color-gov-link;
+
+  &.no-underline {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 
   &:hover:not(:focus) {
     color: #003078;
