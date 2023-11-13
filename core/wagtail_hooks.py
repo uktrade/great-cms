@@ -613,9 +613,7 @@ def register_strong_feature(features):
         'description': 'Bold',
     }
 
-    features.register_editor_plugin(
-        'draftail', feature_name, draftail_features.InlineStyleFeature(control)
-    )
+    features.register_editor_plugin('draftail', feature_name, draftail_features.InlineStyleFeature(control))
 
     db_conversion = {
         'from_database_format': {tag: InlineStyleElementHandler(type_)},
@@ -623,4 +621,3 @@ def register_strong_feature(features):
     }
 
     features.register_converter_rule('contentstate', feature_name, db_conversion)
-    
