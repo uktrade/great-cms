@@ -6,6 +6,7 @@ from urllib.parse import urlparse
 
 import boto3
 import readtime
+from wagtail.admin.rich_text.converters.html_to_contentstate import InlineStyleElementHandler
 import wagtail.admin.rich_text.editors.draftail.features as draftail_features
 from bs4 import BeautifulSoup
 from django.conf import settings
@@ -594,3 +595,32 @@ def register_rich_text_anchor_identifier_feature(features):
     )
 
     features.register_link_type(AnchorIdentifierLinkHandler)
+
+
+@hooks.register('register_rich_text_features')
+def register_strong_feature(features):
+    """
+    Registering the `strong` feature. It will render bold text with `strong` tag.
+    Default Wagtail uses the `b` tag.
+    """
+    feature_name = 'strong'
+    type_ = 'BOLD'
+    tag = 'strong'
+
+    control = {
+        'type': type_,
+        'icon': 'bold',
+        'description': 'Bold',
+    }
+
+    features.register_editor_plugin(
+        'draftail', feature_name, draftail_features.InlineStyleFeature(control)
+    )
+
+    db_conversion = {
+        'from_database_format': {tag: InlineStyleElementHandler(type_)},
+        'to_database_format': {'style_map': {type_: tag}},
+    }
+
+    features.register_converter_rule('contentstate', feature_name, db_conversion)
+    
