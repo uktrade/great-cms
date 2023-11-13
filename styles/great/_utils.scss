@@ -24,8 +24,10 @@
   h6,
   .govuk-warning-text__text {
     font-family: $great-font-bold;
-    color: $great-dark-grey;
     -webkit-font-smoothing: auto;
+    &:not(.great-title-link) {
+    color: $great-dark-grey;
+    }
   }
 
   h2 {
@@ -756,10 +758,13 @@ img.richtext-image {
   display: inline-block;
   text-decoration: underline;
   text-underline-position: under;
+  color: $color-gov-link;
+  text-decoration-color: $color-gov-link;
 
   &:hover:not(:focus) {
     color: #003078;
     text-decoration-thickness: 3px;
+    text-decoration-color: #003078;
   }
 }
 
@@ -884,4 +889,8 @@ img.richtext-image {
   @include great-title-link-mixin();
   font-family: inherit !important;
   font-size: inherit !important;
+}
+
+.float-right {
+  float: right;
 }

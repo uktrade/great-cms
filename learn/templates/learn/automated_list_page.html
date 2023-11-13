@@ -17,26 +17,22 @@
             <div>
                 <h1 class="govuk-heading-xl">{{ page.title }}</h1>
                 <p>{{ page.description | richtext | add_govuk_classes }}</p>
-                {% if next_lesson %}
-                    <a class="button primary-button" href={% pageurl next_lesson %}>Continue next lesson</a>
-                {% endif %}
             </div>
             <div class="image-container"></div>
         </div>
     </div>
-    {% breadcrumbs 'Learn to export' %}
+  {% breadcrumbs 'Learn to export' %}
     <a href={{ BREADCRUMBS_ROOT_URL }}>great.gov.uk</a>
 {% endbreadcrumbs %}
-<section id="learn-root" class="learn__page learn__categories-page container">
-    <section class="learn-to-export-card">
-        {% for learning_module in page.get_children.specific.live %}
-            {% with high_level_completion_progress|get_item:learning_module.id as module_completion_data %}
-                <article>
-                    <a href="{% pageurl learning_module %}">
-                        <div>
-                            <h2>{{ learning_module.title }}</h2>
-                            <p>{{ learning_module.heading | richtext }}</p>
-                            {% if request.user.is_authenticated %}
+    <section id="learn-root" class="great learn__page learn__categories-page container">
+        <section class="learn-to-export-card">
+            {% for learning_module in page.get_children.specific.live %}
+                {% with high_level_completion_progress|get_item:learning_module.id as module_completion_data %}
+                    <article>
+                        <a href="{% pageurl learning_module %}">
+                            <div>
+                                <h2 class="great-title-link">{{ learning_module.title }}</h2>
+                                <p>{{ learning_module.heading | richtext }}</p>
                                 <div class="duration-container">
                                     <i class="fa fa-clock"></i>
                                     {# djlint:off #}
@@ -44,7 +40,12 @@
                                             <span class="learn__category-lessons"> {{ learning_module.count_detail_pages }} lesson{% pluralize learning_module.count_detail_pages %}</span>
                                     {# djlint:on #}
                                 </div>
-                            {% endif %}
+                            </div>
+                            <div class="progess-container">
+                                {% if module_completion_data.completion_count %}
+                                    {% include "learn/_high_level_progress.html" with module_completion_data=module_completion_data only %}
+                                {% endif %}
+                            </div>
                         </div>
                         <div class="progess-container">
                             {% if not module_completion_data.completion_count %}
