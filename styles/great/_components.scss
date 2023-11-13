@@ -600,7 +600,7 @@ figure.great-blockquote {
 }
 
 .great-header {
-  > div {
+  .great-header__container {
     justify-content: space-between;
     align-items: end;
 
