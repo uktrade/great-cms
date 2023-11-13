@@ -695,6 +695,7 @@ def test_ukea_videoondemandpagetracking_serializer():
     serializer = ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer()
 
     output = serializer.to_representation(instance)
+
     assert output == {
         'id': f'dit:exportAcademy:videoondemandpagetracking:{instance.id}:Update',
         'type': 'Update',
@@ -708,13 +709,13 @@ def test_ukea_videoondemandpagetracking_serializer():
             'companyName': instance.company_name,
             'companyPostcode': instance.company_postcode,
             'companyPhone': instance.company_phone,
-            'detailsViewed': instance.details_viewed.isoformat().replace('+00:00', 'Z'),
+            'detailsViewed': instance.details_viewed,
             'cookiesAcceptedOnDetailsView': instance.cookies_accepted_on_details_view,
-            'eventId': instance.event_id,
+            'eventId': instance.event.id,
             'bookingId': instance.booking_id,
-            'registrationId': instance.registration_id,
-            'videoId': f'{instance.video_id}',
-            'videoName': instance.video_name,
+            'registrationId': instance.registration.id,
+            'videoId': instance.video.id,
+            'videoTitle': instance.video.title,
             'created': instance.created.isoformat(),
             'modified': instance.modified.isoformat(),
         },

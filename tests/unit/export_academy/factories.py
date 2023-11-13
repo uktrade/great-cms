@@ -23,6 +23,7 @@ class GreatMediaFactory(wagtail_factories.DocumentFactory):
     transcript = factory.fuzzy.FuzzyText(length=15)
     subtitles_en = factory.fuzzy.FuzzyText(length=15)
     duration = factory.fuzzy.FuzzyDecimal(1)
+    title = factory.fuzzy.FuzzyText(length=255)
 
     class Meta:
         model = GreatMedia

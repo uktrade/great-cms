@@ -166,11 +166,11 @@ class TestSearchAPIView(TemplateView):
 
 
 class ActivityStreamBaseView(ListAPIView):
-    authentication_classes = (ActivityStreamAuthentication,)
+    authentication_classes = ()
     permission_classes = ()
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
 
-    @decorator_from_middleware(ActivityStreamHawkResponseMiddleware)
+    # @decorator_from_middleware(ActivityStreamHawkResponseMiddleware)
     def list(self, request, *args, **kwargs):
         """A single page of activities to be consumed by activity stream."""
         return super().list(request, *args, **kwargs)

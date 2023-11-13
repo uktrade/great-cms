@@ -606,6 +606,9 @@ class VideoOnDemandPageTracking(TimeStampedModel):
         video_on_demand_page_tracking = cls.objects.filter(user_email=user_email, event=event, video=video).first()
         return True if video_on_demand_page_tracking else False
 
+    def __repr__(self):
+        return f'User: {self.user_email}, Event: {self.event.name}, Video: {self.video.title}'
+
     def __str__(self):
         return f'User: {self.user_email}, Event: {self.event.id}, Video: {self.video.id}'
 

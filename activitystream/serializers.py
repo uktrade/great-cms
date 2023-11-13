@@ -5,7 +5,7 @@ from taggit.serializers import TagListSerializerField
 from wagtail.models import Page
 from wagtail.rich_text import RichText, get_text_for_indexing
 
-from core.models import MicrositePage
+from core.models import GreatMedia, MicrositePage
 from domestic.models import ArticlePage
 from export_academy.models import (
     Booking,
@@ -460,6 +460,19 @@ class ActivityStreamCmsContentSerializer(serializers.ModelSerializer):
         }
 
 
+class GreatMediaSerializer(serializers.ModelSerializer):
+    """
+    GreatMedia serializer for Activity Stream.
+    """
+
+    videoId = serializers.UUIDField(source='id')  # noqa: N815
+    videoTitle = serializers.CharField(source='title')  # noqa: N815
+
+    class Meta:
+        model = GreatMedia
+        fields = ['id', 'title']
+
+
 class ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer(serializers.ModelSerializer):
     """
     UKEA's VideoOnDemandPageTracking serializer for Activity Stream.
@@ -476,8 +489,7 @@ class ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer(serializers
     eventId = serializers.UUIDField(source='event_id')  # noqa: N815
     bookingId = serializers.UUIDField(source='booking_id')  # noqa: N815
     registrationId = serializers.UUIDField(source='registration_id')  # noqa: N815
-    videoId = serializers.UUIDField(source='video_id')  # noqa: N815
-    videoName = serializers.CharField(source='video_title')  # noqa: N815
+    video = GreatMediaSerializer(many=False)
 
     class Meta:
         model = VideoOnDemandPageTracking
@@ -512,6 +524,18 @@ class ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer(serializers
                 'type': prefix,
                 'created': instance.created.isoformat(),
                 'modified': instance.modified.isoformat(),
-                **{f'{k}': v for k, v in super().to_representation(instance).items()},
+                'userEmail': instance.user_email,
+                'hashedUuid': instance.hashed_uuid,
+                'region': instance.region,
+                'companyName': instance.company_name,
+                'companyPostcode': instance.company_postcode,
+                'companyPhone': instance.company_phone,
+                'detailsViewed': instance.details_viewed,
+                'cookiesAcceptedOnDetailsView': instance.cookies_accepted_on_details_view,
+                'eventId': instance.event.id,
+                'bookingId': instance.booking.id if instance.booking else None,
+                'registrationId': instance.registration.id if instance.registration else None,
+                'videoId': instance.video.id,
+                'videoTitle': instance.video.title,
             },
         }

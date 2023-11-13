@@ -810,35 +810,38 @@ class EventVideoOnDemandView(DetailView):
         return registration, booking
 
     def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+        if not self.event:
+            self._get_request_details()
         user = get_user(self.request)
         is_logged_in = get_is_authenticated(self.request)
         if user and is_logged_in:
-            already_tracked = VideoOnDemandPageTracking.user_already_recorded(user.email, self.event, self.video)
-            if not already_tracked:
-                cookies_accepted_on_details_view = self._user_has_accepted_cookies()
-                details_viewed = datetime.now(timezone.utc)
-                company_name, company_postcode, company_phone = self._get_company_details(user)
-                registration, booking = self._get_registration_and_booking(user)
+            if self.event and self.video and user.email:
+                already_tracked = VideoOnDemandPageTracking.user_already_recorded(user.email, self.event, self.video)
+                if not already_tracked:
+                    cookies_accepted_on_details_view = self._user_has_accepted_cookies()
+                    details_viewed = datetime.now(timezone.utc)
+                    company_name, company_postcode, company_phone = self._get_company_details(user)
+                    registration, booking = self._get_registration_and_booking(user)
 
-                VideoOnDemandPageTracking.objects.create(
-                    id=uuid4(),
-                    user_email=user.email,
-                    hashed_uuid=user.hashed_uuid,
-                    region=self._get_region(),
-                    company_name=company_name,
-                    company_postcode=company_postcode,
-                    company_phone=company_phone,
-                    details_viewed=details_viewed,
-                    cookies_accepted_on_details_view=cookies_accepted_on_details_view,
-                    event=self.event,
-                    booking=booking,
-                    registration=registration,
-                    video=self.video,
-                )
+                    VideoOnDemandPageTracking.objects.create(
+                        id=uuid4(),
+                        user_email=user.email,
+                        hashed_uuid=user.hashed_uuid,
+                        region=self._get_region(),
+                        company_name=company_name,
+                        company_postcode=company_postcode,
+                        company_phone=company_phone,
+                        details_viewed=details_viewed,
+                        cookies_accepted_on_details_view=cookies_accepted_on_details_view,
+                        event=self.event,
+                        booking=booking,
+                        registration=registration,
+                        video=self.video,
+                    )
 
         return super().get(request, *args, **kwargs)
 
-    def get_object(self, queryset=None):
+    def _get_request_details(self):
         self.slug = self.kwargs.pop('slug', None)
         if not self.slug:
             raise Http404
@@ -847,6 +850,10 @@ class EventVideoOnDemandView(DetailView):
         self.event, self.video = self._get_event_and_video()
         if not self.event or not self.video:
             raise Http404
+
+    def get_object(self, queryset=None):
+        if not self.event:
+            self._get_request_details()
         self.kwargs['pk'] = self.event.id
         obj = super().get_object(queryset=None)
         if obj:
