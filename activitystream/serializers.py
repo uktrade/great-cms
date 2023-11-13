@@ -476,6 +476,7 @@ class ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer(serializers
     bookingId = serializers.UUIDField(source='booking_id')  # noqa: N815
     registrationId = serializers.UUIDField(source='registration_id')  # noqa: N815
     videoId = serializers.UUIDField(source='video_id')  # noqa: N815
+    videoName = serializers.CharField(source='video_title')  # noqa: N815
 
     class Meta:
         model = VideoOnDemandPageTracking
@@ -492,6 +493,7 @@ class ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer(serializers
             'bookingId',
             'registrationId',
             'videoId',
+            'videoTitle',
         ]
 
     def to_representation(self, instance):

@@ -714,6 +714,7 @@ def test_ukea_videoondemandpagetracking_serializer():
             'bookingId': instance.booking_id,
             'registrationId': instance.registration_id,
             'videoId': f'{instance.video_id}',
+            'videoName': instance.video_name,
             'created': instance.created.isoformat(),
             'modified': instance.modified.isoformat(),
         },
