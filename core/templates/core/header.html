@@ -24,14 +24,14 @@
             <nav>
                 <ul id="services-area"
                     class="great-header-services govuk-!-margin-bottom-4">
+                    {% path_match "^\/learn\/" as in_learning %}
+                    <li>
+                        <a id="header-link-learning"
+                           class="govuk-!-padding-3 {% if in_learning %}active{% endif %}"
+                           href="/learn/categories/">Learn to export</a>
+                    </li>
                     {% if request.user.is_authenticated %}
-                        {% path_match "^\/learn\/" as in_learning %}
                         {% path_match "^\/where-to-export\/" as in_targetmarkets %}
-                        <li>
-                            <a id="header-link-learning"
-                               class="govuk-!-padding-3 {% if in_learning %}active{% endif %}"
-                               href="/learn/categories/">Learn to export</a>
-                        </li>
                         <li>
                             <a id="header-link-markets"
                                class="govuk-!-padding-3 {% if in_targetmarkets %}active{% endif %}"
@@ -43,9 +43,6 @@
                                href="/export-plan/">Make an export plan</a>
                         </li>
                     {% else %}
-                        <li>
-                            <a id="header-link-advice" href="/advice/" class="govuk-!-padding-3">Advice</a>
-                        </li>
                         {% if features.FEATURE_PRODUCT_EXPERIMENT_HEADER %}
                             <li class="great-header-dropdown-item">
                                 <button type="button"
@@ -125,9 +122,11 @@
                                 <a href="/profile/">Account</a>
                             </li>
                         {% endif %}
-                        <li>
-                            <a href="/advice/">Advice</a>
-                        </li>
+                        {% if not request.user.is_authenticated %}
+                            <li>
+                                <a href="/advice/">Advice</a>
+                            </li>
+                        {% endif %}
                         {% if features.FEATURE_PRODUCT_EXPERIMENT_HEADER %}
                             <li>
                                 <a href="/markets/">Markets</a>

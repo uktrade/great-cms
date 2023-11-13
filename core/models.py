@@ -645,7 +645,7 @@ class TopicPage(mixins.AuthenticatedUserRequired, Page):
         return self._redirect_to_parent_module()
 
 
-class LessonPlaceholderPage(mixins.AuthenticatedUserRequired, Page):
+class LessonPlaceholderPage(Page):
 
     """Structural page to allow for configuring and representing very simple
     to modules (`CuratedListPage`s).
