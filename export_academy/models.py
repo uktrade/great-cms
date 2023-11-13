@@ -511,6 +511,8 @@ class CoursePage(CoursePagePanels, BaseContentPage):
         ],
         blank=True,
         default=[],
+        # wagtail 5.0
+        use_json_field=True,
     )
 
     benefits_heading = models.TextField(
@@ -547,6 +549,8 @@ class CoursePage(CoursePagePanels, BaseContentPage):
         blank=True,
         default=[],
         max_num=2,
+        # wagtail 5.0
+        use_json_field=True,
     )
 
     def get_all_events(self):
