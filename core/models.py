@@ -414,6 +414,7 @@ class CMSGenericPageAnonymous(
 
 class CMSGenericPage(
     CMSGenericPageAnonymous,
+    mixins.AuthenticatedUserRequired
 ):
     """
     Generic page, freely inspired by Codered page
@@ -421,60 +422,6 @@ class CMSGenericPage(
 
     class Meta:
         abstract = True
-
-    # Do not allow this page type to be created in wagtail admin
-    is_creatable = False
-    template_choices = []
-
-    ###############
-    # Layout fields
-    ###############
-    template = models.CharField(
-        max_length=255,
-        choices=None,
-    )
-
-    #########
-    # Panels
-    ##########
-    layout_panels = [FieldPanel('template')]
-    settings_panels = [FieldPanel('slug')] + Page.settings_panels
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        field = self._meta.get_field('template')
-        field.choices = self.template_choices
-        field.required = True
-
-    @cached_classmethod
-    def get_edit_handler(cls):  # NOQA N805
-        panels = [
-            ObjectList(cls.content_panels, heading='Content'),
-            ObjectList(cls.layout_panels, heading='Layout'),
-            ObjectList(cls.settings_panels, heading='Settings', classname='settings'),
-        ]
-
-        return TabbedInterface(panels).bind_to_model(model=cls)
-
-    def get_template(self, request, *args, **kwargs):
-        return self.template
-
-    def get_context(self, request, *args, **kwargs):
-        context = super().get_context(request)
-
-        self.set_ga360_payload(
-            page_id=self.id,
-            business_unit=settings.GA360_BUSINESS_UNIT,
-            site_section=str(self.url or '/').split('/')[1],
-        )
-        self.add_ga360_data_to_payload(request)
-        context['ga360'] = self.ga360_payload
-
-        provider = get_context_provider(request=request, page=self)
-        if provider:
-            context.update(provider.get_context_data(request=request, page=self))
-        return context
-
 
 class LandingPage(CMSGenericPageAnonymous):
     parent_page_types = [
