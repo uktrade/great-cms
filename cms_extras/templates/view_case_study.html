@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static wagtailcore_tags %}
+{% load remove_bold_from_headings from content_tags %}
 {% block head_title %}
     Viewing Case Study: {{ case_study.title }}
 {% endblock head_title %}
@@ -27,7 +28,9 @@
                     <div class="c-1-4 only-desktop">
                         <span>&nbsp;</span>
                     </div>
-                    <div class="c-1-2 lesson-body-blocks">{% include 'core/case_study_block.html' with case_study=case_study only %}</div>
+                    {% filter remove_bold_from_headings %}
+                        <div class="c-1-2 lesson-body-blocks">{% include 'core/case_study_block.html' with case_study=case_study only %}</div>
+                    {% endfilter %}
                 </div>
             </div>
         </div>
