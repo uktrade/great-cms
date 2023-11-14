@@ -811,7 +811,7 @@ class EventVideoOnDemandView(DetailView):
 
     def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
         if not self.event:
-            self._get_request_details()
+            self._get_event_details()
         user = get_user(self.request)
         is_logged_in = get_is_authenticated(self.request)
         if user and is_logged_in:
@@ -841,7 +841,7 @@ class EventVideoOnDemandView(DetailView):
 
         return super().get(request, *args, **kwargs)
 
-    def _get_request_details(self):
+    def _get_event_details(self):
         self.slug = self.kwargs.pop('slug', None)
         if not self.slug:
             raise Http404
@@ -853,7 +853,7 @@ class EventVideoOnDemandView(DetailView):
 
     def get_object(self, queryset=None):
         if not self.event:
-            self._get_request_details()
+            self._get_event_details()
         self.kwargs['pk'] = self.event.id
         obj = super().get_object(queryset=None)
         if obj:
