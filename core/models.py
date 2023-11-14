@@ -343,11 +343,9 @@ class TimeStampedModel(models.Model):
 
 # Content models
 
-
-class CMSGenericPage(
+class CMSGenericPageAnonymous(
     SeoMixin,
     mixins.EnableTourMixin,
-    mixins.AuthenticatedUserRequired,
     mixins.WagtailGA360Mixin,
     GA360Mixin,
     Page,
@@ -413,7 +411,72 @@ class CMSGenericPage(
         return context
 
 
-class LandingPage(CMSGenericPage):
+
+class CMSGenericPage(
+    CMSGenericPageAnonymous,
+):
+    """
+    Generic page, freely inspired by Codered page
+    """
+
+    class Meta:
+        abstract = True
+
+    # Do not allow this page type to be created in wagtail admin
+    is_creatable = False
+    template_choices = []
+
+    ###############
+    # Layout fields
+    ###############
+    template = models.CharField(
+        max_length=255,
+        choices=None,
+    )
+
+    #########
+    # Panels
+    ##########
+    layout_panels = [FieldPanel('template')]
+    settings_panels = [FieldPanel('slug')] + Page.settings_panels
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        field = self._meta.get_field('template')
+        field.choices = self.template_choices
+        field.required = True
+
+    @cached_classmethod
+    def get_edit_handler(cls):  # NOQA N805
+        panels = [
+            ObjectList(cls.content_panels, heading='Content'),
+            ObjectList(cls.layout_panels, heading='Layout'),
+            ObjectList(cls.settings_panels, heading='Settings', classname='settings'),
+        ]
+
+        return TabbedInterface(panels).bind_to_model(model=cls)
+
+    def get_template(self, request, *args, **kwargs):
+        return self.template
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request)
+
+        self.set_ga360_payload(
+            page_id=self.id,
+            business_unit=settings.GA360_BUSINESS_UNIT,
+            site_section=str(self.url or '/').split('/')[1],
+        )
+        self.add_ga360_data_to_payload(request)
+        context['ga360'] = self.ga360_payload
+
+        provider = get_context_provider(request=request, page=self)
+        if provider:
+            context.update(provider.get_context_data(request=request, page=self))
+        return context
+
+
+class LandingPage(CMSGenericPageAnonymous):
     parent_page_types = [
         'domestic.DomesticHomePage',  # TODO: once we've restructured, remove this permission
         'domestic.GreatDomesticHomePage',
@@ -470,7 +533,7 @@ class LandingPage(CMSGenericPage):
     ]
 
 
-class InterstitialPage(CMSGenericPage):
+class InterstitialPage(CMSGenericPageAnonymous):
     parent_page_types = ['core.LandingPage']
     template_choices = (('learn/interstitial.html', 'Learn'),)
 
@@ -482,12 +545,12 @@ class InterstitialPage(CMSGenericPage):
     #########
     # Panels
     #########
-    content_panels = CMSGenericPage.content_panels + [
+    content_panels = CMSGenericPageAnonymous.content_panels + [
         FieldPanel('button'),
     ]
 
 
-class ListPage(CMSGenericPage):
+class ListPage(CMSGenericPageAnonymous):
     parent_page_types = ['core.LandingPage']
     subpage_types = ['core.CuratedListPage']
 
@@ -540,11 +603,11 @@ class ListPage(CMSGenericPage):
     #########
     # Panels
     #########
-    settings_panels = CMSGenericPage.settings_panels + [FieldPanel('record_read_progress')]
-    content_panels = CMSGenericPage.content_panels + [FieldPanel('description'), FieldPanel('button_label')]
+    settings_panels = CMSGenericPageAnonymous.settings_panels + [FieldPanel('record_read_progress')]
+    content_panels = CMSGenericPageAnonymous.content_panels + [FieldPanel('description'), FieldPanel('button_label')]
 
 
-class CuratedListPage(CMSGenericPage):
+class CuratedListPage(CMSGenericPageAnonymous):
     parent_page_types = ['core.ListPage']
     subpage_types = [
         'core.TopicPage',
@@ -562,7 +625,7 @@ class CuratedListPage(CMSGenericPage):
     ########
     # Panels
     ########
-    content_panels = CMSGenericPage.content_panels + [
+    content_panels = CMSGenericPageAnonymous.content_panels + [
         FieldPanel('heading'),
         FieldPanel('image'),
     ]
