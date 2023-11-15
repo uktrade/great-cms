@@ -4,6 +4,7 @@
 {% load wagtailcore_tags %}
 {% load get_item from object_tags %}
 {% load pluralize from content_tags %}
+{% load add_govuk_classes from content_tags %}
 {% load url_map %}
 {% load add_govuk_classes from content_tags %}
 {% load breadcrumbs from component_tags %}
@@ -24,15 +25,19 @@
   {% breadcrumbs 'Learn to export' %}
     <a href={{ BREADCRUMBS_ROOT_URL }}>great.gov.uk</a>
 {% endbreadcrumbs %}
-    <section id="learn-root" class="great learn__page learn__categories-page container">
+    <section id="learn-root"
+             class="great learn__page learn__categories-page container">
         <section class="learn-to-export-card">
             {% for learning_module in page.get_children.specific.live %}
                 {% with high_level_completion_progress|get_item:learning_module.id as module_completion_data %}
-                    <article>
-                        <a href="{% pageurl learning_module %}">
-                            <div>
-                                <h2 class="great-title-link no-underline">{{ learning_module.title }}</h2>
-                                <p>{{ learning_module.heading | richtext }}</p>
+                    <div class="govuk-!-padding-left-1 govuk-!-padding-right-1 great-card great-bg-white govuk-!-margin-bottom-4">
+                        <a href="{% pageurl learning_module %}"
+                           class="great-display-flex great-flex-wrap great-flex-column-until-tablet great-gap govuk-!-padding-4">
+                            <div class="great-flex-1">
+                                <h4 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2 great-text-blue">
+                                    {{ learning_module.title }}
+                                </h4>
+                                {{ learning_module.heading | richtext| add_govuk_classes }}
                                 <div class="duration-container">
                                     <i class="fa fa-clock"></i>
                                     {# djlint:off #}
@@ -41,18 +46,11 @@
                                     {# djlint:on #}
                                 </div>
                             </div>
-                            <div class="progess-container">
+                            <div class="progess-container great-flex-1">
                                 {% if module_completion_data.completion_count %}
                                     {% include "learn/_high_level_progress.html" with module_completion_data=module_completion_data only %}
                                 {% endif %}
                             </div>
-                        </div>
-                        <div class="progess-container">
-                            {% if not module_completion_data.completion_count %}
-                                <span class="button primary-button" title="{{ page.button_label }}">{{ page.button_label }}</span>
-                            {% else %}
-                                {% include "learn/_high_level_progress.html" with module_completion_data=module_completion_data only %}
-                            {% endif %}
                         </div>
                     </div>
                 </a>

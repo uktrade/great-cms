@@ -902,3 +902,10 @@ img.richtext-image {
 .float-right {
   float: right;
 }
+
+
+.great-flex-column-until-tablet {
+  @include govuk-media-query($until: tablet) {
+      flex-direction: column;
+    }
+}

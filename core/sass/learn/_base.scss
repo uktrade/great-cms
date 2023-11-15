@@ -158,8 +158,6 @@ $desktop: 1024px;
 }
 
 .learn__category-progress-container {
-  position: absolute;
-  top: 20px;
 
   @include tablet {
     position: static;
