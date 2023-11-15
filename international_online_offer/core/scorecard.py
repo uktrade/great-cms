@@ -87,6 +87,25 @@ def is_hpo(sector, location):
                 regions.SOUTH_EAST,
             ]
         },
+        {
+            directory_constants_sectors.ENERGY: [
+                regions.NORTH_EAST,
+                regions.SCOTLAND,
+                regions.SOUTH_EAST,
+            ]
+        },
+        {
+            directory_constants_sectors.BIOTECHNOLOGY_AND_PHARMACEUTICALS: [
+                regions.NORTH_EAST,
+                regions.SCOTLAND,
+                regions.YORKSHIRE_AND_HUMBER,
+                regions.EAST_MIDLANDS,
+                regions.NORTH_WEST,
+                regions.EASTERN,
+                regions.WALES,
+                regions.NORTHERN_IRELAND,
+            ]
+        },
     ]
 
     for sector_location in hpo_sector_location:
