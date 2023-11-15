@@ -3,10 +3,16 @@
 {% load url_map %}
 {% load get_digital_entry_point_enabled from content_tags %}
 <header class="great-header" id="header" dir="ltr" data-ga-section="header">
-    {% if not request.user.is_authenticated %}
+    {% path_match "^\/export-plan\/" as in_exportplan %}
+    {% path_match "^\/learn\/" as in_learning %}
+    {% path_match "^\/where-to-export\/" as in_targetmarkets %}
+    {% path_match "^\/dashboard\/" as in_dashboard %}
+    {% if not in_exportplan or in_learning or in_targetmarkets or in_dashboard %}
         {% block cookie_notice %}
             {% include 'components/cookie_notice.html' %}
         {% endblock %}
+    {% endif %}
+    {% if not request.user.is_authenticated %}
         {% include 'components/header_footer/global_header.html' with header_class="domestic" %}
     {% endif %}
     <div class="great-bg-dark-blue">
@@ -18,13 +24,10 @@
                      alt="Department for Business and Trade"
                      id="header-logo-exporting-is-great" />
             </a>
-            {% path_match "^\/export-plan\/" as in_exportplan %}
             <nav>
                 <ul id="services-area"
                     class="great-header-services govuk-!-margin-bottom-4">
                     {% if request.user.is_authenticated %}
-                        {% path_match "^\/learn\/" as in_learning %}
-                        {% path_match "^\/where-to-export\/" as in_targetmarkets %}
                         <li>
                             <a id="header-link-learning"
                                class="govuk-!-padding-3 {% if in_learning %}active{% endif %}"
