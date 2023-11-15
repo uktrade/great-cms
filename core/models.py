@@ -343,6 +343,7 @@ class TimeStampedModel(models.Model):
 
 # Content models
 
+
 class CMSGenericPageAnonymous(
     SeoMixin,
     mixins.EnableTourMixin,
@@ -411,17 +412,14 @@ class CMSGenericPageAnonymous(
         return context
 
 
-
-class CMSGenericPage(
-    CMSGenericPageAnonymous,
-    mixins.AuthenticatedUserRequired
-):
+class CMSGenericPage(CMSGenericPageAnonymous, mixins.AuthenticatedUserRequired):
     """
     Generic page, freely inspired by Codered page
     """
 
     class Meta:
         abstract = True
+
 
 class LandingPage(CMSGenericPageAnonymous):
     parent_page_types = [
