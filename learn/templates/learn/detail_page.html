@@ -7,9 +7,9 @@
 {% block content %}
     <div class="great-container">
         {% breadcrumbs page great-breadcrumbs %}
-        <a href={{ BREADCRUMBS_ROOT_URL }}>great.gov.uk</a>
+        <a href={{ BREADCRUMBS_ROOT_URL|default:"/" }}>great.gov.uk</a>
         <a href="/learn/categories/">Learn to export</a>
-        <a href={{ page.get_parent.get_parent.url }}>{{ page.get_parent.get_parent.title }}</a>
+        <a href={{ page.get_parent.get_parent.url }}>{{ page.get_parent.get_parent.title|default:"/" }}</a>
     {% endbreadcrumbs %}
 </div>
 <div class="lesson-page">
