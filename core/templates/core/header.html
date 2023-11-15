@@ -3,10 +3,10 @@
 {% load url_map %}
 {% load get_digital_entry_point_enabled from content_tags %}
 <header class="great-header" id="header" dir="ltr" data-ga-section="header">
-    {% block cookie_notice %}
-        {% include 'components/cookie_notice.html' %}
-    {% endblock %}
     {% if not request.user.is_authenticated %}
+        {% block cookie_notice %}
+            {% include 'components/cookie_notice.html' %}
+        {% endblock %}
         {% include 'components/header_footer/global_header.html' with header_class="domestic" %}
     {% endif %}
     <div class="great-bg-dark-blue">
