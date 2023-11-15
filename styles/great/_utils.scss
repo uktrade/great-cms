@@ -909,3 +909,17 @@ img.richtext-image {
       flex-direction: column;
     }
 }
+
+.great-flex-column-until-mobile {
+  @media only screen and (max-width: $mobile-size) {
+      flex-direction: column;
+    }
+}
+
+.great-align-items-center {
+  align-items: center;
+}
+
+.great-justify-space-between {
+  justify-content: space-between;
+}
