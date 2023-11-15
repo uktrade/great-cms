@@ -40,7 +40,6 @@ from tests.unit.core.factories import (
     CountryFactory,
     CuratedListPageFactory,
     DetailPageFactory,
-    LessonPlaceholderPageFactory,
     ListPageFactory,
     TopicPageFactory,
 )
@@ -161,7 +160,6 @@ def test_dashboard_page_routing(
         parent=topic_one,
         slug='lesson-one',
     )
-    LessonPlaceholderPageFactory(parent=topic_one, title='Placeholder To Show They Do Not Interfere With Counts')
 
     mock_get_user_lesson_completed.return_value = create_response(
         json_body={

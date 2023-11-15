@@ -94,16 +94,6 @@ class TopicPageFactory(wagtail_factories.PageFactory):
         django_get_or_create = ['slug', 'parent']
 
 
-class LessonPlaceholderPageFactory(wagtail_factories.PageFactory):
-    title = 'Placeholder'
-    live = True
-    parent = factory.SubFactory(TopicPageFactory)
-
-    class Meta:
-        model = models.LessonPlaceholderPage
-        django_get_or_create = ['slug', 'parent']
-
-
 class StructurePageFactory(wagtail_factories.PageFactory):
     title = 'Structure'
     live = True

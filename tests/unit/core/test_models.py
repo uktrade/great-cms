@@ -27,7 +27,6 @@ from core.models import (
     IndustryTag,
     InterstitialPage,
     LandingPage,
-    LessonPlaceholderPage,
     ListPage,
     MagnaPageChooserPanel,
     Microsite,
@@ -44,7 +43,6 @@ from tests.unit.core import factories
 from .factories import (
     CaseStudyFactory,
     DetailPageFactory,
-    LessonPlaceholderPageFactory,
     MicrositeFactory,
     MicrositePageFactory,
     StructurePageFactory,
@@ -473,8 +471,7 @@ class TopicPageTests(WagtailPageTests):
         self.assertAllowedSubpageTypes(
             TopicPage,
             {
-                DetailPage,
-                LessonPlaceholderPage,
+                DetailPage
             },
         )
 
@@ -505,14 +502,6 @@ def test_topic_page_redirects_to_module(
         assert resp.headers['location'] == curated_list_page.url
 
 
-class LessonPlaceholderPageTests(WagtailPageTests):
-    def test_parent_page_types(self):
-        self.assertAllowedParentPageTypes(LessonPlaceholderPage, {TopicPage})
-
-    def test_allowed_subtypes(self):
-        self.assertAllowedSubpageTypes(LessonPlaceholderPage, {})
-
-
 @pytest.mark.django_db
 def test_context_cms_generic_page(rf, domestic_homepage):
     assert 'page' in domestic_homepage.get_context(rf)
@@ -527,20 +516,9 @@ def test_placeholder_page_redirects_to_module(
     # The topic pages should never render their own content and instead redirect
     list_page = factories.ListPageFactory(parent=domestic_homepage, record_read_progress=False)
     curated_list_page = factories.CuratedListPageFactory(parent=list_page)
-    topic_page = TopicPageFactory(
-        parent=curated_list_page,
-    )
-    placeholder_page = LessonPlaceholderPageFactory(parent=topic_page)
 
     # Check that we have the page tree set up correctly, else this is None
     assert curated_list_page.url is not None
-
-    for page_method in ('serve', 'serve_preview'):
-        request = rf.get(placeholder_page.url)
-
-        resp = getattr(placeholder_page, page_method)(request)
-
-        assert resp.headers['Location'] == curated_list_page.url
 
 
 @pytest.mark.django_db

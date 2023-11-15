@@ -8,7 +8,6 @@ from domestic import helpers
 from tests.unit.core.factories import (
     CuratedListPageFactory,
     DetailPageFactory,
-    LessonPlaceholderPageFactory,
     TopicPageFactory,
 )
 
@@ -31,10 +30,6 @@ def test_get_lesson_completion_status(mock_get_lesson_completed, en_locale):
         title='lesson 2',
         parent=topic_1,
     )
-    LessonPlaceholderPageFactory.create(
-        title='Placeholder One',
-        parent=topic_1,
-    )
 
     # Topic 2 children
     lesson_3_clp_correct = DetailPageFactory.create(
@@ -43,16 +38,8 @@ def test_get_lesson_completion_status(mock_get_lesson_completed, en_locale):
     )
 
     # Topic 3 children
-    LessonPlaceholderPageFactory.create(
-        title='Placeholder Two',
-        parent=topic_3,
-    )
     lesson_4_clp_correct = DetailPageFactory.create(
         title='lesson 4',
-        parent=topic_3,
-    )
-    LessonPlaceholderPageFactory.create(
-        title='Placeholder Three',
         parent=topic_3,
     )
 

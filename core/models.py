@@ -629,41 +629,12 @@ class TopicPage(mixins.AuthenticatedUserRequired, Page):
     parent_page_types = ['core.CuratedListPage']
     subpage_types = [
         'core.DetailPage',
-        'core.LessonPlaceholderPage',
     ]
 
     # `title` comes from Page superclass and that's all we need here
 
     def _redirect_to_parent_module(self):
         return HttpResponseRedirect(self.get_parent().url)
-
-    def serve_preview(self, request, mode_name='dummy'):
-        # It doesn't matter what is passed as mode_name - we always redirect
-        return self._redirect_to_parent_module()
-
-    def serve(self, request):
-        return self._redirect_to_parent_module()
-
-
-class LessonPlaceholderPage(mixins.AuthenticatedUserRequired, Page):
-
-    """Structural page to allow for configuring and representing very simple
-    to modules (`CuratedListPage`s).
-
-    Not intented to be viewed by end users, so will redirect to the parent
-    module if accessed.
-
-    Also, for the above reason, mixins.WagtailGA360Mixin and GA360Mixin
-    are not used."""
-
-    parent_page_types = ['core.TopicPage']
-    subpage_types = []  # No child pages allowed for placeholders
-
-    # `title` comes from Page superclass and that's all we need here
-
-    def _redirect_to_parent_module(self):
-        dest = CuratedListPage.objects.ancestor_of(self).first().url
-        return HttpResponseRedirect(dest)
 
     def serve_preview(self, request, mode_name='dummy'):
         # It doesn't matter what is passed as mode_name - we always redirect

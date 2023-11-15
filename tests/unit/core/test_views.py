@@ -29,7 +29,6 @@ from tests.helpers import create_response, make_test_video
 from tests.unit.core.factories import (
     CuratedListPageFactory,
     DetailPageFactory,
-    LessonPlaceholderPageFactory,
     ListPageFactory,
     MicrositeFactory,
     MicrositePageFactory,
@@ -259,10 +258,6 @@ def test_dashboard_page_lesson_progress(
         parent=topic_1_1,
         slug='lesson-one',
     )
-    LessonPlaceholderPageFactory(
-        title='Placeholder To Show They Do Not Interfere With Counts',
-        parent=topic_1_1,
-    )
 
     # Section 1 Module 1 Topic 2 gets one child
     lesson_two = DetailPageFactory(
@@ -281,10 +276,6 @@ def test_dashboard_page_lesson_progress(
     )
 
     # Section 1 Module 2 Topic 2 children
-    LessonPlaceholderPageFactory(
-        title='Another Placeholder To Show They Do Not Interfere With Counts',
-        parent=topic_2_2,
-    )
     lesson_five = DetailPageFactory(
         parent=topic_2_2,  # correct
         slug='lesson-five',

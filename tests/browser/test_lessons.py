@@ -25,7 +25,6 @@ from tests.browser.util import attach_jpg_screenshot, selenium_action
 from tests.unit.core.factories import (
     CuratedListPageFactory,
     DetailPageFactory,
-    LessonPlaceholderPageFactory,
     ListPageFactory,
     TopicPageFactory,
 )
@@ -105,10 +104,6 @@ def test_can_mark_lesson_as_read_and_check_read_progress_on_dashboard_page(
     clp_a, clp_a_lessons = curated_list_pages_with_lessons[0]
     module_page = CuratedListPageFactory(parent=domestic_homepage, title='Test module page')
     topic_page = TopicPageFactory(parent=module_page, title='Module one, first topic')
-    LessonPlaceholderPageFactory(
-        title='Placeholder To Show They Do Not Interfere With Counts',
-        parent=topic_page,
-    )
     lesson_one = DetailPageFactory(
         parent=topic_page,
         title='test detail page 1',

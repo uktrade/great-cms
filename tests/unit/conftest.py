@@ -10,7 +10,6 @@ from directory_sso_api_client import sso_api_client
 from tests.helpers import create_response
 from tests.unit.core.factories import (
     CuratedListPageFactory,
-    LessonPlaceholderPageFactory,
     ListPageFactory,
     TopicPageFactory,
 )
@@ -33,7 +32,6 @@ def curated_list_pages_with_lessons(domestic_homepage):
         slug='lesson-a1',
         estimated_read_duration=timedelta(hours=2, minutes=45),
     )
-    LessonPlaceholderPageFactory(parent=topic_for_clp_a, title='Placeholder One')
     lesson_a2 = learn_factories.LessonPageFactory(
         parent=topic_for_clp_a,
         title='Lesson A2',

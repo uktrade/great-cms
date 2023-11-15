@@ -15,7 +15,7 @@ from django.utils.safestring import mark_safe
 
 from core.constants import BACKLINK_QUERYSTRING_NAME
 from core.helpers import millify
-from core.models import DetailPage, LessonPlaceholderPage, TopicPage
+from core.models import DetailPage, TopicPage
 
 logger = logging.getLogger(__name__)
 
@@ -119,11 +119,6 @@ def get_lesson_progress_for_topic(
 @register.filter
 def is_lesson_page(page):
     return isinstance(page.specific, DetailPage)
-
-
-@register.filter
-def is_placeholder_page(page):
-    return isinstance(page.specific, LessonPlaceholderPage)
 
 
 @register.filter(name='multiply_by_exponent', is_safe=False)

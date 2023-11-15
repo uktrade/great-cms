@@ -10,7 +10,7 @@ from django.conf import settings
 from django.template import Context, Template
 from django.urls import reverse
 
-from core.models import CuratedListPage, DetailPage, LessonPlaceholderPage, TopicPage
+from core.models import CuratedListPage, DetailPage, TopicPage
 from core.templatetags.content_tags import (
     add_anchor_classes,
     get_backlinked_url,

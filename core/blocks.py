@@ -42,15 +42,6 @@ class Item(blocks.StructBlock):
     item = blocks.CharBlock(max_length=255)
 
 
-class LessonPlaceholderBlock(blocks.StructBlock):
-    title = blocks.CharBlock(max_length=255)
-
-    class Meta:
-        help_text = 'Placeholder block for a lesson which will be shown as "Coming Soon"'
-        icon = 'expand'
-        template = 'learn/_lesson_placeholder.html'
-
-
 class LinkStructValue(blocks.StructValue):
     """
     Generates a URL for blocks with multiple link choices.
