@@ -683,7 +683,7 @@ class LessonPlaceholderPage(Page):
         return self._redirect_to_parent_module()
 
 
-class DetailPage(CMSGenericPage):
+class DetailPage(CMSGenericPageAnonymous):
     estimated_read_duration = models.DurationField(null=True, blank=True)
     parent_page_types = [
         'core.CuratedListPage',  # TEMPORARY: remove after topics refactor migration has run

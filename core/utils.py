@@ -90,7 +90,7 @@ def get_personalised_choices(user):
 
     products = []
     markets = []
-    if user:
+    if user.is_authenticated:
         # If a page is loading with wagtail user then no user will be in context
         products = user.get_user_data(name='UserProducts').get('UserProducts') or []
         markets = user.get_user_data(name='UserMarkets').get('UserMarkets') or []
