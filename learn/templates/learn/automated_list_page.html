@@ -5,16 +5,17 @@
 {% load get_item from object_tags %}
 {% load pluralize from content_tags %}
 {% load url_map %}
+{% load add_govuk_classes from content_tags %}
 {% block head_other %}
     <meta name="description"
           content="Learn how to successfully export your products to new markets with our comprehensive lessons and case studies" />
 {% endblock %}
 {% block content %}
-    <div class="page-header learn-header">
+    <div class="page-header learn-header great">
         <div class="inner-header">
             <div>
-                <h1>Learn to export</h1>
-                <p>Step by step lessons to accelerate your exporting ability.</p>
+                <h1 class="govuk-heading-xl">{{ page.title }}</h1>
+                <p>{{ page.description | richtext | add_govuk_classes }}</p>
                 {% if next_lesson %}
                     <a class="button primary-button" href={% pageurl next_lesson %}>Continue next lesson</a>
                 {% endif %}
