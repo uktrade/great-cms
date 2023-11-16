@@ -97,7 +97,7 @@ def get_personalised_choices(user):
             products = user.get_user_data(name='UserProducts').get('UserProducts') or []
             markets = user.get_user_data(name='UserMarkets').get('UserMarkets') or []
     except AttributeError:
-        #user is not always passed
+        # User is not always passed
         pass
 
     trading_blocs = set()

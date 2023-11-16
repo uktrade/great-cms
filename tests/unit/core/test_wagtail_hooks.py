@@ -43,7 +43,7 @@ from tests.helpers import make_test_video
 from tests.unit.core import factories
 from tests.unit.core.factories import StructurePageFactory
 from tests.unit.domestic.factories import ArticlePageFactory
-from tests.unit.learn.factories import LessonPageFactory
+
 
 LOREM_IPSUM = (
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '

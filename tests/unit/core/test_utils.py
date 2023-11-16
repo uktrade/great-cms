@@ -3,6 +3,7 @@ from django.core.files.base import ContentFile
 from django.http import HttpRequest
 from django.test import TestCase
 from django.test.utils import override_settings
+from django.contrib.auth.models import AnonymousUser
 from django.urls import reverse
 from wagtail.documents import models
 from wagtail.documents.tests.utils import get_test_document_file
@@ -226,10 +227,10 @@ def test_selected_personalised_choices_no_user():
 
 
 @pytest.mark.django_db
-def test_selected_personalised_choices_anonymous_user(rf, user):
+def test_selected_personalised_choices_anonymous_user(rf):
     request = rf.get('/')
-    request.user = user
-    commodity_codes, countries, regions, blocs = get_personalised_choices(user)
+    request.user = AnonymousUser()
+    commodity_codes, countries, regions, blocs = get_personalised_choices(request.user)
 
     assert commodity_codes == []
     assert countries == []

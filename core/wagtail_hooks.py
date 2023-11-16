@@ -25,8 +25,7 @@ from wagtail.models import Page
 from wagtail_transfer.field_adapters import FieldAdapter
 from wagtail_transfer.files import File as WTFile, FileTransferError
 from wagtail_transfer.models import ImportedFile
-
-from core import constants, mixins, views
+from core import constants, mixins
 from core.models import MicrositePage
 from core.views import AltImageChooserViewSet
 from domestic.models import ArticlePage
