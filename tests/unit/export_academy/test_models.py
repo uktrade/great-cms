@@ -8,6 +8,7 @@ from export_academy.models import Booking, VideoOnDemandPageTracking
 from .factories import (
     BookingFactory,
     EventFactory,
+    GreatMediaFactory,
     RegistrationFactory,
     VideoOnDemandPageTrackingFactory,
 )
@@ -59,3 +60,11 @@ def test_video_on_demand_page_tracking_model_user_already_recorded(user):
     VideoOnDemandPageTrackingFactory(user_email=user.email, event=event, video=event.video_recording)
     already_tracked = VideoOnDemandPageTracking.user_already_recorded(user.email, event, event.video_recording)
     assert already_tracked is True
+
+
+@pytest.mark.django_db
+def test_videoondemandpagetracking_model_to_string():
+    event = EventFactory()
+    video = GreatMediaFactory()
+    instance = VideoOnDemandPageTracking(user_email='Joe.Bloggs@gmail.com', event=event, video=video)
+    assert str(instance) == f'User: Joe.Bloggs@gmail.com, Event: {event.id}, Video: {video.id}'
