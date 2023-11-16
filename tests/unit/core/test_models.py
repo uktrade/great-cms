@@ -598,7 +598,7 @@ def test_for_unauthenticated_user(
     ]
 
     for page in pages:
-        assert isinstance(page,CMSGenericPageAnonymous)
+        assert isinstance(page, CMSGenericPageAnonymous)
 
     for page in pages:
         response = client.get(page.url, follow=False)
