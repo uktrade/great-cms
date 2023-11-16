@@ -17,7 +17,6 @@ from wagtail.models import Collection
 from wagtail.test.utils import WagtailPageTests, WagtailTestUtils
 from wagtail_factories import ImageFactory
 
-from core.mixins import AuthenticatedUserRequired
 from core.models import (
     AbstractObjectHash,
     CMSGenericPageAnonymous,

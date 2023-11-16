@@ -261,16 +261,16 @@ def test_sitemap_excludes_wagtail_pages_that_require_auth(  # noqa: C901
         '/markets/market-guide-7/',
         '/markets/market-guide-8/',
         services_page.url,
+        landing_page.url,  # does not needs auth
+        list_page.url,  # does not needs auth
+        module_page.url,  # does not needs auth
+        topic_page.url,  # does not needs auth
+        lesson_page_2.url,  # does not needs auth
     ]
 
     not_expected_in_map = [
         dashboard.url,  # needs auth
-        landing_page.url,  # needs auth
-        list_page.url,  # needs auth
-        module_page.url,  # needs auth
-        topic_page.url,  # needs auth
         lesson_page_1.url,  # needs auth AND draft
-        lesson_page_2.url,  # needs auth
         article_list_three.url,  # draft/not live
         '/advice/article-list-1/article-a3/',  # draft/not live
         '/advice/article-d0/',  # draft/not live
