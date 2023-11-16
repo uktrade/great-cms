@@ -785,8 +785,11 @@ class EventVideoOnDemandView(DetailView):
         cookies = json.loads(self.request.COOKIES.get('cookies_policy', '{}'))  # noqa: P103
         return cookies.get('usage', False)
 
+    def _get_location(self):
+        return get_location(self.request)
+
     def _get_region(self):
-        location = get_location(self.request)
+        location = self._get_location()
         if not location:
             return None
         return location.get('region', None)
