@@ -470,9 +470,7 @@ class TopicPageTests(WagtailPageTests):
     def test_allowed_subtypes(self):
         self.assertAllowedSubpageTypes(
             TopicPage,
-            {
-                DetailPage
-            },
+            {DetailPage},
         )
 
 
