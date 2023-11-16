@@ -23,7 +23,6 @@ from core.templatetags.content_tags import (
     get_topic_title_for_lesson,
     highlighted_text,
     is_lesson_page,
-    is_placeholder_page,
     make_bold,
     str_to_datetime,
     tag_text_mapper,
@@ -485,19 +484,6 @@ def test_get_lesson_progress_for_topic(
 )
 def test_is_lesson_page(klass, expected):
     assert is_lesson_page(klass()) == expected
-
-
-@pytest.mark.django_db
-@pytest.mark.parametrize(
-    'klass,expected',
-    (
-        (DetailPage, False),
-        (CuratedListPage, False),
-        (TopicPage, False),
-    ),
-)
-def test_is_placeholder_page(klass, expected):
-    assert is_placeholder_page(klass()) == expected
 
 
 @pytest.mark.parametrize(
