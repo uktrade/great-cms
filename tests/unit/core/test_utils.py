@@ -225,6 +225,17 @@ def test_selected_personalised_choices_no_user():
     assert regions == []
 
 
+@pytest.mark.django_db
+def test_selected_personalised_choices_anonymous_user(rf, user):
+    request = rf.get('/')
+    request.user = user
+    commodity_codes, countries, regions, blocs = get_personalised_choices(user)
+
+    assert commodity_codes == []
+    assert countries == []
+    assert regions == []
+
+
 def test_tuple_to_key_value_dict():
     key_value_dict = [{'value': key, 'label': label} for key, label in MARKET_ROUTE_CHOICES]
     assert choices_to_key_value(MARKET_ROUTE_CHOICES) == key_value_dict
