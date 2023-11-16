@@ -910,15 +910,14 @@ img.richtext-image {
     }
 }
 
-.great-flex-column-until-mobile {
-  @media only screen and (max-width: $mobile-size) {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-}
-
 .great-align-items-center {
   align-items: center;
+  &.great-flex-column-until-mobile {
+    @media only screen and (max-width: $mobile-size) {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+  }
 }
 
 .great-justify-space-between {
