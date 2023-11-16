@@ -599,7 +599,7 @@ class VideoOnDemandPageTracking(TimeStampedModel):
     registration = models.ForeignKey(
         Registration, null=True, on_delete=models.SET_NULL, related_name='vod_registration'
     )
-    video = models.ForeignKey(GreatMedia, null=True, blank=True, on_delete=models.SET_NULL, related_name='vod_video')
+    video = models.ForeignKey(GreatMedia, null=True, on_delete=models.SET_NULL, related_name='vod_video')
 
     @classmethod
     def user_already_recorded(cls, user_email, event, video):
