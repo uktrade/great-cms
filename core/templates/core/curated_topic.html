@@ -23,6 +23,11 @@
                         class="great-display-flex great-gap govuk-!-padding-4 great-align-items-center great-justify-space-between great-flex-column-until-mobile"
                         title="{{ page.title }}">
                         <h4 class="govuk-heading-s great-text-blue govuk-!-margin-0">{{ page.title }}</h4>
+                            {% if page.id in completed_lessons %}
+                                <span class="great-badge completed">
+                                    Completed
+                                </span>   
+                            {% endif %}
                     </a>
                 </li>
                 {% endif %}
