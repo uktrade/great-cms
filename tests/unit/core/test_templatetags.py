@@ -353,20 +353,13 @@ def test_get_topic_and_category_title_for_lesson(domestic_homepage, domestic_sit
 
     # Topic One children
     detail_page_1 = factories.DetailPageFactory(slug='detail-page-1-1', parent=topic_page_1)
-    factories.LessonPlaceholderPageFactory(title='Topic One: Placeholder One', parent=topic_page_1)
     detail_page_2 = factories.DetailPageFactory(slug='detail-page-1-2', parent=topic_page_1)
-    factories.LessonPlaceholderPageFactory(title='Topic One: Placeholder Two', parent=topic_page_1)
 
     # Topic Two children
     detail_page_3 = factories.DetailPageFactory(slug='detail-page-1-3', parent=topic_page_2)
-    factories.LessonPlaceholderPageFactory(title='Topic Two: Placeholder Two', parent=topic_page_2)
-    factories.LessonPlaceholderPageFactory(title='Topic Two: Placeholder Two', parent=topic_page_2)
-    factories.LessonPlaceholderPageFactory(title='Topic Two: Placeholder Three', parent=topic_page_2)
 
     # Topic Three children
-    factories.LessonPlaceholderPageFactory(title='Topic Three: Placeholder One', parent=topic_page_3)
     detail_page_4 = factories.DetailPageFactory(slug='detail-page-4-2', parent=topic_page_3)
-    factories.LessonPlaceholderPageFactory(title='Topic Three: Placeholder Two', parent=topic_page_3)
 
     # Finally, to the test:
     assert get_topic_title_for_lesson(detail_page_1) == 'Topic 1'
@@ -384,9 +377,6 @@ def test_get_topic_and_category_title_for_lesson(domestic_homepage, domestic_sit
 def _build_lesson_and_placeholder_spec(data, topic_page):
     for lesson_id in range(data['lessons_to_create']):
         factories.DetailPageFactory.create(parent=topic_page, slug=f'lesson-{lesson_id}', title=f'Lesson {lesson_id}')
-
-    for placeholder_title in data['placeholders']:
-        factories.LessonPlaceholderPageFactory.create(parent=topic_page, title=placeholder_title)
 
 
 def _build_lesson_completion_data(spec, topic_page):  # noqa C901  # is less complex than it looks
@@ -489,7 +479,6 @@ def test_get_lesson_progress_for_topic(
     'klass,expected',
     (
         (DetailPage, True),
-        (LessonPlaceholderPage, False),
         (CuratedListPage, False),
         (TopicPage, False),
     ),
@@ -503,7 +492,6 @@ def test_is_lesson_page(klass, expected):
     'klass,expected',
     (
         (DetailPage, False),
-        (LessonPlaceholderPage, True),
         (CuratedListPage, False),
         (TopicPage, False),
     ),
