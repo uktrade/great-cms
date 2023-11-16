@@ -169,6 +169,14 @@ class BusinessDetails(forms.Form):
         },
         widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
     )
+    business_address_line_1 = forms.CharField(
+        label=_('Business address line 1'),
+        max_length=50,
+        error_messages={
+            'required': _('Enter the first line of your business address'),
+        },
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
+    )
     business_postcode = forms.CharField(
         label='Business unit postcode',
         max_length=8,
