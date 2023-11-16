@@ -114,7 +114,7 @@ class VideoOnDemandPageTrackingFactory(factory.django.DjangoModelFactory):
     id = factory.Faker('uuid4')
     user_email = factory.Sequence(lambda n: f'person{n}@example.com')
     hashed_uuid = factory.Faker('uuid4')
-    region = factory.fuzzy.FuzzyText(length=10)
+    region = factory.fuzzy.FuzzyText(length=50)
     company_name = factory.fuzzy.FuzzyText(length=50)
     company_postcode = factory.fuzzy.FuzzyText(length=50)
     company_phone = factory.fuzzy.FuzzyText(length=50)
@@ -124,6 +124,7 @@ class VideoOnDemandPageTrackingFactory(factory.django.DjangoModelFactory):
     booking = factory.SubFactory(BookingFactory)
     registration = factory.SubFactory(RegistrationFactory)
     video = factory.SubFactory(GreatMediaFactory)
+    hashed_sso_id = factory.fuzzy.FuzzyText(length=128)
 
     class Meta:
         model = VideoOnDemandPageTracking

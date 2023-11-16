@@ -473,6 +473,18 @@ class GreatMediaSerializer(serializers.ModelSerializer):
         fields = ['id', 'title']
 
 
+class RegistrationSerializer(serializers.ModelSerializer):
+    """
+    Registration serializer for Activity Stream.
+    """
+
+    registrationHashedSsoId = serializers.CharField(source='hashed_sso_id')  # noqa: N815
+
+    class Meta:
+        model = Registration
+        fields = ['hashed_sso_id']
+
+
 class ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer(serializers.ModelSerializer):
     """
     UKEA's VideoOnDemandPageTracking serializer for Activity Stream.
@@ -490,6 +502,7 @@ class ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer(serializers
     bookingId = serializers.UUIDField(source='booking_id')  # noqa: N815
     registrationId = serializers.UUIDField(source='registration_id')  # noqa: N815
     video = GreatMediaSerializer(many=False)
+    registration = RegistrationSerializer(many=False)
 
     class Meta:
         model = VideoOnDemandPageTracking
@@ -507,6 +520,7 @@ class ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer(serializers
             'registrationId',
             'videoId',
             'videoTitle',
+            'registrationHashedSsoId',
         ]
 
     def to_representation(self, instance):
@@ -535,6 +549,7 @@ class ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer(serializers
                 'eventId': instance.event.id,
                 'bookingId': instance.booking.id if instance.booking else None,
                 'registrationId': instance.registration.id if instance.registration else None,
+                'registrationHashedSsoId': instance.registration.hashed_sso_id if instance.registration else None,
                 'videoId': instance.video.id,
                 'videoTitle': instance.video.title,
             },

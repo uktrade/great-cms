@@ -836,6 +836,7 @@ class EventVideoOnDemandView(DetailView):
                     event=self.event,
                     booking=booking,
                     registration=registration,
+                    hashed_sso_id=registration.hashed_sso_id if registration else None,
                     video=self.video,
                 )
 
