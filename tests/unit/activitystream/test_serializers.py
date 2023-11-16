@@ -13,6 +13,7 @@ from activitystream.serializers import (
     ActivityStreamExportAcademyBookingSerializer,
     ActivityStreamExportAcademyEventSerializer,
     ActivityStreamExportAcademyRegistrationSerializer,
+    ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer,
     ArticlePageSerializer,
     CountryGuidePageSerializer,
     MicrositePageSerializer,
@@ -31,6 +32,7 @@ from tests.unit.export_academy.factories import (
     BookingFactory,
     EventFactory,
     RegistrationFactory,
+    VideoOnDemandPageTrackingFactory,
 )
 
 
@@ -682,5 +684,40 @@ def test_cms_content_serializer(en_locale):
             'lastPublishedAt': instance.last_published_at.isoformat(),
             'contentTypeId': instance.content_type_id,
             'content': '',
+        },
+    }
+
+
+@pytest.mark.django_db
+def test_ukea_videoondemandpagetracking_serializer():
+    instance = VideoOnDemandPageTrackingFactory()
+
+    serializer = ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer()
+
+    output = serializer.to_representation(instance)
+
+    assert output == {
+        'id': f'dit:exportAcademy:videoondemandpagetracking:{instance.id}:Update',
+        'type': 'Update',
+        'published': instance.modified.isoformat(),
+        'object': {
+            'id': f'dit:exportAcademy:videoondemandpagetracking:{instance.id}',
+            'type': 'dit:exportAcademy:videoondemandpagetracking',
+            'userEmail': instance.user_email,
+            'hashedUuid': instance.hashed_uuid,
+            'region': instance.region,
+            'companyName': instance.company_name,
+            'companyPostcode': instance.company_postcode,
+            'companyPhone': instance.company_phone,
+            'detailsViewed': instance.details_viewed,
+            'cookiesAcceptedOnDetailsView': instance.cookies_accepted_on_details_view,
+            'eventId': instance.event.id,
+            'bookingId': instance.booking_id,
+            'registrationId': instance.registration.id,
+            'videoId': instance.video.id,
+            'videoTitle': instance.video.title,
+            'registrationHashedSsoId': instance.registration.hashed_sso_id,
+            'created': instance.created.isoformat(),
+            'modified': instance.modified.isoformat(),
         },
     }
