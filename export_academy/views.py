@@ -798,6 +798,7 @@ class EventVideoOnDemandView(DetailView):
         company = user.company
         if not company:
             return self.NO_COMPANY_INFO
+        # 16/11/2023 company telephone number requested by Users but we do not capture this at the moment
         return (company.name, company.postcode, '')
 
     def _get_registration_and_booking(self, user_email):
@@ -825,7 +826,7 @@ class EventVideoOnDemandView(DetailView):
                 VideoOnDemandPageTracking.objects.create(
                     id=uuid4(),
                     user_email=user.email,
-                    hashed_uuid=user.hashed_uuid,
+                    hashed_uuid=user.hashed_uuid if isinstance(user, BusinessSSOUser) else None,
                     region=self._get_region(),
                     company_name=company_name,
                     company_postcode=company_postcode,

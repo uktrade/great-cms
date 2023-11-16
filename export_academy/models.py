@@ -588,7 +588,7 @@ class VideoOnDemandPageTracking(TimeStampedModel):
 
     user_email = models.EmailField(null=False, blank=False)
     hashed_uuid = models.CharField(max_length=200)
-    region = models.CharField(max_length=10, null=True, blank=True)
+    region = models.CharField(max_length=50, null=True, blank=True)
     company_name = models.CharField(max_length=50, null=True, blank=True)
     company_postcode = models.CharField(max_length=50, null=True, blank=True)
     company_phone = models.CharField(max_length=50, null=True, blank=True)

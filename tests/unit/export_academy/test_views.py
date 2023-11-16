@@ -7,6 +7,7 @@ from urllib import parse
 
 import pytest
 from directory_forms_api_client import actions
+from django.contrib.auth import get_user_model
 from django.http import HttpResponseRedirect
 from django.test import TestCase
 from django.urls import reverse
@@ -1388,6 +1389,49 @@ class EventVideoOnDemandViewTest(TestCase):
         url = reverse('export_academy:video-on-demand', kwargs=kwargs)
         request = self.rf.get(url)
         request.user = self.user
+        response = EventVideoOnDemandView.as_view(event=self.event3, video=self.event3.past_event_video_recording)(
+            request, **kwargs
+        )
+        assert response.status_code == 200
+        assert mock_tracking_save.call_count == 1
+
+    @mock.patch.object(VideoOnDemandPageTracking, 'save')
+    def test_get_logged_in_user_not_business_sso_user(self, mock_tracking_save):
+        user = get_user_model().objects.create_user('alice', 'alice@example.com', 'password')
+        self.client.force_login(user)
+        kwargs = {'slug': self.event3.get_past_event_recording_slug()}
+        url = reverse('export_academy:video-on-demand', kwargs=kwargs)
+        request = self.rf.get(url)
+        request.user = user
+        response = EventVideoOnDemandView.as_view(event=self.event3, video=self.event3.past_event_video_recording)(
+            request, **kwargs
+        )
+        assert response.status_code == 200
+        assert mock_tracking_save.call_count == 1
+
+    @mock.patch.object(VideoOnDemandPageTracking, 'save')
+    def test_get_logged_in_user_with_registration_and_booking(self, mock_tracking_save):
+        self.client.force_login(self.user)
+        kwargs = {'slug': self.event3.get_past_event_recording_slug()}
+        url = reverse('export_academy:video-on-demand', kwargs=kwargs)
+        request = self.rf.get(url)
+        request.user = self.user
+        registration = factories.RegistrationFactory(email=self.user.email)
+        factories.BookingFactory(event=self.event3, registration=registration)
+        response = EventVideoOnDemandView.as_view(event=self.event3, video=self.event3.past_event_video_recording)(
+            request, **kwargs
+        )
+        assert response.status_code == 200
+        assert mock_tracking_save.call_count == 1
+
+    @mock.patch.object(VideoOnDemandPageTracking, 'save')
+    def test_get_logged_in_user_with_registration_and_no_booking(self, mock_tracking_save):
+        self.client.force_login(self.user)
+        kwargs = {'slug': self.event3.get_past_event_recording_slug()}
+        url = reverse('export_academy:video-on-demand', kwargs=kwargs)
+        request = self.rf.get(url)
+        request.user = self.user
+        factories.RegistrationFactory(email=self.user.email)
         response = EventVideoOnDemandView.as_view(event=self.event3, video=self.event3.past_event_video_recording)(
             request, **kwargs
         )
