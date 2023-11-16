@@ -68,6 +68,7 @@ from export_academy.models import Event
             BusinessDetails(
                 {
                     'business_name': 'Test Business',
+                    'business_address_line_1': '1 Main Street',
                     'business_postcode': 'SW1A 1AA',
                     'annual_turnover': 'Up to £85,000',
                     'employee_count': '10 to 49',
@@ -76,6 +77,7 @@ from export_academy.models import Event
             BusinessDetails(
                 {
                     'business_name': '',
+                    'business_address_line_1': '',
                     'business_postcode': '',
                     'annual_turnover': '',
                     'employee_count': '',
@@ -83,6 +85,7 @@ from export_academy.models import Event
             ),
             {
                 'business_name': 'Enter your business name',
+                'business_address_line_1': 'Enter the first line of your business address',
                 'business_postcode': 'Enter your business postcode',
                 'annual_turnover': 'Please answer this question',
                 'employee_count': 'Please answer this question',

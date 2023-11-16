@@ -294,6 +294,7 @@ def test_booking_success_view(
             reverse('export_academy:registration-business'),
             {
                 'business_name': 'Test Business',
+                'business_address_line_1': '1 Main Street',
                 'business_postcode': 'SW1A 1AA',
                 'annual_turnover': 'Up to £85,000',
                 'employee_count': '10 to 49',
@@ -301,6 +302,7 @@ def test_booking_success_view(
             reverse('export_academy:registration-marketing'),
             {
                 'business_name': 'Enter your business name',
+                'business_address_line_1': 'Enter the first line of your business address',
                 'business_postcode': 'Enter your business postcode',
                 'annual_turnover': 'Please answer this question',
                 'employee_count': 'Please answer this question',
