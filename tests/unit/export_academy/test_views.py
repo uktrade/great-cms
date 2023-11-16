@@ -15,6 +15,7 @@ from django.utils import timezone
 from wagtail_factories import DocumentFactory
 
 from config import settings
+from core.helpers import CompanyParser
 from core.models import HeroSnippet
 from core.snippet_slugs import EA_REGISTRATION_PAGE_HERO
 from directory_sso_api_client import sso_api_client
@@ -1403,6 +1404,22 @@ class EventVideoOnDemandViewTest(TestCase):
         url = reverse('export_academy:video-on-demand', kwargs=kwargs)
         request = self.rf.get(url)
         request.user = user
+        response = EventVideoOnDemandView.as_view(event=self.event3, video=self.event3.past_event_video_recording)(
+            request, **kwargs
+        )
+        assert response.status_code == 200
+        assert mock_tracking_save.call_count == 1
+
+    @mock.patch.object(VideoOnDemandPageTracking, 'save')
+    def test_get_logged_in_user_with_company_details(self, mock_tracking_save):
+        self.client.force_login(self.user)
+        kwargs = {'slug': self.event3.get_past_event_recording_slug()}
+        url = reverse('export_academy:video-on-demand', kwargs=kwargs)
+        request = self.rf.get(url)
+        company = {'name': 'FRED BLOGS', 'registered_office_address': {'postal_code': 'W1AA 1AA'}}
+        self.user.company = CompanyParser(company)
+        request.user = self.user
+
         response = EventVideoOnDemandView.as_view(event=self.event3, video=self.event3.past_event_video_recording)(
             request, **kwargs
         )
