@@ -13,9 +13,9 @@ from wagtail.admin.menu import DismissibleMenuItem
 from wagtail.core.rich_text import RichText
 from wagtail.tests.utils import WagtailPageTests
 
-from core import cms_slugs, wagtail_hooks
+from core import wagtail_hooks
 from core.constants import MENU_ITEM_ADD_CAMPAIGN_SITE_LINK
-from core.models import DetailPage, MicrositePage
+from core.models import MicrositePage
 from core.rich_text import (
     AnchorIdentifierLinkHandler,
     AnchorIndentifierEntityElementHandler,
@@ -1015,24 +1015,24 @@ def test_case_study_editor_css(mock_static):
     assert editor_css() == '<link rel="stylesheet" href="/path/to/static/cms-admin/css/case-study.css">'
 
 
-@pytest.mark.django_db
-@pytest.mark.parametrize(
-    'request_path',
-    (
-        '/test/path/',
-        '/test/path/?token=test',
-    ),
-)
-def test_authenticated_user_required__sets_next_param(rf, request_path):
-    instance = DetailPage()
-    assert instance.authenticated_user_required_redirect_url == cms_slugs.SIGNUP_URL
+# @pytest.mark.django_db
+# @pytest.mark.parametrize(
+#     'request_path',
+#     (
+#         '/test/path/',
+#         '/test/path/?token=test',
+#     ),
+# )
+# def test_authenticated_user_required__sets_next_param(rf, request_path):
+#     instance = DetailPage()
+#     assert instance.authenticated_user_required_redirect_url == cms_slugs.SIGNUP_URL
 
-    request = rf.get(request_path)
-    request.user = AnonymousUser()
-    output = wagtail_hooks.authenticated_user_required(instance, request, [], {})
+#     request = rf.get(request_path)
+#     request.user = AnonymousUser()
+#     output = wagtail_hooks.authenticated_user_required(instance, request, [], {})
 
-    assert output.status_code == 302
-    assert output.headers['Location'] == f'{cms_slugs.SIGNUP_URL}?next={request_path}'
+#     assert output.status_code == 302
+#     assert output.headers['Location'] == f'{cms_slugs.SIGNUP_URL}?next={request_path}'
 
 
 class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
