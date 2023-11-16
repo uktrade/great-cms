@@ -20,6 +20,7 @@ from wagtail_factories import ImageFactory
 from core.mixins import AuthenticatedUserRequired
 from core.models import (
     AbstractObjectHash,
+    CMSGenericPageAnonymous,
     CaseStudyRelatedPages,
     Country,
     CuratedListPage,
@@ -572,7 +573,7 @@ class DetailPageTests(SetUpLocaleMixin, WagtailPageTests):
 
 
 @pytest.mark.django_db
-def test_redirection_for_unauthenticated_user(
+def test_for_unauthenticated_user(
     client,
     domestic_homepage,
     domestic_site,
@@ -597,12 +598,11 @@ def test_redirection_for_unauthenticated_user(
     ]
 
     for page in pages:
-        assert isinstance(page, AuthenticatedUserRequired)
+        assert isinstance(page,CMSGenericPageAnonymous)
 
     for page in pages:
         response = client.get(page.url, follow=False)
-        assert response.status_code == 302
-        assert response.headers['Location'] == f'/signup/?next={page.url}'
+        assert response.status_code == 200
 
     # Show an authenticated user can still get in there
     client.force_login(user)

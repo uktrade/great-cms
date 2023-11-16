@@ -624,7 +624,7 @@ def hero_singular_validation(value):
         )
 
 
-class TopicPage(mixins.AuthenticatedUserRequired, Page):
+class TopicPage(Page):
     """Structural page to allow for cleaner mapping of lessons (`DetailPage`s)
     to modules (`CuratedListPage`s).
 
