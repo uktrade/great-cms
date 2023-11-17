@@ -30,22 +30,24 @@
         </div>
     </div>
     <div class="test-knowledge">
-        {% if request.user.is_authenticated %}
-            <div class="container">
-                <div class="grid p-t-m">
-                    <div class="c-1-4 only-desktop">
-                        <span>&nbsp;</span>
-                    </div>
-                    <div class="c-1-2">
-                        {% include 'learn/recap.html' %}
-                        <hr class="hr hr--light m-0" />
-                    </div>
-                    <div class="c-1-4 only-desktop">
-                        <span>&nbsp;</span>
+        {% if features.FEATURE_DEA_V2 %}
+            {% if request.user.is_authenticated %}
+                <div class="container">
+                    <div class="grid p-t-m">
+                        <div class="c-1-4 only-desktop">
+                            <span>&nbsp;</span>
+                        </div>
+                        <div class="c-1-2">
+                            {% include 'learn/recap.html' %}
+                            <hr class="hr hr--light m-0" />
+                        </div>
+                        <div class="c-1-4 only-desktop">
+                            <span>&nbsp;</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% endif %}
+            {% endif %}
+        {% endif %}    
         <div class="container">
             <div class="grid p-v-s">
                 <div class="c-1-4 only-desktop">
