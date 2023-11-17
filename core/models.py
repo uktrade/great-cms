@@ -1388,6 +1388,9 @@ class Microsite(Page):
 
     subpage_types = ['core.MicrositePage']
 
+    six_month_review_reminder_sent = models.DateTimeField(blank=True, null=True)
+    twelve_month_review_reminder_sent = models.DateTimeField(blank=True, null=True)
+
     class Meta:
         verbose_name = 'Campaign site'
         verbose_name_plural = 'Campaign sites'
