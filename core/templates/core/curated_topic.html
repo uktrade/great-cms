@@ -18,9 +18,9 @@
     <ul class="learn__lessons-list c-2-3-l">
         {% for page in topic.get_children.live %}
             {% if page|is_lesson_page %}
-                <li class="learn__lesson-item govuk-!-padding-left-1 govuk-!-padding-right-1 great-card great-bg-white {% if forloop.first %}govuk-!-margin-top-4{% endif %}">
+                <li class="learn__lesson-item govuk-!-padding-left-1 govuk-!-padding-right-1 govuk-!-padding-bottom-1 great-card great-bg-white {% if forloop.first %}govuk-!-margin-top-4{% endif %}">
                     <a href="{% pageurl page %}"
-                        class="great-display-flex great-gap govuk-!-padding-4 great-align-items-center great-justify-space-between great-flex-column-until-mobile"
+                        class="great-display-flex great-gap govuk-!-padding-4 great-justify-space-between great-flex-column-until-mobile"
                         title="{{ page.title }}">
                         <h4 class="govuk-heading-s great-text-blue govuk-!-margin-0">{{ page.title }}</h4>
                             {% if page.id in completed_lessons %}
