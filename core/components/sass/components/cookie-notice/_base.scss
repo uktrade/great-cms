@@ -7,6 +7,10 @@
   @include body-medium;
   padding: 30px 0;
 
+  &.block {
+    display: block;
+  }
+
   a:focus,
   button:focus {
     @include focus;
