@@ -5,7 +5,7 @@
 {% block head_title %}
     Check your answers before
     {% if is_editing %}
-        updatings
+        updating
     {% else %}
         submitting
     {% endif %}
@@ -118,6 +118,12 @@
                         <dt class="govuk-summary-list__key">Business name</dt>
                         <dd class="govuk-summary-list__value width-quarter">
                             {{ form_data.business_name }}
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">Business address line 1</dt>
+                        <dd class="govuk-summary-list__value width-quarter">
+                            {{ form_data.business_address_line_1 }}
                         </dd>
                     </div>
                     <div class="govuk-summary-list__row">

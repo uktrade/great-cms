@@ -574,3 +574,45 @@ class CoursePage(CoursePagePanels, BaseContentPage):
                     else:
                         first_available_event = event
         return first_available_event
+
+
+class VideoOnDemandPageTracking(TimeStampedModel):
+    """
+    Tracks Video On Demand Page access
+    """
+
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+    )
+
+    user_email = models.EmailField(null=False, blank=False)
+    hashed_uuid = models.CharField(max_length=200)
+    region = models.CharField(max_length=50, null=True, blank=True)
+    company_name = models.CharField(max_length=50, null=True, blank=True)
+    company_postcode = models.CharField(max_length=50, null=True, blank=True)
+    company_phone = models.CharField(max_length=50, null=True, blank=True)
+    details_viewed = models.DateTimeField(blank=True, null=True)
+    cookies_accepted_on_details_view = models.BooleanField(default=False)
+    event = models.ForeignKey(Event, null=True, on_delete=models.SET_NULL, related_name='vod_event')
+    booking = models.ForeignKey(Booking, null=True, on_delete=models.SET_NULL, related_name='vod_booking')
+    registration = models.ForeignKey(
+        Registration, null=True, on_delete=models.SET_NULL, related_name='vod_registration'
+    )
+    video = models.ForeignKey(GreatMedia, null=True, on_delete=models.SET_NULL, related_name='vod_video')
+    hashed_sso_id = models.CharField(max_length=128, null=True, blank=True)
+
+    @classmethod
+    def user_already_recorded(cls, user_email, event, video):
+        video_on_demand_page_tracking = cls.objects.filter(user_email=user_email, event=event, video=video).first()
+        return True if video_on_demand_page_tracking else False
+
+    def __repr__(self):
+        return f'User: {self.user_email}, Event: {self.event.name}, Video: {self.video.title}'
+
+    def __str__(self):
+        return f'User: {self.user_email}, Event: {self.event.id}, Video: {self.video.id}'
+
+    class Meta:
+        ordering = ('-created',)
+        models.UniqueConstraint(fields=['user_email', 'event', 'video'], name='unique_vodpagetracking')

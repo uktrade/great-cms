@@ -414,7 +414,7 @@ def test_estimated_read_time_calculation__forced_update_of_live(rf, domestic_hom
     # and the draft is updated too
     latest_rev = detail_page.get_latest_revision()
     assert revision == latest_rev
-    assert json.loads(latest_rev.content)['estimated_read_duration'] == str(expected_duration)
+    assert latest_rev.content['estimated_read_duration'] == str(expected_duration)
 
 
 @pytest.mark.parametrize('is_post_creation_val', (True, False))
