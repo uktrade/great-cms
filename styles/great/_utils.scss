@@ -907,8 +907,8 @@ img.richtext-image {
   float: right;
 }
 
-.great-flex-column-until-tablet {
-  @include govuk-media-query($until: tablet) {
+.great-flex-column-until-desktop {
+  @include govuk-media-query($until: desktop) {
     flex-direction: column;
     align-items: flex-start;
   }
@@ -916,8 +916,8 @@ img.richtext-image {
 
 .great-align-items-center {
   align-items: center;
-  &.great-flex-column-until-tablet {
-    @include govuk-media-query($until: tablet) {
+  &.great-flex-column-until-desktop {
+    @include govuk-media-query($until: desktop) {
       flex-direction: column;
       align-items: flex-start;
     }
