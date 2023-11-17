@@ -1045,10 +1045,6 @@ nav.great-breadcrumbs {
   padding-bottom: calc(0.75em - (0.5 * $standard-padding)) !important;
   background-color: $color-background-color;
 
-  @media only screen and (max-width: $mobile-size) {
-    padding: calc(0.75em - (0.5 * $standard-padding)) 15px !important;
-  }
-
   ol {
     list-style-type: none;
     margin: 0;
