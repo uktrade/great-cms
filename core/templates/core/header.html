@@ -110,9 +110,6 @@
                                 <a href="{% slugurl 'dashboard' %}">Dashboard</a>
                             </li>
                             <li>
-                                <a href="/learn/categories/">Learn to export</a>
-                            </li>
-                            <li>
                                 <a href="{% url "core:compare-countries" %}">Where to export</a>
                             </li>
                             <li>
@@ -122,11 +119,9 @@
                                 <a href="/profile/">Account</a>
                             </li>
                         {% endif %}
-                        {% if not request.user.is_authenticated %}
-                            <li>
-                                <a href="/advice/">Advice</a>
-                            </li>
-                        {% endif %}
+                        <li>
+                            <a href="/learn/categories/">Learn to export</a>
+                        </li>
                         {% if features.FEATURE_PRODUCT_EXPERIMENT_HEADER %}
                             <li>
                                 <a href="/markets/">Markets</a>
