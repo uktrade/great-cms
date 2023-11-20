@@ -1039,3 +1039,59 @@ figure.great-blockquote {
     }
   }
 }
+
+nav.great-breadcrumbs {
+  padding-top: calc(0.75em - (0.5 * $standard-padding)) !important;
+  padding-bottom: calc(0.75em - (0.5 * $standard-padding)) !important;
+  background-color: $color-background-color;
+
+  ol {
+    list-style-type: none;
+    margin: 0;
+  }
+
+  li {
+    padding: 0.5 * $standard-padding 0;
+    margin-left: 0;
+    margin-bottom: 0;
+    display: inline-block;
+    line-height: 1.25
+  }
+
+  li::after {
+    margin-right: $standard-padding;
+    top: 0.4em;
+  }
+
+  li:first-child {
+    background-image: none;
+    margin-left: 0;
+    padding-left: 0;
+  }
+
+  a, span {
+    font-size: 16px;
+    color: $color-main-text;
+  }
+}
+
+.great-breadcrumbs li:after {
+  box-sizing: initial;
+  transform: rotate(-45deg);
+  content: "";
+  border-style: solid;
+  display: inline-block;
+  height: 5px;
+  width: 5px;
+  position: relative;
+  vertical-align: top;
+  top: 1px;
+  border-color: #333;
+  border-width: 0 2px 2px 0;
+  margin: 2px 0 0 10px;
+  top: 0.25em;
+}
+
+.great-breadcrumbs ol li:last-child:after {
+  display: none
+}
