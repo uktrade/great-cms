@@ -11,7 +11,7 @@ DATABASE_URL=postgres://debug:debug@localhost:5432/greatcms
 CSRF_COOKIE_SECURE=false
 EMAIL_BACKEND_CLASS_NAME=console
 REDIS_URL=redis://localhost:6379
-FEATURE_ENFORCE_STAFF_SSO_ENABLED=false
+FEATURE_ENFORCE_STAFF_SSO_ENABLED=true
 STATICFILES_STORAGE=django.contrib.staticfiles.storage.StaticFilesStorage
 DEFAULT_FILE_STORAGE=django.core.files.storage.FileSystemStorage
 BASE_URL=http://greatcms.trade.great:8020
@@ -49,9 +49,9 @@ EXPORTING_OPPORTUNITIES_API_SECRET=debug
 SECURE_SSL_REDIRECT=false
 FEATURE_MOCK_CLIENT_IP_ENABLED=True
 API_CACHE_DISABLED=true
-STAFF_SSO_AUTHBROKER_URL=https://www.examole.com
-AUTHBROKER_CLIENT_ID=debug
-AUTHBROKER_CLIENT_SECRET=debug
+STAFF_SSO_AUTHBROKER_URL=https://sso.trade.gov.uk
+AUTHBROKER_CLIENT_ID=fMZJvTm4fs8YfI5vahRDTwNOkjTDl4le4KRTV29e
+AUTHBROKER_CLIENT_SECRET=BIAQrKX2PIvG8hAR6IpeYj3jNWzgx4kthc9rgjNWCKh6OWRu2baRrne2xPg5qS0SF2Um3lX7NzVvvythnD2glXWOe1NzwEFyn3uApnyWwAoLp1QTf2heAuqmqzVA3n7z
 FEATURE_COMPARE_MARKETS_TABS={"product":true, "economy":true, "society": true, "agegroups": true, "business": true}
 #treat it like SECRET_KEY in BETA env. must be a valid Fernet key.hex()
 #BETA_TOKEN=z7445AQ6aGXoPdFxYXQaJPLa3XU6I0zZUuI-Kbar8Jk=

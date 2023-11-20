@@ -145,12 +145,6 @@ jobs:
       - store_artifacts:
           path: ./allure_report/
           destination: allure_report
-      - run:
-          name: Install lighthouse CI
-          command: sudo npm install -g @lhci/cli@0.12.x
-      - run:
-          name: Run lighthouse ci
-          command: lhci autorun --collect.staticDistDir=.
 
   test_load:
     working_directory: ~/greatcms
@@ -197,6 +191,9 @@ jobs:
       - run:
           name: Run Javascript tests
           command: npm test -- --maxWorkers=1
+      - run:
+          name: Run lighthouse
+          command: npm run lighthouse
 
   flake8:
     docker:

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "lighthouse": "lhci autorun",
     "test": "jest --testPathIgnorePatterns=venv",
     "test:dev": "jest --watch",
     "build": "webpack --config react-components/webpack.config.js --mode production",
