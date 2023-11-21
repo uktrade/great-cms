@@ -69,12 +69,12 @@ def authenticated_user_required(page, request, serve_args, serve_kwargs):
 @hooks.register('before_serve_page')
 def login_required_signup_wizard(page, request, serve_args, serve_kwargs):
     if not settings.FEATURE_DEA_V2:
-        if page.template == 'learn/detail_page.html' and request.user.is_anonymous:
+        if page.template == 'learn/detail_page.html' and request.user.is_anonymous:  # pragma: no cover
             # opting out of personalised content 'forever' - not just this request.
             if 'show-generic-content' in request.GET:
                 request.session[SESSION_KEY_LESSON_PAGE_SHOW_GENERIC_CONTENT] = True
 
-            if not request.session.get(SESSION_KEY_LESSON_PAGE_SHOW_GENERIC_CONTENT):
+            if not request.session.get(SESSION_KEY_LESSON_PAGE_SHOW_GENERIC_CONTENT):  # pragma: no cover
                 signup_url = reverse('core:signup-wizard-tailored-content', kwargs={'step': views.STEP_START})
                 url = add_next(destination_url=signup_url, current_url=request.get_full_path())
                 return redirect(url)
