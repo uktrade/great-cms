@@ -1,11 +1,11 @@
 import datetime
-from config import settings
 
 import pytest
 from bs4 import BeautifulSoup
 from django.urls import reverse
 from django.utils.timezone import now as tz_now
 
+from config import settings
 from tests.unit.core import factories as core_factories
 from tests.unit.domestic import factories as domestic_factories
 

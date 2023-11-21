@@ -4,8 +4,6 @@ import logging
 import uuid
 from urllib.parse import urlparse
 
-from django.urls import reverse
-
 import boto3
 import readtime
 import wagtail.admin.rich_text.editors.draftail.features as draftail_features
@@ -17,6 +15,7 @@ from django.db import models as django_models
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.templatetags.static import static
+from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
@@ -28,6 +27,7 @@ from wagtail.models import Page
 from wagtail_transfer.field_adapters import FieldAdapter
 from wagtail_transfer.files import File as WTFile, FileTransferError
 from wagtail_transfer.models import ImportedFile
+
 from core import constants, mixins, views
 from core.models import MicrositePage
 from core.views import AltImageChooserViewSet

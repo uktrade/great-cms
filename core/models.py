@@ -564,7 +564,10 @@ class ListPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGeneric
     #########
     if settings.FEATURE_DEA_V2:
         settings_panels = CMSGenericPageAnonymous.settings_panels + [FieldPanel('record_read_progress')]
-        content_panels = CMSGenericPageAnonymous.content_panels + [FieldPanel('description'), FieldPanel('button_label')]
+        content_panels = CMSGenericPageAnonymous.content_panels + [
+            FieldPanel('description'),
+            FieldPanel('button_label'),
+        ]
     else:
         settings_panels = CMSGenericPage.settings_panels + [FieldPanel('record_read_progress')]
         content_panels = CMSGenericPage.content_panels + [FieldPanel('description'), FieldPanel('button_label')]

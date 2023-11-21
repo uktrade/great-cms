@@ -13,9 +13,10 @@ from wagtail.admin.menu import DismissibleMenuItem
 from wagtail.core.rich_text import RichText
 from wagtail.tests.utils import WagtailPageTests
 
-from core import wagtail_hooks
+from config import settings
+from core import cms_slugs, wagtail_hooks
 from core.constants import MENU_ITEM_ADD_CAMPAIGN_SITE_LINK
-from core.models import MicrositePage
+from core.models import DetailPage, MicrositePage
 from core.rich_text import (
     AnchorIdentifierLinkHandler,
     AnchorIndentifierEntityElementHandler,
@@ -43,7 +44,7 @@ from tests.helpers import make_test_video
 from tests.unit.core import factories
 from tests.unit.core.factories import StructurePageFactory
 from tests.unit.domestic.factories import ArticlePageFactory
-
+from tests.unit.learn.factories import LessonPageFactory
 
 LOREM_IPSUM = (
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
@@ -91,90 +92,94 @@ def test_anonymous_user_required_handles_authenticated_users(rf, domestic_homepa
     assert response.url == domestic_homepage.anonymous_user_required_redirect_url
 
 
-# @pytest.mark.django_db
-# def test_login_required_signup_wizard_ignores_irrelevant_pages(rf, domestic_homepage):
-#     request = rf.get('/')
-#     request.user = AnonymousUser()
+@pytest.mark.django_db
+def test_login_required_signup_wizard_ignores_irrelevant_pages(rf, domestic_homepage):
+    if not settings.FEATURE_DEA_V2:
+        request = rf.get('/')
+        request.user = AnonymousUser()
 
-#     response = wagtail_hooks.login_required_signup_wizard(
-#         page=domestic_homepage,
-#         request=request,
-#         serve_args=[],
-#         serve_kwargs={},
-#     )
+        response = wagtail_hooks.login_required_signup_wizard(
+            page=domestic_homepage,
+            request=request,
+            serve_args=[],
+            serve_kwargs={},
+        )
 
-#     assert response is None
-
-
-# @pytest.mark.django_db
-# def test_login_required_signup_wizard_handles_anonymous_users(rf, domestic_homepage, get_response):
-#     page = LessonPageFactory(parent=domestic_homepage)
-
-#     request = rf.get('/foo/bar/')
-#     request.user = AnonymousUser()
-#     middleware = SessionMiddleware(get_response)
-#     middleware.process_request(request)
-#     request.session.save()
-
-#     response = wagtail_hooks.login_required_signup_wizard(
-#         page=page,
-#         request=request,
-#         serve_args=[],
-#         serve_kwargs={},
-#     )
-
-#     assert response.status_code == 302
-#     assert response.url == '/signup/tailored-content/start/?next=/foo/bar/'
+        assert response is None
 
 
-# @pytest.mark.django_db
-# def test_login_required_signup_wizard_handles_anonymous_users_opting_out(rf, domestic_homepage, user, get_response):
-#     page = LessonPageFactory(parent=domestic_homepage)
+@pytest.mark.django_db
+def test_login_required_signup_wizard_handles_anonymous_users(rf, domestic_homepage, get_response):
+    if not settings.FEATURE_DEA_V2:
+        page = LessonPageFactory(parent=domestic_homepage)
 
-#     first_request = rf.get('/foo/bar/', {'show-generic-content': True})
-#     first_request.user = AnonymousUser()
+        request = rf.get('/foo/bar/')
+        request.user = AnonymousUser()
+        middleware = SessionMiddleware(get_response)
+        middleware.process_request(request)
+        request.session.save()
 
-#     middleware = SessionMiddleware(get_response)
-#     middleware.process_request(first_request)
-#     first_request.session.save()
+        response = wagtail_hooks.login_required_signup_wizard(
+            page=page,
+            request=request,
+            serve_args=[],
+            serve_kwargs={},
+        )
 
-#     response = wagtail_hooks.login_required_signup_wizard(
-#         page=page,
-#         request=first_request,
-#         serve_args=[],
-#         serve_kwargs={},
-#     )
-
-#     assert response is None
-
-#     second_request = rf.get('/foo/bar/')
-#     second_request.user = user
-#     second_request.session = first_request.session
-#     response = wagtail_hooks.login_required_signup_wizard(
-#         page=page,
-#         request=second_request,
-#         serve_args=[],
-#         serve_kwargs={},
-#     )
-
-#     assert response is None
+        assert response.status_code == 302
+        assert response.url == '/signup/tailored-content/start/?next=/foo/bar/'
 
 
-# @pytest.mark.django_db
-# def test_login_required_signup_wizard_handles_authenticated_users(rf, user, domestic_homepage):
-#     page = LessonPageFactory(parent=domestic_homepage)
+@pytest.mark.django_db
+def test_login_required_signup_wizard_handles_anonymous_users_opting_out(rf, domestic_homepage, user, get_response):
+    if not settings.FEATURE_DEA_V2:
+        page = LessonPageFactory(parent=domestic_homepage)
 
-#     request = rf.get('/')
-#     request.user = user
+        first_request = rf.get('/foo/bar/', {'show-generic-content': True})
+        first_request.user = AnonymousUser()
 
-#     response = wagtail_hooks.login_required_signup_wizard(
-#         page=page,
-#         request=request,
-#         serve_args=[],
-#         serve_kwargs={},
-#     )
+        middleware = SessionMiddleware(get_response)
+        middleware.process_request(first_request)
+        first_request.session.save()
 
-#     assert response is None
+        response = wagtail_hooks.login_required_signup_wizard(
+            page=page,
+            request=first_request,
+            serve_args=[],
+            serve_kwargs={},
+        )
+
+        assert response is None
+
+        second_request = rf.get('/foo/bar/')
+        second_request.user = user
+        second_request.session = first_request.session
+        response = wagtail_hooks.login_required_signup_wizard(
+            page=page,
+            request=second_request,
+            serve_args=[],
+            serve_kwargs={},
+        )
+
+        assert response is None
+
+
+@pytest.mark.django_db
+def test_login_required_signup_wizard_handles_authenticated_users(rf, user, domestic_homepage):
+    if not settings.FEATURE_DEA_V2:
+        page = LessonPageFactory(parent=domestic_homepage)
+
+        request = rf.get('/')
+        request.user = user
+
+        response = wagtail_hooks.login_required_signup_wizard(
+            page=page,
+            request=request,
+            serve_args=[],
+            serve_kwargs={},
+        )
+
+        assert response is None
 
 
 @pytest.mark.django_db
@@ -1015,24 +1020,25 @@ def test_case_study_editor_css(mock_static):
     assert editor_css() == '<link rel="stylesheet" href="/path/to/static/cms-admin/css/case-study.css">'
 
 
-# @pytest.mark.django_db
-# @pytest.mark.parametrize(
-#     'request_path',
-#     (
-#         '/test/path/',
-#         '/test/path/?token=test',
-#     ),
-# )
-# def test_authenticated_user_required__sets_next_param(rf, request_path):
-#     instance = DetailPage()
-#     assert instance.authenticated_user_required_redirect_url == cms_slugs.SIGNUP_URL
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    'request_path',
+    (
+        '/test/path/',
+        '/test/path/?token=test',
+    ),
+)
+def test_authenticated_user_required__sets_next_param(rf, request_path):
+    if not settings.FEATURE_DEA_V2:
+        instance = DetailPage()
+        assert instance.authenticated_user_required_redirect_url == cms_slugs.SIGNUP_URL
 
-#     request = rf.get(request_path)
-#     request.user = AnonymousUser()
-#     output = wagtail_hooks.authenticated_user_required(instance, request, [], {})
+        request = rf.get(request_path)
+        request.user = AnonymousUser()
+        output = wagtail_hooks.authenticated_user_required(instance, request, [], {})
 
-#     assert output.status_code == 302
-#     assert output.headers['Location'] == f'{cms_slugs.SIGNUP_URL}?next={request_path}'
+        assert output.status_code == 302
+        assert output.headers['Location'] == f'{cms_slugs.SIGNUP_URL}?next={request_path}'
 
 
 class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):

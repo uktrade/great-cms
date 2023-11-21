@@ -1,7 +1,5 @@
 import time
 from unittest import mock
-from config import settings
-from core.mixins import AuthenticatedUserRequired
 
 import pytest
 from django.contrib.auth.models import AnonymousUser
@@ -19,10 +17,12 @@ from wagtail.models import Collection
 from wagtail.test.utils import WagtailPageTests, WagtailTestUtils
 from wagtail_factories import ImageFactory
 
+from config import settings
+from core.mixins import AuthenticatedUserRequired
 from core.models import (
     AbstractObjectHash,
-    CMSGenericPageAnonymous,
     CaseStudyRelatedPages,
+    CMSGenericPageAnonymous,
     Country,
     CuratedListPage,
     DetailPage,
