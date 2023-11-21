@@ -1701,9 +1701,10 @@ body {
   min-height: 38px;
   line-height: 38px; }
 
-ul,
-ol {
-  list-style-type: none; }
+ul:not(.govuk-list--bullet),
+ol:not(.govuk-list--bullet) {
+  list-style-type: none;
+}
 
 .list {
   padding: 0;

@@ -1,13 +1,16 @@
 {% load  wagtailcore_tags %}
-<div class="m-b-m test-knowledge-wrapper">
-    {% for block in page.recap %}<h2 class="h-m text-white p-b-s">{{ block.value.title|richtext }}</h2>{% endfor %}
-    <ol class="list-circle-number">
+{% load add_govuk_classes from content_tags %}
+
+<div class="great govuk-!-margin-bottom-4 test-knowledge-wrapper">
+    {% for block in page.recap %}<h2 class="govuk-heading-medium text-white govuk-!-padding-bottom-2">{{ block.value.title|richtext }}</h2>{% endfor %}
+    <ol class="govuk-list list-circle-number">
         {% for block in page.recap %}
             {% for item in block.value.item %}
                 <li>
-                    <span>{{ item.value.item }}</span>
+                    {{ item.value.item }}
                 </li>
             {% endfor %}
         {% endfor %}
     </ol>
 </div>
+

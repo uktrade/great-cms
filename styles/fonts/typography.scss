@@ -185,3 +185,9 @@ $regular-font-weight: 400;
     font-family: $main-text-font;
   }
 }
+
+.govuk-caption-l {
+  font-weight: 300!important;
+  color: #505a5f!important;
+  font-family: $main-text-font!important;
+}
