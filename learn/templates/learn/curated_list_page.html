@@ -5,6 +5,7 @@
 {% load pluralize from content_tags %}
 {% load get_item from object_tags %}
 {% load get_css_class_from_string from content_tags %}
+{% load breadcrumbs from component_tags %}
 {% block content %}
     <div id="learn-root" class="learn__page learn__category-page">
         {% with high_level_completion_progress|get_item:page.id as module_completion_data %}
@@ -18,12 +19,14 @@
                                 {% if features.FEATURE_DEA_V2 %}
                                     {% if request.user.is_authenticated %}
                                         <i class="fa fa-clock"></i>
+                                            {# djlint:off #}
                                             <span class="learn__category-topics">{{ page.count_topics }} topic
                                             {% pluralize page.count_topics %}
                                             , </span>
                                             <span class="learn__category-lessons">{{ page.count_detail_pages }} lesson
                                             {% pluralize page.count_detail_pages %}
                                             </span>
+                                            {# djlint:on #}
                                     {% endif %}  
                                 {% endif %}         
                             </div>
@@ -33,18 +36,24 @@
                 </div>
             </section>
         {% endwith %}
-        <section class="learn__category-lists container" id="topic-lesson-list">
-            <ol class="learn__topics-list">
-                {% for topic in page.get_topics %}
-                    {% with module_completion_progress.completed_lesson_pages|get_item:topic.id as lesson_completion_data_for_topic %}
-                        <li class="learn__topic-item"  id="lesson-{{ topic.slug }}">
-                            {% include 'core/curated_topic.html' with topic=topic completed_lessons=lesson_completion_data_for_topic %}
-                        </li>
-                    {% endwith %}
-                {% endfor %}
-            </ol>
-        </section>
+        <div class="great-container">
+            {% breadcrumbs page great-breadcrumbs %}
+            <a href={{ BREADCRUMBS_ROOT_URL }}>great.gov.uk</a>
+            <a href={{ page.get_parent.url }}>Learn to export</a>
+        {% endbreadcrumbs %}
     </div>
+    <section class="learn__category-lists container" id="topic-lesson-list">
+        <ol class="learn__topics-list">
+            {% for topic in page.get_topics %}
+                {% with module_completion_progress.completed_lesson_pages|get_item:topic.id as lesson_completion_data_for_topic %}
+                    <li class="learn__topic-item"  id="lesson-{{ topic.slug }}">
+                        {% include 'core/curated_topic.html' with topic=topic completed_lessons=lesson_completion_data_for_topic %}
+                    </li>
+                {% endwith %}
+            {% endfor %}
+        </ol>
+    </section>
+</div>
 {% endblock %}
 {% block body_js %}
     {{ block.super }}
