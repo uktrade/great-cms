@@ -7,6 +7,10 @@
   @include body-medium;
   padding: 30px 0;
 
+  &.block {
+    display: block;
+  }
+
   a:focus,
   button:focus {
     @include focus;
@@ -77,7 +81,6 @@
         border-color: $light-blue;
       }
     }
-
   }
 
   @media (min-width: 641px) {
@@ -90,5 +93,4 @@
       margin: 0;
     }
   }
-
 }

@@ -1,6 +1,5 @@
 from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import Sender
-from django.conf import settings
 from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
@@ -380,11 +379,15 @@ class ProfileView(GA360Mixin, FormView):
         elif triage_data.is_high_value:
             sub_title = self.COMPLETE_SIGN_UP_HIGH_VALUE_SUB_TITLE
 
+        breadcrumbs = [
+            {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/'},
+            {'name': 'Profile', 'url': self.request.path},
+        ]
         return super().get_context_data(
             **kwargs,
             title=title,
             sub_title=sub_title,
-            back_url='/international/expand-your-business-in-the-uk/guide/',
+            breadcrumbs=breadcrumbs,
         )
 
     def get_initial(self):
@@ -601,11 +604,15 @@ class EditYourAnswersView(GA360Mixin, TemplateView):
     def get_context_data(self, **kwargs):
         triage_data = get_triage_data_from_db_or_session(self.request)
         user_data = UserData.objects.filter(hashed_uuid=self.request.user.hashed_uuid).first()
+        breadcrumbs = [
+            {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/'},
+            {'name': 'Change your answers', 'url': self.request.path},
+        ]
         return super().get_context_data(
             **kwargs,
             triage_data=triage_data,
             user_data=user_data,
-            back_url='/international/expand-your-business-in-the-uk/guide/',
+            breadcrumbs=breadcrumbs,
         )
 
 
@@ -700,7 +707,6 @@ class ContactView(GA360Mixin, FormView):
             email_address=cleaned_data['email'],
             subject=self.subject,
             service_name='expand your business',
-            subdomain=settings.EU_EXIT_ZENDESK_SUBDOMAIN,
             form_url=self.request.get_full_path(),
             sender=sender,
         )
@@ -825,8 +831,14 @@ class TradeAssociationsView(GA360Mixin, TemplateView):
         paginator = Paginator(all_trade_associations, 10)
         all_trade_associations = paginator.page(page)
 
+        breadcrumbs = [
+            {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#personalised-guide'},
+            {'name': 'Trade associations', 'url': self.request.path},
+        ]
+
         return super().get_context_data(
             triage_data=triage_data,
             all_trade_associations=all_trade_associations,
+            breadcrumbs=breadcrumbs,
             **kwargs,
         )

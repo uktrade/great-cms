@@ -33,16 +33,20 @@
         {% endblock %}
         {% block cookie_domain_meta %}<meta id="privacyCookieDomain" value="{{ PRIVACY_COOKIE_DOMAIN }}" />{% endblock %}
         {% block meta_tags %}{% endblock %}
-        <title>
-            {% block head_title %}
-                {% if page.seo_title %}
-                    {{ page.seo_title }}
-                {% else %}
-                    {{ page.title }}
-                {% endif %}
-            {% endblock %}
-            - great.gov.uk
-        </title>
+        {% with is_wagtail_page=page %}
+            {% if not is_wagtail_page %}
+                <title>
+                    {% block head_title %}
+                        {% if page.seo_title %}
+                            {{ page.seo_title }}
+                        {% else %}
+                            {{ page.title }}
+                        {% endif %}
+                    {% endblock %}
+                    - great.gov.uk
+                </title>
+            {% endif %}
+        {% endwith %}
         {% block head_favicon %}
             <link href='{% static 'images/favicon-192x192.png' %}' rel='shortcut icon' type='image/png'>
             <!--[if IE]> <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon" /> <![endif]-->
@@ -149,9 +153,6 @@
         {% endblock %}
         <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled')</script>
         {% block skip_link %}<a id="skip-link" href="#content">Skip to main content</a>{% endblock %}
-        {% block cookie_notice %}
-            {% include 'components/cookie_notice.html' %}
-        {% endblock %}
         {% block body_header %}
             {% include 'core/header.html' %}
         {% endblock %}

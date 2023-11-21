@@ -1,4 +1,5 @@
 from django import template
+from django.contrib.auth.models import AnonymousUser
 
 from export_academy import helpers
 from export_academy.filters import EventFilter
@@ -9,8 +10,14 @@ register = template.Library()
 @register.inclusion_tag('export_academy/includes/event_action_buttons.html', takes_context=True)
 def event_list_buttons(context, event):
     view = context['view']
-
-    context.update({'action_buttons': view.get_buttons_for_event(event), 'is_completed': event.completed})
+    request = context['request']
+    context.update(
+        {
+            'action_buttons': view.get_buttons_for_event(event),
+            'is_completed': event.completed,
+            'signed_in': True if request.user != AnonymousUser() else False,
+        }
+    )
     return context
 
 

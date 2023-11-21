@@ -34,6 +34,12 @@ redirects = [
     ),
     re_path(r'^brexit/$', QuerystringRedirectView.as_view(url='/transition/'), name='brexit-redirect'),
     re_path(
+        r'^vca/$',
+        QuerystringRedirectView.as_view(
+            url='/international/content/investment/how-we-can-help/the-venture-capital-unit/'
+        ),
+    ),
+    re_path(
         r'^transition/$',
         QuerystringRedirectView.as_view(url='/international/content/invest/how-to-setup-in-the-uk/transition-period/'),
         name='transition-redirect',
