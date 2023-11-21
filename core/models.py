@@ -651,7 +651,7 @@ def hero_singular_validation(value):
         )
 
 
-class TopicPage(Page, mixins.AuthenticatedUserRequired if settings.FEATURE_DEA_V2 else object):
+class TopicPage(Page, mixins.AuthenticatedUserRequired if not settings.FEATURE_DEA_V2 else object):
     """Structural page to allow for cleaner mapping of lessons (`DetailPage`s)
     to modules (`CuratedListPage`s).
 
@@ -680,7 +680,7 @@ class TopicPage(Page, mixins.AuthenticatedUserRequired if settings.FEATURE_DEA_V
         return self._redirect_to_parent_module()
 
 
-class LessonPlaceholderPage(Page, mixins.AuthenticatedUserRequired if settings.FEATURE_DEA_V2 else object):
+class LessonPlaceholderPage(Page, mixins.AuthenticatedUserRequired if not settings.FEATURE_DEA_V2 else object):
 
     """Structural page to allow for configuring and representing very simple
     to modules (`CuratedListPage`s).
