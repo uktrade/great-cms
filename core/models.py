@@ -469,22 +469,13 @@ class LandingPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGene
     #########
     # Panels
     #########
-    if settings.FEATURE_DEA_V2:
-        content_panels = CMSGenericPageAnonymous.content_panels + [
-            FieldPanel('description'),
-            FieldPanel('button'),
-            FieldPanel('image'),
-            FieldPanel('components'),
-            FieldPanel('body'),
-        ]
-    else:
-        content_panels = CMSGenericPage.content_panels + [
-            FieldPanel('description'),
-            FieldPanel('button'),
-            FieldPanel('image'),
-            FieldPanel('components'),
-            FieldPanel('body'),
-        ]
+    content_panels = CMSGenericPageAnonymous.content_panels + [
+        FieldPanel('description'),
+        FieldPanel('button'),
+        FieldPanel('image'),
+        FieldPanel('components'),
+        FieldPanel('body'),
+    ]
 
 
 class InterstitialPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage):
@@ -499,14 +490,9 @@ class InterstitialPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CM
     #########
     # Panels
     #########
-    if settings.FEATURE_DEA_V2:
-        content_panels = CMSGenericPage.content_panels + [
-            FieldPanel('button'),
-        ]
-    else:
-        content_panels = CMSGenericPageAnonymous.content_panels + [
-            FieldPanel('button'),
-        ]
+    content_panels = CMSGenericPageAnonymous.content_panels + [
+        FieldPanel('button'),
+    ]
 
 
 class ListPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage):
@@ -562,15 +548,12 @@ class ListPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGeneric
     #########
     # Panels
     #########
-    if settings.FEATURE_DEA_V2:
-        settings_panels = CMSGenericPageAnonymous.settings_panels + [FieldPanel('record_read_progress')]
-        content_panels = CMSGenericPageAnonymous.content_panels + [
-            FieldPanel('description'),
-            FieldPanel('button_label'),
-        ]
-    else:
-        settings_panels = CMSGenericPage.settings_panels + [FieldPanel('record_read_progress')]
-        content_panels = CMSGenericPage.content_panels + [FieldPanel('description'), FieldPanel('button_label')]
+
+    settings_panels = CMSGenericPageAnonymous.settings_panels + [FieldPanel('record_read_progress')]
+    content_panels = CMSGenericPageAnonymous.content_panels + [
+        FieldPanel('description'),
+        FieldPanel('button_label'),
+    ]
 
 
 class CuratedListPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage):
@@ -591,16 +574,10 @@ class CuratedListPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMS
     ########
     # Panels
     ########
-    if settings.FEATURE_DEA_V2:
-        content_panels = CMSGenericPageAnonymous.content_panels + [
-            FieldPanel('heading'),
-            FieldPanel('image'),
-        ]
-    else:
-        content_panels = CMSGenericPage.content_panels + [
-            FieldPanel('heading'),
-            FieldPanel('image'),
-        ]
+    content_panels = CMSGenericPageAnonymous.content_panels + [
+        FieldPanel('heading'),
+        FieldPanel('image'),
+    ]
 
     def get_topics(self, live=True) -> models.QuerySet:
         qs = TopicPage.objects.live().specific().descendant_of(self)
