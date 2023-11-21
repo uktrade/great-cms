@@ -84,7 +84,7 @@ def test_send_eyb_welcome_notification(mock_action_class, settings):
 
 @pytest.mark.django_db
 def test_get_salary_region_from_region():
-    assert helpers.get_salary_region_from_region(regions.EASTERN) == 'East'
+    assert helpers.get_salary_region_from_region(regions.EAST_OF_ENGLAND) == 'East'
     assert helpers.get_salary_region_from_region(regions.WALES) == 'Wales'
 
 
