@@ -1,4 +1,5 @@
 import datetime
+from config import settings
 
 import pytest
 from bs4 import BeautifulSoup
@@ -261,11 +262,6 @@ def test_sitemap_excludes_wagtail_pages_that_require_auth(  # noqa: C901
         '/markets/market-guide-7/',
         '/markets/market-guide-8/',
         services_page.url,
-        landing_page.url,  # does not needs auth
-        list_page.url,  # does not needs auth
-        module_page.url,  # does not needs auth
-        topic_page.url,  # does not needs auth
-        lesson_page_2.url,  # does not needs auth
     ]
 
     not_expected_in_map = [
@@ -277,6 +273,18 @@ def test_sitemap_excludes_wagtail_pages_that_require_auth(  # noqa: C901
         '/markets/market-guide-9/',  # draft/not live
     ]
 
+    if settings.FEATURE_DEA_V2:
+        expected_in_map.append(landing_page.url)  # does not needs auth
+        expected_in_map.append(list_page.url)
+        expected_in_map.append(module_page.url)
+        expected_in_map.append(topic_page.url)
+        expected_in_map.append(lesson_page_2.url)
+    else:
+        not_expected_in_map.append(landing_page.url)  # needs auth
+        not_expected_in_map.append(list_page.url)
+        not_expected_in_map.append(module_page.url)
+        not_expected_in_map.append(topic_page.url)
+        not_expected_in_map.append(lesson_page_2.url)
     # The CMS pages have a port in their test hostname, and the most reliable way to get
     # hold if it is simply to get it from the sitemap, dropping its trailing slash
     testserver_host = locs[0][:-1]

@@ -1,5 +1,7 @@
 import time
 from unittest import mock
+from config import settings
+from core.mixins import AuthenticatedUserRequired
 
 import pytest
 from django.contrib.auth.models import AnonymousUser
@@ -572,7 +574,7 @@ class DetailPageTests(SetUpLocaleMixin, WagtailPageTests):
 
 
 @pytest.mark.django_db
-def test_for_unauthenticated_user(
+def test_for_redirection_based_on_flag(
     client,
     domestic_homepage,
     domestic_site,
@@ -595,14 +597,21 @@ def test_for_unauthenticated_user(
         curated_list_page,
         detail_page,
     ]
+    if settings.FEATURE_DEA_V2:
+        for page in pages:
+            assert isinstance(page, CMSGenericPageAnonymous)
 
-    for page in pages:
-        assert isinstance(page, CMSGenericPageAnonymous)
+        for page in pages:
+            response = client.get(page.url, follow=False)
+            assert response.status_code == 200
+    else:
+        for page in pages:
+            assert isinstance(page, AuthenticatedUserRequired)
 
-    for page in pages:
-        response = client.get(page.url, follow=False)
-        assert response.status_code == 200
-
+        for page in pages:
+            response = client.get(page.url, follow=False)
+            assert response.status_code == 302
+            assert response.headers['Location'] == f'/signup/?next={page.url}'
     # Show an authenticated user can still get in there
     client.force_login(user)
     for page in pages:

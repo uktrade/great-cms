@@ -421,7 +421,7 @@ class CMSGenericPage(CMSGenericPageAnonymous, mixins.AuthenticatedUserRequired):
         abstract = True
 
 
-class LandingPage(CMSGenericPageAnonymous):
+class LandingPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage):
     parent_page_types = [
         'domestic.DomesticHomePage',  # TODO: once we've restructured, remove this permission
         'domestic.GreatDomesticHomePage',
@@ -469,16 +469,25 @@ class LandingPage(CMSGenericPageAnonymous):
     #########
     # Panels
     #########
-    content_panels = CMSGenericPage.content_panels + [
-        FieldPanel('description'),
-        FieldPanel('button'),
-        FieldPanel('image'),
-        FieldPanel('components'),
-        FieldPanel('body'),
-    ]
+    if settings.FEATURE_DEA_V2:
+        content_panels = CMSGenericPageAnonymous.content_panels + [
+            FieldPanel('description'),
+            FieldPanel('button'),
+            FieldPanel('image'),
+            FieldPanel('components'),
+            FieldPanel('body'),
+        ]
+    else:
+        content_panels = CMSGenericPage.content_panels + [
+            FieldPanel('description'),
+            FieldPanel('button'),
+            FieldPanel('image'),
+            FieldPanel('components'),
+            FieldPanel('body'),
+        ]
 
 
-class InterstitialPage(CMSGenericPageAnonymous):
+class InterstitialPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage):
     parent_page_types = ['core.LandingPage']
     template_choices = (('learn/interstitial.html', 'Learn'),)
 
@@ -490,12 +499,17 @@ class InterstitialPage(CMSGenericPageAnonymous):
     #########
     # Panels
     #########
-    content_panels = CMSGenericPageAnonymous.content_panels + [
-        FieldPanel('button'),
-    ]
+    if settings.FEATURE_DEA_V2:
+        content_panels = CMSGenericPage.content_panels + [
+            FieldPanel('button'),
+        ]
+    else:
+        content_panels = CMSGenericPageAnonymous.content_panels + [
+            FieldPanel('button'),
+        ]
 
 
-class ListPage(CMSGenericPageAnonymous):
+class ListPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage):
     parent_page_types = ['core.LandingPage']
     subpage_types = ['core.CuratedListPage']
 
@@ -548,11 +562,15 @@ class ListPage(CMSGenericPageAnonymous):
     #########
     # Panels
     #########
-    settings_panels = CMSGenericPageAnonymous.settings_panels + [FieldPanel('record_read_progress')]
-    content_panels = CMSGenericPageAnonymous.content_panels + [FieldPanel('description'), FieldPanel('button_label')]
+    if settings.FEATURE_DEA_V2:
+        settings_panels = CMSGenericPageAnonymous.settings_panels + [FieldPanel('record_read_progress')]
+        content_panels = CMSGenericPageAnonymous.content_panels + [FieldPanel('description'), FieldPanel('button_label')]
+    else:
+        settings_panels = CMSGenericPage.settings_panels + [FieldPanel('record_read_progress')]
+        content_panels = CMSGenericPage.content_panels + [FieldPanel('description'), FieldPanel('button_label')]
 
 
-class CuratedListPage(CMSGenericPageAnonymous):
+class CuratedListPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage):
     parent_page_types = ['core.ListPage']
     subpage_types = [
         'core.TopicPage',
@@ -570,10 +588,16 @@ class CuratedListPage(CMSGenericPageAnonymous):
     ########
     # Panels
     ########
-    content_panels = CMSGenericPageAnonymous.content_panels + [
-        FieldPanel('heading'),
-        FieldPanel('image'),
-    ]
+    if settings.FEATURE_DEA_V2:
+        content_panels = CMSGenericPageAnonymous.content_panels + [
+            FieldPanel('heading'),
+            FieldPanel('image'),
+        ]
+    else:
+        content_panels = CMSGenericPage.content_panels + [
+            FieldPanel('heading'),
+            FieldPanel('image'),
+        ]
 
     def get_topics(self, live=True) -> models.QuerySet:
         qs = TopicPage.objects.live().specific().descendant_of(self)
@@ -624,7 +648,7 @@ def hero_singular_validation(value):
         )
 
 
-class TopicPage(Page):
+class TopicPage(Page, mixins.AuthenticatedUserRequired if settings.FEATURE_DEA_V2 else object):
     """Structural page to allow for cleaner mapping of lessons (`DetailPage`s)
     to modules (`CuratedListPage`s).
 
@@ -653,7 +677,7 @@ class TopicPage(Page):
         return self._redirect_to_parent_module()
 
 
-class LessonPlaceholderPage(Page):
+class LessonPlaceholderPage(Page, mixins.AuthenticatedUserRequired if settings.FEATURE_DEA_V2 else object):
 
     """Structural page to allow for configuring and representing very simple
     to modules (`CuratedListPage`s).
@@ -681,7 +705,7 @@ class LessonPlaceholderPage(Page):
         return self._redirect_to_parent_module()
 
 
-class DetailPage(CMSGenericPageAnonymous):
+class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage):
     estimated_read_duration = models.DurationField(null=True, blank=True)
     parent_page_types = [
         'core.CuratedListPage',  # TEMPORARY: remove after topics refactor migration has run

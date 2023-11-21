@@ -4,6 +4,8 @@ import logging
 import uuid
 from urllib.parse import urlparse
 
+from django.urls import reverse
+
 import boto3
 import readtime
 import wagtail.admin.rich_text.editors.draftail.features as draftail_features
@@ -18,6 +20,7 @@ from django.templatetags.static import static
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
+from great_components.helpers import add_next
 from wagtail import hooks
 from wagtail.admin.menu import DismissibleMenuItem
 from wagtail.admin.views.pages.bulk_actions.page_bulk_action import PageBulkAction
@@ -25,7 +28,7 @@ from wagtail.models import Page
 from wagtail_transfer.field_adapters import FieldAdapter
 from wagtail_transfer.files import File as WTFile, FileTransferError
 from wagtail_transfer.models import ImportedFile
-from core import constants, mixins
+from core import constants, mixins, views
 from core.models import MicrositePage
 from core.views import AltImageChooserViewSet
 from domestic.models import ArticlePage
@@ -63,17 +66,18 @@ def authenticated_user_required(page, request, serve_args, serve_kwargs):
             return redirect(dest)
 
 
-# @hooks.register('before_serve_page')
-# def login_required_signup_wizard(page, request, serve_args, serve_kwargs):
-#     if page.template == 'learn/detail_page.html' and request.user.is_anonymous:
-#         # opting out of personalised content 'forever' - not just this request.
-#         if 'show-generic-content' in request.GET:
-#             request.session[SESSION_KEY_LESSON_PAGE_SHOW_GENERIC_CONTENT] = True
+@hooks.register('before_serve_page')
+def login_required_signup_wizard(page, request, serve_args, serve_kwargs):
+    if not settings.FEATURE_DEA_V2:
+        if page.template == 'learn/detail_page.html' and request.user.is_anonymous:
+            # opting out of personalised content 'forever' - not just this request.
+            if 'show-generic-content' in request.GET:
+                request.session[SESSION_KEY_LESSON_PAGE_SHOW_GENERIC_CONTENT] = True
 
-#         if not request.session.get(SESSION_KEY_LESSON_PAGE_SHOW_GENERIC_CONTENT):
-#             signup_url = reverse('core:signup-wizard-tailored-content', kwargs={'step': views.STEP_START})
-#             url = add_next(destination_url=signup_url, current_url=request.get_full_path())
-#             return redirect(url)
+            if not request.session.get(SESSION_KEY_LESSON_PAGE_SHOW_GENERIC_CONTENT):
+                signup_url = reverse('core:signup-wizard-tailored-content', kwargs={'step': views.STEP_START})
+                url = add_next(destination_url=signup_url, current_url=request.get_full_path())
+                return redirect(url)
 
 
 def _update_data_for_appropriate_version(page: Page, force_page_update: bool, data_to_update: dict) -> None:
