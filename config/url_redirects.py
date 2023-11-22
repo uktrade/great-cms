@@ -12,6 +12,7 @@ from core.cms_slugs import (
 )
 from core.views import (
     OpportunitiesRedirectView,
+    PermanentQuerystringRedirectView,
     QuerystringRedirectView,
     TranslationRedirectView,
 )
@@ -572,8 +573,8 @@ articles_redirects = [
         QuerystringRedirectView.as_view(url='/advice/find-an-export-market/field-research-in-export-markets/'),
     ),
     re_path(
-        r'^market-research/visit-a-trade-show/$',
-        QuerystringRedirectView.as_view(url='/advice/find-an-export-market/trade-shows/'),
+        r'^market-research/visit-a-trade-show/$|^advice/find-an-export-market/trade-shows/$',
+        PermanentQuerystringRedirectView.as_view(url='/learn/categories/prepare-sell-new-country/'),
     ),
     re_path(
         r'^market-research/doing-business-with-integrity/$',
@@ -587,10 +588,21 @@ articles_redirects = [
             url='advice/manage-risk-bribery-corruption-and-abuse-human-rights/bribery-and-corruption-understand-risks/'
         ),
     ),
-    re_path(r'^business-planning/$', QuerystringRedirectView.as_view(url='/advice/define-route-to-market/')),
     re_path(
-        r'^business-planning/make-an-export-plan/$',
-        QuerystringRedirectView.as_view(url='/advice/create-an-export-plan/how-to-create-an-export-plan/'),
+        r'^advice/manage-risk-bribery-corruption-and-abuse-human-rights/bribery-and-corruption-understand-risks/$',
+        PermanentQuerystringRedirectView.as_view(
+            url='/learn/categories/prepare-sell-new-country/managing-safety-corruption-and-business-integrity-risk/protect-your-business-bribery-and-corruption/'  # noqa:E501
+        ),
+    ),
+    re_path(
+        r'^business-planning/$|^advice/define-route-to-market/$',
+        PermanentQuerystringRedirectView.as_view(url='/learn/categories/prepare-sell-new-country/'),
+    ),
+    re_path(
+        r'^business-planning/make-an-export-plan/$|^advice/create-an-export-plan/how-to-create-an-export-plan/$',
+        PermanentQuerystringRedirectView.as_view(
+            url='/learn/categories/market-research/evaluate-opportunities/how-to-create-an-export-plan/'
+        ),
     ),
     re_path(
         r'^business-planning/find-a-route-to-market/$',
@@ -629,10 +641,19 @@ articles_redirects = [
         QuerystringRedirectView.as_view(url='/advice/define-route-to-market/create-a-joint-venture-agreement/'),
     ),
     re_path(
-        r'^business-planning/set-up-an-overseas-operation/$',
-        QuerystringRedirectView.as_view(url='/advice/define-route-to-market/set-up-a-business-abroad/'),
+        r'^business-planning/set-up-an-overseas-operation/$|^advice/define-route-to-market/set-up-a-business-abroad/$',
+        PermanentQuerystringRedirectView.as_view(
+            url='/learn/categories/prepare-sell-new-country/routes-to-market/how-set-business-abroad/'
+        ),
     ),
-    re_path(r'^finance/$', QuerystringRedirectView.as_view(url='/advice/get-export-finance-and-funding/')),
+    re_path(
+        r'^finance/$|^advice/get-export-finance-and-funding/$',
+        PermanentQuerystringRedirectView.as_view(url='https://www.ukexportfinance.gov.uk/'),
+    ),
+    re_path(
+        r'^trade-finance/$',
+        PermanentQuerystringRedirectView.as_view(url='https://www.ukexportfinance.gov.uk/'),
+    ),
     re_path(
         r'^finance/choose-the-right-finance/$',
         QuerystringRedirectView.as_view(url='/advice/get-export-finance-and-funding/choose-the-right-finance/'),
@@ -662,33 +683,36 @@ articles_redirects = [
         QuerystringRedirectView.as_view(url='/advice/get-export-finance-and-funding/raise-money-with-investment/'),
     ),
     re_path(
-        r'^getting-paid/invoice-currency-and-contents/$',
-        QuerystringRedirectView.as_view(url='/advice/manage-payment-for-export-orders/payment-methods-for-exporters/'),
-    ),
-    re_path(
-        r'^getting-paid/consider-how-to-get-paid/$',
-        QuerystringRedirectView.as_view(
-            url='/advice/manage-payment-for-export-orders/how-to-create-an-export-invoice/'
+        r'^getting-paid/invoice-currency-and-contents/$|^getting-paid/payment-methods/$|^advice/manage-payment-for-export-orders/payment-methods-for-exporters/$',  # noqa:E501
+        PermanentQuerystringRedirectView.as_view(
+            url='/learn/categories/funding-financing-and-getting-paid/get-paid/payment-methods-exporters/'
         ),
     ),
     re_path(
-        r'^getting-paid/decide-when-to-get-paid/$',
-        QuerystringRedirectView.as_view(
-            url='/advice/manage-payment-for-export-orders/decide-when-to-get-paid-for-export-orders/'
+        r'^getting-paid/consider-how-to-get-paid/$|^advice/manage-payment-for-export-orders/how-to-create-an-export-invoice/$',  # noqa:E501
+        PermanentQuerystringRedirectView.as_view(
+            url='/learn/categories/funding-financing-and-getting-paid/get-paid/how-create-export-invoice/'
         ),
     ),
     re_path(
-        r'^getting-paid/payment-methods/$',
-        QuerystringRedirectView.as_view(url='/advice/manage-payment-for-export-orders/payment-methods-for-exporters/'),
+        r'^getting-paid/decide-when-to-get-paid/$|^advice/manage-payment-for-export-orders/decide-when-to-get-paid-for-export-orders/$',  # noqa:E501
+        PermanentQuerystringRedirectView.as_view(
+            url='/learn/categories/funding-financing-and-getting-paid/get-paid/decide-when-get-paid-export-orders/'
+        ),
     ),
     re_path(
-        r'^getting-paid/insure-against-non-payment/$',
-        QuerystringRedirectView.as_view(url='/advice/manage-payment-for-export-orders/insure-against-non-payment/'),
+        r'^getting-paid/insure-against-non-payment/$|^advice/manage-payment-for-export-orders/insure-against-non-payment/$',  # noqa:E501
+        PermanentQuerystringRedirectView.as_view(
+            url='/learn/categories/funding-financing-and-getting-paid/get-paid/insure-against-non-payment/'
+        ),
     ),
-    re_path(r'^getting-paid/$', QuerystringRedirectView.as_view(url='/advice/manage-payment-for-export-orders/')),
     re_path(
-        r'^customer-insight/$',
-        QuerystringRedirectView.as_view(url='/advice/prepare-to-do-business-in-a-foreign-country/'),
+        r'^getting-paid/$|^advice/manage-payment-for-export-orders/$',
+        PermanentQuerystringRedirectView.as_view(url='/learn/categories/funding-financing-and-getting-paid/'),
+    ),
+    re_path(
+        r'^customer-insight/$|^advice/prepare-to-do-business-in-a-foreign-country/$',
+        PermanentQuerystringRedirectView.as_view(url='/learn/categories/prepare-sell-new-country/'),
     ),
     re_path(
         r'^customer-insight/meet-your-customers/$',
@@ -796,18 +820,41 @@ articles_redirects = [
     re_path(r'^new/$', QuerystringRedirectView.as_view(url='/advice/')),
     re_path(r'^occasional/$', QuerystringRedirectView.as_view(url='/advice/')),
     re_path(r'^regular/$', QuerystringRedirectView.as_view(url='/advice/')),
-    # CMS-1410 redirects for updated 'export advice' articles
+    re_path(
+        r'^advice/$',
+        QuerystringRedirectView.as_view(url='/learn/categories/'),
+    ),
+    re_path(
+        r'^advice/create-an-export-plan/$',
+        PermanentQuerystringRedirectView.as_view(url='/learn/categories/market-research/'),
+    ),
+    re_path(
+        r'^advice/find-an-export-market/$',
+        PermanentQuerystringRedirectView.as_view(url='/learn/categories/market-research/'),
+    ),
     re_path(
         r'^advice/find-an-export-market/plan-export-market-research/$',
         QuerystringRedirectView.as_view(url='/advice/find-an-export-market/understand-export-market-research/'),
     ),
     re_path(
-        r'^advice/find-an-export-market/define-export-market-potential/$',
-        QuerystringRedirectView.as_view(url='/advice/find-an-export-market/research-export-markets-online/'),
+        r'^advice/find-an-export-market/understand-export-market-research/$',
+        PermanentQuerystringRedirectView.as_view(url='/learn/categories/market-research/'),
     ),
     re_path(
-        r'^advice/find-an-export-market/field-research-in-export-markets/$',
-        QuerystringRedirectView.as_view(url='/advice/find-an-export-market/research-in-market/'),
+        r'^advice/find-an-export-market/define-export-market-potential/$|^advice/find-an-export-market/research-export-markets-online/$',  # noqa:E501
+        PermanentQuerystringRedirectView.as_view(
+            url='/learn/categories/market-research/market-research-approaches/online-research/'
+        ),
+    ),
+    re_path(
+        r'^advice/find-an-export-market/understand-export-market-research/$',
+        PermanentQuerystringRedirectView.as_view(url='/learn/categories/market-research/'),
+    ),
+    re_path(
+        r'^advice/find-an-export-market/field-research-in-export-markets/$|^advice/find-an-export-market/research-in-market/$',  # noqa:E501
+        PermanentQuerystringRedirectView.as_view(
+            url='/learn/categories/market-research/market-research-approaches/market-research/'
+        ),
     ),
     re_path(
         r'^advice/get-export-finance-and-funding/choose-the-right-finance/$',
@@ -850,8 +897,14 @@ articles_redirects = [
         ),
     ),
     re_path(
+        r'^advice/prepare-for-export-procedures-and-logistics/moving-goods-and-using-freight-forwarders/$',
+        PermanentQuerystringRedirectView.as_view(
+            url='/learn/categories/selling-across-borders-product-and-services-regulations-licensing-and-logistics/logistics-and-freight-forwarders/freight-forwarders/'  # noqa:E501
+        ),
+    ),
+    re_path(
         r'^advice/use-incoterms-in-contracts/$',
-        QuerystringRedirectView.as_view(
+        PermanentQuerystringRedirectView.as_view(
             url='/advice/prepare-for-export-procedures-and-logistics/international-trade-contracts-and-incoterms/'
         ),
     ),
@@ -862,15 +915,113 @@ articles_redirects = [
         ),
     ),
     re_path(
-        r'^advice/get-your-export-documents-right/$',
-        QuerystringRedirectView.as_view(
-            url='/advice/prepare-for-export-procedures-and-logistics/documentation-international-trade/'
+        r'^advice/prepare-for-export-procedures-and-logistics/international-trade-contracts-and-incoterms/$',
+        PermanentQuerystringRedirectView.as_view(
+            url='/learn/categories/selling-across-borders-product-and-services-regulations-licensing-and-logistics/logistics-and-freight-forwarders/incoterms/'  # noqa:E501
+        ),
+    ),
+    re_path(
+        r'^advice/get-your-export-documents-right/$|^advice/prepare-for-export-procedures-and-logistics/documentation-international-trade/$',  # noqa:E501
+        PermanentQuerystringRedirectView.as_view(
+            url='/learn/categories/selling-across-borders-product-and-services-regulations-licensing-and-logistics/get-your-goods-into-the-destination-country/understand-documentation-for-international-trade/',  # noqa:E501
         ),
     ),
     re_path(
         r'^advice/prepare-for-export-procedures-and-logistics/get-your-export-documents-right/$',
         QuerystringRedirectView.as_view(
-            url='/advice/prepare-for-export-procedures-and-logistics/documentation-international-trade/'
+            url='/learn/categories/selling-across-borders-product-and-services-regulations-licensing-and-logistics/get-your-goods-into-the-destination-country/understand-documentation-for-international-trade/',  # noqa:E501
+        ),
+    ),
+    re_path(
+        r'^advice/define-route-to-market/understand-routes-to-market/$',
+        PermanentQuerystringRedirectView.as_view(url='/learn/categories/prepare-sell-new-country/'),
+    ),
+    re_path(
+        r'^advice/define-route-to-market/direct-sales/$',
+        PermanentQuerystringRedirectView.as_view(
+            url='/learn/categories/prepare-sell-new-country/routes-to-market/sell-direct-your-customer/'
+        ),
+    ),
+    re_path(
+        r'^advice/define-route-to-market/use-an-agent-or-distributor/$',
+        PermanentQuerystringRedirectView.as_view(
+            url='/learn/categories/prepare-sell-new-country/routes-to-market/when-use-agent-or-distributor/'
+        ),
+    ),
+    re_path(
+        r'^advice/define-route-to-market/use-licensing-or-franchising/$',
+        PermanentQuerystringRedirectView.as_view(url='/learn/categories/prepare-sell-new-country/'),
+    ),
+    re_path(
+        r'^advice/define-route-to-market/establish-a-joint-venture-agreement/$',
+        PermanentQuerystringRedirectView.as_view(
+            url='/learn/categories/prepare-sell-new-country/routes-to-market/set-joint-ventures-abroad/'
+        ),
+    ),
+    re_path(
+        r'^advice/prepare-to-do-business-in-a-foreign-country/visiting-market/$',
+        PermanentQuerystringRedirectView.as_view(url='/learn/categories/prepare-sell-new-country/'),
+    ),
+    re_path(
+        r'^advice/prepare-to-do-business-in-a-foreign-country/understand-local-business-culture/$',
+        PermanentQuerystringRedirectView.as_view(
+            url='/learn/categories/prepare-sell-new-country/different-ways-of-doing-business-across-borders/understand-local-business-culture-your-target-market/'  # noqa:E501
+        ),
+    ),
+    re_path(
+        r'^advice/prepare-to-do-business-in-a-foreign-country/understand-business-risks-when-exporting/$',
+        PermanentQuerystringRedirectView.as_view(url='/learn/categories/prepare-sell-new-country/'),
+    ),
+    re_path(
+        r'^advice/prepare-for-export-procedures-and-logistics/$',
+        PermanentQuerystringRedirectView.as_view(
+            url='/learn/categories/selling-across-borders-product-and-services-regulations-licensing-and-logistics/'
+        ),
+    ),
+    re_path(
+        r'^advice/manage-risk-bribery-corruption-and-abuse-human-rights/$',
+        PermanentQuerystringRedirectView.as_view(url='/learn/categories/prepare-sell-new-country/'),
+    ),
+    re_path(
+        r'^advice/manage-risk-bribery-corruption-and-abuse-human-rights/bribery-and-corruption-manage-risks/$',
+        PermanentQuerystringRedirectView.as_view(
+            url='/learn/categories/prepare-sell-new-country/managing-safety-corruption-and-business-integrity-risk/protect-your-business-bribery-and-corruption/'  # noqa:E501
+        ),
+    ),
+    re_path(
+        r'^advice/manage-risk-bribery-corruption-and-abuse-human-rights/human-rights-violations-recognise-and-manage-risks/$',  # noqa:E501
+        PermanentQuerystringRedirectView.as_view(
+            url='/learn/categories/prepare-sell-new-country/managing-safety-corruption-and-business-integrity-risk/operating-business-integrity/'  # noqa:E501
+        ),
+    ),
+    re_path(
+        r'^advice/prepare-for-export-procedures-and-logistics/understand-international-trade-terms/$',
+        PermanentQuerystringRedirectView.as_view(
+            url='/learn/categories/selling-across-borders-product-and-services-regulations-licensing-and-logistics/get-your-goods-into-the-destination-country/understand-international-trade-terms/',  # noqa:E501
+        ),
+    ),
+    re_path(
+        r'^advice/sell-services-overseas/$',
+        PermanentQuerystringRedirectView.as_view(
+            url='/learn/categories/prepare-sell-new-country/selling-services-overseas/'
+        ),
+    ),
+    re_path(
+        r'^advice/sell-services-overseas/deliver-services-overseas/$',
+        PermanentQuerystringRedirectView.as_view(
+            url='/learn/categories/prepare-sell-new-country/selling-services-overseas/how-to-deliver-services-overseas/',  # noqa:E501
+        ),
+    ),
+    re_path(
+        r'^advice/sell-services-overseas/market-your-services-overseas/$',
+        PermanentQuerystringRedirectView.as_view(
+            url='/learn/categories/prepare-sell-new-country/selling-services-overseas/how-to-market-your-services-overseas/',  # noqa:E501
+        ),
+    ),
+    re_path(
+        r'^advice/sell-services-overseas/prepare-to-sell-services-overseas/$',
+        PermanentQuerystringRedirectView.as_view(
+            url='/learn/categories/prepare-sell-new-country/selling-services-overseas/prepare-to-sell-services-overseas/',  # noqa:E501
         ),
     ),
     re_path(
