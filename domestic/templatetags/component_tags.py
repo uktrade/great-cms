@@ -22,7 +22,7 @@ def breadcrumbs(parser, token):
 
 class Breadcrumbs(template.Node):
     template = """
-        <nav aria-label="Breadcrumb" class="breadcrumbs">
+        <nav aria-label="Breadcrumb" class="{class_style}">
           <ol>
           </ol>
         </nav>
@@ -33,9 +33,13 @@ class Breadcrumbs(template.Node):
         self.bit = bit
 
     def render(self, context):
+        try:
+            class_style = self.token.split_contents()[2]
+        except IndexError:
+            class_style = 'breadcrumbs'
         html = self.nodelist.render(context)
         input_soup = BeautifulSoup(html, 'html.parser')
-        output_soup = BeautifulSoup(self.template, 'html.parser')
+        output_soup = BeautifulSoup(self.template.format(class_style=class_style), 'html.parser')
         links = input_soup.findAll('a')
         if not links:
             raise ValueError('Please specify some links')

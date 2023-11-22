@@ -3,6 +3,7 @@
 {% load static_absolute from great_components %}
 {% load url_map %}
 {% load to_json %}
+{% load wagtailcore_tags %}
 {% block head_title %}
     {% if page.title %}
         {{ page.title }}
@@ -29,7 +30,22 @@
     {% endwith %}
 {% endblock %}
 {% block head_js %}
-    {{ block.super }}
+    {% if features.FEATURE_DEA_V2 %}
+        {% path_match "^\/learn\/" as in_learning %}
+        {% if in_learning %}
+            <script src="{% static 'javascript/dit.js' %}"></script>
+            <script src="{% static 'components.js' %}"></script>
+        {% endif %}
+    {% else %}
+        {{ block.super }}
+    {% endif %}
+{% endblock %}
+{% block header_js %}
+    {% path_match "^\/learn\/" as in_learning %}
+    {% if features.FEATURE_DEA_V2 and in_learning %}
+        <script src="{% static 'javascript/dit.responsive.js' %}"></script>
+        <script src="{% static 'javascript/dit.utils.js' %}"></script>
+    {% endif %}
     <script src="{% static 'common.js' %}"></script>
     <script type="text/javascript" src="{% static 'magna.js' %}"></script>
     <script type="text/javascript">
@@ -82,7 +98,12 @@
 {% endblock %}
 {% block skip_link %}<a id="skip-link" href="#content" tabindex="1">Skip to main content</a>{% endblock %}
 {% block body_header %}
-    {% include 'core/header.html' %}
+    {% path_match "^\/learn\/" as in_learning %}
+    {% if features.FEATURE_DEA_V2 and in_learning %}
+        {% include 'core/header.html' with hide_cookie_notice=False %}
+    {% else %}
+        {% include 'core/header.html' with hide_cookie_notice=True %}
+    {% endif %}
     {% if request.user.is_authenticated %}
         {% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
     {% endif %}
@@ -125,6 +146,19 @@
       })
       magna.createSnackbar({element:document.getElementById('snackbar-container')})
     </script>
+    {% slugurl "privacy-and-cookies" as privacy_and_cookies_path %}
+    {% path_match "^\/learn\/" as in_learning %}
+    {% if features.FEATURE_DEA_V2 and in_learning %}
+        <script>
+        var element = document.createElement('div');
+        document.body.appendChild(element);
+        components.CookiesModal({
+            element: element,
+            privacyCookiesUrl: {{privacy_and_cookies_path}},
+            preferencesUrl: '{% url "core:cookie-preferences" %}',
+        });
+        </script>
+    {% endif %}
     {% if features.FEATURE_FEEDBACK_BUTTON_EXPERIMENT and "search/feedback" not in request.path %}
         <script src="{% static 'javascript/feedbackButton.js'%}"></script>
     {% endif %}

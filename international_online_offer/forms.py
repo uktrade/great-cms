@@ -308,7 +308,7 @@ class ContactForm(forms.Form):
     )
     how_we_can_help = CharField(
         label='Tell us how we can help',
-        help_text='Do not include personal information or anything of a sensitive nature',
+        help_text='Do not include personal or commercially sensitive information',
         max_length=1000,
         required=True,
         error_messages={

@@ -15,6 +15,7 @@ from export_academy.models import (
     ExportAcademyHomePage,
     ModuleEventSet,
     Registration,
+    VideoOnDemandPageTracking,
 )
 
 
@@ -22,6 +23,7 @@ class GreatMediaFactory(wagtail_factories.DocumentFactory):
     transcript = factory.fuzzy.FuzzyText(length=15)
     subtitles_en = factory.fuzzy.FuzzyText(length=15)
     duration = factory.fuzzy.FuzzyDecimal(1)
+    title = factory.fuzzy.FuzzyText(length=255)
 
     class Meta:
         model = GreatMedia
@@ -106,3 +108,23 @@ class CoursePageFactory(wagtail_factories.PageFactory):
 
     class Meta:
         model = CoursePage
+
+
+class VideoOnDemandPageTrackingFactory(factory.django.DjangoModelFactory):
+    id = factory.Faker('uuid4')
+    user_email = factory.Sequence(lambda n: f'person{n}@example.com')
+    hashed_uuid = factory.Faker('uuid4')
+    region = factory.fuzzy.FuzzyText(length=50)
+    company_name = factory.fuzzy.FuzzyText(length=50)
+    company_postcode = factory.fuzzy.FuzzyText(length=50)
+    company_phone = factory.fuzzy.FuzzyText(length=50)
+    details_viewed = timezone.localtime()
+    cookies_accepted_on_details_view = False
+    event = factory.SubFactory(EventFactory)
+    booking = factory.SubFactory(BookingFactory)
+    registration = factory.SubFactory(RegistrationFactory)
+    video = factory.SubFactory(GreatMediaFactory)
+    hashed_sso_id = factory.fuzzy.FuzzyText(length=128)
+
+    class Meta:
+        model = VideoOnDemandPageTracking

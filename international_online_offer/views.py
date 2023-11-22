@@ -1,6 +1,5 @@
 from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import Sender
-from django.conf import settings
 from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
@@ -708,7 +707,6 @@ class ContactView(GA360Mixin, FormView):
             email_address=cleaned_data['email'],
             subject=self.subject,
             service_name='expand your business',
-            subdomain=settings.EU_EXIT_ZENDESK_SUBDOMAIN,
             form_url=self.request.get_full_path(),
             sender=sender,
         )

@@ -7,6 +7,7 @@ from urllib import parse
 
 import pytest
 from directory_forms_api_client import actions
+from django.contrib.auth import get_user_model
 from django.http import HttpResponseRedirect
 from django.test import TestCase
 from django.urls import reverse
@@ -14,11 +15,12 @@ from django.utils import timezone
 from wagtail_factories import DocumentFactory
 
 from config import settings
+from core import helpers
 from core.models import HeroSnippet
 from core.snippet_slugs import EA_REGISTRATION_PAGE_HERO
 from directory_sso_api_client import sso_api_client
 from export_academy.filters import EventFilter
-from export_academy.models import Booking, Registration
+from export_academy.models import Booking, Registration, VideoOnDemandPageTracking
 from export_academy.views import EventsDetailsView, EventVideoOnDemandView
 from sso import helpers as sso_helpers
 from tests.helpers import create_response
@@ -292,6 +294,7 @@ def test_booking_success_view(
             reverse('export_academy:registration-business'),
             {
                 'business_name': 'Test Business',
+                'business_address_line_1': '1 Main Street',
                 'business_postcode': 'SW1A 1AA',
                 'annual_turnover': 'Up to £85,000',
                 'employee_count': '10 to 49',
@@ -299,6 +302,7 @@ def test_booking_success_view(
             reverse('export_academy:registration-marketing'),
             {
                 'business_name': 'Enter your business name',
+                'business_address_line_1': 'Enter the first line of your business address',
                 'business_postcode': 'Enter your business postcode',
                 'annual_turnover': 'Please answer this question',
                 'employee_count': 'Please answer this question',
@@ -1318,7 +1322,7 @@ class EventVideoOnDemandViewTest(TestCase):
         self.root_page = root_page
         self.rf = rf
         self.client = client
-        self.USER_ID = 123456
+        self.USER_EMAIL = 'joe.bloggs@gmail.com'
 
     def setUp(self):
         self.past_event_date = datetime(2023, 9, 13)
@@ -1334,6 +1338,12 @@ class EventVideoOnDemandViewTest(TestCase):
         self.course_page = factories.CoursePageFactory(parent=self.root_page, page_heading='essentials_title')
         course_events = factories.EventsOnCourseFactory(page_id=self.course_page.id)
         factories.ModuleEventSetFactory(page_id=course_events.id, event_id=self.event2.id)
+        self.video = factories.GreatMediaFactory()
+        self.event3 = factories.EventFactory(
+            slug='event-slug3-13-september-2023',
+            past_event_video_recording=self.video,
+            past_event_recorded_date=self.past_event_date,
+        )
 
     def test_extract_date_and_event_name(self):
         view = EventVideoOnDemandView()
@@ -1374,3 +1384,122 @@ class EventVideoOnDemandViewTest(TestCase):
     def test_get_course_page_details(self):
         self.assertEqual(self.event_with_no_past_recording.get_course(), [])
         self.assertEqual(self.event2.get_course(), [{'label': 'essentials_title', 'value': 'essentials'}])
+
+    @mock.patch.object(VideoOnDemandPageTracking, 'save')
+    def test_get_logged_in_user(self, mock_tracking_save):
+        self.client.force_login(self.user)
+        kwargs = {'slug': self.event3.get_past_event_recording_slug()}
+        url = reverse('export_academy:video-on-demand', kwargs=kwargs)
+        request = self.rf.get(url)
+        request.user = self.user
+        response = EventVideoOnDemandView.as_view(event=self.event3, video=self.event3.past_event_video_recording)(
+            request, **kwargs
+        )
+        assert response.status_code == 200
+        assert mock_tracking_save.call_count == 1
+
+    @mock.patch.object(VideoOnDemandPageTracking, 'save')
+    def test_get_logged_in_user_not_business_sso_user(self, mock_tracking_save):
+        user = get_user_model().objects.create_user('alice', 'alice@example.com', 'password')
+        self.client.force_login(user)
+        kwargs = {'slug': self.event3.get_past_event_recording_slug()}
+        url = reverse('export_academy:video-on-demand', kwargs=kwargs)
+        request = self.rf.get(url)
+        request.user = user
+        response = EventVideoOnDemandView.as_view(event=self.event3, video=self.event3.past_event_video_recording)(
+            request, **kwargs
+        )
+        assert response.status_code == 200
+        assert mock_tracking_save.call_count == 1
+
+    @mock.patch.object(VideoOnDemandPageTracking, 'save')
+    def test_get_logged_in_user_with_company_details(self, mock_tracking_save):
+        self.client.force_login(self.user)
+        kwargs = {'slug': self.event3.get_past_event_recording_slug()}
+        url = reverse('export_academy:video-on-demand', kwargs=kwargs)
+        request = self.rf.get(url)
+        company = {'name': 'FRED BLOGS', 'registered_office_address': {'postal_code': 'W1AA 1AA'}}
+        self.user.company = helpers.CompanyParser(company)
+        request.user = self.user
+
+        response = EventVideoOnDemandView.as_view(event=self.event3, video=self.event3.past_event_video_recording)(
+            request, **kwargs
+        )
+        assert response.status_code == 200
+        assert mock_tracking_save.call_count == 1
+
+    @mock.patch.object(EventVideoOnDemandView, '_get_location')
+    @mock.patch.object(VideoOnDemandPageTracking, 'save')
+    def test_get_logged_in_user_with_region(self, mock_tracking_save, mock_get_location):
+        self.client.force_login(self.user)
+        kwargs = {'slug': self.event3.get_past_event_recording_slug()}
+        url = reverse('export_academy:video-on-demand', kwargs=kwargs)
+        request = self.rf.get(url)
+        request.user = self.user
+        mock_get_location.return_value = {'region': 'ENG'}
+        response = EventVideoOnDemandView.as_view(event=self.event3, video=self.event3.past_event_video_recording)(
+            request, **kwargs
+        )
+        assert response.status_code == 200
+        assert mock_tracking_save.call_count == 1
+
+    @mock.patch.object(VideoOnDemandPageTracking, 'save')
+    def test_get_logged_in_user_with_registration_and_booking(self, mock_tracking_save):
+        self.client.force_login(self.user)
+        kwargs = {'slug': self.event3.get_past_event_recording_slug()}
+        url = reverse('export_academy:video-on-demand', kwargs=kwargs)
+        request = self.rf.get(url)
+        request.user = self.user
+        registration = factories.RegistrationFactory(email=self.user.email)
+        factories.BookingFactory(event=self.event3, registration=registration)
+        response = EventVideoOnDemandView.as_view(event=self.event3, video=self.event3.past_event_video_recording)(
+            request, **kwargs
+        )
+        assert response.status_code == 200
+        assert mock_tracking_save.call_count == 1
+
+    @mock.patch.object(VideoOnDemandPageTracking, 'save')
+    def test_get_logged_in_user_with_registration_and_no_booking(self, mock_tracking_save):
+        self.client.force_login(self.user)
+        kwargs = {'slug': self.event3.get_past_event_recording_slug()}
+        url = reverse('export_academy:video-on-demand', kwargs=kwargs)
+        request = self.rf.get(url)
+        request.user = self.user
+        factories.RegistrationFactory(email=self.user.email)
+        response = EventVideoOnDemandView.as_view(event=self.event3, video=self.event3.past_event_video_recording)(
+            request, **kwargs
+        )
+        assert response.status_code == 200
+        assert mock_tracking_save.call_count == 1
+
+    def test_get_logged_in_user_already_tracked(self):
+        kwargs = {'slug': self.event3.get_past_event_recording_slug()}
+        self.user.email = self.USER_EMAIL
+        VideoOnDemandPageTracking.objects.create(
+            user_email=self.USER_EMAIL,
+            event=self.event3,
+            video=self.event3.past_event_video_recording,
+        )
+        self.client.force_login(self.user)
+        url = reverse('export_academy:video-on-demand', kwargs=kwargs)
+        request = self.rf.get(url)
+        request.user = self.user
+        response = EventVideoOnDemandView.as_view(event=self.event3)(request, **kwargs)
+        assert response.status_code == 200
+        video_on_demand_page_tracking = VideoOnDemandPageTracking.objects.filter(
+            user_email=self.user.email, event=self.event3, video=self.event3.past_event_video_recording
+        )
+        assert video_on_demand_page_tracking.count() == 1
+
+    def test_get_logged_out_user(self):
+        kwargs = kwargs = {'slug': self.event3.slug}
+        url = reverse('export_academy:video-on-demand', kwargs=kwargs)
+        request = self.rf.get(url)
+        user_not_logged_in = type(
+            'obj',
+            (object,),
+            {'is_authenticated': False},
+        )
+        request.user = user_not_logged_in
+        response = EventVideoOnDemandView.as_view(event=self.event3)(request, **kwargs)
+        assert response.status_code == 200

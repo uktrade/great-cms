@@ -11,7 +11,6 @@ from bs4 import BeautifulSoup
 from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.core.files.storage import DefaultStorage
-from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models as django_models
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
@@ -108,7 +107,7 @@ def _update_data_for_appropriate_version(page: Page, force_page_update: bool, da
             value = str(value)
         latest_revision_json[key] = value
 
-    latest_revision.content = json.dumps(latest_revision_json, cls=DjangoJSONEncoder)
+    latest_revision.content = latest_revision_json
     latest_revision.save()
 
     if force_page_update or (not page.has_unpublished_changes):
