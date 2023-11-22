@@ -159,3 +159,93 @@ def test_is_triage_complete():
     mock_triage_data.spend = spends.FIVE_HUNDRED_THOUSAND_ONE_TO_ONE_MILLION
     assert helpers.is_triage_complete(None) is False
     assert helpers.is_triage_complete(mock_triage_data) is True
+
+
+@pytest.mark.django_db
+def test_get_region_and_cities_json_file():
+    data = helpers.get_region_and_cities_json_file()
+    assert data is not None
+    assert len(data) == 12
+    assert data[0]['region'] is not None
+    assert data[0]['cities'] is not None
+
+
+@pytest.mark.django_db
+def test_get_region_and_cities_json_file_as_string():
+    data = helpers.get_region_and_cities_json_file_as_string()
+    assert data is not None
+    assert type(data) is str
+
+
+@pytest.mark.parametrize(
+    'include_regions,include_cities,expected_length,expected_tuple_in_results,expected_tuple_not_in_results',
+    (
+        (
+            True,
+            True,
+            385,
+            ('WEST_MIDLANDS', 'West Midlands'),
+            ('BAD_TUPLE', 'Bad Tuple'),
+        ),
+        (
+            False,
+            True,
+            373,
+            ('CARDIFF', 'Cardiff'),
+            ('WEST_MIDLANDS', 'West Midlands'),
+        ),
+        (
+            True,
+            False,
+            12,
+            ('WEST_MIDLANDS', 'West Midlands'),
+            ('CARDIFF', 'Cardiff'),
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_generate_location_choices(
+    include_regions, include_cities, expected_length, expected_tuple_in_results, expected_tuple_not_in_results
+):
+    data = helpers.generate_location_choices(include_regions, include_cities)
+    assert data is not None
+    assert type(data) is tuple
+    assert len(data) == expected_length
+    assert expected_tuple_in_results in data
+    assert expected_tuple_not_in_results not in data
+
+
+@pytest.mark.parametrize(
+    'input_choice,expected_result',
+    (
+        (
+            'SCOTLAND',
+            True,
+        ),
+        (
+            'SWANSEA',
+            False,
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_is_region(input_choice, expected_result):
+    assert helpers.is_region(input_choice) is expected_result
+
+
+@pytest.mark.parametrize(
+    'input_choice,expected_result',
+    (
+        (
+            'MANCHESTER',
+            'NORTH_WEST',
+        ),
+        (
+            'BAD_CITY',
+            '',
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_get_region_from_city(input_choice, expected_result):
+    assert helpers.get_region_from_city(input_choice) == expected_result
