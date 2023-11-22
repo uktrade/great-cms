@@ -34,38 +34,36 @@
         </div>
     </div>
 </div>
-<div class="test-knowledge">
-    {% if features.FEATURE_DEA_V2 %}
-        {% if request.user.is_authenticated %}
-            <div class="container">
-                <div class="grid p-t-m">
-                    <div class="c-1-4 only-desktop">
-                        <span>&nbsp;</span>
-                    </div>
-                    <div class="c-1-2">
-                        {% include 'learn/recap.html' %}
-                        <hr class="hr hr--light m-0" />
-                    </div>
-                    <div class="c-1-4 only-desktop">
-                        <span>&nbsp;</span>
-                    </div>
+<div class="test-knowledge"> 
+    {% if request.user.is_authenticated %}
+        <div class="container">
+            <div class="grid p-t-m">
+                <div class="c-1-4 only-desktop">
+                    <span>&nbsp;</span>
                 </div>
-            </div>        
-            <div class="container">
-                <div class="grid p-v-s">
-                    <div class="c-1-4 only-desktop">
-                        <span>&nbsp;</span>
-                    </div>
-                    <div class="c-1-2">
-                        <fieldset id="mark_as_complete">
-                        </fieldset>
-                    </div>
-                    <div class="c-1-4 only-desktop">
-                        <span>&nbsp;</span>
-                    </div>
+                <div class="c-1-2">
+                    {% include 'learn/recap.html' %}
+                    <hr class="hr hr--light m-0" />
+                </div>
+                <div class="c-1-4 only-desktop">
+                    <span>&nbsp;</span>
                 </div>
             </div>
-        {% endif %}
+        </div>        
+        <div class="container">
+            <div class="grid p-v-s">
+                <div class="c-1-4 only-desktop">
+                    <span>&nbsp;</span>
+                </div>
+                <div class="c-1-2">
+                    <fieldset id="mark_as_complete">
+                    </fieldset>
+                </div>
+                <div class="c-1-4 only-desktop">
+                    <span>&nbsp;</span>
+                </div>
+            </div>
+        </div>
     {% endif %}    
     <div class="container p-v-s">
         <div class="grid">
@@ -118,8 +116,7 @@
 {% endblock %}
 {% block body_js %}
     {{ block.super }}
-    <script>
-    {% if features.FEATURE_DEA_V2 %}    
+    <script>    
         {% if request.user.is_authenticated %}
         dataLayer.push({
             event: 'lessonView',
@@ -132,7 +129,6 @@
             endpoint: '{% url "sso:lesson-completed" lesson=page.id %}'
         })
         {% endif %}
-    {% endif %}
     document.querySelectorAll('.media-section').forEach(element => {
       const transcriptContainer = element.querySelector(".video-transcript-container");
 

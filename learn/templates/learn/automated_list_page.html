@@ -36,17 +36,15 @@
                         <div>
                             <h2>{{ learning_module.title }}</h2>
                             <p>{{ learning_module.heading | richtext }}</p>
-                            {% if features.FEATURE_DEA_V2 %}
-                              {% if request.user.is_authenticated %}
-                                <div class="duration-container">
-                                    <i class="fa fa-clock"></i>
-                                    {# djlint:off #}
-                                        <span class="learn__category-topics">{{ learning_module.count_topics }} topic{% pluralize learning_module.count_topics %}, </span>
-                                        <span class="learn__category-lessons"> {{ learning_module.count_detail_pages }} lesson{% pluralize learning_module.count_detail_pages %}</span>
-                                    {# djlint:on #}
-                                </div>
-                              {% endif %}
-                            {% endif %}
+                                {% if request.user.is_authenticated %}
+                                    <div class="duration-container">
+                                        <i class="fa fa-clock"></i>
+                                        {# djlint:off #}
+                                            <span class="learn__category-topics">{{ learning_module.count_topics }} topic{% pluralize learning_module.count_topics %}, </span>
+                                            <span class="learn__category-lessons"> {{ learning_module.count_detail_pages }} lesson{% pluralize learning_module.count_detail_pages %}</span>
+                                        {# djlint:on #}
+                                    </div>
+                                {% endif %}
                         </div>
                         <div class="progess-container">
                             {% if not module_completion_data.completion_count %}
