@@ -1,5 +1,7 @@
 {% load wagtailcore_tags %}
 {% load persist_language from component_tags %}
+{% load is_email from content_tags %}
+{% load handle_external_links from content_tags %}
 <div class="govuk-grid-row govuk-!-margin-bottom-6">
     <div class="govuk-grid-column-full">
         <section class="govuk-!-padding-6 great-bg-light-blue">
@@ -11,22 +13,36 @@
                 {% endif %}
             </h3>
             <p class="govuk-body">
-                {% if value.teaser %}
-                    {{ value.teaser|richtext }}
-                {% else %}
-                    {{ teaser|richtext }}
-                {% endif %}
+                {% filter handle_external_links:request%}
+                    {% if value.teaser %}
+                        {{ value.teaser|richtext }}
+                    {% else %}
+                        {{ teaser|richtext }}
+                    {% endif %}
+                {%endfilter%}
             </p>
             <div>
-                <a href="{% if value.link %}{{ value.link|persist_language:request.GET }}{% else %}{{ link|persist_language:request.GET }}{% endif %}"
-                   class="govuk-button govuk-!-margin-bottom-0">
-                    {% if value.teaser %}
-                        {{ value.link_label }}
+                {% if link and link|is_email %}
+                    <a href="mailto:{{ link }}" class="govuk-button govuk-!-margin-bottom-0">
+                        {% if value.teaser %}
+                            {{ value.link_label }}
+                        {% else %}
+                            {{ link_label }}
+                        {% endif %}
+                        <a />
                     {% else %}
-                        {{ link_label }}
+                        {% filter handle_external_links:request%}
+                            <a href="{% if value.link %}{{ value.link|persist_language:request.GET }}{% else %}{{ link|persist_language:request.GET }}{% endif %}"
+                               class="govuk-button govuk-!-margin-bottom-0">
+                                {% if value.teaser %}
+                                    {{ value.link_label }}
+                                {% else %}
+                                    {{ link_label }}
+                                {% endif %}
+                            </a>
+                        {% endfilter %}
                     {% endif %}
-                </a>
-            </div>
-        </section>
+                </div>
+            </section>
+        </div>
     </div>
-</div>
