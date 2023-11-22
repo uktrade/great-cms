@@ -46,7 +46,7 @@ function ProductFinderButton() {
                   className="remove-product"
                   onClick={() => setDeleteConfirm({index:mapIndex})}
                 >
-                  <span role="img" className="great-icon fas fa-trash great-red-text" />
+                  <span role="img" className="fas fa-trash great-red-text" />
                   <span className="visually-hidden">
                     Remove product {ReactHtmlParser(product.commodity_name)}
                   </span>
