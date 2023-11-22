@@ -2,13 +2,14 @@ import json
 import logging
 import math
 import re
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
+from typing import Any
 from uuid import uuid4
 
 from directory_forms_api_client import actions
 from django.contrib.auth.models import AnonymousUser
 from django.db import transaction
-from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.http import Http404, HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
@@ -23,12 +24,14 @@ from django.views.generic import (
 )
 from django_filters.views import FilterView
 from drf_spectacular.utils import extend_schema
+from great_components.helpers import get_is_authenticated, get_user
 from great_components.mixins import GA360Mixin
 from icalendar import Alarm, Calendar, Event
 from rest_framework.generics import GenericAPIView
 
 from config import settings
 from core import mixins as core_mixins
+from core.helpers import get_location
 from core.templatetags.content_tags import format_timedelta
 from directory_sso_api_client import sso_api_client
 from export_academy import filters, forms, helpers, models
@@ -44,8 +47,14 @@ from export_academy.mixins import (
     RegistrationMixin,
     VerificationLinksMixin,
 )
-from export_academy.models import ExportAcademyHomePage, Registration
+from export_academy.models import (
+    Booking,
+    ExportAcademyHomePage,
+    Registration,
+    VideoOnDemandPageTracking,
+)
 from sso import helpers as sso_helpers, mixins as sso_mixins
+from sso.models import BusinessSSOUser
 
 logger = logging.getLogger(__name__)
 
@@ -751,6 +760,8 @@ class EventVideoOnDemandView(DetailView):
     event = None
     video = None
 
+    NO_COMPANY_INFO = ('', '', '')
+
     def extract_date_and_event_name(self, input_string):
         # Define a regular expression pattern for extracting the date
         date_pattern = r'(\d{2}-[a-zA-Z]+-\d{4})$'
@@ -774,7 +785,67 @@ class EventVideoOnDemandView(DetailView):
         cookies = json.loads(self.request.COOKIES.get('cookies_policy', '{}'))  # noqa: P103
         return cookies.get('usage', False)
 
-    def get_object(self, queryset=None):
+    def _get_location(self):
+        return get_location(self.request)
+
+    def _get_region(self):
+        location = self._get_location()
+        if not location:
+            return None
+        return location.get('region', None)
+
+    def _get_company_details(self, user):
+        if not isinstance(user, BusinessSSOUser):
+            return self.NO_COMPANY_INFO
+
+        company = user.company
+        if not company:
+            return self.NO_COMPANY_INFO
+        # 16/11/2023 company telephone number requested by Users but we do not capture this at the moment
+        return (company.name, company.postcode, '')
+
+    def _get_registration_and_booking(self, user_email):
+        registration = Registration.objects.filter(email=user_email).first()
+        if not registration:
+            return None, None
+        booking = Booking.objects.filter(event=self.event, registration=registration).first()
+        if not booking:
+            return registration, None
+        return registration, booking
+
+    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+        if not self.event:
+            self._get_event_details()
+        user = get_user(self.request)
+        is_logged_in = get_is_authenticated(self.request)
+        if user and is_logged_in and self.event and self.video and user.email:
+            already_tracked = VideoOnDemandPageTracking.user_already_recorded(user.email, self.event, self.video)
+            if not already_tracked:
+                cookies_accepted_on_details_view = self._user_has_accepted_cookies()
+                details_viewed = datetime.now(timezone.utc)
+                company_name, company_postcode, company_phone = self._get_company_details(user)
+                registration, booking = self._get_registration_and_booking(user)
+
+                VideoOnDemandPageTracking.objects.create(
+                    id=uuid4(),
+                    user_email=user.email,
+                    hashed_uuid=user.hashed_uuid if isinstance(user, BusinessSSOUser) else None,
+                    region=self._get_region(),
+                    company_name=company_name,
+                    company_postcode=company_postcode,
+                    company_phone=company_phone,
+                    details_viewed=details_viewed,
+                    cookies_accepted_on_details_view=cookies_accepted_on_details_view,
+                    event=self.event,
+                    booking=booking,
+                    registration=registration,
+                    hashed_sso_id=registration.hashed_sso_id if registration else None,
+                    video=self.video,
+                )
+
+        return super().get(request, *args, **kwargs)
+
+    def _get_event_details(self):
         self.slug = self.kwargs.pop('slug', None)
         if not self.slug:
             raise Http404
@@ -783,6 +854,10 @@ class EventVideoOnDemandView(DetailView):
         self.event, self.video = self._get_event_and_video()
         if not self.event or not self.video:
             raise Http404
+
+    def get_object(self, queryset=None):
+        if not self.event:
+            self._get_event_details()
         self.kwargs['pk'] = self.event.id
         obj = super().get_object(queryset=None)
         if obj:

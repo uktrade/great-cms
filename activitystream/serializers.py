@@ -5,9 +5,14 @@ from taggit.serializers import TagListSerializerField
 from wagtail.models import Page
 from wagtail.rich_text import RichText, get_text_for_indexing
 
-from core.models import MicrositePage
+from core.models import GreatMedia, MicrositePage
 from domestic.models import ArticlePage
-from export_academy.models import Booking, Event, Registration
+from export_academy.models import (
+    Booking,
+    Event,
+    Registration,
+    VideoOnDemandPageTracking,
+)
 from international_online_offer.models import CsatFeedback, TriageData, UserData
 
 logger = logging.getLogger(__name__)
@@ -451,5 +456,101 @@ class ActivityStreamCmsContentSerializer(serializers.ModelSerializer):
                 'contentTypeId': instance.content_type_id,
                 # TODO: add content via page type serialisers
                 'content': '',
+            },
+        }
+
+
+class GreatMediaSerializer(serializers.ModelSerializer):
+    """
+    GreatMedia serializer for Activity Stream.
+    """
+
+    videoId = serializers.UUIDField(source='id')  # noqa: N815
+    videoTitle = serializers.CharField(source='title')  # noqa: N815
+
+    class Meta:
+        model = GreatMedia
+        fields = ['id', 'title']
+
+
+class RegistrationSerializer(serializers.ModelSerializer):
+    """
+    Registration serializer for Activity Stream.
+    """
+
+    registrationHashedSsoId = serializers.CharField(source='hashed_sso_id')  # noqa: N815
+
+    class Meta:
+        model = Registration
+        fields = ['hashed_sso_id']
+
+
+class ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer(serializers.ModelSerializer):
+    """
+    UKEA's VideoOnDemandPageTracking serializer for Activity Stream.
+    """
+
+    userEmail = serializers.EmailField(source='user_email')  # noqa: N815
+    hashedUuid = serializers.CharField(source='hashed_uuid')  # noqa: N815
+    region = serializers.CharField()  # noqa: N815
+    companyName = serializers.CharField(source='company_name')  # noqa: N815
+    companyPostcode = serializers.CharField(source='company_postcode')  # noqa: N815
+    companyPhone = serializers.CharField(source='company_phone')  # noqa: N815
+    detailsViewed = serializers.DateTimeField(source='details_viewed')  # noqa: N815
+    cookiesAcceptedOnDetailsView = serializers.BooleanField(source='cookies_accepted_on_details_view')  # noqa: N815
+    eventId = serializers.UUIDField(source='event_id')  # noqa: N815
+    bookingId = serializers.UUIDField(source='booking_id')  # noqa: N815
+    registrationId = serializers.UUIDField(source='registration_id')  # noqa: N815
+    video = GreatMediaSerializer(many=False)
+    registration = RegistrationSerializer(many=False)
+
+    class Meta:
+        model = VideoOnDemandPageTracking
+        fields = [
+            'userEmail',
+            'hashedUuid',
+            'region',
+            'companyName',
+            'companyPostcode',
+            'companyPhone',
+            'detailsViewed',
+            'cookiesAcceptedOnDetailsView',
+            'eventId',
+            'bookingId',
+            'registrationId',
+            'videoId',
+            'videoTitle',
+            'registrationHashedSsoId',
+        ]
+
+    def to_representation(self, instance):
+        """
+        Prefix field names to match activity stream format
+        """
+        prefix = 'dit:exportAcademy:videoondemandpagetracking'
+        type = 'Update'
+        return {
+            'id': f'{prefix}:{instance.id}:{type}',
+            'type': f'{type}',
+            'published': instance.modified.isoformat(),
+            'object': {
+                'id': f'{prefix}:{instance.id}',
+                'type': prefix,
+                'created': instance.created.isoformat(),
+                'modified': instance.modified.isoformat(),
+                'userEmail': instance.user_email,
+                'hashedUuid': instance.hashed_uuid,
+                'region': instance.region,
+                'companyName': instance.company_name,
+                'companyPostcode': instance.company_postcode,
+                'companyPhone': instance.company_phone,
+                'detailsViewed': instance.details_viewed,
+                'cookiesAcceptedOnDetailsView': instance.cookies_accepted_on_details_view,
+                'eventId': instance.event.id,
+                'bookingId': instance.booking.id if instance.booking else None,
+                'registrationId': instance.registration.id if instance.registration else None,
+                'registrationHashedSsoId': instance.registration.hashed_sso_id if instance.registration else None,
+                'videoId': instance.video.id,
+                'videoTitle': instance.video.title,
             },
         }
