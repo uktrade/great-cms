@@ -841,17 +841,15 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         FieldPanel('recap'),
     ]
 
-    if settings.FEATURE_DEA_V2:
-
-        @cached_classmethod
-        def get_edit_handler(cls):  # noqa
-            panels = [
-                ObjectList(cls.content_panels, heading='Content'),
-                ObjectList(cls.layout_panels, heading='Layout'),
-                ObjectList(SeoMixin.seo_meta_panels, heading='SEO', classname='seo'),
-                ObjectList(cls.settings_panels, heading='Settings', classname='settings'),
-            ]
-            return TabbedInterface(panels).bind_to_model(model=cls)
+    @cached_classmethod
+    def get_edit_handler(cls):  # noqa
+        panels = [
+            ObjectList(cls.content_panels, heading='Content'),
+            ObjectList(cls.layout_panels, heading='Layout'),
+            ObjectList(SeoMixin.seo_meta_panels, heading='SEO', classname='seo'),
+            ObjectList(cls.settings_panels, heading='Settings', classname='settings'),
+        ]
+        return TabbedInterface(panels).bind_to_model(model=cls)
 
     def handle_page_view(self, request):
         if request.user.is_authenticated:
