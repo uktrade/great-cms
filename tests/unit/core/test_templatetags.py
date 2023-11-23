@@ -3,16 +3,18 @@ from datetime import timedelta
 from html import escape
 from unittest import mock
 from urllib.parse import quote, quote_plus
-
+from django.http import HttpRequest
 import pytest
 from bs4 import BeautifulSoup
 from django.conf import settings
 from django.template import Context, Template
+from django.test import TestCase
 from django.urls import reverse
 
 from core.models import CuratedListPage, DetailPage, LessonPlaceholderPage, TopicPage
 from core.templatetags.content_tags import (
     add_anchor_classes,
+    extract_domain,
     get_backlinked_url,
     get_category_title_for_lesson,
     get_lesson_progress_for_topic,
@@ -22,12 +24,14 @@ from core.templatetags.content_tags import (
     get_topic_blocks,
     get_topic_title_for_lesson,
     highlighted_text,
+    is_email,
     is_lesson_page,
     is_placeholder_page,
     make_bold,
     str_to_datetime,
     tag_text_mapper,
     url_type,
+    handle_external_links,
 )
 from core.templatetags.object_tags import get_item
 from core.templatetags.progress_bar import progress_bar
@@ -825,3 +829,73 @@ def test_tag_text_mapper(input, expected_output):
 def test_url_type(input, expected_output):
     result = url_type(input)
     assert result == expected_output
+
+
+class ExtractDomainFilterTest(TestCase):
+    def test_extract_domain(self):
+        test_url = 'http://www.example.com/some-page'
+        expected_result = 'www.example.com'
+
+        result = extract_domain(test_url)
+        self.assertEqual(result, expected_result)
+
+    def test_extract_domain_with_https(self):
+        test_url = 'https://sub.example.com/path/to/resource'
+        expected_result = 'sub.example.com'
+
+        result = extract_domain(test_url)
+        self.assertEqual(result, expected_result)
+
+
+class HandleExternalLinksFilterTest(TestCase):
+    def test_should_add_target_blank_to_external_links(self):
+        # Create a mock request object
+        request = HttpRequest()
+        request.META['HTTP_HOST'] = 'example.com'
+        html_content = """
+        <a href="https://www.example.com">Example</a>
+        """
+        soup = BeautifulSoup(html_content, 'html.parser')
+        filtered_html_content = handle_external_links(str(soup), request)
+        assert '_blank' in filtered_html_content
+
+    def test_should_not_add_target_blank_to_internal_links(self):
+        request = HttpRequest()
+        request.META['HTTP_HOST'] = 'example.com'
+        html_content = """
+        <a href="/internal/link">Internal Link</a>
+        """
+        soup = BeautifulSoup(html_content, 'html.parser')
+        filtered_html_content = handle_external_links(str(soup), request)
+        assert '_blank' not in filtered_html_content
+
+
+class IsEmailFilterTest(TestCase):
+    def test_is_email_valid(self):
+        valid_emails = [
+            'example@example.com',
+            'user1234@test.co',
+            'user.name@email.co.uk',
+        ]
+
+        for email in valid_emails:
+            result = is_email(email)
+            self.assertTrue(result, f"'{email}' should be recognized as a valid email.")
+
+    def test_is_email_invalid(self):
+        invalid_emails = [
+            'notanemail',
+            'user@example',
+            'user@example.',
+            'user@.com',
+            '@example.com',
+            'user@.com',
+        ]
+
+        for email in invalid_emails:
+            result = is_email(email)
+            self.assertFalse(result, f"'{email}' should be recognized as an invalid email.")
+
+    def test_is_email_empty_string(self):
+        result = is_email('')
+        self.assertFalse(result, 'Empty string should not be recognized as an email.')

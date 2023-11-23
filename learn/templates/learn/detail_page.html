@@ -34,35 +34,37 @@
         </div>
     </div>
 </div>
-<div class="test-knowledge">
-    <div class="container">
-        <div class="grid p-t-m">
-            <div class="c-1-4 only-desktop">
-                <span>&nbsp;</span>
+<div class="test-knowledge"> 
+    {% if request.user.is_authenticated %}
+        <div class="container">
+            <div class="grid p-t-m">
+                <div class="c-1-4 only-desktop">
+                    <span>&nbsp;</span>
+                </div>
+                <div class="c-1-2">
+                    {% include 'learn/recap.html' %}
+                    <hr class="hr hr--light m-0" />
+                </div>
+                <div class="c-1-4 only-desktop">
+                    <span>&nbsp;</span>
+                </div>
             </div>
-            <div class="c-1-2">
-                {% include 'learn/recap.html' %}
-                <hr class="hr hr--light m-0" />
-            </div>
-            <div class="c-1-4 only-desktop">
-                <span>&nbsp;</span>
+        </div>        
+        <div class="container">
+            <div class="grid p-v-s">
+                <div class="c-1-4 only-desktop">
+                    <span>&nbsp;</span>
+                </div>
+                <div class="c-1-2">
+                    <fieldset id="mark_as_complete">
+                    </fieldset>
+                </div>
+                <div class="c-1-4 only-desktop">
+                    <span>&nbsp;</span>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="container">
-        <div class="grid p-v-s">
-            <div class="c-1-4 only-desktop">
-                <span>&nbsp;</span>
-            </div>
-            <div class="c-1-2">
-                <fieldset id="mark_as_complete">
-                </fieldset>
-            </div>
-            <div class="c-1-4 only-desktop">
-                <span>&nbsp;</span>
-            </div>
-        </div>
-    </div>
+    {% endif %}    
     <div class="container p-v-s">
         <div class="grid">
             <div class="c-1-12 only-desktop">
@@ -114,20 +116,19 @@
 {% endblock %}
 {% block body_js %}
     {{ block.super }}
-    <script>
-    {% if request.user.is_authenticated %}
-      dataLayer.push({
-        event: 'lessonView',
-        lessonModule: '{{ current_module }}',
-        topicTitle: '{{ page_topic }}',
-        lessonTitle: '{{ page.title }}'
-      });
-      magna.createMarkLessonAsComplete({
-        element: document.querySelector("#mark_as_complete"),
-        endpoint: '{% url "sso:lesson-completed" lesson=page.id %}'
-      })
-    {% endif %}
-
+    <script>    
+        {% if request.user.is_authenticated %}
+        dataLayer.push({
+            event: 'lessonView',
+            lessonModule: '{{ current_module }}',
+            topicTitle: '{{ page_topic }}',
+            lessonTitle: '{{ page.title }}'
+        });
+        magna.createMarkLessonAsComplete({
+            element: document.querySelector("#mark_as_complete"),
+            endpoint: '{% url "sso:lesson-completed" lesson=page.id %}'
+        })
+        {% endif %}
     document.querySelectorAll('.media-section').forEach(element => {
       const transcriptContainer = element.querySelector(".video-transcript-container");
 
