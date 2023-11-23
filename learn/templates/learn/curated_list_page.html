@@ -16,11 +16,17 @@
                             <h1 id='topic-title'>{{ page.title }}</h1>
                             <p>{{ page.heading | richtext }}</p>
                             <div class="lesson-summary">
-                                <i class="fa fa-clock"></i>
-                                {# djlint:off #}
-                                <span class="learn__category-topics">{{ page.count_topics }} topic{% pluralize page.count_topics %}, </span>
-                                <span class="learn__category-lessons">{{ page.count_detail_pages }} lesson{% pluralize page.count_detail_pages %}</span>
-                                {# djlint:on #}
+                                {% if request.user.is_authenticated %}
+                                    <i class="fa fa-clock"></i>
+                                        {# djlint:off #}
+                                        <span class="learn__category-topics">{{ page.count_topics }} topic
+                                        {% pluralize page.count_topics %}
+                                        , </span>
+                                        <span class="learn__category-lessons">{{ page.count_detail_pages }} lesson
+                                        {% pluralize page.count_detail_pages %}
+                                        </span>
+                                        {# djlint:on #}
+                                {% endif %}        
                             </div>
                         </div>
                         <div class="image-container"></div>
