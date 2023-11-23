@@ -408,16 +408,12 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
     def test_no_page_slug(self):
         url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': None})
         request = self.client.get(url)
-        view = domestic.views.campaign.CampaignView(request=request)
-        current_page = view.request.context_data['view'].current_page
-        self.assertEqual(current_page, None)
+        self.assertEqual(request.status_code, 404)
 
     def test_page_does_not_exist(self):
         url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'page_that_does_not_exist'})
         request = self.client.get(url)
-        view = domestic.views.campaign.CampaignView(request=request)
-        current_page = view.request.context_data['view'].current_page
-        self.assertEqual(current_page, None)
+        self.assertEqual(request.status_code, 404)
 
     def test_get_current_page(self):
         self.listing_page = ArticleListingPageFactory(slug='test-listing', title='test', landing_page_title='test')
