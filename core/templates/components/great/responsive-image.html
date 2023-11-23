@@ -1,4 +1,4 @@
-<picture {% if classes %}class="{{ classes }}"{% endif %}>
+<picture class="great-picture {% if classes %}{{ classes }}{% endif %}">
     {% if xl_image_src %}<source srcset="{{ xl_image_src }}" media="(min-width: 1231px)" />{% endif %}
     {% if l_image_src %}
         <source srcset="{{ l_image_src }}"
