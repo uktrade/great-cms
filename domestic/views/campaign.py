@@ -1,6 +1,7 @@
 from babel import Locale as BabelLocale
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
+from django.http import Http404
 from django.urls import reverse
 from django.utils.http import urlencode
 from django.utils.translation import get_language
@@ -167,9 +168,11 @@ class CampaignView(BaseNotifyUserFormView):
     def get_context_data(self, **kwargs):
         if not self.form_type:
             kwargs['form'] = None
+        if not self.current_page:
+            raise Http404
         return super().get_context_data(
             **kwargs,
-            page=self.current_page if self.current_page else None,
+            page=self.current_page,
             form_success=self.form_success,
             available_languages=self.available_languages,
             current_language=self.current_language,
