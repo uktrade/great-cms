@@ -70,14 +70,14 @@ def is_labour_workforce_hire(sector, hiring):
 
 def is_hpo(sector, location):
     hpo_sector_location = [
-        {directory_constants_sectors.FOOD_AND_DRINK: [regions.NORTH_EAST, regions.NORTH_WEST, regions.EASTERN]},
+        {directory_constants_sectors.FOOD_AND_DRINK: [regions.NORTH_EAST, regions.NORTH_WEST, regions.EAST_OF_ENGLAND]},
         {
             sectors.TECHNOLOGY_AND_SMART_CITIES: [
                 regions.WALES,
                 regions.SOUTH_WEST,
-                regions.EASTERN,
+                regions.EAST_OF_ENGLAND,
                 regions.WEST_MIDLANDS,
-                regions.YORKSHIRE_AND_HUMBER,
+                regions.YORKSHIRE_AND_THE_HUMBER,
             ]
         },
         {
@@ -98,10 +98,10 @@ def is_hpo(sector, location):
             directory_constants_sectors.BIOTECHNOLOGY_AND_PHARMACEUTICALS: [
                 regions.NORTH_EAST,
                 regions.SCOTLAND,
-                regions.YORKSHIRE_AND_HUMBER,
+                regions.YORKSHIRE_AND_THE_HUMBER,
                 regions.EAST_MIDLANDS,
                 regions.NORTH_WEST,
-                regions.EASTERN,
+                regions.EAST_OF_ENGLAND,
                 regions.WALES,
                 regions.NORTHERN_IRELAND,
             ]

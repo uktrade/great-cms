@@ -59,9 +59,17 @@
     <script type="text/javascript"
             src="{% static 'javascript/expand-your-business.js' %}"></script>
     <script type="text/javascript">
+    const locationData = JSON.parse("{{autocomplete_location_data | escapejs}}")
+    let flattenedLocationData = [];
+    for (let i = 0; i < locationData.length; i++) {
+        flattenedLocationData.push(locationData[i].region);
+        for (let o = 0; o < locationData[i].cities.length; o++) {
+            flattenedLocationData.push(locationData[i].cities[o]);
+        }
+    }
     accessibleAutocomplete.enhanceSelectElement({
       selectElement: document.getElementById('js-location-select'),
-      source: eybLocationSuggest,
+      source: flattenedLocationData,
       autoselect: false,
       minLength: 2,
     });
