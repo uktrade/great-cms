@@ -61,7 +61,7 @@ INTENT_CHOICES = (
 
 # Copy of EXPERTISE_REGION_CHOICES in directory constants but using non const keys needed for scorecard service
 REGION_CHOICES = (
-    (regions.EASTERN, 'East'),
+    (regions.EAST_OF_ENGLAND, 'East of England'),
     (regions.EAST_MIDLANDS, 'East Midlands'),
     (regions.LONDON, 'London'),
     (regions.NORTH_EAST, 'North East'),
@@ -72,7 +72,7 @@ REGION_CHOICES = (
     (regions.SOUTH_WEST, 'South West'),
     (regions.WALES, 'Wales'),
     (regions.WEST_MIDLANDS, 'West Midlands'),
-    (regions.YORKSHIRE_AND_HUMBER, 'Yorkshire and the Humber'),
+    (regions.YORKSHIRE_AND_THE_HUMBER, 'Yorkshire and the Humber'),
 )
 
 

@@ -396,6 +396,9 @@ class TriageData(TimeStampedModel):
 
     intent_other = models.CharField(max_length=255)
     location = models.CharField(max_length=255, choices=choices.REGION_CHOICES)
+    location_city = models.CharField(
+        max_length=255, default=None, null=True, choices=helpers.generate_location_choices(False)
+    )
     location_none = models.BooleanField(default=False)
     hiring = models.CharField(max_length=255, choices=choices.HIRING_CHOICES)
     spend = models.CharField(max_length=255, choices=choices.SPEND_CHOICES)

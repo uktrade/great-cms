@@ -1,3 +1,5 @@
+import json
+
 from directory_forms_api_client import actions
 from django.conf import settings
 
@@ -100,6 +102,7 @@ def get_trade_assoication_sectors_from_sector(sector):
         ],
         directory_constants_sectors.ENERGY: ['Energy'],
         directory_constants_sectors.HEALTHCARE_AND_MEDICAL: ['Healthcare', 'Medical'],
+        sectors.MEDICAL_DEVICES_AND_EQUIPMENT: ['Medical Device'],
     }
     mapping = mappings.get(sector)
     return mapping if mapping else []
@@ -108,7 +111,7 @@ def get_trade_assoication_sectors_from_sector(sector):
 def get_salary_region_from_region(region):
     # This is the only salary region (from statista, external dataset)
     # that is not quite an exact match to the eyb regions
-    if region == regions.EASTERN:
+    if region == regions.EAST_OF_ENGLAND:
         return 'East'
 
     for v, d in choices.REGION_CHOICES:
@@ -199,3 +202,59 @@ def is_triage_complete(triage_data):
         and triage_data.hiring
         and (triage_data.spend or triage_data.spend_other)
     )
+
+
+# Getting region and city choices from json file stored in fixtures
+# to use with accessible autocomplete and select input on triage
+# location select step, data was pulled from data workspace postcode
+# dataset using distinct query on city as CSV and converted to json.
+
+
+def get_region_and_cities_json_file():
+    json_data = open('international_online_offer/fixtures/regions-and-cities.json')
+    deserialised_data = json.load(json_data)
+    json_data.close()
+    return deserialised_data
+
+
+def get_region_and_cities_json_file_as_string():
+    json_data = get_region_and_cities_json_file()
+    json_data_string = json.dumps(json_data)
+    return json_data_string
+
+
+def generate_location_choices(include_regions=True, include_cities=True):
+    # Django only takes tuples (actual value, human readable name) so we need to
+    # repack the json in a dictionay of tuples for cities
+
+    json_data = get_region_and_cities_json_file()
+    json_data = sorted(json_data, key=lambda x: x['region'], reverse=True)
+
+    locations_tuple = ()
+    for region_obj in json_data:
+        if include_cities:
+            for city in region_obj['cities']:
+                locations_tuple = ((city.replace(' ', '_').upper(), city),) + locations_tuple
+        if include_regions:
+            locations_tuple = (
+                (region_obj['region'].replace(' ', '_').upper(), region_obj['region']),
+            ) + locations_tuple
+    return locations_tuple
+
+
+def is_region(choice):
+    json_data = get_region_and_cities_json_file()
+    for region_obj in json_data:
+        if region_obj['region'].replace(' ', '_').upper() == choice:
+            return True
+    return False
+
+
+def get_region_from_city(choice):
+    json_data = get_region_and_cities_json_file()
+    for region_obj in json_data:
+        for city in region_obj['cities']:
+            if city.replace(' ', '_').upper() == choice:
+                return region_obj['region'].replace(' ', '_').upper()
+
+    return ''
