@@ -1,4 +1,5 @@
 import pytest
+from django.contrib.auth.models import AnonymousUser
 from django.core.files.base import ContentFile
 from django.http import HttpRequest
 from django.test import TestCase
@@ -219,6 +220,17 @@ def test_selected_personalised_choices(rf, user, mock_get_user_data, mock_tradin
 @pytest.mark.django_db
 def test_selected_personalised_choices_no_user():
     commodity_codes, countries, regions, blocs = get_personalised_choices(None)
+
+    assert commodity_codes == []
+    assert countries == []
+    assert regions == []
+
+
+@pytest.mark.django_db
+def test_selected_personalised_choices_anonymous_user(rf):
+    request = rf.get('/')
+    request.user = AnonymousUser()
+    commodity_codes, countries, regions, blocs = get_personalised_choices(request.user)
 
     assert commodity_codes == []
     assert countries == []

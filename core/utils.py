@@ -90,10 +90,15 @@ def get_personalised_choices(user):
 
     products = []
     markets = []
-    if user:
-        # If a page is loading with wagtail user then no user will be in context
-        products = user.get_user_data(name='UserProducts').get('UserProducts') or []
-        markets = user.get_user_data(name='UserMarkets').get('UserMarkets') or []
+
+    try:
+        if user.is_authenticated:
+            # If a page is loading with wagtail user then no user will be in context
+            products = user.get_user_data(name='UserProducts').get('UserProducts') or []
+            markets = user.get_user_data(name='UserMarkets').get('UserMarkets') or []
+    except AttributeError:
+        # User is not always passed
+        pass
 
     trading_blocs = set()
     for market in markets:
