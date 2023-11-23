@@ -1031,6 +1031,18 @@ figure.great-blockquote {
   }
 }
 
+.great-dep-card {
+  a {
+    text-decoration: none;
+  }
+
+  img {
+    margin: 0;
+    width: 100%;
+    height: auto;
+  }
+}
+
 .great-dep-homepage-title {
   position: relative;
 
@@ -1064,7 +1076,9 @@ figure.great-blockquote {
 }
 
 .great-dep-homepage-row {
-  .great-card:first-of-type {
+  padding-bottom: 3px;
+
+  .great-dep-card:first-of-type {
     @include govuk-media-query($until: tablet) {
       margin-bottom: 30px;
     }
