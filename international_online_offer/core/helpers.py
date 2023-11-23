@@ -102,6 +102,7 @@ def get_trade_assoication_sectors_from_sector(sector):
         ],
         directory_constants_sectors.ENERGY: ['Energy'],
         directory_constants_sectors.HEALTHCARE_AND_MEDICAL: ['Healthcare', 'Medical'],
+        sectors.MEDICAL_DEVICES_AND_EQUIPMENT: ['Medical Device'],
     }
     mapping = mappings.get(sector)
     return mapping if mapping else []
