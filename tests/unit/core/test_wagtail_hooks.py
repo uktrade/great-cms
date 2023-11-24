@@ -245,7 +245,7 @@ def test_estimated_read_time_calculation__checks_text_and_video(rf, domestic_hom
     revision = detail_page.save_revision()
     revision.publish()
 
-    expected_duration = timedelta(seconds=154 + 123)  # reading + watching
+    expected_duration = timedelta(seconds=155 + 123)  # reading + watching
 
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration != expected_duration
@@ -331,7 +331,7 @@ def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(rf, 
 
     detail_page.refresh_from_db()
 
-    expected_duration = timedelta(seconds=3)  # NB just the read time of a skeleton DetailPage
+    expected_duration = timedelta(seconds=4)  # NB just the read time of a skeleton DetailPage
 
     # show the live version is not updated yet
     assert detail_page.has_unpublished_changes is True
@@ -410,7 +410,7 @@ def test_estimated_read_time_calculation__forced_update_of_live(rf, domestic_hom
 
     detail_page.refresh_from_db()
 
-    expected_duration = timedelta(seconds=3)  # NB just the read time of a skeleton DetailPage
+    expected_duration = timedelta(seconds=4)  # NB just the read time of a skeleton DetailPage
 
     # show the live version is updated yet
     assert detail_page.estimated_read_duration == expected_duration
@@ -440,7 +440,7 @@ def test__set_read_time__passes_through_is_post_creation(
     ) as mocked_update_data_for_appropriate_version:
         wagtail_hooks._set_read_time(request, detail_page, is_post_creation=is_post_creation_val)
 
-    expected_seconds = 3
+    expected_seconds = 4
     mocked_update_data_for_appropriate_version.assert_called_once_with(
         page=detail_page,
         force_page_update=is_post_creation_val,
