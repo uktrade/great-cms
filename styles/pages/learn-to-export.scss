@@ -199,13 +199,36 @@ i.fas.fa-clock {
   }
 }
 
-
-.learn__topic-item-details{
+.learn__topic-item-details {
   @media only screen and (max-width: $mobile-size) {
-
-    h2, p{
+    h2,
+    p {
       padding-bottom: $standard-padding;
     }
-
+  }
 }
+
+.media-block {
+  margin-left: 0 !important;
+  width: 100% !important;
+}
+
+.media-block > img,
+.media-block > i {
+  width: 40px !important;
+}
+
+.lesson-page {
+  .great-quote {
+    &:before {
+      top: 0px !important;
+    }
+    & p {
+      font-family: $header-font!important;
+      font-size: 24px!important;
+      margin: 0;
+      display: inline!important;
+      margin-left: 30px;
+    }
+  }
 }

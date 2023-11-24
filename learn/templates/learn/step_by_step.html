@@ -1,12 +1,12 @@
 {% load  wagtailcore_tags %}
 {% load wagtailimages_tags %}
 <div class="step-by-step">
-    <ul>
-        <li class="m-b-m">
+    <ul class="govuk-list">
+        <li class="govuk-!-margin-bottom-7">
             <div class="{% if value.image %}media-block media-block--round-image media-block--round-image-small{% endif %}">
-                {% image value.image fill-70x70 class="c-1-2-l" %}
+                {% image value.image fill-70x70 class="c-1-2-l govuk-!-margin-top-1 govuk-!-margin-left-0" %}
                 <div>
-                    <h2 class="h-l p-0">
+                    <h2 class="govuk-heading-l govuk-!-padding-0">
                         <span class="visually-hidden">{{ value.image.alt_text }}</span>{{ value.title }}
                     </h2>
                     <div class="rich-text">{{ value.body|richtext }}</div>

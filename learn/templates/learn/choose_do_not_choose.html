@@ -1,16 +1,16 @@
 {% load  wagtailcore_tags %}
 <div class="choose-dont-choose">
-    <div class="media-block media-block--round-image m-b-m">
+    <div class="media-block media-block--round-image govuk-!-margin-bottom-7">
         <i class="fas fa-check"></i>
-        <div class="g-panel g-panel--horizontal-mobile p-t-0">
-            <h3>{{ value.choose_title }}</h3>
+        <div class="g-panel g-panel--horizontal-mobile govuk-!-padding-top-0">
+            <h3 class="govuk-heading-s">{{ value.choose_title }}</h3>
             <div>{{ value.choose_body|richtext }}</div>
         </div>
     </div>
-    <div class="media-block media-block--round-image m-b-m">
+    <div class="media-block media-block--round-image govuk-!-margin-bottom-7">
         <i class="fas fa-ban"></i>
-        <div class="g-panel g-panel--horizontal-mobile p-t-0">
-            <h3>{{ value.do_not_choose_title }}</h3>
+        <div class="g-panel g-panel--horizontal-mobile govuk-!-padding-top-0">
+            <h3 class="govuk-heading-s">{{ value.do_not_choose_title }}</h3>
             <div>{{ value.do_not_choose_body|richtext }}</div>
         </div>
     </div>
