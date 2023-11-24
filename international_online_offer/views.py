@@ -191,6 +191,15 @@ class LocationView(GA360Mixin, FormView):
         return next_url
 
     def get_context_data(self, **kwargs):
+        if self.request.user.is_authenticated:
+            triage_data = get_triage_data(self.request.user.hashed_uuid)
+            if triage_data:
+                region = triage_data.get_location_display()
+                city = triage_data.get_location_city_display()
+        else:
+            region = self.request.session.get('location')
+            city = self.request.session.get('location_city')
+
         return super().get_context_data(
             **kwargs,
             back_url=self.get_back_url(),
@@ -199,6 +208,8 @@ class LocationView(GA360Mixin, FormView):
             why_we_ask_this_question_text="""We'll use this information to provide customised content
               relevant to your city, county or region.""",
             autocomplete_location_data=helpers.get_region_and_cities_json_file_as_string(),
+            region=region,
+            city=city,
         )
 
     def get_initial(self):
