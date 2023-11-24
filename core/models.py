@@ -830,14 +830,13 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         ],
         use_json_field=True,
     )
-    
+
     def get_lesson_category_name(self):
         parent_page = self.get_parent()
         if parent_page:
             return parent_page.title
         else:
-            return None 
-          
+            return None
 
     #########
     # Panels
