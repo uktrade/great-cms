@@ -1,11 +1,7 @@
 {% load  wagtailcore_tags %}
 {% load add_govuk_classes from content_tags %}
 <div class="objectives">
-<<<<<<< HEAD
-    <h2 class="govuk-heading-medium">What you’ll learn</h2>
-=======
-    <h2 class="govuk-heading-medium govuk-!-margin-bottom-4">Lesson objective</h2>
->>>>>>> 4cb0cfa78 (save changes)
+    <h2 class="govuk-heading-medium govuk-!-margin-bottom-4">What you’ll learn</h2>
     {% filter add_govuk_classes %}
         {% for block in page.objective %}
             {{ block.value|richtext }}
