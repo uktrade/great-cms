@@ -74,8 +74,8 @@ class LocationForm(forms.Form):
     VALIDATION_MESSAGE_SELECT_OPTION = 'You must select a location'
     VALIDATION_MESSAGE_SELECT_NONE_OPTION = 'You must select not decided'
     location = ChoiceField(
-        label='Enter a city, region or nation',
-        help_text='Type to search and choose from the list',
+        label='Enter a location in the UK',
+        help_text='For example Manchester, South East or Scotland',
         required=False,
         widget=Select(attrs={'id': 'js-location-select', 'class': 'govuk-input'}),
         choices=(('', ''),) + helpers.generate_location_choices(),

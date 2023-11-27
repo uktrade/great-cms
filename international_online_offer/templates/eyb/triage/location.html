@@ -25,6 +25,15 @@
                             </div>
                         </div>
                     </div>
+                    <div id="region-city-information-container"
+                         class="govuk-grid-row"
+                         style="{% if not city %} display: none {% endif %}">
+                        <div class="govuk-grid-column-two-thirds">
+                            <div class="govuk-inset-text">
+                                <span id="city-text">{{ city }}</span> is in <span id="region-text" class="govuk-!-font-weight-bold">{{ region }}</span>, we will tailor your guide to this region.
+                            </div>
+                        </div>
+                    </div>
                     <div class="govuk-grid-row">
                         <div class="govuk-grid-column-full">
                             <div class="govuk-checkboxes" data-module="govuk-checkboxes">
@@ -59,19 +68,64 @@
     <script type="text/javascript"
             src="{% static 'javascript/expand-your-business.js' %}"></script>
     <script type="text/javascript">
-    const locationData = JSON.parse("{{autocomplete_location_data | escapejs}}")
-    let flattenedLocationData = [];
-    for (let i = 0; i < locationData.length; i++) {
-        flattenedLocationData.push(locationData[i].region);
-        for (let o = 0; o < locationData[i].cities.length; o++) {
-            flattenedLocationData.push(locationData[i].cities[o]);
+        // Gets json list of regions and cities from django - flattens to use
+        // with autocomplete.
+        const regionsAndCities = JSON.parse("{{autocomplete_location_data | escapejs}}");
+        const cityTextContainer = document.querySelector('#city-text');
+        const regionCityInfoContainer = document.querySelector('#region-city-information-container');
+        const regionTextContainer = document.querySelector('#region-text');
+        const flattenRegionAndCityDataForAutocomplete = (dataIn) => {
+            let dataOut = [];
+            for (let i = 0; i < dataIn.length; i++) {
+                dataOut.push(dataIn[i].region);
+                for (let o = 0; o < dataIn[i].cities.length; o++) {
+                    dataOut.push(dataIn[i].cities[o]);
+                }
+            }
+            return dataOut
         }
-    }
-    accessibleAutocomplete.enhanceSelectElement({
-      selectElement: document.getElementById('js-location-select'),
-      source: flattenedLocationData,
-      autoselect: false,
-      minLength: 2,
-    });
+        const flattenedRegionsAndCities = flattenRegionAndCityDataForAutocomplete(regionsAndCities);
+        const getRegionForCity = (city) => {
+            for (let i = 0; i < regionsAndCities.length; i++) {
+                for (let o = 0; o < regionsAndCities[i].cities.length; o++) {
+                    if (regionsAndCities[i].cities[o] == city) {
+                        return regionsAndCities[i].region;
+                    }
+                }
+            }
+        }
+        accessibleAutocomplete.enhanceSelectElement({
+            selectElement: document.querySelector('#js-location-select'),
+            source: flattenedRegionsAndCities,
+            autoselect: false,
+            minLength: 2,
+            onConfirm: function(selectedText) {
+                // onConfirm seems to be triggered by autocomplete many times passing null
+                if (selectedText) {
+                    // When overriding onconfirm as per docs, it seems to then not automatically update
+                    // the actual select elements selected value and so isnt posted on form submit
+                    const locationSelectInput = document.querySelector('#js-location-select-select');
+                    const setLocationSelectValue = (value) => {
+                        for (let i = 0; i < locationSelectInput.options.length; i++) {
+                            if (locationSelectInput.options[i].text === selectedText) {
+                                locationSelectInput.selectedIndex = i;
+                                break;
+                            }
+                        }
+                    }
+                    setLocationSelectValue(selectedText);
+                    // Hide / show information around the region that the city is in,
+                    // if selecting a city.
+                    const region = getRegionForCity(selectedText)
+                    if (region) {
+                        cityTextContainer.innerText = selectedText;
+                        regionTextContainer.innerText = region;
+                        regionCityInfoContainer.style.display = '';
+                    } else {
+                        regionCityInfoContainer.style.display = 'none';
+                    }
+                }
+            }
+        });
     </script>
 {% endblock %}
