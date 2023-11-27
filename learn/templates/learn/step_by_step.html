@@ -3,12 +3,15 @@
 <div class="step-by-step">
     <ul class="govuk-list">
         <li class="govuk-!-margin-bottom-7">
-            <div class="{% if value.image %}media-block media-block--round-image media-block--round-image-small{% endif %}">
-                {% image value.image fill-70x70 class="c-1-2-l govuk-!-margin-top-1 govuk-!-margin-left-0" %}
-                <div>
-                    <h2 class="govuk-heading-l govuk-!-padding-0">
+            <div>
+                <div class="{% if value.image %}media-block media-block--round-image media-block--round-image-small great-flex-row{% endif %}">
+                {% image value.image fill-70x70 class="govuk-!-margin-top-1 govuk-!-margin-left-0 govuk-!-margin-right-2" %}
+                  <h2 class="govuk-heading-l govuk-!-padding-0 govuk-!-margin-top-0 govuk-!-margin-bottom-2">
                         <span class="visually-hidden">{{ value.image.alt_text }}</span>{{ value.title }}
                     </h2>
+                </div>    
+                <div>
+                  
                     <div class="rich-text">{{ value.body|richtext }}</div>
                 </div>
             </div>
