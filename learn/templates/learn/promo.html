@@ -1,7 +1,7 @@
 {% if features.FEATURE_DEA_V2 and not request.user.is_authenticated %}
     <div class="great {% if bg_class %}{{ bg_class }}{% else %}great-bg-white{% endif %}">
         <div class="great-container govuk-!-padding-top-7">
-            <div class="govuk-grid-row great-display-flex-desktop great-align-items-flex-end">
+            <div class="govuk-grid-row great-promo">
                 <div class="govuk-grid-column-one-half">
                     <h2 class="govuk-heading-m">Accelerate your learning</h2>
                     <p class="govuk-body">Sign up to Great.gov.uk and you'll be able to:</p>
@@ -12,7 +12,8 @@
                     </ul>
                     {% include "components/great/link-button-chevron.html" with href="/signup" text="Sign up to get started " %}
                     <p class="govuk-body govuk-!-margin-bottom-9">
-                        Already signed up? <a href="{% url 'core:login' %}" class="govuk-link">Sign in</a>
+                        Already signed up? <a href="{% url 'core:login' %}"
+    class="govuk-link govuk-link--no-visited-state">Sign in</a>
                     </p>
                 </div>
                 <div class="govuk-grid-column-one-half">
