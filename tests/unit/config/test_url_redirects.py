@@ -393,10 +393,14 @@ redirects = [
         '/legacy/contact/terms-and-conditions/',
         TERMS_URL,
     ),
-    # (
-    #     '/contact/triage/location/',
-    #     '/contact/domestic/export-support/',
-    # ),
+    (
+        '/contact/triage/location/',
+        DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE,
+    ),
+    (
+        '/contact/triage/domestic/',
+        DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE,
+    ),
     # (
     #     '/contact/export-advice/comment/',
     #     '/contact/domestic/export-support/',

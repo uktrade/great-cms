@@ -553,6 +553,19 @@ if settings.FEATURE_DIGITAL_POINT_OF_ENTRY:
     ]
 
 
+if not settings.FEATURE_SHOW_OLD_CONTACT_FORM:
+    contact_redirects += [
+        re_path(
+            r'^contact/triage/location/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^contact/triage/domestic/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+    ]
+
+
 articles_redirects = [
     re_path(r'^market-research/$', QuerystringRedirectView.as_view(url='/advice/find-an-export-market/')),
     re_path(
