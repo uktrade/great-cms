@@ -29,12 +29,22 @@ class DomesticHomePageFactory(wagtail_factories.PageFactory):
         model = DomesticHomePage
 
 
+class RouteSectionItemFactory(wagtail_factories.StructBlockFactory):
+    title = 'Title of route section'
+    route_type = 'learn'
+    body = 'body lorem ipsum'
+    image = factory.SubFactory(
+        wagtail_factories.ImageChooserBlockFactory,
+    )
+    button = None
+
+    class Meta:
+        model = core_blocks.RouteSectionBlock
+
+
 class RouteSectionFactory(wagtail_factories.StructBlockFactory):
     title = 'Title'
-    route_type = 'learn'
-    body = factory.fuzzy.FuzzyText(length=60)
-    image = None
-    button = None
+    items = wagtail_factories.ListBlockFactory(RouteSectionItemFactory)
 
     class Meta:
         model = core_blocks.RouteSectionBlock
@@ -56,7 +66,9 @@ class DomesticDashboardFactory(wagtail_factories.PageFactory):
     live = True
     slug = 'dashboard'
 
-    components = wagtail_factories.StreamFieldFactory({'route': RouteSectionFactory})
+    components = wagtail_factories.StreamFieldFactory(
+        {'route': factory.SubFactory(RouteSectionItemFactory), 'items': factory.SubFactory(RouteSectionFactory)}
+    )
 
     class Meta:
         model = DomesticDashboard
