@@ -22,42 +22,37 @@
             <div class="image-container"></div>
         </div>
     </div>
-  {% breadcrumbs 'Learn to export' %}
-    <a href={{ BREADCRUMBS_ROOT_URL }}>great.gov.uk</a>
-{% endbreadcrumbs %}
-    <section id="learn-root"
-             class="great learn__page learn__categories-page container">
-        <section class="learn-to-export-card">
+<div class='great great-container govuk-!-margin-bottom-2'>    
+    {% breadcrumbs 'Learn to export' great-breadcrumbs %}
+        <a href={{ BREADCRUMBS_ROOT_URL }}>great.gov.uk</a>
+    {% endbreadcrumbs %}
+</div>
+ <section id="learn-root"
+             class="great great-hide-y-overflow learn__page learn__categories-page great-container">
             {% for learning_module in page.get_children.specific.live %}
                 {% with high_level_completion_progress|get_item:learning_module.id as module_completion_data %}
-                    <div class="govuk-!-padding-left-1 govuk-!-padding-right-1 great-card great-bg-white govuk-!-margin-bottom-4">
+                    <div class="govuk-!-padding-1 great-card great-bg-white govuk-!-margin-bottom-4">
                         <a href="{% pageurl learning_module %}"
-                           class="great-display-flex great-flex-wrap great-flex-column-until-tablet great-gap govuk-!-padding-4">
-                            <div class="great-flex-2">
-                                <h4 class="govuk-heading-s govuk-!-margin-top-0 govuk-!-margin-bottom-2 great-text-blue">
-                                    {{ learning_module.title }}
-                                </h4>
-                                {{ learning_module.heading | richtext| add_govuk_classes }}
-                                <div class="duration-container">
-                                    <i class="fa fa-clock"></i>
-                                    {# djlint:off #}
-                                            <span class="learn__category-topics">{{ learning_module.count_topics }} topic{% pluralize learning_module.count_topics %}, </span>
-                                            <span class="learn__category-lessons"> {{ learning_module.count_detail_pages }} lesson{% pluralize learning_module.count_detail_pages %}</span>
-                                    {# djlint:on #}
+                           class="govuk-!-padding-4">
+                           <div class="great-display-flex great-flex-wrap great-flex-column-until-tablet great-gap">
+                                    <div class="great-flex-2">
+                                        <h4 class="govuk-heading-s govuk-!-margin-top-0 govuk-!-margin-bottom-2 great-text-blue">
+                                            {{ learning_module.title }}
+                                        </h4>
+                                        {{ learning_module.heading | richtext| add_govuk_classes }}
+                                    </div>
+                                    <div class="progess-container great-flex-1">
+                                        {% if module_completion_data.completion_count %}
+                                            {% include "learn/_high_level_progress.html" with module_completion_data=module_completion_data only %}
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
-                            <div class="progess-container great-flex-1">
-                                {% if module_completion_data.completion_count %}
-                                    {% include "learn/_high_level_progress.html" with module_completion_data=module_completion_data only %}
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
+                        </div>    
                 </a>
             </article>
         {% endwith %}
     {% endfor %}
-</section>
 </section>
 {% include 'learn/promo.html' %}
 {% endblock %}
