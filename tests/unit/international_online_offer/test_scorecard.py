@@ -33,7 +33,7 @@ def test_is_labour_workforce_hire():
 
 
 def test_is_hpo():
-    assert scorecard.is_hpo(directory_constants_sectors.FOOD_AND_DRINK, regions.EASTERN)
+    assert scorecard.is_hpo(directory_constants_sectors.FOOD_AND_DRINK, regions.EAST_OF_ENGLAND)
     assert scorecard.is_hpo(sectors.TECHNOLOGY_AND_SMART_CITIES, regions.WALES)
     assert not scorecard.is_hpo(directory_constants_sectors.FOOD_AND_DRINK, regions.WALES)
     assert not scorecard.is_hpo(sectors.TECHNOLOGY_AND_SMART_CITIES, regions.NORTH_EAST)

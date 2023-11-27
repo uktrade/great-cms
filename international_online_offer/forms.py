@@ -19,7 +19,7 @@ from django.utils.html import mark_safe
 from great_components import forms
 
 from directory_constants.choices import COUNTRY_CHOICES
-from international_online_offer.core import choices, intents, spends
+from international_online_offer.core import choices, helpers, intents, spends
 
 TERMS_LABEL = mark_safe('I agree to the <a href="#" target="_blank">Terms and Conditions</a>')
 BLANK_COUNTRY_CHOICE = [('', '')]
@@ -73,14 +73,14 @@ class IntentForm(forms.Form):
 class LocationForm(forms.Form):
     VALIDATION_MESSAGE_SELECT_OPTION = 'You must select a location'
     VALIDATION_MESSAGE_SELECT_NONE_OPTION = 'You must select not decided'
-
     location = ChoiceField(
-        label='Enter a city, county or region',
-        help_text='Type to search and choose from the list',
+        label='Enter a location in the UK',
+        help_text='For example Manchester, South East or Scotland',
         required=False,
         widget=Select(attrs={'id': 'js-location-select', 'class': 'govuk-input'}),
-        choices=(('', ''),) + choices.REGION_CHOICES,
+        choices=(('', ''),) + helpers.generate_location_choices(),
     )
+
     location_none = BooleanField(
         required=False,
         label='I have not decided on a location yet',

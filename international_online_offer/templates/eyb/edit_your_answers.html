@@ -75,6 +75,7 @@
                                 <dt class="govuk-summary-list__key">Preferred location</dt>
                                 <dd class="govuk-summary-list__value">
                                     {% if triage_data.get_location_display %}
+                                        {% if triage_data.get_location_city_display %}{{ triage_data.get_location_city_display | default:'' }},{% endif %}
                                         {{ triage_data.get_location_display }}
                                     {% elif triage_data.location_none %}
                                         I have not decided on a location yet

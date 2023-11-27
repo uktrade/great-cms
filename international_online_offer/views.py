@@ -191,6 +191,15 @@ class LocationView(GA360Mixin, FormView):
         return next_url
 
     def get_context_data(self, **kwargs):
+        if self.request.user.is_authenticated:
+            triage_data = get_triage_data(self.request.user.hashed_uuid)
+            if triage_data:
+                region = triage_data.get_location_display()
+                city = triage_data.get_location_city_display()
+        else:
+            region = self.request.session.get('location')
+            city = self.request.session.get('location_city')
+
         return super().get_context_data(
             **kwargs,
             back_url=self.get_back_url(),
@@ -198,30 +207,49 @@ class LocationView(GA360Mixin, FormView):
             question_text='Where in the UK would you like to expand your business?',
             why_we_ask_this_question_text="""We'll use this information to provide customised content
               relevant to your city, county or region.""",
+            autocomplete_location_data=helpers.get_region_and_cities_json_file_as_string(),
+            region=region,
+            city=city,
         )
 
     def get_initial(self):
         if self.request.user.is_authenticated:
             triage_data = get_triage_data(self.request.user.hashed_uuid)
             if triage_data:
-                return {'location': triage_data.location, 'location_none': triage_data.location_none}
+                location = triage_data.location_city if triage_data.location_city else triage_data.location
+                return {'location': location, 'location_none': triage_data.location_none}
 
+        location = (
+            self.request.session.get('location_city')
+            if self.request.session.get('location_city')
+            else self.request.session.get('location')
+        )
         return {
-            'location': self.request.session.get('location'),
+            'location': location,
             'location_none': self.request.session.get('location_none'),
         }
 
     def form_valid(self, form):
+        region = None
+        city = None
+        if helpers.is_region(form.cleaned_data['location']):
+            region = form.cleaned_data['location']
+        else:
+            region = helpers.get_region_from_city(form.cleaned_data['location'])
+            city = form.cleaned_data['location']
+
         if self.request.user.is_authenticated:
             TriageData.objects.update_or_create(
                 hashed_uuid=self.request.user.hashed_uuid,
                 defaults={
-                    'location': form.cleaned_data['location'],
+                    'location': region,
+                    'location_city': city,
                     'location_none': form.cleaned_data['location_none'],
                 },
             )
         else:
-            self.request.session['location'] = form.cleaned_data['location']
+            self.request.session['location'] = region
+            self.request.session['location_city'] = city
             self.request.session['location_none'] = form.cleaned_data['location_none']
         calculate_and_store_is_high_value(self.request)
         return super().form_valid(form)

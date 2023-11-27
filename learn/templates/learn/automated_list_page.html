@@ -1,4 +1,4 @@
-{% extends "domestic/base.html" %}
+{% extends "core/base.html" %}
 {% load static %}
 {% load wagtailimages_tags %}
 {% load wagtailcore_tags %}
@@ -36,15 +36,15 @@
                         <div>
                             <h2>{{ learning_module.title }}</h2>
                             <p>{{ learning_module.heading | richtext }}</p>
-                                {% if request.user.is_authenticated %}
-                                    <div class="duration-container">
-                                        <i class="fa fa-clock"></i>
-                                        {# djlint:off #}
+                            {% if request.user.is_authenticated %}
+                                <div class="duration-container">
+                                    <i class="fa fa-clock"></i>
+                                    {# djlint:off #}
                                             <span class="learn__category-topics">{{ learning_module.count_topics }} topic{% pluralize learning_module.count_topics %}, </span>
                                             <span class="learn__category-lessons"> {{ learning_module.count_detail_pages }} lesson{% pluralize learning_module.count_detail_pages %}</span>
-                                        {# djlint:on #}
-                                    </div>
-                                {% endif %}
+                                    {# djlint:on #}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="progess-container">
                             {% if not module_completion_data.completion_count %}
@@ -60,4 +60,8 @@
     {% endfor %}
 </section>
 </section>
+{% include 'learn/promo.html' %}
 {% endblock %}
+{% if features.FEATURE_DEA_V2 %}
+    {% block feedback_reporter %}{% endblock %}
+{% endif %}
