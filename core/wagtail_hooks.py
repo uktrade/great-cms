@@ -621,3 +621,41 @@ def register_strong_feature(features):
     }
 
     features.register_converter_rule('contentstate', feature_name, db_conversion)
+
+@hooks.register('register_rich_text_features')
+def register_em_feature(features):
+    """
+    Registering the `em` feature. It will render italic text with `em` tag.
+    Default Wagtail uses the `i` tag for italics.
+    """
+    feature_name = 'em'
+    type_ = 'ITALIC'
+    tag = 'em'
+
+    control = {
+        'type': type_,
+        'icon': 'italic',
+        'description': 'Italic',
+    }
+
+    features.register_editor_plugin('draftail', feature_name, draftail_features.InlineStyleFeature(control))
+
+    db_conversion = {
+        'from_database_format': {tag: InlineStyleElementHandler(type_)},
+        'to_database_format': {'style_map': {type_: tag}},
+    }
+
+    features.register_converter_rule('contentstate', feature_name, db_conversion)
+    
+@hooks.register('before_save')
+def remove_bold_in_headings(instance, **kwargs):
+    if hasattr(instance, 'body'):
+        body = getattr(instance, 'body')
+
+        if body and isinstance(body, str):
+            soup = BeautifulSoup(body, 'html.parser')
+            for heading_tag in soup.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6']):
+                for bold_tag in heading_tag.find_all('b'):
+                    bold_tag.unwrap() 
+            
+            setattr(instance, 'body', str(soup))    
