@@ -372,6 +372,10 @@
       padding-top: 30px !important;
     }
   }
+
+  .govuk-link--no-visited-state {
+    @include govuk-link-style-no-visited-state;
+  }
 }
 
 .great-container {

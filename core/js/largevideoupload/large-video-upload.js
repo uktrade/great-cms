@@ -124,7 +124,7 @@ export const largeVideoUpload = () => {
     }
 
     const getFormData = () => {
-      const formData = new FormData(document.forms[1])
+      const formData = new FormData(document.forms[2])
 
       formData.delete('file')
       formData.append(

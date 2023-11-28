@@ -1241,3 +1241,18 @@ nav.great-breadcrumbs {
     }
   }
 }
+
+.great-promo {
+  display: flex;
+  align-items: flex-end;
+
+  @include govuk-media-query($until: tablet) {
+    flex-direction: column-reverse;
+  }
+
+  img {
+    @include govuk-media-query($until: tablet) {
+      margin-bottom: 20px;
+    }
+  }
+}

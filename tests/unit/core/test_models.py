@@ -10,7 +10,7 @@ from django.test import RequestFactory, TestCase
 from django.urls import reverse
 from wagtail.admin.panels import ObjectList
 from wagtail.blocks.stream_block import StreamBlockValidationError
-from wagtail.core.fields import StreamField
+from wagtail.fields import StreamField
 from wagtail.images import get_image_model
 from wagtail.images.tests.utils import get_test_image_file
 from wagtail.models import Collection

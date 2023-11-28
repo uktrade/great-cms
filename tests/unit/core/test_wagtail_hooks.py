@@ -10,7 +10,7 @@ from django.db.models import FileField
 from django.test import TestCase, override_settings
 from django.utils.safestring import mark_safe
 from wagtail.admin.menu import DismissibleMenuItem
-from wagtail.core.rich_text import RichText
+from wagtail.rich_text import RichText
 from wagtail.tests.utils import WagtailPageTests
 
 from config import settings
@@ -1220,7 +1220,13 @@ def test_register_campaign_site_help_menu_item():
     assert actual.url == MENU_ITEM_ADD_CAMPAIGN_SITE_LINK
     assert actual.icon_name == 'help'
     assert actual.order == 900
-    assert actual.attrs == {'target': '_blank', 'rel': 'noreferrer', 'data-wagtail-dismissible-id': 'campaign-site'}
+    assert actual.attrs == {
+        'target': '_blank',
+        'rel': 'noreferrer',
+        'data-w-dismissible-id-value': 'campaign-site',
+        'data-controller': 'w-dismissible',
+        'data-w-dismissible-dismissed-class': 'w-dismissible--dismissed',
+    }
     assert actual.name == 'campaign-site'
 
 
