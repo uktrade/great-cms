@@ -190,7 +190,7 @@ def test_get_region_and_cities_json_file_as_string():
         (
             False,
             True,
-            373,
+            372,
             ('CARDIFF', 'Cardiff'),
             ('WEST_MIDLANDS', 'West Midlands'),
         ),
