@@ -94,7 +94,6 @@
         "Hammersmith and Fulham",
         "Hounslow",
         "Bromley",
-        "City of London",
         "Kensington and Chelsea",
         "Southwark",
         "Havering",
@@ -192,7 +191,7 @@
       "cities": [
         "Lisburn and Castlereagh",
         "Causeway Coast and Glens",
-        "Armagh City, Banbridge and Craigavon",
+        "Armagh City",
         "Mid Ulster",
         "Fermanagh and Omagh",
         "Belfast",
@@ -200,7 +199,7 @@
         "Derry City and Strabane",
         "Mid and East Antrim",
         "Antrim and Newtownabbey",
-        "Newry, Mourne and Down"
+        "Newry"
       ]
     },
     {
@@ -314,10 +313,10 @@
       "cities": [
         "Cornwall",
         "Torbay",
-        "Bristol, City of",
+        "Bristol",
         "Wiltshire",
         "Torridge",
-        "Bournemouth, Christchurch and Poole",
+        "Bournemouth",
         "Forest of Dean",
         "Cotswold",
         "Somerset West and Taunton",
@@ -384,7 +383,7 @@
         "Lichfield",
         "Shropshire",
         "Redditch",
-        "Herefordshire, County of",
+        "Herefordshire",
         "Wychavon",
         "Walsall",
         "Rugby",
@@ -426,7 +425,7 @@
         "East Riding of Yorkshire",
         "Scarborough",
         "Selby",
-        "Kingston upon Hull, City of",
+        "Hull",
         "North East Lincolnshire",
         "Doncaster",
         "Calderdale"

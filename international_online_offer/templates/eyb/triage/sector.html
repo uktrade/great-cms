@@ -20,8 +20,17 @@
                     {% csrf_token %}
                     <div class="govuk-grid-row govuk-!-margin-bottom-7">
                         <div class="govuk-grid-column-full">
-                            <div class="{% if form.sector.errors %} govuk-form-group--error{% endif %}">
-                                {% include '../includes/form_field.html' with field=form.sector %}
+                            <div class="{% if form.sector_sub.errors %} govuk-form-group--error{% endif %}">
+                                {% include '../includes/form_field.html' with field=form.sector_sub %}
+                            </div>
+                        </div>
+                    </div>
+                    <div id="sic-sector-information-container"
+                         class="govuk-grid-row"
+                         style="{% if not sector or not sector_sub %} display: none {% endif %}">
+                        <div class="govuk-grid-column-two-thirds">
+                            <div class="govuk-inset-text">
+                                <span id="sic-text">{{ sector_sub }}</span> is in <span id="sector-text" class="govuk-!-font-weight-bold">{{ sector }}</span>, we will tailor your guide to this sector.
                             </div>
                         </div>
                     </div>
@@ -41,11 +50,58 @@
     <script type="text/javascript"
             src="{% static 'javascript/expand-your-business.js' %}"></script>
     <script type="text/javascript">
-    accessibleAutocomplete.enhanceSelectElement({
-      selectElement: document.getElementById('js-sector-select'),
-      source: eybSectorSuggest,
-      autoselect: false,
-      minLength: 2,
-    });
+        const sectorsAndSICSectors = JSON.parse("{{autocomplete_sector_data | escapejs}}").data;
+        const sicTextContainer = document.querySelector('#sic-text');
+        const sicSectorInfoContainer = document.querySelector('#sic-sector-information-container');
+        const sectorTextContainer = document.querySelector('#sector-text');
+        const getSICSectors = (dataIn) => {
+            const sectors = [];
+            for (let i = 0; i < dataIn.length; i++) {
+                sectors.push(dataIn[i].sic_description);
+            }
+            return sectors;
+        }
+
+        const getSectorForSICSector = (sicSector) => {
+            for (let i = 0; i < sectorsAndSICSectors.length; i++) {
+                if (sectorsAndSICSectors[i].sic_description == sicSector) {
+                    return sectorsAndSICSectors[i].dit_sector_list_field_04;
+                }
+            }
+        }
+        const sicSectors = getSICSectors(sectorsAndSICSectors)
+
+        accessibleAutocomplete.enhanceSelectElement({
+        selectElement: document.getElementById('js-sector-select'),
+        source: sicSectors,
+        autoselect: false,
+        minLength: 2,
+        onConfirm: function(selectedText) {
+            // onConfirm seems to be triggered by autocomplete many times passing null
+            if (selectedText) {
+                // When overriding onconfirm as per docs, it seems to then not automatically update
+                // the actual select elements selected value and so isnt posted on form submit
+                const sectorSelectInput = document.querySelector('#js-sector-select-select');
+                const setSectorSelectValue = (value) => {
+                    for (let i = 0; i < sectorSelectInput.options.length; i++) {
+                        if (sectorSelectInput.options[i].text === selectedText) {
+                            sectorSelectInput.selectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+                setSectorSelectValue(selectedText);
+                // Hide / show information around the sector that the SIC sector is in
+                const sector = getSectorForSICSector(selectedText)
+                if (sector) {
+                    sicTextContainer.innerText = selectedText;
+                    sectorTextContainer.innerText = sector;
+                    sicSectorInfoContainer.style.display = '';
+                } else {
+                    sicSectorInfoContainer.style.display = 'none';
+                }
+            }
+        }
+        });
     </script>
 {% endblock %}

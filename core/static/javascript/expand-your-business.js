@@ -67,8 +67,8 @@ function eybSectorSuggest (query, populateResults) {
       "tags":["design","digital services","equipment","experience economy","film and tv","games","immersive technology","music","performing arts","publishing","industrial design","interior design","agencies","social media platforms","photo and cinema","attractions","hardware","production and finance","sales and distribution","visual effects (vfx) and motion graphics","development","esports"]
     },
     {
-      "en":"Defense and Security",
-      "tags":["air","land","maritime","air electronic warfare","aircrew training","battlespace management","complex weapons","fast jet","ground based air defence","gbad","intelligence surveillance target acquisition and reconnaissance (istar)","large aircraft","platform protection","support and maintenance","unmanned air systems (uas)","chemical, biological, radiological and nuclear","(cbrn)","combat","combat support","counter explosive ordnance (c-eo)","cyber","maritime aviation","non-traditional and development","sub-surface","support and infrastructure","surface"]
+      "en":"Defence and Security",
+      "tags":["cyber security","cyber professional services","endpoint security","identification, authentication and access control","internet of things (iot) security","network security","supervisory control and data acquisition (scada) and industrial control systems (ics)","threat intelligence, monitoring, detection and analysis","physical security","border security","first responders","infrastructure","major events security","air","land","maritime","air electronic warfare","aircrew training","battlespace management","complex weapons","fast jet","ground based air defence","gbad","intelligence surveillance target acquisition and reconnaissance (istar)","large aircraft","platform protection","support and maintenance","unmanned air systems (uas)","chemical, biological, radiological and nuclear","(cbrn)","combat","combat support","counter explosive ordnance (c-eo)","cyber","maritime aviation","non-traditional and development","sub-surface","support and infrastructure","surface"]
     },
     {
       "en":"Education and Training",
@@ -103,10 +103,6 @@ function eybSectorSuggest (query, populateResults) {
       "tags":[""]
     },
     {
-      "en":"Marine",
-      "tags":[""]
-    },
-    {
       "en":"Maritime Services",
       "tags":["marine engineering","ports and terminals","infrastructure"]
     },
@@ -119,28 +115,12 @@ function eybSectorSuggest (query, populateResults) {
       "tags":["environmental monitoring and mine safety","exploration, research, finance and innovation","mine infrastructure and energy supply","mine operations and processing","mine waste management","mining vehicles, transport and equipment"]
     },
     {
-      "en":"Nuclear",
-      "tags":[""]
-    },
-    {
       "en":"Oil and Gas",
       "tags":["petroleum","diesel","distilate","exploration","geology"]
     },
     {
       "en":"Rail",
       "tags":["train","freight","wagon","steam","locomotive","tram","carriage","station","railways","construction, fabrication and installation","operations and maintenance","planning, design and project delivery","strategic rail consultancy and advice","systems, rolling stock, equipment, plant and parts"]
-    },
-    {
-      "en":"Renewable",
-      "tags":[""]
-    },
-    {
-      "en":"Retail",
-      "tags":[""]
-    },
-    {
-      "en":"Security",
-      "tags":["cyber security","cyber professional services","endpoint security","identification, authentication and access control","internet of things (iot) security","network security","supervisory control and data acquisition (scada) and industrial control systems (ics)","threat intelligence, monitoring, detection and analysis","physical security","border security","first responders","infrastructure","major events security"]
     },
     {
       "en":"Space",
