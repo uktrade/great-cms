@@ -2,7 +2,7 @@
 {% load add_govuk_classes from content_tags %}
 
 <div class="great govuk-!-margin-bottom-9 test-knowledge-wrapper">
-    {% for block in page.recap %}<h2 class="govuk-heading-l great-text-white govuk-!-margin-bottom-4">{{ block.value.title|richtext }}</h2>{% endfor %}
+    {% for block in page.recap %}<h2 class="govuk-heading-l great-text-white">{{ block.value.title|richtext }}</h2>{% endfor %}
     <ol class="govuk-list list-circle-number">
         {% for block in page.recap %}
             {% for item in block.value.item %}
