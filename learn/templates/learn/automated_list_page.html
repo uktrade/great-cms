@@ -28,17 +28,16 @@
     {% endbreadcrumbs %}
 </div>
  <section id="learn-root"
-             class="great great-hide-y-overflow learn__page learn__categories-page great-container">
+             class="great great-container great-overflow-visible">
             {% for learning_module in page.get_children.specific.live %}
                 {% with high_level_completion_progress|get_item:learning_module.id as module_completion_data %}
-                    <div class="govuk-!-padding-1 great-card great-bg-white govuk-!-margin-bottom-4">
-                        <a href="{% pageurl learning_module %}"
-                           class="govuk-!-padding-4">
-                           <div class="great-display-flex great-flex-wrap great-flex-column-until-tablet great-gap">
+                    <div class="great-card great-bg-white govuk-!-margin-bottom-4">
+                        <a href="{% pageurl learning_module %}">
+                           <div class="great-display-flex great-flex-wrap great-flex-column-until-tablet great-gap govuk-!-padding-4">
                                     <div class="great-flex-2">
-                                        <h4 class="govuk-heading-s govuk-!-margin-top-0 govuk-!-margin-bottom-2 great-text-blue">
+                                        <h3 class="great-card__link great-card__link--heading govuk-heading-m govuk-!-margin-top-2 govuk-!-margin-bottom-2">
                                             {{ learning_module.title }}
-                                        </h4>
+                                        </h3>
                                         {{ learning_module.heading | richtext| add_govuk_classes }}
                                     </div>
                                     <div class="progess-container great-flex-1">
