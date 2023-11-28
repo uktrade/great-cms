@@ -183,7 +183,7 @@ def test_get_region_and_cities_json_file_as_string():
         (
             True,
             True,
-            385,
+            384,
             ('WEST_MIDLANDS', 'West Midlands'),
             ('BAD_TUPLE', 'Bad Tuple'),
         ),

@@ -108,12 +108,11 @@ class LogoutView(RedirectView):
 class SignupView(GA360Mixin, PageTitleMixin, TemplateView):
     def __init__(self):
         super().__init__()
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        ref = self.request.META.get('HTTP_REFERER')
-        self.set_ga360_payload(page_id='MagnaPage', business_unit='MagnaUnit', site_section='signup', from_url=ref)
-        return context
+        self.set_ga360_payload(
+            page_id='MagnaPage',
+            business_unit='MagnaUnit',
+            site_section='signup',
+        )
 
     template_name = 'core/signup.html'
     title = 'Sign up'

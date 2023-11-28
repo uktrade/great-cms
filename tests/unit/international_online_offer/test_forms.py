@@ -1,6 +1,5 @@
 import pytest
 
-from directory_constants import sectors as directory_constants_sectors
 from international_online_offer.core import hirings, intents, regions, spends
 from international_online_offer.forms import (
     ContactForm,
@@ -18,8 +17,8 @@ from international_online_offer.forms import (
 @pytest.mark.parametrize(
     'form_data,is_valid',
     (
-        ({'sector': directory_constants_sectors.AUTOMOTIVE}, True),
-        ({'sector': ''}, False),
+        ({'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT'}, True),
+        ({'sector_sub': ''}, False),
     ),
 )
 @pytest.mark.django_db
@@ -28,7 +27,7 @@ def test_triage_sector_validation(form_data, is_valid):
     form = SectorForm(data)
     assert form.is_valid() == is_valid
     if not is_valid:
-        assert form.errors['sector'][0] == 'You must enter your business sector'
+        assert form.errors['sector_sub'][0] == 'You must enter your business sector'
 
 
 @pytest.mark.parametrize(
