@@ -331,6 +331,10 @@ class QuerystringRedirectView(RedirectView):
     query_string = True
 
 
+class PermanentQuerystringRedirectView(QuerystringRedirectView):
+    permanent = True
+
+
 class TranslationRedirectView(RedirectView):
     language = None
     permanent = False
