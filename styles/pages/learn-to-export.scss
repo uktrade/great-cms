@@ -235,4 +235,7 @@ i.fas.fa-clock {
 
 ol.list-circle-number li{
   font-family: $main-text-font!important;
+  &::before {
+    font-family: $header-font!important;
+  }
 }

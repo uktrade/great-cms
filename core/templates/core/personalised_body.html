@@ -3,7 +3,7 @@
 {% load add_govuk_classes from content_tags %}
 {% for block in page.body %}
     <div class="{% if block.block_type == "pros_cons" %}govuk-!-margin-top-2{% else %}govuk-!-margin-top-4{% endif %}">
-        {% filter add_anchors_to_all_headings %}
+        {% comment %} {% filter add_anchors_to_all_headings %} {% endcomment %}
             {% if block.block_type != 'ITA_Quote' or block.block_type != 'Step'  %}
                 {% include_block block %}
             {% else %}
@@ -11,6 +11,6 @@
                     {% include_block block %}
                 {% endfilter %}
             {%endif%}   
-        {% endfilter %}
+        {% comment %} {% endfilter %} {% endcomment %}
     </div>
 {% endfor %}
