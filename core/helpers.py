@@ -563,12 +563,7 @@ def get_s3_file_stream(file_name, bucket_name=settings.AWS_STORAGE_BUCKET_NAME_D
 
 class GeoLocationRedirector:
     DOMESTIC_COUNTRY_CODES = ['GB', 'IE']
-    COUNTRY_TO_LANGUAGE_MAP = {
-        'CN': 'zh-hans',
-        'DE': 'de',
-        'ES': 'es',
-        'JP': 'ja',
-    }
+    COUNTRY_TO_LANGUAGE_MAP = {'CN': 'zh-hans', 'DE': 'de', 'ES': 'es', 'JP': 'ja', 'TR': 'tr', 'RU': 'ru'}
     COOKIE_NAME = 'disable_geoloaction'
     LANGUAGE_PARAM = 'lang'
 

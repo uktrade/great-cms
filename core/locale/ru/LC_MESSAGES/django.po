@@ -1,0 +1,423 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-11-27 12:26+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: blocks.py:109 models.py:1487
+msgid "Video"
+msgstr ""
+
+#: blocks.py:112
+msgid "Include a video"
+msgstr ""
+
+#: blocks.py:539 models.py:1467
+msgid "Hero image"
+msgstr ""
+
+#: blocks.py:540
+msgid "Hero image hyperlink"
+msgstr ""
+
+#: blocks.py:543 blocks.py:563 blocks.py:602 blocks.py:612 models.py:73
+msgid "Description"
+msgstr ""
+
+#: blocks.py:544 models.py:1477 models.py:1541 models.py:1582
+msgid "Note: any indent seen here will not be visible in the live page"
+msgstr ""
+
+#: blocks.py:546
+msgid "Button label"
+msgstr ""
+
+#: blocks.py:547
+msgid "Button url"
+msgstr ""
+
+#: blocks.py:562 blocks.py:601 blocks.py:611 models.py:1534 models.py:1608
+msgid "Title"
+msgstr ""
+
+#: blocks.py:564 blocks.py:603 blocks.py:613
+msgid "Link text"
+msgstr ""
+
+#: blocks.py:565 blocks.py:604 blocks.py:614
+msgid "Link url"
+msgstr ""
+
+#: blocks.py:573
+msgid "Link block"
+msgstr ""
+
+#: blocks.py:580
+msgid "type"
+msgstr ""
+
+#: blocks.py:581
+msgid "Email subject"
+msgstr ""
+
+#: blocks.py:582
+msgid "Email title"
+msgstr ""
+
+#: blocks.py:583
+msgid "Email body"
+msgstr ""
+
+#: blocks.py:590
+msgid "Card Image"
+msgstr ""
+
+#: blocks.py:593
+msgid "GOV.UK"
+msgstr ""
+
+#: blocks.py:594
+msgid "Tool"
+msgstr ""
+
+#: blocks.py:595
+msgid "How to"
+msgstr ""
+
+#: blocks.py:596
+msgid "Service"
+msgstr ""
+
+#: blocks.py:598
+msgid "Type"
+msgstr ""
+
+#: blocks.py:606
+msgid "Yes"
+msgstr ""
+
+#: blocks.py:606
+msgid "No"
+msgstr ""
+
+#: blocks.py:606
+msgid "Full width?"
+msgstr ""
+
+#: context_processors.py:88
+msgid "great.gov.uk international"
+msgstr ""
+
+#: models.py:77 models.py:1506
+msgid "Transcript"
+msgstr ""
+
+#: models.py:81
+msgid "English subtitles"
+msgstr ""
+
+#: models.py:1422
+msgid "Campaign site page"
+msgstr ""
+
+#: models.py:1423
+msgid "Campaign site pages"
+msgstr ""
+
+#: models.py:1425
+msgid "Page title"
+msgstr ""
+
+#: models.py:1428
+msgid ""
+"This is a subheading that displays below the main title on the microsite page"
+msgstr ""
+
+#: models.py:1429
+msgid "Page subheading"
+msgstr ""
+
+#: models.py:1434
+msgid ""
+"This is a subheading that displays when the microsite is featured on another "
+"page"
+msgstr ""
+
+#: models.py:1435
+msgid "Page teaser"
+msgstr ""
+
+#: models.py:1441
+msgid ""
+"If selected the dbt logo will be displayed in the header. Otherwise the UK "
+"Gov logo will be shown. Note this checkbox only works on the root page"
+msgstr ""
+
+#: models.py:1445
+msgid "Use domestic header logo"
+msgstr ""
+
+#: models.py:1450
+msgid "The label to be included within the menu items."
+msgstr ""
+
+#: models.py:1454
+msgid "External link label"
+msgstr ""
+
+#: models.py:1458
+msgid "The url of the external link"
+msgstr ""
+
+#: models.py:1458
+msgid "External link url"
+msgstr ""
+
+#: models.py:1476
+msgid "Text"
+msgstr ""
+
+#: models.py:1480
+msgid "Image"
+msgstr ""
+
+#: models.py:1484
+msgid "Image full width"
+msgstr ""
+
+#: models.py:1498
+msgid "Embed link"
+msgstr ""
+
+#: models.py:1519
+msgid "Add between 2 and 4 columns of text"
+msgstr ""
+
+#: models.py:1523
+msgid "Columns"
+msgstr ""
+
+#: models.py:1527
+msgid "Links block"
+msgstr ""
+
+#: models.py:1540
+msgid "Teaser"
+msgstr ""
+
+#: models.py:1546
+msgid "Link label"
+msgstr ""
+
+#: models.py:1550 models.py:1615
+msgid "Link"
+msgstr ""
+
+#: models.py:1554
+msgid "CTA"
+msgstr ""
+
+#: models.py:1560
+msgid "Pull quote"
+msgstr ""
+
+#: models.py:1570
+msgid "Page body"
+msgstr ""
+
+#: models.py:1576
+msgid "CTA title"
+msgstr ""
+
+#: models.py:1581
+msgid "CTA teaser"
+msgstr ""
+
+#: models.py:1588
+msgid "CTA link label"
+msgstr ""
+
+#: models.py:1593
+msgid "CTA link"
+msgstr ""
+
+#: models.py:1600
+msgid "Page"
+msgstr ""
+
+#: models.py:1612
+msgid "Full url"
+msgstr ""
+
+#: models.py:1625 templates/microsites/blocks/social_media.html:18
+msgid "Twitter"
+msgstr "Твиттер"
+
+#: models.py:1626 templates/microsites/blocks/social_media.html:29
+msgid "Facebook"
+msgstr "Фейсбук"
+
+#: models.py:1627 templates/microsites/blocks/social_media.html:40
+msgid "LinkedIn"
+msgstr "Линкедин"
+
+#: models.py:1647
+msgid "Home"
+msgstr "Дом"
+
+#: templates/components/card.html:9 templates/components/cta_card.html:7
+msgid "Opens in a new window"
+msgstr ""
+
+#: templates/components/cookie_notice.html:14
+msgid "Tell us whether you accept cookies"
+msgstr "Сообщите нам, принимаете ли вы файлы cookie"
+
+#: templates/components/cookie_notice.html:18 
+msgid "We use "
+msgstr "Мы используем "
+
+#: templates/components/cookie_notice.html:18
+msgid "cookies to collect information"
+msgstr "файлы cookie для сбора информации"
+
+#: templates/components/cookie_notice.html:18
+msgid ""
+"about how you use great.gov.uk. We use this information to make the website "
+"work as well as possible and improve government services."
+msgstr "о том, как вы используете сайт great.gov.uk. Мы используем эту информацию, чтобы обеспечить максимально эффективную работу веб-сайта и улучшить государственные услуги."
+
+#: templates/components/cookie_notice.html:23
+msgid "Accept all cookies"
+msgstr "Принять все файлы cookie"
+
+#: templates/components/cookie_notice.html:24
+msgid "Set cookie preferences"
+msgstr "Установить настройки файлов cookie"
+
+#: templates/components/cookie_notice.html:30
+msgid "You've accepted all cookies. You can "
+msgstr "Вы приняли все файлы cookie. Ты можешь "
+
+#: templates/components/cookie_notice.html:30
+msgid "change your settings"
+msgstr "измените свои настройки"
+
+#: templates/components/cookie_notice.html:30
+msgid "at any time."
+msgstr "at any time."
+
+#: templates/components/header_footer/global_header.html:7
+msgid "For UK businesses"
+msgstr "Для британского бизнеса"
+
+#: templates/components/header_footer/global_header.html:10
+msgid "For international businesses"
+msgstr "Для международного бизнеса"
+
+#: templates/microsites/base.html:151
+msgid "Skip to main content"
+msgstr "Перейти к основному содержанию"
+
+#: templates/microsites/blocks/embed_video.html:17
+#: templates/microsites/blocks/video.html:23
+msgid "View video transcript"
+msgstr "Посмотреть расшифровку видео"
+
+#: templates/microsites/blocks/social_media.html:8
+msgid "Follow us"
+msgstr "Подписывайтесь на нас"
+
+#: templates/microsites/blocks/social_media.html:51
+msgid "Email"
+msgstr "Электронная почта"
+
+#: templates/microsites/blocks/streamfield.html:15
+msgid "Information has been submitted successfully"
+msgstr "Информация успешно отправлена"
+
+#: templates/microsites/blocks/streamfield.html:22
+msgid "Submit"
+msgstr "Представлять на рассмотрение"
+
+#: templates/microsites/blocks/video.html:12
+#, python-format
+msgid ""
+"\n"
+"                    <p>Your browser doesn't support HTML5 video. Here is a "
+"<a class=\"link\" href=\"%(video_url)s\">link to the video</a> instead.</p>\n"
+"                  "
+msgstr ""
+
+#: templates/microsites/includes/microsite_detail_content.html:47
+msgid "Last updated:"
+msgstr ""
+
+#: templates/microsites/includes/microsite_menu_button.html:13
+msgid "Menu"
+msgstr ""
+
+#: templates/microsites/includes/microsite_related_content_list.html:9
+msgid "Related content"
+msgstr ""
+
+#: templates/modeladmin/index.html:15
+msgid "Download CSV"
+msgstr ""
+
+#: templates/wagtailadmin/microsite_migrate.html:4
+#, python-format
+msgid "Migrate 1 item"
+msgid_plural "Migrate %(counter)s items"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/wagtailadmin/microsite_migrate.html:7 wagtail_hooks.py:354
+msgid "Migrate"
+msgstr ""
+
+#: templates/wagtailadmin/microsite_migrate.html:12
+msgid "Are you sure you want to migrate these items?"
+msgstr ""
+
+#: templates/wagtailadmin/microsite_migrate.html:23
+msgid "You don't have permission to migrate this item"
+msgid_plural "You don't have permission to migrate these items"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/wagtailadmin/microsite_migrate.html:28
+msgid "Yes, migrate"
+msgstr ""
+
+#: templates/wagtailadmin/microsite_migrate.html:29
+msgid "No, don't migrate"
+msgstr ""
+
+#: validators.py:11
+msgid "Please enter a UK postcode"
+msgstr ""
+
+#: wagtail_hooks.py:355
+msgid "Create page from page"
+msgstr ""
+
+#: wagtail_hooks.py:520
+msgid "Campaign Site, getting started"
+msgstr ""

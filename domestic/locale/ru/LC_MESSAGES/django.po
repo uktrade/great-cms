@@ -1,0 +1,158 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-11-27 14:12+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+#: apps.py:7
+msgid "Domestic admin"
+msgstr ""
+
+#: forms.py:21
+msgid "Full name"
+msgstr ""
+
+#: forms.py:25
+msgid "Enter your full name"
+msgstr ""
+
+#: forms.py:29
+msgid "Job title"
+msgstr ""
+
+#: forms.py:32
+msgid "Enter your job title"
+msgstr ""
+
+#: forms.py:36
+msgid "Business email address"
+msgstr ""
+
+#: forms.py:38 forms.py:39
+msgid "Enter an email address in the correct format, like name@example.com"
+msgstr ""
+
+#: forms.py:43
+msgid "Business name"
+msgstr ""
+
+#: forms.py:46
+msgid "Enter your business name"
+msgstr ""
+
+#: forms.py:50
+msgid "Business website"
+msgstr ""
+
+#: forms.py:54 forms.py:57
+msgid ""
+"Enter a website address in the correct format, like https://www.example.com "
+"or www.company.com"
+msgstr ""
+
+#: forms.py:63
+msgid "Which country are you based in?"
+msgstr ""
+
+#: forms.py:68 forms.py:469
+msgid "Do you have a specific project or proposal you’d like to discuss?"
+msgstr ""
+
+#: forms.py:74 forms.py:475
+msgid "Please answer this question"
+msgstr ""
+
+#: forms.py:77
+msgid "Which country is the project located in?"
+msgstr ""
+
+#: forms.py:83
+msgid "How can we help?"
+msgstr ""
+
+#: forms.py:84
+msgid "Please tell us briefly what type of support you’re looking for"
+msgstr ""
+
+#: forms.py:90
+msgid "You must agree to the terms and conditions before registering"
+msgstr ""
+
+#: forms.py:417
+msgid "First name"
+msgstr ""
+
+#: forms.py:422
+msgid "Enter your first name"
+msgstr ""
+
+#: forms.py:426
+msgid "Last name"
+msgstr ""
+
+#: forms.py:431
+msgid "Enter your last name"
+msgstr ""
+
+#: forms.py:435
+msgid "Your email address"
+msgstr ""
+
+#: forms.py:437
+msgid "Enter your email address"
+msgstr ""
+
+#: forms.py:442
+msgid "Company name (Optional)"
+msgstr ""
+
+#: forms.py:451
+msgid "Select your sector"
+msgstr ""
+
+#: forms.py:456
+msgid "Telephone number"
+msgstr ""
+
+#: forms.py:458
+msgid "Enter your telephone number"
+msgstr ""
+
+#: forms.py:462
+msgid "Position at company (Optional)"
+msgstr ""
+
+#: forms.py:471
+msgid "My company already exports "
+msgstr ""
+
+#: forms.py:472
+msgid "My company does not export yet"
+msgstr ""
+
+#: forms.py:480
+msgid "Select a region"
+msgstr ""
+
+#: forms.py:487
+msgid "Sector"
+msgstr ""
+
+#: templates/domestic/ukef/includes/card.html:8
+msgid "Opens in a new window"
+msgstr ""

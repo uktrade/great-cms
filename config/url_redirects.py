@@ -357,6 +357,8 @@ INTERNATIONAL_LANGUAGE_REDIRECTS_MAPPING = [
     ('pt', 'pt'),
     ('es', 'es'),
     ('ja', 'ja'),
+    ('tr', 'tr'),
+    ('ru', 'ru'),
 ]
 
 international_redirects = [
@@ -392,7 +394,7 @@ international_redirects += [
 
 # TOS and privacy-and-cookies are no longer translated, instead we redirect to
 # the ENG version
-TOS_AND_PRIVACY_REDIRECT_LANGUAGES = ('zh', 'ja', 'es', 'pt', 'ar', 'de')
+TOS_AND_PRIVACY_REDIRECT_LANGUAGES = ('zh', 'ja', 'es', 'pt', 'ar', 'de', 'tr', 'ru')
 
 tos_redirects = [
     re_path(

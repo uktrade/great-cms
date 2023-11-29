@@ -1064,6 +1064,8 @@ class TestMicrositeLocales(TestCase):
         self.ko_locale = Locale.objects.get_or_create(language_code='ko')
         self.zh_locale = Locale.objects.get_or_create(language_code='zh-cn')
         self.ms_locale = Locale.objects.get_or_create(language_code='ms')
+        self.tr_locale = Locale.objects.get_or_create(language_code='tr')
+        self.ru_locale = Locale.objects.get_or_create(language_code='ru')
 
     @pytest.fixture(autouse=True)
     def domestic_homepage_fixture(self, domestic_homepage):
@@ -1156,6 +1158,26 @@ class TestMicrositeLocales(TestCase):
         site_ms.page_subheading = 'Sarikata Halaman Utama Microsite'
         site_ms.save()
         url_malay = self.url + '?lang=ms'
+        response = self.client.get(url_malay)
+        html_response = response.content.decode('utf-8')
+        assert site_ms.page_title in html_response and site_ms.page_subheading in html_response  # noqa: W503
+
+    def test_correct_translation_russian(self):
+        site_ms = self.en_microsite.copy_for_translation(self.ru_locale[0], copy_parents=True, alias=True)
+        site_ms.page_title = 'домашняя страница микросайта'
+        site_ms.page_subheading = 'Подзаголовок главной страницы микросайта'
+        site_ms.save()
+        url_malay = self.url + '?lang=ru'
+        response = self.client.get(url_malay)
+        html_response = response.content.decode('utf-8')
+        assert site_ms.page_title in html_response and site_ms.page_subheading in html_response  # noqa: W503
+
+    def test_correct_translation_turkish(self):
+        site_ms = self.en_microsite.copy_for_translation(self.t_locale[0], copy_parents=True, alias=True)
+        site_ms.page_title = 'mikro site ana sayfası'
+        site_ms.page_subheading = 'Mikrosite Ana Sayfasının Alt Başlığı'
+        site_ms.save()
+        url_malay = self.url + '?lang=tr'
         response = self.client.get(url_malay)
         html_response = response.content.decode('utf-8')
         assert site_ms.page_title in html_response and site_ms.page_subheading in html_response  # noqa: W503

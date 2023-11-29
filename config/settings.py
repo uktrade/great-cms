@@ -222,6 +222,8 @@ WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
     ('pt', 'Portuguese'),
     ('zh-cn', 'Mandarin'),
     ('ms', 'Malay'),
+    ('tr', 'Turkish'),
+    ('ru', 'Russian'),
 ]
 
 # Static files (CSS, JavaScript, Images)

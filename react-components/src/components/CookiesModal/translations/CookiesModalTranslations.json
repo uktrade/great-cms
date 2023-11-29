@@ -62,5 +62,21 @@
 		"about how you use great.gov.uk. We use this information to make the website work as well as possible and improve government services.": "tentang cara anda menggunakan great.gov.uk. Kami menggunakan maklumat ini untuk menjadikan tapak web berfungsi sebaik mungkin dan meningkatkan perkhidmatan kerajaan.",
 		"Accept all cookies": "Terima semua kuki",
 		"Set cookie preferences": "Tetapkan pilihan kuki"
+	},
+	"tr":{
+		"Tell us whether you accept cookies": "Çerezleri kabul edip etmediğinizi bize bildirin",
+		"We use": "Kullanırız",
+		"cookies to collect information": "bilgi toplamak için çerezler",
+		"about how you use great.gov.uk. We use this information to make the website work as well as possible and improve government services.": "Great.gov.uk'yi nasıl kullandığınız hakkında. Bu bilgileri web sitesinin mümkün olduğu kadar iyi çalışmasını sağlamak ve devlet hizmetlerini geliştirmek için kullanırız.",
+		"Accept all cookies": "Tüm çerezleri kabul et",
+		"Set cookie preferences": "Çerez tercihlerini ayarlayın"
+	},
+	"ru":{
+		"Tell us whether you accept cookies": "Сообщите нам, принимаете ли вы файлы cookie",
+		"We use": "Мы используем",
+		"cookies to collect information": "файлы cookie для сбора информации",
+		"about how you use great.gov.uk. We use this information to make the website work as well as possible and improve government services.": "о том, как вы используете сайт great.gov.uk. Мы используем эту информацию, чтобы обеспечить максимально эффективную работу веб-сайта и улучшить государственные услуги.",
+		"Accept all cookies": "Принять все файлы cookie",
+		"Set cookie preferences": "Установить настройки файлов cookie"
 	}
 }
