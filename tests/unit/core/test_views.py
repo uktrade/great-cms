@@ -1329,3 +1329,14 @@ def test_signup_for_tailored_content_wizard_view_next_url(client):
         reverse('core:signup-wizard-tailored-content', kwargs={'step': views.STEP_START}) + '?next=http://www.safe.com'
     )
     assert response3.context_data['next_url'] == 'http://www.safe.com'
+
+
+@pytest.mark.django_db
+def test_signup_view(client):
+    response = client.get(
+        reverse(
+            'core:signup',
+        ),
+        HTTP_REFERER='http:anyurl.com',
+    )
+    assert response.status_code == 200
