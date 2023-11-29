@@ -1173,7 +1173,7 @@ class TestMicrositeLocales(TestCase):
         assert site_ms.page_title in html_response and site_ms.page_subheading in html_response  # noqa: W503
 
     def test_correct_translation_turkish(self):
-        site_ms = self.en_microsite.copy_for_translation(self.t_locale[0], copy_parents=True, alias=True)
+        site_ms = self.en_microsite.copy_for_translation(self.tr_locale[0], copy_parents=True, alias=True)
         site_ms.page_title = 'mikro site ana sayfası'
         site_ms.page_subheading = 'Mikrosite Ana Sayfasının Alt Başlığı'
         site_ms.save()
