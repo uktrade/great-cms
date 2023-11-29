@@ -354,3 +354,50 @@ def url_type(url):
         return 'internal'
     else:
         return 'external'
+
+
+@register.filter
+def is_email(value):
+    # Use regular expression to check if the value is an email address
+    return bool(re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$', value)) or value.startswith('mailto:')
+
+
+@register.filter
+def extract_domain(url):
+    parsed_url = urlparse(url)
+    return parsed_url.netloc
+
+
+@register.filter
+def handle_external_links(html_content, request):
+    current_domain = request.get_host()
+    soup = BeautifulSoup(html_content, 'html.parser')
+
+    for a_tag in soup.find_all('a'):
+        if a_tag.has_attr('href'):
+            href = a_tag['href']
+
+            # Check if the URL is an internal link
+            if not is_external_link(href, current_domain) or is_email(href):
+                continue
+
+            a_tag['target'] = '_blank'
+
+            # Add hidden content after the label
+            hidden_content = soup.new_tag('span', attrs={'class': 'great-visually-hidden'})
+            hidden_content.string = f'opens {extract_domain(href)} in a new tab'
+            a_tag.append(hidden_content)
+
+    return str(soup)
+
+
+def is_external_link(url, current_domain):
+    # Parse the URL
+    parsed_url = urlparse(url)
+
+    # Check if the URL has a scheme
+    if not parsed_url.scheme:
+        return False
+
+    # Check if the URL is not on the current domain
+    return parsed_url.netloc != current_domain

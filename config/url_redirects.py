@@ -35,7 +35,7 @@ redirects = [
     ),
     re_path(r'^brexit/$', QuerystringRedirectView.as_view(url='/transition/'), name='brexit-redirect'),
     re_path(
-        r'^vca/$',
+        r'^vcu/$',
         QuerystringRedirectView.as_view(
             url='/international/content/investment/how-we-can-help/the-venture-capital-unit/'
         ),
@@ -551,6 +551,19 @@ if settings.FEATURE_DIGITAL_POINT_OF_ENTRY:
         #     r'^contact/domestic/enquiries/$',
         #     QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
         # ),
+    ]
+
+
+if not settings.FEATURE_SHOW_OLD_CONTACT_FORM:
+    contact_redirects += [
+        re_path(
+            r'^contact/triage/location/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^contact/triage/domestic/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
     ]
 
 

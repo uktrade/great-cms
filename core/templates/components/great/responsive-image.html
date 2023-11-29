@@ -1,0 +1,20 @@
+<picture class="great-picture {% if classes %}{{ classes }}{% endif %}">
+    {% if xl_image_src %}<source srcset="{{ xl_image_src }}" media="(min-width: 1231px)" />{% endif %}
+    {% if l_image_src %}
+        <source srcset="{{ l_image_src }}"
+                media="(min-width: 770px) and (max-width: 1230px)" />
+    {% endif %}
+    {% if m_image_src %}
+        <source srcset="{{ m_image_src }}"
+                media="(min-width: 642px) and (max-width: 769px)" />
+    {% endif %}
+    {% if s_image_src %}
+        <source srcset="{{ s_image_src }}"
+                media="(min-width: 321px) and (max-width: 641px)" />
+    {% endif %}
+    {% if xs_image_src %}<source srcset="{{ xs_image_src }}" media="(max-width: 320px)" />{% endif %}
+    <img src="{{ image_src }}"
+         alt="{% if alt_text %}{{ alt_text }}{% endif %}"
+         loading="lazy"
+         decoding="async" />
+</picture>

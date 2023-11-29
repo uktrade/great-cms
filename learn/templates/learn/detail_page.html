@@ -111,6 +111,7 @@
         {% include "core/includes/backlink.html" with url=page.get_parent.get_parent.url label=category_title classes="only-desktop back-link--inverse m-f-s" %}
     </div>
 </div>
+{% include 'learn/promo.html' with bg_class='great-bg-light-blue' %}
 {% endblock %}
 {% block body_js %}
     {{ block.super }}

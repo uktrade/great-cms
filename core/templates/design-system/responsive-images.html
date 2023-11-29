@@ -1,0 +1,60 @@
+<section id="responsive_images" class="govuk-!-margin-top-9">
+    <h2 class="govuk-heading-l">Responsive images</h2>
+    {% include 'components/great/responsive-image.html' with image_src='https://picsum.photos/id/100/900/300' xs_image_src='https://picsum.photos/id/101/900/300' s_image_src='https://picsum.photos/id/102/900/300' m_image_src='https://picsum.photos/id/103/900/300' l_image_src='https://picsum.photos/id/104/900/300' xl_image_src='https://picsum.photos/id/106/900/300' %}
+    <pre>
+    <code>
+        &#123;% include 'components/great/responsive-image.html' with image_src='' alt_text='' ... %&#125;
+    </code>
+    </pre>
+    <table>
+        <thead>
+            <tr>
+                <th>Attr</th>
+                <th>Value</th>
+                <th>Required</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>image_src</td>
+                <td>String</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td>alt_text</td>
+                <td>String</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td>classes</td>
+                <td>String</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td>xs_image_src</td>
+                <td>String</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td>s_image_src</td>
+                <td>String</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td>m_image_src</td>
+                <td>String</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td>l_image_src</td>
+                <td>String</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td>xl_image_src</td>
+                <td>String</td>
+                <td>No</td>
+            </tr>
+        </tbody>
+    </table>
+</section>

@@ -1031,6 +1031,18 @@ figure.great-blockquote {
   }
 }
 
+.great-dep-card {
+  a {
+    text-decoration: none;
+  }
+
+  img {
+    margin: 0;
+    width: 100%;
+    height: auto;
+  }
+}
+
 .great-dep-homepage-title {
   position: relative;
 
@@ -1064,7 +1076,9 @@ figure.great-blockquote {
 }
 
 .great-dep-homepage-row {
-  .great-card:first-of-type {
+  padding-bottom: 3px;
+
+  .great-dep-card:first-of-type {
     @include govuk-media-query($until: tablet) {
       margin-bottom: 30px;
     }
@@ -1175,4 +1189,70 @@ nav.great-breadcrumbs {
 
 .great-breadcrumbs ol li:last-child:after {
   display: none
+}
+
+.great-list-blue-tick {
+  list-style: none;
+
+  > li {
+    display: inline-flex;
+    clear: left;
+    padding: 7.5px 0;
+
+    &:before {
+      content: "";
+      height: 30px;
+      width: 30px;
+      min-width: 30px;
+      display: block;
+      float: left;
+      margin-left: 0;
+      margin-right: 10px;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 100%;
+      background: url("/static/icons/dark-blue-tick.svg");
+      background-size: cover;
+      background-position: center;
+    }
+  }
+}
+
+.great-link-button--chevron {
+  svg {
+    position: relative;
+    top: 2px;
+  }
+
+  &:hover,
+  &:focus {
+    path {
+      fill: $govuk-brand-colour;
+    }
+  }
+}
+
+.great-picture {
+  img {
+    display: block;
+
+    @include govuk-media-query($until: tablet) {
+      max-width: 100%;
+    }
+  }
+}
+
+.great-promo {
+  display: flex;
+  align-items: flex-end;
+
+  @include govuk-media-query($until: tablet) {
+    flex-direction: column-reverse;
+  }
+
+  img {
+    @include govuk-media-query($until: tablet) {
+      margin-bottom: 20px;
+    }
+  }
 }

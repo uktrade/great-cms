@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from django.urls import reverse
 from django.utils.timezone import now as tz_now
 
+from config import settings
 from tests.unit.core import factories as core_factories
 from tests.unit.domestic import factories as domestic_factories
 
@@ -265,18 +266,25 @@ def test_sitemap_excludes_wagtail_pages_that_require_auth(  # noqa: C901
 
     not_expected_in_map = [
         dashboard.url,  # needs auth
-        landing_page.url,  # needs auth
-        list_page.url,  # needs auth
-        module_page.url,  # needs auth
-        topic_page.url,  # needs auth
         lesson_page_1.url,  # needs auth AND draft
-        lesson_page_2.url,  # needs auth
         article_list_three.url,  # draft/not live
         '/advice/article-list-1/article-a3/',  # draft/not live
         '/advice/article-d0/',  # draft/not live
         '/markets/market-guide-9/',  # draft/not live
     ]
 
+    if settings.FEATURE_DEA_V2:
+        expected_in_map.append(landing_page.url)  # does not needs auth
+        expected_in_map.append(list_page.url)
+        expected_in_map.append(module_page.url)
+        expected_in_map.append(topic_page.url)
+        expected_in_map.append(lesson_page_2.url)
+    else:
+        not_expected_in_map.append(landing_page.url)  # needs auth
+        not_expected_in_map.append(list_page.url)
+        not_expected_in_map.append(module_page.url)
+        not_expected_in_map.append(topic_page.url)
+        not_expected_in_map.append(lesson_page_2.url)
     # The CMS pages have a port in their test hostname, and the most reliable way to get
     # hold if it is simply to get it from the sitemap, dropping its trailing slash
     testserver_host = locs[0][:-1]
