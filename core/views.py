@@ -111,12 +111,8 @@ class SignupView(GA360Mixin, PageTitleMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         referrer = self.request.META.get('HTTP_REFERER')
-        referrer_text = ''
-        if referrer:
-            referrer_text = 'referrer=' + referrer
-
         self.set_ga360_payload(
-            page_id='MagnaPage', business_unit='MagnaUnit', site_section='signup', site_subsection=referrer_text
+            page_id='MagnaPage', business_unit='MagnaUnit', site_section='signup', referer_url=referrer
         )
         context = super().get_context_data(**kwargs)
         return context
