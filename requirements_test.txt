@@ -18,8 +18,6 @@ amqp==5.2.0
     # via kombu
 anyascii==0.3.2
     # via wagtail
-appnope==0.1.3
-    # via ipython
 arabic-reshaper==3.0.0
     # via xhtml2pdf
 asgiref==3.7.2
@@ -125,7 +123,7 @@ coverage[toml]==7.3.2
     #   pytest-cov
 cron-descriptor==1.4.0
     # via django-celery-beat
-cryptography==41.0.5
+cryptography==41.0.6
     # via
     #   -r requirements.in
     #   pyhanko
@@ -348,7 +346,9 @@ gitpython==3.1.40
 great-components==2.4.0
     # via -r requirements.in
 greenlet==3.0.1
-    # via gevent
+    # via
+    #   gevent
+    #   sqlalchemy
 gunicorn==20.1.0
     # via -r requirements.in
 h11==0.14.0
