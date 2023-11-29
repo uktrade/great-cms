@@ -72,7 +72,7 @@ const CaseStudy = memo(({ content: { heading, company, blocks } }) => {
       <div className="case-study govuk-!-padding-top-3 govuk-!-padding-bottom-4">
         <div className="case-study__content media-block govuk-!-margin-top-4">
           <div>
-            <h2 className="govuk-heading-l cast-study__lead_title govuk-heading-m govuk-!-margin-bottom-3 govuk-!-padding-0">
+            <h2 className="govuk-heading-l cast-study__lead_title govuk-!-margin-bottom-3 govuk-!-padding-0">
               {ReactHtmlParser(heading)}
             </h2>
             <h3 className="case-study__company govuk-heading-m govuk-!-padding-0">
@@ -87,7 +87,7 @@ const CaseStudy = memo(({ content: { heading, company, blocks } }) => {
                   Show case study details
                 </span>
               </summary>
-              <div class="govuk-details__text">
+              <div class="govuk-details__text govuk-body govuk-!-margin-0">
                 <span id={id}>{body}</span>
               </div>
           </details>
