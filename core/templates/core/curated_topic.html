@@ -1,8 +1,8 @@
 {% load wagtailcore_tags %}
 {% load format_timedelta from content_tags %}
-{% load get_lesson_progress_for_topic is_lesson_page is_placeholder_page from content_tags %}
+{% load get_lesson_progress_for_topic is_lesson_page from content_tags %}
 {% comment %} `completed_lessons` only features lessons FOR THIS PARTIAL'S TOPIC {% endcomment %}
-<div class="grid" id="{{ topic.id }}">
+<div class="great great-overflow-visible grid" id="{{ topic.id }}">
     <div class="learn__topic-item-details c-1-3-l">
         <h2 class="learn__topic-item-title h-m p-b-xxs p-t-0">{{ topic.title }}</h2>
         {% get_lesson_progress_for_topic completed_lessons topic.id as topic_progress_data %}
@@ -18,29 +18,21 @@
     <ul class="learn__lessons-list c-2-3-l">
         {% for page in topic.get_children.live %}
             {% if page|is_lesson_page %}
-                <li class="learn__lesson-item">
-                    <a class="learn__lesson-item-link h-xs"
-                       href="{% pageurl page %}"
-                       title="{{ page.title }}">
-                        <span class="learn__lesson-item-link-text">{{ page.title }}</span>
-                        {% if page.id in completed_lessons %}
-                            <button class="quaternary-button">
-                                <i class="fa fa-check"></i>
-                                <span>Completed</span>
-                            </button>
-                        {% else %}
-                            <button class="secondary-button icon-last">
-                                Start
-                                {{ page.specific.estimated_read_duration|format_timedelta }}
-                                lesson
-                                <i class="fa fa-chevron-right"></i>
-                            </button>
-                        {% endif %}
+                <li class="learn__lesson-item great-card great-bg-white {% if forloop.first %}govuk-!-margin-top-4{% endif %}">
+                    <a href="{% pageurl page %}"
+                        title="{{ page.title }}">
+                        <div class="great-display-flex great-gap-10-30 govuk-!-padding-4 great-justify-space-between great-flex-column-until-desktop">
+                            <h3 class="govuk-heading-m govuk-!-margin-0 great-title-link
+               great-card__link great-card__link--heading">{{ page.title }}</h3>
+                            {% if page.id in completed_lessons %}
+                                <span class="great-badge completed govuk-!-margin-top-2">
+                                    Completed
+                                </span>   
+                            {% endif %}
+                        </div>        
                     </a>
                 </li>
-            {% elif page|is_placeholder_page %}
-                {% include "learn/_lesson_placeholder.html" %}
-            {% endif %}
-        {% endfor %}
-    </ul>
-</div>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
