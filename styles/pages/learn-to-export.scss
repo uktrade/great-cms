@@ -237,5 +237,6 @@ ol.list-circle-number li{
   font-family: $main-text-font!important;
   &::before {
     font-family: $header-font!important;
+    line-height: 50px!important;
   }
 }
