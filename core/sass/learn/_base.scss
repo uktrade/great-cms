@@ -158,8 +158,6 @@ $desktop: 1024px;
 }
 
 .learn__category-progress-container {
-  position: absolute;
-  top: 20px;
 
   @include tablet {
     position: static;
@@ -313,6 +311,16 @@ $desktop: 1024px;
 .learn__lesson-item {
   background-color: $white;
   border-bottom: 1px solid $blue-deep-20;
+   &:hover {
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,.25);
+   }
+    & a:hover {
+      box-shadow: none!important;
+    }
+    &:not(:last-of-type){
+      padding-bottom: 2px;
+    }
+  
 
   &--placeholder {
     background-color: rgba($white, 0.6);

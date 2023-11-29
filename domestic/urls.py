@@ -4,6 +4,7 @@ from great_components.decorators import skip_ga360
 
 import domestic.views.marketaccess
 import domestic.views.ukef
+from core.views import PermanentQuerystringRedirectView
 from domestic.views.campaign import CampaignView
 
 app_name = 'domestic'
@@ -13,7 +14,7 @@ app_name = 'domestic'
 urlpatterns = [
     path(
         'get-finance/',
-        skip_ga360(domestic.views.ukef.UKEFHomeView.as_view()),
+        PermanentQuerystringRedirectView.as_view(url='https://www.ukexportfinance.gov.uk/'),
         name='get-finance',
     ),
     path(
@@ -42,11 +43,7 @@ urlpatterns = [
     # 'trade-finance/' is added via CMS as a TradeFinancePage with the slug 'trade-finance'
     path(
         'project-finance/',
-        skip_ga360(
-            TemplateView.as_view(
-                template_name='domestic/ukef/project_finance.html',
-            )
-        ),
+        PermanentQuerystringRedirectView.as_view(url='https://www.ukexportfinance.gov.uk/'),
         name='project-finance',
     ),
     path(
