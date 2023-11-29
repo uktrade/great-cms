@@ -9,9 +9,11 @@
                     <a href="/support/guidance-and-support" title="Guidance and support">Guidance and support</a>
                 </li>
             {% endif %}
-            <li>
-                <a href="{% url_map 'contact_url' %}" title="Contact us">Contact us</a>
-            </li>
+            {% if feature.FEATURE_SHOW_OLD_CONTACT_FORM %}
+                <li>
+                    <a href="{% url_map 'contact_url' %}" title="Contact us">Contact us</a>
+                </li>
+            {% endif %}
             <li>
                 <a href="{% slugurl 'privacy-and-cookies' %}"
                    title="Privacy and cookies">Privacy and cookies</a>
