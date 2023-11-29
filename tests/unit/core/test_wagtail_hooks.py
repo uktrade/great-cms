@@ -331,7 +331,7 @@ def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(rf, 
 
     detail_page.refresh_from_db()
 
-    expected_duration = timedelta(seconds=4)  # NB just the read time of a skeleton DetailPage
+    expected_duration = timedelta(seconds=2)  # NB just the read time of a skeleton DetailPage
 
     # show the live version is not updated yet
     assert detail_page.has_unpublished_changes is True
@@ -367,7 +367,7 @@ def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(rf, 
     # NOTE: for a reason unrelated to the point of _this_ test, the readtime
     # of the published page CAN BE calculated as slightly longer than the draft.
     # This may be in part due to the page having a very small amount of content.
-    assert detail_page.estimated_read_duration == timedelta(seconds=4)
+    assert detail_page.estimated_read_duration == timedelta(seconds=2)
 
 
 @pytest.mark.django_db
@@ -440,7 +440,7 @@ def test__set_read_time__passes_through_is_post_creation(
     ) as mocked_update_data_for_appropriate_version:
         wagtail_hooks._set_read_time(request, detail_page, is_post_creation=is_post_creation_val)
 
-    expected_seconds = 4
+    expected_seconds = 2
     mocked_update_data_for_appropriate_version.assert_called_once_with(
         page=detail_page,
         force_page_update=is_post_creation_val,
