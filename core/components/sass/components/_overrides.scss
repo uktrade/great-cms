@@ -1,6 +1,6 @@
 .rich-text,
 .block-text:not(.microsite .block-text) {
-    h1, h2, h3, h4 {
+    h1:not(.govuk-heading-xl), h2:not(.govuk-heading-l), h3:not(.govuk-heading-m), h4:not(.govuk-heading-s) {
         font-weight: 700;
         text-transform: none;
         display: block;
@@ -11,7 +11,7 @@
         font-weight: bold;
     }
 
-    h1 {
+    h1:not(.govuk-heading-xl) {
         font-size: 32px;
         line-height: 1.09375;
         margin-top: .46875em;
@@ -24,7 +24,7 @@
         }
     }
 
-    h2 {
+    h2:not(.govuk-heading-l) {
         font-size: 24px;
         line-height: 1.04167;
         margin-top: 1.04167em;
@@ -44,7 +44,7 @@
         }
     }
 
-    h3 {
+    h3:not(.govuk-heading-m) {
         font-size: 18px;
         line-height: 1.2;
         margin-top: 1.25em;
@@ -58,7 +58,7 @@
         }
     }
 
-    h4 {
+    h4:not(.govuk-heading-s) {
         font-size: 16px;
         line-height: 1.25;
         margin-top: .625em;

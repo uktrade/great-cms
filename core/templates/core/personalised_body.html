@@ -1,11 +1,16 @@
 {% load include_block from wagtailcore_tags %}
 {% load add_anchors_to_all_headings add_export_elements_classes from great_components %}
+{% load add_govuk_classes from content_tags %}
 {% for block in page.body %}
-    <div class="rich-text">
-        {% filter add_anchors_to_all_headings %}
-            {% filter add_export_elements_classes %}
+    <div class="{% if block.block_type == "pros_cons" %}govuk-!-margin-top-2{% else %}govuk-!-margin-top-4{% endif %}">
+        {% comment %} {% filter add_anchors_to_all_headings %} {% endcomment %}
+            {% if block.block_type != 'ITA_Quote' or block.block_type != 'Step'  %}
                 {% include_block block %}
-            {% endfilter %}
-        {% endfilter %}
+            {% else %}
+                {% filter add_govuk_classes %}
+                    {% include_block block %}
+                {% endfilter %}
+            {%endif%}   
+        {% comment %} {% endfilter %} {% endcomment %}
     </div>
 {% endfor %}
