@@ -1,5 +1,6 @@
 {% load  wagtailcore_tags %}
 {% load wagtailimages_tags %}
+{% load add_govuk_classes from content_tags %}
 <div class="step-by-step">
     <ul class="govuk-list">
         <li class="govuk-!-margin-bottom-7">
@@ -11,8 +12,9 @@
                     </h2>
                 </div>    
                 <div>
-                  
-                    <div class="rich-text">{{ value.body|richtext }}</div>
+                    {% filter add_govuk_classes %}
+                        <div class="rich-text">{{ value.body|richtext }}</div>
+                    {% endfilter %}    
                 </div>
             </div>
         </li>
