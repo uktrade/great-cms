@@ -42,8 +42,8 @@ const MarkLessonAsComplete = ({ endpoint }) => {
 
   return (
     <div className="mark-lesson-as-complete">
-      <legend>
-        <h2 className="h-m text-white p-b-s" aria-hidden="true">Lesson complete?</h2>
+      <legend class="govuk-!-margin-top-8">
+        <h2 className="govuk-heading-l great-text-white great-font-size-28" aria-hidden="true">Lesson complete?</h2>
       </legend>
       <div className="great-checkbox great-checkbox--large">
         <input

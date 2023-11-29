@@ -17,7 +17,7 @@
   overflow-x: hidden;
 
   h1,
-  h2,
+  h2:not(.govuk-caption-l):not(.govuk-caption-xl),
   h3,
   h4,
   h5,
@@ -62,6 +62,17 @@
 
   .govuk-hint {
     color: $great-off-black;
+  }
+
+  .govuk-caption-xl {
+    font-size: 20px;
+    line-height: 30px;
+    font-family: $main-text-font;
+
+    @include govuk-media-query($from: tablet) {
+      font-size: 24px;
+      line-height: 34px;
+    }
   }
 
   .govuk-hint,
@@ -934,4 +945,25 @@ img.richtext-image {
 
 .great-overflow-visible {
   overflow: visible;
+}
+
+//override styles in the core base html
+.govuk-list--bullet {
+  > li {
+    list-style-type: disc;
+  }
+}
+
+.great-display-flex-from-desktop {
+  @include govuk-media-query($from: desktop) {
+    display: flex;
+  }
+}
+
+.great-flex-row {
+  flex-direction: row!important;
+}
+
+.great-gap-10-30 {
+  gap: 10px 30px;
 }

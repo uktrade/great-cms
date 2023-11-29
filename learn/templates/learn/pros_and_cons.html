@@ -1,8 +1,8 @@
-<div class="grid p-t-0 p-b-l d-flex-t pros-and-cons__container">
-    <div class="c-1-2">
+<div class="govuk-grid-row govuk-!-padding-top-0 govuk-!-padding-bottom-9 d-flex-t pros-and-cons__container">
+    <div class="govuk-grid-column-one-half govuk-!-margin-top-2">
         <div class="box box--no-pointer pros-and-cons pros-and-cons__pros h-100">
-            <h3 class="h-s text-blue-deep-80 p-b-xs p-t-0">Pros</h3>
-            <ul class="list-dot body-l m-b-0">
+            <h3 class="govuk-heading-m">Pros</h3>
+            <ul class="govuk-list govuk-list--bullet body-l govuk-!-margin-bottom-0">
                 {% for pro in block.value.pros %}
                     <li>
                         <span>{{ pro.value.item }}</span>
@@ -11,10 +11,10 @@
             </ul>
         </div>
     </div>
-    <div class="c-1-2">
+    <div class="govuk-grid-column-one-half govuk-!-margin-top-2">
         <div class="box box--no-pointer pros-and-cons pros-and-cons__cons h-100">
-            <h3 class="h-s p-b-xs p-t-0">Cons</h3>
-            <ul class="list-dot body-l m-b-0">
+            <h3 class="govuk-heading-m">Cons</h3>
+            <ul class="govuk-list govuk-list--bullet body-l govuk-!-margin-bottom-0">
                 {% for con in block.value.cons %}
                     <li>
                         <span>{{ con.value.item }}</span>
