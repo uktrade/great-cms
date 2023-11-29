@@ -60,7 +60,18 @@ def test_object_hash():
     hash = AbstractObjectHash.generate_content_hash(mocked_file)
     assert hash == 'acbd18db4cc2f85cedef654fccc4a4d8'  # /PS-IGNORE
 
+@pytest.mark.django_db
+def test_detail_page_get_lesson_category_name(client, domestic_homepage, user, domestic_site, mock_get_user_profile):
+    # given the user has not read a lesson
+    client.force_login(user)
 
+    list_page = factories.ListPageFactory(parent=domestic_homepage, record_read_progress=True)
+    curated_list_page = factories.CuratedListPageFactory(parent=list_page)
+    topic_page = factories.TopicPageFactory(parent=curated_list_page)
+    detail_page = factories.DetailPageFactory(parent=topic_page)
+
+    assert detail_page.get_lesson_category_name() == 'Topic page'
+    
 @pytest.mark.django_db
 def test_detail_page_can_mark_as_read(client, domestic_homepage, user, domestic_site, mock_get_user_profile):
     # given the user has not read a lesson
