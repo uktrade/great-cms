@@ -209,6 +209,14 @@ def is_triage_complete(triage_data):
 # location select step, data was pulled from data workspace postcode
 # dataset using distinct query on city as CSV and converted to json.
 
+# function used to help convert display / human readable strings from
+# json file into literals similar to that of the ones in
+# directory-constants. Important as this is what we map to
+
+
+def to_literal(value_in):
+    return value_in.replace(' ', '_').replace(',', '').replace('.', '').replace("'", '').upper()
+
 
 def get_region_and_cities_json_file():
     json_data = open('international_online_offer/fixtures/regions-and-cities.json')
@@ -234,18 +242,16 @@ def generate_location_choices(include_regions=True, include_cities=True):
     for region_obj in json_data:
         if include_cities:
             for city in region_obj['cities']:
-                locations_tuple = ((city.replace(' ', '_').upper(), city),) + locations_tuple
+                locations_tuple = ((to_literal(city), city),) + locations_tuple
         if include_regions:
-            locations_tuple = (
-                (region_obj['region'].replace(' ', '_').upper(), region_obj['region']),
-            ) + locations_tuple
+            locations_tuple = ((to_literal(region_obj['region']), region_obj['region']),) + locations_tuple
     return locations_tuple
 
 
 def is_region(choice):
     json_data = get_region_and_cities_json_file()
     for region_obj in json_data:
-        if region_obj['region'].replace(' ', '_').upper() == choice:
+        if to_literal(region_obj['region']) == choice:
             return True
     return False
 
@@ -254,8 +260,8 @@ def get_region_from_city(choice):
     json_data = get_region_and_cities_json_file()
     for region_obj in json_data:
         for city in region_obj['cities']:
-            if city.replace(' ', '_').upper() == choice:
-                return region_obj['region'].replace(' ', '_').upper()
+            if to_literal(city) == choice:
+                return to_literal(region_obj['region'])
 
     return ''
 
@@ -294,7 +300,7 @@ def generate_sector_choices():
 
     sectors_tuple = ()
     for sector in distinct_list_of_sectors:
-        sectors_tuple = ((sector.replace(' ', '_').replace(',', '').upper(), sector),) + sectors_tuple
+        sectors_tuple = ((to_literal(sector), sector),) + sectors_tuple
     return sectors_tuple
 
 
@@ -307,16 +313,14 @@ def generate_sector_sic_choices():
 
     sic_sectors_tuple = ()
     for sic_obj in json_data['data']:
-        sic_sectors_tuple = (
-            (sic_obj['sic_description'].replace(' ', '_').replace(',', '').upper(), sic_obj['sic_description']),
-        ) + sic_sectors_tuple
+        sic_sectors_tuple = ((to_literal(sic_obj['sic_description']), sic_obj['sic_description']),) + sic_sectors_tuple
     return sic_sectors_tuple
 
 
 def get_sector_from_sic_sector(choice):
     json_data = get_sectors_and_sic_sectors_file()
     for sic_obj in json_data['data']:
-        if sic_obj['sic_description'].replace(' ', '_').replace(',', '').upper() == choice:
-            return sic_obj['dit_sector_list_field_04'].replace(' ', '_').replace(',', '').upper()
+        if to_literal(sic_obj['sic_description']) == choice:
+            return to_literal(sic_obj['dit_sector_list_field_04'])
 
     return ''
