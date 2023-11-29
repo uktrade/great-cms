@@ -1333,6 +1333,10 @@ def test_signup_for_tailored_content_wizard_view_next_url(client):
 
 @pytest.mark.django_db
 def test_signup_view(client):
-    url = reverse('core:signup')
-    response = client.get(url)
+    response = client.get(
+        reverse(
+            'core:signup',
+        ),
+        HTTP_REFERER='http:anyurl.com',
+    )
     assert response.status_code == 200
