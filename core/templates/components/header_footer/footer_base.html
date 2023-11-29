@@ -23,6 +23,12 @@
                 </li>
             {% endif %}
             <li>
+                <a href="https://{{ dit_on_govuk }}"
+                   target="_blank"
+                   rel="noopener"
+                   title="Department for Business and Trade on GOV.UK">Department for Business and Trade on GOV.UK</a>
+            </li>
+            <li>
                 <a href="{% slugurl 'privacy-and-cookies' %}"
                    title="Privacy and cookies">Privacy and cookies</a>
             </li>
@@ -35,12 +41,6 @@
             </li>
             <li>
                 <a href="{% slugurl 'performance-dashboard' %}" title="Performance">Performance</a>
-            </li>
-            <li>
-                <a href="https://{{ dit_on_govuk }}"
-                   target="_blank"
-                   rel="noopener"
-                   title="Department for Business and Trade on GOV.UK">Department for Business and Trade on GOV.UK</a>
             </li>
             {% if FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK %}
                 {% if campaign_site_page %}
