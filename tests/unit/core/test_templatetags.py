@@ -28,6 +28,7 @@ from core.templatetags.content_tags import (
     is_lesson_page,
     is_placeholder_page,
     make_bold,
+    remove_bold_from_headings,
     str_to_datetime,
     tag_text_mapper,
     url_type,
@@ -899,3 +900,9 @@ class IsEmailFilterTest(TestCase):
     def test_is_email_empty_string(self):
         result = is_email('')
         self.assertFalse(result, 'Empty string should not be recognized as an email.')
+
+
+def test_remove_nested_bold_tags():
+    html = '<h2 class="govuk-heading-l" data-block-key="hl97x"><b>Header</b></h2>'
+    expected_result = '<h2 class="govuk-heading-l" data-block-key="hl97x">Header</h2>'
+    assert remove_bold_from_headings(html) == expected_result
