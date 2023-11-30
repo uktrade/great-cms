@@ -1,7 +1,7 @@
 module.exports = {
   ci: {
     collect: {
-      numberOfRuns: 5,
+      numberOfRuns: 3,
       startServerCommand: 'make webserver',
       url: ['http://localhost:8020/design-system'],
       settings: {
