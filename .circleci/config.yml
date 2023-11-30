@@ -195,10 +195,13 @@ jobs:
   test_lighthouse:
     working_directory: ~/greatcms
     docker:
-      - *python_node_browsers
+      - <<: *python_node_browsers
+      - <<: *postgres
     steps:
       - checkout
       - browser-tools/install-chrome
+      - *install_postgresql_client
+      - *install_libcairo2
       - *create_virtualenv_and_install_dependencies
       - *setup_secrets
       - *setup_db
