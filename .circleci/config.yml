@@ -195,17 +195,11 @@ jobs:
   test_lighthouse:
     working_directory: ~/greatcms
     docker:
-      - <<: *python
-      - <<: *postgres
-      - <<: *python_node_browsers
+      - *python_node_browsers
     steps:
       - checkout
       - browser-tools/install-chrome
-      - *install_postgresql_client
-      - *install_libcairo2
       - *create_virtualenv_and_install_dependencies
-      - *setup_secrets
-      - *setup_db
       - restore_cache:
           key: v1-deps-{{ checksum "package-lock.json" }}
       - run:
