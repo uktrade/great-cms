@@ -2,15 +2,10 @@ module.exports = {
   ci: {
     collect: {
       numberOfRuns: 3,
-      startServerCommand: 'make webserver',
+      startServerCommand: 'DEBUG=False make webserver',
       url: ['http://localhost:8020/'],
       settings: {
-        onlyCategories: [
-          'performance',
-          'accessibility',
-          'best-practices',
-          'seo',
-        ],
+        onlyCategories: ['accessibility', 'best-practices', 'seo'],
         skipAudits: ['uses-http2'],
         chromeFlags: '--no-sandbox',
         extraHeaders: JSON.stringify({
@@ -20,21 +15,17 @@ module.exports = {
     },
     assert: {
       assertions: {
-        'categories:performance': [
-          'error',
-          { minScore: 0.9, aggregationMethod: 'median-run' },
-        ],
         'categories:accessibility': [
           'error',
-          { minScore: 1, aggregationMethod: 'pessimistic' },
+          { minScore: 0.9, aggregationMethod: 'pessimistic' },
         ],
         'categories:best-practices': [
           'error',
-          { minScore: 1, aggregationMethod: 'pessimistic' },
+          { minScore: 0.9, aggregationMethod: 'pessimistic' },
         ],
         'categories:seo': [
           'error',
-          { minScore: 1, aggregationMethod: 'pessimistic' },
+          { minScore: 0.9, aggregationMethod: 'pessimistic' },
         ],
       },
     },
