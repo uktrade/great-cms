@@ -2,8 +2,8 @@ module.exports = {
   ci: {
     collect: {
       numberOfRuns: 3,
-      startServerCommand: 'make webserver',
-      url: ['http://localhost:8020/'],
+      startServerCommand: 'FEATURE_DESIGN_SYSTEM=True make webserver',
+      url: ['http://localhost:8020/', 'http://localhost:8020/design-system'],
       settings: {
         onlyCategories: [
           'performance',
