@@ -200,6 +200,7 @@ jobs:
       - checkout
       - browser-tools/install-chrome
       - *create_virtualenv_and_install_dependencies
+      - *setup_secrets
       - restore_cache:
           key: v1-deps-{{ checksum "package-lock.json" }}
       - run:
