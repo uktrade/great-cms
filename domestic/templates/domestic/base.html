@@ -14,7 +14,7 @@
         <meta charset="utf-8" />
         {% block sharing_description %}
             <meta name="description"
-                  content="{% block meta_description %}{% firstof page.search_description content_snippet.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description 'great.gov.uk' %}{% endblock %}">
+                  content="great.gov.uk - {% block meta_description %}{% firstof page.search_description content_snippet.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description %}{% endblock %}">
         {% endblock %}
         {% block sharing_title %}
             <meta name="title"
