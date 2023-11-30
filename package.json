@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "lighthouse": "lhci autorun",
     "test": "jest --testPathIgnorePatterns=venv",
     "test:dev": "jest --watch",
     "build": "webpack --config react-components/webpack.config.js --mode production",
@@ -37,6 +38,7 @@
     "@babel/plugin-transform-react-jsx": "^7.12.12",
     "@babel/preset-env": "7.9.0",
     "@babel/preset-react": "7.9.4",
+    "@lhci/cli": "^0.12.0",
     "@testing-library/jest-dom": "^5.11.1",
     "@testing-library/react": "^10.4.7",
     "babel-eslint": "10.1.0",
@@ -87,8 +89,8 @@
     "redux-thunk": "^2.3.0",
     "semver": "^5.7.2",
     "slick-carousel": "^1.8.1",
-    "styled-components": "5.0.1",
-    "slugify": "^1.4.0"
+    "slugify": "^1.4.0",
+    "styled-components": "5.0.1"
   },
   "overrides": {
     "optionator": "0.9.3",
