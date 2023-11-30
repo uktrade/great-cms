@@ -402,6 +402,7 @@ def is_external_link(url, current_domain):
     # Check if the URL is not on the current domain
     return parsed_url.netloc != current_domain
 
+
 @register.filter(name='remove_bold_from_headings')
 def remove_bold_from_headings(value):
     heading_pattern = re.compile(r'<(h[1-6])(.*?)><b>(.*?)</b></\1>', re.DOTALL)
