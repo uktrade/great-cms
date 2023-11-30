@@ -3,7 +3,7 @@ module.exports = {
     collect: {
       numberOfRuns: 5,
       startServerCommand: 'make webserver',
-      url: ['http://localhost:8020/', 'http://localhost:8020/services/'],
+      url: ['http://localhost:8020/'],
       settings: {
         onlyCategories: [
           'performance',

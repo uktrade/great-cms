@@ -179,6 +179,7 @@ jobs:
       - *python_node_browsers
     steps:
       - checkout
+      - browser-tools/install-chrome
       - restore_cache:
           key: v1-deps-{{ checksum "package-lock.json" }}
       - run:
