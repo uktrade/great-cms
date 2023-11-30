@@ -177,7 +177,7 @@ urlpatterns = [
 if settings.FEATURE_DESIGN_SYSTEM:
     urlpatterns += [
         path(
-            'design-system',
+            'design-system/',
             skip_ga360(views.DesignSystemView.as_view()),
             name='design-system',
         ),
