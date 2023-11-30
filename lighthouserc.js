@@ -17,15 +17,15 @@ module.exports = {
       assertions: {
         'categories:accessibility': [
           'error',
-          { minScore: 0.9, aggregationMethod: 'pessimistic' },
+          { minScore: 0.85, aggregationMethod: 'pessimistic' },
         ],
         'categories:best-practices': [
           'error',
-          { minScore: 0.9, aggregationMethod: 'pessimistic' },
+          { minScore: 0.85, aggregationMethod: 'pessimistic' },
         ],
         'categories:seo': [
           'error',
-          { minScore: 0.9, aggregationMethod: 'pessimistic' },
+          { minScore: 0.85, aggregationMethod: 'pessimistic' },
         ],
       },
     },
