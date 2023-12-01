@@ -1,6 +1,6 @@
 import json
 from unittest import mock
-
+from django.utils.translation import activate
 import pytest
 from django.conf import settings
 from django.test import TestCase
@@ -430,3 +430,10 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
         current_page = view.request.context_data['view']
         self.assertEqual(current_page.current_language, 'en-gb')
         self.assertEqual([language['language_code'] for language in current_page.available_languages], ['en-gb'])
+
+    def test_lang_not_in_locale_doesnt_break_and_uses_default_lang_instead(self):
+        activate('abc')
+        url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-one'})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        activate(None)
