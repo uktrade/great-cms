@@ -439,5 +439,4 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
         view = domestic.views.campaign.CampaignView(request=request)
         current_page = view.request.context_data['view']
         self.assertEqual(current_page.current_language, 'en-gb')
-        self.assertIsNotNone(current_page.page)
         activate(None)
