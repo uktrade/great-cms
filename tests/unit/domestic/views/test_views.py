@@ -434,6 +434,9 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
     def test_lang_not_in_locale_doesnt_break_and_uses_default_lang_instead(self):
         activate('abc')
         url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-one'})
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
+        request = self.client.get(url)
+        self.assertEqual(request.status_code, 200)
+        view = domestic.views.campaign.CampaignView(request=request)
+        current_page = view.request.context_data['view']
+        self.assertEqual(current_page.current_language, 'en-gb')
         activate(None)
