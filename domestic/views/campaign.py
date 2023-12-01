@@ -45,6 +45,7 @@ class CampaignView(BaseNotifyUserFormView):
             current_locale = Locale.objects.get(language_code=current_language_code)
         except ObjectDoesNotExist:
             from config.settings import LANGUAGE_CODE
+
             current_locale = Locale.objects.get(language_code=LANGUAGE_CODE)
         return self.get_correct_page(current_locale)
 
