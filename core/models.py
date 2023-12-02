@@ -1515,7 +1515,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                         ),
                     ],
                     template='microsites/blocks/embed_video.html',
-                    icon='media'
+                    icon='media',
                 ),
             ),
             (
