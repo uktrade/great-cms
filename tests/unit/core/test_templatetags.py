@@ -3,10 +3,11 @@ from datetime import timedelta
 from html import escape
 from unittest import mock
 from urllib.parse import quote, quote_plus
-from django.http import HttpRequest
+
 import pytest
 from bs4 import BeautifulSoup
 from django.conf import settings
+from django.http import HttpRequest
 from django.template import Context, Template
 from django.test import TestCase
 from django.urls import reverse
@@ -23,15 +24,16 @@ from core.templatetags.content_tags import (
     get_text_blocks,
     get_topic_blocks,
     get_topic_title_for_lesson,
+    handle_external_links,
     highlighted_text,
     is_email,
     is_lesson_page,
     is_placeholder_page,
     make_bold,
+    remove_bold_from_headings,
     str_to_datetime,
     tag_text_mapper,
     url_type,
-    handle_external_links,
 )
 from core.templatetags.object_tags import get_item
 from core.templatetags.progress_bar import progress_bar
@@ -899,3 +901,9 @@ class IsEmailFilterTest(TestCase):
     def test_is_email_empty_string(self):
         result = is_email('')
         self.assertFalse(result, 'Empty string should not be recognized as an email.')
+
+
+def test_remove_nested_bold_tags():
+    html = '<h2 class="govuk-heading-l" data-block-key="hl97x"><b>Header</b></h2>'
+    expected_result = '<h2 class="govuk-heading-l" data-block-key="hl97x">Header</h2>'
+    assert remove_bold_from_headings(html) == expected_result

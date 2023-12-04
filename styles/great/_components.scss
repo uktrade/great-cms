@@ -299,7 +299,7 @@ figure.great-blockquote {
 .great-badge {
   background: #cce2d8;
   color: #005a30;
-  display: inline-flex;
+  display: inline-flex !important;
   align-items: center;
   font-size: 16px;
   font-family: $great-font-bold;
@@ -1238,6 +1238,21 @@ nav.great-breadcrumbs {
 
     @include govuk-media-query($until: tablet) {
       max-width: 100%;
+    }
+  }
+}
+
+.great-promo {
+  display: flex;
+  align-items: flex-end;
+
+  @include govuk-media-query($until: tablet) {
+    flex-direction: column-reverse;
+  }
+
+  img {
+    @include govuk-media-query($until: tablet) {
+      margin-bottom: 20px;
     }
   }
 }

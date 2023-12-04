@@ -10,7 +10,7 @@ from django.test import RequestFactory, TestCase
 from django.urls import reverse
 from wagtail.admin.panels import ObjectList
 from wagtail.blocks.stream_block import StreamBlockValidationError
-from wagtail.core.fields import StreamField
+from wagtail.fields import StreamField
 from wagtail.images import get_image_model
 from wagtail.images.tests.utils import get_test_image_file
 from wagtail.models import Collection
@@ -59,6 +59,19 @@ def test_object_hash():
     mocked_file.read.return_value = b'foo'
     hash = AbstractObjectHash.generate_content_hash(mocked_file)
     assert hash == 'acbd18db4cc2f85cedef654fccc4a4d8'  # /PS-IGNORE
+
+
+@pytest.mark.django_db
+def test_detail_page_get_lesson_category_name(client, domestic_homepage, user, domestic_site, mock_get_user_profile):
+    # given the user has not read a lesson
+    client.force_login(user)
+
+    list_page = factories.ListPageFactory(parent=domestic_homepage, record_read_progress=True)
+    curated_list_page = factories.CuratedListPageFactory(parent=list_page)
+    topic_page = factories.TopicPageFactory(parent=curated_list_page)
+    detail_page = factories.DetailPageFactory(parent=topic_page)
+
+    assert detail_page.get_lesson_category_name() == 'Topic page'
 
 
 @pytest.mark.django_db

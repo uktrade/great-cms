@@ -106,16 +106,16 @@ class LogoutView(RedirectView):
 
 
 class SignupView(GA360Mixin, PageTitleMixin, TemplateView):
-    def __init__(self):
-        super().__init__()
-        self.set_ga360_payload(
-            page_id='MagnaPage',
-            business_unit='MagnaUnit',
-            site_section='signup',
-        )
-
     template_name = 'core/signup.html'
     title = 'Sign up'
+
+    def get_context_data(self, **kwargs):
+        referrer = self.request.META.get('HTTP_REFERER')
+        self.set_ga360_payload(
+            page_id='MagnaPage', business_unit='MagnaUnit', site_section='signup', referer_url=referrer
+        )
+        context = super().get_context_data(**kwargs)
+        return context
 
 
 class CompareCountriesView(GA360Mixin, PageTitleMixin, TemplateView):
@@ -329,6 +329,10 @@ class ServiceNoLongerAvailableView(TemplateView):
 
 class QuerystringRedirectView(RedirectView):
     query_string = True
+
+
+class PermanentQuerystringRedirectView(QuerystringRedirectView):
+    permanent = True
 
 
 class TranslationRedirectView(RedirectView):

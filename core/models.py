@@ -831,6 +831,13 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         use_json_field=True,
     )
 
+    def get_lesson_category_name(self):
+        parent_page = self.get_parent()
+        if parent_page:
+            return parent_page.title
+        else:
+            return None
+
     #########
     # Panels
     ##########
@@ -1484,7 +1491,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                     required=False, template='microsites/blocks/image_full_width.html', label=_('Image full width')
                 ),
             ),
-            ('video', core_blocks.SimpleVideoBlock(template='microsites/blocks/video.html', label=_('Video'))),
+            ('video', core_blocks.SimpleVideoBlock(template='microsites/blocks/video.html', label=_('Upload video'))),
             (
                 'embed_video',
                 blocks.StructBlock(
@@ -1508,6 +1515,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                         ),
                     ],
                     template='microsites/blocks/embed_video.html',
+                    icon='media',
                 ),
             ),
             (

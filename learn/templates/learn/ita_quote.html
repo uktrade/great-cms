@@ -1,8 +1,7 @@
 {% load  wagtailcore_tags static %}
-<figure class="ita-quote media-block m-b-m">
-    <i class="fa fa-comment"></i>
-    <div class="g-panel p-b-0">
+<figure>
+    <blockquote class="great-quote govuk-!-margin-left-2 gpvuk-!-margin-bottom-0">
         {{ value.quote|richtext }}
-        <figcaption class="body-l ita-quote__author">{{ value.author|richtext }}</figcaption>
-    </div>
+    </blockquote>
+    <p class="govuk-body great-text-dark-grey govuk-!-static-margin-top-4">{{ value.author|richtext }}</p>
 </figure>

@@ -52,7 +52,7 @@ celery[redis]==5.2.7
     #   -r requirements.in
     #   celery
     #   django-celery-beat
-certifi==2023.7.22
+certifi==2023.11.17
     # via
     #   elastic-apm
     #   elasticsearch
@@ -77,7 +77,7 @@ click-repl==0.3.0
     # via celery
 cron-descriptor==1.4.0
     # via django-celery-beat
-cryptography==41.0.5
+cryptography==41.0.7
     # via
     #   -r requirements.in
     #   pyhanko
@@ -88,6 +88,8 @@ cssselect2==0.7.0
     # via svglib
 dateparser==0.7.2
     # via -r requirements.in
+defusedxml==0.7.1
+    # via willow
 directory-api-client==26.4.2
     # via -r requirements.in
 directory-ch-client==3.1.0
@@ -113,7 +115,7 @@ directory-sso-api-client==7.2.3
     # via -r requirements.in
 directory-validators==9.3.0
     # via -r requirements.in
-django==4.1.10
+django==4.1.13
     # via
     #   -r requirements.in
     #   directory-api-client
@@ -156,7 +158,7 @@ django-environ==0.4.5
     # via -r requirements.in
 django-extensions==3.2.3
     # via -r requirements.in
-django-filter==22.1
+django-filter==23.4
     # via wagtail
 django-formtools==2.3
     # via -r requirements.in
@@ -178,9 +180,9 @@ django-storages[boto3]==1.13.2
     # via
     #   -r requirements.in
     #   django-storages
-django-taggit==3.1.0
+django-taggit==4.0.0
     # via wagtail
-django-timezone-field==6.0.1
+django-timezone-field==6.1.0
     # via django-celery-beat
 django-treebeard==4.7
     # via
@@ -208,19 +210,21 @@ elasticsearch-dsl==7.4.1
     # via -r requirements.in
 et-xmlfile==1.1.0
     # via openpyxl
-factory-boy==2.12.0
+factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==20.0.3
+faker==20.1.0
     # via factory-boy
+filetype==1.2.0
+    # via willow
 freetype-py==2.3.0
     # via
     #   reportlab
     #   rlpycairo
 geoip2==2.9.0
     # via -r requirements.in
-great-components==2.4.0
+great-components==2.5.0
     # via -r requirements.in
 gunicorn==20.1.0
     # via -r requirements.in
@@ -232,7 +236,7 @@ html5lib==1.1
     #   xhtml2pdf
 icalendar==5.0.11
     # via -r requirements.in
-idna==3.4
+idna==3.6
     # via requests
 imagesize==1.4.1
     # via sphinx
@@ -251,7 +255,7 @@ jsonschema==3.2.0
     #   directory-components
     #   drf-spectacular
     #   great-components
-kombu==5.3.3
+kombu==5.3.4
     # via celery
 l18n==2021.3
     # via wagtail
@@ -280,7 +284,7 @@ oauthlib==3.2.2
     # via
     #   -r requirements.in
     #   requests-oauthlib
-olefile==0.46
+olefile==0.47
     # via directory-validators
 openpyxl==3.1.2
     # via wagtail
@@ -290,13 +294,16 @@ packaging==23.2
     # via sphinx
 pandas==1.5.3
     # via -r requirements.in
-pillow==9.5.0
+pillow==10.0.1
     # via
     #   -r requirements.in
     #   directory-validators
+    #   pillow-heif
     #   reportlab
     #   wagtail
     #   xhtml2pdf
+pillow-heif==0.14.0
+    # via willow
 polib==1.2.0
     # via wagtail-localize
 prompt-toolkit==3.0.41
@@ -307,11 +314,11 @@ pycairo==1.25.1
     # via rlpycairo
 pycparser==2.21
     # via cffi
-pygments==2.16.1
+pygments==2.17.2
     # via sphinx
-pyhanko==0.20.1
+pyhanko==0.21.0
     # via xhtml2pdf
-pyhanko-certvalidator==0.24.1
+pyhanko-certvalidator==0.26.2
     # via
     #   pyhanko
     #   xhtml2pdf
@@ -462,7 +469,7 @@ vine==5.1.0
     #   kombu
 w3lib==1.22.0
     # via directory-client-core
-wagtail==4.2.2
+wagtail==5.2
     # via
     #   -r requirements.in
     #   wagtail-cache
@@ -472,23 +479,23 @@ wagtail==4.2.2
     #   wagtail-transfer
     #   wagtail-trash
     #   wagtailmedia
-wagtail-cache==2.2.0
+wagtail-cache==2.3.0
     # via -r requirements.in
-wagtail-factories==2.0.1
+wagtail-factories==4.1.0
     # via -r requirements.in
 wagtail-font-awesome-svg==0.0.3
     # via -r requirements.in
-wagtail-localize==1.4
+wagtail-localize==1.7
     # via -r requirements.in
-wagtail-seo==2.3.0
+wagtail-seo==2.4.1
     # via -r requirements.in
-wagtail-transfer==0.9.1
+wagtail-transfer==0.9.2
     # via -r requirements.in
-wagtail-trash==1.0.0
+wagtail-trash==1.0.1
     # via -r requirements.in
-wagtailmedia==0.14.0
+wagtailmedia==0.14.5
     # via -r requirements.in
-wcwidth==0.2.10
+wcwidth==0.2.12
     # via prompt-toolkit
 webencodings==0.5.1
     # via
@@ -497,8 +504,10 @@ webencodings==0.5.1
     #   tinycss2
 whitenoise==6.6.0
     # via -r requirements.in
-willow==1.4.1
-    # via wagtail
+willow[heif]==1.6.3
+    # via
+    #   wagtail
+    #   willow
 xhtml2pdf==0.2.13
     # via -r requirements.in
 

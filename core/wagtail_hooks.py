@@ -22,6 +22,9 @@ from django.utils.translation import gettext as _
 from great_components.helpers import add_next
 from wagtail import hooks
 from wagtail.admin.menu import DismissibleMenuItem
+from wagtail.admin.rich_text.converters.html_to_contentstate import (
+    InlineStyleElementHandler,
+)
 from wagtail.admin.views.pages.bulk_actions.page_bulk_action import PageBulkAction
 from wagtail.models import Page
 from wagtail_transfer.field_adapters import FieldAdapter
@@ -594,3 +597,55 @@ def register_rich_text_anchor_identifier_feature(features):
     )
 
     features.register_link_type(AnchorIdentifierLinkHandler)
+
+
+@hooks.register('register_rich_text_features')
+def register_strong_feature(features):
+    """
+    Registering the `strong` feature. It will render bold text with `strong` tag.
+    Default Wagtail uses the `b` tag.
+    """
+    feature_name = 'strong'
+    type_ = 'BOLD'
+    tag = 'strong'
+
+    control = {
+        'type': type_,
+        'icon': 'bold',
+        'description': 'Bold',
+    }
+
+    features.register_editor_plugin('draftail', feature_name, draftail_features.InlineStyleFeature(control))
+
+    db_conversion = {
+        'from_database_format': {tag: InlineStyleElementHandler(type_)},
+        'to_database_format': {'style_map': {type_: tag}},
+    }
+
+    features.register_converter_rule('contentstate', feature_name, db_conversion)
+
+
+@hooks.register('register_rich_text_features')
+def register_em_feature(features):
+    """
+    Registering the `em` feature. It will render italic text with `em` tag.
+    Default Wagtail uses the `i` tag for italics.
+    """
+    feature_name = 'em'
+    type_ = 'ITALIC'
+    tag = 'em'
+
+    control = {
+        'type': type_,
+        'icon': 'italic',
+        'description': 'Italic',
+    }
+
+    features.register_editor_plugin('draftail', feature_name, draftail_features.InlineStyleFeature(control))
+
+    db_conversion = {
+        'from_database_format': {tag: InlineStyleElementHandler(type_)},
+        'to_database_format': {'style_map': {type_: tag}},
+    }
+
+    features.register_converter_rule('contentstate', feature_name, db_conversion)

@@ -9,8 +9,16 @@
                     <a href="/support/guidance-and-support" title="Guidance and support">Guidance and support</a>
                 </li>
             {% endif %}
+            {% if feature.FEATURE_SHOW_OLD_CONTACT_FORM %}
+                <li>
+                    <a href="{% url_map 'contact_url' %}" title="Contact us">Contact us</a>
+                </li>
+            {% endif %}
             <li>
-                <a href="{% url_map 'contact_url' %}" title="Contact us">Contact us</a>
+                <a href="https://{{ dit_on_govuk }}"
+                   target="_blank"
+                   rel="noopener"
+                   title="Department for Business and Trade on GOV.UK">Department for Business and Trade on GOV.UK</a>
             </li>
             <li>
                 <a href="{% slugurl 'privacy-and-cookies' %}"
@@ -25,12 +33,6 @@
             </li>
             <li>
                 <a href="{% slugurl 'performance-dashboard' %}" title="Performance">Performance</a>
-            </li>
-            <li>
-                <a href="https://{{ dit_on_govuk }}"
-                   target="_blank"
-                   rel="noopener"
-                   title="Department for Business and Trade on GOV.UK">Department for Business and Trade on GOV.UK</a>
             </li>
             {% if FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK %}
                 {% if campaign_site_page %}

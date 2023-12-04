@@ -7,19 +7,8 @@ import useUniqueId from '@src/components/hooks/useUniqueId'
 import { analytics } from '@src/Helpers'
 
 const CaseStudy = memo(({ content: { heading, company, blocks } }) => {
-  const [isOpen, setIsOpen] = useState(false)
+
   const id = useUniqueId('case-study')
-
-  let expandButton
-
-  const toggleCaseStudy = () => {
-    setIsOpen(!isOpen)
-    expandButton.focus()
-    analytics({
-      event: 'openCaseStudy',
-      caseStudy: heading,
-    })
-  }
 
   const sliderSettings = {
     media: {
@@ -80,37 +69,28 @@ const CaseStudy = memo(({ content: { heading, company, blocks } }) => {
 
   return (
     <>
-      <div className="case-study p-t-xs p-b-s">
-        <div className="case-study__content media-block m-t-s">
-          <i className="fa fa-comment" aria-hidden="true" />
+      <div className="case-study govuk-!-padding-top-3 govuk-!-padding-bottom-4">
+        <div className="case-study__content media-block govuk-!-margin-top-4">
           <div>
-            <h3 className="cast-study__lead_title  h-m m-b-xs p-0">
+            <h2 className="govuk-heading-l cast-study__lead_title govuk-!-margin-bottom-3 govuk-!-padding-0">
               {ReactHtmlParser(heading)}
-            </h3>
-            <span className="case-study__company text-blue-deep-60 h-s p-0">
+            </h2>
+            <h3 className="case-study__company govuk-heading-m govuk-!-padding-0">
               {ReactHtmlParser(company)}
-            </span>
+            </h3>
             {/* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
-            <span onClick={toggleCaseStudy} style={{ cursor: 'pointer' }}>
-              {image}
-            </span>
+            {image}
             {/* eslint-enable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
-            <button
-              type="button"
-              className="button button--small button--tertiary button--icon case-study__open m-t-xs"
-              aria-controls={id}
-              aria-expanded={isOpen}
-              onClick={toggleCaseStudy}
-              ref={(_expandButton) => {
-                expandButton = _expandButton
-              }}
-            >
-              <i
-                className={`fas fa-chevron-${isOpen ? 'up' : 'down'}`}
-              />
-              {isOpen ? 'Collapse case study' : 'Expand case study'}
-            </button>
-            {isOpen && <span id={id}>{body}</span>}
+            <details class="govuk-details govuk-!-margin-top-4" data-module="govuk-details">
+              <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                  Show case study details
+                </span>
+              </summary>
+              <div class="govuk-details__text govuk-body govuk-!-margin-0">
+                <span id={id}>{body}</span>
+              </div>
+          </details>
           </div>
         </div>
       </div>
