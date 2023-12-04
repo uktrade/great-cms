@@ -1491,7 +1491,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                     required=False, template='microsites/blocks/image_full_width.html', label=_('Image full width')
                 ),
             ),
-            ('video', core_blocks.SimpleVideoBlock(template='microsites/blocks/video.html', label=_('Video'))),
+            ('video', core_blocks.SimpleVideoBlock(template='microsites/blocks/video.html', label=_('Upload video'))),
             (
                 'embed_video',
                 blocks.StructBlock(
@@ -1515,6 +1515,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                         ),
                     ],
                     template='microsites/blocks/embed_video.html',
+                    icon='media',
                 ),
             ),
             (
