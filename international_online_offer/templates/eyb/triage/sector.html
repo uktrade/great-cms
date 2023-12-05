@@ -71,10 +71,29 @@
         }
         const sicSectors = getSICSectors(sectorsAndSICSectors)
 
+        function sectorSuggest(query, populateResults) {
+            if (!query) return [];
+            let results = [];
+            for (let i = 0; i < sectorsAndSICSectors.length; i++) {
+                const dbtSector = sectorsAndSICSectors[i].dit_sector_list_field_04;
+                const sicSector = sectorsAndSICSectors[i].sic_description;
+                if (dbtSector.toLowerCase().indexOf(query.toLowerCase()) !== -1 || sicSector.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
+                    results.push(sicSector);
+                }
+            }
+            populateResults(results);
+        }
+
         accessibleAutocomplete.enhanceSelectElement({
         selectElement: document.getElementById('js-sector-select'),
-        source: sicSectors,
+        source: sectorSuggest,
         autoselect: false,
+        templates: {
+            suggestion: (selectedSIC) => {
+                const sicSector = getSectorForSICSector(selectedSIC);
+                return `<span>${selectedSIC}</span><br><span class='govuk-!-font-size-14'>${sicSector}</span>`;
+            }
+        },
         minLength: 2,
         onConfirm: function(selectedText) {
             // onConfirm seems to be triggered by autocomplete many times passing null

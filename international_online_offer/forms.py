@@ -39,8 +39,8 @@ class SectorForm(forms.Form):
     # )
 
     sector_sub = ChoiceField(
-        label='Enter a sector',
-        help_text='Start searching for your sector and choose the best match from the suggested list',
+        label='Enter a keyword to search a list of business activities',
+        help_text='For example "textiles"',
         required=True,
         widget=Select(attrs={'id': 'js-sector-select', 'class': 'govuk-input'}),
         choices=(('', ''),) + helpers.generate_sector_sic_choices(),

@@ -90,7 +90,7 @@ class SectorView(GA360Mixin, FormView):
             **kwargs,
             back_url=self.get_back_url(),
             step_text='Step 1 of 5',
-            question_text='What is your business sector?',
+            question_text='What does your company make or do?',
             why_we_ask_this_question_text="""We'll use this information to provide customised content
               relevant to your sector and products or services.""",
             autocomplete_sector_data=helpers.get_sectors_and_sic_sectors_file_as_string(),
