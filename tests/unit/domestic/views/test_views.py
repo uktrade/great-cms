@@ -1,10 +1,11 @@
 import json
 from unittest import mock
-from django.utils.translation import activate
+
 import pytest
 from django.conf import settings
 from django.test import TestCase
 from django.urls import reverse, reverse_lazy
+from django.utils.translation import activate
 from wagtail.models import Locale
 from wagtail.test.utils import WagtailPageTests
 

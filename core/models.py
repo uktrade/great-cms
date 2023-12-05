@@ -1568,7 +1568,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                 core_blocks.PullQuoteBlock(template='domestic/blocks/pull_quote_block.html', label=_('Pull quote')),
             ),
             (
-                'data_table',
+                'table',
                 core_blocks.DataTableBlock(),
             ),
         ],
