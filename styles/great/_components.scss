@@ -299,7 +299,7 @@ figure.great-blockquote {
 .great-badge {
   background: #cce2d8;
   color: #005a30;
-  display: inline-flex;
+  display: inline-flex !important;
   align-items: center;
   font-size: 16px;
   font-family: $great-font-bold;

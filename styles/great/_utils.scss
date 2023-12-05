@@ -17,15 +17,17 @@
   overflow-x: hidden;
 
   h1,
-  h2,
+  h2:not(.govuk-caption-l):not(.govuk-caption-xl),
   h3,
   h4,
   h5,
   h6,
   .govuk-warning-text__text {
     font-family: $great-font-bold;
-    color: $great-dark-grey;
     -webkit-font-smoothing: auto;
+    &:not(.great-title-link) {
+      color: $great-dark-grey;
+    }
   }
 
   h2 {
@@ -60,6 +62,17 @@
 
   .govuk-hint {
     color: $great-off-black;
+  }
+
+  .govuk-caption-xl {
+    font-size: 20px;
+    line-height: 30px;
+    font-family: $main-text-font;
+
+    @include govuk-media-query($from: tablet) {
+      font-size: 24px;
+      line-height: 34px;
+    }
   }
 
   .govuk-hint,
@@ -756,10 +769,21 @@ img.richtext-image {
   display: inline-block;
   text-decoration: underline;
   text-underline-position: under;
+  color: $color-gov-link;
+  text-decoration-color: $color-gov-link;
+
+  &.no-underline {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 
   &:hover:not(:focus) {
     color: #003078;
     text-decoration-thickness: 3px;
+    text-decoration-color: #003078;
   }
 }
 
@@ -813,6 +837,10 @@ img.richtext-image {
   flex: 1;
 }
 
+.great-flex-2 {
+  flex: 2;
+}
+
 .great-quote {
   &:before {
     content: open-quote;
@@ -849,7 +877,11 @@ img.richtext-image {
 }
 
 .great-gap {
-  gap: 30px;
+  gap: 20px 30px;
+}
+
+.great-gap-10-30 {
+  gap: 10px 30px;
 }
 
 .great-min-column-width {
@@ -884,4 +916,54 @@ img.richtext-image {
   @include great-title-link-mixin();
   font-family: inherit !important;
   font-size: inherit !important;
+}
+
+.float-right {
+  float: right;
+}
+
+.great-flex-column-until-desktop {
+  @include govuk-media-query($until: desktop) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.great-align-items-center {
+  align-items: center;
+  &.great-flex-column-until-desktop {
+    @include govuk-media-query($until: desktop) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+}
+
+.great-justify-space-between {
+  justify-content: space-between;
+}
+
+.great-overflow-visible {
+  overflow: visible;
+}
+
+//override styles in the core base html
+.govuk-list--bullet {
+  > li {
+    list-style-type: disc;
+  }
+}
+
+.great-display-flex-from-desktop {
+  @include govuk-media-query($from: desktop) {
+    display: flex;
+  }
+}
+
+.great-flex-row {
+  flex-direction: row!important;
+}
+
+.great-gap-10-30 {
+  gap: 10px 30px;
 }

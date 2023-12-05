@@ -1,10 +1,13 @@
 {% load static %}
-<figure class="fictional-example media-block m-b-m">
+{% load add_govuk_classes from content_tags %}
+<figure class="fictional-example media-block govuk-!-margin-bottom-6">
     <img src="{% static 'images/fictional-company-example.png' %}" alt="" />
     <div>
         <div class="box">
             <blockquote class="rich-text">
-                {{ value.fiction_body }}
+                {% filter add_govuk_classes %}
+                    {{ value.fiction_body }}
+                {% endfilter %}    
             </blockquote>
         </div>
     </div>

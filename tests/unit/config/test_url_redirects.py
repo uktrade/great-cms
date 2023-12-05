@@ -393,10 +393,14 @@ redirects = [
         '/legacy/contact/terms-and-conditions/',
         TERMS_URL,
     ),
-    # (
-    #     '/contact/triage/location/',
-    #     '/contact/domestic/export-support/',
-    # ),
+    (
+        '/contact/triage/location/',
+        DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE,
+    ),
+    (
+        '/contact/triage/domestic/',
+        DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE,
+    ),
     # (
     #     '/contact/export-advice/comment/',
     #     '/contact/domestic/export-support/',
@@ -424,11 +428,11 @@ redirects = [
     ),
     (
         '/advice/find-an-export-market/define-export-market-potential/',
-        '/advice/find-an-export-market/research-export-markets-online/',
+        '/learn/categories/market-research/market-research-approaches/online-research/',
     ),
     (
         '/advice/find-an-export-market/field-research-in-export-markets/',
-        '/advice/find-an-export-market/research-in-market/',
+        '/learn/categories/market-research/market-research-approaches/market-research/',
     ),
     (
         '/advice/get-export-finance-and-funding/choose-the-right-finance/',
@@ -462,7 +466,7 @@ def test_redirects(url, expected, client, settings):
 
     response = client.get(url)
 
-    assert response.status_code == http.client.FOUND
+    assert response.status_code == http.client.MOVED_PERMANENTLY or http.client.FOUND
     if not expected.startswith('http') and not expected.startswith('/'):
         expected = reverse(expected)
 
@@ -490,7 +494,8 @@ def test_redirects_no_trailing_slash(url, expected, client):
             '/market-research/research-your-market/',
             '/advice/find-an-export-market/field-research-in-export-markets/',  # NOQA
         ),
-        ('/market-research/visit-a-trade-show/', '/advice/find-an-export-market/trade-shows/'),
+        ('/market-research/visit-a-trade-show/', '/learn/categories/prepare-sell-new-country/'),
+        ('/advice/find-an-export-market/trade-shows/', '/learn/categories/prepare-sell-new-country/'),
         (
             '/market-research/doing-business-with-integrity/',
             'advice/manage-risk-bribery-corruption-and-abuse-human-rights/bribery-and-corruption-understand-risks/',  # NOQA
@@ -499,8 +504,12 @@ def test_redirects_no_trailing_slash(url, expected, client):
             '/market-research/know-the-relevant-legislation/',
             'advice/manage-risk-bribery-corruption-and-abuse-human-rights/bribery-and-corruption-understand-risks/',  # NOQA
         ),
-        ('/business-planning/', '/advice/define-route-to-market/'),
-        ('/business-planning/make-an-export-plan/', '/advice/create-an-export-plan/how-to-create-an-export-plan/'),
+        ('/business-planning/', '/learn/categories/prepare-sell-new-country/'),
+        ('/advice/define-route-to-market/', '/learn/categories/prepare-sell-new-country/'),
+        (
+            '/business-planning/make-an-export-plan/',
+            '/learn/categories/market-research/evaluate-opportunities/how-to-create-an-export-plan/',
+        ),
         ('/business-planning/find-a-route-to-market/', '/advice/define-route-to-market/routes-to-market/'),
         ('/business-planning/sell-overseas-directly/', '/advice/define-route-to-market/sell-overseas-directly/'),
         ('/business-planning/use-an-overseas-agent/', '/advice/define-route-to-market/export-agents/'),
@@ -521,9 +530,10 @@ def test_redirects_no_trailing_slash(url, expected, client):
         ),
         (
             '/business-planning/set-up-an-overseas-operation/',
-            '/advice/define-route-to-market/set-up-a-business-abroad/',
+            '/learn/categories/prepare-sell-new-country/routes-to-market/how-set-business-abroad/',
         ),
-        ('/finance/', '/advice/get-export-finance-and-funding/'),
+        ('/finance/', 'https://www.ukexportfinance.gov.uk/'),
+        ('/advice/get-export-finance-and-funding/', 'https://www.ukexportfinance.gov.uk/'),
         (
             '/finance/choose-the-right-finance/',
             '/advice/get-export-finance-and-funding/choose-the-right-finance/',  # NOQA
@@ -531,6 +541,10 @@ def test_redirects_no_trailing_slash(url, expected, client):
         ('/finance/get-money-to-export/', '/advice/get-export-finance-and-funding/choose-the-right-finance/'),  # NOQA
         ('/finance/get-export-finance/', '/advice/get-export-finance-and-funding/get-export-finance/'),
         ('/finance/get-finance-support-from-government/', '/advice/get-export-finance-and-funding/get-export-finance/'),
+        (
+            '/advice/define-route-to-market/set-up-a-business-abroad/',
+            '/learn/categories/prepare-sell-new-country/routes-to-market/how-set-business-abroad/',
+        ),
         (
             '/finance/raise-money-by-borrowing/',
             '/advice/get-export-finance-and-funding/raise-money-by-borrowing/',  # NOQA
@@ -540,28 +554,50 @@ def test_redirects_no_trailing_slash(url, expected, client):
             '/finance/raise-money-with-investment/',
             '/advice/get-export-finance-and-funding/raise-money-with-investment/',  # NOQA
         ),
-        ('/getting-paid/', '/advice/manage-payment-for-export-orders/'),
+        ('/getting-paid/', '/learn/categories/funding-financing-and-getting-paid/'),
+        (
+            '/advice/manage-payment-for-export-orders/payment-methods-for-exporters/',  # NOQA
+            '/learn/categories/funding-financing-and-getting-paid/get-paid/payment-methods-exporters/',
+        ),
+        ('/advice/manage-payment-for-export-orders/', '/learn/categories/funding-financing-and-getting-paid/'),
         (
             '/getting-paid/invoice-currency-and-contents/',
-            '/advice/manage-payment-for-export-orders/payment-methods-for-exporters/',  # NOQA
+            '/learn/categories/funding-financing-and-getting-paid/get-paid/payment-methods-exporters/',  # NOQA
+        ),
+        (
+            '/getting-paid/invoice-currency-and-contents/',
+            '/learn/categories/funding-financing-and-getting-paid/get-paid/payment-methods-exporters/',  # NOQA
         ),
         (
             '/getting-paid/consider-how-to-get-paid/',
+            '/learn/categories/funding-financing-and-getting-paid/get-paid/how-create-export-invoice/',
+        ),
+        (
             '/advice/manage-payment-for-export-orders/how-to-create-an-export-invoice/',  # NOQA
+            '/learn/categories/funding-financing-and-getting-paid/get-paid/how-create-export-invoice/',
+        ),
+        (
+            '/advice/manage-payment-for-export-orders/decide-when-to-get-paid-for-export-orders/',  # NOQA
+            '/learn/categories/funding-financing-and-getting-paid/get-paid/decide-when-get-paid-export-orders/',
         ),
         (
             '/getting-paid/decide-when-to-get-paid/',
-            '/advice/manage-payment-for-export-orders/decide-when-to-get-paid-for-export-orders/',  # NOQA
+            '/learn/categories/funding-financing-and-getting-paid/get-paid/decide-when-get-paid-export-orders/',  # NOQA
         ),
         (
             '/getting-paid/payment-methods/',
-            '/advice/manage-payment-for-export-orders/payment-methods-for-exporters/',  # NOQA
+            '/learn/categories/funding-financing-and-getting-paid/get-paid/payment-methods-exporters/',  # NOQA
         ),
         (
             '/getting-paid/insure-against-non-payment/',
-            '/advice/manage-payment-for-export-orders/insure-against-non-payment/',  # NOQA
+            '/learn/categories/funding-financing-and-getting-paid/get-paid/insure-against-non-payment/',  # NOQA
         ),
-        ('/customer-insight/', '/advice/prepare-to-do-business-in-a-foreign-country/'),
+        (
+            '/advice/manage-payment-for-export-orders/insure-against-non-payment/',  # NOQA
+            '/learn/categories/funding-financing-and-getting-paid/get-paid/insure-against-non-payment/',
+        ),
+        ('/customer-insight/', '/learn/categories/prepare-sell-new-country/'),
+        ('/advice/prepare-to-do-business-in-a-foreign-country/', '/learn/categories/prepare-sell-new-country/'),
         (
             '/customer-insight/meet-your-customers/',
             '/advice/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market/',  # NOQA
@@ -669,9 +705,135 @@ def test_redirects_no_trailing_slash(url, expected, client):
             '/story/hello-babys-rapid-online-growth/',
             '/success-stories/hello-babys-rapid-online-growth/',
         ),
+        ('/advice/', '/learn/categories/'),
+        ('/advice/create-an-export-plan/', '/learn/categories/market-research/'),
+        ('/advice/find-an-export-market/trade-shows/', '/learn/categories/prepare-sell-new-country/'),
+        (
+            '/advice/manage-risk-bribery-corruption-and-abuse-human-rights/bribery-and-corruption-understand-risks/',
+            '/learn/categories/prepare-sell-new-country/managing-safety-corruption-and-business-integrity-risk/protect-your-business-bribery-and-corruption/',  # noqa:E501
+        ),
+        ('/advice/define-route-to-market/', '/learn/categories/prepare-sell-new-country/'),
+        (
+            '/advice/create-an-export-plan/how-to-create-an-export-plan/',
+            '/learn/categories/market-research/evaluate-opportunities/how-to-create-an-export-plan/',
+        ),
+        (
+            '/advice/define-route-to-market/set-up-a-business-abroad/',
+            '/learn/categories/prepare-sell-new-country/routes-to-market/how-set-business-abroad/',
+        ),
+        ('/advice/get-export-finance-and-funding/', 'https://www.ukexportfinance.gov.uk/'),
+        (
+            '/advice/manage-payment-for-export-orders/payment-methods-for-exporters/',
+            '/learn/categories/funding-financing-and-getting-paid/get-paid/payment-methods-exporters/',
+        ),
+        (
+            '/advice/manage-payment-for-export-orders/how-to-create-an-export-invoice/',
+            '/learn/categories/funding-financing-and-getting-paid/get-paid/how-create-export-invoice/',
+        ),
+        (
+            '/advice/manage-payment-for-export-orders/decide-when-to-get-paid-for-export-orders/',
+            '/learn/categories/funding-financing-and-getting-paid/get-paid/decide-when-get-paid-export-orders/',
+        ),
+        (
+            '/advice/manage-payment-for-export-orders/insure-against-non-payment/',
+            '/learn/categories/funding-financing-and-getting-paid/get-paid/insure-against-non-payment/',
+        ),
+        ('/advice/manage-payment-for-export-orders/', '/learn/categories/funding-financing-and-getting-paid/'),
+        ('/advice/prepare-to-do-business-in-a-foreign-country/', '/learn/categories/prepare-sell-new-country/'),
+        ('/advice/find-an-export-market/', '/learn/categories/market-research/'),
+        (
+            '/advice/find-an-export-market/research-export-markets-online/',
+            '/learn/categories/market-research/market-research-approaches/online-research/',
+        ),
+        ('/advice/find-an-export-market/understand-export-market-research/', '/learn/categories/market-research/'),
+        (
+            '/advice/find-an-export-market/research-in-market/',
+            '/learn/categories/market-research/market-research-approaches/market-research/',
+        ),
+        (
+            '/advice/prepare-for-export-procedures-and-logistics/moving-goods-and-using-freight-forwarders/',
+            '/learn/categories/selling-across-borders-product-and-services-regulations-licensing-and-logistics/logistics-and-freight-forwarders/freight-forwarders/',  # noqa:E501
+        ),
+        (
+            '/advice/use-incoterms-in-contracts/',
+            '/advice/prepare-for-export-procedures-and-logistics/international-trade-contracts-and-incoterms/',
+        ),
+        (
+            '/advice/prepare-for-export-procedures-and-logistics/international-trade-contracts-and-incoterms/',
+            '/learn/categories/selling-across-borders-product-and-services-regulations-licensing-and-logistics/logistics-and-freight-forwarders/incoterms/',  # noqa:E501
+        ),
+        (
+            '/advice/prepare-for-export-procedures-and-logistics/documentation-international-trade/',
+            '/learn/categories/selling-across-borders-product-and-services-regulations-licensing-and-logistics/get-your-goods-into-the-destination-country/understand-documentation-for-international-trade/',  # noqa:E501
+        ),
+        (
+            '/advice/prepare-for-export-procedures-and-logistics/get-your-export-documents-right/',
+            '/learn/categories/selling-across-borders-product-and-services-regulations-licensing-and-logistics/get-your-goods-into-the-destination-country/understand-documentation-for-international-trade/',  # noqa:E501
+        ),
+        ('/advice/define-route-to-market/understand-routes-to-market/', '/learn/categories/prepare-sell-new-country/'),
+        (
+            '/advice/define-route-to-market/direct-sales/',
+            '/learn/categories/prepare-sell-new-country/routes-to-market/sell-direct-your-customer/',
+        ),
+        (
+            '/advice/define-route-to-market/use-an-agent-or-distributor/',
+            '/learn/categories/prepare-sell-new-country/routes-to-market/when-use-agent-or-distributor/',
+        ),
+        ('/advice/define-route-to-market/use-licensing-or-franchising/', '/learn/categories/prepare-sell-new-country/'),
+        (
+            '/advice/define-route-to-market/establish-a-joint-venture-agreement/',
+            '/learn/categories/prepare-sell-new-country/routes-to-market/set-joint-ventures-abroad/',
+        ),
+        (
+            '/advice/prepare-to-do-business-in-a-foreign-country/visiting-market/',
+            '/learn/categories/prepare-sell-new-country/',
+        ),
+        (
+            '/advice/prepare-to-do-business-in-a-foreign-country/understand-local-business-culture/',
+            '/learn/categories/prepare-sell-new-country/different-ways-of-doing-business-across-borders/understand-local-business-culture-your-target-market/',  # noqa:E501
+        ),
+        (
+            '/advice/prepare-to-do-business-in-a-foreign-country/understand-business-risks-when-exporting/',
+            '/learn/categories/prepare-sell-new-country/',
+        ),
+        (
+            '/advice/prepare-for-export-procedures-and-logistics/',
+            '/learn/categories/selling-across-borders-product-and-services-regulations-licensing-and-logistics/',
+        ),
+        (
+            '/advice/manage-risk-bribery-corruption-and-abuse-human-rights/',
+            '/learn/categories/prepare-sell-new-country/',
+        ),
+        (
+            '/advice/manage-risk-bribery-corruption-and-abuse-human-rights/bribery-and-corruption-manage-risks/',
+            '/learn/categories/prepare-sell-new-country/managing-safety-corruption-and-business-integrity-risk/protect-your-business-bribery-and-corruption/',  # noqa:E501
+        ),
+        (
+            '/advice/manage-risk-bribery-corruption-and-abuse-human-rights/human-rights-violations-recognise-and-manage-risks/',  # noqa:E501
+            '/learn/categories/prepare-sell-new-country/managing-safety-corruption-and-business-integrity-risk/operating-business-integrity/',  # noqa:E501
+        ),
+        (
+            '/advice/prepare-for-export-procedures-and-logistics/understand-international-trade-terms/',
+            '/learn/categories/selling-across-borders-product-and-services-regulations-licensing-and-logistics/get-your-goods-into-the-destination-country/understand-international-trade-terms/',  # noqa:E501
+        ),
+        ('/advice/sell-services-overseas/', '/learn/categories/prepare-sell-new-country/selling-services-overseas/'),
+        (
+            '/advice/sell-services-overseas/deliver-services-overseas/',
+            '/learn/categories/prepare-sell-new-country/selling-services-overseas/how-to-deliver-services-overseas/',
+        ),
+        (
+            '/advice/sell-services-overseas/market-your-services-overseas/',
+            '/learn/categories/prepare-sell-new-country/selling-services-overseas/how-to-market-your-services-overseas/',  # noqa:E501
+        ),
+        (
+            '/advice/sell-services-overseas/prepare-to-sell-services-overseas/',
+            '/learn/categories/prepare-sell-new-country/selling-services-overseas/prepare-to-sell-services-overseas/',
+        ),
+        ('/get-finance/', 'https://www.ukexportfinance.gov.uk/'),
+        ('/project-finance/', 'https://www.ukexportfinance.gov.uk/'),
     ],
 )
 def test_redirect_articles(incoming_url, expected_url, client):
     response = client.get(incoming_url)
-    assert response.status_code == 302
+    assert response.status_code == http.client.MOVED_PERMANENTLY or http.client.FOUND
     assert response.url == expected_url

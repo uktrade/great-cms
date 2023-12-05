@@ -1,1 +1,4 @@
-{{ block.value.paragraph }}
+{% load add_govuk_classes from content_tags %}
+{% filter add_govuk_classes %}
+    {{ block.value.paragraph }}
+{% endfilter %}
