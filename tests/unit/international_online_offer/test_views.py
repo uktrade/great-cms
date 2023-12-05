@@ -4,7 +4,6 @@ import pytest
 from django.conf import settings
 from django.urls import reverse, reverse_lazy
 
-from directory_constants import sectors as directory_constants_sectors
 from directory_sso_api_client import sso_api_client
 from international_online_offer.core import helpers, hirings, intents, regions, spends
 from international_online_offer.models import CsatFeedback, TriageData, UserData
@@ -54,7 +53,7 @@ def test_sector_form_valid_saves_to_db(client, user, settings):
     url = reverse('international_online_offer:sector')
     user.hashed_uuid = '123'
     client.force_login(user)
-    response = client.post(url, {'sector': directory_constants_sectors.FOOD_AND_DRINK})
+    response = client.post(url, {'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT'})
     assert response.status_code == 302
 
 
@@ -62,7 +61,7 @@ def test_sector_form_valid_saves_to_db(client, user, settings):
 def test_sector_form_valid_saves_to_session(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:sector')
-    response = client.post(url, {'sector': directory_constants_sectors.FOOD_AND_DRINK})
+    response = client.post(url, {'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT'})
     assert response.status_code == 302
 
 
@@ -70,8 +69,8 @@ def test_sector_form_valid_saves_to_session(client, settings):
 def test_triage_sector_session(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:sector')
-    client.post(url, {'sector': directory_constants_sectors.FOOD_AND_DRINK})
-    assert client.session['sector'] == directory_constants_sectors.FOOD_AND_DRINK
+    client.post(url, {'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT'})
+    assert client.session['sector_sub'] == 'RESIDENTS_PROPERTY_MANAGEMENT'
 
 
 @pytest.mark.django_db

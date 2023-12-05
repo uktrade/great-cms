@@ -380,7 +380,10 @@ class EYBArticlesPage(BaseContentPage):
 
 class TriageData(TimeStampedModel):
     hashed_uuid = models.CharField(max_length=200)
-    sector = models.CharField(max_length=255, choices=choices.SECTOR_CHOICES)
+    sector = models.CharField(max_length=255, choices=helpers.generate_sector_choices())
+    sector_sub = models.CharField(
+        max_length=255, choices=helpers.generate_sector_sic_choices(), default=None, null=True
+    )
     intent = ArrayField(
         models.CharField(max_length=255, choices=choices.INTENT_CHOICES),
         size=6,
