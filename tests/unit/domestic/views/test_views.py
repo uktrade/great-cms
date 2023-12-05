@@ -142,6 +142,28 @@ def test_ukef_contact_form_success_view_response(rf):
     assert response.status_code == 302
 
 
+@pytest.mark.skipif(settings.FEATURE_DEA_V2, reason='Redirect to external pages')
+def test_ukef_get_finance_card_bullets(client):
+    url = reverse('domestic:get-finance')
+    response = client.get(url)
+    trade_finance_bullets = [
+        'working capital support',
+        'bond support',
+        'credit insurance',
+    ]
+    project_finance_bullets = [
+        'UKEF buyer credit guarantees',
+        'direct lending',
+        'credit and bond insurance',
+    ]
+
+    for bullet in trade_finance_bullets:
+        assert f'<li>{bullet}</li>' in str(response.content)
+
+    for bullet in project_finance_bullets:
+        assert f'<li>{bullet}</li>' in str(response.content)
+
+
 @pytest.mark.parametrize('step', ('your-details', 'company-details', 'help'))
 @pytest.mark.skipif(settings.FEATURE_DIGITAL_POINT_OF_ENTRY, reason='Redirect to new contact form')
 def test_ukef_lead_generation(client, step):
