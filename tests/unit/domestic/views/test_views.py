@@ -1,10 +1,11 @@
 import json
 from unittest import mock
-from django.utils.translation import activate
+
 import pytest
 from django.conf import settings
 from django.test import TestCase
 from django.urls import reverse, reverse_lazy
+from django.utils.translation import activate
 from wagtail.models import Locale
 from wagtail.test.utils import WagtailPageTests
 
@@ -35,18 +36,23 @@ def test_landing_page_logged_in(client, user, domestic_site):
     assert response.url == cms_slugs.DASHBOARD_URL
 
 
+@pytest.mark.skipif(settings.FEATURE_DEA_V2, reason='Redirect to external pages')
 @pytest.mark.parametrize(
     'page_url,page_content,expected_status_code',
     (
         (
             reverse('domestic:get-finance'),
-            {},
-            301,
+            {
+                'title': 'UK Export Finance',
+            },
+            200,
         ),
         (
             reverse('domestic:project-finance'),
-            {},
-            301,
+            {
+                'title': 'UK Export Finance - Project Finance',
+            },
+            200,
         ),
         (
             reverse('domestic:uk-export-contact'),
