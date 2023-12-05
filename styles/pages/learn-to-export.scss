@@ -238,5 +238,11 @@ ol.list-circle-number li{
   &::before {
     font-family: $header-font!important;
     line-height: 50px!important;
+    min-width: 50px;
   }
+  color: inherit
+}
+
+.great-checkbox--large [type=checkbox]+label::before {
+  border-color: #0B0C0C;
 }

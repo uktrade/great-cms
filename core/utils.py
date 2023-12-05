@@ -76,6 +76,15 @@ class PageTopicHelper:
                     return next_lesson.specific
                 except IndexError:
                     return
+    
+    def get_next_lesson_topic(self):
+        next_lesson = self.get_next_lesson()
+        if next_lesson:
+            url_parts = next_lesson.url.split('/')
+            if len(url_parts) > 2:
+                return {'title': url_parts[-3].replace('-', ' ').capitalize(), 'url': '/'.join(url_parts[:-2]) + '/'  }
+        return None   
+                
 
 
 def choices_to_key_value(choices):

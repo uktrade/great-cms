@@ -834,6 +834,9 @@ img.richtext-image {
 .great-inline-flex {
   display: inline-flex;
   flex-wrap: wrap;
+  &.no-wrap {
+    flex-wrap: nowrap;
+  }
   &.great-mobile-flex-column {
     @media only screen and (max-width: $mobile-size) {
       flex-direction: column;
@@ -990,4 +993,23 @@ img.richtext-image {
 
 .great-cursor-pointer {
   cursor: pointer;
+}
+.great-border-top-orange {
+  border-top: 3px solid #E94F3D;
+}
+
+.great-icon-circular-background {
+  display: inline-flex!important;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px; 
+  min-width: 40px;
+  border-radius: 50%;
+  background-color: #04043F;
+}
+
+.great-blue-hr {
+  height: 3px;
+  background: #04043F;
 }

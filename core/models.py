@@ -837,6 +837,11 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
             return parent_page.title
         else:
             return None
+        
+    def get_next_lesson_category(self):
+        pageHelper = PageTopicHelper(self)
+        return pageHelper.get_next_lesson_topic()
+            
 
     #########
     # Panels
