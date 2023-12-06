@@ -1,6 +1,6 @@
 import json
 from unittest import mock
-from django.utils.translation import activate
+
 import pytest
 from django.conf import settings
 from django.test import TestCase
@@ -42,13 +42,17 @@ def test_landing_page_logged_in(client, user, domestic_site):
     (
         (
             reverse('domestic:get-finance'),
-            {},
-            301,
+            {
+                'title': 'UK Export Finance',
+            },
+            200,
         ),
         (
             reverse('domestic:project-finance'),
-            {},
-            301,
+            {
+                'title': 'UK Export Finance - Project Finance',
+            },
+            200,
         ),
         (
             reverse('domestic:uk-export-contact'),
