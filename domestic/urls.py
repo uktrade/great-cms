@@ -118,7 +118,7 @@ if settings.FEATURE_DEA_V2:
         ),
     ]
 else:
-    urlpatterns += [
+    urlpatterns += [  # pragma: no cover
         path(
             'get-finance/',
             skip_ga360(domestic.views.ukef.UKEFHomeView.as_view()),
