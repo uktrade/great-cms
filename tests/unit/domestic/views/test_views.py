@@ -36,18 +36,23 @@ def test_landing_page_logged_in(client, user, domestic_site):
     assert response.url == cms_slugs.DASHBOARD_URL
 
 
+@pytest.mark.skipif(settings.FEATURE_DEA_V2, reason='Redirect to external pages')
 @pytest.mark.parametrize(
     'page_url,page_content,expected_status_code',
     (
         (
             reverse('domestic:get-finance'),
-            {},
-            301,
+            {
+                'title': 'UK Export Finance',
+            },
+            200,
         ),
         (
             reverse('domestic:project-finance'),
-            {},
-            301,
+            {
+                'title': 'UK Export Finance - Project Finance',
+            },
+            200,
         ),
         (
             reverse('domestic:uk-export-contact'),
@@ -135,6 +140,28 @@ def test_ukef_contact_form_success_view_response(rf):
     view = domestic.views.ukef.SuccessPageView.as_view()
     response = view(request)
     assert response.status_code == 302
+
+
+@pytest.mark.skipif(settings.FEATURE_DEA_V2, reason='Redirect to external pages')
+def test_ukef_get_finance_card_bullets(client):
+    url = reverse('domestic:get-finance')
+    response = client.get(url)
+    trade_finance_bullets = [
+        'working capital support',
+        'bond support',
+        'credit insurance',
+    ]
+    project_finance_bullets = [
+        'UKEF buyer credit guarantees',
+        'direct lending',
+        'credit and bond insurance',
+    ]
+
+    for bullet in trade_finance_bullets:
+        assert f'<li>{bullet}</li>' in str(response.content)
+
+    for bullet in project_finance_bullets:
+        assert f'<li>{bullet}</li>' in str(response.content)
 
 
 @pytest.mark.parametrize('step', ('your-details', 'company-details', 'help'))
