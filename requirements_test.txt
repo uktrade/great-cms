@@ -346,9 +346,7 @@ gitpython==3.1.40
 great-components==2.5.0
     # via -r requirements.in
 greenlet==3.0.1
-    # via
-    #   gevent
-    #   sqlalchemy
+    # via gevent
 gunicorn==20.1.0
     # via -r requirements.in
 h11==0.14.0
@@ -373,7 +371,7 @@ idna==3.6
     #   trio
 imagesize==1.4.1
     # via sphinx
-importlib-metadata==6.8.0
+importlib-metadata==7.0.0
     # via
     #   build
     #   flask
@@ -459,7 +457,7 @@ oauthlib==3.2.2
     # via
     #   -r requirements.in
     #   requests-oauthlib
-olefile==0.46
+olefile==0.47
     # via directory-validators
 openpyxl==3.1.2
     # via wagtail
@@ -497,7 +495,7 @@ pillow==10.0.1
     #   reportlab
     #   wagtail
     #   xhtml2pdf
-pillow-heif==0.13.1
+pillow-heif==0.14.0
     # via willow
 pip-tools==7.3.0
     # via -r requirements_test.in
@@ -736,7 +734,7 @@ tablib==3.5.0
     # via -r requirements.in
 telepath==0.3.1
     # via wagtail
-termcolor==2.3.0
+termcolor==2.4.0
     # via pytest-sugar
 tinycss2==1.2.1
     # via
@@ -808,7 +806,7 @@ vine==5.1.0
     #   amqp
     #   celery
     #   kombu
-virtualenv==20.24.7
+virtualenv==20.25.0
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core

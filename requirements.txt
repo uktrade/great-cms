@@ -226,8 +226,6 @@ geoip2==2.9.0
     # via -r requirements.in
 great-components==2.5.0
     # via -r requirements.in
-greenlet==3.0.1
-    # via sqlalchemy
 gunicorn==20.1.0
     # via -r requirements.in
 hashids==0.8.4
@@ -286,7 +284,7 @@ oauthlib==3.2.2
     # via
     #   -r requirements.in
     #   requests-oauthlib
-olefile==0.46
+olefile==0.47
     # via directory-validators
 openpyxl==3.1.2
     # via wagtail
@@ -304,7 +302,7 @@ pillow==10.0.1
     #   reportlab
     #   wagtail
     #   xhtml2pdf
-pillow-heif==0.13.1
+pillow-heif==0.14.0
     # via willow
 polib==1.2.0
     # via wagtail-localize

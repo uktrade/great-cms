@@ -95,7 +95,7 @@ def is_hpo(sector, location):
             ]
         },
         {
-            directory_constants_sectors.BIOTECHNOLOGY_AND_PHARMACEUTICALS: [
+            sectors.PHARMACEUTICALS_AND_BIOTECHNOLOGY: [
                 regions.NORTH_EAST,
                 regions.SCOTLAND,
                 regions.YORKSHIRE_AND_THE_HUMBER,
