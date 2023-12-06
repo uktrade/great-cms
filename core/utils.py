@@ -78,11 +78,13 @@ class PageTopicHelper:
                     return
 
     def get_next_lesson_topic(self):
+        from core.models import TopicPage
+
         next_lesson = self.get_next_lesson()
-        if next_lesson and next_lesson.url:
-            url_parts = next_lesson.url.split('/')
-            if len(url_parts) > 2:
-                return {'title': url_parts[-3].replace('-', ' ').capitalize(), 'url': '/'.join(url_parts[:-2]) + '/'}
+        if next_lesson:
+            topic = TopicPage.objects.live().ancestor_of(next_lesson).specific().first()
+            if topic:
+                return {'title': topic.title, 'url': topic.get_url()}
         return None
 
 

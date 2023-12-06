@@ -43,8 +43,7 @@ def test_lesson_module(domestic_homepage):
     assert pt_1.total_module_lessons() == 3
     assert pt_1.total_module_topics() == 2
     assert pt_1.get_next_lesson() == detail_page_2
-    assert pt_1.get_next_lesson_topic().title == 'Topic1'
-    assert pt_1.get_next_lesson_topic().url.endswith() == '/Topic1/'
+    assert pt_1.get_next_lesson_topic()['title'] == 'Topic1'
 
     # Last lesson of topic should have following topic's first lesson as next lesson
     pt_2 = PageTopicHelper(detail_page_2)
@@ -100,6 +99,7 @@ def test_multiple_modules(domestic_homepage, client, user):
     assert pt_2.get_next_lesson() == detail_page_3
     # last page of module should have None as next lesson
     assert pt_3.get_next_lesson() is None
+    assert pt_3.get_next_lesson_topic() is None
 
     client.force_login(user)
 
