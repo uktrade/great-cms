@@ -408,3 +408,11 @@ def remove_bold_from_headings(value):
     heading_pattern = re.compile(r'<(h[1-6])(.*?)><b>(.*?)</b></\1>', re.DOTALL)
     value = heading_pattern.sub(r'<\1\2>\3</\1>', value)
     return value
+
+
+@register.filter
+def get_icon_path(url):
+    if url:
+        return 'components/great/includes/' + url.split('/support/')[1] + '.svg'
+    else:
+        return ''

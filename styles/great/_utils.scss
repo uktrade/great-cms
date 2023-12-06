@@ -25,7 +25,7 @@
   .govuk-warning-text__text {
     font-family: $great-font-bold;
     -webkit-font-smoothing: auto;
-    &:not(.great-title-link) {
+    &:not(.great-title-link, .great-card__link) {
       color: $great-dark-grey;
     }
   }
@@ -966,4 +966,8 @@ img.richtext-image {
 
 .great-gap-10-30 {
   gap: 10px 30px;
+}
+
+.great-position-relative {
+  position: relative;
 }
