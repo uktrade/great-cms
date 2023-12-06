@@ -28,8 +28,8 @@ def test_lesson_module(domestic_homepage):
     curated_list_page = factories.CuratedListPageFactory(
         parent=list_page,
     )
-    topic_one = factories.TopicPageFactory(title='Topic 1', parent=curated_list_page)
-    topic_two = factories.TopicPageFactory(title='Topic 2', parent=curated_list_page)
+    topic_one = factories.TopicPageFactory(title='Topic1', parent=curated_list_page)
+    topic_two = factories.TopicPageFactory(title='Topic2', parent=curated_list_page)
     detail_page_1 = factories.DetailPageFactory(slug='detail-page-1', parent=topic_one)
     detail_page_2 = factories.DetailPageFactory(slug='detail-page-2', parent=topic_one)
     detail_page_3 = factories.DetailPageFactory(slug='detail-page-3', parent=topic_two)
@@ -43,6 +43,8 @@ def test_lesson_module(domestic_homepage):
     assert pt_1.total_module_lessons() == 3
     assert pt_1.total_module_topics() == 2
     assert pt_1.get_next_lesson() == detail_page_2
+    assert pt_1.get_next_lesson_topic().title == 'Topic1'
+    assert pt_1.get_next_lesson_topic().url.endswith() == '/Topic1/' 
 
     # Last lesson of topic should have following topic's first lesson as next lesson
     pt_2 = PageTopicHelper(detail_page_2)
