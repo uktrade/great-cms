@@ -192,6 +192,36 @@ jobs:
           name: Run Javascript tests
           command: npm test -- --maxWorkers=1
 
+  test_lighthouse:
+    working_directory: ~/greatcms
+    docker:
+      - <<: *python_node_browsers
+      - <<: *postgres
+    steps:
+      - checkout
+      - browser-tools/install-chrome
+      - *install_postgresql_client
+      - *install_libcairo2
+      - *create_virtualenv_and_install_dependencies
+      - *setup_secrets
+      - *setup_db
+      - restore_cache:
+          key: v1-deps-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install node modules
+          command: npm ci
+      - save_cache:
+          key: v1-deps-{{ checksum "package-lock.json" }}
+          paths:
+            - 'node_modules'
+      - run:
+          name: Run lighthouse
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            npm run build
+            npm run lighthouse
+
   flake8:
     docker:
       - <<: *python
@@ -227,6 +257,7 @@ workflows:
       - test
       - test_browser
       - test_javascript
+      - test_lighthouse
       - test_load
       - black
       - flake8
