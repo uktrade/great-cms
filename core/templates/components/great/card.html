@@ -1,19 +1,35 @@
 {% load i18n wagtailimages_tags %}
-<div class="great-card{% if classes %} {{ classes }}{% endif %}" {% if data_attr %}{{ data_attr }}{% endif %}>
-    {% if url %}<a href="{{ url }}">{% endif %}
-        {% if image_src %}
-            <img src="{{ image_src }}"
-                 alt="{% if image_alt %}{{ image_alt }}{% endif %}" />
+{% load add_govuk_classes from content_tags %}
+<div class="great-card{% if classes %} {{ classes }}{% endif %}">
+    {% if url %}
+        <a href="{{ url }}" {% if data_attr %}{{ data_attr }}{% endif %}>
         {% endif %}
-        <div class="govuk-!-padding-4">
-            {% if title %}
-                <{{ heading_level|default:'h3' }} class="govuk-heading-m govuk-!-margin-top-2 govuk-!-margin-bottom-2
-                {% if show_title_link %}great-card__link great-card__link--heading{% endif %}
-                ">
-                {{ title }}
-                </{{ heading_level|default:'h3' }}>
+        {% if image_src %}
+            {% if is_svg_image %}
+                {% include image_src %}
+            {% else %}
+                <img src="{{ image_src }}"
+                     alt="{% if image_alt %}{{ image_alt }}{% endif %}" />
             {% endif %}
-            {% if content %}<div>{{ content }}</div>{% endif %}
+        {% endif %}
+        <div class="govuk-!-padding-4"
+             {% if data_attr_title %}data-title="{{ data_attr_title }}"{% endif %}
+             {% if data_attr_location %}data-location="{{ data_attr_location }}"{% endif %}>
+            {% if pre_title %}<span class="govuk-caption great-text-light-grey">{{ pre_title }}</span>{% endif %}
+            {% if title %}
+                {% if show_title_link %}<div class="great-position-relative">{% endif %}
+                    <{{ heading_level|default:'h3' }} class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2
+                    {% if show_title_link %}great-card__link great-card__link--heading{% endif %}
+                    ">
+                    {{ title }}
+                    </{{ heading_level|default:'h3' }}>
+                    {% if show_title_link %}</div>{% endif %}
+            {% endif %}
+            {% if content %}
+                {% filter add_govuk_classes %}
+                    <div>{{ content }}</div>
+                {% endfilter %}
+            {% endif %}
             {% if link_text %}<span class="great-card__link great-card__link--chevron">{{ link_text }}</span>{% endif %}
         </div>
         {% if url %}</a>{% endif %}
