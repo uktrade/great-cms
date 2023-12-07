@@ -22,7 +22,7 @@
             <div class="image-container"></div>
         </div>
     </div>
-    <div class='great great-container govuk-!-margin-bottom-2'>
+    <div class="great great-container govuk-!-margin-bottom-2">
         {% breadcrumbs 'Learn to export' great-breadcrumbs %}
         <a href={{ BREADCRUMBS_ROOT_URL }}>great.gov.uk</a>
     {% endbreadcrumbs %}
@@ -30,7 +30,7 @@
 <section id="learn-root" class="great great-container great-overflow-visible">
     {% for learning_module in page.get_children.specific.live %}
         {% with high_level_completion_progress|get_item:learning_module.id as module_completion_data %}
-            <div class="great-card great-bg-white govuk-!-margin-bottom-4">
+            <div class="great-card great-card--undecorated great-bg-white govuk-!-margin-bottom-4">
                 <a href="{% pageurl learning_module %}">
                     <div class="great-display-flex great-flex-wrap great-flex-column-until-tablet great-gap govuk-!-padding-4">
                         <div class="great-flex-2">
