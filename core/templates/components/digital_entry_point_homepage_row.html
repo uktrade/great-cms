@@ -1,48 +1,63 @@
 {% load i18n wagtailimages_tags %}
+{% load content_tags %}
 <section class="great great-bg-light-blue govuk-!-padding-top-0 govuk-!-padding-bottom-0">
     <div class="govuk-width-container great-container">
         {% if data.dep_title %}
             <h2 class="govuk-heading-l govuk-!-margin-top-9 govuk-!-margin-bottom-6">{{ data.dep_title }}</h2>
         {% endif %}
-        <div class="govuk-grid-row great-display-flex-desktop great-dep-homepage-row">
-            <div class="govuk-grid-column-two-thirds great-dep-card">
-                {% if data.dep_primary_cta_url %}
-                    <a href="{{ data.dep_primary_cta_url }}"
-                       class="govuk-!-display-block govuk-!-padding-5 great-bg-white great-height-100-desktop great-dep-homepage-title"
-                       data-ga-digital-entry-point>
-                        <div class="great-display-flex-from-desktop" data-location="homepage">
-                            <div class="great-dep-homepage-title__text">
-                                {% if data.dep_primary_cta_title %}
-                                    <h3 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2 great-text-blue"
-                                        data-title="{{ data.dep_primary_cta_title }}">
-                                        {{ data.dep_primary_cta_title }}
-                                    </h3>
-                                {% endif %}
-                                {% if data.dep_primary_cta_text %}<p class="govuk-body">{{ data.dep_primary_cta_text }}</p>{% endif %}
-                            </div>
-                            {% if data.dep_primary_cta_image %}
-                                {% image data.dep_primary_cta_image fill-640x360 as thumbnail %}
-                                <img src="{{ thumbnail.url }}" alt="{{ thumbnail.alt_text }}" />
-                            {% endif %}
+        {% if features.FEATURE_HOMEPAGE_REDESIGN_V1 and data.dep_cards %}
+            <div class="govuk-grid-row govuk-!-padding-bottom-4 great-card-row">
+                {% for cards in data.dep_cards %}
+                    {% for card in cards.value %}
+                        <div class="govuk-grid-column-one-third great-card--homepage-container">
+                            {% include 'components/great/card.html' with title=card.value.link_text url=card.value.link_url show_title_link=True image_src=card.value.link_url|get_icon_path is_svg_image=True classes="great-card--homepage" data_attr="data-ga-digital-entry-point" data_attr_title=card.value.link_text|add:"- Homepage" data_attr_location="Homepage" %}
                         </div>
-                    </a>
-                {% endif %}
+                    {% endfor %}
+                {% endfor %}
             </div>
-            <div class="govuk-grid-column-one-third great-dep-card">
-                {% if data.dep_secondary_cta_url %}
-                    <a href="{{ data.dep_secondary_cta_url }}"
-                       class="govuk-!-display-block govuk-!-padding-5 great-bg-white great-height-100-desktop"
-                       data-ga-digital-entry-point>
-                        {% if data.dep_secondary_cta_title %}
-                            <h3 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2 great-text-blue"
-                                data-title="{{ data.dep_secondary_cta_title }}">{{ data.dep_secondary_cta_title }}</h3>
-                        {% endif %}
-                        {% if data.dep_secondary_cta_text %}
-                            <p class="govuk-body" data-location="homepage">{{ data.dep_secondary_cta_text }}</p>
-                        {% endif %}
-                    </a>
-                {% endif %}
+        {% else %}
+            <div class="govuk-grid-row great-display-flex-desktop great-dep-homepage-row">
+                <div class="govuk-grid-column-two-thirds great-dep-card">
+                    {% if data.dep_primary_cta_url %}
+                        <a href="{{ data.dep_primary_cta_url }}"
+                           class="govuk-!-display-block govuk-!-padding-5 great-bg-white great-height-100-desktop great-dep-homepage-title"
+                           data-ga-digital-entry-point>
+                            <div class="great-display-flex-from-desktop" data-location="homepage">
+                                <div class="great-dep-homepage-title__text">
+                                    {% if data.dep_primary_cta_title %}
+                                        <h3 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2 great-text-blue"
+                                            data-title="{{ data.dep_primary_cta_title }}">
+                                            {{ data.dep_primary_cta_title }}
+                                        </h3>
+                                    {% endif %}
+                                    {% if data.dep_primary_cta_text %}<p class="govuk-body">{{ data.dep_primary_cta_text }}</p>{% endif %}
+                                </div>
+                                {% if data.dep_primary_cta_image %}
+                                    {% image data.dep_primary_cta_image fill-640x360 as thumbnail %}
+                                    <img src="{{ thumbnail.url }}" alt="{{ thumbnail.alt_text }}" />
+                                {% endif %}
+                            </div>
+                        </a>
+                    {% endif %}
+                </div>
+                <div class="govuk-grid-column-one-third great-dep-card">
+                    {% if data.dep_secondary_cta_url %}
+                        <a href="{{ data.dep_secondary_cta_url }}"
+                           class="govuk-!-display-block govuk-!-padding-5 great-bg-white great-height-100-desktop"
+                           data-ga-digital-entry-point>
+                            {% if data.dep_secondary_cta_title %}
+                                <h3 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2 great-text-blue"
+                                    data-title="{{ data.dep_secondary_cta_title }}">
+                                    {{ data.dep_secondary_cta_title }}
+                                </h3>
+                            {% endif %}
+                            {% if data.dep_secondary_cta_text %}
+                                <p class="govuk-body" data-location="homepage">{{ data.dep_secondary_cta_text }}</p>
+                            {% endif %}
+                        </a>
+                    {% endif %}
+                </div>
             </div>
-        </div>
+        {% endif %}
     </div>
 </section>

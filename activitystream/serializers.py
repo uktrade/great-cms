@@ -101,7 +101,7 @@ class MicrositePageSerializer(serializers.Serializer):
         'embed_video',
         'columns',
         'pull_quote',
-        'data_table',
+        'table',
         'links_block',
     ]
 
@@ -470,7 +470,7 @@ class GreatMediaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GreatMedia
-        fields = ['id', 'title']
+        fields = ['videoId', 'videoTitle']
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -482,7 +482,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Registration
-        fields = ['hashed_sso_id']
+        fields = ['registrationHashedSsoId']
 
 
 class ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer(serializers.ModelSerializer):
@@ -518,9 +518,8 @@ class ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer(serializers
             'eventId',
             'bookingId',
             'registrationId',
-            'videoId',
-            'videoTitle',
-            'registrationHashedSsoId',
+            'video',
+            'registration',
         ]
 
     def to_representation(self, instance):

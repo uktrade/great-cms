@@ -60,6 +60,8 @@
               'dep_triage_journey',
               `${localStorage.getItem('dep_triage_journey')} > ${data.title}`
             )
+          } else {
+            localStorage.setItem('dep_triage_journey', `${data.title}`)
           }
 
           window.location = item.href

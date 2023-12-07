@@ -5,6 +5,7 @@ import pytest
 from django.conf import settings
 from django.test import TestCase
 from django.urls import reverse, reverse_lazy
+from django.utils.translation import activate
 from wagtail.models import Locale
 from wagtail.test.utils import WagtailPageTests
 
@@ -35,18 +36,23 @@ def test_landing_page_logged_in(client, user, domestic_site):
     assert response.url == cms_slugs.DASHBOARD_URL
 
 
+@pytest.mark.skipif(settings.FEATURE_DEA_V2, reason='Redirect to external pages')
 @pytest.mark.parametrize(
     'page_url,page_content,expected_status_code',
     (
         (
             reverse('domestic:get-finance'),
-            {},
-            301,
+            {
+                'title': 'UK Export Finance',
+            },
+            200,
         ),
         (
             reverse('domestic:project-finance'),
-            {},
-            301,
+            {
+                'title': 'UK Export Finance - Project Finance',
+            },
+            200,
         ),
         (
             reverse('domestic:uk-export-contact'),
@@ -134,6 +140,28 @@ def test_ukef_contact_form_success_view_response(rf):
     view = domestic.views.ukef.SuccessPageView.as_view()
     response = view(request)
     assert response.status_code == 302
+
+
+@pytest.mark.skipif(settings.FEATURE_DEA_V2, reason='Redirect to external pages')
+def test_ukef_get_finance_card_bullets(client):
+    url = reverse('domestic:get-finance')
+    response = client.get(url)
+    trade_finance_bullets = [
+        'working capital support',
+        'bond support',
+        'credit insurance',
+    ]
+    project_finance_bullets = [
+        'UKEF buyer credit guarantees',
+        'direct lending',
+        'credit and bond insurance',
+    ]
+
+    for bullet in trade_finance_bullets:
+        assert f'<li>{bullet}</li>' in str(response.content)
+
+    for bullet in project_finance_bullets:
+        assert f'<li>{bullet}</li>' in str(response.content)
 
 
 @pytest.mark.parametrize('step', ('your-details', 'company-details', 'help'))
@@ -430,3 +458,13 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
         current_page = view.request.context_data['view']
         self.assertEqual(current_page.current_language, 'en-gb')
         self.assertEqual([language['language_code'] for language in current_page.available_languages], ['en-gb'])
+
+    def test_lang_not_in_locale_doesnt_break_and_uses_default_lang_instead(self):
+        activate('abc')
+        url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-one'})
+        request = self.client.get(url)
+        self.assertEqual(request.status_code, 200)
+        view = domestic.views.campaign.CampaignView(request=request)
+        current_page = view.request.context_data['view']
+        self.assertEqual(current_page.current_language, 'en-gb')
+        activate(None)

@@ -1491,7 +1491,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                     required=False, template='microsites/blocks/image_full_width.html', label=_('Image full width')
                 ),
             ),
-            ('video', core_blocks.SimpleVideoBlock(template='microsites/blocks/video.html', label=_('Video'))),
+            ('video', core_blocks.SimpleVideoBlock(template='microsites/blocks/video.html', label=_('Upload video'))),
             (
                 'embed_video',
                 blocks.StructBlock(
@@ -1515,6 +1515,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                         ),
                     ],
                     template='microsites/blocks/embed_video.html',
+                    icon='media',
                 ),
             ),
             (
@@ -1567,8 +1568,8 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                 core_blocks.PullQuoteBlock(template='domestic/blocks/pull_quote_block.html', label=_('Pull quote')),
             ),
             (
-                'data_table',
-                core_blocks.DataTableBlock(),
+                'table',
+                core_blocks.DataTableBlock(label=_('Data table')),
             ),
         ],
         use_json_field=True,
