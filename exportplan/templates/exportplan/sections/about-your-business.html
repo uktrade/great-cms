@@ -11,10 +11,10 @@
 {% endblock %}
 {% block main_content %}
     <div class="g-panel">
-        <p class='m-b-s'>
+        <p class="m-b-s">
             Include anything different about your company or product that makes you stand out from the competition.
         </p>
-        <p class='body-s m-t-0'>
+        <p class="body-s m-t-0">
             Do not share any personal information that could identify you as a person. This includes your name, phone number, address or card details.
         </p>
     </div>
@@ -24,7 +24,7 @@
         <div class="grid">
             <div class="c-1-4-l">&nbsp;</div>
             <div class="c-1-1 c-2-3-m c-1-2-xl">
-                <form class="" action="" method="post" id="about-your-business-form">
+                <form action="" method="post" id="about-your-business-form">
                     {% csrf_token %}
                     {{ form }}
                     <input type="submit" class="g-button" value="Save">

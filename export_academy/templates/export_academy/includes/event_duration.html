@@ -3,6 +3,6 @@
     {% user_is_booked_on_event request.user event as event_is_booked %}
 {% endif %}
 <p class="great-font-size-18 great-text-light-grey govuk-!-margin-bottom-2">
-    {% if event.format == event.IN_PERSON and event.location %}Location: {{ event.location }} &bull;{% endif %}
+    {% if event.format == event.IN_PERSON and event.location %}Location: {{ event.location }} •{% endif %}
     Duration: {{ event.start_date|timesince:event.end_date }}
 </p>

@@ -21,7 +21,7 @@
                     <div class="govuk-grid-column-full">
                         <form class="salary-location-form"
                               action="{{ request.build_absolute_uri }}#location-component"
-                              method="GET">
+                              method="get">
                             <div class="govuk-grid-row">
                                 <div class="govuk-grid-column-full govuk-!-margin-bottom-3">
                                     {% include '../includes/form_field.html' with field=salary_location_form.location %}

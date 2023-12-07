@@ -25,7 +25,7 @@
         <div class="container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-one-quarter govuk-!-padding-left-2">
-                    <form id="events-form" action="" method="GET">
+                    <form id="events-form" action="" method="get">
                         <div class="filters great-filters event-filters">
                             <a href="#"
                                class="button primary-button mobile-filter-toggle"
@@ -82,7 +82,7 @@
                                 {% endif %}
                                 <div class="govuk-!-padding-left-3 govuk-!-margin-bottom-2 govuk-!-padding-right-3">
                                     <a href="{{ event.get_absolute_url }}"
-                                       class="govuk-link govuk-heading-s great-title-link">{{ event.name }}<span class="great-visually-hidden"> – {{ event.start_date|date:"d F" }} at {{ event.start_date|time:"gA" }}</span></a>
+                                       class="govuk-link govuk-heading-s great-title-link">{{ event.name }}<span class="great-visually-hidden">– {{ event.start_date|date:"d F" }} at {{ event.start_date|time:"gA" }}</span></a>
                                 </div>
                                 <div class="govuk-!-padding-left-3 govuk-!-padding-right-3 great-display-until-tablet">
                                     {% include 'export_academy/includes/event_duration.html' %}
@@ -110,7 +110,7 @@
                                     {% if show_logged_in_features %}
                                         <div class="govuk-!-margin-bottom-2 great-display-from-tablet">{% event_list_badges event %}</div>
                                     {% endif %}
-                                    <p class='event-description'>{{ event.description }}</p>
+                                    <p class="event-description">{{ event.description }}</p>
                                     {% include 'export_academy/includes/event_list_recording_details.html' %}
                                 </div>
                             </div>

@@ -19,7 +19,7 @@
         <div class="grid-row">
             <div class="column-one-half"></div>
             <form method="post" autocomplete="on">
-                <div class="">
+                <div>
                     {% csrf_token %}
                     {% if wizard.form.errors %}
                         {% message_box heading='There’s a problem' description=formatted_form_errors|safe heading_class='great-black-text' box_class='border-great-red background-white error-message-box' %}

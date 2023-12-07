@@ -12,7 +12,7 @@
 <!--[if lt IE 9]>
 <html class="lte-ie8" lang="en-gb"><![endif]-->
 <!--[if gt IE 8]><!-->
-<html {% if LANGUAGE_BIDI %} dir="rtl" {% else %} dir="ltr" {% endif %}
+<html dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}"
       lang="{{ page.locale.language_code }}">
     <!--<![endif]-->
     <head>
@@ -144,9 +144,7 @@
         {% endblock %}
         <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled')</script>
         {% block skip_link %}
-            <a id="skip-link" href="#content">
-                {% translate "Skip to main content" %}
-            </a>
+            <a id="skip-link" href="#content">{% translate "Skip to main content" %}</a>
         {% endblock %}
         {% block cookie_notice %}
             {% include 'components/cookie_notice.html' with lang=page.locale.language_code %}

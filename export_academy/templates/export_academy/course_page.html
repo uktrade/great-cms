@@ -53,12 +53,12 @@
                         </dl>
                     </div>
                 </section>
-                <section id='join-live-events'
+                <section id="join-live-events"
                          class="govuk-!-padding-0 govuk-!-padding-bottom-8">
                     <h2 class="govuk-heading-m">{{ page.benefits_heading }}</h2>
                     <div>
                         <img class="presentation-icon"
-                             src="/static/images/icon-presentation.svg"
+                             src="{% static 'images/icon-presentation.svg' %}"
                              alt="" />
                         <ul class="govuk-list govuk-list--bullet govuk-!-static-margin-bottom-0">
                             {% for item in page.benefits_list %}<li>{{ item.value.description }}</li>{% endfor %}
