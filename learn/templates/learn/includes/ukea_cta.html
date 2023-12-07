@@ -1,0 +1,13 @@
+{% load wagtailimages_tags %}
+{% load wagtailcore_tags %}
+{% if details %}
+    <div class="great-ukea">
+        <img class='ea-logo'
+             src='/static/images/uk-export-academy-logo.svg'
+             alt='UK Export Academy logo' />
+        <div>
+            <a href="{{ details.first_block_by_name.url.value }}" class="govuk-link">{{ details.first_block_by_name.title.value }}</a><span class="fas fa-arrow-right"></span>
+        </div>
+        <p>{{ details.first_block_by_name.description.value }}</p>
+    </div>
+{% endif %}

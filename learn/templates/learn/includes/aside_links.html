@@ -1,0 +1,17 @@
+{% load wagtailimages_tags %}
+{% load wagtailcore_tags %}
+{% for item in items %}
+    {% if item.block_type == 'heading' %}
+        <h2 class="govuk-heading-m great-border-bottom-blue">{{ item.value }}</h2>
+    {% endif %}
+{% endfor %}
+{% for item in items %}
+    {% if item.block_type == 'link' %}
+        <ul>
+            <li>
+                <span class="great-icon-right-arrow-in-circle"></span>
+                <a href="{{ item.value.url }}" class="govuk-link">{{ item.value.title }}</a>
+            </li>
+        </ul>
+    {% endif %}
+{% endfor %}

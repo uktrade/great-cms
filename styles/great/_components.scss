@@ -659,6 +659,27 @@ figure.great-blockquote {
   }
 }
 
+.great-icon-right-arrow-in-circle {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  background: $great-hr-blue;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    background-image: url(/static/icons/arrow-black.svg);
+    background-repeat: no-repeat;
+    left: 12px;
+    top: 10px;
+    height: 18px;
+    width: 18px;
+  }
+}
+
 .great-notification-banner {
   border-color: $great-green;
   background-color: $great-green;

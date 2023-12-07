@@ -240,3 +240,30 @@ ol.list-circle-number li{
     line-height: 50px!important;
   }
 }
+
+aside {
+  a {
+    font-weight: 600;
+  }
+
+  li a {
+    margin-left: 20px;
+  }
+}
+
+.great-ukea {
+  .ea-logo {
+    width: 118px
+  }
+
+  div {
+    margin-top: 20px;
+    border-top: 3px solid #964F99;
+    padding-top: 15px;
+  }
+
+  span {
+    color: $color-gov-link;
+    float: right;
+  }
+}
