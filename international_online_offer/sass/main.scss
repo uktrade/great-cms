@@ -186,3 +186,26 @@ body {
         margin-left: -10px;
     }
 }
+
+.international-header {
+    background: #eb0000;
+    border-bottom: 10px solid #eb0000;
+
+    .great-logo {
+        background-image: url('/static/images/great.png');
+        width: 110px;
+        height: 66px;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .govuk-header__container {
+        border-bottom: 0px;
+    }
+
+}
+
+.international-sub-navigation-logo {
+    height: 30px;
+}
