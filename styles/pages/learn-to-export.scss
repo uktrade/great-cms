@@ -235,10 +235,15 @@ i.fas.fa-clock {
 
 ol.list-circle-number li{
   font-family: $main-text-font!important;
+  padding-top: 5px;
   &::before {
     font-family: $header-font!important;
-    line-height: 50px!important;
-    min-width: 50px;
+    min-width: 40px;
+    height: 40px;
+    width: 40px;
+    margin-top: -5px;
+    font-size: 24px;
+    line-height: 40px!important;
   }
   color: inherit
 }
