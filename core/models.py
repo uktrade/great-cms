@@ -1569,7 +1569,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
             ),
             (
                 'table',
-                core_blocks.DataTableBlock(),
+                core_blocks.DataTableBlock(label=_('Data table')),
             ),
         ],
         use_json_field=True,
