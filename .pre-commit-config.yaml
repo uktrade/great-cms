@@ -71,6 +71,7 @@ repos:
       rev: v1.33.0
       hooks:
         - id: djlint-reformat-django
+        - id: djlint-django
 
 # -   repo: https://github.com/pre-commit/pygrep-hooks
 #     rev: v1.7.0

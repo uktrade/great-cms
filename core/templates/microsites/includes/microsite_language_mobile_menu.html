@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load get_template_translation_enabled from content_tags %}
+{% load static %}
 {% get_template_translation_enabled as TRANSLATE_TEXT %}
 {% if available_languages|length > 2 %}
     <div class="magna-header__menu language_menu">
@@ -8,7 +9,7 @@
                 data-reveal-button
                 data-reveal-modal
                 aria-controls="language-button">
-            <img src="/static/images/icon-globe.svg" alt="Open language menu">
+            <img src="{% static 'images/icon-globe.svg' %}" alt="Open language menu">
         </button>
         <nav id="language-button"
              class="magna-header__dropdown {% if rtl_language %}rtl-page{% endif %}"

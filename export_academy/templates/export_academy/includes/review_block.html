@@ -2,16 +2,16 @@
 {% load component_tags wagtailcore_tags wagtailimages_tags content_tags %}
 <div class="great great-bg-white govuk-!-padding-bottom-6">
     <div class="container">
-        <section id='reviews' class="govuk-!-padding-0">
+        <section id="reviews" class="govuk-!-padding-0">
             <h2 class="govuk-heading-m govuk-!-margin-bottom-6">Reviews</h2>
             <div class="great-inline-flex great-gap great-mobile-flex-column">
                 {% for review in reviews %}
                     <div class="great-flex-1 great-min-column-width great-max-width-half-desktop">
                         <div class="great-inline-flex great-no-wrap">
-                            {% image review.value.image  max-100x100 as review_img %}
+                            {% image review.value.image max-100x100 as review_img %}
                             <img src="{{ review_img.url }}"
                                  alt="{{ review.value.image.alt }}"
-                                 class='great-circle-image'>
+                                 class="great-circle-image" />
                             <blockquote class="great-quote govuk-!-margin-left-2">
                                 <p class="govuk-heading-s">{{ review.value.quote }}</p>
                             </blockquote>

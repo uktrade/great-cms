@@ -3,9 +3,12 @@
 {% load tz %}
 {% load object_tags %}
 {% load content_tags %}
-<html>
+<html lang="en-gb">
     <head>
+        <title>great.gov.uk - pdf download</title>
         <meta http-equiv=Content-Type content="text/html; charset=UTF-8">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
         <style>{% include 'exportplan/includes/pdf/pdf_download.css' %}</style>
     </head>
     <body>
@@ -14,10 +17,10 @@
         <div id="footer_content" class="text-align-right page-footer">
             <p class="body-s">
                 Created at great.gov.uk
-                &nbsp;&nbsp;&nbsp;&mdash;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;–&nbsp;&nbsp;&nbsp;
                 {% timezone "Europe/London" %}
                 {% now "h:i A" %} {% now "jS F Y" %}
-                &nbsp;&nbsp;&nbsp;&mdash;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;–&nbsp;&nbsp;&nbsp;
             {% endtimezone %}
             Page <pdf:pagenumber> of <pdf:pagecount>
         </p>
@@ -88,7 +91,7 @@
 <!-- P3 summary -->
 <div class="hr hr--red-150">&nbsp;</div>
 <h1 class="m-t-s">Summary</h1>
-<table class='layout'>
+<table class="layout">
     <tr class="pad-b-1">
         <td class="col-10-5">
             <h6>Product</h6>

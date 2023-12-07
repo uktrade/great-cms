@@ -5,7 +5,8 @@
         <li>
             <img class="great-blue-tick govuk-!-margin-right-6"
                  src="{% static 'icons/blue-tick.svg' %}"
-                 aria-hidden="true" />
+                 aria-hidden="true"
+                 alt="" />
             {% if is_signin %}
                 <span>Sign in to great.gov.uk, or if you don't have an account already, <a class="govuk-link"
     href="{% url 'export_academy:signup' %}{% if next %}?next={{ next }}{% endif %}">sign up</a></span>
@@ -17,13 +18,15 @@
         <li>
             <img class="great-blue-tick govuk-!-margin-right-6"
                  src="{% static 'icons/blue-tick.svg' %}"
-                 aria-hidden="true" />
+                 aria-hidden="true"
+                 alt="" />
             <span>Book an event. You can <a class="govuk-link" href={% url 'export_academy:upcoming-events' %}>see what’s currently on offer here</a></span>
         </li>
         <li>
             <img class="great-blue-tick govuk-!-margin-right-6"
                  src="{% static 'icons/blue-tick.svg' %}"
-                 aria-hidden="true" />
+                 aria-hidden="true"
+                 alt="" />
             <span>Answer a few questions about your business. That’s it. You only need to do this once, just sign in with your great.gov.uk password every time you visit.</span>
         </li>
     </ul>

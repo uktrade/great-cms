@@ -15,7 +15,9 @@
                             {% if wizard.steps.step1 == forloop.counter %}class="active" aria-current="step"{% endif %}>
                             <span class="bubble">
                                 {% if forloop.counter < wizard.steps.step1 %}
-                                    <img src="{% static 'images/icon_tick-in-circle-dark.svg' %}" width="20" />
+                                    <img src="{% static 'images/icon_tick-in-circle-dark.svg' %}"
+                                         width="20"
+                                         alt="" />
                                 {% endif %}
                             </span>
                             <span>{{ step_label }}</span>
@@ -72,7 +74,7 @@
                 </form>
             </div>
             <div className='c-1-2'>
-                <img src="{% static 'images/book-chap.png' %}" />
+                <img src="{% static 'images/book-chap.png' %}" alt="" />
             </div>
         </section>
     {% endblock %}

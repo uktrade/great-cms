@@ -380,7 +380,7 @@
                         <ul id="case-studies">
                             {% for case_study in company.supplier_case_studies %}
                                 <li id="case-study-{{ case_study.pk }}">
-                                    <img src="{{ case_study.image_one }}" width="60" />
+                                    <img src="{{ case_study.image_one }}" width="60" alt="" />
                                     <span>{{ case_study.title }}</span>
                                     <span>
                                         {% if case_study.is_published_case_study %}
