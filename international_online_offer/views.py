@@ -642,7 +642,7 @@ class EditYourAnswersView(GA360Mixin, TemplateView):
         self.set_ga360_payload(
             page_id='EditYourAnswers',
             business_unit='ExpandYourBusiness',
-            site_section='edit-your-answers',
+            site_section='change-your-answers',
         )
 
     def get_context_data(self, **kwargs):
