@@ -47,9 +47,9 @@ const MarkLessonAsComplete = ({ endpoint }) => {
       <div class="govuk-form-group govuk-!-margin-top-4">
   <fieldset class="govuk-fieldset" aria-describedby="waste-hint">
     <legend class="govuk-fieldset__legend govuk-fieldset__legend--l govuk-!-margin-bottom-0">
-      <h1 class="govuk-heading-m">
+      <h3 class="govuk-heading-m">
         Mark as complete?
-      </h1>
+      </h3>
     </legend>
     <div class="govuk-checkboxes" data-module="govuk-checkboxes">
       <div class="govuk-checkboxes__item">

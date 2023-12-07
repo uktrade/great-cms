@@ -241,13 +241,10 @@ ol.list-circle-number li{
     min-width: 40px;
     height: 40px;
     width: 40px;
+    margin-right: 15px;
     margin-top: -5px;
     font-size: 24px;
     line-height: 40px!important;
   }
   color: inherit
-}
-
-.great-checkbox--large [type=checkbox]+label::before {
-  border-color: #0B0C0C;
 }

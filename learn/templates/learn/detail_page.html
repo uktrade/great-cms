@@ -31,21 +31,22 @@
 <div class="great great-bg-white">
     <div class="great-container">
         <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-padding-0">
-            <div class="great-bg-light-blue great-border-top-orange govuk-!-padding-6 ">
                 {% if request.user.is_authenticated %}
-                    <div class="">
+                <div class="great-bg-light-blue great-border-top-orange govuk-!-padding-6 ">
+                
                         <div class="">
-                            {% include 'learn/recap.html' %}
-                            <hr class="hr hr--light govuk-!-margin-0" />
+                            <div class="">
+                                {% include 'learn/recap.html' %}
+                                <hr class="hr hr--light govuk-!-margin-0" />
+                            </div>
                         </div>
-                    </div>
-                    <div class="govuk-!-padding-bottom-2">
-                        <fieldset id="mark_as_complete">
-                        </fieldset>
-                    </div>
-                {% endif %}
-            </div>
-            <div class="great-container">
+                        <div class="govuk-!-padding-bottom-2">
+                            <fieldset id="mark_as_complete">
+                            </fieldset>
+                        </div>    
+                </div>
+            {% endif %}
+            <div>
                 {% if next_lesson %}
                     {% include "./return_link.html" with link=backlink title=backlink_title class="only-mobile" %}
                     <div class="govuk-!-padding-top-6 govuk-!-padding-bottom-8">
@@ -58,14 +59,18 @@
                                 {% endif %}
                             </h2>
                         <a data-learn-to-export-link="{{ next_lesson.get_url }}"
-                           class="great-inline-flex no-wrap"
+                           class="great-inline-flex no-wrap great-no-text-decoration"
                            href="{{ next_lesson.get_url }}"> <span role="img"
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
        class="fa fa-arrow-right great-text-white great-icon-circular-background govuk-!-margin-right-3 great-no-text-decoration"></span>
+=======
+       class="fa fa-arrow-right great-text-white great-icon-circular-background govuk-!-margin-right-3"></span>
+>>>>>>> 56222fe7b (save progeess)
                         <span class="great-title-link great-inline govuk-heading-xs great-font-bold">{{ next_lesson.title }}</span>
                     </a>
-                    <hr class="great-blue-hr govuk-!-margin-top-8 govuk-!-margin-bottom-6" />
+                    <hr class="great-blue-hr govuk-!-margin-top-8 govuk-!-margin-bottom-4" />
                     <h3 class="govuk-heading-s">Explore the topic</h3>
 =======
        class="fa fa-arrow-right great-text-white great-icon-circular-background govuk-!-margin-right-4"></span>
