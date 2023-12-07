@@ -1,15 +1,16 @@
+{% load content_tags %}
 <section id="cards" class="govuk-!-margin-top-9">
     <h2 class="govuk-heading-l">Cards</h2>
     <div class="govuk-grid-row great-card-row">
         {% with "<ul class='govuk-list govuk-list--bullet'><li>for new exporters</li><li>learn the basics to get started</li><li>build your Export Action Plan</li></ul>"|safe as cardContent %}
         <div class="govuk-grid-column-one-third">
-            {% include 'components/great/card.html' with title="Essentials" url="/" content=cardContent link_text="Find your answer" data_attr="data-test" %}
+            {% include 'components/great/card.html' with title="Codes, tariffs and procedures" url="/" show_title_link=True image_src="/support/codes-tariffs-and-procedures"|get_icon_path is_svg_image=True classes="great-card--homepage" %}
         </div>
         <div class="govuk-grid-column-one-third">
-            {% include 'components/great/card.html' with title="Essentials" url="/" content=cardContent show_title_link=True %}
+            {% include 'components/great/card.html' with title="Duties, taxes and customs" url="/" show_title_link=True image_src="/support/duties-and-taxes"|get_icon_path is_svg_image=True classes="great-card--homepage" %}
         </div>
         <div class="govuk-grid-column-one-third">
-            {% include 'components/great/card.html' with title="Essentials" url="/" content=cardContent show_title_link=True image_src="https://picsum.photos/id/3/160/90" %}
+            {% include 'components/great/card.html' with title="Funding and finance" url="/" show_title_link=True image_src="/support/funding-and-finance"|get_icon_path is_svg_image=True classes="great-card--homepage" %}
         </div>
     {% endwith %}
 </div>
@@ -63,6 +64,11 @@
             <td>No</td>
         </tr>
         <tr>
+            <td>is_svg_image</td>
+            <td>Boolean</td>
+            <td>No</td>
+        </tr>
+        <tr>
             <td>classes</td>
             <td>String</td>
             <td>No</td>
@@ -73,8 +79,23 @@
             <td>No</td>
         </tr>
         <tr>
+            <td>data_attr_title</td>
+            <td>String</td>
+            <td>No</td>
+        </tr>
+        <tr>
+            <td>data_attr_location</td>
+            <td>String</td>
+            <td>No</td>
+        </tr>
+        <tr>
             <td>heading_level</td>
             <td>h2|h3|h4|h5|h6</td>
+            <td>No</td>
+        </tr>
+        <tr>
+            <td>pre_title</td>
+            <td>String</td>
             <td>No</td>
         </tr>
     </tbody>

@@ -180,6 +180,7 @@ figure.great-blockquote {
 
 .great-card {
   background: $great-white;
+  box-shadow: 0 7px 0 0 rgba(0, 0, 0, 0.2);
 
   @include govuk-media-query($until: tablet) {
     margin-bottom: 30px;
@@ -190,32 +191,39 @@ figure.great-blockquote {
     text-decoration: none;
 
     &:hover {
-      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 7px 0 0 rgba(0, 0, 0, 0.4);
 
       .great-card__link {
-          text-decoration-line: underline;
-          text-decoration-thickness: 3px;
-          color: #003078 !important;
+        text-decoration-line: underline;
+        text-decoration-thickness: 3px;
+        color: #003078 !important;
+      }
+
+      .great-card__link--heading {
+        &::after {
+          background-image: url(/static/icons/dark-blue-arrow-right.svg);
+        }
       }
     }
 
     &:focus {
-      border: 3px solid var(--colour-focus-state-govuk-focus-colour, govuk-colour("yellow"));
-      box-shadow: none;
-      outline: none;
-      margin: -3px;
+      box-shadow: 0 7px 0 0 rgba(0, 0, 0, 0.4);
+      outline: 3px solid
+        var(--colour-focus-state-govuk-focus-colour, govuk-colour('yellow'));
+      margin: 0;
 
       .great-card__link {
-        outline: 3px solid rgba(0,0,0,0);
+        outline: 3px solid rgba(0, 0, 0, 0);
         color: #212427;
-        background-color: govuk-colour("yellow");
-        box-shadow: 0 -2px govuk-colour("yellow"), 0 4px #0b0c0c;
+        background-color: govuk-colour('yellow');
+        box-shadow: 0 -2px govuk-colour('yellow'), 0 4px #0b0c0c;
         text-decoration: none;
       }
     }
   }
 
-  img {
+  img,
+  svg {
     display: block;
     margin: 0;
     width: 100%;
@@ -242,7 +250,20 @@ figure.great-blockquote {
   }
 
   .great-card__link--heading {
-    text-decoration: none;
+    &::after {
+      background-image: url(/static/icons/blue-arrow-right.svg);
+      background-size: 20px;
+      background-repeat: no-repeat;
+      background-position: 50%;
+      position: absolute;
+      display: inline-block;
+      content: '';
+      pointer-events: none;
+      height: 20px;
+      width: 20px;
+      top: 20px;
+      right: 0;
+    }
   }
 
   .great-card__link--chevron {
@@ -266,9 +287,69 @@ figure.great-blockquote {
   }
 }
 
+.great-card--homepage {
+  height: auto;
+
+  a {
+    display: flex;
+    height: auto;
+  }
+
+  img,
+  svg {
+    width: 50px;
+    margin-left: 10px;
+
+    @include govuk-media-query($from: tablet) {
+      width: 80px;
+      margin-left: 20px;
+    }
+
+    ~ div {
+      width: 100%;
+    }
+  }
+
+  .great-card__link--heading {
+    max-width: 85%;
+  }
+}
+
+.great-card--undecorated {
+  a {
+    &:hover,
+    &:focus {
+      .great-card__link--heading {
+        &::after {
+          background-image: none;
+        }
+      }
+    }
+  }
+  .great-card__link--heading {
+    text-decoration: none;
+
+    &::after {
+      background-image: none;
+    }
+  }
+}
+
+.great-card--homepage-container {
+  @include govuk-media-query($from: tablet) {
+    flex-basis: 50%;
+    margin-bottom: 30px;
+  }
+
+  @include govuk-media-query($from: desktop) {
+    flex-basis: 33.333%;
+  }
+}
+
 .great-card-row {
   @include govuk-media-query($from: tablet) {
     display: flex;
+    flex-flow: wrap;
   }
 
   .great-card {
@@ -1171,7 +1252,7 @@ nav.great-breadcrumbs {
     margin-left: 0;
     margin-bottom: 0;
     display: inline-block;
-    line-height: 1.25
+    line-height: 1.25;
   }
 
   li::after {
@@ -1185,7 +1266,8 @@ nav.great-breadcrumbs {
     padding-left: 0;
   }
 
-  a, span {
+  a,
+  span {
     font-size: 16px;
     color: $color-main-text;
   }
@@ -1194,7 +1276,7 @@ nav.great-breadcrumbs {
 .great-breadcrumbs li:after {
   box-sizing: initial;
   transform: rotate(-45deg);
-  content: "";
+  content: '';
   border-style: solid;
   display: inline-block;
   height: 5px;
@@ -1209,7 +1291,7 @@ nav.great-breadcrumbs {
 }
 
 .great-breadcrumbs ol li:last-child:after {
-  display: none
+  display: none;
 }
 
 .great-list-blue-tick {
@@ -1221,7 +1303,7 @@ nav.great-breadcrumbs {
     padding: 7.5px 0;
 
     &:before {
-      content: "";
+      content: '';
       height: 30px;
       width: 30px;
       min-width: 30px;
@@ -1232,7 +1314,7 @@ nav.great-breadcrumbs {
       background-position: center;
       background-repeat: no-repeat;
       background-size: 100%;
-      background: url("/static/icons/dark-blue-tick.svg");
+      background: url('/static/icons/dark-blue-tick.svg');
       background-size: cover;
       background-position: center;
     }

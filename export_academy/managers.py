@@ -1,5 +1,6 @@
 from datetime import timedelta
 
+from dateutil.relativedelta import relativedelta
 from django.db import models
 from django.utils import timezone
 
@@ -29,15 +30,15 @@ class EventQuerySet(models.QuerySet):
         return self.filter(start_date__year=self.current_date.year, start_date__week=self.current_isodate.week)
 
     def next_week(self):
-        return self.filter(start_date__year=self.current_date.year, start_date__week=self.current_isodate.week + 1)
+        next_week = (self.current_date + relativedelta(weeks=1)).isocalendar()
+        return self.filter(start_date__year=next_week.year, start_date__week=next_week.week)
 
     def this_month(self):
         return self.filter(start_date__year=self.current_date.year, start_date__month=self.current_date.month)
 
     def next_month(self):
-        return self.filter(
-            start_date__year__gte=self.current_date.year, start_date__month__gte=self.current_date.month + 1
-        )
+        next_month = self.current_date + relativedelta(months=1)
+        return self.filter(start_date__year__gte=next_month.year, start_date__month__gte=next_month.month)
 
 
 class EventManager(models.Manager):

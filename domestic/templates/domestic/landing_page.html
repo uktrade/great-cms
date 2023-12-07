@@ -172,24 +172,42 @@
     {% if page.slice_columns|length == 3 %}
         {% include 'components/great/three_card_section.html' with title=page.slice_title columns=page.slice_columns %}
     {% endif %}
-    <section class="landing-page-section padding-bottom-15 padding-bottom-30-m padding-top-0 {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}great-bg-light-blue{% endif %} great">
-        <div class="container wrap-tight">
-            <h2 class="govuk-heading-l govuk-!-padding-top-9 govuk-!-margin-bottom-6">{{ page.magna_ctas_title }}</h2>
-            <div class="grid-row wrap-tight{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-display-flex-from-desktop{% endif %}">
-                {% for column_block in page.magna_ctas_columns %}
-                    <div class="column-third-m column-full">
-                        {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
-                            {% include 'components/card.html' with title=column_block.value.text url=column_block.value.url card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True transparent_card=False show_sign_in_required=False white_bg_card=True %}
-                        {% else %}
-                            {% include 'components/card.html' with title=column_block.value.text url=column_block.value.url card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True transparent_card=True show_sign_in_required=True white_bg_card=False %}
-                        {% endif %}
-                    </div>
-                {% endfor %}
+    {% if features.FEATURE_HOMEPAGE_REDESIGN_V1 %}
+        <section class="great great-bg-light-blue govuk-!-padding-top-0 govuk-!-padding-bottom-0">
+            <div class="govuk-width-container great-container">
+                {% if page.magna_ctas_title %}
+                    <h2 class="govuk-heading-l govuk-!-margin-top-9 govuk-!-margin-bottom-6">{{ page.magna_ctas_title }}</h2>
+                {% endif %}
+                <div class="govuk-grid-row govuk-!-padding-bottom-4 great-card-row">
+                    {% for column_block in page.magna_ctas_columns %}
+                        <div class="govuk-grid-column-one-third">
+                            {% image column_block.value.image fill-640x360 as thumbnail %}
+                            {% include 'components/great/card.html' with title=column_block.value.text url=column_block.value.url show_title_link=True image_src=thumbnail.url image_alt=column_block.value.image.alt_text content=column_block.value.content classes="great-card--undecorated" %}
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
-            <hr>
-        </hr>
-    </div>
-</section>
+        </section>
+    {% else %}
+        <section class="landing-page-section padding-bottom-15 padding-bottom-30-m padding-top-0 {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}great-bg-light-blue{% endif %} great">
+            <div class="container wrap-tight">
+                <h2 class="govuk-heading-l govuk-!-padding-top-9 govuk-!-margin-bottom-6">{{ page.magna_ctas_title }}</h2>
+                <div class="grid-row wrap-tight{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-display-flex-from-desktop{% endif %}">
+                    {% for column_block in page.magna_ctas_columns %}
+                        <div class="column-third-m column-full">
+                            {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
+                                {% include 'components/card.html' with title=column_block.value.text url=column_block.value.url card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True transparent_card=False show_sign_in_required=False white_bg_card=True %}
+                            {% else %}
+                                {% include 'components/card.html' with title=column_block.value.text url=column_block.value.url card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True transparent_card=True show_sign_in_required=True white_bg_card=False %}
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <hr>
+            </hr>
+        </div>
+    </section>
+{% endif %}
 {% if not features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
     <section class="landing-page-section padding-bottom-15 padding-bottom-30-m">
         <div class="container wrap-tight">
@@ -291,49 +309,71 @@
 {% endif %}
 {% if page.campaign or page.what_is_new_pages %}
     {% with page.campaign.0.value as campaign_block_value %}
-        <section class="landing-page-section padding-bottom-45 padding-bottom-60-m {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}great-bg-light-blue great{% endif %}">
-            <div class="container">
-                <h2 class="heading-large margin-top-0 govuk-!-padding-top-9 margin-bottom-30">
-                    {{ page.what_is_new_title|default:"What's new" }}
-                </h2>
-                {% if page.campaign %}
-                    <div class="campaign-section {% if page.what_is_new_pages %}margin-bottom-45{% endif %}">
-                        <div class="campaign-heading-container">
-                            <h3 class="heading-large margin-0 campaign-heading">
-                                <span class="if-we-can">If we can</span><span class="if-we-can">you can</span>
-                            </h3>
+        {% if features.FEATURE_HOMEPAGE_REDESIGN_V1 %}
+            <section class="great great-bg-light-blue govuk-!-padding-top-0 govuk-!-padding-bottom-9">
+                <div class="govuk-width-container great-container">
+                    {% if page.what_is_new_title %}
+                        <h2 class="govuk-heading-l govuk-!-margin-top-9 govuk-!-margin-bottom-6">
+                            {{ page.what_is_new_title|default:"What's new" }}
+                        </h2>
+                    {% endif %}
+                    {% if page.what_is_new_pages %}
+                        <div class="govuk-grid-row govuk-!-padding-bottom-4 great-card-row">
+                            {% for link_block in page.what_is_new_pages %}
+                                <div class="govuk-grid-column-one-third">
+                                    {% image link_block.value.image fill-640x360 as thumbnail %}
+                                    {% include 'components/great/card.html' with title=link_block.value.text pre_title=link_block.value.source url=link_block.value.url show_title_link=True image_src=thumbnail.url image_alt=column_block.value.image.alt_text content=link_block.value.content classes="great-card--undecorated" %}
+                                </div>
+                            {% endfor %}
                         </div>
-                        <div class="campaign-image-container">
-                            {% image campaign_block_value.image original as campaign_image_rendition %}
-                            <img src="{{ campaign_image_rendition.url }}"
-                                 alt="{{ campaign_image_rendition.alt }}"
-                                 class="width-full">
-                        </div>
-                        <div class="campaign-content-container">
-                            <div class="campaign-subsection padding-bottom-30-l width-two-thirds-l width-half-xl">
-                                <p class="heading-medium margin-bottom-30 margin-top-0">{{ campaign_block_value.subheading }}</p>
-                                <a href="{{ campaign_block_value.video.url }}"
-                                   class="button primary-button margin-bottom-15"
-                                   id="hero-campaign-section-watch-video-button"
-                                   data-node="videoactivator"
-                                   data-element="video"
-                                   target="_blank"
-                                   rel="noopener noreferrer">Watch video</a>
+                    {% endif %}
+                </div>
+            </section>
+        {% else %}
+            <section class="landing-page-section padding-bottom-45 padding-bottom-60-m {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}great-bg-light-blue great{% endif %}">
+                <div class="container">
+                    <h2 class="heading-large margin-top-0 govuk-!-padding-top-9 margin-bottom-30">
+                        {{ page.what_is_new_title|default:"What's new" }}
+                    </h2>
+                    {% if page.campaign %}
+                        <div class="campaign-section {% if page.what_is_new_pages %}margin-bottom-45{% endif %}">
+                            <div class="campaign-heading-container">
+                                <h3 class="heading-large margin-0 campaign-heading">
+                                    <span class="if-we-can">If we can</span><span class="if-we-can">you can</span>
+                                </h3>
+                            </div>
+                            <div class="campaign-image-container">
+                                {% image campaign_block_value.image original as campaign_image_rendition %}
+                                <img src="{{ campaign_image_rendition.url }}"
+                                     alt="{{ campaign_image_rendition.alt }}"
+                                     class="width-full">
+                            </div>
+                            <div class="campaign-content-container">
+                                <div class="campaign-subsection padding-bottom-30-l width-two-thirds-l width-half-xl">
+                                    <p class="heading-medium margin-bottom-30 margin-top-0">{{ campaign_block_value.subheading }}</p>
+                                    <a href="{{ campaign_block_value.video.url }}"
+                                       class="button primary-button margin-bottom-15"
+                                       id="hero-campaign-section-watch-video-button"
+                                       data-node="videoactivator"
+                                       data-element="video"
+                                       target="_blank"
+                                       rel="noopener noreferrer">Watch video</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                {% endif %}
-                {% if page.what_is_new_pages %}
-                    <div class="grid-row{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-display-flex-from-desktop great{% endif %}">
-                        {% for link_block in page.what_is_new_pages %}
-                            <div class="column-third-m column-full">
-                                {% include 'components/card.html' with title=link_block.value.text subheading=link_block.value.source url=link_block.value.url card_image=link_block.value.image html_snippet=link_block.value.content no_padding_card=True transparent_card=True show_sign_in_required=False white_bg_card=features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            </div>
-        </section>
+                    {% endif %}
+                    {% if page.what_is_new_pages %}
+                        <div class="grid-row{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-display-flex-from-desktop great{% endif %}">
+                            {% for link_block in page.what_is_new_pages %}
+                                <div class="column-third-m column-full">
+                                    {% include 'components/card.html' with title=link_block.value.text subheading=link_block.value.source url=link_block.value.url card_image=link_block.value.image html_snippet=link_block.value.content no_padding_card=True transparent_card=True show_sign_in_required=False white_bg_card=features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </section>
+        {% endif %}
         <div class="campaign-video-transcript" id="campaign-video-transcript">
             <details closed>
                 <summary>

@@ -1,16 +1,17 @@
 {% load  wagtailcore_tags %}
 {% load add_govuk_classes from content_tags %}
 <div class="objectives">
-    <h2 class="govuk-heading-l">What you’ll learn</h2>
     {% filter add_govuk_classes %}
+        <h2>What you’ll learn</h2>
         {% for block in page.objective %}
-            {{ block.value|richtext }}
+            {% if block.block_type == 'paragraph' %}{{ block.value | richtext }}{% endif %}
         {% endfor %}
+        <ul>
+            {% for block in page.objective %}
+                {% if block.block_type == 'ListItem' %}<li>{{ block.value.item }}</li>{% endif %}
+            {% endfor %}
+        </ul>
     {% endfilter %}
-    <ul class="govuk-list govuk-list--bullet">
-        {% for block in page.objective %}
-            {% if block.block_type == 'ListItem' %}<li>{{ block.value.item }}</li>{% endif %}
-        {% endfor %}
     </ul>
     <hr class="hr hr--dark govuk-!-margin-bottom-6 govuk-!-margin-top-6" />
 </div>

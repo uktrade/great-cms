@@ -614,6 +614,11 @@ class SupportTopicCardBlock(blocks.StructBlock):
     link_url = blocks.CharBlock(label=_('Link url'))
 
 
+class SupportHomepageCardBlock(blocks.StructBlock):
+    link_text = blocks.CharBlock(label=_('Link text'))
+    link_url = blocks.CharBlock(label=_('Link url'))
+
+
 class DataTableBlock(TableBlock):
     """A simple table block"""
 

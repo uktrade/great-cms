@@ -77,33 +77,49 @@ class SectorView(GA360Mixin, FormView):
         return next_url
 
     def get_context_data(self, **kwargs):
+        if self.request.user.is_authenticated:
+            triage_data = get_triage_data(self.request.user.hashed_uuid)
+            if triage_data:
+                sector = triage_data.get_sector_display()
+                sector_sub = triage_data.get_sector_sub_display()
+        else:
+            sector = self.request.session.get('sector')
+            sector_sub = self.request.session.get('sector_sub')
+
         return super().get_context_data(
             **kwargs,
             back_url=self.get_back_url(),
             step_text='Step 1 of 5',
-            question_text='What is your business sector?',
+            question_text='What does your company make or do?',
             why_we_ask_this_question_text="""We'll use this information to provide customised content
               relevant to your sector and products or services.""",
+            autocomplete_sector_data=helpers.get_sectors_and_sic_sectors_file_as_string(),
+            sector_sub=sector_sub,
+            sector=sector,
         )
 
     def get_initial(self):
         if self.request.user.is_authenticated:
             triage_data = get_triage_data(self.request.user.hashed_uuid)
             if triage_data:
-                return {'sector': triage_data.sector}
+                return {'sector_sub': triage_data.sector_sub}
 
-        return {'sector': self.request.session.get('sector')}
+        return {'sector_sub': self.request.session.get('sector_sub')}
 
     def form_valid(self, form):
+        sub_sector = form.cleaned_data['sector_sub']
+        sector = helpers.get_sector_from_sic_sector(sub_sector)
         if self.request.user.is_authenticated:
             TriageData.objects.update_or_create(
                 hashed_uuid=self.request.user.hashed_uuid,
                 defaults={
-                    'sector': form.cleaned_data['sector'],
+                    'sector': sector,
+                    'sector_sub': form.cleaned_data['sector_sub'],
                 },
             )
         else:
-            self.request.session['sector'] = form.cleaned_data['sector']
+            self.request.session['sector'] = sector
+            self.request.session['sector_sub'] = form.cleaned_data['sector_sub']
         calculate_and_store_is_high_value(self.request)
         return super().form_valid(form)
 
