@@ -206,14 +206,13 @@ class LocationView(GA360Mixin, FormView):
         return next_url
 
     def get_context_data(self, **kwargs):
+        region = self.request.session.get('location')
+        city = self.request.session.get('location_city')
         if self.request.user.is_authenticated:
             triage_data = get_triage_data(self.request.user.hashed_uuid)
             if triage_data:
                 region = triage_data.get_location_display()
                 city = triage_data.get_location_city_display()
-        else:
-            region = self.request.session.get('location')
-            city = self.request.session.get('location_city')
 
         return super().get_context_data(
             **kwargs,
