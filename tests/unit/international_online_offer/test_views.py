@@ -69,8 +69,8 @@ def test_sector_saved_to_db_gets_labels(client, user, settings):
     response = client.post(url, {'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT'})
     response = client.get(reverse('international_online_offer:sector'))
     context = response.context_data
-    assert context['sector'] == 'FINANCIAL_AND_PROFESSIONAL_SERVICES'
-    assert context['sector_sub'] == 'RESIDENTS_PROPERTY_MANAGEMENT'
+    assert context['sector'] == 'Financial and professional services'
+    assert context['sector_sub'] == 'Residents property management'
     assert response.status_code == 200
 
 
@@ -209,8 +209,8 @@ def test_location_saved_to_db_gets_labels(client, user, settings):
     response = client.post(url, {'location': 'SWANSEA'})
     response = client.get(url)
     context = response.context_data
-    assert context['region'] == 'WALES'
-    assert context['city'] == 'SWANSEA'
+    assert context['region'] == 'Wales'
+    assert context['city'] == 'Swansea'
     assert response.status_code == 200
 
 
