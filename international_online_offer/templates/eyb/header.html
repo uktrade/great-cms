@@ -1,125 +1,115 @@
 {% load static %}
 {% load ga360_data from directory_components %}
-<header data-ga-section="header">
-    <div class="atlas-header__global">
-        <div class="atlas-container atlas-container--wide">
-            <img height="30"
+<div class="govuk-width-container">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <img class="govuk-!-padding-top-2 govuk-!-padding-bottom-2 govuk-!-padding-left-2"
+                 height="30"
                  alt="Department for business and trade logo"
                  src="{% static 'images/dbt-red-footer-logo.93fc9e99b781.svg' %}">
         </div>
     </div>
-    <div class="atlas-header__main">
-        <div class="atlas-container atlas-container--wide atlas-header__main-inner">
-            {% ga360_data "a" value="logo" %}
-            {% if not eyb_user %}
-                <a class="atlas-header__logo govuk-link"
-                   href="{% url 'international_online_offer:index' %}">
-                    <img src="{% static 'images/great.png' %}"
-                         alt="Expand your business in the UK, start of service" />
-                </a>
-            {% else %}
-                <a class="atlas-header__logo govuk-link"
-                   href="{{'/international/expand-your-business-in-the-uk/guide/'}}">
-                    <img src="{% static 'images/great.png' %}"
-                         alt="Expand your business in the UK, guide page of service" />
-                </a>
-            {% endif %}
-        {% end_ga360_data %}
-        {% if request.user.is_authenticated and eyb_user %}
-            <button id="atlas-nav-toggle"
-                    class="atlas-menu-button"
-                    aria-controls="atlas-nav"
-                    data-reveal-button>
-                Menu
-                <span class="atlas-menu-button__icon"></span>
-            </button>
-        {% endif %}
-        {% if not request.user.is_authenticated %}
-            <nav id="atlas-nav-flat" class="atlas-nav-flat" aria-label="Main menu">
-                <ul class="atlas-nav__list-flat">
-                    <li>
-                        <a class="atlas-nav__item govuk-link govuk-link--inverse"
-                           style="cursor: pointer"
-                           href="{% url 'international_online_offer:login' %}">Sign in</a>
-                    </li>
-                </ul>
-            </nav>
-        {% endif %}
-        {% if request.user.is_authenticated and not eyb_user.email %}
-            <nav id="atlas-nav-flat" class="atlas-nav-flat" aria-label="Main menu">
-                <ul class="atlas-nav__list-flat">
-                    <li>
-                        <a class="atlas-nav__item govuk-link govuk-link--inverse"
-                           style="cursor: pointer"
-                           href="{% url 'international_online_offer:profile' %}?signup=true">Complete sign up</a>
-                    </li>
-                </ul>
-            </nav>
-        {% endif %}
-        {% if request.user.is_authenticated and eyb_user.email %}
-            <nav id="atlas-nav"
-                 class="atlas-nav"
-                 aria-label="Main menu"
-                 aria-expanded="false">
-                <ul class="atlas-nav__list atlas-list--bare">
-                    <script>
-                            const signOut = () => {
-                            return fetch('{% url "sso:business-sso-logout-api" %}', {
-                                method: 'post',
-                                headers: {
-                                Accept: 'application/json',
-                                'Content-Type': 'application/json',
-                                'X-CSRFToken': '{{ csrf_token }}',
-                                'X-Requested-With': 'XMLHttpRequest',
-                                },
-                                body: JSON.stringify({})
-                            }).then(function() {
-                                window.location = '/international/expand-your-business-in-the-uk/login';
-                            });
-                            }
-                            const enterKeyPressed = (event) => {
-                                console.log("here");
-                                if (event.keyCode == 13) {
-                                    signOut()
-                                    return true;
-                                 } else {
-                                    return false;
-                                 }
-                            }
-                    </script>
-                    {% if eyb_user.full_name %}<li class="atlas-nav__list-header">Hi {{ eyb_user.full_name }}</li>{% endif %}
-                    <li>
-                        <a class="atlas-nav__item govuk-link govuk-link--inverse"
-                           href="/international/expand-your-business-in-the-uk/guide"
-                           style="text-decoration: none;
-                                  cursor: pointer">UK Expansion guide</a>
-                    </li>
-                    <li>
-                        <a class="atlas-nav__item govuk-link govuk-link--inverse"
-                           href="{% url 'international_online_offer:profile' %}"
-                           style="text-decoration: none;
-                                  cursor: pointer">Edit profile</a>
-                    </li>
-                    <li>
-                        <a class="atlas-nav__item govuk-link govuk-link--inverse"
-                           href="{% url 'international_online_offer:edit-your-answers' %}"
-                           style="text-decoration: none;
-                                  cursor: pointer">Change answers</a>
-                    </li>
-                    <li>
-                        <a class="atlas-nav__item govuk-link govuk-link--inverse"
-                           tabindex="0"
-                           role="link"
-                           style="text-decoration: none;
-                                  cursor: pointer"
-                           onclick="signOut()"
-                           onkeypress="return enterKeyPressed(event)"
-                           href="#">Sign out</a>
-                    </li>
-                {% else %}
-                </ul>
-            </nav>
-        {% endif %}
-    </div>
 </div>
+<header class="govuk-header international-header" role="banner">
+    <div class="govuk-header__container govuk-width-container">
+        <div class="govuk-header__logo">
+            <a href="{% if not eyb_user %}{% url 'international_online_offer:index' %}{% else %}{{'/international/expand-your-business-in-the-uk/guide/'}}{% endif %}"
+               class="govuk-header__link govuk-header__link--homepage">
+                <span class="govuk-header__logotype">
+                    <div role="img"
+                         alt="Expand your business in the UK, start of service"
+                         class="great-logo"></div>
+                    <span class="govuk-header__logotype-text"></span>
+                </span>
+            </a>
+        </div>
+        <div class="govuk-header__content">
+            <a href="#" class="govuk-header__link govuk-header__service-name">Expand your business in the UK</a>
+            <nav aria-label="Menu" class="govuk-header__navigation ">
+                <button type="button"
+                        class="govuk-header__menu-button govuk-js-header-toggle"
+                        aria-controls="navigation"
+                        aria-label="Show or hide menu"
+                        hidden>Menu</button>
+                <ul id="navigation" class="govuk-header__navigation-list">
+                    {% if eyb_user %}
+                        <li class="govuk-header__navigation-item">
+                            <a tabindex="0"
+                               role="link"
+                               onclick="signOut()"
+                               onkeypress="return enterKeyPressed(event)"
+                               class="govuk-header__link govuk-link--inverse"
+                               href="#">Sign out</a>
+                        </li>
+                    {% elif request.user.is_authenticated %}
+                        <li class="govuk-header__navigation-item">
+                            <a class="govuk-header__link govuk-link--inverse"
+                               href="{% url 'international_online_offer:profile' %}?signup=true">Complete sign up</a>
+                        </li>
+                    {% else %}
+                        <li class="govuk-header__navigation-item">
+                            <a class="govuk-header__link govuk-link--inverse"
+                               href="{% url 'international_online_offer:login' %}">Sign in</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
 </header>
+{% if eyb_user %}
+    <header class="govuk-header" role="banner" data-module="govuk-header">
+        <div class="govuk-header__container govuk-width-container">
+            <div class="govuk-header__logo international-sub-navigation-logo"></div>
+            <div class="govuk-header__content">
+                <nav aria-label="Menu" class="govuk-header__navigation ">
+                    <button type="button"
+                            class="govuk-header__menu-button govuk-js-header-toggle"
+                            aria-controls="navigation"
+                            aria-label="Show or hide menu"
+                            hidden>Menu</button>
+                    <ul id="navigation" class="govuk-header__navigation-list">
+                        <li class="govuk-header__navigation-item {% if request.path == '/international/expand-your-business-in-the-uk/guide/' %}govuk-header__navigation-item--active {% endif %}">
+                            <a class="govuk-header__link"
+                               href="/international/expand-your-business-in-the-uk/guide">UK expansion guide</a>
+                        </li>
+                        <li class="govuk-header__navigation-item {% if request.path == '/international/expand-your-business-in-the-uk/profile/' %}govuk-header__navigation-item--active {% endif %}">
+                            <a class="govuk-header__link"
+                               href="{% url 'international_online_offer:profile' %}">Edit your profile</a>
+                        </li>
+                        <li class="govuk-header__navigation-item {% if request.path == '/international/expand-your-business-in-the-uk/change-your-answers/' %}govuk-header__navigation-item--active {% endif %}">
+                            <a class="govuk-header__link"
+                               href="{% url 'international_online_offer:change-your-answers' %}">
+                                Change your answers
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+{% endif %}
+<script>
+    const signOut = () => {
+    return fetch('{% url "sso:business-sso-logout-api" %}', {
+        method: 'post',
+        headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRFToken': '{{ csrf_token }}',
+        'X-Requested-With': 'XMLHttpRequest',
+        },
+        body: JSON.stringify({})
+    }).then(function() {
+        window.location = '/international/expand-your-business-in-the-uk/login';
+    });
+    }
+    const enterKeyPressed = (event) => {
+        if (event.keyCode == 13) {
+            signOut()
+            return true;
+         } else {
+            return false;
+         }
+    }
+</script>

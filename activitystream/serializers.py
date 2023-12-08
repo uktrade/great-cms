@@ -291,6 +291,7 @@ class ActivityStreamExpandYourBusinessUserDataSerializer(serializers.ModelSerial
     agreeTerms = serializers.BooleanField(source='agree_terms')  # noqa: N815
     agreeInfoEmail = serializers.BooleanField(source='agree_info_email')  # noqa: N815
     landingTimeframe = serializers.CharField(source='landing_timeframe')  # noqa: N815
+    companyWebsite = serializers.CharField(source='company_website')  # noqa: N815
 
     class Meta:
         model = UserData
@@ -308,6 +309,7 @@ class ActivityStreamExpandYourBusinessUserDataSerializer(serializers.ModelSerial
             'landingTimeframe',
             'created',
             'modified',
+            'companyWebsite',
         ]
 
     def to_representation(self, instance):
@@ -341,6 +343,8 @@ class ActivityStreamExpandYourBusinessTriageDataSerializer(serializers.ModelSeri
     locationNone = serializers.BooleanField(source='location_none')  # noqa: N815
     spendOther = serializers.CharField(source='spend_other')  # noqa: N815
     isHighValue = serializers.BooleanField(source='is_high_value')  # noqa: N815
+    locationCity = serializers.CharField(source='location_city')  # noqa: N815
+    sectorSub = serializers.CharField(source='sector_sub')  # noqa: N815
 
     class Meta:
         model = TriageData
@@ -358,6 +362,8 @@ class ActivityStreamExpandYourBusinessTriageDataSerializer(serializers.ModelSeri
             'isHighValue',
             'created',
             'modified',
+            'locationCity',
+            'sectorSub',
         ]
 
     def to_representation(self, instance):

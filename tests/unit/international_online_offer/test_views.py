@@ -29,7 +29,7 @@ def test_sector(client, settings):
 @pytest.mark.django_db
 def test_sector_next(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    response = client.get(reverse('international_online_offer:sector') + '?next=edit-your-answers')
+    response = client.get(reverse('international_online_offer:sector') + '?next=change-your-answers')
     assert response.status_code == 200
 
 
@@ -84,7 +84,7 @@ def test_intent(client, settings):
 @pytest.mark.django_db
 def test_intent_next(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    response = client.get(reverse('international_online_offer:intent') + '?next=edit-your-answers')
+    response = client.get(reverse('international_online_offer:intent') + '?next=change-your-answers')
     assert response.status_code == 200
 
 
@@ -140,7 +140,7 @@ def test_location(client, settings):
 @pytest.mark.django_db
 def test_location_next(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    response = client.get(reverse('international_online_offer:location') + '?next=edit-your-answers')
+    response = client.get(reverse('international_online_offer:location') + '?next=change-your-answers')
     assert response.status_code == 200
 
 
@@ -196,7 +196,7 @@ def test_hiring(client, settings):
 @pytest.mark.django_db
 def test_hiring_next(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    response = client.get(reverse('international_online_offer:hiring') + '?next=edit-your-answers')
+    response = client.get(reverse('international_online_offer:hiring') + '?next=change-your-answers')
     assert response.status_code == 200
 
 
@@ -267,7 +267,7 @@ def test_signup(client, settings):
 @pytest.mark.django_db
 def test_spend_next(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    response = client.get(reverse('international_online_offer:spend') + '?next=edit-your-answers')
+    response = client.get(reverse('international_online_offer:spend') + '?next=change-your-answers')
     assert response.status_code == 200
 
 
@@ -336,6 +336,7 @@ def test_eyb_profile(client, user, settings):
                 'agree_terms': 'true',
                 'agree_info_email': '',
                 'landing_timeframe': 'UNDER_SIX_MONTHS',
+                'company_website': 'http://www.great.gov.uk',
             },
             '?signup=true',
             '#personalised-guide',
@@ -351,6 +352,7 @@ def test_eyb_profile(client, user, settings):
                 'agree_terms': 'true',
                 'agree_info_email': '',
                 'landing_timeframe': 'UNDER_SIX_MONTHS',
+                'company_website': 'http://www.great.gov.uk',
             },
             '',
             '',
@@ -398,7 +400,7 @@ def test_eyb_profile_initial(client, user, settings):
 @pytest.mark.django_db
 def test_edit_your_answers(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:edit-your-answers')
+    url = reverse('international_online_offer:change-your-answers')
     user.hashed_uuid = '123'
     client.force_login(user)
     response = client.get(url)

@@ -27,12 +27,12 @@
             {% if display_past_recording %}
                 <time datetime="{{ event.past_event_recorded_date|date:"Y-m-d" }}T{{ event.past_event_recorded_date|time:"H:i:s" }}{{ event.past_event_recorded_date|date:"O" }}"
                       class="govuk-body-s govuk-!-margin-0">
-                    Recorded: {{ event.past_event_recorded_date|date:"j F Y" }} &bull; {{ event.get_past_event_recording_duration }}
+                    Recorded: {{ event.past_event_recorded_date|date:"j F Y" }} • {{ event.get_past_event_recording_duration }}
                 </time>
             {% else %}
                 <time datetime="{{ event.start_date|date:"Y-m-d" }}T{{ event.start_date|time:"H:i:s" }}{{ event.start_date|date:"O" }}"
                       class="govuk-body-s govuk-!-margin-0">
-                    {{ event.start_date|date:"j F" }} at {{ event.start_date|date:"g:ia"|remove_string }} &bull; {{ event.start_date|timesince:event.end_date }}
+                    {{ event.start_date|date:"j F" }} at {{ event.start_date|date:"g:ia"|remove_string }} • {{ event.start_date|timesince:event.end_date }}
                 </time>
             {% endif %}
         </div>

@@ -27,20 +27,9 @@ COUNTRIES = BLANK_COUNTRY_CHOICE + COUNTRY_CHOICES
 
 
 class SectorForm(forms.Form):
-    # sector = ChoiceField(
-    #     label='Enter a sector',
-    #     help_text='Start searching for your sector and choose the best match from the suggested list',
-    #     required=True,
-    #     widget=Select(attrs={'id': 'js-sector-select', 'class': 'govuk-input'}),
-    #     choices=(('', ''),) + choices.SECTOR_CHOICES,
-    #     error_messages={
-    #         'required': 'You must enter your business sector',
-    #     },
-    # )
-
     sector_sub = ChoiceField(
         label='Enter a keyword to search a list of business activities',
-        help_text='For example "textiles"',
+        help_text='For example, textiles',
         required=True,
         widget=Select(attrs={'id': 'js-sector-select', 'class': 'govuk-input'}),
         choices=(('', ''),) + helpers.generate_sector_sic_choices(),
@@ -218,6 +207,14 @@ class ProfileForm(forms.Form):
         required=False,
         label='I would like to receive additional information by email (optional)',
         widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
+    )
+    company_website = CharField(
+        label='Company website',
+        required=True,
+        widget=TextInput(attrs={'class': 'govuk-input'}),
+        error_messages={
+            'required': 'Enter your company website',
+        },
     )
 
     def clean(self):

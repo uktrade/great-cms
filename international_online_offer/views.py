@@ -447,6 +447,7 @@ class ProfileView(GA360Mixin, FormView):
             'agree_terms': True,
             'agree_info_email': '',
             'landing_timeframe': '',
+            'company_website': '',
         }
         user_data = UserData.objects.filter(hashed_uuid=self.request.user.hashed_uuid).first()
         if user_data:
@@ -460,6 +461,7 @@ class ProfileView(GA360Mixin, FormView):
             init_user_form_data['agree_terms'] = user_data.agree_terms
             init_user_form_data['agree_info_email'] = user_data.agree_info_email
             init_user_form_data['landing_timeframe'] = user_data.landing_timeframe
+            init_user_form_data['company_website'] = user_data.company_website
 
         return init_user_form_data
 
@@ -642,7 +644,7 @@ class EditYourAnswersView(GA360Mixin, TemplateView):
         self.set_ga360_payload(
             page_id='EditYourAnswers',
             business_unit='ExpandYourBusiness',
-            site_section='edit-your-answers',
+            site_section='change-your-answers',
         )
 
     def get_context_data(self, **kwargs):

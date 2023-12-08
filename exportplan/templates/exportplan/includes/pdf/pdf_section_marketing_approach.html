@@ -17,7 +17,7 @@
                 </p>
                 <h6 class="body-s pad-y-0">Access to internet</h6>
                 <p class="pad-t-0">
-                    <strong>{{ country_data.InternetUsage.0.value|floatformat:0 }}&percnt;</strong>
+                    <strong>{{ country_data.InternetUsage.0.value|floatformat:0 }}%</strong>
                 </p>
                 <h6 class="body-s pad-y-0">Consumer price index</h6>
                 <p class="pad-t-0">
@@ -39,10 +39,10 @@
                         <td>Rural</td>
                         <tr>
                             <td>
-                                <strong>{% widthratio country_data.urban_rural_percentages.urban_percentage 1 100 %}&percnt;</strong>
+                                <strong>{% widthratio country_data.urban_rural_percentages.urban_percentage 1 100 %}%</strong>
                             </td>
                             <td>
-                                <strong>{% widthratio country_data.urban_rural_percentages.rural_percentage 1 100 %}&percnt;</strong>
+                                <strong>{% widthratio country_data.urban_rural_percentages.rural_percentage 1 100 %}%</strong>
                             </td>
                         </tr>
                     </table>

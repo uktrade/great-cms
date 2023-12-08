@@ -375,6 +375,7 @@ def test_eyb_user_serializer():
     instance.landing_timeframe = 'UNDER_SIX_MONTHS'
     instance.created = '2023-08-24 10:48:19.018536+00'
     instance.modified = '2023-08-24 10:48:19.018536+00'
+    instance.company_website = 'https://www.great.gov.uk'
 
     serializer = ActivityStreamExpandYourBusinessUserDataSerializer()
 
@@ -397,6 +398,7 @@ def test_eyb_user_serializer():
             'landingTimeframe': instance.landing_timeframe,
             'created': instance.created,
             'modified': instance.modified,
+            'companyWebsite': instance.company_website,
         },
     }
     assert output == expected
@@ -419,6 +421,8 @@ def test_eyb_triage_serializer():
     instance.is_high_value = True
     instance.created = '2023-08-24 10:48:19.018536+00'
     instance.modified = '2023-08-24 10:48:19.018536+00'
+    instance.location_city = 'SWANSEA'
+    instance.sector_sub = 'TEA_PROCESSING'
 
     serializer = ActivityStreamExpandYourBusinessTriageDataSerializer()
     output = serializer.to_representation(instance)
@@ -440,6 +444,8 @@ def test_eyb_triage_serializer():
             'isHighValue': instance.is_high_value,
             'created': instance.created,
             'modified': instance.modified,
+            'locationCity': instance.location_city,
+            'sectorSub': instance.sector_sub,
         },
     }
     assert output == expected

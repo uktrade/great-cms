@@ -2,6 +2,7 @@
 {% load wagtailcore_tags %}
 {% load persist_language from component_tags %}
 {% load i18n %}
+{% load static %}
 {% get_current_language as current_language %}
 {% get_current_language_bidi as language_bidi %}
 {% get_language_info for current_language as lang_info %}
@@ -10,7 +11,7 @@
         <div>
             <div class="nav-content">
                 <img alt="Great Britain and Northern Ireland"
-                     src="/static/images/great-logo.svg" />
+                     src="{% static 'images/great-logo.svg' %}" />
                 <h3>{{ title }}</h3>
                 {% if available_languages|length == 2 %}
                     <nav aria-label="Langugages" class="mobile-single-language-toggle">
@@ -30,7 +31,7 @@
             </div>
             <div class="mobile-nav-buttons">
                 {% if available_languages|length > 2 %}
-                    {% include 'microsites/includes/microsite_language_mobile_menu.html' with current_language=current_language available_languages=available_languages  rtl_language=lang_info.bidi %}
+                    {% include 'microsites/includes/microsite_language_mobile_menu.html' with current_language=current_language available_languages=available_languages rtl_language=lang_info.bidi %}
                 {% endif %}
                 {% include 'microsites/includes/microsite_menu_button.html' with menu_items=page.get_menu_items active_url=active_url rtl_language=lang_info.bidi %}
             </div>

@@ -60,7 +60,8 @@
             <div class="column-half padding-0 column-one-third">
                 <img src="{% static 'images/ukef_landing_offer_section_image.jpg' %}"
                      id="offer-section-image "
-                     class="offer-section-image">
+                     class="offer-section-image"
+                     alt="">
             </div>
             <div class="column-half offer-section-text margin-top-30 margin-top-0-l padding-horizontal-45-l padding-vertical-0">
                 <div class="grid-row">
@@ -124,7 +125,7 @@
                 </p>
             </div>
             <div class="column-full column-half-l">
-                <img src="{% static 'images/ukef_landing_how_we_can_help.jpg' %}">
+                <img src="{% static 'images/ukef_landing_how_we_can_help.jpg' %}" alt="" />
             </div>
         </div>
     </div>
@@ -146,7 +147,7 @@
             </div>
             <div class="column-third column-full">
                 {% url 'domestic:country-cover' as country_cover %}
-                {% include 'components/card.html' with  title='Check our country cover' description='Our market risk appetite and information on the countries we cover.' url=country_cover %}
+                {% include 'components/card.html' with title='Check our country cover' description='Our market risk appetite and information on the countries we cover.' url=country_cover %}
             </div>
         </div>
     </div>

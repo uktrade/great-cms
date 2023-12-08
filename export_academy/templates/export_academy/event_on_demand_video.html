@@ -25,13 +25,13 @@
                 </div>
                 <div class="event-details-header-logo">
                     <img class="ea-logo"
-                         src="/static/images/uk-export-academy-logo.svg"
+                         src="{% static 'images/uk-export-academy-logo.svg' %}"
                          alt="UK Export Academy logo" />
                 </div>
             </div>
         </section>
         <div class="great-bg-light-blue">
-            <section id='past-video-recording'
+            <section id="past-video-recording"
                      class="great-container govuk-!-padding-top-0  govuk-!-padding-bottom-0">
                 <div class="event-on-demand-video-container">
                     <div class="video-wrapper govuk-!-static-margin-bottom-4 govuk-!-static-margin-top-4 ">
@@ -55,7 +55,7 @@
                             </div>
                         {% endif %}
                     </div>
-                    <div id='next-live-event' class="govuk-!-static-padding-bottom-6">
+                    <div id="next-live-event" class="govuk-!-static-padding-bottom-6">
                         <div id="ask-the-experts"
                              class="great-display-flex great-align-items-flex-end">
                             <div>
@@ -63,7 +63,7 @@
                                 <h2 class="govuk-heading-s">Next live event with Q&A</h2>
                             </div>
                             <img class="govuk-!-margin-bottom-5"
-                                 src="/static/images/ask-the-experts.svg"
+                                 src="{% static 'images/ask-the-experts.svg' %}"
                                  alt="" />
                         </div>
                         <div class="govuk-!-static-margin-bottom-2">{% include './includes/event_item_badge.html' with event=event %}</div>

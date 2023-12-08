@@ -16,7 +16,7 @@
             <div class="container">
                 <div class="grid-row">
                     <div class="column-three-quarters-l teaser">
-                        <p class='sub-header'>Exporting guide to</p>
+                        <p class="sub-header">Exporting guide to</p>
                         <h1>{{ page.heading }}</h1>
                         <h2 class="visually-hidden">Overview</h2>
                         {% if features.FEATURE_PRODUCT_EXPERIMENT_LINKS %}
@@ -179,17 +179,17 @@
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">Year</th>
-                                                        <th scope="col" style="text-align: right">
+                                                        <th scope="col" class="great-text-align-right">
                                                             Imports (£
                                                             {% if unit %}{{ unit }}{% endif %}
                                                             )
                                                         </th>
-                                                        <th scope="col" style="text-align: right">
+                                                        <th scope="col" class="great-text-align-right">
                                                             Exports (£
                                                             {% if unit %}{{ unit }}{% endif %}
                                                             )
                                                         </th>
-                                                        <th scope="col" style="text-align: right">
+                                                        <th scope="col" class="great-text-align-right">
                                                             Total trade (£
                                                             {% if unit %}{{ unit }}{% endif %}
                                                             )
@@ -200,9 +200,9 @@
                                                     {% for datum in page.stats.market_trends.data %}
                                                         <tr>
                                                             <td>{{ datum.year }}</td>
-                                                            <td style="text-align: right">{% round_to_unit datum.imports unit %}</td>
-                                                            <td style="text-align: right">{% round_to_unit datum.exports unit %}</td>
-                                                            <td style="text-align: right">{% round_to_unit datum.total unit %}</td>
+                                                            <td class="great-text-align-right">{% round_to_unit datum.imports unit %}</td>
+                                                            <td class="great-text-align-right">{% round_to_unit datum.exports unit %}</td>
+                                                            <td class="great-text-align-right">{% round_to_unit datum.total unit %}</td>
                                                         </tr>
                                                     {% endfor %}
                                                 </tbody>
@@ -338,7 +338,7 @@
                     {% else %}
                         {# NOTE: image only shows if there are no stats for a given market guide -- this should mean never! However, we keep it here in case stats fail to fetch. #}
                         {% image page.section_one_image fill-640x360 as section_one_image %}
-                        {% include 'components/image_with_caption.html'  with rendition=section_one_image main_caption=page.section_one_image_caption sub_caption=page.section_one_image_caption_company img_classes="m-f-auto m-r-auto" %}
+                        {% include 'components/image_with_caption.html' with rendition=section_one_image main_caption=page.section_one_image_caption sub_caption=page.section_one_image_caption_company img_classes="m-f-auto m-r-auto" %}
                     {% endif %}
                 </div>
             </div>
@@ -440,11 +440,11 @@
                 <img src={{ need_help_image_url }} alt="Contact us">
                 <h3 class="govuk-heading-m govuk-!-margin-0">Get ready to do business abroad</h3>
                 <p>Step-by-step lessons to accelerate your exporting ability.</p>
-                <a class="button primary-button" href= {{ advice_url }}>Read more</a>
+                <a class="button primary-button" href="{{ advice_url }"}>Read more</a>
             </div>
             <div>
                 {% static 'images/find_export_answers.png' as find_export_answers_img %}
-                <img src={{ find_export_answers_img }} alt="Contact us">
+                <img src="{{ find_export_answers_img }}" alt="Contact us">
                 <h3 class="govuk-heading-m govuk-!-margin-0">Find the answers to your exporting questions</h3>
                 <p>
                     Get instant help from our online services and how-to articles or contact our Export Support Service to access our wider network of support.

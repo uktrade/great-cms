@@ -12,13 +12,13 @@
                 <p>Your unique business plan to launch your exports.</p>
                 <a href="{% url 'exportplan:start' %}" class="button primary-button"><i class="fas fa-plus m-r-xs"></i>Create a new plan</a>
             </div>
-            <div class = "image-container"></div>
+            <div class="image-container"></div>
         </div>
     </div>
     <input id="details-reveal" type="checkbox" class="button hide-show-trigger">
     {% if exportplan_list %}
         <div class="container m-t-s">
-            <label id='hide-show-button'
+            <label id="hide-show-button"
                    for="details-reveal"
                    class="button button--small secondary-button button--icon">
                 <i class="fas fa-chevron-right" /></i>
