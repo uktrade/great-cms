@@ -63,7 +63,7 @@
                     </a>
                      </div>  
                      {%endif%}
-                        <hr class="great-hr-light govuk-!-margin-top-8 govuk-!-margin-bottom-4" />
+                        <hr class="great-hr-light {% if next_module %}govuk-!-margin-top-8{%else%}govuk-!-margin-top-0{%endif%} govuk-!-margin-bottom-4" />
                         <h3 class="govuk-heading-s">Explore the topic</h3>
                         <a data-learn-to-export-link="{{ page.get_current_module.url }}"
                         href="{{ page.get_current_module.url  }}"
