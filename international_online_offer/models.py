@@ -422,6 +422,7 @@ class UserData(TimeStampedModel):
     landing_timeframe = models.CharField(
         null=True, default=None, max_length=255, choices=choices.LANDING_TIMEFRAME_CHOICES
     )
+    company_website = models.CharField(max_length=255, null=True)
 
 
 class TradeAssociation(models.Model):
