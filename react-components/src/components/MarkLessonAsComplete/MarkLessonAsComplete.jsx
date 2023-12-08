@@ -44,16 +44,16 @@ const MarkLessonAsComplete = ({ endpoint }) => {
 
   return (
     <React.Fragment>
-      <div class="govuk-form-group govuk-!-margin-top-4">
-  <fieldset class="govuk-fieldset" aria-describedby="waste-hint">
-    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l govuk-!-margin-bottom-0">
-      <h3 class="govuk-heading-m">
+      <div className="govuk-form-group govuk-!-margin-top-4">
+  <fieldset classname="govuk-fieldset" aria-describedby="waste-hint">
+    <legend className="govuk-fieldset__legend govuk-fieldset__legend--l govuk-!-margin-bottom-0">
+      <h3 className="govuk-heading-m">
         Mark as complete?
       </h3>
     </legend>
-    <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-      <div class="govuk-checkboxes__item">
-        <input class="govuk-checkboxes__input" name="isComplete" type="checkbox" value='isCompelete'
+    <div className="govuk-checkboxes" data-module="govuk-checkboxes">
+      <div className="govuk-checkboxes__item">
+        <input className="govuk-checkboxes__input" name="isComplete" type="checkbox" value='isCompelete'
           id="markascomplete_checkbox"
           onChange={() => {
             setIsComplete(!isComplete)
@@ -61,7 +61,7 @@ const MarkLessonAsComplete = ({ endpoint }) => {
           onClick={markCompleted}
           checked={Boolean(isComplete)}
         />
-        <label class="govuk-label govuk-checkboxes__label" for="isComplete">
+        <label className="govuk-label govuk-checkboxes__label" for="isComplete">
           {labelText}
         </label>
       </div>
