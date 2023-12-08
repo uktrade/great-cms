@@ -54,17 +54,23 @@
                             Next in this topic
                         {% endif %}
                     </h2>
-                    <a data-learn-to-export-link="{{ next_lesson.get_url }}"
-                    class="great-inline-flex no-wrap great-no-text-decoration"
-                    href="{{ next_lesson.get_url }}"> <span role="img"
-        class="fa fa-arrow-right great-text-white great-icon-circular-background govuk-!-margin-right-3"></span>
-                    <span class="great-title-link great-inline govuk-heading-xs great-font-bold">{{ next_lesson.title }}</span>
+                    <div class="great-card great-no-box-shadow">
+                        <a data-learn-to-export-link="{{ next_lesson.get_url }}"
+                        class="great-no-text-decoration great-no-box-shadow great-no-border-focus"
+                        href="{{ next_lesson.get_url }}">
+                        <div  class="great-inline-flex no-wrap great-align-items-center">
+                        <span role="img"
+            class="fa fa-arrow-right great-text-white great-icon-circular-background govuk-!-margin-right-3"></span>
+                        <span class="govuk-!-margin-0 great-title-link great-card__link great-card__link--heading great-inline govuk-heading-xs great-font-bold">{{ next_lesson.title }}</span>
+                        </div>  
                     </a>
-                    <hr class="great-blue-hr govuk-!-margin-top-8 govuk-!-margin-bottom-6" />
-                    <h3 class="govuk-heading-s">Explore the topic</h3>
-                    <a data-learn-to-export-link="{{ page.get_next_lesson_category.url }}"
-                    href="{{ page.get_next_lesson_category.url }}"
-                    class="govuk-link great-font-bold">{{ page.get_next_lesson_category.title }}</a>
+                     </div>  
+                        <hr class="great-hr-light govuk-!-margin-top-8 govuk-!-margin-bottom-4" />
+                        <h3 class="govuk-heading-s">Explore the topic</h3>
+                        <a data-learn-to-export-link="{{ page.get_current_module.url }}"
+                        href="{{ page.get_current_module.url  }}"
+                        class="govuk-link great-font-bold">{{ page.get_current_module.title }}</a>
+                </div>
                 </div>
             {% endif %}
         </div>

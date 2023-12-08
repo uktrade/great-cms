@@ -838,9 +838,9 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         else:
             return None
 
-    def get_next_lesson_category(self):
+    def get_current_module(self):
         page_helper = PageTopicHelper(self)
-        return page_helper.get_next_lesson_topic()
+        return page_helper.get_current_module()
 
     #########
     # Panels

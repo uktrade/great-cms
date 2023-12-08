@@ -77,15 +77,8 @@ class PageTopicHelper:
                 except IndexError:
                     return
 
-    def get_next_lesson_topic(self):
-        from core.models import TopicPage
-
-        next_lesson = self.get_next_lesson()
-        if next_lesson:
-            topic = TopicPage.objects.live().ancestor_of(next_lesson).specific().first()
-            if topic:
-                return {'title': topic.title, 'url': topic.get_url()}
-        return None
+    def get_current_module(self):
+        return self.module.specific
 
 
 def choices_to_key_value(choices):
