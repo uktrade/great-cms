@@ -31,20 +31,20 @@
 <div class="great great-bg-white">
     <div class="great-container">
         <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-padding-0">
-            <div class="great-bg-light-blue great-border-top-orange govuk-!-padding-6 ">
-                {% if request.user.is_authenticated %}
-                    <div class="">
+            {% if request.user.is_authenticated %}
+                <div class="great-bg-light-blue great-border-top-orange govuk-!-padding-6 ">
                         <div class="">
-                            {% include 'learn/recap.html' %}
-                            <hr class="hr hr--light govuk-!-margin-0" />
+                            <div class="">
+                                {% include 'learn/recap.html' %}
+                                <hr class="hr hr--light govuk-!-margin-0" />
+                            </div>
                         </div>
-                    </div>
-                    <div class="govuk-!-padding-bottom-2">
-                        <fieldset id="mark_as_complete">
-                        </fieldset>
-                    </div>
-                {% endif %}
-            </div>
+                        <div class="govuk-!-padding-bottom-2">
+                            <fieldset id="mark_as_complete">
+                            </fieldset>
+                        </div>
+                </div>
+            {% endif %}
             <div class="great-container">
                 {% if next_lesson %}
                     {% include "./return_link.html" with link=backlink title=backlink_title class="only-mobile" %}
