@@ -27,10 +27,10 @@
         <a href={{ BREADCRUMBS_ROOT_URL }}>great.gov.uk</a>
     {% endbreadcrumbs %}
 </div>
-<section id="learn-root" class="great great-container great-overflow-visible">
+<section id="learn-root" class="great great-container great-overflow-visible ">
     {% for learning_module in page.get_children.specific.live %}
         {% with high_level_completion_progress|get_item:learning_module.id as module_completion_data %}
-            <div class="great-card great-card--undecorated great-bg-white govuk-!-margin-bottom-4">
+            <div class="great-card great-card--undecorated great-bg-white govuk-grid-column-two-thirds govuk-!-margin-bottom-4">
                 <a href="{% pageurl learning_module %}">
                     <div class="great-display-flex great-flex-wrap great-flex-column-until-tablet great-gap govuk-!-padding-4">
                         <div class="great-flex-2">
