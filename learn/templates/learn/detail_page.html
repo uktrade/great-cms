@@ -33,46 +33,42 @@
         <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-padding-0">
             {% if request.user.is_authenticated %}
                 <div class="great-bg-light-blue great-border-top-orange govuk-!-padding-6 ">
+                    <div class="">
                         <div class="">
-                            <div class="">
-                                {% include 'learn/recap.html' %}
-                                <hr class="hr hr--light govuk-!-margin-0" />
-                            </div>
+                            {% include 'learn/recap.html' %}
+                            <hr class="hr hr--light govuk-!-margin-0" />
                         </div>
-                        <div class="govuk-!-padding-bottom-2">
-                            <fieldset id="mark_as_complete">
-                            </fieldset>
-                        </div>
+                    </div>
+                    <div class="govuk-!-padding-bottom-2">
+                        <fieldset id="mark_as_complete">
+                        </fieldset>
+                    </div>
                 </div>
             {% endif %}
-            <div class="great-container">
-                {% if next_lesson %}
-                    {% include "./return_link.html" with link=backlink title=backlink_title class="only-mobile" %}
-                    <div class="govuk-!-padding-top-6 govuk-!-padding-bottom-8">
-                        <div>
-                            <h2 class="govuk-heading-m govuk-!-padding-top-2">
-                                {% if next_module %}
-                                    Part of your next module
-                                {% else %}
-                                    Next in this topic
-                                {% endif %}
-                            </h2>
-                        <a data-learn-to-export-link="{{ next_lesson.get_url }}"
-                           class="great-inline-flex no-wrap"
-                           href="{{ next_lesson.get_url }}"> <span role="img"
-       class="fa fa-arrow-right great-text-white great-icon-circular-background govuk-!-margin-right-3 great-no-text-decoration"></span>
-                        <span class="great-title-link great-inline govuk-heading-xs great-font-bold">{{ next_lesson.title }}</span>
+            {% if next_lesson %}
+                <div class="govuk-!-padding-top-6 govuk-!-padding-bottom-8">
+                    <h2 class="govuk-heading-m govuk-!-padding-top-2">
+                        {% if next_module %}
+                            Part of your next module
+                        {% else %}
+                            Next in this topic
+                        {% endif %}
+                    </h2>
+                    <a data-learn-to-export-link="{{ next_lesson.get_url }}"
+                    class="great-inline-flex no-wrap"
+                    href="{{ next_lesson.get_url }}"> <span role="img"
+        class="fa fa-arrow-right great-text-white great-icon-circular-background govuk-!-margin-right-3 great-no-text-decoration"></span>
+                    <span class="great-title-link great-inline govuk-heading-xs great-font-bold">{{ next_lesson.title }}</span>
                     </a>
                     <hr class="great-blue-hr govuk-!-margin-top-8 govuk-!-margin-bottom-6" />
                     <h3 class="govuk-heading-s">Explore the topic</h3>
                     <a data-learn-to-export-link="{{ page.get_next_lesson_category.url }}"
-                       href="{{ page.get_next_lesson_category.url }}"
-                       class="govuk-link great-font-bold">{{ page.get_next_lesson_category.title }}</a>
+                    href="{{ page.get_next_lesson_category.url }}"
+                    class="govuk-link great-font-bold">{{ page.get_next_lesson_category.title }}</a>
                 </div>
-            </div>
-        {% endif %}
+            {% endif %}
+        </div>
     </div>
-</div>
 </div>
 {% include 'learn/promo.html' with bg_class='great-bg-light-blue' %}
 {% endblock %}
