@@ -208,6 +208,14 @@ class ProfileForm(forms.Form):
         label='I would like to receive additional information by email (optional)',
         widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
     )
+    company_website = CharField(
+        label='Company website',
+        required=True,
+        widget=TextInput(attrs={'class': 'govuk-input'}),
+        error_messages={
+            'required': 'Enter your company website',
+        },
+    )
 
     def clean(self):
         cleaned_data = super().clean()

@@ -23,6 +23,9 @@ def test_index(client, settings):
 def test_sector(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     response = client.get(reverse('international_online_offer:sector'))
+    context = response.context_data
+    assert context['sector'] is None
+    assert context['sector_sub'] is None
     assert response.status_code == 200
 
 
@@ -58,11 +61,37 @@ def test_sector_form_valid_saves_to_db(client, user, settings):
 
 
 @pytest.mark.django_db
+def test_sector_saved_to_db_gets_labels(client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:sector')
+    user.hashed_uuid = '123'
+    client.force_login(user)
+    response = client.post(url, {'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT'})
+    response = client.get(reverse('international_online_offer:sector'))
+    context = response.context_data
+    assert context['sector'] == 'Financial and professional services'
+    assert context['sector_sub'] == 'Residents property management'
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
 def test_sector_form_valid_saves_to_session(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:sector')
     response = client.post(url, {'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT'})
     assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_sector_saved_to_session_gets_labels(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:sector')
+    response = client.post(url, {'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT'})
+    response = client.get(reverse('international_online_offer:sector'))
+    context = response.context_data
+    assert context['sector'] == 'FINANCIAL_AND_PROFESSIONAL_SERVICES'
+    assert context['sector_sub'] == 'RESIDENTS_PROPERTY_MANAGEMENT'
+    assert response.status_code == 200
 
 
 @pytest.mark.django_db
@@ -134,6 +163,9 @@ def test_location(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:location')
     response = client.get(url)
+    context = response.context_data
+    assert context['region'] is None
+    assert context['city'] is None
     assert response.status_code == 200
 
 
@@ -169,11 +201,37 @@ def test_location_form_valid_saves_to_db(client, user, settings):
 
 
 @pytest.mark.django_db
+def test_location_saved_to_db_gets_labels(client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:location')
+    user.hashed_uuid = '123'
+    client.force_login(user)
+    response = client.post(url, {'location': 'SWANSEA'})
+    response = client.get(url)
+    context = response.context_data
+    assert context['region'] == 'Wales'
+    assert context['city'] == 'Swansea'
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
 def test_location_form_valid_saves_to_session(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:location')
     response = client.post(url, {'location': regions.WALES})
     assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_location_saved_to_session_gets_labels(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:location')
+    response = client.post(url, {'location': 'SWANSEA'})
+    response = client.get(url)
+    context = response.context_data
+    assert context['region'] == 'WALES'
+    assert context['city'] == 'SWANSEA'
+    assert response.status_code == 200
 
 
 @pytest.mark.django_db
@@ -336,6 +394,7 @@ def test_eyb_profile(client, user, settings):
                 'agree_terms': 'true',
                 'agree_info_email': '',
                 'landing_timeframe': 'UNDER_SIX_MONTHS',
+                'company_website': 'http://www.great.gov.uk',
             },
             '?signup=true',
             '#personalised-guide',
@@ -351,6 +410,7 @@ def test_eyb_profile(client, user, settings):
                 'agree_terms': 'true',
                 'agree_info_email': '',
                 'landing_timeframe': 'UNDER_SIX_MONTHS',
+                'company_website': 'http://www.great.gov.uk',
             },
             '',
             '',
