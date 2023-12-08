@@ -33,6 +33,13 @@
                     </div>
                 </div>
             </div>
+            <div class="govuk-grid-row govuk-!-margin-bottom-3">
+                <div class="govuk-grid-column-full">
+                    <div class="{% if form.company_website.errors %} govuk-form-group--error{% endif %}">
+                        {% include './form_field.html' with field=form.company_website %}
+                    </div>
+                </div>
+            </div>
             <div class="govuk-grid-row great-hidden">
                 <div class="govuk-grid-column-full">
                     <div class="{% if form.email.errors %} govuk-form-group--error{% endif %}">
