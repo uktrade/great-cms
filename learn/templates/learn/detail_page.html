@@ -47,12 +47,9 @@
             {% endif %}
             {% if next_lesson %}
                 <div class="govuk-!-padding-top-6 govuk-!-padding-bottom-8">
+                     {% if not  next_module %}
                     <h2 class="govuk-heading-m govuk-!-padding-top-2">
-                        {% if next_module %}
-                            Part of your next module
-                        {% else %}
-                            Next in this topic
-                        {% endif %}
+                        Next in this topic
                     </h2>
                     <div class="great-card great-no-box-shadow">
                         <a data-learn-to-export-link="{{ next_lesson.get_url }}"
@@ -65,6 +62,7 @@
                         </div>  
                     </a>
                      </div>  
+                     {%endif%}
                         <hr class="great-hr-light govuk-!-margin-top-8 govuk-!-margin-bottom-4" />
                         <h3 class="govuk-heading-s">Explore the topic</h3>
                         <a data-learn-to-export-link="{{ page.get_current_module.url }}"
