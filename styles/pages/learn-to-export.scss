@@ -242,12 +242,40 @@ ol.list-circle-number li{
 }
 
 aside {
-  a {
-    font-weight: 600;
+  li {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+    margin-top: 20px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  li::before {
+    content: "";
+    position: absolute;
+    display: inline-block;
+    vertical-align: middle;
+    background: $color-thematic-break;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    background-image: url(/static/icons/dark-blue-arrow-right.svg);
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
   }
 
   li a {
-    margin-left: 20px;
+    margin-left: 52px;
+    float: left;
+  }
+
+  a {
+    font-weight: 600;
   }
 }
 
