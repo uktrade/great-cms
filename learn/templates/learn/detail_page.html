@@ -31,22 +31,21 @@
 <div class="great great-bg-white">
     <div class="great-container">
         <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-padding-0">
+            <div class="great-bg-light-blue great-border-top-orange govuk-!-padding-6 ">
                 {% if request.user.is_authenticated %}
-                <div class="great-bg-light-blue great-border-top-orange govuk-!-padding-6 ">
-                
+                    <div class="">
                         <div class="">
-                            <div class="">
-                                {% include 'learn/recap.html' %}
-                                <hr class="hr hr--light govuk-!-margin-0" />
-                            </div>
+                            {% include 'learn/recap.html' %}
+                            <hr class="hr hr--light govuk-!-margin-0" />
                         </div>
-                        <div class="govuk-!-padding-bottom-2">
-                            <fieldset id="mark_as_complete">
-                            </fieldset>
-                        </div>    
-                </div>
-            {% endif %}
-            <div>
+                    </div>
+                    <div class="govuk-!-padding-bottom-2">
+                        <fieldset id="mark_as_complete">
+                        </fieldset>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="great-container">
                 {% if next_lesson %}
                     {% include "./return_link.html" with link=backlink title=backlink_title class="only-mobile" %}
                     <div class="govuk-!-padding-top-6 govuk-!-padding-bottom-8">
@@ -59,33 +58,13 @@
                                 {% endif %}
                             </h2>
                         <a data-learn-to-export-link="{{ next_lesson.get_url }}"
-                           class="great-inline-flex no-wrap great-no-text-decoration"
+                           class="great-inline-flex no-wrap"
                            href="{{ next_lesson.get_url }}"> <span role="img"
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-       class="fa fa-arrow-right great-text-white great-icon-circular-background govuk-!-margin-right-3 great-no-text-decoration"></span>
-=======
-       class="fa fa-arrow-right great-text-white great-icon-circular-background govuk-!-margin-right-3"></span>
->>>>>>> 56222fe7b (save progeess)
-                        <span class="great-title-link great-inline govuk-heading-xs great-font-bold">{{ next_lesson.title }}</span>
-                    </a>
-                    <hr class="great-blue-hr govuk-!-margin-top-8 govuk-!-margin-bottom-4" />
-                    <h3 class="govuk-heading-s">Explore the topic</h3>
-=======
-       class="fa fa-arrow-right great-text-white great-icon-circular-background govuk-!-margin-right-4"></span>
-                        <h4 class="great-title-link great-inline govuk-heading-s">{{ next_lesson.title }}</h4>
-                    </a>
-                    <hr class="great-blue-hr" />
-                    <h3 class="govuk-heading-m">Explore the topic</h3>
->>>>>>> 09d41fc9d (added data attributes)
-=======
        class="fa fa-arrow-right great-text-white great-icon-circular-background govuk-!-margin-right-3 great-no-text-decoration"></span>
                         <span class="great-title-link great-inline govuk-heading-xs great-font-bold">{{ next_lesson.title }}</span>
                     </a>
                     <hr class="great-blue-hr govuk-!-margin-top-8 govuk-!-margin-bottom-6" />
                     <h3 class="govuk-heading-s">Explore the topic</h3>
->>>>>>> 53f8e6c4c (comments)
                     <a data-learn-to-export-link="{{ page.get_next_lesson_category.url }}"
                        href="{{ page.get_next_lesson_category.url }}"
                        class="govuk-link great-font-bold">{{ page.get_next_lesson_category.title }}</a>
@@ -94,8 +73,7 @@
         {% endif %}
     </div>
 </div>
-</div>
-</div>
+{% include 'learn/promo.html' with bg_class='great-bg-light-blue' %}
 {% endblock %}
 {% block body_js %}
     {{ block.super }}
