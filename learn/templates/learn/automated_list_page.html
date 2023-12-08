@@ -39,11 +39,9 @@
                             </h3>
                             {{ learning_module.heading | richtext| add_govuk_classes }}
                         </div>
-                        <div class="progess-container great-flex-1">
-                            {% if module_completion_data.completion_count %}
-                                {% include "learn/_high_level_progress.html" with module_completion_data=module_completion_data only %}
-                            {% endif %}
-                        </div>
+                    </div>
+                    <div class="progess-container great-display-flex great-flex-wrap great-flex-column-until-tablet great-gap govuk-!-padding-4">
+                        {% include "learn/_high_level_progress.html" with module_completion_data=module_completion_data only %}
                     </div>
                 </div>
             </div>
