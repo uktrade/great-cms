@@ -42,7 +42,6 @@ from wagtail.snippets.models import register_snippet
 from wagtail.utils.decorators import cached_classmethod
 from wagtailmedia.models import Media
 from wagtailseo.models import SeoMixin
-
 from core import blocks as core_blocks, cms_panels, mixins, snippet_slugs
 from core.blocks import (
     LinkBlockWithHeading,
@@ -716,6 +715,11 @@ class TopicPage(Page, mixins.AuthenticatedUserRequired if not settings.FEATURE_D
     def serve(self, request):
         return self._redirect_to_parent_module()
 
+    def get_lesson_pages(self):
+         return [page for page in self.get_children().live() if self.is_lesson_page(page)]
+     
+    def is_lesson_page(self, page):
+        return isinstance(page.specific, DetailPage)
 
 class LessonPlaceholderPage(Page, mixins.AuthenticatedUserRequired if not settings.FEATURE_DEA_V2 else object):
 

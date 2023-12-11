@@ -14,12 +14,19 @@ from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 
 from core.constants import BACKLINK_QUERYSTRING_NAME
-from core.helpers import millify
+# from core.helpers import millify
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage
 
 logger = logging.getLogger(__name__)
 
 register = template.Library()
+
+def millify(n):
+    n = float(n)
+    mill_names = ['', ' thousand', ' million', ' billion', ' trillion']
+    mill_idx = max(0, min(len(mill_names) - 1, int(math.floor(0 if n == 0 else math.log10(abs(n)) / 3))))
+    return '{0:.2f}{unit}'.format(n / 10 ** (3 * mill_idx), unit=mill_names[mill_idx])
+
 
 
 @register.filter

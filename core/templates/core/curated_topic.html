@@ -5,6 +5,7 @@
 <div class="great great-overflow-visible govuk-grid-column-two-thirds-from-desktop govuk-!-margin-bottom-4 govuk-!-padding-0" id="{{ topic.id }}">
     <h2 class="learn__topic-item-title govuk-heading-l govuk-!-padding-0 govuk-!-margin-0">{{ topic.title }}</h2>
     <ul class="learn__lessons-list">
+<<<<<<< HEAD
         {% for page in topic.get_children.live %}
             {% if page|is_lesson_page %}
 <<<<<<< HEAD
@@ -13,6 +14,9 @@
                         <div class="great-display-flex great-gap-10-30 govuk-!-padding-4 great-justify-space-between great-flex-column-until-desktop">
                             <h3 class="govuk-heading-m govuk-!-margin-0 great-title-link great-card__link great-card__link--heading">
 =======
+=======
+        {% for page in topic.get_lesson_pages %}
+>>>>>>> f99bd7c6d (fixed logic)
                 <li class="learn__lesson-item great-card great-card--undecorated great-bg-white great-no-box-shadow{% if forloop.last %} great-no-border{%endif%}">
                     <a class="great-no-border-focus great-no-box-shadow govuk-!-padding-top-4 govuk-!-padding-bottom-4" href="{% pageurl page %}" title="{{ page.title }}">
                         <div class="great-display-flex great-gap-10-30 great-justify-space-between {% if page.id in completed_lessons %}great-flex-column-until-desktop{% endif %}">
@@ -28,7 +32,6 @@
                         </div>
                     </a>
                 </li>
-            {% endif %}
         {% endfor %}
     </ul>
 </div>
