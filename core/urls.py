@@ -37,6 +37,7 @@ available_sitemaps = {
 }
 
 AMP_URL = f'{settings.BASE_URL}/AMP/'
+INDIA_URL = f'{settings.BASE_URL}/india/'
 
 
 urlpatterns = [
@@ -166,6 +167,14 @@ urlpatterns = [
         skip_ga360(
             views.PermanentQuerystringRedirectView.as_view(
                 url=AMP_URL,
+            )
+        ),
+    ),
+    re_path(
+        r'^campaign-site/india/',
+        skip_ga360(
+            views.PermanentQuerystringRedirectView.as_view(
+                url=INDIA_URL,
             )
         ),
     ),
