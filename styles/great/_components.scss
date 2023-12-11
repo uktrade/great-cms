@@ -179,46 +179,73 @@ figure.great-blockquote {
 }
 
 .great-card {
-  background: $great-white;
-  box-shadow: 0 7px 0 0 rgba(0, 0, 0, 0.2);
-
   @include govuk-media-query($until: tablet) {
     margin-bottom: 30px;
   }
 
   a {
+    background: $great-white;
+    border-bottom: 4px solid rgba(0, 0, 0, 0.2);
     display: block;
     text-decoration: none;
+    position: relative;
+
+    &:visited {
+      .great-card__link {
+        color: $govuk-link-visited-colour;
+      }
+    }
 
     &:hover {
-      box-shadow: 0 7px 0 0 rgba(0, 0, 0, 0.4);
+      border-bottom: 4px solid rgba(0, 0, 0, 0.3);
 
       .great-card__link {
         text-decoration-line: underline;
         text-decoration-thickness: 3px;
         color: #003078 !important;
-      }
+        text-underline-position: under;
 
-      .great-card__link--heading {
-        &::after {
-          background-image: url(/static/icons/dark-blue-arrow-right.svg);
+        --webkit-text-underline-offset: 0.05rem;
+
+        @include govuk-media-query($from: tablet) {
+          --webkit-text-underline-offset: 0.1rem;
         }
       }
     }
 
     &:focus {
-      box-shadow: 0 7px 0 0 rgba(0, 0, 0, 0.4);
-      outline: 3px solid
-        var(--colour-focus-state-govuk-focus-colour, govuk-colour('yellow'));
+      border-bottom: 4px solid rgba(0, 0, 0, 0.3);
       margin: 0;
+      outline: none;
 
       .great-card__link {
-        outline: 3px solid rgba(0, 0, 0, 0);
         color: #212427;
-        background-color: govuk-colour('yellow');
-        box-shadow: 0 -2px govuk-colour('yellow'), 0 4px #0b0c0c;
         text-decoration: none;
+
+        span {
+          outline: 3px solid rgba(0, 0, 0, 0);
+          color: #212427;
+          background-color: govuk-colour('yellow');
+          box-shadow: 0 -2px govuk-colour('yellow'), 0 4px #0b0c0c;
+          text-decoration: none;
+        }
       }
+    }
+
+    &:active {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+      box-shadow: none;
+      padding-top: 3px;
+
+      @include govuk-media-query($from: tablet) {
+        height: calc(100% - 3px);
+        margin-top: 3px;
+        padding-top: 0;
+      }
+    }
+
+    &:focus:active {
+      background: $great-white;
     }
   }
 
@@ -234,7 +261,7 @@ figure.great-blockquote {
     font-size: 28px;
   }
 
-  span {
+  .govuk-caption {
     display: block;
     font-size: 16px;
 
@@ -248,23 +275,33 @@ figure.great-blockquote {
     display: inline-block;
     text-decoration: underline;
     max-width: 80%;
+    text-underline-position: under;
+
+    --webkit-text-underline-offset: 0.05rem;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    @include govuk-media-query($from: tablet) {
+      --webkit-text-underline-offset: 0.1rem;
+    }
   }
 
   .great-card__link--heading {
     &::after {
-      background-image: url(/static/icons/blue-arrow-right.svg);
-      background-size: 20px;
-      background-repeat: no-repeat;
-      background-position: 50%;
+      content: '\f061';
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 900;
       position: absolute;
       display: inline-block;
-      content: '';
       pointer-events: none;
-      height: 20px;
-      width: 20px;
-      top: 20px;
+      top: 12px;
       right: 0;
     }
+  }
+
+  .great-card__tag {
+    position: absolute;
+    bottom: 20px;
   }
 
   .great-card__link--chevron {
@@ -291,21 +328,29 @@ figure.great-blockquote {
 .great-card--homepage {
   height: auto;
 
+  @include govuk-media-query($until: tablet) {
+    margin-bottom: 0;
+  }
+
   a {
     display: flex;
     height: auto;
   }
 
   img,
-  svg {
+  div > svg {
     width: 50px;
     margin-left: 10px;
+    margin-top: 5px;
 
     @include govuk-media-query($from: tablet) {
       width: 80px;
       margin-left: 20px;
+      margin-top: 10px;
     }
+  }
 
+  .great-card__svg-wrapper {
     ~ div {
       width: 100%;
     }
@@ -337,21 +382,26 @@ figure.great-blockquote {
 }
 
 .great-card--dep-landing {
+  @include govuk-media-query($until: tablet) {
+    margin-bottom: 0;
+  }
+
   svg {
     max-width: 80px;
-    padding-top: 20px;
     padding-left: 20px;
     margin-bottom: -20px;
   }
 }
 
 .great-card--homepage-container {
+  margin-bottom: 14px;
+
   @include govuk-media-query($from: tablet) {
     flex-basis: 50%;
-    margin-bottom: 30px;
+    margin-bottom: 19px;
   }
 
-  @include govuk-media-query($from: desktop) {
+  @media (min-width: 1024px) {
     flex-basis: 33.333%;
   }
 }
@@ -367,7 +417,7 @@ figure.great-blockquote {
       height: 100%;
     }
 
-    a {
+    a:not(.great-card-row .great-card a:active) {
       @include govuk-media-query($from: tablet) {
         height: 100%;
       }
@@ -669,17 +719,13 @@ figure.great-blockquote {
   position: relative;
 
   &::after {
-    background-image: url(/static/icons/blue-arrow-right.svg);
-    background-size: 20px;
-    background-repeat: no-repeat;
-    background-position: 50%;
+    content: '\f061';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
     position: absolute;
     display: inline-block;
-    content: '';
     pointer-events: none;
-    height: 20px;
-    width: 20px;
-    top: 20px;
+    top: 12px;
     right: 0;
   }
 
@@ -688,30 +734,53 @@ figure.great-blockquote {
     display: inline-block;
     text-decoration: underline;
     max-width: 80%;
+    text-underline-position: under;
+
+    --webkit-text-underline-offset: 0.05rem;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    @include govuk-media-query($from: tablet) {
+      --webkit-text-underline-offset: 0.1rem;
+    }
   }
 
   &:hover {
+    color: #003078 !important;
+
     .great-heading-link__heading {
       text-decoration-line: underline;
       text-decoration-thickness: 3px;
       color: #003078 !important;
     }
-
-    &::after {
-      background-image: url(/static/icons/dark-blue-arrow-right.svg);
-    }
   }
 
   &:focus {
     outline: 0;
+    color: #212427;
 
     .great-heading-link__heading {
-      outline: 3px solid rgba(0, 0, 0, 0);
       color: #212427;
-      background-color: govuk-colour('yellow');
-      box-shadow: 0 -2px govuk-colour('yellow'), 0 4px #0b0c0c;
       text-decoration: none;
+
+      span {
+        outline: 3px solid rgba(0, 0, 0, 0);
+        color: #212427;
+        background-color: govuk-colour('yellow');
+        box-shadow: 0 -2px govuk-colour('yellow'), 0 4px #0b0c0c;
+        text-decoration: none;
+      }
     }
+  }
+
+  &:visited {
+    .great-heading-link__heading {
+      color: $govuk-link-visited-colour;
+    }
+  }
+
+  &:active {
+    color: #212427;
   }
 }
 
