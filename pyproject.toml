@@ -37,3 +37,24 @@ line_length = 120
 [tool.flake8]
 exclude = '.venv,venv,env,node_modules,migrations'
 max-line-length = 120
+
+[tool.djlint]
+profile = 'django'
+ignore = 'H006,H025,T002,T003,D018'
+exclude = '''
+(
+  /(
+      \.git
+    | \.circleci
+    | \__pycache__
+    | \.github
+    | \.pytest_cache
+    | \.venv
+    | \.vscode
+    | htmlcov
+    | node_modules
+    | venv
+    | env
+  )/
+)
+'''

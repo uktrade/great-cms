@@ -27,7 +27,7 @@
 <div class="results-wrapper">
     <div class="container search-results-container">
         <form action="{% url 'search:feedback' %}?{{ request.GET.urlencode }}"
-              method="POST">
+              method="post">
             {% csrf_token %}
             {{ form.non_field_errors }}
             {% include 'core/includes/form_field.html' with field=form.result_found %}

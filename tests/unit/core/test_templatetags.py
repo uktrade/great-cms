@@ -18,6 +18,7 @@ from core.templatetags.content_tags import (
     extract_domain,
     get_backlinked_url,
     get_category_title_for_lesson,
+    get_icon_path,
     get_lesson_progress_for_topic,
     get_link_blocks,
     get_template_translation_enabled,
@@ -907,3 +908,15 @@ def test_remove_nested_bold_tags():
     html = '<h2 class="govuk-heading-l" data-block-key="hl97x"><b>Header</b></h2>'
     expected_result = '<h2 class="govuk-heading-l" data-block-key="hl97x">Header</h2>'
     assert remove_bold_from_headings(html) == expected_result
+
+
+@pytest.mark.parametrize(
+    'input, expected_output',
+    (
+        ('/support/test', 'components/great/includes/test.svg'),
+        ('', ''),
+    ),
+)
+def test_get_icon_path(input, expected_output):
+    result = get_icon_path(input)
+    assert result == expected_output

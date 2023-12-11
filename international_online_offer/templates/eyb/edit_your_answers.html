@@ -39,11 +39,12 @@
                             <div class="govuk-summary-list__row">
                                 <dt class="govuk-summary-list__key">Sector</dt>
                                 <dd class="govuk-summary-list__value">
-                                    {{ triage_data.get_sector_sub_display | default:'-' }}, {{ triage_data.get_sector_display | default:'-' }}
+                                    {% if triage_data.sector_sub %}{{ triage_data.get_sector_sub_display | default:'-' }},{% endif %}
+                                    {{ triage_data.get_sector_display | default:'-' }}
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
                                     <a class="govuk-link"
-                                       href="{% url 'international_online_offer:sector' %}?next=edit-your-answers">
+                                       href="{% url 'international_online_offer:sector' %}?next=change-your-answers">
                                         Change<span class="govuk-visually-hidden">sector</span>
                                     </a>
                                 </dd>
@@ -66,7 +67,7 @@
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
                                     <a class="govuk-link"
-                                       href="{% url 'international_online_offer:intent' %}?next=edit-your-answers">
+                                       href="{% url 'international_online_offer:intent' %}?next=change-your-answers">
                                         Change<span class="govuk-visually-hidden">expansion plans</span>
                                     </a>
                                 </dd>
@@ -85,7 +86,7 @@
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
                                     <a class="govuk-link"
-                                       href="{% url 'international_online_offer:location' %}?next=edit-your-answers">
+                                       href="{% url 'international_online_offer:location' %}?next=change-your-answers">
                                         Change<span class="govuk-visually-hidden">location</span>
                                     </a>
                                 </dd>
@@ -97,7 +98,7 @@
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
                                     <a class="govuk-link"
-                                       href="{% url 'international_online_offer:hiring' %}?next=edit-your-answers">
+                                       href="{% url 'international_online_offer:hiring' %}?next=change-your-answers">
                                         Change<span class="govuk-visually-hidden">hiring estimate (within first 3 years)</span>
                                     </a>
                                 </dd>
@@ -114,7 +115,7 @@
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
                                     <a class="govuk-link"
-                                       href="{% url 'international_online_offer:spend' %}?next=edit-your-answers">
+                                       href="{% url 'international_online_offer:spend' %}?next=change-your-answers">
                                         Change<span class="govuk-visually-hidden">planned spend for UK entry or expansion</span>
                                     </a>
                                 </dd>

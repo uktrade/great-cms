@@ -26,7 +26,7 @@ from wagtail.models import Page
 from wagtailseo.models import SeoMixin
 
 from core import blocks as core_blocks, cache_keys, helpers, mixins, service_urls
-from core.blocks import AdvantageBlock, ColumnsBlock
+from core.blocks import AdvantageBlock, ColumnsBlock, SupportHomepageCardBlock
 from core.constants import (
     ARTICLE_TYPES,
     COUNTRY_FACTSHEET_CTA_TITLE,
@@ -306,6 +306,24 @@ class GreatDomesticHomePage(
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
+    )
+    dep_cards = StreamField(
+        [
+            (
+                'cards',
+                StreamBlock(
+                    [
+                        ('card', SupportHomepageCardBlock()),
+                    ],
+                    block_counts={
+                        'card': {'min_num': 6},
+                    },
+                ),
+            ),
+        ],
+        use_json_field=True,
+        null=True,
+        blank=True,
     )
 
     # Slice

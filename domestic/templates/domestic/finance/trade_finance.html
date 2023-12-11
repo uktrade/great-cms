@@ -37,7 +37,8 @@
                         {% image advantage_block.value.icon original as advantage_icon_rendition %}
                         <img src="{{ advantage_icon_rendition.url }}"
                              width="40"
-                             class="float-left" />
+                             class="float-left"
+                             alt="" />
                     </div>
                     <div class="advantages-content float-right wrap-tight rich-text">
                         {{ advantage_block.value.content|richtext }}

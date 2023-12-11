@@ -1,4 +1,5 @@
 {% extends 'core/page_blank.html' %}
+{% load static %}
 {% block head_title %}UK Export Academy{% endblock %}
 {% block content %}
     <div id="sign-up" class="great">
@@ -6,7 +7,7 @@
             <div class="great-signup__form-panel">
                 <a href="/" class="inline-block">
                     <img class="great-signup__logo"
-                         src="/static/images/dbt_logo_335x160.png"
+                         src="{% static 'images/dbt_logo_335x160.png' %}"
                          alt="Department for Business and Trade"
                          width="335"
                          height="160" />
@@ -29,9 +30,9 @@
                     </h1>
                     <div class="govuk-!-margin-top-6 great-signup__info-panel__subheadings">
                         {% block left_panel_content %}{% endblock %}
-                        <img class='ea-logo {% if not existing_ea_user %}hide-logo-below-1200{% endif %}'
-                             src='/static/images/uk-export-academy-logo.svg'
-                             alt='UK Export Academy' />
+                        <img class="ea-logo {% if not existing_ea_user %}hide-logo-below-1200{% endif %}"
+                             src="{% static 'images/uk-export-academy-logo.svg' %}"
+                             alt="UK Export Academy" />
                     </div>
                 </div>
             </div>

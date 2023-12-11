@@ -77,14 +77,13 @@ class SectorView(GA360Mixin, FormView):
         return next_url
 
     def get_context_data(self, **kwargs):
+        sector = self.request.session.get('sector')
+        sector_sub = self.request.session.get('sector_sub')
         if self.request.user.is_authenticated:
             triage_data = get_triage_data(self.request.user.hashed_uuid)
             if triage_data:
                 sector = triage_data.get_sector_display()
                 sector_sub = triage_data.get_sector_sub_display()
-        else:
-            sector = self.request.session.get('sector')
-            sector_sub = self.request.session.get('sector_sub')
 
         return super().get_context_data(
             **kwargs,
@@ -207,14 +206,13 @@ class LocationView(GA360Mixin, FormView):
         return next_url
 
     def get_context_data(self, **kwargs):
+        region = self.request.session.get('location')
+        city = self.request.session.get('location_city')
         if self.request.user.is_authenticated:
             triage_data = get_triage_data(self.request.user.hashed_uuid)
             if triage_data:
                 region = triage_data.get_location_display()
                 city = triage_data.get_location_city_display()
-        else:
-            region = self.request.session.get('location')
-            city = self.request.session.get('location_city')
 
         return super().get_context_data(
             **kwargs,
@@ -447,6 +445,7 @@ class ProfileView(GA360Mixin, FormView):
             'agree_terms': True,
             'agree_info_email': '',
             'landing_timeframe': '',
+            'company_website': '',
         }
         user_data = UserData.objects.filter(hashed_uuid=self.request.user.hashed_uuid).first()
         if user_data:
@@ -460,6 +459,7 @@ class ProfileView(GA360Mixin, FormView):
             init_user_form_data['agree_terms'] = user_data.agree_terms
             init_user_form_data['agree_info_email'] = user_data.agree_info_email
             init_user_form_data['landing_timeframe'] = user_data.landing_timeframe
+            init_user_form_data['company_website'] = user_data.company_website
 
         return init_user_form_data
 
@@ -642,7 +642,7 @@ class EditYourAnswersView(GA360Mixin, TemplateView):
         self.set_ga360_payload(
             page_id='EditYourAnswers',
             business_unit='ExpandYourBusiness',
-            site_section='edit-your-answers',
+            site_section='change-your-answers',
         )
 
     def get_context_data(self, **kwargs):

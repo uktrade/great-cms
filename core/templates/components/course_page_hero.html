@@ -9,6 +9,7 @@ If both are available, `image_url` will be used over `image`
 {% endcomment %}
 {% load wagtailimages_tags %}
 {% load wagtailcore_tags %}
+{% load static %}
 {% if not image_url %}
     {% image image original as rendition %}
 {% endif %}
@@ -37,9 +38,9 @@ If both are available, `image_url` will be used over `image`
         </div>
         <div class="image-container image-full-width great-display-from-tablet full-height-img right-aligned"
              style="background: url({{ image_url }})">
-            <img class='ea-logo'
-                 src='/static/images/uk-export-academy-logo.svg'
-                 alt='UK Export Academy logo' />
+            <img class="ea-logo"
+                 src="{% static 'images/uk-export-academy-logo.svg' %}"
+                 alt="UK Export Academy logo" />
         </div>
     </div>
 </div>

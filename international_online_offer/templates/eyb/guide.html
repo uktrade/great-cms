@@ -101,7 +101,7 @@
                         <div class="govuk-grid-column-one-quarter">
                             <p class="govuk-body">
                                 <a class="govuk-link"
-                                   href="{% url 'international_online_offer:edit-your-answers' %}">Change your answers</a>
+                                   href="{% url 'international_online_offer:change-your-answers' %}">Change your answers</a>
                             </p>
                         </div>
                     </div>
@@ -147,7 +147,7 @@
                                  aria-labelledby="govuk-notification-banner-title"
                                  data-module="govuk-notification-banner">
                                 <div class="govuk-notification-banner__content">
-                                    <div class="govuk-grid-row" style="max-width: 100%">
+                                    <div class="govuk-grid-row great-max-width-100">
                                         <div class="govuk-grid-column-full">
                                             <h2 class="govuk-heading-l">Access your free personalised guide to help you grow in the UK</h2>
                                             <p class="govuk-body">Sign up for:</p>
@@ -271,9 +271,9 @@
                                         {% image page.article_image original as rendition %}
                                         <div class="article-list-item">
                                             {% if eyb_user %}
-                                                <a class="" href="{{ page.url }}?back=true">
+                                                <a href="{{ page.url }}?back=true">
                                                 {% else %}
-                                                    <a class="" href="{% url 'international_online_offer:signup' %}">
+                                                    <a href="{% url 'international_online_offer:signup' %}">
                                                     {% endif %}
                                                     <div class="govuk-grid-row">
                                                         <div class="govuk-grid-column-one-third">

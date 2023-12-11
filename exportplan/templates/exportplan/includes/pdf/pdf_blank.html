@@ -2,7 +2,7 @@
 {% if not data %}
     <table class="blank-lines {{ blank_class|default:'' }}">
         {% for i in lines|int_to_range %}
-            <tr class="">
+            <tr>
                 <td class="pad-t-2 {{ rule_class|default:'' }}"></td>
             </tr>
         {% endfor %}

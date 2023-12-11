@@ -172,179 +172,217 @@
     {% if page.slice_columns|length == 3 %}
         {% include 'components/great/three_card_section.html' with title=page.slice_title columns=page.slice_columns %}
     {% endif %}
-    <section class="landing-page-section padding-bottom-15 padding-bottom-30-m padding-top-0 {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}great-bg-light-blue{% endif %} great">
-        <div class="container wrap-tight">
-            <h2 class="govuk-heading-l govuk-!-padding-top-9 govuk-!-margin-bottom-6">{{ page.magna_ctas_title }}</h2>
-            <div class="grid-row wrap-tight{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-display-flex-from-desktop{% endif %}">
-                {% for column_block in page.magna_ctas_columns %}
-                    <div class="column-third-m column-full">
-                        {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
-                            {% include 'components/card.html' with title=column_block.value.text url=column_block.value.url card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True transparent_card=False show_sign_in_required=False white_bg_card=True %}
-                        {% else %}
-                            {% include 'components/card.html' with title=column_block.value.text url=column_block.value.url card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True transparent_card=True show_sign_in_required=True white_bg_card=False %}
-                        {% endif %}
-                    </div>
-                {% endfor %}
-            </div>
-            <hr>
-        </hr>
-    </div>
-</section>
-{% if not features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
-    <section class="landing-page-section padding-bottom-15 padding-bottom-30-m">
-        <div class="container wrap-tight">
-            <h2 class="margin-bottom-30">Here to help with your exporting journey</h2>
-            <div class="grid-row wrap-tight">
-                {% for column_block in page.how_dit_helps_columns %}
-                    <div class="column-third-m column-full">
-                        {% include 'components/card.html' with title=column_block.value.text subheading=column_block.value.source url=column_block.value.url card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True transparent_card=True show_sign_in_required=False %}
-                    </div>
-                {% endfor %}
-            </div>
-            <hr>
-        </hr>
-    </div>
-</section>
-{% endif %}
-{% if FEATURE_SHOW_BRAND_BANNER %}
-    <section class="padding-bottom-45 padding-top-45 padding-bottom-60-l padding-top-60-l background-grey">
-        <div class="container centre-children">
-            <h2 class="heading-large margin-top-15">
-                Access all our online exporting tools
-                {% if not request.user.is_authenticated %}with one&nbsp;account{% endif %}
-            </h2>
-            {% if request.user.is_authenticated %}
-                <a href="/dashboard/" class="button margin-bottom-15">View dashboard</a>
-            {% else %}
-                <a href="/signup/" class="button margin-bottom-15">Sign up for free</a>
-            {% endif %}
-        </div>
-    </section>
-{% endif %}
-{% if FEATURE_SHOW_REPORT_BARRIER_CONTENT %}
-    <section class="report-trade-barrier padding-bottom-30 padding-bottom-45-m padding-top-30{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-bg-light-blue{% endif %}">
-        {% include 'components/informative_banner.html' with banner_heading='Report a trade barrier' banner_content='Tell us about trade barriers affecting your ability to trade so we can help fix them. <br><a href="/report-trade-barrier/">How to report a trade barrier</a>' %}
-    </section>
-{% endif %}
-<section class="sector-potential-section padding-bottom-0">
-    <div class="sector-potential-wrapper padding-top-45 padding-top-60-m padding-bottom-45 padding-bottom-60-m{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-bg-white{% endif %}">
-        <div class="container padding-bottom-45-m">
-            <div class="width-full width-two-thirds-l">
-                <h2 class="heading-large margin-top-0">Find new markets for your business</h2>
-                <p>Use our guides to identify new export markets and inform your international sales plan.</p>
-                <form class="sector-potential-form"
-                      action="{% slugurl 'markets' %}"
-                      method="GET">
-                    {{ sector_form }}
-                    <button type="submit"
-                            class="primary-button margin-top-15 show-markets"
-                            id="sector-submit">Show markets</button>
-                    <span class="verbose">Select a sector to enable the submit button.</span>
-                </form>
-            </div>
-        </div>
-        <div class="container sector-selector-quick-links">
-            <hr>
-            <ul class="grid-row">
-                {% for sector in top_sectors %}
-                    {% if sector.pages_count > 0 %}
-                        <li>
-                            <a href="{% slugurl 'markets' %}?sector={{ sector.name }}"
-                               class="quick-link link">
-                                {% image sector.icon original as sector_icon_rendition %}
-                                <img src="{{ sector_icon_rendition.url }}" alt="" class="quick-links-icon">
-                                <span class="sector-name">{{ sector.name }}</span>
-                                <p class="sector-page-count font-small">{{ sector.pages_count }} market guide{{ sector.pages_count|pluralize }}</p>
-                            </a>
-                        </li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="margin-top-15 margin-top-60-m">
-            <div class="container">
-                <a href="{% slugurl 'markets' %}" class="view-markets link bold">View all market guides</a>
-            </div>
-        </div>
-    </div>
-</section>
-{% if page.madb_title and page.madb_image %}
-    <section class="landing-page-section export-goods-from-uk padding-bottom-45 padding-bottom-60-m padding-top-45 padding-top-60-m">
-        <div class="container padding-top-45 padding-top-60">
-            <h2 class="heading-large margin-top-0 margin-bottom-30">{{ page.madb_title }}</h2>
-            <div class="grid-row">
-                <div class="column-full column-half-l">
-                    {% image page.madb_image original as rendition %}
-                    <img src="{{ rendition.url }}"
-                         class="width-full"
-                         alt="{{ rendition.alt }}" />
-                </div>
-                <div class="column-full column-half-l content-column">
-                    <div class="wrap-tight padding-bottom-30 rich-text">{{ page.madb_content|richtext }}</div>
-                    <div>
-                        <a href="{{ page.madb_cta_url }}" class="button primary-button">{{ page.madb_cta_text }}</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-{% endif %}
-{% if page.campaign or page.what_is_new_pages %}
-    {% with page.campaign.0.value as campaign_block_value %}
-        <section class="landing-page-section padding-bottom-45 padding-bottom-60-m {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}great-bg-light-blue great{% endif %}">
-            <div class="container">
-                <h2 class="heading-large margin-top-0 govuk-!-padding-top-9 margin-bottom-30">
-                    {{ page.what_is_new_title|default:"What's new" }}
-                </h2>
-                {% if page.campaign %}
-                    <div class="campaign-section {% if page.what_is_new_pages %}margin-bottom-45{% endif %}">
-                        <div class="campaign-heading-container">
-                            <h3 class="heading-large margin-0 campaign-heading">
-                                <span class="if-we-can">If we can</span><span class="if-we-can">you can</span>
-                            </h3>
-                        </div>
-                        <div class="campaign-image-container">
-                            {% image campaign_block_value.image original as campaign_image_rendition %}
-                            <img src="{{ campaign_image_rendition.url }}"
-                                 alt="{{ campaign_image_rendition.alt }}"
-                                 class="width-full">
-                        </div>
-                        <div class="campaign-content-container">
-                            <div class="campaign-subsection padding-bottom-30-l width-two-thirds-l width-half-xl">
-                                <p class="heading-medium margin-bottom-30 margin-top-0">{{ campaign_block_value.subheading }}</p>
-                                <a href="{{ campaign_block_value.video.url }}"
-                                   class="button primary-button margin-bottom-15"
-                                   id="hero-campaign-section-watch-video-button"
-                                   data-node="videoactivator"
-                                   data-element="video"
-                                   target="_blank"
-                                   rel="noopener noreferrer">Watch video</a>
-                            </div>
-                        </div>
-                    </div>
+    {% if features.FEATURE_HOMEPAGE_REDESIGN_V1 %}
+        <section class="great great-bg-light-blue govuk-!-padding-top-0 govuk-!-padding-bottom-0">
+            <div class="govuk-width-container great-container">
+                {% if page.magna_ctas_title %}
+                    <h2 class="govuk-heading-l govuk-!-margin-top-9 govuk-!-margin-bottom-6">{{ page.magna_ctas_title }}</h2>
                 {% endif %}
-                {% if page.what_is_new_pages %}
-                    <div class="grid-row{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-display-flex-from-desktop great{% endif %}">
-                        {% for link_block in page.what_is_new_pages %}
-                            <div class="column-third-m column-full">
-                                {% include 'components/card.html' with title=link_block.value.text subheading=link_block.value.source url=link_block.value.url card_image=link_block.value.image html_snippet=link_block.value.content no_padding_card=True transparent_card=True show_sign_in_required=False white_bg_card=features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
-                            </div>
-                        {% endfor %}
-                    </div>
+                <div class="govuk-grid-row govuk-!-padding-bottom-4 great-card-row">
+                    {% for column_block in page.magna_ctas_columns %}
+                        <div class="govuk-grid-column-one-third">
+                            {% image column_block.value.image fill-640x360 as thumbnail %}
+                            {% include 'components/great/card.html' with title=column_block.value.text url=column_block.value.url show_title_link=True image_src=thumbnail.url image_alt=column_block.value.image.alt_text content=column_block.value.content classes="great-card--undecorated" %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    {% else %}
+        <section class="landing-page-section padding-bottom-15 padding-bottom-30-m padding-top-0 {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}great-bg-light-blue{% endif %} great">
+            <div class="container wrap-tight">
+                <h2 class="govuk-heading-l govuk-!-padding-top-9 govuk-!-margin-bottom-6">{{ page.magna_ctas_title }}</h2>
+                <div class="grid-row wrap-tight{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-display-flex-from-desktop{% endif %}">
+                    {% for column_block in page.magna_ctas_columns %}
+                        <div class="column-third-m column-full">
+                            {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
+                                {% include 'components/card.html' with title=column_block.value.text url=column_block.value.url card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True transparent_card=False show_sign_in_required=False white_bg_card=True %}
+                            {% else %}
+                                {% include 'components/card.html' with title=column_block.value.text url=column_block.value.url card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True transparent_card=True show_sign_in_required=True white_bg_card=False %}
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <hr />
+            </div>
+        </section>
+    {% endif %}
+    {% if not features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
+        <section class="landing-page-section padding-bottom-15 padding-bottom-30-m">
+            <div class="container wrap-tight">
+                <h2 class="margin-bottom-30">Here to help with your exporting journey</h2>
+                <div class="grid-row wrap-tight">
+                    {% for column_block in page.how_dit_helps_columns %}
+                        <div class="column-third-m column-full">
+                            {% include 'components/card.html' with title=column_block.value.text subheading=column_block.value.source url=column_block.value.url card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True transparent_card=True show_sign_in_required=False %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <hr />
+            </div>
+        </section>
+    {% endif %}
+    {% if FEATURE_SHOW_BRAND_BANNER %}
+        <section class="padding-bottom-45 padding-top-45 padding-bottom-60-l padding-top-60-l background-grey">
+            <div class="container centre-children">
+                <h2 class="heading-large margin-top-15">
+                    Access all our online exporting tools
+                    {% if not request.user.is_authenticated %}with one&nbsp;account{% endif %}
+                </h2>
+                {% if request.user.is_authenticated %}
+                    <a href="/dashboard/" class="button margin-bottom-15">View dashboard</a>
+                {% else %}
+                    <a href="/signup/" class="button margin-bottom-15">Sign up for free</a>
                 {% endif %}
             </div>
         </section>
-        <div class="campaign-video-transcript" id="campaign-video-transcript">
-            <details closed>
-                <summary>
-                    <span class="bold font-overpass">View video trancript</span>
-                </summary>
-                <div class="campaign-video-transcript-text rich-text"
-                     id="campaign-video-transcript-text">{{ campaign_block_value.video.transcript }}</div>
-            </details>
+    {% endif %}
+    {% if FEATURE_SHOW_REPORT_BARRIER_CONTENT %}
+        <section class="report-trade-barrier padding-bottom-30 padding-bottom-45-m padding-top-30{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-bg-light-blue{% endif %}">
+            {% include 'components/informative_banner.html' with banner_heading='Report a trade barrier' banner_content='Tell us about trade barriers affecting your ability to trade so we can help fix them. <br><a href="/report-trade-barrier/">How to report a trade barrier</a>' %}
+        </section>
+    {% endif %}
+    <section class="sector-potential-section padding-bottom-0">
+        <div class="sector-potential-wrapper padding-top-45 padding-top-60-m padding-bottom-45 padding-bottom-60-m{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-bg-white{% endif %}">
+            <div class="container padding-bottom-45-m">
+                <div class="width-full width-two-thirds-l">
+                    <h2 class="heading-large margin-top-0">Find new markets for your business</h2>
+                    <p>Use our guides to identify new export markets and inform your international sales plan.</p>
+                    <form class="sector-potential-form"
+                          action="{% slugurl 'markets' %}"
+                          method="get">
+                        {{ sector_form }}
+                        <button type="submit"
+                                class="primary-button margin-top-15 show-markets"
+                                id="sector-submit">Show markets</button>
+                        <span class="verbose">Select a sector to enable the submit button.</span>
+                    </form>
+                </div>
+            </div>
+            <div class="container sector-selector-quick-links">
+                <hr>
+                <ul class="grid-row">
+                    {% for sector in top_sectors %}
+                        {% if sector.pages_count > 0 %}
+                            <li>
+                                <a href="{% slugurl 'markets' %}?sector={{ sector.name }}"
+                                   class="quick-link link">
+                                    {% image sector.icon original as sector_icon_rendition %}
+                                    <img src="{{ sector_icon_rendition.url }}" alt="" class="quick-links-icon">
+                                    <span class="sector-name">{{ sector.name }}</span>
+                                    <p class="sector-page-count font-small">{{ sector.pages_count }} market guide{{ sector.pages_count|pluralize }}</p>
+                                </a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="margin-top-15 margin-top-60-m">
+                <div class="container">
+                    <a href="{% slugurl 'markets' %}" class="view-markets link bold">View all market guides</a>
+                </div>
+            </div>
         </div>
-    {% endwith %}
-{% endif %}
+    </section>
+    {% if page.madb_title and page.madb_image %}
+        <section class="landing-page-section export-goods-from-uk padding-bottom-45 padding-bottom-60-m padding-top-45 padding-top-60-m">
+            <div class="container padding-top-45 padding-top-60">
+                <h2 class="heading-large margin-top-0 margin-bottom-30">{{ page.madb_title }}</h2>
+                <div class="grid-row">
+                    <div class="column-full column-half-l">
+                        {% image page.madb_image original as rendition %}
+                        <img src="{{ rendition.url }}"
+                             class="width-full"
+                             alt="{{ rendition.alt }}" />
+                    </div>
+                    <div class="column-full column-half-l content-column">
+                        <div class="wrap-tight padding-bottom-30 rich-text">{{ page.madb_content|richtext }}</div>
+                        <div>
+                            <a href="{{ page.madb_cta_url }}" class="button primary-button">{{ page.madb_cta_text }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+    {% if page.campaign or page.what_is_new_pages %}
+        {% with page.campaign.0.value as campaign_block_value %}
+            {% if features.FEATURE_HOMEPAGE_REDESIGN_V1 %}
+                <section class="great great-bg-light-blue govuk-!-padding-top-0 govuk-!-padding-bottom-9">
+                    <div class="govuk-width-container great-container">
+                        {% if page.what_is_new_title %}
+                            <h2 class="govuk-heading-l govuk-!-margin-top-9 govuk-!-margin-bottom-6">
+                                {{ page.what_is_new_title|default:"What's new" }}
+                            </h2>
+                        {% endif %}
+                        {% if page.what_is_new_pages %}
+                            <div class="govuk-grid-row govuk-!-padding-bottom-4 great-card-row">
+                                {% for link_block in page.what_is_new_pages %}
+                                    <div class="govuk-grid-column-one-third">
+                                        {% image link_block.value.image fill-640x360 as thumbnail %}
+                                        {% include 'components/great/card.html' with title=link_block.value.text pre_title=link_block.value.source url=link_block.value.url show_title_link=True image_src=thumbnail.url image_alt=column_block.value.image.alt_text content=link_block.value.content classes="great-card--undecorated" %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </section>
+            {% else %}
+                <section class="landing-page-section padding-bottom-45 padding-bottom-60-m {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}great-bg-light-blue great{% endif %}">
+                    <div class="container">
+                        <h2 class="heading-large margin-top-0 govuk-!-padding-top-9 margin-bottom-30">
+                            {{ page.what_is_new_title|default:"What's new" }}
+                        </h2>
+                        {% if page.campaign %}
+                            <div class="campaign-section {% if page.what_is_new_pages %}margin-bottom-45{% endif %}">
+                                <div class="campaign-heading-container">
+                                    <h3 class="heading-large margin-0 campaign-heading">
+                                        <span class="if-we-can">If we can</span><span class="if-we-can">you can</span>
+                                    </h3>
+                                </div>
+                                <div class="campaign-image-container">
+                                    {% image campaign_block_value.image original as campaign_image_rendition %}
+                                    <img src="{{ campaign_image_rendition.url }}"
+                                         alt="{{ campaign_image_rendition.alt }}"
+                                         class="width-full">
+                                </div>
+                                <div class="campaign-content-container">
+                                    <div class="campaign-subsection padding-bottom-30-l width-two-thirds-l width-half-xl">
+                                        <p class="heading-medium margin-bottom-30 margin-top-0">{{ campaign_block_value.subheading }}</p>
+                                        <a href="{{ campaign_block_value.video.url }}"
+                                           class="button primary-button margin-bottom-15"
+                                           id="hero-campaign-section-watch-video-button"
+                                           data-node="videoactivator"
+                                           data-element="video"
+                                           target="_blank"
+                                           rel="noopener noreferrer">Watch video</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if page.what_is_new_pages %}
+                            <div class="grid-row{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-display-flex-from-desktop great{% endif %}">
+                                {% for link_block in page.what_is_new_pages %}
+                                    <div class="column-third-m column-full">
+                                        {% include 'components/card.html' with title=link_block.value.text subheading=link_block.value.source url=link_block.value.url card_image=link_block.value.image html_snippet=link_block.value.content no_padding_card=True transparent_card=True show_sign_in_required=False white_bg_card=features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </section>
+            {% endif %}
+            <div class="campaign-video-transcript" id="campaign-video-transcript">
+                <details closed>
+                    <summary>
+                        <span class="bold font-overpass">View video trancript</span>
+                    </summary>
+                    <div class="campaign-video-transcript-text rich-text"
+                         id="campaign-video-transcript-text">{{ campaign_block_value.video.transcript }}</div>
+                </details>
+            </div>
+        {% endwith %}
+    {% endif %}
 {% endblock %}
 {% block body_js %}
     {{ block.super }}

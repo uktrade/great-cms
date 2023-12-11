@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.core.management import BaseCommand
 from wagtail.models import Page, Site
 
-from tests.unit.domestic.factories import DomesticHomePageFactory
+from tests.unit.domestic.factories import GreatDomesticHomePageFactory
 
 User = get_user_model()
 
@@ -13,7 +13,7 @@ class Command(BaseCommand):
         # On start Wagtail provides one site with ID=1
         site = Site.objects.get(pk=1)
 
-        homepage = DomesticHomePageFactory(parent=root_page)
+        homepage = GreatDomesticHomePageFactory(parent=root_page)
 
         old_root_page = site.root_page
 

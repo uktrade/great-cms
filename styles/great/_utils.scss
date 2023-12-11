@@ -25,7 +25,7 @@
   .govuk-warning-text__text {
     font-family: $great-font-bold;
     -webkit-font-smoothing: auto;
-    &:not(.great-title-link) {
+    &:not(.great-title-link, .great-card__link) {
       color: $great-dark-grey;
     }
   }
@@ -508,6 +508,14 @@
   font-size: 28px;
 }
 
+.great-text-align-right {
+  text-align: right;
+}
+
+.great-vertical-align-middle {
+  vertical-align: middle;
+}
+
 .great-ratio-16-9 {
   padding-top: 56.25%;
   position: relative;
@@ -787,6 +795,10 @@ img.richtext-image {
   }
 }
 
+.great-grey-border {
+  border: 1px solid $great-border-grey;
+}
+
 .great-grey-bottom-border {
   border-bottom: 1px solid $great-border-grey;
 }
@@ -961,9 +973,21 @@ img.richtext-image {
 }
 
 .great-flex-row {
-  flex-direction: row!important;
+  flex-direction: row !important;
 }
 
 .great-gap-10-30 {
   gap: 10px 30px;
+}
+
+.great-position-relative {
+  position: relative;
+}
+
+.great-text-decoration-none {
+  text-decoration: none;
+}
+
+.great-cursor-pointer {
+  cursor: pointer;
 }
