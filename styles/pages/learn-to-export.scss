@@ -3,6 +3,7 @@
 @import '../fonts/main.scss';
 
 $breakpoint-size: 900px;
+$desktop: 1024px;
 
 #learn-root {
   article {
@@ -241,11 +242,26 @@ ol.list-circle-number li{
   }
 }
 
+.great-lte-breadcrumbs {
+  @media (min-width: $desktop) {
+    padding-left: 15px;
+  }
+
+  @media (max-width: $desktop) {
+    padding-left: 30px;
+  }
+}
+
 aside {
+  @media (max-width: $desktop) {
+    padding-top: 15px;
+  }
+
+  ul {
+    margin-bottom: 40px;
+  }
+
   li {
-    overflow: hidden;
-    display: flex;
-    align-items: center;
     min-height: 40px;
     margin-top: 20px;
 
@@ -254,24 +270,12 @@ aside {
     }
   }
 
-  li::before {
-    content: "";
-    position: absolute;
-    display: inline-block;
-    vertical-align: middle;
-    background: $color-thematic-break;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    background-image: url(/static/icons/dark-blue-arrow-right.svg);
-    background-repeat: no-repeat;
-    background-position-x: center;
-    background-position-y: center;
-  }
-
   li a {
     margin-left: 52px;
-    float: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
   }
 
   a {
@@ -293,5 +297,9 @@ aside {
   span {
     color: $color-gov-link;
     float: right;
+  }
+
+  p {
+    margin-top: 8px;
   }
 }

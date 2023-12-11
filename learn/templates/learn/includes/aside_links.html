@@ -9,7 +9,7 @@
     {% for item in items %}
         {% if item.block_type == 'link' %}
             <li>
-                <a href="{{ item.value.url }}" class="govuk-link">{{ item.value.title }}</a>
+                <span class="great-icon-right-arrow-in-circle"></span><a href="{{ item.value.url }}" class="govuk-link">{{ item.value.title }}</a>
             </li>
         {% endif %}
     {% endfor %}
