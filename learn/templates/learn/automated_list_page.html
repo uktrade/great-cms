@@ -43,11 +43,10 @@
                     <div class="progess-container great-display-flex great-flex-wrap great-flex-column-until-tablet great-gap govuk-!-padding-4">
                         {% include "learn/_high_level_progress.html" with module_completion_data=module_completion_data only %}
                     </div>
-                </div>
+                </a>
             </div>
-        </a>
-    </article>
-{% endwith %}
+        </article>
+    {% endwith %}
 {% endfor %}
 </section>
 {% include 'learn/promo.html' %}
