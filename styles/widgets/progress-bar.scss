@@ -1,6 +1,9 @@
 div.progress-bar, div.learn__category-progress {
   border-radius: 0!important;
+  height: 5px!important;
+  background: #CCE2D8!important;
   span {
     border-radius: 0!important;
+    background: govuk-success-colour green!important;
   }
 }
