@@ -205,10 +205,20 @@ figure.great-blockquote {
         color: #003078 !important;
         text-underline-position: under;
 
+<<<<<<< HEAD
         --webkit-text-underline-offset: 0.05rem;
 
         @include govuk-media-query($from: tablet) {
           --webkit-text-underline-offset: 0.1rem;
+=======
+      .great-card__link--icon::before {
+        color: #003078 !important;
+      }
+
+      .great-card__link--heading {
+        &::after {
+          background-image: url(/static/icons/dark-blue-arrow-right.svg);
+>>>>>>> 310194236 (comments)
         }
       }
     }
@@ -217,6 +227,10 @@ figure.great-blockquote {
       border-bottom: 4px solid rgba(0, 0, 0, 0.3);
       margin: 0;
       outline: none;
+
+      .great-card__link--icon::before {
+        color: #212427 !important;
+      }
 
       .great-card__link {
         color: #212427;
