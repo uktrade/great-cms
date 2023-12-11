@@ -18,7 +18,13 @@
             {% if pre_title %}<span class="govuk-caption great-text-light-grey">{{ pre_title }}</span>{% endif %}
             {% if title %}
                 {% if show_title_link %}<div class="great-position-relative">{% endif %}
-                    <{{ heading_level|default:'h3' }} class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2
+                    <{{ heading_level|default:'h3' }} class="
+                    {% if heading_class %}
+                        {{ heading_class }}
+                    {% else %}
+                        govuk-heading-s
+                    {% endif %}
+                    govuk-!-margin-top-2 govuk-!-margin-bottom-2
                     {% if show_title_link %}great-card__link great-card__link--heading{% endif %}
                     ">
                     {{ title }}
@@ -27,7 +33,7 @@
             {% endif %}
             {% if content %}
                 {% filter add_govuk_classes %}
-                    <div>{{ content }}</div>
+                    <{{ content_tag|default:'div' }}>{{ content }}</{{ content_tag|default:'div' }}>
                 {% endfilter %}
             {% endif %}
             {% if link_text %}<span class="great-card__link great-card__link--chevron">{{ link_text }}</span>{% endif %}

@@ -1,15 +1,10 @@
-{% load url_type from content_tags %}
+{% load url_type get_icon_path from content_tags %}
 {% for topic in topics %}
     {% if topic.block_type == 'topic_cards' %}
         {% for block in topic.value %}
-            <a href="{{ block.value.link_url }}"
-               class="govuk-!-margin-right-6 govuk-!-margin-bottom-6 govuk-!-padding-6 great-topic-card"
-               data-ga-digital-entry-point>
-                <h3 class="govuk-heading-xs govuk-!-margin-bottom-2"
-                    data-title="{{ block.value.title }}">{{ block.value.title }}</h3>
-                <p class="govuk-body govuk-!-margin-bottom-2">{{ block.value.description }}</p>
-                <span class="govuk-link great-text-blue great-link--{{ block.value.link_url|url_type }}">{{ block.value.link_text }}</span>
-            </a>
+            <div class="govuk-grid-column-one-third great-card--homepage-container">
+                {% include 'components/great/card.html' with title=block.value.title url=block.value.link_url show_title_link=True image_src=block.value.link_url|get_icon_path is_svg_image=True data_attr="data-ga-digital-entry-point" data_attr_title=block.value.title content=block.value.description heading_class="govuk-heading-xs" classes="great-card--dep-landing" content_tag="p" %}
+            </div>
         {% endfor %}
     {% endif %}
 {% endfor %}

@@ -247,6 +247,7 @@ figure.great-blockquote {
     color: $govuk-brand-colour;
     display: inline-block;
     text-decoration: underline;
+    max-width: 80%;
   }
 
   .great-card__link--heading {
@@ -332,6 +333,15 @@ figure.great-blockquote {
     &::after {
       background-image: none;
     }
+  }
+}
+
+.great-card--dep-landing {
+  svg {
+    max-width: 80px;
+    padding-top: 20px;
+    padding-left: 20px;
+    margin-bottom: -20px;
   }
 }
 
@@ -650,6 +660,57 @@ figure.great-blockquote {
   &:focus {
     &::before {
       background-image: url(/static/icons/download-black-background.svg);
+    }
+  }
+}
+
+.great-heading-link {
+  display: block;
+  position: relative;
+
+  &::after {
+    background-image: url(/static/icons/blue-arrow-right.svg);
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    position: absolute;
+    display: inline-block;
+    content: '';
+    pointer-events: none;
+    height: 20px;
+    width: 20px;
+    top: 20px;
+    right: 0;
+  }
+
+  .great-heading-link__heading {
+    color: $govuk-brand-colour;
+    display: inline-block;
+    text-decoration: underline;
+    max-width: 80%;
+  }
+
+  &:hover {
+    .great-heading-link__heading {
+      text-decoration-line: underline;
+      text-decoration-thickness: 3px;
+      color: #003078 !important;
+    }
+
+    &::after {
+      background-image: url(/static/icons/dark-blue-arrow-right.svg);
+    }
+  }
+
+  &:focus {
+    outline: 0;
+
+    .great-heading-link__heading {
+      outline: 3px solid rgba(0, 0, 0, 0);
+      color: #212427;
+      background-color: govuk-colour('yellow');
+      box-shadow: 0 -2px govuk-colour('yellow'), 0 4px #0b0c0c;
+      text-decoration: none;
     }
   }
 }
