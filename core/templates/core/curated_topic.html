@@ -2,29 +2,28 @@
 {% load format_timedelta from content_tags %}
 {% load get_lesson_progress_for_topic is_lesson_page from content_tags %}
 {% comment %} `completed_lessons` only features lessons FOR THIS PARTIAL'S TOPIC {% endcomment %}
-<div class="great great-overflow-visible grid" id="{{ topic.id }}">
-    <div class="learn__topic-item-details c-1-3-l">
-        <h2 class="learn__topic-item-title h-m p-b-xxs p-t-0">{{ topic.title }}</h2>
-        {% get_lesson_progress_for_topic completed_lessons topic.id as topic_progress_data %}
-        {% if request.user.is_authenticated %}
-            {% if topic_progress_data %}
-                <p class="m-t-xxs m-b-0 progress-bar-text">
-                    {{ topic_progress_data.lessons_completed }} / {{ topic_progress_data.lessons_available }} lesson{{ topic_progress_data.lessons_available|pluralize }} completed
-                </p>
-            {% endif %}
-        {% endif %}
-    </div>
-    <ul class="learn__lessons-list c-2-3-l">
+<div class="great great-overflow-visible govuk-grid-column-two-thirds-from-desktop govuk-!-margin-bottom-4 govuk-!-padding-0" id="{{ topic.id }}">
+    <h2 class="learn__topic-item-title govuk-heading-l govuk-!-padding-0 govuk-!-margin-0">{{ topic.title }}</h2>
+    <ul class="learn__lessons-list">
         {% for page in topic.get_children.live %}
             {% if page|is_lesson_page %}
+<<<<<<< HEAD
                 <li class="learn__lesson-item great-card great-card--undecorated great-card--no-active-jump great-bg-white {% if forloop.first %}govuk-!-margin-top-4{% endif %}">
                     <a href="{% pageurl page %}" title="{{ page.title }}">
                         <div class="great-display-flex great-gap-10-30 govuk-!-padding-4 great-justify-space-between great-flex-column-until-desktop">
                             <h3 class="govuk-heading-m govuk-!-margin-0 great-title-link great-card__link great-card__link--heading">
+=======
+                <li class="learn__lesson-item great-card great-card--undecorated great-bg-white great-no-box-shadow{% if forloop.last %} great-no-border{%endif%}">
+                    <a class="great-no-border-focus great-no-box-shadow" href="{% pageurl page %}" title="{{ page.title }}">
+                        <div class="great-display-flex great-gap-10-30 govuk-!-padding-top-4 govuk-!-padding-bottom-4 great-justify-space-between great-flex-column-until-desktop">
+                            <h3 class="govuk-link great-font-bold govuk-!-margin-0 great-title-link great-card__link great-card__link--heading">
+>>>>>>> 2c7a81e89 (saving changes)
                                 {{ page.title }}
                             </h3>
                             {% if page.id in completed_lessons %}
                                 <span class="great-badge completed govuk-!-margin-top-2">Completed</span>
+                            {% else %}
+                                <span role="img" class="fa fa-arrow-right govuk-!-margin-right-2 great-text-blue great-display-flex great-align-items-center"></span> 
                             {% endif %}
                         </div>
                     </a>
