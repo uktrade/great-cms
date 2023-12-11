@@ -27,7 +27,7 @@
         <a href={{ BREADCRUMBS_ROOT_URL }}>great.gov.uk</a>
     {% endbreadcrumbs %}
 </div>
-<section id="learn-root" class="great great-container great-overflow-visible">
+<section id="learn-root" class="great great-container">
     <div class="govuk-grid-column-two-thirds-from-desktop">
         {% for learning_module in page.get_children.specific.live %}
             {% with high_level_completion_progress|get_item:learning_module.id as module_completion_data %}
