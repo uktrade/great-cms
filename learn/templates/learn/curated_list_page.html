@@ -34,7 +34,7 @@
         <ol class="learn__topics-list">
             {% for topic in page.get_topics %}
                 {% with module_completion_progress.completed_lesson_pages|get_item:topic.id as lesson_completion_data_for_topic %}
-                    <li class="learn__topic-item"  id="lesson-{{ topic.slug }}">
+                    <li id="lesson-{{ topic.slug }}">
                         {% include 'core/curated_topic.html' with topic=topic completed_lessons=lesson_completion_data_for_topic %}
                     </li>
                 {% endwith %}
