@@ -36,8 +36,8 @@ available_sitemaps = {
     'static': views.StaticViewSitemap,
 }
 
-AMP_URL = f'{settings.BASE_URL}AMP/'
-INDIA_URL = f'{settings.BASE_URL}india/'
+AMP_URL = settings.BASE_URL + 'AMP/' if settings.BASE_URL.endswith('/') else settings.BASE_URL + '/AMP/'
+INDIA_URL = settings.BASE_URL + 'india/' if settings.BASE_URL.endswith('/') else settings.BASE_URL + '/india/'
 
 
 urlpatterns = [
