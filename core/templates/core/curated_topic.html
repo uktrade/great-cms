@@ -14,8 +14,8 @@
                             <h3 class="govuk-heading-m govuk-!-margin-0 great-title-link great-card__link great-card__link--heading">
 =======
                 <li class="learn__lesson-item great-card great-card--undecorated great-bg-white great-no-box-shadow{% if forloop.last %} great-no-border{%endif%}">
-                    <a class="great-no-border-focus great-no-box-shadow" href="{% pageurl page %}" title="{{ page.title }}">
-                        <div class="great-display-flex great-gap-10-30 govuk-!-padding-top-4 govuk-!-padding-bottom-4 great-justify-space-between great-flex-column-until-desktop">
+                    <a class="great-no-border-focus great-no-box-shadow govuk-!-padding-top-4 govuk-!-padding-bottom-4" href="{% pageurl page %}" title="{{ page.title }}">
+                        <div class="great-display-flex great-gap-10-30 great-justify-space-between {% if page.id in completed_lessons %}great-flex-column-until-desktop{% endif %}">
                             <h3 class="govuk-link great-font-bold govuk-!-margin-0 great-title-link great-card__link great-card__link--heading">
 >>>>>>> 2c7a81e89 (saving changes)
                                 {{ page.title }}
@@ -23,7 +23,7 @@
                             {% if page.id in completed_lessons %}
                                 <span class="great-badge completed govuk-!-margin-top-2">Completed</span>
                             {% else %}
-                                <span role="img" class="fa fa-arrow-right govuk-!-margin-right-2 great-text-blue great-display-flex great-align-items-center"></span> 
+                                <span role="img" class="fa fa-arrow-right govuk-!-margin-right-2 great-text-blue great-font-size-18 great-height-min-content govuk-!-margin-top-1"></span> 
                             {% endif %}
                         </div>
                     </a>
