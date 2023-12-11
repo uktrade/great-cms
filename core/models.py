@@ -716,10 +716,11 @@ class TopicPage(Page, mixins.AuthenticatedUserRequired if not settings.FEATURE_D
         return self._redirect_to_parent_module()
 
     def get_lesson_pages(self):
-         return [page for page in self.get_children().live() if self.is_lesson_page(page)]
-     
+        return [page for page in self.get_children().live() if self.is_lesson_page(page)]
+
     def is_lesson_page(self, page):
         return isinstance(page.specific, DetailPage)
+
 
 class LessonPlaceholderPage(Page, mixins.AuthenticatedUserRequired if not settings.FEATURE_DEA_V2 else object):
 
