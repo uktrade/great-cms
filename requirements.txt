@@ -60,6 +60,8 @@ certifi==2023.11.17
     #   sentry-sdk
 cffi==1.16.0
     # via cryptography
+chardet==5.2.0
+    # via reportlab
 charset-normalizer==3.3.2
     # via requests
 click==8.1.7
@@ -94,7 +96,7 @@ directory-api-client==26.4.2
     # via -r requirements.in
 directory-ch-client==3.1.0
     # via -r requirements.in
-directory-client-core==7.2.5
+directory-client-core==7.2.6
     # via
     #   directory-api-client
     #   directory-ch-client
@@ -158,7 +160,7 @@ django-environ==0.4.5
     # via -r requirements.in
 django-extensions==3.2.3
     # via -r requirements.in
-django-filter==23.4
+django-filter==23.5
     # via wagtail
 django-formtools==2.3
     # via -r requirements.in
@@ -322,7 +324,7 @@ pyhanko-certvalidator==0.26.2
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==3.17.1
+pypdf==3.17.2
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -369,7 +371,7 @@ redis==5.0.1
     #   django-redis
 regex==2023.10.3
     # via dateparser
-reportlab[pycairo]==4.0.7
+reportlab[pycairo]==4.0.8
     # via
     #   reportlab
     #   svglib
@@ -434,7 +436,7 @@ tinycss2==1.2.1
     # via
     #   cssselect2
     #   svglib
-typing-extensions==4.8.0
+typing-extensions==4.9.0
     # via
     #   asgiref
     #   kombu
