@@ -36,9 +36,6 @@ available_sitemaps = {
     'static': views.StaticViewSitemap,
 }
 
-AMP_URL = settings.BASE_URL + 'AMP/' if settings.BASE_URL.endswith('/') else settings.BASE_URL + '/AMP/'
-INDIA_URL = settings.BASE_URL + 'india/' if settings.BASE_URL.endswith('/') else settings.BASE_URL + '/india/'
-
 
 urlpatterns = [
     # WHEN ADDING TO THIS LIST CONSIDER WHETHER YOU SHOULD ALSO ADD THE URL NAME
@@ -161,22 +158,6 @@ urlpatterns = [
         r'^microsites/*(?P<page_slug>[-a-zA-Z0-9_]+)/$',
         skip_ga360(MicrositeView.as_view()),
         name='microsites',
-    ),
-    re_path(
-        r'^campaign-site/uk-advanced-manufacturing-plan/',
-        skip_ga360(
-            views.PermanentQuerystringRedirectView.as_view(
-                url=AMP_URL,
-            )
-        ),
-    ),
-    re_path(
-        r'^campaign-site/india/',
-        skip_ga360(
-            views.PermanentQuerystringRedirectView.as_view(
-                url=INDIA_URL,
-            )
-        ),
     ),
     re_path(
         r'^campaign-site/.*/(?P<page_slug>[-a-zA-Z0-9_]+)/$',
