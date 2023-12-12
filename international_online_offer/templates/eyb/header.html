@@ -1,19 +1,9 @@
-{% load static %}
 {% load ga360_data from directory_components %}
-<div class="govuk-width-container">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full">
-            <img class="govuk-!-padding-top-2 govuk-!-padding-bottom-2 govuk-!-padding-left-2"
-                 height="30"
-                 alt="Department for business and trade logo"
-                 src="{% static 'images/dbt-red-footer-logo.93fc9e99b781.svg' %}">
-        </div>
-    </div>
-</div>
+{% include './includes/dbt_banner.html' %}
 <header class="govuk-header international-header" role="banner">
     <div class="govuk-header__container govuk-width-container">
         <div class="govuk-header__logo">
-            <a href="{% if not eyb_user %}{% url 'international_online_offer:index' %}{% else %}{{'/international/expand-your-business-in-the-uk/guide/'}}{% endif %}"
+            <a href="{% if not eyb_user %}{% url 'international_online_offer:index' %}{% else %}/international/expand-your-business-in-the-uk/guide/{% endif %}"
                class="govuk-header__link govuk-header__link--homepage">
                 <span class="govuk-header__logotype">
                     <div role="img"
@@ -24,8 +14,9 @@
             </a>
         </div>
         <div class="govuk-header__content">
-            <a href="#" class="govuk-header__link govuk-header__service-name">Expand your business in the UK</a>
-            <nav aria-label="Menu" class="govuk-header__navigation ">
+            <a href="{% if not eyb_user %}{% url 'international_online_offer:index' %}{% else %}/international/expand-your-business-in-the-uk/guide/{% endif %}"
+               class="govuk-header__link govuk-header__service-name">Expand your business in the UK</a>
+            <nav aria-label="Menu" class="govuk-header__navigation">
                 <button type="button"
                         class="govuk-header__menu-button govuk-js-header-toggle"
                         aria-controls="navigation"
