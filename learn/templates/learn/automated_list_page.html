@@ -43,7 +43,7 @@
                               class="fa fa-arrow-right govuk-!-margin-right-2 great-text-blue great-font-size- great-height-min-content govuk-!-margin-top-1 great-card__link--icon"></span>
                     </div>
                     {% if request.user.is_authenticated %}
-                        <div class="progess-container great-display-flex great-flex-wrap great-flex-column-until-tablet great-gap govuk-!-padding-4">
+                        <div class="progess-container great-display-flex great-flex-wrap great-flex-column-until-tablet great-gap govuk-!-margin-left-4 govuk-!-margin-bottom-4">
                             {% include "learn/_high_level_progress.html" with module_completion_data=module_completion_data only %}
                         </div>
                     {% endif %}
