@@ -37,8 +37,8 @@
                     <div class="govuk-summary-card__content">
                         <dl class="govuk-summary-list">
                             <div class="govuk-summary-list__row">
-                                <dt class="govuk-summary-list__key">Sector</dt>
-                                <dd class="govuk-summary-list__value">
+                                <dt class="govuk-summary-list__key govuk-body">Sector</dt>
+                                <dd class="govuk-summary-list__value govuk-body">
                                     {% if triage_data.sector_sub %}{{ triage_data.get_sector_sub_display | default:'-' }},{% endif %}
                                     {{ triage_data.get_sector_display | default:'-' }}
                                 </dd>
@@ -50,8 +50,8 @@
                                 </dd>
                             </div>
                             <div class="govuk-summary-list__row">
-                                <dt class="govuk-summary-list__key">Expansion plans</dt>
-                                <dd class="govuk-summary-list__value">
+                                <dt class="govuk-summary-list__key govuk-body">Expansion plans</dt>
+                                <dd class="govuk-summary-list__value govuk-body">
                                     {% if triage_data.get_intent_display %}
                                         <ol class="govuk-list govuk-list--bullet">
                                             {% for intent in triage_data.get_intent_display %}
@@ -73,8 +73,8 @@
                                 </dd>
                             </div>
                             <div class="govuk-summary-list__row">
-                                <dt class="govuk-summary-list__key">Preferred location</dt>
-                                <dd class="govuk-summary-list__value">
+                                <dt class="govuk-summary-list__key govuk-body">Preferred location</dt>
+                                <dd class="govuk-summary-list__value govuk-body">
                                     {% if triage_data.get_location_display %}
                                         {% if triage_data.get_location_city_display %}{{ triage_data.get_location_city_display | default:'' }},{% endif %}
                                         {{ triage_data.get_location_display }}
@@ -92,8 +92,8 @@
                                 </dd>
                             </div>
                             <div class="govuk-summary-list__row">
-                                <dt class="govuk-summary-list__key">UK staff you’ll hire (within first 3 years)</dt>
-                                <dd class="govuk-summary-list__value">
+                                <dt class="govuk-summary-list__key govuk-body">UK staff you'll hire (within first 3 years)</dt>
+                                <dd class="govuk-summary-list__value govuk-body">
                                     {{ triage_data.get_hiring_display | default:"-" }}
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
@@ -104,8 +104,8 @@
                                 </dd>
                             </div>
                             <div class="govuk-summary-list__row">
-                                <dt class="govuk-summary-list__key">Planned spend for UK expansion</dt>
-                                <dd class="govuk-summary-list__value">
+                                <dt class="govuk-summary-list__key govuk-body">Planned spend for UK expansion</dt>
+                                <dd class="govuk-summary-list__value govuk-body">
                                     {% if triage_data.get_spend_display %}
                                         {{ triage_data.get_spend_display }}
                                         {% if triage_data.get_spend_display == 'Specific amount' %}: £{{ triage_data.spend_other }}{% endif %}
