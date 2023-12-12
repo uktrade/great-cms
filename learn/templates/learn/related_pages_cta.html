@@ -1,0 +1,7 @@
+{% load get_cta_attributes from helpers %}
+<div class="govuk-!-padding-top-10 govuk-!-padding-bottom-10 related-links-cta-container">
+    {% for cta in block.value %}
+        {% get_cta_attributes cta as cta_attrs %}
+        {% include 'components/great/card.html' with tag_container_class="related-links-cta-container__tag" container_class="govuk-!-padding-2" title=cta.link_text url=cta_attrs.link show_title_link=True heading_class=cta_attrs.heading_class heading_level="h6" classes="great-card--modifier" tag=cta_attrs.tag_description tag_icon=cta_attrs.tag_icon %}
+    {% endfor %}
+</div>

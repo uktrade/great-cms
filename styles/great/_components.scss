@@ -422,7 +422,8 @@ figure.great-blockquote {
 .great-card--modifier {
   a {
     background-color: $great-light-blue;
-    min-height: 170px;
+    min-height: 120px;
+    min-width: 230px;
 
     &:focus:active {
       background-color: $great-light-blue;
@@ -431,11 +432,12 @@ figure.great-blockquote {
 
   .great-card__tag {
     img {
-      width: 20px;
+      width: 16px;
       display: inline-block;
       margin-right: 12px;
     }
   }
+
 }
 
 .great-card--homepage-container {
