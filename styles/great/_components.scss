@@ -196,6 +196,11 @@ figure.great-blockquote {
       }
     }
 
+    .great-card__link--underline {
+      text-decoration: underline;
+      text-underline-offset: 0.1rem;
+    }
+
     &:hover {
       border-bottom: 4px solid rgba(0, 0, 0, 0.3);
 
