@@ -282,7 +282,8 @@ aside {
   }
 
   a {
-    width: 100%;
+    display: flex;
+    justify-content: space-between;
 
     &::after {
       content: "\f061";
