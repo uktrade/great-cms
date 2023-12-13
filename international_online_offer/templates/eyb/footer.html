@@ -1,28 +1,28 @@
 {% load static %}
-<footer class="govuk-footer" role="contentinfo">
+<footer class="govuk-footer international-footer" role="contentinfo">
     <div class="govuk-width-container">
         <div class="govuk-footer__meta">
             <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
                 <h2 class="govuk-visually-hidden">Support links</h2>
                 <ul class="govuk-footer__inline-list">
                     <li class="govuk-footer__inline-list-item">
-                        <a class="govuk-footer__link"
+                        <a class="govuk-link govuk-link--inverse"
                            id="footer-privacy-and-cookies"
                            href="{{ header_footer_urls.privacy_and_cookies }}">Privacy and cookies</a>
                     </li>
                     <li class="govuk-footer__inline-list-item">
-                        <a class="govuk-footer__link"
+                        <a class="govuk-link govuk-link--inverse"
                            id="footer-terms-and-conditions"
                            href="{{ header_footer_urls.terms_and_conditions }}">Terms and conditions</a>
                     </li>
                     <li class="govuk-footer__inline-list-item">
-                        <a class="govuk-footer__link"
+                        <a class="govuk-link govuk-link--inverse"
                            id="footer-contact"
                            href="{% url 'international_online_offer:contact' %}?next={{ feedback_next_url }}">Contact us
                         </a>
                     </li>
                     <li class="govuk-footer__inline-list-item">
-                        <a class="govuk-footer__link"
+                        <a class="govuk-link govuk-link--inverse"
                            id="footer-dit"
                            href="https://www.gov.uk/government/organisations/department-for-business-and-trade"
                            title="Opens in a new window"
@@ -31,15 +31,15 @@
                     </li>
                 </ul>
                 <img src="{% static 'img/crown.svg' %}" alt="GOV.UK Crown copyright logo" />
-                <span class="govuk-footer__licence-description">
+                <span class="govuk-body international-footer-body">
                     All content is available under the
-                    <a class="govuk-footer__link"
+                    <a class="govuk-link govuk-link--inverse"
                        href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
                        rel="license">Open Government Licence v3.0</a>, except where otherwise stated
                 </span>
             </div>
             <div class="govuk-footer__meta-item">
-                <a class="govuk-footer__link govuk-footer__copyright-logo"
+                <a class="govuk-link govuk-link--inverse govuk-footer__copyright-logo"
                    href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/">© Crown copyright</a>
             </div>
         </div>
