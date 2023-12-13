@@ -2,11 +2,12 @@
 {% load wagtailcore_tags %}
 {% if details %}
     <div class="great-ukea">
-        <img class='ea-logo'
-             src='/static/images/uk-export-academy-logo.svg'
-             alt='UK Export Academy logo' />
+        <img class="ea-logo"
+             src="{% static images/uk-export-academy-logo.svg %}"
+             alt="UK Export Academy logo" />
         <div>
-            <a href="{{ details.first_block_by_name.url.value }}" class="govuk-link">{{ details.first_block_by_name.title.value }}</a><span class="fas fa-arrow-right"></span>
+            <a href="{{ details.first_block_by_name.url.value }}"
+               class="govuk-link govuk-heading-xs great-title-link">{{ details.first_block_by_name.title.value }}</a>
         </div>
         <p>{{ details.first_block_by_name.description.value }}</p>
     </div>

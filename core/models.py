@@ -544,7 +544,7 @@ class ListPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGeneric
     ################
     description = RichTextField()
     button_label = models.CharField(max_length=100)
-    side_links = StreamField(
+    popular_links = StreamField(
         [
             (
                 'heading',
@@ -610,7 +610,7 @@ class ListPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGeneric
     content_panels = CMSGenericPageAnonymous.content_panels + [
         FieldPanel('description'),
         FieldPanel('button_label'),
-        FieldPanel('side_links'),
+        FieldPanel('popular_links'),
         FieldPanel('ukea_cta', heading='UK Export Academy CTA'),
     ]
 

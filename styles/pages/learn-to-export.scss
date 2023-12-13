@@ -1,6 +1,7 @@
 @import '../colors/colors.scss';
 @import '../sizes/sizes.scss';
 @import '../fonts/main.scss';
+@import '../great/main.scss';
 
 $breakpoint-size: 900px;
 $desktop: 1024px;
@@ -242,19 +243,9 @@ ol.list-circle-number li{
   }
 }
 
-.great-lte-breadcrumbs {
-  @media (min-width: $desktop) {
-    padding-left: 15px;
-  }
-
-  @media (max-width: $desktop) {
-    padding-left: 30px;
-  }
-}
-
 aside {
-  @media (max-width: $desktop) {
-    padding-top: 15px;
+  h2 {
+    padding-top: 10px;
   }
 
   ul {
@@ -277,10 +268,6 @@ aside {
     justify-content: center;
     align-items: flex-start;
   }
-
-  a {
-    font-weight: 600;
-  }
 }
 
 .great-ukea {
@@ -294,9 +281,15 @@ aside {
     padding-top: 15px;
   }
 
-  span {
-    color: $color-gov-link;
-    float: right;
+  a {
+    width: 100%;
+
+    &::after {
+      content: "\f061";
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      float: right;
+    }
   }
 
   p {
