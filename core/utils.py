@@ -77,6 +77,9 @@ class PageTopicHelper:
                 except IndexError:
                     return
 
+    def get_current_module(self):
+        return self.module.specific
+
 
 def choices_to_key_value(choices):
     return [{'value': key, 'label': label} for key, label in choices]

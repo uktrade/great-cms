@@ -13,6 +13,13 @@ textarea.form-control {
 }
 input[type='checkbox'].markascomplete_checkbox {
   background-color: $color-completed;
+  &:before {
+    border-color: #0B0C0C;
+    margin-top: 2px;
+  }
+  &:after{
+    top: 9px;
+  }
 }
 
 label {
