@@ -12,7 +12,7 @@ from django.utils.dateparse import parse_datetime
 from django.utils.html import format_html
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
-
+from core.helpers import millify
 from core.constants import BACKLINK_QUERYSTRING_NAME
 
 # from core.helpers import millify
