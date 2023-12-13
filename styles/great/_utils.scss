@@ -994,6 +994,7 @@ img.richtext-image {
 .great-cursor-pointer {
   cursor: pointer;
 }
+<<<<<<< HEAD
 .great-border-top-orange {
   border-top: 3px solid #e94f3d;
 }
@@ -1033,4 +1034,16 @@ img.richtext-image {
 .great-hr-light {
   height: 1px;
   background: #b1b4b6;
+<<<<<<< HEAD
 }
+=======
+=======
+
+.great-border-top-thick {
+  border-top: 3px solid #04043F;
+  &.great-border-purple {
+    border-color: #964F99;
+  }
+>>>>>>> 5b85c5b5d (steps now showing correctyl)
+}
+>>>>>>> 5a1b70e10 (steps now showing correctyl)

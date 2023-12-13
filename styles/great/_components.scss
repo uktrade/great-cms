@@ -1521,3 +1521,57 @@ nav.great-breadcrumbs {
     }
   }
 }
+
+.great-step-item {
+  z-index: 1;
+  position: relative;
+  display: flex;
+  gap: 1rem;
+  padding-bottom: 30px;
+
+  &.fa {
+    display: flex;
+  }
+  &::before {
+    content: '';
+    flex: 0 0 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: white;
+    border: 2px solid #b1b4b6;
+  }
+
+  &.current-step {
+    .govuk-link {
+      color: $color-main-text !important;
+    }
+    &::before {
+      background-color: #1e1348;
+      border-color: #1e1348;
+      content: '\f061';
+      color: white;
+      font-family: 'Font Awesome 5 Free';
+      align-items: center;
+      justify-content: center;
+      display: flex;
+    }
+  }
+
+  &:not(:last-child) {
+    &:after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0px;
+      z-index: -1;
+      transform: translateX(13px);
+      width: 2px;
+      background-color: #b1b4b6;
+    }
+  }
+
+  &:focus:active {
+    color: inherit
+  }
+}
