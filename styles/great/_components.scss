@@ -1531,6 +1531,7 @@ nav.great-breadcrumbs {
 
   &.fa {
     display: flex;
+    font-weight: 400;
   }
   &::before {
     content: '';
@@ -1554,6 +1555,7 @@ nav.great-breadcrumbs {
       align-items: center;
       justify-content: center;
       display: flex;
+      font-weight: 900;
     }
   }
 
