@@ -1,5 +1,5 @@
 {% load i18n wagtailimages_tags %}
-{% load add_govuk_classes from content_tags %}
+{% load add_govuk_classes tag_text_mapper url_type from content_tags %}
 <div class="great-card{% if classes %} {{ classes }}{% endif %}">
     {% if url %}
         <a href="{{ url }}" {% if data_attr %}{{ data_attr }}{% endif %}>
@@ -25,6 +25,7 @@
                     {% endif %}
                     govuk-!-margin-top-2 govuk-!-margin-bottom-2
                     {% if show_title_link %}great-card__link great-card__link--heading{% endif %}
+                    great-card__link--{{ url|url_type }}
                     ">
                     <span>{{ title }}</span>
                     </{{ heading_level|default:'h3' }}>
@@ -37,7 +38,11 @@
                     >{{ content }}</{{ content_tag|default:'div' }}>
                 {% endfilter %}
             {% endif %}
-            {% if tag %}<span class="govuk-caption great-text-light-grey great-card__tag">{{ tag }}</span>{% endif %}
+            {% if tag %}
+                <span class="govuk-caption great-text-light-grey great-card__tag">
+                    <img src="{{ tag_icon }}" alt="" />
+                {{ tag }}</span>
+            {% endif %}
             {% if link_text %}<span class="great-card__link great-card__link--chevron">{{ link_text }}</span>{% endif %}
         </div>
         {% if url %}</a>{% endif %}
