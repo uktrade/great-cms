@@ -33,8 +33,8 @@
         <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-padding-0">
             {% if request.user.is_authenticated %}
                 <div class="great-bg-light-blue great-border-top-orange govuk-!-padding-6 ">
-                    <div class="">
-                        <div class="">
+                    <div>
+                        <div>
                             {% include 'learn/recap.html' %}
                             <hr class="hr hr--light govuk-!-margin-0" />
                         </div>
@@ -47,32 +47,30 @@
             {% endif %}
             {% if next_lesson %}
                 <div class="govuk-!-padding-top-6 govuk-!-padding-bottom-8">
-                     {% if not  next_module %}
-                    <h2 class="govuk-heading-m govuk-!-padding-top-2">
-                        Next in this topic
-                    </h2>
-                    <div class="great-card great-no-box-shadow">
-                        <a data-learn-to-export-link="{{ next_lesson.get_url }}"
-                        class="great-no-text-decoration great-no-box-shadow great-no-border-focus"
-                        href="{{ next_lesson.get_url }}">
-                        <div  class="great-inline-flex no-wrap great-align-items-center">
-                        <span role="img"
-            class="fa fa-arrow-right great-text-white great-icon-circular-background govuk-!-margin-right-3"></span>
-                        <span class="govuk-!-margin-0 great-title-link great-card__link great-card__link--heading great-inline govuk-heading-xs great-font-bold">{{ next_lesson.title }}</span>
-                        </div>  
-                    </a>
-                     </div>  
-                     {%endif%}
-                        <hr class="great-hr-light {% if next_module %}govuk-!-margin-top-8{%else%}govuk-!-margin-top-0{%endif%} govuk-!-margin-bottom-4" />
-                        <h3 class="govuk-heading-s">Explore the topic</h3>
-                        <a data-learn-to-export-link="{{ page.get_current_module.url }}"
-                        href="{{ page.get_current_module.url  }}"
-                        class="govuk-link great-font-bold">{{ page.get_current_module.title }}</a>
+                    {% if not next_module %}
+                        <h2 class="govuk-heading-m govuk-!-padding-top-2">Next in this topic</h2>
+                        <div>
+                            <a data-learn-to-export-link="{{ next_lesson.get_url }}"
+                               class="great-no-text-decoration great-no-box-shadow great-no-border"
+                               href="{{ next_lesson.get_url }}">
+                                <div class="great-inline-flex no-wrap great-align-items-center">
+                                    <span role="img"
+                                          class="fa fa-arrow-right great-text-white great-icon-circular-background govuk-!-margin-right-3"></span>
+                                    <span class="govuk-!-margin-0 great-title-link great-card__link great-card__link--heading great-inline govuk-heading-xs great-font-bold">{{ next_lesson.title }}</span>
+                                </div>
+                            </a>
+                        </div>
+                    {% endif %}
+                    <hr class="great-hr-light govuk-!-margin-top-8 govuk-!-margin-bottom-2" />
+                    <h3 class="govuk-heading-s">Explore the topic</h3>
+                    <a data-learn-to-export-link="{{ page.get_current_module.url }}"
+                       href="{{ page.get_current_module.url }}"
+                       class="govuk-link great-font-bold">{{ page.get_current_module.title }}</a>
                 </div>
-                </div>
-            {% endif %}
-        </div>
+            </div>
+        {% endif %}
     </div>
+</div>
 </div>
 {% include 'learn/promo.html' with bg_class='great-bg-light-blue' %}
 {% endblock %}

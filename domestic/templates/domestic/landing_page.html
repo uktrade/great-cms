@@ -182,7 +182,7 @@
                     {% for column_block in page.magna_ctas_columns %}
                         <div class="govuk-grid-column-one-third">
                             {% image column_block.value.image fill-640x360 as thumbnail %}
-                            {% include 'components/great/card.html' with title=column_block.value.text url=column_block.value.url show_title_link=True image_src=thumbnail.url image_alt=column_block.value.image.alt_text content=column_block.value.content classes="great-card--undecorated" %}
+                            {% include 'components/great/card.html' with title=column_block.value.text url=column_block.value.url show_title_link=True image_src=thumbnail.url image_alt=column_block.value.image.alt_text content=column_block.value.content %}
                         </div>
                     {% endfor %}
                 </div>
@@ -320,7 +320,7 @@
                                 {% for link_block in page.what_is_new_pages %}
                                     <div class="govuk-grid-column-one-third">
                                         {% image link_block.value.image fill-640x360 as thumbnail %}
-                                        {% include 'components/great/card.html' with title=link_block.value.text pre_title=link_block.value.source url=link_block.value.url show_title_link=True image_src=thumbnail.url image_alt=column_block.value.image.alt_text content=link_block.value.content classes="great-card--undecorated" %}
+                                        {% include 'components/great/card.html' with title=link_block.value.text tag=link_block.value.source url=link_block.value.url show_title_link=True image_src=thumbnail.url image_alt=column_block.value.image.alt_text content=link_block.value.content %}
                                     </div>
                                 {% endfor %}
                             </div>
