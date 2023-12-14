@@ -76,7 +76,7 @@ def render_video(block):
 
     rendered = format_html(
         f"""
-            <video preload="metadata" controls controlsList="nodownload"
+            <video class="great-width-100" preload="metadata" controls controlsList="nodownload"
             {_get_poster_attribute(video)}{VIDEO_DURATION_DATA_ATTR_NAME}="{video_duration}">
                 {sources}
                 {subtitles}
