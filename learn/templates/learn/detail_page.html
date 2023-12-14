@@ -110,7 +110,7 @@
             {% endif %}
             </div> 
                 <div class="govuk-grid-column-one-third-from-desktop">
-                    {% include 'core/steps.html' with steps=page.get_steps title='Learn to export topics' current_step_url='/learn/categories/getting-started/' %}
+                    {% include 'core/steps.html' with steps=page.get_steps title='Learn to export topics' current_step_url=page.get_current_module.url %}
             </div> 
         </div>   
     </div> 
