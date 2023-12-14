@@ -367,7 +367,7 @@ figure.great-blockquote {
     &:focus {
       .great-card__link--heading {
         &::after {
-          background-image: none;
+          content: '';
         }
       }
     }
@@ -376,7 +376,17 @@ figure.great-blockquote {
     text-decoration: none;
 
     &::after {
-      background-image: none;
+      content: '';
+    }
+  }
+}
+
+.great-card--no-active-jump {
+  a {
+    &:active {
+      height: auto;
+      margin-top: 0;
+      padding-top: 3px;
     }
   }
 }
