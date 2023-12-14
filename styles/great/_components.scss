@@ -288,7 +288,7 @@ figure.great-blockquote {
   }
 
   .great-card__link--heading {
-    &::after {
+    &::after:not(.no-arrow-icon) {
       content: '\f061';
       font-family: 'Font Awesome 5 Free';
       font-weight: 900;

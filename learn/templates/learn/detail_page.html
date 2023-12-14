@@ -48,55 +48,18 @@
             {% endif %}
        {% if next_lesson %}
                 <div class="govuk-!-padding-top-6 govuk-!-padding-bottom-8">
-<<<<<<< HEAD
-                    {% if not next_module %}
-                        <h2 class="govuk-heading-m govuk-!-padding-top-2">Next in this topic</h2>
-                        <div>
-                            <a data-learn-to-export-link="{{ next_lesson.get_url }}"
-                               class="great-no-text-decoration great-no-box-shadow great-no-border"
-                               href="{{ next_lesson.get_url }}">
-                                <div class="great-inline-flex no-wrap great-align-items-center">
-                                    <span role="img"
-                                          class="fa fa-arrow-right great-text-white great-icon-circular-background govuk-!-margin-right-3"></span>
-                                    <span class="govuk-!-margin-0 great-title-link great-card__link great-card__link--heading great-inline govuk-heading-xs great-font-bold">{{ next_lesson.title }}</span>
-                                </div>
-                            </a>
-                        </div>
-                    {% endif %}
-                    <hr class="great-hr-light govuk-!-margin-top-8 govuk-!-margin-bottom-2" />
-                    <h3 class="govuk-heading-s">Explore the topic</h3>
-                    <a data-learn-to-export-link="{{ page.get_current_module.url }}"
-                       href="{{ page.get_current_module.url }}"
-                       class="govuk-link great-font-bold">{{ page.get_current_module.title }}</a>
-                </div>
-            </div>
-        {% endif %}
-    </div>
-</div>
-<<<<<<< HEAD
-=======
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-one-third govuk-!-padding-0 great-bg-white">
-        <div class="great-container">
-            {%include 'core/steps.html' with steps=page.get_steps title='Learn to export topics' current_step_url='/learn/categories/getting-started/'%}
-        </div>
-    </div>
->>>>>>> a8050f534 (saving changes)
-</div>
-{% include 'learn/promo.html' with bg_class='great-bg-light-blue' %}
-=======
                      {% if not next_module %}
                     <h2 class="govuk-heading-m govuk-!-padding-top-2">
                         Next in this topic
                     </h2>
                      <div class="great-card great-no-box-shadow">
                         <a data-learn-to-export-link="{{ next_lesson.get_url }}"
-                        class="great-no-text-decoration great-no-box-shadow great-no-border-focus"
+                        class="great-no-text-decoration great-no-box-shadow great-no-border-focus great-no-border"
                         href="{{ next_lesson.get_url }}">
-                        <div  class="great-inline-flex no-wrap great-align-items-center">
+                        <div  class="great-inline-flex no-wrap great-align-items-center great-width-100">
                         <span role="img"
             class="fa fa-arrow-right great-text-white great-icon-circular-background govuk-!-margin-right-3"></span>
-                        <span class="govuk-!-margin-0 great-title-link great-card__link great-card__link--heading great-inline govuk-heading-xs great-font-bold">{{ next_lesson.title }}</span>
+                        <span class="govuk-!-margin-0 great-title-link great-card__link great-card__link--heading great-inline govuk-heading-xs great-font-bold no-arrow-icon">{{ next_lesson.title }}</span>
                         </div>  
                     </a>
                      </div>   
@@ -118,7 +81,6 @@
 <div class="govuk-grid-column-full">
     {% include 'learn/promo.html' with bg_class='great-bg-light-blue' %}
 </div>    
->>>>>>> 2c7504c12 (fixed layout)
 {% endblock %}
 {% block body_js %}
     {{ block.super }}
