@@ -2,7 +2,7 @@
 <section id="cards" class="govuk-!-margin-top-9">
     <h2 class="govuk-heading-l">Cards</h2>
     <div class="govuk-grid-row great-card-row">
-        {% with "<ul class='govuk-list govuk-list--bullet'><li>for new exporters</li><li>learn the basics to get started</li><li>build your Export Action Plan</li></ul>"|safe as cardContent %}
+        {% with '<ul class="govuk-list govuk-list--bullet"><li>for new exporters</li><li>learn the basics to get started</li><li>build your Export Action Plan</li></ul>'|safe as cardContent %}
         <div class="govuk-grid-column-one-third">
             {% include 'components/great/card.html' with title="Codes, tariffs and procedures" url="/" show_title_link=True image_src="/support/codes-tariffs-and-procedures"|get_icon_path is_svg_image=True classes="great-card--homepage" %}
         </div>
@@ -94,8 +94,18 @@
             <td>No</td>
         </tr>
         <tr>
-            <td>pre_title</td>
+            <td>tag</td>
             <td>String</td>
+            <td>No</td>
+        </tr>
+        <tr>
+            <td>heading_class</td>
+            <td>String</td>
+            <td>No</td>
+        </tr>
+        <tr>
+            <td>content_tag</td>
+            <td>p|span</td>
             <td>No</td>
         </tr>
     </tbody>

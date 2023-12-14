@@ -11,7 +11,7 @@
 @font-face {
   font-family: 'Noto SemiBold';
   src: url('/static/fonts/NotoSans-SemiBold.ttf') format('truetype');
-  font-weight: normal;
+  font-weight: 600;
   font-style: normal;
 }
 
@@ -180,14 +180,15 @@ $regular-font-weight: 400;
 
 .great {
   .govuk-body,
-  .govuk-body-s, .govuk-accordion__show-all-text,
+  .govuk-body-s,
+  .govuk-accordion__show-all-text,
   .govuk-accordion__section-toggle-text {
     font-family: $main-text-font;
   }
 }
 
 .govuk-caption-l {
-  font-weight: 300!important;
-  color: #505a5f!important;
-  font-family: $main-text-font!important;
+  font-weight: 300 !important;
+  color: #505a5f !important;
+  font-family: $main-text-font !important;
 }
