@@ -768,6 +768,7 @@ img.richtext-image {
   bottom: 20px;
   right: 20px;
   width: 300px;
+  z-index: 2;
 }
 
 @mixin great-title-link-mixin {
