@@ -889,7 +889,7 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         ],
         use_json_field=True,
     )
-    
+
     def get_steps(self):
         topics = CuratedListPage.objects.live()
         return [{'text': page.title, 'url': page.url} for page in topics]
