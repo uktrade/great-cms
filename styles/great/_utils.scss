@@ -79,7 +79,7 @@
   .govuk-error-message,
   .govuk-radios__label,
   .govuk-details,
-  .govuk-link,
+  .govuk-link:not(.great-title-link),
   .govuk-caption-m,
   .govuk-caption-s,
   .govuk-caption-lm,
@@ -283,7 +283,7 @@
   .govuk-error-message,
   .govuk-radios__label,
   .govuk-details,
-  .govuk-link {
+  .govuk-link:not(.great-title-link) {
     font-family: $great-font;
   }
 
@@ -775,10 +775,10 @@ img.richtext-image {
   border-top: 2px solid transparent;
   border-bottom: 2px solid transparent;
   display: inline-block;
+  font-family: $great-font-bold;
   text-decoration: underline;
   text-underline-position: under;
   color: $color-gov-link;
-  text-decoration-color: $color-gov-link;
 
   &.no-underline {
     text-decoration: none;

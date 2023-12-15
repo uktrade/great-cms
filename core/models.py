@@ -544,6 +544,63 @@ class ListPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGeneric
     ################
     description = RichTextField()
     button_label = models.CharField(max_length=100)
+    popular_links = StreamField(
+        [
+            (
+                'heading',
+                blocks.CharBlock(
+                    form_classname='heading', default='', label=_('Heading'), help_text='Maximum of 1 heading'
+                ),
+            ),
+            (
+                'link',
+                blocks.StructBlock(
+                    [
+                        (
+                            'title',
+                            blocks.CharBlock(form_classname='title', default='', label=_('Title')),
+                        ),
+                        (
+                            'url',
+                            blocks.CharBlock(form_classname='url', default='', label=_('Url')),
+                        ),
+                    ],
+                    label=_('Link'),
+                ),
+            ),
+        ],
+        block_counts={
+            'heading': {'max_num': 1},
+            'link': {'max_num': 4},
+        },
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
+    ukea_cta = StreamField(
+        [
+            (
+                'url',
+                blocks.CharBlock(form_classname='url', label=_('Url')),
+            ),
+            (
+                'title',
+                blocks.CharBlock(form_classname='title', label=_('Title')),
+            ),
+            (
+                'description',
+                blocks.CharBlock(form_classname='description', label=_('Description')),
+            ),
+        ],
+        block_counts={
+            'url': {'max_num': 1},
+            'title': {'max_num': 1},
+            'description': {'max_num': 1},
+        },
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
 
     #########
     # Panels
@@ -553,6 +610,8 @@ class ListPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGeneric
     content_panels = CMSGenericPageAnonymous.content_panels + [
         FieldPanel('description'),
         FieldPanel('button_label'),
+        FieldPanel('popular_links'),
+        FieldPanel('ukea_cta', heading='UK Export Academy CTA'),
     ]
 
 
