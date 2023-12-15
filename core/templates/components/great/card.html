@@ -38,10 +38,12 @@
                     >{{ content }}</{{ content_tag|default:'div' }}>
                 {% endfilter %}
             {% endif %}
-            {% if tag %}
+            {% if tag and tag_icon %}
                 <span class="govuk-caption great-text-light-grey great-card__tag">
                     <img src="{{ tag_icon }}" alt="" />
                 {{ tag }}</span>
+            {% else %}
+                <span class="govuk-caption great-text-light-grey great-card__tag">{{ tag }}</span>
             {% endif %}
             {% if link_text %}<span class="great-card__link great-card__link--chevron">{{ link_text }}</span>{% endif %}
         </div>
