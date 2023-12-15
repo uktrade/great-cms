@@ -288,7 +288,7 @@ figure.great-blockquote {
   }
 
   .great-card__link--heading {
-    &::after:not(.no-arrow-icon) {
+    &::after {
       content: '\f061';
       font-family: 'Font Awesome 5 Free';
       font-weight: 900;
@@ -1546,8 +1546,8 @@ nav.great-breadcrumbs {
       color: $color-main-text !important;
     }
     &::before {
-      background-color: #04043F;
-      border-color: #04043F;
+      background-color: #04043f;
+      border-color: #04043f;
       content: '\f061';
       color: white;
       font-family: 'Font Awesome 5 Free';
@@ -1573,6 +1573,42 @@ nav.great-breadcrumbs {
   }
 
   a:focus:active {
-    color: inherit
+    color: inherit;
   }
+}
+
+@mixin child-link-states($selector) {
+  &:hover {
+    #{$selector} {
+      text-decoration-line: underline;
+    }
+  }
+  &:focus {
+    #{$selector} {
+      color: #212427;
+      text-decoration: none;
+      background-color: #ffd000;
+      outline: none;
+    }
+  }
+
+  &:active {
+    #{$selector} {
+      outline: 3px solid #ffd000;
+    }
+  }
+
+  &:focus:active {
+    #{$selector} {
+      background: $great-white;
+      box-shadow: 0 -2px #fd0, 0 4px #0b0c0c;
+      text-decoration: none;
+      -webkit-box-decoration-break: clone;
+      outline: 3px solid rgba(0, 0, 0, 0);
+    }
+  }
+}
+
+.great-arrow-link {
+  @include child-link-states('.great-title-link');
 }
