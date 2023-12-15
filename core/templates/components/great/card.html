@@ -12,7 +12,7 @@
                      alt="{% if image_alt %}{{ image_alt }}{% endif %}" />
             {% endif %}
         {% endif %}
-        <div class="govuk-!-padding-4"
+        <div class=" {% if container_class %} {{ container_class }} {% else %} govuk-!-padding-4 {% endif %}"
              {% if data_attr_title %}data-title="{{ data_attr_title }}"{% endif %}
              {% if data_attr_location %}data-location="{{ data_attr_location }}"{% endif %}>
             {% if title %}
@@ -38,14 +38,16 @@
                     >{{ content }}</{{ content_tag|default:'div' }}>
                 {% endfilter %}
             {% endif %}
-            {% if tag and tag_icon %}
-                <span class="govuk-caption great-text-light-grey great-card__tag">
-                    <img src="{{ tag_icon }}" alt="" />
-                {{ tag }}</span>
-            {% else %}
-                <span class="govuk-caption great-text-light-grey great-card__tag">{{ tag }}</span>
-            {% endif %}
-            {% if link_text %}<span class="great-card__link great-card__link--chevron">{{ link_text }}</span>{% endif %}
+            <span "{% if tag_container_class %} {{ tag_container_class }} {% endif %}">
+                {% if tag and tag_icon %}
+                    <span class="govuk-caption great-text-light-grey great-card__tag">
+                        <img src="{{ tag_icon }}" alt="" />
+                    {{ tag }}</span>
+                {% else %}
+                    <span class="govuk-caption great-text-light-grey great-card__tag">{{ tag }}</span>
+                {% endif %}
+                {% if link_text %}<span class="great-card__link great-card__link--chevron">{{ link_text }}</span>{% endif %}
+            </span>
         </div>
         {% if url %}</a>{% endif %}
 </div>
