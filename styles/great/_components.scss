@@ -297,6 +297,12 @@ figure.great-blockquote {
       top: 12px;
       right: 0;
     }
+
+    &.great-card__link--external {
+      &::after {
+        content: '\f35d';
+      }
+    }
   }
 
   .great-card__tag {
@@ -400,6 +406,25 @@ figure.great-blockquote {
     max-width: 80px;
     padding-left: 20px;
     margin-bottom: -20px;
+  }
+}
+
+.great-card--modifier {
+  a {
+    background-color: $great-light-blue;
+    min-height: 170px;
+
+    &:focus:active {
+      background-color: $great-light-blue;
+    }
+  }
+
+  .great-card__tag {
+    img {
+      width: 20px;
+      display: inline-block;
+      margin-right: 12px;
+    }
   }
 }
 
