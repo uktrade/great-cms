@@ -1,10 +1,12 @@
 {% load wagtailcore_tags %}
 {% load format_timedelta from content_tags %}
-{% load get_lesson_progress_for_topic is_lesson_page from content_tags %}
+{% load format_timedelta from content_tags %}
+{% load render_curated_topic_card_content from content_tags %}
 {% comment %} `completed_lessons` only features lessons FOR THIS PARTIAL'S TOPIC {% endcomment %}
 <div class="great great-overflow-visible govuk-grid-column-two-thirds-from-desktop govuk-!-margin-bottom-6 govuk-!-padding-0" id="{{ topic.id }}">
     <h2 class="learn__topic-item-title govuk-heading-m govuk-!-padding-0 govuk-!-margin-0">{{ topic.title }}</h2>
     <ul class="learn__lessons-list">
+<<<<<<< HEAD
 <<<<<<< HEAD
         {% for page in topic.get_children.live %}
             {% if page|is_lesson_page %}
@@ -41,5 +43,13 @@
                     </a>
                 </li>
         {% endfor %}
+=======
+       {% for page in topic.get_lesson_pages %}
+       <li class="lte-suptopic">
+            {% render_curated_topic_card_content page completed_lessons as curated_content %}
+            {% include 'components/great/card.html' with content=curated_content|safe url=page.url bypass_class_filter=True classes='great-card--undecorated'%}
+       </li>
+    {% endfor %}
+>>>>>>> 9c9c9ad28 (use global card compoennt)
     </ul>
 </div>

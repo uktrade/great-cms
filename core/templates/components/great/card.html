@@ -32,11 +32,17 @@
                     {% if show_title_link %}</div>{% endif %}
             {% endif %}
             {% if content %}
+<<<<<<< HEAD
                 {% filter add_govuk_classes %}
                     <{{ content_tag|default:'div' }}
                     {% if tag %}class="govuk-!-margin-bottom-9"{% endif %}
                     >{{ content }}</{{ content_tag|default:'div' }}>
                 {% endfilter %}
+=======
+                {% comment %} {% filter add_govuk_classes %} {% endcomment %}
+                    <div>{{ content }}</div>
+                {% comment %} {% endfilter %} {% endcomment %}
+>>>>>>> 9c9c9ad28 (use global card compoennt)
             {% endif %}
             {% if tag and tag_icon %}
                 <span class="govuk-caption great-text-light-grey great-card__tag">
