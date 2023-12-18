@@ -34,14 +34,13 @@
             {% if content %}
                 {% if bypass_class_filter %}
                     <div>{{ content }}</div>
-                {% endfilter %}
                 {%else%}
                     {% filter add_govuk_classes %}
                         <{{ content_tag|default:'div' }}
                         {% if tag %}class="govuk-!-margin-bottom-9"{% endif %}
                         >{{ content }}</{{ content_tag|default:'div' }}>
                     {% endfilter %}
-                {% endif %}    
+                {%endif%}
             {% endif %}
             {% if tag and tag_icon %}
                 <span class="govuk-caption great-text-light-grey great-card__tag">

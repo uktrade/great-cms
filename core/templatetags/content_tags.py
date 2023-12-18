@@ -443,8 +443,7 @@ def render_curated_topic_card_content(page, completed_lessons):
                     {page.title}
                 </h3>
                 <span role="img" class="fa fa-arrow-right govuk-!-margin-right-2 great-text-blue
-                     great-font-size-18 great-height-min-content govuk-!-margin-top-1
-                     great-card__link--icon"></span>
+                     great-font-size-18 great-height-min-content govuk-!-margin-top-1"></span>
             </div>
             """
     return html_content
