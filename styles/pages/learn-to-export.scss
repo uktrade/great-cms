@@ -226,16 +226,15 @@ i.fas.fa-clock {
       top: 0px !important;
     }
     & p {
-      font-family: $header-font !important;
-      font-size: 24px !important;
+      font-family: $header-font!important;
+      font-size: 24px!important;
       margin: 0;
-      display: inline !important;
+      display: inline!important;
       margin-left: 30px;
     }
   }
 }
 
-<<<<<<< HEAD
 ol.list-circle-number li{
   font-family: $main-text-font!important;
   padding-top: 5px;
@@ -305,13 +304,6 @@ aside {
   p {
     margin-top: 8px;
   }
-=======
-ol.list-circle-number li {
-  font-family: $main-text-font !important;
-  &::before {
-    font-family: $header-font !important;
-    line-height: 50px !important;
-  }
 }
 
 li .lte-suptopic {
@@ -329,6 +321,7 @@ li .lte-suptopic {
       padding-left: 0 !important;
     }
   }
+<<<<<<< HEAD
 >>>>>>> 9c9c9ad28 (use global card compoennt)
 }
 
@@ -337,3 +330,6 @@ li .lte-suptopic {
     width: 100%;
   }
 }
+=======
+}
+>>>>>>> 93b4e3000 (fixed flake 8 issues)

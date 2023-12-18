@@ -418,28 +418,33 @@ def get_icon_path(url):
     else:
         return ''
 
+
 @register.simple_tag
 def render_curated_topic_card_content(page, completed_lessons):
     if completed_lessons is None or not hasattr(completed_lessons, '__iter__'):
-        # Handle the case when completed_lessons is None or not iterable
         completed_lessons = []
 
     if page.id in completed_lessons:
-        html_content = f'''
-            <div class="great-display-flex great-gap-10-30 great-justify-space-between great-flex-column-until-desktop">
-                <h3 class="govuk-link great-font-bold govuk-!-margin-0 great-title-link great-card__link great-card__link--underline great-card__link--heading">
+        html_content = f"""
+            <div class="great-display-flex great-gap-10-30 great-justify-space-between
+                  great-flex-column-until-desktop">
+                <h3 class="govuk-link great-font-bold govuk-!-margin-0 great-title-link
+                     great-card__link great-card__link--underline great-card__link--heading">
                     {page.title}
                 </h3>
                 <span class="great-badge completed govuk-!-margin-top-2">Completed</span>
             </div>
-        '''
+            """
     else:
-        html_content = f'''
+        html_content = f"""
             <div class="great-display-flex great-gap-10-30 great-justify-space-between">
-                <h3 class="govuk-link great-font-bold govuk-!-margin-0 great-title-link great-card__link great-card__link--underline great-card__link--heading">
+                <h3 class="govuk-link great-font-bold govuk-!-margin-0 great-title-link
+                     great-card__link great-card__link--underline great-card__link--heading">
                     {page.title}
                 </h3>
-                <span role="img" class="fa fa-arrow-right govuk-!-margin-right-2 great-text-blue great-font-size-18 great-height-min-content govuk-!-margin-top-1 great-card__link--icon"></span> 
+                <span role="img" class="fa fa-arrow-right govuk-!-margin-right-2 great-text-blue
+                     great-font-size-18 great-height-min-content govuk-!-margin-top-1
+                     great-card__link--icon"></span>
             </div>
-        '''
+            """
     return html_content

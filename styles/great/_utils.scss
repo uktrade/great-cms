@@ -13,10 +13,6 @@
   color: $great-white !important;
 }
 
-%great-text-blue {
-  color: $great-blue !important;
-}
-
 .great {
   overflow-x: hidden;
 
@@ -47,6 +43,7 @@
   }
 
   p:not(.govuk-error-message, .govuk-hint),
+  span:not(.great-badge, .great-text-darker-grey, .govuk-details__summary-text, .great-warning-text__icon, .great-tag, .govuk-warning-text__icon, .govuk-accordion__section-heading-text-focus, .govuk-accordion-nav__chevron, .govuk-accordion-nav__chevron--down, .govuk-accordion-nav__chevron--down::after, .govuk-accordion-nav__chevron--up::after, .govuk-accordion-nav__chevron--up),
   ol,
   ul,
   a {
@@ -998,7 +995,6 @@ img.richtext-image {
 .great-cursor-pointer {
   cursor: pointer;
 }
-<<<<<<< HEAD
 .great-border-top-orange {
   border-top: 3px solid #e94f3d;
 }
@@ -1040,6 +1036,7 @@ img.richtext-image {
   background: #b1b4b6;
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 .great-border-top-thick {
   border-top: 3px solid #04043F;
@@ -1053,6 +1050,8 @@ img.richtext-image {
 }
 =======
 =======
+=======
+>>>>>>> 93b4e3000 (fixed flake 8 issues)
 
 .great-no-box-shadow {
   box-shadow: none!important;
@@ -1066,6 +1065,7 @@ img.richtext-image {
   outline: none!important;
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 2c7a81e89 (saving changes)
 <<<<<<< HEAD
 >>>>>>> 39807dab7 (saving changes)
@@ -1077,3 +1077,9 @@ img.richtext-image {
 }
 >>>>>>> 75dd66b34 (fixes)
 >>>>>>> cde22b9de (fixes)
+=======
+
+.great-height-min-content {
+  height: min-content;
+}
+>>>>>>> 93b4e3000 (fixed flake 8 issues)

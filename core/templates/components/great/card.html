@@ -32,18 +32,16 @@
                     {% if show_title_link %}</div>{% endif %}
             {% endif %}
             {% if content %}
-<<<<<<< HEAD
-<<<<<<< HEAD
-                {% filter add_govuk_classes %}
-                    <{{ content_tag|default:'div' }}
-                    {% if tag %}class="govuk-!-margin-bottom-9"{% endif %}
-                    >{{ content }}</{{ content_tag|default:'div' }}>
-                {% endfilter %}
-=======
-                {% comment %} {% filter add_govuk_classes %} {% endcomment %}
+                {% if bypass_class_filter %}
                     <div>{{ content }}</div>
-                {% comment %} {% endfilter %} {% endcomment %}
->>>>>>> 9c9c9ad28 (use global card compoennt)
+                {% endfilter %}
+                {%else%}
+                    {% filter add_govuk_classes %}
+                        <{{ content_tag|default:'div' }}
+                        {% if tag %}class="govuk-!-margin-bottom-9"{% endif %}
+                        >{{ content }}</{{ content_tag|default:'div' }}>
+                    {% endfilter %}
+                {% endif %}    
             {% endif %}
             {% if tag and tag_icon %}
                 <span class="govuk-caption great-text-light-grey great-card__tag">
@@ -51,15 +49,6 @@
                 {{ tag }}</span>
             {% else %}
                 <span class="govuk-caption great-text-light-grey great-card__tag">{{ tag }}</span>
-=======
-                {% if bypass_class_filter %}
-                    <div>{{ content }}</div>
-                {%else%}
-                    {% filter add_govuk_classes %}
-                        <div>{{ content }}</div>
-                    {% endfilter %}
-                {% endif %} 
->>>>>>> 07a6adf71 (add by pass classes)
             {% endif %}
             {% if link_text %}<span class="great-card__link great-card__link--chevron">{{ link_text }}</span>{% endif %}
         </div>
