@@ -13,7 +13,7 @@
                      alt="{% if image_alt %}{{ image_alt }}{% endif %}" />
             {% endif %}
         {% endif %}
-        <div class="govuk-!-padding-4"
+        <div class="govuk-!-padding-4 {% if classes %}{{ classes }}{% endif %}"
              {% if data_attr_title %}data-title="{{ data_attr_title }}"{% endif %}
              {% if data_attr_location %}data-location="{{ data_attr_location }}"{% endif %}>
             {% if title %}
