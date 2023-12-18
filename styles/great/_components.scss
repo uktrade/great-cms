@@ -1613,3 +1613,8 @@ nav.great-breadcrumbs {
 .great-arrow-link {
   @include child-link-states('.great-title-link');
 }
+
+
+.great-card--on-white {
+  background: red;
+}
