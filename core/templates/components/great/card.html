@@ -33,6 +33,7 @@
             {% endif %}
             {% if content %}
 <<<<<<< HEAD
+<<<<<<< HEAD
                 {% filter add_govuk_classes %}
                     <{{ content_tag|default:'div' }}
                     {% if tag %}class="govuk-!-margin-bottom-9"{% endif %}
@@ -50,6 +51,15 @@
                 {{ tag }}</span>
             {% else %}
                 <span class="govuk-caption great-text-light-grey great-card__tag">{{ tag }}</span>
+=======
+                {% if bypass_class_filter %}
+                    <div>{{ content }}</div>
+                {%else%}
+                    {% filter add_govuk_classes %}
+                        <div>{{ content }}</div>
+                    {% endfilter %}
+                {% endif %} 
+>>>>>>> 07a6adf71 (add by pass classes)
             {% endif %}
             {% if link_text %}<span class="great-card__link great-card__link--chevron">{{ link_text }}</span>{% endif %}
         </div>
