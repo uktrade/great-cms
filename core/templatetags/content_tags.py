@@ -424,7 +424,7 @@ def render_curated_topic_card_content(page, completed_lessons):
     if completed_lessons is None or not hasattr(completed_lessons, '__iter__'):
         completed_lessons = []
 
-    if page.id in completed_lessons:
+    if str(page.id) in map(str, completed_lessons):
         html_content = f"""
             <div class="great-display-flex great-gap-10-30 great-justify-space-between
                   great-flex-column-until-desktop">
