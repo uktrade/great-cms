@@ -29,26 +29,24 @@
 </div>
 <section id="learn-root" class="great great-container">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds-from-desktop">
+        <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-margin-bottom-6">
             {% for learning_module in page.get_children.specific.live %}
                 {% with high_level_completion_progress|get_item:learning_module.id as module_completion_data %}
-                    <div class="great-card great-card--undecorated great-card--no-active-jump great-bg-white govuk-!-margin-bottom-4">
+                    <div class="great-card  great-card--no-active-jump great-bg-white govuk-!-margin-bottom-4">
                         <a href="{% pageurl learning_module %}">
-                            <div class="great-display-flex great-flex-wrap great-flex-column-until-tablet great-gap govuk-!-padding-4">
+                            <div class="great-display-flex great-flex-wrap great-flex-column-until-tablet great-gap">
                                 <div class="great-flex-2">
-                                    <h3 class="great-card__link great-title-link great-card__link--heading govuk-heading-m govuk-!-margin-top-2 govuk-!-margin-bottom-2">
-                                        {{ learning_module.title }}
-                                    </h3>
-                                    {{ learning_module.heading | richtext| add_govuk_classes }}
-                                </div>
-                                <div class="progess-container great-flex-1">
-                                    {% if module_completion_data.completion_count %}
-                                        {% include "learn/_high_level_progress.html" with module_completion_data=module_completion_data only %}
-                                    {% endif %}
+                                    {% include 'components/great/card.html' with title=learning_module.title show_title_link=True heading_class="govuk-heading-m" %}
+                                    <div class="govuk-!-margin-left-4">{{ learning_module.heading | richtext| add_govuk_classes }}</div>
                                 </div>
                             </div>
-                        </div>
-                    </a>
+                            {% if request.user.is_authenticated %}
+                                <div class="progess-container great-display-flex great-flex-wrap great-flex-column-until-tablet great-gap govuk-!-margin-left-4 govuk-!-margin-bottom-4">
+                                    {% include "learn/_high_level_progress.html" with module_completion_data=module_completion_data only %}
+                                </div>
+                            {% endif %}
+                        </a>
+                    </div>
                 {% endwith %}
             {% endfor %}
         </div>
