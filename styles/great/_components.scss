@@ -276,6 +276,7 @@ figure.great-blockquote {
     text-decoration: underline;
     max-width: 80%;
     text-underline-position: under;
+    text-decoration-thickness: max(1px, 0.0625rem);
 
     --webkit-text-underline-offset: 0.05rem;
     -webkit-font-smoothing: antialiased;
@@ -750,6 +751,7 @@ figure.great-blockquote {
 }
 
 .great-heading-link {
+  color: $govuk-brand-colour;
   display: block;
   position: relative;
 
@@ -906,7 +908,7 @@ figure.great-blockquote {
 }
 
 .great-icon-right-arrow-in-circle {
-  content: "";
+  content: '';
   position: absolute;
   display: flex;
   flex-direction: column;

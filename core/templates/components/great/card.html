@@ -25,7 +25,7 @@
                     {% endif %}
                     govuk-!-margin-top-2 govuk-!-margin-bottom-2
                     {% if show_title_link %}great-card__link great-card__link--heading{% endif %}
-                    great-card__link--{{ url|url_type }}
+                    {% if show_internal_external_icons %}great-card__link--{{ url|url_type }}{% endif %}
                     ">
                     <span>{{ title }}</span>
                     </{{ heading_level|default:'h3' }}>

@@ -60,6 +60,7 @@ MARKETING_SOURCES_CHOICES = (
     ('Growth hubs', 'Growth hubs'),
     ('Local Enterprise Partnership', 'Local Enterprise Partnership'),
     ('Chamber of Commerce', 'Chamber of Commerce'),
+    ('Through Enterprise Nation', 'Through Enterprise Nation'),
     ('Other (please specify below)', 'Other (please specify below)'),
 )
 
