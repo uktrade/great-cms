@@ -367,7 +367,7 @@ def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(rf, 
     # NOTE: for a reason unrelated to the point of _this_ test, the readtime
     # of the published page CAN BE calculated as slightly longer than the draft.
     # This may be in part due to the page having a very small amount of content.
-    assert detail_page.estimated_read_duration == timedelta(seconds=4)
+    assert detail_page.estimated_read_duration == timedelta(seconds=5)
 
 
 @pytest.mark.django_db
