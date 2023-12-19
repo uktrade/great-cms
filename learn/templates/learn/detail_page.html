@@ -19,19 +19,20 @@
             <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-padding-0">
                 <h2 class="govuk-caption-xl">{{ page.get_lesson_category_name }}</h2>
                 <h1 class="govuk-heading-xl" id="lesson-title">{{ page.title }}</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="great great-bg-white lesson-page">
+    <div class="great-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds-from-desktop">
                 {% if page.hero %}
                     <div class="lesson-hero media-section">{% include 'learn/hero_media_item.html' %}</div>
                 {% endif %}
                 {% include 'core/objectives.html' %}
                 <div class="lesson-body-blocks">{% include 'core/personalised_body.html' %}</div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="great great-bg-white">
-    <div class="great-container">
-        <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-padding-0">
-            {% if request.user.is_authenticated %}
+                 {% if request.user.is_authenticated %}
                 <div class="great-bg-light-blue great-border-top-orange govuk-!-padding-6 ">
                     <div>
                         <div>
@@ -45,34 +46,31 @@
                     </div>
                 </div>
             {% endif %}
-            {% if next_lesson %}
+       {% if next_lesson %}
                 <div class="govuk-!-padding-top-6 govuk-!-padding-bottom-8">
-                    {% if not next_module %}
-                        <h2 class="govuk-heading-m govuk-!-padding-top-2">Next in this topic</h2>
-                        <div>
-                            <a data-learn-to-export-link="{{ next_lesson.get_url }}"
-                               class="great-no-text-decoration great-no-box-shadow great-no-border"
-                               href="{{ next_lesson.get_url }}">
-                                <div class="great-inline-flex no-wrap great-align-items-center">
-                                    <span role="img"
-                                          class="fa fa-arrow-right great-text-white great-icon-circular-background govuk-!-margin-right-3"></span>
-                                    <span class="govuk-!-margin-0 great-title-link great-card__link great-card__link--heading great-inline govuk-heading-xs great-font-bold">{{ next_lesson.title }}</span>
-                                </div>
-                            </a>
-                        </div>
-                    {% endif %}
-                    <hr class="great-hr-light govuk-!-margin-top-8 govuk-!-margin-bottom-2" />
-                    <h3 class="govuk-heading-s">Explore the topic</h3>
-                    <a data-learn-to-export-link="{{ page.get_current_module.url }}"
-                       href="{{ page.get_current_module.url }}"
-                       class="govuk-link great-font-bold">{{ page.get_current_module.title }}</a>
+                     {% if not next_module %}
+                    <h2 class="govuk-heading-m govuk-!-padding-top-2">
+                        Next in this topic
+                    </h2>
+                        {% include 'components/great/arrow_link.html' with url=next_lesson.get_url title=next_lesson.title %}
+                     {%endif%}
+                        <hr class="great-hr-light {% if not next_module %}govuk-!-margin-top-8{%else%}govuk-!-margin-top-4{%endif%} govuk-!-margin-bottom-4" />
+                        <h3 class="govuk-heading-s">Explore the topic</h3>
+                        <a data-learn-to-export-link="{{ page.get_current_module.url }}"
+                        href="{{ page.get_current_module.url  }}"
+                        class="govuk-link great-font-bold">{{ page.get_current_module.title }}</a>
                 </div>
-            </div>
-        {% endif %}
-    </div>
-</div>
-</div>
-{% include 'learn/promo.html' with bg_class='great-bg-light-blue' %}
+            {% endif %}
+            </div> 
+                <div class="govuk-grid-column-one-third-from-desktop">
+                    {% include 'core/steps.html' with steps=page.get_steps title='Learn to export topics' current_step_url=page.get_current_module.url %}
+            </div> 
+        </div>   
+    </div> 
+</div> 
+<div class="govuk-grid-column-full govuk-!-padding-0">
+    {% include 'learn/promo.html' with bg_class='great-bg-light-blue' %}
+</div>    
 {% endblock %}
 {% block body_js %}
     {{ block.super }}
