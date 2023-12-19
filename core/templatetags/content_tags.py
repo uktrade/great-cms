@@ -434,7 +434,7 @@ def render_automated_list_page_card_content(page, request, module_completion_dat
                 <div class="learn__category-progress">
                 <span style="width: {completion_percentage}%"></span>
                 </div>
-                <p class="govuk-!-margin-top-1 govuk-!-margin-bottom-0 progress-bar-text">
+                <span class="govuk-label">
                     {completion_count}
                     /
                     {total_pages}
