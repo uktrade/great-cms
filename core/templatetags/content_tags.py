@@ -430,7 +430,7 @@ def render_curated_topic_card_content(page, completed_lessons):
                   great-flex-column-until-desktop">
                 <h3 class="govuk-link great-font-bold govuk-!-margin-0 great-title-link
                      great-card__link great-card__link--underline great-card__link--heading">
-                    {page.title}
+                    <span>{page.title}</span>
                 </h3>
                 <span class="great-badge completed govuk-!-margin-top-2">Completed</span>
             </div>
