@@ -423,9 +423,9 @@ def get_icon_path(url):
 @register.simple_tag
 def render_automated_list_page_card_content(page, request, module_completion_data):
     if request.user.is_authenticated and module_completion_data:
-        completion_percentage = getattr(module_completion_data, 'completion_percentage', 0)
-        completion_count = getattr(module_completion_data, 'completion_count', 0)
-        total_pages = getattr(module_completion_data, 'total_pages', 0)
+        completion_percentage = module_completion_data.get('completion_percentage', 0)
+        completion_count = module_completion_data.get('completion_count', 0)
+        total_pages = module_completion_data.get('total_pages', 0)
         html_content = format_html(
             f"""
             { page.heading}
