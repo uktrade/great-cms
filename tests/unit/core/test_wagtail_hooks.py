@@ -206,7 +206,7 @@ def test_estimated_read_time_calculation(rf, domestic_homepage):
     revision = detail_page.save_revision()
     revision.publish()
 
-    expected_duration = timedelta(seconds=153)
+    expected_duration = timedelta(seconds=154)
 
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration != expected_duration
@@ -245,7 +245,7 @@ def test_estimated_read_time_calculation__checks_text_and_video(rf, domestic_hom
     revision = detail_page.save_revision()
     revision.publish()
 
-    expected_duration = timedelta(seconds=177 + 101)  # reading + watching
+    expected_duration = timedelta(seconds=178 + 101)  # reading + watching
 
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration != expected_duration
@@ -283,7 +283,7 @@ def test_estimated_read_time_calculation__checks_video(rf, domestic_homepage):
     revision = detail_page.save_revision()
     revision.publish()
 
-    expected_duration = timedelta(seconds=28 + 100)  # reading + watching
+    expected_duration = timedelta(seconds=28 + 101)  # reading + watching
 
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration != expected_duration
@@ -305,7 +305,7 @@ def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(rf, 
     request = rf.get('/')
     request.user = AnonymousUser()
 
-    video_for_hero = make_test_video(duration=124)
+    video_for_hero = make_test_video(duration=125)
     video_for_hero.save()
 
     detail_page = factories.DetailPageFactory(
