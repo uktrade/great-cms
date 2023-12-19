@@ -439,7 +439,7 @@ def render_automated_list_page_card_content(page, request, module_completion_dat
                     /
                     {total_pages}
                     marked as complete
-                 </p>
+                 </span>
                 </div>
                 </div>
         """
