@@ -448,3 +448,7 @@ def render_curated_topic_card_content(page, completed_lessons):
             </div>
             """
     return html_content
+
+
+def get_page_url(page):
+    return page.get_full_url()

@@ -8,6 +8,7 @@
 {% load url_map %}
 {% load add_govuk_classes from content_tags %}
 {% load breadcrumbs from component_tags %}
+{% load get_page_url from content_tags %}
 {% block head_other %}
     <meta name="description"
           content="Learn how to successfully export your products to new markets with our comprehensive lessons and case studies" />
@@ -33,19 +34,18 @@
             {% for learning_module in page.get_children.specific.live %}
                 {% with high_level_completion_progress|get_item:learning_module.id as module_completion_data %}
                     <div class="great-card  great-card--no-active-jump great-bg-white govuk-!-margin-bottom-4">
-                        <a href="{% pageurl learning_module %}">
-                            <div class="great-display-flex great-flex-wrap great-flex-column-until-tablet great-gap">
-                                <div class="great-flex-2">
-                                    {% include 'components/great/card.html' with title=learning_module.title show_title_link=True heading_class="govuk-heading-m" %}
-                                    <div class="govuk-!-margin-left-4">{{ learning_module.heading | richtext| add_govuk_classes }}</div>
-                                </div>
+                        <div class="great-display-flex great-flex-wrap great-flex-column-until-tablet great-gap">
+                            <div class="great-flex-2">
+                                {% get_page_url learning_module as learning_module_url %}
+                                {% include 'components/great/card.html' with url=learning_module_url title=learning_module.title show_title_link=True heading_class="govuk-heading-m" %}
+                                <div class="govuk-!-margin-left-4">{{ learning_module.heading | richtext| add_govuk_classes }}</div>
                             </div>
-                            {% if request.user.is_authenticated %}
-                                <div class="progess-container great-display-flex great-flex-wrap great-flex-column-until-tablet great-gap govuk-!-margin-left-4 govuk-!-margin-bottom-4">
-                                    {% include "learn/_high_level_progress.html" with module_completion_data=module_completion_data only %}
-                                </div>
-                            {% endif %}
-                        </a>
+                        </div>
+                        {% if request.user.is_authenticated %}
+                            <div class="progess-container great-display-flex great-flex-wrap great-flex-column-until-tablet great-gap govuk-!-margin-left-4 govuk-!-margin-bottom-4">
+                                {% include "learn/_high_level_progress.html" with module_completion_data=module_completion_data only %}
+                            </div>
+                        {% endif %}
                     </div>
                 {% endwith %}
             {% endfor %}
