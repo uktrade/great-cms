@@ -410,7 +410,7 @@ def test_estimated_read_time_calculation__forced_update_of_live(rf, domestic_hom
 
     detail_page.refresh_from_db()
 
-    expected_duration = timedelta(seconds=4)  # NB just the read time of a skeleton DetailPage
+    expected_duration = timedelta(seconds=5)  # NB just the read time of a skeleton DetailPage
 
     # show the live version is updated yet
     assert detail_page.estimated_read_duration == expected_duration
@@ -440,7 +440,7 @@ def test__set_read_time__passes_through_is_post_creation(
     ) as mocked_update_data_for_appropriate_version:
         wagtail_hooks._set_read_time(request, detail_page, is_post_creation=is_post_creation_val)
 
-    expected_seconds = 4
+    expected_seconds = 5
     mocked_update_data_for_appropriate_version.assert_called_once_with(
         page=detail_page,
         force_page_update=is_post_creation_val,
