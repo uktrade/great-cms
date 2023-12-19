@@ -387,6 +387,7 @@ class CMSGenericPageAnonymous(
         panels = [
             ObjectList(cls.content_panels, heading='Content'),
             ObjectList(cls.layout_panels, heading='Layout'),
+            ObjectList(SeoMixin.seo_meta_panels, heading='SEO', classname='seo'),
             ObjectList(cls.settings_panels, heading='Settings', classname='settings'),
         ]
 
