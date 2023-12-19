@@ -25,7 +25,7 @@
   .govuk-warning-text__text {
     font-family: $great-font-bold;
     -webkit-font-smoothing: auto;
-    &:not(.great-title-link, .great-card__link) {
+    &:not(.great-title-link, .great-card__link, .great-heading-link__heading) {
       color: $great-dark-grey;
     }
   }
@@ -79,7 +79,7 @@
   .govuk-error-message,
   .govuk-radios__label,
   .govuk-details,
-  .govuk-link,
+  .govuk-link:not(.great-title-link),
   .govuk-caption-m,
   .govuk-caption-s,
   .govuk-caption-lm,
@@ -283,7 +283,7 @@
   .govuk-error-message,
   .govuk-radios__label,
   .govuk-details,
-  .govuk-link {
+  .govuk-link:not(.great-title-link) {
     font-family: $great-font;
   }
 
@@ -775,10 +775,10 @@ img.richtext-image {
   border-top: 2px solid transparent;
   border-bottom: 2px solid transparent;
   display: inline-block;
+  font-family: $great-font-bold;
   text-decoration: underline;
   text-underline-position: under;
   color: $color-gov-link;
-  text-decoration-color: $color-gov-link;
 
   &.no-underline {
     text-decoration: none;
@@ -834,6 +834,9 @@ img.richtext-image {
 .great-inline-flex {
   display: inline-flex;
   flex-wrap: wrap;
+  &.no-wrap {
+    flex-wrap: nowrap;
+  }
   &.great-mobile-flex-column {
     @media only screen and (max-width: $mobile-size) {
       flex-direction: column;
@@ -990,4 +993,44 @@ img.richtext-image {
 
 .great-cursor-pointer {
   cursor: pointer;
+}
+.great-border-top-orange {
+  border-top: 3px solid #e94f3d;
+}
+
+.great-icon-circular-background {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border-radius: 50%;
+  background-color: #04043f;
+}
+
+.great-blue-hr {
+  height: 3px;
+  background: #04043f;
+}
+
+.great-no-text-decoration {
+  text-decoration: none !important;
+}
+
+.great-no-box-shadow {
+  box-shadow: none !important;
+}
+
+.great-no-border-focus {
+  outline: none !important;
+}
+
+.great-no-border {
+  border: 0 !important;
+}
+
+.great-hr-light {
+  height: 1px;
+  background: #b1b4b6;
 }

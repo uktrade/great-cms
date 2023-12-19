@@ -1,8 +1,10 @@
 @import '../colors/colors.scss';
 @import '../sizes/sizes.scss';
 @import '../fonts/main.scss';
+@import '../great/main.scss';
 
 $breakpoint-size: 900px;
+$desktop: 1024px;
 
 #learn-root {
   article {
@@ -235,8 +237,71 @@ i.fas.fa-clock {
 
 ol.list-circle-number li{
   font-family: $main-text-font!important;
+  padding-top: 5px;
   &::before {
     font-family: $header-font!important;
-    line-height: 50px!important;
+    min-width: 40px;
+    height: 40px;
+    width: 40px;
+    margin-right: 15px;
+    margin-top: -5px;
+    font-size: 24px;
+    line-height: 40px!important;
+  }
+  color: inherit
+}
+
+aside {
+  h2 {
+    padding-top: 10px;
+  }
+
+  ul {
+    margin-bottom: 40px;
+  }
+
+  li {
+    min-height: 40px;
+    margin-top: 20px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  li a {
+    margin-left: 52px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+}
+
+.great-ukea {
+  .ea-logo {
+    width: 118px
+  }
+
+  div {
+    margin-top: 20px;
+    border-top: 3px solid #964F99;
+    padding-top: 15px;
+  }
+
+  a {
+    display: flex;
+    justify-content: space-between;
+
+    &::after {
+      content: "\f061";
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      float: right;
+    }
+  }
+
+  p {
+    margin-top: 8px;
   }
 }

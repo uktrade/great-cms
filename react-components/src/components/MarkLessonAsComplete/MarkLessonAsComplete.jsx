@@ -30,7 +30,7 @@ const MarkLessonAsComplete = ({ endpoint }) => {
     }
   }, [isComplete])
 
-  const labelText = isComplete && isChecked ? 'Great! Progress saved' : 'Yes'
+  const labelText = isComplete && isChecked ? 'Progress saved' : 'Yes, track my progress'
 
   const markCompleted = () => {
     if (!isComplete) {
@@ -40,14 +40,20 @@ const MarkLessonAsComplete = ({ endpoint }) => {
     setIsChecked(true)
   }
 
+  
+
   return (
-    <div className="mark-lesson-as-complete">
-      <legend class="govuk-!-margin-top-8">
-        <h2 className="govuk-heading-l great-text-white great-font-size-28" aria-hidden="true">Lesson complete?</h2>
-      </legend>
-      <div className="great-checkbox great-checkbox--large">
-        <input
-          type="checkbox"
+    <React.Fragment>
+      <div className="govuk-form-group govuk-!-margin-top-4">
+  <fieldset classname="govuk-fieldset" aria-describedby="waste-hint">
+    <legend className="govuk-fieldset__legend govuk-fieldset__legend--l govuk-!-margin-bottom-0">
+      <h3 className="govuk-heading-m">
+        Mark as complete?
+      </h3>
+    </legend>
+    <div className="govuk-checkboxes" data-module="govuk-checkboxes">
+      <div className="govuk-checkboxes__item">
+        <input className="govuk-checkboxes__input" name="isComplete" type="checkbox" value='isCompelete'
           id="markascomplete_checkbox"
           onChange={() => {
             setIsComplete(!isComplete)
@@ -55,9 +61,14 @@ const MarkLessonAsComplete = ({ endpoint }) => {
           onClick={markCompleted}
           checked={Boolean(isComplete)}
         />
-        <label htmlFor="markascomplete_checkbox"><span className="visually-hidden">Lesson complete?</span><span aria-hidden="true">{labelText}</span></label>
+        <label className="govuk-label govuk-checkboxes__label" for="isComplete">
+          {labelText}
+        </label>
       </div>
     </div>
+  </fieldset>
+</div>
+</React.Fragment>
   )
 }
 

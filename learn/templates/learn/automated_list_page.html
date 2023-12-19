@@ -27,30 +27,36 @@
         <a href={{ BREADCRUMBS_ROOT_URL }}>great.gov.uk</a>
     {% endbreadcrumbs %}
 </div>
-<section id="learn-root" class="great great-container great-overflow-visible">
-    {% for learning_module in page.get_children.specific.live %}
-        {% with high_level_completion_progress|get_item:learning_module.id as module_completion_data %}
-            <div class="great-card great-card--undecorated great-bg-white govuk-!-margin-bottom-4">
-                <a href="{% pageurl learning_module %}">
-                    <div class="great-display-flex great-flex-wrap great-flex-column-until-tablet great-gap govuk-!-padding-4">
-                        <div class="great-flex-2">
-                            <h3 class="great-card__link great-title-link great-card__link--heading govuk-heading-m govuk-!-margin-top-2 govuk-!-margin-bottom-2">
-                                {{ learning_module.title }}
-                            </h3>
-                            {{ learning_module.heading | richtext| add_govuk_classes }}
+<section id="learn-root" class="great great-container">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds-from-desktop">
+            {% for learning_module in page.get_children.specific.live %}
+                {% with high_level_completion_progress|get_item:learning_module.id as module_completion_data %}
+                    <div class="great-card great-card--undecorated great-card--no-active-jump great-bg-white govuk-!-margin-bottom-4">
+                        <a href="{% pageurl learning_module %}">
+                            <div class="great-display-flex great-flex-wrap great-flex-column-until-tablet great-gap govuk-!-padding-4">
+                                <div class="great-flex-2">
+                                    <h3 class="great-card__link great-title-link great-card__link--heading govuk-heading-m govuk-!-margin-top-2 govuk-!-margin-bottom-2">
+                                        {{ learning_module.title }}
+                                    </h3>
+                                    {{ learning_module.heading | richtext| add_govuk_classes }}
+                                </div>
+                                <div class="progess-container great-flex-1">
+                                    {% if module_completion_data.completion_count %}
+                                        {% include "learn/_high_level_progress.html" with module_completion_data=module_completion_data only %}
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
-                        <div class="progess-container great-flex-1">
-                            {% if module_completion_data.completion_count %}
-                                {% include "learn/_high_level_progress.html" with module_completion_data=module_completion_data only %}
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </a>
-    </article>
-{% endwith %}
-{% endfor %}
+                    </a>
+                {% endwith %}
+            {% endfor %}
+        </div>
+        <aside class="govuk-grid-column-one-third-from-desktop">
+            {% include 'learn/includes/aside_links.html' with items=page.popular_links %}
+            {% include 'learn/includes/ukea_cta.html' with details=page.ukea_cta %}
+        </aside>
+    </div>
 </section>
 {% include 'learn/promo.html' %}
 {% endblock %}

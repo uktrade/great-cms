@@ -34,10 +34,10 @@ describe('MarkLessonAsComplete', () => {
 
     await waitFor(() => {
       expect(
-        container.querySelectorAll('.mark-lesson-as-complete')
+        container.querySelectorAll('.govuk-checkboxes__item')
       ).toHaveLength(1)
-      expect(container.querySelectorAll('h2')).toHaveLength(1)
-      expect(container.querySelectorAll('.great-checkbox')).toHaveLength(1)
+      expect(container.querySelectorAll('label')).toHaveLength(1)
+      expect(container.querySelectorAll('.govuk-checkboxes__input')).toHaveLength(1)
     })
   })
 
@@ -52,7 +52,7 @@ describe('MarkLessonAsComplete', () => {
 
     await waitFor(() => {
       expect(container.querySelector('label').textContent).toMatch(
-        'Great! Progress saved'
+        'Progress saved'
       )
     })
   })

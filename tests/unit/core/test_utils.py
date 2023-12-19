@@ -28,8 +28,8 @@ def test_lesson_module(domestic_homepage):
     curated_list_page = factories.CuratedListPageFactory(
         parent=list_page,
     )
-    topic_one = factories.TopicPageFactory(title='Topic 1', parent=curated_list_page)
-    topic_two = factories.TopicPageFactory(title='Topic 2', parent=curated_list_page)
+    topic_one = factories.TopicPageFactory(title='Topic1', parent=curated_list_page)
+    topic_two = factories.TopicPageFactory(title='Topic2', parent=curated_list_page)
     detail_page_1 = factories.DetailPageFactory(slug='detail-page-1', parent=topic_one)
     detail_page_2 = factories.DetailPageFactory(slug='detail-page-2', parent=topic_one)
     detail_page_3 = factories.DetailPageFactory(slug='detail-page-3', parent=topic_two)

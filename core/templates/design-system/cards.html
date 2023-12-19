@@ -2,7 +2,7 @@
 <section id="cards" class="govuk-!-margin-top-9">
     <h2 class="govuk-heading-l">Cards</h2>
     <div class="govuk-grid-row great-card-row">
-        {% with "<ul class='govuk-list govuk-list--bullet'><li>for new exporters</li><li>learn the basics to get started</li><li>build your Export Action Plan</li></ul>"|safe as cardContent %}
+        {% with '<ul class="govuk-list govuk-list--bullet"><li>for new exporters</li><li>learn the basics to get started</li><li>build your Export Action Plan</li></ul>'|safe as cardContent %}
         <div class="govuk-grid-column-one-third">
             {% include 'components/great/card.html' with title="Codes, tariffs and procedures" url="/" show_title_link=True image_src="/support/codes-tariffs-and-procedures"|get_icon_path is_svg_image=True classes="great-card--homepage" %}
         </div>
@@ -94,10 +94,44 @@
             <td>No</td>
         </tr>
         <tr>
-            <td>pre_title</td>
+            <td>tag</td>
             <td>String</td>
+            <td>No</td>
+        </tr>
+        <tr>
+            <td>tag_icon</td>
+            <td>String</td>
+            <td>No</td>
+        </tr>
+        <tr>
+            <td>heading_class</td>
+            <td>String</td>
+            <td>No</td>
+        </tr>
+        <tr>
+            <td>content_tag</td>
+            <td>p|span</td>
+            <td>No</td>
+        </tr>
+        <tr>
+            <td>show_internal_external_icons</td>
+            <td>Boolean</td>
             <td>No</td>
         </tr>
     </tbody>
 </table>
+{% include 'components/great/card.html' with title="Look up commodity codes for your goods" url="www.bbc.com" show_title_link=True heading_class="govuk-heading-xs" classes="great-card--modifier" tag="Service" tag_icon="/static/icons/hand.svg" %}
+<pre>
+    <code>
+    &#123;% include 'components/great/card.html' with title="Look up commodity codes for your goods" url="www.bbc.com" show_title_link=True heading_class="govuk-heading-xs" classes="great-card--modifier" tag="Service" tag_icon="/static/icons/hand.svg" %&#125;
+    </code>
+</pre>
+<div class="govuk-!-margin-top-9">
+    {% include 'components/great/card.html' with image_src="https://picsum.photos/id/100/900/300" image_alt="example alt text" content="Sign up for online events to learn how to sell confidently to overseas customers" title="Join the UK Export Academy" url="www.great.gov.uk" show_title_link=True heading_class="govuk-heading-xs" classes="great-card--modifier" tag="Service" tag_icon="/static/icons/hand.svg" %}
+</div>
+<pre>
+    <code>
+    &#123;% include 'components/great/card.html' with image_src="https://picsum.photos/id/100/900/300" image_alt="example alt text" content="Sign up for online events to learn how to sell confidently to overseas customers" title="Join the UK Export Academy" url="www.great.gov.uk" show_title_link=True heading_class="govuk-heading-xs" classes="great-card--modifier" tag="Service" tag_icon="/static/icons/hand.svg" %&#125;
+    </code>
+</pre>
 </section>

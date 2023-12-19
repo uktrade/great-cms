@@ -28,50 +28,49 @@
         </div>
     </div>
 </div>
-<div class="great test-knowledge {% if request.user.is_authenticated %}govuk-!-padding-top-8{% endif %}">
-    {% if request.user.is_authenticated %}
-        <div class="great-container">
-            <div class="">
-                {% include 'learn/recap.html' %}
-                <hr class="hr hr--light govuk-!-margin-0" />
-            </div>
-        </div>
-        <div class="great-container govuk-!-padding-bottom-8">
-            <fieldset id="mark_as_complete">
-            </fieldset>
-        </div>
-    {% endif %}
-    <div class="great great-container">
-        {% if next_lesson %}
-            {% include "./return_link.html" with link=backlink title=backlink_title class="only-mobile" %}
-            <div class="card card--horizontal">
-                <div class="govuk-!-padding-6">
-                    <p class="govuk-body great-font-bold govuk-!-margin-0">Your next lesson</p>
-                    <h2 class="govuk-heading-l govuk-!-padding-top-2">{{ next_lesson.title }}</h2>
-                    {% if next_module %}
-                        <p class="govuk-!-margin-top-3 govuk-!-margin-bottom-3">
-                            Part of your next module:
-                            <br />
-                            <strong>{{ next_module.title }}</strong>
-                        </p>
-                    {% endif %}
-                    <a href="{{ next_lesson.get_url }}"
-                       class="button primary-button govuk-!-static-margin-top-4">Continue learning</a>
-                </div>
-                <div class="card__section card__section--image">
-                    <div class="card__image great-container">
-                        {% comment %}<!--
-                  If `next_module` is present, we want to use the image from that ahead of `current_module`
-                        -->{% endcomment %}
-                        {% with next_module|default:current_module as appropriate_module %}
-                            {% image appropriate_module.image original as module_image %}
-                            <img src="{{ module_image.url }}" alt="{{ module_image.alt }}" />
-                        {% endwith %}
+<div class="great great-bg-white">
+    <div class="great-container">
+        <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-padding-0">
+            {% if request.user.is_authenticated %}
+                <div class="great-bg-light-blue great-border-top-orange govuk-!-padding-6 ">
+                    <div>
+                        <div>
+                            {% include 'learn/recap.html' %}
+                            <hr class="hr hr--light govuk-!-margin-0" />
+                        </div>
                     </div>
+                    <div class="govuk-!-padding-bottom-2">
+                        <fieldset id="mark_as_complete">
+                        </fieldset>
+                    </div>
+                </div>
+            {% endif %}
+            {% if next_lesson %}
+                <div class="govuk-!-padding-top-6 govuk-!-padding-bottom-8">
+                    {% if not next_module %}
+                        <h2 class="govuk-heading-m govuk-!-padding-top-2">Next in this topic</h2>
+                        <div>
+                            <a data-learn-to-export-link="{{ next_lesson.get_url }}"
+                               class="great-no-text-decoration great-no-box-shadow great-no-border"
+                               href="{{ next_lesson.get_url }}">
+                                <div class="great-inline-flex no-wrap great-align-items-center">
+                                    <span role="img"
+                                          class="fa fa-arrow-right great-text-white great-icon-circular-background govuk-!-margin-right-3"></span>
+                                    <span class="govuk-!-margin-0 great-title-link great-card__link great-card__link--heading great-inline govuk-heading-xs great-font-bold">{{ next_lesson.title }}</span>
+                                </div>
+                            </a>
+                        </div>
+                    {% endif %}
+                    <hr class="great-hr-light govuk-!-margin-top-8 govuk-!-margin-bottom-2" />
+                    <h3 class="govuk-heading-s">Explore the topic</h3>
+                    <a data-learn-to-export-link="{{ page.get_current_module.url }}"
+                       href="{{ page.get_current_module.url }}"
+                       class="govuk-link great-font-bold">{{ page.get_current_module.title }}</a>
                 </div>
             </div>
         {% endif %}
     </div>
+</div>
 </div>
 {% include 'learn/promo.html' with bg_class='great-bg-light-blue' %}
 {% endblock %}

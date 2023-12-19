@@ -1,33 +1,27 @@
 {% load static %}
-<footer id="great-footer" class="atlas-footer" data-ga-section="footer">
-    <div class="atlas-footer__main">
-        <div class="atlas-container">
-            <div class="atlas-footer__logo">
-                <img src="{% static 'images/great.png' %}"
-                     width="217"
-                     height="81"
-                     alt="Great Britain and Northern Ireland" />
-            </div>
-        </div>
-        <div class="atlas-container atlas-container--footer">
-            <nav class="atlas-footer__nav">
-                <ul class="atlas-list--bare atlas-m-0">
-                    <li>
+<footer class="govuk-footer international-footer" role="contentinfo">
+    <div class="govuk-width-container">
+        <div class="govuk-footer__meta">
+            <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
+                <h2 class="govuk-visually-hidden">Support links</h2>
+                <ul class="govuk-footer__inline-list">
+                    <li class="govuk-footer__inline-list-item">
                         <a class="govuk-link govuk-link--inverse"
                            id="footer-privacy-and-cookies"
                            href="{{ header_footer_urls.privacy_and_cookies }}">Privacy and cookies</a>
                     </li>
-                    <li>
+                    <li class="govuk-footer__inline-list-item">
                         <a class="govuk-link govuk-link--inverse"
                            id="footer-terms-and-conditions"
                            href="{{ header_footer_urls.terms_and_conditions }}">Terms and conditions</a>
                     </li>
-                    <li>
+                    <li class="govuk-footer__inline-list-item">
                         <a class="govuk-link govuk-link--inverse"
                            id="footer-contact"
-                           href="{% url 'international_online_offer:contact' %}?next={{ feedback_next_url }}">Contact us</a>
+                           href="{% url 'international_online_offer:contact' %}?next={{ feedback_next_url }}">Contact us
+                        </a>
                     </li>
-                    <li>
+                    <li class="govuk-footer__inline-list-item">
                         <a class="govuk-link govuk-link--inverse"
                            id="footer-dit"
                            href="https://www.gov.uk/government/organisations/department-for-business-and-trade"
@@ -36,15 +30,19 @@
                            target="_blank">Department for Business and Trade on GOV.UK</a>
                     </li>
                 </ul>
-            </nav>
-        </div>
-    </div>
-    <div class="atlas-footer__global">
-        <div class="atlas-container atlas-container--footer">
-            <img height="30"
-                 alt="Department for Business and Trade"
-                 src="{% static 'images/dbt-red-footer-logo.93fc9e99b781.svg' %}">
-            <p>© Crown copyright {% now "Y" %}. All rights reserved.</p>
+                <img src="{% static 'img/crown.svg' %}" alt="GOV.UK Crown copyright logo" />
+                <span class="govuk-body international-footer-body">
+                    All content is available under the
+                    <a class="govuk-link govuk-link--inverse"
+                       href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+                       rel="license">Open Government Licence v3.0</a>, except where otherwise stated
+                </span>
+            </div>
+            <div class="govuk-footer__meta-item">
+                <a class="govuk-link govuk-link--inverse govuk-footer__copyright-logo"
+                   href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/">© Crown copyright</a>
+            </div>
         </div>
     </div>
 </footer>
+{% include './includes/dbt_banner.html' %}
