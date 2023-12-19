@@ -421,6 +421,39 @@ def get_icon_path(url):
 
 
 @register.simple_tag
+def render_automated_list_page_card_content(page, request, module_completion_data):
+    if request.user.is_authenticated and module_completion_data:
+        completion_percentage = getattr(module_completion_data, 'completion_percentage', 0)
+        completion_count = getattr(module_completion_data, 'completion_count', 0)
+        total_pages = getattr(module_completion_data, 'total_pages', 0)
+        html_content = format_html(
+            f"""
+            { page.heading}
+            <div class="progess-container great-display-flex great-flex-wrap great-flex-column-until-tablet great-gap">
+            <div class="learn__category-progress-container">
+                <div class="learn__category-progress">
+                <span style="width: {completion_percentage}%"></span>
+                </div>
+                <p class="govuk-!-margin-top-1 govuk-!-margin-bottom-0 progress-bar-text">
+                    {completion_count}
+                    /
+                    {total_pages}
+                    marked as complete
+                 </p>
+                </div>
+                </div>
+        """
+        )
+    else:
+        html_content = format_html(
+            f"""
+            { page.heading}
+        """
+        )
+    return html_content
+
+
+@register.simple_tag
 def render_curated_topic_card_content(page, completed_lessons):
     if completed_lessons is None or not hasattr(completed_lessons, '__iter__'):
         completed_lessons = []
