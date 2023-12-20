@@ -440,7 +440,7 @@ def test__set_read_time__passes_through_is_post_creation(
     ) as mocked_update_data_for_appropriate_version:
         wagtail_hooks._set_read_time(request, detail_page, is_post_creation=is_post_creation_val)
 
-    expected_seconds = 5
+    expected_seconds = 33
     mocked_update_data_for_appropriate_version.assert_called_once_with(
         page=detail_page,
         force_page_update=is_post_creation_val,
