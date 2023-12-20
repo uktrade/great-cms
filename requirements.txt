@@ -216,7 +216,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==20.1.0
+faker==21.0.0
     # via factory-boy
 filetype==1.2.0
     # via willow
@@ -308,7 +308,7 @@ pillow-heif==0.14.0
     # via willow
 polib==1.2.0
     # via wagtail-localize
-prompt-toolkit==3.0.41
+prompt-toolkit==3.0.43
     # via click-repl
 psycopg2==2.9.9
     # via -r requirements.in
@@ -320,11 +320,11 @@ pygments==2.17.2
     # via sphinx
 pyhanko==0.21.0
     # via xhtml2pdf
-pyhanko-certvalidator==0.26.2
+pyhanko-certvalidator==0.26.3
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==3.17.2
+pypdf==3.17.3
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode

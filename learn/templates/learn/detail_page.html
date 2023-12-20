@@ -62,18 +62,19 @@
             </div>
             <div class="govuk-grid-column-one-third-from-desktop">
                 {% include 'core/steps.html' with steps=page.get_steps title='Learn to export topics' current_step_url=page.get_current_module.url %}
-                <h3 class="govuk-heading-s">
-                    Learn more with free training
-                    <h3 {% include 'components/great/card.html' with classes="great-card--modifier" title="Join the UK Export Academy" content="Free training with Q&A, helping you learn to sell confidently to overseas customers" image_src="/static/images/ukea-landing.png" is_svg_image=False url="/export-academy" show_title_link=True tag="Service" tag_icon="/static/icons/hand.svg" %}
-                    </div>
-                </div>
+                <h3 class="govuk-heading-s">Learn more with free training</h3>
+                {% include 'components/great/card.html' with classes="great-card--modifier" title="Join the UK Export Academy" content="Free training with Q&A, helping you learn to sell confidently to overseas customers" image_src="/static/images/ukea-landing.png" is_svg_image=False url="/export-academy" show_title_link=True tag="Service" tag_icon="/static/icons/hand.svg" %}
             </div>
         </div>
-        <div class="govuk-grid-column-full">{% include 'learn/promo.html' with bg_class='great-bg-light-blue' %}</div>
-    {% endblock %}
-    {% block body_js %}
-        {{ block.super }}
-        <script>
+    </div>
+</div>
+<div class="govuk-grid-column-full govuk-!-padding-0">
+    {% include 'learn/promo.html' with bg_class='great-bg-light-blue' %}
+</div>
+{% endblock %}
+{% block body_js %}
+    {{ block.super }}
+    <script>
     {% if request.user.is_authenticated %}
       dataLayer.push({
         event: 'lessonView',
@@ -98,5 +99,5 @@
       }
     })
 
-        </script>
-    {% endblock %}
+    </script>
+{% endblock %}

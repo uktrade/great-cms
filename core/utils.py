@@ -57,7 +57,9 @@ class PageTopicHelper:
         return TopicPage.objects.live().ancestor_of(self.page).specific().first()
 
     def get_module_topics(self):
-        return self.module.specific.get_topics()
+        if hasattr(self.module.specific, 'get_topics') and callable(getattr(self.module.specific, 'get_topics')):
+            return self.module.specific.get_topics()
+        return []
 
     def total_module_topics(self):
         return self.get_module_topics().count()

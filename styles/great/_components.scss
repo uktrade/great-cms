@@ -1591,15 +1591,15 @@ nav.great-breadcrumbs {
   &:focus {
     #{$selector} {
       color: #212427;
-      text-decoration: none;
-      background-color: #ffd000;
+      outline: 3px solid rgba(0, 0, 0, 0);
+      background-color: #fd0;
       outline: none;
     }
   }
 
   &:active {
     #{$selector} {
-      outline: 3px solid #ffd000;
+      outline: 3px solid #fd0;
     }
   }
 
