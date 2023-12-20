@@ -31,12 +31,12 @@
 </div>
 <section id="learn-root" class="great great-container">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-margin-bottom-6">
+        <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-margin-bottom-6 flex-grid great-gap">
             {% for learning_module in page.get_children.specific.live %}
                 {% with high_level_completion_progress|get_item:learning_module.id as module_completion_data %}
                     {% get_page_url learning_module as learning_module_url %}
                     {% render_automated_list_page_card_content learning_module request module_completion_data as automated_page_content %}
-                    {% include 'components/great/card.html' with url=learning_module_url content=automated_page_content bypass_class_filter=True title=learning_module.title show_title_link=True heading_class="govuk-heading-s" classes="great-card govuk-!-margin-bottom-4" heading_level=h2 %}
+                    {% include 'components/great/card.html' with url=learning_module_url content=automated_page_content bypass_class_filter=True title=learning_module.title show_title_link=True heading_level='h2' %}
                 {% endwith %}
             {% endfor %}
         </div>
