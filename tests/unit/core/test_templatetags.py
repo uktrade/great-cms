@@ -920,3 +920,15 @@ def test_remove_nested_bold_tags():
 def test_get_icon_path(input, expected_output):
     result = get_icon_path(input)
     assert result == expected_output
+
+
+@pytest.mark.parametrize(
+    'input, expected_output',
+    (
+        ('/support/test/', 'components/great/includes/test.svg'),
+        ('', ''),
+    ),
+)
+def test_get_icon_path_with_slash(input, expected_output):
+    result = get_icon_path(input)
+    assert result == expected_output

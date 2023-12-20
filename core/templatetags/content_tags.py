@@ -414,6 +414,8 @@ def remove_bold_from_headings(value):
 @register.filter
 def get_icon_path(url):
     if url:
+        if url.endswith('/'):
+            url = url[:-1]
         return 'components/great/includes/' + url.split('/support/')[1] + '.svg'
     else:
         return ''
