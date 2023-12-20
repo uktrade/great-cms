@@ -15,7 +15,6 @@ from django.utils.safestring import mark_safe
 from core.helpers import millify
 from core.constants import BACKLINK_QUERYSTRING_NAME
 
-# from core.helpers import millify
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage
 
 logger = logging.getLogger(__name__)
