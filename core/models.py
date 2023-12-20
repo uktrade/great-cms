@@ -1067,6 +1067,7 @@ class RelatedContentCTA(models.Model):
             ),
         ],
         max_num=1,
+        use_json_field=True,
     )
 
     class Meta:

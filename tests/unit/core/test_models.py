@@ -36,7 +36,6 @@ from core.models import (
     MicrositePage,
     Product,
     Region,
-    RelatedContentCTA,
     Tag,
     TopicPage,
     case_study_body_validation,
@@ -779,12 +778,6 @@ class TestSmallSnippets(TestCase):
         tag = IndustryTag.objects.create(name='Test IndustryTag')
         self.assertEqual(tag.name, 'Test IndustryTag')
         self.assertEqual(f'{tag}', 'Test IndustryTag')  # tests __str__
-
-    # def test_related_content_cta(self):
-    #     cta = RelatedContentCTA(
-    #         link_text="Learn more at the Export Academy", type="great_service", link=StreamField([])
-    #     )
-    #     self.assertTrue(True)
 
 
 class TestMagnaPageChooserPanel(SetUpLocaleMixin, TestCase):
