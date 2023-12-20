@@ -440,7 +440,7 @@ def render_curated_topic_card_content(page, completed_lessons):
             <div class="great-display-flex great-gap-10-30 great-justify-space-between">
                 <h3 class="govuk-link great-font-bold govuk-!-margin-0 great-title-link
                      great-card__link great-card__link--underline great-card__link--heading">
-                    {page.title}
+                    <span>{page.title}</span>
                 </h3>
                 <span role="img" class="fa fa-arrow-right govuk-!-margin-right-2 great-text-blue
                      great-font-size-18 great-height-min-content govuk-!-margin-top-1"></span>
