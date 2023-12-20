@@ -416,11 +416,11 @@ figure.great-blockquote {
 
 .great-card--modifier {
   a {
-    background-color: $great-light-blue;
+    background: $great-light-blue !important;
     min-height: 170px;
 
     &:focus:active {
-      background-color: $great-light-blue;
+      background-color: $great-light-blue !important;
     }
   }
 
@@ -474,6 +474,18 @@ figure.great-blockquote {
 }
 
 .great-hr-blue--thin {
+  height: 2px;
+}
+
+.great-hr-purple {
+  background: $great-purple !important;
+  border: 0;
+  display: block;
+  height: 4px;
+  width: 100%;
+}
+
+.great-hr-purple--thin {
   height: 2px;
 }
 
