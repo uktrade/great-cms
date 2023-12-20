@@ -306,6 +306,12 @@ aside {
   }
 }
 
+.lesson-page {
+  video {
+    width: 100%;
+  }
+}
+
 li .lte-suptopic {
   &:not(:last-child) {
     border-bottom: 1px solid #b1b4b6;
@@ -324,15 +330,4 @@ li .lte-suptopic {
       padding-right: 0 !important;
     }
   }
-<<<<<<< HEAD
->>>>>>> 9c9c9ad28 (use global card compoennt)
 }
-
-.lesson-page {
-  video {
-    width: 100%;
-  }
-}
-=======
-}
->>>>>>> 93b4e3000 (fixed flake 8 issues)

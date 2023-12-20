@@ -189,7 +189,7 @@ figure.great-blockquote {
     display: block;
     text-decoration: none;
     position: relative;
-
+    
     .great-card__link--underline {
       text-decoration: underline;
       text-underline-offset: 0.1rem;
@@ -198,7 +198,7 @@ figure.great-blockquote {
     .great-card__link--icon::before {
         color: #212427 !important;
       }
-
+      
     &:visited {
       .great-card__link {
         color: $govuk-link-visited-colour;
@@ -1529,7 +1529,6 @@ nav.great-breadcrumbs {
       margin-bottom: 20px;
     }
   }
-<<<<<<< HEAD
 }
 
 .great-step-item {
@@ -1622,6 +1621,4 @@ nav.great-breadcrumbs {
 
 .great-arrow-link {
   @include child-link-states('.great-title-link');
-=======
->>>>>>> 93b4e3000 (fixed flake 8 issues)
 }
