@@ -1,5 +1,4 @@
 import pytest
-from django.test import override_settings
 from wagtail.models import Page
 from wagtail_factories import PageChooserBlockFactory
 
@@ -15,7 +14,7 @@ from .factories import RelatedContentCTASnippetFactory
             'great_service',
             '/homepage/',
             {
-                'link': 'http://testserver:81/',
+                'link': '/',
                 'heading_class': 'govuk-body-s ',
                 'tag_description': 'Service',
                 'tag_icon': '/static/icons/hand.svg',
@@ -26,7 +25,7 @@ from .factories import RelatedContentCTASnippetFactory
             'great_guidance',
             '/homepage/',
             {
-                'link': 'http://testserver:82/',
+                'link': '/',
                 'heading_class': 'govuk-body-s ',
                 'tag_description': 'Guidance',
                 'tag_icon': '/static/icons/guidance.svg',
@@ -57,7 +56,6 @@ from .factories import RelatedContentCTASnippetFactory
     ),
 )
 @pytest.mark.django_db
-@override_settings(BASE_URL='http://testserver')
 def test_get_cta_attributes(domestic_site, link_text, type, url, expected):
     if 'http' in url:
         link = [('link', url)]

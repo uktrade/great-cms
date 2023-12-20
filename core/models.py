@@ -872,10 +872,10 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
                 'related_content_cta',
                 blocks.ListBlock(
                     SnippetChooserBlock('core.RelatedContentCTA'),
-                    template="learn/related_pages_cta.html",
-                    label="Related Content",
+                    template='learn/related_pages_cta.html',
+                    label='Related Content',
                     max_num=3,
-                    icon="link",
+                    icon='link',
                 ),
             ),
         ],
@@ -1052,8 +1052,8 @@ class RelatedContentCTA(models.Model):
         ('govuk_service', 'Service on GOV.UK'),
         ('govuk_guidance', 'Guidance on GOV.UK'),
     ]
-    link_text = models.CharField(max_length=50, help_text="Text displayed for the link")
-    type = models.CharField(max_length=20, choices=type_choices, help_text="The type of target URL")
+    link_text = models.CharField(max_length=50, help_text='Text displayed for the link')
+    type = models.CharField(max_length=20, choices=type_choices, help_text='The type of target URL')
 
     link = StreamField(
         [
@@ -1075,7 +1075,7 @@ class RelatedContentCTA(models.Model):
         verbose_name_plural = 'Related content call to actions'
 
     def __str__(self):
-        return f"{self.link_text} ({self.type})"
+        return f'{self.link_text} ({self.type})'
 
 
 class PageView(TimeStampedModel):

@@ -420,10 +420,10 @@ figure.great-blockquote {
 }
 
 .great-card--modifier {
+  display: flex;
+
   a {
     background-color: $great-light-blue;
-    min-height: 120px;
-    min-width: 230px;
 
     &:focus:active {
       background-color: $great-light-blue;
