@@ -189,7 +189,16 @@ figure.great-blockquote {
     display: block;
     text-decoration: none;
     position: relative;
+    
+    .great-card__link--underline {
+      text-decoration: underline;
+      text-underline-offset: 0.1rem;
+    }
 
+    .great-card__link--icon::before {
+        color: #212427 !important;
+      }
+      
     &:visited {
       .great-card__link {
         color: $govuk-link-visited-colour;
