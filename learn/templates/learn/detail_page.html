@@ -44,33 +44,6 @@
                         <fieldset id="mark_as_complete">
                         </fieldset>
                     </div>
-                    <div class="govuk-!-padding-bottom-2">
-                        <fieldset id="mark_as_complete">
-                        </fieldset>
-                    </div>
-                </div>
-            {% endif %}
-            {% if next_lesson %}
-                <div class="govuk-!-padding-top-6 govuk-!-padding-bottom-8">
-                    {% if not next_module %}
-                        <h2 class="govuk-heading-m govuk-!-padding-top-2">Next in this topic</h2>
-                        <div>
-                            <a data-learn-to-export-link="{{ next_lesson.get_url }}"
-                               class="great-no-text-decoration great-no-box-shadow great-no-border"
-                               href="{{ next_lesson.get_url }}">
-                                <div class="great-inline-flex no-wrap great-align-items-center">
-                                    <span role="img"
-                                          class="fa fa-arrow-right great-text-white great-icon-circular-background govuk-!-margin-right-3"></span>
-                                    <span class="govuk-!-margin-0 great-title-link great-card__link great-card__link--heading great-inline govuk-heading-xs great-font-bold">{{ next_lesson.title }}</span>
-                                </div>
-                            </a>
-                        </div>
-                    {% endif %}
-                    <hr class="great-hr-light govuk-!-margin-top-8 govuk-!-margin-bottom-2" />
-                    <h3 class="govuk-heading-s">Explore the topic</h3>
-                    <a data-learn-to-export-link="{{ page.get_current_module.url }}"
-                       href="{{ page.get_current_module.url }}"
-                       class="govuk-link great-font-bold">{{ page.get_current_module.title }}</a>
                 </div>
             {% endif %}
        {% if next_lesson %}
