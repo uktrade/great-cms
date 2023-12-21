@@ -1638,3 +1638,12 @@ nav.great-breadcrumbs {
 .great-arrow-link {
   @include child-link-states('.great-title-link');
 }
+
+.great-tag-container {
+  display: flex !important;
+  bottom: 8px !important;
+
+  img {
+    margin: 0px 8px 0px 0px !important;
+  }
+}

@@ -64,7 +64,7 @@
                 {% include 'core/steps.html' with steps=page.get_steps title='Learn to export topics' current_step_url=page.get_current_module.url %}
                 <hr class="great-hr-purple great-hr-purple--thin" />
                 <h3 class="govuk-heading-s">Learn more with free training</h3>
-                {% include 'components/great/card.html' with classes="great-card--modifier" title="Join the UK Export Academy" content="Free training with Q&A, helping you learn to sell confidently to overseas customers" image_src="/static/images/ukea-landing.png" is_svg_image=False url="/export-academy" show_title_link=True tag="Service" tag_icon="/static/icons/hand.svg" %}
+                {% include 'components/great/card.html' with tag_container_class="great-tag-container" classes="great-card--modifier" title="Join the UK Export Academy" content="Free training with Q&A, helping you learn to sell confidently to overseas customers" image_src="/static/images/ukea-landing.png" is_svg_image=False url="/export-academy" show_title_link=True tag="Service" tag_icon="/static/icons/hand.svg" %}
             </div>
         </div>
     </div>
