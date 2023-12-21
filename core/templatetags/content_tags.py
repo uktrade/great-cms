@@ -428,7 +428,9 @@ def render_automated_list_page_card_content(page, request, module_completion_dat
         total_pages = module_completion_data.get('total_pages', 0)
         html_content = format_html(
             f"""
-            { page.heading}
+            <div class="learn-card-description">
+                { page.heading}
+            </div>
             <div class="progess-container great-display-flex great-flex-wrap great-flex-column-until-tablet great-gap">
             <div class="learn__category-progress-container">
                 <div class="learn__category-progress">
