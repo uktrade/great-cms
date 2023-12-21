@@ -12,9 +12,9 @@ from django.utils.dateparse import parse_datetime
 from django.utils.html import format_html
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
-from core.helpers import millify
-from core.constants import BACKLINK_QUERYSTRING_NAME
 
+from core.constants import BACKLINK_QUERYSTRING_NAME
+from core.helpers import millify
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage
 
 logger = logging.getLogger(__name__)
@@ -485,5 +485,6 @@ def render_curated_topic_card_content(page, completed_lessons):
     return html_content
 
 
+@register.simple_tag
 def get_page_url(page):
     return page.get_full_url()
