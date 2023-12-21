@@ -12,9 +12,9 @@ from django.utils.dateparse import parse_datetime
 from django.utils.html import format_html
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
-
-from core.constants import BACKLINK_QUERYSTRING_NAME
 from core.helpers import millify
+from core.constants import BACKLINK_QUERYSTRING_NAME
+
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage
 
 logger = logging.getLogger(__name__)
@@ -418,3 +418,33 @@ def get_icon_path(url):
         return 'components/great/includes/' + url.split('/support/')[1] + '.svg'
     else:
         return ''
+
+
+@register.simple_tag
+def render_curated_topic_card_content(page, completed_lessons):
+    if completed_lessons is None or not hasattr(completed_lessons, '__iter__'):
+        completed_lessons = []
+
+    if str(page.id) in map(str, completed_lessons):
+        html_content = f"""
+            <div class="great-display-flex great-gap-10-30 great-justify-space-between
+                  great-flex-column-until-desktop">
+                <h3 class="govuk-link great-font-bold govuk-!-margin-0 great-title-link
+                     great-card__link great-card__link--underline great-card__link--heading">
+                    <span>{page.title}</span>
+                </h3>
+                <span class="great-badge completed govuk-!-margin-top-2">Completed</span>
+            </div>
+            """
+    else:
+        html_content = f"""
+            <div class="great-display-flex great-gap-10-30 great-justify-space-between">
+                <h3 class="govuk-link great-font-bold govuk-!-margin-0 great-title-link
+                     great-card__link great-card__link--underline great-card__link--heading">
+                    <span>{page.title}</span>
+                </h3>
+                <span role="img" class="fa fa-arrow-right govuk-!-margin-right-2 great-text-blue
+                     great-font-size-18 great-height-min-content govuk-!-margin-top-1"></span>
+            </div>
+            """
+    return html_content
