@@ -332,3 +332,7 @@ li .lte-suptopic {
     }
   }
 }
+
+.learn-card-description p {
+  @extend .govuk-body
+}
