@@ -11,7 +11,7 @@ import core.blocks
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('core', '0120_alter_micrositepage_page_body'),
+        ('core', '0122_rename_side_links_listpage_popular_links'),
     ]
 
     operations = [

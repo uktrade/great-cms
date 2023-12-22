@@ -7,7 +7,7 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('core', '0121_relatedcontentcta_squashed_0126_alter_detailpage_body_alter_relatedcontentcta_link_and_more'),
+        ('core', '0123_relatedcontentcta_squashed_0126_alter_detailpage_body_alter_relatedcontentcta_link_and_more'),
     ]
 
     operations = [
