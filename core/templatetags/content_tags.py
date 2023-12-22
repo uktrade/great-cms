@@ -449,7 +449,9 @@ def render_automated_list_page_card_content(page, request, module_completion_dat
     else:
         html_content = format_html(
             f"""
+            <div class="learn-card-description">
             { page.heading}
+            </div>
         """
         )
     return html_content
