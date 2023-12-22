@@ -12,9 +12,9 @@ from django.utils.dateparse import parse_datetime
 from django.utils.html import format_html
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
-from core.helpers import millify
-from core.constants import BACKLINK_QUERYSTRING_NAME
 
+from core.constants import BACKLINK_QUERYSTRING_NAME
+from core.helpers import millify
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage
 
 logger = logging.getLogger(__name__)
@@ -421,6 +421,43 @@ def get_icon_path(url):
 
 
 @register.simple_tag
+def render_automated_list_page_card_content(page, request, module_completion_data):
+    if request.user.is_authenticated and module_completion_data:
+        completion_percentage = module_completion_data.get('completion_percentage', 0)
+        completion_count = module_completion_data.get('completion_count', 0)
+        total_pages = module_completion_data.get('total_pages', 0)
+        html_content = format_html(
+            f"""
+            <div class="learn-card-description">
+                { page.heading}
+            </div>
+            <div class="progess-container great-display-flex great-flex-wrap great-flex-column-until-tablet great-gap">
+            <div class="learn__category-progress-container">
+                <div class="learn__category-progress">
+                <span style="width: {completion_percentage}%"></span>
+                </div>
+                <span class="govuk-label">
+                    {completion_count}
+                    /
+                    {total_pages}
+                    marked as complete
+                 </span>
+                </div>
+                </div>
+        """
+        )
+    else:
+        html_content = format_html(
+            f"""
+            <div class="learn-card-description">
+            { page.heading}
+            </div>
+        """
+        )
+    return html_content
+
+
+@register.simple_tag
 def render_curated_topic_card_content(page, completed_lessons):
     if completed_lessons is None or not hasattr(completed_lessons, '__iter__'):
         completed_lessons = []
@@ -448,3 +485,8 @@ def render_curated_topic_card_content(page, completed_lessons):
             </div>
             """
     return html_content
+
+
+@register.simple_tag
+def get_page_url(page):
+    return page.get_full_url()
