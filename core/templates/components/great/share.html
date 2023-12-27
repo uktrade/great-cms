@@ -1,0 +1,50 @@
+<div class="govuk-!-padding-top-3 great-share">
+    <{{ heading_level|default:'h2' }} class="govuk-heading-s">Share this page</{{ heading_level|default:'h2' }}>
+    <ul>
+        <li class="govuk-!-margin-bottom-2">
+            <a href="mailto:?subject={{ url_encoded_prefix }}&body=Page%20title:{{ url_encoded_page_title }}%3A%20{{ page_url }}"
+               target="_blank"
+               rel="noopener noreferrer external"
+               class="govuk-link govuk-heading-xs">
+                <svg width="40"
+                     height="40"
+                     viewBox="0 0 40 40"
+                     fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M20 0C8.95 0 0 8.95 0 20C0 31.05 8.95 40 20 40C31.05 40 40 31.05 40 20C40 14.7 37.8875 9.6125 34.1375 5.8625C30.3875 2.1125 25.3 0 20 0ZM18.7082 19.891C19.042 20.1896 19.4741 20.3546 19.9219 20.3546C20.3698 20.3546 20.8019 20.1896 21.1357 19.891L30.3034 11.7065C30.2159 11.6853 30.1263 11.6744 30.0363 11.6741H9.80755C9.71758 11.6744 9.62796 11.6853 9.54053 11.7065L18.7082 19.891ZM19.9219 21.57C20.6682 21.57 21.3884 21.2949 21.9448 20.7973L31.1934 12.5399C31.2291 12.6525 31.2482 12.7697 31.25 12.8878V26.6434C31.25 26.9653 31.1221 27.274 30.8945 27.5017C30.6669 27.7293 30.3582 27.8571 30.0363 27.8571H9.80748C9.48558 27.8571 9.17686 27.7293 8.94924 27.5017C8.72162 27.274 8.59375 26.9653 8.59375 26.6434V12.8878C8.5956 12.7697 8.61468 12.6525 8.65039 12.5399L17.899 20.7973C18.4553 21.2949 19.1755 21.57 19.9219 21.57Z" />
+                </svg>
+                <span>Email</span>
+            </a>
+        </li>
+        <li class="govuk-!-margin-bottom-2">
+            <a href="https://facebook.com/sharer/sharer.php?display=page&u={{ page_url }}"
+               target="_blank"
+               rel="noopener noreferrer external"
+               class="govuk-link govuk-heading-xs">
+                <svg width="40"
+                     height="40"
+                     viewBox="0 0 40 40"
+                     fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M40.0004 20.1234C40.0016 9.41802 31.6722 0.585727 21.0469 0.0255604C10.4217 -0.534607 1.22051 7.37347 0.109711 18.0204C-1.00109 28.6673 6.36735 38.3255 16.8766 39.9976V25.94H11.8004V20.1234H16.8766V15.6867C16.8766 10.6463 19.8576 7.85782 24.429 7.85782C25.9286 7.87862 27.4247 8.00993 28.9052 8.2507V13.2049H26.3814C23.8957 13.2049 23.1242 14.7572 23.1242 16.3479V20.1234H28.6766L27.7814 25.94H23.1242V39.9976C32.8424 38.4513 39.9994 30.023 40.0004 20.1234Z" />
+                </svg>
+                <span>Facebook</span>
+            </a>
+        </li>
+        <li class="govuk-!-margin-bottom-2">
+            <a href="https://twitter.com/intent/tweet?url={{ page_url }}%0A%0A&text={{ url_encoded_prefix }}%0A%0A{{ url_encoded_page_title }}%3A&via={{ dbt_twitter_username }}%0A&hashtags={{ dbt_hashtags }}"
+               target="_blank"
+               rel="noopener noreferrer external"
+               class="govuk-link govuk-heading-xs">
+                <svg width="40"
+                     height="40"
+                     viewBox="0 0 40 40"
+                     fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M0 20C0 8.95 8.95 0 20 0C25.3 0 30.3875 2.1125 34.1375 5.8625C37.8875 9.6125 40 14.7 40 20C40 31.05 31.05 40 20 40C8.95 40 0 31.05 0 20ZM28.955 10.8594H25.8538L20.7434 16.7009L16.325 10.8594H9.92562L17.5719 20.8578L10.325 29.1406H13.4281L19.0213 22.7497L23.9094 29.1406H30.1503L22.1797 18.6031L28.955 10.8594ZM26.4838 27.2844H24.7653L13.5472 12.6181H15.3913L26.4838 27.2844Z" />
+                </svg>
+                <span>X</span>
+            </a>
+        </li>
+    </ul>
+</div>

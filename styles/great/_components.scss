@@ -189,16 +189,16 @@ figure.great-blockquote {
     display: block;
     text-decoration: none;
     position: relative;
-    
+
     .great-card__link--underline {
       text-decoration: underline;
       text-underline-offset: 0.1rem;
     }
 
     .great-card__link--icon::before {
-        color: #212427 !important;
-      }
-      
+      color: #212427 !important;
+    }
+
     &:visited {
       .great-card__link {
         color: $govuk-link-visited-colour;
@@ -1621,4 +1621,57 @@ nav.great-breadcrumbs {
 
 .great-arrow-link {
   @include child-link-states('.great-title-link');
+}
+
+.great-share {
+  border-top: 1px solid $govuk-border-colour;
+
+  svg {
+    margin-right: 10px;
+  }
+
+  path {
+    fill: $great-darker-blue;
+  }
+
+  a {
+    @include child-link-states('.govuk-link');
+    display: inline-flex;
+    align-items: center;
+
+    &:hover {
+      path {
+        fill: $govuk-link-hover-colour;
+      }
+    }
+
+    &:focus {
+      margin-left: 50px;
+
+      svg {
+        left: -50px;
+        position: relative;
+      }
+
+      path {
+        fill: $govuk-focus-text-colour;
+      }
+
+      span {
+        margin-left: -50px;
+      }
+    }
+  }
+
+  ul {
+    @include govuk-media-query($from: tablet, $until: desktop) {
+      display: flex;
+    }
+
+    li {
+      @include govuk-media-query($from: tablet, $until: desktop) {
+        margin-right: 30px;
+      }
+    }
+  }
 }
