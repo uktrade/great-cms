@@ -78,6 +78,7 @@ def feature_flags(request):
     retval['features']['FEATURE_DEA_V2'] = settings.FEATURE_DEA_V2
     retval['features']['FEATURE_SHOW_OLD_CONTACT_FORM'] = settings.FEATURE_SHOW_OLD_CONTACT_FORM
     retval['features']['FEATURE_HOMEPAGE_REDESIGN_V1'] = settings.FEATURE_HOMEPAGE_REDESIGN_V1
+    retval['features']['FEATURE_SHARE_COMPONENT'] = settings.FEATURE_SHARE_COMPONENT
 
     return retval
 
