@@ -316,6 +316,7 @@ figure.great-blockquote {
   }
 
   .great-card__tag {
+    @extend .govuk-body-s;
     position: absolute;
     bottom: 20px;
   }

@@ -43,9 +43,12 @@
                 {% endif %}
             {% endif %}
             {% if tag and tag_icon %}
-                <span class="govuk-caption great-text-light-grey great-card__tag {% if tag_container_class %}{{ tag_container_class }}{% endif %}">
-                    <img src="{{ tag_icon }}" alt="" />
-                {{ tag }}</span>
+                <span class="govuk-caption great-text-light-grey great-card__tag {% if tag_container_outer_class %}{{ tag_container_outer_class }}{% endif %}">
+                    <span class="{% if tag_container_inner_class %}{{ tag_container_inner_class }}{% endif %}">
+                        <img src="{{ tag_icon }}" alt="" />
+                        {{ tag }}
+                    </span>
+                </span>
             {% else %}
                 <span class="govuk-caption great-text-light-grey great-card__tag {% if tag_container_class %}{{ tag_container_class }}{% endif %}">{{ tag }}</span>
             {% endif %}

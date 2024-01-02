@@ -341,17 +341,18 @@ li .lte-suptopic {
   display: flex;
   flex-direction: row;
   width: 100%;
+  gap: 15px;
 
   // horizontal scrolling of child elements
-  @include govuk-media-query($until: tablet) {
+  @include govuk-media-query($until: desktop) {
     overflow-x: scroll;
     -webkit-overflow-scrolling: touch;
     overflow-y: hidden;
     margin: 0;
-    width: 95vw;
+    width: 100vw;
   }
 
-  @include govuk-media-query($from: 641px, $until: 1170px) {
+  @include govuk-media-query($from: desktop, $until: 1170px) {
     & {
       .great-card--modifier{
         width: 33.33%;
@@ -361,10 +362,9 @@ li .lte-suptopic {
 
   a {
     display: flex;
-    margin-right: 20px !important;
     width: 230px;
 
-    @include govuk-media-query($from: 641px, $until: 1170px) {
+    @include govuk-media-query($from: desktop, $until: 1170px) {
       width: unset;
     }
   }
@@ -390,14 +390,27 @@ li .lte-suptopic {
   flex-direction: column;
 }
 
-.related-links-cta-container__tag {
-  height: 100%;
+.related-links-cta-container__tag-outer-container {
   display: flex !important;
-  align-items: end;
+  flex-direction: column;
+  justify-content: end;
+  height: 100%;
   margin-bottom: 8px;
   margin-top: 10px;
+}
 
-  img {
-    margin: 0px 8px 7.4px 0px !important;
+.related-links-cta-container__tag-inner-container{
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+
+  > img {
+    @include govuk-media-query($until: tablet) {
+      margin: 3px 8px 0px 0px !important;
+    }
+
+    @include govuk-media-query($from: tablet) {
+      margin: 5.5px 8px 0px 0px !important;
+    }
   }
 }
