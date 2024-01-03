@@ -318,6 +318,7 @@ figure.great-blockquote {
   }
 
   .great-card__tag {
+    @extend .govuk-body-s;
     position: absolute;
     bottom: 20px;
     vertical-align: middle;
@@ -423,10 +424,11 @@ figure.great-blockquote {
   }
 }
 
-.great-card--modifier {
+.great-card--cta {
+  display: flex;
+
   a {
-    background: $great-light-blue !important;
-    min-height: 170px;
+    background-color: $great-light-blue;
 
     &:focus:active {
       background-color: $great-light-blue !important;
@@ -435,11 +437,12 @@ figure.great-blockquote {
 
   .great-card__tag {
     img {
-      width: 20px;
+      width: 16px;
       display: inline-block;
       margin-right: 12px;
     }
   }
+
 }
 
 .great-card--homepage-container {
@@ -1656,7 +1659,7 @@ nav.great-breadcrumbs {
   }
 
   path {
-    fill: $great-darker-blue;
+    fill: $great-dark-blue;
   }
 
   a {

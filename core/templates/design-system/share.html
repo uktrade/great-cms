@@ -1,9 +1,9 @@
 <section id="share" class="govuk-!-margin-top-9">
     <h2 class="govuk-heading-l">Share</h2>
-    {% include 'components/great/share.html' with page_url=request.get_full_path url_encoded_prefix='Check%20out%20this%20export%20advice%20from%20The%20Department%20of%20Business%20and%20Trade' url_encoded_page_title='Example page title' dbt_twitter_username='biztradegovuk' dbt_hashtags='SoldToTheWorld,GrowYourBusiness' %}
+    {% include 'components/great/share.html' with page_url=request.build_absolute_uri page_title='Example page title' %}
     <pre>
     <code>
-        &#123;% include 'components/great/share.html' with page_url='' url_encoded_prefix='' url_encoded_page_title='' dbt_twitter_username='' dbt_hashtags='' %&#125;
+        &#123;% include 'components/great/share.html' with page_url=request.build_absolute_uri page_title='Example page title' %&#125;
     </code>
     </pre>
     <table>
@@ -26,22 +26,7 @@
                 <td>Yes</td>
             </tr>
             <tr>
-                <td>url_encoded_prefix</td>
-                <td>String</td>
-                <td>Yes</td>
-            </tr>
-            <tr>
-                <td>url_encoded_page_title</td>
-                <td>String</td>
-                <td>Yes</td>
-            </tr>
-            <tr>
-                <td>dbt_twitter_username</td>
-                <td>String</td>
-                <td>Yes</td>
-            </tr>
-            <tr>
-                <td>dbt_hashtags</td>
+                <td>page_title</td>
                 <td>String</td>
                 <td>Yes</td>
             </tr>

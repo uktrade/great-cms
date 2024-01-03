@@ -38,10 +38,12 @@ from wagtail.images import get_image_model_string
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.models import AbstractImage, AbstractRendition, Image
 from wagtail.models import Orderable, Page
+from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtail.snippets.models import register_snippet
 from wagtail.utils.decorators import cached_classmethod
 from wagtailmedia.models import Media
 from wagtailseo.models import SeoMixin
+
 from core import blocks as core_blocks, cms_panels, mixins, snippet_slugs
 from core.blocks import (
     LinkBlockWithHeading,
@@ -866,6 +868,16 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
                     help_text='Video displayed within a full-page-width block',
                 ),
             ),
+            (
+                'related_content_cta',
+                blocks.ListBlock(
+                    SnippetChooserBlock('core.RelatedContentCTA'),
+                    template='learn/related_pages_cta.html',
+                    label='Related Content',
+                    max_num=3,
+                    icon='link',
+                ),
+            ),
         ],
         use_json_field=True,
     )
@@ -1030,6 +1042,40 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
                 context['next_module'] = next_module.specific
                 context['next_lesson'] = get_first_lesson(next_module)
         return context
+
+
+@register_snippet
+class RelatedContentCTA(models.Model):
+    type_choices = [
+        ('great_service', 'Service'),
+        ('great_guidance', 'Guidance'),
+        ('govuk_service', 'Service on GOV.UK'),
+        ('govuk_guidance', 'Guidance on GOV.UK'),
+    ]
+    link_text = models.CharField(max_length=50, help_text='Text displayed for the link')
+    type = models.CharField(max_length=20, choices=type_choices, help_text='The type of target URL')
+
+    link = StreamField(
+        [
+            (
+                'page',
+                blocks.PageChooserBlock(null=True, blank=True, label='Page'),
+            ),
+            (
+                'link',
+                blocks.URLBlock(form_classname='url', default='', label='External url'),
+            ),
+        ],
+        max_num=1,
+        use_json_field=True,
+    )
+
+    class Meta:
+        verbose_name = 'Related content call to action'
+        verbose_name_plural = 'Related content call to actions'
+
+    def __str__(self):
+        return f'{self.link_text} ({self.type})'
 
 
 class PageView(TimeStampedModel):
@@ -1974,3 +2020,36 @@ class GetInTouchPage(cms_panels.GetInTouchPanels, Page):
         null=True,
         blank=True,
     )
+
+
+@register_setting(icon='link-external')
+class ShareSettings(BaseSiteSetting):
+    class Meta:
+        verbose_name = _('Sharing')
+
+    share_prefix = models.TextField(
+        blank=True,
+        max_length=255,
+        verbose_name=_('Share prefix'),
+        help_text=_('Prepends draft social media post and email subject when using the share page component'),
+    )
+
+    hashtags = models.TextField(
+        blank=True,
+        max_length=255,
+        verbose_name=_('Hashtags'),
+        help_text=_(
+            'Appends draft social media post when using the share page component.'
+            ' Prefixes each string with a #, removes spaces, and applies Pascal casing'
+        ),
+    )
+
+    panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel('share_prefix'),
+                FieldPanel('hashtags'),
+            ],
+            heading=_('Sharing'),
+        )
+    ]
