@@ -3,7 +3,7 @@
         <{{ heading_level|default:'h2' }} class="govuk-heading-s">Share this page</{{ heading_level|default:'h2' }}>
         <ul>
             <li class="govuk-!-margin-bottom-2">
-                <a href="mailto:?subject={{ settings.core.ShareSettings.share_prefix }}&body={{ page_title }}: {{ page_url }}"
+                <a href="mailto:?subject={{ settings.core.ShareSettings.share_prefix|urlencode }}&body={{ page_title|urlencode }}: {{ page_url }}"
                    target="_blank"
                    rel="noopener noreferrer external"
                    class="govuk-link govuk-heading-xs">
@@ -33,7 +33,7 @@
                 </a>
             </li>
             <li class="govuk-!-margin-bottom-2">
-                <a href="https://twitter.com/intent/tweet?url={{ page_url }}%0A%0A&text={{ settings.core.ShareSettings.share_prefix }}%0A%0A{{ page_title }}%3A&via={{ settings.wagtailseo.SeoSettings.twitter_site }}%0A&hashtags={{ settings.core.ShareSettings.hashtags }}"
+                <a href="https://twitter.com/intent/tweet?url={{ page_url }}%0A%0A&text={{ settings.core.ShareSettings.share_prefix|urlencode }}%0A%0A{{ page_title|urlencode }}%3A&via={{ settings.wagtailseo.SeoSettings.twitter_site }}%0A&hashtags={{ settings.core.ShareSettings.hashtags }}"
                    target="_blank"
                    rel="noopener noreferrer external"
                    class="govuk-link govuk-heading-xs">
