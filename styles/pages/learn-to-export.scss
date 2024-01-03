@@ -354,7 +354,7 @@ li .lte-suptopic {
 
   @include govuk-media-query($from: desktop, $until: 1170px) {
     & {
-      .great-card--modifier{
+      .great-card--cta{
         width: 33.33%;
       }
     }
@@ -366,13 +366,6 @@ li .lte-suptopic {
 
     @include govuk-media-query($from: desktop, $until: 1170px) {
       width: unset;
-    }
-  }
-
-  & {
-    .great-position-relative{
-      position: relative;
-      width: 100%
     }
   }
 
