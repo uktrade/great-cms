@@ -63,7 +63,7 @@
             <div class="govuk-grid-column-one-third-from-desktop">
                 {% include 'core/steps.html' with steps=page.get_steps title='Learn to export topics' current_step_url=page.get_current_module.url %}
                 {% if features.FEATURE_SHARE_COMPONENT %}
-                    {% include 'components/great/share.html' with page_url=request.get_full_path url_encoded_page_title=page.title url_encoded_prefix='' dbt_twitter_username='' dbt_hashtags='' %}
+                    {% include 'components/great/share.html' with page_url=request.build_absolute_uri page_title=page.title %}
                 {% endif %}
             </div>
         </div>

@@ -42,6 +42,7 @@ from wagtail.snippets.models import register_snippet
 from wagtail.utils.decorators import cached_classmethod
 from wagtailmedia.models import Media
 from wagtailseo.models import SeoMixin
+
 from core import blocks as core_blocks, cms_panels, mixins, snippet_slugs
 from core.blocks import (
     LinkBlockWithHeading,
@@ -1974,3 +1975,36 @@ class GetInTouchPage(cms_panels.GetInTouchPanels, Page):
         null=True,
         blank=True,
     )
+
+
+@register_setting(icon='link-external')
+class ShareSettings(BaseSiteSetting):
+    class Meta:
+        verbose_name = _('Sharing')
+
+    share_prefix = models.TextField(
+        blank=True,
+        max_length=255,
+        verbose_name=_('Share prefix'),
+        help_text=_('Prepends draft social media post and email subject when using the share page component'),
+    )
+
+    hashtags = models.TextField(
+        blank=True,
+        max_length=255,
+        verbose_name=_('Hashtags'),
+        help_text=_(
+            'Appends draft social media post when using the share page component.'
+            ' Prefixes each string with a #, removes spaces, and applies Pascal casing'
+        ),
+    )
+
+    panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel('share_prefix'),
+                FieldPanel('hashtags'),
+            ],
+            heading=_('Sharing'),
+        )
+    ]
