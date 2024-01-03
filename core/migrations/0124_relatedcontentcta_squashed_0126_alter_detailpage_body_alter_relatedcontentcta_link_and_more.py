@@ -11,7 +11,7 @@ import core.blocks
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('core', '0122_rename_side_links_listpage_popular_links'),
+        ('core', '0123_sharesettings'),
     ]
 
     operations = [
