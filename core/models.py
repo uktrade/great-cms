@@ -2040,7 +2040,7 @@ class ShareSettings(BaseSiteSetting):
         verbose_name=_('Hashtags'),
         help_text=_(
             'Appends draft social media post when using the share page component.'
-            ' Prefixes each string with a #, removes spaces, and applies Pascal casing'
+            ' Write each tag in Pascal case and separate with a comma, for example: HashTagOne,HashTagTwo.'
         ),
     )
 
