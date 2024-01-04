@@ -407,3 +407,74 @@ li .lte-suptopic {
     }
   }
 }
+
+.article-page-cta-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 15px;
+
+  // horizontal scrolling of child elements
+  @include govuk-media-query($until: desktop) {
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+    overflow-y: hidden;
+    margin: 0;
+    width: 100vw;
+  }
+
+  @include govuk-media-query($from: desktop, $until: 1170px) {
+    & {
+      .great-card--cta{
+        width: 33.33%;
+      }
+    }
+  }
+
+  a {
+    display: flex;
+    width: 230px;
+
+    @include govuk-media-query($from: desktop, $until: 1170px) {
+      width: unset;
+    }
+  }
+
+  & {
+    .great-card__tag {
+      position: unset;
+    }
+  }
+}
+
+.article-page-cta-container__title-container {
+  margin: 0px 20px 0px;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+}
+
+.article-page-cta-container__inner-container{
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+
+  > img {
+    @include govuk-media-query($until: tablet) {
+      margin: 3px 8px 0px 0px !important;
+    }
+
+    @include govuk-media-query($from: tablet) {
+      margin: 5.5px 8px 0px 0px !important;
+    }
+  }
+}
+
+.article-page-cta-container__outer-container {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: end;
+  height: 100%;
+  margin-bottom: 8px;
+  margin-top: 10px;
+}
