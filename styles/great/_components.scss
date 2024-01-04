@@ -435,6 +435,8 @@ figure.great-blockquote {
     }
   }
 
+
+
   .great-card__tag {
     img {
       width: 16px;
@@ -443,6 +445,12 @@ figure.great-blockquote {
     }
   }
 
+}
+
+.great-card--cta-with-content {
+    .great-card__tag {
+      bottom: 0;
+    }
 }
 
 .great-card--homepage-container {
