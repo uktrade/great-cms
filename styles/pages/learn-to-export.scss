@@ -305,3 +305,105 @@ aside {
     margin-top: 8px;
   }
 }
+
+.lesson-page {
+  video {
+    width: 100%;
+  }
+}
+
+li .lte-suptopic {
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #b1b4b6;
+  }
+  .great-card {
+    box-shadow: none !important;
+  }
+
+  a {
+    border-bottom: none!important;
+    box-shadow: none !important;
+    outline: none !important;
+    padding: 0!important;
+    > div {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+  }
+}
+
+.learn-card-description p {
+  @extend .govuk-body
+}
+
+.related-links-cta-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 15px;
+
+  // horizontal scrolling of child elements
+  @include govuk-media-query($until: desktop) {
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+    overflow-y: hidden;
+    margin: 0;
+    width: 100vw;
+  }
+
+  @include govuk-media-query($from: desktop, $until: 1170px) {
+    & {
+      .great-card--cta{
+        width: 33.33%;
+      }
+    }
+  }
+
+  a {
+    display: flex;
+    width: 230px;
+
+    @include govuk-media-query($from: desktop, $until: 1170px) {
+      width: unset;
+    }
+  }
+
+  & {
+    .great-card__tag {
+      position: unset;
+    }
+  }
+}
+
+.related-links-cta-container__title-container {
+  margin: 0px 20px 0px;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+}
+
+.related-links-cta-container__tag-outer-container {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: end;
+  height: 100%;
+  margin-bottom: 8px;
+  margin-top: 10px;
+}
+
+.related-links-cta-container__tag-inner-container{
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+
+  > img {
+    @include govuk-media-query($until: tablet) {
+      margin: 3px 8px 0px 0px !important;
+    }
+
+    @include govuk-media-query($from: tablet) {
+      margin: 5.5px 8px 0px 0px !important;
+    }
+  }
+}

@@ -30,17 +30,19 @@
                            target="_blank">Department for Business and Trade on GOV.UK</a>
                     </li>
                 </ul>
-                <img src="{% static 'img/crown.svg' %}" alt="GOV.UK Crown copyright logo" />
-                <span class="govuk-body international-footer-body">
-                    All content is available under the
-                    <a class="govuk-link govuk-link--inverse"
-                       href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
-                       rel="license">Open Government Licence v3.0</a>, except where otherwise stated
-                </span>
             </div>
-            <div class="govuk-footer__meta-item">
-                <a class="govuk-link govuk-link--inverse govuk-footer__copyright-logo"
-                   href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/">© Crown copyright</a>
+            <div class="govuk-footer__meta-item great-footer-logo-container">
+                <div class="govuk-header__logo">
+                    <a href="{% if not eyb_user %}{% url 'international_online_offer:index' %}{% else %}/international/expand-your-business-in-the-uk/guide/{% endif %}"
+                       class="govuk-header__link govuk-header__link--homepage">
+                        <span class="govuk-header__logotype">
+                            <div role="img"
+                                 alt="Expand your business in the UK, start of service"
+                                 class="great-logo"></div>
+                            <span class="govuk-header__logotype-text"></span>
+                        </span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

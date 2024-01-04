@@ -1,0 +1,35 @@
+<section id="share" class="govuk-!-margin-top-9">
+    <h2 class="govuk-heading-l">Share</h2>
+    {% include 'components/great/share.html' with page_url=request.build_absolute_uri page_title='Example page title' %}
+    <pre>
+    <code>
+        &#123;% include 'components/great/share.html' with page_url=request.build_absolute_uri page_title='Example page title' %&#125;
+    </code>
+    </pre>
+    <table>
+        <thead>
+            <tr>
+                <th>Attr</th>
+                <th>Value</th>
+                <th>Required</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>heading_level</td>
+                <td>h2|h3|h4</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td>page_url</td>
+                <td>URL string</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td>page_title</td>
+                <td>String</td>
+                <td>Yes</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
