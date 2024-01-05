@@ -865,9 +865,12 @@ class EventVideoOnDemandView(DetailView):
         raise Http404
 
     def _get_event_and_video(self):
+        # event is set to the next live occurence of the current event
         event = models.Event.objects.filter(
-            slug__contains=self.event_slug, past_event_recorded_date__date=self.recorded_datetime
-        ).first()
+            slug__contains=self.event_slug,
+            past_event_recorded_date__date=self.recorded_datetime,
+            start_date__gte=datetime.now(),
+        ).last()
         video = getattr(event, 'past_event_video_recording', None)
         return event, video
 
