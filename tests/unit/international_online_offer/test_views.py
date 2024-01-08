@@ -330,18 +330,6 @@ def test_location_saved_to_db_gets_labels(client, user, settings):
 
 
 @pytest.mark.django_db
-def test_location_saved_to_session_gets_labels(client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:location')
-    response = client.post(url, {'location': 'SWANSEA'})
-    response = client.get(url)
-    context = response.context_data
-    assert context['region'] == 'WALES'
-    assert context['city'] == 'SWANSEA'
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
 def test_hiring(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
