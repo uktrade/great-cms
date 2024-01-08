@@ -392,8 +392,9 @@ def test_spend(client, user, settings):
 
 
 @pytest.mark.django_db
-def test_spend_next(client, settings):
+def test_spend_next(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    client.force_login(user)
     response = client.get(reverse('international_online_offer:spend') + '?next=change-your-answers')
     assert response.status_code == 200
 
@@ -431,15 +432,6 @@ def test_spend_form_valid_saves_to_session(client, settings):
 
 
 @pytest.mark.django_db
-def test_triage_spend_session(client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:spend')
-    client.post(url, {'spend': spends.TWO_MILLION_ONE_TO_FIVE_MILLION})
-    assert client.session['spend'] == spends.TWO_MILLION_ONE_TO_FIVE_MILLION
-    assert client.session['spend_other'] == ''
-
-
-@pytest.mark.django_db
 def test_eyb_profile(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:profile')
@@ -450,7 +442,7 @@ def test_eyb_profile(client, user, settings):
 
 
 @pytest.mark.parametrize(
-    'form_data,expected_query_param,jump_to_link',
+    'form_data,expected_query_param,jump_to_link,is_signing_up',
     (
         (
             {
@@ -467,6 +459,7 @@ def test_eyb_profile(client, user, settings):
             },
             '?signup=true',
             '#personalised-guide',
+            True,
         ),
         (
             {
@@ -483,11 +476,14 @@ def test_eyb_profile(client, user, settings):
             },
             '',
             '',
+            False,
         ),
     ),
 )
 @pytest.mark.django_db
-def test_profile_new_signup_vs_update(client, settings, user, form_data, expected_query_param, jump_to_link):
+def test_profile_new_signup_vs_update(
+    client, settings, user, form_data, expected_query_param, jump_to_link, is_signing_up
+):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:profile') + expected_query_param
     user.email = 'test@test.com'
@@ -497,10 +493,12 @@ def test_profile_new_signup_vs_update(client, settings, user, form_data, expecte
         form_data,
     )
     assert response.status_code == 302
-    assert (
-        response['Location']
-        == f"{'/international/expand-your-business-in-the-uk/guide/'}" + expected_query_param + jump_to_link
-    )
+    target_path = '/international/expand-your-business-in-the-uk/guide/'
+    if is_signing_up:
+        target_path = '/international/expand-your-business-in-the-uk/sector/'
+        assert response['Location'] == f"{target_path}"
+    else:
+        assert response['Location'] == f"{target_path}" + expected_query_param + jump_to_link
 
 
 @pytest.mark.django_db
