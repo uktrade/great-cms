@@ -114,22 +114,7 @@ def test_eyb_guide_get_triage_data_none(rf, user):
 
 
 @pytest.mark.django_db
-def test_eyb_guide_get_triage_data(rf):
-    TriageData.objects.update_or_create(
-        hashed_uuid='testId',
-        defaults={'spend': 'spend', 'spend_other': 'spend_other'},
-    )
-    guide_page = EYBTradeShowsPage(title='Trade')
-    request = rf.get(guide_page.url)
-    data = get_triage_data_for_user(request)
-    assert data is not None
-    assert data.hashed_uuid == 'testId'
-    assert data.spend == 'spend'
-    assert data.spend_other == 'spend_other'
-
-
-@pytest.mark.django_db
-def test_eyb_guide_get_triage_from_db(rf, user, get_response):
+def test_eyb_guide_get_triage_data(rf, user, get_response):
     TriageData.objects.update_or_create(
         hashed_uuid='123',
         defaults={'sector': 'sector'},

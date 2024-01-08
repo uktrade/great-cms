@@ -276,7 +276,7 @@ def test_generate_sector_choices():
     assert len(sectors) == 25
     valid_choices = True
     for sector in sectors:
-        if helpers.to_literal(sector[1]) != sector[0]:
+        if region_sector_helpers.to_literal(sector[1]) != sector[0]:
             valid_choices = False
 
     assert valid_choices is True
@@ -290,7 +290,7 @@ def test_generate_sector_sic_choices():
     assert len(sic_sectors) == 731
     valid_choices = True
     for sic_sector in sic_sectors:
-        if helpers.to_literal(sic_sector[1]) != sic_sector[0]:
+        if region_sector_helpers.to_literal(sic_sector[1]) != sic_sector[0]:
             valid_choices = False
 
     assert valid_choices is True

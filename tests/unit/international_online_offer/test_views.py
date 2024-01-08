@@ -20,8 +20,142 @@ def test_index(client, settings):
 
 
 @pytest.mark.django_db
-def test_sector(client, settings):
+def test_login(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:login')
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_signup(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:signup')
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.parametrize(
+    'form_data',
+    (({'feedback_text': 'Some example feedback', 'next': 'http://www.somerefererurl.com'}),),
+)
+@mock.patch('directory_forms_api_client.actions.SaveOnlyInDatabaseAction')
+@pytest.mark.django_db
+def test_feedback_submit(mock_save_only_in_database_action, form_data, client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:feedback') + '?next=' + form_data['next']
+    response = client.post(
+        url,
+        form_data,
+    )
+    assert mock_save_only_in_database_action.call_count == 1
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+@mock.patch.object(sso_helpers, 'regenerate_verification_code')
+@mock.patch.object(sso_helpers, 'send_verification_code_email')
+def test_business_eyb_sso_login(mock_send_code, mock_regenerate_code, client, requests_mock):
+    mock_regenerate_code.return_value = {'code': '12345', 'user_uidb64': 'aBcDe', 'verification_token': '1ab-123abc'}
+    requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=401)
+
+    response = client.post(
+        reverse_lazy('international_online_offer:login'), {'email': 'test@test.com', 'password': 'passwor1234'}
+    )
+
+    assert mock_send_code.call_count == 1
+    assert mock_regenerate_code.call_count == 1
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_business_eyb_sso_login_fail(client, requests_mock):
+    requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=200)
+    response = client.post(
+        reverse_lazy('international_online_offer:login'), {'email': 'test@test.com', 'password': 'passwor1234'}
+    )
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_business_eyb_sso_login_success(client, requests_mock):
+    requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=302)
+    response = client.post(
+        reverse_lazy('international_online_offer:login'), {'email': 'test@test.com', 'password': 'passwor1234'}
+    )
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+@mock.patch.object(sso_helpers, 'send_verification_code_email')
+def test_business_eyb_sso_signup_success(mock_send_code, client, requests_mock):
+    requests_mock.post(
+        settings.DIRECTORY_SSO_API_CLIENT_BASE_URL + 'api/v1/user/',
+        text='{"uidb64": "133", "verification_token" : "344", "verification_code" : "54322"}',
+        status_code=201,
+    )
+    response = client.post(
+        reverse_lazy('international_online_offer:signup'), {'email': 'test@test.com', 'password': 'passwor1234'}
+    )
+    assert mock_send_code.call_count == 1
+    assert response.status_code == 302
+
+
+@mock.patch.object(sso_api_client.user, 'create_user')
+@pytest.mark.django_db
+def test_business_eyb_sso_signup_fail(mock_create_user, client):
+    mock_create_user.return_value = create_response(status_code=400, json_body={'email': ['Incorrect email']})
+    response = client.post(
+        reverse_lazy('international_online_offer:signup'), {'email': 'test@test.com', 'password': 'passwor1234'}
+    )
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+@mock.patch.object(sso_helpers, 'regenerate_verification_code')
+@mock.patch.object(sso_helpers, 'send_verification_code_email')
+@mock.patch.object(sso_api_client.user, 'create_user')
+def test_business_eyb_sso_signup_regen_code(
+    mock_create_user, mock_send_code, mock_regenerate_code, client, requests_mock
+):
+    mock_create_user.return_value = create_response(status_code=409)
+    response = client.post(
+        reverse_lazy('international_online_offer:signup'), {'email': 'test@test.com', 'password': 'passwor1234'}
+    )
+    assert mock_regenerate_code.call_count == 1
+    assert mock_send_code.call_count == 1
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'send_welcome_notification')
+def test_business_eyb_sso_signup_verify_code_success(mock_send_welcome_notification, client, requests_mock):
+    requests_mock.post(
+        settings.DIRECTORY_SSO_API_CLIENT_BASE_URL + 'api/v1/verification-code/verify/',
+        text='{"uidb64": "133", "token" : "344", "code" : "54322", "email" : "test@test.com"}',
+        status_code=201,
+    )
+    response = client.post(
+        reverse_lazy('international_online_offer:signup') + '?uidb64=133&token=344', {'code_confirm': '54322'}
+    )
+    assert mock_send_welcome_notification.call_count == 1
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_eyb_signup_partial_complete_signup_redirect(settings, client, user):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:signup')
+    user.hashed_uuid = '123'
+    client.force_login(user)
+    response = client.get(url)
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_sector(client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    client.force_login(user)
     response = client.get(reverse('international_online_offer:sector'))
     context = response.context_data
     assert context['sector'] is None
@@ -30,8 +164,9 @@ def test_sector(client, settings):
 
 
 @pytest.mark.django_db
-def test_sector_next(client, settings):
+def test_sector_next(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    client.force_login(user)
     response = client.get(reverse('international_online_offer:sector') + '?next=change-your-answers')
     assert response.status_code == 200
 
@@ -83,36 +218,31 @@ def test_sector_form_valid_saves_to_session(client, settings):
 
 
 @pytest.mark.django_db
-def test_sector_saved_to_session_gets_labels(client, settings):
+def test_sector_saved_to_session_gets_labels(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    client.force_login(user)
     url = reverse('international_online_offer:sector')
     response = client.post(url, {'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT'})
     response = client.get(reverse('international_online_offer:sector'))
     context = response.context_data
-    assert context['sector'] == 'FINANCIAL_AND_PROFESSIONAL_SERVICES'
-    assert context['sector_sub'] == 'RESIDENTS_PROPERTY_MANAGEMENT'
+    assert context['sector'] == 'Financial and professional services'
+    assert context['sector_sub'] == 'Residents property management'
     assert response.status_code == 200
 
 
 @pytest.mark.django_db
-def test_triage_sector_session(client, settings):
+def test_intent(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:sector')
-    client.post(url, {'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT'})
-    assert client.session['sector_sub'] == 'RESIDENTS_PROPERTY_MANAGEMENT'
-
-
-@pytest.mark.django_db
-def test_intent(client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    client.force_login(user)
     url = reverse('international_online_offer:intent')
     response = client.get(url)
     assert response.status_code == 200
 
 
 @pytest.mark.django_db
-def test_intent_next(client, settings):
+def test_intent_next(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    client.force_login(user)
     response = client.get(reverse('international_online_offer:intent') + '?next=change-your-answers')
     assert response.status_code == 200
 
@@ -142,25 +272,9 @@ def test_intent_form_valid_saves_to_db(client, user, settings):
 
 
 @pytest.mark.django_db
-def test_intent_form_valid_saves_to_session(client, settings):
+def test_location(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:intent')
-    response = client.post(url, {'intent': intents.SET_UP_NEW_PREMISES, 'intent_other': ''})
-    assert response.status_code == 302
-
-
-@pytest.mark.django_db
-def test_triage_intent_session(client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:intent')
-    client.post(url, {'intent': [intents.SET_UP_NEW_PREMISES]})
-    assert client.session['intent'] == [intents.SET_UP_NEW_PREMISES]
-    assert client.session['intent_other'] == ''
-
-
-@pytest.mark.django_db
-def test_location(client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    client.force_login(user)
     url = reverse('international_online_offer:location')
     response = client.get(url)
     context = response.context_data
@@ -170,8 +284,9 @@ def test_location(client, settings):
 
 
 @pytest.mark.django_db
-def test_location_next(client, settings):
+def test_location_next(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    client.force_login(user)
     response = client.get(reverse('international_online_offer:location') + '?next=change-your-answers')
     assert response.status_code == 200
 
@@ -215,14 +330,6 @@ def test_location_saved_to_db_gets_labels(client, user, settings):
 
 
 @pytest.mark.django_db
-def test_location_form_valid_saves_to_session(client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:location')
-    response = client.post(url, {'location': regions.WALES})
-    assert response.status_code == 302
-
-
-@pytest.mark.django_db
 def test_location_saved_to_session_gets_labels(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:location')
@@ -235,25 +342,18 @@ def test_location_saved_to_session_gets_labels(client, settings):
 
 
 @pytest.mark.django_db
-def test_triage_location_session(client, settings):
+def test_hiring(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:location')
-    client.post(url, {'location': regions.WALES})
-    assert client.session['location'] == regions.WALES
-    assert client.session['location_none'] is False
-
-
-@pytest.mark.django_db
-def test_hiring(client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    client.force_login(user)
     url = reverse('international_online_offer:hiring')
     response = client.get(url)
     assert response.status_code == 200
 
 
 @pytest.mark.django_db
-def test_hiring_next(client, settings):
+def test_hiring_next(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    client.force_login(user)
     response = client.get(reverse('international_online_offer:hiring') + '?next=change-your-answers')
     assert response.status_code == 200
 
@@ -283,41 +383,10 @@ def test_hiring_form_valid_saves_to_db(client, user, settings):
 
 
 @pytest.mark.django_db
-def test_hiring_form_valid_saves_to_session(client, settings):
+def test_spend(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:hiring')
-    response = client.post(url, {'hiring': hirings.ONE_TO_TEN})
-    assert response.status_code == 302
-
-
-@pytest.mark.django_db
-def test_triage_hiring_session(client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:hiring')
-    client.post(url, {'hiring': hirings.ELEVEN_TO_FIFTY})
-    assert client.session['hiring'] == hirings.ELEVEN_TO_FIFTY
-
-
-@pytest.mark.django_db
-def test_spend(client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    client.force_login(user)
     url = reverse('international_online_offer:spend')
-    response = client.get(url)
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
-def test_login(client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:login')
-    response = client.get(url)
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
-def test_signup(client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:signup')
     response = client.get(url)
     assert response.status_code == 200
 
@@ -516,16 +585,18 @@ def test_contact_submit(mock_action_class, client, settings):
 
 
 @pytest.mark.django_db
-def test_csat_feedback(client, settings):
+def test_csat_feedback(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    client.force_login(user)
     url = reverse('international_online_offer:csat-feedback')
     response = client.get(url)
     assert response.status_code == 200
 
 
 @pytest.mark.django_db
-def test_csat_feedback_with_session_value(client, settings):
+def test_csat_feedback_with_session_value(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    client.force_login(user)
     url = reverse('international_online_offer:csat-feedback')
     CsatFeedback.objects.create(id=1, URL='http://test.com')
     session = client.session
@@ -562,122 +633,4 @@ def test_csat_widget(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:csat-widget-submit') + '?url=http://testurl.com'
     response = client.post(url, {'satisfaction': 'SATISFIED', 'user_journey': 'DASHBOARD'})
-    assert response.status_code == 302
-
-
-@pytest.mark.parametrize(
-    'form_data',
-    (({'feedback_text': 'Some example feedback', 'next': 'http://www.somerefererurl.com'}),),
-)
-@mock.patch('directory_forms_api_client.actions.SaveOnlyInDatabaseAction')
-@pytest.mark.django_db
-def test_feedback_submit(mock_save_only_in_database_action, form_data, client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:feedback') + '?next=' + form_data['next']
-    response = client.post(
-        url,
-        form_data,
-    )
-    assert mock_save_only_in_database_action.call_count == 1
-    assert response.status_code == 302
-
-
-@pytest.mark.django_db
-@mock.patch.object(sso_helpers, 'regenerate_verification_code')
-@mock.patch.object(sso_helpers, 'send_verification_code_email')
-def test_business_eyb_sso_login(mock_send_code, mock_regenerate_code, client, requests_mock):
-    mock_regenerate_code.return_value = {'code': '12345', 'user_uidb64': 'aBcDe', 'verification_token': '1ab-123abc'}
-    requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=401)
-
-    response = client.post(
-        reverse_lazy('international_online_offer:login'), {'email': 'test@test.com', 'password': 'passwor1234'}
-    )
-
-    assert mock_send_code.call_count == 1
-    assert mock_regenerate_code.call_count == 1
-
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
-def test_business_eyb_sso_login_fail(client, requests_mock):
-    requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=200)
-    response = client.post(
-        reverse_lazy('international_online_offer:login'), {'email': 'test@test.com', 'password': 'passwor1234'}
-    )
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
-def test_business_eyb_sso_login_success(client, requests_mock):
-    requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=302)
-    response = client.post(
-        reverse_lazy('international_online_offer:login'), {'email': 'test@test.com', 'password': 'passwor1234'}
-    )
-    assert response.status_code == 302
-
-
-@pytest.mark.django_db
-@mock.patch.object(sso_helpers, 'send_verification_code_email')
-def test_business_eyb_sso_signup_success(mock_send_code, client, requests_mock):
-    requests_mock.post(
-        settings.DIRECTORY_SSO_API_CLIENT_BASE_URL + 'api/v1/user/',
-        text='{"uidb64": "133", "verification_token" : "344", "verification_code" : "54322"}',
-        status_code=201,
-    )
-    response = client.post(
-        reverse_lazy('international_online_offer:signup'), {'email': 'test@test.com', 'password': 'passwor1234'}
-    )
-    assert mock_send_code.call_count == 1
-    assert response.status_code == 302
-
-
-@mock.patch.object(sso_api_client.user, 'create_user')
-@pytest.mark.django_db
-def test_business_eyb_sso_signup_fail(mock_create_user, client):
-    mock_create_user.return_value = create_response(status_code=400, json_body={'email': ['Incorrect email']})
-    response = client.post(
-        reverse_lazy('international_online_offer:signup'), {'email': 'test@test.com', 'password': 'passwor1234'}
-    )
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
-@mock.patch.object(sso_helpers, 'regenerate_verification_code')
-@mock.patch.object(sso_helpers, 'send_verification_code_email')
-@mock.patch.object(sso_api_client.user, 'create_user')
-def test_business_eyb_sso_signup_regen_code(
-    mock_create_user, mock_send_code, mock_regenerate_code, client, requests_mock
-):
-    mock_create_user.return_value = create_response(status_code=409)
-    response = client.post(
-        reverse_lazy('international_online_offer:signup'), {'email': 'test@test.com', 'password': 'passwor1234'}
-    )
-    assert mock_regenerate_code.call_count == 1
-    assert mock_send_code.call_count == 1
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
-@mock.patch.object(helpers, 'send_welcome_notification')
-def test_business_eyb_sso_signup_verify_code_success(mock_send_welcome_notification, client, requests_mock):
-    requests_mock.post(
-        settings.DIRECTORY_SSO_API_CLIENT_BASE_URL + 'api/v1/verification-code/verify/',
-        text='{"uidb64": "133", "token" : "344", "code" : "54322", "email" : "test@test.com"}',
-        status_code=201,
-    )
-    response = client.post(
-        reverse_lazy('international_online_offer:signup') + '?uidb64=133&token=344', {'code_confirm': '54322'}
-    )
-    assert mock_send_welcome_notification.call_count == 1
-    assert response.status_code == 302
-
-
-@pytest.mark.django_db
-def test_eyb_signup_partial_complete_signup_redirect(settings, client, user):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:signup')
-    user.hashed_uuid = '123'
-    client.force_login(user)
-    response = client.get(url)
     assert response.status_code == 302
