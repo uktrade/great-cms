@@ -16,37 +16,13 @@ from core.blocks import ColumnsBlock
 from core.models import CMSGenericPage, TimeStampedModel
 from directory_constants.choices import COUNTRY_CHOICES
 from domestic.models import BaseContentPage
-from international_online_offer.core import choices, filter_tags, helpers
+from international_online_offer.core import (
+    choices,
+    filter_tags,
+    helpers,
+    region_sector_helpers,
+)
 from international_online_offer.forms import LocationSelectForm
-
-
-def get_triage_data(hashed_uuid):
-    try:
-        return TriageData.objects.get(hashed_uuid=hashed_uuid)
-    except TriageData.DoesNotExist:
-        return None
-
-
-def get_triage_data_from_db_or_session(request):
-    if hasattr(request, 'user'):
-        if hasattr(request.user, 'is_authenticated'):
-            if request.user.is_authenticated:
-                if hasattr(request.user, 'hashed_uuid'):
-                    triage_data = get_triage_data(request.user.hashed_uuid)
-                    if triage_data:
-                        return triage_data
-    if hasattr(request, 'session'):
-        return TriageData(
-            sector=request.session.get('sector'),
-            intent=request.session.get('intent'),
-            intent_other=request.session.get('intent_other'),
-            location=request.session.get('location'),
-            location_none=request.session.get('location_none'),
-            hiring=request.session.get('hiring'),
-            spend=request.session.get('spend'),
-            spend_other=request.session.get('spend_other'),
-            is_high_value=request.session.get('is_high_value'),
-        )
 
 
 class EYBIndexPage(BaseContentPage):
@@ -57,6 +33,24 @@ class EYBIndexPage(BaseContentPage):
         'international_online_offer.EYBGuidePage',
     ]
     template = 'eyb/index.html'
+
+
+def get_triage_data_for_user(request):
+    try:
+        return TriageData.objects.get(hashed_uuid=request.user.hashed_uuid)
+    except AttributeError:
+        return None
+    except TriageData.DoesNotExist:
+        return None
+
+
+def get_user_data_for_user(request):
+    try:
+        return UserData.objects.get(hashed_uuid=request.user.hashed_uuid)
+    except AttributeError:
+        return None
+    except UserData.DoesNotExist:
+        return None
 
 
 class EYBGuidePage(BaseContentPage):
@@ -70,14 +64,8 @@ class EYBGuidePage(BaseContentPage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-
-        user_data = (
-            UserData.objects.filter(hashed_uuid=request.user.hashed_uuid).first()
-            if request.user.is_authenticated
-            else None
-        )
-        triage_data = get_triage_data_from_db_or_session(request)
-
+        user_data = get_user_data_for_user(request)
+        triage_data = get_triage_data_for_user(request)
         is_triage_complete = helpers.is_triage_complete(triage_data)
 
         # Get trade shows page (should only be one, is a parent / container page for all trade show pages)
@@ -212,7 +200,7 @@ class EYBArticlePage(BaseContentPage):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         if helpers.is_authenticated(request):
-            triage_data = get_triage_data(request.user.hashed_uuid)
+            triage_data = get_triage_data_for_user(request)
 
             tags = self.tags.all()
             show_salary_component = helpers.can_show_salary_component(tags)
@@ -313,7 +301,7 @@ class EYBTradeShowsPage(BaseContentPage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        triage_data = get_triage_data_from_db_or_session(request)
+        triage_data = get_triage_data_for_user(request)
         all_tradeshows = []
 
         if triage_data:
@@ -380,9 +368,9 @@ class EYBArticlesPage(BaseContentPage):
 
 class TriageData(TimeStampedModel):
     hashed_uuid = models.CharField(max_length=200)
-    sector = models.CharField(max_length=255, choices=helpers.generate_sector_choices())
+    sector = models.CharField(max_length=255, choices=region_sector_helpers.generate_sector_choices())
     sector_sub = models.CharField(
-        max_length=255, choices=helpers.generate_sector_sic_choices(), default=None, null=True
+        max_length=255, choices=region_sector_helpers.generate_sector_sic_choices(), default=None, null=True
     )
     intent = ArrayField(
         models.CharField(max_length=255, choices=choices.INTENT_CHOICES),
@@ -400,7 +388,7 @@ class TriageData(TimeStampedModel):
     intent_other = models.CharField(max_length=255)
     location = models.CharField(max_length=255, choices=choices.REGION_CHOICES)
     location_city = models.CharField(
-        max_length=255, default=None, null=True, choices=helpers.generate_location_choices(False)
+        max_length=255, default=None, null=True, choices=region_sector_helpers.generate_location_choices(False)
     )
     location_none = models.BooleanField(default=False)
     hiring = models.CharField(max_length=255, choices=choices.HIRING_CHOICES)

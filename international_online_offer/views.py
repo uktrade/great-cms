@@ -11,20 +11,20 @@ from great_components.mixins import GA360Mixin
 from core.helpers import check_url_host_is_safelisted
 from directory_sso_api_client import sso_api_client
 from international_online_offer import forms
-from international_online_offer.core import helpers, scorecard
+from international_online_offer.core import helpers, region_sector_helpers, scorecard
 from international_online_offer.models import (
     CsatFeedback,
     TradeAssociation,
     TriageData,
     UserData,
-    get_triage_data,
-    get_triage_data_from_db_or_session,
+    get_triage_data_for_user,
+    get_user_data_for_user,
 )
 from sso import helpers as sso_helpers, mixins as sso_mixins
 
 
 def calculate_and_store_is_high_value(request):
-    existing_triage_data = get_triage_data_from_db_or_session(request)
+    existing_triage_data = get_triage_data_for_user(request)
     is_high_value = scorecard.score_is_high_value(
         existing_triage_data.sector,
         existing_triage_data.location,
@@ -80,7 +80,7 @@ class SectorView(GA360Mixin, FormView):
         sector = self.request.session.get('sector')
         sector_sub = self.request.session.get('sector_sub')
         if self.request.user.is_authenticated:
-            triage_data = get_triage_data(self.request.user.hashed_uuid)
+            triage_data = get_triage_data_for_user(self.request)
             if triage_data:
                 sector = triage_data.get_sector_display()
                 sector_sub = triage_data.get_sector_sub_display()
@@ -92,14 +92,14 @@ class SectorView(GA360Mixin, FormView):
             question_text='What does your company make or do?',
             why_we_ask_this_question_text="""We'll use this information to provide customised content
               relevant to your sector and products or services.""",
-            autocomplete_sector_data=helpers.get_sectors_and_sic_sectors_file_as_string(),
+            autocomplete_sector_data=region_sector_helpers.get_sectors_and_sic_sectors_file_as_string(),
             sector_sub=sector_sub,
             sector=sector,
         )
 
     def get_initial(self):
         if self.request.user.is_authenticated:
-            triage_data = get_triage_data(self.request.user.hashed_uuid)
+            triage_data = get_triage_data_for_user(self.request)
             if triage_data:
                 return {'sector_sub': triage_data.sector_sub}
 
@@ -107,7 +107,7 @@ class SectorView(GA360Mixin, FormView):
 
     def form_valid(self, form):
         sub_sector = form.cleaned_data['sector_sub']
-        sector = helpers.get_sector_from_sic_sector(sub_sector)
+        sector = region_sector_helpers.get_sector_from_sic_sector(sub_sector)
         if self.request.user.is_authenticated:
             TriageData.objects.update_or_create(
                 hashed_uuid=self.request.user.hashed_uuid,
@@ -159,7 +159,7 @@ class IntentView(GA360Mixin, FormView):
 
     def get_initial(self):
         if self.request.user.is_authenticated:
-            triage_data = get_triage_data(self.request.user.hashed_uuid)
+            triage_data = get_triage_data_for_user(self.request)
             if triage_data:
                 return {'intent': triage_data.intent, 'intent_other': triage_data.intent_other}
 
@@ -209,7 +209,7 @@ class LocationView(GA360Mixin, FormView):
         region = self.request.session.get('location')
         city = self.request.session.get('location_city')
         if self.request.user.is_authenticated:
-            triage_data = get_triage_data(self.request.user.hashed_uuid)
+            triage_data = get_triage_data_for_user(self.request)
             if triage_data:
                 region = triage_data.get_location_display()
                 city = triage_data.get_location_city_display()
@@ -221,14 +221,14 @@ class LocationView(GA360Mixin, FormView):
             question_text='Where in the UK would you like to expand your business?',
             why_we_ask_this_question_text="""We'll use this information to provide customised content
               relevant to your city, county or region.""",
-            autocomplete_location_data=helpers.get_region_and_cities_json_file_as_string(),
+            autocomplete_location_data=region_sector_helpers.get_region_and_cities_json_file_as_string(),
             region=region,
             city=city,
         )
 
     def get_initial(self):
         if self.request.user.is_authenticated:
-            triage_data = get_triage_data(self.request.user.hashed_uuid)
+            triage_data = get_triage_data_for_user(self.request)
             if triage_data:
                 location = triage_data.location_city if triage_data.location_city else triage_data.location
                 return {'location': location, 'location_none': triage_data.location_none}
@@ -246,10 +246,10 @@ class LocationView(GA360Mixin, FormView):
     def form_valid(self, form):
         region = None
         city = None
-        if helpers.is_region(form.cleaned_data['location']):
+        if region_sector_helpers.is_region(form.cleaned_data['location']):
             region = form.cleaned_data['location']
         else:
-            region = helpers.get_region_from_city(form.cleaned_data['location'])
+            region = region_sector_helpers.get_region_from_city(form.cleaned_data['location'])
             city = form.cleaned_data['location']
 
         if self.request.user.is_authenticated:
@@ -305,7 +305,7 @@ class HiringView(GA360Mixin, FormView):
 
     def get_initial(self):
         if self.request.user.is_authenticated:
-            triage_data = get_triage_data(self.request.user.hashed_uuid)
+            triage_data = get_triage_data_for_user(self.request)
             if triage_data:
                 return {'hiring': triage_data.hiring}
 
@@ -361,7 +361,7 @@ class SpendView(GA360Mixin, FormView):
 
     def get_initial(self):
         if self.request.user.is_authenticated:
-            triage_data = get_triage_data(self.request.user.hashed_uuid)
+            triage_data = get_triage_data_for_user(self.request)
             if triage_data:
                 return {'spend': triage_data.spend, 'spend_other': triage_data.spend_other}
 
@@ -389,7 +389,8 @@ class ProfileView(GA360Mixin, FormView):
 
     def get_success_url(self) -> str:
         if self.request.GET.get('signup'):
-            return '/international/expand-your-business-in-the-uk/guide/?signup=true#personalised-guide'
+            return reverse_lazy('international_online_offer:sector')
+            # return '/international/expand-your-business-in-the-uk/guide/?signup=true#personalised-guide'
         return '/international/expand-your-business-in-the-uk/guide/'
 
     def __init__(self):
@@ -412,8 +413,8 @@ class ProfileView(GA360Mixin, FormView):
     def get_context_data(self, **kwargs):
         title = self.COMPLETE_SIGN_UP_TITLE
         sub_title = self.COMPLETE_SIGN_UP_LOW_VALUE_SUB_TITLE
-        user_data = UserData.objects.filter(hashed_uuid=self.request.user.hashed_uuid).first()
-        triage_data = get_triage_data_from_db_or_session(self.request)
+        user_data = get_user_data_for_user(self.request)
+        triage_data = get_triage_data_for_user(self.request)
         # if user_data has been provided then the user has setup a profile before
         if user_data:
             title = self.PROFILE_DETAILS_TITLE
@@ -447,7 +448,7 @@ class ProfileView(GA360Mixin, FormView):
             'landing_timeframe': '',
             'company_website': '',
         }
-        user_data = UserData.objects.filter(hashed_uuid=self.request.user.hashed_uuid).first()
+        user_data = get_user_data_for_user(self.request)
         if user_data:
             # If user_data then we're dealing with an existing user accessing their profile
             init_user_form_data['email'] = user_data.email
@@ -646,8 +647,8 @@ class EditYourAnswersView(GA360Mixin, TemplateView):
         )
 
     def get_context_data(self, **kwargs):
-        triage_data = get_triage_data_from_db_or_session(self.request)
-        user_data = UserData.objects.filter(hashed_uuid=self.request.user.hashed_uuid).first()
+        triage_data = get_triage_data_for_user(self.request)
+        user_data = get_user_data_for_user(self.request)
         breadcrumbs = [
             {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/'},
             {'name': 'Change your answers', 'url': self.request.path},
@@ -854,7 +855,7 @@ class TradeAssociationsView(GA360Mixin, TemplateView):
         )
 
     def get_context_data(self, **kwargs):
-        triage_data = get_triage_data_from_db_or_session(self.request)
+        triage_data = get_triage_data_for_user(self.request)
         all_trade_associations = []
 
         if triage_data:
