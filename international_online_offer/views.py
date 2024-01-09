@@ -414,13 +414,10 @@ class ProfileView(GA360Mixin, FormView):
         title = self.COMPLETE_SIGN_UP_TITLE
         sub_title = self.COMPLETE_SIGN_UP_LOW_VALUE_SUB_TITLE
         user_data = get_user_data_for_user(self.request)
-        triage_data = get_triage_data_for_user(self.request)
         # if user_data has been provided then the user has setup a profile before
         if user_data:
             title = self.PROFILE_DETAILS_TITLE
             sub_title = self.PROFILE_DETAILS_SUB_TITLE
-        elif triage_data.is_high_value:
-            sub_title = self.COMPLETE_SIGN_UP_HIGH_VALUE_SUB_TITLE
 
         breadcrumbs = [
             {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/'},

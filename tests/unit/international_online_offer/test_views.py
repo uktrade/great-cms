@@ -484,9 +484,9 @@ def test_profile_new_signup_vs_update(
     target_path = '/international/expand-your-business-in-the-uk/guide/'
     if is_signing_up:
         target_path = '/international/expand-your-business-in-the-uk/sector/'
-        assert response['Location'] == f"{target_path}"
+        assert response['Location'] == target_path
     else:
-        assert response['Location'] == f"{target_path}" + expected_query_param + jump_to_link
+        assert response['Location'] == target_path + expected_query_param + jump_to_link
 
 
 @pytest.mark.django_db
