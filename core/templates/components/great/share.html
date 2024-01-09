@@ -47,7 +47,28 @@
                     <span>X</span>
                 </a>
             </li>
-            {% block body_js %}<script>console.log('hello from javascript')</script>{% endblock %}
+            {% block body_js %}
+                <script>
+                    const copy_url_to_clipboard = async function (event) {
+                        try {
+                            await navigator.clipboard.writeText(window.location.href)
+                            event.srcElement.innerHTML = "Link copied"
+                          } catch (e) {
+                            console.log(e)
+                        }
+                    }
+
+                    const btn_copy_url = document.createElement("button")
+                    btn_copy_url.innerHTML = "Copy link"
+                    btn_copy_url.addEventListener("mousedown", copy_url_to_clipboard)
+                    btn_copy_url.addEventListener("pointerdown", copy_url_to_clipboard)
+
+                    // assumming one share component per page hence [0]
+                    const social_share_parent = document.querySelectorAll(".great-share")[0]
+                    social_share_parent.appendChild(btn_copy_url)
+
+                </script>
+            {% endblock %}
         </ul>
     </div>
 {% endif %}
