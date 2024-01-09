@@ -390,7 +390,6 @@ class ProfileView(GA360Mixin, FormView):
     def get_success_url(self) -> str:
         if self.request.GET.get('signup'):
             return reverse_lazy('international_online_offer:sector')
-            # return '/international/expand-your-business-in-the-uk/guide/?signup=true#personalised-guide'
         return '/international/expand-your-business-in-the-uk/guide/'
 
     def __init__(self):
