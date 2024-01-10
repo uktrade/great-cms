@@ -446,7 +446,7 @@ def test_eyb_profile(client, user, settings):
                 'company_website': 'http://www.great.gov.uk',
             },
             '?signup=true',
-            '#personalised-guide',
+            '',
             True,
         ),
         (
@@ -463,7 +463,7 @@ def test_eyb_profile(client, user, settings):
                 'company_website': 'http://www.great.gov.uk',
             },
             '',
-            '',
+            '#personalised-guide',
             False,
         ),
     ),
@@ -482,8 +482,8 @@ def test_profile_new_signup_vs_update(
     )
     assert response.status_code == 302
     target_path = '/international/expand-your-business-in-the-uk/guide/'
-    if is_signing_up:
-        target_path = '/international/expand-your-business-in-the-uk/sector/'
+    if not is_signing_up:
+        target_path = '/international/expand-your-business-in-the-uk/guide/'
         assert response['Location'] == target_path
     else:
         assert response['Location'] == target_path + expected_query_param + jump_to_link

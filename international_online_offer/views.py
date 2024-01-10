@@ -389,7 +389,7 @@ class ProfileView(GA360Mixin, FormView):
 
     def get_success_url(self) -> str:
         if self.request.GET.get('signup'):
-            return reverse_lazy('international_online_offer:sector')
+            return '/international/expand-your-business-in-the-uk/guide/?signup=true'
         return '/international/expand-your-business-in-the-uk/guide/'
 
     def __init__(self):
@@ -470,9 +470,11 @@ class ProfileView(GA360Mixin, FormView):
             session_data_triage_object = {}
             for key in [
                 'sector',
+                'sector_sub',
                 'intent',
                 'intent_other',
                 'location',
+                'location_city',
                 'location_none',
                 'hiring',
                 'spend',
