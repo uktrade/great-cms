@@ -27,10 +27,10 @@
                     </div>
                     <div id="region-city-information-container"
                          class="govuk-grid-row"
-                         style="{% if not city %} display: none {% endif %}">
+                         style="{% if not city_description %} display: none {% endif %}">
                         <div class="govuk-grid-column-two-thirds">
                             <div class="govuk-inset-text">
-                                <span id="city-text">{{ city }}</span> is in <span id="region-text" class="govuk-!-font-weight-bold">{{ region }}</span>, we will tailor your guide to this region.
+                                <span id="city-text">{{ city_description }}</span> is in <span id="region-text" class="govuk-!-font-weight-bold">{{ region_description }}</span>, we will tailor your guide to this region.
                             </div>
                         </div>
                     </div>

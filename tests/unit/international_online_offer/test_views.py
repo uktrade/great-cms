@@ -158,8 +158,8 @@ def test_sector(client, user, settings):
     client.force_login(user)
     response = client.get(reverse('international_online_offer:sector'))
     context = response.context_data
-    assert context['sector'] is None
-    assert context['sector_sub'] is None
+    assert context['sector_description'] is None
+    assert context['sector_sub_description'] is None
     assert response.status_code == 200
 
 
@@ -191,7 +191,7 @@ def test_sector_form_valid_saves_to_db(client, user, settings):
     url = reverse('international_online_offer:sector')
     user.hashed_uuid = '123'
     client.force_login(user)
-    response = client.post(url, {'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT'})
+    response = client.post(url, {'sector_sub_description': 'RESIDENTS_PROPERTY_MANAGEMENT'})
     assert response.status_code == 302
 
 
@@ -201,32 +201,11 @@ def test_sector_saved_to_db_gets_labels(client, user, settings):
     url = reverse('international_online_offer:sector')
     user.hashed_uuid = '123'
     client.force_login(user)
-    response = client.post(url, {'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT'})
+    response = client.post(url, {'sector_sub_description': 'RESIDENTS_PROPERTY_MANAGEMENT'})
     response = client.get(reverse('international_online_offer:sector'))
     context = response.context_data
-    assert context['sector'] == 'Financial and professional services'
-    assert context['sector_sub'] == 'Residents property management'
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
-def test_sector_form_valid_saves_to_session(client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:sector')
-    response = client.post(url, {'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT'})
-    assert response.status_code == 302
-
-
-@pytest.mark.django_db
-def test_sector_saved_to_session_gets_labels(client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    client.force_login(user)
-    url = reverse('international_online_offer:sector')
-    response = client.post(url, {'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT'})
-    response = client.get(reverse('international_online_offer:sector'))
-    context = response.context_data
-    assert context['sector'] == 'Financial and professional services'
-    assert context['sector_sub'] == 'Residents property management'
+    assert context['sector_description'] == 'Financial and professional services'
+    assert context['sector_sub_description'] == 'Residents property management'
     assert response.status_code == 200
 
 
@@ -278,8 +257,8 @@ def test_location(client, user, settings):
     url = reverse('international_online_offer:location')
     response = client.get(url)
     context = response.context_data
-    assert context['region'] is None
-    assert context['city'] is None
+    assert context['region_description'] is None
+    assert context['city_description'] is None
     assert response.status_code == 200
 
 
@@ -324,8 +303,8 @@ def test_location_saved_to_db_gets_labels(client, user, settings):
     response = client.post(url, {'location': 'SWANSEA'})
     response = client.get(url)
     context = response.context_data
-    assert context['region'] == 'Wales'
-    assert context['city'] == 'Swansea'
+    assert context['region_description'] == 'Wales'
+    assert context['city_description'] == 'Swansea'
     assert response.status_code == 200
 
 
@@ -407,14 +386,6 @@ def test_spend_form_valid_saves_to_db(client, user, settings):
     url = reverse('international_online_offer:spend')
     user.hashed_uuid = '123'
     client.force_login(user)
-    response = client.post(url, {'spend': spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND})
-    assert response.status_code == 302
-
-
-@pytest.mark.django_db
-def test_spend_form_valid_saves_to_session(client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:spend')
     response = client.post(url, {'spend': spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND})
     assert response.status_code == 302
 

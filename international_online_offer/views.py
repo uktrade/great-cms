@@ -72,10 +72,12 @@ class SectorView(GA360Mixin, FormView):
         return next_url
 
     def get_context_data(self, **kwargs):
+        sector_description = None
+        sector_sub_description = None
         triage_data = get_triage_data_for_user(self.request)
         if triage_data:
-            sector = triage_data.get_sector_display()
-            sector_sub = triage_data.get_sector_sub_display()
+            sector_description = triage_data.get_sector_display()
+            sector_sub_description = triage_data.get_sector_sub_display()
 
         return super().get_context_data(
             **kwargs,
@@ -85,8 +87,8 @@ class SectorView(GA360Mixin, FormView):
             why_we_ask_this_question_text="""We'll use this information to provide customised content
               relevant to your sector and products or services.""",
             autocomplete_sector_data=region_sector_helpers.get_sectors_and_sic_sectors_file_as_string(),
-            sector_sub=sector_sub,
-            sector=sector,
+            sector_description=sector_description,
+            sector_sub_description=sector_sub_description,
         )
 
     def get_initial(self):
@@ -187,9 +189,11 @@ class LocationView(GA360Mixin, FormView):
 
     def get_context_data(self, **kwargs):
         triage_data = get_triage_data_for_user(self.request)
+        region_description = None
+        city_description = None
         if triage_data:
-            region = triage_data.get_location_display()
-            city = triage_data.get_location_city_display()
+            region_description = triage_data.get_location_display()
+            city_description = triage_data.get_location_city_display()
 
         return super().get_context_data(
             **kwargs,
@@ -199,8 +203,8 @@ class LocationView(GA360Mixin, FormView):
             why_we_ask_this_question_text="""We'll use this information to provide customised content
               relevant to your city, county or region.""",
             autocomplete_location_data=region_sector_helpers.get_region_and_cities_json_file_as_string(),
-            region=region,
-            city=city,
+            region_description=region_description,
+            city_description=city_description,
         )
 
     def get_initial(self):
