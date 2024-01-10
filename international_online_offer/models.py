@@ -36,6 +36,13 @@ class EYBIndexPage(BaseContentPage):
 
 
 def get_triage_data_for_user(request):
+    if hasattr(request, 'user') and not request.user.is_authenticated and hasattr(request, 'session'):
+        return TriageData(
+            sector=request.session.get('sector'),
+            intent=request.session.get('intent'),
+            intent_other=request.session.get('intent_other'),
+            location=request.session.get('location'),
+        )
     try:
         return TriageData.objects.get(hashed_uuid=request.user.hashed_uuid)
     except AttributeError:

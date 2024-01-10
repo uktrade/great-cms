@@ -15,27 +15,27 @@ urlpatterns = [
     ),
     path(
         'sector/',
-        login_required(views.SectorView.as_view(), login_url=SIGNUP_URL),
+        views.SectorView.as_view(),
         name='sector',
     ),
     path(
         'intent/',
-        login_required(views.IntentView.as_view(), login_url=SIGNUP_URL),
+        views.IntentView.as_view(),
         name='intent',
     ),
     path(
         'location/',
-        login_required(views.LocationView.as_view(), login_url=SIGNUP_URL),
+        views.LocationView.as_view(),
         name='location',
     ),
     path(
         'hiring/',
-        login_required(views.HiringView.as_view(), login_url=SIGNUP_URL),
+        views.HiringView.as_view(),
         name='hiring',
     ),
     path(
         'spend/',
-        login_required(views.SpendView.as_view(), login_url=SIGNUP_URL),
+        views.SpendView.as_view(),
         name='spend',
     ),
     path(
@@ -55,7 +55,7 @@ urlpatterns = [
     ),
     path(
         'change-your-answers/',
-        login_required(views.EditYourAnswersView.as_view(), login_url=SIGNUP_URL),
+        views.EditYourAnswersView.as_view(),
         name='change-your-answers',
     ),
     path(
@@ -70,17 +70,17 @@ urlpatterns = [
     ),
     path(
         'csat-widget-submit/',
-        login_required(views.CsatWidgetView.as_view(), login_url=SIGNUP_URL),
+        views.CsatWidgetView.as_view(),
         name='csat-widget-submit',
     ),
     path(
         'csat-feedback/',
-        login_required(views.CsatFeedbackView.as_view(), login_url=SIGNUP_URL),
+        views.CsatFeedbackView.as_view(),
         name='csat-feedback',
     ),
     path(
         'trade-associations/',
-        login_required(views.TradeAssociationsView.as_view(), login_url=SIGNUP_URL),
+        views.TradeAssociationsView.as_view(),
         name='trade-associations',
     ),
 ]
