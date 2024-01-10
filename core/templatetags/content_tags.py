@@ -221,6 +221,24 @@ def add_anchor_classes(soup, class_name):
                 a_tag.attrs['class'] = [class_name]
 
 
+def add_filter_classes(soup, mapping):
+    for tag_name, class_name in mapping:
+        if 'wrap' in tag_name:
+            wrap_tag_in_div(soup, tag_name, class_name)
+        elif 'class' in tag_name:
+            for element in soup.find_all(tag_name['tag'], {'class': tag_name['class']}):
+                element.attrs['class'] = [
+                    class_name if classname == tag_name['class'] else classname for classname in element.attrs['class']
+                ]
+        elif 'header_parent' in tag_name:
+            add_anchor_classes(soup, class_name)
+        else:
+            for element in soup.findAll(tag_name['tag']):
+                element.attrs['class'] = class_name
+
+    return mark_safe(str(soup))
+
+
 @register.filter
 def add_govuk_classes(value):
     soup = BeautifulSoup(value, 'html.parser')
@@ -244,21 +262,33 @@ def add_govuk_classes(value):
         ({'tag': 'a', 'header_parent': True}, 'great-anchor-link'),  # New mapping for <a> tags inside headers
     ]
 
-    for tag_name, class_name in mapping:
-        if 'wrap' in tag_name:
-            wrap_tag_in_div(soup, tag_name, class_name)
-        elif 'class' in tag_name:
-            for element in soup.find_all(tag_name['tag'], {'class': tag_name['class']}):
-                element.attrs['class'] = [
-                    class_name if classname == tag_name['class'] else classname for classname in element.attrs['class']
-                ]
-        elif 'header_parent' in tag_name:
-            add_anchor_classes(soup, class_name)
-        else:
-            for element in soup.findAll(tag_name['tag']):
-                element.attrs['class'] = class_name
+    return add_filter_classes(soup, mapping)
 
-    return mark_safe(str(soup))
+
+@register.filter
+def add_card_govuk_classes(value):
+    soup = BeautifulSoup(value, 'html.parser')
+    mapping = [
+        ({'tag': 'h1'}, 'govuk-heading-xl'),
+        ({'tag': 'h2'}, 'govuk-heading-l'),
+        ({'tag': 'h3'}, 'govuk-heading-m great-font-size-28'),
+        ({'tag': 'h4'}, 'govuk-heading-s'),
+        ({'tag': 'h5'}, 'govuk-heading-xs'),
+        ({'tag': 'h6'}, 'govuk-heading-xs'),
+        ({'tag': 'ul'}, 'govuk-list govuk-list--bullet'),
+        ({'tag': 'ol'}, 'govuk-list govuk-list--number'),
+        ({'tag': 'p'}, 'govuk-body govuk-!-margin-bottom-9'),
+        ({'tag': 'a'}, 'govuk-link '),
+        ({'tag': 'div', 'class': 'form-group'}, 'govuk-form-group govuk-!-margin-bottom-9'),
+        ({'tag': 'select', 'class': 'form-control'}, 'govuk-form-control'),
+        ({'tag': 'input', 'class': 'form-control'}, 'govuk-form-'),
+        ({'tag': 'label', 'class': 'form-label'}, 'govuk-form-label'),
+        ({'tag': 'div', 'class': 'form-group-error'}, 'govuk-form-group-error'),
+        ({'tag': 'iframe', 'wrap': True}, 'great-video-embed-16-9'),
+        ({'tag': 'a', 'header_parent': True}, 'great-anchor-link'),  # New mapping for <a> tags inside headers
+    ]
+
+    return add_filter_classes(soup, mapping)
 
 
 @register.filter

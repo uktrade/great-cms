@@ -196,8 +196,8 @@ figure.great-blockquote {
     }
 
     .great-card__link--icon::before {
-        color: #212427 !important;
-      }
+      color: #212427 !important;
+    }
 
     &:visited {
       .great-card__link {
@@ -297,12 +297,10 @@ figure.great-blockquote {
   }
 
   .great-card__link--heading {
-    font-size: 18px !important;
     &::after {
       content: '\f061';
       font-family: 'Font Awesome 5 Free';
       font-weight: 900;
-      font-size: 18px !important;
       position: absolute;
       display: inline-block;
       pointer-events: none;
@@ -317,12 +315,14 @@ figure.great-blockquote {
     }
   }
 
+  .great-card__link--heading--18 {
+    font-size: 18px !important;
+  }
+
   .great-card__tag {
     @extend .govuk-body-s;
     position: absolute;
     bottom: 20px;
-    vertical-align: middle;
-    display: inline-block;
   }
 
   .great-card__link--chevron {
@@ -425,6 +425,11 @@ figure.great-blockquote {
 }
 
 .great-card--cta {
+
+  @include govuk-media-query($until: tablet) {
+    margin-bottom: 30px;
+  }
+
   display: flex;
 
   a {
@@ -449,7 +454,7 @@ figure.great-blockquote {
 
 .great-card--cta-with-content {
     .great-card__tag {
-      bottom: 0;
+      bottom: 0 !important;
     }
 }
 
@@ -506,7 +511,7 @@ figure.great-blockquote {
 }
 
 .great-hr-purple--thin {
-  height: 2px;
+  height: 3px;
 }
 
 .great-badge {
