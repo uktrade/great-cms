@@ -1,11 +1,18 @@
 {% load static %}
 <div class="govuk-width-container">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full">
+        <div class="govuk-grid-column-two-thirds">
             <img class="govuk-!-padding-top-3 govuk-!-padding-bottom-1 govuk-!-padding-left-2"
                  height="30"
                  alt="Department for business and trade logo"
                  src="{% static 'images/dbt-red-footer-logo.93fc9e99b781.svg' %}">
         </div>
+        {% if show_copyright %}
+            <div class="govuk-grid-column-one-third">
+                <p class="govuk-body-xs govuk-!-margin-top-4 govuk-!-padding-left-4">
+                    © Crown copyright {% now "Y" %}. All rights reserved.
+                </p>
+            </div>
+        {% endif %}
     </div>
 </div>

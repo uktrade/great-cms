@@ -28,9 +28,9 @@
     @media only screen and (max-width: $mobile-size) {
       padding: 0 15px;
     }
-     .grid-row{
-        margin: 0;
-      }
+    .grid-row {
+      margin: 0;
+    }
   }
 
   .inner-container {
@@ -100,6 +100,11 @@ section#search-results-information {
 
   #magna-header-search-box {
     height: 53px;
+
+    /* Fixes issue with header nav text falling onto two lines in safari */
+    @media only screen and (min-width: 1250px) and (max-width: 1280px) {
+      max-width: 190px;
+    }
   }
 }
 
@@ -243,7 +248,7 @@ ul.list-bullet li:before,
   background-color: $color-main-background;
 }
 
-.breadcrumbs-wrapper{
+.breadcrumbs-wrapper {
   background-color: $color-background-color;
   width: 100%;
 }

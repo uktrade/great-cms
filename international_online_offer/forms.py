@@ -19,7 +19,12 @@ from django.utils.html import mark_safe
 from great_components import forms
 
 from directory_constants.choices import COUNTRY_CHOICES
-from international_online_offer.core import choices, helpers, intents, spends
+from international_online_offer.core import (
+    choices,
+    intents,
+    region_sector_helpers,
+    spends,
+)
 
 TERMS_LABEL = mark_safe('I agree to the <a href="#" target="_blank">Terms and Conditions</a>')
 BLANK_COUNTRY_CHOICE = [('', '')]
@@ -32,7 +37,7 @@ class SectorForm(forms.Form):
         help_text='For example, textiles',
         required=True,
         widget=Select(attrs={'id': 'js-sector-select', 'class': 'govuk-input'}),
-        choices=(('', ''),) + helpers.generate_sector_sic_choices(),
+        choices=(('', ''),) + region_sector_helpers.generate_sector_sic_choices(),
         error_messages={
             'required': 'You must enter your business sector',
         },
@@ -78,7 +83,7 @@ class LocationForm(forms.Form):
         help_text='For example Manchester, South East or Scotland',
         required=False,
         widget=Select(attrs={'id': 'js-location-select', 'class': 'govuk-input'}),
-        choices=(('', ''),) + helpers.generate_location_choices(),
+        choices=(('', ''),) + region_sector_helpers.generate_location_choices(),
     )
 
     location_none = BooleanField(

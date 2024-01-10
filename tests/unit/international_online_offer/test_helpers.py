@@ -8,6 +8,7 @@ from international_online_offer.core import (
     helpers,
     hirings,
     intents,
+    region_sector_helpers,
     regions,
     sectors,
     spends,
@@ -163,7 +164,7 @@ def test_is_triage_complete():
 
 @pytest.mark.django_db
 def test_get_region_and_cities_json_file():
-    data = helpers.get_region_and_cities_json_file()
+    data = region_sector_helpers.get_region_and_cities_json_file()
     assert data is not None
     assert len(data) == 12
     assert data[0]['region'] is not None
@@ -172,7 +173,7 @@ def test_get_region_and_cities_json_file():
 
 @pytest.mark.django_db
 def test_get_region_and_cities_json_file_as_string():
-    data = helpers.get_region_and_cities_json_file_as_string()
+    data = region_sector_helpers.get_region_and_cities_json_file_as_string()
     assert data is not None
     assert type(data) is str
 
@@ -207,7 +208,7 @@ def test_get_region_and_cities_json_file_as_string():
 def test_generate_location_choices(
     include_regions, include_cities, expected_length, expected_tuple_in_results, expected_tuple_not_in_results
 ):
-    data = helpers.generate_location_choices(include_regions, include_cities)
+    data = region_sector_helpers.generate_location_choices(include_regions, include_cities)
     assert data is not None
     assert type(data) is tuple
     assert len(data) == expected_length
@@ -230,7 +231,7 @@ def test_generate_location_choices(
 )
 @pytest.mark.django_db
 def test_is_region(input_choice, expected_result):
-    assert helpers.is_region(input_choice) is expected_result
+    assert region_sector_helpers.is_region(input_choice) is expected_result
 
 
 @pytest.mark.parametrize(
@@ -248,12 +249,12 @@ def test_is_region(input_choice, expected_result):
 )
 @pytest.mark.django_db
 def test_get_region_from_city(input_choice, expected_result):
-    assert helpers.get_region_from_city(input_choice) == expected_result
+    assert region_sector_helpers.get_region_from_city(input_choice) == expected_result
 
 
 @pytest.mark.django_db
 def test_get_sectors_and_sic_sectors_file():
-    data = helpers.get_sectors_and_sic_sectors_file()['data']
+    data = region_sector_helpers.get_sectors_and_sic_sectors_file()['data']
     assert data is not None
     assert len(data) == 731
     assert data[0]['dit_sector_list_field_04'] is not None
@@ -262,20 +263,20 @@ def test_get_sectors_and_sic_sectors_file():
 
 @pytest.mark.django_db
 def test_get_sectors_and_sic_sectors_file_as_string():
-    data = helpers.get_sectors_and_sic_sectors_file_as_string()
+    data = region_sector_helpers.get_sectors_and_sic_sectors_file_as_string()
     assert data is not None
     assert type(data) is str
 
 
 @pytest.mark.django_db
 def test_generate_sector_choices():
-    sectors = helpers.generate_sector_choices()
+    sectors = region_sector_helpers.generate_sector_choices()
     assert sectors is not None
     assert type(sectors) is tuple
     assert len(sectors) == 25
     valid_choices = True
     for sector in sectors:
-        if helpers.to_literal(sector[1]) != sector[0]:
+        if region_sector_helpers.to_literal(sector[1]) != sector[0]:
             valid_choices = False
 
     assert valid_choices is True
@@ -283,13 +284,13 @@ def test_generate_sector_choices():
 
 @pytest.mark.django_db
 def test_generate_sector_sic_choices():
-    sic_sectors = helpers.generate_sector_sic_choices()
+    sic_sectors = region_sector_helpers.generate_sector_sic_choices()
     assert sic_sectors is not None
     assert type(sic_sectors) is tuple
     assert len(sic_sectors) == 731
     valid_choices = True
     for sic_sector in sic_sectors:
-        if helpers.to_literal(sic_sector[1]) != sic_sector[0]:
+        if region_sector_helpers.to_literal(sic_sector[1]) != sic_sector[0]:
             valid_choices = False
 
     assert valid_choices is True
@@ -318,4 +319,4 @@ def test_generate_sector_sic_choices():
 )
 @pytest.mark.django_db
 def test_to_literal(input_choice, expected_result):
-    assert helpers.to_literal(input_choice) == expected_result
+    assert region_sector_helpers.to_literal(input_choice) == expected_result
