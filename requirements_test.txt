@@ -354,12 +354,14 @@ geventhttpclient==2.0.11
     # via locust
 gitdb==4.0.11
     # via gitpython
-gitpython==3.1.40
+gitpython==3.1.41
     # via -r requirements_test.in
 great-components==2.5.0
     # via -r requirements.in
 greenlet==3.0.2
-    # via gevent
+    # via
+    #   gevent
+    #   sqlalchemy
 gunicorn==20.1.0
     # via -r requirements.in
 h11==0.14.0
