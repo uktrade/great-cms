@@ -457,15 +457,5 @@ li .lte-suptopic {
 .article-page-cta-container__inner-container{
   display: flex;
   flex-direction: row;
-  align-items: start;
-
-  > img {
-    @include govuk-media-query($until: tablet) {
-      margin: 3px 8px 0px 0px !important;
-    }
-
-    @include govuk-media-query($from: tablet) {
-      margin: 5.5px 8px 0px 0px !important;
-    }
-  }
+  align-items: center;
 }

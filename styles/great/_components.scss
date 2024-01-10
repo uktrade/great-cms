@@ -456,6 +456,9 @@ figure.great-blockquote {
     .great-card__tag {
       bottom: 0 !important;
     }
+    &:after {
+      bottom: 0 !important;
+    }
 }
 
 .great-card--homepage-container {
@@ -503,15 +506,13 @@ figure.great-blockquote {
 }
 
 .great-hr-purple {
-  background: $great-purple !important;
-  border: 0;
+  border-top: 4px solid $great-purple !important;
   display: block;
-  height: 4px;
   width: 100%;
 }
 
 .great-hr-purple--thin {
-  height: 3px;
+  border-top: 3px solid $great-purple !important;
 }
 
 .great-badge {
