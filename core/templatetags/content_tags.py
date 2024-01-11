@@ -239,55 +239,40 @@ def add_filter_classes(soup, mapping):
     return mark_safe(str(soup))
 
 
+GOVUK_CLASSES_MAPPING = [
+    ({'tag': 'h1'}, 'govuk-heading-xl'),
+    ({'tag': 'h2'}, 'govuk-heading-l'),
+    ({'tag': 'h3'}, 'govuk-heading-m great-font-size-28'),
+    ({'tag': 'h4'}, 'govuk-heading-s'),
+    ({'tag': 'h5'}, 'govuk-heading-xs'),
+    ({'tag': 'h6'}, 'govuk-heading-xs'),
+    ({'tag': 'ul'}, 'govuk-list govuk-list--bullet'),
+    ({'tag': 'ol'}, 'govuk-list govuk-list--number'),
+    ({'tag': 'p'}, 'govuk-body'),
+    ({'tag': 'a'}, 'govuk-link'),
+    ({'tag': 'div', 'class': 'form-group'}, 'govuk-form-group'),
+    ({'tag': 'select', 'class': 'form-control'}, 'govuk-form-control'),
+    ({'tag': 'input', 'class': 'form-control'}, 'govuk-form-control'),
+    ({'tag': 'label', 'class': 'form-label'}, 'govuk-form-label'),
+    ({'tag': 'div', 'class': 'form-group-error'}, 'govuk-form-group-error'),
+    ({'tag': 'iframe', 'wrap': True}, 'great-video-embed-16-9'),
+    ({'tag': 'a', 'header_parent': True}, 'great-anchor-link'),  # New mapping for <a> tags inside headers
+]
+
+
 @register.filter
 def add_govuk_classes(value):
     soup = BeautifulSoup(value, 'html.parser')
-    mapping = [
-        ({'tag': 'h1'}, 'govuk-heading-xl'),
-        ({'tag': 'h2'}, 'govuk-heading-l'),
-        ({'tag': 'h3'}, 'govuk-heading-m great-font-size-28'),
-        ({'tag': 'h4'}, 'govuk-heading-s'),
-        ({'tag': 'h5'}, 'govuk-heading-xs'),
-        ({'tag': 'h6'}, 'govuk-heading-xs'),
-        ({'tag': 'ul'}, 'govuk-list govuk-list--bullet'),
-        ({'tag': 'ol'}, 'govuk-list govuk-list--number'),
-        ({'tag': 'p'}, 'govuk-body'),
-        ({'tag': 'a'}, 'govuk-link'),
-        ({'tag': 'div', 'class': 'form-group'}, 'govuk-form-group'),
-        ({'tag': 'select', 'class': 'form-control'}, 'govuk-form-control'),
-        ({'tag': 'input', 'class': 'form-control'}, 'govuk-form-control'),
-        ({'tag': 'label', 'class': 'form-label'}, 'govuk-form-label'),
-        ({'tag': 'div', 'class': 'form-group-error'}, 'govuk-form-group-error'),
-        ({'tag': 'iframe', 'wrap': True}, 'great-video-embed-16-9'),
-        ({'tag': 'a', 'header_parent': True}, 'great-anchor-link'),  # New mapping for <a> tags inside headers
-    ]
-
-    return add_filter_classes(soup, mapping)
+    return add_filter_classes(soup, GOVUK_CLASSES_MAPPING)
 
 
 @register.filter
 def add_card_govuk_classes(value):
     soup = BeautifulSoup(value, 'html.parser')
     mapping = [
-        ({'tag': 'h1'}, 'govuk-heading-xl'),
-        ({'tag': 'h2'}, 'govuk-heading-l'),
-        ({'tag': 'h3'}, 'govuk-heading-m great-font-size-28'),
-        ({'tag': 'h4'}, 'govuk-heading-s'),
-        ({'tag': 'h5'}, 'govuk-heading-xs'),
-        ({'tag': 'h6'}, 'govuk-heading-xs'),
-        ({'tag': 'ul'}, 'govuk-list govuk-list--bullet'),
-        ({'tag': 'ol'}, 'govuk-list govuk-list--number'),
-        ({'tag': 'p'}, 'govuk-body govuk-!-margin-bottom-9'),
-        ({'tag': 'a'}, 'govuk-link '),
-        ({'tag': 'div', 'class': 'form-group'}, 'govuk-form-group govuk-!-margin-bottom-9'),
-        ({'tag': 'select', 'class': 'form-control'}, 'govuk-form-control'),
-        ({'tag': 'input', 'class': 'form-control'}, 'govuk-form-'),
-        ({'tag': 'label', 'class': 'form-label'}, 'govuk-form-label'),
-        ({'tag': 'div', 'class': 'form-group-error'}, 'govuk-form-group-error'),
-        ({'tag': 'iframe', 'wrap': True}, 'great-video-embed-16-9'),
-        ({'tag': 'a', 'header_parent': True}, 'great-anchor-link'),  # New mapping for <a> tags inside headers
+        ({'tag': 'p'}, 'govuk-body govuk-!-margin-bottom-9') if item == ({'tag': 'p'}, 'govuk-body') else item
+        for item in GOVUK_CLASSES_MAPPING
     ]
-
     return add_filter_classes(soup, mapping)
 
 
