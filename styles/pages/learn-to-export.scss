@@ -408,53 +408,14 @@ li .lte-suptopic {
   }
 }
 
-.article-page-cta-container {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  gap: 15px;
-
-  // horizontal scrolling of child elements
-  @include govuk-media-query($until: desktop) {
-    overflow-x: scroll;
-    -webkit-overflow-scrolling: touch;
-    overflow-y: hidden;
-    margin: 0;
-    width: 100vw;
-  }
-
-  @include govuk-media-query($from: desktop, $until: 1170px) {
-    & {
-      .great-card--cta{
-        width: 33.33%;
-      }
-    }
-  }
-
-  a {
-    display: flex;
-    width: 230px;
-
-    @include govuk-media-query($from: desktop, $until: 1170px) {
-      width: unset;
-    }
-  }
-
-  & {
-    .great-card__tag {
-      position: unset;
-    }
-  }
-}
-
-.article-page-cta-container__title-container {
+.article-page-cta-container-title-container {
   margin: 0px 20px 0px;
   display: flex;
   flex-grow: 1;
   flex-direction: column;
 }
 
-.article-page-cta-container__inner-container{
+.article-page-cta-container-inner-container{
   display: flex;
   flex-direction: row;
   align-items: center;
