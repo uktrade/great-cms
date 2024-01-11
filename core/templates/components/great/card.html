@@ -1,5 +1,5 @@
 {% load i18n wagtailimages_tags %}
-{% load add_govuk_classes tag_text_mapper url_type from content_tags %}
+{% load add_govuk_classes add_card_govuk_classes tag_text_mapper url_type from content_tags %}
 <div class="great-card{% if classes %} {{ classes }}{% endif %}">
     {% if url %}
         <a href="{{ url }}" {% if data_attr %}{{ data_attr }}{% endif %}>
@@ -35,11 +35,17 @@
                 {% if bypass_class_filter %}
                     <div>{{ content }}</div>
                 {% else %}
-                    {% filter add_govuk_classes %}
-                        <{{ content_tag|default:'div' }}
-                        {% if tag %}class="govuk-!-margin-bottom-9"{% endif %}
-                        >{{ content }}</{{ content_tag|default:'div' }}>
-                    {% endfilter %}
+                    {% if tag %}
+                        {% filter add_card_govuk_classes %}
+                            <{{ content_tag|default:'div' }}
+                            >{{ content }}</{{ content_tag|default:'div' }}>
+                        {% endfilter %}
+                    {% else %}
+                        {% filter add_govuk_classes %}
+                            <{{ content_tag|default:'div' }}
+                            >{{ content }}</{{ content_tag|default:'div' }}>
+                        {% endfilter %}
+                    {% endif %}
                 {% endif %}
             {% endif %}
             {% if tag and tag_icon %}
