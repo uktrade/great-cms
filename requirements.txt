@@ -8,7 +8,7 @@
 
 airtable-python-wrapper==0.13.0
     # via -r requirements.in
-alabaster==0.7.13
+alabaster==0.7.16
     # via sphinx
 amqp==5.2.0
     # via kombu
@@ -25,7 +25,7 @@ asn1crypto==1.5.1
     #   pyhanko-certvalidator
 async-timeout==4.0.3
     # via redis
-attrs==23.1.0
+attrs==23.2.0
     # via jsonschema
 babel==2.12.1
     # via
@@ -96,7 +96,7 @@ directory-api-client==26.4.2
     # via -r requirements.in
 directory-ch-client==3.1.0
     # via -r requirements.in
-directory-client-core==7.2.6
+directory-client-core==7.2.8
     # via
     #   directory-api-client
     #   directory-ch-client
@@ -168,7 +168,7 @@ django-health-check==3.17.0
     # via directory-healthcheck
 django-ipware==2.1.0
     # via -r requirements.in
-django-modelcluster==6.1
+django-modelcluster==6.2.1
     # via wagtail
 django-permissionedforms==0.1
     # via wagtail
@@ -216,7 +216,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==21.0.0
+faker==22.2.0
     # via factory-boy
 filetype==1.2.0
     # via willow
@@ -246,7 +246,7 @@ inflection==0.5.1
     # via drf-spectacular
 iso3166==1.0.1
     # via -r requirements.in
-jinja2==3.1.2
+jinja2==3.1.3
     # via sphinx
 jmespath==1.0.1
     # via
@@ -261,7 +261,7 @@ kombu==5.3.4
     # via celery
 l18n==2021.3
     # via wagtail
-lxml==4.9.3
+lxml==5.1.0
     # via
     #   -r requirements.in
     #   pyquery
@@ -272,7 +272,7 @@ markdown2==2.4.0
     #   readtime
 markupsafe==2.1.3
     # via jinja2
-maxminddb==2.5.1
+maxminddb==2.5.2
     # via geoip2
 mohawk==1.1.0
     # via sigauth
@@ -280,7 +280,7 @@ monotonic==1.6
     # via
     #   directory-ch-client
     #   directory-client-core
-numpy==1.26.2
+numpy==1.26.3
     # via pandas
 oauthlib==3.2.2
     # via
@@ -324,7 +324,7 @@ pyhanko-certvalidator==0.26.3
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==3.17.3
+pypdf==3.17.4
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -369,9 +369,9 @@ redis==5.0.1
     # via
     #   celery
     #   django-redis
-regex==2023.10.3
+regex==2023.12.25
     # via dateparser
-reportlab[pycairo]==4.0.8
+reportlab[pycairo]==4.0.9
     # via
     #   reportlab
     #   svglib
@@ -443,7 +443,7 @@ typing-extensions==4.9.0
     #   pypdf
     #   qrcode
     #   wagtail-localize
-tzdata==2023.3
+tzdata==2023.4
     # via django-celery-beat
 tzlocal==5.2
     # via
@@ -497,7 +497,7 @@ wagtail-trash==1.0.1
     # via -r requirements.in
 wagtailmedia==0.14.5
     # via -r requirements.in
-wcwidth==0.2.12
+wcwidth==0.2.13
     # via prompt-toolkit
 webencodings==0.5.1
     # via
