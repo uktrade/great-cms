@@ -407,3 +407,16 @@ li .lte-suptopic {
     }
   }
 }
+
+.article-page-cta-container-title-container {
+  margin: 0px 20px 0px;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+}
+
+.article-page-cta-container-inner-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

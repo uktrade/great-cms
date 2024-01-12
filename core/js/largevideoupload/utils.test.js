@@ -56,13 +56,13 @@ describe('Wagtail utils', () => {
       '<div class="messages"></div>' +
       '  <div data-contentpath="title"><div class="w-field__errors"></div><input type"text" id="id_title" /></div>' +
       '  <div data-contentpath="file"><div class="w-field__errors"></div><input type"file" id="id_file" /></div>' +
-      '  <div data-contentpath="transcript"><div class="w-field__errors"></div><input type"text" id="id_transcript" /></div>' +
+      '  <div data-contentpath="subtitles_en"><div class="w-field__errors"></div><input type"textarea" id="id_subtitles_en" /></div>' +
       '</div>'
 
     expect(isFormValid(mockFile)).toBe(false)
 
     document.querySelector('#id_title').value = 'test title'
-    document.querySelector('#id_transcript').value = 'test transcript'
+    document.querySelector('#id_subtitles_en').value = 'test english subtitles'
 
     expect(isFormValid(mockFile)).toBe(true)
   })

@@ -29,13 +29,13 @@ export const createElement = (el, options = []) => {
 export const isFormValid = (file) => {
   const titleVal = document.querySelector('#id_title').value
   const fileNameLength = file.name.length
-  const transcriptVal = document.querySelector('#id_transcript').value
+  const englishSubtitlesVal = document.querySelector('#id_subtitles_en').value
 
   const isTitleValid = titleVal !== ''
   const isFileNameValid = fileNameLength <= 100
-  const isTranscriptValid = transcriptVal !== ''
+  const isEnglishSubtitleValid =  englishSubtitlesVal !== ''
 
-  const isValid = isTitleValid && isTranscriptValid && isFileNameValid
+  const isValid = isTitleValid && isFileNameValid && isEnglishSubtitleValid
 
   if (isValid) {
     document.querySelector('.messages').innerHTML = ''
@@ -49,14 +49,14 @@ export const isFormValid = (file) => {
       errorMessage: ' This field is required.',
     },
     {
-      isValid: isTranscriptValid,
-      field: 'transcript',
-      errorMessage: ' This field is required.',
-    },
-    {
       isValid: isFileNameValid,
       field: 'file',
       errorMessage: ' Filename cannot exceed 100 characters.',
+    },
+    {
+      isValid: isEnglishSubtitleValid,
+      field: 'subtitles_en',
+      errorMessage: ' This field is required.',
     },
   ]
 
