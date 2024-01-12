@@ -74,8 +74,7 @@ def render_video(block):
             </details>
         """
 
-    rendered = format_html(
-        f"""
+    rendered = format_html(f"""
             <video preload="metadata" controls controlsList="nodownload"
             {_get_poster_attribute(video)}{VIDEO_DURATION_DATA_ATTR_NAME}="{video_duration}">
                 {sources}
@@ -83,7 +82,6 @@ def render_video(block):
                 Your browser does not support the video tag.
             </video>
             {transcript_container}
-        """
-    )
+        """)
 
     return rendered

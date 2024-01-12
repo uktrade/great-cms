@@ -37,8 +37,10 @@ CONTENT_API_A_TO_L_RESPONSE = {
                 'title': 'Trade and investment factsheets: Ivory Coast',
             },
             {
-                'url': 'https://assets.publishing.service.gov.uk/127'
-                '/british-indian-ocean-territory-factsheet-2022-02-18.pdf',
+                'url': (
+                    'https://assets.publishing.service.gov.uk/127'
+                    '/british-indian-ocean-territory-factsheet-2022-02-18.pdf'
+                ),
                 'title': 'Trade and investment factsheets: British Indian Ocean Territory',
             },
             {

@@ -723,7 +723,6 @@ class TopicPage(Page, mixins.AuthenticatedUserRequired if not settings.FEATURE_D
 
 
 class LessonPlaceholderPage(Page, mixins.AuthenticatedUserRequired if not settings.FEATURE_DEA_V2 else object):
-
     """Structural page to allow for configuring and representing very simple
     to modules (`CuratedListPage`s).
 
@@ -1109,6 +1108,7 @@ class UKEACTA(ClusterableModel):
 
     def __str__(self):
         return self.name
+
 
 @register_snippet
 class RelatedContentCTA(models.Model):

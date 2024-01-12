@@ -145,7 +145,7 @@ def test_notify_company_admins_member_joined_ok(mock_submit):
                 'form_url': 'the/form/url',
                 'sender': {},
                 'spam_control': {},
-                'template_id': (settings.GOV_NOTIFY_NEW_MEMBER_REGISTERED_TEMPLATE_ID),
+                'template_id': settings.GOV_NOTIFY_NEW_MEMBER_REGISTERED_TEMPLATE_ID,
                 'email_address': 'admin@xyzcorp.com',
             },
         }

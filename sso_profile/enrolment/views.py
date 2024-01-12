@@ -279,8 +279,8 @@ class CompaniesHouseEnrolmentView(mixins.CreateBusinessProfileMixin, BaseEnrolme
                     'company_name': data['company_name'],
                     'name': self.request.user.full_name,
                     'email': self.request.user.email,
-                    'profile_remove_member_url': (
-                        self.request.build_absolute_uri(reverse('sso_profile:business-profile-admin-tools'))
+                    'profile_remove_member_url': self.request.build_absolute_uri(
+                        reverse('sso_profile:business-profile-admin-tools')
                     ),
                     'report_abuse_url': urls.domestic.FEEDBACK,
                 },

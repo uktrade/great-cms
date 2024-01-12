@@ -30,7 +30,7 @@ class ExportPlanAdaptingYourProductForm(forms.Form):
                     'research what the requirements are so your products have the correct labels for your '
                     'target market.'
                 ),
-                'placeholder': ('Describe alterations'),
+                'placeholder': 'Describe alterations',
             }
         ),
     )
@@ -45,7 +45,7 @@ class ExportPlanAdaptingYourProductForm(forms.Form):
                     'on the market.You will have to research packaging requirements for your target market to avoid '
                     'your products becoming damaged, lost or rejected.'
                 ),
-                'placeholder': ('Describe alterations'),
+                'placeholder': 'Describe alterations',
             }
         ),
     )
@@ -60,7 +60,7 @@ class ExportPlanAdaptingYourProductForm(forms.Form):
                     'shopping trips. You will have to research the size of products sold in this market so '
                     'you meet customer needs for your target market.'
                 ),
-                'placeholder': ('Describe alterations'),
+                'placeholder': 'Describe alterations',
             }
         ),
     )
@@ -75,39 +75,39 @@ class ExportPlanAdaptingYourProductForm(forms.Form):
                     'in order to comply with safety regulations in that market. You will have to research '
                     'standards relevant to your product to make sure they are compliant.'
                 ),
-                'placeholder': ('Describe alterations'),
+                'placeholder': 'Describe alterations',
             }
         ),
     )
     translations = forms.CharField(
         label='Translations',
         required=False,
-        widget=Textarea(attrs={'tooltip': ('Translations'), 'placeholder': ('Describe alterations')}),
+        widget=Textarea(attrs={'tooltip': 'Translations', 'placeholder': 'Describe alterations'}),
     )
     other_changes = forms.CharField(
         label='Other changes',
         required=False,
-        widget=Textarea(attrs={'tooltip': ('Other changes'), 'placeholder': ('Describe alterations')}),
+        widget=Textarea(attrs={'tooltip': 'Other changes', 'placeholder': 'Describe alterations'}),
     )
     certificate_of_origin = forms.CharField(
         label='Certificate of origin',
         required=False,
-        widget=Textarea(attrs={'tooltip': ('Certificate of origin'), 'placeholder': ('Add notes')}),
+        widget=Textarea(attrs={'tooltip': 'Certificate of origin', 'placeholder': 'Add notes'}),
     )
     insurance_certificate = forms.CharField(
         label='Insurance certificate',
         required=False,
-        widget=Textarea(attrs={'tooltip': ('Insurance certificate'), 'placeholder': ('Add note')}),
+        widget=Textarea(attrs={'tooltip': 'Insurance certificate', 'placeholder': 'Add note'}),
     )
     commercial_invoice = forms.CharField(
         label='Commercial invoice',
         required=False,
-        widget=Textarea(attrs={'tooltip': ('Commercial invoice'), 'placeholder': ('Add note')}),
+        widget=Textarea(attrs={'tooltip': 'Commercial invoice', 'placeholder': 'Add note'}),
     )
     uk_customs_declaration = forms.CharField(
         label='UK customs declaration',
         required=False,
-        widget=Textarea(attrs={'tooltip': ('UK customs declaration'), 'placeholder': ('Add note')}),
+        widget=Textarea(attrs={'tooltip': 'UK customs declaration', 'placeholder': 'Add note'}),
     )
 
 
@@ -122,9 +122,9 @@ class ExportPlanTargetMarketsResearchForm(forms.Form):
         self.fields['demand'].label = f'Describe the consumer demand for your product in the {country_name}'
         self.fields['competitors'].label = f'Who are your competitors in the {country_name}?'
         self.fields['trend'].label = f'What are the product trends in the {country_name}?'
-        self.fields[
-            'unqiue_selling_proposition'
-        ].label = f'What’s your unique selling proposition for the {country_name}?'
+        self.fields['unqiue_selling_proposition'].label = (
+            f'What’s your unique selling proposition for the {country_name}?'
+        )
         self.fields['average_price'].label = f'What’s the avg price for your product in the {country_name}?'
         self.fields['trend'].widget.attrs['description'] = (
             f'Describe what you know about the product market in the {country_name}. '
@@ -203,7 +203,7 @@ class ExportPlanTargetMarketsResearchForm(forms.Form):
     average_price = forms.CharField(
         required=False,
         widget=NumberInput(
-            attrs={'placeholder': ('0.00'), 'currency': ('GBP')},
+            attrs={'placeholder': '0.00', 'currency': 'GBP'},
         ),
     )
 

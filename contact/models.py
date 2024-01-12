@@ -22,44 +22,44 @@ class ContactUsGuidanceSnippet(
         # if we need to trace through where content goes)
         snippet_slugs.HELP_EXOPP_ALERTS_IRRELEVANT: {
             'title': 'Guidance - Daily alerts are not relevant',
-            'page_path': ('/contact/triage/export-opportunities/alerts-not-relevant/'),
+            'page_path': '/contact/triage/export-opportunities/alerts-not-relevant/',
         },
         snippet_slugs.HELP_EXOPPS_NO_RESPONSE: {
             'title': 'Guidance - Export Opportunity application no response',
-            'page_path': ('/contact/triage/export-opportunities/opportunity-no-response/'),
+            'page_path': '/contact/triage/export-opportunities/opportunity-no-response/',
         },
         snippet_slugs.HELP_MISSING_VERIFY_EMAIL: {
             'title': 'Guidance - Email verification missing',
-            'page_path': ('/contact/triage/great-account/no-verification-email/'),
+            'page_path': '/contact/triage/great-account/no-verification-email/',
         },
         snippet_slugs.HELP_PASSWORD_RESET: {
             'title': 'Guidance - Missing password reset link',
-            'page_path': ('/contact/triage/great-account/password-reset/'),
+            'page_path': '/contact/triage/great-account/password-reset/',
         },
         snippet_slugs.HELP_COMPANIES_HOUSE_LOGIN: {
             'title': 'Guidance - Companies House login not working',
-            'page_path': ('/contact/triage/great-account/companies-house-login/'),
+            'page_path': '/contact/triage/great-account/companies-house-login/',
         },
         snippet_slugs.HELP_VERIFICATION_CODE_ENTER: {
             'title': 'Guidance - Where to enter letter verification code',
-            'page_path': ('/contact/triage/great-account/verification-letter-code/'),
+            'page_path': '/contact/triage/great-account/verification-letter-code/',
         },
         snippet_slugs.HELP_VERIFICATION_CODE_LETTER: {
             'title': 'Guidance - Verification letter not delivered',
-            'page_path': ('/contact/triage/great-account/no-verification-letter/'),
+            'page_path': '/contact/triage/great-account/no-verification-letter/',
         },
         snippet_slugs.HELP_VERIFICATION_CODE_MISSING: {
             'title': 'Guidance - Verification code not delivered',
-            'page_path': ('/contact/triage/great-account/verification-missing/'),
+            'page_path': '/contact/triage/great-account/verification-missing/',
         },
         snippet_slugs.HELP_ACCOUNT_COMPANY_NOT_FOUND: {
             'title': 'Guidance - Company not found',
-            'page_path': ('/contact/triage/great-account/company-not-found/'),
+            'page_path': '/contact/triage/great-account/company-not-found/',
         },
         snippet_slugs.HELP_EXPORTING_TO_UK: {
             # NB snippet_slugs.HELP_EXPORTING_TO_UK is NOT bootstrapped via data migration
             'title': 'Guidance - Exporting to the UK',
-            'page_path': ('contact/triage/international/exporting-to-the-uk/'),
+            'page_path': 'contact/triage/international/exporting-to-the-uk/',
         },
     }
 
@@ -119,7 +119,7 @@ class ContactSuccessSnippet(
         },
         snippet_slugs.HELP_FORM_SUCCESS_DSO: {
             'title': 'Contact Defence and Security Organisation form success page content',
-            'page_path': ('/contact/defence-and-security-organisation/success/'),
+            'page_path': '/contact/defence-and-security-organisation/success/',
         },
         snippet_slugs.HELP_FORM_SUCCESS_EXPORT_ADVICE: {
             'title': 'Contact exporting from the UK form success page content',

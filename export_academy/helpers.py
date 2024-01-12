@@ -135,13 +135,17 @@ def get_event_join_button(event):
 
 def get_ics_button(event, on_confirmation):
     return {
-        'label': f'<i class="fa fa-calendar-plus" aria-hidden="true"></i>Add to calendar<span '
-        f'class="great-visually-hidden">{event.name}</span>',
+        'label': (
+            f'<i class="fa fa-calendar-plus" aria-hidden="true"></i>Add to calendar<span '
+            f'class="great-visually-hidden">{event.name}</span>'
+        ),
         'value': 'Confirmed',
         'type': 'submit',
-        'classname': 'govuk-button ukea-ga-tracking govuk-!-margin-bottom-0'
-        if on_confirmation
-        else 'govuk-button govuk-button--secondary ukea-ga-tracking govuk-!-margin-bottom-0',
+        'classname': (
+            'govuk-button ukea-ga-tracking govuk-!-margin-bottom-0'
+            if on_confirmation
+            else 'govuk-button govuk-button--secondary ukea-ga-tracking govuk-!-margin-bottom-0'
+        ),
     }
 
 
