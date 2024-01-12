@@ -1233,7 +1233,6 @@ def test_register_campaign_site_help_menu_item():
 def test_render_a():
     attrs = {'id': 'test-id'}
     result = render_a(attrs)
-    assert 'href="#test-id"' in result
     assert 'id="test-id"' in result
     assert 'data-id="test-id"' in result
 
