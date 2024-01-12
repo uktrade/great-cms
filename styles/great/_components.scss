@@ -1717,4 +1717,21 @@ nav.great-breadcrumbs {
       }
     }
   }
+
+  button {
+
+    &.small-button {
+      min-width: 126px;
+      min-height: 44px;
+      line-height: 25px;
+      padding: 12px 15px;
+      display: flex;
+      align-items: center;
+
+      > span {
+        padding-right: 8px;
+        font-size: 14px;
+      }
+    }
+  }
 }
