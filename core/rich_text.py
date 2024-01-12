@@ -13,7 +13,7 @@ ANCHOR_TARGET_IDENTIFIER = 'anchor-target'
 
 
 def render_a(attrs):
-    return format_html('<a href="#{id}" id="{id}" data-id="{id}">', id=attrs['id'])
+    return format_html('<span id="{id}" data-id="{id}">', id=attrs['id'])
 
 
 class AnchorIdentifierLinkHandler(LinkHandler):
