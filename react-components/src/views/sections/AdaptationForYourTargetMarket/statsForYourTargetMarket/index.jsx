@@ -73,7 +73,8 @@ export const DataSnapshot = memo(({ infoMoment, tooltip }) => {
                     descriptionClassName="body-l"
                     className="statistic--mobile-full"
                   >
-                    <div
+                    <span
+                      role="img"
                       className="fas fa-lg fa-info-circle"
                       aria-hidden="true"
                     />

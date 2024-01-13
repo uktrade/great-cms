@@ -1,6 +1,14 @@
 @import '../colors/colors.scss';
 @import '../sizes/sizes.scss';
 
+$tablet: 900px;
+
+@mixin tablet {
+  @media (max-width: #{$tablet}) {
+    @content;
+  }
+}
+
 .classification-tree__line,
 .section-list__item {
   border-radius: 0;
@@ -41,8 +49,24 @@ blockquote,
 }
 
 .media-block {
-  i:before {
-    color: $color-thematic-break;
+  > span[role='img'] {
+    width: 70px;
+    margin: 0 0 20px 0;
+
+    @include tablet {
+      margin: 0 30px 0 0;
+    }
+  }
+
+  > span[role='img'] {
+    &:before {
+      color: $color-thematic-break;
+      font-size: 40px;
+
+      @include tablet {
+        float: right;
+      }
+    }
   }
 }
 
