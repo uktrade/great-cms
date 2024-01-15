@@ -1,8 +1,8 @@
-{% load  wagtailcore_tags %}
+{% load wagtailcore_tags %}
 {% load add_govuk_classes from content_tags %}
 <div class="choose-dont-choose">
     <div class="media-block media-block--round-image govuk-!-margin-bottom-7">
-        <i class="fas fa-check"></i>
+        <span role="img" class="fas fa-check"></span>
         <div class="g-panel g-panel--horizontal-mobile">
             <h3 class="govuk-heading-m">{{ value.choose_title }}</h3>
             {% filter add_govuk_classes %}
@@ -11,12 +11,12 @@
         </div>
     </div>
     <div class="media-block media-block--round-image govuk-!-margin-bottom-7">
-        <i class="fas fa-ban"></i>
+        <span role="img" class="fas fa-ban"></span>
         <div class="g-panel g-panel--horizontal-mobile">
             <h3 class="govuk-heading-m">{{ value.do_not_choose_title }}</h3>
             {% filter add_govuk_classes %}
                 <div>{{ value.do_not_choose_body|richtext }}</div>
-            {% endfilter %}    
+            {% endfilter %}
         </div>
     </div>
 </div>

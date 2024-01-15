@@ -59,7 +59,7 @@
   padding: 0;
 }
 
-.hide-show-trigger:checked~div>label#hide-show-button>i {
+.hide-show-trigger:checked~div>label#hide-show-button>span[role="img"] {
   transform: rotate(90deg);
   padding-right: 0;
 }
