@@ -489,7 +489,7 @@
 }
 
 .great-font-size-18 {
-  font-size: 18px;
+  font-size: 18px!important;
 }
 
 .great-font-size-mobile-18 {
@@ -1045,4 +1045,20 @@ img.richtext-image {
 
 .great-width-100 {
   width: 100%;
+}
+
+.great-no-box-shadow {
+  box-shadow: none!important;
+}
+
+.great-no-border {
+  border:none!important;
+}
+
+.great-no-border-focus {
+  outline: none!important;
+}
+
+.great-height-min-content {
+  height: min-content;
 }

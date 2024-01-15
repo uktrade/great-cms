@@ -3,8 +3,10 @@ ul {
   padding-inline-start: 0px;
 }
 
+
+@import 'tokens';
+@import 'typography';
 @import 'govuk-token-overrides';
-@import 'atlas/main.scss';
 @import 'node_modules/govuk-frontend/govuk/all';
 @import 'govuk-class-overrides';
 @import 'core-class-overrides';
@@ -211,6 +213,22 @@ body {
 
 .international-footer {
   background: #04043F;
+
+  .great-footer-logo-container {
+    margin-top: 10px;
+    background: #eb0000;
+  }
+
+  .great-logo {
+    background-image: url('/static/images/great.png');
+    width: 230px;
+    height: 86px;
+    margin-top: 10px;
+    margin-left: 15px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
 
   .international-footer-body {
     color: #FFFFFF;

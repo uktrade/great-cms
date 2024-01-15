@@ -221,29 +221,7 @@ def add_anchor_classes(soup, class_name):
                 a_tag.attrs['class'] = [class_name]
 
 
-@register.filter
-def add_govuk_classes(value):
-    soup = BeautifulSoup(value, 'html.parser')
-    mapping = [
-        ({'tag': 'h1'}, 'govuk-heading-xl'),
-        ({'tag': 'h2'}, 'govuk-heading-l'),
-        ({'tag': 'h3'}, 'govuk-heading-m great-font-size-28'),
-        ({'tag': 'h4'}, 'govuk-heading-s'),
-        ({'tag': 'h5'}, 'govuk-heading-xs'),
-        ({'tag': 'h6'}, 'govuk-heading-xs'),
-        ({'tag': 'ul'}, 'govuk-list govuk-list--bullet'),
-        ({'tag': 'ol'}, 'govuk-list govuk-list--number'),
-        ({'tag': 'p'}, 'govuk-body'),
-        ({'tag': 'a'}, 'govuk-link'),
-        ({'tag': 'div', 'class': 'form-group'}, 'govuk-form-group'),
-        ({'tag': 'select', 'class': 'form-control'}, 'govuk-form-control'),
-        ({'tag': 'input', 'class': 'form-control'}, 'govuk-form-control'),
-        ({'tag': 'label', 'class': 'form-label'}, 'govuk-form-label'),
-        ({'tag': 'div', 'class': 'form-group-error'}, 'govuk-form-group-error'),
-        ({'tag': 'iframe', 'wrap': True}, 'great-video-embed-16-9'),
-        ({'tag': 'a', 'header_parent': True}, 'great-anchor-link'),  # New mapping for <a> tags inside headers
-    ]
-
+def add_filter_classes(soup, mapping):
     for tag_name, class_name in mapping:
         if 'wrap' in tag_name:
             wrap_tag_in_div(soup, tag_name, class_name)
@@ -259,6 +237,43 @@ def add_govuk_classes(value):
                 element.attrs['class'] = class_name
 
     return mark_safe(str(soup))
+
+
+GOVUK_CLASSES_MAPPING = [
+    ({'tag': 'h1'}, 'govuk-heading-xl'),
+    ({'tag': 'h2'}, 'govuk-heading-l'),
+    ({'tag': 'h3'}, 'govuk-heading-m great-font-size-28'),
+    ({'tag': 'h4'}, 'govuk-heading-s'),
+    ({'tag': 'h5'}, 'govuk-heading-xs'),
+    ({'tag': 'h6'}, 'govuk-heading-xs'),
+    ({'tag': 'ul'}, 'govuk-list govuk-list--bullet'),
+    ({'tag': 'ol'}, 'govuk-list govuk-list--number'),
+    ({'tag': 'p'}, 'govuk-body'),
+    ({'tag': 'a'}, 'govuk-link'),
+    ({'tag': 'div', 'class': 'form-group'}, 'govuk-form-group'),
+    ({'tag': 'select', 'class': 'form-control'}, 'govuk-form-control'),
+    ({'tag': 'input', 'class': 'form-control'}, 'govuk-form-control'),
+    ({'tag': 'label', 'class': 'form-label'}, 'govuk-form-label'),
+    ({'tag': 'div', 'class': 'form-group-error'}, 'govuk-form-group-error'),
+    ({'tag': 'iframe', 'wrap': True}, 'great-video-embed-16-9'),
+    ({'tag': 'a', 'header_parent': True}, 'great-anchor-link'),  # New mapping for <a> tags inside headers
+]
+
+
+@register.filter
+def add_govuk_classes(value):
+    soup = BeautifulSoup(value, 'html.parser')
+    return add_filter_classes(soup, GOVUK_CLASSES_MAPPING)
+
+
+@register.filter
+def add_card_govuk_classes(value):
+    soup = BeautifulSoup(value, 'html.parser')
+    mapping = [
+        ({'tag': 'p'}, 'govuk-body govuk-!-margin-bottom-9') if item == ({'tag': 'p'}, 'govuk-body') else item
+        for item in GOVUK_CLASSES_MAPPING
+    ]
+    return add_filter_classes(soup, mapping)
 
 
 @register.filter
@@ -418,3 +433,75 @@ def get_icon_path(url):
         return 'components/great/includes/' + url.split('/support/')[1] + '.svg'
     else:
         return ''
+
+
+@register.simple_tag
+def render_automated_list_page_card_content(page, request, module_completion_data):
+    if request.user.is_authenticated and module_completion_data:
+        completion_percentage = module_completion_data.get('completion_percentage', 0)
+        completion_count = module_completion_data.get('completion_count', 0)
+        total_pages = module_completion_data.get('total_pages', 0)
+        html_content = format_html(
+            f"""
+            <div class="learn-card-description">
+                { page.heading}
+            </div>
+            <div class="progess-container great-display-flex great-flex-wrap great-flex-column-until-tablet great-gap">
+            <div class="learn__category-progress-container">
+                <div class="learn__category-progress">
+                <span style="width: {completion_percentage}%"></span>
+                </div>
+                <span class="govuk-label">
+                    {completion_count}
+                    /
+                    {total_pages}
+                    marked as complete
+                 </span>
+                </div>
+                </div>
+        """
+        )
+    else:
+        html_content = format_html(
+            f"""
+            <div class="learn-card-description">
+            { page.heading}
+            </div>
+        """
+        )
+    return html_content
+
+
+@register.simple_tag
+def render_curated_topic_card_content(page, completed_lessons):
+    if completed_lessons is None or not hasattr(completed_lessons, '__iter__'):
+        completed_lessons = []
+
+    if str(page.id) in map(str, completed_lessons):
+        html_content = f"""
+            <div class="great-display-flex great-gap-10-30 great-justify-space-between
+                  great-flex-column-until-desktop">
+                <h3 class="govuk-link great-font-bold govuk-!-margin-0 great-title-link
+                     great-card__link great-card__link--underline great-card__link--heading">
+                    <span>{page.title}</span>
+                </h3>
+                <span class="great-badge completed govuk-!-margin-top-2">Completed</span>
+            </div>
+            """
+    else:
+        html_content = f"""
+            <div class="great-display-flex great-gap-10-30 great-justify-space-between">
+                <h3 class="govuk-link great-font-bold govuk-!-margin-0 great-title-link
+                     great-card__link great-card__link--underline great-card__link--heading">
+                    <span>{page.title}</span>
+                </h3>
+                <span role="img" class="fa fa-arrow-right govuk-!-margin-right-2 great-text-blue
+                     great-font-size-18 great-height-min-content govuk-!-margin-top-1"></span>
+            </div>
+            """
+    return html_content
+
+
+@register.simple_tag
+def get_page_url(page):
+    return page.get_full_url()

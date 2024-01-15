@@ -9,22 +9,22 @@
 
     h2 {
         @extend %govuk-heading-l;
-        color: $atlas-dark-blue;
+        color: $eyb-dark-blue;
     }
 
     h3 {
         @extend %govuk-heading-m;
-        color: $atlas-dark-blue;
+        color: $eyb-dark-blue;
     }
 
     h4 {
         @extend %govuk-heading-s;
-        color: $atlas-dark-blue;
+        color: $eyb-dark-blue;
     }
 
     p {
         @extend %govuk-body-m;
-        color: $atlas-grey-darkest;
+        color: $eyb-grey-darkest;
     }
 
     i {
@@ -33,7 +33,7 @@
 
     ol, ul {
         @extend %govuk-list;
-        color: $atlas-grey-darkest;
+        color: $eyb-grey-darkest;
     }
 
     ol {
@@ -47,7 +47,7 @@
             position: static;
             list-style: disc;
             padding: 0;
-            color: $atlas-grey-darkest;
+            color: $eyb-grey-darkest;
         }
     }
 

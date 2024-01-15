@@ -44,8 +44,12 @@ footer {
   }
   div.footer {
     background-color: $color-footer;
-    display: flex;
     justify-content: center;
+    display: flex;
+
+    &.great-display-block{
+      display: block;
+    }
 
     ul {
       margin: 80px $x-large-padding $x-large-padding;

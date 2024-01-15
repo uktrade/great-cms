@@ -29,7 +29,7 @@ def render_video(block):
 
     video_duration = getattr(block['video'], 'duration', 0)
     # The default, above, _should_ never be needed because field is mandatory in the CMS
-    video_transcript = getattr(block['video'], 'transcript', None)
+    video_transcript = getattr(block['video'], 'transcript', '')
 
     video = block['video']
 
@@ -59,7 +59,7 @@ def render_video(block):
 
     transcript_container = ''
 
-    if video_transcript is not None:
+    if video_transcript:
         transcript_container = f"""
             <details class="govuk-details govuk-!-static-padding-top-4 govuk-!-static-margin-bottom-0"
             data-module="govuk-details">
