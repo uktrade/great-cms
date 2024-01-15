@@ -104,7 +104,7 @@
     {% else %}
         {% include 'core/header.html' with hide_cookie_notice=True %}
     {% endif %}
-    {% if request.user.is_authenticated %}
+    {% if request.user.is_authenticated and request.user.company %}
         {% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
     {% endif %}
 {% endblock %}
