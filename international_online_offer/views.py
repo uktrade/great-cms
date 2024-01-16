@@ -885,3 +885,42 @@ class TradeAssociationsView(GA360Mixin, TemplateView):
             breadcrumbs=breadcrumbs,
             **kwargs,
         )
+
+
+class BusinessClusterView(GA360Mixin, TemplateView):
+    template_name = 'eyb/bci.html'
+
+    class MockBCIData:
+        def __init__(self, location, businesses, average_sales, employees, growth):
+            self.location = location
+            self.businesses = businesses
+            self.average_sales = average_sales
+            self.employees = employees
+            self.growth = growth
+
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='BCI',
+            business_unit='ExpandYourBusiness',
+            site_section='business-cluster-information',
+        )
+
+    def get_context_data(self, **kwargs):
+        mocked_bci_data = [
+            self.MockBCIData('UK', 13000, 740000, 56000, 7),
+            self.MockBCIData('England', 7000, 510000, 41000, 6.5),
+            self.MockBCIData('Scotland', 3000, 200000, 30020, 3),
+            self.MockBCIData('Wales', 2500, 220000, 46000, 11),
+        ]
+        breadcrumbs = [
+            {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#personalised-guide'},
+            {'name': 'Business cluster information', 'url': self.request.path},
+        ]
+        triage_data = get_triage_data_for_user(self.request)
+        return super().get_context_data(
+            triage_data=triage_data,
+            breadcrumbs=breadcrumbs,
+            mocked_bci_data=mocked_bci_data,
+            **kwargs,
+        )
