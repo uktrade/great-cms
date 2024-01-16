@@ -43,7 +43,7 @@ def get_article_cta_attributes(cta: UKEACTA) -> dict:
         'icon': '/static/icons/hand.svg',
         'title': 'Join the UK Export Academy',
         'description': 'Free training with Q&A, helping you learn to sell confidently to overseas customers',
-        'type': 'Series',
+        'type': 'Service',
     }
     if not cta:
         return default_data

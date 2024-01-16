@@ -84,7 +84,7 @@ def test_get_cta_attributes(domestic_site, link_text, type, url, expected):
             {
                 'image': '/static/images/ukea-landing.png',
                 'icon': '/static/icons/hand.svg',
-                'type': 'Series',
+                'type': 'Service',
             },
         ),
         (
