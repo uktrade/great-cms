@@ -77,10 +77,10 @@
                 <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-padding-0 govuk-!-padding-bottom-6 great-grey-bottom-border govuk-!-margin-bottom-4">
                     {% if signed_in %}
                         <a class="govuk-link govuk-link--no-visited-state"
-                           href="{{ event_document_url }}"><i class="fa fa-file-download govuk-!-padding-right-2"></i>Download event presentation</a>
+                           href="{{ event_document_url }}"><span role="img" class="fa fa-file-download govuk-!-padding-right-2"></span>Download event presentation</a>
                     {% else %}
                         <a class="govuk-link govuk-link--no-visited-state"
-                           href="{% url 'export_academy:signup' %}?next={% url 'export_academy:video-on-demand' slug=video_page_slug %}"><i class="fa fa-file-download govuk-!-padding-right-2"></i>Sign up to download event presentation</a>
+                           href="{% url 'export_academy:signup' %}?next={% url 'export_academy:video-on-demand' slug=video_page_slug %}"><span role="img" class="fa fa-file-download govuk-!-padding-right-2"></span>Sign up to download event presentation</a>
                     {% endif %}
                 </div>
             </section>

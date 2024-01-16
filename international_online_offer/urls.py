@@ -55,7 +55,7 @@ urlpatterns = [
     ),
     path(
         'change-your-answers/',
-        login_required(views.EditYourAnswersView.as_view(), login_url=SIGNUP_URL),
+        views.EditYourAnswersView.as_view(),
         name='change-your-answers',
     ),
     path(

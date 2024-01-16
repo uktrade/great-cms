@@ -62,6 +62,7 @@
             </div>
             <div class="govuk-grid-column-one-third-from-desktop">
                 {% include 'core/steps.html' with steps=page.get_steps title='Learn to export topics' current_step_url=page.get_current_module.url %}
+                {% include 'learn/includes/article_page_cta.html' %}
                 {% if features.FEATURE_SHARE_COMPONENT %}
                     {% include 'components/great/share.html' with page_url=request.build_absolute_uri page_title=page.title %}
                 {% endif %}

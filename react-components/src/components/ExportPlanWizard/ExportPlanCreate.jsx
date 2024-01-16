@@ -65,7 +65,7 @@ export function ExportPlanWizard({ exportPlan }) {
               href={config.exportPlanBaseUrl}
               className="back-link h-m body-m-b m-t-xs"
             >
-              <i className="fas fa-arrow-circle-left" />
+              <span role='img' className="great-icon fas fa-arrow-circle-left" />
               <span className="m-f-xs">Back</span>
             </a>
           </div>
@@ -96,7 +96,7 @@ export function ExportPlanWizard({ exportPlan }) {
                 to={paths.product}
                 className="back-link h-m body-m-b m-t-xs"
               >
-                <i className="fas fa-arrow-circle-left" />
+                <span className="fas fa-arrow-circle-left" />
                 <span className="m-f-xs">Back</span>
               </Link>
             ) : (

@@ -103,7 +103,7 @@ export default function SearchInput(props) {
               onClick={clearSearchInput}
             />
           ) : (
-            iconClass && <i className={`fas ${iconClass}`} />
+            iconClass && <span role='img' className={`fas ${iconClass}`} />
           )}
         </div>
         {onSaveButtonClick ? (

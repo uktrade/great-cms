@@ -322,8 +322,8 @@
   flex-wrap: wrap;
   gap: 10px;
 
-  i {
-    font-size: 35px;
+  span.great-icon {
+    font-size: 35px!important;
   }
   > div {
     display: flex;
@@ -445,15 +445,15 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    i {
+    span.great-icon {
       color: white;
-      font-size: 18px;
+      font-size: 18px!important;
     }
     time {
       align-items: center;
       display: flex;
       flex-direction: column;
-      span {
+      span:not(.great-icon) {
         color: white;
         &:first-of-type {
           font-size: 24px;

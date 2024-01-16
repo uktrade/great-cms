@@ -3,8 +3,10 @@ ul {
   padding-inline-start: 0px;
 }
 
+
+@import 'tokens';
+@import 'typography';
 @import 'govuk-token-overrides';
-@import 'atlas/main.scss';
 @import 'node_modules/govuk-frontend/govuk/all';
 @import 'govuk-class-overrides';
 @import 'core-class-overrides';

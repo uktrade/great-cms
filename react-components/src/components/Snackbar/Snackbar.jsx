@@ -42,7 +42,7 @@ export const Snackbar = () => {
               notification.fade ? 'fade' : ''
             }`}
           >
-            {notification.icon && <i className={`fa ${notification.icon} m-r-xs`} />}
+            {notification.icon && <span role='img' className={`govuk-!-margin-right-2 fa ${notification.icon}`} />}
             <span>{notification.message}</span>
           </div>
         )

@@ -28,18 +28,18 @@
                         {% path_match "^\/learn\/" as in_learning %}
                         <li>
                             <a id="header-link-learning"
-                            class="govuk-!-padding-3 {% if in_learning %}active{% endif %}"
-                            href="/learn/categories/">Learn to export</a>
+                               class="govuk-!-padding-3 {% if in_learning %}active{% endif %}"
+                               href="/learn/categories/">Learn to export</a>
                         </li>
-                    {% endif %}    
+                    {% endif %}
                     {% if request.user.is_authenticated %}
                         {% path_match "^\/where-to-export\/" as in_targetmarkets %}
                         {% if not features.FEATURE_DEA_V2 %}
                             {% path_match "^\/learn\/" as in_learning %}
                             <li>
                                 <a id="header-link-learning"
-                                class="govuk-!-padding-3 {% if in_learning %}active{% endif %}"
-                                href="/learn/categories/">Learn to export</a>
+                                   class="govuk-!-padding-3 {% if in_learning %}active{% endif %}"
+                                   href="/learn/categories/">Learn to export</a>
                             </li>
                         {% endif %}
                         <li>
@@ -65,7 +65,9 @@
                                         data-reveal-button
                                         data-reveal-modal
                                         aria-controls="guides-menu">
-                                    Guides <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                                    Guides <span role="img"
+       class="fas fa-chevron-down govuk-!-static-margin-left-2"
+       aria-hidden="true"></span>
                                 </button>
                                 <div id="guides-menu">
                                     <ul>
@@ -95,10 +97,9 @@
                 <form id="magna-header-search-form"
                       class="magna-header__search govuk-!-margin-bottom-4"
                       action="{% url 'search:search' %}"
-                      method="GET">
+                      method="get">
                     <label for="magna-header-search-box" class="visually-hidden">Search</label>
                     <input id="magna-header-search-box"
-                           class=""
                            type="text"
                            name="q"
                            placeholder="Search">
