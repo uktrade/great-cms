@@ -886,10 +886,6 @@ if settings.FEATURE_DEA_V2:
             PermanentQuerystringRedirectView.as_view(url='https://www.ukexportfinance.gov.uk/'),
         ),
         re_path(
-            r'^trade-finance/$',
-            PermanentQuerystringRedirectView.as_view(url='https://www.ukexportfinance.gov.uk/'),
-        ),
-        re_path(
             r'^getting-paid/invoice-currency-and-contents/$|^getting-paid/payment-methods/$|^advice/manage-payment-for-export-orders/payment-methods-for-exporters/$',  # noqa:E501
             PermanentQuerystringRedirectView.as_view(
                 url='/learn/categories/funding-financing-and-getting-paid/get-paid/payment-methods-exporters/'
