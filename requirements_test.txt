@@ -426,7 +426,7 @@ jsonschema==3.2.0
     #   directory-components
     #   drf-spectacular
     #   great-components
-kombu==5.3.4
+kombu==5.3.5
     # via celery
 l18n==2021.3
     # via wagtail
@@ -734,7 +734,7 @@ soupsieve==2.5
     # via beautifulsoup4
 sphinx==1.8.6
     # via -r requirements.in
-sphinxcontrib-serializinghtml==1.1.5
+sphinxcontrib-serializinghtml==1.1.10
     # via sphinxcontrib-websupport
 sphinxcontrib-websupport==1.2.4
     # via sphinx
