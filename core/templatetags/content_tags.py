@@ -441,7 +441,8 @@ def render_automated_list_page_card_content(page, request, module_completion_dat
         completion_percentage = module_completion_data.get('completion_percentage', 0)
         completion_count = module_completion_data.get('completion_count', 0)
         total_pages = module_completion_data.get('total_pages', 0)
-        html_content = format_html(f"""
+        html_content = format_html(
+            f"""
             <div class="learn-card-description">
                 { page.heading}
             </div>
@@ -458,13 +459,16 @@ def render_automated_list_page_card_content(page, request, module_completion_dat
                  </span>
                 </div>
                 </div>
-        """)
+        """
+        )
     else:
-        html_content = format_html(f"""
+        html_content = format_html(
+            f"""
             <div class="learn-card-description">
             { page.heading}
             </div>
-        """)
+        """
+        )
     return html_content
 
 

@@ -54,6 +54,8 @@ def test_choice_field_help_text_widget():
             </ul>
         </div>
     </p>
-    """.format(span_class=span_class)
+    """.format(
+        span_class=span_class
+    )
 
     assert_html_equal(expected_html=expected, actual_html=Form().as_p())

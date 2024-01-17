@@ -1200,13 +1200,15 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
 class WagtailInsertEditorJsTestCase(TestCase):
     def test_toolbar_sticky_by_default(self):
         return_value = toolbar_sticky_by_default()
-        expected_value = mark_safe("""
+        expected_value = mark_safe(
+            """
         <script>
             if (window.localStorage.getItem("wagtail:draftail-toolbar")==null) {
                 window.localStorage.setItem("wagtail:draftail-toolbar", "sticky");
             };
         </script>
-        """)
+        """
+        )
         assert return_value == expected_value
 
 

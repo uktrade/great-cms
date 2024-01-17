@@ -75,15 +75,15 @@ class CountryDataContextProvider(BaseContextProvider):
                 age_group_population_data[section] = {}
                 age_groups = self.export_plan.data['ui_options'].get(section, {}).get('target_ages', [])
                 age_group_population_data[section]['target_ages'] = age_groups
-                age_group_population_data[section]['male_target_age_population'] = (
-                    helpers.total_population_by_gender_age(
-                        dataset=population_dataset, age_filter=age_groups, gender='male'
-                    )
+                age_group_population_data[section][
+                    'male_target_age_population'
+                ] = helpers.total_population_by_gender_age(
+                    dataset=population_dataset, age_filter=age_groups, gender='male'
                 )
-                age_group_population_data[section]['female_target_age_population'] = (
-                    helpers.total_population_by_gender_age(
-                        dataset=population_dataset, age_filter=age_groups, gender='female'
-                    )
+                age_group_population_data[section][
+                    'female_target_age_population'
+                ] = helpers.total_population_by_gender_age(
+                    dataset=population_dataset, age_filter=age_groups, gender='female'
                 )
                 age_group_population_data[section]['total_target_age_population'] = int(
                     age_group_population_data[section]['male_target_age_population']

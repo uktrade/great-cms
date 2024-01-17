@@ -109,7 +109,6 @@ def test_get_cta_attributes(domestic_site, link_text, type, url, expected):
 )
 @pytest.mark.django_db
 def test_get_article_cta_attributes(root_page, name, events, expected):
-
     cta = UKEACTASnippetFactory(name=name)
 
     if events:

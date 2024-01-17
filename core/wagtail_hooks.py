@@ -506,13 +506,15 @@ def convert_related_links(page):
 
 @hooks.register('insert_editor_js')
 def toolbar_sticky_by_default():
-    return mark_safe("""
+    return mark_safe(
+        """
         <script>
             if (window.localStorage.getItem("wagtail:draftail-toolbar")==null) {
                 window.localStorage.setItem("wagtail:draftail-toolbar", "sticky");
             };
         </script>
-        """)
+        """
+    )
 
 
 @hooks.register('register_help_menu_item')

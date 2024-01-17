@@ -12,8 +12,10 @@ def progress_bar(total, complete):
 
     percentage = int((complete / total) * 100) if (total or 0) > 0 else 0
 
-    return format_html(f"""
+    return format_html(
+        f"""
             <div class="progress-bar">
                 <span style="width:{percentage}%"></span>
             </div>
-        """)
+        """
+    )

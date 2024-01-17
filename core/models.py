@@ -1074,7 +1074,6 @@ class EventOrderable(Orderable):
 
 @register_snippet
 class UKEACTA(ClusterableModel):
-
     image = StreamField(
         [
             (
