@@ -946,7 +946,7 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         FieldPanel('objective'),
         FieldPanel('body'),
         FieldPanel('recap'),
-        FieldPanel('call_to_action')
+        FieldPanel('call_to_action'),
     ]
 
     @cached_classmethod
