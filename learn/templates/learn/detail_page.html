@@ -14,9 +14,9 @@
 </div>
 <div class="great lesson-page">
     {% get_category_title_for_lesson page as category_title %}
-    <div class="great-container lesson-body govuk-!-padding-top-9">
-        <div>
-            <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-padding-0">
+    <div class="great-container govuk-!-padding-top-9">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds-from-desktop">
                 <h2 class="govuk-caption-xl">{{ page.get_lesson_category_name }}</h2>
                 <h1 class="govuk-heading-xl" id="lesson-title">{{ page.title }}</h1>
             </div>

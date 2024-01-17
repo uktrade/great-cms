@@ -1,11 +1,9 @@
-from django.conf import settings
 from django.urls import path
 from django.views.generic import TemplateView
 from great_components.decorators import skip_ga360
 
 import domestic.views.marketaccess
 import domestic.views.ukef
-from core.views import PermanentQuerystringRedirectView
 from domestic.views.campaign import CampaignView
 
 app_name = 'domestic'
@@ -13,6 +11,11 @@ app_name = 'domestic'
 # WHEN ADDING TO THIS LIST CONSIDER WHETHER YOU SHOULD ALSO ADD THE URL NAME
 # TO core.views.StaticViewSitemap.items()
 urlpatterns = [
+    path(
+        'get-finance/',
+        skip_ga360(domestic.views.ukef.UKEFHomeView.as_view()),
+        name='get-finance',
+    ),
     path(
         'get-finance/<slug:step>/',
         skip_ga360(
@@ -35,6 +38,15 @@ urlpatterns = [
             # else QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE)
         ),
         name='uk-export-finance-lead-generation-form-success',
+    ),
+    path(
+        'project-finance/',
+        skip_ga360(
+            TemplateView.as_view(
+                template_name='domestic/ukef/project_finance.html',
+            )
+        ),
+        name='project-finance',
     ),
     path(
         'how-we-assess-your-project/',
@@ -104,34 +116,3 @@ urlpatterns = [
         name='campaigns',
     ),
 ]
-if settings.FEATURE_DEA_V2:
-    urlpatterns += [
-        path(
-            'get-finance/',
-            PermanentQuerystringRedirectView.as_view(url='https://www.ukexportfinance.gov.uk/'),
-            name='get-finance',
-        ),
-        path(
-            'project-finance/',
-            PermanentQuerystringRedirectView.as_view(url='https://www.ukexportfinance.gov.uk/'),
-            name='project-finance',
-        ),
-    ]
-else:
-    urlpatterns += [  # pragma: no cover
-        path(
-            'get-finance/',
-            skip_ga360(domestic.views.ukef.UKEFHomeView.as_view()),
-            name='get-finance',
-        ),
-        # 'trade-finance/' is added via CMS as a TradeFinancePage with the slug 'trade-finance'
-        path(
-            'project-finance/',
-            skip_ga360(
-                TemplateView.as_view(
-                    template_name='domestic/ukef/project_finance.html',
-                )
-            ),
-            name='project-finance',
-        ),
-    ]

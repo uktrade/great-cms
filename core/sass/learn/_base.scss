@@ -592,7 +592,7 @@ $desktop: 1024px;
         }
       }
 
-      i {
+      span[role='img'] {
         margin-bottom: 0;
 
         @include tablet {
