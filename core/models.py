@@ -74,16 +74,14 @@ class GreatMedia(Media):
         verbose_name=_('Description'), blank=True, null=True  # left null because was an existing field
     )
 
-    transcript = models.TextField(
-        verbose_name=_('Transcript'), blank=False, null=True  # left null because was an existing field
-    )
+    transcript = models.TextField(verbose_name=_('Transcript'), blank=True, null=True)
 
     subtitles_en = models.TextField(
         verbose_name=_('English subtitles'),
         null=True,
-        blank=True,
-        help_text='English-language subtitles for this video, in VTT format',
-    )
+        blank=False,
+        help_text='English-language subtitles for this video, in VTT format, Required for Level A WCAG compliance.',
+    )  # left null because was an existing field
 
     admin_form_fields = Media.admin_form_fields + ('transcript', 'subtitles_en', 'description')
 

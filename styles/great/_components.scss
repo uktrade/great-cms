@@ -315,6 +315,10 @@ figure.great-blockquote {
     }
   }
 
+  .great-card__link--heading--18 {
+    font-size: 18px !important;
+  }
+
   .great-card__tag {
     @extend .govuk-body-s;
     position: absolute;
@@ -421,15 +425,22 @@ figure.great-blockquote {
 }
 
 .great-card--cta {
+
+  @include govuk-media-query($until: tablet) {
+    margin-bottom: 30px;
+  }
+
   display: flex;
 
   a {
     background-color: $great-light-blue;
 
     &:focus:active {
-      background-color: $great-light-blue;
+      background-color: $great-light-blue !important;
     }
   }
+
+
 
   .great-card__tag {
     img {
@@ -439,6 +450,15 @@ figure.great-blockquote {
     }
   }
 
+}
+
+.great-card--cta-with-content {
+    .great-card__tag {
+      bottom: 0 !important;
+    }
+    &:after {
+      bottom: 0 !important;
+    }
 }
 
 .great-card--homepage-container {
@@ -483,6 +503,16 @@ figure.great-blockquote {
 
 .great-hr-blue--thin {
   height: 2px;
+}
+
+.great-hr-purple {
+  border-top: 4px solid $great-purple !important;
+  display: block;
+  width: 100%;
+}
+
+.great-hr-purple--thin {
+  border-top: 3px solid $great-purple !important;
 }
 
 .great-badge {
@@ -1626,6 +1656,16 @@ nav.great-breadcrumbs {
   @include child-link-states('.great-title-link');
 }
 
+.great-tag-container {
+  display: flex !important;
+  bottom: 8px !important;
+
+  img {
+    margin: 0px 8px 0px 0px !important;
+  }
+}
+
+
 .great-share {
   border-top: 1px solid $govuk-border-colour;
 
@@ -1674,6 +1714,23 @@ nav.great-breadcrumbs {
     li {
       @include govuk-media-query($from: tablet, $until: desktop) {
         margin-right: 30px;
+      }
+    }
+  }
+
+  button {
+
+    &.small-button {
+      min-width: 126px;
+      min-height: 44px;
+      line-height: 25px;
+      padding: 12px 15px;
+      display: flex;
+      align-items: center;
+
+      > span {
+        padding-right: 8px;
+        font-size: 14px;
       }
     }
   }

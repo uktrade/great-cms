@@ -564,7 +564,7 @@ def register_rich_text_anchor_identifier_feature(features):
     features.default_features.insert(0, 'anchor-identifier')
     """
     Registering the `anchor-identifier` feature, which uses the `ANCHOR-IDENTIFIER` Draft.js entity type,
-    and is stored as HTML with a `<a data-anchor href="#my-anchor" id="my-anchor">` tag.
+    and is stored as HTML with a `<span id="my-anchor" data-id="my-anchor">` tag.
     """
     feature_name = 'anchor-identifier'
     type_ = 'ANCHOR-IDENTIFIER'

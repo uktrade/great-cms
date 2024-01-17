@@ -110,7 +110,7 @@ export const ToggleDataTable = ({
                         className="button button--tiny-toggle" type="button"
                         onClick={() => handleChange({ target: { value } })}
                       >
-                        <i className="fa fa-times-circle" />
+                        <span role="img" className="fa fa-times-circle" />
                         <span className="visually-hidden">Remove</span>
                       </button>
                     </li>
