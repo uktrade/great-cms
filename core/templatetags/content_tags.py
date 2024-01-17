@@ -505,3 +505,23 @@ def render_curated_topic_card_content(page, completed_lessons):
 @register.simple_tag
 def get_page_url(page):
     return page.get_full_url()
+
+
+@register.simple_tag
+def get_inline_feedback_visibility(page_url):
+    result = {
+        'show_page_useful': False,
+        'show_positive_feedback': False,
+        'show_negative_feedback': False,
+    }
+
+    # todo get properly from qs?
+    if 'page_useful=True' in page_url:
+        result['show_positive_feedback'] = True
+    elif 'page_useful=False' in page_url:
+        result['show_negative_feedback'] = True
+    else:
+        result['show_page_useful'] = True
+
+    # import pdb; pdb.set_trace();
+    return result

@@ -5,6 +5,7 @@ from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import FormSessionMixin, Sender
 from django.conf import settings
 from django.core.cache import cache
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
@@ -14,6 +15,7 @@ from django.utils.html import strip_tags
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from formtools.wizard.views import NamedUrlSessionWizardView
+from rest_framework.generics import GenericAPIView
 
 from contact import constants, forms as contact_forms, helpers, mixins as contact_mixins
 from core import mixins as core_mixins, snippet_slugs
@@ -1130,3 +1132,40 @@ class FTASubscribeFormView(
         )
         context['privacy_url'] = PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE
         return context
+
+
+class InlineFeedbackView(GenericAPIView):
+    def post(self, request, *args, **kwargs):
+        data = self.request.data.copy()
+        # as this is 'inline' need to send user back to page from which form was submitted
+        # import pdb; pdb.set_trace()
+        sender = Sender(
+            email_address='blank@email.com',
+            country_code=None,
+        )
+
+        action = actions.SaveOnlyInDatabaseAction(
+            full_name='example',
+            email_address='blank@email.com',
+            subject='example subject',
+            sender=sender,
+            form_url=self.request.get_full_path(),
+        )
+
+        # this saves the data in directory-forms-api db as per ticket
+        # todo: do we want the email address of logged in users which will probably
+        # add valuable context when drawing inferences from the dataset?
+        # todo: fairly certian this gets brought into data workspace 'for free'
+        # under great.gov.uk form submissions verify table
+        save_response = action.save(data)
+
+        # takes the user back to the relevant section of the original page so they have the
+        # opportunity to complete more in-depth feedback
+        # todo: flow control when user has already clicked page_useful and is completing the positive/negative feedback forms
+        # todo: ensure redirect works when there are additional qs params
+        response = HttpResponseRedirect(
+            redirect_to=f"{data['current_url']}?page_useful={data['page_useful']}/#inline-feedback"
+        )
+        # ref on 303 https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/303
+        response.status_code = 303
+        return response
