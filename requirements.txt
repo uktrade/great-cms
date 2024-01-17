@@ -177,7 +177,7 @@ django-redis==5.4.0
     # via -r requirements.in
 django-staff-sso-client==4.2.0
     # via -r requirements.in
-django-storages[boto3]==1.14.2
+django-storages[boto3]==1.13.2
     # via -r requirements.in
 django-taggit==4.0.0
     # via wagtail

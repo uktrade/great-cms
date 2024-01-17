@@ -3,7 +3,7 @@
 django==4.2
 django-environ==0.4.*
 django-redis==5.4.0
-django_storages[boto3]==1.14.2
+django_storages[boto3]==1.13.2
 django-extensions==3.2.3
 django-ipware==2.1.*
 djangorestframework==3.14.*
