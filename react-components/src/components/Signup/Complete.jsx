@@ -6,7 +6,7 @@ const Complete = ({
    nextUrl
  }) => (
   <div id='signup__complete'>
-    <i className='fas fa-check-circle text-green-100 icon-large' />
+    <span role='img' className='fas fa-check-circle text-green-100 icon-large' />
     {showTitle && <h2 className='h-s'>Sign up complete</h2>}
     <p className='body-l text-black-100'>Your account has been created.</p>
     <a

@@ -73,7 +73,7 @@ function ProductSelector({ valueChange, selected }) {
             className="m-t-xxs primary-button"
             onClick={() => setModalIsOpen(true)}
           >
-            <i className="fa fa-plus m-r-xxs" />
+            <span className="fa fa-plus govuk-!-margin-right-2" />
             Choose a product
           </button>
         </div>

@@ -115,7 +115,7 @@ def test_get_article_cta_attributes(root_page, name, events, expected):
     if events:
         for loop in range(events):
             delta = timezone.now() + timezone.timedelta(days=1 + loop)
-            event_obj = EventFactory(start_date=delta, live=delta)
+            event_obj = EventFactory(start_date=delta, live=delta, completed=None)
             EventOrderableFactory(page=cta, event=event_obj)
 
     cta_attrs = get_article_cta_attributes(cta)

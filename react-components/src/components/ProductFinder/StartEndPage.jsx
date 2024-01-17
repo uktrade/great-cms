@@ -80,7 +80,7 @@ export default function StartEndPage(props) {
               }}
             >
               {ReactHtmlParser(commodityName).toString()}
-              <i className="m-f-xs fas fa-pencil-alt text-blue-deep-60" />
+              <span role="img" className="m-f-xs fas fa-pencil-alt text-blue-deep-60" />
             </button>
           </h3>
         )}

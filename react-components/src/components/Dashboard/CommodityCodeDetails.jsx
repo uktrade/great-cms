@@ -23,8 +23,8 @@ export default function CommodityCodeDetails({ product }) {
       <div className="bg-white p-b-0">
         <div className="flex-center">
           <button id="commodity-code-details" type="button icon-only" onClick={() => openSection()}>
-            <i
-              className={`fas ${isOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`}
+            <span role="img"
+              className={`govuk-!-margin-right-2 fas ${isOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`}
             />
             <span className="visually-hidden">See details</span>
                <span className="link">{product.commodity_name}</span>

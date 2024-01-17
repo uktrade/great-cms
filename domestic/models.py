@@ -1118,6 +1118,10 @@ class ArticlePage(
                     template='domestic/blocks/pull_quote_block.html',
                 ),
             ),
+            (
+                'data_table',
+                core_blocks.DataTableBlock(),
+            ),
         ],
         use_json_field=True,
         null=True,

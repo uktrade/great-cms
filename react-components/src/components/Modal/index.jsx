@@ -22,7 +22,7 @@ export const Modal = ({
           className="link text-white body-m modal-close"
           title="navigate back"
         >
-          <i className="fas fa-arrow-circle-left m-r-xxs" /> back
+          <span role="img" className="great-icon fas fa-arrow-circle-left govuk-!-maring-right-2" /> back
         </a>
       </div>
       <div className="modal-inner text-blue-deep-80 bg-white radius-bottom-s">
@@ -44,14 +44,14 @@ export const Modal = ({
                 type="button"
                 className="button secondary-button button--icon inline m-r-xs"
               >
-                <i className="fas fa-plus-square" />
+                <span className="fas fa-plus-square" />
                 <span>United Kingdom</span>
               </button>
               <button
                 type="button"
                 className="button secondary-button button--icon inline"
               >
-                <i className="fas fa-plus-square" />
+                <span className="fas fa-plus-square" />
                 <span>United Kingdom</span>
               </button>
             </div>

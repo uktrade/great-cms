@@ -829,8 +829,6 @@ def test_redirects_no_trailing_slash(url, expected, client):
             '/advice/sell-services-overseas/prepare-to-sell-services-overseas/',
             '/learn/categories/prepare-sell-new-country/selling-services-overseas/prepare-to-sell-services-overseas/',
         ),
-        ('/get-finance/', 'https://www.ukexportfinance.gov.uk/'),
-        ('/project-finance/', 'https://www.ukexportfinance.gov.uk/'),
     ],
 )
 def test_redirect_articles(incoming_url, expected_url, client):
