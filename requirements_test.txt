@@ -228,7 +228,7 @@ django-extensions==3.2.3
     # via -r requirements.in
 django-filter==23.5
     # via wagtail
-django-formtools==2.5.1
+django-formtools==2.4.1
     # via -r requirements.in
 django-health-check==3.17.0
     # via directory-healthcheck
