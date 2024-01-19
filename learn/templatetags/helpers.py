@@ -25,8 +25,7 @@ def get_cta_attributes(cta: RelatedContentCTA):
 
 def get_first_available_event(event_ids: list):
     first_available_event = None
-    for event in Event.objects.filter(id__in=event_ids).order_by("start_date"):
-        print(event.start_date)
+    for event in Event.objects.filter(id__in=event_ids).order_by('start_date'):
         if event.start_date > timezone.now() and event.live and not event.completed:
             return event
     return first_available_event
