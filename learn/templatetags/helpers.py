@@ -22,6 +22,7 @@ def get_cta_attributes(cta: RelatedContentCTA):
     result['tag_icon'] = '/static/icons/hand.svg' if 'service' in cta.type.lower() else '/static/icons/guidance.svg'
     return result
 
+
 def get_first_available_event(event_ids: list):
     first_available_event = None
     for event in Event.objects.filter(id__in=event_ids).order_by("start_date"):
