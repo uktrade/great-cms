@@ -244,11 +244,11 @@ STATICFILES_DIRS = [
 
 
 STORAGES = {
-    "default": {
-        "BACKEND": env.str('DEFAULT_FILE_STORAGE', 'storages.backends.s3boto3.S3Boto3Storage'),
+    'default': {
+        'BACKEND': env.str('DEFAULT_FILE_STORAGE', 'storages.backends.s3boto3.S3Boto3Storage'),
     },
-    "staticfiles": {
-        "BACKEND": env.str('STATICFILES_STORAGE', 'whitenoise.storage.CompressedStaticFilesStorage'),
+    'staticfiles': {
+        'BACKEND': env.str('STATICFILES_STORAGE', 'whitenoise.storage.CompressedStaticFilesStorage'),
     },
 }
 
