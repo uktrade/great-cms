@@ -22,16 +22,12 @@ def get_cta_attributes(cta: RelatedContentCTA):
     result['tag_icon'] = '/static/icons/hand.svg' if 'service' in cta.type.lower() else '/static/icons/guidance.svg'
     return result
 
-
 def get_first_available_event(event_ids: list):
     first_available_event = None
-    for event in Event.objects.filter(id__in=event_ids):
+    for event in Event.objects.filter(id__in=event_ids).order_by("start_date"):
+        print(event.start_date)
         if event.start_date > timezone.now() and event.live and not event.completed:
-            if first_available_event:
-                if event.start_date < first_available_event.start_date:
-                    first_available_event = event
-            else:
-                first_available_event = event
+            return event
     return first_available_event
 
 
