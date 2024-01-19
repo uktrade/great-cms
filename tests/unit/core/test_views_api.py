@@ -78,7 +78,7 @@ def test_companies_house_api_view(mock_get_company_profile, mock_search_companie
 
 
 @pytest.mark.django_db
-@override_settings(DEFAULT_FILE_STORAGE='storages.backends.s3boto3.S3Boto3Storage')
+@override_settings(STORAGES={"default": {'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage'}})
 @mock.patch('storages.backends.s3boto3.S3Boto3Storage')
 def test_signed_url_view(patch_storage, client):
     patch_storage().connection.meta.client.generate_presigned_url.return_value = 'pre-signed-url'

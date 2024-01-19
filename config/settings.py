@@ -242,8 +242,16 @@ STATICFILES_DIRS = [
     str(ROOT_DIR / 'sso_profile' / 'static'),
 ]
 
-STATICFILES_STORAGE = env.str('STATICFILES_STORAGE', 'whitenoise.storage.CompressedStaticFilesStorage')
-DEFAULT_FILE_STORAGE = env.str('DEFAULT_FILE_STORAGE', 'storages.backends.s3boto3.S3Boto3Storage')
+
+STORAGES = {
+    "default": {
+        "BACKEND": env.str('DEFAULT_FILE_STORAGE', 'storages.backends.s3boto3.S3Boto3Storage'),
+    },
+    "staticfiles": {
+        "BACKEND": env.str('STATICFILES_STORAGE', 'whitenoise.storage.CompressedStaticFilesStorage'),
+    },
+}
+
 
 STATIC_ROOT = str(ROOT_DIR / 'staticfiles')
 STATIC_URL = '/static/'
@@ -408,7 +416,8 @@ AWS_S3_SIGNATURE_VERSION = env.str('AWS_S3_SIGNATURE_VERSION', 's3v4')
 AWS_QUERYSTRING_AUTH = env.bool('AWS_QUERYSTRING_AUTH', False)
 S3_USE_SIGV4 = env.bool('S3_USE_SIGV4', True)
 
-USER_MEDIA_ON_S3 = DEFAULT_FILE_STORAGE == 'storages.backends.s3boto3.S3Boto3Storage'
+USER_MEDIA_ON_S3 = STORAGES['default']['BACKEND'] == 'storages.backends.s3boto3.S3Boto3Storage'
+
 # Wagtail-Transfer needs MEDIA_URL set to reference cloud storage
 if USER_MEDIA_ON_S3 and (AWS_STORAGE_BUCKET_NAME or AWS_S3_CUSTOM_DOMAIN):
     if AWS_S3_CUSTOM_DOMAIN:  # eg cdn.example.com
