@@ -1,4 +1,6 @@
+{% load get_article_cta_attributes from helpers %}
 <div class="great great-hr-purple great-hr-purple--thin govuk-!-margin-top-0">
     <h2 class="govuk-heading-s govuk-!-margin-top-3">Learn more with free training</h2>
-    {% include 'components/great/card.html' with heading_class="great-card__link--heading--18" heading_level="h3" tag_container_inner_class="article-page-cta-container-inner-container" container_class="article-page-cta-container-title-container" classes="great-card--cta great-card--cta-with-content govuk-!-margin-bottom-8" title="Join the UK Export Academy" content="Free training with Q&A, helping you learn to sell confidently to overseas customers" content_tag="p" image_src="/static/images/ukea-landing.png" is_svg_image=False url="/export-academy" show_title_link=True tag="Service" tag_icon="/static/icons/hand.svg" %}
+    {% get_article_cta_attributes page.call_to_action.0.value.0 as cta_attrs %}
+    {% include 'components/great/card.html' with heading_class="great-card__link--heading--18" heading_level="h3" tag_container_inner_class="article-page-cta-container-inner-container" container_class="article-page-cta-container-title-container" classes="great-card--cta great-card--cta-with-content govuk-!-margin-bottom-8" title=cta_attrs.title content=cta_attrs.description  content_tag="p" image_src=cta_attrs.image is_svg_image=False url=cta_attrs.link show_title_link=True tag=cta_attrs.type tag_icon=cta_attrs.icon %}
 </div>
