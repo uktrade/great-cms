@@ -97,9 +97,9 @@ class EYBGuidePage(BaseContentPage):
             if triage_data and triage_data.intent
             else []
         )
-        # Get any EYB articles that have been tagged with SUPPORT_AND_INCENTIVES
-        all_articles_tagged_with_support_and_incentives = EYBArticlePage.objects.live().filter(
-            tags__name=filter_tags.SUPPORT_AND_INCENTIVES
+        # Get any EYB articles that have been tagged with FINANCE_AND_SUPPORT
+        all_articles_tagged_with_finance_and_support = EYBArticlePage.objects.live().filter(
+            tags__name=filter_tags.FINANCE_AND_SUPPORT
         )
 
         # Filter rule to get articles that have ONLY been tagged with the users selected sector
@@ -117,7 +117,7 @@ class EYBGuidePage(BaseContentPage):
             triage_data=triage_data,
             user_data=user_data,
             get_to_know_market_articles=list(chain(sector_only_articles, intent_articles_specific_to_sector)),
-            support_and_incentives_articles=all_articles_tagged_with_support_and_incentives,
+            finance_and_support_articles=all_articles_tagged_with_finance_and_support,
             trade_shows_page=trade_shows_page,
             is_triage_complete=is_triage_complete,
         )

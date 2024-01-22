@@ -292,16 +292,18 @@
                                     </div>
                                 </div>
                             {% endif %}
-                            {% if support_and_incentives_articles %}
+                            {% if finance_and_support_articles %}
                                 <div class="govuk-grid-row">
                                     <div class="govuk-grid-column-full">
-                                        <h2 class="govuk-heading-l">Get support and incentives</h2>
-                                        <p class="govuk-body">Find out about the support and incentives available when you expand your business in the UK.</p>
+                                        <h2 class="govuk-heading-l">Finance and support</h2>
+                                        <p class="govuk-body">
+                                            Find out about getting access to finance, plus the financial incentives and support available when you set up your business in the UK.
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="govuk-grid-row govuk-!-margin-bottom-6">
                                     <div class="govuk-grid-column-full">
-                                        {% for page in support_and_incentives_articles %}
+                                        {% for page in finance_and_support_articles %}
                                             {% image page.article_image original as rendition %}
                                             <div class="article-list-item">
                                                 {% if eyb_user %}
