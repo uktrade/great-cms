@@ -78,7 +78,7 @@ function ProductSelector() {
         className="button secondary-button button--small button--icon"
         onClick={() => setProductModalIsOpen(true)}
       >
-        <i className="fa fa-plus" />
+        <span className="fa fa-plus govuk-!-static-margin-right-2" />
         {hasProducts ? 'Add another product' : 'Add a product'}
       </button>
       <ProductFinderModal

@@ -30,7 +30,7 @@ class CountryGuidePageSerializer(serializers.Serializer):
 
     def to_representation(self, obj):
         return {
-            'id': ('dit:greatCms:Article:' + str(obj.id) + ':Update'),
+            'id': 'dit:greatCms:Article:' + str(obj.id) + ':Update',
             'type': 'Update',
             'published': obj.last_published_at.isoformat('T'),
             'object': {
@@ -46,7 +46,7 @@ class CountryGuidePageSerializer(serializers.Serializer):
 
 
 class ArticlePageSerializer(serializers.Serializer):
-    expected_block_types = ['text', 'cta', 'image', 'Video', 'Columns', 'pull_quote']
+    expected_block_types = ['text', 'cta', 'data_table', 'image', 'Video', 'Columns', 'pull_quote']
 
     def _get_article_body_content_for_search(self, obj: ArticlePage) -> str:
         """Selectively extract streamfield data from the blocks in ArticlePage's article_body streamfield.
@@ -77,7 +77,7 @@ class ArticlePageSerializer(serializers.Serializer):
 
     def to_representation(self, obj):
         return {
-            'id': ('dit:greatCms:Article:' + str(obj.id) + ':Update'),
+            'id': 'dit:greatCms:Article:' + str(obj.id) + ':Update',
             'type': 'Update',
             'published': obj.last_published_at.isoformat('T'),
             'object': {
@@ -134,7 +134,7 @@ class MicrositePageSerializer(serializers.Serializer):
 
     def to_representation(self, obj):
         return {
-            'id': ('dit:greatCms:Microsite:' + str(obj.id) + ':Update'),
+            'id': 'dit:greatCms:Microsite:' + str(obj.id) + ':Update',
             'type': 'Update',
             'published': obj.last_published_at.isoformat('T'),
             'object': {
@@ -144,7 +144,7 @@ class MicrositePageSerializer(serializers.Serializer):
                 'summary': obj.page_teaser,
                 'content': self._get_microsite_body_content_for_search(obj),
                 'url': f'https://www.great.gov.uk{obj.get_url()}',
-                'locale_id': obj.locale_id
+                'locale_id': obj.locale_id,
                 # 'keywords': ' '.join(obj.tags.all().values_list('name', flat=True)),
             },
         }

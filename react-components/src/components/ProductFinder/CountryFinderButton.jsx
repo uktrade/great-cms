@@ -49,7 +49,7 @@ export const CountryFinderButton = () => {
                   className="remove-product"
                   onClick={() => setDeleteConfirm({index: marketIdx})}
                 >
-                  <i className="fas fa-trash" />
+                  <span role="img" className="fas fa-trash great-red-text" />
                   <span className="visually-hidden">
                     Remove market {market.country_name}
                   </span>
@@ -63,7 +63,7 @@ export const CountryFinderButton = () => {
           className="button primary-button button--icon m-t-xs button--full-width hidden"
           onClick={() => setIsOpen(true)}
         >
-          <i className="fas fa-plus" />
+          <span className="fas fa-plus govuk-!-margin-righht-2" />
           Add market
         </button>
       </BasketViewer>

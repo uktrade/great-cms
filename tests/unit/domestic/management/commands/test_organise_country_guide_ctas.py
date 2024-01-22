@@ -11,11 +11,14 @@ from tests.unit.domestic.factories import CountryGuidePageFactory
 def test_organise_ctas(domestic_homepage):
     ctas = {
         'intro_cta_one_title': 'View live export opportunities for Antigua and Barbuda',
-        'intro_cta_one_link': 'https://www.great.gov.uk/export-opportunities/opportunities?s=&areas%5B%5D=antigua-and'
-        '-barbuda&commit=Find+opportunities',
+        'intro_cta_one_link': (
+            'https://www.great.gov.uk/export-opportunities/opportunities?s=&areas%5B%5D=antigua-and'
+            '-barbuda&commit=Find+opportunities'
+        ),
         'intro_cta_two_title': 'Find an online marketplace in Antigua and Barbuda',
-        'intro_cta_two_link': 'https://www.great.gov.uk/selling-online-overseas/markets/results/?category_id'
-        '=&country_id=344&commit=',
+        'intro_cta_two_link': (
+            'https://www.great.gov.uk/selling-online-overseas/markets/results/?category_id' '=&country_id=344&commit='
+        ),
         'intro_cta_three_title': 'Find export events for Antigua and Barbuda',
         'intro_cta_three_link': 'https://www.events.great.gov.uk/ehome/index.php?eventid=200183029&',
         'intro_cta_four_title': '',

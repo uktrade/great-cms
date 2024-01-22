@@ -420,7 +420,7 @@ export default function ProductFinderModal(props) {
             aria-label="search item"
           >
             <span className="visually-hidden">Search product</span>
-            <i className="fa fa-arrow-right" />
+            <span role="img" className="fa fa-arrow-right" />
           </button>
         </div>
         {/* Desktop rendering with info cards displayed as a stack  */}
@@ -498,7 +498,7 @@ export default function ProductFinderModal(props) {
           className="back-button m-f-s m-t-m"
           onClick={backToSearch}
         >
-          <i className="fa fa-arrow-circle-left" />
+          <span className="fa fa-arrow-circle-left" />
           Search again
         </button>
         {searchResults && resultsDisplay(searchResults)}

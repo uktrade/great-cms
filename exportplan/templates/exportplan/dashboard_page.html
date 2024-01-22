@@ -14,7 +14,7 @@
             <span class="-section--back-to">
                 <a href="{% url 'exportplan:index' %}"
                    class="back-link h-m body-m-b m-t-xs">
-                    <i class="fas fa-arrow-circle-left"></i><span class="m-f-xs">Back to My export plans</span>
+                    <span role="img" class="great-icon fas fa-arrow-circle-left"></span><span class="m-f-xs">Back to My export plans</span>
                 </a>
             </span>
             <h2 class="h-m p-t-s">{{ export_plan.name }}</h2>
@@ -59,7 +59,7 @@
                     <a id="add-image"
                        href="{% url 'exportplan:add-logo' %}"
                        class="link text-center text-blue-deep-80 p-t-xs p-b-s section-upload">
-                        <i class="fas fa-upload"></i>
+                        <span role="img" class="fas fa-upload"></span>
                         <h3 class="m-v-xs bold">Upload your logo</h3>
                         <p class="m-0">Click here.</p>
                         <p class="m-0">PNG or JPG, 270x170 pixels</p>

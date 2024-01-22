@@ -723,7 +723,6 @@ class TopicPage(Page, mixins.AuthenticatedUserRequired if not settings.FEATURE_D
 
 
 class LessonPlaceholderPage(Page, mixins.AuthenticatedUserRequired if not settings.FEATURE_DEA_V2 else object):
-
     """Structural page to allow for configuring and representing very simple
     to modules (`CuratedListPage`s).
 
@@ -906,6 +905,24 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         use_json_field=True,
     )
 
+    call_to_action = StreamField(
+        [
+            (
+                'ukea_article_cta',
+                blocks.ListBlock(
+                    SnippetChooserBlock('core.UKEACTA'),
+                    template='learn/includes/article_page_cta.html',
+                    label='UKEA Call to action',
+                    max_num=1,
+                    icon='link',
+                ),
+            )
+        ],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
+
     def get_steps(self):
         topics = CuratedListPage.objects.live()
         return [{'text': page.title, 'url': page.url} for page in topics]
@@ -929,6 +946,7 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         FieldPanel('objective'),
         FieldPanel('body'),
         FieldPanel('recap'),
+        FieldPanel('call_to_action'),
     ]
 
     @cached_classmethod
@@ -1040,6 +1058,56 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
                 context['next_module'] = next_module.specific
                 context['next_lesson'] = get_first_lesson(next_module)
         return context
+
+
+class EventOrderable(Orderable):
+    """
+    This allows us to either series or multiple events
+    """
+
+    page = ParentalKey('core.UKEACTA', related_name='ukea_cta_links')
+    event = models.ForeignKey('export_academy.Event', on_delete=models.SET_NULL, null=True, blank=True)
+    series = models.ForeignKey('export_academy.CoursePage', on_delete=models.SET_NULL, null=True, blank=True)
+
+    panels = [FieldPanel('event'), FieldPanel('series')]
+
+
+@register_snippet
+class UKEACTA(ClusterableModel):
+    image = StreamField(
+        [
+            (
+                'media',
+                blocks.StreamBlock(
+                    [
+                        ('image', core_blocks.ImageBlock()),
+                    ],
+                    min_num=1,
+                    max_num=1,
+                ),
+            ),
+        ],
+        use_json_field=True,
+        blank=True,
+        null=True,
+    )
+    name = models.CharField(max_length=50, help_text='Snippet name')
+    panels = [
+        FieldPanel('image'),
+        FieldPanel('name'),
+        MultiFieldPanel(
+            [InlinePanel('ukea_cta_links', label='Link')],
+            heading='Link(s)',
+            icon='link',
+        ),
+    ]
+
+    class Meta:
+        verbose_name = 'UKEA CTA'
+        verbose_name_plural = "UKEA CTA's"
+
+    def __str__(self):
+        return self.name
 
 
 @register_snippet

@@ -11,7 +11,7 @@ export const AddButton = memo(
           className={`button primary-button button--icon ${btnClass}`}
           onClick={add}
         >
-          <i className="fas fa-plus" />
+          <span role="img" className="fas fa-plus govuk-!-margin-right-2" />
           {cta}
         </button>
       )}
