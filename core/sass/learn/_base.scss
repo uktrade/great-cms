@@ -554,10 +554,8 @@ $desktop: 1024px;
     }
 
     ul {
-      @extend .list-dot;
-
       li {
-        list-style-type: none;
+        list-style-type: disc;
       }
     }
 
