@@ -163,7 +163,7 @@
                   class="{% block css_layout_class %}{% endblock css_layout_class %}">
                 {% block content %}{% endblock %}
                 {% block feedback_reporter %}
-                    {% include 'components/inline_feedback/was_page_useful.html' %}
+                    {% include 'components/was_page_useful.html' %}
                 {% endblock %}
                 {% block content_after %}{% endblock %}
                 {% if features.FEATURE_FEEDBACK_BUTTON_EXPERIMENT and "search/feedback" not in request.path %}

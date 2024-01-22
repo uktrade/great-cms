@@ -1,13 +1,9 @@
 {% load get_inline_feedback_visibility from content_tags %}
-<section class="inline-feedback" id="inline-feedback">
-    <h3>Was page useful?</h3>
+<span class="inline-feedback-container" id="inline-feedback">
+    <h5>Was this page useful?</h5>
     {% get_inline_feedback_visibility request.get_full_path as feedback_visibility %}
     <span id="page_useful"
-          class="{% if not feedback_visibility.show_page_useful %}"
-          "
-          great-visually-hidden
-          "
-          {% endif %}>
+          class="{% if not feedback_visibility.show_page_useful %}  great-visually-hidden  {% endif %}">
         {% comment %}
             this is two forms because clicking either yes/no should submit with a relevant value
             as opposed to having an input element and then requiring the user to also click a button
@@ -16,29 +12,26 @@
             {% csrf_token %}
             <input type="hidden" name="current_url" value="{{ request.get_full_path }}">
             <input type="hidden" name="page_useful" value="True">
-            <button type="submit" class="g-button" id="page_useful_yes">Yes</button>
+            <button type="submit"
+                    class="secondary-button small-button"
+                    id="page_useful_yes">Yes</button>
         </form>
         <form method="post" action="{% url 'contact:contact-inline-feedback' %}">
             {% csrf_token %}
             <input type="hidden" name="current_url" value="{{ request.get_full_path }}">
             <input type="hidden" name="page_useful" value="False">
-            <button type="submit" class="g-button" id="page_useful_no" value="no">No</button>
+            <button type="submit"
+                    class="secondary-button small-button"
+                    id="page_useful_no"
+                    value="no">No</button>
         </form>
     </span>
     <span id="positive_feedback"
-          class="{% if not feedback_visibility.show_positive_feedback %}"
-          "
-          great-visually-hidden
-          "
-          {% endif %}>
+          class="{% if not feedback_visibility.show_positive_feedback %}  great-visually-hidden  {% endif %}">
         <h4>positive feedback form</h4>
     </span>
     <span id="negative_feedback"
-          class="{% if not feedback_visibility.show_negative_feedback %}"
-          "
-          great-visually-hidden
-          "
-          {% endif %}>
+          class="{% if not feedback_visibility.show_negative_feedback %}  great-visually-hidden  {% endif %}">
         <h4>negative feedback form</h4>
     </span>
-</section>
+</span>
