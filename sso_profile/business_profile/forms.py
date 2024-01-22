@@ -166,7 +166,7 @@ class CaseStudyRichMediaForm(DynamicHelptextFieldsMixin, forms.Form):
             'create_help_text': image_help_text_create,
             'update_help_text': image_help_text_update,
             'create_label': 'Upload a main image for this case study',
-            'update_label': ('Replace the main image for this case study (optional)'),
+            'update_label': 'Replace the main image for this case study (optional)',
         },
         {
             'field_name': 'image_two',

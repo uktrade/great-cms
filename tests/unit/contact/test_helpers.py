@@ -42,7 +42,7 @@ def all_offices():
             'is_match': True,
             'region_id': 'east_midlands',
             'name': 'DIT East Midlands',
-            'address_street': ('The International Trade Centre, ' '5 Merus Court, ' 'Meridian Business Park'),
+            'address_street': 'The International Trade Centre, ' '5 Merus Court, ' 'Meridian Business Park',
             'address_city': 'Leicester',
             'address_postcode': 'LE19 1RJ',
             'email': 'test+east_midlands@examoke.com',

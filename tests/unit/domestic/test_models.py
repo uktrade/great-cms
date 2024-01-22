@@ -371,8 +371,10 @@ def test_fact_sheet_columns(
                 },
                 {
                     'title': 'Check for trade barriers',
-                    'link': 'https://www.check-international-trade-barriers.service.gov.uk/barriers/'
-                    '?resolved=0&location=fr',
+                    'link': (
+                        'https://www.check-international-trade-barriers.service.gov.uk/barriers/'
+                        '?resolved=0&location=fr'
+                    ),
                 },
             ],
         ),
@@ -768,7 +770,7 @@ def test_base_content_page__get_breadcrumbs(
         {
             'title': article_page.title,
             'url': article_page.url,
-        }
+        },
         # NB: article_page IS in this list
     ]
 

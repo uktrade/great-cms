@@ -15,3 +15,13 @@ class LessonPageFactory(DetailPageFactory):
 class RelatedContentCTASnippetFactory(DjangoModelFactory):
     class Meta:
         model = models.RelatedContentCTA
+
+
+class UKEACTASnippetFactory(DjangoModelFactory):
+    class Meta:
+        model = models.UKEACTA
+
+
+class EventOrderableFactory(DjangoModelFactory):
+    class Meta:
+        model = models.EventOrderable
