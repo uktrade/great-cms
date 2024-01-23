@@ -3,10 +3,10 @@
     {% get_inline_feedback_visibility request.get_full_path as feedback_visibility %}
     <span id="page_useful"
           class="{% if not feedback_visibility.show_page_useful %}  great-visually-hidden  {% endif %}">
-        <form method="post" class="inline-feedback__flex--row">
-            <h5>Was this page useful?</h5>
+        <form method="post" class="inline-feedback-flex-row">
+            <h5 class="govuk-heading-xs">Was this page useful?</h5>
             {% csrf_token %}
-            <input type="hidden" name="current_url" value="{{ request.get_full_path }}">
+            <input type="hidden" name="current_url" value="{{ request.path }}">
             <button type="submit"
                     class="secondary-button small-button"
                     id="page_useful_yes"
@@ -18,11 +18,15 @@
         </form>
     </span>
     <span id="positive_feedback"
-          class="{% if not feedback_visibility.show_positive_feedback %}  great-visually-hidden  {% endif %}">
+        class="{% if not feedback_visibility.show_positive_feedback %}  great-visually-hidden  {% endif %}">
         {% include 'components/inline_feedback/positive_feedback.html' %}
     </span>
     <span id="negative_feedback"
-          class="{% if not feedback_visibility.show_negative_feedback %}  great-visually-hidden  {% endif %}">
+        class="{% if not feedback_visibility.show_negative_feedback %}  great-visually-hidden  {% endif %}">
         {% include 'components/inline_feedback/negative_feedback.html' %}
+    </span>
+    <span id="detailed_feedback_received"
+        class="{% if not feedback_visibility.show_detailed_feedback_received %}  great-visually-hidden  {% endif %}">
+        thanks
     </span>
 </span>

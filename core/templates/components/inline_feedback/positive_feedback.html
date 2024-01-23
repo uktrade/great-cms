@@ -1,18 +1,56 @@
-<span class="inline-feedback__flex--column">
-    <span class="inline-feedback__flex--row">
-        <span role="img" class="fa fa-check"></span>
+<div class="govuk-grid-column-two-thirds">
+    <span class="inline-feedback-flex-row">
+        <span role="img" class="fa fa-check-circle"></span>
         <h5>Thanks for letting us know</h5>
     </span>
-    <span class="inline-feedback__flex--row">Can you tell us why this page was useful?</span>
-    <span class="inline-feedback__flex--row">
-        <form method="post" action="{% url 'contact:contact-inline-feedback' %}">
+    <div class="govuk-form-group">
+        <form method="post" action="{% url 'contact:contact-inline-feedback' %}?detailed_feedback_submitted=True">
             {% csrf_token %}
-            <input type="hidden" name="current_url" value="{{ request.get_full_path }}">
+            <input type="hidden" name="current_url" value="{{ request.path }}">
             <input type="hidden" name="page_useful" value="True">
+
+            <fieldset class="govuk-fieldset" aria-describedby="Why was this page useful?">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                    <h5>
+                        Can you tell us why this page was useful?
+                    </h5>
+                </legend>
+                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                    <div class="govuk-checkboxes__item govuk-!-margin-bottom-3 great-checkbox">
+                        <input type="checkbox" class="govuk-checkboxes__input" name="found_information_needed" value="True" id="found_info">
+                        <label for="found_info" class="govuk-label govuk-checkboxes__label">I found the information I needed</label>
+                    </div>
+                    <div class="govuk-checkboxes__item govuk-!-margin-bottom-3 great-checkbox">
+                        <input type="checkbox" class="govuk-checkboxes__input" name="easily_found" value="True" id="easily_found">
+                        <label for="easily_found" class="govuk-label govuk-checkboxes__label">It was easy to find</label>
+                    </div>
+                    <div class="govuk-checkboxes__item govuk-!-margin-bottom-3 great-checkbox">
+                        <input type="checkbox" class="govuk-checkboxes__input" name="easily_understood" value="True" id="easily_understood">
+                        <label for="easily_understood" class="govuk-label govuk-checkboxes__label">It was easy to understand</label>
+                    </div>
+                    <div class="govuk-checkboxes__item govuk-!-margin-bottom-3 great-checkbox">
+                        <input type="checkbox" class="govuk-checkboxes__input" name="will_use_information_again" value="True" id="will_use_information_again">
+                        <label for="will_use_information_again" class="govuk-label govuk-checkboxes__label">I will use this information again</label>                
+                    </div>
+                </div>
+                <span>
+                    <h5 class="govuk-label-wrapper">
+                        <label class="govuk-label govuk-label--s" for="more-detail">
+                        Is there anything else you can tell us?
+                        </label>
+                    </h5>
+                    <div id="more-detail-hint" class="govuk-hint">
+                        Do not share any personal or commercially sensitive information.
+                    </div>
+                    <textarea class="govuk-textarea" id="more-detail" name="more_detail" rows="4" aria-describedby="more-detail-hint"></textarea>
+                </span>
+            </fieldset>
             <button type="submit"
-                    class="secondary-button small-button"
-                    id="page_useful_no"
-                    value="no">No</button>
+                class="primary-button small-button"
+                id="send_feedback"
+                value="no">Send feedback</button>
+
+            <a href={{ request.get_url }}>Cancel</a>
         </form>
-    </span>
-</span>
+    </div>
+</div>

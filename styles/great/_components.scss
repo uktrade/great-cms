@@ -1783,6 +1783,12 @@ nav.great-breadcrumbs {
   @media (min-width: 1170px) {
     min-height: 500px;
   }
+
+  span[role='img'] {
+    font-size: 28px;
+    color: #00703C;
+  }
+  
 }
 
 .great-hero--product-market > .great-container {

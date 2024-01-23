@@ -520,6 +520,8 @@ def get_inline_feedback_visibility(page_url):
         result['show_positive_feedback'] = True
     elif 'page_useful=False' in page_url:
         result['show_negative_feedback'] = True
+    elif 'detailed_feedback_submitted=True' in page_url:
+        result['show_detailed_feedback_received'] = True
     else:
         result['show_page_useful'] = True
 

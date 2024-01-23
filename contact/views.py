@@ -1137,8 +1137,23 @@ class FTASubscribeFormView(
 class InlineFeedbackView(GenericAPIView):
     def post(self, request, *args, **kwargs):
         data = self.request.data.copy()
-        data['page_useful'] = request.query_params['page_useful']
-        # as this is 'inline' need to send user back to page from which form was submitted
+
+        if 'page_useful' in request.query_params.keys():
+            data['page_useful'] = request.query_params['page_useful']
+            # takes the user back to the relevant section of the original page so they have the
+            # opportunity to complete more in-depth feedback
+            # todo: flow control when user has already clicked page_useful and is completing the positive/negative feedback forms
+            # todo: ensure redirect works when there are additional qs params
+            response = HttpResponseRedirect(
+                redirect_to=f"{data['current_url']}?page_useful={data['page_useful']}/#inline-feedback"
+            )
+        elif 'detailed_feedback_submitted' in request.query_params.keys():
+            data['detailed_feedback_submitted'] = request.query_params['detailed_feedback_submitted']
+            response = HttpResponseRedirect(
+                redirect_to=f"{data['current_url']}?detailed_feedback_submitted={data['detailed_feedback_submitted']}/#inline-feedback"
+            )
+
+
         # import pdb; pdb.set_trace()
         sender = Sender(
             email_address='blank@email.com',
@@ -1160,13 +1175,6 @@ class InlineFeedbackView(GenericAPIView):
         # under great.gov.uk form submissions verify table
         save_response = action.save(data)
 
-        # takes the user back to the relevant section of the original page so they have the
-        # opportunity to complete more in-depth feedback
-        # todo: flow control when user has already clicked page_useful and is completing the positive/negative feedback forms
-        # todo: ensure redirect works when there are additional qs params
-        response = HttpResponseRedirect(
-            redirect_to=f"{data['current_url']}?page_useful={data['page_useful']}/#inline-feedback"
-        )
         # ref on 303 https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/303
         response.status_code = 303
         return response
