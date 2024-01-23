@@ -1,0 +1,18 @@
+<span class="inline-feedback__flex--column">
+    <span class="inline-feedback__flex--row">
+        <span role="img" class="fa fa-check"></span>
+        <h5>Thanks for letting us know</h5>
+    </span>
+    <span class="inline-feedback__flex--row">Can you tell us why this page was useful?</span>
+    <span class="inline-feedback__flex--row">
+        <form method="post" action="{% url 'contact:contact-inline-feedback' %}">
+            {% csrf_token %}
+            <input type="hidden" name="current_url" value="{{ request.get_full_path }}">
+            <input type="hidden" name="page_useful" value="True">
+            <button type="submit"
+                    class="secondary-button small-button"
+                    id="page_useful_no"
+                    value="no">No</button>
+        </form>
+    </span>
+</span>

@@ -1137,6 +1137,7 @@ class FTASubscribeFormView(
 class InlineFeedbackView(GenericAPIView):
     def post(self, request, *args, **kwargs):
         data = self.request.data.copy()
+        data['page_useful'] = request.query_params['page_useful']
         # as this is 'inline' need to send user back to page from which form was submitted
         # import pdb; pdb.set_trace()
         sender = Sender(
