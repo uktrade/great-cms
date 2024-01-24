@@ -980,3 +980,7 @@ $desktop: 1024px;
     padding-top: 10px;
   }
 }
+
+.govuk-list--number>li {
+  list-style-type: decimal
+}
