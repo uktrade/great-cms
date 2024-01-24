@@ -26,6 +26,8 @@ def is_capex_spend(sector, spend, spend_other=0):
     capex_sector_spend = [
         {sectors.TECHNOLOGY_AND_SMART_CITIES: 2400000},
         {directory_constants_sectors.CONSUMER_AND_RETAIL: 848513},
+        {sectors.PHARMACEUTICALS_AND_BIOTECHNOLOGY: 2099999},
+        {directory_constants_sectors.ENERGY: 499999},
     ]
     if spend == spends.SPECIFIC_AMOUNT:
         spend_upper_value = spend_other
@@ -50,6 +52,8 @@ def is_labour_workforce_hire(sector, hiring):
         {directory_constants_sectors.FINANCIAL_AND_PROFESSIONAL_SERVICES: 11},
         {directory_constants_sectors.CONSUMER_AND_RETAIL: 15},
         {sectors.CREATIVE_INDUSTRIES: 9},
+        {sectors.HEALHCARE_SERVICES: 10},
+        {sectors.MEDICAL_DEVICES_AND_EQUIPMENT: 10},
     ]
 
     if hiring == hirings.NO_PLANS_TO_HIRE_YET:
