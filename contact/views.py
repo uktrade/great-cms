@@ -1137,43 +1137,36 @@ class FTASubscribeFormView(
 class InlineFeedbackView(GenericAPIView):
     def post(self, request, *args, **kwargs):
         data = self.request.data.copy()
+        # no need to save this token
+        del data['csrfmiddlewaretoken']
 
         if 'page_useful' in request.query_params.keys():
             data['page_useful'] = request.query_params['page_useful']
-            # takes the user back to the relevant section of the original page so they have the
-            # opportunity to complete more in-depth feedback
-            # todo: flow control when user has already clicked page_useful and is completing the positive/negative feedback forms
-            # todo: ensure redirect works when there are additional qs params
             response = HttpResponseRedirect(
                 redirect_to=f"{data['current_url']}?page_useful={data['page_useful']}/#inline-feedback"
             )
         elif 'detailed_feedback_submitted' in request.query_params.keys():
             data['detailed_feedback_submitted'] = request.query_params['detailed_feedback_submitted']
             response = HttpResponseRedirect(
-                redirect_to=f"{data['current_url']}?detailed_feedback_submitted={data['detailed_feedback_submitted']}/#inline-feedback"
+                redirect_to=f"{data['current_url']}?detailed_feedback_submitted={data['detailed_feedback_submitted']}/#inline-feedback"  # noqa:E501
             )
 
+        email_address = request.user.email if request.user.is_authenticated else 'blank@example.com'
 
-        # import pdb; pdb.set_trace()
         sender = Sender(
-            email_address='blank@email.com',
+            email_address=email_address,
             country_code=None,
         )
 
         action = actions.SaveOnlyInDatabaseAction(
-            full_name='example',
-            email_address='blank@email.com',
-            subject='example subject',
+            full_name='NA',
+            email_address=email_address,
+            subject='NA',
             sender=sender,
             form_url=self.request.get_full_path(),
         )
 
-        # this saves the data in directory-forms-api db as per ticket
-        # todo: do we want the email address of logged in users which will probably
-        # add valuable context when drawing inferences from the dataset?
-        # todo: fairly certian this gets brought into data workspace 'for free'
-        # under great.gov.uk form submissions verify table
-        save_response = action.save(data)
+        action.save(data)
 
         # ref on 303 https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/303
         response.status_code = 303
