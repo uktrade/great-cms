@@ -1,19 +1,17 @@
-<div class="govuk-grid-column-two-thirds">
-    <span class="inline-feedback-flex-row">
+<span>
+    <div class="inline-feedback__submission-confirmation">
         <span role="img" class="fa fa-check-circle"></span>
         <h5>Thanks for letting us know</h5>
-    </span>
+    </div>
     <div class="govuk-form-group">
-        <form method="post" action="{% url 'contact:contact-inline-feedback' %}?detailed_feedback_submitted=True">
+        <form method="post" action="{% url 'contact:contact-inline-feedback' %}?detailed_feedback_submitted=True" class="inline-feedback__detail-form">
             {% csrf_token %}
             <input type="hidden" name="current_url" value="{{ request.path }}">
             <input type="hidden" name="page_useful" value="True">
 
             <fieldset class="govuk-fieldset" aria-describedby="Why was this page useful?">
-                <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                    <h5>
-                        Can you tell us why this page was useful?
-                    </h5>
+                <legend class="govuk-fieldset__legend legend">
+                       <h5> Can you tell us why this page was useful? </h5>
                 </legend>
                 <div class="govuk-checkboxes" data-module="govuk-checkboxes">
                     <div class="govuk-checkboxes__item govuk-!-margin-bottom-3 great-checkbox">
@@ -33,24 +31,24 @@
                         <label for="will_use_information_again" class="govuk-label govuk-checkboxes__label">I will use this information again</label>                
                     </div>
                 </div>
-                <span>
-                    <h5 class="govuk-label-wrapper">
-                        <label class="govuk-label govuk-label--s" for="more-detail">
-                        Is there anything else you can tell us?
-                        </label>
-                    </h5>
-                    <div id="more-detail-hint" class="govuk-hint">
-                        Do not share any personal or commercially sensitive information.
+                <div>
+                    <label for="more-detail">
+                        <h5>
+                            Is there anything else you can tell us?
+                        </h5>
+                    </label>
+                    <div id="more-detail-hint">
+                        <p> Do not share any personal or commercially sensitive information. </p>
                     </div>
                     <textarea class="govuk-textarea" id="more-detail" name="more_detail" rows="4" aria-describedby="more-detail-hint"></textarea>
-                </span>
+                </div>
             </fieldset>
             <button type="submit"
                 class="primary-button small-button"
                 id="send_feedback"
                 value="no">Send feedback</button>
 
-            <a href={{ request.get_url }}>Cancel</a>
+            <a href={{ request.path }}>Cancel</a>
         </form>
     </div>
-</div>
+</span>
