@@ -43,6 +43,8 @@ def test_is_labour_workforce_hire():
         (directory_constants_sectors.FOOD_AND_DRINK, regions.EAST_OF_ENGLAND, True),
         (sectors.TECHNOLOGY_AND_SMART_CITIES, regions.NORTH_EAST, False),
         (sectors.TECHNOLOGY_AND_SMART_CITIES, regions.WALES, True),
+        (sectors.CREATIVE_INDUSTRIES, regions.WALES, False),
+        (sectors.CREATIVE_INDUSTRIES, regions.NORTH_EAST, True),
         (directory_constants_sectors.ENERGY, regions.WALES, False),
         (directory_constants_sectors.ENERGY, regions.SCOTLAND, True),
         (sectors.PHARMACEUTICALS_AND_BIOTECHNOLOGY, regions.LONDON, False),
