@@ -52,8 +52,8 @@ class Breadcrumbs(template.Node):
             output_soup.find('ol').append(element)
 
         # adding the current page
-        current = template.Variable(self.bit).resolve(context)
-        output_soup.find('ol').append(f'<li aria-current="page"><span>{current}</span></li>')
+        # current = template.Variable(self.bit).resolve(context)
+        # output_soup.find('ol').append(f'<li aria-current="page"><span>{current}</span></li>')
         return output_soup.decode(formatter=None)
 
 

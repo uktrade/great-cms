@@ -39,11 +39,11 @@ beautifulsoup4==4.11.2
     #   wagtail
 billiard==3.6.4.0
     # via celery
-boto3==1.24.96
+boto3==1.34.27
     # via
     #   -r requirements.in
     #   django-storages
-botocore==1.27.96
+botocore==1.34.27
     # via
     #   boto3
     #   s3transfer
@@ -79,7 +79,7 @@ click-repl==0.3.0
     # via celery
 cron-descriptor==1.4.0
     # via django-celery-beat
-cryptography==41.0.7
+cryptography==42.0.0
     # via
     #   -r requirements.in
     #   pyhanko
@@ -92,32 +92,33 @@ dateparser==0.7.2
     # via -r requirements.in
 defusedxml==0.7.1
     # via willow
-directory-api-client==26.4.2
+directory-api-client==26.4.5
     # via -r requirements.in
-directory-ch-client==3.1.0
+directory-ch-client==4.0.0
     # via -r requirements.in
-directory-client-core==7.2.8
+directory-client-core==7.2.9
     # via
+    #   -r requirements.in
     #   directory-api-client
     #   directory-ch-client
     #   directory-forms-api-client
     #   directory-sso-api-client
-directory-components==39.1.2
+directory-components==40.1.1
     # via -r requirements.in
-directory-constants==23.1.1
+directory-constants==24.1.0
     # via
     #   -r requirements.in
     #   directory-components
     #   great-components
-directory-forms-api-client==7.3.1
+directory-forms-api-client==7.3.2
     # via -r requirements.in
-directory-healthcheck==3.2
+directory-healthcheck==3.3
     # via -r requirements.in
-directory-sso-api-client==7.2.3
+directory-sso-api-client==7.2.6
     # via -r requirements.in
-directory-validators==9.3.0
+directory-validators==9.3.2
     # via -r requirements.in
-django==4.2
+django==4.2.7
     # via
     #   -r requirements.in
     #   directory-api-client
@@ -156,17 +157,17 @@ django-csp==3.7
     # via -r requirements.in
 django-decorator-include==3.0
     # via -r requirements.in
-django-environ==0.4.5
+django-environ==0.11.2
     # via -r requirements.in
 django-extensions==3.2.3
     # via -r requirements.in
 django-filter==23.5
     # via wagtail
-django-formtools==2.3
+django-formtools==2.5.1
     # via -r requirements.in
 django-health-check==3.17.0
     # via directory-healthcheck
-django-ipware==2.1.0
+django-ipware==6.0.3
     # via -r requirements.in
 django-modelcluster==6.2.1
     # via wagtail
@@ -176,9 +177,9 @@ django-recaptcha==3.0.0
     # via -r requirements.in
 django-redis==5.4.0
     # via -r requirements.in
-django-staff-sso-client==4.2.0
+django-staff-sso-client==4.2.1
     # via -r requirements.in
-django-storages[boto3]==1.13.2
+django-storages[boto3]==1.14.2
     # via
     #   -r requirements.in
     #   django-storages
@@ -216,13 +217,13 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==22.4.0
+faker==22.5.1
     # via factory-boy
 filetype==1.2.0
     # via willow
 geoip2==2.9.0
     # via -r requirements.in
-great-components==2.5.1
+great-components==2.5.3
     # via -r requirements.in
 gunicorn==20.1.0
     # via -r requirements.in
@@ -339,6 +340,8 @@ python-dateutil==2.8.2
     #   icalendar
     #   pandas
     #   python-crontab
+python-ipware==2.0.1
+    # via django-ipware
 python-magic==0.4.27
     # via -r requirements.in
 pytz==2023.3
@@ -383,11 +386,11 @@ requests==2.31.0
     #   wagtail
 requests-oauthlib==1.3.1
     # via django-staff-sso-client
-s3transfer==0.6.2
+s3transfer==0.10.0
     # via boto3
 sentry-sdk==1.14.0
     # via -r requirements.in
-sigauth==5.2.0
+sigauth==5.2.4
     # via
     #   -r requirements.in
     #   directory-client-core
