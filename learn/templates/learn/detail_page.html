@@ -6,7 +6,7 @@
 {% block content %}
     {% load breadcrumbs from component_tags %}
     <div class="great-container">
-        {% breadcrumbs page great-breadcrumbs %}
+        {% breadcrumbs great-breadcrumbs %}
         <a href={{ BREADCRUMBS_ROOT_URL|default:"/" }}>great.gov.uk</a>
         <a href="/learn/categories/">Learn to export</a>
         <a href={{ page.get_parent.get_parent.url }}>{{ page.get_parent.get_parent.title|default:"/" }}</a>

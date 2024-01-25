@@ -2,7 +2,7 @@
 {% load breadcrumbs from component_tags %}
 {% load static %}
 {% block form_contents %}
-    {% breadcrumbs 'Social links' %}
+    {% breadcrumbs %}
     <a href="{% url 'sso_profile:about' %}">Home</a>
     <a href="{% url 'sso_profile:business-profile' %}">Business profile</a>
 {% endbreadcrumbs %}

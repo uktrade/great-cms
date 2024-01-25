@@ -14,7 +14,7 @@
 {% block content %}
     {% static 'images/report-a-trade-barrier-header.png' as xlarge_hero %}
     {% include 'components/hero.html' with image_url=xlarge_hero hero_title='Check or report a trade barrier' %}
-    {% breadcrumbs 'Report a trade barrier' %}
+    {% breadcrumbs %}
     <a href="/">great.gov.uk</a>
     <a href="{% url 'domestic:market-access' %}">Trade barriers</a>
 {% endbreadcrumbs %}
