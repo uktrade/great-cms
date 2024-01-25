@@ -685,22 +685,6 @@ $desktop: 1024px;
     }
   }
 
-
-  .lesson-body-blocks > h2:first-of-type {
-    padding-top: 15px;
-    @include tablet {
-      padding-top: 20px;
-    }
-  }
-
-
-  .lesson-body-blocks > h3:first-of-type {
-    padding-top: 5px;
-    @include tablet {
-      padding-top: 10px;
-    }
-  }
-
   .step-by-step {
     h2,
     h3,
@@ -981,5 +965,20 @@ $desktop: 1024px;
       position: relative;
       top: -2px;
     }
+  }
+}
+
+.lesson-body-blocks > div > h2:first-child {
+  padding-top: 15px;
+  @include govuk-media-query($from: tablet) {
+    padding-top: 20px;
+  }
+}
+
+
+.lesson-body-blocks > div > h3:first-child {
+  padding-top: 5px;
+  @include govuk-media-query($from: tablet) {
+    padding-top: 10px;
   }
 }
