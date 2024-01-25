@@ -1,7 +1,10 @@
+import pytest
+
 from directory_constants import sectors as directory_constants_sectors
 from international_online_offer.core import hirings, regions, scorecard, sectors, spends
 
 
+@pytest.mark.django_db
 def test_is_capex_spend():
     assert not scorecard.is_capex_spend(
         directory_constants_sectors.FOOD_AND_DRINK, spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND
@@ -22,6 +25,7 @@ def test_is_capex_spend():
     assert scorecard.is_capex_spend(sectors.TECHNOLOGY_AND_SMART_CITIES, spends.SPECIFIC_AMOUNT, '2400000')
 
 
+@pytest.mark.django_db
 def test_is_labour_workforce_hire():
     assert not scorecard.is_labour_workforce_hire(directory_constants_sectors.FOOD_AND_DRINK, hirings.ONE_TO_TEN)
     assert scorecard.is_labour_workforce_hire(directory_constants_sectors.FOOD_AND_DRINK, hirings.ELEVEN_TO_FIFTY)
@@ -32,13 +36,28 @@ def test_is_labour_workforce_hire():
     )
 
 
-def test_is_hpo():
-    assert scorecard.is_hpo(directory_constants_sectors.FOOD_AND_DRINK, regions.EAST_OF_ENGLAND)
-    assert scorecard.is_hpo(sectors.TECHNOLOGY_AND_SMART_CITIES, regions.WALES)
-    assert not scorecard.is_hpo(directory_constants_sectors.FOOD_AND_DRINK, regions.WALES)
-    assert not scorecard.is_hpo(sectors.TECHNOLOGY_AND_SMART_CITIES, regions.NORTH_EAST)
+@pytest.mark.parametrize(
+    'sector,region,expected_result',
+    (
+        (directory_constants_sectors.FOOD_AND_DRINK, regions.WALES, False),
+        (directory_constants_sectors.FOOD_AND_DRINK, regions.EAST_OF_ENGLAND, True),
+        (sectors.TECHNOLOGY_AND_SMART_CITIES, regions.NORTH_EAST, False),
+        (sectors.TECHNOLOGY_AND_SMART_CITIES, regions.WALES, True),
+        (sectors.CREATIVE_INDUSTRIES, regions.WALES, False),
+        (sectors.CREATIVE_INDUSTRIES, regions.NORTH_EAST, True),
+        (directory_constants_sectors.ENERGY, regions.WALES, False),
+        (directory_constants_sectors.ENERGY, regions.SCOTLAND, True),
+        (sectors.PHARMACEUTICALS_AND_BIOTECHNOLOGY, regions.LONDON, False),
+        (sectors.PHARMACEUTICALS_AND_BIOTECHNOLOGY, regions.WALES, True),
+        (sectors.HEALHCARE_SERVICES, regions.SCOTLAND, False),
+        (sectors.HEALHCARE_SERVICES, regions.WEST_MIDLANDS, True),
+    ),
+)
+def test_is_hpo(sector, region, expected_result):
+    assert scorecard.is_hpo(sector, region) == expected_result
 
 
+@pytest.mark.django_db
 def test_score_is_high_value():
     assert not scorecard.score_is_high_value(None, None, None, None)
     assert not scorecard.score_is_high_value(directory_constants_sectors.FOOD_AND_DRINK, None, None, None)

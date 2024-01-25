@@ -140,9 +140,11 @@ def get_ics_button(event, on_confirmation):
         f'Add to calendar<span class="great-visually-hidden">{event.name}</span>',
         'value': 'Confirmed',
         'type': 'submit',
-        'classname': 'govuk-button ukea-ga-tracking govuk-!-margin-bottom-0'
-        if on_confirmation
-        else 'govuk-button govuk-button--secondary ukea-ga-tracking govuk-!-margin-bottom-0',
+        'classname': (
+            'govuk-button ukea-ga-tracking govuk-!-margin-bottom-0'
+            if on_confirmation
+            else 'govuk-button govuk-button--secondary ukea-ga-tracking govuk-!-margin-bottom-0'
+        ),
     }
 
 
