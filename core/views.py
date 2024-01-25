@@ -584,3 +584,11 @@ class DesignSystemView(TemplateView):
 
 class ProductMarketView(TemplateView):
     template_name = 'core/product-market.html'
+
+    def get_context_data(self):
+        countries_data = {'germany': {'display_name': 'Germany', 'title': 'Exporting to germany'}}
+        data = countries_data.get(self.request.GET.get('market'))
+
+        return super().get_context_data(
+            data=data,
+        )
