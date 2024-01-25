@@ -10,8 +10,44 @@ from django.core.management import call_command
 @pytest.mark.django_db
 def test_import_eyb_data(mgm_cmd):
     with patch('core.helpers.get_s3_file_stream') as mock_work_function:
-        call_command(mgm_cmd, stdout=StringIO())
-        assert mock_work_function.called
+        with patch('tablib.import_set') as mock_import_set:
+            mock_import_set.return_value = tablib.Dataset(
+                [
+                    'TRADE_ASSOCIATION_0001',
+                    'Manufacturing, Energy and Infrastructure 1',
+                    'UK H2 Mobility 1',
+                    'http://www.ukh2mobility.co.uk/',
+                    'Energy',
+                    'Some test description here',
+                ],
+                [
+                    'TRADE_ASSOCIATION_0002',
+                    'Manufacturing, Food and Infrastructure 2',
+                    'UK H2 Mobility 2',
+                    'http://www.ukh2mobility.co.uk/',
+                    'Food and Drink',
+                    'Some test description here',
+                ],
+                [
+                    'TRADE_ASSOCIATION_0003',
+                    'Manufacturing, Technology and Infrastructure 3',
+                    'UK H2 Mobility 3',
+                    'http://www.ukh2mobility.co.uk/',
+                    'Technology',
+                    'Some test description here',
+                ],
+                headers=[
+                    'trade_assocation_id',
+                    'sector_grouping',
+                    'association_name',
+                    'website_link',
+                    'sector',
+                    'brief_description',
+                ],
+            )
+            mock_work_function.return_value = None
+            call_command(mgm_cmd, stdout=StringIO())
+            assert mock_work_function.called
 
 
 @pytest.mark.parametrize('mgm_cmd', [('eyb_import_salary_data')])

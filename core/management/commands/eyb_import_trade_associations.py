@@ -16,14 +16,14 @@ class Command(BaseCommand):
             bucket_name=settings.AWS_STORAGE_BUCKET_NAME_DATA_SCIENCE,
         )
         data = tablib.import_set(file, format='csv', headers=True)
+        TradeAssociation.objects.all().delete()
         for item in data:
-            if not TradeAssociation.objects.filter(trade_association_id=item[0]).exists():
-                TradeAssociation.objects.create(
-                    trade_association_id=item[0],
-                    sector_grouping=item[1],
-                    association_name=item[2],
-                    website_link=item[3],
-                    sector=item[4],
-                    brief_description=item[5],
-                )
+            TradeAssociation.objects.create(
+                trade_association_id=item[0],
+                sector_grouping=item[1],
+                association_name=item[2],
+                website_link=item[3],
+                sector=item[4],
+                brief_description=item[5],
+            )
         self.stdout.write(self.style.SUCCESS('All done with trade associations, bye!'))
