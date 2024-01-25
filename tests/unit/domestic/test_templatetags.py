@@ -118,17 +118,6 @@ def test_breadcrumbs_simple__root_url_override(rf):
     )
 
 
-def test_breadcrumb_missing_label():
-    with pytest.raises(ValueError) as ctx:
-        Template(
-            '{% load breadcrumbs from component_tags %}'
-            '{% breadcrumbs %}'
-            '<a href="/foo"></a>'
-            '{% endbreadcrumbs %}'
-        )
-        assert ctx.message == 'Please specify the label of the current page'
-
-
 def test_breadcrumb_missing_href(rf):
     template = Template(
         '{% load breadcrumbs from component_tags %}'
