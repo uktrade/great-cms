@@ -54,7 +54,6 @@ def test_breadcrumbs_simple(rf):
         '<ol>\n'
         '<li><a href="/path/to/">EXAMPLE LINK ONE</a></li>'
         '<li><a href="/path/to/something">EXAMPLE LINK TWO</a></li>'
-        '<li aria-current="page"><span>Examples</span></li>'
         '</ol>\n'
         '</nav>\n</div>'
     )
@@ -92,7 +91,6 @@ def test_breadcrumbs_simple__root_url_override(rf):
         '<li><a href="https://great.gov.uk/">great.gov.uk</a></li>'
         '<li><a href="/path/to/">EXAMPLE LINK ONE</a></li>'
         '<li><a href="/path/to/something">EXAMPLE LINK TWO</a></li>'
-        '<li aria-current="page"><span>Examples</span></li>'
         '</ol>\n'
         '</nav>\n</div>'
     )
