@@ -66,6 +66,25 @@
   }
 }
 
+// Hero with input - Product/Market campaign
+
+.great-hero--product-market,
+.great-hero--product-market > .container {
+  min-height: auto;
+}
+
+.great-hero--product-market > .container {
+  padding: 45px 15px;
+}
+
+.great-hero--product-market h1 {
+  margin-top: 0;
+}
+
+.great-hero--product-market p {
+  margin-bottom: 0;
+}
+
 // Hero with CTA
 
 .great-hero-with-cta {

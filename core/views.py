@@ -580,3 +580,7 @@ class AltImageChooserViewSet(ImageChooserViewSet):
 
 class DesignSystemView(TemplateView):
     template_name = 'design-system/design-system.html'
+
+
+class ProductMarketView(TemplateView):
+    template_name = 'core/product-market.html'
