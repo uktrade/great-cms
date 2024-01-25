@@ -5,6 +5,8 @@ from datetime import timedelta
 
 from directory_forms_api_client import actions
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
@@ -34,23 +36,6 @@ from export_academy.cms_panels import (
     ExportAcademyPagePanels,
 )
 from export_academy.forms import EventAdminModelForm
-
-
-def send_notifications_for_all_bookings(event, template_id, additional_notify_data=None):
-    bookings = Booking.objects.exclude(status='Cancelled').filter(event_id=event.id)
-    for booking in bookings:
-        email = booking.registration.email
-
-        action = actions.GovNotifyEmailAction(
-            email_address=email,
-            template_id=template_id,
-            form_url=str(),
-        )
-        notify_data = dict(first_name=booking.registration.first_name, event_name=booking.event.name)
-        if additional_notify_data:
-            notify_data.update(**additional_notify_data)
-
-        action.save(notify_data)
 
 
 class EventTypeTag(TagBase):
@@ -185,11 +170,6 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
                 else:
                     self.slug = slug
                     break
-
-        # Send notification when completed is updated
-        if not self._state.adding:
-            if self._loaded_values['completed'] is None and self.completed:
-                send_notifications_for_all_bookings(self, settings.EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID)
 
         return super().save(**kwargs)
 
@@ -620,3 +600,27 @@ class VideoOnDemandPageTracking(TimeStampedModel):
     class Meta:
         ordering = ('-created',)
         models.UniqueConstraint(fields=['user_email', 'event', 'video'], name='unique_vodpagetracking')
+
+
+@receiver(post_save, sender=Event)
+def send_notifications_for_all_bookings(sender, instance, **kwargs):
+    # Send notification when completed is updated
+    template_id = 'work out your template id'
+    # template_id=settings.EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID
+    additional_notify_data = 'work out your adittional data'
+    if not instance._state.adding:
+        if instance._loaded_values['completed'] is None and instance.completed:
+            bookings = Booking.objects.exclude(status='Cancelled').filter(event_id=instance.id)
+            for booking in bookings:
+                email = booking.registration.email
+
+                action = actions.GovNotifyEmailAction(
+                    email_address=email,
+                    template_id=template_id,
+                    form_url=str(),
+                )
+                notify_data = dict(first_name=booking.registration.first_name, event_name=booking.event.name)
+                if additional_notify_data:
+                    notify_data.update(**additional_notify_data)
+
+                action.save(notify_data)
