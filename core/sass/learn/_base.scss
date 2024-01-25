@@ -685,14 +685,14 @@ $desktop: 1024px;
     }
   }
 
-  .lesson-body-block > h2:first-of-type {
+  .lesson-body-blocks > h2:first-of-type {
     padding-top: 15px;
     @include tablet {
       padding-top: 20px;
     }
   }
 
-  .lesson-body-block > h3:first-of-type {
+  .lesson-body-blocks > h3:first-of-type {
     padding-top: 5px;
     @include tablet {
       padding-top: 10px;
