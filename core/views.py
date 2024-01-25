@@ -7,7 +7,7 @@ from django.conf import settings
 from django.contrib.sitemaps import Sitemap as DjangoSitemap
 from django.core.files.storage import default_storage
 from django.http import Http404, HttpResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse, reverse_lazy
 from django.utils.crypto import get_random_string
@@ -591,4 +591,10 @@ class ProductMarketView(TemplateView):
 
         return super().get_context_data(
             data=data,
+            product=self.request.GET.get('product'),
         )
+
+    def post(self, request, *args, **kwargs):
+        product = request.POST.get('product')
+
+        return redirect(reverse_lazy('core:product-market') + '?product=' + product)
