@@ -984,3 +984,7 @@ $desktop: 1024px;
 .govuk-list--number>li {
   list-style-type: decimal
 }
+
+.govuk-list.govuk-list--bullet li b {
+  font-family: "Noto SemiBold", Arial, Helvetica, Verdana; /* New font-family */
+}
