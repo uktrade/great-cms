@@ -968,7 +968,7 @@ $desktop: 1024px;
   }
 }
 
-.lesson-body-blocks > div > h2:first-child {
+.lesson-body-blocks > div > h2:first-of-type {
   padding-top: 15px;
   @include govuk-media-query($from: tablet) {
     padding-top: 20px;
@@ -976,7 +976,7 @@ $desktop: 1024px;
 }
 
 
-.lesson-body-blocks > div > h3:first-child {
+.lesson-body-blocks > div > h3:first-of-type {
   padding-top: 5px;
   @include govuk-media-query($from: tablet) {
     padding-top: 10px;
