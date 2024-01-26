@@ -1,11 +1,12 @@
 import pickle
+from http.client import CREATED
 from urllib.parse import urlparse
 
 from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import FormSessionMixin, Sender
 from django.conf import settings
 from django.core.cache import cache
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
@@ -1136,20 +1137,12 @@ class FTASubscribeFormView(
 
 class InlineFeedbackView(GenericAPIView):
     def post(self, request, *args, **kwargs):
+        js_enabled = 'js_enabled' in request.query_params.keys()
         data = self.request.data.copy()
-        # no need to save this token
-        del data['csrfmiddlewaretoken']
 
-        if 'page_useful' in request.query_params.keys():
+        # non-js for initial yes/no form where we use query params to pass the page_useful value
+        if not js_enabled and 'page_useful' in request.query_params.keys():
             data['page_useful'] = request.query_params['page_useful']
-            response = HttpResponseRedirect(
-                redirect_to=f"{data['current_url']}?page_useful={data['page_useful']}/#inline-feedback"
-            )
-        elif 'detailed_feedback_submitted' in request.query_params.keys():
-            data['detailed_feedback_submitted'] = request.query_params['detailed_feedback_submitted']
-            response = HttpResponseRedirect(
-                redirect_to=f"{data['current_url']}?detailed_feedback_submitted={data['detailed_feedback_submitted']}/#inline-feedback"  # noqa:E501
-            )
 
         email_address = request.user.email if request.user.is_authenticated else 'blank@example.com'
 
@@ -1166,8 +1159,28 @@ class InlineFeedbackView(GenericAPIView):
             form_url=self.request.get_full_path(),
         )
 
-        action.save(data)
+        save_result = action.save(data)
 
-        # ref on 303 https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/303
-        response.status_code = 303
-        return response
+        if js_enabled:
+            response = HttpResponse()
+            response.status_code = save_result.status_code
+            return response
+        else:
+            # for non-js the user is redirected to the current page with some additional QS params that are used
+            # when determining which elements should be displayed and navigates the user back to #inline-feedback
+            if save_result.status_code == CREATED:
+                if 'page_useful' in request.query_params.keys():
+                    response = HttpResponseRedirect(
+                        redirect_to=f"{data['current_url']}?page_useful={data['page_useful']}/#inline-feedback"
+                    )
+                elif 'detailed_feedback_submitted' in request.query_params.keys():
+                    response = HttpResponseRedirect(
+                        redirect_to=f"{data['current_url']}?detailed_feedback_submitted=True/#inline-feedback"
+                    )
+            else:
+                response = HttpResponseRedirect(
+                    redirect_to=f"{data['current_url']}?submission_error=True/#inline-feedback"
+                )
+
+            response.status_code = 303
+            return response

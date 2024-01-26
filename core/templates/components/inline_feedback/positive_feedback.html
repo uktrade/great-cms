@@ -4,50 +4,70 @@
         <h5>Thanks for letting us know</h5>
     </div>
     <div class="govuk-form-group">
-        <form method="post" action="{% url 'contact:contact-inline-feedback' %}?detailed_feedback_submitted=True" class="inline-feedback__detail-form">
+        <form method="post"
+              action="{% url 'contact:contact-inline-feedback' %}?detailed_feedback_submitted=True"
+              class="inline-feedback__detail-form"
+              id="positive-feedback-form">
             {% csrf_token %}
             <input type="hidden" name="current_url" value="{{ request.path }}">
             <input type="hidden" name="page_useful" value="True">
-
             <fieldset class="govuk-fieldset" aria-describedby="Why was this page useful?">
                 <legend class="govuk-fieldset__legend legend">
-                       <h5> Can you tell us why this page was useful? </h5>
+                    <h5>Can you tell us why this page was useful?</h5>
                 </legend>
                 <div class="govuk-checkboxes" data-module="govuk-checkboxes">
                     <div class="govuk-checkboxes__item govuk-!-margin-bottom-3 great-checkbox">
-                        <input type="checkbox" class="govuk-checkboxes__input" name="found_information_needed" value="True" id="found_info">
-                        <label for="found_info" class="govuk-label govuk-checkboxes__label">I found the information I needed</label>
+                        <input type="checkbox"
+                               class="govuk-checkboxes__input"
+                               name="found_information_needed"
+                               value="True"
+                               id="found-info">
+                        <label for="found-info" class="govuk-label govuk-checkboxes__label">I found the information I needed</label>
                     </div>
                     <div class="govuk-checkboxes__item govuk-!-margin-bottom-3 great-checkbox">
-                        <input type="checkbox" class="govuk-checkboxes__input" name="easily_found" value="True" id="easily_found">
-                        <label for="easily_found" class="govuk-label govuk-checkboxes__label">It was easy to find</label>
+                        <input type="checkbox"
+                               class="govuk-checkboxes__input"
+                               name="easily_found"
+                               value="True"
+                               id="easily-found">
+                        <label for="easily-found" class="govuk-label govuk-checkboxes__label">It was easy to find</label>
                     </div>
                     <div class="govuk-checkboxes__item govuk-!-margin-bottom-3 great-checkbox">
-                        <input type="checkbox" class="govuk-checkboxes__input" name="easily_understood" value="True" id="easily_understood">
-                        <label for="easily_understood" class="govuk-label govuk-checkboxes__label">It was easy to understand</label>
+                        <input type="checkbox"
+                               class="govuk-checkboxes__input"
+                               name="easily_understood"
+                               value="True"
+                               id="easily-understood">
+                        <label for="easily-understood" class="govuk-label govuk-checkboxes__label">It was easy to understand</label>
                     </div>
                     <div class="govuk-checkboxes__item govuk-!-margin-bottom-3 great-checkbox">
-                        <input type="checkbox" class="govuk-checkboxes__input" name="will_use_information_again" value="True" id="will_use_information_again">
-                        <label for="will_use_information_again" class="govuk-label govuk-checkboxes__label">I will use this information again</label>                
+                        <input type="checkbox"
+                               class="govuk-checkboxes__input"
+                               name="will_use_information_again"
+                               value="True"
+                               id="will-use-information-again">
+                        <label for="will-use-information-again"
+                               class="govuk-label govuk-checkboxes__label">I will use this information again</label>
                     </div>
                 </div>
                 <div>
                     <label for="more-detail">
-                        <h5>
-                            Is there anything else you can tell us?
-                        </h5>
+                        <h5>Is there anything else you can tell us?</h5>
                     </label>
                     <div id="more-detail-hint">
-                        <p> Do not share any personal or commercially sensitive information. </p>
+                        <p>Do not share any personal or commercially sensitive information.</p>
                     </div>
-                    <textarea class="govuk-textarea" id="more-detail" name="more_detail" rows="4" aria-describedby="more-detail-hint"></textarea>
+                    <textarea class="govuk-textarea"
+                              id="more-detail"
+                              name="more_detail"
+                              rows="4"
+                              aria-describedby="more-detail-hint"></textarea>
                 </div>
             </fieldset>
             <button type="submit"
-                class="primary-button small-button"
-                id="send_feedback"
-                value="no">Send feedback</button>
-
+                    class="primary-button small-button"
+                    id="send-feedback"
+                    value="no">Send feedback</button>
             <a href={{ request.path }}>Cancel</a>
         </form>
     </div>

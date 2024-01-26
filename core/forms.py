@@ -94,7 +94,3 @@ class ConsentFieldMixin(forms.Form):
         if 'captcha' in field_order:
             self.move_to_end(fields=field_order, name='captcha')
         return super().order_fields(field_order)
-
-
-class PageUsefulForm(forms.Form):
-    was_page_useful = forms.BooleanField

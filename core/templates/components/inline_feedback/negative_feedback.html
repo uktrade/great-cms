@@ -6,7 +6,8 @@
     <div class="govuk-form-group">
         <form method="post"
               action="{% url 'contact:contact-inline-feedback' %}?detailed_feedback_submitted=True"
-              class="inline-feedback__detail-form">
+              class="inline-feedback__detail-form"
+              id="negative-feedback-form">
             {% csrf_token %}
             <input type="hidden" name="current_url" value="{{ request.path }}">
             <input type="hidden" name="page_useful" value="False">
@@ -66,7 +67,7 @@
             </fieldset>
             <button type="submit"
                     class="primary-button small-button"
-                    id="send_feedback"
+                    id="send-feedback"
                     value="no">Send feedback</button>
             <a href={{ request.path }}>Cancel</a>
         </form>

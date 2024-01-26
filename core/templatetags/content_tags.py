@@ -513,17 +513,19 @@ def get_inline_feedback_visibility(page_url):
         'show_page_useful': False,
         'show_positive_feedback': False,
         'show_negative_feedback': False,
+        'show_detailed_feedback_received': False,
+        'show_submission_error': False,
     }
 
-    # todo get properly from qs?
     if 'page_useful=True' in page_url:
         result['show_positive_feedback'] = True
     elif 'page_useful=False' in page_url:
         result['show_negative_feedback'] = True
     elif 'detailed_feedback_submitted=True' in page_url:
         result['show_detailed_feedback_received'] = True
+    elif 'submission_error=True' in page_url:
+        result['show_submission_error'] = True
     else:
         result['show_page_useful'] = True
 
-    # import pdb; pdb.set_trace();
     return result
