@@ -1,11 +1,23 @@
 {% extends 'domestic/base.html' %}
 {% load static %}
 {% block content %}
-    {{ product }}
-    <br />
-    {{ data.display_name }}
-    <br />
-    {{ data.title }}
+    <div class="great great-product-market">
+        {% if is_edit_state %}
+            Edit    
+        {% elif is_market_lookup_state %}
+            <div class="great-container govuk-!-padding-top-4 govuk-!-padding-bottom-4">
+                <span class="great-product-market__product-label">You sell {{ product }}</span>
+                <a href="?edit-product=true" class="great-product-market__product-edit govuk-link">Edit product</a>
+            </div>
+            <div class="great-container govuk-!-padding-bottom-4">
+                <h1 class="govuk-heading-xl" id="product-market-title">Where do you want to sell your {{ product }}?</h1>
+            </div>
+        {% elif is_results_state %}
+            <h1 class="govuk-heading-l">Selling {{ product }} to {{ data.display_name }}</h1>
+            {{ data.title }}
+        {% endif %}
+    </div>
+
     <div class="great great-bg-light-blue">
         <div class="great-container govuk-!-padding-top-7">
             <div class="govuk-grid-row great-promo">

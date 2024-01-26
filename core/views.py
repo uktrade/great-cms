@@ -595,6 +595,6 @@ class ProductMarketView(TemplateView):
         )
 
     def post(self, request, *args, **kwargs):
-        product = request.POST.get('product')
+        product = request.POST.get('product-input')
 
         return redirect(reverse_lazy('core:product-market') + '?product=' + product)
