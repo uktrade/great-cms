@@ -12,11 +12,12 @@
             <input type="hidden" name="current_url" value="{{ request.path }}">
             <input type="hidden" name="page_useful" value="True">
             <fieldset class="govuk-fieldset" aria-describedby="Why was this page useful?">
-                <legend class="govuk-fieldset__legend legend">
+                <legend>
                     <h5>Can you tell us why this page was useful?</h5>
                 </legend>
-                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-                    <div class="govuk-checkboxes__item govuk-!-margin-bottom-3 great-checkbox">
+                <div class="govuk-checkboxes govuk-!-padding-top-4 govuk-!-padding-bottom-4"
+                     data-module="govuk-checkboxes">
+                    <div class="govuk-checkboxes__item govuk-!-margin-bottom-2 great-checkbox">
                         <input type="checkbox"
                                class="govuk-checkboxes__input"
                                name="found_information_needed"
@@ -24,7 +25,7 @@
                                id="found-info">
                         <label for="found-info" class="govuk-label govuk-checkboxes__label">I found the information I needed</label>
                     </div>
-                    <div class="govuk-checkboxes__item govuk-!-margin-bottom-3 great-checkbox">
+                    <div class="govuk-checkboxes__item govuk-!-margin-bottom-2 great-checkbox">
                         <input type="checkbox"
                                class="govuk-checkboxes__input"
                                name="easily_found"
@@ -32,7 +33,7 @@
                                id="easily-found">
                         <label for="easily-found" class="govuk-label govuk-checkboxes__label">It was easy to find</label>
                     </div>
-                    <div class="govuk-checkboxes__item govuk-!-margin-bottom-3 great-checkbox">
+                    <div class="govuk-checkboxes__item govuk-!-margin-bottom-2 great-checkbox">
                         <input type="checkbox"
                                class="govuk-checkboxes__input"
                                name="easily_understood"
@@ -40,7 +41,7 @@
                                id="easily-understood">
                         <label for="easily-understood" class="govuk-label govuk-checkboxes__label">It was easy to understand</label>
                     </div>
-                    <div class="govuk-checkboxes__item govuk-!-margin-bottom-3 great-checkbox">
+                    <div class="govuk-checkboxes__item govuk-!-margin-bottom-2 great-checkbox">
                         <input type="checkbox"
                                class="govuk-checkboxes__input"
                                name="will_use_information_again"
@@ -64,11 +65,13 @@
                               aria-describedby="more-detail-hint"></textarea>
                 </div>
             </fieldset>
-            <button type="submit"
-                    class="primary-button small-button"
-                    id="send-feedback"
-                    value="no">Send feedback</button>
-            <a href={{ request.path }}>Cancel</a>
+            <span class="inline-feedback-detail-form__submission_buttons govuk-!-padding-top-1">
+                <button type="submit"
+                        class="primary-button small-button"
+                        id="send-feedback"
+                        value="no">Send feedback</button>
+                <a href={{ request.path }}>Cancel</a>
+            </span>
         </form>
     </div>
 </span>
