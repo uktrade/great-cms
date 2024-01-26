@@ -1,0 +1,35 @@
+{% load humanize %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <div class="govuk-heading-m">{{ mock_bci_data.location }}</div>
+            </div>
+        </div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-quarter">
+                <div class="govuk-heading-s">{{ mock_bci_data.businesses|default:'-'|intcomma }}</div>
+                <div class="govuk-body">Business trading in {{ mock_bci_data.location }} within your sector</div>
+            </div>
+            <div class="govuk-grid-column-one-quarter">
+                <div class="govuk-heading-s">£{{ mock_bci_data.average_sales|default:'-'|intcomma }}</div>
+                <div class="govuk-body">Average sales per year in {{ mock_bci_data.location }} within your sector</div>
+            </div>
+            <div class="govuk-grid-column-one-quarter">
+                <div class="govuk-heading-s">{{ mock_bci_data.employees|default:'-'|intcomma }}</div>
+                <div class="govuk-body">People employed within your sector in {{ mock_bci_data.location }}</div>
+            </div>
+            <div class="govuk-grid-column-one-quarter">
+                <div class="govuk-heading-s">>{{ mock_bci_data.growth }}%</div>
+                <div class="govuk-body">
+                    Average growth in {{ mock_bci_data.location }} up {{ mock_bci_data.growth }}% on previous year
+                </div>
+            </div>
+        </div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <a class="govuk-link" href="#">Read more</a>
+            </div>
+        </div>
+    </div>
+</div>

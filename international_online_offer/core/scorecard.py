@@ -2,7 +2,15 @@ from directory_constants import sectors as directory_constants_sectors
 from international_online_offer.core import hirings, regions, sectors as sectors, spends
 
 
+# Scoring system takes input from EYB triage and calculates whether a user / investor is low or high value.
+# ISD use this to contact high value users for help setting up in the UK
+# The numbers are given to us from ISD and tranferred into this scoring system.
 def score_is_high_value(sector, location, hiring, spend, spend_other=0):
+    # Requirement from senior stakeholders was that we only score based on three metrics:
+    # How much they are looking to spend.
+    # How many people they'll be creating jobs for.
+    # Choice of location (Regional level)
+
     is_high_value_capex = False
     is_high_value_labour_workforce_hire = False
     is_high_value_hpo = False
@@ -15,6 +23,7 @@ def score_is_high_value(sector, location, hiring, spend, spend_other=0):
         if location:
             is_high_value_hpo = is_hpo(sector, location)
 
+    # If the user gets a positive for any of these metrics they are considered high value
     return is_high_value_capex or is_high_value_labour_workforce_hire or is_high_value_hpo
 
 
@@ -26,6 +35,8 @@ def is_capex_spend(sector, spend, spend_other=0):
     capex_sector_spend = [
         {sectors.TECHNOLOGY_AND_SMART_CITIES: 2400000},
         {directory_constants_sectors.CONSUMER_AND_RETAIL: 848513},
+        {sectors.PHARMACEUTICALS_AND_BIOTECHNOLOGY: 2099999},
+        {directory_constants_sectors.ENERGY: 499999},
     ]
     if spend == spends.SPECIFIC_AMOUNT:
         spend_upper_value = spend_other
@@ -50,6 +61,8 @@ def is_labour_workforce_hire(sector, hiring):
         {directory_constants_sectors.FINANCIAL_AND_PROFESSIONAL_SERVICES: 11},
         {directory_constants_sectors.CONSUMER_AND_RETAIL: 15},
         {sectors.CREATIVE_INDUSTRIES: 9},
+        {sectors.HEALHCARE_SERVICES: 10},
+        {sectors.MEDICAL_DEVICES_AND_EQUIPMENT: 10},
     ]
 
     if hiring == hirings.NO_PLANS_TO_HIRE_YET:
@@ -104,6 +117,14 @@ def is_hpo(sector, location):
                 regions.EAST_OF_ENGLAND,
                 regions.WALES,
                 regions.NORTHERN_IRELAND,
+            ]
+        },
+        {
+            sectors.HEALHCARE_SERVICES: [
+                regions.NORTH_EAST,
+                regions.SOUTH_EAST,
+                regions.YORKSHIRE_AND_THE_HUMBER,
+                regions.WEST_MIDLANDS,
             ]
         },
     ]
