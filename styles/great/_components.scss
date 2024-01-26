@@ -1455,8 +1455,14 @@ nav.great-breadcrumbs {
     padding: 0.5 * $standard-padding 0;
     margin-left: 0;
     margin-bottom: 0;
-    display: inline-block;
+    display: none;
     line-height: 1.25;
+
+    @include govuk-media-query($from: tablet) {
+      :nth-child(-n+2) {
+        display: inline-block;
+      }
+    }
   }
 
   li::after {
