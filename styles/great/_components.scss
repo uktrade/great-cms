@@ -1735,3 +1735,165 @@ nav.great-breadcrumbs {
     }
   }
 }
+
+// Hero with input - Product/Market campaign
+
+.great-hero--product-market {
+  background-image: url(/static/images/hero-product-market-bg-1.png), url(/static/images/hero-product-market-bg-2.png);
+  background-position: center top;
+  overflow: hidden;
+}
+
+.great-hero--product-market,
+.great-hero--product-market > .great-container {
+  min-height: auto;
+}
+
+.great-hero--product-market {
+  @media (min-width: 1170px) {
+    min-height: 500px;
+  }
+}
+
+.great-hero--product-market > .great-container {
+  @include govuk-responsive-margin(9, "top");
+  @include govuk-responsive-margin(9, "bottom");
+}
+
+.great-hero--product-market {
+  .great-hero__heading {
+    color: $great-white;
+    margin-top: 0;
+    font-size: 36px;
+    line-height: 50px;
+
+    @include govuk-media-query($from: tablet) {
+      font-size: 44px;
+      line-height: 60px;
+    }
+
+    @media (min-width: 1170px) {
+      font-size: 80px;
+      line-height: 85px;
+    }
+  }
+
+  .great-hero__subtitle {
+    color: $great-white;
+    margin: 10px 0 20px;
+
+    @include govuk-media-query($from: tablet) {
+      margin: 20px 0 0;
+    }
+  }
+
+  .great-hero__container {
+    @include govuk-media-query($from: desktop) {
+      display: flex;
+    }
+  }
+
+  .great-hero__search {
+    margin-top: 15px;
+
+    @include govuk-media-query($from: tablet) {
+      align-self: center;
+    }
+
+    @media (min-width: 1170px) {
+      margin-top: 0;
+    }
+  }
+
+  .great-hero__form {
+    @include govuk-media-query($from: tablet) {
+      margin-left: 20px;
+    }
+  }
+
+  .great-hero__form-inputs {
+    display: flex;
+    flex-direction: column;
+
+    @media (min-width: 1170px) {
+      flex-direction: row;
+    }
+  }
+
+  .great-hero__label {
+    font-size: 24px;
+    color: $great-white;
+    font-weight: bold;
+    display: block;
+    @include govuk-responsive-margin(5, "bottom");
+
+    @include govuk-media-query($from: tablet) {
+      font-size: 28px;
+    }
+  }
+
+  .great-hero__input {
+    height: 53px;
+    padding: 0 1rem;
+    border-color: $great-white !important;
+    margin-bottom: 15px;
+
+    &:focus {
+      border-color: $great-dark-blue !important;
+    }
+
+    @media (min-width: 1170px) {
+      flex-grow: 2;
+      flex-basis: 0;
+      margin-right: 10px;
+    }
+  }
+
+  .great-hero__button {
+    height: 53px;
+    margin-bottom: 15px;
+
+    @media (min-width: 1170px) {
+      flex-grow: 1;
+      flex-basis: 0;
+    }
+
+    &::after {
+      position: relative;
+      background-position: 50% 50%;
+      height: 16px;
+      width: 10px;
+      bottom: -2px;
+      right: -10px;
+    }
+  }
+
+  .great-hero__button-text {
+    margin-left: -10px;
+  }
+
+  .great-hero__link {
+    color: $great-white;
+    display: inline-block;
+
+    @include govuk-media-query($from: tablet) {
+      margin-left: 20px;
+    }
+  }
+
+  .great-hero__logo {
+    width: 325px;
+    position: absolute;
+    right: 0;
+    bottom: 50px;
+    display: none;
+
+    img {
+      width: 100%;
+    }
+
+    @media (min-width: 1170px) {
+      display: block;
+    }
+  }
+}
