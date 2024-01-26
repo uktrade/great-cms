@@ -175,10 +175,10 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
                     break
 
         # A flag for the post save signal, will send an 'event complete' email if True
-        if self._loaded_values['completed'] is None and self.completed:
-            self.changed_to_completed = True
-        else:
-            self.changed_to_completed = False
+        self.changed_to_completed = False
+        if not self._state.adding:
+            if self._loaded_values['completed'] is None and self.completed:
+                self.changed_to_completed = True
 
         return super().save(**kwargs)
 
