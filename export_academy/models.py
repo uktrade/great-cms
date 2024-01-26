@@ -3,7 +3,10 @@ import re
 import uuid
 from datetime import timedelta
 
+import sentry_sdk
 from directory_forms_api_client import actions
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -602,25 +605,53 @@ class VideoOnDemandPageTracking(TimeStampedModel):
         models.UniqueConstraint(fields=['user_email', 'event', 'video'], name='unique_vodpagetracking')
 
 
+def send_notifications_for_all_bookings(event, template_id, additional_notify_data=None):
+    """
+    This is a helper function that sends different types of email to users who have booked an event.
+
+    event: Event object
+    template_id: The template id being used for the email
+    additional_notify_data: Optional dictionary to include additional data in the email.
+    """
+
+    # Get all non-cancelled bookings associated with the event
+    bookings = Booking.objects.exclude(status='Cancelled').filter(event_id=event.id)
+
+    for booking in bookings:
+        # Validate email (malformed emails will cause a failure on the Government notification service)
+        try:
+            validate_email(booking.registration.email)
+        except ValidationError:
+            sentry_sdk.capture_message(f'Sending event notification email failed for {booking.registration.email}')
+
+        # Get email data
+        notify_data = dict(first_name=booking.registration.first_name, event_name=booking.event.name)
+        if additional_notify_data:
+            notify_data.update(**additional_notify_data)
+
+        # Create email
+        action = actions.GovNotifyEmailAction(
+            email_address=booking.registration.email,
+            template_id=template_id,
+            form_url=str(),
+        )
+
+        # Send email
+        action.save(notify_data)
+
+
 @receiver(post_save, sender=Event)
-def send_notifications_for_all_bookings(sender, instance, **kwargs):
+def send_event_complete_email(sender, instance, **kwargs):
+    """
+    Post save receiver for the Event class. On save, checks if an existing event has been marked as complete. If so,
+    sends an email to all users who have booked the event, notifying them that the event is complete and post course
+    materials are available.
+
+    sender: the Event class
+    instance: the individual instance of the Event class
+    """
+
     # Send notification when completed is updated
-    template_id = 'work out your template id'
-    # template_id=settings.EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID
-    additional_notify_data = 'work out your adittional data'
     if not instance._state.adding:
         if instance._loaded_values['completed'] is None and instance.completed:
-            bookings = Booking.objects.exclude(status='Cancelled').filter(event_id=instance.id)
-            for booking in bookings:
-                email = booking.registration.email
-
-                action = actions.GovNotifyEmailAction(
-                    email_address=email,
-                    template_id=template_id,
-                    form_url=str(),
-                )
-                notify_data = dict(first_name=booking.registration.first_name, event_name=booking.event.name)
-                if additional_notify_data:
-                    notify_data.update(**additional_notify_data)
-
-                action.save(notify_data)
+            send_notifications_for_all_bookings(instance, settings.EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID)
