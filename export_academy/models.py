@@ -174,6 +174,12 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
                     self.slug = slug
                     break
 
+        # A flag for the post save signal, will send an 'event complete' email if True
+        if self._loaded_values['completed'] is None and self.completed:
+            self.changed_to_completed = True
+        else:
+            self.changed_to_completed = False
+
         return super().save(**kwargs)
 
     def get_event_types(self):
@@ -618,40 +624,41 @@ def send_notifications_for_all_bookings(event, template_id, additional_notify_da
     bookings = Booking.objects.exclude(status='Cancelled').filter(event_id=event.id)
 
     for booking in bookings:
-        # Validate email (malformed emails will cause a failure on the Government notification service)
         try:
+            # Validate email (malformed emails will cause a failure on the Government notification service)
             validate_email(booking.registration.email)
+
+            # Get email data
+            notify_data = dict(first_name=booking.registration.first_name, event_name=booking.event.name)
+            if additional_notify_data:
+                notify_data.update(**additional_notify_data)
+
+            # Create email
+            action = actions.GovNotifyEmailAction(
+                email_address=booking.registration.email,
+                template_id=template_id,
+                form_url=str(),
+            )
+
+            # Send email
+            action.save(notify_data)
+
         except ValidationError:
-            sentry_sdk.capture_message(f'Sending event notification email failed for {booking.registration.email}')
-
-        # Get email data
-        notify_data = dict(first_name=booking.registration.first_name, event_name=booking.event.name)
-        if additional_notify_data:
-            notify_data.update(**additional_notify_data)
-
-        # Create email
-        action = actions.GovNotifyEmailAction(
-            email_address=booking.registration.email,
-            template_id=template_id,
-            form_url=str(),
-        )
-
-        # Send email
-        action.save(notify_data)
+            sentry_sdk.capture_message(f'Sending booking notification email failed for {booking.registration.email}')
 
 
 @receiver(post_save, sender=Event)
-def send_event_complete_email(sender, instance, **kwargs):
+def send_event_complete_email(sender, instance, created, **kwargs):
     """
-    Post save receiver for the Event class. On save, checks if an existing event has been marked as complete. If so,
+    Post save receiver for the Event class. On save, checks if an existing event has been changed to 'completed'. If so,
     sends an email to all users who have booked the event, notifying them that the event is complete and post course
     materials are available.
 
     sender: the Event class
     instance: the individual instance of the Event class
+    created: boolean: True if new event being created. False if existing event being updated.
     """
 
-    # Send notification when completed is updated
-    if not instance._state.adding:
-        if instance._loaded_values['completed'] is None and instance.completed:
-            send_notifications_for_all_bookings(instance, settings.EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID)
+    # Send notification when event is updated and marked as complete
+    if not created and instance.changed_to_completed:
+        send_notifications_for_all_bookings(instance, settings.EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID)
