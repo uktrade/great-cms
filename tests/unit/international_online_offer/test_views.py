@@ -620,3 +620,13 @@ def test_csat_widget(client, settings):
     url = reverse('international_online_offer:csat-widget-submit') + '?url=http://testurl.com'
     response = client.post(url, {'satisfaction': 'SATISFIED', 'user_journey': 'DASHBOARD'})
     assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_bci_data(client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:bci')
+    user.hashed_uuid = '123'
+    client.force_login(user)
+    response = client.get(url)
+    assert response.status_code == 200
