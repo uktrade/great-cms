@@ -592,9 +592,21 @@ class ProductMarketView(TemplateView):
         return super().get_context_data(
             data=data,
             product=self.request.GET.get('product'),
+            market=self.request.GET.get('market'),
+            is_market_lookup_state=not self.request.GET.get('market'),
+            is_results_state=self.request.GET.get('product') and self.request.GET.get('market'),
+            is_edit_state=self.request.GET.get('edit'),
         )
 
     def post(self, request, *args, **kwargs):
         product = request.POST.get('product-input')
+        market = request.POST.get('market')
 
-        return redirect(reverse_lazy('core:product-market') + '?product=' + product)
+        if product:
+            return redirect(reverse_lazy('core:product-market') + '?product=' + product)
+        elif market:
+            return redirect(
+                reverse_lazy('core:product-market') + '?product=' + request.POST.get('product') + '&market=' + market
+            )
+        else:
+            return redirect(reverse_lazy('core:product-market'))
