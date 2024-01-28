@@ -17,3 +17,14 @@ def update_geoip_data():
         raise ve
     else:
         logger.info('Updating GeoIp data finished')
+
+
+@app.task
+def enact_page_schedule():
+    logger.info('Looking for pages to expire or publish...')
+    try:
+        call_command('publish_scheduled')
+    except Exception as e:
+        logger.exception(f'Exception in core:enact_page_schedule {str(e)}')
+    finally:
+        logger.info('Update to live pages finished.')

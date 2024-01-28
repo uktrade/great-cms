@@ -1,3 +1,4 @@
+import datetime
 import json
 from datetime import timedelta
 from unittest import mock
@@ -1251,3 +1252,41 @@ def test_anchor_identifier_entity_element_handler():
     assert data['anchor'] == 'test-id'
     assert data['data-id'] in 'test-id'
     assert handler.mutability == 'MUTABLE'
+
+
+@pytest.mark.django_db
+def test_set_default_expiry_date(rf, domestic_homepage):
+    request = rf.get('/')
+    request.user = AnonymousUser()
+    now = datetime.datetime.now()
+    expected_date = now.replace(year=now.year + 1)
+
+    microsite = factories.MicrositeFactory(
+        title="Microsite",
+        parent=domestic_homepage,
+    )
+
+    microsite_page = factories.MicrositePageFactory(
+        slug='microsite-page',
+        title='Test',
+        page_title='Test',
+        parent=microsite,
+    )
+
+    microsite_page_with_expire_date = factories.MicrositePageFactory(
+        slug='microsite-page-with-expire-date',
+        title='Test',
+        page_title='Test',
+        parent=microsite,
+        expire_at=expected_date,
+    )
+
+    assert microsite_page.expire_at is None
+    assert microsite_page_with_expire_date.expire_at == expected_date
+
+    wagtail_hooks.set_default_expiry_date(page=microsite_page, request=request)
+    wagtail_hooks.set_default_expiry_date(page=microsite_page_with_expire_date, request=request)
+
+    assert microsite_page.expire_at is not None
+    assert microsite_page.expire_at.date() == expected_date.date()
+    assert microsite_page_with_expire_date.expire_at == expected_date
