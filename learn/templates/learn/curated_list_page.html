@@ -7,7 +7,6 @@
 {% load get_css_class_from_string from content_tags %}
 {% load breadcrumbs from component_tags %}
 {% block content %}
-    <div>CURATED LIST</div>
     <div id="learn-root" class="learn__page learn__category-page">
         {% with high_level_completion_progress|get_item:page.id as module_completion_data %}
             <section>
@@ -24,7 +23,7 @@
         {% endwith %}
         <div class="great great-background-light-blue ">
             <div class="great-container">
-                {% breadcrumbs page great-breadcrumbs %}
+                {% breadcrumbs great-breadcrumbs %}
                 <a href={{ BREADCRUMBS_ROOT_URL }}>great.gov.uk</a>
                 <a href={{ page.get_parent.url }}>Learn to export</a>
             {% endbreadcrumbs %}

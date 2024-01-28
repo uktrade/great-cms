@@ -1455,14 +1455,8 @@ nav.great-breadcrumbs {
     padding: 0.5 * $standard-padding 0;
     margin-left: 0;
     margin-bottom: 0;
-    display: none;
+    display: inline-block;
     line-height: 1.25;
-
-    @include govuk-media-query($from: tablet) {
-      :nth-child(-n+2) {
-        display: inline-block;
-      }
-    }
   }
 
   li::after {
@@ -1481,7 +1475,27 @@ nav.great-breadcrumbs {
     font-size: 16px;
     color: $color-main-text;
   }
+
+  @media only screen and (max-width: $tablet-size) {
+    a {
+      font-size: 14px;
+    }
+
+    li:nth-child(n+3) {
+      display: none;
+    }
+
+    li:nth-child(n+2)::after {
+      display: none;
+    }
+
+  }
+
+  li {
+    margin-bottom: 0;
+  }
 }
+
 
 .great-breadcrumbs li:after {
   box-sizing: initial;
