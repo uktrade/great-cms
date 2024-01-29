@@ -425,7 +425,6 @@ figure.great-blockquote {
 }
 
 .great-card--cta {
-
   @include govuk-media-query($until: tablet) {
     margin-bottom: 30px;
   }
@@ -440,8 +439,6 @@ figure.great-blockquote {
     }
   }
 
-
-
   .great-card__tag {
     img {
       width: 16px;
@@ -449,16 +446,25 @@ figure.great-blockquote {
       margin-right: 12px;
     }
   }
+}
 
+.great-card--cta-no-bg {
+  a {
+    background-color: transparent;
+
+    &:focus:active {
+      background-color: transparent;
+    }
+  }
 }
 
 .great-card--cta-with-content {
-    .great-card__tag {
-      bottom: 0 !important;
-    }
-    &:after {
-      bottom: 0 !important;
-    }
+  .great-card__tag {
+    bottom: 0 !important;
+  }
+  &:after {
+    bottom: 0 !important;
+  }
 }
 
 .great-card--homepage-container {
@@ -1665,7 +1671,6 @@ nav.great-breadcrumbs {
   }
 }
 
-
 .great-share {
   border-top: 1px solid $govuk-border-colour;
 
@@ -1719,7 +1724,6 @@ nav.great-breadcrumbs {
   }
 
   button {
-
     &.small-button {
       min-width: 126px;
       min-height: 44px;
@@ -1739,7 +1743,8 @@ nav.great-breadcrumbs {
 // Hero with input - Product/Market campaign
 
 .great-hero--product-market {
-  background-image: url(/static/images/hero-product-market-bg-1.png), url(/static/images/hero-product-market-bg-2.png);
+  background-image: url(/static/images/hero-product-market-bg-1.png),
+    url(/static/images/hero-product-market-bg-2.png);
   background-position: center top;
   overflow: hidden;
 }
@@ -1756,8 +1761,8 @@ nav.great-breadcrumbs {
 }
 
 .great-hero--product-market > .great-container {
-  @include govuk-responsive-margin(9, "top");
-  @include govuk-responsive-margin(9, "bottom");
+  @include govuk-responsive-margin(9, 'top');
+  @include govuk-responsive-margin(9, 'bottom');
 }
 
 .great-hero--product-market {
@@ -1825,7 +1830,7 @@ nav.great-breadcrumbs {
     color: $great-white;
     font-weight: bold;
     display: block;
-    @include govuk-responsive-margin(5, "bottom");
+    @include govuk-responsive-margin(5, 'bottom');
 
     @include govuk-media-query($from: tablet) {
       font-size: 28px;
