@@ -2024,4 +2024,14 @@ nav.great-breadcrumbs {
 
 .great-checkbox--inline-feedback {
 
+  label {
+    font-family: $main-text-font;
+    font-size: 18px;
+  }
+
+  [type=checkbox] + label::before {
+    border: 2px solid #222222;
+    border-radius: 4px;
+  }
+
 }

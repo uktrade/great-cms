@@ -1172,7 +1172,7 @@ class InlineFeedbackView(GenericAPIView):
                 qs = (
                     f"?page_useful={data['page_useful']}"
                     if 'page_useful' in request.query_params.keys()
-                    else "?detailed_feedback_submitted=True"
+                    else '?detailed_feedback_submitted=True'
                 )
                 response = HttpResponseRedirect(redirect_to=f"{data['current_url']}{qs}/#inline-feedback")
             else:
