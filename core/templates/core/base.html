@@ -113,9 +113,9 @@
     <main id="content" class="{% block css_layout_class %}{% endblock %}">
         {% block content_header %}{% endblock %}
         {% block content %}{% endblock %}
-        {% if features.FEATURE_FEEDBACK_BUTTON_EXPERIMENT and "search/feedback" not in request.path %}
-            {% include 'domestic/includes/feedback_button.html' %}
-        {% endif %}
+        {% block content_after %}
+            {% include 'components/inline_feedback/was_page_useful.html' %}
+        {% endblock %}
     </main>
 {% endblock %}
 {% block cookie_notice %}{% endblock %}
