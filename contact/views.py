@@ -1169,14 +1169,12 @@ class InlineFeedbackView(GenericAPIView):
             # for non-js the user is redirected to the current page with some additional QS params that are used
             # when determining which elements should be displayed and navigates the user back to #inline-feedback
             if save_result.status_code == CREATED:
-                if 'page_useful' in request.query_params.keys():
-                    response = HttpResponseRedirect(
-                        redirect_to=f"{data['current_url']}?page_useful={data['page_useful']}/#inline-feedback"
-                    )
-                elif 'detailed_feedback_submitted' in request.query_params.keys():
-                    response = HttpResponseRedirect(
-                        redirect_to=f"{data['current_url']}?detailed_feedback_submitted=True/#inline-feedback"
-                    )
+                qs = (
+                    f"?page_useful={data['page_useful']}"
+                    if 'page_useful' in request.query_params.keys()
+                    else "?detailed_feedback_submitted=True"
+                )
+                response = HttpResponseRedirect(redirect_to=f"{data['current_url']}{qs}/#inline-feedback")
             else:
                 response = HttpResponseRedirect(
                     redirect_to=f"{data['current_url']}?submission_error=True/#inline-feedback"

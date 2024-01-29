@@ -1,42 +1,44 @@
 {% load get_inline_feedback_visibility from content_tags %}
 <div class="great-container govuk-!-padding-top-4 govuk-!-padding-bottom-4">
-    <div class="govuk-grid-column-two-thirds" id="inline-feedback">
-        {% get_inline_feedback_visibility request.get_full_path as feedback_visibility %}
-        <div id="submission-error"
-             class="inline-feedback__submission-error {% if not feedback_visibility.show_submission_error %}great-visually-hidden{% endif %}">
-            <span role="img" class="fa fa-exclamation-circle"></span>
-            <h4>Something went wrong. Please try again.</h4>
-        </div>
-        <span id="page-useful"
-              class="{% if not feedback_visibility.show_page_useful %}  great-visually-hidden  {% endif %}">
-            <form method="post"
-                  class="inline-feedback__page_useful_form"
-                  id="page-useful-form">
-                <h5 class="govuk-heading-xs">Was this page useful?</h5>
-                {% csrf_token %}
-                <input type="hidden" name="current_url" value="{{ request.path }}">
-                <button type="submit"
-                        class="secondary-button small-button"
-                        id="page-useful-yes"
-                        formaction="{% url 'contact:contact-inline-feedback' %}?page_useful=True">Yes</button>
-                <button type="submit"
-                        class="secondary-button small-button"
-                        id="page-useful-no"
-                        formaction="{% url 'contact:contact-inline-feedback' %}?page_useful=False">No</button>
-            </form>
-        </span>
-        <span id="positive-feedback"
-              class="{% if not feedback_visibility.show_positive_feedback %}  great-visually-hidden  {% endif %}">
-            {% include 'components/inline_feedback/positive_feedback.html' %}
-        </span>
-        <span id="negative-feedback"
-              class="{% if not feedback_visibility.show_negative_feedback %}  great-visually-hidden  {% endif %}">
-            {% include 'components/inline_feedback/negative_feedback.html' %}
-        </span>
-        <div id="detailed-feedback-received"
-             class="inline-feedback__submission-confirmation {% if not feedback_visibility.show_detailed_feedback_received %}great-visually-hidden{% endif %}">
-            <span role="img" class="fa fa-check-circle"></span>
-            <h4>Thanks for your feedback</h4>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds" id="inline-feedback">
+            {% get_inline_feedback_visibility request.get_full_path as feedback_visibility %}
+            <div id="submission-error"
+                 class="inline-feedback__submission-error {% if not feedback_visibility.show_submission_error %}great-visually-hidden{% endif %}">
+                <span role="img" class="fa fa-exclamation-circle"></span>
+                <h4>Something went wrong. Please try again.</h4>
+            </div>
+            <span id="page-useful"
+                  class="{% if not feedback_visibility.show_page_useful %}  great-visually-hidden  {% endif %}">
+                <form method="post"
+                      class="inline-feedback__page_useful_form"
+                      id="page-useful-form">
+                    <h5 class="govuk-heading-xs">Was this page useful?</h5>
+                    {% csrf_token %}
+                    <input type="hidden" name="current_url" value="{{ request.path }}">
+                    <button type="submit"
+                            class="secondary-button small-button"
+                            id="page-useful-yes"
+                            formaction="{% url 'contact:contact-inline-feedback' %}?page_useful=True">Yes</button>
+                    <button type="submit"
+                            class="secondary-button small-button"
+                            id="page-useful-no"
+                            formaction="{% url 'contact:contact-inline-feedback' %}?page_useful=False">No</button>
+                </form>
+            </span>
+            <span id="positive-feedback"
+                  class="{% if not feedback_visibility.show_positive_feedback %}  great-visually-hidden  {% endif %}">
+                {% include 'components/inline_feedback/positive_feedback.html' %}
+            </span>
+            <span id="negative-feedback"
+                  class="{% if not feedback_visibility.show_negative_feedback %}  great-visually-hidden  {% endif %}">
+                {% include 'components/inline_feedback/negative_feedback.html' %}
+            </span>
+            <div id="detailed-feedback-received"
+                 class="inline-feedback__submission-confirmation {% if not feedback_visibility.show_detailed_feedback_received %}great-visually-hidden{% endif %}">
+                <span role="img" class="fa fa-check-circle"></span>
+                <h4>Thanks for your feedback</h4>
+            </div>
         </div>
     </div>
 </div>
@@ -69,6 +71,7 @@
             document.getElementById('submission-error').classList.add('great-visually-hidden')
             await postFeedback({
               'current_url': currentPage,
+              'page_title': document.title,
               'page_useful': button.id == 'page-useful-yes',
             })
             document.getElementById('page-useful').classList.toggle('great-visually-hidden')
@@ -96,6 +99,7 @@
             document.getElementById('submission-error').classList.add('great-visually-hidden')
             await postFeedback({
               'current_url': currentPage,
+              'page_title': document.title,
               'page_useful': feedbackType.containerID == 'positive-feedback',
               ...formDataObject,
             })
