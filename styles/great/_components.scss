@@ -1476,7 +1476,7 @@ nav.great-breadcrumbs {
     color: $color-main-text;
   }
 
-  @media only screen and (max-width: $tablet-size) {
+  @media only screen and (max-width: $mobile-size) {
     a {
       font-size: 14px !important;
     }
