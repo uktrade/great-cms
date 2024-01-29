@@ -660,5 +660,5 @@ def send_event_complete_email(sender, instance, created, **kwargs):
     """
 
     # Send notification when event is updated and marked as complete
-    if not created and instance.changed_to_completed:
+    if instance.changed_to_completed:
         send_notifications_for_all_bookings(instance, settings.EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID)
