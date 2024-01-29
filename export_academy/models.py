@@ -3,8 +3,13 @@ import re
 import uuid
 from datetime import timedelta
 
+import sentry_sdk
 from directory_forms_api_client import actions
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
@@ -34,23 +39,6 @@ from export_academy.cms_panels import (
     ExportAcademyPagePanels,
 )
 from export_academy.forms import EventAdminModelForm
-
-
-def send_notifications_for_all_bookings(event, template_id, additional_notify_data=None):
-    bookings = Booking.objects.exclude(status='Cancelled').filter(event_id=event.id)
-    for booking in bookings:
-        email = booking.registration.email
-
-        action = actions.GovNotifyEmailAction(
-            email_address=email,
-            template_id=template_id,
-            form_url=str(),
-        )
-        notify_data = dict(first_name=booking.registration.first_name, event_name=booking.event.name)
-        if additional_notify_data:
-            notify_data.update(**additional_notify_data)
-
-        action.save(notify_data)
 
 
 class EventTypeTag(TagBase):
@@ -186,10 +174,11 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
                     self.slug = slug
                     break
 
-        # Send notification when completed is updated
+        # A flag for the post save signal, will send an 'event complete' email if True
+        self.changed_to_completed = False
         if not self._state.adding:
             if self._loaded_values['completed'] is None and self.completed:
-                send_notifications_for_all_bookings(self, settings.EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID)
+                self.changed_to_completed = True
 
         return super().save(**kwargs)
 
@@ -620,3 +609,56 @@ class VideoOnDemandPageTracking(TimeStampedModel):
     class Meta:
         ordering = ('-created',)
         models.UniqueConstraint(fields=['user_email', 'event', 'video'], name='unique_vodpagetracking')
+
+
+def send_notifications_for_all_bookings(event, template_id, additional_notify_data=None):
+    """
+    This is a helper function that sends different types of email to users who have booked an event.
+
+    event: Event object
+    template_id: The template id being used for the email
+    additional_notify_data: Optional dictionary to include additional data in the email.
+    """
+
+    # Get all non-cancelled bookings associated with the event
+    bookings = Booking.objects.exclude(status='Cancelled').filter(event_id=event.id)
+
+    for booking in bookings:
+        try:
+            # Validate email (malformed emails will cause a failure on the Government notification service)
+            validate_email(booking.registration.email)
+
+            # Get email data
+            notify_data = dict(first_name=booking.registration.first_name, event_name=booking.event.name)
+            if additional_notify_data:
+                notify_data.update(**additional_notify_data)
+
+            # Create email
+            action = actions.GovNotifyEmailAction(
+                email_address=booking.registration.email,
+                template_id=template_id,
+                form_url=str(),
+            )
+
+            # Send email
+            action.save(notify_data)
+
+        except ValidationError:
+            sentry_sdk.capture_message(f'Sending booking notification email failed for {booking.registration.email}')
+
+
+@receiver(post_save, sender=Event)
+def send_event_complete_email(sender, instance, created, **kwargs):
+    """
+    Post save receiver for the Event class. On save, checks if an existing event has been changed to 'completed'. If so,
+    sends an email to all users who have booked the event, notifying them that the event is complete and post course
+    materials are available.
+
+    sender: the Event class
+    instance: the individual instance of the Event class
+    created: boolean: True if new event being created. False if existing event being updated.
+    """
+
+    # Send notification when event is updated and marked as complete
+    if instance.changed_to_completed:
+        send_notifications_for_all_bookings(instance, settings.EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID)

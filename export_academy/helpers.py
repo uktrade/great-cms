@@ -136,8 +136,10 @@ def get_event_join_button(event):
 
 def get_ics_button(event, on_confirmation):
     return {
-        'label': f'<span role="img"  class="fa fa-calendar-plus govuk-!-margin-right-2" aria-hidden="true"></span>'
-        f'Add to calendar<span class="great-visually-hidden">{event.name}</span>',
+        'label': (
+            f'<span role="img"  class="fa fa-calendar-plus govuk-!-margin-right-2" aria-hidden="true"></span>'
+            f'Add to calendar<span class="great-visually-hidden">{event.name}</span>'
+        ),
         'value': 'Confirmed',
         'type': 'submit',
         'classname': (
