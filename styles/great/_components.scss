@@ -1909,3 +1909,51 @@ nav.great-breadcrumbs {
   font-weight: bold;
   margin-right: 30px;
 }
+
+.great-product-market__form-inputs {
+  display: flex;
+  flex-direction: column;
+  @include govuk-media-query($from: tablet) {
+    align-items: flex-start;
+
+    > div {
+      width: 100%;
+    }
+  }
+}
+
+.great-product-market__form-inputs input {
+  height: 53px;
+  padding: 0 1rem;
+}
+
+.great-product-market__button-container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  @include govuk-media-query($from: tablet) {
+    flex-direction: row;
+    align-items: baseline; 
+    text-align: left;
+  }
+}
+
+.great-product-market__button {
+  height: 53px;
+  margin: 15px 0;
+  width: auto;
+
+  @include govuk-media-query($from: tablet) {
+    margin: 15px 20px 15px 0;
+  }
+
+  &::after {
+    position: relative;
+    background-position: 50% 50%;
+    height: 16px;
+    width: 10px;
+    bottom: -2px;
+    right: -10px;
+  }
+}

@@ -3,6 +3,7 @@ import json
 import logging
 
 from directory_forms_api_client.helpers import Sender
+from directory_forms_api_client import actions
 from django.conf import settings
 from django.contrib.sitemaps import Sitemap as DjangoSitemap
 from django.core.files.storage import default_storage
@@ -586,27 +587,40 @@ class ProductMarketView(TemplateView):
     template_name = 'core/product-market.html'
 
     def get_context_data(self):
-        countries_data = {'germany': {'display_name': 'Germany', 'title': 'Exporting to germany'}}
-        data = countries_data.get(self.request.GET.get('market'))
+        countries_data = {
+            'germany': {'display_name': 'Germany', 'title': 'Exporting to Germany'},
+            'greece': {'display_name': 'Greece', 'title': 'Exporting to Greece'},
+            'france': {'display_name': 'France', 'title': 'Exporting to France'}
+        }
+        country = countries_data.get(self.request.GET.get('market'))
+        countries = [country['display_name'] for country in countries_data.values()]
 
         return super().get_context_data(
-            data=data,
-            product=self.request.GET.get('product'),
+            countries=countries,
+            country=country,
+            product=self.request.GET.get('product'),    
             market=self.request.GET.get('market'),
             is_market_lookup_state=not self.request.GET.get('market'),
             is_results_state=self.request.GET.get('product') and self.request.GET.get('market'),
-            is_edit_state=self.request.GET.get('edit'),
         )
 
     def post(self, request, *args, **kwargs):
         product = request.POST.get('product-input')
-        market = request.POST.get('market')
-
+        market = request.POST.get('market-input')
+        
         if product:
             return redirect(reverse_lazy('core:product-market') + '?product=' + product)
         elif market:
-            return redirect(
-                reverse_lazy('core:product-market') + '?product=' + request.POST.get('product') + '&market=' + market
+            product = request.POST.get('product')
+            action = actions.SaveOnlyInDatabaseAction(
+                full_name='Anonymous user',
+                subject='Product and Market experiment',
+                email_address='anonymous-user@test.com',
+                form_url=self.request.get_full_path(),
             )
+            response = action.save({'product': product, 'market': market})
+            response.raise_for_status()
+
+            return redirect(reverse_lazy('core:product-market') + '?product=' + product + '&market=' + market.lower())        
         else:
             return redirect(reverse_lazy('core:product-market'))
