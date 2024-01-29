@@ -13,7 +13,7 @@
     {% block breadcrumbs %}
         {% get_contact_breadcrumb_details as dep_breadcrumbs %}
         {% breadcrumbs %}
-        <a href="/">great.gov.uk</a>
+        <a href="/">Home</a>
         {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
             <a href="{{ dep_breadcrumbs.url }}">{{ dep_breadcrumbs.text }}</a>
         {% else %}
