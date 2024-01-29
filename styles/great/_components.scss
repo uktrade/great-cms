@@ -2016,4 +2016,8 @@ nav.great-breadcrumbs {
   display: flex;
   gap: 30px;
   align-items: center;
+
+  button {
+    margin-top: 0px !important;
+  }
 }

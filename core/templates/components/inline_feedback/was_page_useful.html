@@ -48,7 +48,7 @@
       const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value
 
       const postFeedback = async function (body){
-        const submitAPIEndpoint = 'contact/inline-feedback'
+        const submitAPIEndpoint = '/contact/inline-feedback'
         return await fetch(`${submitAPIEndpoint}?js_enabled=True`, {
           method: 'POST',
           headers: {
