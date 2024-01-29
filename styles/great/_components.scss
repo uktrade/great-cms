@@ -1478,7 +1478,7 @@ nav.great-breadcrumbs {
 
   @media only screen and (max-width: $tablet-size) {
     a {
-      font-size: 14px;
+      font-size: 14px !important;
     }
 
     li:nth-child(n+3) {
