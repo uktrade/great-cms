@@ -247,7 +247,7 @@ jobs:
           command: |
             python3 -m venv .venv
             . .venv/bin/activate
-            pip install black==24.1
+            pip install black==24.1.0
             black ./ --check
 
 workflows:
