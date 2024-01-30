@@ -2,7 +2,7 @@
 {% load static %}
 {% load breadcrumbs from component_tags %}
 {% block breadcrumbs %}
-    {% breadcrumbs 'Invite collaborators' %}
+    {% breadcrumbs %}
     <a href="{{ services_urls.great_domestic }}">great.gov.uk</a>
     <a href="{% url 'sso_profile:business-profile' %}">Business profile</a>
     <a href="{% url 'sso_profile:business-profile-admin-invite-collaborator' %}">Profile settings</a>

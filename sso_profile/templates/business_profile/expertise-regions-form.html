@@ -2,7 +2,7 @@
 {% load static %}
 {% load breadcrumbs from component_tags %}
 {% block form_contents %}
-    {% breadcrumbs 'Add regional expertise' %}
+    {% breadcrumbs %}
     <a href="{% url 'sso_profile:about' %}">Home</a>
     <a href="{% url 'sso_profile:business-profile' %}">Business profile</a>
 {% endbreadcrumbs %}
