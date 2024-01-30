@@ -1486,7 +1486,27 @@ nav.great-breadcrumbs {
     font-size: 16px;
     color: $color-main-text;
   }
+
+  @media only screen and (max-width: $mobile-size) {
+    a {
+      font-size: 14px !important;
+    }
+
+    li:nth-child(n+3) {
+      display: none;
+    }
+
+    li:nth-child(n+2)::after {
+      display: none;
+    }
+
+  }
+
+  li {
+    margin-bottom: 0;
+  }
 }
+
 
 .great-breadcrumbs li:after {
   box-sizing: initial;
@@ -1944,7 +1964,7 @@ nav.great-breadcrumbs {
 
   @include govuk-media-query($from: tablet) {
     flex-direction: row;
-    align-items: baseline; 
+    align-items: baseline;
     text-align: left;
   }
 }
@@ -1973,7 +1993,7 @@ nav.great-breadcrumbs {
   align-items: stretch;
   flex-direction: column;
   margin-bottom: 50px;
-  
+
   @include govuk-media-query($from: tablet) {
     flex-direction: row;
 
