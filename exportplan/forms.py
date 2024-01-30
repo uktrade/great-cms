@@ -122,9 +122,9 @@ class ExportPlanTargetMarketsResearchForm(forms.Form):
         self.fields['demand'].label = f'Describe the consumer demand for your product in the {country_name}'
         self.fields['competitors'].label = f'Who are your competitors in the {country_name}?'
         self.fields['trend'].label = f'What are the product trends in the {country_name}?'
-        self.fields[
-            'unqiue_selling_proposition'
-        ].label = f'What’s your unique selling proposition for the {country_name}?'
+        self.fields['unqiue_selling_proposition'].label = (
+            f'What’s your unique selling proposition for the {country_name}?'
+        )
         self.fields['average_price'].label = f'What’s the avg price for your product in the {country_name}?'
         self.fields['trend'].widget.attrs['description'] = (
             f'Describe what you know about the product market in the {country_name}. '

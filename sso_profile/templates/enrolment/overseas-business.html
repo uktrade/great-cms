@@ -3,7 +3,7 @@
 {% block content %}
     <section class="container">
         {% with current_page='Cannot '|add:user_journey_verb %}
-            {% breadcrumbs current_page %}
+            {% breadcrumbs %}
             <a href="{{ services_urls.great_domestic }}">Great.gov.uk</a>
         {% endbreadcrumbs %}
     {% endwith %}

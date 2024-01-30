@@ -37,7 +37,7 @@ def test_breadcrumbs_simple(rf):
         '{% load breadcrumbs from component_tags %}'
         '{% block breadcrumbs %}'
         '<div class="container">'
-        '{% breadcrumbs "Examples" %}'
+        '{% breadcrumbs %}'
         '<a href="/path/to/">EXAMPLE LINK ONE</a>'
         '<a href="/path/to/something">EXAMPLE LINK TWO</a>'
         '{% endbreadcrumbs %}'
@@ -54,7 +54,6 @@ def test_breadcrumbs_simple(rf):
         '<ol>\n'
         '<li><a href="/path/to/">EXAMPLE LINK ONE</a></li>'
         '<li><a href="/path/to/something">EXAMPLE LINK TWO</a></li>'
-        '<li aria-current="page"><span>Examples</span></li>'
         '</ol>\n'
         '</nav>\n</div>'
     )
@@ -66,7 +65,7 @@ def test_breadcrumbs_simple__root_url_override(rf):
         '{% load breadcrumbs from component_tags %}'
         '{% block breadcrumbs %}'
         '<div class="container">'
-        '{% breadcrumbs "Examples" %}'
+        '{% breadcrumbs %}'
         '<a href="{{BREADCRUMBS_ROOT_URL}}">great.gov.uk</a>'
         '<a href="/path/to/">EXAMPLE LINK ONE</a>'
         '<a href="/path/to/something">EXAMPLE LINK TWO</a>'
@@ -92,7 +91,6 @@ def test_breadcrumbs_simple__root_url_override(rf):
         '<li><a href="https://great.gov.uk/">great.gov.uk</a></li>'
         '<li><a href="/path/to/">EXAMPLE LINK ONE</a></li>'
         '<li><a href="/path/to/something">EXAMPLE LINK TWO</a></li>'
-        '<li aria-current="page"><span>Examples</span></li>'
         '</ol>\n'
         '</nav>\n</div>'
     )
@@ -115,21 +113,9 @@ def test_breadcrumbs_simple__root_url_override(rf):
         '<li><a href="http://test.example.com/">great.gov.uk</a></li>'
         '<li><a href="/path/to/">EXAMPLE LINK ONE</a></li>'
         '<li><a href="/path/to/something">EXAMPLE LINK TWO</a></li>'
-        '<li aria-current="page"><span>Examples</span></li>'
         '</ol>\n'
         '</nav>\n</div>'
     )
-
-
-def test_breadcrumb_missing_label():
-    with pytest.raises(ValueError) as ctx:
-        Template(
-            '{% load breadcrumbs from component_tags %}'
-            '{% breadcrumbs %}'
-            '<a href="/foo"></a>'
-            '{% endbreadcrumbs %}'
-        )
-        assert ctx.message == 'Please specify the label of the current page'
 
 
 def test_breadcrumb_missing_href(rf):
@@ -137,7 +123,7 @@ def test_breadcrumb_missing_href(rf):
         '{% load breadcrumbs from component_tags %}'
         '{% block breadcrumbs %}'
         '<div class="container">'
-        '{% breadcrumbs "EXAMPLE" %}'
+        '{% breadcrumbs %}'
         '<a>EXAMPLE LINK ONE</a>'  # MISSING THE HREF
         '<a href="/path/to/something">EXAMPLE LINK TWO</a>'
         '{% endbreadcrumbs %}'
@@ -156,7 +142,7 @@ def test_breadcrumb_no_links(rf):
         '{% load breadcrumbs from component_tags %}'
         '{% block breadcrumbs %}'
         '<div class="container">'
-        '{% breadcrumbs "EXAMPLE" %}'
+        '{% breadcrumbs %}'
         '{% endbreadcrumbs %}'
         '</div>'
         '{% endblock %}'
