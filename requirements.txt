@@ -50,7 +50,6 @@ botocore==1.27.96
 celery[redis]==5.2.7
     # via
     #   -r requirements.in
-    #   celery
     #   django-celery-beat
 certifi==2023.11.17
     # via
@@ -103,7 +102,7 @@ directory-client-core==7.2.9
     #   directory-ch-client
     #   directory-forms-api-client
     #   directory-sso-api-client
-directory-components==40.1.1
+directory-components==40.2.0
     # via -r requirements.in
 directory-constants==24.1.0
     # via
@@ -180,9 +179,7 @@ django-redis==5.4.0
 django-staff-sso-client==4.2.1
     # via -r requirements.in
 django-storages[boto3]==1.13.2
-    # via
-    #   -r requirements.in
-    #   django-storages
+    # via -r requirements.in
 django-taggit==4.0.0
     # via wagtail
 django-timezone-field==6.1.0
@@ -501,9 +498,7 @@ webencodings==0.5.1
 whitenoise==6.6.0
     # via -r requirements.in
 willow[heif]==1.6.3
-    # via
-    #   wagtail
-    #   willow
+    # via wagtail
 xhtml2pdf==0.2.14
     # via -r requirements.in
 

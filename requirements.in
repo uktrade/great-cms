@@ -38,7 +38,7 @@ great-components==2.5.3
 directory-api-client==26.4.5
 directory-ch-client==4.0.0
 directory-client-core==7.2.9
-directory-components==40.1.1
+directory-components==40.2.0
 directory-constants==24.1.0
 directory-forms-api-client==7.3.2
 directory-healthcheck==3.3
