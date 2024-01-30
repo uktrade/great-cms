@@ -33,6 +33,7 @@ from wagtail.images.views.chooser import (
 )
 
 from core import cms_slugs, forms, helpers, serializers
+from core.constants import PRODUCT_MARKET_DATA
 from core.mixins import AuthenticatedUserRequired, PageTitleMixin
 from core.models import GreatMedia
 from directory_constants import choices
@@ -587,20 +588,7 @@ class ProductMarketView(TemplateView):
     template_name = 'core/product-market.html'
 
     def get_context_data(self):
-        countries_data = {
-            'germany': {
-                'display_name': 'Germany',
-                'card_link': '#',
-                'card_title': 'Exporting guide to Germany',
-                'card_content': (
-                    'Germany is one of the world’s largest economies and a highly industrialised,'
-                    + 'diverse and stable market. It offers long-term potential and many opportunities'
-                    + ' for UK businesses offering innovative, quality products.'
-                ),
-            },
-            'greece': {'display_name': 'Greece', 'card_title': 'Exporting guide to Greece'},
-            'france': {'display_name': 'France', 'card_title': 'Exporting guide to France'},
-        }
+        countries_data = PRODUCT_MARKET_DATA
         country = countries_data.get(self.request.GET.get('market'))
         countries = [country['display_name'] for country in countries_data.values()]
 

@@ -87,3 +87,26 @@ COUNTRY_FACTSHEET_CTA_TITLE = 'View latest trade statistics'
 MENU_ITEM_ADD_CAMPAIGN_SITE_LINK = (
     'https://workspace.trade.gov.uk/working-at-dbt/how-do-i/editing-greatgovuk-campaign-sites-getting-started/'
 )
+
+PRODUCT_MARKET_DATA = {
+    'germany': {
+        'display_name': 'Germany',
+        'card_link': '#',
+        'card_title': 'Exporting guide to Germany',
+        'card_content': (
+            'Germany is one of the world’s largest economies and a highly industrialised,'
+            + 'diverse and stable market. It offers long-term potential and many opportunities'
+            + ' for UK businesses offering innovative, quality products.'
+        ),
+    },
+    'greece': {
+        'display_name': 'Greece',
+        'card_title': 'Exporting guide to Greece',
+        'card_content': (
+            'Situated in the Eastern Mediterranean, Greece is at the crossroads'
+            + ' of three continents - Europe, Asia and Africa. The majority of the'
+            + 'economy comprises of the services sector, with tourism playing a large part.'
+        ),
+    },
+    'france': {'display_name': 'France', 'card_title': 'Exporting guide to France'},
+}
