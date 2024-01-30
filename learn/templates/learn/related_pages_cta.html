@@ -2,6 +2,6 @@
 <div class="related-links-cta-container">
     {% for cta in block.value %}
         {% get_cta_attributes cta as cta_attrs %}
-        {% include 'components/great/card.html' with tag_container_inner_class="related-links-cta-container__tag-inner-container" tag_container_outer_class="related-links-cta-container__tag-outer-container" container_class="related-links-cta-container__title-container" title=cta.link_text url=cta_attrs.link show_title_link=True heading_class=cta_attrs.heading_class heading_level="h2" classes="great-card--cta related-links-cta-container govuk-!-margin-bottom-6 govuk-!-margin-top-6" tag=cta_attrs.tag_description tag_icon=cta_attrs.tag_icon %}
+        {% include 'components/great/card.html' with tag_container_inner_class="related-links-cta-container__tag-inner-container" tag_container_outer_class="related-links-cta-container__tag-outer-container" container_class="related-links-cta-container__title-container" title=cta.link_text url=cta_attrs.link show_title_link=True heading_class=cta_attrs.heading_class heading_level="h2" classes="great-card--cta" tag=cta_attrs.tag_description tag_icon=cta_attrs.tag_icon %}
     {% endfor %}
 </div>
