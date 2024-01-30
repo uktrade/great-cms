@@ -9,6 +9,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.test import override_settings
 from django.urls import reverse
+from requests.models import Response
 
 from contact import constants, forms, helpers, views
 from core import snippet_slugs
@@ -1864,3 +1865,53 @@ def test_regional_office_not_displayed_on_confirmation_page(
     response = client.get(reverse('contact:export-support-step-8'))
 
     assert '<address>' not in str(response.rendered_content)
+
+
+@mock.patch.object(actions, 'SaveOnlyInDatabaseAction')
+@pytest.mark.django_db
+def test_inline_feedback_logged_in(
+    mock_action_class,
+    client,
+    user,
+):
+    client.force_login(user)
+
+    mock_response = Response()
+    mock_response.status_code = 201
+    mock_action_class().save.return_value = mock_response
+
+    response = client.post(
+        f"{reverse('contact:contact-inline-feedback')}?js_enabled=True",
+        {'page_useful': 'True', 'current_url': '/example-url', 'page_title': 'Example Page'},
+    )
+
+    assert response.status_code == 201
+
+    assert mock_action_class().save.call_count == 1
+
+    assert mock_action_class().save.call_args_list[0] == mock.call(
+        {'page_useful': 'True', 'current_url': '/example-url', 'page_title': 'Example Page'}
+    )
+
+
+# @mock.patch.object(actions, 'SaveOnlyInDatabaseAction')
+# @pytest.mark.django_db
+# def test_inline_feedback_logged_in(
+#     mock_action_class,
+#     client,
+#     user,
+# ):
+#     client.force_login(user)
+
+#     response = client.post(
+#         f"{reverse('contact:inline-feedback')}?js_enabled=True",
+#         {'page_useful': 'True', 'current_url': '/example-url', 'page_title': 'Example Page'},
+#     )
+
+#     assert response.status_code == 201
+#     assert response.url == reverse('contact:export-support-step-9')
+
+#     assert mock_action_class().save.call_count == 1
+
+#     assert mock_action_class().save.call_args_list[0] == mock.call(
+#         {'help_us_improve': 'easy', 'help_us_further': 'yes'}
