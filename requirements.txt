@@ -77,9 +77,9 @@ click-plugins==1.1.1
     # via celery
 click-repl==0.3.0
     # via celery
-cron-descriptor==1.4.0
+cron-descriptor==1.4.3
     # via django-celery-beat
-cryptography==41.0.7
+cryptography==42.0.1
     # via
     #   -r requirements.in
     #   pyhanko
@@ -216,7 +216,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==22.4.0
+faker==22.6.0
     # via factory-boy
 filetype==1.2.0
     # via willow
@@ -318,7 +318,7 @@ pyhanko-certvalidator==0.26.3
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==4.0.0
+pypdf==4.0.1
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
