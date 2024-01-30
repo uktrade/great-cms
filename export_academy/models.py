@@ -5,7 +5,6 @@ from datetime import timedelta
 
 import sentry_sdk
 from directory_forms_api_client import actions
-from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.db import models
 from django.db.models.signals import post_save
@@ -643,8 +642,8 @@ def send_notifications_for_all_bookings(event, template_id, additional_notify_da
             # Send email
             action.save(notify_data)
 
-        except ValidationError:
-            sentry_sdk.capture_message(f'Sending booking notification email failed for {booking.registration.email}')
+        except Exception as e:
+            sentry_sdk.capture_message(f'Sending booking notification email failed for {booking.registration.id}: {e}')
 
 
 @receiver(post_save, sender=Event)
