@@ -4,7 +4,7 @@
 {% load url_map %}
 {% block content %}
     <div id="great-hero" class="p-s">
-        {% breadcrumbs page.title %}
+        {% breadcrumbs %}
         <a href="{% url_map 'DASHBOARD_URL' %}">Home</a>
     {% endbreadcrumbs %}
 </div>

@@ -30,8 +30,8 @@
                 </div>
             {% endwith %}
         {% endblock %}
-        {% breadcrumbs current_page_breadcrumb %}
-        <a href="/">great.gov.uk</a>
+        {% breadcrumbs %}
+        <a href="/">Home</a>
         <a href="{% pageurl landing_page %}">Export Academy</a>
         <a href="{% url 'export_academy:upcoming-events' %}">Events</a>
     {% endbreadcrumbs %}
