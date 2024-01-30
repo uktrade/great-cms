@@ -1313,6 +1313,44 @@ def test_design_system_page(
     assert 'GREAT Design System' in str(response.rendered_content)
 
 
+@override_settings(FEATURE_PRODUCT_MARKET_HERO=True)
+@pytest.mark.django_db
+def test_market_selection_page(
+    client,
+):
+    response = client.get(reverse('core:product-market') + '?product=gin')
+
+    assert 'Where do you want to sell your gin?' in str(response.rendered_content)
+    assert 'Find and compare markets for selling gin' in str(response.rendered_content)
+    assert 'You sell gin' in str(response.rendered_content)
+
+
+@override_settings(FEATURE_PRODUCT_MARKET_HERO=True)
+@pytest.mark.django_db
+def test_market_results_page(
+    client,
+):
+    response = client.get(reverse('core:product-market') + '?product=gin&market=germany')
+
+    assert 'Selling gin to Germany' in str(response.rendered_content)
+    assert 'You want to sell gin to Germany' in str(response.rendered_content)
+    assert 'Exporting guide to Germany' in str(response.rendered_content)
+    assert (
+        'Germany is one of the world’s largest economies and a highly industrialised, diverse and stable market. It offers long-term potential and many opportunities for UK businesses offering innovative, quality products.'
+        in str(response.rendered_content)
+    )
+
+
+@override_settings(FEATURE_PRODUCT_MARKET_HERO=True)
+@pytest.mark.django_db
+def test_market_selection_with_no_product_page(
+    client,
+):
+    response = client.get(reverse('core:product-market'))
+
+    assert 'Where do you want to sell?' in str(response.rendered_content)
+
+
 @pytest.mark.django_db
 @modify_settings(SAFELIST_HOSTS={'append': 'www.safe.com'})
 def test_signup_for_tailored_content_wizard_view_next_url(client):
