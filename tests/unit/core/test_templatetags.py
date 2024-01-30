@@ -19,6 +19,7 @@ from core.templatetags.content_tags import (
     get_backlinked_url,
     get_category_title_for_lesson,
     get_icon_path,
+    get_inline_feedback_visibility,
     get_lesson_progress_for_topic,
     get_link_blocks,
     get_template_translation_enabled,
@@ -932,3 +933,62 @@ def test_get_icon_path(input, expected_output):
 def test_get_icon_path_with_slash(input, expected_output):
     result = get_icon_path(input)
     assert result == expected_output
+
+
+@pytest.mark.parametrize(
+    'input_url, expected_output',
+    (
+        (
+            'example-page',
+            {
+                'show_page_useful': True,
+                'show_positive_feedback': False,
+                'show_negative_feedback': False,
+                'show_detailed_feedback_received': False,
+                'show_submission_error': False,
+            },
+        ),
+        (
+            'example-page/?page_useful=True',
+            {
+                'show_page_useful': False,
+                'show_positive_feedback': True,
+                'show_negative_feedback': False,
+                'show_detailed_feedback_received': False,
+                'show_submission_error': False,
+            },
+        ),
+        (
+            'example-page/?page_useful=False',
+            {
+                'show_page_useful': False,
+                'show_positive_feedback': False,
+                'show_negative_feedback': True,
+                'show_detailed_feedback_received': False,
+                'show_submission_error': False,
+            },
+        ),
+        (
+            'example-page/?detailed_feedback_submitted=True',
+            {
+                'show_page_useful': False,
+                'show_positive_feedback': False,
+                'show_negative_feedback': False,
+                'show_detailed_feedback_received': True,
+                'show_submission_error': False,
+            },
+        ),
+        (
+            'example-page/?submission_error=True',
+            {
+                'show_page_useful': False,
+                'show_positive_feedback': False,
+                'show_negative_feedback': False,
+                'show_detailed_feedback_received': False,
+                'show_submission_error': True,
+            },
+        ),
+    ),
+)
+def test_get_inline_feedback_visibility(input_url, expected_output):
+    assert get_inline_feedback_visibility(input_url) == expected_output

@@ -23,7 +23,7 @@ def pytest_addoption(parser):
 phase_report_key = StashKey[Dict[str, CollectReport]]()
 
 
-@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+# @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item, call):
     # execute all other hooks to obtain the report object
     outcome = yield

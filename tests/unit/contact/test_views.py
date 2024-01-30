@@ -7,6 +7,7 @@ import requests_mock
 from directory_forms_api_client import actions
 from django.conf import settings
 from django.core.cache import cache
+from django.http import QueryDict
 from django.test import override_settings
 from django.urls import reverse
 from requests.models import Response
@@ -1869,12 +1870,15 @@ def test_regional_office_not_displayed_on_confirmation_page(
 
 @mock.patch.object(actions, 'SaveOnlyInDatabaseAction')
 @pytest.mark.django_db
-def test_inline_feedback_logged_in(
+def test_inline_feedback_js(
     mock_action_class,
     client,
     user,
 ):
+
     client.force_login(user)
+
+    data = {'page_useful': 'True', 'current_url': '/example-url', 'page_title': 'Example Page'}
 
     mock_response = Response()
     mock_response.status_code = 201
@@ -1882,36 +1886,57 @@ def test_inline_feedback_logged_in(
 
     response = client.post(
         f"{reverse('contact:contact-inline-feedback')}?js_enabled=True",
-        {'page_useful': 'True', 'current_url': '/example-url', 'page_title': 'Example Page'},
+        data,
     )
 
     assert response.status_code == 201
 
     assert mock_action_class().save.call_count == 1
 
-    assert mock_action_class().save.call_args_list[0] == mock.call(
-        {'page_useful': 'True', 'current_url': '/example-url', 'page_title': 'Example Page'}
+    query_dict_data = QueryDict('', mutable=True)
+    query_dict_data.update(data)
+    mock_action_class().save.assert_called_with(query_dict_data)
+
+
+@pytest.mark.parametrize(
+    'query_param, query_param_value',
+    (('page_useful', 'True'), ('page_useful', 'False'), ('detailed_feedback_submitted', 'True')),
+)
+@mock.patch.object(actions, 'SaveOnlyInDatabaseAction')
+@pytest.mark.django_db
+def test_inline_feedback_non_js(
+    mock_action_class,
+    query_param,
+    query_param_value,
+    client,
+):
+
+    if query_param == 'page_useful':
+        data = {'page_useful': query_param_value, 'current_url': '/example-url', 'page_title': 'Example Page'}
+    elif query_param == 'detailed_feedback_submitted':
+        data = {
+            'easily_understood': 'True',
+            'found_information_needed': 'True',
+            'current_url': '/example-url',
+            'page_title': 'Example Page',
+        }
+
+    mock_response = Response()
+    mock_response.status_code = 201
+    mock_action_class().save.return_value = mock_response
+
+    qs = f'{query_param}={query_param_value}'
+    response = client.post(
+        f"{reverse('contact:contact-inline-feedback')}?{qs}",
+        data,
     )
 
+    assert response.status_code == 303
 
-# @mock.patch.object(actions, 'SaveOnlyInDatabaseAction')
-# @pytest.mark.django_db
-# def test_inline_feedback_logged_in(
-#     mock_action_class,
-#     client,
-#     user,
-# ):
-#     client.force_login(user)
+    assert f'?{qs}/#inline-feedback' in response.url
 
-#     response = client.post(
-#         f"{reverse('contact:inline-feedback')}?js_enabled=True",
-#         {'page_useful': 'True', 'current_url': '/example-url', 'page_title': 'Example Page'},
-#     )
+    assert mock_action_class().save.call_count == 1
 
-#     assert response.status_code == 201
-#     assert response.url == reverse('contact:export-support-step-9')
-
-#     assert mock_action_class().save.call_count == 1
-
-#     assert mock_action_class().save.call_args_list[0] == mock.call(
-#         {'help_us_improve': 'easy', 'help_us_further': 'yes'}
+    query_dict_data = QueryDict('', mutable=True)
+    query_dict_data.update(data)
+    mock_action_class().save.assert_called_with(query_dict_data)
