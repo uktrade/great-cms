@@ -39,6 +39,20 @@ nav.breadcrumbs {
     font-size: 16px;
   }
 
+  @media only screen and (max-width: $mobile-size) {
+    a {
+      font-size: 14px;
+    }
+
+    li:nth-child(n+3) {
+      display: none;
+    }
+
+    li:nth-child(n+2)::after {
+      display: none;
+    }
+  }
+
   li {
     margin-bottom: 0;
   }

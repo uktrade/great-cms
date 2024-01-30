@@ -13,11 +13,7 @@ META_DESCRIPTION_TEXT_LENGTH = 150
 def breadcrumbs(parser, token):
     nodelist = parser.parse(('endbreadcrumbs',))
     parser.delete_first_token()
-    try:
-        bit = token.split_contents()[1]
-    except IndexError:
-        raise ValueError('Please specify the label of the current page')
-    return Breadcrumbs(nodelist, bit)
+    return Breadcrumbs(nodelist)
 
 
 class Breadcrumbs(template.Node):
@@ -28,13 +24,12 @@ class Breadcrumbs(template.Node):
         </nav>
     """
 
-    def __init__(self, nodelist, bit):
+    def __init__(self, nodelist):
         self.nodelist = nodelist
-        self.bit = bit
 
     def render(self, context):
         try:
-            class_style = self.token.split_contents()[2]
+            class_style = self.token.split_contents()[1]
         except IndexError:
             class_style = 'breadcrumbs'
         html = self.nodelist.render(context)
@@ -51,9 +46,6 @@ class Breadcrumbs(template.Node):
             element.append(link)
             output_soup.find('ol').append(element)
 
-        # adding the current page
-        current = template.Variable(self.bit).resolve(context)
-        output_soup.find('ol').append(f'<li aria-current="page"><span>{current}</span></li>')
         return output_soup.decode(formatter=None)
 
 
