@@ -4,7 +4,6 @@ import logging
 
 from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import Sender
-from directory_forms_api_client import actions
 from django.conf import settings
 from django.contrib.sitemaps import Sitemap as DjangoSitemap
 from django.core.files.storage import default_storage
@@ -589,9 +588,18 @@ class ProductMarketView(TemplateView):
 
     def get_context_data(self):
         countries_data = {
-            'germany': {'display_name': 'Germany', 'card_link': '#', 'card_title': 'Exporting guide to Germany', 'card_content': 'Germany is one of the world’s largest economies and a highly industrialised, diverse and stable market. It offers long-term potential and many opportunities for UK businesses offering innovative, quality products.'},
+            'germany': {
+                'display_name': 'Germany',
+                'card_link': '#',
+                'card_title': 'Exporting guide to Germany',
+                'card_content': (
+                    'Germany is one of the world’s largest economies and a highly industrialised,'
+                    + 'diverse and stable market. It offers long-term potential and many opportunities'
+                    + 'for UK businesses offering innovative, quality products.'
+                ),
+            },
             'greece': {'display_name': 'Greece', 'card_title': 'Exporting guide to Greece'},
-            'france': {'display_name': 'France', 'card_title': 'Exporting guide to France'}
+            'france': {'display_name': 'France', 'card_title': 'Exporting guide to France'},
         }
         country = countries_data.get(self.request.GET.get('market'))
         countries = [country['display_name'] for country in countries_data.values()]
@@ -599,7 +607,7 @@ class ProductMarketView(TemplateView):
         return super().get_context_data(
             countries=countries,
             country=country,
-            product=self.request.GET.get('product'),    
+            product=self.request.GET.get('product'),
             market=self.request.GET.get('market'),
             is_market_lookup_state=not self.request.GET.get('market'),
             is_results_state=self.request.GET.get('product') and self.request.GET.get('market'),
@@ -608,9 +616,9 @@ class ProductMarketView(TemplateView):
     def post(self, request, *args, **kwargs):
         product = request.POST.get('product-input')
         market = request.POST.get('market-input')
-        
+
         if not product and not market:
-            return redirect('/markets') 
+            return redirect('/markets')
         if product:
             return redirect(reverse_lazy('core:product-market') + '?product=' + product)
         elif market:
@@ -624,6 +632,6 @@ class ProductMarketView(TemplateView):
             response = action.save({'product': product, 'market': market})
             response.raise_for_status()
 
-            return redirect(reverse_lazy('core:product-market') + '?product=' + product + '&market=' + market.lower())        
+            return redirect(reverse_lazy('core:product-market') + '?product=' + product + '&market=' + market.lower())
         else:
             return redirect(reverse_lazy('core:product-market'))
