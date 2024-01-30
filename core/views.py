@@ -589,9 +589,9 @@ class ProductMarketView(TemplateView):
 
     def get_context_data(self):
         countries_data = {
-            'germany': {'display_name': 'Germany', 'title': 'Exporting to Germany'},
-            'greece': {'display_name': 'Greece', 'title': 'Exporting to Greece'},
-            'france': {'display_name': 'France', 'title': 'Exporting to France'}
+            'germany': {'display_name': 'Germany', 'card_link': '#', 'card_title': 'Exporting guide to Germany', 'card_content': 'Germany is one of the world’s largest economies and a highly industrialised, diverse and stable market. It offers long-term potential and many opportunities for UK businesses offering innovative, quality products.'},
+            'greece': {'display_name': 'Greece', 'card_title': 'Exporting guide to Greece'},
+            'france': {'display_name': 'France', 'card_title': 'Exporting guide to France'}
         }
         country = countries_data.get(self.request.GET.get('market'))
         countries = [country['display_name'] for country in countries_data.values()]
@@ -609,6 +609,8 @@ class ProductMarketView(TemplateView):
         product = request.POST.get('product-input')
         market = request.POST.get('market-input')
         
+        if not product and not market:
+            return redirect('/markets') 
         if product:
             return redirect(reverse_lazy('core:product-market') + '?product=' + product)
         elif market:

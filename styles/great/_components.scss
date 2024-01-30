@@ -452,8 +452,13 @@ figure.great-blockquote {
   a {
     background-color: transparent;
 
-    &:focus:active {
-      background-color: transparent;
+    &:active, &:focus:active {
+      height: 100%;
+      outline: none;
+      background-color: transparent !important;
+      border-bottom: 4px solid rgba(0, 0, 0, 0.2);
+      padding-top: 0;
+      margin-top: 0;
     }
   }
 }
@@ -1508,7 +1513,7 @@ nav.great-breadcrumbs {
   list-style: none;
 
   > li {
-    display: inline-flex;
+    display: block;
     clear: left;
     padding: 7.5px 0;
 
@@ -1960,5 +1965,24 @@ nav.great-breadcrumbs {
     width: 10px;
     bottom: -2px;
     right: -10px;
+  }
+}
+
+.great-product-market__cards {
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+  margin-bottom: 50px;
+  
+  @include govuk-media-query($from: tablet) {
+    flex-direction: row;
+
+    > div {
+      margin-right: 30px;
+    }
+  }
+
+  .great-card {
+    flex: 1;
   }
 }
