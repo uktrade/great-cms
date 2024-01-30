@@ -1,4 +1,4 @@
-{% if True or features.FEATURE_DEA_V2 and not request.user.is_authenticated %}
+{% if features.FEATURE_DEA_V2 and not request.user.is_authenticated %}
     <div class="great {% if bg_class %}{{ bg_class }}{% else %}great-bg-white{% endif %}">
         <div class="great-container govuk-!-padding-top-7">
             <div class="govuk-grid-row great-promo">

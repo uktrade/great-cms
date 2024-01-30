@@ -595,7 +595,7 @@ class ProductMarketView(TemplateView):
                 'card_content': (
                     'Germany is one of the world’s largest economies and a highly industrialised,'
                     + 'diverse and stable market. It offers long-term potential and many opportunities'
-                    + 'for UK businesses offering innovative, quality products.'
+                    + ' for UK businesses offering innovative, quality products.'
                 ),
             },
             'greece': {'display_name': 'Greece', 'card_title': 'Exporting guide to Greece'},
