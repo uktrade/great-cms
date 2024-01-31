@@ -858,9 +858,11 @@ PRODUCT_MARKET_DATA = {
         'card_link': 'https://www.great.gov.uk/markets/philippines/',
         'card_title': 'Exporting guide to Philippines',
         'card_content': (
-            'The Philippines is an archipelago composed of about 7,640 islands and a population of 109 million people. '
-            + 'It provides a vast market for UK companies and offers many opportunities for companies to export their goods and services '
-            + 'UK business, telecoms and financial services all have a strong presence in the Philippines and are well recognised.'
+            'The Philippines is an archipelago composed of about 7,640 islands and a population'
+            + ' of 109 million people. It provides a vast market for UK companies and offers many'
+            + ' opportunities for companies to export their goods and services '
+            + 'UK business, telecoms and financial services all have a strong presence in the '
+            + 'Philippines and are well recognised.'
         ),
     },
     'poland': {
@@ -892,20 +894,20 @@ PRODUCT_MARKET_DATA = {
             + '. Qatar is a key market both for trade and investment because of its dynamic and'
             + ' diversifying economy, and the wide variety of growth areas identified in its National Vision.'
         ),
-    },  
+    },
     'romania': {
         'display_name': 'Romania',
         'card_link': 'https://www.great.gov.uk/markets/romania/',
         'card_title': 'Exporting guide to Romania',
         'card_content': (
             'Romania is located in South East Europe at the strategic crossroads of the European Union (EU), '
-            + 'the Commonwealth of Independent States (CIS) and the Middle East. It is part of the Central and Eastern'
-            + ' European (CEE) region, which offers considerable potential for British businesses. '
+            + 'the Commonwealth of Independent States (CIS) and the Middle East. It is part of the Central and'
+            + ' Eastern European (CEE) region, which offers considerable potential for British businesses. '
             + 'The CEE region is easily accessible from the UK and offers a market of over 100 million consumers. '
             + 'There is a widespread use of English as the business language '
             + 'and the country acts as a gateway into the other CEE markets.'
         ),
-    },  
+    },
     'saudi arabia': {
         'display_name': 'Saudi Arabia',
         'card_link': 'https://www.great.gov.uk/markets/saudi-arabia/',
@@ -915,7 +917,7 @@ PRODUCT_MARKET_DATA = {
             + 'significant purchasing power and a growing reputation as an important destination for many'
             + ' foreign brands and companies in many different sectors.'
         ),
-    },  
+    },
     'serbia': {
         'display_name': 'Serbia',
         'card_link': 'https://www.great.gov.uk/markets/serbia/',
@@ -924,7 +926,7 @@ PRODUCT_MARKET_DATA = {
             'Serbia is a landlocked country at the crossroads of'
             + ' Central and Southeast Europe, with a population close to 7 million people.'
         ),
-    },    
+    },
     'seychelles': {
         'display_name': 'Seychelles',
         'card_link': 'https://www.great.gov.uk/markets/seychelles/',
@@ -981,7 +983,8 @@ PRODUCT_MARKET_DATA = {
         'card_title': 'Exporting guide to South Korea',
         'card_content': (
             'South Korea is one of the largest economies in the world and has strong trade links with the UK. '
-            + 'The UK has a Continuity Free Trade Agreement in place with South Korea which came into effect in January 2020.'
+            + 'The UK has a Continuity Free Trade Agreement in place with South Korea which came into effect '
+            + 'in January 2020.'
         ),
     },
     'spain': {
@@ -1012,7 +1015,8 @@ PRODUCT_MARKET_DATA = {
         'card_title': 'Exporting guide to St Lucia',
         'card_content': (
             'Saint Lucia is an Eastern Caribbean island nation with a population of 183,000 people. '
-            + " The service sector makes up a large part of its economy, including tourism and financial services."
+            + ' The service sector makes up a large part of its economy, including tourism and financial'
+            + 'services.'
         ),
     },
     'st vincent and the grenadines': {
@@ -1021,7 +1025,7 @@ PRODUCT_MARKET_DATA = {
         'card_title': 'Exporting guide to St Vincent and the Grenadines',
         'card_content': (
             'St Vincent and the Grenadines is a southern Caribbean nation '
-            + "comprising of the main island of St. Vincent, and a chain of smaller islands. "
+            + 'comprising of the main island of St. Vincent, and a chain of smaller islands. '
             + 'Its main industries are agriculture and tourism.'
         ),
     },
@@ -1030,9 +1034,12 @@ PRODUCT_MARKET_DATA = {
         'card_link': 'https://www.great.gov.uk/markets/suriname/',
         'card_title': 'Exporting guide to Suriname',
         'card_content': (
-            'Suriname is the smallest country in South America. It borders Guyana, French Guiana and Brazil, '
-            + "making it a good gateway into the South American market. It is a member of the Caribbean Community (CARICOM). "
-            + 'The current climate in Suriname, supports and promotes foreign direct investment (FDI), which has helped contribute to its economy.'
+            'Suriname is the smallest country in South America. It borders Guyana, French Guiana '
+            + 'and Brazil, '
+            + 'making it a good gateway into the South American market. It is a member of the '
+            + 'Caribbean Community (CARICOM). '
+            + 'The current climate in Suriname, supports and promotes foreign direct investment '
+            + '(FDI), which has helped contribute to its economy.'
         ),
     },
     'sweden': {
@@ -1041,7 +1048,8 @@ PRODUCT_MARKET_DATA = {
         'card_title': 'Exporting guide to Sweden',
         'card_content': (
             'Sweden is among the most competitive, innovative and globalised nations '
-            + "in the world. The country has a stable economy, a skilled labour force and sophisticated consumers."
+            + 'in the world. The country has a stable economy, a skilled labour force '
+            + 'and sophisticated consumers.'
         ),
     },
     'switzerland': {
@@ -1050,8 +1058,10 @@ PRODUCT_MARKET_DATA = {
         'card_title': 'Exporting guide to Switzerland',
         'card_content': (
             'An innovative country at the heart of Europe, Switzerland has a stable and reliable business'
-            + ", legal and regulatory environment. It is one of the UK’s closest trading partners. British companies of all sizes "
-            + 'are trading there, and UK investment is particularly substantial in the services and manufacturing sectors.'
+            + ', legal and regulatory environment. It is one of the UK’s closest trading partners. '
+            + 'British companies of all sizes '
+            + 'are trading there, and UK investment is particularly substantial in the services and '
+            + 'manufacturing sectors.'
         ),
     },
     'taiwan': {
@@ -1080,7 +1090,8 @@ PRODUCT_MARKET_DATA = {
         'card_title': 'Exporting guide to Thailand',
         'card_content': (
             'As the second largest economy in Southeast Asia, Thailand has a strong consumer base with large'
-            + ", urban, middle-class population. With its well-established trade relationship with the UK, cultural goodwill "
+            + ', urban, middle-class population. With its well-established trade relationship with the '
+            + 'UK, cultural goodwill '
             + 'and central location, Thailand is a promising export market for British businesses.'
         ),
     },
@@ -1090,7 +1101,7 @@ PRODUCT_MARKET_DATA = {
         'card_title': 'Exporting guide to The Bahamas',
         'card_content': (
             'The Bahamas is located within the Lucayan Archipelago in the West Indies,'
-            + " and is near Florida, Cuba, the Dominican Republic and Turks "
+            + ' and is near Florida, Cuba, the Dominican Republic and Turks '
             + 'and Caicos, which is also part of the Lucayan Archipelago.'
         ),
     },
@@ -1100,7 +1111,7 @@ PRODUCT_MARKET_DATA = {
         'card_title': 'Exporting guide to The Netherlands',
         'card_content': (
             'The Netherlands has a thriving economy and is a major gateway to Europe.'
-            + " It is culturally similar to the UK, making it an ideal test market for products."
+            + ' It is culturally similar to the UK, making it an ideal test market for products.'
         ),
     },
     'trinidad and tobago': {
@@ -1109,7 +1120,7 @@ PRODUCT_MARKET_DATA = {
         'card_title': 'Exporting guide to Trinidad and Tobago',
         'card_content': (
             'One of the wealthiest countries in the Caribbean Community (CARICOM),'
-            + " Trinidad and Tobago has the most active manufacturing sector "
+            + ' Trinidad and Tobago has the most active manufacturing sector '
             + 'in the Caribbean and a successful petrochemical industry.'
         ),
     },
@@ -1119,7 +1130,7 @@ PRODUCT_MARKET_DATA = {
         'card_title': 'Exporting guide to Tunisia',
         'card_content': (
             'Tunisia is a North African country and seaboard to the Mediterranean Sea. It is'
-            + " a major gateway to both Europe and Africa. Economic growth is slowly gaining "
+            + ' a major gateway to both Europe and Africa. Economic growth is slowly gaining '
             + ' steam with steady GDP growth, which is expected to continue.'
         ),
     },
@@ -1129,7 +1140,8 @@ PRODUCT_MARKET_DATA = {
         'card_title': 'Exporting guide to Turkey',
         'card_content': (
             'Turkey is a large and fascinating market with plenty of export opportunities for UK exporters.'
-            + " It is home to both large multinationals and local businesses with a strong entrepreneurial culture. Despite Turkey’s recent political "
+            + ' It is home to both large multinationals and local businesses with a strong '
+            + 'entrepreneurial culture. Despite Turkey’s recent political '
             + 'and economic challenges, the country’s prospects are positive and there is room for growth.'
         ),
     },
