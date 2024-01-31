@@ -124,10 +124,10 @@ recreate:
 	$(MAKE) ARGUMENTS=create_tours manage
 
 worker:
-	ENV_FILES='secrets-do-not-commit,dev' celery -A conf worker -l info
+	ENV_FILES='secrets-do-not-commit,dev' celery -A config worker -l info
 
 beat:
-	ENV_FILES='secrets-do-not-commit,dev' celery -A conf beat -l info -S django
+	ENV_FILES='secrets-do-not-commit,dev' celery -A config beat -l info -S django
 
 
 checkmigrations:

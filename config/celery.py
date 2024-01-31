@@ -23,6 +23,14 @@ app.conf.beat_schedule = {
         'task': 'export_academy.tasks.send_automated_events_notification',
         'schedule': crontab(minute='*/30', hour='0'),
     },
+    'update_geoip_data_once_a_month_on_the_first': {
+        'task': 'core.tasks.update_geoip_data',
+        'schedule': crontab(
+            minute=settings.GEOIP_DOWNLOAD_MINUTE,
+            hour=settings.GEOIP_DOWNLOAD_HOUR,
+            day_of_month=settings.GEOIP_DOWNLOAD_DAY,
+        ),
+    },
 }
 
 if settings.FEATURE_REDIS_USE_SSL:
