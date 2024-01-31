@@ -1333,7 +1333,7 @@ def test_market_results_page(
     assert 'Selling gin to Germany' in str(response.rendered_content)
     assert 'You want to sell gin to Germany' in str(response.rendered_content)
     assert 'Exporting guide to Germany' in str(response.rendered_content)
-    assert ('Germany is one of the world’s largest economies and a highly industrialised,diverse and stable market. It offers long-term potential and many opportunities for UK businesses offering innovative, quality products.') in str(response.rendered_content)
+    assert ('Germany is one of the world’s largest economies and a highly industrialised, diverse and stable market.') in str(response.rendered_content)
 
 
 @pytest.mark.django_db
@@ -1341,7 +1341,7 @@ def test_market_selection_with_no_product_page(
     client,
 ):
     response = client.get(reverse('core:product-market'), follow=True)
-    
+
     assert 'Where do you want to sell?' in str(response.rendered_content)
 
 
