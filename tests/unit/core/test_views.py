@@ -1318,7 +1318,7 @@ def test_design_system_page(
 def test_market_selection_page(
     client,
 ):
-    response = client.get('/product-market?product=gin')
+    response = client.get(reverse('core:product-market') + '?product=gin', follow=True)
 
     assert 'Where do you want to sell your gin?' in str(response.rendered_content)
     assert 'Find and compare markets for selling gin' in str(response.rendered_content)
@@ -1330,16 +1330,12 @@ def test_market_selection_page(
 def test_market_results_page(
     client,
 ):
-    response = client.get('/product-market?product=gin&market=germany')
+    response = client.get(reverse('core:product-market') + '?product=gin&market=germany', follow=True)
 
     assert 'Selling gin to Germany' in str(response.rendered_content)
     assert 'You want to sell gin to Germany' in str(response.rendered_content)
     assert 'Exporting guide to Germany' in str(response.rendered_content)
-    assert (
-        'Germany is one of the world’s largest economies and a highly industrialised, '
-        + 'diverse and stable market. It offers long-term potential and many opportunities '
-        + 'for UK businesses offering innovative, quality products.'
-    ) in str(response.rendered_content)
+    assert ('Germany is one of the world’s largest economies and a highly industrialised,diverse and stable market. It offers long-term potential and many opportunities for UK businesses offering innovative, quality products.') in str(response.rendered_content)
 
 
 @override_settings(FEATURE_PRODUCT_MARKET_HERO=True)
@@ -1347,8 +1343,8 @@ def test_market_results_page(
 def test_market_selection_with_no_product_page(
     client,
 ):
-    response = client.get('/product-market')
-
+    response = client.get(reverse('core:product-market'), follow=True)
+    
     assert 'Where do you want to sell?' in str(response.rendered_content)
 
 
