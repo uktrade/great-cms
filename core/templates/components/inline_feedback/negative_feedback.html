@@ -1,12 +1,14 @@
 <span>
-    <div class="inline-feedback__submission-confirmation">
+    <div class="great-inline-feedback__submission-confirmation"
+         id="negative-feedback-submision-confirmation"
+         tabindex="-1">
         <span role="img" class="fa fa-check-circle"></span>
         <h5>Thanks for letting us know</h5>
     </div>
     <div class="govuk-form-group">
         <form method="post"
               action="{% url 'contact:contact-inline-feedback' %}?detailed_feedback_submitted=True"
-              class="inline-feedback__detail-form"
+              class="great-inline-feedback__detail-form"
               id="negative-feedback-form">
             {% csrf_token %}
             <input type="hidden" name="current_url" value="{{ request.path }}">
@@ -66,7 +68,7 @@
                               aria-describedby="more-detail-hint"></textarea>
                 </div>
             </fieldset>
-            <span class="inline-feedback-detail-form__submission_buttons govuk-!-padding-top-1">
+            <span class="great-inline-feedback-detail-form__submission_buttons govuk-!-padding-top-1">
                 <button type="submit"
                         class="primary-button small-button"
                         id="send-feedback"
