@@ -125,7 +125,7 @@ coverage[toml]==7.4.1
     #   pytest-cov
 cron-descriptor==1.4.3
     # via django-celery-beat
-cryptography==42.0.1
+cryptography==42.0.2
     # via
     #   -r requirements.in
     #   pyhanko
@@ -498,7 +498,7 @@ pillow-heif==0.14.0
     # via willow
 pip-tools==7.3.0
     # via -r requirements_test.in
-platformdirs==4.1.0
+platformdirs==4.2.0
     # via
     #   black
     #   pylint
@@ -582,7 +582,7 @@ pytest-cov==4.1.0
     # via
     #   -r requirements_test.in
     #   pytest-codecov
-pytest-django==4.7.0
+pytest-django==4.8.0
     # via -r requirements_test.in
 pytest-sugar==0.9.7
     # via -r requirements_test.in
