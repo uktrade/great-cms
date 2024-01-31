@@ -5,6 +5,7 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
+
     dependencies = [
         ('core', '0130_ukeacta_detailpage_call_to_action_eventorderable'),
     ]
