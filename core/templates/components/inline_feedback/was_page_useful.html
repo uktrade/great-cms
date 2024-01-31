@@ -1,122 +1,126 @@
+{% load show_feedback from content_tags %}
 {% load get_inline_feedback_visibility from content_tags %}
-<div class="great-container great-full-width govuk-!-padding-top-4 govuk-!-padding-bottom-4">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds" id="inline-feedback">
-            {% get_inline_feedback_visibility request.get_full_path as feedback_visibility %}
-            <div id="submission-error"
-                 tabindex="-1"
-                 class="great-inline-feedback__submission-error {% if not feedback_visibility.show_submission_error %}great-hidden{% endif %}">
-                <span role="img" class="fa fa-exclamation-circle"></span>
-                <h4>Something went wrong. Please try again.</h4>
-            </div>
-            <span id="page-useful"
-                  class="{% if not feedback_visibility.show_page_useful %}  great-hidden  {% endif %}">
-                <form method="post"
-                      class="great-inline-feedback__page_useful_form"
-                      id="page-useful-form">
-                    <h5 class="govuk-heading-xs">Was this page useful?</h5>
-                    {% csrf_token %}
-                    <input type="hidden" name="current_url" value="{{ request.path }}">
-                    <button type="submit"
-                            class="secondary-button small-button"
-                            id="page-useful-yes"
-                            formaction="{% url 'contact:contact-inline-feedback' %}?page_useful=True">Yes</button>
-                    <button type="submit"
-                            class="secondary-button small-button"
-                            id="page-useful-no"
-                            formaction="{% url 'contact:contact-inline-feedback' %}?page_useful=False">No</button>
-                </form>
-            </span>
-            <span id="positive-feedback"
-                  class="{% if not feedback_visibility.show_positive_feedback %}  great-hidden  {% endif %}">
-                {% include 'components/inline_feedback/positive_feedback.html' %}
-            </span>
-            <span id="negative-feedback"
-                  class="{% if not feedback_visibility.show_negative_feedback %}  great-hidden  {% endif %}">
-                {% include 'components/inline_feedback/negative_feedback.html' %}
-            </span>
-            <div id="detailed-feedback-received"
-                 tabindex="-1"
-                 class="great-inline-feedback__submission-confirmation {% if not feedback_visibility.show_detailed_feedback_received %}great-hidden{% endif %}">
-                <span role="img" class="fa fa-check-circle"></span>
-                <h4>Thanks for your feedback</h4>
+{% show_feedback request.get_full_path as show_feedback %}
+{% if show_feedback %}
+    <div class="great-full-width govuk-!-padding-top-4 govuk-!-padding-bottom-4 great-inline-feedback__container">
+        <div class="govuk-grid-row great-container">
+            <div class="govuk-grid-column-two-thirds" id="inline-feedback">
+                {% get_inline_feedback_visibility request.get_full_path as feedback_visibility %}
+                <div id="submission-error"
+                     tabindex="-1"
+                     class="great-inline-feedback__submission-error {% if not feedback_visibility.show_submission_error %}great-hidden{% endif %}">
+                    <span role="img" class="fa fa-exclamation-circle"></span>
+                    <h4>Something went wrong. Please try again.</h4>
+                </div>
+                <span id="page-useful"
+                      class="{% if not feedback_visibility.show_page_useful %}  great-hidden  {% endif %}">
+                    <form method="post"
+                          class="great-inline-feedback__page_useful_form"
+                          id="page-useful-form">
+                        <h5 class="govuk-heading-xs">Was this page useful?</h5>
+                        {% csrf_token %}
+                        <input type="hidden" name="current_url" value="{{ request.path }}">
+                        <button type="submit"
+                                class="secondary-button small-button"
+                                id="page-useful-yes"
+                                formaction="{% url 'contact:contact-inline-feedback' %}?page_useful=True">Yes</button>
+                        <button type="submit"
+                                class="secondary-button small-button"
+                                id="page-useful-no"
+                                formaction="{% url 'contact:contact-inline-feedback' %}?page_useful=False">No</button>
+                    </form>
+                </span>
+                <span id="positive-feedback"
+                      class="{% if not feedback_visibility.show_positive_feedback %}  great-hidden  {% endif %}">
+                    {% include 'components/inline_feedback/positive_feedback.html' %}
+                </span>
+                <span id="negative-feedback"
+                      class="{% if not feedback_visibility.show_negative_feedback %}  great-hidden  {% endif %}">
+                    {% include 'components/inline_feedback/negative_feedback.html' %}
+                </span>
+                <div id="detailed-feedback-received"
+                     tabindex="-1"
+                     class="great-inline-feedback__submission-confirmation {% if not feedback_visibility.show_detailed_feedback_received %}great-hidden{% endif %}">
+                    <span role="img" class="fa fa-check-circle"></span>
+                    <h4>Thanks for your feedback</h4>
+                </div>
             </div>
         </div>
     </div>
-</div>
-{% block body_js %}
-    <script>
-      const currentPage = window.location.pathname
-      const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value
+    {% block body_js %}
+        <script>
+        const currentPage = window.location.pathname
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value
 
-      const postFeedback = async function (body){
-        const submitAPIEndpoint = '/contact/inline-feedback'
-        return await fetch(`${submitAPIEndpoint}?js_enabled=True`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': "application/json",
-            'X-CSRFToken': csrfToken
-          },
-          body: JSON.stringify(body)
-        })
-      }
+        const postFeedback = async function (body){
+          const submitAPIEndpoint = '/contact/inline-feedback'
+          return await fetch(`${submitAPIEndpoint}?js_enabled=True`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': "application/json",
+              'X-CSRFToken': csrfToken
+            },
+            body: JSON.stringify(body)
+          })
+        }
 
-      document.getElementById('page-useful-form').addEventListener('submit', async function(event){
-        event.preventDefault();
-      })
-
-      const pageUsefulButtons = [{'id':'page-useful-yes', 'followUpFormID': 'positive-feedback', 'successMessageID': 'positive-feedback-submision-confirmation'}, {'id':'page-useful-no', 'followUpFormID': 'negative-feedback', 'successMessageID': 'negative-feedback-submision-confirmation'}]
-
-      pageUsefulButtons.forEach((button)=>{
-        document.getElementById(button.id).addEventListener('click', async function(event){
-          try{
-            document.getElementById('submission-error').classList.add('great-hidden')
-            await postFeedback({
-              'current_url': currentPage,
-              'page_title': document.title,
-              'page_useful': button.id == 'page-useful-yes',
-            })
-            document.getElementById('page-useful').classList.toggle('great-hidden')
-            document.getElementById(button.followUpFormID).classList.toggle('great-hidden')
-            document.getElementById(button.successMessageID).focus()
-          } catch (e) {
-            document.getElementById('submission-error').classList.remove('great-hidden')
-            document.getElementById('submission-error').focus()
-          }
-        })
-      })
-
-      const detailedFeedbackIDs = [{'containerID': 'positive-feedback', 'formID': 'positive-feedback-form'}, {'containerID': 'negative-feedback', 'formID': 'negative-feedback-form'}]
-
-      detailedFeedbackIDs.forEach((feedbackType)=>{
-        document.getElementById(feedbackType.formID).addEventListener('submit', async function(event){
+        document.getElementById('page-useful-form').addEventListener('submit', function(event){
           event.preventDefault();
-          const form = event.target
-          const formData = new FormData(form)
-
-          const formDataObject = {};
-            formData.forEach((value, key)=>{
-            formDataObject[key] = value;
-          });
-
-          try {
-            document.getElementById('submission-error').classList.add('great-hidden')
-            await postFeedback({
-              'current_url': currentPage,
-              'page_title': document.title,
-              'page_useful': feedbackType.containerID == 'positive-feedback',
-              ...formDataObject,
-            })
-
-            document.getElementById(feedbackType.containerID).classList.toggle('great-hidden')
-            document.getElementById('detailed-feedback-received').classList.toggle('great-hidden')
-            document.getElementById('detailed-feedback-received').focus()
-          } catch (e) {
-            document.getElementById('submission-error').classList.remove('great-hidden')
-            document.getElementById('submission-error').focus()
-          }
         })
-      })
 
-    </script>
-{% endblock %}
+        const pageUsefulButtons = [{'id':'page-useful-yes', 'followUpFormID': 'positive-feedback', 'successMessageID': 'positive-feedback-submision-confirmation'}, {'id':'page-useful-no', 'followUpFormID': 'negative-feedback', 'successMessageID': 'negative-feedback-submision-confirmation'}]
+
+        pageUsefulButtons.forEach((button)=>{
+          document.getElementById(button.id).addEventListener('click', async function(event){
+            try{
+              document.getElementById('submission-error').classList.add('great-hidden')
+              await postFeedback({
+                'current_url': currentPage,
+                'page_title': document.title,
+                'page_useful': button.id == 'page-useful-yes',
+              })
+              document.getElementById('page-useful').classList.toggle('great-hidden')
+              document.getElementById(button.followUpFormID).classList.toggle('great-hidden')
+              document.getElementById(button.successMessageID).focus()
+            } catch (e) {
+              document.getElementById('submission-error').classList.remove('great-hidden')
+              document.getElementById('submission-error').focus()
+            }
+          })
+        })
+
+        const detailedFeedbackIDs = [{'containerID': 'positive-feedback', 'formID': 'positive-feedback-form'}, {'containerID': 'negative-feedback', 'formID': 'negative-feedback-form'}]
+
+        detailedFeedbackIDs.forEach((feedbackType)=>{
+          document.getElementById(feedbackType.formID).addEventListener('submit', async function(event){
+            event.preventDefault();
+            const form = event.target
+            const formData = new FormData(form)
+
+            const formDataObject = {};
+              formData.forEach((value, key)=>{
+              formDataObject[key] = value;
+            });
+
+            try {
+              document.getElementById('submission-error').classList.add('great-hidden')
+              await postFeedback({
+                'current_url': currentPage,
+                'page_title': document.title,
+                'page_useful': feedbackType.containerID == 'positive-feedback',
+                ...formDataObject,
+              })
+
+              document.getElementById(feedbackType.containerID).classList.toggle('great-hidden')
+              document.getElementById('detailed-feedback-received').classList.toggle('great-hidden')
+              document.getElementById('detailed-feedback-received').focus()
+            } catch (e) {
+              document.getElementById('submission-error').classList.remove('great-hidden')
+              document.getElementById('submission-error').focus()
+            }
+          })
+        })
+
+        </script>
+    {% endblock %}
+{% endif %}

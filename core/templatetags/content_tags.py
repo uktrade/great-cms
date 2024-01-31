@@ -508,6 +508,11 @@ def get_page_url(page):
 
 
 @register.simple_tag
+def show_feedback(page_url):
+    return page_url not in ['/login/', '/signup/']
+
+
+@register.simple_tag
 def get_inline_feedback_visibility(page_url):
     result = {
         'show_page_useful': False,
