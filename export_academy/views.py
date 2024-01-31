@@ -352,8 +352,8 @@ class RegistrationMarketingSources(
             back_url=back_url,
             step_text='Step 4 of 4',
             landing_page=ExportAcademyHomePage.objects.first(),
-            title='And finally...',
-            current_page_breadcrumb='And finally...',
+            title='How did you hear about the UK Export Academy?',
+            current_page_breadcrumb='How did you hear about the UK Export Academy?',
         )
 
     def get_success_url(self):
