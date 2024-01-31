@@ -853,6 +853,88 @@ PRODUCT_MARKET_DATA = {
             + 'and constructive trade and investment relationship.'
         ),
     },
+    'philippines': {
+        'display_name': 'Philippines',
+        'card_link': 'https://www.great.gov.uk/markets/philippines/',
+        'card_title': 'Exporting guide to Philippines',
+        'card_content': (
+            'The Philippines is an archipelago composed of about 7,640 islands and a population of 109 million people. '
+            + 'It provides a vast market for UK companies and offers many opportunities for companies to export their goods and services '
+            + 'UK business, telecoms and financial services all have a strong presence in the Philippines and are well recognised.'
+        ),
+    },
+    'poland': {
+        'display_name': 'Poland',
+        'card_link': 'https://www.great.gov.uk/markets/poland/',
+        'card_title': 'Exporting guide to Poland',
+        'card_content': (
+            'Located in Central Europe, Poland is divided into 16 administrative provinces called'
+            + ' voivodeships, covering an area of 312,696 km2. It has a strong growing economy, '
+            + 'and the spending power of Polish consumers increase the benefit of UK exporters.'
+        ),
+    },
+    'portugal': {
+        'display_name': 'Portugal',
+        'card_link': 'https://www.great.gov.uk/markets/portugal/',
+        'card_title': 'Exporting guide to Portugal',
+        'card_content': (
+            'Located on the western edge of the Iberian peninsula, '
+            + 'Portugal is a good market for UK exporters. Anchored by the world’s oldest bilateral alliance'
+            + ' trade links are strong, particularly within the tourism industry and expat communities.'
+        ),
+    },
+    'qatar': {
+        'display_name': 'Qatar',
+        'card_link': 'https://www.great.gov.uk/markets/qatar/',
+        'card_title': 'Exporting guide to Qatar',
+        'card_content': (
+            'Qatar has one of the highest levels of GDP per capita in the world, making it an affluent market'
+            + '. Qatar is a key market both for trade and investment because of its dynamic and'
+            + ' diversifying economy, and the wide variety of growth areas identified in its National Vision.'
+        ),
+    },  
+    'romania': {
+        'display_name': 'Romania',
+        'card_link': 'https://www.great.gov.uk/markets/romania/',
+        'card_title': 'Exporting guide to Romania',
+        'card_content': (
+            'Romania is located in South East Europe at the strategic crossroads of the European Union (EU), '
+            + 'the Commonwealth of Independent States (CIS) and the Middle East. It is part of the Central and Eastern'
+            + ' European (CEE) region, which offers considerable potential for British businesses. '
+            + 'The CEE region is easily accessible from the UK and offers a market of over 100 million consumers. '
+            + 'There is a widespread use of English as the business language '
+            + 'and the country acts as a gateway into the other CEE markets.'
+        ),
+    },  
+    'saudi arabia': {
+        'display_name': 'Saudi Arabia',
+        'card_link': 'https://www.great.gov.uk/markets/saudi-arabia/',
+        'card_title': 'Exporting guide to Saudi Arabia',
+        'card_content': (
+            'The Kingdom of Saudi Arabia is a high-income country. It has a large population, '
+            + 'significant purchasing power and a growing reputation as an important destination for many'
+            + ' foreign brands and companies in many different sectors.'
+        ),
+    },  
+    'serbia': {
+        'display_name': 'Serbia',
+        'card_link': 'https://www.great.gov.uk/markets/serbia/',
+        'card_title': 'Exporting guide to Serbia',
+        'card_content': (
+            'Serbia is a landlocked country at the crossroads of'
+            + ' Central and Southeast Europe, with a population close to 7 million people.'
+        ),
+    },    
+    'seychelles': {
+        'display_name': 'Seychelles',
+        'card_link': 'https://www.great.gov.uk/markets/seychelles/',
+        'card_title': 'Exporting guide to Seychelles',
+        'card_content': (
+            'Seychelles is a chain of islands off the west coast of Africa'
+            + ', with a population of just under 100,000 people. '
+            + ' Tourism is the main industry on the islands.'
+        ),
+    },
     'singapore': {
         'display_name': 'Singapore',
         'card_link': 'https://www.great.gov.uk/markets/singapore/',
@@ -861,6 +943,45 @@ PRODUCT_MARKET_DATA = {
             'Singapore is a small, but wealthy city-state with an open and trade-driven economy.'
             + 'It is a leading financial, shipping, and trade hub for the Asia Pacific region, '
             + 'and the government has a pro-business economic and trade policy.'
+        ),
+    },
+    'slovakia': {
+        'display_name': 'Slovakia',
+        'card_link': 'https://www.great.gov.uk/markets/slovakia/',
+        'card_title': 'Exporting guide to Slovakia',
+        'card_content': (
+            'Slovakia combines a stable economic and political environment with a strategic '
+            + "geographical location. English is widely spoken as a business "
+            + 'language, and several large UK companies operate in Slovakia.'
+        ),
+    },
+    'slovenia': {
+        'display_name': 'Slovenia',
+        'card_link': 'https://www.great.gov.uk/markets/slovenia/',
+        'card_title': 'Exporting guide to Slovenia',
+        'card_content': (
+            'Slovenia is one of a group of 9 emerging markets in Central and Eastern Europe (CEE). '
+            + "It's one of the most developed markets in the region and there are long-term growth "
+            + 'prospects for UK companies.'
+        ),
+    },
+    'south africa': {
+        'display_name': 'South Africa',
+        'card_link': 'https://www.great.gov.uk/markets/south-africa/',
+        'card_title': 'Exporting guide to South Africa',
+        'card_content': (
+            'South Africa, located at the bottom of the African continent and filled with natural resources, '
+            + 'is a sophisticated and promising market. It has a well developed economic infrastructure '
+            + 'and opportunities in its emerging markets.'
+        ),
+    },
+    'south korea': {
+        'display_name': 'South Korea',
+        'card_link': 'https://www.great.gov.uk/markets/south-korea/',
+        'card_title': 'Exporting guide to South Korea',
+        'card_content': (
+            'South Korea is one of the largest economies in the world and has strong trade links with the UK. '
+            + 'The UK has a Continuity Free Trade Agreement in place with South Korea which came into effect in January 2020.'
         ),
     },
     'spain': {
@@ -873,6 +994,163 @@ PRODUCT_MARKET_DATA = {
             + 'it provides a large consumer base for UK exporters to sell to. Spain is one of '
             + 'the top 10 largest trading partners of the UK. There is a demand for UK goods '
             + 'and services which UK businesses looking to export could benefit from.'
+        ),
+    },
+    'st kitts and nevis': {
+        'display_name': 'St Kitts and Nevis',
+        'card_link': 'https://www.great.gov.uk/markets/st-kitts-and-nevis/',
+        'card_title': 'Exporting guide to St Kitts and Nevis',
+        'card_content': (
+            'St Kitts and Nevis is part of the Lesser Antilles island chain in the Caribbean, '
+            + "close to Anguilla, Antigua and Barbuda and Monserrat. "
+            + 'It is part of the Commonwealth and one of the smallest countries in the world.'
+        ),
+    },
+    'st lucia': {
+        'display_name': 'St Lucia',
+        'card_link': 'https://www.great.gov.uk/markets/st-lucia/',
+        'card_title': 'Exporting guide to St Lucia',
+        'card_content': (
+            'Saint Lucia is an Eastern Caribbean island nation with a population of 183,000 people. '
+            + " The service sector makes up a large part of its economy, including tourism and financial services."
+        ),
+    },
+    'st vincent and the grenadines': {
+        'display_name': 'St Vincent and the Grenadines',
+        'card_link': 'https://www.great.gov.uk/markets/st-vincent-and-grenadines/',
+        'card_title': 'Exporting guide to St Vincent and the Grenadines',
+        'card_content': (
+            'St Vincent and the Grenadines is a southern Caribbean nation '
+            + "comprising of the main island of St. Vincent, and a chain of smaller islands. "
+            + 'Its main industries are agriculture and tourism.'
+        ),
+    },
+    'suriname': {
+        'display_name': 'Suriname',
+        'card_link': 'https://www.great.gov.uk/markets/suriname/',
+        'card_title': 'Exporting guide to Suriname',
+        'card_content': (
+            'Suriname is the smallest country in South America. It borders Guyana, French Guiana and Brazil, '
+            + "making it a good gateway into the South American market. It is a member of the Caribbean Community (CARICOM). "
+            + 'The current climate in Suriname, supports and promotes foreign direct investment (FDI), which has helped contribute to its economy.'
+        ),
+    },
+    'sweden': {
+        'display_name': 'Sweden',
+        'card_link': 'https://www.great.gov.uk/markets/sweden/',
+        'card_title': 'Exporting guide to Sweden',
+        'card_content': (
+            'Sweden is among the most competitive, innovative and globalised nations '
+            + "in the world. The country has a stable economy, a skilled labour force and sophisticated consumers."
+        ),
+    },
+    'switzerland': {
+        'display_name': 'Switzerland',
+        'card_link': 'https://www.great.gov.uk/markets/switzerland/',
+        'card_title': 'Exporting guide to Switzerland',
+        'card_content': (
+            'An innovative country at the heart of Europe, Switzerland has a stable and reliable business'
+            + ", legal and regulatory environment. It is one of the UK’s closest trading partners. British companies of all sizes "
+            + 'are trading there, and UK investment is particularly substantial in the services and manufacturing sectors.'
+        ),
+    },
+    'taiwan': {
+        'display_name': 'Taiwan',
+        'card_link': 'https://www.great.gov.uk/markets/taiwan/',
+        'card_title': 'Exporting guide to Taiwan',
+        'card_content': (
+            'Taiwan is an advanced, high-tech economy with a strategic location'
+            + " in the Asia Pacific region. It has modern infrastructure and its banking, "
+            + 'insurance and securities sectors are being liberalised.'
+        ),
+    },
+    'tanzania': {
+        'display_name': 'Tanzania',
+        'card_link': 'https://www.great.gov.uk/markets/tanzania/',
+        'card_title': 'Exporting guide to Tanzania',
+        'card_content': (
+            'Tanzania is located on the East Coast of Africa. Due to its borders with Kenya, Uganda,'
+            + "Rwanda, Burundi, the Democratic Republic of Congo, Zambia, Malawi and Mozambique,"
+            + ' it can be a good gateway to these landlocked countries.'
+        ),
+    },
+    'thailand': {
+        'display_name': 'Thailand',
+        'card_link': 'https://www.great.gov.uk/markets/thailand/',
+        'card_title': 'Exporting guide to Thailand',
+        'card_content': (
+            'As the second largest economy in Southeast Asia, Thailand has a strong consumer base with large'
+            + ", urban, middle-class population. With its well-established trade relationship with the UK, cultural goodwill "
+            + 'and central location, Thailand is a promising export market for British businesses.'
+        ),
+    },
+    'the bahamas': {
+        'display_name': 'The Bahamas',
+        'card_link': 'https://www.great.gov.uk/markets/bahamas/',
+        'card_title': 'Exporting guide to The Bahamas',
+        'card_content': (
+            'The Bahamas is located within the Lucayan Archipelago in the West Indies,'
+            + " and is near Florida, Cuba, the Dominican Republic and Turks "
+            + 'and Caicos, which is also part of the Lucayan Archipelago.'
+        ),
+    },
+    'the netherlands': {
+        'display_name': 'The Netherlands',
+        'card_link': 'https://www.great.gov.uk/markets/netherlands/',
+        'card_title': 'Exporting guide to The Netherlands',
+        'card_content': (
+            'The Netherlands has a thriving economy and is a major gateway to Europe.'
+            + " It is culturally similar to the UK, making it an ideal test market for products."
+        ),
+    },
+    'trinidad and tobago': {
+        'display_name': 'Trinidad and Tobago',
+        'card_link': 'https://www.great.gov.uk/markets/trinidad-and-tobago/',
+        'card_title': 'Exporting guide to Trinidad and Tobago',
+        'card_content': (
+            'One of the wealthiest countries in the Caribbean Community (CARICOM),'
+            + " Trinidad and Tobago has the most active manufacturing sector "
+            + 'in the Caribbean and a successful petrochemical industry.'
+        ),
+    },
+    'tunisia': {
+        'display_name': 'Tunisia',
+        'card_link': 'https://www.great.gov.uk/markets/tunisia/',
+        'card_title': 'Exporting guide to Tunisia',
+        'card_content': (
+            'Tunisia is a North African country and seaboard to the Mediterranean Sea. It is'
+            + " a major gateway to both Europe and Africa. Economic growth is slowly gaining "
+            + ' steam with steady GDP growth, which is expected to continue.'
+        ),
+    },
+    'turkey': {
+        'display_name': 'Turkey',
+        'card_link': 'https://www.great.gov.uk/markets/turkey/',
+        'card_title': 'Exporting guide to Turkey',
+        'card_content': (
+            'Turkey is a large and fascinating market with plenty of export opportunities for UK exporters.'
+            + " It is home to both large multinationals and local businesses with a strong entrepreneurial culture. Despite Turkey’s recent political "
+            + 'and economic challenges, the country’s prospects are positive and there is room for growth.'
+        ),
+    },
+    'ukraine': {
+        'display_name': 'Ukraine',
+        'card_link': 'https://www.great.gov.uk/markets/ukraine/',
+        'card_title': 'Exporting guide to Ukraine',
+        'card_content': (
+            'Strategically located at a crossroads for the European and Asian markets,'
+            + " Ukraine offers a large and developed consumer base, "
+            + 'a highly educated workforce, low labour costs and abundant natural resources.'
+        ),
+    },
+    'united arab emirates': {
+        'display_name': 'United Arab Emirates',
+        'card_link': 'https://www.great.gov.uk/markets/united-arab-emirates/',
+        'card_title': 'Exporting guide to United Arab Emirates',
+        'card_content': (
+            'A key hub on the Arabian Peninsula and Persian Gulf'
+            + " the United Arab Emirates (UAE) is one of the UK's most important trading partners "
+            + 'and continues to be a growth market for UK exports.'
         ),
     },
     'united states': {
