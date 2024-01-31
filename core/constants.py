@@ -89,9 +89,88 @@ MENU_ITEM_ADD_CAMPAIGN_SITE_LINK = (
 )
 
 PRODUCT_MARKET_DATA = {
+    'algeria': {
+        'display_name': 'Algeria',
+        'card_link': 'https://www.great.gov.uk/markets/algeria/',
+        'card_title': 'Exporting guide to Algeria',
+        'card_content': (
+            'Algeria is the largest country in Africa in terms of landmass and trade between the'
+            + ' UK and Algeria is expanding. The economy is dominated by oil and gas production, '
+            + 'but there is also a developing market in renewable energy production, such as wind and solar.'
+        ),
+    },
+    'antigua and barbuda': {
+        'display_name': 'Antigua and Barbuda',
+        'card_link': 'https://www.great.gov.uk/markets/antigua-and-barbuda/',
+        'card_title': 'Exporting guide to Antigua and Barbuda',
+        'card_content': (
+            'Antigua and Barbuda is a sovereign state in the West Indies consisting of a number of '
+            + 'islands, with the two major ones being Antigua and Barbuda. The economy is heavily weighted '
+            + 'toward tourism, but there are opportunities for exporters with the right goods and services'
+        ),
+    },
+    'argentina': {
+        'display_name': 'Argentina',
+        'card_link': 'https://www.great.gov.uk/markets/argentina/',
+        'card_title': 'Exporting guide to Argentina',
+        'card_content': (
+            'Argentina is the second largest economy in South America. It\'s a member of the G20 and the'
+            + ' Mercosur trading block. Argentina has vast natural resources in agriculture, mining and '
+            + 'energy including renewables. It has one of the highest English Proficiency Index scores in'
+            + 'Latin America and its people have a European style business culture.'
+        ),
+    },
+    'australia': {
+        'display_name': 'Australia',
+        'card_link': 'https://www.great.gov.uk/markets/australia/',
+        'card_title': 'Exporting guide to Australia',
+        'card_content': (
+            'Australia shares a common language and culture with the UK, as well as free trade agreement. '
+            + 'This makes it easier for UK companies to do business there.'
+        ),
+    },
+    'austria': {
+        'display_name': 'Austria',
+        'card_link': 'https://www.great.gov.uk/markets/austria/',
+        'card_title': 'Exporting guide to Austria',
+        'card_content': (
+            'Austria is situated in the heart of Europe. One of Europe’s wealthiest nations, Austria is a '
+            + 'promising market for UK companies, especially for high quality products or services.'
+        ),
+    },
+    'bahrain': {
+        'display_name': 'Bahrain',
+        'card_link': 'https://www.great.gov.uk/markets/bahrain/',
+        'card_title': 'Exporting guide to Bahrain',
+        'card_content': (
+            'Bahrain is a small but prosperous economy, which has experienced steady growth. It has one '
+            + 'of the most liberal business environments in the region.'
+        ),
+    },
+    'barbados': {
+        'display_name': 'Barbados',
+        'card_link': 'https://www.great.gov.uk/markets/barbados/',
+        'card_title': 'Exporting guide to Barbados',
+        'card_content': (
+            'Barbados is a popular tourist destination and the most eastern of all the Caribbean Islands. '
+            + 'It is a developed country with a high quality of life and has had a long-standing trading '
+            + 'relationship with UK.'
+        ),
+    },
+    'belgium': {
+        'display_name': 'Belgium',
+        'card_link': 'https://www.great.gov.uk/markets/belgium/',
+        'card_title': 'Exporting guide to Belgium',
+        'card_content': (
+            'Belgium is an affluent and multicultural country in the centre of Europe. It has a strong and '
+            + 'longstanding trading relationship with the UK and is our eigth largest trading partner. '
+            + 'English is an accepted business language and for many UK companies Belgium is just a short '
+            + 'train ride away.'
+        ),
+    },
     'germany': {
         'display_name': 'Germany',
-        'card_link': '#',
+        'card_link': 'https://www.great.gov.uk/markets/germany/',
         'card_title': 'Exporting guide to Germany',
         'card_content': (
             'Germany is one of the world’s largest economies and a highly industrialised,'

@@ -1336,9 +1336,10 @@ def test_market_results_page(
     assert 'You want to sell gin to Germany' in str(response.rendered_content)
     assert 'Exporting guide to Germany' in str(response.rendered_content)
     assert (
-        'Germany is one of the world’s largest economies and a highly industrialised, diverse and stable market. It offers long-term potential and many opportunities for UK businesses offering innovative, quality products.'
-        in str(response.rendered_content)
-    )
+        'Germany is one of the world’s largest economies and a highly industrialised, '
+        + 'diverse and stable market. It offers long-term potential and many opportunities '
+        + 'for UK businesses offering innovative, quality products.'
+    ) in str(response.rendered_content)
 
 
 @override_settings(FEATURE_PRODUCT_MARKET_HERO=True)
