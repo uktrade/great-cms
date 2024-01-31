@@ -1262,7 +1262,7 @@ def test_set_default_expiry_date(rf, domestic_homepage):
     expected_date = now.replace(year=now.year + 1)
 
     microsite = factories.MicrositeFactory(
-        title="Microsite",
+        title='Microsite',
         parent=domestic_homepage,
     )
 

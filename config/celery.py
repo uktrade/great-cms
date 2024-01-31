@@ -33,7 +33,7 @@ app.conf.beat_schedule = {
     },
     'check_wagtail_page_schedule': {
         'task': 'core.tasks.enact_page_schedule',
-        'schedule': crontab(minute='*/1'),
+        'schedule': crontab(hour='*/1'),
     },
 }
 

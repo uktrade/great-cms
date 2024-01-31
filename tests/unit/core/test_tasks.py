@@ -42,7 +42,7 @@ def test_enact_page_scheduled(rf, user, domestic_homepage):
     now = datetime.datetime.now()
 
     microsite = MicrositeFactory(
-        title="Microsite",
+        title='Microsite',
         parent=domestic_homepage,
     )
 
