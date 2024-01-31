@@ -617,7 +617,7 @@ class ProductMarketView(TemplateView):
                 email_address='anonymous-user@test.com',
                 form_url=self.request.get_full_path(),
             )
-            response = action.save({'product': product, 'market': market})
+            response = action.save({'product': product, 'market': market, 'userid': self.request.user.id})
             response.raise_for_status()
 
             return redirect(reverse_lazy('core:product-market') + '?product=' + product + '&market=' + market.lower())

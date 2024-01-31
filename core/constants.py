@@ -469,4 +469,111 @@ PRODUCT_MARKET_DATA = {
             + 'to North and Central America.'
         ),
     },
+    'honduras': {
+        'display_name': 'Honduras',
+        'card_link': 'https://www.great.gov.uk/markets/honduras/',
+        'card_title': 'Exporting guide to Honduras',
+        'card_content': (
+            'Honduras is a Central American country bordered by Guatemala, El Salvador and'
+            + " Nicaragua. It's economy is primarily based around agriculture."
+        ),
+    },
+    'hong kong, china': {
+        'display_name': 'Hong Kong, China',
+        'card_link': 'https://www.great.gov.uk/markets/hong-kong-china/',
+        'card_title': 'Exporting guide to Hong Kong, China',
+        'card_content': (
+            'As one of Asia’s leading financial and business centres, Hong Kong has an open,'
+            + 'transparent and competitive market. English is widely spoken. It has '
+            + 'sophisticated financial services and distribution links, an efficient port '
+            + 'terminal, a free port status and unrivalled connectivity to mainland China '
+            + 'through air, rail, road and sea.'
+        ),
+    },
+    'hungary': {
+        'display_name': 'Hungary',
+        'card_link': 'https://www.great.gov.uk/markets/hungary/',
+        'card_title': 'Exporting guide to Hungary',
+        'card_content': (
+            'Hungary is a high-growth business hub in the heart of Europe. It has a population '
+            + 'of almost 10 million and a motivated workforce. As well as a favourable '
+            + 'geographical location, Hungary offers a modern, liberalised business environment '
+            + 'with a strong legal system.'
+        ),
+    },
+    'iceland': {
+        'display_name': 'Iceland',
+        'card_link': 'https://www.great.gov.uk/markets/iceland/',
+        'card_title': 'Exporting guide to Iceland',
+        'card_content': (
+            'An island country in the North Atlantic Iceland is about 840 km north-west of the UK'
+            + " and about 460 km south-east of Greenland's coast. Although it is one of the least "
+            + 'densely populated countries in Europe, it has a strong import market where UK goods '
+            + 'and services are popular.'
+        ),
+    },
+    'india': {
+        'display_name': 'India',
+        'card_link': 'https://www.great.gov.uk/markets/india/',
+        'card_title': 'Exporting guide to India',
+        'card_content': (
+            'The size of India’s economy makes it an attractive market for UK exporters. India has'
+            + 'a range of exciting export opportunities across a large number of sectors, although '
+            + 'success in this market can require patience and a longer-term approach.'
+        ),
+    },
+    'japan': {
+        'display_name': 'Japan',
+        'card_link': 'https://www.great.gov.uk/markets/japan/',
+        'card_title': 'Exporting guide to Japan',
+        'card_content': (
+            'Japan is currently the third largest economy in the world. With our new free trade '
+            + 'agreement, we have entered an exciting new chapter in trading relations between '
+            + 'the UK and Japan.'
+        ),
+    },
+    'new zealand': {
+        'display_name': 'New Zealand',
+        'card_link': 'https://www.great.gov.uk/markets/new-zealand/',
+        'card_title': 'Exporting guide to New Zealand',
+        'card_content': (
+            'UK-New Zealand bilateral trade continues to increase and is set to grow further '
+            + 'under the new UK-New Zealand free trade agreement.'
+        ),
+    },
+    'singapore': {
+        'display_name': 'Singapore',
+        'card_link': 'https://www.great.gov.uk/markets/singapore/',
+        'card_title': 'Exporting guide to Singapore',
+        'card_content': (
+            'Singapore is a small, but wealthy city-state with an open and trade-driven economy.'
+            + 'It is a leading financial, shipping, and trade hub for the Asia Pacific region, '
+            + 'and the government has a pro-business economic and trade policy.'
+        ),
+    },
+    'spain': {
+        'display_name': 'Spain',
+        'card_link': 'https://www.great.gov.uk/markets/spain/',
+        'card_title': 'Exporting guide to Spain',
+        'card_content': (
+            'Spain is located in Southwestern Europe and borders France and Portugal. It is one '
+            + 'of the biggest consumer markets in the EU and with a population of 46.4 million '
+            + 'it provides a large consumer base for UK exporters to sell to. Spain is one of '
+            + 'the top 10 largest trading partners of the UK. There is a demand for UK goods '
+            + 'and services which UK businesses looking to export could benefit from.'
+        ),
+    },
+    'united states': {
+        'display_name': 'United States',
+        'card_link': 'https://www.great.gov.uk/markets/united-states/',
+        'card_title': 'Exporting guide to United States',
+        'card_content': (
+            'The US is the UK’s largest export market for goods and services and the world’s '
+            + 'largest economy. With low regulatory barriers, minimal language barriers and '
+            + 'access to the global supply chain, it offers huge potential for UK exporters. '
+            + 'However, the US is a federal system, not a single national market. This means '
+            + 'you will need to treat each state as a separate entity with its own procedures '
+            + 'and regulations.'
+        ),
+    },
 }
