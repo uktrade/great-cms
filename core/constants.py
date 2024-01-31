@@ -763,6 +763,96 @@ PRODUCT_MARKET_DATA = {
             + 'under the new UK-New Zealand free trade agreement.'
         ),
     },
+    'nicaragua': {
+        'display_name': 'Nicaragua',
+        'card_link': 'https://www.great.gov.uk/markets/nicaragua/',
+        'card_title': 'Exporting guide to Nicaragua',
+        'card_content': (
+            'Nicaragua is the largest country in Central America. Its sustained economic growth '
+            + 'and qualified labour force attracts foreign investment. Nicaragua’s main industries'
+            + 'include agriculture and tourism.'
+        ),
+    },
+    'nigeria': {
+        'display_name': 'Nigeria',
+        'card_link': 'https://www.great.gov.uk/markets/nigeria/',
+        'card_title': 'Exporting guide to Nigeria',
+        'card_content': (
+            'Nigeria has the largest population and economy in Africa. English is the most widely '
+            + 'spoken language and Nigeria has similar business and legal practices to the UK.'
+        ),
+    },
+    'norway': {
+        'display_name': 'Norway',
+        'card_link': 'https://www.great.gov.uk/markets/norway/',
+        'card_title': 'Exporting guide to Norway',
+        'card_content': (
+            'Norway is part of the Nordic and Baltic region and is the fourth largest country in '
+            + 'Europe. It is a sophisticated and established market, having a long and trusted '
+            + 'trading relationship with the UK.'
+        ),
+    },
+    'oman': {
+        'display_name': 'Oman',
+        'card_link': 'https://www.great.gov.uk/markets/oman/',
+        'card_title': 'Exporting guide to Oman',
+        'card_content': (
+            'The Sultanate of Oman is the second largest country geographically in the Gulf '
+            + 'Cooperation Council (GCC). Its strategic location within the Arabian Peninsula, '
+            + 'internal political stability, a favourable tax regime and strong existing links '
+            + 'with the UK offer significant export opportunities for UK businesses.'
+        ),
+    },
+    'panama': {
+        'display_name': 'Panama',
+        'card_link': 'https://www.great.gov.uk/markets/panama/',
+        'card_title': 'Exporting guide to Panama',
+        'card_content': (
+            'Panama offers regional as well as bilateral opportunities for UK companies. Its '
+            + 'strategic geographical location, dollarised economy, and social, political and '
+            + 'economic stability make Panama an excellent base from which to do business in '
+            + "the region. Panama's government actively promotes policies to attract foreign "
+            + 'companies and stimulate innovation, through the creation of a series of Special '
+            + 'Economic Zones (SEZs).'
+        ),
+    },
+    'papua new guinea': {
+        'display_name': 'Papua New Guinea',
+        'card_link': 'https://www.great.gov.uk/markets/papua-new-guinea/',
+        'card_title': 'Exporting guide to Papua New Guinea',
+        'card_content': (
+            'Papua New Guinea (PNG) is in the southwestern Pacific and includes the eastern '
+            + 'half of New Guinea and its offshore islands. The PNG mainland has around 600 '
+            + 'islands with a total land area of 452,860 square kilometers. Over 800 languages '
+            + 'are spoken. It has a population of approximately 8.4 million giving UK companies '
+            + 'access to a good consumer market. Papua New Guinea is largely underdeveloped. It '
+            + 'is dominated by the agricultural, forestry, and fishing sector and the minerals '
+            + 'and energy extraction sector.'
+        ),
+    },
+    'paraguay': {
+        'display_name': 'Paraguay',
+        'card_link': 'https://www.great.gov.uk/markets/paraguay/',
+        'card_title': 'Exporting guide to Paraguay',
+        'card_content': (
+            'A South American country with a population of over 7 million people, Paraguay has '
+            + 'an abundance of natural resources and renewable energy. It is landlocked and '
+            + 'bordered by Argentina, Brazil and Bolivia. It has a growing import market and '
+            + 'UK companies looking to export to Paraguay may benefit from the increase in '
+            + 'demand for UK goods and services.'
+        ),
+    },
+    'peru': {
+        'display_name': 'Peru',
+        'card_link': 'https://www.great.gov.uk/markets/peru/',
+        'card_title': 'Exporting guide to Peru',
+        'card_content': (
+            'Peru has been the fastest growing economy in Latin America for most of the past '
+            + 'decade. Key export sectors for the UK include health and life sciences, mining, '
+            + 'energy, sustainable infrastructure, and security. The UK and Peru have a close '
+            + 'and constructive trade and investment relationship.'
+        ),
+    },
     'singapore': {
         'display_name': 'Singapore',
         'card_link': 'https://www.great.gov.uk/markets/singapore/',
