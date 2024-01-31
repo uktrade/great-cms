@@ -1318,7 +1318,7 @@ def test_design_system_page(
 def test_market_selection_page(
     client,
 ):
-    response = client.get(reverse('core:product-market') + '?product=gin')
+    response = client.get('/product-market?product=gin')
 
     assert 'Where do you want to sell your gin?' in str(response.rendered_content)
     assert 'Find and compare markets for selling gin' in str(response.rendered_content)
@@ -1330,7 +1330,7 @@ def test_market_selection_page(
 def test_market_results_page(
     client,
 ):
-    response = client.get(reverse('core:product-market') + '?product=gin&market=germany')
+    response = client.get('/product-market?product=gin&market=germany')
 
     assert 'Selling gin to Germany' in str(response.rendered_content)
     assert 'You want to sell gin to Germany' in str(response.rendered_content)
@@ -1347,7 +1347,7 @@ def test_market_results_page(
 def test_market_selection_with_no_product_page(
     client,
 ):
-    response = client.get(reverse('core:product-market'))
+    response = client.get('/product-market')
 
     assert 'Where do you want to sell?' in str(response.rendered_content)
 
