@@ -522,6 +522,67 @@ PRODUCT_MARKET_DATA = {
             + 'success in this market can require patience and a longer-term approach.'
         ),
     },
+    'indonesia': {
+        'display_name': 'Indonesia',
+        'card_link': 'https://www.great.gov.uk/markets/indonesia/',
+        'card_title': 'Exporting guide to Indonesia',
+        'card_content': (
+            'Indonesia is a group of islands located near Malaysia, Singapore, the Philippines and '
+            + 'Australia. The country has a population of over 270 million, making it a large '
+            + 'potential consumer base.'
+        ),
+    },
+    'ireland': {
+        'display_name': 'Ireland',
+        'card_link': 'https://www.great.gov.uk/markets/ireland/',
+        'card_title': 'Exporting guide to Ireland',
+        'card_content': (
+            'Ireland is an important trading partner for the UK. Trade and foreign investment is '
+            + "encouraged and growth is strong. Ireland's similarities to the UK make it an ideal "
+            + 'market for first-time exporters.'
+        ),
+    },
+    'israel': {
+        'display_name': 'Israel',
+        'card_link': 'https://www.great.gov.uk/markets/israel/',
+        'card_title': 'Exporting guide to Israel',
+        'card_content': (
+            'Israel is a highly developed, western-orientated market whose business practice is '
+            + 'similar to much of Western Europe. UK exports to Israel have grown steadily and '
+            + 'many British companies have a major presence in the market.'
+        ),
+    },
+    'italy': {
+        'display_name': 'Italy',
+        'card_link': 'https://www.great.gov.uk/markets/italy/',
+        'card_title': 'Exporting guide to Italy',
+        'card_content': (
+            'Italy is one of the UK’s closest trading partners and biggest export markets, and '
+            + 'presents significant opportunities for UK businesses. There is demand for defence, '
+            + 'cyber security, aerospace and engineering skills. Trade with the city of Milan and '
+            + 'the surrounding region is especially strong.'
+        ),
+    },
+    'ivory coast': {
+        'display_name': 'Ivory Coast',
+        'card_link': 'https://www.great.gov.uk/markets/ivory-coast/',
+        'card_title': 'Exporting guide to Ivory Coast',
+        'card_content': (
+            'The Ivory Coast (also known as The Republic of Côte D’Ivoire) is one of the largest '
+            + 'economies of the Economic Community of West Africa States (ECOWAS). It is a growing '
+            + 'regional hub and can be the gateway to French-speaking Africa and the rest of the '
+            + 'region for exporters.'
+        ),
+    },
+    'jamaica': {
+        'display_name': 'Jamaica',
+        'card_link': 'https://www.great.gov.uk/markets/jamaica/',
+        'card_title': 'Exporting guide to Jamaica',
+        'card_content': (
+            'Jamaica is an island country in the Caribbean Sea. Its strategic location gives direct '
+            + 'sea and air freight links to the UK and the wider Caribbean.'
+        ),
+    },
     'japan': {
         'display_name': 'Japan',
         'card_link': 'https://www.great.gov.uk/markets/japan/',
@@ -574,6 +635,40 @@ PRODUCT_MARKET_DATA = {
             + 'However, the US is a federal system, not a single national market. This means '
             + 'you will need to treat each state as a separate entity with its own procedures '
             + 'and regulations.'
+        ),
+    },
+    'uruguay': {
+        'display_name': 'Uruguay',
+        'card_link': 'https://www.great.gov.uk/markets/uruguay/',
+        'card_title': 'Exporting guide to Uruguay',
+        'card_content': (
+            'Uruguay has an open trade and investment regime, with limited use of non-tariff '
+            + 'measures and few border restrictions. It is one of the founding members of the '
+            + 'Mercosur trading bloc, alongside Brazil, Argentina and Paraguay.'
+        ),
+    },
+    'vietnam': {
+        'display_name': 'Vietnam',
+        'card_link': 'https://www.great.gov.uk/markets/vietnam/',
+        'card_title': 'Exporting guide to Vietnam',
+        'card_content': (
+            'Vietnam is one of the world’s fastest growing economies, projected to grow at 6.3 '
+            + 'percent in 2023 (World Bank), with growing appetite for UK goods and services. '
+            + 'This offers many exciting opportunities for exporters: Vietnam is a market with '
+            + '100 million consumers, rising middle class and rapid urbanisation. Vietnam '
+            + 'continues to broaden its network of international trade agreements, and proactive '
+            + 'government reform is helping to open the market to international business.'
+        ),
+    },
+    'zimbabwe': {
+        'display_name': 'Zimbabwe',
+        'card_link': 'https://www.great.gov.uk/markets/zimbabwe/',
+        'card_title': 'Exporting guide to Zimbabwe',
+        'card_content': (
+            'Zimbabwe has a tough business environment and is facing significant macro-economic '
+            + 'challenges. Nevertheless, investment and export opportunities exist if risks are '
+            + 'managed. Anglo American, Unilever, and Standard Chartered are some of the major '
+            + 'UK firms in Zimbabwe.'
         ),
     },
 }

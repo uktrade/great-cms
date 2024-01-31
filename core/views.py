@@ -611,13 +611,14 @@ class ProductMarketView(TemplateView):
             return redirect(reverse_lazy('core:product-market') + '?product=' + product)
         elif market:
             product = request.POST.get('product')
+            data = {'product': product, 'market': market, 'userid': self.request.user.id}
             action = actions.SaveOnlyInDatabaseAction(
                 full_name='Anonymous user',
                 subject='Product and Market experiment',
                 email_address='anonymous-user@test.com',
                 form_url=self.request.get_full_path(),
             )
-            response = action.save({'product': product, 'market': market, 'userid': self.request.user.id})
+            response = action.save(data)
             response.raise_for_status()
 
             return redirect(reverse_lazy('core:product-market') + '?product=' + product + '&market=' + market.lower())
