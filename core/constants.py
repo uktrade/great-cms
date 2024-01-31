@@ -593,6 +593,167 @@ PRODUCT_MARKET_DATA = {
             + 'the UK and Japan.'
         ),
     },
+    'jordan': {
+        'display_name': 'Jordan',
+        'card_link': 'https://www.great.gov.uk/markets/jordan/',
+        'card_title': 'Exporting guide to Jordan',
+        'card_content': (
+            'In recent years, Jordan has undertaken economic reform and re-opened borders with '
+            + 'neighbouring markets. This has created new opportunities in this market for UK '
+            + 'businesses.'
+        ),
+    },
+    'kenya': {
+        'display_name': 'Kenya',
+        'card_link': 'https://www.great.gov.uk/markets/kenya/',
+        'card_title': 'Exporting guide to Kenya',
+        'card_content': (
+            'Kenya is a relatively mature market economy and a regional financial hub, with '
+            + 'strong links to the UK. It boasts a well-educated, English-speaking and '
+            + 'productive labour force. UK firms say staff retention rates are high. It’s '
+            + 'an increasingly open, competitive and easy place to do business.'
+        ),
+    },
+    'latvia': {
+        'display_name': 'Latvia',
+        'card_link': 'https://www.great.gov.uk/markets/latvia/',
+        'card_title': 'Exporting guide to Latvia',
+        'card_content': (
+            'In Latvia rapid economic growth has been driven mainly by an increase in '
+            + 'investment and private consumption. High-quality British products are well '
+            + 'received and the UK brand is immediately recognised. It’s an ideal starter '
+            + 'market for UK companies new to exporting.'
+        ),
+    },
+    'lebanon': {
+        'display_name': 'Lebanon',
+        'card_link': 'https://www.great.gov.uk/markets/lebanon/',
+        'card_title': 'Exporting guide to Lebanon',
+        'card_content': (
+            'Despite political and economic challenges, Lebanese businesses are adept at '
+            + 'staying afloat throughout any turmoil. The private sector in Lebanon has '
+            + 'always found a way to survive, even with little government support and a '
+            + 'lack of some basic infrastructure.'
+        ),
+    },
+    'liechtenstein': {
+        'display_name': 'Liechtenstein',
+        'card_link': 'https://www.great.gov.uk/markets/liechtenstein/',
+        'card_title': 'Exporting guide to Liechtenstein',
+        'card_content': (
+            'Liechtenstein is a relatively small but buoyant market for UK exporters. A '
+            + 'free trade agreement (FTA) between the UK and Liechtenstein, along with '
+            + 'Norway and Iceland, is now in effect. The FTA recognises the importance of'
+            + 'SMEs and contains commitments to co-operate on SME trade and investment '
+            + 'opportunities.'
+        ),
+    },
+    'lithuania': {
+        'display_name': 'Lithuania',
+        'card_link': 'https://www.great.gov.uk/markets/lithuania/',
+        'card_title': 'Exporting guide to Lithuania',
+        'card_content': (
+            'Located at a crossroads between Northern, Central and Eastern Europe, '
+            + 'Lithuania is politically stable. Its economy is small but diverse, with '
+            + 'established manufacturing and agricultural sectors and growing technology '
+            + 'and service sectors.'
+        ),
+    },
+    'luxembourg': {
+        'display_name': 'Luxembourg',
+        'card_link': 'https://www.great.gov.uk/markets/luxembourg/',
+        'card_title': 'Exporting guide to Luxembourg',
+        'card_content': (
+            'Luxembourg is located in Western Europe and has a population of over 600,000 '
+            + 'people. It is landlocked, and bordered by Belgium, France and Germany. '
+            + 'Despite the relatively small size of the country, the UK has previously '
+            + 'exported large amounts goods and services to Luxembourg.'
+        ),
+    },
+    'madagascar': {
+        'display_name': 'Madagascar',
+        'card_link': 'https://www.great.gov.uk/markets/madagascar/',
+        'card_title': 'Exporting guide to Madagascar',
+        'card_content': (
+            'Madagascar is an island located off the East African coast, close to Mozambique,'
+            + 'Reunion and Mauritius. The economy mainly revolves around tourism, textiles, '
+            + 'agriculture and mining.'
+        ),
+    },
+    'malaysia': {
+        'display_name': 'Malaysia',
+        'card_link': 'https://www.great.gov.uk/markets/malaysia/',
+        'card_title': 'Exporting guide to Malaysia',
+        'card_content': (
+            'Decades of growth and stability have helped make Malaysia an industrialised, '
+            + 'relatively open economy with consistent growth. Despite the impact of the '
+            + 'Covid-19 pandemic, Malaysia continues to offers opportunities across a wide '
+            + 'range of sectors for UK exporters as demand picks up for a variety of goods '
+            + 'and services.'
+        ),
+    },
+    'malta': {
+        'display_name': 'Malta',
+        'card_link': 'https://www.great.gov.uk/markets/malta/',
+        'card_title': 'Exporting guide to Malta',
+        'card_content': (
+            'Malta is an island located off the south coast of Italy. It has weathered the '
+            + 'economic crises of the last few years well, leaving it with a strong and '
+            + 'vibrant economy.'
+        ),
+    },
+    'mauritius': {
+        'display_name': 'Mauritius',
+        'card_link': 'https://www.great.gov.uk/markets/mauritius/',
+        'card_title': 'Exporting guide to Mauritius',
+        'card_content': (
+            "Mauritius' economy has gradually moved away from being sugar-based by "
+            + 'diversifying into other industries. Mauritius has successfully positioned '
+            + 'itself as a regional business and trade hub due to its strategic, geographic '
+            + 'location and impressive economic development.'
+        ),
+    },
+    'mexico': {
+        'display_name': 'Mexico',
+        'card_link': 'https://www.great.gov.uk/markets/mexico/',
+        'card_title': 'Exporting guide to Mexico',
+        'card_content': (
+            'Mexico is a North American country south of the United States. The World Bank '
+            + 'now classes Mexico as an upper-middle-income country and the economically '
+            + 'active population continues to grow.'
+        ),
+    },
+    'mongolia': {
+        'display_name': 'Mongolia',
+        'card_link': 'https://www.great.gov.uk/markets/mongolia/',
+        'card_title': 'Exporting guide to Mongolia',
+        'card_content': (
+            'Mongolia, situated in east and central Asia, is more than 6 times the size of '
+            + 'the UK. Mining is a large economic sector for Mongolia, and the renewable '
+            + 'energy sector is also expanding. The overall business environment is improving.'
+        ),
+    },
+    'morocco': {
+        'display_name': 'Morocco',
+        'card_link': 'https://www.great.gov.uk/markets/morocco/',
+        'card_title': 'Exporting guide to Morocco',
+        'card_content': (
+            'Morocco is a politically stable, business-friendly country. Though its economy has '
+            + 'traditionally been more aligned to Europe than to Africa, Morocco is increasingly '
+            + 'taking advantage of opportunities across the African continent. This opening up of '
+            + 'the Moroccan economy is creating further opportunities for UK firms.'
+        ),
+    },
+    'mozambique': {
+        'display_name': 'Mozambique',
+        'card_link': 'https://www.great.gov.uk/markets/mozambique/',
+        'card_title': 'Exporting guide to Mozambique',
+        'card_content': (
+            'Mozambique has a population of over 30 million inhabitants and a wealth of natural '
+            + "resources. It's long southeast African coastline makes it ideally placed for "
+            + 'trade with Europe and Asia.'
+        ),
+    },
     'new zealand': {
         'display_name': 'New Zealand',
         'card_link': 'https://www.great.gov.uk/markets/new-zealand/',
