@@ -17,3 +17,8 @@ def update_geoip_data():
         raise ve
     else:
         logger.info('Updating GeoIp data finished')
+
+
+@app.task
+def enact_page_schedule():
+    call_command('publish_scheduled')
