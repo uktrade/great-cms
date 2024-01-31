@@ -314,18 +314,124 @@ PRODUCT_MARKET_DATA = {
             + 'Danes are sophisticated buyers with a good reputation for paying suppliers on time.'
         ),
     },
+    'dominica': {
+        'display_name': 'Dominica',
+        'card_link': 'https://www.great.gov.uk/markets/dominica/',
+        'card_title': 'Exporting guide to Dominica',
+        'card_content': (
+            'Dominica is a small Caribbean country located between Guadeloupe and Martinique in the West '
+            + 'Indies. Its economy is based around agriculture, tourism and investment.'
+        ),
+    },
+    'dominican republic': {
+        'display_name': 'Dominican Republic',
+        'card_link': 'https://www.great.gov.uk/markets/dominican-republic/',
+        'card_title': 'Exporting guide to Dominica',
+        'card_content': (
+            'The Dominican Republic has one of the largest and fastest growing economies in the Caribbean '
+            + 'and Central American regions. Tourism, free trade zones and improved telecommunications are '
+            + 'the main drivers of its growth.'
+        ),
+    },
+    'Ecuador': {
+        'display_name': 'Ecuador',
+        'card_link': 'https://www.great.gov.uk/markets/ecuador/',
+        'card_title': 'Exporting guide to Ecuador',
+        'card_content': (
+            "With a population of around 18 million, Ecuador is situated on South America's west coast. It "
+            + 'is bordered by Colombia, Peru and the South Pacific Ocean.'
+        ),
+    },
+    'Egypt': {
+        'display_name': 'Egypt',
+        'card_link': 'https://www.great.gov.uk/markets/egypt/',
+        'card_title': 'Exporting guide to Egypt',
+        'card_content': (
+            'With its rapidly increasing population, advantageous geographic position and growing economy, '
+            + 'Egypt is a market with a lot to offer. A number of UK companies are already doing business '
+            + 'there, including BP, Shell, Vodafone, HSBC, GSK, AstraZeneca and Unilever.'
+        ),
+    },
+    'el salvador': {
+        'display_name': 'El Salvador',
+        'card_link': 'https://www.great.gov.uk/markets/el-salvador/',
+        'card_title': 'Exporting guide to El Salvador',
+        'card_content': (
+            'El Salvador, located between Honduras and Guatemala, is part of Central America. Despite being '
+            + 'a small country, its population of over 6 million offers opportunities for UK exporters of '
+            + 'goods and services.'
+        ),
+    },
+    'estonia': {
+        'display_name': 'Estonia',
+        'card_link': 'https://www.great.gov.uk/markets/estonia/',
+        'card_title': 'Exporting guide to Estonia',
+        'card_content': (
+            'Estonia is a Northern European hub for industrial, supply chain and global business services. '
+            + 'It is an easy place to do and grow your business. For UK exporters who need local employees, '
+            + 'Estonia has a hardworking, well-educated and skilled workforce. It is a world leader in '
+            + "information technology producing 4 'unicorn' companies: Transferwise, Skype, Playtech and Taxify."
+        ),
+    },
+    'faroe islands': {
+        'display_name': 'Faroe Islands',
+        'card_link': 'https://www.great.gov.uk/markets/faroe-islands/',
+        'card_title': 'Exporting guide to Faroe Islands',
+        'card_content': (
+            'The Faroe Islands, located in the North Atlantic Ocean, comprise 18 islands. Fishing and related'
+            + 'activities are the mains industries, but the Faroes are working towards a more diversified economy.'
+        ),
+    },
+    'fiji': {
+        'display_name': 'Fiji',
+        'card_link': 'https://www.great.gov.uk/markets/fiji/',
+        'card_title': 'Exporting guide to Fiji',
+        'card_content': (
+            'Fiji is a group of islands in the South Pacific Ocean, located near Australia and New Zealand. It '
+            + 'has a population of just under 1 million and has one of the most developed economies in the Pacific'
+            + 'islands.'
+        ),
+    },
+    'finland': {
+        'display_name': 'Finland',
+        'card_link': 'https://www.great.gov.uk/markets/finland/',
+        'card_title': 'Exporting guide to Finland',
+        'card_content': (
+            'Finland has an affluent, highly educated and technologically sophisticated population. British '
+            + 'quality products are well received and UK brands are well known in the country.'
+        ),
+    },
+    'france': {
+        'display_name': 'France',
+        'card_link': 'https://www.great.gov.uk/markets/france/',
+        'card_title': 'Exporting guide to France',
+        'card_content': (
+            "France is one of the UK's largest export markets and a major global economy. In easy reach of "
+            + 'the UK, it offers many export opportunities for businesses offering innovative, quality products.'
+        ),
+    },
     'germany': {
         'display_name': 'Germany',
         'card_link': 'https://www.great.gov.uk/markets/germany/',
         'card_title': 'Exporting guide to Germany',
         'card_content': (
-            'Germany is one of the world’s largest economies and a highly industrialised,'
-            + 'diverse and stable market. It offers long-term potential and many opportunities'
-            + ' for UK businesses offering innovative, quality products.'
+            'Germany is one of the world’s largest economies and a highly industrialised, diverse and stable '
+            + 'market. It offers long-term potential and many opportunities for UK businesses offering '
+            + 'innovative, quality products.'
+        ),
+    },
+    'ghana': {
+        'display_name': 'Ghana',
+        'card_link': 'https://www.great.gov.uk/markets/ghana/',
+        'card_title': 'Exporting guide to Ghana',
+        'card_content': (
+            'The UK and Ghana share a common business language, the same time zone for half '
+            + 'the year and good flight connections.'
         ),
     },
     'greece': {
         'display_name': 'Greece',
+        'card_link': 'https://www.great.gov.uk/markets/greece/',
         'card_title': 'Exporting guide to Greece',
         'card_content': (
             'Situated in the Eastern Mediterranean, Greece is at the crossroads'
@@ -333,5 +439,34 @@ PRODUCT_MARKET_DATA = {
             + 'economy comprises of the services sector, with tourism playing a large part.'
         ),
     },
-    'france': {'display_name': 'France', 'card_title': 'Exporting guide to France'},
+    'grenada': {
+        'display_name': 'Grenada',
+        'card_link': 'https://www.great.gov.uk/markets/grenada/',
+        'card_title': 'Exporting guide to Grenada',
+        'card_content': (
+            'Grenada is an island in the West Indies at the southern end of the Grenadines'
+            + ' island chain. As a commonwealth country it has strong ties to the UK. '
+            + "Tourism and agriculture are the mainstays of it's economy"
+        ),
+    },
+    'guatemala': {
+        'display_name': 'Guatemala',
+        'card_link': 'https://www.great.gov.uk/markets/guatemala/',
+        'card_title': 'Exporting guide to Guatemala',
+        'card_content': (
+            'Guatemala is in Central America and has the largest economy in the region. '
+            + 'Bordered by Mexico, Honduras, El Salvador and Belize, it has good access '
+            + 'to North and Central America.'
+        ),
+    },
+    'guyana': {
+        'display_name': 'Guyana',
+        'card_link': 'https://www.great.gov.uk/markets/guyana/',
+        'card_title': 'Exporting guide to Guyana',
+        'card_content': (
+            'Guatemala is in Central America and has the largest economy in the region. '
+            + 'Bordered by Mexico, Honduras, El Salvador and Belize, it has good access '
+            + 'to North and Central America.'
+        ),
+    },
 }
