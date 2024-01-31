@@ -114,7 +114,7 @@ PRODUCT_MARKET_DATA = {
         'card_link': 'https://www.great.gov.uk/markets/argentina/',
         'card_title': 'Exporting guide to Argentina',
         'card_content': (
-            'Argentina is the second largest economy in South America. It\'s a member of the G20 and the'
+            "Argentina is the second largest economy in South America. It's a member of the G20 and the"
             + ' Mercosur trading block. Argentina has vast natural resources in agriculture, mining and '
             + 'energy including renewables. It has one of the highest English Proficiency Index scores in'
             + 'Latin America and its people have a European style business culture.'
