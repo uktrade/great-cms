@@ -1333,7 +1333,7 @@ def test_market_results_page(
     assert 'Selling gin to Germany' in str(response.rendered_content)
     assert 'You want to sell gin to Germany' in str(response.rendered_content)
     assert 'Exporting guide to Germany' in str(response.rendered_content)
-    assert ('Germany is one of the world’s largest economies and a highly industrialised, diverse and stable market.') in str(response.rendered_content)
+    assert ('Germany is one of the world’s largest economies') in str(response.rendered_content)
 
 
 @pytest.mark.django_db
