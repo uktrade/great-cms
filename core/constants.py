@@ -953,7 +953,7 @@ PRODUCT_MARKET_DATA = {
         'card_title': 'Exporting guide to Slovakia',
         'card_content': (
             'Slovakia combines a stable economic and political environment with a strategic '
-            + "geographical location. English is widely spoken as a business "
+            + 'geographical location. English is widely spoken as a business '
             + 'language, and several large UK companies operate in Slovakia.'
         ),
     },
@@ -1005,7 +1005,7 @@ PRODUCT_MARKET_DATA = {
         'card_title': 'Exporting guide to St Kitts and Nevis',
         'card_content': (
             'St Kitts and Nevis is part of the Lesser Antilles island chain in the Caribbean, '
-            + "close to Anguilla, Antigua and Barbuda and Monserrat. "
+            + 'close to Anguilla, Antigua and Barbuda and Monserrat. '
             + 'It is part of the Commonwealth and one of the smallest countries in the world.'
         ),
     },
@@ -1070,7 +1070,7 @@ PRODUCT_MARKET_DATA = {
         'card_title': 'Exporting guide to Taiwan',
         'card_content': (
             'Taiwan is an advanced, high-tech economy with a strategic location'
-            + " in the Asia Pacific region. It has modern infrastructure and its banking, "
+            + ' in the Asia Pacific region. It has modern infrastructure and its banking, '
             + 'insurance and securities sectors are being liberalised.'
         ),
     },
@@ -1080,7 +1080,7 @@ PRODUCT_MARKET_DATA = {
         'card_title': 'Exporting guide to Tanzania',
         'card_content': (
             'Tanzania is located on the East Coast of Africa. Due to its borders with Kenya, Uganda,'
-            + "Rwanda, Burundi, the Democratic Republic of Congo, Zambia, Malawi and Mozambique,"
+            + 'Rwanda, Burundi, the Democratic Republic of Congo, Zambia, Malawi and Mozambique,'
             + ' it can be a good gateway to these landlocked countries.'
         ),
     },
@@ -1151,7 +1151,7 @@ PRODUCT_MARKET_DATA = {
         'card_title': 'Exporting guide to Ukraine',
         'card_content': (
             'Strategically located at a crossroads for the European and Asian markets,'
-            + " Ukraine offers a large and developed consumer base, "
+            + ' Ukraine offers a large and developed consumer base, '
             + 'a highly educated workforce, low labour costs and abundant natural resources.'
         ),
     },
