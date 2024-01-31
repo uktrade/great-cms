@@ -168,6 +168,152 @@ PRODUCT_MARKET_DATA = {
             + 'train ride away.'
         ),
     },
+    'belize': {
+        'display_name': 'Belize',
+        'card_link': 'https://www.great.gov.uk/markets/belize/',
+        'card_title': 'Exporting guide to Belize',
+        'card_content': (
+            'Located on the north eastern coast of Central America, Belize is bordered to the north west '
+            + 'by Mexico, on the south and west by Guatemala, and to the east by the Caribbean Sea.'
+        ),
+    },
+    'bosnia and herzegovina': {
+        'display_name': 'Bosnia and Herzegovina',
+        'card_link': 'https://www.great.gov.uk/markets/bosnia-and-herzegovina/',
+        'card_title': 'Exporting guide to Bosnia and Herzegovina',
+        'card_content': (
+            'Situated at the heart of the Central and Eastern European (CEE) region, Bosnia and Herzegovina'
+            + '(BiH) is showing firm and stable economic recovery, with increasing affluence creating '
+            + 'opportunities for UK exporters. As an EU membership candidate (December 2022) it receives '
+            + 'financial, administrative and technical support during its pre-accession period.'
+        ),
+    },
+    'brazil': {
+        'display_name': 'Brazil',
+        'card_link': 'https://www.great.gov.uk/markets/brazil/',
+        'card_title': 'Exporting guide to Brazil',
+        'card_content': (
+            'Brazil and the UK have long historical ties in trade and investment. The largest South '
+            + 'American economy, Brazil has a familiar, European-style business culture.'
+        ),
+    },
+    'brunei': {
+        'display_name': 'Brunei',
+        'card_link': 'https://www.great.gov.uk/markets/brunei/',
+        'card_title': 'Exporting guide to Brunei',
+        'card_content': (
+            'Brunei is a politically stable country located on the island of Borneo. Oil and natural'
+            + " gas account for a large part of the country's GDP and it is one of the largest producers "
+            + 'of oil in South-East Asia.'
+        ),
+    },
+    'bulgaria': {
+        'display_name': 'Bulgaria',
+        'card_link': 'https://www.great.gov.uk/markets/bulgaria/',
+        'card_title': 'Exporting guide to Bulgaria',
+        'card_content': (
+            'Bulgaria is situated on the eastern side of the Balkans in South Eastern Europe. It is '
+            + "part of the European single market and it's economy is broadly based on services, heavy"
+            + 'industry and agriculture.'
+        ),
+    },
+    'cambodia': {
+        'display_name': 'Cambodia',
+        'card_link': 'https://www.great.gov.uk/markets/cambodia/',
+        'card_title': 'Exporting guide to Cambodia',
+        'card_content': (
+            'Cambodia is bordered by Vietnam, Laos and Thailand, with the Gulf of Thailand on its '
+            + 'south-western coast. It has a population of over 16 million, with rising spending '
+            + 'power predicted.'
+        ),
+    },
+    'canada': {
+        'display_name': 'Canada',
+        'card_link': 'https://www.great.gov.uk/markets/canada/',
+        'card_title': 'Exporting guide to Canada',
+        'card_content': (
+            'Canada is the second largest country in the world by area and has a population of over '
+            + '37 million people. It’s politically stable with a strong record of economic growth and '
+            + 'has well-established trade links with the UK.'
+        ),
+    },
+    'chile': {
+        'display_name': 'Chile',
+        'card_link': 'https://www.great.gov.uk/markets/chile/',
+        'card_title': 'Exporting guide to Chile',
+        'card_content': (
+            'Chile is one of the UK’s largest trading partners in Latin America and has enjoyed long '
+            + 'periods of growth. A pro-business sentiment and a strong drive for innovative solutions '
+            + 'make it a great first stop for companies new to the region.'
+        ),
+    },
+    'china': {
+        'display_name': 'China',
+        'card_link': 'https://www.great.gov.uk/markets/china/',
+        'card_title': 'Exporting guide to China',
+        'card_content': (
+            'China is the great economic success story of the last 30 years. It is a huge market for UK '
+            + 'businesses in everything from technology to luxury food products.'
+        ),
+    },
+    'colombia': {
+        'display_name': 'Colombia',
+        'card_link': 'https://www.great.gov.uk/markets/colombia/',
+        'card_title': 'Exporting guide to Colombia',
+        'card_content': (
+            'After a long period of conflict, Colombia has emerged as a strong economy in its region. It '
+            + 'has one of the largest populations and economies in Latin America and has seen recent '
+            + 'improvements in the labour market.'
+        ),
+    },
+    'costa rica': {
+        'display_name': 'Costa Rica',
+        'card_link': 'https://www.great.gov.uk/markets/costa-rica/',
+        'card_title': 'Exporting guide to Costa Rica',
+        'card_content': (
+            'Costa Rica is a Central American country bordered by the Caribbean Sea to the north east and'
+            + 'the Pacific Ocean to the south west.'
+        ),
+    },
+    'croatia': {
+        'display_name': 'Croatia',
+        'card_link': 'https://www.great.gov.uk/markets/croatia/',
+        'card_title': 'Exporting guide to Croatia',
+        'card_content': (
+            'Croatia occupies a strategic location at the heart of Central and Eastern Europe. Its economy'
+            + 'is gaining strength and it offers a market with significant growth potential.'
+        ),
+    },
+    'cyprus': {
+        'display_name': 'Cyprus',
+        'card_link': 'https://www.great.gov.uk/markets/cyprus/',
+        'card_title': 'Exporting guide to Cyprus',
+        'card_content': (
+            'Cyprus is an island with a population of about one million people. Its strategic geographic '
+            + 'location, at the corner of the eastern Mediterranean, between Europe, Asia and Africa, enhances'
+            + 'its role as a regional business and trading hub. Cyprus enjoys close and strong links with UK at'
+            + 'multiple levels. Overall, the Cyprus market is mature, competitive and price sensitive.'
+        ),
+    },
+    'czech republic': {
+        'display_name': 'Czech Republic',
+        'card_link': 'https://www.great.gov.uk/markets/czech-republic/',
+        'card_title': 'Exporting guide to Czech Republic',
+        'card_content': (
+            'The Czech Republic has a well developed and export-oriented economy. Its location in the centre '
+            + 'of Europe gives UK exporters easy access to Germany and other Central and Eastern European (CEE)'
+            + 'markets.'
+        ),
+    },
+    'denmark': {
+        'display_name': 'Denmark',
+        'card_link': 'https://www.great.gov.uk/markets/denmark/',
+        'card_title': 'Exporting guide to Denmark',
+        'card_content': (
+            'Denmark has a wealthy, educated and open economy, receptive to UK products and investments. The '
+            + 'Danes are sophisticated buyers with a good reputation for paying suppliers on time.'
+        ),
+    },
     'germany': {
         'display_name': 'Germany',
         'card_link': 'https://www.great.gov.uk/markets/germany/',
