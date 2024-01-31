@@ -220,7 +220,7 @@ class BusinessDetails(forms.Form):
 
 class MarketingSources(forms.Form):
     marketing_sources = forms.ChoiceField(
-        label=_('How did you hear about the Export Academy?'),
+        label=_(''),
         choices=constants.MARKETING_SOURCES_CHOICES,
         error_messages={'required': _('Please answer this question')},
         widget=django_widgets.Select(attrs={'class': 'govuk-select great-select'}),
