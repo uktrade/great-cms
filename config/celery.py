@@ -35,6 +35,13 @@ app.conf.beat_schedule = {
         'task': 'core.tasks.enact_page_schedule',
         'schedule': crontab(hour='*/1'),
     },
+    'send_campaign_site_review_reminder_once_a_day': {
+        'task': 'core.tasks.send_review_reminder_interval_months',
+        'schedule': crontab(
+            minute=settings.CAMPAIGN_SITE_REVIEW_REMINDER_MINUTE,
+            hour=settings.CAMPAIGN_SITE_REVIEW_REMINDER_HOUR,
+        ),
+    },
 }
 
 if settings.FEATURE_REDIS_USE_SSL:

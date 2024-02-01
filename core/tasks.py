@@ -22,3 +22,8 @@ def update_geoip_data():
 @app.task
 def enact_page_schedule():
     call_command('publish_scheduled')
+
+
+@app.task
+def send_review_reminder_interval_months():
+    call_command('send_campaign_site_review_reminder')
