@@ -270,10 +270,10 @@ def test_booking_success_view(
             },
             reverse('export_academy:registration-experience'),
             {
-                'first_name': 'Enter your name',
-                'last_name': 'Enter your family name',
+                'first_name': 'Enter your first name',
+                'last_name': 'Enter your last name',
                 'job_title': 'Enter your job title',
-                'phone_number': 'Please enter a valid UK phone number',
+                'phone_number': 'Enter your telephone number',
             },
         ),
         (
@@ -285,9 +285,9 @@ def test_booking_success_view(
             },
             reverse('export_academy:registration-business'),
             {
-                'export_experience': 'Please answer this question',
-                'sector': 'Please answer this question',
-                'export_product': 'Please answer this question',
+                'export_experience': 'Choose one option about your export experience',
+                'sector': 'Choose a sector',
+                'export_product': 'Choose one option about what you export',
             },
         ),
         (
@@ -304,8 +304,8 @@ def test_booking_success_view(
                 'business_name': 'Enter your business name',
                 'business_address_line_1': 'Enter the first line of your business address',
                 'business_postcode': 'Enter your business postcode',
-                'annual_turnover': 'Please answer this question',
-                'employee_count': 'Please answer this question',
+                'annual_turnover': 'Enter a turnover amount',
+                'employee_count': 'Choose number of employees',
             },
         ),
         (
@@ -315,7 +315,7 @@ def test_booking_success_view(
             },
             reverse('export_academy:registration-confirm'),
             {
-                'marketing_sources': 'Please answer this question',
+                'marketing_sources': 'Tell us how you heard about the UK Export Academy',
             },
         ),
     ),
