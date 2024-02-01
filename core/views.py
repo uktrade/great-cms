@@ -605,11 +605,9 @@ class ProductMarketView(TemplateView):
         product = request.POST.get('product-input')
         market = request.POST.get('market-input')
 
-        if not product and not market:
-            return redirect('/markets')
-        if product:
+        if product and not market:
             return redirect(reverse_lazy('core:product-market') + '?product=' + product)
-        elif market:
+        if market:
             product = request.POST.get('product')
             data = {'product': product, 'market': market, 'userid': self.request.user.id}
             action = actions.SaveOnlyInDatabaseAction(

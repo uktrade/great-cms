@@ -24,6 +24,7 @@ from wagtail.models import Locale
 from core import cms_slugs, forms, helpers, serializers, views
 from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
+from directory_forms_api_client import actions
 from domestic.views.campaign import CampaignView
 from tests.helpers import create_response, make_test_video
 from tests.unit.core.factories import (
@@ -1344,6 +1345,29 @@ def test_market_selection_with_no_product_page(
 
     assert 'Where do you want to sell?' in str(response.rendered_content)
 
+@pytest.mark.django_db
+@mock.patch.object(actions, 'SaveOnlyInDatabaseAction')
+def test_post_with_both_product_and_market(mock_save_action, client):
+    post_data = {
+        'product': 'gin',
+        'market-input': 'Germany'
+    }
+    response = client.post(reverse('core:product-market'), data=post_data)
+
+    expected_redirect_url = reverse_lazy('core:product-market') + '?product=gin&market=germany'
+    
+    assert response.status_code == 302
+    assert response.url == expected_redirect_url
+    
+    mock_save_action.assert_called_once_with(
+        full_name='Anonymous user',
+        subject='Product and Market experiment',
+        email_address='anonymous-user@test.com',
+        form_url='/product-market'
+    )
+
+    expected_data = {'product': 'gin', 'market': 'Germany', 'userid': mock.ANY}
+    mock_save_action.return_value.save.assert_called_once_with(expected_data)
 
 @pytest.mark.django_db
 @modify_settings(SAFELIST_HOSTS={'append': 'www.safe.com'})
