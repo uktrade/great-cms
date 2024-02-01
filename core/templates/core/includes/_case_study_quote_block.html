@@ -12,16 +12,9 @@ one author and author's role text fields.
                 </blockquote>
             {% endfor %}
         </div>
-        <div class="only-mobile m-v-xs attribution">
-            <span class="body-m-b block">{{ value.attribution }}</span>
-            {% if value.role %}<span class="body-m block">{{ value.role }}</span>{% endif %}
-        </div>
-        {% if forloop.last %}
-            {# on last iteration only #}
-            <div class="only-desktop m-t-xs">
-                <span class="body-m-b block">{{ value.attribution }}</span>
-                {% if value.role %}<span class="body-m block">{{ value.role }}</span>{% endif %}
-            </div>
-        {% endif %}
     </div>
+</div>
+<div class="govuk-!-margin-top-5 govuk-!-margin-bottom-5">
+    <span class="body-m-b block">{{ value.attribution }}</span>
+    {% if value.role %}<span class="body-m block">{{ value.role }}</span>{% endif %}
 </div>
