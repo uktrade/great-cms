@@ -18,6 +18,7 @@ def get_cta_attributes(cta: RelatedContentCTA):
         result['link'] = cta.link[0].value
 
     result['heading_class'] = f"govuk-body-s {'great-card__link--external' if 'http' in result['link'] else ''}"
+    result['is_external_link'] = True if 'http' in result['link'] else False
     result['tag_description'] = dict(RelatedContentCTA.type_choices)[cta.type]
     result['tag_icon'] = '/static/icons/hand.svg' if 'service' in cta.type.lower() else '/static/icons/guidance.svg'
     return result
