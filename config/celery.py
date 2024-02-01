@@ -31,6 +31,10 @@ app.conf.beat_schedule = {
             day_of_month=settings.GEOIP_DOWNLOAD_DAY,
         ),
     },
+    'check_wagtail_page_schedule': {
+        'task': 'core.tasks.enact_page_schedule',
+        'schedule': crontab(hour='*/1'),
+    },
 }
 
 if settings.FEATURE_REDIS_USE_SSL:
