@@ -736,7 +736,10 @@ GEOLOCATION_MAXMIND_DATABASE_FILE_URL = env.str(
     'GEOLOCATION_MAXMIND_DATABASE_FILE_URL',
     'https://download.maxmind.com/app/geoip_download',
 )
-
+# geoip download config, default = once on the first of the month
+GEOIP_DOWNLOAD_DAY = env.str('GEOIP_DOWNLOAD_DAY', 1)
+GEOIP_DOWNLOAD_HOUR = env.str('GEOIP_DOWNLOAD_HOUR', 0)
+GEOIP_DOWNLOAD_MINUTE = env.str('GEOIP_DOWNLOAD_MINUTE', 0)
 
 # directory-api
 DIRECTORY_API_CLIENT_BASE_URL = env.str('DIRECTORY_API_CLIENT_BASE_URL')
