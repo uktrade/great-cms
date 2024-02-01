@@ -17,6 +17,7 @@ from core.constants import (
     CAMPAIGN_FORM_CHOICES,
     RICHTEXT_FEATURES__MINIMAL,
     RICHTEXT_FEATURES__REDUCED,
+    RICHTEXT_FEATURES__WITH_LIST,
 )
 from core.utils import get_cs_ranking, get_personalised_choices
 
@@ -233,10 +234,10 @@ class ITAQuoteBlock(blocks.StructBlock):
 
 class ChooseDoNotChooseBlock(blocks.StructBlock):
     choose_title = blocks.CharBlock(max_length=255)
-    choose_body = blocks.RichTextBlock(features=RICHTEXT_FEATURES__MINIMAL)
+    choose_body = blocks.RichTextBlock(features=RICHTEXT_FEATURES__WITH_LIST)
 
     do_not_choose_title = blocks.CharBlock(max_length=255)
-    do_not_choose_body = blocks.RichTextBlock(features=RICHTEXT_FEATURES__MINIMAL)
+    do_not_choose_body = blocks.RichTextBlock(features=RICHTEXT_FEATURES__WITH_LIST)
 
     class Meta:
         help_text = 'A pair of custom rich-text areas with titles, one for Choose and the other for Do Not Choose'
