@@ -2,7 +2,7 @@
 {% load get_inline_feedback_visibility from content_tags %}
 {% show_feedback request.get_full_path as show_feedback %}
 {% if show_feedback %}
-    <div class="great-full-width govuk-!-padding-top-4 govuk-!-padding-bottom-4 great-inline-feedback__container">
+    <div class="great-full-width govuk-!-padding-top-6 govuk-!-padding-bottom-6 great-inline-feedback__container">
         <div class="govuk-grid-row great-container">
             <div class="govuk-grid-column-two-thirds govuk-grid-column-two-thirds--no-padding"
                  id="inline-feedback">
@@ -18,7 +18,7 @@
                     <form method="post"
                           class="great-inline-feedback__page_useful_form"
                           id="page-useful-form">
-                        <h5 class="govuk-heading-xs">Was this page useful?</h5>
+                        <h4 class="govuk-heading-xs">Was this page useful?</h4>
                         {% csrf_token %}
                         <input type="hidden" name="current_url" value="{{ request.path }}">
                         <button type="submit"
