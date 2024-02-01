@@ -2,6 +2,7 @@ from django.urls import reverse_lazy
 
 from international_online_offer.models import get_user_data_for_user
 
+
 def eyb_user(request):
     user = get_user_data_for_user(request)
     if not user:
@@ -38,6 +39,7 @@ def is_using_login_or_profile(request):
         if url in current_url:
             return True
     return False
+
 
 def hide_primary_nav(request):
     hide_primary_nav = is_using_triage(request) or is_using_login_or_profile(request)
