@@ -38,7 +38,7 @@ from export_academy.models import Event
             ),
             {
                 'first_name': 'Enter your first name',
-                'phone_number': 'Enter a valid UK telephone number',
+                'phone_number': 'Enter your telephone number',
                 'last_name': 'Enter your last name',
                 'job_title': 'Enter your job title',
             },
