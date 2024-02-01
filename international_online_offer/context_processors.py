@@ -40,7 +40,7 @@ def is_using_login_or_profile(request):
             return True
     return False
 
+
 def hide_primary_nav(request):
     hide_primary_nav = is_using_triage(request) or is_using_login_or_profile(request)
     return {'hide_primary_nav': hide_primary_nav} 
-
