@@ -7,7 +7,7 @@ BACKLINK_QUERYSTRING_NAME = 'return-link'
 # Define a strict subset of rich-text features only includes linebreaks
 RICHTEXT_FEATURES__MINIMAL = ()
 
-
+RICHTEXT_FEATURES__WITH_LIST = ['ol', 'ul']
 # Define rich-text features that disable embeds, images and document links
 RICHTEXT_FEATURES__REDUCED = [
     'anchor-identifier',
