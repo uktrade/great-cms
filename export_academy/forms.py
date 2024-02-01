@@ -39,7 +39,8 @@ class BoolToDateTimeField(DateTimeField):
         return super().to_python(value)
 
 
-PHONE_ERROR_MESSAGE = 'Please enter a valid UK phone number'
+PHONE_REQUIRED_MESSAGE = 'Enter your telephone number'
+PHONE_INVALID_MESSAGE = 'Enter a valid UK telephone number'
 
 
 class PersonalDetails(forms.Form):
@@ -48,7 +49,7 @@ class PersonalDetails(forms.Form):
         min_length=2,
         max_length=50,
         error_messages={
-            'required': _('Enter your name'),
+            'required': _('Enter your first name'),
         },
         widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
     )
@@ -57,7 +58,7 @@ class PersonalDetails(forms.Form):
         min_length=2,
         max_length=50,
         error_messages={
-            'required': _('Enter your family name'),
+            'required': _('Enter your last name'),
         },
         widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
     )
@@ -67,10 +68,10 @@ class PersonalDetails(forms.Form):
         max_length=16,
         help_text='This can be a landline or mobile number',
         error_messages={
-            'max_length': PHONE_ERROR_MESSAGE,
-            'min_length': PHONE_ERROR_MESSAGE,
-            'invalid': PHONE_ERROR_MESSAGE,
-            'required': PHONE_ERROR_MESSAGE,
+            'max_length': PHONE_INVALID_MESSAGE,
+            'min_length': PHONE_INVALID_MESSAGE,
+            'invalid': PHONE_INVALID_MESSAGE,
+            'required': PHONE_REQUIRED_MESSAGE,
         },
         widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
     )
@@ -88,7 +89,7 @@ class PersonalDetails(forms.Form):
         if phone_number == '':
             return phone_number
         if not PHONE_NUMBER_REGEX.match(phone_number):
-            raise ValidationError(PHONE_ERROR_MESSAGE)
+            raise ValidationError(PHONE_INVALID_MESSAGE)
         return phone_number
 
     @property
@@ -113,14 +114,14 @@ class ExportExperience(forms.Form):
             ('I do not have a product for export', 'I do not have a product for export'),
         ),
         widget=forms.RadioSelect(attrs={'id': 'hiring-select'}),
-        error_messages={'required': _('Please answer this question')},
+        error_messages={'required': _('Choose one option about your export experience')},
     )
 
     sector = forms.ChoiceField(
         label='What is your sector?',
         help_text='Select at least one sector that applies to you',
         choices=constants.INDUSTRY_CHOICES,
-        error_messages={'required': _('Please answer this question')},
+        error_messages={'required': _('Choose a sector')},
         widget=django_widgets.Select(attrs={'class': 'govuk-select great-select'}),
     )
 
@@ -128,7 +129,6 @@ class ExportExperience(forms.Form):
         label='',
         help_text='Select an additional sector (optional)',
         choices=constants.INDUSTRY_CHOICES,
-        error_messages={'required': _('Please answer this question')},
         required=False,
         widget=django_widgets.Select(attrs={'class': 'govuk-select great-select'}),
     )
@@ -137,7 +137,6 @@ class ExportExperience(forms.Form):
         label='',
         help_text='Select an additional sector (optional)',
         choices=constants.INDUSTRY_CHOICES,
-        error_messages={'required': _('Please answer this question')},
         required=False,
         widget=django_widgets.Select(attrs={'class': 'govuk-select great-select'}),
     )
@@ -151,7 +150,7 @@ class ExportExperience(forms.Form):
             ("I don't know", "I don't know"),
         ),
         widget=forms.RadioSelect,
-        error_messages={'required': _('Please answer this question')},
+        error_messages={'required': _('Choose one option about what you export')},
     )
 
     @property
@@ -180,7 +179,7 @@ class BusinessDetails(forms.Form):
     business_postcode = forms.CharField(
         label='Business unit postcode',
         max_length=8,
-        error_messages={'required': 'Enter your business postcode', 'invalid': 'Please enter a UK postcode'},
+        error_messages={'required': 'Enter your business postcode', 'invalid': 'Enter a valid UK postcode'},
         validators=[is_valid_uk_postcode],
         widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input govuk-!-width-one-half'}),
     )
@@ -196,7 +195,7 @@ class BusinessDetails(forms.Form):
             ("I'd prefer not to say", "I'd prefer not to say"),
         ),
         widget=forms.RadioSelect,
-        error_messages={'required': _('Please answer this question')},
+        error_messages={'required': _('Enter a turnover amount')},
     )
 
     employee_count = forms.ChoiceField(
@@ -209,7 +208,7 @@ class BusinessDetails(forms.Form):
             ('prefer not to say', "I'd prefer not to say"),
         ),
         widget=forms.RadioSelect,
-        error_messages={'required': _('Please answer this question')},
+        error_messages={'required': _('Choose number of employees')},
     )
 
     @property
@@ -222,7 +221,7 @@ class MarketingSources(forms.Form):
     marketing_sources = forms.ChoiceField(
         label='',
         choices=constants.MARKETING_SOURCES_CHOICES,
-        error_messages={'required': _('Please answer this question')},
+        error_messages={'required': _('Tell us how you heard about the UK Export Academy')},
         widget=django_widgets.Select(attrs={'class': 'govuk-select great-select'}),
     )
 
