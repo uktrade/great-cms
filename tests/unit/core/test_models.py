@@ -39,6 +39,7 @@ from core.models import (
     Tag,
     TopicPage,
     case_study_body_validation,
+    is_valid_url_input,
 )
 from domestic.models import DomesticDashboard, DomesticHomePage, GreatDomesticHomePage
 from tests.helpers import SetUpLocaleMixin, make_test_video
@@ -334,6 +335,17 @@ def test_case_study_body_validation(block_type_values, exception_message):
     else:
         # should not blow up
         case_study_body_validation(value)
+
+
+@pytest.mark.parametrize('input', ['\\', 'htp', 'xyz'])
+def test_is_not_valid_url_input(input):
+    with pytest.raises(ValidationError):
+        is_valid_url_input(input)
+
+
+@pytest.mark.parametrize('input', ['/', 'http', 'https'])
+def test_is_valid_url_input(input):
+    is_valid_url_input(input)
 
 
 class LandingPageTests(WagtailPageTests):
