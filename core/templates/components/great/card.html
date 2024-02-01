@@ -37,16 +37,18 @@
         {% endif %}
         {% if content %}
             {% if bypass_class_filter %}
-                <div>{{ content }}</div>
+                <div {% if content_class %}class="{{ content_class }}"{% endif %}>{{ content }}</div>
             {% else %}
                 {% if tag %}
                     {% filter add_card_govuk_classes %}
                         <{{ content_tag|default:'div' }}
+                        {% if content_class %}class="{{ content_class }}"{% endif %}
                         >{{ content }}</{{ content_tag|default:'div' }}>
                     {% endfilter %}
                 {% else %}
                     {% filter add_govuk_classes %}
                         <{{ content_tag|default:'div' }}
+                        {% if content_class %}class="{{ content_class }}"{% endif %}
                         >{{ content }}</{{ content_tag|default:'div' }}>
                     {% endfilter %}
                 {% endif %}

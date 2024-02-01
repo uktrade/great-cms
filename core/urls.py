@@ -183,4 +183,13 @@ if settings.FEATURE_DESIGN_SYSTEM:
         ),
     ]
 
+if settings.FEATURE_PRODUCT_MARKET_HERO:
+    urlpatterns += [
+        path(
+            'product-market',
+            skip_ga360(views.ProductMarketView.as_view()),
+            name='product-market',
+        ),
+    ]
+
 urlpatterns += redirects

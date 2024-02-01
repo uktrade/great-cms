@@ -1,0 +1,134 @@
+{% extends 'domestic/base.html' %}
+{% load static %}
+{% block head_title %}
+    {% if is_market_lookup_state %}
+        Where do you want to sell
+        {% if product %}your {{ product }}{% endif %}
+        ?
+    {% elif is_results_state %}
+        Selling {{ product }} to {{ country.display_name }}
+    {% endif %}
+    - great.gov.uk
+{% endblock %}
+{% block head_css %}
+    {{ block.super }}
+    <link href="{% static 'core/css/accessible-autocomplete.min.css' %}"
+          rel="stylesheet"
+          type="text/css">
+{% endblock %}
+{% block content %}
+    <div class="great great-product-market">
+        {% if is_market_lookup_state %}
+            {% if product %}
+                <div class="great-container govuk-!-padding-top-4 govuk-!-padding-bottom-4">
+                    <span class="great-product-market__product-label">You sell {{ product }}</span>
+                </div>
+            {% endif %}
+            <div class="great-container govuk-!-padding-bottom-4{% if not product %} govuk-!-padding-top-4{% endif %}">
+                <h1 class="govuk-heading-xl" id="product-market-title">Where do you want to sell{% if product %} your {{ product }}{% endif %}?
+                </h1>
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds">
+                        <form id="great-product-market-form"
+                              class="great-product-market__form"
+                              action="/product-market"
+                              method="post">
+                            {% csrf_token %}
+                            <label for="market-input" class="great-visually-hidden">
+                                Where do you want to sell
+                                {% if product %}your {{ product }}{% endif %}
+                                ?
+                            </label>
+                            <div class="great-product-market__form-inputs">
+                                <input type="hidden" id="product" name="product" value="{{ product }}" />
+                                <div id="market-input-container"></div>
+                                <div class="great-product-market__button-container">
+                                    <button class="great-product-market__button primary-button">Continue</button>
+                                    <a href="/markets" class="link great-product-market__market-link">I don't have a market in mind</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="great-product-market__cards">
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-one-half govuk-!-padding-top-9">
+                            {% include 'components/great/card.html' with title="Use the Check how to export goods service" content="Find out about the rules and restrictions, tax and duty rates, as well as the documents you need to export your goods." url="https://www.gov.uk/check-duties-customs-exporting" show_title_link=True heading_class="govuk-heading-xs" classes="great-card--cta great-card--cta-no-bg" container_class="govuk-!-padding-bottom-5" content_class="govuk-!-margin-bottom-7" tag_container_outer_class="govuk-!-margin-bottom-0" tag="Service on GOV.UK" tag_icon="/static/icons/hand.svg" %}
+                        </div>
+                    </div>
+                </div>
+            {% elif is_results_state %}
+                <div class="great-container govuk-!-padding-top-4 govuk-!-padding-bottom-4">
+                    <span class="great-product-market__product-label">You want to sell {% if product != 'None' %}{{ product }} {% endif %}to {{ country.display_name }}</span>
+                </div>
+                <div class="great-container govuk-!-padding-bottom-4">
+                    <h1 class="govuk-heading-l">Selling {% if product != 'None' %}{{ product }} {% endif %}to {{ country.display_name }}</h1>
+                    <div class="great-product-market__cards">
+                        {% include 'components/great/card.html' with title=country.card_title content=country.card_content url=country.card_link show_title_link=True heading_class="govuk-heading-xs" classes="great-card--cta great-card--cta-no-bg" container_class="govuk-!-padding-bottom-5" content_class="govuk-!-margin-bottom-7" tag_container_outer_class="govuk-!-margin-bottom-0" tag="Market Guide" tag_icon="/static/icons/guidance.svg" %}
+                        {% include 'components/great/card.html' with title="Use the Check how to export goods service" content="Find out about the rules and restrictions, tax and duty rates, as well as the documents you need to export your goods." url="https://www.gov.uk/check-duties-customs-exporting" show_title_link=True heading_class="govuk-heading-xs" classes="great-card--cta great-card--cta-no-bg" container_class="govuk-!-padding-bottom-5" content_class="govuk-!-margin-bottom-7" tag_container_outer_class="govuk-!-margin-bottom-0" tag="Service on GOV.UK" tag_icon="/static/icons/hand.svg" %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="great great-bg-light-blue">
+            <div class="great-container govuk-!-padding-top-7">
+                <div class="govuk-grid-row great-promo">
+                    <div class="govuk-grid-column-one-half">
+                        <h2 class="govuk-heading-m">
+                            {% if is_market_lookup_state %}
+                                Find and compare markets {% if product %}for selling {{ product }}{% endif %}
+                            {% else %}
+                                Create an export plan for selling {{ product }} to {{ country.display_name }}
+                            {% endif %}
+                        </h2>
+                        {% if is_market_lookup_state %}
+                            <p class="govuk-body">View markets side-by-side to compare:</p>
+                            <ul class="great-list-blue-tick govuk-!-margin-bottom-5">
+                                <li>import values</li>
+                                <li>economic performance</li>
+                                <li>key demographics</li>
+                            </ul>
+                        {% else %}
+                            <p class="govuk-body">Use our step-by-step planner to work on your:</p>
+                            <ul class="great-list-blue-tick govuk-!-margin-bottom-5">
+                                <li>business objectives</li>
+                                <li>research and approach</li>
+                                <li>costs and pricing</li>
+                            </ul>
+                        {% endif %}
+                        {% include "components/great/link-button-chevron.html" with href="/signup" text="Sign up to get started " %}
+                        <p class="govuk-body govuk-!-margin-bottom-9">
+                            Already signed up? <a href="{% url 'core:login' %}"
+    class="govuk-link govuk-link--no-visited-state">Sign in</a>
+                        </p>
+                    </div>
+                    <div class="govuk-grid-column-one-half">
+                        {% with '/static/images/lte-signup-promo-landscape.png' as landscapeImage and '/static/images/lte-signup-promo-portrait.png' as portraitImage %}
+                            {% include 'components/great/responsive-image.html' with image_src=landscapeImage xs_image_src=landscapeImage s_image_src=landscapeImage m_image_src=portraitImage l_image_src=portraitImage xl_image_src=landscapeImage %}
+                        {% endwith %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+    {% block body_js %}
+        {% if is_market_lookup_state %}
+            {{ block.super }}
+            <script type="text/javascript"
+                    src="{% static 'javascript/accessible-autocomplete.min.js' %}"></script>
+            <script type="text/javascript">
+            const countries = {{ countries | safe}}
+            accessibleAutocomplete({
+            element: document.getElementById('market-input-container'),
+            id: 'market-input',
+            name: 'market-input',
+            source: countries,
+            autoselect: false,
+            minLength: 2,
+            displayMenu: 'overlay',
+            placeholder: 'Search international markets',
+            inputClasses: 'great-product-market__input'
+            });
+            </script>
+        {% endif %}
+    {% endblock %}

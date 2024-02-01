@@ -5,6 +5,7 @@ from unittest.mock import MagicMock, Mock, patch
 from urllib.parse import urlencode
 
 import pytest
+from directory_forms_api_client import actions
 from django.conf import settings
 from django.http import JsonResponse
 from django.http.cookie import SimpleCookie
@@ -1311,6 +1312,59 @@ def test_design_system_page(
     response = client.get(reverse('core:design-system'))
 
     assert 'GREAT Design System' in str(response.rendered_content)
+
+
+@pytest.mark.django_db
+def test_market_selection_page(
+    client,
+):
+    response = client.get(reverse('core:product-market') + '?product=gin', follow=True)
+
+    assert 'Where do you want to sell your gin?' in str(response.rendered_content)
+    assert 'Find and compare markets for selling gin' in str(response.rendered_content)
+    assert 'You sell gin' in str(response.rendered_content)
+
+
+@pytest.mark.django_db
+def test_market_results_page(
+    client,
+):
+    response = client.get(reverse('core:product-market') + '?product=gin&market=germany', follow=True)
+
+    assert 'Selling gin to Germany' in str(response.rendered_content)
+    assert 'You want to sell gin to Germany' in str(response.rendered_content)
+    assert 'Exporting guide to Germany' in str(response.rendered_content)
+    assert ('Germany is one of the world’s largest economies') in str(response.rendered_content)
+
+
+@pytest.mark.django_db
+def test_market_selection_with_no_product_page(
+    client,
+):
+    response = client.get(reverse('core:product-market'), follow=True)
+
+    assert 'Where do you want to sell?' in str(response.rendered_content)
+
+
+@pytest.mark.django_db
+@mock.patch.object(actions, 'SaveOnlyInDatabaseAction')
+def test_post_with_both_product_and_market(mock_save_action, client):
+    post_data = {'product': 'gin', 'market-input': 'Germany'}
+    response = client.post(reverse('core:product-market'), data=post_data)
+    expected_redirect_url = reverse_lazy('core:product-market') + '?product=gin&market=germany'
+
+    assert response.status_code == 302
+    assert response.url == expected_redirect_url
+
+    mock_save_action.assert_called_once_with(
+        full_name='Anonymous user',
+        subject='Product and Market experiment',
+        email_address='anonymous-user@test.com',
+        form_url='/product-market',
+    )
+
+    expected_data = {'product': 'gin', 'market': 'Germany', 'userid': mock.ANY}
+    mock_save_action.return_value.save.assert_called_once_with(expected_data)
 
 
 @pytest.mark.django_db
