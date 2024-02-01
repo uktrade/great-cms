@@ -44,11 +44,11 @@ class Command(BaseCommand):
         for site in sites:
             if self.review_required(site):
                 email_list = (site.owner.email if site.owner is not None else None, settings.MODERATION_EMAIL_DIST_LIST)
-                logger.info(f"Requesting review for Campaign Site id {site.id} from {email_list}")
+                logger.info(f'Requesting review for Campaign Site id {site.id} from {email_list}')
 
-                print(f"Requesting review for Campaign Site id {site.id} from {email_list}")
+                print(f'Requesting review for Campaign Site id {site.id} from {email_list}')
 
                 site.review_reminder_sent = datetime.now(timezone.utc)
                 site.save()
             else:
-                logger.info(f"Not requesting review for Campaign Site id {site.id}")
+                logger.info(f'Not requesting review for Campaign Site id {site.id}')
