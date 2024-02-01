@@ -4,7 +4,8 @@
 {% if show_feedback %}
     <div class="great-full-width govuk-!-padding-top-4 govuk-!-padding-bottom-4 great-inline-feedback__container">
         <div class="govuk-grid-row great-container">
-            <div class="govuk-grid-column-two-thirds" id="inline-feedback">
+            <div class="govuk-grid-column-two-thirds govuk-grid-column-two-thirds--no-padding"
+                 id="inline-feedback">
                 {% get_inline_feedback_visibility request.get_full_path as feedback_visibility %}
                 <div id="submission-error"
                      tabindex="-1"
@@ -99,7 +100,7 @@
 
             const formDataObject = {};
               formData.forEach((value, key)=>{
-              formDataObject[key] = value;
+                if (key != 'csrfmiddlewaretoken') formDataObject[key] = value;
             });
 
             try {

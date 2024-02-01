@@ -33,6 +33,7 @@ from core.templatetags.content_tags import (
     is_placeholder_page,
     make_bold,
     remove_bold_from_headings,
+    show_feedback,
     str_to_datetime,
     tag_text_mapper,
     url_type,
@@ -933,6 +934,19 @@ def test_get_icon_path(input, expected_output):
 def test_get_icon_path_with_slash(input, expected_output):
     result = get_icon_path(input)
     assert result == expected_output
+
+
+@pytest.mark.parametrize(
+    'input_url, expected_output',
+    (
+        ('/', True),
+        ('/example-page/?qparam=123', True),
+        ('/login/', False),
+        ('/signup/', False),
+    ),
+)
+def test_show_feedback(input_url, expected_output):
+    assert show_feedback(input_url) == expected_output
 
 
 @pytest.mark.parametrize(
