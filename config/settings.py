@@ -155,6 +155,7 @@ TEMPLATES = [
                 'core.context_processors.services_home_links',
                 'international_online_offer.context_processors.eyb_user',
                 'international_online_offer.context_processors.feedback_next_url',
+                'international_online_offer.context_processors.hide_primary_nav',
             ],
         },
     },
