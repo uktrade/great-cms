@@ -152,7 +152,7 @@
         {% block body_content_container %}
             {% block content %}{% endblock %}
             {% block feedback_reporter %}
-                {% include 'components/error_reporting.html' %}
+                {% include 'components/inline_feedback/was_page_useful.html' %}
             {% endblock %}
             {% block content_after %}{% endblock %}
         {% endblock %}

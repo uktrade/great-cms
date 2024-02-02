@@ -1,10 +1,12 @@
 import pickle
+from http.client import CREATED
 from urllib.parse import urlparse
 
 from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import FormSessionMixin, Sender
 from django.conf import settings
 from django.core.cache import cache
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
@@ -14,6 +16,7 @@ from django.utils.html import strip_tags
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from formtools.wizard.views import NamedUrlSessionWizardView
+from rest_framework.generics import GenericAPIView
 
 from contact import constants, forms as contact_forms, helpers, mixins as contact_mixins
 from core import mixins as core_mixins, snippet_slugs
@@ -1130,3 +1133,52 @@ class FTASubscribeFormView(
         )
         context['privacy_url'] = PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE
         return context
+
+
+class InlineFeedbackView(GenericAPIView):
+    def post(self, request, *args, **kwargs):
+        js_enabled = 'js_enabled' in request.query_params.keys()
+        data = self.request.data.copy()
+
+        # non-js for initial yes/no form where we use query params to pass the page_useful value
+        if not js_enabled and 'page_useful' in request.query_params.keys():
+            data['page_useful'] = request.query_params['page_useful']
+
+        email_address = request.user.email if request.user.is_authenticated else 'blank@example.com'
+
+        sender = Sender(
+            email_address=email_address,
+            country_code=None,
+        )
+
+        action = actions.SaveOnlyInDatabaseAction(
+            full_name='NA',
+            email_address=email_address,
+            subject='NA',
+            sender=sender,
+            form_url=self.request.get_full_path(),
+        )
+
+        save_result = action.save(data)
+
+        if js_enabled:
+            response = HttpResponse()
+            response.status_code = save_result.status_code
+            return response
+        else:
+            # for non-js the user is redirected to the current page with some additional QS params that are used
+            # when determining which elements should be displayed and navigates the user back to #inline-feedback
+            if save_result.status_code == CREATED:
+                qs = (
+                    f"?page_useful={data['page_useful']}"
+                    if 'page_useful' in request.query_params.keys()
+                    else '?detailed_feedback_submitted=True'
+                )
+                response = HttpResponseRedirect(redirect_to=f"{data['current_url']}{qs}/#inline-feedback")
+            else:
+                response = HttpResponseRedirect(
+                    redirect_to=f"{data['current_url']}?submission_error=True/#inline-feedback"
+                )
+
+            response.status_code = 303
+            return response
