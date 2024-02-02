@@ -609,7 +609,11 @@ class ProductMarketView(TemplateView):
             return redirect(reverse_lazy('core:product-market') + '?product=' + product)
         if market:
             product = request.POST.get('product')
-            data = {'product': product, 'market': market, 'userid': self.request.user.id}
+            data = {
+                'product': product,
+                'market': market,
+                'userid': self.request.user.hashed_uuid if self.request.user.is_authenticated else None,
+            }
             action = actions.SaveOnlyInDatabaseAction(
                 full_name='Anonymous user',
                 subject='Product and Market experiment',
