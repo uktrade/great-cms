@@ -8,6 +8,7 @@
                  id="inline-feedback">
                 {% get_inline_feedback_visibility request.get_full_path as feedback_visibility %}
                 <div id="submission-error"
+                     aria-live="polite"
                      tabindex="-1"
                      class="great-inline-feedback__submission-error {% if not feedback_visibility.show_submission_error %}great-hidden{% endif %}">
                     <span role="img" class="fa fa-exclamation-circle"></span>
@@ -40,6 +41,7 @@
                     {% include 'components/inline_feedback/negative_feedback.html' %}
                 </span>
                 <div id="detailed-feedback-received"
+                     aria-live="polite"
                      tabindex="-1"
                      class="great-inline-feedback__submission-confirmation {% if not feedback_visibility.show_detailed_feedback_received %}great-hidden{% endif %}">
                     <span role="img" class="fa fa-check-circle"></span>
@@ -65,6 +67,21 @@
           })
         }
 
+        const hideFeedbackError = function () {
+          document.getElementById('submission-error').classList.add('great-hidden')
+        }
+
+        const handleFeedbackError = function() {
+          document.getElementById('submission-error').classList.remove('great-hidden')
+          document.getElementById('submission-error').focus()
+        }
+
+        const handleFeedbackSuccess = function(originalElementID, successElementID, successMessageID) {
+          document.getElementById(originalElementID).classList.toggle('great-hidden')
+          document.getElementById(successElementID).classList.toggle('great-hidden')
+          document.getElementById(successMessageID).focus()
+        }
+
         document.getElementById('page-useful-form').addEventListener('submit', function(event){
           event.preventDefault();
         })
@@ -74,18 +91,15 @@
         pageUsefulButtons.forEach((button)=>{
           document.getElementById(button.id).addEventListener('click', async function(event){
             try{
-              document.getElementById('submission-error').classList.add('great-hidden')
+              hideFeedbackError()
               await postFeedback({
                 'current_url': currentPage,
                 'page_title': document.title,
                 'page_useful': button.id == 'page-useful-yes',
               })
-              document.getElementById('page-useful').classList.toggle('great-hidden')
-              document.getElementById(button.followUpFormID).classList.toggle('great-hidden')
-              document.getElementById(button.successMessageID).focus()
+              handleFeedbackSuccess('page-useful', button.followUpFormID, button.successMessageID)
             } catch (e) {
-              document.getElementById('submission-error').classList.remove('great-hidden')
-              document.getElementById('submission-error').focus()
+              handleFeedbackError()
             }
           })
         })
@@ -104,20 +118,16 @@
             });
 
             try {
-              document.getElementById('submission-error').classList.add('great-hidden')
+              hideFeedbackError()
               await postFeedback({
                 'current_url': currentPage,
                 'page_title': document.title,
                 'page_useful': feedbackType.containerID == 'positive-feedback',
                 ...formDataObject,
               })
-
-              document.getElementById(feedbackType.containerID).classList.toggle('great-hidden')
-              document.getElementById('detailed-feedback-received').classList.toggle('great-hidden')
-              document.getElementById('detailed-feedback-received').focus()
+              handleFeedbackSuccess(feedbackType.containerID, 'detailed-feedback-received', 'detailed-feedback-received')
             } catch (e) {
-              document.getElementById('submission-error').classList.remove('great-hidden')
-              document.getElementById('submission-error').focus()
+              handleFeedbackError()
             }
           })
         })
