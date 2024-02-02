@@ -292,7 +292,7 @@ PRODUCT_MARKET_DATA = {
             'Cyprus is an island with a population of about one million people. Its strategic geographic '
             + 'location, at the corner of the eastern Mediterranean, between Europe, Asia and Africa, enhances'
             + ' its role as a regional business and trading hub. Cyprus enjoys close and strong links with UK at'
-            +  ' multiple levels. Overall, the Cyprus market is mature, competitive and price sensitive.'
+            + ' multiple levels. Overall, the Cyprus market is mature, competitive and price sensitive.'
         ),
     },
     'czech republic': {
