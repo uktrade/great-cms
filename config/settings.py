@@ -155,6 +155,7 @@ TEMPLATES = [
                 'core.context_processors.services_home_links',
                 'international_online_offer.context_processors.eyb_user',
                 'international_online_offer.context_processors.feedback_next_url',
+                'international_online_offer.context_processors.hide_primary_nav',
             ],
         },
     },
@@ -870,6 +871,7 @@ FEATURE_DEA_V2 = env.bool('FEATURE_DEA_V2', False)
 FEATURE_SHOW_OLD_CONTACT_FORM = env.bool('FEATURE_SHOW_OLD_CONTACT_FORM', False)
 FEATURE_HOMEPAGE_REDESIGN_V1 = env.bool('FEATURE_HOMEPAGE_REDESIGN_V1', False)
 FEATURE_SHARE_COMPONENT = env.bool('FEATURE_SHARE_COMPONENT', False)
+FEATURE_PRODUCT_MARKET_HERO = env.bool('FEATURE_PRODUCT_MARKET_HERO', False)
 
 MAX_COMPARE_PLACES_ALLOWED = env.int('MAX_COMPARE_PLACES_ALLOWED', 10)
 

@@ -1110,6 +1110,14 @@ class UKEACTA(ClusterableModel):
         return self.name
 
 
+def is_valid_url_input(value):
+    if not value.lower().startswith(('/', 'http')):
+        raise ValidationError(
+            'Enter external URLs in full, for example, https://www.gov.uk/a-page-on-another-website.\
+            For internal pages, use a relative path, for example, /a-page-on-this-website'
+        )
+
+
 @register_snippet
 class RelatedContentCTA(models.Model):
     type_choices = [
@@ -1129,7 +1137,13 @@ class RelatedContentCTA(models.Model):
             ),
             (
                 'link',
-                blocks.URLBlock(form_classname='url', default='', label='External url'),
+                blocks.CharBlock(
+                    form_classname='url',
+                    label='URL',
+                    help_text='Enter external URLs in full, for example, https://www.gov.uk/a-page-on-another-website.\
+                          For internal pages, use a relative path, for example, /a-page-on-this-website',
+                    validators=[is_valid_url_input],
+                ),
             ),
         ],
         max_num=1,
