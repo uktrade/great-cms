@@ -612,6 +612,9 @@ class ProductMarketView(TemplateView):
             form_url=self.request.get_full_path(),
         )
 
+        if product and not market:
+            return redirect(reverse_lazy('core:product-market') + '?product=' + product)
+
         if no_market:
             data = {
                 'product': request.POST.get('product'),
@@ -622,8 +625,6 @@ class ProductMarketView(TemplateView):
             response.raise_for_status()
 
             return redirect('/markets')
-        elif product and not market:
-            return redirect(reverse_lazy('core:product-market') + '?product=' + product)
         elif market:
             product = request.POST.get('product')
             data = {
