@@ -26,6 +26,7 @@ from contact.views import (
     FeedbackFormView,
     FTASubscribeFormView,
     GuidanceView,
+    InlineFeedbackView,
     InternationalFormView,
     InternationalSuccessView,
     OfficeContactFormView,
@@ -268,6 +269,7 @@ urlpatterns = [
         },
         name='contact-free-trade-agreements-success',
     ),
+    path('contact/inline-feedback', skip_ga360(InlineFeedbackView.as_view()), name='contact-inline-feedback'),
 ]
 
 if settings.FEATURE_DIGITAL_POINT_OF_ENTRY:
