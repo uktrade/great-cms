@@ -2,12 +2,13 @@ import abc
 import json
 import logging
 
+from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import Sender
 from django.conf import settings
 from django.contrib.sitemaps import Sitemap as DjangoSitemap
 from django.core.files.storage import default_storage
 from django.http import Http404, HttpResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse, reverse_lazy
 from django.utils.crypto import get_random_string
@@ -32,6 +33,7 @@ from wagtail.images.views.chooser import (
 )
 
 from core import cms_slugs, forms, helpers, serializers
+from core.constants import PRODUCT_MARKET_DATA
 from core.mixins import AuthenticatedUserRequired, PageTitleMixin
 from core.models import GreatMedia
 from directory_constants import choices
@@ -580,3 +582,59 @@ class AltImageChooserViewSet(ImageChooserViewSet):
 
 class DesignSystemView(TemplateView):
     template_name = 'design-system/design-system.html'
+
+
+class ProductMarketView(TemplateView):
+    template_name = 'core/product-market.html'
+
+    def get_context_data(self):
+        countries_data = PRODUCT_MARKET_DATA
+        country = countries_data.get(self.request.GET.get('market'))
+        countries = [country['display_name'] for country in countries_data.values()]
+
+        return super().get_context_data(
+            countries=countries,
+            country=country,
+            product=self.request.GET.get('product'),
+            market=self.request.GET.get('market'),
+            is_market_lookup_state=not self.request.GET.get('market'),
+            is_results_state=self.request.GET.get('product') and self.request.GET.get('market'),
+        )
+
+    def post(self, request, *args, **kwargs):
+        product = request.POST.get('product-input')
+        market = request.POST.get('market-input')
+        no_market = request.GET.get('no_market')
+        action = actions.SaveOnlyInDatabaseAction(
+            full_name='Anonymous user',
+            subject='Product and Market experiment',
+            email_address='anonymous-user@test.com',
+            form_url=self.request.get_full_path(),
+        )
+
+        if product and not market:
+            return redirect(reverse_lazy('core:product-market') + '?product=' + product)
+
+        if no_market:
+            data = {
+                'product': request.POST.get('product'),
+                'market': None,
+                'userid': self.request.user.hashed_uuid if self.request.user.is_authenticated else None,
+            }
+            response = action.save(data)
+            response.raise_for_status()
+
+            return redirect('/markets')
+        elif market:
+            product = request.POST.get('product')
+            data = {
+                'product': product,
+                'market': market,
+                'userid': self.request.user.hashed_uuid if self.request.user.is_authenticated else None,
+            }
+            response = action.save(data)
+            response.raise_for_status()
+
+            return redirect(reverse_lazy('core:product-market') + '?product=' + product + '&market=' + market.lower())
+        else:
+            return redirect(reverse_lazy('core:product-market'))

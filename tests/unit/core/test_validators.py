@@ -4,7 +4,11 @@ import pytest
 from django.forms import ValidationError
 from django.test import override_settings
 
-from core.validators import is_valid_uk_postcode, validate_file_infection
+from core.validators import (
+    is_valid_uk_phone_number,
+    is_valid_uk_postcode,
+    validate_file_infection,
+)
 from tests.helpers import create_response
 
 
@@ -55,3 +59,21 @@ def test_validate_file_infection_negative_scan(mock_clam_av_client_scan):
         pytest.fail('Should not raise a validator error.')
 
     assert file.seek.call_count == 1
+
+
+@pytest.mark.parametrize(
+    'phone_number, raise_expected',
+    (
+        ('07508236677', False),
+        ('90201', True),
+        ('phone_number', True),
+    ),
+)
+def test_is_valid_uk_phone_number(phone_number, raise_expected):
+    try:
+        is_valid_uk_phone_number(phone_number)
+        if raise_expected:
+            assert False, f'Excepted {phone_number} to fail validation. It did not'
+    except ValidationError:
+        if not raise_expected:
+            assert False, f'Excepted {phone_number} to pass validation. It did not'
