@@ -95,7 +95,7 @@
               await postFeedback({
                 'current_url': currentPage,
                 'page_title': document.title,
-                'page_useful': button.id == 'page-useful-yes',
+                'page_useful': `${button.id == 'page-useful-yes'}`,
               })
               handleFeedbackSuccess('page-useful', button.followUpFormID, button.successMessageID)
             } catch (e) {
