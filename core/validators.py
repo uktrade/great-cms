@@ -4,11 +4,14 @@ from django.utils.translation import gettext_lazy as _
 from ukpostcodeutils import validation
 
 from core.helpers import clam_av_client
+from regex import PHONE_NUMBER_REGEX
+
+PHONE_INVALID_MESSAGE = 'Enter a valid UK telephone number'
 
 
 def is_valid_uk_postcode(value):
     if not validation.is_valid_postcode(value.replace(' ', '').upper()):
-        raise ValidationError(_('Please enter a UK postcode'))
+        raise ValidationError(_('Enter a valid UK postcode'))
 
 
 def validate_file_infection(file):
@@ -22,3 +25,10 @@ def validate_file_infection(file):
         raise ValidationError('Rejected: uploaded file did not pass security scan')
 
     file.seek(0)
+
+
+def is_valid_uk_phone_number(phone_number):
+    if not PHONE_NUMBER_REGEX.match(phone_number):
+        raise ValidationError(_(PHONE_INVALID_MESSAGE))
+    else:
+        return

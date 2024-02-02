@@ -52,7 +52,7 @@ celery[redis]==5.2.7
     #   -r requirements.in
     #   celery
     #   django-celery-beat
-certifi==2023.11.17
+certifi==2024.2.2
     # via
     #   elastic-apm
     #   elasticsearch
