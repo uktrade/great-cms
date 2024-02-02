@@ -72,6 +72,7 @@ const CaseStudy = memo(({ content: { heading, company, blocks } }) => {
       <div className="case-study govuk-!-padding-top-3 govuk-!-padding-bottom-4">
         <div className="case-study__content media-block govuk-!-margin-top-4">
           <div>
+            <span className="govuk-caption-l">Sector case study</span>
             <h2 className="govuk-heading-l cast-study__lead_title govuk-!-margin-bottom-3 govuk-!-padding-0">
               {ReactHtmlParser(heading)}
             </h2>
