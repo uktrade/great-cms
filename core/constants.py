@@ -117,7 +117,7 @@ PRODUCT_MARKET_DATA = {
             "Argentina is the second largest economy in South America. It's a member of the G20 and the"
             + ' Mercosur trading block. Argentina has vast natural resources in agriculture, mining and '
             + 'energy including renewables. It has one of the highest English Proficiency Index scores in'
-            + 'Latin America and its people have a European style business culture.'
+            + ' Latin America and its people have a European style business culture.'
         ),
     },
     'australia': {
@@ -272,7 +272,7 @@ PRODUCT_MARKET_DATA = {
         'card_title': 'Exporting guide to Costa Rica',
         'card_content': (
             'Costa Rica is a Central American country bordered by the Caribbean Sea to the north east and'
-            + 'the Pacific Ocean to the south west.'
+            + ' the Pacific Ocean to the south west.'
         ),
     },
     'croatia': {
@@ -281,7 +281,7 @@ PRODUCT_MARKET_DATA = {
         'card_title': 'Exporting guide to Croatia',
         'card_content': (
             'Croatia occupies a strategic location at the heart of Central and Eastern Europe. Its economy'
-            + 'is gaining strength and it offers a market with significant growth potential.'
+            + ' is gaining strength and it offers a market with significant growth potential.'
         ),
     },
     'cyprus': {
@@ -291,8 +291,8 @@ PRODUCT_MARKET_DATA = {
         'card_content': (
             'Cyprus is an island with a population of about one million people. Its strategic geographic '
             + 'location, at the corner of the eastern Mediterranean, between Europe, Asia and Africa, enhances'
-            + 'its role as a regional business and trading hub. Cyprus enjoys close and strong links with UK at'
-            + 'multiple levels. Overall, the Cyprus market is mature, competitive and price sensitive.'
+            + ' its role as a regional business and trading hub. Cyprus enjoys close and strong links with UK at'
+            +  ' multiple levels. Overall, the Cyprus market is mature, competitive and price sensitive.'
         ),
     },
     'czech republic': {
@@ -302,7 +302,7 @@ PRODUCT_MARKET_DATA = {
         'card_content': (
             'The Czech Republic has a well developed and export-oriented economy. Its location in the centre '
             + 'of Europe gives UK exporters easy access to Germany and other Central and Eastern European (CEE)'
-            + 'markets.'
+            + ' markets.'
         ),
     },
     'denmark': {
@@ -333,7 +333,7 @@ PRODUCT_MARKET_DATA = {
             + 'the main drivers of its growth.'
         ),
     },
-    'Ecuador': {
+    'ecuador': {
         'display_name': 'Ecuador',
         'card_link': 'https://www.great.gov.uk/markets/ecuador/',
         'card_title': 'Exporting guide to Ecuador',
@@ -342,7 +342,7 @@ PRODUCT_MARKET_DATA = {
             + 'is bordered by Colombia, Peru and the South Pacific Ocean.'
         ),
     },
-    'Egypt': {
+    'egypt': {
         'display_name': 'Egypt',
         'card_link': 'https://www.great.gov.uk/markets/egypt/',
         'card_title': 'Exporting guide to Egypt',
@@ -389,7 +389,7 @@ PRODUCT_MARKET_DATA = {
         'card_content': (
             'Fiji is a group of islands in the South Pacific Ocean, located near Australia and New Zealand. It '
             + 'has a population of just under 1 million and has one of the most developed economies in the Pacific'
-            + 'islands.'
+            + ' islands.'
         ),
     },
     'finland': {
@@ -464,9 +464,8 @@ PRODUCT_MARKET_DATA = {
         'card_link': 'https://www.great.gov.uk/markets/guyana/',
         'card_title': 'Exporting guide to Guyana',
         'card_content': (
-            'Guatemala is in Central America and has the largest economy in the region. '
-            + 'Bordered by Mexico, Honduras, El Salvador and Belize, it has good access '
-            + 'to North and Central America.'
+            'Guyana borders Brazil and Venezuela in the north of South America '
+            + 'and is the only English-speaking nation on the continent.'
         ),
     },
     'honduras': {
@@ -518,7 +517,7 @@ PRODUCT_MARKET_DATA = {
         'card_title': 'Exporting guide to India',
         'card_content': (
             'The size of India’s economy makes it an attractive market for UK exporters. India has'
-            + 'a range of exciting export opportunities across a large number of sectors, although '
+            + ' a range of exciting export opportunities across a large number of sectors, although '
             + 'success in this market can require patience and a longer-term approach.'
         ),
     },
@@ -644,7 +643,7 @@ PRODUCT_MARKET_DATA = {
             'Liechtenstein is a relatively small but buoyant market for UK exporters. A '
             + 'free trade agreement (FTA) between the UK and Liechtenstein, along with '
             + 'Norway and Iceland, is now in effect. The FTA recognises the importance of'
-            + 'SMEs and contains commitments to co-operate on SME trade and investment '
+            + ' SMEs and contains commitments to co-operate on SME trade and investment '
             + 'opportunities.'
         ),
     },
@@ -676,7 +675,7 @@ PRODUCT_MARKET_DATA = {
         'card_title': 'Exporting guide to Madagascar',
         'card_content': (
             'Madagascar is an island located off the East African coast, close to Mozambique,'
-            + 'Reunion and Mauritius. The economy mainly revolves around tourism, textiles, '
+            + ' Reunion and Mauritius. The economy mainly revolves around tourism, textiles, '
             + 'agriculture and mining.'
         ),
     },
@@ -770,7 +769,7 @@ PRODUCT_MARKET_DATA = {
         'card_content': (
             'Nicaragua is the largest country in Central America. Its sustained economic growth '
             + 'and qualified labour force attracts foreign investment. Nicaragua’s main industries'
-            + 'include agriculture and tourism.'
+            + ' include agriculture and tourism.'
         ),
     },
     'nigeria': {
@@ -860,7 +859,7 @@ PRODUCT_MARKET_DATA = {
         'card_content': (
             'The Philippines is an archipelago composed of about 7,640 islands and a population'
             + ' of 109 million people. It provides a vast market for UK companies and offers many'
-            + ' opportunities for companies to export their goods and services '
+            + ' opportunities for companies to export their goods and services. '
             + 'UK business, telecoms and financial services all have a strong presence in the '
             + 'Philippines and are well recognised.'
         ),
@@ -942,7 +941,7 @@ PRODUCT_MARKET_DATA = {
         'card_link': 'https://www.great.gov.uk/markets/singapore/',
         'card_title': 'Exporting guide to Singapore',
         'card_content': (
-            'Singapore is a small, but wealthy city-state with an open and trade-driven economy.'
+            'Singapore is a small, but wealthy city-state with an open and trade-driven economy. '
             + 'It is a leading financial, shipping, and trade hub for the Asia Pacific region, '
             + 'and the government has a pro-business economic and trade policy.'
         ),
@@ -1015,7 +1014,7 @@ PRODUCT_MARKET_DATA = {
         'card_title': 'Exporting guide to St Lucia',
         'card_content': (
             'Saint Lucia is an Eastern Caribbean island nation with a population of 183,000 people. '
-            + ' The service sector makes up a large part of its economy, including tourism and financial'
+            + 'The service sector makes up a large part of its economy, including tourism and financial '
             + 'services.'
         ),
     },
@@ -1079,7 +1078,7 @@ PRODUCT_MARKET_DATA = {
         'card_link': 'https://www.great.gov.uk/markets/tanzania/',
         'card_title': 'Exporting guide to Tanzania',
         'card_content': (
-            'Tanzania is located on the East Coast of Africa. Due to its borders with Kenya, Uganda,'
+            'Tanzania is located on the East Coast of Africa. Due to its borders with Kenya, Uganda, '
             + 'Rwanda, Burundi, the Democratic Republic of Congo, Zambia, Malawi and Mozambique,'
             + ' it can be a good gateway to these landlocked countries.'
         ),
@@ -1160,7 +1159,7 @@ PRODUCT_MARKET_DATA = {
         'card_link': 'https://www.great.gov.uk/markets/united-arab-emirates/',
         'card_title': 'Exporting guide to United Arab Emirates',
         'card_content': (
-            'A key hub on the Arabian Peninsula and Persian Gulf'
+            'A key hub on the Arabian Peninsula and Persian Gulf,'
             + " the United Arab Emirates (UAE) is one of the UK's most important trading partners "
             + 'and continues to be a growth market for UK exports.'
         ),
@@ -1180,7 +1179,7 @@ PRODUCT_MARKET_DATA = {
     },
     'uruguay': {
         'display_name': 'Uruguay',
-        'card_link': 'https://www.great.gov.uk/markets/uruguay/',
+        'card_link': 'https://www.great.gov.uk/markets/Uruguay/',
         'card_title': 'Exporting guide to Uruguay',
         'card_content': (
             'Uruguay has an open trade and investment regime, with limited use of non-tariff '
