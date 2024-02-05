@@ -76,6 +76,7 @@ INSTALLED_APPS = [
     'domestic.apps.DomesticAdminAppConfig',
     'exportplan.apps.ExportPlanConfig',
     'international_online_offer.apps.ExpandYourBusinessConfig',
+    'international.apps.InternationalConfig',
     'users.apps.UsersConfig',
     'learn.apps.LearnConfig',
     'captcha',

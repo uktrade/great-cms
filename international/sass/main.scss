@@ -1,0 +1,18 @@
+ul {
+    list-style-type: none;
+    padding-inline-start: 0px;
+}
+
+@import 'tokens';
+@import 'typography';
+@import 'govuk-token-overrides';
+@import 'node_modules/govuk-frontend/govuk/all';
+@import 'govuk-class-overrides';
+@import 'core-class-overrides';
+@import 'header.scss';
+@import 'footer.scss';
+@import '../../styles/great/utils';
+
+body {
+    margin: 0;
+}
