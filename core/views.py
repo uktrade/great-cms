@@ -604,18 +604,34 @@ class ProductMarketView(TemplateView):
     def post(self, request, *args, **kwargs):
         product = request.POST.get('product-input')
         market = request.POST.get('market-input')
+        no_market = request.GET.get('no_market')
+        action = actions.SaveOnlyInDatabaseAction(
+            full_name='Anonymous user',
+            subject='Product and Market experiment',
+            email_address='anonymous-user@test.com',
+            form_url=self.request.get_full_path(),
+        )
 
         if product and not market:
             return redirect(reverse_lazy('core:product-market') + '?product=' + product)
-        if market:
+
+        if no_market:
+            data = {
+                'product': request.POST.get('product'),
+                'market': None,
+                'userid': self.request.user.hashed_uuid if self.request.user.is_authenticated else None,
+            }
+            response = action.save(data)
+            response.raise_for_status()
+
+            return redirect('/markets')
+        elif market:
             product = request.POST.get('product')
-            data = {'product': product, 'market': market, 'userid': self.request.user.id}
-            action = actions.SaveOnlyInDatabaseAction(
-                full_name='Anonymous user',
-                subject='Product and Market experiment',
-                email_address='anonymous-user@test.com',
-                form_url=self.request.get_full_path(),
-            )
+            data = {
+                'product': product,
+                'market': market,
+                'userid': self.request.user.hashed_uuid if self.request.user.is_authenticated else None,
+            }
             response = action.save(data)
             response.raise_for_status()
 

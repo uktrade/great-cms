@@ -28,7 +28,13 @@
     }
 
     .govuk-header__navigation-item {
-        border-bottom-color: #FFFFFF;
+        border-bottom-color: #ca1616;
+    }
+
+    .international-header-navigation-item-active {
+        text-decoration: underline;
+        text-decoration-thickness: 3px;
+        text-underline-offset: 0.1em;
     }
 
     .govuk-header__logo {
@@ -76,7 +82,14 @@
     .international-sub-navigation-logo {
         height: 30px;
     }
+
+    .international-header-navigation-item-active {
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 0.1em;
+    }
 }
+
 
 @media (min-width: 768px) {
     .great-navigation-list {

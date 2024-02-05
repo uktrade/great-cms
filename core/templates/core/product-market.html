@@ -26,12 +26,10 @@
             {% endif %}
             <div class="great-container govuk-!-padding-bottom-4{% if not product %} govuk-!-padding-top-4{% endif %}">
                 <h1 class="govuk-heading-xl" id="product-market-title">Where do you want to sell{% if product %} your {{ product }}{% endif %}?
-                </h1>
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds">
                         <form id="great-product-market-form"
                               class="great-product-market__form"
-                              action="/product-market"
                               method="post">
                             {% csrf_token %}
                             <label for="market-input" class="great-visually-hidden">
@@ -43,8 +41,12 @@
                                 <input type="hidden" id="product" name="product" value="{{ product }}" />
                                 <div id="market-input-container"></div>
                                 <div class="great-product-market__button-container">
-                                    <button class="great-product-market__button primary-button">Continue</button>
-                                    <a href="/markets" class="link great-product-market__market-link">I don't have a market in mind</a>
+                                    <button class="great-product-market__button primary-button"
+                                            formaction="/product-market">Continue</button>
+                                    <button class="link great-product-market__market-link"
+                                            formaction="/product-market?no_market=True">
+                                        I don't have a market in mind
+                                    </button>
                                 </div>
                             </div>
                         </form>

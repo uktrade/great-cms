@@ -1,0 +1,82 @@
+<div>
+    <div class="great-inline-feedback__submission-confirmation"
+         id="negative-feedback-submision-confirmation"
+         aria-live="polite"
+         tabindex="-1">
+        <span role="img" class="fa fa-check-circle"></span>
+        <h3>Thanks for letting us know</h3>
+    </div>
+    <div class="govuk-form-group">
+        <form method="post"
+              action="{% url 'contact:contact-inline-feedback' %}?detailed_feedback_submitted=True"
+              class="great-inline-feedback__detail-form"
+              id="negative-feedback-form">
+            {% csrf_token %}
+            <input type="hidden" name="current_url" value="{{ request.path }}">
+            <input type="hidden" name="page_useful" value="False">
+            <fieldset class="govuk-fieldset" aria-describedby="Why was this page useful?">
+                <legend class="great">
+                    <span class="great-font-bold">Can you tell us more about your feedback?</span>
+                </legend>
+                <div class="govuk-checkboxes govuk-!-padding-top-4 govuk-!-padding-bottom-4"
+                     data-module="govuk-checkboxes">
+                    <div class="govuk-checkboxes__item govuk-!-margin-bottom-2 great-checkbox--inline-feedback">
+                        <input type="checkbox"
+                               class="govuk-checkboxes__input"
+                               name="did_not_find_information"
+                               value="True"
+                               id="did_not_find_info">
+                        <label for="did_not_find_info" class="govuk-label govuk-checkboxes__label">
+                            I didn't find the information I needed
+                        </label>
+                    </div>
+                    <div class="govuk-checkboxes__item govuk-!-margin-bottom-2 great-checkbox--inline-feedback">
+                        <input type="checkbox"
+                               class="govuk-checkboxes__input"
+                               name="hard_to_find"
+                               value="True"
+                               id="hard_to_find">
+                        <label for="hard_to_find" class="govuk-label govuk-checkboxes__label">It was hard to find</label>
+                    </div>
+                    <div class="govuk-checkboxes__item govuk-!-margin-bottom-2 great-checkbox--inline-feedback">
+                        <input type="checkbox"
+                               class="govuk-checkboxes__input"
+                               name="hard_to_understand"
+                               value="True"
+                               id="hard_to_understand">
+                        <label for="hard_to_understand" class="govuk-label govuk-checkboxes__label">It was hard to understand</label>
+                    </div>
+                    <div class="govuk-checkboxes__item govuk-!-margin-bottom-2 great-checkbox--inline-feedback">
+                        <input type="checkbox"
+                               class="govuk-checkboxes__input"
+                               name="looked_broken"
+                               value="True"
+                               id="looked_broken">
+                        <label for="looked_broken" class="govuk-label govuk-checkboxes__label">It looked broken</label>
+                    </div>
+                </div>
+                <div>
+                    <label for="more-detail" class="great">
+                        <span class="great-font-bold">Is there anything else you can tell us?</span>
+                    </label>
+                    <div id="more-detail-hint">
+                        <p>Do not share any personal or commercially sensitive information.</p>
+                    </div>
+                    <textarea class="govuk-textarea"
+                              id="more-detail"
+                              name="more_detail"
+                              rows="4"
+                              maxlength="1000"
+                              aria-describedby="more-detail-hint"></textarea>
+                </div>
+            </fieldset>
+            <span class="great-inline-feedback-detail-form__submission_buttons govuk-!-padding-top-1">
+                <button type="submit"
+                        class="primary-button small-button"
+                        id="send-feedback-no"
+                        value="no">Send feedback</button>
+                <a href={{ request.path }}>Cancel</a>
+            </span>
+        </form>
+    </div>
+</div>
