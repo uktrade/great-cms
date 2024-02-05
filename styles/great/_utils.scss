@@ -756,7 +756,7 @@ img.richtext-image {
 }
 
 .great-hidden {
-  display: none;
+  display: none !important;
 }
 
 .great-box-shadow {
@@ -1073,4 +1073,8 @@ great-icon {
 
 .great-height-min-content {
   height: min-content;
+}
+
+.great-hr-grey {
+  background: $govuk-border-colour;
 }

@@ -22,6 +22,7 @@ from .factories import (
             {
                 'link': '/',
                 'heading_class': 'govuk-body-s ',
+                'is_external_link': False,
                 'tag_description': 'Service',
                 'tag_icon': '/static/icons/hand.svg',
             },
@@ -33,6 +34,7 @@ from .factories import (
             {
                 'link': '/',
                 'heading_class': 'govuk-body-s ',
+                'is_external_link': False,
                 'tag_description': 'Guidance',
                 'tag_icon': '/static/icons/guidance.svg',
             },
@@ -44,6 +46,7 @@ from .factories import (
             {
                 'link': 'https://www.gov.uk',
                 'heading_class': 'govuk-body-s great-card__link--external',
+                'is_external_link': True,
                 'tag_description': 'Service on GOV.UK',
                 'tag_icon': '/static/icons/hand.svg',
             },
@@ -55,6 +58,7 @@ from .factories import (
             {
                 'link': 'https://www.gov.uk',
                 'heading_class': 'govuk-body-s great-card__link--external',
+                'is_external_link': True,
                 'tag_description': 'Guidance on GOV.UK',
                 'tag_icon': '/static/icons/guidance.svg',
             },
