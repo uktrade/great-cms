@@ -3,11 +3,11 @@ Partial which renders out 1...n quote blocks, which is modelled in
 a StreamField consisting on 1...10 rich text fields with quotes and
 one author and author's role text fields.
 {% endcomment %}
-<div class="quote  br-xs m-t-xs p-t-xs p-b-xs p-r-xs p-f-l">
-    <div class="quote-block great-quote">
+<div class="quote br-xs m-t-xs p-t-xs p-b-xs p-r-xs p-f-l">
+    <div class="great-quote">
         <div>
             {% for quote in value.quotes %}
-                <blockquote class="govuk-!-margin-left-2 govuk-!-margin-bottom-0 govuk-!-margin-top-5">
+                <blockquote>
                     {{ quote }}
                 </blockquote>
             {% endfor %}
@@ -15,6 +15,8 @@ one author and author's role text fields.
     </div>
 </div>
 <div class="govuk-!-margin-top-5 govuk-!-margin-bottom-5">
-    <span class="body-m-b block">{{ value.attribution }}</span>
-    {% if value.role %}<span class="body-m block">{{ value.role }}</span>{% endif %}
+    <span class="great-text-dark-grey">
+        {% if value.attribution %}{{ value.attribution }},{% endif %}
+        {% if value.role %}{{ value.role }}{% endif %}
+    </span>
 </div>
