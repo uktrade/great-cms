@@ -58,7 +58,7 @@ iso3166==1.0.1
 sphinx==1.8.*
 readtime==1.*
 cryptography>=38.0.3
-pillow==10.0.1
+pillow==10.2.0
 factory-boy==3.3.0
 dateparser==0.7.2
 xhtml2pdf==0.2.*
