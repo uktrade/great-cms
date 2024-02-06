@@ -24,6 +24,11 @@ const setup = (props) => {
 }
 
 describe('CaseStudy', () => {
+  it('Should have a caption', () => {
+    const { getByText } = setup(props)
+    expect(getByText('Sector case study')).toBeInTheDocument()
+  })
+
   it('Should have a heading', () => {
     const { getByText } = setup(props)
     expect(getByText(props.heading)).toBeInTheDocument()
