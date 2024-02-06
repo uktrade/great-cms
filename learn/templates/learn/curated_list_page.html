@@ -6,17 +6,20 @@
 {% load get_item from object_tags %}
 {% load get_css_class_from_string from content_tags %}
 {% load breadcrumbs from component_tags %}
+{% block body_attributes %}class="body-background-white"{% endblock %}
 {% block content %}
     <div id="learn-root" class="learn__page learn__category-page">
         {% with high_level_completion_progress|get_item:page.id as module_completion_data %}
             <section>
-                <div class="page-header {{ page.title| get_css_class_from_string }}">
-                    <div class="inner-header">
-                        <div>
-                            <h1 id="topic-title">{{ page.title }}</h1>
-                            <p>{{ page.heading | richtext }}</p>
+                <div class="great-container">
+                    <div class="page-header article-header stack-at-tablet-width ea-landing-page govuk-!-padding-left-0 {{ page.title| get_css_class_from_string }}">
+                        <div class="inner-header govuk-!-margin-left-0 govuk-!-static-padding-0">
+                            <div>
+                                <h1 id="topic-title">{{ page.title }}</h1>
+                                <p>{{ page.heading | richtext }}</p>
+                            </div>
+                            <div class="image-container image-full-width great-display-from-tablet lte-landing-image-container"></div>
                         </div>
-                        <div class="image-container"></div>
                     </div>
                 </div>
             </section>
