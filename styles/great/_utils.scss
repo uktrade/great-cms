@@ -489,7 +489,7 @@
 }
 
 .great-font-size-18 {
-  font-size: 18px!important;
+  font-size: 18px !important;
 }
 
 .great-font-size-mobile-18 {
@@ -893,11 +893,11 @@ img.richtext-image {
 }
 
 great-icon {
-  font-size: 24px!important;
+  font-size: 24px !important;
 }
 
 .great-icon-small {
-  font-size: 18px!important;
+  font-size: 18px !important;
 }
 
 .great-red-text {
@@ -992,6 +992,19 @@ great-icon {
   flex-direction: row !important;
 }
 
+.great-flex-grid {
+  margin: 0 -15px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.great-flex-grid > * {
+  padding: 0 15px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 .great-gap-10-30 {
   gap: 10px 30px;
 }
@@ -1049,9 +1062,9 @@ great-icon {
 }
 
 .great-border-top-thick {
-  border-top: 3px solid #04043F;
+  border-top: 3px solid #04043f;
   &.great-border-purple {
-    border-color: #964F99;
+    border-color: #964f99;
   }
 }
 
@@ -1060,15 +1073,15 @@ great-icon {
 }
 
 .great-no-box-shadow {
-  box-shadow: none!important;
+  box-shadow: none !important;
 }
 
 .great-no-border {
-  border:none!important;
+  border: none !important;
 }
 
 .great-no-border-focus {
-  outline: none!important;
+  outline: none !important;
 }
 
 .great-height-min-content {

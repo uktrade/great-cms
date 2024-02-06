@@ -13,7 +13,12 @@
     - great.gov.uk
 {% endblock %}
 {% block head_css %}
-    <link href="{% static 'magna_styles.css' %}" media="all" rel="stylesheet" />
+    {% path_match "^\/learn\/" as in_learning %}
+    {% if in_learning %}
+        <link href="{% static 'learn_styles.css' %}" media="all" rel="stylesheet" />
+    {% else %}
+        <link href="{% static 'magna_styles.css' %}" media="all" rel="stylesheet" />
+    {% endif %}
 {% endblock %}
 <noscript>
     <style>
@@ -47,8 +52,9 @@
         <script src="{% static 'javascript/dit.utils.js' %}"></script>
     {% endif %}
     <script src="{% static 'common.js' %}"></script>
-    <script type="text/javascript" src="{% static 'magna.js' %}"></script>
-    <script type="text/javascript">
+    {% if request.user.is_authenticated or not in_learning %}
+        <script type="text/javascript" src="{% static 'magna.js' %}"></script>
+        <script type="text/javascript">
       // static values that will not be updated by user interacting with react components
       magna.setConfig({
           apiLoginUrl: '{% url "sso:business-sso-login-api" %}',
@@ -94,7 +100,8 @@
           verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
           refreshOnMarketChange: {% if refresh_on_market_change %}true{%else%}false{% endif %},
       });
-    </script>
+        </script>
+    {% endif %}
 {% endblock %}
 {% block skip_link %}<a id="skip-link" href="#content" tabindex="1">Skip to main content</a>{% endblock %}
 {% block body_header %}

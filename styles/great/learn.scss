@@ -1,0 +1,31 @@
+@import 'node_modules/govuk-frontend/govuk/all';
+
+@import 'reset';
+@import 'colors';
+@import 'utils';
+@import 'components';
+@import 'overrides';
+// Weight = 182kb
+
+// For cookie banner
+@import 'core/components/sass/components/cookie-notice/_base.scss';
+// Weight = 192kb
+
+// For global header
+@import 'core/components/sass/components/header-footer/_base.scss';
+// Weight = 256kb
+
+// For skip link
+@import 'core/components/sass/components/skip-link/_base.scss';
+// Weight = 263kb
+
+// For footer, hero
+@import 'core/sass/shared/_base.scss';
+// Weight = 515kb
+
+// For header
+$asset-root: '/static/images/';
+$fonts: '/static/fonts';
+$fa-font-path: '/static/fonts';
+@import 'node_modules/great-styles/src/scss/_styles';
+// Weight = 765kb
