@@ -31,10 +31,25 @@
         border-bottom-color: #ca1616;
     }
 
-    .international-header-navigation-item-active {
-        text-decoration: underline;
-        text-decoration-thickness: 3px;
-        text-underline-offset: 0.1em;
+    .govuk-header__navigation-item {
+        a:hover {
+            text-decoration: underline;
+            text-decoration-thickness: 3px;
+            text-underline-offset: 0.3em;
+        }
+    }
+
+    .govuk-header__navigation-item--active {
+        a {
+            color: white;
+            text-decoration: underline;
+            text-decoration-thickness: 3px;
+            text-underline-offset: 0.3em;
+        }
+        a:focus {
+            color: black;
+            text-decoration: none;
+        }
     }
 
     .govuk-header__logo {
@@ -83,10 +98,25 @@
         height: 30px;
     }
 
-    .international-header-navigation-item-active {
-        text-decoration: underline;
-        text-decoration-thickness: 1px;
-        text-underline-offset: 0.1em;
+    .govuk-header__navigation-item {
+        a:hover {
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 0.3em;
+        }
+    }
+
+    .govuk-header__navigation-item--active {
+        a {
+            color: white;
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 0.3em;
+        }
+        a:focus {
+            color: black;
+            text-decoration: none;
+        }
     }
 }
 

@@ -90,7 +90,7 @@ if settings.FEATURE_INTERNATIONAL_ONLINE_OFFER:
 
 
 # TODO Change to use international env var
-if settings.FEATURE_INTERNATIONAL_ONLINE_OFFER:
+if settings.FEATURE_INTERNATIONAL:
     urlpatterns = [path('international/', include(international.urls))] + urlpatterns
 
 if settings.FEATURE_GREAT_CMS_OPENAPI_ENABLED:
