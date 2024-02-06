@@ -28,7 +28,7 @@
                         class="govuk-header__navigation-list great-navigation-list">
                         <li class="govuk-header__navigation-item {% if '/expand-your-business-in-the-uk/' in request.path %}govuk-header__navigation-item--active{% endif %}">
                             <a class="govuk-header__link govuk-link--inverse govuk-!-font-size-19"
-                               href="{% if not eyb_user %}{% url 'international_online_offer:index' %}{% else %}/international/expand-your-business-in-the-uk/guide/{% endif %}">Expand your business in the UK</a>
+                               href="{% if not eyb_user %}{% url 'international_online_offer:index' %}{% else %}/international/expand-your-business-in-the-uk/guide/{% endif %}">Expand your business</a>
                         </li>
                         <li class="govuk-header__navigation-item">
                             <a class="govuk-header__link govuk-link--inverse govuk-!-font-size-19"
@@ -45,7 +45,7 @@
     </div>
 </header>
 {% comment %} TODO Need to pull this sub nav out into respective international sub service {% endcomment %}
-{% if '/expand-your-business-in-the-uk' in request.path %}
+{% if '/expand-your-business-in-the-uk' in request.path and eyb_user %}
     <header class="govuk-header international-sub-header"
             role="banner"
             data-module="govuk-header">
