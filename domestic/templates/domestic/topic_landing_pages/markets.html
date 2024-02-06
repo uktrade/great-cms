@@ -6,11 +6,11 @@
     article-list-page
 {% endblock css_layout_class %}
 {% block content %}
-    {% block hero %}
-        {% include 'components/hero.html' with image=page.hero_image hero_title="Markets" hero_text="Research export opportunities and prepare your business for new markets" %}
-    {% endblock %}
     {% block breadcrumbs %}
         {% include 'components/breadcrumbs_cms.html' %}
+    {% endblock %}
+    {% block hero %}
+        {% include 'components/hero.html' with image=page.hero_image hero_title="Markets" hero_text="Research export opportunities and prepare your business for new markets" %}
     {% endblock %}
     {% comment %} {% if page.teaser %}
 <section id="markets-banner-section" class="topic-list-section padding-bottom-60-m padding-top-15-m">
@@ -25,7 +25,7 @@
     {% endif %}  {% endcomment %}
     {% block child_pages %}
         <section id="{{ page.slug }}-list-section"
-                 class="topic-list-section markets-landing">
+                 class="topic-list-section markets-landing govuk-!-margin-top-6">
             <div class="container">
                 <form id="sectors-form" action="" method="get">
                     <div class="grid-row">
