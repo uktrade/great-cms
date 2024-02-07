@@ -1,0 +1,124 @@
+{% load ga360_data from directory_components %}
+{% include './includes/dbt_banner.html' %}
+<header class="govuk-header international-header" role="banner">
+    <div class="govuk-header__container govuk-width-container">
+        <div class="govuk-header__logo">
+            <a href="/international/"
+               class="govuk-header__link govuk-header__link--homepage">
+                <span class="govuk-header__logotype">
+                    <div role="img"
+                         alt="Expand your business in the UK, start of service"
+                         class="great-logo"></div>
+                    <span class="govuk-header__logotype-text"></span>
+                </span>
+            </a>
+        </div>
+        <div class="govuk-header__content">
+            {% if hide_primary_nav %}
+                <a href="{% if not eyb_user %}{% url 'international_online_offer:index' %}{% else %}/international/expand-your-business-in-the-uk/guide/{% endif %}"
+                   class="govuk-header__link govuk-header__service-name">Expand your business in the UK</a>
+            {% else %}
+                <nav aria-label="Menu" class="govuk-header__navigation">
+                    <button type="button"
+                            class="govuk-header__menu-button govuk-js-header-toggle"
+                            aria-controls="navigation"
+                            aria-label="Show or hide menu"
+                            hidden>Menu</button>
+                    <ul id="navigation"
+                        class="govuk-header__navigation-list great-navigation-list">
+                        <li class="govuk-header__navigation-item {% if '/expand-your-business-in-the-uk/' in request.path %}govuk-header__navigation-item--active{% endif %}">
+                            <a class="govuk-header__link govuk-link--inverse govuk-!-font-size-19"
+                               href="{% if not eyb_user %}{% url 'international_online_offer:index' %}{% else %}/international/expand-your-business-in-the-uk/guide/{% endif %}">Expand your business</a>
+                        </li>
+                        <li class="govuk-header__navigation-item">
+                            <a class="govuk-header__link govuk-link--inverse govuk-!-font-size-19"
+                               href="/international/investment/">Investment opportunities</a>
+                        </li>
+                        <li class="govuk-header__navigation-item">
+                            <a class="govuk-header__link govuk-link--inverse govuk-!-font-size-19"
+                               href="/international/content/trade/how-we-help-you-buy/">Buy from the UK</a>
+                        </li>
+                    </ul>
+                </nav>
+            {% endif %}
+        </div>
+    </div>
+</header>
+{% comment %} TODO Need to pull this sub nav out into respective international sub service {% endcomment %}
+{% if '/expand-your-business-in-the-uk' in request.path and eyb_user %}
+    <header class="govuk-header international-sub-header"
+            role="banner"
+            data-module="govuk-header">
+        <div class="govuk-header__container govuk-width-container">
+            <div class="govuk-header__logo international-sub-navigation-logo"></div>
+            <div class="govuk-header__content">
+                <nav aria-label="Menu" class="govuk-header__navigation">
+                    <button type="button"
+                            class="govuk-header__menu-button govuk-js-header-toggle"
+                            aria-controls="navigation"
+                            aria-label="Show or hide menu"
+                            hidden>Menu</button>
+                    <ul id="navigation"
+                        class="govuk-header__navigation-list great-navigation-list govuk-!-padding-bottom-1 govuk-!-padding-top-1">
+                        {% if eyb_user %}
+                            <li class="govuk-header__navigation-item {% if '/expand-your-business-in-the-uk/guide' in request.path %}govuk-header__navigation-item--active{% endif %}">
+                                <a class="govuk-header__link govuk-!-font-size-16"
+                                   href="/international/expand-your-business-in-the-uk/guide">UK expansion guide</a>
+                            </li>
+                            <li class="govuk-header__navigation-item {% if '/expand-your-business-in-the-uk/change-your-answers' in request.path %}govuk-header__navigation-item--active{% endif %}">
+                                <a class="govuk-header__link govuk-!-font-size-16"
+                                   href="{% url 'international_online_offer:change-your-answers' %}">
+                                    Change your answers
+                                </a>
+                            </li>
+                            <li class="govuk-header__navigation-item {% if '/expand-your-business-in-the-uk/profile' in request.path %}govuk-header__navigation-item--active{% endif %}">
+                                <a class="govuk-header__link govuk-!-font-size-16"
+                                   href="{% url 'international_online_offer:profile' %}">Edit your profile</a>
+                            </li>
+                        {% endif %}
+                        <li class="govuk-header__navigation-item">
+                            {% if eyb_user %}
+                                <a tabindex="0"
+                                   role="link"
+                                   onclick="signOut()"
+                                   onkeypress="return enterKeyPressed(event)"
+                                   class="govuk-header__link govuk-!-font-size-16"
+                                   href="#">Sign out</a>
+                            {% elif request.user.is_authenticated %}
+                                <a class="govuk-header__link govuk-link--inverse govuk-!-font-size-16"
+                                   href="{% url 'international_online_offer:profile' %}?signup=true">Complete sign up</a>
+                            {% else %}
+                                <a class="govuk-header__link govuk-link--inverse govuk-!-font-size-16"
+                                   href="{% url 'international_online_offer:login' %}">Sign in</a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+{% endif %}
+<script>
+    const signOut = () => {
+    return fetch('{% url "sso:business-sso-logout-api" %}', {
+        method: 'post',
+        headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRFToken': '{{ csrf_token }}',
+        'X-Requested-With': 'XMLHttpRequest',
+        },
+        body: JSON.stringify({})
+    }).then(function() {
+        window.location = '/international/expand-your-business-in-the-uk/login';
+    });
+    }
+    const enterKeyPressed = (event) => {
+        if (event.keyCode == 13) {
+            signOut()
+            return true;
+         } else {
+            return false;
+         }
+    }
+</script>
