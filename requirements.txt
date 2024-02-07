@@ -267,7 +267,7 @@ markdown2==2.4.0
     # via
     #   -r requirements.in
     #   readtime
-markupsafe==2.1.4
+markupsafe==2.1.5
     # via jinja2
 maxminddb==2.5.2
     # via geoip2
@@ -301,7 +301,7 @@ pillow==10.2.0
     #   reportlab
     #   wagtail
     #   xhtml2pdf
-pillow-heif==0.14.0
+pillow-heif==0.15.0
     # via willow
 polib==1.2.0
     # via wagtail-localize
