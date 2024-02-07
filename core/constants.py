@@ -182,7 +182,7 @@ PRODUCT_MARKET_DATA = {
         'card_link': 'https://www.great.gov.uk/markets/bosnia-and-herzegovina/',
         'card_title': 'Exporting guide to Bosnia and Herzegovina',
         'card_content': (
-            'Situated at the heart of the Central and Eastern European (CEE) region, Bosnia and Herzegovina'
+            'Situated at the heart of the Central and Eastern European (CEE) region, Bosnia and Herzegovina '
             + '(BiH) is showing firm and stable economic recovery, with increasing affluence creating '
             + 'opportunities for UK exporters. As an EU membership candidate (December 2022) it receives '
             + 'financial, administrative and technical support during its pre-accession period.'
@@ -213,7 +213,7 @@ PRODUCT_MARKET_DATA = {
         'card_title': 'Exporting guide to Bulgaria',
         'card_content': (
             'Bulgaria is situated on the eastern side of the Balkans in South Eastern Europe. It is '
-            + "part of the European single market and it's economy is broadly based on services, heavy"
+            + "part of the European single market and it's economy is broadly based on services, heavy "
             + 'industry and agriculture.'
         ),
     },
@@ -378,7 +378,7 @@ PRODUCT_MARKET_DATA = {
         'card_link': 'https://www.great.gov.uk/markets/faroe-islands/',
         'card_title': 'Exporting guide to Faroe Islands',
         'card_content': (
-            'The Faroe Islands, located in the North Atlantic Ocean, comprise 18 islands. Fishing and related'
+            'The Faroe Islands, located in the North Atlantic Ocean, comprise 18 islands. Fishing and related '
             + 'activities are the mains industries, but the Faroes are working towards a more diversified economy.'
         ),
     },
@@ -435,7 +435,7 @@ PRODUCT_MARKET_DATA = {
         'card_title': 'Exporting guide to Greece',
         'card_content': (
             'Situated in the Eastern Mediterranean, Greece is at the crossroads'
-            + ' of three continents - Europe, Asia and Africa. The majority of the'
+            + ' of three continents - Europe, Asia and Africa. The majority of the '
             + 'economy comprises of the services sector, with tourism playing a large part.'
         ),
     },
@@ -482,7 +482,7 @@ PRODUCT_MARKET_DATA = {
         'card_link': 'https://www.great.gov.uk/markets/hong-kong-china/',
         'card_title': 'Exporting guide to Hong Kong, China',
         'card_content': (
-            'As one of Asia’s leading financial and business centres, Hong Kong has an open,'
+            'As one of Asia’s leading financial and business centres, Hong Kong has an open, '
             + 'transparent and competitive market. English is widely spoken. It has '
             + 'sophisticated financial services and distribution links, an efficient port '
             + 'terminal, a free port status and unrivalled connectivity to mainland China '
