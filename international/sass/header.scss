@@ -2,23 +2,12 @@
     background: #eb0000;
     border-bottom: 10px solid #eb0000;
 
-    @media (min-width: 48.0625em) {
-        .govuk-header__logo {
-            width: 25%;
-        }
-    }
-
-    @media (min-width: 48.0625em) {
-        .govuk-header__content {
-            width: 75%;
-        } 
-    }
 
     .govuk-header__container {
         border-bottom: 0px;
         margin-top: 0px;
     }
-    
+
     .govuk-header__service-name {
         margin-top: 25px;
     }
@@ -31,17 +20,32 @@
         border-bottom-color: #ca1616;
     }
 
-    .international-header-navigation-item-active {
-        text-decoration: underline;
-        text-decoration-thickness: 3px;
-        text-underline-offset: 0.1em;
+    .govuk-header__navigation-item {
+        a:hover {
+            text-decoration: underline;
+            text-decoration-thickness: 3px;
+            text-underline-offset: 0.3em;
+        }
+    }
+
+    .govuk-header__navigation-item--active {
+        a {
+            color: white;
+            text-decoration: underline;
+            text-decoration-thickness: 3px;
+            text-underline-offset: 0.3em;
+        }
+        a:focus {
+            color: black;
+            text-decoration: none;
+        }
     }
 
     .govuk-header__logo {
         margin-bottom: 0px;
         a {
             display: inline-block;
-        } 
+        }
         a:focus {
             .great-logo {
                 background-image: url('/static/images/great-logo-condensed-black.svg');
@@ -83,10 +87,25 @@
         height: 30px;
     }
 
-    .international-header-navigation-item-active {
-        text-decoration: underline;
-        text-decoration-thickness: 1px;
-        text-underline-offset: 0.1em;
+    .govuk-header__navigation-item {
+        a:hover {
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 0.3em;
+        }
+    }
+
+    .govuk-header__navigation-item--active {
+        a {
+            color: white;
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 0.3em;
+        }
+        a:focus {
+            color: black;
+            text-decoration: none;
+        }
     }
 }
 
@@ -94,7 +113,7 @@
 @media (min-width: 768px) {
     .great-navigation-list {
         float: right;
-    
+
         .govuk-header__navigation-item:last-child {
             margin-right: 0;
             border-bottom: 0;

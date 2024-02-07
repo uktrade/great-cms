@@ -1,23 +1,6 @@
-ul {
-  list-style-type: none;
-  padding-inline-start: 0px;
-}
-
-
-@import 'tokens';
-@import 'typography';
-@import 'govuk-token-overrides';
-@import 'node_modules/govuk-frontend/govuk/all';
-@import 'govuk-class-overrides';
-@import 'core-class-overrides';
-@import 'international/main.scss';
+@import '../../international/sass/main.scss';
 @import 'components/service-start.scss';
 @import 'components/guide.scss';
 @import 'components/article-list-item.scss';
 @import 'components/salary-rent.scss';
 @import 'components/csat.scss';
-@import '../../styles/great/utils';
-
-body {
-    margin: 0;
-}
