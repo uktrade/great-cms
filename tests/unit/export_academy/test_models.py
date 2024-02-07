@@ -68,3 +68,18 @@ def test_videoondemandpagetracking_model_to_string():
     video = GreatMediaFactory()
     instance = VideoOnDemandPageTracking(user_email='Joe.Bloggs@gmail.com', event=event, video=video)
     assert str(instance) == f'User: Joe.Bloggs@gmail.com, Event: {event.id}, Video: {video.id}'
+
+
+@mock.patch.object(actions, 'GovNotifyEmailAction')
+@pytest.mark.django_db
+def test_event_model_save_fails_when_completed_but_not_closed(mock_notify_cancellation, client, user):
+    event = EventFactory()
+
+    # Ensure event is completed, and open for bookings
+    event.completed = datetime.now()
+    event.closed = False
+
+    # Ensure saving event raises a validation Error
+    with pytest.raises(ZeroDivisionError) as excinfo:
+        event.save()
+    assert str(excinfo.value) == "Division by zero is not allowed"
