@@ -1,6 +1,8 @@
 {% load ga360_data from directory_components %}
 {% include './includes/dbt_banner.html' %}
-<header class="govuk-header international-header" role="banner">
+<header class="govuk-header international-header"
+        role="banner"
+        id="international-header">
     <div class="govuk-header__container govuk-width-container">
         <div class="govuk-header__logo">
             <a href="/international/"
@@ -45,10 +47,11 @@
     </div>
 </header>
 {% comment %} TODO Need to pull this sub nav out into respective international sub service {% endcomment %}
-{% if '/expand-your-business-in-the-uk' in request.path and eyb_user %}
-    <header class="govuk-header international-sub-header"
-            role="banner"
-            data-module="govuk-header">
+{% if '/expand-your-business-in-the-uk' in request.path and eyb_user or '/international/expand-your-business-in-the-uk/' == request.path %}
+    <div class="govuk-header international-sub-header"
+         role="banner"
+         id="international-sub-header"
+         data-module="govuk-header">
         <div class="govuk-header__container govuk-width-container">
             <div class="govuk-header__logo international-sub-navigation-logo"></div>
             <div class="govuk-header__content">
@@ -96,7 +99,7 @@
                 </nav>
             </div>
         </div>
-    </header>
+    </div>
 {% endif %}
 <script>
     const signOut = () => {
