@@ -52,11 +52,11 @@ number of extra CSS styles that were once sensible defaults:
             })
         </script>
         <div id="atlas-cookie-banner"
-             class="atlas atlas-bg atlas-bg--grey-light govuk-!-padding-top-4 govuk-!-padding-bottom-7">
-            <div class="atlas-container atlas-container--wide atlas-p-v-s atlas-regular">
+             class="govuk-!-padding-top-4 govuk-!-padding-bottom-2 international-cookie-banner-container">
+            <div class="govuk-width-container">
                 <div id="atlas-cookie-prompt">
-                    <h2 class="atlas-h--s">Cookies on great.gov.uk</h2>
-                    <p>
+                    <h2 class="govuk-heading-m">Cookies on great.gov.uk</h2>
+                    <p class="govuk-body">
                         We use <a class="govuk-link" href="/privacy-and-cookies/">cookies to
                         collect information</a> about how you use great.gov.uk. We use this information to make the
                         website work as well as possible and improve government services.
@@ -65,8 +65,10 @@ number of extra CSS styles that were once sensible defaults:
                     <a href="/cookies/" class="govuk-button">Set
                     cookie preferences</a>
                 </div>
-                <div id="atlas-cookie-thanks" class="great-hidden">
-                    <p>
+                {# djlint:off H021 #}
+                <div id="atlas-cookie-thanks" style="display: none">
+                    {# djlint:on H021 #}
+                    <p class="govuk-body">
                         You've accepted all cookies. You can
                         <a class="govuk-link" href="/cookies/">change your
                         settings</a>
