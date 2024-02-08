@@ -82,5 +82,5 @@ def test_event_model_save_fails_when_completed_but_not_closed():
 
     # Ensure saving event raises a validation Error
     with pytest.raises(ValidationError) as excinfo:
-        event.save()
+        event.clean()
     assert str(excinfo.value) == "Event must be marked 'Closed for Bookings' before it can be marked 'Completed'"
