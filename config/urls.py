@@ -23,6 +23,7 @@ import core.urls
 import domestic.urls
 import export_academy.urls
 import exportplan.urls
+import international.urls
 import international_online_offer.urls
 import search.urls
 import sso.urls
@@ -86,6 +87,11 @@ if settings.FEATURE_INTERNATIONAL_ONLINE_OFFER:
     urlpatterns = [
         path('international/expand-your-business-in-the-uk/', include(international_online_offer.urls))
     ] + urlpatterns
+
+
+# TODO Change to use international env var
+if settings.FEATURE_INTERNATIONAL:
+    urlpatterns = [path('international/', include(international.urls))] + urlpatterns
 
 if settings.FEATURE_GREAT_CMS_OPENAPI_ENABLED:
     urlpatterns = [

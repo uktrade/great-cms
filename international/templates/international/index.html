@@ -1,0 +1,25 @@
+{% extends './base.html' %}
+{% load static %}
+{% block head_title %}International {{ block.super }}{% endblock %}
+{% block head_other %}
+    <meta name="description"
+          content="Find information to help invest within the UK" />
+{% endblock %}
+{% block content %}
+    <div class="great-hero">
+        <div class="govuk-width-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    <h1 class="govuk-heading-l great-hero__heading">Invest in the UK</h1>
+                </div>
+            </div>
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    <h2 class="govuk-heading-l great-hero__heading">
+                        We can help you expand your business and find opportunities in the UK
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
