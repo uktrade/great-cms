@@ -3,6 +3,7 @@ from unittest import mock
 
 import pytest
 from directory_forms_api_client import actions
+from django.core.exceptions import ValidationError
 
 from export_academy.models import Booking, VideoOnDemandPageTracking
 from .factories import (
@@ -78,8 +79,9 @@ def test_event_model_save_fails_when_completed_but_not_closed(mock_notify_cancel
     # Ensure event is completed, and open for bookings
     event.completed = datetime.now()
     event.closed = False
+    event._loaded_values = {'complete': None}
 
     # Ensure saving event raises a validation Error
-    with pytest.raises(ZeroDivisionError) as excinfo:
+    with pytest.raises(ValidationError) as excinfo:
         event.save()
-    assert str(excinfo.value) == "Division by zero is not allowed"
+    assert str(excinfo.value) == "Event must be marked 'Closed for Bookings' before it can be marked 'Completed'"
