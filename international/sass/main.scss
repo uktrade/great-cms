@@ -19,18 +19,14 @@ body {
 
 .great-hero {
     background-image: url('/static/images/international-background-image.png');
-    position: relative;
-    padding-top: 0;
-    padding-bottom: 0;
-    min-height: 200px;
-    background-position: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
     background-size: cover;
+    border-radius: var(--spacing-spacing-0, 0px);
+    flex-direction: column;
+    gap: 20px;
 
-    & > .container {
-        min-height: 200px;
-        overflow: visible;
-        padding-top: 45px;
-    }
+    align-self: stretch;
 
     .great-hero__heading {
         color: white;

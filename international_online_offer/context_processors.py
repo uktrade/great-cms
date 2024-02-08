@@ -29,12 +29,11 @@ def is_using_triage(request):
     return False
 
 
-def is_using_login_or_profile(request):
+def is_using_login(request):
     current_url = request.build_absolute_uri()
     signup_url = str(reverse_lazy('international_online_offer:signup'))
     login_url = str(reverse_lazy('international_online_offer:login'))
-    profile_url = str(reverse_lazy('international_online_offer:profile'))
-    user_flow_urls = [signup_url, login_url, profile_url]
+    user_flow_urls = [signup_url, login_url]
     for url in user_flow_urls:
         if url in current_url:
             return True
@@ -42,5 +41,5 @@ def is_using_login_or_profile(request):
 
 
 def hide_primary_nav(request):
-    hide_primary_nav = is_using_triage(request) or is_using_login_or_profile(request)
+    hide_primary_nav = is_using_triage(request) or is_using_login(request)
     return {'hide_primary_nav': hide_primary_nav}
