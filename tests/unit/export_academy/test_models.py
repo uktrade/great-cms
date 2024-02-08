@@ -71,15 +71,14 @@ def test_videoondemandpagetracking_model_to_string():
     assert str(instance) == f'User: Joe.Bloggs@gmail.com, Event: {event.id}, Video: {video.id}'
 
 
-@mock.patch.object(actions, 'GovNotifyEmailAction')
 @pytest.mark.django_db
-def test_event_model_save_fails_when_completed_but_not_closed(mock_notify_cancellation, client, user):
+def test_event_model_save_fails_when_completed_but_not_closed():
     event = EventFactory()
 
     # Ensure event is completed, and open for bookings
     event.completed = datetime.now()
     event.closed = False
-    event._loaded_values = {'complete': None}
+    event._loaded_values = {'completed': None}
 
     # Ensure saving event raises a validation Error
     with pytest.raises(ValidationError) as excinfo:
