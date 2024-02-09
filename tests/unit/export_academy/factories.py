@@ -40,6 +40,7 @@ class EventFactory(factory.django.DjangoModelFactory):
     past_event_video_recording = factory.SubFactory(GreatMediaFactory)
     past_event_recorded_date = timezone.localtime()
     completed = timezone.localtime()
+    closed = False
     live = timezone.localtime()
     slug = factory.fuzzy.FuzzyText(length=15)
 
