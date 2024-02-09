@@ -20,6 +20,7 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.snippets.models import register_snippet
 
 from config import settings
+from config.celery import app
 from core.blocks import ButtonBlock, SingleRichTextBlock, TopicPageCardBlockRichText
 from core.constants import (
     RICHTEXT_FEATURES__REDUCED,
@@ -610,7 +611,7 @@ class VideoOnDemandPageTracking(TimeStampedModel):
         models.UniqueConstraint(fields=['user_email', 'event', 'video'], name='unique_vodpagetracking')
 
 
-def send_notifications_for_all_bookings(event, template_id, additional_notify_data=None):
+def send_notifications_for_all_bookings(event_id, template_id, additional_notify_data=None):
     """
     This is a helper function that sends different types of email to users who have booked an event.
 
@@ -620,7 +621,7 @@ def send_notifications_for_all_bookings(event, template_id, additional_notify_da
     """
 
     # Get all non-cancelled bookings associated with the event
-    bookings = Booking.objects.exclude(status='Cancelled').filter(event_id=event.id)
+    bookings = Booking.objects.exclude(status='Cancelled').filter(event_id=event_id)
 
     for booking in bookings:
         try:
@@ -646,6 +647,11 @@ def send_notifications_for_all_bookings(event, template_id, additional_notify_da
             sentry_sdk.capture_message(f'Sending booking notification email failed for {booking.registration.id}: {e}')
 
 
+@app.task
+def send_notifications_for_all_bookings_async(*args, **kwargs):
+    send_notifications_for_all_bookings(*args, **kwargs)
+
+
 @receiver(post_save, sender=Event)
 def send_event_complete_email(sender, instance, created, **kwargs):
     """
@@ -660,4 +666,6 @@ def send_event_complete_email(sender, instance, created, **kwargs):
 
     # Send notification when event is updated and marked as complete
     if instance.changed_to_completed:
-        send_notifications_for_all_bookings(instance, settings.EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID)
+        send_notifications_for_all_bookings_async.delay(
+            instance.id, settings.EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID
+        )
