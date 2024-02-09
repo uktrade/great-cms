@@ -5,6 +5,7 @@ from datetime import timedelta
 
 import sentry_sdk
 from directory_forms_api_client import actions
+from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.db import models
 from django.db.models.signals import post_save
@@ -181,6 +182,13 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
                 self.changed_to_completed = True
 
         return super().save(**kwargs)
+
+    def clean(self):
+        """Custom validation"""
+
+        # Ensure an event being marked as completed is also closed for bookings
+        if self.completed and not self.closed:
+            raise ValidationError("Event must be marked 'Closed for Bookings' before it can be marked 'Completed'")
 
     def get_event_types(self):
         return [item.name for item in self.types.all()]
