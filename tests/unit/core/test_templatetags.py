@@ -26,6 +26,7 @@ from core.templatetags.content_tags import (
     get_text_blocks,
     get_topic_blocks,
     get_topic_title_for_lesson,
+    h3_if,
     handle_external_links,
     highlighted_text,
     is_email,
@@ -1006,3 +1007,15 @@ def test_show_feedback(input_url, expected_output):
 )
 def test_get_inline_feedback_visibility(input_url, expected_output):
     assert get_inline_feedback_visibility(input_url) == expected_output
+
+
+@pytest.mark.parametrize(
+    'condition, else_heading, expected_output',
+    (
+        (True, 'h2', 'h3'),
+        (False, 'h2', 'h2'),
+    ),
+)
+def test_h3_if(condition, else_heading, expected_output):
+    result = h3_if(condition, else_heading)
+    assert result == expected_output
