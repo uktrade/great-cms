@@ -1,4 +1,5 @@
 {% extends './base.html' %}
+{% load content_tags %}
 {% load static %}
 {% block head_title %}International {{ block.super }}{% endblock %}
 {% block head_other %}
@@ -6,18 +7,38 @@
           content="Find information to help invest within the UK" />
 {% endblock %}
 {% block content %}
-    <section class="great-hero govuk-!-padding-top-9 govuk-!-padding-bottom-9">
+    {% include './components/landing_hero.html' with hero_image=page.hero_image heading=page.hero_text subtitle=page.hero_subtitle %}
+    <section class="why-choose-uk-section">
         <div class="govuk-width-container">
-            <div class="govuk-grid-row govuk-!-padding-top-7">
-                <div class="govuk-grid-column-one-half">
-                    <h1 class="govuk-heading-xl great-hero__heading">Invest in the UK</h1>
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    <h2 class="govuk-heading-l govuk-!-margin-top-9">{{ page.dep_title }}</h2>
+                    <p class="govuk-body">{{ page.dep_sub_title }}</p>
                 </div>
             </div>
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-one-half">
-                    <h2 class="govuk-body-l great-hero__heading">We can help you expand your business and find opportunities in the UK</h2>
-                </div>
+            <div class="govuk-grid-row great-card-row govuk-!-padding-bottom-9">
+                {% for cards in page.dep_cards %}
+                    {% for card in cards.value %}
+                        <div class="govuk-grid-column-one-half govuk-!-margin-bottom-5">
+                            {% include 'components/great/card.html' with title=card.value.link_text url=card.value.link_url content=card.value.description image_src=card.value.link_url|get_international_icon_path is_svg_image=True classes="great-card--homepage" %}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
             </div>
         </div>
     </section>
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row govuk-!-margin-top-9 govuk-!-margin-bottom-3">
+            <div class="govuk-grid-column-two-thirds">
+                <h2 class="govuk-heading-l">UK nations and regions</h2>
+                <p class="govuk-body">
+                    The economic power and diversity of UK regions offer global businesses one of the best ecosystems in the world to grow innovative companies.
+                </p>
+                <a href="/international/content/investment/regions/" class="govuk-link">Learn about the UK's nations and regions</a>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                <span class="international-home-uk-map"></span>
+            </div>
+        </div>
+    </div>
 {% endblock %}

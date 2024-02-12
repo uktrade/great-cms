@@ -12,23 +12,95 @@ ul {
 @import 'header.scss';
 @import 'footer.scss';
 @import '../../styles/great/utils';
+@import '../../styles/great/components';
+
 
 body {
     margin: 0;
 }
 
+
+// Hero banner
+.great-hero-heading {
+    color: white;
+}
+
+.great-hero-subheading {
+   color: white;
+}
+
+.great-hero-description {
+    margin-bottom: 0;
+}
+
 .great-hero {
-    background-image: url('/static/images/international-background-image.png');
-    background-repeat: no-repeat;
-    background-position: center;
+    position: relative;
+    padding-top: 0;
+    padding-bottom: 0;
+    min-height: 200px;
+    background-position: 50%;
     background-size: cover;
-    border-radius: var(--spacing-spacing-0, 0px);
-    flex-direction: column;
-    gap: 20px;
 
-    align-self: stretch;
-
-    .great-hero__heading {
-        color: white;
+    & > .container {
+        min-height: 200px;
+        overflow: visible;
+        padding-top: 45px;
     }
+}
+
+.great-hero-no-image {
+    background-color: $eyb-dark-blue;
+}
+
+.why-choose-uk-section {
+    background-color: #eef2f6;
+}
+
+.great-hero-title {
+    color: white;
+    max-width: 700px;
+    background-color: $eyb-dark-blue;
+    // border-bottom: $flag-red solid 6px;
+    bottom: -6px;
+    left: 0;
+    padding: 30px;
+    position: absolute;
+    width: auto;
+
+    h1 > span {
+        display: block;
+    }
+}
+
+@media (max-width: 1100px) {
+    .great-hero-title {
+        max-width: 400px;
+    }
+}
+
+@media (min-width: 641px) {
+    .great-hero,
+    .great-hero > .container {
+        min-height: 345px;
+    }
+
+    .great-hero-title {
+        min-width: 470px;
+    }
+}
+
+
+.great-hero__container {
+    @include govuk-media-query($from: desktop) {
+      display: flex;
+    }
+}
+
+.international-home-uk-map {
+    background: url('/static/images/uk-map.svg');
+    display: block;
+    width: fixed;
+    height: 387px;
+    background-repeat: no-repeat;
+    background-size: contain;
 }
