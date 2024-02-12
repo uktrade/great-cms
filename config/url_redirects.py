@@ -436,15 +436,6 @@ contact_redirects = [
         ),
     ),
     re_path(
-        r'^legacy/contact/selling_online_overseas/$',
-        QuerystringRedirectView.as_view(
-            url=reverse_lazy(
-                'contact:contact-us-routing-form',
-                kwargs={'step': 'domestic'},
-            )
-        ),
-    ),
-    re_path(
         r'^legacy/contact/export_ops/$',
         QuerystringRedirectView.as_view(
             url=reverse_lazy(

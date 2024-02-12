@@ -24,11 +24,6 @@ from core.cms_slugs import PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE
 from core.datastructures import NotifySettings
 from directory_constants import urls
 from directory_constants.choices import COUNTRY_CHOICES
-from sso.helpers import update_user_profile
-
-SESSION_KEY_SOO_MARKET = 'SESSION_KEY_SOO_MARKET'
-SOO_SUBMISSION_CACHE_TIMEOUT = 2592000  # 30 days
-
 
 class PrepopulateInternationalFormMixin:
     # NB must be used with core_mixins.PrepopulateFormMixin

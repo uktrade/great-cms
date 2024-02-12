@@ -329,14 +329,6 @@ redirects = [
         '/contact/feedback/',
     ),
     (
-        '/legacy/contact/selling_online_overseas/',
-        '/contact/triage/domestic/',
-    ),
-    (
-        '/legacy/contact/selling_online_overseas/FeedbackForm/',
-        '/contact/feedback/',
-    ),
-    (
         '/legacy/contact/single_sign_on/',
         '/contact/triage/great-account/',
     ),
@@ -345,27 +337,11 @@ redirects = [
         '/contact/feedback/',
     ),
     (
-        '/legacy/contact/soo/FeedbackForm/',
-        '/contact/feedback/',
-    ),
-    (
-        '/legacy/contact/soo/Triage/',
-        '/contact/triage/location/',
-    ),
-    (
-        '/legacy/contact/soo/TriageForm/',
-        '/contact/triage/location/',
-    ),
-    (
         '/legacy/contact/triage/',
         '/contact/triage/location/',
     ),
     (
         '/legacy/contact/triage/directory/',
-        '/contact/triage/location/',
-    ),
-    (
-        '/legacy/contact/triage/soo/',
         '/contact/triage/location/',
     ),
     (
