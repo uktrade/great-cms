@@ -59,15 +59,17 @@ def render_video(block, event_name=None):  # noqa: C901
 
     transcript_container = ''
 
+    hidden_text = event_name if event_name else video.title
+
     if video_transcript:
         transcript_container = """<details
             class="govuk-details govuk-!-static-padding-top-4 govuk-!-static-margin-bottom-0"
             data-module="govuk-details">
                 <summary class="govuk-details__summary">
                     <span class="govuk-details__summary-text">"""
-        if event_name:
+        if hidden_text:
             transcript_container = f"""{transcript_container}<span class="govuk-visually-hidden">
-                View transcript for {event_name} recording</span>
+                View transcript for {hidden_text} recording</span>
                 View transcript"""
         else:
             transcript_container = f"""{transcript_container}View Transcript"""
