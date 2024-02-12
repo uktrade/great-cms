@@ -212,7 +212,6 @@ redirects = [
         ),
     ),
     ('/export/find-a-buyer/', '/find-a-buyer/'),
-    ('/export/selling-online-overseas/', '/selling-online-overseas/'),
     ('/uk/privacy-policy/', '/privacy-and-cookies/'),
     ('/uk/terms-and-conditions/', '/terms-and-conditions/'),
     ('/int/', '/international/'),
@@ -310,19 +309,11 @@ redirects = [
         '/contact/feedback/',
     ),
     (
-        '/legacy/contact/feedback/selling-online-overseas/',
-        '/contact/feedback/',
-    ),
-    (
         '/legacy/contact/feedback/selling_online_overseas/',
         '/contact/feedback/',
     ),
     (
         '/legacy/contact/feedback/single_sign_on/',
-        '/contact/feedback/',
-    ),
-    (
-        '/legacy/contact/feedback/soo/',
         '/contact/feedback/',
     ),
     (
@@ -351,10 +342,6 @@ redirects = [
     ),
     (
         '/legacy/contact/single_sign_on/FeedbackForm/',
-        '/contact/feedback/',
-    ),
-    (
-        '/legacy/contact/soo/feedback/',
         '/contact/feedback/',
     ),
     (

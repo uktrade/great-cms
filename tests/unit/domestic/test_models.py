@@ -1539,11 +1539,6 @@ class PerformanceDashboardPageTests(SetUpLocaleMixin, WagtailPageTests):
             product_link=service_urls.SERVICES_GREAT_DOMESTIC,
         )
 
-        child_soo = PerformanceDashboardPageFactory(
-            product_link=service_urls.SERVICES_SOO,
-            parent=main_dash,
-        )
-
         child_invest = PerformanceDashboardPageFactory(
             product_link=service_urls.SERVICES_INVEST,
             parent=main_dash,
@@ -1562,7 +1557,6 @@ class PerformanceDashboardPageTests(SetUpLocaleMixin, WagtailPageTests):
         self.assertEqual(
             [x for x in main_dash.get_child_dashboards()],
             [
-                child_soo,
                 child_invest,
                 child_exopps,
                 child_fab,
@@ -1575,7 +1569,6 @@ class PerformanceDashboardPageTests(SetUpLocaleMixin, WagtailPageTests):
         self.assertEqual(
             [x for x in main_dash.get_child_dashboards()],
             [
-                child_soo,
                 child_invest,
                 child_fab,
             ],
@@ -1593,15 +1586,6 @@ class PerformanceDashboardPageTests(SetUpLocaleMixin, WagtailPageTests):
                 'slug': 'performance-dashboard',
                 'heading': 'Great.gov.uk',
                 'landing_dashboard': True,
-            },
-        ),
-        (
-            service_urls.SERVICES_SOO,
-            {
-                'title': 'Selling Online Overseas Performance Dashboard',
-                'slug': 'selling-online-overseas',
-                'heading': 'Selling Online Overseas',
-                'landing_dashboard': False,
             },
         ),
         (

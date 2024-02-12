@@ -42,7 +42,6 @@ DIRECTORY_CONSTANTS_URL_FIND_A_SUPPLIER=http://supplier.trade.great:8005/
 DIRECTORY_CONSTANTS_URL_GREAT_DOMESTIC=http://exred.trade.great:8007/
 DIRECTORY_CONSTANTS_URL_INVEST=http://invest.trade.great:8012/
 DIRECTORY_CONSTANTS_URL_INVESTMENT_SUPPORT_DIRECTORY=http://supplier.trade.great:8005/investment-support-directory/\
-DIRECTORY_CONSTANTS_URL_SELLING_ONLINE_OVERSEAS=http://soo.trade.great:8008/selling-online-overseas/
 DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON=http://sso.proxy.trade.great:8004/
 EXPORTING_OPPORTUNITIES_API_BASE_URL=https://opportunities.export.staging.uktrade.io
 EXPORTING_OPPORTUNITIES_API_SECRET=debug

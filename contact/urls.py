@@ -33,8 +33,6 @@ from contact.views import (
     OfficeFinderFormView,
     OfficeSuccessView,
     RoutingFormView,
-    SellingOnlineOverseasFormView,
-    SellingOnlineOverseasSuccessView,
 )
 from core import snippet_slugs
 from core.views import QuerystringRedirectView
@@ -212,48 +210,6 @@ urlpatterns = [
             'snippet_import_path': 'contact.models.ContactSuccessSnippet',  # see core.mixins.GetSnippetContentMixin
         },
         name='contact-us-international-success',
-    ),
-    path(
-        'contact/selling-online-overseas/',
-        QuerystringRedirectView.as_view(
-            url=reverse_lazy(
-                'contact:contact-us-soo',
-                kwargs={'step': 'contact-details'},
-            )
-        ),
-        name='contact-us-soo-redirect',
-    ),
-    path(
-        'contact/selling-online-overseas/organisation/',
-        QuerystringRedirectView.as_view(
-            url=reverse_lazy(
-                'contact:contact-us-soo',
-                kwargs={'step': 'contact-details'},
-            )
-        ),
-        name='contact-us-soo-organisation-redirect',
-    ),
-    path(
-        'contact/selling-online-overseas/success/',
-        skip_ga360(SellingOnlineOverseasSuccessView.as_view()),
-        {
-            'slug': snippet_slugs.HELP_FORM_SUCCESS_SOO,
-            'snippet_import_path': 'contact.models.ContactSuccessSnippet',  # see core.mixins.GetSnippetContentMixin
-        },
-        name='contact-us-selling-online-overseas-success',
-    ),
-    path(
-        'contact/selling-online-overseas/<slug:step>/',
-        login_required(
-            skip_ga360(
-                SellingOnlineOverseasFormView.as_view(
-                    url_name='contact:contact-us-soo',
-                    done_step_name='finished',
-                )
-            ),
-            login_url=reverse_lazy('core:login'),
-        ),
-        name='contact-us-soo',
     ),
     path(
         'contact/free-trade-agreements/',

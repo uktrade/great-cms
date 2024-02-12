@@ -341,33 +341,6 @@ def test_ingress_url_special_cases_on_success(
     assert mock_get_snippet_instance.call_count == 1
 
 
-@mock.patch('core.mixins.GetSnippetContentMixin.get_snippet_instance')
-@mock.patch.object(views.FormSessionMixin.form_session_class, 'clear')
-def test_always_landing_for_soo_ingress_url_on_success(
-    mock_clear,
-    mock_get_snippet_instance,
-    client,
-    rf,
-):
-    mock_clear.return_value = None
-    mocked_soo_landing = 'http://testserver.com/test-path/'
-    client.get(
-        reverse('contact:contact-us-soo', kwargs={'step': 'organisation'}),
-        HTTP_REFERER=mocked_soo_landing + 'markets/details/ebay/',
-        HTTP_HOST='testserver.com',
-    )
-    # when the success page is viewed
-    with mock.patch('directory_constants.urls.domestic.SELLING_OVERSEAS', mocked_soo_landing):
-        response = client.get(reverse('contact:contact-us-selling-online-overseas-success'), HTTP_HOST='testserver.com')
-    # for contact ingress urls user flow continues to landing page
-    assert response.context_data['next_url'] == mocked_soo_landing
-    assert response.context_data['next_url_text'] == 'Go back to Selling Online Overseas'
-    assert response.status_code == 200
-    # and the ingress url is cleared
-    assert mock_clear.call_count == 1
-    assert mock_get_snippet_instance.call_count == 1
-
-
 @pytest.mark.parametrize('url', success_view_params)
 @mock.patch('core.mixins.GetSnippetContentMixin.get_snippet_instance')
 @mock.patch.object(views.FormSessionMixin.form_session_class, 'clear')
