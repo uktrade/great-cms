@@ -3,6 +3,7 @@ from unittest import mock
 
 import pytest
 from directory_forms_api_client import actions
+from django.core.exceptions import ValidationError
 
 from export_academy.models import Booking, VideoOnDemandPageTracking
 from .factories import (
@@ -68,3 +69,20 @@ def test_videoondemandpagetracking_model_to_string():
     video = GreatMediaFactory()
     instance = VideoOnDemandPageTracking(user_email='Joe.Bloggs@gmail.com', event=event, video=video)
     assert str(instance) == f'User: Joe.Bloggs@gmail.com, Event: {event.id}, Video: {video.id}'
+
+
+@pytest.mark.django_db
+def test_event_model_save_fails_when_completed_but_not_closed():
+    event = EventFactory()
+
+    # Ensure event is completed, and open for bookings
+    event.completed = datetime.now()
+    event.closed = False
+    event._loaded_values = {'completed': None}
+
+    # Ensure saving event raises a validation Error
+    with pytest.raises(ValidationError) as excinfo:
+        event.clean()
+    assert excinfo.value == ValidationError(
+        "Event must be marked 'Closed for Bookings' before it can be marked 'Completed'"
+    )

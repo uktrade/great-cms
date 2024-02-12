@@ -47,7 +47,7 @@
                             This information will help us direct you to the right support for your business.
                         {% endif %}
                     </p>
-                    <form method="post" autocomplete="off">
+                    <form method="post" autocomplete="off" data-export-support-form>
                         {% csrf_token %}
                         {% for hidden_field in form.hidden_fields %}{{ hidden_field }}{% endfor %}
                         {% block form_fields %}{% endblock %}

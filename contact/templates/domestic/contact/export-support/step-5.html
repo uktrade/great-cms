@@ -17,7 +17,7 @@
 
     function customizeLayout() {
         document.querySelector('label[for="id_markets_0"]').after(document.getElementById('search_markets'));
-        $(".govuk-checkboxes__item").wrapAll("<div class='great-checkboxes-wrapper'></div>");
+        $("[data-export-support-form] .govuk-checkboxes__item").wrapAll("<div class='great-checkboxes-wrapper'></div>");
         document.querySelector('.great-checkboxes-wrapper').after(document.querySelector('[data-value="notspecificcountry"]'));
 
         const p = document.createElement('p');
