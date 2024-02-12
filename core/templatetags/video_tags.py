@@ -70,7 +70,7 @@ def render_video(block, event_name=None):  # noqa: C901
         if hidden_text:
             transcript_container = f"""{transcript_container}<span class="govuk-visually-hidden">
                 View transcript for {hidden_text} recording</span>
-                View transcript"""
+                <span aria-hidden="true">View transcript</span>"""
         else:
             transcript_container = f"""{transcript_container}View Transcript"""
 
