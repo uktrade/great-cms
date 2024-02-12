@@ -6,9 +6,7 @@ import pytest
 import requests_mock
 from directory_forms_api_client import actions
 from django.conf import settings
-from django.core.cache import cache
 from django.http import QueryDict
-from django.test import override_settings
 from django.urls import reverse
 from requests.models import Response
 

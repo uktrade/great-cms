@@ -5,7 +5,6 @@ from urllib.parse import urlparse
 from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import FormSessionMixin, Sender
 from django.conf import settings
-from django.core.cache import cache
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
@@ -22,8 +21,8 @@ from contact import constants, forms as contact_forms, helpers, mixins as contac
 from core import mixins as core_mixins, snippet_slugs
 from core.cms_slugs import PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE
 from core.datastructures import NotifySettings
-from directory_constants import urls
 from directory_constants.choices import COUNTRY_CHOICES
+
 
 class PrepopulateInternationalFormMixin:
     # NB must be used with core_mixins.PrepopulateFormMixin

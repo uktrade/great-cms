@@ -11,7 +11,6 @@ from django.forms import (
     Select,
     Textarea,
     TextInput,
-    TypedChoiceField,
     ValidationError,
     widgets as django_widgets,
 )
@@ -817,6 +816,7 @@ class InternationalContactForm(
     )
     captcha = ReCaptchaField(label='', label_suffix='', widget=ReCaptchaV3())
     terms_agreed = forms.BooleanField(label=TERMS_LABEL)
+
 
 class FTASubscribeForm(GovNotifyEmailActionMixin, forms.Form):
     first_name = forms.CharField(

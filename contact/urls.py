@@ -1,5 +1,4 @@
 from django.conf import settings
-from django.contrib.auth.decorators import login_required
 from django.urls import path, reverse_lazy
 from great_components.decorators import skip_ga360
 
