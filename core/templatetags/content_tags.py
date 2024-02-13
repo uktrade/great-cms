@@ -540,5 +540,5 @@ def get_inline_feedback_visibility(page_url):
 def h3_if(condition, else_heading):
     if condition:
         return 'h3'
-    else:
-        return else_heading
+
+    return else_heading
