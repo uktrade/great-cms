@@ -16,7 +16,9 @@
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-three-quarters govuk-!-margin-top-9 govuk-!-margin-bottom-6">
             {% if event_video %}
-                <div class="govuk-!-margin-top-4 govuk-!-margin-bottom-6 great-media-container">{% render_video event_video %}</div>
+                <div class="govuk-!-margin-top-4 govuk-!-margin-bottom-6 great-media-container">
+                    {% render_video event_video event.name %}
+                </div>
             {% else %}
                 <div class="govuk-warning-text great-max-width-75 govuk-!-margin-top-4 govuk-!-padding-0">
                     <span class="great-warning-text__icon govuk-!-margin-top-1"
