@@ -1,4 +1,5 @@
 import datetime
+from collections import OrderedDict
 from datetime import timedelta
 from html import escape
 from unittest import mock
@@ -11,6 +12,7 @@ from django.http import HttpRequest
 from django.template import Context, Template
 from django.test import TestCase
 from django.urls import reverse
+from wagtail.rich_text import RichText
 
 from core.models import CuratedListPage, DetailPage, LessonPlaceholderPage, TopicPage
 from core.templatetags.content_tags import (
@@ -28,6 +30,7 @@ from core.templatetags.content_tags import (
     get_topic_title_for_lesson,
     h3_if,
     handle_external_links,
+    has_ol_list_htag_changed,
     highlighted_text,
     is_email,
     is_lesson_page,
@@ -1033,3 +1036,27 @@ def test_get_inline_feedback_visibility(input_url, expected_output):
 def test_h3_if(condition, else_heading, expected_output):
     result = h3_if(condition, else_heading)
     assert result == expected_output
+
+
+@pytest.mark.parametrize(
+    'input_list,expected',
+    (
+        (
+            [
+                OrderedDict([('title', RichText(source='<h2>two</h2>'))]),
+                OrderedDict([('title', RichText(source='<h3>three</h3>'))]),
+            ],
+            True,
+        ),
+        (
+            [
+                OrderedDict([('title', RichText(source='<h3>three</h3>'))]),
+                OrderedDict([('title', RichText(source='<h3>three</h3>'))]),
+            ],
+            False,
+        ),
+    ),
+)
+def test_has_ol_list_htag_changed(input_list, expected):
+    actual = has_ol_list_htag_changed(current_iteration=1, values=input_list)
+    assert expected == actual

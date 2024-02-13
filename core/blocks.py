@@ -18,7 +18,7 @@ from core.constants import (
     RICHTEXT_FEATURES__MINIMAL,
     RICHTEXT_FEATURES__REDUCED,
     RICHTEXT_FEATURES__WITH_LIST,
-    RICHTEXT_FEATURES_SUBHEADINGS,
+    RICHTEXT_FEATURES_H2_H3,
 )
 from core.utils import get_cs_ranking, get_personalised_choices
 
@@ -225,8 +225,18 @@ class StepByStepBlock(blocks.StructBlock):
         template = 'learn/step_by_step.html'
 
 
+def title_has_heading(value):
+    if value[:2] != '<h':
+        raise ValidationError('Title requires a heading tag.')
+    return value
+
+
 class StepListBlock(blocks.StructBlock):
-    title = blocks.RichTextBlock(max_length=255, features=RICHTEXT_FEATURES_SUBHEADINGS)
+    title = blocks.RichTextBlock(
+        max_length=255,
+        features=RICHTEXT_FEATURES_H2_H3,
+        validators=[title_has_heading],
+    )
     body = blocks.RichTextBlock()
 
 

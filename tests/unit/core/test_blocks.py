@@ -2,6 +2,7 @@ from datetime import datetime, timedelta, timezone
 from unittest import mock
 
 import pytest
+from django.core.exceptions import ValidationError
 from elasticsearch.exceptions import ConnectionError, NotFoundError
 from wagtail import blocks
 from wagtail.blocks.stream_block import StreamBlockValidationError
@@ -435,3 +436,18 @@ def test_video_chooser_block__render_basic():
     mock_value.file.url = 'mocked url attr'
 
     assert vcblock.render_basic(mock_value) == 'mocked url attr'
+
+
+@pytest.mark.parametrize('input', [('<p>nope</p>'), ('<b>nope</b>'), ('hello world')])
+def test_title_has_heading_invalid(input):
+    with pytest.raises(ValidationError) as e:
+        core_blocks.title_has_heading(value=input)
+
+    assert e.type == ValidationError
+    assert e.value.message == 'Title requires a heading tag.'
+
+
+@pytest.mark.parametrize('input', [('<h2>yes</h2>'), ('<h3>yes</h3>')])
+def test_title_has_heading_valid(input):
+    actual = core_blocks.title_has_heading(value=input)
+    assert input == actual
