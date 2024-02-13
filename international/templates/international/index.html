@@ -8,25 +8,27 @@
 {% endblock %}
 {% block content %}
     {% include './components/landing_hero.html' with hero_image=page.hero_image heading=page.hero_text subtitle=page.hero_subtitle %}
-    <section class="why-choose-uk-section">
-        <div class="govuk-width-container">
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-full">
-                    <h2 class="govuk-heading-l govuk-!-margin-top-9">{{ page.dep_title }}</h2>
-                    <p class="govuk-body">{{ page.dep_sub_title }}</p>
+    {% if page.dep_cards %}
+        <section class="why-choose-uk-section">
+            <div class="govuk-width-container">
+                <div class="govuk-grid-row govuk-!-padding-top-9">
+                    <div class="govuk-grid-column-full">
+                        <h2 class="govuk-heading-l">{{ page.dep_title }}</h2>
+                        <p class="govuk-body">{{ page.dep_sub_title }}</p>
+                    </div>
+                </div>
+                <div class="govuk-grid-row great-card-row govuk-!-padding-bottom-9">
+                    {% for cards in page.dep_cards %}
+                        {% for card in cards.value %}
+                            <div class="govuk-grid-column-one-half govuk-!-margin-bottom-6">
+                                {% include 'components/great/card.html' with title=card.value.link_text show_title_link=True url=card.value.link_url content=card.value.description image_src=card.value.link_url|get_international_icon_path is_svg_image=True classes="great-card--homepage international-card--cta" %}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
                 </div>
             </div>
-            <div class="govuk-grid-row great-card-row govuk-!-padding-bottom-9">
-                {% for cards in page.dep_cards %}
-                    {% for card in cards.value %}
-                        <div class="govuk-grid-column-one-half govuk-!-margin-bottom-6">
-                            {% include 'components/great/card.html' with title=card.value.link_text show_title_link=True url=card.value.link_url content=card.value.description image_src=card.value.link_url|get_international_icon_path is_svg_image=True classes="great-card--homepage international-card--cta" %}
-                        </div>
-                    {% endfor %}
-                {% endfor %}
-            </div>
-        </div>
-    </section>
+        </section>
+    {% endif %}
     <div class="govuk-width-container">
         <div class="govuk-grid-row govuk-!-margin-top-9 govuk-!-margin-bottom-3">
             <div class="govuk-grid-column-two-thirds">

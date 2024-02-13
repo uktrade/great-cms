@@ -4,58 +4,13 @@
 {% image page.hero_mobile_image original as mobile_image %}
 <style>
   .great-hero {
-    background: url({{ mobile_image.url }}), linear-gradient(270deg, #02022D 0%, #020130 100%);
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
-
-  .great-hero__text {
-    min-height: 335px;
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-    padding-bottom: 5px;
-    align-items: flex-start;
-
-        .great-hero-heading {
-            font-size: 32px;
-        }
-
-        .great-hero-subheading {
-            font-size: 18px;
-        }
-    }
-
-  .great-hero__text {
-    max-width: 50%;
+    background-image: url({{ mobile_image.url }});
   }
 
   @media (min-width: 641px) {
     .great-hero {
-      background: url({{ rendition.url }}), linear-gradient(270deg, #02022D 0%, #020130 100%);
-      padding-top: 0;
-      background-position: center top;
-      background-size: cover;
+      background-image: url({{ rendition.url }});
     }
-
-    .great-hero__text {
-        min-height: 560px;
-        max-width: 567px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: flex-start;
-
-        .great-hero-heading {
-            font-size: 60px;
-        }
-
-        .great-hero-subheading {
-            font-size: 24px;
-            margin-bottom: 0px;
-        }
-    }
-
   }
 </style>
 <section class="great-hero {% if not hero_image %}great-hero-no-image{% endif %}"
@@ -70,7 +25,7 @@
         </div>
     </div>
 </section>
-<section class="great-hero-cards">
+<section class="great-hero-cards govuk-!-padding-top-3">
     <div class="govuk-width-container">
         <div class="govuk-grid-row great-card-row govuk-!-padding-bottom-9">
             <div class="govuk-grid-column-one-third">
