@@ -5,6 +5,7 @@ from django.conf import settings
 from django.core.management import BaseCommand
 from wagtail.models import Page
 
+from core.helpers import send_campaign_site_review_reminder
 from core.models import Microsite
 
 logger = logging.getLogger(__name__)
@@ -40,15 +41,22 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         sites = Microsite.objects.filter(live=True)
-
+        now = datetime.now(timezone.utc)
         for site in sites:
             if self.review_required(site):
-                email_list = (site.owner.email if site.owner is not None else None, settings.MODERATION_EMAIL_DIST_LIST)
-                logger.info(f'Requesting review for Campaign Site id {site.id} from {email_list}')
-
-                # print(f'Requesting review for Campaign Site id {site.id} from {email_list}')
-
+                email_list = []
+                if site.owner:
+                    email_list.append(site.owner.email)
+                email_list.append(settings.MODERATION_EMAIL_DIST_LIST)
+                logger.info(f'Requesting review for Campaign Site {site.title} from {email_list}')
+                review_days = (now - site.first_published_at).days
+                send_campaign_site_review_reminder(
+                    email_list=email_list,
+                    site_name=site.title,
+                    review_months=review_days,
+                    review_link=f'{site.get_url()}/edit',
+                )
                 site.review_reminder_sent = datetime.now(timezone.utc)
                 site.save()
             else:
-                logger.info(f'Not requesting review for Campaign Site id {site.id}')
+                logger.info(f'Not requesting review for Campaign Site id {site.title}')
