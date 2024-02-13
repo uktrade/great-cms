@@ -552,3 +552,11 @@ def get_inline_feedback_visibility(page_url):
         result['show_page_useful'] = True
 
     return result
+
+
+@register.filter
+def h3_if(condition, else_heading):
+    if condition:
+        return 'h3'
+
+    return else_heading
