@@ -18,6 +18,7 @@ from core.constants import (
     RICHTEXT_FEATURES__MINIMAL,
     RICHTEXT_FEATURES__REDUCED,
     RICHTEXT_FEATURES__WITH_LIST,
+    RICHTEXT_FEATURES_SUBHEADINGS,
 )
 from core.utils import get_cs_ranking, get_personalised_choices
 
@@ -222,6 +223,11 @@ class StepByStepBlock(blocks.StructBlock):
 
     class Meta:
         template = 'learn/step_by_step.html'
+
+
+class StepListBlock(blocks.StructBlock):
+    title = blocks.RichTextBlock(max_length=255, features=RICHTEXT_FEATURES_SUBHEADINGS)
+    body = blocks.RichTextBlock()
 
 
 class ITAQuoteBlock(blocks.StructBlock):

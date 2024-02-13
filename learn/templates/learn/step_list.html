@@ -1,0 +1,32 @@
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+{% load add_govuk_classes from content_tags %}
+{% load content_tags %}
+<div class="step-list govuk-!-margin-left-4">
+    <ol class="govuk-list govuk-list--number">
+        {% for item in value.step_list %}
+            {% if 'h3' in item.title.source %}
+                {% has_ol_list_htag_changed forloop.counter0 value.step_list as has_changed %}
+                {% if has_changed %}
+                    <ol class="govuk-list govuk-list--number">
+                        <li class="step-list-h3">{{ item.title }}{{ item.body }}</li>
+                        {% if forloop.last %}
+                        </ol>
+                        {% comment %} close inner ol {% endcomment %}
+                    {% endif %}
+                {% else %}
+                    <li class="step-list-h3">{{ item.title }}{{ item.body }}</li>
+                {% endif %}
+            {% elif 'h2' in item.title.source %}
+                {% if not forloop.first %}
+                    {% has_ol_list_htag_changed forloop.counter0 value.step_list as has_changed %}
+                    {% if has_changed %}
+                    </ol>
+                    {% comment %} close inner ol {% endcomment %}
+                {% endif %}
+            {% endif %}
+            <li class="step-list-h2">{{ item.title }}{{ item.body }}</li>
+        {% endif %}
+    {% endfor %}
+</ol>
+</div>

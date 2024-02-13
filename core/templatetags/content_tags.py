@@ -534,3 +534,8 @@ def get_inline_feedback_visibility(page_url):
         result['show_page_useful'] = True
 
     return result
+
+
+@register.simple_tag
+def has_ol_list_htag_changed(current_iteration, values):
+    return values[current_iteration]['title'].source[:3] != values[current_iteration - 1]['title'].source[:3]

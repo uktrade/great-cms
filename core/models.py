@@ -808,6 +808,14 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
                 core_blocks.StepByStepBlock(icon='cog'),
             ),
             (
+                'step_list',
+                blocks.StructBlock(
+                    [('step_list', blocks.ListBlock(core_blocks.StepListBlock()))],
+                    template='learn/step_list.html',
+                    icon='cog',
+                ),
+            ),
+            (
                 'fictional_example',
                 blocks.StructBlock(
                     [('fiction_body', blocks.RichTextBlock(icon='openquote'))],
