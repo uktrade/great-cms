@@ -121,6 +121,20 @@ def test_render_video_tag__with_subtitles():
     )
 
 
+def test_render_video_tag__without_title_or_event():
+    video_mock = mock.Mock(
+        sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}],
+        title=None,
+        duration=120,
+        thumbnail=None,
+        subtitles=[],
+    )
+    block = dict(video=video_mock)
+    html = render_video(block)
+    assert '<span class="govuk-visually-hidden">View transcript for' not in html
+    assert '<span aria-hidden="true">View transcript</span>' not in html
+
+
 def test_empty_block_render_video_tag():
     block = dict()
     html = render_video(block)
