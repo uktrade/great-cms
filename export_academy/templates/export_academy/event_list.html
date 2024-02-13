@@ -5,6 +5,7 @@
 {% load breadcrumbs from component_tags %}
 {% load pagination from component_tags %}
 {% load append_past_year_seperator from component_tags %}
+{% load h3_if from content_tags %}
 {% block head_title %}Events – UK Export Academy{% endblock %}
 {% block content %}
     <div id="breadcrumbs" class="great-display-from-tablet">
@@ -82,8 +83,13 @@
                                 <h2 class="past-year-seperator govuk-!-padding-left-3 govuk-!-padding-bottom-30">{{ event.past_year_seperator }}</h2>
                             {% endif %}
                             <div class="govuk-!-padding-left-3 govuk-!-margin-bottom-2 govuk-!-padding-right-3">
+                                <{{ event.past_year_seperator|h3_if:'h2' }} class="govuk-heading-s govuk-!-margin-bottom-0">
                                 <a href="{{ event.get_absolute_url }}"
-                                   class="govuk-link govuk-heading-s great-title-link">{{ event.name }}<span class="great-visually-hidden">– {{ event.start_date|date:"d F" }} at {{ event.start_date|time:"gA" }}</span></a>
+                                   class="govuk-link govuk-heading-s great-title-link">
+                                    {{ event.name }}
+                                    <span class="great-visually-hidden">– {{ event.start_date|date:"d F" }} at {{ event.start_date|time:"gA" }}</span>
+                                </a>
+                                </{{ event.past_year_seperator|h3_if:'h2' }}>
                             </div>
                             <div class="govuk-!-padding-left-3 govuk-!-padding-right-3 great-display-until-tablet">
                                 {% include 'export_academy/includes/event_duration.html' %}

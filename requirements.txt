@@ -217,7 +217,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==22.6.0
+faker==23.1.0
     # via factory-boy
 filetype==1.2.0
     # via willow
@@ -277,7 +277,7 @@ monotonic==1.6
     # via
     #   directory-ch-client
     #   directory-client-core
-numpy==1.26.3
+numpy==1.26.4
     # via pandas
 oauthlib==3.2.2
     # via
@@ -437,7 +437,7 @@ typing-extensions==4.9.0
     #   pypdf
     #   qrcode
     #   wagtail-localize
-tzdata==2023.4
+tzdata==2024.1
     # via django-celery-beat
 tzlocal==5.2
     # via
@@ -504,7 +504,7 @@ willow[heif]==1.6.3
     # via
     #   wagtail
     #   willow
-xhtml2pdf==0.2.14
+xhtml2pdf==0.2.15
     # via -r requirements.in
 
 # The following packages are considered to be unsafe in a requirements file:

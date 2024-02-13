@@ -36,7 +36,7 @@
                 <div class="event-on-demand-video-container">
                     <div class="video-wrapper govuk-!-static-margin-bottom-4 govuk-!-static-margin-top-4 ">
                         {% if signed_in %}
-                            {% render_video event_video %}
+                            {% render_video event_video event.name %}
                         {% else %}
                             <img id="thumbnail"
                                  src="{% if video_thumbnail.url %}{{ video_thumbnail.url }}{% else %}{% static 'images/video-placeholder.png' %}{% endif %}"
