@@ -536,6 +536,14 @@ def get_inline_feedback_visibility(page_url):
     return result
 
 
+@register.filter
+def h3_if(condition, else_heading):
+    if condition:
+        return 'h3'
+
+    return else_heading
+
+
 @register.simple_tag
 def has_ol_list_htag_changed(current_iteration, values):
     return values[current_iteration]['title'].source[:3] != values[current_iteration - 1]['title'].source[:3]
