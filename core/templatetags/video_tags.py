@@ -16,7 +16,7 @@ def _get_poster_attribute(video):
 
 
 @register.simple_tag
-def render_video(block):
+def render_video(block, event_name=None):  # noqa: C901
     """Renders a video block (eg in a lesson hero or a case study).
 
     Includes a custom attribute on the video element so we can estimate
@@ -59,14 +59,22 @@ def render_video(block):
 
     transcript_container = ''
 
+    hidden_text = event_name if event_name else video.title
+
     if video_transcript:
-        transcript_container = f"""
-            <details class="govuk-details govuk-!-static-padding-top-4 govuk-!-static-margin-bottom-0"
+        transcript_container = """<details
+            class="govuk-details govuk-!-static-padding-top-4 govuk-!-static-margin-bottom-0"
             data-module="govuk-details">
                 <summary class="govuk-details__summary">
-                    <span class="govuk-details__summary-text">
-                        View transcript
-                    </span>
+                    <span class="govuk-details__summary-text">"""
+        if hidden_text:
+            transcript_container = f"""{transcript_container}<span class="govuk-visually-hidden">
+                View transcript for {hidden_text} recording</span>
+                <span aria-hidden="true">View transcript</span>"""
+        else:
+            transcript_container = f"""{transcript_container}View Transcript"""
+
+        transcript_container = f"""{transcript_container}</span>
                 </summary>
                 <div class="govuk-details__text govuk-body great-video-transcipt-text govuk-!-margin-0">
                     {linebreaksbr(video_transcript)}
