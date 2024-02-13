@@ -37,9 +37,6 @@ body {
     position: relative;
     padding-top: 0;
     padding-bottom: 0;
-    min-height: 200px;
-    background-position: 50%;
-    background-size: cover;
 
     & > .container {
         min-height: 200px;
@@ -48,12 +45,28 @@ body {
     }
 }
 
+.great-hero-cards {
+    background: linear-gradient(270deg, #02022D 0%, #020130 100%);
+}
+
 .great-hero-no-image {
     background-color: $eyb-dark-blue;
 }
 
 .why-choose-uk-section {
     background-color: #eef2f6;
+}
+
+.international-card--cta {
+    div {
+        font-family: 'Euclid Flex B';
+    }
+    .great-card__link {
+        font-family: 'Euclid Flex B';
+        color: #04043F;
+        text-underline-offset: 3px;
+        text-decoration-thickness: 3px;
+    }
 }
 
 .great-hero-title {

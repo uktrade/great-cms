@@ -4,11 +4,27 @@
 {% image page.hero_mobile_image original as mobile_image %}
 <style>
   .great-hero {
-    background-image: url({{ mobile_image.url }});
-    background-position: center top;
+    background: url({{ mobile_image.url }}), linear-gradient(270deg, #02022D 0%, #020130 100%);
+    background-repeat: no-repeat;
     background-size: cover;
-    padding-top: 64%;
   }
+
+  .great-hero__text {
+    min-height: 335px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    padding-bottom: 5px;
+    align-items: flex-start;
+
+        .great-hero-heading {
+            font-size: 32px;
+        }
+
+        .great-hero-subheading {
+            font-size: 18px;
+        }
+    }
 
   .great-hero__text {
     max-width: 50%;
@@ -16,8 +32,10 @@
 
   @media (min-width: 641px) {
     .great-hero {
-      background-image: url({{ rendition.url }});
+      background: url({{ rendition.url }}), linear-gradient(270deg, #02022D 0%, #020130 100%);
       padding-top: 0;
+      background-position: center top;
+      background-size: cover;
     }
 
     .great-hero__text {
@@ -27,7 +45,17 @@
         flex-direction: column;
         justify-content: center;
         align-items: flex-start;
+
+        .great-hero-heading {
+            font-size: 60px;
+        }
+
+        .great-hero-subheading {
+            font-size: 24px;
+            margin-bottom: 0px;
+        }
     }
+
   }
 </style>
 <section class="great-hero {% if not hero_image %}great-hero-no-image{% endif %}"
@@ -35,20 +63,24 @@
     <div class="govuk-width-container">
         <div class="great-hero__container govuk-grid-row">
             <div class="great-hero__text govuk-grid-column-one-half">
-                <h1 class="govuk-heading-xl great-hero-heading">{{ heading }}</h1>
+                <h1 class="govuk-heading-l great-hero-heading">{{ heading }}</h1>
                 <p class="govuk-body-m great-hero-subheading">{{ subtitle }}</p>
             </div>
             <div class="govuk-grid-column-one-half"></div>
         </div>
+    </div>
+</section>
+<section class="great-hero-cards">
+    <div class="govuk-width-container">
         <div class="govuk-grid-row great-card-row govuk-!-padding-bottom-9">
             <div class="govuk-grid-column-one-third">
-                {% include 'components/great/card.html' with content="We can guide you every step of the way, to set up and grow your business in the UK" title="How to expand your business" url="/international/expand-your-business-in-the-uk/" show_title_link=True heading_class="govuk-heading-xs" classes="great-card--cta" %}
+                {% include 'components/great/card.html' with content="We can guide you every step of the way, to set up and grow your business in the UK" title="How to expand your business" url="/international/expand-your-business-in-the-uk/" show_title_link=True heading_class="govuk-heading-m" classes="international-card--cta" %}
             </div>
             <div class="govuk-grid-column-one-third">
-                {% include 'components/great/card.html' with content="Explore a range of property development and infrastructure projects to suit your investment" title="Find investment opportunities" url="/international/investment/" show_title_link=True heading_class="govuk-heading-xs" classes="great-card--cta" %}
+                {% include 'components/great/card.html' with content="Explore a range of property development and infrastructure projects to suit your investment" title="Find investment opportunities" url="/international/investment/" show_title_link=True heading_class="govuk-heading-m" classes="international-card--cta" %}
             </div>
             <div class="govuk-grid-column-one-third">
-                {% include 'components/great/card.html' with content="Get introduced to UK businesses who can partner with your business to achieve success" title="Buy UK products and services" url="/international/content/trade/how-we-help-you-buy/" show_title_link=True heading_class="govuk-heading-xs" classes="great-card--cta" %}
+                {% include 'components/great/card.html' with content="Get introduced to UK businesses who can partner with your business to achieve success" title="Buy UK products and services" url="/international/content/trade/how-we-help-you-buy/" show_title_link=True heading_class="govuk-heading-m" classes="international-card--cta" %}
             </div>
         </div>
     </div>
