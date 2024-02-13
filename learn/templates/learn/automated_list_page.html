@@ -15,21 +15,21 @@
           content="Learn how to successfully export your products to new markets with our comprehensive lessons and case studies" />
 {% endblock %}
 {% block content %}
-    <div class="page-header learn-header great">
-        <div class="inner-header">
-            <div>
-                <h1>{{ page.title }}</h1>
-                <p>{{ page.description | richtext | add_govuk_classes }}</p>
-            </div>
-            <div class="image-container"></div>
-        </div>
-    </div>
-    <div class="great great-container govuk-!-margin-bottom-2">
+    <div class="great great-container">
         {% breadcrumbs great-breadcrumbs %}
         <a href={{ BREADCRUMBS_ROOT_URL }}>Home</a>
     {% endbreadcrumbs %}
 </div>
-<section id="learn-root" class="great great-container">
+<div class="page-header learn-header great">
+    <div class="inner-header">
+        <div>
+            <h1>{{ page.title }}</h1>
+            <p>{{ page.description | richtext | add_govuk_classes }}</p>
+        </div>
+        <div class="image-container"></div>
+    </div>
+</div>
+<section id="learn-root" class="great great-container govuk-!-margin-top-6">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-margin-bottom-6 flex-grid great-gap">
             {% for learning_module in page.get_children.specific.live %}

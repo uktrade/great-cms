@@ -26,7 +26,7 @@ def send_automated_events_notification():
             event_url=event.get_absolute_url(),
         )
         send_notifications_for_all_bookings(
-            event,
+            event.id,
             settings.EXPORT_ACADEMY_NOTIFY_EVENT_REMINDER_TEMPLATE_ID,
             additional_notify_data,
         )

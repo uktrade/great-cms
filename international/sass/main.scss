@@ -1,0 +1,34 @@
+ul {
+    list-style-type: none;
+    padding-inline-start: 0px;
+}
+
+@import 'tokens';
+@import 'typography';
+@import 'govuk-token-overrides';
+@import 'node_modules/govuk-frontend/govuk/all';
+@import 'govuk-class-overrides';
+@import 'core-class-overrides';
+@import 'header.scss';
+@import 'footer.scss';
+@import '../../styles/great/utils';
+
+body {
+    margin: 0;
+}
+
+.great-hero {
+    background-image: url('/static/images/international-background-image.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    border-radius: var(--spacing-spacing-0, 0px);
+    flex-direction: column;
+    gap: 20px;
+
+    align-self: stretch;
+
+    .great-hero__heading {
+        color: white;
+    }
+}

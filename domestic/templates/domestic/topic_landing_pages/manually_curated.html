@@ -3,15 +3,16 @@
     article-list-page
 {% endblock css_layout_class %}
 {% block content %}
-    {% block hero %}
-        {% include 'components/hero.html' with image=page.hero_image hero_title=page.title hero_text=page.teaser %}
-    {% endblock %}
     {% block breadcrumbs %}
         {% include 'components/breadcrumbs_cms.html' %}
     {% endblock %}
+    {% block hero %}
+        {% include 'components/hero.html' with image=page.hero_image hero_title=page.title hero_text=page.teaser %}
+    {% endblock %}
     {% block intro_section %}{% endblock %}
     {% block child_pages %}
-        <section id="{{ page.slug }}-list-section" class="topic-list-section">
+        <section id="{{ page.slug }}-list-section"
+                 class="topic-list-section govuk-!-margin-top-6">
             <div class="container">
                 <div class="flex-grid">
                     {% for panel in page.panels %}
