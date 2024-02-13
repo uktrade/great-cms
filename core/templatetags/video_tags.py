@@ -60,6 +60,17 @@ def render_video(block):
     transcript_container = ''
 
     if video_transcript:
+
+        min_length = 1000
+        end_position = video_transcript.find('.', min_length)
+
+        if end_position != -1:
+            initial_transcript = video_transcript[:end_position + 1]
+        else:
+            initial_transcript = video_transcript[:min_length]
+
+        show_full_transcript_details = len(initial_transcript) < len(video_transcript)
+
         transcript_container = f"""
             <details class="govuk-details govuk-!-static-padding-top-4 govuk-!-static-margin-bottom-0"
             data-module="govuk-details">
@@ -69,7 +80,8 @@ def render_video(block):
                     </span>
                 </summary>
                 <div class="govuk-details__text govuk-body great-video-transcipt-text govuk-!-margin-0">
-                    {linebreaksbr(video_transcript)}
+                    {linebreaksbr(initial_transcript)}
+                    {'<div class="govuk-!-margin-top-2"><a href="?fullTranscript=true">Read full transcript</a></div>' if show_full_transcript_details else ''}
                 </div>
             </details>
         """
@@ -83,6 +95,17 @@ def render_video(block):
                 Your browser does not support the video tag.
             </video>
             {transcript_container}
+        """
+    )
+
+    return rendered
+
+@register.simple_tag
+def get_video_transcript(block):
+    video_transcript = getattr(block['video'], 'transcript', '')
+    rendered = format_html(
+        f"""
+            {linebreaksbr(video_transcript)}
         """
     )
 
