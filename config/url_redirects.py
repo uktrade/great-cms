@@ -269,12 +269,6 @@ redirects = [
         ),
     ),
     re_path(
-        r'^export/selling-online-overseas/$',
-        QuerystringRedirectView.as_view(
-            url='/selling-online-overseas/',
-        ),
-    ),
-    re_path(
         r'^uk/privacy-policy/$',
         QuerystringRedirectView.as_view(url=PRIVACY_POLICY_URL),
     ),
@@ -438,15 +432,6 @@ contact_redirects = [
             url=reverse_lazy(
                 'contact:contact-us-routing-form',
                 kwargs={'step': 'great-account'},
-            )
-        ),
-    ),
-    re_path(
-        r'^legacy/contact/selling_online_overseas/$',
-        QuerystringRedirectView.as_view(
-            url=reverse_lazy(
-                'contact:contact-us-routing-form',
-                kwargs={'step': 'domestic'},
             )
         ),
     ),

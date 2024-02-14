@@ -34,9 +34,6 @@
                 <li {% if request.resolver_match.namespace == 'personal-profile' %}class="active"{% endif %}>
                     <a href="{% url 'sso_profile:personal-profile:display' %}">Personal details</a>
                 </li>
-                <li class="{{ soo_tab_classes }}">
-                    <a href="{% url 'sso_profile:selling-online-overseas' %}">Selling online overseas</a>
-                </li>
                 <li class="{{ about_tab_classes }}">
                     <a href="{% url 'sso_profile:about' %}">About</a>
                 </li>

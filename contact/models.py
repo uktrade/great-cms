@@ -137,10 +137,6 @@ class ContactSuccessSnippet(
             'title': 'Contact international form success page content',
             'page_path': '/contact/international/success/',
         },
-        snippet_slugs.HELP_FORM_SUCCESS_SOO: {
-            'title': 'Contact Selling Online Overseas form success page content',
-            'page_path': '/contact/selling-online-overseas/success/',
-        },
         snippet_slugs.HELP_FORM_SUCCESS_BEIS: {
             'title': 'Contact BEIS form success page content',
             'page_path': '/contact/department-for-business-energy-and-industrial-strategy/success/',
