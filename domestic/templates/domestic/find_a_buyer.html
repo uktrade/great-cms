@@ -44,20 +44,26 @@
                     <div class="govuk-grid-row">
                         <div class="govuk-grid-column-one-third-from-desktop">
                             <h2>{{ page.body_title }}</h2>
+                        </div>
+                        <div class="govuk-grid-column-two-thirds-from-desktop">
+                        </div>
+                    </div>
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-one-third-from-desktop">
                             <p>{{ page.body | richtext | add_govuk_classes }}</p>
                         </div>
                         <div class="govuk-grid-column-two-thirds-from-desktop">
                             {% image page.body_image original as body_rendition %}
-                            <div class="image-container image-full-width great-display-from-tablet ea-landing-image-container"
-                             style="background: url({{ body_rendition }})">
-                            </div>
+                                <img class="width-full"
+                                     src="{{ body_rendition.url }}"
+                                     alt="">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <section class="padding-vertical-60" id="article_related_content_footer">
+    <section>
         <div class="container">
             <div class="grid-row">
                 <div class="column-three-quarters">
