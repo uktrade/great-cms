@@ -53,10 +53,12 @@
                             <p>{{ page.body | richtext | add_govuk_classes }}</p>
                         </div>
                         <div class="govuk-grid-column-two-thirds-from-desktop">
+                            <div class="govuk-!-static-padding-top-6" >
                             {% image page.body_image original as body_rendition %}
                                 <img class="width-full"
                                      src="{{ body_rendition.url }}"
                                      alt="">
+                            </div>
                         </div>
                     </div>
                 </div>
