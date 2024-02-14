@@ -35,13 +35,13 @@ def test_send_campaign_site_review_reminder_with_first_published_at(
 
     assert mock_action_class.call_args_list == [
         mock.call(
-            email_address=user.email,
+            email_address=settings.MODERATION_EMAIL_DIST_LIST,
             template_id=settings.CAMPAIGN_SITE_REVIEW_REMINDER_TEMPLATE_ID,
             email_reply_to_id=settings.CAMPAIGN_MODERATION_REPLY_TO_ID,
             form_url=str(),
         ),
         mock.call(
-            email_address=settings.MODERATION_EMAIL_DIST_LIST,
+            email_address=user.email,
             template_id=settings.CAMPAIGN_SITE_REVIEW_REMINDER_TEMPLATE_ID,
             email_reply_to_id=settings.CAMPAIGN_MODERATION_REPLY_TO_ID,
             form_url=str(),
