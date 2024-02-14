@@ -79,6 +79,7 @@ build==1.0.3
 celery[redis]==5.2.7
     # via
     #   -r requirements.in
+    #   celery
     #   django-celery-beat
 certifi==2024.2.2
     # via
@@ -119,6 +120,7 @@ configargparse==1.7
     # via locust
 coverage[toml]==7.4.1
     # via
+    #   coverage
     #   pytest-codecov
     #   pytest-cov
 cron-descriptor==1.4.3
@@ -239,7 +241,9 @@ django-redis==5.4.0
 django-staff-sso-client==4.2.1
     # via -r requirements.in
 django-storages[boto3]==1.13.2
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   django-storages
 django-taggit==4.0.0
     # via wagtail
 django-timezone-field==6.1.0
@@ -328,7 +332,7 @@ freezegun==1.1.0
     # via -r requirements_test.in
 geoip2==2.9.0
     # via -r requirements.in
-gevent==23.9.1
+gevent==24.2.1
     # via
     #   geventhttpclient
     #   locust
@@ -848,7 +852,9 @@ wheel==0.42.0
 whitenoise==6.6.0
     # via -r requirements.in
 willow[heif]==1.6.3
-    # via wagtail
+    # via
+    #   wagtail
+    #   willow
 wsproto==1.2.0
     # via trio-websocket
 xhtml2pdf==0.2.15
