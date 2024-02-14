@@ -50,6 +50,7 @@ from .factories import (
     CountryGuidePageFactory,
     DomesticDashboardFactory,
     DomesticHomePageFactory,
+    FindABuyerHomePageFactory,
     GreatDomesticHomePageFactory,
     MarketsTopicLandingPageFactory,
     PerformanceDashboardPageFactory,
@@ -2050,3 +2051,10 @@ class TradeFinancePageTests(WagtailPageTests):
                 GreatDomesticHomePage,
             },
         )
+
+
+class FindABuyerHomePageTests(SetUpLocaleMixin, WagtailPageTests):
+
+    def test_can_create_find_a_buyer_homepage(self):
+        fab = FindABuyerHomePageFactory()
+        self.assertEqual(fab.title, 'Connect directly with international buyers')
