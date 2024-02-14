@@ -668,9 +668,9 @@ clam_av_client = ClamAvClient()
 
 def send_campaign_site_review_reminder(email_list, site_name, review_months, review_link):
     campaign_email = settings.MODERATION_EMAIL_DIST_LIST
-    for receipient in email_list:
+    for recipient in email_list:
         action = actions.GovNotifyEmailAction(
-            email_address=receipient,
+            email_address=recipient,
             template_id=settings.CAMPAIGN_SITE_REVIEW_REMINDER_TEMPLATE_ID,
             email_reply_to_id=settings.CAMPAIGN_MODERATION_REPLY_TO_ID,
             form_url=str(),

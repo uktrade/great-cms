@@ -44,10 +44,11 @@ class Command(BaseCommand):
         now = datetime.now(timezone.utc)
         for site in sites:
             if self.review_required(site):
-                email_list = []
+                email_list = [
+                    settings.MODERATION_EMAIL_DIST_LIST,
+                ]
                 if site.owner:
                     email_list.append(site.owner.email)
-                email_list.append(settings.MODERATION_EMAIL_DIST_LIST)
                 logger.info(f'Requesting review for Campaign Site {site.title} from {email_list}')
                 review_days = (now - site.first_published_at).days
                 send_campaign_site_review_reminder(
