@@ -4,6 +4,7 @@ from django.test import RequestFactory
 from wagtail.test.utils import WagtailPageTests
 
 from domestic.models import StructuralPage
+from international.models import GreatInternationalHomePage
 from international_online_offer.models import (
     EYBArticlePage,
     EYBArticlesPage,
@@ -24,6 +25,7 @@ class EYBIndexPageTests(WagtailPageTests):
             EYBIndexPage,
             {
                 StructuralPage,
+                GreatInternationalHomePage,
             },
         )
 
