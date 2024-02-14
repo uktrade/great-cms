@@ -22,6 +22,7 @@ from core.templatetags.content_tags import (
     get_category_title_for_lesson,
     get_icon_path,
     get_inline_feedback_visibility,
+    get_international_icon_path,
     get_lesson_progress_for_topic,
     get_link_blocks,
     get_template_translation_enabled,
@@ -951,6 +952,18 @@ def test_get_icon_path(input, expected_output):
 )
 def test_get_icon_path_with_slash(input, expected_output):
     result = get_icon_path(input)
+    assert result == expected_output
+
+
+@pytest.mark.parametrize(
+    'input, expected_output',
+    (
+        ('/support/uk-investment-zones/', 'international/includes/svg/Icon-investment-zones.svg'),
+        ('', ''),
+    ),
+)
+def test_get_international_icon_path(input, expected_output):
+    result = get_international_icon_path(input)
     assert result == expected_output
 
 
