@@ -8,8 +8,6 @@ from directory_forms_api_client import actions
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
@@ -21,7 +19,6 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.snippets.models import register_snippet
 
 from config import settings
-from config.celery import app
 from core.blocks import ButtonBlock, SingleRichTextBlock, TopicPageCardBlockRichText
 from core.constants import (
     RICHTEXT_FEATURES__REDUCED,
@@ -116,6 +113,7 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
     )
 
     completed = models.DateTimeField(null=True, blank=True)
+    completed_date = models.DateTimeField(null=True, blank=True)
     live = models.DateTimeField(null=True, blank=True)
     closed = models.BooleanField(default=False)
     slug = models.SlugField(null=True, unique=True, max_length=255)
@@ -175,11 +173,10 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
                     self.slug = slug
                     break
 
-        # A flag for the post save signal, will send an 'event complete' email if True
-        self.changed_to_completed = False
+        # If event marked as completed, mark with a timestamp
         if not self._state.adding:
             if self._loaded_values['completed'] is None and self.completed:
-                self.changed_to_completed = True
+                self.completed_date = timezone.now()
 
         return super().save(**kwargs)
 
@@ -653,27 +650,3 @@ def send_notifications_for_all_bookings(event_id, template_id, additional_notify
 
         except Exception as e:
             sentry_sdk.capture_message(f'Sending booking notification email failed for {booking.registration.id}: {e}')
-
-
-@app.task
-def send_notifications_for_all_bookings_async(*args, **kwargs):
-    send_notifications_for_all_bookings(*args, **kwargs)
-
-
-@receiver(post_save, sender=Event)
-def send_event_complete_email(sender, instance, created, **kwargs):
-    """
-    Post save receiver for the Event class. On save, checks if an existing event has been changed to 'completed'. If so,
-    sends an email to all users who have booked the event, notifying them that the event is complete and post course
-    materials are available.
-
-    sender: the Event class
-    instance: the individual instance of the Event class
-    created: boolean: True if new event being created. False if existing event being updated.
-    """
-
-    # Send notification when event is updated and marked as complete
-    if instance.changed_to_completed:
-        send_notifications_for_all_bookings_async.delay(
-            instance.id, settings.EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID
-        )

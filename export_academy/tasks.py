@@ -33,6 +33,24 @@ def send_automated_events_notification():
 
 
 @app.task
+def send_automated_event_complete_notification():
+    """
+    This scheduled celery task looks for any Events that have been marked as complete in the last X minutes. For
+    any events found, it sends an automated email to all subscribers of that event to let them know that post
+    course material is now available online.
+    """
+
+    # Time delay for completed event - MUST be in sync with schedule celery task. Default is 15m
+    time_delay = timezone.now() - timedelta(
+        minutes=settings.EXPORT_ACADEMY_AUTOMATED_EVENT_COMPLETE_NOTIFICATION_TIME_DELAY_MINUTES
+    )
+    events = Event.objects.filter(completed=True, completed_date__isnull=False, completed_date_gte=time_delay)
+
+    for event in events:
+        send_notifications_for_all_bookings(event.id, settings.EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID)
+
+
+@app.task
 def remove_past_events_media():
     time_delay = settings.EXPORT_ACADEMY_REMOVE_EVENT_MEDIA_AFTER_DAYS
     events = Event.objects.filter(
