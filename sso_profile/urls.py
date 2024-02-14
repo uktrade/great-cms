@@ -8,7 +8,6 @@ import sso_profile.common.views
 import sso_profile.enrolment.views
 import sso_profile.exops.views
 import sso_profile.personal_profile.views
-import sso_profile.soo.views
 from directory_constants import urls
 
 app_name = 'sso_profile'
@@ -98,14 +97,6 @@ urlpatterns = [
     path(
         'api/',
         include((api_urls, 'api'), namespace='api'),
-    ),
-    path(
-        'selling-online-overseas/',
-        login_required(
-            sso_profile.soo.views.SellingOnlineOverseasView.as_view(),
-            login_url=SIGNUP_URL,
-        ),
-        name='selling-online-overseas',
     ),
     path(
         'export-opportunities/applications/',

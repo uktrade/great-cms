@@ -1378,11 +1378,6 @@ class PerformanceDashboardPage(
             'landing_dashboard': True,
         },
         # the following pages MUST be created as children of the one above
-        service_urls.SERVICES_SOO: {
-            'slug_as_child': 'selling-online-overseas',
-            'heading': 'Selling Online Overseas',
-            'landing_dashboard': False,
-        },
         service_urls.SERVICES_EXOPPS: {
             'slug_as_child': 'export-opportunities',
             'heading': 'Export Opportunities',
