@@ -1604,8 +1604,6 @@ class Microsite(Page):
 
     subpage_types = ['core.MicrositePage']
 
-    review_reminder_sent = models.DateTimeField(blank=True, null=True)
-
     class Meta:
         verbose_name = 'Campaign site'
         verbose_name_plural = 'Campaign sites'
@@ -1834,6 +1832,8 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
     twitter = models.URLField(blank=True, verbose_name=_('Twitter'))
     facebook = models.URLField(blank=True, verbose_name=_('Facebook'))
     linkedin = models.URLField(blank=True, verbose_name=_('LinkedIn'))
+
+    review_reminder_sent = models.DateTimeField(blank=True, null=True)
 
     def get_parent_page(self):
         current_page = self.specific
