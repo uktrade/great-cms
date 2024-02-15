@@ -24,6 +24,7 @@ def test_send_campaign_site_review_reminder_with_first_published_at(
     MicrositeFactory.create(
         title='Microsite',
         first_published_at=first_published_at,
+        url_path='/186/edit',
         owner=user,
         parent=domestic_homepage,
     )
@@ -62,6 +63,7 @@ def test_send_campaign_site_review_reminder_with_review_reminder_sent(
     MicrositeFactory.create(
         title='Microsite',
         first_published_at=first_published_at,
+        url_path='/168/edit',
         review_reminder_sent=review_reminder_sent,
         owner=user,
         parent=domestic_homepage,

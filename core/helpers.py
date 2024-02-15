@@ -666,7 +666,7 @@ class ClamAvClient:
 clam_av_client = ClamAvClient()
 
 
-def send_campaign_site_review_reminder(email_list, site_name, review_months, review_link):
+def send_campaign_site_review_reminder(email_list, site_name, review_days, review_link):
     campaign_email = settings.MODERATION_EMAIL_DIST_LIST
     for recipient in email_list:
         action = actions.GovNotifyEmailAction(
@@ -678,7 +678,7 @@ def send_campaign_site_review_reminder(email_list, site_name, review_months, rev
         data = {
             'campaign_email': campaign_email,
             'site_name': site_name,
-            'review_months': review_months,
+            'review_days': review_days,
             'review_link': review_link,
         }
         response = action.save(data)

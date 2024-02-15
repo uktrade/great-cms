@@ -24,38 +24,31 @@ class Command(BaseCommand):
     def review_required(self, site: Page):
         """Mark a page as needing reviewed every x months post first publish"""
         now = datetime.now(timezone.utc)
-        return (
-            True
-            if (
-                (
-                    site.review_reminder_sent is None
-                    and ((now - site.first_published_at).days >= self.days_between_review)
-                )
-                or (
-                    site.review_reminder_sent is not None
-                    and (now - site.review_reminder_sent).days >= self.days_between_review
-                )
-            )
-            else False
-        )
+        if site.review_reminder_sent is None and ((now - site.first_published_at).days >= self.days_between_review):
+            return True, (now - site.first_published_at).days
+        elif (
+            site.review_reminder_sent is not None and (now - site.review_reminder_sent).days >= self.days_between_review
+        ):
+            return True, (now - site.review_reminder_sent).days
+        else:
+            return False, 0
 
     def handle(self, *args, **options):
         sites = Microsite.objects.filter(live=True)
-        now = datetime.now(timezone.utc)
         for site in sites:
-            if self.review_required(site):
+            review_needed, review_days = self.review_required(site)
+            if review_needed:
                 email_list = [
                     settings.MODERATION_EMAIL_DIST_LIST,
                 ]
                 if site.owner:
                     email_list.append(site.owner.email)
                 logger.info(f'Requesting review for Campaign Site {site.title} from {email_list}')
-                review_days = (now - site.first_published_at).days
                 send_campaign_site_review_reminder(
                     email_list=email_list,
                     site_name=site.title,
-                    review_months=review_days,
-                    review_link=f'{site.get_url()}/edit',
+                    review_days=review_days,
+                    review_link=f'{settings.WAGTAILADMIN_BASE_URL}/admin/pages/{site.id}/edit/',
                 )
                 site.review_reminder_sent = datetime.now(timezone.utc)
                 site.save()
