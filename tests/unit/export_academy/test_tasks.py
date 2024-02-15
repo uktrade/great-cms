@@ -118,7 +118,7 @@ def test_notify_event_complete_cancelled_email_not_sent(mock_complete_action, us
         event=event, registration=registration, status='Joined', event_completed_email_sent=False
     )
 
-    # Run task - we are looking for a single email being sent
+    # Run task - we are looking for two emails being sent
     assert mock_complete_action.call_count == 1
     send_automated_event_complete_notification()
     assert mock_complete_action.call_count == 3
@@ -152,7 +152,7 @@ def test_notify_event_previously_complete_email_not_sent(mock_complete_action, u
         event=event, registration=registration, status='Confirmed', event_completed_email_sent=False
     )
 
-    # Run task - we are looking for a single email being sent
+    # Run task - we are looking for no emails being sent
     assert mock_complete_action.call_count == 1
     send_automated_event_complete_notification()
     assert mock_complete_action.call_count == 1
