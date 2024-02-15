@@ -66,9 +66,9 @@ def test_notify_event_complete_email_sent(mock_complete_action, user):
     factories.BookingFactory(event=event, registration=registration, status='Confirmed')
 
     # Run task - we are looking for a single email being sent
-    assert mock_complete_action.call_count == 0
-    send_automated_event_complete_notification()
     assert mock_complete_action.call_count == 1
+    send_automated_event_complete_notification()
+    assert mock_complete_action.call_count == 2
 
 
 @mock.patch('directory_forms_api_client.actions.GovNotifyEmailAction')
@@ -90,9 +90,9 @@ def test_notify_event_complete_expired_email_not_sent(mock_complete_action, user
     factories.BookingFactory(event=event, registration=registration, status='Confirmed')
 
     # Run task - we are looking for a single email being sent
-    assert mock_complete_action.call_count == 0
+    assert mock_complete_action.call_count == 1
     send_automated_event_complete_notification()
-    assert mock_complete_action.call_count == 0
+    assert mock_complete_action.call_count == 1
 
 
 @mock.patch('directory_forms_api_client.actions.GovNotifyEmailAction')
@@ -114,9 +114,9 @@ def test_notify_event_not_complete_email_not_sent(mock_complete_action, user):
     factories.BookingFactory(event=event, registration=registration, status='Confirmed')
 
     # Run task - we are looking for a single email being sent
-    assert mock_complete_action.call_count == 0
+    assert mock_complete_action.call_count == 1
     send_automated_event_complete_notification()
-    assert mock_complete_action.call_count == 0
+    assert mock_complete_action.call_count == 1
 
 
 @pytest.mark.django_db
