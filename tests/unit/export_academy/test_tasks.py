@@ -9,6 +9,7 @@ from config import settings
 from export_academy.models import Event
 from export_academy.tasks import (
     remove_past_events_media,
+    send_automated_event_complete_notification,
     send_automated_events_notification,
 )
 from tests.helpers import create_response
@@ -44,6 +45,30 @@ def test_notify_registration(mock_notify_action, user):
             'event_url': expected_event_url,
         }
     )
+
+
+@mock.patch('directory_forms_api_client.actions.GovNotifyEmailAction')
+@pytest.mark.django_db
+def test_notify_event_complete_email_sent(mock_complete_action, user):
+    """
+    We want to create and event that has marked as completed with the last 15 minutes, and ensure an email notification
+    is sent.
+    """
+
+    mock_complete_action().save.return_value = create_response(status_code=201)
+
+    # Create event with one booking
+    event = factories.EventFactory(
+        name='Event name',
+        completed=timezone.now(),
+    )
+    registration = factories.RegistrationFactory(email=user.email, first_name=user.first_name)
+    factories.BookingFactory(event=event, registration=registration, status='Confirmed')
+
+    # Run task - we are looking for a single email being sent
+    assert mock_complete_action.call_count == 0
+    send_automated_event_complete_notification()
+    assert mock_complete_action.call_count == 1
 
 
 @pytest.mark.django_db
