@@ -160,7 +160,4 @@
         });
         </script>
     {% endif %}
-    {% if features.FEATURE_FEEDBACK_BUTTON_EXPERIMENT and "search/feedback" not in request.path %}
-        <script src="{% static 'javascript/feedbackButton.js'%}"></script>
-    {% endif %}
 {% endblock %}
