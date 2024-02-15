@@ -657,7 +657,17 @@ def send_notifications_for_all_bookings(event_id, template_id, additional_notify
         except Exception as e:
             sentry_sdk.capture_message(f'Sending booking notification email failed for {booking.registration.id}: {e}')
 
-    sentry_sdk.capture_message(
-        f'Events email notification report for Event {event_id}. {total_bookings} total, {total_sent_emails} emails'
-        f' sent'
-    )
+        send_notifications_for_all_bookings_report_to_sentry(event_id, total_bookings, total_sent_emails)
+
+
+def send_notifications_for_all_bookings_report_to_sentry(event_id, total_bookings, total_sent_emails):
+    """
+    Helper function that sends a log to sentry at INFO level, logging how many emails have successfully been sent
+    from a send_notifications_for_all_bookings() call.
+    """
+
+    if total_bookings > 0:
+        sentry_sdk.capture_message(
+            f'Events email notification report for Event {event_id}. {total_bookings} total, {total_sent_emails} emails'
+            f' sent'
+        )
