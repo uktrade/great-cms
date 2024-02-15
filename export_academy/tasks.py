@@ -44,7 +44,7 @@ def send_automated_event_complete_notification():
     time_delay = timezone.now() - timedelta(
         minutes=settings.EXPORT_ACADEMY_AUTOMATED_EVENT_COMPLETE_NOTIFICATION_TIME_DELAY_MINUTES
     )
-    events = Event.objects.filter(completed=True, completed_date__isnull=False, completed_date_gte=time_delay)
+    events = Event.objects.filter(completed__isnull=False, completed__gte=time_delay)
 
     for event in events:
         send_notifications_for_all_bookings(event.id, settings.EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID)

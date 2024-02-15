@@ -113,7 +113,6 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
     )
 
     completed = models.DateTimeField(null=True, blank=True)
-    completed_date = models.DateTimeField(null=True, blank=True)
     live = models.DateTimeField(null=True, blank=True)
     closed = models.BooleanField(default=False)
     slug = models.SlugField(null=True, unique=True, max_length=255)
@@ -172,11 +171,6 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
                 else:
                     self.slug = slug
                     break
-
-        # If event marked as completed, mark with a timestamp
-        if not self._state.adding:
-            if self._loaded_values['completed'] is None and self.completed:
-                self.completed_date = timezone.now()
 
         return super().save(**kwargs)
 
