@@ -114,14 +114,15 @@
     .great-navigation-list {
         float: right;
 
-        .govuk-header__navigation-item:last-child {
-            margin-right: 0;
-            border-bottom: 0;
-        }
 
         .govuk-header__navigation-item:first-child {
             margin-right: 15px;
             border-bottom: 5px;
+        }
+
+        .govuk-header__navigation-item:last-child {
+            margin-right: 0;
+            border-bottom: 0;
         }
     }
 }

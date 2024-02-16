@@ -1124,6 +1124,23 @@ class ArticlePage(
                 core_blocks.DataTableBlock(),
             ),
             ('content_module', SnippetChooserBlock(ContentModule, template='domestic/blocks/article_snippet.html')),
+            (
+                'column',
+                blocks.StructBlock(
+                    [
+                        (
+                            'column_1',
+                            blocks.RichTextBlock(),
+                        ),
+                        (
+                            'column_2',
+                            blocks.RichTextBlock(required=False),
+                        ),
+                    ],
+                    template='domestic/blocks/column.html',
+                    icon='arrow-right',
+                ),
+            ),
         ],
         use_json_field=True,
         null=True,
@@ -1380,11 +1397,6 @@ class PerformanceDashboardPage(
             'landing_dashboard': True,
         },
         # the following pages MUST be created as children of the one above
-        service_urls.SERVICES_SOO: {
-            'slug_as_child': 'selling-online-overseas',
-            'heading': 'Selling Online Overseas',
-            'landing_dashboard': False,
-        },
         service_urls.SERVICES_EXOPPS: {
             'slug_as_child': 'export-opportunities',
             'heading': 'Export Opportunities',
