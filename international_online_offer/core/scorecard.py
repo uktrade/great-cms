@@ -37,6 +37,15 @@ def is_capex_spend(sector, spend, spend_other=0):
         {directory_constants_sectors.CONSUMER_AND_RETAIL: 848513},
         {sectors.PHARMACEUTICALS_AND_BIOTECHNOLOGY: 2099999},
         {directory_constants_sectors.ENERGY: 499999},
+        {sectors.ADVANCED_ENGINEERING: 848512},
+        {directory_constants_sectors.AEROSPACE: 1399999},
+        {directory_constants_sectors.AUTOMOTIVE: 1001999},
+        {directory_constants_sectors.CHEMICALS: 1239999},
+        {sectors.MARITIME: 848512},
+        {directory_constants_sectors.MINING: 5219999},
+        {directory_constants_sectors.RAILWAYS: 1499999},
+        {sectors.SPACE: 1479999},
+        {directory_constants_sectors.WATER: 5219999},
     ]
     if spend == spends.SPECIFIC_AMOUNT:
         spend_upper_value = spend_other
@@ -63,6 +72,14 @@ def is_labour_workforce_hire(sector, hiring):
         {sectors.CREATIVE_INDUSTRIES: 9},
         {sectors.HEALHCARE_SERVICES: 10},
         {sectors.MEDICAL_DEVICES_AND_EQUIPMENT: 10},
+        {sectors.AGRICULTURE_HORTICULTURE_FISHERIES_AND_PETS: 5},
+        {directory_constants_sectors.CONSTRUCTION: 10},
+        {sectors.DEFENCE: 17},
+        {sectors.SECURITY: 17},
+        {directory_constants_sectors.EDUCATION_AND_TRAINING: 7},
+        {sectors.AGRICULTURE_HORTICULTURE_FISHERIES_AND_PETS: 5},
+        {sectors.MARITIME: 13},
+        {sectors.SPACE: 13},
     ]
 
     if hiring == hirings.NO_PLANS_TO_HIRE_YET:
