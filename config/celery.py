@@ -23,6 +23,10 @@ app.conf.beat_schedule = {
         'task': 'export_academy.tasks.send_automated_events_notification',
         'schedule': crontab(minute='*/30', hour='0'),
     },
+    'send_event_complete_email_every_15_mins': {
+        'task': 'export_academy.tasks.send_automated_event_complete_notification',
+        'schedule': crontab(minute='*/15'),
+    },
     'update_geoip_data_once_a_month_on_the_first': {
         'task': 'core.tasks.update_geoip_data',
         'schedule': crontab(

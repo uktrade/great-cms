@@ -1,8 +1,6 @@
 from datetime import datetime
-from unittest import mock
 
 import pytest
-from directory_forms_api_client import actions
 from django.core.exceptions import ValidationError
 
 from export_academy.models import Booking, VideoOnDemandPageTracking
@@ -32,24 +30,6 @@ def test_registration_model_to_string():
 def test_booking_is_cancelled_property(status, is_cancelled):
     booking = BookingFactory(status=status)
     assert booking.is_cancelled == is_cancelled
-
-
-@mock.patch.object(actions, 'GovNotifyEmailAction')
-@pytest.mark.django_db
-def test_event_model_save_notification(mock_notify_cancellation, client, user):
-    event = EventFactory()
-    # make sure notify is not called on save
-    assert mock_notify_cancellation.call_count == 0
-    registration = RegistrationFactory(email=user.email)
-    BookingFactory(event=event, registration=registration, status='Confirmed')
-
-    # set the default value
-    event._loaded_values = dict(completed=None)
-    # Update completed
-    event.completed = datetime.now()
-    event.save()
-    # Now that event is completed, notify should be called
-    assert mock_notify_cancellation.call_count == 1
 
 
 @pytest.mark.django_db
