@@ -1,11 +1,14 @@
 .international-header {
     background: #eb0000;
-    border-bottom: 10px solid #eb0000;
-
+    display: block;
+    margin: auto;
+    border-bottom: 0px;
 
     .govuk-header__container {
         border-bottom: 0px;
         margin-top: 0px;
+        padding-top: 11.5px;
+        margin-bottom: 0px;
     }
 
     .govuk-header__service-name {
@@ -68,6 +71,15 @@
 .international-sub-header {
     background: #04043F;
     min-height: 50px;
+    margin: auto;
+
+    @media (min-width: 48.0625em) {
+        .govuk-header__content {
+            width: 100%;
+            padding-left: 0px;
+            float: right;
+        }
+    }
 
     .govuk-header__container {
         border-bottom: 0px;
@@ -81,10 +93,6 @@
 
     .govuk-header__link:hover {
         text-decoration-thickness: 1px;
-    }
-
-    .international-sub-navigation-logo {
-        height: 30px;
     }
 
     .govuk-header__navigation-item {
@@ -114,14 +122,15 @@
     .great-navigation-list {
         float: right;
 
-        .govuk-header__navigation-item:last-child {
-            margin-right: 0;
-            border-bottom: 0;
-        }
 
         .govuk-header__navigation-item:first-child {
             margin-right: 15px;
             border-bottom: 5px;
+        }
+
+        .govuk-header__navigation-item:last-child {
+            margin-right: 0;
+            border-bottom: 0;
         }
     }
 }
