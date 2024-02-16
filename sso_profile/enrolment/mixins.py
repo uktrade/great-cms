@@ -281,6 +281,7 @@ class CreateBusinessProfileMixin:
             self.create_company_profile(data)
         except ValidationError as ve:
             messages.error(str(ve))
+            return redirect('sso_profile:enrolment-start')
         else:
             if self.request.session.get(constants.SESSION_KEY_BUSINESS_PROFILE_INTENT):
                 messages.success(self.request, 'Account created')
