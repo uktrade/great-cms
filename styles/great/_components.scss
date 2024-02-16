@@ -189,6 +189,7 @@ figure.great-blockquote {
     display: block;
     text-decoration: none;
     position: relative;
+    box-sizing: border-box;
 
     .great-card__link--underline {
       text-decoration: underline;
