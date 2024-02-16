@@ -2,6 +2,7 @@ import abc
 from urllib.parse import unquote
 
 from django.contrib import messages
+from django.core.exceptions import ValidationError
 from django.http import QueryDict
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
@@ -276,16 +277,22 @@ class CreateBusinessProfileMixin:
 
     def done(self, form_list, *args, **kwargs):
         data = self.serialize_form_list(form_list)
-        self.create_company_profile(data)
-        if self.request.session.get(constants.SESSION_KEY_BUSINESS_PROFILE_INTENT):
-            messages.success(self.request, 'Account created')
-            del self.request.session[constants.SESSION_KEY_BUSINESS_PROFILE_INTENT]
-            return redirect('sso_profile:business-profile')
-        elif self.request.session.get(constants.SESSION_KEY_EXPORT_OPPORTUNITY_INTENT):
-            del self.request.session[constants.SESSION_KEY_EXPORT_OPPORTUNITY_INTENT]
-            return redirect(self.form_session.ingress_url)
+        try:
+            self.create_company_profile(data)
+        except ValidationError as ve:
+            messages.error(str(ve))
         else:
-            return TemplateResponse(self.request, self.templates[constants.FINISHED], self.get_finished_context_data())
+            if self.request.session.get(constants.SESSION_KEY_BUSINESS_PROFILE_INTENT):
+                messages.success(self.request, 'Account created')
+                del self.request.session[constants.SESSION_KEY_BUSINESS_PROFILE_INTENT]
+                return redirect('sso_profile:business-profile')
+            elif self.request.session.get(constants.SESSION_KEY_EXPORT_OPPORTUNITY_INTENT):
+                del self.request.session[constants.SESSION_KEY_EXPORT_OPPORTUNITY_INTENT]
+                return redirect(self.form_session.ingress_url)
+            else:
+                return TemplateResponse(
+                    self.request, self.templates[constants.FINISHED], self.get_finished_context_data()
+                )
 
 
 class ReadUserIntentMixin:
