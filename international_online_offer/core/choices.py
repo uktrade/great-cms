@@ -1,47 +1,9 @@
-from directory_constants import sectors as directory_constants_sectors
 from international_online_offer.core import (
     hirings,
     intents,
     landing_timeframes,
     regions,
-    sectors,
     spends,
-)
-
-# Mix of existing sectors in directory constants but also new ones passed on for this apps needs
-SECTOR_CHOICES = (
-    (sectors.ADVANCED_ENGINEERING, 'Advanced engineering'),
-    (directory_constants_sectors.AEROSPACE, 'Aerospace'),
-    (
-        directory_constants_sectors.AGRICULTURE_HORTICULTURE_AND_FISHERIES,
-        'Agriculture, Horticulture, Fisheries and pets',
-    ),
-    (directory_constants_sectors.AIRPORTS, 'Airports'),
-    (directory_constants_sectors.AUTOMOTIVE, 'Automotive'),
-    (sectors.PHARMACEUTICALS_AND_BIOTECHNOLOGY, 'Pharmaceuticals and biotechnology'),
-    (directory_constants_sectors.BUSINESS_AND_CONSUMER_SERVICES, 'Business and consumer services'),
-    (directory_constants_sectors.CHEMICALS, 'Chemicals'),
-    (directory_constants_sectors.CONSTRUCTION, 'Construction'),
-    (directory_constants_sectors.CONSUMER_AND_RETAIL, 'Consumer and retail'),
-    (sectors.CREATIVE_INDUSTRIES, 'Creative industries'),
-    (sectors.DEFENCE_AND_SECURITY, 'Defence and Security'),
-    (directory_constants_sectors.EDUCATION_AND_TRAINING, 'Education and Training'),
-    (directory_constants_sectors.ENERGY, 'Energy'),
-    (directory_constants_sectors.ENVIRONMENT, 'Environment'),
-    (directory_constants_sectors.FINANCIAL_AND_PROFESSIONAL_SERVICES, 'Financial and Professional Services'),
-    (directory_constants_sectors.FOOD_AND_DRINK, 'Food and Drink'),
-    (directory_constants_sectors.HEALTHCARE_AND_MEDICAL, 'Healthcare and Medical'),
-    (sectors.INFRASTRUCTURE_AIR_AND_SEA, 'Infrastructure Air and Sea'),
-    (sectors.LEISURE, 'Leisure'),
-    (sectors.LOGISTICS, 'Logistics'),
-    (sectors.MANUFACTURING, 'Manufacturing'),
-    (sectors.MARITIME_SERVICES, 'Maritime Services'),
-    (sectors.MEDICAL_DEVICES_AND_EQUIPMENT, 'Medical devices and equipment'),
-    (directory_constants_sectors.MINING, 'Mining'),
-    (directory_constants_sectors.OIL_AND_GAS, 'Oil and Gas'),
-    (sectors.RAIL, 'Rail'),
-    (sectors.SPORTS_EVENTS, 'Sports Events'),
-    (sectors.TECHNOLOGY_AND_SMART_CITIES, 'Technology and Smart Cities'),
 )
 
 INTENT_CHOICES = (
