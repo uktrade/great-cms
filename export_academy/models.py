@@ -6,7 +6,6 @@ from datetime import timedelta
 import sentry_sdk
 from directory_forms_api_client import actions
 from django.core.exceptions import ValidationError
-from django.core.validators import validate_email
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
@@ -630,8 +629,6 @@ def send_notifications_for_all_bookings(event_id, template_id, additional_notify
 
     for booking in bookings:
         try:
-            # Validate email (malformed emails will cause a failure on the Government notification service)
-            validate_email(booking.registration.email)
 
             # Get email data
             notify_data = dict(first_name=booking.registration.first_name, event_name=booking.event.name)
@@ -655,7 +652,9 @@ def send_notifications_for_all_bookings(event_id, template_id, additional_notify
                 booking.save()
 
         except Exception as e:
-            sentry_sdk.capture_message(f'Sending booking notification email failed for {booking.registration.id}: {e}')
+            sentry_sdk.capture_message(
+                f'Sending booking notification email failed for {booking.registration.id}: {e}', 'fatal'
+            )
 
         send_notifications_for_all_bookings_report_to_sentry(event_id, total_bookings, total_sent_emails)
 
