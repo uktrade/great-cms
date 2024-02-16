@@ -4,7 +4,7 @@
 {% load humanize %}
 <div class="govuk-grid-row" id="location-component">
     <div class="govuk-grid-column-full govuk-!-padding-6 salary-rent-component">
-        <div class="govuk-width-container">
+        <div class="govuk-width-container great-container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full">
                     <h2 class="govuk-heading-l">Average rent data at a glance</h2>
@@ -14,7 +14,7 @@
                 <div class="govuk-grid-column-full">
                     <form class="salary-location-form"
                           action="{{ request.build_absolute_uri }}#location-component"
-                          method="GET">
+                          method="get">
                         <div class="govuk-grid-row">
                             <div class="govuk-grid-column-full govuk-!-margin-bottom-3">
                                 {% include '../includes/form_field.html' with field=rent_location_form.location %}
