@@ -47,14 +47,14 @@ class CountryGuidePageSerializer(serializers.Serializer):
 
 class ArticlePageSerializer(serializers.Serializer):
     expected_block_types = [
-        'text', 
-        'cta', 
-        'data_table', 
-        'image', 
-        'Video', 
-        'Columns', 
-        'pull_quote', 
-        'column', 
+        'text',
+        'cta',
+        'data_table',
+        'image',
+        'Video',
+        'Columns',
+        'pull_quote',
+        'column',
         'content_module'
     ]
 
