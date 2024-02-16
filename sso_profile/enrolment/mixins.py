@@ -280,8 +280,11 @@ class CreateBusinessProfileMixin:
         try:
             self.create_company_profile(data)
         except ValidationError as ve:
-            messages.error(str(ve))
-            return redirect('sso_profile:enrolment-start')
+            messages.error(self.request, f'Account Creation Failed - {str(ve)}')
+            if self.request.session.get(constants.SESSION_KEY_EXPORT_OPPORTUNITY_INTENT):
+                return redirect(self.form_session.ingress_url)
+            else:
+                return redirect('sso_profile:business-profile')
         else:
             if self.request.session.get(constants.SESSION_KEY_BUSINESS_PROFILE_INTENT):
                 messages.success(self.request, 'Account created')
