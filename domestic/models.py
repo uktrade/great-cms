@@ -1122,6 +1122,23 @@ class ArticlePage(
                 'data_table',
                 core_blocks.DataTableBlock(),
             ),
+            (
+                'column',
+                blocks.StructBlock(
+                    [
+                        (
+                            'column_1',
+                            blocks.RichTextBlock(),
+                        ),
+                        (
+                            'column_2',
+                            blocks.RichTextBlock(required=False),
+                        ),
+                    ],
+                    template='domestic/blocks/column.html',
+                    icon='arrow-right',
+                ),
+            ),
         ],
         use_json_field=True,
         null=True,

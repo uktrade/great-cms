@@ -1,0 +1,25 @@
+{% load add_govuk_classes from content_tags %}
+{% if value.column_1 and value.column_2 %}
+    <div class="great-display-flex-from-desktop great-gap">
+        <div class="govuk-!-margin-bottom-6 great-flex-basis-50">
+            <div class="govuk-!-padding-5 great-bg-light-blue great-height-100-desktop great-border-radius-10">
+                {% filter add_govuk_classes %}
+                    {{ value.column_1 }}
+                {% endfilter %}
+            </div>
+        </div>
+        <div class="govuk-!-margin-bottom-6 great-flex-basis-50">
+            <div class="govuk-!-padding-5 great-bg-light-blue great-height-100-desktop great-border-radius-10">
+                {% filter add_govuk_classes %}
+                    {{ value.column_2 }}
+                {% endfilter %}
+            </div>
+        </div>
+    </div>
+{% else %}
+    <div class="govuk-!-padding-5 great-bg-light-blue great-border-radius-10">
+        {% filter add_govuk_classes %}
+            {{ value.column_1 }}
+        {% endfilter %}
+    </div>
+{% endif %}
