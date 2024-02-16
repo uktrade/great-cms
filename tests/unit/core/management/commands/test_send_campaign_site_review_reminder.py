@@ -7,7 +7,7 @@ from directory_forms_api_client import actions
 from django.contrib.auth import get_user_model
 from django.core.management import call_command
 
-from tests.unit.core.factories import MicrositeFactory
+from tests.unit.core.factories import MicrositeFactory, MicrositePageFactory
 
 User = get_user_model()
 
@@ -21,12 +21,16 @@ def test_send_campaign_site_review_reminder_with_first_published_at(
     first_published_at = now - relativedelta(months=12)
 
     user = User.objects.create(email='joe.bloggs@gmail.com')
-    MicrositeFactory.create(
-        title='Microsite',
-        first_published_at=first_published_at,
-        url_path='/186/edit',
-        owner=user,
+    microsite = MicrositeFactory(
+        title='Great Campaign Sites',
         parent=domestic_homepage,
+    )
+
+    MicrositePageFactory.create(
+        page_title='Test Campaign Site',
+        first_published_at=first_published_at,
+        owner=user,
+        parent=microsite,
     )
 
     settings.MODERATION_EMAIL_DIST_LIST = 'moderators@gov.uk'
@@ -60,13 +64,18 @@ def test_send_campaign_site_review_reminder_with_review_reminder_sent(
     first_published_at = now - relativedelta(days=1)
 
     user = User.objects.create(email='joe.bloggs@gmail.com')
-    MicrositeFactory.create(
-        title='Microsite',
-        first_published_at=first_published_at,
-        url_path='/168/edit',
-        review_reminder_sent=review_reminder_sent,
-        owner=user,
+
+    microsite = MicrositeFactory(
+        title='Great Campaign Sites',
         parent=domestic_homepage,
+    )
+
+    MicrositePageFactory.create(
+        page_title='Test Campaign Site',
+        review_reminder_sent=review_reminder_sent,
+        first_published_at=first_published_at,
+        owner=user,
+        parent=microsite,
     )
 
     settings.MODERATION_EMAIL_DIST_LIST = 'moderators@gov.uk'

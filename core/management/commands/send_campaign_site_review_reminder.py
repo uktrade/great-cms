@@ -45,8 +45,8 @@ class Command(BaseCommand):
                         email_list = [
                             settings.MODERATION_EMAIL_DIST_LIST,
                         ]
-                        # if page.owner:
-                        #     email_list.append(site.owner.email)
+                        if page.owner:
+                            email_list.append(page.owner.email)
                         logger.info(f'Requesting review for Campaign Site {page.title} from {email_list}')
                         send_campaign_site_review_reminder(
                             email_list=email_list,
