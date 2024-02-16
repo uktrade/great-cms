@@ -351,16 +351,6 @@ def steps_data(captcha_stub):
             'phone_number': '1232342',
             'confirmed_is_company_representative': True,
         },
-        constants.FINISHED: {
-            'company_name': 'Test Company Name',
-            'company_number': '123456789',
-            'date_of_creation': '20024-01-01',
-            'address_line_1': '999 The Street',
-            'address_line_2': 'London',
-            'sectors': ['ADVANCED_MANUFACTURING'],
-            'website': 'http://www.google.com',
-            'company_type': 'COMPANIES_HOUSE',
-        },
         constants.VERIFICATION: {'code': '12345'},
         constants.RESEND_VERIFICATION: {'email': 'jim@example.com'},
         BUSINESS_INFO_NON_COMPANIES_HOUSE: {
