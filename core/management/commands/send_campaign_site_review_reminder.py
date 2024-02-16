@@ -1,6 +1,7 @@
 import logging
 from datetime import datetime, timezone
 
+from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.core.management import BaseCommand
 
@@ -60,5 +61,5 @@ class Command(BaseCommand):
                         logger.info(f'Not requesting review for Campaign Site {page.title}')
                 else:
                     logger.info(f'Not requesting review for Campaign Site {page.title}')
-                    page.review_reminder_sent = datetime.now(timezone.utc)
+                    page.review_reminder_sent = datetime.now(timezone.utc) + relativedelta(day=90)
                     page.save()
