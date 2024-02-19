@@ -1443,7 +1443,6 @@ def test_inline_feedback_js(
     client,
     user,
 ):
-
     client.force_login(user)
 
     data = {'page_useful': 'True', 'current_url': '/example-url', 'page_title': 'Example Page'}
@@ -1478,7 +1477,6 @@ def test_inline_feedback_non_js(
     query_param_value,
     client,
 ):
-
     if query_param == 'page_useful':
         data = {'page_useful': query_param_value, 'current_url': '/example-url', 'page_title': 'Example Page'}
     elif query_param == 'detailed_feedback_submitted':

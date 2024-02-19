@@ -6,10 +6,7 @@ from datetime import timedelta
 import sentry_sdk
 from directory_forms_api_client import actions
 from django.core.exceptions import ValidationError
-from django.core.validators import validate_email
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
@@ -21,7 +18,6 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.snippets.models import register_snippet
 
 from config import settings
-from config.celery import app
 from core.blocks import ButtonBlock, SingleRichTextBlock, TopicPageCardBlockRichText
 from core.constants import (
     RICHTEXT_FEATURES__REDUCED,
@@ -175,12 +171,6 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
                     self.slug = slug
                     break
 
-        # A flag for the post save signal, will send an 'event complete' email if True
-        self.changed_to_completed = False
-        if not self._state.adding:
-            if self._loaded_values['completed'] is None and self.completed:
-                self.changed_to_completed = True
-
         return super().save(**kwargs)
 
     def clean(self):
@@ -277,6 +267,7 @@ class Booking(TimeStampedModel):
     status = models.CharField(choices=STATUSES, default=CONFIRMED, max_length=15)
     details_viewed = models.DateTimeField(null=True, blank=True)
     cookies_accepted_on_details_view = models.BooleanField(default=False)
+    event_completed_email_sent = models.BooleanField(default=False)
 
     @property
     def is_cancelled(self):
@@ -619,7 +610,7 @@ class VideoOnDemandPageTracking(TimeStampedModel):
         models.UniqueConstraint(fields=['user_email', 'event', 'video'], name='unique_vodpagetracking')
 
 
-def send_notifications_for_all_bookings(event_id, template_id, additional_notify_data=None):
+def send_notifications_for_all_bookings(event_id, template_id, additional_notify_data=None, event_complete=None):
     """
     This is a helper function that sends different types of email to users who have booked an event.
 
@@ -628,13 +619,16 @@ def send_notifications_for_all_bookings(event_id, template_id, additional_notify
     additional_notify_data: Optional dictionary to include additional data in the email.
     """
 
-    # Get all non-cancelled bookings associated with the event
     bookings = Booking.objects.exclude(status='Cancelled').filter(event_id=event_id)
+
+    if event_complete:
+        bookings = bookings.exclude(event_completed_email_sent=True)
+
+    total_bookings = bookings.count()
+    total_sent_emails = 0
 
     for booking in bookings:
         try:
-            # Validate email (malformed emails will cause a failure on the Government notification service)
-            validate_email(booking.registration.email)
 
             # Get email data
             notify_data = dict(first_name=booking.registration.first_name, event_name=booking.event.name)
@@ -650,30 +644,29 @@ def send_notifications_for_all_bookings(event_id, template_id, additional_notify
 
             # Send email
             action.save(notify_data)
+            total_sent_emails += 1
+
+            # Change confirmation_email_sent flag to True
+            if event_complete:
+                booking.event_completed_email_sent = True
+                booking.save()
 
         except Exception as e:
-            sentry_sdk.capture_message(f'Sending booking notification email failed for {booking.registration.id}: {e}')
+            sentry_sdk.capture_message(
+                f'Sending booking notification email failed for {booking.registration.id}: {e}', 'fatal'
+            )
+
+        send_notifications_for_all_bookings_report_to_sentry(event_id, total_bookings, total_sent_emails)
 
 
-@app.task
-def send_notifications_for_all_bookings_async(*args, **kwargs):
-    send_notifications_for_all_bookings(*args, **kwargs)
-
-
-@receiver(post_save, sender=Event)
-def send_event_complete_email(sender, instance, created, **kwargs):
+def send_notifications_for_all_bookings_report_to_sentry(event_id, total_bookings, total_sent_emails):
     """
-    Post save receiver for the Event class. On save, checks if an existing event has been changed to 'completed'. If so,
-    sends an email to all users who have booked the event, notifying them that the event is complete and post course
-    materials are available.
-
-    sender: the Event class
-    instance: the individual instance of the Event class
-    created: boolean: True if new event being created. False if existing event being updated.
+    Helper function that sends a log to sentry at INFO level, logging how many emails have successfully been sent
+    from a send_notifications_for_all_bookings() call.
     """
 
-    # Send notification when event is updated and marked as complete
-    if instance.changed_to_completed:
-        send_notifications_for_all_bookings_async.delay(
-            instance.id, settings.EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID
+    if total_bookings > 0:
+        sentry_sdk.capture_message(
+            f'Events email notification report for Event {event_id}. {total_bookings} total, {total_sent_emails} emails'
+            f' sent'
         )
