@@ -3,7 +3,12 @@
 <section class="great great-bg-light-blue govuk-!-padding-top-0 govuk-!-padding-bottom-0">
     <div class="govuk-width-container great-container">
         {% if data.dep_title %}
-            <h2 class="govuk-heading-l govuk-!-margin-top-9 govuk-!-margin-bottom-6">{{ data.dep_title }}</h2>
+            <h2 class="govuk-heading-l govuk-!-margin-top-9 {% if data.dep_sub_title %}govuk-!-margin-bottom-0{% else %}govuk-!-margin-bottom-6{% endif %}">
+                {{ data.dep_title }}
+            </h2>
+        {% endif %}
+        {% if data.dep_sub_title %}
+            <p class="govuk-body govuk-!-margin-top-0 govuk-!-margin-bottom-6">{{ data.dep_sub_title }}</p>
         {% endif %}
         {% if features.FEATURE_HOMEPAGE_REDESIGN_V1 and data.dep_cards %}
             <div class="govuk-grid-row govuk-!-padding-bottom-4 great-card-row">

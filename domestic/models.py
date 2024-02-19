@@ -287,6 +287,7 @@ class GreatDomesticHomePage(
     # EU exit chevrons StreamField WAS here in V1 - no longer the case
 
     dep_title = models.TextField(null=True, blank=True)
+    dep_sub_title = models.TextField(null=True, blank=True)
     dep_primary_cta_title = models.TextField(null=True, blank=True)
     dep_primary_cta_text = models.CharField(null=True, blank=True, max_length=255)
     dep_primary_cta_url = models.TextField(null=True, blank=True)
@@ -1123,19 +1124,19 @@ class ArticlePage(
                 core_blocks.DataTableBlock(),
             ),
             (
-                'column',
+                'mounted_blocks',
                 blocks.StructBlock(
                     [
                         (
-                            'column_1',
+                            'block_1',
                             blocks.RichTextBlock(),
                         ),
                         (
-                            'column_2',
+                            'block_2',
                             blocks.RichTextBlock(required=False),
                         ),
                     ],
-                    template='domestic/blocks/column.html',
+                    template='domestic/blocks/mounted_block.html',
                     icon='arrow-right',
                 ),
             ),
