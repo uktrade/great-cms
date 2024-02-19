@@ -33,6 +33,23 @@ def send_automated_events_notification():
 
 
 @app.task
+def send_automated_event_complete_notification():
+    """
+    This task looks for all associated booking belonging to an Event that have not had their
+    'event_completed_email_sent' set to True. It will attempt to send en email for all such Bookings.
+    """
+
+    # Time delay for completed event - This is to pick up any event marked as complete within X hours
+    time_delay = timezone.now() - timedelta(minutes=settings.EXPORT_ACADEMY_AUTOMATED_EVENT_COMPLETE_EMAIL_RETRY_HOURS)
+    events = Event.objects.filter(completed__isnull=False, completed__gte=time_delay)
+
+    for event in events:
+        send_notifications_for_all_bookings(
+            event.id, settings.EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID, event_complete=True
+        )
+
+
+@app.task
 def remove_past_events_media():
     time_delay = settings.EXPORT_ACADEMY_REMOVE_EVENT_MEDIA_AFTER_DAYS
     events = Event.objects.filter(

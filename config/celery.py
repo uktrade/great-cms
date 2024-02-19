@@ -35,6 +35,10 @@ app.conf.beat_schedule = {
         'task': 'core.tasks.enact_page_schedule',
         'schedule': crontab(hour='*/1'),
     },
+    'send_event_complete_email_every_15_mins': {
+        'task': 'export_academy.tasks.send_automated_event_complete_notification',
+        'schedule': crontab(minute='*/15'),
+    },
 }
 
 if settings.FEATURE_REDIS_USE_SSL:
