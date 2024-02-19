@@ -2071,11 +2071,15 @@ def test_companies_house_enrolment_submit_invalid_data_with_profile_intent(
 
     step = resolve(response.url).kwargs['step']
     response = submit_companies_house_step(
-        {**steps_data[constants.PERSONAL_INFO], 'terms_agreed': True},
+        {**steps_data[constants.PERSONAL_INFO], 'terms_agreed': True},  # not agreed during user account creation
         step_name=step,
     )
     assert response.status_code == 302
-    # assert response.url == reverse('sso_profile:business-profile')
+
+    response = client.get(response.url)
+
+    assert response.status_code == 302
+    assert response.url == reverse('sso_profile:business-profile')
 
 
 @mock.patch('sso_profile.enrolment.views.helpers.create_company_profile')
@@ -2083,17 +2087,18 @@ def test_companies_house_enrolment_submit_invalid_data_with_exopps_intent(
     mock_create_company_profile,
     session_client_company_factory,
     session_intent_factory,
-    client,
     submit_companies_house_step,
     steps_data,
     user,
+    client,
 ):
-    client.force_login(user)
-
     mock_create_company_profile.side_effect = ValidationError('Invalid Business Profile data received')
-
     session_client_company_factory(constants.COMPANIES_HOUSE_COMPANY)
     session_intent_factory(constants.SESSION_KEY_EXPORT_OPPORTUNITY_INTENT)
+
+    client.force_login(user)
+
+    client.defaults['HTTP_REFERER'] = 'http://testserver.com/foo/'
 
     url = reverse('sso_profile:enrolment-companies-house', kwargs={'step': constants.USER_ACCOUNT})
     response = client.get(url)
@@ -2109,8 +2114,12 @@ def test_companies_house_enrolment_submit_invalid_data_with_exopps_intent(
 
     step = resolve(response.url).kwargs['step']
     response = submit_companies_house_step(
-        {**steps_data[constants.PERSONAL_INFO], 'terms_agreed': True},
+        {**steps_data[constants.PERSONAL_INFO], 'terms_agreed': True},  # not agreed during user account creation
         step_name=step,
     )
     assert response.status_code == 302
-    # assert response.url == reverse('sso_profile:business-profile')
+
+    response = client.get(response.url)
+
+    assert response.status_code == 302
+    assert response.url == 'http://testserver.com/foo/'
