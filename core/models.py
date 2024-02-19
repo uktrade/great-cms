@@ -808,6 +808,47 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
                 core_blocks.StepByStepBlock(icon='cog'),
             ),
             (
+                'step_list',
+                blocks.StructBlock(
+                    [
+                        ('initial_heading_level', blocks.ChoiceBlock(choices=[('2', 'h2'), ('3', 'h3')])),
+                        (
+                            'list_items',
+                            StreamBlock(
+                                [
+                                    (
+                                        'item',
+                                        blocks.StructBlock(
+                                            [
+                                                ('title', blocks.CharBlock(max_length=255)),
+                                                ('body', blocks.RichTextBlock()),
+                                                (
+                                                    'nested_items',
+                                                    StreamBlock(
+                                                        [
+                                                            (
+                                                                'nested_item',
+                                                                blocks.StructBlock(
+                                                                    [
+                                                                        ('title', blocks.CharBlock(max_length=255)),
+                                                                        ('body', blocks.RichTextBlock()),
+                                                                    ]
+                                                                ),
+                                                            ),
+                                                        ]
+                                                    ),
+                                                ),
+                                            ]
+                                        ),
+                                    ),
+                                ]
+                            ),
+                        ),
+                    ],
+                    template='learn/step_list.html',
+                ),
+            ),
+            (
                 'fictional_example',
                 blocks.StructBlock(
                     [('fiction_body', blocks.RichTextBlock(icon='openquote'))],
