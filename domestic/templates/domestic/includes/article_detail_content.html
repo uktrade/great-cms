@@ -66,6 +66,9 @@
                     </div>
                 </section>
             </div>
+            {% block related_content %}
+                {% include 'domestic/includes/article_related_content_list.html' %}
+            {% endblock %}
             {% if page.type_of_article|lower == 'advice' %}
                 <section class="grid-row">
                     <div class="column-full-m">
@@ -74,13 +77,10 @@
                             <p>Learn how to start exporting with our easy-to-follow online course.</p>
                         </div>
                         <a href="/signup/"
-                           class="button primary-button learn-more-button margin-bottom-60">Sign up for free</a>
+                        class="button primary-button learn-more-button margin-bottom-60">Sign up for free</a>
                     </div>
                 </section>
             {% endif %}
-            {% block related_content %}
-                {% include 'domestic/includes/article_related_content_list.html' %}
-            {% endblock %}
         </div>
         {% block article_footer %}{% endblock %}
     </div>
