@@ -1125,19 +1125,19 @@ class ArticlePage(
             ),
             ('content_module', SnippetChooserBlock(ContentModule, template='domestic/blocks/article_snippet.html')),
             (
-                'column',
+                'mounted_blocks',
                 blocks.StructBlock(
                     [
                         (
-                            'column_1',
+                            'block_1',
                             blocks.RichTextBlock(),
                         ),
                         (
-                            'column_2',
+                            'block_2',
                             blocks.RichTextBlock(required=False),
                         ),
                     ],
-                    template='domestic/blocks/column.html',
+                    template='domestic/blocks/mounted_block.html',
                     icon='arrow-right',
                 ),
             ),
