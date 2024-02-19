@@ -217,7 +217,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==23.2.0
+faker==23.2.1
     # via factory-boy
 filetype==1.2.0
     # via willow
@@ -319,7 +319,7 @@ pyhanko-certvalidator==0.26.3
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==4.0.1
+pypdf==4.0.2
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode

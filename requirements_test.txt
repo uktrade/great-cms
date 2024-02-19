@@ -130,7 +130,7 @@ cryptography==42.0.3
     #   -r requirements.in
     #   pyhanko
     #   pyhanko-certvalidator
-cssbeautifier==1.15.0
+cssbeautifier==1.15.1
     # via djlint
 cssselect==1.2.0
     # via pyquery
@@ -294,7 +294,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==23.2.0
+faker==23.2.1
     # via factory-boy
 filelock==3.13.1
     # via virtualenv
@@ -362,7 +362,7 @@ html5lib==1.1
     #   xhtml2pdf
 icalendar==5.0.11
     # via -r requirements.in
-identify==2.5.34
+identify==2.5.35
     # via pre-commit
 idna==3.6
     # via
@@ -400,7 +400,7 @@ jmespath==1.0.1
     # via
     #   boto3
     #   botocore
-jsbeautifier==1.15.0
+jsbeautifier==1.15.1
     # via
     #   cssbeautifier
     #   djlint
@@ -496,7 +496,7 @@ pillow==10.2.0
     #   xhtml2pdf
 pillow-heif==0.15.0
     # via willow
-pip-tools==7.3.0
+pip-tools==7.4.0
     # via -r requirements_test.in
 platformdirs==4.2.0
     # via
@@ -509,7 +509,7 @@ pluggy==1.4.0
     #   pytest
 polib==1.2.0
     # via wagtail-localize
-pre-commit==3.6.1
+pre-commit==3.6.2
     # via -r requirements_test.in
 pre-commit-hooks==3.3.0
     # via -r requirements_test.in
@@ -555,19 +555,21 @@ pylint-django==2.5.5
     # via -r requirements_test.in
 pylint-plugin-utils==0.8.2
     # via pylint-django
-pypdf==4.0.1
+pypdf==4.0.2
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
 pyproject-hooks==1.0.0
-    # via build
+    # via
+    #   build
+    #   pip-tools
 pyquery==2.0.0
     # via readtime
 pyrsistent==0.20.0
     # via jsonschema
 pysocks==1.7.1
     # via urllib3
-pytest==8.0.0
+pytest==8.0.1
     # via
     #   -r requirements_test.in
     #   allure-pytest
