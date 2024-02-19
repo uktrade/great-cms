@@ -55,7 +55,7 @@ class ArticlePageSerializer(serializers.Serializer):
         'Columns',
         'pull_quote',
         'content_module',
-        'mounted_blocks'
+        'mounted_blocks',
     ]
 
     def _get_article_body_content_for_search(self, obj: ArticlePage) -> str:
