@@ -24,6 +24,7 @@ from wagtail.images import get_image_model_string
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.models import Page
 from wagtailseo.models import SeoMixin
+from wagtail.snippets.blocks import SnippetChooserBlock
 
 from core import blocks as core_blocks, cache_keys, helpers, mixins, service_urls
 from core.blocks import AdvantageBlock, ColumnsBlock, SupportHomepageCardBlock
@@ -37,7 +38,7 @@ from core.constants import (
 )
 from core.fields import single_struct_block_stream_field_factory
 from core.helpers import build_social_links
-from core.models import CMSGenericPage, Country, IndustryTag, Region, Tag
+from core.models import CMSGenericPage, Country, IndustryTag, Region, Tag, ContentModule
 from domestic import cms_panels, forms as domestic_forms
 from domestic.helpers import build_route_context, get_lesson_completion_status
 from exportplan.core import helpers as exportplan_helpers
@@ -1123,6 +1124,7 @@ class ArticlePage(
                 'data_table',
                 core_blocks.DataTableBlock(),
             ),
+            ('content_module', SnippetChooserBlock(ContentModule, template='domestic/blocks/article_snippet.html')),
             (
                 'mounted_blocks',
                 blocks.StructBlock(
