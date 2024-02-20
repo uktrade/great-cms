@@ -61,5 +61,5 @@ class Command(BaseCommand):
                         logger.info(f'Not requesting review for Campaign Site {page.title}')
                 else:
                     logger.info(f'Not requesting review for Campaign Site {page.title}')
-                    page.review_reminder_sent = datetime.now(timezone.utc) + relativedelta(day=90)
+                    page.review_reminder_sent = datetime.now(timezone.utc) + relativedelta(days=90)
                     page.save()
