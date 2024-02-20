@@ -51,7 +51,7 @@ class Command(BaseCommand):
                         logger.info(f'Requesting review for Campaign Site {page.title} from {email_list}')
 
                         admin_base_url = settings.WAGTAILADMIN_BASE_URL
-                        if not admin_base_url.endwith('/'):
+                        if not admin_base_url.endswith('/'):
                             admin_base_url = f'{admin_base_url}/'
 
                         send_campaign_site_review_reminder(
