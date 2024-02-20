@@ -1874,6 +1874,8 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
     facebook = models.URLField(blank=True, verbose_name=_('Facebook'))
     linkedin = models.URLField(blank=True, verbose_name=_('LinkedIn'))
 
+    review_reminder_sent = models.DateTimeField(blank=True, null=True)
+
     def get_parent_page(self):
         current_page = self.specific
         parent_page = self.get_parent().specific

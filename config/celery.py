@@ -39,6 +39,13 @@ app.conf.beat_schedule = {
         'task': 'export_academy.tasks.send_automated_event_complete_notification',
         'schedule': crontab(minute='*/15'),
     },
+    'send_campaign_site_review_reminder_once_a_day': {
+        'task': 'core.tasks.send_review_reminder_interval_months',
+        'schedule': crontab(
+            minute=settings.CAMPAIGN_SITE_REVIEW_REMINDER_MINUTE,
+            hour=settings.CAMPAIGN_SITE_REVIEW_REMINDER_HOUR,
+        ),
+    },
 }
 
 if settings.FEATURE_REDIS_USE_SSL:
