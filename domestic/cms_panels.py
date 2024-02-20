@@ -42,6 +42,7 @@ class GreatDomesticHomePagePanels:
             classname='collapsible',
             children=[
                 FieldPanel('dep_title'),
+                FieldPanel('dep_sub_title'),
                 FieldPanel('dep_cards'),
                 FieldPanel('dep_primary_cta_title'),
                 FieldPanel('dep_primary_cta_text'),

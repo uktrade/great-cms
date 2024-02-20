@@ -13,6 +13,7 @@ ul {
 @import 'footer.scss';
 @import '../../styles/great/utils';
 @import '../../styles/great/components';
+@import '../../core/components/sass/components/skip-link/base';
 @import 'hero.scss';
 
 
@@ -20,6 +21,13 @@ body {
     margin: 0;
 }
 
+#skip-link {
+    font-family: 'Euclid Flex B';
+}
+
+#skip-link:focus {
+    background-color: #ffbf47;
+}
 
 // International home page styles start
 .why-choose-uk-section {
