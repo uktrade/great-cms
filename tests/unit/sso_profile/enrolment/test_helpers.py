@@ -3,9 +3,11 @@ from unittest import mock
 import pytest
 from django.conf import settings
 from django.core.cache import cache
+from django.core.exceptions import ValidationError
 from django.test import override_settings
 from requests.exceptions import HTTPError
 
+from directory_api_client import api_client
 from directory_constants import urls, user_roles
 from sso_profile.enrolment import helpers
 from ..common.helpers import create_response
@@ -179,3 +181,42 @@ def test_add_collaborator(mock_add_collaborator):
         sso_session_id=300,
         data={'company': 1234, 'company_email': 'xyz@xyzcorp.com', 'name': 'Abc', 'mobile_number': '9876543210'},
     )
+
+
+@mock.patch.object(api_client.enrolment, 'send_form')
+def test_create_company_profile_success(mock_send_form):
+    mock_send_form.return_value = create_response(status_code=201)
+
+    response = helpers.create_company_profile(
+        {
+            'company_name': 'Test Company Name',
+            'company_number': '123456789',
+            'date_of_creation': '20024-01-01',
+            'address_line_1': '999 The Street',
+            'address_line_2': 'London',
+            'sectors': ['ADVANCED_MANUFACTURING'],
+            'website': 'http://www.google.com',
+            'company_type': 'COMPANIES_HOUSE',
+        }
+    )
+
+    assert response.status_code == 201
+
+
+@mock.patch.object(api_client.enrolment, 'send_form')
+def test_create_company_profile_invalid_data_raises_validation_error(mock_send_form):
+    mock_send_form.return_value = create_response(status_code=400)
+
+    with pytest.raises(ValidationError):
+        helpers.create_company_profile(
+            {
+                'company_name': 'Test Company Name',
+                'company_number': None,
+                'date_of_creation': '20024-01-01',
+                'address_line_1': '999 The Street',
+                'address_line_2': 'London',
+                'sectors': ['ADVANCED_MANUFACTURING'],
+                'website': 'http://www.google.com',
+                'company_type': 'COMPANIES_HOUSE',
+            }
+        )
