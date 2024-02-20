@@ -3,6 +3,7 @@ from unittest import mock
 import pytest
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.sessions.backends import signed_cookies
+from django.core.exceptions import ValidationError
 from django.urls import resolve, reverse
 from django.views.generic import TemplateView
 from formtools.wizard.views import NamedUrlSessionWizardView
@@ -382,6 +383,18 @@ def session_client_company_factory(client, settings):
         return client
 
     return session_client
+
+
+@pytest.fixture
+def session_intent_factory(client):
+
+    def session_intent(intent):
+        session = client.session
+        session[intent] = intent
+        session.save()
+        return client
+
+    return session_intent
 
 
 @pytest.fixture
@@ -2025,3 +2038,88 @@ def test_collaborator_enrolment_submit_end_to_end_already_has_profile(
     assert mock_create_user_profile.call_count == 0
     assert mock_collaborator_invite_accept.call_count == 1
     assert mock_collaborator_invite_accept.call_args == mock.call(invite_key='abc', sso_session_id='123')
+
+
+@mock.patch('sso_profile.enrolment.views.helpers.create_company_profile')
+def test_companies_house_enrolment_submit_invalid_data_with_profile_intent(
+    mock_create_company_profile,
+    session_client_company_factory,
+    session_intent_factory,
+    client,
+    submit_companies_house_step,
+    steps_data,
+    user,
+):
+    client.force_login(user)
+
+    mock_create_company_profile.side_effect = ValidationError('Invalid Business Profile data received')
+
+    session_client_company_factory(constants.COMPANIES_HOUSE_COMPANY)
+    session_intent_factory(constants.SESSION_KEY_BUSINESS_PROFILE_INTENT)
+
+    url = reverse('sso_profile:enrolment-companies-house', kwargs={'step': constants.USER_ACCOUNT})
+    response = client.get(url)
+    assert response.status_code == 302
+
+    response = submit_companies_house_step(steps_data[constants.COMPANY_SEARCH], step_name=constants.COMPANY_SEARCH)
+
+    assert response.status_code == 302
+
+    step = resolve(response.url).kwargs['step']
+    response = submit_companies_house_step({'company_name': 'Example corp', 'sectors': 'AEROSPACE'}, step_name=step)
+    assert response.status_code == 302
+
+    step = resolve(response.url).kwargs['step']
+    response = submit_companies_house_step(
+        {**steps_data[constants.PERSONAL_INFO], 'terms_agreed': True},  # not agreed during user account creation
+        step_name=step,
+    )
+    assert response.status_code == 302
+
+    response = client.get(response.url)
+
+    assert response.status_code == 302
+    assert response.url == reverse('sso_profile:business-profile')
+
+
+@mock.patch('sso_profile.enrolment.views.helpers.create_company_profile')
+def test_companies_house_enrolment_submit_invalid_data_with_exopps_intent(
+    mock_create_company_profile,
+    session_client_company_factory,
+    session_intent_factory,
+    submit_companies_house_step,
+    steps_data,
+    user,
+    client,
+):
+    mock_create_company_profile.side_effect = ValidationError('Invalid Business Profile data received')
+    session_client_company_factory(constants.COMPANIES_HOUSE_COMPANY)
+    session_intent_factory(constants.SESSION_KEY_EXPORT_OPPORTUNITY_INTENT)
+
+    client.force_login(user)
+
+    client.defaults['HTTP_REFERER'] = 'http://testserver.com/foo/'
+
+    url = reverse('sso_profile:enrolment-companies-house', kwargs={'step': constants.USER_ACCOUNT})
+    response = client.get(url)
+    assert response.status_code == 302
+
+    response = submit_companies_house_step(steps_data[constants.COMPANY_SEARCH], step_name=constants.COMPANY_SEARCH)
+
+    assert response.status_code == 302
+
+    step = resolve(response.url).kwargs['step']
+    response = submit_companies_house_step({'company_name': 'Example corp', 'sectors': 'AEROSPACE'}, step_name=step)
+    assert response.status_code == 302
+
+    step = resolve(response.url).kwargs['step']
+    response = submit_companies_house_step(
+        {**steps_data[constants.PERSONAL_INFO], 'terms_agreed': True},  # not agreed during user account creation
+        step_name=step,
+    )
+    assert response.status_code == 302
+
+    response = client.get(response.url)
+
+    assert response.status_code == 302
+    assert response.url == 'http://testserver.com/foo/'
