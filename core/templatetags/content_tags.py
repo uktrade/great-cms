@@ -438,14 +438,14 @@ def get_icon_path(url):
 @register.filter
 def get_international_icon_path(url):
     url_to_icon_list = (
-        ('uk-investment-zones', 'Icon-investment-zones'),
-        ('uk-tax-and-incentives', 'Icon-tax-and-incentives'),
-        ('uk-talent-and-labour', 'Icon-talent-and-labour'),
-        ('uk-infrastructure', 'Icon-infrastructure'),
-        ('clean-growth-in-the-uk', 'Icon-clean-growth'),
-        ('freeports-in-the-uk', 'Icon-freeports'),
-        ('uk-innovation', 'Icon-innovation'),
-        ('sectors', 'Icon-sectors'),
+        ('uk-investment-zones', 'investment-zones'),
+        ('uk-tax-and-incentives', 'tax-incentives'),
+        ('uk-talent-and-labour', 'talent-labour'),
+        ('uk-infrastructure', 'infrastructure'),
+        ('clean-growth-in-the-uk', 'clean-growth'),
+        ('freeports-in-the-uk', 'freeports'),
+        ('uk-innovation', 'innovation'),
+        ('sectors', 'sectors'),
     )
     for url_to_icon in url_to_icon_list:
         if url_to_icon[0] in url:
