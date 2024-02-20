@@ -421,6 +421,10 @@
   border-left: 6px solid $great-blue;
 }
 
+.great-border-radius-10 {
+  border-radius: 10px;
+}
+
 .great-bg-white {
   background-color: $great-white !important;
   background: $great-white;
@@ -489,7 +493,7 @@
 }
 
 .great-font-size-18 {
-  font-size: 18px!important;
+  font-size: 18px !important;
 }
 
 .great-font-size-mobile-18 {
@@ -596,6 +600,10 @@
 
 .great-flex-basis-25 {
   flex-basis: 25%;
+}
+
+.great-flex-basis-50 {
+  flex-basis: 50%;
 }
 
 .great-background-light-blue {
@@ -893,11 +901,11 @@ img.richtext-image {
 }
 
 great-icon {
-  font-size: 24px!important;
+  font-size: 24px !important;
 }
 
 .great-icon-small {
-  font-size: 18px!important;
+  font-size: 18px !important;
 }
 
 .great-red-text {
@@ -1007,6 +1015,7 @@ great-icon {
 .great-cursor-pointer {
   cursor: pointer;
 }
+
 .great-border-top-orange {
   border-top: 3px solid #e94f3d;
 }
@@ -1049,9 +1058,9 @@ great-icon {
 }
 
 .great-border-top-thick {
-  border-top: 3px solid #04043F;
+  border-top: 3px solid #04043f;
   &.great-border-purple {
-    border-color: #964F99;
+    border-color: #964f99;
   }
 }
 
@@ -1060,15 +1069,15 @@ great-icon {
 }
 
 .great-no-box-shadow {
-  box-shadow: none!important;
+  box-shadow: none !important;
 }
 
 .great-no-border {
-  border:none!important;
+  border: none !important;
 }
 
 .great-no-border-focus {
-  outline: none!important;
+  outline: none !important;
 }
 
 .great-height-min-content {

@@ -212,7 +212,6 @@ redirects = [
         ),
     ),
     ('/export/find-a-buyer/', '/find-a-buyer/'),
-    ('/export/selling-online-overseas/', '/selling-online-overseas/'),
     ('/uk/privacy-policy/', '/privacy-and-cookies/'),
     ('/uk/terms-and-conditions/', '/terms-and-conditions/'),
     ('/int/', '/international/'),
@@ -310,19 +309,11 @@ redirects = [
         '/contact/feedback/',
     ),
     (
-        '/legacy/contact/feedback/selling-online-overseas/',
-        '/contact/feedback/',
-    ),
-    (
         '/legacy/contact/feedback/selling_online_overseas/',
         '/contact/feedback/',
     ),
     (
         '/legacy/contact/feedback/single_sign_on/',
-        '/contact/feedback/',
-    ),
-    (
-        '/legacy/contact/feedback/soo/',
         '/contact/feedback/',
     ),
     (
@@ -338,14 +329,6 @@ redirects = [
         '/contact/feedback/',
     ),
     (
-        '/legacy/contact/selling_online_overseas/',
-        '/contact/triage/domestic/',
-    ),
-    (
-        '/legacy/contact/selling_online_overseas/FeedbackForm/',
-        '/contact/feedback/',
-    ),
-    (
         '/legacy/contact/single_sign_on/',
         '/contact/triage/great-account/',
     ),
@@ -354,31 +337,11 @@ redirects = [
         '/contact/feedback/',
     ),
     (
-        '/legacy/contact/soo/feedback/',
-        '/contact/feedback/',
-    ),
-    (
-        '/legacy/contact/soo/FeedbackForm/',
-        '/contact/feedback/',
-    ),
-    (
-        '/legacy/contact/soo/Triage/',
-        '/contact/triage/location/',
-    ),
-    (
-        '/legacy/contact/soo/TriageForm/',
-        '/contact/triage/location/',
-    ),
-    (
         '/legacy/contact/triage/',
         '/contact/triage/location/',
     ),
     (
         '/legacy/contact/triage/directory/',
-        '/contact/triage/location/',
-    ),
-    (
-        '/legacy/contact/triage/soo/',
         '/contact/triage/location/',
     ),
     (

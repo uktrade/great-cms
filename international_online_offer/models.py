@@ -28,6 +28,7 @@ from international_online_offer.forms import LocationSelectForm
 class EYBIndexPage(BaseContentPage):
     parent_page_types = [
         'domestic.StructuralPage',
+        'international.GreatInternationalHomePage',
     ]
     subpage_types = [
         'international_online_offer.EYBGuidePage',

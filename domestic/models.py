@@ -24,6 +24,7 @@ from wagtail.images import get_image_model_string
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.models import Page
 from wagtailseo.models import SeoMixin
+from wagtail.snippets.blocks import SnippetChooserBlock
 
 from core import blocks as core_blocks, cache_keys, helpers, mixins, service_urls
 from core.blocks import AdvantageBlock, ColumnsBlock, SupportHomepageCardBlock
@@ -37,7 +38,7 @@ from core.constants import (
 )
 from core.fields import single_struct_block_stream_field_factory
 from core.helpers import build_social_links
-from core.models import CMSGenericPage, Country, IndustryTag, Region, Tag
+from core.models import CMSGenericPage, Country, IndustryTag, Region, Tag, ContentModule
 from domestic import cms_panels, forms as domestic_forms
 from domestic.helpers import build_route_context, get_lesson_completion_status
 from exportplan.core import helpers as exportplan_helpers
@@ -287,6 +288,7 @@ class GreatDomesticHomePage(
     # EU exit chevrons StreamField WAS here in V1 - no longer the case
 
     dep_title = models.TextField(null=True, blank=True)
+    dep_sub_title = models.TextField(null=True, blank=True)
     dep_primary_cta_title = models.TextField(null=True, blank=True)
     dep_primary_cta_text = models.CharField(null=True, blank=True, max_length=255)
     dep_primary_cta_url = models.TextField(null=True, blank=True)
@@ -1122,6 +1124,24 @@ class ArticlePage(
                 'data_table',
                 core_blocks.DataTableBlock(),
             ),
+            ('content_module', SnippetChooserBlock(ContentModule, template='domestic/blocks/article_snippet.html')),
+            (
+                'mounted_blocks',
+                blocks.StructBlock(
+                    [
+                        (
+                            'block_1',
+                            blocks.RichTextBlock(),
+                        ),
+                        (
+                            'block_2',
+                            blocks.RichTextBlock(required=False),
+                        ),
+                    ],
+                    template='domestic/blocks/mounted_block.html',
+                    icon='arrow-right',
+                ),
+            ),
         ],
         use_json_field=True,
         null=True,
@@ -1378,11 +1398,6 @@ class PerformanceDashboardPage(
             'landing_dashboard': True,
         },
         # the following pages MUST be created as children of the one above
-        service_urls.SERVICES_SOO: {
-            'slug_as_child': 'selling-online-overseas',
-            'heading': 'Selling Online Overseas',
-            'landing_dashboard': False,
-        },
         service_urls.SERVICES_EXOPPS: {
             'slug_as_child': 'export-opportunities',
             'heading': 'Export Opportunities',

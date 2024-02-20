@@ -50,7 +50,6 @@ botocore==1.27.96
 celery[redis]==5.2.7
     # via
     #   -r requirements.in
-    #   celery
     #   django-celery-beat
 certifi==2024.2.2
     # via
@@ -79,7 +78,7 @@ click-repl==0.3.0
     # via celery
 cron-descriptor==1.4.3
     # via django-celery-beat
-cryptography==42.0.2
+cryptography==42.0.3
     # via
     #   -r requirements.in
     #   pyhanko
@@ -217,7 +216,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==23.1.0
+faker==23.2.1
     # via factory-boy
 filetype==1.2.0
     # via willow
@@ -319,7 +318,7 @@ pyhanko-certvalidator==0.26.3
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==4.0.1
+pypdf==4.0.2
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode

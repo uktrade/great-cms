@@ -3,7 +3,7 @@
 <header class="govuk-header international-header"
         role="banner"
         id="international-header">
-    <div class="govuk-header__container govuk-width-container">
+    <div class="govuk-header__container govuk-width-container {% if not hide_primary_nav %}great-container{% endif %}">
         <div class="govuk-header__logo">
             <a href="/international/"
                class="govuk-header__link govuk-header__link--homepage">
@@ -20,13 +20,13 @@
                 <a href="{% if not eyb_user %}{% url 'international_online_offer:index' %}{% else %}/international/expand-your-business-in-the-uk/guide/{% endif %}"
                    class="govuk-header__link govuk-header__service-name">Expand your business in the UK</a>
             {% else %}
-                <nav aria-label="Menu" class="govuk-header__navigation">
+                <nav class="govuk-header__navigation" aria-label="Main menu">
                     <button type="button"
                             class="govuk-header__menu-button govuk-js-header-toggle"
                             aria-controls="navigation"
                             aria-label="Show or hide menu"
                             hidden>Menu</button>
-                    <ul id="navigation"
+                    <ul id="primary-navigation"
                         class="govuk-header__navigation-list great-navigation-list">
                         <li class="govuk-header__navigation-item {% if '/expand-your-business-in-the-uk/' in request.path %}govuk-header__navigation-item--active{% endif %}">
                             <a class="govuk-header__link govuk-link--inverse govuk-!-font-size-19"
@@ -52,16 +52,15 @@
          role="banner"
          id="international-sub-header"
          data-module="govuk-header">
-        <div class="govuk-header__container govuk-width-container">
-            <div class="govuk-header__logo international-sub-navigation-logo"></div>
+        <div class="govuk-header__container govuk-width-container {% if not hide_primary_nav %}great-container{% endif %}">
             <div class="govuk-header__content">
-                <nav aria-label="Menu" class="govuk-header__navigation">
+                <nav class="govuk-header__navigation" aria-label="Section menu">
                     <button type="button"
                             class="govuk-header__menu-button govuk-js-header-toggle"
                             aria-controls="navigation"
                             aria-label="Show or hide menu"
                             hidden>Menu</button>
-                    <ul id="navigation"
+                    <ul id="secondary-navigation"
                         class="govuk-header__navigation-list great-navigation-list govuk-!-padding-bottom-1 govuk-!-padding-top-1">
                         {% if eyb_user %}
                             <li class="govuk-header__navigation-item {% if '/expand-your-business-in-the-uk/guide' in request.path %}govuk-header__navigation-item--active{% endif %}">

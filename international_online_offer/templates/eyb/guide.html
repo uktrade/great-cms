@@ -8,7 +8,7 @@
 {% endblock %}
 {% block head_css %}{{ block.super }}{% endblock %}
 {% block content %}
-    <div class="govuk-width-container">
+    <div class="govuk-width-container great-container">
         {% if not eyb_user %}
             {% if triage_data.is_high_value %}
                 <div class="govuk-grid-row">
@@ -338,76 +338,28 @@
                                         </div>
                                     </div>
                                 {% endif %}
-                                {% if triage_data.is_high_value %}
+                                {% if not eyb_user %}
                                     <div class="govuk-grid-row">
                                         <div class="govuk-grid-column-full">
-                                            <h2 class="govuk-heading-l">Opportunities across the UK</h2>
-                                            <p class="govuk-body">
-                                                Find out about the attractive investment opportunities available when you expand your business.
-                                            </p>
+                                            <div class="govuk-inset-text">
+                                                <strong>Don't forget to share your contact details</strong> to keep up to date with our personalised service. You may be eligible for 1 to 1 support.
+                                                {% if complete_contact_form_link and complete_contact_form_link_text %}
+                                                    <a class="govuk-notification-banner__link"
+                                                       href="{% url complete_contact_form_link %}">{{ complete_contact_form_link_text }}</a>.
+                                                {% endif %}
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="govuk-grid-row govuk-!-margin-bottom-6">
-                                        <div class="govuk-grid-column-full">
-                                            <div class="article-list-item">
-                                                {% if eyb_user %}
-                                                    <a class="article-list-item-a"
-                                                       href="{{ '/international/investment/opportunities/' }}">
-                                                    {% else %}
-                                                        <a class="article-list-item-a"
-                                                           href="{% url 'international_online_offer:signup' %}">
-                                                        {% endif %}
-                                                        <div class="govuk-grid-row">
-                                                            <div class="govuk-grid-column-one-third">
-                                                                <div class="image-container"
-                                                                     alt="People talking about business opportunities"
-                                                                     style="background-image: url({% static 'images/investment_opportunity.png' %})">
-                                                                    {% if not eyb_user %}
-                                                                        <div class="image-container-lock-overlay">
-                                                                            <div class="article-lock"></div>
-                                                                        </div>
-                                                                    {% endif %}
-                                                                </div>
-                                                            </div>
-                                                            <div class="govuk-grid-column-two-thirds">
-                                                                <h3 class="govuk-heading-m article-list-item-title">Investment opportunities</h3>
-                                                                <p class="govuk-body article-list-item-teaser">
-                                                                    Search for investment opportunities based on sector and location in the UK.
-                                                                </p>
-                                                                {% if not eyb_user %}
-                                                                    <div class="article-lock-text">
-                                                                        <strong class="govuk-tag govuk-tag--blue">SIGN UP TO UNLOCK</strong>
-                                                                    </div>
-                                                                {% endif %}
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    {% endif %}
-                                    {% if not eyb_user %}
-                                        <div class="govuk-grid-row">
-                                            <div class="govuk-grid-column-full">
-                                                <div class="govuk-inset-text">
-                                                    <strong>Don't forget to share your contact details</strong> to keep up to date with our personalised service. You may be eligible for 1 to 1 support.
-                                                    {% if complete_contact_form_link and complete_contact_form_link_text %}
-                                                        <a class="govuk-notification-banner__link"
-                                                           href="{% url complete_contact_form_link %}">{{ complete_contact_form_link_text }}</a>.
-                                                    {% endif %}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="govuk-grid-row">
-                                <div class="govuk-grid-column-full">{% include './includes/csat_rating.html' with user_journey='DASHBOARD' %}</div>
+                                {% endif %}
                             </div>
                         </div>
-                    {% endblock %}
-                    {% block body_js %}
-                        {{ block.super }}
-                        <script type="text/javascript"
-                                src="{% static 'javascript/expand-your-business.js' %}"></script>
-                    {% endblock %}
+                        <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-full">{% include './includes/csat_rating.html' with user_journey='DASHBOARD' %}</div>
+                        </div>
+                    </div>
+                {% endblock %}
+                {% block body_js %}
+                    {{ block.super }}
+                    <script type="text/javascript"
+                            src="{% static 'javascript/expand-your-business.js' %}"></script>
+                {% endblock %}

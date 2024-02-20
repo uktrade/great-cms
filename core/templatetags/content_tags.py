@@ -435,6 +435,24 @@ def get_icon_path(url):
         return ''
 
 
+@register.filter
+def get_international_icon_path(url):
+    url_to_icon_list = (
+        ('uk-investment-zones', 'investment-zones'),
+        ('uk-tax-and-incentives', 'tax-incentives'),
+        ('uk-talent-and-labour', 'talent-labour'),
+        ('uk-infrastructure', 'infrastructure'),
+        ('clean-growth-in-the-uk', 'clean-growth'),
+        ('freeports-in-the-uk', 'freeports'),
+        ('uk-innovation', 'innovation'),
+        ('sectors', 'sectors'),
+    )
+    for url_to_icon in url_to_icon_list:
+        if url_to_icon[0] in url:
+            return 'international/includes/svg/' + url_to_icon[1] + '.svg'
+    return ''
+
+
 @register.simple_tag
 def render_automated_list_page_card_content(page, request, module_completion_data):
     if request.user.is_authenticated and module_completion_data:
