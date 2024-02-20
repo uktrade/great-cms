@@ -990,6 +990,27 @@ great-icon {
   }
 }
 
+.step-list{
+  .step-list-h2::marker {
+    font-family: $great-font-bold;
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 50px;
+  }
+  .step-list-h3::marker {
+    font-family: $great-font-bold;
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 28px;
+  }
+  .step-list-h4::marker {
+    font-family: $great-font-bold;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 24px;
+  }
+}
+
 .great-display-flex-from-desktop {
   @include govuk-media-query($from: desktop) {
     display: flex;
