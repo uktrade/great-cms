@@ -49,11 +49,16 @@ class Command(BaseCommand):
                         if page.owner:
                             email_list.append(page.owner.email)
                         logger.info(f'Requesting review for Campaign Site {page.title} from {email_list}')
+
+                        admin_base_url = settings.WAGTAILADMIN_BASE_URL
+                        if not admin_base_url.endswith('/'):
+                            admin_base_url = f'{admin_base_url}/'
+
                         send_campaign_site_review_reminder(
                             email_list=email_list,
                             site_name=page.title,
                             review_days=review_days,
-                            review_link=f'{settings.WAGTAILADMIN_BASE_URL}/admin/pages/{page.id}/edit/',
+                            review_link=f'{admin_base_url}admin/pages/{page.id}/edit/',
                         )
                         page.review_reminder_sent = datetime.now(timezone.utc)
                         page.save()
