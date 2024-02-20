@@ -6,6 +6,7 @@ from directory_ch_client import ch_search_api_client
 from directory_forms_api_client import actions
 from django.conf import settings
 from django.core.cache import cache
+from django.core.exceptions import ValidationError
 
 from directory_api_client import api_client
 from directory_constants import urls
@@ -64,6 +65,8 @@ def get_is_enrolled(company_number):
 
 def create_company_profile(data):
     response = api_client.enrolment.send_form(data)
+    if response.status_code == 400:
+        raise ValidationError('Invalid Business Profile data received')
     response.raise_for_status()
     return response
 
