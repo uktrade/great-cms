@@ -24,7 +24,11 @@ class Command(BaseCommand):
     def review_required(self, page: MicrositePage):
         """Mark a page as needing reviewed every x months post first publish"""
         now = datetime.now(timezone.utc)
-        if page.review_reminder_sent is None and ((now - page.first_published_at).days >= self.days_between_review):
+        if (
+            page.review_reminder_sent is None
+            and page.first_published_at
+            and ((now - page.first_published_at).days >= self.days_between_review)
+        ):
             return True, (now - page.first_published_at).days
         elif (
             page.review_reminder_sent is not None and (now - page.review_reminder_sent).days >= self.days_between_review
@@ -40,7 +44,7 @@ class Command(BaseCommand):
         for site in sites:
 
             for page in site.get_children().specific().filter(live=True):
-                if page.first_published_at:
+                if page.first_published_at or page.review_reminder_sent:
                     review_needed, review_days = self.review_required(page)
                     if review_needed:
                         email_list = [
