@@ -50,7 +50,6 @@ botocore==1.27.96
 celery[redis]==5.2.7
     # via
     #   -r requirements.in
-    #   celery
     #   django-celery-beat
 certifi==2024.2.2
     # via

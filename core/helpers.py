@@ -12,6 +12,7 @@ from logging import getLogger
 import boto3
 import great_components.helpers
 import requests
+from directory_forms_api_client import actions
 from django.conf import settings
 from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
 from django.contrib.humanize.templatetags.humanize import intword
@@ -663,3 +664,22 @@ class ClamAvClient:
 
 
 clam_av_client = ClamAvClient()
+
+
+def send_campaign_site_review_reminder(email_list, site_name, review_days, review_link):
+    campaign_email = settings.MODERATION_EMAIL_DIST_LIST
+    for recipient in email_list:
+        action = actions.GovNotifyEmailAction(
+            email_address=recipient,
+            template_id=settings.CAMPAIGN_SITE_REVIEW_REMINDER_TEMPLATE_ID,
+            email_reply_to_id=settings.CAMPAIGN_MODERATION_REPLY_TO_ID,
+            form_url=str(),
+        )
+        data = {
+            'campaign_email': campaign_email,
+            'site_name': site_name,
+            'review_days': review_days,
+            'review_link': review_link,
+        }
+        response = action.save(data)
+        response.raise_for_status()
