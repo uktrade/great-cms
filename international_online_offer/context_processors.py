@@ -12,7 +12,7 @@ def eyb_user(request):
 
 
 def feedback_next_url(request):
-    return {'feedback_next_url': request.build_absolute_uri()}
+    return {'feedback_next_url': request.build_absolute_uri(request.path)}
 
 
 def is_using_triage(request):
