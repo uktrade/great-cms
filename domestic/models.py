@@ -23,8 +23,8 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.models import Page
-from wagtailseo.models import SeoMixin
 from wagtail.snippets.blocks import SnippetChooserBlock
+from wagtailseo.models import SeoMixin
 
 from core import blocks as core_blocks, cache_keys, helpers, mixins, service_urls
 from core.blocks import (
@@ -43,7 +43,7 @@ from core.constants import (
 )
 from core.fields import single_struct_block_stream_field_factory
 from core.helpers import build_social_links
-from core.models import CMSGenericPage, Country, IndustryTag, Region, Tag, ContentModule
+from core.models import CMSGenericPage, ContentModule, Country, IndustryTag, Region, Tag
 from domestic import cms_panels, forms as domestic_forms
 from domestic.helpers import build_route_context, get_lesson_completion_status
 from exportplan.core import helpers as exportplan_helpers
@@ -1515,6 +1515,7 @@ class TradeFinancePage(
         on_delete=models.SET_NULL,
         related_name='+',
     )
+
 
 class FindABuyerHomePage(cms_panels.FindABuyerPagePanels, BaseContentPage):
     template = 'domestic/find_a_buyer.html'

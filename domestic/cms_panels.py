@@ -486,6 +486,7 @@ class TradeFinancePagePanels:
         FieldPanel('slug'),
     ]
 
+
 class FindABuyerPagePanels:
     content_panels = [
         FieldPanel('title'),

@@ -126,6 +126,7 @@ class ManuallyConfigurableTopicLandingPageFactory(wagtail_factories.PageFactory)
     class Meta:
         model = ManuallyConfigurableTopicLandingPage
 
+
 class FindABuyerHomePageFactory(wagtail_factories.PageFactory):
     title = 'Connect directly with international buyers'
     hero_text = factory.fuzzy.FuzzyText(length=255)

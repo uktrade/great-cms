@@ -50,8 +50,8 @@ from .factories import (
     CountryGuidePageFactory,
     DomesticDashboardFactory,
     DomesticHomePageFactory,
-    GreatDomesticHomePageFactory,
     FindABuyerHomePageFactory,
+    GreatDomesticHomePageFactory,
     MarketsTopicLandingPageFactory,
     PerformanceDashboardPageFactory,
     TopicLandingPageFactory,
@@ -2035,6 +2035,7 @@ class TradeFinancePageTests(WagtailPageTests):
                 GreatDomesticHomePage,
             },
         )
+
 
 class FindABuyerHomePageTests(SetUpLocaleMixin, WagtailPageTests):
 
