@@ -228,7 +228,7 @@ def magna_site(domestic_homepage, client):
 
 @pytest.fixture
 def find_a_buyer_landing_page(root_page):
-    return tests.unit.domestic.factories.FindABuyerHomePageFactory(parent=root_page)
+    return tests.unit.domestic.factories.FindABuyerPageFactory(parent=root_page)
 
 
 @pytest.fixture
