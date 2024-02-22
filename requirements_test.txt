@@ -79,6 +79,7 @@ build==1.0.3
 celery[redis]==5.2.7
     # via
     #   -r requirements.in
+    #   celery
     #   django-celery-beat
 certifi==2024.2.2
     # via
@@ -119,11 +120,12 @@ configargparse==1.7
     # via locust
 coverage[toml]==7.4.2
     # via
+    #   coverage
     #   pytest-codecov
     #   pytest-cov
 cron-descriptor==1.4.3
     # via django-celery-beat
-cryptography==42.0.3
+cryptography==42.0.4
     # via
     #   -r requirements.in
     #   pyhanko
@@ -343,7 +345,9 @@ gitpython==3.1.42
 great-components==2.6.2
     # via -r requirements.in
 greenlet==3.0.3
-    # via gevent
+    # via
+    #   gevent
+    #   sqlalchemy
 gunicorn==20.1.0
     # via -r requirements.in
 h11==0.14.0
