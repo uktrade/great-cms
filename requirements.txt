@@ -91,33 +91,33 @@ dateparser==0.7.2
     # via -r requirements.in
 defusedxml==0.7.1
     # via willow
-directory-api-client==26.4.5
+directory-api-client==26.4.6
     # via -r requirements.in
-directory-ch-client==4.0.0
+directory-ch-client==4.0.1
     # via -r requirements.in
-directory-client-core==7.2.9
+directory-client-core==7.2.12
     # via
     #   -r requirements.in
     #   directory-api-client
     #   directory-ch-client
     #   directory-forms-api-client
     #   directory-sso-api-client
-directory-components==40.2.1
+directory-components==40.2.2
     # via -r requirements.in
-directory-constants==24.1.0
+directory-constants==24.1.1
     # via
     #   -r requirements.in
     #   directory-components
     #   great-components
-directory-forms-api-client==7.3.2
+directory-forms-api-client==7.3.3
     # via -r requirements.in
-directory-healthcheck==3.3
+directory-healthcheck==3.4
     # via -r requirements.in
 directory-sso-api-client==7.2.6
     # via -r requirements.in
-directory-validators==9.3.2
+directory-validators==9.3.3
     # via -r requirements.in
-django==4.2.7
+django==4.2.10
     # via
     #   -r requirements.in
     #   directory-api-client
@@ -164,7 +164,7 @@ django-filter==23.5
     # via wagtail
 django-formtools==2.3
     # via -r requirements.in
-django-health-check==3.17.0
+django-health-check==3.18.1
     # via directory-healthcheck
 django-ipware==6.0.3
     # via -r requirements.in
@@ -176,7 +176,7 @@ django-recaptcha==3.0.0
     # via -r requirements.in
 django-redis==5.4.0
     # via -r requirements.in
-django-staff-sso-client==4.2.1
+django-staff-sso-client==4.2.2
     # via -r requirements.in
 django-storages[boto3]==1.13.2
     # via
@@ -222,7 +222,7 @@ filetype==1.2.0
     # via willow
 geoip2==2.9.0
     # via -r requirements.in
-great-components==2.6.1
+great-components==2.6.2
     # via -r requirements.in
 gunicorn==20.1.0
     # via -r requirements.in
@@ -389,7 +389,7 @@ s3transfer==0.6.2
     # via boto3
 sentry-sdk==1.14.0
     # via -r requirements.in
-sigauth==5.2.4
+sigauth==5.2.6
     # via
     #   -r requirements.in
     #   directory-client-core

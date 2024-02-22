@@ -117,7 +117,7 @@ colorama==0.4.6
     # via djlint
 configargparse==1.7
     # via locust
-coverage[toml]==7.4.1
+coverage[toml]==7.4.2
     # via
     #   pytest-codecov
     #   pytest-cov
@@ -146,35 +146,35 @@ defusedxml==0.7.1
     # via willow
 dill==0.3.8
     # via pylint
-directory-api-client==26.4.5
+directory-api-client==26.4.6
     # via -r requirements.in
-directory-ch-client==4.0.0
+directory-ch-client==4.0.1
     # via -r requirements.in
-directory-client-core==7.2.9
+directory-client-core==7.2.12
     # via
     #   -r requirements.in
     #   directory-api-client
     #   directory-ch-client
     #   directory-forms-api-client
     #   directory-sso-api-client
-directory-components==40.2.1
+directory-components==40.2.2
     # via -r requirements.in
-directory-constants==24.1.0
+directory-constants==24.1.1
     # via
     #   -r requirements.in
     #   directory-components
     #   great-components
-directory-forms-api-client==7.3.2
+directory-forms-api-client==7.3.3
     # via -r requirements.in
-directory-healthcheck==3.3
+directory-healthcheck==3.4
     # via -r requirements.in
 directory-sso-api-client==7.2.6
     # via -r requirements.in
-directory-validators==9.3.2
+directory-validators==9.3.3
     # via -r requirements.in
 distlib==0.3.8
     # via virtualenv
-django==4.2.7
+django==4.2.10
     # via
     #   -r requirements.in
     #   directory-api-client
@@ -224,7 +224,7 @@ django-filter==23.5
     # via wagtail
 django-formtools==2.3
     # via -r requirements.in
-django-health-check==3.17.0
+django-health-check==3.18.1
     # via directory-healthcheck
 django-ipware==6.0.3
     # via -r requirements.in
@@ -236,7 +236,7 @@ django-recaptcha==3.0.0
     # via -r requirements.in
 django-redis==5.4.0
     # via -r requirements.in
-django-staff-sso-client==4.2.1
+django-staff-sso-client==4.2.2
     # via -r requirements.in
 django-storages[boto3]==1.13.2
     # via
@@ -340,7 +340,7 @@ gitdb==4.0.11
     # via gitpython
 gitpython==3.1.42
     # via -r requirements_test.in
-great-components==2.6.1
+great-components==2.6.2
     # via -r requirements.in
 greenlet==3.0.3
     # via gevent
@@ -679,7 +679,7 @@ selenium==4.18.1
     # via -r requirements_test.in
 sentry-sdk==1.14.0
     # via -r requirements.in
-sigauth==5.2.4
+sigauth==5.2.6
     # via
     #   -r requirements.in
     #   directory-client-core
@@ -803,7 +803,7 @@ vine==5.1.0
     #   amqp
     #   celery
     #   kombu
-virtualenv==20.25.0
+virtualenv==20.25.1
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core
