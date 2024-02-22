@@ -10,7 +10,7 @@ from domestic.models import (
     CountryGuidePage,
     DomesticDashboard,
     DomesticHomePage,
-    FindABuyerHomePage,
+    FindABuyerPage,
     GreatDomesticHomePage,
     ManuallyConfigurableTopicLandingPage,
     MarketsTopicLandingPage,
@@ -127,10 +127,10 @@ class ManuallyConfigurableTopicLandingPageFactory(wagtail_factories.PageFactory)
         model = ManuallyConfigurableTopicLandingPage
 
 
-class FindABuyerHomePageFactory(wagtail_factories.PageFactory):
+class FindABuyerPageFactory(wagtail_factories.PageFactory):
     title = 'Connect directly with international buyers'
     hero_text = factory.fuzzy.FuzzyText(length=255)
     slug = 'find-a-buyer'
 
     class Meta:
-        model = FindABuyerHomePage
+        model = FindABuyerPage

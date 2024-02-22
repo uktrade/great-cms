@@ -1517,7 +1517,7 @@ class TradeFinancePage(
     )
 
 
-class FindABuyerHomePage(cms_panels.FindABuyerPagePanels, BaseContentPage):
+class FindABuyerPage(cms_panels.FindABuyerPagePanels, BaseContentPage):
     template = 'domestic/find_a_buyer.html'
 
     hero_image = models.ForeignKey(
