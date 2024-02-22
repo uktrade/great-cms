@@ -27,7 +27,12 @@ from wagtailseo.models import SeoMixin
 from wagtail.snippets.blocks import SnippetChooserBlock
 
 from core import blocks as core_blocks, cache_keys, helpers, mixins, service_urls
-from core.blocks import AdvantageBlock, ColumnsBlock, SupportHomepageCardBlock
+from core.blocks import (
+    AdvantageBlock,
+    ButtonBlock,
+    ColumnsBlock,
+    SupportHomepageCardBlock,
+)
 from core.constants import (
     ARTICLE_TYPES,
     COUNTRY_FACTSHEET_CTA_TITLE,
@@ -1509,4 +1514,78 @@ class TradeFinancePage(
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
+    )
+
+class FindABuyerHomePage(cms_panels.FindABuyerPagePanels, BaseContentPage):
+    template = 'domestic/find_a_buyer.html'
+
+    hero_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    hero_text = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
+    )
+    hero_cta = StreamField(
+        [('button', ButtonBlock(icon='cog', verbose_name='CTA button for EA logged out users'))],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
+    hero_text_below_cta_logged_out = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
+    )
+    hero_cta_logged_in = StreamField(
+        [('button', ButtonBlock(icon='cog', verbose_name='CTA button for EA logged in users'))],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
+
+    body_title = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name='Body title',
+    )
+
+    body = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
+    )
+
+    body_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+
+    cta_title = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name='CTA title',
+    )
+    cta_teaser = models.TextField(
+        blank=True,
+        verbose_name='CTA teaser',
+    )
+
+    cta_link_label = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name='CTA link label',
+    )
+    cta_link = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name='CTA link',
     )
