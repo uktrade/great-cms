@@ -21,6 +21,10 @@ body {
     margin: 0;
 }
 
+#content:focus {
+    outline: none;
+}
+
 #skip-link {
     font-family: 'Euclid Flex B';
 }
