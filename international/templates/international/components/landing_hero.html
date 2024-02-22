@@ -3,15 +3,19 @@
 {% image hero_image original as rendition %}
 {% image page.hero_mobile_image original as mobile_image %}
 <style>
-  .great-hero {
-    background-image: url({{ mobile_image.url }});
-  }
-
-  @media (min-width: 641px) {
     .great-hero {
-      background-image: url({{ rendition.url }});
+        background-image: url({{ mobile_image.url }});
     }
-  }
+
+    @media (min-width: 641px) {
+        .great-hero {
+            background-image: url({{ rendition.url }});
+        }
+    }
+
+    .great-hero-no-image {
+        background-image: url({% static 'images/international-hero-1920x420.jpeg' %});
+    }
 </style>
 <section class="great-hero {% if not hero_image %}great-hero-no-image{% endif %}"
          id="hero">
