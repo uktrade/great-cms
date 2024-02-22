@@ -485,3 +485,45 @@ class TradeFinancePagePanels:
     settings_panels = [
         FieldPanel('slug'),
     ]
+
+class FindABuyerPagePanels:
+    content_panels = [
+        FieldPanel('title'),
+        MultiFieldPanel(
+            heading='Hero',
+            classname='collapsible',
+            children=[
+                FieldPanel('hero_image'),
+                FieldPanel('hero_text'),
+                FieldPanel('hero_cta'),
+                FieldPanel('hero_text_below_cta_logged_out'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='Logged in variations',
+            children=[
+                FieldPanel('hero_cta_logged_in'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='Body fields',
+            children=[
+                FieldPanel('body_title'),
+                FieldPanel('body'),
+                FieldPanel('body_image'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='CTA fields',
+            children=[
+                FieldPanel('cta_title'),
+                FieldPanel('cta_teaser'),
+                FieldPanel('cta_link_label'),
+                FieldPanel('cta_link'),
+            ],
+        ),
+    ]
+
+    settings_panels = [
+        FieldPanel('slug'),
+    ]
