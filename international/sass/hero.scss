@@ -15,10 +15,6 @@
         padding-top: 45px;
     }
 
-    .great-hero-no-image {
-        background-color: $eyb-dark-blue;
-    }
-
     .great-hero__container {
         @include govuk-media-query($from: desktop) {
           display: flex;
