@@ -1493,14 +1493,9 @@ nav.great-breadcrumbs {
       font-size: 14px !important;
     }
 
-    li:nth-child(n+3) {
+    li:not(:first-child, :last-child) {
       display: none;
     }
-
-    li:nth-child(n+2)::after {
-      display: none;
-    }
-
   }
 
   li {
