@@ -44,11 +44,7 @@ nav.breadcrumbs {
       font-size: 14px;
     }
 
-    li:nth-child(n+3) {
-      display: none;
-    }
-
-    li:nth-child(n+2)::after {
+    li:not(:first-child, :last-child) {
       display: none;
     }
   }
