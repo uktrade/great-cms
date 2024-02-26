@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from unittest import mock
 from urllib import parse
 
+import factory.fuzzy
 import pytest
 from directory_forms_api_client import actions
 from django.contrib.auth import get_user_model
@@ -1313,6 +1314,13 @@ def test_course_page(client, root_page):
     response = client.get(url)
     assert response.status_code == 200
     assert latest_event.name in response.rendered_content
+
+
+@pytest.mark.django_db
+def test_course_page_returns_404_for_slug_not_found(client):
+    url = reverse('export_academy:course', kwargs=dict(slug=factory.fuzzy.FuzzyText(length=50).fuzz()))
+    response = client.get(url)
+    assert response.status_code == 404
 
 
 class EventVideoOnDemandViewTest(TestCase):

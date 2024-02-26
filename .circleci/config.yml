@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  browser-tools: circleci/browser-tools@1.4.2
+  browser-tools: circleci/browser-tools@1.4.8
   node: circleci/node@5.0.2
 
 ###############################################################################
@@ -110,8 +110,7 @@ jobs:
       - restore_cache:
           key: v1-deps-{{ checksum "requirements_test.txt" }}
       - run: sudo apt-get update
-      - browser-tools/install-chrome:
-          chrome-version: "116.0.5845.110"
+      - browser-tools/install-chrome
       - browser-tools/install-chromedriver
       - run:
           name: Install Allure CLI
