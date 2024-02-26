@@ -52,13 +52,15 @@
             </div>
             <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %} govuk-!-margin-bottom-2">
                 <fieldset class="govuk-fieldset">
-                    {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
+                    <legend class="govuk-fieldset__legend govuk-label great-font-bold">{{ field.label }}</legend>
+                    {% include 'domestic/contact/includes/govuk-form-field.html' with field=field hide_label=True %}
                 </fieldset>
             </div>
         {% else %}
             <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %} govuk-!-margin-bottom-2">
                 <fieldset class="govuk-fieldset">
-                    {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
+                    <legend class="govuk-fieldset__legend govuk-label great-font-bold">{{ field.label }}</legend>
+                    {% include 'domestic/contact/includes/govuk-form-field.html' with field=field hide_label=True %}
                 </fieldset>
             </div>
         {% endif %}
