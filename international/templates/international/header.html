@@ -29,15 +29,21 @@
                     <ul id="primary-navigation"
                         class="govuk-header__navigation-list great-navigation-list">
                         <li class="govuk-header__navigation-item {% if '/expand-your-business-in-the-uk/' in request.path %}govuk-header__navigation-item--active{% endif %}">
-                            <a class="govuk-header__link govuk-link--inverse govuk-!-font-size-19"
+                            <a data-title="Expand your business"
+                               data-location="International header"
+                               class="govuk-header__link govuk-link--inverse govuk-!-font-size-19"
                                href="{% if not eyb_user %}{% url 'international_online_offer:index' %}{% else %}/international/expand-your-business-in-the-uk/guide/{% endif %}">Expand your business</a>
                         </li>
                         <li class="govuk-header__navigation-item">
-                            <a class="govuk-header__link govuk-link--inverse govuk-!-font-size-19"
+                            <a data-title="Investment opportunities"
+                               data-location="International header"
+                               class="govuk-header__link govuk-link--inverse govuk-!-font-size-19"
                                href="/international/investment/">Investment opportunities</a>
                         </li>
                         <li class="govuk-header__navigation-item">
-                            <a class="govuk-header__link govuk-link--inverse govuk-!-font-size-19"
+                            <a data-title="Buy from the UK"
+                               data-location="International header"
+                               class="govuk-header__link govuk-link--inverse govuk-!-font-size-19"
                                href="/international/content/trade/how-we-help-you-buy/">Buy from the UK</a>
                         </li>
                     </ul>
