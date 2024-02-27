@@ -1823,6 +1823,12 @@ nav.great-breadcrumbs {
     }
   }
 
+  .great-hero__text {
+    @include govuk-media-query($from: tablet, $until: desktop) {
+      width: 90%;
+    }
+  }
+
   .great-hero__search {
     margin-top: 15px;
 
@@ -1912,7 +1918,7 @@ nav.great-breadcrumbs {
   }
 
   .great-hero__logo {
-    width: 300px;
+    width: 260px;
     position: absolute;
     right: 0;
     bottom: 100px;
