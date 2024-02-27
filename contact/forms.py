@@ -265,6 +265,15 @@ class DomesticExportSupportStep3Form(forms.Form):
         },
     )
 
+    def clean(self):
+        cleaned_data = super().clean()
+        uk_telephone_number = cleaned_data.get('uk_telephone_number')
+
+        if uk_telephone_number:
+            cleaned_data['uk_telephone_number'] = uk_telephone_number.replace(' ', '')
+
+        return cleaned_data
+
 
 class DomesticExportSupportStep4Form(forms.Form):
     product_or_service_1 = forms.CharField(
