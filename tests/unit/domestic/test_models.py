@@ -727,8 +727,8 @@ def test_usa_country(domestic_homepage):
         title='Test',
         country=country,
     )
-
     assert page.is_usa is True
+
 
 @pytest.mark.django_db
 def test_eu_region(domestic_homepage):
@@ -740,8 +740,8 @@ def test_eu_region(domestic_homepage):
         title='Test',
         country=country,
     )
-
     assert page.is_eu_country is True
+
 
 # BaseContentPage is abstract but had some methods on it
 
