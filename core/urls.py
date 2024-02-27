@@ -183,7 +183,7 @@ if settings.FEATURE_DESIGN_SYSTEM:
         ),
     ]
 
-if settings.FEATURE_PRODUCT_MARKET_HERO:
+if settings.FEATURE_PRODUCT_MARKET_HERO and settings.FEATURE_PRODUCT_MARKET_SEARCH_ENABLED:
     urlpatterns += [
         path(
             'product-market',
