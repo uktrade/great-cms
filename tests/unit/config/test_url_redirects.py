@@ -211,7 +211,6 @@ redirects = [
             '?utm_source=test%12&utm_medium=test&utm_campaign=test%test'
         ),
     ),
-    ('/export/find-a-buyer/', '/find-a-buyer/'),
     ('/uk/privacy-policy/', '/privacy-and-cookies/'),
     ('/uk/terms-and-conditions/', '/terms-and-conditions/'),
     ('/int/', '/international/'),

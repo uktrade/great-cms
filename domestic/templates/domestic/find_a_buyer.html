@@ -1,0 +1,90 @@
+{% extends 'domestic/base.html' %}
+{% load wagtailimages_tags %}
+{% load wagtailcore_tags %}
+{% load static %}
+{% load wagtailimages_tags %}
+{% load event_list_buttons %}
+{% load add_govuk_classes from content_tags %}
+{% block content %}
+    {% block breadcrumbs %}
+        {% include 'components/breadcrumbs_cms.html' %}
+    {% endblock %}
+    <div class="great">
+        {% image page.hero_image original as rendition %}
+        <section class="background-white govuk-!-padding-bottom-0">
+            <div class="container">
+                <div class="page-header article-header stack-at-tablet-width ea-landing-page govuk-!-padding-left-0"
+                     id="hero">
+                    <div class="inner-header govuk-!-margin-left-0 govuk-!-static-padding-0">
+                        <div>
+                            <h1>{{ page.title }}</h1>
+                            <p>{{ page.hero_text | richtext | add_govuk_classes }}</p>
+                            {% if user.is_anonymous %}
+                                {% include_block page.hero_cta %}
+                                <p>{{ page.hero_text_below_cta_logged_out | richtext | add_govuk_classes }}</p>
+                            {% else %}
+                                {% include_block page.hero_cta_logged_in %}
+                            {% endif %}
+                        </div>
+                        <div class="image-container image-full-width great-display-from-tablet ea-landing-image-container"
+                             style="background: url({{ rendition.url }})">
+                            <img class="ea-logo"
+                                 src="{% static 'images/uk-export-academy-logo.svg' %}"
+                                 alt="UK Export Academy logo" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="great-bg-light-blue panels-container govuk-!-padding-bottom-0 govuk-!-padding-top-0">
+        <div class="grid-row great-bg-white govuk-!-static-padding-bottom-7 govuk-!-static-padding-top-7">
+            <div class="great great-bg-white lesson-page">
+                <div class="great-container">
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-one-third-from-desktop">
+                            <h2>{{ page.body_title }}</h2>
+                        </div>
+                        <div class="govuk-grid-column-two-thirds-from-desktop">
+                        </div>
+                    </div>
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-one-third-from-desktop">
+                            <p>{{ page.body | richtext | add_govuk_classes }}</p>
+                        </div>
+                        <div class="govuk-grid-column-two-thirds-from-desktop">
+                            <div class="govuk-!-static-padding-top-6" >
+                            {% image page.body_image original as body_rendition %}
+                                <img class="width-full"
+                                     src="{{ body_rendition.url }}"
+                                     alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="govuk-!-static-padding-bottom-7 govuk-!-static-padding-top-7" id="article_related_content_footer">
+        <div class="container">
+            <div class="grid-row">
+                <div class="column-three-quarters">
+                    <div class="grid-row">
+                        <div class="column-seven-ninths">
+                            <div class="grid-row">
+                                <div class="column">
+                                    <h2 class="heading-large margin-top-0">{{page.cta_title}}</h2>
+                                    <p>{{page.cta_teaser}}</p>
+                                    <div>
+                                        <a href="{{page.cta_link}}" class="button primary-button">{{page.cta_link_label}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

@@ -263,12 +263,6 @@ redirects = [
         OpportunitiesRedirectView.as_view(),
     ),
     re_path(
-        r'^export/find-a-buyer/$',
-        QuerystringRedirectView.as_view(
-            url='/find-a-buyer/',
-        ),
-    ),
-    re_path(
         r'^uk/privacy-policy/$',
         QuerystringRedirectView.as_view(url=PRIVACY_POLICY_URL),
     ),
