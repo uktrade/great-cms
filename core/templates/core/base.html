@@ -4,14 +4,6 @@
 {% load url_map %}
 {% load to_json %}
 {% load wagtailcore_tags %}
-{% block head_title %}
-    {% if page.title %}
-        {{ page.title }}
-    {% else %}
-        Welcome to great.gov.uk
-    {% endif %}
-    - great.gov.uk
-{% endblock %}
 {% block head_css %}
     <link href="{% static 'magna_styles.css' %}" media="all" rel="stylesheet" />
 {% endblock %}
@@ -24,8 +16,9 @@
 </noscript>
 {% block head_other %}
     {% with is_wagtail_page=page %}
+        {% include "core/includes/meta.html" %}
         {% if is_wagtail_page %}
-            {% include "wagtailseo/meta.html" %}
+            {% include "core/includes/seo_meta.html" %}
         {% endif %}
     {% endwith %}
 {% endblock %}
