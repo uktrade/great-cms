@@ -79,6 +79,7 @@ def feature_flags(request):
     retval['features']['FEATURE_HOMEPAGE_REDESIGN_V1'] = settings.FEATURE_HOMEPAGE_REDESIGN_V1
     retval['features']['FEATURE_SHARE_COMPONENT'] = settings.FEATURE_SHARE_COMPONENT
     retval['features']['FEATURE_PRODUCT_MARKET_HERO'] = settings.FEATURE_PRODUCT_MARKET_HERO
+    retval['features']['FEATURE_PRODUCT_MARKET_SEARCH_ENABLED'] = settings.FEATURE_PRODUCT_MARKET_SEARCH_ENABLED
 
     return retval
 

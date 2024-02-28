@@ -453,7 +453,8 @@ figure.great-blockquote {
   a {
     background-color: transparent;
 
-    &:active, &:focus:active {
+    &:active,
+    &:focus:active {
       height: 100%;
       outline: none;
       background-color: transparent !important;
@@ -1503,7 +1504,6 @@ nav.great-breadcrumbs {
   }
 }
 
-
 .great-breadcrumbs li:after {
   box-sizing: initial;
   transform: rotate(-45deg);
@@ -1805,17 +1805,27 @@ nav.great-breadcrumbs {
   }
 
   .great-hero__subtitle {
+    font-size: 16px;
+    line-height: 20px;
     color: $great-white;
     margin: 10px 0 20px;
 
     @include govuk-media-query($from: tablet) {
-      margin: 20px 0 0;
+      font-size: 20px;
+      line-height: 30px;
+      margin: 20px 0;
     }
   }
 
   .great-hero__container {
     @include govuk-media-query($from: desktop) {
       display: flex;
+    }
+  }
+
+  .great-hero__text {
+    @include govuk-media-query($from: tablet, $until: desktop) {
+      width: 90%;
     }
   }
 
@@ -1908,19 +1918,27 @@ nav.great-breadcrumbs {
   }
 
   .great-hero__logo {
-    width: 325px;
+    width: 260px;
     position: absolute;
     right: 0;
-    bottom: 50px;
+    bottom: 100px;
     display: none;
 
     img {
       width: 100%;
     }
 
-    @media (min-width: 1170px) {
+    @media (min-width: 768px) {
       display: block;
     }
+
+    @media (min-width: 1025px) {
+      width: 412px;
+    }
+  }
+
+  .great {
+    overflow-x: visible;
   }
 }
 
@@ -2004,7 +2022,7 @@ nav.great-breadcrumbs {
 }
 
 .great-inline-feedback__container {
-  border-top-color: #DDE5ED;
+  border-top-color: #dde5ed;
   border-top-style: solid;
   border-top-width: 2px;
   background-color: $great-white;
@@ -2038,7 +2056,7 @@ nav.great-breadcrumbs {
 
   span[role='img'] {
     font-size: 28px;
-    color: #00703C;
+    color: #00703c;
   }
 }
 
@@ -2049,7 +2067,7 @@ nav.great-breadcrumbs {
 
   span[role='img'] {
     font-size: 28px;
-    color: #D4351C;
+    color: #d4351c;
   }
 }
 
@@ -2058,7 +2076,7 @@ nav.great-breadcrumbs {
 
   p {
     margin: 0;
-    color: #505A5F;
+    color: #505a5f;
   }
 }
 
@@ -2073,15 +2091,13 @@ nav.great-breadcrumbs {
 }
 
 .great-checkbox--inline-feedback {
-
   label {
     font-family: $main-text-font;
     font-size: 18px;
   }
 
-  [type=checkbox] + label::before {
+  [type='checkbox'] + label::before {
     border: 2px solid #222222;
     border-radius: 4px;
   }
-
 }
