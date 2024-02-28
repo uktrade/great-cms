@@ -278,7 +278,10 @@ class EYBArticlePage(BaseContentPage):
                 if request.GET.get('back'):
                     home_url += '#personalised-guide'
 
-                breadcrumbs = [{'name': 'Guide', 'url': home_url}, {'name': self.article_title, 'url': self.url}]
+                breadcrumbs = [
+                    {'name': 'Home', 'url': '/international/'},
+                    {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#personalised-guide'},
+                ]
 
                 context.update(
                     triage_data=triage_data,
@@ -325,8 +328,8 @@ class EYBTradeShowsPage(BaseContentPage):
             )
 
         breadcrumbs = [
+            {'name': 'Home', 'url': '/international/'},
             {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#personalised-guide'},
-            {'name': 'Trade events', 'url': request.path},
         ]
         context.update(
             triage_data=triage_data,
