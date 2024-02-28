@@ -12,7 +12,7 @@ from django.utils.translation import gettext_lazy as _
 from great_components import forms
 from wagtail.admin.forms import WagtailAdminModelForm
 
-from contact import constants
+from contact import constants, widgets as contact_widgets
 from core.validators import is_valid_uk_phone_number, is_valid_uk_postcode
 from directory_constants.choices import COUNTRY_CHOICES
 
@@ -86,6 +86,7 @@ class PersonalDetails(forms.Form):
 
 
 class ExportExperience(forms.Form):
+
     export_experience = forms.ChoiceField(
         label=_('What is your export experience?'),
         choices=(
@@ -100,7 +101,7 @@ class ExportExperience(forms.Form):
             ('I have exported in the last 12 months', 'I have exported in the last 12 months'),
             ('I do not have a product for export', 'I do not have a product for export'),
         ),
-        widget=forms.RadioSelect(attrs={'id': 'hiring-select'}),
+        widget=contact_widgets.GreatRadioSelect,
         error_messages={'required': _('Choose one option about your export experience')},
     )
 
@@ -136,7 +137,7 @@ class ExportExperience(forms.Form):
             ('Both', 'Both'),
             ("I don't know", "I don't know"),
         ),
-        widget=forms.RadioSelect,
+        widget=contact_widgets.GreatRadioSelect,
         error_messages={'required': _('Choose one option about what you export')},
     )
 
@@ -181,7 +182,7 @@ class BusinessDetails(forms.Form):
             ("I don't know", "I don't know"),
             ("I'd prefer not to say", "I'd prefer not to say"),
         ),
-        widget=forms.RadioSelect,
+        widget=contact_widgets.GreatRadioSelect,
         error_messages={'required': _('Enter a turnover amount')},
     )
 
@@ -194,7 +195,7 @@ class BusinessDetails(forms.Form):
             ('not sure', "I don't know"),
             ('prefer not to say', "I'd prefer not to say"),
         ),
-        widget=forms.RadioSelect,
+        widget=contact_widgets.GreatRadioSelect,
         error_messages={'required': _('Choose number of employees')},
     )
 
