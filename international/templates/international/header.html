@@ -71,16 +71,22 @@
                         {% if eyb_user %}
                             <li class="govuk-header__navigation-item {% if '/expand-your-business-in-the-uk/guide' in request.path %}govuk-header__navigation-item--active{% endif %}">
                                 <a class="govuk-header__link govuk-!-font-size-16"
+                                   data-location="EYB sub-nav"
+                                   data-title="UK expansion guide"
                                    href="/international/expand-your-business-in-the-uk/guide">UK expansion guide</a>
                             </li>
                             <li class="govuk-header__navigation-item {% if '/expand-your-business-in-the-uk/change-your-answers' in request.path %}govuk-header__navigation-item--active{% endif %}">
                                 <a class="govuk-header__link govuk-!-font-size-16"
+                                   data-location="EYB sub-nav"
+                                   data-title="Change your answers"
                                    href="{% url 'international_online_offer:change-your-answers' %}">
                                     Change your answers
                                 </a>
                             </li>
                             <li class="govuk-header__navigation-item {% if '/expand-your-business-in-the-uk/profile' in request.path %}govuk-header__navigation-item--active{% endif %}">
                                 <a class="govuk-header__link govuk-!-font-size-16"
+                                   data-location="EYB sub-nav"
+                                   data-title="Edit your profile"
                                    href="{% url 'international_online_offer:profile' %}">Edit your profile</a>
                             </li>
                         {% endif %}
@@ -91,12 +97,18 @@
                                    onclick="signOut()"
                                    onkeypress="return enterKeyPressed(event)"
                                    class="govuk-header__link govuk-!-font-size-16"
+                                   data-location="EYB sub-nav"
+                                   data-title="Sign out"
                                    href="#">Sign out</a>
                             {% elif request.user.is_authenticated %}
                                 <a class="govuk-header__link govuk-link--inverse govuk-!-font-size-16"
+                                   data-location="EYB sub-nav"
+                                   data-title="Complete sign up"
                                    href="{% url 'international_online_offer:profile' %}?signup=true">Complete sign up</a>
                             {% else %}
                                 <a class="govuk-header__link govuk-link--inverse govuk-!-font-size-16"
+                                   data-location="EYB sub-nav"
+                                   data-title="Sign in"
                                    href="{% url 'international_online_offer:login' %}">Sign in</a>
                             {% endif %}
                         </li>
