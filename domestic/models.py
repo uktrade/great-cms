@@ -10,6 +10,7 @@ from django.utils.functional import cached_property
 from great_components.mixins import GA360Mixin
 from modelcluster.fields import ParentalManyToManyField
 from typing import Optional
+from typing import Optional
 from wagtail import blocks
 from wagtail.admin.panels import (
     FieldPanel,
