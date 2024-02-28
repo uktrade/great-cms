@@ -12,19 +12,12 @@
     <!--<![endif]-->
     <head>
         <meta charset="utf-8" />
-        {% block sharing_description %}
-            <meta name="description"
-                  content="{% block meta_description %}{% firstof page.search_description content_snippet.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description %}{% endblock %}">
-        {% endblock %}
-        {% block sharing_title %}
-            <meta name="title"
-                  content="{% block meta_title %}{% firstof page.title %}{% endblock %}">
-        {% endblock %}
         <meta name="msvalidate.01" content="76D322F181AE9F91C43419E5CD511BBC" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {% with is_wagtail_page=page %}
+            {% include "core/includes/meta.html" %}
             {% if is_wagtail_page %}
-                {% include "wagtailseo/meta.html" %}
+                {% include "core/includes/seo_meta.html" %}
             {% endif %}
         {% endwith %}
         {% block head_google_tag_manager %}
@@ -32,7 +25,6 @@
             {% include 'components/google_tag_manager_head.html' %}
         {% endblock %}
         {% block cookie_domain_meta %}<meta id="privacyCookieDomain" value="{{ PRIVACY_COOKIE_DOMAIN }}" />{% endblock %}
-        {% block meta_tags %}{% endblock %}
         {% with is_wagtail_page=page %}
             {% if not is_wagtail_page %}
                 <title>

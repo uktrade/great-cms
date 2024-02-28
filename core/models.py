@@ -42,7 +42,8 @@ from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtail.snippets.models import register_snippet
 from wagtail.utils.decorators import cached_classmethod
 from wagtailmedia.models import Media
-from wagtailseo.models import SeoMixin
+from wagtailseo.models import SeoMixin as WagtailSeoMixin
+from wagtailseo.models import TwitterCard
 
 from core import blocks as core_blocks, cms_panels, mixins, snippet_slugs
 from core.blocks import (
@@ -338,6 +339,25 @@ class TimeStampedModel(models.Model):
             '-created',
         )
         abstract = True
+
+class SeoMixin(WagtailSeoMixin):
+    class Meta:
+        abstract = True
+    
+    seo_twitter_card = TwitterCard.LARGE
+
+    @property
+    def seo_image_alt_text(self) -> str:
+        """
+        Gets the alt text for assigned seo image
+        """
+        
+        for attr in self.seo_image_sources:
+            if hasattr(self, attr):
+                image = getattr(self, attr)
+                if isinstance(image, AbstractImage):
+                    return image.alt_text
+        return None
 
 
 # Content models

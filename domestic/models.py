@@ -9,6 +9,7 @@ from django.http import Http404
 from django.utils.functional import cached_property
 from great_components.mixins import GA360Mixin
 from modelcluster.fields import ParentalManyToManyField
+from typing import Optional
 from wagtail import blocks
 from wagtail.admin.panels import (
     FieldPanel,
@@ -22,8 +23,9 @@ from wagtail.contrib.table_block.blocks import TableBlock
 from wagtail.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.blocks import ImageChooserBlock
+from wagtail.images.models import AbstractImage
 from wagtail.models import Page
-from wagtailseo.models import SeoMixin
+from wagtailseo.models import TwitterCard
 from wagtail.snippets.blocks import SnippetChooserBlock
 
 from core import blocks as core_blocks, cache_keys, helpers, mixins, service_urls
@@ -38,14 +40,13 @@ from core.constants import (
 )
 from core.fields import single_struct_block_stream_field_factory
 from core.helpers import build_social_links
-from core.models import CMSGenericPage, Country, IndustryTag, Region, Tag, ContentModule
+from core.models import SeoMixin, CMSGenericPage, Country, IndustryTag, Region, Tag, ContentModule
 from domestic import cms_panels, forms as domestic_forms
 from domestic.helpers import build_route_context, get_lesson_completion_status
 from exportplan.core import helpers as exportplan_helpers
 
 DUTIES_AND_CUSTOMS_SERVICE = 'https://www.check-duties-customs-exporting-goods.service.gov.uk'
 TRADE_BARRIERS_SERVICE = 'https://www.check-international-trade-barriers.service.gov.uk/barriers/'
-
 
 class DataLayerMixin(
     Page,
@@ -69,7 +70,6 @@ class DataLayerMixin(
         self.add_ga360_data_to_payload(request)
         context['ga360'] = self.ga360_payload
         return context
-
 
 class BaseContentPage(
     SeoMixin,
