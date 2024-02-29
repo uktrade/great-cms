@@ -4,6 +4,7 @@
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
 {% block head_title %}{{ page.page_title }}{% endblock %}
+{% block meta_title %}{{ page.page_title }}{% endblock %}
 {% block meta_description %}
     {% get_meta_description site %}
 {% endblock %}

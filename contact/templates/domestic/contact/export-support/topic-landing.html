@@ -6,6 +6,7 @@
 {% load add_govuk_classes from content_tags %}
 {% block meta_tags %}<meta name="robots" content="noindex">{% endblock %}
 {% block head_title %}{{ page.page_title }}{% endblock %}
+{% block meta_title %}{{ page.page_title }}{% endblock %}
 {% block body_js %}
     {{ block.super }}
     <script src="{% static 'javascript/digital-entry-point.js' %}"></script>

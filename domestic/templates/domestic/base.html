@@ -14,8 +14,19 @@
         <meta charset="utf-8" />
         <meta name="msvalidate.01" content="76D322F181AE9F91C43419E5CD511BBC" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% block sharing_description %}
+        <meta name="description"
+                content="{% block meta_description %}{% firstof page.search_description content_snippet.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description %}{% endblock %}">
+        {% endblock %}
+
+        {% firstof page.seo_title page.title  as seo_title %}
+        {% block sharing_title %}
+        <meta name="title"
+            content="{% block meta_title %}{% if seo_title %}{{ seo_title }}{% else %}Welcome to great.gov.uk{% endif %} - great.gov.uk{% endblock %}">
+        {% endblock %}
+
+        <title>{% block head_title %}{% if seo_title %}{{ seo_title }}{% else %}Welcome to great.gov.uk{% endif %} - great.gov.uk{% endblock %}</title>
         {% with is_wagtail_page=page %}
-            {% include "core/includes/meta.html" %}
             {% if is_wagtail_page %}
                 {% include "core/includes/seo_meta.html" %}
             {% endif %}
@@ -25,20 +36,6 @@
             {% include 'components/google_tag_manager_head.html' %}
         {% endblock %}
         {% block cookie_domain_meta %}<meta id="privacyCookieDomain" value="{{ PRIVACY_COOKIE_DOMAIN }}" />{% endblock %}
-        {% with is_wagtail_page=page %}
-            {% if not is_wagtail_page %}
-                <title>
-                    {% block head_title %}
-                        {% if page.seo_title %}
-                            {{ page.seo_title }}
-                        {% else %}
-                            {{ page.title }}
-                        {% endif %}
-                    {% endblock %}
-                    - great.gov.uk
-                </title>
-            {% endif %}
-        {% endwith %}
         {% block head_favicon %}
             <link href='{% static 'images/favicon-192x192.png' %}' rel='shortcut icon' type='image/png'>
             <!--[if IE]> <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon" /> <![endif]-->
@@ -118,25 +115,6 @@
         {% endblock %}
         {% block head_other %}
             {% include 'components/browser_check.html' %}
-        {% endblock %}
-        {% block head_sharing_metadata %}
-            {% if request %}
-                {% comment %} There are one or two OG image tags rendered.
-        This is the first/default one, which can be overridden at the template level
-                {% endcomment %}
-                <meta property="og:image"
-                      content="{% block og_image %}{% static_absolute 'images/opengraph-image.png' %}{% endblock %}">
-                <meta property="og:url" content="{{ request.build_absolute_uri }}" />
-            {% endif %}
-            {% comment %} This is the second OG image, optional{% endcomment %}
-            {% block sharing_image %}
-                {% comment %} There are a number of fields which might be workable as a sharing image {% endcomment %}
-                {% image page.hero_image width-1200 as hero_image %}
-                {% image page.hero_medium width-1200 as hero_image_medium %}
-                {% image page.article_image width-1200 as article_image %}
-                {% firstof hero_image.url hero_image_medium.url article_image.url as sharable_image_url %}
-                {% if sharable_image_url %}<meta property="og:image" content="{{ sharable_image_url }}">{% endif %}
-            {% endblock %}
         {% endblock %}
     </head>
     <body {% block body_attributes %}{% endblock %}>
