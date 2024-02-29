@@ -34,7 +34,7 @@ sentry-sdk==1.14.*
 
 # DIT packages
 # ------------
-great-components==2.6.2
+great-components==2.6.3
 directory-api-client==26.4.6
 directory-ch-client==4.0.1
 directory-client-core==7.2.12

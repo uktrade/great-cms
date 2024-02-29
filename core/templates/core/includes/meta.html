@@ -1,9 +1,0 @@
-{% block sharing_description %}
-<meta name="description"
-        content="{% block meta_description %}{% firstof page.search_description content_snippet.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description %}{% endblock %}">
-{% endblock %}
-{% block sharing_title %}
-<meta name="title"
-    content="{% block meta_title %}{% if page.title %}{{ page.title }}{% else %}Welcome to great.gov.uk{% endif %} - great.gov.uk{% endblock %}">
-{% endblock %}
-<title>{% block meta_head_title %}{% if page.title %}{{ page.title }}{% else %}Welcome to great.gov.uk{% endif %} - great.gov.uk{% endblock %}</title>

@@ -168,7 +168,7 @@ django-health-check==3.18.1
     # via directory-healthcheck
 django-ipware==6.0.3
     # via -r requirements.in
-django-modelcluster==6.2.1
+django-modelcluster==6.3
     # via wagtail
 django-permissionedforms==0.1
     # via wagtail
@@ -216,14 +216,16 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==23.2.1
+faker==23.3.0
     # via factory-boy
 filetype==1.2.0
     # via willow
 geoip2==2.9.0
     # via -r requirements.in
-great-components==2.6.2
+great-components==2.6.3
     # via -r requirements.in
+greenlet==3.0.3
+    # via sqlalchemy
 gunicorn==20.1.0
     # via -r requirements.in
 hashids==0.8.4
@@ -361,7 +363,7 @@ qrcode==7.4.2
     # via pyhanko
 readtime==1.1.1
     # via -r requirements.in
-redis==5.0.1
+redis==5.0.2
     # via
     #   celery
     #   django-redis
@@ -429,7 +431,7 @@ tinycss2==1.2.1
     # via
     #   cssselect2
     #   svglib
-typing-extensions==4.9.0
+typing-extensions==4.10.0
     # via
     #   asgiref
     #   kombu
