@@ -835,7 +835,8 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
                                                                     ]
                                                                 ),
                                                             ),
-                                                        ]
+                                                        ],
+                                                        required=False,
                                                     ),
                                                 ),
                                             ]

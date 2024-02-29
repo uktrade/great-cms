@@ -6,5 +6,6 @@
 {% endblock %}
 {% block body_content_container %}
     {% include './includes/govuk/phase_banner.html' %}
+    {% include './includes/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
     {{ block.super }}
 {% endblock %}

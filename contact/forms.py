@@ -16,6 +16,7 @@ from django.forms import (
 )
 from great_components import forms
 
+import regex
 from contact import constants, mixins as contact_mixins, widgets as contact_widgets
 from contact.helpers import get_free_trade_agreements, retrieve_regional_office
 from core.forms import TERMS_LABEL, ConsentFieldMixin
@@ -264,6 +265,15 @@ class DomesticExportSupportStep3Form(forms.Form):
             'invalid': 'Enter an email address in the correct format, like name@example.com',
         },
     )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        uk_telephone_number = cleaned_data.get('uk_telephone_number')
+
+        if uk_telephone_number:
+            cleaned_data['uk_telephone_number'] = regex.NOT_NUMBERS_REGEX.sub('', uk_telephone_number)
+
+        return cleaned_data
 
 
 class DomesticExportSupportStep4Form(forms.Form):

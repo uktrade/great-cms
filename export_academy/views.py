@@ -10,7 +10,7 @@ from directory_forms_api_client import actions
 from django.contrib.auth.models import AnonymousUser
 from django.db import transaction
 from django.http import Http404, HttpRequest, HttpResponse, HttpResponseRedirect
-from django.shortcuts import redirect
+from django.shortcuts import get_list_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.utils.text import get_valid_filename
@@ -741,7 +741,7 @@ class EACourseView(TemplateView):
     template_name = 'export_academy/course_page.html'
 
     def get_context_data(self, **kwargs):
-        self.page = models.CoursePage.objects.live().filter(slug=kwargs['slug']).first()
+        self.page = get_list_or_404(models.CoursePage, live=True, slug=kwargs['slug'])[0]
         ctx = super().get_context_data(**kwargs)
         ctx['signed_in'] = True if self.request.user != AnonymousUser() else False
         ctx['page'] = self.page

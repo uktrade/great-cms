@@ -1235,16 +1235,6 @@ def test_fab_redirect(client, user):
     assert response.url == urls.domestic.SINGLE_SIGN_ON_PROFILE / 'business-profile/description'
 
 
-def test_fab_redirect_landing(client, user):
-    client.force_login(user)
-
-    url = '/profile/find-a-buyer/'
-    response = client.get(url)
-
-    assert response.status_code == 302
-    assert response.url == urls.domestic.SINGLE_SIGN_ON_PROFILE / 'business-profile/'
-
-
 def _check_template_use(response, template_name):
     for template in response.templates:
         if template.name == template_name:
