@@ -112,6 +112,10 @@ class EYBGuidePage(BaseContentPage):
             else []
         )
 
+        breadcrumbs = [
+            {'name': 'Home', 'url': '/international/'},
+        ]
+
         context.update(
             complete_contact_form_link='international_online_offer:signup',
             complete_contact_form_link_text='Sign up',
@@ -121,6 +125,7 @@ class EYBGuidePage(BaseContentPage):
             finance_and_support_articles=all_articles_tagged_with_finance_and_support,
             trade_shows_page=trade_shows_page,
             is_triage_complete=is_triage_complete,
+            breadcrumbs=breadcrumbs,
         )
 
         self.set_ga360_payload(
