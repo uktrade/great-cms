@@ -10,6 +10,7 @@ from django.contrib.sessions.middleware import SessionMiddleware
 from django.db.models import FileField
 from django.test import TestCase, override_settings
 from django.utils.safestring import mark_safe
+from freezegun import freeze_time
 from wagtail.admin.menu import DismissibleMenuItem
 from wagtail.rich_text import RichText
 from wagtail.tests.utils import WagtailPageTests
@@ -1254,6 +1255,7 @@ def test_anchor_identifier_entity_element_handler():
     assert handler.mutability == 'MUTABLE'
 
 
+@freeze_time('2024-01-01 01:00:00')
 @pytest.mark.django_db
 def test_set_default_expiry_date(rf, domestic_homepage):
     request = rf.get('/')
