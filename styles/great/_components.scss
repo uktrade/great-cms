@@ -1767,7 +1767,7 @@ nav.great-breadcrumbs {
   background-image: url(/static/images/hero-product-market-bg-1.png),
     url(/static/images/hero-product-market-bg-2.png);
   background-position: center top;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .great-hero--product-market,
@@ -1778,12 +1778,19 @@ nav.great-breadcrumbs {
 .great-hero--product-market {
   @media (min-width: 1170px) {
     min-height: 500px;
+    padding-top: 50px;
+    margin-top: 0;
   }
 }
 
 .great-hero--product-market > .great-container {
-  @include govuk-responsive-margin(9, 'top');
-  @include govuk-responsive-margin(9, 'bottom');
+  @include govuk-responsive-padding(5);
+
+  @media (min-width: 1170px) {
+    @include govuk-responsive-margin(6, 'top');
+    @include govuk-responsive-margin(9, 'bottom');
+    padding: 0;
+  }
 }
 
 .great-hero--product-market {
@@ -1836,13 +1843,17 @@ nav.great-breadcrumbs {
       align-self: center;
     }
 
+    @include govuk-media-query($from: tablet, $until: desktop) {
+      width: 90%;
+    }
+
     @media (min-width: 1170px) {
       margin-top: 0;
     }
   }
 
   .great-hero__form {
-    @include govuk-media-query($from: tablet) {
+    @media (min-width: 1170px) {
       margin-left: 20px;
     }
   }
@@ -1870,9 +1881,10 @@ nav.great-breadcrumbs {
 
   .great-hero__input {
     height: 53px;
+    width: 100%;
     padding: 0 1rem;
     border-color: $great-white !important;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 
     &:focus {
       border-color: $great-dark-blue !important;
@@ -1882,6 +1894,8 @@ nav.great-breadcrumbs {
       flex-grow: 2;
       flex-basis: 0;
       margin-right: 10px;
+      width: 380px;
+      margin-bottom: 0;
     }
   }
 
@@ -2099,5 +2113,55 @@ nav.great-breadcrumbs {
   [type='checkbox'] + label::before {
     border: 2px solid #222222;
     border-radius: 4px;
+  }
+}
+
+.great-product-picker {
+  position: relative;
+
+  ul {
+    position: absolute;
+    z-index: 1;
+    max-height: 300px;
+    overflow-y: auto;
+    width: 100%;
+    margin-top: -10px;
+
+    @media (min-width: 1170px) {
+      margin-top: 0;
+      width: 380px;
+    }
+
+    li {
+      border-bottom: 1px solid $great-light-grey;
+      padding: 3px;
+    }
+
+    button {
+      width: 100%;
+      background: none;
+      color: black;
+      border: none;
+      text-align: left;
+
+      &:hover,
+      &:focus {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.great-product-picker__reset-button {
+  color: $great-light-grey;
+  position: absolute;
+  top: 2px;
+  right: 15px;
+  border: none;
+  background: none;
+
+  &:hover,
+  &:focus {
+    color: $great-dark-grey;
   }
 }
