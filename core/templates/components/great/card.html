@@ -1,6 +1,8 @@
 {% load i18n wagtailimages_tags %}
 {% load add_govuk_classes add_card_govuk_classes tag_text_mapper url_type from content_tags %}
-<div class="great-card{% if classes %} {{ classes }}{% endif %}">
+<div class="great-card{% if classes %} {{ classes }}{% endif %}"
+     {% if data_attr_title %}data-title="{{ data_attr_title }}"{% endif %}
+     {% if data_attr_location %}data-location="{{ data_attr_location }}"{% endif %}>
     {% if url %}
         <a href="{{ url }}" {% if data_attr %}{{ data_attr }}{% endif %} {% if is_external_link %} target="_blank" rel="noopener noreferrer external">
             <span class="great-visually-hidden">(opens in new tab)</span>
@@ -16,9 +18,7 @@
                  alt="{% if image_alt %}{{ image_alt }}{% endif %}" />
         {% endif %}
     {% endif %}
-    <div class=" {% if container_class %} {{ container_class }} {% else %} govuk-!-padding-4 {% endif %}"
-         {% if data_attr_title %}data-title="{{ data_attr_title }}"{% endif %}
-         {% if data_attr_location %}data-location="{{ data_attr_location }}"{% endif %}>
+    <div class=" {% if container_class %} {{ container_class }} {% else %} govuk-!-padding-4 {% endif %}">
         {% if title %}
             {% if show_title_link %}<div class="great-position-relative">{% endif %}
                 <{{ heading_level|default:'h3' }} class="
