@@ -419,8 +419,8 @@ class ProfileView(GA360Mixin, FormView):
             sub_title = self.PROFILE_DETAILS_SUB_TITLE
 
         breadcrumbs = [
-            {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/'},
-            {'name': 'Profile', 'url': self.request.path},
+            {'name': 'Home', 'url': '/international/'},
+            {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#personalised-guide'},
         ]
         return super().get_context_data(
             **kwargs,
@@ -648,8 +648,8 @@ class EditYourAnswersView(GA360Mixin, TemplateView):
         triage_data = get_triage_data_for_user(self.request)
         user_data = get_user_data_for_user(self.request)
         breadcrumbs = [
-            {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/'},
-            {'name': 'Change your answers', 'url': self.request.path},
+            {'name': 'Home', 'url': '/international/'},
+            {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#personalised-guide'},
         ]
         return super().get_context_data(
             **kwargs,
@@ -875,8 +875,8 @@ class TradeAssociationsView(GA360Mixin, TemplateView):
         all_trade_associations = paginator.page(page)
 
         breadcrumbs = [
+            {'name': 'Home', 'url': '/international/'},
             {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#personalised-guide'},
-            {'name': 'Trade associations', 'url': self.request.path},
         ]
 
         return super().get_context_data(
@@ -914,8 +914,8 @@ class BusinessClusterView(GA360Mixin, TemplateView):
             self.MockBCIData('Wales', 2500, 220000, 46000, 11),
         ]
         breadcrumbs = [
+            {'name': 'Home', 'url': '/international/'},
             {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#personalised-guide'},
-            {'name': 'Business cluster information', 'url': self.request.path},
         ]
         triage_data = get_triage_data_for_user(self.request)
         return super().get_context_data(
