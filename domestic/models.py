@@ -1,4 +1,3 @@
-from typing import Optional
 from urllib.parse import unquote_plus
 
 from django.conf import settings
@@ -23,10 +22,8 @@ from wagtail.contrib.table_block.blocks import TableBlock
 from wagtail.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.blocks import ImageChooserBlock
-from wagtail.images.models import AbstractImage
 from wagtail.models import Page
 from wagtail.snippets.blocks import SnippetChooserBlock
-from wagtailseo.models import TwitterCard
 
 from core import blocks as core_blocks, cache_keys, helpers, mixins, service_urls
 from core.blocks import (
