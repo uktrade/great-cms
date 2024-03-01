@@ -15,7 +15,6 @@
 
 {# Open Graph #}
 {% block og_seo_base %}
-{% if settings.wagtailseo.SeoSettings.og_meta %}
 <meta property="og:title" content="{% block og_title %}{% firstof self.seo_pagetitle page.title %}{% endblock %}" />
 <meta property="og:description" content="{% block og_description %}{{ self.seo_description }}{% endblock %}" />
 
@@ -38,16 +37,13 @@
 <meta property="article:published_time" content="{{ self.seo_published_at|date:'c' }}" />
 <meta property="article:modified_time" content="{{ self.last_published_at|date:'c' }}" />
 {% endif %}
-{% endif %}
 {% endblock %}
 {% block og_seo_extra %}{% endblock %}
 
 {# Twitter #}
 {% block twitter_seo_base %}
-{% if settings.wagtailseo.SeoSettings.twitter_meta %}
 <meta name="twitter:card" content="{% block twitter_card %}{{ self.seo_twitter_card_content }}{% endblock %}" />
 <meta name="twitter:site" content="{% block twitter_site %}{{ settings.wagtailseo.SeoSettings.at_twitter_site }}{% endblock %}" />
-{% endif %}
 {% endblock %}
 {% block twitter_seo_extra %}{% endblock %}
 
