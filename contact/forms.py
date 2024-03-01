@@ -338,8 +338,28 @@ class DomesticExportSupportStep5Form(forms.Form):
 
 
 class DomesticExportSupportStep6Form(forms.Form):
+    enquiry_subject = forms.ChoiceField(
+        label='Select a subject for your enquiry',
+        widget=django_widgets.Select(attrs={'class': 'govuk-select great-select'}),
+        choices=(
+            ('', 'Please select'),
+            ('market_selection_ess_dep_testing', 'Market selection'),
+            ('sales_and_marketing_ess_dep_testing', 'Sales and marketing'),
+            ('funding_and_finance_ess_dep_testing', 'Funding and finance'),
+            ('regulations_and_licensing_ess_dep_testing', 'Regulations and licensing'),
+            ('logistics_ess_dep_testing', 'Logistics'),
+            ('customs_and_taxes_ess_dep_testing', 'Customs and taxes'),
+            ('travel_and_work_visas_ess_dep_testing', 'Travel and work visas'),
+            ('managing_risks_ess_dep_testing', 'Managing risks'),
+            ('operating_overseas_dep_testing', 'Operating overseas'),
+            ('other_ess_dep_testing', 'Not listed above'),
+        ),
+        error_messages={
+            'required': 'You must select a subject for your enquiry',
+        },
+    )
     enquiry = forms.CharField(
-        label='Your enquiry',
+        label='Tell us more about your enquiry',
         help_text="""Provide as much information as possible to help us better understand your enquiry.
         <strong class='great-font-bold'>Do not share any commercially sensitive information.</strong>""",
         widget=django_widgets.Textarea(attrs={'class': 'govuk-textarea'}),
