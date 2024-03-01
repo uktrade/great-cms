@@ -16,6 +16,7 @@
 <meta property="og:title" content="{% block og_title %}{% firstof self.seo_pagetitle page.title %}{% endblock %}" />
 <meta property="og:description" content="{% block og_description %}{{ self.seo_description }}{% endblock %}" />
 
+{% if settings.wagtailseo.SeoSettings.og_meta %}
 {% comment %} There are a number of fields which might be workable as a sharing image {% endcomment %}
 {% image page.hero_image width-1200 as hero_image %}
 {% image page.hero_medium width-1200 as hero_image_medium %}
@@ -34,6 +35,7 @@
 {% if self.seo_og_type == "article" %}
 <meta property="article:published_time" content="{{ self.seo_published_at|date:'c' }}" />
 <meta property="article:modified_time" content="{{ self.last_published_at|date:'c' }}" />
+{% endif %}
 {% endif %}
 {% endblock %}
 {% block og_seo_extra %}{% endblock %}
