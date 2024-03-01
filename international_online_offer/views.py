@@ -376,7 +376,7 @@ class SpendView(GA360Mixin, FormView):
         if self.request.user.is_authenticated:
             triage_data = get_triage_data_for_user(self.request)
             if triage_data:
-                return {'spend': triage_data.spend, 'spend_currency': triage_data.spend_currency}
+                return {'spend': triage_data.spend, 'spend_currency': self.request.session.get('spend_currency')}
 
         return {
             'spend': self.request.session.get('spend'),
