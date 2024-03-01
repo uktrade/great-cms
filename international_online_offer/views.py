@@ -340,7 +340,6 @@ class SpendView(GA360Mixin, FormView):
     def get_form_kwargs(self):
         kwargs = super(SpendView, self).get_form_kwargs()
         spend_currency = self.request.session.get('spend_currency')
-        print(spend_currency)
         kwargs['spend_currency'] = spend_currency
         return kwargs
 
@@ -876,6 +875,7 @@ class TradeAssociationsView(GA360Mixin, TemplateView):
             # Given the sector selected we need to get mapped trade association sectors to query
             # with due to misalignment of sector names across DBT
             trade_association_sectors = helpers.get_trade_assoication_sectors_from_sector(triage_data.sector)
+
             all_trade_associations = (
                 TradeAssociation.objects.filter(sector__in=trade_association_sectors)
                 if trade_association_sectors
