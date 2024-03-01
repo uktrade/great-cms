@@ -6,9 +6,7 @@ from django.forms import (
     ChoiceField,
     EmailField,
     EmailInput,
-    IntegerField,
     MultipleChoiceField,
-    NumberInput,
     PasswordInput,
     RadioSelect,
     Select,
@@ -19,12 +17,7 @@ from django.utils.html import mark_safe
 from great_components import forms
 
 from directory_constants.choices import COUNTRY_CHOICES
-from international_online_offer.core import (
-    choices,
-    intents,
-    region_sector_helpers,
-    spends,
-)
+from international_online_offer.core import choices, intents, region_sector_helpers
 
 TERMS_LABEL = mark_safe('I agree to the <a href="#" target="_blank">Terms and Conditions</a>')
 BLANK_COUNTRY_CHOICE = [('', '')]
@@ -117,33 +110,38 @@ class HiringForm(forms.Form):
 
 
 class SpendForm(forms.Form):
+
     spend = ChoiceField(
-        label='What is your planned spend for UK entry or expansion?',
-        help_text="""This is for the first three years of your project.
-        Choose an estimated amount from the list, or enter a specific amount""",
+        label='Select an estimate',
         required=True,
-        widget=forms.RadioSelect(attrs={'id': 'spend-select', 'onclick': 'handleSpendRadioClick(this);'}),
+        widget=forms.RadioSelect(attrs={'id': 'spend-select'}),
         choices=choices.SPEND_CHOICES,
         error_messages={
             'required': 'You must select at least one spend option',
         },
     )
-    spend_other = IntegerField(
-        label='',
-        required=False,
-        widget=NumberInput(attrs={'class': 'govuk-input govuk-input--width-5'}),
-    )
 
-    def clean(self):
-        cleaned_data = super().clean()
-        spend = cleaned_data.get('spend')
-        if spend != spends.SPECIFIC_AMOUNT:
-            cleaned_data['spend_other'] = ''
-        spend_other = cleaned_data.get('spend_other')
-        if spend == spends.SPECIFIC_AMOUNT and not spend_other:
-            self.add_error('spend_other', 'You must enter a value in pounds')
-        else:
-            return cleaned_data
+    def __init__(self, *args, **kwargs):
+        spend_currency = kwargs.pop('spend_currency', 'GBP')
+        super(SpendForm, self).__init__(*args, **kwargs)
+        spend_choices = choices.SPEND_CHOICES
+        if spend_currency == 'EUR':
+            spend_choices = choices.SPEND_CHOICES_EURO
+        elif spend_currency == 'USD':
+            spend_choices = choices.SPEND_CHOICES_USD
+        self.fields['spend'].choices = spend_choices
+
+
+class SpendCurrencySelectForm(forms.Form):
+    spend_currency = ChoiceField(
+        label='Select a currency',
+        required=True,
+        choices=choices.SPEND_CURRENCY_CHOICES,
+        widget=Select(attrs={'class': 'govuk-select govuk-!-width-full'}),
+        error_messages={
+            'required': 'Select a currency from the list',
+        },
+    )
 
 
 class ProfileForm(forms.Form):

@@ -337,6 +337,13 @@ class SpendView(GA360Mixin, FormView):
             site_section='spend',
         )
 
+    def get_form_kwargs(self):
+        kwargs = super(SpendView, self).get_form_kwargs()
+        spend_currency = self.request.session.get('spend_currency')
+        print(spend_currency)
+        kwargs['spend_currency'] = spend_currency
+        return kwargs
+
     def get_back_url(self):
         back_url = 'international_online_offer:hiring'
         if self.request.GET.get('next'):
@@ -350,22 +357,32 @@ class SpendView(GA360Mixin, FormView):
         return next_url
 
     def get_context_data(self, **kwargs):
+        spend_currency_param = self.request.GET.get('spend_currency')
+        if spend_currency_param:
+            self.request.session['spend_currency'] = spend_currency_param
+
         return super().get_context_data(
             **kwargs,
             back_url=self.get_back_url(),
             step_text='Step 5 of 5',
-            question_text='What is your planned spend for UK entry or expansion?',
+            question_text='How much do you want to spend on setting up in the first three years?',
             why_we_ask_this_question_text="""We'll use this information to provide customised content
               relevant to your spend.""",
+            spend_currency_from=forms.SpendCurrencySelectForm(
+                initial={'spend_currency': self.request.session.get('spend_currency')}
+            ),
         )
 
     def get_initial(self):
         if self.request.user.is_authenticated:
             triage_data = get_triage_data_for_user(self.request)
             if triage_data:
-                return {'spend': triage_data.spend, 'spend_other': triage_data.spend_other}
+                return {'spend': triage_data.spend, 'spend_currency': triage_data.spend_currency}
 
-        return {'spend': self.request.session.get('spend'), 'spend_other': self.request.session.get('spend_other')}
+        return {
+            'spend': self.request.session.get('spend'),
+            'spend_currency': self.request.session.get('spend_currency'),
+        }
 
     def form_valid(self, form):
         if self.request.user.is_authenticated:
@@ -373,12 +390,11 @@ class SpendView(GA360Mixin, FormView):
                 hashed_uuid=self.request.user.hashed_uuid,
                 defaults={
                     'spend': form.cleaned_data['spend'],
-                    'spend_other': form.cleaned_data['spend_other'],
                 },
             )
         else:
             self.request.session['spend'] = form.cleaned_data['spend']
-            self.request.session['spend_other'] = form.cleaned_data['spend_other']
+
         calculate_and_store_is_high_value(self.request)
         return super().form_valid(form)
 

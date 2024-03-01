@@ -94,9 +94,9 @@ def test_triage_hiring_form_validation(form_data, is_valid):
 @pytest.mark.parametrize(
     'form_data,is_valid',
     (
-        ({'spend': spends.FIVE_HUNDRED_THOUSAND_ONE_TO_ONE_MILLION, 'spend_other': ''}, True),
-        ({'spend': spends.SPECIFIC_AMOUNT, 'spend_other': '4500000'}, True),
-        ({'spend': spends.SPECIFIC_AMOUNT, 'spend_other': ''}, False),
+        ({'spend': spends.FIVE_HUNDRED_THOUSAND_TO_ONE_MILLION, 'spend_other': ''}, True),
+        ({'spend': 'SPECIFIC_AMOUNT', 'spend_other': '4500000'}, True),
+        ({'spend': 'SPECIFIC_AMOUNT', 'spend_other': ''}, False),
     ),
 )
 @pytest.mark.django_db
