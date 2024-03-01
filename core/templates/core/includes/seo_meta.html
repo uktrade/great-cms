@@ -1,12 +1,10 @@
 {# Only render this template if we have what appears to be a wagtail-seo page #}
 {% load static_absolute from great_components %}
 {% load wagtailimages_tags %}
-{% if self and self.seo_pagetitle %}
 
 {# Standard metadata #}
 {% block html_seo_base %}
 <link rel="canonical" href="{% block canonical %}{{ self.seo_canonical_url }}{% endblock %}">
-<meta name="description" content="{% block description %}{{ self.seo_description }}{% endblock %}" />
 {% if self.seo_og_type == "article" and self.seo_author %}
 <meta name="author" content="{% block author %}{{ self.seo_author }}{% endblock %}" />
 {% endif %}
@@ -46,5 +44,3 @@
 <meta name="twitter:site" content="{% block twitter_site %}{{ settings.wagtailseo.SeoSettings.at_twitter_site }}{% endblock %}" />
 {% endblock %}
 {% block twitter_seo_extra %}{% endblock %}
-
-{% endif %}
