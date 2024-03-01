@@ -20,9 +20,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {% block sharing_description %}
         <meta name="description"
-                content="{% block meta_description %}{% firstof  self.seo_description page.search_description content_snippet.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description %}{% endblock %}">
+                content="{% block meta_description %}{% firstof self.seo_description page.search_description content_snippet.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description %}{% endblock %}">
         {% endblock %}
-
         {% firstof page.seo_title page.title  as seo_title %}
         {% block sharing_title %}
         <meta name="title"
