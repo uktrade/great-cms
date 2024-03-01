@@ -30,6 +30,7 @@
         {% endblock %}
 
         <title>{% block head_title %}{% if seo_title %}{{ seo_title }}{% else %}Welcome to great.gov.uk{% endif %} - great.gov.uk{% endblock %}</title>
+        {% block meta_tags %}{% endblock %}
         {% with is_wagtail_page=page %}
             {% if is_wagtail_page %}
                 {% include "core/includes/seo_meta.html" %}
