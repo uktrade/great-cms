@@ -1,4 +1,6 @@
 {# Only render this template if we have what appears to be a wagtail-seo page #}
+{% if self and self.seo_pagetitle %}
+
 {% load static_absolute from great_components %}
 {% load wagtailimages_tags %}
 
@@ -48,3 +50,4 @@
 {% endif %}
 {% endblock %}
 {% block twitter_seo_extra %}{% endblock %}
+{% endif %}
