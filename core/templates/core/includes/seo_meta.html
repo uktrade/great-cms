@@ -16,7 +16,7 @@
 {# Open Graph #}
 {% block og_seo_base %}
 <meta property="og:title" content="{% block og_title %}{% firstof self.seo_pagetitle page.title %}{% endblock %}" />
-<meta property="og:description" content="{% block og_description %}{{ self.seo_description }}{% endblock %}" />
+<meta property="og:description" content="{% block og_description %}{% firstof self.seo_description page.search_description content_snippet.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description %}{% endblock %}" />
 
 {% if settings.wagtailseo.SeoSettings.og_meta %}
 {% comment %} There are a number of fields which might be workable as a sharing image {% endcomment %}
