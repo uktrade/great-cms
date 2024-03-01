@@ -3,14 +3,16 @@
 {% load format_timedelta from content_tags %}
 {% load render_curated_topic_card_content from content_tags %}
 {% comment %} `completed_lessons` only features lessons FOR THIS PARTIAL'S TOPIC {% endcomment %}
-<div class="great great-overflow-visible govuk-grid-column-two-thirds-from-desktop govuk-!-margin-bottom-6 govuk-!-padding-0" id="{{ topic.id }}">
-    <h2 class="learn__topic-item-title govuk-heading-m govuk-!-padding-0 govuk-!-margin-0">{{ topic.title }}</h2>
+<div class="great great-overflow-visible govuk-grid-column-two-thirds-from-desktop govuk-!-margin-bottom-6 govuk-!-padding-0"
+     id="{{ topic.id }}">
+    <h2 id="{{ topic.slug }}"
+        class="learn__topic-item-title govuk-heading-m govuk-!-padding-0 govuk-!-margin-0">{{ topic.title }}</h2>
     <ul class="learn__lessons-list">
-       {% for page in topic.get_lesson_pages %}
-       <li class="lte-suptopic">
-            {% render_curated_topic_card_content page completed_lessons as curated_content %}
-            {% include 'components/great/card.html' with content=curated_content|safe url=page.url bypass_class_filter=True classes='great-card--undecorated great-card--no-active-jump govuk-!-margin-0'%}
-       </li>
-    {% endfor %}
+        {% for page in topic.get_lesson_pages %}
+            <li class="lte-suptopic">
+                {% render_curated_topic_card_content page completed_lessons as curated_content %}
+                {% include 'components/great/card.html' with content=curated_content|safe url=page.url bypass_class_filter=True classes='great-card--undecorated great-card--no-active-jump govuk-!-margin-0' %}
+            </li>
+        {% endfor %}
     </ul>
 </div>
