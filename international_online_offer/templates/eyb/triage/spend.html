@@ -17,7 +17,7 @@
                     {% csrf_token %}
                     <div class="govuk-grid-row">
                         <div class="govuk-grid-column-one-third-from-desktop spend-currency-column">
-                            {% include '../includes/form_field.html' with field=spend_currency_from.spend_currency %}
+                            {% include '../includes/form_field.html' with field=spend_currency_form.spend_currency %}
                         </div>
                         <div class="govuk-grid-column-two-thirds-from-desktop">
                             <button type="submit"
