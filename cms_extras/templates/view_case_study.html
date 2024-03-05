@@ -4,6 +4,9 @@
 {% block head_title %}
     Viewing Case Study: {{ case_study.title }}
 {% endblock head_title %}
+{% block meta_title %}
+    Viewing Case Study: {{ case_study.title }}
+{% endblock meta_title %}
 {% block head_css %}
     {{ block.super }}
     <link href="{% static 'styles.css' %}" media="all" rel="stylesheet" />

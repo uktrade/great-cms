@@ -4,14 +4,6 @@
 {% load url_map %}
 {% load to_json %}
 {% load wagtailcore_tags %}
-{% block head_title %}
-    {% if page.title %}
-        {{ page.title }}
-    {% else %}
-        Welcome to great.gov.uk
-    {% endif %}
-    - great.gov.uk
-{% endblock %}
 {% block head_css %}
     <link href="{% static 'magna_styles.css' %}" media="all" rel="stylesheet" />
 {% endblock %}
@@ -23,9 +15,22 @@
     </style>
 </noscript>
 {% block head_other %}
+    {% block sharing_description %}
+    <meta name="description"
+            content="{% block meta_description %}{% firstof  self.seo_description page.search_description content_snippet.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description %}{% endblock %}">
+    {% endblock %}
+
+    {% firstof page.seo_title page.title  as seo_title %}
+    {% block sharing_title %}
+    <meta name="title"
+        content="{% block meta_title %}{% if seo_title %}{{ seo_title }}{% else %}Welcome to great.gov.uk{% endif %} - great.gov.uk{% endblock %}">
+    {% endblock %}
+
+    <title>{% block head_title %}{% if seo_title %}{{ seo_title }}{% else %}Welcome to great.gov.uk{% endif %} - great.gov.uk{% endblock %}</title>
+    {% block meta_tags %}{% endblock %}
     {% with is_wagtail_page=page %}
         {% if is_wagtail_page %}
-            {% include "wagtailseo/meta.html" %}
+            {% include "core/includes/seo_meta.html" %}
         {% endif %}
     {% endwith %}
 {% endblock %}

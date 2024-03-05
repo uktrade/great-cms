@@ -2,6 +2,7 @@
 {% load static %}
 {% load humanize %}
 {% block head_title %}Change your answers {{ block.super }}{% endblock %}
+{% block meta_title %}Change your answers {{ block.super }}{% endblock %}
 {% block head_other %}
     <meta name="description"
           content="Find information to help invest within the UK" />
@@ -103,7 +104,6 @@
                                 <dd class="govuk-summary-list__value govuk-body">
                                     {% if triage_data.get_spend_display %}
                                         {{ triage_data.get_spend_display }}
-                                        {% if triage_data.get_spend_display == 'Specific amount' %}: £{{ triage_data.spend_other }}{% endif %}
                                     {% else %}
                                         -
                                     {% endif %}
