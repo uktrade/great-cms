@@ -10,19 +10,17 @@ def test_is_capex_spend():
         directory_constants_sectors.FOOD_AND_DRINK, spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND
     )
     assert not scorecard.is_capex_spend(
-        directory_constants_sectors.FOOD_AND_DRINK, spends.FIVE_HUNDRED_THOUSAND_ONE_TO_ONE_MILLION
+        directory_constants_sectors.FOOD_AND_DRINK, spends.FIVE_HUNDRED_THOUSAND_TO_ONE_MILLION
     )
-    assert scorecard.is_capex_spend(
-        directory_constants_sectors.CONSUMER_AND_RETAIL, spends.ONE_MILLION_ONE_TO_TWO_MILLION
-    )
-    assert not scorecard.is_capex_spend('Random sector', spends.ONE_MILLION_ONE_TO_TWO_MILLION)
-    assert scorecard.is_capex_spend(directory_constants_sectors.CONSUMER_AND_RETAIL, spends.TEN_MILLION_ONE_PLUS)
-    assert not scorecard.is_capex_spend(directory_constants_sectors.FOOD_AND_DRINK, spends.SPECIFIC_AMOUNT, '1234567')
-    assert scorecard.is_capex_spend(directory_constants_sectors.CONSUMER_AND_RETAIL, spends.SPECIFIC_AMOUNT, '12345678')
+    assert scorecard.is_capex_spend(directory_constants_sectors.CONSUMER_AND_RETAIL, spends.ONE_MILLION_TO_TWO_MILLION)
+    assert not scorecard.is_capex_spend('Random sector', spends.ONE_MILLION_TO_TWO_MILLION)
+    assert scorecard.is_capex_spend(directory_constants_sectors.CONSUMER_AND_RETAIL, spends.MORE_THAN_TEN_MILLION)
+    assert not scorecard.is_capex_spend(directory_constants_sectors.FOOD_AND_DRINK, 'SPECIFIC_AMOUNT', '1234567')
+    assert scorecard.is_capex_spend(directory_constants_sectors.CONSUMER_AND_RETAIL, 'SPECIFIC_AMOUNT', '12345678')
     assert not scorecard.is_capex_spend(sectors.TECHNOLOGY_AND_SMART_CITIES, '0-10')
     assert scorecard.is_capex_spend(sectors.TECHNOLOGY_AND_SMART_CITIES, '1000001-3000000')
-    assert scorecard.is_capex_spend(sectors.TECHNOLOGY_AND_SMART_CITIES, spends.TEN_MILLION_ONE_PLUS)
-    assert scorecard.is_capex_spend(sectors.TECHNOLOGY_AND_SMART_CITIES, spends.SPECIFIC_AMOUNT, '2400000')
+    assert scorecard.is_capex_spend(sectors.TECHNOLOGY_AND_SMART_CITIES, spends.MORE_THAN_TEN_MILLION)
+    assert scorecard.is_capex_spend(sectors.TECHNOLOGY_AND_SMART_CITIES, 'SPECIFIC_AMOUNT', '2400000')
 
 
 @pytest.mark.django_db
@@ -71,12 +69,12 @@ def test_score_is_high_value():
         directory_constants_sectors.FOOD_AND_DRINK, regions.LONDON, hirings.ONE_TO_TEN, '1000001-3000000'
     )
     assert not scorecard.score_is_high_value(
-        directory_constants_sectors.FOOD_AND_DRINK, regions.LONDON, hirings.ONE_TO_TEN, spends.SPECIFIC_AMOUNT, '99'
+        directory_constants_sectors.FOOD_AND_DRINK, regions.LONDON, hirings.ONE_TO_TEN, 'SPECIFIC_AMOUNT', '99'
     )
     assert not scorecard.score_is_high_value(
         directory_constants_sectors.FOOD_AND_DRINK,
         regions.LONDON,
         hirings.ONE_TO_TEN,
-        spends.SPECIFIC_AMOUNT,
+        'SPECIFIC_AMOUNT',
         '999999999',
     )

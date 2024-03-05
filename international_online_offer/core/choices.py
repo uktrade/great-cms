@@ -41,13 +41,39 @@ HIRING_CHOICES = (
 )
 
 SPEND_CHOICES = (
-    (spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND, '£10,000 - £500,000'),
-    (spends.FIVE_HUNDRED_THOUSAND_ONE_TO_ONE_MILLION, '£500,000 - £1,000,000'),
-    (spends.ONE_MILLION_ONE_TO_TWO_MILLION, '£1,000,001 - £2,000,000'),
-    (spends.TWO_MILLION_ONE_TO_FIVE_MILLION, '£2,000,001 - £5,000,000'),
-    (spends.FIVE_MILLION_ONE_TO_TEN_MILLION, '£5,000,001 - £10,000,000'),
-    (spends.TEN_MILLION_ONE_PLUS, 'More than £10 million'),
-    (spends.SPECIFIC_AMOUNT, 'Specific amount'),
+    (spends.LESS_THAN_TEN_THOUSAND, 'Less than £10,000'),
+    (spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND, '£10,000 to £500,000'),
+    (spends.FIVE_HUNDRED_THOUSAND_TO_ONE_MILLION, '£500,000 to £1 million'),
+    (spends.ONE_MILLION_TO_TWO_MILLION, '£1 million to £2 million'),
+    (spends.TWO_MILLION_TO_FIVE_MILLION, '£2 million to £5 million'),
+    (spends.FIVE_MILLION_TO_TEN_MILLION, '£5 million to £10 million'),
+    (spends.MORE_THAN_TEN_MILLION, 'More than £10 million'),
+)
+
+SPEND_CHOICES_EURO = (
+    (spends.LESS_THAN_TEN_THOUSAND, 'Less than €11.000'),
+    (spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND, '€11.000 to €570.000'),
+    (spends.FIVE_HUNDRED_THOUSAND_TO_ONE_MILLION, '€570.000 to €1,1 million'),
+    (spends.ONE_MILLION_TO_TWO_MILLION, '€1,1 million to €2,2 million'),
+    (spends.TWO_MILLION_TO_FIVE_MILLION, '€2,2 million to €5,7 million'),
+    (spends.FIVE_MILLION_TO_TEN_MILLION, '€5,7 million to €11 million'),
+    (spends.MORE_THAN_TEN_MILLION, 'More than €11 million'),
+)
+
+SPEND_CHOICES_USD = (
+    (spends.LESS_THAN_TEN_THOUSAND, 'Less than $12,000'),
+    (spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND, '$12,000 to $600,000'),
+    (spends.FIVE_HUNDRED_THOUSAND_TO_ONE_MILLION, '$600,000 to $1.2 million'),
+    (spends.ONE_MILLION_TO_TWO_MILLION, '$1.2 million to $2.4 million'),
+    (spends.TWO_MILLION_TO_FIVE_MILLION, '$2.4 million to $6 million'),
+    (spends.FIVE_MILLION_TO_TEN_MILLION, '$6 million to $12 million'),
+    (spends.MORE_THAN_TEN_MILLION, 'More than $12 million'),
+)
+
+SPEND_CURRENCY_CHOICES = (
+    ('GBP', 'Pound sterling (GBP)'),
+    ('EUR', 'Euro (EUR)'),
+    ('USD', 'United States Dollar (USD)'),
 )
 
 LANDING_TIMEFRAME_CHOICES = (
