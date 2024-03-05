@@ -4,3 +4,10 @@
 @import 'components/article-list-item.scss';
 @import 'components/salary-rent.scss';
 @import 'components/csat.scss';
+
+
+@media (min-width: 769px) {
+    .spend-currency-column {
+        padding-right: 0px;
+    }
+}
