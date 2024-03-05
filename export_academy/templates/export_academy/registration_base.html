@@ -11,6 +11,15 @@
     {% endif %}
     – UK Export Academy
 {% endblock %}
+{% block meta_title %}
+    {{ title }} –
+    {% if is_editing %}
+        Edit your details
+    {% else %}
+        Booking your first event
+    {% endif %}
+    – UK Export Academy
+{% endblock %}
 {% block body_js %}
     {{ block.super }}
     <script type="text/javascript"
