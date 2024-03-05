@@ -103,7 +103,6 @@
                                 <dd class="govuk-summary-list__value govuk-body">
                                     {% if triage_data.get_spend_display %}
                                         {{ triage_data.get_spend_display }}
-                                        {% if triage_data.get_spend_display == 'Specific amount' %}: £{{ triage_data.spend_other }}{% endif %}
                                     {% else %}
                                         -
                                     {% endif %}
