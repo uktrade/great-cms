@@ -16,6 +16,7 @@ from django.forms import (
 from django.utils.html import mark_safe
 from great_components import forms
 
+from contact import widgets as contact_widgets
 from directory_constants.choices import COUNTRY_CHOICES
 from international_online_offer.core import choices, intents, region_sector_helpers
 
@@ -114,7 +115,7 @@ class SpendForm(forms.Form):
     spend = ChoiceField(
         label='Select an estimate',
         required=True,
-        widget=forms.RadioSelect(attrs={'id': 'spend-select'}),
+        widget=contact_widgets.GreatRadioSelect,
         choices=choices.SPEND_CHOICES,
         error_messages={
             'required': 'You must select at least one spend option',
