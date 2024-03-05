@@ -367,7 +367,7 @@ class SpendView(GA360Mixin, FormView):
             question_text='How much do you want to spend on setting up in the first three years?',
             why_we_ask_this_question_text="""We'll use this information to provide customised content
               relevant to your spend.""",
-            spend_currency_from=forms.SpendCurrencySelectForm(
+            spend_currency_form=forms.SpendCurrencySelectForm(
                 initial={'spend_currency': self.request.session.get('spend_currency')}
             ),
         )
