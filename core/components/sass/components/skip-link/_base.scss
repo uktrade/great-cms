@@ -1,8 +1,8 @@
-@import '../partials/typography';
-@import '../partials/mixins';
+@import '../partials/colours';
 
 #skip-link {
-  @include body-small;
+  font-size: 14px;
+  line-height: 1.6;
   background-color: transparent;
   color: $white;
   display: inline-block;
@@ -13,11 +13,16 @@
   z-index: -1;
 
   &:focus {
-    @include focus;
+    outline: $focus-yellow solid 4px;
+    outline-offset: 0;
     color: $dark-blue;
     left: 0;
     text-indent: 0;
     top: 0;
     z-index: 10;
+  }
+
+  @media (min-width: 641px) {
+    font-size: 16px;
   }
 }

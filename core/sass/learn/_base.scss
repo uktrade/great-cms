@@ -572,7 +572,8 @@ $desktop: 1024px;
     }
 
     hr {
-      @extend .hr;
+      height: 1px;
+      margin: 0;
     }
 
     a.link {

@@ -7,7 +7,8 @@ module.exports = {
   devtool: 'source-map',
   entry: {
     magna: './react-components/src/bundle.js',
-    magna_styles: './core/sass/main.scss',
+    magna_styles: './core/sass/magna.scss',
+    learn_styles: './core/sass/main.scss',
     common: './core/js/common.js',
     largevideoupload: './core/js/largevideoupload.js',
     custom_wagtaildraftailanchors: "./core/js/custom_wagtaildraftailanchors/wagtail_draftail_anchor.js",

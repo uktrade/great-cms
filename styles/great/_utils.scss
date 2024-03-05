@@ -606,6 +606,18 @@
   flex-basis: 50%;
 }
 
+.great-flex-grid {
+  margin: 0 -15px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.great-flex-grid > * {
+  padding: 0 15px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
 .great-background-light-blue {
   background-color: $great-light-blue;
 }
