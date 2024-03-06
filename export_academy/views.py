@@ -10,7 +10,7 @@ from directory_forms_api_client import actions
 from django.contrib.auth.models import AnonymousUser
 from django.db import transaction
 from django.http import Http404, HttpRequest, HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_list_or_404, redirect
+from django.shortcuts import get_list_or_404, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.utils.text import get_valid_filename
@@ -164,7 +164,7 @@ class EventVideoView(DetailView):
 
         # video_render tag which helps in adding subtitles
         # needs input in specific way as below
-        event: models.Event = kwargs.get('object', {})
+        event: self.model = kwargs.get('object', {})
         video = getattr(event, 'video_recording', None)
         if video:
             ctx['event_video'] = {'video': video}
@@ -179,11 +179,15 @@ class EventVideoView(DetailView):
         if document and completed:
             ctx['event_document_size'] = f'{math.floor(document.file_size * 0.001)}KB' if document.file_size else '0KB'
             ctx['event_document_url'] = document.url
-
         return ctx
 
     def get(self, request, *args, **kwargs):
-        update_booking(request.user.email, kwargs['pk'], request)
+        pk = kwargs['pk']
+        if request.user.is_authenticated:
+            update_booking(request.user.email, pk, request)
+        else:
+            event = get_object_or_404(self.model, pk=pk)
+            return HttpResponseRedirect(event.get_absolute_url())
         return super().get(request, *args, **kwargs)
 
 
