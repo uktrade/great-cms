@@ -574,6 +574,7 @@ $desktop: 1024px;
     hr {
       height: 1px;
       margin: 0;
+      border: 0;
     }
 
     a.link {
@@ -746,7 +747,8 @@ $desktop: 1024px;
     }
 
     hr {
-      margin-bottom: 0;
+      height: 1px;
+      border: 0;
 
       @include tablet {
         margin-bottom: 45px;
