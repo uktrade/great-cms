@@ -1,5 +1,5 @@
 from directory_constants import sectors as directory_constants_sectors
-from international_online_offer.core import hirings, regions, sectors as sectors, spends
+from international_online_offer.core import hirings, regions, sectors as sectors
 
 
 # Scoring system takes input from EYB triage and calculates whether a user / investor is low or high value.
@@ -47,7 +47,7 @@ def is_capex_spend(sector, spend, spend_other=0):
         {sectors.SPACE: 1479999},
         {directory_constants_sectors.WATER: 5219999},
     ]
-    if spend == spends.SPECIFIC_AMOUNT:
+    if spend == 'SPECIFIC_AMOUNT':
         spend_upper_value = spend_other
     elif '+' in spend:
         spend_upper_value = spend.split('+')[0]

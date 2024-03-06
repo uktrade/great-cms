@@ -2,6 +2,7 @@
 {% load static %}
 {% load component_tags %}
 {% block head_title %}{{ page.article_title }}{% endblock %}
+{% block meta_title %}{{ page.article_title }}{% endblock %}
 {% block meta_description %}
     {% get_meta_description page %}
 {% endblock %}

@@ -1,9 +1,6 @@
 {% extends 'domestic/base.html' %}
 {% load static %}
 {% load breadcrumbs from component_tags %}
-{% block head_title %}
-    {% firstof page.seo_title page.title %}
-{% endblock %}
 {% block content %}
     {% block breadcrumbs %}
         {% include 'components/breadcrumbs_cms.html' %}

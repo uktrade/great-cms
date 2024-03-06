@@ -9,7 +9,11 @@
         </p>
     </div>
     {% for field in form.visible_fields %}
-        {% if field.name == 'enquiry' %}
+        {% if field.name == 'enquiry_subject' %}
+            <div class="govuk-form-group govuk-!-margin-bottom-6 {% if field.errors %}govuk-form-group--error{% endif %}">
+                {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='great-text-select--arrow' %}
+            </div>
+        {% elif field.name == 'enquiry' %}
             <div class="govuk-form-group govuk-!-margin-bottom-6 {% if field.errors %}govuk-form-group--error{% endif %}">
                 {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
             </div>
