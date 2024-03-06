@@ -16,6 +16,7 @@ $fonts: '/static/fonts';
 $fa-font-path: '/static/fonts';
 
 @import 'core/components/sass/components/skip-link/_base.scss';
+@import 'core/components/sass/components/header-footer/_base.scss';
 
 // Great styles - todo - we need to be able to remove
 @import 'node_modules/great-styles/src/scss/elements/_reset.scss';
