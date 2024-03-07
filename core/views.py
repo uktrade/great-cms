@@ -1,6 +1,7 @@
 import abc
 import json
 import logging
+import pickle
 
 from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import Sender
@@ -641,6 +642,15 @@ class ProductMarketView(TemplateView):
             }
             response = action.save(data)
             response.raise_for_status()
+
+            personalisation_data = pickle.dumps(
+                {
+                    'product': product,
+                    'commodity_code': commodity_code,
+                    'market': market,
+                }
+            ).hex()
+            self.request.session['personalisation_data'] = personalisation_data
 
             if commodity_code:
                 return redirect(

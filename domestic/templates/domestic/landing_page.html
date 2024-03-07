@@ -241,6 +241,7 @@
             {% include 'components/informative_banner.html' with banner_heading='Report a trade barrier' banner_content='Tell us about trade barriers affecting your ability to trade so we can help fix them. <br><a href="/report-trade-barrier/">How to report a trade barrier</a>' %}
         </section>
     {% endif %}
+    {% if personalisation_data %}personalisation_data: {{ personalisation_data }}{% endif %}
     <section class="sector-potential-section padding-bottom-0">
         <div class="sector-potential-wrapper padding-top-45 padding-top-60-m padding-bottom-45 padding-bottom-60-m{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-bg-white{% endif %}">
             <div class="container padding-bottom-45-m">

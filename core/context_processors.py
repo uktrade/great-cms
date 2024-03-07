@@ -1,3 +1,5 @@
+import pickle
+
 from django.conf import settings
 from django.urls import reverse_lazy
 from django.utils import translation
@@ -92,3 +94,12 @@ def services_home_links(request):
     return {
         'international_home_link': {'url': reverse_lazy('index'), 'label': _('great.gov.uk international')},
     }
+
+
+def personalisation_data(request):
+    personalisation_data = request.session.get('personalisation_data')
+
+    if personalisation_data:
+        personalisation_data = pickle.loads(bytes.fromhex(personalisation_data))
+
+    return {'personalisation_data': personalisation_data}

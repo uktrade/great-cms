@@ -26,6 +26,7 @@
     </script>
 {% endblock %}
 {% block form_fields %}
+    {% if personalisation_data %}personalisation_data: {{ personalisation_data }}{% endif %}
     {% for field in form.visible_fields %}
         {% if field.name == 'company_registration_number' %}
             <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
