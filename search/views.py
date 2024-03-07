@@ -28,6 +28,7 @@ class SearchView(TemplateView):
         context = super().get_context_data(*args, **kwargs)
 
         results = {}
+        print(self.request.GET)
         query = self.request.GET.get('q', '')
         submitted = self.request.GET.get('submitted', '')
         page = helpers.sanitise_page(self.request.GET.get('page', '1'))
