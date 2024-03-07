@@ -498,6 +498,15 @@ def test_export_academy_booking_cancellation_success(mock_notify_cancellation, c
 
 
 @pytest.mark.django_db
+def test_event_video_view_redirect_for_unauthenticated_user(client, user):
+    event = factories.EventFactory(name='Test event name', description='Test description')
+    url = reverse('export_academy:event-video', kwargs=dict(pk=event.id))
+    response = client.get(url)
+    assert response.status_code == 302
+    assert response.url == event.get_absolute_url()
+
+
+@pytest.mark.django_db
 def test_event_video_view_with_video(client, user):
     event = factories.EventFactory(name='Test event name', description='Test description')
     url = reverse('export_academy:event-video', kwargs=dict(pk=event.id))
