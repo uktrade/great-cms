@@ -167,7 +167,11 @@ def test_sector(client, user, settings):
 def test_sector_next(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
-    response = client.get(reverse('international_online_offer:sector') + '?next=change-your-answers')
+    response = client.get(
+        reverse('international_online_offer:sector')
+        + '?next='
+        + reverse('international_online_offer:change-your-answers')
+    )
     assert response.status_code == 200
 
 
@@ -243,7 +247,11 @@ def test_intent(client, user, settings):
 def test_intent_next(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
-    response = client.get(reverse('international_online_offer:intent') + '?next=change-your-answers')
+    response = client.get(
+        reverse('international_online_offer:intent')
+        + '?next='
+        + reverse('international_online_offer:change-your-answers')
+    )
     assert response.status_code == 200
 
 
@@ -287,7 +295,11 @@ def test_location(client, user, settings):
 def test_location_next(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
-    response = client.get(reverse('international_online_offer:location') + '?next=change-your-answers')
+    response = client.get(
+        reverse('international_online_offer:location')
+        + '?next='
+        + reverse('international_online_offer:change-your-answers')
+    )
     assert response.status_code == 200
 
 
@@ -342,7 +354,11 @@ def test_hiring(client, user, settings):
 def test_hiring_next(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
-    response = client.get(reverse('international_online_offer:hiring') + '?next=change-your-answers')
+    response = client.get(
+        reverse('international_online_offer:hiring')
+        + '?next='
+        + reverse('international_online_offer:change-your-answers')
+    )
     assert response.status_code == 200
 
 
@@ -383,7 +399,11 @@ def test_spend(client, user, settings):
 def test_spend_next(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
-    response = client.get(reverse('international_online_offer:spend') + '?next=change-your-answers')
+    response = client.get(
+        reverse('international_online_offer:spend')
+        + '?next='
+        + reverse('international_online_offer:change-your-answers')
+    )
     assert response.status_code == 200
 
 

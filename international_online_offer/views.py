@@ -64,15 +64,15 @@ class SectorView(GA360Mixin, FormView):
         )
 
     def get_back_url(self):
-        back_url = 'international_online_offer:index'
+        back_url = reverse_lazy('international_online_offer:index')
         if self.request.GET.get('next'):
-            back_url = 'international_online_offer:' + self.request.GET.get('next')
+            back_url = check_url_host_is_safelisted(self.request)
         return back_url
 
     def get_success_url(self):
         next_url = reverse_lazy('international_online_offer:intent')
         if self.request.GET.get('next'):
-            next_url = reverse_lazy('international_online_offer:' + self.request.GET.get('next'))
+            next_url = check_url_host_is_safelisted(self.request)
         return next_url
 
     def get_context_data(self, **kwargs):
@@ -137,13 +137,13 @@ class IntentView(GA360Mixin, FormView):
     def get_back_url(self):
         back_url = 'international_online_offer:sector'
         if self.request.GET.get('next'):
-            back_url = 'international_online_offer:' + self.request.GET.get('next')
+            back_url = check_url_host_is_safelisted(self.request)
         return back_url
 
     def get_success_url(self):
         next_url = reverse_lazy('international_online_offer:location')
         if self.request.GET.get('next'):
-            next_url = reverse_lazy('international_online_offer:' + self.request.GET.get('next'))
+            next_url = check_url_host_is_safelisted(self.request)
         return next_url
 
     def get_context_data(self, **kwargs):
@@ -195,13 +195,13 @@ class LocationView(GA360Mixin, FormView):
     def get_back_url(self):
         back_url = 'international_online_offer:intent'
         if self.request.GET.get('next'):
-            back_url = 'international_online_offer:' + self.request.GET.get('next')
+            back_url = check_url_host_is_safelisted(self.request)
         return back_url
 
     def get_success_url(self):
         next_url = reverse_lazy('international_online_offer:hiring')
         if self.request.GET.get('next'):
-            next_url = reverse_lazy('international_online_offer:' + self.request.GET.get('next'))
+            next_url = check_url_host_is_safelisted(self.request)
         return next_url
 
     def get_context_data(self, **kwargs):
@@ -283,13 +283,13 @@ class HiringView(GA360Mixin, FormView):
     def get_back_url(self):
         back_url = 'international_online_offer:location'
         if self.request.GET.get('next'):
-            back_url = 'international_online_offer:' + self.request.GET.get('next')
+            back_url = check_url_host_is_safelisted(self.request)
         return back_url
 
     def get_success_url(self):
         next_url = reverse_lazy('international_online_offer:spend')
         if self.request.GET.get('next'):
-            next_url = reverse_lazy('international_online_offer:' + self.request.GET.get('next'))
+            next_url = check_url_host_is_safelisted(self.request)
         return next_url
 
     def get_context_data(self, **kwargs):
@@ -345,13 +345,13 @@ class SpendView(GA360Mixin, FormView):
     def get_back_url(self):
         back_url = 'international_online_offer:hiring'
         if self.request.GET.get('next'):
-            back_url = 'international_online_offer:' + self.request.GET.get('next')
+            back_url = check_url_host_is_safelisted(self.request)
         return back_url
 
     def get_success_url(self):
         next_url = '/international/expand-your-business-in-the-uk/guide/'
         if self.request.GET.get('next'):
-            next_url = reverse_lazy('international_online_offer:' + self.request.GET.get('next'))
+            next_url = check_url_host_is_safelisted(self.request)
         return next_url
 
     def get_context_data(self, **kwargs):
