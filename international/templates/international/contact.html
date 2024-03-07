@@ -10,7 +10,7 @@
         </div>
         {% if request.GET.success %}
             <div class="govuk-grid-row" id="complete_contact_form_message">
-                <div class="govuk-grid-column-full">{% include './includes/contact_success.html' %}</div>
+                <div class="govuk-grid-column-full">{% include './includes/contact_success.html' with back_url=back_url %}</div>
             </div>
         {% else %}
             <div class="govuk-grid-row">
