@@ -346,6 +346,7 @@ class SpendView(GA360Mixin, FormView):
         back_url = 'international_online_offer:hiring'
         if self.request.GET.get('next'):
             back_url = check_url_host_is_safelisted(self.request)
+
         return back_url
 
     def get_success_url(self):
@@ -359,6 +360,7 @@ class SpendView(GA360Mixin, FormView):
         if spend_currency_param:
             self.request.session['spend_currency'] = spend_currency_param
 
+        print(self.get_back_url())
         return super().get_context_data(
             **kwargs,
             back_url=self.get_back_url(),

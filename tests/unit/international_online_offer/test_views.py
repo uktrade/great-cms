@@ -176,6 +176,14 @@ def test_sector_next(client, user, settings):
 
 
 @pytest.mark.django_db
+def test_sector_next_unhappy(client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    client.force_login(user)
+    response = client.get(reverse('international_online_offer:sector') + '?next=edit-your-answers')
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
 def test_sector_initial(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     TriageData.objects.update_or_create(
