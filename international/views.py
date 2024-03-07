@@ -1,6 +1,6 @@
 from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import Sender
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin
 
@@ -51,7 +51,7 @@ class ContactView(GA360Mixin, FormView):
             email_address=cleaned_data['email'],
             subject=self.subject,
             service_name='Great.gov.uk International',
-            form_url=self.request.get_full_path(),
+            form_url=reverse('international:contact'),
             sender=sender,
         )
 
