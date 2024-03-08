@@ -6,7 +6,7 @@ from django.conf import settings
 from django.utils.crypto import get_random_string
 from msal import ConfidentialClientApplication
 
-# replace this with you email firstname.lastname
+# replace this with your email firstname.lastname
 EMAIL_ADDRESS_TO_REPLACE = ""
 
 
