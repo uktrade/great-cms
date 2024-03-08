@@ -74,12 +74,11 @@ browserstack-local==1.2.7
     # via browserstack-sdk
 browserstack-sdk==1.12.0
     # via -r requirements_test.in
-build==1.0.3
+build==1.1.1
     # via pip-tools
 celery[redis]==5.2.7
     # via
     #   -r requirements.in
-    #   celery
     #   django-celery-beat
 certifi==2024.2.2
     # via
@@ -120,7 +119,6 @@ configargparse==1.7
     # via locust
 coverage[toml]==7.4.3
     # via
-    #   coverage
     #   pytest-codecov
     #   pytest-cov
 cron-descriptor==1.4.3
@@ -128,8 +126,10 @@ cron-descriptor==1.4.3
 cryptography==42.0.4
     # via
     #   -r requirements.in
+    #   msal
     #   pyhanko
     #   pyhanko-certvalidator
+    #   pyjwt
 cssbeautifier==1.15.1
     # via djlint
 cssselect==1.2.0
@@ -294,7 +294,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==23.3.0
+faker==24.0.0
     # via factory-boy
 filelock==3.13.1
     # via virtualenv
@@ -345,9 +345,7 @@ gitpython==3.1.42
 great-components==2.6.3
     # via -r requirements.in
 greenlet==3.0.3
-    # via
-    #   gevent
-    #   sqlalchemy
+    # via gevent
 gunicorn==20.1.0
     # via -r requirements.in
 h11==0.14.0
@@ -372,7 +370,7 @@ idna==3.6
     #   trio
 imagesize==1.4.1
     # via sphinx
-importlib-metadata==7.0.1
+importlib-metadata==7.0.2
     # via
     #   build
     #   flask
@@ -406,7 +404,7 @@ jsbeautifier==1.15.1
     # via
     #   cssbeautifier
     #   djlint
-json5==0.9.17
+json5==0.9.22
     # via djlint
 jsonschema==3.2.0
     # via
@@ -446,7 +444,9 @@ monotonic==1.6
     # via
     #   directory-ch-client
     #   directory-client-core
-msgpack==1.0.7
+msal==1.27.0
+    # via -r requirements.in
+msgpack==1.0.8
     # via locust
 mypy-extensions==1.0.0
     # via black
@@ -498,7 +498,7 @@ pillow==10.2.0
     #   xhtml2pdf
 pillow-heif==0.15.0
     # via willow
-pip-tools==7.4.0
+pip-tools==7.4.1
     # via -r requirements_test.in
 platformdirs==4.2.0
     # via
@@ -543,12 +543,16 @@ pygments==2.17.2
     # via
     #   ipython
     #   sphinx
-pyhanko==0.21.0
+pyhanko==0.22.0
     # via xhtml2pdf
 pyhanko-certvalidator==0.26.3
     # via
     #   pyhanko
     #   xhtml2pdf
+pyjwt[crypto]==2.8.0
+    # via
+    #   msal
+    #   pyjwt
 pylint==3.1.0
     # via
     #   pylint-django
@@ -557,7 +561,7 @@ pylint-django==2.5.5
     # via -r requirements_test.in
 pylint-plugin-utils==0.8.2
     # via pylint-django
-pypdf==4.0.2
+pypdf==4.1.0
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -596,7 +600,7 @@ python-bidi==0.4.2
     # via xhtml2pdf
 python-crontab==3.0.0
     # via django-celery-beat
-python-dateutil==2.8.2
+python-dateutil==2.9.0.post0
     # via
     #   botocore
     #   dateparser
@@ -608,7 +612,7 @@ python-dateutil==2.8.2
     #   python-crontab
 python-dotenv==1.0.1
     # via webdriver-manager
-python-ipware==2.0.1
+python-ipware==2.0.2
     # via django-ipware
 python-magic==0.4.27
     # via -r requirements.in
@@ -656,6 +660,7 @@ requests==2.31.0
     #   directory-client-core
     #   geoip2
     #   locust
+    #   msal
     #   pyhanko
     #   pyhanko-certvalidator
     #   pytest-codecov
