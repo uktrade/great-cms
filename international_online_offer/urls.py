@@ -64,11 +64,6 @@ urlpatterns = [
         name='feedback',
     ),
     path(
-        'contact/',
-        views.ContactView.as_view(),
-        name='contact',
-    ),
-    path(
         'csat-widget-submit/',
         views.CsatWidgetView.as_view(),
         name='csat-widget-submit',

@@ -23,6 +23,7 @@ import core.urls
 import domestic.urls
 import export_academy.urls
 import exportplan.urls
+import international.urls
 import international_online_offer.urls
 import search.urls
 import sso.urls
@@ -81,6 +82,8 @@ if settings.DEBUG:
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns = [path('__debug__/', include(debug_toolbar.urls))] + urlpatterns
+
+urlpatterns = [path('international/', include(international.urls))] + urlpatterns
 
 if settings.FEATURE_INTERNATIONAL_ONLINE_OFFER:
     urlpatterns = [

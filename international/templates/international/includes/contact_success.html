@@ -1,14 +1,14 @@
-{% include './govuk/panel.html' with title_text="Enquiry received" %}
+{% include './panel.html' with title_text="Enquiry received" %}
 <h2 class="govuk-heading-m govuk-!-margin-top-5">What happens next?</h2>
 <p class="govuk-body">
     We'll send your message to the right team, who will deal with your enquiry as soon as possible.
 </p>
-<a href="/international/expand-your-business-in-the-uk/guide"
+<a href="{{ back_url }}"
    role="button"
    draggable="false"
    class="govuk-button govuk-button--start govuk-!-margin-top-5"
    data-module="govuk-button">
-    Return to guide
+    Continue
     <svg class="govuk-button__start-icon"
          xmlns="http://www.w3.org/2000/svg"
          width="17.5"

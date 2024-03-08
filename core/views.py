@@ -155,8 +155,8 @@ class SuggestedCountriesView(generics.GenericAPIView):
 
 
 def handler404(request, *args, **kwargs):
-    if 'expand-your-business-in-the-uk' in request.path:
-        return TemplateResponse(request=request, template='eyb/404.html', context={}, status=404)
+    if '/international/' in request.path:
+        return TemplateResponse(request=request, template='international/404.html', context={}, status=404)
     else:
         return TemplateResponse(request=request, template='core/404.html', context={}, status=404)
 
