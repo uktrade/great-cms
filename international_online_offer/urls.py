@@ -78,9 +78,4 @@ urlpatterns = [
         views.TradeAssociationsView.as_view(),
         name='trade-associations',
     ),
-    path(
-        'business-cluster-information/',
-        views.BusinessClusterView.as_view(),
-        name='bci',
-    ),
 ]
