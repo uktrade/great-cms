@@ -360,7 +360,6 @@ class SpendView(GA360Mixin, FormView):
         if spend_currency_param:
             self.request.session['spend_currency'] = spend_currency_param
 
-        print(self.get_back_url())
         return super().get_context_data(
             **kwargs,
             back_url=self.get_back_url(),
