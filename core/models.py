@@ -1252,6 +1252,24 @@ class ContentModule(ClusterableModel):
         return self.title
 
 
+@register_snippet
+class TypeOfExportTag(TagBase):
+    free_tagging = False
+
+    class Meta:
+        verbose_name = "Type of export tag"
+        verbose_name_plural = "Type of export tags"
+
+
+@register_snippet
+class SectorTag(TagBase):
+    free_tagging = False
+
+    class Meta:
+        verbose_name = "Sector tag"
+        verbose_name_plural = "Sector tags"
+
+
 class PersonalisationHSCodeTag(TagBase):
     """Custom tag for personalisation.
     Tag value will be a HS6, HS4 or HS2 code"""
@@ -1263,7 +1281,8 @@ class PersonalisationHSCodeTag(TagBase):
         verbose_name_plural = 'HS Code tags for personalisation'
 
 
-class PersonalisationCountryTag(TagBase):
+@register_snippet
+class CountryTag(TagBase):
     """Custom tag for personalisation.
     Tag value will be an ISO-2 Country code ('DE')
     """
@@ -1271,8 +1290,8 @@ class PersonalisationCountryTag(TagBase):
     free_tagging = False
 
     class Meta:
-        verbose_name = 'Country tag for personalisation'
-        verbose_name_plural = 'Country tags for personalisation'
+        verbose_name = 'Country tag'
+        verbose_name_plural = 'Country tags'
 
 
 class PersonalisationRegionTag(TagBase):
@@ -1311,9 +1330,7 @@ class HSCodeTaggedCaseStudy(ItemBase):
 
 
 class CountryTaggedCaseStudy(ItemBase):
-    tag = models.ForeignKey(
-        PersonalisationCountryTag, related_name='country_tagged_case_studies', on_delete=models.CASCADE
-    )
+    tag = models.ForeignKey(CountryTag, related_name='country_tagged_case_studies', on_delete=models.CASCADE)
     content_object = ParentalKey(to='core.CaseStudy', on_delete=models.CASCADE, related_name='country_tagged_items')
 
 
