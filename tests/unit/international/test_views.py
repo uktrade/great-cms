@@ -7,7 +7,7 @@ from django.urls import reverse
 @pytest.mark.django_db
 def test_contact(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:contact')
+    url = reverse('international:contact')
     response = client.get(url)
     assert response.status_code == 200
 
@@ -15,7 +15,7 @@ def test_contact(client, settings):
 @pytest.mark.django_db
 def test_contact_with_param(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:contact') + '?next=http://anyurl.com'
+    url = reverse('international:contact') + '?next=http://anyurl.com'
     response = client.get(url)
     assert response.status_code == 200
 
@@ -24,7 +24,7 @@ def test_contact_with_param(client, settings):
 @pytest.mark.django_db
 def test_contact_submit(mock_action_class, client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:contact')
+    url = reverse('international:contact')
     response = client.post(
         url,
         {
