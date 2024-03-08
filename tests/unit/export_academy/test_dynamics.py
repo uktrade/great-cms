@@ -6,6 +6,9 @@ from django.conf import settings
 from django.utils.crypto import get_random_string
 from msal import ConfidentialClientApplication
 
+# replace this with you email firstname.lastname
+EMAIL_ADDRESS_TO_REPLACE = ""
+
 
 def _get_access_token():
     app = ConfidentialClientApplication(
@@ -26,7 +29,7 @@ def test_create_contact_with_email_sent():
     data = {
         "firstname": get_random_string(10),
         "lastname": get_random_string(20),
-        "emailaddress1": "david.urquhart@digital.trade.gov.uk",
+        "emailaddress1": "{EMAIL_ADDRESS_TO_REPLACE}@digital.trade.gov.uk",
         "adx_identity_emailaddress1confirmed": True,
         "ownerid@odata.bind": f"teams({settings.DYNAMICS_OWNING_TEAM_ID})",
     }
@@ -48,7 +51,7 @@ def test_create_bulk_contacts_with_emails_sent():
         data = {
             "firstname": get_random_string(10),
             "lastname": get_random_string(20),
-            "emailaddress1": f"david.urquhart+{cnt}@digital.trade.gov.uk",
+            "emailaddress1": f"{EMAIL_ADDRESS_TO_REPLACE}+{cnt}@digital.trade.gov.uk",
             "adx_identity_emailaddress1confirmed": True,
             "ownerid@odata.bind": f"teams({settings.DYNAMICS_OWNING_TEAM_ID})",
             "donotbulkemail": False,
