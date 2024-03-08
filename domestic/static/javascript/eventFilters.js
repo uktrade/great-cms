@@ -19,7 +19,7 @@ var eventFilters = (function () {
     form = document.querySelector('#events-form')
     filters = document.querySelectorAll('#events-form .filters')[0]
     checks = document.querySelectorAll(
-      '.filters li.multiple-choice input[type=checkbox]'
+      '.filters li.multiple-choice input[type=button]'
     )
     filterSectionToggles = document.querySelectorAll('.filter-section-toggle')
     radios = document.querySelectorAll(
@@ -31,12 +31,33 @@ var eventFilters = (function () {
   }
 
   function bindEvents() {
-    filterSectionToggles.forEach((toggle) =>
-      toggle.addEventListener('change', () => {
-        toggle.setAttribute('aria-expanded', toggle.checked)
-        window.localStorage.setItem(toggle.id, toggle.checked)
+
+    const filterSectionHeadings = document.querySelectorAll('.filter-section-headings');
+
+    filterSectionHeadings.forEach(function(el) {
+    // This code was added as part of GREATUK-2 and is technical debt in it's purest form. It addresses an accessibility
+    // audit, changing the accordian menu on the filters to a type=button rather than type=checkbox. The JS below has
+    // been added compliance failure by to replace previous CSS styling which handled the accordian visibility toggle.
+
+      // Graceful degradation for browsers without JS enabled and also persist opened filter sections across reloads.
+      if (window.localStorage.getItem(el.id) == 'true') {
+      } else {
+          el.classList.remove("arrows-left-active");
+          el.nextElementSibling.classList.remove('filter-section-active');
+          el.previousElementSibling.ariaExpanded = false;
+      }
+
+      // Set accordian toggles
+      el.addEventListener('click', function(e) {
+        // UI
+        el.classList.toggle('arrows-left-active');
+        el.nextElementSibling.classList.toggle('filter-section-active');
+        // Persistence across sessions
+        let state = el.previousElementSibling.ariaExpanded !== 'true';
+        el.previousElementSibling.ariaExpanded = state;
+        window.localStorage.setItem(el.id, state);
       })
-    )
+     });
 
     if (stickyFooter) {
       stickyFooter
