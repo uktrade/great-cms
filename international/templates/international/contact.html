@@ -3,16 +3,17 @@
 {% block page_title %}Contact us {{ block.super }}{% endblock %}
 {% block content %}
     <div class="govuk-width-container great-container">
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                <a href="{{ back_url }}" class="govuk-back-link govuk-!-margin-bottom-4">Back</a>
-            </div>
-        </div>
         {% if request.GET.success %}
-            <div class="govuk-grid-row" id="complete_contact_form_message">
+            <div class="govuk-grid-row govuk-!-margin-top-4"
+                 id="complete_contact_form_message">
                 <div class="govuk-grid-column-full">{% include './includes/contact_success.html' with back_url=back_url %}</div>
             </div>
         {% else %}
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    <a href="{{ back_url }}" class="govuk-back-link govuk-!-margin-bottom-4">Back</a>
+                </div>
+            </div>
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
                     <h1 class="govuk-heading-xl">Contact us</h1>
@@ -51,7 +52,7 @@
                 </div>
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-3">
-                        <div class="{% if form.full_name.errors %} govuk-form-group--error{% endif %}">
+                        <div class="{% if form.email.errors %} govuk-form-group--error{% endif %}">
                             {% include './includes/form_field.html' with field=form.email %}
                         </div>
                     </div>
