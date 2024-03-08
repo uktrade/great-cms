@@ -41,8 +41,7 @@ var eventFilters = (function () {
       // been added compliance failure by to replace previous CSS styling which handled the accordian visibility toggle.
 
         // Graceful degradation for browsers without JS enabled and also persist opened filter sections across reloads.
-        if (window.localStorage.getItem(el.id) == 'true') {
-        } else {
+        if (window.localStorage.getItem(el.id) != 'true') {
           el.classList.remove("arrows-left-active");
           el.nextElementSibling.classList.remove('filter-section-active');
           el.previousElementSibling.ariaExpanded = false;
