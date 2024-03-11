@@ -627,7 +627,8 @@ def test_list_page_uses_right_template(domestic_homepage, rf, user):
     'test_url,template_name',
     (
         ('/hey-kid-do-a-kickflip/', 'core/404.html'),
-        ('/international/expand-your-business-in-the-uk/hey-kid-do-a-kickflip/', 'eyb/404.html'),
+        ('/international/expand-your-business-in-the-uk/hey-kid-do-a-kickflip/', 'international/404.html'),
+        ('/international/hey-kid-do-a-kickflip/', 'international/404.html'),
     ),
 )
 @pytest.mark.django_db
