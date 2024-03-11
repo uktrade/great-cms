@@ -14,10 +14,10 @@ from wagtail.test.utils import WagtailPageTests
 from wagtail_factories import SiteFactory
 
 from core import cache_keys, mixins, models as core_models, service_urls
+from core.models import Region
 from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
 from domestic.forms import SectorPotentialForm
-from core.models import Region
 from domestic.models import (
     ArticleListingPage,
     ArticlePage,
@@ -51,6 +51,7 @@ from .factories import (
     CountryGuidePageFactory,
     DomesticDashboardFactory,
     DomesticHomePageFactory,
+    FindABuyerPageFactory,
     GreatDomesticHomePageFactory,
     MarketsTopicLandingPageFactory,
     PerformanceDashboardPageFactory,
@@ -2060,3 +2061,10 @@ class TradeFinancePageTests(WagtailPageTests):
                 GreatDomesticHomePage,
             },
         )
+
+
+class FindABuyerPageTests(SetUpLocaleMixin, WagtailPageTests):
+
+    def test_can_create_find_a_buyer_homepage(self):
+        fab = FindABuyerPageFactory()
+        self.assertEqual(fab.title, 'Connect directly with international buyers')

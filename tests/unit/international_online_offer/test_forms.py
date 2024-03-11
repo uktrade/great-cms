@@ -2,7 +2,6 @@ import pytest
 
 from international_online_offer.core import hirings, intents, regions, spends
 from international_online_offer.forms import (
-    ContactForm,
     CsatFeedbackForm,
     FeedbackForm,
     HiringForm,
@@ -94,9 +93,8 @@ def test_triage_hiring_form_validation(form_data, is_valid):
 @pytest.mark.parametrize(
     'form_data,is_valid',
     (
-        ({'spend': spends.FIVE_HUNDRED_THOUSAND_ONE_TO_ONE_MILLION, 'spend_other': ''}, True),
-        ({'spend': spends.SPECIFIC_AMOUNT, 'spend_other': '4500000'}, True),
-        ({'spend': spends.SPECIFIC_AMOUNT, 'spend_other': ''}, False),
+        ({'spend': spends.FIVE_HUNDRED_THOUSAND_TO_ONE_MILLION}, True),
+        ({'spend': 'SPECIFIC_AMOUNT'}, False),
     ),
 )
 @pytest.mark.django_db
@@ -104,8 +102,6 @@ def test_triage_spend_form_validation(form_data, is_valid):
     data = form_data
     form = SpendForm(data)
     assert form.is_valid() == is_valid
-    if not is_valid:
-        assert form.errors['spend_other'][0] == 'You must enter a value in pounds'
 
 
 @pytest.mark.parametrize(
@@ -227,40 +223,4 @@ def test_feedback_form_validation(form_data, is_valid):
 def test_csat_feedback_form_validation(form_data, is_valid):
     data = form_data
     form = CsatFeedbackForm(data)
-    assert form.is_valid() == is_valid
-
-
-@pytest.mark.parametrize(
-    'form_data,is_valid',
-    (
-        (
-            {
-                'full_name': 'Jane Bloggs',
-                'email': 'test@test.com',
-                'how_we_can_help': 'Please help me login',
-            },
-            True,
-        ),
-        (
-            {
-                'full_name': '',
-                'email': '',
-                'how_we_can_help': '',
-            },
-            False,
-        ),
-        (
-            {
-                'full_name': 'Joe Bloggs',
-                'email': 'incorrect email',
-                'how_we_can_help': 'Please help me login',
-            },
-            False,
-        ),
-    ),
-)
-@pytest.mark.django_db
-def test_contact_form_validation(form_data, is_valid):
-    data = form_data
-    form = ContactForm(data)
     assert form.is_valid() == is_valid

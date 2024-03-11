@@ -1,6 +1,7 @@
 {% extends './base.html' %}
 {% load static %}
 {% block head_title %}Page not found {{ block.super }}{% endblock %}
+{% block meta_title %}Page not found {{ block.super }}{% endblock %}
 {% block head_other %}
     <meta name="description"
           content="Find information to help invest within the UK" />
@@ -13,11 +14,10 @@
                 <p class="govuk-body">If you typed the web address, check it is correct.</p>
                 <p class="govuk-body">If you pasted the web address, check you copied the entire address.</p>
                 <p class="govuk-body">
-                    You can <a class="govuk-link"
-    href="/international/expand-your-business-in-the-uk/guide">browse from the guide</a> to find the information you need.
+                    You can <a class="govuk-link" href="/international/">browse from the home page</a> to find the information you need.
                 </p>
                 <p class="govuk-body">
-                    If you need to speak with someone, you can <a href="{% url 'international_online_offer:contact' %}?next={{ feedback_next_url }}">contact us</a>
+                    If you need to speak with someone, you can <a href="{% url 'international:contact' %}?next={{ feedback_next_url }}">contact us</a>
                 </p>
             </div>
         </div>

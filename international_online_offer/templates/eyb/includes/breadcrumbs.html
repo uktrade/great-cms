@@ -1,11 +1,13 @@
 {% if breadcrumbs %}
-    <div class="govuk-breadcrumbs govuk-breadcrumbs--collapse-on-mobile {% if dark_mode %}govuk-breadcrumbs--inverse{% endif %}">
-        <ol class="govuk-breadcrumbs__list">
-            {% for breadcrumb in breadcrumbs %}
-                <li class="govuk-breadcrumbs__list-item">
-                    <a class="govuk-breadcrumbs__link" href="{{ breadcrumb.url }}">{{ breadcrumb.name }}</a>
-                </li>
-            {% endfor %}
-        </ol>
+    <div class="govuk-width-container {% if not hide_primary_nav %}great-container{% endif %}">
+        <div class="govuk-breadcrumbs govuk-breadcrumbs--collapse-on-mobile {% if dark_mode %}govuk-breadcrumbs--inverse{% endif %}">
+            <ol class="govuk-breadcrumbs__list">
+                {% for breadcrumb in breadcrumbs %}
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" href="{{ breadcrumb.url }}">{{ breadcrumb.name }}</a>
+                    </li>
+                {% endfor %}
+            </ol>
+        </div>
     </div>
 {% endif %}

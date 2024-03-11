@@ -383,11 +383,4 @@ urlpatterns = [
             query_string=True,
         ),
     ),
-    path(
-        'find-a-buyer/',
-        RedirectView.as_view(
-            url=urls.domestic.SINGLE_SIGN_ON_PROFILE / 'business-profile/',
-            query_string=True,
-        ),
-    ),
 ]

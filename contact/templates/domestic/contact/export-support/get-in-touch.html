@@ -6,6 +6,7 @@
 {% load add_govuk_classes from content_tags %}
 {% block meta_tags %}<meta name="robots" content="noindex">{% endblock %}
 {% block head_title %}Get in touch{% endblock %}
+{% block meta_title %}Get in touch{% endblock %}
 {% block body_js %}
     {{ block.super }}
     <script src="{% static 'javascript/digital-entry-point.js' %}"></script>
@@ -40,7 +41,7 @@
                                 <div class="govuk-!-padding-5 great-bg-white">
                                     <h2 class="govuk-heading-xs govuk-!-margin-bottom-4">Can't find your answer?</h2>
                                     <p class="govuk-body govuk-!-margin-bottom-4">
-                                        Contact the Export Support Service with a specific question or to find out how DBT's wider network of in-person support can help you sell your product or service overseas.
+                                        Ask our export support team a question and find out how the department can help you sell your goods or services overseas.
                                     </p>
                                     <a href="{% url 'contact:export-support' %}"
                                        class="govuk-button govuk-!-margin-bottom-4">Start your enquiry</a>

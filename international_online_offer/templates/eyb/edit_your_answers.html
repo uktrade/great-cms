@@ -2,17 +2,13 @@
 {% load static %}
 {% load humanize %}
 {% block head_title %}Change your answers {{ block.super }}{% endblock %}
+{% block meta_title %}Change your answers {{ block.super }}{% endblock %}
 {% block head_other %}
     <meta name="description"
           content="Find information to help invest within the UK" />
 {% endblock %}
 {% block content %}
     <div class="govuk-width-container great-container">
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                {% include './includes/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
-            </div>
-        </div>
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <h1 class="govuk-heading-l">Change your answers</h1>
@@ -44,7 +40,7 @@
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
                                     <a class="govuk-link"
-                                       href="{% url 'international_online_offer:sector' %}?next=change-your-answers">
+                                       href="{% url 'international_online_offer:sector' %}?next={% url 'international_online_offer:change-your-answers' %}">
                                         Change<span class="govuk-visually-hidden">sector</span>
                                     </a>
                                 </dd>
@@ -67,7 +63,7 @@
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
                                     <a class="govuk-link"
-                                       href="{% url 'international_online_offer:intent' %}?next=change-your-answers">
+                                       href="{% url 'international_online_offer:intent' %}?next={% url 'international_online_offer:change-your-answers' %}">
                                         Change<span class="govuk-visually-hidden">expansion plans</span>
                                     </a>
                                 </dd>
@@ -86,7 +82,7 @@
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
                                     <a class="govuk-link"
-                                       href="{% url 'international_online_offer:location' %}?next=change-your-answers">
+                                       href="{% url 'international_online_offer:location' %}?next={% url 'international_online_offer:change-your-answers' %}">
                                         Change<span class="govuk-visually-hidden">location</span>
                                     </a>
                                 </dd>
@@ -98,7 +94,7 @@
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
                                     <a class="govuk-link"
-                                       href="{% url 'international_online_offer:hiring' %}?next=change-your-answers">
+                                       href="{% url 'international_online_offer:hiring' %}?next={% url 'international_online_offer:change-your-answers' %}">
                                         Change<span class="govuk-visually-hidden">hiring estimate (within first 3 years)</span>
                                     </a>
                                 </dd>
@@ -108,14 +104,13 @@
                                 <dd class="govuk-summary-list__value govuk-body">
                                     {% if triage_data.get_spend_display %}
                                         {{ triage_data.get_spend_display }}
-                                        {% if triage_data.get_spend_display == 'Specific amount' %}: £{{ triage_data.spend_other }}{% endif %}
                                     {% else %}
                                         -
                                     {% endif %}
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
                                     <a class="govuk-link"
-                                       href="{% url 'international_online_offer:spend' %}?next=change-your-answers">
+                                       href="{% url 'international_online_offer:spend' %}?next={% url 'international_online_offer:change-your-answers' %}">
                                         Change<span class="govuk-visually-hidden">planned spend for UK entry or expansion</span>
                                     </a>
                                 </dd>

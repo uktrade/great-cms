@@ -606,6 +606,18 @@
   flex-basis: 50%;
 }
 
+.great-flex-grid {
+  margin: 0 -15px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.great-flex-grid > * {
+  padding: 0 15px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
 .great-background-light-blue {
   background-color: $great-light-blue;
 }
@@ -990,7 +1002,7 @@ great-icon {
   }
 }
 
-.step-list{
+.step-list {
   .step-list-h2::marker {
     font-family: $great-font-bold;
     font-size: 36px;

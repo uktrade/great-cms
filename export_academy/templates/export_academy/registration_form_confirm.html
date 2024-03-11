@@ -17,6 +17,21 @@
     {% endif %}
     – UK Export Academy
 {% endblock %}
+{% block meta_title %}
+    Check your answers before
+    {% if is_editing %}
+        updating
+    {% else %}
+        submitting
+    {% endif %}
+    your registration –
+    {% if is_editing %}
+        Edit your details
+    {% else %}
+        Booking your first event
+    {% endif %}
+    – UK Export Academy
+{% endblock %}
 {% block body_js %}{{ block.super }}{% endblock %}
 {% block content %}
     {% block content_top %}{{ block.super }}{% endblock %}
