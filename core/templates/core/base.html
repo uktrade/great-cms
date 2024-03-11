@@ -5,7 +5,12 @@
 {% load to_json %}
 {% load wagtailcore_tags %}
 {% block head_css %}
-    <link href="{% static 'magna_styles.css' %}" media="all" rel="stylesheet" />
+    {% path_match "^\/learn\/" as in_learning %}
+    {% if in_learning %}
+        <link href="{% static 'learn_styles.css' %}" media="all" rel="stylesheet" />
+    {% else %}
+        <link href="{% static 'magna_styles.css' %}" media="all" rel="stylesheet" />
+    {% endif %}
 {% endblock %}
 <noscript>
     <style>
@@ -16,17 +21,24 @@
 </noscript>
 {% block head_other %}
     {% block sharing_description %}
-    <meta name="description"
-            content="{% block meta_description %}{% firstof  self.seo_description page.search_description content_snippet.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description %}{% endblock %}">
+        <meta name="description"
+              content="{% block meta_description %}{% firstof self.seo_description page.search_description content_snippet.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description %}{% endblock %}">
     {% endblock %}
-
-    {% firstof page.seo_title page.title  as seo_title %}
+    {% firstof page.seo_title page.title as seo_title %}
     {% block sharing_title %}
-    <meta name="title"
-        content="{% block meta_title %}{% if seo_title %}{{ seo_title }}{% else %}Welcome to great.gov.uk{% endif %} - great.gov.uk{% endblock %}">
+        <meta name="title"
+              content="{% block meta_title %}{% if seo_title %}{{ seo_title }}{% else %}Welcome to great.gov.uk{% endif %} - great.gov.uk{% endblock %}">
     {% endblock %}
-
-    <title>{% block head_title %}{% if seo_title %}{{ seo_title }}{% else %}Welcome to great.gov.uk{% endif %} - great.gov.uk{% endblock %}</title>
+    <title>
+        {% block head_title %}
+            {% if seo_title %}
+                {{ seo_title }}
+            {% else %}
+                Welcome to great.gov.uk
+            {% endif %}
+            - great.gov.uk
+        {% endblock %}
+    </title>
     {% block meta_tags %}{% endblock %}
     {% with is_wagtail_page=page %}
         {% if is_wagtail_page %}
@@ -52,54 +64,56 @@
         <script src="{% static 'javascript/dit.utils.js' %}"></script>
     {% endif %}
     <script src="{% static 'common.js' %}"></script>
-    <script type="text/javascript" src="{% static 'magna.js' %}"></script>
-    <script type="text/javascript">
-      // static values that will not be updated by user interacting with react components
-      magna.setConfig({
-          apiLoginUrl: '{% url "sso:business-sso-login-api" %}',
-          apiLogoutUrl: '{% url "sso:business-sso-logout-api" %}',
-          apiUserProfileUpdateUrl: '{% url "sso:user-profile-api" %}',
-          apiUserQuestionnaireUrl: '{% url "sso:user-questionnaire-api"%}',
-          apiUserDataUrl: '{% url "sso:user-data-api" name="-name-" %}',
-          apiLookupProductUrl: '{% url "core:api-lookup-product" %}',
-          apiLookupProductScheduleUrl: '{% url "core:api-lookup-product-schedule" %}',
-          apiCountriesUrl: '{% url "core:api-countries" %}',
-          apiSuggestedCountriesUrl: '{% url "core:api-suggested-countries" %}',
-          apiCompaniesHouseUrl: '{% url "core:api-companies-house" %}',
-          apiSignupUrl: '{% url "sso:business-sso-create-user-api" %}',
-          apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
-          {% if export_plan %}
-            apiUpdateExportPlanUrl: '{% url "exportplan:api-update-export-plan" id=export_plan.pk %}',
-            apiDeleteExportPlanUrl: '{% url "exportplan:api-export-plan-delete" id=export_plan.pk %}',
-            updateCalculateCostAndPricing: '{% url "exportplan:api-calculate-cost-and-pricing" id=export_plan.pk %}',
-            apiTargetAgeGroups: '{% url "exportplan:api-target-age-groups" id=export_plan.pk %}',
-            exportPlanDashboardUrl: '{% url "exportplan:dashboard" id=export_plan.pk %}',
-            exportPlanDownloadUrl: '{{export_plan_download_link}}',
-          {% endif %}
-          apiModelObjectManageUrl: '{% url "exportplan:api-model-object-manage" %}',
-          apiCreateExportPlanUrl: '{% url "exportplan:api-export-plan-create" %}',
-          apiComTradeDataUrl: '{% url "core:api-comtrade-data" %}',
-          apiCountryDataUrl: '{% url "core:api-country-data" %}',
-          societyByCountryUrl: '{% url "exportplan:api-society-data-by-country" %}',
-          csrfToken: '{{ csrf_token }}',
-          dashboardUrl: '{% url_map "DASHBOARD_URL" %}',
-          exportPlanBaseUrl: '{% url "exportplan:index" %}',
-          compareCountriesUrl: '{% url "core:compare-countries" %}',
-          googleUrl: '{{ javascript_components.google_url }}',
-          linkedInUrl: '{{ javascript_components.linkedin_url }}',
-          loginUrl: '{% url "core:login" %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}',
-          signupUrl: '{% url "core:signup" %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}',
-          passwordResetUrl: '{{ javascript_components.password_reset_url }}',
-          termsUrl: '{{ javascript_components.terms_url }}',
-          user: {
-            id: '{{ request.user.id }}',
-            name: '{{ request.user.get_username }}',
-            isAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
-          },
-          verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
-          refreshOnMarketChange: {% if refresh_on_market_change %}true{%else%}false{% endif %},
-      });
-    </script>
+    {% if request.user.is_authenticated or not in_learning %}
+        <script type="text/javascript" src="{% static 'magna.js' %}"></script>
+        <script type="text/javascript">
+            // static values that will not be updated by user interacting with react components
+            magna.setConfig({
+                apiLoginUrl: '{% url "sso:business-sso-login-api" %}',
+                apiLogoutUrl: '{% url "sso:business-sso-logout-api" %}',
+                apiUserProfileUpdateUrl: '{% url "sso:user-profile-api" %}',
+                apiUserQuestionnaireUrl: '{% url "sso:user-questionnaire-api"%}',
+                apiUserDataUrl: '{% url "sso:user-data-api" name="-name-" %}',
+                apiLookupProductUrl: '{% url "core:api-lookup-product" %}',
+                apiLookupProductScheduleUrl: '{% url "core:api-lookup-product-schedule" %}',
+                apiCountriesUrl: '{% url "core:api-countries" %}',
+                apiSuggestedCountriesUrl: '{% url "core:api-suggested-countries" %}',
+                apiCompaniesHouseUrl: '{% url "core:api-companies-house" %}',
+                apiSignupUrl: '{% url "sso:business-sso-create-user-api" %}',
+                apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
+                {% if export_plan %}
+                    apiUpdateExportPlanUrl: '{% url "exportplan:api-update-export-plan" id=export_plan.pk %}',
+                    apiDeleteExportPlanUrl: '{% url "exportplan:api-export-plan-delete" id=export_plan.pk %}',
+                    updateCalculateCostAndPricing: '{% url "exportplan:api-calculate-cost-and-pricing" id=export_plan.pk %}',
+                    apiTargetAgeGroups: '{% url "exportplan:api-target-age-groups" id=export_plan.pk %}',
+                    exportPlanDashboardUrl: '{% url "exportplan:dashboard" id=export_plan.pk %}',
+                    exportPlanDownloadUrl: '{{export_plan_download_link}}',
+                {% endif %}
+                apiModelObjectManageUrl: '{% url "exportplan:api-model-object-manage" %}',
+                apiCreateExportPlanUrl: '{% url "exportplan:api-export-plan-create" %}',
+                apiComTradeDataUrl: '{% url "core:api-comtrade-data" %}',
+                apiCountryDataUrl: '{% url "core:api-country-data" %}',
+                societyByCountryUrl: '{% url "exportplan:api-society-data-by-country" %}',
+                csrfToken: '{{ csrf_token }}',
+                dashboardUrl: '{% url_map "DASHBOARD_URL" %}',
+                exportPlanBaseUrl: '{% url "exportplan:index" %}',
+                compareCountriesUrl: '{% url "core:compare-countries" %}',
+                googleUrl: '{{ javascript_components.google_url }}',
+                linkedInUrl: '{{ javascript_components.linkedin_url }}',
+                loginUrl: '{% url "core:login" %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}',
+                signupUrl: '{% url "core:signup" %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}',
+                passwordResetUrl: '{{ javascript_components.password_reset_url }}',
+                termsUrl: '{{ javascript_components.terms_url }}',
+                user: {
+                    id: '{{ request.user.id }}',
+                    name: '{{ request.user.get_username }}',
+                    isAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
+                },
+                verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
+                refreshOnMarketChange: {% if refresh_on_market_change %}true{%else%}false{% endif %},
+            });
+        </script>
+    {% endif %}
 {% endblock %}
 {% block skip_link %}<a id="skip-link" href="#content" tabindex="1">Skip to main content</a>{% endblock %}
 {% block body_header %}
@@ -127,7 +141,7 @@
 {% block cookie_notice %}{% endblock %}
 {% block body_footer %}
     <div id="snackbar-container"></div>
-    {% include 'core/footer.html' %}
+    {% include 'components/header_footer/domestic_footer.html' %}
 {% endblock %}
 {% block body_js %}
     {{ block.super }}

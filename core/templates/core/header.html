@@ -98,13 +98,13 @@
                       class="magna-header__search govuk-!-margin-bottom-4"
                       action="{% url 'search:search' %}"
                       method="get">
-                    <label for="magna-header-search-box" class="visually-hidden">Search</label>
+                    <label for="magna-header-search-box" class="great-visually-hidden">Search</label>
                     <input id="magna-header-search-box"
                            type="text"
                            name="q"
                            placeholder="Search">
                     <button>
-                        <span class="visually-hidden">Search</span>
+                        <span class="great-visually-hidden">Search</span>
                     </button>
                 </form>
                 <button type="button"
@@ -186,8 +186,8 @@
                                 <button type="button" onclick="signOut()">Sign out</button>
                             </li>
                         {% else %}
-                            <li>
-                                <a class="button margin-top-15 margin-bottom-15"
+                            <li class="great">
+                                <a class="govuk-button govuk-!-margin-top-3 govuk-!-margin-bottom-3"
                                    href="{% url 'core:login' %}">Sign in</a>
                             </li>
                         {% endif %}
