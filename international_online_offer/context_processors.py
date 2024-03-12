@@ -16,7 +16,7 @@ def feedback_next_url(request):
 
 
 def is_using_triage(request):
-    current_url = request.build_absolute_uri()
+    current_url = request.build_absolute_uri(request.path)
     sector_url = str(reverse_lazy('international_online_offer:sector'))
     intent_url = str(reverse_lazy('international_online_offer:intent'))
     location_url = str(reverse_lazy('international_online_offer:location'))
@@ -30,7 +30,7 @@ def is_using_triage(request):
 
 
 def is_using_login(request):
-    current_url = request.build_absolute_uri()
+    current_url = request.build_absolute_uri(request.path)
     signup_url = str(reverse_lazy('international_online_offer:signup'))
     login_url = str(reverse_lazy('international_online_offer:login'))
     user_flow_urls = [signup_url, login_url]

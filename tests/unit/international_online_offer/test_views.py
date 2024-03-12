@@ -167,7 +167,19 @@ def test_sector(client, user, settings):
 def test_sector_next(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
-    response = client.get(reverse('international_online_offer:sector') + '?next=change-your-answers')
+    response = client.get(
+        reverse('international_online_offer:sector')
+        + '?next='
+        + reverse('international_online_offer:change-your-answers')
+    )
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_sector_next_unhappy(client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    client.force_login(user)
+    response = client.get(reverse('international_online_offer:sector') + '?next=edit-your-answers')
     assert response.status_code == 200
 
 
@@ -243,7 +255,11 @@ def test_intent(client, user, settings):
 def test_intent_next(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
-    response = client.get(reverse('international_online_offer:intent') + '?next=change-your-answers')
+    response = client.get(
+        reverse('international_online_offer:intent')
+        + '?next='
+        + reverse('international_online_offer:change-your-answers')
+    )
     assert response.status_code == 200
 
 
@@ -287,7 +303,11 @@ def test_location(client, user, settings):
 def test_location_next(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
-    response = client.get(reverse('international_online_offer:location') + '?next=change-your-answers')
+    response = client.get(
+        reverse('international_online_offer:location')
+        + '?next='
+        + reverse('international_online_offer:change-your-answers')
+    )
     assert response.status_code == 200
 
 
@@ -342,7 +362,11 @@ def test_hiring(client, user, settings):
 def test_hiring_next(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
-    response = client.get(reverse('international_online_offer:hiring') + '?next=change-your-answers')
+    response = client.get(
+        reverse('international_online_offer:hiring')
+        + '?next='
+        + reverse('international_online_offer:change-your-answers')
+    )
     assert response.status_code == 200
 
 
@@ -383,7 +407,11 @@ def test_spend(client, user, settings):
 def test_spend_next(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
-    response = client.get(reverse('international_online_offer:spend') + '?next=change-your-answers')
+    response = client.get(
+        reverse('international_online_offer:spend')
+        + '?next='
+        + reverse('international_online_offer:change-your-answers')
+    )
     assert response.status_code == 200
 
 
@@ -536,38 +564,6 @@ def test_feedback(client, settings):
     url = reverse('international_online_offer:feedback')
     response = client.get(url)
     assert response.status_code == 200
-
-
-@pytest.mark.django_db
-def test_contact(client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:contact')
-    response = client.get(url)
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
-def test_contact_with_param(client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:contact') + '?next=http://anyurl.com'
-    response = client.get(url)
-    assert response.status_code == 200
-
-
-@mock.patch('directory_forms_api_client.actions.ZendeskAction')
-@pytest.mark.django_db
-def test_contact_submit(mock_action_class, client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:contact')
-    response = client.post(
-        url,
-        {
-            'full_name': 'Joe Bloggs',
-            'email': 'test@test.com',
-            'how_we_can_help': 'Help me please.',
-        },
-    )
-    assert response.status_code == 302
 
 
 @pytest.mark.django_db

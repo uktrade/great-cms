@@ -31,7 +31,7 @@
 </div>
 <section id="learn-root" class="great great-container govuk-!-margin-top-6">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-margin-bottom-6 flex-grid great-gap">
+        <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-margin-bottom-6 great-flex-grid great-gap">
             {% for learning_module in page.get_children.specific.live %}
                 {% with high_level_completion_progress|get_item:learning_module.id as module_completion_data %}
                     {% get_page_url learning_module as learning_module_url %}
