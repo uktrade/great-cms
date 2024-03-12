@@ -81,7 +81,7 @@
                             {% endwith %}
                         {% endif %}
 
-                        {% if page.is_usa %}
+                        {% if page.is_usa and features.FEATURE_SHOW_USA_CTA %}
                             <div class="great govuk-!-padding-6 great-bg-light-blue">
                                 <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Understand more about the US market</h2>
                                 <p>Take a look at our series of downloadable factsheets and get deeper insights into exporting goods and services to the United States.</p>
@@ -106,7 +106,7 @@
                             </div>
                         </div>
                     {% endif %}
-                    {% if page.is_eu_country %}
+                    {% if page.is_eu_country and features.FEATURE_SHOW_EU_CTA %}
                         {% static 'icons/guidance.svg' as cta_icon %}
                         <div class="column-quarter-l">
                             {% include 'components/great/card.html' with heading_class="great-card__link--heading--18" heading_level="h3" tag_container_inner_class="article-page-cta-container-inner-container" container_class="great article-page-cta-container-title-container" classes="great-card--cta great-card--cta-with-content great-card--cta-with-border govuk-!-padding-0 govuk-!-margin-bottom-8" title="How to pay VAT when exporting to the EU" content="Understand the VAT requirements when exporting goods and services to EU countries."  content_tag="p" url="/campaign-site/vat-in-eu/" show_title_link=True tag="Exporting advice" tag_icon=cta_icon %}

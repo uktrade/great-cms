@@ -80,6 +80,8 @@ def feature_flags(request):
     retval['features']['FEATURE_SHARE_COMPONENT'] = settings.FEATURE_SHARE_COMPONENT
     retval['features']['FEATURE_PRODUCT_MARKET_HERO'] = settings.FEATURE_PRODUCT_MARKET_HERO
     retval['features']['FEATURE_PRODUCT_MARKET_SEARCH_ENABLED'] = settings.FEATURE_PRODUCT_MARKET_SEARCH_ENABLED
+    retval['features']['FEATURE_SHOW_USA_CTA'] = settings.FEATURE_SHOW_USA_CTA
+    retval['features']['FEATURE_SHOW_EU_CTA'] = settings.FEATURE_SHOW_EU_CTA
 
     return retval
 
