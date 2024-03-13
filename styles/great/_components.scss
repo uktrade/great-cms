@@ -75,9 +75,15 @@ figure.great-blockquote {
       line-height: 20px;
 
       &.filter-section-headings {
-        font-size: 24px;
-        line-height: 30px;
+        h2 {
+          font-size: 24px;
+          line-height: 30px;
+        }
       }
+    }
+
+    .filter-section-active {
+      display: block;
     }
 
     &.mobile-filters {
@@ -129,19 +135,6 @@ figure.great-blockquote {
     }
 
     .filter-section {
-      > input {
-        &:checked {
-          ~ label {
-            &.arrows-left {
-              &:before {
-                transform: rotate(225deg);
-                margin: 10px 10px 0 0;
-              }
-            }
-          }
-        }
-      }
-
       > label {
         margin-bottom: 0;
         padding: 9px 5px 8px 2px;
@@ -149,6 +142,13 @@ figure.great-blockquote {
         &.arrows-left {
           &:before {
             transform: rotate(225deg);
+            margin: 3px 10px 0 0;
+          }
+        }
+
+        &.arrows-left-active {
+          &:before {
+            transform: rotate(45deg);
             margin: 3px 10px 0 0;
           }
         }
@@ -472,6 +472,10 @@ figure.great-blockquote {
   &:after {
     bottom: 0 !important;
   }
+}
+
+.great-card--cta-with-border {
+  border-top: 4px solid $great-purple !important;
 }
 
 .great-card--homepage-container {
@@ -1077,6 +1081,7 @@ figure.great-blockquote {
 
   img {
     width: 100%;
+    display: block;
   }
 }
 

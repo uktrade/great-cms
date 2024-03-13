@@ -1,59 +1,37 @@
 // GOVUK styles with Great styles
 // All classes are prefixed with either
 // .govuk- or .great-
-@import 'styles/great/main.scss';
+@import 'node_modules/govuk-frontend/govuk/all';
+
+@import 'styles/great/_reset.scss';
+@import 'styles/great/_colors.scss';
+@import 'styles/great/_utils.scss';
+@import 'styles/great/_components.scss';
+@import 'styles/great/_overrides.scss';
+@import 'styles/great/_typography.scss';
 
 // Config
 $asset-root: '/static/images/';
 $fonts: '/static/fonts';
 $fa-font-path: '/static/fonts';
 
-// Carousel
-@import 'node_modules/slick-carousel/slick/slick.scss';
+@import 'core/components/sass/components/skip-link/_base.scss';
 
-// Icons
+// Great styles - todo - we need to be able to remove
+@import 'node_modules/great-styles/src/scss/elements/_reset.scss';
+@import 'node_modules/great-styles/src/scss/components/header-footer/_header.scss';
+@import 'node_modules/great-styles/src/scss/elements/_tags.scss';
+@import 'node_modules/great-styles/src/scss/helpers/_mixins.scss';
+@import 'node_modules/great-styles/src/scss/elements/forms/_general.scss';
+@import 'node_modules/great-styles/src/scss/elements/_list.scss';
+@import 'node_modules/great-styles/src/scss/elements/_box.scss';
+@import 'node_modules/great-styles/src/scss/elements/_media-block.scss';
+
 @import 'node_modules/@fortawesome/fontawesome-free/scss/fontawesome';
 @import 'node_modules/@fortawesome/fontawesome-free/scss/solid';
-@import 'node_modules/@fortawesome/fontawesome-free/scss/regular';
 @import 'node_modules/@fortawesome/fontawesome-free/scss/brands';
 
-// Great styles
-@import 'styles';
-
-// Magna styles
-@import 'helpers/utils';
-@import 'helpers/mixins-cms';
-
-@import 'components/forms';
-@import 'components/progress-wizard';
-@import 'components/insights';
-@import 'components/product-finder';
-@import 'components/compare-markets';
-@import 'components/sign-up';
-@import 'components/sign-up-old';
-@import 'components/tour';
-@import 'components/modal-cms';
-@import 'components/spinner';
-@import 'components/classification-tree';
-@import 'components/slick';
-@import 'components/segmentation';
-@import 'components/backlink';
-@import 'components/snackbar';
-
-@import 'base';
-@import 'overrides';
-
-// Pages
-@import 'exportplan/dashboard';
-@import 'exportplan/statistics';
-@import 'exportplan/sections';
 @import 'learn/base';
-@import 'exportplan/sidebar';
-@import 'exportplan/costs';
-@import 'exportplan/adaptation-target-market-form';
-@import 'exportplan/animations';
-
-// Shared styles
 @import 'shared/base';
 
 @import '../components/sass/components/cookie-notice/base';

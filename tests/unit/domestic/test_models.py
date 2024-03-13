@@ -14,6 +14,7 @@ from wagtail.test.utils import WagtailPageTests
 from wagtail_factories import SiteFactory
 
 from core import cache_keys, mixins, models as core_models, service_urls
+from core.models import Region
 from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
 from domestic.forms import SectorPotentialForm
@@ -716,6 +717,31 @@ def test_industry_accordions_validation(blocks_to_create, expected_exception_mes
 def test_country_fact_sheet_link(domestic_homepage, intro_ctas, expected_factsheet_link_value):
     page = CountryGuidePageFactory(parent=domestic_homepage, **intro_ctas)
     assert page.country_fact_sheet_link == expected_factsheet_link_value
+
+
+@pytest.mark.django_db
+def test_usa_country(domestic_homepage):
+    country = CountryFactory(name='United States', slug='united-states')
+
+    page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        title='Test',
+        country=country,
+    )
+    assert page.is_usa is True
+
+
+@pytest.mark.django_db
+def test_eu_region(domestic_homepage):
+    eu_region = Region.objects.create(name='Western Europe')
+    country = CountryFactory(name='Germany', slug='germany', region=eu_region)
+
+    page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        title='Test',
+        country=country,
+    )
+    assert page.is_eu_country is True
 
 
 # BaseContentPage is abstract but had some methods on it
