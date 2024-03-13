@@ -1,14 +1,18 @@
 import logging
 
+from django import forms
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from elasticsearch.exceptions import ConnectionError, NotFoundError
 from wagtail import blocks
 from wagtail.blocks.field_block import RichTextBlock
 from wagtail.blocks.stream_block import StreamBlockValidationError
+from wagtail.blocks.struct_block import StructBlockAdapter
 from wagtail.contrib.table_block.blocks import TableBlock
 from wagtail.images.blocks import ImageChooserBlock
+from wagtail.telepath import register
 from wagtailmedia.blocks import AbstractMediaChooserBlock
 
 from core import models
@@ -373,6 +377,20 @@ class IndividualStatisticBlock(blocks.StructBlock):
     number = blocks.CharBlock(max_length=255)
     heading = blocks.CharBlock(max_length=255)
     smallprint = blocks.CharBlock(max_length=255, required=False)
+
+
+class IndividualStatisticBlockAdaptor(StructBlockAdapter):
+    js_constructor = 'core.blocks.IndividualStatisticBlock'
+
+    @cached_property
+    def media(self):
+        structblock_media = super().media
+        return forms.Media(
+            js=structblock_media._js + ['javascript/individualstatistic-block.js'], css=structblock_media._css
+        )
+
+
+register(IndividualStatisticBlockAdaptor(), IndividualStatisticBlock)
 
 
 class CountryGuideIndustrySubsectionBlock(blocks.StructBlock):
