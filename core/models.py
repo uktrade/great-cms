@@ -1350,6 +1350,51 @@ class TradingBlocTaggedCaseStudy(ItemBase):
     )
 
 
+class TaggedCountry(ItemBase):
+    tag = models.ForeignKey(CountryTag, related_name="tagged_countries", on_delete=models.CASCADE)
+    content_object = ParentalKey(to='wagtailcore.Page', on_delete=models.CASCADE, related_name='country_tagged_pages')
+
+
+class TaggedSector(ItemBase):
+    tag = models.ForeignKey(SectorTag, related_name="tagged_sectors", on_delete=models.CASCADE)
+    content_object = ParentalKey(to='wagtailcore.Page', on_delete=models.CASCADE, related_name='sector_tagged_pages')
+
+
+class TaggedTypeOfExport(ItemBase):
+    tag = models.ForeignKey(TypeOfExportTag, related_name="tagged_type_of_export", on_delete=models.CASCADE)
+    content_object = ParentalKey(
+        to='wagtailcore.Page', on_delete=models.CASCADE, related_name='type_of_export_tagged_pages'
+    )
+
+
+class TaggedPage(Page):
+
+    country_tags = ClusterTaggableManager(through='core.TaggedCountry', blank=True)
+    sector_tags = ClusterTaggableManager(through='core.TaggedSector', blank=True)
+    type_of_export_tags = ClusterTaggableManager(through='core.TaggedTypeOfExport', blank=True)
+
+    tag_panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel("country_tags"),
+                FieldPanel("sector_tags"),
+                FieldPanel("type_of_export_tags"),
+            ],
+            heading="Tags",
+        ),
+    ]
+
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(tag_panels, heading="Tags"),
+            ObjectList(Page.promote_panels, heading='Promote'),
+        ]
+    )
+
+    class Meta:  # noqa
+        abstract = True
+
+
 def _high_level_validation(value, error_messages):
     TEXT_BLOCK = 'text'  # noqa N806
     MEDIA_BLOCK = 'media'  # noqa N806
@@ -1913,6 +1958,9 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
     linkedin = models.URLField(blank=True, verbose_name=_('LinkedIn'))
 
     review_reminder_sent = models.DateTimeField(blank=True, null=True)
+
+    content_panels = Page.content_panels + cms_panels.MicrositePanels.content_panels
+    settings_panels = Page.settings_panels + cms_panels.MicrositePanels.settings_panels
 
     def get_parent_page(self):
         current_page = self.specific
