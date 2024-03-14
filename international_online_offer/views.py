@@ -135,7 +135,7 @@ class IntentView(GA360Mixin, FormView):
         )
 
     def get_back_url(self):
-        back_url = 'international_online_offer:sector'
+        back_url = reverse_lazy('international_online_offer:sector')
         if self.request.GET.get('next'):
             back_url = check_url_host_is_safelisted(self.request)
         return back_url
@@ -193,7 +193,7 @@ class LocationView(GA360Mixin, FormView):
         )
 
     def get_back_url(self):
-        back_url = 'international_online_offer:intent'
+        back_url = reverse_lazy('international_online_offer:intent')
         if self.request.GET.get('next'):
             back_url = check_url_host_is_safelisted(self.request)
         return back_url
@@ -281,7 +281,7 @@ class HiringView(GA360Mixin, FormView):
         )
 
     def get_back_url(self):
-        back_url = 'international_online_offer:location'
+        back_url = reverse_lazy('international_online_offer:location')
         if self.request.GET.get('next'):
             back_url = check_url_host_is_safelisted(self.request)
         return back_url
@@ -343,7 +343,7 @@ class SpendView(GA360Mixin, FormView):
         return kwargs
 
     def get_back_url(self):
-        back_url = 'international_online_offer:hiring'
+        back_url = reverse_lazy('international_online_offer:hiring')
         if self.request.GET.get('next'):
             back_url = check_url_host_is_safelisted(self.request)
 
