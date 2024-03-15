@@ -1257,8 +1257,8 @@ class TypeOfExportTag(TagBase):
     free_tagging = False
 
     class Meta:
-        verbose_name = "Type of export tag"
-        verbose_name_plural = "Type of export tags"
+        verbose_name = 'Type of export tag'
+        verbose_name_plural = 'Type of export tags'
 
 
 @register_snippet
@@ -1266,8 +1266,8 @@ class SectorTag(TagBase):
     free_tagging = False
 
     class Meta:
-        verbose_name = "Sector tag"
-        verbose_name_plural = "Sector tags"
+        verbose_name = 'Sector tag'
+        verbose_name_plural = 'Sector tags'
 
 
 class PersonalisationHSCodeTag(TagBase):
@@ -1351,17 +1351,17 @@ class TradingBlocTaggedCaseStudy(ItemBase):
 
 
 class TaggedCountry(ItemBase):
-    tag = models.ForeignKey(CountryTag, related_name="tagged_countries", on_delete=models.CASCADE)
+    tag = models.ForeignKey(CountryTag, related_name='tagged_countries', on_delete=models.CASCADE)
     content_object = ParentalKey(to='wagtailcore.Page', on_delete=models.CASCADE, related_name='country_tagged_pages')
 
 
 class TaggedSector(ItemBase):
-    tag = models.ForeignKey(SectorTag, related_name="tagged_sectors", on_delete=models.CASCADE)
+    tag = models.ForeignKey(SectorTag, related_name='tagged_sectors', on_delete=models.CASCADE)
     content_object = ParentalKey(to='wagtailcore.Page', on_delete=models.CASCADE, related_name='sector_tagged_pages')
 
 
 class TaggedTypeOfExport(ItemBase):
-    tag = models.ForeignKey(TypeOfExportTag, related_name="tagged_type_of_export", on_delete=models.CASCADE)
+    tag = models.ForeignKey(TypeOfExportTag, related_name='tagged_type_of_export', on_delete=models.CASCADE)
     content_object = ParentalKey(
         to='wagtailcore.Page', on_delete=models.CASCADE, related_name='type_of_export_tagged_pages'
     )
@@ -1376,17 +1376,17 @@ class TaggedPage(Page):
     tag_panels = [
         MultiFieldPanel(
             [
-                FieldPanel("country_tags"),
-                FieldPanel("sector_tags"),
-                FieldPanel("type_of_export_tags"),
+                FieldPanel('country_tags'),
+                FieldPanel('sector_tags'),
+                FieldPanel('type_of_export_tags'),
             ],
-            heading="Tags",
+            heading='Tags',
         ),
     ]
 
     edit_handler = TabbedInterface(
         [
-            ObjectList(tag_panels, heading="Tags"),
+            ObjectList(tag_panels, heading='Tags'),
             ObjectList(Page.promote_panels, heading='Promote'),
         ]
     )
