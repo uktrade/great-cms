@@ -3,7 +3,7 @@ from django.conf import settings
 from django.core.management import BaseCommand
 
 from core.helpers import get_s3_file_stream
-from core.models import PersonalisationCountryTag
+from core.models import CountryTag
 
 
 class Command(BaseCommand):
@@ -19,7 +19,7 @@ class Command(BaseCommand):
         # add only countries and iso2 as slug
         for item in data:
             if item[2] == 'Country':
-                if not PersonalisationCountryTag.objects.filter(name=item[1]).exists():
-                    PersonalisationCountryTag.objects.create(name=item[1], slug=item[4])
+                if not CountryTag.objects.filter(name=item[1]).exists():
+                    CountryTag.objects.create(name=item[1], slug=item[4])
 
         self.stdout.write(self.style.SUCCESS('All done, bye!'))
