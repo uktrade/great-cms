@@ -1,8 +1,5 @@
 {% load event_list_buttons %}
-{% load i18n modeladmin_tags wagtailadmin_tags %}
 {% user_is_booked_on_event request.user event as event_is_booked %}
-
-
 {% if event_is_booked %}
     {% if event.video_recording %}
         <p>
@@ -18,4 +15,3 @@
         </div>
     {% endif %}
 {% endif %}
-
