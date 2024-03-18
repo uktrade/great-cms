@@ -40,6 +40,7 @@ from wagtail.images.models import AbstractImage, AbstractRendition, Image
 from wagtail.models import Orderable, Page
 from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtail.snippets.models import register_snippet
+from wagtail.snippets.models import get_snippet_models
 from wagtail.utils.decorators import cached_classmethod
 from wagtailmedia.models import Media
 from wagtailseo.models import SeoMixin as WagtailSeoMixin, TwitterCard
@@ -197,17 +198,6 @@ class TourStep(Orderable):
         FieldPanel('selector'),
     ]
 
-
-@register_snippet
-class Product(models.Model):
-    name = models.CharField(max_length=255)
-
-    panels = [
-        FieldPanel('name'),
-    ]
-
-    def __str__(self):
-        return self.name
 
 
 @register_snippet
@@ -1354,7 +1344,6 @@ class TaggedCountry(ItemBase):
     tag = models.ForeignKey(CountryTag, related_name='tagged_countries', on_delete=models.CASCADE)
     content_object = ParentalKey(to='wagtailcore.Page', on_delete=models.CASCADE, related_name='country_tagged_pages')
 
-
 class TaggedSector(ItemBase):
     tag = models.ForeignKey(SectorTag, related_name='tagged_sectors', on_delete=models.CASCADE)
     content_object = ParentalKey(to='wagtailcore.Page', on_delete=models.CASCADE, related_name='sector_tagged_pages')
@@ -1366,6 +1355,17 @@ class TaggedTypeOfExport(ItemBase):
         to='wagtailcore.Page', on_delete=models.CASCADE, related_name='type_of_export_tagged_pages'
     )
 
+class TaggedCountrySnippet(ItemBase):
+   tag = models.ForeignKey(CountryTag, related_name='tagged_countries_snippet', on_delete=models.CASCADE)
+   content_object = ParentalKey(to='core.TaggedSnippetBase', on_delete=models.CASCADE, related_name='country_tags_snippet') 
+
+class TaggedSectorSnippet(ItemBase):
+   tag = models.ForeignKey(SectorTag, related_name='tagged_sector_snippet', on_delete=models.CASCADE)
+   content_object = ParentalKey(to='core.TaggedSnippetBase', on_delete=models.CASCADE, related_name='sector_tags_snippet') 
+
+class TaggedTypeOfExportSnippet(ItemBase):
+   tag = models.ForeignKey(TypeOfExportTag, related_name='tagged_type_of_export_snippet', on_delete=models.CASCADE)
+   content_object = ParentalKey(to='core.TaggedSnippetBase', on_delete=models.CASCADE, related_name='type_of_export_tagged_snippet') 
 
 class TaggedPage(Page):
 
@@ -1395,6 +1395,54 @@ class TaggedPage(Page):
 
     class Meta:  # noqa
         abstract = True
+
+
+class TaggedSnippetBase(ClusterableModel):
+    """
+    Base class for tagged snippets.
+    """
+    country_tags = TaggableManager(through='core.TaggedCountrySnippet', blank=True, verbose_name=_('Country Tags'))
+    sector_tags = TaggableManager(through='core.TaggedSectorSnippet', blank=True, verbose_name=_('Sector Tags'))
+    type_of_export_tags = TaggableManager(through='core.TaggedTypeOfExportSnippet', blank=True, verbose_name=_('Type of Export Tags'))
+
+    tag_panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel('country_tags'),
+                FieldPanel('sector_tags'),
+                FieldPanel('type_of_export_tags'),
+            ],
+            heading='Tags',
+        ),
+    ]
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(tag_panels, heading='Tags'),
+        ]
+    )
+
+
+
+@register_snippet
+class Product(TaggedSnippetBase,models.Model):
+    name = models.CharField(max_length=255)
+
+    panels = [
+        FieldPanel('name'),
+    ]
+
+    def __str__(self):
+        return self.name
+    edit_handler = TabbedInterface(
+        [
+            ObjectList([
+                MultiFieldPanel([
+                    FieldPanel('name'),
+                ], heading='Product Details'),
+            ], heading='Product'),
+            ObjectList(TaggedSnippetBase.tag_panels, heading='Tags'),
+        ]
+    )
 
 
 def _high_level_validation(value, error_messages):
