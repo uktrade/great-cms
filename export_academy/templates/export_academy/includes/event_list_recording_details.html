@@ -2,7 +2,7 @@
 {% user_is_booked_on_event request.user event as event_is_booked %}
 {% if event_is_booked %}
     {% if event.video_recording %}
-        <p>
+        <p class="event-list-video-warning">
             Event recordings are only available for 4 weeks after the event.
         </p>
         <div>
