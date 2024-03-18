@@ -1369,9 +1369,11 @@ class TaggedTypeOfExport(ItemBase):
 
 class TaggedPage(Page):
 
-    country_tags = ClusterTaggableManager(through='core.TaggedCountry', blank=True)
-    sector_tags = ClusterTaggableManager(through='core.TaggedSector', blank=True)
-    type_of_export_tags = ClusterTaggableManager(through='core.TaggedTypeOfExport', blank=True)
+    country_tags = ClusterTaggableManager(through='core.TaggedCountry', blank=True, verbose_name=_('Country Tags'))
+    sector_tags = ClusterTaggableManager(through='core.TaggedSector', blank=True, verbose_name=_('Sector Tags'))
+    type_of_export_tags = ClusterTaggableManager(
+        through='core.TaggedTypeOfExport', blank=True, verbose_name=_('Type of Export Tags')
+    )
 
     tag_panels = [
         MultiFieldPanel(
@@ -1958,9 +1960,6 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
     linkedin = models.URLField(blank=True, verbose_name=_('LinkedIn'))
 
     review_reminder_sent = models.DateTimeField(blank=True, null=True)
-
-    content_panels = Page.content_panels + cms_panels.MicrositePanels.content_panels
-    settings_panels = Page.settings_panels + cms_panels.MicrositePanels.settings_panels
 
     def get_parent_page(self):
         current_page = self.specific
