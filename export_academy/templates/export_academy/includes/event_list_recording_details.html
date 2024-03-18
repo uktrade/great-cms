@@ -3,14 +3,11 @@
 {% if event_is_booked %}
     {% if event.video_recording %}
         <p>
-            Event recordings are only available for 4 weeks after the event.
+            A recording is available for 4 weeks after the event.
         </p>
         <div>
-            <span role= "img" class="fa-stack">
-                <i class="fa fa-circle fa-stack-2x great-text-blue"></i>
-                <i class="fa fa-play fa-stack-1x fa-inverse"></i>
-              </span>
-            <a class="govuk-link"
+            <span role="img" class="fa fa-2x fa-play-circle great-text-blue govuk-!-margin-right-2"></span>
+            <a class="govuk-link great-vertical-align-super"
                 href="{% url 'export_academy:event-video' event.id %}">Watch event recording</a>
         </div>
     {% endif %}

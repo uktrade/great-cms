@@ -77,6 +77,10 @@
   padding-bottom: 30px;
 }
 
+.great-vertical-align-super {
+  vertical-align: super;
+}
+
 .event-tags {
   @media screen and (max-width: 640px) {
     display: flex;
