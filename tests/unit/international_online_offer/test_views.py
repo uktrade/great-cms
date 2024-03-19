@@ -226,6 +226,8 @@ def test_sector_form_valid_saves_to_session(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:sector')
     response = client.post(url, {'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT'})
+    assert client.session['sector'] == 'FINANCIAL_AND_PROFESSIONAL_SERVICES'
+    assert client.session['sector_sub'] == 'RESIDENTS_PROPERTY_MANAGEMENT'
     assert response.status_code == 302
 
 
@@ -288,6 +290,15 @@ def test_intent_form_valid_saves_to_db(client, user, settings):
 
 
 @pytest.mark.django_db
+def test_intent_form_valid_saves_to_session(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:intent')
+    response = client.post(url, {'intent': 'FIND_PEOPLE_WITH_SPECIALIST_SKILLS'})
+    assert client.session['intent'] == ['FIND_PEOPLE_WITH_SPECIALIST_SKILLS']
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
 def test_location(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
@@ -332,6 +343,16 @@ def test_location_form_valid_saves_to_db(client, user, settings):
     user.hashed_uuid = '123'
     client.force_login(user)
     response = client.post(url, {'location': regions.WALES})
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_location_form_valid_saves_to_session(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:location')
+    response = client.post(url, {'location': 'CARDIFF'})
+    assert client.session['location'] == 'WALES'
+    assert client.session['location_city'] == 'CARDIFF'
     assert response.status_code == 302
 
 
@@ -395,6 +416,15 @@ def test_hiring_form_valid_saves_to_db(client, user, settings):
 
 
 @pytest.mark.django_db
+def test_hiring_form_valid_saves_to_session(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:hiring')
+    response = client.post(url, {'hiring': hirings.ONE_TO_TEN})
+    assert client.session['hiring'] == hirings.ONE_TO_TEN
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
 def test_spend(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
@@ -444,6 +474,7 @@ def test_spend_form_valid_saves_to_session(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:spend')
     response = client.post(url, {'spend': spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND})
+    assert client.session['spend'] == spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND
     assert response.status_code == 302
 
 
