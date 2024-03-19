@@ -70,7 +70,7 @@ def is_labour_workforce_hire(sector, hiring):
         {directory_constants_sectors.FINANCIAL_AND_PROFESSIONAL_SERVICES: 11},
         {directory_constants_sectors.CONSUMER_AND_RETAIL: 15},
         {sectors.CREATIVE_INDUSTRIES: 9},
-        {sectors.HEALHCARE_SERVICES: 10},
+        {sectors.HEALTHCARE_SERVICES: 10},
         {sectors.MEDICAL_DEVICES_AND_EQUIPMENT: 10},
         {sectors.AGRICULTURE_HORTICULTURE_FISHERIES_AND_PETS: 5},
         {directory_constants_sectors.CONSTRUCTION: 10},
@@ -137,7 +137,7 @@ def is_hpo(sector, location):
             ]
         },
         {
-            sectors.HEALHCARE_SERVICES: [
+            sectors.HEALTHCARE_SERVICES: [
                 regions.NORTH_EAST,
                 regions.SOUTH_EAST,
                 regions.YORKSHIRE_AND_THE_HUMBER,
