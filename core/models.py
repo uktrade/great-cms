@@ -18,7 +18,7 @@ from great_components.mixins import GA360Mixin
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.models import ClusterableModel, ParentalKey
 from taggit.managers import TaggableManager
-from taggit.models import ItemBase, TagBase, TaggedItemBase
+from taggit.models import ItemBase, TagBase, TaggedItemBase, GenericTaggedItemBase
 from wagtail import blocks
 from wagtail.admin.panels import (
     FieldPanel,
@@ -1332,6 +1332,30 @@ class HSCodeTaggedCaseStudy(ItemBase):
 class CountryTaggedCaseStudy(ItemBase):
     tag = models.ForeignKey(CountryTag, related_name='country_tagged_case_studies', on_delete=models.CASCADE)
     content_object = ParentalKey(to='core.CaseStudy', on_delete=models.CASCADE, related_name='country_tagged_items')
+
+
+class CountryTagged(GenericTaggedItemBase):
+    tag = models.ForeignKey(
+        CountryTag,
+        on_delete=models.CASCADE,
+        related_name='%(app_label)s_%(class)s_items',
+    )
+
+
+class SectorTagged(GenericTaggedItemBase):
+    tag = models.ForeignKey(
+        SectorTag,
+        on_delete=models.CASCADE,
+        related_name='%(app_label)s_%(class)s_items',
+    )
+
+
+class TypeOfExportTagged(GenericTaggedItemBase):
+    tag = models.ForeignKey(
+        SectorTag,
+        on_delete=models.CASCADE,
+        related_name='%(app_label)s_%(class)s_items',
+    )
 
 
 class RegionTaggedCaseStudy(ItemBase):
