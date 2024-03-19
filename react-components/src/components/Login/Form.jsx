@@ -27,15 +27,8 @@ export const Form = ({
         handleSubmit()
       }}
     >
-      <h3 className="h-s p-t-xs">Sign in</h3>
-      <p className="m-b-s">
-        Don&apos;t have an account?{' '}
-        <a
-          href={Services.config.signupUrl}
-        >
-          Sign up
-        </a>
-      </p>
+      <h3 className="signin_header">Sign in</h3>
+      
       {/* eslint-disable-next-line no-underscore-dangle,react/prop-types */}
       <ErrorList errors={errors.__all__ || []} className="m-b-s" />
       <Input
@@ -66,7 +59,7 @@ export const Form = ({
       <button
         type="submit"
         id="signup-modal-submit"
-        className="primary-button button--full-width m-t-xs"
+        className="primary-button m-t-xs"
         disabled={disabled}
       >
         Sign in
@@ -85,6 +78,14 @@ export const Form = ({
           />
         </>
       )}
+      <p className="m-b-s">
+        Don&apos;t have an account?{' '}
+        <a
+          href={Services.config.signupUrl}
+        >
+          Sign up
+        </a>
+      </p>
     </form>
   </>
 )

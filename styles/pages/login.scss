@@ -12,7 +12,7 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
 #login {
   h1 {
     font-family: $main-text-font;
-    font-weight: $font-weight-standard;
+    font-weight: $font-weight-semi-bold;
   }
 
   h3 {
@@ -28,6 +28,15 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
     #get-in-touch {
       font-size: $font-size-p;
       color: $color-main-text;
+    }
+
+    .signin_header {
+      margin-top: govuk-spacing(8);
+      margin-bottom: govuk-spacing(6);
+    }
+
+    button {
+      border-bottom: 3px solid #003078;
     }
 
     @media only screen and (max-width: 900px) {
@@ -91,6 +100,14 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
     }
   }
 
+  .signup__info-panel__heading {
+    color: #222;
+    font-style:normal;
+    font-size: $font-size-h3;
+    line-height: $h3-line-height;
+    font-weight: $font-weight-semi-bold;
+  }
+
   .signup__info-panel__content {
     padding: 6vh 60px;
     height: 100%;
@@ -102,8 +119,10 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
     }
 
     li {
-      font-size: $font-size-h4;
+      font-size: $font-size-h5;
       margin-bottom: $large-padding;
+      font-weight: $font-weight-standard;
+      line-height: $h5-line-height;
     }
   }
 }
