@@ -285,27 +285,6 @@ class SpeakerOrderable(Orderable):
     panels = [FieldPanel('speaker')]
 
 
-@register_snippet
-class Speaker(ClusterableModel):
-    name = models.CharField(max_length=255)
-    role = models.CharField(max_length=255)
-    organisation = models.CharField(max_length=255)
-    description = RichTextField(features=[])
-
-    panels = [
-        FieldPanel('name'),
-        FieldPanel('role'),
-        FieldPanel('organisation'),
-        FieldPanel('description'),
-    ]
-
-    class Meta:
-        ordering = ('name',)
-
-    def __str__(self):
-        return '{0} - {1}'.format(self.name, self.role)
-
-
 class TimeStampedModel(models.Model):
     """Modified version of django_extensions.db.models.TimeStampedModel
 
@@ -1433,17 +1412,58 @@ class Product(TaggedSnippetBase,models.Model):
 
     def __str__(self):
         return self.name
+    
     edit_handler = TabbedInterface(
         [
-            ObjectList([
-                MultiFieldPanel([
-                    FieldPanel('name'),
-                ], heading='Product Details'),
-            ], heading='Product'),
+            ObjectList(
+            [
+                FieldPanel('name'),  
+            ],
+            heading='Product'
+        ),
             ObjectList(TaggedSnippetBase.tag_panels, heading='Tags'),
         ]
     )
 
+@register_snippet
+class Speaker(TaggedSnippetBase,ClusterableModel):
+    name = models.CharField(max_length=255)
+    role = models.CharField(max_length=255)
+    organisation = models.CharField(max_length=255)
+    description = RichTextField(features=[])
+
+    panels = [
+        FieldPanel('name'),
+        FieldPanel('role'),
+        FieldPanel('organisation'),
+        FieldPanel('description'),
+    ]
+
+    class Meta:
+        ordering = ('name',)
+
+    def __str__(self):
+        return '{0} - {1}'.format(self.name, self.role)
+
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(
+                [
+                    MultiFieldPanel(
+                        [
+                            FieldPanel('name'),
+                            FieldPanel('role'),
+                            FieldPanel('organisation'),
+                            FieldPanel('description'),
+                        ],
+                        heading='Speaker',
+                    ),
+                ],
+                heading='Speaker'
+        ),
+            ObjectList(TaggedSnippetBase.tag_panels, heading='Tags'),
+        ]
+    )
 
 def _high_level_validation(value, error_messages):
     TEXT_BLOCK = 'text'  # noqa N806
