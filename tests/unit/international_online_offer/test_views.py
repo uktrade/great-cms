@@ -6,7 +6,12 @@ from django.urls import reverse, reverse_lazy
 
 from directory_sso_api_client import sso_api_client
 from international_online_offer.core import helpers, hirings, intents, regions, spends
-from international_online_offer.models import CsatFeedback, TriageData, UserData
+from international_online_offer.models import (
+    CsatFeedback,
+    TradeAssociation,
+    TriageData,
+    UserData,
+)
 from sso import helpers as sso_helpers
 from tests.helpers import create_response
 
@@ -585,7 +590,31 @@ def test_trade_associations(client, user, settings):
     url = reverse('international_online_offer:trade-associations')
     user.hashed_uuid = '123'
     client.force_login(user)
+    TriageData.objects.update_or_create(
+        hashed_uuid='123',
+        defaults={'sector': 'FOOD_AND_DRINK'},
+    )
+    TradeAssociation.objects.update_or_create(
+        trade_association_id='1244',
+        sector_grouping='ANY',
+        association_name='TEST',
+        website_link='http://test.com',
+        sector='Food and Drink',
+        brief_description='This is a test',
+    )
+    TradeAssociation.objects.update_or_create(
+        trade_association_id='1244',
+        sector_grouping='ANY',
+        association_name='TEST',
+        website_link='http://test.com',
+        sector='Technology',
+        brief_description='This is a test',
+    )
     response = client.get(url)
+    context = response.context_data
+    all_trade_associations = context['all_trade_associations']
+    assert len(all_trade_associations) == 1
+    assert all_trade_associations[0].sector == 'Food and Drink'
     assert response.status_code == 200
 
 
