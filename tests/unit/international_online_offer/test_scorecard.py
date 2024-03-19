@@ -47,8 +47,8 @@ def test_is_labour_workforce_hire():
         (directory_constants_sectors.ENERGY, regions.SCOTLAND, True),
         (sectors.PHARMACEUTICALS_AND_BIOTECHNOLOGY, regions.LONDON, False),
         (sectors.PHARMACEUTICALS_AND_BIOTECHNOLOGY, regions.WALES, True),
-        (sectors.HEALHCARE_SERVICES, regions.SCOTLAND, False),
-        (sectors.HEALHCARE_SERVICES, regions.WEST_MIDLANDS, True),
+        (sectors.HEALTHCARE_SERVICES, regions.SCOTLAND, False),
+        (sectors.HEALTHCARE_SERVICES, regions.WEST_MIDLANDS, True),
     ),
 )
 def test_is_hpo(sector, region, expected_result):
