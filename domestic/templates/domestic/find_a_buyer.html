@@ -9,7 +9,7 @@
     {% block breadcrumbs %}
         {% include 'components/breadcrumbs_cms.html' %}
     {% endblock %}
-    <div class="great">
+    <div class="great great-hero-box-shadow-bottom">
         {% image page.hero_image original as rendition %}
         <section class="background-white govuk-!-padding-bottom-0">
             <div class="container">
@@ -27,8 +27,7 @@
                             {% endif %}
                         </div>
                         <div class="image-container image-full-width great-display-from-tablet ea-landing-image-container"
-                             style="background: url({{ rendition.url }})">
-                        </div>
+                             style="background: url({{ rendition.url }})"></div>
                     </div>
                 </div>
             </div>
@@ -42,19 +41,16 @@
                         <div class="govuk-grid-column-one-third-from-desktop">
                             <h2>{{ page.body_title }}</h2>
                         </div>
-                        <div class="govuk-grid-column-two-thirds-from-desktop">
-                        </div>
+                        <div class="govuk-grid-column-two-thirds-from-desktop"></div>
                     </div>
                     <div class="govuk-grid-row">
                         <div class="govuk-grid-column-one-third-from-desktop">
                             <p>{{ page.body | richtext | add_govuk_classes }}</p>
                         </div>
                         <div class="govuk-grid-column-two-thirds-from-desktop">
-                            <div class="govuk-!-static-padding-top-6" >
-                            {% image page.body_image original as body_rendition %}
-                                <img class="width-full"
-                                     src="{{ body_rendition.url }}"
-                                     alt="">
+                            <div class="govuk-!-static-padding-top-6">
+                                {% image page.body_image original as body_rendition %}
+                                <img class="width-full" src="{{ body_rendition.url }}" alt="">
                             </div>
                         </div>
                     </div>
@@ -62,7 +58,8 @@
             </div>
         </div>
     </section>
-    <section class="govuk-!-static-padding-bottom-7 govuk-!-static-padding-top-7" id="article_related_content_footer">
+    <section class="govuk-!-static-padding-bottom-7 govuk-!-static-padding-top-7"
+             id="article_related_content_footer">
         <div class="container">
             <div class="grid-row">
                 <div class="column-three-quarters">
@@ -70,10 +67,10 @@
                         <div class="column-seven-ninths">
                             <div class="grid-row">
                                 <div class="column">
-                                    <h2 class="heading-large margin-top-0">{{page.cta_title}}</h2>
-                                    <p>{{page.cta_teaser}}</p>
+                                    <h2 class="heading-large margin-top-0">{{ page.cta_title }}</h2>
+                                    <p>{{ page.cta_teaser }}</p>
                                     <div>
-                                        <a href="{{page.cta_link}}" class="button primary-button">{{page.cta_link_label}}</a>
+                                        <a href="{{ page.cta_link }}" class="button primary-button">{{ page.cta_link_label }}</a>
                                     </div>
                                 </div>
                             </div>
