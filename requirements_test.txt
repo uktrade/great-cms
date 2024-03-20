@@ -52,7 +52,7 @@ beautifulsoup4==4.11.2
     #   wagtail
 billiard==3.6.4.0
     # via celery
-black==24.1.0
+black==24.3.0
     # via
     #   -r requirements_test.in
     #   blacken-docs
@@ -79,7 +79,6 @@ build==1.0.3
 celery[redis]==5.2.7
     # via
     #   -r requirements.in
-    #   celery
     #   django-celery-beat
 certifi==2024.2.2
     # via
@@ -120,7 +119,6 @@ configargparse==1.7
     # via locust
 coverage[toml]==7.4.3
     # via
-    #   coverage
     #   pytest-codecov
     #   pytest-cov
 cron-descriptor==1.4.3
