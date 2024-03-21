@@ -3,10 +3,7 @@ import ReactDOM from 'react-dom'
 import debounce from 'lodash.debounce'
 
 const mapResults = (results) => {
-  return results.commodities.map(({ description, hsCode }) => ({
-    description,
-    hsCode,
-  }))
+  return results.data.map(({attributes: {title, goods_nomenclature_item_id}}) => ({title, goods_nomenclature_item_id}))
 }
 
 function ProductPicker() {
@@ -59,7 +56,7 @@ function ProductPicker() {
   const getProducts = (value) => {
     if (value) {
       fetch(
-        `https://www.check-duties-customs-exporting-goods.service.gov.uk/rs/classify/keywords/TARIC/${value}/EN/1`
+        `/api/product-picker/${value}`
       )
         .then((res) => res.json())
         .then(
@@ -77,13 +74,13 @@ function ProductPicker() {
     }
   }
 
-  const updateHiddenInput = (description, hsCode) => {
+  const updateHiddenInput = (title, goods_nomenclature_item_id) => {
     const product_input = document.getElementById('product-input')
     const commodity_code_input = document.getElementById('commodity-code')
 
     if (product_input && commodity_code_input) {
-      product_input.value = description
-      commodity_code_input.value = hsCode
+      product_input.value = title
+      commodity_code_input.value = goods_nomenclature_item_id
     }
   }
 
@@ -104,7 +101,7 @@ function ProductPicker() {
   }
 
   const resetState = () => {
-    setProduct({ description: null, hsCode: '' })
+    setProduct({ title: null, goods_nomenclature_item_id: '' })
     setProducts([])
     inputRef.current.value = ''
     inputRef.current.focus()
@@ -117,7 +114,7 @@ function ProductPicker() {
 
     if (inputRef.current.value !== '') {
       activateSubmitButton()
-      updateHiddenInput(inputRef.current.value, product.hsCode)
+      updateHiddenInput(inputRef.current.value, product.goods_nomenclature_item_id)
     } else {
       deactivateSubmitButton()
     }
@@ -140,8 +137,8 @@ function ProductPicker() {
         onKeyUp={onProductChange}
         placeholder="For example, Apples"
         value={
-          product.description && product.hsCode
-            ? `${product.description} (${product.hsCode})`
+          product.title && product.goods_nomenclature_item_id
+            ? `${product.title} (${product.goods_nomenclature_item_id})`
             : null
         }
         ref={inputRef}
@@ -161,19 +158,19 @@ function ProductPicker() {
       )}
       {isProducts && (
         <ul className="great-bg-white">
-          {products.map(({ description, hsCode }) => (
-            <li key={hsCode}>
+          {products.map(({ title, goods_nomenclature_item_id }) => (
+            <li key={goods_nomenclature_item_id}>
               <button
                 className="govuk-body govuk-!-margin-bottom-0"
                 onClick={() => {
-                  setProduct({ description, hsCode })
+                  setProduct({ title, goods_nomenclature_item_id })
                   setProducts([])
-                  updateHiddenInput(description, hsCode)
+                  updateHiddenInput(title, goods_nomenclature_item_id)
                   activateSubmitButton()
                   removeResultsEventHandler()
                 }}
               >
-                {description} ({hsCode})
+                {title} ({goods_nomenclature_item_id})
               </button>
             </li>
           ))}
