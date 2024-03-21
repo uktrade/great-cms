@@ -27,7 +27,7 @@ export const Form = ({
         handleSubmit()
       }}
     >
-      <h3 className="signin_header">Sign in</h3>
+      <h3 className="great-signin-header">Sign in</h3>
       
       {/* eslint-disable-next-line no-underscore-dangle,react/prop-types */}
       <ErrorList errors={errors.__all__ || []} className="m-b-s" />
@@ -49,6 +49,9 @@ export const Form = ({
         onChange={(item) => handlePasswordChange(item.password)}
         errors={errors.password || []}
       />
+      <p className='password-hint'>
+
+      </p>
       <a
         href={Services.config.passwordResetUrl}
         className="inline-block"
@@ -59,7 +62,7 @@ export const Form = ({
       <button
         type="submit"
         id="signup-modal-submit"
-        className="primary-button m-t-xs"
+        className="primary-button great-button-border-bottom m-t-xs"
         disabled={disabled}
       >
         Sign in

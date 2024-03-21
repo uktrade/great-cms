@@ -19,6 +19,23 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
     color: $color-main-text;
   }
 
+  .great-password-info {
+    color: #505A5F;
+    padding-bottom: govuk-spacing(1);
+
+    font-family: $main-text-font;
+    font-size: $font-size-p;
+    font-style: normal;
+    font-weight: $font-weight-standard;
+    line-height: $h5-line-height; /* 166.667% */
+  }
+  
+  .great-confirmation-header {
+    margin-top: govuk-spacing(2);
+    margin-bottom: govuk-spacing(6);
+
+    // TODO?> add phone spacing
+  }
 
   .signup__form-panel,
   .great-signup__form-panel {
@@ -30,12 +47,28 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
       color: $color-main-text;
     }
 
-    .signin_header {
-      margin-top: govuk-spacing(8);
+    .great-signup-header,
+    .great-signin-header {
+      margin-top: govuk-spacing(7);
       margin-bottom: govuk-spacing(6);
+
+      @media only screen and (max-width: 900px) {
+        margin-top: govuk-spacing(6);
+        margin-bottom: govuk-spacing(6)
+      }
     }
 
-    button {
+    
+
+    .form-label{
+      font-family: "Noto SemiBold" !important;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 30px; /* 166.667% */
+    } 
+
+    .great-button-border-bottom {
       border-bottom: 3px solid #003078;
     }
 
@@ -73,6 +106,7 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
     }
 
     &.login-panel {
+      float:right;
       background: $login-image;
       background-size: auto 55vh !important;
     }
@@ -109,7 +143,7 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
   }
 
   .signup__info-panel__content {
-    padding: 6vh 60px;
+    padding: 20vh 60px 20vh 0px; //TODO: Move content to the right a bit
     height: 100%;
   }
 

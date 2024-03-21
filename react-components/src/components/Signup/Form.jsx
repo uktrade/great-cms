@@ -30,19 +30,12 @@ const Form = ({
     autoComplete="new-off"
   >
     {showTitle && (
-      <h3 className="h-s p-t-xs">
+      <h3 className="h-s p-t-xs great-signin-header">
         Create an account
       </h3>
     )}
 
-    <p className="m-b-s">
-      Already have an account?{' '}
-      <a
-        href={Services.config.loginUrl} id="signup-modal-log-in"
-      >
-        Sign in
-      </a>
-    </p>
+   
     <Input
       label="Email address"
       id="email"
@@ -66,6 +59,8 @@ const Form = ({
       label="Password"
       id="password"
       type="password"
+      description="Your password must have at least 10 characters, including letters and numbers."
+      descriptionClassName= 'great-password-info'
       disabled={disabled}
       value={password}
       onChange={(item) => handlePasswordChange(item.password)}
@@ -79,10 +74,10 @@ const Form = ({
     <button
       type="submit"
       id="signup-modal-submit"
-      className="button primary-button width-full m-t-xs"
+      className="button great-button-border-bottom primary-button m-t-xs"
       disabled={disabled}
     >
-      Sign up
+      Create Account
     </button>
     {SHOW_SOCIAL_LOGIN && (
       <>
@@ -98,6 +93,14 @@ const Form = ({
         />
       </>
     )}
+     <p className="m-b-s">
+      Already have an account?{' '}
+      <a
+        href={Services.config.loginUrl} id="signup-modal-log-in"
+      >
+        Sign in
+      </a>
+    </p>
   </form>
 )
 
