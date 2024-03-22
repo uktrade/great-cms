@@ -13,14 +13,30 @@
     font-family: 'Euclid Flex B';
     font-size: 24px;
     color: white;
-    float: left;
     padding: 10px 0px 10px 0px;
+    margin-top: 25px;
+
+    .international-transactional-header-link {
+        text-decoration: none;
+    }
+
+    @media (max-width: 800px) {
+        font-size: 22px;
+    }
+
+    @media (max-width: 700px) {
+        font-size: 20px;
+    }
+
+    @media (max-width: 630px) {
+        display: none;
+    }
 }
 
-.international-justify-start {
-    justify-content: start;
-    align-items: center;
-}
+// .international-justify-start {
+//     justify-content: start;
+//     align-items: center;
+// }
 
 .internatonal-menu-button {
     font-family: 'Euclid Flex B';
@@ -42,11 +58,20 @@
       display: flex;
     }
 
+
     @media (min-width: 880px) {
       .js-enabled & {
         display: none;
       }
     }
+  }
+
+  .internatonal-menu-button:focus {
+    border-color: #fd0;
+    color: #0b0c0c;
+    background-color: #fd0;
+    box-shadow: 0 2px 0 #0b0c0c;
+    outline: 0px;
   }
 
 
@@ -177,7 +202,18 @@
     margin-top: 10px;
     margin-bottom: 10px;
     margin-right: 50px;
+
+    @media (max-width: 880px) {
+        margin-right: 10px;
+    }
 }
+
+.great-logo-link:focus {
+    background-color: #fd0;
+    outline: 0px;
+}
+
+
 
 .great-logo-link:focus {
     .great-logo {

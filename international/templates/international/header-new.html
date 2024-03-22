@@ -9,46 +9,52 @@
                      class="great-logo"></div>
             </a>
             {% if hide_primary_nav %}
-                <div class="international-transactional-header-title">Expand your business in the UK</div>
-            {% else %}
-                <button id="atlas-nav-toggle"
-                        class="internatonal-menu-button"
-                        aria-controls="international-nav"
-                        data-reveal-button>
-                    Menu
-                    <span class="internatonal-menu-button__icon"></span>
-                </button>
-                <nav id="international-nav"
-                     class="international-nav"
-                     aria-label="Main menu">
-                    <ul class="international-nav__list">
-                        <li>
-                            <a class="international-nav__item {% if '/expand-your-business-in-the-uk/' in request.path %}active{% endif %}"
+                <div class="international-transactional-header-title">
+                    <a href="{% if not eyb_user %}{% url 'international_online_offer:index' %}{% else %}/international/expand-your-business-in-the-uk/guide/{% endif %}"
+                       class="govuk-link govuk-link--inverse international-transactional-header-link">Expand your business in the UK</a>
+                </div>
+            {% endif %}
+            <button id="atlas-nav-toggle"
+                    class="internatonal-menu-button"
+                    aria-controls="international-nav"
+                    data-reveal-button>
+                Menu
+                <span class="internatonal-menu-button__icon"></span>
+            </button>
+            <nav id="international-nav"
+                 class="international-nav"
+                 aria-label="Main menu">
+                <ul class="international-nav__list">
+                    <li>
+                        {% if not hide_primary_nav %}
+                            <a class="govuk-link govuk-link--inverse international-nav__item {% if '/expand-your-business-in-the-uk/' in request.path %}active{% endif %}"
                                href="{% if not eyb_user %}{% url 'international_online_offer:index' %}{% else %}/international/expand-your-business-in-the-uk/guide/{% endif %}"
                                data-title="Expand your business"
                                data-location="International header">Expand your business</a>
+                        {% endif %}
+                        {% if '/expand-your-business-in-the-uk' in request.path %}
                             <ul class="international-nav__section">
                                 {% if eyb_user %}
                                     <li>
-                                        <a class="international-nav__section-item {% if '/expand-your-business-in-the-uk/guide' in request.path %}active{% endif %}"
+                                        <a class="govuk-link govuk-link--inverse international-nav__section-item {% if '/expand-your-business-in-the-uk/guide' in request.path %}active{% endif %}"
                                            href="/international/expand-your-business-in-the-uk/guide"
                                            data-location="EYB sub-nav"
                                            data-title="UK expansion guide">UK expansion guide</a>
                                     </li>
                                     <li>
-                                        <a class="international-nav__section-item {% if '/expand-your-business-in-the-uk/change-your-answers' in request.path %}active{% endif %}"
+                                        <a class="govuk-link govuk-link--inverse international-nav__section-item {% if '/expand-your-business-in-the-uk/change-your-answers' in request.path %}active{% endif %}"
                                            href="{% url 'international_online_offer:change-your-answers' %}"
                                            data-location="EYB sub-nav"
                                            data-title="Change your answers">Change your answers</a>
                                     </li>
                                     <li>
-                                        <a class="international-nav__section-item {% if '/expand-your-business-in-the-uk/profile' in request.path %}active{% endif %}"
+                                        <a class="govuk-link govuk-link--inverse international-nav__section-item {% if '/expand-your-business-in-the-uk/profile' in request.path %}active{% endif %}"
                                            href="{% url 'international_online_offer:profile' %}"
                                            data-location="EYB sub-nav"
                                            data-title="Edit your profile">Edit your profile</a>
                                     </li>
                                     <li>
-                                        <a class="international-nav__section-item "
+                                        <a class="govuk-link govuk-link--inverse international-nav__section-item "
                                            tabindex="0"
                                            role="link"
                                            onclick="signOut()"
@@ -59,90 +65,96 @@
                                     </li>
                                 {% elif request.user.is_authenticated %}
                                     <li>
-                                        <a class="international-nav__section-item "
+                                        <a class="govuk-link govuk-link--inverse international-nav__section-item"
                                            href="{% url 'international_online_offer:profile' %}?signup=true"
                                            data-location="EYB sub-nav"
                                            data-title="Complete sign up">Complete sign up</a>
                                     </li>
                                 {% else %}
                                     <li>
-                                        <a class="international-nav__section-item "
+                                        <a class="govuk-link govuk-link--inverse international-nav__section-item "
                                            href="{% url 'international_online_offer:login' %}"
                                            data-location="EYB sub-nav"
                                            data-title="Sign in">Sign in</a>
                                     </li>
                                 {% endif %}
                             </ul>
-                        </li>
-                        <li>
-                            <a class="international-nav__item"
+                        {% endif %}
+                    </li>
+                    <li>
+                        {% if not hide_primary_nav %}
+                            <a class="govuk-link govuk-link--inverse international-nav__item"
                                href="/international/investment/"
                                data-title="Investment opportunities"
                                data-location="International header">Investment opportunities</a>
-                        </li>
-                        <li>
-                            <a class="international-nav__item"
+                        {% endif %}
+                    </li>
+                    <li>
+                        {% if not hide_primary_nav %}
+                            <a class="govuk-link govuk-link--inverse international-nav__item"
                                href="/international/content/trade/how-we-help-you-buy/"
                                data-title="Buy from the UK"
                                data-location="International header">Buy from the UK</a>
-                        </li>
-                    </ul>
-                </nav>
-            {% endif %}
-        </div>
-    </div>
-    <div class="international-subnav">
-        <div class="govuk-width-container great-container">
-            <nav class="international-subnav" aria-label="Sub-menu">
-                <ul>
-                    {% if eyb_user %}
-                        <li>
-                            <a class="international-subnav__item {% if '/expand-your-business-in-the-uk/guide' in request.path %}active{% endif %}"
-                               href="/international/expand-your-business-in-the-uk/guide"
-                               data-location="EYB sub-nav"
-                               data-title="UK expansion guide">UK expansion guide</a>
-                        </li>
-                        <li>
-                            <a class="international-subnav__item {% if '/expand-your-business-in-the-uk/change-your-answers' in request.path %}active{% endif %}"
-                               href="{% url 'international_online_offer:change-your-answers' %}"
-                               data-location="EYB sub-nav"
-                               data-title="Change your answers">Change your answers</a>
-                        </li>
-                        <li>
-                            <a class="international-subnav__item {% if '/expand-your-business-in-the-uk/profile' in request.path %}active{% endif %}"
-                               href="{% url 'international_online_offer:profile' %}"
-                               data-location="EYB sub-nav"
-                               data-title="Edit your profile">Edit your profile</a>
-                        </li>
-                        <li>
-                            <a class="international-subnav__item"
-                               tabindex="0"
-                               role="link"
-                               onclick="signOut()"
-                               onkeypress="return enterKeyPressed(event)"
-                               href="#"
-                               data-location="EYB sub-nav"
-                               data-title="Sign out">Sign out</a>
-                        </li>
-                    {% elif request.user.is_authenticated %}
-                        <li>
-                            <a class="international-subnav__item"
-                               href="{% url 'international_online_offer:profile' %}?signup=true"
-                               data-location="EYB sub-nav"
-                               data-title="Complete sign up">Complete sign up</a>
-                        </li>
-                    {% else %}
-                        <li>
-                            <a class="international-subnav__item"
-                               href="{% url 'international_online_offer:login' %}"
-                               data-location="EYB sub-nav"
-                               data-title="Sign in">Sign in</a>
-                        </li>
-                    {% endif %}
+                        {% endif %}
+                    </li>
                 </ul>
             </nav>
         </div>
     </div>
+    {% if '/expand-your-business-in-the-uk' in request.path %}
+        <div class="international-subnav">
+            <div class="govuk-width-container great-container">
+                <nav class="international-subnav" aria-label="Sub-menu">
+                    <ul>
+                        {% if eyb_user %}
+                            <li>
+                                <a class="govuk-link govuk-link--inverse international-subnav__item {% if '/expand-your-business-in-the-uk/guide' in request.path %}active{% endif %}"
+                                   href="/international/expand-your-business-in-the-uk/guide"
+                                   data-location="EYB sub-nav"
+                                   data-title="UK expansion guide">UK expansion guide</a>
+                            </li>
+                            <li>
+                                <a class="govuk-link govuk-link--inverse international-subnav__item {% if '/expand-your-business-in-the-uk/change-your-answers' in request.path %}active{% endif %}"
+                                   href="{% url 'international_online_offer:change-your-answers' %}"
+                                   data-location="EYB sub-nav"
+                                   data-title="Change your answers">Change your answers</a>
+                            </li>
+                            <li>
+                                <a class="govuk-link govuk-link--inverse international-subnav__item {% if '/expand-your-business-in-the-uk/profile' in request.path %}active{% endif %}"
+                                   href="{% url 'international_online_offer:profile' %}"
+                                   data-location="EYB sub-nav"
+                                   data-title="Edit your profile">Edit your profile</a>
+                            </li>
+                            <li>
+                                <a class="govuk-link govuk-link--inverse international-subnav__item"
+                                   tabindex="0"
+                                   role="link"
+                                   onclick="signOut()"
+                                   onkeypress="return enterKeyPressed(event)"
+                                   href="#"
+                                   data-location="EYB sub-nav"
+                                   data-title="Sign out">Sign out</a>
+                            </li>
+                        {% elif request.user.is_authenticated %}
+                            <li>
+                                <a class="govuk-link govuk-link--inverse international-subnav__item"
+                                   href="{% url 'international_online_offer:profile' %}?signup=true"
+                                   data-location="EYB sub-nav"
+                                   data-title="Complete sign up">Complete sign up</a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a class="govuk-link govuk-link--inverse international-subnav__item"
+                                   href="{% url 'international_online_offer:login' %}"
+                                   data-location="EYB sub-nav"
+                                   data-title="Sign in">Sign in</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    {% endif %}
 </header>
 <script>
 
