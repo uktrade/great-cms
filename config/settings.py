@@ -800,7 +800,7 @@ WAGTAILTRANSFER_UPDATE_RELATED_MODELS = [
     'core.AltTextImage',
     'core.GreatMedia',
     'core.PersonalisationHSCodeTag',
-    'core.PersonalisationCountryTag',
+    'core.CountryTag',
     'core.CountryTaggedCaseStudy',
     'core.HSTaggedCaseStudy',
     'core.CaseStudy',
@@ -841,7 +841,7 @@ WAGTAILTRANSFER_NO_FOLLOW_MODELS = ['wagtailcore.page', 'core.MicrositePage', 'a
 WAGTAILTRANSFER_LOOKUP_FIELDS = {
     'taggit.tag': ['slug'],
     'core.personalisationhscodetag': ['slug'],
-    'core.personalisationcountrytag': ['slug'],
+    'core.countrytag': ['slug'],
     'auth.user': ['username'],
     'auth.permission': ['content_type_id', 'id'],
 }

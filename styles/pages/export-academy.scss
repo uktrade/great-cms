@@ -77,6 +77,18 @@
   padding-bottom: 30px;
 }
 
+.event-list-video-warning {
+  color: #505A5F;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 30px; /* 166.667% */
+}
+
+.great-vertical-align-super {
+  vertical-align: super;
+}
+
 .event-tags {
   @media screen and (max-width: 640px) {
     display: flex;
