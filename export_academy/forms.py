@@ -8,6 +8,7 @@ from django.forms import (
 )
 from django.forms.widgets import ChoiceWidget
 from django.utils import timezone
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from great_components import forms
 from wagtail.admin.forms import WagtailAdminModelForm
@@ -275,6 +276,7 @@ class SignUpForm(forms.Form):
     password = forms.CharField(
         widget=PasswordInput,
         label='Password',
+        help_text=mark_safe("<span class='great-password-info'>Your password must have at least 10 characters, including letters and numbers.</span>"),
         error_messages={
             'required': 'Enter a password',
         },
