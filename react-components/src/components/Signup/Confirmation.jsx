@@ -38,7 +38,7 @@ const Confirmation = ({
     <button
       type="submit"
       id="signup-modal-submit-code"
-      className="button primary-button m-t-0 great-button-border-bottom"
+      className="button primary-button m-t-0 great-border-bottom-black"
       disabled={disabled}
     >
       Submit

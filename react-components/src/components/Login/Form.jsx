@@ -62,7 +62,7 @@ export const Form = ({
       <button
         type="submit"
         id="signup-modal-submit"
-        className="primary-button great-button-border-bottom m-t-xs"
+        className="primary-button great-border-bottom-black m-t-xs"
         disabled={disabled}
       >
         Sign in

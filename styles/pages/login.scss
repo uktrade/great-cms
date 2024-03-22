@@ -8,6 +8,8 @@ $banner: url(/static/images/great-banner-large.png);
 $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
 
 
+
+
 #sign-up,
 #login {
   h1 {
@@ -22,7 +24,7 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
   .great-password-info {
     color: #505A5F;
     padding-bottom: govuk-spacing(1);
-
+  
     font-family: $main-text-font;
     font-size: $font-size-p;
     font-style: normal;
@@ -68,7 +70,7 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
       line-height: 30px; /* 166.667% */
     } 
 
-    .great-button-border-bottom {
+    .great-border-bottom-black {
       border-bottom: 3px solid #003078;
     }
 

@@ -74,7 +74,7 @@ const Form = ({
     <button
       type="submit"
       id="signup-modal-submit"
-      className="button great-button-border-bottom primary-button m-t-xs"
+      className="button great-border-bottom-black primary-button m-t-xs"
       disabled={disabled}
     >
       Create Account
