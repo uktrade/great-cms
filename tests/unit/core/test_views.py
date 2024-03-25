@@ -588,6 +588,22 @@ def test_commodity_schedule(mock_ccce_import_schedule, client):
 
 
 @pytest.mark.django_db
+@mock.patch.object(helpers, 'product_picker')
+def test_product_picker(mock_product_picker, client):
+    mock_product_picker.return_value = data = [
+        {'attributes': {'title': 'cheese', 'goods_nomenclature_item_id': '12345'}}
+    ]
+    product = 'cheese'
+
+    response = client.get('/api/product-picker/cheese')
+
+    assert response.status_code == 200
+    assert response.json() == data
+    assert mock_product_picker.call_count == 1
+    assert mock_product_picker.call_args == mock.call(product)
+
+
+@pytest.mark.django_db
 def test_get_countries(client):
     response = client.get(reverse('core:api-countries'))
     countries = response.json()

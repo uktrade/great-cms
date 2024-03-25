@@ -2,7 +2,6 @@ import datetime
 import logging
 import math
 
-import requests
 from directory_ch_client.client import ch_search_api_client
 from django.conf import settings
 from drf_spectacular.types import OpenApiTypes
@@ -93,12 +92,8 @@ class ProductLookupView(generics.GenericAPIView):
 class ProductPickerView(generics.GenericAPIView):
     def get(self, request, **kwargs):
         product = kwargs['product']
-        response = requests.get(
-            f'https://www.trade-tariff.service.gov.uk/api/v2/search_references.json?query[letter]={product}', timeout=4
-        )
-        if status.is_success(response.status_code):
-            return Response(response.json())
-        return Response({'error': 'Invalid product.'}, status=status.HTTP_400_BAD_REQUEST)
+        data = helpers.product_picker(product)
+        return Response(data)
 
 
 @extend_schema(

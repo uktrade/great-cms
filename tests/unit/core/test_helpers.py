@@ -350,6 +350,15 @@ def test_ccce_import_schedule(requests_mock):
     assert schedule_response == data
 
 
+def test_product_picker(requests_mock):
+    url = 'https://www.trade-tariff.service.gov.uk/api/v2/search_references.json?query%5Bletter%5D=cheese'
+    data = [{'attributes': {'title': 'cheese', 'goods_nomenclature_item_id': '12345'}}]
+    requests_mock.get(url, json=data)
+
+    response = helpers.product_picker('cheese')
+    assert response == data
+
+
 def test_get_popular_export_destinations():
     destinations = helpers.get_popular_export_destinations('Aerospace')
     assert destinations[0] == ('China', 29)

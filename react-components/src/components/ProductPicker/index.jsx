@@ -3,7 +3,12 @@ import ReactDOM from 'react-dom'
 import debounce from 'lodash.debounce'
 
 const mapResults = (results) => {
-  return results.data.map(({attributes: {title, goods_nomenclature_item_id}}) => ({title, goods_nomenclature_item_id}))
+  return results.data.map(
+    ({ attributes: { title, goods_nomenclature_item_id } }) => ({
+      title,
+      commodity_code: goods_nomenclature_item_id,
+    })
+  )
 }
 
 function ProductPicker() {
@@ -55,9 +60,7 @@ function ProductPicker() {
 
   const getProducts = (value) => {
     if (value) {
-      fetch(
-        `/api/product-picker/${value}`
-      )
+      fetch(`/api/product-picker/${value}`)
         .then((res) => res.json())
         .then(
           (result) => {
@@ -74,13 +77,13 @@ function ProductPicker() {
     }
   }
 
-  const updateHiddenInput = (title, goods_nomenclature_item_id) => {
+  const updateHiddenInput = (title, commodity_code) => {
     const product_input = document.getElementById('product-input')
     const commodity_code_input = document.getElementById('commodity-code')
 
     if (product_input && commodity_code_input) {
       product_input.value = title
-      commodity_code_input.value = goods_nomenclature_item_id
+      commodity_code_input.value = commodity_code
     }
   }
 
@@ -101,7 +104,7 @@ function ProductPicker() {
   }
 
   const resetState = () => {
-    setProduct({ title: null, goods_nomenclature_item_id: '' })
+    setProduct({ title: null, commodity_code: '' })
     setProducts([])
     inputRef.current.value = ''
     inputRef.current.focus()
@@ -114,7 +117,7 @@ function ProductPicker() {
 
     if (inputRef.current.value !== '') {
       activateSubmitButton()
-      updateHiddenInput(inputRef.current.value, product.goods_nomenclature_item_id)
+      updateHiddenInput(inputRef.current.value, product.commodity_code)
     } else {
       deactivateSubmitButton()
     }
@@ -137,13 +140,14 @@ function ProductPicker() {
         onKeyUp={onProductChange}
         placeholder="For example, Apples"
         value={
-          product.title && product.goods_nomenclature_item_id
-            ? `${product.title} (${product.goods_nomenclature_item_id})`
+          product.title && product.commodity_code
+            ? `${product.title} (${product.commodity_code})`
             : null
         }
         ref={inputRef}
         name="react-product-input"
         id="react-product-input"
+        autocomplete="off"
       />
       {isProductEntered && (
         <button
@@ -158,19 +162,19 @@ function ProductPicker() {
       )}
       {isProducts && (
         <ul className="great-bg-white">
-          {products.map(({ title, goods_nomenclature_item_id }) => (
-            <li key={goods_nomenclature_item_id}>
+          {products.map(({ title, commodity_code }) => (
+            <li key={commodity_code}>
               <button
                 className="govuk-body govuk-!-margin-bottom-0"
                 onClick={() => {
-                  setProduct({ title, goods_nomenclature_item_id })
+                  setProduct({ title, commodity_code })
                   setProducts([])
-                  updateHiddenInput(title, goods_nomenclature_item_id)
+                  updateHiddenInput(title, commodity_code)
                   activateSubmitButton()
                   removeResultsEventHandler()
                 }}
               >
-                {title} ({goods_nomenclature_item_id})
+                {title} ({commodity_code})
               </button>
             </li>
           ))}
