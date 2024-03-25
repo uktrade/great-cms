@@ -15,6 +15,7 @@ class IndividualStatisticBlockDefinition extends window.wagtailStreamField.block
         const holdNumber = numberField.value;
         const headingField = document.getElementById(prefix + '-heading');
 
+
         const createParagraph = (cls, id) => {
             let p = document.createElement("p");
             p.setAttribute("class", cls);
@@ -25,28 +26,16 @@ class IndividualStatisticBlockDefinition extends window.wagtailStreamField.block
 
         const updateNumberInput = () => {
             if (headingField.value == 'Economic growth' || headingField.value == 'GDP per capita' ) {
-                let id = "";
-                if (headingField.value == 'Economic growth') {
-                    id = "statistic-heading-warning-growth-id";
-                }
-                else {
-                    id = "statistic-heading-warning-gdp-id";
-                };
-                const warningField = document.getElementById(id);
-                if (!warningField) {
-                    const p = createParagraph("help-block help-critical", id);
-                    headingField.before(p);
-                }
                 numberField.value = holdNumber;
-
             };
         };
 
         numberField.addEventListener('change', updateNumberInput);
         if (headingField.value == 'Economic growth' || headingField.value == 'GDP per capita' ) {
             const p = createParagraph("help-block govuk-body", "statistic-heading-label-id");
-            headingField.after(p);
+            numberField.before(p);
         };
+
         return block;
     }
 }
