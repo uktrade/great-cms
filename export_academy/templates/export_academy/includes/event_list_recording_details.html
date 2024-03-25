@@ -2,11 +2,13 @@
 {% user_is_booked_on_event request.user event as event_is_booked %}
 {% if event_is_booked %}
     {% if event.video_recording %}
-        <div class="govuk-warning-text">
-            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-            <strong class="govuk-warning-text__text"><span class="govuk-warning-text__assistive">Warning</span>Event recordings are only available for 4 weeks after the event.</strong>
+        <p class="event-list-video-warning">
+            Event recordings are only available for 4 weeks after the event.
+        </p>
+        <div>
+            <span role="img" class="fa fa-2x fa-play-circle great-text-blue govuk-!-margin-right-2"></span>
+            <a class="govuk-link great-vertical-align-super"
+                href="{% url 'export_academy:event-video' event.id %}">Watch event recording</a>
         </div>
-        <a class="govuk-link"
-           href="{% url 'export_academy:event-video' event.id %}">Watch event recording</a>
     {% endif %}
 {% endif %}

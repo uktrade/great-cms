@@ -54,7 +54,6 @@ def get_trade_assoication_sectors_from_sector(sector):
             'Cyber Security',
             'Electronics and IT Hardware',
             'Engineering',
-            'Research',
             'Robotics',
             'Software and IT Services',
             'Solar Energy',
@@ -99,8 +98,18 @@ def get_trade_assoication_sectors_from_sector(sector):
             'Biotechnology',
         ],
         directory_constants_sectors.ENERGY: ['Energy'],
-        directory_constants_sectors.HEALTHCARE_AND_MEDICAL: ['Healthcare', 'Medical'],
+        sectors.HEALTHCARE_SERVICES: ['Healthcare', 'Medical', 'Health Technology', 'Healthcare Technology', 'Health'],
         sectors.MEDICAL_DEVICES_AND_EQUIPMENT: ['Medical Device'],
+        directory_constants_sectors.EDUCATION_AND_TRAINING: ['Education', 'Training'],
+        sectors.ADVANCED_ENGINEERING: ['Engineering', 'Advanced Materials & Metals'],
+        sectors.AGRICULTURE_HORTICULTURE_FISHERIES_AND_PETS: [
+            'Agriculture',
+            'Agriculture, Horticulture and Fisheries',
+            'Food and Drink Agriculture',
+            'Agriculture & Manufacturing',
+            'Pets',
+        ],
+        directory_constants_sectors.RAILWAYS: ['Rail'],
     }
     mapping = mappings.get(sector)
     return mapping if mapping else []
