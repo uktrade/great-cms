@@ -266,12 +266,30 @@ class ChoosePasswordForm(forms.Form):
     )
 
 
+class SignInForm(forms.Form):
+    email = forms.EmailField(
+        label='Email address',
+        error_messages={
+            'required': 'Enter an email address',
+        },
+    )
+    password = forms.CharField(
+        widget=PasswordInput,
+        label='Password',
+        error_messages={
+            'required': 'Enter a password',
+        },
+    )
 class SignUpForm(forms.Form):
     email = forms.EmailField(
         label='Email address',
         error_messages={
             'required': 'Enter an email address',
         },
+    )
+    mobile_phone_number = forms.CharField(
+        label=mark_safe('<span>UK telephone number  (optional)</span><span role=\'img\' class=\'fa fa-lg fa-info-circle\'></span>'),
+        required = False,
     )
     password = forms.CharField(
         widget=PasswordInput,

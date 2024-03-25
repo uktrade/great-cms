@@ -102,6 +102,16 @@
 }
 
 .ea-signup-panel {
+  margin-top: 115px;
+  h1 {
+    color: #222;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 40px; 
+      
+  }
+
   .ea-logo {
     position: absolute;
     width: 210px;
@@ -128,12 +138,12 @@
     > p,
     span,
     a {
-      line-height: 32px !important;
-      font-size: 24px !important;
-      @media screen and (min-width: 1200px) and (max-width: 1310px) {
-        font-size: 20px !important;
-      }
+      line-height: 30px;
+      font-size: 20px ;
+      font-weight: 400;
+      font-style: normal;
     }
+    
   }
 }
 .event-wrapper {

@@ -16,12 +16,12 @@
         </p>
         <button type="submit"
                 class="govuk-button govuk-!-margin-top-6 great-border-bottom-black">Create account</button>
-        <p class="govuk-body govuk-!-margin-top-6 govuk-!-margin-bottom-6">
+        <p class="govuk-body govuk-!-margin-bottom-6">
             Already have an account? <a class="govuk-link"
         href="{% url 'export_academy:signin' %}{% if next %}?next={{ next }}{% endif %}">Sign in</a>
     {% endblock %}
     {% block small_screen_heading %}{{ heading }}{% endblock %}
-    {% block left_panel_heading %}{{ heading }}{% endblock %}
-    {% block left_panel_content %}
+    {% block right_panel_heading %}{{ heading }}{% endblock %}
+    {% block right_panel_content %}
         {% include 'export_academy/accounts/includes/new_user_body_text.html' %}
     {% endblock %}

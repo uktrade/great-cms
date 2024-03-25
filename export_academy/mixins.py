@@ -104,12 +104,6 @@ class HandleNewAndExistingUsersMixin:
         context['existing_ea_user'] = self.get_ea_user() is not None
         return context
 
-    def get_form_class(self):
-        if self.get_ea_user():
-            return forms.ChoosePasswordForm
-        else:
-            return forms.SignUpForm
-
     def get_initial(self):
         initial = super().get_initial()
         if self.get_ea_user():
