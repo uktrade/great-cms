@@ -3,7 +3,7 @@ ul {
     padding-inline-start: 0px;
 }
 
-@import 'tokens';
+@import 'styles/great/_colors.scss';
 @import 'typography';
 @import 'govuk-token-overrides';
 @import 'node_modules/govuk-frontend/govuk/all';
