@@ -1352,7 +1352,7 @@ class SectorTagged(GenericTaggedItemBase):
 
 class TypeOfExportTagged(GenericTaggedItemBase):
     tag = models.ForeignKey(
-        SectorTag,
+        TypeOfExportTag,
         on_delete=models.CASCADE,
         related_name='%(app_label)s_%(class)s_items',
     )
@@ -1392,7 +1392,6 @@ class TaggedTypeOfExport(ItemBase):
 
 
 class TaggedPage(Page):
-
     country_tags = ClusterTaggableManager(through='core.TaggedCountry', blank=True, verbose_name=_('Country Tags'))
     sector_tags = ClusterTaggableManager(through='core.TaggedSector', blank=True, verbose_name=_('Sector Tags'))
     type_of_export_tags = ClusterTaggableManager(
@@ -1588,6 +1587,14 @@ class CaseStudy(ClusterableModel):
         through='core.TradingBlocTaggedCaseStudy', blank=True, verbose_name='Trading bloc tags'
     )
 
+    sector_tags = TaggableManager(
+        through=SectorTagged, blank=True, verbose_name='Sector tags', related_name='sector_tags'
+    )
+
+    type_of_export_tags = TaggableManager(
+        through=TypeOfExportTagged, blank=True, verbose_name='Type of Export Tags', related_name='type_of_export_tags'
+    )
+
     created = CreationDateTimeField('created', null=True)
     modified = ModificationDateTimeField('modified', null=True)
 
@@ -1617,6 +1624,23 @@ class CaseStudy(ClusterableModel):
             heading='Related Lesson, Topic & Module, also used for Personalisation',
         ),
     ]
+
+    tag_panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel('sector_tags'),
+                FieldPanel('type_of_export_tags'),
+            ],
+            heading='Tags',
+        ),
+    ]
+
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(panels, heading='Case Study'),
+            ObjectList(tag_panels, heading='Tags'),
+        ]
+    )
 
     def __str__(self):
         display_name = self.title if self.title else self.summary_context

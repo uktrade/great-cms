@@ -1,4 +1,4 @@
-from wagtail.admin.panels import FieldPanel, HelpPanel, InlinePanel, MultiFieldPanel
+from wagtail.admin.panels import FieldPanel, HelpPanel, ObjectList, InlinePanel, MultiFieldPanel, TabbedInterface
 from wagtailmedia.widgets import AdminMediaChooser
 
 
@@ -113,6 +113,24 @@ class EventPanel:
         ),
         HelpPanel(template='wagtailadmin/export_academy/panels/bookings_table_display.html'),
     ]
+
+    tag_panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel('country_tags'),
+                FieldPanel('sector_tags'),
+                FieldPanel('type_of_export_tags'),
+            ],
+            heading='Tags',
+        ),
+    ]
+
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(panels, heading='Event'),
+            ObjectList(tag_panels, heading='Tags'),
+        ]
+    )
 
 
 class EventsInCoursePanel:
