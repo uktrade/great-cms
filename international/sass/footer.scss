@@ -1,9 +1,9 @@
 .international-footer {
-    background: #04043F;
+    background: $great-dark-blue;
 
     .great-footer-logo-container {
         margin-top: 10px;
-        background: #eb0000;
+        background: $great-dark-red;
     }
 
     .great-logo {
@@ -18,6 +18,6 @@
     }
 
     .international-footer-body {
-        color: #FFFFFF;
+        color: $great-white;
     }
   }

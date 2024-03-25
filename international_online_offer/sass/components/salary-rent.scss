@@ -1,21 +1,21 @@
 .salary-rent-component {
-    background-color: #f4f4f4;
-  
+    background-color: $great-lighter-grey;
+
     .govuk-tabs__list-item {
-        background-color: white;
+        background-color: $great-white;
     }
-  
+
     .govuk-tabs__panel {
-        background-color: white;
+        background-color: $great-white;
     }
-  
+
     .govuk-form-group {
         margin-bottom: 10px;
     }
-  
+
     .salary-rent-component-body {
-        background-color: white;
-    
+        background-color: $great-white;
+
         .source-text {
             margin-top: 10px;
             margin-bottom: 0px;
