@@ -1,5 +1,6 @@
 from directory_forms_api_client import actions
 from django.core.paginator import Paginator
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
@@ -817,22 +818,15 @@ class TradeAssociationsView(GA360Mixin, TemplateView):
         all_trade_associations = []
 
         if triage_data:
-            # Given the sector selected we need to get mapped trade association sectors to query
-            # with due to misalignment of sector names across DBT
+            # Try getting trade associations by exact sector match or in mapped list of sectors
             trade_association_sectors = helpers.get_trade_assoication_sectors_from_sector(triage_data.sector)
 
-            all_trade_associations = (
-                TradeAssociation.objects.filter(sector__in=trade_association_sectors)
-                if trade_association_sectors
-                else []
+            all_trade_associations = TradeAssociation.objects.filter(
+                Q(sector__icontains=triage_data.get_sector_display()) | Q(sector__in=trade_association_sectors)
             )
-            # if we still have no matching trade associations then we'll
-            # try a search based a sector display name that we might not have mapped yet
-            if len(all_trade_associations) == 0 and triage_data.sector:
-                all_trade_associations = TradeAssociation.objects.filter(sector=triage_data.get_sector_display())
 
         page = self.request.GET.get('page', 1)
-        paginator = Paginator(all_trade_associations, 10)
+        paginator = Paginator(all_trade_associations, 20)
         all_trade_associations = paginator.page(page)
 
         breadcrumbs = [

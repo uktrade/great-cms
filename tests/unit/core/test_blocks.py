@@ -443,6 +443,7 @@ def test_individual_statistic_block_adaptor_media_property():
 
     media = individual_statistic_block_adaptor.media
 
+    # version may change
     expected = (
         '<script src="/static/wagtailadmin/js/telepath/blocks.js?v=d14cfcd9"></script>\n'
         '<script src="/static/javascript/individualstatistic-block.js"></script>'

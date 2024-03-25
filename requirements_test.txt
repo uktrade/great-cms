@@ -20,7 +20,7 @@ anyascii==0.3.2
     # via wagtail
 arabic-reshaper==3.0.0
     # via xhtml2pdf
-asgiref==3.7.2
+asgiref==3.8.1
     # via django
 asn1crypto==1.5.1
     # via
@@ -107,7 +107,7 @@ click==8.1.7
     #   flask
     #   pip-tools
     #   pyhanko
-click-didyoumean==0.3.0
+click-didyoumean==0.3.1
     # via celery
 click-plugins==1.1.1
     # via celery
@@ -117,7 +117,7 @@ colorama==0.4.6
     # via djlint
 configargparse==1.7
     # via locust
-coverage[toml]==7.4.3
+coverage[toml]==7.4.4
     # via
     #   pytest-codecov
     #   pytest-cov
@@ -292,7 +292,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==24.1.0
+faker==24.3.0
     # via factory-boy
 filelock==3.13.1
     # via virtualenv
@@ -334,7 +334,7 @@ gevent==24.2.1
     # via
     #   geventhttpclient
     #   locust
-geventhttpclient==2.0.11
+geventhttpclient==2.0.12
     # via locust
 gitdb==4.0.11
     # via gitpython
@@ -368,7 +368,7 @@ idna==3.6
     #   trio
 imagesize==1.4.1
     # via sphinx
-importlib-metadata==7.0.2
+importlib-metadata==7.1.0
     # via
     #   build
     #   flask
@@ -402,7 +402,7 @@ jsbeautifier==1.15.1
     # via
     #   cssbeautifier
     #   djlint
-json5==0.9.22
+json5==0.9.24
     # via djlint
 jsonschema==3.2.0
     # via
@@ -430,7 +430,7 @@ markupsafe==2.1.5
     #   werkzeug
 matplotlib-inline==0.1.6
     # via ipython
-maxminddb==2.5.2
+maxminddb==2.6.0
     # via geoip2
 mccabe==0.7.0
     # via
@@ -507,7 +507,7 @@ pluggy==1.4.0
     #   pytest
 polib==1.2.0
     # via wagtail-localize
-pre-commit==3.6.2
+pre-commit==3.7.0
     # via -r requirements_test.in
 pre-commit-hooks==3.3.0
     # via -r requirements_test.in
@@ -539,7 +539,7 @@ pygments==2.17.2
     # via
     #   ipython
     #   sphinx
-pyhanko==0.23.0
+pyhanko==0.23.2
     # via xhtml2pdf
 pyhanko-certvalidator==0.26.3
     # via
@@ -578,7 +578,7 @@ pytest==8.1.1
     #   pytest-xdist
 pytest-codecov==0.5.1
     # via -r requirements_test.in
-pytest-cov==4.1.0
+pytest-cov==5.0.0
     # via
     #   -r requirements_test.in
     #   pytest-codecov
@@ -663,7 +663,7 @@ requests==2.31.0
     #   webdriver-manager
 requests-mock==1.11.0
     # via -r requirements_test.in
-requests-oauthlib==1.4.0
+requests-oauthlib==2.0.0
     # via django-staff-sso-client
 requests-toolbelt==1.0.0
     # via browserstack-sdk
@@ -757,7 +757,7 @@ traitlets==5.14.2
     # via
     #   ipython
     #   matplotlib-inline
-trio==0.24.0
+trio==0.25.0
     # via
     #   selenium
     #   trio-websocket
@@ -859,7 +859,7 @@ wsproto==1.2.0
     # via trio-websocket
 xhtml2pdf==0.2.15
     # via -r requirements.in
-zipp==3.18.0
+zipp==3.18.1
     # via importlib-metadata
 zope-event==5.0
     # via gevent
