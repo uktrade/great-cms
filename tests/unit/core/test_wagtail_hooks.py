@@ -45,7 +45,7 @@ from core.wagtail_hooks import (
 from tests.helpers import make_test_video
 from tests.unit.core import factories
 from tests.unit.core.factories import StructurePageFactory
-from tests.unit.domestic.factories import ArticlePageFactory
+from tests.unit.domestic.factories import ArticlePageFactory, CountryGuidePageFactory
 from tests.unit.learn.factories import LessonPageFactory
 
 LOREM_IPSUM = (
@@ -1292,3 +1292,14 @@ def test_set_default_expiry_date(rf, domestic_homepage):
     assert microsite_page.expire_at is not None
     assert microsite_page.expire_at.date() == expected_date.date()
     assert microsite_page_with_expire_date.expire_at == expected_date
+
+
+@mock.patch('django.contrib.messages.add_message')
+@pytest.mark.django_db
+def test_after_edit_page(mock_add_message, domestic_homepage, rf):
+    request = rf.post(path='/')
+    country_guide_page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+    )
+    wagtail_hooks.after_edit_page(request, country_guide_page)
+    assert mock_add_message.call_count == 1

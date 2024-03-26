@@ -3,7 +3,7 @@ ul {
     padding-inline-start: 0px;
 }
 
-@import 'tokens';
+@import 'styles/great/_colors.scss';
 @import 'typography';
 @import 'govuk-token-overrides';
 @import 'node_modules/govuk-frontend/govuk/all';
@@ -26,27 +26,27 @@ body {
 }
 
 #skip-link {
-    font-family: 'Euclid Flex B';
+    @include great-international-regular;
 }
 
 // International home page styles start
-.why-choose-uk-section {
-    background-color: #eef2f6;
+.great-international-why-choose-uk-section {
+    background-color: $great-light-blue;
 }
 
-.international-card--cta {
+.great-international-card--cta {
     div {
-        font-family: 'Euclid Flex B';
+        @include great-international-regular;
     }
     .great-card__link {
-        font-family: 'Euclid Flex B';
-        color: #04043F;
+        @include great-international-bold;
+        color: $great-dark-blue;
         text-underline-offset: 0px;
         text-decoration-thickness: 2px;
     }
 }
 
-.international-home-uk-map {
+.great-international-home-uk-map {
     background: url('/static/images/uk-map.svg');
     display: block;
     width: fixed;
