@@ -10,9 +10,9 @@ airtable-python-wrapper==0.13.0
     # via -r requirements.in
 alabaster==0.7.16
     # via sphinx
-allure-pytest==2.13.3
+allure-pytest==2.13.4
     # via -r requirements_test.in
-allure-python-commons==2.13.3
+allure-python-commons==2.13.4
     # via allure-pytest
 amqp==5.2.0
     # via kombu
@@ -292,9 +292,9 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==24.3.0
+faker==24.4.0
     # via factory-boy
-filelock==3.13.1
+filelock==3.13.3
     # via virtualenv
 filetype==1.2.0
     # via willow
@@ -340,7 +340,7 @@ gitdb==4.0.11
     # via gitpython
 gitpython==3.1.42
     # via -r requirements_test.in
-great-components==2.6.3
+great-components==2.6.4
     # via -r requirements.in
 greenlet==3.0.3
     # via gevent
@@ -409,7 +409,7 @@ jsonschema==3.2.0
     #   directory-components
     #   drf-spectacular
     #   great-components
-kombu==5.3.5
+kombu==5.3.6
     # via celery
 l18n==2021.3
     # via wagtail
