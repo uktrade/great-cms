@@ -117,7 +117,7 @@ directory-sso-api-client==7.2.7
     # via -r requirements.in
 directory-validators==9.3.3
     # via -r requirements.in
-django==4.2.10
+django==4.2.11
     # via
     #   -r requirements.in
     #   directory-api-client
@@ -224,6 +224,8 @@ geoip2==2.9.0
     # via -r requirements.in
 great-components==2.6.4
     # via -r requirements.in
+greenlet==3.0.3
+    # via sqlalchemy
 gunicorn==20.1.0
     # via -r requirements.in
 hashids==0.8.4
