@@ -222,7 +222,7 @@ filetype==1.2.0
     # via willow
 geoip2==2.9.0
     # via -r requirements.in
-great-components==2.6.3
+great-components==2.6.4
     # via -r requirements.in
 gunicorn==20.1.0
     # via -r requirements.in
@@ -253,7 +253,7 @@ jsonschema==3.2.0
     #   directory-components
     #   drf-spectacular
     #   great-components
-kombu==5.3.5
+kombu==5.3.6
     # via celery
 l18n==2021.3
     # via wagtail

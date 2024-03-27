@@ -340,7 +340,7 @@ gitdb==4.0.11
     # via gitpython
 gitpython==3.1.42
     # via -r requirements_test.in
-great-components==2.6.3
+great-components==2.6.4
     # via -r requirements.in
 greenlet==3.0.3
     # via gevent
@@ -409,7 +409,7 @@ jsonschema==3.2.0
     #   directory-components
     #   drf-spectacular
     #   great-components
-kombu==5.3.5
+kombu==5.3.6
     # via celery
 l18n==2021.3
     # via wagtail
