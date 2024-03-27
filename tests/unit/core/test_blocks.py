@@ -2,6 +2,7 @@ from datetime import datetime, timedelta, timezone
 from unittest import mock
 
 import pytest
+from django.forms import Media
 from elasticsearch.exceptions import ConnectionError, NotFoundError
 from wagtail import blocks
 from wagtail.blocks.stream_block import StreamBlockValidationError
@@ -435,3 +436,18 @@ def test_video_chooser_block__render_basic():
     mock_value.file.url = 'mocked url attr'
 
     assert vcblock.render_basic(mock_value) == 'mocked url attr'
+
+
+def test_individual_statistic_block_adaptor_media_property():
+    individual_statistic_block_adaptor = core_blocks.IndividualStatisticBlockAdaptor()
+
+    media = individual_statistic_block_adaptor.media
+
+    # version may change
+    expected = (
+        '<script src="/static/wagtailadmin/js/telepath/blocks.js?v=d14cfcd9"></script>\n'
+        '<script src="/static/javascript/individualstatistic-block.js"></script>'
+    )
+
+    assert isinstance(media, Media) is True
+    assert media.render() == expected

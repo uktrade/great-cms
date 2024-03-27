@@ -146,29 +146,29 @@ defusedxml==0.7.1
     # via willow
 dill==0.3.8
     # via pylint
-directory-api-client==26.4.6
+directory-api-client==26.4.7
     # via -r requirements.in
-directory-ch-client==4.0.1
+directory-ch-client==4.0.2
     # via -r requirements.in
-directory-client-core==7.2.12
+directory-client-core==7.2.13
     # via
     #   -r requirements.in
     #   directory-api-client
     #   directory-ch-client
     #   directory-forms-api-client
     #   directory-sso-api-client
-directory-components==40.2.2
+directory-components==40.2.3
     # via -r requirements.in
-directory-constants==24.1.1
+directory-constants==24.1.2
     # via
     #   -r requirements.in
     #   directory-components
     #   great-components
-directory-forms-api-client==7.3.3
+directory-forms-api-client==7.3.4
     # via -r requirements.in
-directory-healthcheck==3.4
+directory-healthcheck==3.5
     # via -r requirements.in
-directory-sso-api-client==7.2.6
+directory-sso-api-client==7.2.7
     # via -r requirements.in
 directory-validators==9.3.3
     # via -r requirements.in
@@ -679,7 +679,7 @@ selenium==4.18.1
     # via -r requirements_test.in
 sentry-sdk==1.14.0
     # via -r requirements.in
-sigauth==5.2.6
+sigauth==5.2.7
     # via
     #   -r requirements.in
     #   directory-client-core
