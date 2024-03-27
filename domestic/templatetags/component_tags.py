@@ -46,6 +46,11 @@ class Breadcrumbs(template.Node):
             element.append(link)
             output_soup.find('ol').append(element)
 
+        # remove tabbing through breadcrumbs
+        output = output_soup.findAll('a')
+        for anchor in output:
+            anchor['tabindex'] = '-1'
+
         return output_soup.decode(formatter=None)
 
 
