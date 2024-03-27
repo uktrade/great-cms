@@ -52,7 +52,7 @@ beautifulsoup4==4.11.2
     #   wagtail
 billiard==3.6.4.0
     # via celery
-black==24.1.0
+black==24.3.0
     # via
     #   -r requirements_test.in
     #   blacken-docs
@@ -174,7 +174,7 @@ directory-validators==9.3.3
     # via -r requirements.in
 distlib==0.3.8
     # via virtualenv
-django==4.2.10
+django==4.2.11
     # via
     #   -r requirements.in
     #   directory-api-client
@@ -343,7 +343,9 @@ gitpython==3.1.42
 great-components==2.6.4
     # via -r requirements.in
 greenlet==3.0.3
-    # via gevent
+    # via
+    #   gevent
+    #   sqlalchemy
 gunicorn==20.1.0
     # via -r requirements.in
 h11==0.14.0
@@ -661,7 +663,7 @@ requests==2.31.0
     #   sphinx
     #   wagtail
     #   webdriver-manager
-requests-mock==1.11.0
+requests-mock==1.12.0
     # via -r requirements_test.in
 requests-oauthlib==2.0.0
     # via django-staff-sso-client
@@ -675,7 +677,7 @@ ruamel-yaml-clib==0.2.8
     # via ruamel-yaml
 s3transfer==0.6.2
     # via boto3
-selenium==4.18.1
+selenium==4.19.0
     # via -r requirements_test.in
 sentry-sdk==1.14.0
     # via -r requirements.in
@@ -697,7 +699,6 @@ six==1.16.0
     #   mohawk
     #   python-bidi
     #   python-dateutil
-    #   requests-mock
     #   sphinx
     #   w3lib
 smmap==5.0.1
