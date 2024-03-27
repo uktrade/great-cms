@@ -30,7 +30,7 @@ const Form = ({
     autoComplete="new-off"
   >
     {showTitle && (
-      <h3 className="h-s p-t-xs great-signin-header">
+      <h3 className="great-signin-header">
         Create an account
       </h3>
     )}

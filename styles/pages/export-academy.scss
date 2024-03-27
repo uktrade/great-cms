@@ -193,6 +193,67 @@
   }
 }
 
+.great-signup-summary {
+  &::marker, &::-webkit-details-marker {
+    content: "" !important;
+    display:none !important;
+  }
+  &::before {
+    display:none;
+  }
+}
+
+.great-signup-form-group {
+  label {
+    color: var(--colour-Interface-Text-black, #222);
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 30px; /* 166.667% */
+  }
+}
+.great-signup-details{
+  details[open] {
+    max-height: 240px;
+  }
+  details:not([open]) {
+    max-height: 80px;
+  }
+  details {   
+    transition: max-height 0.3s ease;
+    overflow-y: hidden;
+
+    > div {
+      margin-left: 0px; // Override default summary styling for consistancy with great.gov sign-in page
+    } 
+  }
+
+  /* disabling pointer events on the text span within summary has no effect,
+  disabling on the summary and overriding on the icon enables expansion with only the icon */
+  .disable-pointer-events{ 
+    pointer-events: none;
+    cursor: default;
+  }
+  summary {
+    .enable-pointer-events{ // text span within summary
+      pointer-events: auto;
+      cursor: pointer;
+    }
+    &::before { 
+      display:none; // Remove arrow icon
+    }
+  }
+  margin-bottom: govuk-spacing(6);
+}
+
+.margin-left {
+  margin-left: 10px;
+}
+
+.great-inline {
+  display: inline;
+}
+
 .event-title {
   font-size: 24px;
   line-height: 30px;

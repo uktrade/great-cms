@@ -288,8 +288,12 @@ class SignUpForm(forms.Form):
         },
     )
     mobile_phone_number = forms.CharField(
-        label=mark_safe('<span>UK telephone number  (optional)</span><span role=\'img\' class=\'fa fa-lg fa-info-circle\'></span>'),
-        required = False,
+        label = 'UK telephone number',
+        validators=[is_valid_uk_phone_number],
+        error_messages={
+            'invalid': PHONE_INVALID_MESSAGE,
+        },
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
     )
     password = forms.CharField(
         widget=PasswordInput,

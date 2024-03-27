@@ -1,13 +1,32 @@
 {% extends 'export_academy/accounts/base.html' %}
 {% load wagtailcore_tags %}
 {% block form %}
-    <h3 class="govuk-!-margin-top-3 govuk-!-margin-bottom-6">Create an account</h3>
+    <h3 class="great-signup-header">Create an account</h3>
 
         {% csrf_token %}
         {% for field in form.visible_fields %}
-            <div class="govuk-form-group {% if field.errors %}govuk-form-group--error govuk-!-margin-top-6{% endif %}">
+            {% if field.label != 'UK telephone number'%} <!-- TODO: Check equals operator ok--> 
+            <div class="great-signup-form-group govuk-form-group {% if field.errors %}govuk-form-group--error govuk-!-margin-top-6{% endif %}">
                 {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
             </div>
+            {% else %}
+                <div class="great-signup-details m-v-xs">
+                    <details>
+                        <summary class="great-signup-summary disable-pointer-events">
+                            <span class="form-label great-inline">UK telephone number (optional)</span>
+                            <span role="button" class="fa fa-lg fa-info-circle margin-left enable-pointer-events"></span>
+                        </summary>
+                        <div class="g-panel m-v-xs">
+                            <p class="body-m">
+                                By providing your phone number, you agree to be contacted by DBT to gather feedback on your experiences of great.gov.uk.
+                            </p>
+                        </div>
+                    
+                    </details>
+                    {{ field }}
+                </div>
+
+            {% endif %}
         {% endfor %}
         <p class="govuk-!-margin-bottom-2">
             By signing up, you agree to our
