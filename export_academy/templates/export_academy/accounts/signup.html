@@ -10,7 +10,7 @@
                 {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
             </div>
             {% else %}
-                <div class="great-signup-details m-v-xs">
+                <div class="great-signup-details m-v-xs {% if field.errors %}govuk-form-group--error {% endif %}">
                     <details>
                         <summary class="great-signup-summary disable-pointer-events">
                             <span class="form-label great-inline">UK telephone number (optional)</span>
@@ -23,6 +23,11 @@
                         </div>
                     
                     </details>
+                    {% for error in field.errors %}
+                        <p class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> {{ error }}
+                        </p>
+                    {% endfor %}
                     {{ field }}
                 </div>
 
