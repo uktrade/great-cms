@@ -193,25 +193,16 @@
   }
 }
 
-.great-signup-summary {
-  &::marker, &::-webkit-details-marker {
-    content: "" !important;
-    display:none !important;
-  }
-  &::before {
-    display:none;
+.great-signup-form-group {
+  label {
+    color: #222;
+    font-size: $font-size-p;
+    font-style: normal;
+    font-weight: $font-weight-semi-bold;
+    line-height: $h5-line-height; /* 166.667% */
   }
 }
 
-.great-signup-form-group {
-  label {
-    color: var(--colour-Interface-Text-black, #222);
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 30px; /* 166.667% */
-  }
-}
 .great-signup-details{
   details[open] {
     max-height: 240px;
@@ -239,19 +230,24 @@
       pointer-events: auto;
       cursor: pointer;
     }
-    &::before { 
-      display:none; // Remove arrow icon
+
+    &::marker, &::-webkit-details-marker {
+      content: "" !important;
+      display:none !important;
+    }
+    &::before {
+      display:none;
+    }
+
+    .margin-left {
+      margin-left: 7.5px;
+    }
+    
+    .great-inline {
+      display: inline;
     }
   }
   margin-bottom: govuk-spacing(6);
-}
-
-.margin-left {
-  margin-left: 10px;
-}
-
-.great-inline {
-  display: inline;
 }
 
 .event-title {
