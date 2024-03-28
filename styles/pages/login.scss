@@ -13,7 +13,7 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
 #sign-up,
 #login {
   h1 {
-    font-family: $main-text-font;
+    font-family: $header-font;
     font-weight: $font-weight-semi-bold;
   }
 
@@ -58,10 +58,8 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
       }
     }
 
-    
-
     .form-label{
-      font-family: "Noto SemiBold" !important;
+      font-family: $header-font !important;
       font-size: 18px;
       font-style: normal;
       font-weight: 600;
@@ -109,11 +107,23 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
       float:right;
       background: $login-image;
       background-size: auto 55vh !important;
+
+      &.hide_image_below_1200 {
+        @media screen and (max-width: 1210px) {
+          background: none;
+        }
+      }
     }
 
     &.signup-panel {
       background: $signup-image;
       background-size: auto 55vh !important;
+
+      &.hide_image_below_1200 {
+        @media screen and (max-width: 1200px) {
+          background: none;
+        }
+      }
     }
 
     &.ea-login-panel {
@@ -140,10 +150,11 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
     font-size: $font-size-h3;
     line-height: $h3-line-height;
     font-weight: $font-weight-semi-bold;
+    text-align: left;
   }
 
   .signup__info-panel__content {
-    padding: 15vh 60px 20vh 0px;
+    padding: 145px 40px 20vh 40px;
     height: 100%;
   }
 
@@ -153,7 +164,7 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
     }
 
     li {
-      font-size: $font-size-h5;
+      font-size: $font-size-h4;
       margin-bottom: $large-padding;
       font-weight: $font-weight-standard;
       line-height: $h5-line-height;

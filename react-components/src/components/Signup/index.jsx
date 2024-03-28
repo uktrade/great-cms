@@ -64,7 +64,7 @@ export const Signup = (props) => {
 
   return (
     <div className="signup">
-      <div className="signup__info-panel signup-panel">
+      <div className="signup__info-panel signup-panel hide_image_below_1200">
         <div class="great-logo">
           </div>
         <div className="signup__info-panel__content">

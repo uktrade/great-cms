@@ -118,6 +118,7 @@
       line-height: 52px;
       text-align: center;
       margin-bottom: 0;
+      font-family: $header-font;
 
       @include breakpoint(lg_lt) {
         font-size: 48px;
@@ -132,7 +133,7 @@
 
       li {
         display: flex;
-        align-items: center;
+        align-items: top;
         margin-bottom: 45px;
         font-size: 28px;
         line-height: 32px;

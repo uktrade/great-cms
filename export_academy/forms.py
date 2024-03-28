@@ -293,6 +293,7 @@ class SignUpForm(forms.Form):
         error_messages={
             'invalid': PHONE_INVALID_MESSAGE,
         },
+        required=False,
         widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
     )
     password = forms.CharField(

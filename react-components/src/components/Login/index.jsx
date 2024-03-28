@@ -58,7 +58,7 @@ export const Login = ({ nextUrl, ...props }) => {
   return (
     <div className="signup">
       
-      <div className="signup__info-panel login-panel">
+      <div className="signup__info-panel login-panel hide_image_below_1200">
         <div className="signup__info-panel__content">
           <h1 class='signup__info-panel__heading'>Get exporting and grow your business</h1>
           <ul className="signup__info-panel__subheadings">

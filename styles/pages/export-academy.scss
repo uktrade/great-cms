@@ -102,7 +102,7 @@
 }
 
 .ea-signup-panel {
-  margin-top: 115px;
+  margin-top: 145px;
   h1 {
     color: #222;
     font-size: 28px;
@@ -201,6 +201,15 @@
     font-weight: $font-weight-semi-bold;
     line-height: $h5-line-height; /* 166.667% */
   }
+  input {
+    &:autofill {
+      color: #222;
+      font-size: $font-size-p;
+      font-style: normal;
+      font-weight: $font-weight-semi-bold;
+      line-height: $h5-line-height; /* 166.667% */
+    }
+  }
 }
 
 .great-signup-details{
@@ -231,6 +240,15 @@
       cursor: pointer;
     }
 
+    &:focus {
+      outline: none;
+    }
+    &:focus > .border-on-focus {
+      padding-top: 4px;
+      padding-bottom:4px;
+      outline: 3px solid #ffd000;
+    }
+
     &::marker, &::-webkit-details-marker {
       content: "" !important;
       display:none !important;
@@ -238,11 +256,6 @@
     &::before {
       display:none;
     }
-
-    .margin-left {
-      margin-left: 7.5px;
-    }
-    
     .great-inline {
       display: inline;
     }
@@ -576,11 +589,6 @@
     bottom: 20px;
     right: 0px;
     width: 138px;
-    @media only screen and (max-width: 900px) {
-      left: auto;
-      right: 0px;
-      width: 30%;
-    }
   }
 }
 
