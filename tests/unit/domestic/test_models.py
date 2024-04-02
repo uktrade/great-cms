@@ -1268,8 +1268,10 @@ def test_markets_page__no_results__page_content(
         'Browse our export opportunities service to find opportunities to sell your product in overseas markets'
     )
 
-    office_finder_link = soup.find('a', attrs={'href': 'http://exred.trade.great:8007/contact/office-finder'})
-    assert office_finder_link.string == 'Get in touch with a trade adviser to discuss your export business plan'
+    export_support_link = soup.find('a', attrs={'href': '/support/export-support/'})
+    assert export_support_link.text == (
+        'Access our expert guidance, tools and services 24/7 using our online export support'
+    )
 
     # Markets links may exist elsewhere in page, make sure at least one is 'Clear all filters'
     market_links = soup.find_all('a', attrs={'href': '/markets/'})
