@@ -69,7 +69,7 @@ export const Login = ({ nextUrl, ...props }) => {
               </li>
             ))}
             </ul>
-          <div class="great-logo">
+          <div class="great-logo hide-logo-below-1200">
           </div>
         </div>
       </div>

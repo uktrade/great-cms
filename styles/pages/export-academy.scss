@@ -127,11 +127,6 @@
       left: calc(50% + 200px);
     }
 
-    &.hide-logo-below-1200 {
-      @media only screen and (max-width: 1200px) {
-        display: none;
-      }
-    }
   }
 
   .standard-ea-sign-in-text {
@@ -226,7 +221,7 @@
     cursor: default;
   }
   summary {
-    .enable-pointer-events{ // text span within summary
+    .enable-pointer-events{ // img span within summary
       pointer-events: auto;
       cursor: pointer;
     }
@@ -247,7 +242,7 @@
     &::before {
       display:none;
     }
-    .great-inline {
+    .inline {
       display: inline;
     }
   }

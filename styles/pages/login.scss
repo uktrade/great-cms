@@ -21,6 +21,12 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
     color: $color-main-text;
   }
 
+  .hide-logo-below-1200 {
+    @media only screen and (max-width: 1200px) {
+      display: none;
+    }
+  }
+
   .great-password-info {
     color: #505A5F;
     padding-bottom: govuk-spacing(1);
@@ -104,12 +110,11 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
     }
 
     &.login-panel {
-      float:right;
       background: $login-image;
       background-size: auto 55vh !important;
 
       &.hide_image_below_1200 {
-        @media screen and (max-width: 1210px) {
+        @media screen and (max-width: 1200px) {
           background: none;
         }
       }
@@ -134,7 +139,6 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
       background: $ea-signup-image;
       background-size: auto 45%;
       padding-bottom: 300px !important;
-
 
       &.hide_image_below_1200 {
         @media screen and (max-width: 1200px) {

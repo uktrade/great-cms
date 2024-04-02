@@ -83,7 +83,7 @@ export const Signup = (props) => {
       <div className="signup__form-panel">
         <a href="/" className="inline-block">
           <img
-            className="m-f-auto m-r-auto signup__logo"
+            className="m-f-auto m-r-auto signup__logo hide-logo-below-1200" 
             src="/static/images/dbt_logo_335x160.png"
             alt="Department for Business and Trade"
           />

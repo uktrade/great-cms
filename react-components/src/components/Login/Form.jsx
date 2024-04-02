@@ -49,9 +49,6 @@ export const Form = ({
         onChange={(item) => handlePasswordChange(item.password)}
         errors={errors.password || []}
       />
-      <p className='password-hint'>
-
-      </p>
       <a
         href={Services.config.passwordResetUrl}
         className="inline-block"
