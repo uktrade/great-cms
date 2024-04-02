@@ -1,0 +1,53 @@
+{% extends 'domestic/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="great">
+        <div class="great-container govuk-!-padding-top-4 govuk-!-padding-bottom-4">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full-width">
+                    <h1 class="govuk-heading-xl govuk-!-margin-bottom-3">Recommendations</h1>
+                    <p class="govuk-body-l">Explore further exporting content based on your recent activity on great.gov.uk</p>
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-one-half">
+                            <h2 class="govuk-heading-m govuk-!-margin-bottom-3">More learning for you</h2>
+                            {% for article in data.learning %}
+                                <a href="{{ article.url }}"
+                                   class="govuk-heading-xs govuk-!-margin-bottom-3 great-heading-link"
+                                   data-title="{{ article.title }}">{{ article.title }}</a>
+                            {% endfor %}
+                            <hr />
+                            <h2 class="govuk-heading-m govuk-!-margin-bottom-3">Services still to explore</h2>
+                            {% for article in data.services %}
+                                <a href="{{ article.url }}"
+                                   class="govuk-heading-xs govuk-!-margin-bottom-3 great-heading-link"
+                                   data-title="{{ article.title }}">{{ article.title }}</a>
+                            {% endfor %}
+                        </div>
+                        <div class="govuk-grid-column-one-half">
+                            <h2 class="govuk-heading-m govuk-!-margin-bottom-3">Recently visited</h2>
+                            <div id="recently-visted"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block body_js %}
+    <script type="text/javascript">
+        if (localStorage.getItem('dep_triage_journey')) {
+            const visited_pages = localStorage.getItem('dep_triage_journey').split(' > ');
+            const recently_visited = document.getElementById('recently-visted')
+
+            if (visited_pages.length >= 1) {
+                visited_pages.forEach(page => {
+                    const el = document.querySelector(`[data-title="${page}"]`)
+
+                    if (el) {
+                        recently_visited.appendChild(el)
+                    }
+                })
+            }
+        }
+    </script>
+{% endblock %}

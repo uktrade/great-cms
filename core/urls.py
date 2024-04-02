@@ -192,4 +192,13 @@ if settings.FEATURE_PRODUCT_MARKET_HERO and settings.FEATURE_PRODUCT_MARKET_SEAR
         ),
     ]
 
+
+urlpatterns += [
+    path(
+        'recommendations',
+        skip_ga360(views.RecommendationsView.as_view()),
+        name='recommendations',
+    ),
+]
+
 urlpatterns += redirects

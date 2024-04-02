@@ -582,6 +582,53 @@ class DesignSystemView(TemplateView):
     template_name = 'design-system/design-system.html'
 
 
+class RecommendationsView(TemplateView):
+    template_name = 'core/recommendations.html'
+
+    def get_context_data(self):
+        return super().get_context_data(
+            data={
+                'learning': [
+                    {
+                        'title': 'Understand duties and taxes',
+                        'url': 'https://www.great.gov.uk/learn/categories/selling-across-borders-product-and-services-regulations-licensing-and-logistics/get-your-goods-into-the-destination-country/understand-duties-and-taxes/',
+                    },
+                    {
+                        'title': 'Move goods and use freight forwarders',
+                        'url': 'https://www.great.gov.uk/learn/categories/selling-across-borders-product-and-services-regulations-licensing-and-logistics/#logistics-and-freight-forwarders',
+                    },
+                    {
+                        'title': 'Understand the UK\'s strategic export controls',
+                        'url': 'https://www.gov.uk/guidance/uk-strategic-export-controls',
+                    },
+                    {
+                        'title': 'Understand the UK\'s trade agreements',
+                        'url': 'https://www.gov.uk/government/collections/the-uks-trade-agreements',
+                    },
+                    {
+                        'title': 'Understand Incoterms',
+                        'url': 'https://www.great.gov.uk/learn/categories/selling-across-borders-product-and-services-regulations-licensing-and-logistics/logistics-and-freight-forwarders/incoterms/',
+                    },
+                    {'title': 'Trading overseas as a private individual', 'url': 'https://www.gov.uk/browse/tax'},
+                    {
+                        'title': 'Draft an international trade contract',
+                        'url': 'https://www.great.gov.uk/learn/categories/prepare-sell-new-country/winning-bids-and-expansion/how-draft-contract/',
+                    },
+                ],
+                'services': [
+                    {
+                        'title': 'Check duties and customs procedures',
+                        'url': 'https://www.gov.uk/check-duties-customs-exporting',
+                    },
+                    {'title': 'Find a tariff', 'url': 'https://www.gov.uk/trade-tariff'},
+                    {'title': 'Get your EORI number', 'url': 'https://www.gov.uk/eori'},
+                    {'title': 'Research a market', 'url': 'https://www.great.gov.uk/markets/'},
+                    {'title': 'Get export finance', 'url': 'https://www.ukexportfinance.gov.uk/'},
+                ],
+            }
+        )
+
+
 class ProductMarketView(TemplateView):
     template_name = 'core/product-market.html'
 
