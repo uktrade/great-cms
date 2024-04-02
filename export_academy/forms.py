@@ -281,7 +281,7 @@ class SignInForm(forms.Form):
         },
     )
 
-    
+
 class SignUpForm(forms.Form):
     email = forms.EmailField(
         label='Email address',
@@ -302,7 +302,7 @@ class SignUpForm(forms.Form):
         widget=PasswordInput,
         label='Password',
         help_text=mark_safe(("<span class='great-password-info'>"
-                                    "Your password must have at least 10 characters, including letters and numbers."
+                                "Your password must have at least 10 characters, including letters and numbers."
                             "</span>")),
         error_messages={
             'required': 'Enter a password',
