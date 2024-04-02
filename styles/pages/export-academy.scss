@@ -105,11 +105,10 @@
   margin-top: 145px;
   h1 {
     color: #222;
-    font-size: 28px;
+    font-size: $font-size-h3;
     font-style: normal;
-    font-weight: 600;
-    line-height: 40px; 
-      
+    font-weight: $font-weight-semi-bold;
+    line-height: $h3-line-height; 
   }
 
   .ea-logo {
@@ -133,12 +132,11 @@
     > p,
     span,
     a {
-      line-height: 30px;
-      font-size: 20px ;
-      font-weight: 400;
+      line-height: $h5-line-height;
+      font-size: $font-size-h5 ;
+      font-weight: $regular-font-weight;
       font-style: normal;
     }
-    
   }
 }
 .event-wrapper {
@@ -194,11 +192,11 @@
     font-size: $font-size-p;
     font-style: normal;
     font-weight: $font-weight-semi-bold;
-    line-height: $h5-line-height; /* 166.667% */
+    line-height: $h5-line-height; 
   }
 }
 
-.great-signup-details{
+.great-signup-telephone-details{
   details[open] {
     max-height: 240px;
   }
@@ -208,9 +206,8 @@
   details {   
     transition: max-height 0.3s ease;
     overflow-y: hidden;
-
     > div {
-      margin-left: 0px; // Override default summary styling for consistancy with great.gov sign-in page
+      margin-left: 0px;
     } 
   }
 
@@ -221,11 +218,10 @@
     cursor: default;
   }
   summary {
-    .enable-pointer-events{ // img span within summary
+    .enable-pointer-events{
       pointer-events: auto;
       cursor: pointer;
     }
-
     &:focus {
       outline: none;
     }
@@ -234,13 +230,9 @@
       padding-bottom:4px;
       outline: 3px solid #ffd000;
     }
-
-    &::marker, &::-webkit-details-marker {
+    &::marker, &::-webkit-details-marker, &::before { // Remove arrow marker on different browsers/versions
       content: "" !important;
       display:none !important;
-    }
-    &::before {
-      display:none;
     }
     .inline {
       display: inline;

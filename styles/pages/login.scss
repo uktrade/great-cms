@@ -35,7 +35,7 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
     font-size: $font-size-p;
     font-style: normal;
     font-weight: $font-weight-standard;
-    line-height: $h5-line-height; /* 166.667% */
+    line-height: $h5-line-height;
   }
   
   .great-confirmation-header {
@@ -64,12 +64,12 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
       }
     }
 
-    .form-label{
+    .form-label { //Override govuk form labels for signin/signup
       font-family: $header-font !important;
-      font-size: 18px;
+      font-size: $font-size-p;
       font-style: normal;
-      font-weight: 600;
-      line-height: 30px; /* 166.667% */
+      font-weight: $font-weight-semi-bold;
+      line-height: $h5-line-height; 
     } 
 
     .great-border-bottom-black {

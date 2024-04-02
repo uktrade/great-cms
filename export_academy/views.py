@@ -506,7 +506,6 @@ class SignUpView(HandleNewAndExistingUsersMixin, VerificationLinksMixin, sso_mix
         else:
             return forms.SignUpForm
 
-
     def do_sign_up_flow(self, request):
         form = self.get_form()
         if form.is_valid():

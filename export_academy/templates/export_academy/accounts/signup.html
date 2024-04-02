@@ -10,7 +10,7 @@
                 {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
             </div>
             {% else %}
-                <div class="great-signup-details m-v-xs {% if field.errors %}govuk-form-group--error {% endif %}">
+                <div class="great-signup-telephone-details m-v-xs {% if field.errors %}govuk-form-group--error {% endif %}">
                     <details>
                         <summary class="great-signup-summary disable-pointer-events">
                             <span class="form-label inline">UK telephone number (optional)</span>
@@ -21,7 +21,6 @@
                                 By providing your phone number, you agree to be contacted by DBT to gather feedback on your experiences of great.gov.uk.
                             </p>
                         </div>
-                    
                     </details>
                     {% for error in field.errors %}
                         <p class="govuk-error-message">
@@ -30,7 +29,6 @@
                     {% endfor %}
                     {{ field }}
                 </div>
-
             {% endif %}
         {% endfor %}
         <p class="govuk-!-margin-bottom-2">
