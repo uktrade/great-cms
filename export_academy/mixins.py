@@ -5,7 +5,7 @@ from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from django.urls import reverse
 
 from config import settings
-from export_academy import forms, helpers
+from export_academy import helpers
 from export_academy.models import Registration
 from sso_profile.enrolment.constants import RESEND_VERIFICATION
 

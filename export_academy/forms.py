@@ -280,6 +280,8 @@ class SignInForm(forms.Form):
             'required': 'Enter a password',
         },
     )
+
+    
 class SignUpForm(forms.Form):
     email = forms.EmailField(
         label='Email address',
@@ -288,7 +290,7 @@ class SignUpForm(forms.Form):
         },
     )
     mobile_phone_number = forms.CharField(
-        label = 'UK telephone number',
+        label='UK telephone number',
         validators=[is_valid_uk_phone_number],
         error_messages={
             'invalid': PHONE_INVALID_MESSAGE,
@@ -299,7 +301,9 @@ class SignUpForm(forms.Form):
     password = forms.CharField(
         widget=PasswordInput,
         label='Password',
-        help_text=mark_safe("<span class='great-password-info'>Your password must have at least 10 characters, including letters and numbers.</span>"),
+        help_text=mark_safe(("<span class='great-password-info'>"
+                                    "Your password must have at least 10 characters, including letters and numbers."
+                            "</span>")),
         error_messages={
             'required': 'Enter a password',
         },
