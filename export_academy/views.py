@@ -509,8 +509,6 @@ class SignUpView(HandleNewAndExistingUsersMixin, VerificationLinksMixin, sso_mix
     def do_sign_up_flow(self, request):
         form = self.get_form()
         if form.is_valid():
-            print('trying to test here', form)
-            print('trying to test here', form.cleaned_data)
             response = sso_api_client.user.create_user(
                 email=form.cleaned_data['email'].lower(),
                 password=form.cleaned_data['password'],

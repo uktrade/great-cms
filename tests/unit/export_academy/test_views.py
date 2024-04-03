@@ -57,8 +57,7 @@ def test_unique_link_query_params():
 
 @pytest.fixture
 def signup_post_request_unique_link(client, test_unique_link_query_params):
-    form_data = {'email': 'test@example.com', 'password': 'newPassword1', 'mobile_phone_number': '07750179976'}
-    print("Print within test1", form_data)
+    form_data = {'email': 'test@example.com', 'password': 'newPassword1', 'mobile_phone_number': ''}
     def post_request():
         return client.post(reverse('export_academy:signup') + test_unique_link_query_params, data=form_data)
 
@@ -67,9 +66,7 @@ def signup_post_request_unique_link(client, test_unique_link_query_params):
 
 @pytest.fixture
 def signup_form_post_request_new_user(client):
-    form_data = {'email': 'test@example.com', 'password': 'newPassword2', 'mobile_phone_number': '07750179976'}
-    print("Print Within test2", form_data)
-    
+    form_data = {'email': 'test@example.com', 'password': 'newPassword2', 'mobile_phone_number': ''}
     def post_request():
         return client.post(reverse('export_academy:signup'), data=form_data)
 
@@ -78,8 +75,7 @@ def signup_form_post_request_new_user(client):
 
 @pytest.fixture
 def signup_post_request_unique_link_with_next(client, test_unique_link_query_params, next_url):
-    form_data = {'email': 'test@example.com', 'password': 'newPassword3', 'mobile_phone_number': '07750179976'}
-    print("Print Within test3", form_data)
+    form_data = {'email': 'test@example.com', 'password': 'newPassword3', 'mobile_phone_number': ''}
     def post_request():
         return client.post(
             reverse('export_academy:signup') + test_unique_link_query_params + f'&next={next_url}', data=form_data
@@ -90,9 +86,7 @@ def signup_post_request_unique_link_with_next(client, test_unique_link_query_par
 
 @pytest.fixture
 def signup_form_post_request_new_user_with_next(client, next_url):
-    form_data = {'email': 'test@example.com', 'password': 'newPassword4', 'mobile_phone_number': '07750179976'}
-    print("Print Within test2", form_data)
-
+    form_data = {'email': 'test@example.com', 'password': 'newPassword4', 'mobile_phone_number': ''}
     def post_request():
         return client.post(reverse('export_academy:signup') + f'?next={next_url}', data=form_data)
 
@@ -671,7 +665,7 @@ def test_sign_up_page(client, unique_link, expected_page_heading, test_unique_li
 )
 @pytest.mark.django_db
 def test_sign_up_empty_password(client, unique_link, test_unique_link_query_params):
-    form_data = {'email': 'test@example.com', 'mobile_phone_number':'mobile_phone_number'}
+    form_data = {'email': 'test@example.com', 'mobile_phone_number':''}
     url = reverse('export_academy:signup')
     if unique_link:
         url += test_unique_link_query_params

@@ -60,7 +60,7 @@ const Form = ({
       id="password"
       type="password"
       description="Your password must have at least 10 characters, including letters and numbers."
-      descriptionClassName= 'great-password-info'
+      descriptionClassName= 'great-font-bold great-line-height-30 great-font-size-18 govuk-body-l great-text-dark-grey'
       disabled={disabled}
       value={password}
       onChange={(item) => handlePasswordChange(item.password)}
@@ -93,7 +93,7 @@ const Form = ({
         />
       </>
     )}
-     <p className="m-b-s">
+     <p className="govuk-!-margin-bottom-6">
       Already have an account?{' '}
       <a
         href={Services.config.loginUrl} id="signup-modal-log-in"

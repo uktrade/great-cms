@@ -443,7 +443,7 @@
 }
 
 .great-text-dark-grey {
-  color: #505a5f !important;
+  color:$great-text-dark-grey !important;
 }
 
 .great-text-grey {
@@ -494,6 +494,10 @@
 
 .great-font-size-18 {
   font-size: 18px !important;
+}
+
+.great-line-height-30 {
+  line-height: 30px !important;
 }
 
 .great-font-size-mobile-18 {

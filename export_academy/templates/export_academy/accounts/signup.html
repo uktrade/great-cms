@@ -7,7 +7,11 @@
         {% for field in form.visible_fields %}
             {% if field.label != 'UK telephone number'%} <!-- TODO: Check equals operator ok--> 
             <div class="great-signup-form-group govuk-form-group {% if field.errors %}govuk-form-group--error govuk-!-margin-top-6{% endif %}">
-                {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
+                {% if field.label == 'Password'%}
+                    {% include 'domestic/contact/includes/govuk-form-field.html' with field=field label_classes='form-label' help_text_classes='govuk-!-padding-bottom-1 great-line-height-30 great-font-size-18 govuk-body-l great-text-dark-grey'%}
+                {% else %}
+                    {% include 'domestic/contact/includes/govuk-form-field.html' with field=field label_classes='form-label' %}
+                {% endif %}
             </div>
             {% else %}
                 <div class="great-signup-telephone-details m-v-xs {% if field.errors %}govuk-form-group--error {% endif %}">
