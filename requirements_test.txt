@@ -485,7 +485,7 @@ pep8-naming==0.13.3
     # via -r requirements_test.in
 pexpect==4.9.0
     # via ipython
-pillow==10.2.0
+pillow==10.3.0
     # via
     #   -r requirements.in
     #   -r requirements_test.in
