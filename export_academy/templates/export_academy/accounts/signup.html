@@ -5,7 +5,7 @@
 
         {% csrf_token %}
         {% for field in form.visible_fields %}
-            {% if field.label != 'UK telephone number'%} <!-- TODO: Check equals operator ok--> 
+            {% if field.label != 'UK telephone number'%} 
             <div class="great-signup-form-group govuk-form-group {% if field.errors %}govuk-form-group--error govuk-!-margin-top-6{% endif %}">
                 {% if field.label == 'Password'%}
                     {% include 'domestic/contact/includes/govuk-form-field.html' with field=field label_classes='form-label' help_text_classes='govuk-!-padding-bottom-1 great-line-height-30 great-font-size-18 govuk-body-l great-text-dark-grey'%}
@@ -14,14 +14,14 @@
                 {% endif %}
             </div>
             {% else %}
-                <div class="great-signup-telephone-details m-v-xs {% if field.errors %}govuk-form-group--error {% endif %}">
+                <div class="great-signup-telephone-details govuk-!-margin-top-2 govuk-!-margin-bottom-2 {% if field.errors %}govuk-form-group--error {% endif %}">
                     <details>
                         <summary class="great-signup-summary disable-pointer-events">
                             <span class="form-label inline">UK telephone number (optional)</span>
-                            <span role="button" class="fa fa-lg fa-info-circle m-f-xss border-on-focus enable-pointer-events"></span>
+                            <span role="button" class="fa fa-lg fa-info-circle border-on-focus enable-pointer-events"></span>
                         </summary>
-                        <div class="g-panel m-v-xs">
-                            <p class="body-m">
+                        <div class="g-panel govuk-!-margin-top-2 govuk-!-margin-bottom-2">
+                            <p class="govuk-body-s great-line-height-20">
                                 By providing your phone number, you agree to be contacted by DBT to gather feedback on your experiences of great.gov.uk.
                             </p>
                         </div>

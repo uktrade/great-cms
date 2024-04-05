@@ -30,7 +30,7 @@ export const Form = ({
       <h3 className="great-signin-header">Sign in</h3>
       
       {/* eslint-disable-next-line no-underscore-dangle,react/prop-types */}
-      <ErrorList errors={errors.__all__ || []} className="m-b-s" />
+      <ErrorList errors={errors.__all__ || []} className="govuk-!-margin-bottom-2" />
       <Input
         label="Email address"
         id="email"
@@ -59,7 +59,7 @@ export const Form = ({
       <button
         type="submit"
         id="signup-modal-submit"
-        className="primary-button great-border-bottom-black m-t-xs"
+        className="primary-button great-border-bottom-black govuk-!-margin-top-1"
         disabled={disabled}
       >
         Sign in
@@ -78,7 +78,7 @@ export const Form = ({
           />
         </>
       )}
-      <p className="m-b-s">
+      <p className="govuk-!-margin-bottom-2">
         Don&apos;t have an account?{' '}
         <a
           href={Services.config.signupUrl}

@@ -21,9 +21,9 @@ const Confirmation = ({
   >
 
     {showTitle && (
-      <legend className="h-s text-blue-deep-80 p-t-xs great-confirmation-header">Check your email</legend>
+      <legend className="great-font-bold great-font-weight-semi-bold govuk-padding-top-1 govuk-!-margin-top-2 govuk-!-margin-bottom-6">Check your email</legend>
     )}
-    <p className="m-b-s">
+    <p className="govuk-margin-bottom-2">
     We&#39;ve sent a code to your email address. Don&#39;t forget to check your spam folder if you can&#39;t see it. <br /> Enter the code below to complete registration:
     </p>
     <Input
@@ -38,7 +38,7 @@ const Confirmation = ({
     <button
       type="submit"
       id="signup-modal-submit-code"
-      className="button primary-button m-t-0 great-border-bottom-black"
+      className="button primary-button govuk-margin-top-0 great-border-bottom-black"
       disabled={disabled}
     >
       Submit

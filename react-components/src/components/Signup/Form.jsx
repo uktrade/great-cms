@@ -60,7 +60,7 @@ const Form = ({
       id="password"
       type="password"
       description="Your password must have at least 10 characters, including letters and numbers."
-      descriptionClassName= 'great-font-bold great-line-height-30 great-font-size-18 govuk-body-l great-text-dark-grey'
+      descriptionClassName= 'great-font-main great-line-height-30 great-font-size-18 govuk-body-l great-text-dark-grey'
       disabled={disabled}
       value={password}
       onChange={(item) => handlePasswordChange(item.password)}

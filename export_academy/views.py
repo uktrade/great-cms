@@ -512,7 +512,7 @@ class SignUpView(HandleNewAndExistingUsersMixin, VerificationLinksMixin, sso_mix
             response = sso_api_client.user.create_user(
                 email=form.cleaned_data['email'].lower(),
                 password=form.cleaned_data['password'],
-                mobile_phone_number=form.cleaned_data['mobile_phone_number']
+                mobile_phone_number=form.cleaned_data['mobile_phone_number'],
             )
             if response.status_code == 400:
                 self.handle_400_response(response, form)
