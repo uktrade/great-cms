@@ -256,7 +256,7 @@ class EventAdminModelForm(WagtailAdminModelForm):
 
 class ChoosePasswordForm(forms.Form):
     email = forms.EmailField(label='Email address choose password', required=True, widget=HiddenInput)
-    mobile_phone_number = forms.CharField(label='Email address choose password', required=False, widget=HiddenInput)
+    mobile_phone_number = forms.CharField(label='Telephone number choose password', required=False, widget=HiddenInput)
     password = forms.CharField(
         widget=PasswordInput,
         label='Password',

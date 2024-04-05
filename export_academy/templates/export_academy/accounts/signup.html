@@ -1,7 +1,7 @@
 {% extends 'export_academy/accounts/base.html' %}
 {% load wagtailcore_tags %}
 {% block form %}
-    <h3 class="great-signup-header">Create an account</h3>
+    <h3 class="govuk-!-margin-top-7 govuk-!-margin-bottom-6">Create an account</h3>
 
         {% csrf_token %}
         {% for field in form.visible_fields %}

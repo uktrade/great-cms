@@ -37,17 +37,6 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
       color: $color-main-text;
     }
 
-    .great-signup-header,
-    .great-signin-header {
-      margin-top: govuk-spacing(7);
-      margin-bottom: govuk-spacing(6);
-
-      @media only screen and (max-width: 900px) {
-        margin-top: govuk-spacing(6);
-        margin-bottom: govuk-spacing(6)
-      }
-    }
-
     .form-label { 
       font-family: $header-font !important;
       font-size: $font-size-p;
