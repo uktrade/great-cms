@@ -306,32 +306,40 @@
 
   .govuk-button {
     background-color: $govuk-brand-colour;
-    box-shadow: none;
-    box-shadow: none;
+    box-shadow: 0 3px 0 $great-dark-blue;
+    border: 2px solid rgba(0, 0, 0, 0);
     font-family: $great-font-bold;
     padding: 8px 20px;
     font-size: 16px;
     line-height: 24px;
     min-height: 44px;
     -webkit-font-smoothing: auto;
+    outline: none;
 
-    &:hover,
-    &:focus {
-      background-color: $great-white;
-      border-color: $govuk-brand-colour;
-      color: $govuk-brand-colour;
+    &:hover {
+      background-color: $great-dark-blue;
+      border-color: #00081F;
+      color: #fff;
+    }
+
+    &:active {
+      background-color: $great-dark-blue;
+      border-color: $great-dark-blue;
     }
 
     &:focus:not(:active):not(:hover) {
-      background-color: $great-white;
-      border-color: $govuk-brand-colour;
+      background-color: #ffdd00;
+      border-color: #222;
+      border-bottom: 3px solid #222;
       box-shadow: none;
-      color: $govuk-brand-colour;
+      color: #222;
     }
 
     &:focus {
-      outline: 3px solid $great-yellow;
-      outline-offset: 0;
+      background-color: #ffdd00;
+      border-color: #222;
+      box-shadow: none;
+      color: #222;
     }
 
     i {
