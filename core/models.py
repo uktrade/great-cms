@@ -331,7 +331,6 @@ class SeoMixin(WagtailSeoMixin):
 
 class CMSGenericPageAnonymous(
     SeoMixin,
-    mixins.EnableTourMixin,
     mixins.WagtailGA360Mixin,
     GA360Mixin,
     Page,
