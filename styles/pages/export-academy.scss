@@ -204,10 +204,8 @@
   /* disabling pointer events on the text span within summary has no effect,
   disabling on the summary and overriding on the icon enables expansion with only the icon */
   .disable-pointer-events{ 
-
     pointer-events: none;
     cursor: default;
-
   }
   summary {
     .enable-pointer-events{
