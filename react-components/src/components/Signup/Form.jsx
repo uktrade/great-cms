@@ -74,14 +74,14 @@ const Form = ({
     <button
       type="submit"
       id="signup-modal-submit"
-      className="button great-border-bottom-black primary-button m-t-xs"
+      className="button great-border-bottom-black primary-button govuk-!-margin-top-1"
       disabled={disabled}
     >
       Create Account
     </button>
     {SHOW_SOCIAL_LOGIN && (
       <>
-        <div className="vertical-seperator">
+        <div className="govuk-!-margin-top-4 govuk-!-margin-bottom-4">
           <hr className="bg-blue-deep-10" />
           <span>or</span>
           <hr className="bg-blue-deep-10" />
