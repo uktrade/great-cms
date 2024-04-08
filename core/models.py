@@ -18,7 +18,7 @@ from great_components.mixins import GA360Mixin
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.models import ClusterableModel, ParentalKey
 from taggit.managers import TaggableManager
-from taggit.models import ItemBase, TagBase, TaggedItemBase, GenericTaggedItemBase
+from taggit.models import GenericTaggedItemBase, ItemBase, TagBase, TaggedItemBase
 from wagtail import blocks
 from wagtail.admin.panels import (
     FieldPanel,
@@ -162,40 +162,6 @@ class Rendition(AbstractRendition):
     @property
     def alt(self):
         return self.image.alt_text if self.image.alt_text else self.image.default_alt_text
-
-
-@register_snippet
-class Tour(ClusterableModel):
-    page = models.OneToOneField('wagtailcore.Page', on_delete=models.CASCADE, related_name='tour')
-    title = models.CharField(max_length=255)
-    body = models.CharField(max_length=255)
-    button_text = models.CharField(max_length=255)
-
-    panels = [
-        PageChooserPanel('page'),
-        FieldPanel('title'),
-        FieldPanel('body'),
-        FieldPanel('button_text'),
-        MultiFieldPanel([InlinePanel('steps')], heading='Steps'),
-    ]
-
-    def __str__(self):
-        return self.page.title
-
-
-class TourStep(Orderable):
-    title = models.CharField(max_length=255)
-    body = models.CharField(max_length=255)
-    position = models.CharField(max_length=255)
-    selector = models.CharField(max_length=255)
-    tour = ParentalKey(Tour, on_delete=models.CASCADE, related_name='steps')
-
-    panels = [
-        FieldPanel('title'),
-        FieldPanel('body'),
-        FieldPanel('position'),
-        FieldPanel('selector'),
-    ]
 
 
 @register_snippet

@@ -214,45 +214,6 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='Tour',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255)),
-                ('body', models.CharField(max_length=255)),
-                ('button_text', models.CharField(max_length=255)),
-                (
-                    'page',
-                    models.OneToOneField(
-                        on_delete=django.db.models.deletion.CASCADE, related_name='tour', to='wagtailcore.Page'
-                    ),
-                ),
-            ],
-            options={
-                'abstract': False,
-            },
-        ),
-        migrations.CreateModel(
-            name='TourStep',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('sort_order', models.IntegerField(blank=True, editable=False, null=True)),
-                ('title', models.CharField(max_length=255)),
-                ('body', models.CharField(max_length=255)),
-                ('position', models.CharField(max_length=255)),
-                ('selector', models.CharField(max_length=255)),
-                (
-                    'tour',
-                    modelcluster.fields.ParentalKey(
-                        on_delete=django.db.models.deletion.CASCADE, related_name='steps', to='core.Tour'
-                    ),
-                ),
-            ],
-            options={
-                'ordering': ['sort_order'],
-                'abstract': False,
-            },
-        ),
-        migrations.CreateModel(
             name='Country',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
@@ -686,7 +647,6 @@ class Migration(migrations.Migration):
             bases=(
                 # DELIBERATELY OMITTED AS PART OF CONTROLLED REMOVAL
                 # wagtail_personalisation.models.PersonalisablePageMixin,
-                core.mixins.EnableTourMixin,
                 'wagtailcore.page',
             ),
         ),
@@ -751,7 +711,6 @@ class Migration(migrations.Migration):
             bases=(
                 # DELIBERATELY OMITTED AS PART OF CONTROLLED REMOVAL
                 # wagtail_personalisation.models.PersonalisablePageMixin,
-                core.mixins.EnableTourMixin,
                 'wagtailcore.page',
             ),
         ),
@@ -1037,7 +996,6 @@ class Migration(migrations.Migration):
             bases=(
                 # DELIBERATELY OMITTED AS PART OF CONTROLLED REMOVAL
                 # wagtail_personalisation.models.PersonalisablePageMixin,
-                core.mixins.EnableTourMixin,
                 'wagtailcore.page',
             ),
         ),
