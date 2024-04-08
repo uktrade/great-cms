@@ -21,7 +21,7 @@ const Confirmation = ({
   >
 
     {showTitle && (
-      <legend className="great-font-bold great-font-weight-semi-bold govuk-padding-top-1 govuk-!-margin-top-2 govuk-!-margin-bottom-6">Check your email</legend>
+      <legend className="govuk-padding-top-3 govuk-!-margin-top-7 "><h3 className='line-height-36'>Check your email</h3></legend>
     )}
     <p className="govuk-margin-bottom-2">
     We&#39;ve sent a code to your email address. Don&#39;t forget to check your spam folder if you can&#39;t see it. <br /> Enter the code below to complete registration:

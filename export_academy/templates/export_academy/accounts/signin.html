@@ -4,22 +4,22 @@
     {% if existing_ea_user %}
         {% include 'export_academy/accounts/includes/existing_user_form_fields.html' %}
     {% else %}
-            {% csrf_token %}
-            {% for field in form.visible_fields %}
-                <div class="govuk-form-group {% if field.errors %}govuk-form-group--error govuk-!-margin-top-6{% endif %}">
-                    {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
-                </div>
-            {% endfor %}
-        {% endif %}
-        <p class="govuk-!-margin-bottom-2">
-            <a class="govuk-link"
-               href="{{ javascript_components.password_reset_url }}">Forgotten password?</a>
-        </p>
-        <button type="submit"
-                class="govuk-button govuk-!-margin-top-6 great-border-bottom-black">Sign in</button>
-        <p class="govuk-body govuk-!-margin-bottom-6">
-            Don't have an account? <a class="govuk-link"
-        href="{% url 'export_academy:signup' %}{% if next %}?next={{ next }}{% endif %}">Sign up</a>
+        {% csrf_token %}
+        {% for field in form.visible_fields %}
+            <div class="govuk-form-group {% if field.errors %}govuk-form-group--error govuk-!-margin-top-6{% endif %}">
+                {% include 'domestic/contact/includes/govuk-form-field.html' with field=field label_classes='great-signup-form-label great-font-weight-semi-bold great-font-size-18 great-line-height-30' %}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <p class="govuk-!-margin-bottom-2">
+        <a class="govuk-link"
+           href="{{ javascript_components.password_reset_url }}">Forgotten password?</a>
+    </p>
+    <button type="submit"
+            class="govuk-button govuk-!-margin-top-4 great-border-bottom-black">Sign in</button>
+    <p class="govuk-body govuk-!-margin-bottom-6">
+        Don't have an account? <a class="govuk-link"
+    href="{% url 'export_academy:signup' %}{% if next %}?next={{ next }}{% endif %}">Sign up</a>
     {% endblock %}
     {% block small_screen_heading %}{{ heading }}{% endblock %}
     {% block right_panel_heading %}{{ heading }}{% endblock %}

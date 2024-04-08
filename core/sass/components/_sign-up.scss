@@ -113,18 +113,12 @@
     }
 
     &__heading {
-      color: #fff;
-      font-size: 56px;
-      line-height: 52px;
-      text-align: center;
-      margin-bottom: 0;
-      font-family: $header-font;
-
-      @include breakpoint(lg_lt) {
-        font-size: 48px;
-        line-height: 48px;
-        margin-bottom: 30px;
-      }
+      color: #222;
+      font-style:normal;
+      font-size: $font-size-h3;
+      line-height: $h3-line-height;
+      font-weight: $font-weight-semi-bold;
+      text-align: left;
     }
 
     &__subheadings {
@@ -158,6 +152,9 @@
   &__confirmation {
     .fa-info-circle {
       font-size: 40px;
+    }
+    .line-height-36 {
+      line-height: 36px;
     }
 
     .form-label {

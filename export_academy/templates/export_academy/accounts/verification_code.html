@@ -4,15 +4,14 @@
     <p class="govuk-!-margin-bottom-3">
         We’ve sent a code to your email address. Don’t forget to check your spam folder if you can’t see it.
     </p>
-    <p class="govuk-!-margin-bottom-0">Enter the code below to complete registration.</p>
+    <p class="govuk-!-margin-bottom-0 govuk-!-margin-top-0">Enter the code below to complete registration.</p>
     {% csrf_token %}
     {% for field in form.visible_fields %}
         <div class="govuk-form-group govuk-!-margin-top-6 {% if field.errors %}govuk-form-group--error{% endif %}">
-            {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
+            {% include 'domestic/contact/includes/govuk-form-field.html' with field=field label_classes='great-signup-form-label great-font-weight-semi-bold great-font-size-18 great-line-height-30' %}
         </div>
     {% endfor %}
-    <button type="submit"
-            class="govuk-button govuk-!-margin-top-6 great-border-bottom-black">Submit</button>
+    <button type="submit" class="govuk-button great-border-bottom-black">Submit</button>
 {% endblock %}
 {% block small_screen_heading %}{{ heading }}{% endblock %}
 {% block right_panel_heading %}{{ heading }}{% endblock %}

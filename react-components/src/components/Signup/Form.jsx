@@ -30,12 +30,12 @@ const Form = ({
     autoComplete="new-off"
   >
     {showTitle && (
-      <h3 className="great-signin-header">
+      <h3 className="govuk-!-margin-top-8 govuk-!-margin-bottom-6">
         Create an account
       </h3>
     )}
 
-   
+
     <Input
       label="Email address"
       id="email"
@@ -60,7 +60,7 @@ const Form = ({
       id="password"
       type="password"
       description="Your password must have at least 10 characters, including letters and numbers."
-      descriptionClassName= 'great-font-main great-line-height-30 great-font-size-18 govuk-body-l great-text-dark-grey'
+      descriptionClassName= 'govuk-!-margin-bottom-1 great-font-main great-line-height-30 great-font-size-18 govuk-body-l great-text-dark-grey'
       disabled={disabled}
       value={password}
       onChange={(item) => handlePasswordChange(item.password)}

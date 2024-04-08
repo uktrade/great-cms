@@ -27,8 +27,8 @@ export const Form = ({
         handleSubmit()
       }}
     >
-      <h3 className="great-signin-header">Sign in</h3>
-      
+      <h3 className="govuk-!-margin-top-8 govuk-!-margin-bottom-6">Sign in</h3>
+
       {/* eslint-disable-next-line no-underscore-dangle,react/prop-types */}
       <ErrorList errors={errors.__all__ || []} className="govuk-!-margin-bottom-2" />
       <Input
@@ -51,7 +51,7 @@ export const Form = ({
       />
       <a
         href={Services.config.passwordResetUrl}
-        className="inline-block"
+        className="inline-block govuk-!-margin-bottom-4"
       >
         Forgotten password?
       </a>
