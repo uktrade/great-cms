@@ -10,9 +10,9 @@ airtable-python-wrapper==0.13.0
     # via -r requirements.in
 alabaster==0.7.16
     # via sphinx
-allure-pytest==2.13.4
+allure-pytest==2.13.5
     # via -r requirements_test.in
-allure-python-commons==2.13.4
+allure-python-commons==2.13.5
     # via allure-pytest
 amqp==5.2.0
     # via kombu
@@ -74,7 +74,7 @@ browserstack-local==1.2.7
     # via browserstack-sdk
 browserstack-sdk==1.12.0
     # via -r requirements_test.in
-build==1.1.1
+build==1.2.1
     # via pip-tools
 celery[redis]==5.2.7
     # via
@@ -284,7 +284,7 @@ exceptiongroup==1.2.0
     #   pytest
     #   trio
     #   trio-websocket
-execnet==2.0.2
+execnet==2.1.1
     # via pytest-xdist
 executing==2.0.1
     # via stack-data
@@ -292,7 +292,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==24.4.0
+faker==24.7.1
     # via factory-boy
 filelock==3.13.3
     # via virtualenv
@@ -316,7 +316,7 @@ flake8-quotes==3.3.2
     # via -r requirements_test.in
 flake8-string-format==0.3.0
     # via -r requirements_test.in
-flask==3.0.2
+flask==3.0.3
     # via
     #   -r requirements_test.in
     #   flask-basicauth
@@ -338,14 +338,12 @@ geventhttpclient==2.0.12
     # via locust
 gitdb==4.0.11
     # via gitpython
-gitpython==3.1.42
+gitpython==3.1.43
     # via -r requirements_test.in
 great-components==2.6.4
     # via -r requirements.in
 greenlet==3.0.3
-    # via
-    #   gevent
-    #   sqlalchemy
+    # via gevent
 gunicorn==20.1.0
     # via -r requirements.in
 h11==0.14.0
@@ -475,7 +473,7 @@ packaging==24.0
     #   webdriver-manager
 pandas==1.5.3
     # via -r requirements.in
-parso==0.8.3
+parso==0.8.4
     # via jedi
 pathspec==0.12.1
     # via
@@ -494,7 +492,7 @@ pillow==10.2.0
     #   reportlab
     #   wagtail
     #   xhtml2pdf
-pillow-heif==0.15.0
+pillow-heif==0.16.0
     # via willow
 pip-tools==7.4.1
     # via -r requirements_test.in
@@ -533,7 +531,7 @@ pycodestyle==2.11.1
     #   flake8
     #   flake8-debugger
     #   flake8-print
-pycparser==2.21
+pycparser==2.22
     # via cffi
 pyflakes==3.1.0
     # via flake8
@@ -555,7 +553,7 @@ pylint-django==2.5.5
     # via -r requirements_test.in
 pylint-plugin-utils==0.8.2
     # via pylint-django
-pypdf==4.1.0
+pypdf==4.2.0
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -663,7 +661,7 @@ requests==2.31.0
     #   sphinx
     #   wagtail
     #   webdriver-manager
-requests-mock==1.12.0
+requests-mock==1.12.1
     # via -r requirements_test.in
 requests-oauthlib==2.0.0
     # via django-staff-sso-client
@@ -764,7 +762,7 @@ trio==0.25.0
     #   trio-websocket
 trio-websocket==0.11.1
     # via selenium
-typing-extensions==4.10.0
+typing-extensions==4.11.0
     # via
     #   asgiref
     #   astroid
@@ -843,7 +841,7 @@ webencodings==0.5.1
     #   cssselect2
     #   html5lib
     #   tinycss2
-werkzeug==3.0.1
+werkzeug==3.0.2
     # via
     #   -r requirements_test.in
     #   flask

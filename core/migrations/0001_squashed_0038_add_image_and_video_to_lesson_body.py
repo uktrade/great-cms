@@ -686,7 +686,6 @@ class Migration(migrations.Migration):
             bases=(
                 # DELIBERATELY OMITTED AS PART OF CONTROLLED REMOVAL
                 # wagtail_personalisation.models.PersonalisablePageMixin,
-                core.mixins.EnableTourMixin,
                 'wagtailcore.page',
             ),
         ),
@@ -751,7 +750,6 @@ class Migration(migrations.Migration):
             bases=(
                 # DELIBERATELY OMITTED AS PART OF CONTROLLED REMOVAL
                 # wagtail_personalisation.models.PersonalisablePageMixin,
-                core.mixins.EnableTourMixin,
                 'wagtailcore.page',
             ),
         ),
@@ -1037,7 +1035,6 @@ class Migration(migrations.Migration):
             bases=(
                 # DELIBERATELY OMITTED AS PART OF CONTROLLED REMOVAL
                 # wagtail_personalisation.models.PersonalisablePageMixin,
-                core.mixins.EnableTourMixin,
                 'wagtailcore.page',
             ),
         ),
