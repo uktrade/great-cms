@@ -28,7 +28,7 @@ export const FormGroup = memo(
           errors.length > 0 ? 'form-group-error' : ''
         } ${formGroupClassName}`}
       >
-        {message ? <div className="g-panel body-m m-v-xs">{message}</div> : null}
+        {message ? <div className="g-panel body-m govuk-!-margin-top-2 govuk-!-margin-bottom-2">{message}</div> : null}
         <label
           className={`form-label ${hideLabel ? 'visually-hidden' : ''}`}
           htmlFor={id}
@@ -36,16 +36,16 @@ export const FormGroup = memo(
           {label}
           {info && (
             <ExpandCollapse
-              buttonClass="icon-only info fas fa-lg fa-info-circle p-v-4 p-h-0 govuk-!-margin-left-1"
+              buttonClass="icon-only info fas fa-lg fa-info-circle govuk-!-padding-right-0 govuk-!-padding-left-0 govuk-!-margin-left-1 govuk-!-margin-top-1 govuk-!-margin-bottom-1"
               buttonBefore
             >
-              <div className="g-panel body-m m-v-xs">{info}</div>
+              <div className="g-panel body-m govuk-!-margin-top-2 govuk-!-margin-bottom-2">{info}</div>
             </ExpandCollapse>
           )}
         </label>
 
         {description && (
-          <div className={descriptionClassName || 'p-t-xs p-b-xs'}>
+          <div className={descriptionClassName || 'govuk-!-padding-bottom-3 govuk-!-padding-top-3'}>
             {ReactHtmlParser(description)}
           </div>
         )}
