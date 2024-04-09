@@ -45,12 +45,6 @@
   align-items: baseline;
 }
 
-@media (max-width: 500px) {
-  .buttonContainer {
-    justify-content: center;
-  }
-}
-
 @media (min-width: 500px) {
   :global .ReactModal__Content {
     padding: 52px!important;

@@ -63,14 +63,14 @@ export function CookiesModal(props) {
       </p>
       <div className={`${styles.buttonContainer} great`}>
         <a
-          className={`${styles.greatButton} govuk-button great-button great-button--primary`}
+          className={`${styles.greatButton} govuk-button`}
           href="#"
           onClick={handleAcceptAllCookies}
         >
           {translations[lang]["Accept additional cookies"]}
         </a>
         <a
-          className={`link`}
+          className={`link govuk-!-margin-bottom-1`}
           href={props.preferencesUrl + window.location.search}
         >
           {translations[lang]["View cookies"]}
