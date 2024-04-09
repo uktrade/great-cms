@@ -9,6 +9,10 @@ from export_academy.models import Event, send_notifications_for_all_bookings
 
 @app.task
 def send_automated_events_notification():
+    """
+    Sends a reminder to all people booked on an Event that it is starting shortly.
+    """
+
     time_delay = settings.EXPORT_ACADEMY_AUTOMATED_NOTIFY_TIME_DELAY_MINUTES
     events = Event.objects.filter(
         start_date__gte=timezone.now() + timedelta(minutes=time_delay * 2),
@@ -35,18 +39,23 @@ def send_automated_events_notification():
 @app.task
 def send_automated_event_complete_notification():
     """
-    This task looks for all associated booking belonging to an Event that have not had their
-    'event_completed_email_sent' set to True. It will attempt to send en email for all such Bookings.
+    This task looks for all Event that have been marked as completed within the last hour, that have not
+    had event complete emails sent for them. It then forwards a bull email request to directory-forms-api to
+    send each Event attendee and 'event' complete email.
     """
 
-    # Time delay for completed event - This is to pick up any event marked as complete within X hours
-    time_delay = timezone.now() - timedelta(minutes=settings.EXPORT_ACADEMY_AUTOMATED_EVENT_COMPLETE_EMAIL_RETRY_HOURS)
-    events = Event.objects.filter(completed__isnull=False, completed__gte=time_delay)
+    # Time delay for completed event - This is to pick up any event marked as complete within X minutes. By default,
+    # it is set to 15 mins (three times the task setting of 5 mins, to give is some redundency).
+    time_delay = timezone.now() - timedelta(minutes=settings.EXPORT_ACADEMY_AUTOMATED_EVENT_COMPLETE_TIME_DELAY_MINUTES)
+    events = Event.objects.filter(completed__isnull=False, completed__gte=time_delay, completed_email_sent=False)
 
     for event in events:
-        send_notifications_for_all_bookings(
-            event.id, settings.EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID, event_complete=True
-        )
+        # POST bulk email submission to directory-forms-api (which will pick up submission and handle sending of emails)
+        send_notifications_for_all_bookings(event.id, settings.EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID)
+
+        # Mark Event as having emails sent
+        event.completed_email_sent = True
+        event.save()
 
 
 @app.task

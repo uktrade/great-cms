@@ -40,7 +40,7 @@ directory-ch-client==4.0.1
 directory-client-core==7.2.12
 directory-components==40.2.2
 directory-constants==24.1.1
-directory-forms-api-client==7.3.3
+directory-forms-api-client==7.4.2
 directory-healthcheck==3.4
 directory-sso-api-client==7.2.6
 directory-validators==9.3.3

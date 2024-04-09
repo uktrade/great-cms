@@ -35,9 +35,9 @@ app.conf.beat_schedule = {
         'task': 'core.tasks.enact_page_schedule',
         'schedule': crontab(hour='*/1'),
     },
-    'send_event_complete_email_every_15_mins': {
+    'send_event_complete_email_every_5_mins': {
         'task': 'export_academy.tasks.send_automated_event_complete_notification',
-        'schedule': crontab(minute='*/15'),
+        'schedule': crontab(minute='*/5'),
     },
     'send_campaign_site_review_reminder_once_a_day': {
         'task': 'core.tasks.send_review_reminder_interval_months',
