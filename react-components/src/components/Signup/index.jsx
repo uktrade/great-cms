@@ -63,8 +63,8 @@ export const Signup = (props) => {
   }
 
   return (
-    <div className="signup">
-      <div className="signup__info-panel signup-panel">
+    <div className="great signup">
+      <div className="signup__info-panel signup-panel hide_image_below_1200">
         <div class="great-logo">
           </div>
         <div className="signup__info-panel__content">
@@ -83,7 +83,7 @@ export const Signup = (props) => {
       <div className="signup__form-panel">
         <a href="/" className="inline-block">
           <img
-            className="m-f-auto m-r-auto signup__logo hide-logo-below-1200" 
+            className="m-f-auto m-r-auto signup__logo" 
             src="/static/images/dbt_logo_335x160.png"
             alt="Department for Business and Trade"
           />

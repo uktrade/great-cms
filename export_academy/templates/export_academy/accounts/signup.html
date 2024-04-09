@@ -1,7 +1,7 @@
 {% extends 'export_academy/accounts/base.html' %}
 {% load wagtailcore_tags %}
 {% block form %}
-    <h3 class="govuk-!-margin-top-7 govuk-!-margin-bottom-6">Create an account</h3>
+    <h3 class="govuk-heading-m govuk-!-margin-top-8 govuk-!-margin-bottom-6">Create an account</h3>
     {% csrf_token %}
     {% for field in form.visible_fields %}
         {% if field.label != 'UK telephone number' %}
@@ -13,10 +13,10 @@
                 {% endif %}
             </div>
         {% else %}
-            <div class="great-signup-telephone-details govuk-!-margin-top-2 govuk-!-margin-bottom-6 {% if field.errors %}govuk-form-group--error{% endif %}">
-                <details class="govuk-!-margin-bottom-1">
+            <div class="great-signup-telephone-details govuk-!-margin-bottom-6 {% if field.errors %}govuk-form-group--error{% endif %}">
+                <details class="govuk-!-margin-bottom-3">
                     <summary class="great-signup-summary disable-pointer-events">
-                        <span class="great-signup-form-label inline">UK telephone number (optional)</span>
+                        <span class="great-signup-form-label govuk-!-display-inline great-dark-grey">UK telephone number (optional)</span>
                         <span role="button"
                               class="fa fa-lg fa-info-circle border-on-focus enable-pointer-events"></span>
                     </summary>
