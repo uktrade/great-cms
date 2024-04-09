@@ -10,7 +10,7 @@
 {% block content %}
     {% include './components/landing_hero.html' with hero_image=page.hero_image heading=page.hero_text subtitle=page.hero_subtitle %}
     {% if page.dep_cards %}
-        <section class="why-choose-uk-section">
+        <section class="great-international-why-choose-uk-section">
             <div class="govuk-width-container great-container">
                 <div class="govuk-grid-row govuk-!-padding-top-9">
                     <div class="govuk-grid-column-two-thirds">
@@ -22,7 +22,7 @@
                     {% for cards in page.dep_cards %}
                         {% for card in cards.value %}
                             <div class="govuk-grid-column-one-half-from-desktop govuk-!-margin-bottom-6">
-                                {% include 'components/great/card.html' with data_attr_title=card.value.link_text data_attr_location='International homepage' title=card.value.link_text show_title_link=True url=card.value.link_url content=card.value.description image_src=card.value.link_url|get_international_icon_path is_svg_image=True classes="great-card--homepage international-card--cta" %}
+                                {% include 'components/great/card.html' with data_attr_title=card.value.link_text data_attr_location='International homepage' title=card.value.link_text show_title_link=True url=card.value.link_url content=card.value.description image_src=card.value.link_url|get_international_icon_path is_svg_image=True classes="great-card--homepage great-international-card--cta" %}
                             </div>
                         {% endfor %}
                     {% endfor %}
@@ -40,7 +40,7 @@
                 <a href="/international/content/investment/regions/" class="govuk-link">Learn about the UK's nations and regions</a>
             </div>
             <div class="govuk-grid-column-one-third">
-                <span class="international-home-uk-map"></span>
+                <span class="great-international-home-uk-map"></span>
             </div>
         </div>
     </div>

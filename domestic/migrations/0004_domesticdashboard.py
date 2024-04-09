@@ -88,7 +88,6 @@ class Migration(migrations.Migration):
             },
             bases=(
                 core.mixins.WagtailAdminExclusivePageMixin,
-                core.mixins.EnableTourMixin,
                 core.mixins.AnonymousUserRequired,
                 'wagtailcore.page',
             ),

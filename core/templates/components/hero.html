@@ -14,7 +14,8 @@ If both are available, `image_url` will be used over `image`
     {% image image original as rendition %}
 {% endif %}
 {% firstof image_url rendition.url as image_url %}
-<div class="great page-header article-header" id="hero">
+<div class="great page-header article-header great-hero-box-shadow-bottom"
+     id="hero">
     <div class="inner-header">
         <div>
             {% if hero_subeading %}<h2 class="govuk-caption-l">{{ hero_subeading }}</h2>{% endif %}

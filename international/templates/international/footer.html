@@ -1,6 +1,6 @@
 {% load static %}
-<footer class="govuk-footer international-footer" role="contentinfo">
-    <div class="govuk-width-container {% if not hide_primary_nav %}great-container{% endif %}">
+<footer class="govuk-footer great-international-footer" role="contentinfo">
+    <div class="govuk-width-container great-container">
         <div class="govuk-footer__meta">
             <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
                 <h2 class="govuk-visually-hidden">Support links</h2>
@@ -8,17 +8,31 @@
                     <li class="govuk-footer__inline-list-item">
                         <a class="govuk-link govuk-link--inverse"
                            id="footer-privacy-and-cookies"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           title="Opens in a new window"
                            href="{{ header_footer_urls.privacy_and_cookies }}">Privacy and cookies</a>
                     </li>
                     <li class="govuk-footer__inline-list-item">
                         <a class="govuk-link govuk-link--inverse"
                            id="footer-terms-and-conditions"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           title="Opens in a new window"
                            href="{{ header_footer_urls.terms_and_conditions }}">Terms and conditions</a>
                     </li>
                     <li class="govuk-footer__inline-list-item">
                         <a class="govuk-link govuk-link--inverse"
+                           id="footer-accessibility-and-conditions"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           title="Opens in a new window"
+                           href="{{ header_footer_urls.accessibility }}">Accessibility</a>
+                    </li>
+                    <li class="govuk-footer__inline-list-item">
+                        <a class="govuk-link govuk-link--inverse"
                            id="footer-contact"
-                           href="{% url 'international:contact' %}?next={{ feedback_next_url }}">Contact us</a>
+                           href="{% url 'international:contact' %}?next={{ feedback_next_url }}">Help using this site</a>
                     </li>
                     <li class="govuk-footer__inline-list-item">
                         <a class="govuk-link govuk-link--inverse"
@@ -30,7 +44,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="govuk-footer__meta-item great-footer-logo-container">
+            <div class="govuk-footer__meta-item great-international-footer__logo-container">
                 <div class="govuk-header__logo">
                     <a href="{% if not eyb_user %}{% url 'international_online_offer:index' %}{% else %}/international/expand-your-business-in-the-uk/guide/{% endif %}"
                        class="govuk-header__link govuk-header__link--homepage">

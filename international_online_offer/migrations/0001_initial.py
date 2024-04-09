@@ -474,7 +474,6 @@ class Migration(migrations.Migration):
                 'abstract': False,
             },
             bases=(
-                core.mixins.EnableTourMixin,
                 core.mixins.AuthenticatedUserRequired,
                 core.mixins.WagtailGA360Mixin,
                 great_components.mixins.GA360Mixin,
@@ -937,7 +936,6 @@ class Migration(migrations.Migration):
                 'abstract': False,
             },
             bases=(
-                core.mixins.EnableTourMixin,
                 core.mixins.AuthenticatedUserRequired,
                 core.mixins.WagtailGA360Mixin,
                 great_components.mixins.GA360Mixin,
