@@ -61,7 +61,7 @@ export function CookiesModal(props) {
       <p className={`${styles.synopsis} body-text`}>
         {translations[lang]["We use"]}{' '}
       </p>
-      <div className={`${styles.buttonContainer} great`}>
+      <div className={`${styles.buttonContainer} great great-overflow-visible`}>
         <a
           className={`${styles.greatButton} govuk-button`}
           href="#"
