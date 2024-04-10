@@ -805,8 +805,6 @@ WAGTAILTRANSFER_UPDATE_RELATED_MODELS = [
     'core.HSTaggedCaseStudy',
     'core.CaseStudy',
     'core.ContentModule',
-    'core.Tour',
-    'core.TourStep',
     'core.Microsite',
     'core.MicrositePage',
     'domestic.DomesticHomePage',

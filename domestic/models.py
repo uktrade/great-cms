@@ -160,7 +160,6 @@ class SocialLinksPageMixin(Page):
 
 class DomesticHomePage(
     mixins.WagtailAdminExclusivePageMixin,
-    mixins.EnableTourMixin,
     mixins.AnonymousUserRequired,
     DataLayerMixin,
     Page,
@@ -192,7 +191,6 @@ class DomesticHomePage(
 
 class DomesticDashboard(
     mixins.WagtailAdminExclusivePageMixin,
-    mixins.EnableTourMixin,
     mixins.EnableSegmentationMixin,
     mixins.AuthenticatedUserRequired,
     DataLayerMixin,

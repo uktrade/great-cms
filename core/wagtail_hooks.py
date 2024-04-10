@@ -9,6 +9,7 @@ import readtime
 import wagtail.admin.rich_text.editors.draftail.features as draftail_features
 from bs4 import BeautifulSoup
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.core.files.storage import DefaultStorage
 from django.db import models as django_models
@@ -34,7 +35,7 @@ from wagtail_transfer.models import ImportedFile
 from core import constants, mixins, views
 from core.models import MicrositePage
 from core.views import AltImageChooserViewSet
-from domestic.models import ArticlePage
+from domestic.models import ArticlePage, CountryGuidePage
 from .rich_text import (
     AnchorIdentifierLinkHandler,
     AnchorIndentifierEntityElementHandler,
@@ -661,3 +662,15 @@ def set_default_expiry_date(request, page):
         now = datetime.datetime.now()
         page.expire_at = now.replace(year=now.year + 1)
         page.save_revision()
+
+
+@hooks.register('after_edit_page')
+def after_edit_page(request, page):
+    if isinstance(page, CountryGuidePage):
+        if request.method == 'POST':
+            messages.add_message(
+                request,
+                messages.ERROR,
+                'Please note though that economic growth and GDP per capita data is provided by the '
+                'IMF API and cannot be edited.',
+            )

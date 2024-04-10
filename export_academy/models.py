@@ -14,6 +14,7 @@ from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from taggit.models import ItemBase, TagBase
+from taggit.managers import TaggableManager
 from wagtail.fields import RichTextField, StreamField
 from wagtail.snippets.models import register_snippet
 
@@ -24,7 +25,7 @@ from core.constants import (
     RICHTEXT_FEATURES__REDUCED__DISALLOW_H2,
 )
 from core.fields import single_struct_block_stream_field_factory
-from core.models import GreatMedia, TimeStampedModel
+from core.models import CountryTag, GreatMedia, SectorTag, TimeStampedModel, TypeOfExportTag
 from core.templatetags.content_tags import format_timedelta
 from domestic.models import BaseContentPage
 from export_academy import managers
@@ -46,6 +47,21 @@ class EventTypeTag(TagBase):
 
 class TaggedEventType(ItemBase):
     tag = models.ForeignKey(EventTypeTag, related_name='+', on_delete=models.CASCADE)
+    content_object = ParentalKey(to='export_academy.Event', on_delete=models.CASCADE)
+
+
+class CountryTagged(ItemBase):
+    tag = models.ForeignKey(CountryTag, related_name='+', on_delete=models.CASCADE)
+    content_object = ParentalKey(to='export_academy.Event', on_delete=models.CASCADE)
+
+
+class SectorTagged(ItemBase):
+    tag = models.ForeignKey(SectorTag, related_name='+', on_delete=models.CASCADE)
+    content_object = ParentalKey(to='export_academy.Event', on_delete=models.CASCADE)
+
+
+class TypeOfExportTagged(ItemBase):
+    tag = models.ForeignKey(TypeOfExportTag, related_name='+', on_delete=models.CASCADE)
     content_object = ParentalKey(to='export_academy.Event', on_delete=models.CASCADE)
 
 
@@ -119,6 +135,21 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
 
     objects = models.Manager()
     upcoming = managers.EventManager.from_queryset(managers.EventQuerySet)()
+
+    country_tags = TaggableManager(
+        through=CountryTagged, blank=True, verbose_name='Country tag', related_name='event_country_tags'
+    )
+
+    sector_tags = TaggableManager(
+        through=SectorTagged, blank=True, verbose_name='Sector tags', related_name='event_sector_tags'
+    )
+
+    type_of_export_tags = TaggableManager(
+        through=TypeOfExportTagged,
+        blank=True,
+        verbose_name='Type of Export Tags',
+        related_name='event_type_of_export_tags',
+    )
 
     @property
     def status(self):
