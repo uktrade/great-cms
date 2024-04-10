@@ -60,6 +60,10 @@
     font-size: 18px;
   }
 
+  .govuk-hint {
+    color: $great-off-black;
+  }
+
   .govuk-caption-xl {
     font-size: 20px;
     line-height: 30px;
@@ -91,6 +95,67 @@
         border-color: govuk-colour('black');
       }
     }
+  }
+
+  .govuk-button {
+    background-color: $govuk-brand-colour;
+    box-shadow: none;
+    box-shadow: none;
+    font-family: $great-font-bold;
+    padding: 8px 20px;
+    font-size: 20px;
+    min-height: 50px;
+    line-height: 34px;
+    -webkit-font-smoothing: auto;
+
+    &:hover,
+    &:focus {
+      background-color: $great-white;
+      border-color: $govuk-brand-colour;
+      color: $govuk-brand-colour;
+    }
+
+    &:focus:not(:active):not(:hover) {
+      background-color: $great-white;
+      border-color: $govuk-brand-colour;
+      box-shadow: none;
+      color: $govuk-brand-colour;
+    }
+
+    &:focus {
+      outline: 3px solid $great-yellow;
+      outline-offset: 0;
+    }
+
+    i {
+      font-size: inherit;
+      margin-right: 8px;
+    }
+  }
+
+  .govuk-button--secondary {
+    background-color: $great-white;
+    border-color: $govuk-brand-colour;
+    color: $govuk-brand-colour;
+
+    &:hover,
+    &:focus {
+      background-color: $govuk-brand-colour;
+      border-color: $govuk-brand-colour;
+      color: $great-white;
+    }
+  }
+
+  .great-text-grey {
+    @extend %great-text-grey;
+  }
+
+  .great-text-light-grey {
+    @extend %great-text-light-grey;
+  }
+
+  .great-text-white {
+    @extend %great-text-white;
   }
 
   // govuk elements overides
@@ -240,41 +305,33 @@
   }
 
   .govuk-button {
-    background-color: #1D70B8;
-    box-shadow: 0 3px 0 #003078;
-    border: 2px solid rgba(0, 0, 0, 0);
+    background-color: $govuk-brand-colour;
+    box-shadow: none;
+    box-shadow: none;
     font-family: $great-font-bold;
     padding: 8px 20px;
     font-size: 16px;
     line-height: 24px;
     min-height: 44px;
     -webkit-font-smoothing: auto;
-    outline: none;
 
-    &:hover {
-      background-color: #003078;
-      box-shadow: 0 3px 0 #00081F;
-      color: #fff;
-    }
-
-    &:active {
-      background-color: #003078;
-      box-shadow: 0 1px 0 #00081F;
-      color: #fff;
+    &:hover,
+    &:focus {
+      background-color: $great-white;
+      border-color: $govuk-brand-colour;
+      color: $govuk-brand-colour;
     }
 
     &:focus:not(:active):not(:hover) {
-      background-color: #ffdd00;
-      border-color: #222;
-      box-shadow: 0 2px 0 #222;
-      color: #222;
+      background-color: $great-white;
+      border-color: $govuk-brand-colour;
+      box-shadow: none;
+      color: $govuk-brand-colour;
     }
 
-    &:focus:active {
-      background-color: #ffdd00;
-      border-color: #222;
-      box-shadow: 0 1px 0 #222;
-      color: #222;
+    &:focus {
+      outline: 3px solid $great-yellow;
+      outline-offset: 0;
     }
 
     i {

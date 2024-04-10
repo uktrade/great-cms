@@ -70,7 +70,7 @@ export function CookiesModal(props) {
           {translations[lang]["Accept additional cookies"]}
         </a>
         <a
-          className={`link govuk-!-margin-bottom-1`}
+          className={`govuk-link govuk-!-margin-bottom-1`}
           href={props.preferencesUrl + window.location.search}
         >
           {translations[lang]["View cookies"]}
