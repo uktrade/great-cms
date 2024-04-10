@@ -10,7 +10,10 @@
         <div class="great container cookie-notice-container">
             <h2 class="govuk-heading-s">{% translate "Cookies on great.gov.uk" %}</h2>
             <p>
-                {% translate 'You''ve <span id="cookie-action">accepted</span> additional cookies. You can ' %}<a class="link" href="{% url 'core:cookie-preferences' %}">{% translate 'change your cookie settings' %}</a> {% translate 'at any time.' %}
+                {% blocktranslate asvar cookie_message %}
+                    You've <span id="cookie-action">accepted</span> additional cookies. You can <a class="link" href="{{ preferences_url }}">change your cookie settings</a> at any time.
+                {% endblocktranslate %}
+                {{ cookie_message|safe }}
             </p>
             <button class="govuk-button govuk-!-margin-top-1 cookie-close">{% translate "Hide cookies message" %}</button>
         </div>
