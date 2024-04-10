@@ -24,6 +24,12 @@ export function CookiesModal(props) {
     setIsOpen(false)
   }
 
+  function handleRejectAllCookies(event) {
+    CookieManager.rejectAllCookiesAndShowSuccess(event)
+
+    setIsOpen(false)
+  }
+
   const handleFocusChange = (evt) => {
     if (focusTrap.current) {
       const modal = evt.target.closest('.ReactModal__Content')
@@ -62,13 +68,18 @@ export function CookiesModal(props) {
         {translations[lang]["We use"]}{' '}
       </p>
       <div className={`${styles.buttonContainer} great great-overflow-visible`}>
-        <a
+      <button
           className={`${styles.greatButton} govuk-button`}
-          href="#"
           onClick={handleAcceptAllCookies}
         >
           {translations[lang]["Accept additional cookies"]}
-        </a>
+        </button>
+        <button
+          className={`${styles.greatButton} govuk-button`}
+          onClick={handleRejectAllCookies}
+        >
+          {translations[lang]["Reject additional cookies"]}
+        </button>
         <a
           className={`govuk-link govuk-!-margin-bottom-1`}
           href={props.preferencesUrl + window.location.search}
