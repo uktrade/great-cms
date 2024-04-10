@@ -13,8 +13,8 @@ from django.utils.text import slugify
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
-from taggit.models import ItemBase, TagBase
 from taggit.managers import TaggableManager
+from taggit.models import ItemBase, TagBase
 from wagtail.fields import RichTextField, StreamField
 from wagtail.snippets.models import register_snippet
 
@@ -25,7 +25,13 @@ from core.constants import (
     RICHTEXT_FEATURES__REDUCED__DISALLOW_H2,
 )
 from core.fields import single_struct_block_stream_field_factory
-from core.models import CountryTag, GreatMedia, SectorTag, TimeStampedModel, TypeOfExportTag
+from core.models import (
+    CountryTag,
+    GreatMedia,
+    SectorTag,
+    TimeStampedModel,
+    TypeOfExportTag,
+)
 from core.templatetags.content_tags import format_timedelta
 from domestic.models import BaseContentPage
 from export_academy import managers
@@ -128,7 +134,7 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
     )
 
     completed = models.DateTimeField(null=True, blank=True)
-    completed_email_sent = models.BooleanField(default=True)
+    completed_email_sent = models.BooleanField(default=False)
     live = models.DateTimeField(null=True, blank=True)
     closed = models.BooleanField(default=False)
     slug = models.SlugField(null=True, unique=True, max_length=255)
