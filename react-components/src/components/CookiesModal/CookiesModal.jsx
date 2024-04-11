@@ -60,8 +60,8 @@ export function CookiesModal(props) {
   }, [])
 
   return (
-    <Modal isOpen={isOpen} contentLabel="Cookies consent manager">
-      <h2 className={`${styles.heading} heading-medium`}>
+    <Modal isOpen={isOpen} contentLabel="Cookies on great.gov.uk">
+      <h2 aria-hidden="true" className={`${styles.heading} heading-medium`}>
         {translations[lang]["Cookies on great.gov.uk"]}
       </h2>
       <p className={`${styles.synopsis} body-text`}>

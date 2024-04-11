@@ -2,13 +2,14 @@
 {% load wagtailcore_tags %}
 {% language lang|default:"en-gb" %}
     <div id="header-cookie-notice"
-         class="great great-overflow-visible great-cookie-notice"
+         class="great great-cookie-notice"
          dir="ltr"
          data-ga-section="cookieNotice"
          role="region"
-         aria-label="Cookie confirmation banner">
-        <div class="great container cookie-notice-container">
-            <h2 class="govuk-heading-s">{% translate "Cookies on great.gov.uk" %}</h2>
+         aria-label="Cookies on great.gov.uk"
+         aria-live="polite">
+        <div class="great great-overflow-visible great-container cookie-notice-container">
+            <h2 aria-hidden="true" class="govuk-heading-s">{% translate "Cookies on great.gov.uk" %}</h2>
             <p>
                 {% blocktranslate asvar cookie_message %}
                     You've <span id="cookie-action">accepted</span> additional cookies. You can <a class="link" href="{{ preferences_url }}">change your cookie settings</a> at any time.

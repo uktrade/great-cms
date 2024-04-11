@@ -19,16 +19,24 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {% block sharing_description %}
-        <meta name="description"
-                content="{% block meta_description %}{% firstof self.seo_description page.search_description content_snippet.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description %}{% endblock %}">
+            <meta name="description"
+                  content="{% block meta_description %}{% firstof self.seo_description page.search_description content_snippet.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description %}{% endblock %}">
         {% endblock %}
-        {% firstof page.seo_title page.title  as seo_title %}
+        {% firstof page.seo_title page.title as seo_title %}
         {% block sharing_title %}
-        <meta name="title"
-            content="{% block meta_title %}{% if seo_title %}{{ seo_title }}{% else %}Welcome to great.gov.uk{% endif %} - great.gov.uk{% endblock %}">
+            <meta name="title"
+                  content="{% block meta_title %}{% if seo_title %}{{ seo_title }}{% else %}Welcome to great.gov.uk{% endif %} - great.gov.uk{% endblock %}">
         {% endblock %}
-
-        <title>{% block head_title %}{% if seo_title %}{{ seo_title }}{% else %}Welcome to great.gov.uk{% endif %} - great.gov.uk{% endblock %}</title>
+        <title>
+            {% block head_title %}
+                {% if seo_title %}
+                    {{ seo_title }}
+                {% else %}
+                    Welcome to great.gov.uk
+                {% endif %}
+                - great.gov.uk
+            {% endblock %}
+        </title>
         {% block meta_tags %}{% endblock %}
         {% with is_wagtail_page=page %}
             {% if is_wagtail_page %}
@@ -123,11 +131,11 @@
             {% include 'components/google_tag_manager_body.html' %}
         {% endblock %}
         <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled')</script>
-        {% block skip_link %}
-            <a id="skip-link" href="#content">{% translate "Skip to main content" %}</a>
-        {% endblock %}
         {% block cookie_notice %}
             {% include 'components/cookie_notice.html' with lang=page.locale.language_code %}
+        {% endblock %}
+        {% block skip_link %}
+            <a class="govuk-skip-link" href="#content">{% translate "Skip to main content" %}</a>
         {% endblock %}
         {% block body_content_container %}
             {% block content %}{% endblock %}

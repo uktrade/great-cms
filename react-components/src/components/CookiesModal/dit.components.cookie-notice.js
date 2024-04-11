@@ -129,7 +129,8 @@ dit.components.cookieNotice = function() {
   function enableCookieBanner () {
     displayCookieBanner();
     bindAcceptAllCookiesButton(function(event) {
-      acceptAllCookie(event);
+      acceptAllCookies(event);
+      acceptAllCookies(event);
       displayCookieBannerConfirmation();
     })
   }
