@@ -29,7 +29,7 @@ from core.models import CountryTag, GreatMedia, SectorTag, TimeStampedModel, Typ
 from core.templatetags.content_tags import format_timedelta
 from domestic.models import BaseContentPage
 from export_academy import managers
-from export_academy.blocks import MetaDataBlock, ReviewBlock
+from export_academy.blocks import MetaDataBlock, ReviewBlock, SeriesBlock
 from export_academy.cms_panels import (
     CoursePagePanels,
     EventPanel,
@@ -312,7 +312,6 @@ class Booking(TimeStampedModel):
             models.Index(fields=['status'], name='status_idx'),
         ]
 
-
 class ExportAcademyHomePage(ExportAcademyPagePanels, BaseContentPage):
     template = 'export_academy/landing_page.html'
 
@@ -378,68 +377,21 @@ class ExportAcademyHomePage(ExportAcademyPagePanels, BaseContentPage):
         blank=True,
     )
 
-    course_name = models.CharField(
-        null=True,
-        blank=True,
-        max_length=255,
-        verbose_name='Series Name',
-    )
-
-    course_description = models.CharField(
-        null=True,
-        blank=True,
-        max_length=255,
-        verbose_name='Series Description',
-    )
-
-    course_image = models.ForeignKey(
-        'core.AltTextImage',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name='Series image',
-    )
-
-    course_feature_one = models.CharField(
-        null=True,
-        blank=True,
-        max_length=255,
-        verbose_name='Series Feature One',
-    )
-
-    course_feature_two = models.CharField(
-        null=True,
-        blank=True,
-        max_length=255,
-        verbose_name='Series Feature Two',
-    )
-
-    course_feature_three = models.CharField(
-        null=True,
-        blank=True,
-        max_length=255,
-        verbose_name='Series Feature Three',
-    )
-
-    course_cta_text = models.CharField(
-        null=True,
-        blank=True,
-        max_length=255,
-        verbose_name='Series CTA Text',
-    )
-
-    course_cta_url = models.CharField(
-        null=True,
-        blank=True,
-        max_length=255,
-        verbose_name='Series CTA URL',
-    )
-
     panel_description = RichTextField(
         features=RICHTEXT_FEATURES__REDUCED,
         null=True,
         blank=True,
+    )
+
+    series_list = StreamField([
+        (
+            'Series', 
+            SeriesBlock(),
+        ),
+    ],
+    use_json_field=True,
+    null=True,
+    blank=True,
     )
 
     panels = single_struct_block_stream_field_factory(

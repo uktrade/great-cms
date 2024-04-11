@@ -39,20 +39,6 @@ class ExportAcademyPagePanels:
             ],
         ),
         MultiFieldPanel(
-            heading='Series',
-            classname='collapsible',
-            children=[
-                FieldPanel('course_name'),
-                FieldPanel('course_description'),
-                FieldPanel('course_image'),
-                FieldPanel('course_feature_one'),
-                FieldPanel('course_feature_two'),
-                FieldPanel('course_feature_three'),
-                FieldPanel('course_cta_text'),
-                FieldPanel('course_cta_url'),
-            ],
-        ),
-        MultiFieldPanel(
             heading='Main Content',
             classname='collapsible',
             children=[
@@ -62,6 +48,9 @@ class ExportAcademyPagePanels:
         ),
         FieldPanel(
             'next_cta',
+        ),
+                FieldPanel(
+            'series_list',
         ),
     ]
 
