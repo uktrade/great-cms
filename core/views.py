@@ -1,6 +1,7 @@
 import abc
 import json
 import logging
+import random
 
 from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import Sender
@@ -586,6 +587,17 @@ class RecommendationsView(TemplateView):
     template_name = 'core/recommendations.html'
 
     def get_context_data(self):
+        related_content = [
+            {'title': 'Exporting step by step guide', 'url': 'https://www.gov.uk/export-goods'},
+            {'title': 'Check how to import or export goods', 'url': 'https://www.gov.uk/check-how-to-import-export'},
+            {'title': 'Join the UK Export Academy', 'url': 'https://www.great.gov.uk/export-academy/'},
+            {'title': 'Search for new export opportunities', 'url': 'https://www.great.gov.uk/export-opportunities/'},
+            {'title': 'Events', 'url': 'https://www.events.great.gov.uk/ehome/index.php?eventid=200183029'},
+        ]
+        random.shuffle(related_content)
+
+        related_content = related_content[: random.randrange(1, 6)]
+
         return super().get_context_data(
             data={
                 'learning': [
@@ -625,6 +637,7 @@ class RecommendationsView(TemplateView):
                     {'title': 'Research a market', 'url': 'https://www.great.gov.uk/markets/'},
                     {'title': 'Get export finance', 'url': 'https://www.ukexportfinance.gov.uk/'},
                 ],
+                'related_content': related_content,
             }
         )
 

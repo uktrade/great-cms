@@ -26,6 +26,15 @@
                         <div class="govuk-grid-column-one-half">
                             <h2 class="govuk-heading-m govuk-!-margin-bottom-3">Recently visited</h2>
                             <div id="recently-visted"></div>
+                            <hr />
+                            <div class="govuk-!-padding-4 great-bg-white">
+                                <h2 class="govuk-heading-m govuk-!-margin-bottom-3">Related content</h2>
+                                {% for article in data.related_content %}
+                                    <a href="{{ article.url }}"
+                                       class="govuk-heading-xs govuk-!-margin-bottom-3 great-heading-link">
+                                    {{ article.title }}</a>
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
                 </div>
