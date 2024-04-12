@@ -6,7 +6,7 @@ from utils.test_helpers import TestHelper
 class HomePage(TestHelper):
     # locator
     H1_TEXT = (By.TAG_NAME, 'h1')
-    ACCEPT_COOKIES_BUTTON = (By.LINK_TEXT, 'Accept all cookies')
+    ACCEPT_COOKIES_BUTTON = (By.LINK_TEXT, 'Accept additional cookies')
 
     def navigate_to_home(self):
         self.navigate(f'{self.base_url}')
