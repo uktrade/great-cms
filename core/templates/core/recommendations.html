@@ -23,7 +23,7 @@
                                    data-title="{{ article.title }}">{{ article.title }}</a>
                             {% endfor %}
                         </div>
-                        <div class="govuk-grid-column-one-half">
+                        <div class="govuk-grid-column-one-half" id="related-content">
                             <h2 class="govuk-heading-m govuk-!-margin-bottom-3">Recently visited</h2>
                             <div id="recently-visted"></div>
                             <hr />
@@ -57,6 +57,8 @@
                     }
                 })
             }
+        } else {
+            document.getElementById('related-content').style.display = 'none'
         }
     </script>
 {% endblock %}
