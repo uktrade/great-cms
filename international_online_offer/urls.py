@@ -15,27 +15,27 @@ urlpatterns = [
     ),
     path(
         'sector/',
-        views.SectorView.as_view(),
+        login_required(views.SectorView.as_view(), login_url=SIGNUP_URL),
         name='sector',
     ),
     path(
         'intent/',
-        views.IntentView.as_view(),
+        login_required(views.IntentView.as_view(), login_url=SIGNUP_URL),
         name='intent',
     ),
     path(
         'location/',
-        views.LocationView.as_view(),
+        login_required(views.LocationView.as_view(), login_url=SIGNUP_URL),
         name='location',
     ),
     path(
         'hiring/',
-        views.HiringView.as_view(),
+        login_required(views.HiringView.as_view(), login_url=SIGNUP_URL),
         name='hiring',
     ),
     path(
         'spend/',
-        views.SpendView.as_view(),
+        login_required(views.SpendView.as_view(), login_url=SIGNUP_URL),
         name='spend',
     ),
     path(
@@ -55,7 +55,7 @@ urlpatterns = [
     ),
     path(
         'change-your-answers/',
-        views.EditYourAnswersView.as_view(),
+        login_required(views.EditYourAnswersView.as_view(), login_url=SIGNUP_URL),
         name='change-your-answers',
     ),
     path(
@@ -65,22 +65,22 @@ urlpatterns = [
     ),
     path(
         'csat-widget-submit/',
-        views.CsatWidgetView.as_view(),
+        login_required(views.CsatWidgetView.as_view(), login_url=SIGNUP_URL),
         name='csat-widget-submit',
     ),
     path(
         'csat-feedback/',
-        views.CsatFeedbackView.as_view(),
+        login_required(views.CsatFeedbackView.as_view(), login_url=SIGNUP_URL),
         name='csat-feedback',
     ),
     path(
         'trade-associations/',
-        views.TradeAssociationsView.as_view(),
+        login_required(views.TradeAssociationsView.as_view(), login_url=SIGNUP_URL),
         name='trade-associations',
     ),
     path(
         'business-cluster-information/',
-        views.BusinessClusterView.as_view(),
+        login_required(views.BusinessClusterView.as_view(), login_url=SIGNUP_URL),
         name='bci',
     ),
 ]

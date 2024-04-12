@@ -35,7 +35,7 @@
                     </div>
                     <div id="sic-sector-information-container"
                          class="govuk-grid-row"
-                         style="{% if not sector or not sector_sub %} display: none {% endif %}">
+                         style="{% if sector|length == 1 or sector_sub|length == 1 %} display: none {% endif %}">
                         <div class="govuk-grid-column-two-thirds">
                             <div class="govuk-inset-text">
                                 <span id="sic-text">{{ sector_sub }}</span> is in our <span id="sector-text" class="govuk-!-font-weight-bold">{{ sector }}</span> sector, we will tailor your guide to this sector.
