@@ -2,7 +2,7 @@ from wagtail import blocks
 from wagtail.images.blocks import ImageChooserBlock
 from django import forms
 from core import models
-
+from core.blocks import TopicPageCardBlockRichText, ButtonBlock
 
 class MetaDataBlock(blocks.StructBlock):
     label = blocks.CharBlock(required=True)
@@ -26,3 +26,14 @@ class SeriesBlock(blocks.StructBlock):
     course_cta_text=blocks.CharBlock(max_length=255,required=False)
     course_cta_url=blocks.CharBlock(max_length=255,required=False)
 
+
+class SeriesSectionBlock(blocks.StructBlock):
+    series_section_header = blocks.CharBlock(max_length=255,required=False)
+    series_section_description = blocks.RichTextBlock(max_length=255,required=False)
+    series_list = blocks.StreamBlock([('Series', SeriesBlock())], required=False)
+
+
+class PanelSectionBlock(blocks.StructBlock):
+    panel_description = blocks.RichTextBlock(max_length=255, required=False)
+    panels = blocks.StreamBlock([('Panel', TopicPageCardBlockRichText())], required=False)
+    next_cta = ButtonBlock(required=False)

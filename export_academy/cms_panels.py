@@ -47,6 +47,9 @@ class ExportAcademyPagePanels:
             ],
         ),
         FieldPanel(
+            'events_and_series'
+        ),
+        FieldPanel(
             'next_cta',
         ),
                 FieldPanel(

@@ -29,7 +29,7 @@ from core.models import CountryTag, GreatMedia, SectorTag, TimeStampedModel, Typ
 from core.templatetags.content_tags import format_timedelta
 from domestic.models import BaseContentPage
 from export_academy import managers
-from export_academy.blocks import MetaDataBlock, ReviewBlock, SeriesBlock
+from export_academy.blocks import MetaDataBlock, ReviewBlock, SeriesBlock, PanelSectionBlock, SeriesSectionBlock
 from export_academy.cms_panels import (
     CoursePagePanels,
     EventPanel,
@@ -377,11 +377,26 @@ class ExportAcademyHomePage(ExportAcademyPagePanels, BaseContentPage):
         blank=True,
     )
 
+    events_and_series = StreamField([
+        (
+            'Series_Section', 
+            SeriesSectionBlock(),
+        ),
+        (
+            'Panels_Section', 
+            PanelSectionBlock(),
+        ),
+    ],
+    use_json_field=True,
+    null=True,
+    blank=True,
+    )
+
     panel_description = RichTextField(
         features=RICHTEXT_FEATURES__REDUCED,
         null=True,
         blank=True,
-    )
+    ) # TODO NEED to abstract the section header and description to be set in wagtail, and then work out how to vary order
 
     series_list = StreamField([
         (
