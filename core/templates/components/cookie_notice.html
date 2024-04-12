@@ -12,7 +12,8 @@
             <h2 aria-hidden="true" class="govuk-heading-s">{% translate "Cookies on great.gov.uk" %}</h2>
             <p>
                 {% blocktranslate asvar cookie_message %}
-Hello                {% endblocktranslate %}
+                    You've <span id="cookie-action">accepted</span> additional cookies. You can <a class="link" href="{% url 'core:cookie-preferences' %}">change your cookie settings</a> at any time.
+                {% endblocktranslate %}
                 {{ cookie_message|safe }}
             </p>
             <button class="govuk-button govuk-!-margin-top-1 cookie-close">{% translate "Hide cookies message" %}</button>
