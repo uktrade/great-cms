@@ -343,7 +343,9 @@ gitpython==3.1.43
 great-components==2.6.4
     # via -r requirements.in
 greenlet==3.0.3
-    # via gevent
+    # via
+    #   gevent
+    #   sqlalchemy
 gunicorn==20.1.0
     # via -r requirements.in
 h11==0.14.0
@@ -362,7 +364,7 @@ icalendar==5.0.11
     # via -r requirements.in
 identify==2.5.35
     # via pre-commit
-idna==3.6
+idna==3.7
     # via
     #   requests
     #   trio

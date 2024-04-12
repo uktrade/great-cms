@@ -224,6 +224,8 @@ geoip2==2.9.0
     # via -r requirements.in
 great-components==2.6.4
     # via -r requirements.in
+greenlet==3.0.3
+    # via sqlalchemy
 gunicorn==20.1.0
     # via -r requirements.in
 hashids==0.8.4
@@ -234,7 +236,7 @@ html5lib==1.1
     #   xhtml2pdf
 icalendar==5.0.11
     # via -r requirements.in
-idna==3.6
+idna==3.7
     # via requests
 imagesize==1.4.1
     # via sphinx
