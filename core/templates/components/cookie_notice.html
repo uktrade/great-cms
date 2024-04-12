@@ -1,3 +1,16 @@
-{% load i18n %}
 {% load wagtailcore_tags %}
-Hello
+<div id="header-cookie-notice"
+     class="great great-cookie-notice"
+     dir="ltr"
+     data-ga-section="cookieNotice"
+     role="region"
+     aria-label="Cookies on great.gov.uk"
+     aria-live="polite">
+    <div class="great great-overflow-visible great-container cookie-notice-container">
+        <h2 aria-hidden="true" class="govuk-heading-s">Cookies on great.gov.uk</h2>
+        <p>
+            You've <span id="cookie-action">accepted</span> additional cookies. You can <a class="link" href="{{ preferences_url }}">change your cookie settings</a> at any time.
+        </p>
+        <button class="govuk-button govuk-!-margin-top-1 cookie-close">Hide cookies message</button>
+    </div>
+</div>
