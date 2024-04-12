@@ -97,8 +97,8 @@ class SectorView(GA360Mixin, FormView):
         return next_url
 
     def get_context_data(self, **kwargs):
-        sector = (None,)
-        sector_sub = (None,)
+        sector = None
+        sector_sub = None
         if self.request.user.is_authenticated:
             triage_data = get_triage_data_for_user(self.request)
             if triage_data:
