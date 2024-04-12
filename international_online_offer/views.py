@@ -46,8 +46,6 @@ def calculate_and_store_is_high_value(request):
         TriageData.objects.update_or_create(
             hashed_uuid=request.user.hashed_uuid, defaults={'is_high_value': is_high_value}
         )
-    else:
-        request.session['is_high_value'] = is_high_value
 
 
 class IndexView(GA360Mixin, TemplateView):
@@ -99,8 +97,8 @@ class SectorView(GA360Mixin, FormView):
         return next_url
 
     def get_context_data(self, **kwargs):
-        sector = self.request.session.get('sector')
-        sector_sub = self.request.session.get('sector_sub')
+        sector = (None,)
+        sector_sub = (None,)
         if self.request.user.is_authenticated:
             triage_data = get_triage_data_for_user(self.request)
             if triage_data:
@@ -115,8 +113,8 @@ class SectorView(GA360Mixin, FormView):
             why_we_ask_this_question_text="""We'll use this information to provide customised content
               relevant to your sector and products or services.""",
             autocomplete_sector_data=region_sector_helpers.get_sectors_and_sic_sectors_file_as_string(),
-            sector_sub=sector_sub,
             sector=sector,
+            sector_sub=sector_sub,
         )
 
     def get_initial(self):
@@ -124,8 +122,6 @@ class SectorView(GA360Mixin, FormView):
             triage_data = get_triage_data_for_user(self.request)
             if triage_data:
                 return {'sector_sub': triage_data.sector_sub}
-
-        return {'sector_sub': self.request.session.get('sector_sub')}
 
     def form_valid(self, form):
         sub_sector = form.cleaned_data['sector_sub']
@@ -138,9 +134,6 @@ class SectorView(GA360Mixin, FormView):
                     'sector_sub': form.cleaned_data['sector_sub'],
                 },
             )
-        else:
-            self.request.session['sector'] = sector
-            self.request.session['sector_sub'] = form.cleaned_data['sector_sub']
         calculate_and_store_is_high_value(self.request)
         return super().form_valid(form)
 
@@ -185,8 +178,6 @@ class IntentView(GA360Mixin, FormView):
             if triage_data:
                 return {'intent': triage_data.intent, 'intent_other': triage_data.intent_other}
 
-        return {'intent': self.request.session.get('intent'), 'intent_other': self.request.session.get('intent_other')}
-
     def form_valid(self, form):
         if self.request.user.is_authenticated:
             TriageData.objects.update_or_create(
@@ -196,9 +187,6 @@ class IntentView(GA360Mixin, FormView):
                     'intent_other': form.cleaned_data['intent_other'],
                 },
             )
-        else:
-            self.request.session['intent'] = form.cleaned_data['intent']
-            self.request.session['intent_other'] = form.cleaned_data['intent_other']
         calculate_and_store_is_high_value(self.request)
         return super().form_valid(form)
 
@@ -228,8 +216,8 @@ class LocationView(GA360Mixin, FormView):
         return next_url
 
     def get_context_data(self, **kwargs):
-        region = self.request.session.get('location')
-        city = self.request.session.get('location_city')
+        region = None
+        city = None
         if self.request.user.is_authenticated:
             triage_data = get_triage_data_for_user(self.request)
             if triage_data:
@@ -255,16 +243,6 @@ class LocationView(GA360Mixin, FormView):
                 location = triage_data.location_city if triage_data.location_city else triage_data.location
                 return {'location': location, 'location_none': triage_data.location_none}
 
-        location = (
-            self.request.session.get('location_city')
-            if self.request.session.get('location_city')
-            else self.request.session.get('location')
-        )
-        return {
-            'location': location,
-            'location_none': self.request.session.get('location_none'),
-        }
-
     def form_valid(self, form):
         region = None
         city = None
@@ -283,10 +261,6 @@ class LocationView(GA360Mixin, FormView):
                     'location_none': form.cleaned_data['location_none'],
                 },
             )
-        else:
-            self.request.session['location'] = region
-            self.request.session['location_city'] = city
-            self.request.session['location_none'] = form.cleaned_data['location_none']
         calculate_and_store_is_high_value(self.request)
         return super().form_valid(form)
 
@@ -331,8 +305,6 @@ class HiringView(GA360Mixin, FormView):
             if triage_data:
                 return {'hiring': triage_data.hiring}
 
-        return {'hiring': self.request.session.get('hiring')}
-
     def form_valid(self, form):
         if self.request.user.is_authenticated:
             TriageData.objects.update_or_create(
@@ -341,8 +313,6 @@ class HiringView(GA360Mixin, FormView):
                     'hiring': form.cleaned_data['hiring'],
                 },
             )
-        else:
-            self.request.session['hiring'] = form.cleaned_data['hiring']
         calculate_and_store_is_high_value(self.request)
         return super().form_valid(form)
 
@@ -369,7 +339,6 @@ class SpendView(GA360Mixin, FormView):
         back_url = reverse_lazy('international_online_offer:hiring')
         if self.request.GET.get('next'):
             back_url = check_url_host_is_safelisted(self.request)
-
         return back_url
 
     def get_success_url(self):
@@ -401,11 +370,6 @@ class SpendView(GA360Mixin, FormView):
             if triage_data:
                 return {'spend': triage_data.spend, 'spend_currency': self.request.session.get('spend_currency')}
 
-        return {
-            'spend': self.request.session.get('spend'),
-            'spend_currency': self.request.session.get('spend_currency'),
-        }
-
     def form_valid(self, form):
         if self.request.user.is_authenticated:
             TriageData.objects.update_or_create(
@@ -414,9 +378,6 @@ class SpendView(GA360Mixin, FormView):
                     'spend': form.cleaned_data['spend'],
                 },
             )
-        else:
-            self.request.session['spend'] = form.cleaned_data['spend']
-
         calculate_and_store_is_high_value(self.request)
         return super().form_valid(form)
 
@@ -425,9 +386,9 @@ class ProfileView(GA360Mixin, FormView):
     form_class = forms.ProfileForm
     template_name = 'eyb/profile.html'
 
-    def get_success_url(self) -> str:
+    def get_success_url(self):
         if self.request.GET.get('signup'):
-            return '/international/expand-your-business-in-the-uk/guide/?signup=true'
+            return reverse_lazy('international_online_offer:sector') + '?signup=true'
         return '/international/expand-your-business-in-the-uk/guide/'
 
     def __init__(self):
@@ -504,30 +465,6 @@ class ProfileView(GA360Mixin, FormView):
                 hashed_uuid=self.request.user.hashed_uuid,
                 defaults=form.cleaned_data,
             )
-
-            session_data_triage_object = {}
-            for key in [
-                'sector',
-                'sector_sub',
-                'intent',
-                'intent_other',
-                'location',
-                'location_city',
-                'location_none',
-                'hiring',
-                'spend',
-                'spend_other',
-                'is_high_value',
-            ]:
-                if self.request.session.get(key):
-                    session_data_triage_object[key] = self.request.session.get(key)
-                    del self.request.session[key]
-
-            TriageData.objects.update_or_create(
-                hashed_uuid=self.request.user.hashed_uuid,
-                defaults=session_data_triage_object,
-            )
-
         return super().form_valid(form)
 
 
