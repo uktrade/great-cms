@@ -177,145 +177,87 @@
                             </div>
                             <div class="govuk-grid-column-full">
                                 <div class="article-list-item">
-                                    {% if eyb_user %}
-                                        <a class="article-list-item-a"
-                                           href="{% url 'international_online_offer:trade-associations' %}">
-                                        {% else %}
-                                            <a class="article-list-item-a"
-                                               href="{% url 'international_online_offer:signup' %}">
-                                            {% endif %}
-                                            <div class="govuk-grid-row">
-                                                <div class="govuk-grid-column-one-third">
-                                                    <div class="image-container"
-                                                         alt="Buinsess people talking about how trade associations can help a business grow"
-                                                         style="background-image: url({% static 'images/trade_associations.png' %})">
-                                                        {% if not eyb_user %}
-                                                            <div class="image-container-lock-overlay">
-                                                                <div class="article-lock"></div>
-                                                            </div>
-                                                        {% endif %}
-                                                    </div>
-                                                </div>
-                                                <div class="govuk-grid-column-two-thirds">
-                                                    <h3 class="govuk-heading-m article-list-item-title">Trade associations</h3>
-                                                    <p class="govuk-body article-list-item-teaser">
-                                                        Joining a UK trade association can be a useful way to find new clients and form partnerships.
-                                                    </p>
-                                                    {% if not eyb_user %}
-                                                        <div class="article-lock-text">
-                                                            <strong class="govuk-tag govuk-tag--blue">SIGN UP TO UNLOCK</strong>
-                                                        </div>
-                                                    {% endif %}
+                                    <a class="article-list-item-a"
+                                       href="{% url 'international_online_offer:trade-associations' %}">
+                                        <div class="govuk-grid-row">
+                                            <div class="govuk-grid-column-one-third">
+                                                <div class="image-container"
+                                                     alt="Buinsess people talking about how trade associations can help a business grow"
+                                                     style="background-image: url({% static 'images/trade_associations.png' %})">
                                                 </div>
                                             </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            {% endif %}
-                            <div class="govuk-grid-column-full">
-                                {% for page in get_to_know_market_articles %}
-                                    {% image page.article_image original as rendition %}
-                                    <div class="article-list-item">
-                                        {% if eyb_user %}
-                                            <a href="{{ page.url }}?back=true">
-                                            {% else %}
-                                                <a href="{% url 'international_online_offer:signup' %}">
-                                                {% endif %}
-                                                <div class="govuk-grid-row">
-                                                    <div class="govuk-grid-column-one-third">
-                                                        <div class="image-container"
-                                                             style="background-image: url({{ rendition.url }})">
-                                                            {% if not eyb_user %}
-                                                                <div class="image-container-lock-overlay">
-                                                                    <div class="article-lock"></div>
-                                                                </div>
-                                                            {% endif %}
-                                                        </div>
-                                                    </div>
-                                                    <div class="govuk-grid-column-two-thirds">
-                                                        <h3 class="govuk-heading-m article-list-item-title">{{ page.article_title }}</h3>
-                                                        <p class="govuk-body article-list-item-teaser">{{ page.article_teaser }}</p>
-                                                        {% if not eyb_user %}
-                                                            <div class="article-lock-text">
-                                                                <strong class="govuk-tag govuk-tag--blue">SIGN UP TO UNLOCK</strong>
-                                                            </div>
-                                                        {% endif %}
-                                                    </div>
-                                                </div>
-                                            </a>
+                                            <div class="govuk-grid-column-two-thirds">
+                                                <h3 class="govuk-heading-m article-list-item-title">Trade associations</h3>
+                                                <p class="govuk-body article-list-item-teaser">
+                                                    Joining a UK trade association can be a useful way to find new clients and form partnerships.
+                                                </p>
+                                            </div>
                                         </div>
-                                    {% endfor %}
+                                    </a>
                                 </div>
                             </div>
                         {% endif %}
-                        {% if finance_and_support_articles %}
-                            <div class="govuk-grid-row">
-                                <div class="govuk-grid-column-full">
-                                    <h2 class="govuk-heading-l">Finance and support</h2>
-                                    <p class="govuk-body">
-                                        Find out about getting access to finance, plus the financial incentives and support available when you set up your business in the UK.
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="govuk-grid-row govuk-!-margin-bottom-6">
-                                <div class="govuk-grid-column-full">
-                                    {% for page in finance_and_support_articles %}
-                                        {% image page.article_image original as rendition %}
-                                        <div class="article-list-item">
-                                            {% if eyb_user %}
-                                                <a href="{{ page.url }}?back=true">
-                                                {% else %}
-                                                    <a href="{% url 'international_online_offer:signup' %}">
-                                                    {% endif %}
-                                                    <div class="govuk-grid-row">
-                                                        <div class="govuk-grid-column-one-third">
-                                                            <div class="image-container"
-                                                                 style="background-image: url({{ rendition.url }})">
-                                                                {% if not eyb_user %}
-                                                                    <div class="image-container-lock-overlay">
-                                                                        <div class="article-lock"></div>
-                                                                    </div>
-                                                                {% endif %}
-                                                            </div>
-                                                        </div>
-                                                        <div class="govuk-grid-column-two-thirds">
-                                                            <h3 class="govuk-heading-m article-list-item-title">{{ page.article_title }}</h3>
-                                                            <p class="govuk-body article-list-item-teaser">{{ page.article_teaser }}</p>
-                                                            {% if not eyb_user %}
-                                                                <div class="article-lock-text">
-                                                                    <strong class="govuk-tag govuk-tag--blue">SIGN UP TO UNLOCK</strong>
-                                                                </div>
-                                                            {% endif %}
-                                                        </div>
-                                                    </div>
-                                                </a>
+                        <div class="govuk-grid-column-full">
+                            {% for page in get_to_know_market_articles %}
+                                {% image page.article_image original as rendition %}
+                                <div class="article-list-item">
+                                    <a href="{{ page.url }}?back=true">
+                                        <div class="govuk-grid-row">
+                                            <div class="govuk-grid-column-one-third">
+                                                <div class="image-container"
+                                                     style="background-image: url({{ rendition.url }})"></div>
                                             </div>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            {% endif %}
-                            {% if not eyb_user %}
-                                <div class="govuk-grid-row">
-                                    <div class="govuk-grid-column-full">
-                                        <div class="govuk-inset-text">
-                                            <strong>Don't forget to share your contact details</strong> to keep up to date with our personalised service. You may be eligible for 1 to 1 support.
-                                            {% if complete_contact_form_link and complete_contact_form_link_text %}
-                                                <a class="govuk-notification-banner__link"
-                                                   href="{% url complete_contact_form_link %}">{{ complete_contact_form_link_text }}</a>.
-                                            {% endif %}
+                                            <div class="govuk-grid-column-two-thirds">
+                                                <h3 class="govuk-heading-m article-list-item-title">{{ page.article_title }}</h3>
+                                                <p class="govuk-body article-list-item-teaser">{{ page.article_teaser }}</p>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </a>
                                 </div>
-                            {% endif %}
+                            {% endfor %}
                         </div>
                     </div>
+                {% endif %}
+                {% if finance_and_support_articles %}
                     <div class="govuk-grid-row">
-                        <div class="govuk-grid-column-full">{% include './includes/csat_rating.html' with user_journey='DASHBOARD' %}</div>
+                        <div class="govuk-grid-column-full">
+                            <h2 class="govuk-heading-l">Finance and support</h2>
+                            <p class="govuk-body">
+                                Find out about getting access to finance, plus the financial incentives and support available when you set up your business in the UK.
+                            </p>
+                        </div>
                     </div>
-                </div>
-            {% endblock %}
-            {% block body_js %}
-                {{ block.super }}
-                <script type="text/javascript"
-                        src="{% static 'javascript/expand-your-business.js' %}"></script>
-            {% endblock %}
+                    <div class="govuk-grid-row govuk-!-margin-bottom-6">
+                        <div class="govuk-grid-column-full">
+                            {% for page in finance_and_support_articles %}
+                                {% image page.article_image original as rendition %}
+                                <div class="article-list-item">
+                                    <a href="{{ page.url }}?back=true">
+                                        <div class="govuk-grid-row">
+                                            <div class="govuk-grid-column-one-third">
+                                                <div class="image-container"
+                                                     style="background-image: url({{ rendition.url }})"></div>
+                                            </div>
+                                            <div class="govuk-grid-column-two-thirds">
+                                                <h3 class="govuk-heading-m article-list-item-title">{{ page.article_title }}</h3>
+                                                <p class="govuk-body article-list-item-teaser">{{ page.article_teaser }}</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">{% include './includes/csat_rating.html' with user_journey='DASHBOARD' %}</div>
+        </div>
+    </div>
+{% endblock %}
+{% block body_js %}
+    {{ block.super }}
+    <script type="text/javascript"
+            src="{% static 'javascript/expand-your-business.js' %}"></script>
+{% endblock %}
