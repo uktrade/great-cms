@@ -30,19 +30,12 @@ const Form = ({
     autoComplete="new-off"
   >
     {showTitle && (
-      <h3 className="h-s p-t-xs">
+      <h3 className="govuk-heading-m govuk-!-margin-top-8 govuk-!-margin-bottom-6">
         Create an account
       </h3>
     )}
 
-    <p className="m-b-s">
-      Already have an account?{' '}
-      <a
-        href={Services.config.loginUrl} id="signup-modal-log-in"
-      >
-        Sign in
-      </a>
-    </p>
+
     <Input
       label="Email address"
       id="email"
@@ -66,6 +59,8 @@ const Form = ({
       label="Password"
       id="password"
       type="password"
+      description="Your password must have at least 10 characters, including letters and numbers."
+      descriptionClassName= 'govuk-!-margin-bottom-1 great-font-main great-line-height-30 great-font-size-18 govuk-body-l great-text-dark-grey'
       disabled={disabled}
       value={password}
       onChange={(item) => handlePasswordChange(item.password)}
@@ -79,14 +74,14 @@ const Form = ({
     <button
       type="submit"
       id="signup-modal-submit"
-      className="button primary-button width-full m-t-xs"
+      className="button great-border-bottom-black primary-button govuk-!-margin-top-1"
       disabled={disabled}
     >
-      Sign up
+      Create Account
     </button>
     {SHOW_SOCIAL_LOGIN && (
       <>
-        <div className="vertical-seperator">
+        <div className="govuk-!-margin-top-4 govuk-!-margin-bottom-4">
           <hr className="bg-blue-deep-10" />
           <span>or</span>
           <hr className="bg-blue-deep-10" />
@@ -98,6 +93,14 @@ const Form = ({
         />
       </>
     )}
+     <p className="govuk-!-margin-bottom-6">
+      Already have an account?{' '}
+      <a
+        href={Services.config.loginUrl} id="signup-modal-log-in"
+      >
+        Sign in
+      </a>
+    </p>
   </form>
 )
 

@@ -5,7 +5,7 @@ from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from django.urls import reverse
 
 from config import settings
-from export_academy import forms, helpers
+from export_academy import helpers
 from export_academy.models import Registration
 from sso_profile.enrolment.constants import RESEND_VERIFICATION
 
@@ -103,12 +103,6 @@ class HandleNewAndExistingUsersMixin:
         context = super().get_context_data(**kwargs)
         context['existing_ea_user'] = self.get_ea_user() is not None
         return context
-
-    def get_form_class(self):
-        if self.get_ea_user():
-            return forms.ChoosePasswordForm
-        else:
-            return forms.SignUpForm
 
     def get_initial(self):
         initial = super().get_initial()

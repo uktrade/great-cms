@@ -27,17 +27,10 @@ export const Form = ({
         handleSubmit()
       }}
     >
-      <h3 className="h-s p-t-xs">Sign in</h3>
-      <p className="m-b-s">
-        Don&apos;t have an account?{' '}
-        <a
-          href={Services.config.signupUrl}
-        >
-          Sign up
-        </a>
-      </p>
+      <h3 className="govuk-heading-m govuk-!-margin-top-8 govuk-!-margin-bottom-6">Sign in</h3>
+
       {/* eslint-disable-next-line no-underscore-dangle,react/prop-types */}
-      <ErrorList errors={errors.__all__ || []} className="m-b-s" />
+      <ErrorList errors={errors.__all__ || []} className="govuk-!-margin-bottom-2" />
       <Input
         label="Email address"
         id="email"
@@ -58,7 +51,7 @@ export const Form = ({
       />
       <a
         href={Services.config.passwordResetUrl}
-        className="inline-block"
+        className="inline-block govuk-!-margin-bottom-4"
       >
         Forgotten password?
       </a>
@@ -66,7 +59,7 @@ export const Form = ({
       <button
         type="submit"
         id="signup-modal-submit"
-        className="primary-button button--full-width m-t-xs"
+        className="primary-button great-border-bottom-black govuk-!-margin-top-1"
         disabled={disabled}
       >
         Sign in
@@ -85,6 +78,14 @@ export const Form = ({
           />
         </>
       )}
+      <p className="govuk-!-margin-bottom-2">
+        Don&apos;t have an account?{' '}
+        <a
+          href={Services.config.signupUrl}
+        >
+          Sign up
+        </a>
+      </p>
     </form>
   </>
 )
