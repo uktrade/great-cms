@@ -8,26 +8,45 @@ $banner: url(/static/images/great-banner-large.png);
 $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
 
 
+
+
 #sign-up,
 #login {
   h1 {
-    font-family: $main-text-font;
-    font-weight: $font-weight-standard;
+    font-family: $header-font;
+    font-weight: $font-weight-semi-bold;
   }
 
   h3 {
     color: $color-main-text;
   }
 
+  .hide-logo-below-1200 {
+    @media only screen and (max-width: 1200px) {
+      display: none;
+    }
+  }
 
   .signup__form-panel,
   .great-signup__form-panel {
-    max-height: 100vh;
+    max-height: auto;
     overflow: auto;
 
     #get-in-touch {
       font-size: $font-size-p;
       color: $color-main-text;
+    }
+
+    .form-label { 
+      font-family: $header-font !important;
+      font-size: $font-size-p;
+      font-style: normal;
+      font-weight: $font-weight-semi-bold;
+      line-height: $h5-line-height; 
+    } 
+
+    .great-border-bottom-black {
+      border-bottom: 3px solid #003078;
     }
 
     @media only screen and (max-width: 900px) {
@@ -58,19 +77,30 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
       right: -50px;
 
       @media only screen and (max-width: 1200px) {
-        height: 104px;
-        width: 308px;
+        display:none;
       }
     }
 
     &.login-panel {
       background: $login-image;
-      background-size: auto 55vh !important;
+      background-size: auto 45vh !important;
+
+      &.hide_image_below_1200 {
+        @media screen and (max-width: 1200px) {
+          background: none;
+        }
+      }
     }
 
     &.signup-panel {
       background: $signup-image;
       background-size: auto 55vh !important;
+
+      &.hide_image_below_1200 {
+        @media screen and (max-width: 1200px) {
+          background: none;
+        }
+      }
     }
 
     &.ea-login-panel {
@@ -79,9 +109,8 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
 
     &.ea-signup-panel {
       background: $ea-signup-image;
-      background-size: auto 38%;
+      background-size: auto 50vh;
       padding-bottom: 300px !important;
-
 
       &.hide_image_below_1200 {
         @media screen and (max-width: 1200px) {
@@ -92,7 +121,7 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
   }
 
   .signup__info-panel__content {
-    padding: 6vh 60px;
+    padding: 145px 40px 40vh 40px;
     height: 100%;
   }
 
@@ -104,6 +133,8 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
     li {
       font-size: $font-size-h4;
       margin-bottom: $large-padding;
+      font-weight: $font-weight-standard;
+      line-height: $h5-line-height;
     }
   }
 }

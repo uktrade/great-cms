@@ -49,8 +49,29 @@ export const Login = ({ nextUrl, ...props }) => {
   const linkedinLoginUrl = `${Services.config.linkedInUrl}?next=${next}`
   const googleLoginUrl = `${Services.config.googleUrl}?next=${next}`
 
+  const subHeadings = [
+    'Compare international markets',
+    'Create an export action plan',
+    'Join the UK Export Academy',
+  ]
+
   return (
-    <div className="signup">
+    <div className="great signup">
+      <div className="signup__info-panel login-panel hide_image_below_1200">
+        <div className="signup__info-panel__content">
+          <h1 class='signup__info-panel__heading'>Get exporting and grow your business</h1>
+          <ul className="signup__info-panel__subheadings">
+            {subHeadings.map((heading) => (
+              <li key={heading}>
+                <span role="img" className="great-icon fas fa-check-circle" aria-hidden="true" />
+                <span>{heading}</span>
+              </li>
+            ))}
+            </ul>
+          <div class="great-logo hide-logo-below-1200">
+          </div>
+        </div>
+      </div>
       <div className="signup__form-panel">
         <a href="/" className="inline-block">
           <img
@@ -72,22 +93,6 @@ export const Login = ({ nextUrl, ...props }) => {
           linkedinLoginUrl={linkedinLoginUrl}
           googleLoginUrl={googleLoginUrl}
         />
-      </div>
-      <div className="signup__info-panel login-panel">
-        <div className="signup__info-panel__content">
-          <h1>
-            Sign in to continue your exporting journey
-          </h1>
-          <p className="body-l">Don&apos;t have an account?</p>
-          <a
-            href={Services.config.signupUrl}
-            className="button secondary-button"
-          >
-            Sign up
-          </a>
-          <div class="great-logo">
-          </div>
-        </div>
       </div>
     </div>
   )

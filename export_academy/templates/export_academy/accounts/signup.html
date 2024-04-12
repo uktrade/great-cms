@@ -1,26 +1,55 @@
 {% extends 'export_academy/accounts/base.html' %}
 {% load wagtailcore_tags %}
 {% block form %}
-    <h3 class="govuk-!-margin-top-3 govuk-!-margin-bottom-6">Sign up</h3>
-    <p class="govuk-body govuk-!-margin-top-6 govuk-!-margin-bottom-6">
-        Already have an account? <a class="govuk-link"
-    href="{% url 'export_academy:signin' %}{% if next %}?next={{ next }}{% endif %}">Sign in</a>
-        {% csrf_token %}
-        {% for field in form.visible_fields %}
+    <h3 class="govuk-heading-m govuk-!-margin-top-8 govuk-!-margin-bottom-6">Create an account</h3>
+    {% csrf_token %}
+    {% for field in form.visible_fields %}
+        {% if field.label != 'UK telephone number' %}
             <div class="govuk-form-group {% if field.errors %}govuk-form-group--error govuk-!-margin-top-6{% endif %}">
-                {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
+                {% if field.label == 'Password' %}
+                    {% include 'domestic/contact/includes/govuk-form-field.html' with field=field label_classes='great-signup-form-label great-font-weight-semi-bold great-font-size-18 great-line-height-30' help_text_classes='govuk-!-padding-bottom-1 great-line-height-30 great-font-size-18 govuk-body-l great-text-dark-grey' %}
+                {% else %}
+                    {% include 'domestic/contact/includes/govuk-form-field.html' with field=field label_classes='great-signup-form-label great-font-weight-semi-bold great-font-size-18 great-line-height-30' %}
+                {% endif %}
             </div>
-        {% endfor %}
-        <p class="govuk-!-margin-bottom-2">
-            By signing up, you agree to our
-            <a class="govuk-link" href="{% slugurl 'terms-and-conditions' %}">terms and conditions</a> and
-            <a class="govuk-link" href="{% slugurl 'privacy-and-cookies' %}">privacy notice</a>
-        </p>
-        <button type="submit"
-                class="govuk-button govuk-!-margin-top-6 great-full-width-button">Sign up</button>
+        {% else %}
+            <div class="great-signup-telephone-details govuk-!-margin-bottom-6 {% if field.errors %}govuk-form-group--error{% endif %}">
+                <details class="govuk-!-margin-bottom-3">
+                    <summary class="great-signup-summary disable-pointer-events">
+                        <span class="great-signup-form-label govuk-!-display-inline great-dark-grey">UK telephone number (optional)</span>
+                        <span role="button"
+                              class="fa fa-lg fa-info-circle border-on-focus enable-pointer-events"></span>
+                    </summary>
+                    <div class="g-panel govuk-!-margin-top-2 govuk-!-margin-bottom-2">
+                        <p class="govuk-body-s great-line-height-20">
+                            By providing your phone number, you agree to be contacted by DBT to gather feedback on your experiences of great.gov.uk.
+                        </p>
+                    </div>
+                </details>
+                {% for error in field.errors %}
+                    <p class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> {{ error }}
+                    </p>
+                {% endfor %}
+                {{ field }}
+            </div>
+        {% endif %}
+    {% endfor %}
+    <p class="govuk-!-margin-bottom-2 great-font-size-18 great-line-height-30">
+        By signing up, you agree to our
+        <a class="govuk-link great-font-size-18 great-line-height-30"
+           href="{% slugurl 'terms-and-conditions' %}">terms and conditions</a> and
+        <a class="govuk-link great-font-size-18 great-line-height-30"
+           href="{% slugurl 'privacy-and-cookies' %}">privacy notice</a>
+    </p>
+    <button type="submit"
+            class="govuk-button govuk-!-margin-top-6 great-border-bottom-black">Create account</button>
+    <p class="govuk-body govuk-!-margin-bottom-6 great-font-size-18 great-line-height-30">
+        Already have an account? <a class="govuk-link great-font-size-18 great-line-height-30"
+    href="{% url 'export_academy:signin' %}{% if next %}?next={{ next }}{% endif %}">Sign in</a>
     {% endblock %}
     {% block small_screen_heading %}{{ heading }}{% endblock %}
-    {% block left_panel_heading %}{{ heading }}{% endblock %}
-    {% block left_panel_content %}
+    {% block right_panel_heading %}{{ heading }}{% endblock %}
+    {% block right_panel_content %}
         {% include 'export_academy/accounts/includes/new_user_body_text.html' %}
     {% endblock %}

@@ -256,6 +256,23 @@ class EventAdminModelForm(WagtailAdminModelForm):
 
 class ChoosePasswordForm(forms.Form):
     email = forms.EmailField(label='Email address choose password', required=True, widget=HiddenInput)
+    mobile_phone_number = forms.CharField(label='Telephone number choose password', required=False, widget=HiddenInput)
+    password = forms.CharField(
+        widget=PasswordInput,
+        label='Password',
+        error_messages={
+            'required': 'Enter a password',
+        },
+    )
+
+
+class SignInForm(forms.Form):
+    email = forms.EmailField(
+        label='Email address',
+        error_messages={
+            'required': 'Enter an email address',
+        },
+    )
     password = forms.CharField(
         widget=PasswordInput,
         label='Password',
@@ -272,9 +289,19 @@ class SignUpForm(forms.Form):
             'required': 'Enter an email address',
         },
     )
+    mobile_phone_number = forms.CharField(
+        label='UK telephone number',
+        validators=[is_valid_uk_phone_number],
+        error_messages={
+            'invalid': PHONE_INVALID_MESSAGE,
+        },
+        required=False,
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
+    )
     password = forms.CharField(
         widget=PasswordInput,
         label='Password',
+        help_text='Your password must have at least 10 characters, including letters and numbers.',
         error_messages={
             'required': 'Enter a password',
         },
