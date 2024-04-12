@@ -130,11 +130,6 @@
             {% include 'components/google_tag_manager_body.html' %}
         {% endblock %}
         <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled')</script>
-        {% if not hide_cookie_notice %}
-            {% block cookie_notice %}
-                {% include 'components/cookie_notice.html' %}
-            {% endblock %}
-        {% endif %}
         {% block skip_link %}
             <a href="#content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
         {% endblock %}
