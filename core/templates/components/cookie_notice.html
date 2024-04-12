@@ -8,6 +8,14 @@
          role="region"
          aria-label="Cookies on great.gov.uk"
          aria-live="polite">
-        <div class="great great-overflow-visible great-container cookie-notice-container">Hello</div>
+        <div class="great great-overflow-visible great-container cookie-notice-container">
+            <h2 aria-hidden="true" class="govuk-heading-s">{% translate "Cookies on great.gov.uk" %}</h2>
+            <p>
+                {% blocktranslate asvar cookie_message %}
+Hello                {% endblocktranslate %}
+                {{ cookie_message|safe }}
+            </p>
+            <button class="govuk-button govuk-!-margin-top-1 cookie-close">{% translate "Hide cookies message" %}</button>
+        </div>
     </div>
 {% endlanguage %}
