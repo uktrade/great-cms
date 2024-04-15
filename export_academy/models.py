@@ -269,6 +269,7 @@ class Registration(TimeStampedModel):
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
+    mobile_phone_number = models.CharField(max_length=255, blank=True)
     data = models.JSONField(blank=True, default=dict)
 
     class Meta:

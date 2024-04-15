@@ -500,11 +500,19 @@ class SignUpView(HandleNewAndExistingUsersMixin, VerificationLinksMixin, sso_mix
         sso_helpers.notify_already_registered(email=email, form_url=self.request.path, login_url=self.get_login_url())
         return HttpResponseRedirect(self.get_redirect_url(user_registered=self.get_ea_user()))
 
+    def get_form_class(self):
+        if self.get_ea_user():
+            return forms.ChoosePasswordForm
+        else:
+            return forms.SignUpForm
+
     def do_sign_up_flow(self, request):
         form = self.get_form()
         if form.is_valid():
             response = sso_api_client.user.create_user(
-                email=form.cleaned_data['email'].lower(), password=form.cleaned_data['password']
+                email=form.cleaned_data['email'].lower(),
+                password=form.cleaned_data['password'],
+                mobile_phone_number=form.cleaned_data['mobile_phone_number'],
             )
             if response.status_code == 400:
                 self.handle_400_response(response, form)
@@ -617,6 +625,12 @@ class SignInView(HandleNewAndExistingUsersMixin, sso_mixins.SignInMixin, FormVie
     def get_success_url(self):
         next = self.request.GET.get('next')
         return self.success_url if not next else next
+
+    def get_form_class(self):
+        if self.get_ea_user():
+            return forms.ChoosePasswordForm
+        else:
+            return forms.SignInForm
 
     def do_sign_in_flow(self, request):
         form = self.get_form()
