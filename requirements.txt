@@ -109,7 +109,7 @@ directory-constants==24.1.3
     #   -r requirements.in
     #   directory-components
     #   great-components
-directory-forms-api-client==7.3.4
+directory-forms-api-client==7.4.2
     # via -r requirements.in
 directory-healthcheck==3.5
     # via -r requirements.in
@@ -179,9 +179,7 @@ django-redis==5.4.0
 django-staff-sso-client==4.2.2
     # via -r requirements.in
 django-storages[boto3]==1.13.2
-    # via
-    #   -r requirements.in
-    #   django-storages
+    # via -r requirements.in
 django-taggit==4.0.0
     # via wagtail
 django-timezone-field==6.1.0
@@ -500,9 +498,7 @@ webencodings==0.5.1
 whitenoise==6.6.0
     # via -r requirements.in
 willow[heif]==1.6.3
-    # via
-    #   wagtail
-    #   willow
+    # via wagtail
 xhtml2pdf==0.2.15
     # via -r requirements.in
 
