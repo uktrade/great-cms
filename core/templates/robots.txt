@@ -11,3 +11,5 @@ Disallow: /
 
 User-agent: Bytespider
 Disallow: /
+
+Sitemap: {{base_url}}/sitemap.xml
