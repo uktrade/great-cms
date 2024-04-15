@@ -2,7 +2,7 @@ module.exports = {
   ci: {
     collect: {
       numberOfRuns: 3,
-      startServerCommand: 'DEBUG=True make webserver',
+      startServerCommand: 'DEBUG=False make webserver',
       url: ['http://localhost:8020/'],
       settings: {
         onlyCategories: [
