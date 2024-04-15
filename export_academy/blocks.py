@@ -28,7 +28,6 @@ class SeriesBlock(blocks.StructBlock):
 
 
 class SeriesSectionBlock(blocks.StructBlock):
-    series_section_header = blocks.CharBlock(max_length=255, required=False)
     series_section_description = blocks.RichTextBlock(max_length=255, required=False)
     series_list = blocks.StreamBlock([('Series', SeriesBlock())], required=False)
 
