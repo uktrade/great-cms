@@ -20,14 +20,15 @@
                     </div>
                     <div class="column-half">
                         <a href="#"
+                           id="cookie-notice-accept-all"
                            class="govuk-button margin-top-30 margin-top-0-m  margin-right-15-m margin-bottom-30 margin-bottom-15-m button-accept">{% translate 'Accept all cookies' %}</a>
-                        <a href="{% url 'core:cookie-preferences' %}" class="govuk-button">{% translate 'Set cookie preferences' %}</a>
+                        <a href="{% url 'core:cookie-preferences' %}" id="cookie-notice-set-preferences" class="govuk-button">{% translate 'Set cookie preferences' %}</a>
                     </div>
                 </div>
                 <div class="cookie-confirmation">
                     <div class="column-full padding-right-30">
                         <p>
-                            {% translate "You've accepted all cookies. You can " %}<a class="link" href="{% url 'core:cookie-preferences' %}">{% translate 'change your settings' %}</a> {% translate 'at any time.' %}
+                            {% translate "You've accepted all cookies. You can " %}<a class="link" id="cookie-notice-change-preferences" href="{% url 'core:cookie-preferences' %}">{% translate 'change your settings' %}</a> {% translate 'at any time.' %}
                         </p>
                     </div>
                 </div>
