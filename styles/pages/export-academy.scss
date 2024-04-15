@@ -114,6 +114,15 @@
 }
 
 .ea-signup-panel {
+  margin-top: 145px;
+  h1 {
+    color: #222;
+    font-size: $font-size-h3;
+    font-style: normal;
+    font-weight: $font-weight-semi-bold;
+    line-height: $h3-line-height; 
+  }
+
   .ea-logo {
     position: absolute;
     width: 210px;
@@ -129,22 +138,16 @@
       left: calc(50% + 200px);
     }
 
-    &.hide-logo-below-1200 {
-      @media only screen and (max-width: 1200px) {
-        display: none;
-      }
-    }
   }
 
   .standard-ea-sign-in-text {
     > p,
     span,
     a {
-      line-height: 32px !important;
-      font-size: 24px !important;
-      @media screen and (min-width: 1200px) and (max-width: 1310px) {
-        font-size: 20px !important;
-      }
+      line-height: $h5-line-height;
+      font-size: $font-size-h5 ;
+      font-weight: $regular-font-weight;
+      font-style: normal;
     }
   }
 }
@@ -193,6 +196,48 @@
       }
     }
   }
+}
+
+.great-signup-telephone-details{
+  details[open] {
+    max-height: 240px;
+  }
+  details:not([open]) {
+    max-height: 80px;
+  }
+  details {   
+    transition: max-height 0.3s ease;
+    overflow-y: hidden;
+    > div {
+      margin-left: 0px;
+    } 
+  }
+
+  /* disabling pointer events on the text span within summary has no effect,
+  disabling on the summary and overriding on the icon enables expansion with only the icon */
+  .disable-pointer-events{ 
+    pointer-events: none;
+    cursor: default;
+  }
+  summary {
+    .enable-pointer-events{
+      pointer-events: auto;
+      cursor: pointer;
+    }
+    &:focus {
+      outline: none;
+    }
+    &:focus > .border-on-focus {
+      padding-top: 4px;
+      padding-bottom:4px;
+      outline: 3px solid #ffd000;
+    }
+    &::marker, &::-webkit-details-marker, &::before { // Remove arrow marker on different browsers/versions
+      content: "" !important;
+      display:none !important;
+    }
+  }
+  margin-bottom: govuk-spacing(6);
 }
 
 .event-title {
@@ -521,11 +566,6 @@
     bottom: 20px;
     right: 0px;
     width: 138px;
-    @media only screen and (max-width: 900px) {
-      left: auto;
-      right: 0px;
-      width: 30%;
-    }
   }
 }
 

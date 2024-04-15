@@ -192,3 +192,11 @@ $regular-font-weight: 400;
   color: #505a5f !important;
   font-family: $main-text-font !important;
 }
+
+.great-signup-form-label {
+  font-family: $header-font !important;
+  font-size: $font-size-p;
+  font-style: normal;
+  font-weight: $font-weight-semi-bold;
+  line-height: $h5-line-height;
+}
