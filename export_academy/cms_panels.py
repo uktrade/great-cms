@@ -38,23 +38,7 @@ class ExportAcademyPagePanels:
                 FieldPanel('steps'),
             ],
         ),
-        MultiFieldPanel(
-            heading='Main Content',
-            classname='collapsible',
-            children=[
-                FieldPanel('panel_description'),
-                FieldPanel('panels'),
-            ],
-        ),
-        FieldPanel(
-            'events_and_series'
-        ),
-        FieldPanel(
-            'next_cta',
-        ),
-                FieldPanel(
-            'series_list',
-        ),
+        FieldPanel('events_and_series'),
     ]
 
     settings_panels = [
