@@ -43,7 +43,8 @@
            href="{% slugurl 'privacy-and-cookies' %}">privacy notice</a>
     </p>
     <button type="submit"
-            class="govuk-button govuk-!-margin-top-6 great-border-bottom-black">Create account</button>
+            id="signup-modal-submit"
+            class="govuk-button govuk-!-margin-top-6 great-border-bottom-black">Create Account</button>
     <p class="govuk-body govuk-!-margin-bottom-6 great-font-size-18 great-line-height-30">
         Already have an account? <a class="govuk-link great-font-size-18 great-line-height-30"
     href="{% url 'export_academy:signin' %}{% if next %}?next={{ next }}{% endif %}">Sign in</a>
