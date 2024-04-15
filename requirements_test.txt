@@ -159,12 +159,12 @@ directory-client-core==7.2.13
     #   directory-sso-api-client
 directory-components==40.2.3
     # via -r requirements.in
-directory-constants==24.1.2
+directory-constants==24.1.3
     # via
     #   -r requirements.in
     #   directory-components
     #   great-components
-directory-forms-api-client==7.3.4
+directory-forms-api-client==7.4.2
     # via -r requirements.in
 directory-healthcheck==3.5
     # via -r requirements.in
@@ -239,9 +239,7 @@ django-redis==5.4.0
 django-staff-sso-client==4.2.2
     # via -r requirements.in
 django-storages[boto3]==1.13.2
-    # via
-    #   -r requirements.in
-    #   django-storages
+    # via -r requirements.in
 django-taggit==4.0.0
     # via wagtail
 django-timezone-field==6.1.0
@@ -292,9 +290,9 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==24.7.1
+faker==24.8.0
     # via factory-boy
-filelock==3.13.3
+filelock==3.13.4
     # via virtualenv
 filetype==1.2.0
     # via willow
@@ -334,7 +332,7 @@ gevent==24.2.1
     # via
     #   geventhttpclient
     #   locust
-geventhttpclient==2.0.12
+geventhttpclient==2.1.1
     # via locust
 gitdb==4.0.11
     # via gitpython
@@ -362,7 +360,7 @@ icalendar==5.0.11
     # via -r requirements.in
 identify==2.5.35
     # via pre-commit
-idna==3.6
+idna==3.7
     # via
     #   requests
     #   trio
@@ -409,7 +407,7 @@ jsonschema==3.2.0
     #   directory-components
     #   drf-spectacular
     #   great-components
-kombu==5.3.6
+kombu==5.3.7
     # via celery
 l18n==2021.3
     # via wagtail
@@ -689,7 +687,6 @@ six==1.16.0
     #   asttokens
     #   cssbeautifier
     #   elasticsearch-dsl
-    #   geventhttpclient
     #   html5lib
     #   jsbeautifier
     #   jsonschema
@@ -794,6 +791,7 @@ urllib3[socks]==1.26.18
     #   directory-validators
     #   elastic-apm
     #   elasticsearch
+    #   geventhttpclient
     #   requests
     #   selenium
     #   sentry-sdk
@@ -851,9 +849,7 @@ wheel==0.43.0
 whitenoise==6.6.0
     # via -r requirements.in
 willow[heif]==1.6.3
-    # via
-    #   wagtail
-    #   willow
+    # via wagtail
 wsproto==1.2.0
     # via trio-websocket
 xhtml2pdf==0.2.15
