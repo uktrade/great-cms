@@ -686,7 +686,7 @@ def send_notifications_for_all_bookings(event_id, template_id, additional_notify
         # Trigger the action (post it to the directory-forms-api endpoint /api/v2/bulk-email-notification)
         action.save(notify_data)
 
-    except Exception as e:
+    except Exception as e:  # noqa
         sentry_sdk.capture_message(f'Sending booking notification email failed for {event_id}: {e}', 'fatal')
 
     send_notifications_for_all_bookings_report_to_sentry(event_id, total_bookings)
