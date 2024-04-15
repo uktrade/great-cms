@@ -84,7 +84,7 @@
             </style>
         </noscript>
         {% block vendor_js %}
-            <script src="{% static 'javascript/vendor/details-polyfill.js' %}"></script>
+            <script src="{% static 'javascript/vendor/details-polyfill.js' %}" defer></script>
             <script src="{% static 'javascript/vendor/jquery-3.6.0.min.js' %}"></script>
         {% endblock %}
         {% block head_js %}
@@ -117,9 +117,9 @@
             </script>
         {% endblock %}
         {% block header_js %}
-            <script src="{% static 'javascript/dit.responsive.js' %}"></script>
-            <script src="{% static 'javascript/dit.utils.js' %}"></script>
-            <script src="{% static 'common.js' %}"></script>
+            <script src="{% static 'javascript/dit.responsive.js' %}" defer></script>
+            <script src="{% static 'javascript/dit.utils.js' %}" defer></script>
+            <script src="{% static 'common.js' %}" defer></script>
         {% endblock %}
         {% block head_other %}
             {% include 'components/browser_check.html' %}
