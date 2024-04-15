@@ -13,8 +13,8 @@ from django.utils.text import slugify
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
-from taggit.models import ItemBase, TagBase
 from taggit.managers import TaggableManager
+from taggit.models import ItemBase, TagBase
 from wagtail.fields import RichTextField, StreamField
 from wagtail.snippets.models import register_snippet
 
@@ -25,7 +25,13 @@ from core.constants import (
     RICHTEXT_FEATURES__REDUCED__DISALLOW_H2,
 )
 from core.fields import single_struct_block_stream_field_factory
-from core.models import CountryTag, GreatMedia, SectorTag, TimeStampedModel, TypeOfExportTag
+from core.models import (
+    CountryTag,
+    GreatMedia,
+    SectorTag,
+    TimeStampedModel,
+    TypeOfExportTag,
+)
 from core.templatetags.content_tags import format_timedelta
 from domestic.models import BaseContentPage
 from export_academy import managers
@@ -128,6 +134,7 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
     )
 
     completed = models.DateTimeField(null=True, blank=True)
+    completed_email_sent = models.BooleanField(default=False)
     live = models.DateTimeField(null=True, blank=True)
     closed = models.BooleanField(default=False)
     slug = models.SlugField(null=True, unique=True, max_length=255)
@@ -299,7 +306,6 @@ class Booking(TimeStampedModel):
     status = models.CharField(choices=STATUSES, default=CONFIRMED, max_length=15)
     details_viewed = models.DateTimeField(null=True, blank=True)
     cookies_accepted_on_details_view = models.BooleanField(default=False)
-    event_completed_email_sent = models.BooleanField(default=False)
 
     @property
     def is_cancelled(self):
@@ -642,7 +648,7 @@ class VideoOnDemandPageTracking(TimeStampedModel):
         models.UniqueConstraint(fields=['user_email', 'event', 'video'], name='unique_vodpagetracking')
 
 
-def send_notifications_for_all_bookings(event_id, template_id, additional_notify_data=None, event_complete=None):
+def send_notifications_for_all_bookings(event_id, template_id, additional_notify_data=None):
     """
     This is a helper function that sends different types of email to users who have booked an event.
 
@@ -651,47 +657,43 @@ def send_notifications_for_all_bookings(event_id, template_id, additional_notify
     additional_notify_data: Optional dictionary to include additional data in the email.
     """
 
+    # Get Bookings associated with event
     bookings = Booking.objects.exclude(status='Cancelled').filter(event_id=event_id)
-
-    if event_complete:
-        bookings = bookings.exclude(event_completed_email_sent=True)
-
     total_bookings = bookings.count()
-    total_sent_emails = 0
+    notify_data = dict(template_id=template_id, bulk_email_entries=[])
 
-    for booking in bookings:
-        try:
-
-            # Get email data
-            notify_data = dict(first_name=booking.registration.first_name, event_name=booking.event.name)
-            if additional_notify_data:
-                notify_data.update(**additional_notify_data)
-
-            # Create email
-            action = actions.GovNotifyEmailAction(
+    try:
+        for booking in bookings:
+            # Create an email entry for each booking
+            email_entry = dict(
+                first_name=booking.registration.first_name,
+                event_name=booking.event.name,
                 email_address=booking.registration.email,
-                template_id=template_id,
-                form_url=str(),
             )
 
-            # Send email
-            action.save(notify_data)
-            total_sent_emails += 1
+            # If any additional arguments have been passed, add them to the email entry.
+            if additional_notify_data:
+                email_entry.update(**additional_notify_data)
 
-            # Change confirmation_email_sent flag to True
-            if event_complete:
-                booking.event_completed_email_sent = True
-                booking.save()
+            # Add it to our list of email submissions
+            notify_data['bulk_email_entries'].append(email_entry)
 
-        except Exception as e:
-            sentry_sdk.capture_message(
-                f'Sending booking notification email failed for {booking.registration.id}: {e}', 'fatal'
-            )
+        # Create the bulk email action on the directory-forms-api-client
+        action = actions.GovNotifyBulkEmailAction(
+            template_id=template_id,
+            form_url=str(),
+        )
 
-        send_notifications_for_all_bookings_report_to_sentry(event_id, total_bookings, total_sent_emails)
+        # Trigger the action (post it to the directory-forms-api endpoint /api/v2/bulk-email-notification)
+        action.save(notify_data)
+
+    except Exception as e:  # noqa
+        sentry_sdk.capture_message(f'Sending booking notification email failed for {event_id}: {e}', 'fatal')
+
+    send_notifications_for_all_bookings_report_to_sentry(event_id, total_bookings)
 
 
-def send_notifications_for_all_bookings_report_to_sentry(event_id, total_bookings, total_sent_emails):
+def send_notifications_for_all_bookings_report_to_sentry(event_id, total_bookings):
     """
     Helper function that sends a log to sentry at INFO level, logging how many emails have successfully been sent
     from a send_notifications_for_all_bookings() call.
@@ -699,6 +701,6 @@ def send_notifications_for_all_bookings_report_to_sentry(event_id, total_booking
 
     if total_bookings > 0:
         sentry_sdk.capture_message(
-            f'Events email notification report for Event {event_id}. {total_bookings} total, {total_sent_emails} emails'
-            f' sent'
+            f'Events bulk email notification report for Event {event_id}. {total_bookings} total sent to'
+            f' directory-forms-api'
         )
