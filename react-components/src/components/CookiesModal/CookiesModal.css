@@ -1,13 +1,8 @@
-.heading {
-  font-size: 24px;
-  margin: 0;
-}
-
 .synopsis {
   font-size: 19px;
   margin-bottom: 30px;
-  margin-top: 30px;
   text-align: left;
+  max-width: 800px;
 }
 
 .greatButton {
@@ -45,6 +40,12 @@
   align-items: baseline;
 }
 
+@media (max-width: 755px) {
+  .cookieLink {
+    flex: 1 1 100%;
+  }
+}
+
 @media (min-width: 500px) {
   :global .ReactModal__Content {
     padding: 52px!important;
@@ -53,10 +54,5 @@
   .greatButton {
     width: auto;
     margin-right: 20px;
-  }
-
-  .synopsis {
-    margin-top: 25px;
-    margin-bottom: 45px;
   }
 }

@@ -61,10 +61,12 @@ export function CookiesModal(props) {
 
   return (
     <Modal isOpen={isOpen} contentLabel="Cookies on great.gov.uk">
-      <h2 aria-hidden="true" className={`${styles.heading} heading-medium`}>
-        {translations[lang]["Cookies on great.gov.uk"]}
-      </h2>
-      <p className={`${styles.synopsis} body-text`}>
+      <div className='great'>
+        <h2 aria-hidden="true" className={`govuk-heading-m`}>
+          {translations[lang]["Cookies on great.gov.uk"]}
+        </h2>
+      </div>
+      <p className={`${styles.synopsis}`}>
         {translations[lang]["We use"]}{' '}
       </p>
       <div className={`${styles.buttonContainer} great great-overflow-visible`}>
@@ -80,12 +82,14 @@ export function CookiesModal(props) {
         >
           {translations[lang]["Reject additional cookies"]}
         </button>
-        <a
-          className={`govuk-link govuk-!-margin-bottom-1`}
-          href={props.preferencesUrl + window.location.search}
-        >
-          {translations[lang]["View cookies"]}
-        </a>
+        <div className={`${styles.cookieLink}`}>
+          <a
+            className={`govuk-link govuk-!-margin-bottom-1`}
+            href={props.preferencesUrl + window.location.search}
+          >
+            {translations[lang]["View cookies"]}
+          </a>
+        </div>
       </div>
     </Modal>
   )
