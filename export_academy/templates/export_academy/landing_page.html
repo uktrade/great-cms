@@ -90,7 +90,7 @@
                         <div class="govuk-grid-row great-flex-grid great-bg-light-blue">
                             {% for series in contentSection.value.series_list%}
                                 <div class="govuk-grid-column-full courses-container govuk-!-margin-bottom-8">
-                                    <a href="{{ page.course_cta_url }}" class="govuk-!-display-block">
+                                    <a href="{{ series.value.course_cta_url }}" class="govuk-!-display-block">
                                         <div class="great-bg-white great-display-flex-from-desktop">
                                             <div class="courses-container__text great-dep-homepage-title__text">
                                                 <h3 class="govuk-!-static-margin-bottom-4">{{ series.value.course_name }}</h3>
