@@ -27,7 +27,7 @@
             {% endfor %}
         </form>
         {% if not signed_in %}
-            <p class="govuk-body govuk-body govuk-!-margin-0">
+            <p class="govuk-body govuk-body govuk-!-margin-0 ukea-signin-link">
                 Already joined the UK Export Academy? <a href="{% url 'core:login' %}?next={{ request.get_full_path }}"
     class="govuk-link govuk-link--no-visited-state">Sign in</a>
             </p>
