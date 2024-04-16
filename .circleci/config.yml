@@ -214,6 +214,10 @@ jobs:
           paths:
             - 'node_modules'
       - run:
+          name: Start Web Server
+          background: true
+          command: make webserver
+      - run:
           name: Run lighthouse
           command: |
             python3 -m venv venv
