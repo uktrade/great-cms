@@ -148,6 +148,7 @@ class SpendCurrencySelectForm(forms.Form):
 class ProfileForm(forms.Form):
     company_name = CharField(
         label='Company name',
+        max_length=255,
         required=True,
         widget=TextInput(attrs={'class': 'govuk-input'}),
         error_messages={
@@ -163,6 +164,7 @@ class ProfileForm(forms.Form):
     )
     full_name = CharField(
         label='Full name',
+        max_length=255,
         required=True,
         widget=TextInput(attrs={'class': 'govuk-input'}),
         error_messages={
@@ -172,6 +174,7 @@ class ProfileForm(forms.Form):
     role = CharField(
         label='Role',
         help_text='Your role within the company',
+        max_length=255,
         required=True,
         widget=TextInput(attrs={'class': 'govuk-input'}),
         error_messages={
@@ -180,6 +183,7 @@ class ProfileForm(forms.Form):
     )
     email = forms.EmailField(
         label='Email',
+        max_length=255,
         required=True,
         widget=EmailInput(attrs={'class': 'govuk-input'}),
         error_messages={
@@ -189,6 +193,7 @@ class ProfileForm(forms.Form):
     telephone_number = CharField(
         label='Telephone number',
         help_text='Please include the country code',
+        max_length=255,
         required=True,
         widget=TextInput(attrs={'class': 'govuk-input'}),
         error_messages={
@@ -214,6 +219,7 @@ class ProfileForm(forms.Form):
     )
     company_website = CharField(
         label='Company website',
+        max_length=255,
         required=True,
         widget=TextInput(attrs={'class': 'govuk-input'}),
         error_messages={
