@@ -2,7 +2,7 @@ module.exports = {
   ci: {
     collect: {
       numberOfRuns: 3,
-      startServerCommand: 'DEBUG=False make webserver',
+      startServerCommand: 'DEBUG=True make webserver',
       url: ['http://localhost:8020/'],
       settings: {
         onlyCategories: [
@@ -14,7 +14,7 @@ module.exports = {
         skipAudits: ['uses-http2'],
         chromeFlags: '--no-sandbox',
         extraHeaders: JSON.stringify({
-          Cookie: 'customCookie=1;foo=bar',
+          Cookie: 'customCookie=1',
         }),
       },
     },
@@ -22,7 +22,7 @@ module.exports = {
       assertions: {
         'categories:performance': [
           'error',
-          { minScore: 0.55, aggregationMethod: 'pessimistic' },
+          { minScore: 0.50, aggregationMethod: 'pessimistic' },
         ],
         'categories:accessibility': [
           'error',

@@ -5,7 +5,7 @@ from utils.test_helpers import TestHelper
 
 class BaseEAPage(TestHelper):
     def click_accept_cookies(self):
-        accept_cookies_button = (By.LINK_TEXT, 'Accept all cookies')
+        accept_cookies_button = (By.LINK_TEXT, 'Accept additional cookies')
         self.do_click(accept_cookies_button)
 
     def click_breadcrumb(self, link_text):

@@ -24,6 +24,12 @@ export function CookiesModal(props) {
     setIsOpen(false)
   }
 
+  function handleRejectAllCookies(event) {
+    CookieManager.rejectAllCookiesAndShowSuccess(event)
+
+    setIsOpen(false)
+  }
+
   const handleFocusChange = (evt) => {
     if (focusTrap.current) {
       const modal = evt.target.closest('.ReactModal__Content')
@@ -54,36 +60,36 @@ export function CookiesModal(props) {
   }, [])
 
   return (
-    <Modal isOpen={isOpen} contentLabel="Cookies consent manager">
-      <h2 className={`${styles.heading} heading-medium`}>
-        {translations[lang]["Tell us whether you accept cookies"]}
-      </h2>
-      <p className={`${styles.synopsis} body-text`}>
+    <Modal isOpen={isOpen} contentLabel="Cookies on great.gov.uk">
+      <div className='great'>
+        <h2 aria-hidden="true" className={`govuk-heading-m`}>
+          {translations[lang]["Cookies on great.gov.uk"]}
+        </h2>
+      </div>
+      <p className={`${styles.synopsis}`}>
         {translations[lang]["We use"]}{' '}
-        <a
-          className="link"
-          href={props.privacyCookiesUrl}
-          ref={(_firstLink) => (firstLink = _firstLink)}
-        >
-          {translations[lang]["cookies to collect information"]}
-        </a>{' '}
-          {translations[lang]["about how you use great.gov.uk. We use this information to make the website work as well as possible and improve government services."]}
       </p>
-      <div className={styles.buttonContainer}>
-        <a
-          className={`${styles.button} button primary-button`}
-          href="#"
+      <div className={`${styles.buttonContainer} great great-overflow-visible`}>
+      <button
+          className={`${styles.greatButton} govuk-button`}
           onClick={handleAcceptAllCookies}
         >
-          {translations[lang]["Accept all cookies"]}
-        </a>
-        <span className={styles.buttonSeperator} />
-        <a
-          className={`${styles.button} button primary-button`}
-          href={props.preferencesUrl + window.location.search}
+          {translations[lang]["Accept additional cookies"]}
+        </button>
+        <button
+          className={`${styles.greatButton} govuk-button`}
+          onClick={handleRejectAllCookies}
         >
-          {translations[lang]["Set cookie preferences"]}
-        </a>
+          {translations[lang]["Reject additional cookies"]}
+        </button>
+        <div className={`${styles.cookieLink}`}>
+          <a
+            className={`govuk-link govuk-!-margin-bottom-1`}
+            href={props.preferencesUrl + window.location.search}
+          >
+            {translations[lang]["View cookies"]}
+          </a>
+        </div>
       </div>
     </Modal>
   )

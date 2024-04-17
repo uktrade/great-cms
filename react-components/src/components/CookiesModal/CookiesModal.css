@@ -1,22 +1,17 @@
-.heading {
-  font-size: 24px;
-  margin: 0;
-}
-
 .synopsis {
   font-size: 19px;
   margin-bottom: 30px;
-  margin-top: 30px;
   text-align: left;
+  max-width: 800px;
 }
 
-.button {
+.greatButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   font-size: 19px;
-  margin-bottom: 0;
-  height: 50px;
-  padding: 0;
-  line-height: 44px;
+  margin-bottom: 10px;
   font-weight: normal;
 }
 
@@ -27,36 +22,37 @@
 
 :global .ReactModal__Content {
   background: #ffffff;
+  margin: 0;
   padding: 30px!important;
   bottom: auto !important;
   right: auto !important;
   top: 50% !important;
   left: 50% !important;
   transform: translate(-50%, -50%);
-  width: 95% !important;
-  max-height: fit-content;
-  max-width: 600px;
+  max-height: calc(100vh - 30px);
+  width: calc(100vw - 30px);
 }
 
-.buttonSeperator {
-  display: inline-block;
-  width: 20px;
+.buttonContainer {
+  display: flex;
+  justify-content: start;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+
+@media (max-width: 755px) {
+  .cookieLink {
+    flex: 1 1 100%;
+  }
 }
 
 @media (min-width: 500px) {
   :global .ReactModal__Content {
     padding: 52px!important;
-
   }
 
-  .buttonContainer {
-    display: flex;
-  }
-  .synopsis {
-    margin-top: 25px;
-    margin-bottom: 45px;
-  }
-  .button {
-    width: 50%;
+  .greatButton {
+    width: auto;
+    margin-right: 20px;
   }
 }

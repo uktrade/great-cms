@@ -2106,3 +2106,12 @@ nav.great-breadcrumbs {
     border-radius: 4px;
   }
 }
+
+.great-cookie-notice {
+  display: none;
+  padding: 30px 0 0;
+
+  &.block {
+    display: block;
+  }
+}
