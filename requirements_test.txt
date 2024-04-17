@@ -346,7 +346,7 @@ greenlet==3.0.3
     # via
     #   gevent
     #   sqlalchemy
-gunicorn==20.1.0
+gunicorn==22.0.0
     # via -r requirements.in
 h11==0.14.0
     # via wsproto
@@ -469,6 +469,7 @@ packaging==24.0
     #   black
     #   browserstack-sdk
     #   build
+    #   gunicorn
     #   pytest
     #   pytest-sugar
     #   sphinx
