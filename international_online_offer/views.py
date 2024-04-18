@@ -72,6 +72,305 @@ class IndexView(GA360Mixin, TemplateView):
         )
 
 
+class AboutYourBusinessView(GA360Mixin, TemplateView):
+    template_name = 'eyb/about_your_business.html'
+
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='AboutYourBusiness',
+            business_unit='ExpandYourBusiness',
+            site_section='about-your-business',
+        )
+
+    def get_context_data(self, *args, **kwargs):
+        # If success, signup has occured and been successful
+        if self.request.GET.get('success'):
+            UserData.objects.create(
+                hashed_uuid=self.request.user.hashed_uuid, email=self.request.user.email, accept_terms=True
+            )
+        return super().get_context_data(*args, **kwargs)
+
+
+class BusinessDetailsView(GA360Mixin, FormView):
+    template_name = 'eyb/triage-new/business_details.html'
+    form_class = forms.BusinessDetailsForm
+
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='BusinessDetails',
+            business_unit='ExpandYourBusiness',
+            site_section='business-details',
+        )
+
+    def get_back_url(self):
+        back_url = reverse_lazy('international_online_offer:about-your-business')
+        if self.request.GET.get('next'):
+            back_url = check_url_host_is_safelisted(self.request)
+        return back_url
+
+    def get_success_url(self):
+        next_url = reverse_lazy('international_online_offer:know-setup-location')
+        if self.request.GET.get('next'):
+            next_url = check_url_host_is_safelisted(self.request)
+        return next_url
+
+    def get_initial(self):
+        if self.request.user.is_authenticated:
+            triage_data = get_triage_data_for_user(self.request)
+            user_data = get_user_data_for_user(self.request)
+
+            inital_values_object = {
+                'sector_sub': '',
+                'company_name': '',
+                'company_location': '',
+                'company_website': '',
+            }
+
+            if triage_data:
+                inital_values_object['sector_sub'] = triage_data.sector_sub
+
+            if user_data:
+                inital_values_object['company_name'] = user_data.company_name
+                inital_values_object['company_location'] = user_data.company_location
+                inital_values_object['company_website'] = user_data.company_website
+
+            return inital_values_object
+
+    def form_valid(self, form):
+        sector_sub = form.cleaned_data['sector_sub']
+        sector = region_sector_helpers.get_sector_from_sic_sector(sector_sub)
+        if self.request.user.is_authenticated:
+            TriageData.objects.update_or_create(
+                hashed_uuid=self.request.user.hashed_uuid,
+                defaults={
+                    'sector': sector,
+                    'sector_sub': sector_sub,
+                },
+            )
+            UserData.objects.update_or_create(
+                hashed_uuid=self.request.user.hashed_uuid,
+                defaults={
+                    'company_name': form.cleaned_data['company_name'],
+                    'company_location': form.cleaned_data['company_location'],
+                    'company_website': form.cleaned_data['company_website'],
+                },
+            )
+        calculate_and_store_is_high_value(self.request)
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        sector = None
+        sector_sub = None
+        if self.request.user.is_authenticated:
+            triage_data = get_triage_data_for_user(self.request)
+            if triage_data:
+                sector = triage_data.get_sector_display()
+                sector_sub = triage_data.get_sector_sub_display()
+
+        return super().get_context_data(
+            **kwargs,
+            back_url=self.get_back_url(),
+            autocomplete_sector_data=region_sector_helpers.get_sectors_and_sic_sectors_file_as_string(),
+            sector=sector,
+            sector_sub=sector_sub,
+        )
+
+
+class ContactDetailsView(GA360Mixin, FormView):
+    template_name = 'eyb/triage-new/contact_details.html'
+    form_class = forms.ContactDetailsForm
+
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='ContactDetails',
+            business_unit='ExpandYourBusiness',
+            site_section='contact-details',
+        )
+
+    def get_back_url(self):
+        back_url = reverse_lazy('international_online_offer:spend')
+        if self.request.GET.get('next'):
+            back_url = check_url_host_is_safelisted(self.request)
+        return back_url
+
+    def get_success_url(self):
+        # TODO Need to cater for signup = success / true on guide
+        next_url = '/international/expand-your-business-in-the-uk/guide/'
+        if self.request.GET.get('next'):
+            next_url = check_url_host_is_safelisted(self.request)
+        return next_url
+
+    def get_initial(self):
+        if self.request.user.is_authenticated:
+            user_data = get_user_data_for_user(self.request)
+
+            inital_values_object = {
+                'full_name': '',
+                'role': '',
+                'telephone_number': '',
+                'agree_info_email': False,
+            }
+
+            if user_data:
+                inital_values_object['full_name'] = user_data.full_name
+                inital_values_object['role'] = user_data.role
+                inital_values_object['telephone_number'] = user_data.telephone_number
+                inital_values_object['agree_info_email'] = user_data.agree_info_email
+
+            return inital_values_object
+
+    def form_valid(self, form):
+        if self.request.user.is_authenticated:
+            UserData.objects.update_or_create(
+                hashed_uuid=self.request.user.hashed_uuid,
+                defaults={
+                    'full_name': form.cleaned_data['full_name'],
+                    'role': form.cleaned_data['role'],
+                    'telephone_number': form.cleaned_data['telephone_number'],
+                    'agree_info_email': form.cleaned_data['agree_info_email'],
+                },
+            )
+        calculate_and_store_is_high_value(self.request)
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        sector = None
+        sector_sub = None
+        if self.request.user.is_authenticated:
+            triage_data = get_triage_data_for_user(self.request)
+            if triage_data:
+                sector = triage_data.get_sector_display()
+                sector_sub = triage_data.get_sector_sub_display()
+
+        return super().get_context_data(
+            **kwargs,
+            back_url=self.get_back_url(),
+            autocomplete_sector_data=region_sector_helpers.get_sectors_and_sic_sectors_file_as_string(),
+            sector=sector,
+            sector_sub=sector_sub,
+        )
+
+
+class KnowSetupLocationView(GA360Mixin, FormView):
+    form_class = forms.KnowSetupLocationForm
+    template_name = 'eyb/triage-new/know_your_setup_location.html'
+
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='DoYouKnowYourSetupLocation',
+            business_unit='ExpandYourBusiness',
+            site_section='do-you-know-your-setup-location',
+        )
+
+    def get_back_url(self):
+        back_url = reverse_lazy('international_online_offer:business-details')
+        if self.request.GET.get('next'):
+            back_url = check_url_host_is_safelisted(self.request)
+        return back_url
+
+    def get_success_url(self):
+        next_url = reverse_lazy('international_online_offer:location')
+        if self.request.user.is_authenticated:
+            triage_data = get_triage_data_for_user(self.request)
+            if triage_data:
+                if triage_data.location_none:
+                    next_url = reverse_lazy('international_online_offer:when-want-setup')
+
+        if self.request.GET.get('next'):
+            next_url = check_url_host_is_safelisted(self.request)
+        return next_url
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            back_url=self.get_back_url(),
+        )
+
+    def get_initial(self):
+        if self.request.user.is_authenticated:
+            triage_data = get_triage_data_for_user(self.request)
+            if triage_data:
+                know_setup_location = False if triage_data.location_none else True
+                return {'know_setup_location': know_setup_location}
+
+    def form_valid(self, form):
+        if self.request.user.is_authenticated:
+            user_knows_where_they_want_to_setup = True if form.cleaned_data['know_setup_location'] == 'True' else False
+            TriageData.objects.update_or_create(
+                hashed_uuid=self.request.user.hashed_uuid,
+                defaults={
+                    'location_none': not user_knows_where_they_want_to_setup,
+                },
+            )
+            if not user_knows_where_they_want_to_setup:
+                TriageData.objects.update_or_create(
+                    hashed_uuid=self.request.user.hashed_uuid,
+                    defaults={
+                        'location': '',
+                        'location_city': None,
+                    },
+                )
+        calculate_and_store_is_high_value(self.request)
+        return super().form_valid(form)
+
+
+class WhenDoYouWantToSetupView(GA360Mixin, FormView):
+    form_class = forms.WhenDoYouWantToSetupForm
+    template_name = 'eyb/triage-new/when_want_to_setup.html'
+
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='WhenDoYouWantToSetup',
+            business_unit='ExpandYourBusiness',
+            site_section='when-do-you-want-to-setup',
+        )
+
+    def get_back_url(self):
+        back_url = reverse_lazy('international_online_offer:location')
+        if self.request.user.is_authenticated:
+            triage_data = get_triage_data_for_user(self.request)
+            if triage_data:
+                if triage_data.location_none:
+                    back_url = reverse_lazy('international_online_offer:know-setup-location')
+        if self.request.GET.get('next'):
+            back_url = check_url_host_is_safelisted(self.request)
+        return back_url
+
+    def get_success_url(self):
+        next_url = reverse_lazy('international_online_offer:intent')
+        if self.request.GET.get('next'):
+            next_url = check_url_host_is_safelisted(self.request)
+        return next_url
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            back_url=self.get_back_url(),
+        )
+
+    def get_initial(self):
+        if self.request.user.is_authenticated:
+            user_data = get_user_data_for_user(self.request)
+            if user_data:
+                return {'landing_timeframe': user_data.landing_timeframe}
+
+    def form_valid(self, form):
+        if self.request.user.is_authenticated:
+            UserData.objects.update_or_create(
+                hashed_uuid=self.request.user.hashed_uuid,
+                defaults={
+                    'landing_timeframe': form.cleaned_data['landing_timeframe'],
+                },
+            )
+        calculate_and_store_is_high_value(self.request)
+        return super().form_valid(form)
+
+
 class SectorView(GA360Mixin, FormView):
     form_class = forms.SectorForm
     template_name = 'eyb/triage/sector.html'
@@ -151,13 +450,13 @@ class IntentView(GA360Mixin, FormView):
         )
 
     def get_back_url(self):
-        back_url = reverse_lazy('international_online_offer:sector')
+        back_url = reverse_lazy('international_online_offer:when-want-setup')
         if self.request.GET.get('next'):
             back_url = check_url_host_is_safelisted(self.request)
         return back_url
 
     def get_success_url(self):
-        next_url = reverse_lazy('international_online_offer:location')
+        next_url = reverse_lazy('international_online_offer:hiring')
         if self.request.GET.get('next'):
             next_url = check_url_host_is_safelisted(self.request)
         return next_url
@@ -166,10 +465,6 @@ class IntentView(GA360Mixin, FormView):
         return super().get_context_data(
             **kwargs,
             back_url=self.get_back_url(),
-            step_text='Step 2 of 5',
-            question_text='How do you plan to expand your business in the UK?',
-            why_we_ask_this_question_text="""We'll use this information to provide customised content
-              relevant to your expansion plans.""",
         )
 
     def get_initial(self):
@@ -204,13 +499,13 @@ class LocationView(GA360Mixin, FormView):
         )
 
     def get_back_url(self):
-        back_url = reverse_lazy('international_online_offer:intent')
+        back_url = reverse_lazy('international_online_offer:know-setup-location')
         if self.request.GET.get('next'):
             back_url = check_url_host_is_safelisted(self.request)
         return back_url
 
     def get_success_url(self):
-        next_url = reverse_lazy('international_online_offer:hiring')
+        next_url = reverse_lazy('international_online_offer:when-want-setup')
         if self.request.GET.get('next'):
             next_url = check_url_host_is_safelisted(self.request)
         return next_url
@@ -227,10 +522,6 @@ class LocationView(GA360Mixin, FormView):
         return super().get_context_data(
             **kwargs,
             back_url=self.get_back_url(),
-            step_text='Step 3 of 5',
-            question_text='Where in the UK would you like to expand your business?',
-            why_we_ask_this_question_text="""We'll use this information to provide customised content
-              relevant to your city, county or region.""",
             autocomplete_location_data=region_sector_helpers.get_region_and_cities_json_file_as_string(),
             region=region,
             city=city,
@@ -278,7 +569,7 @@ class HiringView(GA360Mixin, FormView):
         )
 
     def get_back_url(self):
-        back_url = reverse_lazy('international_online_offer:location')
+        back_url = reverse_lazy('international_online_offer:intent')
         if self.request.GET.get('next'):
             back_url = check_url_host_is_safelisted(self.request)
         return back_url
@@ -293,10 +584,6 @@ class HiringView(GA360Mixin, FormView):
         return super().get_context_data(
             **kwargs,
             back_url=self.get_back_url(),
-            step_text='Step 4 of 5',
-            question_text='How many people are you looking to hire in the UK?',
-            why_we_ask_this_question_text="""We'll use this information to provide customised content
-              relevant to your hiring.""",
         )
 
     def get_initial(self):
@@ -342,7 +629,7 @@ class SpendView(GA360Mixin, FormView):
         return back_url
 
     def get_success_url(self):
-        next_url = '/international/expand-your-business-in-the-uk/guide/'
+        next_url = reverse_lazy('international_online_offer:contact-details')
         if self.request.GET.get('next'):
             next_url = check_url_host_is_safelisted(self.request)
         return next_url
@@ -526,7 +813,7 @@ class SignUpView(
 
     def get(self, request, *args, **kwargs):
         if helpers.is_authenticated(request):
-            return redirect(reverse_lazy('international_online_offer:profile') + '?signup=true')
+            return redirect(reverse_lazy('international_online_offer:about-your-business'))
         form = forms.SignUpForm
         if self.is_validate_code_flow():
             form = forms.CodeConfirmForm
@@ -557,7 +844,7 @@ class SignUpView(
             else:
                 return self.handle_verification_code_success(
                     upstream_response=upstream_response,
-                    redirect_url=reverse_lazy('international_online_offer:profile') + '?signup=true',
+                    redirect_url=reverse_lazy('international_online_offer:about-your-business') + '?success=true',
                 )
         return render(request, self.template_name, {'form': form})
 
@@ -593,7 +880,13 @@ class SignUpView(
                 uidb64 = user_details['uidb64']
                 token = user_details['verification_token']
                 redirect_url = (
-                    reverse_lazy('international_online_offer:signup') + '?uidb64=' + uidb64 + '&token=' + token
+                    reverse_lazy('international_online_offer:signup')
+                    + '?uidb64='
+                    + uidb64
+                    + '&token='
+                    + token
+                    + '&email='
+                    + user_details['email']
                 )
                 return self.handle_signup_success(
                     response, form, redirect_url, verification_link=self.get_verification_link(uidb64, token)

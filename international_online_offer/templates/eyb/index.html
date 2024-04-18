@@ -40,12 +40,12 @@
         </div>
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
-                <a href="{% url 'international_online_offer:login' %}"
+                <a href="{% url 'international_online_offer:signup' %}"
                    role="button"
                    draggable="false"
                    class="govuk-button govuk-button--start"
                    data-module="govuk-button">
-                    Sign in
+                    Sign up
                     <svg class="govuk-button__start-icon"
                          xmlns="http://www.w3.org/2000/svg"
                          width="17.5"
@@ -56,6 +56,10 @@
                         <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
                     </svg>
                 </a>
+                <p class="govuk-body-m">
+                    Already have an account? <a href="{% url 'international_online_offer:login' %}"
+    class="govuk-link">Sign in</a>
+                </p>
             </div>
         </div>
         <div class="govuk-grid-row">

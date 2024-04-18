@@ -10,12 +10,7 @@
 {% block content %}
     <div class="govuk-width-container great-container">
         <div id="spend-container">
-            {% include '../includes/triage_header.html' with back_url=back_url step_text=step_text question_text=question_text %}
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds">
-                    <h1 class="govuk-heading-l">{{ question_text }}</h1>
-                </div>
-            </div>
+            {% include '../includes/triage_new_header.html' with back_url=back_url hint_title='About your expansion plans' title='How much do you want to spend on setting up in the first three years?' %}
         </div>
         <div class="govuk-grid-row govuk-!-margin-bottom-3">
             <div class="govuk-grid-column-full">
@@ -40,29 +35,10 @@
                             {% include 'domestic/contact/includes/govuk-form-field.html' with field=form.spend hide_label=True %}
                         </fieldset>
                     </div>
-                    {% include '../includes/submit_button.html' with button_text='Continue' %}
+                    {% include '../includes/submit_button.html' with button_text='Save and continue' %}
                 </form>
             </div>
         </div>
-        {% comment %} <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <form method="post">
-        {% csrf_token %}
-        <div class="form-group">
-          <div class="govuk-hint govuk-!-margin-bottom-3">This is for the first three years of your project. Choose an estimated amount from the list, or enter a specific amount</div>
-          <div id="id_spend_container">
-            {% include 'core/includes/form_field.html' with field=form.spend %}
-          </div>
-          <div id="id_spend_other-container" class="govuk-inset-text">
-            <div class='govuk-body'>Enter specific amount</div>
-            {% include 'core/includes/form_field.html' with field=form.spend_other %}
-          </div>
-          {% include '../includes/submit_button.html' with button_text='Continue' %}
-        </div>
-      </form>
-    </div>
-        </div> {% endcomment %}
-        {% include '../includes/triage_footer.html' with why_we_ask_this_question_text=why_we_ask_this_question_text %}
     </div>
 {% endblock %}
 {% block body_js %}

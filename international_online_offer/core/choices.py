@@ -37,7 +37,7 @@ HIRING_CHOICES = (
     (hirings.SIX_TO_FIFTY, '6 to 50'),
     (hirings.FIFTY_ONE_TO_ONE_HUNDRED, '51 to 100'),
     (hirings.ONE_HUNDRED_ONE_PLUS, 'More than 100'),
-    (hirings.NO_PLANS_TO_HIRE_YET, 'No plans to hire yet'),
+    (hirings.NO_PLANS_TO_HIRE_YET, 'No plans to hire'),
 )
 
 SPEND_CHOICES = (
@@ -77,10 +77,10 @@ SPEND_CURRENCY_CHOICES = (
 )
 
 LANDING_TIMEFRAME_CHOICES = (
-    (landing_timeframes.UNDER_SIX_MONTHS, 'Under 6 months'),
-    (landing_timeframes.SIX_TO_TWELVE_MONTHS, '6 - 12 months'),
-    (landing_timeframes.ONE_TO_TWO_YEARS, '1 - 2 years'),
-    (landing_timeframes.OVER_TWO_YEARS, 'Over 2 years'),
+    (landing_timeframes.UNDER_SIX_MONTHS, 'In the next 6 months'),
+    (landing_timeframes.SIX_TO_TWELVE_MONTHS, '6 to 12 months'),
+    (landing_timeframes.ONE_TO_TWO_YEARS, '1 to 2 years'),
+    (landing_timeframes.OVER_TWO_YEARS, "In more than 2 years' time"),
 )
 
 SATISFACTION_CHOICES = (

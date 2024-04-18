@@ -14,6 +14,31 @@ urlpatterns = [
         name='index',
     ),
     path(
+        'tell-us-about-your-business/',
+        login_required(views.AboutYourBusinessView.as_view(), login_url=SIGNUP_URL),
+        name='about-your-business',
+    ),
+    path(
+        'business-details/',
+        login_required(views.BusinessDetailsView.as_view(), login_url=SIGNUP_URL),
+        name='business-details',
+    ),
+    path(
+        'when-do-you-want-to-set-up/',
+        login_required(views.WhenDoYouWantToSetupView.as_view(), login_url=SIGNUP_URL),
+        name='when-want-setup',
+    ),
+    path(
+        'do-you-know-your-set-up-location/',
+        login_required(views.KnowSetupLocationView.as_view(), login_url=SIGNUP_URL),
+        name='know-setup-location',
+    ),
+    path(
+        'contact-details/',
+        login_required(views.ContactDetailsView.as_view(), login_url=SIGNUP_URL),
+        name='contact-details',
+    ),
+    path(
         'sector/',
         login_required(views.SectorView.as_view(), login_url=SIGNUP_URL),
         name='sector',

@@ -2,10 +2,11 @@
 {% load static %}
 {% block head_title %}
     {% if form.location.errors %}Error:{% endif %}
-    Where in the UK would you like to expand your business?
+    About your expansion plans: Where do you want to set up?
     {{ block.super }}
 {% endblock %}
 {% block meta_title %}Where in the UK would you like to expand your business? {{ block.super }}{% endblock %}
+{% block meta_title %}About your expansion plans: Where do you want to set up? {{ block.super }}{% endblock %}
 {% block head_css %}
     {{ block.super }}
     <link href="{% static 'core/css/accessible-autocomplete.min.css' %}"
@@ -14,7 +15,7 @@
 {% endblock %}
 {% block content %}
     <div class="govuk-width-container great-container">
-        {% include '../includes/triage_header.html' with back_url=back_url step_text=step_text %}
+        {% include '../includes/triage_new_header.html' with back_url=back_url hint_title='About your expansion plans' title='Where do you want to set up?' %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <form method="post" onsubmit="return onSubmitLocation()">
@@ -37,36 +38,19 @@
                          class="govuk-grid-row"
                          style="{% if not city %} display: none {% endif %}">
                         <div class="govuk-grid-column-two-thirds">
-                            <div class="govuk-inset-text">
+                            <div class="govuk-inset-text govuk-!-margin-bottom-1 govuk-!-margin-top-3">
                                 <span id="city-text">{{ city }}</span> is in <span id="region-text" class="govuk-!-font-weight-bold">{{ region }}</span>, we will tailor your guide to this region.
                             </div>
                         </div>
                     </div>
-                    <div class="govuk-grid-row">
+                    <div class="govuk-grid-row govuk-!-margin-top-5">
                         <div class="govuk-grid-column-full">
-                            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-                                <div class="govuk-checkboxes__divider">or</div>
-                                <div class="{% if form.location.errors %} govuk-form-group--error{% endif %}">
-                                    {% for error in form.location_none.errors %}
-                                        <p class="govuk-error-message" role="alert">
-                                            <span class="govuk-visually-hidden">Error:</span> {{ error }}
-                                        </p>
-                                    {% endfor %}
-                                    <div class="govuk-checkboxes__item">
-                                        {{ form.location_none }}
-                                        <label class="govuk-label govuk-checkboxes__label" for="id_location_none">{{ form.location_none.label }}</label>
-                                    </div>
-                                </div>
-                            </div>
+                            {% include '../includes/submit_button.html' with button_text='Save and continue' %}
                         </div>
-                    </div>
-                    <div class="govuk-grid-row govuk-!-margin-top-7 govuk-!-margin-bottom-3">
-                        <div class="govuk-grid-column-full">{% include '../includes/submit_button.html' with button_text='Continue' %}</div>
                     </div>
                 </form>
             </div>
         </div>
-        {% include '../includes/triage_footer.html' with why_we_ask_this_question_text=why_we_ask_this_question_text %}
     </div>
 {% endblock %}
 {% block body_js %}
