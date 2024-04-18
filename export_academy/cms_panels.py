@@ -1,4 +1,11 @@
-from wagtail.admin.panels import FieldPanel, HelpPanel, ObjectList, InlinePanel, MultiFieldPanel, TabbedInterface
+from wagtail.admin.panels import (
+    FieldPanel,
+    HelpPanel,
+    InlinePanel,
+    MultiFieldPanel,
+    ObjectList,
+    TabbedInterface,
+)
 from wagtailmedia.widgets import AdminMediaChooser
 
 
