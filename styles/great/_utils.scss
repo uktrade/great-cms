@@ -163,7 +163,7 @@
     border-width: 2px;
     margin: 0;
   }
-  
+
   .great-font-bold {
     font-family: $great-font-bold !important;
   }
@@ -391,6 +391,11 @@
     @include govuk-link-style-no-visited-state;
   }
 }
+
+.govuk-skip-link {
+  font-family: $great-font;
+}
+
 
 .great-container {
   max-width: 1230px;

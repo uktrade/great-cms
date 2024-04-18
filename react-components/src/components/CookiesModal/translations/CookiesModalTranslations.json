@@ -1,11 +1,10 @@
 {
 	"en": {
-		"Tell us whether you accept cookies": "Tell us whether you accept cookies",
-		"We use": "We use",
-		"cookies to collect information": "cookies to collect information",
-		"about how you use great.gov.uk. We use this information to make the website work as well as possible and improve government services.": "about how you use great.gov.uk. We use this information to make the website work as well as possible and improve government services.",
-		"Accept all cookies": "Accept all cookies",
-		"Set cookie preferences": "Set cookie preferences"
+		"Cookies on great.gov.uk": "Cookies on great.gov.uk",
+		"We use": "We use some essential cookies to make this website work. We’d like to set additional cookies to understand how you use great.gov.uk and improve our export support services.",
+		"Accept additional cookies": "Accept additional cookies",
+		"Reject additional cookies": "Reject additional cookies",
+		"View cookies": "View cookies"
 	},
 	"es": {
 		"Tell us whether you accept cookies": "Dinos si aceptas cookies",
