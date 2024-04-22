@@ -6,86 +6,117 @@
 {% block head_title %}Event recording – {{ object.name }}{% endblock %}
 {% block meta_title %}Event recording – {{ object.name }}{% endblock %}
 {% block css_layout_class %}great-bg-white{% endblock %}
-{% block breadcrumbs_block %}
-    <div id="breadcrumbs"
-         class="great-display-from-tablet great-bg-light-blue">
-        {% breadcrumbs %}
-        <a href="/">Home</a>
-        <a href="../../">UK Export Academy</a>
-    {% endbreadcrumbs %}
-</div>
-{% endblock %}
 {% block content %}
+    {% if full_transcript %}
+        <div id="breadcrumbs" class="great-bg-light-blue">
+            <div class="great-container">
+                {% breadcrumbs great-breadcrumbs %}
+                <a href="/export-academy/event-recordings/{{ video_page_slug }}"
+                   class="great-back-link">Back to event recording</a>
+            {% endbreadcrumbs %}
+        </div>
+    </div>
     <div class="great" id="video-on-demand-page">
         <section class="govuk-!-padding-bottom-6 govuk-!-padding-top-9 great-bg-white">
             <div class="great-container event-details-header-container">
                 <div class="event-details-header-info govuk-grid-column-two-thirds-from-desktop govuk-!-static-padding-0">
-                    <h2 class="govuk-caption-l">Event Recording</h2>
+                    <h2 class="govuk-caption-l">Event transcript</h2>
                     <h1 class="govuk-heading-l govuk-!-static-margin-0 govuk-!-static-margin-bottom-2">{{ event.name }}</h1>
                     <time datetime="{{ event.past_event_recorded_date|date:"Y-m-d" }}T{{ event.past_event_recorded_date|time:"H:i:s" }}{{ event.past_event_recorded_date|date:"O" }}">Recorded: {{ event.past_event_recorded_date|date:"l j F Y" }}</time>
-                </div>
-                <div class="event-details-header-logo">
-                    <img class="ea-logo"
-                         src="{% static 'images/uk-export-academy-logo.svg' %}"
-                         alt="UK Export Academy logo" />
+                    <div class="govuk-!-margin-top-6">{% get_video_transcript event_video %}</div>
+                    <div class="govuk-!-margin-top-6">
+                        <h3 class="govuk-heading-s govuk-!-static-margin-0 govuk-!-static-margin-bottom-3">
+                            Back to recording
+                        </h1>
+                        <div class="govuk-!-static-margin-bottom-2">
+                            {% include './includes/event_item_badge.html' with event=event display_past_recording=True no_bg=True %}
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
-        <div class="great-bg-light-blue">
-            <section id="past-video-recording"
-                     class="great-container govuk-!-padding-top-0  govuk-!-padding-bottom-0">
-                <div class="event-on-demand-video-container">
-                    <div class="video-wrapper govuk-!-static-margin-bottom-4 govuk-!-static-margin-top-4 ">
-                        {% if signed_in %}
-                            {% render_video event_video event.name %}
-                        {% else %}
-                            <img id="thumbnail"
-                                 src="{% if video_thumbnail.url %}{{ video_thumbnail.url }}{% else %}{% static 'images/video-placeholder.png' %}{% endif %}"
-                                 alt="" />
-                        {% endif %}
-                        {% if not signed_in %}
-                            <div class="video-button-overlay great-container">
-                                <a role="button"
-                                   class="button  primary-button great-primary-button--chevron"
-                                   href="{% url 'export_academy:signup' %}?next={% url 'export_academy:video-on-demand' slug=video_page_slug %}">Sign up to watch</a>
-                                <p class="great-text-white govuk-!-static-margin-top-3 govuk-!-static-margin-bottom-1">
-                                    Already joined the UK Export Academy?
-                                </p>
-                                <a class="govuk-link great-text-white great-font-bold great-white-overlay-link govuk-link--no-visited-state ukea-signin-link"
-                                   href="{% url 'export_academy:signin' %}?next={% url 'export_academy:video-on-demand' slug=video_page_slug %}">Sign in</a>
-                            </div>
-                        {% endif %}
-                    </div>
-                    <div id="next-live-event" class="govuk-!-static-padding-bottom-6">
-                        <div id="ask-the-experts"
-                             class="great-display-flex great-align-items-flex-end">
-                            <div>
-                                <span class="govuk-caption-m govuk-!-static-margin-top-4">Ask the experts</span>
-                                <h2 class="govuk-heading-s">Next live event with Q&A</h2>
-                            </div>
-                            <img class="govuk-!-margin-bottom-5"
-                                 src="{% static 'images/ask-the-experts.svg' %}"
-                                 alt="" />
-                        </div>
-                        <div class="govuk-!-static-margin-bottom-2">{% include './includes/event_item_badge.html' with event=event %}</div>
-                        <a href="../../events" class="govuk-link">View all live events</a>
-                    </div>
-                </div>
-            </section>
+    </div>
+{% else %}
+    <div id="breadcrumbs"
+         class="great-display-from-tablet great-bg-light-blue">
+        <div class="great-container">
+            {% breadcrumbs great-breadcrumbs %}
+            <a href="/">Home</a>
+            <a href="../../">UK Export Academy</a>
+        {% endbreadcrumbs %}
+    </div>
+</div>
+<div class="great" id="video-on-demand-page">
+    <section class="govuk-!-padding-bottom-6 govuk-!-padding-top-9 great-bg-white">
+        <div class="great-container event-details-header-container">
+            <div class="event-details-header-info govuk-grid-column-two-thirds-from-desktop govuk-!-static-padding-0">
+                <h2 class="govuk-caption-l">Event Recording</h2>
+                <h1 class="govuk-heading-l govuk-!-static-margin-0 govuk-!-static-margin-bottom-2">{{ event.name }}</h1>
+                <time datetime="{{ event.past_event_recorded_date|date:"Y-m-d" }}T{{ event.past_event_recorded_date|time:"H:i:s" }}{{ event.past_event_recorded_date|date:"O" }}">Recorded: {{ event.past_event_recorded_date|date:"l j F Y" }}</time>
+            </div>
+            <div class="event-details-header-logo">
+                <img class="ea-logo"
+                     src="{% static 'images/uk-export-academy-logo.svg' %}"
+                     alt="UK Export Academy logo" />
+            </div>
         </div>
-        {% if event_document_url %}
-            <section class="great-container govuk-!-padding-top-6 govuk-!-padding-bottom-0">
-                <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-padding-0 govuk-!-padding-bottom-6 great-grey-bottom-border govuk-!-margin-bottom-4">
+    </section>
+    <div class="great-bg-light-blue">
+        <section id="past-video-recording"
+                 class="great-container govuk-!-padding-top-0  govuk-!-padding-bottom-0">
+            <div class="event-on-demand-video-container">
+                <div class="video-wrapper govuk-!-static-margin-bottom-4 govuk-!-static-margin-top-4 ">
                     {% if signed_in %}
-                        <a class="govuk-link govuk-link--no-visited-state"
-                           href="{{ event_document_url }}"><span role="img" class="fa fa-file-download govuk-!-padding-right-2"></span>Download event presentation</a>
+                        {% render_video event_video event.name %}
                     {% else %}
-                        <a class="govuk-link govuk-link--no-visited-state"
-                           href="{% url 'export_academy:signup' %}?next={% url 'export_academy:video-on-demand' slug=video_page_slug %}"><span role="img" class="fa fa-file-download govuk-!-padding-right-2"></span>Sign up to download event presentation</a>
+                        <img id="thumbnail"
+                             src="{% if video_thumbnail.url %}{{ video_thumbnail.url }}{% else %}{% static 'images/video-placeholder.png' %}{% endif %}"
+                             alt="" />
+                    {% endif %}
+                    {% if not signed_in %}
+                        <div class="video-button-overlay great-container">
+                            <a role="button"
+                               class="button  primary-button great-primary-button--chevron"
+                               href="{% url 'export_academy:signup' %}?next={% url 'export_academy:video-on-demand' slug=video_page_slug %}">Sign up to watch</a>
+                            <p class="great-text-white govuk-!-static-margin-top-3 govuk-!-static-margin-bottom-1">
+                                Already joined the UK Export Academy?
+                            </p>
+                            <a class="govuk-link great-text-white great-font-bold great-white-overlay-link govuk-link--no-visited-state ukea-signin-link"
+                               href="{% url 'export_academy:signin' %}?next={% url 'export_academy:video-on-demand' slug=video_page_slug %}">Sign in</a>
+                        </div>
                     {% endif %}
                 </div>
-            </section>
-        {% endif %}
-        {% include './includes/event_details_main_content.html' with duration=video_duration series=series %}
+                <div id="next-live-event" class="govuk-!-static-padding-bottom-6">
+                    <div id="ask-the-experts"
+                         class="great-display-flex great-align-items-flex-end">
+                        <div>
+                            <span class="govuk-caption-m govuk-!-static-margin-top-4">Ask the experts</span>
+                            <h2 class="govuk-heading-s">Next live event with Q&A</h2>
+                        </div>
+                        <img class="govuk-!-margin-bottom-5"
+                             src="{% static 'images/ask-the-experts.svg' %}"
+                             alt="" />
+                    </div>
+                    <div class="govuk-!-static-margin-bottom-2">{% include './includes/event_item_badge.html' with event=event %}</div>
+                    <a href="../../events" class="govuk-link">View all live events</a>
+                </div>
+            </div>
+        </section>
     </div>
+    {% if event_document_url %}
+        <section class="great-container govuk-!-padding-top-6 govuk-!-padding-bottom-0">
+            <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-padding-0 govuk-!-padding-bottom-6 great-grey-bottom-border govuk-!-margin-bottom-4">
+                {% if signed_in %}
+                    <a class="govuk-link govuk-link--no-visited-state"
+                       href="{{ event_document_url }}"><span role="img" class="fa fa-file-download govuk-!-padding-right-2"></span>Download event presentation</a>
+                {% else %}
+                    <a class="govuk-link govuk-link--no-visited-state"
+                       href="{% url 'export_academy:signup' %}?next={% url 'export_academy:video-on-demand' slug=video_page_slug %}"><span role="img" class="fa fa-file-download govuk-!-padding-right-2"></span>Sign up to download event presentation</a>
+                {% endif %}
+            </div>
+        </section>
+    {% endif %}
+    {% include './includes/event_details_main_content.html' with duration=video_duration series=series %}
+</div>
+{% endif %}
 {% endblock %}
