@@ -58,7 +58,7 @@ def test_render_video_tag__with_thumbnail():
         duration=120,
         thumbnail=mock_thumbnail,
         subtitles=[],
-        transcript="Transcript text",
+        transcript='Transcript text',
     )
     block = dict(video=video_mock)
     html = render_video(block)
@@ -78,7 +78,7 @@ def test_render_video_tag__without_thumbnail():
         duration=120,
         thumbnail=None,
         subtitles=[],
-        transcript="Transcript text",
+        transcript='Transcript text',
     )
     block = dict(video=video_mock)
     html = render_video(block)
@@ -107,7 +107,7 @@ def test_render_video_tag__with_subtitles():
                 'default': True,
             },
         ],
-        transcript="Transcript text",
+        transcript='Transcript text',
     )
     block = dict(video=video_mock)
     html = render_video(block)
@@ -132,7 +132,7 @@ def test_render_video_tag__without_title_or_event():
         duration=120,
         thumbnail=None,
         subtitles=[],
-        transcript="Transcript text",
+        transcript='Transcript text',
     )
     block = dict(video=video_mock)
     html = render_video(block)
@@ -141,7 +141,7 @@ def test_render_video_tag__without_title_or_event():
 
 
 def test_render_video_tag_with_long_transcript_and_period():
-    transcript = "This is a long transcript. " + "a" * 1000 + ". End of transcript."
+    transcript = 'This is a long transcript. ' + 'a' * 1000 + '. End of transcript.'
     video_mock = mock.Mock(
         sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}],
         duration=120,
@@ -156,7 +156,7 @@ def test_render_video_tag_with_long_transcript_and_period():
 
 
 def test_render_video_tag_with_long_transcript_no_period():
-    transcript = "a" * 1200
+    transcript = 'a' * 1200
     video_mock = mock.Mock(
         sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}],
         duration=120,
@@ -171,7 +171,7 @@ def test_render_video_tag_with_long_transcript_no_period():
 
 
 def test_render_video_tag_with_short_transcript():
-    transcript = "Short transcript."
+    transcript = 'Short transcript.'
     video_mock = mock.Mock(
         sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}],
         duration=120,
