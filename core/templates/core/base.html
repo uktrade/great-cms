@@ -116,7 +116,10 @@
     {% endif %}
 {% endblock %}
 {% block cookie_notice %}
-    {% include 'components/cookie_notice.html' %}
+    {% path_match "^\/learn\/" as in_learning %}
+    {% if features.FEATURE_DEA_V2 and in_learning %}
+        {% include 'components/cookie_notice.html' %}
+    {% endif %}
 {% endblock %}
 {% block skip_link %}
     <a href="#content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
