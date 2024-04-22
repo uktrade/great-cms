@@ -278,7 +278,7 @@ elasticsearch-dsl==7.4.1
     # via -r requirements.in
 et-xmlfile==1.1.0
     # via openpyxl
-exceptiongroup==1.2.0
+exceptiongroup==1.2.1
     # via
     #   ipython
     #   pytest
@@ -292,7 +292,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==24.8.0
+faker==24.11.0
     # via factory-boy
 filelock==3.13.4
     # via virtualenv
@@ -334,7 +334,7 @@ gevent==24.2.1
     # via
     #   geventhttpclient
     #   locust
-geventhttpclient==2.1.1
+geventhttpclient==2.3.1
     # via locust
 gitdb==4.0.11
     # via gitpython
@@ -343,10 +343,8 @@ gitpython==3.1.43
 great-components==2.6.4
     # via -r requirements.in
 greenlet==3.0.3
-    # via
-    #   gevent
-    #   sqlalchemy
-gunicorn==20.1.0
+    # via gevent
+gunicorn==22.0.0
     # via -r requirements.in
 h11==0.14.0
     # via wsproto
@@ -362,7 +360,7 @@ html5lib==1.1
     #   xhtml2pdf
 icalendar==5.0.11
     # via -r requirements.in
-identify==2.5.35
+identify==2.5.36
     # via pre-commit
 idna==3.7
     # via
@@ -388,7 +386,7 @@ isort==5.12.0
     # via
     #   -r requirements_test.in
     #   pylint
-itsdangerous==2.1.2
+itsdangerous==2.2.0
     # via flask
 jedi==0.19.1
     # via ipython
@@ -404,7 +402,7 @@ jsbeautifier==1.15.1
     # via
     #   cssbeautifier
     #   djlint
-json5==0.9.24
+json5==0.9.25
     # via djlint
 jsonschema==3.2.0
     # via
@@ -430,9 +428,9 @@ markupsafe==2.1.5
     # via
     #   jinja2
     #   werkzeug
-matplotlib-inline==0.1.6
+matplotlib-inline==0.1.7
     # via ipython
-maxminddb==2.6.0
+maxminddb==2.6.1
     # via geoip2
 mccabe==0.7.0
     # via
@@ -469,6 +467,7 @@ packaging==24.0
     #   black
     #   browserstack-sdk
     #   build
+    #   gunicorn
     #   pytest
     #   pytest-sugar
     #   sphinx
@@ -503,7 +502,7 @@ platformdirs==4.2.0
     #   black
     #   pylint
     #   virtualenv
-pluggy==1.4.0
+pluggy==1.5.0
     # via
     #   allure-python-commons
     #   pytest
@@ -606,7 +605,7 @@ python-dateutil==2.9.0.post0
     #   python-crontab
 python-dotenv==1.0.1
     # via webdriver-manager
-python-ipware==2.0.2
+python-ipware==3.0.0
     # via django-ipware
 python-magic==0.4.27
     # via -r requirements.in
@@ -627,7 +626,7 @@ pyyaml==6.0.1
     #   drf-spectacular
     #   pre-commit
     #   pyhanko
-pyzmq==25.1.2
+pyzmq==26.0.2
     # via locust
 qrcode==7.4.2
     # via pyhanko
@@ -753,7 +752,7 @@ tomlkit==0.12.4
     # via pylint
 tqdm==4.66.2
     # via djlint
-traitlets==5.14.2
+traitlets==5.14.3
     # via
     #   ipython
     #   matplotlib-inline
@@ -804,7 +803,7 @@ vine==5.1.0
     #   amqp
     #   celery
     #   kombu
-virtualenv==20.25.1
+virtualenv==20.25.3
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core
@@ -864,7 +863,7 @@ zipp==3.18.1
     # via importlib-metadata
 zope-event==5.0
     # via gevent
-zope-interface==6.2
+zope-interface==6.3
     # via gevent
 
 # The following packages are considered to be unsafe in a requirements file:
