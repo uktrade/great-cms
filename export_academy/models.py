@@ -19,7 +19,7 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.snippets.models import register_snippet
 
 from config import settings
-from core.blocks import ButtonBlock, SingleRichTextBlock, TopicPageCardBlockRichText
+from core.blocks import ButtonBlock, SingleRichTextBlock
 from core.constants import (
     RICHTEXT_FEATURES__REDUCED,
     RICHTEXT_FEATURES__REDUCED__DISALLOW_H2,
@@ -35,7 +35,7 @@ from core.models import (
 from core.templatetags.content_tags import format_timedelta
 from domestic.models import BaseContentPage
 from export_academy import managers
-from export_academy.blocks import MetaDataBlock, ReviewBlock
+from export_academy.blocks import MetaDataBlock, ReviewBlock, PanelSectionBlock, SeriesSectionBlock
 from export_academy.cms_panels import (
     CoursePagePanels,
     EventPanel,
@@ -385,78 +385,21 @@ class ExportAcademyHomePage(ExportAcademyPagePanels, BaseContentPage):
         blank=True,
     )
 
-    course_name = models.CharField(
-        null=True,
-        blank=True,
-        max_length=255,
-        verbose_name='Series Name',
-    )
-
-    course_description = models.CharField(
-        null=True,
-        blank=True,
-        max_length=255,
-        verbose_name='Series Description',
-    )
-
-    course_image = models.ForeignKey(
-        'core.AltTextImage',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name='Series image',
-    )
-
-    course_feature_one = models.CharField(
-        null=True,
-        blank=True,
-        max_length=255,
-        verbose_name='Series Feature One',
-    )
-
-    course_feature_two = models.CharField(
-        null=True,
-        blank=True,
-        max_length=255,
-        verbose_name='Series Feature Two',
-    )
-
-    course_feature_three = models.CharField(
-        null=True,
-        blank=True,
-        max_length=255,
-        verbose_name='Series Feature Three',
-    )
-
-    course_cta_text = models.CharField(
-        null=True,
-        blank=True,
-        max_length=255,
-        verbose_name='Series CTA Text',
-    )
-
-    course_cta_url = models.CharField(
-        null=True,
-        blank=True,
-        max_length=255,
-        verbose_name='Series CTA URL',
-    )
-
-    panel_description = RichTextField(
-        features=RICHTEXT_FEATURES__REDUCED,
+    events_and_series = StreamField(
+        [
+            (
+                'Series_Section',
+                SeriesSectionBlock(),
+            ),
+            (
+                'Panels_Section',
+                PanelSectionBlock(),
+            ),
+        ],
+        use_json_field=True,
         null=True,
         blank=True,
     )
-
-    panels = single_struct_block_stream_field_factory(
-        field_name='panel',
-        block_class_instance=TopicPageCardBlockRichText(),
-        null=True,
-        blank=True,
-    )
-
-    next_cta = StreamField([('button', ButtonBlock())], use_json_field=True, null=True, blank=True)
 
 
 class ModuleEventSet(models.Model):
