@@ -367,7 +367,6 @@ class WhenDoYouWantToSetupView(GA360Mixin, FormView):
                     'landing_timeframe': form.cleaned_data['landing_timeframe'],
                 },
             )
-        calculate_and_store_is_high_value(self.request)
         return super().form_valid(form)
 
 
