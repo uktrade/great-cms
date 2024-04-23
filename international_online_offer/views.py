@@ -87,13 +87,13 @@ class AboutYourBusinessView(GA360Mixin, TemplateView):
         # If success, signup has occured and been successful
         if self.request.GET.get('success'):
             UserData.objects.create(
-                hashed_uuid=self.request.user.hashed_uuid, email=self.request.user.email, accept_terms=True
+                hashed_uuid=self.request.user.hashed_uuid, email=self.request.user.email, agree_terms=True
             )
         return super().get_context_data(*args, **kwargs)
 
 
 class BusinessDetailsView(GA360Mixin, FormView):
-    template_name = 'eyb/triage-new/business_details.html'
+    template_name = 'eyb/triage/business_details.html'
     form_class = forms.BusinessDetailsForm
 
     def __init__(self):
@@ -179,7 +179,7 @@ class BusinessDetailsView(GA360Mixin, FormView):
 
 
 class ContactDetailsView(GA360Mixin, FormView):
-    template_name = 'eyb/triage-new/contact_details.html'
+    template_name = 'eyb/triage/contact_details.html'
     form_class = forms.ContactDetailsForm
 
     def __init__(self):
@@ -256,7 +256,7 @@ class ContactDetailsView(GA360Mixin, FormView):
 
 class KnowSetupLocationView(GA360Mixin, FormView):
     form_class = forms.KnowSetupLocationForm
-    template_name = 'eyb/triage-new/know_your_setup_location.html'
+    template_name = 'eyb/triage/know_your_setup_location.html'
 
     def __init__(self):
         super().__init__()
@@ -320,7 +320,7 @@ class KnowSetupLocationView(GA360Mixin, FormView):
 
 class WhenDoYouWantToSetupView(GA360Mixin, FormView):
     form_class = forms.WhenDoYouWantToSetupForm
-    template_name = 'eyb/triage-new/when_want_to_setup.html'
+    template_name = 'eyb/triage/when_want_to_setup.html'
 
     def __init__(self):
         super().__init__()
@@ -365,72 +365,6 @@ class WhenDoYouWantToSetupView(GA360Mixin, FormView):
                 hashed_uuid=self.request.user.hashed_uuid,
                 defaults={
                     'landing_timeframe': form.cleaned_data['landing_timeframe'],
-                },
-            )
-        calculate_and_store_is_high_value(self.request)
-        return super().form_valid(form)
-
-
-class SectorView(GA360Mixin, FormView):
-    form_class = forms.SectorForm
-    template_name = 'eyb/triage/sector.html'
-
-    def __init__(self):
-        super().__init__()
-        self.set_ga360_payload(
-            page_id='Sector',
-            business_unit='ExpandYourBusiness',
-            site_section='sector',
-        )
-
-    def get_back_url(self):
-        back_url = reverse_lazy('international_online_offer:index')
-        if self.request.GET.get('next'):
-            back_url = check_url_host_is_safelisted(self.request)
-        return back_url
-
-    def get_success_url(self):
-        next_url = reverse_lazy('international_online_offer:intent')
-        if self.request.GET.get('next'):
-            next_url = check_url_host_is_safelisted(self.request)
-        return next_url
-
-    def get_context_data(self, **kwargs):
-        sector = None
-        sector_sub = None
-        if self.request.user.is_authenticated:
-            triage_data = get_triage_data_for_user(self.request)
-            if triage_data:
-                sector = triage_data.get_sector_display()
-                sector_sub = triage_data.get_sector_sub_display()
-
-        return super().get_context_data(
-            **kwargs,
-            back_url=self.get_back_url(),
-            step_text='Step 1 of 5',
-            question_text='What does your company make or do?',
-            why_we_ask_this_question_text="""We'll use this information to provide customised content
-              relevant to your sector and products or services.""",
-            autocomplete_sector_data=region_sector_helpers.get_sectors_and_sic_sectors_file_as_string(),
-            sector=sector,
-            sector_sub=sector_sub,
-        )
-
-    def get_initial(self):
-        if self.request.user.is_authenticated:
-            triage_data = get_triage_data_for_user(self.request)
-            if triage_data:
-                return {'sector_sub': triage_data.sector_sub}
-
-    def form_valid(self, form):
-        sub_sector = form.cleaned_data['sector_sub']
-        sector = region_sector_helpers.get_sector_from_sic_sector(sub_sector)
-        if self.request.user.is_authenticated:
-            TriageData.objects.update_or_create(
-                hashed_uuid=self.request.user.hashed_uuid,
-                defaults={
-                    'sector': sector,
-                    'sector_sub': form.cleaned_data['sector_sub'],
                 },
             )
         calculate_and_store_is_high_value(self.request)
@@ -549,7 +483,7 @@ class LocationView(GA360Mixin, FormView):
                 defaults={
                     'location': region,
                     'location_city': city,
-                    'location_none': form.cleaned_data['location_none'],
+                    'location_none': False,
                 },
             )
         calculate_and_store_is_high_value(self.request)
@@ -666,92 +600,6 @@ class SpendView(GA360Mixin, FormView):
                 },
             )
         calculate_and_store_is_high_value(self.request)
-        return super().form_valid(form)
-
-
-class ProfileView(GA360Mixin, FormView):
-    form_class = forms.ProfileForm
-    template_name = 'eyb/profile.html'
-
-    def get_success_url(self):
-        if self.request.GET.get('signup'):
-            return reverse_lazy('international_online_offer:sector') + '?signup=true'
-        return '/international/expand-your-business-in-the-uk/guide/'
-
-    def __init__(self):
-        super().__init__()
-        self.set_ga360_payload(
-            page_id='Profile',
-            business_unit='ExpandYourBusiness',
-            site_section='profile',
-        )
-
-    COMPLETE_SIGN_UP_TITLE = 'Complete sign up'
-    COMPLETE_SIGN_UP_LOW_VALUE_SUB_TITLE = 'Complete the sign up form to access your full personalised guide.'
-    COMPLETE_SIGN_UP_HIGH_VALUE_SUB_TITLE = (
-        'Complete the sign up form to access 1 to 1 support and your full personalised guide.'
-    )
-
-    PROFILE_DETAILS_TITLE = 'Profile details'
-    PROFILE_DETAILS_SUB_TITLE = 'Update your profile information below.'
-
-    def get_context_data(self, **kwargs):
-        title = self.COMPLETE_SIGN_UP_TITLE
-        sub_title = self.COMPLETE_SIGN_UP_LOW_VALUE_SUB_TITLE
-        user_data = get_user_data_for_user(self.request)
-        # if user_data has been provided then the user has setup a profile before
-        if user_data:
-            title = self.PROFILE_DETAILS_TITLE
-            sub_title = self.PROFILE_DETAILS_SUB_TITLE
-
-        breadcrumbs = [
-            {'name': 'Home', 'url': '/international/'},
-            {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#personalised-guide'},
-        ]
-        return super().get_context_data(
-            **kwargs,
-            title=title,
-            sub_title=sub_title,
-            breadcrumbs=breadcrumbs,
-        )
-
-    def get_initial(self):
-        email = self.request.user.email
-        # Setting form data up for first time use (signup)
-        init_user_form_data = {
-            'company_name': '',
-            'company_location': '',
-            'full_name': '',
-            'role': '',
-            'email': email,
-            'telephone_number': '',
-            'agree_terms': True,
-            'agree_info_email': '',
-            'landing_timeframe': '',
-            'company_website': '',
-        }
-        user_data = get_user_data_for_user(self.request)
-        if user_data:
-            # If user_data then we're dealing with an existing user accessing their profile
-            init_user_form_data['email'] = user_data.email
-            init_user_form_data['company_name'] = user_data.company_name
-            init_user_form_data['company_location'] = user_data.company_location
-            init_user_form_data['full_name'] = user_data.full_name
-            init_user_form_data['role'] = user_data.role
-            init_user_form_data['telephone_number'] = user_data.telephone_number
-            init_user_form_data['agree_terms'] = user_data.agree_terms
-            init_user_form_data['agree_info_email'] = user_data.agree_info_email
-            init_user_form_data['landing_timeframe'] = user_data.landing_timeframe
-            init_user_form_data['company_website'] = user_data.company_website
-
-        return init_user_form_data
-
-    def form_valid(self, form):
-        if self.request.user.is_authenticated:
-            UserData.objects.update_or_create(
-                hashed_uuid=self.request.user.hashed_uuid,
-                defaults=form.cleaned_data,
-            )
         return super().form_valid(form)
 
 

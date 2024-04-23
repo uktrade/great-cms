@@ -76,7 +76,7 @@ class EYBGuidePage(BaseContentPage):
         context = super().get_context(request, *args, **kwargs)
         user_data = get_user_data_for_user(request)
         triage_data = get_triage_data_for_user(request)
-        is_triage_complete = helpers.is_triage_complete(triage_data)
+        is_triage_data_complete = helpers.is_triage_data_complete(triage_data)
 
         bci_data = None
         if triage_data and triage_data.sector:
@@ -124,7 +124,7 @@ class EYBGuidePage(BaseContentPage):
             get_to_know_market_articles=list(chain(sector_only_articles, intent_articles_specific_to_sector)),
             finance_and_support_articles=all_articles_tagged_with_finance_and_support,
             trade_shows_page=trade_shows_page,
-            is_triage_complete=is_triage_complete,
+            is_triage_data_complete=is_triage_data_complete,
             breadcrumbs=breadcrumbs,
         )
 
