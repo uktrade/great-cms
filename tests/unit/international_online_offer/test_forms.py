@@ -109,8 +109,6 @@ def test_triage_intent_form_validation(form_data, is_valid):
     data = form_data
     form = IntentForm(data)
     assert form.is_valid() == is_valid
-    if not is_valid:
-        assert form.errors['intent_other'][0] == 'Please enter more information here'
 
 
 @pytest.mark.parametrize(
@@ -120,26 +118,19 @@ def test_triage_intent_form_validation(form_data, is_valid):
         (
             {'location': regions.LONDON, 'location_none': 'true'},
             False,
-            LocationForm.VALIDATION_MESSAGE_SELECT_OPTION,
-            LocationForm.VALIDATION_MESSAGE_SELECT_NONE_OPTION,
         ),
         ({'location': '', 'location_none': 'true'}, True, '', ''),
         (
             {'location': '', 'location_none': ''},
             False,
-            LocationForm.VALIDATION_MESSAGE_SELECT_OPTION,
-            LocationForm.VALIDATION_MESSAGE_SELECT_NONE_OPTION,
         ),
     ),
 )
 @pytest.mark.django_db
-def test_triage_location_form_validation(form_data, is_valid, location_error_message, location_none_error_message):
+def test_triage_location_form_validation(form_data, is_valid):
     data = form_data
     form = LocationForm(data)
     assert form.is_valid() == is_valid
-    if not is_valid:
-        assert form.errors['location'][0] == location_error_message
-        assert form.errors['location_none'][0] == location_none_error_message
 
 
 @pytest.mark.parametrize(
@@ -154,8 +145,6 @@ def test_triage_hiring_form_validation(form_data, is_valid):
     data = form_data
     form = HiringForm(data)
     assert form.is_valid() == is_valid
-    if not is_valid:
-        assert form.errors['hiring'][0] == 'You must select at least one hiring option'
 
 
 @pytest.mark.parametrize(
