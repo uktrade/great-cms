@@ -2,13 +2,13 @@ import pytest
 
 from international_online_offer.core import hirings, intents, regions, spends
 from international_online_offer.forms import (
+    BusinessDetailsForm,
+    ContactDetailsForm,
     CsatFeedbackForm,
     FeedbackForm,
     HiringForm,
     IntentForm,
     LocationForm,
-    ProfileForm,
-    SectorForm,
     SpendForm,
 )
 
@@ -16,17 +16,85 @@ from international_online_offer.forms import (
 @pytest.mark.parametrize(
     'form_data,is_valid',
     (
-        ({'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT'}, True),
-        ({'sector_sub': ''}, False),
+        (
+            {
+                'company_name': 'Vault tec',
+                'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT',
+                'company_location': 'FR',
+                'company_website': 'http://great.gov.uk/',
+            },
+            True,
+        ),
+        (
+            {
+                'company_name': '',
+                'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT',
+                'company_location': 'FR',
+                'company_website': 'http://great.gov.uk/',
+            },
+            False,
+        ),
+        (
+            {
+                'company_name': 'Vault tec',
+                'sector_sub': '',
+                'company_location': 'FR',
+                'company_website': 'http://great.gov.uk/',
+            },
+            False,
+        ),
+        (
+            {
+                'company_name': 'Vault tec',
+                'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT',
+                'company_location': '',
+                'company_website': 'http://great.gov.uk/',
+            },
+            False,
+        ),
+        (
+            {
+                'company_name': 'Vault tec',
+                'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT',
+                'company_location': 'FR',
+                'company_website': '',
+            },
+            False,
+        ),
+        (
+            {
+                'company_name': '',
+                'sector_sub': '',
+                'company_location': '',
+                'company_website': '',
+            },
+            False,
+        ),
+        (
+            {
+                'company_name': 'Vault tec',
+                'sector_sub': 'NOT_A_VALID_SECTOR_SUB',
+                'company_location': 'FR',
+                'company_website': 'http://great.gov.uk/',
+            },
+            False,
+        ),
+        (
+            {
+                'company_name': 'Vault tec',
+                'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT',
+                'company_location': 'NOT_A_VALID_LOCATION',
+                'company_website': 'http://great.gov.uk/',
+            },
+            False,
+        ),
     ),
 )
 @pytest.mark.django_db
-def test_triage_sector_validation(form_data, is_valid):
+def test_business_details_form_validation(form_data, is_valid):
     data = form_data
-    form = SectorForm(data)
+    form = BusinessDetailsForm(data)
     assert form.is_valid() == is_valid
-    if not is_valid:
-        assert form.errors['sector_sub'][0] == 'You must enter your business sector'
 
 
 @pytest.mark.parametrize(
@@ -109,67 +177,28 @@ def test_triage_spend_form_validation(form_data, is_valid):
     (
         (
             {
-                'company_name': 'Department for Business and Trade',
-                'company_location': 'DE',
                 'full_name': 'Joe Bloggs',
                 'role': 'Director',
-                'email': 'joe@bloggs.com',
                 'telephone_number': '+447923456789',
-                'agree_terms': 'true',
                 'agree_info_email': '',
-                'landing_timeframe': 'UNDER_SIX_MONTHS',
-                'company_website': 'http://www.great.gov.uk',
             },
             True,
         ),
         (
             {
-                'company_name': '',
-                'company_location': '',
                 'full_name': '',
                 'role': '',
-                'email': '',
                 'telephone_number': '',
-                'agree_terms': '',
                 'agree_info_email': '',
-                'company_website': '',
-            },
-            False,
-        ),
-        (
-            {
-                'company_name': 'Department for Business and Trade',
-                'company_location': 'RANDOM LOCATION',
-                'full_name': 'Joe Bloggs',
-                'role': 'Director',
-                'email': 'joe@bloggs.com',
-                'telephone_number': '+447923456789',
-                'agree_terms': 'true',
-                'agree_info_email': '',
-                'company_website': 'http://www.great.gov.uk',
-            },
-            False,
-        ),
-        (
-            {
-                'company_name': 'Department for Business and Trade',
-                'company_location': 'DE',
-                'full_name': 'Joe Bloggs',
-                'role': 'Director',
-                'email': 'joe@bloggs.com',
-                'telephone_number': '+447923456789',
-                'agree_terms': '',
-                'agree_info_email': 'true',
-                'company_website': 'http://www.great.gov.uk',
             },
             False,
         ),
     ),
 )
 @pytest.mark.django_db
-def test_profile_form_validation(form_data, is_valid):
+def test_contact_details_form_validation(form_data, is_valid):
     data = form_data
-    form = ProfileForm(data)
+    form = ContactDetailsForm(data)
     assert form.is_valid() == is_valid
 
 
