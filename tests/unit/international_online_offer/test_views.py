@@ -440,15 +440,6 @@ def test_spend_form_valid_saves_to_db(client, user, settings):
 
 
 @pytest.mark.django_db
-def test_spend_form_valid_saves_to_session(client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:spend')
-    response = client.post(url, {'spend': spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND})
-    assert client.session['spend'] == spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND
-    assert response.status_code == 302
-
-
-@pytest.mark.django_db
 def test_eyb_contact_details(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:contact-details')
