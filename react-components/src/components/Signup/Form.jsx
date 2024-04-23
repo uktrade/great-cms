@@ -48,6 +48,7 @@ const Form = ({
     <Input
       label="UK telephone number (optional)"
       info="By providing your phone number, you agree to be contacted by DBT to gather feedback on your experiences of great.gov.uk."
+      descriptionClassName="govuk-body-s"
       id="phone_number"
       type="tel"
       disabled={disabled}
@@ -74,7 +75,7 @@ const Form = ({
     <button
       type="submit"
       id="signup-modal-submit"
-      className="button great-border-bottom-black primary-button govuk-!-margin-top-1"
+      className="button great-border-bottom-black primary-button govuk-!-margin-top-1 great-width-auto"
       disabled={disabled}
     >
       Create Account
