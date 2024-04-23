@@ -5,7 +5,14 @@ from django.conf import settings
 from django.urls import reverse, reverse_lazy
 
 from directory_sso_api_client import sso_api_client
-from international_online_offer.core import helpers, hirings, intents, regions, spends
+from international_online_offer.core import (
+    helpers,
+    hirings,
+    intents,
+    landing_timeframes,
+    regions,
+    spends,
+)
 from international_online_offer.models import (
     CsatFeedback,
     TradeAssociation,
@@ -284,6 +291,96 @@ def test_intent_form_valid_saves_to_db(client, user, settings):
     user.hashed_uuid = '123'
     client.force_login(user)
     response = client.post(url, {'intent': intents.SET_UP_NEW_PREMISES, 'intent_other': ''})
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_know_setup_location(client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    client.force_login(user)
+    url = reverse('international_online_offer:know-setup-location')
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_know_setup_location_next(client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    client.force_login(user)
+    response = client.get(
+        reverse('international_online_offer:know-setup-location')
+        + '?next='
+        + reverse('international_online_offer:change-your-answers')
+    )
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_know_setup_location_initial(client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    TriageData.objects.update_or_create(
+        hashed_uuid='123',
+        defaults={'location_none': False},
+    )
+    url = reverse('international_online_offer:know-setup-location')
+    user.hashed_uuid = '123'
+    client.force_login(user)
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_know_setup_location_form_valid_saves_to_db(client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:know-setup-location')
+    user.hashed_uuid = '123'
+    client.force_login(user)
+    response = client.post(url, {'know_setup_location': 'True'})
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_know_when_want_setup(client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    client.force_login(user)
+    url = reverse('international_online_offer:when-want-setup')
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_know_when_want_setup_next(client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    client.force_login(user)
+    response = client.get(
+        reverse('international_online_offer:when-want-setup')
+        + '?next='
+        + reverse('international_online_offer:change-your-answers')
+    )
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_know_when_want_setup_initial(client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    TriageData.objects.update_or_create(
+        hashed_uuid='123',
+        defaults={'location_none': False},
+    )
+    url = reverse('international_online_offer:when-want-setup')
+    user.hashed_uuid = '123'
+    client.force_login(user)
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_know_when_want_setup_form_valid_saves_to_db(client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:when-want-setup')
+    user.hashed_uuid = '123'
+    client.force_login(user)
+    response = client.post(url, {'landing_timeframe': landing_timeframes.ONE_TO_TWO_YEARS})
     assert response.status_code == 302
 
 
