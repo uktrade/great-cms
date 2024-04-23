@@ -139,13 +139,6 @@
                                    data-location="EYB sub-nav"
                                    data-title="Sign out">Sign out</a>
                             </li>
-                        {% elif request.user.is_authenticated %}
-                            <li>
-                                <a class="govuk-link govuk-link--inverse great-international-subnav__item"
-                                   href="{% url 'international_online_offer:profile' %}?signup=true"
-                                   data-location="EYB sub-nav"
-                                   data-title="Complete sign up">Complete sign up</a>
-                            </li>
                         {% else %}
                             <li>
                                 <a class="govuk-link govuk-link--inverse great-international-subnav__item"
