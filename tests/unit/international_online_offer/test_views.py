@@ -158,10 +158,10 @@ def test_eyb_signup_partial_complete_signup_redirect(settings, client, user):
 
 
 @pytest.mark.django_db
-def test_sector(client, user, settings):
+def test_eyb_business_details(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
-    response = client.get(reverse('international_online_offer:sector'))
+    response = client.get(reverse('international_online_offer:business-details'))
     context = response.context_data
     assert context['sector'] is None
     assert context['sector_sub'] is None
@@ -169,11 +169,11 @@ def test_sector(client, user, settings):
 
 
 @pytest.mark.django_db
-def test_sector_next(client, user, settings):
+def test_eyb_business_details_next(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
     response = client.get(
-        reverse('international_online_offer:sector')
+        reverse('international_online_offer:business-details')
         + '?next='
         + reverse('international_online_offer:change-your-answers')
     )
@@ -181,21 +181,21 @@ def test_sector_next(client, user, settings):
 
 
 @pytest.mark.django_db
-def test_sector_next_unhappy(client, user, settings):
+def test_eyb_business_details_next_unhappy(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
-    response = client.get(reverse('international_online_offer:sector') + '?next=edit-your-answers')
+    response = client.get(reverse('international_online_offer:business-details') + '?next=edit-your-answers')
     assert response.status_code == 200
 
 
 @pytest.mark.django_db
-def test_sector_initial(client, user, settings):
+def test_eyb_business_details_initial(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     TriageData.objects.update_or_create(
         hashed_uuid='123',
         defaults={'sector': 'sector'},
     )
-    url = reverse('international_online_offer:sector')
+    url = reverse('international_online_offer:business-details')
     user.hashed_uuid = '123'
     client.force_login(user)
     response = client.get(url)
@@ -203,46 +203,39 @@ def test_sector_initial(client, user, settings):
 
 
 @pytest.mark.django_db
-def test_sector_form_valid_saves_to_db(client, user, settings):
+def test_eyb_business_details_form_valid_saves_to_db(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:sector')
+    url = reverse('international_online_offer:business-details')
     user.hashed_uuid = '123'
     client.force_login(user)
-    response = client.post(url, {'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT'})
+    response = client.post(
+        url,
+        {
+            'company_name': 'Vault tec',
+            'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT',
+            'company_location': 'FR',
+            'company_website': 'http://great.gov.uk/',
+        },
+    )
     assert response.status_code == 302
 
 
 @pytest.mark.django_db
-def test_sector_saved_to_db_gets_labels(client, user, settings):
+def test_business_details_saved_to_db_gets_sector_labels(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:sector')
+    url = reverse('international_online_offer:business-details')
     user.hashed_uuid = '123'
     client.force_login(user)
-    response = client.post(url, {'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT'})
-    response = client.get(reverse('international_online_offer:sector'))
-    context = response.context_data
-    assert context['sector'] == 'Financial and professional services'
-    assert context['sector_sub'] == 'Residents property management'
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
-def test_sector_form_valid_saves_to_session(client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:sector')
-    response = client.post(url, {'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT'})
-    assert client.session['sector'] == 'FINANCIAL_AND_PROFESSIONAL_SERVICES'
-    assert client.session['sector_sub'] == 'RESIDENTS_PROPERTY_MANAGEMENT'
-    assert response.status_code == 302
-
-
-@pytest.mark.django_db
-def test_sector_saved_to_session_gets_labels(client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    client.force_login(user)
-    url = reverse('international_online_offer:sector')
-    response = client.post(url, {'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT'})
-    response = client.get(reverse('international_online_offer:sector'))
+    response = client.post(
+        url,
+        {
+            'company_name': 'Vault tec',
+            'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT',
+            'company_location': 'FR',
+            'company_website': 'http://great.gov.uk/',
+        },
+    )
+    response = client.get(reverse('international_online_offer:business-details'))
     context = response.context_data
     assert context['sector'] == 'Financial and professional services'
     assert context['sector_sub'] == 'Residents property management'
@@ -295,15 +288,6 @@ def test_intent_form_valid_saves_to_db(client, user, settings):
 
 
 @pytest.mark.django_db
-def test_intent_form_valid_saves_to_session(client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:intent')
-    response = client.post(url, {'intent': 'FIND_PEOPLE_WITH_SPECIALIST_SKILLS'})
-    assert client.session['intent'] == ['FIND_PEOPLE_WITH_SPECIALIST_SKILLS']
-    assert response.status_code == 302
-
-
-@pytest.mark.django_db
 def test_location(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
@@ -348,16 +332,6 @@ def test_location_form_valid_saves_to_db(client, user, settings):
     user.hashed_uuid = '123'
     client.force_login(user)
     response = client.post(url, {'location': regions.WALES})
-    assert response.status_code == 302
-
-
-@pytest.mark.django_db
-def test_location_form_valid_saves_to_session(client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:location')
-    response = client.post(url, {'location': 'CARDIFF'})
-    assert client.session['location'] == 'WALES'
-    assert client.session['location_city'] == 'CARDIFF'
     assert response.status_code == 302
 
 
@@ -421,15 +395,6 @@ def test_hiring_form_valid_saves_to_db(client, user, settings):
 
 
 @pytest.mark.django_db
-def test_hiring_form_valid_saves_to_session(client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:hiring')
-    response = client.post(url, {'hiring': hirings.ONE_TO_FIVE})
-    assert client.session['hiring'] == hirings.ONE_TO_FIVE
-    assert response.status_code == 302
-
-
-@pytest.mark.django_db
 def test_spend(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
@@ -484,90 +449,25 @@ def test_spend_form_valid_saves_to_session(client, settings):
 
 
 @pytest.mark.django_db
-def test_eyb_profile(client, user, settings):
+def test_eyb_contact_details(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:profile')
-    user.email = 'test@test.com'
+    url = reverse('international_online_offer:contact-details')
     client.force_login(user)
     response = client.get(url)
     assert response.status_code == 200
 
 
-@pytest.mark.parametrize(
-    'form_data,expected_query_param,jump_to_link,is_signing_up',
-    (
-        (
-            {
-                'company_name': 'Department for Business and Trade',
-                'company_location': 'DE',
-                'full_name': 'New Signup Joe Bloggs',
-                'role': 'Director',
-                'email': 'joe@bloggs.com',
-                'telephone_number': '+447923456789',
-                'agree_terms': 'true',
-                'agree_info_email': '',
-                'landing_timeframe': 'UNDER_SIX_MONTHS',
-                'company_website': 'http://www.great.gov.uk',
-            },
-            '?signup=true',
-            '',
-            True,
-        ),
-        (
-            {
-                'company_name': 'Department for Business and Trade',
-                'company_location': 'DE',
-                'full_name': 'Existing Joe Bloggs',
-                'role': 'Director',
-                'email': 'joe@bloggs.com',
-                'telephone_number': '+447923456789',
-                'agree_terms': 'true',
-                'agree_info_email': '',
-                'landing_timeframe': 'UNDER_SIX_MONTHS',
-                'company_website': 'http://www.great.gov.uk',
-            },
-            '',
-            '#personalised-guide',
-            False,
-        ),
-    ),
-)
 @pytest.mark.django_db
-def test_profile_new_signup_vs_update(
-    client, settings, user, form_data, expected_query_param, jump_to_link, is_signing_up
-):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:profile') + expected_query_param
-    user.email = 'test@test.com'
-    client.force_login(user)
-    response = client.post(
-        url,
-        form_data,
-    )
-    assert response.status_code == 302
-    target_path = '/international/expand-your-business-in-the-uk/guide/'
-    if not is_signing_up:
-        target_path = '/international/expand-your-business-in-the-uk/guide/'
-        assert response['Location'] == target_path
-    else:
-        assert response['Location'] == target_path + expected_query_param + jump_to_link
-
-
-@pytest.mark.django_db
-def test_eyb_profile_initial(client, user, settings):
+def test_eyb_contact_details_initial(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     UserData.objects.create(
         hashed_uuid='123',
-        company_name='DBT',
-        company_location='France',
         full_name='Joe Bloggs',
         role='Director',
-        email='test@test.com',
         telephone_number='07923456787',
-        agree_terms=True,
         agree_info_email=False,
     )
-    url = reverse('international_online_offer:profile')
+    url = reverse('international_online_offer:contact-details')
     user.hashed_uuid = '123'
     client.force_login(user)
     response = client.get(url)
