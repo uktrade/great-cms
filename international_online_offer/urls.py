@@ -39,11 +39,6 @@ urlpatterns = [
         name='contact-details',
     ),
     path(
-        'sector/',
-        login_required(views.SectorView.as_view(), login_url=SIGNUP_URL),
-        name='sector',
-    ),
-    path(
         'intent/',
         login_required(views.IntentView.as_view(), login_url=SIGNUP_URL),
         name='intent',
@@ -62,11 +57,6 @@ urlpatterns = [
         'spend/',
         login_required(views.SpendView.as_view(), login_url=SIGNUP_URL),
         name='spend',
-    ),
-    path(
-        'profile/',
-        login_required(views.ProfileView.as_view(), login_url=SIGNUP_URL),
-        name='profile',
     ),
     path(
         'login/',

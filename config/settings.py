@@ -165,7 +165,7 @@ TEMPLATES = [
                 'international_online_offer.context_processors.eyb_user',
                 'international_online_offer.context_processors.feedback_next_url',
                 'international_online_offer.context_processors.hide_primary_nav',
-                'international_investment.context_processors.hide_primary_nav',
+                'international_online_offer.context_processors.user_completed_triage',
             ],
         },
     },

@@ -6,10 +6,6 @@
 {% block meta_title %}
     About your expansion plans: Do you know where you want to set up in the UK? {{ block.super }}
 {% endblock %}
-{% block head_other %}
-    <meta name="description"
-          content="Find information to help invest within the UK" />
-{% endblock %}
 {% block head_css %}
     {{ block.super }}
     <link href="{% static 'core/css/accessible-autocomplete.min.css' %}"
@@ -18,14 +14,14 @@
 {% endblock %}
 {% block content %}
     <div class="govuk-width-container great-container">
-        {% include '../includes/triage_new_header.html' with back_url=back_url hint_title='About your expansion plans' title='Do you know where you want to set up in the UK?' %}
+        {% include '../includes/triage_header.html' with back_url=back_url hint_title='About your expansion plans' title='When do you want to set up?' %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <form method="post">
                     {% csrf_token %}
-                    <div class="govuk-form-group govuk-!-margin-bottom-7 {% if form.know_setup_location.errors %}govuk-form-group--error{% endif %} govuk-!-margin-bottom-2">
+                    <div class="govuk-form-group govuk-!-margin-bottom-7 {% if form.landing_timeframe.errors %}govuk-form-group--error{% endif %} govuk-!-margin-bottom-2">
                         <fieldset class="govuk-fieldset">
-                            {% include 'domestic/contact/includes/govuk-form-field.html' with field=form.know_setup_location hide_label=True %}
+                            {% include 'domestic/contact/includes/govuk-form-field.html' with field=form.landing_timeframe hide_label=True %}
                         </fieldset>
                     </div>
                     <div class="govuk-grid-row govuk-!-margin-top-5">
@@ -42,8 +38,6 @@
     {{ block.super }}
     <script type="text/javascript"
             src="{% static 'javascript/accessible-autocomplete.min.js' %}"></script>
-    <script type="text/javascript"
-            src="{% static 'javascript/expand-your-business.js' %}"></script>
     <script type="text/javascript">
         const onSubmitBusinessDetails = () => {
             if (!document.getElementById('js-sector-select').value) {
@@ -137,4 +131,5 @@
         }
         });
     </script>
+    <script type="text/javascript">autocompleteFocusOnESC('#js-sector-select', '#js-sector-select__listbox')</script>
 {% endblock %}

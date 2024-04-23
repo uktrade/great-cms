@@ -7,10 +7,32 @@
 {% block head_css %}{{ block.super }}{% endblock %}
 {% block content %}
     <div class="govuk-width-container great-container">
-        {% if not is_triage_complete %}
+        {% if request.GET.signup %}
+            <div class="govuk-grid-row govuk-!-margin-top-4">
+                <div class="govuk-grid-column-full">
+                    <div class="govuk-notification-banner govuk-notification-banner--success"
+                         role="alert"
+                         aria-labelledby="govuk-notification-banner-title"
+                         data-module="govuk-notification-banner">
+                        <div class="govuk-notification-banner__header">
+                            <h2 class="govuk-notification-banner__title"
+                                id="govuk-notification-banner-title">Success</h2>
+                        </div>
+                        <div class="govuk-notification-banner__content">
+                            <h3 class="govuk-notification-banner__heading">Here's your guide to expanding your business in the UK</h3>
+                            <p class="govuk-body">
+                                We've created your guide from everything you've told us about your business in our <strong>{{ triage_data.get_sector_display }}</strong> sector. If anything changes, you can <a class="govuk-notification-banner__link"
+    href="{% url 'international_online_offer:change-your-answers' %}">update your details</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if not user_completed_triage %}
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full">
-                    {% include './includes/govuk/notification_banner.html' with banner_title="Important" banner_heading='Complete a 2-minute step by step process to ensure this guide is tailored to your specific needs.' banner_link='international_online_offer:sector' banner_link_text='Start now' %}
+                    {% include './includes/govuk/notification_banner.html' with banner_title="Important" banner_heading='Complete a 2-minute step by step process to ensure this guide is tailored to your specific needs.' banner_link='international_online_offer:business-details' banner_link_text='Start now' %}
                 </div>
             </div>
         {% endif %}
@@ -30,36 +52,15 @@
                 <div class="govuk-grid-row govuk-!-padding-3 govuk-!-margin-0 govuk-!-margin-bottom-8 guide-edit-panel">
                     <div class="govuk-grid-column-one-quarter">
                         <p class="govuk-body">Sector</p>
-                        {% if triage_data.sector %}
-                            <h2 class="govuk-heading-m">{{ triage_data.get_sector_display }}</h2>
-                        {% else %}
-                            <p class="govuk-body govuk-!-padding-top-2">
-                                <a class="govuk-link"
-                                   href="{% url 'international_online_offer:sector' %}">Add details</a>
-                            </p>
-                        {% endif %}
+                        <h2 class="govuk-heading-m">{{ triage_data.get_sector_display }}</h2>
                     </div>
                     <div class="govuk-grid-column-one-quarter">
                         <p class="govuk-body">Headquarters</p>
-                        {% if user_data.company_location %}
-                            <h2 class="govuk-heading-m">{{ user_data.get_company_location_display }}</h2>
-                        {% else %}
-                            <p class="govuk-body govuk-!-padding-top-2">
-                                <a class="govuk-link"
-                                   href="{% url 'international_online_offer:profile' %}">Add details</a>
-                            </p>
-                        {% endif %}
+                        <h2 class="govuk-heading-m">{{ user_data.get_company_location_display }}</h2>
                     </div>
                     <div class="govuk-grid-column-one-quarter">
                         <p class="govuk-body">Company name</p>
-                        {% if user_data.company_name %}
-                            <h2 class="govuk-heading-m">{{ user_data.company_name }}</h2>
-                        {% else %}
-                            <p class="govuk-body govuk-!-padding-top-2">
-                                <a class="govuk-link"
-                                   href="{% url 'international_online_offer:profile' %}">Add details</a>
-                            </p>
-                        {% endif %}
+                        <h2 class="govuk-heading-m">{{ user_data.company_name }}</h2>
                     </div>
                     <div class="govuk-grid-column-one-quarter">
                         <p class="govuk-body">
