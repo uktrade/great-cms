@@ -1,6 +1,12 @@
 import pytest
 
-from international_online_offer.core import hirings, intents, regions, spends
+from international_online_offer.core import (
+    hirings,
+    intents,
+    landing_timeframes,
+    regions,
+    spends,
+)
 from international_online_offer.forms import (
     BusinessDetailsForm,
     ContactDetailsForm,
@@ -8,8 +14,10 @@ from international_online_offer.forms import (
     FeedbackForm,
     HiringForm,
     IntentForm,
+    KnowSetupLocationForm,
     LocationForm,
     SpendForm,
+    WhenDoYouWantToSetupForm,
 )
 
 
@@ -112,16 +120,11 @@ def test_triage_intent_form_validation(form_data, is_valid):
 
 
 @pytest.mark.parametrize(
-    'form_data,is_valid,location_error_message,location_none_error_message',
+    'form_data,is_valid',
     (
-        ({'location': regions.LONDON, 'location_none': ''}, True, '', ''),
+        ({'location': regions.LONDON}, True),
         (
-            {'location': regions.LONDON, 'location_none': 'true'},
-            False,
-        ),
-        ({'location': '', 'location_none': 'true'}, True, '', ''),
-        (
-            {'location': '', 'location_none': ''},
+            {'location': ''},
             False,
         ),
     ),
@@ -188,6 +191,70 @@ def test_triage_spend_form_validation(form_data, is_valid):
 def test_contact_details_form_validation(form_data, is_valid):
     data = form_data
     form = ContactDetailsForm(data)
+    assert form.is_valid() == is_valid
+
+
+@pytest.mark.parametrize(
+    'form_data,is_valid',
+    (
+        (
+            {
+                'know_setup_location': True,
+            },
+            True,
+        ),
+        (
+            {
+                'know_setup_location': False,
+            },
+            True,
+        ),
+        (
+            {
+                'know_setup_location': '',
+            },
+            False,
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_know_setup_location_form_validation(form_data, is_valid):
+    form = KnowSetupLocationForm(form_data)
+    assert form.is_valid() == is_valid
+
+
+@pytest.mark.parametrize(
+    'form_data,is_valid',
+    (
+        (
+            {
+                'landing_timeframe': landing_timeframes.ONE_TO_TWO_YEARS,
+            },
+            True,
+        ),
+        (
+            {
+                'landing_timeframe': landing_timeframes.SIX_TO_TWELVE_MONTHS,
+            },
+            True,
+        ),
+        (
+            {
+                'landing_timeframe': '',
+            },
+            False,
+        ),
+        (
+            {
+                'landing_timeframe': 'INVALID_OPTION',
+            },
+            False,
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_when_want_setup_form_validation(form_data, is_valid):
+    form = WhenDoYouWantToSetupForm(form_data)
     assert form.is_valid() == is_valid
 
 
