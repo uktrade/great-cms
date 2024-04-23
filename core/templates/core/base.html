@@ -115,7 +115,15 @@
         </script>
     {% endif %}
 {% endblock %}
-{% block skip_link %}<a id="skip-link" href="#content" tabindex="1">Skip to main content</a>{% endblock %}
+{% block cookie_notice %}
+    {% path_match "^\/learn\/" as in_learning %}
+    {% if features.FEATURE_DEA_V2 and in_learning %}
+        {% include 'components/cookie_notice.html' %}
+    {% endif %}
+{% endblock %}
+{% block skip_link %}
+    <a href="#content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
+{% endblock %}
 {% block body_header %}
     {% path_match "^\/learn\/" as in_learning %}
     {% if features.FEATURE_DEA_V2 and in_learning %}
@@ -138,7 +146,6 @@
 {% block body_inline_feedback %}
     {% include 'components/inline_feedback/was_page_useful.html' %}
 {% endblock %}
-{% block cookie_notice %}{% endblock %}
 {% block body_footer %}
     <div id="snackbar-container"></div>
     {% include 'components/header_footer/domestic_footer.html' %}
