@@ -20,8 +20,10 @@
         <section class="govuk-!-padding-bottom-6 govuk-!-padding-top-9 great-bg-white">
             <div class="great-container event-details-header-container">
                 <div class="event-details-header-info govuk-grid-column-two-thirds-from-desktop govuk-!-static-padding-0">
-                    <h2 class="govuk-caption-l">Transcript</h2>
-                    <h1 class="govuk-heading-l govuk-!-static-margin-0 govuk-!-static-margin-bottom-2">{{ event.name }}</h1>
+                    <span aria-hidden="true" class="govuk-caption-l">Transcript</span>
+                    <h1 class="govuk-heading-l govuk-!-static-margin-0 govuk-!-static-margin-bottom-2">
+                        <span class="great-visually-hidden">Transcript for</span>{{ event.name }}
+                    </h1>
                     <div class="govuk-!-margin-top-6">{% get_video_transcript event_video %}</div>
                     <div class="govuk-!-margin-top-6">
                         <h3 class="govuk-heading-s govuk-!-static-margin-0 govuk-!-static-margin-bottom-3">
@@ -49,8 +51,10 @@
     <section class="govuk-!-padding-bottom-6 govuk-!-padding-top-9 great-bg-white">
         <div class="great-container event-details-header-container">
             <div class="event-details-header-info govuk-grid-column-two-thirds-from-desktop govuk-!-static-padding-0">
-                <h2 class="govuk-caption-l">Event Recording</h2>
-                <h1 class="govuk-heading-l govuk-!-static-margin-0 govuk-!-static-margin-bottom-2">{{ event.name }}</h1>
+                <span aria-hidden="true" class="govuk-caption-l">Event Recording</span>
+                <h1 class="govuk-heading-l govuk-!-static-margin-0 govuk-!-static-margin-bottom-2">
+                    <span class="great-visually-hidden">Event Recording for</span>{{ event.name }}
+                </h1>
                 <time datetime="{{ event.past_event_recorded_date|date:"Y-m-d" }}T{{ event.past_event_recorded_date|time:"H:i:s" }}{{ event.past_event_recorded_date|date:"O" }}">Recorded: {{ event.past_event_recorded_date|date:"l j F Y" }}</time>
             </div>
             <div class="event-details-header-logo">
