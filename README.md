@@ -85,7 +85,7 @@ In case you'd like to run all browser tests in "headfull" mode, then simply set 
 HEADLESS=false make ARGUMENTS="-m browser" pytest
 ```
 
-You can also use regular pytest filters:
+You can also use regular pytest filters as shown below:
 
 ```bash
 HEADLESS=false make ARGUMENTS="-k test_anonymous_user_should" pytest
