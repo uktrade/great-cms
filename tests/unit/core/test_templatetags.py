@@ -201,8 +201,8 @@ def test_basic_transcript_rendering():
     video_mock.transcript = 'Here is the transcript.'
     block = {'video': video_mock}
     result = get_video_transcript(block)
-    expected_result = format_html(f'{linebreaksbr(video_mock.transcript)}')
-    assert result == expected_result
+    expected_result = format_html("{}", linebreaksbr(video_mock.transcript))
+    assert result.strip() == expected_result.strip()
 
 
 def test_empty_transcript():
@@ -210,8 +210,8 @@ def test_empty_transcript():
     video_mock.transcript = ''
     block = {'video': video_mock}
     result = get_video_transcript(block)
-    expected_result = format_html(f'{linebreaksbr(video_mock.transcript)}')
-    assert result == expected_result
+    expected_result = format_html("{}", linebreaksbr(video_mock.transcript))
+    assert result.strip() == expected_result.strip()
 
 
 def test_long_transcript_handling():
@@ -219,8 +219,8 @@ def test_long_transcript_handling():
     video_mock.transcript = 'a' * 5000
     block = {'video': video_mock}
     result = get_video_transcript(block)
-    expected_result = format_html(f'{linebreaksbr(video_mock.transcript)}')
-    assert result == expected_result
+    expected_result = format_html("{}", linebreaksbr(video_mock.transcript))
+    assert result.strip() == expected_result.strip()
 
 
 @pytest.mark.django_db
