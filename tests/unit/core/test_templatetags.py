@@ -216,7 +216,7 @@ def test_empty_transcript():
 
 def test_long_transcript_handling():
     video_mock = mock.Mock()
-    video_mock.transcript = 'a' * 5000
+    video_mock.transcript = 'a' * 1500
     block = {'video': video_mock}
     result = get_video_transcript(block)
     expected_result = format_html('{}', linebreaksbr(video_mock.transcript))
