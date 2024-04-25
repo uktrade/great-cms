@@ -85,7 +85,7 @@ class AboutYourBusinessView(GA360Mixin, TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         # If success, signup has occured and been successful
-        if self.request.GET.get('success'):
+        if self.request.GET.get('signup'):
             UserData.objects.create(
                 hashed_uuid=self.request.user.hashed_uuid, email=self.request.user.email, agree_terms=True
             )
@@ -197,8 +197,8 @@ class ContactDetailsView(GA360Mixin, FormView):
         return back_url
 
     def get_success_url(self):
-        # TODO Need to cater for signup = success / true on guide
         next_url = '/international/expand-your-business-in-the-uk/guide/'
+        next_url += '?signup=true' if self.request.GET.signup else ''
         if self.request.GET.get('next'):
             next_url = check_url_host_is_safelisted(self.request)
         return next_url
@@ -224,6 +224,11 @@ class ContactDetailsView(GA360Mixin, FormView):
 
     def form_valid(self, form):
         if self.request.user.is_authenticated:
+            self.request.GET.signup = True
+            user_data = UserData.objects.get(hashed_uuid=self.request.user.hashed_uuid)
+            # Check if this is a first time use / signup to show message on guide page
+            if not user_data.full_name and user_data.role and user_data.telephone_number:
+                self.request.GET.signup = True
             UserData.objects.update_or_create(
                 hashed_uuid=self.request.user.hashed_uuid,
                 defaults={
@@ -233,7 +238,6 @@ class ContactDetailsView(GA360Mixin, FormView):
                     'agree_info_email': form.cleaned_data['agree_info_email'],
                 },
             )
-        calculate_and_store_is_high_value(self.request)
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -691,7 +695,7 @@ class SignUpView(
             else:
                 return self.handle_verification_code_success(
                     upstream_response=upstream_response,
-                    redirect_url=reverse_lazy('international_online_offer:about-your-business') + '?success=true',
+                    redirect_url=reverse_lazy('international_online_offer:about-your-business') + '?signup=true',
                 )
         return render(request, self.template_name, {'form': form})
 

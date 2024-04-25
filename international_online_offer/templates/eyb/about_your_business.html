@@ -8,7 +8,7 @@
 {% endblock %}
 {% block content %}
     <div class="govuk-width-container great-container">
-        {% if request.GET.success %}
+        {% if request.GET.signup %}
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
                     <div class="govuk-notification-banner govuk-notification-banner--success"
@@ -44,7 +44,7 @@
         </div>
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
-                <a href="{% url 'international_online_offer:business-details' %}"
+                <a href="{% url 'international_online_offer:business-details' %}{% if request.GET.signup %}?signup=true{% endif %}"
                    role="button"
                    draggable="false"
                    class="govuk-button govuk-button--start"
