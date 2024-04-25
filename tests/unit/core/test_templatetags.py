@@ -201,7 +201,7 @@ def test_basic_transcript_rendering():
     video_mock.transcript = 'Here is the transcript.'
     block = {'video': video_mock}
     result = get_video_transcript(block)
-    expected_result = format_html('{}', linebreaksbr(video_mock.transcript))
+    expected_result = format_html('{0}', linebreaksbr(video_mock.transcript))
     assert result.strip() == expected_result.strip()
 
 
@@ -210,7 +210,7 @@ def test_empty_transcript():
     video_mock.transcript = ''
     block = {'video': video_mock}
     result = get_video_transcript(block)
-    expected_result = format_html('{}', linebreaksbr(video_mock.transcript))
+    expected_result = format_html('{0}', linebreaksbr(video_mock.transcript))
     assert result.strip() == expected_result.strip()
 
 
@@ -219,7 +219,7 @@ def test_long_transcript_handling():
     video_mock.transcript = 'a' * 1500
     block = {'video': video_mock}
     result = get_video_transcript(block)
-    expected_result = format_html('{}', linebreaksbr(video_mock.transcript))
+    expected_result = format_html('{0}', linebreaksbr(video_mock.transcript))
     assert result.strip() == expected_result.strip()
 
 
