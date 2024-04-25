@@ -75,7 +75,7 @@ const Form = ({
     <button
       type="submit"
       id="signup-modal-submit"
-      className="button great-border-bottom-black primary-button govuk-!-margin-top-1 great-width-auto"
+      className="govuk-button great-border-bottom-black govuk-!-margin-top-1 great-width-auto"
       disabled={disabled}
     >
       Create Account
@@ -94,7 +94,7 @@ const Form = ({
         />
       </>
     )}
-     <p className="govuk-!-margin-bottom-6">
+     <p className="govuk-!-margin-bottom-6 govuk-!-margin-top-0">
       Already have an account?{' '}
       <a
         href={Services.config.loginUrl} id="signup-modal-log-in"

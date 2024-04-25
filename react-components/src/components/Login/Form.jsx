@@ -59,7 +59,7 @@ export const Form = ({
       <button
         type="submit"
         id="signup-modal-submit"
-        className="primary-button great-border-bottom-black govuk-!-margin-top-1"
+        className="govuk-button great-border-bottom-black govuk-!-margin-top-1"
         disabled={disabled}
       >
         Sign in
@@ -78,7 +78,7 @@ export const Form = ({
           />
         </>
       )}
-      <p className="govuk-!-margin-bottom-2">
+      <p className="govuk-!-margin-bottom-2 govuk-!-margin-top-0">
         Don&apos;t have an account?{' '}
         <a
           href={Services.config.signupUrl}
