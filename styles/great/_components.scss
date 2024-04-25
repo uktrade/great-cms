@@ -696,28 +696,33 @@ figure.great-blockquote {
 }
 
 .great-back-link {
-  color: $govuk-brand-colour;
-  padding-left: 20px;
+  color: $color-main-text;
   position: relative;
 
   &:visited {
-    color: $govuk-brand-colour;
+    color: $color-main-text;
   }
 
   &::before {
-    background-image: url(/static/icons/arrow.svg);
-    background-size: 11px;
-    background-repeat: no-repeat;
-    background-position: 50%;
-    position: absolute;
+    box-sizing: initial;
+    transform: rotate(135deg);
+    content: "";
+    border-style: solid;
     display: inline-block;
-    content: '';
-    pointer-events: none;
-    height: 20px;
-    width: 12px;
-    top: 2px;
-    left: 0;
-    transform: rotate(180deg);
+    height: 5px;
+    width: 5px;
+    position: relative;
+    vertical-align: top;
+    border-color: #333;
+    border-width: 0 2px 2px 0;
+    margin: 0px 10px 0 0px;
+    top: 0.7em;
+
+    @include govuk-media-query($from: tablet) {
+      height: 6px;
+      width: 6px;
+      top: 0.5em;
+    }
   }
 }
 
@@ -1489,6 +1494,7 @@ nav.great-breadcrumbs {
   }
 
   a,
+  a:active:focus,
   span {
     font-size: 16px;
     color: $color-main-text;

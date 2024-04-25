@@ -972,10 +972,6 @@ great-icon {
     max-width: 615px;
   }
 }
-.great-video-transcipt-text {
-  max-height: 200px;
-  overflow: auto;
-}
 
 .great-icon-box-container {
   @include govuk-media-query($from: desktop) {
