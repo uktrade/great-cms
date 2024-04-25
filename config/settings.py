@@ -244,6 +244,7 @@ STATICFILES_DIRS = [
     str(ROOT_DIR / 'react-components' / 'dist'),
     str(ROOT_DIR / 'sso_profile' / 'common' / 'static'),
     str(ROOT_DIR / 'sso_profile' / 'static'),
+    str(ROOT_DIR / 'international_online_offer' / 'static'),
 ]
 
 
