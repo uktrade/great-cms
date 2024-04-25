@@ -270,8 +270,7 @@ class SignUpForm(forms.Form):
     )
     password = CharField(
         label='Create your password',
-        help_text="""Your password must be a minimum of 10 characters and must include
-          a combination of letters, numbers or special characters.""",
+        help_text='It must have at least 10 characters and must include both letters and numbers',
         required=True,
         widget=PasswordInput(attrs={'class': 'govuk-input'}),
         error_messages={

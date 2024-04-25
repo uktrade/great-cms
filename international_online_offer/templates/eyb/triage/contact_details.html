@@ -52,7 +52,11 @@
                     </div>
                     <div class="govuk-grid-row govuk-!-margin-top-5">
                         <div class="govuk-grid-column-full">
-                            {% include '../includes/submit_button.html' with button_text='Save and view guide' %}
+                            {% if request.GET.next %}
+                                {% include '../includes/submit_button.html' with button_text='Save and continue' %}
+                            {% else %}
+                                {% include '../includes/submit_button.html' with button_text='Save and view guide' %}
+                            {% endif %}
                         </div>
                     </div>
                 </form>
