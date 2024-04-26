@@ -75,7 +75,7 @@ const Form = ({
     <button
       type="submit"
       id="signup-modal-submit"
-      className="govuk-button great-border-bottom-black govuk-!-margin-top-1 great-width-auto"
+      className="govuk-button govuk-!-margin-top-1 great-width-auto"
       disabled={disabled}
     >
       Create Account
