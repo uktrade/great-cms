@@ -48,6 +48,7 @@ const Form = ({
     <Input
       label="UK telephone number (optional)"
       info="By providing your phone number, you agree to be contacted by DBT to gather feedback on your experiences of great.gov.uk."
+      infoClassName="g-panel govuk-body-s govuk-!-margin-top-2 govuk-!-margin-bottom-2"
       descriptionClassName="govuk-body-s"
       id="phone_number"
       type="tel"
