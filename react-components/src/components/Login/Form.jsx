@@ -59,7 +59,7 @@ export const Form = ({
       <button
         type="submit"
         id="signup-modal-submit"
-        className="govuk-button great-border-bottom-black govuk-!-margin-top-1"
+        className="govuk-button great-border-bottom-black govuk-!-margin-top-1 great-width-auto"
         disabled={disabled}
       >
         Sign in
