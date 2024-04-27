@@ -18,7 +18,7 @@ redis: &redis
   image: cimg/redis:7.2.4
 
 postgres: &postgres
-  - image: cimg/postgres:12.8
+  - image: cimg/postgres:16.2
     environment:
       POSTGRES_USER: debug
       POSTGRES_PASSWORD: debug
