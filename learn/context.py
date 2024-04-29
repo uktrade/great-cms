@@ -13,4 +13,5 @@ class LessonPageContextProvider(AbstractPageContextProvider):
             'topics': CuratedListPage.objects.sibling_of(page.get_parent()),
             'country_choices': [{'value': key, 'label': label} for key, label in choices.COUNTRY_CHOICES],
             'suggested_countries': helpers.get_suggested_countries_for_user(request),
+            'full_transcript': request.GET.get('fullTranscript'),
         }

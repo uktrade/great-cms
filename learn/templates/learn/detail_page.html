@@ -3,7 +3,41 @@
 {% load routablepageurl from wagtailroutablepage_tags %}
 {% load url_map %}
 {% load content_tags %}
+{% load component_tags %}
+{% load video_tags %}
+{% load breadcrumbs from component_tags %}
 {% block content %}
+    {% if full_transcript %}
+        <div id="breadcrumbs" class="great-bg-light-blue">
+            <div class="great-container">
+                {% breadcrumbs great-breadcrumbs %}
+                <a href="{{ page.url }}" class="great-back-link">Back</a>
+            {% endbreadcrumbs %}
+        </div>
+    </div>
+    <div class="great" id="lte-transcript">
+        <section class="govuk-!-padding-bottom-6 govuk-!-padding-top-9 great-bg-white">
+            <div class="great-container event-details-header-container">
+                <div class="event-details-header-info govuk-grid-column-two-thirds-from-desktop govuk-!-static-padding-0">
+                    <span aria-hidden="true" class="govuk-caption-l">Transcript</span>
+                    <h1 class="govuk-heading-l govuk-!-static-margin-0 govuk-!-static-margin-bottom-2">
+                        <span class="great-visually-hidden">Transcript for</span>
+                        {% for block in page.hero %}
+                            {% if block.block_type == 'Video' %}{{ block.value.video.title }}{% endif %}
+                        {% endfor %}
+                    </h1>
+                    <div class="govuk-!-margin-top-6">
+                        {% for block in page.hero %}
+                            {% if block.block_type == 'Video' %}
+                                {% get_video_transcript block.value %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% else %}
     {% load breadcrumbs from component_tags %}
     <div class="great-container">
         {% breadcrumbs great-breadcrumbs %}
@@ -17,8 +51,10 @@
     <div class="great-container govuk-!-padding-top-9">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds-from-desktop">
-                <h2 class="govuk-caption-xl">{{ page.get_lesson_category_name }}</h2>
-                <h1 class="govuk-heading-xl" id="lesson-title">{{ page.title }}</h1>
+                <span aria-hidden="true" class="govuk-caption-xl">{{ page.get_lesson_category_name }}</span>
+                <h1 class="govuk-heading-xl" id="lesson-title">
+                    <span class="great-visually-hidden">{{ page.get_lesson_category_name }}:</span>{{ page.title }}
+                </h1>
             </div>
         </div>
     </div>
@@ -70,9 +106,8 @@
         </div>
     </div>
 </div>
-<div class="govuk-!-padding-0">
-    {% include 'learn/promo.html' with bg_class='great-bg-light-blue' %}
-</div>
+{% endif %}
+<div class="govuk-!-padding-0">{% include 'learn/promo.html' with bg_class='great-bg-light-blue' %}</div>
 {% endblock %}
 {% block body_js %}
     {{ block.super }}

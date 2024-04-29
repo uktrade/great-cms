@@ -44,7 +44,12 @@ from core.templatetags.object_tags import get_item
 from core.templatetags.progress_bar import progress_bar
 from core.templatetags.url_map import path_match
 from core.templatetags.url_tags import get_intended_destination
-from core.templatetags.video_tags import render_video
+from core.templatetags.video_tags import (
+    format_html,
+    get_video_transcript,
+    linebreaksbr,
+    render_video,
+)
 from tests.unit.core import factories
 
 
@@ -58,6 +63,7 @@ def test_render_video_tag__with_thumbnail():
         duration=120,
         thumbnail=mock_thumbnail,
         subtitles=[],
+        transcript='Transcript text',
     )
     block = dict(video=video_mock)
     html = render_video(block)
@@ -77,6 +83,7 @@ def test_render_video_tag__without_thumbnail():
         duration=120,
         thumbnail=None,
         subtitles=[],
+        transcript='Transcript text',
     )
     block = dict(video=video_mock)
     html = render_video(block)
@@ -105,6 +112,7 @@ def test_render_video_tag__with_subtitles():
                 'default': True,
             },
         ],
+        transcript='Transcript text',
     )
     block = dict(video=video_mock)
     html = render_video(block)
@@ -129,6 +137,7 @@ def test_render_video_tag__without_title_or_event():
         duration=120,
         thumbnail=None,
         subtitles=[],
+        transcript='Transcript text',
     )
     block = dict(video=video_mock)
     html = render_video(block)
@@ -136,10 +145,82 @@ def test_render_video_tag__without_title_or_event():
     assert '<span aria-hidden="true">View transcript</span>' not in html
 
 
+def test_render_video_tag_with_long_transcript_and_period():
+    transcript = 'This is a long transcript. ' + 'a' * 1000 + '. End of transcript.'
+    video_mock = mock.Mock(
+        sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}],
+        duration=120,
+        thumbnail=None,
+        subtitles=[],
+        transcript=transcript,
+    )
+    block = dict(video=video_mock)
+    html = render_video(block)
+    assert 'Read full transcript' in html
+    assert 'View transcript for' in html
+
+
+def test_render_video_tag_with_long_transcript_no_period():
+    transcript = 'a' * 1200
+    video_mock = mock.Mock(
+        sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}],
+        duration=120,
+        thumbnail=None,
+        subtitles=[],
+        transcript=transcript,
+    )
+    block = dict(video=video_mock)
+    html = render_video(block)
+    assert 'Read full transcript' in html
+    assert transcript[:1000] in html
+
+
+def test_render_video_tag_with_short_transcript():
+    transcript = 'Short transcript.'
+    video_mock = mock.Mock(
+        sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}],
+        duration=120,
+        thumbnail=None,
+        subtitles=[],
+        transcript=transcript,
+    )
+    block = dict(video=video_mock)
+    html = render_video(block)
+    assert 'Read full transcript' not in html
+    assert transcript in html
+
+
 def test_empty_block_render_video_tag():
     block = dict()
     html = render_video(block)
     assert '' in html
+
+
+def test_basic_transcript_rendering():
+    video_mock = mock.Mock()
+    video_mock.transcript = 'Here is the transcript.'
+    block = {'video': video_mock}
+    result = get_video_transcript(block)
+    expected_result = format_html('{0}', linebreaksbr(video_mock.transcript))
+    assert result.strip() == expected_result.strip()
+
+
+def test_empty_transcript():
+    video_mock = mock.Mock()
+    video_mock.transcript = ''
+    block = {'video': video_mock}
+    result = get_video_transcript(block)
+    expected_result = format_html('{0}', linebreaksbr(video_mock.transcript))
+    assert result.strip() == expected_result.strip()
+
+
+def test_long_transcript_handling():
+    video_mock = mock.Mock()
+    video_mock.transcript = 'a' * 1500
+    block = {'video': video_mock}
+    result = get_video_transcript(block)
+    expected_result = format_html('{0}', linebreaksbr(video_mock.transcript))
+    assert result.strip() == expected_result.strip()
 
 
 @pytest.mark.django_db

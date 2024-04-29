@@ -2,7 +2,7 @@
 {% load wagtailcore_tags %}
 {% load replace_underscores from component_tags %}
 {% load remove_string from component_tags %}
-<div class="great-bg-light-blue event-listing-summary-info">
+<div class="{% if not no_bg %}great-bg-light-blue {% endif %}event-listing-summary-info">
     {% if event %}
         <div class="event-date-badge">
             {% if display_past_recording %}
