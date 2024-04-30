@@ -7,7 +7,7 @@
                 <a href="{{ block.value.link_url }}"
                    rel="noopener noreferrer"
                    class="govuk-!-margin-right-6 govuk-!-margin-bottom-6 govuk-!-padding-6 {% if block.value.full_width == 'yes' %}govuk-!-padding-bottom-8{% endif %} great-topic-card {% if block.value.full_width == 'yes' %}great-topic-card--full-width{% else %}great-topic-card--half-width{% endif %}"
-                   data-ga-digital-entry-point>
+                   {% if features.FEATURE_SHOW_TASK_VALIDATION and block.value.title == 'Calculate how much duty you need to pay' or block.value.title == 'Find the right commodity code' %}data-task-validation{% else %}data-ga-digital-entry-point{% endif %}>
                     {% if block.value.image %}
                         <div>{% image block.value.image width-450 %}</div>
                     {% endif %}
