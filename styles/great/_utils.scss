@@ -1032,7 +1032,14 @@ great-icon {
 
 .step-list {
   p{
-    @extend %govuk-body-m;
+    @extend .govuk-body;
+  }
+
+  ul {
+    li {
+      @extend .govuk-list--bullet;
+      margin-left: 20px;
+    }
   }
   .step-list-h2::marker {
     font-family: $great-font-bold;
