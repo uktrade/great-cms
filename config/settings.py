@@ -967,11 +967,9 @@ CLAM_AV_PASSWORD = env.str('CLAM_AV_PASSWORD', '')
 # Restriction document upload by filetypes
 WAGTAILDOCS_EXTENSIONS = [
     'pdf',
-    'docx',
 ]
 WAGTAILDOCS_MIME_TYPES = [
     'application/pdf',
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 ]
 
 # Celery
