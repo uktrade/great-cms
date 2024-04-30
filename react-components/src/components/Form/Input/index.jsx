@@ -20,6 +20,7 @@ export const Input = memo(
     className,
     formGroupClassName,
     descriptionClassName,
+    infoClassName,
     minDate,
     maxDate,
     decimal,
@@ -66,6 +67,7 @@ export const Input = memo(
         formGroupClassName={formGroupClassName}
         descriptionClassName={descriptionClassName}
         info={info}
+        infoClassName={infoClassName}
         message={message}
       >
         <div className={`flex-center ${type === 'date' ? 'select-date' : ''}`}>
