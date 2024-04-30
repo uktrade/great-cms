@@ -1026,6 +1026,9 @@ great-icon {
 }
 
 .step-list {
+  p{
+    @extend %govuk-body-m;
+  }
   .step-list-h2::marker {
     font-family: $great-font-bold;
     font-size: 36px;
