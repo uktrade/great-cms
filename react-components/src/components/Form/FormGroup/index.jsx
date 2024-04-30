@@ -19,6 +19,7 @@ export const FormGroup = memo(
     lesson,
     formGroupClassName,
     descriptionClassName,
+    infoClassName,
     info,
     message,
   }) => {
@@ -39,7 +40,7 @@ export const FormGroup = memo(
               buttonClass="icon-only info fas fa-lg fa-info-circle govuk-!-padding-right-0 govuk-!-padding-left-0 govuk-!-margin-left-1 govuk-!-margin-top-1 govuk-!-margin-bottom-1"
               buttonBefore
             >
-              <div className="g-panel body-m govuk-!-margin-top-2 govuk-!-margin-bottom-2">{info}</div>
+              <div className={infoClassName || "g-panel body-m govuk-!-margin-top-2 govuk-!-margin-bottom-2"}>{info}</div>
             </ExpandCollapse>
           )}
         </label>
