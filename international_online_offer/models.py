@@ -14,7 +14,6 @@ from wagtail.images.blocks import ImageChooserBlock
 
 from core.blocks import ColumnsBlock
 from core.models import CMSGenericPage, TimeStampedModel
-from directory_constants.choices import COUNTRY_CHOICES
 from domestic.models import BaseContentPage
 from international_online_offer.core import (
     choices,
@@ -423,7 +422,7 @@ class TriageData(TimeStampedModel):
 class UserData(TimeStampedModel):
     hashed_uuid = models.CharField(max_length=200)
     company_name = models.CharField(max_length=255)
-    company_location = models.CharField(max_length=255, choices=COUNTRY_CHOICES)
+    company_location = models.CharField(max_length=255, choices=choices.COMPANY_LOCATION_CHOICES)
     full_name = models.CharField(max_length=255)
     role = models.CharField(max_length=255)
     email = models.CharField(max_length=255)

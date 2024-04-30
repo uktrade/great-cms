@@ -160,7 +160,7 @@ class ProfileForm(forms.Form):
         help_text='Type to search and choose a country from the list',
         required=False,
         widget=Select(attrs={'id': 'js-company-location-select', 'class': 'govuk-input'}),
-        choices=COUNTRIES,
+        choices=choices.COMPANY_LOCATION_CHOICES,
     )
     full_name = CharField(
         label='Full name',
