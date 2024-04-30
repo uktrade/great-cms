@@ -11,7 +11,7 @@ const Complete = ({
     <p className='body-l text-black-100'>Your account has been created.</p>
     <a
       id='signup-modal-submit-success'
-      className='button primary-button width-full'
+      className='button primary-button great-border-bottom-black great-width-auto'
       href={nextUrl}
     >Continue</a>
   </div>

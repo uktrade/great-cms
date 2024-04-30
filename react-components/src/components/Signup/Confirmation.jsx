@@ -38,7 +38,7 @@ const Confirmation = ({
     <button
       type="submit"
       id="signup-modal-submit-code"
-      className="button primary-button govuk-margin-top-0 great-border-bottom-black"
+      className="button primary-button govuk-margin-top-0 great-border-bottom-black great-width-auto"
       disabled={disabled}
     >
       Submit

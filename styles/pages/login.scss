@@ -37,16 +37,12 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
       color: $color-main-text;
     }
 
-    .form-label { 
+    .form-label {
       font-family: $header-font !important;
       font-size: $font-size-p;
       font-style: normal;
       font-weight: $font-weight-semi-bold;
-      line-height: $h5-line-height; 
-    } 
-
-    .great-border-bottom-black {
-      border-bottom: 3px solid #003078;
+      line-height: $h5-line-height;
     }
 
     @media only screen and (max-width: 900px) {
