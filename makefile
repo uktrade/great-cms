@@ -114,7 +114,6 @@ secrets:
 	fi
 
 database:
-	PGPASSWORD=debug dropdb --if-exists --force -h localhost -U debug greatcms
 	PGPASSWORD=debug createdb -h localhost -U debug greatcms
 
 recreate:
