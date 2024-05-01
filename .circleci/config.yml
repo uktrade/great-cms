@@ -159,6 +159,8 @@ jobs:
       HATCH_RATE: 3
       RUN_TIME: 30s
       <<: *postgres_url
+    machine:
+      - image: ubuntu-2004:202201-02
     steps:
       - checkout
       - *install_postgresql_client
