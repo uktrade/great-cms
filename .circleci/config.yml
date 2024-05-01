@@ -196,8 +196,6 @@ jobs:
           command: npm test -- --maxWorkers=1
 
   test_lighthouse:
-    machine:
-      - image: ubuntu-2004:202201-02
     working_directory: ~/greatcms
     docker:
       - <<: *python_node_browsers
