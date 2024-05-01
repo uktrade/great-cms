@@ -36,7 +36,7 @@ install_postgresql_client: &install_postgresql_client
     name: Install PostgreSQL Client
     command: |
       sudo apt-get update
-      sudo apt-get install postgresql-client-16
+      sudo apt-get install postgresql-16
 
 install_libcairo2: &install_libcairo2
   run:
