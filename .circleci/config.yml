@@ -67,7 +67,6 @@ setup_db: &setup_db
     name: Database Setup
     command: |
       . venv/bin/activate
-      make database
       make ARGUMENTS=migrate manage
       make ARGUMENTS=bootstrap_great manage
 
@@ -165,6 +164,7 @@ jobs:
       - *install_libcairo2
       - *create_virtualenv_and_install_dependencies
       - *setup_secrets
+      - *setup_db
       - run:
           name: Run tests
           command: |
@@ -206,6 +206,7 @@ jobs:
       - *install_libcairo2
       - *create_virtualenv_and_install_dependencies
       - *setup_secrets
+      - *setup_db
       - restore_cache:
           key: v1-deps-{{ checksum "package-lock.json" }}
       - run:
