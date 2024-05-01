@@ -158,9 +158,7 @@ jobs:
       NUM_USERS: 20
       HATCH_RATE: 3
       RUN_TIME: 30s
-      <<: *postgres_url
-    machine:
-      - image: ubuntu-2004:202201-02
+      <<: *postgres_ur
     steps:
       - checkout
       - *install_postgresql_client
@@ -198,6 +196,8 @@ jobs:
           command: npm test -- --maxWorkers=1
 
   test_lighthouse:
+    machine:
+      - image: ubuntu-2004:202201-02
     working_directory: ~/greatcms
     docker:
       - <<: *python_node_browsers
