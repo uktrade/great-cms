@@ -173,7 +173,7 @@
       })
       magna.createSnackbar({element:document.getElementById('snackbar-container')})
     </script>
-    {% slugurl "privacy-and-cookies" as privacy_and_cookies_path %}
+    {% slugurl "privacy" as privacy_and_cookies_path %}
     {% path_match "^\/learn\/" as in_learning %}
     {% if features.FEATURE_DEA_V2 and in_learning %}
         <script>

@@ -6,9 +6,9 @@ LOGIN_URL = '/login/'
 SIGNUP_URL = '/signup/'
 
 PRIVACY_NOTICE_URL = '/privacy-notice/'
-PRIVACY_POLICY_URL = '/privacy-and-cookies/'
+PRIVACY_POLICY_URL = '/privacy/'
 # This special-case page existed in Great V1, so was brought to Great V2 with the same path.
-PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE = '/privacy-and-cookies/privacy-notice-great-domestic/'
+PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE = '/privacy/privacy-notice-great-domestic/'
 TERMS_URL = '/terms-and-conditions/'
 
 # The following are _not_ actually in the CMS but are TEMPORARILY referencing
