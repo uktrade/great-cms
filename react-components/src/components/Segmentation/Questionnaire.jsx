@@ -153,7 +153,7 @@ export default function Questionnaire(props) {
               </p>
             )}
             <a
-              href="/privacy-and-cookies/"
+              href="/privacy/"
               target="_blank"
               title="Opens in a new window"
               rel="noopener noreferrer"

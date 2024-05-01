@@ -71,7 +71,7 @@ const Form = ({
     <p className="signup__conditions">
       By signing up, you agree to our{' '}
       <a href="/terms-and-conditions/">terms and conditions</a> and{' '}
-      <a href="/privacy-and-cookies/">privacy notice</a>
+      <a href="/privacy/">privacy notice</a>
     </p>
     <button
       type="submit"
