@@ -48,6 +48,8 @@ const Form = ({
     <Input
       label="UK telephone number (optional)"
       info="By providing your phone number, you agree to be contacted by DBT to gather feedback on your experiences of great.gov.uk."
+      infoClassName="g-panel govuk-body-s govuk-!-margin-top-2 govuk-!-margin-bottom-2"
+      descriptionClassName="govuk-body-s"
       id="phone_number"
       type="tel"
       disabled={disabled}
@@ -69,12 +71,12 @@ const Form = ({
     <p className="signup__conditions">
       By signing up, you agree to our{' '}
       <a href="/terms-and-conditions/">terms and conditions</a> and{' '}
-      <a href="/privacy-and-cookies/">privacy notice</a>
+      <a href="/privacy/">privacy notice</a>
     </p>
     <button
       type="submit"
       id="signup-modal-submit"
-      className="button great-border-bottom-black primary-button govuk-!-margin-top-1"
+      className="govuk-button govuk-!-margin-top-1 great-width-auto"
       disabled={disabled}
     >
       Create Account
@@ -93,7 +95,7 @@ const Form = ({
         />
       </>
     )}
-     <p className="govuk-!-margin-bottom-6">
+     <p className="govuk-!-margin-bottom-6 govuk-!-margin-top-0">
       Already have an account?{' '}
       <a
         href={Services.config.loginUrl} id="signup-modal-log-in"

@@ -21,7 +21,7 @@
                               class="fa fa-lg fa-info-circle border-on-focus enable-pointer-events"></span>
                     </summary>
                     <div class="g-panel govuk-!-margin-top-2 govuk-!-margin-bottom-2">
-                        <p class="govuk-body-s great-line-height-20">
+                        <p class="govuk-body-s">
                             By providing your phone number, you agree to be contacted by DBT to gather feedback on your experiences of great.gov.uk.
                         </p>
                     </div>
@@ -40,11 +40,11 @@
         <a class="govuk-link great-font-size-18 great-line-height-30"
            href="{% slugurl 'terms-and-conditions' %}">terms and conditions</a> and
         <a class="govuk-link great-font-size-18 great-line-height-30"
-           href="{% slugurl 'privacy-and-cookies' %}">privacy notice</a>
+           href="{% slugurl 'privacy' %}">privacy notice</a>
     </p>
     <button type="submit"
             id="signup-modal-submit"
-            class="govuk-button govuk-!-margin-top-6 great-border-bottom-black">Create Account</button>
+            class="govuk-button govuk-!-margin-top-6 great-width-auto">Create Account</button>
     <p class="govuk-body govuk-!-margin-bottom-6 great-font-size-18 great-line-height-30">
         Already have an account? <a class="govuk-link great-font-size-18 great-line-height-30 ukea-signin-link"
     href="{% url 'export_academy:signin' %}{% if next %}?next={{ next }}{% endif %}">Sign in</a>

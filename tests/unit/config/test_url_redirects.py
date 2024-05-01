@@ -93,7 +93,7 @@ def test_privacy_international_redirect(path, client):
     response = client.get('/int/{path}/privacy-policy/'.format(path=path))
 
     assert response.status_code == http.client.FOUND
-    assert response.url == '/privacy-and-cookies/'
+    assert response.url == '/privacy/'
 
 
 # the first element needs to end with a slash
@@ -211,7 +211,7 @@ redirects = [
             '?utm_source=test%12&utm_medium=test&utm_campaign=test%test'
         ),
     ),
-    ('/uk/privacy-policy/', '/privacy-and-cookies/'),
+    ('/uk/privacy-policy/', '/privacy/'),
     ('/uk/terms-and-conditions/', '/terms-and-conditions/'),
     ('/int/', '/international/'),
     ('/uk/', '/'),
