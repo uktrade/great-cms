@@ -158,7 +158,7 @@ jobs:
       NUM_USERS: 20
       HATCH_RATE: 3
       RUN_TIME: 30s
-      <<: *postgres_ur
+      <<: *postgres_url
     steps:
       - checkout
       - *install_postgresql_client
