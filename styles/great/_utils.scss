@@ -1037,6 +1037,12 @@ great-icon {
 
   ul {
     @extend .govuk-list--bullet;
+    margin-bottom: 20px;
+  }
+
+  ol {
+    @extend .govuk-list--number;
+    margin-bottom: 20px;
   }
   .step-list-h2::marker {
     @extend .govuk-heading-l;
