@@ -58,12 +58,27 @@ def test_is_capex_spend():
 
 @pytest.mark.django_db
 def test_is_labour_workforce_hire():
-    assert not scorecard.is_labour_workforce_hire(directory_constants_sectors.FOOD_AND_DRINK, hirings.ONE_TO_TEN)
-    assert scorecard.is_labour_workforce_hire(directory_constants_sectors.FOOD_AND_DRINK, hirings.ELEVEN_TO_FIFTY)
-    assert scorecard.is_labour_workforce_hire(directory_constants_sectors.FOOD_AND_DRINK, hirings.ONE_HUNDRED_ONE_PLUS)
-    assert not scorecard.is_labour_workforce_hire('Random sector', hirings.ELEVEN_TO_FIFTY)
+    assert not scorecard.is_labour_workforce_hire(directory_constants_sectors.FOOD_AND_DRINK, '', hirings.ONE_TO_TEN)
+    assert scorecard.is_labour_workforce_hire(directory_constants_sectors.FOOD_AND_DRINK, '', hirings.ELEVEN_TO_FIFTY)
+    assert scorecard.is_labour_workforce_hire(
+        directory_constants_sectors.FOOD_AND_DRINK, '', hirings.ONE_HUNDRED_ONE_PLUS
+    )
+    assert not scorecard.is_labour_workforce_hire('Random sector', '', hirings.ELEVEN_TO_FIFTY)
     assert not scorecard.is_labour_workforce_hire(
-        directory_constants_sectors.FOOD_AND_DRINK, hirings.NO_PLANS_TO_HIRE_YET
+        directory_constants_sectors.FOOD_AND_DRINK, '', hirings.NO_PLANS_TO_HIRE_YET
+    )
+    assert not scorecard.is_labour_workforce_hire(
+        directory_constants_sectors.FINANCIAL_AND_PROFESSIONAL_SERVICES, '', hirings.ONE_TO_TEN
+    )
+    assert not scorecard.is_labour_workforce_hire(
+        directory_constants_sectors.FINANCIAL_AND_PROFESSIONAL_SERVICES,
+        'Financial and professional services : Business and consumer services',
+        hirings.ONE_TO_TEN,
+    )
+    assert scorecard.is_labour_workforce_hire(
+        directory_constants_sectors.FINANCIAL_AND_PROFESSIONAL_SERVICES,
+        'Financial and professional services : Business and consumer services',
+        hirings.ELEVEN_TO_FIFTY,
     )
 
 
