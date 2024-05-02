@@ -68,12 +68,10 @@ def is_capex_spend(sector, sub_sector, spend):
 
     for sector_spend in capex_sector_spend:
         # Sub sector scoring should override parents so we check first
-        if sub_sector in sector_spend:
-            if spend_upper_value >= sector_spend[sub_sector]:
-                return True
-        elif sector in sector_spend:
-            if spend_upper_value >= sector_spend[sector]:
-                return True
+        if sub_sector in sector_spend and spend_upper_value >= sector_spend[sub_sector]:
+            return True
+        if sector in sector_spend and spend_upper_value >= sector_spend[sector]:
+            return True
 
     return False
 
