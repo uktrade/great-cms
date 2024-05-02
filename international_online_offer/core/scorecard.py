@@ -5,8 +5,8 @@ from international_online_offer.core import hirings, regions, sectors as sectors
 # Scoring system takes input from EYB triage and calculates whether a user / investor is low or high value.
 # ISD use this to contact high value users for help setting up in the UK
 # The numbers are given to us from ISD and tranferred into this scoring system.
-def score_is_high_value(sector, location, hiring, spend, spend_other=0):
-    # Requirement from senior stakeholders was that we only score based on three metrics:
+def score_is_high_value(sector, dbt_sub_sector, location, hiring, spend, spend_other=0):
+    # Requirement from stakeholders was that we only score based on three metrics:
     # How much they are looking to spend.
     # How many people they'll be creating jobs for.
     # Choice of location (Regional level)
@@ -31,25 +31,31 @@ def get_upper_value(value_in):
     return value_in.split('-')[1]
 
 
-def is_capex_spend(sector, spend, spend_other=0):
+def is_capex_spend(sector, sub_sector, spend):
     capex_sector_spend = [
-        {sectors.TECHNOLOGY_AND_SMART_CITIES: 2400000},
-        {directory_constants_sectors.CONSUMER_AND_RETAIL: 848513},
-        {sectors.PHARMACEUTICALS_AND_BIOTECHNOLOGY: 2099999},
-        {directory_constants_sectors.ENERGY: 499999},
-        {sectors.ADVANCED_ENGINEERING: 848512},
-        {directory_constants_sectors.AEROSPACE: 1399999},
-        {directory_constants_sectors.AUTOMOTIVE: 1001999},
-        {directory_constants_sectors.CHEMICALS: 1239999},
+        {sectors.PHARMACEUTICALS_AND_BIOTECHNOLOGY: 3191999},
+        {directory_constants_sectors.ENERGY: 3099999},
+        {sectors.ADVANCED_ENGINEERING: 1031499},
+        {directory_constants_sectors.AEROSPACE: 2499999},
+        {directory_constants_sectors.AUTOMOTIVE: 1459999},
+        {directory_constants_sectors.CHEMICALS: 1587999},
         {sectors.MARITIME: 848512},
-        {directory_constants_sectors.MINING: 5219999},
-        {directory_constants_sectors.RAILWAYS: 1499999},
+        {directory_constants_sectors.MINING: 4425999},
+        {directory_constants_sectors.RAILWAYS: 1999999},
         {sectors.SPACE: 1479999},
-        {directory_constants_sectors.WATER: 5219999},
+        {directory_constants_sectors.WATER: 3099999},
+        {sectors.CREATIVE_INDUSTRIES: 505999},
+        {directory_constants_sectors.AIRPORTS: 11999999},
+        {sectors.MARITIME: 9999999},
+        {'Energy : Civil nuclear': 759999},
+        {'Energy : Oil and gas': 2219999},
+        {'Consumer and retail : Books, printed media and stationery': 1799999},
+        {'Consumer and retail : Clothing, footwear and fashion': 499999},
+        {'Technology and smart cities : Communications': 1079999},
+        {'Technology and smart cities : Hardware': 2399999},
+        {'Technology and smart cities : Software': 503999},
     ]
-    if spend == 'SPECIFIC_AMOUNT':
-        spend_upper_value = spend_other
-    elif '+' in spend:
+    if '+' in spend:
         spend_upper_value = spend.split('+')[0]
     else:
         spend_upper_value = get_upper_value(spend)
@@ -57,9 +63,13 @@ def is_capex_spend(sector, spend, spend_other=0):
     spend_upper_value = int(spend_upper_value)
 
     for sector_spend in capex_sector_spend:
-        if sector in sector_spend:
+        if sub_sector in sector_spend:
+            if spend_upper_value >= sector_spend[sub_sector]:
+                return True
+        elif sector in sector_spend:
             if spend_upper_value >= sector_spend[sector]:
                 return True
+
     return False
 
 

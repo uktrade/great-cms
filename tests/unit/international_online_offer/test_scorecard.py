@@ -7,20 +7,53 @@ from international_online_offer.core import hirings, regions, scorecard, sectors
 @pytest.mark.django_db
 def test_is_capex_spend():
     assert not scorecard.is_capex_spend(
-        directory_constants_sectors.FOOD_AND_DRINK, spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND
+        directory_constants_sectors.FOOD_AND_DRINK,
+        'Food and drink: cookies',
+        spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND,
     )
     assert not scorecard.is_capex_spend(
-        directory_constants_sectors.FOOD_AND_DRINK, spends.FIVE_HUNDRED_THOUSAND_TO_ONE_MILLION
+        sectors.TECHNOLOGY_AND_SMART_CITIES,
+        'Technology and smart cities : random sub sector',
+        spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND,
     )
-    assert scorecard.is_capex_spend(directory_constants_sectors.CONSUMER_AND_RETAIL, spends.ONE_MILLION_TO_TWO_MILLION)
-    assert not scorecard.is_capex_spend('Random sector', spends.ONE_MILLION_TO_TWO_MILLION)
-    assert scorecard.is_capex_spend(directory_constants_sectors.CONSUMER_AND_RETAIL, spends.MORE_THAN_TEN_MILLION)
-    assert not scorecard.is_capex_spend(directory_constants_sectors.FOOD_AND_DRINK, 'SPECIFIC_AMOUNT', '1234567')
-    assert scorecard.is_capex_spend(directory_constants_sectors.CONSUMER_AND_RETAIL, 'SPECIFIC_AMOUNT', '12345678')
-    assert not scorecard.is_capex_spend(sectors.TECHNOLOGY_AND_SMART_CITIES, '0-10')
-    assert scorecard.is_capex_spend(sectors.TECHNOLOGY_AND_SMART_CITIES, '1000001-3000000')
-    assert scorecard.is_capex_spend(sectors.TECHNOLOGY_AND_SMART_CITIES, spends.MORE_THAN_TEN_MILLION)
-    assert scorecard.is_capex_spend(sectors.TECHNOLOGY_AND_SMART_CITIES, 'SPECIFIC_AMOUNT', '2400000')
+    assert not scorecard.is_capex_spend(
+        sectors.TECHNOLOGY_AND_SMART_CITIES,
+        'Technology and smart cities : random sub sector',
+        spends.TWO_MILLION_TO_FIVE_MILLION,
+    )
+    assert scorecard.is_capex_spend(
+        sectors.TECHNOLOGY_AND_SMART_CITIES,
+        'Technology and smart cities : Communications',
+        spends.ONE_MILLION_TO_TWO_MILLION,
+    )
+    assert not scorecard.is_capex_spend(
+        sectors.TECHNOLOGY_AND_SMART_CITIES,
+        'Technology and smart cities : Hardware',
+        spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND,
+    )
+    assert scorecard.is_capex_spend(
+        sectors.TECHNOLOGY_AND_SMART_CITIES,
+        'Technology and smart cities : Hardware',
+        spends.TWO_MILLION_TO_FIVE_MILLION,
+    )
+    assert not scorecard.is_capex_spend(
+        directory_constants_sectors.ENERGY, 'Energy : Civil nuclear', spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND
+    )
+    assert scorecard.is_capex_spend(
+        directory_constants_sectors.ENERGY, 'Energy : Civil nuclear', spends.ONE_MILLION_TO_TWO_MILLION
+    )
+    assert not scorecard.is_capex_spend(
+        directory_constants_sectors.ENERGY, 'Energy : Oil and gas', spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND
+    )
+    assert scorecard.is_capex_spend(
+        directory_constants_sectors.ENERGY, 'Energy : Oil and gas', spends.TWO_MILLION_TO_FIVE_MILLION
+    )
+    assert not scorecard.is_capex_spend(
+        directory_constants_sectors.ENERGY, 'Energy: random sub sector', spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND
+    )
+    assert scorecard.is_capex_spend(
+        directory_constants_sectors.ENERGY, 'Energy: random sub sector', spends.TWO_MILLION_TO_FIVE_MILLION
+    )
 
 
 @pytest.mark.django_db
