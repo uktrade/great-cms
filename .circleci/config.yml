@@ -18,7 +18,7 @@ redis: &redis
   image: cimg/redis:7.2.4
 
 postgres: &postgres
-  - image: cimg/postgres:16.2
+  - image: cimg/postgres:12.8
     environment:
       POSTGRES_USER: debug
       POSTGRES_PASSWORD: debug
@@ -67,6 +67,7 @@ setup_db: &setup_db
     name: Database Setup
     command: |
       . venv/bin/activate
+      make database
       make ARGUMENTS=migrate manage
       make ARGUMENTS=bootstrap_great manage
 
