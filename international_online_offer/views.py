@@ -28,7 +28,6 @@ def calculate_and_store_is_high_value(request):
     dbt_sub_sector_from_sic_sector = region_sector_helpers.get_full_sector_name_from_sic_sector(
         existing_triage_data.sector_sub
     )
-    print(dbt_sub_sector_from_sic_sector)
     is_high_value = scorecard.score_is_high_value(
         existing_triage_data.sector,
         dbt_sub_sector_from_sic_sector,
