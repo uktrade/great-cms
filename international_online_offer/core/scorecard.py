@@ -5,7 +5,7 @@ from international_online_offer.core import hirings, regions, sectors as sectors
 # Scoring system takes input from EYB triage and calculates whether a user / investor is low or high value.
 # ISD use this to contact high value users for help setting up in the UK
 # The numbers are given to us from ISD and tranferred into this scoring system.
-def score_is_high_value(sector, dbt_sub_sector, location, hiring, spend, spend_other=0):
+def score_is_high_value(sector, dbt_sub_sector, location, hiring, spend):
     # Requirement from stakeholders was that we only score based on three metrics:
     # How much they are looking to spend.
     # How many people they'll be creating jobs for.
@@ -17,9 +17,9 @@ def score_is_high_value(sector, dbt_sub_sector, location, hiring, spend, spend_o
 
     if sector:
         if spend:
-            is_high_value_capex = is_capex_spend(sector, spend, spend_other)
+            is_high_value_capex = is_capex_spend(sector, dbt_sub_sector, spend)
         if hiring:
-            is_high_value_labour_workforce_hire = is_labour_workforce_hire(sector, hiring)
+            is_high_value_labour_workforce_hire = is_labour_workforce_hire(sector, dbt_sub_sector, hiring)
         if location:
             is_high_value_hpo = is_hpo(sector, location)
 

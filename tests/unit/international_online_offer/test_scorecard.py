@@ -105,24 +105,14 @@ def test_is_hpo(sector, region, expected_result):
 
 @pytest.mark.django_db
 def test_score_is_high_value():
-    assert not scorecard.score_is_high_value(None, None, None, None)
-    assert not scorecard.score_is_high_value(directory_constants_sectors.FOOD_AND_DRINK, None, None, None)
+    assert not scorecard.score_is_high_value(None, None, None, None, None)
+    assert not scorecard.score_is_high_value(directory_constants_sectors.FOOD_AND_DRINK, '', None, None, None)
     assert not scorecard.score_is_high_value(
-        directory_constants_sectors.FOOD_AND_DRINK, regions.LONDON, hirings.ONE_TO_TEN, None
+        directory_constants_sectors.FOOD_AND_DRINK, '', regions.LONDON, hirings.ONE_TO_TEN, None
     )
     assert scorecard.score_is_high_value(
-        directory_constants_sectors.FOOD_AND_DRINK, regions.LONDON, hirings.ONE_HUNDRED_ONE_PLUS, None
+        directory_constants_sectors.FOOD_AND_DRINK, '', regions.LONDON, hirings.ONE_HUNDRED_ONE_PLUS, None
     )
     assert not scorecard.score_is_high_value(
-        directory_constants_sectors.FOOD_AND_DRINK, regions.LONDON, hirings.ONE_TO_TEN, '1000001-3000000'
-    )
-    assert not scorecard.score_is_high_value(
-        directory_constants_sectors.FOOD_AND_DRINK, regions.LONDON, hirings.ONE_TO_TEN, 'SPECIFIC_AMOUNT', '99'
-    )
-    assert not scorecard.score_is_high_value(
-        directory_constants_sectors.FOOD_AND_DRINK,
-        regions.LONDON,
-        hirings.ONE_TO_TEN,
-        'SPECIFIC_AMOUNT',
-        '999999999',
+        directory_constants_sectors.FOOD_AND_DRINK, '', regions.LONDON, hirings.ONE_TO_TEN, '1000001-3000000'
     )
