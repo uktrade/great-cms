@@ -4,6 +4,25 @@ VIDEO_DURATION_DATA_ATTR_NAME = 'data-v-duration'
 
 BACKLINK_QUERYSTRING_NAME = 'return-link'
 
+# Wagtails default features to allow for easy adding of additional features
+RICHTEXT_FEATURES__DEFAULT = [
+    'bold',
+    'italic',
+    'h2',
+    'h3',
+    'h4',
+    'ol',
+    'ul',
+    'hr',
+    'anchor-identifier',
+    'embed',
+    'link',
+    'document-link',
+    'image',
+]
+
+RICHTEXT_FEATURES__DEFAULT__ALLOW_SUPERSCRIPT = RICHTEXT_FEATURES__DEFAULT + ['superscript']
+
 # Define a strict subset of rich-text features only includes linebreaks
 RICHTEXT_FEATURES__MINIMAL = ()
 
