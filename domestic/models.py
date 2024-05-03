@@ -35,6 +35,7 @@ from core.blocks import (
 from core.constants import (
     ARTICLE_TYPES,
     COUNTRY_FACTSHEET_CTA_TITLE,
+    RICHTEXT_FEATURES__DEFAULT__ALLOW_SUPERSCRIPT,
     RICHTEXT_FEATURES__REDUCED,
     RICHTEXT_FEATURES__REDUCED__ALLOW_H1,
     TABLEBLOCK_OPTIONS,
@@ -1098,7 +1099,7 @@ class ArticlePage(
         [
             (
                 'text',
-                RichTextBlock(),
+                RichTextBlock(features=RICHTEXT_FEATURES__DEFAULT__ALLOW_SUPERSCRIPT),
             ),
             ('image', ImageChooserBlock(required=False, template='core/includes/_article_image.html')),
             ('Video', core_blocks.SimpleVideoBlock(template='core/includes/_article_video.html')),
