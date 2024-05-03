@@ -498,7 +498,10 @@ def get_country_data(countries, fields):
 
 
 def get_markets_list():
-    response = api_client.dataservices.get_markets_data()
+    try:
+        response = api_client.dataservices.get_markets_data()
+    except Exception:
+        return choices.COUNTRY_CHOICES
     if not response.ok:
         return choices.COUNTRY_CHOICES
     json_data = response.json()
