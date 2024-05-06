@@ -356,7 +356,7 @@ class RegistrationMarketingSources(
             back_url=back_url,
             step_text='Step 4 of 4',
             landing_page=ExportAcademyHomePage.objects.first(),
-            title='How did you hear about the UK Export Academy?',
+            title='And finally...',
             current_page_breadcrumb='How did you hear about the UK Export Academy?',
         )
 

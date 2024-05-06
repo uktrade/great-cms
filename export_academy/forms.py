@@ -15,6 +15,7 @@ from wagtail.admin.forms import WagtailAdminModelForm
 from contact import constants, widgets as contact_widgets
 from core.validators import is_valid_uk_phone_number, is_valid_uk_postcode
 from directory_constants.choices import COUNTRY_CHOICES
+from export_academy.widgets import GreatRadioSelectWithOtherText
 
 COUNTRIES = COUNTRY_CHOICES.copy()
 COUNTRIES.insert(0, ('', 'Select a country'))
@@ -207,10 +208,10 @@ class BusinessDetails(forms.Form):
 
 class MarketingSources(forms.Form):
     marketing_sources = forms.ChoiceField(
-        label='',
+        label='How did you hear about the UK Export Academy?',
         choices=constants.MARKETING_SOURCES_CHOICES,
         error_messages={'required': _('Tell us how you heard about the UK Export Academy')},
-        widget=django_widgets.Select(attrs={'class': 'govuk-select great-select'}),
+        widget=GreatRadioSelectWithOtherText(attrs={'class': 'great-no-border'}),
     )
 
     @property

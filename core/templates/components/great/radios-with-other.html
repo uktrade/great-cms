@@ -1,0 +1,18 @@
+<div class="govuk-radios great-radios" data-module="govuk-radios">
+    {% for group, options, index in widget.optgroups %}
+        {% for option in options %}
+            {% if option.value == 'Other' %}
+                <p>we're in otsd aherland {{ option.value }}</p>
+                +
+                <div class="govuk-radios__item govuk-!-margin-bottom-3">
+                    +
+                    {% include option.option_template_name_other with widget=option %}
+                    +
+                </div>
+            </div>
+        {% else %}
+            <div class="govuk-radios__item govuk-!-margin-bottom-3">{% include option.template_name with widget=option %}</div>
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+</div>
