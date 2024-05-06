@@ -178,6 +178,11 @@ p {
 
 $regular-font-weight: 400;
 
+sup {
+  font-size: smaller;
+  vertical-align: top;
+}
+
 .great {
   .govuk-body,
   .govuk-body-s,
