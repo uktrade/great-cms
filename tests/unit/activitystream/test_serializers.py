@@ -214,11 +214,11 @@ def test_articleserializer__get_article_body_content_for_search__skipping_unknow
         'pull_quote',
     ]  # ie, 'text' is not in here
 
-    assert len(caplog.records) == 0
+    assert len(caplog.records) == 1
     searchable_content = serializer._get_article_body_content_for_search(article_instance)
 
-    assert len(caplog.records) == 2
-    for i in range(2):
+    assert len(caplog.records) == 3
+    for i in range(1, 3):
         assert caplog.records[i].message == (
             'Unhandled block type "text" in ArticlePage.body_text. Leaving out of search index content.'
         )

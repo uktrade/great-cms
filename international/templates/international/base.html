@@ -85,8 +85,9 @@ number of extra CSS styles that were once sensible defaults:
     {% include './header.html' %}
 {% endblock %}
 {% block body_content_container %}
-    {% block feedback_reporter %}{% endblock %}
     {{ block.super }}
+    {% block feedback_reporter %}{% endblock %}
+    {% include 'components/inline_feedback/was_page_useful.html' %}
 {% endblock %}
 {% block body_footer %}
     {% include './footer.html' %}

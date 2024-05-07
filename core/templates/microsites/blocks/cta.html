@@ -13,13 +13,13 @@
                 {% endif %}
             </h3>
             <p class="govuk-body">
-                {% filter handle_external_links:request%}
+                {% filter handle_external_links:request %}
                     {% if value.teaser %}
                         {{ value.teaser|richtext }}
                     {% else %}
                         {{ teaser|richtext }}
                     {% endif %}
-                {%endfilter%}
+                {% endfilter %}
             </p>
             <div>
                 {% if link and link|is_email %}
@@ -29,20 +29,20 @@
                         {% else %}
                             {{ link_label }}
                         {% endif %}
-                        <a />
-                    {% else %}
-                        {% filter handle_external_links:request%}
-                            <a href="{% if value.link %}{{ value.link|persist_language:request.GET }}{% else %}{{ link|persist_language:request.GET }}{% endif %}"
-                               class="govuk-button govuk-!-margin-bottom-0">
-                                {% if value.teaser %}
-                                    {{ value.link_label }}
-                                {% else %}
-                                    {{ link_label }}
-                                {% endif %}
-                            </a>
-                        {% endfilter %}
-                    {% endif %}
-                </div>
-            </section>
-        </div>
+                    </a>
+                {% else %}
+                    {% filter handle_external_links:request %}
+                        <a href="{% if value.link %}{{ value.link|persist_language:request.GET }}{% else %}{{ link|persist_language:request.GET }}{% endif %}"
+                           class="govuk-button govuk-!-margin-bottom-0">
+                            {% if value.teaser %}
+                                {{ value.link_label }}
+                            {% else %}
+                                {{ link_label }}
+                            {% endif %}
+                        </a>
+                    {% endfilter %}
+                {% endif %}
+            </div>
+        </section>
     </div>
+</div>

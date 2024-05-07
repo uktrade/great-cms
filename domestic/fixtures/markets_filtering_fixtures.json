@@ -209,6 +209,216 @@
     "pk": 42,
     "fields": { "name": "Transport", "icon": null }
   },
+  {
+    "model": "core.sectortag",
+    "pk": 1,
+    "fields": { "name": "Advanced manufacturing", "slug": "advanced-manufacturing" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 2,
+    "fields": { "name": "Aerospace", "slug": "aerospace" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 3,
+    "fields": { "name": "Agri-technology", "slug": "agri-technology" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 4,
+    "fields": { "name": "Agriculture", "slug": "agriculture" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 5,
+    "fields": { "name": "Automotive", "slug": "automotive" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 6,
+    "fields": { "name": "Biotechnology", "slug": "biotechnology" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 7,
+    "fields": { "name": "Cleantech", "slug": "cleantech" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 8,
+    "fields": { "name": "Construction", "slug": "construction" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 9,
+    "fields": { "name": "Consumer products", "slug": "consumer-products" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 10,
+    "fields": { "name": "Cyber security", "slug": "cyber-security" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 11,
+    "fields": { "name": "E-commerce", "slug": "e-commerce" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 12,
+    "fields": { "name": "Education", "slug": "education" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 13,
+    "fields": { "name": "Energy", "slug": "energy" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 14,
+    "fields": { "name": "Engineering", "slug": "engineering" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 15,
+    "fields": { "name": "Financial services", "slug": "financial-services" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 16,
+    "fields": { "name": "Fintech", "slug": "fintech" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 17,
+    "fields": { "name": "Fisheries", "slug": "fisheries" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 18,
+    "fields": { "name": "Food and drink", "slug": "food-and-drink" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 19,
+    "fields": { "name": "Healthcare", "slug": "healthcare" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 20,
+    "fields": { "name": "Horticulture", "slug": "horticulture" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 21,
+    "fields": { "name": "Infrastructure", "slug": "infrastructure" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 22,
+    "fields": { "name": "International organisations", "slug": "international-organisations" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 23,
+    "fields": { "name": "Leisure and tourism", "slug": "leisure-and-tourism" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 24,
+    "fields": { "name": "Life sciences", "slug": "life-sciences" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 25,
+    "fields": { "name": "Low carbon", "slug": "low-carbon" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 26,
+    "fields": { "name": "Luxury", "slug": "luxury" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 27,
+    "fields": { "name": "Mining", "slug": "mining" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 28,
+    "fields": { "name": "Nuclear", "slug": "nuclear" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 29,
+    "fields": { "name": "Ocean economy", "slug": "ocean-economy" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 30,
+    "fields": { "name": "Offshore wind", "slug": "offshore-wind" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 31,
+    "fields": { "name": "Oil and gas", "slug": "oil-and-gas" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 32,
+    "fields": { "name": "Pharmaceuticals", "slug": "pharmaceuticals" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 33,
+    "fields": { "name": "Professional services", "slug": "professional-services" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 34,
+    "fields": { "name": "Renewables", "slug": "renewables" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 35,
+    "fields": { "name": "Retail", "slug": "retail" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 36,
+    "fields": { "name": "Safety", "slug": "safety" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 37,
+    "fields": { "name": "Security", "slug": "security" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 38,
+    "fields": { "name": "Smart cities", "slug": "smart-cities" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 39,
+    "fields": { "name": "Sport", "slug": "sport" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 40,
+    "fields": { "name": "Technology", "slug": "technology" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 41,
+    "fields": { "name": "Training", "slug": "training" }
+  },
+  {
+    "model": "core.sectortag",
+    "pk": 42,
+    "fields": { "name": "Transport", "slug": "transport" }
+  },
   { "model": "core.region", "pk": 419, "fields": { "name": "Antarctica" } },
   {
     "model": "core.region",

@@ -2,17 +2,21 @@
     {% for group, options, index in widget.optgroups %}
         {% for option in options %}
             {% if option.value == 'Other' %}
-                <p>we're in otsd aherland {{ option.value }}</p>
-                +
                 <div class="govuk-radios__item govuk-!-margin-bottom-3">
-                    +
-                    {% include option.option_template_name_other with widget=option %}
-                    +
+                    <input class="govuk-radios__input"
+                           data-module="govuk-radios"
+                           aria-controls="conditional-other-source"
+                           id="{{ option.attrs.id }}"
+                           name="{{ option.name }}"
+                           type="radio"
+                           {% if option.value != None %}value="{{ option.value|stringformat:'s' }}"{% endif %}
+                           {% include "django/forms/widgets/attrs.html" %} />
+                    <label {% if option.attrs.id %}id="{{ option.attrs.id }}-label" for="{{ option.attrs.id }}"{% endif %}
+                           class="govuk-label govuk-radios__label">{{ option.label }}</label>
                 </div>
-            </div>
-        {% else %}
-            <div class="govuk-radios__item govuk-!-margin-bottom-3">{% include option.template_name with widget=option %}</div>
-        {% endif %}
+            {% else %}
+                <div class="govuk-radios__item govuk-!-margin-bottom-3">{% include option.template_name with widget=option %}</div>
+            {% endif %}
+        {% endfor %}
     {% endfor %}
-{% endfor %}
 </div>

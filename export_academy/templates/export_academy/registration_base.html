@@ -50,7 +50,12 @@
         <div class="govuk-grid-row  govuk-!-padding-left-3 govuk-!-padding-right-3">
             <div class="great-grid-column-seven-twelfths">
                 <p class="govuk-body govuk-!-margin-top-4">{{ step_text }}</p>
-                <h1 class="govuk-heading-l govuk-!-margin-bottom-6">{{ title }}</h1>
+                {% if hide_title %}
+                {% else %}
+                    <h1 class="govuk-heading-l govuk-!-margin-bottom-6">
+                        {{ title }}
+                    {% endif %}
+                </h1>
                 {% if email %}
                     <p class="govuk-padding-top-30 govuk-!-margin-bottom-30">
                         Your registered email is <span class="bold">{{ email }}</span>

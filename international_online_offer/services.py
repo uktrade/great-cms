@@ -1,0 +1,88 @@
+from typing import Dict, List, Tuple
+
+from directory_api_client import api_client
+from international_online_offer.core import regions
+
+
+def get_bci_data_by_dbt_sector(dbt_sector_name: str, geo_codes: List[str] = None) -> Dict:
+    """
+    API helper function for getting BCI data by DBT sector
+    """
+    response = api_client.dataservices.get_business_cluster_information_by_dbt_sector(
+        dbt_sector_name, geo_code=','.join(geo_codes)
+    )
+
+    if response.status_code != 200:
+        return None
+
+    return response.json()
+
+
+def get_bci_data(dbt_sector_name: str, area: str) -> Tuple[Dict, Dict, Dict, int, List]:
+    """
+    Get BCI data in a front-end friendly format. The screen designs consist of a headline parent area (e.g. UK)
+    followed by a list of child regions (e.g. England, Scotland, Wales, Northern Ireland). Population details for
+    each headline area are hardcoded and obtained from ONS.
+
+    Input parameters:
+        dbt_sector_name -> a DBT sector
+        area -> a geocode which represents the parent area
+
+    Output:
+        A tuple containing:
+            bci_headline -> stats to display as the parent region for the page
+            headline_region -> human friendly region name / population
+            bci_detail -> list of stats to display for each region
+            bci_release_year -> release year of data
+            hyperlinked_geo_codes -> list of geo codes to display as hyperlinks
+    """
+
+    bci_headline: Dict = None
+    bci_detail: Dict = None
+    hyperlinked_geo_codes: List = []
+    bci_release_year: int = None
+    headline_region: Dict = {}
+    bci_sector: str = dbt_sector_name.replace('_', ' ')
+
+    if area == regions.GB_GEO_CODE:
+        bci_headline = get_bci_data_by_dbt_sector(bci_sector, geo_codes=[regions.GB_GEO_CODE])
+        bci_detail = get_bci_data_by_dbt_sector(
+            bci_sector,
+            geo_codes=[
+                regions.ENGLAND_GEO_CODE,
+                regions.SCOTLAND_GEO_CODE,
+                regions.WALES_GEO_CODE,
+                regions.NORTHERN_IRELAND_GEO_CODE,
+            ],
+        )
+        hyperlinked_geo_codes = [regions.ENGLAND_GEO_CODE]
+        headline_region = {'name': 'UK nations', 'sub_area_table_header': 'Nation', 'population_million': 67}
+    elif area == regions.ENGLAND_GEO_CODE:
+        bci_headline = get_bci_data_by_dbt_sector(bci_sector, geo_codes=[regions.ENGLAND_GEO_CODE])
+        bci_detail = get_bci_data_by_dbt_sector(
+            bci_sector,
+            geo_codes=[
+                regions.EAST_MIDLANDS_GEO_CODE,
+                regions.LONDON_GEO_CODE,
+                regions.NORTH_EAST_GEO_CODE,
+                regions.NORTH_WEST_GEO_CODE,
+                regions.SOUTH_EAST_GEO_CODE,
+                regions.SOUTH_WEST_GEO_CODE,
+                regions.WEST_MIDLANDS_GEO_CODE,
+                regions.YORKSHIRE_AND_THE_HUMBER_GEO_CODE,
+                regions.EAST_GEO_CODE,
+            ],
+        )
+        hyperlinked_geo_codes = []
+        headline_region = {
+            'name': 'English regions',
+            'sub_area_table_header': 'Region',
+            'population_million': 56.5,
+        }
+
+    if bci_headline and len(bci_headline) > 0:
+        # there can only be one headline
+        bci_headline = bci_headline[0]
+        bci_release_year = bci_headline['business_count_release_year']
+
+    return (bci_headline, headline_region, bci_detail, bci_release_year, hyperlinked_geo_codes)

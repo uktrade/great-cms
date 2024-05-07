@@ -1,35 +1,33 @@
 {% load humanize %}
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
+{% load static %}
+<div class="govuk-grid-row govuk-!-padding-4 bci-row-item">
+    <div class="govuk-grid-column-one-third">
         <div class="govuk-grid-row">
-            <div class="govuk-grid-column-full">
-                <div class="govuk-heading-m">{{ mock_bci_data.location }}</div>
+            <div class="govuk-grid-column-two-thirds">
+                {% if bci_region.geo_code in hyperlinked_geo_codes %}
+                    <a class="govuk-link govuk-heading-m govuk-!-margin-bottom-0"
+                       href="{% url 'international_online_offer:bci' %}?area={{ bci_region.geo_code }}">{{ bci_region.geo_description }}</a>
+                {% else %}
+                    <h3 class="govuk-heading-m govuk-!-margin-bottom-0">{{ bci_region.geo_description }}</h3>
+                {% endif %}
+            </div>
+            <div class="govuk-grid-column-one-third">
+                <img src="{% static 'svg' %}/uk-regions-{{ bci_region.geo_code }}.svg"
+                     alt="{{ bci_region.geo_description }} map"
+                     class="bci-map__subregion" />
             </div>
         </div>
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-one-quarter">
-                <div class="govuk-heading-s">{{ mock_bci_data.businesses|default:'-'|intcomma }}</div>
-                <div class="govuk-body">Business trading in {{ mock_bci_data.location }} within your sector</div>
-            </div>
-            <div class="govuk-grid-column-one-quarter">
-                <div class="govuk-heading-s">£{{ mock_bci_data.average_sales|default:'-'|intcomma }}</div>
-                <div class="govuk-body">Average sales per year in {{ mock_bci_data.location }} within your sector</div>
-            </div>
-            <div class="govuk-grid-column-one-quarter">
-                <div class="govuk-heading-s">{{ mock_bci_data.employees|default:'-'|intcomma }}</div>
-                <div class="govuk-body">People employed within your sector in {{ mock_bci_data.location }}</div>
-            </div>
-            <div class="govuk-grid-column-one-quarter">
-                <div class="govuk-heading-s">>{{ mock_bci_data.growth }}%</div>
-                <div class="govuk-body">
-                    Average growth in {{ mock_bci_data.location }} up {{ mock_bci_data.growth }}% on previous year
-                </div>
-            </div>
-        </div>
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-full">
-                <a class="govuk-link" href="#">Read more</a>
-            </div>
-        </div>
+    </div>
+    <div class="govuk-grid-column-one-third great-interntional-centered-content">
+        <h2 class="govuk-heading-xl govuk-!-padding-0 govuk-!-margin-bottom-1 ">
+            {{ bci_region.total_business_count|default:"-"|intcomma }}
+        </h2>
+        <p class="govuk-body only-mobile">businesses</p>
+    </div>
+    <div class="govuk-grid-column-one-third great-interntional-centered-content">
+        <h2 class="govuk-heading-xl govuk-!-padding-0 govuk-!-margin-bottom-1">
+            {{ bci_region.total_employee_count|default:"-"|intcomma }}
+        </h2>
+        <p class="govuk-body only-mobile">employees</p>
     </div>
 </div>

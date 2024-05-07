@@ -10,6 +10,11 @@
 {% block body_js %}
     {{ block.super }}
     <script src="{% static 'javascript/digital-entry-point.js' %}"></script>
+    {% if features.FEATURE_SHOW_TASK_VALIDATION %}
+        <script src="{% static 'javascript/great.utils.js' %}"></script>
+        <script src="{% static 'javascript/great.task-validation.js' %}"></script>
+        <script type="text/javascript">GreatFrontend.TaskValidation.init()</script>
+    {% endif %}
 {% endblock %}
 {% block content %}
     <div class="govuk-!-padding-bottom-9 great great-bg-light-blue">
@@ -23,6 +28,21 @@
                                 <h1 class="govuk-heading-xl govuk-!-margin-top-0 govuk-!-margin-bottom-8">{{ page.page_title }}</h1>
                             {% endif %}
                             {% if page.page_teaser %}{{ page.page_teaser| richtext | add_govuk_classes }}{% endif %}
+                            {% if features.FEATURE_SHOW_TASK_VALIDATION %}
+                                {# djlint:off H021 #}
+                                <div id="task-validation-form" class="great-modal" style="display:none;">
+                                    <div class="govuk-!-padding-8 great-modal__content">
+                                        <h2 class="govuk-heading-s govuk-!-margin-bottom-0">Please confirm</h2>
+                                        <p id="task-validation-question"
+                                           class="govuk-body govuk-!-margin-top-4 govuk-!-margin-bottom-5"></p>
+                                        <button class="govuk-button great-min-width-200-desktop">Yes</button>
+                                        <button class="govuk-button great-min-width-200-desktop">No</button>
+                                        <p class="govuk-body govuk-!-margin-top-5 govuk-!-margin-bottom-0">
+                                            You're being sent to a service on <a href="https://www.gov.uk" class="govuk-link">GOV.UK</a>.
+                                        </p>
+                                    </div>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                     {% if page.page_body %}

@@ -1,6 +1,7 @@
 {% extends './base.html' %}
 {% load wagtailimages_tags %}
 {% load static %}
+{% load humanize %}
 {% block head_title %}Welcome to your UK expansion guide {{ block.super }}{% endblock %}
 {% block meta_title %}Welcome to your UK expansion guide {{ block.super }}{% endblock %}
 {% block head_other %}
@@ -183,6 +184,50 @@
                             </p>
                         </div>
                     </div>
+                    {% if bci_data %}
+                        <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-full">
+                                <h2 class="govuk-heading-m">
+                                    Market data for the {{ bci_data.dbt_sector_name|default:""|lower }} sector in the UK, {{ bci_data.business_count_release_year|default:"" }}
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="govuk-grid-column-full guide-bci-container">
+                            <div class="govuk-grid-row govuk-!-padding-2">
+                                <div class="govuk-grid-column-one-quarter">
+                                    <h2 class="govuk-heading-xl govuk-!-padding-0  govuk-!-margin-bottom-1">
+                                        {{ bci_data.total_business_count|default:"N/A"|intcomma }}
+                                    </h2>
+                                    <p class="govuk-body">businesses</p>
+                                </div>
+                                <div class="govuk-grid-column-one-quarter">
+                                    <h2 class="govuk-heading-xl govuk-!-padding-0 govuk-!-margin-bottom-1">
+                                        {{ bci_data.total_employee_count|default:"N/A"|intcomma }}
+                                    </h2>
+                                    <p class="govuk-body">employees</p>
+                                </div>
+                            </div>
+                            <div class="govuk-grid-row govuk-!-padding-1">
+                                <div class="govuk-grid-column-full">
+                                    <button class="secondary-button button--international"
+                                            type="button"
+                                            onclick="window.location.href='{% url 'international_online_offer:bci' %}?area=K03000001'">
+                                        By location
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="govuk-grid-row govuk-!-padding-top-3">
+                                <div class="govuk-grid-column-full">
+                                    <p class="govuk-body-s">
+                                        Source:
+                                        <a href="https://www.ons.gov.uk/aboutus/whatwedo/paidservices/interdepartmentalbusinessregisteridbr">
+                                            Inter-Departmental Business Register, Office for National Statistics
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
                     <div class="govuk-grid-row govuk-!-margin-bottom-6">
                         {% if trade_shows_page and triage_data.sector %}
                             <div class="govuk-grid-column-full">

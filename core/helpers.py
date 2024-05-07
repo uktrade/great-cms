@@ -8,6 +8,7 @@ from collections import Counter
 from difflib import SequenceMatcher
 from io import StringIO
 from logging import getLogger
+from operator import itemgetter
 
 import boto3
 import great_components.helpers
@@ -494,6 +495,24 @@ def get_stats_by_country(iso2):
 def get_country_data(countries, fields):
     response = api_client.dataservices.get_country_data_by_country(countries=countries, fields=fields)
     return response.json()
+
+
+def get_markets_list():
+    try:
+        response = api_client.dataservices.get_markets_data()
+    except Exception:
+        return choices.COUNTRY_CHOICES
+    if not response.ok:
+        return choices.COUNTRY_CHOICES
+    json_data = response.json()
+    if len(json_data) == 0:
+        return choices.COUNTRY_CHOICES
+    market_list = []
+    for market in json_data:
+        if market['enabled']:
+            market_list.append((market['iso2_code'], market['name']))
+    market_list.sort(key=itemgetter(1))
+    return market_list
 
 
 def build_social_link(template, request, title):

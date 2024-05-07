@@ -19,6 +19,7 @@ from great_components import forms
 import regex
 from contact import constants, mixins as contact_mixins, widgets as contact_widgets
 from contact.helpers import get_free_trade_agreements, retrieve_regional_office
+from core import helpers
 from core.forms import TERMS_LABEL, ConsentFieldMixin
 from core.validators import is_valid_uk_postcode
 from directory_constants import choices
@@ -317,7 +318,7 @@ class DomesticExportSupportStep5Form(forms.Form):
     markets = forms.MultipleChoiceField(
         label='Select all markets that apply',
         widget=contact_widgets.GreatCheckboxes,
-        choices=COUNTRY_CHOICES + [('notspecificcountry', 'My query is not related to a specific country')],
+        choices=helpers.get_markets_list() + [('notspecificcountry', 'My query is not related to a specific country')],
         error_messages={
             'required': 'Enter a market',
         },

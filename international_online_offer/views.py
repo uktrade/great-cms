@@ -11,7 +11,12 @@ from great_components.mixins import GA360Mixin
 from core.helpers import check_url_host_is_safelisted
 from directory_sso_api_client import sso_api_client
 from international_online_offer import forms
-from international_online_offer.core import helpers, region_sector_helpers, scorecard
+from international_online_offer.core import (
+    helpers,
+    region_sector_helpers,
+    regions,
+    scorecard,
+)
 from international_online_offer.models import (
     CsatFeedback,
     TradeAssociation,
@@ -20,17 +25,21 @@ from international_online_offer.models import (
     get_triage_data_for_user,
     get_user_data_for_user,
 )
+from international_online_offer.services import get_bci_data
 from sso import helpers as sso_helpers, mixins as sso_mixins
 
 
 def calculate_and_store_is_high_value(request):
     existing_triage_data = get_triage_data_for_user(request)
+    dbt_sub_sector_from_sic_sector = region_sector_helpers.get_full_sector_name_from_sic_sector(
+        existing_triage_data.sector_sub
+    )
     is_high_value = scorecard.score_is_high_value(
         existing_triage_data.sector,
+        dbt_sub_sector_from_sic_sector,
         existing_triage_data.location,
         existing_triage_data.hiring,
         existing_triage_data.spend,
-        existing_triage_data.spend_other,
     )
     if request.user.is_authenticated:
         TriageData.objects.update_or_create(
@@ -845,14 +854,6 @@ class TradeAssociationsView(GA360Mixin, TemplateView):
 class BusinessClusterView(GA360Mixin, TemplateView):
     template_name = 'eyb/bci.html'
 
-    class MockBCIData:
-        def __init__(self, location, businesses, average_sales, employees, growth):
-            self.location = location
-            self.businesses = businesses
-            self.average_sales = average_sales
-            self.employees = employees
-            self.growth = growth
-
     def __init__(self):
         super().__init__()
         self.set_ga360_payload(
@@ -861,21 +862,49 @@ class BusinessClusterView(GA360Mixin, TemplateView):
             site_section='business-cluster-information',
         )
 
+    def get(self, *args, **kwargs):
+        triage_data = get_triage_data_for_user(self.request)
+
+        # an edge case where a user doesn't have triage data or a sector in which case
+        # it isn't possible to display meaningful bci information
+        if not triage_data or not triage_data.sector:
+            return redirect(reverse_lazy('international_online_offer:sector'))
+
+        return super().get(*args, **kwargs)
+
     def get_context_data(self, **kwargs):
-        mocked_bci_data = [
-            self.MockBCIData('UK', 13000, 740000, 56000, 7),
-            self.MockBCIData('England', 7000, 510000, 41000, 6.5),
-            self.MockBCIData('Scotland', 3000, 200000, 30020, 3),
-            self.MockBCIData('Wales', 2500, 220000, 46000, 11),
-        ]
         breadcrumbs = [
             {'name': 'Home', 'url': '/international/'},
             {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#personalised-guide'},
         ]
+
+        geo_area = self.request.GET.get('area', None)
+
+        # We are in a region view, add link back to parent bci page (UK nations)
+        if geo_area != regions.GB_GEO_CODE:
+            breadcrumbs.append(
+                {
+                    'name': 'UK market data',
+                    'url': '/international/expand-your-business-in-the-uk/business-cluster-information/?area=K03000001',
+                }
+            )
+
         triage_data = get_triage_data_for_user(self.request)
+
+        (bci_headline, headline_region, bci_detail, bci_release_year, hyperlinked_geo_codes) = get_bci_data(
+            triage_data.sector, geo_area
+        )
+
+        # sort alphabetically by geo description
+        bci_detail = sorted(bci_detail, key=lambda e: e['geo_description'])
+
         return super().get_context_data(
             triage_data=triage_data,
             breadcrumbs=breadcrumbs,
-            mocked_bci_data=mocked_bci_data,
+            bci_headline=bci_headline,
+            bci_detail=bci_detail,
+            hyperlinked_geo_codes=hyperlinked_geo_codes,
+            bci_release_year=bci_release_year,
+            headline_region=headline_region,
             **kwargs,
         )

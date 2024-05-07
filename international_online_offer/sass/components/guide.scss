@@ -1,3 +1,26 @@
 .guide-edit-panel {
     border: 1px solid $great-light-grey;
 }
+
+.guide-bci-container {
+    background-color: $great-light-blue;
+}
+
+.bci-map__subregion {
+    width: 76px;
+}
+
+.bci-map__region {
+    width: 197px;
+}
+
+.bci-row-item{
+    border-top: 1px solid $great-border-grey;
+
+    @include govuk-media-query($until: tablet) {
+        display: flex;
+        align-items: center;
+      }
+
+
+}

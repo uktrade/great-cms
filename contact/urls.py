@@ -32,6 +32,7 @@ from contact.views import (
     OfficeFinderFormView,
     OfficeSuccessView,
     RoutingFormView,
+    TaskValidationView,
 )
 from core import snippet_slugs
 from core.views import QuerystringRedirectView
@@ -226,6 +227,13 @@ urlpatterns = [
     ),
     path('contact/inline-feedback', skip_ga360(InlineFeedbackView.as_view()), name='contact-inline-feedback'),
 ]
+
+
+if settings.FEATURE_DIGITAL_POINT_OF_ENTRY:
+    urlpatterns += [
+        path('contact/task-validation', skip_ga360(TaskValidationView.as_view()), name='contact-task-validation'),
+    ]
+
 
 if settings.FEATURE_DIGITAL_POINT_OF_ENTRY:
     urlpatterns += [

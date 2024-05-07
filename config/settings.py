@@ -1,11 +1,13 @@
 import os
 import sys
 from pathlib import Path
+from typing import Any, Dict
 
 import directory_healthcheck.backends
 import environ
 import sentry_sdk
 from django.urls import reverse_lazy
+from django_log_formatter_asim import ASIMFormatter
 from elasticsearch import RequestsHttpConnection
 from elasticsearch_dsl.connections import connections
 from sentry_sdk.integrations.celery import CeleryIntegration
@@ -242,6 +244,7 @@ STATICFILES_DIRS = [
     str(ROOT_DIR / 'react-components' / 'dist'),
     str(ROOT_DIR / 'sso_profile' / 'common' / 'static'),
     str(ROOT_DIR / 'sso_profile' / 'static'),
+    str(ROOT_DIR / 'international_online_offer' / 'static'),
 ]
 
 
@@ -274,7 +277,7 @@ WAGTAILADMIN_BASE_URL = env.str('WAGTAILADMIN_BASE_URL')
 
 # Logging for development
 if DEBUG:
-    LOGGING = {
+    LOGGING: Dict[str, Any] = {
         'version': 1,
         'disable_existing_loggers': False,
         'filters': {'require_debug_false': {'()': 'django.utils.log.RequireDebugFalse'}},
@@ -333,41 +336,39 @@ if DEBUG:
         },
     }
 else:
-    LOGGING = {
+    LOGGING: Dict[str, Any] = {
         'version': 1,
         'disable_existing_loggers': True,
         'formatters': {
-            'verbose': {'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'}
+            'asim_formatter': {
+                '()': ASIMFormatter,
+            },
+            'simple': {
+                'style': '{',
+                'format': '{asctime} {levelname} {message}',
+            },
         },
         'handlers': {
-            'console': {
-                'level': 'DEBUG',
+            'asim': {
                 'class': 'logging.StreamHandler',
-                'formatter': 'verbose',
-            }
+                'formatter': 'asim_formatter',
+            },
+            'console': {
+                'class': 'logging.StreamHandler',
+                'formatter': 'simple',
+            },
+        },
+        'root': {
+            'handlers': ['console'],
+            'level': 'INFO',
         },
         'loggers': {
-            'django.db.backends': {
-                'level': 'ERROR',
-                'handlers': ['console'],
+            'django': {
+                'handlers': ['asim'],
+                'level': 'INFO',
                 'propagate': False,
             },
-            'sentry_sdk': {'level': 'ERROR', 'handlers': ['console'], 'propagate': False},
-            'django.security.DisallowedHost': {
-                'level': 'ERROR',
-                'handlers': ['console'],
-                'propagate': False,
-            },
-            'django.request': {
-                'handlers': ['console'],
-                'level': 'ERROR',
-                'propagate': True,
-            },
-            'requests': {
-                'handlers': ['console'],
-                'level': 'ERROR',
-                'propagate': False,
-            },
+            'sentry_sdk': {'level': 'ERROR', 'handlers': ['asim'], 'propagate': False},
         },
     }
 
@@ -870,6 +871,10 @@ FEATURE_PRODUCT_MARKET_SEARCH_ENABLED = env.bool('FEATURE_PRODUCT_MARKET_SEARCH_
 FEATURE_SHOW_USA_CTA = env.bool('FEATURE_SHOW_USA_CTA', False)
 FEATURE_SHOW_EU_CTA = env.bool('FEATURE_SHOW_EU_CTA', False)
 FEATURE_SHOW_CUSTOMS_AND_TAXES_DROPWDOWN = env.bool('FEATURE_SHOW_CUSTOMS_AND_TAXES_DROPWDOWN', False)
+FEATURE_SHOW_TASK_VALIDATION = env.bool('FEATURE_SHOW_TASK_VALIDATION', False)
+FEATURE_UKEA_CSAT = env.bool('FEATURE_UKEA_CSAT', False)
+
+FEATURE_MARKET_GUIDES_TAGGING_UPDATE = env.bool('FEATURE_MARKET_GUIDES_TAGGING_UPDATE', False)
 
 MAX_COMPARE_PLACES_ALLOWED = env.int('MAX_COMPARE_PLACES_ALLOWED', 10)
 
@@ -967,11 +972,9 @@ CLAM_AV_PASSWORD = env.str('CLAM_AV_PASSWORD', '')
 # Restriction document upload by filetypes
 WAGTAILDOCS_EXTENSIONS = [
     'pdf',
-    'docx',
 ]
 WAGTAILDOCS_MIME_TYPES = [
     'application/pdf',
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 ]
 
 # Celery

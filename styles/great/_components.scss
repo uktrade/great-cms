@@ -706,7 +706,7 @@ figure.great-blockquote {
   &::before {
     box-sizing: initial;
     transform: rotate(135deg);
-    content: "";
+    content: '';
     border-style: solid;
     display: inline-block;
     height: 5px;
@@ -2119,5 +2119,41 @@ nav.great-breadcrumbs {
 
   &.block {
     display: block;
+  }
+}
+
+.great-modal {
+  position: fixed;
+  inset: 0px;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.great-modal__content {
+  position: absolute;
+  border: 1px solid rgb(204, 204, 204);
+  background: rgb(255, 255, 255);
+  overflow: auto;
+  border-radius: 4px;
+  outline: none;
+  max-width: 800px;
+  bottom: auto;
+  right: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-height: calc(100vh - 30px);
+  width: calc(100vw - 30px);
+
+  button {
+    @include govuk-media-query($from: tablet) {
+      margin: 0;
+    }
+
+    &:first-of-type {
+      @include govuk-media-query($from: tablet) {
+        margin-right: 10px;
+      }
+    }
   }
 }

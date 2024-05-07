@@ -120,3 +120,12 @@ def get_sector_from_sic_sector(choice):
             return to_literal(sic_obj['dit_sector_list_field_04'])
 
     return ''
+
+
+def get_full_sector_name_from_sic_sector(choice):
+    json_data = get_sectors_and_sic_sectors_file()
+    for sic_obj in json_data['data']:
+        if to_literal(sic_obj['sic_description']) == choice:
+            return sic_obj['dit_sector_list_full_sector_name']
+
+    return ''

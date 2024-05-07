@@ -1,5 +1,6 @@
 {% extends './base.html' %}
 {% load static %}
+{% load humanize %}
 {% block head_title %}BCI data {{ block.super }}{% endblock %}
 {% block meta_title %}BCI data {{ block.super }}{% endblock %}
 {% block head_other %}
@@ -11,40 +12,76 @@
     <div class="govuk-width-container great-container">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
-                <h3 class="govuk-heading-l">{{ triage_data.get_sector_display }} UK market information</h3>
-            </div>
-        </div>
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-full">
-                <p class="govuk-body">
-                    Geographic concentration of interconnected businesses, suppliers, and associated institutions in a particular field.
+                <p class="govuk-body-l great-text-grey govuk-!-margin-bottom-2">
+                    Market data for {{ bci_headline.dbt_sector_name|default:""|lower }}
                 </p>
             </div>
         </div>
         <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                <div class="govuk-heading-m">Regional data</div>
-                <div class="govuk-body-s">Source data: ONS DEC 2023</div>
+            <div class="govuk-grid-column-full">
+                <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">{{ headline_region.name }}</h1>
             </div>
         </div>
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-one-quarter">
-                <div class="govuk-heading-s">Number of businesses in your Sector</div>
-            </div>
-            <div class="govuk-grid-column-one-quarter">
-                <div class="govuk-heading-s">Average Sales within your sector</div>
-            </div>
-            <div class="govuk-grid-column-one-quarter">
-                <div class="govuk-heading-s">Number of Employees within your sector</div>
-            </div>
-            <div class="govuk-grid-column-one-quarter">
-                <div class="govuk-heading-s">Overall regional Sector market growth in your last X years</div>
-            </div>
+        {% if bci_headline and bci_detail %}
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-row govuk-!-margin-1 govuk-!-padding-4 guide-bci-container">
+                    <div class="govuk-grid-column-one-quarter-from-desktop">
+                        <img src="{% static 'svg' %}/uk-regions-{{ bci_headline.geo_code }}.svg"
+                             alt="{{ bci_headline.geo_description }} map"
+                             class="bci-map__region" />
+                    </div>
+                    <div class="govuk-grid-column-full-width govuk-grid-column-three-quarters-from-desktop">
+                        <h2 class="govuk-heading-l govuk-!-margin-bottom-6">{{ headline_region.name }}</h2>
+                        <div class="govuk-!-margin-bottom-5">
+                            <h3 class="govuk-heading-m govuk-!-margin-bottom-2">Population</h3>
+                            <p class="govuk-heading-xl govuk-!-margin-bottom-1">{{ headline_region.population_million }} million</p>
+                        </div>
+                        <div class="govuk-!-margin-bottom-5">
+                            <h3 class="govuk-heading-m govuk-!-margin-bottom-2">
+                                Market data for {{ triage_data.get_sector_display|default:""|lower }}, {{ bci_release_year }}
+                            </h3>
+                            <div class="govuk-grid-column-one-half govuk-grid-column-one-third-from-desktop govuk-!-padding-0">
+                                <h2 class="govuk-heading-xl govuk-!-margin-bottom-1">{{ bci_headline.total_business_count|default:"-"|intcomma }}</h2>
+                                <p class="govuk-body">businesses</p>
+                            </div>
+                            <div class="govuk-grid-column-one-half govuk-grid-column-one-third-from-desktop govuk-!-padding-0">
+                                <h2 class="govuk-heading-xl govuk-!-margin-bottom-1">{{ bci_headline.total_employee_count|default:"-"|intcomma }}</h2>
+                                <p class="govuk-body">employees</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="govuk-grid-row govuk-!-padding-4 great-display-from-tablet">
+                    <div class="govuk-grid-column-one-third">
+                        <h4 class="govuk-heading-s">{{ headline_region.sub_area_table_header }}</h4>
+                    </div>
+                    <div class="govuk-grid-column-one-third great-interntional-centered-content">
+                        <h4 class="govuk-heading-s">Businesses</h4>
+                    </div>
+                    <div class="govuk-grid-column-one-third great-interntional-centered-content">
+                        <h4 class="govuk-heading-s">Employees</h4>
+                    </div>
+                </div>
+                {% for region in bci_detail %}
+                    {% include './includes/bci_row_item.html' with bci_region=region %}
+                {% endfor %}
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-full">
+                        <p class="govuk-body-xs great-text-grey govuk-!-margin-bottom-2">
+                            Source:
+                            <a href="https://www.ons.gov.uk/aboutus/whatwedo/paidservices/interdepartmentalbusinessregisteridbr">
+                                Inter-Departmental Business Register, Office for National Statistics
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            {% else %}
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-full">
+                        <p class="govuk-body-m great-text-grey govuk-!-margin-bottom-2">No data available</p>
+                    </div>
+                </div>
+            {% endif %}
         </div>
-        {% for row in mocked_bci_data %}
-            {% include './includes/bci_row_item.html' with mock_bci_data=row %}
-            <hr class="govuk-!-margin-top-4 govuk-!-margin-bottom-4">
-        {% endfor %}
-    </div>
-{% endblock %}
-{% block body_js %}{{ block.super }}{% endblock %}
+    {% endblock %}
+    {% block body_js %}{{ block.super }}{% endblock %}
