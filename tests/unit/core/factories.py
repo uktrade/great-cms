@@ -28,6 +28,7 @@ class CountryFactory(factory.django.DjangoModelFactory):
 
 class ContentModuleFactory(factory.django.DjangoModelFactory):
     title = factory.Faker('word')
+    title_id = factory.LazyAttribute(lambda obj: slugify(obj.title))
 
     class Meta:
         model = models.ContentModule
