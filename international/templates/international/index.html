@@ -4,6 +4,7 @@
 {% block head_title %}International {{ block.super }}{% endblock %}
 {% block meta_title %}International {{ block.super }}{% endblock %}
 {% block head_other %}
+    <link rel="canonical" href="{{ request.build_absolute_uri }}">
     <meta name="description"
           content="Find information to help invest within the UK" />
 {% endblock %}
