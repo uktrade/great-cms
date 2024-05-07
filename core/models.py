@@ -1205,8 +1205,8 @@ class ContentModuleTag(TaggedItemBase):
 class ContentModule(ClusterableModel):
     title = models.CharField(max_length=255)
     title_id = models.CharField(
-        max_length=255, 
-        null=True, 
+        max_length=255,
+        null=True,
         blank=True,
         verbose_name=_('Title ID?'),
         help_text=(
@@ -1217,9 +1217,7 @@ class ContentModule(ClusterableModel):
     hide_title = models.BooleanField(
         default=False,
         verbose_name=_('Hide title?'),
-        help_text=(
-            'Check this box to prevent the title displaying on the page.'
-        ),
+        help_text=('Check this box to prevent the title displaying on the page.'),
     )
     tags = TaggableManager(through=ContentModuleTag, blank=True)
 
