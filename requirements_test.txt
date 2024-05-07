@@ -192,6 +192,7 @@ django==4.2.11
     #   django-filter
     #   django-formtools
     #   django-health-check
+    #   django-log-formatter-asim
     #   django-modelcluster
     #   django-permissionedforms
     #   django-recaptcha
@@ -228,6 +229,8 @@ django-health-check==3.18.1
     # via directory-healthcheck
 django-ipware==6.0.3
     # via -r requirements.in
+django-log-formatter-asim==0.0.4
+    # via -r requirements.in
 django-modelcluster==6.3
     # via wagtail
 django-permissionedforms==0.1
@@ -239,9 +242,7 @@ django-redis==5.4.0
 django-staff-sso-client==4.2.2
     # via -r requirements.in
 django-storages[boto3]==1.13.2
-    # via
-    #   -r requirements.in
-    #   django-storages
+    # via -r requirements.in
 django-taggit==4.0.0
     # via wagtail
 django-timezone-field==6.1.0
@@ -509,7 +510,9 @@ pluggy==1.5.0
 polib==1.2.0
     # via wagtail-localize
 pre-commit==3.7.0
-    # via -r requirements_test.in
+    # via
+    #   -r requirements_test.in
+    #   django-log-formatter-asim
 pre-commit-hooks==3.3.0
     # via -r requirements_test.in
 prompt-toolkit==3.0.43
@@ -852,9 +855,7 @@ wheel==0.43.0
 whitenoise==6.6.0
     # via -r requirements.in
 willow[heif]==1.6.3
-    # via
-    #   wagtail
-    #   willow
+    # via wagtail
 wsproto==1.2.0
     # via trio-websocket
 xhtml2pdf==0.2.15

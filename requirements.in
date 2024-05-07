@@ -13,6 +13,7 @@ django-treebeard==4.7
 django-csp==3.7
 django-recaptcha==3.0.0
 django-celery-beat==2.5.0
+django-log-formatter-asim==0.0.4
 
 # Wagtail
 # ------------

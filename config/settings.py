@@ -1,11 +1,13 @@
 import os
 import sys
 from pathlib import Path
+from typing import Any, Dict
 
 import directory_healthcheck.backends
 import environ
 import sentry_sdk
 from django.urls import reverse_lazy
+from django_log_formatter_asim import ASIMFormatter
 from elasticsearch import RequestsHttpConnection
 from elasticsearch_dsl.connections import connections
 from sentry_sdk.integrations.celery import CeleryIntegration
@@ -274,7 +276,7 @@ WAGTAILADMIN_BASE_URL = env.str('WAGTAILADMIN_BASE_URL')
 
 # Logging for development
 if DEBUG:
-    LOGGING = {
+    LOGGING: Dict[str, Any] = {
         'version': 1,
         'disable_existing_loggers': False,
         'filters': {'require_debug_false': {'()': 'django.utils.log.RequireDebugFalse'}},
@@ -333,41 +335,39 @@ if DEBUG:
         },
     }
 else:
-    LOGGING = {
+    LOGGING: Dict[str, Any] = {
         'version': 1,
         'disable_existing_loggers': True,
         'formatters': {
-            'verbose': {'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'}
+            "asim_formatter": {
+                "()": ASIMFormatter,
+            },
+            "simple": {
+                "style": "{",
+                "format": "{asctime} {levelname} {message}",
+            },
         },
         'handlers': {
+            "asim": {
+                "class": "logging.StreamHandler",
+                "formatter": "asim_formatter",
+            },
             'console': {
-                'level': 'DEBUG',
                 'class': 'logging.StreamHandler',
-                'formatter': 'verbose',
-            }
+                'formatter': 'simple',
+            },
+        },
+        "root": {
+            "handlers": ["console"],
+            "level": "INFO",
         },
         'loggers': {
-            'django.db.backends': {
-                'level': 'ERROR',
-                'handlers': ['console'],
-                'propagate': False,
+            "django": {
+                "handlers": ["asim"],
+                "level": "INFO",
+                "propagate": False,
             },
-            'sentry_sdk': {'level': 'ERROR', 'handlers': ['console'], 'propagate': False},
-            'django.security.DisallowedHost': {
-                'level': 'ERROR',
-                'handlers': ['console'],
-                'propagate': False,
-            },
-            'django.request': {
-                'handlers': ['console'],
-                'level': 'ERROR',
-                'propagate': True,
-            },
-            'requests': {
-                'handlers': ['console'],
-                'level': 'ERROR',
-                'propagate': False,
-            },
+            'sentry_sdk': {'level': 'ERROR', 'handlers': ['asim'], 'propagate': False},
         },
     }
 
