@@ -339,33 +339,33 @@ else:
         'version': 1,
         'disable_existing_loggers': True,
         'formatters': {
-            "asim_formatter": {
-                "()": ASIMFormatter,
+            'asim_formatter': {
+                '()': ASIMFormatter,
             },
-            "simple": {
-                "style": "{",
-                "format": "{asctime} {levelname} {message}",
+            'simple': {
+                'style': '{',
+                'format': '{asctime} {levelname} {message}',
             },
         },
         'handlers': {
-            "asim": {
-                "class": "logging.StreamHandler",
-                "formatter": "asim_formatter",
+            'asim': {
+                'class': 'logging.StreamHandler',
+                'formatter': 'asim_formatter',
             },
             'console': {
                 'class': 'logging.StreamHandler',
                 'formatter': 'simple',
             },
         },
-        "root": {
-            "handlers": ["console"],
-            "level": "INFO",
+        'root': {
+            'handlers': ['console'],
+            'level': 'INFO',
         },
         'loggers': {
-            "django": {
-                "handlers": ["asim"],
-                "level": "INFO",
-                "propagate": False,
+            'django': {
+                'handlers': ['asim'],
+                'level': 'INFO',
+                'propagate': False,
             },
             'sentry_sdk': {'level': 'ERROR', 'handlers': ['asim'], 'propagate': False},
         },
