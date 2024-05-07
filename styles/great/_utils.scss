@@ -167,7 +167,7 @@
   .great-font-bold {
     font-family: $great-font-bold !important;
   }
-  .great-font-weight-semi-bold{
+  .great-font-weight-semi-bold {
     font-weight: $font-weight-semi-bold !important;
   }
 
@@ -396,7 +396,6 @@
   font-family: $great-font;
 }
 
-
 .great-container {
   max-width: 1230px;
   margin: auto;
@@ -482,6 +481,12 @@
 
 .great-max-width-80 {
   max-width: 80%;
+}
+
+.great-min-width-200-desktop {
+  @include govuk-media-query($from: tablet) {
+    min-width: 200px;
+  }
 }
 
 .great-min-width-250-desktop {
