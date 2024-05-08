@@ -42,7 +42,7 @@ def test_video_block():
 
 @pytest.mark.django_db
 def test_modular_content_static_block_render():
-    module = ContentModuleFactory(hide_title=False, title_id="specific-title-id")
+    module = ContentModuleFactory()
     module.tags.add('tag1', 'tag2')
     module.save()
 
@@ -59,11 +59,6 @@ def test_modular_content_static_block_render():
     html = block.render(context=context, value=module)
     expected_html = f'\n<div class="modules">\n    <p class="m-b-0 ">{module.content}</p>\n</div>\n'
     assert html == expected_html
-    print("Rendered HTML:", html)
-    print("Title HTML:", title_html)
-    print("Expected HTML:", expected_html)
-    print("Module Hide Title:", module.hide_title)
-    print("Module Title ID:", module.title_id)
 
 
 def test_basic_render_form_for_media_chooser_block():
