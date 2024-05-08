@@ -53,6 +53,7 @@ def test_modular_content_static_block_render():
     expected_html = f'\n<div class="modules">\n    \n        <p class="m-b-0 ">{module.content}</p>\n    \n</div>\n'
     assert html == expected_html
 
+
 def test_basic_render_form_for_media_chooser_block():
     block = core_blocks.MediaChooserBlock()
     with pytest.raises(NotImplementedError):
