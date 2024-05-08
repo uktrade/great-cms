@@ -42,14 +42,14 @@ def test_video_block():
 
 @pytest.mark.django_db
 def test_modular_content_static_block_render():
-    module = ContentModuleFactory()
+    module = ContentModuleFactory(hide_title=False)
     module.tags.add('tag1', 'tag2')
     module.save()
 
     request = mock.Mock(GET={'tags': 'tag1,tag2'})
     block = core_blocks.ModularContentStaticBlock()
     context = {'request': request}
-    html = block.render(context=context, value=module.content)
+    html = block.render(context=context, value=module)
 
     title_html = f'<h2 id="{module.title_id}">{module.title}</h2>' if not module.hide_title else ''
     expected_html = f'\n<div class="modules">\n    {title_html}\n    <p class="m-b-0 ">{module.content}</p>\n</div>\n'

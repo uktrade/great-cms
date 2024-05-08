@@ -1210,7 +1210,8 @@ class ContentModule(ClusterableModel):
         blank=True,
         verbose_name=_('Title ID?'),
         help_text=(
-            'Your provided ID might change upon saving to ensure its valid. Check this snippet after saving to see the formatted ID.'
+            'Your provided ID might change upon saving to ensure its valid. '
+            'Check this snippet after saving to see the formatted ID.'
         ),
     )
     content = RichTextField()
