@@ -156,8 +156,8 @@ class ProfileForm(forms.Form):
         },
     )
     company_location = ChoiceField(
-        label='Company headquarters',
-        help_text='Type to search and choose a country from the list',
+        label='Current location of headquarters',
+        help_text='Search and select a country, region or territory',
         required=False,
         widget=Select(attrs={'id': 'js-company-location-select', 'class': 'govuk-input'}),
         choices=choices.COMPANY_LOCATION_CHOICES,
@@ -231,7 +231,7 @@ class ProfileForm(forms.Form):
         cleaned_data = super().clean()
         company_location = cleaned_data.get('company_location')
         if not company_location:
-            self.add_error('company_location', 'Enter the country of your company headquarters')
+            self.add_error('company_location', 'Enter a country, region or territory')
         else:
             return cleaned_data
 
