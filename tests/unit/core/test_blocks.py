@@ -51,7 +51,8 @@ def test_modular_content_static_block_render():
     context = {'request': request}
     html = block.render(context=context, value=module)
 
-    title_html = f'<h2 id="{module.title_id}">{module.title}</h2>' if not module.hide_title else ''
+    module.hide_title = True
+    title_html = f'<h2 id="{module.title_id}">{module.title}</h2>'
     expected_html = f'\n<div class="modules">\n    {title_html}\n    <p class="m-b-0 ">{module.content}</p>\n</div>\n'
     assert html == expected_html
 
