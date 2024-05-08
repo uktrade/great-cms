@@ -34,12 +34,12 @@ GreatFrontend.TaskValidation = {
 
           if (title === 'Calculate how much duty you need to pay') {
             question.innerHTML =
-              'We think you’re looking for the amount of duty you need to pay on your goods. Is this correct?'
+              "You need to figure out the amount of duty to pay on the goods you're exporting."
           }
 
           if (title === 'Find the right commodity code') {
             question.innerHTML =
-              'We think you’re looking for the correct commodity (HS) code for your product. Is this correct?'
+              'You need to find the correct commodity (HS) code to export your goods.'
           }
 
           if (sessionStorage.getItem('task_validation')) {
