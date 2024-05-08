@@ -55,14 +55,19 @@ GreatFrontend.TaskValidation = {
                 button.addEventListener('click', async (e) => {
                   e.preventDefault()
 
+                  const csrfToken = document.querySelector(
+                    '[name=csrfmiddlewaretoken]'
+                  ).value
+
                   try {
                     await fetch('/contact/task-validation', {
                       method: 'POST',
                       headers: {
                         'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken,
                       },
                       body: JSON.stringify({
-                        question: question,
+                        question: question.innerHTML,
                         answer: button.innerText,
                       }),
                     })
