@@ -32,11 +32,14 @@
                                 {# djlint:off H021 #}
                                 <div id="task-validation-form" class="great-modal" style="display:none;">
                                     <div class="govuk-!-padding-8 great-modal__content">
-                                        <h2 id="task-validation-question"
-                                            class="govuk-heading-s govuk-!-margin-bottom-5"></h2>
+                                        <h2 class="govuk-heading-s govuk-!-margin-bottom-0">Please confirm</h2>
+                                        <p id="task-validation-question"
+                                           class="govuk-body govuk-!-margin-top-4 govuk-!-margin-bottom-5"></p>
                                         <button class="govuk-button great-min-width-200-desktop">Yes</button>
                                         <button class="govuk-button great-min-width-200-desktop">No</button>
-                                        <p class="govuk-body govuk-!-margin-top-5 govuk-!-margin-bottom-0">You're being sent to a service on www.gov.uk</p>
+                                        <p class="govuk-body govuk-!-margin-top-5 govuk-!-margin-bottom-0">
+                                            You're being sent to a service on <a href="https://www.gov.uk" class="govuk-link">GOV.UK</a>.
+                                        </p>
                                     </div>
                                 </div>
                             {% endif %}
