@@ -42,7 +42,7 @@ def test_video_block():
 
 @pytest.mark.django_db
 def test_modular_content_static_block_render():
-    module = ContentModuleFactory(hide_title=False)
+    module = ContentModuleFactory()
     module.tags.add('tag1', 'tag2')
     module.save()
 
