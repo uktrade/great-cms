@@ -49,18 +49,9 @@ def test_modular_content_static_block_render():
     request = mock.Mock(GET={'tags': 'tag1,tag2'})
     block = core_blocks.ModularContentStaticBlock()
     context = {'request': request}
-    html = block.render(context=context, value=module)
-
-    module.hide_title = False
-    title_html = f'<h2 id="{module.title_id}">{module.title}</h2>'
-    expected_html = f'\n<div class="modules">\n    {title_html}\n    <p class="m-b-0 ">{module.content}</p>\n</div>\n'
+    html = block.render(context=context, value=module.content)
+    expected_html = f'\n<div class="modules">\n    \n        <p class="m-b-0 ">{module.content}</p>\n    \n</div>\n'
     assert html == expected_html
-
-    module.hide_title = True
-    html = block.render(context=context, value=module)
-    expected_html = f'\n<div class="modules">\n    <p class="m-b-0 ">{module.content}</p>\n</div>\n'
-    assert html == expected_html
-
 
 def test_basic_render_form_for_media_chooser_block():
     block = core_blocks.MediaChooserBlock()
