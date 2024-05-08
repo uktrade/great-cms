@@ -83,6 +83,7 @@ def feature_flags(request):
     retval['features']['FEATURE_SHOW_USA_CTA'] = settings.FEATURE_SHOW_USA_CTA
     retval['features']['FEATURE_SHOW_EU_CTA'] = settings.FEATURE_SHOW_EU_CTA
     retval['features']['FEATURE_SHOW_CUSTOMS_AND_TAXES_DROPWDOWN'] = settings.FEATURE_SHOW_CUSTOMS_AND_TAXES_DROPWDOWN
+    retval['features']['FEATURE_SHOW_TASK_VALIDATION'] = settings.FEATURE_SHOW_TASK_VALIDATION
 
     return retval
 
