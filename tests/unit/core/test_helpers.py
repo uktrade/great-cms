@@ -572,6 +572,51 @@ def test_get_country_data(mock_country_data, client):
     assert response.get('FR') == country_data['FR']
 
 
+@mock.patch.object(api_client.dataservices, 'get_markets_data')
+@pytest.mark.django_db
+def test_get_markets_list(mock_markets_data, client):
+    markets_data = [
+        {
+            'reference_id': 'CTHMTC00001',
+            'name': 'Abu Dhabi',
+            'type': 'Territory',
+            'iso1_code': None,
+            'iso2_code': 'AE-AZ',
+            'iso3_code': None,
+            'overseas_region_overseas_region_name': 'Middle East, Afghanistan and Pakistan',
+            'start_date': None,
+            'end_date': None,
+            'enabled': False,
+        },
+        {
+            'reference_id': 'CTHMTC00002',
+            'name': 'Afghanistan',
+            'type': 'Country',
+            'iso1_code': '004',
+            'iso2_code': 'AF',
+            'iso3_code': 'AFG',
+            'overseas_region_overseas_region_name': 'Middle East, Afghanistan and Pakistan',
+            'start_date': None,
+            'end_date': None,
+            'enabled': True,
+        },
+    ]
+    # response not ok
+    mock_markets_data.return_value = create_response(status_code=404, json_body=markets_data)
+    response = helpers.get_markets_list()
+    assert len(response) > 1
+    # no json in response
+    mock_markets_data.return_value = create_response(status_code=200)
+    response = helpers.get_markets_list()
+    assert len(response) > 1
+    # response ok and json in response
+    mock_markets_data.return_value = create_response(status_code=200, json_body=markets_data)
+    response = helpers.get_markets_list()
+    assert len(response) == 1
+    assert response[0][0] == 'AF'
+    assert response[0][1] == 'Afghanistan'
+
+
 def test_build_twitter_link(rf):
     actual = helpers.build_twitter_link(
         request=rf.get(
