@@ -23,6 +23,12 @@
                     </div>
                 </a>
             {% endif %}
+            {% if block.block_type == 'task_item' %}
+                {% for topic_item in block.value %}
+                    <a href="{{ topic_item.url }}">{{ topic_item.task }}</a>
+                    <p>{{ topic_item.description }}</p>
+                {% endfor %}
+            {% endif %}
         {% endfor %}
     {% endif %}
 {% endfor %}

@@ -2219,6 +2219,13 @@ class SupportTopicLandingPage(cms_panels.SupportTopicLandingPanels, Page):
                         ('card', SupportCardBlock()),
                         ('sidebar_item', SupportCardBlock()),
                         ('related_item', SupportCardBlock()),
+                        (
+                            'task_item',
+                            blocks.ListBlock(
+                                SnippetChooserBlock('core.TaskItem'),
+                                label='Choose task item',
+                            ),
+                        ),
                     ],
                 ),
             ),
@@ -2296,3 +2303,25 @@ class ShareSettings(BaseSiteSetting):
             heading=_('Sharing'),
         )
     ]
+
+
+from wagtail.search import index
+
+
+@register_snippet
+class TaskItem(index.Indexed, models.Model):
+    task = models.CharField()
+    description = models.CharField()
+    url = models.CharField()
+
+    panels = [FieldPanel('task'), FieldPanel('description'), FieldPanel('url')]
+
+    search_fields = [
+        index.AutocompleteField('task'),
+    ]
+
+    class Meta:
+        ordering = ('task',)
+
+    def __str__(self):
+        return self.task
