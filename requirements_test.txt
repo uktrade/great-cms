@@ -58,7 +58,7 @@ black==24.3.0
     #   blacken-docs
 blacken-docs==1.6.0
     # via -r requirements_test.in
-blinker==1.8.1
+blinker==1.8.2
     # via flask
 boto3==1.24.96
     # via
@@ -117,7 +117,7 @@ colorama==0.4.6
     # via djlint
 configargparse==1.7
     # via locust
-coverage[toml]==7.5.0
+coverage[toml]==7.5.1
     # via
     #   pytest-codecov
     #   pytest-cov
@@ -170,7 +170,7 @@ directory-healthcheck==3.5
     # via -r requirements.in
 directory-sso-api-client==7.2.7
     # via -r requirements.in
-directory-validators==9.3.3
+directory-validators==9.3.4
     # via -r requirements.in
 distlib==0.3.8
     # via virtualenv
@@ -242,7 +242,9 @@ django-redis==5.4.0
 django-staff-sso-client==4.2.2
     # via -r requirements.in
 django-storages[boto3]==1.13.2
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   django-storages
 django-taggit==4.0.0
     # via wagtail
 django-timezone-field==6.1.0
@@ -259,7 +261,7 @@ djangorestframework==3.14.0
     #   wagtail
 djlint==1.34.1
     # via -r requirements_test.in
-docutils==0.17.1
+docutils==0.21.2
     # via sphinx
 draftjs-exporter==2.1.7
     # via wagtail
@@ -293,7 +295,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==25.0.0
+faker==25.1.0
     # via factory-boy
 filelock==3.14.0
     # via virtualenv
@@ -320,12 +322,12 @@ flake8-string-format==0.3.0
 flask==3.0.3
     # via
     #   -r requirements_test.in
-    #   flask-basicauth
     #   flask-cors
+    #   flask-login
     #   locust
-flask-basicauth==0.2.0
+flask-cors==4.0.1
     # via locust
-flask-cors==4.0.0
+flask-login==0.6.3
     # via locust
 freezegun==1.1.0
     # via -r requirements_test.in
@@ -335,7 +337,7 @@ gevent==24.2.1
     # via
     #   geventhttpclient
     #   locust
-geventhttpclient==2.3.1
+geventhttpclient==2.2.1
     # via locust
 gitdb==4.0.11
     # via gitpython
@@ -375,6 +377,7 @@ importlib-metadata==7.1.0
     # via
     #   build
     #   flask
+    #   sphinx
 inflection==0.5.1
     # via drf-spectacular
 iniconfig==2.0.0
@@ -393,7 +396,7 @@ itsdangerous==2.2.0
     # via flask
 jedi==0.19.1
     # via ipython
-jinja2==3.1.3
+jinja2==3.1.4
     # via
     #   flask
     #   sphinx
@@ -416,7 +419,7 @@ kombu==5.3.7
     # via celery
 l18n==2021.3
     # via wagtail
-locust==2.15.1
+locust==2.27.0
     # via -r requirements_test.in
 lxml==5.1.0
     # via
@@ -541,11 +544,11 @@ pycparser==2.22
     # via cffi
 pyflakes==3.1.0
     # via flake8
-pygments==2.17.2
+pygments==2.18.0
     # via
     #   ipython
     #   sphinx
-pyhanko==0.24.0
+pyhanko==0.25.0
     # via xhtml2pdf
 pyhanko-certvalidator==0.26.3
     # via
@@ -631,7 +634,7 @@ pyyaml==6.0.1
     #   drf-spectacular
     #   pre-commit
     #   pyhanko
-pyzmq==26.0.2
+pyzmq==26.0.3
     # via locust
 qrcode==7.4.2
     # via pyhanko
@@ -673,8 +676,6 @@ requests-oauthlib==2.0.0
     # via django-staff-sso-client
 requests-toolbelt==1.0.0
     # via browserstack-sdk
-roundrobin==0.0.4
-    # via locust
 ruamel-yaml==0.18.6
     # via pre-commit-hooks
 ruamel-yaml-clib==0.2.8
@@ -702,7 +703,6 @@ six==1.16.0
     #   mohawk
     #   python-bidi
     #   python-dateutil
-    #   sphinx
     #   w3lib
 smmap==5.0.1
     # via gitdb
@@ -714,11 +714,19 @@ sortedcontainers==2.4.0
     # via trio
 soupsieve==2.5
     # via beautifulsoup4
-sphinx==1.8.6
+sphinx==7.3.7
     # via -r requirements.in
+sphinxcontrib-applehelp==1.0.8
+    # via sphinx
+sphinxcontrib-devhelp==1.0.6
+    # via sphinx
+sphinxcontrib-htmlhelp==2.0.5
+    # via sphinx
+sphinxcontrib-jsmath==1.0.1
+    # via sphinx
+sphinxcontrib-qthelp==1.0.7
+    # via sphinx
 sphinxcontrib-serializinghtml==1.1.10
-    # via sphinxcontrib-websupport
-sphinxcontrib-websupport==1.2.4
     # via sphinx
 sqlalchemy==1.4.49
     # via -r requirements.in
@@ -749,13 +757,17 @@ tomli==2.0.1
     #   coverage
     #   djlint
     #   ipdb
+    #   locust
     #   pip-tools
     #   pylint
     #   pytest
-tomlkit==0.12.4
+    #   sphinx
+tomlkit==0.12.5
     # via pylint
-tqdm==4.66.2
-    # via djlint
+tqdm==4.66.4
+    # via
+    #   -r requirements_test.in
+    #   djlint
 traitlets==5.14.3
     # via
     #   ipython
@@ -773,7 +785,6 @@ typing-extensions==4.11.0
     #   black
     #   ipython
     #   kombu
-    #   locust
     #   pylint
     #   pypdf
     #   qrcode
@@ -846,17 +857,20 @@ webencodings==0.5.1
     #   cssselect2
     #   html5lib
     #   tinycss2
-werkzeug==3.0.2
+werkzeug==3.0.3
     # via
     #   -r requirements_test.in
     #   flask
+    #   flask-login
     #   locust
 wheel==0.43.0
     # via pip-tools
 whitenoise==6.6.0
     # via -r requirements.in
 willow[heif]==1.6.3
-    # via wagtail
+    # via
+    #   wagtail
+    #   willow
 wsproto==1.2.0
     # via trio-websocket
 xhtml2pdf==0.2.15
