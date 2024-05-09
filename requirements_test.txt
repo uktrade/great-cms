@@ -170,7 +170,7 @@ directory-healthcheck==3.5
     # via -r requirements.in
 directory-sso-api-client==7.2.7
     # via -r requirements.in
-directory-validators==9.3.3
+directory-validators==9.3.4
     # via -r requirements.in
 distlib==0.3.8
     # via virtualenv
