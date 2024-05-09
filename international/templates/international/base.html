@@ -37,9 +37,7 @@ number of extra CSS styles that were once sensible defaults:
 {% block head_css %}
     <link rel="stylesheet" href="{% static 'international_styles.css' %}">
 {% endblock %}
-{% block head_other %}
-    <meta name="msvalidate.01" content="76D322F181AE9F91C43419E5CD511BBC" />
-{% endblock %}
+{% block head_other %}<meta name="msvalidate.01" content="76D322F181AE9F91C43419E5CD511BBC" />{% endblock %}
 {% block skip_link %}
     <a href="#content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 {% endblock %}
@@ -87,8 +85,9 @@ number of extra CSS styles that were once sensible defaults:
     {% include './header.html' %}
 {% endblock %}
 {% block body_content_container %}
-    {% block feedback_reporter %}{% endblock %}
     {{ block.super }}
+    {% block feedback_reporter %}{% endblock %}
+    {% include 'components/inline_feedback/was_page_useful.html' %}
 {% endblock %}
 {% block body_footer %}
     {% include './footer.html' %}
