@@ -16,6 +16,9 @@ ul {
 @import '../../styles/great/components';
 @import '../../core/components/sass/components/skip-link/base';
 @import 'hero.scss';
+@import '../../styles/widgets/buttons.scss';
+@import 'node_modules/great-styles/src/scss/helpers/_base.scss';
+@import '../../core/sass/helpers/utils.scss';
 
 
 body {
@@ -56,3 +59,11 @@ body {
     background-size: contain;
 }
 // International home page styles end
+
+.great-interntional-centered-content {
+    text-align: center;
+}
+
+.button--international {
+    font-family: 'Euclid Flex B', Roboto, Arial, sans-serif;
+}
