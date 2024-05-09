@@ -763,7 +763,9 @@ tomli==2.0.1
 tomlkit==0.12.5
     # via pylint
 tqdm==4.66.4
-    # via djlint
+    # via
+    #   -r requirements_test.in
+    #   djlint
 traitlets==5.14.3
     # via
     #   ipython
