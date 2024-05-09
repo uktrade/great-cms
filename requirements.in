@@ -56,7 +56,7 @@ geoip2==2.9.0
 airtable-python-wrapper==0.13.0
 markdown2==2.4.0
 iso3166==1.0.1
-sphinx==1.8.6
+sphinx==7.3.7
 readtime==1.1.1
 cryptography==42.0.4
 pillow==10.3.0

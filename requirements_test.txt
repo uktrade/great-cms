@@ -261,7 +261,7 @@ djangorestframework==3.14.0
     #   wagtail
 djlint==1.34.1
     # via -r requirements_test.in
-docutils==0.17.1
+docutils==0.21.2
     # via sphinx
 draftjs-exporter==2.1.7
     # via wagtail
@@ -375,6 +375,7 @@ importlib-metadata==7.1.0
     # via
     #   build
     #   flask
+    #   sphinx
 inflection==0.5.1
     # via drf-spectacular
 iniconfig==2.0.0
@@ -700,7 +701,6 @@ six==1.16.0
     #   mohawk
     #   python-bidi
     #   python-dateutil
-    #   sphinx
     #   w3lib
 smmap==5.0.1
     # via gitdb
@@ -712,11 +712,19 @@ sortedcontainers==2.4.0
     # via trio
 soupsieve==2.5
     # via beautifulsoup4
-sphinx==1.8.6
+sphinx==7.3.7
     # via -r requirements.in
+sphinxcontrib-applehelp==1.0.8
+    # via sphinx
+sphinxcontrib-devhelp==1.0.6
+    # via sphinx
+sphinxcontrib-htmlhelp==2.0.5
+    # via sphinx
+sphinxcontrib-jsmath==1.0.1
+    # via sphinx
+sphinxcontrib-qthelp==1.0.7
+    # via sphinx
 sphinxcontrib-serializinghtml==1.1.10
-    # via sphinxcontrib-websupport
-sphinxcontrib-websupport==1.2.4
     # via sphinx
 sqlalchemy==1.4.49
     # via -r requirements.in
@@ -751,6 +759,7 @@ tomli==2.0.1
     #   pip-tools
     #   pylint
     #   pytest
+    #   sphinx
 tomlkit==0.12.5
     # via pylint
 tqdm==4.66.4
