@@ -186,7 +186,9 @@ django-redis==5.4.0
 django-staff-sso-client==4.2.2
     # via -r requirements.in
 django-storages[boto3]==1.13.2
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   django-storages
 django-taggit==4.0.0
     # via wagtail
 django-timezone-field==6.1.0
@@ -221,7 +223,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==25.0.0
+faker==25.1.0
     # via factory-boy
 filelock==3.14.0
     # via virtualenv
@@ -251,7 +253,7 @@ inflection==0.5.1
     # via drf-spectacular
 iso3166==1.0.1
     # via -r requirements.in
-jinja2==3.1.3
+jinja2==3.1.4
     # via sphinx
 jmespath==1.0.1
     # via
@@ -327,9 +329,9 @@ psycopg2==2.9.9
     # via -r requirements.in
 pycparser==2.22
     # via cffi
-pygments==2.17.2
+pygments==2.18.0
     # via sphinx
-pyhanko==0.24.0
+pyhanko==0.25.0
     # via xhtml2pdf
 pyhanko-certvalidator==0.26.3
     # via
@@ -520,7 +522,9 @@ webencodings==0.5.1
 whitenoise==6.6.0
     # via -r requirements.in
 willow[heif]==1.6.3
-    # via wagtail
+    # via
+    #   wagtail
+    #   willow
 xhtml2pdf==0.2.15
     # via -r requirements.in
 
