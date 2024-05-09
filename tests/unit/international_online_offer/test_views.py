@@ -679,10 +679,18 @@ def test_csat_widget(client, settings):
 
 
 @pytest.mark.django_db
-def test_bci_data(client, user, settings):
+@mock.patch('directory_api_client.api_client.dataservices.get_business_cluster_information_by_dbt_sector')
+@mock.patch('international_online_offer.services.get_bci_data')
+def test_bci_data(mock_get_bci_data, mock_get_bci_data_api, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:bci')
+    url = f"{reverse('international_online_offer:bci')}?area=K03000001"
     user.hashed_uuid = '123'
+    TriageData.objects.update_or_create(
+        hashed_uuid='123',
+        defaults={'sector': 'FOOD_AND_DRINK'},
+    )
+    mock_get_bci_data_api.return_value = create_response(status_code=200)
+    mock_get_bci_data.return_value = ({}, {}, {}, 2024, [])
     client.force_login(user)
     response = client.get(url)
     assert response.status_code == 200
