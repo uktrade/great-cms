@@ -1,0 +1,125 @@
+{% extends 'domestic/base.html' %}
+{% load breadcrumbs from component_tags %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+{% load static %}
+{% load add_govuk_classes from content_tags %}
+{% block meta_tags %}<meta name="robots" content="noindex">{% endblock %}
+{% block head_title %}{{ page.page_title }}{% endblock %}
+{% block meta_title %}{{ page.page_title }}{% endblock %}
+{% block body_js %}
+    {{ block.super }}
+    <script>
+        document.getElementById('filter').addEventListener('keyup', (e) => {
+            const search_term = e.target.value.toLowerCase();
+
+            document.querySelectorAll('[data-filter]').forEach(el => {
+                if (!el.dataset.filter.includes(search_term)) {
+                    el.style.display = 'none'
+                } else {
+                    el.style.display = 'block'
+                    el.parentElement.parentElement.style.display = 'block'
+                }
+            })
+        })
+
+        document.querySelectorAll('[data-accordion]').forEach(el => {
+            const panel = el.nextElementSibling;
+            panel.style.display = "none";
+
+            el.style.cursor = 'pointer';
+
+            el.addEventListener('click', (e) => {
+                if (panel.style.display === "block") {
+                    el.dataset.accordion = 'closed'
+                    panel.style.display = "none";
+                } else {
+                    el.dataset.accordion = 'open'
+                    panel.style.display = "block";
+                }
+            })
+        })
+    </script>
+{% endblock %}
+{% block content %}
+    <style>
+        [data-accordion]:hover h2 {
+            text-decoration: underline;
+        }
+
+        [data-accordion] h2 {
+            position: relative;
+        }
+
+        [data-accordion] h2::before {
+            color: #006ccc;
+            content: '\f067';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            display: inline-block;
+            pointer-events: none;
+            top: 2px;
+            left: -40px;
+        }
+
+        [data-accordion='open'] {
+            background: white !important;
+        }
+
+        [data-accordion='open'] h2::before  {
+            content: '\f068';
+        }
+    </style>
+    <div class="govuk-!-padding-bottom-9 great great-bg-white">
+        <div class="great-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    {% if page.page_body %}
+                        <div class="govuk-grid-row govuk-!-margin-top-5">
+                            <div class="govuk-grid-column-one-quarter">
+                                <p class="govuk-heading-m govuk-!-margin-top-5 govuk-!-margin-bottom-5">Export support</p>
+                                <ul class="govuk-list great-border-left-blue">
+                                    {% for sub_category in page.page_body %}
+                                        <li>
+                                            <a class="govuk-link govuk-!-margin-left-3"
+                                               href="#{{ sub_category.value.title }}">{{ sub_category.value.title }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="govuk-grid-column-three-quarters">
+                                <div class="govuk-!-margin-bottom-5">
+                                    <h1 class="govuk-heading-xl govuk-!-margin-top-5 govuk-!-margin-bottom-2">{{ page.page_title }}</h1>
+                                    {% if page.page_intro %}{{ page.page_intro| richtext | add_govuk_classes }}{% endif %}
+                                    <input class="govuk-input govuk-!-margin-top-3"
+                                           id="filter"
+                                           type="text"
+                                           placeholder="Filter task list by key word" />
+                                </div>
+                                {% for sub_category in page.page_body %}
+                                    <div id="{{ sub_category.value.title }}"
+                                         data-filter="{{ sub_category.value.title|lower }}"
+                                         class="govuk-accordion__section">
+                                        <div class="govuk-!-padding-5 govuk-!-padding-left-9 govuk-!-margin-bottom-3 great-bg-light-blue"
+                                             data-accordion>
+                                            <h2 class="govuk-heading-m" id="accordion-default-heading-1">{{ sub_category.value.title }}</h2>
+                                            <p class="govuk-body govuk-!-margin-bottom-0">{{ sub_category.value.description }}</p>
+                                        </div>
+                                        <ul class="govuk-list govuk-!-padding-5">
+                                            {% for task in sub_category.value.task %}
+                                                <li data-filter="{{ task.task|lower }}">
+                                                    {% include 'components/great/heading-link.html' with url=task.url text=task.task %}
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

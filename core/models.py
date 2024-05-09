@@ -2207,7 +2207,12 @@ class Support(Page):
         'domestic.GreatDomesticHomePage',
     ]
 
-    subpage_types = ['core.SupportPage', 'core.GetInTouchPage', 'core.SupportTopicLandingPage']
+    subpage_types = [
+        'core.SupportPage',
+        'core.GetInTouchPage',
+        'core.SupportTopicLandingPage',
+        'core.TaskBasedLandingPage',
+    ]
 
     class Meta:
         verbose_name = 'Support'
@@ -2379,3 +2384,66 @@ class ShareSettings(BaseSiteSetting):
             heading=_('Sharing'),
         )
     ]
+
+
+class TaskBasedLandingPage(cms_panels.TaskBasedLandingPagePanels, Page):
+    template = 'domestic/contact/export-support/task-based-landing.html'
+    parent_page_types = [
+        'core.Support',
+    ]
+
+    class Meta:
+        verbose_name = 'Task based landing page'
+        verbose_name_plural = 'Task based landing pages'
+
+    page_title = models.TextField(
+        null=True,
+    )
+    page_intro = models.TextField(
+        null=True,
+    )
+    page_body = StreamField(
+        [
+            (
+                'sub_category',
+                blocks.StructBlock(
+                    [
+                        ('title', blocks.CharBlock()),
+                        ('description', blocks.CharBlock()),
+                        (
+                            'task',
+                            blocks.ListBlock(
+                                SnippetChooserBlock('core.Task'),
+                                label='Choose task',
+                            ),
+                        ),
+                    ],
+                ),
+            ),
+        ],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
+
+
+from wagtail.search import index
+
+
+@register_snippet
+class Task(index.Indexed, models.Model):
+    task = models.CharField()
+    description = models.CharField()
+    url = models.CharField()
+
+    panels = [FieldPanel('task'), FieldPanel('description'), FieldPanel('url')]
+
+    search_fields = [
+        index.AutocompleteField('task'),
+    ]
+
+    class Meta:
+        ordering = ('task',)
+
+    def __str__(self):
+        return self.task
