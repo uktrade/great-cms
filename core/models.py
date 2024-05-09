@@ -1204,14 +1204,36 @@ class ContentModuleTag(TaggedItemBase):
 @register_snippet
 class ContentModule(ClusterableModel):
     title = models.CharField(max_length=255)
+    title_id = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+        verbose_name=_('Title ID?'),
+        help_text=(
+            'Your provided ID might change upon saving to ensure its valid. '
+            'Check this snippet after saving to see the formatted ID.'
+        ),
+    )
     content = RichTextField()
+    hide_title = models.BooleanField(
+        default=False,
+        verbose_name=_('Hide title?'),
+        help_text=('Check this box to prevent the title displaying on the page.'),
+    )
     tags = TaggableManager(through=ContentModuleTag, blank=True)
 
     panels = [
         FieldPanel('title'),
+        FieldPanel('hide_title'),
+        FieldPanel('title_id'),
         FieldPanel('content'),
         FieldPanel('tags'),
     ]
+
+    def save(self, *args, **kwargs):
+        if self.title_id:
+            self.title_id = slugify(self.title_id)
+        super(ContentModule, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.title

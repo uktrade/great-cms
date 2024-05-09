@@ -244,6 +244,7 @@ STATICFILES_DIRS = [
     str(ROOT_DIR / 'react-components' / 'dist'),
     str(ROOT_DIR / 'sso_profile' / 'common' / 'static'),
     str(ROOT_DIR / 'sso_profile' / 'static'),
+    str(ROOT_DIR / 'international_online_offer' / 'static'),
 ]
 
 
@@ -969,11 +970,9 @@ CLAM_AV_PASSWORD = env.str('CLAM_AV_PASSWORD', '')
 # Restriction document upload by filetypes
 WAGTAILDOCS_EXTENSIONS = [
     'pdf',
-    'docx',
 ]
 WAGTAILDOCS_MIME_TYPES = [
     'application/pdf',
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 ]
 
 # Celery

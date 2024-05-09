@@ -1,4 +1,6 @@
 <div class="block-text">
-    <h2>{{ value.title }}</h2>
+    {% if not value.hide_title %}
+        <h2{% if value.title_id %} id="{{value.title_id}}"{% endif %}>{{ value.title }} </h2>
+    {% endif %}
     <div>{{ value.content | safe }}</div>
 </div>
