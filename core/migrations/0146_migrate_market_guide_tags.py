@@ -30,7 +30,7 @@ def migrate_tags(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0142_remove_taggedsector_content_object_and_more'),
+        ('core', '0145_remove_taggedsector_content_object_and_more'),
         ('domestic', '0061_countryguidepage_country_tags_and_more'),
     ]
 
