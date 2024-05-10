@@ -4,3 +4,11 @@ applications:
       - https://github.com/cloudfoundry/python-buildpack.git#v1.8.0
     timeout: 180
     stack: cflinuxfs4
+  - env:
+      OTEL_PROPAGATORS: xray
+      OTEL_PYTHON_ID_GENERATOR: xray
+      OTEL_SERVICE_NAME: ${COPILOT_APPLICATION}-${COPILOT_ENVIRONMENT}-web
+      OTEL_METRICS_EXPORTER: none
+      OTEL_TRACES_EXPORTER: otlp
+      OTEL_TRACES_SAMPLER: traceidratio
+      OTEL_TRACES_SAMPLER_ARG: "0.5"
