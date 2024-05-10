@@ -1,3 +1,4 @@
+from itertools import chain
 from urllib.parse import unquote_plus
 
 from django.conf import settings
@@ -7,11 +8,14 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.http import Http404
 from django.utils.functional import cached_property
+from django.utils.translation import gettext_lazy as _
 from great_components.mixins import GA360Mixin
 from modelcluster.fields import ParentalManyToManyField
+from taggit.managers import TaggableManager
 from wagtail import blocks
 from wagtail.admin.panels import (
     FieldPanel,
+    MultiFieldPanel,
     ObjectList,
     TabbedInterface,
     cached_classmethod,
@@ -49,6 +53,7 @@ from core.models import (
     Country,
     IndustryTag,
     Region,
+    SectorTag,
     SeoMixin,
     Tag,
 )
@@ -103,6 +108,83 @@ class BaseContentPage(
             # Normal Wagtail panels.
             ObjectList(cls.content_panels, heading='Content'),
             # Added custom SEO panels in new tab.
+            ObjectList(SeoMixin.seo_meta_panels, heading='SEO', classname='seo'),
+            ObjectList(cls.settings_panels, heading='Settings', classname='settings'),
+        ]
+        return TabbedInterface(panels).bind_to_model(model=cls)
+
+    def get_ancestors_in_app(self):
+        """
+        Starts at 2 to exclude the root page and the homepage (which is fixed/static/mandatory).
+        Ignores 'folder' pages.
+        """
+        ancestors = self.get_ancestors()[2:]
+
+        return [
+            page
+            for page in ancestors
+            if (not hasattr(page.specific_class, 'folder_page') or not page.specific_class.folder_page)
+        ]
+
+    def get_breadcrumbs(self):
+        breadcrumbs = [page.specific for page in self.specific.get_ancestors_in_app()]
+        breadcrumbs.append(self)
+        retval = []
+
+        for crumb in breadcrumbs:
+            if hasattr(crumb, 'breadcrumbs_label'):  # breadcrumbs_label is a field on SOME Pages
+                retval.append({'title': crumb.breadcrumbs_label, 'url': crumb.url})
+            else:
+                retval.append({'title': crumb.title, 'url': crumb.url})
+
+        return retval
+
+    def get_absolute_url(self):
+        base_url = settings.BASE_URL
+        if base_url[-1] == '/':
+            base_url = base_url[:-1]
+
+        path = self.get_url()
+        return base_url + path if path else ''
+
+
+class TaggedBaseContentPage(
+    SeoMixin,
+    DataLayerMixin,
+    Page,
+):
+    """Minimal abstract base class for pages ported from the V1 Great.gov.uk site"""
+
+    promote_panels = []
+    folder_page = False  # Some page classes will have this set to true to exclude them from breadcrumbs
+
+    class Meta:
+        abstract = True
+
+    country_tags = TaggableManager(through='core.CountryTagged', blank=True, verbose_name=_('Country Tags'))
+    sector_tags = TaggableManager(through='core.SectorTagged', blank=True, verbose_name=_('Sector Tags'))
+    type_of_export_tags = TaggableManager(
+        through='core.TypeOfExportTagged', blank=True, verbose_name=_('Type of Export Tags')
+    )
+
+    tagging_panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel('country_tags'),
+                FieldPanel('sector_tags'),
+                FieldPanel('type_of_export_tags'),
+            ],
+            heading='Tags',
+        ),
+    ]
+
+    @cached_classmethod
+    def get_edit_handler(cls):  # noqa
+        panels = [
+            # Normal Wagtail panels.
+            ObjectList(cls.content_panels, heading='Content'),
+            # Added custom SEO panels in new tab.
+            ObjectList(cls.tagging_panels, heading='Tags'),
             ObjectList(SeoMixin.seo_meta_panels, heading='SEO', classname='seo'),
             ObjectList(cls.settings_panels, heading='Settings', classname='settings'),
         ]
@@ -609,9 +691,14 @@ class MarketsTopicLandingPage(
 
         #  We need to only apply these if truthy, else we end up getting no results
         if sectors:
-            market_pages_qs = market_pages_qs.filter(
-                tags__name__in=sectors,
-            )
+            if settings.FEATURE_MARKET_GUIDES_TAGGING_UPDATE:
+                market_pages_qs = market_pages_qs.filter(
+                    sector_tags__name__in=sectors,
+                )
+            else:
+                market_pages_qs = market_pages_qs.filter(
+                    tags__name__in=sectors,
+                )
         if regions:
             market_pages_qs = market_pages_qs.filter(
                 country__region__name__in=regions,
@@ -633,11 +720,29 @@ class MarketsTopicLandingPage(
 
         return paginated_results
 
-    def get_regions_list(self):
-        return Region.objects.order_by('name').all()
+    def get_regions_list(self, request):
+        selected = set(request.GET.getlist(self.REGION_QUERYSTRING_NAME))
+        # chain unselected items queryset onto selected items queryset to sort selected items ahead of unselected
+        regions = chain(
+            Region.objects.order_by('name').filter(name__in=selected).all(),
+            Region.objects.order_by('name').exclude(name__in=selected).all(),
+        )
+        return regions
 
-    def get_sector_list(self):
-        return IndustryTag.objects.order_by('name').all()
+    def get_sector_list(self, request):
+        selected = set(request.GET.getlist(self.SECTOR_QUERYSTRING_NAME))
+        # return sector tag objects for FEATURE_MARKET_GUIDES_TAGGING_UPDATE
+        if settings.FEATURE_MARKET_GUIDES_TAGGING_UPDATE:
+            sectors = chain(
+                SectorTag.objects.order_by('name').filter(name__in=selected).all(),
+                SectorTag.objects.order_by('name').exclude(name__in=selected).all(),
+            )
+        else:
+            sectors = chain(
+                IndustryTag.objects.order_by('name').filter(name__in=selected).all(),
+                IndustryTag.objects.order_by('name').exclude(name__in=selected).all(),
+            )
+        return sectors
 
     def get_selected_sectors(self, request) -> list:
         return request.GET.getlist(self.SECTOR_QUERYSTRING_NAME)
@@ -653,8 +758,8 @@ class MarketsTopicLandingPage(
         context['sortby_options'] = self.sortby_options
         context['sortby'] = self._get_sortby(request)
 
-        context['sector_list'] = self.get_sector_list()
-        context['regions_list'] = self.get_regions_list()
+        context['sector_list'] = self.get_sector_list(request)
+        context['regions_list'] = self.get_regions_list(request)
 
         context['selected_sectors'] = self.get_selected_sectors(request)
         context['selected_regions'] = self.get_selected_regions(request)
@@ -685,7 +790,7 @@ def industry_accordions_validation(value):
         )
 
 
-class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
+class CountryGuidePage(cms_panels.CountryGuidePagePanels, TaggedBaseContentPage):
     """Ported from Great V1.
     Make a cup of tea, this model is BIG!
     """
