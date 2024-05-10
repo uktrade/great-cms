@@ -190,6 +190,8 @@ if settings.FEATURE_UKEA_CSAT:
             views.CsatUserWidgetView.as_view(),
             name='csat-user-widget-submit',
         ),
+    )
+    urlpatterns.append(
         path(
             'csat-user-feedback/',
             views.CsatUserFeedbackView.as_view(),
