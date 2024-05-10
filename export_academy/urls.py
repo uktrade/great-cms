@@ -180,4 +180,14 @@ urlpatterns = [
     path('signup/verification', views.VerificationCodeView.as_view(), name='signup-verification'),
     path('signup/complete', views.SignUpCompleteView.as_view(), name='signup-complete'),
     path('signin', views.SignInView.as_view(), name='signin'),
+    path(
+        'csat-user-widget-submit/',
+        views.CsatUserWidgetView.as_view(),
+        name='csat-user-widget-submit',
+    ),
+    path(
+        'csat-user-feedback/',
+        views.CsatUserFeedbackView.as_view(),
+        name='csat-user-feedback',
+    ),
 ]
