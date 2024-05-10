@@ -1,6 +1,7 @@
 from wagtail import blocks
 from wagtail.images.blocks import ImageChooserBlock
-from core.blocks import TopicPageCardBlockRichText, ButtonBlock
+
+from core.blocks import ButtonBlock, TopicPageCardBlockRichText
 
 
 class MetaDataBlock(blocks.StructBlock):
