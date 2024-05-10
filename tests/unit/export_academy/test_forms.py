@@ -7,6 +7,7 @@ from freezegun import freeze_time
 from export_academy.forms import (
     BoolToDateTimeField,
     BusinessDetails,
+    CsatUserFeedbackForm,
     EventAdminModelForm,
     ExportExperience,
     MarketingSources,
@@ -161,3 +162,10 @@ def test_event_admin_form_keeps_new_values():
 
     assert form.clean_completed() == now
     assert form.clean_live() == now
+
+
+@pytest.mark.django_db
+def test_csat_user_feedback_form_validation(form_data, is_valid):
+    data = form_data
+    form = CsatUserFeedbackForm(data)
+    assert form.is_valid() == is_valid
