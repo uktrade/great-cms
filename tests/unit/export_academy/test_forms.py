@@ -164,6 +164,32 @@ def test_event_admin_form_keeps_new_values():
     assert form.clean_live() == now
 
 
+@pytest.mark.parametrize(
+    'form_data,is_valid',
+    (
+        (
+            {
+                'satisfaction': 'VERY_SATISFIED',
+                'experience': ['I_DID_NOT_FIND_WHAT_I_WAS_LOOKING_FOR'],
+                'experience_other': '',
+                'feedback_text': 'This is some feedback',
+                'likelihood_of_return': 'LIKELY',
+            },
+            True,
+        ),
+        (
+            {
+                'satisfaction': 'VERY_SATISFIED',
+                'experience': ['OTHER'],
+                'experience_other': '',
+                'feedback_text': 'This is some feedback',
+                'likelihood_of_return': 'LIKELY',
+            },
+            False,
+        ),
+        ({'satisfaction': 'VERY_SATISFIED', '': '', '': '', '': '', '': '', '': ''}, False),
+    ),
+)
 @pytest.mark.django_db
 def test_csat_user_feedback_form_validation(form_data, is_valid):
     data = form_data
