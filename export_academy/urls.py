@@ -1,4 +1,4 @@
-from django.conf import settings
+# from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.urls import path
 
@@ -167,6 +167,16 @@ urlpatterns = [
         name='calendar',
     ),
     path(
+        'csat-feedback/',
+        views.CsatUserFeedbackView.as_view(),
+        name='csat-user-feedback',
+    ),
+    path(
+        'csat-widget-submit/',
+        views.CsatUserWidgetView.as_view(),
+        name='csat-user-widget-submit',
+    ),
+    path(
         '<slug:slug>/',
         views.EACourseView.as_view(),
         name='course',
@@ -183,18 +193,16 @@ urlpatterns = [
     path('signin', views.SignInView.as_view(), name='signin'),
 ]
 
-if settings.FEATURE_UKEA_CSAT:
-    urlpatterns.append(
-        path(
-            'csat-user-widget-submit/',
-            views.CsatUserWidgetView.as_view(),
-            name='csat-user-widget-submit',
-        ),
-    )
-    urlpatterns.append(
-        path(
-            'csat-user-feedback/',
-            views.CsatUserFeedbackView.as_view(),
-            name='csat-user-feedback',
-        ),
-    )
+# if settings.FEATURE_UKEA_CSAT:
+#     urlpatterns = [
+#         path(
+#             'csat-widget-submit/',
+#             views.CsatUserWidgetView.as_view(),
+#             name='csat-user-widget-submit',
+#         ),
+#         path(
+#             'csat-widget-submit/',
+#             views.CsatUserWidgetView.as_view(),
+#             name='csat-user-widget-submit',
+#         )
+#     ] + urlpatterns

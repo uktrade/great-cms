@@ -948,7 +948,7 @@ class CsatUserFeedbackView(GA360Mixin, FormView):
         super().__init__()
         self.set_ga360_payload(
             page_id='CSAT Feedback',
-            business_unit='ExportAcademy',
+            business_unit=settings.GA360_BUSINESS_UNIT,
             site_section='csat-user-feedback',
         )
 
