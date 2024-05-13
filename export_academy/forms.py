@@ -324,7 +324,7 @@ class CodeConfirmForm(forms.Form):
 
 class CsatUserFeedbackForm(forms.Form):
     satisfaction = ChoiceField(
-        label='Overall, how do you feel about your use of the Expand your Business digital service today?',
+        label='Overall, how do you feel about your use of the Export Academy digital service today?',
         choices=choices.SATISFACTION_CHOICES,
         widget=RadioSelect(attrs={'class': 'govuk-radios__input'}),
         error_messages={
