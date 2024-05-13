@@ -25,12 +25,12 @@
   .govuk-warning-text__text {
     font-family: $great-font-bold;
     -webkit-font-smoothing: auto;
-    &:not(.great-title-link, .great-card__link, .great-heading-link__heading) {
+    &:not(.great-title-link, .great-card__link, .great-heading-link__heading, .govuk-notification-banner__title) {
       color: $great-dark-grey;
     }
   }
 
-  h2 {
+  h2:not(.govuk-notification-banner__title) {
     @include govuk-media-query($until: tablet) {
       font-size: 28px;
     }
@@ -50,7 +50,7 @@
     font-family: $great-font;
     color: $great-dark-grey;
   }
-
+  .govuk-notification-banner__heading,
   .govuk-accordion__section-heading-text-focus {
     font-family: $header-font;
   }
@@ -86,6 +86,7 @@
   .govuk-list {
     font-family: $great-font;
   }
+  
 
   .govuk-form-group--error {
     input[type='text'] {
