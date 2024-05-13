@@ -179,11 +179,11 @@ urlpatterns = [
 ]
 
 if settings.FEATURE_UKEA_CSAT:
-    
+
     # The urls for CSAT break if they appear after name=course. Therefore, we explicitly
     # add the name=course url after the CSAT urls in this feature flag
     # TODO: Add the name=course url to the main urlpatterns list when the feature is rolled out.
-    
+
     urlpatterns = urlpatterns + [
         path(
             'csat-feedback/',
