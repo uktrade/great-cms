@@ -4,5 +4,6 @@ if [ -n "${COPILOT_ENVIRONMENT_NAME}" ]; then
     echo "Running in DBT Platform"
     opentelemetry-instrument gunicorn config.wsgi --bind 0.0.0.0:$PORT
 else
+    echo "Running in Gov PAAS"
     gunicorn config.wsgi --bind 0.0.0.0:$PORT
 fi
