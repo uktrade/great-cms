@@ -18,6 +18,7 @@
                     el.style.display = 'none'
                 } else {
                     el.style.display = 'block'
+                    el.parentElement.parentElement.style.display = 'block'
                 }
             })
         })
@@ -51,14 +52,15 @@
                                 </div>
                                 {% for sub_category in page.page_body %}
                                     <div id="{{ sub_category.value.title }}"
-                                         data-filter="{{ sub_category.value.title|lower }}">
+                                         data-filter="{{ sub_category.value.title|lower }}"
+                                         class="govuk-accordion__section">
                                         <div class="govuk-!-padding-5 great-bg-white">
-                                            <h2 class="govuk-heading-m">{{ sub_category.value.title }}</h2>
+                                            <h2 class="govuk-heading-m" id="accordion-default-heading-1">{{ sub_category.value.title }}</h2>
                                             <p class="govuk-body govuk-!-margin-bottom-0">{{ sub_category.value.description }}</p>
                                         </div>
-                                        <ul class="govuk-list govuk-!-padding-5">
+                                        <ul class="govuk-list govuk-!-padding-5" id="accordion-default-content-1">
                                             {% for task in sub_category.value.task %}
-                                                <li>
+                                                <li data-filter="{{ task.task|lower }}">
                                                     <a class="govuk-link" href="{{ task.url }}">{{ task.task }}</a>
                                                 </li>
                                             {% endfor %}
