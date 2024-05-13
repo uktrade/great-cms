@@ -15,11 +15,13 @@ from wagtail.images.blocks import ImageChooserBlock
 from core.blocks import ColumnsBlock
 from core.models import CMSGenericPage, TimeStampedModel
 from domestic.models import BaseContentPage
+from international_online_offer import services
 from international_online_offer.core import (
     choices,
     filter_tags,
     helpers,
     region_sector_helpers,
+    regions,
 )
 from international_online_offer.forms import LocationSelectForm
 
@@ -82,6 +84,10 @@ class EYBGuidePage(BaseContentPage):
         triage_data = get_triage_data_for_user(request)
         is_triage_complete = helpers.is_triage_complete(triage_data)
 
+        bci_data = None
+        if triage_data and triage_data.sector:
+            bci_data = services.get_bci_data_by_dbt_sector(triage_data.sector.replace('_', ' '), [regions.GB_GEO_CODE])
+
         # Get trade shows page (should only be one, is a parent / container page for all trade show pages)
         trade_shows_page = EYBTradeShowsPage.objects.live().filter().first()
 
@@ -120,6 +126,7 @@ class EYBGuidePage(BaseContentPage):
             complete_contact_form_link_text='Sign up',
             triage_data=triage_data,
             user_data=user_data,
+            bci_data=bci_data[0] if bci_data and len(bci_data) > 0 else None,
             get_to_know_market_articles=list(chain(sector_only_articles, intent_articles_specific_to_sector)),
             finance_and_support_articles=all_articles_tagged_with_finance_and_support,
             trade_shows_page=trade_shows_page,

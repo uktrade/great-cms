@@ -34,7 +34,7 @@ from core.models import (
     TypeOfExportTag,
 )
 from core.templatetags.content_tags import format_timedelta
-from domestic.models import BaseContentPage
+from domestic.models import BaseContentPage, TaggedBaseContentPage
 from export_academy import managers
 from export_academy.blocks import (
     MetaDataBlock,
@@ -63,17 +63,17 @@ class TaggedEventType(ItemBase):
     content_object = ParentalKey(to='export_academy.Event', on_delete=models.CASCADE)
 
 
-class CountryTagged(ItemBase):
+class CountryTaggedEvent(ItemBase):
     tag = models.ForeignKey(CountryTag, related_name='+', on_delete=models.CASCADE)
     content_object = ParentalKey(to='export_academy.Event', on_delete=models.CASCADE)
 
 
-class SectorTagged(ItemBase):
+class SectorTaggedEvent(ItemBase):
     tag = models.ForeignKey(SectorTag, related_name='+', on_delete=models.CASCADE)
     content_object = ParentalKey(to='export_academy.Event', on_delete=models.CASCADE)
 
 
-class TypeOfExportTagged(ItemBase):
+class TypeOfExportTaggedEvent(ItemBase):
     tag = models.ForeignKey(TypeOfExportTag, related_name='+', on_delete=models.CASCADE)
     content_object = ParentalKey(to='export_academy.Event', on_delete=models.CASCADE)
 
@@ -150,15 +150,15 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
     upcoming = managers.EventManager.from_queryset(managers.EventQuerySet)()
 
     country_tags = TaggableManager(
-        through=CountryTagged, blank=True, verbose_name='Country tag', related_name='event_country_tags'
+        through=CountryTaggedEvent, blank=True, verbose_name='Country tag', related_name='event_country_tags'
     )
 
     sector_tags = TaggableManager(
-        through=SectorTagged, blank=True, verbose_name='Sector tags', related_name='event_sector_tags'
+        through=SectorTaggedEvent, blank=True, verbose_name='Sector tags', related_name='event_sector_tags'
     )
 
     type_of_export_tags = TaggableManager(
-        through=TypeOfExportTagged,
+        through=TypeOfExportTaggedEvent,
         blank=True,
         verbose_name='Type of Export Tags',
         related_name='event_type_of_export_tags',
@@ -439,7 +439,7 @@ class EventsOnCourse(ClusterableModel, EventsInCoursePanel):
         ordering = ['id']
 
 
-class CoursePage(CoursePagePanels, BaseContentPage):
+class CoursePage(CoursePagePanels, TaggedBaseContentPage):
     class Meta:
         verbose_name = 'Series page'
         verbose_name_plural = 'Series pages'
