@@ -50,7 +50,7 @@
     font-family: $great-font;
     color: $great-dark-grey;
   }
-
+  .govuk-notification-banner__heading,
   .govuk-accordion__section-heading-text-focus {
     font-family: $header-font;
   }
@@ -83,8 +83,6 @@
   .govuk-caption-m,
   .govuk-caption-s,
   .govuk-caption-lm,
-  .govuk-notification-banner__heading,
-  .govuk-body
   .govuk-list {
     font-family: $great-font;
   }
