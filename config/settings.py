@@ -244,6 +244,7 @@ STATICFILES_DIRS = [
     str(ROOT_DIR / 'react-components' / 'dist'),
     str(ROOT_DIR / 'sso_profile' / 'common' / 'static'),
     str(ROOT_DIR / 'sso_profile' / 'static'),
+    str(ROOT_DIR / 'international_online_offer' / 'static'),
 ]
 
 
@@ -873,6 +874,7 @@ FEATURE_SHOW_CUSTOMS_AND_TAXES_DROPWDOWN = env.bool('FEATURE_SHOW_CUSTOMS_AND_TA
 FEATURE_SHOW_TASK_VALIDATION = env.bool('FEATURE_SHOW_TASK_VALIDATION', False)
 FEATURE_UKEA_CSAT = env.bool('FEATURE_UKEA_CSAT', False)
 
+FEATURE_MARKET_GUIDES_TAGGING_UPDATE = env.bool('FEATURE_MARKET_GUIDES_TAGGING_UPDATE', False)
 
 MAX_COMPARE_PLACES_ALLOWED = env.int('MAX_COMPARE_PLACES_ALLOWED', 10)
 

@@ -1082,17 +1082,17 @@ class MarketsTopicLandingPageFilteringTests(SetUpLocaleMixin, WagtailPageTests):
                 ),
             )
 
-        _get_tag = core_models.IndustryTag.objects.get
+        _get_tag = core_models.SectorTag.objects.get
 
-        self.country_lookup['Australia'].tags.add(_get_tag(name='Sport'))
-        self.country_lookup['Brazil'].tags.add(_get_tag(name='Aerospace'))
-        self.country_lookup['Brazil'].tags.add(_get_tag(name='Engineering'))
-        self.country_lookup['France'].tags.add(_get_tag(name='Aerospace'))
-        self.country_lookup['France'].tags.add(_get_tag(name='Food and drink'))
-        self.country_lookup['France'].tags.add(_get_tag(name='Technology'))
-        self.country_lookup['Germany'].tags.add(_get_tag(name='Technology'))
-        self.country_lookup['United States'].tags.add(_get_tag(name='Leisure and tourism'))
-        self.country_lookup['New Zealand'].tags.add(_get_tag(name='Leisure and tourism'))
+        self.country_lookup['Australia'].sector_tags.add(_get_tag(name='Sport'))
+        self.country_lookup['Brazil'].sector_tags.add(_get_tag(name='Aerospace'))
+        self.country_lookup['Brazil'].sector_tags.add(_get_tag(name='Engineering'))
+        self.country_lookup['France'].sector_tags.add(_get_tag(name='Aerospace'))
+        self.country_lookup['France'].sector_tags.add(_get_tag(name='Food and drink'))
+        self.country_lookup['France'].sector_tags.add(_get_tag(name='Technology'))
+        self.country_lookup['Germany'].sector_tags.add(_get_tag(name='Technology'))
+        self.country_lookup['United States'].sector_tags.add(_get_tag(name='Leisure and tourism'))
+        self.country_lookup['New Zealand'].sector_tags.add(_get_tag(name='Leisure and tourism'))
 
         for cgp in self.country_lookup.values():
             cgp.save()  # To persist the tags
