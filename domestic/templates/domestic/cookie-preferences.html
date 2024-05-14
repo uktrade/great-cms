@@ -13,9 +13,9 @@
 <div class="container">
     <div class="grid-row">
         <div class="column-two-thirds">
-            <div class="confirmation-banner display-none">
+            <div class="confirmation-banner display-none great">
                 {# djlint:off #}
-                {% success_box heading="Your cookie settings were saved" description="Government services may set additional cookies and, if so, will have their own cookie policy and banner.<br /><a href='#' id='back-from-preferences' class='link go-back margin-top-15 block'>Go back to the page you were looking at</a>" %}
+                {% include 'components/great/notification_banner.html' with css_class="govuk-notification-banner--success" banner_title="Success" banner_heading="Your cookie settings were saved" banner_body='<a id="back-from-preferences" class="link go-back margin-top-15 block" href="#">Back to previous page</a>' %}
                 {# djlint:on #}
             </div>
             <h1 class="heading-xlarge margin-bottom-60-m">Cookies on great.gov.uk</h1>
@@ -68,16 +68,16 @@
                         <ul>
                             <li class="multiple-choice clear-none margin-right-30">
                                 <input type="radio"
-                                       name="cookies-campaigns"
-                                       value="on"
-                                       id="cookies-campaigns-on">
+                                    name="cookies-campaigns"
+                                    value="on"
+                                    id="cookies-campaigns-on">
                                 <label for="cookies-campaigns-on" class="form-label">On</label>
                             </li>
                             <li class="multiple-choice clear-none">
                                 <input type="radio"
-                                       name="cookies-campaigns"
-                                       value="off"
-                                       id="cookies-campaigns-off">
+                                    name="cookies-campaigns"
+                                    value="off"
+                                    id="cookies-campaigns-off">
                                 <label for="cookies-campaigns-off" class="form-label">Off</label>
                             </li>
                         </ul>
@@ -90,16 +90,16 @@
                         <ul>
                             <li class="multiple-choice clear-none margin-right-30">
                                 <input type="radio"
-                                       name="cookies-settings"
-                                       value="on"
-                                       id="cookies-settings-on">
+                                    name="cookies-settings"
+                                    value="on"
+                                    id="cookies-settings-on">
                                 <label for="cookies-settings-on" class="form-label">On</label>
                             </li>
                             <li class="multiple-choice clear-none">
                                 <input type="radio"
-                                       name="cookies-settings"
-                                       value="off"
-                                       id="cookies-settings-off">
+                                    name="cookies-settings"
+                                    value="off"
+                                    id="cookies-settings-off">
                                 <label for="cookies-settings-off" class="form-label">Off</label>
                             </li>
                         </ul>

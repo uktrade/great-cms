@@ -37,6 +37,7 @@ from core.models import (
     Product,
     Region,
     Tag,
+    TaggedCMSGenericPageAnonymous,
     TopicPage,
     case_study_body_validation,
     is_valid_url_input,
@@ -624,7 +625,7 @@ def test_for_redirection_based_on_flag(
     ]
     if settings.FEATURE_DEA_V2:
         for page in pages:
-            assert isinstance(page, CMSGenericPageAnonymous)
+            assert isinstance(page, CMSGenericPageAnonymous) or isinstance(page, TaggedCMSGenericPageAnonymous)
 
         for page in pages:
             response = client.get(page.url, follow=False)

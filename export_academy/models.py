@@ -5,6 +5,7 @@ from datetime import timedelta
 
 import sentry_sdk
 from directory_forms_api_client import actions
+from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
@@ -33,9 +34,14 @@ from core.models import (
     TypeOfExportTag,
 )
 from core.templatetags.content_tags import format_timedelta
-from domestic.models import BaseContentPage
+from domestic.models import BaseContentPage, TaggedBaseContentPage
 from export_academy import managers
-from export_academy.blocks import MetaDataBlock, ReviewBlock, PanelSectionBlock, SeriesSectionBlock
+from export_academy.blocks import (
+    MetaDataBlock,
+    PanelSectionBlock,
+    ReviewBlock,
+    SeriesSectionBlock,
+)
 from export_academy.cms_panels import (
     CoursePagePanels,
     EventPanel,
@@ -43,6 +49,7 @@ from export_academy.cms_panels import (
     ExportAcademyPagePanels,
 )
 from export_academy.forms import EventAdminModelForm
+from international_online_offer.core import choices
 
 
 class EventTypeTag(TagBase):
@@ -56,17 +63,17 @@ class TaggedEventType(ItemBase):
     content_object = ParentalKey(to='export_academy.Event', on_delete=models.CASCADE)
 
 
-class CountryTagged(ItemBase):
+class CountryTaggedEvent(ItemBase):
     tag = models.ForeignKey(CountryTag, related_name='+', on_delete=models.CASCADE)
     content_object = ParentalKey(to='export_academy.Event', on_delete=models.CASCADE)
 
 
-class SectorTagged(ItemBase):
+class SectorTaggedEvent(ItemBase):
     tag = models.ForeignKey(SectorTag, related_name='+', on_delete=models.CASCADE)
     content_object = ParentalKey(to='export_academy.Event', on_delete=models.CASCADE)
 
 
-class TypeOfExportTagged(ItemBase):
+class TypeOfExportTaggedEvent(ItemBase):
     tag = models.ForeignKey(TypeOfExportTag, related_name='+', on_delete=models.CASCADE)
     content_object = ParentalKey(to='export_academy.Event', on_delete=models.CASCADE)
 
@@ -143,15 +150,15 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
     upcoming = managers.EventManager.from_queryset(managers.EventQuerySet)()
 
     country_tags = TaggableManager(
-        through=CountryTagged, blank=True, verbose_name='Country tag', related_name='event_country_tags'
+        through=CountryTaggedEvent, blank=True, verbose_name='Country tag', related_name='event_country_tags'
     )
 
     sector_tags = TaggableManager(
-        through=SectorTagged, blank=True, verbose_name='Sector tags', related_name='event_sector_tags'
+        through=SectorTaggedEvent, blank=True, verbose_name='Sector tags', related_name='event_sector_tags'
     )
 
     type_of_export_tags = TaggableManager(
-        through=TypeOfExportTagged,
+        through=TypeOfExportTaggedEvent,
         blank=True,
         verbose_name='Type of Export Tags',
         related_name='event_type_of_export_tags',
@@ -432,7 +439,7 @@ class EventsOnCourse(ClusterableModel, EventsInCoursePanel):
         ordering = ['id']
 
 
-class CoursePage(CoursePagePanels, BaseContentPage):
+class CoursePage(CoursePagePanels, TaggedBaseContentPage):
     class Meta:
         verbose_name = 'Series page'
         verbose_name_plural = 'Series pages'
@@ -647,3 +654,15 @@ def send_notifications_for_all_bookings_report_to_sentry(event_id, total_booking
             f'Events bulk email notification report for Event {event_id}. {total_bookings} total sent to'
             f' directory-forms-api'
         )
+
+
+class CsatUserFeedback(TimeStampedModel):
+    URL = models.CharField(max_length=255)
+    user_journey = models.CharField(max_length=255, null=True)
+    satisfaction_rating = models.CharField(max_length=255, choices=choices.SATISFACTION_CHOICES)
+    experienced_issue = ArrayField(
+        models.CharField(max_length=255, choices=choices.EXPERIENCE_CHOICES), size=6, default=list, null=True
+    )
+    other_detail = models.CharField(max_length=255, null=True)
+    service_improvements_feedback = models.CharField(max_length=3000, null=True)
+    likelihood_of_return = models.CharField(max_length=255, choices=choices.LIKELIHOOD_CHOICES, null=True)

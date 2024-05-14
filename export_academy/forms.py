@@ -1,9 +1,16 @@
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from django.forms import (
+    CharField,
     CheckboxInput,
+    CheckboxSelectMultiple,
+    ChoiceField,
     DateTimeField,
     HiddenInput,
+    MultipleChoiceField,
     PasswordInput,
+    RadioSelect,
+    Textarea,
+    TextInput,
     widgets as django_widgets,
 )
 from django.forms.widgets import ChoiceWidget
@@ -15,6 +22,7 @@ from wagtail.admin.forms import WagtailAdminModelForm
 from contact import constants, widgets as contact_widgets
 from core.validators import is_valid_uk_phone_number, is_valid_uk_postcode
 from directory_constants.choices import COUNTRY_CHOICES
+from international_online_offer.core import choices
 
 COUNTRIES = COUNTRY_CHOICES.copy()
 COUNTRIES.insert(0, ('', 'Select a country'))
@@ -312,3 +320,59 @@ class CodeConfirmForm(forms.Form):
     code_confirm = forms.CharField(
         label='Confirmation code', error_messages={'required': 'Enter your confirmation code'}
     )
+
+
+class CsatUserFeedbackForm(forms.Form):
+    satisfaction = ChoiceField(
+        label='Overall, how do you feel about your use of the Export Academy digital service today?',
+        choices=choices.SATISFACTION_CHOICES,
+        widget=RadioSelect(attrs={'class': 'govuk-radios__input'}),
+        error_messages={
+            'required': 'You must select a level of satisfaction',
+        },
+    )
+    experience = MultipleChoiceField(
+        label='Did you experience any of the following issues?',
+        help_text='Tick all that apply.',
+        choices=choices.EXPERIENCE_CHOICES,
+        widget=CheckboxSelectMultiple(attrs={'class': 'govuk-checkboxes__input'}),
+        error_messages={
+            'required': 'You must select one or more issues',
+        },
+    )
+    experience_other = CharField(
+        label='Type your answer',
+        min_length=2,
+        max_length=255,
+        required=False,
+        widget=TextInput(attrs={'class': 'govuk-input'}),
+    )
+    feedback_text = CharField(
+        label='How could we improve this service?',
+        help_text="Don't include any personal information, like your name or email address. (optional)",
+        max_length=3000,
+        required=False,
+        widget=Textarea(attrs={'class': 'govuk-textarea', 'rows': 7}),
+    )
+    likelihood_of_return = ChoiceField(
+        label='How likely are you to use this service again?',
+        choices=choices.LIKELIHOOD_CHOICES,
+        widget=RadioSelect(attrs={'class': 'govuk-radios__input'}),
+        error_messages={
+            'required': 'You must select one likelihood of returning options',
+        },
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        experience = cleaned_data.get('experience')
+
+        if experience and 'OTHER' not in experience:
+            cleaned_data['experience_other'] = ''
+
+        experience_other = cleaned_data.get('experience_other')
+
+        if experience and any('OTHER' in s for s in experience) and not experience_other:
+            self.add_error('experience_other', 'You must enter more information regarding other experience')
+
+        return cleaned_data
