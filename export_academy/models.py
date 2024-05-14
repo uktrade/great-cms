@@ -5,6 +5,7 @@ from datetime import timedelta
 
 import sentry_sdk
 from directory_forms_api_client import actions
+from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
@@ -48,6 +49,7 @@ from export_academy.cms_panels import (
     ExportAcademyPagePanels,
 )
 from export_academy.forms import EventAdminModelForm
+from international_online_offer.core import choices
 
 
 class EventTypeTag(TagBase):
@@ -652,3 +654,15 @@ def send_notifications_for_all_bookings_report_to_sentry(event_id, total_booking
             f'Events bulk email notification report for Event {event_id}. {total_bookings} total sent to'
             f' directory-forms-api'
         )
+
+
+class CsatUserFeedback(TimeStampedModel):
+    URL = models.CharField(max_length=255)
+    user_journey = models.CharField(max_length=255, null=True)
+    satisfaction_rating = models.CharField(max_length=255, choices=choices.SATISFACTION_CHOICES)
+    experienced_issue = ArrayField(
+        models.CharField(max_length=255, choices=choices.EXPERIENCE_CHOICES), size=6, default=list, null=True
+    )
+    other_detail = models.CharField(max_length=255, null=True)
+    service_improvements_feedback = models.CharField(max_length=3000, null=True)
+    likelihood_of_return = models.CharField(max_length=255, choices=choices.LIKELIHOOD_CHOICES, null=True)
