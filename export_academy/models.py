@@ -664,5 +664,5 @@ class CsatUserFeedback(TimeStampedModel):
         models.CharField(max_length=255, choices=choices.EXPERIENCE_CHOICES), size=6, default=list, null=True
     )
     other_detail = models.CharField(max_length=255, null=True)
-    service_improvements_feedback = models.CharField(max_length=255, null=True)
+    service_improvements_feedback = models.CharField(max_length=3000, null=True)
     likelihood_of_return = models.CharField(max_length=255, choices=choices.LIKELIHOOD_CHOICES, null=True)

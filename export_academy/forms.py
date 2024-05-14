@@ -343,7 +343,7 @@ class CsatUserFeedbackForm(forms.Form):
     experience_other = CharField(
         label='Type your answer',
         min_length=2,
-        max_length=100,
+        max_length=255,
         required=False,
         widget=TextInput(attrs={'class': 'govuk-input'}),
     )
