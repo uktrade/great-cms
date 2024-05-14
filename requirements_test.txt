@@ -295,7 +295,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==25.1.0
+faker==25.2.0
     # via factory-boy
 filelock==3.14.0
     # via virtualenv
@@ -346,9 +346,7 @@ gitpython==3.1.43
 great-components==2.6.4
     # via -r requirements.in
 greenlet==3.0.3
-    # via
-    #   gevent
-    #   sqlalchemy
+    # via gevent
 gunicorn==22.0.0
     # via -r requirements.in
 h11==0.14.0
@@ -514,7 +512,7 @@ pluggy==1.5.0
     #   pytest
 polib==1.2.0
     # via wagtail-localize
-pre-commit==3.7.0
+pre-commit==3.7.1
     # via
     #   -r requirements_test.in
     #   django-log-formatter-asim
@@ -554,7 +552,7 @@ pyhanko-certvalidator==0.26.3
     # via
     #   pyhanko
     #   xhtml2pdf
-pylint==3.1.0
+pylint==3.1.1
     # via
     #   pylint-django
     #   pylint-plugin-utils
@@ -818,7 +816,7 @@ vine==5.1.0
     #   amqp
     #   celery
     #   kombu
-virtualenv==20.26.1
+virtualenv==20.26.2
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core

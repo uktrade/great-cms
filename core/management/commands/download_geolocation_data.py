@@ -7,6 +7,8 @@ import requests
 from django.conf import settings
 from django.core.management import BaseCommand
 
+from core.helpers import upload_file_to_s3
+
 logger = logging.getLogger(__name__)
 
 
@@ -34,6 +36,12 @@ class GeolocationRemoteFileArchive:
         file_like_object.seek(0)
         return file_like_object
 
+    def transfer_file_to_s3(self, file_name, object_name):
+        """
+        Transfer City and Country mmdb files to S3 bucket
+        """
+        upload_file_to_s3(file_name, object_name)
+
 
 class Command(BaseCommand):
     help = 'Download the latest geolocation data'
@@ -46,7 +54,13 @@ class Command(BaseCommand):
             file_like_object=archive.retrieve_file(edition_id='GeoLite2-City'),
             file_name=settings.GEOIP_CITY,
         )
+        file_name = f'{settings.GEOIP_PATH}/{settings.GEOIP_CITY}'
+        object_name = f'geoip_data/{settings.GEOIP_CITY}'
+        archive.transfer_file_to_s3(file_name, object_name)
         archive.decompress(
             file_like_object=archive.retrieve_file(edition_id='GeoLite2-Country'),
             file_name=settings.GEOIP_COUNTRY,
         )
+        file_name = f'{settings.GEOIP_PATH}/{settings.GEOIP_COUNTRY}'
+        object_name = f'geoip_data/{settings.GEOIP_COUNTRY}'
+        archive.transfer_file_to_s3(file_name, object_name)
