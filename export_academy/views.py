@@ -31,7 +31,7 @@ from rest_framework.generics import GenericAPIView
 
 from config import settings
 from core import mixins as core_mixins
-from core.helpers import get_location
+from core.helpers import check_url_host_is_safelisted, get_location
 from core.templatetags.content_tags import format_timedelta
 from directory_sso_api_client import sso_api_client
 from export_academy import filters, forms, helpers, models
@@ -49,6 +49,7 @@ from export_academy.mixins import (
 )
 from export_academy.models import (
     Booking,
+    CsatUserFeedback,
     ExportAcademyHomePage,
     Registration,
     VideoOnDemandPageTracking,
@@ -919,3 +920,78 @@ class EventVideoOnDemandView(DetailView):
         ctx['video_page_slug'] = event.get_past_event_recording_slug()
         ctx['full_transcript'] = self.request.GET.get('fullTranscript')
         return ctx
+
+
+class CsatUserWidgetView(FormView):
+    def post(self, request, *args, **kwargs):
+        satisfaction = request.POST.get('satisfaction')
+        user_journey = request.POST.get('user_journey')
+        url = check_url_host_is_safelisted(request)
+        request.session['csat_user_journey'] = user_journey
+
+        if satisfaction:
+            csat_feedback = CsatUserFeedback.objects.create(
+                satisfaction_rating=satisfaction, URL=url, user_journey=user_journey
+            )
+            request.session['csat_complete'] = True
+            request.session['csat_id'] = csat_feedback.id
+
+        response = HttpResponseRedirect(reverse_lazy('export_academy:csat-user-feedback') + '?next=' + url)
+        return response
+
+
+class CsatUserFeedbackView(GA360Mixin, FormView):
+    form_class = forms.CsatUserFeedbackForm
+    template_name = 'export_academy/csat_user_feedback.html'
+
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='CSAT Feedback',
+            business_unit=settings.GA360_BUSINESS_UNIT,
+            site_section='csat-user-feedback',
+        )
+
+    def get_initial(self):
+        csat_id = self.request.session.get('csat_id')
+        if csat_id:
+            csat_record = CsatUserFeedback.objects.get(id=csat_id)
+            satisfaction = csat_record.satisfaction_rating
+            if satisfaction:
+                return {'satisfaction': satisfaction}
+        else:
+            return {'satisfaction': ''}
+
+    def get_success_url(self):
+        success_url = reverse_lazy('export_academy:csat-user-feedback') + '?success=true'
+        if self.request.GET.get('next'):
+            success_url = success_url + '&next=' + check_url_host_is_safelisted(self.request)
+        return success_url
+
+    def form_valid(self, form):
+        csat_id = self.request.session.get('csat_id')
+        if csat_id:
+            CsatUserFeedback.objects.update_or_create(
+                id=csat_id,
+                defaults={
+                    'experienced_issue': form.cleaned_data['experience'],
+                    'other_detail': form.cleaned_data['experience_other'],
+                    'likelihood_of_return': form.cleaned_data['likelihood_of_return'],
+                    'service_improvements_feedback': form.cleaned_data['feedback_text'],
+                },
+            )
+            if self.request.session.get('csat_id'):
+                del self.request.session['csat_id']
+        else:
+            CsatUserFeedback.objects.create(
+                satisfaction_rating=form.cleaned_data['satisfaction'],
+                experienced_issue=form.cleaned_data['experience'],
+                other_detail=form.cleaned_data['experience_other'],
+                likelihood_of_return=form.cleaned_data['likelihood_of_return'],
+                service_improvements_feedback=form.cleaned_data['feedback_text'],
+                URL=check_url_host_is_safelisted(self.request),
+                user_journey=self.request.session.get('csat_user_journey'),
+            )
+            if self.request.session.get('csat_user_journey'):
+                del self.request.session['csat_user_journey']
+        return super().form_valid(form)
