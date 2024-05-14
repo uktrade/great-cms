@@ -25,6 +25,10 @@ GOVUK.data = (new function() {
       method: "GET",
       success: function(response) {
         service.response = response && response.items;
+        console.log("Initial API load success");
+      },
+      error: function(xhr, status, error) {
+        console.error("Service Error:", xhr.status, xhr.statusText);
       }
     }, configuration || {});
 
@@ -41,11 +45,13 @@ GOVUK.data = (new function() {
       config.data = params || "";
       request = $.ajax(config);
       request.done(function() {
-        // Activate each listener task
-        for(var i=0; i<listeners.length; ++i) {
+        console.log("Service request done");
+        for(var i = 0; i < listeners.length; ++i) {
           listeners[i]();
         }
-      })
+      }).fail(function(jqXHR, textStatus, errorThrown) {
+        console.error("AJAX request failed:", textStatus, errorThrown);
+      });
     }
 
     /* Specify data processing task after response
@@ -59,6 +65,11 @@ GOVUK.data = (new function() {
 
   // Create service to fetch Company from name lookup on Companies House API
   this.getCompanyByName = new Service("/api/companies-house/");
+
+  // Test the API on load with an empty or predefined parameter
+  this.getCompany = function() {
+    this.getCompanyByName.update("term=test");
+  };
 });
 
 GOVUK.components = (new function() {
