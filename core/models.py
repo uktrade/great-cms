@@ -2293,6 +2293,17 @@ class SupportTopicLandingPage(cms_panels.SupportTopicLandingPanels, Page):
     page_title = models.TextField(
         null=True,
     )
+    page_description = models.TextField(
+        null=True,
+        blank=True,
+    )
+    back_link = models.TextField(
+        null=True,
+        blank=True,
+    )
+    task_based_layout = models.BooleanField(
+        default=False,
+    )
     page_body = StreamField(
         [
             (

@@ -100,6 +100,14 @@ class SupportTopicLandingPanels:
             heading='Page intro',
             children=[
                 FieldPanel('page_title'),
+                FieldPanel('page_description'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='Settings',
+            children=[
+                FieldPanel('back_link'),
+                FieldPanel('task_based_layout'),
             ],
         ),
         FieldPanel('page_body'),
