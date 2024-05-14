@@ -25,7 +25,7 @@ GOVUK.data = (new function() {
       method: "GET",
       success: function(response) {
         service.response = response && response.items;
-        console.log("Initial API load success");
+        console.log("API request successful:" + service.response.length + " items found.");
       },
       error: function(xhr, status, error) {
         console.error("Service Error:", xhr.status, xhr.statusText);
@@ -50,7 +50,11 @@ GOVUK.data = (new function() {
           listeners[i]();
         }
       }).fail(function(jqXHR, textStatus, errorThrown) {
-        console.error("AJAX request failed:", textStatus, errorThrown);
+        if (jqXHR.status >= 400) {
+          console.error("Error - Something went wrong: ", jqXHR.statusText);
+        } else {
+          console.error("AJAX request failed:", textStatus, errorThrown);
+        }
       });
     }
 
