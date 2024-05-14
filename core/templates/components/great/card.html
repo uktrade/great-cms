@@ -18,7 +18,8 @@
                  alt="{% if image_alt %}{{ image_alt }}{% endif %}" />
         {% endif %}
     {% endif %}
-    <div class=" {% if container_class %} {{ container_class }} {% else %} govuk-!-padding-4 {% endif %}">
+    <div class=" {% if container_class %} {{ container_class }} {% else %} govuk-!-padding-4 {% endif %}"
+         {% if data_attr_title %}data-title="{{ data_attr_title }}"{% endif %}>
         {% if title %}
             {% if show_title_link %}<div class="great-position-relative">{% endif %}
                 <{{ heading_level|default:'h3' }} class="
