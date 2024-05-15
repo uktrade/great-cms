@@ -706,6 +706,8 @@ def send_campaign_site_review_reminder(email_list, site_name, review_days, revie
 
 
 def upload_file_to_s3(file_name, object_name):
+    if settings.IS_CIRCLECI_ENV:
+        return
     s3_client = boto3.client(
         's3',
         aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
