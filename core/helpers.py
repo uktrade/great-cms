@@ -722,7 +722,14 @@ def upload_file_to_s3(file_name, object_name):
 
 
 def s3_files_exist():
-    return True
+    s3 = boto3.resource('s3')
+    try:
+        s3.Object(settings.AWS_STORAGE_BUCKET_NAME, f'geoip_data/{settings.GEOIP_CITY}').load()
+        s3.Object(settings.AWS_STORAGE_BUCKET_NAME, f'geoip_data/{settings.GEOIP_COUNTRY}').load()
+    except ClientError:
+        return False
+    else:
+        return True
 
 
 def download_geoip_files_from_s3():
