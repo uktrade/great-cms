@@ -157,7 +157,3 @@ core/components/static/stylesheets/maps/
 Dockerfile.dev
 
 .lighthouseci/
-
-# GEOIP files
-core/geolocation_data/GeoLite2-Country.mmdb
-core/geolocation_data/GeoLite2-City.mmdb
