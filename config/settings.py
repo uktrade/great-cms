@@ -419,7 +419,7 @@ AWS_S3_HOST = env.str('AWS_S3_HOST', 's3-eu-west-2.amazonaws.com')
 AWS_S3_SIGNATURE_VERSION = env.str('AWS_S3_SIGNATURE_VERSION', 's3v4')
 AWS_QUERYSTRING_AUTH = env.bool('AWS_QUERYSTRING_AUTH', False)
 S3_USE_SIGV4 = env.bool('S3_USE_SIGV4', True)
-AWS_S3_REGION_NAME
+
 
 USER_MEDIA_ON_S3 = STORAGES['default']['BACKEND'] == 'storages.backends.s3boto3.S3Boto3Storage'
 
