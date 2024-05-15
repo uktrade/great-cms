@@ -4,20 +4,16 @@ var GOVUK = {};
   General utility methods
   ======================= */
 GOVUK.utils = (new function() {
-
-  /* Try to dynamically generate a unique String value.
-   **/
+  /* Try to dynamically generate a unique String value. */
   this.uniqueString = function() {
     return "_" + ((new Date().getTime()) + "_" + Math.random().toString()).replace(/[^\w]*/mig, "");
   }
-
 });
 
 /*
   General data storage and services
   =================================== */
 GOVUK.data = (new function() {
-
   function Service(url, configuration) {
     var service = this;
     var config = $.extend({
@@ -25,10 +21,14 @@ GOVUK.data = (new function() {
       method: "GET",
       success: function(response) {
         service.response = response && response.items;
-        console.log("API request successful:" + service.response.length + " items found.");
       },
-      error: function(xhr, status, error) {
-        console.error("Service Error:", xhr.status, xhr.statusText);
+      error: function(jqXHR) {
+        if (jqXHR.status >= 400) {
+          service.response = { error: "An error occurred while fetching data. Please try again later." };
+          for (var i = 0; i < listeners.length; ++i) {
+            listeners[i]();
+          }
+        }
       }
     }, configuration || {});
 
@@ -41,19 +41,13 @@ GOVUK.data = (new function() {
      * @params (String) Specify params for GET or data for POST
      **/
     service.update = function(params) {
-      if(request) request.abort(); // Cancels a currently active request
+      if (request) request.abort(); // Cancels a currently active request
       config.data = params || "";
       request = $.ajax(config);
       request.done(function() {
-        console.log("Service request done");
-        for(var i = 0; i < listeners.length; ++i) {
+        // Activate each listener task
+        for (var i = 0; i < listeners.length; ++i) {
           listeners[i]();
-        }
-      }).fail(function(jqXHR, textStatus, errorThrown) {
-        if (jqXHR.status >= 400) {
-          console.error("Error - Something went wrong: ", jqXHR.statusText);
-        } else {
-          console.error("AJAX request failed:", textStatus, errorThrown);
         }
       });
     }
@@ -66,18 +60,11 @@ GOVUK.data = (new function() {
     }
   }
 
-
   // Create service to fetch Company from name lookup on Companies House API
   this.getCompanyByName = new Service("/api/companies-house/");
-
-  // Test the API on load with an empty or predefined parameter
-  this.getCompany = function() {
-    this.getCompanyByName.update("term=test");
-  };
 });
 
 GOVUK.components = (new function() {
-
   /* Performs a data lookup and displays multiple choice results
    * to populate the input value with user choice.
    *
@@ -97,7 +84,7 @@ GOVUK.components = (new function() {
       showNoneOfThese: false, // (Boolean) Show "none of these results" at the end.
     }, options || {});
 
-    instance.options = opts
+    instance.options = opts;
     // Some inner variable requirement.
     instance._private = {
       active: false, // State management to isolate the listener.
@@ -108,17 +95,17 @@ GOVUK.components = (new function() {
     }
 
     // Will not have arguments if being inherited for prototype
-    if(arguments.length >= 2) {
+    if (arguments.length >= 2) {
       // Bind lookup event.
       $input.attr("autocomplete", "off"); // Because it interferes with results display.
       $input.on("focus.SelectiveLookup", function() { instance._private.active = true; });
       $input.on("blur.SelectiveLookup", function() { instance._private.active = false; });
       $input.on("input.SelectiveLookup", function() {
-        if(instance._private.timer) {
+        if (instance._private.timer) {
           clearTimeout(instance._private.timer);
         }
 
-        if(this.value.length >= opts.lookupOnCharacter) {
+        if (this.value.length >= opts.lookupOnCharacter) {
           instance._private.timer = setTimeout(function() {
             instance.search()
           }, 500);
@@ -127,13 +114,13 @@ GOVUK.components = (new function() {
 
       $input.on("keyup.SelectiveLookup", function(e) {
         // check backspace
-        if(e.which == 8) {
+        if (e.which == 8) {
           instance._private.$field.val('');
         }
-      })
+      });
 
       $input.on("keypress.SelectiveLookup", function(e) {
-        if(e.which !== 0) {
+        if (e.which !== 0) {
           instance._private.$field.val('');
         }
       });
@@ -148,17 +135,16 @@ GOVUK.components = (new function() {
        * 40 = Down
        */
       $input.on("keydown.SelectiveLookup", function(e) {
-        switch(e.which) {
-
+        switch (e.which) {
           // Esc to close when on input
           case 27:
             instance.close();
             break;
 
           // Tab or arrow from input to list
-          case  9:
+          case 9:
           case 40:
-            if(!e.shiftKey && instance._private.$input.attr("aria-expanded") === "true") {
+            if (!e.shiftKey && instance._private.$input.attr("aria-expanded") === "true") {
               e.preventDefault();
               instance._private.$list.find("li:first-child").focus();
             }
@@ -167,10 +153,10 @@ GOVUK.components = (new function() {
 
       instance._private.$list.on("keydown.SelectiveLookup", "li", function(e) {
         var $current = $(e.target);
-        switch(e.which) {
+        switch (e.which) {
           // Prevent tabbing beyond list
           case 9:
-            if($current.is(":last-child") && !e.shiftKey) {
+            if ($current.is(":last-child") && !e.shiftKey) {
               e.preventDefault();
             }
             break;
@@ -200,7 +186,7 @@ GOVUK.components = (new function() {
 
       // Tab or arrow movement from list to input
       instance._private.$list.on("keydown.SelectiveLookup", "li:first-child", function(e) {
-        if(e.shiftKey && e.which === 9 || e.which === 38) {
+        if (e.shiftKey && e.which === 9 || e.which === 38) {
           e.preventDefault();
           $input.focus();
         }
@@ -208,11 +194,7 @@ GOVUK.components = (new function() {
 
       // Bind service update listener
       instance._private.service.listener(function() {
-        if(instance._private.active) {
-          instance.setContent();
-          instance.bindContentEvents();
-          instance.open();
-        }
+        instance.setContent();
       });
 
       // Add some accessibility support
@@ -221,8 +203,10 @@ GOVUK.components = (new function() {
       $input.attr("aria-expanded", "false");
       $input.attr("aria-owns", popupId);
 
-      // Add display element
-      $(document.body).append(instance._private.$list);
+      // Add display element if not already present
+      if (!instance._private.$list.parent().length) {
+        $(document.body).append(instance._private.$list);
+      }
 
       // Register the instance
       SelectiveLookup.instances.push(this);
@@ -240,30 +224,30 @@ GOVUK.components = (new function() {
     instance._private.$list.off("click.SelectiveLookupContent");
     instance._private.$list.on("click.SelectiveLookupContent", function(event) {
       var $eventTarget = $(event.target);
-      if($eventTarget.attr("data-value")) {
+      if ($eventTarget.attr("data-value")) {
         instance._private.$input.val($eventTarget.attr("data-value"));
       }
     });
   }
   SelectiveLookup.prototype.close = function() {
     var $input = this._private.$input;
-    if($input.attr("aria-expanded") === "true") {
+    if ($input.attr("aria-expanded") === "true") {
       this._private.$list.css({ display: "none" });
       $input.attr("aria-expanded", "false");
       $input.focus();
     }
   }
   SelectiveLookup.prototype.search = function() {
-   this._private.$errors.empty();
-   this._private.service.update(this.param());
+    this._private.$errors.empty();
+    this._private.service.update(this.param());
   }
   SelectiveLookup.prototype.param = function() {
     // Set param in separate function to allow easy override.
-    return this._private.$input.attr("name") + "=" + this._private.$input.value;
+    return this._private.$input.attr("name") + "=" + this._private.$input.val();
   }
   /* Uses the data set on associated service to build HTML
    * result output. Since data keys are quite likely to vary
-   * across services, you can pass through a mappingn object
+   * across services, you can pass through a mapping object
    * to avoid the default/expected key names.
    * @datamapping (Object) Allow change of required key name
    **/
@@ -272,8 +256,12 @@ GOVUK.components = (new function() {
     var $list = this._private.$list;
     var map = datamapping || { text: "text", value: "value" };
     $list.empty();
-    if(data && data.length) {
-      for(var i=0; i<data.length; ++i) {
+    if (data && data.error) {
+      this._private.$errors.empty();
+      $list.append('<li id="company-lookup-api-error" role="status" >Sorry, there is a problem. We expect the service to resume shortly. Try again later.</li>');
+      this.open();
+    } else if (data && data.length) {
+      for (var i = 0; i < data.length; ++i) {
         // Note:
         // Only need to set a tabindex attribute to allow focus.
         // The value is not important here.
@@ -282,6 +270,7 @@ GOVUK.components = (new function() {
       if (this.options.showNoneOfThese) {
         $list.append('<li id="company-lookup-name-not-in-companies-house" role="option">None of these companies. I\'m not in Companies House</li>');
       }
+      this.open();
     } else {
       $list.append('<li id="company-lookup-name-no-results-found" role="option">No results found</li>');
     }
@@ -301,10 +290,9 @@ GOVUK.components = (new function() {
     this._private.$input.attr("aria-expanded", "true");
   }
 
-
   SelectiveLookup.instances = [];
   SelectiveLookup.closeAll = function() {
-    for(var i=0; i<SelectiveLookup.instances.length; ++i) {
+    for (var i = 0; i < SelectiveLookup.instances.length; ++i) {
       SelectiveLookup.instances[i].close();
     }
   }
@@ -337,23 +325,22 @@ GOVUK.components = (new function() {
     // Custom error handling.
     this._private.$form.on("submit.CompaniesHouseNameLookup", function(e) {
       // If no input or no company selected
-      if(instance._private.$field.val() === "") {
-        instance._private.$input.val($eventTarget.text());
-        instance._private.$field.val($eventTarget.attr("data-value"));
+      if (instance._private.$field.val() === "") {
         instance._private.$errors.empty();
         instance._private.$errors.append("<p>Check that you entered the company name correctly and select the matching company name from the list.</p>");
+        instance._private.$errors.show();
       }
     });
   }
   CompaniesHouseNameLookup.prototype = new SelectiveLookup;
   CompaniesHouseNameLookup.prototype.bindContentEvents = function() {
     var instance = this;
-    instance._private.$list.off("click.SelectiveLookupContent");
+    instance._private.$list.off("click.CompaniesHouseNameLookup");
     instance._private.$list.on("click.CompaniesHouseNameLookup", function(event) {
       var $eventTarget = $(event.target);
 
       // Try to set company number value.
-      if($eventTarget.attr("data-value")) {
+      if ($eventTarget.attr("data-value")) {
         instance._private.$input.val($eventTarget.text());
         instance._private.$field.val($eventTarget.attr("data-value"));
       }
@@ -370,3 +357,16 @@ GOVUK.components = (new function() {
     });
   }
 });
+
+if (!window.companyNameLookup) {
+  window.companyNameLookup = new GOVUK.components.CompaniesHouseNameLookup(
+    $('#id_company-search-company_name'),
+    $('#id_company-search-company_number'),
+    '{% url "sso_profile:api:companies-house-search" %}'
+  );
+
+  // Perform API test on page load
+  $(document).ready(function() {
+    window.companyNameLookup._private.service.update("term=Test Company");
+  });
+}

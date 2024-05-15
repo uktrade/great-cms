@@ -33,14 +33,5 @@
         "click.SelectiveLookupCloseAll",
         GOVUK.components.SelectiveLookup.closeAll
       );
-      new GOVUK.components.CompaniesHouseNameLookup(
-        $(companyName),
-        $(companyNumber),
-        '{% url "sso_profile:api:companies-house-search" %}'
-       );
-
-       $(document).ready(function() {
-        GOVUK.data.getCompany();  // Test the API on load
-      });
     </script>
 {% endblock %}
