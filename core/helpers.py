@@ -723,19 +723,21 @@ def download_geoip_files():
     if settings.IS_CIRCLECI_ENV:
         return
 
-    s3_client = boto3.client(
-        's3',
-        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
-        region_name=settings.AWS_S3_REGION_NAME,
-    )
-    s3_client.download_file(
-        settings.AWS_STORAGE_BUCKET_NAME,
-        f'geoip_data/{settings.GEOIP_CITY}',
-        f'{settings.GEOIP_PATH}/{settings.GEOIP_CITY}',
-    )
-    s3_client.download_file(
-        settings.AWS_STORAGE_BUCKET_NAME,
-        f'geoip_data/{settings.GEOIP_COUNTRY}',
-        f'{settings.GEOIP_PATH}/{settings.GEOIP_COUNTRY}',
-    )
+    pass
+
+    # s3_client = boto3.client(
+    #     's3',
+    #     aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+    #     aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+    #     region_name=settings.AWS_S3_REGION_NAME,
+    # )
+    # s3_client.download_file(
+    #     settings.AWS_STORAGE_BUCKET_NAME,
+    #     f'geoip_data/{settings.GEOIP_CITY}',
+    #     f'{settings.GEOIP_PATH}/{settings.GEOIP_CITY}',
+    # )
+    # s3_client.download_file(
+    #     settings.AWS_STORAGE_BUCKET_NAME,
+    #     f'geoip_data/{settings.GEOIP_COUNTRY}',
+    #     f'{settings.GEOIP_PATH}/{settings.GEOIP_COUNTRY}',
+    # )
