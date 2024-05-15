@@ -758,4 +758,4 @@ def download_geoip_files_from_s3():
         try:
             call_command('download_geolocation_data')
         except Exception:
-            logger.exception("Failed to  download GeoIP data")
+            logger.exception('Failed to  download GeoIP data')
