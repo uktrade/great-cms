@@ -719,6 +719,10 @@ def upload_file_to_s3(file_name, object_name):
 
 
 def download_geoip_files():
+    # dont download file if running in circleci
+    if settings.IS_CIRCLECI_ENV:
+        return
+
     s3_client = boto3.client(
         's3',
         aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
