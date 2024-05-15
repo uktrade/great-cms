@@ -58,4 +58,4 @@ def delete_inactive_admin_users_after_sixty_days():
                 inactive_user.delete()
 
     else:
-        raise Exception("This task cannot be run on the current environment")
+        raise Exception('This task cannot be run on the current environment')

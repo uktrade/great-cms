@@ -91,8 +91,8 @@ def test_delete_users_after_sixty_days():
     SuperUserFactory(date_joined=sixty_one_days_ago, last_login=None)
     SuperUserFactory(date_joined=sixty_one_days_ago, last_login=sixty_one_days_ago)
 
-    User = get_user_model()
-    users = User.objects.all()
+    user = get_user_model()
+    users = user.objects.all()
 
     assert users.count() == 7
     delete_inactive_admin_users_after_sixty_days()
