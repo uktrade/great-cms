@@ -18,6 +18,7 @@ from directory_forms_api_client import actions
 from django.conf import settings
 from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
 from django.contrib.humanize.templatetags.humanize import intword
+from django.core.management import call_command
 from django.shortcuts import redirect
 from django.utils.encoding import iri_to_uri
 from django.utils.functional import cached_property
@@ -718,3 +719,36 @@ def upload_file_to_s3(file_name, object_name):
         s3_client.upload_file(file_name, settings.AWS_STORAGE_BUCKET_NAME, object_name)
     except ClientError as ce:
         logger.error(ce)
+
+
+def s3_files_exist():
+    return True
+
+
+def download_geoip_files_from_s3():
+    # dont download file if running in circleci
+    if settings.IS_CIRCLECI_ENV:
+        return
+
+    if s3_files_exist():
+        s3_client = boto3.client(
+            's3',
+            aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+            region_name=settings.AWS_S3_REGION_NAME,
+        )
+        s3_client.download_file(
+            settings.AWS_STORAGE_BUCKET_NAME,
+            f'geoip_data/{settings.GEOIP_CITY}',
+            f'{settings.GEOIP_PATH}/{settings.GEOIP_CITY}',
+        )
+        s3_client.download_file(
+            settings.AWS_STORAGE_BUCKET_NAME,
+            f'geoip_data/{settings.GEOIP_COUNTRY}',
+            f'{settings.GEOIP_PATH}/{settings.GEOIP_COUNTRY}',
+        )
+    else:
+        try:
+            call_command('download_geolocation_data')
+        except Exception:
+            logger.exception("Failed to  download GeoIP data")
