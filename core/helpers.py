@@ -722,11 +722,10 @@ def upload_file_to_s3(file_name, object_name):
         logger.error(ce)
 
 
-def geoip_files_exist_in_s3():
+def geoip_file_exists_in_s3(object_name):
     s3 = boto3.resource('s3')
     try:
-        s3.Object(settings.AWS_STORAGE_BUCKET_NAME, f'geoip_data/{settings.GEOIP_CITY}').load()
-        s3.Object(settings.AWS_STORAGE_BUCKET_NAME, f'geoip_data/{settings.GEOIP_COUNTRY}').load()
+        s3.Object(settings.AWS_STORAGE_BUCKET_NAME, object_name).load()
     except ClientError:
         return False
     else:
@@ -738,7 +737,9 @@ def download_geoip_files_from_s3():
     if settings.IS_CIRCLECI_ENV:
         return
 
-    if geoip_files_exist_in_s3():
+    if geoip_file_exists_in_s3(f'geoip_data/{settings.GEOIP_COUNTRY}') and geoip_file_exists_in_s3(
+        f'geoip_data/{settings.GEOIP_CITY}'
+    ):
         s3_client = boto3.client(
             's3',
             aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
