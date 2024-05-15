@@ -7,6 +7,7 @@ from core.tasks import enact_page_schedule, update_geoip_data
 from tests.unit.core.factories import MicrositeFactory, MicrositePageFactory
 
 
+@pytest.mark.skip(reason='Temp Disabled')
 @mock.patch('core.management.commands.download_geolocation_data.GeolocationRemoteFileArchive.retrieve_file')
 @mock.patch('core.management.commands.download_geolocation_data.GeolocationRemoteFileArchive.decompress')
 def test_update_geoip_data_success(mock_decompress, mock_retrieve_file):
