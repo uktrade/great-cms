@@ -159,5 +159,5 @@ Dockerfile.dev
 .lighthouseci/
 
 # GEOIP files
-core/geolocation_data/GEOIP_City.mmdb
-core/geolocation_data/GEOIP_Country.mmdb
+core/geolocation_data/GeoLite2-Country.mmdb
+core/geolocation_data/GeoLite2-City.mmdb
