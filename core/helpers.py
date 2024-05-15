@@ -707,6 +707,7 @@ def send_campaign_site_review_reminder(email_list, site_name, review_days, revie
 
 
 def upload_file_to_s3(file_name, object_name):
+    # dont upload files if running in circleci
     if settings.IS_CIRCLECI_ENV:
         return
     s3_client = boto3.client(
@@ -733,7 +734,7 @@ def geoip_files_exist_in_s3():
 
 
 def download_geoip_files_from_s3():
-    # dont download file if running in circleci
+    # dont download files if running in circleci
     if settings.IS_CIRCLECI_ENV:
         return
 
