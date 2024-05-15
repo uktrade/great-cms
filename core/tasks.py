@@ -49,7 +49,7 @@ def delete_inactive_admin_users_after_sixty_days():
 
         # Delete admin users who either:
         # a) Have an admin account but have not logged in for 60 days.
-        # b) have had an account created over 60 days ago and never logged in.
+        # b) Have had an account created over 60 days ago and never logged in.
         inactive_users = user.objects.filter(is_superuser=True).filter(
             Q(last_login__lte=sixty_days_ago) | Q(date_joined__lte=sixty_days_ago, last_login=None)
         )
