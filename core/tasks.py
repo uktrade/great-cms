@@ -1,6 +1,11 @@
 import logging
+from datetime import timedelta
 
+from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.core.management import call_command
+from django.db.models import Q
+from django.utils import timezone
 
 from config.celery import app
 
@@ -27,3 +32,30 @@ def enact_page_schedule():
 @app.task
 def send_review_reminder_interval_months():
     call_command('send_campaign_site_review_reminder')
+
+
+@app.task
+def delete_inactive_admin_users_after_sixty_days():
+    """
+    Deletes admin users who are inactive after sixty_days. It should only ever be run on UAT / DEV / Staging
+    environments. Excludes SSO accounts.
+    """
+
+    user = get_user_model()
+
+    if settings.APP_ENVIRONMENT in ['local', 'dev', 'uat', 'staging']:
+        # Cut off point for deleting an inactive account
+        sixty_days_ago = timezone.now() - timedelta(days=60)
+
+        # Delete admin users who either:
+        # a) Have an admin account but have not logged in for 60 days.
+        # b) have had an account created over 60 days ago and never logged in.
+        inactive_users = user.objects.filter(is_superuser=True).filter(
+            Q(last_login__lte=sixty_days_ago) | Q(date_joined__lte=sixty_days_ago, last_login=None)
+        )
+        for inactive_user in inactive_users:
+            if inactive_user.has_usable_password():  # This excludes SSO accounts, which are out of scope.
+                inactive_user.delete()
+
+    else:
+        raise Exception("This task cannot be run on the current environment")
