@@ -25,7 +25,7 @@
                         <div class="govuk-grid-column-two-thirds">
                             {% if page.back_link %}
                                 <div class="govuk-!-margin-top-5">
-                                    <a class="govuk-link" href="{{ page.back_link }}">Back</a>
+                                    <a class="govuk-link great-back-link" href="{{ page.back_link }}">Back</a>
                                 </div>
                             {% endif %}
                             <p class="govuk-body govuk-!-margin-top-5 govuk-!-margin-bottom-0">Export support</p>
@@ -34,7 +34,7 @@
                                     {{ page.page_title }}
                                 </h1>
                             {% endif %}
-                            {% if page.page_description %}<p class="govuk-body=govuk-!-margin-bottom-9">{{ page.page_description }}</p>{% endif %}
+                            {% if page.page_description %}<p class="govuk-body govuk-!-margin-bottom-6">{{ page.page_description }}</p>{% endif %}
                             {% if page.page_teaser %}{{ page.page_teaser| richtext | add_govuk_classes }}{% endif %}
                             {% if features.FEATURE_SHOW_TASK_VALIDATION %}
                                 {# djlint:off H021 #}
@@ -55,12 +55,12 @@
                     </div>
                     {% if page.page_body %}
                         <div class="govuk-grid-row">
-                            <div class="govuk-grid-column-three-quarters">
+                            <div class="{% if page.task_based_layout %}govuk-grid-column-full{% else %}govuk-grid-column-three-quarters{% endif %}">
                                 <div class="great-display-flex-from-desktop great-card-wrapper">
-                                    {% include 'domestic/contact/export-support/includes/topic-landing-card.html' with cards=page.page_body %}
+                                    {% include 'domestic/contact/export-support/includes/topic-landing-card.html' with cards=page.page_body is_task_based_layout=page.task_based_layout %}
                                 </div>
-                                <hr class="govuk-!-margin-top-0 great-hr-blue great-hr-blue--thin" />
                                 {% if not page.task_based_layout %}
+                                    <hr class="govuk-!-margin-top-0 great-hr-blue great-hr-blue--thin" />
                                     <h2 class="govuk-heading-s govuk-!-margin-top-3 govuk-!-margin-bottom-6">Further support</h2>
                                     <div class="govuk-!-margin-bottom-6 govuk-!-margin-bottom-6 govuk-!-padding-6 great-bg-white great-display-flex-from-desktop great-related-items great-bg-white great-related-items">
                                         {% include 'domestic/contact/export-support/includes/related-items.html' with items=page.page_body %}
@@ -68,16 +68,16 @@
                                     <hr class="govuk-!-margin-top-0 great-hr-blue" />
                                 {% endif %}
                             </div>
-                            <div class="govuk-grid-column-one-quarter">
-                                <div class="great-dep-tools-and-services">
-                                    {% if not page.task_based_layout %}
+                            {% if not page.task_based_layout %}
+                                <div class="govuk-grid-column-one-quarter">
+                                    <div class="great-dep-tools-and-services">
                                         <h2 class="govuk-heading-s govuk-!-margin-bottom-5 govuk-!-padding-bottom-1 great-border-bottom-blue">
                                             Popular tools and services
                                         </h2>
                                         {% include 'domestic/contact/export-support/includes/sidebar-items.html' with items=page.page_body %}
-                                    {% endif %}
+                                    </div>
                                 </div>
-                            </div>
+                            {% endif %}
                         </div>
                     {% endif %}
                 </div>
