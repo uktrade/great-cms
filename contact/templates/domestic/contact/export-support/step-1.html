@@ -21,8 +21,8 @@
 
     if (!window.companyNameLookup) {
         window.companyNameLookup = new GOVUK.components.CompaniesHouseNameLookup(
-          $('#id_business_name'),
-          $('#id_company_registration_number'),
+          $(companyName),
+          $(companyNumber),
           '{% url "sso_profile:api:companies-house-search" %}'
         );
       
