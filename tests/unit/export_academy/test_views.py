@@ -22,7 +22,11 @@ from core.snippet_slugs import EA_REGISTRATION_PAGE_HERO
 from directory_sso_api_client import sso_api_client
 from export_academy.filters import EventFilter
 from export_academy.models import Booking, Registration, VideoOnDemandPageTracking
-from export_academy.views import EventsDetailsView, EventVideoOnDemandView
+from export_academy.views import (
+    CsatUserFeedback,
+    EventsDetailsView,
+    EventVideoOnDemandView,
+)
 from sso import helpers as sso_helpers
 from tests.helpers import create_response
 from tests.unit.export_academy import factories
@@ -1537,3 +1541,54 @@ class EventVideoOnDemandViewTest(TestCase):
         request.user = user_not_logged_in
         response = EventVideoOnDemandView.as_view(event=self.past_event)(request, **kwargs)
         assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_csat_user_feedback(client, user, settings):
+    settings.FEATURE_UKEA_CSAT = True
+    client.force_login(user)
+    url = reverse('export_academy:csat-user-feedback')
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_csat_user_feedback_with_session_value(client, user, settings):
+    settings.FEATURE_UKEA_CSAT = True
+    client.force_login(user)
+    url = reverse('export_academy:csat-user-feedback')
+    CsatUserFeedback.objects.create(id=1, URL='http://test.com')
+    session = client.session
+    session['csat_id'] = 1
+    session.save()
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_csat_user_feedback_submit(client, settings):
+    settings.FEATURE_UKEA_CSAT = True
+    url = reverse('export_academy:csat-user-feedback') + '?url=http://testurl.com'
+    CsatUserFeedback.objects.create(id=1, URL='http://test.com')
+    session = client.session
+    session['csat_id'] = 1
+    session['user_journey'] = 'DASHBOARD'
+    session.save()
+    response = client.post(
+        url,
+        {
+            'satisfaction': 'SATISFIED',
+            'user_journey': 'DASHBOARD',
+            'experience': ['I_DID_NOT_FIND_WHAT_I_WAS_LOOKING_FOR'],
+            'likelihood_of_return': 'LIKELY',
+        },
+    )
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_csat_user_widget(client, settings):
+    settings.FEATURE_UKEA_CSAT = True
+    url = reverse('export_academy:csat-user-widget-submit') + '?url=http://testurl.com'
+    response = client.post(url, {'satisfaction': 'SATISFIED', 'user_journey': 'DASHBOARD'})
+    assert response.status_code == 302

@@ -31,6 +31,7 @@ from activitystream.serializers import (
     ActivityStreamExpandYourBusinessTriageDataSerializer,
     ActivityStreamExpandYourBusinessUserDataSerializer,
     ActivityStreamExportAcademyBookingSerializer,
+    ActivityStreamExportAcademyCsatUserFeedbackDataSerializer,
     ActivityStreamExportAcademyEventSerializer,
     ActivityStreamExportAcademyRegistrationSerializer,
     ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer,
@@ -40,6 +41,7 @@ from core.models import MicrositePage
 from domestic.models import ArticlePage, CountryGuidePage
 from export_academy.models import (
     Booking,
+    CsatUserFeedback,
     Event,
     Registration,
     VideoOnDemandPageTracking,
@@ -248,3 +250,18 @@ class ActivityStreamExpandYourBusinessCsatFeedbackDataView(ActivityStreamExpandY
 class ActivityStreamExportAcademyVideoOnDemandPageTrackingView(ActivityStreamExportAcademyBaseView):
     queryset = VideoOnDemandPageTracking.objects.all()
     serializer_class = ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer
+
+
+class ActivityStreamExportAcademyBaseView(ActivityStreamBaseView):
+    filterset_class = ActivityStreamExportAcademyFilter
+    pagination_class = ActivityStreamExportAcademyPagination
+
+    def get_queryset(self):
+        return self.queryset.order_by('id')
+
+
+class ActivityStreamExportAcademyCsatFeedbackDataView(ActivityStreamExportAcademyBaseView):
+    """View to list export academy csat feedback data for the activity stream"""
+
+    queryset = CsatUserFeedback.objects.all()
+    serializer_class = ActivityStreamExportAcademyCsatUserFeedbackDataSerializer
