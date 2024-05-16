@@ -4,29 +4,20 @@
     {{ block.super }}
     <script src="{% static 'javascript/company-lookup.js' %}"></script>
     <script type="text/javascript">
-        $(document).ready(function() {
-            // Ensure all elements are loaded
-            var companyName = document.getElementById('id_business_name');
-            var companyNumber = document.getElementById('id_company_registration_number');
-        
-            // Convert these to jQuery objects right away
-            var $companyName = $(companyName);
-            var $companyNumber = $(companyNumber);
-        
-            // Setup event to block the enter key
-            $companyName.on("keydown.SelectiveLookup", function(event) {
-              if (event.keyCode == 13) {
-                event.stopImmediatePropagation();
-                return false;
-              }
-            });
-        
-            // Close all lookups on body cslick
-            $(document.body).on(
-              "click.SelectiveLookupCloseUser",
-              GOVUK.components.SelectiveLookup.closeAll
-            );
-          });
+    var companyName = document.getElementById('id_business_name');
+    var companyNumber = document.getElementById('id_company_registration_number');
+
+    $(companyName).on("keydown.SelectiveLookup", function(event) {
+      if (event.keyCode == 13) {
+        event.stopImmediatePropagation();
+        return false;
+      }
+    });
+
+    $(document.body).on(
+      "click.SelectiveLookupCloseAll",
+      GOVUK.components.SelectiveLookup.closeAll
+    );
     </script>
 {% endblock %}
 {% block form_fields %}
