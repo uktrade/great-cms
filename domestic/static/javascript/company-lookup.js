@@ -24,7 +24,7 @@ GOVUK.data = (new function() {
       },
       error: function(jqXHR) {
         if (jqXHR.status >= 400) {
-          service.response = { error: "An error occurred while fetching data. Please try again later." };
+          service.response = { error: "An error occurred while fetching data." };
           for (var i = 0; i < listeners.length; ++i) {
             listeners[i]();
           }
@@ -40,14 +40,16 @@ GOVUK.data = (new function() {
     /* Gets a fresh response
      * @params (String) Specify params for GET or data for POST
      **/
-    service.update = function(params) {
+    service.update = function(params, skipListeners = false) {
       if (request) request.abort(); // Cancels a currently active request
       config.data = params || "";
       request = $.ajax(config);
       request.done(function() {
         // Activate each listener task
-        for (var i = 0; i < listeners.length; ++i) {
-          listeners[i]();
+        if (!skipListeners) {
+          for (var i = 0; i < listeners.length; ++i) {
+            listeners[i]();
+          }
         }
       });
     }
@@ -92,6 +94,7 @@ GOVUK.components = (new function() {
       $list: $("<ul class=\"SelectiveLookupDisplay\" style=\"display:none;\" id=\"" + popupId + "\" role=\"listbox\"></ul>"),
       $input: $input,
       timer: null,
+      apiError: false,
     }
 
     // Will not have arguments if being inherited for prototype
@@ -258,9 +261,13 @@ GOVUK.components = (new function() {
     $list.empty();
     if (data && data.error) {
       this._private.$errors.empty();
-      $list.append('<li id="company-lookup-api-error" role="status" >Sorry, there is a problem. We expect the service to resume shortly. Try again later.</li>');
+      $list.append('<li id="company-lookup-api-error" role="status" class="SelectiveLookupDisplay__list-item--inactive"><div class="govuk-warning-text govuk-!-padding-0 govuk-!-margin-0"><span class="great-warning-text__icon govuk-!-margin-top-1" aria-hidden="true">!</span><div class="great-padding-left-35"><span class="govuk-warning-text__assistive">Warning</span>Sorry, there is a problem. We expect the service to resume shortly. Try again later.</div></div></li>');
+      window.companyNameLookup._private.$input.get(0).classList.add("company-search-input-disabled");
+      this._private.$input.attr("disabled", "disabled");
+      this._private.apiError = true;
       this.open();
     } else if (data && data.length) {
+      this._private.apiError = false;
       for (var i = 0; i < data.length; ++i) {
         // Note:
         // Only need to set a tabindex attribute to allow focus.
@@ -272,6 +279,7 @@ GOVUK.components = (new function() {
       }
       this.open();
     } else {
+      this._private.apiError = false;
       $list.append('<li id="company-lookup-name-no-results-found" role="option">No results found</li>');
     }
   }
@@ -293,7 +301,9 @@ GOVUK.components = (new function() {
   SelectiveLookup.instances = [];
   SelectiveLookup.closeAll = function() {
     for (var i = 0; i < SelectiveLookup.instances.length; ++i) {
-      SelectiveLookup.instances[i].close();
+      if (!SelectiveLookup.instances[i]._private.apiError) {
+        SelectiveLookup.instances[i].close();
+      }
     }
   }
 
@@ -367,6 +377,6 @@ if (!window.companyNameLookup) {
 
   // Perform API test on page load
   $(document).ready(function() {
-    window.companyNameLookup._private.service.update("term=Test Company");
+    window.companyNameLookup._private.service.update("term=Test", true);
   });
 }
