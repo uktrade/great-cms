@@ -1,24 +1,29 @@
 {% load content_tags %}
 {% load event_list_buttons %}
 <div class="govuk-!-margin-left-3 ea-filter-summary">
-    {% all_booking_periods_showing request.GET as all_booking_periods_showing %}
-    {% get_applied_filters filter.form as applied_filters %}
+    <div class="ea-fiilter-summary__filters" role="status">
+        {% all_booking_periods_showing request.GET as all_booking_periods_showing %}
+        {% get_applied_filters filter.form as applied_filters %}
+        {% if all_booking_periods_showing and applied_filters|length > 0 %}
+            <p class="govuk-!-margin-top-3">
+                Showing {{ page_obj.paginator.count|make_bold }} of {{ filter.queryset.count|make_bold }} events, filtered by:
+            </p>
+            <p class="govuk-!-font-weight-bold">{{ applied_filters|join:", "|make_bold }}</p>
+
+        {% else %}
+            <p class="govuk-!-margin-bottom-0 govuk-!-margin-top-3">
+                {% if all_booking_periods_showing and applied_filters|length == 0 %}
+                    Showing all events
+                {% elif request.GET.booking_period == 'upcoming' %}
+                    Showing {{ page_obj.paginator.count|make_bold }} current booking{{ page_obj.paginator.count |pluralize }}
+                {% elif request.GET.booking_period == 'past' %}
+                    Showing {{ page_obj.paginator.count|make_bold }} past booking{{ page_obj.paginator.count |pluralize }}
+                {% endif %}
+            </p>
+        {% endif %}
+    </div>
     {% if all_booking_periods_showing and applied_filters|length > 0 %}
-        <p class="govuk-!-margin-top-3">
-            Showing {{ page_obj.paginator.count|make_bold }} of {{ filter.queryset.count|make_bold }} events, filtered by:
-        </p>
-        <p class="govuk-!-font-weight-bold">{{ applied_filters|join:", "|make_bold }}</p>
-        <a class="govuk-link govuk-!-margin-bottom-0 govuk-link--no-visited-state"
-           href="{% url 'export_academy:upcoming-events' %}">Clear filters</a>
-    {% else %}
-        <p class="govuk-!-margin-bottom-0 govuk-!-margin-top-3">
-            {% if all_booking_periods_showing and applied_filters|length == 0 %}
-                Showing all events
-            {% elif request.GET.booking_period == 'upcoming' %}
-                Showing {{ page_obj.paginator.count|make_bold }} current booking{{ page_obj.paginator.count |pluralize }}
-            {% elif request.GET.booking_period == 'past' %}
-                Showing {{ page_obj.paginator.count|make_bold }} past booking{{ page_obj.paginator.count |pluralize }}
-            {% endif %}
-        </p>
+        <a class="govuk-!-margin-bottom-0 govuk-link--no-visited-state" 
+        href="{% url 'export_academy:upcoming-events' %}">Clear filters</a>
     {% endif %}
 </div>

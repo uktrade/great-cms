@@ -61,4 +61,9 @@ urlpatterns = [
         skip_ga360(activitystream.views.ActivityStreamExportAcademyVideoOnDemandPageTrackingView.as_view()),
         name='ukea-videoondemandpagetracking',
     ),
+    path(
+        'ukea-csats/',
+        skip_ga360(activitystream.views.ActivityStreamExportAcademyCsatFeedbackDataView.as_view()),
+        name='ukea-csats',
+    ),
 ]
