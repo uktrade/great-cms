@@ -198,6 +198,8 @@ GOVUK.components = (new function() {
       // Bind service update listener
       instance._private.service.listener(function() {
         instance.setContent();
+        instance.bindContentEvents();
+        instance.open();
       });
 
       // Add some accessibility support

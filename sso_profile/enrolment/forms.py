@@ -134,7 +134,7 @@ class CompaniesHouseCompanySearch(forms.Form):
         "<p>Your business name is not listed.</p><p>Check that you've entered the right name.</p>"
     )
     MESSAGE_COMPANY_NOT_ACTIVE = 'Company not active.'
-    company_name = forms.CharField(label='Registered company name')
+    company_name = forms.CharField(label='Registered company name', help_text='Enter your company name to find it from the list below.')
     company_number = forms.CharField(container_css_classes='js-disabled-only')
 
     def clean(self):
