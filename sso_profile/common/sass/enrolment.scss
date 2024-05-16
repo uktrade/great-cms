@@ -6,10 +6,6 @@
 @import 'partials/colours';
 
 
-textarea.form-control {
-  width: 80%;
-}
-
 // remove spinner on input of number
 input[type='number'] {
     -moz-appearance:textfield;
@@ -59,7 +55,7 @@ body.js-enabled {
     outline-offset: 0;
   }
   form {
-    input, select {
+    select {
       width: 80%;
     }
     #id_verification-code {

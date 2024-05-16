@@ -370,15 +370,4 @@ GOVUK.components = (new function() {
   }
 });
 
-if (!window.companyNameLookup) {
-  window.companyNameLookup = new GOVUK.components.CompaniesHouseNameLookup(
-    $('#id_company-search-company_name'),
-    $('#id_company-search-company_number'),
-    '{% url "sso_profile:api:companies-house-search" %}'
-  );
 
-  // Perform API test on page load
-  $(document).ready(function() {
-    window.companyNameLookup._private.service.update("term=Test", true);
-  });
-}
