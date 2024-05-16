@@ -223,7 +223,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==25.1.0
+faker==25.2.0
     # via factory-boy
 filelock==3.14.0
     # via virtualenv
@@ -233,8 +233,6 @@ geoip2==2.9.0
     # via -r requirements.in
 great-components==2.6.4
     # via -r requirements.in
-greenlet==3.0.3
-    # via sqlalchemy
 gunicorn==22.0.0
     # via -r requirements.in
 hashids==0.8.4
@@ -321,11 +319,11 @@ pillow==10.3.0
     #   xhtml2pdf
 pillow-heif==0.16.0
     # via willow
-platformdirs==4.2.1
+platformdirs==4.2.2
     # via virtualenv
 polib==1.2.0
     # via wagtail-localize
-pre-commit==3.7.0
+pre-commit==3.7.1
     # via django-log-formatter-asim
 prompt-toolkit==3.0.43
     # via click-repl
@@ -389,7 +387,7 @@ redis==5.0.4
     # via
     #   celery
     #   django-redis
-regex==2024.4.28
+regex==2024.5.10
     # via dateparser
 reportlab==4.0.9
     # via
@@ -495,7 +493,7 @@ vine==5.1.0
     #   amqp
     #   celery
     #   kombu
-virtualenv==20.26.1
+virtualenv==20.26.2
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core
