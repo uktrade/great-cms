@@ -36,7 +36,7 @@ class GeolocationRemoteFileArchive:
         file_like_object.seek(0)
         return file_like_object
 
-    def transfer_file_to_s3(self, file_name, object_name):
+    def transfer_file_to_s3(self, file_name: str, object_name: str):
         """
         Transfer City and Country mmdb files to S3 bucket
         """

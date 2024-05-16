@@ -706,7 +706,7 @@ def send_campaign_site_review_reminder(email_list, site_name, review_days, revie
         response.raise_for_status()
 
 
-def upload_file_to_s3(file_name, object_name):
+def upload_file_to_s3(file_name: str, object_name: str):
     # dont upload files if running in circleci
     if settings.IS_CIRCLECI_ENV:
         return
@@ -722,7 +722,7 @@ def upload_file_to_s3(file_name, object_name):
         logger.error(ce)
 
 
-def geoip_file_exists_in_s3(object_name):
+def geoip_file_exists_in_s3(object_name: str):
     s3 = boto3.resource('s3')
     try:
         s3.Object(settings.AWS_STORAGE_BUCKET_NAME, object_name).load()
