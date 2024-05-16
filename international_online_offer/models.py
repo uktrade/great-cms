@@ -1,5 +1,6 @@
 from itertools import chain
 
+from django import forms
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.db.models import Avg
@@ -481,3 +482,26 @@ class CsatFeedback(TimeStampedModel):
         models.CharField(max_length=255, choices=choices.INTENSION_CHOICES), size=6, default=list, null=True
     )
     site_intentions_other = models.CharField(max_length=255, null=True)
+
+
+class ChoiceArrayField(ArrayField):
+
+    def formfield(self, **kwargs):
+        defaults = {
+            'form_class': forms.MultipleChoiceField,
+            'choices': self.base_field.choices,
+        }
+        defaults.update(kwargs)
+        # Skip our parent's formfield implementation completely as we don't
+        # care for it.
+        # pylint:disable=bad-super-call
+        return super(ArrayField, self).formfield(**defaults)
+
+
+class ScorecardCriterion(models.Model):
+    sector = models.CharField(max_length=255)
+    capex_spend = models.IntegerField(null=True, blank=True)
+    labour_workforce_hire = models.IntegerField(null=True, blank=True)
+    high_potential_opportunity_locations = ChoiceArrayField(
+        base_field=models.CharField(max_length=255, choices=choices.REGION_CHOICES), default=list, null=True, blank=True
+    )
