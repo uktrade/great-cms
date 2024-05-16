@@ -7,13 +7,14 @@
     </div>
 {% endblock %}
 {% block below_form %}
-    <details closed>
-        <summary>I cannot find my business name</summary>
-        <p class="border-light-grey" id="cannot-find-business-text">
-            Double check your business type and company name above.
-            If you still need help, <a href="{{ contact_us_url }}">contact us.</a>
-        </p>
-    </details>
+  <details class="govuk-details great great-details" data-module="govuk-details">
+    <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text govuk-link">I cannot find my business name</span>
+    </summary>
+    <div class="govuk-details__text">
+      Check you have selected the correct business type and the spelling of your company name above. If you still need help, contact us.
+    </div>
+  </details>
 {% endblock %}
 {% block body_js %}
     {{ block.super }}
