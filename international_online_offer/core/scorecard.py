@@ -34,33 +34,23 @@ def get_upper_value(value_in):
 
 
 def get_capex_scoring_table():
-    capex_scoring_table = []
-    for criterion in scorecard_criteria:
-        if criterion.capex_spend:
-            score_row = {}
-            score_row[criterion.sector] = criterion.capex_spend
-            capex_scoring_table.append(score_row)
-    return capex_scoring_table
+    return [{criterion.sector: criterion.capex_spend} for criterion in scorecard_criteria if criterion.capex_spend]
 
 
 def get_labour_workforce_hiring_scoring_table():
-    labour_workforce_hire_scoring_table = []
-    for criterion in scorecard_criteria:
-        if criterion.labour_workforce_hire:
-            score_row = {}
-            score_row[criterion.sector] = criterion.labour_workforce_hire
-            labour_workforce_hire_scoring_table.append(score_row)
-    return labour_workforce_hire_scoring_table
+    return [
+        {criterion.sector: criterion.labour_workforce_hire}
+        for criterion in scorecard_criteria
+        if criterion.labour_workforce_hire
+    ]
 
 
 def get_hpo_scoring_table():
-    hpo_scoring_table = []
-    for criterion in scorecard_criteria:
-        if criterion.high_potential_opportunity_locations:
-            score_row = {}
-            score_row[criterion.sector] = criterion.high_potential_opportunity_locations
-            hpo_scoring_table.append(score_row)
-    return hpo_scoring_table
+    return [
+        {criterion.sector: criterion.high_potential_opportunity_locations}
+        for criterion in scorecard_criteria
+        if criterion.high_potential_opportunity_locations
+    ]
 
 
 def is_capex_spend(sector, sub_sector, spend):
