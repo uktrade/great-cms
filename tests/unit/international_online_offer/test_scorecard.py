@@ -155,6 +155,7 @@ def test_is_capex_spend():
 
 @pytest.mark.django_db
 def test_is_labour_workforce_hire():
+    populate_scoring_criteria()
     assert not scorecard.is_labour_workforce_hire(directory_constants_sectors.FOOD_AND_DRINK, '', hirings.ONE_TO_TEN)
     assert scorecard.is_labour_workforce_hire(directory_constants_sectors.FOOD_AND_DRINK, '', hirings.ELEVEN_TO_FIFTY)
     assert scorecard.is_labour_workforce_hire(

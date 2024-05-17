@@ -389,7 +389,7 @@ redis==5.0.4
     # via
     #   celery
     #   django-redis
-regex==2024.5.10
+regex==2024.5.15
     # via dateparser
 reportlab==4.0.9
     # via
@@ -540,7 +540,7 @@ willow[heif]==1.6.3
     #   willow
 xhtml2pdf==0.2.15
     # via -r requirements.in
-zipp==3.18.1
+zipp==3.18.2
     # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:

@@ -27,7 +27,7 @@ asn1crypto==1.5.1
     #   oscrypto
     #   pyhanko
     #   pyhanko-certvalidator
-astroid==3.2.0
+astroid==3.2.1
     # via pylint
 asttokens==2.4.1
     # via stack-data
@@ -486,7 +486,7 @@ pathspec==0.12.1
     # via
     #   black
     #   djlint
-pep8-naming==0.13.3
+pep8-naming==0.14.0
     # via -r requirements_test.in
 pexpect==4.9.0
     # via ipython
@@ -682,7 +682,7 @@ ruamel-yaml-clib==0.2.8
     # via ruamel-yaml
 s3transfer==0.6.2
     # via boto3
-selenium==4.20.0
+selenium==4.21.0
     # via -r requirements_test.in
 sentry-sdk==1.14.0
     # via -r requirements.in
@@ -772,7 +772,7 @@ traitlets==5.14.3
     # via
     #   ipython
     #   matplotlib-inline
-trio==0.25.0
+trio==0.25.1
     # via
     #   selenium
     #   trio-websocket
@@ -875,11 +875,11 @@ wsproto==1.2.0
     # via trio-websocket
 xhtml2pdf==0.2.15
     # via -r requirements.in
-zipp==3.18.1
+zipp==3.18.2
     # via importlib-metadata
 zope-event==5.0
     # via gevent
-zope-interface==6.3
+zope-interface==6.4
     # via gevent
 
 # The following packages are considered to be unsafe in a requirements file:
