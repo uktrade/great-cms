@@ -560,3 +560,16 @@ def h3_if(condition, else_heading):
         return 'h3'
 
     return else_heading
+
+
+@register.filter
+def is_modal_card(card_title):
+    card_titles = [
+        'Understand how to classify your products',
+        'Get the right commodity code',
+        'Make a simplified customs declaration',
+        'Find a customs agent or fast parcel operator',
+        'Claim with Returned Goods Relief (RGR)',
+    ]
+
+    return True if card_title in card_titles else False
