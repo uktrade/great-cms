@@ -45,9 +45,10 @@
 
 input.company-search-input {
     background-image: url(/static/images/search-black.svg);
-    background-size: 20px;
+    background-size: 18px;
     background-repeat: no-repeat;
-    background-position: calc(100% - 15px) center;
+    background-position: calc(100% - 10px) center;
+    padding-right: 40px;
 }
 
 input.company-search-input--disabled {
