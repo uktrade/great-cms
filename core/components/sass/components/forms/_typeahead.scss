@@ -43,8 +43,14 @@
   }
 }
 
+input.company-search-input {
+    background-image: url(/static/images/search-black.svg);
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: calc(100% - 15px) center;
+}
 
-input.company-search-input-disabled {
-  background: #eef2f6;
+input.company-search-input--disabled {
+  background-color: #eef2f6;
   border: 2px solid #7D8E96 !important;
 }

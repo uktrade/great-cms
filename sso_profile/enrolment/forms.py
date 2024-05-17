@@ -135,7 +135,9 @@ class CompaniesHouseCompanySearch(forms.Form):
     )
     MESSAGE_COMPANY_NOT_ACTIVE = 'Company not active.'
     company_name = forms.CharField(
-        label='Registered company name', help_text='Enter your company name to find it from the list below.'
+        label='Registered company name',
+        help_text='Enter your company name to find it from the list below.',
+        widget=TextInput(attrs={'class': 'company-search-input'}),
     )
     company_number = forms.CharField(container_css_classes='js-disabled-only')
 

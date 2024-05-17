@@ -264,7 +264,7 @@ GOVUK.components = (new function() {
     if (data && data.error) {
       this._private.$errors.empty();
       $list.append('<li id="company-lookup-api-error" role="status" class="SelectiveLookupDisplay__list-item--inactive"><div class="govuk-warning-text govuk-!-padding-0 govuk-!-margin-0"><span class="great-warning-text__icon govuk-!-margin-top-1" aria-hidden="true">!</span><div class="great-padding-left-35"><span class="govuk-warning-text__assistive">Warning</span>Sorry, there is a problem. We expect the service to resume shortly. Try again later.</div></div></li>');
-      window.companyNameLookup._private.$input.get(0).classList.add("company-search-input-disabled");
+      window.companyNameLookup._private.$input.get(0).classList.add("company-search-input--disabled");
       this._private.$input.attr("disabled", "disabled");
       this._private.apiError = true;
       this.open();
