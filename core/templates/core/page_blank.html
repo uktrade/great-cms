@@ -1,6 +1,32 @@
 {% extends 'core/base.html' %}
 {% load static %}
-{% block body_header %}{% endblock %}
+{% block body_header %}
+    {% block sharing_description %}
+        <meta name="description"
+              content="{% block meta_description %}{% firstof self.seo_description page.search_description content_snippet.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description %}{% endblock %}">
+    {% endblock %}
+    {% firstof page.seo_title page.title as seo_title %}
+    {% block sharing_title %}
+        <meta name="title"
+              content="{% block meta_title %}{% if seo_title %}{{ seo_title }}{% else %}Welcome to great.gov.uk{% endif %} - great.gov.uk{% endblock %}">
+    {% endblock %}
+    <title>
+        {% block head_title %}
+            {% if seo_title %}
+                {{ seo_title }}
+            {% else %}
+                Welcome to great.gov.uk
+            {% endif %}
+            - great.gov.uk
+        {% endblock %}
+    </title>
+    {% block meta_tags %}{% endblock %}
+    {% with is_wagtail_page=page %}
+        {% if is_wagtail_page %}
+            {% include "core/includes/seo_meta.html" %}
+        {% endif %}
+    {% endwith %}
+{% endblock %}
 {% block content_header %}
     {% block inner_content %}{% endblock %}
 {% endblock %}
