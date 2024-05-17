@@ -115,19 +115,6 @@ GOVUK.components = (new function() {
         }
       });
 
-      $input.on("keyup.SelectiveLookup", function(e) {
-        // check backspace
-        if (e.which == 8) {
-          instance._private.$field.val('');
-        }
-      });
-
-      $input.on("keypress.SelectiveLookup", function(e) {
-        if (e.which !== 0) {
-          instance._private.$field.val('');
-        }
-      });
-
       /* Bind events to allow keyboard navigation of component.
        * Using keydown event because works better with Tab capture.
        * Supports following keys:
