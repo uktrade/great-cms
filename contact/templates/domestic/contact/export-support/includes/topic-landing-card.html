@@ -1,5 +1,5 @@
 {% load wagtailimages_tags %}
-{% load tag_text_mapper url_type from content_tags %}
+{% load tag_text_mapper url_type is_modal_card from content_tags %}
 {% for topic in cards %}
     {% if topic.block_type == 'cards' %}
         {% for block in topic.value %}
@@ -7,7 +7,7 @@
                 <a href="{{ block.value.link_url }}"
                    rel="noopener noreferrer"
                    class="govuk-!-margin-right-6 govuk-!-margin-bottom-6 govuk-!-padding-6 {% if block.value.full_width == 'yes' %}govuk-!-padding-bottom-8{% endif %} great-topic-card {% if block.value.full_width == 'yes' %}great-topic-card--full-width{% elif is_task_based_layout == True %}great-topic-card--task-based{% else %}great-topic-card--half-width{% endif %}"
-                   {% if features.FEATURE_SHOW_TASK_VALIDATION and block.value.title == 'Calculate how much duty you need to pay' or block.value.title == 'Find the right commodity code' %}data-task-validation{% else %}data-ga-digital-entry-point{% endif %}>
+                   {% if features.FEATURE_SHOW_TASK_VALIDATION and block.value.title|is_modal_card %}data-task-validation{% else %}data-ga-digital-entry-point{% endif %}>
                     {% if block.value.image %}
                         <div>{% image block.value.image width-450 %}</div>
                     {% endif %}
