@@ -23,6 +23,7 @@ from wagtail.images.views.chooser import (
 from wagtail.models import Locale
 
 from core import cms_slugs, forms, helpers, serializers, views
+from core.pingdom.services import DatabaseHealthCheck
 from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
 from domestic.views.campaign import CampaignView
@@ -1395,3 +1396,20 @@ def test_signup_view(client):
         HTTP_REFERER='http:anyurl.com',
     )
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_pingdom_database_healthcheck_ok(client):
+    response = client.get(reverse('core:pingdom'))
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+@mock.patch.object(DatabaseHealthCheck, 'check')
+def test_pingdom_database_healthcheck_false(mock_database_check, client):
+    mock_database_check.return_value = (
+        False,
+        'Database Error',
+    )
+    response = client.get(reverse('core:pingdom'))
+    assert response.status_code == 500
