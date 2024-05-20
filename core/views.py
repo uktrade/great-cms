@@ -667,7 +667,7 @@ class PingDomView(TemplateView):
         else:
             self.status = 'FALSE'
             errors = []
-            for service_result in filter(lambda x: x[0] is False, checked.values()):
+            for service_result in filter(lambda x: x[HEALTH_CHECK_STATUS] is False, checked.values()):
                 errors.append(service_result[HEALTH_CHECK_EXCEPTION])
             return HttpResponse(
                 render_to_string(self.template_name, {'status': self.status, 'errors': errors}),
