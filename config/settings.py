@@ -26,6 +26,7 @@ for env_file in env.list('ENV_FILES', default=[]):
 
 DEBUG = env.bool('DEBUG', False)
 SECRET_KEY = env.str('SECRET_KEY')
+APP_ENVIRONMENT = env.str('APP_ENVIRONMENT')
 
 # As the app is running behind a host-based router supplied by GDS PaaS, we can open ALLOWED_HOSTS
 ALLOWED_HOSTS = ['*']
@@ -405,6 +406,7 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 # django-storages
+AWS_S3_REGION_NAME = env.str('AWS_S3_REGION_NAME', '')
 AWS_STORAGE_BUCKET_NAME = env.str('AWS_STORAGE_BUCKET_NAME', '')
 AWS_DEFAULT_ACL = None
 AWS_AUTO_CREATE_BUCKET = False
@@ -418,6 +420,7 @@ AWS_S3_HOST = env.str('AWS_S3_HOST', 's3-eu-west-2.amazonaws.com')
 AWS_S3_SIGNATURE_VERSION = env.str('AWS_S3_SIGNATURE_VERSION', 's3v4')
 AWS_QUERYSTRING_AUTH = env.bool('AWS_QUERYSTRING_AUTH', False)
 S3_USE_SIGV4 = env.bool('S3_USE_SIGV4', True)
+
 
 USER_MEDIA_ON_S3 = STORAGES['default']['BACKEND'] == 'storages.backends.s3boto3.S3Boto3Storage'
 
@@ -1050,3 +1053,5 @@ CAMPAIGN_SITE_REVIEW_REMINDER_HOUR = env.str('CAMPAIGN_SITE_REVIEW_REMINDER_HOUR
 CAMPAIGN_SITE_REVIEW_REMINDER_TEMPLATE_ID = env.str(
     'CAMPAIGN_SITE_REVIEW_REMINDER_TEMPLATE_ID', '9647397a-8d59-4b45-aa25-9d129eac8be8'
 )
+
+IS_CIRCLECI_ENV = env.bool('IS_CIRCLECI_ENV', False)
