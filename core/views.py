@@ -9,9 +9,12 @@ from django.contrib.sitemaps import Sitemap as DjangoSitemap
 from django.core.files.storage import default_storage
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect
+from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
 from django.urls import reverse, reverse_lazy
 from django.utils.crypto import get_random_string
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
 from django.views.generic import FormView, TemplateView
 from django.views.generic.base import RedirectView, View
 from formtools.wizard.views import NamedUrlSessionWizardView
@@ -36,6 +39,7 @@ from core import cms_slugs, forms, helpers, serializers
 from core.constants import PRODUCT_MARKET_DATA
 from core.mixins import AuthenticatedUserRequired, PageTitleMixin
 from core.models import GreatMedia
+from core.pingdom.services import health_check_services
 from directory_constants import choices
 from domestic.models import DomesticDashboard, TopicLandingPage
 from sso.views import SSOBusinessUserLogoutView
@@ -636,3 +640,37 @@ class ProductMarketView(TemplateView):
             return redirect(reverse_lazy('core:product-market') + '?product=' + product + '&market=' + market.lower())
         else:
             return redirect(reverse_lazy('core:product-market'))
+
+
+HEALTH_CHECK_STATUS = 0
+HEALTH_CHECK_EXCEPTION = 1
+
+
+class PingDomView(TemplateView):
+    template_name = 'directory_healthcheck/pingdom.xml'
+
+    status = 'OK'
+
+    @method_decorator(never_cache)
+    def get(self, *args, **kwargs):
+
+        checked = {}
+        for service in health_check_services:
+            checked[service.name] = service().check()
+
+        if all(item[HEALTH_CHECK_STATUS] for item in checked.values()):
+            return HttpResponse(
+                render_to_string(self.template_name, {'status': self.status, 'errors': []}),
+                status=200,
+                content_type='text/xml',
+            )
+        else:
+            self.status = 'FALSE'
+            errors = []
+            for service_result in filter(lambda x: x[HEALTH_CHECK_STATUS] is False, checked.values()):
+                errors.append(service_result[HEALTH_CHECK_EXCEPTION])
+            return HttpResponse(
+                render_to_string(self.template_name, {'status': self.status, 'errors': errors}),
+                status=500,
+                content_type='text/xml',
+            )

@@ -1150,6 +1150,12 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, TaggedBaseContentPage)
             return self.country.region.name in self.EU_REGIONS
         return False
 
+    @property
+    def is_china(self):
+        if self.country:
+            return self.country.name == 'China'
+        return False
+
 
 class ArticlePage(
     cms_panels.ArticlePagePanels,
