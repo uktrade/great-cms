@@ -4,7 +4,7 @@ from core.models import Page
 
 
 class DatabaseHealthCheck:
-    name = "database"
+    name = 'database'
 
     def check(self):
         try:
