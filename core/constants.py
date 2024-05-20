@@ -1231,3 +1231,12 @@ PRODUCT_MARKET_DATA = {
         ),
     },
 }
+
+
+TASK_VALIDATION_MODAL_TRIGGERS = [
+    'Understand how to classify your products',
+    'Get the right commodity code',
+    'Make a simplified customs declaration',
+    'Find a customs agent or fast parcel operator',
+    'Claim with Returned Goods Relief (RGR)',
+]

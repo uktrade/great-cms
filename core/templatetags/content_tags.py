@@ -13,7 +13,7 @@ from django.utils.html import format_html
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 
-from core.constants import BACKLINK_QUERYSTRING_NAME
+from core.constants import BACKLINK_QUERYSTRING_NAME, TASK_VALIDATION_MODAL_TRIGGERS
 from core.helpers import millify
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage
 
@@ -564,12 +564,4 @@ def h3_if(condition, else_heading):
 
 @register.filter
 def is_modal_card(card_title):
-    card_titles = [
-        'Understand how to classify your products',
-        'Get the right commodity code',
-        'Make a simplified customs declaration',
-        'Find a customs agent or fast parcel operator',
-        'Claim with Returned Goods Relief (RGR)',
-    ]
-
-    return True if card_title in card_titles else False
+    return True if card_title in TASK_VALIDATION_MODAL_TRIGGERS else False
