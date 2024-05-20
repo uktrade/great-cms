@@ -744,6 +744,18 @@ def test_eu_region(domestic_homepage):
     assert page.is_eu_country is True
 
 
+@pytest.mark.django_db
+def test_country_is_china(domestic_homepage):
+    country = CountryFactory(name='China')
+
+    page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        title='Test',
+        country=country,
+    )
+    assert page.is_china is True
+
+
 # BaseContentPage is abstract but had some methods on it
 
 
