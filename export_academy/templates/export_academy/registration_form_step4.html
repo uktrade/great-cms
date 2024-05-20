@@ -13,7 +13,7 @@
             <h1 class="govuk-heading-l">{{ title }}</h1>
         </legend>
         {% for field in form.visible_fields %}
-            {% if field.label == "Please specify" %}
+            {% if field.label == "How you heard about the UK Export Academy" %}
                 <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
                      id="conditional-other-source">
                     <div class="govuk-form-group {% if field.errors %}govuk-form-group--error{% endif %}">

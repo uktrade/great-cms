@@ -1,4 +1,5 @@
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
+from django.core.exceptions import ValidationError
 from django.forms import (
     CharField,
     CheckboxInput,
@@ -223,7 +224,7 @@ class MarketingSources(forms.Form):
     )
 
     marketing_sources_other = forms.CharField(
-        label='Please specify',
+        label='How you heard about the UK Export Academy',
         required=False,
         widget=django_widgets.TextInput(
             attrs={
@@ -231,6 +232,14 @@ class MarketingSources(forms.Form):
             }
         ),
     )
+
+    def clean(self):
+        """Raise validation error if 'other' is selected but no text input is given"""
+        if self.cleaned_data['marketing_sources'] == 'Other' and self.cleaned_data['marketing_sources_other'] == '':
+            raise ValidationError(
+                {'marketing_sources_other': _('Enter how you heard about the UK Export Academy.')},
+            )
+        return self.cleaned_data
 
     @property
     def serialized_data(self):
