@@ -1,2 +1,21 @@
 @import '../../international/sass/main.scss';
 @import './hero.scss';
+
+
+.investment-home-why-the-uk-green-heading {
+    color: $great-teal;
+    margin-bottom: 20px;
+}
+
+.investment-home-why-the-uk-source {
+    color: $great-medium-blue;
+}
+
+.investment-home-map {
+    background-image: url('/static/svg/uk-regions-K03000001.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    width: 100%;
+    height: 650px;
+}
