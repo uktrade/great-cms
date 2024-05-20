@@ -113,7 +113,7 @@ directory-constants==24.1.3
     #   great-components
 directory-forms-api-client==7.4.2
     # via -r requirements.in
-directory-healthcheck==3.5
+directory-healthcheck==3.7
     # via -r requirements.in
 directory-sso-api-client==7.2.7
     # via -r requirements.in
@@ -169,7 +169,7 @@ django-filter==23.5
     # via wagtail
 django-formtools==2.3
     # via -r requirements.in
-django-health-check==3.18.1
+django-health-check==3.18.2
     # via directory-healthcheck
 django-ipware==6.0.3
     # via -r requirements.in
