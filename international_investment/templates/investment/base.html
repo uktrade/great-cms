@@ -1,0 +1,6 @@
+{% extends 'international/base.html' %}
+{% load static %}
+{% block head_css %}
+    <link rel="stylesheet" href="{% static 'investment_styles.css' %}">
+{% endblock %}
+{% block body_content_container %}{{ block.super }}{% endblock %}
