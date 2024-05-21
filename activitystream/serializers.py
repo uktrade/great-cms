@@ -566,8 +566,8 @@ class ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer(serializers
                 'bookingId': instance.booking.id if instance.booking else None,
                 'registrationId': instance.registration.id if instance.registration else None,
                 'registrationHashedSsoId': instance.registration.hashed_sso_id if instance.registration else None,
-                'videoId': instance.video.id,
-                'videoTitle': instance.video.title,
+                'videoId': instance.video.id if instance.video else None,
+                'videoTitle': instance.video.title if instance.video else None,
             },
         }
 
