@@ -1,10 +1,15 @@
 <div class="govuk-grid-row" id="form-container">
-    <div id="complete_contact_form_message" class="{% if not success %}great-hidden{% endif %}">
-        <h2>Thanks for your feedback</h2>
-        <p>To help us improve the UK Export Academy, we’d like to know more about your visit today. Please complete our short <a href="/export-academy/csat-feedback/" target="_blank">feedback survey (opens in new tab)</a></p>
+    <div id="csat-satisfaction-submission-confirmation" class="csat-satisfaction-submission-confirmation{% if not success %} great-hidden{% endif %}"
+    aria-live="polite"
+    tabindex="-1">
+        <div class="csat-satisfaction-submission-confirmation__heading">
+            <span role="img" class="fa fa-check-circle"></span>
+            <h2 class="govuk-heading-s">Thanks for your feedback</h2>
+        </div>
+        <p class="govuk-!-margin-bottom-1">To help us improve the UK Export Academy, we’d like to know more about your visit today.</p>
+        <p class="great-font-bold">Please complete our short <a href="/export-academy/csat-feedback/" target="_blank">feedback survey (opens in new tab)</a></p>
     </div>
     <div id="form-content" class="{% if success %}great-hidden{% endif %}">
-        <h2 class="govuk-heading-s">Overall, how would you rate your experience with the UK Export Academy event booking service today?</h2>
         <div id="error-summary" class="govuk-error-summary restrict-width {% if not form.errors %}great-hidden{% endif %}" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="error-summary">
             <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
             <div class="govuk-error-summary__body">
@@ -23,11 +28,14 @@
         </div>
         <form method="post" novalidate action="{{ request.build_absolute_uri }}" id="csat-form">
             {% csrf_token %}
-            <div class="govuk-form-group{% if form.satisfaction.errors %} govuk-form-group--error{% endif %}">
-                <fieldset class="govuk-fieldset">
+            <div id="csat-satisfaction-fieldset" class="js-fieldset govuk-form-group{% if form.errors %} govuk-form-group--error{% endif %}">
+                <fieldset class="govuk-fieldset"{% if form.errors %} aria-describedby="csat-satisfaction-error-message"{% endif %}>
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                        <h2 class="govuk-fieldset__heading" id="{{ form.satisfaction.auto_id }}">{{ form.satisfaction.label }}</h2>
+                        <h2 class="govuk-fieldset__heading govuk-heading-s" id="{{ form.satisfaction.auto_id }}">Overall, how would you rate your experience with the UK Export Academy event booking service today?</h2>
                     </legend>
+                    <p id="csat-satisfaction-error-message" class="govuk-error-message{% if not form.errors %} great-hidden{% endif %}">
+                        <span class="govuk-visually-hidden">Error:</span> Select a satisfaction rating
+                    </p>
                     <div class="govuk-radios" data-module="govuk-radios" id="satisfaction">
                         <div class="govuk-radios__item">
                             <input type="radio" name="satisfaction" value="VERY_SATISFIED" class="govuk-radios__input" id="id_satisfaction_0">

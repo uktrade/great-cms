@@ -96,9 +96,10 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.getElementById('csat-form');
-            const formContainer = document.getElementById('form-container');
             const formContent = document.getElementById('form-content');
-            const successMessage = document.getElementById('complete_contact_form_message');
+            const fieldset = document.getElementById('csat-satisfaction-fieldset');
+            const successMessage = document.getElementById('csat-satisfaction-submission-confirmation');
+            const errorMessage = document.getElementById('csat-satisfaction-error-message');
             const errorSummary = document.getElementById('error-summary');
             const errorList = errorSummary.querySelector('.govuk-error-summary__list');
             const genericErrorMessage = document.getElementById('generic-error-message');
@@ -137,6 +138,8 @@
                                 errorList.appendChild(listItem);
                             });
                         });
+                        fieldset.classList.add('govuk-form-group--error');
+                        errorMessage.classList.remove('great-hidden');
                         errorSummary.classList.remove('great-hidden');
                         errorSummary.focus();
                     }
@@ -148,7 +151,6 @@
             });
 
             // simulate fetch for testing
-            /*
             async function simulateFetch(url, options) {
                 await new Promise(resolve => setTimeout(resolve, 1000));
 
@@ -158,23 +160,21 @@
                     status: 200,
                     headers: { 'Content-type': 'application/json' }
                 });
-            */
                 // Simulate validation error response
+                /*
                 return new Response(JSON.stringify({
                     errors: {
-                        satisfaction: ['This field is required.']
+                        satisfaction: ['Select a satisfaction rating']
                     }
                 }), {
                     status: 200,
                     headers: { 'Content-type': 'application/json' }
                 });
+                */
             }
 
 
         });
-
-
-        
     </script>
 {% endblock %}
 
