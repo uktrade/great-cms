@@ -15,9 +15,9 @@
         {% for field in form.visible_fields %}
             {% if field.label == "How you heard about the UK Export Academy" %}
                 <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
-                     id="conditional-other-source">
+                     id="conditional-reveal-id">
                     <div class="govuk-form-group {% if field.errors %}govuk-form-group--error{% endif %}">
-                        <label class="govuk-label great-font-main" for="conditional-other-source">{{ field.label }}</label>
+                        <label class="govuk-label great-font-main" for="conditional-reveal-id">{{ field.label }}</label>
                         {% include 'domestic/contact/includes/govuk-form-field.html' with field=field hideLabel="True" %}
                     </div>
                 </div>
