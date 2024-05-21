@@ -148,6 +148,7 @@
             });
 
             // simulate fetch for testing
+            /*
             async function simulateFetch(url, options) {
                 await new Promise(resolve => setTimeout(resolve, 1000));
 
@@ -157,9 +158,8 @@
                     status: 200,
                     headers: { 'Content-type': 'application/json' }
                 });
-
+            */
                 // Simulate validation error response
-                /*
                 return new Response(JSON.stringify({
                     errors: {
                         satisfaction: ['This field is required.']
@@ -168,7 +168,6 @@
                     status: 200,
                     headers: { 'Content-type': 'application/json' }
                 });
-                */
             }
 
 

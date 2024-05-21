@@ -68,6 +68,11 @@ urlpatterns = [
         skip_ga360(directory_healthcheck.views.PingView.as_view()),
         name='ping',
     ),
+    path(
+        'pingdom/ping.xml',
+        skip_ga360(views.PingDomView.as_view()),
+        name='pingdom',
+    ),
     path('triage/<slug:step>/', skip_ga360(views.ServiceNoLongerAvailableView.as_view()), name='triage-wizard'),
     path('triage/', skip_ga360(views.ServiceNoLongerAvailableView.as_view()), name='triage-start'),
     path('custom/', skip_ga360(views.ServiceNoLongerAvailableView.as_view()), name='custom-page'),
