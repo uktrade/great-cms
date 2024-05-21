@@ -219,7 +219,7 @@ class MarketingSources(forms.Form):
     marketing_sources = forms.ChoiceField(
         label='How did you hear about the UK Export Academy?',
         choices=constants.MARKETING_SOURCES_CHOICES,
-        error_messages={'required': _('Tell us how you heard about the UK Export Academy')},
+        error_messages={'required': _('Enter how you heard about the UK Export Academy')},
         widget=GreatRadioSelectWithOtherText(attrs={'class': 'great-no-border'}),
     )
 
@@ -235,10 +235,11 @@ class MarketingSources(forms.Form):
 
     def clean(self):
         """Raise validation error if 'other' is selected but no text input is given"""
-        if self.cleaned_data['marketing_sources'] == 'Other' and self.cleaned_data['marketing_sources_other'] == '':
-            raise ValidationError(
-                {'marketing_sources_other': _('Enter how you heard about the UK Export Academy.')},
-            )
+        if 'marketing_sources' in self.cleaned_data and 'marketing_sources_other' in self.cleaned_data:
+            if self.cleaned_data['marketing_sources'] == 'Other' and self.cleaned_data['marketing_sources_other'] == '':
+                raise ValidationError(
+                    {'marketing_sources_other': _('Enter how you heard about the UK Export Academy')},
+                )
         return self.cleaned_data
 
     @property

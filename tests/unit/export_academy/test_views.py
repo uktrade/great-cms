@@ -313,7 +313,19 @@ def test_booking_success_view(
                 'employee_count': 'Choose number of employees',
             },
         ),
-        pytest.param(
+        (
+            reverse('export_academy:registration-marketing'),
+            {
+                'marketing_sources': 'From an International Trade Advisor in my region',
+                'marketing_sources_other': '',
+            },
+            reverse('export_academy:registration-confirm'),
+            {
+                'marketing_sources': 'Enter how you heard about the UK Export Academy',
+                'marketing_sources_other': 'Enter how you heard about the UK Export Academy',
+            },
+        ),
+        (
             reverse('export_academy:registration-marketing'),
             {
                 'marketing_sources': 'Other',
@@ -321,9 +333,9 @@ def test_booking_success_view(
             },
             reverse('export_academy:registration-confirm'),
             {
-                'marketing_sources': 'Tell us how you heard about the UK Export Academy',
-            },  # TODO find best way to skip only the marketing_sources_other requirement check
-            marks=pytest.mark.skipif(True, reason='marketing_sources_other is an optional field'),
+                'marketing_sources': 'Enter how you heard about the UK Export Academy',
+                'marketing_sources_other': 'Enter how you heard about the UK Export Academy',
+            },
         ),
     ),
 )
@@ -339,6 +351,9 @@ def test_export_academy_registration_form_pages(
     export_academy_landing_page,
 ):
     client.force_login(user)
+
+    if page_url == reverse('export_academy:registration-marketing') and form_data['marketing_sources'] != 'Other':
+        pytest.skip("marketing_sources_other is an optional field if marketing_sources is not other")
 
     #   Redirect fails when any of the fields in the form are missing
     invalid_form_data = form_data.copy()
