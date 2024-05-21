@@ -25,7 +25,7 @@
     <a href="{% pageurl landing_page %}">UK Export Academy</a>
 {% endbreadcrumbs %}
 <div class="great">
-    <section class="govuk-!-padding-top-3 background-white clearfix">
+    <section class="govuk-!-padding-top-3 govuk-!-padding-bottom-3 background-white clearfix">
         <div class="container">
             <div class="govuk-grid-column-two-thirds">
                 <div class="govuk-notification-banner govuk-notification-banner--success govuk-!-margin-top-7"
@@ -78,5 +78,104 @@
             </div>
         </div>
     </section>
+    <div class="great-border-thin-top-lighter-blue">
+        <section class="govuk-!-padding-top-9 govuk-!-padding-bottom-9 background-white clearfix">
+            <div class="container">
+                <div class="govuk-grid-column-two-thirds">
+                    {% include './includes/csat_user_satisfaction.html' %}
+                </div>
+            </div>
+        </section>
+    </div>
 </div>
 {% endblock content %}
+{% block feedback_reporter %}
+{% endblock feedback_reporter %}
+{% block body_js %}
+    {{ block.super }}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('csat-form');
+            const formContainer = document.getElementById('form-container');
+            const formContent = document.getElementById('form-content');
+            const successMessage = document.getElementById('complete_contact_form_message');
+            const errorSummary = document.getElementById('error-summary');
+            const errorList = errorSummary.querySelector('.govuk-error-summary__list');
+            const genericErrorMessage = document.getElementById('generic-error-message');
+        
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const formData = new FormData(form);
+                const csrfToken = formData.get('csrfmiddlewaretoken');
+        
+                try {
+                    const response = await simulateFetch('/some-endpoint/', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': csrfToken,
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest',
+                        },
+                        body: formData,
+                    });
+        
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+        
+                    const data = await response.json();
+        
+                    if (data.success) {
+                        formContent.classList.add('great-hidden');
+                        successMessage.classList.remove('great-hidden');
+                    } else if (data.errors) {
+                        errorList.innerHTML = '';
+                        Object.keys(data.errors).forEach(field => {
+                            data.errors[field].forEach(error => {
+                                const listItem = document.createElement('li');
+                                listItem.innerHTML = `<a href="#id_${field}">${error}</a>`;
+                                errorList.appendChild(listItem);
+                            });
+                        });
+                        errorSummary.classList.remove('great-hidden');
+                        errorSummary.focus();
+                    }
+                } catch (error) {
+                    genericErrorMessage.classList.remove('great-hidden');
+                    genericErrorMessage.focus();
+                    console.error('There was a problem with the fetch operation:', error);
+                }
+            });
+
+            // simulate fetch for testing
+            async function simulateFetch(url, options) {
+                await new Promise(resolve => setTimeout(resolve, 1000));
+
+                // Simulate success response
+
+                return new Response(JSON.stringify({ success: true }), {
+                    status: 200,
+                    headers: { 'Content-type': 'application/json' }
+                });
+
+                // Simulate validation error response
+                /*
+                return new Response(JSON.stringify({
+                    errors: {
+                        satisfaction: ['This field is required.']
+                    }
+                }), {
+                    status: 200,
+                    headers: { 'Content-type': 'application/json' }
+                });
+                */
+            }
+
+
+        });
+
+
+        
+    </script>
+{% endblock %}
+
