@@ -118,14 +118,14 @@ from export_academy.models import Event
 def test_registration_form_validation(form, form_empty, error_messages):
 
     if 'marketing_sources' in error_messages and form['marketing_sources'] != 'Other':
-        pytest.skip("marketing_sources_other is an optional field if marketing_sources is not other")
+        pytest.skip('marketing_sources_other is an optional field if marketing_sources is not other')
 
     # Checks is_valid returns true for the given form data
     assert form.is_valid()
+
     # Checks for the presence of each error message in the event of an invalid form
     for key in error_messages:
         assert not form_empty.is_valid()
-        print(error_messages[key])
         assert error_messages[key] in form_empty.errors[key]
 
 

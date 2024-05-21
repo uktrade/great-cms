@@ -353,7 +353,7 @@ def test_export_academy_registration_form_pages(
     client.force_login(user)
 
     if page_url == reverse('export_academy:registration-marketing') and form_data['marketing_sources'] != 'Other':
-        pytest.skip("marketing_sources_other is an optional field if marketing_sources is not other")
+        pytest.skip('marketing_sources_other is an optional field if marketing_sources is not other')
 
     #   Redirect fails when any of the fields in the form are missing
     invalid_form_data = form_data.copy()
