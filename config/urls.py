@@ -24,6 +24,7 @@ import domestic.urls
 import export_academy.urls
 import exportplan.urls
 import international.urls
+import international_investment.urls
 import international_online_offer.urls
 import search.urls
 import sso.urls
@@ -89,6 +90,9 @@ if settings.FEATURE_INTERNATIONAL_ONLINE_OFFER:
     urlpatterns = [
         path('international/expand-your-business-in-the-uk/', include(international_online_offer.urls))
     ] + urlpatterns
+
+if settings.FEATURE_INTERNATIONAL_INVESTMENT:
+    urlpatterns = [path('international/investment/', include(international_investment.urls))] + urlpatterns
 
 if settings.FEATURE_GREAT_CMS_OPENAPI_ENABLED:
     urlpatterns = [

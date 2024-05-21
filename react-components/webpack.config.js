@@ -20,6 +20,7 @@ module.exports = {
     profile_styles: './sso_profile/common/sass/profile.scss',
     international_styles: './international/sass/main.scss',
     expand_your_business_styles: './international_online_offer/sass/main.scss',
+    investment_styles: './international_investment/sass/main.scss',
     microsite_styles: './styles/microsite/main.scss',
   },
   output: {
