@@ -65,10 +65,18 @@
           companyName.addEventListener('keypress', maybePreventCompanyLookup);
           companyName.addEventListener('keyup', maybePreventCompanyLookup);
           companyName.addEventListener('input', maybePreventCompanyLookup);
-          return new GOVUK.components.CompaniesHouseNameLookup(
-            $(companyName),
-            $(companiesHouseInput)
-          );
+          if (!window.companyNameLookup) {
+            window.companyNameLookup = new GOVUK.components.CompaniesHouseNameLookup(
+              $(companyName),
+              $(companyNumber),
+              '{% url "sso_profile:api:companies-house-search" %}'
+            );
+          
+            // Perform API test on page load
+            $(document).ready(function() {
+              window.companyNameLookup._private.service.update("term=Test", true);
+            });
+          }
 
         }
         createCompaniesHouseLookup();
