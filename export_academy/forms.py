@@ -328,7 +328,7 @@ class CsatUserFeedbackForm(forms.Form):
         choices=choices.SATISFACTION_CHOICES,
         widget=RadioSelect(attrs={'class': 'govuk-radios__input'}),
         error_messages={
-            'required': 'You must select a level of satisfaction',
+            'required': 'Select a level of satisfaction',
         },
     )
     experience = MultipleChoiceField(
@@ -337,29 +337,29 @@ class CsatUserFeedbackForm(forms.Form):
         choices=choices.EXPERIENCE_CHOICES,
         widget=CheckboxSelectMultiple(attrs={'class': 'govuk-checkboxes__input'}),
         error_messages={
-            'required': 'You must select one or more issues',
+            'required': 'Select one or more issues',
         },
     )
     experience_other = CharField(
-        label='Type your answer',
+        label='Please specify',
         min_length=2,
         max_length=255,
         required=False,
         widget=TextInput(attrs={'class': 'govuk-input'}),
     )
     feedback_text = CharField(
-        label='How could we improve this service?',
-        help_text="Don't include any personal information, like your name or email address. (optional)",
+        label='How could we improve this service? (optional)',
+        help_text="Don't include any personal information, like your name or email address.",
         max_length=3000,
         required=False,
-        widget=Textarea(attrs={'class': 'govuk-textarea', 'rows': 7}),
+        widget=Textarea(attrs={'class': 'govuk-textarea', 'rows': 3}),
     )
     likelihood_of_return = ChoiceField(
         label='How likely are you to use this service again?',
         choices=choices.LIKELIHOOD_CHOICES,
         widget=RadioSelect(attrs={'class': 'govuk-radios__input'}),
         error_messages={
-            'required': 'You must select one likelihood of returning options',
+            'required': 'Select one likelihood of returning options',
         },
     )
 

@@ -79,11 +79,9 @@
         </div>
     </section>
     <div class="great-border-thin-top-lighter-blue">
-        <section class="govuk-!-padding-top-9 govuk-!-padding-bottom-9 background-white clearfix">
+        <section class="govuk-!-padding-bottom-9 background-white clearfix">
             <div class="container">
-                <div class="govuk-grid-column-two-thirds">
-                    {% include './includes/csat_user_satisfaction.html' %}
-                </div>
+                {% include './includes/csat_user_feedback.html' with form=form  %}
             </div>
         </section>
     </div>
@@ -96,85 +94,142 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.getElementById('csat-form');
-            const formContent = document.getElementById('form-content');
-            const fieldset = document.getElementById('csat-satisfaction-fieldset');
-            const successMessage = document.getElementById('csat-satisfaction-submission-confirmation');
-            const errorMessage = document.getElementById('csat-satisfaction-error-message');
+            const stepOne = document.getElementById('csat-step-1');
+            const stepTwo = document.getElementById('csat-step-2');
+            const stepOneSuccessMessage = document.getElementById('csat-step-1-submission-confirmation');
+            const stepTwoSuccessMessage = document.getElementById('csat-step-2-submission-confirmation');
             const errorSummary = document.getElementById('error-summary');
+            const errorSummaryTitle = errorSummary.querySelector('.govuk-error-summary__title');
             const errorList = errorSummary.querySelector('.govuk-error-summary__list');
-            const genericErrorMessage = document.getElementById('generic-error-message');
-        
+            const submitButton = form.querySelector('button[type="submit"]');
+            let currentStep = 1;
+    
             form.addEventListener('submit', async (event) => {
                 event.preventDefault();
                 const formData = new FormData(form);
-                const csrfToken = formData.get('csrfmiddlewaretoken');
-        
+    
                 try {
-                    const response = await simulateFetch('/some-endpoint/', {
+                    const response = await simulateFetch('/some-endpoint/', { //simulateFetch - change to fetch when endpoint ready and update url
                         method: 'POST',
                         headers: {
-                            'X-CSRFToken': csrfToken,
+                            'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
                             'Accept': 'application/json',
                             'X-Requested-With': 'XMLHttpRequest',
                         },
                         body: formData,
                     });
-        
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-        
+    
                     const data = await response.json();
-        
-                    if (data.success) {
-                        formContent.classList.add('great-hidden');
-                        successMessage.classList.remove('great-hidden');
-                    } else if (data.errors) {
-                        errorList.innerHTML = '';
-                        Object.keys(data.errors).forEach(field => {
-                            data.errors[field].forEach(error => {
-                                const listItem = document.createElement('li');
-                                listItem.innerHTML = `<a href="#id_${field}">${error}</a>`;
-                                errorList.appendChild(listItem);
-                            });
-                        });
-                        fieldset.classList.add('govuk-form-group--error');
-                        errorMessage.classList.remove('great-hidden');
-                        errorSummary.classList.remove('great-hidden');
-                        errorSummary.focus();
-                    }
+                    handleStepTransition(data);
                 } catch (error) {
-                    genericErrorMessage.classList.remove('great-hidden');
-                    genericErrorMessage.focus();
                     console.error('There was a problem with the fetch operation:', error);
+                    showErrorSummary();
                 }
             });
 
-            // simulate fetch for testing
-            async function simulateFetch(url, options) {
-                await new Promise(resolve => setTimeout(resolve, 1000));
 
-                // Simulate success response
-
-                return new Response(JSON.stringify({ success: true }), {
-                    status: 200,
-                    headers: { 'Content-type': 'application/json' }
-                });
-                // Simulate validation error response
-                /*
-                return new Response(JSON.stringify({
-                    errors: {
-                        satisfaction: ['Select a satisfaction rating']
+            function handleStepTransition(data) {
+                if (data.success) {
+                    if (currentStep === 1) {
+                        stepTransition(stepOne, stepTwo, stepOneSuccessMessage, 'Submit feedback');
+                        currentStep = 2;
+                    } else {
+                        stepTransition(stepTwo, null, stepTwoSuccessMessage, '');
+                        form.classList.add('great-hidden');
+                        stepOneSuccessMessage.classList.add('great-hidden');
                     }
-                }), {
-                    status: 200,
-                    headers: { 'Content-type': 'application/json' }
-                });
-                */
+                } else if (data.errors) {
+                    showErrorSummary(data.errors);
+                }
+            }
+
+            function stepTransition(hideStep, showStep, showMessage, buttonLabel) {
+                hideStep.classList.add('great-hidden');
+                if (showStep) {
+                    showStep.classList.remove('great-hidden');
+                }
+                showMessage.classList.remove('great-hidden');
+                showMessage.focus();
+                errorSummary.classList.add('great-hidden');
+                if (buttonLabel) {
+                    submitButton.textContent = buttonLabel;
+                }
+            }
+
+            function showErrorSummary(errors) {
+                if (!errors) {
+                    errorSummaryTitle.textContent = 'There is a problem with the network. Please try again.';
+                } else {
+                    errorList.innerHTML = ''; 
+                    Object.keys(errors).forEach(field => {
+                        errors[field].forEach(error => {
+                            const listItem = document.createElement('li');
+                            listItem.innerHTML = `<a href="#id_${field}">${error}</a>`;
+                            errorList.appendChild(listItem);
+                        });
+                    });
+                }
+                errorSummary.classList.remove('great-hidden');
+                errorSummary.focus();
             }
 
 
+            //////////////////////////////////////////////////////////////
+            // Simulate fetch for testing - ***to be removed***
+            //////////////////////////////////////////////////////////////
+
+            async function simulateFetch(url, options) {
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                if (!options.body.get('satisfaction') && currentStep === 1) {
+                    return new Response(JSON.stringify({
+                        errors: {
+                            satisfaction: ['Select a satisfaction rating']
+                        }
+                    }), {
+                        status: 400,
+                        headers: { 'Content-type': 'application/json' }
+                    });
+                } else if (currentStep === 2 && (!options.body.get('experience') || !options.body.get('likelihood_of_return'))) {
+                    if (!options.body.get('experience') && options.body.get('likelihood_of_return')) {
+                        return new Response(JSON.stringify({
+                            errors: {
+                                experience: ['Select one or more issues']
+                            }
+                        }), {
+                            status: 400,
+                            headers: { 'Content-type': 'application/json' }
+                        });
+                    } else if (!options.body.get('likelihood_of_return') && options.body.get('experience')) {
+                        return new Response(JSON.stringify({
+                            errors: {
+                                likelihood_of_return: ['Select one likelihood of returning option']
+                            }
+                        }), {
+                            status: 400,
+                            headers: { 'Content-type': 'application/json' }
+                        });
+                    } else {
+                        return new Response(JSON.stringify({
+                            errors: {
+                                experience: ['Select one or more issues'],
+                                likelihood_of_return: ['Select one likelihood of returning option']
+                            }
+                        }), {
+                            status: 400,
+                            headers: { 'Content-type': 'application/json' }
+                        });
+                    }
+                } else {
+                    return new Response(JSON.stringify({ success: true }), {
+                        status: 200,
+                        headers: { 'Content-type': 'application/json' }
+                    });
+                }
+            }
         });
     </script>
+    
+    <script src="{% static 'javascript/govuk.js' %}"></script>
+    <script>window.GOVUKFrontend.initAll()</script>   
 {% endblock %}
 
