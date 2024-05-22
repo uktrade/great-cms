@@ -14,7 +14,7 @@ from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 
 import healthcheck.backends
-from .utils import get_wagtail_transfer_configuration
+from .utils import get_wagtail_transfer_configuration, strip_password_data
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
 CORE_APP_DIR = ROOT_DIR / 'core'
@@ -382,6 +382,7 @@ if env.str('SENTRY_DSN', ''):
         dsn=env.str('SENTRY_DSN'),
         environment=env.str('SENTRY_ENVIRONMENT'),
         integrations=[DjangoIntegration(), CeleryIntegration()],
+        before_send=strip_password_data,
     )
 
 USE_X_FORWARDED_HOST = True
