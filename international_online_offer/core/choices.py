@@ -84,11 +84,11 @@ LANDING_TIMEFRAME_CHOICES = (
 )
 
 SATISFACTION_CHOICES = (
-    ('VERY_SATISFIED', 'Very satisfied'),
-    ('SATISFIED', 'Satisfied'),
-    ('NEITHER', 'Neither satisfied nor dissatisfied'),
-    ('DISSATISFIED', 'Dissatisfied'),
     ('VERY_DISSATISFIED', 'Very dissatisfied'),
+    ('DISSATISFIED', 'Dissatisfied'),
+    ('NEITHER', 'Neither satisfied nor dissatisfied'),
+    ('SATISFIED', 'Satisfied'),
+    ('VERY_SATISFIED', 'Very satisfied'),
 )
 
 EXPERIENCE_CHOICES = (

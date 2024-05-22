@@ -345,14 +345,14 @@ class CsatUserFeedbackForm(forms.Form):
         min_length=2,
         max_length=255,
         required=False,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=TextInput(attrs={'class': 'govuk-input govuk-input--width-20'}),
     )
     feedback_text = CharField(
         label='How could we improve this service? (optional)',
         help_text="Don't include any personal information, like your name or email address.",
         max_length=3000,
         required=False,
-        widget=Textarea(attrs={'class': 'govuk-textarea', 'rows': 3}),
+        widget=Textarea(attrs={'class': 'govuk-textarea', 'rows': 6}),
     )
     likelihood_of_return = ChoiceField(
         label='How likely are you to use this service again?',

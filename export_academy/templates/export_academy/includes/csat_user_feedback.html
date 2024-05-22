@@ -36,7 +36,7 @@
             {% csrf_token %}
             <div id="csat-step-1" class="govuk-grid-column-two-thirds{% if step_one_complete %} great-hidden{% endif %}">
                 <div class="govuk-grid-row">
-                    <div class="govuk-form-group{% if form.satisfaction.errors %} govuk-form-group--error{% endif %}">
+                    <div id="satisfaction_group" class="govuk-form-group{% if form.satisfaction.errors %} govuk-form-group--error{% endif %}">
                         <fieldset class="govuk-fieldset">
                             <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
                                 <h2 class="govuk-fieldset__heading" id="{{ form.satisfaction.auto_id }}">{{ form.satisfaction.label }}</h2>
@@ -57,7 +57,7 @@
             </div>
             <div id="csat-step-2" class="govuk-grid-column-two-thirds{% if not step_one_complete or step_two_complete %} great-hidden{% endif %}">
                 <div class="govuk-grid-row">
-                    <div class="govuk-form-group{% if form.experience.errors %} govuk-form-group--error{% endif %}">
+                    <div id="experience_group" class="govuk-form-group{% if form.experience.errors %} govuk-form-group--error{% endif %}">
                         <fieldset class="govuk-fieldset govuk-!-margin-bottom-7" aria-describedby="experience-hint {% if form.experience.errors %}csat-experience-error-message{% endif %}">
                             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-!-margin-bottom-3">
                                 <h2 class="govuk-fieldset__heading" id="{{ form.experience.auto_id }}">{{ form.experience.label }}</h2>
@@ -86,7 +86,7 @@
                             </div>
                         </fieldset>
                     </div>
-                    <div class="govuk-form-group{% if form.likelihood_of_return.errors %} govuk-form-group--error{% endif %}">
+                    <div id="likelihood_of_return_group" class="govuk-form-group{% if form.likelihood_of_return.errors %} govuk-form-group--error{% endif %}">
                         <fieldset class="govuk-fieldset govuk-!-margin-bottom-9" {% if form.likelihood_of_return.errors %}aria-describedby="csat-likelihood-of-return-error-message"{% endif %}>
                             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-!-margin-bottom-5">
                                 <h2 class="govuk-fieldset__heading" id="{{ form.likelihood_of_return.auto_id }}">{{ form.likelihood_of_return.label }}</h2>

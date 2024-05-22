@@ -107,6 +107,7 @@
             form.addEventListener('submit', async (event) => {
                 event.preventDefault();
                 const formData = new FormData(form);
+                formData.append('step', currentStep);
     
                 try {
                     const response = await simulateFetch('/some-endpoint/', { //simulateFetch - change to fetch when endpoint ready and update url
@@ -129,6 +130,7 @@
 
 
             function handleStepTransition(data) {
+                checkExistingErrors();
                 if (data.success) {
                     if (currentStep === 1) {
                         stepTransition(stepOne, stepTwo, stepOneSuccessMessage, 'Submit feedback');
@@ -162,6 +164,15 @@
                 } else {
                     errorList.innerHTML = ''; 
                     Object.keys(errors).forEach(field => {
+                        const fieldGroup = document.getElementById(field + '_group');
+                        if (fieldGroup) {
+                            fieldGroup.classList.add('govuk-form-group--error');
+                            const inlineError = fieldGroup.querySelector('.govuk-error-message');
+                            if (inlineError) {
+                                inlineError.classList.remove('great-hidden');
+                            }
+                        }
+
                         errors[field].forEach(error => {
                             const listItem = document.createElement('li');
                             listItem.innerHTML = `<a href="#id_${field}">${error}</a>`;
@@ -173,6 +184,28 @@
                 errorSummary.focus();
             }
 
+            function checkExistingErrors() {
+                const errorFields = document.querySelectorAll('.govuk-form-group--error');
+                errorFields.forEach(fieldGroup => {
+                    const inputs = fieldGroup.querySelectorAll('input[type="checkbox"], input[type="radio"]');
+                    if (inputs.length) {
+                        const isChecked = Array.from(inputs).some(input => input.checked);
+                        if (isChecked) {
+                            removeErrorClasses(fieldGroup);
+                        }
+                    }
+                });
+            }
+            
+            function removeErrorClasses(fieldGroup) {
+                if (fieldGroup) {
+                    fieldGroup.classList.remove('govuk-form-group--error');
+                    const inlineError = fieldGroup.querySelector('.govuk-error-message');
+                    if (inlineError) {
+                        inlineError.classList.add('great-hidden');
+                    }
+                }
+            }
 
             //////////////////////////////////////////////////////////////
             // Simulate fetch for testing - ***to be removed***
@@ -180,45 +213,26 @@
 
             async function simulateFetch(url, options) {
                 await new Promise(resolve => setTimeout(resolve, 1000));
+        
                 if (!options.body.get('satisfaction') && currentStep === 1) {
-                    return new Response(JSON.stringify({
-                        errors: {
-                            satisfaction: ['Select a satisfaction rating']
-                        }
-                    }), {
+                    let errors = {};
+                    errors.satisfaction = ['Select a satisfaction rating'];
+                    return new Response(JSON.stringify({ errors }), {
                         status: 400,
                         headers: { 'Content-type': 'application/json' }
                     });
                 } else if (currentStep === 2 && (!options.body.get('experience') || !options.body.get('likelihood_of_return'))) {
-                    if (!options.body.get('experience') && options.body.get('likelihood_of_return')) {
-                        return new Response(JSON.stringify({
-                            errors: {
-                                experience: ['Select one or more issues']
-                            }
-                        }), {
-                            status: 400,
-                            headers: { 'Content-type': 'application/json' }
-                        });
-                    } else if (!options.body.get('likelihood_of_return') && options.body.get('experience')) {
-                        return new Response(JSON.stringify({
-                            errors: {
-                                likelihood_of_return: ['Select one likelihood of returning option']
-                            }
-                        }), {
-                            status: 400,
-                            headers: { 'Content-type': 'application/json' }
-                        });
-                    } else {
-                        return new Response(JSON.stringify({
-                            errors: {
-                                experience: ['Select one or more issues'],
-                                likelihood_of_return: ['Select one likelihood of returning option']
-                            }
-                        }), {
-                            status: 400,
-                            headers: { 'Content-type': 'application/json' }
-                        });
+                    let errors = {};
+                    if (!options.body.get('experience')) {
+                        errors.experience = ['Select one or more issues'];
                     }
+                    if (!options.body.get('likelihood_of_return')) {
+                        errors.likelihood_of_return = ['Select one likelihood of returning option'];
+                    }
+                    return new Response(JSON.stringify({ errors }), {
+                        status: 400,
+                        headers: { 'Content-type': 'application/json' }
+                    });
                 } else {
                     return new Response(JSON.stringify({ success: true }), {
                         status: 200,
