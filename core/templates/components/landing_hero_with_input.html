@@ -10,7 +10,11 @@
                     plan and join the UK Export Academy for free training.
                 </p>
                 <div class="great">
-                    {% include 'components/great/link-button-chevron.html' with href="/signup" text="Get started by signing up " %}
+                    {% if request.user.is_authenticated %}
+                        {% include 'components/great/link-button-chevron.html' with href="/signup" text="Go to dashboard " %}
+                    {% else %}
+                        {% include 'components/great/link-button-chevron.html' with href="/signup" text="Get started by signing up " %}
+                    {% endif %}
                 </div>
             </div>
             <div class="great-hero__search govuk-grid-column-one-third">

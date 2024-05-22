@@ -80,6 +80,7 @@ INSTALLED_APPS = [
     'exportplan.apps.ExportPlanConfig',
     'international_online_offer.apps.ExpandYourBusinessConfig',
     'international.apps.InternationalConfig',
+    'international_investment.apps.InvestmentConfig',
     'users.apps.UsersConfig',
     'learn.apps.LearnConfig',
     'captcha',
@@ -160,6 +161,7 @@ TEMPLATES = [
                 'international_online_offer.context_processors.eyb_user',
                 'international_online_offer.context_processors.feedback_next_url',
                 'international_online_offer.context_processors.hide_primary_nav',
+                'international_investment.context_processors.hide_primary_nav',
             ],
         },
     },
@@ -859,6 +861,7 @@ FEATURE_SHOW_MAGNA_LINKS_IN_HEADER = env.bool('FEATURE_SHOW_MAGNA_LINKS_IN_HEADE
 FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK = env.bool('FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK', False)
 FEATURE_SHOW_CASE_STUDY_RANKINGS = env.bool('FEATURE_SHOW_CASE_STUDY_RANKINGS', False)
 FEATURE_INTERNATIONAL_ONLINE_OFFER = env.bool('FEATURE_INTERNATIONAL_ONLINE_OFFER', False)
+FEATURE_INTERNATIONAL_INVESTMENT = env.bool('FEATURE_INTERNATIONAL_INVESTMENT', False)
 FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION = env.bool('FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION', False)
 FEATURE_DIGITAL_POINT_OF_ENTRY = env.bool('FEATURE_DIGITAL_POINT_OF_ENTRY', False)
 FEATURE_PRODUCT_EXPERIMENT_HEADER = env.bool('FEATURE_PRODUCT_EXPERIMENT_HEADER', False)
@@ -873,9 +876,11 @@ FEATURE_PRODUCT_MARKET_HERO = env.bool('FEATURE_PRODUCT_MARKET_HERO', False)
 FEATURE_PRODUCT_MARKET_SEARCH_ENABLED = env.bool('FEATURE_PRODUCT_MARKET_SEARCH_ENABLED', False)
 FEATURE_SHOW_USA_CTA = env.bool('FEATURE_SHOW_USA_CTA', False)
 FEATURE_SHOW_EU_CTA = env.bool('FEATURE_SHOW_EU_CTA', False)
+FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT = env.bool('FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT', False)
 FEATURE_SHOW_CUSTOMS_AND_TAXES_DROPWDOWN = env.bool('FEATURE_SHOW_CUSTOMS_AND_TAXES_DROPWDOWN', False)
 FEATURE_SHOW_TASK_VALIDATION = env.bool('FEATURE_SHOW_TASK_VALIDATION', False)
 FEATURE_UKEA_CSAT = env.bool('FEATURE_UKEA_CSAT', False)
+FEATURE_OPTIMAL_WORKSHOP = env.bool('FEATURE_OPTIMAL_WORKSHOP', False)
 
 FEATURE_MARKET_GUIDES_TAGGING_UPDATE = env.bool('FEATURE_MARKET_GUIDES_TAGGING_UPDATE', False)
 
