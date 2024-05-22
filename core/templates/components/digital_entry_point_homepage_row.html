@@ -11,7 +11,7 @@
             <p class="govuk-body govuk-!-margin-top-0 govuk-!-margin-bottom-6">{{ data.dep_sub_title }}</p>
         {% endif %}
         {% if features.FEATURE_HOMEPAGE_REDESIGN_V1 and data.dep_cards %}
-            <div class="govuk-grid-row govuk-!-padding-bottom-4 great-card-row">
+            <div class="govuk-grid-row govuk-!-padding-bottom-0 great-card-row">
                 {% for cards in data.dep_cards %}
                     {% for card in cards.value %}
                         <div class="govuk-grid-column-one-third great-card--homepage-container">
@@ -20,6 +20,13 @@
                     {% endfor %}
                 {% endfor %}
             </div>
+            {% if features.FEATURE_OPTIMAL_WORKSHOP %}
+                <div class="great-text-align-right great-display-from-tablet">
+                    <a href="https://zifefxa4.optimalworkshop.com/chalkmark/44covqgg"
+                       target="_blank"
+                       class="govuk-link">Help us to improve our export support</a>
+                </div>
+            {% endif %}
         {% else %}
             <div class="govuk-grid-row great-display-flex-desktop great-dep-homepage-row">
                 <div class="govuk-grid-column-two-thirds great-dep-card">
