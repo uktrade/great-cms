@@ -350,9 +350,9 @@ class CsatUserFeedbackForm(forms.Form):
     feedback_text = CharField(
         label='How could we improve this service? (optional)',
         help_text="Don't include any personal information, like your name or email address.",
-        max_length=3000,
+        max_length=1200,
         required=False,
-        widget=Textarea(attrs={'class': 'govuk-textarea', 'rows': 6}),
+        widget=Textarea(attrs={'class': 'govuk-textarea govuk-js-character-count', 'rows': 6, 'id':'with-hint', 'name': 'withHint', 'aria-describedby':'with-hint-info with-hint-hint'}),
     )
     likelihood_of_return = ChoiceField(
         label='How likely are you to use this service again?',

@@ -1,4 +1,4 @@
-    <div class="govuk-width-container great-container govuk-!-padding-top-9">
+    <div class="govuk-width-container great-container govuk-!-padding-top-9  govuk-!-padding-left-0  govuk-!-padding-right-0">
         <div class="govuk-grid-column-two-thirds">
             <div class="govuk-grid-row">
                 <div id="csat-step-1-submission-confirmation" class="csat-submission-confirmation{% if not step_one_complete %} great-hidden{% endif %}" aria-live="polite" tabindex="-1">
@@ -106,14 +106,17 @@
                             </div>
                         </fieldset>
                     </div>
-                    <div class="govuk-form-group{% if form.feedback_text.errors %} govuk-form-group--error{% endif %}">
+                    <div class="govuk-form-group govuk-character-count{% if form.feedback_text.errors %} govuk-form-group--error{% endif %}" data-module="govuk-character-count" data-maxlength="1200">
                         <h2 class="govuk-label-wrapper">
                             <label class="govuk-label govuk-label--l" for="{{ form.feedback_text.id_for_label }}">
                                 {{ form.feedback_text.label }}
                             </label>
                         </h2>
-                        <div id="more-detail-hint" class="govuk-hint">{{ form.feedback_text.help_text }}</div>
+                        <div id="with-hint-hint" class="govuk-hint">{{ form.feedback_text.help_text }}</div>
                         {{ form.feedback_text }}
+                        <div id="with-hint-info" class="govuk-hint govuk-character-count__message">
+                            You can enter up to 1200 characters
+                          </div>
                     </div>
                 </div>
             </div>
