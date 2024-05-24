@@ -352,6 +352,18 @@ def test_export_academy_registration_form_pages(
 ):
     client.force_login(user)
 
+    #   Redirect succeeds with valid data
+    response = client.post(page_url, form_data)
+    assert response.status_code == 302
+    assert response.url == redirect_url
+
+    #   When editing registration details the redirect returns to the confirm page
+    edit_page_url = page_url + 'edit/'
+    assert client.get(edit_page_url).context['button_text'] == 'Save'
+    response = client.post(edit_page_url, form_data)
+    assert response.status_code == 302
+    assert response.url == reverse('export_academy:registration-confirm')
+
     if page_url == reverse('export_academy:registration-marketing') and form_data['marketing_sources'] != 'Other':
         pytest.skip('marketing_sources_other is an optional field if marketing_sources is not other')
 
@@ -363,18 +375,6 @@ def test_export_academy_registration_form_pages(
         assert response.status_code == 200
         assert error_messages[key] in str(response.rendered_content)
         invalid_form_data = form_data.copy()
-
-    #   Redirect succeeds with valid data
-    response = client.post(page_url, form_data)
-    assert response.status_code == 302
-    assert response.url == redirect_url
-
-    #   When editing registration details the redirect returns to the confirm page
-    page_url += 'edit/'
-    assert client.get(page_url).context['button_text'] == 'Save'
-    response = client.post(page_url, form_data)
-    assert response.status_code == 302
-    assert response.url == reverse('export_academy:registration-confirm')
 
 
 @mock.patch.object(actions, 'GovNotifyEmailAction')
