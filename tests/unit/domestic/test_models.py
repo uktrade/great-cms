@@ -720,18 +720,6 @@ def test_country_fact_sheet_link(domestic_homepage, intro_ctas, expected_factshe
 
 
 @pytest.mark.django_db
-def test_usa_country(domestic_homepage):
-    country = CountryFactory(name='United States', slug='united-states')
-
-    page = CountryGuidePageFactory(
-        parent=domestic_homepage,
-        title='Test',
-        country=country,
-    )
-    assert page.is_usa is True
-
-
-@pytest.mark.django_db
 def test_eu_region(domestic_homepage):
     eu_region = Region.objects.create(name='Western Europe')
     country = CountryFactory(name='Germany', slug='germany', region=eu_region)
@@ -754,6 +742,30 @@ def test_country_is_china(domestic_homepage):
         country=country,
     )
     assert page.is_china is True
+
+
+@pytest.mark.django_db
+def test_country_is_germany(domestic_homepage):
+    country = CountryFactory(name='Germany')
+
+    page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        title='Test',
+        country=country,
+    )
+    assert page.is_germany is True
+
+
+@pytest.mark.django_db
+def test_usa_country(domestic_homepage):
+    country = CountryFactory(name='United States', slug='united-states')
+
+    page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        title='Test',
+        country=country,
+    )
+    assert page.is_usa is True
 
 
 # BaseContentPage is abstract but had some methods on it

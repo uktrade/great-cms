@@ -37,19 +37,22 @@
             "form-hint"
         );
 
-        function createCompaniesHouseLookup() {
-          $(document.body).on(
-            "click.SelectiveLookupCloseAll",
-            GOVUK.components.SelectiveLookup.closeAll
-          );
-
-          return new GOVUK.components.CompaniesHouseNameLookup(
-            $(companyName),
+        $(document.body).on(
+          "click.SelectiveLookupCloseAll",
+          GOVUK.components.SelectiveLookup.closeAll
+        );
+  
+        if (!window.companyNameLookup) {
+          window.companyNameLookup = new GOVUK.components.CompaniesHouseNameLookup(
             $(companyNumber),
-            {showNoneOfThese: true}
+            $(companyName),
+            '{% url "sso_profile:api:companies-house-search" %}'
           );
-
+        
+          // Perform API test on page load
+          $(document).ready(function() {
+            window.companyNameLookup._private.service.update("term=Test", true);
+          });
         }
-        createCompaniesHouseLookup();
     </script>
 {% endblock %}

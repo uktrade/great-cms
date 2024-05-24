@@ -14,7 +14,7 @@ from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 
 import healthcheck.backends
-from .utils import get_wagtail_transfer_configuration
+from .utils import get_wagtail_transfer_configuration, strip_password_data
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
 CORE_APP_DIR = ROOT_DIR / 'core'
@@ -382,6 +382,7 @@ if env.str('SENTRY_DSN', ''):
         dsn=env.str('SENTRY_DSN'),
         environment=env.str('SENTRY_ENVIRONMENT'),
         integrations=[DjangoIntegration(), CeleryIntegration()],
+        before_send=strip_password_data,
     )
 
 USE_X_FORWARDED_HOST = True
@@ -876,10 +877,15 @@ FEATURE_PRODUCT_MARKET_HERO = env.bool('FEATURE_PRODUCT_MARKET_HERO', False)
 FEATURE_PRODUCT_MARKET_SEARCH_ENABLED = env.bool('FEATURE_PRODUCT_MARKET_SEARCH_ENABLED', False)
 FEATURE_SHOW_USA_CTA = env.bool('FEATURE_SHOW_USA_CTA', False)
 FEATURE_SHOW_EU_CTA = env.bool('FEATURE_SHOW_EU_CTA', False)
-FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT = env.bool('FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT', False)
+FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_CHINA = env.bool('FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_CHINA', False)
+FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_GERMANY = env.bool(
+    'FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_GERMANY', False
+)
+FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_USA = env.bool('FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_USA', False)
 FEATURE_SHOW_CUSTOMS_AND_TAXES_DROPWDOWN = env.bool('FEATURE_SHOW_CUSTOMS_AND_TAXES_DROPWDOWN', False)
 FEATURE_SHOW_TASK_VALIDATION = env.bool('FEATURE_SHOW_TASK_VALIDATION', False)
 FEATURE_UKEA_CSAT = env.bool('FEATURE_UKEA_CSAT', False)
+FEATURE_OPTIMAL_WORKSHOP = env.bool('FEATURE_OPTIMAL_WORKSHOP', False)
 
 FEATURE_MARKET_GUIDES_TAGGING_UPDATE = env.bool('FEATURE_MARKET_GUIDES_TAGGING_UPDATE', False)
 
