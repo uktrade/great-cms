@@ -56,6 +56,13 @@ input[type='text'] {
 .form-hint {
   font-family: $main-text-font;
 }
+
+.form-hint {
+  padding-top: .15em;
+  padding-bottom: .35em;
+  font-size: 18px;
+}
+
 input[type=checkbox].markascomplete_checkbox{
     background-color: $color-completed;
 }
