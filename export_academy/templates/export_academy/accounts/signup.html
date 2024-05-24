@@ -1,6 +1,17 @@
 {% extends 'export_academy/accounts/base.html' %}
 {% load wagtailcore_tags %}
+{% load static %}
 {% block form %}
+    {% block body_js %}
+        {{ block.super }}
+        <script src="{% static 'javascript/govuk.js' %}"></script>
+        <script src="{% static 'javascript/dit.js' %}"></script>
+        <script src="{% static 'components.js' %}"></script>
+        <script type="text/javascript"
+                src="{% static 'javascript/dit.components.password-input.js' %}"></script>
+        <script>window.GOVUKFrontend.initAll()</script>
+        <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
+    {% endblock %}
     <h3 class="govuk-heading-m govuk-!-margin-top-8 govuk-!-margin-bottom-6">Create an account</h3>
     {% csrf_token %}
     {% for field in form.visible_fields %}
@@ -13,7 +24,7 @@
                 {% endif %}
             </div>
         {% else %}
-            <div class="great-signup-telephone-details govuk-!-margin-bottom-6 {% if field.errors %}govuk-form-group--error{% endif %}">
+            <div class="js-enabled great-signup-telephone-details govuk-!-margin-bottom-6 {% if field.errors %}govuk-form-group--error{% endif %}">
                 <details class="govuk-!-margin-bottom-3">
                     <summary class="great-signup-summary disable-pointer-events">
                         <span class="great-signup-form-label govuk-!-display-inline great-dark-grey">UK telephone number (optional)</span>
