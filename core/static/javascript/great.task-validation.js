@@ -31,16 +31,47 @@ GreatFrontend.TaskValidation = {
 
           const title = card.querySelector('[data-title]').dataset.title
           const question = document.getElementById('task-validation-question')
+          const message = document.getElementById('task-validation-message')
 
-          if (title === 'Calculate how much duty you need to pay') {
-            question.innerHTML =
-              "You need to figure out the amount of duty to pay on the goods you're exporting."
-          }
+          const titles = [
+            {
+              title: 'Understand how to classify your products',
+              question:
+                'You want to learn more about how to classify your goods for export?',
+              message:
+                "You're being redirected to an article from Learn to Export.",
+            },
+            {
+              title: 'Get the right commodity code',
+              question:
+                'You need to find the correct commodity (HS) code to export your goods?',
+            },
+            {
+              title: 'Make a simplified customs declaration',
+              question:
+                'You want to make a simplified customs declaration using our online service?',
+            },
+            {
+              title: 'Find a customs agent or fast parcel operator',
+              question:
+                'You are looking for a list of customs agents or fast parcel operators you can contact?',
+            },
+            {
+              title: 'Claim with Returned Goods Relief (RGR)',
+              question:
+                "You want to claim for returned goods relief on goods you've re-imported into the UK?",
+            },
+          ]
 
-          if (title === 'Find the right commodity code') {
-            question.innerHTML =
-              'You need to find the correct commodity (HS) code to export your goods.'
-          }
+          titles.forEach((obj) => {
+            if (title === obj.title) {
+              question.innerHTML = obj.question
+
+              if (obj.message) {
+                message.innerHTML = obj.message
+              }
+            }
+          })
 
           if (sessionStorage.getItem('task_validation')) {
             ga('service', title, 'main-area')
@@ -51,7 +82,7 @@ GreatFrontend.TaskValidation = {
             if (form) {
               GreatFrontend.utils.showElement(form)
 
-              form.querySelectorAll('button').forEach((button) => {
+              form.querySelectorAll('[data-modal-submit]').forEach((button) => {
                 button.addEventListener('click', async (e) => {
                   e.preventDefault()
 

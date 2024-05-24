@@ -14,7 +14,7 @@ from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 
 import healthcheck.backends
-from .utils import get_wagtail_transfer_configuration
+from .utils import get_wagtail_transfer_configuration, strip_password_data
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
 CORE_APP_DIR = ROOT_DIR / 'core'
@@ -26,6 +26,7 @@ for env_file in env.list('ENV_FILES', default=[]):
 
 DEBUG = env.bool('DEBUG', False)
 SECRET_KEY = env.str('SECRET_KEY')
+APP_ENVIRONMENT = env.str('APP_ENVIRONMENT')
 
 # As the app is running behind a host-based router supplied by GDS PaaS, we can open ALLOWED_HOSTS
 ALLOWED_HOSTS = ['*']
@@ -79,6 +80,7 @@ INSTALLED_APPS = [
     'exportplan.apps.ExportPlanConfig',
     'international_online_offer.apps.ExpandYourBusinessConfig',
     'international.apps.InternationalConfig',
+    'international_investment.apps.InvestmentConfig',
     'users.apps.UsersConfig',
     'learn.apps.LearnConfig',
     'captcha',
@@ -159,6 +161,7 @@ TEMPLATES = [
                 'international_online_offer.context_processors.eyb_user',
                 'international_online_offer.context_processors.feedback_next_url',
                 'international_online_offer.context_processors.hide_primary_nav',
+                'international_investment.context_processors.hide_primary_nav',
             ],
         },
     },
@@ -379,6 +382,7 @@ if env.str('SENTRY_DSN', ''):
         dsn=env.str('SENTRY_DSN'),
         environment=env.str('SENTRY_ENVIRONMENT'),
         integrations=[DjangoIntegration(), CeleryIntegration()],
+        before_send=strip_password_data,
     )
 
 USE_X_FORWARDED_HOST = True
@@ -405,6 +409,7 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 # django-storages
+AWS_S3_REGION_NAME = env.str('AWS_S3_REGION_NAME', '')
 AWS_STORAGE_BUCKET_NAME = env.str('AWS_STORAGE_BUCKET_NAME', '')
 AWS_DEFAULT_ACL = None
 AWS_AUTO_CREATE_BUCKET = False
@@ -418,6 +423,7 @@ AWS_S3_HOST = env.str('AWS_S3_HOST', 's3-eu-west-2.amazonaws.com')
 AWS_S3_SIGNATURE_VERSION = env.str('AWS_S3_SIGNATURE_VERSION', 's3v4')
 AWS_QUERYSTRING_AUTH = env.bool('AWS_QUERYSTRING_AUTH', False)
 S3_USE_SIGV4 = env.bool('S3_USE_SIGV4', True)
+
 
 USER_MEDIA_ON_S3 = STORAGES['default']['BACKEND'] == 'storages.backends.s3boto3.S3Boto3Storage'
 
@@ -856,6 +862,7 @@ FEATURE_SHOW_MAGNA_LINKS_IN_HEADER = env.bool('FEATURE_SHOW_MAGNA_LINKS_IN_HEADE
 FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK = env.bool('FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK', False)
 FEATURE_SHOW_CASE_STUDY_RANKINGS = env.bool('FEATURE_SHOW_CASE_STUDY_RANKINGS', False)
 FEATURE_INTERNATIONAL_ONLINE_OFFER = env.bool('FEATURE_INTERNATIONAL_ONLINE_OFFER', False)
+FEATURE_INTERNATIONAL_INVESTMENT = env.bool('FEATURE_INTERNATIONAL_INVESTMENT', False)
 FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION = env.bool('FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION', False)
 FEATURE_DIGITAL_POINT_OF_ENTRY = env.bool('FEATURE_DIGITAL_POINT_OF_ENTRY', False)
 FEATURE_PRODUCT_EXPERIMENT_HEADER = env.bool('FEATURE_PRODUCT_EXPERIMENT_HEADER', False)
@@ -870,9 +877,11 @@ FEATURE_PRODUCT_MARKET_HERO = env.bool('FEATURE_PRODUCT_MARKET_HERO', False)
 FEATURE_PRODUCT_MARKET_SEARCH_ENABLED = env.bool('FEATURE_PRODUCT_MARKET_SEARCH_ENABLED', False)
 FEATURE_SHOW_USA_CTA = env.bool('FEATURE_SHOW_USA_CTA', False)
 FEATURE_SHOW_EU_CTA = env.bool('FEATURE_SHOW_EU_CTA', False)
+FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT = env.bool('FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT', False)
 FEATURE_SHOW_CUSTOMS_AND_TAXES_DROPWDOWN = env.bool('FEATURE_SHOW_CUSTOMS_AND_TAXES_DROPWDOWN', False)
 FEATURE_SHOW_TASK_VALIDATION = env.bool('FEATURE_SHOW_TASK_VALIDATION', False)
 FEATURE_UKEA_CSAT = env.bool('FEATURE_UKEA_CSAT', False)
+FEATURE_OPTIMAL_WORKSHOP = env.bool('FEATURE_OPTIMAL_WORKSHOP', False)
 
 FEATURE_MARKET_GUIDES_TAGGING_UPDATE = env.bool('FEATURE_MARKET_GUIDES_TAGGING_UPDATE', False)
 
@@ -1050,3 +1059,5 @@ CAMPAIGN_SITE_REVIEW_REMINDER_HOUR = env.str('CAMPAIGN_SITE_REVIEW_REMINDER_HOUR
 CAMPAIGN_SITE_REVIEW_REMINDER_TEMPLATE_ID = env.str(
     'CAMPAIGN_SITE_REVIEW_REMINDER_TEMPLATE_ID', '9647397a-8d59-4b45-aa25-9d129eac8be8'
 )
+
+IS_CIRCLECI_ENV = env.bool('IS_CIRCLECI_ENV', False)

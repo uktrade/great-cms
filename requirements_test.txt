@@ -27,7 +27,7 @@ asn1crypto==1.5.1
     #   oscrypto
     #   pyhanko
     #   pyhanko-certvalidator
-astroid==3.1.0
+astroid==3.2.1
     # via pylint
 asttokens==2.4.1
     # via stack-data
@@ -166,7 +166,7 @@ directory-constants==24.1.3
     #   great-components
 directory-forms-api-client==7.4.2
     # via -r requirements.in
-directory-healthcheck==3.5
+directory-healthcheck==3.7
     # via -r requirements.in
 directory-sso-api-client==7.2.7
     # via -r requirements.in
@@ -225,7 +225,7 @@ django-filter==23.5
     # via wagtail
 django-formtools==2.3
     # via -r requirements.in
-django-health-check==3.18.1
+django-health-check==3.18.2
     # via directory-healthcheck
 django-ipware==6.0.3
     # via -r requirements.in
@@ -295,7 +295,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==25.1.0
+faker==25.2.0
     # via factory-boy
 filelock==3.14.0
     # via virtualenv
@@ -346,9 +346,7 @@ gitpython==3.1.43
 great-components==2.6.4
     # via -r requirements.in
 greenlet==3.0.3
-    # via
-    #   gevent
-    #   sqlalchemy
+    # via gevent
 gunicorn==22.0.0
     # via -r requirements.in
 h11==0.14.0
@@ -486,7 +484,7 @@ pathspec==0.12.1
     # via
     #   black
     #   djlint
-pep8-naming==0.13.3
+pep8-naming==0.14.1
     # via -r requirements_test.in
 pexpect==4.9.0
     # via ipython
@@ -503,7 +501,7 @@ pillow-heif==0.16.0
     # via willow
 pip-tools==7.4.1
     # via -r requirements_test.in
-platformdirs==4.2.1
+platformdirs==4.2.2
     # via
     #   black
     #   pylint
@@ -514,7 +512,7 @@ pluggy==1.5.0
     #   pytest
 polib==1.2.0
     # via wagtail-localize
-pre-commit==3.7.0
+pre-commit==3.7.1
     # via
     #   -r requirements_test.in
     #   django-log-formatter-asim
@@ -554,7 +552,7 @@ pyhanko-certvalidator==0.26.3
     # via
     #   pyhanko
     #   xhtml2pdf
-pylint==3.1.0
+pylint==3.2.0
     # via
     #   pylint-django
     #   pylint-plugin-utils
@@ -682,7 +680,7 @@ ruamel-yaml-clib==0.2.8
     # via ruamel-yaml
 s3transfer==0.6.2
     # via boto3
-selenium==4.20.0
+selenium==4.21.0
     # via -r requirements_test.in
 sentry-sdk==1.14.0
     # via -r requirements.in
@@ -772,7 +770,7 @@ traitlets==5.14.3
     # via
     #   ipython
     #   matplotlib-inline
-trio==0.25.0
+trio==0.25.1
     # via
     #   selenium
     #   trio-websocket
@@ -818,7 +816,7 @@ vine==5.1.0
     #   amqp
     #   celery
     #   kombu
-virtualenv==20.26.1
+virtualenv==20.26.2
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core
@@ -875,11 +873,11 @@ wsproto==1.2.0
     # via trio-websocket
 xhtml2pdf==0.2.15
     # via -r requirements.in
-zipp==3.18.1
+zipp==3.18.2
     # via importlib-metadata
 zope-event==5.0
     # via gevent
-zope-interface==6.3
+zope-interface==6.4
     # via gevent
 
 # The following packages are considered to be unsafe in a requirements file:

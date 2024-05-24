@@ -9,6 +9,7 @@ from core.models import GreatMedia, MicrositePage
 from domestic.models import ArticlePage
 from export_academy.models import (
     Booking,
+    CsatUserFeedback,
     Event,
     Registration,
     VideoOnDemandPageTracking,
@@ -565,7 +566,47 @@ class ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer(serializers
                 'bookingId': instance.booking.id if instance.booking else None,
                 'registrationId': instance.registration.id if instance.registration else None,
                 'registrationHashedSsoId': instance.registration.hashed_sso_id if instance.registration else None,
-                'videoId': instance.video.id,
-                'videoTitle': instance.video.title,
+                'videoId': instance.video.id if instance.video else None,
+                'videoTitle': instance.video.title if instance.video else None,
+            },
+        }
+
+
+class ActivityStreamExportAcademyCsatUserFeedbackDataSerializer(serializers.ModelSerializer):
+    """
+    UKEA's CSAT Feedback Data serializer for activity stream.
+    """
+
+    feedback_submission_date = serializers.DateTimeField(source='created')  # noqa: N815
+    url = serializers.CharField(source='URL')  # noqa: N815
+
+    class Meta:
+        model = CsatUserFeedback
+        fields = [
+            'id',
+            'feedback_submission_date',
+            'url',
+            'user_journey',
+            'satisfaction_rating',
+            'experienced_issue',
+            'other_detail',
+            'service_improvements_feedback',
+            'likelihood_of_return',
+        ]
+
+    def to_representation(self, instance):
+        """
+        Prefix field names to match activity stream format
+        """
+        prefix = 'dit:exportAcademy:csatFeedbackData'
+        type = 'Update'
+
+        return {
+            'id': f'{prefix}:{instance.id}:{type}',
+            'type': f'{type}',
+            'object': {
+                'id': f'{prefix}:{instance.id}',
+                'type': prefix,
+                **{f'{k}': v for k, v in super().to_representation(instance).items()},
             },
         }

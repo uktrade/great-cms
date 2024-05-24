@@ -18,11 +18,19 @@
       "click.SelectiveLookupCloseAll",
       GOVUK.components.SelectiveLookup.closeAll
     );
-    new GOVUK.components.CompaniesHouseNameLookup(
-      $(companyName),
-      $(companyNumber),
-      '{% url "sso_profile:api:companies-house-search" %}'
-     );
+
+    if (!window.companyNameLookup) {
+        window.companyNameLookup = new GOVUK.components.CompaniesHouseNameLookup(
+          $(companyName),
+          $(companyNumber),
+          '{% url "sso_profile:api:companies-house-search" %}'
+        );
+      
+        // Perform API test on page load
+        $(document).ready(function() {
+          window.companyNameLookup._private.service.update("term=Test", true);
+        });
+      }
     </script>
 {% endblock %}
 {% block form_fields %}

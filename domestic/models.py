@@ -1136,18 +1136,30 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, TaggedBaseContentPage)
         )
         return factsheet_link
 
-    @property
-    def is_usa(self):
-        if self.country:
-            return self.country.name == 'United States'
-        return False
-
     EU_REGIONS = ['Western Europe', 'Eastern Europe', 'Scandinavia', 'Southern Europe']
 
     @property
     def is_eu_country(self):
         if self.country and self.country.region:
             return self.country.region.name in self.EU_REGIONS
+        return False
+
+    @property
+    def is_china(self):
+        if self.country:
+            return self.country.name == 'China'
+        return False
+
+    @property
+    def is_germany(self):
+        if self.country:
+            return self.country.name == 'Germany'
+        return False
+
+    @property
+    def is_usa(self):
+        if self.country:
+            return self.country.name == 'United States'
         return False
 
 

@@ -91,6 +91,39 @@
                                    target="_blank">View factsheets</a>
                             </div>
                         {% endif %}
+                        {% if features.FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT %}
+                            {% if page.is_usa %}
+                                <div class="great govuk-!-padding-6 great-bg-light-blue">
+                                    <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Sector Spotlight - Food and Drink</h2>
+                                    <p>Read the latest industry news, key developments, trends and regulations in the food and drink sector in the USA.</p>
+                                    <a href="/markets/united-states/food-and-drink"
+                                       class="button primary-button"
+                                       target="_blank">Read more</a>
+                                </div>
+                            {% endif %}
+                            {% if page.is_china %}
+                                <div class="great govuk-!-padding-6 great-bg-light-blue">
+                                    <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Sector Spotlight - Financial and Professional Services</h2>
+                                    <p>
+                                        Read the latest sector report from China - including business consulting and accounting, banking and asset management, and the latest trends in fintech.
+                                    </p>
+                                    <a href="/markets/china/financial-professional-services-in-china/"
+                                       class="button primary-button"
+                                       target="_blank">Read more</a>
+                                </div>
+                            {% endif %}
+                            {% if page.is_germany %}
+                                <div class="great govuk-!-padding-6 great-bg-light-blue">
+                                    <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Sector Spotlight - Food and Drink</h2>
+                                    <p>
+                                        Read about the latest consumer trends, the retail landscape, and what buyers are looking for in the food and drink sector in Germany.
+                                    </p>
+                                    <a href="/markets/germany/food-and-drink"
+                                       class="button primary-button"
+                                       target="_blank">Read more</a>
+                                </div>
+                            {% endif %}
+                        {% endif %}
                     </div>
                     {% if page.intro_ctas %}
                         <div class="column-quarter-l links margin-bottom-30">
