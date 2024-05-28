@@ -21,7 +21,7 @@ class CsatFormHandler {
             formData.append('step', this.currentStep);
 
             try {
-                const response = await this.simulateFetch('/some-endpoint/', { //simulateFetch - change to fetch when endpoint ready and update url
+                const response = await this.fetch($(this).attr("action"), { //simulateFetch - change to fetch when endpoint ready and update url
                     method: 'POST',
                     headers: {
                         'X-CSRFToken': formData.get('csrfmiddlewaretoken'),

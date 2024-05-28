@@ -185,16 +185,16 @@ if settings.FEATURE_UKEA_CSAT:
     # TODO: Add the name=course url to the main urlpatterns list when the feature is rolled out.
 
     urlpatterns = urlpatterns + [
-        path(
-            'csat-feedback/',
-            views.CsatUserFeedbackView.as_view(),
-            name='csat-user-feedback',
-        ),
-        path(
-            'csat-widget-submit/',
-            views.CsatUserWidgetView.as_view(),
-            name='csat-user-widget-submit',
-        ),
+        # path(
+        #     'csat-feedback/',
+        #     views.CsatUserFeedbackView.as_view(),
+        #     name='csat-user-feedback',
+        # ),
+        # path(
+        #     'csat-widget-submit/',
+        #     views.CsatUserWidgetView.as_view(),
+        #     name='csat-user-widget-submit',
+        # ),
         path(
             '<slug:slug>/',
             views.EACourseView.as_view(),
