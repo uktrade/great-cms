@@ -124,7 +124,7 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, TemplateView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx['landing_page'] = models.ExportAcademyHomePage.objects.first()
-
+        ctx['form'] = forms.CsatUserFeedbackForm(self.request.POST or None)
         editing_registration = self.user_editing_registration()
 
         if editing_registration:
@@ -942,10 +942,10 @@ class CsatUserWidgetView(FormView):
 
 class CsatUserFeedbackView(GA360Mixin, FormView):
     form_class = forms.CsatUserFeedbackForm
-    template_name = 'export_academy/csat_user_feedback.html'
+    template_name = 'export_academy/includes/csat_user_feedback.html'
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.set_ga360_payload(
             page_id='CSAT Feedback',
             business_unit=settings.GA360_BUSINESS_UNIT,
@@ -959,14 +959,10 @@ class CsatUserFeedbackView(GA360Mixin, FormView):
             satisfaction = csat_record.satisfaction_rating
             if satisfaction:
                 return {'satisfaction': satisfaction}
-        else:
-            return {'satisfaction': ''}
+        return {'satisfaction': ''}
 
     def get_success_url(self):
-        success_url = reverse_lazy('export_academy:csat-user-feedback') + '?success=true'
-        if self.request.GET.get('next'):
-            success_url = success_url + '&next=' + check_url_host_is_safelisted(self.request)
-        return success_url
+        return reverse_lazy('export_academy:csat-user-feedback') + '?success=true&step=completed'
 
     def form_valid(self, form):
         csat_id = self.request.session.get('csat_id')
@@ -980,10 +976,9 @@ class CsatUserFeedbackView(GA360Mixin, FormView):
                     'service_improvements_feedback': form.cleaned_data['feedback_text'],
                 },
             )
-            if self.request.session.get('csat_id'):
-                del self.request.session['csat_id']
+            del self.request.session['csat_id']
         else:
-            CsatUserFeedback.objects.create(
+            csat_feedback = CsatUserFeedback.objects.create(
                 satisfaction_rating=form.cleaned_data['satisfaction'],
                 experienced_issue=form.cleaned_data['experience'],
                 other_detail=form.cleaned_data['experience_other'],
@@ -992,6 +987,16 @@ class CsatUserFeedbackView(GA360Mixin, FormView):
                 URL=check_url_host_is_safelisted(self.request),
                 user_journey=self.request.session.get('csat_user_journey'),
             )
-            if self.request.session.get('csat_user_journey'):
-                del self.request.session['csat_user_journey']
-        return super().form_valid(form)
+            self.request.session['csat_id'] = csat_feedback.id
+
+        if 'experience' in form.cleaned_data:
+            return redirect(self.get_success_url())
+        else:
+            return redirect(reverse_lazy('export_academy:csat-user-feedback') + '?step=two')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        step = self.request.GET.get('step', 'one')
+        context['step_one_complete'] = step != 'one'
+        context['step_two_complete'] = step == 'completed'
+        return context

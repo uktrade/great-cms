@@ -84,28 +84,28 @@ LANDING_TIMEFRAME_CHOICES = (
 )
 
 SATISFACTION_CHOICES = (
-    ('VERY_SATISFIED', 'Very satisfied'),
-    ('SATISFIED', 'Satisfied'),
-    ('NEITHER', 'Neither satisfied nor dissatisfied'),
-    ('DISSATISFIED', 'Dissatisfied'),
     ('VERY_DISSATISFIED', 'Very dissatisfied'),
+    ('DISSATISFIED', 'Dissatisfied'),
+    ('NEITHER', 'Neither satisfied nor dissatisfied'),
+    ('SATISFIED', 'Satisfied'),
+    ('VERY_SATISFIED', 'Very satisfied'),
 )
 
 EXPERIENCE_CHOICES = (
-    ('I_DID_NOT_EXPERIENCE_ANY_ISSUE', 'I did not experience any issue'),
     ('I_DID_NOT_FIND_WHAT_I_WAS_LOOKING_FOR', 'I did not find what I was looking for'),
-    ('I_FOUND_IT_DIFFICULT_TO_NAVIGATE_THE_SITE', 'I found it difficult to navigate the site'),
-    ('THE_SYSTEM_LACKS_THE_FEATURE_I_NEED', 'The system lacks the feature I need'),
+    ('I_FOUND_IT_DIFFICULT_TO_NAVIGATE_THE_SITE', 'I found it difficult to navigate the service'),
+    ('THE_SYSTEM_LACKS_THE_FEATURE_I_NEED', 'The service lacks the feature I need'),
     ('I_WAS_UNABLE_TO_LOAD_REFRESH_ENTER_A_PAGE', 'I was unable to load/refresh/enter a page'),
     ('OTHER', 'Other'),
+    ('I_DID_NOT_EXPERIENCE_ANY_ISSUES', 'I did not experience any issues'),
 )
 
 LIKELIHOOD_CHOICES = (
-    ('EXTREMELY_LIKELY', 'Extremely likely'),
-    ('LIKELY', 'Likely'),
-    ('NEITHER_LIKELY_NOR_UNLIKELY', 'Neither likely nor unlikely'),
-    ('UNLIKELY', 'Unlikely'),
     ('EXTREMELY_UNLIKELY', 'Extremely unlikely'),
+    ('UNLIKELY', 'Unlikely'),
+    ('NEITHER_LIKELY_NOR_UNLIKELY', 'Neither likely nor unlikely'),
+    ('LIKELY', 'Likely'),
+    ('EXTREMELY_LIKELY', 'Extremely likely'),
     ('DONT_KNOW_OR_PREFER_NOT_TO_SAY', "Don't know / prefer not to say"),
 )
 
