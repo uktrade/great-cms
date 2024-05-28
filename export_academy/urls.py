@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.urls import path
 
@@ -162,6 +161,11 @@ urlpatterns = [
         name='event-video',
     ),
     path(
+        '<slug:slug>/',
+        views.EACourseView.as_view(),
+        name='course',
+    ),
+    path(
         'calendar/',
         views.DownloadCalendarView.as_view(),
         name='calendar',
@@ -177,36 +181,3 @@ urlpatterns = [
     path('signup/complete', views.SignUpCompleteView.as_view(), name='signup-complete'),
     path('signin', views.SignInView.as_view(), name='signin'),
 ]
-
-if settings.FEATURE_UKEA_CSAT:
-
-    # The urls for CSAT break if they appear after name=course. Therefore, we explicitly
-    # add the name=course url after the CSAT urls in this feature flag
-    # TODO: Add the name=course url to the main urlpatterns list when the feature is rolled out.
-
-    urlpatterns = urlpatterns + [
-        # path(
-        #     'csat-feedback/',
-        #     views.CsatUserFeedbackView.as_view(),
-        #     name='csat-user-feedback',
-        # ),
-        # path(
-        #     'csat-widget-submit/',
-        #     views.CsatUserWidgetView.as_view(),
-        #     name='csat-user-widget-submit',
-        # ),
-        path(
-            '<slug:slug>/',
-            views.EACourseView.as_view(),
-            name='course',
-        ),
-    ]
-
-else:
-    urlpatterns = urlpatterns + [
-        path(
-            '<slug:slug>/',
-            views.EACourseView.as_view(),
-            name='course',
-        ),
-    ]
