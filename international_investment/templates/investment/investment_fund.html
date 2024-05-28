@@ -8,9 +8,40 @@
 {% endblock %}
 {% block content %}
     <div class="govuk-width-container great-container">
+        <div class="govuk-grid-row govuk-!-padding-3">
+            <div class="govuk-grid-column-two-thirds">
+                <a href="{{ back_url }}"
+                   class="govuk-back-link govuk-!-font-size-19 govuk-grid-row">Back</a>
+            </div>
+        </div>
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
-                <h1 class="govuk-heading-l">Investment Fund Triage Step</h1>
+                <h3 class="govuk-heading-l">Tell us about your investment fund</h3>
+            </div>
+        </div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">{% include 'international/includes/error_summary.html' %}</div>
+        </div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="govuk-grid-row govuk-!-margin-bottom-6">
+                            <div class="govuk-grid-column-full">
+                                <div class="{% if field.errors %} govuk-form-group--error{% endif %}">
+                                    {{ field.errors }}
+                                    {% include 'international/includes/form_field.html' with field=field %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="govuk-grid-row govuk-!-margin-bottom-5">
+                        <div class="govuk-grid-column-full">
+                            {% include 'international/includes/submit_button.html' with button_text='Save and continue' %}
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
