@@ -265,9 +265,7 @@ def test_booking_success_view(
 
 @pytest.mark.parametrize(
     'booking_status,success_url,text',
-    (
-        (Booking.CONFIRMED, 'export_academy:booking-success', 'Booking confirmed'),
-    ),
+    ((Booking.CONFIRMED, 'export_academy:booking-success', 'Booking confirmed'),),
 )
 @pytest.mark.django_db
 def test_csat_user_feedback_with_session_value(
@@ -290,9 +288,7 @@ def test_csat_user_feedback_with_session_value(
 
 @pytest.mark.parametrize(
     'booking_status,success_url,text',
-    (
-        (Booking.CONFIRMED, 'export_academy:booking-success', 'Booking confirmed'),
-    ),
+    ((Booking.CONFIRMED, 'export_academy:booking-success', 'Booking confirmed'),),
 )
 @pytest.mark.django_db
 def test_csat_user_feedback_submit(
@@ -304,7 +300,7 @@ def test_csat_user_feedback_submit(
     event = factories.EventFactory()
     booking = factories.BookingFactory(event=event, status=booking_status, registration=registration)
     url = reverse('export_academy:booking-success', kwargs={'booking_id': booking.id})
-    
+
     CsatUserFeedback.objects.create(id=1, URL='http://test.com')
     session = client.session
     session['csat_id'] = 1

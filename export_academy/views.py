@@ -120,7 +120,7 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, TemplateView, FormView
             if satisfaction:
                 return {'satisfaction': satisfaction}
         return {'satisfaction': ''}
-    
+
     def get_buttons_for_event(self, event):
         user = self.request.user
         return get_buttons_for_event(user, event, on_confirmation=True)
@@ -166,7 +166,7 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, TemplateView, FormView
         ctx['just_registered'] = just_registered
         ctx['current_page_breadcrumb'] = 'Registration' if just_registered else 'Events'
         return ctx
-    
+
     # def get_success_url(self):
     #    return reverse_lazy('export_academy:csat-user-feedback') + '?success=true&step=completed'
 
@@ -195,9 +195,9 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, TemplateView, FormView
             )
             self.request.session['csat_id'] = csat_feedback.id
 
-        # This can be path as there is no redirect 
+        # This can be path as there is no redirect
         return redirect(self.get_success_url())
-        
+
 
 class EventVideoView(DetailView):
     template_name = 'export_academy/event_video.html'

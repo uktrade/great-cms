@@ -352,7 +352,15 @@ class CsatUserFeedbackForm(forms.Form):
         help_text="Don't include any personal information, like your name or email address.",
         max_length=1200,
         required=False,
-        widget=Textarea(attrs={'class': 'govuk-textarea govuk-js-character-count', 'rows': 6, 'id':'with-hint', 'name': 'withHint', 'aria-describedby':'with-hint-info with-hint-hint'}),
+        widget=Textarea(
+            attrs={
+                'class': 'govuk-textarea govuk-js-character-count',
+                'rows': 6,
+                'id': 'with-hint',
+                'name': 'withHint',
+                'aria-describedby': 'with-hint-info with-hint-hint',
+            }
+        ),
     )
     likelihood_of_return = ChoiceField(
         label='How likely are you to use this service again?',
