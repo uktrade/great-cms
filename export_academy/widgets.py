@@ -2,8 +2,8 @@ from django.forms import widgets
 
 
 class PasswordInputShowHide(widgets.Input):
-    input_type = "password"
-    template_name = "components/great/password-show-hide.html"
+    input_type = 'password'
+    template_name = 'components/great/password-show-hide.html'
 
     def __init__(self, attrs=None, render_value=False):
         super().__init__(attrs)
