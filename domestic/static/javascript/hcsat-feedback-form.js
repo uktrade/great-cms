@@ -117,37 +117,4 @@ class CsatFormHandler {
             }
         }
     }
-
-    //////////////////////////////////////////////////////////////
-    // Simulate fetch for testing - ***to be removed***
-    //////////////////////////////////////////////////////////////
-
-    async simulateFetch(url, options) {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        if (!options.body.get('satisfaction') && this.currentStep === 1) {
-            let errors = {};
-            errors.satisfaction = ['Select a satisfaction rating'];
-            return new Response(JSON.stringify({ errors }), {
-                status: 400,
-                headers: { 'Content-type': 'application/json' }
-            });
-        } else if (this.currentStep === 2 && (!options.body.get('experience') || !options.body.get('likelihood_of_return'))) {
-            let errors = {};
-            if (!options.body.get('experience')) {
-                errors.experience = ['Select one or more issues'];
-            }
-            if (!options.body.get('likelihood_of_return')) {
-                errors.likelihood_of_return = ['Select one likelihood of returning option'];
-            }
-            return new Response(JSON.stringify({ errors }), {
-                status: 400,
-                headers: { 'Content-type': 'application/json' }
-            });
-        } else {
-            return new Response(JSON.stringify({ success: true }), {
-                status: 200,
-                headers: { 'Content-type': 'application/json' }
-            });
-        }
-    }
 }
