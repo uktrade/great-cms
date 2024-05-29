@@ -8,6 +8,7 @@ from django.forms import (
     Select,
     TextInput,
 )
+from great_components import forms
 
 from international_investment.core.choices import (
     FUND_TYPE_CHOICES,
@@ -17,7 +18,7 @@ from international_investment.core.choices import (
 from international_online_offer.core.choices import COMPANY_LOCATION_CHOICES
 
 
-class InvestmentFund(Form):
+class InvestmentFund(forms.Form):
     fund_name = CharField(
         label='Fund name',
         max_length=255,
