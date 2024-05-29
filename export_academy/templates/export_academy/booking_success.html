@@ -80,9 +80,7 @@
     </section>
     <div class="great-border-thin-top-lighter-blue">
         <section class="govuk-!-padding-bottom-9 background-white clearfix">
-            <div class="container">
-                {% include './includes/csat_user_feedback.html' with form=form  %}
-            </div>
+            <div class="js-enabled-only container">{% include './includes/csat_user_feedback.html' with form=form %}</div>
         </section>
     </div>
 </div>
@@ -91,7 +89,6 @@
 {% endblock feedback_reporter %}
 {% block body_js %}
     {{ block.super }}
-    
     <script src="{% static 'javascript/hcsat-feedback-form.js' %}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -99,6 +96,5 @@
         });
     </script>
     <script src="{% static 'javascript/govuk.js' %}"></script>
-    <script>window.GOVUKFrontend.initAll()</script>   
+    <script>window.GOVUKFrontend.initAll()</script>
 {% endblock %}
-
