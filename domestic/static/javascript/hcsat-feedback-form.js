@@ -21,7 +21,7 @@ class CsatFormHandler {
             const url = this.form.action
 
             try {
-                const response = await fetch(url, { //simulateFetch - change to fetch when endpoint ready and update url
+                const response = await fetch(url, {
                     method: 'POST',
                     headers: {
                         'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
@@ -32,7 +32,7 @@ class CsatFormHandler {
                 });
 
                 const data = await response.json();
-                this.handleStepTransition(data);
+                this.handleStepTransition(response, data);
             } catch (error) {
                 console.error('There was a problem with the fetch operation:', error);
                 this.showErrorSummary();
@@ -40,9 +40,9 @@ class CsatFormHandler {
         });
     }
 
-    handleStepTransition(data) {
+    handleStepTransition(response, data) {
         this.checkExistingErrors();
-        if (data.success) {
+        if (response.status==200) {
             if (this.currentStep === 1) {
                 this.stepTransition(this.stepOne, this.stepTwo, this.stepOneSuccessMessage, 'Submit feedback');
                 this.currentStep = 2;
@@ -51,8 +51,8 @@ class CsatFormHandler {
                 this.form.classList.add('great-hidden');
                 this.stepOneSuccessMessage.classList.add('great-hidden');
             }
-        } else if (data.errors) {
-            this.showErrorSummary(data.errors);
+        } else if (data) {
+            this.showErrorSummary(data);
         }
     }
 
@@ -107,7 +107,7 @@ class CsatFormHandler {
             }
         });
     }
-    
+
     removeErrorClasses(fieldGroup) {
         if (fieldGroup) {
             fieldGroup.classList.remove('govuk-form-group--error');
