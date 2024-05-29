@@ -336,9 +336,7 @@ class CsatUserFeedbackForm(forms.Form):
         help_text='Tick all that apply.',
         choices=choices.EXPERIENCE_CHOICES,
         widget=CheckboxSelectMultiple(attrs={'class': 'govuk-checkboxes__input'}),
-        error_messages={
-            'required': 'Select one or more issues',
-        },
+        required=False,
     )
     experience_other = CharField(
         label='Please specify',
@@ -366,9 +364,7 @@ class CsatUserFeedbackForm(forms.Form):
         label='How likely are you to use this service again?',
         choices=choices.LIKELIHOOD_CHOICES,
         widget=RadioSelect(attrs={'class': 'govuk-radios__input'}),
-        error_messages={
-            'required': 'Select one likelihood of returning options',
-        },
+        required=False,
     )
 
     def clean(self):

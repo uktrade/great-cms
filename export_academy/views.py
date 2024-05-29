@@ -9,7 +9,13 @@ from uuid import uuid4
 from directory_forms_api_client import actions
 from django.contrib.auth.models import AnonymousUser
 from django.db import transaction
-from django.http import Http404, HttpRequest, HttpResponse, HttpResponseRedirect
+from django.http import (
+    Http404,
+    HttpRequest,
+    HttpResponse,
+    HttpResponseRedirect,
+    JsonResponse,
+)
 from django.shortcuts import get_list_or_404, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
@@ -108,9 +114,10 @@ class BookingUpdateView(BookingMixin, UpdateView):
         return reverse_lazy(success_url, kwargs={'booking_id': self.object.id})
 
 
-class SuccessPageView(core_mixins.GetSnippetContentMixin, TemplateView, FormView):
+class SuccessPageView(core_mixins.GetSnippetContentMixin, FormView):
 
     form_class = forms.CsatUserFeedbackForm
+    success_url = '/'
 
     def get_initial(self):
         csat_id = self.request.session.get('csat_id')
@@ -133,10 +140,17 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, TemplateView, FormView
     def user_editing_registration(self):
         return self.request.path == reverse_lazy('export_academy:registration-edit-success')
 
+    def get_object(self, queryset=None):
+        """
+        Return the object the view is displaying.
+        """
+        id = self.kwargs.get('booking_id')
+        obj = models.Booking.objects.get(id=id)
+        return obj
+
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx['landing_page'] = models.ExportAcademyHomePage.objects.first()
-        ctx['form'] = forms.CsatUserFeedbackForm(self.request.POST or None)
         editing_registration = self.user_editing_registration()
 
         if editing_registration:
@@ -144,8 +158,7 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, TemplateView, FormView
             ctx['editing_registration'] = editing_registration
             ctx['current_page_breadcrumb'] = 'Registration'
             return ctx
-
-        booking = models.Booking.objects.get(id=ctx['booking_id'])
+        booking = self.get_object()
         if self.user_just_registered(booking):
             ctx['heading'] = 'Registration'
             ctx['return_url'] = booking.event.get_absolute_url()
@@ -167,13 +180,15 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, TemplateView, FormView
         ctx['current_page_breadcrumb'] = 'Registration' if just_registered else 'Events'
         return ctx
 
-    # def get_success_url(self):
-    #    return reverse_lazy('export_academy:csat-user-feedback') + '?success=true&step=completed'
+    def form_invalid(self, form):
+        super().form_invalid(form)
+        return JsonResponse(form.errors, status=400)
 
     def form_valid(self, form):
+        super().form_valid(form)
         csat_id = self.request.session.get('csat_id')
         if csat_id:
-            CsatUserFeedback.objects.update_or_create(
+            csat_feedback, created = CsatUserFeedback.objects.update_or_create(
                 id=csat_id,
                 defaults={
                     'experienced_issue': form.cleaned_data['experience'],
@@ -195,8 +210,10 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, TemplateView, FormView
             )
             self.request.session['csat_id'] = csat_feedback.id
 
-        # This can be path as there is no redirect
-        return redirect(self.get_success_url())
+        data = {
+            'pk': csat_feedback.pk,
+        }
+        return JsonResponse(data)
 
 
 class EventVideoView(DetailView):

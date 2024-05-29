@@ -10,7 +10,6 @@ class CsatFormHandler {
         this.errorList = this.errorSummary.querySelector('.govuk-error-summary__list');
         this.submitButton = this.form.querySelector('button[type="submit"]');
         this.currentStep = 1;
-
         this.initializeEventListeners();
     }
 
@@ -19,9 +18,10 @@ class CsatFormHandler {
             event.preventDefault();
             const formData = new FormData(this.form);
             formData.append('step', this.currentStep);
+            const url = this.form.action
 
             try {
-                const response = await this.fetch($(this).attr("action"), { //simulateFetch - change to fetch when endpoint ready and update url
+                const response = await fetch(url, { //simulateFetch - change to fetch when endpoint ready and update url
                     method: 'POST',
                     headers: {
                         'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
