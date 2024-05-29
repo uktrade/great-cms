@@ -161,14 +161,14 @@ urlpatterns = [
         name='event-video',
     ),
     path(
-        '<slug:slug>/',
-        views.EACourseView.as_view(),
-        name='course',
-    ),
-    path(
         'calendar/',
         views.DownloadCalendarView.as_view(),
         name='calendar',
+    ),
+    path(
+        '<slug:slug>/',
+        views.EACourseView.as_view(),
+        name='course',
     ),
     path(
         'event-recordings/<slug:slug>/',
