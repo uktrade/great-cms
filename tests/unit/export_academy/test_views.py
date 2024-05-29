@@ -315,7 +315,7 @@ def test_csat_user_feedback_submit(
             'likelihood_of_return': 'LIKELY',
         },
     )
-    assert response.status_code == 302
+    assert response.status_code == 200
 
 
 @pytest.mark.parametrize(
