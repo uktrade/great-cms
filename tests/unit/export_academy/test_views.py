@@ -280,7 +280,7 @@ def test_csat_user_feedback_with_session_value(
 
     CsatUserFeedback.objects.create(id=1, URL='http://test.com')
     session = client.session
-    session['csat_id'] = 1
+    session['ukea_csat_id'] = 1
     session.save()
     response = client.get(url)
     assert response.status_code == 200
@@ -303,7 +303,39 @@ def test_csat_user_feedback_submit(
 
     CsatUserFeedback.objects.create(id=1, URL='http://test.com')
     session = client.session
-    session['csat_id'] = 1
+    session['ukea_csat_id'] = 1
+    session['user_journey'] = 'DASHBOARD'
+    session.save()
+    response = client.post(
+        url,
+        {
+            'satisfaction': 'SATISFIED',
+            'user_journey': 'DASHBOARD',
+            'experience': ['I_DID_NOT_FIND_WHAT_I_WAS_LOOKING_FOR'],
+            'likelihood_of_return': 'LIKELY',
+        },
+    )
+    assert response.status_code == 302
+
+
+@pytest.mark.parametrize(
+    'booking_status,success_url,text',
+    ((Booking.CONFIRMED, 'export_academy:booking-success', 'Booking confirmed'),),
+)
+@pytest.mark.django_db
+def test_csat_user_feedback_submit_with_javascript(
+    export_academy_landing_page, test_event_list_hero, client, settings, user, booking_status, success_url, text
+):
+    settings.FEATURE_UKEA_CSAT = True
+    client.force_login(user)
+    registration = factories.RegistrationFactory(email=user.email)
+    event = factories.EventFactory()
+    booking = factories.BookingFactory(event=event, status=booking_status, registration=registration)
+    url = reverse('export_academy:booking-success', kwargs={'booking_id': booking.id}) + '?js_enabled=True'
+
+    CsatUserFeedback.objects.create(id=1, URL='http://test.com')
+    session = client.session
+    session['ukea_csat_id'] = 1
     session['user_journey'] = 'DASHBOARD'
     session.save()
     response = client.post(
