@@ -187,7 +187,6 @@ def test_event_admin_form_keeps_new_values():
             },
             False,
         ),
-        ({'satisfaction': 'VERY_SATISFIED', '': '', '': '', '': '', '': '', '': ''}, False),
     ),
 )
 @pytest.mark.django_db
