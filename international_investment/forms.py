@@ -25,7 +25,7 @@ class InvestmentFund(forms.Form):
         required=True,
         widget=TextInput(attrs={'class': 'govuk-input'}),
         error_messages={
-            'required': 'You must select a fund name',
+            'required': 'You must add a fund name',
         },
     )
 
@@ -35,7 +35,7 @@ class InvestmentFund(forms.Form):
         help_text='Choose a fund type',
         widget=Select(attrs={'class': 'govuk-select govuk-!-width-full'}),
         error_messages={
-            'required': 'Select a fund type from the list',
+            'required': 'You must choose fund type',
         },
         choices=FUND_TYPE_CHOICES,
     )
@@ -44,16 +44,20 @@ class InvestmentFund(forms.Form):
         label='Location',
         help_text='Search and select a country, region or territory',
         required=True,
-        widget=Select(attrs={'id': 'js-company-location-select', 'class': 'govuk-input'}),
+        widget=Select(attrs={'id': 'js-location-select', 'class': 'govuk-input'}),
         error_messages={
-            'required': 'Choose current location of fund',
+            'required': 'You must choose location of fund',
         },
-        choices=COMPANY_LOCATION_CHOICES,
+        choices=(('', ''),) + COMPANY_LOCATION_CHOICES,
     )
 
     website = CharField(
         max_length=255,
         widget=TextInput(attrs={'class': 'govuk-input'}),
+        required=True,
+        error_messages={
+            'required': 'You must add a website',
+        },
     )
 
 
