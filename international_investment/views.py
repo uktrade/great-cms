@@ -41,9 +41,13 @@ class InvestmentFundView(GA360Mixin, FormView):
         return context
 
     def form_valid(self, form):
-        self.request.session = {**self.request.session, **form.cleaned_data}
-        print(self.request.session)
+        if not self.request.session.get('triage_data'):
+            self.request.session['triage_data'] = {}
+        self.request.session['triage_data'] = {**self.request.session['triage_data'], **form.cleaned_data}
         return super().form_valid(form)
+
+    def get_initial(self):
+        return self.request.session.get('triage_data')
 
 
 class InvestmentTypesView(GA360Mixin, FormView):
