@@ -588,7 +588,7 @@ class ActivityStreamExportAcademyCsatUserFeedbackDataSerializer(serializers.Mode
             'url',
             'user_journey',
             'satisfaction_rating',
-            'experienced_issue',
+            'experienced_issues',
             'other_detail',
             'service_improvements_feedback',
             'likelihood_of_return',

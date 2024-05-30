@@ -22,7 +22,7 @@ from wagtail.admin.forms import WagtailAdminModelForm
 from contact import constants, widgets as contact_widgets
 from core.validators import is_valid_uk_phone_number, is_valid_uk_postcode
 from directory_constants.choices import COUNTRY_CHOICES
-from international_online_offer.core import choices
+from export_academy import choices
 
 COUNTRIES = COUNTRY_CHOICES.copy()
 COUNTRIES.insert(0, ('', 'Select a country'))

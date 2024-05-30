@@ -35,7 +35,7 @@ from core.models import (
 )
 from core.templatetags.content_tags import format_timedelta
 from domestic.models import BaseContentPage, TaggedBaseContentPage
-from export_academy import managers
+from export_academy import choices, managers
 from export_academy.blocks import (
     MetaDataBlock,
     PanelSectionBlock,
@@ -49,7 +49,6 @@ from export_academy.cms_panels import (
     ExportAcademyPagePanels,
 )
 from export_academy.forms import EventAdminModelForm
-from international_online_offer.core import choices
 
 
 class EventTypeTag(TagBase):
@@ -658,9 +657,11 @@ def send_notifications_for_all_bookings_report_to_sentry(event_id, total_booking
 
 class CsatUserFeedback(TimeStampedModel):
     URL = models.CharField(max_length=255)
-    user_journey = models.CharField(max_length=255, null=True)
+    user_journey = models.CharField(
+        max_length=255, null=True, choices=choices.USER_JOURNEY_CHOICES, default='EVENT_BOOKING'
+    )
     satisfaction_rating = models.CharField(max_length=255, choices=choices.SATISFACTION_CHOICES)
-    experienced_issue = ArrayField(
+    experienced_issues = ArrayField(
         models.CharField(max_length=255, choices=choices.EXPERIENCE_CHOICES), size=6, default=list, null=True
     )
     other_detail = models.CharField(max_length=255, null=True)
