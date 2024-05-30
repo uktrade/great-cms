@@ -381,8 +381,14 @@ if env.str('SENTRY_DSN', ''):
     sentry_sdk.init(
         dsn=env.str('SENTRY_DSN'),
         environment=env.str('SENTRY_ENVIRONMENT'),
-        integrations=[DjangoIntegration(), CeleryIntegration()],
+        integrations=[
+            DjangoIntegration(
+                cache_spans=True,
+            ),
+            CeleryIntegration(),
+        ],
         before_send=strip_password_data,
+        enable_tracing=True,
     )
 
 USE_X_FORWARDED_HOST = True
