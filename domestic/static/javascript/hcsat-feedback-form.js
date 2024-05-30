@@ -21,7 +21,7 @@ class CsatFormHandler {
             const url = this.form.action
 
             try {
-                const response = await fetch(url, {
+                const response = await fetch(`${url}?js_enabled=True`, {
                     method: 'POST',
                     headers: {
                         'X-CSRFToken': formData.get('csrfmiddlewaretoken'),

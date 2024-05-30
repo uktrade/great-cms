@@ -124,13 +124,6 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, FormView):
             return CsatUserFeedback.objects.get(id=csat_id)
         return None
 
-    def get_csat_stage(self):
-        csat_stage = self.request.session.get('ukea_csat_stage')
-        max_stage = 2
-        if csat_stage:
-            return int(csat_stage) + 1 if int(csat_stage) <= max_stage else int(csat_stage)
-        return 0
-
     def get_initial(self):
         csat = self.get_csat()
         if csat:
@@ -140,7 +133,7 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, FormView):
         return {'satisfaction': ''}
 
     def get_success_url(self):
-        return reverse_lazy('export_academy:registration-success', kwargs={'booking_id': self.booking_id})
+        return reverse_lazy('export_academy:registration-success', kwargs={'booking_id': self.kwargs.get('booking_id')})
 
     def get_buttons_for_event(self, event):
         user = self.request.user
@@ -192,17 +185,15 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, FormView):
         just_registered = self.user_just_registered(booking)
         ctx['just_registered'] = just_registered
         ctx['current_page_breadcrumb'] = 'Registration' if just_registered else 'Events'
-
-        stage = self.get_csat_stage()
+        stage = self.request.session.get('ukea_csat_stage', 0)
         ctx['csat_stage'] = stage
         if stage == 2:
             del self.request.session['ukea_csat_stage']
-
         return ctx
 
     def form_invalid(self, form):
         super().form_invalid(form)
-        js_enabled = 'js_enabled' in self.request.query_params.keys()
+        js_enabled = 'js_enabled' in self.request.get_full_path()
         if js_enabled:
             return JsonResponse(form.errors, status=400)
         return self.render_to_response(self.get_context_data(form=form))
@@ -220,7 +211,13 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, FormView):
                     'service_improvements_feedback': form.cleaned_data['feedback_text'],
                 },
             )
-            del self.request.session['ukea_csat_id']
+            csat_stage = self.request.session.get('ukea_csat_stage', 0)
+
+            if csat_stage == 0:
+                self.request.session['ukea_csat_stage'] = 1
+            else:
+                self.request.session['ukea_csat_stage'] = 2
+
         else:
             csat_feedback = CsatUserFeedback.objects.create(
                 satisfaction_rating=form.cleaned_data['satisfaction'],
@@ -232,13 +229,12 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, FormView):
                 user_journey=self.request.session.get('csat_user_journey'),
             )
             self.request.session['ukea_csat_id'] = csat_feedback.id
-            self.request.session['ukea_csat_stage'] = self.get_csat_stage() + 1
+            self.request.session['ukea_csat_stage'] = 1
 
         data = {
             'pk': csat_feedback.pk,
         }
-
-        js_enabled = 'js_enabled' in self.request.query_params.keys()
+        js_enabled = 'js_enabled' in self.request.get_full_path()
         if js_enabled:
             return JsonResponse(data)
         return HttpResponseRedirect(self.get_success_url())
