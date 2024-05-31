@@ -443,6 +443,7 @@ class RegistrationMarketingSources(
             step_text='Step 4 of 4',
             landing_page=ExportAcademyHomePage.objects.first(),
             title='How did you hear about the UK Export Academy?',
+            hide_title=True,  # Hide title in base template so that heading is within radio legend
             current_page_breadcrumb='How did you hear about the UK Export Academy?',
         )
 
