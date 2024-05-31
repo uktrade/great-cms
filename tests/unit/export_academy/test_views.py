@@ -404,11 +404,25 @@ def test_csat_user_feedback_submit_with_javascript(
         (
             reverse('export_academy:registration-marketing'),
             {
-                'marketing_sources': 'Other (please specify below)',
+                'marketing_sources': 'From an International Trade Advisor in my region',
+                'marketing_sources_other': '',
             },
             reverse('export_academy:registration-confirm'),
             {
-                'marketing_sources': 'Tell us how you heard about the UK Export Academy',
+                'marketing_sources': 'Enter how you heard about the UK Export Academy',
+                'marketing_sources_other': 'Enter how you heard about the UK Export Academy',
+            },
+        ),
+        (
+            reverse('export_academy:registration-marketing'),
+            {
+                'marketing_sources': 'Other',
+                'marketing_sources_other': 'Postbox',
+            },
+            reverse('export_academy:registration-confirm'),
+            {
+                'marketing_sources': 'Enter how you heard about the UK Export Academy',
+                'marketing_sources_other': 'Enter how you heard about the UK Export Academy',
             },
         ),
     ),
@@ -426,6 +440,21 @@ def test_export_academy_registration_form_pages(
 ):
     client.force_login(user)
 
+    #   Redirect succeeds with valid data
+    response = client.post(page_url, form_data)
+    assert response.status_code == 302
+    assert response.url == redirect_url
+
+    #   When editing registration details the redirect returns to the confirm page
+    edit_page_url = page_url + 'edit/'
+    assert client.get(edit_page_url).context['button_text'] == 'Save'
+    response = client.post(edit_page_url, form_data)
+    assert response.status_code == 302
+    assert response.url == reverse('export_academy:registration-confirm')
+
+    if page_url == reverse('export_academy:registration-marketing') and form_data['marketing_sources'] != 'Other':
+        pytest.skip('marketing_sources_other is an optional field if marketing_sources is not other')
+
     #   Redirect fails when any of the fields in the form are missing
     invalid_form_data = form_data.copy()
     for key in form_data:
@@ -434,18 +463,6 @@ def test_export_academy_registration_form_pages(
         assert response.status_code == 200
         assert error_messages[key] in str(response.rendered_content)
         invalid_form_data = form_data.copy()
-
-    #   Redirect succeeds with valid data
-    response = client.post(page_url, form_data)
-    assert response.status_code == 302
-    assert response.url == redirect_url
-
-    #   When editing registration details the redirect returns to the confirm page
-    page_url += 'edit/'
-    assert client.get(page_url).context['button_text'] == 'Save'
-    response = client.post(page_url, form_data)
-    assert response.status_code == 302
-    assert response.url == reverse('export_academy:registration-confirm')
 
 
 @mock.patch.object(actions, 'GovNotifyEmailAction')
