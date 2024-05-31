@@ -84,6 +84,17 @@ class CsatFormHandler {
                     }
                 }
 
+                if (field == 'experience_other'){
+                    const OtherField = document.getElementById('conditional-experience-4');
+                    const errorField = OtherField.children[0]
+                    var inlineError = document.createElement("p");
+                    inlineError.innerHTML='Enter the issue you experienced'
+                    inlineError.classList.add('govuk-error-message')
+
+                    errorField.insertBefore(inlineError,errorField.querySelector('#id_experience_other'))
+                    errorField.classList.add('govuk-form-group--error');
+                }
+
                 errors[field].forEach(error => {
                     const listItem = document.createElement('li');
                     listItem.innerHTML = `<a href="#id_${field}">${error}</a>`;

@@ -87,18 +87,16 @@
                         <div id="experience-hint" class="govuk-hint govuk-!-margin-bottom-3">Select all that apply.</div>
                         <p id="csat-experience-error-message"
                            class="govuk-error-message{% if not form.experience.errors %} great-hidden{% endif %}">
-                            <span class="govuk-visually-hidden">Error:</span> Select one or more issues
+                            <span class="govuk-visually-hidden">Error:</span> Select issues you experienced, or select ‘I did not experience any issues’
                         </p>
                         <div class="govuk-checkboxes"
                              data-module="govuk-checkboxes"
                              id="experience">
                             {% for action in form.experience %}
-                                {% if action.data.value == 'I_DID_NOT_EXPERIENCE_ANY_ISSUES' %}
-                                    <div class="govuk-checkboxes__divider great-font-bold">Or</div>
-                                {% endif %}
+                                {% if action.data.value == 'NO_ISSUE' %}<div class="govuk-checkboxes__divider great-font-bold">Or</div>{% endif %}
                                 <div class="govuk-checkboxes__item">
                                     <input {% if action.data.value in form.experience.value %}checked{% endif %}
-                                           {% if action.data.value == 'I_DID_NOT_EXPERIENCE_ANY_ISSUES' %}data-behaviour="exclusive"{% endif %}
+                                           {% if action.data.value == 'NO_ISSUE' %}data-behaviour="exclusive"{% endif %}
                                            {% if action.data.value == 'OTHER' %}data-aria-controls="conditional-experience-{{ forloop.counter0 }}"{% endif %}
                                            type="checkbox"
                                            name="experience"
@@ -128,7 +126,7 @@
                         </legend>
                         <p id="csat-likelihood-of-return-error-message"
                            class="govuk-error-message{% if not form.likelihood_of_return.errors %} great-hidden{% endif %}">
-                            <span class="govuk-visually-hidden">Error:</span> Select one likelihood of returning option
+                            <span class="govuk-visually-hidden">Error:</span> Select how likely you are to use this service again
                         </p>
                         <div class="govuk-radios"
                              data-module="govuk-radios"
@@ -160,7 +158,11 @@
         </div>
         <div class="govuk-grid-column-one-half-from-desktop govuk-!-margin-bottom-4">
             <div class="govuk-grid-row{% if csat_stage == 2 %} great-hidden{% endif %}">
-                {% include './submit_button.html' with button_text='Submit feedback' %}
+                {% if csat_stage == 0 %}
+                    {% include './submit_button.html' with button_text='Submit and continue' %}
+                {% else %}
+                    {% include './submit_button.html' with button_text='Submit feedback' %}
+                {% endif %}
             </div>
         </div>
     </form>
