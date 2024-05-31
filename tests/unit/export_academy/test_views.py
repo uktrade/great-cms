@@ -311,7 +311,7 @@ def test_csat_user_feedback_submit(
         {
             'satisfaction': 'SATISFIED',
             'user_journey': 'DASHBOARD',
-            'experience': ['I_DID_NOT_FIND_WHAT_I_WAS_LOOKING_FOR'],
+            'experience': ['NOT_FIND_LOOKING_FOR'],
             'likelihood_of_return': 'LIKELY',
         },
     )
@@ -343,7 +343,7 @@ def test_csat_user_feedback_submit_with_javascript(
         {
             'satisfaction': 'SATISFIED',
             'user_journey': 'DASHBOARD',
-            'experience': ['I_DID_NOT_FIND_WHAT_I_WAS_LOOKING_FOR'],
+            'experience': ['NOT_FIND_LOOKING_FOR'],
             'likelihood_of_return': 'LIKELY',
         },
     )
