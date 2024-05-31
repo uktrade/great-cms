@@ -37,7 +37,7 @@ from rest_framework.generics import GenericAPIView
 
 from config import settings
 from core import mixins as core_mixins
-from core.helpers import check_url_host_is_safelisted, get_location
+from core.helpers import get_location
 from core.templatetags.content_tags import format_timedelta
 from directory_sso_api_client import sso_api_client
 from export_academy import filters, forms, helpers, models
@@ -201,11 +201,12 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, FormView):
     def form_valid(self, form):
         super().form_valid(form)
         csat = self.get_csat()
+        booking = self.get_object()
         if csat:
             csat_feedback, created = CsatUserFeedback.objects.update_or_create(
                 id=csat.id,
                 defaults={
-                    'experienced_issue': form.cleaned_data['experience'],
+                    'experienced_issues': form.cleaned_data['experience'],
                     'other_detail': form.cleaned_data['experience_other'],
                     'likelihood_of_return': form.cleaned_data['likelihood_of_return'],
                     'service_improvements_feedback': form.cleaned_data['feedback_text'],
@@ -221,12 +222,12 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, FormView):
         else:
             csat_feedback = CsatUserFeedback.objects.create(
                 satisfaction_rating=form.cleaned_data['satisfaction'],
-                experienced_issue=form.cleaned_data['experience'],
+                experienced_issues=form.cleaned_data['experience'],
                 other_detail=form.cleaned_data['experience_other'],
                 likelihood_of_return=form.cleaned_data['likelihood_of_return'],
                 service_improvements_feedback=form.cleaned_data['feedback_text'],
-                URL=check_url_host_is_safelisted(self.request),
-                user_journey=self.request.session.get('csat_user_journey'),
+                URL=reverse_lazy('export_academy:registration-success', kwargs={'booking_id': booking.id}),
+                user_journey='EVENT_BOOKING',
             )
             self.request.session['ukea_csat_id'] = csat_feedback.id
             self.request.session['ukea_csat_stage'] = 1
