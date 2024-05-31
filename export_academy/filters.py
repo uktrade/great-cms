@@ -70,7 +70,7 @@ class EventFilter(FilterSet):
     sector = filters.ModelMultipleChoiceFilter(
         label='Sector',
         field_name='sector_tags__id',
-        queryset=SectorTag.objects.filter(Exists(models.SectorTaggedEvent.objects.filter(tag_id=OuterRef("id")))),
+        queryset=SectorTag.objects.filter(Exists(models.SectorTaggedEvent.objects.filter(tag_id=OuterRef('id')))),
         to_field_name='id',
         widget=forms.CheckboxSelectInlineLabelMultiple,
     )
@@ -78,7 +78,7 @@ class EventFilter(FilterSet):
     market = filters.ModelMultipleChoiceFilter(
         label='Market',
         field_name='country_tags__id',
-        queryset=CountryTag.objects.filter(Exists(models.CountryTaggedEvent.objects.filter(tag_id=OuterRef("id")))),
+        queryset=CountryTag.objects.filter(Exists(models.CountryTaggedEvent.objects.filter(tag_id=OuterRef('id')))),
         to_field_name='id',
         widget=forms.CheckboxSelectInlineLabelMultiple,
     )
@@ -87,7 +87,7 @@ class EventFilter(FilterSet):
         label='Type of Export',
         field_name='type_of_export_tags__id',
         queryset=TypeOfExportTag.objects.filter(
-            Exists(models.TypeOfExportTaggedEvent.objects.filter(tag_id=OuterRef("id")))
+            Exists(models.TypeOfExportTaggedEvent.objects.filter(tag_id=OuterRef('id')))
         ),
         to_field_name='id',
         widget=forms.CheckboxSelectInlineLabelMultiple,
