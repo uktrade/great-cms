@@ -34,34 +34,37 @@
                            id="mobile-filter-toggle">Filters</a>
                         <ul>
                             {% for field in filter.form|get_filters:request.user %}
-                                <li>
-                                    <fieldset class="filter-section" aria-describedby="{{ field.label }}_label">
-                                        <legend class="great-visually-hidden">{{ field.label }}</legend>
-                                        <button type="button"
-                                                id="{{ field.label }}"
-                                                class="filter-section-toggle hidden"
-                                                role="button"
-                                                aria-expanded="true"
-                                                aria-controls="{{ field.label }}_fields" /></button>
-                                    <label class="arrows-left arrows-left-active filter-section-headings govuk-!-padding-left-2"
-                                           for="{{ field.label }}"
-                                           id="{{ field.label }}_label">
-                                        <h2>{{ field.label }}</h2>
-                                    </label>
-                                    <div id="{{ field.label }}_fields"
-                                         class="options checkbox-small filter-section-active">
-                                        {% if request.GET.booking_period == 'upcoming' or request.GET.booking_period == 'past' %}
-                                            {% filter disable_period_radios %}
-                                                {{ field }}
-                                            {% endfilter %}
-                                        {% else %}
-                                            {% filter set_all_events %}
-                                                {{ field }}
-                                            {% endfilter %}
-                                        {% endif %}
-                                    </div>
-                                </fieldset>
-                            </li>
+                                {% if field.label == "Market" and not market_filters or field.label == "Sector" and not sector_filters or field.label == "Type of Export" and not type_of_export_filters %}
+                                {% else %}
+                                    <li>
+                                        <fieldset class="filter-section" aria-describedby="{{ field.label }}_label">
+                                            <legend class="great-visually-hidden">{{ field.label }}</legend>
+                                            <button type="button"
+                                                    id="{{ field.label }}"
+                                                    class="filter-section-toggle hidden"
+                                                    role="button"
+                                                    aria-expanded="true"
+                                                    aria-controls="{{ field.label }}_fields" /></button>
+                                        <label class="arrows-left arrows-left-active filter-section-headings govuk-!-padding-left-2"
+                                               for="{{ field.label }}"
+                                               id="{{ field.label }}_label">
+                                            <h2>{{ field.label }}</h2>
+                                        </label>
+                                        <div id="{{ field.label }}_fields"
+                                             class="options checkbox-small filter-section-active">
+                                            {% if request.GET.booking_period == 'upcoming' or request.GET.booking_period == 'past' %}
+                                                {% filter disable_period_radios %}
+                                                    {{ field }}
+                                                {% endfilter %}
+                                            {% else %}
+                                                {% filter set_all_events %}
+                                                    {{ field }}
+                                                {% endfilter %}
+                                            {% endif %}
+                                        </div>
+                                    </fieldset>
+                                </li>
+                            {% endif %}
                         {% endfor %}
                     </ul>
                     <div class="filters-sticky-footer govuk-!-margin-top-7"
