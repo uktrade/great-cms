@@ -25,7 +25,7 @@
     <a href="{% pageurl landing_page %}">UK Export Academy</a>
 {% endbreadcrumbs %}
 <div class="great">
-    <section class="govuk-!-padding-top-3 background-white clearfix">
+    <section class="govuk-!-padding-top-3 govuk-!-padding-bottom-3 background-white clearfix">
         <div class="container">
             <div class="govuk-grid-column-two-thirds">
                 <div class="govuk-notification-banner govuk-notification-banner--success govuk-!-margin-top-7"
@@ -78,5 +78,25 @@
             </div>
         </div>
     </section>
+    {% if features.FEATURE_UKEA_CSAT %}
+    <div class="great-border-thin-top-lighter-blue">
+        <section class="govuk-!-padding-bottom-9 background-white clearfix">
+            <div class="container">{% include './includes/csat_user_feedback.html' with form=form csat_stage=csat_stage %}</div>
+        </section>
+    </div>
+    {% endif %}
 </div>
 {% endblock content %}
+{% block feedback_reporter %}
+{% endblock feedback_reporter %}
+{% block body_js %}
+    {{ block.super }}
+    <script src="{% static 'javascript/hcsat-feedback-form.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            new CsatFormHandler('csat-form');
+        });
+    </script>
+    <script src="{% static 'javascript/govuk.js' %}"></script>
+    <script>window.GOVUKFrontend.initAll()</script>
+{% endblock %}

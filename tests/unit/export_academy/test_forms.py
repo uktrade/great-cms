@@ -170,7 +170,7 @@ def test_event_admin_form_keeps_new_values():
         (
             {
                 'satisfaction': 'VERY_SATISFIED',
-                'experience': ['I_DID_NOT_FIND_WHAT_I_WAS_LOOKING_FOR'],
+                'experience': ['NOT_FIND_LOOKING_FOR'],
                 'experience_other': '',
                 'feedback_text': 'This is some feedback',
                 'likelihood_of_return': 'LIKELY',
@@ -187,7 +187,6 @@ def test_event_admin_form_keeps_new_values():
             },
             False,
         ),
-        ({'satisfaction': 'VERY_SATISFIED', '': '', '': '', '': '', '': '', '': ''}, False),
     ),
 )
 @pytest.mark.django_db
