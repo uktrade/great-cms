@@ -9,7 +9,13 @@ from uuid import uuid4
 from directory_forms_api_client import actions
 from django.contrib.auth.models import AnonymousUser
 from django.db import transaction
-from django.http import Http404, HttpRequest, HttpResponse, HttpResponseRedirect
+from django.http import (
+    Http404,
+    HttpRequest,
+    HttpResponse,
+    HttpResponseRedirect,
+    JsonResponse,
+)
 from django.shortcuts import get_list_or_404, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
@@ -31,7 +37,7 @@ from rest_framework.generics import GenericAPIView
 
 from config import settings
 from core import mixins as core_mixins
-from core.helpers import check_url_host_is_safelisted, get_location
+from core.helpers import get_location
 from core.templatetags.content_tags import format_timedelta
 from directory_sso_api_client import sso_api_client
 from export_academy import filters, forms, helpers, models
@@ -108,7 +114,27 @@ class BookingUpdateView(BookingMixin, UpdateView):
         return reverse_lazy(success_url, kwargs={'booking_id': self.object.id})
 
 
-class SuccessPageView(core_mixins.GetSnippetContentMixin, TemplateView):
+class SuccessPageView(core_mixins.GetSnippetContentMixin, FormView):
+
+    form_class = forms.CsatUserFeedbackForm
+
+    def get_csat(self):
+        csat_id = self.request.session.get('ukea_csat_id')
+        if csat_id:
+            return CsatUserFeedback.objects.get(id=csat_id)
+        return None
+
+    def get_initial(self):
+        csat = self.get_csat()
+        if csat:
+            satisfaction = csat.satisfaction_rating
+            if satisfaction:
+                return {'satisfaction': satisfaction}
+        return {'satisfaction': ''}
+
+    def get_success_url(self):
+        return reverse_lazy('export_academy:registration-success', kwargs={'booking_id': self.kwargs.get('booking_id')})
+
     def get_buttons_for_event(self, event):
         user = self.request.user
         return get_buttons_for_event(user, event, on_confirmation=True)
@@ -121,10 +147,17 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, TemplateView):
     def user_editing_registration(self):
         return self.request.path == reverse_lazy('export_academy:registration-edit-success')
 
+    def get_object(self, queryset=None):
+        """
+        Return the object the view is displaying.
+        """
+        id = self.kwargs.get('booking_id')
+        obj = models.Booking.objects.get(id=id)
+        return obj
+
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx['landing_page'] = models.ExportAcademyHomePage.objects.first()
-
         editing_registration = self.user_editing_registration()
 
         if editing_registration:
@@ -132,8 +165,7 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, TemplateView):
             ctx['editing_registration'] = editing_registration
             ctx['current_page_breadcrumb'] = 'Registration'
             return ctx
-
-        booking = models.Booking.objects.get(id=ctx['booking_id'])
+        booking = self.get_object()
         if self.user_just_registered(booking):
             ctx['heading'] = 'Registration'
             ctx['return_url'] = booking.event.get_absolute_url()
@@ -153,7 +185,60 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, TemplateView):
         just_registered = self.user_just_registered(booking)
         ctx['just_registered'] = just_registered
         ctx['current_page_breadcrumb'] = 'Registration' if just_registered else 'Events'
+        stage = self.request.session.get('ukea_csat_stage', 0)
+        ctx['csat_stage'] = stage
+        if stage == 2:
+            del self.request.session['ukea_csat_stage']
         return ctx
+
+    def form_invalid(self, form):
+        super().form_invalid(form)
+        js_enabled = 'js_enabled' in self.request.get_full_path()
+        if js_enabled:
+            return JsonResponse(form.errors, status=400)
+        return self.render_to_response(self.get_context_data(form=form))
+
+    def form_valid(self, form):
+        super().form_valid(form)
+        csat = self.get_csat()
+        booking = self.get_object()
+        if csat:
+            csat_feedback, created = CsatUserFeedback.objects.update_or_create(
+                id=csat.id,
+                defaults={
+                    'experienced_issues': form.cleaned_data['experience'],
+                    'other_detail': form.cleaned_data['experience_other'],
+                    'likelihood_of_return': form.cleaned_data['likelihood_of_return'],
+                    'service_improvements_feedback': form.cleaned_data['feedback_text'],
+                },
+            )
+            csat_stage = self.request.session.get('ukea_csat_stage', 0)
+
+            if csat_stage == 0:
+                self.request.session['ukea_csat_stage'] = 1
+            else:
+                self.request.session['ukea_csat_stage'] = 2
+
+        else:
+            csat_feedback = CsatUserFeedback.objects.create(
+                satisfaction_rating=form.cleaned_data['satisfaction'],
+                experienced_issues=form.cleaned_data['experience'],
+                other_detail=form.cleaned_data['experience_other'],
+                likelihood_of_return=form.cleaned_data['likelihood_of_return'],
+                service_improvements_feedback=form.cleaned_data['feedback_text'],
+                URL=reverse_lazy('export_academy:registration-success', kwargs={'booking_id': booking.id}),
+                user_journey='EVENT_BOOKING',
+            )
+            self.request.session['ukea_csat_id'] = csat_feedback.id
+            self.request.session['ukea_csat_stage'] = 1
+
+        data = {
+            'pk': csat_feedback.pk,
+        }
+        js_enabled = 'js_enabled' in self.request.get_full_path()
+        if js_enabled:
+            return JsonResponse(data)
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class EventVideoView(DetailView):
@@ -921,78 +1006,3 @@ class EventVideoOnDemandView(DetailView):
         ctx['video_page_slug'] = event.get_past_event_recording_slug()
         ctx['full_transcript'] = self.request.GET.get('fullTranscript')
         return ctx
-
-
-class CsatUserWidgetView(FormView):
-    def post(self, request, *args, **kwargs):
-        satisfaction = request.POST.get('satisfaction')
-        user_journey = request.POST.get('user_journey')
-        url = check_url_host_is_safelisted(request)
-        request.session['csat_user_journey'] = user_journey
-
-        if satisfaction:
-            csat_feedback = CsatUserFeedback.objects.create(
-                satisfaction_rating=satisfaction, URL=url, user_journey=user_journey
-            )
-            request.session['csat_complete'] = True
-            request.session['csat_id'] = csat_feedback.id
-
-        response = HttpResponseRedirect(reverse_lazy('export_academy:csat-user-feedback') + '?next=' + url)
-        return response
-
-
-class CsatUserFeedbackView(GA360Mixin, FormView):
-    form_class = forms.CsatUserFeedbackForm
-    template_name = 'export_academy/csat_user_feedback.html'
-
-    def __init__(self):
-        super().__init__()
-        self.set_ga360_payload(
-            page_id='CSAT Feedback',
-            business_unit=settings.GA360_BUSINESS_UNIT,
-            site_section='csat-user-feedback',
-        )
-
-    def get_initial(self):
-        csat_id = self.request.session.get('csat_id')
-        if csat_id:
-            csat_record = CsatUserFeedback.objects.get(id=csat_id)
-            satisfaction = csat_record.satisfaction_rating
-            if satisfaction:
-                return {'satisfaction': satisfaction}
-        else:
-            return {'satisfaction': ''}
-
-    def get_success_url(self):
-        success_url = reverse_lazy('export_academy:csat-user-feedback') + '?success=true'
-        if self.request.GET.get('next'):
-            success_url = success_url + '&next=' + check_url_host_is_safelisted(self.request)
-        return success_url
-
-    def form_valid(self, form):
-        csat_id = self.request.session.get('csat_id')
-        if csat_id:
-            CsatUserFeedback.objects.update_or_create(
-                id=csat_id,
-                defaults={
-                    'experienced_issue': form.cleaned_data['experience'],
-                    'other_detail': form.cleaned_data['experience_other'],
-                    'likelihood_of_return': form.cleaned_data['likelihood_of_return'],
-                    'service_improvements_feedback': form.cleaned_data['feedback_text'],
-                },
-            )
-            if self.request.session.get('csat_id'):
-                del self.request.session['csat_id']
-        else:
-            CsatUserFeedback.objects.create(
-                satisfaction_rating=form.cleaned_data['satisfaction'],
-                experienced_issue=form.cleaned_data['experience'],
-                other_detail=form.cleaned_data['experience_other'],
-                likelihood_of_return=form.cleaned_data['likelihood_of_return'],
-                service_improvements_feedback=form.cleaned_data['feedback_text'],
-                URL=check_url_host_is_safelisted(self.request),
-                user_journey=self.request.session.get('csat_user_journey'),
-            )
-            if self.request.session.get('csat_user_journey'):
-                del self.request.session['csat_user_journey']
-        return super().form_valid(form)
