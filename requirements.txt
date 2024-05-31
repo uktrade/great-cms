@@ -233,6 +233,8 @@ geoip2==2.9.0
     # via -r requirements.in
 great-components==2.6.4
     # via -r requirements.in
+greenlet==3.0.3
+    # via sqlalchemy
 gunicorn==22.0.0
     # via -r requirements.in
 hashids==0.8.4
@@ -393,7 +395,7 @@ reportlab==4.0.9
     # via
     #   svglib
     #   xhtml2pdf
-requests==2.31.0
+requests==2.32.0
     # via
     #   airtable-python-wrapper
     #   directory-api-client
