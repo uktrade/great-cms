@@ -1,27 +1,43 @@
 FUND_TYPE_CHOICES = (
-    ('asset_management', 'Asset management'),
-    ('endowment', 'Endowment'),
-    ('foundation', 'Foundation'),
-    ('insurance', 'Insurance'),
-    ('large_corporate', 'Large Corporate'),
-    ('pension', 'Pension'),
-    ('sovereign_wealth', 'Sovereign wealth'),
-    ('venture_capital', 'Venture capital'),
+    ('Asset management', 'Asset management'),
+    ('Endowment', 'Endowment'),
+    ('Foundation', 'Foundation'),
+    ('Insurance', 'Insurance'),
+    ('Large Corporate', 'Large Corporate'),
+    ('Pension', 'Pension'),
+    ('Sovereign wealth', 'Sovereign wealth'),
+    ('Venture capital', 'Venture capital'),
 )
 
 INVESTMENT_TYPE_CHOICES = (
-    ('energy', 'Energy'),
-    ('infrastructure', 'Infrastructure'),
-    ('research_facilities', 'Research facilities'),
-    ('startup_equity', 'Startup equity'),
-    ('urban_development_and_housing', 'Urban development and housing'),
-    ('other', 'Other'),
+    ('Energy', 'Energy'),
+    ('Infrastructure', 'Infrastructure'),
+    ('Research facilities', 'Research facilities'),
+    ('Startup equity', 'Startup equity'),
+    ('Urban development and housing', 'Urban development and housing'),
+    ('Other', 'Other'),
 )
 
 SPEND_CHOICES = (
-    ('gbp_0m_to_5m', 'Less than £5 million'),
-    ('gbp_5m_to_10m', '£5 million to £10 million'),
-    ('gbp_10m_to_50m', '£10 million to £50 million'),
-    ('gbp_50m_to_100m', '£50 million to £100 million'),
-    ('gbp_more_than_100m', 'More than £100 million'),
+    ('Less than £5 million', 'Less than £5 million'),
+    ('£5 million to £10 million', '£5 million to £10 million'),
+    ('£10 million to £50 million', '£10 million to £50 million'),
+    ('£50 million to £100 million', '£50 million to £100 million'),
+    ('More than £100 million', 'More than £100 million'),
+)
+
+SPEND_CHOICES_EURO = (
+    ('Less than £5 million', 'Less than €6 million'),
+    ('£5 million to £10 million', '€6 million to €12 million'),
+    ('£10 million to £50 million', '€12 million to €60 million'),
+    ('£50 million to £100 million', '€60 million to €120 million'),
+    ('More than £100,000,000', 'More than €120 million'),
+)
+
+SPEND_CHOICES_USD = (
+    ('Less than £5 million', 'Less than $6 million'),
+    ('£5 million to £10 million', '$6 million to $12 million'),
+    ('£10 million to £50 million', '$12 million to $50 million'),
+    ('£50 million to £100 million', '$60 million to $120 million'),
+    ('More than £100,000,000', 'More than $120 million'),
 )

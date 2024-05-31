@@ -24,7 +24,7 @@
         </div>
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
-                <form method="post">
+                <form method="post" onsubmit="return onSubmitInvestmentTypes()">
                     {% csrf_token %}
                     <div class="govuk-form-group{% if form.investment_type.errors or form.investment_type_other.errors %} govuk-form-group--error{% endif %}">
                         <fieldset class="govuk-fieldset">
@@ -43,7 +43,7 @@
                                 {% for action in form.investment_type %}
                                     <div class="govuk-checkboxes__item">
                                         <input {% if action.data.value in form.investment_type.value %}checked{% endif %}
-                                               {% if action.data.value == 'OTHER' %}data-aria-controls="conditional-investment-type-{{ forloop.counter0 }}"{% endif %}
+                                               {% if action.data.value == 'other' %}data-aria-controls="conditional-investment-type-{{ forloop.counter0 }}" onclick="handleInvestmentTypeOtherClick(this)"{% endif %}
                                                type="checkbox"
                                                name="investment_type"
                                                value="{{ action.data.value }}"
@@ -52,7 +52,7 @@
                                         <label class="govuk-label govuk-checkboxes__label"
                                                for="{{ action.id_for_label }}">{{ action.choice_label }}</label>
                                     </div>
-                                    {% if action.data.value == 'OTHER' %}
+                                    {% if action.data.value == 'other' %}
                                         <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
                                              id="conditional-investment-type-{{ forloop.counter0 }}">
                                             <div class="govuk-form-group">
@@ -73,4 +73,15 @@
             </div>
         </div>
     </div>
+{% endblock %}
+{% block body_js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        function onSubmitInvestmentTypes() {
+            otherRadio = document.getElementById("id_investment_type_5");
+            if (!otherRadio.checked) {
+              document.getElementById('id_investment_type_other').value = '';
+            }
+          }
+    </script>
 {% endblock %}

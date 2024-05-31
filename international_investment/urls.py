@@ -21,8 +21,18 @@ urlpatterns = [
         name='investment-types',
     ),
     path(
-        'estimate-investment/',
-        views.EstimateInvestment.as_view(),
-        name='estimate-investment',
+        'investment-estimate/',
+        views.InvestmentEstimateView.as_view(),
+        name='investment-estimate',
+    ),
+    path(
+        'investment-contact-details/',
+        views.InvestmentContactView.as_view(),
+        name='investment-contact-details',
+    ),
+    path(
+        'investment-submission-success/',
+        views.InvestmentSubmissionSuccessView.as_view(),
+        name='investment-submission-success',
     ),
 ]

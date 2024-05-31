@@ -2,23 +2,24 @@ from django.forms import (
     CharField,
     CheckboxSelectMultiple,
     ChoiceField,
-    Form,
     MultipleChoiceField,
-    RadioSelect,
     Select,
     TextInput,
 )
 from great_components import forms
 
+from contact import widgets as contact_widgets
 from international_investment.core.choices import (
     FUND_TYPE_CHOICES,
     INVESTMENT_TYPE_CHOICES,
     SPEND_CHOICES,
+    SPEND_CHOICES_EURO,
+    SPEND_CHOICES_USD,
 )
 from international_online_offer.core.choices import COMPANY_LOCATION_CHOICES
 
 
-class InvestmentFund(forms.Form):
+class InvestmentFundForm(forms.Form):
     fund_name = CharField(
         label='Fund name',
         max_length=255,
@@ -37,7 +38,7 @@ class InvestmentFund(forms.Form):
         error_messages={
             'required': 'You must choose fund type',
         },
-        choices=FUND_TYPE_CHOICES,
+        choices=(('', ''),) + FUND_TYPE_CHOICES,
     )
 
     location = ChoiceField(
@@ -61,7 +62,7 @@ class InvestmentFund(forms.Form):
     )
 
 
-class InvestmentTypes(Form):
+class InvestmentTypesForm(forms.Form):
     investment_type = MultipleChoiceField(
         label='',
         help_text='Select all that apply',
@@ -82,13 +83,64 @@ class InvestmentTypes(Form):
     )
 
 
-class EstimateInvestment(Form):
+class InvestmentEstimateForm(forms.Form):
+
     spend = ChoiceField(
         label='Select an estimate',
         required=True,
-        widget=RadioSelect(attrs={'id': 'estimate-investment-select', 'class': 'govuk-radios__input'}),
+        widget=contact_widgets.GreatRadioSelect,
         choices=SPEND_CHOICES,
         error_messages={
             'required': 'You must select at least one spend option',
+        },
+    )
+
+    def __init__(self, *args, **kwargs):
+        spend_currency = kwargs.pop('spend_currency', 'GBP')
+        super(InvestmentEstimateForm, self).__init__(*args, **kwargs)
+        spend_choices = SPEND_CHOICES
+        if spend_currency == 'EUR':
+            spend_choices = SPEND_CHOICES_EURO
+        elif spend_currency == 'USD':
+            spend_choices = SPEND_CHOICES_USD
+        self.fields['spend'].choices = spend_choices
+
+
+class InvestmentContactForm(forms.Form):
+    full_name = CharField(
+        label='Full name',
+        max_length=255,
+        required=True,
+        widget=TextInput(attrs={'class': 'govuk-input'}),
+        error_messages={
+            'required': 'You must add a full name',
+        },
+    )
+    email_address = CharField(
+        label='Email',
+        max_length=255,
+        required=True,
+        widget=TextInput(attrs={'class': 'govuk-input'}),
+        error_messages={
+            'required': 'You must add an email',
+        },
+    )
+    job_title = CharField(
+        label='Job title',
+        max_length=255,
+        required=True,
+        widget=TextInput(attrs={'class': 'govuk-input'}),
+        error_messages={
+            'required': 'You must add a job title',
+        },
+    )
+    phone_number = CharField(
+        label='Phone number',
+        help_text='Include the country code',
+        max_length=255,
+        required=True,
+        widget=TextInput(attrs={'class': 'govuk-input'}),
+        error_messages={
+            'required': 'You must add a phone number',
         },
     )
