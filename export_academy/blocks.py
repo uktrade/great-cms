@@ -29,11 +29,13 @@ class SeriesBlock(blocks.StructBlock):
 
 
 class SeriesSectionBlock(blocks.StructBlock):
-    series_section_description = blocks.RichTextBlock(max_length=255, required=False)
+    series_section_title = blocks.CharBlock(max_length=255, required=False)
+    series_section_description = blocks.TextBlock(required=False)
     series_list = blocks.StreamBlock([('Series', SeriesBlock())], required=False)
 
 
 class PanelSectionBlock(blocks.StructBlock):
-    panel_section_description = blocks.RichTextBlock(max_length=255, required=False)
+    panel_section_title = blocks.CharBlock(max_length=255, required=False)
+    panel_section_description = blocks.TextBlock(required=False)
     panels = blocks.StreamBlock([('Panel', TopicPageCardBlockRichText())], required=False)
     next_cta = ButtonBlock(required=False)
