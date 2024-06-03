@@ -91,8 +91,19 @@ class EventListView(GA360Mixin, core_mixins.GetSnippetContentMixin, FilterView, 
         return get_badges_for_event(user, event)
 
     def get_context_data(self, **kwargs):
+        market_filters = sector_filters = type_of_export_filters = False
         ctx = super().get_context_data(**kwargs)
         ctx['landing_page'] = models.ExportAcademyHomePage.objects.first()
+        if settings.FEATURE_UKEA_TAGGING_UPDATE:
+            if self.filterset_class.declared_filters['market'].queryset.count() > 0:
+                market_filters = True
+            if self.filterset_class.declared_filters['sector'].queryset.count() > 0:
+                sector_filters = True
+            if self.filterset_class.declared_filters['type_of_export'].queryset.count() > 0:
+                type_of_export_filters = True
+        ctx['market_filters'] = market_filters
+        ctx['sector_filters'] = sector_filters
+        ctx['type_of_export_filters'] = type_of_export_filters
         return ctx
 
 
@@ -443,6 +454,7 @@ class RegistrationMarketingSources(
             step_text='Step 4 of 4',
             landing_page=ExportAcademyHomePage.objects.first(),
             title='How did you hear about the UK Export Academy?',
+            hide_title=True,  # Hide title in base template so that heading is within radio legend
             current_page_breadcrumb='How did you hear about the UK Export Academy?',
         )
 

@@ -1,4 +1,5 @@
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
+from django.core.exceptions import ValidationError
 from django.forms import (
     CharField,
     CheckboxInput,
@@ -22,6 +23,7 @@ from wagtail.admin.forms import WagtailAdminModelForm
 from contact import constants, widgets as contact_widgets
 from core.validators import is_valid_uk_phone_number, is_valid_uk_postcode
 from directory_constants.choices import COUNTRY_CHOICES
+from export_academy.widgets import GreatRadioSelectWithOtherText
 from export_academy import choices
 
 COUNTRIES = COUNTRY_CHOICES.copy()
@@ -215,11 +217,30 @@ class BusinessDetails(forms.Form):
 
 class MarketingSources(forms.Form):
     marketing_sources = forms.ChoiceField(
-        label='',
+        label='How did you hear about the UK Export Academy?',
         choices=constants.MARKETING_SOURCES_CHOICES,
-        error_messages={'required': _('Tell us how you heard about the UK Export Academy')},
-        widget=django_widgets.Select(attrs={'class': 'govuk-select great-select'}),
+        error_messages={'required': _('Enter how you heard about the UK Export Academy')},
+        widget=GreatRadioSelectWithOtherText(attrs={'class': 'great-no-border'}),
     )
+
+    marketing_sources_other = forms.CharField(
+        label='How you heard about the UK Export Academy',
+        required=False,
+        widget=django_widgets.TextInput(
+            attrs={
+                'class': 'govuk-input great-text-input ',
+            }
+        ),
+    )
+
+    def clean(self):
+        """Raise validation error if 'other' is selected but no text input is given"""
+        if 'marketing_sources' in self.cleaned_data and 'marketing_sources_other' in self.cleaned_data:
+            if self.cleaned_data['marketing_sources'] == 'Other' and self.cleaned_data['marketing_sources_other'] == '':
+                raise ValidationError(
+                    {'marketing_sources_other': _('Enter how you heard about the UK Export Academy')},
+                )
+        return self.cleaned_data
 
     @property
     def serialized_data(self):

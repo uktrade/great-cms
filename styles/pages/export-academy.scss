@@ -64,11 +64,6 @@
 
 .event-list-card {
   padding: 30px 15px 0px;
-
-  h2.past-year-seperator {
-    padding-bottom: $large-padding;
-    color: #aeaeae;
-  }
 }
 
 .event-list-card::after {
@@ -78,7 +73,7 @@
 }
 
 .event-list-video-warning {
-  color: #505A5F;
+  color: #505a5f;
   font-size: 18px;
   font-style: normal;
   font-weight: 600;
@@ -120,7 +115,7 @@
     font-size: $font-size-h3;
     font-style: normal;
     font-weight: $font-weight-semi-bold;
-    line-height: $h3-line-height; 
+    line-height: $h3-line-height;
   }
 
   .ea-logo {
@@ -137,7 +132,6 @@
       right: 0;
       left: calc(50% + 200px);
     }
-
   }
 
   .standard-ea-sign-in-text {
@@ -145,7 +139,7 @@
     span,
     a {
       line-height: $h5-line-height;
-      font-size: $font-size-h5 ;
+      font-size: $font-size-h5;
       font-weight: $regular-font-weight;
       font-style: normal;
     }
@@ -198,29 +192,29 @@
   }
 }
 
-.great-signup-telephone-details{
+.great-signup-telephone-details {
   details[open] {
     max-height: 240px;
   }
   details:not([open]) {
     max-height: 80px;
   }
-  details {   
+  details {
     transition: max-height 0.3s ease;
     overflow-y: hidden;
     > div {
       margin-left: 0px;
-    } 
+    }
   }
 
   /* disabling pointer events on the text span within summary has no effect,
   disabling on the summary and overriding on the icon enables expansion with only the icon */
-  .disable-pointer-events{ 
+  .disable-pointer-events {
     pointer-events: none;
     cursor: default;
   }
   summary {
-    .enable-pointer-events{
+    .enable-pointer-events {
       pointer-events: auto;
       cursor: pointer;
     }
@@ -229,12 +223,15 @@
     }
     &:focus > .border-on-focus {
       padding-top: 4px;
-      padding-bottom:4px;
+      padding-bottom: 4px;
       outline: 3px solid #ffd000;
     }
-    &::marker, &::-webkit-details-marker, &::before { // Remove arrow marker on different browsers/versions
-      content: "" !important;
-      display:none !important;
+    &::marker,
+    &::-webkit-details-marker,
+    &::before {
+      // Remove arrow marker on different browsers/versions
+      content: '' !important;
+      display: none !important;
     }
   }
   margin-bottom: govuk-spacing(6);
@@ -380,7 +377,7 @@
   gap: 10px;
 
   span.great-icon {
-    font-size: 35px!important;
+    font-size: 35px !important;
   }
   > div {
     display: flex;
@@ -504,7 +501,7 @@
     justify-content: center;
     span.great-icon {
       color: white;
-      font-size: 18px!important;
+      font-size: 18px !important;
     }
     time {
       align-items: center;
@@ -697,12 +694,12 @@
 
     @media only screen and (max-width: 1230px) {
       padding: 0 30px;
-      margin-bottom: 0!important
+      margin-bottom: 0 !important;
     }
 
     @media only screen and (max-width: $mobile-size) {
       padding: 0 15px;
-      margin-bottom: 0!important;
+      margin-bottom: 0 !important;
     }
   }
 }

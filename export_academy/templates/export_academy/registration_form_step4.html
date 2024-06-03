@@ -2,11 +2,30 @@
 {% load breadcrumbs from component_tags %}
 {% load wagtailcore_tags %}
 {% load static %}
-{% block body_js %}{{ block.super }}{% endblock %}
+{% block body_js %}
+    {{ block.super }}
+    <script src="{% static 'javascript/govuk.js' %}"></script>
+    <script>window.GOVUKFrontend.initAll()</script>
+{% endblock %}
 {% block form_fields %}
-    {% for field in form.visible_fields %}
-        <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
-            {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='great-text-select--arrow' %}
-        </div>
-    {% endfor %}
+    <fieldset class="govuk-fieldset govuk-!-margin-bottom-8">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+            <h1 class="govuk-heading-l">{{ title }}</h1>
+        </legend>
+        {% for field in form.visible_fields %}
+            {% if field.label == "How you heard about the UK Export Academy" %}
+                <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
+                     id="conditional-reveal-id">
+                    <div class="govuk-form-group {% if field.errors %}govuk-form-group--error{% endif %}">
+                        <label class="govuk-label great-font-main" for="conditional-reveal-id">{{ field.label }}</label>
+                        {% include 'domestic/contact/includes/govuk-form-field.html' with field=field hideLabel="True" %}
+                    </div>
+                </div>
+            {% else %}
+                <div class="govuk-form-group govuk-!-margin-bottom-1 {% if field.errors %}govuk-form-group--error{% endif %}">
+                    {% include 'domestic/contact/includes/govuk-form-field.html' with field=field hideLabel="True" %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </fieldset>
 {% endblock %}
