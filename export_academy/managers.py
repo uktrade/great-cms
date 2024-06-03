@@ -38,7 +38,7 @@ class EventQuerySet(models.QuerySet):
 
     def next_month(self):
         next_month = self.current_date + relativedelta(months=1)
-        return self.filter(start_date__year__gte=next_month.year, start_date__month__gte=next_month.month)
+        return self.filter(start_date__year=next_month.year, start_date__month=next_month.month)
 
 
 class EventManager(models.Manager):
