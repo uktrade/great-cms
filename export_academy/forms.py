@@ -349,13 +349,13 @@ class CsatUserFeedbackForm(forms.Form):
         widget=TextInput(attrs={'class': 'govuk-input govuk-input--width-20'}),
     )
     feedback_text = CharField(
-        label='How could we improve this service? (optional)',
+        label='How could we improve this service?',
         help_text="Don't include any personal information, like your name or email address.",
         max_length=1200,
         required=False,
         widget=Textarea(
             attrs={
-                'class': 'govuk-textarea govuk-js-character-count',
+                'class': 'govuk-textarea govuk-js-character-count great-font-main',
                 'rows': 6,
                 'id': 'with-hint',
                 'name': 'withHint',
@@ -389,7 +389,7 @@ class CsatUserFeedbackForm(forms.Form):
             for option in experience:
                 if option != 'NO_ISSUE':
                     self.add_error(
-                        'experience', 'Select issues you experienced, or select I did not experience any issues'
+                        'experience', 'Select issues you experienced, or select \'I did not experience any issues\''
                     )
                     break
         return cleaned_data
