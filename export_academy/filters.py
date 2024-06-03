@@ -1,8 +1,9 @@
-from django.db.models import Q
+from django.db.models import Exists, OuterRef, Q
 from django.utils import timezone
 from django_filters import FilterSet, filters
 from great_components import forms
 
+from core.models import CountryTag, SectorTag, TypeOfExportTag
 from export_academy import models
 from export_academy.helpers import is_export_academy_registered
 
@@ -66,9 +67,40 @@ class EventFilter(FilterSet):
         widget=forms.RadioSelect,
     )
 
+    sector = filters.ModelMultipleChoiceFilter(
+        label='Sector',
+        field_name='sector_tags__id',
+        queryset=SectorTag.objects.filter(Exists(models.SectorTaggedEvent.objects.filter(tag_id=OuterRef('id')))),
+        to_field_name='id',
+        widget=forms.CheckboxSelectInlineLabelMultiple,
+    )
+
+    market = filters.ModelMultipleChoiceFilter(
+        label='Market',
+        field_name='country_tags__id',
+        queryset=CountryTag.objects.filter(Exists(models.CountryTaggedEvent.objects.filter(tag_id=OuterRef('id')))),
+        to_field_name='id',
+        widget=forms.CheckboxSelectInlineLabelMultiple,
+    )
+
+    type_of_export = filters.ModelMultipleChoiceFilter(
+        label='Type of Export',
+        field_name='type_of_export_tags__id',
+        queryset=TypeOfExportTag.objects.filter(
+            Exists(models.TypeOfExportTaggedEvent.objects.filter(tag_id=OuterRef('id')))
+        ),
+        to_field_name='id',
+        widget=forms.CheckboxSelectInlineLabelMultiple,
+    )
+
     class Meta:
         model = models.Event
-        fields = ['booking_period', 'type', 'format', 'period']
+        fields = [
+            'booking_period',
+            'type',
+            'format',
+            'period',
+        ]
 
     def filter_period(self, queryset, _name, value):
         for param, _ in self.PERIOD_CHOICES:
