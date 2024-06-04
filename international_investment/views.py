@@ -163,8 +163,7 @@ class InvestmentContactView(GA360Mixin, FormView):
         return self.request.session.get('triage_data')
 
     def send_email_lead_to_agent(self, form_data):
-        # prod_agent_email_address = 'capitalinvestment@businessandtrade.gov.uk'
-        agent_email_address = 'stuart.mindt@digital.trade.gov.uk'
+        agent_email_address = settings.INTERNATIONAL_INVESTMENT_AGENT_EMAIL
         action = actions.GovNotifyEmailAction(
             template_id=settings.INTERNATIONAL_INVESTMENT_NOTIFY_AGENT_TEMPLATE_ID,
             email_address=agent_email_address,
