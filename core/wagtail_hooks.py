@@ -30,7 +30,7 @@ from wagtail.admin.rich_text.converters.html_to_contentstate import (
 from wagtail.admin.views.pages.bulk_actions.page_bulk_action import PageBulkAction
 from wagtail.models import Page
 from wagtail.snippets.models import register_snippet
-from wagtail.snippets.views.snippets import SnippetViewSet
+from wagtail.snippets.views.snippets import SnippetViewSet, SnippetViewSetGroup
 from wagtail_transfer.field_adapters import FieldAdapter
 from wagtail_transfer.files import File as WTFile, FileTransferError
 from wagtail_transfer.models import ImportedFile
@@ -683,25 +683,34 @@ class SectorTagsSnippetViewSet(SnippetViewSet):
     panels = [FieldPanel('name')]  # only show the name field
     model = SectorTag
     icon = 'tag'  # change as required
-    add_to_admin_menu = True
     menu_label = 'Sector Tags'
     menu_order = 400  # will put in 3rd place (000 being 1st, 100 2nd)
     list_display = ['name', 'slug']
     search_fields = ('name',)
 
 
-register_snippet(SectorTagsSnippetViewSet)
-
-
 class CountryTagsSnippetViewSet(SnippetViewSet):
     panels = [FieldPanel('name')]  # only show the name field
     model = CountryTag
     icon = 'tag'  # change as required
-    add_to_admin_menu = True
     menu_label = 'Country Tags'
     menu_order = 400  # will put in 3rd place (000 being 1st, 100 2nd)
     list_display = ['name', 'slug']
     search_fields = ('name',)
 
 
-register_snippet(CountryTagsSnippetViewSet)
+class TagsViewSetGroup(SnippetViewSetGroup):
+    items = (SectorTagsSnippetViewSet, CountryTagsSnippetViewSet)
+    add_to_admin_menu = True
+    menu_label = 'Tags'
+    menu_icon = 'tag'
+    menu_order = 400
+
+
+register_snippet(TagsViewSetGroup)
+
+
+@hooks.register('construct_main_menu')
+def hide_tagging_menu_item(request, menu_items):
+    if not request.user.groups.filter(name='Tagging').exists():
+        menu_items[:] = [item for item in menu_items if item.label != 'Tags']
