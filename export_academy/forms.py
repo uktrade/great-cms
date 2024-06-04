@@ -348,9 +348,7 @@ class CsatUserFeedbackForm(forms.Form):
         label='Overall, how would you rate your experience with the UK Export Academy event booking service today?',
         choices=choices.SATISFACTION_CHOICES,
         widget=RadioSelect(attrs={'class': 'govuk-radios__input'}),
-        error_messages={
-            'required': 'Select how you rate your experience with the service',
-        },
+        required=False,
     )
     experience = MultipleChoiceField(
         label='Did you experience any of the following issues?',

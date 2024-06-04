@@ -27,7 +27,7 @@
                  data-module="error-summary">
                 <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
                 <div class="govuk-error-summary__body">
-                    <ul class="govuk-list govuk-error-summary__list">
+                    <ul class="govuk-list govuk-error-summary__list great-font-main">
                         {% for field in form %}
                             {% if field.errors %}
                                 {% for error in field.errors %}
@@ -147,7 +147,7 @@
                         </div>
                     </fieldset>
                 </div>
-                <div id="feedback_text_group"
+                <div id="id_feedback_text"
                      class="govuk-form-group great-font-main govuk-character-count{% if form.feedback_text.errors %} govuk-form-group--error{% endif %}"
                      data-module="govuk-character-count"
                      data-maxlength="1200">

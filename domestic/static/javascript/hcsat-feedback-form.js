@@ -105,14 +105,15 @@ class CsatFormHandler {
 
                 }
                 if (field == 'feedback_text'){
-                    const errorGroup = document.getElementById('feedback_text_group')
+                    const errorGroup = document.getElementById('id_feedback_text')
+                    console.log(errorGroup)
                     errorGroup.classList.add('govuk-form-group--error')
                     const errorField = document.getElementById('exceeding-characters-error');
                     errorField.classList.remove('great-hidden')
                 }
 
                 if (!Object.keys(errors).includes('feedback_text')){
-                    const errorGroup = document.getElementById('feedback_text_group')
+                    const errorGroup = document.getElementById('id_feedback_text')
                     errorGroup.classList.remove('govuk-form-group--error')
                     const errorField = document.getElementById('exceeding-characters-error');
                     errorField.classList.add('great-hidden')
@@ -120,7 +121,12 @@ class CsatFormHandler {
 
                 errors[field].forEach(error => {
                     const listItem = document.createElement('li');
+                    if (field == 'feedback_text'){
+                        listItem.innerHTML = `<a href="#with-hint">${'Your feedback must be 1200 characters or less'}</a>`;
+                    }
+                    else{
                     listItem.innerHTML = `<a href="#id_${field}">${error}</a>`;
+                    }
                     this.errorList.appendChild(listItem);
                 });
             });

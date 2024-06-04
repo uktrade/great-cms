@@ -82,7 +82,7 @@
   .govuk-list {
     font-family: $great-font;
   }
-  
+
 
   .govuk-form-group--error {
     input[type='text'] {
@@ -519,6 +519,9 @@
 
 .great-font-main {
   font-family: $main-text-font !important;
+  a {
+    font-family: $main-text-font !important;
+  }
 }
 
 .great-line-height-20 {
