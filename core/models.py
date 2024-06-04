@@ -1367,7 +1367,6 @@ class ContentModule(ClusterableModel):
         return self.title
 
 
-@register_snippet
 class TypeOfExportTag(TagBase):
     free_tagging = False
 
