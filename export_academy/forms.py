@@ -1,4 +1,5 @@
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
+from django.core.exceptions import ValidationError
 from django.forms import (
     CharField,
     CheckboxInput,
@@ -22,7 +23,8 @@ from wagtail.admin.forms import WagtailAdminModelForm
 from contact import constants, widgets as contact_widgets
 from core.validators import is_valid_uk_phone_number, is_valid_uk_postcode
 from directory_constants.choices import COUNTRY_CHOICES
-from international_online_offer.core import choices
+from export_academy import choices
+from export_academy.widgets import GreatRadioSelectWithOtherText
 
 COUNTRIES = COUNTRY_CHOICES.copy()
 COUNTRIES.insert(0, ('', 'Select a country'))
@@ -215,11 +217,30 @@ class BusinessDetails(forms.Form):
 
 class MarketingSources(forms.Form):
     marketing_sources = forms.ChoiceField(
-        label='',
+        label='How did you hear about the UK Export Academy?',
         choices=constants.MARKETING_SOURCES_CHOICES,
-        error_messages={'required': _('Tell us how you heard about the UK Export Academy')},
-        widget=django_widgets.Select(attrs={'class': 'govuk-select great-select'}),
+        error_messages={'required': _('Enter how you heard about the UK Export Academy')},
+        widget=GreatRadioSelectWithOtherText(attrs={'class': 'great-no-border'}),
     )
+
+    marketing_sources_other = forms.CharField(
+        label='How you heard about the UK Export Academy',
+        required=False,
+        widget=django_widgets.TextInput(
+            attrs={
+                'class': 'govuk-input great-text-input ',
+            }
+        ),
+    )
+
+    def clean(self):
+        """Raise validation error if 'other' is selected but no text input is given"""
+        if 'marketing_sources' in self.cleaned_data and 'marketing_sources_other' in self.cleaned_data:
+            if self.cleaned_data['marketing_sources'] == 'Other' and self.cleaned_data['marketing_sources_other'] == '':
+                raise ValidationError(
+                    {'marketing_sources_other': _('Enter how you heard about the UK Export Academy')},
+                )
+        return self.cleaned_data
 
     @property
     def serialized_data(self):
@@ -328,7 +349,7 @@ class CsatUserFeedbackForm(forms.Form):
         choices=choices.SATISFACTION_CHOICES,
         widget=RadioSelect(attrs={'class': 'govuk-radios__input'}),
         error_messages={
-            'required': 'You must select a level of satisfaction',
+            'required': 'Select a level of satisfaction',
         },
     )
     experience = MultipleChoiceField(
@@ -336,31 +357,35 @@ class CsatUserFeedbackForm(forms.Form):
         help_text='Tick all that apply.',
         choices=choices.EXPERIENCE_CHOICES,
         widget=CheckboxSelectMultiple(attrs={'class': 'govuk-checkboxes__input'}),
-        error_messages={
-            'required': 'You must select one or more issues',
-        },
+        required=False,
     )
     experience_other = CharField(
-        label='Type your answer',
+        label='Please specify',
         min_length=2,
         max_length=255,
         required=False,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=TextInput(attrs={'class': 'govuk-input govuk-input--width-20'}),
     )
     feedback_text = CharField(
-        label='How could we improve this service?',
-        help_text="Don't include any personal information, like your name or email address. (optional)",
-        max_length=3000,
+        label='How could we improve this service? (optional)',
+        help_text="Don't include any personal information, like your name or email address.",
+        max_length=1200,
         required=False,
-        widget=Textarea(attrs={'class': 'govuk-textarea', 'rows': 7}),
+        widget=Textarea(
+            attrs={
+                'class': 'govuk-textarea govuk-js-character-count',
+                'rows': 6,
+                'id': 'with-hint',
+                'name': 'withHint',
+                'aria-describedby': 'with-hint-info with-hint-hint',
+            }
+        ),
     )
     likelihood_of_return = ChoiceField(
         label='How likely are you to use this service again?',
         choices=choices.LIKELIHOOD_CHOICES,
         widget=RadioSelect(attrs={'class': 'govuk-radios__input'}),
-        error_messages={
-            'required': 'You must select one likelihood of returning options',
-        },
+        required=False,
     )
 
     def clean(self):

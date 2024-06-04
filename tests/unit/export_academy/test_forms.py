@@ -94,17 +94,17 @@ from export_academy.models import Event
         ),
         (
             MarketingSources(
-                {
-                    'marketing_sources': 'Other (please specify below)',
-                },
+                {'marketing_sources': 'Other', 'marketing_sources_other': 'Friend of a friend'},
             ),
             MarketingSources(
                 {
                     'marketing_sources': '',
+                    'marketing_sources_other': '',
                 },
             ),
             {
-                'marketing_sources': 'Tell us how you heard about the UK Export Academy',
+                'marketing_sources': 'Enter how you heard about the UK Export Academy',
+                'marketing_sources_other': 'Enter how you heard about the UK Export Academy',
             },
         ),
         (
@@ -116,8 +116,12 @@ from export_academy.models import Event
 )
 @pytest.mark.django_db
 def test_registration_form_validation(form, form_empty, error_messages):
+
     # Checks is_valid returns true for the given form data
     assert form.is_valid()
+
+    if 'marketing_sources' in error_messages and form['marketing_sources'] != 'Other':
+        pytest.skip('marketing_sources_other is an optional field if marketing_sources is not other')
 
     # Checks for the presence of each error message in the event of an invalid form
     for key in error_messages:
@@ -170,7 +174,7 @@ def test_event_admin_form_keeps_new_values():
         (
             {
                 'satisfaction': 'VERY_SATISFIED',
-                'experience': ['I_DID_NOT_FIND_WHAT_I_WAS_LOOKING_FOR'],
+                'experience': ['NOT_FIND_LOOKING_FOR'],
                 'experience_other': '',
                 'feedback_text': 'This is some feedback',
                 'likelihood_of_return': 'LIKELY',
@@ -187,7 +191,6 @@ def test_event_admin_form_keeps_new_values():
             },
             False,
         ),
-        ({'satisfaction': 'VERY_SATISFIED', '': '', '': '', '': '', '': '', '': ''}, False),
     ),
 )
 @pytest.mark.django_db

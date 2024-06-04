@@ -83,12 +83,18 @@ def feature_flags(request):
     retval['features']['FEATURE_SHOW_USA_CTA'] = settings.FEATURE_SHOW_USA_CTA
     retval['features']['FEATURE_SHOW_EU_CTA'] = settings.FEATURE_SHOW_EU_CTA
     retval['features'][
-        'FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT'
-    ] = settings.FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT
+        'FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_CHINA'
+    ] = settings.FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_CHINA
+    retval['features'][
+        'FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_GERMANY'
+    ] = settings.FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_GERMANY
+    retval['features'][
+        'FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_USA'
+    ] = settings.FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_USA
     retval['features']['FEATURE_SHOW_CUSTOMS_AND_TAXES_DROPWDOWN'] = settings.FEATURE_SHOW_CUSTOMS_AND_TAXES_DROPWDOWN
     retval['features']['FEATURE_SHOW_TASK_VALIDATION'] = settings.FEATURE_SHOW_TASK_VALIDATION
-    retval['features']['FEATURE_UKEA_CSAT'] = settings.FEATURE_UKEA_CSAT
     retval['features']['FEATURE_OPTIMAL_WORKSHOP'] = settings.FEATURE_OPTIMAL_WORKSHOP
+    retval['features']['FEATURE_UKEA_CSAT'] = settings.FEATURE_UKEA_CSAT
 
     return retval
 

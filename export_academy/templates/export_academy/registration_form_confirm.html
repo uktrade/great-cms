@@ -174,13 +174,18 @@
                         </dd>
                     </div>
                     <div class="govuk-summary-list__row">
-                        <dt class="govuk-summary-list__key">Tell us how you heard about the UK Export Academy</dt>
+                        <dt class="govuk-summary-list__key">How you heard of us</dt>
                         <dd class="govuk-summary-list__value width-quarter">
-                            {{ form_data.marketing_sources }}
+                            {% if form_data.marketing_sources == "Other" %}
+                                {{ form_data.marketing_sources_other }}
+                            {% else %}
+                                {{ form_data.marketing_sources }}
+                            {% endif %}
                         </dd>
                     </div>
                 </dl>
-                <div class="question govuk-padding-top-30">
+                <hr class="hr" />
+                <div class="question govuk-!-padding-top-7">
                     <form action="" method="post" autocomplete="off">
                         {% csrf_token %}
                         {{ form }}

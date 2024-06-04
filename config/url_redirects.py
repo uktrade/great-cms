@@ -466,6 +466,10 @@ contact_redirects = [
             )
         ),
     ),
+    re_path(
+        r'^contact/events/$',
+        QuerystringRedirectView.as_view(url='/contact/triage/great-account/'),
+    ),
 ]
 
 if settings.FEATURE_DIGITAL_POINT_OF_ENTRY:

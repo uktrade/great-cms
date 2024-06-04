@@ -1,0 +1,13 @@
+<div class="govuk-radios great-radios" data-module="govuk-radios">
+    {% for group, options, index in widget.optgroups %}
+        {% for option in options %}
+            {% if option.value == 'Other' %}
+                <div class="govuk-radios__item govuk-!-margin-bottom-3">
+                    {% include option.template_name with widget=option conditional_reveal_id='conditional-reveal-id' %}
+                </div>
+            {% else %}
+                <div class="govuk-radios__item govuk-!-margin-bottom-3">{% include option.template_name with widget=option %}</div>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+</div>
