@@ -31,7 +31,7 @@ SPEND_CHOICES_EURO = (
     ('£5 million to £10 million', '€6 million to €12 million'),
     ('£10 million to £50 million', '€12 million to €60 million'),
     ('£50 million to £100 million', '€60 million to €120 million'),
-    ('More than £100,000,000', 'More than €120 million'),
+    ('More than £100 million', 'More than €120 million'),
 )
 
 SPEND_CHOICES_USD = (
@@ -39,5 +39,5 @@ SPEND_CHOICES_USD = (
     ('£5 million to £10 million', '$6 million to $12 million'),
     ('£10 million to £50 million', '$12 million to $50 million'),
     ('£50 million to £100 million', '$60 million to $120 million'),
-    ('More than £100,000,000', 'More than $120 million'),
+    ('More than £100 million', 'More than $120 million'),
 )

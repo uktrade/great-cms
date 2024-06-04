@@ -75,7 +75,7 @@ class InvestmentTypesForm(forms.Form):
     )
 
     investment_type_other = CharField(
-        label='Type your answer',
+        label='Enter your answer',
         min_length=2,
         max_length=50,
         required=False,
