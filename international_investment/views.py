@@ -123,7 +123,8 @@ class InvestmentEstimateView(GA360Mixin, FormView):
 
     def get_initial(self):
         initial_data = self.request.session.get('triage_data')
-        initial_data['spend_currency'] = self.request.session.get('spend_currency')
+        if self.request.session.get('spend_currency'):
+            initial_data['spend_currency'] = self.request.session.get('spend_currency')
         return initial_data
 
 

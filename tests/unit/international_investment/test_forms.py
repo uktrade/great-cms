@@ -61,28 +61,28 @@ def test_triage_investment_fund_validation(form_data, is_valid):
     (
         (
             {
-                'investment_type': 'Energy',
+                'investment_type': ['Energy'],
                 'investment_type_other': '',
             },
             True,
         ),
         (
             {
-                'investment_type': 'Other',
+                'investment_type': ['Other'],
                 'investment_type_other': 'Some other text',
             },
             True,
         ),
         (
             {
-                'investment_type': '',
+                'investment_type': [''],
                 'investment_type_other': '',
             },
             False,
         ),
         (
             {
-                'investment_type': 'SOME RANDOM OPTION',
+                'investment_type': ['SOME RANDOM OPTION'],
                 'investment_type_other': '',
             },
             False,
