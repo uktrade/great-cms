@@ -139,7 +139,7 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, FormView):
         csat = self.get_csat()
         if csat:
             satisfaction = csat.satisfaction_rating
-            if satisfaction:
+            if satisfaction and self.request.session.get('ukea_csat_stage', 0) == 1:
                 return {'satisfaction': satisfaction}
         return {'satisfaction': ''}
 
@@ -248,6 +248,9 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, FormView):
         }
         js_enabled = 'js_enabled' in self.request.get_full_path()
         if js_enabled:
+            csat_stage = self.request.session.get('ukea_csat_stage', 0)
+            if csat_stage == 1:
+                del self.request.session['ukea_csat_stage']
             return JsonResponse(data)
         return HttpResponseRedirect(self.get_success_url())
 

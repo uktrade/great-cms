@@ -43,13 +43,18 @@ class CsatFormHandler {
     handleStepTransition(response, data) {
         this.checkExistingErrors();
         if (response.status==200) {
+            const infoMsg = document.getElementById('infoMessage')
             if (this.currentStep === 1) {
+                infoMsg.classList.remove('great-hidden')
                 this.stepTransition(this.stepOne, this.stepTwo, this.stepOneSuccessMessage, 'Submit feedback');
                 this.currentStep = 2;
             } else {
-                this.stepTransition(this.stepTwo, null, this.stepTwoSuccessMessage, '');
+                this.stepTransition(this.stepTwo, this.stepOne, this.stepTwoSuccessMessage, '');
                 this.form.classList.add('great-hidden');
                 this.stepOneSuccessMessage.classList.add('great-hidden');
+
+                infoMsg.classList.add('great-hidden')
+                this.currentStep=1
             }
         } else if (data) {
             this.showErrorSummary(data);
@@ -87,12 +92,28 @@ class CsatFormHandler {
                 if (field == 'experience_other'){
                     const OtherField = document.getElementById('conditional-experience-4');
                     const errorField = OtherField.children[0]
-                    var inlineError = document.createElement("p");
-                    inlineError.innerHTML='Enter the issue you experienced'
-                    inlineError.classList.add('govuk-error-message')
+                    if (!OtherField.getElementsByClassName('govuk-error-message')){
+                        var inlineError = document.createElement("p");
+                        inlineError.innerHTML='Enter the issue you experienced'
+                        inlineError.classList.add('govuk-error-message')
 
-                    errorField.insertBefore(inlineError,errorField.querySelector('#id_experience_other'))
-                    errorField.classList.add('govuk-form-group--error');
+                        errorField.insertBefore(inlineError,errorField.querySelector('#id_experience_other'))
+                        errorField.classList.add('govuk-form-group--error');
+                    }
+
+                }
+                if (field == 'feedback_text'){
+                    const errorGroup = document.getElementById('feedback_text_group')
+                    errorGroup.classList.add('govuk-form-group--error')
+                    const errorField = document.getElementById('exceeding-characters-error');
+                    errorField.classList.remove('great-hidden')
+                }
+
+                if (!Object.keys(errors).includes('feedback_text')){
+                    const errorGroup = document.getElementById('feedback_text_group')
+                    errorGroup.classList.remove('govuk-form-group--error')
+                    const errorField = document.getElementById('exceeding-characters-error');
+                    errorField.classList.add('great-hidden')
                 }
 
                 errors[field].forEach(error => {
@@ -117,6 +138,8 @@ class CsatFormHandler {
                 }
             }
         });
+
+
     }
 
     removeErrorClasses(fieldGroup) {

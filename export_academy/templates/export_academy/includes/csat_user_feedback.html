@@ -2,24 +2,21 @@
     <div class="govuk-grid-column-two-thirds">
         <div class="govuk-grid-row">
             <div id="csat-step-1-submission-confirmation"
-                 class="csat-submission-confirmation{% if csat_stage != 1 %} great-hidden{% endif %}"
+                 class="csat-submission-confirmation{% if csat_stage != 1 or form.errors %} great-hidden{% endif %}"
                  aria-live="polite"
                  tabindex="-1">
                 <div class="csat-submission-confirmation__heading">
                     <span role="img" class="fa fa-check-circle"></span>
-                    <h2 class="govuk-heading-s">Thank you for submitting your rating</h2>
+                    <h2 class="govuk-heading-s govuk-!-margin-bottom-0">Thank you for submitting your rating</h2>
                 </div>
-                <p class="great-font-size-desktop-24 great-font-bold govuk-!-margin-bottom-6">
-                    To help us improve our service, we'd like to know more about your booking experience today. It will only take a minute to complete.
-                </p>
             </div>
             <div id="csat-step-2-submission-confirmation"
-                 class="csat-submission-confirmation{% if csat_stage != 2 %} great-hidden{% endif %}"
+                 class="csat-submission-confirmation{% if csat_stage != 2 or form.errors %} great-hidden{% endif %}"
                  aria-live="polite"
                  tabindex="-1">
                 <div class="csat-submission-confirmation__heading">
                     <span role="img" class="fa fa-check-circle"></span>
-                    <h2 class="govuk-heading-s">Thank you for helping us to improve this service</h2>
+                    <h2 class="govuk-heading-s govuk-!-margin-bottom-0">Thank you for helping us to improve this service</h2>
                 </div>
             </div>
             <div class="govuk-error-summary {% if not form.errors %}great-hidden{% endif %}"
@@ -43,6 +40,13 @@
                     </ul>
                 </div>
             </div>
+        </div>
+        <div id="infoMessage"
+             class="govuk-grid-row {% if csat_stage != 1 %}great-hidden{% endif %}">
+            <p class="great-font-size-desktop-24 great-font-bold govuk-!-margin-bottom-6">
+                <br>
+                To help us improve our service, we'd like to know more about your booking experience today. It will only take a minute to complete.
+            </p>
         </div>
     </div>
     <form method="post"
@@ -143,7 +147,8 @@
                         </div>
                     </fieldset>
                 </div>
-                <div class="govuk-form-group great-font-main govuk-character-count{% if form.feedback_text.errors %} govuk-form-group--error{% endif %}"
+                <div id="feedback_text_group"
+                     class="govuk-form-group great-font-main govuk-character-count{% if form.feedback_text.errors %} govuk-form-group--error{% endif %}"
                      data-module="govuk-character-count"
                      data-maxlength="1200">
                     <h2 class="govuk-label-wrapper">
@@ -151,6 +156,10 @@
                                for="{{ form.feedback_text.id_for_label }}">{{ form.feedback_text.label }}</label>
                     </h2>
                     <div id="with-hint-hint" class="govuk-hint">{{ form.feedback_text.help_text }}</div>
+                    <p id="exceeding-characters-error"
+                       class="govuk-error-message great-hidden">
+                        <span>Your feedback must be 1200 characters or less</span>
+                    </p>
                     {{ form.feedback_text }}
                     <div id="with-hint-info"
                          class="govuk-hint {% if form.feedback_text.errors %}govuk-error-message great-font-bold{% endif %}">
