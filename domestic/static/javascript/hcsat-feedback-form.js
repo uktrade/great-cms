@@ -78,6 +78,8 @@ class CsatFormHandler {
         if (!errors) {
             this.errorSummaryTitle.textContent = 'There is a problem with the network. Please try again.';
         } else {
+            this.stepOneSuccessMessage.classList.add('great-hidden');
+            this.stepTwoSuccessMessage.classList.add('great-hidden');
             this.errorList.innerHTML = '';
             Object.keys(errors).forEach(field => {
                 const fieldGroup = document.getElementById(field + '_group');
