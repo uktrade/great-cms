@@ -90,17 +90,21 @@ class CsatFormHandler {
                         inlineError.classList.remove('great-hidden');
                     }
                 }
+                console.log(field)
 
                 if (field == 'experience_other'){
                     const OtherField = document.getElementById('conditional-experience-4');
                     const errorField = OtherField.children[0]
-                    if (!OtherField.getElementsByClassName('govuk-error-message')){
+                    console.log(OtherField)
+                    console.log(OtherField.getElementsByClassName('govuk-error-message'))
+                    if (OtherField.getElementsByClassName('govuk-error-message').length<1){
                         var inlineError = document.createElement("p");
                         inlineError.innerHTML='Enter the issue you experienced'
                         inlineError.classList.add('govuk-error-message')
 
                         errorField.insertBefore(inlineError,errorField.querySelector('#id_experience_other'))
                         errorField.classList.add('govuk-form-group--error');
+                        console.log(errorField)
                     }
 
                 }

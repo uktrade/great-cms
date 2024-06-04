@@ -1,6 +1,6 @@
 <div class="govuk-width-container great-container govuk-!-padding-top-6  govuk-!-padding-left-0  govuk-!-padding-right-0">
-    <div class="govuk-grid-column-two-thirds">
-        <div class="govuk-grid-row">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
             <div id="csat-step-1-submission-confirmation"
                  class="csat-submission-confirmation{% if csat_stage != 1 or form.errors %} great-hidden{% endif %}"
                  aria-live="polite"
@@ -42,7 +42,7 @@
             </div>
         </div>
         <div id="infoMessage"
-             class="govuk-grid-row {% if csat_stage != 1 %}great-hidden{% endif %}">
+             class="govuk-grid-column-two-thirds {% if csat_stage != 1 %}great-hidden{% endif %}">
             <p class="great-font-size-desktop-24 great-font-bold govuk-!-margin-bottom-6">
                 <br>
                 To help us improve our service, we'd like to know more about your booking experience today. It will only take a minute to complete.
@@ -55,8 +55,8 @@
           id="csat-form">
         {% csrf_token %}
         <div id="csat-step-1"
-             class="govuk-grid-column-two-thirds{% if csat_stage == 1 or csat_stage == 2 %} great-hidden{% endif %}">
-            <div class="govuk-grid-row">
+             class="govuk-grid-row{% if csat_stage == 1 or csat_stage == 2 %} great-hidden{% endif %}">
+            <div class="govuk-grid-column-two-thirds">
                 <div id="satisfaction_group"
                      class="govuk-form-group{% if form.satisfaction.errors %} govuk-form-group--error{% endif %}">
                     <fieldset class="govuk-fieldset">
@@ -79,8 +79,8 @@
             </div>
         </div>
         <div id="csat-step-2"
-             class="govuk-grid-column-two-thirds{% if csat_stage == 2 or csat_stage == 0 %} great-hidden{% endif %}">
-            <div class="govuk-grid-row">
+             class="govuk-grid-row{% if csat_stage == 2 or csat_stage == 0 %} great-hidden{% endif %}">
+            <div class="govuk-grid-column-two-thirds">
                 <div id="experience_group"
                      class="govuk-form-group{% if form.experience.errors %} govuk-form-group--error{% endif %}">
                     <fieldset class="govuk-fieldset govuk-!-margin-bottom-7"
@@ -168,8 +168,8 @@
                 </div>
             </div>
         </div>
-        <div class="govuk-grid-column-one-half-from-desktop govuk-!-margin-bottom-4">
-            <div class="govuk-grid-row{% if csat_stage == 2 %} great-hidden{% endif %}">
+        <div class="govuk-grid-row govuk-!-margin-bottom-4">
+            <div class="govuk-grid-column-one-half-from-desktop{% if csat_stage == 2 %} great-hidden{% endif %}">
                 {% if csat_stage == 0 %}
                     {% include './submit_button.html' with button_text='Submit and continue' %}
                 {% else %}
