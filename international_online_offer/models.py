@@ -327,11 +327,11 @@ class EYBArticlePage(BaseContentPage):
 
                 home_url = '/international/expand-your-business-in-the-uk/guide/'
                 if request.GET.get('back'):
-                    home_url += '#personalised-guide'
+                    home_url += '#tailored-guide'
 
                 breadcrumbs = [
                     {'name': 'Home', 'url': '/international/'},
-                    {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#personalised-guide'},
+                    {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#tailored-guide'},
                 ]
 
                 context.update(
@@ -380,7 +380,7 @@ class EYBTradeShowsPage(BaseContentPage):
 
         breadcrumbs = [
             {'name': 'Home', 'url': '/international/'},
-            {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#personalised-guide'},
+            {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#tailored-guide'},
         ]
         context.update(
             triage_data=triage_data,
