@@ -169,16 +169,16 @@
             </div>
         </div>
         <div class="govuk-grid-row govuk-!-margin-bottom-4">
-            <div class="govuk-grid-column-one-half-from-desktop{% if csat_stage == 2 %} great-hidden{% endif %}">
+            <div class="govuk-grid-column-one-half-from-desktop great-actions-group{% if csat_stage == 2 %} great-hidden{% endif %}">
                 {% if csat_stage == 0 %}
-                    {% include './submit_button.html' with button_classes='govuk-button' button_text='Submit and continue' %}
+                    {% include './submit_button.html' with button_text='Submit and continue' %}
                 {% else %}
-                    {% include './submit_button.html' with button_classes='govuk-button' button_text='Submit feedback' %}
+                    {% include './submit_button.html' with button_text='Submit feedback' %}
                 {% endif %}
                 {% if csat_stage != 1 %}
-                    {% include './submit_button.html' with button_name='cancelButton' button_classes='secondary-button govuk-button--secondary great-hidden' button_text='Cancel' %}
+                    {% include './submit_button.html' with button_name='cancelButton' button_classes='govuk-button--secondary great-hidden' button_text='Cancel' %}
                 {% else %}
-                    {% include './submit_button.html' with button_name='cancelButton' button_classes='secondary-button govuk-button--secondary' button_text='Cancel' %}
+                    {% include './submit_button.html' with button_name='cancelButton' button_classes='govuk-button--secondary' button_text='Cancel' %}
                 {% endif %}
             </div>
         </div>
