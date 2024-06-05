@@ -8,6 +8,9 @@
 {% load h3_if from content_tags %}
 
 {% block content %}
+    {% block breadcrumbs %}
+        {% include 'components/breadcrumbs_cms.html' %}
+    {% endblock %}
     <div class="great great-hero-box-shadow-bottom">
         {% image page.hero_image original as rendition %}
         <section class="background-white govuk-!-padding-bottom-0">
@@ -36,9 +39,6 @@
             </div>
         </div>
     </section>
-    {% block breadcrumbs %}
-        {% include 'components/breadcrumbs_cms.html' %}
-    {% endblock %}
     {% if page.banner_label %}
         <div class="govuk-!-static-padding-top-6 govuk-!-static-padding-bottom-6">
             {% include 'components/informative_banner.html' with banner_label=page.banner_label banner_content=page.banner_content %}
@@ -64,7 +64,6 @@
             </div>
         </div>
     </section>
-
     <section class="great great-bg-light-blue panels-container govuk-!-padding-bottom-0">
         {% for contentSection in page.events_and_series %}
             {% if contentSection.block_type == 'Panels_Section' %}
@@ -97,9 +96,10 @@
                             <p>{{contentSection.value.series_section_description }}</p>
                         {% endif %}
                         <div class="govuk-grid-row great-flex-grid great-bg-light-blue">
-                            {% for series in contentSection.value.series_list%}
+                            {% for series in contentSection.value.series_list %}
                                 <div class="govuk-grid-column-full courses-container govuk-!-margin-bottom-8">
-                                    <a href="{{ series.value.course_cta_url }}" class="govuk-!-display-block">
+                                    <a href="{{ series.value.course_cta_url }}"
+                                       class="govuk-!-display-block">
                                         <div class="great-bg-white great-display-flex-from-desktop">
                                             <div class="courses-container__text great-dep-homepage-title__text">
                                                 <{{ contentSection.value.series_section_title|h3_if:'h2' }} class="govuk-heading-m govuk-!-static-margin-bottom-4">
@@ -109,26 +109,26 @@
                                                 <ul>
                                                     <li class="govuk-!-static-margin-top-3">
                                                         <img class="great-blue-tick govuk-!-static-margin-right-1"
-                                                            src="{% static 'icons/blue-tick.svg' %}"
-                                                            height="30"
-                                                            aria-hidden="true"
-                                                            alt="" />
+                                                             src="{% static 'icons/blue-tick.svg' %}"
+                                                             height="30"
+                                                             aria-hidden="true"
+                                                             alt="" />
                                                         <span class="great-vertical-align-middle">{{ series.value.course_feature_one }}</span>
                                                     </li>
                                                     <li class="govuk-!-static-margin-top-3">
                                                         <img class="great-blue-tick govuk-!-static-margin-right-1"
-                                                            src="{% static 'icons/blue-tick.svg' %}"
-                                                            height="30"
-                                                            aria-hidden="true"
-                                                            alt="" />
+                                                             src="{% static 'icons/blue-tick.svg' %}"
+                                                             height="30"
+                                                             aria-hidden="true"
+                                                             alt="" />
                                                         <span>{{ series.value.course_feature_two }}</span>
                                                     </li>
                                                     <li class="govuk-!-static-margin-top-3">
                                                         <img class="great-blue-tick govuk-!-static-margin-right-1"
-                                                            src="{% static 'icons/blue-tick.svg' %}"
-                                                            height="30"
-                                                            aria-hidden="true"
-                                                            alt="" />
+                                                             src="{% static 'icons/blue-tick.svg' %}"
+                                                             height="30"
+                                                             aria-hidden="true"
+                                                             alt="" />
                                                         <span>{{ series.value.course_feature_three }}</span>
                                                     </li>
                                                 </ul>
@@ -138,8 +138,8 @@
                                             </div>
                                             {% image series.value.course_image original as course_rendition %}
                                             <img class="courses-container__img"
-                                                src="{{ course_rendition.url }}"
-                                                alt="">
+                                                 src="{{ course_rendition.url }}"
+                                                 alt="">
                                         </div>
                                     </a>
                                 </div>
