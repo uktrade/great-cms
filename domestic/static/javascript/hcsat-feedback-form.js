@@ -8,7 +8,9 @@ class CsatFormHandler {
         this.errorSummary = document.getElementById('error-summary');
         this.errorSummaryTitle = this.errorSummary.querySelector('.govuk-error-summary__title');
         this.errorList = this.errorSummary.querySelector('.govuk-error-summary__list');
-        this.submitButton = this.form.querySelector('button[type="submit"]');
+        this.submitButton = this.form.querySelectorAll('button[type="submit"]')[0];
+        this.cancelButton = this.form.querySelectorAll('button[type="submit"]')[1];
+        this.infoMsg = document.getElementById('infoMessage')
         this.currentStep = 1;
         this.initializeEventListeners();
     }
@@ -16,6 +18,16 @@ class CsatFormHandler {
     initializeEventListeners() {
         this.form.addEventListener('submit', async (event) => {
             event.preventDefault();
+
+            if (event.submitter.name=='cancelButton'){
+                this.stepTransition(this.stepTwo, this.stepOne, this.stepTwoSuccessMessage, '');
+                this.form.classList.add('great-hidden');
+                this.stepOneSuccessMessage.classList.add('great-hidden');
+                this.infoMsg.classList.add('great-hidden')
+                this.currentStep=1
+                return
+            }
+
             const formData = new FormData(this.form);
             formData.append('step', this.currentStep);
             const url = this.form.action
@@ -43,17 +55,18 @@ class CsatFormHandler {
     handleStepTransition(response, data) {
         this.checkExistingErrors();
         if (response.status==200) {
-            const infoMsg = document.getElementById('infoMessage')
             if (this.currentStep === 1) {
-                infoMsg.classList.remove('great-hidden')
+                this.infoMsg.classList.remove('great-hidden')
                 this.stepTransition(this.stepOne, this.stepTwo, this.stepOneSuccessMessage, 'Submit feedback');
+                this.cancelButton.classList.remove('great-hidden')
+
                 this.currentStep = 2;
             } else {
                 this.stepTransition(this.stepTwo, this.stepOne, this.stepTwoSuccessMessage, '');
                 this.form.classList.add('great-hidden');
                 this.stepOneSuccessMessage.classList.add('great-hidden');
 
-                infoMsg.classList.add('great-hidden')
+                this.infoMsg.classList.add('great-hidden')
                 this.currentStep=1
             }
         } else if (data) {
@@ -145,8 +158,6 @@ class CsatFormHandler {
                 }
             }
         });
-
-
     }
 
     removeErrorClasses(fieldGroup) {

@@ -365,7 +365,7 @@ class CsatUserFeedbackForm(forms.Form):
         min_length=2,
         max_length=255,
         required=False,
-        widget=TextInput(attrs={'class': 'govuk-input govuk-input--width-20'}),
+        widget=TextInput(attrs={'class': 'govuk-input'}),
     )
     feedback_text = CharField(
         label='How could we improve this service?',
@@ -387,9 +387,6 @@ class CsatUserFeedbackForm(forms.Form):
         choices=choices.LIKELIHOOD_CHOICES,
         widget=RadioSelect(attrs={'class': 'govuk-radios__input'}),
         required=False,
-        error_messages={
-            'required': 'Select how likely you are to use this service again',
-        },
     )
 
     def clean(self):
