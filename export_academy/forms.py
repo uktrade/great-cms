@@ -365,7 +365,7 @@ class CsatUserFeedbackForm(forms.Form):
         min_length=2,
         max_length=255,
         required=False,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=TextInput(attrs={'class': 'govuk-input great-font-main'}),
     )
     feedback_text = CharField(
         label='How could we improve this service?',
