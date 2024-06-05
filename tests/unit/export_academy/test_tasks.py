@@ -221,3 +221,32 @@ def test_notify_event_previously_complete_email_not_sent(mock_complete_action, u
     # Verify Event is still showing as 'completed email sent'
     event = Event.objects.filter(id=event.id).first()
     assert event.completed_email_sent is True
+
+
+@mock.patch('directory_forms_api_client.actions.GovNotifyBulkEmailAction')
+@pytest.mark.django_db
+def test_notify_event_unpublished_email_not_sent(mock_complete_action, user):
+    """
+    We want to create an event that is unpublished, and ensure an email notification
+    is NOT sent.
+    """
+
+    mock_complete_action().save.return_value = create_response(status_code=201)
+
+    # Create event with one booking
+    event = factories.EventFactory(
+        name='Event name',
+        start_date=timezone.now() + timedelta(minutes=settings.EXPORT_ACADEMY_AUTOMATED_NOTIFY_TIME_DELAY_MINUTES + 31),
+    )
+    registration = factories.RegistrationFactory(email=user.email, first_name=user.first_name)
+    factories.BookingFactory(event=event, registration=registration, status='Confirmed')
+
+    event.live = None
+    event.save()
+
+    # Run task - we are looking for no emails being sent
+    assert mock_complete_action.call_count == 1
+    send_automated_event_complete_notification()
+    assert mock_complete_action.call_count == 1
+    assert mock_complete_action().save.call_count == 0
+    assert mock_complete_action().save.call_args is None

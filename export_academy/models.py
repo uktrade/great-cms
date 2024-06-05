@@ -607,39 +607,43 @@ def send_notifications_for_all_bookings(event_id, template_id, additional_notify
     """
 
     # Get Bookings associated with event
-    bookings = Booking.objects.exclude(status='Cancelled').filter(event_id=event_id)
-    total_bookings = bookings.count()
-    notify_data = dict(template_id=template_id, bulk_email_entries=[])
+    event = Event.objects.get(id=event_id)
 
-    try:
-        for booking in bookings:
-            # Create an email entry for each booking
-            email_entry = dict(
-                first_name=booking.registration.first_name,
-                event_name=booking.event.name,
-                email_address=booking.registration.email,
+    # Only send emails for published events
+    if event.live:
+        bookings = Booking.objects.exclude(status='Cancelled').filter(event_id=event_id)
+        total_bookings = bookings.count()
+        notify_data = dict(template_id=template_id, bulk_email_entries=[])
+
+        try:
+            for booking in bookings:
+                # Create an email entry for each booking
+                email_entry = dict(
+                    first_name=booking.registration.first_name,
+                    event_name=booking.event.name,
+                    email_address=booking.registration.email,
+                )
+
+                # If any additional arguments have been passed, add them to the email entry.
+                if additional_notify_data:
+                    email_entry.update(**additional_notify_data)
+
+                # Add it to our list of email submissions
+                notify_data['bulk_email_entries'].append(email_entry)
+
+            # Create the bulk email action on the directory-forms-api-client
+            action = actions.GovNotifyBulkEmailAction(
+                template_id=template_id,
+                form_url=str(),
             )
 
-            # If any additional arguments have been passed, add them to the email entry.
-            if additional_notify_data:
-                email_entry.update(**additional_notify_data)
+            # Trigger the action (post it to the directory-forms-api endpoint /api/v2/bulk-email-notification)
+            action.save(notify_data)
 
-            # Add it to our list of email submissions
-            notify_data['bulk_email_entries'].append(email_entry)
+        except Exception as e:  # noqa
+            sentry_sdk.capture_message(f'Sending booking notification email failed for {event_id}: {e}', 'fatal')
 
-        # Create the bulk email action on the directory-forms-api-client
-        action = actions.GovNotifyBulkEmailAction(
-            template_id=template_id,
-            form_url=str(),
-        )
-
-        # Trigger the action (post it to the directory-forms-api endpoint /api/v2/bulk-email-notification)
-        action.save(notify_data)
-
-    except Exception as e:  # noqa
-        sentry_sdk.capture_message(f'Sending booking notification email failed for {event_id}: {e}', 'fatal')
-
-    send_notifications_for_all_bookings_report_to_sentry(event_id, total_bookings)
+        send_notifications_for_all_bookings_report_to_sentry(event_id, total_bookings)
 
 
 def send_notifications_for_all_bookings_report_to_sentry(event_id, total_bookings):
