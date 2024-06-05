@@ -2,7 +2,7 @@
 {% load get_inline_feedback_visibility from content_tags %}
 {% show_feedback request.get_full_path as show_feedback %}
 {% if show_feedback %}
-    <div class="great-full-width govuk-!-padding-top-6 govuk-!-padding-bottom-6 great-inline-feedback__container">
+    <div class="great-full-width govuk-!-padding-top-6 govuk-!-padding-bottom-6 great-inline-feedback__container great">
         <div class="govuk-grid-row great-container">
             <div class="govuk-grid-column-two-thirds govuk-!-padding-0"
                  id="inline-feedback">
@@ -12,14 +12,14 @@
                      tabindex="-1"
                      class="great-inline-feedback__submission-error {% if not feedback_visibility.show_submission_error %}great-hidden{% endif %}">
                     <span role="img" class="fa fa-exclamation-circle"></span>
-                    <h3>Something went wrong. Please try again.</h3>
+                    <h3 class="govuk-heading-xs">Something went wrong. Please try again.</h3>
                 </div>
                 <span id="page-useful"
                       class="{% if not feedback_visibility.show_page_useful %}  great-hidden  {% endif %}">
                     <form method="post"
                           class="great-inline-feedback__page_useful_form"
                           id="page-useful-form">
-                        <h3 class="govuk-heading-xs">Was this page useful?</h3>
+                        <h2 class="govuk-heading-xs">Was this page useful?</h2>
                         {% csrf_token %}
                         <input type="hidden" name="current_url" value="{{ request.path }}">
                         <button type="submit"
@@ -45,7 +45,7 @@
                      tabindex="-1"
                      class="great-inline-feedback__submission-confirmation {% if not feedback_visibility.show_detailed_feedback_received %}great-hidden{% endif %}">
                     <span role="img" class="fa fa-check-circle"></span>
-                    <h2>Thanks for your feedback</h2>
+                    <h2 class="govuk-heading-s govuk-!-margin-0">Thanks for your feedback</h2>
                 </div>
             </div>
         </div>
