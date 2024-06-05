@@ -165,13 +165,14 @@ class InvestmentContactView(GA360Mixin, FormView):
 
     def send_email_lead_to_agent(self, form_data):
         agent_email_address = settings.INTERNATIONAL_INVESTMENT_AGENT_EMAIL
-        action = actions.GovNotifyEmailAction(
-            template_id=settings.INTERNATIONAL_INVESTMENT_NOTIFY_AGENT_TEMPLATE_ID,
-            email_address=agent_email_address,
-            form_url=self.request.get_full_path(),
-        )
-        response = action.save(form_data)
-        response.raise_for_status()
+        if agent_email_address:
+            action = actions.GovNotifyEmailAction(
+                template_id=settings.INTERNATIONAL_INVESTMENT_NOTIFY_AGENT_TEMPLATE_ID,
+                email_address=agent_email_address,
+                form_url=self.request.get_full_path(),
+            )
+            response = action.save(form_data)
+            response.raise_for_status()
 
     def send_email_confirmation_to_user(self, form_data):
         action = actions.GovNotifyEmailAction(
