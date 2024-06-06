@@ -5,8 +5,8 @@
                  class="csat-submission-confirmation{% if csat_stage != 1 or form.errors %} great-hidden{% endif %}"
                  aria-live="polite"
                  tabindex="-1">
-                <div class="csat-submission-confirmation__heading great-align-items-center">
-                    <span role="img" class="fa fa-check-circle"></span>
+                <div class="csat-submission-confirmation__heading">
+                    <span role="img" class="great-margin-top-2 fa fa-check-circle"></span>
                     <h2 class="govuk-heading-s govuk-!-margin-bottom-0">Thank you for submitting your rating</h2>
                 </div>
             </div>
@@ -15,7 +15,7 @@
                  aria-live="polite"
                  tabindex="-1">
                 <div class="csat-submission-confirmation__heading great-align-items-center">
-                    <span role="img" class="great-vertical-align-middle fa fa-check-circle"></span>
+                    <span role="img" class="great-margin-top-2 fa fa-check-circle"></span>
                     <h2 class="govuk-heading-s govuk-!-margin-bottom-0">Thank you for helping us to improve this service</h2>
                 </div>
             </div>
@@ -113,8 +113,10 @@
                                 {% if action.data.value == 'OTHER' %}
                                     <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
                                          id="conditional-experience-{{ forloop.counter0 }}">
-                                         <div id="experience_other_group">
-                                            <div class="govuk-form-group">{% include './form_field.html' with field=form.experience_other custom_error='Enter the issue you experienced' %}</div>
+                                        <div id="experience_other_group">
+                                            <div class="govuk-form-group">
+                                                {% include './form_field.html' with field=form.experience_other custom_error='Enter the issue you experienced' %}
+                                            </div>
                                         </div>
                                     </div>
                                 {% endif %}
