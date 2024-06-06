@@ -23,12 +23,8 @@ class CsatFormHandler {
             formData.append('step', this.currentStep);
             const url = this.form.action
             
-            if (event.submitter.name=='cancelButton'){
-                this.stepTransition(this.stepTwo, this.stepOne, this.stepTwoSuccessMessage, '');
-                this.form.classList.add(this.hideClass);
-                this.stepOneSuccessMessage.classList.add(this.hideClass);
-                this.infoMsg.classList.add(this.hideClass)
-                this.currentStep=1
+            if (event.submitter && event.submitter.name=='cancelButton'){
+                this.resetForm();
                 return
             }
 
@@ -50,6 +46,14 @@ class CsatFormHandler {
                 this.showErrors();
             }
         });
+    }
+
+    resetForm() {
+        this.stepTransition(this.stepTwo, this.stepOne, this.stepTwoSuccessMessage, '');
+        this.form.classList.add(this.hideClass);
+        this.infoMsg.classList.add(this.hideClass);
+        this.stepOneSuccessMessage.classList.add(this.hideClass);
+        this.currentStep = 1;
     }
 
     handleStepTransition(response, data) {
