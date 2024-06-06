@@ -1,5 +1,3 @@
-const e = require("venv/lib/python3.9/site-packages/wagtail/admin/static/wagtailadmin/js/vendor/jquery.datetimepicker");
-
 class CsatFormHandler {
     constructor(formId) {
         this.form = document.getElementById(formId);
