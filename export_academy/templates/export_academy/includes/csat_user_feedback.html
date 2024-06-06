@@ -159,13 +159,13 @@
                         <label class="govuk-label govuk-label--l"
                                for="{{ form.feedback_text.id_for_label }}">{{ form.feedback_text.label }}</label>
                     </h2>
-                    <div id="with-hint-hint" class="govuk-hint">{{ form.feedback_text.help_text }}</div>
+                    <div id="id_feedback_text-hint" class="govuk-hint">{{ form.feedback_text.help_text }}</div>
                     <p id="exceeding-characters-error"
                        class="govuk-error-message great-hidden">
                         <span>Your feedback must be 1200 characters or less</span>
                     </p>
                     {{ form.feedback_text }}
-                    <div id="with-hint-info"
+                    <div id="id_feedback_text-info"
                          class="govuk-hint {% if form.feedback_text.errors %}govuk-error-message great-font-bold{% endif %}">
                         You can enter up to 1200 characters
                     </div>

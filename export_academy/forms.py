@@ -377,9 +377,9 @@ class CsatUserFeedbackForm(forms.Form):
             attrs={
                 'class': 'govuk-textarea govuk-js-character-count great-font-main',
                 'rows': 6,
-                'id': 'with-hint',
+                'id': 'id_feedback_text',
                 'name': 'withHint',
-                'aria-describedby': 'with-hint-info with-hint-hint',
+                'aria-describedby': 'id_feedback_text-info id_feedback_text-hint',
             }
         ),
     )
