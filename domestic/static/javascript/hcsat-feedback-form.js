@@ -22,8 +22,8 @@ class CsatFormHandler {
             const formData = new FormData(this.form);
             formData.append('step', this.currentStep);
             const url = this.form.action
-            
-            if (event.submitter && event.submitter.name=='cancelButton'){
+
+            if (event.submitter && event.submitter.name == 'cancelButton'){
                 this.resetForm();
                 return
             }
@@ -89,7 +89,7 @@ class CsatFormHandler {
             this.submitButton.textContent = buttonLabel;
         }
     }
-    
+
     showErrors(errors) {
         this.stepOneSuccessMessage.classList.add(this.hideClass);
         this.stepTwoSuccessMessage.classList.add(this.hideClass);
@@ -123,7 +123,7 @@ class CsatFormHandler {
         const errorFields = document.querySelectorAll('.govuk-form-group--error');
         errorFields.forEach(fieldGroup => {
             const fieldName = fieldGroup.id.replace('_group', '');
-    
+
             if (!hasErrors[fieldName]) {
                 this.removeErrorClasses(fieldGroup);
             }
