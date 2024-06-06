@@ -5,7 +5,7 @@
                  class="csat-submission-confirmation{% if csat_stage != 1 or form.errors %} great-hidden{% endif %}"
                  aria-live="polite"
                  tabindex="-1">
-                <div class="csat-submission-confirmation__heading">
+                <div class="csat-submission-confirmation__heading great-align-items-center">
                     <span role="img" class="fa fa-check-circle"></span>
                     <h2 class="govuk-heading-s govuk-!-margin-bottom-0">Thank you for submitting your rating</h2>
                 </div>
@@ -14,8 +14,8 @@
                  class="csat-submission-confirmation{% if csat_stage != 2 or form.errors %} great-hidden{% endif %}"
                  aria-live="polite"
                  tabindex="-1">
-                <div class="csat-submission-confirmation__heading">
-                    <span role="img" class="fa fa-check-circle"></span>
+                <div class="csat-submission-confirmation__heading great-align-items-center">
+                    <span role="img" class="great-vertical-align-middle fa fa-check-circle"></span>
                     <h2 class="govuk-heading-s govuk-!-margin-bottom-0">Thank you for helping us to improve this service</h2>
                 </div>
             </div>
@@ -83,7 +83,7 @@
             <div class="govuk-grid-column-two-thirds">
                 <div id="experience_group"
                      class="govuk-form-group{% if form.experience.errors %} govuk-form-group--error{% endif %}">
-                    <fieldset class="govuk-fieldset govuk-!-margin-bottom-7"
+                    <fieldset class="govuk-fieldset "
                               aria-describedby="experience-hint {% if form.experience.errors %}csat-experience-error-message{% endif %}">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-!-margin-bottom-3">
                             <h2 class="govuk-fieldset__heading" id="{{ form.experience.auto_id }}">{{ form.experience.label }}</h2>
@@ -122,7 +122,7 @@
                 </div>
                 <div id="likelihood_of_return_group"
                      class="govuk-form-group{% if form.likelihood_of_return.errors %} govuk-form-group--error{% endif %}">
-                    <fieldset class="govuk-fieldset govuk-!-margin-bottom-9"
+                    <fieldset class="govuk-fieldset "
                               {% if form.likelihood_of_return.errors %}aria-describedby="csat-likelihood-of-return-error-message"{% endif %}>
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-!-margin-bottom-5">
                             <h2 class="govuk-fieldset__heading"
