@@ -43,7 +43,7 @@
                                 {% for action in form.investment_type %}
                                     <div class="govuk-checkboxes__item">
                                         <input {% if action.data.value in form.investment_type.value %}checked{% endif %}
-                                               {% if action.data.value == 'other' %}data-aria-controls="conditional-investment-type-{{ forloop.counter0 }}" onclick="handleInvestmentTypeOtherClick(this)"{% endif %}
+                                               {% if action.data.value == 'Other' %}data-aria-controls="conditional-investment-type-{{ forloop.counter0 }}" onclick="handleInvestmentTypeOtherClick(this)"{% endif %}
                                                type="checkbox"
                                                name="investment_type"
                                                value="{{ action.data.value }}"
@@ -52,7 +52,7 @@
                                         <label class="govuk-label govuk-checkboxes__label"
                                                for="{{ action.id_for_label }}">{{ action.choice_label }}</label>
                                     </div>
-                                    {% if action.data.value == 'other' %}
+                                    {% if action.data.value == 'Other' %}
                                         <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
                                              id="conditional-investment-type-{{ forloop.counter0 }}">
                                             <div class="govuk-form-group">
