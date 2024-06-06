@@ -396,11 +396,6 @@ class CsatUserFeedbackForm(forms.Form):
         if experience and 'OTHER' not in experience:
             cleaned_data['experience_other'] = ''
 
-        experience_other = cleaned_data.get('experience_other')
-
-        if experience and any('OTHER' in s for s in experience) and not experience_other:
-            self.add_error('experience_other', 'Enter the issue you experienced')
-
         if experience and any('NO_ISSUE' in s for s in experience):
             for option in experience:
                 if option != 'NO_ISSUE':
