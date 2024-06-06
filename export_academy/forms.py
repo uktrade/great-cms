@@ -372,6 +372,7 @@ class CsatUserFeedbackForm(forms.Form):
         help_text="Don't include any personal information, like your name or email address.",
         max_length=1200,
         required=False,
+        error_messages={'max_length': 'Your feedback must be 1200 characters or less'},
         widget=Textarea(
             attrs={
                 'class': 'govuk-textarea govuk-js-character-count great-font-main',
