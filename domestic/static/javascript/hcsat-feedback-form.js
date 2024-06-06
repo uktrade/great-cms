@@ -1,3 +1,5 @@
+const e = require("venv/lib/python3.9/site-packages/wagtail/admin/static/wagtailadmin/js/vendor/jquery.datetimepicker");
+
 class CsatFormHandler {
     constructor(formId) {
         this.form = document.getElementById(formId);
@@ -25,25 +27,25 @@ class CsatFormHandler {
 
             if (event.submitter && event.submitter.name == 'cancelButton'){
                 this.resetForm();
-                return
             }
+            else{
+                try {
+                    const response = await fetch(`${url}?js_enabled=True`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest',
+                        },
+                        body: formData,
+                    });
 
-            try {
-                const response = await fetch(`${url}?js_enabled=True`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
-                        'Accept': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest',
-                    },
-                    body: formData,
-                });
-
-                const data = await response.json();
-                this.handleStepTransition(response, data);
-            } catch (error) {
-                console.error('There was a problem with the fetch operation:', error);
-                this.showErrors();
+                    const data = await response.json();
+                    this.handleStepTransition(response, data);
+                } catch (error) {
+                    console.error('There was a problem with the fetch operation:', error);
+                    this.showErrors();
+                }
             }
         });
     }
