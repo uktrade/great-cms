@@ -138,7 +138,7 @@ class SpendCurrencySelectForm(forms.Form):
         label='Select a currency',
         required=True,
         choices=choices.SPEND_CURRENCY_CHOICES,
-        widget=Select(attrs={'class': 'govuk-select govuk-!-width-full'}),
+        widget=Select(attrs={'class': 'govuk-select govuk-!-width-full', 'onchange': 'refreshSelectedCurrency()'}),
         error_messages={
             'required': 'Select a currency from the list',
         },
