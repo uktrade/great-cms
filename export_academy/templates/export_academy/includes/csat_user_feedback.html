@@ -41,7 +41,7 @@
                 </div>
             </div>
         </div>
-        <div id="infoMessage"
+        <div id="info-message"
              class="govuk-grid-column-two-thirds {% if csat_stage != 1 %}great-hidden{% endif %}">
             <p class="great-font-size-desktop-24 great-font-bold govuk-!-margin-bottom-6">
                 <br>
@@ -113,7 +113,9 @@
                                 {% if action.data.value == 'OTHER' %}
                                     <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
                                          id="conditional-experience-{{ forloop.counter0 }}">
-                                        <div class="govuk-form-group">{% include './form_field.html' with field=form.experience_other %}</div>
+                                         <div id="experience_other_group">
+                                            <div class="govuk-form-group">{% include './form_field.html' with field=form.experience_other custom_error='Enter the issue you experienced' %}</div>
+                                        </div>
                                     </div>
                                 {% endif %}
                             {% endfor %}
@@ -147,7 +149,7 @@
                         </div>
                     </fieldset>
                 </div>
-                <div id="id_feedback_text"
+                <div id="feedback_text_group"
                      class="govuk-form-group great-font-main govuk-character-count{% if form.feedback_text.errors %} govuk-form-group--error{% endif %}"
                      data-module="govuk-character-count"
                      data-maxlength="1200">
