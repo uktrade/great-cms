@@ -1,1 +1,2 @@
-<button type="submit" class="govuk-button" data-module="govuk-button">{{ button_text }}</button>
+<button {% if button_name %}name={{ button_name }}{% endif %} type="submit" class="govuk-button {% if button_classes %}{{ button_classes }}{% endif %}" data-module="govuk-button">{{ button_text }}
+</button>
