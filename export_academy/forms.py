@@ -345,12 +345,10 @@ class CodeConfirmForm(forms.Form):
 
 class CsatUserFeedbackForm(forms.Form):
     satisfaction = ChoiceField(
-        label='Overall, how do you feel about your use of the Export Academy digital service today?',
+        label='Overall, how would you rate your experience with the UK Export Academy event booking service today?',
         choices=choices.SATISFACTION_CHOICES,
         widget=RadioSelect(attrs={'class': 'govuk-radios__input'}),
-        error_messages={
-            'required': 'Select a level of satisfaction',
-        },
+        required=False,
     )
     experience = MultipleChoiceField(
         label='Did you experience any of the following issues?',
@@ -358,26 +356,30 @@ class CsatUserFeedbackForm(forms.Form):
         choices=choices.EXPERIENCE_CHOICES,
         widget=CheckboxSelectMultiple(attrs={'class': 'govuk-checkboxes__input'}),
         required=False,
+        error_messages={
+            'required': "Select issues you experienced, or select 'I did not experience any issues'",
+        },
     )
     experience_other = CharField(
-        label='Please specify',
+        label='Please describe the issue',
         min_length=2,
         max_length=255,
         required=False,
-        widget=TextInput(attrs={'class': 'govuk-input govuk-input--width-20'}),
+        widget=TextInput(attrs={'class': 'govuk-input great-font-main'}),
     )
     feedback_text = CharField(
-        label='How could we improve this service? (optional)',
+        label='How could we improve this service?',
         help_text="Don't include any personal information, like your name or email address.",
         max_length=1200,
         required=False,
+        error_messages={'max_length': 'Your feedback must be 1200 characters or less'},
         widget=Textarea(
             attrs={
-                'class': 'govuk-textarea govuk-js-character-count',
+                'class': 'govuk-textarea govuk-js-character-count great-font-main',
                 'rows': 6,
-                'id': 'with-hint',
+                'id': 'id_feedback_text',
                 'name': 'withHint',
-                'aria-describedby': 'with-hint-info with-hint-hint',
+                'aria-describedby': 'id_feedback_text-info id_feedback_text-hint',
             }
         ),
     )
@@ -395,9 +397,11 @@ class CsatUserFeedbackForm(forms.Form):
         if experience and 'OTHER' not in experience:
             cleaned_data['experience_other'] = ''
 
-        experience_other = cleaned_data.get('experience_other')
-
-        if experience and any('OTHER' in s for s in experience) and not experience_other:
-            self.add_error('experience_other', 'You must enter more information regarding other experience')
-
+        if experience and any('NO_ISSUE' in s for s in experience):
+            for option in experience:
+                if option != 'NO_ISSUE':
+                    self.add_error(
+                        'experience', "Select issues you experienced, or select 'I did not experience any issues'"
+                    )
+                    break
         return cleaned_data

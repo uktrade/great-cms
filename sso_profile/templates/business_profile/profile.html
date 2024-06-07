@@ -90,7 +90,7 @@
                         <p>Your business profile is ready to be verified</p>
                     </div>
                     <div class="column-one-third alerts-button-container">
-                        <a class="button primary-button"
+                        <a id="request-to-verify" class="button primary-button"
                            href="{% url 'sso_profile:business-profile-request-to-verify' %}">Request to verify</a>
                     </div>
                 {% endif %}
@@ -140,7 +140,7 @@
                 <div class="grid-row" id="about-company-container">
                     <h3 class="column-two-thirds heading-medium">Business details</h3>
                     <div class="column-one-third right-column">
-                        <a href="{% url 'sso_profile:business-profile-business-details' %}"
+                        <a id="edit-business-details" href="{% url 'sso_profile:business-profile-business-details' %}"
                            class="link pencil-link">Edit</a>
                     </div>
                 </div>
@@ -265,7 +265,7 @@
                     <h3 class="box-heading heading-medium black-text column-one-half">Profile email address</h3>
                     <div class="column-one-half right-column">
                         {% if company.email_address %}
-                            <a href="{% url 'sso_profile:business-profile-email' %}"
+                            <a id="edit-business-email" href="{% url 'sso_profile:business-profile-email' %}"
                                class="link pencil-link">Edit</a>
                         {% endif %}
                     </div>
@@ -274,7 +274,7 @@
                 {% if company.email_address %}
                     <span>{{ company.email_address }}</span>
                 {% else %}
-                    <a href="{% url 'sso_profile:business-profile-email' %}" class="link">Add email address</a>
+                    <a id="add-business-email" href="{% url 'sso_profile:business-profile-email' %}" class="link">Add email address</a>
                 {% endif %}
             </div>
             <div class="{% if not company.description %}primary-action-required{% endif %} message-box border-medium border-stone background-white">

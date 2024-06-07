@@ -31,13 +31,18 @@ babel==2.12.1
     # via
     #   -r requirements.in
     #   sphinx
+backoff==2.2.1
+    # via
+    #   opentelemetry-exporter-otlp-proto-common
+    #   opentelemetry-exporter-otlp-proto-grpc
+    #   opentelemetry-exporter-otlp-proto-http
 beautifulsoup4==4.11.2
     # via
     #   directory-components
     #   great-components
     #   readtime
     #   wagtail
-billiard==3.6.4.0
+billiard==4.2.0
     # via celery
 boto3==1.24.96
     # via
@@ -47,9 +52,10 @@ botocore==1.27.96
     # via
     #   boto3
     #   s3transfer
-celery[redis]==5.2.7
+celery[redis]==5.3.6
     # via
     #   -r requirements.in
+    #   dbt-copilot-python
     #   django-celery-beat
 certifi==2024.2.2
     # via
@@ -91,8 +97,15 @@ cssselect2==0.7.0
     # via svglib
 dateparser==0.7.2
     # via -r requirements.in
+dbt-copilot-python==0.2.0
+    # via -r requirements.in
 defusedxml==0.7.1
     # via willow
+deprecated==1.2.14
+    # via
+    #   opentelemetry-api
+    #   opentelemetry-exporter-otlp-proto-grpc
+    #   opentelemetry-exporter-otlp-proto-http
 directory-api-client==26.6.1
     # via -r requirements.in
 directory-ch-client==4.0.2
@@ -186,9 +199,7 @@ django-redis==5.4.0
 django-staff-sso-client==4.2.2
     # via -r requirements.in
 django-storages[boto3]==1.13.2
-    # via
-    #   -r requirements.in
-    #   django-storages
+    # via -r requirements.in
 django-taggit==4.0.0
     # via wagtail
 django-timezone-field==6.1.0
@@ -231,10 +242,14 @@ filetype==1.2.0
     # via willow
 geoip2==2.9.0
     # via -r requirements.in
+googleapis-common-protos==1.63.1
+    # via
+    #   opentelemetry-exporter-otlp-proto-grpc
+    #   opentelemetry-exporter-otlp-proto-http
 great-components==2.6.4
     # via -r requirements.in
-greenlet==3.0.3
-    # via sqlalchemy
+grpcio==1.64.1
+    # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==22.0.0
     # via -r requirements.in
 hashids==0.8.4
@@ -251,8 +266,10 @@ idna==3.7
     # via requests
 imagesize==1.4.1
     # via sphinx
-importlib-metadata==7.1.0
-    # via sphinx
+importlib-metadata==6.11.0
+    # via
+    #   opentelemetry-api
+    #   sphinx
 inflection==0.5.1
     # via drf-spectacular
 iso3166==1.0.1
@@ -303,6 +320,54 @@ olefile==0.47
     # via directory-validators
 openpyxl==3.1.2
     # via wagtail
+opentelemetry-api==1.22.0
+    # via
+    #   opentelemetry-distro
+    #   opentelemetry-exporter-otlp-proto-grpc
+    #   opentelemetry-exporter-otlp-proto-http
+    #   opentelemetry-instrumentation
+    #   opentelemetry-instrumentation-wsgi
+    #   opentelemetry-propagator-aws-xray
+    #   opentelemetry-sdk
+opentelemetry-distro==0.43b0
+    # via dbt-copilot-python
+opentelemetry-exporter-otlp==1.22.0
+    # via dbt-copilot-python
+opentelemetry-exporter-otlp-proto-common==1.22.0
+    # via
+    #   opentelemetry-exporter-otlp-proto-grpc
+    #   opentelemetry-exporter-otlp-proto-http
+opentelemetry-exporter-otlp-proto-grpc==1.22.0
+    # via opentelemetry-exporter-otlp
+opentelemetry-exporter-otlp-proto-http==1.22.0
+    # via opentelemetry-exporter-otlp
+opentelemetry-instrumentation==0.43b0
+    # via
+    #   opentelemetry-distro
+    #   opentelemetry-instrumentation-wsgi
+opentelemetry-instrumentation-wsgi==0.43b0
+    # via dbt-copilot-python
+opentelemetry-propagator-aws-xray==1.0.1
+    # via dbt-copilot-python
+opentelemetry-proto==1.22.0
+    # via
+    #   opentelemetry-exporter-otlp-proto-common
+    #   opentelemetry-exporter-otlp-proto-grpc
+    #   opentelemetry-exporter-otlp-proto-http
+opentelemetry-sdk==1.22.0
+    # via
+    #   opentelemetry-distro
+    #   opentelemetry-exporter-otlp-proto-grpc
+    #   opentelemetry-exporter-otlp-proto-http
+    #   opentelemetry-sdk-extension-aws
+opentelemetry-sdk-extension-aws==2.0.1
+    # via dbt-copilot-python
+opentelemetry-semantic-conventions==0.43b0
+    # via
+    #   opentelemetry-instrumentation-wsgi
+    #   opentelemetry-sdk
+opentelemetry-util-http==0.43b0
+    # via opentelemetry-instrumentation-wsgi
 oscrypto==1.3.0
     # via pyhanko-certvalidator
 packaging==24.0
@@ -329,6 +394,10 @@ pre-commit==3.7.1
     # via django-log-formatter-asim
 prompt-toolkit==3.0.43
     # via click-repl
+protobuf==4.25.3
+    # via
+    #   googleapis-common-protos
+    #   opentelemetry-proto
 psycopg2==2.9.9
     # via -r requirements.in
 pycparser==2.22
@@ -356,6 +425,7 @@ python-crontab==3.0.0
 python-dateutil==2.9.0.post0
     # via
     #   botocore
+    #   celery
     #   dateparser
     #   elasticsearch-dsl
     #   faker
@@ -368,7 +438,6 @@ python-magic==0.4.27
     # via -r requirements.in
 pytz==2023.3
     # via
-    #   celery
     #   dateparser
     #   directory-validators
     #   django-modelcluster
@@ -398,10 +467,12 @@ reportlab==4.0.9
 requests==2.32.0
     # via
     #   airtable-python-wrapper
+    #   dbt-copilot-python
     #   directory-api-client
     #   directory-ch-client
     #   directory-client-core
     #   geoip2
+    #   opentelemetry-exporter-otlp-proto-http
     #   pyhanko
     #   pyhanko-certvalidator
     #   requests-oauthlib
@@ -466,11 +537,14 @@ typing-extensions==4.11.0
     # via
     #   asgiref
     #   kombu
+    #   opentelemetry-sdk
     #   pypdf
     #   qrcode
     #   wagtail-localize
 tzdata==2024.1
-    # via django-celery-beat
+    # via
+    #   celery
+    #   django-celery-beat
 tzlocal==5.2
     # via
     #   dateparser
@@ -535,9 +609,11 @@ webencodings==0.5.1
 whitenoise==6.6.0
     # via -r requirements.in
 willow[heif]==1.6.3
+    # via wagtail
+wrapt==1.16.0
     # via
-    #   wagtail
-    #   willow
+    #   deprecated
+    #   opentelemetry-instrumentation
 xhtml2pdf==0.2.15
     # via -r requirements.in
 zipp==3.18.2
