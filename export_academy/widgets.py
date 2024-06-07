@@ -1,6 +1,12 @@
 from django.forms import widgets
 
 
+class GreatRadioSelectWithOtherText(widgets.ChoiceWidget):
+    template_name = 'components/great/radios-with-other.html'
+    option_template_name = 'components/great/radio-option.html'
+    input_type = 'radio'
+
+
 class PasswordInputShowHide(widgets.Input):
     input_type = 'password'
     template_name = 'components/great/password-show-hide.html'

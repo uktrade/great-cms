@@ -30,7 +30,7 @@
     }
   }
 
-  h2:not(.govuk-notification-banner__title, .govuk-heading-xs, .govuk-heading-s, .govuk-body-s  ) {
+  h2:not(.govuk-notification-banner__title, .govuk-heading-xs, .govuk-heading-s, .govuk-body-s, .govuk-fieldset__heading  ) {
     @include govuk-media-query($until: tablet) {
       font-size: 28px;
     }
@@ -60,10 +60,6 @@
     font-size: 18px;
   }
 
-  .govuk-hint {
-    color: $great-off-black;
-  }
-
   .govuk-caption-xl {
     font-size: 20px;
     line-height: 30px;
@@ -86,7 +82,7 @@
   .govuk-list {
     font-family: $great-font;
   }
-  
+
 
   .govuk-form-group--error {
     input[type='text'] {
@@ -241,7 +237,8 @@
   .govuk-summary-list__key,
   .govuk-summary-list__value,
   .govuk-link:not(.govuk-heading-m, .govuk-heading-s),
-  .govuk-warning-text__text {
+  .govuk-warning-text__text,
+  .govuk-error-message {
     font-size: 16px;
     line-height: 24px;
 
@@ -252,7 +249,6 @@
   }
   .govuk-body,
   .govuk-label,
-  .govuk-hint,
   .govuk-input,
   .govuk-body-s,
   .govuk-summary-list__key,
@@ -280,13 +276,10 @@
     -webkit-font-smoothing: auto;
   }
 
-  .govuk-hint {
-    color: $great-off-black;
-  }
-
   .govuk-hint,
   .govuk-error-message,
   .govuk-radios__label,
+  .govuk-checkboxes__label,
   .govuk-details,
   .govuk-link:not(.great-title-link) {
     font-family: $great-font;
@@ -391,11 +384,25 @@
   .govuk-link--no-visited-state {
     @include govuk-link-style-no-visited-state;
   }
+
+  .govuk-fieldset__heading {
+    line-height: inherit;
+  }
+
+  .govuk-label--l {
+    font-size: 1.25rem;
+    line-height: 1.1111111111;
+  }
 }
 
 .govuk-skip-link {
   font-family: $great-font;
 }
+
+.govuk-skip-link {
+  font-family: $great-font;
+}
+
 
 .great-container {
   max-width: 1230px;
@@ -417,6 +424,10 @@
 
 .great-border-thin-top-light-blue {
   border-top: 3px solid #1d70b8;
+}
+
+.great-border-thin-top-lighter-blue {
+  border-top: 2px solid $great-light-blue;
 }
 
 .great-border-bottom-blue {
@@ -514,6 +525,9 @@
 
 .great-font-main {
   font-family: $main-text-font !important;
+  a {
+    font-family: $main-text-font !important;
+  }
 }
 
 .great-line-height-20 {
@@ -730,6 +744,9 @@
 
 .great-margin-bottom-30 {
   margin-bottom: 30px !important;
+}
+.great-margin-top-2 {
+  margin-top: 2px !important;
 }
 
 .great-media-container {

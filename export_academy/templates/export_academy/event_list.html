@@ -34,34 +34,37 @@
                            id="mobile-filter-toggle">Filters</a>
                         <ul>
                             {% for field in filter.form|get_filters:request.user %}
-                                <li>
-                                    <fieldset class="filter-section" aria-describedby="{{ field.label }}_label">
-                                        <legend class="great-visually-hidden">{{ field.label }}</legend>
-                                        <button type="button"
-                                                id="{{ field.label }}"
-                                                class="filter-section-toggle hidden"
-                                                role="button"
-                                                aria-expanded="true"
-                                                aria-controls="{{ field.label }}_fields" /></button>
-                                    <label class="arrows-left arrows-left-active filter-section-headings govuk-!-padding-left-2"
-                                           for="{{ field.label }}"
-                                           id="{{ field.label }}_label">
-                                        <h2>{{ field.label }}</h2>
-                                    </label>
-                                    <div id="{{ field.label }}_fields"
-                                         class="options checkbox-small filter-section-active">
-                                        {% if request.GET.booking_period == 'upcoming' or request.GET.booking_period == 'past' %}
-                                            {% filter disable_period_radios %}
-                                                {{ field }}
-                                            {% endfilter %}
-                                        {% else %}
-                                            {% filter set_all_events %}
-                                                {{ field }}
-                                            {% endfilter %}
-                                        {% endif %}
-                                    </div>
-                                </fieldset>
-                            </li>
+                                {% if field.label == "Market" and not market_filters or field.label == "Sector" and not sector_filters or field.label == "Type of Export" and not type_of_export_filters %}
+                                {% else %}
+                                    <li>
+                                        <fieldset class="filter-section" aria-describedby="{{ field.label }}_label">
+                                            <legend class="great-visually-hidden">{{ field.label }}</legend>
+                                            <button type="button"
+                                                    id="{{ field.label }}"
+                                                    class="filter-section-toggle hidden"
+                                                    role="button"
+                                                    aria-expanded="true"
+                                                    aria-controls="{{ field.label }}_fields" /></button>
+                                        <label class="arrows-left arrows-left-active filter-section-headings govuk-!-padding-left-2"
+                                               for="{{ field.label }}"
+                                               id="{{ field.label }}_label">
+                                            <h2>{{ field.label }}</h2>
+                                        </label>
+                                        <div id="{{ field.label }}_fields"
+                                             class="options checkbox-small filter-section-active">
+                                            {% if request.GET.booking_period == 'upcoming' or request.GET.booking_period == 'past' %}
+                                                {% filter disable_period_radios %}
+                                                    {{ field }}
+                                                {% endfilter %}
+                                            {% else %}
+                                                {% filter set_all_events %}
+                                                    {{ field }}
+                                                {% endfilter %}
+                                            {% endif %}
+                                        </div>
+                                    </fieldset>
+                                </li>
+                            {% endif %}
                         {% endfor %}
                     </ul>
                     <div class="filters-sticky-footer govuk-!-margin-top-7"
@@ -83,10 +86,10 @@
                 {% for event in page_obj|append_past_year_seperator %}
                     <div class="govuk-grid-row event-list-card">
                         {% if event.past_year_seperator %}
-                            <h2 class="past-year-seperator govuk-!-padding-left-3 govuk-!-padding-bottom-30">{{ event.past_year_seperator }}</h2>
+                            <h2 class="govuk-heading-l govuk-!-padding-left-3 great-text-dark-grey">{{ event.past_year_seperator }}</h2>
                         {% endif %}
                         <div class="govuk-!-padding-left-3 govuk-!-margin-bottom-2 govuk-!-padding-right-3">
-                            <{{ event.past_year_seperator|h3_if:'h2' }} class="govuk-heading-s govuk-!-margin-bottom-0">
+                            <{{ event.past_year_seperator|h3_if:'h2' }} class="govuk-heading-s govuk-!-margin-bottom-0 great-text-dark-grey">
                             <a href="{{ event.get_absolute_url }}"
                                class="govuk-link govuk-heading-s great-title-link event{% user_is_booked_on_event request.user event as event_is_booked %}{% if not event_is_booked %}-not{% endif %}-booked">
                                 {{ event.name }}

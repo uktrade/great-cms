@@ -138,7 +138,7 @@ class SpendCurrencySelectForm(forms.Form):
         label='Select a currency',
         required=True,
         choices=choices.SPEND_CURRENCY_CHOICES,
-        widget=Select(attrs={'class': 'govuk-select govuk-!-width-full'}),
+        widget=Select(attrs={'class': 'govuk-select govuk-!-width-full', 'onchange': 'refreshSelectedCurrency()'}),
         error_messages={
             'required': 'Select a currency from the list',
         },
@@ -160,7 +160,7 @@ class ProfileForm(forms.Form):
         help_text='Search and select a country, region or territory',
         required=False,
         widget=Select(attrs={'id': 'js-company-location-select', 'class': 'govuk-input'}),
-        choices=choices.COMPANY_LOCATION_CHOICES,
+        choices=(('', ''),) + choices.COMPANY_LOCATION_CHOICES,
     )
     full_name = CharField(
         label='Full name',
