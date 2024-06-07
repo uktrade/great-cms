@@ -6,6 +6,11 @@
         {% if dynamicText %}{{ dynamicText }}{% endif %}
     </label>
     {% if field.help_text %}<div class="govuk-hint govuk-!-margin-bottom-2">{{ field.help_text|safe }}</div>{% endif %}
+    {% if custom_error %}
+        <p class="govuk-error-message great-hidden" role="alert">
+            <span class="govuk-visually-hidden">Error:</span> {{ custom_error }}
+        </p>
+    {% endif %}
     {% for error in field.errors %}
         <p class="govuk-error-message" role="alert">
             <span class="govuk-visually-hidden">Error:</span> {{ error }}

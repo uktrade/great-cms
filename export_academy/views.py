@@ -139,7 +139,7 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, FormView):
         csat = self.get_csat()
         if csat:
             satisfaction = csat.satisfaction_rating
-            if satisfaction:
+            if satisfaction and self.request.session.get('ukea_csat_stage', 0) == 1:
                 return {'satisfaction': satisfaction}
         return {'satisfaction': ''}
 
@@ -203,6 +203,9 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, FormView):
         return ctx
 
     def form_invalid(self, form):
+        if 'cancelButton' in self.request.POST:
+            self.request.session['ukea_csat_stage'] = 2
+            return HttpResponseRedirect(self.get_success_url())
         super().form_invalid(form)
         js_enabled = 'js_enabled' in self.request.get_full_path()
         if js_enabled:
@@ -210,6 +213,10 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, FormView):
         return self.render_to_response(self.get_context_data(form=form))
 
     def form_valid(self, form):
+        if 'cancelButton' in self.request.POST:
+            self.request.session['ukea_csat_stage'] = 2
+            return HttpResponseRedirect(self.get_success_url())
+
         super().form_valid(form)
         csat = self.get_csat()
         booking = self.get_object()
@@ -248,6 +255,9 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, FormView):
         }
         js_enabled = 'js_enabled' in self.request.get_full_path()
         if js_enabled:
+            csat_stage = self.request.session.get('ukea_csat_stage', 0)
+            if csat_stage == 1:
+                del self.request.session['ukea_csat_stage']
             return JsonResponse(data)
         return HttpResponseRedirect(self.get_success_url())
 
