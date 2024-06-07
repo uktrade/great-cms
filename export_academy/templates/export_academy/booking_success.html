@@ -78,13 +78,11 @@
             </div>
         </div>
     </section>
-    {% if features.FEATURE_UKEA_CSAT %}
     <div class="great-border-thin-top-lighter-blue">
-        <section class="govuk-!-padding-bottom-9 background-white clearfix">
+        <section class="govuk-!-padding-bottom-6 background-white clearfix">
             <div class="container">{% include './includes/csat_user_feedback.html' with form=form csat_stage=csat_stage %}</div>
         </section>
     </div>
-    {% endif %}
 </div>
 {% endblock content %}
 {% block feedback_reporter %}

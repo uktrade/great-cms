@@ -23,5 +23,5 @@ LIKELIHOOD_CHOICES = (
     ('NEITHER_LIKELY_NOR_UNLIKELY', 'Neither likely nor unlikely'),
     ('LIKELY', 'Likely'),
     ('EXTREMELY_LIKELY', 'Extremely likely'),
-    ('DONT_KNOW_OR_PREFER_NOT_TO_SAY', "Don't know / prefer not to say"),
+    ('DONT_KNOW_OR_PREFER_NOT_TO_SAY', "Don't know/prefer not to say"),
 )
