@@ -189,7 +189,7 @@ def test_event_admin_form_keeps_new_values():
                 'feedback_text': 'This is some feedback',
                 'likelihood_of_return': 'LIKELY',
             },
-            False,
+            True,
         ),
     ),
 )
