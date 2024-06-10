@@ -2,10 +2,6 @@
 {% load static %}
 {% block head_title %}Complete profile {{ block.super }}{% endblock %}
 {% block meta_title %}Complete profile {{ block.super }}{% endblock %}
-{% block head_other %}
-    <meta name="description"
-          content="Find information to help invest within the UK" />
-{% endblock %}
 {% block head_css %}
     {{ block.super }}
     <link href="{% static 'core/css/accessible-autocomplete.min.css' %}"
