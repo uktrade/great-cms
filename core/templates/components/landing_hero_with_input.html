@@ -2,7 +2,7 @@
 <section class="great-hero great-hero--product-market" id="hero">
     <div class="great-container">
         <div class="great-hero__container govuk-grid-row">
-            <div class="great-hero__text govuk-grid-column-two-thirds">
+            <div class="great-hero__text govuk-grid-column-one-half">
                 <h1 class="great-hero__heading">Get exporting and grow your business</h1>
                 <p class="great-hero__subtitle">
                     Compare international markets, create your export action
@@ -16,12 +16,33 @@
                         {% include 'components/great/link-button-chevron.html' with href="/signup" text="Get started by signing up " %}
                     {% endif %}
                 </div>
+                <!-- <p class="great-hero__subtitle">Tell us what you sell and where you want to sell it.</p> -->
             </div>
-            <div class="great-hero__search govuk-grid-column-one-third">
-                <div class="great-hero__logo">
-                    <img src="{% static 'images/great-banner-large.png' %}" alt="Great logo">
-                </div>
+            <div class="great-hero__search govuk-grid-column-one-half">
+                <form id="great-hero-form"
+                      class="great-hero__form"
+                      action="/product-market"
+                      method="post">
+                    {% csrf_token %}
+                    <label class="great-hero__label" for="product-input">What do you sell?</label>
+                    <div class="great-hero__form-inputs">
+                        <input class="great-hero__input"
+                               type="text"
+                               name="product-input"
+                               id="product-input"
+                               placeholder="For example, Apples" />
+                        <div id="great_product_picker" class="great-product-picker"></div>
+                        <input type="hidden" name="commodity-code" id="commodity-code" />
+                        <button id="product-input-submit"
+                                class="great-hero__button primary-button great-primary-button--chevron">
+                            <span class="great-hero__button-text">Get started</span>
+                        </button>
+                    </div>
+                </form>
+                <a href="/learn/categories/prepare-sell-new-country/selling-services-overseas/prepare-to-sell-services-overseas/"
+                   class="great-hero__link">Are you selling a service?</a>
             </div>
         </div>
     </div>
 </section>
+<script>magna.createProductPicker({ element: document.getElementById('great_product_picker') })</script>

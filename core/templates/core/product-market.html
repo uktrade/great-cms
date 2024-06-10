@@ -2,9 +2,7 @@
 {% load static %}
 {% block head_title %}
     {% if is_market_lookup_state %}
-        Where do you want to sell
-        {% if product %}your {{ product }}{% endif %}
-        ?
+        Where do you want to sell{% if product %} your{{ product }}{% endif %}?
     {% elif is_results_state %}
         Selling {{ product }} to {{ country.display_name }}
     {% endif %}
@@ -12,9 +10,7 @@
 {% endblock %}
 {% block meta_title %}
     {% if is_market_lookup_state %}
-        Where do you want to sell
-        {% if product %}your {{ product }}{% endif %}
-        ?
+        Where do you want to sell{% if product %} your{{ product }}{% endif %}?
     {% elif is_results_state %}
         Selling {{ product }} to {{ country.display_name }}
     {% endif %}
@@ -35,7 +31,10 @@
                 </div>
             {% endif %}
             <div class="great-container govuk-!-padding-bottom-4{% if not product %} govuk-!-padding-top-4{% endif %}">
-                <h1 class="govuk-heading-xl govuk-!-margin-bottom-6" id="product-market-title">Where do you want to sell{% if product %} your {{ product }}{% endif %}?</h1>
+                <h1 class="govuk-heading-xl govuk-!-margin-bottom-6"
+                    id="product-market-title">
+                    Where do you want to sell{% if product %} your {{ product }}{% endif %}?
+                </h1>
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds">
                         <form id="great-product-market-form"
@@ -43,12 +42,14 @@
                               method="post">
                             {% csrf_token %}
                             <label for="market-input" class="great-visually-hidden">
-                                Where do you want to sell
-                                {% if product %}your {{ product }}{% endif %}
-                                ?
+                                Where do you want to sell{% if product %} your {{ product }}{% endif %}?
                             </label>
                             <div class="great-product-market__form-inputs">
                                 <input type="hidden" id="product" name="product" value="{{ product }}" />
+                                <input type="hidden"
+                                       id="commodity-code"
+                                       name="commodity-code"
+                                       value="{{ commodity_code }}" />
                                 <div id="market-input-container"></div>
                                 <div class="great-product-market__button-container">
                                     <button class="great-product-market__button primary-button"
@@ -71,10 +72,12 @@
                 </div>
             {% elif is_results_state %}
                 <div class="great-container govuk-!-padding-top-4 govuk-!-padding-bottom-4">
-                    <span class="great-product-market__product-label">You want to sell {% if product != 'None' %}{{ product }} {% endif %}to {{ country.display_name }}</span>
+                    <span class="great-product-market__product-label">You want to sell {% if product != 'None' %}{{ product }}{% endif %} to {{ country.display_name }}</span>
                 </div>
                 <div class="great-container govuk-!-padding-bottom-4">
-                    <h1 class="govuk-heading-l">Selling {% if product != 'None' %}{{ product }} {% endif %}to {{ country.display_name }}</h1>
+                    <h1 class="govuk-heading-l">
+                        Selling {% if product != 'None' %}{{ product }}{% endif %} to {{ country.display_name }}
+                    </h1>
                     <div class="great-product-market__cards">
                         {% include 'components/great/card.html' with title=country.card_title content=country.card_content url=country.card_link show_title_link=True heading_class="govuk-heading-xs" classes="great-card--cta great-card--cta-no-bg" container_class="govuk-!-padding-bottom-5" content_class="govuk-!-margin-bottom-7" tag_container_outer_class="govuk-!-margin-bottom-0" tag="Market Guide" tag_icon="/static/icons/guidance.svg" %}
                         {% include 'components/great/card.html' with title="Use the Check how to export goods service" content="Find out about the rules and restrictions, tax and duty rates, as well as the documents you need to export your goods." url="https://www.gov.uk/check-duties-customs-exporting" show_title_link=True heading_class="govuk-heading-xs" classes="great-card--cta great-card--cta-no-bg" container_class="govuk-!-padding-bottom-5" content_class="govuk-!-margin-bottom-7" tag_container_outer_class="govuk-!-margin-bottom-0" tag="Service on GOV.UK" tag_icon="/static/icons/hand.svg" %}

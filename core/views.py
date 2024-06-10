@@ -599,6 +599,7 @@ class ProductMarketView(TemplateView):
             country=country,
             product=self.request.GET.get('product'),
             market=self.request.GET.get('market'),
+            commodity_code=self.request.GET.get('commodity_code'),
             is_market_lookup_state=not self.request.GET.get('market'),
             is_results_state=self.request.GET.get('product') and self.request.GET.get('market'),
         )
@@ -606,6 +607,7 @@ class ProductMarketView(TemplateView):
     def post(self, request, *args, **kwargs):
         product = request.POST.get('product-input')
         market = request.POST.get('market-input')
+        commodity_code = request.POST.get('commodity-code')
         no_market = request.GET.get('no_market')
         action = actions.SaveOnlyInDatabaseAction(
             full_name='Anonymous user',
@@ -614,12 +616,17 @@ class ProductMarketView(TemplateView):
             form_url=self.request.get_full_path(),
         )
 
-        if product and not market:
+        if product and commodity_code and not market:
+            return redirect(
+                reverse_lazy('core:product-market') + '?product=' + product + '&commodity_code=' + commodity_code
+            )
+        elif product and not market:
             return redirect(reverse_lazy('core:product-market') + '?product=' + product)
 
         if no_market:
             data = {
                 'product': request.POST.get('product'),
+                'commodity_code': request.POST.get('commodity_code'),
                 'market': None,
                 'userid': self.request.user.hashed_uuid if self.request.user.is_authenticated else None,
             }
@@ -629,13 +636,26 @@ class ProductMarketView(TemplateView):
             return redirect('/markets')
         elif market:
             product = request.POST.get('product')
+            commodity_code = request.POST.get('commodity-code')
             data = {
                 'product': product,
+                'commodity_code': commodity_code,
                 'market': market,
                 'userid': self.request.user.hashed_uuid if self.request.user.is_authenticated else None,
             }
             response = action.save(data)
             response.raise_for_status()
+
+            if commodity_code:
+                return redirect(
+                    reverse_lazy('core:product-market')
+                    + '?product='
+                    + product
+                    + '&market='
+                    + market.lower()
+                    + '&commodity_code='
+                    + commodity_code
+                )
 
             return redirect(reverse_lazy('core:product-market') + '?product=' + product + '&market=' + market.lower())
         else:

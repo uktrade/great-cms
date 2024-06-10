@@ -117,9 +117,10 @@
             </script>
         {% endblock %}
         {% block header_js %}
-            <script src="{% static 'javascript/dit.responsive.js' %}" defer></script>
-            <script src="{% static 'javascript/dit.utils.js' %}" defer></script>
-            <script src="{% static 'common.js' %}" defer></script>
+            <script src="{% static 'javascript/dit.responsive.js' %}"></script>
+            <script src="{% static 'javascript/dit.utils.js' %}"></script>
+            <script src="{% static 'common.js' %}"></script>
+            <script type="text/javascript" src="{% static 'magna.js' %}"></script>
         {% endblock %}
         {% block head_other %}
             {% include 'components/browser_check.html' %}

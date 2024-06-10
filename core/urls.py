@@ -123,6 +123,9 @@ urlpatterns = [
         skip_ga360(views_api.ProductLookupScheduleView.as_view()),
         name='api-lookup-product-schedule',
     ),
+    path(
+        'api/product-picker/<str:product>', skip_ga360(views_api.ProductPickerView.as_view()), name='api-product-picker'
+    ),
     path('api/countries/', skip_ga360(views_api.CountriesView.as_view()), name='api-countries'),
     path(
         'api/suggested-countries/',

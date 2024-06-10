@@ -589,6 +589,22 @@ def test_commodity_schedule(mock_ccce_import_schedule, client):
 
 
 @pytest.mark.django_db
+@mock.patch.object(helpers, 'product_picker')
+def test_product_picker(mock_product_picker, client):
+    mock_product_picker.return_value = data = [
+        {'attributes': {'title': 'cheese', 'goods_nomenclature_item_id': '12345'}}
+    ]
+    product = 'cheese'
+
+    response = client.get('/api/product-picker/cheese')
+
+    assert response.status_code == 200
+    assert response.json() == data
+    assert mock_product_picker.call_count == 1
+    assert mock_product_picker.call_args == mock.call(product)
+
+
+@pytest.mark.django_db
 def test_get_countries(client):
     response = client.get(reverse('core:api-countries'))
     countries = response.json()
@@ -1320,7 +1336,7 @@ def test_design_system_page(
 def test_market_selection_page(
     client,
 ):
-    response = client.get(reverse('core:product-market') + '?product=gin', follow=True)
+    response = client.get(reverse('core:product-market') + '?product=gin&commodity_code=12345', follow=True)
 
     assert 'Where do you want to sell your gin?' in str(response.rendered_content)
     assert 'Find and compare markets for selling gin' in str(response.rendered_content)
@@ -1365,8 +1381,65 @@ def test_post_with_both_product_and_market(mock_save_action, client):
         form_url='/product-market',
     )
 
-    expected_data = {'product': 'gin', 'market': 'Germany', 'userid': mock.ANY}
+    expected_data = {'product': 'gin', 'market': 'Germany', 'userid': mock.ANY, 'commodity_code': None}
     mock_save_action.return_value.save.assert_called_once_with(expected_data)
+
+
+@pytest.mark.django_db
+@mock.patch.object(actions, 'SaveOnlyInDatabaseAction')
+def test_post_with_product_and_commodity_code_and_market(mock_save_action, client):
+    post_data = {'product': 'gin', 'market-input': 'Germany', 'commodity-code': '12345'}
+    response = client.post(reverse('core:product-market'), data=post_data)
+    expected_redirect_url = reverse_lazy('core:product-market') + '?product=gin&market=germany&commodity_code=12345'
+
+    assert response.status_code == 302
+    assert response.url == expected_redirect_url
+
+    mock_save_action.assert_called_once_with(
+        full_name='Anonymous user',
+        subject='Product and Market experiment',
+        email_address='anonymous-user@test.com',
+        form_url='/product-market',
+    )
+
+    expected_data = {'product': 'gin', 'market': 'Germany', 'userid': mock.ANY, 'commodity_code': '12345'}
+    mock_save_action.return_value.save.assert_called_once_with(expected_data)
+
+
+@pytest.mark.django_db
+@mock.patch.object(actions, 'SaveOnlyInDatabaseAction')
+def test_post_with_product_and_commodity_code_and_no_market(mock_save_action, client):
+    post_data = {'product-input': 'gin', 'commodity-code': '12345'}
+    response = client.post(reverse('core:product-market'), data=post_data)
+    expected_redirect_url = reverse_lazy('core:product-market') + '?product=gin&commodity_code=12345'
+
+    assert response.status_code == 302
+    assert response.url == expected_redirect_url
+
+    mock_save_action.assert_called_once_with(
+        full_name='Anonymous user',
+        subject='Product and Market experiment',
+        email_address='anonymous-user@test.com',
+        form_url='/product-market',
+    )
+
+
+@pytest.mark.django_db
+@mock.patch.object(actions, 'SaveOnlyInDatabaseAction')
+def test_post_with_product_and_no_market(mock_save_action, client):
+    post_data = {'product-input': 'gin'}
+    response = client.post(reverse('core:product-market'), data=post_data)
+    expected_redirect_url = reverse_lazy('core:product-market') + '?product=gin'
+
+    assert response.status_code == 302
+    assert response.url == expected_redirect_url
+
+    mock_save_action.assert_called_once_with(
+        full_name='Anonymous user',
+        subject='Product and Market experiment',
+        email_address='anonymous-user@test.com',
+        form_url='/product-market',
+    )
 
 
 @pytest.mark.django_db

@@ -89,6 +89,13 @@ class ProductLookupView(generics.GenericAPIView):
         return Response(data)
 
 
+class ProductPickerView(generics.GenericAPIView):
+    def get(self, request, **kwargs):
+        product = kwargs['product']
+        data = helpers.product_picker(product)
+        return Response(data)
+
+
 @extend_schema(
     parameters=[
         OpenApiParameter(name='hs_code', description='HS Code', required=True, type=str),

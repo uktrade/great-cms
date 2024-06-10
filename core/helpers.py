@@ -287,6 +287,14 @@ def search_commodity_refine(interaction_id, tx_id, values):
     return response.json()
 
 
+def product_picker(product):
+    response = requests.get(
+        f'https://www.trade-tariff.service.gov.uk/api/v2/search_references.json?query[letter]={product}', timeout=4
+    )
+    response.raise_for_status()
+    return response.json()
+
+
 def ccce_import_schedule(hs_code, origin_country='CA', destination_country='GB'):
     url = f'{settings.CCCE_IMPORT_SCHEDULE_URL}/{hs_code}/{origin_country}/{destination_country}/'
     response = requests.get(url=url, headers=ccce_headers())
