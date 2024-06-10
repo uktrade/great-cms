@@ -11,7 +11,7 @@ GOVUK.utils = (new function() {
    * GOVUK.utils.getParameterByName('a_param');
    **/
   this.getParameterByName = function(name) {
-    var param = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var param = name.replace(/[\\\[]/g, "\\[").replace(/[\]]/g, "\\]");
     var qs = document.location.search.replace("&amp;", "&");
     var regex = new RegExp("[\\?&]" + param + "=([^&#]*)");
     var results = regex.exec(qs);
