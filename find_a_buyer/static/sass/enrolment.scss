@@ -1,0 +1,101 @@
+@import 'partials/base.scss';
+@import 'partials/variables.scss';
+
+.exported-before li {
+  margin-bottom: 10px;
+}
+#id_exports-terms_agreed {
+  width: 40px;
+}
+.ed-enrolment {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  input[readonly] {
+    border-color: #fafafa;
+    background-color: #eee
+  }
+  h1 {
+    margin-bottom: 40px;
+  }
+  color: #4a4a4a;
+  form {
+    margin-bottom: 0;
+    .connections-platform-form {
+      .already-registered {
+        margin: 0 auto;
+        text-align: center;
+      }
+    }
+  }
+
+  .steps {
+    margin: 0 auto;
+    text-align: center;
+    width: 100%;
+    color: #4a4a4a;
+    span {
+      font-family: initial;
+      font-size: 3em;
+      line-height: 1;
+    }
+  }
+  .cancel-button {
+    color: #4A4A4F;
+    background: none;
+  }
+}
+
+#ed-company-edit-address-container {
+  margin-bottom: 0;
+  dl {
+    border-left-color: #e2d9cb;
+    border-left-width: 6px;
+    border-left-style: solid;
+    padding-left: 20px;
+    dt {
+      font-weight: bold;
+      font-size: 24px;
+      line-height: 1.42;
+      color: $dark-grey;
+    }
+    dd {
+      margin-bottom: 30px;
+    }
+  }
+  h3 {
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+  .authorised-checkbox {
+    margin-top: 50px;
+    margin-bottom: 0;
+    label {
+      padding-top: 5px;
+    }
+  }
+}
+
+#ed-account-create-explainer {
+  margin-top: 45px;
+}
+@media (max-width: 992px) {
+  .connections-platform-form-container {
+    width: 100%;
+    .connections-platform-form {
+      height: 100%;
+      margin: 40px 0 0;
+      input.register-btn {
+        width: 50%;
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  #content {
+   .registered, .sorry {
+      margin-top: 30px;
+      margin-bottom: 30px;
+    }
+  }
+}

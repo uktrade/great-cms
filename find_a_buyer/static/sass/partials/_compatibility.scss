@@ -1,0 +1,100 @@
+/* modifications to make the library render nicely with the tab layout */
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0
+}
+
+.cf:after {
+  clear: both;
+  content: '';
+  display: table
+}
+
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  left: -9999em;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px
+}
+
+.outer-container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto
+}
+
+.outer-container::after {
+  clear: both;
+  content: "";
+  display: block
+}
+
+@media screen and (max-width: 1200px) {
+  .outer-container {
+    margin: 0 30px
+  }
+}
+
+@media screen and (max-width: 959px) and (min-width: 768px) {
+  .outer-container {
+    margin: 0 20px
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .outer-container {
+    margin: 0 10px
+  }
+}
+
+.button-blue {
+  background-color: #00549f;
+  color: #fff;
+  outline: 0
+}
+
+.button-blue:link,
+.button-blue:visited {
+  background-color: #00549f;
+  color: #fff
+}
+
+.button-blue:hover {
+  background-color: #132965;
+  color: #fff
+}
+
+.button-blue:active {
+  background-color: #007ea3;
+  outline: 0
+}
+
+.button-blue:focus {
+  outline: 3px solid #ffbf47
+}
+
+.button {
+  border: 0;
+  border-radius: 3px;
+  box-shadow: none;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Roboto", arial, helvetica, sans-serif;
+  padding: 12px 30px;
+  text-decoration: none
+}
+
+@media screen and (min-width: mobile) {
+  .button {
+    font-size: 18px;
+    padding: 14px;
+    text-align: center;
+    width: 100%
+  }
+}

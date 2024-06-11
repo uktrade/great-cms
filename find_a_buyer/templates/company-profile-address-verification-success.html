@@ -1,0 +1,12 @@
+{% extends 'enrolment-base.html' %}
+{% block head_title %}Company verified - great.gov.uk
+{% endblock %}
+{% block sub_header %}{# prevent the subheader from showing on form pages #}{% endblock %}
+{% block formarea %}
+	<div class="outer-container">
+		<h1 class="heading-xlarge">Your company has been verified</h1>
+		<p>
+			<a class="link" href="{% url 'company-detail' %}">View or amend your company profile</a>
+		</p>
+	</div>
+{%endblock formarea %}
