@@ -57,7 +57,7 @@ function ProductFinderButton() {
         </ul>
         <button
           type="button"
-          className="button primary-button button--icon m-t-xs button--full-width govuk-visually-hidden"
+          className="button primary-button button--icon m-t-xs button--full-width govuk-!-display-none"
           onClick={() => setIsOpen(true)}
         >
           <span className="fas fa-plus" />
