@@ -2,6 +2,11 @@ from typing import Dict, List, Tuple
 
 from directory_api_client import api_client
 from international_online_offer.core import regions
+from international_online_offer.core.professions import (
+    DIRECTOR_EXECUTIVE_LEVEL,
+    ENTRY_LEVEL,
+    MID_SENIOR_LEVEL,
+)
 
 
 def get_bci_data_by_dbt_sector(dbt_sector_name: str, geo_codes: List[str] = None) -> Dict:
@@ -100,15 +105,17 @@ def get_median_salaries(geo_region: str, vertical: str = None, professional_leve
     all_salaries = get_salary_data(geo_region, vertical=vertical, professional_level=professional_level)
 
     # if iterator returns no values, return an empty dictonary so that it can be used with the .get function
-    entry_salary = next((salary for salary in all_salaries if salary['professional_level'] == 'Entry-level'), {})
-    mid_salary = next(
-        (salary for salary in all_salaries if salary['professional_level'] == 'Middle/Senior Management'), {}
-    )
+    entry_salary = next((salary for salary in all_salaries if salary['professional_level'] == ENTRY_LEVEL), {})
+    mid_salary = next((salary for salary in all_salaries if salary['professional_level'] == MID_SENIOR_LEVEL), {})
     executive_salary = next(
-        (salary for salary in all_salaries if salary['professional_level'] == 'Director/Executive'), {}
+        (salary for salary in all_salaries if salary['professional_level'] == DIRECTOR_EXECUTIVE_LEVEL), {}
     )
 
-    return (entry_salary.get('median_salary'), mid_salary.get('median_salary'), executive_salary.get('median_salary'))
+    return {
+        ENTRY_LEVEL: entry_salary.get('median_salary'),
+        MID_SENIOR_LEVEL: mid_salary.get('median_salary'),
+        DIRECTOR_EXECUTIVE_LEVEL: executive_salary.get('median_salary'),
+    }
 
 
 def get_rent_data(geo_region: str, vertical: str = None, sub_vertical: str = None):

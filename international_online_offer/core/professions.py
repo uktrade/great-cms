@@ -1,6 +1,10 @@
 from directory_constants import sectors as directory_constants_sectors
 from international_online_offer.core import sectors
 
+ENTRY_LEVEL = 'Entry-level'
+MID_SENIOR_LEVEL = 'Middle/Senior Management'
+DIRECTOR_EXECUTIVE_LEVEL = 'Director/Executive'
+
 PROFESSIONS_BY_SECTOR_AND_LEVEL = [
     {
         'sector': directory_constants_sectors.FOOD_AND_DRINK,

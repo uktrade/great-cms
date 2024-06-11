@@ -22,6 +22,7 @@ from international_online_offer.core import (
     choices,
     filter_tags,
     helpers,
+    professions,
     region_sector_helpers,
     regions,
 )
@@ -245,7 +246,9 @@ class EYBArticlePage(BaseContentPage):
                 region = helpers.get_salary_region_from_region(location)
                 sector_display = triage_data.get_sector_display()
 
-                (entry_salary, mid_salary, executive_salary) = get_median_salaries(region, vertical=sector_display)
+                median_salaries = get_median_salaries(region, vertical=sector_display)
+                cleaned_median_salaries = helpers.clean_salary_data(median_salaries)
+
                 (large_warehouse_rent, small_warehouse_rent, shopping_centre, high_street_retail, work_office) = (
                     get_rent_data(region)
                 )
@@ -264,9 +267,9 @@ class EYBArticlePage(BaseContentPage):
                 context.update(
                     triage_data=triage_data,
                     location_form=LocationSelectForm(initial={'location': location}),
-                    entry_salary=entry_salary,
-                    mid_salary=mid_salary,
-                    executive_salary=executive_salary,
+                    entry_salary=cleaned_median_salaries[professions.ENTRY_LEVEL],
+                    mid_salary=cleaned_median_salaries[professions.MID_SENIOR_LEVEL],
+                    executive_salary=cleaned_median_salaries[professions.DIRECTOR_EXECUTIVE_LEVEL],
                     large_warehouse_rent=large_warehouse_rent,
                     small_warehouse_rent=small_warehouse_rent,
                     shopping_centre=shopping_centre,
