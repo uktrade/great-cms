@@ -78,6 +78,7 @@ INSTALLED_APPS = [
     'cms_extras.apps.CmsExtrasConfig',
     'domestic.apps.DomesticAdminAppConfig',
     'exportplan.apps.ExportPlanConfig',
+    'find_a_buyer.apps.FindABuyerConfig',
     'international_online_offer.apps.ExpandYourBusinessConfig',
     'international.apps.InternationalConfig',
     'international_investment.apps.InvestmentConfig',
