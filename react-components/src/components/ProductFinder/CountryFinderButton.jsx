@@ -50,7 +50,7 @@ export const CountryFinderButton = () => {
                   onClick={() => setDeleteConfirm({index: marketIdx})}
                 >
                   <span role="img" className="fas fa-trash great-red-text" />
-                  <span className="visually-hidden">
+                  <span className="govuk-visually-hidden">
                     Remove market {market.country_name}
                   </span>
                 </button>
@@ -60,7 +60,7 @@ export const CountryFinderButton = () => {
         </ul>
         <button
           type="button"
-          className="button primary-button button--icon m-t-xs button--full-width hidden"
+          className="button primary-button button--icon m-t-xs button--full-width govuk-!-display-none"
           onClick={() => setIsOpen(true)}
         >
           <span className="fas fa-plus govuk-!-margin-righht-2" />
