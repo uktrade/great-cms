@@ -267,9 +267,9 @@ class EYBArticlePage(BaseContentPage):
                 context.update(
                     triage_data=triage_data,
                     location_form=LocationSelectForm(initial={'location': location}),
-                    entry_salary=cleaned_median_salaries[professions.ENTRY_LEVEL],
-                    mid_salary=cleaned_median_salaries[professions.MID_SENIOR_LEVEL],
-                    executive_salary=cleaned_median_salaries[professions.DIRECTOR_EXECUTIVE_LEVEL],
+                    entry_salary=cleaned_median_salaries.get(professions.ENTRY_LEVEL),
+                    mid_salary=cleaned_median_salaries.get(professions.MID_SENIOR_LEVEL),
+                    executive_salary=cleaned_median_salaries.get(professions.DIRECTOR_EXECUTIVE_LEVEL),
                     large_warehouse_rent=large_warehouse_rent,
                     small_warehouse_rent=small_warehouse_rent,
                     shopping_centre=shopping_centre,
