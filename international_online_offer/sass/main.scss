@@ -5,8 +5,117 @@
 @import 'components/salary-rent.scss';
 @import 'components/csat.scss';
 
-// @media (min-width: 769px) {
-//     .spend-currency-column {
-//         padding-right: 0px;
-//     }
-// }
+
+.eyb-light-blue-background {
+    background-color: $great-light-blue;
+}
+
+.eyb-home-section {
+    background-color: $great-light-blue;
+    .eyb-preview-image {
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        width: 100%;
+        max-width: 600px;
+        height: 370px;
+        margin-right: auto;
+        margin-left: auto;
+        background-image: url('/static/svg/eyb-preview.svg')
+    }
+}
+
+.eyb-guidance-section {
+    .eyb-guidance-image {
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        width: 90px;
+        height: 90px;
+        margin-right: auto;
+        margin-left: auto;
+        margin-bottom: 15px;
+    }
+    .eyb-planning-image {
+        background-image: url('/static/svg/icon-planning.svg')
+    }
+    .eyb-banking-image {
+        background-image: url('/static/svg/icon-bank.svg')
+    }
+    .eyb-visa-image {
+        background-image: url('/static/svg/icon-ukvisa.svg')
+    }
+    .eyb-funding-image {
+        background-image: url('/static/svg/icon-funding.svg')
+    }
+    .eyb-tax-image {
+        background-image: url('/static/svg/icon-tax.svg')
+    }
+    .eyb-hiring-image {
+        background-image: url('/static/svg/icon-hire.svg')
+    }
+}
+
+.eyb-insights-section {
+    background-color: #8CE2D0;
+    .eyb-insights-image {
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        width: 90px;
+        height: 90px;
+    }
+    .eyb-salary-image {
+        background-image: url('/static/svg/icon-salary.svg')
+    }
+    .eyb-shop-image {
+        background-image: url('/static/svg/icon-shop.svg')
+    }
+    .eyb-map-image {
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        width: 100%;
+        max-width: 600px;
+        height: 300px;
+        margin-right: auto;
+        margin-left: auto;
+        background-image: url('/static/svg/icon-geo-data.svg')
+    }
+}
+
+.eyb-connections-section {
+    background-color: $great-light-blue;
+    .eyb-connection-image {
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        width: 220px;
+        height: 220px;
+        margin-right: auto;
+        margin-left: auto;
+        margin-bottom: 15px;
+    }
+    .eyb-networking-image {
+        background-image: url('/static/img/networks.png')
+    }
+    .eyb-trade-image {
+        background-image: url('/static/img/trade-events.png')
+    }
+    .eyb-expert-image {
+        background-image: url('/static/img/experts.png')
+    }
+}
+
+.eyb-how-it-works-section {
+    .eyb-huge-green-text {
+        color: $great-teal;
+        font-size: 60px;
+        font-weight: bold;
+        margin-top: -15px;
+    }
+}
+
+.eyb-final-cta-section {
+    background-color: $great-light-blue;
+}

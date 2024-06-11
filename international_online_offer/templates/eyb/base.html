@@ -5,7 +5,9 @@
           href="{% static 'expand_your_business_styles.css' %}">
 {% endblock %}
 {% block body_content_container %}
-    {% include './includes/govuk/phase_banner.html' %}
+    <div class="govuk-!-padding-bottom-3 {% if request.path == '/international/expand-your-business-in-the-uk/' %}eyb-light-blue-background{% endif %}">
+        {% include './includes/govuk/phase_banner.html' %}
+    </div>
     {% include './includes/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
     {{ block.super }}
 {% endblock %}

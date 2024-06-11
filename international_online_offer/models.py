@@ -38,7 +38,7 @@ class EYBIndexPage(BaseContentPage):
     subpage_types = [
         'international_online_offer.EYBGuidePage',
     ]
-    template = 'eyb/index.html'
+    template = 'eyb/index-new.html'
 
 
 def get_triage_data_for_user(request):

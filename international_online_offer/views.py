@@ -50,7 +50,7 @@ def calculate_and_store_is_high_value(request):
 
 
 class IndexView(GA360Mixin, TemplateView):
-    template_name = 'eyb/index.html'
+    template_name = 'eyb/index-new.html'
 
     def __init__(self):
         super().__init__()
