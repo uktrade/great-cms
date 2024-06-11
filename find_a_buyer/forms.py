@@ -1,6 +1,5 @@
-from directory_validators.string import no_html
 from directory_components.forms import BooleanField
-
+from directory_validators.string import no_html
 from django import forms
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
@@ -21,9 +20,7 @@ class AutoFocusFieldMixin:
             self.fields[field.name].widget.attrs['autofocus'] = 'autofocus'
 
 
-class CompanyAddressVerificationForm(AutoFocusFieldMixin,
-                                     IndentedInvalidFieldsMixin,
-                                     forms.Form):
+class CompanyAddressVerificationForm(AutoFocusFieldMixin, IndentedInvalidFieldsMixin, forms.Form):
 
     postal_full_name = forms.CharField(
         label='Add your name',
@@ -41,19 +38,12 @@ class CompanyAddressVerificationForm(AutoFocusFieldMixin,
 
     def visible_fields(self):
         skip = ['postal_full_name']
-        return [
-            field for field in self
-            if not field.is_hidden and field.name not in skip
-        ]
+        return [field for field in self if not field.is_hidden and field.name not in skip]
 
 
-class CompanyCodeVerificationForm(AutoFocusFieldMixin,
-                                  IndentedInvalidFieldsMixin,
-                                  forms.Form):
+class CompanyCodeVerificationForm(AutoFocusFieldMixin, IndentedInvalidFieldsMixin, forms.Form):
 
-    error_messages = {
-        'different': 'Incorrect code.'
-    }
+    error_messages = {'different': 'Incorrect code.'}
 
     code = fields.DecimalField(
         label='',
@@ -72,8 +62,7 @@ class CompanyCodeVerificationForm(AutoFocusFieldMixin,
         sso_session_id = kwargs.pop('sso_session_id')
         super().__init__(*args, **kwargs)
         self.fields['code'].validators = helpers.halt_validation_on_failure(
-            validators.verify_with_code(sso_session_id=sso_session_id),
-            *self.fields['code'].validators
+            validators.verify_with_code(sso_session_id=sso_session_id), *self.fields['code'].validators
         )
 
     def clean_code(self):
@@ -92,8 +81,7 @@ class CompaniesHouseOauth2Form(forms.Form):
     @cached_property
     def oauth2_response(self):
         return helpers.CompaniesHouseClient.verify_oauth2_code(
-            code=self.cleaned_data['code'],
-            redirect_uri=self.redirect_uri
+            code=self.cleaned_data['code'], redirect_uri=self.redirect_uri
         )
 
     def clean_code(self):
@@ -102,9 +90,7 @@ class CompaniesHouseOauth2Form(forms.Form):
         return self.cleaned_data['code']
 
 
-class BaseMultiUserEmailForm(
-    AutoFocusFieldMixin, IndentedInvalidFieldsMixin, forms.Form
-):
+class BaseMultiUserEmailForm(AutoFocusFieldMixin, IndentedInvalidFieldsMixin, forms.Form):
     MESSAGE_CANNOT_SEND_TO_SELF = 'Please enter a different email address'
 
     def __init__(self, sso_email_address, *args, **kwargs):

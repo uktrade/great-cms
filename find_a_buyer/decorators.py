@@ -1,6 +1,7 @@
 from functools import wraps
-from django.shortcuts import redirect
+
 from django.conf import settings
+from django.shortcuts import redirect
 
 
 def must_have_company_profile(function):

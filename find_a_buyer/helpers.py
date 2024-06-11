@@ -1,10 +1,12 @@
-from collections import OrderedDict
-from functools import partial
 import logging
 import urllib
+from collections import OrderedDict
+from functools import partial
 from urllib.parse import urljoin
-from django.conf import settings
+
 import requests
+from django.conf import settings
+
 from directory_api_client.client import api_client
 
 MESSAGE_AUTH_FAILED = 'Auth failed with Companies House'
@@ -14,9 +16,7 @@ logger = logging.getLogger(__name__)
 
 
 def has_company(sso_session_id):
-    response = api_client.supplier.retrieve_profile(
-        sso_session_id=sso_session_id
-    )
+    response = api_client.supplier.retrieve_profile(sso_session_id=sso_session_id)
     if response.status_code == 200:
         profile = response.json()
         has_company = bool(profile['company'])
@@ -55,24 +55,28 @@ class CompaniesHouseClient:
     @classmethod
     def make_oauth2_url(cls, redirect_uri, company_number):
         # ordered dict to facilitate testing
-        params = OrderedDict([
-            ('client_id', cls.client_id),
-            ('redirect_uri', redirect_uri),
-            ('response_type', 'code'),
-            ('scope', cls.endpoints['profile'].format(number=company_number)),
-        ])
+        params = OrderedDict(
+            [
+                ('client_id', cls.client_id),
+                ('redirect_uri', redirect_uri),
+                ('response_type', 'code'),
+                ('scope', cls.endpoints['profile'].format(number=company_number)),
+            ]
+        )
         return cls.endpoints['oauth2'] + '?' + urllib.parse.urlencode(params)
 
     @classmethod
     def verify_oauth2_code(cls, code, redirect_uri):
         url = cls.endpoints['oauth2-token']
-        params = OrderedDict([
-            ('grant_type', 'authorization_code'),
-            ('code', code),
-            ('client_id', cls.client_id),
-            ('client_secret', cls.client_secret),
-            ('redirect_uri', redirect_uri),
-        ])
+        params = OrderedDict(
+            [
+                ('grant_type', 'authorization_code'),
+                ('code', code),
+                ('client_id', cls.client_id),
+                ('client_secret', cls.client_secret),
+                ('redirect_uri', redirect_uri),
+            ]
+        )
         return cls.session.post(url=url + '?' + urllib.parse.urlencode(params))
 
 
@@ -92,6 +96,7 @@ def halt_validation_on_failure(*all_validators):
     def inner(value):
         for validator in all_validators:
             validator(value)
+
     inner.inner_validators = all_validators
     return [inner]
 
