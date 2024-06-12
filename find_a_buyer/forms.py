@@ -4,7 +4,10 @@ from django import forms
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 
-from . import fields, helpers, validators
+from . import fields, validators
+from .helpers import (
+    CompaniesHouseClient,
+)
 
 
 class IndentedInvalidFieldsMixin:
@@ -61,7 +64,7 @@ class CompanyCodeVerificationForm(AutoFocusFieldMixin, IndentedInvalidFieldsMixi
     def __init__(self, *args, **kwargs):
         sso_session_id = kwargs.pop('sso_session_id')
         super().__init__(*args, **kwargs)
-        self.fields['code'].validators = helpers.halt_validation_on_failure(
+        self.fields['code'].validators = halt_validation_on_failure(
             validators.verify_with_code(sso_session_id=sso_session_id), *self.fields['code'].validators
         )
 
@@ -80,7 +83,7 @@ class CompaniesHouseOauth2Form(forms.Form):
 
     @cached_property
     def oauth2_response(self):
-        return helpers.CompaniesHouseClient.verify_oauth2_code(
+        return CompaniesHouseClient.verify_oauth2_code(
             code=self.cleaned_data['code'], redirect_uri=self.redirect_uri
         )
 

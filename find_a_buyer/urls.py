@@ -28,13 +28,6 @@ urlpatterns = [
     ),
 
     # Needs testing
-    path(
-        'confirm-company-address/',
-        views.CompanyAddressVerificationHistoricView.as_view(),
-        name='verify-company-address-historic-url',
-    ),
-
-    # Needs testing
     path('data-science/buyers/', skip_ga360(views.BuyerCSVDumpView.as_view()), name='buyers-csv-dump'),
 
     # Needs testing

@@ -137,10 +137,6 @@ class CompanyAddressVerificationView(GetTemplateForCurrentStepMixin, SessionWiza
         return super().get_context_data(company=self.request.user.company.data, **kwargs)
 
 
-class CompanyAddressVerificationHistoricView(RedirectView):
-    pattern_name = 'verify-company-address'
-
-
 class Oauth2CallbackUrlMixin:
     @property
     def redirect_uri(self):
