@@ -35,7 +35,7 @@
     {% if 'find-expert-talent' in request.path or show_salary_component %}
         {% feature_pre_election as feature_pre_election %}
         {% if feature_pre_election %}
-            {% include './includes/salary_v2.html' with salaries=salaries salary_location_form=location_form %}
+            {% include './includes/salary_v2.html' with salary_location_form=location_form entry_salary=entry_salary mid_salary=mid_salary executive_salary=executive_salary professions_by_sector=professions_by_sector %}
         {% else %}
             {% include './includes/salary.html' with salary_location_form=location_form entry_salary=entry_salary mid_salary=mid_salary executive_salary=executive_salary professions_by_sector=professions_by_sector %}
         {% endif %}
