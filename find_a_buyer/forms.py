@@ -7,6 +7,7 @@ from django.utils.safestring import mark_safe
 from . import fields, validators
 from .helpers import (
     CompaniesHouseClient,
+    halt_validation_on_failure
 )
 
 
