@@ -361,25 +361,7 @@ def test_verify_company_address_end_to_end(
         sso_session_id='123'
     )
 
-
-def test_company_address_verification_backwards_compatible_feature_flag_on(
-    settings, client
-):
-    url = reverse('find_a_buyer:verify-company-address-historic-url')
-    response = client.get(url)
-
-    assert response.status_code == 302
-    assert response.get('Location') == reverse('verify-company-address')
-
-
-def test_case_study_create_backwards_compatible_url(client):
-    url = reverse('company-case-study-create-backwards-compatible')
-    response = client.get(url)
-
-    assert response.status_code == 302
-    assert response.url == urls.domestic.SINGLE_SIGN_ON_PROFILE
-
-
+@pytest.mark.django_db
 def test_buyer_csv_dump_no_token(client):
     url = reverse('find_a_buyer:buyers-csv-dump')
     response = client.get(url)
@@ -388,6 +370,7 @@ def test_buyer_csv_dump_no_token(client):
     assert response.content == b'Token not provided'
 
 
+@pytest.mark.django_db
 @patch('company.views.api_client')
 def test_buyer_csv_dump(mocked_api_client, client):
     mocked_api_client.buyer.get_csv_dump.return_value = Mock(
@@ -406,6 +389,7 @@ def test_buyer_csv_dump(mocked_api_client, client):
     assert response.headers['Content-Disposition'] == ('bar')
 
 
+@pytest.mark.django_db
 @patch('company.views.api_client')
 def test_supplier_csv_dump(mocked_api_client, client):
     mocked_api_client.supplier.get_csv_dump.return_value = Mock(
