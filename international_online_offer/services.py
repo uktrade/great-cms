@@ -132,9 +132,9 @@ def get_rent_data(geo_region: str, vertical: str = None, sub_vertical: str = Non
     work_office = next((rent for rent in rent_data if rent['sub_vertical'] == 'Work Office'), {})
 
     return (
-        large_warehouse.get('gbp_per_month'),
-        small_warehouse.get('gbp_per_month'),
-        shopping_centre.get('gbp_per_month'),
-        high_street_retail.get('gbp_per_month'),
-        work_office.get('gbp_per_month'),
+        large_warehouse.get('gbp_per_month', 0),
+        small_warehouse.get('gbp_per_month', 0),
+        shopping_centre.get('gbp_per_month', 0),
+        high_street_retail.get('gbp_per_month', 0),
+        work_office.get('gbp_per_month', 0),
     )

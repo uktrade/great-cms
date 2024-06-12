@@ -1,6 +1,7 @@
 {% load wagtailcore_tags %}
 {% load location_select_filters %}
 {% load add_govuk_classes from content_tags %}
+{% load eyb_tags %}
 {% load humanize %}
 <div class="govuk-grid-row" id="location-component">
     <div class="govuk-grid-column-full govuk-!-padding-6 salary-rent-component">
@@ -58,6 +59,7 @@
                                     </li>
                                 {% endif %}
                             </ul>
+                            {% feature_pre_election as pre_election %}
                             {% if large_warehouse_rent %}
                                 <div class="govuk-tabs__panel" id="large-warehouse">
                                     <div class="govuk-grid-row">
@@ -70,7 +72,11 @@
                                     <div class="govuk-grid-row">
                                         <div class="govuk-grid-column-one-half">
                                             <p class="govuk-body-m">
-                                                <strong class="govuk-!-font-weight-bold">£{{ large_warehouse_rent|default:'-'|intcomma }}</strong>
+                                                {% if pre_election %}
+                                                    <strong class="govuk-!-font-weight-bold">£{{ large_warehouse_rent|rent_to_int|default:'-'|intcomma }}</strong>
+                                                {% else %}
+                                                    <strong class="govuk-!-font-weight-bold">£{{ large_warehouse_rent|default:'-'|intcomma }}</strong>
+                                                {% endif %}
                                                 <br>
                                                 per calendar month for 2023
                                             </p>
@@ -96,7 +102,11 @@
                                     <div class="govuk-grid-row">
                                         <div class="govuk-grid-column-one-half">
                                             <p class="govuk-body-m">
-                                                <strong class="govuk-!-font-weight-bold">£{{ small_warehouse_rent|default:'-'|intcomma }}</strong>
+                                                {% if pre_election %}
+                                                    <strong class="govuk-!-font-weight-bold">£{{ small_warehouse_rent|rent_to_int|default:'-'|intcomma }}</strong>
+                                                {% else %}
+                                                    <strong class="govuk-!-font-weight-bold">£{{ small_warehouse_rent|default:'-'|intcomma }}</strong>
+                                                {% endif %}
                                                 <br>
                                                 per calendar month for 2023
                                             </p>
@@ -122,7 +132,11 @@
                                     <div class="govuk-grid-row">
                                         <div class="govuk-grid-column-one-half">
                                             <p class="govuk-body-m">
-                                                <strong class="govuk-!-font-weight-bold">£{{ shopping_centre|default:'-'|intcomma }}</strong>
+                                                {% if pre_election %}
+                                                    <strong class="govuk-!-font-weight-bold">£{{ shopping_centre|rent_to_int|default:'-'|intcomma }}</strong>
+                                                {% else %}
+                                                    <strong class="govuk-!-font-weight-bold">£{{ shopping_centre|default:'-'|intcomma }}</strong>
+                                                {% endif %}
                                                 <br>
                                                 per calendar month for 2023
                                             </p>
@@ -148,7 +162,11 @@
                                     <div class="govuk-grid-row">
                                         <div class="govuk-grid-column-one-half">
                                             <p class="govuk-body-m">
-                                                <strong class="govuk-!-font-weight-bold">£{{ high_street_retail|default:'-'|intcomma }}</strong>
+                                                {% if pre_election %}
+                                                    <strong class="govuk-!-font-weight-bold">£{{ high_street_retail|rent_to_int|default:'-'|intcomma }}</strong>
+                                                {% else %}
+                                                    <strong class="govuk-!-font-weight-bold">£{{ high_street_retail|default:'-'|intcomma }}</strong>
+                                                {% endif %}
                                                 <br>
                                                 per calendar month for 2023
                                             </p>
@@ -172,7 +190,11 @@
                                 <div class="govuk-grid-row">
                                     <div class="govuk-grid-column-one-half">
                                         <p class="govuk-body-m">
-                                            <strong class="govuk-!-font-weight-bold">£{{ work_office|default:'-'|intcomma }}</strong>
+                                            {% if pre_election %}
+                                                <strong class="govuk-!-font-weight-bold">£{{ work_office|rent_to_int|default:'-'|intcomma }}</strong>
+                                            {% else %}
+                                                <strong class="govuk-!-font-weight-bold">£{{ work_office|default:'-'|intcomma }}</strong>
+                                            {% endif %}
                                             <br>
                                             per calendar month for 2023
                                         </p>

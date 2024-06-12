@@ -19,3 +19,9 @@ def get_salary_display_classes(context):
         result['salary_card_class'] = 'govuk-grid-column-one-half'
 
     return result
+
+
+@register.filter
+def rent_to_int(val: float) -> int:
+    # stored in backend / API as decimal to 3 places so will have '.'
+    return int(str(val).split('.')[0])
