@@ -58,7 +58,7 @@ def address_verification_end_to_end(
     ]
 
     def inner(case_study_id=''):
-        url = reverse('verify-company-address-confirm')
+        url = reverse('find_a_buyer:verify-company-address-confirm')
         for key, data in data_step_pairs:
             response = client.post(url, data)
         return response
@@ -85,7 +85,7 @@ def send_verification_letter_end_to_end(
     ]
 
     def inner():
-        url = reverse('verify-company-address')
+        url = reverse('find_a_buyer:verify-company-address')
         for key, data in data_step_pairs:
             data['send_verification_letter_view-current_step'] = key
             response = client.post(url, data)
@@ -100,7 +100,7 @@ def test_send_verification_letter_address_context_data(
     user.company = retrieve_profile_data
     client.force_login(user)
 
-    response = client.get(reverse('verify-company-address'))
+    response = client.get(reverse('find_a_buyer:verify-company-address'))
 
     assert response.context['company_name'] == 'Great company'
     assert response.context['company_number'] == 123456
@@ -144,58 +144,6 @@ def test_company_address_validation_api_failure(
     assert response.context_data['form'].errors['code'] == expected
 
 
-def test_unsubscribe_logged_in_user(client, user):
-    client.force_login(user)
-
-    response = client.get(reverse('unsubscribe'))
-
-    view = views.EmailUnsubscribeView
-    assert response.status_code == http.client.OK
-    assert response.template_name == [view.template_name]
-
-
-def test_unsubscribe_anon_user(client):
-    response = client.get(reverse('unsubscribe'))
-
-    assert response.status_code == http.client.FOUND
-
-
-@patch.object(api_client.supplier, 'unsubscribe')
-def test_unsubscribe_api_failure(
-    mock_unsubscribe, client, user, retrieve_profile_data
-):
-    retrieve_profile_data.clear()
-    client.force_login(user)
-    mock_unsubscribe.return_value = create_response(400)
-
-    with pytest.raises(requests.exceptions.HTTPError):
-        client.post(reverse('unsubscribe'))
-
-    mock_unsubscribe.assert_called_once_with(sso_session_id='123')
-
-
-@patch.object(
-    api_client.supplier, 'unsubscribe', return_value=create_response(200)
-)
-def test_unsubscribe_api_success(
-    mock_unsubscribe, client, user, retrieve_profile_data
-):
-    retrieve_profile_data.clear()
-    client.force_login(user)
-    response = client.post(reverse('unsubscribe'))
-
-    mock_unsubscribe.assert_called_once_with(sso_session_id='123')
-    view = views.EmailUnsubscribeView
-    assert response.status_code == http.client.OK
-    assert response.template_name == view.success_template
-
-
-def test_robots(client):
-    response = client.get(reverse('robots'))
-
-    assert response.status_code == 200
-
-
 def test_companies_house_oauth2_has_company_redirects(
     settings, client, user, retrieve_profile_data
 ):
@@ -204,7 +152,7 @@ def test_companies_house_oauth2_has_company_redirects(
     user.company = retrieve_profile_data
     client.force_login(user)
 
-    url = reverse('verify-companies-house')
+    url = reverse('find_a_buyer:verify-companies-house')
     response = client.get(url)
 
     assert response.status_code == 302
@@ -227,7 +175,7 @@ def test_companies_house_callback_missing_code(
     user.company = retrieve_profile_data
     client.force_login(user)
 
-    url = reverse('verify-companies-house-callback')  # missing code
+    url = reverse('find_a_buyer:verify-companies-house-callback')  # missing code
     response = client.get(url)
 
     assert response.status_code == 200
@@ -251,7 +199,7 @@ def test_companies_house_callback_has_company_calls_companies_house(
         status_code=200, json_body={'access_token': 'abc'}
     )
 
-    url = reverse('verify-companies-house-callback')
+    url = reverse('find_a_buyer:verify-companies-house-callback')
     response = client.get(url, {'code': '111111111111'})
 
     assert response.status_code == 302
@@ -290,7 +238,7 @@ def test_companies_house_callback_has_company_calls_url_prefix(
         status_code=200, json_body={'access_token': 'abc'}
     )
 
-    url = reverse('verify-companies-house-callback')
+    url = reverse('find_a_buyer:verify-companies-house-callback')
     response = client.get(url, {'code': '111111111111'})
 
     assert response.status_code == 302
@@ -324,7 +272,7 @@ def test_companies_house_callback_error(
         status_code=200, json_body={'access_token': 'abc'}
     )
 
-    url = reverse('verify-companies-house-callback')
+    url = reverse('find_a_buyer:verify-companies-house-callback')
     response = client.get(url, {'code': '111111111111'})
 
     assert response.status_code == 200
@@ -343,7 +291,7 @@ def test_companies_house_callback_invalid_code(
 
     mock_verify_oauth2_code.return_value = create_response(400)
 
-    url = reverse('verify-companies-house-callback')
+    url = reverse('find_a_buyer:verify-companies-house-callback')
     response = client.get(url, {'code': '111111111111'})
 
     assert response.status_code == 200
@@ -360,7 +308,7 @@ def test_companies_house_callback_unauthorized(
 
     mock_verify_oauth2_code.return_value = create_response(401)
 
-    url = reverse('verify-companies-house-callback')
+    url = reverse('find_a_buyer:verify-companies-house-callback')
     response = client.get(url, {'code': '111111111111'})
 
     assert response.status_code == 200
@@ -374,7 +322,7 @@ def test_verify_company_has_company_user(
     user.company = retrieve_profile_data
     client.force_login(user)
 
-    url = reverse('verify-company-hub')
+    url = reverse('find_a_buyer:verify-company-hub')
     response = client.get(url)
 
     assert response.status_code == 200
@@ -388,7 +336,7 @@ def test_verify_company_address_feature_flag_on(
     user.company = retrieve_profile_data
     client.force_login(user)
 
-    response = client.get(reverse('verify-company-address'))
+    response = client.get(reverse('find_a_buyer:verify-company-address'))
 
     assert response.status_code == 200
 
@@ -417,7 +365,7 @@ def test_verify_company_address_end_to_end(
 def test_company_address_verification_backwards_compatible_feature_flag_on(
     settings, client
 ):
-    url = reverse('verify-company-address-historic-url')
+    url = reverse('find_a_buyer:verify-company-address-historic-url')
     response = client.get(url)
 
     assert response.status_code == 302
@@ -433,7 +381,7 @@ def test_case_study_create_backwards_compatible_url(client):
 
 
 def test_buyer_csv_dump_no_token(client):
-    url = reverse('buyers-csv-dump')
+    url = reverse('find_a_buyer:buyers-csv-dump')
     response = client.get(url)
 
     assert response.status_code == 403
@@ -467,7 +415,7 @@ def test_supplier_csv_dump(mocked_api_client, client):
             'Content-Disposition': 'bar'
         }
     )
-    url = reverse('suppliers-csv-dump')
+    url = reverse('find_a_buyer:suppliers-csv-dump')
     response = client.get(url+'?token=debug')
     assert mocked_api_client.supplier.get_csv_dump.called is True
     assert mocked_api_client.supplier.get_csv_dump.called_once_with(

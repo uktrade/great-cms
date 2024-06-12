@@ -28,7 +28,7 @@ def test_company_address_verification_accepts_valid():
     assert form.cleaned_data == data
 
 
-@patch('company.validators.api_client.company.verify_with_code')
+@patch('find_a_buyer.validators.api_client.company.verify_with_code')
 def test_company_address_verification_valid_code(mock_verify_with_code):
     mock_verify_with_code.return_value = Mock(ok=False)
 
@@ -41,7 +41,7 @@ def test_company_address_verification_valid_code(mock_verify_with_code):
     assert form.errors['code'] == [validators.MESSAGE_INVALID_CODE]
 
 
-@patch('company.validators.api_client.company.verify_with_code')
+@patch('find_a_buyer.validators.api_client.company.verify_with_code')
 def test_company_address_verification_invalid_code(mock_verify_with_code):
     mock_verify_with_code.return_value = Mock(status_code=200)
 
@@ -53,7 +53,7 @@ def test_company_address_verification_invalid_code(mock_verify_with_code):
     assert form.is_valid() is True
 
 
-@patch('company.validators.api_client.company.verify_with_code')
+@patch('find_a_buyer.validators.api_client.company.verify_with_code')
 def test_company_address_verification_too_long(mock_verify_with_code):
     mock_verify_with_code.return_value = Mock(status_code=200)
 
@@ -66,7 +66,7 @@ def test_company_address_verification_too_long(mock_verify_with_code):
     assert form.errors['code'] == ['Ensure this value has at most 12 characters (it has 13).']
 
 
-@patch('company.validators.api_client.company.verify_with_code')
+@patch('find_a_buyer.validators.api_client.company.verify_with_code')
 def test_company_address_verification_with_leading_zeros(mock_verify_with_code):
     mock_verify_with_code.return_value = Mock(status_code=200)
 
