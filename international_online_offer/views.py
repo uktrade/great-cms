@@ -50,7 +50,7 @@ def calculate_and_store_is_high_value(request):
 
 
 class IndexView(GA360Mixin, TemplateView):
-    template_name = 'eyb/index-new.html'
+    template_name = 'eyb/index.html'
 
     def __init__(self):
         super().__init__()
@@ -60,14 +60,14 @@ class IndexView(GA360Mixin, TemplateView):
             site_section='index',
         )
 
-    def get_context_data(self, **kwargs):
-        breadcrumbs = [
-            {'name': 'Home', 'url': '/international/'},
-        ]
-        return super().get_context_data(
-            **kwargs,
-            breadcrumbs=breadcrumbs,
-        )
+    # def get_context_data(self, **kwargs):
+    #     breadcrumbs = [
+    #         {'name': 'Home', 'url': '/international/'},
+    #     ]
+    #     return super().get_context_data(
+    #         **kwargs,
+    #         breadcrumbs=breadcrumbs,
+    #     )
 
 
 class SectorView(GA360Mixin, FormView):
