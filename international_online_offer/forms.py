@@ -51,7 +51,7 @@ class BusinessDetailsForm(forms.Form):
         help_text='Select a country',
         required=False,
         widget=Select(attrs={'id': 'js-company-location-select', 'class': 'govuk-input'}),
-        choices=choices.COMPANY_LOCATION_CHOICES,
+        choices=(('', ''),) + choices.COMPANY_LOCATION_CHOICES,
     )
 
     company_website = CharField(
