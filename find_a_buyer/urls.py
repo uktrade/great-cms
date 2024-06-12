@@ -12,7 +12,7 @@ urlpatterns = [
     # Seems to work
     path('verify/letter-send/', views.SendVerificationLetterView.as_view(), name='verify-company-address'),
 
-    # Needs testing
+    # Needs testing - This is where traffic to great.gov.uk/verify is redirected too.
     path(
         'verify/letter-confirm/', views.CompanyAddressVerificationView.as_view(), name='verify-company-address-confirm'
     ),
