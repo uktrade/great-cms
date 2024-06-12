@@ -1,5 +1,4 @@
 import pytest
-
 from django import forms
 
 from find_a_buyer import validators
@@ -27,13 +26,13 @@ emails = [
 
 def test_not_contain_email_does_contains_email():
     value_templates = [
-        '{email} Thing',        # at the start
-        '{email}Thing',         # at the start
+        '{email} Thing',  # at the start
+        '{email}Thing',  # at the start
         'Thing {email} Thing',  # middle
-        'Thing{email}Thing',    # middle
-        'Thing{email} Thing',   # middle
-        'Thing{email}',         # at the end
-        'Thing {email}',        # at the end
+        'Thing{email}Thing',  # middle
+        'Thing{email} Thing',  # middle
+        'Thing{email}',  # at the end
+        'Thing {email}',  # at the end
     ]
     for email in emails:
         for value_template in value_templates:

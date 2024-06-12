@@ -5,10 +5,7 @@ from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 
 from . import fields, validators
-from .helpers import (
-    CompaniesHouseClient,
-    halt_validation_on_failure
-)
+from .helpers import CompaniesHouseClient, halt_validation_on_failure
 
 
 class IndentedInvalidFieldsMixin:
@@ -84,9 +81,7 @@ class CompaniesHouseOauth2Form(forms.Form):
 
     @cached_property
     def oauth2_response(self):
-        return CompaniesHouseClient.verify_oauth2_code(
-            code=self.cleaned_data['code'], redirect_uri=self.redirect_uri
-        )
+        return CompaniesHouseClient.verify_oauth2_code(code=self.cleaned_data['code'], redirect_uri=self.redirect_uri)
 
     def clean_code(self):
         if not self.oauth2_response.ok:

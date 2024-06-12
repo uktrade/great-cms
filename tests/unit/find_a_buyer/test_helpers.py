@@ -11,6 +11,4 @@ def test_build_company_address():
         'po_box': '',
     }
 
-    assert helpers.build_company_address(company_profile) == (
-        '123 fake street, London, UK, E14 9OX'
-    )
+    assert helpers.build_company_address(company_profile) == ('123 fake street, London, UK, E14 9OX')

@@ -1,16 +1,14 @@
 import http
-from unittest.mock import call, patch, Mock
 import urllib
+from unittest.mock import Mock, call, patch
 
-from directory_constants import choices, urls
-from directory_api_client.client import api_client
-import requests
 import pytest
-
 from django.urls import reverse
 
-from find_a_buyer import forms, views, validators
 from core.tests.helpers import create_response
+from directory_api_client.client import api_client
+from directory_constants import choices
+from find_a_buyer import forms, validators, views
 
 
 @pytest.fixture
@@ -46,9 +44,7 @@ def address_verification_address_data():
 
 
 @pytest.fixture
-def address_verification_end_to_end(
-    client, user, address_verification_address_data, retrieve_profile_data
-):
+def address_verification_end_to_end(client, user, address_verification_address_data, retrieve_profile_data):
     user.company = retrieve_profile_data
     client.force_login(user)
 
@@ -62,13 +58,12 @@ def address_verification_end_to_end(
         for key, data in data_step_pairs:
             response = client.post(url, data)
         return response
+
     return inner
 
 
 @pytest.fixture
-def send_verification_letter_end_to_end(
-    all_company_profile_data, retrieve_profile_data, client, user
-):
+def send_verification_letter_end_to_end(all_company_profile_data, retrieve_profile_data, client, user):
     user.company = retrieve_profile_data
     client.force_login(user)
 
@@ -90,12 +85,11 @@ def send_verification_letter_end_to_end(
             data['send_verification_letter_view-current_step'] = key
             response = client.post(url, data)
         return response
+
     return inner
 
 
-def test_send_verification_letter_address_context_data(
-    client, user, retrieve_profile_data
-):
+def test_send_verification_letter_address_context_data(client, user, retrieve_profile_data):
     retrieve_profile_data['is_verified'] = False
     user.company = retrieve_profile_data
     client.force_login(user)
@@ -104,17 +98,12 @@ def test_send_verification_letter_address_context_data(
 
     assert response.context['company_name'] == 'Great company'
     assert response.context['company_number'] == 123456
-    assert response.context['company_address'] == (
-        '123 Fake Street, Fakeville, London, GB, E14 6XK'
-    )
+    assert response.context['company_address'] == ('123 Fake Street, Fakeville, London, GB, E14 6XK')
 
 
-@patch.object(
-    api_client.company, 'verify_with_code', return_value=create_response(200)
-)
+@patch.object(api_client.company, 'verify_with_code', return_value=create_response(200))
 def test_company_address_validation_api_success(
-    mock_verify_with_code, address_verification_end_to_end, user,
-    settings, retrieve_profile_data
+    mock_verify_with_code, address_verification_end_to_end, user, settings, retrieve_profile_data
 ):
     retrieve_profile_data['is_verified'] = False
     view = views.CompanyAddressVerificationView
@@ -124,15 +113,14 @@ def test_company_address_validation_api_success(
     assert response.status_code == http.client.OK
     assert response.template_name == view.templates[view.SUCCESS]
     mock_verify_with_code.assert_called_with(
-        code='1'*12,
+        code='1' * 12,
         sso_session_id=user.session_id,
     )
 
 
 @patch.object(api_client.company, 'verify_with_code')
 def test_company_address_validation_api_failure(
-    mock_verify_with_code, address_verification_end_to_end,
-    retrieve_profile_data
+    mock_verify_with_code, address_verification_end_to_end, retrieve_profile_data
 ):
     retrieve_profile_data['is_verified'] = False
     mock_verify_with_code.return_value = create_response(400)
@@ -144,9 +132,7 @@ def test_company_address_validation_api_failure(
     assert response.context_data['form'].errors['code'] == expected
 
 
-def test_companies_house_oauth2_has_company_redirects(
-    settings, client, user, retrieve_profile_data
-):
+def test_companies_house_oauth2_has_company_redirects(settings, client, user, retrieve_profile_data):
     retrieve_profile_data['is_verified'] = False
 
     user.company = retrieve_profile_data
@@ -168,9 +154,7 @@ def test_companies_house_oauth2_has_company_redirects(
 
 
 @patch.object(forms.CompaniesHouseClient, 'verify_oauth2_code')
-def test_companies_house_callback_missing_code(
-    mock_verify_oauth2_code, settings, client, user, retrieve_profile_data
-):
+def test_companies_house_callback_missing_code(mock_verify_oauth2_code, settings, client, user, retrieve_profile_data):
     retrieve_profile_data['is_verified'] = False
     user.company = retrieve_profile_data
     client.force_login(user)
@@ -183,36 +167,25 @@ def test_companies_house_callback_missing_code(
 
 
 @patch.object(forms.CompaniesHouseClient, 'verify_oauth2_code')
-@patch.object(
-    api_client.company, 'verify_with_companies_house',
-    return_value=create_response(200)
-)
+@patch.object(api_client.company, 'verify_with_companies_house', return_value=create_response(200))
 def test_companies_house_callback_has_company_calls_companies_house(
-    mock_verify_with_companies_house, mock_verify_oauth2_code, settings,
-    client, user, retrieve_profile_data
+    mock_verify_with_companies_house, mock_verify_oauth2_code, settings, client, user, retrieve_profile_data
 ):
     retrieve_profile_data['is_verified'] = False
     user.company = retrieve_profile_data
     client.force_login(user)
 
-    mock_verify_oauth2_code.return_value = create_response(
-        status_code=200, json_body={'access_token': 'abc'}
-    )
+    mock_verify_oauth2_code.return_value = create_response(status_code=200, json_body={'access_token': 'abc'})
 
     url = reverse('find_a_buyer:verify-companies-house-callback')
     response = client.get(url, {'code': '111111111111'})
 
     assert response.status_code == 302
-    assert response.url == str(
-        views.CompaniesHouseOauth2CallbackView.success_url
-    )
+    assert response.url == str(views.CompaniesHouseOauth2CallbackView.success_url)
 
     assert mock_verify_oauth2_code.call_count == 1
     assert mock_verify_oauth2_code.call_args == call(
-        code='111111111111',
-        redirect_uri=(
-            'http://testserver/find-a-buyer/companies-house-oauth2-callback/'
-        )
+        code='111111111111', redirect_uri=('http://testserver/find-a-buyer/companies-house-oauth2-callback/')
     )
 
     assert mock_verify_with_companies_house.call_count == 1
@@ -223,68 +196,47 @@ def test_companies_house_callback_has_company_calls_companies_house(
 
 
 @patch.object(forms.CompaniesHouseClient, 'verify_oauth2_code')
-@patch.object(
-    api_client.company, 'verify_with_companies_house',
-    return_value=create_response(200)
-)
+@patch.object(api_client.company, 'verify_with_companies_house', return_value=create_response(200))
 def test_companies_house_callback_has_company_calls_url_prefix(
-    mock_verify_with_companies_house, mock_verify_oauth2_code, settings,
-    client, user, retrieve_profile_data
+    mock_verify_with_companies_house, mock_verify_oauth2_code, settings, client, user, retrieve_profile_data
 ):
     retrieve_profile_data['is_verified'] = False
     user.company = retrieve_profile_data
     client.force_login(user)
-    mock_verify_oauth2_code.return_value = create_response(
-        status_code=200, json_body={'access_token': 'abc'}
-    )
+    mock_verify_oauth2_code.return_value = create_response(status_code=200, json_body={'access_token': 'abc'})
 
     url = reverse('find_a_buyer:verify-companies-house-callback')
     response = client.get(url, {'code': '111111111111'})
 
     assert response.status_code == 302
-    assert response.url == str(
-        views.CompaniesHouseOauth2CallbackView.success_url
-    )
+    assert response.url == str(views.CompaniesHouseOauth2CallbackView.success_url)
 
     assert mock_verify_oauth2_code.call_count == 1
     assert mock_verify_oauth2_code.call_args == call(
-        code='111111111111',
-        redirect_uri=(
-            'http://testserver/find-a-buyer/companies-house-oauth2-callback/'
-        )
+        code='111111111111', redirect_uri=('http://testserver/find-a-buyer/companies-house-oauth2-callback/')
     )
 
 
 @patch.object(forms.CompaniesHouseClient, 'verify_oauth2_code')
-@patch.object(
-    api_client.company, 'verify_with_companies_house',
-    return_value=create_response(500)
-)
+@patch.object(api_client.company, 'verify_with_companies_house', return_value=create_response(500))
 def test_companies_house_callback_error(
-    mock_verify_with_companies_house, mock_verify_oauth2_code, settings,
-    client, user, retrieve_profile_data
+    mock_verify_with_companies_house, mock_verify_oauth2_code, settings, client, user, retrieve_profile_data
 ):
     retrieve_profile_data['is_verified'] = False
     user.company = retrieve_profile_data
     client.force_login(user)
 
-    mock_verify_oauth2_code.return_value = create_response(
-        status_code=200, json_body={'access_token': 'abc'}
-    )
+    mock_verify_oauth2_code.return_value = create_response(status_code=200, json_body={'access_token': 'abc'})
 
     url = reverse('find_a_buyer:verify-companies-house-callback')
     response = client.get(url, {'code': '111111111111'})
 
     assert response.status_code == 200
-    assert response.template_name == (
-        views.CompaniesHouseOauth2CallbackView.error_template
-    )
+    assert response.template_name == (views.CompaniesHouseOauth2CallbackView.error_template)
 
 
 @patch.object(forms.CompaniesHouseClient, 'verify_oauth2_code')
-def test_companies_house_callback_invalid_code(
-    mock_verify_oauth2_code, settings, client, user, retrieve_profile_data
-):
+def test_companies_house_callback_invalid_code(mock_verify_oauth2_code, settings, client, user, retrieve_profile_data):
     retrieve_profile_data['is_verified'] = False
     user.company = retrieve_profile_data
     client.force_login(user)
@@ -299,9 +251,7 @@ def test_companies_house_callback_invalid_code(
 
 
 @patch.object(forms.CompaniesHouseClient, 'verify_oauth2_code')
-def test_companies_house_callback_unauthorized(
-    mock_verify_oauth2_code, settings, client, user, retrieve_profile_data
-):
+def test_companies_house_callback_unauthorized(mock_verify_oauth2_code, settings, client, user, retrieve_profile_data):
     retrieve_profile_data['is_verified'] = False
     user.company = retrieve_profile_data
     client.force_login(user)
@@ -315,9 +265,7 @@ def test_companies_house_callback_unauthorized(
     assert b'Invalid code.' in response.content
 
 
-def test_verify_company_has_company_user(
-    settings, client, user, retrieve_profile_data
-):
+def test_verify_company_has_company_user(settings, client, user, retrieve_profile_data):
     retrieve_profile_data['is_verified'] = False
     user.company = retrieve_profile_data
     client.force_login(user)
@@ -329,9 +277,7 @@ def test_verify_company_has_company_user(
     assert response.template_name == [views.CompanyVerifyView.template_name]
 
 
-def test_verify_company_address_feature_flag_on(
-    settings, client, user, retrieve_profile_data
-):
+def test_verify_company_address_feature_flag_on(settings, client, user, retrieve_profile_data):
     retrieve_profile_data['is_verified'] = False
     user.company = retrieve_profile_data
     client.force_login(user)
@@ -343,8 +289,7 @@ def test_verify_company_address_feature_flag_on(
 
 @patch.object(api_client.company, 'profile_update')
 def test_verify_company_address_end_to_end(
-    mock_profile_update, settings, send_verification_letter_end_to_end,
-    retrieve_profile_data
+    mock_profile_update, settings, send_verification_letter_end_to_end, retrieve_profile_data
 ):
     retrieve_profile_data['is_verified'] = False
     mock_profile_update.return_value = create_response(200)
@@ -356,10 +301,8 @@ def test_verify_company_address_end_to_end(
     assert response.template_name == view.templates[view.SENT]
     assert response.context_data['profile_url'] == 'http://profile.trade.great:8006/profile/business-profile/'
     assert mock_profile_update.call_count == 1
-    assert mock_profile_update.call_args == call(
-        data={'postal_full_name': 'Jeremy'},
-        sso_session_id='123'
-    )
+    assert mock_profile_update.call_args == call(data={'postal_full_name': 'Jeremy'}, sso_session_id='123')
+
 
 @pytest.mark.django_db
 def test_buyer_csv_dump_no_token(client):
@@ -371,17 +314,13 @@ def test_buyer_csv_dump_no_token(client):
 
 
 @pytest.mark.django_db
-@patch('company.views.api_client')
+@patch('find_a_buyer.views.api_client')
 def test_buyer_csv_dump(mocked_api_client, client):
     mocked_api_client.buyer.get_csv_dump.return_value = Mock(
-        content='abc',
-        headers={
-            'Content-Type': 'foo',
-            'Content-Disposition': 'bar'
-        }
+        content='abc', headers={'Content-Type': 'foo', 'Content-Disposition': 'bar'}
     )
-    url = reverse('buyers-csv-dump')
-    response = client.get(url+'?token=debug')
+    url = reverse('find_a_buyer:buyers-csv-dump')
+    response = client.get(url + '?token=debug')
     assert mocked_api_client.buyer.get_csv_dump.called is True
     assert mocked_api_client.buyer.get_csv_dump.called_once_with(token='debug')
     assert response.content == b'abc'
@@ -390,21 +329,15 @@ def test_buyer_csv_dump(mocked_api_client, client):
 
 
 @pytest.mark.django_db
-@patch('company.views.api_client')
+@patch('find_a_buyer.views.api_client')
 def test_supplier_csv_dump(mocked_api_client, client):
     mocked_api_client.supplier.get_csv_dump.return_value = Mock(
-        content='abc',
-        headers={
-            'Content-Type': 'foo',
-            'Content-Disposition': 'bar'
-        }
+        content='abc', headers={'Content-Type': 'foo', 'Content-Disposition': 'bar'}
     )
     url = reverse('find_a_buyer:suppliers-csv-dump')
-    response = client.get(url+'?token=debug')
+    response = client.get(url + '?token=debug')
     assert mocked_api_client.supplier.get_csv_dump.called is True
-    assert mocked_api_client.supplier.get_csv_dump.called_once_with(
-        token='debug'
-    )
+    assert mocked_api_client.supplier.get_csv_dump.called_once_with(token='debug')
     assert response.content == b'abc'
     assert response.headers['Content-Type'] == ('foo')
     assert response.headers['Content-Disposition'] == ('bar')
