@@ -78,10 +78,10 @@
                     <div class="column-one-third alerts-button-container">
                         {% if company.is_verification_letter_sent %}
                             <a class="button button-ghost-white"
-                               href="{{ services_urls.fab }}verify/letter-confirm/">Enter identity confirmation code</a>
+                               href="{% url 'find_a_buyer:verify-company-address-confirm' %}">Enter identity confirmation code</a>
                         {% else %}
                             <a class="button button-ghost-white"
-                               href="{{ services_urls.fab }}verify/">Confirm your identity</a>
+                               href="{% url 'find_a_buyer:verify-company-hub' %}">Confirm your identity</a>
                         {% endif %}
                     </div>
                 {% elif not company.is_identity_check_message_sent %}
