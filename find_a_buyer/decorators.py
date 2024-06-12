@@ -13,7 +13,7 @@ def must_have_company_profile(function):
     def wrap(request, *args, **kwargs):
         user = request.user
         try:
-            company = user.company
+            user.company
         except AttributeError:
             path = request.path
             return redirect(f'{settings.LOGIN_URL}?next={path}')
