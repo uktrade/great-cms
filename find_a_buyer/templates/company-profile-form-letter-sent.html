@@ -1,0 +1,12 @@
+{% extends 'enrolment-base.html' %}
+{% load static %}
+{% block head_title %}Verification letter request - great.gov.uk{% endblock %}
+{% block sub_header %}{# prevent the subheader from showing on form pages #}{% endblock %}
+{% block formarea %}
+	<div class="outer-container">
+		<h1 class="heading-xlarge">Verification letter request</h1>
+		<p>Your verification letter should arrive within 5 working days. <a href="{{ services_urls.feedback }}">Contact us</a> if it doesn’t arrive after 2 weeks.</p>
+		<p>The letter contains a 12 digit verification code. Sign in to great.gov.uk to enter the verification code and publish your company profile.</p>
+		<p><a href="{{ sso_profile_url }}">Go to your company profile</a>.</p>
+	</div>
+{%endblock formarea %}
