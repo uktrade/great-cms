@@ -8,6 +8,7 @@ from international_online_offer.core import (
     helpers,
     hirings,
     intents,
+    professions,
     region_sector_helpers,
     regions,
     sectors,
@@ -320,3 +321,48 @@ def test_generate_sector_sic_choices():
 @pytest.mark.django_db
 def test_to_literal(input_choice, expected_result):
     assert region_sector_helpers.to_literal(input_choice) == expected_result
+
+
+@pytest.mark.parametrize(
+    'input, expected',
+    (
+        (
+            {
+                professions.ENTRY_LEVEL: 20000,
+                professions.MID_SENIOR_LEVEL: 30000,
+                professions.DIRECTOR_EXECUTIVE_LEVEL: 40000,
+            },
+            {
+                professions.ENTRY_LEVEL: 20000,
+                professions.MID_SENIOR_LEVEL: 30000,
+                professions.DIRECTOR_EXECUTIVE_LEVEL: 40000,
+            },
+        ),
+        (
+            {
+                professions.ENTRY_LEVEL: 20000,
+                professions.MID_SENIOR_LEVEL: 30000,
+                professions.DIRECTOR_EXECUTIVE_LEVEL: 29999,
+            },
+            {professions.ENTRY_LEVEL: 20000, professions.MID_SENIOR_LEVEL: 30000},
+        ),
+        (
+            {
+                professions.ENTRY_LEVEL: 20000,
+                professions.MID_SENIOR_LEVEL: 30000,
+                professions.DIRECTOR_EXECUTIVE_LEVEL: 19999,
+            },
+            {professions.ENTRY_LEVEL: 20000, professions.MID_SENIOR_LEVEL: 30000},
+        ),
+        (
+            {
+                professions.ENTRY_LEVEL: 20000,
+                professions.MID_SENIOR_LEVEL: 19999,
+                professions.DIRECTOR_EXECUTIVE_LEVEL: 40000,
+            },
+            {professions.ENTRY_LEVEL: 20000, professions.DIRECTOR_EXECUTIVE_LEVEL: 40000},
+        ),
+    ),
+)
+def test_clean_salary_data(input, expected):
+    assert helpers.clean_salary_data(input) == expected

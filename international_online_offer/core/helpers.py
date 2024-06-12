@@ -168,8 +168,7 @@ def clean_salary_data(salary_data: dict) -> dict:
     # Change requested to hide salary if numbers are smaller than lower band
     if executive_salary and mid_salary and executive_salary < mid_salary:
         del result[professions.DIRECTOR_EXECUTIVE_LEVEL]
-
-    if executive_salary and entry_salary and executive_salary < entry_salary:
+    elif executive_salary and entry_salary and executive_salary < entry_salary:
         del result[professions.DIRECTOR_EXECUTIVE_LEVEL]
 
     if mid_salary and entry_salary and mid_salary < entry_salary:

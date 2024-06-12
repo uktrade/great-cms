@@ -100,7 +100,7 @@ def get_salary_data(geo_region: str, vertical: str = None, professional_level: s
     return response.json()
 
 
-def get_median_salaries(geo_region: str, vertical: str = None, professional_level: str = None):
+def get_median_salaries(geo_region: str, vertical: str = None, professional_level: str = None) -> Dict:
 
     all_salaries = get_salary_data(geo_region, vertical=vertical, professional_level=professional_level)
 
@@ -118,7 +118,7 @@ def get_median_salaries(geo_region: str, vertical: str = None, professional_leve
     }
 
 
-def get_rent_data(geo_region: str, vertical: str = None, sub_vertical: str = None):
+def get_rent_data(geo_region: str, vertical: str = None, sub_vertical: str = None) -> Tuple:
 
     response = api_client.dataservices.get_eyb_commercial_rent_data(geo_region, vertical, sub_vertical)
 
@@ -132,9 +132,9 @@ def get_rent_data(geo_region: str, vertical: str = None, sub_vertical: str = Non
     work_office = next((rent for rent in rent_data if rent['sub_vertical'] == 'Work Office'), {})
 
     return (
-        large_warehouse.get('gbp_per_month', 0),
-        small_warehouse.get('gbp_per_month', 0),
-        shopping_centre.get('gbp_per_month', 0),
-        high_street_retail.get('gbp_per_month', 0),
-        work_office.get('gbp_per_month', 0),
+        large_warehouse.get('gbp_per_month'),
+        small_warehouse.get('gbp_per_month'),
+        shopping_centre.get('gbp_per_month'),
+        high_street_retail.get('gbp_per_month'),
+        work_office.get('gbp_per_month'),
     )

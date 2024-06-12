@@ -22,6 +22,9 @@ def get_salary_display_classes(context):
 
 
 @register.filter
-def rent_to_int(val: float) -> int:
-    # stored in backend / API as decimal to 3 places so will have '.'
+def float_to_int(val: float) -> int:
+    """
+    Utility function that can be called from a django template to return the whole number
+    of a decimal. Not to be confused with django's intcomma which retains the fraction part.
+    """
     return int(str(val).split('.')[0])
