@@ -7,61 +7,63 @@
         <script src="{% static 'javascript/govuk.js' %}"></script>
         <script src="{% static 'javascript/dit.js' %}"></script>
         <script src="{% static 'components.js' %}"></script>
-        <script type="text/javascript"
-                src="{% static 'javascript/dit.components.password-input.js' %}"></script>
+        <script type='module' src="{% static 'javascript/govuk-frontend.min.js' %}"></script>
         <script>window.GOVUKFrontend.initAll()</script>
-        <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
+        <script src="{% static 'javascript/great.password-reveal.js' %}"></script>
+        <script type="text/javascript">GreatFrontend.PasswordInput.init()</script>
     {% endblock %}
     <h3 class="govuk-heading-m govuk-!-margin-top-8 govuk-!-margin-bottom-6">Create an account</h3>
     {% csrf_token %}
     {% for field in form.visible_fields %}
-        {% if field.label != 'UK telephone number' %}
-            <div class="govuk-form-group {% if field.errors %}govuk-form-group--error govuk-!-margin-top-6{% endif %}">
-                {% if field.label == 'Password' %}
-                    {% include 'domestic/contact/includes/govuk-form-field.html' with field=field label_classes='great-signup-form-label great-font-weight-semi-bold great-font-size-18 great-line-height-30' help_text_classes='govuk-!-padding-bottom-1 great-line-height-30 great-font-size-18 govuk-body-l great-text-dark-grey' %}
-                {% else %}
-                    {% include 'domestic/contact/includes/govuk-form-field.html' with field=field label_classes='great-signup-form-label great-font-weight-semi-bold great-font-size-18 great-line-height-30' %}
-                {% endif %}
-            </div>
-        {% else %}
-            <div class="js-enabled great-signup-telephone-details govuk-!-margin-bottom-6 {% if field.errors %}govuk-form-group--error{% endif %}">
-                <details class="govuk-!-margin-bottom-3">
-                    <summary class="great-signup-summary disable-pointer-events">
-                        <span class="great-signup-form-label govuk-!-display-inline great-dark-grey">UK telephone number (optional)</span>
-                        <span role="button"
-                              class="fa fa-lg fa-info-circle border-on-focus enable-pointer-events"></span>
-                    </summary>
-                    <div class="g-panel govuk-!-margin-top-2 govuk-!-margin-bottom-2">
-                        <p class="govuk-body-s">
-                            By providing your phone number, you agree to be contacted by DBT to gather feedback on your experiences of great.gov.uk.
-                        </p>
+        {% if field.label == 'Password' %}
+            <div class="govuk-form-group govuk-password-input {% if field.errors %}govuk-form-group--error govuk-!-margin-top-6{% endif %}"
+                 data-module="govuk-password-input">
+                {% include 'domestic/contact/includes/govuk-form-field.html' with field=field label_classes='great-signup-form-label great-font-weight-semi-bold great-font-size-18 great-line-height-30' help_text_classes='govuk-!-padding-bottom-1 great-line-height-30 great-font-size-18 govuk-body-l great-text-dark-grey' %}
+            {% elif field.label == 'UK telephone number' %}
+                <div class="govuk-form-group {% if field.errors %}govuk-form-group--error govuk-!-margin-top-6{% endif %}">
+                    <div class="js-enabled great-signup-telephone-details govuk-!-margin-bottom-6 {% if field.errors %}govuk-form-group--error{% endif %}">
+                        <details class="govuk-!-margin-bottom-3">
+                            <summary class="great-signup-summary disable-pointer-events">
+                                <span class="great-signup-form-label govuk-!-display-inline great-dark-grey">UK telephone number (optional)</span>
+                                <span role="button"
+                                      class="fa fa-lg fa-info-circle border-on-focus enable-pointer-events"></span>
+                            </summary>
+                            <div class="g-panel govuk-!-margin-top-2 govuk-!-margin-bottom-2">
+                                <p class="govuk-body-s">
+                                    By providing your phone number, you agree to be contacted by DBT to gather feedback on your experiences of great.gov.uk.
+                                </p>
+                            </div>
+                        </details>
+                        {% for error in field.errors %}
+                            <p class="govuk-error-message">
+                                <span class="govuk-visually-hidden">Error:</span> {{ error }}
+                            </p>
+                        {% endfor %}
+                        {{ field }}
                     </div>
-                </details>
-                {% for error in field.errors %}
-                    <p class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> {{ error }}
-                    </p>
-                {% endfor %}
-                {{ field }}
-            </div>
-        {% endif %}
-    {% endfor %}
-    <p class="govuk-!-margin-bottom-2 great-font-size-18 great-line-height-30">
-        By signing up, you agree to our
-        <a class="govuk-link great-font-size-18 great-line-height-30"
-           href="{% slugurl 'terms-and-conditions' %}">terms and conditions</a> and
-        <a class="govuk-link great-font-size-18 great-line-height-30"
-           href="{% slugurl 'privacy' %}">privacy notice</a>
-    </p>
-    <button type="submit"
-            id="signup-modal-submit"
-            class="govuk-button govuk-!-margin-top-6 great-width-auto">Create Account</button>
-    <p class="govuk-body govuk-!-margin-bottom-6 great-font-size-18 great-line-height-30">
-        Already have an account? <a class="govuk-link great-font-size-18 great-line-height-30 ukea-signin-link"
+                </div>
+            {% else %}
+                <div class="govuk-form-group {% if field.errors %}govuk-form-group--error govuk-!-margin-top-6{% endif %}">
+                    {% include 'domestic/contact/includes/govuk-form-field.html' with field=field label_classes='great-signup-form-label great-font-weight-semi-bold great-font-size-18 great-line-height-30' %}
+                </div>
+            {% endif %}
+        {% endfor %}
+        <p class="govuk-!-margin-bottom-2 great-font-size-18 great-line-height-30">
+            By signing up, you agree to our
+            <a class="govuk-link great-font-size-18 great-line-height-30"
+               href="{% slugurl 'terms-and-conditions' %}">terms and conditions</a> and
+            <a class="govuk-link great-font-size-18 great-line-height-30"
+               href="{% slugurl 'privacy' %}">privacy notice</a>
+        </p>
+        <button type="submit"
+                id="signup-modal-submit"
+                class="govuk-button govuk-!-margin-top-6 great-width-auto">Create Account</button>
+        <p class="govuk-body govuk-!-margin-bottom-6 great-font-size-18 great-line-height-30">
+            Already have an account? <a class="govuk-link great-font-size-18 great-line-height-30 ukea-signin-link"
     href="{% url 'export_academy:signin' %}{% if next %}?next={{ next }}{% endif %}">Sign in</a>
-    {% endblock %}
-    {% block small_screen_heading %}{{ heading }}{% endblock %}
-    {% block right_panel_heading %}{{ heading }}{% endblock %}
-    {% block right_panel_content %}
-        {% include 'export_academy/accounts/includes/new_user_body_text.html' %}
-    {% endblock %}
+        {% endblock %}
+        {% block small_screen_heading %}{{ heading }}{% endblock %}
+        {% block right_panel_heading %}{{ heading }}{% endblock %}
+        {% block right_panel_content %}
+            {% include 'export_academy/accounts/includes/new_user_body_text.html' %}
+        {% endblock %}

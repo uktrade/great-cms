@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import Services from '@src/Services'
@@ -18,7 +18,10 @@ export const Form = ({
   handlePasswordChange,
   linkedinLoginUrl,
   googleLoginUrl,
-}) => (
+}) => {
+  const [showPassword, setShowPassword] = useState(false)
+
+  return (
   <>
     <form
       className="signup__form"
@@ -40,15 +43,24 @@ export const Form = ({
         onChange={(item) => handleEmailChange(item.email)}
         errors={errors.email || []}
       />
+      <span class="govuk-input__wrapper govuk-password-input__wrapper great-display-flex">
       <Input
         label="Password"
         id="password"
-        type="password"
+        type={showPassword ? "password" : 'text'}
+        passwordShowHide={true}
         disabled={disabled}
         value={password}
         onChange={(item) => handlePasswordChange(item.password)}
         errors={errors.password || []}
       />
+      <button
+      className='secondary-button'
+      onClick={(event) => {
+        event.preventDefault();
+        setShowPassword(!showPassword)}}
+      >{showPassword ? 'Hide' : 'Show'}</button>
+      </span>
       <a
         href={Services.config.passwordResetUrl}
         className="inline-block govuk-!-margin-bottom-4"
@@ -89,6 +101,7 @@ export const Form = ({
     </form>
   </>
 )
+}
 
 Form.propTypes = {
   disabled: PropTypes.bool,

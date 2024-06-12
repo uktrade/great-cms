@@ -303,7 +303,7 @@ class SignInForm(forms.Form):
         },
     )
     password = forms.CharField(
-        widget=PasswordInput,
+        widget=PasswordInputShowHide,
         label='Password',
         error_messages={
             'required': 'Enter a password',
