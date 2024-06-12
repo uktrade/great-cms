@@ -82,13 +82,14 @@ class SendVerificationLetterView(
     form_serializer = staticmethod(forms.serialize_company_address_form)
 
     def get_context_data(self, form, **kwargs):
-        address = helpers.build_company_address(self.request.user.company)
+        company_profile = self.request.user.company.data
+        address = helpers.build_company_address(company_profile)
         context = super().get_context_data(
             form=form,
             form_labels=self.form_labels,
             all_cleaned_data=self.get_all_cleaned_data(),
-            company_name=self.request.user.company['name'],
-            company_number=self.request.user.company['number'],
+            company_name=company_profile['name'],
+            company_number=company_profile['number'],
             company_address=address,
             **kwargs,
         )
@@ -105,7 +106,7 @@ class CompanyVerifyView(TemplateView):
 
     def get_context_data(self, **kwargs):
         return {
-            'company': self.request.user.company,
+            'company': self.request.user.company.data,
         }
 
     @method_decorator(must_have_company_profile)
@@ -133,7 +134,7 @@ class CompanyAddressVerificationView(GetTemplateForCurrentStepMixin, SessionWiza
         return TemplateResponse(self.request, self.templates[self.SUCCESS])
 
     def get_context_data(self, **kwargs):
-        return super().get_context_data(company=self.request.user.company, **kwargs)
+        return super().get_context_data(company=self.request.user.company.data, **kwargs)
 
 
 class CompanyAddressVerificationHistoricView(RedirectView):
@@ -143,7 +144,7 @@ class CompanyAddressVerificationHistoricView(RedirectView):
 class Oauth2CallbackUrlMixin:
     @property
     def redirect_uri(self):
-        return self.request.build_absolute_uri(reverse('verify-companies-house-callback'))
+        return self.request.build_absolute_uri(reverse('find_a_buyer:verify-companies-house-callback'))
 
 
 class CompaniesHouseOauth2View(Oauth2CallbackUrlMixin, RedirectView):
