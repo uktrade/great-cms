@@ -11,12 +11,14 @@ GreatFrontend.PasswordInput = {
         setType('text')
         screenReaderStatusMessage.innerText='Your password is visible'
         passwordShowButton.innerHTML='Hide'
+        passwordShowButton.ariaLabel='Hide password'
     }
 
     const hide = () => {
         setType('password')
         screenReaderStatusMessage.innerText='Your password is hidden'
         passwordShowButton.innerHTML='Show'
+        passwordShowButton.ariaLabel='Show password'
     }
 
     const setType = (type) => {

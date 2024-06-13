@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { useState, memo } from 'react'
 import PropTypes from 'prop-types'
 import { dateFormat, validation } from '@src/Helpers'
 import { FormGroup } from '../FormGroup'
@@ -26,9 +26,11 @@ export const Input = memo(
     decimal,
     info,
     message,
+    isPasswordShowHide,
     ...inputAttributes
   }) => {
     const { update, ...cleanedInputAttributes } = inputAttributes
+    const [showPassword, setShowPassword] = useState(false)
     const IsValidNumber = (e, rule = decimal) => {
       const t = parseInt(e.key, 10)
       const isInteger = Number.isInteger(t)
@@ -84,7 +86,7 @@ export const Input = memo(
               prepend ? 'form-control-prepend' : ''
             } ${className}`}
             id={id}
-            type={type}
+            type={isPasswordShowHide ? (showPassword ? 'text' : 'password') : type}
             min={minDate}
             max={maxDate}
             name={id}
@@ -93,6 +95,21 @@ export const Input = memo(
             value={value}
             {...cleanedInputAttributes} // eslint-disable-line react/jsx-props-no-spreading
           />
+          {isPasswordShowHide &&
+          <div>
+            <div className='great-visually-hidden' aria-live='polite'>
+                <span>{'Your password is  '.concat(showPassword ? 'visible' : 'hidden')}</span>
+            </div>
+            <button
+            type='button'
+            aria-label={(showPassword ? 'Hide' : 'Show').concat(' password')}
+            className='secondary-button govuk-!-margin-left-2'
+            onClick={(event) => {
+              event.preventDefault();
+              setShowPassword(!showPassword)}}
+            >{showPassword ? 'Hide' : 'Show'}</button>
+          </div>
+          }
         </div>
       </FormGroup>
     )
