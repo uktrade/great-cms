@@ -40,6 +40,10 @@ class EYBIndexPage(BaseContentPage):
     ]
     template = 'eyb/index.html'
 
+    # TODO remove after general election AND sign up to front branch merged
+    if settings.FEATURE_PRE_ELECTION and settings.FEATURE_EYB_HOME:
+        template = 'eyb/index-new.html'
+
 
 def get_triage_data_for_user(request):
     if hasattr(request, 'user') and hasattr(request, 'session'):
