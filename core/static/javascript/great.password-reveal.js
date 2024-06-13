@@ -51,11 +51,7 @@ GreatFrontend.PasswordInput = {
         hide()
     }
     })
-
     // Default the component to having the password hidden.
     hide()
-
-
     }
-
 }
