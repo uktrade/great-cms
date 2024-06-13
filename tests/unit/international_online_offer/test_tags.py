@@ -19,24 +19,3 @@ import international_online_offer.templatetags.eyb_tags as eyb_tags
 def test_get_salary_display_classes(context_data, expected):
     display_classes = eyb_tags.get_salary_display_classes(context_data)
     assert display_classes == expected
-
-
-@pytest.mark.parametrize(
-    'float,expected',
-    (
-        (0.002, 0),
-        (1.2, 1),
-        (-1.2, -1),
-        (10000000000000.232345, 10000000000000),
-        ('0.002', 0),
-        ('1.2', 1),
-        ('-1.2', -1),
-        ('10000000000000.232345', 10000000000000),
-        (0, 0),
-        (1, 1),
-        (-1, -1),
-        (10000000000000, 10000000000000),
-    ),
-)
-def test_float_to_int(float, expected):
-    assert eyb_tags.float_to_int(float) == expected

@@ -1,7 +1,7 @@
 {% load wagtailcore_tags %}
 {% load location_select_filters %}
 {% load add_govuk_classes from content_tags %}
-{% load eyb_tags %}
+{% load content_tags %}
 {% load humanize %}
 <div class="govuk-grid-row" id="location-component">
     <div class="govuk-grid-column-full govuk-!-padding-6 salary-rent-component">
@@ -73,7 +73,7 @@
                                         <div class="govuk-grid-column-one-half">
                                             <p class="govuk-body-m">
                                                 {% if pre_election %}
-                                                    <strong class="govuk-!-font-weight-bold">£{{ large_warehouse_rent|float_to_int|default:'-'|intcomma }}</strong>
+                                                    <strong class="govuk-!-font-weight-bold">£{{ large_warehouse_rent|val_to_int|default:'-'|intcomma }}</strong>
                                                 {% else %}
                                                     <strong class="govuk-!-font-weight-bold">£{{ large_warehouse_rent|default:'-'|intcomma }}</strong>
                                                 {% endif %}
@@ -103,7 +103,7 @@
                                         <div class="govuk-grid-column-one-half">
                                             <p class="govuk-body-m">
                                                 {% if pre_election %}
-                                                    <strong class="govuk-!-font-weight-bold">£{{ small_warehouse_rent|float_to_int|default:'-'|intcomma }}</strong>
+                                                    <strong class="govuk-!-font-weight-bold">£{{ small_warehouse_rent|val_to_int|default:'-'|intcomma }}</strong>
                                                 {% else %}
                                                     <strong class="govuk-!-font-weight-bold">£{{ small_warehouse_rent|default:'-'|intcomma }}</strong>
                                                 {% endif %}
@@ -133,7 +133,7 @@
                                         <div class="govuk-grid-column-one-half">
                                             <p class="govuk-body-m">
                                                 {% if pre_election %}
-                                                    <strong class="govuk-!-font-weight-bold">£{{ shopping_centre|float_to_int|default:'-'|intcomma }}</strong>
+                                                    <strong class="govuk-!-font-weight-bold">£{{ shopping_centre|val_to_int|default:'-'|intcomma }}</strong>
                                                 {% else %}
                                                     <strong class="govuk-!-font-weight-bold">£{{ shopping_centre|default:'-'|intcomma }}</strong>
                                                 {% endif %}
@@ -163,7 +163,7 @@
                                         <div class="govuk-grid-column-one-half">
                                             <p class="govuk-body-m">
                                                 {% if pre_election %}
-                                                    <strong class="govuk-!-font-weight-bold">£{{ high_street_retail|float_to_int|default:'-'|intcomma }}</strong>
+                                                    <strong class="govuk-!-font-weight-bold">£{{ high_street_retail|val_to_int|default:'-'|intcomma }}</strong>
                                                 {% else %}
                                                     <strong class="govuk-!-font-weight-bold">£{{ high_street_retail|default:'-'|intcomma }}</strong>
                                                 {% endif %}
@@ -179,33 +179,35 @@
                                     </div>
                                 </div>
                             {% endif %}
-                            <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="work-office">
-                                <div class="govuk-grid-row">
-                                    <div class="govuk-grid-column-full">
-                                        <h3 class="govuk-heading-m">
-                                            Work office, average rent for {{ rent_location_form.location.value|get_location_display }}
-                                        </h3>
+                            {% if work_office %}
+                                <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="work-office">
+                                    <div class="govuk-grid-row">
+                                        <div class="govuk-grid-column-full">
+                                            <h3 class="govuk-heading-m">
+                                                Work office, average rent for {{ rent_location_form.location.value|get_location_display }}
+                                            </h3>
+                                        </div>
+                                    </div>
+                                    <div class="govuk-grid-row">
+                                        <div class="govuk-grid-column-one-half">
+                                            <p class="govuk-body-m">
+                                                {% if pre_election %}
+                                                    <strong class="govuk-!-font-weight-bold">£{{ work_office|val_to_int|default:'-'|intcomma }}</strong>
+                                                {% else %}
+                                                    <strong class="govuk-!-font-weight-bold">£{{ work_office|default:'-'|intcomma }}</strong>
+                                                {% endif %}
+                                                <br>
+                                                per calendar month for 2023
+                                            </p>
+                                        </div>
+                                        <div class="govuk-grid-column-one-half">
+                                            <p class="govuk-body">
+                                                A work office is a room or set of rooms in which business, professional duties, clerical work, etc, are carried out. Calculation based on average UK work office being <strong class="govuk-!-font-weight-bold">16,671 sq foot</strong>
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="govuk-grid-row">
-                                    <div class="govuk-grid-column-one-half">
-                                        <p class="govuk-body-m">
-                                            {% if pre_election %}
-                                                <strong class="govuk-!-font-weight-bold">£{{ work_office|float_to_int|default:'-'|intcomma }}</strong>
-                                            {% else %}
-                                                <strong class="govuk-!-font-weight-bold">£{{ work_office|default:'-'|intcomma }}</strong>
-                                            {% endif %}
-                                            <br>
-                                            per calendar month for 2023
-                                        </p>
-                                    </div>
-                                    <div class="govuk-grid-column-one-half">
-                                        <p class="govuk-body">
-                                            A work office is a room or set of rooms in which business, professional duties, clerical work, etc, are carried out. Calculation based on average UK work office being <strong class="govuk-!-font-weight-bold">16,671 sq foot</strong>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                            {% endif %}
                         </div>
                     {% else %}
                         <p class="govuk-body">There currently is no data available for the selected criteria.</p>

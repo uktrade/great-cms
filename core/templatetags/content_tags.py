@@ -3,6 +3,7 @@ import datetime
 import logging
 import math
 import re
+from typing import Union
 from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
@@ -565,3 +566,21 @@ def h3_if(condition, else_heading):
 @register.filter
 def is_modal_card(card_title):
     return True if card_title in TASK_VALIDATION_MODAL_TRIGGERS else False
+
+
+# todo: remove post election ###########
+@register.simple_tag
+def feature_pre_election():
+    return settings.FEATURE_PRE_ELECTION
+
+
+########################################
+
+
+@register.filter
+def val_to_int(val: Union[float, int, str]) -> int:
+    """
+    Utility function that can be called from a django template to return the whole number
+    of a decimal. Not to be confused with django's intcomma which retains the fraction part.
+    """
+    return int(round(float(val)))
