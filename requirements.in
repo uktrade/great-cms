@@ -33,7 +33,7 @@ gunicorn==22.0.0
 sentry-sdk==1.14.*
 
 
-# DIT packages
+# DBT packages
 # ------------
 great-components==2.6.4
 directory-api-client==26.6.1
@@ -46,10 +46,10 @@ directory-healthcheck==3.7
 directory-sso-api-client==7.2.7
 directory-validators==9.3.4
 django-staff-sso-client==4.2.2
+dbt-copilot-python==0.2.1
 
 # Other Python deps
 # -----------------
-dbt-copilot-python==0.2.0
 whitenoise==6.6.0
 psycopg2==2.9.9 --no-binary psycopg2
 boto3==1.24.96
@@ -81,3 +81,6 @@ drf-spectacular==0.26.2
 Babel==2.12.1
 pandas==1.5.3
 SQLAlchemy==1.4.49
+dj-database-url==2.2.0
+pydantic==2.7.3
+pydantic-settings==2.3.1
