@@ -1,13 +1,20 @@
 {% extends 'international/base.html' %}
 {% load static %}
+{% load content_tags %}
+{% load eyb_tags %}
 {% block head_css %}
     <link rel="stylesheet"
           href="{% static 'expand_your_business_styles.css' %}">
 {% endblock %}
 {% block body_content_container %}
-    {% comment %} <div class="govuk-!-padding-bottom-3 {% if request.path == '/international/expand-your-business-in-the-uk/' %}eyb-light-blue-background{% endif %}"> {% endcomment %}
-    {% include './includes/govuk/phase_banner.html' %}
-    {% include './includes/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
-    {% comment %}</div>{% endcomment %}
+    {% feature_pre_election as feature_pre_election %}
+    {% feature_eyb_home as feature_eyb_home %}
+    {% comment %} TODO remove after general election OR sign up to front branch merged {% endcomment %}
+    {% if feature_pre_election and feature_eyb_home %}
+        <div class="govuk-!-padding-bottom-3 {% if request.path == '/international/expand-your-business-in-the-uk/' %}eyb-light-blue-background{% endif %}">
+        {% endif %}
+        {% include './includes/govuk/phase_banner.html' %}
+        {% include './includes/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
+        {% if feature_pre_election and feature_eyb_home %}</div>{% endif %}
     {{ block.super }}
 {% endblock %}
