@@ -16,6 +16,8 @@ allure-python-commons==2.13.5
     # via allure-pytest
 amqp==5.2.0
     # via kombu
+annotated-types==0.7.0
+    # via pydantic
 anyascii==0.3.2
     # via wagtail
 arabic-reshaper==3.0.0
@@ -27,7 +29,7 @@ asn1crypto==1.5.1
     #   oscrypto
     #   pyhanko
     #   pyhanko-certvalidator
-astroid==3.2.1
+astroid==3.2.2
     # via pylint
 asttokens==2.4.1
     # via stack-data
@@ -86,7 +88,7 @@ celery[redis]==5.3.6
     #   -r requirements.in
     #   dbt-copilot-python
     #   django-celery-beat
-certifi==2024.2.2
+certifi==2024.6.2
     # via
     #   elastic-apm
     #   elasticsearch
@@ -123,7 +125,7 @@ colorama==0.4.6
     # via djlint
 configargparse==1.7
     # via locust
-coverage[toml]==7.5.1
+coverage[toml]==7.5.3
     # via
     #   pytest-codecov
     #   pytest-cov
@@ -144,7 +146,7 @@ dateparser==0.7.2
     # via
     #   -r requirements.in
     #   -r requirements_test.in
-dbt-copilot-python==0.2.0
+dbt-copilot-python==0.2.1
     # via -r requirements.in
 decorator==5.1.1
     # via
@@ -187,6 +189,8 @@ directory-validators==9.3.4
     # via -r requirements.in
 distlib==0.3.8
     # via virtualenv
+dj-database-url==2.2.0
+    # via -r requirements.in
 django==4.2.11
     # via
     #   -r requirements.in
@@ -197,6 +201,7 @@ django==4.2.11
     #   directory-constants
     #   directory-healthcheck
     #   directory-validators
+    #   dj-database-url
     #   django-celery-beat
     #   django-csp
     #   django-debug-toolbar
@@ -255,7 +260,9 @@ django-redis==5.4.0
 django-staff-sso-client==4.2.2
     # via -r requirements.in
 django-storages[boto3]==1.13.2
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   django-storages
 django-taggit==4.0.0
     # via wagtail
 django-timezone-field==6.1.0
@@ -306,7 +313,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==25.2.0
+faker==25.8.0
     # via factory-boy
 filelock==3.14.0
     # via virtualenv
@@ -468,7 +475,7 @@ msgpack==1.0.8
     # via locust
 mypy-extensions==1.0.0
     # via black
-nodeenv==1.8.0
+nodeenv==1.9.1
     # via pre-commit
 numpy==1.26.4
     # via pandas
@@ -478,7 +485,7 @@ oauthlib==3.2.2
     #   requests-oauthlib
 olefile==0.47
     # via directory-validators
-openpyxl==3.1.2
+openpyxl==3.1.3
     # via wagtail
 opentelemetry-api==1.22.0
     # via
@@ -532,7 +539,7 @@ oscrypto==1.3.0
     # via pyhanko-certvalidator
 outcome==1.3.0.post0
     # via trio
-packaging==24.0
+packaging==24.1
     # via
     #   black
     #   browserstack-sdk
@@ -584,7 +591,7 @@ pre-commit==3.7.1
     #   django-log-formatter-asim
 pre-commit-hooks==3.3.0
     # via -r requirements_test.in
-prompt-toolkit==3.0.43
+prompt-toolkit==3.0.47
     # via
     #   click-repl
     #   ipython
@@ -610,6 +617,14 @@ pycodestyle==2.11.1
     #   flake8-print
 pycparser==2.22
     # via cffi
+pydantic==2.7.3
+    # via
+    #   -r requirements.in
+    #   pydantic-settings
+pydantic-core==2.18.4
+    # via pydantic
+pydantic-settings==2.3.1
+    # via -r requirements.in
 pyflakes==3.1.0
     # via flake8
 pygments==2.18.0
@@ -622,7 +637,7 @@ pyhanko-certvalidator==0.26.3
     # via
     #   pyhanko
     #   xhtml2pdf
-pylint==3.2.0
+pylint==3.2.3
     # via
     #   pylint-django
     #   pylint-plugin-utils
@@ -644,7 +659,7 @@ pyrsistent==0.20.0
     # via jsonschema
 pysocks==1.7.1
     # via urllib3
-pytest==8.2.0
+pytest==8.2.2
     # via
     #   -r requirements_test.in
     #   allure-pytest
@@ -667,7 +682,7 @@ pytest-xdist==3.6.1
     # via -r requirements_test.in
 python-bidi==0.4.2
     # via xhtml2pdf
-python-crontab==3.0.0
+python-crontab==3.1.0
     # via django-celery-beat
 python-dateutil==2.9.0.post0
     # via
@@ -681,7 +696,9 @@ python-dateutil==2.9.0.post0
     #   pandas
     #   python-crontab
 python-dotenv==1.0.1
-    # via webdriver-manager
+    # via
+    #   pydantic-settings
+    #   webdriver-manager
 python-ipware==3.0.0
     # via django-ipware
 python-magic==0.4.27
@@ -708,7 +725,7 @@ qrcode==7.4.2
     # via pyhanko
 readtime==1.1.1
     # via -r requirements.in
-redis==5.0.4
+redis==5.0.5
     # via
     #   celery
     #   django-redis
@@ -720,7 +737,7 @@ reportlab==4.0.9
     # via
     #   svglib
     #   xhtml2pdf
-requests==2.32.0
+requests==2.32.3
     # via
     #   airtable-python-wrapper
     #   browserstack-sdk
@@ -848,14 +865,17 @@ trio==0.25.1
     #   trio-websocket
 trio-websocket==0.11.1
     # via selenium
-typing-extensions==4.11.0
+typing-extensions==4.12.2
     # via
     #   asgiref
     #   astroid
     #   black
+    #   dj-database-url
     #   ipython
     #   kombu
     #   opentelemetry-sdk
+    #   pydantic
+    #   pydantic-core
     #   pylint
     #   pypdf
     #   qrcode
@@ -873,7 +893,7 @@ uk-postcode-utils==1.1
     # via -r requirements.in
 uritemplate==4.1.1
     # via drf-spectacular
-uritools==4.0.2
+uritools==4.0.3
     # via pyhanko-certvalidator
 urllib3[socks]==1.26.18
     # via
@@ -941,7 +961,9 @@ wheel==0.43.0
 whitenoise==6.6.0
     # via -r requirements.in
 willow[heif]==1.6.3
-    # via wagtail
+    # via
+    #   wagtail
+    #   willow
 wrapt==1.16.0
     # via
     #   deprecated
@@ -950,11 +972,11 @@ wsproto==1.2.0
     # via trio-websocket
 xhtml2pdf==0.2.15
     # via -r requirements.in
-zipp==3.18.2
+zipp==3.19.2
     # via importlib-metadata
 zope-event==5.0
     # via gevent
-zope-interface==6.4
+zope-interface==6.4.post2
     # via gevent
 
 # The following packages are considered to be unsafe in a requirements file:

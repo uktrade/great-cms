@@ -144,7 +144,11 @@ class ImageHash(AbstractObjectHash):
 
 
 class AltTextImage(AbstractImage):
-    alt_text = models.CharField(max_length=255, blank=True)
+    alt_text = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text='Not required for purely decorative images without informational or functional value.',
+    )
 
     admin_form_fields = Image.admin_form_fields + ('alt_text',)
 
