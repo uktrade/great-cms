@@ -40,6 +40,7 @@ from core.templatetags.content_tags import (
     str_to_datetime,
     tag_text_mapper,
     url_type,
+    val_to_int,
 )
 from core.templatetags.object_tags import get_item
 from core.templatetags.progress_bar import progress_bar
@@ -1144,3 +1145,26 @@ def test_get_inline_feedback_visibility(input_url, expected_output):
 def test_h3_if(condition, else_heading, expected_output):
     result = h3_if(condition, else_heading)
     assert result == expected_output
+
+
+@pytest.mark.parametrize(
+    'float,expected',
+    (
+        (0.002, 0),
+        (1.2, 1),
+        (1.9, 2),
+        (-1.2, -1),
+        (10000000000000.232345, 10000000000000),
+        ('0.002', 0),
+        ('1.2', 1),
+        ('1.9', 2),
+        ('-1.2', -1),
+        ('10000000000000.232345', 10000000000000),
+        (0, 0),
+        (1, 1),
+        (-1, -1),
+        (10000000000000, 10000000000000),
+    ),
+)
+def test_val_to_int(float, expected):
+    assert val_to_int(float) == expected

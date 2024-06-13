@@ -1,6 +1,7 @@
 from itertools import chain
 
 from django import forms
+from django.conf import settings
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.db.models import Avg
@@ -21,10 +22,12 @@ from international_online_offer.core import (
     choices,
     filter_tags,
     helpers,
+    professions,
     region_sector_helpers,
     regions,
 )
 from international_online_offer.forms import LocationSelectForm
+from international_online_offer.services import get_median_salaries, get_rent_data
 
 
 class EYBIndexPage(BaseContentPage):
@@ -233,7 +236,52 @@ class EYBArticlePage(BaseContentPage):
             show_salary_component = helpers.can_show_salary_component(tags)
             show_rent_component = helpers.can_show_rent_component(tags)
 
-            if triage_data:
+            if triage_data and settings.FEATURE_PRE_ELECTION:
+                # This if statement contains some duplicated code from below elif. This is to ensure that when
+                # we are releasing to production post-election we can simply remove the elif code.
+
+                location = request.GET.get(
+                    'location', triage_data.location if triage_data.location else choices.regions.LONDON
+                )
+                region = helpers.get_salary_region_from_region(location)
+                sector_display = triage_data.get_sector_display()
+
+                median_salaries = get_median_salaries(region, vertical=sector_display)
+                cleaned_median_salaries = helpers.clean_salary_data(median_salaries)
+
+                (large_warehouse_rent, small_warehouse_rent, shopping_centre, high_street_retail, work_office) = (
+                    get_rent_data(region)
+                )
+
+                professions_by_sector = helpers.get_sector_professions_by_level(triage_data.sector)
+
+                home_url = '/international/expand-your-business-in-the-uk/guide/'
+                if request.GET.get('back'):
+                    home_url += '#personalised-guide'
+
+                breadcrumbs = [
+                    {'name': 'Home', 'url': '/international/'},
+                    {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#personalised-guide'},
+                ]
+
+                context.update(
+                    triage_data=triage_data,
+                    location_form=LocationSelectForm(initial={'location': location}),
+                    entry_salary=cleaned_median_salaries.get(professions.ENTRY_LEVEL),
+                    mid_salary=cleaned_median_salaries.get(professions.MID_SENIOR_LEVEL),
+                    executive_salary=cleaned_median_salaries.get(professions.DIRECTOR_EXECUTIVE_LEVEL),
+                    large_warehouse_rent=large_warehouse_rent,
+                    small_warehouse_rent=small_warehouse_rent,
+                    shopping_centre=shopping_centre,
+                    high_street_retail=high_street_retail,
+                    work_office=work_office,
+                    professions_by_sector=professions_by_sector,
+                    show_salary_component=show_salary_component,
+                    show_rent_component=show_rent_component,
+                    breadcrumbs=breadcrumbs,
+                )
+
+            elif triage_data:
                 location = request.GET.get(
                     'location', triage_data.location if triage_data.location else choices.regions.LONDON
                 )

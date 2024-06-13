@@ -158,6 +158,25 @@ def get_salary_data(entry_salary, mid_salary, executive_salary):
     return entry_salary, mid_salary, executive_salary
 
 
+def clean_salary_data(salary_data: dict) -> dict:
+    # largely the same method as above, can delete above get_salary_data() post election
+    result = {**salary_data}
+    entry_salary = salary_data.get(professions.ENTRY_LEVEL)
+    mid_salary = salary_data.get(professions.MID_SENIOR_LEVEL)
+    executive_salary = salary_data.get(professions.DIRECTOR_EXECUTIVE_LEVEL)
+
+    # Change requested to hide salary if numbers are smaller than lower band
+    if executive_salary and mid_salary and executive_salary < mid_salary:
+        del result[professions.DIRECTOR_EXECUTIVE_LEVEL]
+    elif executive_salary and entry_salary and executive_salary < entry_salary:
+        del result[professions.DIRECTOR_EXECUTIVE_LEVEL]
+
+    if mid_salary and entry_salary and mid_salary < entry_salary:
+        del result[professions.MID_SENIOR_LEVEL]
+
+    return result
+
+
 def get_rent_data(large_warehouse_rent, small_warehouse_rent, shopping_centre, high_street_retail, work_office):
     if large_warehouse_rent:
         large_warehouse_rent = int(large_warehouse_rent.gbp_per_month) if large_warehouse_rent.gbp_per_month else None
