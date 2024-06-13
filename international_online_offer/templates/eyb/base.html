@@ -8,6 +8,6 @@
     {% comment %} <div class="govuk-!-padding-bottom-3 {% if request.path == '/international/expand-your-business-in-the-uk/' %}eyb-light-blue-background{% endif %}"> {% endcomment %}
     {% include './includes/govuk/phase_banner.html' %}
     {% include './includes/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
-</div>
-{{ block.super }}
+    {% comment %}</div>{% endcomment %}
+    {{ block.super }}
 {% endblock %}
