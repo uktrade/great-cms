@@ -22,7 +22,7 @@
                     {% for cards in page.dep_cards %}
                         {% for card in cards.value %}
                             <div class="govuk-grid-column-one-half-from-desktop govuk-!-margin-bottom-6">
-                                {% include 'components/great/card.html' with data_attr_title=card.value.link_text data_attr_location='International homepage' title=card.value.link_text show_title_link=True url=card.value.link_url content=card.value.description image_src=card.value.link_url|get_international_icon_path is_svg_image=True classes="great-card--homepage great-international-card--cta" %}
+                                {% include 'components/great/card.html' with data_attr_title=card.value.link_text data_attr_location='International homepage' title=card.value.link_text show_title_link=True url=card.value.link_url content=card.value.description image_src=card.value.link_url|get_international_icon_path is_svg_image=True content_class="govuk-body" classes="great-card--homepage great-international-card--cta" %}
                             </div>
                         {% endfor %}
                     {% endfor %}
