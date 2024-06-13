@@ -16,6 +16,8 @@ allure-python-commons==2.13.5
     # via allure-pytest
 amqp==5.2.0
     # via kombu
+annotated-types==0.7.0
+    # via pydantic
 anyascii==0.3.2
     # via wagtail
 arabic-reshaper==3.0.0
@@ -144,7 +146,7 @@ dateparser==0.7.2
     # via
     #   -r requirements.in
     #   -r requirements_test.in
-dbt-copilot-python==0.2.0
+dbt-copilot-python==0.2.1
     # via -r requirements.in
 decorator==5.1.1
     # via
@@ -187,6 +189,8 @@ directory-validators==9.3.4
     # via -r requirements.in
 distlib==0.3.8
     # via virtualenv
+dj-database-url==2.2.0
+    # via -r requirements.in
 django==4.2.11
     # via
     #   -r requirements.in
@@ -197,6 +201,7 @@ django==4.2.11
     #   directory-constants
     #   directory-healthcheck
     #   directory-validators
+    #   dj-database-url
     #   django-celery-beat
     #   django-csp
     #   django-debug-toolbar
@@ -614,6 +619,14 @@ pycodestyle==2.11.1
     #   flake8-print
 pycparser==2.22
     # via cffi
+pydantic==2.7.3
+    # via
+    #   -r requirements.in
+    #   pydantic-settings
+pydantic-core==2.18.4
+    # via pydantic
+pydantic-settings==2.3.1
+    # via -r requirements.in
 pyflakes==3.1.0
     # via flake8
 pygments==2.18.0
@@ -685,7 +698,9 @@ python-dateutil==2.9.0.post0
     #   pandas
     #   python-crontab
 python-dotenv==1.0.1
-    # via webdriver-manager
+    # via
+    #   pydantic-settings
+    #   webdriver-manager
 python-ipware==3.0.0
     # via django-ipware
 python-magic==0.4.27
@@ -857,9 +872,12 @@ typing-extensions==4.12.2
     #   asgiref
     #   astroid
     #   black
+    #   dj-database-url
     #   ipython
     #   kombu
     #   opentelemetry-sdk
+    #   pydantic
+    #   pydantic-core
     #   pylint
     #   pypdf
     #   qrcode
