@@ -51,7 +51,7 @@ describe('Objective', () => {
       />
     )
 
-    const errorItems = container.querySelectorAll('.error-message')
+    const errorItems = container.querySelectorAll('.govuk-error-message')
 
     expect(errorItems).toHaveLength(2)
     expect(errorItems[0].textContent).toEqual('Unexpected error')
