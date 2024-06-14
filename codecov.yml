@@ -1,6 +1,5 @@
 codecov:
   require_ci_to_pass: yes
-  bot: 'magna-bot'
 
 coverage:
   status:
