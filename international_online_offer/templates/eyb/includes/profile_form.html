@@ -3,7 +3,7 @@
 </div>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-3">
-        <form method="post" onsubmit="return onSubmitProfile()">
+        <form method="post" onsubmit="return onSubmitProfile()" autocomplete="on">
             {% csrf_token %}
             <div class="govuk-grid-row govuk-!-margin-bottom-3">
                 <div class="govuk-grid-column-full">
