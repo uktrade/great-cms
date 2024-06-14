@@ -3,6 +3,7 @@ version: 2.1
 orbs:
   browser-tools: circleci/browser-tools@1.4.8
   node: circleci/node@5.0.2
+  codecov: codecov/codecov@4.1.0
 
 ###############################################################################
 # Variables
@@ -97,9 +98,11 @@ jobs:
           name: Run Unit tests
           command: |
             . venv/bin/activate
-            make pytest_codecov -- --codecov-token=${CODECOV_TOKEN}
+            make pytest
       - store_test_results:
-          path: ./results/
+          path: results
+      - codecov/upload:
+          file: results/coverage.json
 
   test_browser:
     working_directory: ~/greatcms
