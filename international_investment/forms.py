@@ -89,7 +89,7 @@ class InvestmentTypesForm(forms.Form):
             cleaned_data['investment_type_other'] = ''
         investment_type_other = cleaned_data.get('investment_type_other')
         if investment_type and any('Other' in s for s in investment_type) and not investment_type_other:
-            self.add_error('investment_type_other', 'Please enter more information here')
+            self.add_error('investment_type_other', 'Enter your answer')
         else:
             return cleaned_data
 
