@@ -57,7 +57,7 @@ class InvestmentFundForm(forms.Form):
         widget=TextInput(attrs={'class': 'govuk-input'}),
         required=True,
         error_messages={
-            'required': "Enter your fund's website address",
+            'required': """Enter your fund's website address""",
         },
     )
 
