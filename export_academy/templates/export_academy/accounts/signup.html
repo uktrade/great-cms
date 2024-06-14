@@ -2,12 +2,6 @@
 {% load wagtailcore_tags %}
 {% load static %}
 {% block form %}
-    {% block body_js %}
-        {{ block.super }}
-        <script>window.GOVUKFrontend.initAll()</script>
-        <script src="{% static 'javascript/great.password-reveal.js' %}"></script>
-        <script type="text/javascript">GreatFrontend.PasswordInput.init()</script>
-    {% endblock %}
     <h3 class="govuk-heading-m govuk-!-margin-top-8 govuk-!-margin-bottom-6">Create an account</h3>
     {% csrf_token %}
     {% for field in form.visible_fields %}
@@ -58,4 +52,11 @@
     {% block right_panel_heading %}{{ heading }}{% endblock %}
     {% block right_panel_content %}
         {% include 'export_academy/accounts/includes/new_user_body_text.html' %}
+    {% endblock %}
+    {% block body_js %}
+        {{ block.super }}
+        <script src="{% static 'javascript/govuk.js' %}"></script>
+        <script>window.GOVUKFrontend.initAll()</script>
+        <script src="{% static 'javascript/great.password-reveal.js' %}"></script>
+        <script type="text/javascript">GreatFrontend.PasswordInput.init()</script>
     {% endblock %}

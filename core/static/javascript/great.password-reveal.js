@@ -8,22 +8,20 @@ GreatFrontend.PasswordInput = {
     const visuallyHiddenClass= 'great-visually-hidden'
 
     const show = () => {
-        setType('text')
+        passwordInput.setAttribute('type', 'text')
         screenReaderStatusMessage.innerText='Your password is visible'
         passwordShowButton.innerHTML='Hide'
         passwordShowButton.ariaLabel='Hide password'
     }
 
     const hide = () => {
-        setType('password')
+        passwordInput.setAttribute('type', 'password')
         screenReaderStatusMessage.innerText='Your password is hidden'
         passwordShowButton.innerHTML='Show'
         passwordShowButton.ariaLabel='Show password'
     }
 
-    const setType = (type) => {
-        passwordInput.setAttribute('type', type)
-    }
+    // Reveal button in js, so it is hidden for non-js users
     passwordShowButton.classList.remove(hiddenClass);
 
     const screenReaderStatusMessage = document.createElement('div')
