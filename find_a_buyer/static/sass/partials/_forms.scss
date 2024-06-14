@@ -1,0 +1,260 @@
+
+// FORMS
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 3px solid #ffbf47
+}
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+input[type="file"] {
+  line-height: 1em;
+}
+
+label, input, button, select, textarea {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.checkbox {
+  position: relative;
+
+  input {
+    height: 38px;
+    left: -2px;
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    top: -5px;
+    width: 38px;
+    -webkit-appearance: none;
+  }
+
+  input:checked + label:after {
+    content: "";
+    border-color: $grey-3;
+    border-style: solid;
+    border-width: 0 0 5px 5px;
+    height: 10px;
+    left: 7px;
+    position: absolute;
+    -moz-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    top: 7px;
+    width: 21px;
+    z-index: -1;
+  }
+
+  input:focus + label:before  {
+    outline: 3px solid $focus;
+  }
+
+  label {
+    padding-left: 10px;
+  }
+
+  label:before {
+    content: "";
+    border: 2px solid $grey-3;
+    display: block;
+    height: 34px;
+    left: 0;
+    position: absolute;
+    top: -3px;
+    width: 34px;
+    z-index: -1;
+  }
+}
+
+.checkbox {
+  label {
+    margin-left: 40px;
+  }
+
+  li {
+    padding-left: 40px;
+    position: relative;
+
+    input {
+      height: 38px;
+      left: -2px;
+      margin: 0;
+      opacity: 0;
+      position: absolute;
+      top: -5px;
+      width: 38px;
+      -webkit-appearance: none;
+    }
+
+    input:checked + label:after {
+      content: "";
+      border-color: $grey-3;
+      border-style: solid;
+      border-width: 0 0 5px 5px;
+      height: 10px;
+      left: 7px;
+      position: absolute;
+      -moz-transform: rotate(-45deg);
+      -o-transform: rotate(-45deg);
+      -webkit-transform: rotate(-45deg);
+      -ms-transform: rotate(-45deg);
+      transform: rotate(-45deg);
+      top: 7px;
+      width: 21px;
+      z-index: -1;
+    }
+
+    input:focus + label:before  {
+      outline: 3px solid $focus;
+    }
+
+    label {
+      padding-left: 10px;
+      margin-left: 0;
+
+      &:before {
+        content: "";
+        border: 2px solid $grey-3;
+        display: block;
+        height: 34px;
+        left: 0;
+        position: absolute;
+        top: -3px;
+        width: 34px;
+        z-index: -1;
+      }
+    }
+
+  }
+
+}
+
+.input-field-container {
+  margin-bottom: 40px;
+
+  label {
+    font-size: 18px;
+    color: #4a4a4a;
+    display: table;
+    font-family: "Roboto",sans-serif;
+    margin-bottom: 5px;
+  }
+
+  input, select, textarea {
+    background: #f6f4f1;
+    border: 1px solid #6f777b;
+    font-family: "Roboto",sans-serif;
+    font-size: 16px;
+    height: 40px;
+    padding: 10px;
+    width: 100%;
+    font-weight: 300;
+    line-height: 1.31579;
+    margin-bottom: 10px;
+    &:focus {
+      outline: 3px solid #007ea3;
+    }
+  }
+
+  .errorlist li {
+    margin-bottom: 0;
+  }
+
+  .helptext {
+    color: #4a4a4a;
+    display: inline-block;
+    font-family: "Roboto",sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.25;
+    margin-bottom: 10px;
+  }
+
+  select {
+    height: 50px;
+    width: 100%;
+  }
+
+  textarea {
+    min-height: 100px;
+  }
+
+  input[type='file'] {
+    border: 0
+  }
+
+  li {
+    margin-bottom: 30px;
+  }
+
+  &.has-error {
+    border-left: 5px solid #B00D23;
+    padding-left: 15px;
+
+    ul {
+      &.errorlist {
+        margin: 0 0 10px;
+        padding: 0;
+        li {
+          color: #b10e1e;
+          font-weight: 600;
+        }
+      }
+    }
+    input, select, textarea {
+      border: 3px solid #B00D23;
+    }
+  }
+}
+
+
+.form-group {
+  .subfield {
+    input {
+      width: 20%;
+    }
+
+    .suffix {
+      font-weight: bold;
+    }
+  }
+
+  &.postcode {
+
+    input {
+      width: 8em;
+      max-width: 100%;
+    }
+  }
+
+  &.contact-number {
+    input {
+      width: 11em;
+      max-width: 100%;
+    }
+  }
+}
