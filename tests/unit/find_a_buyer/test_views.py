@@ -44,8 +44,11 @@ def address_verification_address_data():
 
 
 @pytest.fixture
-def address_verification_end_to_end(client, user, address_verification_address_data, retrieve_profile_data):
-    user.company = retrieve_profile_data
+def address_verification_end_to_end(client, user, address_verification_address_data, retrieve_profile_data, mock_get_company_profile):
+    
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = retrieve_profile_data
+
     client.force_login(user)
 
     view = views.CompanyAddressVerificationView
@@ -63,8 +66,11 @@ def address_verification_end_to_end(client, user, address_verification_address_d
 
 
 @pytest.fixture
-def send_verification_letter_end_to_end(all_company_profile_data, retrieve_profile_data, client, user):
-    user.company = retrieve_profile_data
+def send_verification_letter_end_to_end(all_company_profile_data, mock_get_company_profile, retrieve_profile_data, client, user):
+    
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = retrieve_profile_data
+
     client.force_login(user)
 
     all_data = all_company_profile_data
@@ -90,9 +96,11 @@ def send_verification_letter_end_to_end(all_company_profile_data, retrieve_profi
 
 
 @pytest.mark.django_db
-def test_send_verification_letter_address_context_data(client, user, retrieve_profile_data):
-    retrieve_profile_data['is_verified'] = False
-    user.company = retrieve_profile_data
+def test_send_verification_letter_address_context_data(client, user, mock_get_company_profile, retrieve_profile_data):
+    
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = retrieve_profile_data
+
     client.force_login(user)
 
     response = client.get(reverse('find_a_buyer:verify-company-address'))
@@ -105,9 +113,8 @@ def test_send_verification_letter_address_context_data(client, user, retrieve_pr
 @pytest.mark.django_db
 @patch.object(api_client.company, 'verify_with_code', return_value=create_response(200))
 def test_company_address_validation_api_success(
-    mock_verify_with_code, address_verification_end_to_end, user, settings, retrieve_profile_data
+    mock_verify_with_code, address_verification_end_to_end, user
 ):
-    retrieve_profile_data['is_verified'] = False
     view = views.CompanyAddressVerificationView
 
     response = address_verification_end_to_end()
@@ -123,9 +130,8 @@ def test_company_address_validation_api_success(
 @pytest.mark.django_db
 @patch.object(api_client.company, 'verify_with_code')
 def test_company_address_validation_api_failure(
-    mock_verify_with_code, address_verification_end_to_end, retrieve_profile_data
+    mock_verify_with_code, address_verification_end_to_end
 ):
-    retrieve_profile_data['is_verified'] = False
     mock_verify_with_code.return_value = create_response(400)
 
     response = address_verification_end_to_end()
@@ -136,10 +142,10 @@ def test_company_address_validation_api_failure(
 
 
 @pytest.mark.django_db
-def test_companies_house_oauth2_has_company_redirects(settings, client, user, retrieve_profile_data):
-    retrieve_profile_data['is_verified'] = False
+def test_companies_house_oauth2_has_company_redirects(client, user, mock_get_company_profile, retrieve_profile_data):
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = retrieve_profile_data
 
-    user.company = retrieve_profile_data
     client.force_login(user)
 
     url = reverse('find_a_buyer:verify-companies-house')
@@ -159,9 +165,11 @@ def test_companies_house_oauth2_has_company_redirects(settings, client, user, re
 
 @pytest.mark.django_db
 @patch.object(forms.CompaniesHouseClient, 'verify_oauth2_code')
-def test_companies_house_callback_missing_code(mock_verify_oauth2_code, settings, client, user, retrieve_profile_data):
-    retrieve_profile_data['is_verified'] = False
-    user.company = retrieve_profile_data
+def test_companies_house_callback_missing_code(mock_verify_oauth2_code, client, user, mock_get_company_profile, retrieve_profile_data):
+    
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = retrieve_profile_data
+
     client.force_login(user)
 
     url = reverse('find_a_buyer:verify-companies-house-callback')  # missing code
@@ -175,10 +183,11 @@ def test_companies_house_callback_missing_code(mock_verify_oauth2_code, settings
 @patch.object(forms.CompaniesHouseClient, 'verify_oauth2_code')
 @patch.object(api_client.company, 'verify_with_companies_house', return_value=create_response(200))
 def test_companies_house_callback_has_company_calls_companies_house(
-    mock_verify_with_companies_house, mock_verify_oauth2_code, settings, client, user, retrieve_profile_data
+    mock_verify_with_companies_house, mock_verify_oauth2_code, client, user, mock_get_company_profile, retrieve_profile_data
 ):
-    retrieve_profile_data['is_verified'] = False
-    user.company = retrieve_profile_data
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = retrieve_profile_data
+
     client.force_login(user)
 
     mock_verify_oauth2_code.return_value = create_response(status_code=200, json_body={'access_token': 'abc'})
@@ -205,11 +214,13 @@ def test_companies_house_callback_has_company_calls_companies_house(
 @patch.object(forms.CompaniesHouseClient, 'verify_oauth2_code')
 @patch.object(api_client.company, 'verify_with_companies_house', return_value=create_response(200))
 def test_companies_house_callback_has_company_calls_url_prefix(
-    mock_verify_with_companies_house, mock_verify_oauth2_code, settings, client, user, retrieve_profile_data
+    mock_verify_oauth2_code, client, user, mock_get_company_profile, retrieve_profile_data
 ):
-    retrieve_profile_data['is_verified'] = False
-    user.company = retrieve_profile_data
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = retrieve_profile_data
+
     client.force_login(user)
+
     mock_verify_oauth2_code.return_value = create_response(status_code=200, json_body={'access_token': 'abc'})
 
     url = reverse('find_a_buyer:verify-companies-house-callback')
@@ -228,10 +239,11 @@ def test_companies_house_callback_has_company_calls_url_prefix(
 @patch.object(forms.CompaniesHouseClient, 'verify_oauth2_code')
 @patch.object(api_client.company, 'verify_with_companies_house', return_value=create_response(500))
 def test_companies_house_callback_error(
-    mock_verify_with_companies_house, mock_verify_oauth2_code, settings, client, user, retrieve_profile_data
+    mock_verify_oauth2_code, client, user, mock_get_company_profile, retrieve_profile_data
 ):
-    retrieve_profile_data['is_verified'] = False
-    user.company = retrieve_profile_data
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = retrieve_profile_data
+
     client.force_login(user)
 
     mock_verify_oauth2_code.return_value = create_response(status_code=200, json_body={'access_token': 'abc'})
@@ -245,9 +257,11 @@ def test_companies_house_callback_error(
 
 @pytest.mark.django_db
 @patch.object(forms.CompaniesHouseClient, 'verify_oauth2_code')
-def test_companies_house_callback_invalid_code(mock_verify_oauth2_code, settings, client, user, retrieve_profile_data):
-    retrieve_profile_data['is_verified'] = False
-    user.company = retrieve_profile_data
+def test_companies_house_callback_invalid_code(mock_verify_oauth2_code, client, user, mock_get_company_profile, retrieve_profile_data):
+    
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = retrieve_profile_data
+
     client.force_login(user)
 
     mock_verify_oauth2_code.return_value = create_response(400)
@@ -261,9 +275,11 @@ def test_companies_house_callback_invalid_code(mock_verify_oauth2_code, settings
 
 @pytest.mark.django_db
 @patch.object(forms.CompaniesHouseClient, 'verify_oauth2_code')
-def test_companies_house_callback_unauthorized(mock_verify_oauth2_code, settings, client, user, retrieve_profile_data):
-    retrieve_profile_data['is_verified'] = False
-    user.company = retrieve_profile_data
+def test_companies_house_callback_unauthorized(mock_verify_oauth2_code, client, user, mock_get_company_profile, retrieve_profile_data):
+    
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = retrieve_profile_data
+
     client.force_login(user)
 
     mock_verify_oauth2_code.return_value = create_response(401)
@@ -276,9 +292,11 @@ def test_companies_house_callback_unauthorized(mock_verify_oauth2_code, settings
 
 
 @pytest.mark.django_db
-def test_verify_company_has_company_user(settings, client, user, retrieve_profile_data):
-    retrieve_profile_data['is_verified'] = False
-    user.company = retrieve_profile_data
+def test_verify_company_has_company_user(client, user, mock_get_company_profile, retrieve_profile_data):
+    
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = retrieve_profile_data
+
     client.force_login(user)
 
     url = reverse('find_a_buyer:verify-company-hub')
@@ -289,9 +307,11 @@ def test_verify_company_has_company_user(settings, client, user, retrieve_profil
 
 
 @pytest.mark.django_db
-def test_verify_company_address_feature_flag_on(settings, client, user, retrieve_profile_data):
-    retrieve_profile_data['is_verified'] = False
-    user.company = retrieve_profile_data
+def test_verify_company_address_feature_flag_on(client, user, mock_get_company_profile, retrieve_profile_data):
+    
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = retrieve_profile_data
+
     client.force_login(user)
 
     response = client.get(reverse('find_a_buyer:verify-company-address'))
@@ -302,9 +322,8 @@ def test_verify_company_address_feature_flag_on(settings, client, user, retrieve
 @pytest.mark.django_db
 @patch.object(api_client.company, 'profile_update')
 def test_verify_company_address_end_to_end(
-    mock_profile_update, settings, send_verification_letter_end_to_end, retrieve_profile_data
+    mock_profile_update, send_verification_letter_end_to_end
 ):
-    retrieve_profile_data['is_verified'] = False
     mock_profile_update.return_value = create_response(200)
     view = views.SendVerificationLetterView
 
