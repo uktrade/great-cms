@@ -89,6 +89,7 @@ def send_verification_letter_end_to_end(all_company_profile_data, retrieve_profi
     return inner
 
 
+@pytest.mark.django_db
 def test_send_verification_letter_address_context_data(client, user, retrieve_profile_data):
     retrieve_profile_data['is_verified'] = False
     user.company = retrieve_profile_data
@@ -101,6 +102,7 @@ def test_send_verification_letter_address_context_data(client, user, retrieve_pr
     assert response.context['company_address'] == ('123 Fake Street, Fakeville, London, GB, E14 6XK')
 
 
+@pytest.mark.django_db
 @patch.object(api_client.company, 'verify_with_code', return_value=create_response(200))
 def test_company_address_validation_api_success(
     mock_verify_with_code, address_verification_end_to_end, user, settings, retrieve_profile_data
@@ -118,6 +120,7 @@ def test_company_address_validation_api_success(
     )
 
 
+@pytest.mark.django_db
 @patch.object(api_client.company, 'verify_with_code')
 def test_company_address_validation_api_failure(
     mock_verify_with_code, address_verification_end_to_end, retrieve_profile_data
@@ -132,6 +135,7 @@ def test_company_address_validation_api_failure(
     assert response.context_data['form'].errors['code'] == expected
 
 
+@pytest.mark.django_db
 def test_companies_house_oauth2_has_company_redirects(settings, client, user, retrieve_profile_data):
     retrieve_profile_data['is_verified'] = False
 
@@ -153,6 +157,7 @@ def test_companies_house_oauth2_has_company_redirects(settings, client, user, re
     )
 
 
+@pytest.mark.django_db
 @patch.object(forms.CompaniesHouseClient, 'verify_oauth2_code')
 def test_companies_house_callback_missing_code(mock_verify_oauth2_code, settings, client, user, retrieve_profile_data):
     retrieve_profile_data['is_verified'] = False
@@ -166,6 +171,7 @@ def test_companies_house_callback_missing_code(mock_verify_oauth2_code, settings
     assert mock_verify_oauth2_code.call_count == 0
 
 
+@pytest.mark.django_db
 @patch.object(forms.CompaniesHouseClient, 'verify_oauth2_code')
 @patch.object(api_client.company, 'verify_with_companies_house', return_value=create_response(200))
 def test_companies_house_callback_has_company_calls_companies_house(
@@ -195,6 +201,7 @@ def test_companies_house_callback_has_company_calls_companies_house(
     )
 
 
+@pytest.mark.django_db
 @patch.object(forms.CompaniesHouseClient, 'verify_oauth2_code')
 @patch.object(api_client.company, 'verify_with_companies_house', return_value=create_response(200))
 def test_companies_house_callback_has_company_calls_url_prefix(
@@ -217,6 +224,7 @@ def test_companies_house_callback_has_company_calls_url_prefix(
     )
 
 
+@pytest.mark.django_db
 @patch.object(forms.CompaniesHouseClient, 'verify_oauth2_code')
 @patch.object(api_client.company, 'verify_with_companies_house', return_value=create_response(500))
 def test_companies_house_callback_error(
@@ -235,6 +243,7 @@ def test_companies_house_callback_error(
     assert response.template_name == (views.CompaniesHouseOauth2CallbackView.error_template)
 
 
+@pytest.mark.django_db
 @patch.object(forms.CompaniesHouseClient, 'verify_oauth2_code')
 def test_companies_house_callback_invalid_code(mock_verify_oauth2_code, settings, client, user, retrieve_profile_data):
     retrieve_profile_data['is_verified'] = False
@@ -250,6 +259,7 @@ def test_companies_house_callback_invalid_code(mock_verify_oauth2_code, settings
     assert b'Invalid code.' in response.content
 
 
+@pytest.mark.django_db
 @patch.object(forms.CompaniesHouseClient, 'verify_oauth2_code')
 def test_companies_house_callback_unauthorized(mock_verify_oauth2_code, settings, client, user, retrieve_profile_data):
     retrieve_profile_data['is_verified'] = False
@@ -265,6 +275,7 @@ def test_companies_house_callback_unauthorized(mock_verify_oauth2_code, settings
     assert b'Invalid code.' in response.content
 
 
+@pytest.mark.django_db
 def test_verify_company_has_company_user(settings, client, user, retrieve_profile_data):
     retrieve_profile_data['is_verified'] = False
     user.company = retrieve_profile_data
@@ -277,6 +288,7 @@ def test_verify_company_has_company_user(settings, client, user, retrieve_profil
     assert response.template_name == [views.CompanyVerifyView.template_name]
 
 
+@pytest.mark.django_db
 def test_verify_company_address_feature_flag_on(settings, client, user, retrieve_profile_data):
     retrieve_profile_data['is_verified'] = False
     user.company = retrieve_profile_data
@@ -287,6 +299,7 @@ def test_verify_company_address_feature_flag_on(settings, client, user, retrieve
     assert response.status_code == 200
 
 
+@pytest.mark.django_db
 @patch.object(api_client.company, 'profile_update')
 def test_verify_company_address_end_to_end(
     mock_profile_update, settings, send_verification_letter_end_to_end, retrieve_profile_data
