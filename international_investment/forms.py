@@ -26,7 +26,7 @@ class InvestmentFundForm(forms.Form):
         required=True,
         widget=TextInput(attrs={'class': 'govuk-input'}),
         error_messages={
-            'required': 'You must add a fund name',
+            'required': 'Enter your fund name',
         },
     )
 
@@ -36,7 +36,7 @@ class InvestmentFundForm(forms.Form):
         help_text='Choose a fund type',
         widget=Select(attrs={'class': 'govuk-select govuk-!-width-full'}),
         error_messages={
-            'required': 'You must choose fund type',
+            'required': 'Select a fund type',
         },
         choices=(('', ''),) + FUND_TYPE_CHOICES,
     )
@@ -47,7 +47,7 @@ class InvestmentFundForm(forms.Form):
         required=True,
         widget=Select(attrs={'id': 'js-location-select', 'class': 'govuk-input'}),
         error_messages={
-            'required': 'You must choose location of fund',
+            'required': 'Search and select a country, region or territory',
         },
         choices=(('', ''),) + COMPANY_LOCATION_CHOICES,
     )
@@ -57,7 +57,7 @@ class InvestmentFundForm(forms.Form):
         widget=TextInput(attrs={'class': 'govuk-input'}),
         required=True,
         error_messages={
-            'required': 'You must add a website',
+            'required': """Enter your fund's website address""",
         },
     )
 
@@ -68,7 +68,7 @@ class InvestmentTypesForm(forms.Form):
         help_text='Select all that apply',
         widget=CheckboxSelectMultiple(attrs={'class': 'govuk-checkboxes__input'}),
         error_messages={
-            'required': 'You must select one or more investment types',
+            'required': 'Select your investment interests',
         },
         required=True,
         choices=INVESTMENT_TYPE_CHOICES,
@@ -82,6 +82,17 @@ class InvestmentTypesForm(forms.Form):
         widget=TextInput(attrs={'class': 'govuk-input'}),
     )
 
+    def clean(self):
+        cleaned_data = super().clean()
+        investment_type = cleaned_data.get('investment_type')
+        if investment_type and 'Other' not in investment_type:
+            cleaned_data['investment_type_other'] = ''
+        investment_type_other = cleaned_data.get('investment_type_other')
+        if investment_type and any('Other' in s for s in investment_type) and not investment_type_other:
+            self.add_error('investment_type_other', 'Enter your answer')
+        else:
+            return cleaned_data
+
 
 class InvestmentEstimateForm(forms.Form):
 
@@ -91,7 +102,7 @@ class InvestmentEstimateForm(forms.Form):
         widget=contact_widgets.GreatRadioSelect,
         choices=SPEND_CHOICES,
         error_messages={
-            'required': 'You must select at least one spend option',
+            'required': 'Select one option',
         },
     )
 
@@ -113,7 +124,7 @@ class InvestmentContactForm(forms.Form):
         required=True,
         widget=TextInput(attrs={'class': 'govuk-input'}),
         error_messages={
-            'required': 'You must add a full name',
+            'required': 'Enter your full name',
         },
     )
     email_address = CharField(
@@ -122,7 +133,7 @@ class InvestmentContactForm(forms.Form):
         required=True,
         widget=TextInput(attrs={'class': 'govuk-input'}),
         error_messages={
-            'required': 'You must add an email',
+            'required': 'Enter your email address',
         },
     )
     job_title = CharField(
@@ -131,7 +142,7 @@ class InvestmentContactForm(forms.Form):
         required=True,
         widget=TextInput(attrs={'class': 'govuk-input'}),
         error_messages={
-            'required': 'You must add a job title',
+            'required': 'Enter your job title',
         },
     )
     phone_number = CharField(
@@ -141,6 +152,6 @@ class InvestmentContactForm(forms.Form):
         required=True,
         widget=TextInput(attrs={'class': 'govuk-input'}),
         error_messages={
-            'required': 'You must add a phone number',
+            'required': 'Enter your phone number',
         },
     )

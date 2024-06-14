@@ -1,4 +1,5 @@
 from directory_forms_api_client import actions
+from django.conf import settings
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpResponseRedirect
@@ -51,6 +52,9 @@ def calculate_and_store_is_high_value(request):
 
 class IndexView(GA360Mixin, TemplateView):
     template_name = 'eyb/index.html'
+    # TODO remove after general election AND sign up to front branch merged
+    if settings.FEATURE_PRE_ELECTION and settings.FEATURE_EYB_HOME:
+        template_name = 'eyb/index-new.html'
 
     def __init__(self):
         super().__init__()
@@ -58,6 +62,15 @@ class IndexView(GA360Mixin, TemplateView):
             page_id='Index',
             business_unit='ExpandYourBusiness',
             site_section='index',
+        )
+
+    def get_context_data(self, **kwargs):
+        breadcrumbs = [
+            {'name': 'Home', 'url': '/international/'},
+        ]
+        return super().get_context_data(
+            **kwargs,
+            breadcrumbs=breadcrumbs,
         )
 
 
