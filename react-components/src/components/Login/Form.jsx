@@ -18,9 +18,7 @@ export const Form = ({
   handlePasswordChange,
   linkedinLoginUrl,
   googleLoginUrl,
-}) => {
-
-  return (
+}) => (
   <>
     <form
       className="signup__form"
@@ -45,7 +43,7 @@ export const Form = ({
       <Input
         label="Password"
         id="password"
-        type={"password"}
+        type="password"
         disabled={disabled}
         value={password}
         onChange={(item) => handlePasswordChange(item.password)}
@@ -92,7 +90,7 @@ export const Form = ({
     </form>
   </>
 )
-}
+
 
 Form.propTypes = {
   disabled: PropTypes.bool,

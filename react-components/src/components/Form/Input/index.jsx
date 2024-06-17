@@ -103,7 +103,7 @@ export const Input = memo(
             <button
             type='button'
             aria-label={(showPassword ? 'Hide' : 'Show').concat(' password')}
-            className='secondary-button govuk-!-margin-left-2'
+            className='secondary-button govuk-!-margin-left-2 great-min-90-button'
             onClick={(event) => {
               event.preventDefault();
               setShowPassword(!showPassword)}}
