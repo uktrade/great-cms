@@ -6,19 +6,6 @@
     <div class="govuk-width-container great-container">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
-                <h1 class="govuk-heading-l">Sign in</h1>
-            </div>
-        </div>
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                <h2 class="govuk-body-m">
-                    Don't have an account? <a href="{% url 'international_online_offer:signup' %}"
-    class="govuk-link">Sign up</a>
-                </h2>
-            </div>
-        </div>
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-3">
                 {% if form.non_field_errors %}
                     <div class="govuk-error-summary" data-module="govuk-error-summary">
                         <div role="alert">
@@ -33,8 +20,25 @@
                         </div>
                     </div>
                 {% else %}
-                    {% include './includes/error_summary.html' %}
+                    {% include 'eyb/includes/error_summary.html' %}
                 {% endif %}
+            </div>
+        </div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h1 class="govuk-heading-l">Sign in</h1>
+            </div>
+        </div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h2 class="govuk-body-m">
+                    Don't have an account? <a href="{% url 'international_online_offer:signup' %}"
+    class="govuk-link">Sign up</a>
+                </h2>
+            </div>
+        </div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-3">
                 <div id="login">
                     <form method="post">
                         {% csrf_token %}
