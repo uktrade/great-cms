@@ -4,4 +4,5 @@ into great-cms"""
 
 SERVICES_GREAT_DOMESTIC = 'https://www.great.gov.uk'
 SERVICES_EXOPPS = 'https://www.great.gov.uk/export-opportunities'
+SERVICES_FAB = 'https://www.great.gov.uk/find-a-buyer'
 SERVICES_INVEST = 'https://invest.great.gov.uk'
