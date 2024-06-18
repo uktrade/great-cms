@@ -23,6 +23,7 @@ import core.urls
 import domestic.urls
 import export_academy.urls
 import exportplan.urls
+import find_a_buyer.urls
 import international.urls
 import international_investment.urls
 import international_online_offer.urls
@@ -56,6 +57,7 @@ urlpatterns += [
     path('activity-stream/', include(activitystream.urls, namespace='activitystream')),
     path('export-plan/', include(exportplan.urls)),
     path('profile/', include(sso_profile.urls, namespace='sso_profile')),
+    path('find-a-buyer/', include(find_a_buyer.urls)),
     path('', include(domestic.urls, namespace='domestic')),
     path('', include(core.urls, namespace='core')),
     path('', include(contact.urls)),  # No prefix because not all of them start with /contact/

@@ -1545,11 +1545,6 @@ class PerformanceDashboardPage(
             'heading': 'Export Opportunities',
             'landing_dashboard': False,
         },
-        service_urls.SERVICES_FAB: {
-            'slug_as_child': 'trade-profiles',
-            'heading': 'Business Profiles',
-            'landing_dashboard': False,
-        },
         service_urls.SERVICES_INVEST: {
             'slug_as_child': 'invest',
             'heading': 'Invest in Great Britain',

@@ -1602,17 +1602,11 @@ class PerformanceDashboardPageTests(SetUpLocaleMixin, WagtailPageTests):
             parent=main_dash,
         )
 
-        child_fab = PerformanceDashboardPageFactory(
-            product_link=service_urls.SERVICES_FAB,
-            parent=main_dash,
-        )
-
         self.assertEqual(
             [x for x in main_dash.get_child_dashboards()],
             [
                 child_invest,
                 child_exopps,
-                child_fab,
             ],
         )
 
@@ -1623,7 +1617,6 @@ class PerformanceDashboardPageTests(SetUpLocaleMixin, WagtailPageTests):
             [x for x in main_dash.get_child_dashboards()],
             [
                 child_invest,
-                child_fab,
             ],
         )
 
@@ -1647,15 +1640,6 @@ class PerformanceDashboardPageTests(SetUpLocaleMixin, WagtailPageTests):
                 'title': 'Export Opportunities Performance Dashboard',
                 'slug': 'export-opportunities',
                 'heading': 'Export Opportunities',
-                'landing_dashboard': False,
-            },
-        ),
-        (
-            service_urls.SERVICES_FAB,
-            {
-                'title': 'Business Profiles Performance Dashboard',
-                'slug': 'trade-profiles',
-                'heading': 'Business Profiles',
                 'landing_dashboard': False,
             },
         ),

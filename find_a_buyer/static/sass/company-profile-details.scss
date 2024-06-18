@@ -1,0 +1,453 @@
+@import 'partials/base.scss';
+
+.grid-row {
+  margin: 0;
+}
+.ed-enrolment {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  color: #4a4a4a;
+}
+.ed-pencil-edit-button-container {
+  color: #004F95;
+  font-family: "Roboto",arial,helvetica,sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  margin-left: 10px;
+  padding: 0 0 0 5px;
+}
+
+.company-profile-details-body {
+  position: relative;
+
+  .heading-large {
+    margin-top: 0;
+    margin-bottom: 0;
+  } 
+
+  .heading-medium {
+    line-height: 1em;
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  .company-contact-details {
+    margin-left: 0;
+    a {
+      text-decoration: none;
+    }
+  }
+
+  .company-description {
+    word-wrap: break-word;
+  }
+  .company-profile-module-container {
+    border: 1px solid #DFD5C5;
+    margin-bottom: 20px;
+    li {
+      list-style: initial;
+    }
+  }
+  .company-profile-module-inner {
+    padding: 20px;
+    min-height: 135px;
+    h2, h3 {
+      font-weight: 100;
+      line-height: 1.1em;
+      margin-bottom: 20px;
+    }
+    .icon-pencil {
+      margin-top: 4px;
+    }
+  }
+  .company-profile-module-description.column-two-thirds,
+  .company-profile-module-details {
+    border-right: 1px solid #dedede;
+    padding-bottom: 20px;
+    left: 20px;
+    padding-left: 0;
+    position: relative;
+    .company-profile-module-inner {
+      padding-left: 0;
+      padding-bottom: 0;
+    }
+  }
+  .company-profile-module-details {
+    a {
+      clear: both;
+      display: inline-block;
+      line-height: 1.2em;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    p {
+      clear: both;
+      float: left;
+      max-width: 100%;
+      padding-right: 3.5em;
+      position: relative;
+    }
+    .ed-pencil-edit-button-container {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
+
+  .company-profile-module-social-links,
+  .company-profile-module-facts {
+    border-left: 1px solid #dedede;
+    left: 20px;
+    margin-left: -1px;
+    padding-left: 21px;
+    position: relative;
+
+    .ed-social-icon {
+      margin-bottom: 2px;
+      margin-right: 5px;
+      width: 20px;
+    }
+  }
+  ul {
+    li {
+      list-style-type: disc;
+    }
+  }
+}
+
+.company-details-subtitle {
+  color: $great-blue;
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.company-profile-box {
+  min-height: 70px;
+  background: #F6F4F1;
+  margin-bottom: 20px;
+  padding: 20px;
+  position: relative;
+
+  .description-content,
+  .company-number-content {
+    margin-bottom: 10px;
+  }
+}
+
+.company-logo {
+  .logo-container {
+    display: table;
+  }
+}
+
+.two-column-group {
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.mid-blue-bar {
+  background: $mid-blue;
+  color: $white;
+  display: table!important;
+  height: 60px;
+  padding: 0 24px;
+  width: 100%;
+  .company-sub-title {
+    color: $white;
+    font-size: 24px;
+    font-weight: 500;
+  }
+  .element-within {
+    display: table-cell;
+    float: none;
+    vertical-align: middle;
+    a {
+      color: $white;
+      &:focus {
+        background: #007EA3;
+      }
+    }
+  }
+}
+
+.web-address {
+  width: 40%;
+  a {
+    span.url {
+      display: block; /* Fallback for non-webkit */
+      display: -webkit-box;
+      max-width: 90%;
+      height: 18*1.4*1px; /* Fallback for non-webkit 25.2*/
+      margin: 0 auto;
+      font-size: 18px;
+      line-height: 1.4;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      &:hover {
+        border-bottom: 1px solid #fff;
+        padding-bottom: 2px;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+.company-profile-details-hero-container {
+  margin-bottom: 30px;
+  background: #D8D8DA;
+}
+
+.company-profile-details-hero-logo {
+  img {
+      height: 154px;
+  }
+}
+
+.company-profile-details-hero-title {
+  padding: 22px;
+}
+
+.stone-label,
+.stone-label:focus {
+  background: $stone;
+  border-radius: 6px;
+  color: $mid-grey;
+  display: inline-block;
+  font-size: 1em;
+  font-weight: 300;
+  margin: 0 5px 8px 0;
+  padding: 9px 12px;
+}
+
+.company-profile-details-hero-edit-button {
+  bottom: 0;
+  padding-bottom: 20px;
+  position: absolute;
+  right: 20px;
+  a {
+    color: white;
+  }
+
+}
+
+.supplier-case-study-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.supplier-case-study-images {
+  margin-bottom: 20px;
+  img {
+    vertical-align: top;
+  }
+}
+
+.great-blue-bar .ed-edit-button strong {
+  color: white;
+}
+
+.public-company-profiles-search-form {
+  border: 1px solid #1E1348;
+  margin-bottom: 20px;
+  background: #fafafa;
+  .great-blue-bar {
+    margin-bottom: 20px;
+  }
+  form {
+    padding-top: 0;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+  }
+  .form-wrapper-btn-container {
+    margin: 0;
+    margin-bottom: 20px;
+  }
+  .input-field-container {
+    margin-bottom: 20px;
+    li {
+      list-style: none;
+    }
+  }
+}
+
+.public-company-profiles-result-item {
+  margin-bottom: 20px;
+  border: 1px solid #1E1348;
+}
+
+.supplier-case-study-read-more-cta {
+  margin-top: 20px;
+}
+
+.supplier-case-study-container {
+  .supplier-case-study-description {
+    padding: 20px;
+  }
+  .supplier-case-study-testimonail-container {
+    margin-top: 100px;
+    margin-bottom: 100px;
+  }
+  .supplier-case-study-view-profile-container {
+    margin-top: 20px;
+  }
+}
+
+.company-profile-unpublished {
+  margin-bottom: 10px;
+  color: #B00D23;
+  font-weight: bold;
+}
+
+.company-profile-published {
+  font-weight: bold;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  color: #00549F;
+  font-weight: bold;
+}
+
+.ed-company-profile-add-case-study-button-container {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  a {
+    text-decoration: none;
+  }
+}
+
+.ed-company-profile-add-case-study-button {
+  border: 3px solid #007EA3;
+  padding: 20px;
+  text-align: center;
+  font-weight: bold;
+  display: block;
+  span {
+    color: #007EA3;
+  }
+  .icon-plus {
+    margin-top: 4px;
+  }
+}
+
+.ed-company-profile-logo-container {
+  border: 1px solid #dedede;
+  line-height: 147px;
+  min-width: 147px;
+  min-height: 147px;
+  img {
+    max-height: 147px;
+    max-width: 100%;
+    vertical-align: middle;
+  }
+}
+
+.ed-company-profile-sector-case-study-container {
+  margin-bottom: 20px;
+  img {
+    padding: 0;
+    max-width: 100%;
+  }
+  .ed-company-profile-sector-case-study-inner {
+    margin-bottom: 20px;
+    p {
+      color: #4a4a4a;
+    }
+  }
+  .ed-company-profile-case-study-testomonial-container {
+    background: #EDEDED;
+    padding: 20px;
+  }
+  .ed-company-profile-case-study-company-details {
+    background: #007EA3;
+    padding: 20px;
+    color: white;
+    a {
+      color: white;
+    }
+  }
+}
+
+.ed-envelope-container {
+  margin-top: 40px;
+  .ed-envelope {
+    border: 1px solid #ddd;
+    max-width: 35em;
+    position: relative;
+    padding: 1em 1em 1em 2em;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 40px;
+    margin-bottom: 60px;
+    .ed-recipient {
+      margin-left: 75px;
+      margin-top: 80px;
+      width: 200px;
+      margin-bottom: 50px;
+    }
+    .ed-stamp {
+      position: absolute;
+      right: 20px;
+    }
+  }
+}
+
+.ed-icon-pencil {
+  height: 15px;
+}
+
+.ed-keyword {
+  color: #004F95;
+  text-decoration: underline;
+  font-size: 16px;
+}
+
+// TABLET
+
+@media (max-width: 767px) {
+  .company-profile-details-hero-edit-button {
+    left: 0;
+    margin-top: 20px;
+    position: relative;
+  }
+
+  .company-profile-details-hero-logo {
+    text-align: center
+  }
+
+  .company-profile-details-body {
+    border: none;
+    left: 0;
+    margin-left: 0;
+    padding-left: 20px;
+    .company-profile-module-details {
+      left: 0;
+      padding-left: 20px;
+    }
+  }
+
+  .company-profile-box {
+    .key-facts {
+      margin-bottom: 20px;
+    }
+  }
+
+  .mid-blue-bar {
+    .element-within {
+      display: block;
+    }
+  }
+
+  .web-address {
+    a {
+      text-align: left;
+    }
+    margin-bottom: 20px;
+    width: 100%;
+  }
+
+}
