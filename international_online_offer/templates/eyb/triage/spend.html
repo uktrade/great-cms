@@ -1,6 +1,10 @@
 {% extends '../base.html' %}
 {% load static %}
-{% block head_title %}{{ question_text }} {{ block.super }}{% endblock %}
+{% block head_title %}
+    {% if form.spend.errors %}Error:{% endif %}
+    {{ question_text }}
+    {{ block.super }}
+{% endblock %}
 {% block meta_title %}{{ question_text }} {{ block.super }}{% endblock %}
 {% block head_css %}{{ block.super }}{% endblock %}
 {% block content %}

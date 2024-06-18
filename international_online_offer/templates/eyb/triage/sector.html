@@ -1,6 +1,10 @@
 {% extends '../base.html' %}
 {% load static %}
-{% block head_title %}What is your business sector? {{ block.super }}{% endblock %}
+{% block head_title %}
+    {% if form.sector_sub.errors %}Error:{% endif %}
+    What is your business sector?
+    {{ block.super }}
+{% endblock %}
 {% block meta_title %}What is your business sector? {{ block.super }}{% endblock %}
 {% block head_css %}
     {{ block.super }}
