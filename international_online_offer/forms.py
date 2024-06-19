@@ -200,6 +200,15 @@ class ProfileForm(forms.Form):
             'required': 'You must enter an email address',
         },
     )
+    company_website = CharField(
+        label='Company website',
+        max_length=255,
+        required=True,
+        widget=TextInput(attrs={'class': 'govuk-input'}),
+        error_messages={
+            'required': 'Enter your company website',
+        },
+    )
     telephone_number = CharField(
         label='Telephone number',
         help_text='Please include the country code',
@@ -226,15 +235,6 @@ class ProfileForm(forms.Form):
         required=False,
         label='I would like to receive additional information by email (optional)',
         widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
-    )
-    company_website = CharField(
-        label='Company website',
-        max_length=255,
-        required=True,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
-        error_messages={
-            'required': 'Enter your company website',
-        },
     )
 
     def clean(self):
