@@ -45,9 +45,9 @@ def address_verification_address_data():
 
 @pytest.fixture
 def address_verification_end_to_end(
-    client, user, address_verification_address_data, retrieve_profile_data, mock_get_company_profile
+    client, user, address_verification_address_data, retrieve_profile_data, mock_get_company_profile, settings
 ):
-
+    settings.FEATURE_FAB_MIGRATION = True
     # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
     mock_get_company_profile.return_value = retrieve_profile_data
 
@@ -69,9 +69,9 @@ def address_verification_end_to_end(
 
 @pytest.fixture
 def send_verification_letter_end_to_end(
-    all_company_profile_data, mock_get_company_profile, retrieve_profile_data, client, user
+    all_company_profile_data, mock_get_company_profile, retrieve_profile_data, client, user, settings
 ):
-
+    settings.FEATURE_FAB_MIGRATION = True
     # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
     mock_get_company_profile.return_value = retrieve_profile_data
 
