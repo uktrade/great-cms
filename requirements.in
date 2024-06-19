@@ -84,3 +84,4 @@ SQLAlchemy==1.4.49
 dj-database-url==2.2.0
 pydantic==2.7.3
 pydantic-settings==2.3.1
+filelock==3.14.0
