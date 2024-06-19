@@ -1,6 +1,10 @@
 {% extends './base.html' %}
 {% load static %}
-{% block head_title %}Complete profile {{ block.super }}{% endblock %}
+{% block head_title %}
+    {% if form.errors %}Error:{% endif %}
+    Complete profile
+    {{ block.super }}
+{% endblock %}
 {% block meta_title %}Complete profile {{ block.super }}{% endblock %}
 {% block head_css %}
     {{ block.super }}
