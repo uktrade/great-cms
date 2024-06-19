@@ -57,7 +57,6 @@ urlpatterns += [
     path('activity-stream/', include(activitystream.urls, namespace='activitystream')),
     path('export-plan/', include(exportplan.urls)),
     path('profile/', include(sso_profile.urls, namespace='sso_profile')),
-    path('find-a-buyer/', include(find_a_buyer.urls)),
     path('', include(domestic.urls, namespace='domestic')),
     path('', include(core.urls, namespace='core')),
     path('', include(contact.urls)),  # No prefix because not all of them start with /contact/
@@ -87,6 +86,9 @@ if settings.DEBUG:
     urlpatterns = [path('__debug__/', include(debug_toolbar.urls))] + urlpatterns
 
 urlpatterns = [path('international/', include(international.urls))] + urlpatterns
+
+if settings.FEATURE_FAB_MIGRATION:
+    urlpatterns = [path('find-a-buyer/', include(find_a_buyer.urls))] + urlpatterns
 
 if settings.FEATURE_INTERNATIONAL_ONLINE_OFFER:
     urlpatterns = [

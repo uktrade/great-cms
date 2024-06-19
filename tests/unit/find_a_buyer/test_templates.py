@@ -5,7 +5,8 @@ from django.urls import reverse
 
 
 @pytest.mark.django_db
-def test_company_verify_hub_letter_sent(rf):
+def test_company_verify_hub_letter_sent(rf, settings):
+    settings.FEATURE_FAB_MIGRATION = True
     request = rf.get('/')
     template_name = 'company-verify-hub.html'
     context = {
@@ -21,7 +22,8 @@ def test_company_verify_hub_letter_sent(rf):
 
 
 @pytest.mark.django_db
-def test_company_verify_hub_letter_not_sent(rf):
+def test_company_verify_hub_letter_not_sent(rf, settings):
+    settings.FEATURE_FAB_MIGRATION = True
     request = rf.get('/')
     template_name = 'company-verify-hub.html'
     context = {

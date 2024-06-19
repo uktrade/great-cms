@@ -1,7 +1,8 @@
 from find_a_buyer import helpers
 
 
-def test_build_company_address():
+def test_build_company_address(settings):
+    settings.FEATURE_FAB_MIGRATION = True
     company_profile = {
         'address_line_1': '123 fake street',
         'address_line_2': '',

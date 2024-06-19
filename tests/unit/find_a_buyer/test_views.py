@@ -100,8 +100,10 @@ def send_verification_letter_end_to_end(
 
 
 @pytest.mark.django_db
-def test_send_verification_letter_address_context_data(client, user, mock_get_company_profile, retrieve_profile_data):
-
+def test_send_verification_letter_address_context_data(
+    client, user, mock_get_company_profile, retrieve_profile_data, settings
+):
+    settings.FEATURE_FAB_MIGRATION = True
     # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
     mock_get_company_profile.return_value = retrieve_profile_data
 
@@ -116,7 +118,8 @@ def test_send_verification_letter_address_context_data(client, user, mock_get_co
 
 @pytest.mark.django_db
 @patch.object(api_client.company, 'verify_with_code', return_value=create_response(200))
-def test_company_address_validation_api_success(mock_verify_with_code, address_verification_end_to_end, user):
+def test_company_address_validation_api_success(mock_verify_with_code, address_verification_end_to_end, user, settings):
+    settings.FEATURE_FAB_MIGRATION = True
     view = views.CompanyAddressVerificationView
 
     response = address_verification_end_to_end()
@@ -131,7 +134,8 @@ def test_company_address_validation_api_success(mock_verify_with_code, address_v
 
 @pytest.mark.django_db
 @patch.object(api_client.company, 'verify_with_code')
-def test_company_address_validation_api_failure(mock_verify_with_code, address_verification_end_to_end):
+def test_company_address_validation_api_failure(mock_verify_with_code, address_verification_end_to_end, settings):
+    settings.FEATURE_FAB_MIGRATION = True
     mock_verify_with_code.return_value = create_response(400)
 
     response = address_verification_end_to_end()
@@ -143,7 +147,10 @@ def test_company_address_validation_api_failure(mock_verify_with_code, address_v
 
 
 @pytest.mark.django_db
-def test_companies_house_oauth2_has_company_redirects(client, user, mock_get_company_profile, retrieve_profile_data):
+def test_companies_house_oauth2_has_company_redirects(
+    client, user, mock_get_company_profile, retrieve_profile_data, settings
+):
+    settings.FEATURE_FAB_MIGRATION = True
     # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
     mock_get_company_profile.return_value = retrieve_profile_data
 
@@ -167,9 +174,9 @@ def test_companies_house_oauth2_has_company_redirects(client, user, mock_get_com
 @pytest.mark.django_db
 @patch.object(forms.CompaniesHouseClient, 'verify_oauth2_code')
 def test_companies_house_callback_missing_code(
-    mock_verify_oauth2_code, client, user, mock_get_company_profile, retrieve_profile_data
+    mock_verify_oauth2_code, client, user, mock_get_company_profile, retrieve_profile_data, settings
 ):
-
+    settings.FEATURE_FAB_MIGRATION = True
     # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
     mock_get_company_profile.return_value = retrieve_profile_data
 
@@ -192,7 +199,9 @@ def test_companies_house_callback_has_company_calls_companies_house(
     user,
     mock_get_company_profile,
     retrieve_profile_data,
+    settings,
 ):
+    settings.FEATURE_FAB_MIGRATION = True
     # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
     mock_get_company_profile.return_value = retrieve_profile_data
 
@@ -219,8 +228,8 @@ def test_companies_house_callback_has_company_calls_companies_house(
 
 
 @pytest.mark.django_db
-def test_verify_company_has_company_user(client, user, mock_get_company_profile, retrieve_profile_data):
-
+def test_verify_company_has_company_user(client, user, mock_get_company_profile, retrieve_profile_data, settings):
+    settings.FEATURE_FAB_MIGRATION = True
     # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
     mock_get_company_profile.return_value = retrieve_profile_data
 
@@ -234,8 +243,11 @@ def test_verify_company_has_company_user(client, user, mock_get_company_profile,
 
 
 @pytest.mark.django_db
-def test_verify_company_address_feature_flag_on(client, user, mock_get_company_profile, retrieve_profile_data):
+def test_verify_company_address_feature_flag_on(
+    client, user, mock_get_company_profile, retrieve_profile_data, settings
+):
 
+    settings.FEATURE_FAB_MIGRATION = True
     # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
     mock_get_company_profile.return_value = retrieve_profile_data
 
@@ -248,7 +260,8 @@ def test_verify_company_address_feature_flag_on(client, user, mock_get_company_p
 
 @pytest.mark.django_db
 @patch.object(api_client.company, 'profile_update')
-def test_verify_company_address_end_to_end(mock_profile_update, send_verification_letter_end_to_end):
+def test_verify_company_address_end_to_end(mock_profile_update, send_verification_letter_end_to_end, settings):
+    settings.FEATURE_FAB_MIGRATION = True
     mock_profile_update.return_value = create_response(200)
     view = views.SendVerificationLetterView
 
@@ -261,7 +274,8 @@ def test_verify_company_address_end_to_end(mock_profile_update, send_verificatio
 
 
 @pytest.mark.django_db
-def test_buyer_csv_dump_no_token(client):
+def test_buyer_csv_dump_no_token(client, settings):
+    settings.FEATURE_FAB_MIGRATION = True
     url = reverse('find_a_buyer:buyers-csv-dump')
     response = client.get(url)
 
@@ -271,7 +285,8 @@ def test_buyer_csv_dump_no_token(client):
 
 @pytest.mark.django_db
 @patch('find_a_buyer.views.api_client')
-def test_buyer_csv_dump(mocked_api_client, client):
+def test_buyer_csv_dump(mocked_api_client, client, settings):
+    settings.FEATURE_FAB_MIGRATION = True
     mocked_api_client.buyer.get_csv_dump.return_value = Mock(
         content='abc', headers={'Content-Type': 'foo', 'Content-Disposition': 'bar'}
     )
@@ -286,7 +301,8 @@ def test_buyer_csv_dump(mocked_api_client, client):
 
 @pytest.mark.django_db
 @patch('find_a_buyer.views.api_client')
-def test_supplier_csv_dump(mocked_api_client, client):
+def test_supplier_csv_dump(mocked_api_client, client, settings):
+    settings.FEATURE_FAB_MIGRATION = True
     mocked_api_client.supplier.get_csv_dump.return_value = Mock(
         content='abc', headers={'Content-Type': 'foo', 'Content-Disposition': 'bar'}
     )
