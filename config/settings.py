@@ -1088,3 +1088,10 @@ CAMPAIGN_SITE_REVIEW_REMINDER_TEMPLATE_ID = env.str(
 )
 
 IS_CIRCLECI_ENV = env.bool('IS_CIRCLECI_ENV', False)
+
+# countries iso code update config, default = once on the first of the month
+COUNTRIES_ISO_CODE_UPDATE_DAY = env.str('COUNTRIES_ISO_CODE_UPDATE_DAY ', 1)
+COUNTRIES_ISO_CODE_UPDATE_HOUR = env.str('COUNTRIES_ISO_CODE_UPDATE_HOUR', 0)
+COUNTRIES_ISO_CODE_UPDATE_MINUTE = env.str('COUNTRIES_ISO_CODE_UPDATE_MINUTE', 0)
+
+COUNTRIES_ISO_CODE_UPDATE_API = 'https://restcountries.com/v3.1/all?fields=name,cca2'
