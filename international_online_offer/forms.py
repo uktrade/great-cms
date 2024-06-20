@@ -154,7 +154,7 @@ class ProfileForm(forms.Form):
         label='Company name',
         max_length=255,
         required=True,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=TextInput(attrs={'class': 'govuk-input', 'autocomplete': 'organization'}),
         error_messages={
             'required': 'Enter your company name',
         },
@@ -176,7 +176,7 @@ class ProfileForm(forms.Form):
         label='Full name',
         max_length=255,
         required=True,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=TextInput(attrs={'class': 'govuk-input', 'autocomplete': 'name'}),
         error_messages={
             'required': 'Enter your full name',
         },
@@ -186,7 +186,9 @@ class ProfileForm(forms.Form):
         help_text='Your role within the company',
         max_length=255,
         required=True,
-        widget=TextInput(attrs={'class': 'govuk-input', 'aria-describedby': 'help_for_id_role'}),
+        widget=TextInput(
+            attrs={'class': 'govuk-input', 'aria-describedby': 'help_for_id_role', 'autocomplete': 'organization-title'}
+        ),
         error_messages={
             'required': 'Enter your role within the company',
         },
@@ -195,7 +197,7 @@ class ProfileForm(forms.Form):
         label='Email',
         max_length=255,
         required=True,
-        widget=EmailInput(attrs={'class': 'govuk-input'}),
+        widget=EmailInput(attrs={'class': 'govuk-input', 'autocomplete': 'email'}),
         error_messages={
             'required': 'You must enter an email address',
         },
@@ -204,7 +206,7 @@ class ProfileForm(forms.Form):
         label='Company website',
         max_length=255,
         required=True,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=TextInput(attrs={'class': 'govuk-input', 'autocomplete': 'url'}),
         error_messages={
             'required': 'Enter your company website',
         },
@@ -214,7 +216,9 @@ class ProfileForm(forms.Form):
         help_text='Please include the country code',
         max_length=255,
         required=True,
-        widget=TextInput(attrs={'class': 'govuk-input', 'aria-describedby': 'help_for_id_telephone_number'}),
+        widget=TextInput(
+            attrs={'class': 'govuk-input', 'aria-describedby': 'help_for_id_telephone_number', 'autocomplete': 'tel'}
+        ),
         error_messages={
             'required': 'Enter your telephone number',
         },
