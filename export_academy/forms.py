@@ -24,7 +24,7 @@ from contact import constants, widgets as contact_widgets
 from core.validators import is_valid_uk_phone_number, is_valid_uk_postcode
 from directory_constants.choices import COUNTRY_CHOICES
 from export_academy import choices
-from export_academy.widgets import GreatRadioSelectWithOtherText
+from export_academy.widgets import GreatRadioSelectWithOtherText, PasswordInputShowHide
 
 COUNTRIES = COUNTRY_CHOICES.copy()
 COUNTRIES.insert(0, ('', 'Select a country'))
@@ -303,7 +303,7 @@ class SignInForm(forms.Form):
         },
     )
     password = forms.CharField(
-        widget=PasswordInput,
+        widget=PasswordInputShowHide,
         label='Password',
         error_messages={
             'required': 'Enter a password',
@@ -328,7 +328,7 @@ class SignUpForm(forms.Form):
         widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
     )
     password = forms.CharField(
-        widget=PasswordInput,
+        widget=PasswordInputShowHide,
         label='Password',
         help_text='Your password must have at least 10 characters, including letters and numbers.',
         error_messages={

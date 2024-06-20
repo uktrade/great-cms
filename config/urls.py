@@ -23,6 +23,7 @@ import core.urls
 import domestic.urls
 import export_academy.urls
 import exportplan.urls
+import find_a_buyer.urls
 import international.urls
 import international_investment.urls
 import international_online_offer.urls
@@ -85,6 +86,9 @@ if settings.DEBUG:
     urlpatterns = [path('__debug__/', include(debug_toolbar.urls))] + urlpatterns
 
 urlpatterns = [path('international/', include(international.urls))] + urlpatterns
+
+if settings.FEATURE_FAB_MIGRATION:
+    urlpatterns = [path('find-a-buyer/', include(find_a_buyer.urls, namespace='find_a_buyer'))] + urlpatterns
 
 if settings.FEATURE_INTERNATIONAL_ONLINE_OFFER:
     urlpatterns = [

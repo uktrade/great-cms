@@ -47,6 +47,14 @@ app.conf.beat_schedule = {
             hour=settings.CAMPAIGN_SITE_REVIEW_REMINDER_HOUR,
         ),
     },
+    'update_countries_iso_codes_once_a_month_on_the_first': {
+        'task': 'core.tasks.update_countries_iso_codes',
+        'schedule': crontab(
+            minute=settings.COUNTRIES_ISO_CODE_UPDATE_MINUTE,
+            hour=settings.COUNTRIES_ISO_CODE_UPDATE_HOUR,
+            day_of_month=settings.COUNTRIES_ISO_CODE_UPDATE_DAY,
+        ),
+    },
 }
 
 if settings.FEATURE_REDIS_USE_SSL:

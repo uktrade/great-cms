@@ -30,7 +30,9 @@ class SectorForm(forms.Form):
         label='Enter a keyword to search a list of business activities',
         help_text='For example, textiles',
         required=True,
-        widget=Select(attrs={'id': 'js-sector-select', 'class': 'govuk-input'}),
+        widget=Select(
+            attrs={'id': 'js-sector-select', 'class': 'govuk-input', 'aria-describedby': 'help_for_id_sector_sub'}
+        ),
         choices=(('', ''),) + region_sector_helpers.generate_sector_sic_choices(),
         error_messages={
             'required': 'You must enter your business sector',
@@ -76,7 +78,9 @@ class LocationForm(forms.Form):
         label='Enter a location in the UK',
         help_text='For example Manchester, South East or Scotland',
         required=False,
-        widget=Select(attrs={'id': 'js-location-select', 'class': 'govuk-input'}),
+        widget=Select(
+            attrs={'id': 'js-location-select', 'class': 'govuk-input', 'aria-describedby': 'help_for_id_location'}
+        ),
         choices=(('', ''),) + region_sector_helpers.generate_location_choices(),
     )
 
@@ -150,7 +154,7 @@ class ProfileForm(forms.Form):
         label='Company name',
         max_length=255,
         required=True,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=TextInput(attrs={'class': 'govuk-input', 'autocomplete': 'organization'}),
         error_messages={
             'required': 'Enter your company name',
         },
@@ -159,14 +163,20 @@ class ProfileForm(forms.Form):
         label='Current location of headquarters',
         help_text='Search and select a country, region or territory',
         required=False,
-        widget=Select(attrs={'id': 'js-company-location-select', 'class': 'govuk-input'}),
+        widget=Select(
+            attrs={
+                'id': 'js-company-location-select',
+                'class': 'govuk-input',
+                'aria-describedby': 'help_for_id_company_location',
+            }
+        ),
         choices=(('', ''),) + choices.COMPANY_LOCATION_CHOICES,
     )
     full_name = CharField(
         label='Full name',
         max_length=255,
         required=True,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=TextInput(attrs={'class': 'govuk-input', 'autocomplete': 'name'}),
         error_messages={
             'required': 'Enter your full name',
         },
@@ -176,7 +186,9 @@ class ProfileForm(forms.Form):
         help_text='Your role within the company',
         max_length=255,
         required=True,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=TextInput(
+            attrs={'class': 'govuk-input', 'aria-describedby': 'help_for_id_role', 'autocomplete': 'organization-title'}
+        ),
         error_messages={
             'required': 'Enter your role within the company',
         },
@@ -185,9 +197,18 @@ class ProfileForm(forms.Form):
         label='Email',
         max_length=255,
         required=True,
-        widget=EmailInput(attrs={'class': 'govuk-input'}),
+        widget=EmailInput(attrs={'class': 'govuk-input', 'autocomplete': 'email'}),
         error_messages={
             'required': 'You must enter an email address',
+        },
+    )
+    company_website = CharField(
+        label='Company website',
+        max_length=255,
+        required=True,
+        widget=TextInput(attrs={'class': 'govuk-input', 'autocomplete': 'url'}),
+        error_messages={
+            'required': 'Enter your company website',
         },
     )
     telephone_number = CharField(
@@ -195,7 +216,9 @@ class ProfileForm(forms.Form):
         help_text='Please include the country code',
         max_length=255,
         required=True,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=TextInput(
+            attrs={'class': 'govuk-input', 'aria-describedby': 'help_for_id_telephone_number', 'autocomplete': 'tel'}
+        ),
         error_messages={
             'required': 'Enter your telephone number',
         },
@@ -216,15 +239,6 @@ class ProfileForm(forms.Form):
         required=False,
         label='I would like to receive additional information by email (optional)',
         widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
-    )
-    company_website = CharField(
-        label='Company website',
-        max_length=255,
-        required=True,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
-        error_messages={
-            'required': 'Enter your company website',
-        },
     )
 
     def clean(self):

@@ -3,22 +3,6 @@ import requests
 from django.db import migrations
 
 
-def populate_iso2(apps, schema_editor):
-    """
-    This attempts to resolve ISO2 codes from the API available at restcountries.com
-    """
-    Country = apps.get_model('core', 'Country')
-    all_countries = requests.get("https://restcountries.com/v3.1/all?fields=name,cca2")
-    if all_countries.status_code == 200:
-        all_countries_json = all_countries.json()
-        for country in Country.objects.all():
-            if country.name:
-                found = list(filter(lambda x: x['name']['common'] == country.name, all_countries_json))
-                if len(found) > 0:
-                    country.iso2 = found[0]['cca2']
-                    country.save()
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -26,5 +10,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(populate_iso2),
+        migrations.RunPython(code=migrations.RunPython.noop, reverse_code=migrations.RunPython.noop),
     ]

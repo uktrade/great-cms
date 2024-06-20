@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block sub_header %}{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<h2 class="heading-large">The Companies House server is currently busy.</h2>
+		<p>Please try again in 10 minutes. You can also verify with a confirmation letter.</p>
+		<br/>
+		<h2 class="heading-large">Confirmation letter</h2>
+		<div class="grid-row">
+			<div class="column-two-thirds">You will receive a letter containing a verification code to your company address as registered at Companies House within 5 working days.</div>
+			<div class="column-one-third">
+				<a class="button" href="{% url 'find_a_buyer:verify-company-address' %}">Get confirmation letter‌</a>
+			</div>
+		</div>
+		<br/>
+		<hr>
+		<br/>
+		<p><a href="/find-a-buyer/">Back</a></p>
+		<br/>
+	</div>
+{% endblock content %}

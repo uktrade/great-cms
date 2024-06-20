@@ -1,0 +1,33 @@
+
+/* Components
+ ******************/
+.SelectiveLookupDisplay {
+  background-color: $white;
+  border: $grey-2 solid 1px;
+  max-height: 221px;
+  overflow: scroll;
+  z-index: 2;
+  padding-left: 0;
+  font-size: 16px;
+  margin-top: -1px;
+  margin-left: 1px;
+  font-family: "Roboto", arial, helvetica, sans-serif;
+  li {
+    border-top: $grey-2 solid 1px;
+    padding: 10px 20px;
+    position: relative;
+    top: -1px;
+    &:focus {
+      border-color: $focus;
+      border-style: solid;
+      border-width: 4px 3px 3px 3px;
+      box-shadow: none;
+      outline: 0;
+      padding: 7px 17px;
+      -webkit-box-shadow: none;
+    }
+    &:hover {
+      background-color: $grey-1;
+    }
+  }
+}

@@ -1,4 +1,5 @@
 {% extends 'export_academy/accounts/base.html' %}
+{% load static %}
 {% block form %}
     <h3 class="govuk-heading-m govuk-!-margin-top-8 govuk-!-margin-bottom-6 ukea-signin-link">Sign in</h3>
     {% if existing_ea_user %}
@@ -29,4 +30,11 @@
         {% else %}
             {% include 'export_academy/accounts/includes/new_user_body_text.html' with is_signin=True %}
         {% endif %}
+    {% endblock %}
+    {% block body_js %}
+        {{ block.super }}
+        <script src="{% static 'javascript/govuk.js' %}"></script>
+        <script>window.GOVUKFrontend.initAll()</script>
+        <script src="{% static 'javascript/great.password-reveal.js' %}"></script>
+        <script type="text/javascript">GreatFrontend.PasswordInput.init()</script>
     {% endblock %}

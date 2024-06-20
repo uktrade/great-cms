@@ -1,0 +1,38 @@
+@import 'partials/base.scss';
+
+.company-profile-container {
+
+  .form-body {
+    border-left: 5px solid #1E1348;
+
+    background-color: white;
+    padding: 0 20px 10px 20px;
+    .form-body-title {
+      display: inline-block;
+      margin: 0;
+      margin-bottom: 40px;
+    }
+    .progress-indicator {
+      font-size: 2em;
+      line-height: 1;
+      margin-top: 0.25em;
+    }
+  }
+  .form-foot {
+    .back-button {
+      background: white;
+      border: none;
+      color: #0000EE;
+      text-decoration: underline;
+    }
+  }
+}
+
+// TABLET
+
+@media (min-width: 767px) {
+  .company-profile-container {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+}

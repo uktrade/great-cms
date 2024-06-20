@@ -1,7 +1,7 @@
 <div class="govuk-notification-banner {{ css_class }}"
      role="region"
-     aria-labelledby="govuk-notification-banner-title"
-     data-module="govuk-notification-banner">
+     data-module="govuk-notification-banner"
+     {% if banner_title %}aria-labelledby="govuk-notification-banner-title"{% endif %}>
     {% if banner_title %}
         <div class="govuk-notification-banner__header">
             <h2 class="govuk-notification-banner__title"

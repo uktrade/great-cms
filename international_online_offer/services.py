@@ -2,6 +2,11 @@ from typing import Dict, List, Tuple
 
 from directory_api_client import api_client
 from international_online_offer.core import regions
+from international_online_offer.core.professions import (
+    DIRECTOR_EXECUTIVE_LEVEL,
+    ENTRY_LEVEL,
+    MID_SENIOR_LEVEL,
+)
 
 
 def get_bci_data_by_dbt_sector(dbt_sector_name: str, geo_codes: List[str] = None) -> Dict:
@@ -86,3 +91,50 @@ def get_bci_data(dbt_sector_name: str, area: str) -> Tuple[Dict, Dict, Dict, int
         bci_release_year = bci_headline['business_count_release_year']
 
     return (bci_headline, headline_region, bci_detail, bci_release_year, hyperlinked_geo_codes)
+
+
+def get_salary_data(geo_region: str, vertical: str = None, professional_level: str = None):
+
+    response = api_client.dataservices.get_eyb_salary_data(geo_region, vertical, professional_level)
+
+    return response.json()
+
+
+def get_median_salaries(geo_region: str, vertical: str = None, professional_level: str = None) -> Dict:
+
+    all_salaries = get_salary_data(geo_region, vertical=vertical, professional_level=professional_level)
+
+    # if iterator returns no values, return an empty dictonary so that it can be used with the .get function
+    entry_salary = next((salary for salary in all_salaries if salary['professional_level'] == ENTRY_LEVEL), {})
+    mid_salary = next((salary for salary in all_salaries if salary['professional_level'] == MID_SENIOR_LEVEL), {})
+    executive_salary = next(
+        (salary for salary in all_salaries if salary['professional_level'] == DIRECTOR_EXECUTIVE_LEVEL), {}
+    )
+
+    return {
+        ENTRY_LEVEL: entry_salary.get('median_salary'),
+        MID_SENIOR_LEVEL: mid_salary.get('median_salary'),
+        DIRECTOR_EXECUTIVE_LEVEL: executive_salary.get('median_salary'),
+    }
+
+
+def get_rent_data(geo_region: str, vertical: str = None, sub_vertical: str = None) -> Tuple:
+
+    response = api_client.dataservices.get_eyb_commercial_rent_data(geo_region, vertical, sub_vertical)
+
+    rent_data = response.json()
+
+    # if iterator returns no values, return an empty dictonary so that it can be used with the .get function
+    large_warehouse = next((rent for rent in rent_data if rent['sub_vertical'] == 'Large Warehouses'), {})
+    small_warehouse = next((rent for rent in rent_data if rent['sub_vertical'] == 'Small Warehouses'), {})
+    shopping_centre = next((rent for rent in rent_data if rent['sub_vertical'] == 'Prime shopping centre'), {})
+    high_street_retail = next((rent for rent in rent_data if rent['sub_vertical'] == 'High Street Retail'), {})
+    work_office = next((rent for rent in rent_data if rent['sub_vertical'] == 'Work Office'), {})
+
+    return (
+        large_warehouse.get('gbp_per_month'),
+        small_warehouse.get('gbp_per_month'),
+        shopping_centre.get('gbp_per_month'),
+        high_street_retail.get('gbp_per_month'),
+        work_office.get('gbp_per_month'),
+    )

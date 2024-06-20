@@ -14,6 +14,11 @@
         <meta charset="utf-8" />
         <meta name="msvalidate.01" content="76D322F181AE9F91C43419E5CD511BBC" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="intranet:environment" content="{{ APP_ENVIRONMENT }}">
+        <meta name="intranet:sentry:dsn"
+              content="{{ SENTRY_DSN|default_if_none:'' }}">
+        <meta name="intranet:sentry:browser-traces-sample-rate"
+              content="{{ SENTRY_BROWSER_TRACES_SAMPLE_RATE }}">
         {% block sharing_description %}
             <meta name="description"
                   content="{% block meta_description %}{% firstof self.seo_description page.search_description content_snippet.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description %}{% endblock %}">
@@ -84,6 +89,8 @@
             </style>
         </noscript>
         {% block vendor_js %}
+            <script src="{% static 'javascript/vendor/sentry.6.19.7.tracing.replay.min.js' %}"></script>
+            <script src="{% static 'javascript/vendor/sentryinit.js' %}"></script>
             <script src="{% static 'javascript/vendor/details-polyfill.js' %}" defer></script>
             <script src="{% static 'javascript/vendor/jquery-3.6.0.min.js' %}"></script>
         {% endblock %}
