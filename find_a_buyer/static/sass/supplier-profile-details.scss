@@ -1,0 +1,31 @@
+@import 'partials/base.scss';
+
+.supplier-profile-details-container {
+  margin-bottom: 60px;
+  margin-top: 30px;
+  @media (min-width: 767px) {
+    margin-top: 60px;
+  }
+  h1 {
+    padding-bottom: 30px;
+  }
+  .reset-password-button {
+    color: white;
+  }
+  p {
+    font-size: 1.3em;
+    margin-bottom: 20px;
+  }
+  .detail-container {
+    margin-bottom: 20px;
+    @media (max-width: 767px) {
+      float: left;
+    }
+  }
+  .description-text {
+    font-weight: 600;
+  }
+  .btn-container {
+    margin: 0;
+  }
+}

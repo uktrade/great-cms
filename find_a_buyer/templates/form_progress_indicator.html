@@ -1,0 +1,23 @@
+{% if form_labels %}
+  <section class="ed-form-progress-indicator" aria-label="Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}">
+    <div class="outer-container" aria-hidden="true">
+      <div class="grid-row">
+        <div class="column-full">
+            <form action="" method="post" enctype="multipart/form-data">
+              <ul class="form-tab clearfix">
+                {% for step_id, step_label in form_labels %}<li style="width: {% widthratio 100 form_labels|length 1 %}%" class="
+                  {% if forloop.counter <= wizard.steps.step1 %}ed-form-progress-indicator-line{% endif %}
+                  {% if forloop.counter == wizard.steps.step1 %}ed-form-progress-indicator-active{% endif %}
+                  {% if forloop.counter < wizard.steps.step1 %}ed-form-progress-indicator-prev{% endif %}
+                ">
+                    <button name="wizard_goto_step" type="submit" value="{{ step_id }}" {% if forloop.counter > wizard.steps.step1 %}disabled{% endif %}>
+                      <span class="ed-form-tab-order">{{ forloop.counter }}</span> <span class="ed-form-tab-label">{{ step_label }}</span>
+                    </button>
+                  </li>{% endfor %}
+              </ul>
+            </form>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endif %}

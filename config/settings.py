@@ -79,6 +79,7 @@ INSTALLED_APPS = [
     'cms_extras.apps.CmsExtrasConfig',
     'domestic.apps.DomesticAdminAppConfig',
     'exportplan.apps.ExportPlanConfig',
+    'find_a_buyer.apps.FindABuyerConfig',
     'international_online_offer.apps.ExpandYourBusinessConfig',
     'international.apps.InternationalConfig',
     'international_investment.apps.InvestmentConfig',
@@ -250,6 +251,7 @@ STATICFILES_DIRS = [
     str(ROOT_DIR / 'sso_profile' / 'common' / 'static'),
     str(ROOT_DIR / 'sso_profile' / 'static'),
     str(ROOT_DIR / 'international_online_offer' / 'static'),
+    str(ROOT_DIR / 'find_a_buyer' / 'static'),
 ]
 
 
@@ -761,6 +763,14 @@ GEOIP_DOWNLOAD_DAY = env.str('GEOIP_DOWNLOAD_DAY', 1)
 GEOIP_DOWNLOAD_HOUR = env.str('GEOIP_DOWNLOAD_HOUR', 0)
 GEOIP_DOWNLOAD_MINUTE = env.str('GEOIP_DOWNLOAD_MINUTE', 0)
 
+# Companies House
+COMPANIES_HOUSE_API_KEY = env.str('COMPANIES_HOUSE_API_KEY', '')
+COMPANIES_HOUSE_CLIENT_ID = env.str('COMPANIES_HOUSE_CLIENT_ID', '')
+COMPANIES_HOUSE_CLIENT_SECRET = env.str('COMPANIES_HOUSE_CLIENT_SECRET', '')
+COMPANIES_HOUSE_CALLBACK_DOMAIN = env.str('COMPANIES_HOUSE_CALLBACK_DOMAIN', 'https://find-a-buyer.export.great.gov.uk')
+COMPANIES_HOUSE_URL = env.str('COMPANIES_HOUSE_URL', 'https://account.companieshouse.gov.uk')
+COMPANIES_HOUSE_API_URL = env.str('COMPANIES_HOUSE_API_URL', 'https://api.companieshouse.gov.uk')
+
 # directory-api
 DIRECTORY_API_CLIENT_BASE_URL = env.str('DIRECTORY_API_CLIENT_BASE_URL')
 DIRECTORY_API_CLIENT_API_KEY = env.str('DIRECTORY_API_CLIENT_API_KEY')
@@ -906,6 +916,7 @@ FEATURE_UKEA_TAGGING_UPDATE = env.bool('FEATURE_UKEA_TAGGING_UPDATE', False)
 
 FEATURE_PRE_ELECTION = env.bool('FEATURE_PRE_ELECTION', False)
 FEATURE_EYB_HOME = env.bool('FEATURE_EYB_HOME', False)
+FEATURE_FAB_MIGRATION = env.bool('FEATURE_FAB_MIGRATION', False)
 
 MAX_COMPARE_PLACES_ALLOWED = env.int('MAX_COMPARE_PLACES_ALLOWED', 10)
 
