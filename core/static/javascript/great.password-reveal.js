@@ -2,7 +2,7 @@ GreatFrontend = window.GreatFrontend || {}
 
 GreatFrontend.PasswordInput = {
   init: () => {
-    const passwordInput = document.getElementById('password-input');
+    const passwordInput = document.getElementById('id_password');
     const passwordShowButton = document.getElementById('password-show-button');
     const hiddenClass= 'great-hidden'
     const visuallyHiddenClass= 'great-visually-hidden'
