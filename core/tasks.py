@@ -59,3 +59,15 @@ def delete_inactive_admin_users_after_sixty_days():
 
     else:
         raise Exception('This task cannot be run on the current environment')
+
+
+@app.task
+def update_countries_iso_codes():
+    logger.info('Updating Countries ISO codes started...')
+    try:
+        call_command('update_countries_iso_codes')
+    except ValueError as ve:
+        logger.exception(f'Exception in core:uupdate_countries_iso_code {str(ve)}')
+        raise ve
+    else:
+        logger.info('Updating Counties ISO codes finished')

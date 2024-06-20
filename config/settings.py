@@ -12,6 +12,7 @@ from elasticsearch import RequestsHttpConnection
 from elasticsearch_dsl.connections import connections
 from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
+from sentry_sdk.integrations.redis import RedisIntegration
 
 import healthcheck.backends
 from .utils import get_wagtail_transfer_configuration, strip_password_data
@@ -151,6 +152,7 @@ TEMPLATES = [
                 'core.context_processors.javascript_components',
                 'core.context_processors.env_vars',
                 'core.context_processors.analytics_vars',
+                'core.context_processors.sentry_vars',
                 'core.context_processors.migration_support_vars',
                 'core.context_processors.cms_slug_urls',
                 'core.context_processors.feature_flags',
@@ -377,12 +379,16 @@ else:
 
 
 # Sentry
-if env.str('SENTRY_DSN', ''):
+SENTRY_BROWSER_TRACES_SAMPLE_RATE = env.float('SENTRY_BROWSER_TRACES_SAMPLE_RATE', 1.0)
+SENTRY_DSN = env.str('SENTRY_DSN', '')
+if SENTRY_DSN:
     sentry_sdk.init(
         dsn=env.str('SENTRY_DSN'),
         environment=env.str('SENTRY_ENVIRONMENT'),
-        integrations=[DjangoIntegration(), CeleryIntegration()],
+        integrations=[DjangoIntegration(), CeleryIntegration(), RedisIntegration()],
         before_send=strip_password_data,
+        enable_tracing=env.bool('SENTRY_ENABLE_TRACING', False),
+        traces_sample_rate=env.float('SENTRY_TRACES_SAMPLE_RATE', 1.0),
     )
 
 USE_X_FORWARDED_HOST = True
@@ -1044,6 +1050,7 @@ CAMPAIGN_MODERATION_REPLY_TO_ID = env.str('CAMPAIGN_MODERATION_REPLY_TO_ID', '65
 # django-csp config
 CSP_DEFAULT_SRC = ("'self'", "https:")  # noqa
 CSP_CHILD_SRC = ("'self'",)  # noqa
+CSP_WORKER_SRC = ("'self'", "'unsafe-inline'", 'https:', 'blob:')  # noqa
 CSP_OBJECT_SRC = ("'none'",)  # noqa
 CSP_SCRIPT_SRC = (
     "'self'",
@@ -1053,6 +1060,7 @@ CSP_SCRIPT_SRC = (
     'https://www.gstatic.com',
     'https://www.googletagmanager.com',
     'https://www.google-analytics.com',
+    'https://browser.sentry-cdn.com',
     'https:',
 )
 CSP_STYLE_SRC = (
@@ -1077,3 +1085,10 @@ CAMPAIGN_SITE_REVIEW_REMINDER_TEMPLATE_ID = env.str(
 )
 
 IS_CIRCLECI_ENV = env.bool('IS_CIRCLECI_ENV', False)
+
+# countries iso code update config, default = once on the first of the month
+COUNTRIES_ISO_CODE_UPDATE_DAY = env.str('COUNTRIES_ISO_CODE_UPDATE_DAY ', 1)
+COUNTRIES_ISO_CODE_UPDATE_HOUR = env.str('COUNTRIES_ISO_CODE_UPDATE_HOUR', 0)
+COUNTRIES_ISO_CODE_UPDATE_MINUTE = env.str('COUNTRIES_ISO_CODE_UPDATE_MINUTE', 0)
+
+COUNTRIES_ISO_CODE_UPDATE_API = 'https://restcountries.com/v3.1/all?fields=name,cca2'
