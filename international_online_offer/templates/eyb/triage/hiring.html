@@ -1,6 +1,10 @@
 {% extends '../base.html' %}
 {% load static %}
-{% block head_title %}How many people are you looking to hire in the UK? {{ block.super }}{% endblock %}
+{% block head_title %}
+    {% if form.hiring.errors %}Error:{% endif %}
+    How many people are you looking to hire in the UK?
+    {{ block.super }}
+{% endblock %}
 {% block meta_title %}How many people are you looking to hire in the UK? {{ block.super }}{% endblock %}
 {% block head_css %}{{ block.super }}{% endblock %}
 {% block content %}

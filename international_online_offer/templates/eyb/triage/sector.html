@@ -1,6 +1,10 @@
 {% extends '../base.html' %}
 {% load static %}
-{% block head_title %}What is your business sector? {{ block.super }}{% endblock %}
+{% block head_title %}
+    {% if form.sector_sub.errors %}Error:{% endif %}
+    What is your business sector?
+    {{ block.super }}
+{% endblock %}
 {% block meta_title %}What is your business sector? {{ block.super }}{% endblock %}
 {% block head_css %}
     {{ block.super }}
@@ -18,7 +22,7 @@
                     <div class="govuk-grid-row govuk-!-margin-bottom-7">
                         <div class="govuk-grid-column-full">
                             <div class="{% if form.sector_sub.errors %} govuk-form-group--error{% endif %}">
-                                {% include '../includes/form_field.html' with field=form.sector_sub %}
+                                {% include 'international/includes/form_field.html' with field=form.sector_sub %}
                             </div>
                         </div>
                     </div>
