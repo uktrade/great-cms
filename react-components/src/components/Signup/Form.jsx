@@ -67,6 +67,7 @@ const Form = ({
       value={password}
       onChange={(item) => handlePasswordChange(item.password)}
       errors={errors.password || []}
+      isPasswordShowHide={true}
     />
     <p className="signup__conditions">
       By signing up, you agree to our{' '}
