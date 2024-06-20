@@ -30,7 +30,7 @@ wagtailmedia==0.14.5
 # Prod tools
 # ------------
 gunicorn==22.0.0
-sentry-sdk==1.14.*
+sentry-sdk>=1.20.*,<2.0.0
 
 
 # DBT packages
@@ -80,6 +80,7 @@ tablib==3.5.0
 drf-spectacular==0.26.2
 Babel==2.12.1
 pandas==1.5.3
+numpy>=1.26.*,<2.0.0
 SQLAlchemy==1.4.49
 dj-database-url==2.2.0
 pydantic==2.7.3
