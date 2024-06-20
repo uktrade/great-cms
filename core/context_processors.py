@@ -40,6 +40,14 @@ def analytics_vars(request):
     }
 
 
+def sentry_vars(request):
+    return {
+        'APP_ENVIRONMENT': settings.APP_ENVIRONMENT,
+        'SENTRY_DSN': settings.SENTRY_DSN,
+        'SENTRY_BROWSER_TRACES_SAMPLE_RATE': settings.SENTRY_BROWSER_TRACES_SAMPLE_RATE,
+    }
+
+
 def cookie_management_vars(request):
     return {
         'PRIVACY_COOKIE_DOMAIN': settings.PRIVACY_COOKIE_DOMAIN,

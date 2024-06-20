@@ -1,9 +1,33 @@
 {% extends './base.html' %}
 {% load static %}
-{% block head_title %}Sign in {{ block.super }}{% endblock %}
+{% block head_title %}
+    {% if form.errors %}Error:{% endif %}
+    Sign in
+    {{ block.super }}
+{% endblock %}
 {% block meta_title %}Sign in {{ block.super }}{% endblock %}
 {% block content %}
     <div class="govuk-width-container great-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                {% if form.non_field_errors %}
+                    <div class="govuk-error-summary" data-module="govuk-error-summary">
+                        <div role="alert">
+                            <h2 class="govuk-error-summary__title">There is a problem</h2>
+                            <div class="govuk-error-summary__body">
+                                <ul class="govuk-list govuk-error-summary__list">
+                                    <li>
+                                        <a href="#">{{ form.non_field_errors }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    {% include 'eyb/includes/error_summary.html' %}
+                {% endif %}
+            </div>
+        </div>
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <h1 class="govuk-heading-l">Sign in</h1>
@@ -19,22 +43,6 @@
         </div>
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-3">
-                {% if form.non_field_errors %}
-                    <div class="govuk-error-summary" data-module="govuk-error-summary">
-                        <div role="alert">
-                            <h2 class="govuk-error-summary__title">There is a problem</h2>
-                            <div class="govuk-error-summary__body">
-                                <ul class="govuk-list govuk-error-summary__list">
-                                    <li>
-                                        <a href="#">{{ form.non_field_errors }}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                {% else %}
-                    {% include './includes/error_summary.html' %}
-                {% endif %}
                 <div id="login">
                     <form method="post">
                         {% csrf_token %}

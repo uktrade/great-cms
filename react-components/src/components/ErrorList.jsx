@@ -8,7 +8,7 @@ export default function ErrorList(props){
 
   return (
     <ul className={`great-mvp-error-list errorlist ${props.className}`}>
-      {props.errors.map((error, i) => <li key={i} className="error-message">{error}</li> )}
+      {props.errors.map((error, i) => <li key={i} className="govuk-error-message">{error}</li> )}
     </ul>
   )
 }

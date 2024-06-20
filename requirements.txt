@@ -319,8 +319,10 @@ monotonic==1.6
     #   directory-client-core
 nodeenv==1.9.1
     # via pre-commit
-numpy==2.0.0
-    # via pandas
+numpy==1.26.4
+    # via
+    #   -r requirements.in
+    #   pandas
 oauthlib==3.2.2
     # via
     #   -r requirements.in
@@ -501,7 +503,7 @@ requests-oauthlib==2.0.0
     # via django-staff-sso-client
 s3transfer==0.6.2
     # via boto3
-sentry-sdk==1.14.0
+sentry-sdk==1.45.0
     # via -r requirements.in
 sigauth==5.2.7
     # via

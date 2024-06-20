@@ -1,6 +1,10 @@
 {% extends '../base.html' %}
 {% load static %}
-{% block head_title %}{{ question_text }} {{ block.super }}{% endblock %}
+{% block head_title %}
+    {% if form.spend.errors %}Error:{% endif %}
+    {{ question_text }}
+    {{ block.super }}
+{% endblock %}
 {% block meta_title %}{{ question_text }} {{ block.super }}{% endblock %}
 {% block head_css %}{{ block.super }}{% endblock %}
 {% block content %}
@@ -27,8 +31,7 @@
                     {% csrf_token %}
                     <div class="govuk-form-group govuk-!-margin-bottom-7 {% if form.spend.errors %}govuk-form-group--error{% endif %} govuk-!-margin-bottom-2">
                         <fieldset class="govuk-fieldset">
-                            <label class="govuk-label govuk-label--s"
-                                   for="{{ form.spend.id_for_label }}">{{ form.spend.label }}</label>
+                            <legend class="govuk-label govuk-label--s">{{ form.spend.label }}</legend>
                             {% include 'domestic/contact/includes/govuk-form-field.html' with field=form.spend hide_label=True %}
                         </fieldset>
                     </div>

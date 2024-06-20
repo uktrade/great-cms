@@ -37,7 +37,7 @@ describe('LoginModal', () => {
     container.querySelector('form').submit()
 
     await waitFor(() => {
-      expect(container.querySelector('.error-message').textContent).toEqual(
+      expect(container.querySelector('.govuk-error-message').textContent).toEqual(
         'This field is required'
       )
     })
