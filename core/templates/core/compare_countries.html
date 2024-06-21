@@ -33,10 +33,25 @@
      data-max-places-allowed="{{ max_compare_places_allowed }}"
      role="region"
      tabindex="-1"></div>
+<div class="great-border-thin-top-lighter-blue">
+    <section class="govuk-!-padding-bottom-6 background-white clearfix">
+        <div class="container">{% include '../export_academy/includes/csat_user_feedback.html' with form=form csat_stage=csat_stage %}</div>
+    </section>
+</div>
 <script>
       magna.CompareMarkets({
         element: document.querySelector("#compare-markets"),
         cta_container: document.querySelector("#cta-container"),
       })
 </script>
+<script src="{% static 'javascript/hcsat-feedback-form.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        new CsatFormHandler('csat-form');
+    });
+</script>
+<script src="{% static 'javascript/govuk.js' %}"></script>
+<script>window.GOVUKFrontend.initAll()</script>
+{% block body_inline_feedback %}{% endblock %}
+
 {% endblock %}
