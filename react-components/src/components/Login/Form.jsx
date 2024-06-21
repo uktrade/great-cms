@@ -48,6 +48,7 @@ export const Form = ({
         value={password}
         onChange={(item) => handlePasswordChange(item.password)}
         errors={errors.password || []}
+        isPasswordShowHide={true}
       />
       <a
         href={Services.config.passwordResetUrl}

@@ -1,0 +1,38 @@
+{% extends "./base.html" %}
+{% block sub_header %}{% endblock %}
+{% block content %}
+    <div class="outer-container">
+        <br>
+        <h1 class="heading-xlarge">Confirm your identity</h1>
+        <p>For security, we need to check you’re who you say you are.</p>
+        <p>You can sign in with Companies House to confirm your identity straight away. You’ll need your Companies House username and password.</p>
+        <p>Alternatively, we can send a confirmation letter to your company’s registered address.</p>
+        <br>
+        <br>
+        <div class="grid-row">
+            <div class="column-one-half" id="ed-verify-companies-house-container">
+                <h2 class="heading-large">Sign in with Companies House</h2>
+                <br>
+                <p>Enter your Companies House username and password. We’ll be able to confirm your identity instantly.</p>
+                <br>
+                <br>
+                <a href="{% url 'find_a_buyer:verify-companies-house' %}" class="button button-primary">Sign in</a>
+            </div>
+            <div class="column-one-half">
+                <h2 class="heading-large">Get confirmation letter</h2>
+                <br>
+                <p>We’ll then send a confirmation letter to your company’s registered address within 5 working days. If you can’t collect the letter yourself, you’ll need to make sure someone can send it on to you.</p>
+                <br>
+                {% if company.is_verification_letter_sent %}
+                    <a href="{% url 'find_a_buyer:verify-company-address-confirm' %}" class="button button-primary">Verify with your address</a>
+                {% else %}
+                    <a href="{% url 'find_a_buyer:verify-company-address' %}" class="button button-primary">Send</a>
+                {% endif %}
+            </div>
+        </ul>
+    </div>
+    <br>
+    <br>
+    <br>
+    <a id="ed-verify-hub-back" class="link" href="{% url 'sso_profile:business-profile' %}">Back</a>
+{%endblock content %}

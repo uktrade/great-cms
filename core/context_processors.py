@@ -40,6 +40,14 @@ def analytics_vars(request):
     }
 
 
+def sentry_vars(request):
+    return {
+        'APP_ENVIRONMENT': settings.APP_ENVIRONMENT,
+        'SENTRY_DSN': settings.SENTRY_DSN,
+        'SENTRY_BROWSER_TRACES_SAMPLE_RATE': settings.SENTRY_BROWSER_TRACES_SAMPLE_RATE,
+    }
+
+
 def cookie_management_vars(request):
     return {
         'PRIVACY_COOKIE_DOMAIN': settings.PRIVACY_COOKIE_DOMAIN,
@@ -97,6 +105,7 @@ def feature_flags(request):
     retval['features']['FEATURE_UKEA_CSAT'] = settings.FEATURE_UKEA_CSAT
 
     retval['features']['FEATURE_PRE_ELECTION'] = settings.FEATURE_PRE_ELECTION
+    retval['features']['FEATURE_FAB_MIGRATION'] = settings.FEATURE_FAB_MIGRATION
 
     return retval
 
