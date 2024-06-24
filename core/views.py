@@ -205,7 +205,7 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, TemplateView):
                 likelihood_of_return=form.cleaned_data['likelihood_of_return'],
                 service_improvements_feedback=form.cleaned_data['feedback_text'],
                 URL=self.request.path,
-                user_journey='TBC',
+                user_journey='ADD_PRODUCT',
             )
             self.request.session['where_to_export_csat_id'] = csat_feedback.id
             self.request.session['where_to_export_csat_stage'] = 1

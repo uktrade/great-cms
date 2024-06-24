@@ -1258,7 +1258,7 @@ EXPERIENCE_CHOICES = (
     ('NO_ISSUE', 'I did not experience any issues'),
 )
 
-USER_JOURNEY_CHOICES = (('TBC', 'To Be Confirmed'),)
+USER_JOURNEY_CHOICES = (('ADD_PRODUCT', 'Add Product'),)
 
 LIKELIHOOD_CHOICES = (
     ('EXTREMELY_UNLIKELY', 'Extremely unlikely'),
