@@ -124,7 +124,7 @@ class SignupView(GA360Mixin, PageTitleMixin, TemplateView):
         return context
 
 
-class CompareCountriesView(GA360Mixin, PageTitleMixin, TemplateView):
+class CompareCountriesView(GA360Mixin, PageTitleMixin, TemplateView, FormView):
     def __init__(self):
         super().__init__()
         self.set_ga360_payload(
@@ -204,7 +204,7 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, TemplateView):
                 other_detail=form.cleaned_data['experience_other'],
                 likelihood_of_return=form.cleaned_data['likelihood_of_return'],
                 service_improvements_feedback=form.cleaned_data['feedback_text'],
-                URL=self.request.path,
+                URL=reverse_lazy('core:compare-countries'),
                 user_journey='ADD_PRODUCT',
             )
             self.request.session['where_to_export_csat_id'] = csat_feedback.id
@@ -220,6 +220,9 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, TemplateView):
                 del self.request.session['where_to_export_csat_stage']
             return JsonResponse(data)
         return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse('core:compare-countries')
 
 
 class CountriesView(generics.GenericAPIView):
