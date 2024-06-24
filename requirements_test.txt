@@ -125,7 +125,7 @@ colorama==0.4.6
     # via djlint
 configargparse==1.7
     # via locust
-coverage[toml]==7.5.3
+coverage[toml]==7.5.4
     # via
     #   pytest-codecov
     #   pytest-cov
@@ -161,7 +161,7 @@ deprecated==1.2.14
     #   opentelemetry-exporter-otlp-proto-http
 dill==0.3.8
     # via pylint
-directory-api-client==26.7.0
+directory-api-client==26.7.1
     # via -r requirements.in
 directory-ch-client==4.0.2
     # via -r requirements.in
@@ -313,7 +313,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==25.8.0
+faker==25.9.1
     # via factory-boy
 filelock==3.14.0
     # via
@@ -370,7 +370,9 @@ googleapis-common-protos==1.63.1
 great-components==2.6.4
     # via -r requirements.in
 greenlet==3.0.3
-    # via gevent
+    # via
+    #   gevent
+    #   sqlalchemy
 grpcio==1.64.1
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==22.0.0
@@ -773,7 +775,7 @@ ruamel-yaml-clib==0.2.8
     # via ruamel-yaml
 s3transfer==0.6.2
     # via boto3
-selenium==4.21.0
+selenium==4.22.0
     # via -r requirements_test.in
 sentry-sdk==1.45.0
     # via -r requirements.in
@@ -915,7 +917,7 @@ vine==5.1.0
     #   amqp
     #   celery
     #   kombu
-virtualenv==20.26.2
+virtualenv==20.26.3
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core
@@ -954,6 +956,8 @@ webencodings==0.5.1
     #   cssselect2
     #   html5lib
     #   tinycss2
+websocket-client==1.8.0
+    # via selenium
 werkzeug==3.0.3
     # via
     #   -r requirements_test.in

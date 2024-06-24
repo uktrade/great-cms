@@ -108,7 +108,7 @@ deprecated==1.2.14
     #   opentelemetry-api
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
-directory-api-client==26.7.0
+directory-api-client==26.7.1
     # via -r requirements.in
 directory-ch-client==4.0.2
     # via -r requirements.in
@@ -241,7 +241,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==25.8.0
+faker==25.9.1
     # via factory-boy
 filelock==3.14.0
     # via
@@ -257,6 +257,8 @@ googleapis-common-protos==1.63.1
     #   opentelemetry-exporter-otlp-proto-http
 great-components==2.6.4
     # via -r requirements.in
+greenlet==3.0.3
+    # via sqlalchemy
 grpcio==1.64.1
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==22.0.0
@@ -593,7 +595,7 @@ vine==5.1.0
     #   amqp
     #   celery
     #   kombu
-virtualenv==20.26.2
+virtualenv==20.26.3
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core

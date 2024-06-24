@@ -47,11 +47,12 @@ def test_get_bci_data(client):
     ],
 )
 def test_get_median_salaries(client):
-    salaries = services.get_median_salaries('East Midlands')
+    salaries = services.get_median_salaries('Finance and Professional Services')
 
     assert salaries[professions.ENTRY_LEVEL] == 23678
     assert salaries[professions.MID_SENIOR_LEVEL] == 33343
     assert salaries[professions.DIRECTOR_EXECUTIVE_LEVEL] == 48028
+    assert salaries['error_msg'] == ''
 
 
 @mock.patch(

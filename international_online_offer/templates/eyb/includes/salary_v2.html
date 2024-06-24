@@ -38,9 +38,9 @@
                     </div>
                 </div>
                 <div class="govuk-grid-row">
-                    {% get_salary_display_classes as salary_display_classes %}
-                    <div class="{{ salary_display_classes.parent_column_class }} govuk-!-margin-3 govuk-!-padding-8 salary-rent-component-body">
-                        {% if entry_salary or mid_salary or executive_salary %}
+                    {% if entry_salary or mid_salary or executive_salary %}
+                        {% get_salary_display_classes as salary_display_classes %}
+                        <div class="{{ salary_display_classes.parent_column_class }} govuk-!-margin-3 govuk-!-padding-8 salary-rent-component-body">
                             <div class="govuk-grid-row">
                                 {% if entry_salary %}
                                     <div class="{{ salary_display_classes.salary_card_class }}">
@@ -64,23 +64,23 @@
                                     </div>
                                 {% endif %}
                             </div>
-                        {% else %}
                             <div class="govuk-grid-row">
                                 <div class="govuk-grid-column-full">
-                                    <p class="govuk-body">There currently is no data available for the selected criteria.</p>
+                                    <span class="govuk-body body-text source-text">
+                                        Figures reflect 2023 median gross salaries.
+                                        <br>
+                                        Source: Statista
+                                    </span>
                                 </div>
                             </div>
-                        {% endif %}
-                        <div class="govuk-grid-row">
-                            <div class="govuk-grid-column-full">
-                                <span class="govuk-body body-text source-text">
-                                    Figures reflect 2023 median gross salaries.
-                                    <br>
-                                    Source: Statista
-                                </span>
+                        </div>
+                    {% else %}
+                        <div class="govuk-grid-row govuk-!-padding-4">
+                            <div class="govuk-grid-column-full govuk-!-padding-4 great-align-items-center salary-rent-component-body">
+                                <span class="govuk-body body-text source-text">{{ salary_error_msg }}</span>
                             </div>
                         </div>
-                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
