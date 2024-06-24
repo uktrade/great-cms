@@ -2399,9 +2399,7 @@ class ShareSettings(BaseSiteSetting):
 
 class CsatUserFeedback(TimeStampedModel):
     URL = models.CharField(max_length=255)
-    user_journey = models.CharField(
-        max_length=255, null=True, choices=constants.USER_JOURNEY_CHOICES, default='TBC'
-    )
+    user_journey = models.CharField(max_length=255, null=True, choices=constants.USER_JOURNEY_CHOICES, default='TBC')
     satisfaction_rating = models.CharField(max_length=255, choices=constants.SATISFACTION_CHOICES)
     experienced_issues = ArrayField(
         models.CharField(max_length=255, choices=constants.EXPERIENCE_CHOICES), size=6, default=list, null=True

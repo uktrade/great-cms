@@ -1,7 +1,15 @@
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV3
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
-from django.forms import CharField, CheckboxSelectMultiple, ChoiceField, MultipleChoiceField, RadioSelect, TextInput, Textarea
+from django.forms import (
+    CharField,
+    CheckboxSelectMultiple,
+    ChoiceField,
+    MultipleChoiceField,
+    RadioSelect,
+    TextInput,
+    Textarea,
+)
 from django.template.loader import render_to_string
 from django.utils.html import mark_safe
 from great_components import forms
