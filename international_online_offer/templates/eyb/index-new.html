@@ -14,7 +14,7 @@
                     <a href="{% url 'international_online_offer:signup' %}"
                        role="button"
                        draggable="false"
-                       class="govuk-button govuk-button--start govuk-link--no-visited-state"
+                       class="govuk-button govuk-button--start"
                        data-module="govuk-button">
                         Get started by signing up
                         <svg class="govuk-button__start-icon"
@@ -29,7 +29,7 @@
                     </a>
                     <p class="govuk-body">
                         Already started? <a href="{% url 'international_online_offer:login' %}"
-    class="govuk-link">Sign in</a>
+    class="govuk-link govuk-link--no-visited-state">Sign in</a>
                     </p>
                 </div>
                 <div class="govuk-grid-column-one-half">
@@ -40,8 +40,8 @@
     </section>
     <section class="eyb-guidance-section">
         <div class="govuk-width-container great-container">
-            <div class="govuk-grid-row govuk-!-padding-top-6 govuk-!-padding-bottom-6">
-                <div class="govuk-grid-column-full govuk-!-padding-top-4 govuk-!-padding-bottom-4">
+            <div class="govuk-grid-row govuk-!-padding-top-8 govuk-!-padding-bottom-8">
+                <div class="govuk-grid-column-full">
                     <h2 class="govuk-heading-l">
                         Sign up for practical online guidance
                     </h1>
@@ -96,38 +96,24 @@
     <section class="eyb-insights-section">
         <div class="govuk-width-container great-container">
             <div class="govuk-grid-row">
-                <div class="govuk-grid-column-one-half">
-                    <div class="govuk-!-padding-top-4">
-                        <div class="govuk-grid-row govuk-!-padding-top-6">
-                            <div class="govuk-grid-column-full">
-                                <h2 class="govuk-heading-l">Sign up to get insights and data</h2>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="govuk-grid-row govuk-!-margin-bottom-3">
-                        <div class="govuk-grid-column-one-quarter">
+                <div class="govuk-grid-column-one-half-from-desktop govuk-!-padding-top-8 govuk-!-padding-bottom-4">
+                    <h2 class="govuk-heading-l">Sign up to get insights and data</h2>
+                    <ul class="govuk-!-margin-bottom-0 govuk-!-margin-top-0">
+                        <li class="great-display-flex great-align-items-center great-gap govuk-!-margin-bottom-4">
                             <div class="eyb-insights-image eyb-salary-image" alt="Salary icon"></div>
-                        </div>
-                        <div class="govuk-grid-column-three-quarters">
                             <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-top-3">
                                 Assess the cost of hiring staff for your industry, across the UK
                             </p>
-                        </div>
-                    </div>
-                    <div class="govuk-!-padding-bottom-4">
-                        <div class="govuk-grid-row govuk-!-padding-bottom-6">
-                            <div class="govuk-grid-column-one-quarter">
-                                <div class="eyb-insights-image eyb-shop-image" alt="Shop icon"></div>
-                            </div>
-                            <div class="govuk-grid-column-three-quarters">
-                                <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-top-3">
-                                    Compare prices for renting shops, offices or warehouses, by region
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                        </li>
+                        <li class="great-display-flex great-align-items-center great-gap govuk-!-margin-bottom-4">
+                            <div class="eyb-insights-image eyb-shop-image" alt="Shop icon"></div>
+                            <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-top-3">
+                                Compare prices for renting shops, offices or warehouses, by region
+                            </p>
+                        </li>
+                    </ul>
                 </div>
-                <div class="govuk-grid-column-one-half">
+                <div class="govuk-grid-column-one-half-from-desktop">
                     <div class="eyb-map-image"></div>
                 </div>
             </div>
@@ -135,103 +121,99 @@
     </section>
     <section class="eyb-connections-section">
         <div class="govuk-width-container great-container">
-            <div class="govuk-grid-row govuk-!-padding-top-6">
-                <div class="govuk-grid-column-full govuk-!-padding-top-4">
-                    <h2 class="govuk-heading-l">Sign up to make connections</h2>
-                </div>
-            </div>
-            <div class="govuk-grid-row govuk-!-padding-bottom-6">
+            <div class="govuk-grid-row govuk-!-padding-top-8 govuk-!-padding-bottom-5">
+                <h2 class="govuk-heading-l">Sign up to make connections</h2>
                 <ul class="govuk-list govuk-!-padding-top-4">
-                    <li class="govuk-grid-column-one-third govuk-!-padding-bottom-3">
+                    <li class="govuk-grid-column-one-third">
                         <div class="eyb-connection-image eyb-networking-image"
                              alt="Image of a person or potential connection"></div>
                         <p class="govuk-body govuk-!-font-weight-bold govuk-!-text-align-centre">
                             Browse our lists of UK trade associations and get networking
                         </p>
                     </li>
-                    <li class="govuk-grid-column-one-third govuk-!-padding-bottom-3">
+                    <li class="govuk-grid-column-one-third">
                         <div class="eyb-connection-image eyb-trade-image"
                              alt="Image of a person or potential connection"></div>
                         <p class="govuk-body govuk-!-font-weight-bold govuk-!-text-align-centre">
                             Add hand-picked trade events to your calendar
                         </p>
                     </li>
-                    <li class="govuk-grid-column-one-third govuk-!-padding-bottom-3">
+                    <li class="govuk-grid-column-one-third">
                         <div class="eyb-connection-image eyb-expert-image"
                              alt="Image of a person or potential connection"></div>
                         <p class="govuk-body govuk-!-font-weight-bold govuk-!-text-align-centre">
                             Find UK experts in finance, law, and tax in our business directory
                         </p>
                     </li>
-                    <ul>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <section class="eyb-how-it-works-section">
+        <div class="govuk-width-container great-container">
+            <div class="govuk-grid-row govuk-!-padding-top-6">
+                <div class="govuk-grid-column-full govuk-!-padding-top-4">
+                    <h2 class="govuk-heading-l">How it works</h2>
+                </div>
+            </div>
+            <div class="govuk-grid-row govuk-!-padding-bottom-6">
+                <ol class="govuk-list">
+                    <li class="govuk-grid-column-one-third govuk-!-padding-bottom-3">
+                        <div class="govuk-grid-column-full great-display-flex great-gap great-align-items-top govuk-!-padding-0">
+                            <span class="govuk-body eyb-huge-green-text govuk-!-margin-bottom-3">1</span>
+                            <div>
+                                <h3 class="govuk-body-l govuk-!-font-weight-bold govuk-!-margin-bottom-3">Sign up</h3>
+                                <p class="govuk-body govuk-!-margin-bottom-3">Enter an email address to save your progress</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="govuk-grid-column-one-third govuk-!-padding-bottom-3">
+                        <div class="govuk-grid-column-full great-display-flex great-gap great-align-items-top govuk-!-padding-0">
+                            <span class="govuk-body eyb-huge-green-text govuk-!-margin-bottom-3">2</span>
+                            <div>
+                                <h3 class="govuk-body-l govuk-!-font-weight-bold govuk-!-margin-bottom-3">Tell us a bit about your business</h3>
+                                <p class="govuk-body govuk-!-margin-bottom-3">Include your sector and basic contact details</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="govuk-grid-column-one-third govuk-!-padding-bottom-3">
+                        <div class="govuk-grid-column-full great-display-flex great-gap great-align-items-top govuk-!-padding-0">
+                            <span class="govuk-body eyb-huge-green-text govuk-!-margin-bottom-3">3</span>
+                            <div>
+                                <h3 class="govuk-body-l govuk-!-font-weight-bold govuk-!-margin-bottom-3">View your guidance and data</h3>
+                                <p class="govuk-body govuk-!-margin-bottom-3">
+                                    It's based on what you've told us, and you can refer to and shape it as your plans evolve
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                    <ol>
                     </div>
                 </div>
             </section>
-            <section class="eyb-how-it-works-section">
+            <section class="eyb-final-cta-section">
                 <div class="govuk-width-container great-container">
-                    <div class="govuk-grid-row govuk-!-padding-top-6">
-                        <div class="govuk-grid-column-full govuk-!-padding-top-4">
-                            <h2 class="govuk-heading-l">How it works</h2>
+                    <div class="govuk-grid-row govuk-!-padding-top-6 govuk-!-padding-bottom-6">
+                        <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-padding-top-4">
+                            <h2 class="govuk-heading-l">Instantly access the official information and data you need, in one place</h2>
+                            <a href="{% url 'international_online_offer:signup' %}"
+                               role="button"
+                               draggable="false"
+                               class="govuk-button govuk-button--start"
+                               data-module="govuk-button">
+                                Get started by signing up
+                                <svg class="govuk-button__start-icon"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     width="17.5"
+                                     height="19"
+                                     viewBox="0 0 33 40"
+                                     aria-hidden="true"
+                                     focusable="false">
+                                    <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
+                                </svg>
+                            </a>
                         </div>
                     </div>
-                    <div class="govuk-grid-row govuk-!-padding-bottom-6">
-                        <ol class="govuk-list">
-                            <li class="govuk-grid-column-one-third govuk-!-padding-bottom-3">
-                                <div class="govuk-grid-column-full great-display-flex great-gap great-align-items-top govuk-!-padding-0">
-                                    <span class="govuk-body eyb-huge-green-text govuk-!-margin-bottom-3">1</span>
-                                    <div>
-                                        <h3 class="govuk-body-l govuk-!-font-weight-bold govuk-!-margin-bottom-3">Sign up</h3>
-                                        <p class="govuk-body govuk-!-margin-bottom-3">Enter an email address to save your progress</p>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="govuk-grid-column-one-third govuk-!-padding-bottom-3">
-                                <div class="govuk-grid-column-full great-display-flex great-gap great-align-items-top govuk-!-padding-0">
-                                    <span class="govuk-body eyb-huge-green-text govuk-!-margin-bottom-3">2</span>
-                                    <div>
-                                        <h3 class="govuk-body-l govuk-!-font-weight-bold govuk-!-margin-bottom-3">Tell us a bit about your business</h3>
-                                        <p class="govuk-body govuk-!-margin-bottom-3">Include your sector and basic contact details</p>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="govuk-grid-column-one-third govuk-!-padding-bottom-3">
-                                <div class="govuk-grid-column-full great-display-flex great-gap great-align-items-top govuk-!-padding-0">
-                                    <span class="govuk-body eyb-huge-green-text govuk-!-margin-bottom-3">3</span>
-                                    <div>
-                                        <h3 class="govuk-body-l govuk-!-font-weight-bold govuk-!-margin-bottom-3">View your guidance and data</h3>
-                                        <p class="govuk-body govuk-!-margin-bottom-3">
-                                            It's based on what you've told us, and you can refer to and shape it as your plans evolve
-                                        </p>
-                                    </div>
-                                </div>
-                            </li>
-                            <ol>
-                            </div>
-                        </div>
-                    </section>
-                    <section class="eyb-final-cta-section">
-                        <div class="govuk-width-container great-container">
-                            <div class="govuk-grid-row govuk-!-padding-top-6 govuk-!-padding-bottom-6">
-                                <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-padding-top-4">
-                                    <h2 class="govuk-heading-l">Instantly access the official information and data you need, in one place</h2>
-                                    <a href="{% url 'international_online_offer:signup' %}"
-                                       role="button"
-                                       draggable="false"
-                                       class="govuk-button govuk-button--start"
-                                       data-module="govuk-button">
-                                        Get started by signing up
-                                        <svg class="govuk-button__start-icon"
-                                             xmlns="http://www.w3.org/2000/svg"
-                                             width="17.5"
-                                             height="19"
-                                             viewBox="0 0 33 40"
-                                             aria-hidden="true"
-                                             focusable="false">
-                                            <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
-                                        </svg>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                {% endblock %}
+                </div>
+            </section>
+        {% endblock %}
