@@ -61,6 +61,8 @@
         background-size: contain;
         width: 90px;
         height: 90px;
+        min-width: 70px;
+        min-height: 70px;
     }
     .eyb-salary-image {
         background-image: url('/static/svg/icon-salary.svg')
