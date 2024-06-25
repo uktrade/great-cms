@@ -628,6 +628,12 @@
   }
 }
 
+.great-display-flex-until-desktop {
+  @include govuk-media-query($until: desktop) {
+    display: flex;
+  }
+}
+
 .great-flex-wrap {
   flex-wrap: wrap;
 }
@@ -668,6 +674,14 @@
   display: none;
 
   @include govuk-media-query($from: tablet) {
+    display: block;
+  }
+}
+
+.great-display-from-desktop {
+  display: none;
+
+  @include govuk-media-query($from: desktop) {
     display: block;
   }
 }
@@ -1025,10 +1039,9 @@ great-icon {
   float: right;
 }
 
-.great-flex-column-until-desktop {
-  @include govuk-media-query($until: desktop) {
+.great-flex-column-from-desktop {
+  @include govuk-media-query($from: desktop) {
     flex-direction: column;
-    align-items: flex-start;
   }
 }
 
