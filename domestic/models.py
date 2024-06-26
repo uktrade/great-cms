@@ -925,8 +925,20 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, TaggedBaseContentPage)
     # In V1, we had 6 repeated sets of fields defined for 'accordions_1..._6'.
     # None of these was _required_, only optional and required extra logic to pull the data together
     # These have been moved to StreamField for flexibility without repetition
+    sector_links = StreamField(
+        [
+            ('sector_link', core_blocks.CountryGuideIndustryLinkBlock()),
+        ],
+        use_json_field=True,
+        null=True,
+        blank=True,
+        validators=[industry_accordions_validation],
+    )
+
     accordions = StreamField(
-        [('industries', core_blocks.CountryGuideIndustryBlock())],
+        [
+            ('industries', core_blocks.CountryGuideIndustryBlock()),
+        ],
         use_json_field=True,
         null=True,
         blank=True,

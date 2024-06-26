@@ -2146,3 +2146,26 @@ nav.great-breadcrumbs {
     }
   }
 }
+
+.great-accordian-sector-link {
+  text-decoration: none;
+  color: $great-blue;
+  font-weight: 700;
+  position: relative;
+  display: flex;
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: 0;
+  align-items: center;
+  min-height: 88px;
+
+  &:after {
+    content: "\f061";
+    font-family: "Font Awesome 5 Free";
+    position: absolute;
+    color: $color-gov-link;
+    font-weight: 600;
+    right: 15px;
+  }
+}
