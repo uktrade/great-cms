@@ -57,10 +57,12 @@
     background-color: #8CE2D0;
 
     @include govuk-media-query($from: desktop) {
-        background-position: right center;
-        background-repeat: no-repeat;
-        background-size: contain;
-        background-image: url('/static/svg/data-map-cropped.svg');
+        .eyb-map-image-background {
+            background-position: right center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-image: url('/static/svg/data-map-cropped.svg');
+        }
     }
 
     .eyb-insights-image {
