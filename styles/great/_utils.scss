@@ -1043,6 +1043,13 @@ great-icon {
   float: right;
 }
 
+.great-flex-column-until-desktop {
+  @include govuk-media-query($until: desktop) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
 .great-flex-column-from-desktop {
   @include govuk-media-query($from: desktop) {
     flex-direction: column;
