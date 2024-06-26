@@ -36,7 +36,7 @@ sentry-sdk>=1.20.*,<2.0.0
 # DBT packages
 # ------------
 great-components==2.6.4
-directory-api-client==26.7.0
+directory-api-client==26.7.1
 directory-ch-client==4.0.2
 directory-client-core==7.2.13
 directory-components==40.2.3
