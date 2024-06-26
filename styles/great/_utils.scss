@@ -1005,6 +1005,10 @@ great-icon {
   gap: 10px 30px;
 }
 
+.great-gap-0-15 {
+  gap: 0px 15px;
+}
+
 .great-min-column-width {
   min-width: 390px;
   @media only screen and (max-width: $mobile-size) {
