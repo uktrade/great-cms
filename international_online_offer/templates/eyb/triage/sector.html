@@ -48,8 +48,6 @@
     {{ block.super }}
     <script type="text/javascript"
             src="{% static 'javascript/accessible-autocomplete.min.js' %}"></script>
-    <script type="text/javascript"
-            src="{% static 'javascript/expand-your-business.js' %}"></script>
     <script type="text/javascript">
         const sectorsAndSICSectors = JSON.parse("{{autocomplete_sector_data | escapejs}}").data;
         const sicTextContainer = document.querySelector('#sic-text');
@@ -124,4 +122,5 @@
         }
         });
     </script>
+    <script type="text/javascript">autocompleteFocusOnESC('#js-sector-select')</script>
 {% endblock %}

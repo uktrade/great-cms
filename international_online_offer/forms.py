@@ -27,7 +27,7 @@ COUNTRIES = BLANK_COUNTRY_CHOICE + COUNTRY_CHOICES
 
 class SectorForm(forms.Form):
     sector_sub = ChoiceField(
-        label="",
+        label='',
         help_text='Search a list of activities and select the closest description',
         required=True,
         widget=Select(

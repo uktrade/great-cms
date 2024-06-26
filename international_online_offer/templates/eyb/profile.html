@@ -34,8 +34,6 @@
     {{ block.super }}
     <script type="text/javascript"
             src="{% static 'javascript/accessible-autocomplete.min.js' %}"></script>
-    <script type="text/javascript"
-            src="{% static 'javascript/expand-your-business.js' %}"></script>
     <script type="text/javascript">
     const countries = [
         'Abu Dhabi',
@@ -315,18 +313,5 @@
       minLength: 2,
     });
     </script>
-    <script type="text/javascript">
-        // return focus to input if esc is pressed on autocomplete list
-        const listDropDown = document.querySelector('#js-company-location-select')
-        console.log('hello')
-        listDropDown.addEventListener("keydown", (e)=>{
-            if (e.key == 'Escape'){
-                console.log('pressed escape')
-                setTimeout(()=>{
-                    listDropDown.focus()
-                    listDropDown.classList.add('autocomplete__input--focused')
-                },15)
-            }
-        })
-    </script>
+    <script type="text/javascript">autocompleteFocusOnESC('#js-company-location-select')</script>
 {% endblock %}

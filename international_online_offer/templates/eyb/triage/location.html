@@ -66,8 +66,6 @@
     {{ block.super }}
     <script type="text/javascript"
             src="{% static 'javascript/accessible-autocomplete.min.js' %}"></script>
-    <script type="text/javascript"
-            src="{% static 'javascript/expand-your-business.js' %}"></script>
     <script type="text/javascript">
         // Gets json list of regions and cities from django - flattens to use
         // with autocomplete.
@@ -129,4 +127,5 @@
             }
         });
     </script>
+    <script type="text/javascript">autocompleteFocusOnESC('#js-location-select')</script>
 {% endblock %}
