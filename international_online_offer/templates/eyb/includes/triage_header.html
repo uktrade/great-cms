@@ -13,6 +13,17 @@
 </div>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-l">{{ question_text }}</h1>
+        {% if element_type and element_type == 'legend' %}
+            <legend>
+                <h1 class="govuk-heading-l">{{ question_text }}</h1>
+            </legend>
+        {% elif element_type and element_type == 'label' %}
+            <h1 class="govuk-heading-l">
+                <label for={{ for_id }}>{{ question_text }}
+                </label>
+            </h1>
+        {% else %}
+            <h1 class="govuk-heading-l">{{ question_text }}</h1>
+        {% endif %}
     </div>
 </div>

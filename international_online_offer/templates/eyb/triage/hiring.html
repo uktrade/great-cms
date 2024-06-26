@@ -9,7 +9,7 @@
 {% block head_css %}{{ block.super }}{% endblock %}
 {% block content %}
     <div class="govuk-width-container great-container">
-        {% include '../includes/triage_header.html' with back_url=back_url step_text=step_text question_text=question_text %}
+        {% include '../includes/triage_header.html' with back_url=back_url step_text=step_text question_text=question_text element_type='legend' %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-3">
                 <form method="post">
