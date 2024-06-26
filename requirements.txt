@@ -108,7 +108,7 @@ deprecated==1.2.14
     #   opentelemetry-api
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
-directory-api-client==26.7.0
+directory-api-client==26.7.1
     # via -r requirements.in
 directory-ch-client==4.0.2
     # via -r requirements.in
@@ -255,6 +255,8 @@ googleapis-common-protos==1.63.1
     #   opentelemetry-exporter-otlp-proto-http
 great-components==2.6.4
     # via -r requirements.in
+greenlet==3.0.3
+    # via sqlalchemy
 grpcio==1.64.1
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==22.0.0

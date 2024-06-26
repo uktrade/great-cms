@@ -93,16 +93,24 @@ def get_bci_data(dbt_sector_name: str, area: str) -> Tuple[Dict, Dict, Dict, int
     return (bci_headline, headline_region, bci_detail, bci_release_year, hyperlinked_geo_codes)
 
 
-def get_salary_data(geo_region: str, vertical: str = None, professional_level: str = None):
+def get_salary_data(vertical: str, professional_level: str = None, geo_region: str = None):
 
-    response = api_client.dataservices.get_eyb_salary_data(geo_region, vertical, professional_level)
+    response = api_client.dataservices.get_eyb_salary_data(vertical, professional_level, geo_region)
 
     return response.json()
 
 
-def get_median_salaries(geo_region: str, vertical: str = None, professional_level: str = None) -> Dict:
+def get_median_salaries(vertical: str, professional_level: str = None, geo_region: str = None) -> Dict:
+    error_msg = ''
+    all_salaries = get_salary_data(vertical, professional_level=professional_level, geo_region=geo_region)
 
-    all_salaries = get_salary_data(geo_region, vertical=vertical, professional_level=professional_level)
+    if len(all_salaries) == 0:
+        data_for_vertical = get_salary_data(vertical)
+        error_msg = (
+            'No data available for this sector.'
+            if len(data_for_vertical) == 0
+            else 'No data available for this location.'
+        )
 
     # if iterator returns no values, return an empty dictonary so that it can be used with the .get function
     entry_salary = next((salary for salary in all_salaries if salary['professional_level'] == ENTRY_LEVEL), {})
@@ -112,6 +120,7 @@ def get_median_salaries(geo_region: str, vertical: str = None, professional_leve
     )
 
     return {
+        'error_msg': error_msg,
         ENTRY_LEVEL: entry_salary.get('median_salary'),
         MID_SENIOR_LEVEL: mid_salary.get('median_salary'),
         DIRECTOR_EXECUTIVE_LEVEL: executive_salary.get('median_salary'),

@@ -250,7 +250,7 @@ class EYBArticlePage(BaseContentPage):
                 region = helpers.get_salary_region_from_region(location)
                 sector_display = triage_data.get_sector_display()
 
-                median_salaries = get_median_salaries(region, vertical=sector_display)
+                median_salaries = get_median_salaries(sector_display, geo_region=region)
                 cleaned_median_salaries = helpers.clean_salary_data(median_salaries)
 
                 (large_warehouse_rent, small_warehouse_rent, shopping_centre, high_street_retail, work_office) = (
@@ -274,6 +274,7 @@ class EYBArticlePage(BaseContentPage):
                     entry_salary=cleaned_median_salaries.get(professions.ENTRY_LEVEL),
                     mid_salary=cleaned_median_salaries.get(professions.MID_SENIOR_LEVEL),
                     executive_salary=cleaned_median_salaries.get(professions.DIRECTOR_EXECUTIVE_LEVEL),
+                    salary_error_msg=cleaned_median_salaries.get('error_msg'),
                     large_warehouse_rent=large_warehouse_rent,
                     small_warehouse_rent=small_warehouse_rent,
                     shopping_centre=shopping_centre,
