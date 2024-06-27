@@ -9,7 +9,9 @@
 
 {% block content %}
     {% block breadcrumbs %}
-        {% include 'components/breadcrumbs_cms.html' %}
+        <div class="container">
+            {% include 'components/breadcrumbs_cms.html' %}
+        </div>
     {% endblock %}
     <div class="great great-hero-box-shadow-bottom">
         {% image page.hero_image original as rendition %}

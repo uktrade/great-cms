@@ -1,7 +1,9 @@
 {% load component_tags %}
 {% load wagtailcore_tags wagtailimages_tags %}
 {% load static from static %}
-{% include 'components/breadcrumbs_cms.html' %}
+<div class="container">
+    {% include 'components/breadcrumbs_cms.html' %}
+</div>
 <article class="article-main {{ view.slug }}-article">
     <div class="container">
         <header>

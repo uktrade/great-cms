@@ -1,5 +1,5 @@
 {% extends 'domestic/base.html' %}
-{% load pagination from component_tags %}
+{% load component_tags %}
 {% load static %}
 {% block head_title %}Markets{% endblock %}
 {% block meta_title %}Markets{% endblock %}
@@ -8,7 +8,9 @@
 {% endblock css_layout_class %}
 {% block content %}
     {% block breadcrumbs %}
-        {% include 'components/breadcrumbs_cms.html' %}
+        <div class="container">
+            {% include 'components/breadcrumbs_cms.html' %}
+        </div>
     {% endblock %}
     {% block hero %}
         {% include 'components/hero.html' with image=page.hero_image hero_title="Markets" hero_text="Research export opportunities and prepare your business for new markets" %}

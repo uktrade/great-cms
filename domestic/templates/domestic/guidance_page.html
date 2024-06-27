@@ -3,7 +3,10 @@
 {% load breadcrumbs from component_tags %}
 {% block content %}
     {% block breadcrumbs %}
-        {% include 'components/breadcrumbs_cms.html' %}
+        <div class="container">
+            {% include 'components/breadcrumbs_cms.html' %}
+        </div>
     {% endblock %}
+
     {% include 'domestic/includes/cms_content.html' %}
 {% endblock %}

@@ -6,7 +6,9 @@
 {% endblock css_layout_class %}
 {% block content %}
     {% block breadcrumbs %}
-        {% include 'components/breadcrumbs_cms.html' %}
+        <div class="container">
+            {% include 'components/breadcrumbs_cms.html' %}
+        </div>
     {% endblock %}
     {% block hero %}
         {% include 'components/hero.html' with image=page.hero_image hero_title=page.title hero_text=page.teaser %}

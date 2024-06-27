@@ -2,14 +2,14 @@
 {% with current_page=page.specific.get_breadcrumbs|last %}
     {% if hide_breadcrumbs %}
         {% breadcrumbs %}
-        <a href="{{ BREADCRUMBS_ROOT_URL }}">Home</a>
-    {% endbreadcrumbs %}
-{% else %}
-    {% breadcrumbs %}
-    <a href="{{ BREADCRUMBS_ROOT_URL }}">Home</a>
-    {% for crumb in page.get_breadcrumbs %}
-        {% if not forloop.last %}<a href="{{ crumb.url }}">{{ crumb.title }}</a>{% endif %}
-    {% endfor %}
-{% endbreadcrumbs %}
-{% endif %}
+            <a href="{{ BREADCRUMBS_ROOT_URL }}">Home</a>
+        {% endbreadcrumbs %}
+    {% else %}
+        {% breadcrumbs %}
+            <a href="{{ BREADCRUMBS_ROOT_URL }}">Home</a>
+            {% for crumb in page.get_breadcrumbs %}
+                {% if not forloop.last %}<a href="{{ crumb.url }}">{{ crumb.title }}</a>{% endif %}
+            {% endfor %}
+        {% endbreadcrumbs %}
+    {% endif %}
 {% endwith %}

@@ -1,8 +1,12 @@
 # Refactored/amended versions of templatetags formerly in directory_componennts
+import os
 from bs4 import BeautifulSoup
 from django import template
 from django.templatetags import static
 from django.utils import timezone
+from django.conf import settings
+from django.template import Context, Template
+from django.utils.safestring import mark_safe
 
 register = template.Library()
 
@@ -13,47 +17,44 @@ META_DESCRIPTION_TEXT_LENGTH = 150
 def breadcrumbs(parser, token):
     nodelist = parser.parse(('endbreadcrumbs',))
     parser.delete_first_token()
-    return Breadcrumbs(nodelist)
-
+    return Breadcrumbs(nodelist, token)
 
 class Breadcrumbs(template.Node):
-    template = """
-        <nav aria-label="Breadcrumb" class="{class_style}">
-          <ol>
-          </ol>
-        </nav>
-    """
-
-    def __init__(self, nodelist):
+    def __init__(self, nodelist, token):
         self.nodelist = nodelist
+        self.token = token
 
     def render(self, context):
-        try:
-            class_style = self.token.split_contents()[1]
-        except IndexError:
-            class_style = 'breadcrumbs'
+        token_contents = self.token.split_contents()
+        class_style = token_contents[1] if len(token_contents) > 1 else ''
+
         html = self.nodelist.render(context)
         input_soup = BeautifulSoup(html, 'html.parser')
-        output_soup = BeautifulSoup(self.template.format(class_style=class_style), 'html.parser')
         links = input_soup.findAll('a')
+
         if not links:
             raise ValueError('Please specify some links')
-        # adding level 1...n
-        for link in links:
-            if not link.get('href'):
-                raise ValueError('Missing href in breadcrumb')
-            element = output_soup.new_tag('li')
-            element.append(link)
-            output_soup.find('ol').append(element)
 
-        # remove tabbing through breadcrumbs
-        output = output_soup.findAll('a')
-        for anchor in output:
-            anchor['tabindex'] = '-1'
+        breadcrumbs_template_path = os.path.join(
+            settings.ROOT_DIR, 'node_modules/@uktrade/great-design-system/dist/components/breadcrumbs/breadcrumbs.html'
+        )
 
-        return output_soup.decode(formatter=None)
+        try:
+            with open(breadcrumbs_template_path, 'r') as file:
+                breadcrumbs_template_content = file.read()
+        except FileNotFoundError:
+            return "<!-- Breadcrumbs template not found -->"
 
+        new_context = {
+            'classes': class_style,
+            'collapseOnMobile': True,
+            'itemsList': [{'href': link.get('href'), 'text': link.get_text()} for link in links]
+        }
 
+        breadcrumbs_template = Template(breadcrumbs_template_content)
+        rendered_content = breadcrumbs_template.render(Context(new_context))
+        return mark_safe(rendered_content)
+    
 @register.tag
 def ga360_data(parser, token):
     nodelist = parser.parse(('end_ga360_data',))
