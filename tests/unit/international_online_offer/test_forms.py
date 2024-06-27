@@ -77,7 +77,7 @@ def test_triage_location_form_validation(form_data, is_valid, location_error_mes
 @pytest.mark.parametrize(
     'form_data,is_valid',
     (
-        ({'hiring': hirings.ONE_TO_TEN}, True),
+        ({'hiring': hirings.ONE_TO_FIVE}, True),
         ({'hiring': ''}, False),
     ),
 )
