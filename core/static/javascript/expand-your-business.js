@@ -24,7 +24,8 @@ function handleSpendRadioClick(radio) {
 // below is a workaround to accomodate this.
 function autocompleteFocusOnESC(elementName){
   const element = document.querySelector(elementName)
-  // return focus to input if esc is pressed on autocomplete list
+  // setTimeout is used because the autocomplete library sets the focused element to null on press of ESC via
+  // https://github.com/alphagov/accessible-autocomplete/blob/79370c8c66f7496fb503bb1840cd590157f97232/src/autocomplete.js#L175
   element.addEventListener("keydown", (e)=>{
       if (e.key == 'Escape'){
           setTimeout(()=>{
