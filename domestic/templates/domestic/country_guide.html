@@ -416,13 +416,20 @@
                 </div>
             </div>
         </section>
-        {% if page.accordions %}
+        {% if page.accordions or page.sector_links %}
             {# This is streamfield #}
             <section id="country-guide-accordions" class="accordions padding-vertical-0">
                 <ul>
-                    {% for industry_block in page.accordions %}
-                        {% include_block industry_block %}
-                    {% endfor %}
+                    {% if page.sector_links %}
+                        {% for sector_link in page.sector_links %}
+                            {% include_block sector_link %}
+                        {% endfor %}
+                    {% endif %}
+                    {% if page.accordions %}
+                        {% for industry_block in page.accordions %}
+                            {% include_block industry_block %}
+                        {% endfor %}
+                    {% endif %}
                 </ul>
             </section>
         {% endif %}
