@@ -8,9 +8,15 @@ from wagtail.admin.panels import (
 )
 from wagtailmedia.widgets import AdminMediaChooser
 
+from config import settings
+
 ACCORDION_FIELDS_HELP_TEXT = (
     'Add up to six blocks of Industry Info. '
     'To be displayed, each industry needs at least: a title, a teaser, and two subsections.'
+)
+
+SECTOR_LINKS_HELP_TEXT = (
+    'Add up to six sector content links. ' 'These are displayed immediately above the Industry Info accordians'
 )
 
 
@@ -273,6 +279,15 @@ class CountryGuidePagePanels:
         MultiFieldPanel(
             heading='Industry info',
             children=[
+                HelpPanel(
+                    content=SECTOR_LINKS_HELP_TEXT,
+                    classname='help-panel-font-large',
+                    attrs={'hidden': not settings.FEATURE_MARKET_GUIDES_SECTOR_LINKS},
+                ),
+                FieldPanel(
+                    'sector_links',
+                    attrs={'hidden': not settings.FEATURE_MARKET_GUIDES_SECTOR_LINKS},
+                ),
                 HelpPanel(
                     content=ACCORDION_FIELDS_HELP_TEXT,
                     classname='help-panel-font-large',

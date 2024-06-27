@@ -1,0 +1,18 @@
+{% comment %}
+    Partial which renders out 1...n blocks of Industry data, which is modelled in
+    a StreamField with custom StructBlocks
+{% endcomment %}
+{% load component_tags wagtailimages_tags %}
+<li class="accordion-divider">
+    <div class="container">
+        <a href="{{ value.page.full_url|persist_language:request.GET }}"
+           class="great-text-decoration-none">
+            <span class="great-accordian-sector-link govuk-heading-m link">
+                {% if value.icon %}
+                    {% image value.icon original class="accordion-icon margin-right-15" %}
+                {% endif %}
+                {{ value.title }}
+            </span>
+        </a>
+    </div>
+</li>
