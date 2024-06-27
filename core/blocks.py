@@ -443,6 +443,16 @@ class CountryGuideIndustryBlock(blocks.StructBlock):
         template = 'domestic/includes/blocks/accordions.html'
 
 
+class CountryGuideIndustryLinkBlock(blocks.StructBlock):
+
+    icon = ImageChooserBlock(required=False, label='Industry icon')
+    title = blocks.CharBlock(max_length=255, label='Industry title')
+    page = blocks.PageChooserBlock(label='Page')
+
+    class Meta:
+        template = 'domestic/includes/blocks/sector_link.html'
+
+
 class PullQuoteBlock(blocks.StructBlock):
     # Note: this does not have a default template; we can add one when
     # there is a single standard style for all of Magna
