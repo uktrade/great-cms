@@ -13,7 +13,7 @@
 .eyb-home-section {
     background-color: $great-light-blue;
     .eyb-preview-image {
-        background-position: center;
+        background-position: top right;
         background-repeat: no-repeat;
         background-size: contain;
         width: 100%;
@@ -32,9 +32,6 @@
         background-size: contain;
         width: 90px;
         height: 90px;
-        margin-right: auto;
-        margin-left: auto;
-        margin-bottom: 15px;
     }
     .eyb-planning-image {
         background-image: url('/static/svg/icon-planning.svg')
@@ -58,12 +55,24 @@
 
 .eyb-insights-section {
     background-color: #8CE2D0;
+
+    @media (min-width: 48.0625em) {
+        .eyb-map-image-background {
+            background-position: right 68%;
+            background-repeat: no-repeat;
+            background-size: 50%;
+            background-image: url('/static/svg/data-map.svg');
+        }
+    }
+
     .eyb-insights-image {
         background-position: center;
         background-repeat: no-repeat;
         background-size: contain;
         width: 90px;
         height: 90px;
+        min-width: 70px;
+        min-height: 70px;
     }
     .eyb-salary-image {
         background-image: url('/static/svg/icon-salary.svg')
@@ -71,17 +80,7 @@
     .eyb-shop-image {
         background-image: url('/static/svg/icon-shop.svg')
     }
-    .eyb-map-image {
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: contain;
-        width: 100%;
-        max-width: 600px;
-        height: 300px;
-        margin-right: auto;
-        margin-left: auto;
-        background-image: url('/static/svg/icon-geo-data.svg')
-    }
+
 }
 
 .eyb-connections-section {
@@ -90,8 +89,7 @@
         background-position: center;
         background-repeat: no-repeat;
         background-size: contain;
-        width: 220px;
-        height: 220px;
+        min-height: 176px;
         margin-right: auto;
         margin-left: auto;
         margin-bottom: 15px;
@@ -113,6 +111,10 @@
         font-size: 60px;
         font-weight: bold;
         margin-top: -15px;
+    }
+
+    .eyb-number-forced-width {
+        min-width: 33px;
     }
 }
 
