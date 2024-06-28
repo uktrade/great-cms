@@ -30,7 +30,7 @@ def test_index_casestudies(mock_opensearch_get_connection, domestic_homepage):
     case_study_1.save()
     CaseStudyFactory(id=2)
 
-    with patch('opensearch.helpers.bulk') as mock_bulk:
+    with patch('opensearchpy.helpers.bulk') as mock_bulk:
         call_command('index_casestudies', stdout=StringIO())
         assert mock_bulk.called
         cs_1 = mock_bulk.call_args[0][1][1].get('_source')
