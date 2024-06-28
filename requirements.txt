@@ -235,7 +235,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==25.9.1
+faker==26.0.0
     # via factory-boy
 filelock==3.15.4
     # via virtualenv
@@ -243,7 +243,7 @@ filetype==1.2.0
     # via willow
 geoip2==2.9.0
     # via -r requirements.in
-googleapis-common-protos==1.63.1
+googleapis-common-protos==1.63.2
     # via
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
@@ -474,7 +474,7 @@ qrcode==7.4.2
     # via pyhanko
 readtime==1.1.1
     # via -r requirements.in
-redis==5.0.6
+redis==5.0.7
     # via
     #   celery
     #   django-redis
