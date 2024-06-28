@@ -33,8 +33,8 @@ REGION_CHOICES = (
 
 
 HIRING_CHOICES = (
-    (hirings.ONE_TO_TEN, '1 to 10'),
-    (hirings.ELEVEN_TO_FIFTY, '11 to 50'),
+    (hirings.ONE_TO_FIVE, '1 to 5'),
+    (hirings.SIX_TO_FIFTY, '6 to 50'),
     (hirings.FIFTY_ONE_TO_ONE_HUNDRED, '51 to 100'),
     (hirings.ONE_HUNDRED_ONE_PLUS, 'More than 100'),
     (hirings.NO_PLANS_TO_HIRE_YET, 'No plans to hire yet'),
