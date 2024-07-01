@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.core.management import BaseCommand
-from elasticsearch.helpers import bulk
+from opensearchpy.helpers import bulk
 
 from core.case_study_index import case_study_to_index, get_connection
 from core.models import CaseStudy
@@ -11,7 +11,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         connection = get_connection()
-        connection.indices.delete(index=settings.ELASTICSEARCH_CASE_STUDY_INDEX, ignore=[400, 404])
+        connection.indices.delete(index=settings.OPENSEARCH_CASE_STUDY_INDEX, ignore=[400, 404])
         data = []
         for cs in CaseStudy.objects.all():
             self.stdout.write(f'Case study {cs.id}')

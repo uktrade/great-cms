@@ -67,7 +67,7 @@ def parse_results(response, query, page):
 
 
 def format_query(query, page):
-    """Formats query for ElasticSearch
+    """Formats query for OpenSearch
 
     NB: While Great V1 and V2 co-exist, we deliberately only want Article and Services
     to be namespaced for dit:greatCms, to avoid conflicts with documents with the type
@@ -201,7 +201,7 @@ def format_query(query, page):
 
 
 def search_with_activitystream(query):
-    """Searches ActivityStream services with given Elasticsearch query.
+    """Searches ActivityStream services with given Opensearch query.
     Note that this must be at root level in SearchView class to
     enable it to be mocked in tests.
     """

@@ -3,7 +3,7 @@ from unittest import mock
 
 import pytest
 from django.forms import Media
-from elasticsearch.exceptions import ConnectionError, NotFoundError
+from opensearchpy.exceptions import ConnectionError, NotFoundError
 from wagtail import blocks
 from wagtail.blocks.stream_block import StreamBlockValidationError
 
@@ -135,14 +135,14 @@ def test_learning_link_component(domestic_site, domestic_homepage):
 
 
 @pytest.mark.django_db
-def test_case_study_update_index(mock_elasticsearch_get_connection):
+def test_case_study_update_index(mock_opensearch_get_connection):
     # Check that the index is updated on create of a case study.
     CaseStudyFactory(id=1)
 
 
 @mock.patch.object(case_study_index, 'delete_cs_index')
 @pytest.mark.django_db
-def test_case_study_delete_index(mock_delete_cs_index, mock_elasticsearch_get_connection):
+def test_case_study_delete_index(mock_delete_cs_index, mock_opensearch_get_connection):
     # Check that the index is deleted on delete of a case study.
     case_study_1 = CaseStudyFactory(id=1)
     case_study_1.delete()
@@ -157,9 +157,9 @@ def test_case_study_static_block_below_threshold(
     client,
     magna_site,
     mock_get_user_data,
-    mock_elasticsearch_get_connection,
-    mock_elasticsearch_count,
-    mock_elasticsearch_scan,
+    mock_opensearch_get_connection,
+    mock_opensearch_count,
+    mock_opensearch_scan,
     mock_trading_blocs,
     settings,
 ):
@@ -191,9 +191,9 @@ def test_case_study_static_block_above_threshold(
     client,
     magna_site,
     mock_get_user_data,
-    mock_elasticsearch_get_connection,
-    mock_elasticsearch_count,
-    mock_elasticsearch_scan,
+    mock_opensearch_get_connection,
+    mock_opensearch_count,
+    mock_opensearch_scan,
     mock_trading_blocs,
     settings,
     feature_show_list,
@@ -237,9 +237,9 @@ def test_case_study_static_block_no_exception_raised_missing_casestudy(
     client,
     magna_site,
     mock_get_user_data,
-    mock_elasticsearch_get_connection,
-    mock_elasticsearch_count,
-    mock_elasticsearch_scan,
+    mock_opensearch_get_connection,
+    mock_opensearch_count,
+    mock_opensearch_scan,
     mock_trading_blocs,
     settings,
 ):

@@ -39,8 +39,8 @@ class SearchView(TemplateView):
         }
 
         try:
-            elasticsearch_query = helpers.format_query(query, page)
-            response = helpers.search_with_activitystream(elasticsearch_query)
+            opensearch_query = helpers.format_query(query, page)
+            response = helpers.search_with_activitystream(opensearch_query)
         except RequestException:
             logger.error(
                 "Activity Stream connection for Search failed. Query: '{query}'".format(

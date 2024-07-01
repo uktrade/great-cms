@@ -8,7 +8,7 @@ from tests.unit.core import factories
 
 
 @pytest.mark.django_db
-def test_case_study_modeladmin_list_display_methods(en_locale, mock_elasticsearch_get_connection):
+def test_case_study_modeladmin_list_display_methods(en_locale, mock_opensearch_get_connection):
     admin = CaseStudyAdmin()
     obj = factories.CaseStudyFactory()
     detail_page = factories.DetailPageFactory()
@@ -36,7 +36,7 @@ def test_case_study_modeladmin_list_display_methods(en_locale, mock_elasticsearc
 
 
 @pytest.mark.django_db
-def test_casestudyadminbuttonhelper(rf, django_user_model, mock_elasticsearch_get_connection):
+def test_casestudyadminbuttonhelper(rf, django_user_model, mock_opensearch_get_connection):
     obj = factories.CaseStudyFactory()
 
     user = django_user_model.objects.create_user(username='username', password='password', is_staff=True)
