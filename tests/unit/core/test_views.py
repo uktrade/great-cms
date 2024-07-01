@@ -1413,3 +1413,48 @@ def test_pingdom_database_healthcheck_false(mock_database_check, client):
     )
     response = client.get(reverse('core:pingdom'))
     assert response.status_code == 500
+
+
+@pytest.mark.django_db
+def test_csat_user_feedback_with_session_value(
+    client,
+    settings,
+    user,
+):
+    settings.FEATURE_WTE_CSAT = True
+    client.force_login(user)
+    url = reverse_lazy('core:product-market') + '?product=gin&market=germany'
+
+    views.CsatUserFeedback.objects.create(id=1, URL='http://test.com')
+    session = client.session
+    session['ukea_csat_id'] = 1
+    session.save()
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_csat_user_feedback_submit(
+    client,
+    settings,
+    user,
+):
+    settings.FEATURE_WTE_CSAT = True
+    client.force_login(user)
+    url = reverse_lazy('core:product-market') + '?product=gin&market=germany'
+
+    views.CsatUserFeedback.objects.create(id=1, URL='http://test.com')
+    session = client.session
+    session['ukea_csat_id'] = 1
+    session['user_journey'] = 'DASHBOARD'
+    session.save()
+    response = client.post(
+        url,
+        {
+            'satisfaction': 'SATISFIED',
+            'user_journey': 'DASHBOARD',
+            'experience': ['NOT_FIND_LOOKING_FOR'],
+            'likelihood_of_return': 'LIKELY',
+        },
+    )
+    assert response.status_code == 302
