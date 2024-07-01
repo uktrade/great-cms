@@ -137,13 +137,13 @@ class TestSearchAPIView(TemplateView):
 
     Due to shifts in the search order provided, we need to
     set up tests for the search order. The challenge is that
-    all great-cms does is send an elasticsearch query to the elasticsearch
+    all great-cms does is send an opensearch query to the opensearch
     database which sits inside the Activity Stream project. Therefore we
     can’t create fixtures in the DB. Also, if we mock the
     database response, then the test doesn’t test anything.
 
     Another approach would be to test against the staging or
-    dev Elasticsearch database... but the results are not guaranteed to
+    dev Opensearch database... but the results are not guaranteed to
     stay fixed as there are content changes to the data.
 
     The solution decided on is to feed into the dev database only

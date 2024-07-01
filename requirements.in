@@ -70,8 +70,8 @@ elastic-apm==6.1.3
 uk-postcode-utils==1.1
 urllib3==1.26.18
 hashids==0.8.4
-elasticsearch==7.13.4
-elasticsearch-dsl==7.4.1
+opensearch-py==2.6.0
+opensearch-dsl==2.1.0
 python-magic==0.4.27
 oauthlib==3.2.2
 celery[redis]==5.3.6

@@ -701,21 +701,21 @@ def mock_get_user_data():
     ).start()
 
 
-class MockElasticsearchIndices:
+class MockOpensearchIndices:
     def delete(*args, **kwargs):
         return {'results': 1}
 
 
-class MockElasticSearchResult:
+class MockOpenSearchResult:
     def delete_by_query(*args, **kwargs):
         return {'results': 1}
 
 
-class MockElasticsearch:
-    indices = MockElasticsearchIndices()
+class MockOpensearch:
+    indices = MockOpensearchIndices()
 
     def search(*args, **kwargs):
-        return MockElasticSearchResult()
+        return MockOpenSearchResult()
 
     def delete(*args, **kwargs):
         return {}
@@ -728,39 +728,39 @@ class MockElasticsearch:
 
 
 @pytest.fixture
-def mock_elasticsearch_get_connection():
-    mock.patch('elasticsearch_dsl.connections.connections.get_connection', return_value=MockElasticsearch()).start()
-    yield mock.patch('elasticsearch_dsl.document.get_connection', return_value=MockElasticsearch()).start()
+def mock_opensearch_get_connection():
+    mock.patch('opensearch_dsl.connections.connections.get_connection', return_value=MockOpensearch()).start()
+    yield mock.patch('opensearch_dsl.document.get_connection', return_value=MockOpensearch()).start()
 
 
 @pytest.fixture
-def mock_elasticsearch_bulk():
-    yield mock.patch('elasticsearch.helpers.bulk').start()
+def mock_opensearch_bulk():
+    yield mock.patch('opensearch.helpers.bulk').start()
 
 
 @pytest.fixture
-def mock_elasticsearch_delete():
-    yield mock.patch('elasticsearch_dsl.Search.delete', return_value='mocked').start()
+def mock_opensearch_delete():
+    yield mock.patch('opensearch_dsl.Search.delete', return_value='mocked').start()
 
 
 @pytest.fixture
-def mock_elasticsearch_count():
-    yield mock.patch('elasticsearch_dsl.Search.count', return_value=1).start()
+def mock_opensearch_count():
+    yield mock.patch('opensearch_dsl.Search.count', return_value=1).start()
 
 
 @pytest.fixture
-def mock_elasticsearch_search():
-    yield mock.patch('elasticsearch_dsl.Search.search', return_value=1).start()
+def mock_opensearch_search():
+    yield mock.patch('opensearch_dsl.Search.search', return_value=1).start()
 
 
 @pytest.fixture
-def mock_elasticsearch_scan():
+def mock_opensearch_scan():
     def _scan():
         # returns all casestudy objects as if they were returned by ES
         for cs in CaseStudy.objects.all():
             yield case_study_to_index(cs)
 
-    yield mock.patch('elasticsearch_dsl.Search.scan', return_value=_scan()).start()
+    yield mock.patch('opensearch_dsl.Search.scan', return_value=_scan()).start()
 
 
 @pytest.fixture
