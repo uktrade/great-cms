@@ -14,34 +14,49 @@ urlpatterns = [
         name='index',
     ),
     path(
-        'sector/',
-        views.SectorView.as_view(),
-        name='sector',
+        'tell-us-about-your-business/',
+        login_required(views.AboutYourBusinessView.as_view(), login_url=SIGNUP_URL),
+        name='about-your-business',
+    ),
+    path(
+        'business-details/',
+        login_required(views.BusinessDetailsView.as_view(), login_url=SIGNUP_URL),
+        name='business-details',
+    ),
+    path(
+        'when-do-you-want-to-set-up/',
+        login_required(views.WhenDoYouWantToSetupView.as_view(), login_url=SIGNUP_URL),
+        name='when-want-setup',
+    ),
+    path(
+        'do-you-know-your-set-up-location/',
+        login_required(views.KnowSetupLocationView.as_view(), login_url=SIGNUP_URL),
+        name='know-setup-location',
+    ),
+    path(
+        'contact-details/',
+        login_required(views.ContactDetailsView.as_view(), login_url=SIGNUP_URL),
+        name='contact-details',
     ),
     path(
         'intent/',
-        views.IntentView.as_view(),
+        login_required(views.IntentView.as_view(), login_url=SIGNUP_URL),
         name='intent',
     ),
     path(
         'location/',
-        views.LocationView.as_view(),
+        login_required(views.LocationView.as_view(), login_url=SIGNUP_URL),
         name='location',
     ),
     path(
         'hiring/',
-        views.HiringView.as_view(),
+        login_required(views.HiringView.as_view(), login_url=SIGNUP_URL),
         name='hiring',
     ),
     path(
         'spend/',
-        views.SpendView.as_view(),
+        login_required(views.SpendView.as_view(), login_url=SIGNUP_URL),
         name='spend',
-    ),
-    path(
-        'profile/',
-        login_required(views.ProfileView.as_view(), login_url=SIGNUP_URL),
-        name='profile',
     ),
     path(
         'login/',
@@ -55,7 +70,7 @@ urlpatterns = [
     ),
     path(
         'change-your-answers/',
-        views.EditYourAnswersView.as_view(),
+        login_required(views.EditYourAnswersView.as_view(), login_url=SIGNUP_URL),
         name='change-your-answers',
     ),
     path(
@@ -65,22 +80,22 @@ urlpatterns = [
     ),
     path(
         'csat-widget-submit/',
-        views.CsatWidgetView.as_view(),
+        login_required(views.CsatWidgetView.as_view(), login_url=SIGNUP_URL),
         name='csat-widget-submit',
     ),
     path(
         'csat-feedback/',
-        views.CsatFeedbackView.as_view(),
+        login_required(views.CsatFeedbackView.as_view(), login_url=SIGNUP_URL),
         name='csat-feedback',
     ),
     path(
         'trade-associations/',
-        views.TradeAssociationsView.as_view(),
+        login_required(views.TradeAssociationsView.as_view(), login_url=SIGNUP_URL),
         name='trade-associations',
     ),
     path(
         'business-cluster-information/',
-        views.BusinessClusterView.as_view(),
+        login_required(views.BusinessClusterView.as_view(), login_url=SIGNUP_URL),
         name='bci',
     ),
 ]

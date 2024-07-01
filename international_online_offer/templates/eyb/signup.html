@@ -31,14 +31,13 @@
         {% if not form.code_confirm %}
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
-                    <h1 class="govuk-heading-l">Create your account</h1>
+                    <h1 class="govuk-heading-l">Sign up</h1>
                 </div>
             </div>
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
                     <p class="govuk-body-m">
-                        Already have an account? <a href="{% url 'international_online_offer:login' %}"
-    class="govuk-link">Sign in</a>
+                        Please provide your email address and create a password so that you can save and refer back to your expansion guide.
                     </p>
                 </div>
             </div>
@@ -73,17 +72,25 @@
                             </div>
                         </div>
                         <div class="govuk-grid-row">
-                            <div class="govuk-grid-column-full">{% include './includes/submit_button.html' with button_text='Sign up' %}</div>
+                            <div class="govuk-grid-column-full">
+                                <p class="govuk-body">
+                                    By signing up, you agree to our
+                                    <a class="govuk-link" href="/terms-and-conditions/">terms and conditions</a> and
+                                    <a class="govuk-link" href="/privacy-and-cookies/">privacy notice</a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="govuk-grid-row govuk-!-margin-top-4">
+                            <div class="govuk-grid-column-full">{% include './includes/submit_button.html' with button_text='Continue' %}</div>
                         </div>
                     </form>
                 </div>
             </div>
-            <div class="govuk-grid-row govuk-!-margin-top-4">
+            <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
-                    <p class="govuk-body">
-                        By signing up, you agree to our
-                        <a class="govuk-link" href="/terms-and-conditions/">terms and conditions</a> and
-                        <a class="govuk-link" href="/privacy-and-cookies/">privacy notice</a>
+                    <p class="govuk-body-m">
+                        Already signed up? <a href="{% url 'international_online_offer:login' %}"
+    class="govuk-link">Sign in to access your guide</a>
                     </p>
                 </div>
             </div>
@@ -91,12 +98,13 @@
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-3">
                     <div id="sign-up-confirm">
-                        <h1 class="govuk-heading-l">Verify your email address</h1>
+                        <h1 class="govuk-heading-l">Check your email</h1>
+                        <div class="govuk-inset-text">We’ve sent an email to: {{ request.GET.email }}</div>
+                        <p class="govuk-body">The email contains a 5 digit confirmation code.</p>
                         <p class="govuk-body">
-                            We've sent a code to your email address.
-                            Don't forget to check your spam folder if you can't see it.
-                            Enter the code below to complete registration:
+                            Your email might take a few minutes to arrive. If you do not get an email, check your spam folder.
                         </p>
+                        <p class="govuk-body">The code will expire after 30 minutes.</p>
                         <form method="post">
                             {% csrf_token %}
                             <div class="govuk-grid-row govuk-!-margin-bottom-7">
