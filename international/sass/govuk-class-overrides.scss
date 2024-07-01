@@ -9,3 +9,14 @@
 .govuk-panel__title {
     color: $great-white;
 }
+
+.govuk-fieldset__heading {
+    font-family: 'Euclid Flex B', Roboto, Arial, sans-serif;
+    font-weight: 700;
+    line-height: 1.111;
+    @media (max-width: $mobile-size) {
+        line-height: 1.04;
+        font-size: 1.5rem;
+    }
+    color: $great-dark-blue;
+}
