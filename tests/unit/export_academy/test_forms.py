@@ -191,6 +191,16 @@ def test_event_admin_form_keeps_new_values():
             },
             True,
         ),
+        (
+            {
+                'satisfaction': 'VERY_SATISFIED',
+                'experience': ['OTHER'],
+                'experience_other': 'Something',
+                'feedback_text': 'i' * 1300,
+                'likelihood_of_return': 'LIKELY',
+            },
+            False,
+        ),
     ),
 )
 @pytest.mark.django_db
