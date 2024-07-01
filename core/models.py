@@ -2281,7 +2281,7 @@ class SupportPage(cms_panels.SupportPanels, Page):
     )
 
 
-class SupportTopicLandingPage(cms_panels.SupportTopicLandingPanels, Page):
+class SupportTopicLandingPage(SeoMixin, cms_panels.SupportTopicLandingPanels, Page):
     template = 'domestic/contact/export-support/topic-landing.html'
     parent_page_types = [
         'core.Support',
