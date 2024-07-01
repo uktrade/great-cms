@@ -91,8 +91,8 @@ celery[redis]==5.3.6
 certifi==2024.6.2
     # via
     #   elastic-apm
-    #   elasticsearch
     #   geventhttpclient
+    #   opensearch-py
     #   requests
     #   selenium
     #   sentry-sdk
@@ -260,9 +260,7 @@ django-redis==5.4.0
 django-staff-sso-client==4.2.2
     # via -r requirements.in
 django-storages[boto3]==1.13.2
-    # via
-    #   -r requirements.in
-    #   django-storages
+    # via -r requirements.in
 django-taggit==4.0.0
     # via wagtail
 django-timezone-field==6.1.0
@@ -291,14 +289,10 @@ editorconfig==0.12.4
     #   jsbeautifier
 elastic-apm==6.1.3
     # via -r requirements.in
-elasticsearch==7.13.4
-    # via
-    #   -r requirements.in
-    #   elasticsearch-dsl
-elasticsearch-dsl==7.4.1
-    # via -r requirements.in
 et-xmlfile==1.1.0
     # via openpyxl
+events==0.5
+    # via opensearch-py
 exceptiongroup==1.2.1
     # via
     #   ipython
@@ -489,6 +483,12 @@ olefile==0.47
     # via directory-validators
 openpyxl==3.1.4
     # via wagtail
+opensearch-dsl==2.1.0
+    # via -r requirements.in
+opensearch-py==2.6.0
+    # via
+    #   -r requirements.in
+    #   opensearch-dsl
 opentelemetry-api==1.22.0
     # via
     #   opentelemetry-distro
@@ -691,10 +691,11 @@ python-dateutil==2.9.0.post0
     #   botocore
     #   celery
     #   dateparser
-    #   elasticsearch-dsl
     #   faker
     #   freezegun
     #   icalendar
+    #   opensearch-dsl
+    #   opensearch-py
     #   pandas
     #   python-crontab
 python-dotenv==1.0.1
@@ -749,6 +750,7 @@ requests==2.32.3
     #   directory-client-core
     #   geoip2
     #   locust
+    #   opensearch-py
     #   opentelemetry-exporter-otlp-proto-http
     #   pyhanko
     #   pyhanko-certvalidator
@@ -784,12 +786,13 @@ six==1.16.0
     #   airtable-python-wrapper
     #   asttokens
     #   cssbeautifier
-    #   elasticsearch-dsl
     #   html5lib
     #   jsbeautifier
     #   jsonschema
     #   l18n
     #   mohawk
+    #   opensearch-dsl
+    #   opensearch-py
     #   python-bidi
     #   python-dateutil
     #   w3lib
@@ -903,8 +906,8 @@ urllib3[socks]==1.26.18
     #   botocore
     #   directory-validators
     #   elastic-apm
-    #   elasticsearch
     #   geventhttpclient
+    #   opensearch-py
     #   requests
     #   selenium
     #   sentry-sdk
@@ -965,9 +968,7 @@ wheel==0.43.0
 whitenoise==6.6.0
     # via -r requirements.in
 willow[heif]==1.6.3
-    # via
-    #   wagtail
-    #   willow
+    # via wagtail
 wrapt==1.16.0
     # via
     #   deprecated

@@ -8,8 +8,8 @@ import environ
 import sentry_sdk
 from django.urls import reverse_lazy
 from django_log_formatter_asim import ASIMFormatter
-from elasticsearch import RequestsHttpConnection
-from elasticsearch_dsl.connections import connections
+from opensearch_dsl.connections import connections
+from opensearchpy import RequestsHttpConnection
 from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
@@ -465,19 +465,17 @@ if ELASTIC_APM_ENABLED:
     INSTALLED_APPS.append('elasticapm.contrib.django')
 
 # aws, localhost, or govuk-paas
-ELASTICSEARCH_PROVIDER = env.str('ELASTICSEARCH_PROVIDER', 'aws').lower()
+OPENSEARCH_PROVIDER = env.str('ELASTICSEARCH_PROVIDER', 'aws').lower()
 
-if ELASTICSEARCH_PROVIDER == 'govuk-paas':
+if OPENSEARCH_PROVIDER == 'govuk-paas':
     services = {item['instance_name']: item for item in VCAP_SERVICES['opensearch']}
-    ELASTICSEARCH_INSTANCE_NAME = env.str(
-        'ELASTICSEARCH_INSTANCE_NAME', VCAP_SERVICES['opensearch'][0]['instance_name']
-    )
+    OPENSEARCH_INSTANCE_NAME = env.str('OPENSEARCH_INSTANCE_NAME', VCAP_SERVICES['opensearch'][0]['instance_name'])
     connections.create_connection(
         alias='default',
-        hosts=[services[ELASTICSEARCH_INSTANCE_NAME]['credentials']['uri']],
+        hosts=[services[OPENSEARCH_INSTANCE_NAME]['credentials']['uri']],
         connection_class=RequestsHttpConnection,
     )
-elif ELASTICSEARCH_PROVIDER == 'localhost':
+elif OPENSEARCH_PROVIDER == 'localhost':
     connections.create_connection(
         alias='default',
         hosts=[env.str('ELASTICSEARCH_URL', 'localhost:9200')],
@@ -488,7 +486,7 @@ elif ELASTICSEARCH_PROVIDER == 'localhost':
 else:
     raise NotImplementedError()
 
-ELASTICSEARCH_CASE_STUDY_INDEX = env.str('ELASTICSEARCH_CASE_STUDY_INDEX', 'case-studies')
+OPENSEARCH_CASE_STUDY_INDEX = env.str('ELASTICSEARCH_CASE_STUDY_INDEX', 'case-studies')
 
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
 
