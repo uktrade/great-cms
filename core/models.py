@@ -39,14 +39,14 @@ from wagtail.images import get_image_model_string
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.models import AbstractImage, AbstractRendition, Image
 from wagtail.models import Orderable, Page
+from wagtail.search import index
 from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtail.snippets.models import register_snippet
 from wagtail.utils.decorators import cached_classmethod
 from wagtailmedia.models import Media
 from wagtailseo.models import SeoMixin as WagtailSeoMixin, TwitterCard
 
-from core import blocks as core_blocks, cms_panels, mixins, snippet_slugs
-from core import constants
+from core import blocks as core_blocks, cms_panels, constants, mixins, snippet_slugs
 from core.blocks import (
     LinkBlockWithHeading,
     MicrositeColumnBlock,
@@ -2409,3 +2409,63 @@ class CsatUserFeedback(TimeStampedModel):
     other_detail = models.CharField(max_length=255, null=True)
     service_improvements_feedback = models.CharField(max_length=3000, null=True)
     likelihood_of_return = models.CharField(max_length=255, choices=constants.LIKELIHOOD_CHOICES, null=True)
+
+
+@register_snippet
+class Task(index.Indexed, models.Model):
+    title = models.CharField()
+    description = models.TextField()
+    url = models.CharField()
+    services_url = models.CharField(blank=True)
+    message = models.TextField(blank=True)
+    meta = StreamField(
+        [
+            (
+                'tags',
+                blocks.StructBlock(
+                    (
+                        (
+                            'type',
+                            blocks.ChoiceBlock(
+                                required=False, choices=[('goods', 'Goods'), ('services', 'Services'), ('both', 'Both')]
+                            ),
+                        ),
+                        (
+                            'necessity',
+                            blocks.ChoiceBlock(
+                                required=False, choices=[('must_have', 'Must have'), ('may_need', 'May need')]
+                            ),
+                        ),
+                        (
+                            'complexity',
+                            blocks.ChoiceBlock(
+                                required=False, choices=[('simple', 'Simple'), ('difficult', 'Difficult')]
+                            ),
+                        ),
+                    )
+                ),
+            )
+        ],
+        use_json_field=True,
+        blank=True,
+        max_num=1,
+    )
+
+    panels = [
+        FieldPanel('title'),
+        FieldPanel('description'),
+        FieldPanel('url'),
+        FieldPanel('services_url'),
+        FieldPanel('message'),
+        FieldPanel('meta'),
+    ]
+
+    search_fields = [
+        index.AutocompleteField('title'),
+    ]
+
+    class Meta:
+        ordering = ('title',)
+
+    def __str__(self):
+        return self.title
