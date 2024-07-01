@@ -38,7 +38,7 @@ function focusInput(textInputElement){
 }
 
 function setCaretPositionToEnd(textInputElement){
-  const lenText = textInputElement.size
+  const lenText = textInputElement.value.length
   textInputElement.setSelectionRange(lenText, lenText)
 }
 
@@ -48,7 +48,7 @@ function autocompleteFocusOnESC(parentInputID, dropdownID){
   const dropdown = document.querySelector(dropdownID)
   // setTimeout is used because the autocomplete library sets the focused element to null on press of ESC via
   // https://github.com/alphagov/accessible-autocomplete/blob/79370c8c66f7496fb503bb1840cd590157f97232/src/autocomplete.js#L175
-  dropdown.addEventListener("keydown", (e)=>{
+  dropdown.addEventListener('keydown', (e)=>{
       if (e.key == 'Escape'){
           setTimeout(()=>{
             focusInput(parentInput)
@@ -59,16 +59,17 @@ function autocompleteFocusOnESC(parentInputID, dropdownID){
           }, 1)
       }
   })
-  parentInput.addEventListener("keydown", (e)=>{
+  parentInput.addEventListener('keydown', (e)=>{
     // user presses esc on text input element (mouse navigation to select dropdown elements)
     if (e.key == 'Escape'){
       setTimeout(()=>{
         focusInput(parentInput)
       }, 1)
     } else if (e.key != 'Tab') {
-      // user has started typing again so show dropdown
+      // user has started typing again so show dropdown if num chars > 2 (value used when initilising auto complete library)
       setTimeout(()=>{
-        showDropdown(dropdown, true)
+        show = parentInput.value.length > 2
+        showDropdown(dropdown, show)
       }, 1)
     }
   })
