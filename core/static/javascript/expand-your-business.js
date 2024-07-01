@@ -19,9 +19,30 @@ function handleSpendRadioClick(radio) {
   }
 }
 
-// the autocomplete library we use has a known accessability issue (see https://github.com/alphagov/accessible-autocomplete/issues/692)
-// whereby if users press esc on the autocomplete dropdown list focus is lost from the input element.
-// below is a workaround to accomodate this.
+// the autocomplete library we use has a known accessability issue when ESC is pressed
+// (see https://github.com/alphagov/accessible-autocomplete/issues/692)
+
+function showDropdown(dropdownElement, show){
+  if (show == true) {
+    dropdownElement.classList.remove('autocomplete__menu--hidden')
+    dropdownElement.classList.add('autocomplete__menu--visibile')
+  } else {
+    dropdownElement.classList.remove('autocomplete__menu--visible')
+    dropdownElement.classList.add('autocomplete__menu--hidden')
+  }
+}
+
+function focusInput(textInputElement){
+  textInputElement.focus()
+  textInputElement.classList.add('autocomplete__input--focused')
+}
+
+function setCaretPositionToEnd(textInputElement){
+  const lenText = textInputElement.size
+  textInputElement.setSelectionRange(lenText, lenText)
+}
+
+
 function autocompleteFocusOnESC(parentInputID, dropdownID){
   const parentInput = document.querySelector(parentInputID)
   const dropdown = document.querySelector(dropdownID)
@@ -30,17 +51,25 @@ function autocompleteFocusOnESC(parentInputID, dropdownID){
   dropdown.addEventListener("keydown", (e)=>{
       if (e.key == 'Escape'){
           setTimeout(()=>{
-              parentInput.focus()
-              parentInput.classList.add('autocomplete__input--focused')
-          },1)
+            focusInput(parentInput)
+          }, 1)
           setTimeout(()=>{
-            dropdown.classList.remove('autocomplete__menu--visible')
-            dropdown.classList.add('autocomplete__menu--hidden')
-        },1)
+            showDropdown(dropdown, false)
+            setCaretPositionToEnd(parentInput)
+          }, 1)
       }
   })
-  // remove focus styling when user navigates away from the dropdown.
-  // element.addEventListener("focusout", (e)=>{
-  //   element.classList.remove('autocomplete__input--focused')
-  // })
+  parentInput.addEventListener("keydown", (e)=>{
+    // user presses esc on text input element (mouse navigation to select dropdown elements)
+    if (e.key == 'Escape'){
+      setTimeout(()=>{
+        focusInput(parentInput)
+      }, 1)
+    } else if (e.key != 'Tab') {
+      // user has started typing again so show dropdown
+      setTimeout(()=>{
+        showDropdown(dropdown, true)
+      }, 1)
+    }
+  })
 }
