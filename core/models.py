@@ -2201,7 +2201,7 @@ class HeroSnippet(NonPageContentSnippetBase, NonPageContentSEOMixin):
     ]
 
 
-class Support(Page):
+class Support(SeoMixin, Page):
     folder_page = True
     settings_panels = [FieldPanel('slug')]
 
@@ -2224,7 +2224,7 @@ class Support(Page):
         raise Http404()
 
 
-class SupportPage(cms_panels.SupportPanels, Page):
+class SupportPage(SeoMixin, cms_panels.SupportPanels, Page):
     template = 'domestic/contact/export-support/support.html'
     parent_page_types = [
         'core.Support',
@@ -2326,7 +2326,7 @@ class SupportTopicLandingPage(SeoMixin, cms_panels.SupportTopicLandingPanels, Pa
     )
 
 
-class GetInTouchPage(cms_panels.GetInTouchPanels, Page):
+class GetInTouchPage(SeoMixin, cms_panels.GetInTouchPanels, Page):
     template = 'domestic/contact/export-support/get-in-touch.html'
     parent_page_types = [
         'core.Support',
