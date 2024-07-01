@@ -1,6 +1,6 @@
 from django.conf import settings
-from elasticsearch_dsl import Document, Q, Search, field
-from elasticsearch_dsl.connections import connections
+from opensearch_dsl import Document, Q, Search, field
+from opensearch_dsl.connections import connections
 
 
 class CaseStudyIndexed(Document):
@@ -12,7 +12,7 @@ class CaseStudyIndexed(Document):
     tradingblocs = field.Keyword()
 
     class Index:
-        name = settings.ELASTICSEARCH_CASE_STUDY_INDEX
+        name = settings.OPENSEARCH_CASE_STUDY_INDEX
         settings = {
             'number_of_shards': 1,
         }
@@ -57,7 +57,7 @@ def update_cs_index(cs):
 def delete_cs_index(cs_id):
     Search(
         using=get_connection(),
-        index=settings.ELASTICSEARCH_CASE_STUDY_INDEX,
+        index=settings.OPENSEARCH_CASE_STUDY_INDEX,
     ).query(Q('match', pk=cs_id)).delete()
 
 
@@ -73,5 +73,5 @@ def search(export_commodity_codes, export_markets, export_regions, page_context)
         query = query | Q('match', hscodes=' '.join(hs_parts))
     return Search(
         using=get_connection(),
-        index=settings.ELASTICSEARCH_CASE_STUDY_INDEX,
+        index=settings.OPENSEARCH_CASE_STUDY_INDEX,
     ).query(query)

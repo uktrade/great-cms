@@ -5,7 +5,7 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
-from elasticsearch.exceptions import ConnectionError, NotFoundError
+from opensearchpy.exceptions import ConnectionError, NotFoundError
 from wagtail import blocks
 from wagtail.blocks.field_block import RichTextBlock
 from wagtail.blocks.stream_block import StreamBlockValidationError
@@ -286,10 +286,10 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
                 return sorted(hits, key=lambda hit: hit.get('score'), reverse=True)
 
         except ConnectionError:
-            # nothing we can do without elasticsearch so continue without case study
+            # nothing we can do without opensearch so continue without case study
             logger.error('Unable to connect to Elastic search')
         except NotFoundError:
-            logger.error(f'Elastic search - Index "{settings.ELASTICSEARCH_CASE_STUDY_INDEX}" not found')
+            logger.error(f'Elastic search - Index "{settings.OPENSEARCH_CASE_STUDY_INDEX}" not found')
 
     def _annotate_with_case_study(self, context):
         """Add the most relevant case study, if any, to the context."""
@@ -441,6 +441,16 @@ class CountryGuideIndustryBlock(blocks.StructBlock):
 
     class Meta:
         template = 'domestic/includes/blocks/accordions.html'
+
+
+class CountryGuideIndustryLinkBlock(blocks.StructBlock):
+
+    icon = ImageChooserBlock(required=False, label='Industry icon')
+    title = blocks.CharBlock(max_length=255, label='Industry title')
+    page = blocks.PageChooserBlock(label='Page')
+
+    class Meta:
+        template = 'domestic/includes/blocks/sector_link.html'
 
 
 class PullQuoteBlock(blocks.StructBlock):

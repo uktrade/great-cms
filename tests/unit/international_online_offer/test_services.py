@@ -46,12 +46,55 @@ def test_get_bci_data(client):
         },
     ],
 )
-def test_get_median_salaries(client):
-    salaries = services.get_median_salaries('East Midlands')
+def test_get_median_salaries(mock_get_salary_data, client):
+    salaries = services.get_median_salaries('Finance and Professional Services')
 
     assert salaries[professions.ENTRY_LEVEL] == 23678
     assert salaries[professions.MID_SENIOR_LEVEL] == 33343
     assert salaries[professions.DIRECTOR_EXECUTIVE_LEVEL] == 48028
+    assert salaries['error_msg'] == ''
+    assert mock_get_salary_data.call_count == 1
+
+
+# first call to get_salary_data returns no data, second call returns data for a different location
+@mock.patch(
+    'international_online_offer.services.get_salary_data',
+    side_effect=[
+        [],
+        [
+            {
+                'geo_description': 'East Midlands',
+                'vertical': 'Finance and Professional Services',
+                'professional_level': 'Middle/Senior Management',
+                'median_salary': 33343,
+                'dataset_year': 2022,
+            }
+        ],
+    ],
+)
+def test_get_median_salaries_no_location_data(mock_get_salary_data, client):
+    salaries = services.get_median_salaries('Finance and Professional Services', geo_region='London')
+
+    assert salaries[professions.ENTRY_LEVEL] is None
+    assert salaries[professions.MID_SENIOR_LEVEL] is None
+    assert salaries[professions.DIRECTOR_EXECUTIVE_LEVEL] is None
+    assert salaries['error_msg'] == 'No data available for this location.'
+
+    # called twice, 1 x to get inital which is empty, 1 x to check if any sector data
+    assert mock_get_salary_data.call_count == 2
+
+
+@mock.patch('international_online_offer.services.get_salary_data', return_value=[])
+def test_get_median_salaries_no_sector_data(mock_get_salary_data, client):
+    salaries = services.get_median_salaries('Finance and Professional Services', geo_region='London')
+
+    assert salaries[professions.ENTRY_LEVEL] is None
+    assert salaries[professions.MID_SENIOR_LEVEL] is None
+    assert salaries[professions.DIRECTOR_EXECUTIVE_LEVEL] is None
+    assert salaries['error_msg'] == 'No data available for this sector.'
+
+    # called twice, 1 x to get inital which is empty, 1 x to check if any sector data
+    assert mock_get_salary_data.call_count == 2
 
 
 @mock.patch(

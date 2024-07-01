@@ -416,7 +416,7 @@ def test_hiring_form_valid_saves_to_db(client, user, settings):
     url = reverse('international_online_offer:hiring')
     user.hashed_uuid = '123'
     client.force_login(user)
-    response = client.post(url, {'hiring': hirings.ONE_TO_TEN})
+    response = client.post(url, {'hiring': hirings.ONE_TO_FIVE})
     assert response.status_code == 302
 
 
@@ -424,8 +424,8 @@ def test_hiring_form_valid_saves_to_db(client, user, settings):
 def test_hiring_form_valid_saves_to_session(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:hiring')
-    response = client.post(url, {'hiring': hirings.ONE_TO_TEN})
-    assert client.session['hiring'] == hirings.ONE_TO_TEN
+    response = client.post(url, {'hiring': hirings.ONE_TO_FIVE})
+    assert client.session['hiring'] == hirings.ONE_TO_FIVE
     assert response.status_code == 302
 
 
