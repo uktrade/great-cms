@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "lighthouse": "lhci autorun",
-    "test": "jest --testPathIgnorePatterns=venv",
+    "test": "jest --testPathIgnorePatterns=venv --config jest.config.js",
     "test:dev": "jest --watch",
     "build": "webpack --config react-components/webpack.config.js --mode production",
     "build:dev": "webpack --watch --config react-components/webpack.config.js --mode development",
@@ -15,7 +15,7 @@
     "globalSetup": "react-components/setupJest.js"
   },
   "engines": {
-    "node": "^16.13.0",
+    "node": "^18.0.0",
     "npm": "^8.15.1"
   },
   "repository": {
@@ -38,7 +38,7 @@
     "@babel/plugin-transform-react-jsx": "^7.12.12",
     "@babel/preset-env": "7.9.0",
     "@babel/preset-react": "7.9.4",
-    "@lhci/cli": "^0.12.0",
+    "@lhci/cli": "^0.14.0",
     "@testing-library/jest-dom": "^5.11.1",
     "@testing-library/react": "^10.4.7",
     "babel-eslint": "10.1.0",
