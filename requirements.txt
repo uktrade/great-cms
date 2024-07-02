@@ -215,7 +215,7 @@ django-treebeard==4.7
     # via
     #   -r requirements.in
     #   wagtail
-djangorestframework==3.14.0
+djangorestframework==3.15.2
     # via
     #   -r requirements.in
     #   drf-spectacular
@@ -251,6 +251,8 @@ googleapis-common-protos==1.63.2
     #   opentelemetry-exporter-otlp-proto-http
 great-components==2.6.4
     # via -r requirements.in
+greenlet==3.0.3
+    # via sqlalchemy
 grpcio==1.64.1
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==22.0.0
@@ -463,7 +465,6 @@ pytz==2023.3
     #   dateparser
     #   directory-validators
     #   django-modelcluster
-    #   djangorestframework
     #   icalendar
     #   l18n
     #   pandas
