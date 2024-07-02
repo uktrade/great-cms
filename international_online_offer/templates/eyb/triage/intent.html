@@ -9,17 +9,17 @@
 {% block head_css %}{{ block.super }}{% endblock %}
 {% block content %}
     <div class="govuk-width-container great-container">
-        {% include '../includes/triage_header.html' with back_url=back_url step_text=step_text question_text=question_text %}
+        {% include '../includes/triage_header.html' with back_url=back_url step_text=step_text %}
         <div class="govuk-grid-row govuk-!-margin-bottom-3">
             <div class="govuk-grid-column-two-thirds">
                 <form method="post">
                     {% csrf_token %}
                     <div class="govuk-form-group{% if form.intent.errors or form.intent_other.errors %} govuk-form-group--error{% endif %}">
                         <fieldset class="govuk-fieldset">
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                                <h2 class="govuk-fieldset__heading govuk-hint govuk-!-margin-bottom-0"
-                                    id="{{ form.intent.auto_id }}">{{ form.intent.help_text }}</h2>
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                                <h1 class="govuk-fieldset__heading">{{ question_text }}</h1>
                             </legend>
+                            <div id="{{ form.intent.auto_id }}" class="govuk-hint">{{ form.intent.help_text }}</div>
                             {% for error in form.intent.errors %}
                                 <p class="govuk-error-message" role="alert">
                                     <span class="govuk-visually-hidden">Error:</span> {{ error }}
@@ -61,6 +61,4 @@
     {{ block.super }}
     <script type="text/javascript"
             src="{% static 'javascript/dit.components.toggleOther.js' %}"></script>
-    <script type="text/javascript"
-            src="{% static 'javascript/expand-your-business.js' %}"></script>
 {% endblock %}

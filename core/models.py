@@ -3,6 +3,7 @@ import mimetypes
 from urllib.parse import unquote
 
 from django.conf import settings
+from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.forms import Select
@@ -45,6 +46,7 @@ from wagtailmedia.models import Media
 from wagtailseo.models import SeoMixin as WagtailSeoMixin, TwitterCard
 
 from core import blocks as core_blocks, cms_panels, mixins, snippet_slugs
+from core import constants
 from core.blocks import (
     LinkBlockWithHeading,
     MicrositeColumnBlock,
@@ -2201,7 +2203,7 @@ class HeroSnippet(NonPageContentSnippetBase, NonPageContentSEOMixin):
     ]
 
 
-class Support(Page):
+class Support(SeoMixin, Page):
     folder_page = True
     settings_panels = [FieldPanel('slug')]
 
@@ -2224,7 +2226,7 @@ class Support(Page):
         raise Http404()
 
 
-class SupportPage(cms_panels.SupportPanels, Page):
+class SupportPage(SeoMixin, cms_panels.SupportPanels, Page):
     template = 'domestic/contact/export-support/support.html'
     parent_page_types = [
         'core.Support',
@@ -2281,7 +2283,7 @@ class SupportPage(cms_panels.SupportPanels, Page):
     )
 
 
-class SupportTopicLandingPage(cms_panels.SupportTopicLandingPanels, Page):
+class SupportTopicLandingPage(SeoMixin, cms_panels.SupportTopicLandingPanels, Page):
     template = 'domestic/contact/export-support/topic-landing.html'
     parent_page_types = [
         'core.Support',
@@ -2326,7 +2328,7 @@ class SupportTopicLandingPage(cms_panels.SupportTopicLandingPanels, Page):
     )
 
 
-class GetInTouchPage(cms_panels.GetInTouchPanels, Page):
+class GetInTouchPage(SeoMixin, cms_panels.GetInTouchPanels, Page):
     template = 'domestic/contact/export-support/get-in-touch.html'
     parent_page_types = [
         'core.Support',
@@ -2393,3 +2395,17 @@ class ShareSettings(BaseSiteSetting):
             heading=_('Sharing'),
         )
     ]
+
+
+class CsatUserFeedback(TimeStampedModel):
+    URL = models.CharField(max_length=255)
+    user_journey = models.CharField(
+        max_length=255, null=True, choices=constants.USER_JOURNEY_CHOICES, default='ADD_PRODUCT'
+    )  # noqa:E501
+    satisfaction_rating = models.CharField(max_length=255, choices=constants.SATISFACTION_CHOICES)
+    experienced_issues = ArrayField(
+        models.CharField(max_length=255, choices=constants.EXPERIENCE_CHOICES), size=6, default=list, null=True
+    )
+    other_detail = models.CharField(max_length=255, null=True)
+    service_improvements_feedback = models.CharField(max_length=3000, null=True)
+    likelihood_of_return = models.CharField(max_length=255, choices=constants.LIKELIHOOD_CHOICES, null=True)

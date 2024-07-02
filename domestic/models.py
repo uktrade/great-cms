@@ -273,6 +273,7 @@ class DomesticHomePage(
 
 
 class DomesticDashboard(
+    SeoMixin,
     mixins.WagtailAdminExclusivePageMixin,
     mixins.EnableSegmentationMixin,
     mixins.AuthenticatedUserRequired,
