@@ -260,7 +260,9 @@ django-redis==5.4.0
 django-staff-sso-client==4.2.2
     # via -r requirements.in
 django-storages[boto3]==1.13.2
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   django-storages
 django-taggit==4.0.0
     # via wagtail
 django-timezone-field==6.1.0
@@ -481,7 +483,7 @@ oauthlib==3.2.2
     #   requests-oauthlib
 olefile==0.47
     # via directory-validators
-openpyxl==3.1.4
+openpyxl==3.1.5
     # via wagtail
 opensearch-dsl==2.1.0
     # via -r requirements.in
@@ -639,7 +641,7 @@ pyhanko-certvalidator==0.26.3
     # via
     #   pyhanko
     #   xhtml2pdf
-pylint==3.2.4
+pylint==3.2.5
     # via
     #   pylint-django
     #   pylint-plugin-utils
@@ -968,7 +970,9 @@ wheel==0.43.0
 whitenoise==6.6.0
     # via -r requirements.in
 willow[heif]==1.6.3
-    # via wagtail
+    # via
+    #   wagtail
+    #   willow
 wrapt==1.16.0
     # via
     #   deprecated
