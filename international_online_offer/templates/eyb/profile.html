@@ -34,8 +34,6 @@
     {{ block.super }}
     <script type="text/javascript"
             src="{% static 'javascript/accessible-autocomplete.min.js' %}"></script>
-    <script type="text/javascript"
-            src="{% static 'javascript/expand-your-business.js' %}"></script>
     <script type="text/javascript">
     const countries = [
         'Abu Dhabi',
@@ -315,4 +313,5 @@
       minLength: 2,
     });
     </script>
+    <script type="text/javascript">autocompleteFocusOnESC('#js-company-location-select', '#js-company-location-select__listbox')</script>
 {% endblock %}

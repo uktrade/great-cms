@@ -27,8 +27,8 @@ COUNTRIES = BLANK_COUNTRY_CHOICE + COUNTRY_CHOICES
 
 class SectorForm(forms.Form):
     sector_sub = ChoiceField(
-        label='Enter a keyword to search a list of business activities',
-        help_text='For example, textiles',
+        label='',
+        help_text='Search a list of activities and select the closest description',
         required=True,
         widget=Select(
             attrs={'id': 'js-sector-select', 'class': 'govuk-input', 'aria-describedby': 'help_for_id_sector_sub'}
@@ -75,8 +75,8 @@ class LocationForm(forms.Form):
     VALIDATION_MESSAGE_SELECT_OPTION = 'You must select a location'
     VALIDATION_MESSAGE_SELECT_NONE_OPTION = 'You must select not decided'
     location = ChoiceField(
-        label='Enter a location in the UK',
-        help_text='For example Manchester, South East or Scotland',
+        label='',
+        help_text='Search and select a location in the UK, for example Manchester, South East, or Scotland',
         required=False,
         widget=Select(
             attrs={'id': 'js-location-select', 'class': 'govuk-input', 'aria-describedby': 'help_for_id_location'}

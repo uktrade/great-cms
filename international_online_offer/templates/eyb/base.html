@@ -18,3 +18,7 @@
         {% if feature_pre_election and feature_eyb_home %}</div>{% endif %}
     {{ block.super }}
 {% endblock %}
+{% block body_js %}
+    <script type="text/javascript"
+            src="{% static 'javascript/expand-your-business.js' %}"></script>
+{% endblock %}
