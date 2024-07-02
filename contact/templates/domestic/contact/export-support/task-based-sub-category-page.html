@@ -25,7 +25,7 @@
     </script>
 {% endblock %}
 {% block content %}
-    <div class="govuk-!-padding-bottom-9 great great-bg-light-blue">
+    <div class="govuk-!-padding-bottom-9 great great-bg-white">
         <div class="great-container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full">
@@ -40,31 +40,34 @@
                                            type="text"
                                            placeholder="Filter task list by key word" />
                                 </div>
-                                {% for task in page.page_body %}
-                                    <div id="{{ task.value.title }}"
-                                         data-filter="{{ task.value.title|lower }}"
-                                         class="govuk-accordion__section">
-                                        <div class="govuk-!-padding-5 govuk-!-margin-bottom-5 {% if task.block_type == 'sub_task' %}govuk-!-margin-left-9{% endif %} great-bg-white">
-                                            <h2 class="govuk-heading-m" id="accordion-default-heading-1">{{ task.value.title }}</h2>
-                                            <p class="govuk-body govuk-!-margin-bottom-3">{{ task.value.description }}</p>
-                                            <div class="great-display-flex">
-                                                {% for tag in task.value.meta %}
-                                                    {% for item in task.value.meta %}
-                                                        {% if item.value.type %}
-                                                            <span class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0 govuk-!-margin-right-2">{{ item.value.type }}</span>
-                                                        {% endif %}
-                                                        {% if item.value.necessity %}
-                                                            <span class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0 govuk-!-margin-right-2">{{ item.value.necessity }}</span>
-                                                        {% endif %}
-                                                        {% if item.value.complexity %}
-                                                            <span class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0 govuk-!-margin-right-2">{{ item.value.complexity }}</span>
-                                                        {% endif %}
+                                <div class="great-step-by-step">
+                                    {% for task in page.page_body %}
+                                        <div id="{{ task.value.title }}"
+                                             data-filter="{{ task.value.title|lower }}"
+                                             class="govuk-accordion__section">
+                                            <div class="govuk-!-padding-5 govuk-!-margin-bottom-5 {% if task.block_type == 'sub_task' %}govuk-!-margin-left-9{% endif %} great-bg-white">
+                                                <h2 class="govuk-heading-m {% if task.block_type == 'sub_task' %}great-step-by-step__nested-marker{% else %}great-step-by-step__marker{% endif %}"
+                                                    id="accordion-default-heading-1">{{ task.value.title }}</h2>
+                                                <p class="govuk-body govuk-!-margin-bottom-3">{{ task.value.description }}</p>
+                                                <div class="great-display-flex">
+                                                    {% for tag in task.value.meta %}
+                                                        {% for item in task.value.meta %}
+                                                            {% if item.value.type %}
+                                                                <span class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0 govuk-!-margin-right-2">{{ item.value.type }}</span>
+                                                            {% endif %}
+                                                            {% if item.value.necessity %}
+                                                                <span class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0 govuk-!-margin-right-2">{{ item.value.necessity }}</span>
+                                                            {% endif %}
+                                                            {% if item.value.complexity %}
+                                                                <span class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0 govuk-!-margin-right-2">{{ item.value.complexity }}</span>
+                                                            {% endif %}
+                                                        {% endfor %}
                                                     {% endfor %}
-                                                {% endfor %}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                {% endfor %}
+                                    {% endfor %}
+                                </div>
                             </div>
                             <div class="govuk-grid-column-one-quarter"></div>
                         </div>
