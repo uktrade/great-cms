@@ -31,16 +31,6 @@
                 <div class="govuk-grid-column-full">
                     {% if page.page_body %}
                         <div class="govuk-grid-row govuk-!-margin-top-5">
-                            <div class="govuk-grid-column-one-quarter">
-                                <h2 class="govuk-heading-m govuk-!-margin-top-5 govuk-!-margin-bottom-5">Export support</h2>
-                                <ul class="govuk-list">
-                                    {% for sub_category in page.page_body %}
-                                        <li>
-                                            <a class="govuk-link" href="#{{ sub_category.value.title }}">{{ sub_category.value.title }}</a>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
                             <div class="govuk-grid-column-three-quarters">
                                 <div class="govuk-!-margin-bottom-5">
                                     <h1 class="govuk-heading-xl govuk-!-margin-top-5 govuk-!-margin-bottom-2">{{ page.page_title }}</h1>
@@ -50,24 +40,33 @@
                                            type="text"
                                            placeholder="Filter task list by key word" />
                                 </div>
-                                {% for sub_category in page.page_body %}
-                                    <div id="{{ sub_category.value.title }}"
-                                         data-filter="{{ sub_category.value.title|lower }}"
+                                {% for task in page.page_body %}
+                                    <div id="{{ task.value.title }}"
+                                         data-filter="{{ task.value.title|lower }}"
                                          class="govuk-accordion__section">
-                                        <div class="govuk-!-padding-5 great-bg-white">
-                                            <h2 class="govuk-heading-m" id="accordion-default-heading-1">{{ sub_category.value.title }}</h2>
-                                            <p class="govuk-body govuk-!-margin-bottom-0">{{ sub_category.value.description }}</p>
+                                        <div class="govuk-!-padding-5 govuk-!-margin-bottom-5 {% if task.block_type == 'sub_task' %}govuk-!-margin-left-9{% endif %} great-bg-white">
+                                            <h2 class="govuk-heading-m" id="accordion-default-heading-1">{{ task.value.title }}</h2>
+                                            <p class="govuk-body govuk-!-margin-bottom-3">{{ task.value.description }}</p>
+                                            <div class="great-display-flex">
+                                                {% for tag in task.value.meta %}
+                                                    {% for item in task.value.meta %}
+                                                        {% if item.value.type %}
+                                                            <span class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0 govuk-!-margin-right-2">{{ item.value.type }}</span>
+                                                        {% endif %}
+                                                        {% if item.value.necessity %}
+                                                            <span class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0 govuk-!-margin-right-2">{{ item.value.necessity }}</span>
+                                                        {% endif %}
+                                                        {% if item.value.complexity %}
+                                                            <span class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0 govuk-!-margin-right-2">{{ item.value.complexity }}</span>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endfor %}
+                                            </div>
                                         </div>
-                                        <ul class="govuk-list govuk-!-padding-5" id="accordion-default-content-1">
-                                            {% for task in sub_category.value.task %}
-                                                <li data-filter="{{ task.task|lower }}">
-                                                    <a class="govuk-link" href="{{ task.url }}">{{ task.task }}</a>
-                                                </li>
-                                            {% endfor %}
-                                        </ul>
                                     </div>
                                 {% endfor %}
                             </div>
+                            <div class="govuk-grid-column-one-quarter"></div>
                         </div>
                     {% endif %}
                 </div>
