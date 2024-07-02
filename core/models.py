@@ -2212,7 +2212,12 @@ class Support(Page):
         'domestic.GreatDomesticHomePage',
     ]
 
-    subpage_types = ['core.SupportPage', 'core.GetInTouchPage', 'core.SupportTopicLandingPage']
+    subpage_types = [
+        'core.SupportPage',
+        'core.GetInTouchPage',
+        'core.SupportTopicLandingPage',
+        'core.TaskBasedSubCatPage',
+    ]
 
     class Meta:
         verbose_name = 'Support'
@@ -2413,9 +2418,10 @@ class CsatUserFeedback(TimeStampedModel):
 
 @register_snippet
 class Task(index.Indexed, models.Model):
+    task_id = models.CharField(blank=True)
     title = models.CharField()
     description = models.TextField()
-    url = models.CharField()
+    goods_url = models.CharField(blank=True)
     services_url = models.CharField(blank=True)
     message = models.TextField(blank=True)
     meta = StreamField(
@@ -2452,9 +2458,10 @@ class Task(index.Indexed, models.Model):
     )
 
     panels = [
+        FieldPanel('task_id'),
         FieldPanel('title'),
         FieldPanel('description'),
-        FieldPanel('url'),
+        FieldPanel('goods_url'),
         FieldPanel('services_url'),
         FieldPanel('message'),
         FieldPanel('meta'),
@@ -2469,3 +2476,36 @@ class Task(index.Indexed, models.Model):
 
     def __str__(self):
         return self.title
+
+
+class TaskBasedSubCatPage(cms_panels.TaskBasedSubCatPagePanels, Page):
+    template = 'domestic/contact/export-support/task-based-sub-category-page.html'
+    parent_page_types = [
+        'core.Support',
+    ]
+
+    class Meta:
+        verbose_name = 'Task based sub category page'
+        verbose_name_plural = 'Task based sub category pages'
+
+    page_title = models.TextField(
+        null=True,
+    )
+    page_intro = models.TextField(
+        null=True,
+    )
+    page_body = StreamField(
+        [
+            (
+                'task',
+                SnippetChooserBlock('core.Task'),
+            ),
+            (
+                'sub_task',
+                SnippetChooserBlock('core.Task'),
+            ),
+        ],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
