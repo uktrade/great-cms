@@ -36,4 +36,4 @@ def is_valid_uk_phone_number(phone_number):
 
 def is_valid_email_address(email_address):
     if not EMAIL_ADDRESS_REGEX.match(email_address):
-        raise ValidationError(_('Enter a valid email address'))
+        raise ValidationError('Enter an email address in the correct format, like name@example.com')

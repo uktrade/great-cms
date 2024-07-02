@@ -131,7 +131,6 @@ class InvestmentContactForm(forms.Form):
     email_address = CharField(
         label='Email',
         max_length=255,
-        required=True,
         validators=[is_valid_email_address],
         widget=TextInput(attrs={'class': 'govuk-input'}),
         error_messages={
