@@ -5,6 +5,7 @@ from django.forms import ValidationError
 from django.test import override_settings
 
 from core.validators import (
+    is_valid_email_address,
     is_valid_uk_phone_number,
     is_valid_uk_postcode,
     validate_file_infection,
@@ -77,3 +78,21 @@ def test_is_valid_uk_phone_number(phone_number, raise_expected):
     except ValidationError:
         if not raise_expected:
             assert False, f'Excepted {phone_number} to pass validation. It did not'
+
+
+@pytest.mark.parametrize(
+    'email_address, raise_expected',
+    (
+        ('joebloggs@businessandtrade.gov.uk', False),
+        ('joebloggs@businessandtrade', True),
+        ('asdasdasd', True),
+    ),
+)
+def test_is_valid_email_address(email_address, raise_expected):
+    try:
+        is_valid_email_address(email_address)
+        if raise_expected:
+            assert False, f'Excepted {email_address} to fail validation. It did not'
+    except ValidationError:
+        if not raise_expected:
+            assert False, f'Excepted {email_address} to pass validation. It did not'

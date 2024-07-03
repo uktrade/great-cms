@@ -207,6 +207,8 @@ jobs:
       - *create_virtualenv_and_install_dependencies
       - *setup_secrets
       - *setup_db
+      - node/install:
+          node-version: '18.20.3'
       - restore_cache:
           key: v1-deps-{{ checksum "package-lock.json" }}
       - run:

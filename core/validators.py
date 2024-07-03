@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from ukpostcodeutils import validation
 
 from core.helpers import clam_av_client
-from regex import PHONE_NUMBER_REGEX
+from regex import EMAIL_ADDRESS_REGEX, PHONE_NUMBER_REGEX
 
 PHONE_INVALID_MESSAGE = 'Enter a valid UK telephone number'
 
@@ -32,3 +32,8 @@ def is_valid_uk_phone_number(phone_number):
         raise ValidationError(_(PHONE_INVALID_MESSAGE))
     else:
         return
+
+
+def is_valid_email_address(email_address):
+    if not EMAIL_ADDRESS_REGEX.match(email_address):
+        raise ValidationError('Enter an email address in the correct format, like name@example.com')
