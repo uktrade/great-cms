@@ -42,7 +42,7 @@
                                 <dd class="govuk-summary-list__actions">
                                     <a class="govuk-link"
                                        href="{% url 'international_online_offer:business-details' %}?next={% url 'international_online_offer:change-your-answers' %}">
-                                        Change<span class="govuk-visually-hidden">sector</span>
+                                        Change<span class="govuk-visually-hidden">business activity and sector</span>
                                     </a>
                                 </dd>
                             </div>
@@ -86,18 +86,33 @@
                             <div class="govuk-summary-list__row">
                                 <dt class="govuk-summary-list__key govuk-body">Do you know where you want to set up in the UK?</dt>
                                 <dd class="govuk-summary-list__value govuk-body">
-                                    {% if triage_data.location_none %}No, I'd like guidance on locations{% endif %}
-                                    {% if not triage_data.location_none %}
-                                        {{ triage_data.get_location_city_display|default:"-" }}, {{ triage_data.get_location_display|default:"-" }}
+                                    {% if triage_data.location_none %}
+                                        No, I'd like guidance on locations
+                                    {% else %}
+                                        Yes
                                     {% endif %}
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
                                     <a class="govuk-link"
-                                       href="{% url 'international_online_offer:location' %}?next={% url 'international_online_offer:change-your-answers' %}">
-                                        Change<span class="govuk-visually-hidden">where you want to set up in the UK</span>
+                                       href="{% url 'international_online_offer:know-setup-location' %}?next={% url 'international_online_offer:change-your-answers' %}">
+                                        Change<span class="govuk-visually-hidden">do you know where you want to set up in the UK?</span>
                                     </a>
                                 </dd>
                             </div>
+                            {% if not triage_data.location_none %}
+                                <div class="govuk-summary-list__row">
+                                    <dt class="govuk-summary-list__key govuk-body">Where do you want to set up?</dt>
+                                    <dd class="govuk-summary-list__value govuk-body">
+                                        {{ triage_data.get_location_city_display|default:"-" }} ({{ triage_data.get_location_display|default:"-" }})
+                                    </dd>
+                                    <dd class="govuk-summary-list__actions">
+                                        <a class="govuk-link"
+                                           href="{% url 'international_online_offer:location' %}?next={% url 'international_online_offer:change-your-answers' %}">
+                                            Change<span class="govuk-visually-hidden">where do you want to set up?</span>
+                                        </a>
+                                    </dd>
+                                </div>
+                            {% endif %}
                             <div class="govuk-summary-list__row">
                                 <dt class="govuk-summary-list__key govuk-body">When do you want to set up?</dt>
                                 <dd class="govuk-summary-list__value govuk-body">

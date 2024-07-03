@@ -84,7 +84,6 @@ class ContactDetailsForm(forms.Form):
     )
     role = CharField(
         label='Job title',
-        help_text='Your role within the company',
         required=True,
         widget=TextInput(attrs={'class': 'govuk-input'}),
         error_messages={
@@ -102,7 +101,8 @@ class ContactDetailsForm(forms.Form):
     )
     agree_info_email = BooleanField(
         required=False,
-        label='I would like to receive emails from partner organisations providing expansion support (optional)',
+        label="""I would like to receive emails from partner organisations
+        providing expansion support in my chosen UK location. (optional)""",
         widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
     )
 
@@ -143,7 +143,7 @@ class IntentForm(forms.Form):
         },
     )
     intent_other = CharField(
-        label='Type your answer',
+        label='Enter your answer',
         min_length=2,
         max_length=50,
         required=False,

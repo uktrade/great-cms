@@ -247,11 +247,15 @@ class ContactDetailsView(GA360Mixin, FormView):
     def get_context_data(self, **kwargs):
         sector = None
         sector_sub = None
+        leading_title = 'Provide your details so that we can contact you -- we may be able to help.'
         if self.request.user.is_authenticated:
             triage_data = get_triage_data_for_user(self.request)
             if triage_data:
                 sector = triage_data.get_sector_display()
                 sector_sub = triage_data.get_sector_sub_display()
+                if triage_data.is_high_value:
+                    leading_title = """You may be eligible for one-to-one support for your expansion.
+                    Provide your details so that an adviser can contact you to discuss your plans."""
 
         return super().get_context_data(
             **kwargs,
@@ -259,6 +263,7 @@ class ContactDetailsView(GA360Mixin, FormView):
             autocomplete_sector_data=region_sector_helpers.get_sectors_and_sic_sectors_file_as_string(),
             sector=sector,
             sector_sub=sector_sub,
+            leading_title=leading_title,
         )
 
 
@@ -289,7 +294,10 @@ class KnowSetupLocationView(GA360Mixin, FormView):
                     next_url = reverse_lazy('international_online_offer:when-want-setup')
 
         if self.request.GET.get('next'):
-            next_url = check_url_host_is_safelisted(self.request)
+            if not triage_data.location_none:
+                next_url += '?next=' + check_url_host_is_safelisted(self.request)
+            else:
+                next_url = check_url_host_is_safelisted(self.request)
         return next_url
 
     def get_context_data(self, **kwargs):
