@@ -108,6 +108,8 @@ def feature_flags(request):
     retval['features']['FEATURE_PRE_ELECTION'] = settings.FEATURE_PRE_ELECTION
     retval['features']['FEATURE_FAB_MIGRATION'] = settings.FEATURE_FAB_MIGRATION
 
+    retval['features']['FEATURE_GREAT_ERROR'] = settings.FEATURE_GREAT_ERROR
+
     return retval
 
 
