@@ -133,6 +133,9 @@
         {% endblock %}
     </head>
     <body {% block body_attributes %}{% endblock %}>
+        {% if features.FEATURE_GREAT_ERROR %}
+            {% include 'components/great/error-notification-banner.html' %}
+        {% endif %}
         {% block body_google_tag_manager %}
             {% include 'components/google_tag_manager_body.html' %}
         {% endblock %}

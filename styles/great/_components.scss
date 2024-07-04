@@ -2162,11 +2162,18 @@ nav.great-breadcrumbs {
   min-height: 88px;
 
   &:after {
-    content: "\f061";
-    font-family: "Font Awesome 5 Free";
+    content: '\f061';
+    font-family: 'Font Awesome 5 Free';
     position: absolute;
     color: $color-gov-link;
     font-weight: 600;
     right: 15px;
   }
+}
+
+.great-notification-banner--error {
+  border-color: #d4351c;
+  background-color: #d4351c;
+  margin: 0 auto;
+  max-width: 80%;
 }
