@@ -6,12 +6,12 @@
 {% block content %}
     <div class="govuk-width-container great-container">
         <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
+            <div class="govuk-grid-column-two-thirds-from-desktop">
                 <h1 class="govuk-heading-l">Your details</h1>
             </div>
         </div>
         <div class="govuk-grid-row">
-            <div class="govuk-grid-column-full">
+            <div class="govuk-grid-column-two-thirds-from-desktop">
                 <div class="govuk-summary-card">
                     <div class="govuk-summary-card__title-wrapper">
                         <h2 class="govuk-summary-card__title">Business details</h2>
@@ -76,7 +76,7 @@
             </div>
         </div>
         <div class="govuk-grid-row">
-            <div class="govuk-grid-column-full">
+            <div class="govuk-grid-column-two-thirds-from-desktop">
                 <div class="govuk-summary-card">
                     <div class="govuk-summary-card__title-wrapper">
                         <h2 class="govuk-summary-card__title">Expansion plans</h2>
@@ -144,7 +144,7 @@
                                     How much do you want to spend on setting up in the first three years?
                                 </dt>
                                 <dd class="govuk-summary-list__value govuk-body">
-                                    {{ triage_data.get_spend_display | default:"-" }}
+                                    {{ spend }}
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
                                     <a class="govuk-link"
@@ -159,7 +159,7 @@
             </div>
         </div>
         <div class="govuk-grid-row">
-            <div class="govuk-grid-column-full">
+            <div class="govuk-grid-column-two-thirds-from-desktop">
                 <div class="govuk-summary-card">
                     <div class="govuk-summary-card__title-wrapper">
                         <h2 class="govuk-summary-card__title">Contact details</h2>

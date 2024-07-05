@@ -13,17 +13,23 @@
             {% include '../includes/triage_header.html' with back_url=back_url hint_title='About your expansion plans' title='How much do you want to spend on setting up in the first three years?' %}
         </div>
         <div class="govuk-grid-row govuk-!-margin-bottom-3">
-            <div class="govuk-grid-column-full">
-                <form method="get" action="#spend-container">
+            <div class="govuk-grid-column-two-thirds-from-desktop">
+                <form method="get" id="spendCurrencyForm" action="#spend-container">
                     {% csrf_token %}
+                    {% if request.GET.next %}<input type="hidden" name="next" id="next" value="{{ request.GET.next }}" />{% endif %}
                     <div class="govuk-grid-row">
-                        <div class="govuk-grid-column-one-third-from-desktop spend-currency-column">
-                            {% include '../includes/form_field.html' with field=spend_currency_form.spend_currency %}
-                        </div>
                         <div class="govuk-grid-column-two-thirds-from-desktop">
-                            <button type="submit"
-                                    class="govuk-button govuk-button--secondary govuk-!-margin-top-6"
-                                    data-module="govuk-button">Select</button>
+                            <div class="govuk-grid-row">
+                                <div class="govuk-grid-column-three-quarters spend-currency-column">
+                                    {% include 'international/includes/form_field.html' with field=spend_currency_form.spend_currency %}
+                                </div>
+                                <div class="govuk-grid-column-one-quarter spend-currency-column">
+                                    <button type="submit"
+                                            id="change-currency-button"
+                                            class="govuk-button govuk-button--secondary govuk-!-margin-top-6 custom-select-button"
+                                            data-module="govuk-button">Change</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -45,4 +51,12 @@
     {{ block.super }}
     <script type="text/javascript"
             src="{% static 'javascript/dit.components.toggleOther.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'javascript/expand-your-business.js' %}"></script>
+    <script>
+        document.getElementById("change-currency-button").style.visibility = "hidden";
+        function refreshSelectedCurrency() {
+            document.getElementById('spendCurrencyForm').submit();
+        }
+    </script>
 {% endblock %}

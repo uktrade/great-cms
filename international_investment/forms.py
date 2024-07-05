@@ -13,11 +13,12 @@ from core.validators import is_valid_email_address
 from international_investment.core.choices import (
     FUND_TYPE_CHOICES,
     INVESTMENT_TYPE_CHOICES,
-    SPEND_CHOICES,
-    SPEND_CHOICES_EURO,
-    SPEND_CHOICES_USD,
 )
-from international_online_offer.core.choices import COMPANY_LOCATION_CHOICES
+from international_online_offer.core.choices import (
+    COMPANY_LOCATION_CHOICES,
+    SPEND_CHOICES,
+)
+from international_online_offer.core.helpers import get_spend_choices_by_currency
 
 
 class InvestmentFundForm(forms.Form):
@@ -108,13 +109,8 @@ class InvestmentEstimateForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
-        spend_currency = kwargs.pop('spend_currency', 'GBP')
+        spend_choices = get_spend_choices_by_currency(kwargs.pop('spend_currency', 'GBP'))
         super(InvestmentEstimateForm, self).__init__(*args, **kwargs)
-        spend_choices = SPEND_CHOICES
-        if spend_currency == 'EUR':
-            spend_choices = SPEND_CHOICES_EURO
-        elif spend_currency == 'USD':
-            spend_choices = SPEND_CHOICES_USD
         self.fields['spend'].choices = spend_choices
 
 

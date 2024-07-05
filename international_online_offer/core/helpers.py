@@ -9,6 +9,11 @@ from international_online_offer.core import (
     regions,
     sectors as sectors,
 )
+from international_online_offer.core.choices import (
+    SPEND_CHOICES,
+    SPEND_CHOICES_EURO,
+    SPEND_CHOICES_USD,
+)
 
 
 def filter_articles_sector_only(all_sector_tagged_articles):
@@ -242,3 +247,12 @@ def is_user_data_complete(user_data):
         and user_data.landing_timeframe
         and user_data.company_website
     )
+
+
+def get_spend_choices_by_currency(currency):
+    spend_choices = SPEND_CHOICES
+    if currency == 'EUR':
+        spend_choices = SPEND_CHOICES_EURO
+    elif currency == 'USD':
+        spend_choices = SPEND_CHOICES_USD
+    return spend_choices

@@ -67,3 +67,15 @@ body {
 .button--international {
     font-family: 'Euclid Flex B', Roboto, Arial, sans-serif;
 }
+
+@media (min-width: 769px) {
+    .spend-currency-column {
+      padding-right: 0px;
+    }
+}
+
+.custom-select-button {
+    float: left;
+    padding: 2px 6px;
+    min-height: 38px;
+}

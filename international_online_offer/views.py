@@ -778,15 +778,18 @@ class EditYourAnswersView(GA360Mixin, TemplateView):
     def get_context_data(self, **kwargs):
         triage_data = get_triage_data_for_user(self.request)
         user_data = get_user_data_for_user(self.request)
-        breadcrumbs = [
-            {'name': 'Home', 'url': '/international/'},
-            {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#tailored-guide'},
-        ]
+        spend_choices = helpers.get_spend_choices_by_currency(self.request.session.get('spend_currency'))
+
+        for spend_choice in spend_choices:
+            if spend_choice[0] == triage_data.spend:
+                spend = spend_choice[1]
+
         return super().get_context_data(
             **kwargs,
             triage_data=triage_data,
             user_data=user_data,
-            breadcrumbs=breadcrumbs,
+            back_url='/international/expand-your-business-in-the-uk/guide/',
+            spend=spend,
         )
 
 
