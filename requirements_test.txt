@@ -88,7 +88,7 @@ celery[redis]==5.3.6
     #   -r requirements.in
     #   dbt-copilot-python
     #   django-celery-beat
-certifi==2024.6.2
+certifi==2024.7.4
     # via
     #   elastic-apm
     #   geventhttpclient
@@ -364,7 +364,9 @@ googleapis-common-protos==1.63.2
 great-components==2.6.4
     # via -r requirements.in
 greenlet==3.0.3
-    # via gevent
+    # via
+    #   gevent
+    #   sqlalchemy
 grpcio==1.64.1
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==22.0.0
