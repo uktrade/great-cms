@@ -6,6 +6,7 @@ from international_investment.forms import (
     InvestmentFundForm,
     InvestmentTypesForm,
 )
+from international_online_offer.core.spends import FIVE_MILLION_TO_TEN_MILLION
 
 
 @pytest.mark.parametrize(
@@ -101,7 +102,7 @@ def test_triage_investment_types_validation(form_data, is_valid):
     (
         (
             {
-                'spend': '£5 million to £10 million',
+                'spend': FIVE_MILLION_TO_TEN_MILLION,
             },
             True,
         ),
