@@ -4,7 +4,8 @@
             <ol class="govuk-breadcrumbs__list">
                 {% for breadcrumb in breadcrumbs %}
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" href="{{ breadcrumb.url }}">{{ breadcrumb.name }}</a>
+                        <a class="govuk-breadcrumbs__link govuk-!-font-size-19"
+                           href="{{ breadcrumb.url }}">{{ breadcrumb.name }}</a>
                     </li>
                 {% endfor %}
             </ol>

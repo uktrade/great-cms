@@ -14,7 +14,7 @@
 {% endblock %}
 {% block content %}
     <div class="govuk-width-container great-container">
-        {% include '../includes/triage_header.html' with back_url=back_url hint_title='About your expansion plans' title='Where do you want to set up?' %}
+        {% include '../includes/triage_header.html' with back_url=back_url hint_title='About your expansion plans' %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <form method="post" onsubmit="return onSubmitLocation()">
@@ -22,7 +22,7 @@
                     <div class="govuk-grid-row">
                         <div class="govuk-grid-column-full">
                             <h1 class="govuk-label-wrapper">
-                                <label for='js-location-select' class="govuk-label govuk-label--l">{{ question_text }}</label>
+                                <label for='js-location-select' class="govuk-label govuk-label--l">Where do you want to set up?</label>
                             </h1>
                         </div>
                     </div>
@@ -30,15 +30,6 @@
                         <div class="govuk-grid-column-full">
                             <div class="{% if form.location.errors %} govuk-form-group--error{% endif %}">
                                 {% include 'international/includes/form_field.html' with field=form.location %}
-                            </div>
-                        </div>
-                    </div>
-                    <div id="region-city-information-container"
-                         class="govuk-grid-row"
-                         style="{% if not city %} display: none {% endif %}">
-                        <div class="govuk-grid-column-two-thirds">
-                            <div class="govuk-inset-text govuk-!-margin-bottom-1 govuk-!-margin-top-3">
-                                <span id="city-text">{{ city }}</span> is in <span id="region-text" class="govuk-!-font-weight-bold">{{ region }}</span>, we will tailor your guide to this region.
                             </div>
                         </div>
                     </div>
@@ -60,9 +51,6 @@
         // Gets json list of regions and cities from django - flattens to use
         // with autocomplete.
         const regionsAndCities = JSON.parse("{{autocomplete_location_data | escapejs}}");
-        const cityTextContainer = document.querySelector('#city-text');
-        const regionCityInfoContainer = document.querySelector('#region-city-information-container');
-        const regionTextContainer = document.querySelector('#region-text');
         const flattenRegionAndCityDataForAutocomplete = (dataIn) => {
             let dataOut = [];
             for (let i = 0; i < dataIn.length; i++) {
@@ -74,15 +62,6 @@
             return dataOut
         }
         const flattenedRegionsAndCities = flattenRegionAndCityDataForAutocomplete(regionsAndCities);
-        const getRegionForCity = (city) => {
-            for (let i = 0; i < regionsAndCities.length; i++) {
-                for (let o = 0; o < regionsAndCities[i].cities.length; o++) {
-                    if (regionsAndCities[i].cities[o] == city) {
-                        return regionsAndCities[i].region;
-                    }
-                }
-            }
-        }
         accessibleAutocomplete.enhanceSelectElement({
             selectElement: document.querySelector('#js-location-select'),
             source: flattenedRegionsAndCities,
@@ -103,16 +82,6 @@
                         }
                     }
                     setLocationSelectValue(selectedText);
-                    // Hide / show information around the region that the city is in,
-                    // if selecting a city.
-                    const region = getRegionForCity(selectedText)
-                    if (region) {
-                        cityTextContainer.innerText = selectedText;
-                        regionTextContainer.innerText = region;
-                        regionCityInfoContainer.style.display = '';
-                    } else {
-                        regionCityInfoContainer.style.display = 'none';
-                    }
                 }
             }
         });

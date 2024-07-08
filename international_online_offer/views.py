@@ -247,7 +247,7 @@ class ContactDetailsView(GA360Mixin, FormView):
     def get_context_data(self, **kwargs):
         sector = None
         sector_sub = None
-        leading_title = 'Provide your details so that we can contact you -- we may be able to help.'
+        leading_title = 'Provide your details so that we can contact you - we may be able to help.'
         if self.request.user.is_authenticated:
             triage_data = get_triage_data_for_user(self.request)
             if triage_data:
@@ -663,7 +663,7 @@ class SignUpView(
     success_url = '/international/expand-your-business-in-the-uk/guide/'
 
     def __init__(self):
-        code_expired_error = {'field': '__all__', 'error_message': 'Code has expired: we have emailed you a new code'}
+        code_expired_error = {'field': '__all__', 'error_message': 'The security code has expired. New code sent'}
         super().__init__(code_expired_error)
         self.set_ga360_payload(
             page_id='Signup',
@@ -698,7 +698,7 @@ class SignUpView(
                 {'uidb64': uidb64, 'token': token, 'code': code_confirm}
             )
             if upstream_response.status_code in [400, 404]:
-                form.add_error('__all__', 'You have entered an invalid code')
+                form.add_error('__all__', 'Enter a correct confirmation code')
             elif upstream_response.status_code == 422:
                 # Resend verification code if it has expired.
                 self.handle_code_expired(
@@ -762,6 +762,12 @@ class SignUpView(
             return self.do_validate_code_flow(request)
         else:
             return self.do_sign_up_flow(request)
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            back_url='/international/expand-your-business-in-the-uk/',
+        )
 
 
 class EditYourAnswersView(GA360Mixin, TemplateView):

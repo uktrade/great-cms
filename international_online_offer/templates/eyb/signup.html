@@ -8,6 +8,8 @@
 {% block meta_title %}Sign up {{ block.super }}{% endblock %}
 {% block content %}
     <div class="govuk-width-container great-container">
+        <a href="/international/expand-your-business-in-the-uk/"
+           class="govuk-back-link govuk-!-font-size-19">Back</a>
         {% if form.non_field_errors %}
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
@@ -45,27 +47,29 @@
                 <div class="govuk-grid-column-two-thirds">
                     <form method="post">
                         {% csrf_token %}
-                        <div class="govuk-grid-row govuk-!-margin-bottom-3">
+                        <div class="govuk-grid-row">
                             <div class="govuk-grid-column-full">
                                 <div class="{% if form.email.errors %} govuk-form-group--error{% endif %}">
-                                    {% include './includes/form_field.html' with field=form.email %}
+                                    <div class="govuk-form-group">{% include './includes/form_field.html' with field=form.email %}</div>
                                 </div>
                             </div>
                         </div>
-                        <div class="govuk-grid-row govuk-!-margin-bottom-7">
+                        <div class="govuk-grid-row">
                             <div class="govuk-grid-column-full">
                                 <div class="{% if form.password.errors %} govuk-form-group--error{% endif %}">
-                                    {% include './includes/form_field.html' with field=form.password %}
-                                    <div class="govuk-checkboxes govuk-checkboxes--small govuk-!-margin-top-1"
-                                         data-module="govuk-checkboxes">
-                                        <div class="govuk-checkboxes__item">
-                                            <input class="govuk-checkboxes__input"
-                                                   id="showHidePassword"
-                                                   name="showHidePassword"
-                                                   type="checkbox"
-                                                   value="1"
-                                                   onclick="document.getElementById('id_password').type == 'password'? document.getElementById('id_password').type = 'text': document.getElementById('id_password').type = 'password'">
-                                            <label class="govuk-label govuk-checkboxes__label" for="showHidePassword">Show password</label>
+                                    <div class="govuk-form-group">
+                                        {% include './includes/form_field.html' with field=form.password %}
+                                        <div class="govuk-checkboxes govuk-checkboxes--small govuk-!-margin-top-1"
+                                             data-module="govuk-checkboxes">
+                                            <div class="govuk-checkboxes__item">
+                                                <input class="govuk-checkboxes__input"
+                                                       id="showHidePassword"
+                                                       name="showHidePassword"
+                                                       type="checkbox"
+                                                       value="1"
+                                                       onclick="document.getElementById('id_password').type == 'password'? document.getElementById('id_password').type = 'text': document.getElementById('id_password').type = 'password'">
+                                                <label class="govuk-label govuk-checkboxes__label" for="showHidePassword">Show password</label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -99,7 +103,9 @@
                 <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-3">
                     <div id="sign-up-confirm">
                         <h1 class="govuk-heading-l">Check your email</h1>
-                        <div class="govuk-inset-text">We’ve sent an email to: {{ request.GET.email }}</div>
+                        <div class="govuk-inset-text">
+                            <strong>We've sent an email to: {{ request.GET.email }}</strong>
+                        </div>
                         <p class="govuk-body">The email contains a 5 digit confirmation code.</p>
                         <p class="govuk-body">
                             Your email might take a few minutes to arrive. If you do not get an email, check your spam folder.

@@ -10,39 +10,41 @@
 {% block content %}
     <div class="govuk-width-container great-container">
         <div id="spend-container">
-            {% include '../includes/triage_header.html' with back_url=back_url hint_title='About your expansion plans' title='How much do you want to spend on setting up in the first three years?' %}
+            {% include '../includes/triage_header.html' with back_url=back_url hint_title='About your expansion plans' %}
         </div>
         <div class="govuk-grid-row govuk-!-margin-bottom-3">
             <div class="govuk-grid-column-two-thirds-from-desktop">
-                <form method="get" id="spendCurrencyForm" action="#spend-container">
-                    {% csrf_token %}
-                    {% if request.GET.next %}<input type="hidden" name="next" id="next" value="{{ request.GET.next }}" />{% endif %}
-                    <div class="govuk-grid-row">
-                        <div class="govuk-grid-column-two-thirds-from-desktop">
-                            <div class="govuk-grid-row">
-                                <div class="govuk-grid-column-three-quarters spend-currency-column">
-                                    {% include 'international/includes/form_field.html' with field=spend_currency_form.spend_currency %}
-                                </div>
-                                <div class="govuk-grid-column-one-quarter spend-currency-column">
-                                    <button type="submit"
-                                            id="change-currency-button"
-                                            class="govuk-button govuk-button--secondary govuk-!-margin-top-6 custom-select-button"
-                                            data-module="govuk-button">Change</button>
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading">How much do you want to spend on setting up in the first three years?</h1>
+                    </legend>
+                    <form method="get" id="spendCurrencyForm" action="#spend-container">
+                        {% csrf_token %}
+                        {% if request.GET.next %}<input type="hidden" name="next" id="next" value="{{ request.GET.next }}" />{% endif %}
+                        <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-two-thirds-from-desktop">
+                                <div class="govuk-grid-row">
+                                    <div class="govuk-grid-column-three-quarters spend-currency-column">
+                                        {% include 'international/includes/form_field.html' with field=spend_currency_form.spend_currency %}
+                                    </div>
+                                    <div class="govuk-grid-column-one-quarter spend-currency-column">
+                                        <button type="submit"
+                                                id="change-currency-button"
+                                                class="govuk-button govuk-button--secondary govuk-!-margin-top-6 custom-select-button"
+                                                data-module="govuk-button">Change</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </form>
-                <form method="post">
-                    {% csrf_token %}
-                    <div class="govuk-form-group govuk-!-margin-bottom-7 {% if form.spend.errors %}govuk-form-group--error{% endif %} govuk-!-margin-bottom-2">
-                        <fieldset class="govuk-fieldset">
-                            <legend class="govuk-label govuk-label--s">{{ form.spend.label }}</legend>
+                    </form>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="govuk-form-group govuk-!-margin-bottom-7 {% if form.spend.errors %}govuk-form-group--error{% endif %} govuk-!-margin-bottom-2">
                             {% include 'domestic/contact/includes/govuk-form-field.html' with field=form.spend hide_label=True %}
-                        </fieldset>
-                    </div>
-                    {% include '../includes/submit_button.html' with button_text='Save and continue' %}
-                </form>
+                        </div>
+                        {% include '../includes/submit_button.html' with button_text='Save and continue' %}
+                    </form>
+                </fieldset>
             </div>
         </div>
     </div>

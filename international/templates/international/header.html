@@ -1,4 +1,5 @@
 {% load ga360_data from directory_components %}
+{% load static %}
 {% include './includes/dbt_banner.html' %}
 <header data-ga-section="header">
     <div class="great-international-header__main">
@@ -43,7 +44,11 @@
                                             <a class="govuk-link govuk-link--inverse great-international-nav__section-item {% if '/expand-your-business-in-the-uk/change-your-answers' in request.path %}active{% endif %}"
                                                href="{% url 'international_online_offer:change-your-answers' %}"
                                                data-location="EYB sub-nav"
-                                               data-title="Change your answers">Your details</a>
+                                               data-title="Change your answers">
+                                                <img class="eyb-profile-icon"
+                                                     src="{% static 'svg' %}/profile.svg"
+                                                     alt="Your details profile icon" />
+                                            Your details</a>
                                         </li>
                                     {% endif %}
                                     <li>
@@ -126,7 +131,12 @@
                                     <a class="govuk-link govuk-link--inverse great-international-subnav__item {% if '/expand-your-business-in-the-uk/change-your-answers' in request.path %}active{% endif %}"
                                        href="{% url 'international_online_offer:change-your-answers' %}"
                                        data-location="EYB sub-nav"
-                                       data-title="Change your answers">Your details</a>
+                                       data-title="Change your answers">
+                                        <img class="eyb-profile-icon"
+                                             src="{% static 'svg' %}/profile.svg"
+                                             alt="Your details profile icon" />
+                                        Your details
+                                    </a>
                                 </li>
                             {% endif %}
                             <li>

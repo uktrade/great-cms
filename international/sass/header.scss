@@ -189,6 +189,12 @@
     text-decoration-thickness: 1px;
     text-underline-offset: 0.3em;
   }
+
+  &:focus {
+    .eyb-profile-icon {
+      filter: none;
+    }
+  }
 }
 
 .great-international-nav__section {
@@ -238,7 +244,11 @@
 
   &:focus {
     outline-offset: -4px;
+    .eyb-profile-icon {
+      filter: none;
+    }
   }
+
 }
 
 .great-logo-link {
