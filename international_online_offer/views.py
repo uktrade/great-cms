@@ -786,6 +786,7 @@ class EditYourAnswersView(GA360Mixin, TemplateView):
         user_data = get_user_data_for_user(self.request)
         spend_choices = helpers.get_spend_choices_by_currency(self.request.session.get('spend_currency'))
 
+        spend = '-'
         for spend_choice in spend_choices:
             if spend_choice[0] == triage_data.spend:
                 spend = spend_choice[1]
