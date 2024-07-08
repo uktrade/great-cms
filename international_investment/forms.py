@@ -13,11 +13,9 @@ from core.validators import is_valid_email_address
 from international_investment.core.choices import (
     FUND_TYPE_CHOICES,
     INVESTMENT_TYPE_CHOICES,
-)
-from international_online_offer.core.choices import (
-    COMPANY_LOCATION_CHOICES,
     SPEND_CHOICES,
 )
+from international_online_offer.core.choices import COMPANY_LOCATION_CHOICES
 from international_online_offer.core.helpers import get_spend_choices_by_currency
 
 
