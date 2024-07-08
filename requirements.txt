@@ -59,8 +59,9 @@ celery[redis]==5.3.6
     #   -r requirements.in
     #   dbt-copilot-python
     #   django-celery-beat
-certifi==2024.6.2
+certifi==2024.7.4
     # via
+    #   -r requirements.in
     #   elastic-apm
     #   opensearch-py
     #   requests
@@ -204,18 +205,16 @@ django-redis==5.4.0
 django-staff-sso-client==4.2.2
     # via -r requirements.in
 django-storages[boto3]==1.13.2
-    # via
-    #   -r requirements.in
-    #   django-storages
+    # via -r requirements.in
 django-taggit==4.0.0
     # via wagtail
-django-timezone-field==6.1.0
+django-timezone-field==7.0
     # via django-celery-beat
 django-treebeard==4.7
     # via
     #   -r requirements.in
     #   wagtail
-djangorestframework==3.14.0
+djangorestframework==3.15.2
     # via
     #   -r requirements.in
     #   drf-spectacular
@@ -263,7 +262,7 @@ html5lib==1.1
     #   xhtml2pdf
 icalendar==5.0.11
     # via -r requirements.in
-identify==2.5.36
+identify==2.6.0
     # via pre-commit
 idna==3.7
     # via requests
@@ -395,7 +394,7 @@ pillow==10.3.0
     #   reportlab
     #   wagtail
     #   xhtml2pdf
-pillow-heif==0.16.0
+pillow-heif==0.17.0
     # via willow
 platformdirs==4.2.2
     # via virtualenv
@@ -439,7 +438,7 @@ pyrsistent==0.20.0
     # via jsonschema
 python-bidi==0.4.2
     # via xhtml2pdf
-python-crontab==3.1.0
+python-crontab==3.2.0
     # via django-celery-beat
 python-dateutil==2.9.0.post0
     # via
@@ -463,7 +462,6 @@ pytz==2023.3
     #   dateparser
     #   directory-validators
     #   django-modelcluster
-    #   djangorestframework
     #   icalendar
     #   l18n
     #   pandas
@@ -582,7 +580,7 @@ uritemplate==4.1.1
     # via drf-spectacular
 uritools==4.0.3
     # via pyhanko-certvalidator
-urllib3==1.26.18
+urllib3==1.26.19
     # via
     #   -r requirements.in
     #   botocore
@@ -636,9 +634,7 @@ webencodings==0.5.1
 whitenoise==6.6.0
     # via -r requirements.in
 willow[heif]==1.6.3
-    # via
-    #   wagtail
-    #   willow
+    # via wagtail
 wrapt==1.16.0
     # via
     #   deprecated
