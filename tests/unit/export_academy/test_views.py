@@ -1252,7 +1252,8 @@ def test_signin_invalid_password(
     response = client.post(url, data=form_data)
 
     assert response.context['form'].errors['password'] == [
-        """The email or password you entered is not correct. If you've forgotten your password, you can reset it"""
+        """The email or password you entered is not correct. If you've forgotten
+          your password, you can reset it"""
     ]
     assert response.status_code == 200
     if unique_link:
