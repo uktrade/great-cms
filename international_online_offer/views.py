@@ -763,12 +763,6 @@ class SignUpView(
         else:
             return self.do_sign_up_flow(request)
 
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(
-            **kwargs,
-            back_url='/international/expand-your-business-in-the-uk/',
-        )
-
 
 class EditYourAnswersView(GA360Mixin, TemplateView):
     template_name = 'eyb/edit_your_answers.html'
@@ -787,9 +781,10 @@ class EditYourAnswersView(GA360Mixin, TemplateView):
         spend_choices = helpers.get_spend_choices_by_currency(self.request.session.get('spend_currency'))
 
         spend = '-'
-        for spend_choice in spend_choices:
-            if spend_choice[0] == triage_data.spend:
-                spend = spend_choice[1]
+        if triage_data:
+            for spend_choice in spend_choices:
+                if spend_choice[0] == triage_data.spend:
+                    spend = spend_choice[1]
 
         return super().get_context_data(
             **kwargs,

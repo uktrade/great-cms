@@ -107,7 +107,7 @@ def test_business_eyb_sso_signup_success(mock_send_code, client, requests_mock):
         status_code=201,
     )
     response = client.post(
-        reverse_lazy('international_online_offer:signup'), {'email': 'test@test.com', 'password': 'passwor1234'}
+        reverse_lazy('international_online_offer:signup'), {'email': 'test@test.com', 'password': 'password1234'}
     )
     assert mock_send_code.call_count == 1
     assert response.status_code == 302

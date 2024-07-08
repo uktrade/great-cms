@@ -2,17 +2,17 @@ from directory_forms_api_client import actions
 from django.conf import settings
 
 from directory_constants import sectors as directory_constants_sectors
+from international_investment.core.choices import (
+    SPEND_CHOICES,
+    SPEND_CHOICES_EURO,
+    SPEND_CHOICES_USD,
+)
 from international_online_offer.core import (
     choices,
     intents,
     professions,
     regions,
     sectors as sectors,
-)
-from international_online_offer.core.choices import (
-    SPEND_CHOICES,
-    SPEND_CHOICES_EURO,
-    SPEND_CHOICES_USD,
 )
 
 
