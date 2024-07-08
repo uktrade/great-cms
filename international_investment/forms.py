@@ -9,6 +9,7 @@ from django.forms import (
 from great_components import forms
 
 from contact import widgets as contact_widgets
+from core.validators import is_valid_email_address
 from international_investment.core.choices import (
     FUND_TYPE_CHOICES,
     INVESTMENT_TYPE_CHOICES,
@@ -130,7 +131,7 @@ class InvestmentContactForm(forms.Form):
     email_address = CharField(
         label='Email',
         max_length=255,
-        required=True,
+        validators=[is_valid_email_address],
         widget=TextInput(attrs={'class': 'govuk-input'}),
         error_messages={
             'required': 'Enter your email address',
