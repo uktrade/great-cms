@@ -271,7 +271,6 @@ def test_booking_success_view(
 def test_csat_user_feedback_with_session_value(
     export_academy_landing_page, test_event_list_hero, client, settings, user, booking_status, success_url, text
 ):
-    settings.FEATURE_UKEA_CSAT = True
     client.force_login(user)
     registration = factories.RegistrationFactory(email=user.email)
     event = factories.EventFactory()
@@ -294,7 +293,6 @@ def test_csat_user_feedback_with_session_value(
 def test_csat_user_feedback_submit(
     export_academy_landing_page, test_event_list_hero, client, settings, user, booking_status, success_url, text
 ):
-    settings.FEATURE_UKEA_CSAT = True
     client.force_login(user)
     registration = factories.RegistrationFactory(email=user.email)
     event = factories.EventFactory()
@@ -326,7 +324,6 @@ def test_csat_user_feedback_submit(
 def test_csat_user_feedback_submit_with_javascript(
     export_academy_landing_page, test_event_list_hero, client, settings, user, booking_status, success_url, text
 ):
-    settings.FEATURE_UKEA_CSAT = True
     client.force_login(user)
     registration = factories.RegistrationFactory(email=user.email)
     event = factories.EventFactory()
