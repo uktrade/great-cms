@@ -1418,7 +1418,6 @@ def test_pingdom_database_healthcheck_false(mock_database_check, client):
 @pytest.mark.django_db
 def test_csat_user_feedback_with_session_value(
     client,
-    settings,
     user,
 ):
     client.force_login(user)
@@ -1435,7 +1434,6 @@ def test_csat_user_feedback_with_session_value(
 @pytest.mark.django_db
 def test_csat_user_feedback_submit(
     client,
-    settings,
     user,
 ):
     client.force_login(user)

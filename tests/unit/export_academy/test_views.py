@@ -269,7 +269,7 @@ def test_booking_success_view(
 )
 @pytest.mark.django_db
 def test_csat_user_feedback_with_session_value(
-    export_academy_landing_page, test_event_list_hero, client, settings, user, booking_status, success_url, text
+    export_academy_landing_page, test_event_list_hero, client, user, booking_status, success_url, text
 ):
     client.force_login(user)
     registration = factories.RegistrationFactory(email=user.email)
@@ -291,7 +291,7 @@ def test_csat_user_feedback_with_session_value(
 )
 @pytest.mark.django_db
 def test_csat_user_feedback_submit(
-    export_academy_landing_page, test_event_list_hero, client, settings, user, booking_status, success_url, text
+    export_academy_landing_page, test_event_list_hero, client, user, booking_status, success_url, text
 ):
     client.force_login(user)
     registration = factories.RegistrationFactory(email=user.email)
@@ -322,7 +322,7 @@ def test_csat_user_feedback_submit(
 )
 @pytest.mark.django_db
 def test_csat_user_feedback_submit_with_javascript(
-    export_academy_landing_page, test_event_list_hero, client, settings, user, booking_status, success_url, text
+    export_academy_landing_page, test_event_list_hero, client, user, booking_status, success_url, text
 ):
     client.force_login(user)
     registration = factories.RegistrationFactory(email=user.email)
