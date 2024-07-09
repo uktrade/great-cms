@@ -1197,6 +1197,7 @@ def test_domestic_export_support_form_pages(
         response = client.post(page_url, invalid_form_data)
         assert response.status_code == 200
         assert error_messages[key] in str(response.rendered_content)
+        assert '<meta name="robots" content="noindex">' in str(response.rendered_content)
 
         invalid_form_data = form_data.copy()
 

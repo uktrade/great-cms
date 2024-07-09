@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% block body_js %}{{ block.super }}{% endblock %}
-{% block body_header %}
+{% block head_other %}
     {% block sharing_description %}
         <meta name="description"
               content="{% block meta_description %}{% firstof self.seo_description page.search_description content_snippet.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description %}{% endblock %}">
