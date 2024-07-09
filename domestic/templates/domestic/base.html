@@ -152,7 +152,9 @@
             {% include 'core/header.html' %}
         {% endblock %}
         {% block breadcrumbs_block %}
-            {% include 'breadcrumbs.html' with itemsList=page.get_breadcrumbs classes="" %}
+            <div class="container">
+                {% include 'breadcrumbs.html' with itemsList=page.get_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
+            </div>
         {% endblock %}
         {% block body_content_container %}
             <main id="content"
