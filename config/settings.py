@@ -137,6 +137,7 @@ TEMPLATES = [
             ROOT_DIR / 'sso_profile' / 'templates',
             ROOT_DIR / 'sso_profile' / 'common' / 'templates',
             ROOT_DIR / 'sso_profile' / 'enrolment' / 'templates',
+            ROOT_DIR / 'node_modules',
         ],
         'APP_DIRS': True,
         'OPTIONS': {

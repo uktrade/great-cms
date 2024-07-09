@@ -183,6 +183,9 @@
                             </li>
                         {% else %}
                             <li class="great">
+                                {% url 'core:login' as login_url %}
+                                {% include '@uktrade/great-design-system/dist/components/button/button.html' with href=login_url text="Create an account" %}
+
                                 <a id="sign-in"
                                    class="govuk-button govuk-!-margin-top-3 govuk-!-margin-bottom-3"
                                    href="{% url 'core:login' %}">Sign in</a>
