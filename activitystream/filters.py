@@ -44,3 +44,11 @@ class ActivityStreamCmsContentFilter(FilterSet):
     def filter_after(self, queryset, name, value):
         value = value or '0'
         return queryset.filter(id__gt=value)
+
+
+class ActivityStreamWhereToExportFilter(FilterSet):
+    after = CharFilter(method='filter_after')
+
+    def filter_after(self, queryset, name, value):
+        value = value or '0'
+        return queryset.filter(id__gt=value)
