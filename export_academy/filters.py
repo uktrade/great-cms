@@ -3,7 +3,7 @@ from django.utils import timezone
 from django_filters import FilterSet, filters
 from great_components import forms
 
-from core.models import CountryTag, SectorTag, TypeOfExportTag
+from core.models import CountryTag, PersonalisationRegionTag, SectorTag
 from export_academy import models
 from export_academy.helpers import is_export_academy_registered
 
@@ -83,11 +83,11 @@ class EventFilter(FilterSet):
         widget=forms.CheckboxSelectInlineLabelMultiple,
     )
 
-    type_of_export = filters.ModelMultipleChoiceFilter(
-        label='Type of Export',
-        field_name='type_of_export_tags__id',
-        queryset=TypeOfExportTag.objects.filter(
-            Exists(models.TypeOfExportTaggedEvent.objects.filter(tag_id=OuterRef('id')))
+    region = filters.ModelMultipleChoiceFilter(
+        label='Region',
+        field_name='region_tags__id',
+        queryset=PersonalisationRegionTag.objects.filter(
+            Exists(models.RegionTaggedEvent.objects.filter(tag_id=OuterRef('id')))
         ),
         to_field_name='id',
         widget=forms.CheckboxSelectInlineLabelMultiple,
