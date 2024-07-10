@@ -42,11 +42,10 @@ from wagtail.models import Orderable, Page
 from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtail.snippets.models import register_snippet
 from wagtail.utils.decorators import cached_classmethod
-from wagtailmedia.models import Media
+from wagtailmedia.models import AbstractMedia as Media
 from wagtailseo.models import SeoMixin as WagtailSeoMixin, TwitterCard
 
-from core import blocks as core_blocks, cms_panels, mixins, snippet_slugs
-from core import constants
+from core import blocks as core_blocks, cms_panels, constants, mixins, snippet_slugs
 from core.blocks import (
     LinkBlockWithHeading,
     MicrositeColumnBlock,
@@ -72,6 +71,11 @@ register_snippet(Redirect)
 
 
 class GreatMedia(Media):
+    file = models.FileField(
+        upload_to='media',
+        verbose_name=_('file'),
+        help_text='File names can not exceed 96 characters',
+    )
     description = models.TextField(
         verbose_name=_('Description'), blank=True, null=True  # left null because was an existing field
     )
@@ -1471,6 +1475,14 @@ class SectorTagged(GenericTaggedItemBase):
 class TypeOfExportTagged(GenericTaggedItemBase):
     tag = models.ForeignKey(
         TypeOfExportTag,
+        on_delete=models.CASCADE,
+        related_name='%(app_label)s_%(class)s_items',
+    )
+
+
+class RegionTagged(GenericTaggedItemBase):
+    tag = models.ForeignKey(
+        PersonalisationRegionTag,
         on_delete=models.CASCADE,
         related_name='%(app_label)s_%(class)s_items',
     )

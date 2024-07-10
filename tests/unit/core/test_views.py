@@ -1418,10 +1418,8 @@ def test_pingdom_database_healthcheck_false(mock_database_check, client):
 @pytest.mark.django_db
 def test_csat_user_feedback_with_session_value(
     client,
-    settings,
     user,
 ):
-    settings.FEATURE_WTE_CSAT = True
     client.force_login(user)
     url = reverse_lazy('core:product-market') + '?product=gin&market=germany'
 
@@ -1436,10 +1434,8 @@ def test_csat_user_feedback_with_session_value(
 @pytest.mark.django_db
 def test_csat_user_feedback_submit(
     client,
-    settings,
     user,
 ):
-    settings.FEATURE_WTE_CSAT = True
     client.force_login(user)
     url = reverse_lazy('core:product-market') + '?product=gin&market=germany'
 
