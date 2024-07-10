@@ -91,19 +91,18 @@ class EventListView(GA360Mixin, core_mixins.GetSnippetContentMixin, FilterView, 
         return get_badges_for_event(user, event)
 
     def get_context_data(self, **kwargs):
-        market_filters = sector_filters = type_of_export_filters = False
+        market_filters = sector_filters = region_filters = False
         ctx = super().get_context_data(**kwargs)
         ctx['landing_page'] = models.ExportAcademyHomePage.objects.first()
-        if settings.FEATURE_UKEA_TAGGING_UPDATE:
-            if self.filterset_class.declared_filters['market'].queryset.count() > 0:
-                market_filters = True
-            if self.filterset_class.declared_filters['sector'].queryset.count() > 0:
-                sector_filters = True
-            if self.filterset_class.declared_filters['type_of_export'].queryset.count() > 0:
-                type_of_export_filters = True
+        if self.filterset_class.declared_filters['market'].queryset.count() > 0 and settings.FEATURE_UKEA_MARKET_FILTER:
+            market_filters = True
+        if self.filterset_class.declared_filters['sector'].queryset.count() > 0 and settings.FEATURE_UKEA_SECTOR_FILTER:
+            sector_filters = True
+        if self.filterset_class.declared_filters['region'].queryset.count() > 0 and settings.FEATURE_UKEA_REGION_FILTER:
+            region_filters = True
         ctx['market_filters'] = market_filters
         ctx['sector_filters'] = sector_filters
-        ctx['type_of_export_filters'] = type_of_export_filters
+        ctx['region_filters'] = region_filters
         return ctx
 
 

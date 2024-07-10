@@ -53,7 +53,6 @@ from core.models import (
     Country,
     IndustryTag,
     Region,
-    SectorTag,
     SeoMixin,
     Tag,
 )
@@ -692,14 +691,9 @@ class MarketsTopicLandingPage(
 
         #  We need to only apply these if truthy, else we end up getting no results
         if sectors:
-            if settings.FEATURE_MARKET_GUIDES_TAGGING_UPDATE:
-                market_pages_qs = market_pages_qs.filter(
-                    sector_tags__name__in=sectors,
-                )
-            else:
-                market_pages_qs = market_pages_qs.filter(
-                    tags__name__in=sectors,
-                )
+            market_pages_qs = market_pages_qs.filter(
+                tags__name__in=sectors,
+            )
         if regions:
             market_pages_qs = market_pages_qs.filter(
                 country__region__name__in=regions,
@@ -732,17 +726,10 @@ class MarketsTopicLandingPage(
 
     def get_sector_list(self, request):
         selected = set(request.GET.getlist(self.SECTOR_QUERYSTRING_NAME))
-        # return sector tag objects for FEATURE_MARKET_GUIDES_TAGGING_UPDATE
-        if settings.FEATURE_MARKET_GUIDES_TAGGING_UPDATE:
-            sectors = chain(
-                SectorTag.objects.order_by('name').filter(name__in=selected).all(),
-                SectorTag.objects.order_by('name').exclude(name__in=selected).all(),
-            )
-        else:
-            sectors = chain(
-                IndustryTag.objects.order_by('name').filter(name__in=selected).all(),
-                IndustryTag.objects.order_by('name').exclude(name__in=selected).all(),
-            )
+        sectors = chain(
+            IndustryTag.objects.order_by('name').filter(name__in=selected).all(),
+            IndustryTag.objects.order_by('name').exclude(name__in=selected).all(),
+        )
         return sectors
 
     def get_selected_sectors(self, request) -> list:

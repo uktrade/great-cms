@@ -34,7 +34,7 @@
                            id="mobile-filter-toggle">Filters</a>
                         <ul>
                             {% for field in filter.form|get_filters:request.user %}
-                                {% if field.label == "Market" and not market_filters or field.label == "Sector" and not sector_filters or field.label == "Type of Export" and not type_of_export_filters %}
+                                {% if field.label == "Market" and not market_filters or field.label == "Sector" and not sector_filters or field.label == "Region" and not region_filters %}
                                 {% else %}
                                     <li>
                                         <fieldset class="filter-section" aria-describedby="{{ field.label }}_label">
@@ -44,97 +44,97 @@
                                                     class="filter-section-toggle hidden"
                                                     role="button"
                                                     aria-expanded="true"
-                                                    aria-controls="{{ field.label }}_fields" /></button>
-                                        <label class="arrows-left arrows-left-active filter-section-headings govuk-!-padding-left-2"
-                                               for="{{ field.label }}"
-                                               id="{{ field.label }}_label">
-                                            <h2>{{ field.label }}</h2>
-                                        </label>
-                                        <div id="{{ field.label }}_fields"
-                                             class="options checkbox-small filter-section-active">
-                                            {% if request.GET.booking_period == 'upcoming' or request.GET.booking_period == 'past' %}
-                                                {% filter disable_period_radios %}
-                                                    {{ field }}
-                                                {% endfilter %}
-                                            {% else %}
-                                                {% filter set_all_events %}
-                                                    {{ field }}
-                                                {% endfilter %}
-                                            {% endif %}
-                                        </div>
-                                    </fieldset>
-                                </li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                    <div class="filters-sticky-footer govuk-!-margin-top-7"
-                         id="filters-sticky-footer">
-                        <a href="#" class="button primary-button update" role="button">Apply filters<span class="verbose">With Javascript enabled, click this button to filter the results.</span></a>
-                        <a href="#" class="cancel link">Cancel</a>
+                                                    aria-controls="{{ field.label }}_fields"></button>
+                                            <label class="arrows-left arrows-left-active filter-section-headings govuk-!-padding-left-2"
+                                                   for="{{ field.label }}"
+                                                   id="{{ field.label }}_label">
+                                                <h2>{{ field.label }}</h2>
+                                            </label>
+                                            <div id="{{ field.label }}_fields"
+                                                 class="options checkbox-small filter-section-active">
+                                                {% if request.GET.booking_period == 'upcoming' or request.GET.booking_period == 'past' %}
+                                                    {% filter disable_period_radios %}
+                                                        {{ field }}
+                                                    {% endfilter %}
+                                                {% else %}
+                                                    {% filter set_all_events %}
+                                                        {{ field }}
+                                                    {% endfilter %}
+                                                {% endif %}
+                                            </div>
+                                        </fieldset>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                        <div class="filters-sticky-footer govuk-!-margin-top-7"
+                             id="filters-sticky-footer">
+                            <a href="#" class="button primary-button update" role="button">Apply filters<span class="verbose">With Javascript enabled, click this button to filter the results.</span></a>
+                            <a href="#" class="cancel link">Cancel</a>
+                        </div>
+                        <input type="submit"
+                               class="button primary-button govuk-!-margin-top-7"
+                               value="Update results">
                     </div>
-                    <input type="submit"
-                           class="button primary-button govuk-!-margin-top-7"
-                           value="Update results">
-                </div>
-            </form>
-        </div>
-        <div id="event-list" class="govuk-grid-column-three-quarters">
-            {% include 'export_academy/includes/filter_summary.html' %}
-            {% if not page_obj %}
-                {% include 'export_academy/includes/no_results.html' %}
-            {% else %}
-                {% for event in page_obj|append_past_year_seperator %}
-                    <div class="govuk-grid-row event-list-card">
-                        {% if event.past_year_seperator %}
-                            <h2 class="govuk-heading-l govuk-!-padding-left-3 great-text-dark-grey">{{ event.past_year_seperator }}</h2>
-                        {% endif %}
-                        <div class="govuk-!-padding-left-3 govuk-!-margin-bottom-2 govuk-!-padding-right-3">
-                            <{{ event.past_year_seperator|h3_if:'h2' }} class="govuk-heading-s govuk-!-margin-bottom-0 great-text-dark-grey">
-                            <a href="{{ event.get_absolute_url }}"
-                               class="govuk-link govuk-heading-s great-title-link event{% user_is_booked_on_event request.user event as event_is_booked %}{% if not event_is_booked %}-not{% endif %}-booked">
-                                {{ event.name }}
-                                <span class="great-visually-hidden">– {{ event.start_date|date:"d F" }} at {{ event.start_date|time:"gA" }}</span>
-                            </a>
-                            </{{ event.past_year_seperator|h3_if:'h2' }}>
-                        </div>
-                        <div class="govuk-!-padding-left-3 govuk-!-padding-right-3 great-display-until-tablet">
-                            {% include 'export_academy/includes/event_duration.html' %}
-                            {% is_logged_in as show_logged_in_features %}
-                            {% if show_logged_in_features %}
-                                <div class="govuk-!-margin-bottom-3">{% event_list_badges event %}</div>
+                </form>
+            </div>
+            <div id="event-list" class="govuk-grid-column-three-quarters">
+                {% include 'export_academy/includes/filter_summary.html' %}
+                {% if not page_obj %}
+                    {% include 'export_academy/includes/no_results.html' %}
+                {% else %}
+                    {% for event in page_obj|append_past_year_seperator %}
+                        <div class="govuk-grid-row event-list-card">
+                            {% if event.past_year_seperator %}
+                                <h2 class="govuk-heading-l govuk-!-padding-left-3 great-text-dark-grey">{{ event.past_year_seperator }}</h2>
                             {% endif %}
-                        </div>
-                        <div class="govuk-grid-column-one-quarter govuk-!-text-align-centre">
-                            <div class="event-wrapper great-background-light-blue">
-                                <div class="event-date-container">
-                                    <p class="weekday">{{ event.start_date|date:"D" }}</p>
-                                    <p class="date">{{ event.start_date|date:"j M" }}</p>
-                                    <p class="time">{{ event.start_date|date:"g:iA"|lower }}</p>
-                                </div>
-                                <div class="event-tags">
-                                    {% for type in event.types.all %}<p class="margin-0 event-tag-item">{{ type }}</p>{% endfor %}
-                                    <p class="margin-0 event-tag-item">{{ event.get_format_display }}</p>
+                            <div class="govuk-!-padding-left-3 govuk-!-margin-bottom-2 govuk-!-padding-right-3">
+                                <{{ event.past_year_seperator|h3_if:'h2' }} class="govuk-heading-s govuk-!-margin-bottom-0 great-text-dark-grey">
+                                <a href="{{ event.get_absolute_url }}"
+                                   class="govuk-link govuk-heading-s great-title-link event{% user_is_booked_on_event request.user event as event_is_booked %}{% if not event_is_booked %}-not{% endif %}-booked">
+                                    {{ event.name }}
+                                    <span class="great-visually-hidden">– {{ event.start_date|date:"d F" }} at {{ event.start_date|time:"gA" }}</span>
+                                </a>
+                                </{{ event.past_year_seperator|h3_if:'h2' }}>
+                            </div>
+                            <div class="govuk-!-padding-left-3 govuk-!-padding-right-3 great-display-until-tablet">
+                                {% include 'export_academy/includes/event_duration.html' %}
+                                {% is_logged_in as show_logged_in_features %}
+                                {% if show_logged_in_features %}
+                                    <div class="govuk-!-margin-bottom-3">{% event_list_badges event %}</div>
+                                {% endif %}
+                            </div>
+                            <div class="govuk-grid-column-one-quarter govuk-!-text-align-centre">
+                                <div class="event-wrapper great-background-light-blue">
+                                    <div class="event-date-container">
+                                        <p class="weekday">{{ event.start_date|date:"D" }}</p>
+                                        <p class="date">{{ event.start_date|date:"j M" }}</p>
+                                        <p class="time">{{ event.start_date|date:"g:iA"|lower }}</p>
+                                    </div>
+                                    <div class="event-tags">
+                                        {% for type in event.types.all %}<p class="margin-0 event-tag-item">{{ type }}</p>{% endfor %}
+                                        <p class="margin-0 event-tag-item">{{ event.get_format_display }}</p>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="govuk-grid-column-three-quarters">
+                                <div class="great-display-from-tablet">{% include 'export_academy/includes/event_duration.html' %}</div>
+                                {% is_logged_in as show_logged_in_features %}
+                                {% if show_logged_in_features %}
+                                    <div class="govuk-!-margin-bottom-2 great-display-from-tablet">{% event_list_badges event %}</div>
+                                {% endif %}
+                                <p class="event-description">{{ event.description }}</p>
+                                {% include 'export_academy/includes/event_list_recording_details.html' %}
+                            </div>
                         </div>
-                        <div class="govuk-grid-column-three-quarters">
-                            <div class="great-display-from-tablet">{% include 'export_academy/includes/event_duration.html' %}</div>
-                            {% is_logged_in as show_logged_in_features %}
-                            {% if show_logged_in_features %}
-                                <div class="govuk-!-margin-bottom-2 great-display-from-tablet">{% event_list_badges event %}</div>
-                            {% endif %}
-                            <p class="event-description">{{ event.description }}</p>
-                            {% include 'export_academy/includes/event_list_recording_details.html' %}
-                        </div>
-                    </div>
-                {% endfor %}
-            {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="govuk-grid-row background-white govuk-grid-column-three-quarters markets-pagination">
+            {% pagination pagination_page=page_obj %}
         </div>
     </div>
-    <div class="govuk-grid-row background-white govuk-grid-column-three-quarters markets-pagination">
-        {% pagination pagination_page=page_obj %}
-    </div>
-</div>
 </section>
 </div>
 {% endblock %}

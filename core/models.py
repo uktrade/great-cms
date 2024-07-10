@@ -45,8 +45,7 @@ from wagtail.utils.decorators import cached_classmethod
 from wagtailmedia.models import Media
 from wagtailseo.models import SeoMixin as WagtailSeoMixin, TwitterCard
 
-from core import blocks as core_blocks, cms_panels, mixins, snippet_slugs
-from core import constants
+from core import blocks as core_blocks, cms_panels, constants, mixins, snippet_slugs
 from core.blocks import (
     LinkBlockWithHeading,
     MicrositeColumnBlock,
@@ -1471,6 +1470,14 @@ class SectorTagged(GenericTaggedItemBase):
 class TypeOfExportTagged(GenericTaggedItemBase):
     tag = models.ForeignKey(
         TypeOfExportTag,
+        on_delete=models.CASCADE,
+        related_name='%(app_label)s_%(class)s_items',
+    )
+
+
+class RegionTagged(GenericTaggedItemBase):
+    tag = models.ForeignKey(
+        PersonalisationRegionTag,
         on_delete=models.CASCADE,
         related_name='%(app_label)s_%(class)s_items',
     )

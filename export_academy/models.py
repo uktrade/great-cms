@@ -29,6 +29,7 @@ from core.fields import single_struct_block_stream_field_factory
 from core.models import (
     CountryTag,
     GreatMedia,
+    PersonalisationRegionTag,
     SectorTag,
     TimeStampedModel,
     TypeOfExportTag,
@@ -74,6 +75,11 @@ class SectorTaggedEvent(ItemBase):
 
 class TypeOfExportTaggedEvent(ItemBase):
     tag = models.ForeignKey(TypeOfExportTag, related_name='+', on_delete=models.CASCADE)
+    content_object = ParentalKey(to='export_academy.Event', on_delete=models.CASCADE)
+
+
+class RegionTaggedEvent(ItemBase):
+    tag = models.ForeignKey(PersonalisationRegionTag, related_name='+', on_delete=models.CASCADE)
     content_object = ParentalKey(to='export_academy.Event', on_delete=models.CASCADE)
 
 
@@ -156,11 +162,11 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
         through=SectorTaggedEvent, blank=True, verbose_name='Sector tags', related_name='event_sector_tags'
     )
 
-    type_of_export_tags = TaggableManager(
-        through=TypeOfExportTaggedEvent,
+    region_tags = TaggableManager(
+        through=RegionTaggedEvent,
         blank=True,
-        verbose_name='Type of Export Tags',
-        related_name='event_type_of_export_tags',
+        verbose_name='Region Tags',
+        related_name='event_region_tags',
     )
 
     @property
