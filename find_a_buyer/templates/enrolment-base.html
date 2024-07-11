@@ -1,17 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block head_css %}
-	{{ block.super }}
-	<link href="{% static 'enrolment.css' %}" media="all" rel="stylesheet" />
+    {{ block.super }}
+    <link href="{% static 'enrolment.css' %}" media="all" rel="stylesheet" />
 {% endblock %}
 {% block content %}
-	<div class="outer-container ed-enrolment">
-		<div class="clearfix"></div>
-		<div class="grid-row">
-			<div class="{% block formarea_container_class %}column-two-thirds{% endblock %}">
-				{% block formarea %}{% endblock formarea %}
-			</div>
-		</div>
-	</div>
+    <div class="great-container ed-enrolment">
+        {% block formarea %}
+        {% endblock formarea %}
+    </div>
 {% endblock content %}

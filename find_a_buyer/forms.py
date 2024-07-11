@@ -24,9 +24,8 @@ class AutoFocusFieldMixin:
 class CompanyAddressVerificationForm(AutoFocusFieldMixin, IndentedInvalidFieldsMixin, forms.Form):
 
     postal_full_name = forms.CharField(
-        label='Add your name',
+        label='Your name',
         max_length=255,
-        help_text='This is the full name that letters will be addressed to.',
         validators=[no_html],
     )
     address_confirmed = BooleanField(

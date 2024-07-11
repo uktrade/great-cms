@@ -1,69 +1,56 @@
 {% extends "enrolment-base.html" %}
-
 {% load i18n %}
-
-{% block head %}
-{{ wizard.form.media }}
-{% endblock %}
-
+{% block head %}{{ wizard.form.media }}{% endblock %}
 {% block hero_title %}Create your company’s profile{% endblock %}
 {% block hero_text %}{% endblock %}
-
 {% block sub_header %}{# prevent the subheader from showing on form pages #}{% endblock %}
-
-{% block content %}
-	{% block form_container_title %}
-		<div class="outer-container" style="margin-top: 20px; margin-bottom: 10px;">
-			<h3 class="heading-medium">{% block form_title %}{% endblock form_title %}</h3>
-		</div>
-	{% endblock %}
-	{% block progress_indicator %}
-		{% include 'form_progress_indicator.html' %}
-	{% endblock %}
-	{{ block.super }}
-{% endblock %}
-
+{% block content %}{{ block.super }}{% endblock %}
 {% block formarea %}
-	<form action="" method="post" enctype="multipart/form-data">
-		<div class="{% block container_class %}connections-platform-form{% endblock %}">
-			{% block form_subtitle %}{% endblock form_subtitle %}
-			{% csrf_token %}
-			<div class="input-field-container">
-				{{ wizard.management_form }}
-				{% if wizard.form.forms %}
-					{{ wizard.form.management_form }}
-					{% for form in wizard.form.forms %}
-						{{ form }}
-					{% endfor %}
-				{% else %}
-					{% for hidden in form.hidden_fields %}
-					    {{ hidden }}
-					{% endfor %}
-					{% for field in form.visible_fields %}
-						<li class="{{ field.css_classes }}">
-							{{ field.errors }}
-							{{ field.label_tag }}
-							{% if field.help_text %}
-								<span class="helptext">{{ field.help_text|safe }}</span>
-							{% endif %}
-							{{ field }}
-						</li>
-					{% endfor %}
-				{% endif %}
-			</div>
-			{% block extra_form_footer %}{% endblock extra_form_footer %}
-			<div>
-				{% if wizard.steps.prev %}
-					<button name="wizard_goto_step" class="button-hyperlink link ed-form-back-button" type="submit" value="{{ wizard.steps.prev }}">< Back to previous step</button>
-				{% endif %}
-				{% if wizard.steps.step1 != wizard.steps.count %}
-					<input class="button button-blue" type="submit" value="{% block button_next_label %}Next{% endblock%}"/>
-				{% else %}
-					<input class="button button-blue" type="submit" value="{% block button_finish_label %}Register{% endblock%}"/>
-				{% endif %}
-				{% block extra_buttons %}{% endblock %}
-			</div>
-		</div>
-		<div class="cf"></div>
-	</form>
+    <form action="" method="post" enctype="multipart/form-data">
+        <div class="{% block container_class %}connections-platform-form{% endblock %}">
+            {% block form_subtitle %}
+            {% endblock form_subtitle %}
+            {% csrf_token %}
+            <div class="input-field-container">
+                {{ wizard.management_form }}
+                {% if wizard.form.forms %}
+                    {{ wizard.form.management_form }}
+                    {% for form in wizard.form.forms %}{{ form }}{% endfor %}
+                {% else %}
+                    {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+                    {% for field in form.visible_fields %}
+                        <li class="{{ field.css_classes }}">
+                            {{ field.errors }}
+                            {{ field.label_tag }}
+                            {% if field.help_text %}<span class="helptext">{{ field.help_text|safe }}</span>{% endif %}
+                            {{ field }}
+                        </li>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            {% block extra_form_footer %}
+            {% endblock extra_form_footer %}
+            <div>
+                {% if wizard.steps.prev %}
+                    <button name="wizard_goto_step"
+                            class="button-hyperlink link ed-form-back-button"
+                            type="submit"
+                            value="{{ wizard.steps.prev }}">
+                        < Back to previous step
+                    </button>
+                {% endif %}
+                {% if wizard.steps.step1 != wizard.steps.count %}
+                    <input class="button button-blue"
+                           type="submit"
+                           value="{% block button_next_label %}Next{% endblock %}" />
+                {% else %}
+                    <input class="button button-blue"
+                           type="submit"
+                           value="{% block button_finish_label %}Register{% endblock %}" />
+                {% endif %}
+                {% block extra_buttons %}{% endblock %}
+            </div>
+        </div>
+        <div class="cf"></div>
+    </form>
 {% endblock %}

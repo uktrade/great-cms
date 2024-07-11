@@ -1,7 +1,6 @@
-@import 'partials/variables.scss';
-@import 'partials/compatibility.scss';
-@import 'partials/forms.scss';
-@import 'partials/buttons.scss';
+@import './variables';
+@import './compatibility';
+@import './forms';
 
 blockquote, q {
   quotes: none;
@@ -415,7 +414,7 @@ a.no-focus-highlight {
   }
   .ed-company-edit-address-number {
     height: 26px;
-    font-size: 18px;
+    font-size: 100px;
     line-height: 1.44;
     color: #333333;
     margin-bottom: 30px;
@@ -435,23 +434,10 @@ a.no-focus-highlight {
     margin-bottom: 30px;
   }
 }
-
-#ed-verify-companies-house-container {
-  @media (max-width: 480px) {
-    border-bottom: 4px solid #979797;
-    padding-bottom: 20px;
-    margin-bottom: 20px;
-  }
-  @media (min-width: 481px) {
-    border-right: 4px solid #979797;
-  }
-}
-
-#ed-verify-hub-back {
-  margin-bottom: 45px;
-  display: inline-block;
-  font-size: 18px;
-  text-decoration: underline;
+.inset-text-gray-thickest-border {
+  border-left: 10px solid #B1B4B6;
+  padding-left:15px;
+  background:#FFF;
 }
 
 
@@ -472,6 +458,6 @@ a.no-focus-highlight {
   }
 }
 
-@import 'partials/general.scss';
-@import 'partials/registration.scss';
-@import 'partials/components.scss';
+@import './general.scss';
+@import './registration.scss';
+@import './components.scss';
