@@ -102,7 +102,7 @@ class EventPanel:
             [
                 FieldPanel('country_tags'),
                 FieldPanel('sector_tags'),
-                FieldPanel('type_of_export_tags'),
+                FieldPanel('region_tags'),
             ],
             heading='Tags',
         ),

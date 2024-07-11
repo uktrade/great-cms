@@ -66,4 +66,9 @@ urlpatterns = [
         skip_ga360(activitystream.views.ActivityStreamExportAcademyCsatFeedbackDataView.as_view()),
         name='ukea-csats',
     ),
+    path(
+        'wheretoexport-csats/',
+        skip_ga360(activitystream.views.ActivityStreamWhereToExportCsatFeedbackDataView.as_view()),
+        name='wheretoexport-csats',
+    ),
 ]
