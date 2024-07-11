@@ -184,3 +184,10 @@ def get_mime_type(file):
     mime_type = magic.from_buffer(file.read(2048), mime=True)
     file.seek(initial_pos)
     return mime_type
+
+
+def derive_canonical_url(request):
+    scheme = request.scheme
+    host = request.get_host()
+    path = request.path
+    return f'{scheme}://{host}{path}'
