@@ -6,6 +6,7 @@ number of extra CSS styles that were once sensible defaults:
 - elements-components
 {% endcomment %}
 {% load static %}
+{% load canonical_url_tags %}
 {% block head_title %}{{ international_home_link.label }}{% endblock %}
 {% block meta_title %}{{ international_home_link.label }}{% endblock %}
 {% block header_js %}{% endblock %}
@@ -38,8 +39,10 @@ number of extra CSS styles that were once sensible defaults:
     <link rel="stylesheet" href="{% static 'international_styles.css' %}">
 {% endblock %}
 {% block head_other %}
+    {% get_canonical_url as canonical_url %}
     <meta name="description"
           content="The Department for Business and Trade helps overseas businesses invest and expand in the UK." />
+    <link rel="canonical" href="{{ canonical_url }}">
 {% endblock %}
 {% block skip_link %}
     <a href="#content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>

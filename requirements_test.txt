@@ -29,7 +29,7 @@ asn1crypto==1.5.1
     #   oscrypto
     #   pyhanko
     #   pyhanko-certvalidator
-astroid==3.2.2
+astroid==3.2.3
     # via pylint
 asttokens==2.4.1
     # via stack-data
@@ -126,7 +126,7 @@ colorama==0.4.6
     # via djlint
 configargparse==1.7
     # via locust
-coverage[toml]==7.5.4
+coverage[toml]==7.6.0
     # via
     #   pytest-codecov
     #   pytest-cov
@@ -261,7 +261,9 @@ django-redis==5.4.0
 django-staff-sso-client==4.2.2
     # via -r requirements.in
 django-storages[boto3]==1.13.2
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   django-storages
 django-taggit==4.0.0
     # via wagtail
 django-timezone-field==7.0
@@ -364,7 +366,7 @@ great-components==2.6.4
     # via -r requirements.in
 greenlet==3.0.3
     # via gevent
-grpcio==1.64.1
+grpcio==1.65.0
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==22.0.0
     # via -r requirements.in
@@ -854,7 +856,7 @@ tomli==2.0.1
     #   pylint
     #   pytest
     #   sphinx
-tomlkit==0.12.5
+tomlkit==0.13.0
     # via pylint
 tqdm==4.66.4
     # via
@@ -968,7 +970,9 @@ wheel==0.43.0
 whitenoise==6.6.0
     # via -r requirements.in
 willow[heif]==1.6.3
-    # via wagtail
+    # via
+    #   wagtail
+    #   willow
 wrapt==1.16.0
     # via
     #   deprecated
