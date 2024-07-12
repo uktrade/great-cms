@@ -4,7 +4,7 @@
 {% load domestic_canonical_url_tags %}
 {% block head_title %}{{ page.article_title }}{% endblock %}
 {% block meta_title %}{{ page.article_title }}{% endblock %}
-{% block head_other}
+{% block head_other %}
     {{ block.super }}
     {% get_canonical_url as canonical_url %}
     link rel="canonical" href="{{ canonical_url }}">
