@@ -6,6 +6,7 @@
 {% load content_tags %}
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
+{% load canonical_url_tags %}
 {% get_current_language_bidi as LANGUAGE_BIDI %}
 {% get_template_translation_enabled as TRANSLATE_TEXT %}
 <!DOCTYPE html>
@@ -18,6 +19,8 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% get_canonical_url as canonical_url %}
+        <link rel="canonical" href="{{ canonical_url }}">
         {% block sharing_description %}
             <meta name="description"
                   content="{% block meta_description %}{% firstof self.seo_description page.search_description content_snippet.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description %}{% endblock %}">
