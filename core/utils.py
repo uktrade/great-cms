@@ -190,4 +190,4 @@ def derive_canonical_url(request):
     scheme = request.scheme
     host = request.get_host()
     path = request.path
-    return f'{scheme}://{host}{path}'
+    return f'{scheme}://www.{host}{path}'
