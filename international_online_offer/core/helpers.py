@@ -2,11 +2,6 @@ from directory_forms_api_client import actions
 from django.conf import settings
 
 from directory_constants import sectors as directory_constants_sectors
-from international_investment.core.choices import (
-    SPEND_CHOICES,
-    SPEND_CHOICES_EURO,
-    SPEND_CHOICES_USD,
-)
 from international_online_offer.core import (
     choices,
     intents,
@@ -250,9 +245,9 @@ def is_user_data_complete(user_data):
 
 
 def get_spend_choices_by_currency(currency):
-    spend_choices = SPEND_CHOICES
+    spend_choices = choices.SPEND_CHOICES
     if currency == 'EUR':
-        spend_choices = SPEND_CHOICES_EURO
+        spend_choices = choices.SPEND_CHOICES_EURO
     elif currency == 'USD':
-        spend_choices = SPEND_CHOICES_USD
+        spend_choices = choices.SPEND_CHOICES_USD
     return spend_choices

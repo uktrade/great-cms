@@ -84,15 +84,14 @@ class AboutYourBusinessView(GA360Mixin, TemplateView):
         )
 
     def get_context_data(self, *args, **kwargs):
-        # If success, signup has occured and been successful
-        if self.request.GET.get('signup'):
-            UserData.objects.update_or_create(
-                hashed_uuid=self.request.user.hashed_uuid,
-                defaults={
-                    'email': self.request.user.email,
-                    'agree_terms': True,
-                },
-            )
+        # Signup has occured
+        UserData.objects.update_or_create(
+            hashed_uuid=self.request.user.hashed_uuid,
+            defaults={
+                'email': self.request.user.email,
+                'agree_terms': True,
+            },
+        )
         return super().get_context_data(*args, **kwargs)
 
 

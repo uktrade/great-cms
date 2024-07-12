@@ -103,7 +103,11 @@
                                 <div class="govuk-summary-list__row">
                                     <dt class="govuk-summary-list__key govuk-body">Where do you want to set up?</dt>
                                     <dd class="govuk-summary-list__value govuk-body">
-                                        {{ triage_data.get_location_city_display|default:"-" }} ({{ triage_data.get_location_display|default:"-" }})
+                                        {% if triage_data.get_location_city_display %}
+                                            {{ triage_data.get_location_city_display }} ({{ triage_data.get_location_display }})
+                                        {% else %}
+                                            {{ triage_data.get_location_display }}
+                                        {% endif %}
                                     </dd>
                                     <dd class="govuk-summary-list__actions">
                                         <a class="govuk-link"

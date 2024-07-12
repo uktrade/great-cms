@@ -38,7 +38,7 @@
                         {% endif %}
                         {% if '/expand-your-business-in-the-uk' in request.path %}
                             <ul class="great-international-nav__section">
-                                {% if eyb_user %}
+                                {% if request.user.is_authenticated %}
                                     {% if user_completed_triage %}
                                         <li>
                                             <a class="govuk-link govuk-link--inverse great-international-nav__section-item {% if '/expand-your-business-in-the-uk/change-your-answers' in request.path %}active{% endif %}"
@@ -121,7 +121,7 @@
             <div class="govuk-width-container great-container">
                 <nav class="great-international-subnav" aria-label="Sub-menu">
                     <ul>
-                        {% if eyb_user %}
+                        {% if request.user.is_authenticated %}
                             {% if user_completed_triage %}
                                 <li>
                                     <a class="govuk-link govuk-link--inverse great-international-subnav__item {% if '/expand-your-business-in-the-uk/change-your-answers' in request.path %}active{% endif %}"
