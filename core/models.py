@@ -1872,7 +1872,7 @@ class Microsite(Page):
         raise Http404()
 
 
-class MicrositePage(cms_panels.MicrositePanels, Page):
+class MicrositePage(SeoMixin, cms_panels.MicrositePanels, Page):
     template = 'microsites/micro_site_page.html'
     parent_page_types = [
         'core.Microsite',

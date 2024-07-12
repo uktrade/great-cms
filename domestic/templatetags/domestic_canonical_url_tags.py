@@ -8,6 +8,4 @@ register = template.Library()
 @register.simple_tag(takes_context=True)
 def get_canonical_url(context):
     request = context['request']
-    if 'microsite' in request.path:
-        request.path.replace('microsite', 'campaign-site')
     return derive_canonical_url(request)
