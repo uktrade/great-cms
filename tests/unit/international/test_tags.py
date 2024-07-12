@@ -1,6 +1,6 @@
 from unittest.mock import MagicMock, Mock
 
-from international.templatetags.canonical_url_tags import get_canonical_url
+from international.templatetags.int_canonical_url_tags import get_canonical_url
 
 
 def test_get_canonical_url(rf):
