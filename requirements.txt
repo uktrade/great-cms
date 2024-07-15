@@ -252,7 +252,7 @@ googleapis-common-protos==1.63.2
     #   opentelemetry-exporter-otlp-proto-http
 great-components==2.6.4
     # via -r requirements.in
-grpcio==1.65.0
+grpcio==1.64.1
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==22.0.0
     # via -r requirements.in
@@ -430,7 +430,7 @@ pyhanko-certvalidator==0.26.3
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==4.2.0
+pypdf==4.3.0
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
