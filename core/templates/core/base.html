@@ -45,6 +45,16 @@
             {% include "core/includes/seo_meta.html" %}
         {% endif %}
     {% endwith %}
+    <meta name="intranet:environment" content="{{ APP_ENVIRONMENT }}">
+    <meta name="intranet:sentry:dsn"
+          content="{{ SENTRY_DSN|default_if_none:'' }}">
+    <meta name="intranet:sentry:browser-traces-sample-rate"
+          content="{{ SENTRY_BROWSER_TRACES_SAMPLE_RATE }}">
+{% endblock %}
+{% block vendor_js %}
+    {{ block.super }}
+    <script src="{% static 'javascript/vendor/sentry.6.19.7.tracing.replay.min.js' %}"></script>
+    <script src="{% static 'javascript/vendor/sentryinit.js' %}"></script>
 {% endblock %}
 {% block head_js %}
     {% if features.FEATURE_DEA_V2 %}
