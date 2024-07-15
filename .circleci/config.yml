@@ -70,27 +70,6 @@ setup_db: &setup_db
       make ARGUMENTS=migrate manage
       make ARGUMENTS=bootstrap_great manage
 
-install_node: &install_node
-  steps:
-    - run:
-        name: Install Node.js
-        command: |
-          curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-          sudo apt-get install -y nodejs
-    - run:
-        name: Install @uktrade/great-design-system
-        command: |
-          npm install @uktrade/great-design-system@latest
-    - restore_cache:
-        key: v1-deps-{{ checksum "package-lock.json" }}
-    - run:
-        name: Install node modules
-        command: npm ci
-    - save_cache:
-        key: v1-deps-{{ checksum "package-lock.json" }}
-        paths:
-          - node_modules
-
 ###############################################################################
 # Jobs
 ###############################################################################
@@ -114,7 +93,24 @@ jobs:
           key: v1-deps-{{ checksum "requirements_test.txt" }}
           paths:
             - 'venv'
-      - *install_node
+      - run:
+          name: Install Node.js
+          command: |
+            curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+            sudo apt-get install -y nodejs
+      - run:
+          name: Install @uktrade/great-design-system
+          command: |
+            npm install @uktrade/great-design-system@latest
+      - restore_cache:
+          key: v1-deps-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install node modules
+          command: npm ci
+      - save_cache:
+          key: v1-deps-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
       - run:
           name: Run Unit tests
           command: |
@@ -187,7 +183,24 @@ jobs:
       - *create_virtualenv_and_install_dependencies
       - *setup_secrets
       - *setup_db
-      - *install_node
+      - run:
+          name: Install Node.js
+          command: |
+            curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+            sudo apt-get install -y nodejs
+      - run:
+          name: Install @uktrade/great-design-system
+          command: |
+            npm install @uktrade/great-design-system@latest
+      - restore_cache:
+          key: v1-deps-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install node modules
+          command: npm ci
+      - save_cache:
+          key: v1-deps-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
       - run:
           name: Run tests
           command: |
