@@ -818,6 +818,10 @@ def test_base_content_page__get_breadcrumbs(
             'title': advice_topic_page.title,
             'url': advice_topic_page.url,
         },
+        {
+            'title': article_page.title,
+            'url': article_page.url,
+        },
         # NB: article_page IS in this list
     ]
 

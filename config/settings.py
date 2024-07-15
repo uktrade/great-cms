@@ -137,7 +137,6 @@ TEMPLATES = [
             ROOT_DIR / 'sso_profile' / 'templates',
             ROOT_DIR / 'sso_profile' / 'common' / 'templates',
             ROOT_DIR / 'sso_profile' / 'enrolment' / 'templates',
-            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'breadcrumbs',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
