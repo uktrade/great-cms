@@ -8,6 +8,7 @@
     {% if page.stats.market_trends %}<script src="https://cdn.plot.ly/plotly-1.58.5.min.js"></script>{% endif %}
 {% endblock %}
 {% block content %}
+    {% include 'components/breadcrumbs_cms.html' %}
     {% include 'components/market-details-header.html' with image=page.hero_image %}
     {% if page.heading_teaser %}
         <section id="country-guide-teaser-section"
