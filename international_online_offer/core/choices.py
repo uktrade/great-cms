@@ -73,7 +73,7 @@ SPEND_CHOICES_USD = (
 SPEND_CURRENCY_CHOICES = (
     ('GBP', 'Pound sterling (GBP)'),
     ('EUR', 'Euro (EUR)'),
-    ('USD', 'United States Dollar (USD)'),
+    ('USD', 'United States dollar (USD)'),
 )
 
 LANDING_TIMEFRAME_CHOICES = (

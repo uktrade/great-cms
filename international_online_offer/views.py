@@ -309,7 +309,11 @@ class KnowSetupLocationView(GA360Mixin, FormView):
         if self.request.user.is_authenticated:
             triage_data = get_triage_data_for_user(self.request)
             if triage_data:
-                know_setup_location = False if triage_data.location_none else True
+                know_setup_location = None
+                if triage_data.location_none is True:
+                    know_setup_location = False
+                elif triage_data.location_none is False:
+                    know_setup_location = True
                 return {'know_setup_location': know_setup_location}
 
     def form_valid(self, form):

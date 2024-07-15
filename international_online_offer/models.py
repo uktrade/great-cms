@@ -459,7 +459,7 @@ class TriageData(TimeStampedModel):
     location_city = models.CharField(
         max_length=255, default=None, null=True, choices=region_sector_helpers.generate_location_choices(False)
     )
-    location_none = models.BooleanField(default=False)
+    location_none = models.BooleanField(default=None, null=True)
     hiring = models.CharField(max_length=255, choices=choices.HIRING_CHOICES)
     spend = models.CharField(max_length=255, choices=choices.SPEND_CHOICES)
     spend_other = models.CharField(max_length=255, null=True)

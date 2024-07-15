@@ -165,8 +165,7 @@ class IntentForm(forms.Form):
 
 
 class LocationForm(forms.Form):
-    VALIDATION_MESSAGE_SELECT_OPTION = 'You must select a location'
-    VALIDATION_MESSAGE_SELECT_NONE_OPTION = 'You must select not decided'
+    VALIDATION_MESSAGE_SELECT_OPTION = 'Search and select a location'
     location = ChoiceField(
         label='',
         help_text='Search and select a location in the UK, for example Manchester, South East, or Scotland',
@@ -189,7 +188,6 @@ class LocationForm(forms.Form):
         location_none = cleaned_data.get('location_none')
         if not location and not location_none or location and location_none:
             self.add_error('location', self.VALIDATION_MESSAGE_SELECT_OPTION)
-            self.add_error('location_none', self.VALIDATION_MESSAGE_SELECT_NONE_OPTION)
         else:
             return cleaned_data
 
