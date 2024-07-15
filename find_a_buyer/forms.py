@@ -1,6 +1,7 @@
 from directory_components.forms import BooleanField
 from directory_validators.string import no_html
 from django import forms
+from django.forms import widgets as django_widgets
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 
@@ -27,6 +28,7 @@ class CompanyAddressVerificationForm(AutoFocusFieldMixin, IndentedInvalidFieldsM
         label='Your name',
         max_length=255,
         validators=[no_html],
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
     )
     address_confirmed = BooleanField(
         label=mark_safe(

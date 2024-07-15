@@ -24,18 +24,6 @@ body hr {
   max-width: none;
 }
 
-html input:focus:invalid:focus,
-html textarea:focus:invalid:focus,
-html select:focus:invalid:focus {
-    border-color: #007EA3;
-}
-
-html input:focus:invalid,
-html textarea:focus:invalid,
-html select:focus:invalid {
-  color: #4a4a4a;
-}
-
 ul, li {
   list-style: none;
 }

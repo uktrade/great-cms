@@ -3,7 +3,7 @@
 {% block head_title %}Verify your company address - Business profile - GREAT.gov.uk{% endblock %}
 {% block form_title %}Your company address{% endblock %}
 {% block button_next_label %}Next{% endblock %}
-{% block button_finish_label %}Send{% endblock %}
+{% block button_finish_label %}Send request{% endblock %}
 {% block head_css %}
     <link href="{% static 'main.css' %}" media="all" rel="stylesheet" />
     <link href="{% static 'fab_styles.css' %}" rel="stylesheet" type="text/css" />
@@ -17,14 +17,10 @@
     <h1 class="govuk-heading-xl">Enter your details</h1>
     <div class="govuk-form-group govuk-!-margin-bottom-7 {% if form.postal_full_name.errors %}govuk-form-group--error{% endif %} govuk-!-margin-bottom-2">
         <fieldset class="govuk-fieldset">
-            <legend id="{{ form.postal_full_name.id_for_label }}"
-                    class="govuk-fieldset__legend govuk-label great-font-bold">
-                {{ form.postal_full_name.label }}
-            </legend>
-            {% include 'domestic/contact/includes/govuk-form-field.html' with field=form.postal_full_name hide_label=True %}
+            {% include 'domestic/contact/includes/govuk-form-field.html' with label_classes="govuk-!-margin-bottom-2" inputWrapperClass="govuk-!-width-three-quarters" field=form.postal_full_name %}
         </fieldset>
     </div>
-    <div class="inset-text-gray-thickest-border govuk-!-padding-2 govuk-!-margin-bottom-6">
+    <div class="inset-text-gray-thickest-border govuk-!-margin-bottom-6">
         <li>
             <div>
                 <p class="govuk-heading-s">{{ company_name }}</p>
