@@ -1,53 +1,60 @@
 {# Only render this template if we have what appears to be a wagtail-seo page #}
 {% if self and self.seo_pagetitle %}
-
-{% load static_absolute from great_components %}
-{% load wagtailimages_tags %}
-
-{# Standard metadata #}
-{% block html_seo_base %}
-<link rel="canonical" href="{% block canonical %}{{ self.seo_canonical_url }}{% endblock %}">
-{% if self.seo_og_type == "article" and self.seo_author %}
-<meta name="author" content="{% block author %}{{ self.seo_author }}{% endblock %}" />
-{% endif %}
-{% endblock %}
-{% block html_seo_extra %}{% endblock %}
-
-{# Open Graph #}
-{% block og_seo_base %}
-<meta property="og:title" content="{% block og_title %}{% firstof self.seo_pagetitle page.title %}{% endblock %}" />
-<meta property="og:description" content="{% block og_description %}{% firstof self.seo_description page.search_description content_snippet.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description %}{% endblock %}" />
-
-{% if settings.wagtailseo.SeoSettings.og_meta %}
-{% comment %} There are a number of fields which might be workable as a sharing image {% endcomment %}
-{% image page.hero_image width-1200 as hero_image %}
-{% image page.hero_medium width-1200 as hero_image_medium %}
-{% image page.article_image width-1200 as article_image %}
-{% firstof hero_image hero_image_medium article_image as sharable_image %}
-<meta property="og:image" 
-    content="{% block og_image %}{% if self.seo_image_url %}{{ self.seo_image_url }}{% elif sharable_image %}{{sharable_image.url}}{% else %}{% static_absolute 'great_components/images/opengraph-image.png' %}{% endif %}{% endblock %}" />
-
-<meta property="og:image:alt" content="{% block og_image_alt %}{% if self.seo_image_alt_text %}{{ self.seo_image_alt_text }}{% elif sharable_image %}{{sharable_image.alt_text}}{% else %}{% endif %}{% endblock %}" />
-<meta property="og:site_name" content="{% block og_site_name %}{{ self.seo_sitename }}{% endblock %}" />
-<meta property="og:url" content="{% block og_url %}{% if self.seo_canonical_url %}{{ self.seo_canonical_url }}{% elif request %}{{ request.build_absolute_uri }}{% endif %}{% endblock %}" />
-<meta property="og:type" content="{% block og_type %}{{ self.seo_og_type }}{% endblock %}" />
-{% if self.seo_og_type == "article" and self.seo_author %}
-<meta property="article:author" content="{% block og_author %}{{ self.seo_author }}{% endblock %}" />
-{% endif %}
-{% if self.seo_og_type == "article" %}
-<meta property="article:published_time" content="{{ self.seo_published_at|date:'c' }}" />
-<meta property="article:modified_time" content="{{ self.last_published_at|date:'c' }}" />
-{% endif %}
-{% endif %}
-{% endblock %}
-{% block og_seo_extra %}{% endblock %}
-
-{# Twitter #}
-{% block twitter_seo_base %}
-{% if settings.wagtailseo.SeoSettings.twitter_meta %}
-<meta name="twitter:card" content="{% block twitter_card %}{{ self.seo_twitter_card_content }}{% endblock %}" />
-<meta name="twitter:site" content="{% block twitter_site %}{{ settings.wagtailseo.SeoSettings.at_twitter_site }}{% endblock %}" />
-{% endif %}
-{% endblock %}
-{% block twitter_seo_extra %}{% endblock %}
+    {% load static_absolute from great_components %}
+    {% load wagtailimages_tags %}
+    {# Standard metadata #}
+    {% block html_seo_base %}
+        <link rel="canonical"
+              href="{% block canonical %}{{ self.get_seo_canonical_url }}{% endblock %}">
+        {% if self.seo_og_type == "article" and self.seo_author %}
+            <meta name="author"
+                  content="{% block author %}{{ self.seo_author }}{% endblock %}" />
+        {% endif %}
+    {% endblock %}
+    {% block html_seo_extra %}{% endblock %}
+    {# Open Graph #}
+    {% block og_seo_base %}
+        <meta property="og:title"
+              content="{% block og_title %}{% firstof self.seo_pagetitle page.title %}{% endblock %}" />
+        <meta property="og:description"
+              content="{% block og_description %}{% firstof self.seo_description page.search_description content_snippet.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description %}{% endblock %}" />
+        {% if settings.wagtailseo.SeoSettings.og_meta %}
+            {% comment %} There are a number of fields which might be workable as a sharing image {% endcomment %}
+            {% image page.hero_image width-1200 as hero_image %}
+            {% image page.hero_medium width-1200 as hero_image_medium %}
+            {% image page.article_image width-1200 as article_image %}
+            {% firstof hero_image hero_image_medium article_image as sharable_image %}
+            <meta property="og:image"
+                  content="{% block og_image %}{% if self.seo_image_url %}{{ self.seo_image_url }}{% elif sharable_image %}{{ sharable_image.url }}{% else %}{% static_absolute 'great_components/images/opengraph-image.png' %}{% endif %}{% endblock %}" />
+            <meta property="og:image:alt"
+                  content="{% block og_image_alt %}{% if self.seo_image_alt_text %}{{ self.seo_image_alt_text }}{% elif sharable_image %}{{ sharable_image.alt_text }}{% else %}{% endif %}{% endblock %}" />
+            <meta property="og:site_name"
+                  content="{% block og_site_name %}{{ self.seo_sitename }}{% endblock %}" />
+            <meta property="og:url"
+                  content="{% block og_url %}{% if self.seo_canonical_url %}{{ self.seo_canonical_url }}{% elif request %}{{ request.build_absolute_uri }}{% endif %}{% endblock %}" />
+            <meta property="og:type"
+                  content="{% block og_type %}{{ self.seo_og_type }}{% endblock %}" />
+            {% if self.seo_og_type == "article" and self.seo_author %}
+                <meta property="article:author"
+                      content="{% block og_author %}{{ self.seo_author }}{% endblock %}" />
+            {% endif %}
+            {% if self.seo_og_type == "article" %}
+                <meta property="article:published_time"
+                      content="{{ self.seo_published_at|date:'c' }}" />
+                <meta property="article:modified_time"
+                      content="{{ self.last_published_at|date:'c' }}" />
+            {% endif %}
+        {% endif %}
+    {% endblock %}
+    {% block og_seo_extra %}{% endblock %}
+    {# Twitter #}
+    {% block twitter_seo_base %}
+        {% if settings.wagtailseo.SeoSettings.twitter_meta %}
+            <meta name="twitter:card"
+                  content="{% block twitter_card %}{{ self.seo_twitter_card_content }}{% endblock %}" />
+            <meta name="twitter:site"
+                  content="{% block twitter_site %}{{ settings.wagtailseo.SeoSettings.at_twitter_site }}{% endblock %}" />
+        {% endif %}
+    {% endblock %}
+    {% block twitter_seo_extra %}{% endblock %}
 {% endif %}

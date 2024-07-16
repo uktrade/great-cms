@@ -1064,6 +1064,33 @@ class MarketsTopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
                 )
 
 
+class MarketsTopicLandingPageCanonicalTests(SetUpLocaleMixin, WagtailPageTests):
+
+    def setUp(self):
+        DomesticHomePageFactory(slug='root')
+        self.homepage = DomesticHomePage.objects.get(url_path='/')
+        self.markets_topic_page = MarketsTopicLandingPage(title='Markets')
+        self.homepage.add_child(instance=self.markets_topic_page)
+
+    def test_get_seo_canonical_url_with_www(self):
+        self.markets_topic_page.canonical_url = 'http://www.great.gov.uk/markets'
+        self.markets_topic_page.save()
+
+        self.assertEqual(self.markets_topic_page.get_seo_canonical_url(), 'http://www.great.gov.uk/markets')
+
+    def test_get_seo_canonical_url_without_www(self):
+        self.markets_topic_page.canonical_url = 'http://great.gov.uk/markets'
+        self.markets_topic_page.save()
+
+        self.assertEqual(self.markets_topic_page.get_seo_canonical_url(), 'http://www.great.gov.uk/markets')
+
+    def test_get_seo_canonical_url_https(self):
+        self.markets_topic_page.canonical_url = 'https://www.great.gov.uk/markets'
+        self.markets_topic_page.save()
+
+        self.assertEqual(self.markets_topic_page.get_seo_canonical_url(), 'https://www.great.gov.uk/markets')
+
+
 class MarketsTopicLandingPageFilteringTests(SetUpLocaleMixin, WagtailPageTests):
     fixtures = ['markets_filtering_fixtures.json']
 
