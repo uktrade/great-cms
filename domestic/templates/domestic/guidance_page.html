@@ -2,5 +2,8 @@
 {% load static %}
 {% load breadcrumbs from component_tags %}
 {% block content %}
+    {% block breadcrumbs %}
+        {% include 'components/breadcrumbs_cms.html' %}
+    {% endblock %}
     {% include 'domestic/includes/cms_content.html' %}
 {% endblock %}
