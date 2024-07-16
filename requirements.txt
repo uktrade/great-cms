@@ -205,7 +205,9 @@ django-redis==5.4.0
 django-staff-sso-client==4.2.2
     # via -r requirements.in
 django-storages[boto3]==1.13.2
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   django-storages
 django-taggit==4.0.0
     # via wagtail
 django-timezone-field==7.0
@@ -428,7 +430,7 @@ pyhanko-certvalidator==0.26.3
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==4.2.0
+pypdf==4.3.0
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -634,7 +636,9 @@ webencodings==0.5.1
 whitenoise==6.6.0
     # via -r requirements.in
 willow[heif]==1.6.3
-    # via wagtail
+    # via
+    #   wagtail
+    #   willow
 wrapt==1.16.0
     # via
     #   deprecated

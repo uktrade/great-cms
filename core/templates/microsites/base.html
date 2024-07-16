@@ -4,6 +4,7 @@
 {% load static_absolute from component_tags %}
 {% load get_template_translation_enabled from content_tags %}
 {% load content_tags %}
+{% load microsite_canonical_url_tags %}
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
 {% get_current_language_bidi as LANGUAGE_BIDI %}
@@ -27,6 +28,8 @@
             <meta name="title"
                   content="{% block meta_title %}{% if seo_title %}{{ seo_title }}{% else %}Welcome to great.gov.uk{% endif %} - great.gov.uk{% endblock %}">
         {% endblock %}
+        {% get_canonical_url as canonical_url %}
+        <link rel="canonical" href="{{ canonical_url }}">
         <title>
             {% block head_title %}
                 {% if seo_title %}
