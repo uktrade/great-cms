@@ -125,8 +125,8 @@ class BusinessDetailsView(GA360Mixin, FormView):
             user_data = get_user_data_for_user(self.request)
 
             inital_values_object = {
-                'sector_sub': '',
                 'company_name': '',
+                'sector_sub': '',
                 'company_location': '',
                 'company_website': '',
             }
@@ -701,9 +701,10 @@ class SignUpView(
                 {'uidb64': uidb64, 'token': token, 'code': code_confirm}
             )
             if upstream_response.status_code in [400, 404]:
-                form.add_error('__all__', 'Enter a correct confirmation code')
+                form.add_error('code_confirm', 'Enter a correct confirmation code')
             elif upstream_response.status_code == 422:
                 # Resend verification code if it has expired.
+                form.add_error('code_confirm', 'The security code has expired. New code sent')
                 self.handle_code_expired(
                     upstream_response, request, form, verification_link=self.get_verification_link(uidb64, token)
                 )

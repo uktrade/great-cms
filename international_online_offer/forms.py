@@ -4,8 +4,6 @@ from django.forms import (
     CheckboxInput,
     CheckboxSelectMultiple,
     ChoiceField,
-    EmailField,
-    EmailInput,
     MultipleChoiceField,
     PasswordInput,
     RadioSelect,
@@ -17,6 +15,7 @@ from django.utils.html import mark_safe
 from great_components import forms
 
 from contact import widgets as contact_widgets
+from core.validators import is_valid_email_address
 from directory_constants.choices import COUNTRY_CHOICES
 from international_online_offer.core import choices, intents, region_sector_helpers
 
@@ -26,6 +25,15 @@ COUNTRIES = BLANK_COUNTRY_CHOICE + COUNTRY_CHOICES
 
 
 class BusinessDetailsForm(forms.Form):
+    company_name = CharField(
+        label='Company name',
+        required=True,
+        widget=TextInput(attrs={'class': 'govuk-input'}),
+        error_messages={
+            'required': 'Enter your company name',
+        },
+    )
+
     sector_sub = ChoiceField(
         label='What does your business make or do?',
         help_text='Search a list of business activities and select the closest description',
@@ -35,16 +43,7 @@ class BusinessDetailsForm(forms.Form):
         ),
         choices=(('', ''),) + region_sector_helpers.generate_sector_sic_choices(),
         error_messages={
-            'required': 'You must enter your business sector',
-        },
-    )
-
-    company_name = CharField(
-        label='Company name',
-        required=True,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
-        error_messages={
-            'required': 'Enter your company name',
+            'required': 'Search and select a business activity',
         },
     )
 
@@ -62,7 +61,7 @@ class BusinessDetailsForm(forms.Form):
         max_length=255,
         widget=TextInput(attrs={'class': 'govuk-input'}),
         error_messages={
-            'required': 'Enter your company website',
+            'required': """Enter your company's website address""",
         },
     )
 
@@ -89,7 +88,7 @@ class ContactDetailsForm(forms.Form):
         required=True,
         widget=TextInput(attrs={'class': 'govuk-input'}),
         error_messages={
-            'required': 'Enter your role within the company',
+            'required': 'Enter your job title',
         },
     )
     telephone_number = CharField(
@@ -116,7 +115,7 @@ class KnowSetupLocationForm(forms.Form):
         widget=contact_widgets.GreatRadioSelect,
         choices=((True, 'Yes'), (False, "No, I'd like guidance on locations")),
         error_messages={
-            'required': 'Please select either yes or no',
+            'required': 'Select yes if you know where you want to set up in the UK',
         },
     )
 
@@ -128,7 +127,7 @@ class WhenDoYouWantToSetupForm(forms.Form):
         choices=choices.LANDING_TIMEFRAME_CHOICES,
         widget=contact_widgets.GreatRadioSelect,
         error_messages={
-            'required': 'Please select an option of when you expect to launch your new UK operation',
+            'required': 'Select when you want to set up',
         },
     )
 
@@ -141,7 +140,7 @@ class IntentForm(forms.Form):
         required=True,
         widget=CheckboxSelectMultiple(attrs={'class': 'govuk-checkboxes__input'}),
         error_messages={
-            'required': 'You must select one or more expansion options',
+            'required': 'Select how you plan to expand your business',
         },
     )
     intent_other = CharField(
@@ -169,7 +168,10 @@ class LocationForm(forms.Form):
     location = ChoiceField(
         label='',
         help_text='Search and select a location in the UK, for example Manchester, South East, or Scotland',
-        required=False,
+        required=True,
+        error_messages={
+            'required': 'Search and select a location',
+        },
         widget=Select(
             attrs={'id': 'js-location-select', 'class': 'govuk-input', 'aria-describedby': 'help_for_id_location'}
         ),
@@ -182,15 +184,6 @@ class LocationForm(forms.Form):
         widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
     )
 
-    def clean(self):
-        cleaned_data = super().clean()
-        location = cleaned_data.get('location')
-        location_none = cleaned_data.get('location_none')
-        if not location and not location_none or location and location_none:
-            self.add_error('location', self.VALIDATION_MESSAGE_SELECT_OPTION)
-        else:
-            return cleaned_data
-
 
 class HiringForm(forms.Form):
     hiring = ChoiceField(
@@ -199,7 +192,7 @@ class HiringForm(forms.Form):
         widget=RadioSelect(attrs={'id': 'hiring-select', 'class': 'govuk-radios__input'}),
         choices=choices.HIRING_CHOICES,
         error_messages={
-            'required': 'You must select at least one hiring option',
+            'required': 'Select how many people you want to hire',
         },
     )
 
@@ -212,7 +205,7 @@ class SpendForm(forms.Form):
         widget=contact_widgets.GreatRadioSelect,
         choices=choices.SPEND_CHOICES,
         error_messages={
-            'required': 'You must select at least one spend option',
+            'required': 'Select one option',
         },
     )
 
@@ -240,10 +233,10 @@ class SpendCurrencySelectForm(forms.Form):
 
 
 class LoginForm(forms.Form):
-    email = EmailField(
+    email = CharField(
         label='Email address',
-        required=True,
-        widget=EmailInput(attrs={'class': 'govuk-input'}),
+        validators=[is_valid_email_address],
+        widget=TextInput(attrs={'class': 'govuk-input'}),
         error_messages={
             'required': 'Enter an email address',
         },
@@ -259,12 +252,12 @@ class LoginForm(forms.Form):
 
 
 class SignUpForm(forms.Form):
-    email = EmailField(
+    email = CharField(
         label='Enter your email address',
-        required=True,
-        widget=EmailInput(attrs={'class': 'govuk-input'}),
+        validators=[is_valid_email_address],
+        widget=TextInput(attrs={'class': 'govuk-input'}),
         error_messages={
-            'required': 'You must enter an email address',
+            'required': 'Enter an email address',
         },
     )
     password = CharField(
@@ -273,7 +266,7 @@ class SignUpForm(forms.Form):
         required=True,
         widget=PasswordInput(attrs={'class': 'govuk-input'}),
         error_messages={
-            'required': 'You must enter a password',
+            'required': 'Enter a password',
         },
     )
 
