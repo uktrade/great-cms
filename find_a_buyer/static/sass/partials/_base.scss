@@ -1,6 +1,9 @@
 @import './variables';
 @import './compatibility';
 @import './forms';
+@import './general.scss';
+@import './registration.scss';
+@import './components.scss';
 
 blockquote, q {
   quotes: none;
@@ -428,6 +431,11 @@ a.no-focus-highlight {
   background:#FFF;
 }
 
+#content {
+  padding: 0 !important;
+}
+
+
 .breadcrumbs-container{
   background-color: white;
   margin: 0 auto;
@@ -452,7 +460,3 @@ a.no-focus-highlight {
     }
   }
 }
-
-@import './general.scss';
-@import './registration.scss';
-@import './components.scss';
