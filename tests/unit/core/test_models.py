@@ -38,6 +38,7 @@ from core.models import (
     Region,
     Tag,
     TaggedCMSGenericPageAnonymous,
+    Task,
     TopicPage,
     case_study_body_validation,
     is_valid_url_input,
@@ -791,6 +792,12 @@ class TestSmallSnippets(TestCase):
         tag = IndustryTag.objects.create(name='Test IndustryTag')
         self.assertEqual(tag.name, 'Test IndustryTag')
         self.assertEqual(f'{tag}', 'Test IndustryTag')  # tests __str__
+
+    def test_task(self):
+        tag = Task.objects.create(title='Test Task', description_level_1='Test task description')
+        self.assertEqual(tag.title, 'Test Task')
+        self.assertEqual(tag.description_level_1, 'Test task description')
+        self.assertEqual(f'{tag}', 'Test Task')  # tests __str__
 
 
 class TestMagnaPageChooserPanel(SetUpLocaleMixin, TestCase):
