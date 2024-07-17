@@ -427,4 +427,6 @@
         new CsatFormHandler('csat-form');
     });
 </script>
-{% endblock %}
+
+        {% include '../export_academy/includes/csat_user_feedback.html' with form=form csat_stage=csat_stage %}
+    {% endblock %}
