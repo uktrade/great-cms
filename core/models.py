@@ -1,6 +1,6 @@
 import hashlib
 import mimetypes
-from urllib.parse import unquote
+from urllib.parse import unquote, urlparse
 
 from django.conf import settings
 from django.contrib.postgres.fields import ArrayField
@@ -39,6 +39,7 @@ from wagtail.images import get_image_model_string
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.models import AbstractImage, AbstractRendition, Image
 from wagtail.models import Orderable, Page
+from wagtail.search import index
 from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtail.snippets.models import register_snippet
 from wagtail.utils.decorators import cached_classmethod
@@ -329,6 +330,15 @@ class SeoMixin(WagtailSeoMixin):
                 if isinstance(image, AbstractImage):
                     return image.alt_text
         return None
+
+    def get_seo_canonical_url(self):
+        canonical_url = super().seo_canonical_url
+        if canonical_url and not canonical_url.startswith('www.'):
+            parsed_url = urlparse(canonical_url)
+            if parsed_url.netloc.startswith('www.'):
+                return parsed_url._replace(netloc=parsed_url.netloc).geturl()
+            return parsed_url._replace(netloc='www.' + parsed_url.netloc).geturl()
+        return canonical_url
 
 
 # Content models
@@ -2416,3 +2426,48 @@ class CsatUserFeedback(TimeStampedModel):
     other_detail = models.CharField(max_length=255, null=True)
     service_improvements_feedback = models.CharField(max_length=3000, null=True)
     likelihood_of_return = models.CharField(max_length=255, choices=constants.LIKELIHOOD_CHOICES, null=True)
+
+
+@register_snippet
+class Task(index.Indexed, models.Model):
+    task_id = models.CharField(blank=True)
+    title = models.CharField()
+    description_level_1 = models.TextField()
+    description_level_2 = models.TextField(blank=True)
+    link_text = models.CharField(blank=True)
+    url_goods = models.CharField(blank=True)
+    url_services = models.CharField(blank=True)
+    message = models.TextField(blank=True)
+    is_goods = models.BooleanField(default=False)
+    is_services = models.BooleanField(default=False)
+    is_essential = models.BooleanField(default=False)
+    is_simple = models.BooleanField(default=False)
+    is_difficult = models.BooleanField(default=False)
+    platform = models.CharField(blank=True)
+
+    panels = [
+        FieldPanel('task_id'),
+        FieldPanel('title'),
+        FieldPanel('description_level_1'),
+        FieldPanel('description_level_2'),
+        FieldPanel('link_text'),
+        FieldPanel('url_goods'),
+        FieldPanel('url_services'),
+        FieldPanel('message'),
+        FieldPanel('is_goods'),
+        FieldPanel('is_services'),
+        FieldPanel('is_essential'),
+        FieldPanel('is_simple'),
+        FieldPanel('is_difficult'),
+        FieldPanel('platform'),
+    ]
+
+    search_fields = [
+        index.AutocompleteField('title'),
+    ]
+
+    class Meta:
+        ordering = ('title',)
+
+    def __str__(self):
+        return self.title
