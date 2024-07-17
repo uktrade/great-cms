@@ -411,4 +411,6 @@
             </div>
         </div>
     {% endblock %}
-    {% block feedback_reporter %}{% endblock %}
+    {% block feedback_reporter %}
+        {% include '../export_academy/includes/csat_user_feedback.html' with form=form csat_stage=csat_stage %}
+    {% endblock %}
