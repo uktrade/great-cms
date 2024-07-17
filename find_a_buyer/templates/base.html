@@ -5,6 +5,11 @@
     <link href="{% static 'fab_styles.css' %}" rel="stylesheet" type="text/css" />
     {{ block.super }}
 {% endblock %}
+{% block vendor_js %}
+    {{ block.super }}
+    <script src="{% static 'javascript/vendor/sentry.6.19.7.tracing.replay.min.js' %}"></script>
+    <script src="{% static 'javascript/vendor/sentryinit.js' %}"></script>
+{% endblock %}
 {% block head_js %}
     {{ block.super }}
     <script type="text/javascript" src="{% static 'javascripts/index.js' %}"></script>
@@ -38,3 +43,11 @@
     {{ block.super }}
     <script type="text/javascript">GOVUK.page.init();</script>
 {% endblock %}
+{% block head_other %}
+    <meta name="intranet:environment" content="{{ APP_ENVIRONMENT }}">
+    <meta name="intranet:sentry:dsn"
+          content="{{ SENTRY_DSN|default_if_none:'' }}">
+    <meta name="intranet:sentry:browser-traces-sample-rate"
+          content="{{ SENTRY_BROWSER_TRACES_SAMPLE_RATE }}">
+{% endblock %}
+

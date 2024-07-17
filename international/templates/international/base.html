@@ -6,6 +6,7 @@ number of extra CSS styles that were once sensible defaults:
 - elements-components
 {% endcomment %}
 {% load static %}
+{% load int_canonical_url_tags %}
 {% block head_title %}{{ international_home_link.label }}{% endblock %}
 {% block meta_title %}{{ international_home_link.label }}{% endblock %}
 {% block header_js %}{% endblock %}
@@ -16,6 +17,8 @@ number of extra CSS styles that were once sensible defaults:
 {% endblock %}
 {% block vendor_js %}
     <script src="{% static 'directory_components/js/vendor/details-polyfill.js' %}"></script>
+    <script src="{% static 'javascript/vendor/sentry.6.19.7.tracing.replay.min.js' %}"></script>
+    <script src="{% static 'javascript/vendor/sentryinit.js' %}"></script>
 {% endblock %}
 {% block head_js_ga360 %}
     <script src="{% static 'javascript/dit.tagging.js' %}"></script>
@@ -38,8 +41,15 @@ number of extra CSS styles that were once sensible defaults:
     <link rel="stylesheet" href="{% static 'international_styles.css' %}">
 {% endblock %}
 {% block head_other %}
+    {% get_canonical_url as canonical_url %}
     <meta name="description"
           content="The Department for Business and Trade helps overseas businesses invest and expand in the UK." />
+    <link rel="canonical" href="{{ canonical_url }}">
+    <meta name="intranet:environment" content="{{ APP_ENVIRONMENT }}">
+    <meta name="intranet:sentry:dsn"
+          content="{{ SENTRY_DSN|default_if_none:'' }}">
+    <meta name="intranet:sentry:browser-traces-sample-rate"
+          content="{{ SENTRY_BROWSER_TRACES_SAMPLE_RATE }}">
 {% endblock %}
 {% block skip_link %}
     <a href="#content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>

@@ -1,6 +1,6 @@
 import hashlib
 import mimetypes
-from urllib.parse import unquote
+from urllib.parse import unquote, urlparse
 
 from django.conf import settings
 from django.contrib.postgres.fields import ArrayField
@@ -329,6 +329,15 @@ class SeoMixin(WagtailSeoMixin):
                 if isinstance(image, AbstractImage):
                     return image.alt_text
         return None
+
+    def get_seo_canonical_url(self):
+        canonical_url = super().seo_canonical_url
+        if canonical_url and not canonical_url.startswith('www.'):
+            parsed_url = urlparse(canonical_url)
+            if parsed_url.netloc.startswith('www.'):
+                return parsed_url._replace(netloc=parsed_url.netloc).geturl()
+            return parsed_url._replace(netloc='www.' + parsed_url.netloc).geturl()
+        return canonical_url
 
 
 # Content models
