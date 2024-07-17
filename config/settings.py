@@ -137,6 +137,7 @@ TEMPLATES = [
             ROOT_DIR / 'sso_profile' / 'templates',
             ROOT_DIR / 'sso_profile' / 'common' / 'templates',
             ROOT_DIR / 'sso_profile' / 'enrolment' / 'templates',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'breadcrumbs',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -916,6 +917,7 @@ FEATURE_MARKET_GUIDES_SECTOR_LINKS = env.bool('FEATURE_MARKET_GUIDES_SECTOR_LINK
 FEATURE_PRE_ELECTION = env.bool('FEATURE_PRE_ELECTION', False)
 FEATURE_EYB_HOME = env.bool('FEATURE_EYB_HOME', False)
 FEATURE_FAB_MIGRATION = env.bool('FEATURE_FAB_MIGRATION', False)
+FEATURE_DESIGN_SYSTEM = env.bool('FEATURE_DESIGN_SYSTEM', False)
 
 FEATURE_GREAT_ERROR = env.bool('FEATURE_GREAT_ERROR', False)
 

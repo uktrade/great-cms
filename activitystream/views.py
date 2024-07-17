@@ -40,8 +40,7 @@ from activitystream.serializers import (
     ActivityStreamWhereToExportCsatUserFeedbackDataSerializer,
     PageSerializer,
 )
-from core.models import MicrositePage
-from core.models import CsatUserFeedback as WhereToExportCsatUserFeedback
+from core.models import CsatUserFeedback as WhereToExportCsatUserFeedback, MicrositePage
 from domestic.models import ArticlePage, CountryGuidePage
 from export_academy.models import (
     Booking,
