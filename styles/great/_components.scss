@@ -2175,3 +2175,39 @@ nav.great-breadcrumbs {
   margin: 0 auto;
   max-width: 810px;
 }
+
+.great-step-by-step {
+  border-left: 3px solid $great-lighter-grey;
+}
+
+.great-step-by-step__marker {
+  position: relative;
+
+  &::after {
+    content: '';
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border: 2px solid $great-lighter-grey;
+    position: absolute;
+    left: -38px;
+    top: 9px;
+    display: block;
+  }
+}
+
+.great-step-by-step__nested-marker {
+  position: relative;
+
+  &::after {
+    content: '';
+    width: 65px;
+    height: 0px;
+    background: #fff;
+    border: 3px dashed $great-lighter-grey;
+    position: absolute;
+    left: -79px;
+    top: 19px;
+    display: block;
+  }
+}
