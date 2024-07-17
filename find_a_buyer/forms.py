@@ -57,7 +57,7 @@ class CompanyCodeVerificationForm(AutoFocusFieldMixin, IndentedInvalidFieldsMixi
         label='Verification Code',
         max_length=12,
         min_length=12,
-        widget=forms.TextInput(attrs={'type': 'number'}),
+        widget=forms.TextInput(attrs={'type': 'number', 'class': 'govuk-input great-text-input govuk-!-margin-bottom-4'}),
     )
 
     def __init__(self, *args, **kwargs):

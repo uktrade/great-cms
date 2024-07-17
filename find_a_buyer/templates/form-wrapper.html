@@ -4,9 +4,10 @@
 {% block hero_title %}Create your company’s profile{% endblock %}
 {% block hero_text %}{% endblock %}
 {% block sub_header %}{# prevent the subheader from showing on form pages #}{% endblock %}
-{% block content %}{{ block.super }}{% endblock %}
+{% block content %}
+{{ block.super }}{% endblock %}
 {% block formarea %}
-    <form action="" method="post" enctype="multipart/form-data">
+    <form action="" method="post" enctype="multipart/form-data" class="govuk-!-margin-bottom-3 govuk-!-margin-top-0">
         <div class="{% block container_class %}connections-platform-form{% endblock %}">
             {% block form_subtitle %}
             {% endblock form_subtitle %}
@@ -19,12 +20,11 @@
                 {% else %}
                     {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
                     {% for field in form.visible_fields %}
-                        <li class="{{ field.css_classes }}">
-                            {{ field.errors }}
-                            {{ field.label_tag }}
-                            {% if field.help_text %}<span class="helptext">{{ field.help_text|safe }}</span>{% endif %}
-                            {{ field }}
-                        </li>
+                        <div class="govuk-form-group govuk-!-margin-bottom-2 {% if field.errors %}govuk-form-group--error{% endif %} ">
+                            <fieldset class="govuk-fieldset">
+                                {% include 'domestic/contact/includes/govuk-form-field.html' with inputWrapperClass="govuk-!-width-three-quarters" field=field %}
+                            </fieldset>
+                        </div>
                     {% endfor %}
                 {% endif %}
             </div>
