@@ -1,5 +1,6 @@
 {% extends "form-wrapper.html" %}
 {% load static %}
+{% load breadcrumbs from component_tags %}
 {% block head_title %}Verify your company address - Business profile - GREAT.gov.uk{% endblock %}
 {% block form_title %}Your company address{% endblock %}
 {% block button_next_label %}Next{% endblock %}
@@ -8,6 +9,13 @@
     <link href="{% static 'main.css' %}" media="all" rel="stylesheet" />
     <link href="{% static 'fab_styles.css' %}" rel="stylesheet" type="text/css" />
     {{ block.super }}
+{% endblock %}
+
+{% block content %}
+{% breadcrumbs breadcrumbs-container %}
+    <a href="{% url 'find_a_buyer:verify-company-hub' %}">Back</a>
+{% endbreadcrumbs %}
+{{ block.super}}
 {% endblock %}
 {% block formarea %}
     <div id="ed-company-edit-address-tickbox-container">{{ block.super }}</div>

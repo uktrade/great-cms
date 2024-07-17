@@ -1,11 +1,19 @@
 {% extends "./base.html" %}
+{% load static %}
 {% load breadcrumbs from component_tags %}
+
 {% block sub_header %}{% endblock %}
+{% block head_css %}
+    <link href="{% static 'main.css' %}" media="all" rel="stylesheet" />
+    <link href="{% static 'fab_styles.css' %}" rel="stylesheet" type="text/css" />
+    {{ block.super }}
+{% endblock %}
 {% block content %}
-    <div class="great great-container">
-        {% breadcrumbs %}
-        <a href="{% url 'sso_profile:business-profile' %}">Back</a>
-    {% endbreadcrumbs %}
+{% breadcrumbs breadcrumbs-container %}
+    <a href="{% url 'sso_profile:business-profile' %}">Back</a>
+{% endbreadcrumbs %}
+<div class="great great-container">
+
     <h1 class="govuk-heading-xl govuk-!-margin-bottom-8 govuk-!-margin-top-9">Confirm your identity</h1>
     <p>For security reasons, we need to confirm your identity.</p>
     <p>The quickest way to do this is by signing into Companies House with your username and password.</p>
