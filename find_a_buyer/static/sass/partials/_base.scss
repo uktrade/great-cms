@@ -180,41 +180,6 @@ body {
   }
 }
 
-.form-wrapper-btn-container {
-  line-height: 3em;
-  clear: both; // needed for IE8 compatibility with multi column lists
-}
-
-.ed-error-page-container {
-  color: #4a4a4a;
-  .ed-error-page-title {
-    margin-top: 40px;
-    margin-bottom: 40px;
-  }
-  ul.ed-error-page-synopsis {
-    margin:0;
-    li {
-      margin-bottom: 10px;
-    }
-  }
-  .ed-error-page-status {
-    padding-bottom: 40px;
-  }
-  hr {
-    border-bottom: 1px solid #4f0b7b;
-  }
-}
-
-
-.ed-international-success-container {
-  h1 {
-    margin-top: 40px;
-    margin-bottom: 40px;
-  }
-  .ed-international-success-synopsis {
-    margin-bottom: 40px;
-  }
-}
 
 body.js-enabled .js-header-nav-menu.js-header-nav-menu-hide {
   display: block;
@@ -223,67 +188,8 @@ body.js-enabled .js-header-nav-menu.js-header-nav-menu-hide {
   }
 }
 
-.ed-header-level-two {
-  .ed-header-image-container {
-    position: relative;
-    @media (max-width: 979px) {
-      padding-left: 5px;
-    }
-  }
-}
-
 a.no-focus-highlight {
   background-color: inherit;
-}
-
-.ed-form-back-button {
-  margin-right: 40px;
-  font-size: 15px;
-}
-
-.great-blue-bar {
-  background: $great-blue;
-  color: $white;
-  h1, h2 {
-    font-family: $font-heading;
-    font-size: 36px;
-    font-weight: 300;
-    line-height: 1.1em;
-    margin: 0;
-    padding: 16px 24px;
-  }
-  .company-name-title {
-    @media (max-width: 767px) {
-      font-size: 28px;
-    }
-  }
-  .element-within {
-    display: table-cell;
-    float: none;
-    vertical-align: middle;
-    a {
-      color: $white;
-      &:focus {
-        background: #007EA3;
-      }
-    }
-    .a11y {
-      color: $white;
-    }
-  }
-  .ed-edit-button {
-    right: 20px;
-    top: 16px;
-  }
-  &.ed-has-edit-button {
-    padding-right: 70px;
-  }
-
-  @media (max-width: 767px) {
-    .element-within {
-      display: block;
-    }
-  }
 }
 
 .ed-arrow_box:after {
@@ -307,13 +213,6 @@ a.no-focus-highlight {
 
 .pull-right {
   float: right;
-}
-
-#id_classification-export_destinations_other {
-  @media (min-width: 979px) {
-    width: 50%;
-    display: block;
-  }
 }
 
 .ed-form-progress-indicator {
@@ -380,14 +279,6 @@ a.no-focus-highlight {
   }
 }
 
-#id_exports-has_exported_before {
-  li {
-    display: inline-block;
-    float: none;
-    margin-bottom: 0;
-  }
-}
-
 #ed-company-edit-address-container {
   margin-bottom: 45px;
 }
@@ -404,13 +295,6 @@ a.no-focus-highlight {
     color: #333333;
     margin-bottom: 15px;
   }
-  .ed-company-edit-address-number {
-    height: 26px;
-    font-size: 100px;
-    line-height: 1.44;
-    color: #333333;
-    margin-bottom: 30px;
-  }
 }
 
 #ed-company-edit-address-tickbox-container {
@@ -419,13 +303,6 @@ a.no-focus-highlight {
   }
 }
 
-#ed-account-create-explainer {
-  font-size: 18px;
-  p:first-child {
-    margin-top: 30px;
-    margin-bottom: 30px;
-  }
-}
 .inset-text-gray-thickest-border {
   border-left: 10px solid #B1B4B6;
   padding-left:15px;
