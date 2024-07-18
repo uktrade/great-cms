@@ -4,6 +4,7 @@
 @import './general.scss';
 @import './registration.scss';
 @import './components.scss';
+@import '../../sass/partials/mixins';
 
 blockquote, q {
   quotes: none;
@@ -441,6 +442,14 @@ a.no-focus-highlight {
   margin: 0 auto;
   padding: .75em 0;
   max-width: 1230px;
+  li {
+    padding-left: 5px;
+  }
+  li:before {
+    @include chevron(135deg, $grey);
+    margin-right: 10px;
+    top: .5em;
+  }
 }
 
 
