@@ -7,8 +7,8 @@ from django.forms import (
     ChoiceField,
     MultipleChoiceField,
     RadioSelect,
-    TextInput,
     Textarea,
+    TextInput,
 )
 from django.template.loader import render_to_string
 from django.utils.html import mark_safe
