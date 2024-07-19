@@ -15,6 +15,7 @@
         {% endif %}
         {% include './includes/govuk/phase_banner.html' %}
         {% include './includes/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
+        {% include './includes/back_link.html' with back_url=back_url %}
         {% if feature_pre_election and feature_eyb_home %}</div>{% endif %}
     {{ block.super }}
 {% endblock %}
