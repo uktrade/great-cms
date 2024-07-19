@@ -8,7 +8,7 @@ from find_a_buyer import choices
 class CsatUserFeedback(TimeStampedModel):
     URL = models.CharField(max_length=255)
     user_journey = models.CharField(
-        max_length=255, null=True, choices=choices.USER_JOURNEY_CHOICES, default='COMPANY VERIFICATION'
+        max_length=255, null=True, choices=choices.USER_JOURNEY_CHOICES, default='COMPANY_VERIFICATION'
     )
     satisfaction_rating = models.CharField(max_length=255, choices=choices.SATISFACTION_CHOICES)
     experienced_issues = ArrayField(

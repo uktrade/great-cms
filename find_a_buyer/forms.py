@@ -2,21 +2,21 @@ from directory_components.forms import BooleanField
 from directory_validators.string import no_html
 from django import forms
 from django.forms import (
+    CharField,
+    CheckboxSelectMultiple,
     ChoiceField,
     MultipleChoiceField,
-    CharField,
+    RadioSelect,
     Textarea,
     TextInput,
-    RadioSelect,
-    CheckboxSelectMultiple,
-    widgets as django_widgets
+    widgets as django_widgets,
 )
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 
+from find_a_buyer import choices
 from . import fields, validators
 from .helpers import CompaniesHouseClient, halt_validation_on_failure
-from find_a_buyer import choices
 
 
 class IndentedInvalidFieldsMixin:
@@ -136,7 +136,7 @@ def serialize_company_address_form(cleaned_data):
 
 class CsatUserFeedbackForm(forms.Form):
     satisfaction = ChoiceField(
-        label='Overall, how would you rate your experience with the company verification and business publication service today?',
+        label='Overall, how would you rate your experience with the company verification service today?',
         choices=choices.SATISFACTION_CHOICES,
         widget=RadioSelect(attrs={'class': 'govuk-radios__input'}),
         required=False,
@@ -196,4 +196,3 @@ class CsatUserFeedbackForm(forms.Form):
                     )
                     break
         return cleaned_data
-

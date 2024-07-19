@@ -15,7 +15,7 @@ EXPERIENCE_CHOICES = (
     ('NO_ISSUE', 'I did not experience any issues'),
 )
 
-USER_JOURNEY_CHOICES = (('COMPANY VERIFICATION', 'Company verification'),)
+USER_JOURNEY_CHOICES = (('COMPANY_VERIFICATION', 'Company verification'),)
 
 LIKELIHOOD_CHOICES = (
     ('EXTREMELY_UNLIKELY', 'Extremely unlikely'),
