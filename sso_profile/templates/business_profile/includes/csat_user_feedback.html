@@ -1,0 +1,190 @@
+<div class="great great-overflow-visible govuk-width-container great-container govuk-!-padding-top-6  govuk-!-padding-left-0  govuk-!-padding-right-0">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <div id="csat-step-1-submission-confirmation"
+                 class="csat-submission-confirmation{% if csat_stage != 1 or form.errors %} great-hidden{% endif %}"
+                 aria-live="polite"
+                 tabindex="-1">
+                <div class="csat-submission-confirmation__heading">
+                    <span role="img" class="great-margin-top-2 fa fa-check-circle"></span>
+                    <h2 class="govuk-heading-s govuk-!-margin-bottom-0">Thank you for submitting your rating</h2>
+                </div>
+            </div>
+            <div id="csat-step-2-submission-confirmation"
+                 class="csat-submission-confirmation{% if csat_stage != 2 or form.errors %} great-hidden{% endif %}"
+                 aria-live="polite"
+                 tabindex="-1">
+                <div class="csat-submission-confirmation__heading">
+                    <span role="img" class="great-margin-top-2 fa fa-check-circle"></span>
+                    <h2 class="govuk-heading-s govuk-!-margin-bottom-0">Thank you for helping us to improve this service</h2>
+                </div>
+            </div>
+            <div class="govuk-error-summary govuk-!-margin-bottom-3 {% if not form.errors %}great-hidden{% endif %}"
+                 id="error-summary"
+                 aria-labelledby="error-summary-title"
+                 role="alert"
+                 tabindex="-1"
+                 data-module="error-summary">
+                <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
+                <div class="govuk-error-summary__body">
+                    <ul class="govuk-list govuk-error-summary__list great-font-main">
+                        {% for field in form %}
+                            {% if field.errors %}
+                                {% for error in field.errors %}
+                                    <li>
+                                        <a href="#{{ field.auto_id }}">{{ error }}</a>
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="info-message"
+             class="govuk-grid-column-two-thirds {% if csat_stage != 1 %}great-hidden{% endif %}">
+            <p class="great-font-size-desktop-24 great-font-bold govuk-!-margin-bottom-6 govuk-!-margin-top-0">
+                <br>
+                To help us improve our service, we'd like to know more about your booking experience today. It will only take a minute to complete.
+            </p>
+        </div>
+    </div>
+    <form method="post"
+          novalidate
+          action="{{ request.build_absolute_uri }}"
+          id="csat-form">
+        {% csrf_token %}
+        <div id="csat-step-1"
+             class="govuk-grid-row{% if csat_stage == 1 or csat_stage == 2 %} great-hidden{% endif %}">
+            <div class="govuk-grid-column-two-thirds">
+                <div id="satisfaction_group"
+                     class="govuk-form-group{% if form.satisfaction.errors %} govuk-form-group--error{% endif %}">
+                    <fieldset class="govuk-fieldset">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                            <h2 class="govuk-fieldset__heading" id="{{ form.satisfaction.auto_id }}">{{ form.satisfaction.label }}</h2>
+                        </legend>
+                        <div class="govuk-radios" data-module="govuk-radios" id="satisfaction">
+                            {% for satisfaction_level in form.satisfaction %}
+                                <div class="govuk-radios__item">
+                                    {{ satisfaction_level.tag }}
+                                    <label class="govuk-label govuk-radios__label"
+                                           for="{{ satisfaction_level.id_for_label }}">
+                                        {{ satisfaction_level.choice_label }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <div id="csat-step-2"
+             class="govuk-grid-row{% if csat_stage == 2 or csat_stage == 0 %} great-hidden{% endif %}">
+            <div class="govuk-grid-column-two-thirds">
+                <div id="experience_group"
+                     class="govuk-form-group{% if form.experience.errors %} govuk-form-group--error{% endif %}">
+                    <fieldset class="govuk-fieldset "
+                              aria-describedby="experience-hint {% if form.experience.errors %}csat-experience-error-message{% endif %}">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-!-margin-bottom-3">
+                            <h2 class="govuk-fieldset__heading" id="{{ form.experience.auto_id }}">{{ form.experience.label }}</h2>
+                        </legend>
+                        <div id="experience-hint" class="govuk-hint govuk-!-margin-bottom-3">Select all that apply.</div>
+                        <p id="csat-experience-error-message"
+                           class="govuk-error-message{% if not form.experience.errors %} great-hidden{% endif %}">
+                            <span class="govuk-visually-hidden">Error:</span> Select issues you experienced, or select ‘I did not experience any issues’
+                        </p>
+                        <div class="govuk-checkboxes"
+                             data-module="govuk-checkboxes"
+                             id="experience">
+                            {% for action in form.experience %}
+                                {% if action.data.value == 'NO_ISSUE' %}<div class="govuk-checkboxes__divider great-font-bold">Or</div>{% endif %}
+                                <div class="govuk-checkboxes__item">
+                                    <input {% if action.data.value in form.experience.value %}checked{% endif %}
+                                           {% if action.data.value == 'NO_ISSUE' %}data-behaviour="exclusive"{% endif %}
+                                           {% if action.data.value == 'OTHER' %}data-aria-controls="conditional-experience-{{ forloop.counter0 }}"{% endif %}
+                                           type="checkbox"
+                                           name="experience"
+                                           value="{{ action.data.value }}"
+                                           class="govuk-checkboxes__input"
+                                           id="{{ action.id_for_label }}">
+                                    <label class="govuk-label govuk-checkboxes__label"
+                                           for="{{ action.id_for_label }}">{{ action.choice_label }}</label>
+                                </div>
+                                {% if action.data.value == 'OTHER' %}
+                                    <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
+                                         id="conditional-experience-{{ forloop.counter0 }}">
+                                        <div id="experience_other_group">
+                                            <div class="govuk-form-group">
+                                                {% include './form_field.html' with field=form.experience_other custom_error='Enter the issue you experienced' %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </fieldset>
+                </div>
+                <div id="likelihood_of_return_group"
+                     class="govuk-form-group{% if form.likelihood_of_return.errors %} govuk-form-group--error{% endif %}">
+                    <fieldset class="govuk-fieldset "
+                              {% if form.likelihood_of_return.errors %}aria-describedby="csat-likelihood-of-return-error-message"{% endif %}>
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-!-margin-bottom-5">
+                            <h2 class="govuk-fieldset__heading"
+                                id="{{ form.likelihood_of_return.auto_id }}">{{ form.likelihood_of_return.label }}</h2>
+                        </legend>
+                        <p id="csat-likelihood-of-return-error-message"
+                           class="govuk-error-message{% if not form.likelihood_of_return.errors %} great-hidden{% endif %}">
+                            <span class="govuk-visually-hidden">Error:</span> Select how likely you are to use this service again
+                        </p>
+                        <div class="govuk-radios"
+                             data-module="govuk-radios"
+                             id="likelihood_of_return">
+                            {% for likelihood_of_return_level in form.likelihood_of_return %}
+                                <div class="govuk-radios__item">
+                                    {{ likelihood_of_return_level.tag }}
+                                    <label class="govuk-label govuk-radios__label"
+                                           for="{{ likelihood_of_return_level.id_for_label }}">
+                                        {{ likelihood_of_return_level.choice_label }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </fieldset>
+                </div>
+                <div id="feedback_text_group"
+                     class="govuk-form-group great-font-main govuk-character-count{% if form.feedback_text.errors %} govuk-form-group--error{% endif %}"
+                     data-module="govuk-character-count"
+                     data-maxlength="1200">
+                    <h2 class="govuk-label-wrapper">
+                        <label class="govuk-label govuk-label--l"
+                               for="{{ form.feedback_text.id_for_label }}">{{ form.feedback_text.label }}</label>
+                    </h2>
+                    <div id="id_feedback_text-hint" class="govuk-hint">{{ form.feedback_text.help_text }}</div>
+                    <p id="exceeding-characters-error"
+                       class="govuk-error-message great-hidden">
+                        <span>Your feedback must be 1200 characters or less</span>
+                    </p>
+                    {{ form.feedback_text }}
+                    <div id="id_feedback_text-info"
+                         class="govuk-hint {% if form.feedback_text.errors %}govuk-error-message great-font-bold{% endif %}">
+                        You can enter up to 1200 characters
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="govuk-grid-row govuk-!-margin-bottom-4">
+            <div class="govuk-grid-column-one-half-from-desktop great-actions-group{% if csat_stage == 2 %} great-hidden{% endif %}">
+                {% if csat_stage == 0 %}
+                    {% include './submit_button.html' with button_text='Submit and continue' %}
+                {% else %}
+                    {% include './submit_button.html' with button_text='Submit feedback' %}
+                {% endif %}
+                {% if csat_stage != 1 %}
+                    {% include './submit_button.html' with button_name='cancelButton' button_classes='govuk-button--secondary great-hidden' button_text='Cancel' %}
+                {% else %}
+                    {% include './submit_button.html' with button_name='cancelButton' button_classes='govuk-button--secondary' button_text='Cancel' %}
+                {% endif %}
+            </div>
+        </div>
+    </form>
+</div>

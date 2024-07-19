@@ -1,29 +1,8 @@
 <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-        <a href="{{ back_url }}" class="govuk-back-link govuk-!-font-size-19">Back</a>
-    </div>
-</div>
-<div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">{% include '../includes/error_summary.html' %}</div>
 </div>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <p class="govuk-body govuk-!-margin-top-2">{{ step_text }}</p>
+        <span class="govuk-caption-l">{{ hint_title }}</span>
     </div>
 </div>
-{% comment %} <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-        {% if element_type and element_type == 'legend' %}
-            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                <h1 class="govuk-fieldset__heading">{{ question_text }}</h1>
-            </legend>
-        {% elif element_type and element_type == 'label' %}
-            <h1 class="govuk-label-wrapper">
-                <label for={{ for_id }} class="govuk-label govuk-label--l">{{ question_text }}
-                </label>
-            </h1>
-        {% else %}
-            <h1 class="govuk-heading-l">{{ question_text }}</h1>
-        {% endif %}
-    </div>
-</div> {% endcomment %}

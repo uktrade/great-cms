@@ -121,3 +121,13 @@
 .eyb-final-cta-section {
     background-color: $great-light-blue;
 }
+
+
+.eyb-profile-icon {
+    filter: invert(1);
+    width: 18px;
+    height: 18px;
+    display: inline;
+    margin-right: 5px;
+    vertical-align:middle;
+}

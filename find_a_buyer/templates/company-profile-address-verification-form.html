@@ -1,26 +1,36 @@
 {% extends "form-wrapper.html" %}
+{% load breadcrumbs from component_tags %}
+{% load static %}
 {% block head_title %}Verify your company - great.gov.uk{% endblock %}
 {% block form_title %}Verify your company{% endblock %}
-{% block button_next_label %}Next{% endblock%}
-{% block button_finish_label %}Continue{% endblock%}
-
+{% block button_next_label %}Next{% endblock %}
+{% block button_finish_label %}Continue{% endblock %}
+{% block head_css %}
+    <link href="{% static 'main.css' %}" media="all" rel="stylesheet" />
+    <link href="{% static 'fab_styles.css' %}" rel="stylesheet" type="text/css" />
+    {{ block.super }}
+{% endblock %}
 {% block form_subtitle %}
-	Enter the 12 digit code from the letter that was sent to {{ company.address_line_1 }}
+{% block breadcrumbs %}
+    {% breadcrumbs breadcrumbs-container%}
+    <a href="{% url 'sso_profile:business-profile' %}">Back</a>
+{% endbreadcrumbs %}
+{% endblock %}
+
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-8 govuk-!-margin-top-9">Confirm your identity</h1>
+    <p class="govuk-!-margin-bottom-6">
+        Enter the 12 digit code from the letter that was sent to {{ company.address_line_1 }}.
+    </p>
 {% endblock form_subtitle %}
 {% block formarea %}
 	{{ block.super }}
-	<br/>
-	<br/>
-	<p>or</p>
+    <p class="govuk-body-m great-font-weight-semi-bold govuk-!-margin-bottom-6">Or</p>
+
 	<div>
-		<h2 class="heading-medium">Sign in with Companies House</h2>
-		<p>Alternatively you can sign in to Companies House to verify. You will need your Companies House authentication code and the email and password you use to sign in.
+		<p class="govuk-!-margin-bottom-6">
+			You can confirm your identity instantly online by signing into Companies House with your username and password.
 		</p>
-		<br/>
-		<br/>
-		<a href="{% url 'find_a_buyer:verify-companies-house' %}" class="button button-blue" target="_self">Sign in to Companies House</a>
+		<a href="{% url 'find_a_buyer:verify-companies-house' %}"
+			class="govuk-button">Sign in to Companies House</a>
 	</div>
-	<br/>
-	<br/>
-	<a href="{% url 'sso_profile:business-profile' %}" class="link">Cancel</a>
 {% endblock %}

@@ -1,10 +1,15 @@
 {% extends 'business_profile/admin-base.html' %}
 {% load breadcrumbs from component_tags %}
 {% load static %}
+{% block head_css %}
+    <link href="{% static 'main.css' %}" media="all" rel="stylesheet" />
+    <link href="{% static 'fab_styles.css' %}" rel="stylesheet" type="text/css" />
+    {{ block.super }}
+{% endblock %}
 {% block breadcrumbs %}
-    {% breadcrumbs %}
-    <a href="{% url 'sso_profile:about' %}">Home</a>
-    <a href="{% url 'sso_profile:business-profile' %}">Business profile</a>
+    {% breadcrumbs breadcrumbs-container %}
+    <a href="{% url 'sso_profile:about' %}">Back</a>
+
 {% endbreadcrumbs %}
 {% endblock %}
 {% block inner_content %}

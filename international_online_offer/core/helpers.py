@@ -219,7 +219,7 @@ def can_show_rent_component(tags):
     return False
 
 
-def is_triage_complete(triage_data):
+def is_triage_data_complete(triage_data):
     return bool(
         triage_data
         and triage_data.sector
@@ -228,3 +228,26 @@ def is_triage_complete(triage_data):
         and triage_data.hiring
         and (triage_data.spend or triage_data.spend_other)
     )
+
+
+def is_user_data_complete(user_data):
+    return bool(
+        user_data
+        and user_data.email
+        and user_data.company_name
+        and user_data.company_location
+        and user_data.full_name
+        and user_data.role
+        and user_data.telephone_number
+        and user_data.landing_timeframe
+        and user_data.company_website
+    )
+
+
+def get_spend_choices_by_currency(currency):
+    spend_choices = choices.SPEND_CHOICES
+    if currency == 'EUR':
+        spend_choices = choices.SPEND_CHOICES_EURO
+    elif currency == 'USD':
+        spend_choices = choices.SPEND_CHOICES_USD
+    return spend_choices

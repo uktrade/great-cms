@@ -42,9 +42,9 @@ class UpdateCompanyProfileOnFormWizardDoneMixin:
         sentry_sdk.capture_message('Updating company profile failed')
 
     def done(self, *args, **kwargs):
-        response = api_client.company.profile_update(
-            sso_session_id=self.request.user.session_id, data=self.serialize_form_data()
-        )
+        data = self.serialize_form_data()
+        data['is_verification_letter_sent'] = True  # Mixin only used in SendVerificationLetterView
+        response = api_client.company.profile_update(sso_session_id=self.request.user.session_id, data=data)
         try:
             response.raise_for_status()
         except HTTPError:

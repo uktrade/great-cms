@@ -1,38 +1,47 @@
 {% extends "./base.html" %}
+{% load static %}
+{% load breadcrumbs from component_tags %}
 {% block sub_header %}{% endblock %}
+{% block head_css %}
+    <link href="{% static 'main.css' %}" media="all" rel="stylesheet" />
+    <link href="{% static 'fab_styles.css' %}" rel="stylesheet" type="text/css" />
+    {{ block.super }}
+{% endblock %}
 {% block content %}
-    <div class="outer-container">
-        <br>
-        <h1 class="heading-xlarge">Confirm your identity</h1>
-        <p>For security, we need to check you’re who you say you are.</p>
-        <p>You can sign in with Companies House to confirm your identity straight away. You’ll need your Companies House username and password.</p>
-        <p>Alternatively, we can send a confirmation letter to your company’s registered address.</p>
-        <br>
-        <br>
-        <div class="grid-row">
-            <div class="column-one-half" id="ed-verify-companies-house-container">
-                <h2 class="heading-large">Sign in with Companies House</h2>
-                <br>
-                <p>Enter your Companies House username and password. We’ll be able to confirm your identity instantly.</p>
-                <br>
-                <br>
-                <a href="{% url 'find_a_buyer:verify-companies-house' %}" class="button button-primary">Sign in</a>
-            </div>
-            <div class="column-one-half">
-                <h2 class="heading-large">Get confirmation letter</h2>
-                <br>
-                <p>We’ll then send a confirmation letter to your company’s registered address within 5 working days. If you can’t collect the letter yourself, you’ll need to make sure someone can send it on to you.</p>
-                <br>
-                {% if company.is_verification_letter_sent %}
-                    <a href="{% url 'find_a_buyer:verify-company-address-confirm' %}" class="button button-primary">Verify with your address</a>
-                {% else %}
-                    <a href="{% url 'find_a_buyer:verify-company-address' %}" class="button button-primary">Send</a>
-                {% endif %}
-            </div>
-        </ul>
+{% block breadcrumbs %}
+    {% breadcrumbs breadcrumbs-container%}
+    <a href="{% url 'sso_profile:business-profile' %}">Back</a>
+{% endbreadcrumbs %}
+{% endblock %}
+<div class="great great-container">
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-8 govuk-!-margin-top-9">Confirm your identity</h1>
+    <p>For security reasons, we need to confirm your identity.</p>
+    <p>The quickest way to do this is by signing into Companies House with your username and password.</p>
+    <p class="govuk-!-margin-bottom-6">
+        If you're unable to sign in with Companies House, we can send a confirmation letter to your company's registered address that will allow you to complete this process by post.
+    </p>
+    <div id="govuk-!-margin-bottom-6">
+        <h2 class="govuk-heading-m">Sign in with Companies House</h2>
+        <p class="govuk-!-margin-bottom-6">
+            Enter your Companies House username and password so that we can confirm your identity instantly.
+        </p>
+        <a href="{% url 'find_a_buyer:verify-companies-house' %}"
+           class="govuk-button">Sign in</a>
     </div>
-    <br>
-    <br>
-    <br>
-    <a id="ed-verify-hub-back" class="link" href="{% url 'sso_profile:business-profile' %}">Back</a>
-{%endblock content %}
+    <p class="govuk-body-m great-font-weight-semi-bold govuk-!-margin-bottom-6">Or</p>
+    <div>
+        <h2 class="govuk-heading-m">Confirm identity by post</h2>
+        <p class="govuk-!-margin-bottom-6">
+            We will send a confirmation letter to your company's registered address within 5 working days.  If you can't collect the letter yourself, you'll need to make sure someone can send it on to you.
+        </p>
+        {% if company.is_verification_letter_sent %}
+            <a href="{% url 'find_a_buyer:verify-company-address-confirm' %}"
+               class="govuk-button">Verify with your address</a>
+        {% else %}
+            <a href="{% url 'find_a_buyer:verify-company-address' %}"
+               class="govuk-button">Send</a>
+        {% endif %}
+    </div>
+</ul>
+</div>
+{% endblock content %}

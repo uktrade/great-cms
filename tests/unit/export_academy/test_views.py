@@ -1251,7 +1251,7 @@ def test_signin_invalid_password(
         url += query_params
     response = client.post(url, data=form_data)
 
-    assert response.context['form'].errors['password'] == ['Invalid email / password']
+    assert response.context['form'].errors['password'] == ['The email or password you entered is not correct']
     assert response.status_code == 200
     if unique_link:
         assert response.context['form'].initial['email'] == 'test@example.com'

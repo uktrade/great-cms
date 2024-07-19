@@ -3,6 +3,7 @@
 {% load static_absolute from component_tags %}
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
+{% load domestic_canonical_url_tags %}
 {% get_current_language_bidi as LANGUAGE_BIDI %}
 <!DOCTYPE html>
 <!--[if lt IE 9]>
@@ -42,6 +43,9 @@
         {% with is_wagtail_page=page %}
             {% if is_wagtail_page %}
                 {% include "core/includes/seo_meta.html" %}
+            {% else %}
+                {% get_canonical_url as canonical_url %}
+                <link rel="canonical" href="{{ canonical_url }}">
             {% endif %}
         {% endwith %}
         {% block head_google_tag_manager %}
@@ -151,7 +155,13 @@
         {% block body_header %}
             {% include 'core/header.html' %}
         {% endblock %}
-        {% block breadcrumbs_block %}{% endblock %}
+        {% block breadcrumbs_block %}
+            {% if features.FEATURE_DESIGN_SYSTEM %}
+                <div class="container">
+                    {% include 'breadcrumbs.html' with itemsList=page.get_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
+                </div>
+            {% endif %}
+        {% endblock %}
         {% block body_content_container %}
             <main id="content"
                   tabindex="-1"

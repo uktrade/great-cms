@@ -114,3 +114,32 @@ class SupportTopicLandingPanels:
     ]
 
     settings_panels = [FieldPanel('title'), FieldPanel('slug')]
+
+
+class TaskBasedCategoryPage:
+    content_panels = [
+        MultiFieldPanel(
+            heading='Page intro',
+            children=[
+                FieldPanel('page_title'),
+                FieldPanel('page_intro'),
+            ],
+        ),
+    ]
+
+    settings_panels = [FieldPanel('title'), FieldPanel('slug')]
+
+
+class TaskBasedSubCategoryPage:
+    content_panels = [
+        MultiFieldPanel(
+            heading='Page intro',
+            children=[
+                FieldPanel('page_title'),
+                FieldPanel('page_intro'),
+            ],
+        ),
+        FieldPanel('page_body'),
+    ]
+
+    settings_panels = [FieldPanel('title'), FieldPanel('slug')]

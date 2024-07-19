@@ -152,15 +152,15 @@ def test_get_sector_professions_by_level():
 
 
 @pytest.mark.django_db
-def test_is_triage_complete():
+def test_is_triage_data_complete():
     mock_triage_data = TriageData()
     mock_triage_data.sector = directory_constants_sectors.FOOD_AND_DRINK
     mock_triage_data.intent_other = 'TEST OTHER INTENT'
     mock_triage_data.location = regions.LONDON
     mock_triage_data.hiring = hirings.SIX_TO_FIFTY
     mock_triage_data.spend = spends.FIVE_HUNDRED_THOUSAND_TO_ONE_MILLION
-    assert helpers.is_triage_complete(None) is False
-    assert helpers.is_triage_complete(mock_triage_data) is True
+    assert helpers.is_triage_data_complete(None) is False
+    assert helpers.is_triage_data_complete(mock_triage_data) is True
 
 
 @pytest.mark.django_db

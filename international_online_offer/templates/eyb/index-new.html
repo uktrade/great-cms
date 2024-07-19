@@ -16,7 +16,8 @@
                        draggable="false"
                        class="govuk-button govuk-button--start"
                        data-module="govuk-button">
-                        Get started by signing up
+                        Get started
+                        {% if not request.user.is_authenticated %}by signing up{% endif %}
                         <svg class="govuk-button__start-icon"
                              xmlns="http://www.w3.org/2000/svg"
                              width="17.5"
@@ -27,10 +28,12 @@
                             <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
                         </svg>
                     </a>
-                    <p class="govuk-body">
-                        Already started? <a href="{% url 'international_online_offer:login' %}"
+                    {% if not request.user.is_authenticated %}
+                        <p class="govuk-body">
+                            Already started? <a href="{% url 'international_online_offer:login' %}"
     class="govuk-link govuk-link--no-visited-state">Sign in</a>
-                    </p>
+                        </p>
+                    {% endif %}
                 </div>
                 <div class="govuk-grid-column-one-half great-display-from-desktop">
                     <div class="eyb-preview-image"></div>
@@ -43,8 +46,12 @@
             <div class="govuk-grid-row govuk-!-padding-top-8 govuk-!-padding-bottom-8">
                 <div class="govuk-grid-column-full">
                     <h2 class="govuk-heading-l">
-                        Sign up for practical online guidance
-                    </h1>
+                        {% if request.user.is_authenticated %}
+                            Practical online guidance
+                        {% else %}
+                            Sign up for practical online guidance
+                        {% endif %}
+                    </h2>
                     <p class="govuk-body">Helping you make the right decisions about your expansion</p>
                     <div class="govuk-grid-row">
                         <div class="govuk-grid-column-one-half-from-desktop">
@@ -93,7 +100,13 @@
         <div class="govuk-width-container great-container eyb-map-image-background">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-one-half-from-desktop govuk-!-padding-top-8 govuk-!-padding-bottom-4">
-                    <h2 class="govuk-heading-l">Sign up to get insights and data</h2>
+                    <h2 class="govuk-heading-l">
+                        {% if request.user.is_authenticated %}
+                            Insights and data
+                        {% else %}
+                            Sign up to get insights and data
+                        {% endif %}
+                    </h2>
                     <ul class="govuk-!-margin-bottom-0 govuk-!-margin-top-0">
                         <li class="great-display-flex great-align-items-center great-gap govuk-!-margin-bottom-4">
                             <div class="eyb-insights-image eyb-salary-image" alt="Salary icon"></div>
@@ -116,7 +129,13 @@
         <div class="govuk-width-container great-container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full govuk-!-padding-top-8 govuk-!-padding-bottom-6">
-                    <h2 class="govuk-heading-l">Sign up to make connections</h2>
+                    <h2 class="govuk-heading-l">
+                        {% if request.user.is_authenticated %}
+                            Make connections
+                        {% else %}
+                            Sign up to make connections
+                        {% endif %}
+                    </h2>
                     <ul class="govuk-list">
                         <li class="govuk-grid-column-one-third govuk-!-margin-bottom-4">
                             <div class="eyb-connection-image eyb-networking-image"
@@ -194,7 +213,8 @@
                        draggable="false"
                        class="govuk-button govuk-button--start"
                        data-module="govuk-button">
-                        Get started by signing up
+                        Get started
+                        {% if not request.user.is_authenticated %}by signing up{% endif %}
                         <svg class="govuk-button__start-icon"
                              xmlns="http://www.w3.org/2000/svg"
                              width="17.5"

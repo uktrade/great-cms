@@ -1,0 +1,44 @@
+{% extends 'domestic/base.html' %}
+{% load breadcrumbs from component_tags %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+{% load static %}
+{% load add_govuk_classes url_type from content_tags %}
+{% block meta_tags %}<meta name="robots" content="noindex">{% endblock %}
+{% block head_title %}{{ page.page_title }}{% endblock %}
+{% block meta_title %}{{ page.page_title }}{% endblock %}
+{% block body_js %}{{ block.super }}{% endblock %}
+{% block content %}
+    <div class="govuk-!-padding-bottom-9 great great-bg-white">
+        <div class="great-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    {% if page.page_body %}
+                        <div class="govuk-grid-row govuk-!-margin-top-5">
+                            <div class="govuk-grid-column-two-thirds">
+                                <div class="govuk-!-margin-bottom-5">
+                                    <h1 class="govuk-heading-xl govuk-!-margin-top-5 govuk-!-margin-bottom-2">{{ page.page_title }}</h1>
+                                    {% if page.page_intro %}{{ page.page_intro| richtext | add_govuk_classes }}{% endif %}
+                                </div>
+                                <div>
+                                    {% for task in page.page_body %}
+                                        <div class="govuk-!-padding-5 govuk-!-margin-bottom-5 {% if task.block_type == 'sub_task' %}govuk-!-margin-left-9{% endif %} great-grey-border great-bg-white">
+                                            <a href="{% if task.value.goods_url %}{{ task.value.goods_url }}{% else %}{{ task.value.services_url }}{% endif %}"
+                                               class="govuk-heading-s govuk-!-margin-bottom-0 great-heading-link">
+                                                <h2 class="govuk-heading-s great-heading-link__heading">
+                                                    <span>{{ task.value.title }}</span>
+                                                </h2>
+                                            </a>
+                                            <p class="govuk-body govuk-!-margin-bottom-3">{{ task.value.description_level_1 }}</p>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="govuk-grid-column-one-third"></div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

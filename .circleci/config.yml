@@ -94,6 +94,24 @@ jobs:
           paths:
             - 'venv'
       - run:
+          name: Install Node.js
+          command: |
+            curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+            sudo apt-get install -y nodejs
+      - run:
+          name: Install @uktrade/great-design-system
+          command: |
+            npm install @uktrade/great-design-system@latest
+      - restore_cache:
+          key: v1-deps-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install node modules
+          command: npm ci
+      - save_cache:
+          key: v1-deps-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
+      - run:
           name: Run Unit tests
           command: |
             . venv/bin/activate
@@ -165,6 +183,24 @@ jobs:
       - *create_virtualenv_and_install_dependencies
       - *setup_secrets
       - *setup_db
+      - run:
+          name: Install Node.js
+          command: |
+            curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+            sudo apt-get install -y nodejs
+      - run:
+          name: Install @uktrade/great-design-system
+          command: |
+            npm install @uktrade/great-design-system@latest
+      - restore_cache:
+          key: v1-deps-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install node modules
+          command: npm ci
+      - save_cache:
+          key: v1-deps-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
       - run:
           name: Run tests
           command: |

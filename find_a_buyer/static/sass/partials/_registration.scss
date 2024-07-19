@@ -14,7 +14,7 @@
     font-weight: 500;
     margin-bottom: 40px;
     padding-bottom: 20px;
-  }  
+  }
 }
 
 .retrieved-company-details {
@@ -22,36 +22,36 @@
   margin-bottom: 30px;
   max-width: 550px;
   padding: 30px 25px 15px 25px;
-  
+
   dd {
     font-weight: 400;
     line-height: 40px;
   }
-  
+
   h2 {
     font-size: 32px;
     font-weight: 500;
     margin-bottom: 20px;
     text-transform: uppercase;
   }
-  
+
   .number {
     display: inline-block;
     margin-bottom: 30px;
   }
 }
 
-#content {
-  padding: 20px 0;
-}
 
 #company-details-confirmation {
   margin-bottom: 40px;
   max-width: 550px;
-  
+
   p {
     margin-bottom: 25px;
   }
+}
+#content {
+  padding: 0 !important;
 }
 
 #create-account-benefits {

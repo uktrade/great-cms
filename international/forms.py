@@ -16,7 +16,7 @@ class ContactForm(forms.Form):
         required=True,
         widget=EmailInput(attrs={'class': 'govuk-input'}),
         error_messages={
-            'required': 'You must enter an email address',
+            'required': 'Enter an email address',
         },
     )
     how_we_can_help = CharField(

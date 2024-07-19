@@ -2229,7 +2229,12 @@ class Support(SeoMixin, Page):
         'domestic.GreatDomesticHomePage',
     ]
 
-    subpage_types = ['core.SupportPage', 'core.GetInTouchPage', 'core.SupportTopicLandingPage']
+    subpage_types = [
+        'core.SupportPage',
+        'core.GetInTouchPage',
+        'core.SupportTopicLandingPage',
+        'core.TaskBasedCategoryPage',
+    ]
 
     class Meta:
         verbose_name = 'Support'
@@ -2373,6 +2378,58 @@ class GetInTouchPage(SeoMixin, cms_panels.GetInTouchPanels, Page):
                         ('card', SupportCardBlock()),
                     ],
                 ),
+            ),
+        ],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
+
+
+class TaskBasedCategoryPage(cms_panels.TaskBasedCategoryPage, Page):
+    template = 'domestic/contact/export-support/task-based-category-page.html'
+    parent_page_types = [
+        'core.Support',
+    ]
+    subpage_types = ['core.TaskBasedSubCategoryPage']
+
+    class Meta:
+        verbose_name = 'Task based category page'
+        verbose_name_plural = 'Task based category pages'
+
+    page_title = models.TextField(
+        null=True,
+    )
+    page_intro = models.TextField(
+        null=True,
+    )
+
+
+class TaskBasedSubCategoryPage(cms_panels.TaskBasedSubCategoryPage, Page):
+    template = 'domestic/contact/export-support/task-based-sub-category-page.html'
+    parent_page_types = [
+        'core.TaskBasedCategoryPage',
+    ]
+
+    class Meta:
+        verbose_name = 'Task based sub category page'
+        verbose_name_plural = 'Task based sub category pages'
+
+    page_title = models.TextField(
+        null=True,
+    )
+    page_intro = models.TextField(
+        null=True,
+    )
+    page_body = StreamField(
+        [
+            (
+                'task',
+                SnippetChooserBlock('core.Task'),
+            ),
+            (
+                'sub_task',
+                SnippetChooserBlock('core.Task'),
             ),
         ],
         use_json_field=True,

@@ -46,20 +46,6 @@ class EYBIndexPage(BaseContentPage):
 
 
 def get_triage_data_for_user(request):
-    if hasattr(request, 'user') and hasattr(request, 'session'):
-        if hasattr(request.user, 'is_authenticated'):
-            if not request.user.is_authenticated:
-                return TriageData(
-                    sector=request.session.get('sector'),
-                    intent=request.session.get('intent'),
-                    intent_other=request.session.get('intent_other'),
-                    location=request.session.get('location'),
-                    location_none=request.session.get('location_none'),
-                    hiring=request.session.get('hiring'),
-                    spend=request.session.get('spend'),
-                    spend_other=request.session.get('spend_other'),
-                    is_high_value=request.session.get('is_high_value'),
-                )
     try:
         return TriageData.objects.get(hashed_uuid=request.user.hashed_uuid)
     except AttributeError:
@@ -90,7 +76,7 @@ class EYBGuidePage(BaseContentPage):
         context = super().get_context(request, *args, **kwargs)
         user_data = get_user_data_for_user(request)
         triage_data = get_triage_data_for_user(request)
-        is_triage_complete = helpers.is_triage_complete(triage_data)
+        is_triage_data_complete = helpers.is_triage_data_complete(triage_data)
 
         bci_data = None
         if triage_data and triage_data.sector:
@@ -138,7 +124,7 @@ class EYBGuidePage(BaseContentPage):
             get_to_know_market_articles=list(chain(sector_only_articles, intent_articles_specific_to_sector)),
             finance_and_support_articles=all_articles_tagged_with_finance_and_support,
             trade_shows_page=trade_shows_page,
-            is_triage_complete=is_triage_complete,
+            is_triage_data_complete=is_triage_data_complete,
             breadcrumbs=breadcrumbs,
         )
 
@@ -341,11 +327,11 @@ class EYBArticlePage(BaseContentPage):
 
                 home_url = '/international/expand-your-business-in-the-uk/guide/'
                 if request.GET.get('back'):
-                    home_url += '#personalised-guide'
+                    home_url += '#tailored-guide'
 
                 breadcrumbs = [
                     {'name': 'Home', 'url': '/international/'},
-                    {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#personalised-guide'},
+                    {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#tailored-guide'},
                 ]
 
                 context.update(
@@ -394,7 +380,7 @@ class EYBTradeShowsPage(BaseContentPage):
 
         breadcrumbs = [
             {'name': 'Home', 'url': '/international/'},
-            {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#personalised-guide'},
+            {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#tailored-guide'},
         ]
         context.update(
             triage_data=triage_data,
@@ -473,7 +459,7 @@ class TriageData(TimeStampedModel):
     location_city = models.CharField(
         max_length=255, default=None, null=True, choices=region_sector_helpers.generate_location_choices(False)
     )
-    location_none = models.BooleanField(default=False)
+    location_none = models.BooleanField(default=None, null=True)
     hiring = models.CharField(max_length=255, choices=choices.HIRING_CHOICES)
     spend = models.CharField(max_length=255, choices=choices.SPEND_CHOICES)
     spend_other = models.CharField(max_length=255, null=True)
