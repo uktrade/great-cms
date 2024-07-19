@@ -25,7 +25,7 @@ from international_online_offer.models import (
     get_triage_data_for_user,
     get_user_data_for_user,
 )
-from international_online_offer.services import get_bci_data
+from international_online_offer.services import get_bci_data, get_dbt_sectors
 from sso import helpers as sso_helpers, mixins as sso_mixins
 
 
@@ -128,7 +128,11 @@ class BusinessDetailsView(GA360Mixin, FormView):
             }
 
             if triage_data:
-                inital_values_object['sector_sub'] = triage_data.sector_sub
+                if settings.FEATURE_EYB_SECTORS:
+                    if triage_data.sector_id:
+                        inital_values_object['sector_sub'] = triage_data.sector_id
+                else:
+                    inital_values_object['sector_sub'] = triage_data.sector_sub
 
             if user_data:
                 inital_values_object['company_name'] = user_data.company_name
@@ -138,16 +142,32 @@ class BusinessDetailsView(GA360Mixin, FormView):
             return inital_values_object
 
     def form_valid(self, form):
-        sector_sub = form.cleaned_data['sector_sub']
-        sector = region_sector_helpers.get_sector_from_sic_sector(sector_sub)
-        if self.request.user.is_authenticated:
-            TriageData.objects.update_or_create(
-                hashed_uuid=self.request.user.hashed_uuid,
-                defaults={
-                    'sector': sector,
-                    'sector_sub': sector_sub,
-                },
+        if settings.FEATURE_EYB_SECTORS:
+            sectors_json = get_dbt_sectors()
+            selected_sector_id = form.cleaned_data['sector_sub']
+            parent_sector, sub_sector, sub_sub_sector = region_sector_helpers.get_sectors_by_selected_id(
+                sectors_json, selected_sector_id
             )
+        else:
+            sector_sub = form.cleaned_data['sector_sub']
+            sector = region_sector_helpers.get_sector_from_sic_sector(sector_sub)
+
+        if self.request.user.is_authenticated:
+            if settings.FEATURE_EYB_SECTORS:
+                TriageData.objects.update_or_create(
+                    hashed_uuid=self.request.user.hashed_uuid,
+                    defaults={
+                        'sector': parent_sector,
+                        'sector_sub': sub_sector,
+                        'sector_sub_sub': sub_sub_sector,
+                        'sector_id': selected_sector_id,
+                    },
+                )
+            else:
+                TriageData.objects.update_or_create(
+                    hashed_uuid=self.request.user.hashed_uuid,
+                    defaults={'sector': sector, 'sector_sub': sector_sub, 'sector_sub_sub': None, 'sector_id': None},
+                )
             UserData.objects.update_or_create(
                 hashed_uuid=self.request.user.hashed_uuid,
                 defaults={
@@ -160,20 +180,16 @@ class BusinessDetailsView(GA360Mixin, FormView):
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
-        sector = None
-        sector_sub = None
-        if self.request.user.is_authenticated:
-            triage_data = get_triage_data_for_user(self.request)
-            if triage_data:
-                sector = triage_data.get_sector_display()
-                sector_sub = triage_data.get_sector_sub_display()
+        if settings.FEATURE_EYB_SECTORS:
+            dbt_sectors = get_dbt_sectors()
+            autocomplete_sector_data = region_sector_helpers.get_sectors_as_string(dbt_sectors)
+        else:
+            autocomplete_sector_data = region_sector_helpers.get_sectors_and_sic_sectors_file_as_string()
 
         return super().get_context_data(
             **kwargs,
             back_url=self.get_back_url(),
-            autocomplete_sector_data=region_sector_helpers.get_sectors_and_sic_sectors_file_as_string(),
-            sector=sector,
-            sector_sub=sector_sub,
+            autocomplete_sector_data=autocomplete_sector_data,
         )
 
 
@@ -780,8 +796,13 @@ class EditYourAnswersView(GA360Mixin, TemplateView):
         user_data = get_user_data_for_user(self.request)
         spend_choices = helpers.get_spend_choices_by_currency(self.request.session.get('spend_currency'))
 
+        sub_and_sub_sub_sector = '-'
         spend = '-'
         if triage_data:
+            sub_and_sub_sub_sector = triage_data.get_sector_sub_display()
+            if triage_data.sector_sub_sub:
+                sub_and_sub_sub_sector = sub_and_sub_sub_sector + ', ' + triage_data.get_sector_sub_sub_display()
+
             for spend_choice in spend_choices:
                 if spend_choice[0] == triage_data.spend:
                     spend = spend_choice[1]
@@ -792,6 +813,7 @@ class EditYourAnswersView(GA360Mixin, TemplateView):
             user_data=user_data,
             back_url='/international/expand-your-business-in-the-uk/guide/',
             spend=spend,
+            sub_and_sub_sub_sector=sub_and_sub_sub_sector,
         )
 
 

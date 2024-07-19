@@ -75,6 +75,11 @@ def get_sectors_and_sic_sectors_file():
     return deserialised_data
 
 
+def get_sectors_as_string(json_data):
+    json_data_string = json.dumps(json_data)
+    return json_data_string
+
+
 def get_sectors_and_sic_sectors_file_as_string():
     json_data = get_sectors_and_sic_sectors_file()
     json_data_string = json.dumps(json_data)
@@ -165,22 +170,15 @@ def get_sub_sub_sectors_choices(sub_sub_sectors):
 
 
 def get_sub_and_sub_sub_sectors_choices(sectors_json):
-    sub_and_sub_sub_sectors = []
+    sectors_tuple = ()
     for sector_row in sectors_json:
         sub_sector = sector_row['sub_sector_name']
-        sub_sub_sector = sector_row['sub_sub_sector_name']
         if sub_sector:
-            str_out = sub_sector
-            if sub_sub_sector:
-                str_out = str_out + ':' + sub_sub_sector
-
-            sub_and_sub_sub_sectors.append(str_out)
-
-    sub_and_sub_sub_sectors.sort()
-
-    sectors_tuple = ()
-    for sector in sub_and_sub_sub_sectors:
-        sectors_tuple = ((sector, sector),) + sectors_tuple
+            sub_sub_sector = sector_row['sub_sub_sector_name']
+            if not sub_sub_sector:
+                sectors_tuple = ((sector_row['sector_id'], sub_sector),) + sectors_tuple
+            else:
+                sectors_tuple = ((sector_row['sector_id'], sub_sub_sector),) + sectors_tuple
 
     return sectors_tuple
 
@@ -192,6 +190,12 @@ def get_sector_from_sic_sector(choice):
             return to_literal(sic_obj['dit_sector_list_field_04'])
 
     return ''
+
+
+def get_sectors_by_selected_id(sectors_json, selected_sector_id):
+    for sector_row in sectors_json:
+        if sector_row['sector_id'] == selected_sector_id:
+            return sector_row['sector_name'], sector_row['sub_sector_name'], sector_row['sub_sub_sector_name']
 
 
 def get_full_sector_name_from_sic_sector(choice):

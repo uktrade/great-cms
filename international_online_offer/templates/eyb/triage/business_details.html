@@ -358,7 +358,87 @@
             autoselect: false,
             minLength: 2,
         });
+    </script>
+    {% feature_eyb_sectors as feature_eyb_sectors %}
+    {% if feature_eyb_sectors %}
+        <script>
+        const allSectorsJson = JSON.parse("{{autocomplete_sector_data | escapejs}}");
 
+        let allSectors = []
+        // strip out parent only sectors as users are selecting sub or sub sub sectors here
+        for (let i = 0; i < allSectorsJson.length; i++) {
+            if (allSectorsJson[i]['sub_sector_name']) {
+                allSectors.push(allSectorsJson[i]);
+            }
+        }
+
+        function sectorSuggest(query, populateResults) {
+            if (!query) return [];
+            let results = [];
+            for (let i = 0; i < allSectors.length; i++) {
+                const parentSector = allSectors[i].sector_name;
+                let subSector = allSectors[i].sub_sector_name || '';
+                let subSubSector = allSectors[i].sub_sub_sector_name || '';
+                if (parentSector.toLowerCase().indexOf(query.toLowerCase()) !== -1 || subSector.toLowerCase().indexOf(query.toLowerCase()) !== -1 || subSubSector.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
+                    results.push(allSectors[i]);
+                }
+            }
+            populateResults(results);
+        }
+
+        accessibleAutocomplete.enhanceSelectElement({
+        selectElement: document.getElementById('js-sector-select'),
+        source: sectorSuggest,
+        autoselect: false,
+        templates: {
+            inputValue: (selectedSectorRow) => {
+                if (selectedSectorRow) {
+                    if (!selectedSectorRow.sub_sub_sector_name) {
+                        return `${selectedSectorRow.sub_sector_name}`;
+                    } else {
+                        return `${selectedSectorRow.sub_sub_sector_name}`;
+                    }
+                } else {
+                    return
+                }
+            },
+            suggestion: (selectedSectorRow) => {
+                if (typeof selectedSectorRow !== 'object') {
+                    return selectedSectorRow
+                }
+                if (!selectedSectorRow.sub_sub_sector_name) {
+                    return `<span>${selectedSectorRow.sub_sector_name}</span><br><span class='govuk-!-font-size-16'>${selectedSectorRow.sector_name}</span>`;
+                } else {
+                    return `<span>${selectedSectorRow.sub_sub_sector_name}</span><br><span class='govuk-!-font-size-16'>${selectedSectorRow.sector_name} > ${selectedSectorRow.sub_sector_name}</span>`;
+                }
+
+            }
+        },
+        minLength: 2,
+        onConfirm: function(selectedRow) {
+            // onConfirm seems to be triggered by autocomplete many times passing null
+            if (selectedRow) {
+                // When overriding onconfirm as per docs, it seems to then not automatically update
+                // the actual select elements selected value and so isnt posted on form submit
+                const sectorSelectInput = document.querySelector('#js-sector-select-select');
+
+                const setSectorSelectValue = (value) => {
+                    for (let i = 0; i < sectorSelectInput.options.length; i++) {
+                        if (sectorSelectInput.options[i].value === selectedRow.sector_id) {
+                            sectorSelectInput.selectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+                setSectorSelectValue(selectedRow);
+            }
+        }
+        });
+
+
+        </script>
+    {% else %}
+        <script>
         const sectorsAndSICSectors = JSON.parse("{{autocomplete_sector_data | escapejs}}").data;
 
         const getSectorForSICSector = (sicSector) => {
@@ -411,5 +491,6 @@
             }
         }
         });
-    </script>
+        </script>
+    {% endif %}
 {% endblock %}

@@ -34,7 +34,7 @@
                                 <dt class="govuk-summary-list__key govuk-body">Business activity and sector</dt>
                                 <dd class="govuk-summary-list__value govuk-body">
                                     {% if triage_data.sector_sub %}
-                                        {{ triage_data.get_sector_sub_display | default:'-' }}
+                                        {{ sub_and_sub_sub_sector }}
                                         <br />
                                     {% endif %}
                                     (in our <strong>{{ triage_data.get_sector_display | default:'-' }}</strong> sector)
