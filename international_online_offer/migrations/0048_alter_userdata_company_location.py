@@ -5,7 +5,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('international_online_offer', '0048_alter_triagedata_hiring_and_more'),
+        ('international_online_offer', '0047_remove_triagedata_spend_currency'),
     ]
 
     operations = [
