@@ -104,6 +104,6 @@ class SignInMixin(ResendVerificationMixin):
             return response
         elif upstream_response.status_code == 200:
             # 200 from sso indicate the credentials were not correct
-            return 'Invalid email / password'
+            return 'The email or password you entered is not correct'
 
         return None
