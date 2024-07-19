@@ -1,43 +1,53 @@
 {% extends 'directory_components/base.html' %}
-
 {% load static %}
-
 {% block head_css %}
     <link href="{% static 'main.css' %}" media="all" rel="stylesheet" />
+    <link href="{% static 'fab_styles.css' %}" rel="stylesheet" type="text/css" />
     {{ block.super }}
 {% endblock %}
-
+{% block vendor_js %}
+    {{ block.super }}
+    <script src="{% static 'javascript/vendor/sentry.6.19.7.tracing.replay.min.js' %}"></script>
+    <script src="{% static 'javascript/vendor/sentryinit.js' %}"></script>
+{% endblock %}
 {% block head_js %}
     {{ block.super }}
     <script type="text/javascript" src="{% static 'javascripts/index.js' %}"></script>
 {% endblock %}
-
 {% block head_title %}Business profile - great.gov.uk{% endblock %}
-
 {% block body_content_container %}
     {% block sub_header %}
         <section class="ed-hero-sub-header">
             <div class="outer-container">
                 <div class="grid-row">
                     <span class="column-full ed-hero-sub-header-title">
-                        <h1 class="heading-xlarge">{% block hero_title %}{% endblock %}</h1>
+                        <h1 class="heading-xlarge">
+                            {% block hero_title %}{% endblock %}
+                        </h1>
                     </span>
                 </div>
                 <div class="grid-row ed-hero-sub-header-synopsis">
                     <span class="column-two-thirds">
-                        <span>{% block hero_text %}{% endblock %}</span>
+                        <span>
+                            {% block hero_text %}{% endblock %}
+                        </span>
                     </span>
                 </div>
                 <div class="clearfix"></div>
             </div>
         </section>
     {% endblock sub_header %}
-	{{ block.super }}
+    {{ block.super }}
 {% endblock %}
-
 {% block body_js %}
     {{ block.super }}
-    <script type="text/javascript">
-        GOVUK.page.init();
-    </script>
+    <script type="text/javascript">GOVUK.page.init();</script>
 {% endblock %}
+{% block head_other %}
+    <meta name="intranet:environment" content="{{ APP_ENVIRONMENT }}">
+    <meta name="intranet:sentry:dsn"
+          content="{{ SENTRY_DSN|default_if_none:'' }}">
+    <meta name="intranet:sentry:browser-traces-sample-rate"
+          content="{{ SENTRY_BROWSER_TRACES_SAMPLE_RATE }}">
+{% endblock %}
+

@@ -1,106 +1,143 @@
-{% extends 'directory_components/base.html' %}
-{% comment %}
-As this template extends the directory_components/base.html, is brings in a
-number of extra CSS styles that were once sensible defaults:
-- govuk-elements
-- elements-components
-{% endcomment %}
 {% load static %}
-{% load canonical_url_tags %}
-{% block head_title %}{{ international_home_link.label }}{% endblock %}
-{% block meta_title %}{{ international_home_link.label }}{% endblock %}
-{% block header_js %}{% endblock %}
-{% block head_google_tag_manager %}{% endblock %}
-{% block head_js %}
-    {% include 'components/google_tag_manager_head.html' %}
-    <script src="{% static 'javascript/dit.reveal.js' %}"></script>
-{% endblock %}
-{% block vendor_js %}
-    <script src="{% static 'directory_components/js/vendor/details-polyfill.js' %}"></script>
-{% endblock %}
-{% block head_js_ga360 %}
-    <script src="{% static 'javascript/dit.tagging.js' %}"></script>
-    <script>
-        window.dataLayer = window.dataLayer || []
-        {% if ga360 and not skip_ga360 %}
-          window.dataLayer.push({
-            'businessUnit': '{{ ga360.business_unit }}',
-            'siteSection': '{{ ga360.site_section}}',
-            'siteSubsection': '{{ ga360.site_subsection }}',
-            'siteLanguage': '{{ ga360.site_language }}',
-            'userId': '{{ ga360.user_id }}',
-            'loginStatus': '{{ ga360.login_status }}'
-          })
-          dit.tagging.base.init()
-        {% endif %}
-    </script>
-{% endblock %}
-{% block head_css %}
-    <link rel="stylesheet" href="{% static 'international_styles.css' %}">
-{% endblock %}
-{% block head_other %}
-    {% get_canonical_url as canonical_url %}
-    <meta name="description"
-          content="The Department for Business and Trade helps overseas businesses invest and expand in the UK." />
-    <link rel="canonical" href="{{ canonical_url }}">
-{% endblock %}
-{% block skip_link %}
-    <a href="#content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
-{% endblock %}
-{% block body_header %}
-    {% block cookie_notice %}{% endblock %}
-    {% if not request.COOKIES.cookie_preferences_set %}
-        <script src="{% static 'javascript/dit.cookieBanner.js' %}"></script>
-        <script>
-            dit.cookieBanner.init({
-                bannerId: 'atlas-cookie-banner',
-                promptId: 'atlas-cookie-prompt',
-                thanksId: 'atlas-cookie-thanks',
-                acceptAllId: 'atlas-cookie-accept-all',
-                dismissId: 'atlas-cookie-dismiss'
-            })
+{% load i18n %}
+{% load static_absolute from directory_components %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+<!DOCTYPE html>
+<head>
+    {% block head_google_tag_manager %}
+        {% comment %} {% if great_components_analytics %}
+                <meta id="utmCookieDomain" value="{{ great_components_analytics.UTM_COOKIE_DOMAIN }}" />
+            {% endif %}
+        {% include 'great_components/google_tag_manager_head.html' %} {% endcomment %}
+    {% endblock %}
+    {% block cookie_domain_meta %}
+        <meta id="privacyCookieDomain"
+              value="{{ great_components_cookie_notice.PRIVACY_COOKIE_DOMAIN }}" />
+    {% endblock %}
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% block head_favicon %}
+        <link href='{% static 'great_components/images/favicon-192x192.png' %}' rel='shortcut icon' type='image/png'>
+        <!--[if IE]> <link rel="icon" href="{% static 'great_components/images/favicon.ico' %}" type="image/x-icon" /> <![endif]-->
+    {% endblock %}
+    {% block head_css %}
+        <link rel="stylesheet" href="{% static 'international_styles.css' %}">
+    {% endblock %}
+    <title>
+        {% block head_title %}{{ international_home_link.label }}{% endblock %}
+    </title>
+    <meta name="title"
+          content="{% block meta_title %}{{ international_home_link.label }}{% endblock %}">
+    <style type="text/css">.js-disabled-only { display: none; }</style>
+    <noscript>
+        <style type="text/css">
+                .navigation-toggle { display: block; }
+                .js-disabled-only { display: block; }
+                .js-enabled-only { display: none; }
+        </style>
+    </noscript>
+    {% block vendor_js %}
+        <script src="{% static 'great_components/js/vendor/details-polyfill.js' %}"></script>
+        <script src="{% static 'great_components/js/vendor/jquery-3.5.0.min.js' %}"></script>
+    {% endblock %}
+    {% block head_js %}
+        <script src="{% static 'great_components/js/dit.components.cookie-notice.js' %}"></script>
+        <script src="{% static 'javascript/dit.reveal.js' %}"></script>
+    {% endblock %}
+    {% block head_js_ga360 %}
+        <script src="{% static 'great_components/js/dit.tagging.js' %}"></script>
+        <script type="text/javascript">
+                window.dataLayer = window.dataLayer || [];
+                {% if ga360 and not skip_ga360 %}
+                window.dataLayer.push({
+                    'businessUnit': '{{ ga360.business_unit }}',
+                    'siteSection': '{{ ga360.site_section}}',
+                    'siteSubsection': '{{ ga360.site_subsection }}',
+                    'siteLanguage': '{{ ga360.site_language }}',
+                    'userId': '{{ ga360.user_id }}',
+                    'loginStatus': '{{ ga360.login_status }}',
+                });
+                dit.tagging.base.init();
+                {% endif %}
         </script>
-        <div id="atlas-cookie-banner"
-             class="govuk-!-padding-top-4 govuk-!-padding-bottom-2 international-cookie-banner-container">
-            <div class="govuk-width-container">
-                <div id="atlas-cookie-prompt">
-                    <h2 class="govuk-heading-m">Cookies on great.gov.uk</h2>
-                    <p class="govuk-body">
-                        We use <a class="govuk-link" href="/privacy-and-cookies/">cookies to
-                        collect information</a> about how you use great.gov.uk. We use this information to make the
-                        website work as well as possible and improve government services.
-                    </p>
-                    <button id="atlas-cookie-accept-all" class="govuk-button">Accept all</button>
-                    <a href="/cookies/" class="govuk-button">Set
-                    cookie preferences</a>
-                </div>
-                {# djlint:off H021 #}
-                <div id="atlas-cookie-thanks" style="display: none">
-                    {# djlint:on H021 #}
-                    <p class="govuk-body">
-                        You've accepted all cookies. You can
-                        <a class="govuk-link" href="/cookies/">change your
-                        settings</a>
-                        at any time.
-                    </p>
-                    <button id="atlas-cookie-dismiss" class="govuk-button">Hide this message</button>
+    {% endblock %}
+    {% block header_js %}{% endblock %}
+    {% block head_other %}
+        <meta name="description"
+              content="The Department for Business and Trade helps overseas businesses invest and expand in the UK." />
+    {% endblock %}
+    {% block head_sharing_metadata %}{% endblock %}
+</head>
+<body {% block body_attributes %}{% endblock %}>
+    {% block body_google_tag_manager %}
+        {% include 'great_components/google_tag_manager_body.html' %}
+    {% endblock %}
+    <script type="text/javascript">document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
+    {% block skip_link %}
+        <a href="#content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
+    {% endblock %}
+    {% block cookie_notice %}
+        {% comment %} {% include 'great_components/cookie_notice.html' %} {% endcomment %}
+    {% endblock %}
+    {% block body_header %}
+        {% if not request.COOKIES.cookie_preferences_set %}
+            <script src="{% static 'javascript/dit.cookieBanner.js' %}"></script>
+            <script>
+                dit.cookieBanner.init({
+                    bannerId: 'atlas-cookie-banner',
+                    promptId: 'atlas-cookie-prompt',
+                    thanksId: 'atlas-cookie-thanks',
+                    acceptAllId: 'atlas-cookie-accept-all',
+                    dismissId: 'atlas-cookie-dismiss'
+                })
+            </script>
+            <div id="atlas-cookie-banner"
+                 class="govuk-!-padding-top-4 govuk-!-padding-bottom-2 international-cookie-banner-container">
+                <div class="great-container">
+                    <div id="atlas-cookie-prompt">
+                        <h2 class="govuk-heading-m">Cookies on great.gov.uk</h2>
+                        <p class="govuk-body">
+                            We use <a class="govuk-link" href="/privacy-and-cookies/">cookies to
+                            collect information</a> about how you use great.gov.uk. We use this information to make the
+                            website work as well as possible and improve government services.
+                        </p>
+                        <button id="atlas-cookie-accept-all" class="govuk-button">Accept all</button>
+                        <a href="/cookies/" class="govuk-button">Set
+                        cookie preferences</a>
+                    </div>
+                    {# djlint:off H021 #}
+                    <div id="atlas-cookie-thanks" style="display: none">
+                        {# djlint:on H021 #}
+                        <p class="govuk-body">
+                            You've accepted all cookies. You can
+                            <a class="govuk-link" href="/cookies/">change your
+                            settings</a>
+                            at any time.
+                        </p>
+                        <button id="atlas-cookie-dismiss" class="govuk-button">Hide this message</button>
+                    </div>
                 </div>
             </div>
-        </div>
-    {% endif %}
-    {% include './header.html' %}
-{% endblock %}
-{% block body_content_container %}
-    {{ block.super }}
-    {% block feedback_reporter %}{% endblock %}
-    {% include 'components/inline_feedback/was_page_useful.html' %}
-{% endblock %}
-{% block body_footer %}
-    {% include './footer.html' %}
-{% endblock %}
-{% block body_js %}
-    {% include 'components/google_tag_manager_body.html' %}
-    <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
-    <script src="{% static 'javascript/govuk.js' %}"></script>
-    <script>window.GOVUKFrontend.initAll()</script>
-{% endblock %}
+        {% endif %}
+        {% include './header.html' %}
+    {% endblock %}
+    {% block body_content_container %}
+        <main id="content"
+              tabindex="-1"
+              class="{% block css_layout_class %}{% endblock css_layout_class %}"
+              role="main">
+            {% block content %}{% endblock %}
+            {% include 'components/inline_feedback/was_page_useful.html' %}
+            {% block content_after %}{% endblock %}
+        </main>
+    {% endblock %}
+    {% block body_footer %}
+        {% include './footer.html' %}
+    {% endblock %}
+    {% block body_js %}
+        <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
+        <script src="{% static 'javascript/govuk.js' %}"></script>
+        <script>window.GOVUKFrontend.initAll()</script>
+    {% endblock %}
+</body>
+</html>

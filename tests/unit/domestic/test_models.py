@@ -799,10 +799,29 @@ def test_base_content_page__ancestors_in_app__involving_folder_pages():
 
 
 @pytest.mark.django_db
-def test_base_content_page__get_breadcrumbs(
-    domestic_homepage,
-    domestic_site,
-):
+def test_base_content_page__get_breadcrumbs_feature_flag_on(domestic_homepage, domestic_site, settings):
+    settings.FEATURE_DESIGN_SYSTEM = True
+    advice_topic_page = TopicLandingPageFactory(
+        title='Advice',
+        parent=domestic_homepage,
+    )
+
+    article_page = ArticlePageFactory(
+        article_title='test article',
+        parent=advice_topic_page,
+    )
+    assert article_page.get_breadcrumbs() == [
+        # NB: domestic homepage is deliberately NOT in this list
+        {
+            'title': advice_topic_page.title,
+            'url': advice_topic_page.url,
+        },
+    ]
+
+
+@pytest.mark.django_db
+def test_base_content_page__get_breadcrumbs_feature_flag_off(domestic_homepage, domestic_site, settings):
+    settings.FEATURE_DESIGN_SYSTEM = False
     advice_topic_page = TopicLandingPageFactory(
         title='Advice',
         parent=domestic_homepage,
@@ -819,6 +838,10 @@ def test_base_content_page__get_breadcrumbs(
             'url': advice_topic_page.url,
         },
         # NB: article_page IS in this list
+        {
+            'title': article_page.title,
+            'url': article_page.url,
+        },
     ]
 
 
@@ -1058,6 +1081,33 @@ class MarketsTopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
                     output['paginated_results'][0],
                     CountryGuidePage.objects.first(),
                 )
+
+
+class MarketsTopicLandingPageCanonicalTests(SetUpLocaleMixin, WagtailPageTests):
+
+    def setUp(self):
+        DomesticHomePageFactory(slug='root')
+        self.homepage = DomesticHomePage.objects.get(url_path='/')
+        self.markets_topic_page = MarketsTopicLandingPage(title='Markets')
+        self.homepage.add_child(instance=self.markets_topic_page)
+
+    def test_get_seo_canonical_url_with_www(self):
+        self.markets_topic_page.canonical_url = 'http://www.great.gov.uk/markets'
+        self.markets_topic_page.save()
+
+        self.assertEqual(self.markets_topic_page.get_seo_canonical_url(), 'http://www.great.gov.uk/markets')
+
+    def test_get_seo_canonical_url_without_www(self):
+        self.markets_topic_page.canonical_url = 'http://great.gov.uk/markets'
+        self.markets_topic_page.save()
+
+        self.assertEqual(self.markets_topic_page.get_seo_canonical_url(), 'http://www.great.gov.uk/markets')
+
+    def test_get_seo_canonical_url_https(self):
+        self.markets_topic_page.canonical_url = 'https://www.great.gov.uk/markets'
+        self.markets_topic_page.save()
+
+        self.assertEqual(self.markets_topic_page.get_seo_canonical_url(), 'https://www.great.gov.uk/markets')
 
 
 class MarketsTopicLandingPageFilteringTests(SetUpLocaleMixin, WagtailPageTests):

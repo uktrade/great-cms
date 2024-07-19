@@ -1,0 +1,67 @@
+{% extends './base.html' %}
+{% load static %}
+{% block head_title %}Tell us about your business {{ block.super }}{% endblock %}
+{% block meta_title %}Tell us about your business {{ block.super }}{% endblock %}
+{% block head_other %}
+    <meta name="description"
+          content="Find information to help invest within the UK" />
+{% endblock %}
+{% block content %}
+    <div class="govuk-width-container great-container">
+        {% if request.GET.signup %}
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    <div class="govuk-notification-banner govuk-notification-banner--success"
+                         role="alert"
+                         aria-labelledby="govuk-notification-banner-title"
+                         data-module="govuk-notification-banner">
+                        <div class="govuk-notification-banner__header">
+                            <h2 class="govuk-notification-banner__title"
+                                id="govuk-notification-banner-title">Success</h2>
+                        </div>
+                        <div class="govuk-notification-banner__content">
+                            <h3 class="govuk-notification-banner__heading">Your email address has been confirmed</h3>
+                            <p class="govuk-body">Keep your details safe in case you need to sign back in.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h1 class="govuk-heading-l">Tell us about your business</h1>
+            </div>
+        </div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <p class="govuk-body">
+                    Next, get your guide by answering some quick questions about your business and providing basic contact details.
+                </p>
+                <p class="govuk-body">
+                    This is so that the information will be more relevant to your business and the stage of your expansion plans, and we can give you the right kind of help.
+                </p>
+            </div>
+        </div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <a href="{% url 'international_online_offer:business-details' %}{% if request.GET.signup %}?signup=true{% endif %}"
+                   role="button"
+                   draggable="false"
+                   class="govuk-button govuk-button--start"
+                   data-module="govuk-button">
+                    Continue
+                    <svg class="govuk-button__start-icon"
+                         xmlns="http://www.w3.org/2000/svg"
+                         width="17.5"
+                         height="19"
+                         viewBox="0 0 33 40"
+                         aria-hidden="true"
+                         focusable="false">
+                        <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block body_js %}{{ block.super }}{% endblock %}

@@ -165,7 +165,7 @@ TEMPLATES = [
                 'international_online_offer.context_processors.eyb_user',
                 'international_online_offer.context_processors.feedback_next_url',
                 'international_online_offer.context_processors.hide_primary_nav',
-                'international_investment.context_processors.hide_primary_nav',
+                'international_online_offer.context_processors.user_completed_triage',
             ],
         },
     },
@@ -594,7 +594,7 @@ ENROLMENT_WELCOME_TEMPLATE_ID = env.str(
 )
 EYB_ENROLMENT_WELCOME_TEMPLATE_ID = env.str(
     'EYB_ENROLMENT_WELCOME_TEMPLATE_ID',
-    '2b4a2885-2bc3-459c-b436-00d26e9a945e',
+    '651ea9b4-af61-4cd6-a969-6e305ffa133a',
 )
 CONTACTUS_ENQURIES_SUPPORT_TEMPLATE_ID = env.str(
     'ENQURIES_CONTACTUS_TEMPLATE_ID',
@@ -917,6 +917,7 @@ FEATURE_MARKET_GUIDES_SECTOR_LINKS = env.bool('FEATURE_MARKET_GUIDES_SECTOR_LINK
 FEATURE_PRE_ELECTION = env.bool('FEATURE_PRE_ELECTION', False)
 FEATURE_EYB_HOME = env.bool('FEATURE_EYB_HOME', False)
 FEATURE_FAB_MIGRATION = env.bool('FEATURE_FAB_MIGRATION', False)
+FEATURE_DESIGN_SYSTEM = env.bool('FEATURE_DESIGN_SYSTEM', False)
 
 FEATURE_GREAT_ERROR = env.bool('FEATURE_GREAT_ERROR', False)
 

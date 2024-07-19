@@ -1,6 +1,12 @@
 {% extends 'domestic/contact/wizard-domestic.html' %}
+{% load contact_canonical_url_tags %}
 {% load static from static %}
 {% block head_title %}Account{% endblock %}
+{% block head_other %}
+    {{ block.super }}
+    {% get_canonical_url as canonical_url %}
+    <link rel="canonical" href="{{ canonical_url }}">
+{% endblock %}
 {% block meta_title %}Account{% endblock %}
 {% block step_title_container %}
     <div id="form-step-body-text">

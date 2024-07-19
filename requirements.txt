@@ -252,7 +252,7 @@ googleapis-common-protos==1.63.2
     #   opentelemetry-exporter-otlp-proto-http
 great-components==2.6.4
     # via -r requirements.in
-grpcio==1.65.0
+grpcio==1.65.1
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==22.0.0
     # via -r requirements.in
@@ -424,13 +424,13 @@ pydantic-settings==2.3.1
     # via -r requirements.in
 pygments==2.18.0
     # via sphinx
-pyhanko==0.25.0
+pyhanko==0.25.1
     # via xhtml2pdf
 pyhanko-certvalidator==0.26.3
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==4.2.0
+pypdf==4.3.0
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -543,7 +543,7 @@ sphinxcontrib-serializinghtml==1.1.10
     # via sphinx
 sqlalchemy==1.4.49
     # via -r requirements.in
-sqlparse==0.5.0
+sqlparse==0.5.1
     # via django
 svglib==1.5.1
     # via xhtml2pdf

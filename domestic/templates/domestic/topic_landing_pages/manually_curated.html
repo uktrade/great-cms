@@ -3,6 +3,11 @@
     article-list-page
 {% endblock css_layout_class %}
 {% block content %}
+    {% if not features.FEATURE_DESIGN_SYSTEM %}
+    {% block breadcrumbs %}
+        {% include 'components/breadcrumbs_cms.html' %}
+    {% endblock %}
+    {% endif %}
     {% block hero %}
         {% include 'components/hero.html' with image=page.hero_image hero_title=page.title hero_text=page.teaser %}
     {% endblock %}
