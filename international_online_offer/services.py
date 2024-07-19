@@ -147,3 +147,8 @@ def get_rent_data(geo_region: str, vertical: str = None, sub_vertical: str = Non
         high_street_retail.get('gbp_per_month'),
         work_office.get('gbp_per_month'),
     )
+
+
+def get_dbt_sectors():
+    response = api_client.dataservices.get_dbt_sectors()
+    return response.json()

@@ -113,6 +113,78 @@ def generate_sector_sic_choices():
     return sic_sectors_tuple
 
 
+def get_parent_sectors(sectors_json):
+    parent_sectors = []
+    for sector_row in sectors_json:
+        if sector_row['sector_name'] not in parent_sectors:
+            parent_sectors.append(sector_row['sector_name'])
+
+    parent_sectors.sort()
+    return parent_sectors
+
+
+def get_parent_sectors_choices(parent_sectors):
+    sectors_tuple = ()
+    for sector in parent_sectors:
+        sectors_tuple = ((sector, sector),) + sectors_tuple
+    return sectors_tuple
+
+
+def get_sub_sectors(sectors_json):
+    sub_sectors = []
+    for sector_row in sectors_json:
+        if sector_row['sub_sector_name'] and sector_row['sub_sector_name'] not in sub_sectors:
+            sub_sectors.append(sector_row['sub_sector_name'])
+
+    sub_sectors.sort()
+    return sub_sectors
+
+
+def get_sub_sectors_choices(sub_sectors):
+    sectors_tuple = ()
+    for sector in sub_sectors:
+        sectors_tuple = ((sector, sector),) + sectors_tuple
+    return sectors_tuple
+
+
+def get_sub_sub_sectors(sectors_json):
+    sub_sub_sectors = []
+    for sector_row in sectors_json:
+        if sector_row['sub_sub_sector_name'] and sector_row['sub_sub_sector_name'] not in sub_sub_sectors:
+            sub_sub_sectors.append(sector_row['sub_sub_sector_name'])
+
+    sub_sub_sectors.sort()
+    return sub_sub_sectors
+
+
+def get_sub_sub_sectors_choices(sub_sub_sectors):
+    sectors_tuple = ()
+    for sector in sub_sub_sectors:
+        sectors_tuple = ((sector, sector),) + sectors_tuple
+    return sectors_tuple
+
+
+def get_sub_and_sub_sub_sectors_choices(sectors_json):
+    sub_and_sub_sub_sectors = []
+    for sector_row in sectors_json:
+        sub_sector = sector_row['sub_sector_name']
+        sub_sub_sector = sector_row['sub_sub_sector_name']
+        if sub_sector:
+            str_out = sub_sector
+            if sub_sub_sector:
+                str_out = str_out + ':' + sub_sub_sector
+
+            sub_and_sub_sub_sectors.append(str_out)
+
+    sub_and_sub_sub_sectors.sort()
+
+    sectors_tuple = ()
+    for sector in sub_and_sub_sub_sectors:
+        sectors_tuple = ((sector, sector),) + sectors_tuple
+
+    return sectors_tuple
+
+
 def get_sector_from_sic_sector(choice):
     json_data = get_sectors_and_sic_sectors_file()
     for sic_obj in json_data['data']:
