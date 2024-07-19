@@ -1273,7 +1273,11 @@ def test_business_user_disconnect(
 
 
 @pytest.mark.django_db
-def test_csat_user_feedback_with_session_value(client, user, settings,):
+def test_csat_user_feedback_with_session_value(
+    client,
+    user,
+    settings,
+):
     settings.FEATURE_FAB_HCSAT = True
     client.force_login(user)
     url = reverse('sso_profile:business-profile')
