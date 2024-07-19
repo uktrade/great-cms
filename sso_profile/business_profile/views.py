@@ -41,26 +41,29 @@ class DisconnectFromCompanyMixin:
 
 
 class MemberSendAdminRequestMixin:
-    form_class = forms.MemberCollaborationRequestForm
+
     success_url = reverse_lazy('sso_profile:business-profile')
 
     def form_valid(self, form):
         try:
-            if form.cleaned_data['action'] == form.SEND_REQUEST:
-                helpers.collaboration_request_create(sso_session_id=self.request.user.session_id, role=user_roles.ADMIN)
-            elif form.cleaned_data['action'] == form.SEND_REMINDER:
-                helpers.notify_company_admins_collaboration_request_reminder(
-                    sso_session_id=self.request.user.session_id,
-                    email_data={
-                        'company_name': self.request.user.company.data['name'],
-                        'name': self.request.user.full_name,
-                        'email': self.request.user.email,
-                        'login_url': self.request.build_absolute_uri(
-                            reverse('sso_profile:business-profile-admin-tools')
-                        ),
-                    },
-                    form_url=self.request.path,
-                )
+            if 'action' in form.cleaned_data.keys():
+                if form.cleaned_data['action'] == form.SEND_REQUEST:
+                    helpers.collaboration_request_create(
+                        sso_session_id=self.request.user.session_id, role=user_roles.ADMIN
+                    )
+                elif form.cleaned_data['action'] == form.SEND_REMINDER:
+                    helpers.notify_company_admins_collaboration_request_reminder(
+                        sso_session_id=self.request.user.session_id,
+                        email_data={
+                            'company_name': self.request.user.company.data['name'],
+                            'name': self.request.user.full_name,
+                            'email': self.request.user.email,
+                            'login_url': self.request.build_absolute_uri(
+                                reverse('sso_profile:business-profile-admin-tools')
+                            ),
+                        },
+                        form_url=self.request.path,
+                    )
         except HTTPError as error:
             if error.response.status_code == 400:
                 form.add_error(field=None, error=error.response.json())
@@ -70,18 +73,19 @@ class MemberSendAdminRequestMixin:
         return super().form_valid(form)
 
     def get_success_message(self, cleaned_data):
-        if cleaned_data['action'] == self.form_class.SEND_REMINDER:
-            success_message = 'Your request to the administrator has been sent.'
-        elif cleaned_data['action'] == self.form_class.SEND_REQUEST:
-            success_message = 'Your request to join has been sent.'
-        else:
-            raise NotImplementedError
-        return success_message
+        try:
+            if cleaned_data['action'] == self.form_class.SEND_REMINDER:
+                success_message = 'Your request to the administrator has been sent.'
+            elif cleaned_data['action'] == self.form_class.SEND_REQUEST:
+                success_message = 'Your request to join has been sent.'
+            else:
+                raise NotImplementedError
+            return success_message
+        except AttributeError:
+            return 'CSAT MESSAGE'
 
 
 class BusinessProfileView(MemberSendAdminRequestMixin, SuccessMessageMixin, FormView):
-
-    form_class = CsatUserFeedbackForm
 
     def get_csat(self):
         csat_id = self.request.session.get('fab_csat_id')
@@ -138,11 +142,18 @@ class BusinessProfileView(MemberSendAdminRequestMixin, SuccessMessageMixin, Form
                     sso_session_id=self.request.user.session_id, sso_id=self.request.user.id
                 )
         stage = self.request.session.get('fab_csat_stage', 0)
+        context['csat_form'] = CsatUserFeedbackForm
         context['csat_stage'] = stage
         if stage == 2:
             del self.request.session['fab_csat_stage']
 
         return context
+
+    def get_form_class(self):
+        if self.request.POST.get('action', None):
+            return forms.MemberCollaborationRequestForm
+        else:
+            return CsatUserFeedbackForm
 
     def form_invalid(self, form):
         if 'cancelButton' in self.request.POST:
@@ -159,49 +170,49 @@ class BusinessProfileView(MemberSendAdminRequestMixin, SuccessMessageMixin, Form
             self.request.session['fab_csat_stage'] = 2
             return HttpResponseRedirect(self.get_success_url())
 
-        super().form_valid(form)
-        csat = self.get_csat()
-        booking = self.get_object()
-        if csat:
-            csat_feedback, created = CsatUserFeedback.objects.update_or_create(
-                id=csat.id,
-                defaults={
-                    'experienced_issues': form.cleaned_data['experience'],
-                    'other_detail': form.cleaned_data['experience_other'],
-                    'likelihood_of_return': form.cleaned_data['likelihood_of_return'],
-                    'service_improvements_feedback': form.cleaned_data['feedback_text'],
-                },
-            )
-            csat_stage = self.request.session.get('fab_csat_stage', 0)
+        if 'action' not in form.cleaned_data.keys():
+            csat = self.get_csat()
+            if csat:
+                csat_feedback, created = CsatUserFeedback.objects.update_or_create(
+                    id=csat.id,
+                    defaults={
+                        'experienced_issues': form.cleaned_data['experience'],
+                        'other_detail': form.cleaned_data['experience_other'],
+                        'likelihood_of_return': form.cleaned_data['likelihood_of_return'],
+                        'service_improvements_feedback': form.cleaned_data['feedback_text'],
+                    },
+                )
+                csat_stage = self.request.session.get('fab_csat_stage', 0)
 
-            if csat_stage == 0:
-                self.request.session['fab_csat_stage'] = 1
+                if csat_stage == 0:
+                    self.request.session['fab_csat_stage'] = 1
+                else:
+                    self.request.session['fab_csat_stage'] = 2
+
             else:
-                self.request.session['fab_csat_stage'] = 2
+                csat_feedback = CsatUserFeedback.objects.create(
+                    satisfaction_rating=form.cleaned_data['satisfaction'],
+                    experienced_issues=form.cleaned_data['experience'],
+                    other_detail=form.cleaned_data['experience_other'],
+                    likelihood_of_return=form.cleaned_data['likelihood_of_return'],
+                    service_improvements_feedback=form.cleaned_data['feedback_text'],
+                    URL=self.success_url,
+                    user_journey='COMPANY_VERIFICATION',
+                )
+                self.request.session['fab_csat_id'] = csat_feedback.id
+                self.request.session['fab_csat_stage'] = 1
 
-        else:
-            csat_feedback = CsatUserFeedback.objects.create(
-                satisfaction_rating=form.cleaned_data['satisfaction'],
-                experienced_issues=form.cleaned_data['experience'],
-                other_detail=form.cleaned_data['experience_other'],
-                likelihood_of_return=form.cleaned_data['likelihood_of_return'],
-                service_improvements_feedback=form.cleaned_data['feedback_text'],
-                URL=reverse_lazy('export_academy:registration-success', kwargs={'booking_id': booking.id}),
-                user_journey='COMPANY_VERIFICATION',
-            )
-            self.request.session['fab_csat_id'] = csat_feedback.id
-            self.request.session['fab_csat_stage'] = 1
-
-        data = {
-            'pk': csat_feedback.pk,
-        }
-        js_enabled = 'js_enabled' in self.request.get_full_path()
-        if js_enabled:
-            csat_stage = self.request.session.get('fab_csat_stage', 0)
-            if csat_stage == 1:
-                del self.request.session['fab_csat_stage']
-            return JsonResponse(data)
-        return HttpResponseRedirect(self.get_success_url())
+            data = {
+                'pk': csat_feedback.pk,
+            }
+            js_enabled = 'js_enabled' in self.request.get_full_path()
+            if js_enabled:
+                csat_stage = self.request.session.get('fab_csat_stage', 0)
+                if csat_stage == 1:
+                    del self.request.session['fab_csat_stage']
+                return JsonResponse(data)
+            return HttpResponseRedirect(self.get_success_url())
+        return super().form_valid(form)
 
 
 class BaseFormView(FormView):

@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div id="csat-step-2-submission-confirmation"
-                 class="csat-submission-confirmation{% if csat_stage != 2 or form.errors %} great-hidden{% endif %}"
+                 class="csat-submission-confirmation{% if csat_stage != 2 or csat_form.errors %} great-hidden{% endif %}"
                  aria-live="polite"
                  tabindex="-1">
                 <div class="csat-submission-confirmation__heading">
@@ -19,7 +19,7 @@
                     <h2 class="govuk-heading-s govuk-!-margin-bottom-0">Thank you for helping us to improve this service</h2>
                 </div>
             </div>
-            <div class="govuk-error-summary govuk-!-margin-bottom-3 {% if not form.errors %}great-hidden{% endif %}"
+            <div class="govuk-error-summary govuk-!-margin-bottom-3 {% if not csat_form.errors %}great-hidden{% endif %}"
                  id="error-summary"
                  aria-labelledby="error-summary-title"
                  role="alert"
@@ -58,13 +58,13 @@
              class="govuk-grid-row{% if csat_stage == 1 or csat_stage == 2 %} great-hidden{% endif %}">
             <div class="govuk-grid-column-two-thirds">
                 <div id="satisfaction_group"
-                     class="govuk-form-group{% if form.satisfaction.errors %} govuk-form-group--error{% endif %}">
+                     class="govuk-form-group{% if csat_form.satisfaction.errors %} govuk-form-group--error{% endif %}">
                     <fieldset class="govuk-fieldset">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                            <h2 class="govuk-fieldset__heading" id="{{ form.satisfaction.auto_id }}">{{ form.satisfaction.label }}</h2>
+                            <h2 class="govuk-fieldset__heading" id="{{ csat_form.satisfaction.auto_id }}">{{ csat_form.satisfaction.label }}</h2>
                         </legend>
                         <div class="govuk-radios" data-module="govuk-radios" id="satisfaction">
-                            {% for satisfaction_level in form.satisfaction %}
+                            {% for satisfaction_level in csat_form.satisfaction %}
                                 <div class="govuk-radios__item">
                                     {{ satisfaction_level.tag }}
                                     <label class="govuk-label govuk-radios__label"
@@ -82,24 +82,24 @@
              class="govuk-grid-row{% if csat_stage == 2 or csat_stage == 0 %} great-hidden{% endif %}">
             <div class="govuk-grid-column-two-thirds">
                 <div id="experience_group"
-                     class="govuk-form-group{% if form.experience.errors %} govuk-form-group--error{% endif %}">
+                     class="govuk-form-group{% if csat_form.experience.errors %} govuk-form-group--error{% endif %}">
                     <fieldset class="govuk-fieldset "
-                              aria-describedby="experience-hint {% if form.experience.errors %}csat-experience-error-message{% endif %}">
+                              aria-describedby="experience-hint {% if csat_form.experience.errors %}csat-experience-error-message{% endif %}">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-!-margin-bottom-3">
-                            <h2 class="govuk-fieldset__heading" id="{{ form.experience.auto_id }}">{{ form.experience.label }}</h2>
+                            <h2 class="govuk-fieldset__heading" id="{{ csat_form.experience.auto_id }}">{{ csat_form.experience.label }}</h2>
                         </legend>
                         <div id="experience-hint" class="govuk-hint govuk-!-margin-bottom-3">Select all that apply.</div>
                         <p id="csat-experience-error-message"
-                           class="govuk-error-message{% if not form.experience.errors %} great-hidden{% endif %}">
+                           class="govuk-error-message{% if not csat_form.experience.errors %} great-hidden{% endif %}">
                             <span class="govuk-visually-hidden">Error:</span> Select issues you experienced, or select ‘I did not experience any issues’
                         </p>
                         <div class="govuk-checkboxes"
                              data-module="govuk-checkboxes"
                              id="experience">
-                            {% for action in form.experience %}
+                            {% for action in csat_form.experience %}
                                 {% if action.data.value == 'NO_ISSUE' %}<div class="govuk-checkboxes__divider great-font-bold">Or</div>{% endif %}
                                 <div class="govuk-checkboxes__item">
-                                    <input {% if action.data.value in form.experience.value %}checked{% endif %}
+                                    <input {% if action.data.value in csat_form.experience.value %}checked{% endif %}
                                            {% if action.data.value == 'NO_ISSUE' %}data-behaviour="exclusive"{% endif %}
                                            {% if action.data.value == 'OTHER' %}data-aria-controls="conditional-experience-{{ forloop.counter0 }}"{% endif %}
                                            type="checkbox"
@@ -115,7 +115,7 @@
                                          id="conditional-experience-{{ forloop.counter0 }}">
                                         <div id="experience_other_group">
                                             <div class="govuk-form-group">
-                                                {% include './form_field.html' with field=form.experience_other custom_error='Enter the issue you experienced' %}
+                                                {% include './form_field.html' with field=csat_form.experience_other custom_error='Enter the issue you experienced' %}
                                             </div>
                                         </div>
                                     </div>
@@ -125,21 +125,21 @@
                     </fieldset>
                 </div>
                 <div id="likelihood_of_return_group"
-                     class="govuk-form-group{% if form.likelihood_of_return.errors %} govuk-form-group--error{% endif %}">
+                     class="govuk-form-group{% if csat_form.likelihood_of_return.errors %} govuk-form-group--error{% endif %}">
                     <fieldset class="govuk-fieldset "
-                              {% if form.likelihood_of_return.errors %}aria-describedby="csat-likelihood-of-return-error-message"{% endif %}>
+                              {% if csat_form.likelihood_of_return.errors %}aria-describedby="csat-likelihood-of-return-error-message"{% endif %}>
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-!-margin-bottom-5">
                             <h2 class="govuk-fieldset__heading"
-                                id="{{ form.likelihood_of_return.auto_id }}">{{ form.likelihood_of_return.label }}</h2>
+                                id="{{ csat_form.likelihood_of_return.auto_id }}">{{ csat_form.likelihood_of_return.label }}</h2>
                         </legend>
                         <p id="csat-likelihood-of-return-error-message"
-                           class="govuk-error-message{% if not form.likelihood_of_return.errors %} great-hidden{% endif %}">
+                           class="govuk-error-message{% if not csat_form.likelihood_of_return.errors %} great-hidden{% endif %}">
                             <span class="govuk-visually-hidden">Error:</span> Select how likely you are to use this service again
                         </p>
                         <div class="govuk-radios"
                              data-module="govuk-radios"
                              id="likelihood_of_return">
-                            {% for likelihood_of_return_level in form.likelihood_of_return %}
+                            {% for likelihood_of_return_level in csat_form.likelihood_of_return %}
                                 <div class="govuk-radios__item">
                                     {{ likelihood_of_return_level.tag }}
                                     <label class="govuk-label govuk-radios__label"
@@ -152,21 +152,21 @@
                     </fieldset>
                 </div>
                 <div id="feedback_text_group"
-                     class="govuk-form-group great-font-main govuk-character-count{% if form.feedback_text.errors %} govuk-form-group--error{% endif %}"
+                     class="govuk-form-group great-font-main govuk-character-count{% if csat_form.feedback_text.errors %} govuk-form-group--error{% endif %}"
                      data-module="govuk-character-count"
                      data-maxlength="1200">
                     <h2 class="govuk-label-wrapper">
                         <label class="govuk-label govuk-label--l"
-                               for="{{ form.feedback_text.id_for_label }}">{{ form.feedback_text.label }}</label>
+                               for="{{ csat_form.feedback_text.id_for_label }}">{{ csat_form.feedback_text.label }}</label>
                     </h2>
-                    <div id="id_feedback_text-hint" class="govuk-hint">{{ form.feedback_text.help_text }}</div>
+                    <div id="id_feedback_text-hint" class="govuk-hint">{{ csat_form.feedback_text.help_text }}</div>
                     <p id="exceeding-characters-error"
                        class="govuk-error-message great-hidden">
                         <span>Your feedback must be 1200 characters or less</span>
                     </p>
-                    {{ form.feedback_text }}
+                    {{ csat_form.feedback_text }}
                     <div id="id_feedback_text-info"
-                         class="govuk-hint {% if form.feedback_text.errors %}govuk-error-message great-font-bold{% endif %}">
+                         class="govuk-hint {% if csat_form.feedback_text.errors %}govuk-error-message great-font-bold{% endif %}">
                         You can enter up to 1200 characters
                     </div>
                 </div>

@@ -1332,4 +1332,4 @@ def test_csat_user_feedback_submit_with_javascript(client, user, settings):
             'likelihood_of_return': 'LIKELY',
         },
     )
-    assert response.status_code == 200
+    assert response.status_code == 302
