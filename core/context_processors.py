@@ -106,7 +106,6 @@ def feature_flags(request):
     retval['features']['FEATURE_PRE_ELECTION'] = settings.FEATURE_PRE_ELECTION
     retval['features']['FEATURE_FAB_MIGRATION'] = settings.FEATURE_FAB_MIGRATION
     retval['features']['FEATURE_FAB_HCSAT'] = settings.FEATURE_FAB_HCSAT
-
     
     retval['features']['FEATURE_DESIGN_SYSTEM'] = settings.FEATURE_DESIGN_SYSTEM
 
