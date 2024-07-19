@@ -22,6 +22,7 @@ module.exports = {
     expand_your_business_styles: './international_online_offer/sass/main.scss',
     investment_styles: './international_investment/sass/main.scss',
     microsite_styles: './styles/microsite/main.scss',
+    fab_styles: './find_a_buyer/static/sass/main.scss',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),

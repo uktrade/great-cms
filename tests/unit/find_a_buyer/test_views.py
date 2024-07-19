@@ -270,7 +270,10 @@ def test_verify_company_address_end_to_end(mock_profile_update, send_verificatio
     assert response.status_code == 200
     assert response.template_name == view.templates[view.SENT]
     assert mock_profile_update.call_count == 1
-    assert mock_profile_update.call_args == call(data={'postal_full_name': 'Jeremy'}, sso_session_id='123')
+    assert mock_profile_update.call_args == call(
+        data={'postal_full_name': 'Jeremy', 'is_verification_letter_sent': True},
+        sso_session_id='123',
+    )
 
 
 @pytest.mark.django_db

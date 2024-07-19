@@ -1,6 +1,7 @@
 from directory_components.forms import BooleanField
 from directory_validators.string import no_html
 from django import forms
+from django.forms import widgets as django_widgets
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 
@@ -24,10 +25,10 @@ class AutoFocusFieldMixin:
 class CompanyAddressVerificationForm(AutoFocusFieldMixin, IndentedInvalidFieldsMixin, forms.Form):
 
     postal_full_name = forms.CharField(
-        label='Add your name',
+        label='Your name',
         max_length=255,
-        help_text='This is the full name that letters will be addressed to.',
         validators=[no_html],
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
     )
     address_confirmed = BooleanField(
         label=mark_safe(
@@ -56,7 +57,9 @@ class CompanyCodeVerificationForm(AutoFocusFieldMixin, IndentedInvalidFieldsMixi
         label='Verification Code',
         max_length=12,
         min_length=12,
-        widget=forms.TextInput(attrs={'type': 'number'}),
+        widget=forms.TextInput(
+            attrs={'type': 'number', 'class': 'govuk-input great-text-input govuk-!-margin-bottom-4'}
+        ),
     )
 
     def __init__(self, *args, **kwargs):

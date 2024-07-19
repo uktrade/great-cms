@@ -2,6 +2,7 @@
 {% load static %}
 {% block head_css %}
     <link href="{% static 'main.css' %}" media="all" rel="stylesheet" />
+    <link href="{% static 'fab_styles.css' %}" rel="stylesheet" type="text/css" />
     {{ block.super }}
 {% endblock %}
 {% block vendor_js %}
@@ -49,3 +50,4 @@
     <meta name="intranet:sentry:browser-traces-sample-rate"
           content="{{ SENTRY_BROWSER_TRACES_SAMPLE_RATE }}">
 {% endblock %}
+

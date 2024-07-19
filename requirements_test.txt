@@ -366,7 +366,7 @@ great-components==2.6.4
     # via -r requirements.in
 greenlet==3.0.3
     # via gevent
-grpcio==1.64.1
+grpcio==1.65.1
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==22.0.0
     # via -r requirements.in
@@ -636,7 +636,7 @@ pygments==2.18.0
     # via
     #   ipython
     #   sphinx
-pyhanko==0.25.0
+pyhanko==0.25.1
     # via xhtml2pdf
 pyhanko-certvalidator==0.26.3
     # via
@@ -824,7 +824,7 @@ sphinxcontrib-serializinghtml==1.1.10
     # via sphinx
 sqlalchemy==1.4.49
     # via -r requirements.in
-sqlparse==0.5.0
+sqlparse==0.5.1
     # via
     #   django
     #   django-debug-toolbar

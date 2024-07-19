@@ -799,10 +799,8 @@ def test_base_content_page__ancestors_in_app__involving_folder_pages():
 
 
 @pytest.mark.django_db
-def test_base_content_page__get_breadcrumbs(
-    domestic_homepage,
-    domestic_site,
-):
+def test_base_content_page__get_breadcrumbs_feature_flag_on(domestic_homepage, domestic_site, settings):
+    settings.FEATURE_DESIGN_SYSTEM = True
     advice_topic_page = TopicLandingPageFactory(
         title='Advice',
         parent=domestic_homepage,
@@ -818,11 +816,32 @@ def test_base_content_page__get_breadcrumbs(
             'title': advice_topic_page.title,
             'url': advice_topic_page.url,
         },
+    ]
+
+
+@pytest.mark.django_db
+def test_base_content_page__get_breadcrumbs_feature_flag_off(domestic_homepage, domestic_site, settings):
+    settings.FEATURE_DESIGN_SYSTEM = False
+    advice_topic_page = TopicLandingPageFactory(
+        title='Advice',
+        parent=domestic_homepage,
+    )
+
+    article_page = ArticlePageFactory(
+        article_title='test article',
+        parent=advice_topic_page,
+    )
+    assert article_page.get_breadcrumbs() == [
+        # NB: domestic homepage is deliberately NOT in this list
+        {
+            'title': advice_topic_page.title,
+            'url': advice_topic_page.url,
+        },
+        # NB: article_page IS in this list
         {
             'title': article_page.title,
             'url': article_page.url,
         },
-        # NB: article_page IS in this list
     ]
 
 
