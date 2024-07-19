@@ -885,6 +885,12 @@ figure.great-blockquote {
   }
 }
 
+.great-heading-link--no-chevron {
+  &::after {
+    content: '';
+  }
+}
+
 .great-checkboxes-wrapper {
   max-height: 463px;
   overflow: auto;
@@ -2174,4 +2180,11 @@ nav.great-breadcrumbs {
 .great-notification-banner--error {
   margin: 0 auto;
   max-width: 810px;
+}
+
+.great-meta-label {
+  color: $great-light-grey;
+  display: flex;
+  gap: 10px;
+  font-size: 16px;
 }
