@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.forms import (
     BooleanField,
     CharField,
@@ -36,11 +35,8 @@ class BusinessDetailsForm(forms.Form):
         },
     )
 
-    if settings.FEATURE_EYB_SECTORS:
-        sector_data_json = get_dbt_sectors()
-        sub_sectors_choices = region_sector_helpers.get_sub_and_sub_sub_sectors_choices(sector_data_json)
-    else:
-        sub_sectors_choices = region_sector_helpers.generate_sector_sic_choices()
+    sector_data_json = get_dbt_sectors()
+    sub_sectors_choices = region_sector_helpers.get_sub_and_sub_sub_sectors_choices(sector_data_json)
 
     sector_sub = ChoiceField(
         label='What does your business make or do?',

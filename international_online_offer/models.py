@@ -27,11 +27,7 @@ from international_online_offer.core import (
     regions,
 )
 from international_online_offer.forms import LocationSelectForm
-from international_online_offer.services import (
-    get_dbt_sectors,
-    get_median_salaries,
-    get_rent_data,
-)
+from international_online_offer.services import get_median_salaries, get_rent_data
 
 
 class EYBIndexPage(BaseContentPage):
@@ -436,25 +432,10 @@ class EYBArticlesPage(BaseContentPage):
 
 
 class TriageData(TimeStampedModel):
-    sector_data_json = get_dbt_sectors()
-    if settings.FEATURE_EYB_SECTORS:
-        parent_sectors_choices = region_sector_helpers.get_parent_sectors_choices(
-            region_sector_helpers.get_parent_sectors(sector_data_json)
-        )
-        sub_sectors_choices = region_sector_helpers.get_sub_sectors_choices(
-            region_sector_helpers.get_sub_sectors(sector_data_json)
-        )
-    else:
-        parent_sectors_choices = region_sector_helpers.generate_sector_choices()
-        sub_sectors_choices = region_sector_helpers.generate_sector_sic_choices()
-
-    sub_sub_sectors_choices = region_sector_helpers.get_sub_sub_sectors_choices(
-        region_sector_helpers.get_sub_sub_sectors(sector_data_json)
-    )
     hashed_uuid = models.CharField(max_length=200)
-    sector = models.CharField(max_length=255, choices=parent_sectors_choices)
-    sector_sub = models.CharField(max_length=255, choices=sub_sectors_choices, default=None, null=True)
-    sector_sub_sub = models.CharField(max_length=255, choices=sub_sub_sectors_choices, default=None, null=True)
+    sector = models.CharField(max_length=255)
+    sector_sub = models.CharField(max_length=255, default=None, null=True)
+    sector_sub_sub = models.CharField(max_length=255, default=None, null=True)
     sector_id = models.CharField(default=None, null=True)
     intent = ArrayField(
         models.CharField(max_length=255, choices=choices.INTENT_CHOICES),

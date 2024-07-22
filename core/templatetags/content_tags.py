@@ -577,11 +577,6 @@ def feature_pre_election():
 ########################################
 
 
-@register.simple_tag
-def feature_eyb_sectors():
-    return settings.FEATURE_EYB_SECTORS
-
-
 @register.filter
 def val_to_int(val: Union[float, int, str]) -> int:
     """

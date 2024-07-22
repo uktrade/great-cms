@@ -128,11 +128,8 @@ class BusinessDetailsView(GA360Mixin, FormView):
             }
 
             if triage_data:
-                if settings.FEATURE_EYB_SECTORS:
-                    if triage_data.sector_id:
-                        inital_values_object['sector_sub'] = triage_data.sector_id
-                else:
-                    inital_values_object['sector_sub'] = triage_data.sector_sub
+                if triage_data.sector_id:
+                    inital_values_object['sector_sub'] = triage_data.sector_id
 
             if user_data:
                 inital_values_object['company_name'] = user_data.company_name
@@ -142,32 +139,23 @@ class BusinessDetailsView(GA360Mixin, FormView):
             return inital_values_object
 
     def form_valid(self, form):
-        if settings.FEATURE_EYB_SECTORS:
-            sectors_json = get_dbt_sectors()
-            selected_sector_id = form.cleaned_data['sector_sub']
-            parent_sector, sub_sector, sub_sub_sector = region_sector_helpers.get_sectors_by_selected_id(
-                sectors_json, selected_sector_id
-            )
-        else:
-            sector_sub = form.cleaned_data['sector_sub']
-            sector = region_sector_helpers.get_sector_from_sic_sector(sector_sub)
+        sectors_json = get_dbt_sectors()
+        selected_sector_id = form.cleaned_data['sector_sub']
+        parent_sector, sub_sector, sub_sub_sector = region_sector_helpers.get_sectors_by_selected_id(
+            sectors_json, selected_sector_id
+        )
 
         if self.request.user.is_authenticated:
-            if settings.FEATURE_EYB_SECTORS:
-                TriageData.objects.update_or_create(
-                    hashed_uuid=self.request.user.hashed_uuid,
-                    defaults={
-                        'sector': parent_sector,
-                        'sector_sub': sub_sector,
-                        'sector_sub_sub': sub_sub_sector,
-                        'sector_id': selected_sector_id,
-                    },
-                )
-            else:
-                TriageData.objects.update_or_create(
-                    hashed_uuid=self.request.user.hashed_uuid,
-                    defaults={'sector': sector, 'sector_sub': sector_sub, 'sector_sub_sub': None, 'sector_id': None},
-                )
+            TriageData.objects.update_or_create(
+                hashed_uuid=self.request.user.hashed_uuid,
+                defaults={
+                    'sector': parent_sector,
+                    'sector_sub': sub_sector,
+                    'sector_sub_sub': sub_sub_sector,
+                    'sector_id': selected_sector_id,
+                },
+            )
+
             UserData.objects.update_or_create(
                 hashed_uuid=self.request.user.hashed_uuid,
                 defaults={
@@ -180,11 +168,8 @@ class BusinessDetailsView(GA360Mixin, FormView):
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
-        if settings.FEATURE_EYB_SECTORS:
-            dbt_sectors = get_dbt_sectors()
-            autocomplete_sector_data = region_sector_helpers.get_sectors_as_string(dbt_sectors)
-        else:
-            autocomplete_sector_data = region_sector_helpers.get_sectors_and_sic_sectors_file_as_string()
+        dbt_sectors = get_dbt_sectors()
+        autocomplete_sector_data = region_sector_helpers.get_sectors_as_string(dbt_sectors)
 
         return super().get_context_data(
             **kwargs,
