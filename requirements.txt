@@ -139,7 +139,7 @@ distlib==0.3.8
     # via virtualenv
 dj-database-url==2.2.0
     # via -r requirements.in
-django==4.2.11
+django==4.2.14
     # via
     #   -r requirements.in
     #   directory-api-client
@@ -430,7 +430,7 @@ pyhanko-certvalidator==0.26.3
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==4.3.0
+pypdf==4.3.1
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -439,7 +439,9 @@ pyquery==2.0.0
 pyrsistent==0.20.0
     # via jsonschema
 python-bidi==0.4.2
-    # via xhtml2pdf
+    # via
+    #   -r requirements.in
+    #   xhtml2pdf
 python-crontab==3.2.0
     # via django-celery-beat
 python-dateutil==2.9.0.post0
@@ -533,11 +535,11 @@ sphinxcontrib-applehelp==1.0.8
     # via sphinx
 sphinxcontrib-devhelp==1.0.6
     # via sphinx
-sphinxcontrib-htmlhelp==2.0.5
+sphinxcontrib-htmlhelp==2.0.6
     # via sphinx
 sphinxcontrib-jsmath==1.0.1
     # via sphinx
-sphinxcontrib-qthelp==1.0.7
+sphinxcontrib-qthelp==1.0.8
     # via sphinx
 sphinxcontrib-serializinghtml==1.1.10
     # via sphinx
