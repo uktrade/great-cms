@@ -1,4 +1,5 @@
 import sentry_sdk
+from django.contrib import sitemaps
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
@@ -199,3 +200,14 @@ class SupplierCSVDumpView(CSVDumpGenericView):
     @staticmethod
     def get_file(token):
         return api_client.supplier.get_csv_dump(token)
+
+
+class StaticViewSitemap(sitemaps.Sitemap):
+    priority = 0.5
+    changefreq = 'daily'
+
+    def items(self):
+        return []
+
+    def location(self, item):
+        return reverse(item)

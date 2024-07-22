@@ -8,6 +8,7 @@ from wagtail.contrib.sitemaps.views import sitemap as wagtail_sitemap
 from config.url_redirects import redirects
 from core import cms_slugs, views, views_api
 from domestic.views.campaign import MicrositeView
+from find_a_buyer.views import StaticViewSitemap as FABStaticViewSitemap
 
 app_name = 'core'
 
@@ -33,6 +34,7 @@ def anonymous_user_required(function):
 
 available_sitemaps = {
     'cms-pages': views.CMSPagesSitemap,
+    'find-a-buyer': FABStaticViewSitemap,
     'static': views.StaticViewSitemap,
 }
 

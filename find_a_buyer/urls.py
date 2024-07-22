@@ -1,11 +1,18 @@
+import directory_healthcheck.views
 from directory_components.decorators import skip_ga360
-from django.urls import path
+from django.conf.urls import include
+from django.urls import path, re_path
 
 from find_a_buyer import views
 
 app_name = 'find_a_buyer'
 
+healthcheck_urls = [
+    re_path(r'^$', skip_ga360(directory_healthcheck.views.HealthcheckView.as_view()), name='healthcheck'),
+]
+
 urlpatterns = [
+    path('healthcheck/', include((healthcheck_urls, 'healthcheck'), namespace='healthcheck')),
     path('verify/', views.CompanyVerifyView.as_view(), name='verify-company-hub'),
     path('verify/letter-send/', views.SendVerificationLetterView.as_view(), name='verify-company-address'),
     path(
