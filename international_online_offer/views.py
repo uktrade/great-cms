@@ -241,14 +241,10 @@ class ContactDetailsView(GA360Mixin, FormView):
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
-        sector = None
-        sector_sub = None
         leading_title = 'Provide your details so that we can contact you - we may be able to help.'
         if self.request.user.is_authenticated:
             triage_data = get_triage_data_for_user(self.request)
             if triage_data:
-                sector = triage_data.get_sector_display()
-                sector_sub = triage_data.get_sector_sub_display()
                 if triage_data.is_high_value:
                     leading_title = """You may be eligible for one-to-one support for your expansion.
                     Provide your details so that an adviser can contact you to discuss your plans."""
@@ -257,8 +253,6 @@ class ContactDetailsView(GA360Mixin, FormView):
             **kwargs,
             back_url=self.get_back_url(),
             autocomplete_sector_data=region_sector_helpers.get_sectors_and_sic_sectors_file_as_string(),
-            sector=sector,
-            sector_sub=sector_sub,
             leading_title=leading_title,
         )
 
@@ -784,9 +778,9 @@ class EditYourAnswersView(GA360Mixin, TemplateView):
         sub_and_sub_sub_sector = '-'
         spend = '-'
         if triage_data:
-            sub_and_sub_sub_sector = triage_data.get_sector_sub_display()
+            sub_and_sub_sub_sector = triage_data.sector_sub
             if triage_data.sector_sub_sub:
-                sub_and_sub_sub_sector = sub_and_sub_sub_sector + ', ' + triage_data.get_sector_sub_sub_display()
+                sub_and_sub_sub_sector = sub_and_sub_sub_sector + ', ' + triage_data.sector_sub_sub
 
             for spend_choice in spend_choices:
                 if spend_choice[0] == triage_data.spend:

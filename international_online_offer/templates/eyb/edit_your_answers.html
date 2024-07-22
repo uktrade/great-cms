@@ -37,7 +37,7 @@
                                         {{ sub_and_sub_sub_sector }}
                                         <br />
                                     {% endif %}
-                                    (in our <strong>{{ triage_data.get_sector_display | default:'-' }}</strong> sector)
+                                    (in our <strong>{{ triage_data.sector | default:'-' }}</strong> sector)
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
                                     <a class="govuk-link"

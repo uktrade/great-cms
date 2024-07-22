@@ -419,12 +419,16 @@
                 // When overriding onconfirm as per docs, it seems to then not automatically update
                 // the actual select elements selected value and so isnt posted on form submit
                 const sectorSelectInput = document.querySelector('#js-sector-select-select');
-
+                console.log(selectedRow)
                 const setSectorSelectValue = (value) => {
                     for (let i = 0; i < sectorSelectInput.options.length; i++) {
                         if (sectorSelectInput.options[i].value === selectedRow.sector_id) {
                             sectorSelectInput.selectedIndex = i;
+                            console.log("FOUND AND SELECTED")
+                            console.log(sectorSelectInput.options[i].value)
+                            console.log(sectorSelectInput.options[i].text)
                             break;
+
                         }
                     }
                 }

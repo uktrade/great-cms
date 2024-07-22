@@ -34,7 +34,7 @@
                         </div>
                         <div class="govuk-!-margin-bottom-5">
                             <h3 class="govuk-heading-m govuk-!-margin-bottom-2">
-                                Market data for {{ triage_data.get_sector_display|default:""|lower }}, {{ bci_release_year }}
+                                Market data for {{ triage_data.sector|default:""|lower }}, {{ bci_release_year }}
                             </h3>
                             <div class="govuk-grid-column-one-half govuk-grid-column-one-third-from-desktop govuk-!-padding-0">
                                 <h2 class="govuk-heading-xl govuk-!-margin-bottom-1">{{ bci_headline.total_business_count|default:"-"|intcomma }}</h2>

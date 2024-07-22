@@ -230,9 +230,8 @@ class EYBArticlePage(BaseContentPage):
                     'location', triage_data.location if triage_data.location else choices.regions.LONDON
                 )
                 region = helpers.get_salary_region_from_region(location)
-                sector_display = triage_data.get_sector_display()
 
-                median_salaries = get_median_salaries(sector_display, geo_region=region)
+                median_salaries = get_median_salaries(triage_data.sector, geo_region=region)
                 cleaned_median_salaries = helpers.clean_salary_data(median_salaries)
 
                 (large_warehouse_rent, small_warehouse_rent, shopping_centre, high_street_retail, work_office) = (
@@ -273,21 +272,20 @@ class EYBArticlePage(BaseContentPage):
                     'location', triage_data.location if triage_data.location else choices.regions.LONDON
                 )
                 region = helpers.get_salary_region_from_region(location)
-                sector_display = triage_data.get_sector_display()
 
                 entry_salary = SalaryData.objects.filter(
                     region__iexact=region,
-                    vertical__icontains=sector_display,
+                    vertical__icontains=triage_data.sector,
                     professional_level__icontains='Entry-level',
                 ).aggregate(Avg('median_salary'))
                 mid_salary = SalaryData.objects.filter(
                     region__iexact=region,
-                    vertical__icontains=sector_display,
+                    vertical__icontains=triage_data.sector,
                     professional_level__icontains='Middle/Senior Management',
                 ).aggregate(Avg('median_salary'))
                 executive_salary = SalaryData.objects.filter(
                     region__iexact=region,
-                    vertical__icontains=sector_display,
+                    vertical__icontains=triage_data.sector,
                     professional_level__icontains='Director/Executive',
                 ).aggregate(Avg('median_salary'))
 

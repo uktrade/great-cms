@@ -21,7 +21,7 @@
                         <div class="govuk-notification-banner__content">
                             <h3 class="govuk-notification-banner__heading">Here's your guide to expanding your business in the UK</h3>
                             <p class="govuk-body">
-                                We've created your guide from everything you've told us about your business in our <strong>{{ triage_data.get_sector_display }}</strong> sector. If anything changes, you can <a class="govuk-notification-banner__link"
+                                We've created your guide from everything you've told us about your business in our <strong>{{ triage_data.sector }}</strong> sector. If anything changes, you can <a class="govuk-notification-banner__link"
     href="{% url 'international_online_offer:change-your-answers' %}">update your details</a>
                             </p>
                         </div>
@@ -39,7 +39,7 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
                 <span class="govuk-caption-l">Your expansion guide</span>
-                <h1 class="govuk-heading-l">Setting up a {{ triage_data.get_sector_display }} business in the UK</h1>
+                <h1 class="govuk-heading-l">Setting up a {{ triage_data.sector }} business in the UK</h1>
             </div>
         </div>
         <div class="govuk-grid-row">
@@ -47,7 +47,7 @@
                 <div class="govuk-grid-row govuk-!-padding-3 govuk-!-margin-0 govuk-!-margin-bottom-8 guide-edit-panel">
                     <div class="govuk-grid-column-one-quarter">
                         <p class="govuk-body">Sector</p>
-                        <h2 class="govuk-heading-m">{{ triage_data.get_sector_display }}</h2>
+                        <h2 class="govuk-heading-m">{{ triage_data.sector }}</h2>
                     </div>
                     <div class="govuk-grid-column-one-quarter">
                         <p class="govuk-body">Headquarters</p>
