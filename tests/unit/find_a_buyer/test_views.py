@@ -98,9 +98,7 @@ def send_verification_letter_end_to_end(
 
 
 @pytest.mark.django_db
-def test_send_verification_letter_address_context_data(
-    client, user, mock_get_company_profile, retrieve_profile_data
-):
+def test_send_verification_letter_address_context_data(client, user, mock_get_company_profile, retrieve_profile_data):
     # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
     mock_get_company_profile.return_value = retrieve_profile_data
 
@@ -142,9 +140,7 @@ def test_company_address_validation_api_failure(mock_verify_with_code, address_v
 
 
 @pytest.mark.django_db
-def test_companies_house_oauth2_has_company_redirects(
-    client, user, mock_get_company_profile, retrieve_profile_data
-):
+def test_companies_house_oauth2_has_company_redirects(client, user, mock_get_company_profile, retrieve_profile_data):
     # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
     mock_get_company_profile.return_value = retrieve_profile_data
 
@@ -233,9 +229,7 @@ def test_verify_company_has_company_user(client, user, mock_get_company_profile,
 
 
 @pytest.mark.django_db
-def test_verify_company_address_feature_flag_on(
-    client, user, mock_get_company_profile, retrieve_profile_data
-):
+def test_verify_company_address_feature_flag_on(client, user, mock_get_company_profile, retrieve_profile_data):
     # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
     mock_get_company_profile.return_value = retrieve_profile_data
 
