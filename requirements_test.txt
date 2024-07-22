@@ -685,8 +685,10 @@ pytest-sugar==1.0.0
     # via -r requirements_test.in
 pytest-xdist==3.6.1
     # via -r requirements_test.in
-python-bidi==0.5.0
-    # via xhtml2pdf
+python-bidi==0.4.2
+    # via
+    #   -r requirements.in
+    #   xhtml2pdf
 python-crontab==3.2.0
     # via django-celery-beat
 python-dateutil==2.9.0.post0
@@ -795,6 +797,7 @@ six==1.16.0
     #   mohawk
     #   opensearch-dsl
     #   opensearch-py
+    #   python-bidi
     #   python-dateutil
     #   w3lib
 smmap==5.0.1

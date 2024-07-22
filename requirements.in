@@ -86,3 +86,4 @@ dj-database-url==2.2.0
 pydantic==2.7.3
 pydantic-settings==2.3.1
 certifi==2024.7.4
+python-bidi==0.4.2

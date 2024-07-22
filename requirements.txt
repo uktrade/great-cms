@@ -438,8 +438,10 @@ pyquery==2.0.0
     # via readtime
 pyrsistent==0.20.0
     # via jsonschema
-python-bidi==0.5.0
-    # via xhtml2pdf
+python-bidi==0.4.2
+    # via
+    #   -r requirements.in
+    #   xhtml2pdf
 python-crontab==3.2.0
     # via django-celery-beat
 python-dateutil==2.9.0.post0
@@ -520,6 +522,7 @@ six==1.16.0
     #   mohawk
     #   opensearch-dsl
     #   opensearch-py
+    #   python-bidi
     #   python-dateutil
     #   w3lib
 snowballstemmer==2.2.0
