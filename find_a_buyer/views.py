@@ -158,7 +158,7 @@ class CompaniesHouseOauth2CallbackView(SubmitFormOnGetMixin, Oauth2CallbackUrlMi
     form_class = forms.CompaniesHouseOauth2Form
     template_name = 'companies-house-oauth2-callback.html'
     error_template = 'companies-house-oauth2-error.html'
-    success_url = urls.domestic.FIND_A_BUYER
+    success_url = '/profile/business-profile/'
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()

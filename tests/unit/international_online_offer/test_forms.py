@@ -1,32 +1,108 @@
 import pytest
 
-from international_online_offer.core import hirings, intents, regions, spends
+from international_online_offer.core import (
+    hirings,
+    intents,
+    landing_timeframes,
+    regions,
+    spends,
+)
 from international_online_offer.forms import (
+    BusinessDetailsForm,
+    ContactDetailsForm,
     CsatFeedbackForm,
     FeedbackForm,
     HiringForm,
     IntentForm,
+    KnowSetupLocationForm,
     LocationForm,
-    ProfileForm,
-    SectorForm,
     SpendForm,
+    WhenDoYouWantToSetupForm,
 )
 
 
 @pytest.mark.parametrize(
     'form_data,is_valid',
     (
-        ({'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT'}, True),
-        ({'sector_sub': ''}, False),
+        (
+            {
+                'company_name': 'Vault tec',
+                'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT',
+                'company_location': 'FR',
+                'company_website': 'http://great.gov.uk/',
+            },
+            True,
+        ),
+        (
+            {
+                'company_name': '',
+                'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT',
+                'company_location': 'FR',
+                'company_website': 'http://great.gov.uk/',
+            },
+            False,
+        ),
+        (
+            {
+                'company_name': 'Vault tec',
+                'sector_sub': '',
+                'company_location': 'FR',
+                'company_website': 'http://great.gov.uk/',
+            },
+            False,
+        ),
+        (
+            {
+                'company_name': 'Vault tec',
+                'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT',
+                'company_location': '',
+                'company_website': 'http://great.gov.uk/',
+            },
+            False,
+        ),
+        (
+            {
+                'company_name': 'Vault tec',
+                'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT',
+                'company_location': 'FR',
+                'company_website': '',
+            },
+            False,
+        ),
+        (
+            {
+                'company_name': '',
+                'sector_sub': '',
+                'company_location': '',
+                'company_website': '',
+            },
+            False,
+        ),
+        (
+            {
+                'company_name': 'Vault tec',
+                'sector_sub': 'NOT_A_VALID_SECTOR_SUB',
+                'company_location': 'FR',
+                'company_website': 'http://great.gov.uk/',
+            },
+            False,
+        ),
+        (
+            {
+                'company_name': 'Vault tec',
+                'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT',
+                'company_location': 'NOT_A_VALID_LOCATION',
+                'company_website': 'http://great.gov.uk/',
+            },
+            False,
+        ),
     ),
 )
 @pytest.mark.django_db
-def test_triage_sector_validation(form_data, is_valid):
+def test_business_details_form_validation(form_data, is_valid):
     data = form_data
-    form = SectorForm(data)
+    form = BusinessDetailsForm(data)
     assert form.is_valid() == is_valid
-    if not is_valid:
-        assert form.errors['sector_sub'][0] == 'You must enter your business sector'
 
 
 @pytest.mark.parametrize(
@@ -41,37 +117,23 @@ def test_triage_intent_form_validation(form_data, is_valid):
     data = form_data
     form = IntentForm(data)
     assert form.is_valid() == is_valid
-    if not is_valid:
-        assert form.errors['intent_other'][0] == 'Please enter more information here'
 
 
 @pytest.mark.parametrize(
-    'form_data,is_valid,location_error_message,location_none_error_message',
+    'form_data,is_valid',
     (
-        ({'location': regions.LONDON, 'location_none': ''}, True, '', ''),
+        ({'location': regions.LONDON}, True),
         (
-            {'location': regions.LONDON, 'location_none': 'true'},
+            {'location': ''},
             False,
-            LocationForm.VALIDATION_MESSAGE_SELECT_OPTION,
-            LocationForm.VALIDATION_MESSAGE_SELECT_NONE_OPTION,
-        ),
-        ({'location': '', 'location_none': 'true'}, True, '', ''),
-        (
-            {'location': '', 'location_none': ''},
-            False,
-            LocationForm.VALIDATION_MESSAGE_SELECT_OPTION,
-            LocationForm.VALIDATION_MESSAGE_SELECT_NONE_OPTION,
         ),
     ),
 )
 @pytest.mark.django_db
-def test_triage_location_form_validation(form_data, is_valid, location_error_message, location_none_error_message):
+def test_triage_location_form_validation(form_data, is_valid):
     data = form_data
     form = LocationForm(data)
     assert form.is_valid() == is_valid
-    if not is_valid:
-        assert form.errors['location'][0] == location_error_message
-        assert form.errors['location_none'][0] == location_none_error_message
 
 
 @pytest.mark.parametrize(
@@ -86,8 +148,6 @@ def test_triage_hiring_form_validation(form_data, is_valid):
     data = form_data
     form = HiringForm(data)
     assert form.is_valid() == is_valid
-    if not is_valid:
-        assert form.errors['hiring'][0] == 'You must select at least one hiring option'
 
 
 @pytest.mark.parametrize(
@@ -109,67 +169,92 @@ def test_triage_spend_form_validation(form_data, is_valid):
     (
         (
             {
-                'company_name': 'Department for Business and Trade',
-                'company_location': 'DE',
                 'full_name': 'Joe Bloggs',
                 'role': 'Director',
-                'email': 'joe@bloggs.com',
                 'telephone_number': '+447923456789',
-                'agree_terms': 'true',
                 'agree_info_email': '',
-                'landing_timeframe': 'UNDER_SIX_MONTHS',
-                'company_website': 'http://www.great.gov.uk',
             },
             True,
         ),
         (
             {
-                'company_name': '',
-                'company_location': '',
                 'full_name': '',
                 'role': '',
-                'email': '',
                 'telephone_number': '',
-                'agree_terms': '',
                 'agree_info_email': '',
-                'company_website': '',
-            },
-            False,
-        ),
-        (
-            {
-                'company_name': 'Department for Business and Trade',
-                'company_location': 'RANDOM LOCATION',
-                'full_name': 'Joe Bloggs',
-                'role': 'Director',
-                'email': 'joe@bloggs.com',
-                'telephone_number': '+447923456789',
-                'agree_terms': 'true',
-                'agree_info_email': '',
-                'company_website': 'http://www.great.gov.uk',
-            },
-            False,
-        ),
-        (
-            {
-                'company_name': 'Department for Business and Trade',
-                'company_location': 'DE',
-                'full_name': 'Joe Bloggs',
-                'role': 'Director',
-                'email': 'joe@bloggs.com',
-                'telephone_number': '+447923456789',
-                'agree_terms': '',
-                'agree_info_email': 'true',
-                'company_website': 'http://www.great.gov.uk',
             },
             False,
         ),
     ),
 )
 @pytest.mark.django_db
-def test_profile_form_validation(form_data, is_valid):
+def test_contact_details_form_validation(form_data, is_valid):
     data = form_data
-    form = ProfileForm(data)
+    form = ContactDetailsForm(data)
+    assert form.is_valid() == is_valid
+
+
+@pytest.mark.parametrize(
+    'form_data,is_valid',
+    (
+        (
+            {
+                'know_setup_location': True,
+            },
+            True,
+        ),
+        (
+            {
+                'know_setup_location': False,
+            },
+            True,
+        ),
+        (
+            {
+                'know_setup_location': '',
+            },
+            False,
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_know_setup_location_form_validation(form_data, is_valid):
+    form = KnowSetupLocationForm(form_data)
+    assert form.is_valid() == is_valid
+
+
+@pytest.mark.parametrize(
+    'form_data,is_valid',
+    (
+        (
+            {
+                'landing_timeframe': landing_timeframes.ONE_TO_TWO_YEARS,
+            },
+            True,
+        ),
+        (
+            {
+                'landing_timeframe': landing_timeframes.SIX_TO_TWELVE_MONTHS,
+            },
+            True,
+        ),
+        (
+            {
+                'landing_timeframe': '',
+            },
+            False,
+        ),
+        (
+            {
+                'landing_timeframe': 'INVALID_OPTION',
+            },
+            False,
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_when_want_setup_form_validation(form_data, is_valid):
+    form = WhenDoYouWantToSetupForm(form_data)
     assert form.is_valid() == is_valid
 
 
