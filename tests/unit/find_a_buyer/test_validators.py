@@ -24,8 +24,7 @@ emails = [
 ]
 
 
-def test_not_contain_email_does_contains_email(settings):
-    settings.FEATURE_FAB_MIGRATION = True
+def test_not_contain_email_does_contains_email():
     value_templates = [
         '{email} Thing',  # at the start
         '{email}Thing',  # at the start
@@ -42,7 +41,6 @@ def test_not_contain_email_does_contains_email(settings):
                 validators.does_not_contain_email(value)
 
 
-def test_not_contain_email_does_not_contain_email(settings):
-    settings.FEATURE_FAB_MIGRATION = True
+def test_not_contain_email_does_not_contain_email():
     assert validators.does_not_contain_email('Thing') is None
     assert validators.does_not_contain_email('') is None
