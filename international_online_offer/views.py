@@ -943,7 +943,7 @@ class TradeAssociationsView(GA360Mixin, TemplateView):
             trade_association_sectors = helpers.get_trade_assoication_sectors_from_sector(triage_data.sector)
 
             all_trade_associations = TradeAssociation.objects.filter(
-                Q(sector__icontains=triage_data.get_sector_display()) | Q(sector__in=trade_association_sectors)
+                Q(sector__icontains=triage_data.sector) | Q(sector__in=trade_association_sectors)
             )
 
         page = self.request.GET.get('page', 1)
