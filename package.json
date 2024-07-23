@@ -58,7 +58,7 @@
     "fetch-mock": "8.3.2",
     "file-loader": "^5.1.0",
     "great-styles": "github:uktrade/great-styles",
-    "jest": "^26.6.3",
+    "jest": "^29.7.0",
     "mini-css-extract-plugin": "^2.2.0",
     "mockdate": "^3.0.5",
     "node-fetch": "^2.6.7",
