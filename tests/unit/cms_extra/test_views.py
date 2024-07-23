@@ -55,10 +55,12 @@ def test_case_study_view__access(django_user_model, client, is_staff):
 
 @pytest.mark.django_db
 def test_case_study_admin_view(client, django_user_model, mock_opensearch_get_connection):
-    user = django_user_model.objects.create_user(username='username', password='password', is_staff=True)
+    user = django_user_model.objects.create_user(
+        username='username', password='password', is_staff=True, is_superuser=True
+    )
     client.login(username='username', password='password')
 
-    assert user.is_authenticated and user.is_active and user.is_staff
+    assert user.is_authenticated and user.is_active and user.is_staff and user.is_superuser
 
     case_study = CaseStudyFactory()
     case_study.country_code_tags.add('FR')
