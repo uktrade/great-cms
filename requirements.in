@@ -64,6 +64,7 @@ pillow==10.3.0
 factory-boy==3.3.0
 dateparser==0.7.2
 xhtml2pdf==0.2.15
+python-bidi==0.4.2
 lxml==5.1.0
 sigauth==5.2.7
 elastic-apm==6.1.3
