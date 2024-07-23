@@ -797,7 +797,6 @@ six==1.16.0
     #   mohawk
     #   opensearch-dsl
     #   opensearch-py
-    #   python-bidi
     #   python-dateutil
     #   w3lib
 smmap==5.0.1
