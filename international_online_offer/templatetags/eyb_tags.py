@@ -1,5 +1,4 @@
 from django import template
-from django.conf import settings
 
 register = template.Library()
 
@@ -13,12 +12,3 @@ def get_salary_display_classes(context):
         result['salary_card_class'] = 'govuk-grid-column-one-half'
 
     return result
-
-
-# TODO: remove when signup for EYB branch has been merged ###########
-@register.simple_tag
-def feature_eyb_home():
-    return settings.FEATURE_EYB_HOME
-
-
-########################################

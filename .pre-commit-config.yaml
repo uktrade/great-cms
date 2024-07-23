@@ -1,25 +1,25 @@
 exclude: ^react-components/dist/
 repos:
     - repo: https://github.com/psf/black
-      rev: 24.1.0
+      rev: 24.4.2
       hooks:
           - id: black
           # Config for black lives in pyproject.toml
     - repo: https://github.com/asottile/blacken-docs
-      rev: 1.13.0
+      rev: 1.18.0
       hooks:
           - id: blacken-docs
             additional_dependencies: [black==24.1.0]
     - repo: https://github.com/PyCQA/isort
-      rev: 5.12.0
+      rev: 5.13.2
       hooks:
           - id: isort
     - repo: https://github.com/pycqa/flake8
-      rev: 6.1.0
+      rev: 7.1.0
       hooks:
           - id: flake8
     - repo: https://github.com/pre-commit/pre-commit-hooks
-      rev: v4.4.0
+      rev: v4.6.0
       hooks:
           - id: trailing-whitespace
             args: ["--markdown-linebreak-ext=md,markdown"]
@@ -35,7 +35,7 @@ repos:
           - id: detect-aws-credentials
             args: ["--allow-missing-credentials"]
     - repo: https://github.com/uktrade/pii-secret-check-hooks
-      rev: 0.0.0.35
+      rev: 0.0.0.36
       hooks:
           - id: pii_secret_filename
             files: ''
@@ -68,7 +68,7 @@ repos:
           pass_filenames: false
 
     - repo: https://github.com/Riverside-Healthcare/djLint
-      rev: v1.33.0
+      rev: v1.34.1
       hooks:
         - id: djlint-reformat-django
         - id: djlint-django
