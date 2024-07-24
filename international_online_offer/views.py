@@ -30,14 +30,22 @@ from sso import helpers as sso_helpers, mixins as sso_mixins
 
 
 def calculate_and_store_is_high_value(request):
+    dbt_sectors = get_dbt_sectors()
     existing_triage_data = get_triage_data_for_user(request)
+    sector = existing_triage_data.sector
+    # TODO Change this to use directory API GVA bandings instead of django-admin
+    if existing_triage_data.sector_id:
+        sector_row = region_sector_helpers.get_sector(existing_triage_data.sector_id, dbt_sectors)
+        if sector_row:
+            sector = sector_row['full_sector_name']
 
     is_high_value = scorecard.score_is_high_value(
-        existing_triage_data.sector,
+        sector,
         existing_triage_data.location,
         existing_triage_data.hiring,
         existing_triage_data.spend,
     )
+
     if request.user.is_authenticated:
         TriageData.objects.update_or_create(
             hashed_uuid=request.user.hashed_uuid, defaults={'is_high_value': is_high_value}

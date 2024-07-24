@@ -1,19 +1,18 @@
 import pytest
 
-from directory_constants import sectors as directory_constants_sectors
-from international_online_offer.core import hirings, regions, scorecard, sectors, spends
+from international_online_offer.core import hirings, regions, scorecard, spends
 from international_online_offer.models import ScorecardCriterion
 
 
 def populate_scoring_criteria():
     ScorecardCriterion.objects.create(
-        sector=directory_constants_sectors.FOOD_AND_DRINK,
+        sector='Food and drink',
         capex_spend=None,
         labour_workforce_hire=20,
         high_potential_opportunity_locations=[regions.NORTH_EAST, regions.NORTH_WEST, regions.EAST_OF_ENGLAND],
     )
     ScorecardCriterion.objects.create(
-        sector=sectors.TECHNOLOGY_AND_SMART_CITIES,
+        sector='Technology and smart cities',
         capex_spend=None,
         labour_workforce_hire=None,
         high_potential_opportunity_locations=[
@@ -55,19 +54,19 @@ def populate_scoring_criteria():
         high_potential_opportunity_locations=None,
     )
     ScorecardCriterion.objects.create(
-        sector=directory_constants_sectors.FINANCIAL_AND_PROFESSIONAL_SERVICES,
+        sector='Financial and professional services',
         capex_spend=None,
         labour_workforce_hire=13,
         high_potential_opportunity_locations=None,
     )
     ScorecardCriterion.objects.create(
-        sector=sectors.CREATIVE_INDUSTRIES,
+        sector='Creative industries',
         capex_spend=505999,
         labour_workforce_hire=None,
         high_potential_opportunity_locations=[regions.NORTH_EAST, regions.WEST_MIDLANDS, regions.SOUTH_EAST],
     )
     ScorecardCriterion.objects.create(
-        sector=sectors.PHARMACEUTICALS_AND_BIOTECHNOLOGY,
+        sector='Pharmaceuticals and biotechnology',
         capex_spend=3191999,
         labour_workforce_hire=None,
         high_potential_opportunity_locations=[
@@ -82,7 +81,7 @@ def populate_scoring_criteria():
         ],
     )
     ScorecardCriterion.objects.create(
-        sector=sectors.HEALTHCARE_SERVICES,
+        sector='Healthcare services',
         capex_spend=None,
         labour_workforce_hire=15,
         high_potential_opportunity_locations=[
@@ -93,7 +92,7 @@ def populate_scoring_criteria():
         ],
     )
     ScorecardCriterion.objects.create(
-        sector=directory_constants_sectors.ENERGY,
+        sector='Energy',
         capex_spend=3099999,
         labour_workforce_hire=None,
         high_potential_opportunity_locations=[regions.NORTH_EAST, regions.SCOTLAND, regions.SOUTH_EAST],
@@ -104,77 +103,63 @@ def populate_scoring_criteria():
 def test_is_capex_spend():
     populate_scoring_criteria()
     assert not scorecard.is_capex_spend(
-        directory_constants_sectors.FOOD_AND_DRINK,
+        'Food and drink',
         'Food and drink: cookies',
         spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND,
     )
     assert not scorecard.is_capex_spend(
-        sectors.TECHNOLOGY_AND_SMART_CITIES,
+        'Technology and smart cities',
         'Technology and smart cities : random sub sector',
         spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND,
     )
     assert not scorecard.is_capex_spend(
-        sectors.TECHNOLOGY_AND_SMART_CITIES,
+        'Technology and smart cities',
         'Technology and smart cities : random sub sector',
         spends.TWO_MILLION_TO_FIVE_MILLION,
     )
     assert scorecard.is_capex_spend(
-        sectors.TECHNOLOGY_AND_SMART_CITIES,
+        'Technology and smart cities',
         'Technology and smart cities : Communications',
         spends.ONE_MILLION_TO_TWO_MILLION,
     )
     assert not scorecard.is_capex_spend(
-        sectors.TECHNOLOGY_AND_SMART_CITIES,
+        'Technology and smart cities',
         'Technology and smart cities : Hardware',
         spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND,
     )
     assert scorecard.is_capex_spend(
-        sectors.TECHNOLOGY_AND_SMART_CITIES,
+        'Technology and smart cities',
         'Technology and smart cities : Hardware',
         spends.TWO_MILLION_TO_FIVE_MILLION,
     )
     assert not scorecard.is_capex_spend(
-        directory_constants_sectors.ENERGY, 'Energy : Civil nuclear', spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND
+        'Energy', 'Energy : Civil nuclear', spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND
     )
-    assert scorecard.is_capex_spend(
-        directory_constants_sectors.ENERGY, 'Energy : Civil nuclear', spends.ONE_MILLION_TO_TWO_MILLION
-    )
+    assert scorecard.is_capex_spend('Energy', 'Energy : Civil nuclear', spends.ONE_MILLION_TO_TWO_MILLION)
+    assert not scorecard.is_capex_spend('Energy', 'Energy : Oil and gas', spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND)
+    assert scorecard.is_capex_spend('Energy', 'Energy : Oil and gas', spends.TWO_MILLION_TO_FIVE_MILLION)
     assert not scorecard.is_capex_spend(
-        directory_constants_sectors.ENERGY, 'Energy : Oil and gas', spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND
+        'Energy', 'Energy: random sub sector', spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND
     )
-    assert scorecard.is_capex_spend(
-        directory_constants_sectors.ENERGY, 'Energy : Oil and gas', spends.TWO_MILLION_TO_FIVE_MILLION
-    )
-    assert not scorecard.is_capex_spend(
-        directory_constants_sectors.ENERGY, 'Energy: random sub sector', spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND
-    )
-    assert scorecard.is_capex_spend(
-        directory_constants_sectors.ENERGY, 'Energy: random sub sector', spends.TWO_MILLION_TO_FIVE_MILLION
-    )
+    assert scorecard.is_capex_spend('Energy', 'Energy: random sub sector', spends.TWO_MILLION_TO_FIVE_MILLION)
 
 
 @pytest.mark.django_db
 def test_is_labour_workforce_hire():
     populate_scoring_criteria()
-    assert not scorecard.is_labour_workforce_hire(directory_constants_sectors.FOOD_AND_DRINK, '', hirings.ONE_TO_FIVE)
-    assert scorecard.is_labour_workforce_hire(directory_constants_sectors.FOOD_AND_DRINK, '', hirings.SIX_TO_FIFTY)
-    assert scorecard.is_labour_workforce_hire(
-        directory_constants_sectors.FOOD_AND_DRINK, '', hirings.ONE_HUNDRED_ONE_PLUS
-    )
+    assert not scorecard.is_labour_workforce_hire('Food and drink', '', hirings.ONE_TO_FIVE)
+    assert scorecard.is_labour_workforce_hire('Food and drink', '', hirings.SIX_TO_FIFTY)
+    assert scorecard.is_labour_workforce_hire('Food and drink', '', hirings.ONE_HUNDRED_ONE_PLUS)
     assert not scorecard.is_labour_workforce_hire('Random sector', '', hirings.SIX_TO_FIFTY)
+    assert not scorecard.is_labour_workforce_hire('Food and drink', '', hirings.NO_PLANS_TO_HIRE_YET)
+    assert not scorecard.is_labour_workforce_hire('Financial and professional services', '', hirings.ONE_TO_FIVE)
     assert not scorecard.is_labour_workforce_hire(
-        directory_constants_sectors.FOOD_AND_DRINK, '', hirings.NO_PLANS_TO_HIRE_YET
-    )
-    assert not scorecard.is_labour_workforce_hire(
-        directory_constants_sectors.FINANCIAL_AND_PROFESSIONAL_SERVICES, '', hirings.ONE_TO_FIVE
-    )
-    assert not scorecard.is_labour_workforce_hire(
-        directory_constants_sectors.FINANCIAL_AND_PROFESSIONAL_SERVICES,
+        'Financial and professional services',
         'Financial and professional services : Business and consumer services',
         hirings.ONE_TO_FIVE,
     )
     assert scorecard.is_labour_workforce_hire(
-        directory_constants_sectors.FINANCIAL_AND_PROFESSIONAL_SERVICES,
+        'Financial and professional services',
         'Financial and professional services : Business and consumer services',
         hirings.SIX_TO_FIFTY,
     )
@@ -183,18 +168,18 @@ def test_is_labour_workforce_hire():
 @pytest.mark.parametrize(
     'sector,region,expected_result',
     (
-        (directory_constants_sectors.FOOD_AND_DRINK, regions.WALES, False),
-        (directory_constants_sectors.FOOD_AND_DRINK, regions.EAST_OF_ENGLAND, True),
-        (sectors.TECHNOLOGY_AND_SMART_CITIES, regions.NORTH_EAST, False),
-        (sectors.TECHNOLOGY_AND_SMART_CITIES, regions.WALES, True),
-        (sectors.CREATIVE_INDUSTRIES, regions.WALES, False),
-        (sectors.CREATIVE_INDUSTRIES, regions.NORTH_EAST, True),
-        (directory_constants_sectors.ENERGY, regions.WALES, False),
-        (directory_constants_sectors.ENERGY, regions.SCOTLAND, True),
-        (sectors.PHARMACEUTICALS_AND_BIOTECHNOLOGY, regions.LONDON, False),
-        (sectors.PHARMACEUTICALS_AND_BIOTECHNOLOGY, regions.WALES, True),
-        (sectors.HEALTHCARE_SERVICES, regions.SCOTLAND, False),
-        (sectors.HEALTHCARE_SERVICES, regions.WEST_MIDLANDS, True),
+        ('Food and drink', regions.WALES, False),
+        ('Food and drink', regions.EAST_OF_ENGLAND, True),
+        ('Technology and smart cities', regions.NORTH_EAST, False),
+        ('Technology and smart cities', regions.WALES, True),
+        ('Creative industries', regions.WALES, False),
+        ('Creative industries', regions.NORTH_EAST, True),
+        ('Energy', regions.WALES, False),
+        ('Energy', regions.SCOTLAND, True),
+        ('Pharmaceuticals and biotechnology', regions.LONDON, False),
+        ('Pharmaceuticals and biotechnology', regions.WALES, True),
+        ('Healthcare services', regions.SCOTLAND, False),
+        ('Healthcare services', regions.WEST_MIDLANDS, True),
     ),
 )
 @pytest.mark.django_db
@@ -206,14 +191,8 @@ def test_is_hpo(sector, region, expected_result):
 @pytest.mark.django_db
 def test_score_is_high_value():
     populate_scoring_criteria()
-    assert not scorecard.score_is_high_value(None, None, None, None, None)
-    assert not scorecard.score_is_high_value(directory_constants_sectors.FOOD_AND_DRINK, '', None, None, None)
-    assert not scorecard.score_is_high_value(
-        directory_constants_sectors.FOOD_AND_DRINK, '', regions.LONDON, hirings.ONE_TO_FIVE, None
-    )
-    assert scorecard.score_is_high_value(
-        directory_constants_sectors.FOOD_AND_DRINK, '', regions.LONDON, hirings.ONE_HUNDRED_ONE_PLUS, None
-    )
-    assert not scorecard.score_is_high_value(
-        directory_constants_sectors.FOOD_AND_DRINK, '', regions.LONDON, hirings.ONE_TO_FIVE, '1000001-3000000'
-    )
+    assert not scorecard.score_is_high_value(None, None, None, None)
+    assert not scorecard.score_is_high_value('Food and drink', None, None, None)
+    assert not scorecard.score_is_high_value('Food and drink', regions.LONDON, hirings.ONE_TO_FIVE, None)
+    assert scorecard.score_is_high_value('Food and drink', regions.LONDON, hirings.ONE_HUNDRED_ONE_PLUS, None)
+    assert not scorecard.score_is_high_value('Food and drink', regions.LONDON, hirings.ONE_TO_FIVE, '1000001-3000000')
