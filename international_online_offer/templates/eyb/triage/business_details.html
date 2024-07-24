@@ -1,6 +1,9 @@
 {% extends '../base.html' %}
 {% load static %}
-{% block head_title %}About your business: business details. {{ block.super }}{% endblock %}
+{% block head_title %}
+    {% if form.errors %}Error:{% endif %}
+    About your business: business details. {{ block.super }}
+{% endblock %}
 {% block meta_title %}About your business: business details. {{ block.super }}{% endblock %}
 {% block head_other %}
     <meta name="description"
