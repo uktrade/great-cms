@@ -77,6 +77,7 @@
     "@fortawesome/fontawesome-free": "^5.15.4",
     "govuk-frontend": "^4.5.0",
     "great-styles": "github:uktrade/great-styles",
+    "@uktrade/great-design-system": "^0.0.11",
     "prop-types": "15.7.2",
     "react": "16.13.1",
     "react-cookie": "4.0.3",
