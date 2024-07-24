@@ -15,8 +15,8 @@
     "globalSetup": "react-components/setupJest.js"
   },
   "engines": {
-    "node": "^20.9.0",
-    "npm": "^10.1.0"
+    "node": "^20.5.1",
+    "npm": "^9.8.0"
   },
   "repository": {
     "type": "git",
