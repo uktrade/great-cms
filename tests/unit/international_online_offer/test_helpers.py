@@ -154,7 +154,7 @@ def test_get_sector_professions_by_level():
 @pytest.mark.django_db
 def test_is_triage_data_complete():
     mock_triage_data = TriageData()
-    mock_triage_data.sector = directory_constants_sectors.FOOD_AND_DRINK
+    mock_triage_data.sector = 'Food and drink'
     mock_triage_data.intent_other = 'TEST OTHER INTENT'
     mock_triage_data.location = regions.LONDON
     mock_triage_data.hiring = hirings.SIX_TO_FIFTY

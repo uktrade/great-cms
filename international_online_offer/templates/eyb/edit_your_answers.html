@@ -1,6 +1,7 @@
 {% extends './base.html' %}
 {% load static %}
 {% load humanize %}
+{% load sector_filters %}
 {% block head_title %}Change your answers {{ block.super }}{% endblock %}
 {% block meta_title %}Change your answers {{ block.super }}{% endblock %}
 {% block content %}
@@ -34,10 +35,10 @@
                                 <dt class="govuk-summary-list__key govuk-body">Business activity and sector</dt>
                                 <dd class="govuk-summary-list__value govuk-body">
                                     {% if triage_data.sector_sub %}
-                                        {{ sub_and_sub_sub_sector }}
+                                        {{ sub_and_sub_sub_sector|get_sector_display }}
                                         <br />
                                     {% endif %}
-                                    (in our <strong>{{ triage_data.sector | default:'-' }}</strong> sector)
+                                    (in our <strong>{{ triage_data.sector|get_sector_display | default:'-' }}</strong> sector)
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
                                     <a class="govuk-link"

@@ -76,7 +76,7 @@ class EYBGuidePage(BaseContentPage):
 
         bci_data = None
         if triage_data and triage_data.sector:
-            bci_data = services.get_bci_data_by_dbt_sector(triage_data.sector.replace('_', ' '), [regions.GB_GEO_CODE])
+            bci_data = services.get_bci_data_by_dbt_sector(triage_data.sector, [regions.GB_GEO_CODE])
 
         # Get trade shows page (should only be one, is a parent / container page for all trade show pages)
         trade_shows_page = EYBTradeShowsPage.objects.live().filter().first()
