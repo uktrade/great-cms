@@ -2,23 +2,12 @@
 {% load static %}
 {% load event_list_buttons %}
 {% load wagtailcore_tags %}
-{% load breadcrumbs from component_tags %}
 {% load pagination from component_tags %}
 {% load replace_underscores from component_tags %}
 {% load append_past_year_seperator from component_tags %}
 {% load add_govuk_classes from content_tags %}
 {% block head_title %}Events – {{ event.name }}{% endblock %}
 {% block meta_title %}Events – {{ event.name }}{% endblock %}
-{% block breadcrumbs_block %}
-    <div class="great great-bg-white">
-        <div id="breadcrumbs" class="great-bg-light-blue">
-            {% breadcrumbs %}
-            <a href="/">Home</a>
-            <a href="../../">UK Export Academy</a>
-            <a href="../">Events</a>
-        {% endbreadcrumbs %}
-    </div>
-{% endblock %}
 {% block content %}
     <section class="great govuk-!-padding-bottom-6 govuk-!-padding-top-9">
         <div class="great-container event-details-header-container">

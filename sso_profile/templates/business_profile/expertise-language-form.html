@@ -1,11 +1,6 @@
 {% extends 'business_profile/base-form.html' %}
 {% load static %}
-{% load breadcrumbs from component_tags %}
 {% block form_contents %}
-    {% breadcrumbs %}
-    <a href="{% url 'sso_profile:about' %}">Home</a>
-    <a href="{% url 'sso_profile:business-profile' %}">Business profile</a>
-{% endbreadcrumbs %}
 <div id="selected-values-container" class="js-enabled-only">
     <h2 class="heading-small">Language expertise selected</h2>
     <div id="selected-values"></div>

@@ -1,11 +1,6 @@
 {% extends 'business_profile/base-form.html' %}
-{% load breadcrumbs from component_tags %}
 {% load static %}
 {% block form_contents %}
-    {% breadcrumbs %}
-    <a href="{% url 'sso_profile:about' %}">Home</a>
-    <a href="{% url 'sso_profile:business-profile' %}">Business profile</a>
-{% endbreadcrumbs %}
 <h1 class="heading-large margin-top-0">Enter your details</h1>
 <div id="business-details-form">{{ block.super }}</div>
 {% endblock %}

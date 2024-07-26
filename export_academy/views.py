@@ -818,6 +818,10 @@ class EventsDetailsView(DetailView):
         ctx['has_event_badges'] = len(self.get_badges_for_event(self.event)) > 0
         ctx['series'] = self.event.get_course()[0] if len(self.event.get_course()) else None
         ctx['show_past_events'] = True
+        ctx['bespoke_breadcrumbs'] = [
+            {'title': 'UK Export Academy', 'url': ''}, # what is the url?
+            {'title': 'Events', 'url': ''} # what is the url?
+        ]
         return ctx
 
     def get_buttons_for_event(self, event):
@@ -870,6 +874,9 @@ class EACourseView(TemplateView):
         ctx = super().get_context_data(**kwargs)
         ctx['signed_in'] = True if self.request.user != AnonymousUser() else False
         ctx['page'] = self.page
+        ctx['bespoke_breadcrumbs'] = [
+            {'title': 'UK Export Academy', 'url': ''} # what is the url?
+        ]
         return ctx
 
 

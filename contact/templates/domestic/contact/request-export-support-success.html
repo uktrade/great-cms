@@ -1,5 +1,4 @@
 {% extends 'domestic/base.html' %}
-{% load breadcrumbs from component_tags %}
 {% load static %}
 {% load wagtailcore_tags %}
 {% block head_css %}
@@ -11,9 +10,6 @@
 {% block head_title %}E-commerce advice{{ block.super }}{% endblock %}
 {% block meta_title %}E-commerce advice{{ block.super }}{% endblock %}
 {% block content %}
-    {% breadcrumbs %}
-    <a href="/">Home</a>
-{% endbreadcrumbs %}
 <div class="container">
     <div class="grid-row">
         <div class="column-two-thirds">
