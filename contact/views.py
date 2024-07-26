@@ -19,7 +19,10 @@ from rest_framework.generics import GenericAPIView
 
 from contact import constants, forms as contact_forms, helpers, mixins as contact_mixins
 from core import mixins as core_mixins, snippet_slugs
-from core.cms_slugs import PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE
+from core.cms_slugs import (
+    DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE,
+    PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE,
+)
 from core.datastructures import NotifySettings
 from directory_constants.choices import COUNTRY_CHOICES
 
@@ -30,6 +33,21 @@ class BespokeBreadcrumbMixin(TemplateView):
         ctx['bespoke_breadcrumbs'] = [
             {'title': 'Contact us', 'url': reverse('contact:contact-us-routing-form', kwargs={'step': 'location'})},
         ]
+        return ctx
+
+
+class WizardBespokeBreadcrumbMixin(TemplateView):
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        if settings.FEATURE_DIGITAL_POINT_OF_ENTRY:
+            bespoke_breadcrumbs = [
+                {'title': 'Guidance and Support', 'url': DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE},
+            ]
+        else:
+            bespoke_breadcrumbs = [
+                {'title': 'Contact us', 'url': reverse('contact:contact-us-routing-form', kwargs={'step': 'location'})},
+            ]
+        ctx['bespoke_breadcrumbs'] = bespoke_breadcrumbs
         return ctx
 
 
@@ -178,14 +196,14 @@ class BaseSuccessView(
         )
 
 
-class DomesticFormView(PrepopulateShortFormMixin, BaseZendeskFormView):
+class DomesticFormView(WizardBespokeBreadcrumbMixin, PrepopulateShortFormMixin, BaseZendeskFormView):
     form_class = contact_forms.DomesticForm
     template_name = 'domestic/contact/step.html'
     success_url = reverse_lazy('contact:contact-us-domestic-success')
     subject = settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT
 
 
-class DomesticEnquiriesFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
+class DomesticEnquiriesFormView(WizardBespokeBreadcrumbMixin, PrepopulateShortFormMixin, BaseNotifyFormView):
     form_class = contact_forms.DomesticEnquiriesForm
     template_name = 'domestic/contact/step-enquiries.html'
     success_url = reverse_lazy('contact:contact-us-domestic-success')
@@ -619,6 +637,18 @@ class InternationalFormView(
         user_template=settings.CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID,
     )
 
+    def get_context_data(self, **kwargs):
+        bespoke_breadcrumbs = [
+            {
+                'title': 'Contact us',
+                'url': reverse(
+                    'contact:contact-us-routing-form',
+                    kwargs={'step': 'location'},
+                ),
+            },
+        ]
+        return super().get_context_data(bespoke_breadcrumbs=bespoke_breadcrumbs, **kwargs)
+
 
 class InternationalSuccessView(
     # CountryDisplayMixin,  # Omitted in migration as appears to be redundant..
@@ -800,7 +830,7 @@ class OfficeFinderFormView(BespokeBreadcrumbMixin, SubmitFormOnGetMixin, FormVie
         )
 
 
-class OfficeContactFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
+class OfficeContactFormView(WizardBespokeBreadcrumbMixin, PrepopulateShortFormMixin, BaseNotifyFormView):
     template_name = 'domestic/contact/step.html'
     form_class = contact_forms.TradeOfficeContactForm
 
@@ -834,7 +864,7 @@ class OfficeSuccessView(DomesticSuccessView):
         }
 
 
-class EventsFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
+class EventsFormView(WizardBespokeBreadcrumbMixin, PrepopulateShortFormMixin, BaseNotifyFormView):
     form_class = contact_forms.EventsForm
     template_name = 'domestic/contact/step.html'
     success_url = reverse_lazy('contact:contact-us-events-success')
@@ -845,7 +875,9 @@ class EventsFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
     )
 
 
-class DefenceAndSecurityOrganisationFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
+class DefenceAndSecurityOrganisationFormView(
+    WizardBespokeBreadcrumbMixin, PrepopulateShortFormMixin, BaseNotifyFormView
+):
     form_class = contact_forms.DefenceAndSecurityOrganisationForm
     template_name = 'domestic/contact/step.html'
     success_url = reverse_lazy('contact:contact-us-dso-success')
