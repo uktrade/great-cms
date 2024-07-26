@@ -2,11 +2,9 @@ import datetime
 import logging
 import urllib
 
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
-from django.conf import settings
-from django.urls import reverse
 from requests.exceptions import RequestException
 
 from core import helpers as core_helpers
@@ -25,7 +23,6 @@ class SearchView(TemplateView):
 
     template_name = 'search.html'
     page_type = 'SearchResultsPage'
-
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)

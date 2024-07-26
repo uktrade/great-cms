@@ -22,17 +22,15 @@ from sso_profile.business_profile import forms, helpers
 BASIC = 'details'
 MEDIA = 'images'
 
+
 class BespokeBreadcrumbMixin(TemplateView):
 
     def get_context_data(self, **kwargs):
         bespoke_breadcrumbs = [
             {'title': 'About', 'url': reverse('sso_profile:about')},
-            {'title': 'Business profile','url': reverse('sso_profile:business-profile')},
+            {'title': 'Business profile', 'url': reverse('sso_profile:business-profile')},
         ]
-        return super().get_context_data(
-            bespoke_breadcrumbs=bespoke_breadcrumbs,
-            **kwargs
-            )
+        return super().get_context_data(bespoke_breadcrumbs=bespoke_breadcrumbs, **kwargs)
 
 
 class DisconnectFromCompanyMixin:
@@ -267,12 +265,9 @@ class SocialLinksFormView(BaseFormView):
     def get_context_data(self, **kwargs):
         bespoke_breadcrumbs = [
             {'title': 'Home', 'url': reverse('sso_profile:about')},
-            {'title': 'Business profile','url': reverse('sso_profile:business-profile')},
+            {'title': 'Business profile', 'url': reverse('sso_profile:business-profile')},
         ]
-        return super().get_context_data(
-            bespoke_breadcrumbs=bespoke_breadcrumbs,
-            **kwargs
-            )
+        return super().get_context_data(bespoke_breadcrumbs=bespoke_breadcrumbs, **kwargs)
 
 
 class EmailAddressFormView(BespokeBreadcrumbMixin, BaseFormView):
@@ -443,14 +438,14 @@ class CaseStudyWizardCreateView(BaseCaseStudyWizardView):
         )
         response.raise_for_status()
         return redirect('sso_profile:business-profile')
-    
+
 
 class GetBreadCrumbsMixin:
     @property
     def get_breadcrumbs(self):
         return [
-            {'title': 'Business profile','url': reverse('sso_profile:business-profile')},
-            {'title': 'Profile settings','url': reverse('sso_profile:business-profile-admin-invite-collaborator')},
+            {'title': 'Business profile', 'url': reverse('sso_profile:business-profile')},
+            {'title': 'Profile settings', 'url': reverse('sso_profile:business-profile-admin-invite-collaborator')},
         ]
 
 
@@ -490,7 +485,8 @@ class AdminCollaboratorsListView(GetBreadCrumbsMixin, ManageCollaborationRequest
             collaborators=collaborators,
             collaboration_requests=requests,
             bespoke_breadcrumbs=self.get_breadcrumbs,
-            **kwargs)
+            **kwargs,
+        )
 
 
 class MemberDisconnectFromCompany(DisconnectFromCompanyMixin, SuccessMessageMixin, FormView):
@@ -527,9 +523,7 @@ class AdminCollaboratorEditFormView(GetBreadCrumbsMixin, SuccessMessageMixin, Fo
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
-            collaborator=self.collaborator,
-            bespoke_breadcrumbs=self.get_breadcrumbs,
-            **kwargs
+            collaborator=self.collaborator, bespoke_breadcrumbs=self.get_breadcrumbs, **kwargs
         )
 
     def get_form_kwargs(self, *args, **kwargs):
@@ -559,11 +553,7 @@ class AdminDisconnectFormView(GetBreadCrumbsMixin, DisconnectFromCompanyMixin, S
 
     def get_context_data(self, **kwargs):
         is_sole_admin = helpers.is_sole_admin(self.request.user.session_id)
-        return super().get_context_data(
-            is_sole_admin=is_sole_admin,
-            bespoke_breadcrumbs=self.get_breadcrumbs, 
-            **kwargs
-            )
+        return super().get_context_data(is_sole_admin=is_sole_admin, bespoke_breadcrumbs=self.get_breadcrumbs, **kwargs)
 
 
 class AdminInviteNewAdminFormView(GetBreadCrumbsMixin, SuccessMessageMixin, FormView):
@@ -597,10 +587,8 @@ class AdminInviteNewAdminFormView(GetBreadCrumbsMixin, SuccessMessageMixin, Form
     def get_context_data(self, **kwargs):
         has_collaborators = len(self.collaborators) > 1
         return super().get_context_data(
-            has_collaborators=has_collaborators,
-            bespoke_breadcrumbs=self.get_breadcrumbs,
-            **kwargs
-            )
+            has_collaborators=has_collaborators, bespoke_breadcrumbs=self.get_breadcrumbs, **kwargs
+        )
 
     def form_valid(self, form):
         try:
@@ -640,10 +628,8 @@ class AdminInviteCollaboratorFormView(GetBreadCrumbsMixin, SuccessMessageMixin, 
         collaborator_invites = helpers.collaborator_invite_list(self.request.user.session_id)
         collaborator_invites_not_accepted = [c for c in collaborator_invites if not c['accepted']]
         return super().get_context_data(
-            collaborator_invites=collaborator_invites_not_accepted, 
-            bespoke_breadcrumbs=self.get_breadcrumbs,
-            **kwargs
-            )
+            collaborator_invites=collaborator_invites_not_accepted, bespoke_breadcrumbs=self.get_breadcrumbs, **kwargs
+        )
 
     def form_valid(self, form):
         try:
@@ -685,10 +671,7 @@ class ProductsServicesRoutingFormView(BespokeBreadcrumbMixin, FormView):
         return redirect(url)
 
     def get_context_data(self, **kwargs):
-        return super().get_context_data(
-            company=self.request.user.company.serialize_for_template(),
-            **kwargs
-            )
+        return super().get_context_data(company=self.request.user.company.serialize_for_template(), **kwargs)
 
 
 class ProductsServicesFormView(BespokeBreadcrumbMixin, BaseFormView):
@@ -706,11 +689,8 @@ class ProductsServicesFormView(BespokeBreadcrumbMixin, BaseFormView):
     template_name = 'business_profile/products-services-form.html'
 
     def get_context_data(self, **kwargs):
-        return super().get_context_data(
-            category=self.kwargs['category'].replace('-', ' '),
-            **kwargs
-            )
-    
+        return super().get_context_data(category=self.kwargs['category'].replace('-', ' '), **kwargs)
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['category'] = self.kwargs['category']
@@ -752,11 +732,8 @@ class ProductsServicesOtherFormView(BespokeBreadcrumbMixin, BaseFormView):
 
 
 class PersonalDetailsFormView(
-    BespokeBreadcrumbMixin,
-    sso_profile.common.mixins.CreateUpdateUserProfileMixin,
-    SuccessMessageMixin,
-    FormView
-    ):
+    BespokeBreadcrumbMixin, sso_profile.common.mixins.CreateUpdateUserProfileMixin, SuccessMessageMixin, FormView
+):
     template_name = 'business_profile/personal-details-form.html'
     form_class = sso_profile.common.forms.PersonalDetails
     success_url = reverse_lazy('sso_profile:business-profile')

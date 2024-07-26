@@ -28,13 +28,7 @@ class BespokeBreadcrumbMixin(TemplateView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx['bespoke_breadcrumbs'] = [
-            {
-                'title': 'Contact us',
-                'url': reverse(
-                    'contact:contact-us-routing-form',
-                    kwargs={'step': 'location'}
-                )
-            },
+            {'title': 'Contact us', 'url': reverse('contact:contact-us-routing-form', kwargs={'step': 'location'})},
         ]
         return ctx
 

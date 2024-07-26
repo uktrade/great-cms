@@ -6,7 +6,6 @@ from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse, reverse_lazy
 from django.utils.functional import cached_property
-from django.conf import settings
 from django.views.generic import FormView, TemplateView
 from formtools.wizard.views import NamedUrlSessionWizardView
 
@@ -467,10 +466,7 @@ class CollaboratorEnrolmentView(BaseEnrolmentWizardView):
         return helpers.collaborator_invite_retrieve(self.request.session[constants.SESSION_KEY_INVITE_KEY])
 
     def get_context_data(self, **kwargs):
-        return super().get_context_data(
-            collaborator_invition=self.collaborator_invition,
-            **kwargs
-            )
+        return super().get_context_data(collaborator_invition=self.collaborator_invition, **kwargs)
 
     def get_form_initial(self, step):
         form_initial = super().get_form_initial(step)
