@@ -2,7 +2,6 @@
 {% load static %}
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
-{% load breadcrumbs from component_tags %}
 {% block head_css %}
     {{ block.super }}
     <link href="{% static 'styles/get-finance.css' %}"
@@ -13,10 +12,6 @@
 {% block meta_title %}UK Export Finance - Trade Finance{% endblock %}
 {% block css_layout_class %}get-finance{% endblock %}
 {% block content %}
-    {% breadcrumbs %}
-    <a href="/">Home</a>
-    <a href="{% url 'domestic:get-finance' %}">UKEF</a>
-{% endbreadcrumbs %}
 {% image page.hero_image original as hero_image_rendition %}
 <section id="get-finance-hero">
     {% include 'components/hero.html' with hero_title="Trade finance for UK exporters" hero_text="When it comes to exporting, having a great product or service is only half the story. Putting the right finance and insurance in place can make the difference, helping you to win contracts, fulfil orders and get paid." image_url=hero_image_rendition.url %}
