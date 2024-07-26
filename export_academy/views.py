@@ -66,7 +66,6 @@ from sso.models import BusinessSSOUser
 logger = logging.getLogger(__name__)
 
 
-
 class GetBreadcrumbsMixin:
 
     @property
@@ -84,6 +83,7 @@ class BespokeBreadcrumbMixin(TemplateView):
             {'title': 'Events', 'url': reverse('export_academy:upcoming-events')},
         ]
         return super().get_context_data(bespoke_breadcrumbs=bespoke_breadcrumbs, **kwargs)
+
 
 class EventListView(GetBreadcrumbsMixin, GA360Mixin, core_mixins.GetSnippetContentMixin, FilterView, ListView):
     model = models.Event
@@ -360,7 +360,9 @@ class DownloadCalendarView(GenericAPIView):
         return response
 
 
-class RegistrationPersonalDetails(BespokeBreadcrumbMixin, core_mixins.GetSnippetContentMixin, RegistrationMixin, FormView):
+class RegistrationPersonalDetails(
+    BespokeBreadcrumbMixin, core_mixins.GetSnippetContentMixin, RegistrationMixin, FormView
+):
     form_class = forms.PersonalDetails
     model = models.Registration
     template_name = 'export_academy/registration_form_step1.html'
@@ -395,7 +397,9 @@ class RegistrationPersonalDetails(BespokeBreadcrumbMixin, core_mixins.GetSnippet
         return super().form_valid(form)
 
 
-class RegistrationExportExperience(BespokeBreadcrumbMixin, core_mixins.GetSnippetContentMixin, RegistrationMixin, FormView):
+class RegistrationExportExperience(
+    BespokeBreadcrumbMixin, core_mixins.GetSnippetContentMixin, RegistrationMixin, FormView
+):
     form_class = forms.ExportExperience
     model = models.Registration
     template_name = 'export_academy/registration_form_step2.html'
@@ -429,7 +433,9 @@ class RegistrationExportExperience(BespokeBreadcrumbMixin, core_mixins.GetSnippe
         return super().form_valid(form)
 
 
-class RegistrationBusinessDetails(BespokeBreadcrumbMixin, core_mixins.GetSnippetContentMixin, RegistrationMixin, FormView):
+class RegistrationBusinessDetails(
+    BespokeBreadcrumbMixin, core_mixins.GetSnippetContentMixin, RegistrationMixin, FormView
+):
     form_class = forms.BusinessDetails
     model = models.Registration
     template_name = 'export_academy/registration_form_step3.html'
@@ -502,7 +508,9 @@ class RegistrationMarketingSources(
         return super().form_valid(form)
 
 
-class RegistrationConfirmChoices(BespokeBreadcrumbMixin, core_mixins.GetSnippetContentMixin, BookingMixin, RegistrationMixin, FormView):
+class RegistrationConfirmChoices(
+    BespokeBreadcrumbMixin, core_mixins.GetSnippetContentMixin, BookingMixin, RegistrationMixin, FormView
+):
     template_name = 'export_academy/registration_form_confirm.html'
     model = models.Registration
     booking_model = models.Booking
@@ -1062,10 +1070,15 @@ class EventVideoOnDemandView(GetBreadcrumbsMixin, DetailView):
 
         if full_transcript:
             bespoke_breadcrumbs = [
-                {'title': 'Back', 'url': reverse('export_academy:video-on-demand', kwargs={'slug': event.get_past_event_recording_slug()})},
+                {
+                    'title': 'Back',
+                    'url': reverse(
+                        'export_academy:video-on-demand', kwargs={'slug': event.get_past_event_recording_slug()}
+                    ),
+                },
             ]
         else:
             bespoke_breadcrumbs = self.get_breadcrumbs
-        
+
         ctx['bespoke_breadcrumbs'] = bespoke_breadcrumbs
         return ctx

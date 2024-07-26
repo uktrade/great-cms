@@ -1,15 +1,10 @@
 {% extends "domestic/base.html" %}
 {% load static %}
 {% load wagtailcore_tags %}
-{% load breadcrumbs success_box from component_tags %}
+{% load success_box from component_tags %}
 {% block head_title %}Cookies on great.gov.uk{% endblock %}
 {% block meta_title %}Cookies on great.gov.uk{% endblock %}
 {% block content %}
-    {% block breadcrumbs %}
-        {% breadcrumbs %}
-        <a href="/">Home</a>
-    {% endbreadcrumbs %}
-{% endblock %}
 <div class="container">
     <div class="grid-row">
         <div class="column-two-thirds">
