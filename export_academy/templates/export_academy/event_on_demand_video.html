@@ -2,20 +2,11 @@
 {% load static %}
 {% load component_tags %}
 {% load video_tags %}
-{% load breadcrumbs from component_tags %}
 {% block head_title %}Event recording – {{ object.name }}{% endblock %}
 {% block meta_title %}Event recording – {{ object.name }}{% endblock %}
 {% block css_layout_class %}great-bg-white{% endblock %}
 {% block content %}
-    {% if full_transcript %}
-        <div id="breadcrumbs" class="great-bg-light-blue">
-            <div class="great-container">
-                {% breadcrumbs great-breadcrumbs %}
-                <a href="/export-academy/event-recordings/{{ video_page_slug }}"
-                   class="great-back-link">Back</a>
-            {% endbreadcrumbs %}
-        </div>
-    </div>
+{% if full_transcript %}
     <div class="great" id="video-on-demand-page">
         <section class="govuk-!-padding-bottom-6 govuk-!-padding-top-9 great-bg-white">
             <div class="great-container event-details-header-container">
@@ -38,15 +29,6 @@
         </section>
     </div>
 {% else %}
-    <div id="breadcrumbs"
-         class="great-display-from-tablet great-bg-light-blue">
-        <div class="great-container">
-            {% breadcrumbs great-breadcrumbs %}
-            <a href="/">Home</a>
-            <a href="../../">UK Export Academy</a>
-        {% endbreadcrumbs %}
-    </div>
-</div>
 <div class="great" id="video-on-demand-page">
     <section class="govuk-!-padding-bottom-6 govuk-!-padding-top-9 great-bg-white">
         <div class="great-container event-details-header-container">
