@@ -888,11 +888,7 @@ class DefenceAndSecurityOrganisationFormView(
     )
 
 
-class FeedbackFormView(
-    WizardBespokeBreadcrumbMixin,
-    core_mixins.PrepopulateFormMixin,
-    BaseZendeskFormView
-    ):
+class FeedbackFormView(WizardBespokeBreadcrumbMixin, core_mixins.PrepopulateFormMixin, BaseZendeskFormView):
     form_class = contact_forms.FeedbackForm
     template_name = 'domestic/contact/comment-contact.html'
     success_url = reverse_lazy('contact:contact-us-feedback-success')
