@@ -430,7 +430,6 @@ class IntentView(GA360Mixin, FormView):
                     'intent_other': form.cleaned_data['intent_other'],
                 },
             )
-        calculate_and_store_is_high_value(self.request)
         return super().form_valid(form)
 
 

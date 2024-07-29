@@ -38,6 +38,9 @@ class BusinessDetailsForm(forms.Form):
     sector_data_json = get_dbt_sectors()
     sub_sectors_choices = region_sector_helpers.get_sub_and_sub_sub_sectors_choices(sector_data_json)
 
+    if not sub_sectors_choices:
+        sub_sectors_choices = sector_data_json = (('NO DATA', 'NO DATA'),)
+
     sector_sub = ChoiceField(
         label='What does your business make or do?',
         help_text='Search a list of business activities and select the closest description',
