@@ -42,7 +42,7 @@ urlpatterns = [
     path(
         'project-finance/',
         skip_ga360(domestic.views.ukef.UKEFProjectFinanceView.as_view()),
-        name='get-finance',
+        name='project-finance',
     ),
     path(
         'how-we-assess-your-project/',
