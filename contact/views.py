@@ -1030,10 +1030,12 @@ class InlineFeedbackView(GenericAPIView):
     def post(self, request, *args, **kwargs):
         js_enabled = 'js_enabled' in request.query_params.keys()
         data = self.request.data.copy()
+        is_human_submission = 'csrfmiddlewaretoken' not in data
 
         # non-js for initial yes/no form where we use query params to pass the page_useful value
         if not js_enabled and 'page_useful' in request.query_params.keys():
             data['page_useful'] = request.query_params['page_useful']
+            is_human_submission = True
 
         email_address = request.user.email if request.user.is_authenticated else 'blank@example.com'
 
@@ -1042,15 +1044,16 @@ class InlineFeedbackView(GenericAPIView):
             country_code=None,
         )
 
-        action = actions.SaveOnlyInDatabaseAction(
-            full_name='NA',
-            email_address=email_address,
-            subject='NA',
-            sender=sender,
-            form_url=self.request.get_full_path(),
-        )
+        if is_human_submission:
+            action = actions.SaveOnlyInDatabaseAction(
+                full_name='NA',
+                email_address=email_address,
+                subject='NA',
+                sender=sender,
+                form_url=self.request.get_full_path(),
+            )
 
-        save_result = action.save(data)
+            save_result = action.save(data)
 
         if js_enabled:
             response = HttpResponse()
