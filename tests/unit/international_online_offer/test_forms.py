@@ -11,6 +11,7 @@ from international_online_offer.core import (
     spends,
 )
 from international_online_offer.forms import (
+    BusinessDetailsForm,
     ContactDetailsForm,
     CsatFeedbackForm,
     FeedbackForm,
@@ -23,6 +24,58 @@ from international_online_offer.forms import (
 )
 
 
+@mock.patch(
+    'directory_api_client.api_client.dataservices.get_dbt_sectors',
+    return_value=create_response(
+        [
+            {
+                'id': 1,
+                'sector_id': 'SL0003',
+                'full_sector_name': 'Advanced engineering : Metallurgical process plant',
+                'sector_cluster_name': 'Sustainability and Infrastructure',
+                'sector_name': 'Advanced engineering',
+                'sub_sector_name': 'Metallurgical process plant',
+                'sub_sub_sector_name': '',
+            },
+            {
+                'id': 2,
+                'sector_id': 'SL0004',
+                'full_sector_name': 'Advanced engineering : Metals, minerals and materials',
+                'sector_cluster_name': 'Sustainability and Infrastructure',
+                'sector_name': 'Advanced engineering',
+                'sub_sector_name': 'Metals, minerals and materials',
+                'sub_sub_sector_name': '',
+            },
+            {
+                'id': 3,
+                'sector_id': 'SL0050',
+                'full_sector_name': 'Automotive',
+                'sector_cluster_name': 'Sustainability and Infrastructure',
+                'sector_name': 'Automotive',
+                'sub_sector_name': '',
+                'sub_sub_sector_name': '',
+            },
+            {
+                'id': 4,
+                'sector_id': 'SL0052',
+                'full_sector_name': 'Automotive : Component manufacturing : Bodies and coachwork',
+                'sector_cluster_name': 'Sustainability and Infrastructure',
+                'sector_name': 'Automotive',
+                'sub_sector_name': 'Component manufacturing',
+                'sub_sub_sector_name': 'Bodies and coachwork',
+            },
+            {
+                'id': 5,
+                'sector_id': 'SL0053',
+                'full_sector_name': 'Automotive : Component manufacturing : Electronic components',
+                'sector_cluster_name': 'Sustainability and Infrastructure',
+                'sector_name': 'Automotive',
+                'sub_sector_name': 'Component manufacturing',
+                'sub_sub_sector_name': 'Electronic components',
+            },
+        ]
+    ),
+)
 @pytest.mark.parametrize(
     'form_data,is_valid',
     (
@@ -101,62 +154,10 @@ from international_online_offer.forms import (
     ),
 )
 @pytest.mark.django_db
-def test_business_details_form_validation(form_data, is_valid):
-    with mock.patch('directory_api_client.api_client.dataservices.get_dbt_sectors') as mock_get_dbt_sector:
-        mock_get_dbt_sector.return_value = create_response(
-            [
-                {
-                    "id": 1,
-                    "sector_id": "SL0003",
-                    "full_sector_name": "Advanced engineering : Metallurgical process plant",
-                    "sector_cluster_name": "Sustainability and Infrastructure",
-                    "sector_name": "Advanced engineering",
-                    "sub_sector_name": "Metallurgical process plant",
-                    "sub_sub_sector_name": "",
-                },
-                {
-                    "id": 2,
-                    "sector_id": "SL0004",
-                    "full_sector_name": "Advanced engineering : Metals, minerals and materials",
-                    "sector_cluster_name": "Sustainability and Infrastructure",
-                    "sector_name": "Advanced engineering",
-                    "sub_sector_name": "Metals, minerals and materials",
-                    "sub_sub_sector_name": "",
-                },
-                {
-                    "id": 3,
-                    "sector_id": "SL0050",
-                    "full_sector_name": "Automotive",
-                    "sector_cluster_name": "Sustainability and Infrastructure",
-                    "sector_name": "Automotive",
-                    "sub_sector_name": "",
-                    "sub_sub_sector_name": "",
-                },
-                {
-                    "id": 4,
-                    "sector_id": "SL0052",
-                    "full_sector_name": "Automotive : Component manufacturing : Bodies and coachwork",
-                    "sector_cluster_name": "Sustainability and Infrastructure",
-                    "sector_name": "Automotive",
-                    "sub_sector_name": "Component manufacturing",
-                    "sub_sub_sector_name": "Bodies and coachwork",
-                },
-                {
-                    "id": 5,
-                    "sector_id": "SL0053",
-                    "full_sector_name": "Automotive : Component manufacturing : Electronic components",
-                    "sector_cluster_name": "Sustainability and Infrastructure",
-                    "sector_name": "Automotive",
-                    "sub_sector_name": "Component manufacturing",
-                    "sub_sub_sector_name": "Electronic components",
-                },
-            ]
-        )
-        from international_online_offer.forms import BusinessDetailsForm
-
-        data = form_data
-        form = BusinessDetailsForm(data)
-        assert form.is_valid() == is_valid
+def test_business_details_form_validation(mock_get_dbt_sectors, form_data, is_valid):
+    data = form_data
+    form = BusinessDetailsForm(data)
+    assert form.is_valid() == is_valid
 
 
 @pytest.mark.parametrize(

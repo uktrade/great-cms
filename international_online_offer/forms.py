@@ -26,6 +26,13 @@ COUNTRIES = BLANK_COUNTRY_CHOICE + COUNTRY_CHOICES
 
 
 class BusinessDetailsForm(forms.Form):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        sector_data_json = get_dbt_sectors()
+        self.sub_sectors_choices = region_sector_helpers.get_sub_and_sub_sub_sectors_choices(sector_data_json)
+        self.fields['sector_sub'].choices = (('', ''),) + self.sub_sectors_choices
+
     company_name = CharField(
         label='Company name',
         required=True,
@@ -35,12 +42,7 @@ class BusinessDetailsForm(forms.Form):
         },
     )
 
-    sector_data_json = get_dbt_sectors()
-    sub_sectors_choices = region_sector_helpers.get_sub_and_sub_sub_sectors_choices(sector_data_json)
-
-    if not sub_sectors_choices:
-        sub_sectors_choices = sector_data_json = (('NO DATA', 'NO DATA'),)
-
+    # sector sub choices are set in form constructor to avoid set effects when importing module
     sector_sub = ChoiceField(
         label='What does your business make or do?',
         help_text='Search a list of business activities and select the closest description',
@@ -48,7 +50,7 @@ class BusinessDetailsForm(forms.Form):
         widget=Select(
             attrs={'id': 'js-sector-select', 'class': 'govuk-input', 'aria-describedby': 'help_for_id_sector_sub'}
         ),
-        choices=(('', ''),) + sub_sectors_choices,
+        choices=(('', ''),),
         error_messages={
             'required': 'Search and select a business activity',
         },
