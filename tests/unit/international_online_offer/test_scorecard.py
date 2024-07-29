@@ -104,63 +104,53 @@ def test_is_capex_spend():
     populate_scoring_criteria()
     assert not scorecard.is_capex_spend(
         'Food and drink',
-        'Food and drink: cookies',
         spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND,
     )
     assert not scorecard.is_capex_spend(
         'Technology and smart cities',
-        'Technology and smart cities : random sub sector',
         spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND,
     )
     assert not scorecard.is_capex_spend(
         'Technology and smart cities',
-        'Technology and smart cities : random sub sector',
         spends.TWO_MILLION_TO_FIVE_MILLION,
     )
     assert scorecard.is_capex_spend(
         'Technology and smart cities',
-        'Technology and smart cities : Communications',
         spends.ONE_MILLION_TO_TWO_MILLION,
     )
     assert not scorecard.is_capex_spend(
         'Technology and smart cities',
-        'Technology and smart cities : Hardware',
         spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND,
     )
     assert scorecard.is_capex_spend(
         'Technology and smart cities',
-        'Technology and smart cities : Hardware',
         spends.TWO_MILLION_TO_FIVE_MILLION,
     )
     assert not scorecard.is_capex_spend(
         'Energy', 'Energy : Civil nuclear', spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND
     )
-    assert scorecard.is_capex_spend('Energy', 'Energy : Civil nuclear', spends.ONE_MILLION_TO_TWO_MILLION)
-    assert not scorecard.is_capex_spend('Energy', 'Energy : Oil and gas', spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND)
-    assert scorecard.is_capex_spend('Energy', 'Energy : Oil and gas', spends.TWO_MILLION_TO_FIVE_MILLION)
-    assert not scorecard.is_capex_spend(
-        'Energy', 'Energy: random sub sector', spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND
-    )
-    assert scorecard.is_capex_spend('Energy', 'Energy: random sub sector', spends.TWO_MILLION_TO_FIVE_MILLION)
+    assert scorecard.is_capex_spend('Energy', spends.ONE_MILLION_TO_TWO_MILLION)
+    assert not scorecard.is_capex_spend('Energy', spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND)
+    assert scorecard.is_capex_spend('Energy', spends.TWO_MILLION_TO_FIVE_MILLION)
+    assert not scorecard.is_capex_spend('Energy', spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND)
+    assert scorecard.is_capex_spend('Energy', spends.TWO_MILLION_TO_FIVE_MILLION)
 
 
 @pytest.mark.django_db
 def test_is_labour_workforce_hire():
     populate_scoring_criteria()
-    assert not scorecard.is_labour_workforce_hire('Food and drink', '', hirings.ONE_TO_FIVE)
-    assert scorecard.is_labour_workforce_hire('Food and drink', '', hirings.SIX_TO_FIFTY)
-    assert scorecard.is_labour_workforce_hire('Food and drink', '', hirings.ONE_HUNDRED_ONE_PLUS)
-    assert not scorecard.is_labour_workforce_hire('Random sector', '', hirings.SIX_TO_FIFTY)
-    assert not scorecard.is_labour_workforce_hire('Food and drink', '', hirings.NO_PLANS_TO_HIRE_YET)
-    assert not scorecard.is_labour_workforce_hire('Financial and professional services', '', hirings.ONE_TO_FIVE)
+    assert not scorecard.is_labour_workforce_hire('Food and drink', hirings.ONE_TO_FIVE)
+    assert scorecard.is_labour_workforce_hire('Food and drink', hirings.SIX_TO_FIFTY)
+    assert scorecard.is_labour_workforce_hire('Food and drink', hirings.ONE_HUNDRED_ONE_PLUS)
+    assert not scorecard.is_labour_workforce_hire('Random sector', hirings.SIX_TO_FIFTY)
+    assert not scorecard.is_labour_workforce_hire('Food and drink', hirings.NO_PLANS_TO_HIRE_YET)
+    assert not scorecard.is_labour_workforce_hire('Financial and professional services', hirings.ONE_TO_FIVE)
     assert not scorecard.is_labour_workforce_hire(
         'Financial and professional services',
-        'Financial and professional services : Business and consumer services',
         hirings.ONE_TO_FIVE,
     )
     assert scorecard.is_labour_workforce_hire(
         'Financial and professional services',
-        'Financial and professional services : Business and consumer services',
         hirings.SIX_TO_FIFTY,
     )
 

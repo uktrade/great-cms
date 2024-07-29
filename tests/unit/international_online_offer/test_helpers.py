@@ -247,50 +247,6 @@ def test_get_region_from_city(input_choice, expected_result):
     assert region_sector_helpers.get_region_from_city(input_choice) == expected_result
 
 
-@pytest.mark.django_db
-def test_get_sectors_and_sic_sectors_file():
-    data = region_sector_helpers.get_sectors_and_sic_sectors_file()['data']
-    assert data is not None
-    assert len(data) == 731
-    assert data[0]['dit_sector_list_field_04'] is not None
-    assert data[0]['dit_sector_list_full_sector_name'] is not None
-
-
-@pytest.mark.django_db
-def test_get_sectors_and_sic_sectors_file_as_string():
-    data = region_sector_helpers.get_sectors_and_sic_sectors_file_as_string()
-    assert data is not None
-    assert type(data) is str
-
-
-@pytest.mark.django_db
-def test_generate_sector_choices():
-    sectors = region_sector_helpers.generate_sector_choices()
-    assert sectors is not None
-    assert type(sectors) is tuple
-    assert len(sectors) == 25
-    valid_choices = True
-    for sector in sectors:
-        if region_sector_helpers.to_literal(sector[1]) != sector[0]:
-            valid_choices = False
-
-    assert valid_choices is True
-
-
-@pytest.mark.django_db
-def test_generate_sector_sic_choices():
-    sic_sectors = region_sector_helpers.generate_sector_sic_choices()
-    assert sic_sectors is not None
-    assert type(sic_sectors) is tuple
-    assert len(sic_sectors) == 731
-    valid_choices = True
-    for sic_sector in sic_sectors:
-        if region_sector_helpers.to_literal(sic_sector[1]) != sic_sector[0]:
-            valid_choices = False
-
-    assert valid_choices is True
-
-
 @pytest.mark.parametrize(
     'input_choice,expected_result',
     (
