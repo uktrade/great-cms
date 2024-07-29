@@ -2,11 +2,15 @@
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
 {% load static %}
-{% load add_govuk_classes url_type from content_tags %}
+{% load add_govuk_classes url_type get_sub_category_page_breadcrumbs get_meta_tag_label get_meta_tag_icon_path from content_tags %}
 {% block meta_tags %}<meta name="robots" content="noindex">{% endblock %}
 {% block head_title %}{{ page.page_title }}{% endblock %}
 {% block meta_title %}{{ page.page_title }}{% endblock %}
 {% block body_js %}{{ block.super }}{% endblock %}
+{% block body_attributes %}class="great-bg-white"{% endblock %}
+{% block breadcrumbs_block %}
+    <div class="container">{% include 'breadcrumbs.html' with itemsList=page|get_sub_category_page_breadcrumbs %}</div>
+{% endblock %}
 {% block content %}
     <div class="govuk-!-padding-bottom-9 great great-bg-white">
         <div class="great-container">
@@ -16,26 +20,64 @@
                         <div class="govuk-grid-row govuk-!-margin-top-5">
                             <div class="govuk-grid-column-two-thirds">
                                 <div class="govuk-!-margin-bottom-5">
-                                    <h1 class="govuk-heading-xl govuk-!-margin-top-5 govuk-!-margin-bottom-2">{{ page.page_title }}</h1>
+                                    <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">{{ page.page_title }}</h1>
                                     {% if page.page_intro %}{{ page.page_intro| richtext | add_govuk_classes }}{% endif %}
-                                </div>
-                                <div>
-                                    {% for task in page.page_body %}
-                                        <div class="govuk-!-padding-5 govuk-!-margin-bottom-5 {% if task.block_type == 'sub_task' %}govuk-!-margin-left-9{% endif %} great-grey-border great-bg-white">
-                                            <a href="{% if task.value.goods_url %}{{ task.value.goods_url }}{% else %}{{ task.value.services_url }}{% endif %}"
-                                               class="govuk-heading-s govuk-!-margin-bottom-0 great-heading-link">
-                                                <h2 class="govuk-heading-s great-heading-link__heading">
-                                                    <span>{{ task.value.title }}</span>
-                                                </h2>
-                                            </a>
-                                            <p class="govuk-body govuk-!-margin-bottom-3">{{ task.value.description_level_1 }}</p>
-                                        </div>
-                                    {% endfor %}
                                 </div>
                             </div>
                             <div class="govuk-grid-column-one-third"></div>
                         </div>
+                        <div class="govuk-grid-row govuk-!-margin-top-5 govuk-!-margin-bottom-9">
+                            <div class="govuk-grid-column-two-thirds">
+                                <div class="govuk-!-margin-bottom-9">
+                                    {% for task in page.page_body %}
+                                        <div class="govuk-!-margin-bottom-3 {% if task.block_type == 'sub_task' %}govuk-!-margin-left-9{% endif %}">
+                                            <a href="{% if task.value.url_goods %}{{ task.value.url_goods }}{% else %}{{ task.value.url_services }}{% endif %}"
+                                               class="govuk-heading-xs govuk-!-margin-bottom-2 great-heading-link great-heading-link--no-chevron"
+                                               data-journey-tracking="{{ task.value.task_id }}">
+                                                <h2 class="govuk-heading-xs great-heading-link__heading">
+                                                    <span>{{ task.value.title }}</span>
+                                                </h2>
+                                            </a>
+                                            <p class="govuk-body govuk-!-margin-bottom-3">{{ task.value.description_level_1 }}</p>
+                                            <span class="great-meta-label">
+                                                <img src="{% if task.value.url_goods %}{{ task.value.url_goods|get_meta_tag_icon_path }}{% else %}{{ task.value.url_services|get_meta_tag_icon_path }}{% endif %}"
+                                                     alt="" />
+                                                {% if task.value.url_goods %}
+                                                    {{ task.value.url_goods|get_meta_tag_label }}
+                                                {% else %}
+                                                    {{ task.value.url_services|get_meta_tag_label }}
+                                                {% endif %}
+                                            </span>
+                                            <hr class="govuk-!-margin-top-3 govuk-!-margin-bottom-4 great-hr-blue--thin" />
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="govuk-grid-column-one-third">
+                                <div class="govuk-!-padding-6 great-bg-light-blue">
+                                    <h2 class="govuk-heading-s">Sign up to compare markets and more...</h2>
+                                    <ul class="great-list-blue-tick govuk-!-margin-bottom-5">
+                                        <li>track your learning progress and read case studies</li>
+                                        <li>join live events from the UK Export Academy</li>
+                                        <li>compare markets using live export data</li>
+                                    </ul>
+                                    {% include "components/great/link-button-chevron.html" with href="/signup" text="Sign up to get started " %}
+                                </div>
+                            </div>
+                        </div>
                     {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="great-bg-light-blue">
+            <div class="great-container">
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds">
+                        <div class="govuk-!-padding-top-9 govuk-!-padding-bottom-9">
+                            {% include 'domestic/contact/export-support/includes/get-in-touch.html' %}
+                        </div>
+                    </div>
+                    <div class="govuk-grid-column-one-third"></div>
                 </div>
             </div>
         </div>

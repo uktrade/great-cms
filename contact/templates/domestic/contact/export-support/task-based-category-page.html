@@ -2,11 +2,15 @@
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
 {% load static %}
-{% load add_govuk_classes url_type from content_tags %}
+{% load add_govuk_classes url_type get_category_page_breadcrumbs from content_tags %}
 {% block meta_tags %}<meta name="robots" content="noindex">{% endblock %}
 {% block head_title %}{{ page.page_title }}{% endblock %}
 {% block meta_title %}{{ page.page_title }}{% endblock %}
 {% block body_js %}{{ block.super }}{% endblock %}
+{% block breadcrumbs_block %}
+    <div class="container">{% include 'breadcrumbs.html' with itemsList=page|get_category_page_breadcrumbs %}</div>
+{% endblock %}
+{% block body_attributes %}class="great-bg-white"{% endblock %}
 {% block content %}
     <div class="govuk-!-padding-bottom-9 great great-bg-white">
         <div class="great-container">
@@ -15,27 +19,55 @@
                     <div class="govuk-grid-row govuk-!-margin-top-5">
                         <div class="govuk-grid-column-two-thirds">
                             <div class="govuk-!-margin-bottom-5">
-                                <h1 class="govuk-heading-xl govuk-!-margin-top-5 govuk-!-margin-bottom-2">{{ page.page_title }}</h1>
+                                <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">{{ page.page_title }}</h1>
                                 {% if page.page_intro %}{{ page.page_intro| richtext | add_govuk_classes }}{% endif %}
                             </div>
-                            <div>
+                        </div>
+                        <div class="govuk-grid-column-one-third"></div>
+                    </div>
+                    <div class="govuk-grid-row govuk-!-margin-top-5 govuk-!-margin-bottom-9">
+                        <div class="govuk-grid-column-two-thirds">
+                            <div class="govuk-!-margin-bottom-9">
                                 {% for child_page in page.get_children %}
                                     {% with page=child_page.specific %}
-                                        <div class="govuk-!-padding-5 govuk-!-margin-bottom-5 great-grey-border great-bg-white">
+                                        <div class="govuk-!-margin-bottom-3">
                                             <a href="{% pageurl page %}"
-                                               class="govuk-heading-s govuk-!-margin-bottom-0 great-heading-link">
-                                                <h2 class="govuk-heading-s great-heading-link__heading">
+                                               class="govuk-heading-xs govuk-!-margin-bottom-2 great-heading-link great-heading-link--no-chevron">
+                                                <h2 class="govuk-heading-xs great-heading-link__heading">
                                                     <span>{{ page.page_title }}</span>
                                                 </h2>
                                             </a>
                                             <p class="govuk-body govuk-!-margin-bottom-3">{{ page.page_intro }}</p>
+                                            <hr class="govuk-!-margin-bottom-4 great-hr-blue--thin" />
                                         </div>
                                     {% endwith %}
                                 {% endfor %}
                             </div>
                         </div>
-                        <div class="govuk-grid-column-one-third"></div>
+                        <div class="govuk-grid-column-one-third">
+                            <div class="govuk-!-padding-6 great-bg-light-blue">
+                                <h2 class="govuk-heading-s">Sign up to compare markets and more...</h2>
+                                <ul class="great-list-blue-tick govuk-!-margin-bottom-5">
+                                    <li>track your learning progress and read case studies</li>
+                                    <li>join live events from the UK Export Academy</li>
+                                    <li>compare markets using live export data</li>
+                                </ul>
+                                {% include "components/great/link-button-chevron.html" with href="/signup" text="Sign up to get started " %}
+                            </div>
+                        </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="great-bg-light-blue">
+            <div class="great-container">
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds">
+                        <div class="govuk-!-padding-top-9 govuk-!-padding-bottom-9">
+                            {% include 'domestic/contact/export-support/includes/get-in-touch.html' %}
+                        </div>
+                    </div>
+                    <div class="govuk-grid-column-one-third"></div>
                 </div>
             </div>
         </div>
