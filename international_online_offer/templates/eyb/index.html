@@ -3,50 +3,21 @@
 {% block head_title %}Expand your business in the UK {{ block.super }}{% endblock %}
 {% block meta_title %}Expand your business in the UK {{ block.super }}{% endblock %}
 {% block content %}
-    <div class="govuk-width-container great-container">
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                <h1 class="govuk-heading-l">Expand your business in the UK</h1>
-            </div>
-        </div>
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                <img src="{% static 'images/expand-your-business-puzzle.png' %}"
-                     alt="Puzzle piece showing UK flag"
-                     class="home-image">
-                <h2 class="govuk-heading-m govuk-!-margin-top-3">Your free, tailored guide</h2>
-                <p class="govuk-body ">
-                    Whatever your size and type of business, our free online guide can help you set up and grow in the UK.
-                </p>
-                <p class="govuk-body">It's a 2-minute step by step process to get your guide.</p>
-                <h3 class="govuk-heading-s">What's in the guide</h3>
-                <p class="govuk-body">
-                    The guide takes you through the practical steps of setting up a business like opening a bank account and applying for a visa, in an easy checklist format.
-                </p>
-                <p class="govuk-body">It also covers:</p>
-                <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
-                    <li>UK funding, grants and incentives</li>
-                    <li>UK events and networks relevant to your sector</li>
-                    <li>finding the right location and staff for your business</li>
-                    <li>how to connect with experts to support your UK expansion</li>
-                    <li>exporting from the UK using government export support and free trade agreements</li>
-                </ul>
-            </div>
-        </div>
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                <div class="govuk-inset-text">Tell us a little bit about your business to tailor your guide.</div>
-            </div>
-        </div>
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                {% if not eyb_user %}
+    <section class="eyb-home-section">
+        <div class="govuk-width-container great-container">
+            <div class="govuk-grid-row govuk-!-padding-top-4 govuk-!-padding-bottom-6">
+                <div class="govuk-grid-column-one-half-from-desktop govuk-!-padding-bottom-4">
+                    <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">How to successfully expand your business and set up in the UK</h1>
+                    <p class="govuk-body-l">
+                        Tell us about your business and we'll give you the official information and data you need, in one place
+                    </p>
                     <a href="{% url 'international_online_offer:signup' %}"
                        role="button"
                        draggable="false"
                        class="govuk-button govuk-button--start"
                        data-module="govuk-button">
-                        Sign up
+                        Get started
+                        {% if not request.user.is_authenticated %}by signing up{% endif %}
                         <svg class="govuk-button__start-icon"
                              xmlns="http://www.w3.org/2000/svg"
                              width="17.5"
@@ -57,17 +28,193 @@
                             <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
                         </svg>
                     </a>
-                    <p class="govuk-body-m">
-                        Already have an account? <a href="{% url 'international_online_offer:login' %}"
-    class="govuk-link">Sign in</a>
-                    </p>
-                {% else %}
-                    <a href="{% if user_completed_triage %}{{ '/international/expand-your-business-in-the-uk/guide' }}{% else %}{% url 'international_online_offer:business-details' %}{% endif %}"
+                    {% if not request.user.is_authenticated %}
+                        <p class="govuk-body">
+                            Already started? <a href="{% url 'international_online_offer:login' %}"
+    class="govuk-link govuk-link--no-visited-state">Sign in</a>
+                        </p>
+                    {% endif %}
+                </div>
+                <div class="govuk-grid-column-one-half great-display-from-desktop">
+                    <div class="eyb-preview-image"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="eyb-guidance-section">
+        <div class="govuk-width-container great-container">
+            <div class="govuk-grid-row govuk-!-padding-top-8 govuk-!-padding-bottom-8">
+                <div class="govuk-grid-column-full">
+                    <h2 class="govuk-heading-l">
+                        {% if request.user.is_authenticated %}
+                            Practical online guidance
+                        {% else %}
+                            Sign up for practical online guidance
+                        {% endif %}
+                    </h2>
+                    <p class="govuk-body">Helping you make the right decisions about your expansion</p>
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-one-half-from-desktop">
+                            <div class="govuk-grid-row">
+                                <ul class="govuk-list govuk-!-margin-bottom-0 govuk-!-margin-top-0">
+                                    <li class="govuk-grid-column-one-third-from-desktop great-display-flex great-flex-column-from-desktop great-gap-5-15 great-align-items-center">
+                                        <div class="eyb-guidance-image eyb-planning-image"
+                                             alt="Company structure icon"></div>
+                                        <p class="govuk-body govuk-!-margin-bottom-0 govuk-!-text-align-centre">Company structure in the UK</p>
+                                    </li>
+                                    <li class="govuk-grid-column-one-third-from-desktop great-display-flex great-flex-column-from-desktop great-gap-5-15 great-align-items-center">
+                                        <div class="eyb-guidance-image eyb-funding-image" alt="Funding icon"></div>
+                                        <p class="govuk-body govuk-!-margin-bottom-0 govuk-!-text-align-centre">Funding and incentives</p>
+                                    </li>
+                                    <li class="govuk-grid-column-one-third-from-desktop great-display-flex great-flex-column-from-desktop great-gap-5-15 great-align-items-center">
+                                        <div class="eyb-guidance-image eyb-visa-image" alt="UK visas icon"></div>
+                                        <p class="govuk-body govuk-!-margin-bottom-0 govuk-!-text-align-centre">Visas</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="govuk-grid-column-one-half-from-desktop">
+                            <div class="govuk-grid-row">
+                                <ul class="govuk-list govuk-!-margin-bottom-0 govuk-!-margin-top-0">
+                                    <li class="govuk-grid-column-one-third-from-desktop great-display-flex great-flex-column-from-desktop great-gap-5-15 great-align-items-center">
+                                        <div class="eyb-guidance-image eyb-banking-image" alt="Banking icon"></div>
+                                        <p class="govuk-body govuk-!-margin-bottom-0 govuk-!-text-align-centre">Bank accounts</p>
+                                    </li>
+                                    <li class="govuk-grid-column-one-third-from-desktop great-display-flex great-flex-column-from-desktop great-gap-5-15 great-align-items-center">
+                                        <div class="eyb-guidance-image eyb-tax-image" alt="Tax icon"></div>
+                                        <p class="govuk-body govuk-!-margin-bottom-0 govuk-!-text-align-centre">Tax</p>
+                                    </li>
+                                    <li class="govuk-grid-column-one-third-from-desktop great-display-flex great-flex-column-from-desktop great-gap-5-15 great-align-items-center">
+                                        <div class="eyb-guidance-image eyb-hiring-image" alt="Hiring icon"></div>
+                                        <p class="govuk-body govuk-!-margin-bottom-0 govuk-!-text-align-centre">Hiring people</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="eyb-insights-section">
+        <div class="govuk-width-container great-container eyb-map-image-background">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-one-half-from-desktop govuk-!-padding-top-8 govuk-!-padding-bottom-4">
+                    <h2 class="govuk-heading-l">
+                        {% if request.user.is_authenticated %}
+                            Insights and data
+                        {% else %}
+                            Sign up to get insights and data
+                        {% endif %}
+                    </h2>
+                    <ul class="govuk-!-margin-bottom-0 govuk-!-margin-top-0">
+                        <li class="great-display-flex great-align-items-center great-gap govuk-!-margin-bottom-4">
+                            <div class="eyb-insights-image eyb-salary-image" alt="Salary icon"></div>
+                            <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-top-3">
+                                Assess the cost of hiring staff for your industry, across the UK
+                            </p>
+                        </li>
+                        <li class="great-display-flex great-align-items-center great-gap govuk-!-margin-bottom-4">
+                            <div class="eyb-insights-image eyb-shop-image" alt="Shop icon"></div>
+                            <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-top-3">
+                                Compare prices for renting shops, offices or warehouses, by region
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="eyb-connections-section">
+        <div class="govuk-width-container great-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full govuk-!-padding-top-8 govuk-!-padding-bottom-6">
+                    <h2 class="govuk-heading-l">
+                        {% if request.user.is_authenticated %}
+                            Make connections
+                        {% else %}
+                            Sign up to make connections
+                        {% endif %}
+                    </h2>
+                    <ul class="govuk-list">
+                        <li class="govuk-grid-column-one-third govuk-!-margin-bottom-4">
+                            <div class="eyb-connection-image eyb-networking-image"
+                                 alt="Image of a person or potential connection"></div>
+                            <p class="govuk-body govuk-!-font-weight-bold govuk-!-text-align-centre govuk-!-margin-bottom-0">
+                                Browse our lists of UK trade associations and get networking
+                            </p>
+                        </li>
+                        <li class="govuk-grid-column-one-third govuk-!-margin-bottom-4">
+                            <div class="eyb-connection-image eyb-trade-image"
+                                 alt="Image of a person or potential connection"></div>
+                            <p class="govuk-body govuk-!-font-weight-bold govuk-!-text-align-centre govuk-!-margin-bottom-0">
+                                Add hand-picked trade events to your calendar
+                            </p>
+                        </li>
+                        <li class="govuk-grid-column-one-third govuk-!-margin-bottom-4">
+                            <div class="eyb-connection-image eyb-expert-image"
+                                 alt="Image of a person or potential connection"></div>
+                            <p class="govuk-body govuk-!-font-weight-bold govuk-!-text-align-centre govuk-!-margin-bottom-0">
+                                Find UK experts in finance, law, and tax in our business directory
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="eyb-how-it-works-section">
+        <div class="govuk-width-container great-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full govuk-!-padding-top-8 govuk-!-padding-bottom-6">
+                    <h2 class="govuk-heading-l">How it works</h2>
+                    <ol class="govuk-list govuk-!-margin-bottom-0 govuk-!-margin-top-0">
+                        <li class="govuk-grid-column-one-third govuk-!-padding-0 govuk-!-margin-bottom-4">
+                            <div class="govuk-grid-column-full great-display-flex great-gap great-align-items-top govuk-!-padding-0">
+                                <div class="govuk-body eyb-huge-green-text eyb-number-forced-width">1</div>
+                                <div>
+                                    <h3 class="govuk-body-l govuk-!-font-weight-bold govuk-!-margin-bottom-3">Sign up</h3>
+                                    <p class="govuk-body govuk-!-margin-bottom-0">Enter an email address to save your progress</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="govuk-grid-column-one-third govuk-!-padding-0 govuk-!-margin-bottom-4">
+                            <div class="govuk-grid-column-full great-display-flex great-gap great-align-items-top govuk-!-padding-0">
+                                <div class="govuk-body eyb-huge-green-text">2</div>
+                                <div>
+                                    <h3 class="govuk-body-l govuk-!-font-weight-bold govuk-!-margin-bottom-3">Tell us a bit about your business</h3>
+                                    <p class="govuk-body govuk-!-margin-bottom-0">Include your sector and basic contact details</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="govuk-grid-column-one-third govuk-!-padding-0 govuk-!-margin-bottom-4">
+                            <div class="govuk-grid-column-full great-display-flex great-gap great-align-items-top govuk-!-padding-0">
+                                <div class="govuk-body eyb-huge-green-text">3</div>
+                                <div>
+                                    <h3 class="govuk-body-l govuk-!-font-weight-bold govuk-!-margin-bottom-3">View your guidance and data</h3>
+                                    <p class="govuk-body govuk-!-margin-bottom-0">
+                                        It's based on what you've told us, and you can refer to and shape it as your plans evolve
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="eyb-final-cta-section">
+        <div class="govuk-width-container great-container">
+            <div class="govuk-grid-row govuk-!-padding-top-6 govuk-!-padding-bottom-6">
+                <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-padding-top-4">
+                    <h2 class="govuk-heading-l">Instantly access the official information and data you need, in one place</h2>
+                    <a href="{% url 'international_online_offer:signup' %}"
                        role="button"
                        draggable="false"
                        class="govuk-button govuk-button--start"
                        data-module="govuk-button">
-                        Continue
+                        Get started
+                        {% if not request.user.is_authenticated %}by signing up{% endif %}
                         <svg class="govuk-button__start-icon"
                              xmlns="http://www.w3.org/2000/svg"
                              width="17.5"
@@ -78,18 +225,8 @@
                             <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
                         </svg>
                     </a>
-                {% endif %}
+                </div>
             </div>
         </div>
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                <h3 class="govuk-heading-s govuk-!-margin-top-4 govuk-!-margin-bottom-2">Personal data</h3>
-                <p class="govuk-body">
-                    The Department for Business and Trade is committed to protecting the privacy and security of your information. <a class="govuk-link"
-    id="terms-and-conditions"
-    href="{{ header_footer_urls.terms_and_conditions }}">View our website's Terms and conditions</a>
-                </p>
-            </div>
-        </div>
-    </div>
+    </section>
 {% endblock %}
