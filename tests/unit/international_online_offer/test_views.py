@@ -164,48 +164,16 @@ def test_eyb_signup_partial_complete_signup_redirect(settings, client, user):
     assert response.status_code == 302
 
 
-@mock.patch(
-    'directory_api_client.api_client.dataservices.get_dbt_sectors',
-    return_value=create_response(
-        [
-            {
-                'id': 1,
-                'sector_id': 'SL0003',
-                'full_sector_name': 'Advanced engineering : Metallurgical process plant',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Advanced engineering',
-                'sub_sector_name': 'Metallurgical process plant',
-                'sub_sub_sector_name': '',
-            },
-        ]
-    ),
-)
 @pytest.mark.django_db
-def test_eyb_business_details(mocked_sectors_api, client, user, settings):
+def test_eyb_business_details(mock_get_dbt_sectors, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
     response = client.get(reverse('international_online_offer:business-details'))
     assert response.status_code == 200
 
 
-@mock.patch(
-    'directory_api_client.api_client.dataservices.get_dbt_sectors',
-    return_value=create_response(
-        [
-            {
-                'id': 1,
-                'sector_id': 'SL0003',
-                'full_sector_name': 'Advanced engineering : Metallurgical process plant',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Advanced engineering',
-                'sub_sector_name': 'Metallurgical process plant',
-                'sub_sub_sector_name': '',
-            },
-        ]
-    ),
-)
 @pytest.mark.django_db
-def test_eyb_business_details_next(mocked_sectors_api, client, user, settings):
+def test_eyb_business_details_next(mock_get_dbt_sectors, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
     response = client.get(
@@ -216,48 +184,16 @@ def test_eyb_business_details_next(mocked_sectors_api, client, user, settings):
     assert response.status_code == 200
 
 
-@mock.patch(
-    'directory_api_client.api_client.dataservices.get_dbt_sectors',
-    return_value=create_response(
-        [
-            {
-                'id': 1,
-                'sector_id': 'SL0003',
-                'full_sector_name': 'Advanced engineering : Metallurgical process plant',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Advanced engineering',
-                'sub_sector_name': 'Metallurgical process plant',
-                'sub_sub_sector_name': '',
-            },
-        ]
-    ),
-)
 @pytest.mark.django_db
-def test_eyb_business_details_next_unhappy(mocked_sectors_api, client, user, settings):
+def test_eyb_business_details_next_unhappy(mock_get_dbt_sectors, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
     response = client.get(reverse('international_online_offer:business-details') + '?next=edit-your-answers')
     assert response.status_code == 200
 
 
-@mock.patch(
-    'directory_api_client.api_client.dataservices.get_dbt_sectors',
-    return_value=create_response(
-        [
-            {
-                'id': 1,
-                'sector_id': 'SL0003',
-                'full_sector_name': 'Advanced engineering : Metallurgical process plant',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Advanced engineering',
-                'sub_sector_name': 'Metallurgical process plant',
-                'sub_sub_sector_name': '',
-            },
-        ]
-    ),
-)
 @pytest.mark.django_db
-def test_eyb_business_details_initial(mocked_sectors_api, client, user, settings):
+def test_eyb_business_details_initial(mock_get_dbt_sectors, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     TriageData.objects.update_or_create(
         hashed_uuid='123',
@@ -270,22 +206,6 @@ def test_eyb_business_details_initial(mocked_sectors_api, client, user, settings
     assert response.status_code == 200
 
 
-@mock.patch(
-    'directory_api_client.api_client.dataservices.get_dbt_sectors',
-    return_value=create_response(
-        [
-            {
-                'id': 1,
-                'sector_id': 'SL0003',
-                'full_sector_name': 'Advanced engineering : Metallurgical process plant',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Advanced engineering',
-                'sub_sector_name': 'Metallurgical process plant',
-                'sub_sub_sector_name': '',
-            },
-        ]
-    ),
-)
 @pytest.mark.django_db
 def test_eyb_business_details_form_valid_saves_to_db(mock_get_dbt_sectors, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
@@ -384,24 +304,8 @@ def test_intent_form_valid_saves_to_db(client, user, settings):
     assert response.status_code == 302
 
 
-@mock.patch(
-    'directory_api_client.api_client.dataservices.get_dbt_sectors',
-    return_value=create_response(
-        [
-            {
-                'id': 1,
-                'sector_id': 'SL0003',
-                'full_sector_name': 'Advanced engineering : Metallurgical process plant',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Advanced engineering',
-                'sub_sector_name': 'Metallurgical process plant',
-                'sub_sub_sector_name': '',
-            },
-        ]
-    ),
-)
 @pytest.mark.django_db
-def test_know_setup_location(mocked_sectors_api, client, user, settings):
+def test_know_setup_location(mock_get_dbt_sectors, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
     url = reverse('international_online_offer:know-setup-location')
@@ -409,24 +313,8 @@ def test_know_setup_location(mocked_sectors_api, client, user, settings):
     assert response.status_code == 200
 
 
-@mock.patch(
-    'directory_api_client.api_client.dataservices.get_dbt_sectors',
-    return_value=create_response(
-        [
-            {
-                'id': 1,
-                'sector_id': 'SL0003',
-                'full_sector_name': 'Advanced engineering : Metallurgical process plant',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Advanced engineering',
-                'sub_sector_name': 'Metallurgical process plant',
-                'sub_sub_sector_name': '',
-            },
-        ]
-    ),
-)
 @pytest.mark.django_db
-def test_know_setup_location_next(mocked_sectors_api, client, user, settings):
+def test_know_setup_location_next(mock_get_dbt_sectors, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
     response = client.get(
@@ -437,24 +325,8 @@ def test_know_setup_location_next(mocked_sectors_api, client, user, settings):
     assert response.status_code == 200
 
 
-@mock.patch(
-    'directory_api_client.api_client.dataservices.get_dbt_sectors',
-    return_value=create_response(
-        [
-            {
-                'id': 1,
-                'sector_id': 'SL0003',
-                'full_sector_name': 'Advanced engineering : Metallurgical process plant',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Advanced engineering',
-                'sub_sector_name': 'Metallurgical process plant',
-                'sub_sub_sector_name': '',
-            },
-        ]
-    ),
-)
 @pytest.mark.django_db
-def test_know_setup_location_initial(mocked_sectors_api, client, user, settings):
+def test_know_setup_location_initial(mock_get_dbt_sectors, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     TriageData.objects.update_or_create(
         hashed_uuid='123',
@@ -467,24 +339,8 @@ def test_know_setup_location_initial(mocked_sectors_api, client, user, settings)
     assert response.status_code == 200
 
 
-@mock.patch(
-    'directory_api_client.api_client.dataservices.get_dbt_sectors',
-    return_value=create_response(
-        [
-            {
-                'id': 1,
-                'sector_id': 'SL0003',
-                'full_sector_name': 'Advanced engineering : Metallurgical process plant',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Advanced engineering',
-                'sub_sector_name': 'Metallurgical process plant',
-                'sub_sub_sector_name': '',
-            },
-        ]
-    ),
-)
 @pytest.mark.django_db
-def test_know_setup_location_form_valid_saves_to_db(mocked_sectors_api, client, user, settings):
+def test_know_setup_location_form_valid_saves_to_db(mock_get_dbt_sectors, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:know-setup-location')
     user.hashed_uuid = '123'
@@ -538,24 +394,8 @@ def test_know_when_want_setup_form_valid_saves_to_db(client, user, settings):
     assert response.status_code == 302
 
 
-@mock.patch(
-    'directory_api_client.api_client.dataservices.get_dbt_sectors',
-    return_value=create_response(
-        [
-            {
-                'id': 1,
-                'sector_id': 'SL0003',
-                'full_sector_name': 'Advanced engineering : Metallurgical process plant',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Advanced engineering',
-                'sub_sector_name': 'Metallurgical process plant',
-                'sub_sub_sector_name': '',
-            },
-        ]
-    ),
-)
 @pytest.mark.django_db
-def test_location(mocked_sectors_api, client, user, settings):
+def test_location(mock_get_dbt_sectors, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
     url = reverse('international_online_offer:location')
@@ -566,24 +406,8 @@ def test_location(mocked_sectors_api, client, user, settings):
     assert response.status_code == 200
 
 
-@mock.patch(
-    'directory_api_client.api_client.dataservices.get_dbt_sectors',
-    return_value=create_response(
-        [
-            {
-                'id': 1,
-                'sector_id': 'SL0003',
-                'full_sector_name': 'Advanced engineering : Metallurgical process plant',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Advanced engineering',
-                'sub_sector_name': 'Metallurgical process plant',
-                'sub_sub_sector_name': '',
-            },
-        ]
-    ),
-)
 @pytest.mark.django_db
-def test_location_next(mocked_sectors_api, client, user, settings):
+def test_location_next(mock_get_dbt_sectors, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
     response = client.get(
@@ -594,24 +418,8 @@ def test_location_next(mocked_sectors_api, client, user, settings):
     assert response.status_code == 200
 
 
-@mock.patch(
-    'directory_api_client.api_client.dataservices.get_dbt_sectors',
-    return_value=create_response(
-        [
-            {
-                'id': 1,
-                'sector_id': 'SL0003',
-                'full_sector_name': 'Advanced engineering : Metallurgical process plant',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Advanced engineering',
-                'sub_sector_name': 'Metallurgical process plant',
-                'sub_sub_sector_name': '',
-            },
-        ]
-    ),
-)
 @pytest.mark.django_db
-def test_location_initial(mocked_sectors_api, client, user, settings):
+def test_location_initial(mock_get_dbt_sectors, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     TriageData.objects.update_or_create(
         hashed_uuid='123',
@@ -624,24 +432,8 @@ def test_location_initial(mocked_sectors_api, client, user, settings):
     assert response.status_code == 200
 
 
-@mock.patch(
-    'directory_api_client.api_client.dataservices.get_dbt_sectors',
-    return_value=create_response(
-        [
-            {
-                'id': 1,
-                'sector_id': 'SL0003',
-                'full_sector_name': 'Advanced engineering : Metallurgical process plant',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Advanced engineering',
-                'sub_sector_name': 'Metallurgical process plant',
-                'sub_sub_sector_name': '',
-            },
-        ]
-    ),
-)
 @pytest.mark.django_db
-def test_location_form_valid_saves_to_db(mocked_sectors_api, client, user, settings):
+def test_location_form_valid_saves_to_db(mock_get_dbt_sectors, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:location')
     user.hashed_uuid = '123'
@@ -650,24 +442,8 @@ def test_location_form_valid_saves_to_db(mocked_sectors_api, client, user, setti
     assert response.status_code == 302
 
 
-@mock.patch(
-    'directory_api_client.api_client.dataservices.get_dbt_sectors',
-    return_value=create_response(
-        [
-            {
-                'id': 1,
-                'sector_id': 'SL0003',
-                'full_sector_name': 'Advanced engineering : Metallurgical process plant',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Advanced engineering',
-                'sub_sector_name': 'Metallurgical process plant',
-                'sub_sub_sector_name': '',
-            },
-        ]
-    ),
-)
 @pytest.mark.django_db
-def test_location_saved_to_db_gets_labels(mocked_sectors_api, client, user, settings):
+def test_location_saved_to_db_gets_labels(mock_get_dbt_sectors, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:location')
     user.hashed_uuid = '123'
@@ -680,24 +456,8 @@ def test_location_saved_to_db_gets_labels(mocked_sectors_api, client, user, sett
     assert response.status_code == 200
 
 
-@mock.patch(
-    'directory_api_client.api_client.dataservices.get_dbt_sectors',
-    return_value=create_response(
-        [
-            {
-                'id': 1,
-                'sector_id': 'SL0003',
-                'full_sector_name': 'Advanced engineering : Metallurgical process plant',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Advanced engineering',
-                'sub_sector_name': 'Metallurgical process plant',
-                'sub_sub_sector_name': '',
-            },
-        ]
-    ),
-)
 @pytest.mark.django_db
-def test_hiring(mocked_sectors_api, client, user, settings):
+def test_hiring(mock_get_dbt_sectors, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
     url = reverse('international_online_offer:hiring')
@@ -705,24 +465,8 @@ def test_hiring(mocked_sectors_api, client, user, settings):
     assert response.status_code == 200
 
 
-@mock.patch(
-    'directory_api_client.api_client.dataservices.get_dbt_sectors',
-    return_value=create_response(
-        [
-            {
-                'id': 1,
-                'sector_id': 'SL0003',
-                'full_sector_name': 'Advanced engineering : Metallurgical process plant',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Advanced engineering',
-                'sub_sector_name': 'Metallurgical process plant',
-                'sub_sub_sector_name': '',
-            },
-        ]
-    ),
-)
 @pytest.mark.django_db
-def test_hiring_next(mocked_sectors_api, client, user, settings):
+def test_hiring_next(mock_get_dbt_sectors, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
     response = client.get(
@@ -733,24 +477,8 @@ def test_hiring_next(mocked_sectors_api, client, user, settings):
     assert response.status_code == 200
 
 
-@mock.patch(
-    'directory_api_client.api_client.dataservices.get_dbt_sectors',
-    return_value=create_response(
-        [
-            {
-                'id': 1,
-                'sector_id': 'SL0003',
-                'full_sector_name': 'Advanced engineering : Metallurgical process plant',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Advanced engineering',
-                'sub_sector_name': 'Metallurgical process plant',
-                'sub_sub_sector_name': '',
-            },
-        ]
-    ),
-)
 @pytest.mark.django_db
-def test_hiring_initial(mocked_sectors_api, client, user, settings):
+def test_hiring_initial(mock_get_dbt_sectors, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     TriageData.objects.update_or_create(
         hashed_uuid='123',
@@ -763,24 +491,8 @@ def test_hiring_initial(mocked_sectors_api, client, user, settings):
     assert response.status_code == 200
 
 
-@mock.patch(
-    'directory_api_client.api_client.dataservices.get_dbt_sectors',
-    return_value=create_response(
-        [
-            {
-                'id': 1,
-                'sector_id': 'SL0003',
-                'full_sector_name': 'Advanced engineering : Metallurgical process plant',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Advanced engineering',
-                'sub_sector_name': 'Metallurgical process plant',
-                'sub_sub_sector_name': '',
-            },
-        ]
-    ),
-)
 @pytest.mark.django_db
-def test_hiring_form_valid_saves_to_db(mocked_sectors_api, client, user, settings):
+def test_hiring_form_valid_saves_to_db(mock_get_dbt_sectors, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:hiring')
     user.hashed_uuid = '123'
@@ -789,24 +501,8 @@ def test_hiring_form_valid_saves_to_db(mocked_sectors_api, client, user, setting
     assert response.status_code == 302
 
 
-@mock.patch(
-    'directory_api_client.api_client.dataservices.get_dbt_sectors',
-    return_value=create_response(
-        [
-            {
-                'id': 1,
-                'sector_id': 'SL0003',
-                'full_sector_name': 'Advanced engineering : Metallurgical process plant',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Advanced engineering',
-                'sub_sector_name': 'Metallurgical process plant',
-                'sub_sub_sector_name': '',
-            },
-        ]
-    ),
-)
 @pytest.mark.django_db
-def test_spend(mocked_sectors_api, client, user, settings):
+def test_spend(mock_get_dbt_sectors, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
     url = reverse('international_online_offer:spend')
@@ -814,24 +510,8 @@ def test_spend(mocked_sectors_api, client, user, settings):
     assert response.status_code == 200
 
 
-@mock.patch(
-    'directory_api_client.api_client.dataservices.get_dbt_sectors',
-    return_value=create_response(
-        [
-            {
-                'id': 1,
-                'sector_id': 'SL0003',
-                'full_sector_name': 'Advanced engineering : Metallurgical process plant',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Advanced engineering',
-                'sub_sector_name': 'Metallurgical process plant',
-                'sub_sub_sector_name': '',
-            },
-        ]
-    ),
-)
 @pytest.mark.django_db
-def test_spend_next(mocked_sectors_api, client, user, settings):
+def test_spend_next(mock_get_dbt_sectors, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
     response = client.get(
@@ -842,24 +522,8 @@ def test_spend_next(mocked_sectors_api, client, user, settings):
     assert response.status_code == 200
 
 
-@mock.patch(
-    'directory_api_client.api_client.dataservices.get_dbt_sectors',
-    return_value=create_response(
-        [
-            {
-                'id': 1,
-                'sector_id': 'SL0003',
-                'full_sector_name': 'Advanced engineering : Metallurgical process plant',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Advanced engineering',
-                'sub_sector_name': 'Metallurgical process plant',
-                'sub_sub_sector_name': '',
-            },
-        ]
-    ),
-)
 @pytest.mark.django_db
-def test_spend_initial(mocked_sectors_api, client, user, settings):
+def test_spend_initial(mock_get_dbt_sectors, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     TriageData.objects.update_or_create(
         hashed_uuid='123',
@@ -872,24 +536,8 @@ def test_spend_initial(mocked_sectors_api, client, user, settings):
     assert response.status_code == 200
 
 
-@mock.patch(
-    'directory_api_client.api_client.dataservices.get_dbt_sectors',
-    return_value=create_response(
-        [
-            {
-                'id': 1,
-                'sector_id': 'SL0003',
-                'full_sector_name': 'Advanced engineering : Metallurgical process plant',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Advanced engineering',
-                'sub_sector_name': 'Metallurgical process plant',
-                'sub_sub_sector_name': '',
-            },
-        ]
-    ),
-)
 @pytest.mark.django_db
-def test_spend_form_valid_saves_to_db(mocked_sectors_api, client, user, settings):
+def test_spend_form_valid_saves_to_db(mock_get_dbt_sectors, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:spend')
     user.hashed_uuid = '123'
