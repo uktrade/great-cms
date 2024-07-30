@@ -52,6 +52,7 @@ create_virtualenv_and_install_dependencies:
     command: |
       python3 -m venv venv
       . venv/bin/activate
+      pip install --upgrade pip
       make install_requirements
 
 setup_secrets: &setup_secrets
@@ -272,6 +273,7 @@ jobs:
           command: |
             python3 -m venv venv
             . venv/bin/activate
+            pip install --upgrade pip
             pip install --quiet -r requirements_test.txt
             flake8
 
