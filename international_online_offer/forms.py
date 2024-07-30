@@ -18,6 +18,7 @@ from contact import widgets as contact_widgets
 from core.validators import is_valid_email_address
 from directory_constants.choices import COUNTRY_CHOICES
 from international_online_offer.core import choices, intents, region_sector_helpers
+from international_online_offer.services import get_dbt_sectors
 
 TERMS_LABEL = mark_safe('I agree to the <a href="#" target="_blank">Terms and Conditions</a>')
 BLANK_COUNTRY_CHOICE = [('', '')]
@@ -25,6 +26,13 @@ COUNTRIES = BLANK_COUNTRY_CHOICE + COUNTRY_CHOICES
 
 
 class BusinessDetailsForm(forms.Form):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        sector_data_json = get_dbt_sectors()
+        self.sub_sectors_choices = region_sector_helpers.get_sub_and_sub_sub_sectors_choices(sector_data_json)
+        self.fields['sector_sub'].choices = (('', ''),) + self.sub_sectors_choices
+
     company_name = CharField(
         label='Company name',
         required=True,
@@ -34,6 +42,7 @@ class BusinessDetailsForm(forms.Form):
         },
     )
 
+    # sector sub choices are set in form constructor to avoid set effects when importing module
     sector_sub = ChoiceField(
         label='What does your business make or do?',
         help_text='Search a list of business activities and select the closest description',
@@ -41,7 +50,7 @@ class BusinessDetailsForm(forms.Form):
         widget=Select(
             attrs={'id': 'js-sector-select', 'class': 'govuk-input', 'aria-describedby': 'help_for_id_sector_sub'}
         ),
-        choices=(('', ''),) + region_sector_helpers.generate_sector_sic_choices(),
+        choices=(('', ''),),
         error_messages={
             'required': 'Search and select a business activity',
         },

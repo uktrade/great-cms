@@ -3,7 +3,6 @@ from unittest import mock
 import pytest
 from directory_forms_api_client import actions
 
-from directory_constants import sectors as directory_constants_sectors
 from international_online_offer.core import (
     helpers,
     hirings,
@@ -11,7 +10,6 @@ from international_online_offer.core import (
     professions,
     region_sector_helpers,
     regions,
-    sectors,
     spends,
 )
 from international_online_offer.models import TriageData
@@ -26,8 +24,8 @@ def test_find_articles_based_on_tags():
         def __init__(self, name):
             self.name = name
 
-    tag = MockTag(sectors.TECHNOLOGY_AND_SMART_CITIES)
-    tag2 = MockTag(sectors.CREATIVE_INDUSTRIES)
+    tag = MockTag('Technology and smart cities')
+    tag2 = MockTag('Creative industries')
     tag3 = MockTag(intents.SET_UP_A_NEW_DISTRIBUTION_CENTRE)
     tag4 = MockTag(intents.SET_UP_NEW_PREMISES)
 
@@ -39,9 +37,9 @@ def test_find_articles_based_on_tags():
     articles = [article_tech, article_creative, article_tech_and_dist_centre, article_tech_and_premises]
 
     assert len(helpers.filter_articles_sector_only(articles)) == 2
-    assert len(helpers.filter_intent_articles_specific_to_sector(articles, sectors.TECHNOLOGY_AND_SMART_CITIES)) == 3
+    assert len(helpers.filter_intent_articles_specific_to_sector(articles, 'Technology and smart cities')) == 3
     assert helpers.filter_articles_sector_only([]) == []
-    assert helpers.filter_intent_articles_specific_to_sector([], sectors.TECHNOLOGY_AND_SMART_CITIES) == []
+    assert helpers.filter_intent_articles_specific_to_sector([], 'Technology and smart cities') == []
 
 
 def test_can_show_salary_rent_component():
@@ -49,7 +47,7 @@ def test_can_show_salary_rent_component():
         def __init__(self, name):
             self.name = name
 
-    tag = MockTag(sectors.TECHNOLOGY_AND_SMART_CITIES)
+    tag = MockTag('Technology and smart cities')
     tag2 = MockTag(intents.SET_UP_A_NEW_DISTRIBUTION_CENTRE)
     tag3 = MockTag(intents.SET_UP_NEW_PREMISES)
     tag4 = MockTag(intents.FIND_PEOPLE_WITH_SPECIALIST_SKILLS)
@@ -62,13 +60,9 @@ def test_can_show_salary_rent_component():
 
 
 def test_get_trade_assoication_sectors_from_sector():
-    assert helpers.get_trade_assoication_sectors_from_sector(directory_constants_sectors.AEROSPACE) == []
-    assert helpers.get_trade_assoication_sectors_from_sector(directory_constants_sectors.FOOD_AND_DRINK) == [
-        'Food and Drink'
-    ]
-    assert helpers.get_trade_assoication_sectors_from_sector(directory_constants_sectors.CONSUMER_AND_RETAIL) == [
-        'Retail'
-    ]
+    assert helpers.get_trade_assoication_sectors_from_sector('Aerospace') == []
+    assert helpers.get_trade_assoication_sectors_from_sector('Food and drink') == ['Food and Drink']
+    assert helpers.get_trade_assoication_sectors_from_sector('Consumer and retail') == ['Retail']
 
 
 @mock.patch.object(actions, 'GovNotifyEmailAction')
@@ -147,14 +141,14 @@ def test_get_rent_data():
 
 @pytest.mark.django_db
 def test_get_sector_professions_by_level():
-    food_drink_profession = helpers.get_sector_professions_by_level(directory_constants_sectors.FOOD_AND_DRINK)
+    food_drink_profession = helpers.get_sector_professions_by_level('Food and drink')
     assert food_drink_profession['entry_level'] == 'bartenders, waiting staff and cooks'
 
 
 @pytest.mark.django_db
 def test_is_triage_data_complete():
     mock_triage_data = TriageData()
-    mock_triage_data.sector = directory_constants_sectors.FOOD_AND_DRINK
+    mock_triage_data.sector = 'Food and drink'
     mock_triage_data.intent_other = 'TEST OTHER INTENT'
     mock_triage_data.location = regions.LONDON
     mock_triage_data.hiring = hirings.SIX_TO_FIFTY
@@ -251,50 +245,6 @@ def test_is_region(input_choice, expected_result):
 @pytest.mark.django_db
 def test_get_region_from_city(input_choice, expected_result):
     assert region_sector_helpers.get_region_from_city(input_choice) == expected_result
-
-
-@pytest.mark.django_db
-def test_get_sectors_and_sic_sectors_file():
-    data = region_sector_helpers.get_sectors_and_sic_sectors_file()['data']
-    assert data is not None
-    assert len(data) == 731
-    assert data[0]['dit_sector_list_field_04'] is not None
-    assert data[0]['dit_sector_list_full_sector_name'] is not None
-
-
-@pytest.mark.django_db
-def test_get_sectors_and_sic_sectors_file_as_string():
-    data = region_sector_helpers.get_sectors_and_sic_sectors_file_as_string()
-    assert data is not None
-    assert type(data) is str
-
-
-@pytest.mark.django_db
-def test_generate_sector_choices():
-    sectors = region_sector_helpers.generate_sector_choices()
-    assert sectors is not None
-    assert type(sectors) is tuple
-    assert len(sectors) == 25
-    valid_choices = True
-    for sector in sectors:
-        if region_sector_helpers.to_literal(sector[1]) != sector[0]:
-            valid_choices = False
-
-    assert valid_choices is True
-
-
-@pytest.mark.django_db
-def test_generate_sector_sic_choices():
-    sic_sectors = region_sector_helpers.generate_sector_sic_choices()
-    assert sic_sectors is not None
-    assert type(sic_sectors) is tuple
-    assert len(sic_sectors) == 731
-    valid_choices = True
-    for sic_sector in sic_sectors:
-        if region_sector_helpers.to_literal(sic_sector[1]) != sic_sector[0]:
-            valid_choices = False
-
-    assert valid_choices is True
 
 
 @pytest.mark.parametrize(

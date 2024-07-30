@@ -184,7 +184,7 @@ class EYBArticlesPageTests(WagtailPageTests):
 def test_article_page_context(client, user):
     TriageData.objects.update_or_create(
         hashed_uuid='123',
-        defaults={'sector': 'FOOD_AND_DRINK', 'location': 'WALES'},
+        defaults={'sector': 'Food and drink', 'location': 'WALES'},
     )
 
     page = EYBArticlePage(
@@ -197,4 +197,4 @@ def test_article_page_context(client, user):
     request.user = user
 
     output = page.get_context(request=request)
-    assert output['professions_by_sector']['sector'] == 'FOOD_AND_DRINK'
+    assert output['professions_by_sector']['sector'] == 'Food and drink'
