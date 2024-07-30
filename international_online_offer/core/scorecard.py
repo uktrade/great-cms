@@ -7,7 +7,7 @@ scorecard_criteria = ScorecardCriterion.objects.all()
 # Scoring system takes input from EYB triage and calculates whether a user / investor is low or high value.
 # ISD use this to contact high value users for help setting up in the UK
 # The numbers are given to us from ISD and tranferred into this scoring system.
-def score_is_high_value(sector, dbt_sub_sector, location, hiring, spend):
+def score_is_high_value(sector, location, hiring, spend):
     # Requirement from stakeholders was that we only score based on three metrics:
     # How much they are looking to spend.
     # How many people they'll be creating jobs for.
@@ -19,9 +19,9 @@ def score_is_high_value(sector, dbt_sub_sector, location, hiring, spend):
 
     if sector:
         if spend:
-            is_high_value_capex = is_capex_spend(sector, dbt_sub_sector, spend)
+            is_high_value_capex = is_capex_spend(sector, spend)
         if hiring:
-            is_high_value_labour_workforce_hire = is_labour_workforce_hire(sector, dbt_sub_sector, hiring)
+            is_high_value_labour_workforce_hire = is_labour_workforce_hire(sector, hiring)
         if location:
             is_high_value_hpo = is_hpo(sector, location)
 
@@ -53,7 +53,7 @@ def get_hpo_scoring_table():
     ]
 
 
-def is_capex_spend(sector, sub_sector, spend):
+def is_capex_spend(sector, spend):
     # Scoring criteria includes sector and the value
     if '+' in spend:
         spend_upper_value = spend.split('+')[0]
@@ -63,16 +63,13 @@ def is_capex_spend(sector, sub_sector, spend):
     spend_upper_value = int(spend_upper_value)
 
     for sector_spend in get_capex_scoring_table():
-        # Sub sector scoring should override parents so we check first
-        if sub_sector in sector_spend and spend_upper_value >= sector_spend[sub_sector]:
-            return True
         if sector in sector_spend and spend_upper_value >= sector_spend[sector]:
             return True
 
     return False
 
 
-def is_labour_workforce_hire(sector, sub_sector, hiring):
+def is_labour_workforce_hire(sector, hiring):
     if hiring == hirings.NO_PLANS_TO_HIRE_YET:
         hiring_upper_value = 0
     elif '+' in hiring:
@@ -83,8 +80,6 @@ def is_labour_workforce_hire(sector, sub_sector, hiring):
     hiring_upper_value = int(hiring_upper_value)
 
     for sector_hiring in get_labour_workforce_hiring_scoring_table():
-        if sub_sector in sector_hiring and hiring_upper_value >= sector_hiring[sub_sector]:
-            return True
         if sector in sector_hiring and hiring_upper_value >= sector_hiring[sector]:
             return True
 
