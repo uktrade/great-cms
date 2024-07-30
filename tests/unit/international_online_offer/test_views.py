@@ -103,7 +103,7 @@ def test_business_eyb_sso_login_success(client, requests_mock):
 def test_business_eyb_sso_signup_success(mock_send_code, client, requests_mock):
     requests_mock.post(
         settings.DIRECTORY_SSO_API_CLIENT_BASE_URL + 'api/v1/user/',
-        text='{"uidb64": "133", "verification_token" : "344", "verification_code" : "54322"}',
+        text='{"uidb64": "133", "verification_token" : "344", "verification_code" : "54322", "email": "test@test.com"}',
         status_code=201,
     )
     response = client.post(
@@ -169,9 +169,6 @@ def test_eyb_business_details(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
     response = client.get(reverse('international_online_offer:business-details'))
-    context = response.context_data
-    assert context['sector'] is None
-    assert context['sector_sub'] is None
     assert response.status_code == 200
 
 
@@ -209,8 +206,24 @@ def test_eyb_business_details_initial(client, user, settings):
     assert response.status_code == 200
 
 
+@mock.patch(
+    'directory_api_client.api_client.dataservices.get_dbt_sectors',
+    return_value=create_response(
+        [
+            {
+                'id': 1,
+                'sector_id': 'SL0003',
+                'full_sector_name': 'Advanced engineering : Metallurgical process plant',
+                'sector_cluster_name': 'Sustainability and Infrastructure',
+                'sector_name': 'Advanced engineering',
+                'sub_sector_name': 'Metallurgical process plant',
+                'sub_sub_sector_name': '',
+            },
+        ]
+    ),
+)
 @pytest.mark.django_db
-def test_eyb_business_details_form_valid_saves_to_db(client, user, settings):
+def test_eyb_business_details_form_valid_saves_to_db(mock_get_dbt_sectors, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:business-details')
     user.hashed_uuid = '123'
@@ -219,7 +232,7 @@ def test_eyb_business_details_form_valid_saves_to_db(client, user, settings):
         url,
         {
             'company_name': 'Vault tec',
-            'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT',
+            'sector_sub': 'SL0003',
             'company_location': 'FR',
             'company_website': 'http://great.gov.uk/',
         },
@@ -227,8 +240,24 @@ def test_eyb_business_details_form_valid_saves_to_db(client, user, settings):
     assert response.status_code == 302
 
 
+@mock.patch(
+    'directory_api_client.api_client.dataservices.get_dbt_sectors',
+    return_value=create_response(
+        [
+            {
+                'id': 1,
+                'sector_id': 'SL0003',
+                'full_sector_name': 'Advanced engineering : Metallurgical process plant',
+                'sector_cluster_name': 'Sustainability and Infrastructure',
+                'sector_name': 'Advanced engineering',
+                'sub_sector_name': 'Metallurgical process plant',
+                'sub_sub_sector_name': '',
+            },
+        ]
+    ),
+)
 @pytest.mark.django_db
-def test_business_details_saved_to_db_gets_sector_labels(client, user, settings):
+def test_business_details_saved_to_db_gets_sector_labels(mock_get_dbt_sectors, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:business-details')
     user.hashed_uuid = '123'
@@ -237,15 +266,12 @@ def test_business_details_saved_to_db_gets_sector_labels(client, user, settings)
         url,
         {
             'company_name': 'Vault tec',
-            'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT',
+            'sector_sub': 'SL0003',
             'company_location': 'FR',
             'company_website': 'http://great.gov.uk/',
         },
     )
     response = client.get(reverse('international_online_offer:business-details'))
-    context = response.context_data
-    assert context['sector'] == 'Financial and professional services'
-    assert context['sector_sub'] == 'Residents property management'
     assert response.status_code == 200
 
 
@@ -580,14 +606,14 @@ def test_trade_associations(client, user, settings):
     client.force_login(user)
     TriageData.objects.update_or_create(
         hashed_uuid='123',
-        defaults={'sector': 'FOOD_AND_DRINK'},
+        defaults={'sector': 'Food and drink'},
     )
     TradeAssociation.objects.update_or_create(
         trade_association_id='1244',
         sector_grouping='ANY',
         association_name='TEST',
         website_link='http://test.com',
-        sector='Food and Drink',
+        sector='Food and drink',
         brief_description='This is a test',
     )
     TradeAssociation.objects.update_or_create(
@@ -595,14 +621,14 @@ def test_trade_associations(client, user, settings):
         sector_grouping='ANY',
         association_name='TEST',
         website_link='http://test.com',
-        sector='Technology',
+        sector='Technology and smart cities',
         brief_description='This is a test',
     )
     response = client.get(url)
     context = response.context_data
     all_trade_associations = context['all_trade_associations']
     assert len(all_trade_associations) == 1
-    assert all_trade_associations[0].sector == 'Food and Drink'
+    assert all_trade_associations[0].sector == 'Food and drink'
     assert response.status_code == 200
 
 

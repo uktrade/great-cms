@@ -257,7 +257,6 @@ class ContactDetailsView(GA360Mixin, FormView):
         return super().get_context_data(
             **kwargs,
             back_url=self.get_back_url(),
-            autocomplete_sector_data=region_sector_helpers.get_sectors_and_sic_sectors_file_as_string(),
             leading_title=leading_title,
         )
 

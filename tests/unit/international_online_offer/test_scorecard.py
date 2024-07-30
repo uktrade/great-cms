@@ -13,7 +13,7 @@ def populate_scoring_criteria():
     )
     ScorecardCriterion.objects.create(
         sector='Technology and smart cities',
-        capex_spend=None,
+        capex_spend=2399999,
         labour_workforce_hire=None,
         high_potential_opportunity_locations=[
             regions.WALES,
@@ -110,11 +110,11 @@ def test_is_capex_spend():
         'Technology and smart cities',
         spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND,
     )
-    assert not scorecard.is_capex_spend(
+    assert scorecard.is_capex_spend(
         'Technology and smart cities',
         spends.TWO_MILLION_TO_FIVE_MILLION,
     )
-    assert scorecard.is_capex_spend(
+    assert not scorecard.is_capex_spend(
         'Technology and smart cities',
         spends.ONE_MILLION_TO_TWO_MILLION,
     )
@@ -126,10 +126,8 @@ def test_is_capex_spend():
         'Technology and smart cities',
         spends.TWO_MILLION_TO_FIVE_MILLION,
     )
-    assert not scorecard.is_capex_spend(
-        'Energy', 'Energy : Civil nuclear', spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND
-    )
-    assert scorecard.is_capex_spend('Energy', spends.ONE_MILLION_TO_TWO_MILLION)
+    assert not scorecard.is_capex_spend('Energy', spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND)
+    assert not scorecard.is_capex_spend('Energy', spends.ONE_MILLION_TO_TWO_MILLION)
     assert not scorecard.is_capex_spend('Energy', spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND)
     assert scorecard.is_capex_spend('Energy', spends.TWO_MILLION_TO_FIVE_MILLION)
     assert not scorecard.is_capex_spend('Energy', spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND)
