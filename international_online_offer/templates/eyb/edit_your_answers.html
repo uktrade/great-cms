@@ -1,6 +1,7 @@
 {% extends './base.html' %}
 {% load static %}
 {% load humanize %}
+{% load sector_filters %}
 {% block head_title %}Change your answers {{ block.super }}{% endblock %}
 {% block meta_title %}Change your answers {{ block.super }}{% endblock %}
 {% block content %}
@@ -33,11 +34,9 @@
                             <div class="govuk-summary-list__row">
                                 <dt class="govuk-summary-list__key govuk-body">Business activity and sector</dt>
                                 <dd class="govuk-summary-list__value govuk-body">
-                                    {% if triage_data.sector_sub %}
-                                        {{ triage_data.get_sector_sub_display | default:'-' }}
-                                        <br />
-                                    {% endif %}
-                                    (in our <strong>{{ triage_data.get_sector_display | default:'-' }}</strong> sector)
+                                    {{ sub_and_sub_sub_sector|get_sector_display| default:'-' }}
+                                    <br />
+                                    (in our <strong>{{ triage_data.sector|get_sector_display | default:'-' }}</strong> sector)
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
                                     <a class="govuk-link"
@@ -126,6 +125,33 @@
                                     <a class="govuk-link"
                                        href="{% url 'international_online_offer:when-want-setup' %}?next={% url 'international_online_offer:change-your-answers' %}">
                                         Change<span class="govuk-visually-hidden">when do you want to set up</span>
+                                    </a>
+                                </dd>
+                            </div>
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key govuk-body">How do you plan to expand your business in the UK?</dt>
+                                <dd class="govuk-summary-list__value govuk-body">
+                                    {% if triage_data.get_intent_display %}
+                                        <ol class="govuk-list govuk-list--bullet">
+                                            {% for intent in triage_data.get_intent_display %}
+                                                <li>
+                                                    {{ intent }}
+                                                    {% if intent == 'Other' %}
+                                                        <ol class="govuk-list govuk-list--bullet">
+                                                            <li>{{ triage_data.intent_other }}</li>
+                                                        </ol>
+                                                    {% endif %}
+                                                </li>
+                                            {% endfor %}
+                                        </ol>
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </dd>
+                                <dd class="govuk-summary-list__actions">
+                                    <a class="govuk-link"
+                                       href="{% url 'international_online_offer:intent' %}?next={% url 'international_online_offer:change-your-answers' %}">
+                                        Change<span class="govuk-visually-hidden">how do you plan to expand your business</span>
                                     </a>
                                 </dd>
                             </div>

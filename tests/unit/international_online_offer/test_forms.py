@@ -27,7 +27,7 @@ from international_online_offer.forms import (
         (
             {
                 'company_name': 'Vault tec',
-                'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT',
+                'sector_sub': 'SL0003',
                 'company_location': 'FR',
                 'company_website': 'http://great.gov.uk/',
             },
@@ -36,7 +36,7 @@ from international_online_offer.forms import (
         (
             {
                 'company_name': '',
-                'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT',
+                'sector_sub': 'SL0003',
                 'company_location': 'FR',
                 'company_website': 'http://great.gov.uk/',
             },
@@ -54,7 +54,7 @@ from international_online_offer.forms import (
         (
             {
                 'company_name': 'Vault tec',
-                'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT',
+                'sector_sub': 'SL0003',
                 'company_location': '',
                 'company_website': 'http://great.gov.uk/',
             },
@@ -63,7 +63,7 @@ from international_online_offer.forms import (
         (
             {
                 'company_name': 'Vault tec',
-                'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT',
+                'sector_sub': 'SL0003',
                 'company_location': 'FR',
                 'company_website': '',
             },
@@ -90,7 +90,7 @@ from international_online_offer.forms import (
         (
             {
                 'company_name': 'Vault tec',
-                'sector_sub': 'RESIDENTS_PROPERTY_MANAGEMENT',
+                'sector_sub': 'SL0003',
                 'company_location': 'NOT_A_VALID_LOCATION',
                 'company_website': 'http://great.gov.uk/',
             },
@@ -99,7 +99,7 @@ from international_online_offer.forms import (
     ),
 )
 @pytest.mark.django_db
-def test_business_details_form_validation(form_data, is_valid):
+def test_business_details_form_validation(mock_get_dbt_sectors, form_data, is_valid):
     data = form_data
     form = BusinessDetailsForm(data)
     assert form.is_valid() == is_valid
