@@ -25,8 +25,8 @@ class LessonPageContextProvider(AbstractPageContextProvider):
                     'url': '/learn/categories/',
                 },
                 {
-                    'title': page.get_parent.get_parent.title,
-                    'url': page.get_parent.get_parent.url,
+                    'title': page.get_parent().get_parent().title,
+                    'url': page.get_parent().get_parent().url,
                 },
             ]
 
