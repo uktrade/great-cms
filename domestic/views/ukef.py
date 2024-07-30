@@ -89,7 +89,7 @@ class ContactView(BespokeBreadcrumbMixin, BaseNotifyFormView):
         return super().form_valid(form)
 
 
-class SuccessPageView(TemplateView):
+class SuccessPageView(BespokeBreadcrumbMixin, TemplateView):
     template_name = 'domestic/ukef/contact_form_success.html'
 
     def get(self, *args, **kwargs):
