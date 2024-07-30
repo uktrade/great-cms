@@ -1034,31 +1034,3 @@ class InlineFeedbackView(GenericAPIView):
 
             response.status_code = 303
             return response
-
-
-class TaskValidationView(GenericAPIView):
-    def post(self, request, *args, **kwargs):
-        data = self.request.data.copy()
-        data['userid'] = request.user.hashed_uuid if request.user.is_authenticated else None
-
-        email_address = request.user.email if request.user.is_authenticated else 'blank@example.com'
-
-        sender = Sender(
-            email_address=email_address,
-            country_code=None,
-        )
-
-        action = actions.SaveOnlyInDatabaseAction(
-            full_name='NA',
-            email_address=email_address,
-            subject='NA',
-            sender=sender,
-            form_url=self.request.get_full_path(),
-        )
-
-        save_result = action.save(data)
-
-        response = HttpResponse()
-        response.status_code = save_result.status_code
-
-        return response

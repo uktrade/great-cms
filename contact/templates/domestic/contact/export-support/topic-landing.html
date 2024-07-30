@@ -9,11 +9,6 @@
 {% block body_js %}
     {{ block.super }}
     <script src="{% static 'javascript/digital-entry-point.js' %}"></script>
-    {% if features.FEATURE_SHOW_TASK_VALIDATION %}
-        <script src="{% static 'javascript/great.utils.js' %}"></script>
-        <script src="{% static 'javascript/great.task-validation.js' %}"></script>
-        <script type="text/javascript">GreatFrontend.TaskValidation.init()</script>
-    {% endif %}
 {% endblock %}
 {% block content %}
     <div class="govuk-!-padding-bottom-9 great great-bg-light-blue">
