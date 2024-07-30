@@ -689,7 +689,9 @@ class ProductsServicesFormView(BespokeBreadcrumbMixin, BaseFormView):
     template_name = 'business_profile/products-services-form.html'
 
     def get_context_data(self, **kwargs):
-        return super().get_context_data(category=self.kwargs['category'].replace('-', ' '), **kwargs)
+        context = super().get_context_data(**kwargs)
+        context["category"] = self.kwargs['category'].replace('-', ' ')
+        return context
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
