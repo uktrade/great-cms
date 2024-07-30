@@ -602,7 +602,7 @@ virtualenv==20.26.3
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core
-wagtail==5.2
+wagtail==5.2.6
     # via
     #   -r requirements.in
     #   wagtail-cache
