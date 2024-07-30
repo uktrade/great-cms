@@ -162,7 +162,7 @@ deprecated==1.2.14
     #   opentelemetry-exporter-otlp-proto-http
 dill==0.3.8
     # via pylint
-directory-api-client==26.7.1
+directory-api-client==26.7.2
     # via -r requirements.in
 directory-ch-client==4.0.2
     # via -r requirements.in
