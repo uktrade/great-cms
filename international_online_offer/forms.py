@@ -28,7 +28,7 @@ class BusinessDetailsForm(forms.Form):
     company_name = CharField(
         label='Company name',
         required=True,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=TextInput(attrs={'class': 'govuk-input', 'autocomplete': 'organization'}),
         error_messages={
             'required': 'Enter your company name',
         },
@@ -59,7 +59,7 @@ class BusinessDetailsForm(forms.Form):
         label='Company website address',
         required=True,
         max_length=255,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=TextInput(attrs={'class': 'govuk-input', 'autocomplete': 'url'}),
         error_messages={
             'required': """Enter your company's website address""",
         },
@@ -78,7 +78,7 @@ class ContactDetailsForm(forms.Form):
     full_name = CharField(
         label='Full name',
         required=True,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=TextInput(attrs={'class': 'govuk-input', 'autocomplete': 'name'}),
         error_messages={
             'required': 'Enter your full name',
         },
@@ -86,7 +86,7 @@ class ContactDetailsForm(forms.Form):
     role = CharField(
         label='Job title',
         required=True,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=TextInput(attrs={'class': 'govuk-input', 'autocomplete': 'organization-title'}),
         error_messages={
             'required': 'Enter your job title',
         },
@@ -95,7 +95,7 @@ class ContactDetailsForm(forms.Form):
         label='Phone number',
         help_text='Include the country code',
         required=True,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=TextInput(attrs={'class': 'govuk-input', 'autocomplete': 'tel'}),
         error_messages={
             'required': 'Enter your phone number',
         },
@@ -255,7 +255,7 @@ class SignUpForm(forms.Form):
     email = CharField(
         label='Enter your email address',
         validators=[is_valid_email_address],
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=TextInput(attrs={'class': 'govuk-input', 'autocomplete': 'email'}),
         error_messages={
             'required': 'Enter an email address',
         },
