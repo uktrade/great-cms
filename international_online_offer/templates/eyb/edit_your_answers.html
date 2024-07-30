@@ -130,6 +130,33 @@
                                 </dd>
                             </div>
                             <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key govuk-body">How do you plan to expand your business in the UK?</dt>
+                                <dd class="govuk-summary-list__value govuk-body">
+                                    {% if triage_data.get_intent_display %}
+                                        <ol class="govuk-list govuk-list--bullet">
+                                            {% for intent in triage_data.get_intent_display %}
+                                                <li>
+                                                    {{ intent }}
+                                                    {% if intent == 'Other' %}
+                                                        <ol class="govuk-list govuk-list--bullet">
+                                                            <li>{{ triage_data.intent_other }}</li>
+                                                        </ol>
+                                                    {% endif %}
+                                                </li>
+                                            {% endfor %}
+                                        </ol>
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </dd>
+                                <dd class="govuk-summary-list__actions">
+                                    <a class="govuk-link"
+                                       href="{% url 'international_online_offer:intent' %}?next={% url 'international_online_offer:change-your-answers' %}">
+                                        Change<span class="govuk-visually-hidden">how do you plan to expand your business</span>
+                                    </a>
+                                </dd>
+                            </div>
+                            <div class="govuk-summary-list__row">
                                 <dt class="govuk-summary-list__key govuk-body">
                                     How many people do you want to hire in the UK in the first three years?
                                 </dt>
