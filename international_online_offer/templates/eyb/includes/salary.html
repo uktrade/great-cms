@@ -1,5 +1,6 @@
 {% load wagtailcore_tags %}
 {% load humanize %}
+{% load sector_filters %}
 {% load add_govuk_classes from content_tags %}
 {% if triage_data.sector %}
     <div class="govuk-grid-row" id="location-component">
@@ -13,7 +14,7 @@
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-full">
                         <p class="govuk-body-m">
-                            For your selected sector: <span class="govuk-!-font-weight-bold">{{ triage_data.get_sector_display }}</span>
+                            For your selected sector: <span class="govuk-!-font-weight-bold">{{ triage_data.sector|get_sector_display }}</span>
                         </p>
                     </div>
                 </div>

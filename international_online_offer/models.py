@@ -76,7 +76,7 @@ class EYBGuidePage(BaseContentPage):
 
         bci_data = None
         if triage_data and triage_data.sector:
-            bci_data = services.get_bci_data_by_dbt_sector(triage_data.sector.replace('_', ' '), [regions.GB_GEO_CODE])
+            bci_data = services.get_bci_data_by_dbt_sector(triage_data.sector, [regions.GB_GEO_CODE])
 
         # Get trade shows page (should only be one, is a parent / container page for all trade show pages)
         trade_shows_page = EYBTradeShowsPage.objects.live().filter().first()
@@ -230,9 +230,8 @@ class EYBArticlePage(BaseContentPage):
                     'location', triage_data.location if triage_data.location else choices.regions.LONDON
                 )
                 region = helpers.get_salary_region_from_region(location)
-                sector_display = triage_data.get_sector_display()
 
-                median_salaries = get_median_salaries(sector_display, geo_region=region)
+                median_salaries = get_median_salaries(triage_data.sector, geo_region=region)
                 cleaned_median_salaries = helpers.clean_salary_data(median_salaries)
 
                 (large_warehouse_rent, small_warehouse_rent, shopping_centre, high_street_retail, work_office) = (
@@ -273,21 +272,20 @@ class EYBArticlePage(BaseContentPage):
                     'location', triage_data.location if triage_data.location else choices.regions.LONDON
                 )
                 region = helpers.get_salary_region_from_region(location)
-                sector_display = triage_data.get_sector_display()
 
                 entry_salary = SalaryData.objects.filter(
                     region__iexact=region,
-                    vertical__icontains=sector_display,
+                    vertical__icontains=triage_data.sector,
                     professional_level__icontains='Entry-level',
                 ).aggregate(Avg('median_salary'))
                 mid_salary = SalaryData.objects.filter(
                     region__iexact=region,
-                    vertical__icontains=sector_display,
+                    vertical__icontains=triage_data.sector,
                     professional_level__icontains='Middle/Senior Management',
                 ).aggregate(Avg('median_salary'))
                 executive_salary = SalaryData.objects.filter(
                     region__iexact=region,
-                    vertical__icontains=sector_display,
+                    vertical__icontains=triage_data.sector,
                     professional_level__icontains='Director/Executive',
                 ).aggregate(Avg('median_salary'))
 
@@ -433,10 +431,10 @@ class EYBArticlesPage(BaseContentPage):
 
 class TriageData(TimeStampedModel):
     hashed_uuid = models.CharField(max_length=200)
-    sector = models.CharField(max_length=255, choices=region_sector_helpers.generate_sector_choices())
-    sector_sub = models.CharField(
-        max_length=255, choices=region_sector_helpers.generate_sector_sic_choices(), default=None, null=True
-    )
+    sector = models.CharField(max_length=255)
+    sector_sub = models.CharField(max_length=255, default=None, null=True)
+    sector_sub_sub = models.CharField(max_length=255, default=None, null=True)
+    sector_id = models.CharField(default=None, null=True)
     intent = ArrayField(
         models.CharField(max_length=255, choices=choices.INTENT_CHOICES),
         size=6,
