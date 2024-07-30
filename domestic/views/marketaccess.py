@@ -25,8 +25,8 @@ class BespokeBreadcrumbMixin(TemplateView):
 
 
 class MarketAccessView(
-    BespokeBreadcrumbMixin,
     mixins.MarketAccessFeatureFlagMixin,
+    BespokeBreadcrumbMixin,
     TemplateView,
 ):
     template_name = 'domestic/marketaccess/report_a_barrier.html'
