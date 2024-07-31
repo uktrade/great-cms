@@ -1,10 +1,6 @@
 {% extends 'enrolment/base.html' %}
-{% load breadcrumbs from component_tags %}
 {% block content %}
     <section class="container">
-        {% breadcrumbs %}
-        <a href="{{ services_urls.great_domestic }}">Home</a>
-    {% endbreadcrumbs %}
     <div class="width-two-thirds">
         {% if request.user.is_authenticated %}
             <h1 class="heading-xlarge">{{ user_journey_verb|capfirst }}</h1>

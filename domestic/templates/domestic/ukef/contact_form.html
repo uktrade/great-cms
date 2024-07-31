@@ -1,5 +1,4 @@
 {% extends 'domestic/base.html' %}
-{% load breadcrumbs from component_tags %}
 {% load wagtailcore_tags %}
 {% load static %}
 {% block head_css %}
@@ -26,11 +25,6 @@
 {% endblock %}
 {% block content %}
     <div class="container">
-        {% breadcrumbs %}
-        <a href="/">Home</a>
-        <a href="{% url 'domestic:get-finance' %}">UKEF</a>
-        <a href="{% url 'domestic:project-finance' %}">Project Finance</a>
-    {% endbreadcrumbs %}
 </div>
 <section id="teaser-section"
          class="teaser-section padding-top-60 padding-bottom-60">

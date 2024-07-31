@@ -1,6 +1,5 @@
 {% extends "domestic/base.html" %}
 {% load static %}
-{% load breadcrumbs from component_tags %}
 {% load wagtailcore_tags %}
 {% block sharing_metadata %}{% endblock %}
 {% block head_title %}Guidance: {{ content_snippet.title }}{% endblock %}
@@ -13,12 +12,6 @@
           type="text/css" />
 {% endblock %}
 {% block content %}
-    <div class="great-bg-light-blue">
-        {% breadcrumbs %}
-        <a href="/">Home</a>
-        <a href="{% url 'contact:contact-us-routing-form' step='location' %}">Contact us</a>
-    {% endbreadcrumbs %}
-</div>
 <div class="govuk-!-margin-top-7 great-container">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">

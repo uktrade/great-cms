@@ -1,5 +1,4 @@
 {% extends 'domestic/base.html' %}
-{% load breadcrumbs from component_tags %}
 {% load wagtailcore_tags %}
 {% load static %}
 {% block head_title %}
@@ -30,11 +29,6 @@
                 </div>
             {% endwith %}
         {% endblock %}
-        {% breadcrumbs %}
-        <a href="/">Home</a>
-        <a href="{% pageurl landing_page %}">Export Academy</a>
-        <a href="{% url 'export_academy:upcoming-events' %}">Events</a>
-    {% endbreadcrumbs %}
 {% endblock %}
 <div class="great great-bg-white govuk-!-margin-top-4">
     <div class="great-container govuk-!-padding-top-4">

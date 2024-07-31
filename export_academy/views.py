@@ -66,7 +66,26 @@ from sso.models import BusinessSSOUser
 logger = logging.getLogger(__name__)
 
 
-class EventListView(GA360Mixin, core_mixins.GetSnippetContentMixin, FilterView, ListView):
+class GetBreadcrumbsMixin:
+
+    @property
+    def get_breadcrumbs(self):
+        return [
+            {'title': 'UK Export Academy', 'url': '/export-academy/'},
+        ]
+
+
+class BespokeBreadcrumbMixin(TemplateView):
+
+    def get_context_data(self, **kwargs):
+        bespoke_breadcrumbs = [
+            {'title': 'UK Export Academy', 'url': '/export-academy/'},
+            {'title': 'Events', 'url': reverse('export_academy:upcoming-events')},
+        ]
+        return super().get_context_data(bespoke_breadcrumbs=bespoke_breadcrumbs, **kwargs)
+
+
+class EventListView(GetBreadcrumbsMixin, GA360Mixin, core_mixins.GetSnippetContentMixin, FilterView, ListView):
     model = models.Event
     queryset = model.upcoming
     filterset_class = filters.EventFilter
@@ -103,6 +122,7 @@ class EventListView(GA360Mixin, core_mixins.GetSnippetContentMixin, FilterView, 
         ctx['market_filters'] = market_filters
         ctx['sector_filters'] = sector_filters
         ctx['region_filters'] = region_filters
+        ctx['bespoke_breadcrumbs'] = self.get_breadcrumbs
         return ctx
 
 
@@ -124,7 +144,7 @@ class BookingUpdateView(BookingMixin, UpdateView):
         return reverse_lazy(success_url, kwargs={'booking_id': self.object.id})
 
 
-class SuccessPageView(core_mixins.GetSnippetContentMixin, FormView):
+class SuccessPageView(GetBreadcrumbsMixin, core_mixins.GetSnippetContentMixin, FormView):
 
     form_class = forms.CsatUserFeedbackForm
 
@@ -167,6 +187,7 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, FormView):
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
+        ctx['bespoke_breadcrumbs'] = self.get_breadcrumbs
         ctx['landing_page'] = models.ExportAcademyHomePage.objects.first()
         editing_registration = self.user_editing_registration()
 
@@ -276,6 +297,11 @@ class EventVideoView(DetailView):
             ctx['event_video'] = {'video': video}
             ctx['video_duration'] = format_timedelta(timedelta(seconds=event.video_recording.duration))
 
+        bespoke_breadcrumbs = [
+            {'title': 'Back to event', 'url': event.get_absolute_url()},
+        ]
+        ctx['bespoke_breadcrumbs'] = bespoke_breadcrumbs
+
         if not event.name or not video:
             raise Http404
 
@@ -334,7 +360,9 @@ class DownloadCalendarView(GenericAPIView):
         return response
 
 
-class RegistrationPersonalDetails(core_mixins.GetSnippetContentMixin, RegistrationMixin, FormView):
+class RegistrationPersonalDetails(
+    BespokeBreadcrumbMixin, core_mixins.GetSnippetContentMixin, RegistrationMixin, FormView
+):
     form_class = forms.PersonalDetails
     model = models.Registration
     template_name = 'export_academy/registration_form_step1.html'
@@ -369,7 +397,9 @@ class RegistrationPersonalDetails(core_mixins.GetSnippetContentMixin, Registrati
         return super().form_valid(form)
 
 
-class RegistrationExportExperience(core_mixins.GetSnippetContentMixin, RegistrationMixin, FormView):
+class RegistrationExportExperience(
+    BespokeBreadcrumbMixin, core_mixins.GetSnippetContentMixin, RegistrationMixin, FormView
+):
     form_class = forms.ExportExperience
     model = models.Registration
     template_name = 'export_academy/registration_form_step2.html'
@@ -403,7 +433,9 @@ class RegistrationExportExperience(core_mixins.GetSnippetContentMixin, Registrat
         return super().form_valid(form)
 
 
-class RegistrationBusinessDetails(core_mixins.GetSnippetContentMixin, RegistrationMixin, FormView):
+class RegistrationBusinessDetails(
+    BespokeBreadcrumbMixin, core_mixins.GetSnippetContentMixin, RegistrationMixin, FormView
+):
     form_class = forms.BusinessDetails
     model = models.Registration
     template_name = 'export_academy/registration_form_step3.html'
@@ -438,6 +470,7 @@ class RegistrationBusinessDetails(core_mixins.GetSnippetContentMixin, Registrati
 
 
 class RegistrationMarketingSources(
+    BespokeBreadcrumbMixin,
     core_mixins.GetSnippetContentMixin,
     RegistrationMixin,
     FormView,
@@ -475,7 +508,9 @@ class RegistrationMarketingSources(
         return super().form_valid(form)
 
 
-class RegistrationConfirmChoices(core_mixins.GetSnippetContentMixin, BookingMixin, RegistrationMixin, FormView):
+class RegistrationConfirmChoices(
+    BespokeBreadcrumbMixin, core_mixins.GetSnippetContentMixin, BookingMixin, RegistrationMixin, FormView
+):
     template_name = 'export_academy/registration_form_confirm.html'
     model = models.Registration
     booking_model = models.Booking
@@ -818,6 +853,10 @@ class EventsDetailsView(DetailView):
         ctx['has_event_badges'] = len(self.get_badges_for_event(self.event)) > 0
         ctx['series'] = self.event.get_course()[0] if len(self.event.get_course()) else None
         ctx['show_past_events'] = True
+        ctx['bespoke_breadcrumbs'] = [
+            {'title': 'UK Export Academy', 'url': ''},  # what is the url?
+            {'title': 'Events', 'url': ''},  # what is the url?
+        ]
         return ctx
 
     def get_buttons_for_event(self, event):
@@ -870,11 +909,12 @@ class EACourseView(TemplateView):
         ctx = super().get_context_data(**kwargs)
         ctx['signed_in'] = True if self.request.user != AnonymousUser() else False
         ctx['page'] = self.page
+        ctx['bespoke_breadcrumbs'] = [{'title': 'UK Export Academy', 'url': ''}]  # what is the url?
         return ctx
 
 
 @method_decorator(transaction.non_atomic_requests, name='dispatch')
-class EventVideoOnDemandView(DetailView):
+class EventVideoOnDemandView(GetBreadcrumbsMixin, DetailView):
     template_name = 'export_academy/event_on_demand_video.html'
     model = models.Event
 
@@ -1024,5 +1064,21 @@ class EventVideoOnDemandView(DetailView):
         ctx['series'] = event.get_course()[0] if len(event.get_course()) else None
         ctx['slug'] = kwargs['object'].slug
         ctx['video_page_slug'] = event.get_past_event_recording_slug()
-        ctx['full_transcript'] = self.request.GET.get('fullTranscript')
+
+        full_transcript = self.request.GET.get('fullTranscript')
+        ctx['full_transcript'] = full_transcript
+
+        if full_transcript:
+            bespoke_breadcrumbs = [
+                {
+                    'title': 'Back',
+                    'url': reverse(
+                        'export_academy:video-on-demand', kwargs={'slug': event.get_past_event_recording_slug()}
+                    ),
+                },
+            ]
+        else:
+            bespoke_breadcrumbs = self.get_breadcrumbs
+
+        ctx['bespoke_breadcrumbs'] = bespoke_breadcrumbs
         return ctx

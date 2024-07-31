@@ -1,5 +1,4 @@
 {% extends "domestic/base.html" %}
-{% load breadcrumbs from component_tags %}
 {% load static %}
 {% block head_css %}
     {{ block.super }}
@@ -16,9 +15,6 @@
 {% endblock %}
 {% block content %}
     <section class="help-pages">
-        {% breadcrumbs %}
-        <a href="/">Home</a>
-    {% endbreadcrumbs %}
     <div id="request-export-support-form-content"
          class="page-main-content-container">
         <div class="inner-container">

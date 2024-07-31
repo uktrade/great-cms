@@ -2,7 +2,7 @@ import datetime
 import logging
 import urllib
 
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from requests.exceptions import RequestException
@@ -112,6 +112,10 @@ class SearchFeedbackFormView(FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        bespoke_breadcrumbs = [
+            {'title': 'Search', 'url': reverse('search:search')},
+        ]
+        context['bespoke_breadcrumbs'] = bespoke_breadcrumbs
         context.update(
             {
                 'page': self.request.GET.get('page', ''),

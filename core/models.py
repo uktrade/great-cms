@@ -791,9 +791,14 @@ class CuratedListPage(settings.FEATURE_DEA_V2 and TaggedCMSGenericPageAnonymous 
         from domestic.helpers import get_lesson_completion_status
 
         context = super().get_context(request)
+        parent_page_url = self.get_parent().url
+        bespoke_breadcrumbs = [
+            {'title': 'Learn to export', 'url': parent_page_url},
+        ]
+        context['bespoke_breadcrumbs'] = bespoke_breadcrumbs
         # Give the template a simple way to link back to the parent
         # learning module (ListPage)
-        context['parent_page_url'] = self.get_parent().url
+        context['parent_page_url'] = parent_page_url
 
         if request.user.is_authenticated:
             # get this once, so we don't waste the network call to get the data twice

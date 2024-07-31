@@ -2,18 +2,11 @@
 {% load static %}
 {% load event_list_buttons %}
 {% load wagtailcore_tags %}
-{% load breadcrumbs from component_tags %}
 {% load pagination from component_tags %}
 {% load append_past_year_seperator from component_tags %}
 {% load h3_if from content_tags %}
 {% block head_title %}Events – UK Export Academy{% endblock %}
 {% block content %}
-    <div id="breadcrumbs" class="great-display-from-tablet">
-        {% breadcrumbs %}
-        <a href="/">Home</a>
-        <a href="{% pageurl landing_page %}">UK Export Academy</a>
-    {% endbreadcrumbs %}
-</div>
 <div class="great great-hero-box-shadow-bottom">
     {% block hero %}
         {% with content_snippet as hero %}
