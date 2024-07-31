@@ -70,7 +70,7 @@ class UKEFWhatWeOfferView(BespokeBreadcrumbMixin, TemplateView):
 
 
 class UKEFCountryCoverView(BespokeBreadcrumbMixin, TemplateView):
-    template_name = 'domestic/ukef/country_Cover.html'
+    template_name = 'domestic/ukef/country_cover.html'
 
 
 class ContactView(BespokeBreadcrumbMixin, BaseNotifyFormView):
