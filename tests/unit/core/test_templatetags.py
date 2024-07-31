@@ -32,7 +32,6 @@ from core.templatetags.content_tags import (
     highlighted_text,
     is_email,
     is_lesson_page,
-    is_modal_card,
     is_placeholder_page,
     make_bold,
     remove_bold_from_headings,
@@ -932,22 +931,6 @@ def test_tag_text_mapper(input, expected_output):
 )
 def test_url_type(input, expected_output):
     result = url_type(input)
-    assert result == expected_output
-
-
-@pytest.mark.parametrize(
-    'input, expected_output',
-    (
-        ('Understand how to classify your products', True),
-        ('Get the right commodity code', True),
-        ('Make a simplified customs declaration', True),
-        ('Find a customs agent or fast parcel operator', True),
-        ('Claim with Returned Goods Relief (RGR)', True),
-        ('Something else', False),
-    ),
-)
-def test_is_modal_card(input, expected_output):
-    result = is_modal_card(input)
     assert result == expected_output
 
 
