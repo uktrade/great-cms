@@ -1,9 +1,6 @@
 {% load component_tags %}
 {% load wagtailcore_tags wagtailimages_tags %}
 {% load static from static %}
-{% if not features.FEATURE_DESIGN_SYSTEM %}
-    {% include 'components/breadcrumbs_cms.html' %}
-{% endif %}
 <article class="article-main {{ view.slug }}-article">
     <div class="container">
         <header>

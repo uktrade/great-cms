@@ -1,7 +1,6 @@
 {% extends 'domestic/base.html' %}
 {% load static %}
 {% load humanize %}
-{% load breadcrumbs from component_tags %}
 {% block head_css %}
     {{ block.super }}
     <link href="{% static 'styles/default.css' %}"
@@ -23,12 +22,6 @@
                 {% include 'components/message_box_with_icon.html' with icon="✓" heading="Your feedback has been sent" %}
             </div>
         {% endif %}
-        <div class="breadcrumb-container">
-            <div class="container">
-                {% breadcrumbs %}
-                <a href="/">Home</a>
-            {% endbreadcrumbs %}
-        </div>
     </div>
     <div class="container">
         <h1 class="heading-xlarge">

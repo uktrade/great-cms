@@ -20,6 +20,17 @@ from domestic.forms import (
 )
 
 
+class BespokeBreadcrumbMixin(TemplateView):
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        bespoke_breadcrumbs = [
+            {'title': 'UKEF', 'url': reverse('domestic:get-finance')},
+            {'title': 'Project Finance', 'url': reverse('domestic:project-finance')},
+        ]
+        ctx['bespoke_breadcrumbs'] = bespoke_breadcrumbs
+        return ctx
+
+
 class UKEFHomeView(TemplateView):
     template_name = 'domestic/ukef/home_page.html'
 
@@ -38,7 +49,31 @@ class UKEFHomeView(TemplateView):
         return context
 
 
-class ContactView(BaseNotifyFormView):
+class UKEFProjectFinanceView(TemplateView):
+    template_name = 'domestic/ukef/project_finance.html'
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        bespoke_breadcrumbs = [
+            {'title': 'UKEF', 'url': reverse('domestic:get-finance')},
+        ]
+        ctx['bespoke_breadcrumbs'] = bespoke_breadcrumbs
+        return ctx
+
+
+class UKEFHowWeAssessView(BespokeBreadcrumbMixin, TemplateView):
+    template_name = 'domestic/ukef/how_we_assess.html'
+
+
+class UKEFWhatWeOfferView(BespokeBreadcrumbMixin, TemplateView):
+    template_name = 'domestic/ukef/what_we_offer.html'
+
+
+class UKEFCountryCoverView(BespokeBreadcrumbMixin, TemplateView):
+    template_name = 'domestic/ukef/country_Cover.html'
+
+
+class ContactView(BespokeBreadcrumbMixin, BaseNotifyFormView):
     template_name = 'domestic/ukef/contact_form.html'
     form_class = UKEFContactForm
     success_url = reverse_lazy('domestic:uk-export-contact-success')
@@ -54,7 +89,7 @@ class ContactView(BaseNotifyFormView):
         return super().form_valid(form)
 
 
-class SuccessPageView(TemplateView):
+class SuccessPageView(BespokeBreadcrumbMixin, TemplateView):
     template_name = 'domestic/ukef/contact_form_success.html'
 
     def get(self, *args, **kwargs):
@@ -63,8 +98,12 @@ class SuccessPageView(TemplateView):
         return super().get(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        kwargs['user_email'] = self.request.session.get('user_email')
-        return super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
+        context['user_email'] = self.request.session.get('user_email')
+        bespoke_breadcrumbs = context['bespoke_breadcrumbs']
+        bespoke_breadcrumbs.append({'title': 'Get in touch', 'url': reverse('domestic:uk-export-contact')})
+        context['bespoke_breadcrumbs'] = bespoke_breadcrumbs
+        return context
 
 
 @method_decorator(never_cache, name='dispatch')

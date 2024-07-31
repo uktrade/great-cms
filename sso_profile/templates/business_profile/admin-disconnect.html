@@ -1,13 +1,5 @@
 {% extends 'business_profile/admin-base.html' %}
 {% load static %}
-{% load breadcrumbs from component_tags %}
-{% block breadcrumbs %}
-    {% breadcrumbs %}
-    <a href="{{ services_urls.great_domestic }}">great.gov.uk</a>
-    <a href="{% url 'sso_profile:business-profile' %}">Business profile</a>
-    <a href="{% url 'sso_profile:business-profile-admin-invite-collaborator' %}">Profile settings</a>
-{% endbreadcrumbs %}
-{% endblock %}
 {% block inner_content %}
     <h2 class="heading-large margin-top-0 margin-bottom-15">Remove your account from this business profile</h2>
     {% if is_sole_admin %}

@@ -1,6 +1,6 @@
 {% extends 'domestic/base.html' %}
 {% load static %}
-{% load breadcrumbs message_box from component_tags %}
+{% load message_box from component_tags %}
 {% block head_css %}
     {{ block.super }}
     <link href="{% static 'styles/marketaccess.css' %}"
@@ -10,10 +10,6 @@
 {% block head_title %}Report a trade barrier{{ block.super }}{% endblock %}
 {% block meta_title %}Report a trade barrier{{ block.super }}{% endblock %}
 {% block content %}
-    {% breadcrumbs %}
-    <a href="/">Home</a>
-    <a href="{% url 'domestic:market-access' %}">Trade barriers</a>
-{% endbreadcrumbs %}
 <section>
     <div class="container">
         <div class="grid-row">

@@ -19,9 +19,36 @@ from rest_framework.generics import GenericAPIView
 
 from contact import constants, forms as contact_forms, helpers, mixins as contact_mixins
 from core import mixins as core_mixins, snippet_slugs
-from core.cms_slugs import PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE
+from core.cms_slugs import (
+    DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE,
+    PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE,
+)
 from core.datastructures import NotifySettings
 from directory_constants.choices import COUNTRY_CHOICES
+
+
+class BespokeBreadcrumbMixin(TemplateView):
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['bespoke_breadcrumbs'] = [
+            {'title': 'Contact us', 'url': reverse('contact:contact-us-routing-form', kwargs={'step': 'location'})},
+        ]
+        return ctx
+
+
+class WizardBespokeBreadcrumbMixin(TemplateView):
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        if settings.FEATURE_DIGITAL_POINT_OF_ENTRY:
+            bespoke_breadcrumbs = [
+                {'title': 'Guidance and Support', 'url': DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE},
+            ]
+        else:
+            bespoke_breadcrumbs = [
+                {'title': 'Contact us', 'url': reverse('contact:contact-us-routing-form', kwargs={'step': 'location'})},
+            ]
+        ctx['bespoke_breadcrumbs'] = bespoke_breadcrumbs
+        return ctx
 
 
 class PrepopulateInternationalFormMixin:
@@ -169,14 +196,14 @@ class BaseSuccessView(
         )
 
 
-class DomesticFormView(PrepopulateShortFormMixin, BaseZendeskFormView):
+class DomesticFormView(WizardBespokeBreadcrumbMixin, PrepopulateShortFormMixin, BaseZendeskFormView):
     form_class = contact_forms.DomesticForm
     template_name = 'domestic/contact/step.html'
     success_url = reverse_lazy('contact:contact-us-domestic-success')
     subject = settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT
 
 
-class DomesticEnquiriesFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
+class DomesticEnquiriesFormView(WizardBespokeBreadcrumbMixin, PrepopulateShortFormMixin, BaseNotifyFormView):
     form_class = contact_forms.DomesticEnquiriesForm
     template_name = 'domestic/contact/step-enquiries.html'
     success_url = reverse_lazy('contact:contact-us-domestic-success')
@@ -187,7 +214,7 @@ class DomesticEnquiriesFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
     )
 
 
-class DomesticSuccessView(BaseSuccessView):
+class DomesticSuccessView(BespokeBreadcrumbMixin, BaseSuccessView):
     template_name = 'domestic/contact/submit-success-domestic.html'
 
 
@@ -610,6 +637,18 @@ class InternationalFormView(
         user_template=settings.CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID,
     )
 
+    def get_context_data(self, **kwargs):
+        bespoke_breadcrumbs = [
+            {
+                'title': 'Contact us',
+                'url': reverse(
+                    'contact:contact-us-routing-form',
+                    kwargs={'step': 'location'},
+                ),
+            },
+        ]
+        return super().get_context_data(bespoke_breadcrumbs=bespoke_breadcrumbs, **kwargs)
+
 
 class InternationalSuccessView(
     # CountryDisplayMixin,  # Omitted in migration as appears to be redundant..
@@ -760,13 +799,14 @@ class RoutingFormView(
 
 
 class GuidanceView(
+    BespokeBreadcrumbMixin,
     core_mixins.GetSnippetContentMixin,
     TemplateView,
 ):
     template_name = 'domestic/contact/guidance.html'
 
 
-class OfficeFinderFormView(SubmitFormOnGetMixin, FormView):
+class OfficeFinderFormView(BespokeBreadcrumbMixin, SubmitFormOnGetMixin, FormView):
     template_name = 'domestic/contact/office-finder.html'
     form_class = contact_forms.OfficeFinderForm
     postcode = ''
@@ -790,7 +830,7 @@ class OfficeFinderFormView(SubmitFormOnGetMixin, FormView):
         )
 
 
-class OfficeContactFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
+class OfficeContactFormView(WizardBespokeBreadcrumbMixin, PrepopulateShortFormMixin, BaseNotifyFormView):
     template_name = 'domestic/contact/step.html'
     form_class = contact_forms.TradeOfficeContactForm
 
@@ -824,7 +864,7 @@ class OfficeSuccessView(DomesticSuccessView):
         }
 
 
-class EventsFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
+class EventsFormView(WizardBespokeBreadcrumbMixin, PrepopulateShortFormMixin, BaseNotifyFormView):
     form_class = contact_forms.EventsForm
     template_name = 'domestic/contact/step.html'
     success_url = reverse_lazy('contact:contact-us-events-success')
@@ -835,7 +875,9 @@ class EventsFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
     )
 
 
-class DefenceAndSecurityOrganisationFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
+class DefenceAndSecurityOrganisationFormView(
+    WizardBespokeBreadcrumbMixin, PrepopulateShortFormMixin, BaseNotifyFormView
+):
     form_class = contact_forms.DefenceAndSecurityOrganisationForm
     template_name = 'domestic/contact/step.html'
     success_url = reverse_lazy('contact:contact-us-dso-success')
@@ -846,7 +888,7 @@ class DefenceAndSecurityOrganisationFormView(PrepopulateShortFormMixin, BaseNoti
     )
 
 
-class FeedbackFormView(core_mixins.PrepopulateFormMixin, BaseZendeskFormView):
+class FeedbackFormView(WizardBespokeBreadcrumbMixin, core_mixins.PrepopulateFormMixin, BaseZendeskFormView):
     form_class = contact_forms.FeedbackForm
     template_name = 'domestic/contact/comment-contact.html'
     success_url = reverse_lazy('contact:contact-us-feedback-success')
@@ -1034,31 +1076,3 @@ class InlineFeedbackView(GenericAPIView):
 
             response.status_code = 303
             return response
-
-
-class TaskValidationView(GenericAPIView):
-    def post(self, request, *args, **kwargs):
-        data = self.request.data.copy()
-        data['userid'] = request.user.hashed_uuid if request.user.is_authenticated else None
-
-        email_address = request.user.email if request.user.is_authenticated else 'blank@example.com'
-
-        sender = Sender(
-            email_address=email_address,
-            country_code=None,
-        )
-
-        action = actions.SaveOnlyInDatabaseAction(
-            full_name='NA',
-            email_address=email_address,
-            subject='NA',
-            sender=sender,
-            form_url=self.request.get_full_path(),
-        )
-
-        save_result = action.save(data)
-
-        response = HttpResponse()
-        response.status_code = save_result.status_code
-
-        return response

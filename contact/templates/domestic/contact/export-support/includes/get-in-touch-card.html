@@ -5,7 +5,7 @@
         {% for block in card.value %}
             {% if block.block_type == 'card' %}
                 <a href="{{ block.value.link_url }}"
-                   class="govuk-!-margin-bottom-6 govuk-!-margin-right-6 govuk-!-padding-6 great-topic-card great-topic-card--quarter-width"
+                   class="govuk-!-margin-bottom-6 govuk-!-margin-right-6 govuk-!-padding-6 great-topic-card great-topic-card--quarter-width great-dep-card-accessible-focus"
                    data-ga-digital-entry-point>
                     {% if block.value.image %}
                         <div>{% image block.value.image width-450 %}</div>

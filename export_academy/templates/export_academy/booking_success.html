@@ -1,7 +1,6 @@
 {% extends 'domestic/base.html' %}
 {% load static %}
 {% load wagtailcore_tags %}
-{% load breadcrumbs from component_tags %}
 {% load event_list_buttons %}
 {% block head_title %}{{ heading }} confirmed – Events – UK Export Academy{% endblock %}
 {% block meta_title %}{{ heading }} confirmed – Events – UK Export Academy{% endblock %}
@@ -20,10 +19,6 @@
             </div>
         {% endwith %}
     {% endblock %}
-    {% breadcrumbs %}
-    <a href="/">Home</a>
-    <a href="{% pageurl landing_page %}">UK Export Academy</a>
-{% endbreadcrumbs %}
 <div class="great">
     <section class="govuk-!-padding-top-3 govuk-!-padding-bottom-3 background-white clearfix">
         <div class="container">

@@ -5,16 +5,8 @@
 {% load content_tags %}
 {% load component_tags %}
 {% load video_tags %}
-{% load breadcrumbs from component_tags %}
 {% block content %}
     {% if full_transcript %}
-        <div id="breadcrumbs" class="great-bg-light-blue">
-            <div class="great-container">
-                {% breadcrumbs great-breadcrumbs %}
-                <a href="{{ page.url }}" class="great-back-link">Back</a>
-            {% endbreadcrumbs %}
-        </div>
-    </div>
     <div class="great" id="lte-transcript">
         <section class="govuk-!-padding-bottom-6 govuk-!-padding-top-9 great-bg-white">
             <div class="great-container event-details-header-container">
@@ -38,14 +30,6 @@
         </section>
     </div>
 {% else %}
-    {% load breadcrumbs from component_tags %}
-    <div class="great-container">
-        {% breadcrumbs great-breadcrumbs %}
-        <a href={{ BREADCRUMBS_ROOT_URL|default:"/" }}>Home</a>
-        <a href="/learn/categories/">Learn to export</a>
-        <a href={{ page.get_parent.get_parent.url }}>{{ page.get_parent.get_parent.title|default:"/" }}</a>
-    {% endbreadcrumbs %}
-</div>
 <div class="great lesson-page">
     {% get_category_title_for_lesson page as category_title %}
     <div class="great-container govuk-!-padding-top-9">

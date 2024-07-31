@@ -1,5 +1,4 @@
 {% extends "form-wrapper.html" %}
-{% load breadcrumbs from component_tags %}
 {% load static %}
 {% block head_title %}Verify your company - great.gov.uk{% endblock %}
 {% block form_title %}Verify your company{% endblock %}
@@ -11,11 +10,6 @@
     {{ block.super }}
 {% endblock %}
 {% block form_subtitle %}
-{% block breadcrumbs %}
-    {% breadcrumbs breadcrumbs-container%}
-    <a href="{% url 'sso_profile:business-profile' %}">Back</a>
-{% endbreadcrumbs %}
-{% endblock %}
 
     <h1 class="govuk-heading-xl govuk-!-margin-bottom-8 govuk-!-margin-top-9">Confirm your identity</h1>
     <p class="govuk-!-margin-bottom-6">
