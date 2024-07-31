@@ -126,33 +126,7 @@ def is_authenticated(request):
     return request.user.is_authenticated
 
 
-def get_salary_data(entry_salary, mid_salary, executive_salary):
-    entry_salary = entry_salary.get('median_salary__avg')
-    mid_salary = mid_salary.get('median_salary__avg')
-    executive_salary = executive_salary.get('median_salary__avg')
-
-    if entry_salary:
-        entry_salary = int(entry_salary)
-    if mid_salary:
-        mid_salary = int(mid_salary)
-    if executive_salary:
-        executive_salary = int(executive_salary)
-
-    # Change requested to hide salary if numbers are smaller than lower band
-    if executive_salary and mid_salary and executive_salary < mid_salary:
-        executive_salary = None
-
-    if executive_salary and entry_salary and executive_salary < entry_salary:
-        executive_salary = None
-
-    if mid_salary and entry_salary and mid_salary < entry_salary:
-        mid_salary = None
-
-    return entry_salary, mid_salary, executive_salary
-
-
 def clean_salary_data(salary_data: dict) -> dict:
-    # largely the same method as above, can delete above get_salary_data() post election
     result = {**salary_data}
     entry_salary = salary_data.get(professions.ENTRY_LEVEL)
     mid_salary = salary_data.get(professions.MID_SENIOR_LEVEL)
