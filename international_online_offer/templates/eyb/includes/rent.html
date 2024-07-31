@@ -97,11 +97,7 @@
                                     <div class="govuk-grid-row">
                                         <div class="govuk-grid-column-one-half">
                                             <p class="govuk-body-m">
-                                                {% if pre_election %}
-                                                    <strong class="govuk-!-font-weight-bold">£{{ small_warehouse_rent|val_to_int|default:'-'|intcomma }}</strong>
-                                                {% else %}
-                                                    <strong class="govuk-!-font-weight-bold">£{{ small_warehouse_rent|default:'-'|intcomma }}</strong>
-                                                {% endif %}
+                                                <strong class="govuk-!-font-weight-bold">£{{ small_warehouse_rent|default:'-'|intcomma }}</strong>
                                                 <br>
                                                 per calendar month for 2023
                                             </p>
@@ -127,11 +123,7 @@
                                     <div class="govuk-grid-row">
                                         <div class="govuk-grid-column-one-half">
                                             <p class="govuk-body-m">
-                                                {% if pre_election %}
-                                                    <strong class="govuk-!-font-weight-bold">£{{ shopping_centre|val_to_int|default:'-'|intcomma }}</strong>
-                                                {% else %}
-                                                    <strong class="govuk-!-font-weight-bold">£{{ shopping_centre|default:'-'|intcomma }}</strong>
-                                                {% endif %}
+                                                <strong class="govuk-!-font-weight-bold">£{{ shopping_centre|default:'-'|intcomma }}</strong>
                                                 <br>
                                                 per calendar month for 2023
                                             </p>
@@ -157,11 +149,7 @@
                                     <div class="govuk-grid-row">
                                         <div class="govuk-grid-column-one-half">
                                             <p class="govuk-body-m">
-                                                {% if pre_election %}
-                                                    <strong class="govuk-!-font-weight-bold">£{{ high_street_retail|val_to_int|default:'-'|intcomma }}</strong>
-                                                {% else %}
-                                                    <strong class="govuk-!-font-weight-bold">£{{ high_street_retail|default:'-'|intcomma }}</strong>
-                                                {% endif %}
+                                                <strong class="govuk-!-font-weight-bold">£{{ high_street_retail|default:'-'|intcomma }}</strong>
                                                 <br>
                                                 per calendar month for 2023
                                             </p>
@@ -186,11 +174,7 @@
                                     <div class="govuk-grid-row">
                                         <div class="govuk-grid-column-one-half">
                                             <p class="govuk-body-m">
-                                                {% if pre_election %}
-                                                    <strong class="govuk-!-font-weight-bold">£{{ work_office|val_to_int|default:'-'|intcomma }}</strong>
-                                                {% else %}
-                                                    <strong class="govuk-!-font-weight-bold">£{{ work_office|default:'-'|intcomma }}</strong>
-                                                {% endif %}
+                                                <strong class="govuk-!-font-weight-bold">£{{ work_office|default:'-'|intcomma }}</strong>
                                                 <br>
                                                 per calendar month for 2023
                                             </p>
