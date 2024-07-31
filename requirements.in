@@ -54,7 +54,6 @@ whitenoise==6.6.0
 psycopg2==2.9.9 --no-binary psycopg2
 boto3==1.24.96
 geoip2==2.9.0
-airtable-python-wrapper==0.13.0
 markdown2==2.4.0
 iso3166==1.0.1
 sphinx==7.3.7
