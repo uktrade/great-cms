@@ -1,11 +1,8 @@
 {% extends 'enrolment/base.html' %}
 {% load static %}
-{% load breadcrumbs message_box_with_icon from component_tags %}
+{% load message_box_with_icon from component_tags %}
 {% block content %}
-    <section class="container" id="breadcrumbs">
-        {% breadcrumbs %}
-        <a href="{{ services_urls.great_domestic }}">Home</a>
-    {% endbreadcrumbs %}
+<section class="container" id="breadcrumbs">
     <div class="width-two-thirds margin-top-30">
         <div id="success-message-container">
             {% message_box_with_icon heading="Complete" description="Your account has been created." heading_level='h1' %}

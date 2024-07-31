@@ -1,10 +1,5 @@
 {% extends 'business_profile/base-form.html' %}
-{% load breadcrumbs from component_tags %}
 {% block form_contents %}
-    {% breadcrumbs %}
-    <a href="{% url 'sso_profile:about' %}">Home</a>
-    <a href="{% url 'sso_profile:business-profile' %}">Business profile</a>
-{% endbreadcrumbs %}
 <h1 class="heading-large margin-top-0">Business profile email address</h1>
 <p>This will be the email address overseas buyers will contact you on.</p>
 {{ block.super }}

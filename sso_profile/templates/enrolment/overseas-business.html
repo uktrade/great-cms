@@ -1,12 +1,6 @@
 {% extends 'enrolment/base.html' %}
-{% load breadcrumbs from component_tags %}
 {% block content %}
     <section class="container">
-        {% with current_page='Cannot '|add:user_journey_verb %}
-            {% breadcrumbs %}
-            <a href="{{ services_urls.great_domestic }}">Great.gov.uk</a>
-        {% endbreadcrumbs %}
-    {% endwith %}
     <div class="grid-row margin-top-45">
         <div class="column-two-thirds">
             <a href="{% url 'sso_profile:enrolment-business-type' %}" class="link">Back</a>

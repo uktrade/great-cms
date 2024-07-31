@@ -156,9 +156,13 @@
             {% include 'core/header.html' %}
         {% endblock %}
         {% block breadcrumbs_block %}
-            {% if features.FEATURE_DESIGN_SYSTEM and not '/' == request.path %}   
-            <div class="container">
+            {% if not '/' == request.path %}   
+                <div class="container">
+                    {% if bespoke_breadcrumbs %}
+                    {% include 'breadcrumbs.html' with itemsList=bespoke_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
+                    {% else %}
                     {% include 'breadcrumbs.html' with itemsList=page.get_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
+                    {% endif %}
                 </div>
             {% endif %}
         {% endblock %}

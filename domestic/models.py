@@ -1655,6 +1655,14 @@ class TradeFinancePage(
         related_name='+',
     )
 
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request)
+        bespoke_breadcrumbs = [
+            {'title': 'UKEF', 'url': '/get-finance/'},
+        ]
+        context['bespoke_breadcrumbs'] = bespoke_breadcrumbs
+        return context
+
 
 class FindABuyerPage(cms_panels.FindABuyerPagePanels, BaseContentPage):
     template = 'domestic/find_a_buyer.html'
@@ -1729,3 +1737,11 @@ class FindABuyerPage(cms_panels.FindABuyerPagePanels, BaseContentPage):
         blank=True,
         verbose_name='CTA link',
     )
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request)
+        bespoke_breadcrumbs = [
+            {'title': 'Find a buyer', 'url': '/find-a-buyer/'},
+        ]
+        context['bespoke_breadcrumbs'] = bespoke_breadcrumbs
+        return context

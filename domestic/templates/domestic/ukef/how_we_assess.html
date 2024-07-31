@@ -1,6 +1,5 @@
 {% extends 'domestic/base.html' %}
 {% load static %}
-{% load breadcrumbs from component_tags %}
 {% block head_title %}UK Export Finance - How we assess your project{% endblock %}
 {% block meta_title %}UK Export Finance - How we assess your project{% endblock %}
 {% block og_image %}
@@ -17,11 +16,6 @@
     article-detail-page ukef-article-detail-page
 {% endblock css_layout_class %}
 {% block content %}
-    {% breadcrumbs %}
-    <a href="/">Home</a>
-    <a href="{% url 'domestic:get-finance' %}">UKEF</a>
-    <a href="{% url 'domestic:project-finance' %}">Project Finance</a>
-{% endbreadcrumbs %}
 <section id="article-how-we-assess-your-project">
     <article class="article-main how-we-assess-your-project-article">
         <div class="container">

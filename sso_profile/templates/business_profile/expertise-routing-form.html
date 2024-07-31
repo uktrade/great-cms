@@ -1,10 +1,5 @@
 {% extends 'business_profile/base-form.html' %}
-{% load breadcrumbs from component_tags %}
 {% block form_contents %}
-    {% breadcrumbs %}
-    <a href="{% url 'sso_profile:about' %}">Home</a>
-    <a href="{% url 'sso_profile:business-profile' %}">Business profile</a>
-{% endbreadcrumbs %}
 <div id="selected-expertise-container">
     {% if company.expertise_industries %}
         <div>

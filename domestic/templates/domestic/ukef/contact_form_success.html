@@ -1,6 +1,5 @@
 {% extends 'domestic/base.html' %}
 {% load static %}
-{% load breadcrumbs from component_tags %}
 {% block head_css %}
     {{ block.super }}
     <link href="{% static 'styles/ukef-contact-page-success.css' %}"
@@ -9,12 +8,6 @@
 {% endblock %}
 {% block css_layout_class %}uk-export-contact-form-success{% endblock %}
 {% block content %}
-    {% breadcrumbs %}
-    <a href="/">Home</a>
-    <a href="{% url 'domestic:get-finance' %}">UKEF</a>
-    <a href="{% url 'domestic:project-finance' %}">Project Finance</a>
-    <a href="{% url 'domestic:uk-export-contact' %}">Get in touch</a>
-{% endbreadcrumbs %}
 <section id="thank-you-section" class="thank-you-section padding-bottom-45">
     <div class="container">
         <div class="grid-row">

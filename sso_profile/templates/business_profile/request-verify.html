@@ -1,14 +1,9 @@
 {% extends 'business_profile/base-form.html' %}
-{% load breadcrumbs from component_tags %}
 {% load static %}
 {% block form_button %}
     <button class="primary-button button padding-left-60 padding-right-60">Request to verify</button>
 {% endblock %}
 {% block form_contents %}
-    {% breadcrumbs %}
-    <a href="{% url 'sso_profile:about' %}">Home</a>
-    <a href="{% url 'sso_profile:business-profile' %}">Business profile</a>
-{% endbreadcrumbs %}
 <h1 class="heading-xlarge margin-top-60 margin-bottom-30">Request to verify</h1>
 <p>
     To publish your Business Profile, we need to make sure you represent this business. To do that, we'll need some verification.
