@@ -1,8 +1,11 @@
+from unittest import mock
+
 import pytest
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.test import RequestFactory
 from wagtail.test.utils import WagtailPageTests
 
+from core.tests.helpers import create_response
 from domestic.models import StructuralPage
 from international.models import GreatInternationalHomePage
 from international_online_offer.models import (
@@ -180,8 +183,12 @@ class EYBArticlesPageTests(WagtailPageTests):
         )
 
 
+@mock.patch('directory_api_client.api_client.dataservices.get_eyb_salary_data', return_value=create_response({}))
+@mock.patch(
+    'directory_api_client.api_client.dataservices.get_eyb_commercial_rent_data', return_value=create_response({})
+)
 @pytest.mark.django_db
-def test_article_page_context(client, user):
+def test_article_page_context(mock_get_median_salaries, mock_get_rent_data, user):
     TriageData.objects.update_or_create(
         hashed_uuid='123',
         defaults={'sector': 'Food and drink', 'location': 'WALES'},

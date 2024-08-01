@@ -33,12 +33,7 @@
         </div>
     </div>
     {% if 'find-expert-talent' in request.path or show_salary_component %}
-        {% feature_pre_election as feature_pre_election %}
-        {% if feature_pre_election %}
-            {% include './includes/salary_v2.html' with salary_location_form=location_form entry_salary=entry_salary mid_salary=mid_salary executive_salary=executive_salary professions_by_sector=professions_by_sector %}
-        {% else %}
-            {% include './includes/salary.html' with salary_location_form=location_form entry_salary=entry_salary mid_salary=mid_salary executive_salary=executive_salary professions_by_sector=professions_by_sector %}
-        {% endif %}
+        {% include './includes/salary.html' with salary_location_form=location_form entry_salary=entry_salary mid_salary=mid_salary executive_salary=executive_salary professions_by_sector=professions_by_sector %}
     {% endif %}
     {% if 'find-the-right-location-and-premises' in request.path or show_rent_component %}
         {% include './includes/rent.html' with rent_location_form=location_form large_warehouse_rent=large_warehouse_rent small_warehouse_rent=small_warehouse_rent shopping_centre=shopping_centre high_street_retail=high_street_retail work_office=work_office %}
