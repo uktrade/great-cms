@@ -150,6 +150,17 @@
     {% include "wagtailseo/struct_data.html" %}
     <main id="content" class="{% block css_layout_class %}{% endblock %}">
         {% block content_header %}{% endblock %}
+        {% block breadcrumbs_block %}
+            {% if not '/learn/' in request.path %}   
+                <div class="container">
+                    {% if bespoke_breadcrumbs %}
+                    {% include 'breadcrumbs.html' with itemsList=bespoke_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
+                    {% else %}
+                    {% include 'breadcrumbs.html' with itemsList=page.get_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endblock %}
         {% block content %}{% endblock %}
         {% block content_after %}{% endblock %}
     </main>
