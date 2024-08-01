@@ -1,5 +1,6 @@
 {% load wagtailcore_tags %}
 {% load humanize %}
+{% load eyb_tags %}
 {% load sector_filters %}
 {% load add_govuk_classes from content_tags %}
 {% if triage_data.sector %}
@@ -35,42 +36,49 @@
                     </div>
                 </div>
                 <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-full govuk-!-margin-3 govuk-!-padding-8 salary-rent-component-body">
-                        {% if entry_level or mid_salary or executive_salary %}
+                    {% if entry_salary or mid_salary or executive_salary %}
+                        {% get_salary_display_classes as salary_display_classes %}
+                        <div class="{{ salary_display_classes.parent_column_class }} govuk-!-margin-3 govuk-!-padding-8 salary-rent-component-body">
                             <div class="govuk-grid-row">
-                                <div class="govuk-grid-column-one-third">
-                                    <p class="govuk-body-m govuk-!-font-weight-bold">Entry level</p>
-                                    <p class="govuk-heading-m">£{{ entry_salary|default_if_none:'-'|intcomma }}</p>
-                                    <p class="govuk-body body-text">For professions like {{ professions_by_sector.entry_level|default:'-' }}</p>
-                                </div>
-                                <div class="govuk-grid-column-one-third">
-                                    <p class="govuk-body-m govuk-!-font-weight-bold">Mid level</p>
-                                    <p class="govuk-heading-m">£{{ mid_salary|default:'-'|intcomma }}</p>
-                                    <p class="govuk-body body-text">For professions like {{ professions_by_sector.mid_level|default:'-' }}</p>
-                                </div>
-                                <div class="govuk-grid-column-one-third">
-                                    <p class="govuk-body-m govuk-!-font-weight-bold">Executive level</p>
-                                    <p class="govuk-heading-m">£{{ executive_salary|default:'-'|intcomma }}</p>
-                                    <p class="govuk-body body-text">For professions like {{ professions_by_sector.executive_level|default:'-' }}</p>
-                                </div>
+                                {% if entry_salary %}
+                                    <div class="{{ salary_display_classes.salary_card_class }}">
+                                        <p class="govuk-body-m govuk-!-font-weight-bold">Entry level</p>
+                                        <p class="govuk-heading-m">£{{ entry_salary|default_if_none:'-'|intcomma }}</p>
+                                        <p class="govuk-body body-text">For professions like {{ professions_by_sector.entry_level|default:'-' }}</p>
+                                    </div>
+                                {% endif %}
+                                {% if mid_salary %}
+                                    <div class="{{ salary_display_classes.salary_card_class }}">
+                                        <p class="govuk-body-m govuk-!-font-weight-bold">Mid level</p>
+                                        <p class="govuk-heading-m">£{{ mid_salary|default:'-'|intcomma }}</p>
+                                        <p class="govuk-body body-text">For professions like {{ professions_by_sector.mid_level|default:'-' }}</p>
+                                    </div>
+                                {% endif %}
+                                {% if executive_salary %}
+                                    <div class="{{ salary_display_classes.salary_card_class }}">
+                                        <p class="govuk-body-m govuk-!-font-weight-bold">Executive level</p>
+                                        <p class="govuk-heading-m">£{{ executive_salary|default:'-'|intcomma }}</p>
+                                        <p class="govuk-body body-text">For professions like {{ professions_by_sector.executive_level|default:'-' }}</p>
+                                    </div>
+                                {% endif %}
                             </div>
-                        {% else %}
                             <div class="govuk-grid-row">
                                 <div class="govuk-grid-column-full">
-                                    <p class="govuk-body">{{ salary_error_msg }}</p>
+                                    <span class="govuk-body body-text source-text">
+                                        Figures reflect 2023 median gross salaries.
+                                        <br>
+                                        Source: Statista
+                                    </span>
                                 </div>
                             </div>
-                        {% endif %}
-                        <div class="govuk-grid-row">
-                            <div class="govuk-grid-column-full">
-                                <span class="govuk-body body-text source-text">
-                                    Figures reflect 2023 median gross salaries.
-                                    <br>
-                                    Source: Statista
-                                </span>
+                        </div>
+                    {% else %}
+                        <div class="govuk-grid-row govuk-!-margin-3">
+                            <div class="govuk-grid-column-full govuk-!-padding-4 great-align-items-center salary-rent-component-body">
+                                <span class="govuk-body body-text source-text">{{ salary_error_msg }}</span>
                             </div>
                         </div>
-                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

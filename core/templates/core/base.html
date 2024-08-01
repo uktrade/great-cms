@@ -145,6 +145,7 @@
         {% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
     {% endif %}
 {% endblock %}
+
 {% block body_content_container %}
     {% include "wagtailseo/struct_data.html" %}
     <main id="content" class="{% block css_layout_class %}{% endblock %}">

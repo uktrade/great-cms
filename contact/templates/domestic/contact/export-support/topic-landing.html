@@ -29,25 +29,6 @@
                             {% endif %}
                             {% if page.page_description %}<p class="govuk-body govuk-!-margin-bottom-6">{{ page.page_description }}</p>{% endif %}
                             {% if page.page_teaser %}{{ page.page_teaser| richtext | add_govuk_classes }}{% endif %}
-                            {% if features.FEATURE_SHOW_TASK_VALIDATION %}
-                                {# djlint:off H021 #}
-                                <div id="task-validation-form" class="great-modal" style="display:none;">
-                                    <div class="govuk-!-padding-8 great-modal__content">
-                                        <h2 class="govuk-heading-s govuk-!-margin-bottom-0">Please confirm</h2>
-                                        <p id="task-validation-question"
-                                           class="govuk-body govuk-!-margin-top-4 govuk-!-margin-bottom-5"></p>
-                                        <button class="govuk-button great-min-width-200-desktop" data-modal-submit>Yes</button>
-                                        <button class="govuk-button great-min-width-200-desktop" data-modal-submit>No</button>
-                                        <div class="govuk-!-margin-top-2">
-                                            <a class="govuk-link" href="" data-modal-submit>Just browsing</a>
-                                        </div>
-                                        <p id="task-validation-message"
-                                           class="govuk-body govuk-!-margin-top-3 govuk-!-margin-bottom-0">
-                                            You're being redirected to guidance on <a href="https://www.gov.uk" class="govuk-link">GOV.UK</a>.
-                                        </p>
-                                    </div>
-                                </div>
-                            {% endif %}
                         </div>
                     </div>
                     {% if page.page_body %}
