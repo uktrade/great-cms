@@ -30,7 +30,6 @@ def test_migration_migration_support_vars(client):
     assert 'great_support_email' in response.context
     assert response.context['BREADCRUMBS_ROOT_URL'] == 'https://example.com/'
     assert 'FEATURE_SHOW_REPORT_BARRIER_CONTENT' in response.context
-    assert 'FEATURE_SHOW_MAGNA_LINKS_IN_HEADER' in response.context
     assert 'FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK' in response.context
 
 

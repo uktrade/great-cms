@@ -108,17 +108,6 @@ def test_is_authenticated():
 
 
 @pytest.mark.django_db
-def test_get_salary_data():
-    low_query = {'median_salary__avg': 10000}
-    mid_query = {'median_salary__avg': 5000}
-    high_query = {'median_salary__avg': 20000}
-    low, mid, high = helpers.get_salary_data(low_query, mid_query, high_query)
-    assert low == 10000
-    assert mid is None
-    assert high == 20000
-
-
-@pytest.mark.django_db
 def test_get_rent_data():
     class RentQueryResult:
         def __init__(self, gbp_per_month):

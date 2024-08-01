@@ -1,10 +1,8 @@
 from itertools import chain
 
 from django import forms
-from django.conf import settings
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
-from django.db.models import Avg
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.models import ParentalKey
 from taggit.models import TagBase, TaggedItemBase
@@ -222,10 +220,7 @@ class EYBArticlePage(BaseContentPage):
             show_salary_component = helpers.can_show_salary_component(tags)
             show_rent_component = helpers.can_show_rent_component(tags)
 
-            if triage_data and settings.FEATURE_PRE_ELECTION:
-                # This if statement contains some duplicated code from below elif. This is to ensure that when
-                # we are releasing to production post-election we can simply remove the elif code.
-
+            if triage_data:
                 location = request.GET.get(
                     'location', triage_data.location if triage_data.location else choices.regions.LONDON
                 )
@@ -242,11 +237,11 @@ class EYBArticlePage(BaseContentPage):
 
                 home_url = '/international/expand-your-business-in-the-uk/guide/'
                 if request.GET.get('back'):
-                    home_url += '#personalised-guide'
+                    home_url += '#tailored-guide'
 
                 breadcrumbs = [
                     {'name': 'Home', 'url': '/international/'},
-                    {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#personalised-guide'},
+                    {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#tailored-guide'},
                 ]
 
                 context.update(
@@ -267,83 +262,6 @@ class EYBArticlePage(BaseContentPage):
                     breadcrumbs=breadcrumbs,
                 )
 
-            elif triage_data:
-                location = request.GET.get(
-                    'location', triage_data.location if triage_data.location else choices.regions.LONDON
-                )
-                region = helpers.get_salary_region_from_region(location)
-
-                entry_salary = SalaryData.objects.filter(
-                    region__iexact=region,
-                    vertical__icontains=triage_data.sector,
-                    professional_level__icontains='Entry-level',
-                ).aggregate(Avg('median_salary'))
-                mid_salary = SalaryData.objects.filter(
-                    region__iexact=region,
-                    vertical__icontains=triage_data.sector,
-                    professional_level__icontains='Middle/Senior Management',
-                ).aggregate(Avg('median_salary'))
-                executive_salary = SalaryData.objects.filter(
-                    region__iexact=region,
-                    vertical__icontains=triage_data.sector,
-                    professional_level__icontains='Director/Executive',
-                ).aggregate(Avg('median_salary'))
-
-                entry_salary, mid_salary, executive_salary = helpers.get_salary_data(
-                    entry_salary, mid_salary, executive_salary
-                )
-
-                large_warehouse_rent = RentData.objects.filter(
-                    region__iexact=region, sub_vertical='Large Warehouses'
-                ).first()
-                small_warehouse_rent = RentData.objects.filter(
-                    region__iexact=region, sub_vertical='Small Warehouses'
-                ).first()
-                shopping_centre = RentData.objects.filter(
-                    region__iexact=region, sub_vertical='Prime shopping centre'
-                ).first()
-                high_street_retail = RentData.objects.filter(
-                    region__iexact=region, sub_vertical='High Street Retail'
-                ).first()
-                work_office = RentData.objects.filter(region__iexact=region, sub_vertical='Work Office').first()
-
-                (
-                    large_warehouse_rent,
-                    small_warehouse_rent,
-                    shopping_centre,
-                    high_street_retail,
-                    work_office,
-                ) = helpers.get_rent_data(
-                    large_warehouse_rent, small_warehouse_rent, shopping_centre, high_street_retail, work_office
-                )
-
-                professions_by_sector = helpers.get_sector_professions_by_level(triage_data.sector)
-
-                home_url = '/international/expand-your-business-in-the-uk/guide/'
-                if request.GET.get('back'):
-                    home_url += '#tailored-guide'
-
-                breadcrumbs = [
-                    {'name': 'Home', 'url': '/international/'},
-                    {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#tailored-guide'},
-                ]
-
-                context.update(
-                    triage_data=triage_data,
-                    location_form=LocationSelectForm(initial={'location': location}),
-                    entry_salary=entry_salary,
-                    mid_salary=mid_salary,
-                    executive_salary=executive_salary,
-                    large_warehouse_rent=large_warehouse_rent,
-                    small_warehouse_rent=small_warehouse_rent,
-                    shopping_centre=shopping_centre,
-                    high_street_retail=high_street_retail,
-                    work_office=work_office,
-                    professions_by_sector=professions_by_sector,
-                    show_salary_component=show_salary_component,
-                    show_rent_component=show_rent_component,
-                    breadcrumbs=breadcrumbs,
-                )
         site_section_url = ''
         if self.url:
             site_section_url = str(self.url or '/').split('/')[4]

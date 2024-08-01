@@ -563,15 +563,6 @@ def h3_if(condition, else_heading):
     return else_heading
 
 
-# todo: remove post election ###########
-@register.simple_tag
-def feature_pre_election():
-    return settings.FEATURE_PRE_ELECTION
-
-
-########################################
-
-
 @register.filter
 def val_to_int(val: Union[float, int, str]) -> int:
     """
