@@ -250,6 +250,8 @@ googleapis-common-protos==1.63.2
     #   opentelemetry-exporter-otlp-proto-http
 great-components==2.6.4
     # via -r requirements.in
+greenlet==3.0.3
+    # via sqlalchemy
 grpcio==1.65.2
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==22.0.0
@@ -504,7 +506,7 @@ requests-oauthlib==2.0.0
     # via django-staff-sso-client
 s3transfer==0.6.2
     # via boto3
-sentry-sdk==1.45.1
+sentry-sdk==2.8.0
     # via -r requirements.in
 sigauth==5.2.7
     # via
