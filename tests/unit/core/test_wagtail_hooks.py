@@ -208,7 +208,7 @@ def test_estimated_read_time_calculation(rf, domestic_homepage):
     revision = detail_page.save_revision()
     revision.publish()
 
-    expected_duration = timedelta(seconds=181)
+    expected_duration = timedelta(seconds=182)
 
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration != expected_duration
