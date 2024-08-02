@@ -6,7 +6,7 @@ from django.forms import (
     MultipleChoiceField,
     RadioSelect,
     Textarea,
-    TextInput
+    TextInput,
 )
 
 from core import constants
