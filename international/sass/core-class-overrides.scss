@@ -87,12 +87,27 @@ hr {
     }
 }
 
+.autocomplete__option:focus {
+    color: white;
+    .eyb-sector-lookup-second-row {
+        color: white;
+    }
+}
+
 .autocomplete__option--odd {
     background-color: $great-light-blue;
 }
 
 .autocomplete__option--odd:hover {
     background-color: #1d70b8;
+    .eyb-sector-lookup-second-row {
+        color: white;
+    }
+}
+
+.autocomplete__option--odd:focus {
+    background-color: #1d70b8;
+    color: white;
     .eyb-sector-lookup-second-row {
         color: white;
     }
