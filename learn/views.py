@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect, JsonResponse
 from django.views.generic import FormView
 from learn.forms import CsatUserFeedbackForm
-from models import CsatUserFeedback
+from learn.models import CsatUserFeedback
 
 
 class ArticlePageView(FormView):
