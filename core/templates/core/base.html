@@ -6,11 +6,11 @@
 {% load wagtailcore_tags %}
 {% block head_css %}
     {% path_match "^\/learn\/" as in_learning %}
+    <link href="{% static 'magna_styles.css' %}" media="all" rel="stylesheet" />
     {% if in_learning %}
         <link href="{% static 'learn_styles.css' %}" media="all" rel="stylesheet" />
-    {% else %}
-        <link href="{% static 'magna_styles.css' %}" media="all" rel="stylesheet" />
     {% endif %}
+    <style>
 {% endblock %}
 <noscript>
     <style>
@@ -150,6 +150,17 @@
     {% include "wagtailseo/struct_data.html" %}
     <main id="content" class="{% block css_layout_class %}{% endblock %}">
         {% block content_header %}{% endblock %}
+        {% block breadcrumbs_block %}
+  
+                <div class="container">
+                    {% if bespoke_breadcrumbs %}
+                    {% include 'breadcrumbs.html' with itemsList=bespoke_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
+                    {% else %}
+                    {% include 'breadcrumbs.html' with itemsList=page.get_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
+                    {% endif %}
+                </div>
+
+        {% endblock %}
         {% block content %}{% endblock %}
         {% block content_after %}{% endblock %}
     </main>

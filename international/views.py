@@ -50,7 +50,7 @@ class ContactView(GA360Mixin, FormView):
             full_name=cleaned_data['full_name'],
             email_address=cleaned_data['email'],
             subject=self.subject,
-            service_name='Great.gov.uk International',
+            service_name='great',
             form_url=reverse('international:contact'),
             sender=sender,
         )
