@@ -68,22 +68,22 @@
     {% endif %}
 {% endblock %}
 {% block head_js_ga360 %}
-            <script src="{% static 'javascript/dit.tagging.js' %}"></script>
-            <script type="text/javascript">
-                window.dataLayer = window.dataLayer || [];
-                {% if ga360 %}
-                window.dataLayer.push({
-                    'businessUnit': '{{ ga360.business_unit }}',
-                    'siteSection': '{{ ga360.site_section}}',
-                    'siteSubsection': '{{ ga360.site_subsection }}',
-                    'siteLanguage': '{{ ga360.site_language }}',
-                    'userId': '{{ ga360.user_id }}',
-                    'loginStatus': '{{ ga360.login_status }}',
-                });
-                dit.tagging.base.init();
-                {% endif %}
-            </script>
-        {% endblock %}
+    <script src="{% static 'javascript/dit.tagging.js' %}"></script>
+    <script type="text/javascript">
+        window.dataLayer = window.dataLayer || [];
+        {% if ga360 %}
+            window.dataLayer.push({
+                'businessUnit': '{{ ga360.business_unit }}',
+                'siteSection': '{{ ga360.site_section}}',
+                'siteSubsection': '{{ ga360.site_subsection }}',
+                'siteLanguage': '{{ ga360.site_language }}',
+                'userId': '{{ ga360.user_id }}',
+                'loginStatus': '{{ ga360.login_status }}',
+            });
+            dit.tagging.base.init();
+        {% endif %}
+    </script>
+{% endblock %}
 {% block header_js %}
     {% path_match "^\/learn\/" as in_learning %}
     {% if features.FEATURE_DEA_V2 and in_learning %}

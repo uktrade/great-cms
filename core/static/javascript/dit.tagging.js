@@ -15,7 +15,7 @@ if (!String.prototype.includes) {
 }
 
 
-var dit= dit || {}
+var dit = dit || {}
 dit.tagging = dit.tagging || {};
 dit.tagging.base = new function() {
     this.init = function(debug_mode) {
