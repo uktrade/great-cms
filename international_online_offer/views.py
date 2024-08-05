@@ -174,53 +174,6 @@ class BusinessDetailsView(GA360Mixin, FormView):
 
     def get_context_data(self, **kwargs):
         dbt_sectors = get_dbt_sectors()
-        dbt_sectors = [
-            {
-                'id': 1,
-                'sector_id': 'SL0003',
-                'full_sector_name': 'Advanced engineering : Metallurgical process plant',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Advanced engineering',
-                'sub_sector_name': 'Metallurgical process plant',
-                'sub_sub_sector_name': '',
-            },
-            {
-                'id': 2,
-                'sector_id': 'SL0004',
-                'full_sector_name': 'Advanced engineering : Metals, minerals and materials',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Advanced engineering',
-                'sub_sector_name': 'Metals, minerals and materials',
-                'sub_sub_sector_name': '',
-            },
-            {
-                'id': 3,
-                'sector_id': 'SL0050',
-                'full_sector_name': 'Automotive',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Automotive',
-                'sub_sector_name': '',
-                'sub_sub_sector_name': '',
-            },
-            {
-                'id': 4,
-                'sector_id': 'SL0052',
-                'full_sector_name': 'Automotive : Component manufacturing : Bodies and coachwork',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Automotive',
-                'sub_sector_name': 'Component manufacturing',
-                'sub_sub_sector_name': 'Bodies and coachwork',
-            },
-            {
-                'id': 5,
-                'sector_id': 'SL0053',
-                'full_sector_name': 'Automotive : Component manufacturing : Electronic components',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Automotive',
-                'sub_sector_name': 'Component manufacturing',
-                'sub_sub_sector_name': 'Electronic components',
-            },
-        ]
         autocomplete_sector_data = region_sector_helpers.get_sectors_as_string(dbt_sectors)
 
         return super().get_context_data(
