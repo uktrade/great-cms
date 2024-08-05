@@ -81,8 +81,21 @@ hr {
     font-family: $govuk-font-family;
 }
 
+.autocomplete__option:hover {
+    .eyb-sector-lookup-second-row {
+        color: white;
+    }
+}
+
 .autocomplete__option--odd {
-    background-color: $great-light-blue !important;
+    background-color: $great-light-blue;
+}
+
+.autocomplete__option--odd:hover {
+    background-color: #1d70b8;
+    .eyb-sector-lookup-second-row {
+        color: white;
+    }
 }
 
 .form-group {
