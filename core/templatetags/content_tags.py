@@ -14,7 +14,7 @@ from django.utils.html import format_html
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 
-from core.constants import BACKLINK_QUERYSTRING_NAME, TASK_VALIDATION_MODAL_TRIGGERS
+from core.constants import BACKLINK_QUERYSTRING_NAME
 from core.helpers import millify
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage
 
@@ -564,23 +564,48 @@ def h3_if(condition, else_heading):
 
 
 @register.filter
-def is_modal_card(card_title):
-    return True if card_title in TASK_VALIDATION_MODAL_TRIGGERS else False
-
-
-# todo: remove post election ###########
-@register.simple_tag
-def feature_pre_election():
-    return settings.FEATURE_PRE_ELECTION
-
-
-########################################
-
-
-@register.filter
 def val_to_int(val: Union[float, int, str]) -> int:
     """
     Utility function that can be called from a django template to return the whole number
     of a decimal. Not to be confused with django's intcomma which retains the fraction part.
     """
     return int(round(float(val)))
+
+
+@register.filter
+def get_category_page_breadcrumbs(page):
+    return [
+        {'url': '/support/export-support/', 'title': 'Export Support'},
+        {'url': page.get_full_url(), 'title': page.page_title},
+    ]
+
+
+@register.filter
+def get_sub_category_page_breadcrumbs(page):
+    return [
+        {'url': '/support/export-support/', 'title': 'Export Support'},
+        {'url': page.get_parent().get_full_url(), 'title': page.get_parent().specific.page_title},
+        {'url': page.get_full_url(), 'title': page.page_title},
+    ]
+
+
+@register.filter
+def get_meta_tag_label(url):
+    if 'great' in url:
+        return 'GREAT'
+
+    if 'gov' in url:
+        return 'GOV.UK'
+
+    return 'Default label'
+
+
+@register.filter
+def get_meta_tag_icon_path(url):
+    if 'great' in url:
+        return '/static/icons/hand.svg'
+
+    if 'gov' in url:
+        return '/static/icons/guidance.svg'
+
+    return '/static/icons/hand.svg'

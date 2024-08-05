@@ -1,11 +1,8 @@
 {% extends 'enrolment/base.html' %}
 {% load static %}
-{% load message_box_with_icon breadcrumbs from component_tags %}
+{% load message_box_with_icon from component_tags %}
 {% block content %}
     <section class="container">
-        {% breadcrumbs %}
-        <a href="{{ services_urls.exred }}">Home</a>
-    {% endbreadcrumbs %}
     <div class="grid-row">
         <div class="column-two-thirds">
             <div id="success-message-container">

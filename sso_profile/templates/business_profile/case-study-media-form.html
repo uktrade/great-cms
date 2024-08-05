@@ -1,13 +1,8 @@
 {% extends 'common/wizard.html' %}
-{% load breadcrumbs from component_tags %}
 {% load static %}
 {% block head_title %}Business profile - Account - great.gov.uk{% endblock %}
 {% block meta_title %}Business profile - Account - great.gov.uk{% endblock %}
 {% block form_contents %}
-    {% breadcrumbs %}
-    <a href="{% url 'sso_profile:about' %}">Home</a>
-    <a href="{% url 'sso_profile:business-profile' %}">Business profile</a>
-{% endbreadcrumbs %}
 <h1 class="heading-large margin-top-0">Image and testimonials</h1>
 {{ block.super }}
 {% endblock %}

@@ -6,8 +6,6 @@
 #
 --no-binary psycopg2
 
-airtable-python-wrapper==0.13.0
-    # via -r requirements.in
 alabaster==0.7.16
     # via sphinx
 amqp==5.2.0
@@ -109,7 +107,7 @@ deprecated==1.2.14
     #   opentelemetry-api
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
-directory-api-client==26.7.1
+directory-api-client==26.7.2
     # via -r requirements.in
 directory-ch-client==4.0.2
     # via -r requirements.in
@@ -139,7 +137,7 @@ distlib==0.3.8
     # via virtualenv
 dj-database-url==2.2.0
     # via -r requirements.in
-django==4.2.11
+django==4.2.14
     # via
     #   -r requirements.in
     #   directory-api-client
@@ -238,7 +236,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==26.0.0
+faker==26.1.0
     # via factory-boy
 filelock==3.15.4
     # via virtualenv
@@ -252,7 +250,7 @@ googleapis-common-protos==1.63.2
     #   opentelemetry-exporter-otlp-proto-http
 great-components==2.6.4
     # via -r requirements.in
-grpcio==1.65.1
+grpcio==1.65.2
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==22.0.0
     # via -r requirements.in
@@ -396,17 +394,17 @@ pillow==10.3.0
     #   reportlab
     #   wagtail
     #   xhtml2pdf
-pillow-heif==0.17.0
+pillow-heif==0.18.0
     # via willow
 platformdirs==4.2.2
     # via virtualenv
 polib==1.2.0
     # via wagtail-localize
-pre-commit==3.7.1
+pre-commit==3.8.0
     # via django-log-formatter-asim
 prompt-toolkit==3.0.47
     # via click-repl
-protobuf==4.25.3
+protobuf==4.25.4
     # via
     #   googleapis-common-protos
     #   opentelemetry-proto
@@ -430,7 +428,7 @@ pyhanko-certvalidator==0.26.3
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==4.3.0
+pypdf==4.3.1
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -439,7 +437,9 @@ pyquery==2.0.0
 pyrsistent==0.20.0
     # via jsonschema
 python-bidi==0.4.2
-    # via xhtml2pdf
+    # via
+    #   -r requirements.in
+    #   xhtml2pdf
 python-crontab==3.2.0
     # via django-celery-beat
 python-dateutil==2.9.0.post0
@@ -476,11 +476,11 @@ qrcode==7.4.2
     # via pyhanko
 readtime==1.1.1
     # via -r requirements.in
-redis==5.0.7
+redis==5.0.8
     # via
     #   celery
     #   django-redis
-regex==2024.5.15
+regex==2024.7.24
     # via dateparser
 reportlab==4.0.9
     # via
@@ -488,7 +488,6 @@ reportlab==4.0.9
     #   xhtml2pdf
 requests==2.32.3
     # via
-    #   airtable-python-wrapper
     #   dbt-copilot-python
     #   directory-api-client
     #   directory-ch-client
@@ -505,7 +504,7 @@ requests-oauthlib==2.0.0
     # via django-staff-sso-client
 s3transfer==0.6.2
     # via boto3
-sentry-sdk==1.45.0
+sentry-sdk==1.45.1
     # via -r requirements.in
 sigauth==5.2.7
     # via
@@ -513,7 +512,6 @@ sigauth==5.2.7
     #   directory-client-core
 six==1.16.0
     # via
-    #   airtable-python-wrapper
     #   html5lib
     #   jsonschema
     #   l18n
@@ -529,17 +527,17 @@ soupsieve==2.5
     # via beautifulsoup4
 sphinx==7.3.7
     # via -r requirements.in
-sphinxcontrib-applehelp==1.0.8
+sphinxcontrib-applehelp==2.0.0
     # via sphinx
-sphinxcontrib-devhelp==1.0.6
+sphinxcontrib-devhelp==2.0.0
     # via sphinx
-sphinxcontrib-htmlhelp==2.0.5
+sphinxcontrib-htmlhelp==2.1.0
     # via sphinx
 sphinxcontrib-jsmath==1.0.1
     # via sphinx
-sphinxcontrib-qthelp==1.0.7
+sphinxcontrib-qthelp==2.0.0
     # via sphinx
-sphinxcontrib-serializinghtml==1.1.10
+sphinxcontrib-serializinghtml==2.0.0
     # via sphinx
 sqlalchemy==1.4.49
     # via -r requirements.in
@@ -600,7 +598,7 @@ virtualenv==20.26.3
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core
-wagtail==5.2
+wagtail==5.2.6
     # via
     #   -r requirements.in
     #   wagtail-cache

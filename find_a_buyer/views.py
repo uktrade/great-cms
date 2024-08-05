@@ -15,6 +15,15 @@ from . import forms, helpers
 from .decorators import must_have_company_profile
 
 
+class BespokeBreadcrumbMixin(TemplateView):
+
+    def get_context_data(self, **kwargs):
+        bespoke_breadcrumbs = [
+            {'title': 'Business profile', 'url': reverse('sso_profile:business-profile')},
+        ]
+        return super().get_context_data(bespoke_breadcrumbs=bespoke_breadcrumbs, **kwargs)
+
+
 class SubmitFormOnGetMixin:
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -82,6 +91,9 @@ class SendVerificationLetterView(
     form_serializer = staticmethod(forms.serialize_company_address_form)
 
     def get_context_data(self, form, **kwargs):
+        bespoke_breadcrumbs = [
+            {'title': 'Back', 'url': reverse('find_a_buyer:verify-company-hub')},
+        ]
         company_profile = self.request.user.company.data
         address = helpers.build_company_address(company_profile)
         context = super().get_context_data(
@@ -91,6 +103,7 @@ class SendVerificationLetterView(
             company_name=company_profile['name'],
             company_number=company_profile['number'],
             company_address=address,
+            bespoke_breadcrumbs=bespoke_breadcrumbs,
             **kwargs,
         )
         return context
@@ -100,21 +113,19 @@ class SendVerificationLetterView(
         return TemplateResponse(self.request, self.templates[self.SENT], context)
 
 
-class CompanyVerifyView(TemplateView):
+class CompanyVerifyView(BespokeBreadcrumbMixin, TemplateView):
 
     template_name = 'company-verify-hub.html'
 
     def get_context_data(self, **kwargs):
-        return {
-            'company': self.request.user.company.data,
-        }
+        return super().get_context_data(company=self.request.user.company.data, **kwargs)
 
     @method_decorator(must_have_company_profile)
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
 
 
-class CompanyAddressVerificationView(GetTemplateForCurrentStepMixin, SessionWizardView):
+class CompanyAddressVerificationView(BespokeBreadcrumbMixin, GetTemplateForCurrentStepMixin, SessionWizardView):
 
     ADDRESS = 'address'
     SUCCESS = 'success'
@@ -158,7 +169,7 @@ class CompaniesHouseOauth2CallbackView(SubmitFormOnGetMixin, Oauth2CallbackUrlMi
     form_class = forms.CompaniesHouseOauth2Form
     template_name = 'companies-house-oauth2-callback.html'
     error_template = 'companies-house-oauth2-error.html'
-    success_url = urls.domestic.FIND_A_BUYER
+    success_url = '/profile/business-profile/'
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()

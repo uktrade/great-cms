@@ -1,7 +1,5 @@
 {% extends 'domestic/base.html' %}
 {% load static %}
-{% load breadcrumbs from component_tags %}
-{% load get_contact_breadcrumb_details from dep_tags %}
 {% block sharing_metadata %}{% endblock %}
 {% block head_css %}
     {{ block.super }}
@@ -10,17 +8,6 @@
           type="text/css" />
 {% endblock %}
 {% block content %}
-    {% block breadcrumbs %}
-        {% get_contact_breadcrumb_details as dep_breadcrumbs %}
-        {% breadcrumbs %}
-        <a href="/">Home</a>
-        {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
-            <a href="{{ dep_breadcrumbs.url }}">{{ dep_breadcrumbs.text }}</a>
-        {% else %}
-            <a href="{% url dep_breadcrumbs.url step='location' %}">{{ dep_breadcrumbs.text }}</a>
-        {% endif %}
-    {% endbreadcrumbs %}
-{% endblock %}
 <div class="page-main-content-container">
     <div class="inner-container">
         <form method="post"

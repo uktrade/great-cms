@@ -12,6 +12,7 @@ from requests.exceptions import HTTPError
 
 from core.helpers import CompanyParser
 from directory_constants import urls, user_roles
+from find_a_buyer.models import CsatUserFeedback
 from sso.helpers import api_client
 from sso_profile.business_profile import constants, forms, helpers, views
 from sso_profile.urls import SIGNUP_URL
@@ -1269,3 +1270,66 @@ def test_business_user_disconnect(
 
     assert response.status_code == 200
     assert response.redirect_chain == [('/profile/business-profile/', 302)]
+
+
+@pytest.mark.django_db
+def test_csat_user_feedback_with_session_value(
+    client,
+    user,
+    settings,
+):
+    settings.FEATURE_FAB_HCSAT = True
+    client.force_login(user)
+    url = reverse('sso_profile:business-profile')
+
+    CsatUserFeedback.objects.create(id=1, URL='http://test.com')
+    session = client.session
+    session['fab_csat_id'] = 1
+    session.save()
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_csat_user_feedback_submit(client, user, settings):
+    settings.FEATURE_FAB_HCSAT = True
+    client.force_login(user)
+    url = reverse('sso_profile:business-profile')
+
+    CsatUserFeedback.objects.create(id=1, URL='http://test.com')
+    session = client.session
+    session['fab_csat_id'] = 1
+    session['user_journey'] = 'COMPANY_VERIFICATION'
+    session.save()
+    response = client.post(
+        url,
+        {
+            'satisfaction': 'SATISFIED',
+            'user_journey': 'COMPANY_VERIFICATION',
+            'experience': ['NOT_FIND_LOOKING_FOR'],
+            'likelihood_of_return': 'LIKELY',
+        },
+    )
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_csat_user_feedback_submit_with_javascript(client, user, settings):
+    settings.FEATURE_FAB_HCSAT = True
+    client.force_login(user)
+    url = reverse('sso_profile:business-profile')
+    CsatUserFeedback.objects.create(id=1, URL='http://test.com')
+    session = client.session
+    session['fab_csat_id'] = 1
+    session['user_journey'] = 'COMPANY_VERIFICATION'
+    session.save()
+    response = client.post(
+        url,
+        {
+            'satisfaction': 'SATISFIED',
+            'user_journey': 'COMPANY_VERIFICATION',
+            'experience': ['NOT_FIND_LOOKING_FOR'],
+            'likelihood_of_return': 'LIKELY',
+        },
+    )
+    assert response.status_code == 302

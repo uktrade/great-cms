@@ -1,5 +1,4 @@
 from directory_forms_api_client import actions
-from django.conf import settings
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpResponseRedirect
@@ -26,22 +25,27 @@ from international_online_offer.models import (
     get_triage_data_for_user,
     get_user_data_for_user,
 )
-from international_online_offer.services import get_bci_data
+from international_online_offer.services import get_bci_data, get_dbt_sectors
 from sso import helpers as sso_helpers, mixins as sso_mixins
 
 
 def calculate_and_store_is_high_value(request):
+    dbt_sectors = get_dbt_sectors()
     existing_triage_data = get_triage_data_for_user(request)
-    dbt_sub_sector_from_sic_sector = region_sector_helpers.get_full_sector_name_from_sic_sector(
-        existing_triage_data.sector_sub
-    )
+    sector = existing_triage_data.sector
+    # TODO Change this to use directory API GVA bandings instead of django-admin
+    if existing_triage_data.sector_id:
+        sector_row = region_sector_helpers.get_sector(existing_triage_data.sector_id, dbt_sectors)
+        if sector_row:
+            sector = sector_row['full_sector_name']
+
     is_high_value = scorecard.score_is_high_value(
-        existing_triage_data.sector,
-        dbt_sub_sector_from_sic_sector,
+        sector,
         existing_triage_data.location,
         existing_triage_data.hiring,
         existing_triage_data.spend,
     )
+
     if request.user.is_authenticated:
         TriageData.objects.update_or_create(
             hashed_uuid=request.user.hashed_uuid, defaults={'is_high_value': is_high_value}
@@ -50,9 +54,6 @@ def calculate_and_store_is_high_value(request):
 
 class IndexView(GA360Mixin, TemplateView):
     template_name = 'eyb/index.html'
-    # TODO remove after general election AND sign up to front branch merged
-    if settings.FEATURE_PRE_ELECTION and settings.FEATURE_EYB_HOME:
-        template_name = 'eyb/index-new.html'
 
     def __init__(self):
         super().__init__()
@@ -132,7 +133,8 @@ class BusinessDetailsView(GA360Mixin, FormView):
             }
 
             if triage_data:
-                inital_values_object['sector_sub'] = triage_data.sector_sub
+                if triage_data.sector_id:
+                    inital_values_object['sector_sub'] = triage_data.sector_id
 
             if user_data:
                 inital_values_object['company_name'] = user_data.company_name
@@ -142,16 +144,23 @@ class BusinessDetailsView(GA360Mixin, FormView):
             return inital_values_object
 
     def form_valid(self, form):
-        sector_sub = form.cleaned_data['sector_sub']
-        sector = region_sector_helpers.get_sector_from_sic_sector(sector_sub)
+        sectors_json = get_dbt_sectors()
+        selected_sector_id = form.cleaned_data['sector_sub']
+        parent_sector, sub_sector, sub_sub_sector = region_sector_helpers.get_sectors_by_selected_id(
+            sectors_json, selected_sector_id
+        )
+
         if self.request.user.is_authenticated:
             TriageData.objects.update_or_create(
                 hashed_uuid=self.request.user.hashed_uuid,
                 defaults={
-                    'sector': sector,
-                    'sector_sub': sector_sub,
+                    'sector': parent_sector,
+                    'sector_sub': sub_sector,
+                    'sector_sub_sub': sub_sub_sector,
+                    'sector_id': selected_sector_id,
                 },
             )
+
             UserData.objects.update_or_create(
                 hashed_uuid=self.request.user.hashed_uuid,
                 defaults={
@@ -164,20 +173,13 @@ class BusinessDetailsView(GA360Mixin, FormView):
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
-        sector = None
-        sector_sub = None
-        if self.request.user.is_authenticated:
-            triage_data = get_triage_data_for_user(self.request)
-            if triage_data:
-                sector = triage_data.get_sector_display()
-                sector_sub = triage_data.get_sector_sub_display()
+        dbt_sectors = get_dbt_sectors()
+        autocomplete_sector_data = region_sector_helpers.get_sectors_as_string(dbt_sectors)
 
         return super().get_context_data(
             **kwargs,
             back_url=self.get_back_url(),
-            autocomplete_sector_data=region_sector_helpers.get_sectors_and_sic_sectors_file_as_string(),
-            sector=sector,
-            sector_sub=sector_sub,
+            autocomplete_sector_data=autocomplete_sector_data,
         )
 
 
@@ -244,14 +246,10 @@ class ContactDetailsView(GA360Mixin, FormView):
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
-        sector = None
-        sector_sub = None
         leading_title = 'Provide your details so that we can contact you - we may be able to help.'
         if self.request.user.is_authenticated:
             triage_data = get_triage_data_for_user(self.request)
             if triage_data:
-                sector = triage_data.get_sector_display()
-                sector_sub = triage_data.get_sector_sub_display()
                 if triage_data.is_high_value:
                     leading_title = """You may be eligible for one-to-one support for your expansion.
                     Provide your details so that an adviser can contact you to discuss your plans."""
@@ -259,9 +257,6 @@ class ContactDetailsView(GA360Mixin, FormView):
         return super().get_context_data(
             **kwargs,
             back_url=self.get_back_url(),
-            autocomplete_sector_data=region_sector_helpers.get_sectors_and_sic_sectors_file_as_string(),
-            sector=sector,
-            sector_sub=sector_sub,
             leading_title=leading_title,
         )
 
@@ -434,7 +429,6 @@ class IntentView(GA360Mixin, FormView):
                     'intent_other': form.cleaned_data['intent_other'],
                 },
             )
-        calculate_and_store_is_high_value(self.request)
         return super().form_valid(form)
 
 
@@ -784,8 +778,14 @@ class EditYourAnswersView(GA360Mixin, TemplateView):
         user_data = get_user_data_for_user(self.request)
         spend_choices = helpers.get_spend_choices_by_currency(self.request.session.get('spend_currency'))
 
+        sub_and_sub_sub_sector = '-'
         spend = '-'
         if triage_data:
+            if triage_data.sector_sub:
+                sub_and_sub_sub_sector = triage_data.sector_sub
+                if triage_data.sector_sub_sub:
+                    sub_and_sub_sub_sector = sub_and_sub_sub_sector + ', ' + triage_data.sector_sub_sub
+
             for spend_choice in spend_choices:
                 if spend_choice[0] == triage_data.spend:
                     spend = spend_choice[1]
@@ -796,6 +796,7 @@ class EditYourAnswersView(GA360Mixin, TemplateView):
             user_data=user_data,
             back_url='/international/expand-your-business-in-the-uk/guide/',
             spend=spend,
+            sub_and_sub_sub_sector=sub_and_sub_sub_sector,
         )
 
 
@@ -946,7 +947,7 @@ class TradeAssociationsView(GA360Mixin, TemplateView):
             trade_association_sectors = helpers.get_trade_assoication_sectors_from_sector(triage_data.sector)
 
             all_trade_associations = TradeAssociation.objects.filter(
-                Q(sector__icontains=triage_data.get_sector_display()) | Q(sector__in=trade_association_sectors)
+                Q(sector__icontains=triage_data.sector) | Q(sector__in=trade_association_sectors)
             )
 
         page = self.request.GET.get('page', 1)

@@ -1,5 +1,4 @@
 {% extends 'domestic/base.html' %}
-{% load breadcrumbs from component_tags %}
 {% load wagtailcore_tags %}
 {% load static %}
 {% block head_css %}
@@ -12,7 +11,6 @@
 {% block meta_title %}UK Export Finance{% endblock %}
 {% block css_layout_class %}uk-export-finance{% endblock %}
 {% block content %}
-    {% breadcrumbs %}<a href="/">Home</a>{% endbreadcrumbs %}
     {% static 'images/UKEF-Home-header.png' as hero_xlarge %}
     {% include 'components/hero.html' with image_url=hero_xlarge hero_title='UK Export Finance' hero_text='Get the right finance and insurance in place to help you win contracts, fulfil orders and get paid' %}
     <section id="list-teaser-section"

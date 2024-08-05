@@ -1,7 +1,7 @@
 {% extends '../base.html' %}
 {% load static %}
 {% block head_title %}
-    {% if form.intent.errors %}Error:{% endif %}
+    {% if form.errors %}Error:{% endif %}
     How do you plan to expand your business in the UK?
     {{ block.super }}
 {% endblock %}

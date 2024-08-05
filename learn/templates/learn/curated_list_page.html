@@ -7,15 +7,6 @@
 {% load get_css_class_from_string from content_tags %}
 {% block body_attributes %}class="great-bg-white"{% endblock %}
 {% block content %}
-    {% load breadcrumbs from component_tags %}
-    <div class="great-background-light-blue ">
-        <div class="great-container">
-            {% breadcrumbs great-breadcrumbs %}
-            <a href={{ BREADCRUMBS_ROOT_URL }}>Home</a>
-            <a href={{ page.get_parent.url }}>Learn to export</a>
-        {% endbreadcrumbs %}
-    </div>
-</div>
 <div id="learn-root"
      class="learn__page learn__category-page great-hero-box-shadow-bottom">
     {% with high_level_completion_progress|get_item:page.id as module_completion_data %}

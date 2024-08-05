@@ -1,6 +1,7 @@
 {% extends '../base.html' %}
 {% load static %}
 {% block head_title %}
+    {% if form.errors %}Error:{% endif %}
     About your expansion plans: Do you know where you want to set up in the UK? {{ block.super }}
 {% endblock %}
 {% block meta_title %}

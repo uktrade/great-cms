@@ -41,38 +41,22 @@ urlpatterns = [
     ),
     path(
         'project-finance/',
-        skip_ga360(
-            TemplateView.as_view(
-                template_name='domestic/ukef/project_finance.html',
-            )
-        ),
+        skip_ga360(domestic.views.ukef.UKEFProjectFinanceView.as_view()),
         name='project-finance',
     ),
     path(
         'how-we-assess-your-project/',
-        skip_ga360(
-            TemplateView.as_view(
-                template_name='domestic/ukef/how_we_assess.html',
-            )
-        ),
+        skip_ga360(domestic.views.ukef.UKEFHowWeAssessView.as_view()),
         name='how-we-assess-your-project',
     ),
     path(
         'what-we-offer-you/',
-        skip_ga360(
-            TemplateView.as_view(
-                template_name='domestic/ukef/what_we_offer.html',
-            )
-        ),
+        skip_ga360(domestic.views.ukef.UKEFWhatWeOfferView.as_view()),
         name='what-we-offer-you',
     ),
     path(
         'country-cover/',
-        skip_ga360(
-            TemplateView.as_view(
-                template_name='domestic/ukef/country_cover.html',
-            )
-        ),
+        skip_ga360(domestic.views.ukef.UKEFCountryCoverView.as_view()),
         name='country-cover',
     ),
     path(

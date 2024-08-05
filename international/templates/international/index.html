@@ -3,10 +3,6 @@
 {% load static %}
 {% block head_title %}International {{ block.super }}{% endblock %}
 {% block meta_title %}International {{ block.super }}{% endblock %}
-{% block head_other %}
-    {{ block.super }}
-    <link rel="canonical" href="{{ request.build_absolute_uri }}">
-{% endblock %}
 {% block content %}
     {% include './components/landing_hero.html' with hero_image=page.hero_image heading=page.hero_text subtitle=page.hero_subtitle %}
     {% if page.dep_cards %}

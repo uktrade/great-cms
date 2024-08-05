@@ -1223,6 +1223,8 @@ def test_alt_image_upload_view_select_format_true_not_duplicate(
     mock_render_select_format_response.return_value = JsonResponse(status=200, data=expected_result)
     request = rf.post('/admin/images/chooser/create/?select_format=true', data=image_data)
 
+    image_user.is_superuser = True
+    image_user.save()
     request.user = image_user
     response = views.AltImageUploadView.as_view()(request)
     assert isinstance(response, JsonResponse)
@@ -1258,6 +1260,8 @@ def test_alt_image_upload_view_select_format_false_not_duplicate(
     mock_get_chosen_response.return_value = JsonResponse(status=200, data={'step': 'chosen', 'result': expected_result})
     mock_find_image_duplicates.return_value.first.return_value = None
     request = rf.post('/admin/images/chooser/create', data=image_data)
+    image_user.is_superuser = True
+    image_user.save()
     request.user = image_user
     response = views.AltImageUploadView.as_view()(request)
     assert isinstance(response, JsonResponse)
@@ -1282,6 +1286,8 @@ def test_alt_image_upload_view_select_format_false_is_duplicate(
     mock_find_image_duplicates.return_value.first.return_value = create_form_return
     mock_render_duplicate_found_response.return_value = JsonResponse(status=200, data={'step': 'duplicate_found'})
     request = rf.post('/admin/images/chooser/create?select_format=true', data=image_data)
+    image_user.is_superuser = True
+    image_user.save()
     request.user = image_user
     response = views.AltImageUploadView.as_view()(request)
     assert isinstance(response, JsonResponse)
@@ -1300,6 +1306,8 @@ def test_alt_image_upload_view_form_is_invalid(
         status=200, data={'step': 'reshow_creation_form'}
     )
     request = rf.post('/admin/images/chooser/create?select_format=true', data=image_data)
+    image_user.is_superuser = True
+    image_user.save()
     request.user = image_user
     response = views.AltImageUploadView.as_view()(request)
     assert isinstance(response, JsonResponse)

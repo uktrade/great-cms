@@ -1,14 +1,7 @@
 from directory_forms_api_client import actions
 from django.conf import settings
 
-from directory_constants import sectors as directory_constants_sectors
-from international_online_offer.core import (
-    choices,
-    intents,
-    professions,
-    regions,
-    sectors as sectors,
-)
+from international_online_offer.core import choices, intents, professions, regions
 
 
 def filter_articles_sector_only(all_sector_tagged_articles):
@@ -45,10 +38,10 @@ def send_welcome_notification(email, form_url):
 
 def get_trade_assoication_sectors_from_sector(sector):
     mappings = {
-        directory_constants_sectors.FOOD_AND_DRINK: [
+        'Food and drink': [
             'Food and Drink',
         ],
-        sectors.TECHNOLOGY_AND_SMART_CITIES: [
+        'Technology and smart cities': [
             'Artificial Intelligence',
             'Automation',
             'Cyber Security',
@@ -60,7 +53,7 @@ def get_trade_assoication_sectors_from_sector(sector):
             'Technology',
             'Transport',
         ],
-        directory_constants_sectors.FINANCIAL_AND_PROFESSIONAL_SERVICES: [
+        'Financial and professional services': [
             'Accounting',
             'Advertising',
             'Financial Services',
@@ -75,8 +68,8 @@ def get_trade_assoication_sectors_from_sector(sector):
             'Tax',
             'Venture Capital',
         ],
-        directory_constants_sectors.CONSUMER_AND_RETAIL: ['Retail'],
-        sectors.CREATIVE_INDUSTRIES: [
+        'Consumer and retail': ['Retail'],
+        'Creative industries': [
             'Advertising',
             'Branding',
             'Architecture',
@@ -92,24 +85,24 @@ def get_trade_assoication_sectors_from_sector(sector):
             'Sports',
             'Tourism',
         ],
-        sectors.PHARMACEUTICALS_AND_BIOTECHNOLOGY: [
+        'Pharmaceuticals and biotechnology': [
             'Pharmaceuticals',
             'Pharmaceutical',
             'Biotechnology',
         ],
-        directory_constants_sectors.ENERGY: ['Energy'],
-        sectors.HEALTHCARE_SERVICES: ['Healthcare', 'Medical', 'Health Technology', 'Healthcare Technology', 'Health'],
-        sectors.MEDICAL_DEVICES_AND_EQUIPMENT: ['Medical Device'],
-        directory_constants_sectors.EDUCATION_AND_TRAINING: ['Education', 'Training'],
-        sectors.ADVANCED_ENGINEERING: ['Engineering', 'Advanced Materials & Metals'],
-        sectors.AGRICULTURE_HORTICULTURE_FISHERIES_AND_PETS: [
+        'Energy': ['Energy'],
+        'Healthcare services': ['Healthcare', 'Medical', 'Health Technology', 'Healthcare Technology', 'Health'],
+        'Medical devices and equipment': ['Medical Device'],
+        'Education and training': ['Education', 'Training'],
+        'Advanced engineering': ['Engineering', 'Advanced Materials & Metals'],
+        'Agriculture, horticulture, fisheries and pets': [
             'Agriculture',
             'Agriculture, Horticulture and Fisheries',
             'Food and Drink Agriculture',
             'Agriculture & Manufacturing',
             'Pets',
         ],
-        directory_constants_sectors.RAILWAYS: ['Rail'],
+        'Railways': ['Rail'],
     }
     mapping = mappings.get(sector)
     return mapping if mapping else []
@@ -133,33 +126,7 @@ def is_authenticated(request):
     return request.user.is_authenticated
 
 
-def get_salary_data(entry_salary, mid_salary, executive_salary):
-    entry_salary = entry_salary.get('median_salary__avg')
-    mid_salary = mid_salary.get('median_salary__avg')
-    executive_salary = executive_salary.get('median_salary__avg')
-
-    if entry_salary:
-        entry_salary = int(entry_salary)
-    if mid_salary:
-        mid_salary = int(mid_salary)
-    if executive_salary:
-        executive_salary = int(executive_salary)
-
-    # Change requested to hide salary if numbers are smaller than lower band
-    if executive_salary and mid_salary and executive_salary < mid_salary:
-        executive_salary = None
-
-    if executive_salary and entry_salary and executive_salary < entry_salary:
-        executive_salary = None
-
-    if mid_salary and entry_salary and mid_salary < entry_salary:
-        mid_salary = None
-
-    return entry_salary, mid_salary, executive_salary
-
-
 def clean_salary_data(salary_data: dict) -> dict:
-    # largely the same method as above, can delete above get_salary_data() post election
     result = {**salary_data}
     entry_salary = salary_data.get(professions.ENTRY_LEVEL)
     mid_salary = salary_data.get(professions.MID_SENIOR_LEVEL)

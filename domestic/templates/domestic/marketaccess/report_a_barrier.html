@@ -1,6 +1,6 @@
 {% extends 'domestic/base.html' %}
 {% load static %}
-{% load breadcrumbs message_box from component_tags %}
+{% load message_box from component_tags %}
 {% block head_css %}
     {{ block.super }}
     <link href="{% static 'styles/marketaccess.css' %}"
@@ -13,10 +13,6 @@
     A trade barrier can slow down, limit or prevent a UK business exporting. Let us know if you think you’re facing a new trade barrier or are having issues with a current trade barrier
 {% endblock %}
 {% block content %}
-    {% breadcrumbs %}
-    <a href="/">Home</a>
-    <a href="{% url 'domestic:market-access' %}">Trade barriers</a>
-{% endbreadcrumbs %}
 {% static 'images/report-a-trade-barrier-header.png' as xlarge_hero %}
 {% include 'components/hero.html' with image_url=xlarge_hero hero_title='Check or report a trade barrier' %}
 <section class="great" id="report-a-trade-barrier">

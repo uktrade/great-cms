@@ -1,6 +1,5 @@
 {% extends "form-wrapper.html" %}
 {% load static %}
-{% load breadcrumbs from component_tags %}
 {% block head_title %}Verify your company address - Business profile - GREAT.gov.uk{% endblock %}
 {% block form_title %}Your company address{% endblock %}
 {% block button_next_label %}Next{% endblock %}
@@ -11,9 +10,6 @@
     {{ block.super }}
 {% endblock %}
 {% block content %}
-    {% breadcrumbs breadcrumbs-container %}
-    <a href="{% url 'find_a_buyer:verify-company-hub' %}">Back</a>
-{% endbreadcrumbs %}
 {{ block.super }}
 {% endblock %}
 {% block formarea %}

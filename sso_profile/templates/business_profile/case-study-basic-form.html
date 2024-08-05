@@ -1,13 +1,8 @@
 {% extends 'common/wizard.html' %}
-{% load breadcrumbs from component_tags %}
 {% load static %}
 {% block head_title %}Business profile - Account - great.gov.uk{% endblock %}
 {% block meta_title %}Business profile - Account - great.gov.uk{% endblock %}
 {% block above_form %}
-    {% breadcrumbs %}
-    <a href="{% url 'sso_profile:about' %}">Home</a>
-    <a href="{% url 'sso_profile:business-profile' %}">Business profile</a>
-{% endbreadcrumbs %}
 <h1 class="heading-large margin-top-0">Business showcase</h1>
 <p>
     Describe something significant your company has done that will be relevant to overseas buyers. For example, you could add details of an important collaboration on a recent international project or a major export deal.

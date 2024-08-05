@@ -1,6 +1,5 @@
 {% extends 'domestic/base.html' %}
 {% load static %}
-{% load breadcrumbs from component_tags %}
 {% block head_css %}
     {{ block.super }}
     <link href="{% static 'styles/ukef-landing-page.css' %}"
@@ -14,10 +13,6 @@
 {% block meta_title %}UK Export Finance - Project Finance{% endblock %}
 {% block css_layout_class %}uk-export-finance-landing{% endblock %}
 {% block content %}
-    {% breadcrumbs %}
-    <a href="/">Home</a>
-    <a href="{% url 'domestic:get-finance' %}">UKEF</a>
-{% endbreadcrumbs %}
 {% static 'images/UKEF-finance-for-international-projects-header.png' as project_finance_hero_image %}
 {% include 'components/hero.html' with image_url=project_finance_hero_image hero_title='The UK’s export credit agency' hero_text='Find the support available to buyers of your goods and service exports' %}
 <section id="teaser-section" class="teaser-section padding-vertical-60">

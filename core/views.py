@@ -80,11 +80,20 @@ class ArticleView(GA360Mixin, FormView):
     form_class = forms.NoOperationForm
 
     def get_context_data(self):
+        topic_name = self.kwargs['topic']
+        chapter_name = self.kwargs['chapter']
+
+        bespoke_breadcrumbs = [
+            {'title': 'Dashboard', 'url': '/dashboard/'},
+            {'title': topic_name, 'url': 'https://www.example.com'},
+            {'title': chapter_name, 'url': 'https://www.example.com'},
+        ]
         return super().get_context_data(
             topic_name=self.kwargs['topic'],
             chapter_name=self.kwargs['chapter'],
             article_name=self.kwargs['article'],
             country_choices=[{'value': key, 'label': label} for key, label in choices.COUNTRY_CHOICES],
+            bespoke_breadcrumbs=bespoke_breadcrumbs,
         )
 
 

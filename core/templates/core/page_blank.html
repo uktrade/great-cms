@@ -1,4 +1,5 @@
 {% extends 'core/base.html' %}
+{% load domestic_canonical_url_tags %}
 {% load static %}
 {% block body_js %}{{ block.super }}{% endblock %}
 {% block head_other %}
@@ -11,6 +12,8 @@
         <meta name="title"
               content="{% block meta_title %}{% if seo_title %}{{ seo_title }}{% else %}Welcome to great.gov.uk{% endif %} - great.gov.uk{% endblock %}">
     {% endblock %}
+    {% get_canonical_url as canonical_url %}
+    <link rel="canonical" href="{{ canonical_url }}">
     <title>
         {% block head_title %}
             {% if seo_title %}
@@ -31,4 +34,6 @@
 {% block content_header %}
     {% block inner_content %}{% endblock %}
 {% endblock %}
+{% block body_header %}{% endblock %}
+{% block breadcrumbs_block %}{% endblock %}
 {% block body_footer %}{% endblock %}

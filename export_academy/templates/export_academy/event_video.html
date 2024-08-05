@@ -2,17 +2,10 @@
 {% load static %}
 {% load component_tags %}
 {% load video_tags %}
-{% load breadcrumbs from component_tags %}
 {% block head_title %}{{ object.name }}{% endblock %}
 {% block meta_title %}{{ object.name }}{% endblock %}
 {% block css_layout_class %}great-bg-white{% endblock %}
 {% block content %}
-    <div id="breadcrumbs"
-         class="great-display-from-tablet great-bg-light-blue back-breadcrumbs">
-        {% breadcrumbs %}
-        <a href="{{ event.get_absolute_url }}">Back to event</a>
-    {% endbreadcrumbs %}
-</div>
 <div class="container great">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-three-quarters govuk-!-margin-top-9 govuk-!-margin-bottom-6">

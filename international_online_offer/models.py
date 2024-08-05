@@ -1,10 +1,8 @@
 from itertools import chain
 
 from django import forms
-from django.conf import settings
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
-from django.db.models import Avg
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.models import ParentalKey
 from taggit.models import TagBase, TaggedItemBase
@@ -39,10 +37,6 @@ class EYBIndexPage(BaseContentPage):
         'international_online_offer.EYBGuidePage',
     ]
     template = 'eyb/index.html'
-
-    # TODO remove after general election AND sign up to front branch merged
-    if settings.FEATURE_PRE_ELECTION and settings.FEATURE_EYB_HOME:
-        template = 'eyb/index-new.html'
 
 
 def get_triage_data_for_user(request):
@@ -80,7 +74,7 @@ class EYBGuidePage(BaseContentPage):
 
         bci_data = None
         if triage_data and triage_data.sector:
-            bci_data = services.get_bci_data_by_dbt_sector(triage_data.sector.replace('_', ' '), [regions.GB_GEO_CODE])
+            bci_data = services.get_bci_data_by_dbt_sector(triage_data.sector, [regions.GB_GEO_CODE])
 
         # Get trade shows page (should only be one, is a parent / container page for all trade show pages)
         trade_shows_page = EYBTradeShowsPage.objects.live().filter().first()
@@ -226,17 +220,13 @@ class EYBArticlePage(BaseContentPage):
             show_salary_component = helpers.can_show_salary_component(tags)
             show_rent_component = helpers.can_show_rent_component(tags)
 
-            if triage_data and settings.FEATURE_PRE_ELECTION:
-                # This if statement contains some duplicated code from below elif. This is to ensure that when
-                # we are releasing to production post-election we can simply remove the elif code.
-
+            if triage_data:
                 location = request.GET.get(
                     'location', triage_data.location if triage_data.location else choices.regions.LONDON
                 )
                 region = helpers.get_salary_region_from_region(location)
-                sector_display = triage_data.get_sector_display()
 
-                median_salaries = get_median_salaries(sector_display, geo_region=region)
+                median_salaries = get_median_salaries(triage_data.sector, geo_region=region)
                 cleaned_median_salaries = helpers.clean_salary_data(median_salaries)
 
                 (large_warehouse_rent, small_warehouse_rent, shopping_centre, high_street_retail, work_office) = (
@@ -247,11 +237,11 @@ class EYBArticlePage(BaseContentPage):
 
                 home_url = '/international/expand-your-business-in-the-uk/guide/'
                 if request.GET.get('back'):
-                    home_url += '#personalised-guide'
+                    home_url += '#tailored-guide'
 
                 breadcrumbs = [
                     {'name': 'Home', 'url': '/international/'},
-                    {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#personalised-guide'},
+                    {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#tailored-guide'},
                 ]
 
                 context.update(
@@ -272,84 +262,6 @@ class EYBArticlePage(BaseContentPage):
                     breadcrumbs=breadcrumbs,
                 )
 
-            elif triage_data:
-                location = request.GET.get(
-                    'location', triage_data.location if triage_data.location else choices.regions.LONDON
-                )
-                region = helpers.get_salary_region_from_region(location)
-                sector_display = triage_data.get_sector_display()
-
-                entry_salary = SalaryData.objects.filter(
-                    region__iexact=region,
-                    vertical__icontains=sector_display,
-                    professional_level__icontains='Entry-level',
-                ).aggregate(Avg('median_salary'))
-                mid_salary = SalaryData.objects.filter(
-                    region__iexact=region,
-                    vertical__icontains=sector_display,
-                    professional_level__icontains='Middle/Senior Management',
-                ).aggregate(Avg('median_salary'))
-                executive_salary = SalaryData.objects.filter(
-                    region__iexact=region,
-                    vertical__icontains=sector_display,
-                    professional_level__icontains='Director/Executive',
-                ).aggregate(Avg('median_salary'))
-
-                entry_salary, mid_salary, executive_salary = helpers.get_salary_data(
-                    entry_salary, mid_salary, executive_salary
-                )
-
-                large_warehouse_rent = RentData.objects.filter(
-                    region__iexact=region, sub_vertical='Large Warehouses'
-                ).first()
-                small_warehouse_rent = RentData.objects.filter(
-                    region__iexact=region, sub_vertical='Small Warehouses'
-                ).first()
-                shopping_centre = RentData.objects.filter(
-                    region__iexact=region, sub_vertical='Prime shopping centre'
-                ).first()
-                high_street_retail = RentData.objects.filter(
-                    region__iexact=region, sub_vertical='High Street Retail'
-                ).first()
-                work_office = RentData.objects.filter(region__iexact=region, sub_vertical='Work Office').first()
-
-                (
-                    large_warehouse_rent,
-                    small_warehouse_rent,
-                    shopping_centre,
-                    high_street_retail,
-                    work_office,
-                ) = helpers.get_rent_data(
-                    large_warehouse_rent, small_warehouse_rent, shopping_centre, high_street_retail, work_office
-                )
-
-                professions_by_sector = helpers.get_sector_professions_by_level(triage_data.sector)
-
-                home_url = '/international/expand-your-business-in-the-uk/guide/'
-                if request.GET.get('back'):
-                    home_url += '#tailored-guide'
-
-                breadcrumbs = [
-                    {'name': 'Home', 'url': '/international/'},
-                    {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#tailored-guide'},
-                ]
-
-                context.update(
-                    triage_data=triage_data,
-                    location_form=LocationSelectForm(initial={'location': location}),
-                    entry_salary=entry_salary,
-                    mid_salary=mid_salary,
-                    executive_salary=executive_salary,
-                    large_warehouse_rent=large_warehouse_rent,
-                    small_warehouse_rent=small_warehouse_rent,
-                    shopping_centre=shopping_centre,
-                    high_street_retail=high_street_retail,
-                    work_office=work_office,
-                    professions_by_sector=professions_by_sector,
-                    show_salary_component=show_salary_component,
-                    show_rent_component=show_rent_component,
-                    breadcrumbs=breadcrumbs,
-                )
         site_section_url = ''
         if self.url:
             site_section_url = str(self.url or '/').split('/')[4]
@@ -437,10 +349,10 @@ class EYBArticlesPage(BaseContentPage):
 
 class TriageData(TimeStampedModel):
     hashed_uuid = models.CharField(max_length=200)
-    sector = models.CharField(max_length=255, choices=region_sector_helpers.generate_sector_choices())
-    sector_sub = models.CharField(
-        max_length=255, choices=region_sector_helpers.generate_sector_sic_choices(), default=None, null=True
-    )
+    sector = models.CharField(max_length=255)
+    sector_sub = models.CharField(max_length=255, default=None, null=True)
+    sector_sub_sub = models.CharField(max_length=255, default=None, null=True)
+    sector_id = models.CharField(default=None, null=True)
     intent = ArrayField(
         models.CharField(max_length=255, choices=choices.INTENT_CHOICES),
         size=6,
