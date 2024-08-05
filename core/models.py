@@ -1124,9 +1124,6 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         FieldPanel('call_to_action'),
     ]
 
-    def get_success_url(self):
-        return self.url
-
     @cached_classmethod
     def get_edit_handler(cls):  # noqa
         panels = [
