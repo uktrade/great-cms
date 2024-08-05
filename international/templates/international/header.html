@@ -14,7 +14,7 @@
             </a>
             {% if hide_primary_nav %}
                 <div class="great-international-service-name">
-                    <a href="{% if not user_completed_triage %}{% url 'international_online_offer:index' %}{% else %}/international/expand-your-business-in-the-uk/guide/{% endif %}"
+                    <a href="{% if not user_completed_triage %}/international/expand-your-business-in-the-uk/{% else %}/international/expand-your-business-in-the-uk/guide/{% endif %}"
                        class="govuk-link govuk-link--inverse great-international-service-name-link">Expand your business in the UK</a>
                 </div>
             {% endif %}
@@ -32,7 +32,7 @@
                     <li>
                         {% if not hide_primary_nav %}
                             <a class="govuk-link govuk-link--inverse great-international-nav__item {% if '/expand-your-business-in-the-uk/' in request.path %}active{% endif %}"
-                               href="{% if not user_completed_triage %}{% url 'international_online_offer:index' %}{% else %}/international/expand-your-business-in-the-uk/guide/{% endif %}"
+                               href="{% if not user_completed_triage %}/international/expand-your-business-in-the-uk/{% else %}/international/expand-your-business-in-the-uk/guide/{% endif %}"
                                data-title="Expand your business"
                                data-location="International header">Expand your business</a>
                         {% endif %}
