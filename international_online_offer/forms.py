@@ -44,8 +44,8 @@ class BusinessDetailsForm(forms.Form):
 
     # sector sub choices are set in form constructor to avoid set effects when importing module
     sector_sub = ChoiceField(
-        label='What does your business make or do?',
-        help_text='Search a list of business activities and select the closest description',
+        label='What is your sector or industry?',
+        help_text='Search a list of sectors and select the closest one',
         required=True,
         widget=Select(
             attrs={'id': 'js-sector-select', 'class': 'govuk-input', 'aria-describedby': 'help_for_id_sector_sub'}
