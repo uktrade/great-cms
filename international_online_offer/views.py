@@ -44,6 +44,7 @@ def calculate_and_store_is_high_value(request):
         existing_triage_data.location,
         existing_triage_data.hiring,
         existing_triage_data.spend,
+        request.user.hashed_uuid,
     )
 
     if request.user.is_authenticated:
