@@ -405,9 +405,9 @@
                     return selectedSectorRow
                 }
                 if (!selectedSectorRow.sub_sub_sector_name) {
-                    return `<span>${selectedSectorRow.sub_sector_name}</span><br><span class='govuk-!-font-size-16'>${selectedSectorRow.sector_name}</span>`;
+                    return `<span>${selectedSectorRow.sub_sector_name}</span><br><span class='govuk-!-font-size-16 eyb-sector-lookup-second-row'>${selectedSectorRow.sector_name}</span>`;
                 } else {
-                    return `<span>${selectedSectorRow.sub_sub_sector_name}</span><br><span class='govuk-!-font-size-16'>${selectedSectorRow.sector_name} > ${selectedSectorRow.sub_sector_name}</span>`;
+                    return `<span>${selectedSectorRow.sub_sub_sector_name}</span><br><span class='govuk-!-font-size-16 eyb-sector-lookup-second-row'>${selectedSectorRow.sector_name} &#8250; ${selectedSectorRow.sub_sector_name}</span>`;
                 }
 
             }

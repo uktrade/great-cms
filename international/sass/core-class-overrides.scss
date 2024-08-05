@@ -81,6 +81,10 @@ hr {
     font-family: $govuk-font-family;
 }
 
+.autocomplete__option--odd {
+    background-color: $great-light-blue !important;
+}
+
 .form-group {
     margin-bottom: 16px;
 }
