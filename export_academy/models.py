@@ -30,6 +30,7 @@ from core.models import (
     CountryTag,
     GreatMedia,
     PersonalisationRegionTag,
+    PersonalisationTradingBlocTag,
     SectorTag,
     TimeStampedModel,
     TypeOfExportTag,
@@ -80,6 +81,11 @@ class TypeOfExportTaggedEvent(ItemBase):
 
 class RegionTaggedEvent(ItemBase):
     tag = models.ForeignKey(PersonalisationRegionTag, related_name='+', on_delete=models.CASCADE)
+    content_object = ParentalKey(to='export_academy.Event', on_delete=models.CASCADE)
+
+
+class TradingBlocTaggedEvent(ItemBase):
+    tag = models.ForeignKey(PersonalisationTradingBlocTag, related_name='+', on_delete=models.CASCADE)
     content_object = ParentalKey(to='export_academy.Event', on_delete=models.CASCADE)
 
 
@@ -167,6 +173,13 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
         blank=True,
         verbose_name='Region Tags',
         related_name='event_region_tags',
+    )
+
+    trading_bloc_tags = TaggableManager(
+        through=TradingBlocTaggedEvent,
+        blank=True,
+        verbose_name='Trading Bloc Tags',
+        related_name='event_trading_bloc_tags',
     )
 
     @property
