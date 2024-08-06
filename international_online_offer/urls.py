@@ -9,11 +9,6 @@ app_name = 'international_online_offer'
 
 urlpatterns = [
     path(
-        '',
-        views.IndexView.as_view(),
-        name='index',
-    ),
-    path(
         'tell-us-about-your-business/',
         login_required(views.AboutYourBusinessView.as_view(), login_url=SIGNUP_URL),
         name='about-your-business',
