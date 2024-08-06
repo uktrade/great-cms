@@ -105,6 +105,7 @@ def feature_flags(request):
     retval['features']['FEATURE_DESIGN_SYSTEM'] = settings.FEATURE_DESIGN_SYSTEM
 
     retval['features']['FEATURE_GREAT_ERROR'] = settings.FEATURE_GREAT_ERROR
+    retval['features']['FEATURE_GUIDED_JOURNEY'] = settings.FEATURE_GUIDED_JOURNEY
 
     return retval
 
