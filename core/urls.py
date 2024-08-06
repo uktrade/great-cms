@@ -8,7 +8,7 @@ from wagtail.contrib.sitemaps.views import sitemap as wagtail_sitemap
 from config.url_redirects import redirects
 from core import cms_slugs, views, views_api
 from domestic.views.campaign import MicrositeView
-from learn.views import ArticlePageView
+from learn.views import HCSATView
 
 app_name = 'core'
 
@@ -177,7 +177,7 @@ urlpatterns = [
     ),
     re_path(
         r'^learn/categories/(?P<category>[-a-zA-Z0-9_]+)/(?P<sub_category>[-a-zA-Z0-9_]+)/(?P<page_slug>[-a-zA-Z0-9_]+)/csat/$',  # noqa:E501
-        ArticlePageView.as_view(),
+        HCSATView.as_view(),
         name='article_page_csat',
     ),
     path('api/signed-url/', views.SignedURLView.as_view(), name='signed-url'),
