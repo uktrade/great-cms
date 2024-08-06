@@ -3,6 +3,7 @@ from itertools import chain
 from django import forms
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
+from django.http import HttpResponseRedirect
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.models import ParentalKey
 from taggit.models import TagBase, TaggedItemBase
@@ -37,6 +38,11 @@ class EYBIndexPage(BaseContentPage):
         'international_online_offer.EYBGuidePage',
     ]
     template = 'eyb/index.html'
+
+    def serve(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return HttpResponseRedirect('/international/expand-your-business-in-the-uk/guide/')
+        return super().serve(request)
 
 
 def get_triage_data_for_user(request):
