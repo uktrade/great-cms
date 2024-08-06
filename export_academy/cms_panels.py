@@ -103,6 +103,7 @@ class EventPanel:
                 FieldPanel('country_tags'),
                 FieldPanel('sector_tags'),
                 FieldPanel('region_tags'),
+                FieldPanel('trading_bloc_tags'),
             ],
             heading='Tags',
         ),
