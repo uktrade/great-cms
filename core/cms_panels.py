@@ -1,5 +1,5 @@
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
-
+from wagtailmedia.widgets import AdminMediaChooser
 
 # TODO: remove -  Deprecated - keeping it incase if we need to go back
 class SearchEngineOptimisationPanel(MultiFieldPanel):
@@ -17,7 +17,7 @@ class MicrositePanels:
     content_panels = [
         MultiFieldPanel(
             heading='Hero Image',
-            children=[FieldPanel('hero_image')],
+            children=[FieldPanel('hero_image'),FieldPanel('hero_video',widget=AdminMediaChooser)],
         ),
         MultiFieldPanel(
             heading='Page intro',
