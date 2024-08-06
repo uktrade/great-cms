@@ -1,11 +1,16 @@
 from django.http import HttpResponseRedirect, JsonResponse
+
 from django.views import View
 
 from learn.forms import CsatUserFeedbackForm
 from learn.models import CsatUserFeedback
 
 
+
 class HCSATView(View):
+    form_class = CsatUserFeedbackForm
+    template_name = 'learn/detail_page.html'
+
 
     def get_csat(self):
         csat_id = self.request.session.get('learn_to_export_csat_id')
@@ -80,9 +85,11 @@ class HCSATView(View):
             if self.js_enabled:
                 csat_stage = self.request.session.get('learn_to_export_csat_stage', 0)
                 if csat_stage == 1:
-                    del self.request.session['learn_to_exportb_csat_stage']
+                    del self.request.session['learn_to_export_csat_stage']
                 return JsonResponse(data)
             return HttpResponseRedirect(self.get_success_url())
 
+
         if self.js_enabled:
             return JsonResponse(form.errors, status=400)
+

@@ -131,7 +131,7 @@ var eventFilters = (function () {
     const url = new URL(window.location.href)
     const filtersChanged = document.referrer.includes('/events/')
     if (url.search.length && filtersChanged) {
-      const breadcumbs = document.getElementById('breadcrumbs')
+      const breadcrumbs = document.getElementById('breadcrumbs')
       breadcrumbs.scrollIntoView(true)
     }
   }
