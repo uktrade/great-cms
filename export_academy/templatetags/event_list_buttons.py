@@ -64,7 +64,7 @@ def _get_display_text_for_filter_choices(filter_choices, filter_form, filter_typ
     filters = []
     for filter_choice in filter_choices:
         for value, text in filter_form.fields[filter_type].choices:
-            if str(value.value) == filter_choice and value != EventFilter.ALL:
+            if str(value) == filter_choice and value != EventFilter.ALL:
                 filters.append(text)
     return filters
 
