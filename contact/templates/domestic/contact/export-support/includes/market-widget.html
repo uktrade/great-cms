@@ -1,0 +1,42 @@
+{% load humanize %}
+{% load get_market_widget_data from component_tags %}
+{% load reference_period from content_tags %}
+
+{% with market=request.GET.market|get_market_widget_data %}
+<div class="great-bg-light-blue govuk-!-padding-5 great-grey-border">
+    {% if market %}
+
+        <a href="{{ market.get_full_url }}" class="govuk-heading-s govuk-!-margin-bottom-2 great-heading-link great-heading-link--no-chevron">
+            <h2 class="govuk-heading-s great-heading-link__heading">
+            Exporting guide to {{ market.heading }}</h2>
+        </a>
+        <p class="govuk-body">{{ market.heading_teaser }}</p>
+
+        {% if market.stats.highlights.data %}
+            {% with highlights=market.stats.highlights %}
+                {% if highlights.data.total_uk_exports %}
+                <div class="govuk-!-margin-bottom-3">
+                    <span class="govuk-heading-m govuk-!-margin-bottom-0">£{{ highlights.data.total_uk_exports|intword }}</span>
+                    <span class="govuk-heading-xs">
+                        total UK exports to {{ page.heading }} for the {% reference_period highlights.metadata.reference_period %}
+                    </span>
+                </div>
+                {% endif %}
+                {% if highlights.data.trading_position %}
+                    <span class="govuk-heading-m govuk-!-margin-bottom-0">
+                        {% if highlights.data.trading_position == 1 %}
+                            largest
+                        {% else %}
+                            {{ highlights.data.trading_position|ordinal }}
+                        {% endif %}
+                    </span>
+                    <span class="govuk-heading-xs">
+                        {% if highlights.data.trading_position != 1 %}largest{% endif %}
+                        UK export market
+                    </span>
+                {% endif %}
+            {% endwith %}
+        {% endif %}
+    {% endif %}
+</div>
+{% endwith %}
