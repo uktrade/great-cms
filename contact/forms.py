@@ -457,7 +457,7 @@ class DomesticExportSupportStep6Form(forms.Form):
                 'Check your products meet the rules of origin',
             ),
             (
-                'customs_declarations_ess_dep_testing__calculate_relevant_taxes_and_duties',
+                'customs_declarations_ess_dep_testing__calculate_relevant_taxes__and_duties',
                 'Calculate relevant taxes and duties',
             ),
             (
@@ -524,13 +524,13 @@ class DomesticExportSupportStep6Form(forms.Form):
             ('taking_goods_temporarily_out_of_the_uk_ess_dep_testing__not_listed_above', 'Not listed above'),
             ('taking_goods_temporarily_out_of_the_uk_ess_dep_testing__do_not_know', "Don't know"),
             (
-                'exporting_samples_ess_dep_testing__understand_customs_declaration_when',
+                'exporting_samples_ess_dep_testing__understand_customs_declaration_when_exporting_samples',
                 'Understand customs declaration when exporting samples',
             ),
             ('exporting_samples_ess_dep_testing__not_listed_above', 'Not listed above'),
             ('exporting_samples_ess_dep_testing__do_not_know', "Don't know"),
             (
-                'special_procedures_ess_dep_testing__use_a_customs_specila_procedure',
+                'special_procedures_ess_dep_testing__use_a_customs_special_procedure',
                 'Understand if you can use a customs special procedure',
             ),
             (
@@ -546,7 +546,7 @@ class DomesticExportSupportStep6Form(forms.Form):
                 'Apply for Temporary Admission to import goods to or from the UK',
             ),
             (
-                'special_procedures_ess_dep_testing__eligible_goods_and_authorise_uses',
+                'special_procedures_ess_dep_testing__eligible__goods_and_authorised_uses',
                 'Eligible goods and authorised uses',
             ),
             ('special_procedures_ess_dep_testing__not_listed_above', 'Not listed above'),
