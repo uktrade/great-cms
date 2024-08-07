@@ -1211,7 +1211,7 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         return None
 
     def get_initial(self, request):
-        csat = self.get_csat()
+        csat = self.get_csat(request)
         if csat:
             satisfaction = csat.satisfaction_rating
             if satisfaction and request.session.get('learn_to_export_csat_id', 0) == 1:
