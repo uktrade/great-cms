@@ -163,6 +163,7 @@ class TaggedBaseContentPage(
 
     country_tags = TaggableManager(through='core.CountryTagged', blank=True, verbose_name=_('Country Tags'))
     sector_tags = TaggableManager(through='core.SectorTagged', blank=True, verbose_name=_('Sector Tags'))
+    region_tags = TaggableManager(through='core.RegionTagged', blank=True, verbose_name=_('Region Tags'))
     type_of_export_tags = TaggableManager(
         through='core.TypeOfExportTagged', blank=True, verbose_name=_('Type of Export Tags')
     )
@@ -172,6 +173,7 @@ class TaggedBaseContentPage(
             [
                 FieldPanel('country_tags'),
                 FieldPanel('sector_tags'),
+                FieldPanel('region_tags'),
                 FieldPanel('type_of_export_tags'),
             ],
             heading='Tags',
@@ -1168,7 +1170,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, TaggedBaseContentPage)
 class ArticlePage(
     cms_panels.ArticlePagePanels,
     SocialLinksPageMixin,
-    BaseContentPage,
+    TaggedBaseContentPage,
 ):
     parent_page_types = [
         'domestic.CountryGuidePage',

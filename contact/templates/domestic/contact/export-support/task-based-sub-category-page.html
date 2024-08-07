@@ -16,6 +16,24 @@
         <div class="great-container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full">
+                    {% if features.FEATURE_GUIDED_JOURNEY %}
+                        {% if request.GET.is_goods %}
+                            Goods widget goes here
+                        {% endif %}
+
+                        {% if request.GET.is_service %}
+                            Service widget goes here
+                        {% endif %}
+
+                        {% if request.GET.market %}
+                            {% include 'domestic/contact/export-support/includes/market-widget.html' %}
+                        {% endif %}
+
+                        {% if request.GET.sector %}
+                            Sector widget goes here
+                        {% endif %}
+                    {% endif %}
+
                     {% if page.page_body %}
                         <div class="govuk-grid-row govuk-!-margin-top-5">
                             <div class="govuk-grid-column-two-thirds">
