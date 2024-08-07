@@ -33,7 +33,7 @@ def calculate_and_store_is_high_value(request):
     dbt_sectors = get_dbt_sectors()
     existing_triage_data = get_triage_data_for_user(request)
     sector = existing_triage_data.sector
-    # TODO Change this to use directory API GVA bandings instead of django-admin
+
     if existing_triage_data.sector_id:
         sector_row = region_sector_helpers.get_sector(existing_triage_data.sector_id, dbt_sectors)
         if sector_row:
