@@ -30,7 +30,7 @@ class BusinessDetailsForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         sector_data_json = get_dbt_sectors()
-        self.sub_sectors_choices = region_sector_helpers.get_sub_and_sub_sub_sectors_choices(sector_data_json)
+        self.sub_sectors_choices = region_sector_helpers.get_sectors_as_choices(sector_data_json)
         self.fields['sector_sub'].choices = (('', ''),) + self.sub_sectors_choices
 
     company_name = CharField(
