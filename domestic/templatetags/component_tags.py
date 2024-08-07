@@ -4,6 +4,8 @@ from django import template
 from django.templatetags import static
 from django.utils import timezone
 
+from domestic.helpers import get_market_widget_data_helper
+
 register = template.Library()
 
 META_DESCRIPTION_TEXT_LENGTH = 150
@@ -287,3 +289,8 @@ def replace_underscores(value, replacement='-'):
 @register.filter(name='remove_string')
 def remove_string(value, replacement=''):
     return value.replace('.', replacement)
+
+
+@register.filter
+def get_market_widget_data(market):
+    return get_market_widget_data_helper(market)
