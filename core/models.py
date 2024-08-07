@@ -1204,17 +1204,17 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
             _path = backlink_path.split('/')[3]
             return self._export_plan_url_map.get(_path)
         
-    def get_csat(self):
-        csat_id = self.request.session.get('learn_to_export_csat_id')
+    def get_csat(self, request):
+        csat_id = request.session.get('learn_to_export_csat_id')
         if csat_id:
             return CsatUserFeedback.objects.get(id=csat_id)
         return None
 
-    def get_initial(self):
+    def get_initial(self, request):
         csat = self.get_csat()
         if csat:
             satisfaction = csat.satisfaction_rating
-            if satisfaction and self.request.session.get('learn_to_export_csat_id', 0) == 1:
+            if satisfaction and request.session.get('learn_to_export_csat_id', 0) == 1:
                 return {'satisfaction': satisfaction}
         return {'satisfaction': ''}
 
@@ -1222,7 +1222,7 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         context = super().get_context(request)
         context['refresh_on_market_change'] = True
 
-        context['form'] = CsatUserFeedbackForm(data=self.get_initial())
+        context['form'] = CsatUserFeedbackForm(data=self.get_initial(request))
         
         # Prepare backlink to the export plan if we detect one and can validate it
         _backlink = self._get_backlink(request)
