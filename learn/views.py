@@ -17,7 +17,7 @@ class HCSATView(View):
         return None
 
     def get_success_url(self):
-        return self.url
+        return self.request.path[:-5]
 
     @property
     def js_enabled(self):
@@ -46,14 +46,13 @@ class HCSATView(View):
         return csat_feedback
 
     def create_csat(self, form):
-
         csat_feedback = CsatUserFeedback.objects.create(
             satisfaction_rating=form.cleaned_data['satisfaction'],
             experienced_issues=form.cleaned_data['experience'],
             other_detail=form.cleaned_data['experience_other'],
             likelihood_of_return=form.cleaned_data['likelihood_of_return'],
             service_improvements_feedback=form.cleaned_data['feedback_text'],
-            URL=self.success_url,
+            URL=self.get_success_url(),
             user_journey='ARTICLE_PAGE',
         )
         self.request.session['learn_to_export_csat_id'] = csat_feedback.id
