@@ -3,7 +3,12 @@ from django.utils import timezone
 from django_filters import FilterSet, filters
 from great_components import forms
 
-from core.models import CountryTag, PersonalisationRegionTag, SectorTag
+from core.models import (
+    CountryTag,
+    PersonalisationRegionTag,
+    PersonalisationTradingBlocTag,
+    SectorTag,
+)
 from export_academy import models
 from export_academy.helpers import is_export_academy_registered
 
@@ -93,6 +98,16 @@ class EventFilter(FilterSet):
         widget=forms.CheckboxSelectInlineLabelMultiple,
     )
 
+    trading_bloc = filters.ModelMultipleChoiceFilter(
+        label='Trading Bloc',
+        field_name='trading_bloc_tags__id',
+        queryset=PersonalisationTradingBlocTag.objects.filter(
+            Exists(models.TradingBlocTaggedEvent.objects.filter(tag_id=OuterRef('id')))
+        ),
+        to_field_name='id',
+        widget=forms.CheckboxSelectInlineLabelMultiple,
+    )
+
     class Meta:
         model = models.Event
         fields = [
@@ -100,6 +115,10 @@ class EventFilter(FilterSet):
             'type',
             'format',
             'period',
+            'sector',
+            'market',
+            'region',
+            'trading_bloc',
         ]
 
     def filter_period(self, queryset, _name, value):
