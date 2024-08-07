@@ -61,7 +61,7 @@ class HCSATView(View):
 
         return csat_feedback
 
-    def post(self):
+    def post(self, *args, **kwargs):
         data = self.request.POST
         form = CsatUserFeedbackForm(data=data)
 
