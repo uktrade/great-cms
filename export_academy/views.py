@@ -110,7 +110,7 @@ class EventListView(GetBreadcrumbsMixin, GA360Mixin, core_mixins.GetSnippetConte
         return get_badges_for_event(user, event)
 
     def get_context_data(self, **kwargs):
-        market_filters = sector_filters = region_filters = False
+        market_filters = sector_filters = region_filters = trading_bloc_filters = False
         ctx = super().get_context_data(**kwargs)
         ctx['landing_page'] = models.ExportAcademyHomePage.objects.first()
         if self.filterset_class.declared_filters['market'].queryset.count() > 0 and settings.FEATURE_UKEA_MARKET_FILTER:
@@ -119,9 +119,15 @@ class EventListView(GetBreadcrumbsMixin, GA360Mixin, core_mixins.GetSnippetConte
             sector_filters = True
         if self.filterset_class.declared_filters['region'].queryset.count() > 0 and settings.FEATURE_UKEA_REGION_FILTER:
             region_filters = True
+        if (
+            self.filterset_class.declared_filters['trading_bloc'].queryset.count() > 0
+            and settings.FEATURE_UKEA_TRADING_BLOC_FILTER
+        ):
+            trading_bloc_filters = True
         ctx['market_filters'] = market_filters
         ctx['sector_filters'] = sector_filters
         ctx['region_filters'] = region_filters
+        ctx['trading_bloc_filters'] = trading_bloc_filters
         ctx['bespoke_breadcrumbs'] = self.get_breadcrumbs
         return ctx
 
