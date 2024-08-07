@@ -1,0 +1,26 @@
+{% extends 'domestic/contact/export-support/base.html' %}
+{% load static %}
+{% block head_title %}Export support{% endblock %}
+{% block content %}
+    <div class="great great-bg-white">
+        <div class="great-container govuk-!-padding-top-4">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full great-grid-column-seven-twelfths">
+                    <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">Export support</h1>
+                    {% if session_data.make_or_do %}
+                        <p class="govuk-body">{{ session_data.make_or_do }}</p>
+                    {% endif %}
+                    <form method="post" autocomplete="off">
+                        {% csrf_token %}
+                        {% for field in form.visible_fields %}
+                            <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
+                                {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
+                            </div>
+                        {% endfor %}
+                        <button type="submit" class="govuk-button great-min-width-250-desktop">{{ button_text }}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

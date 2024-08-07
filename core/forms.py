@@ -167,3 +167,31 @@ class CsatUserFeedbackForm(forms.Form):
                     )
                     break
         return cleaned_data
+
+
+class GuidedJourneyStep1Form(forms.Form):
+    make_or_do = CharField(
+        label='What does your company make or do?',
+        widget=TextInput(attrs={'class': 'govuk-input great-text-input', 'placeholder': 'Search...'}),
+        help_text='Enter a keyword to search a list of business activities',
+        max_length=160,
+        error_messages={
+            'required': 'Enter what your company makes or does',
+        },
+    )
+
+
+class GuidedJourneyStep2Form(forms.Form):
+    hs_code = CharField(
+        label='Select the best commodity match',
+        widget=TextInput(attrs={'class': 'govuk-input great-text-input', 'placeholder': 'Search...'}),
+        required=False,
+    )
+
+
+class GuidedJourneyStep3Form(forms.Form):
+    market = CharField(
+        label='Select your market',
+        widget=TextInput(attrs={'class': 'govuk-input great-text-input', 'placeholder': 'Search...'}),
+        required=False,
+    )

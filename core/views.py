@@ -1,6 +1,7 @@
 import abc
 import json
 import logging
+import pickle
 
 from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import Sender
@@ -37,7 +38,7 @@ from wagtail.images.views.chooser import (
 
 from core import cms_slugs, forms, helpers, serializers
 from core.constants import PRODUCT_MARKET_DATA
-from core.mixins import AuthenticatedUserRequired, PageTitleMixin
+from core.mixins import AuthenticatedUserRequired, PageTitleMixin, GuidedJourneyMixin
 from core.models import CsatUserFeedback, GreatMedia
 from core.pingdom.services import health_check_services
 from directory_constants import choices
@@ -763,3 +764,78 @@ class PingDomView(TemplateView):
                 status=500,
                 content_type='text/xml',
             )
+
+
+class GuidedJourneyStep1View(GuidedJourneyMixin, FormView):
+    form_class = forms.GuidedJourneyStep1Form
+    template_name = 'domestic/contact/export-support/guided-journey/step-1.html'
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            progress_position=1,
+        )
+
+    def get_success_url(self):
+        return reverse_lazy('core:guided-journey-step-2')
+
+    def form_valid(self, form):
+        form.cleaned_data['sector'] = 'food and drink'
+        form.cleaned_data['exporter_type'] = 'goods'
+
+        self.save_data(form)
+        return super().form_valid(form)
+
+
+class GuidedJourneyStep2View(GuidedJourneyMixin, FormView):
+    form_class = forms.GuidedJourneyStep2Form
+    template_name = 'domestic/contact/export-support/guided-journey/step-2.html'
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            progress_position=2,
+        )
+
+    def get_success_url(self):
+        return reverse_lazy('core:guided-journey-step-3')
+
+    def form_valid(self, form):
+        self.save_data(form)
+        return super().form_valid(form)
+
+
+class GuidedJourneyStep3View(GuidedJourneyMixin, FormView):
+    form_class = forms.GuidedJourneyStep3Form
+    template_name = 'domestic/contact/export-support/guided-journey/step-3.html'
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            progress_position=3,
+        )
+
+    def get_success_url(self):
+        if self.request.session.get('guided_journey_data'):
+            form_data = pickle.loads(bytes.fromhex(self.request.session.get('guided_journey_data')))[0]
+
+            market = form_data['market']
+            is_goods = form_data['exporter_type'] == 'goods'
+
+            sub_cat_url = '/support/customs-taxes-and-declarations/tax-and-duty-liabilities/'
+
+            sub_cat_url += '?is_guided_journey=True'
+
+            if market:
+                sub_cat_url += f'&market={market}'
+
+            if is_goods:
+                sub_cat_url += f'&is_goods={is_goods}'
+
+            return sub_cat_url
+
+        return reverse_lazy('core:guided-journey-step-1')
+
+    def form_valid(self, form):
+        self.save_data(form)
+        return super().form_valid(form)
