@@ -216,7 +216,12 @@ def get_field_zendesk_mapping_value(mapping_obj, field, form_data):
         return mapping_obj.dpe_form_value_to_zendesk_field_value[form_data[field]]
     elif field == 'markets':
         markets_long_form = [country[1] for country in COUNTRY_CHOICES if country[0] in form_data[field]]
-        return [f"{country.lower().replace(' ', '_')}__ess_export" for country in markets_long_form]
+        mapped_value_markets = [f"{country.lower().replace(' ', '_')}__ess_export" for country in markets_long_form]
+
+        if 'tunisia__ess_export' in mapped_value_markets:
+            return [val.replace('tunisia__ess_export', 'unisia__ess_export') for val in mapped_value_markets]
+
+        return mapped_value_markets
     elif field == 'sector_primary':
         # maps all l1 sectors (sector_primary, sector_secondary, sector_tertiary)
         return [
