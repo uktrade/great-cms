@@ -73,7 +73,7 @@ def get_sector(sector_id, sectors):
             return sector
 
 
-def get_sub_and_sub_sub_sectors_choices(sectors_json):
+def get_sectors_as_choices(sectors_json):
     sectors_tuple = ()
     for sector_row in sectors_json:
         parent_sector = sector_row['sector_name']
