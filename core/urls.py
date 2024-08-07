@@ -197,4 +197,23 @@ if settings.FEATURE_PRODUCT_MARKET_HERO and settings.FEATURE_PRODUCT_MARKET_SEAR
         ),
     ]
 
+if settings.FEATURE_GUIDED_JOURNEY:
+    urlpatterns += [
+        path(
+            'guided-journey/step-1',
+            skip_ga360(views.GuidedJourneyStep1View.as_view()),
+            name='guided-journey-step-1',
+        ),
+        path(
+            'guided-journey/step-2',
+            skip_ga360(views.GuidedJourneyStep2View.as_view()),
+            name='guided-journey-step-2',
+        ),
+        path(
+            'guided-journey/step-3',
+            skip_ga360(views.GuidedJourneyStep3View.as_view()),
+            name='guided-journey-step-3',
+        ),
+    ]
+
 urlpatterns += redirects
