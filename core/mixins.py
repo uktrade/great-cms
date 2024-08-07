@@ -213,6 +213,7 @@ class GuidedJourneyMixin:
 
     def get_context_data(self, **kwargs):
         button_text = 'Continue'
+        form_data = {}
 
         if self.request.session.get('guided_journey_data'):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('guided_journey_data')))[0]
