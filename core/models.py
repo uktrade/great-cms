@@ -1209,6 +1209,9 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         if csat_id:
             return CsatUserFeedback.objects.get(id=csat_id)
         return None
+    
+    def get_stage(self, request):
+        return request.session.get('csat_stage', 0)
 
     def get_initial(self, request):
         csat = self.get_csat(request)
@@ -1221,6 +1224,11 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request)
         context['refresh_on_market_change'] = True
+
+        stage = self.get_stage(request)
+        context['csat_stage'] = stage
+        if stage == 2:
+            del request.session['fab_csat_stage']
 
         context['form'] = CsatUserFeedbackForm(data=self.get_initial(request))
         
