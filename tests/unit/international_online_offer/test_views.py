@@ -199,7 +199,9 @@ def test_eyb_business_details_initial(mock_get_dbt_sectors, client, user, settin
 
 
 @pytest.mark.django_db
-def test_eyb_business_details_form_valid_saves_to_db(mock_get_dbt_sectors, client, user, settings):
+def test_eyb_business_details_form_valid_saves_to_db(
+    mock_get_dbt_sectors, mock_get_gva_bandings, client, user, settings
+):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:business-details')
     user.hashed_uuid = '123'
@@ -233,7 +235,9 @@ def test_eyb_business_details_form_valid_saves_to_db(mock_get_dbt_sectors, clien
     ),
 )
 @pytest.mark.django_db
-def test_business_details_saved_to_db_gets_sector_labels(mock_get_dbt_sectors, client, user, settings):
+def test_business_details_saved_to_db_gets_sector_labels(
+    mock_get_dbt_sectors, mock_get_gva_bandings, client, user, settings
+):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:business-details')
     user.hashed_uuid = '123'
@@ -332,7 +336,9 @@ def test_know_setup_location_initial(mock_get_dbt_sectors, client, user, setting
 
 
 @pytest.mark.django_db
-def test_know_setup_location_form_valid_saves_to_db(mock_get_dbt_sectors, client, user, settings):
+def test_know_setup_location_form_valid_saves_to_db(
+    mock_get_dbt_sectors, mock_get_gva_bandings, client, user, settings
+):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:know-setup-location')
     user.hashed_uuid = '123'
@@ -435,7 +441,7 @@ def test_location_form_valid_saves_to_db(mock_get_dbt_sectors, client, user, set
 
 
 @pytest.mark.django_db
-def test_location_saved_to_db_gets_labels(mock_get_dbt_sectors, client, user, settings):
+def test_location_saved_to_db_gets_labels(mock_get_dbt_sectors, mock_get_gva_bandings, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:location')
     user.hashed_uuid = '123'
@@ -484,7 +490,7 @@ def test_hiring_initial(mock_get_dbt_sectors, client, user, settings):
 
 
 @pytest.mark.django_db
-def test_hiring_form_valid_saves_to_db(mock_get_dbt_sectors, client, user, settings):
+def test_hiring_form_valid_saves_to_db(mock_get_dbt_sectors, mock_get_gva_bandings, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:hiring')
     user.hashed_uuid = '123'
@@ -529,7 +535,7 @@ def test_spend_initial(mock_get_dbt_sectors, client, user, settings):
 
 
 @pytest.mark.django_db
-def test_spend_form_valid_saves_to_db(mock_get_dbt_sectors, client, user, settings):
+def test_spend_form_valid_saves_to_db(mock_get_dbt_sectors, mock_get_gva_bandings, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:spend')
     user.hashed_uuid = '123'
