@@ -172,7 +172,7 @@ def test_detail_page_anon_user_not_marked_as_read(client, domestic_homepage, dom
     ),
 )
 def test_detail_page_get_context_handles_backlink_querystring_appropriately(
-    rf, domestic_homepage, domestic_site, user, querystring_to_add, expected_backlink_value,get_response
+    rf, domestic_homepage, domestic_site, user, querystring_to_add, expected_backlink_value, get_response
 ):
     list_page = factories.ListPageFactory(parent=domestic_homepage, record_read_progress=False)
     curated_list_page = factories.CuratedListPageFactory(parent=list_page)

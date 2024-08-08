@@ -69,6 +69,7 @@ from exportplan.core.data import (
 
 from learn.forms import CsatUserFeedbackForm
 
+
 # If we make a Redirect appear as a Snippet, we can sync it via Wagtail-Transfer
 register_snippet(Redirect)
 
@@ -884,7 +885,6 @@ class LessonPlaceholderPage(Page, mixins.AuthenticatedUserRequired if not settin
         return self._redirect_to_parent_module()
 
 
-from learn.models import CsatUserFeedback as LearnCsatUserFeedback
 class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage):
     estimated_read_duration = models.DurationField(null=True, blank=True)
     parent_page_types = [
@@ -1206,9 +1206,10 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
             return self._export_plan_url_map.get(_path)
 
     def get_csat(self, request):
+        from learn.models import CsatUserFeedback
         csat_id = request.session.get('learn_to_export_csat_id')
         if csat_id:
-            return LearnCsatUserFeedback.objects.get(id=csat_id)
+            return CsatUserFeedback.objects.get(id=csat_id)
         return None
 
     def get_stage(self, request):
