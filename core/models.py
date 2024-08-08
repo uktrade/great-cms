@@ -1221,7 +1221,7 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
                 return {'satisfaction': satisfaction}
         return {'satisfaction': ''}
 
-    def get_context(self, request, *args, **kwargs):   # noqa: C901
+    def get_context(self, request, *args, **kwargs):  # noqa: C901
         context = super().get_context(request)
         context['refresh_on_market_change'] = True
 
