@@ -761,3 +761,11 @@ def download_geoip_files_from_s3():
             call_command('download_geolocation_data')
         except Exception:
             logger.exception('Failed to  download GeoIP data')
+
+
+def product_picker(product):
+    response = requests.get(
+        f'https://www.trade-tariff.service.gov.uk/api/v2/search_references.json?query[letter]={product}', timeout=4
+    )
+    response.raise_for_status()
+    return response.json()
