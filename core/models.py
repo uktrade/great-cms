@@ -1207,6 +1207,7 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
 
     def get_csat(self, request):
         from learn.models import CsatUserFeedback
+
         csat_id = request.session.get('learn_to_export_csat_id')
         if csat_id:
             return CsatUserFeedback.objects.get(id=csat_id)
