@@ -884,6 +884,7 @@ class LessonPlaceholderPage(Page, mixins.AuthenticatedUserRequired if not settin
         return self._redirect_to_parent_module()
 
 
+from learn.models import CsatUserFeedback as LearnCsatUserFeedback
 class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage):
     estimated_read_duration = models.DurationField(null=True, blank=True)
     parent_page_types = [
@@ -1207,11 +1208,11 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
     def get_csat(self, request):
         csat_id = request.session.get('learn_to_export_csat_id')
         if csat_id:
-            return CsatUserFeedback.objects.get(id=csat_id)
+            return LearnCsatUserFeedback.objects.get(id=csat_id)
         return None
 
     def get_stage(self, request):
-        return request.session.get('csat_stage', 0)
+        return request.session.get('learn_to_export_csat_stage', 0)
 
     def get_initial(self, request):
         csat = self.get_csat(request)
@@ -1229,7 +1230,6 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         context['csat_stage'] = stage
         if stage == 2:
             del request.session['learn_to_export_csat_stage']
-
         context['form'] = CsatUserFeedbackForm(data=self.get_initial(request))
 
         # Prepare backlink to the export plan if we detect one and can validate it
