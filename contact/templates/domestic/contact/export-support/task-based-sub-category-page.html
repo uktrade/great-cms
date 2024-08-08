@@ -27,7 +27,7 @@
                             {% include 'domestic/contact/export-support/includes/service-widget.html' %}
                         {% endif %}
                         {% if request.GET.market %}
-                            {% include 'domestic/contact/export-support/includes/market-widget.html' %}
+                            {% include 'domestic/contact/export-support/includes/market-widget.html' with market=request.GET.market %}
                         {% endif %}
                         {% if request.GET.sector %}
                             {% include 'domestic/contact/export-support/includes/sector-widget.html' %}

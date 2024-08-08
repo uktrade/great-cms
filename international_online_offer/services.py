@@ -152,3 +152,8 @@ def get_rent_data(geo_region: str, vertical: str = None, sub_vertical: str = Non
 def get_dbt_sectors():
     response = api_client.dataservices.get_dbt_sectors()
     return response.json()
+
+
+def get_gva_scoring_criteria(full_sector_name):
+    response = api_client.dataservices.get_gva_bandings(full_sector_name=full_sector_name)
+    return response.json()
