@@ -816,15 +816,32 @@ class GuidedJourneyStep3View(GuidedJourneyMixin, FormView):
         )
 
     def get_success_url(self):
+        return reverse_lazy('core:guided-journey-step-4')
+
+    def form_valid(self, form):
+        self.save_data(form)
+        return super().form_valid(form)
+
+
+class GuidedJourneyStep4View(GuidedJourneyMixin, FormView):
+    form_class = forms.GuidedJourneyStep4Form
+    template_name = 'domestic/contact/export-support/guided-journey/step-4.html'
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            progress_position=4,
+        )
+
+    def get_success_url(self):
         if self.request.session.get('guided_journey_data'):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('guided_journey_data')))[0]
 
             market = form_data['market']
             is_goods = form_data['exporter_type'] == 'goods'
+            sub_category = form_data['sub_category']
 
-            sub_cat_url = '/support/customs-taxes-and-declarations/tax-and-duty-liabilities/'
-
-            sub_cat_url += '?is_guided_journey=True'
+            sub_cat_url = f'/support/{sub_category}?is_guided_journey=True'
 
             if market:
                 sub_cat_url += f'&market={market}'

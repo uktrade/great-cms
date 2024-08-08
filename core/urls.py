@@ -214,6 +214,11 @@ if settings.FEATURE_GUIDED_JOURNEY:
             skip_ga360(views.GuidedJourneyStep3View.as_view()),
             name='guided-journey-step-3',
         ),
+        path(
+            'guided-journey/step-4',
+            skip_ga360(views.GuidedJourneyStep4View.as_view()),
+            name='guided-journey-step-4',
+        ),
     ]
 
 urlpatterns += redirects

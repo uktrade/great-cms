@@ -20,6 +20,7 @@ from core.cms_slugs import (
     TERMS_URL,
 )
 from core.constants import CONSENT_CHOICES
+from contact import widgets as contact_widgets
 
 TERMS_LABEL = mark_safe(
     'Tick this box to accept the '
@@ -194,4 +195,18 @@ class GuidedJourneyStep3Form(forms.Form):
         label='Select your market',
         widget=TextInput(attrs={'class': 'govuk-input great-text-input', 'placeholder': 'Search...'}),
         required=False,
+    )
+
+
+class GuidedJourneyStep4Form(forms.Form):
+    sub_category = ChoiceField(
+        label='Whats the subject of your enquiry',
+        choices=(
+            ('customs-taxes-and-declarations/tax-and-duty-liabilities', 'Tax and duty liabilities'),
+            ('customs-taxes-and-declarations/product-classification', 'Product classification'),
+        ),
+        widget=contact_widgets.GreatRadioSelect,
+        error_messages={
+            'required': 'Choose a subject of your enquiry',
+        },
     )
