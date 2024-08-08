@@ -2,7 +2,8 @@
 {% load get_market_widget_data from component_tags %}
 {% load reference_period from content_tags %}
 
-{% with market=request.GET.market|get_market_widget_data %}
+{% if market %}
+{% with market=market|get_market_widget_data %}
 <div class="great-bg-light-blue govuk-!-padding-5 great-grey-border">
     {% if market %}
 
@@ -40,3 +41,4 @@
     {% endif %}
 </div>
 {% endwith %}
+{% endif %}
