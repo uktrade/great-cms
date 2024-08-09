@@ -1227,9 +1227,9 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
     def get_context(self, request, *args, **kwargs):  # noqa: C901
         context = super().get_context(request)
         context['refresh_on_market_change'] = True
-        context['is_logged_in']=False
+        context['is_logged_in'] = False
         if request.user.is_authenticated:
-            context['is_logged_in']=True
+            context['is_logged_in'] = True
 
         stage = self.get_stage(request)
         context['csat_stage'] = stage
