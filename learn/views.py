@@ -17,7 +17,7 @@ class HCSATView(View):
         return None
 
     def get_success_url(self):
-        return self.request.path[:-5]
+        return self.request.path[:-5]  # Remove 'csat/' used for csat post from url
 
     @property
     def js_enabled(self):
@@ -80,11 +80,17 @@ class HCSATView(View):
                 'pk': csat_feedback.pk,
             }
             if self.js_enabled:
-                csat_stage = self.request.session.get('learn_to_export_csat_stage', 0)
-                if csat_stage == 1:
-                    del self.request.session['learn_to_export_csat_stage']
                 return JsonResponse(data)
+                # Csat should only be completed once per session for learn
+                # csat_stage = self.request.session.get('learn_to_export_csat_stage', 0)
+                # if csat_stage == 1: 
+                #    del self.request.session['learn_to_export_csat_stage']
+                
             return HttpResponseRedirect(self.get_success_url())
 
         if self.js_enabled:
             return JsonResponse(form.errors, status=400)
+
+        # Should be unreachable in current learn page with csat disabled for non-js, keeping for safety:
+        return HttpResponseRedirect(self.get_success_url())
+    
