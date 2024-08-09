@@ -6,10 +6,11 @@
 <!DOCTYPE html>
 <head>
     {% block head_google_tag_manager %}
-        {% comment %} {% if great_components_analytics %}
-                <meta id="utmCookieDomain" value="{{ great_components_analytics.UTM_COOKIE_DOMAIN }}" />
-            {% endif %}
-        {% include 'great_components/google_tag_manager_head.html' %} {% endcomment %}
+        {% if great_components_analytics %}
+            <meta id="utmCookieDomain"
+                  value="{{ great_components_analytics.UTM_COOKIE_DOMAIN }}" />
+        {% endif %}
+        {% include 'great_components/google_tag_manager_head.html' %}
     {% endblock %}
     {% block cookie_domain_meta %}
         <meta id="privacyCookieDomain"
