@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-27 15:12+0100\n"
+"POT-Creation-Date: 2024-08-09 12:00+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,347 +18,519 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: blocks.py:108 models.py:1462
+#: export_academy/forms.py:56
+msgid "First name"
+msgstr ""
+
+#: export_academy/forms.py:60
+msgid "Enter your first name"
+msgstr ""
+
+#: export_academy/forms.py:65
+#, fuzzy
+#| msgid "Last updated:"
+msgid "Last name"
+msgstr "Última actualización:"
+
+#: export_academy/forms.py:69
+msgid "Enter your last name"
+msgstr ""
+
+#: export_academy/forms.py:84
+#, fuzzy
+#| msgid "Email"
+msgid "Job title"
+msgstr "Correo electrónico"
+
+#: export_academy/forms.py:87
+msgid "Enter your job title"
+msgstr ""
+
+#: export_academy/forms.py:101
+msgid "What is your export experience?"
+msgstr ""
+
+#: export_academy/forms.py:115
+msgid "Choose one option about your export experience"
+msgstr ""
+
+#: export_academy/forms.py:122
+msgid "Choose a sector"
+msgstr ""
+
+#: export_academy/forms.py:143
+msgid "Do you export goods or services?"
+msgstr ""
+
+#: export_academy/forms.py:151
+msgid "Choose one option about what you export"
+msgstr ""
+
+#: export_academy/forms.py:162
+msgid "Business name"
+msgstr ""
+
+#: export_academy/forms.py:165
+msgid "Enter your business name"
+msgstr ""
+
+#: export_academy/forms.py:170
+msgid "Business address line 1"
+msgstr ""
+
+#: export_academy/forms.py:173
+msgid "Enter the first line of your business address"
+msgstr ""
+
+#: export_academy/forms.py:186
+msgid "Annual turnover"
+msgstr ""
+
+#: export_academy/forms.py:196
+msgid "Enter a turnover amount"
+msgstr ""
+
+#: export_academy/forms.py:200
+msgid "Number of employees"
+msgstr ""
+
+#: export_academy/forms.py:209
+msgid "Choose number of employees"
+msgstr ""
+
+#: export_academy/forms.py:222 export_academy/forms.py:241
+msgid "Enter how you heard about the UK Export Academy"
+msgstr ""
+
+#: export_academy/templates/modeladmin/export_academy/create.html:46
+#: export_academy/templates/modeladmin/export_academy/edit.html:11
+msgid "Saving…"
+msgstr ""
+
+#: export_academy/templates/modeladmin/export_academy/create.html:47
+#: export_academy/templates/modeladmin/export_academy/edit.html:12
+msgid "Save"
+msgstr ""
+
+#: export_academy/templates/modeladmin/export_academy/create.html:56
+#: export_academy/templates/modeladmin/export_academy/edit.html:34
+msgid "Publishing..."
+msgstr ""
+
+#: export_academy/templates/modeladmin/export_academy/create.html:57
+#: export_academy/templates/modeladmin/export_academy/edit.html:35
+msgid "Publish"
+msgstr ""
+
+#: export_academy/templates/modeladmin/export_academy/edit.html:18
+msgid "Delete"
+msgstr ""
+
+#: export_academy/templates/modeladmin/export_academy/edit.html:26
+msgid "UnPublishing..."
+msgstr ""
+
+#: export_academy/templates/modeladmin/export_academy/edit.html:27
+msgid "UnPublish"
+msgstr ""
+
+#: export_academy/wagtail_hooks.py:12
+msgid "Cloning"
+msgstr ""
+
+#: export_academy/wagtail_hooks.py:25
+msgid "Clone"
+msgstr ""
+
+#: export_academy/wagtail_hooks.py:27
+#, python-format
+msgid "Clone a new %s"
+msgstr ""
+
+#: core/blocks.py:114
 msgid "Video"
 msgstr ""
 
-#: blocks.py:111
+#: core/blocks.py:117
 msgid "Include a video"
 msgstr ""
 
-#: blocks.py:537 models.py:1442
+#: core/blocks.py:568 core/models.py:1944
 msgid "Hero image"
 msgstr ""
 
-#: blocks.py:538
+#: core/blocks.py:569
 msgid "Hero image hyperlink"
 msgstr ""
 
-#: blocks.py:541 blocks.py:561 blocks.py:600 blocks.py:610 models.py:72
+#: core/blocks.py:572 core/blocks.py:592 core/blocks.py:631 core/blocks.py:641
+#: core/models.py:76 core/models.py:720
 msgid "Description"
 msgstr ""
 
-#: blocks.py:542 models.py:1452 models.py:1491 models.py:1528
+#: core/blocks.py:573 core/models.py:1954 core/models.py:2019
+#: core/models.py:2060
 msgid "Note: any indent seen here will not be visible in the live page"
 msgstr ""
 
-#: blocks.py:544
+#: core/blocks.py:575
 #, fuzzy
 #| msgid "Button Label"
 msgid "Button label"
 msgstr "Etiqueta de botón"
 
-#: blocks.py:545
+#: core/blocks.py:576
 #, fuzzy
 #| msgid "Button Label"
 msgid "Button url"
 msgstr "Etiqueta de botón"
 
-#: blocks.py:560 blocks.py:599 blocks.py:609 models.py:1484 models.py:1554
+#: core/blocks.py:591 core/blocks.py:630 core/blocks.py:640 core/models.py:689
+#: core/models.py:716 core/models.py:2012 core/models.py:2086
 msgid "Title"
 msgstr ""
 
-#: blocks.py:562 blocks.py:601 blocks.py:611
+#: core/blocks.py:593 core/blocks.py:632 core/blocks.py:642 core/blocks.py:647
 msgid "Link text"
 msgstr ""
 
-#: blocks.py:563 blocks.py:602 blocks.py:612
+#: core/blocks.py:594 core/blocks.py:633 core/blocks.py:643 core/blocks.py:648
 msgid "Link url"
 msgstr ""
 
-#: blocks.py:571
+#: core/blocks.py:602
 msgid "Link block"
 msgstr ""
 
-#: blocks.py:578
+#: core/blocks.py:609
 msgid "type"
 msgstr ""
 
-#: blocks.py:579
+#: core/blocks.py:610
 msgid "Email subject"
 msgstr ""
 
-#: blocks.py:580
+#: core/blocks.py:611
 #, fuzzy
 #| msgid "Email"
 msgid "Email title"
 msgstr "Correo electrónico"
 
-#: blocks.py:581
+#: core/blocks.py:612
 #, fuzzy
 #| msgid "Email"
 msgid "Email body"
 msgstr "Correo electrónico"
 
-#: blocks.py:588
+#: core/blocks.py:619
 msgid "Card Image"
 msgstr ""
 
-#: blocks.py:591
+#: core/blocks.py:622
 msgid "GOV.UK"
 msgstr ""
 
-#: blocks.py:592
+#: core/blocks.py:623
 msgid "Tool"
 msgstr ""
 
-#: blocks.py:593
+#: core/blocks.py:624
 msgid "How to"
 msgstr ""
 
-#: blocks.py:594
+#: core/blocks.py:625
 msgid "Service"
 msgstr ""
 
-#: blocks.py:596
+#: core/blocks.py:627
 msgid "Type"
 msgstr ""
 
-#: blocks.py:604
+#: core/blocks.py:635
 msgid "Yes"
 msgstr ""
 
-#: blocks.py:604
+#: core/blocks.py:635
 msgid "No"
 msgstr ""
 
-#: blocks.py:604
+#: core/blocks.py:635
 msgid "Full width?"
 msgstr ""
 
-#: context_processors.py:86
+#: core/context_processors.py:119
 msgid "great.gov.uk international"
 msgstr "great.gov.uk Internacional"
 
-#: models.py:76
+#: core/models.py:79 core/models.py:1983
 msgid "Transcript"
 msgstr "Transcripción"
 
-#: models.py:80
+#: core/models.py:82
 msgid "English subtitles"
 msgstr "Subtítulos en inglés"
 
-#: models.py:1397
-msgid "Campaign site page"
+#: core/models.py:452 core/models.py:520
+msgid "Country Tags"
 msgstr ""
 
-#: models.py:1398
-msgid "Campaign site pages"
+#: core/models.py:453 core/models.py:521
+msgid "Sector Tags"
 msgstr ""
 
-#: models.py:1400
-msgid "Page title"
+#: core/models.py:455 core/models.py:523
+msgid "Type of Export Tags"
 msgstr ""
 
-#: models.py:1403
-msgid ""
-"This is a subheading that displays below the main title on the microsite page"
+#: core/models.py:680
+msgid "Heading"
 msgstr ""
 
-#: models.py:1404
-msgid "Page subheading"
+#: core/models.py:693 core/models.py:712
+msgid "Url"
 msgstr ""
 
-#: models.py:1409
-msgid ""
-"This is a subheading that displays when the microsite is featured on another "
-"page"
-msgstr ""
-
-#: models.py:1410
-msgid "Page teaser"
-msgstr ""
-
-#: models.py:1416
-msgid ""
-"If selected the dbt logo will be displayed in the header. Otherwise the UK "
-"Gov logo will be shown. Note this checkbox only works on the root page"
-msgstr ""
-
-#: models.py:1420
-msgid "Use domestic header logo"
-msgstr ""
-
-#: models.py:1425
-msgid "The label to be included within the menu items."
-msgstr ""
-
-#: models.py:1429
-msgid "External link label"
-msgstr ""
-
-#: models.py:1433
-msgid "The url of the external link"
-msgstr ""
-
-#: models.py:1433
-msgid "External link url"
-msgstr ""
-
-#: models.py:1451
-msgid "Text"
-msgstr ""
-
-#: models.py:1455
-msgid "Image"
-msgstr ""
-
-#: models.py:1459
-msgid "Image full width"
-msgstr ""
-
-#: models.py:1469
-msgid "Add between 2 and 4 columns of text"
-msgstr ""
-
-#: models.py:1473
-msgid "Columns"
-msgstr ""
-
-#: models.py:1477
-msgid "Links block"
-msgstr ""
-
-#: models.py:1490
-msgid "Teaser"
-msgstr ""
-
-#: models.py:1496
-msgid "Link label"
-msgstr ""
-
-#: models.py:1500 models.py:1561
+#: core/models.py:696 core/models.py:2028 core/models.py:2093
 #, fuzzy
 #| msgid "LinkedIn"
 msgid "Link"
 msgstr "LinkedIn"
 
-#: models.py:1504
+#: core/models.py:1359
+msgid "Title ID?"
+msgstr ""
+
+#: core/models.py:1368
+#, fuzzy
+#| msgid "Email"
+msgid "Hide title?"
+msgstr "Correo electrónico"
+
+#: core/models.py:1899
+msgid "Campaign site page"
+msgstr ""
+
+#: core/models.py:1900
+msgid "Campaign site pages"
+msgstr ""
+
+#: core/models.py:1902
+msgid "Page title"
+msgstr ""
+
+#: core/models.py:1905
+msgid ""
+"This is a subheading that displays below the main title on the microsite page"
+msgstr ""
+
+#: core/models.py:1906
+msgid "Page subheading"
+msgstr ""
+
+#: core/models.py:1911
+msgid ""
+"This is a subheading that displays when the microsite is featured on another "
+"page"
+msgstr ""
+
+#: core/models.py:1912
+msgid "Page teaser"
+msgstr ""
+
+#: core/models.py:1918
+msgid ""
+"If selected the dbt logo will be displayed in the header. Otherwise the UK "
+"Gov logo will be shown. Note this checkbox only works on the root page"
+msgstr ""
+
+#: core/models.py:1922
+msgid "Use domestic header logo"
+msgstr ""
+
+#: core/models.py:1927
+msgid "The label to be included within the menu items."
+msgstr ""
+
+#: core/models.py:1931
+msgid "External link label"
+msgstr ""
+
+#: core/models.py:1935
+msgid "The url of the external link"
+msgstr ""
+
+#: core/models.py:1935
+msgid "External link url"
+msgstr ""
+
+#: core/models.py:1953
+msgid "Text"
+msgstr ""
+
+#: core/models.py:1957
+msgid "Image"
+msgstr ""
+
+#: core/models.py:1961
+msgid "Image full width"
+msgstr ""
+
+#: core/models.py:1964
+msgid "Upload video"
+msgstr ""
+
+#: core/models.py:1975
+msgid "Embed link"
+msgstr ""
+
+#: core/models.py:1997
+msgid "Add between 2 and 4 columns of text"
+msgstr ""
+
+#: core/models.py:2001
+msgid "Columns"
+msgstr ""
+
+#: core/models.py:2005
+msgid "Links block"
+msgstr ""
+
+#: core/models.py:2018
+msgid "Teaser"
+msgstr ""
+
+#: core/models.py:2024
+msgid "Link label"
+msgstr ""
+
+#: core/models.py:2032
 msgid "CTA"
 msgstr ""
 
-#: models.py:1510
+#: core/models.py:2038
 msgid "Pull quote"
 msgstr ""
 
-#: models.py:1516
+#: core/models.py:2042
+msgid "Data table"
+msgstr ""
+
+#: core/models.py:2048
 msgid "Page body"
 msgstr ""
 
-#: models.py:1522
+#: core/models.py:2054
 msgid "CTA title"
 msgstr ""
 
-#: models.py:1527
+#: core/models.py:2059
 msgid "CTA teaser"
 msgstr ""
 
-#: models.py:1534
+#: core/models.py:2066
 msgid "CTA link label"
 msgstr ""
 
-#: models.py:1539
+#: core/models.py:2071
 msgid "CTA link"
 msgstr ""
 
-#: models.py:1546
+#: core/models.py:2078
 msgid "Page"
 msgstr ""
 
-#: models.py:1558
+#: core/models.py:2090
 msgid "Full url"
 msgstr ""
 
-#: models.py:1571 templates/microsites/blocks/social_media.html:24
+#: core/models.py:2103 core/templates/microsites/blocks/social_media.html:18
 msgid "Twitter"
 msgstr "Twitter"
 
-#: models.py:1572 templates/microsites/blocks/social_media.html:39
+#: core/models.py:2104 core/templates/microsites/blocks/social_media.html:29
 msgid "Facebook"
 msgstr "Facebook"
 
-#: models.py:1573 templates/microsites/blocks/social_media.html:54
+#: core/models.py:2105 core/templates/microsites/blocks/social_media.html:40
 msgid "LinkedIn"
 msgstr "LinkedIn"
 
-#: models.py:1593
+#: core/models.py:2127
 msgid "Home"
 msgstr "Inicio"
 
-#: templates/components/card.html:13 templates/components/cta_card.html:6
+#: core/models.py:2449 core/models.py:2474
+msgid "Sharing"
+msgstr ""
+
+#: core/models.py:2454
+msgid "Share prefix"
+msgstr ""
+
+#: core/models.py:2455
+msgid ""
+"Prepends draft social media post and email subject when using the share page "
+"component"
+msgstr ""
+
+#: core/models.py:2461
+msgid "Hashtags"
+msgstr ""
+
+#: core/models.py:2463
+msgid ""
+"Appends draft social media post when using the share page component. Write "
+"each tag in Pascal case and separate with a comma, for example: HashTagOne,"
+"HashTagTwo."
+msgstr ""
+
+#: core/templates/components/card.html:9
+#: core/templates/components/cta_card.html:7
 msgid "Opens in a new window"
 msgstr "Se abre en una ventana nueva"
 
-#: templates/components/cookie_notice.html:15
-msgid "Tell us whether you accept cookies"
-msgstr "Díganos si acepta las cookies"
-
-#: templates/components/cookie_notice.html:17
-msgid "We use "
-msgstr "Usamos "
-
-#: templates/components/cookie_notice.html:17
-msgid "cookies to collect information"
-msgstr "cookies para recopilar información"
-
-#: templates/components/cookie_notice.html:17
-msgid ""
-"about how you use great.gov.uk. We use this information to make the website "
-"work as well as possible and improve government services."
+#: core/templates/components/cookie_notice.html:12
+msgid "Cookies on great.gov.uk"
 msgstr ""
-"acerca de cómo utiliza great.gov.uk. Utilizamos esta información para hacer "
-"que el sitio web funcione de la mejor manera posible y mejorar los servicios "
-"gubernamentales."
 
-#: templates/components/cookie_notice.html:21
-msgid "Accept all cookies"
-msgstr "Aceptar todas las cookies"
+#: core/templates/components/cookie_notice.html:18
+msgid "Hide cookies message"
+msgstr ""
 
-#: templates/components/cookie_notice.html:22
-msgid "Set cookie preferences"
-msgstr "Configurar preferencias de cookies"
-
-#: templates/components/cookie_notice.html:27
-msgid "You've accepted all cookies. You can "
-msgstr "Ha aceptado todas las cookies. Puede "
-
-#: templates/components/cookie_notice.html:27
-msgid "change your settings"
-msgstr "cambiar su configuración"
-
-#: templates/components/cookie_notice.html:27
-msgid "at any time."
-msgstr "en cualquier momento."
-
-#: templates/components/header_footer/global_header.html:7
+#: core/templates/components/header_footer/global_header.html:7
 msgid "For UK businesses"
 msgstr "Para empresas del Reino Unido"
 
-#: templates/components/header_footer/global_header.html:8
+#: core/templates/components/header_footer/global_header.html:10
 msgid "For international businesses"
 msgstr "Para empresas internacionales"
 
-#: templates/microsites/base.html:173
+#: core/templates/microsites/base.html:141
 msgid "Skip to main content"
 msgstr "Ir al contenido principal"
 
-#: templates/microsites/blocks/social_media.html:10
+#: core/templates/microsites/blocks/embed_video.html:17
+#: core/templates/microsites/blocks/video.html:23
+msgid "View video transcript"
+msgstr "Ver transcripción del video"
+
+#: core/templates/microsites/blocks/social_media.html:8
 msgid "Follow us"
 msgstr ""
 
-#: templates/microsites/blocks/social_media.html:69
+#: core/templates/microsites/blocks/social_media.html:51
 msgid "Email"
 msgstr "Correo electrónico"
 
-#: templates/microsites/blocks/streamfield.html:18
+#: core/templates/microsites/blocks/streamfield.html:15
 msgid "Information has been submitted successfully"
 msgstr "La información ha sido enviada con éxito"
 
-#: templates/microsites/blocks/streamfield.html:25
+#: core/templates/microsites/blocks/streamfield.html:22
 msgid "Submit"
 msgstr "Entregar"
 
-#: templates/microsites/blocks/video.html:13
+#: core/templates/microsites/blocks/video.html:12
 #, python-format
 msgid ""
 "\n"
@@ -371,66 +543,97 @@ msgstr ""
 "href=\"%(video_url)s\">enlace al video</a> en su lugar.</p>\n"
 "                  "
 
-#: templates/microsites/blocks/video.html:31
-msgid "View video transcript"
-msgstr "Ver transcripción del video"
-
-#: templates/microsites/includes/microsite_detail_content.html:54
+#: core/templates/microsites/includes/microsite_detail_content.html:47
 msgid "Last updated:"
 msgstr "Última actualización:"
 
-#: templates/microsites/includes/microsite_menu_button.html:15
+#: core/templates/microsites/includes/microsite_menu_button.html:13
 msgid "Menu"
 msgstr "Menú"
 
-#: templates/microsites/includes/microsite_related_content_list.html:10
+#: core/templates/microsites/includes/microsite_related_content_list.html:9
 msgid "Related content"
 msgstr "Contenido relacionado"
 
-#: templates/modeladmin/index.html:16
+#: core/templates/modeladmin/index.html:15
 msgid "Download CSV"
 msgstr "Descargar CSV"
 
-#: templates/wagtailadmin/microsite_migrate.html:4
+#: core/templates/wagtailadmin/microsite_migrate.html:4
 #, python-format
 msgid "Migrate 1 item"
 msgid_plural "Migrate %(counter)s items"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/wagtailadmin/microsite_migrate.html:7 wagtail_hooks.py:348
+#: core/templates/wagtailadmin/microsite_migrate.html:7
+#: core/wagtail_hooks.py:367
 msgid "Migrate"
 msgstr ""
 
-#: templates/wagtailadmin/microsite_migrate.html:13
+#: core/templates/wagtailadmin/microsite_migrate.html:12
 msgid "Are you sure you want to migrate these items?"
 msgstr ""
 
-#: templates/wagtailadmin/microsite_migrate.html:26
+#: core/templates/wagtailadmin/microsite_migrate.html:23
 msgid "You don't have permission to migrate this item"
 msgid_plural "You don't have permission to migrate these items"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/wagtailadmin/microsite_migrate.html:33
+#: core/templates/wagtailadmin/microsite_migrate.html:28
 msgid "Yes, migrate"
 msgstr ""
 
-#: templates/wagtailadmin/microsite_migrate.html:34
+#: core/templates/wagtailadmin/microsite_migrate.html:29
 msgid "No, don't migrate"
 msgstr ""
 
-#: validators.py:11
-msgid "Please enter a UK postcode"
+#: core/validators.py:14
+#, fuzzy
+#| msgid "Please enter a UK postcode"
+msgid "Enter a valid UK postcode"
 msgstr "Por favor, introduzca un código postal del Reino Unido"
 
-#: wagtail_hooks.py:349
+#: core/wagtail_hooks.py:368
 msgid "Create page from page"
 msgstr ""
 
-#: wagtail_hooks.py:514
+#: core/wagtail_hooks.py:533
 msgid "Campaign Site, getting started"
 msgstr ""
+
+#~ msgid "Tell us whether you accept cookies"
+#~ msgstr "Díganos si acepta las cookies"
+
+#~ msgid "We use "
+#~ msgstr "Usamos "
+
+#~ msgid "cookies to collect information"
+#~ msgstr "cookies para recopilar información"
+
+#~ msgid ""
+#~ "about how you use great.gov.uk. We use this information to make the "
+#~ "website work as well as possible and improve government services."
+#~ msgstr ""
+#~ "acerca de cómo utiliza great.gov.uk. Utilizamos esta información para "
+#~ "hacer que el sitio web funcione de la mejor manera posible y mejorar los "
+#~ "servicios gubernamentales."
+
+#~ msgid "Accept all cookies"
+#~ msgstr "Aceptar todas las cookies"
+
+#~ msgid "Set cookie preferences"
+#~ msgstr "Configurar preferencias de cookies"
+
+#~ msgid "You've accepted all cookies. You can "
+#~ msgstr "Ha aceptado todas las cookies. Puede "
+
+#~ msgid "change your settings"
+#~ msgstr "cambiar su configuración"
+
+#~ msgid "at any time."
+#~ msgstr "en cualquier momento."
 
 #~ msgid "Something else"
 #~ msgstr "spanish words"

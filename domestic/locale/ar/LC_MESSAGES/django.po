@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-27 17:24+0100\n"
+"POT-Creation-Date: 2024-08-09 12:00+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,43 +19,47 @@ msgstr ""
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: forms.py:21
+#: domestic/apps.py:7
+msgid "Domestic admin"
+msgstr ""
+
+#: domestic/forms.py:21
 msgid "Full name"
 msgstr "الاسم الكامل"
 
-#: forms.py:25
+#: domestic/forms.py:25
 msgid "Enter your full name"
 msgstr "أدخل اسمك الكامل"
 
-#: forms.py:29
+#: domestic/forms.py:29
 msgid "Job title"
 msgstr "المسمى الوظيفي"
 
-#: forms.py:32
+#: domestic/forms.py:32
 msgid "Enter your job title"
 msgstr "أدخل مسمى وظيفتك"
 
-#: forms.py:36
+#: domestic/forms.py:36
 msgid "Business email address"
 msgstr "عنوان البريد الإلكتروني للعمل"
 
-#: forms.py:38 forms.py:39
+#: domestic/forms.py:38 domestic/forms.py:39
 msgid "Enter an email address in the correct format, like name@example.com"
 msgstr "أدخل عنوان بريد إلكتروني بالتنسيق الصحيح، مثل name@example.com"
 
-#: forms.py:43
+#: domestic/forms.py:43
 msgid "Business name"
 msgstr "اسم الشركة"
 
-#: forms.py:46
+#: domestic/forms.py:46
 msgid "Enter your business name"
 msgstr "أدخل اسم شركتك"
 
-#: forms.py:50
+#: domestic/forms.py:50
 msgid "Business website"
 msgstr "موقع الويب للشركة"
 
-#: forms.py:54 forms.py:57
+#: domestic/forms.py:54 domestic/forms.py:57
 msgid ""
 "Enter a website address in the correct format, like https://www.example.com "
 "or www.company.com"
@@ -63,95 +67,113 @@ msgstr ""
 "أدخل عنوان موقع ويب بالتنسيق الصحيح، مثل https://www.example.com أو www."
 "company.com"
 
-#: forms.py:63
+#: domestic/forms.py:63
 msgid "Which country are you based in?"
 msgstr "في أي بلد تقع الشركة الخاصة بك؟"
 
-#: forms.py:68 forms.py:469
+#: domestic/forms.py:68 domestic/forms.py:469
 msgid "Do you have a specific project or proposal you’d like to discuss?"
 msgstr "هل لديك مشروع أو اقتراح محدد تود مناقشته؟"
 
-#: forms.py:74 forms.py:475
+#: domestic/forms.py:74 domestic/forms.py:475
 msgid "Please answer this question"
 msgstr "يرجى الإجابة على هذا السؤال"
 
-#: forms.py:77
+#: domestic/forms.py:77
 msgid "Which country is the project located in?"
 msgstr "في أي بلد يقع المشروع؟"
 
-#: forms.py:83
+#: domestic/forms.py:83
 msgid "How can we help?"
 msgstr "كيف يمكننا مساعدتك؟"
 
-#: forms.py:84
+#: domestic/forms.py:84
 msgid "Please tell us briefly what type of support you’re looking for"
 msgstr "يرجى إخبارنا بإيجاز بنوع الدعم الذي تبحث عنه"
 
-#: forms.py:90
+#: domestic/forms.py:90
 msgid "You must agree to the terms and conditions before registering"
 msgstr "يجب أن توافق على الشروط والأحكام قبل التسجيل"
 
-#: forms.py:417
+#: domestic/forms.py:417
 msgid "First name"
 msgstr "الاسم الأول"
 
-#: forms.py:422
+#: domestic/forms.py:422
 msgid "Enter your first name"
 msgstr "أدخل اسمك الأول"
 
-#: forms.py:426
+#: domestic/forms.py:426
 msgid "Last name"
 msgstr "الاسم الأخير"
 
-#: forms.py:431
+#: domestic/forms.py:431
 msgid "Enter your last name"
 msgstr "أدخل الاسم الأخير الخاص بك"
 
-#: forms.py:435
+#: domestic/forms.py:435
 msgid "Your email address"
 msgstr "عنوان بريدك الإلكتروني"
 
-#: forms.py:437
+#: domestic/forms.py:437
 msgid "Enter your email address"
 msgstr "أدخل عنوان بريدك الإلكتروني"
 
-#: forms.py:442
+#: domestic/forms.py:442
 msgid "Company name (Optional)"
 msgstr "اسم الشركة"
 
-#: forms.py:451
+#: domestic/forms.py:451
 msgid "Select your sector"
 msgstr "حدد قطاعك"
 
-#: forms.py:456
+#: domestic/forms.py:456
 msgid "Telephone number"
 msgstr "رقم الهاتف"
 
-#: forms.py:458
+#: domestic/forms.py:458
 msgid "Enter your telephone number"
 msgstr "أدخل رقم هاتفك"
 
-#: forms.py:462
+#: domestic/forms.py:462
 msgid "Position at company (Optional)"
 msgstr "المنصب في الشركة"
 
-#: forms.py:471
+#: domestic/forms.py:471
 msgid "My company already exports "
 msgstr "شركتي تصدّر بالفعل"
 
-#: forms.py:472
+#: domestic/forms.py:472
 msgid "My company does not export yet"
 msgstr "شركتي لا تصدّر بعد"
 
-#: forms.py:480
+#: domestic/forms.py:480
 msgid "Select a region"
 msgstr "حدد منطقة"
 
-#: forms.py:487
+#: domestic/forms.py:487
 msgid "Sector"
 msgstr "القطاع"
 
-#: templates/domestic/ukef/includes/card.html:11
+#: domestic/models.py:164
+msgid "Country Tags"
+msgstr ""
+
+#: domestic/models.py:165
+#, fuzzy
+#| msgid "Sector"
+msgid "Sector Tags"
+msgstr "القطاع"
+
+#: domestic/models.py:166
+msgid "Region Tags"
+msgstr ""
+
+#: domestic/models.py:168
+msgid "Type of Export Tags"
+msgstr ""
+
+#: domestic/templates/domestic/ukef/includes/card.html:8
 msgid "Opens in a new window"
 msgstr "يفتح في نافذة جديدة"
 

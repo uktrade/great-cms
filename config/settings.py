@@ -103,6 +103,8 @@ INSTALLED_APPS = [
     'wagtail_localize.locales',
 ]
 
+LOCALE_PATHS = [ROOT_DIR / 'core' / 'locale' ,]
+
 MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',

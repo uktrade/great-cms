@@ -16,155 +16,148 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 #: domestic/apps.py:7
 msgid "Domestic admin"
 msgstr ""
 
 #: domestic/forms.py:21
 msgid "Full name"
-msgstr "Nama penuh"
+msgstr ""
 
 #: domestic/forms.py:25
 msgid "Enter your full name"
-msgstr "Masukkan nama penuh anda"
+msgstr ""
 
 #: domestic/forms.py:29
 msgid "Job title"
-msgstr "Jawatan"
+msgstr ""
 
 #: domestic/forms.py:32
 msgid "Enter your job title"
-msgstr "Masukkan jawatan anda"
+msgstr ""
 
 #: domestic/forms.py:36
 msgid "Business email address"
-msgstr "Alamat e-mel perniagaan"
+msgstr ""
 
 #: domestic/forms.py:38 domestic/forms.py:39
 msgid "Enter an email address in the correct format, like name@example.com"
 msgstr ""
-"Masukkan alamat e-mel dalam format yang betul, seperti name@example.com"
 
 #: domestic/forms.py:43
 msgid "Business name"
-msgstr "Nama perniagaan"
+msgstr ""
 
 #: domestic/forms.py:46
 msgid "Enter your business name"
-msgstr "Masukkan nama perniagaan anda"
+msgstr ""
 
 #: domestic/forms.py:50
 msgid "Business website"
-msgstr "Laman web perniagaan"
+msgstr ""
 
 #: domestic/forms.py:54 domestic/forms.py:57
 msgid ""
 "Enter a website address in the correct format, like https://www.example.com "
 "or www.company.com"
 msgstr ""
-"Masukkan alamat laman web dalam format yang betul, seperti https://www."
-"example.com atau www.company.com"
 
 #: domestic/forms.py:63
 msgid "Which country are you based in?"
-msgstr "Di negara mana anda berpangkalan?"
+msgstr ""
 
 #: domestic/forms.py:68 domestic/forms.py:469
 msgid "Do you have a specific project or proposal you’d like to discuss?"
 msgstr ""
-"Adakah anda mempunyai projek atau cadangan tertentu yang ingin dibincangkan?"
 
 #: domestic/forms.py:74 domestic/forms.py:475
 msgid "Please answer this question"
-msgstr "Sila jawab soalan ini"
+msgstr ""
 
 #: domestic/forms.py:77
 msgid "Which country is the project located in?"
-msgstr "Di negara mana projek ini berada?"
+msgstr ""
 
 #: domestic/forms.py:83
 msgid "How can we help?"
-msgstr "Bagaimana kami boleh membantu?"
+msgstr ""
 
 #: domestic/forms.py:84
 msgid "Please tell us briefly what type of support you’re looking for"
-msgstr "Sila beritahu kami secara ringkas jenis sokongan yang anda cari"
+msgstr ""
 
 #: domestic/forms.py:90
 msgid "You must agree to the terms and conditions before registering"
-msgstr "Anda perlu bersetuju dengan terma dan syarat sebelum mendaftar"
+msgstr ""
 
 #: domestic/forms.py:417
 msgid "First name"
-msgstr "Nama pertama"
+msgstr ""
 
 #: domestic/forms.py:422
 msgid "Enter your first name"
-msgstr "Masukkan nama pertama anda"
+msgstr ""
 
 #: domestic/forms.py:426
 msgid "Last name"
-msgstr "Nama belakang"
+msgstr ""
 
 #: domestic/forms.py:431
 msgid "Enter your last name"
-msgstr "Masukkan nama belakang anda"
+msgstr ""
 
 #: domestic/forms.py:435
 msgid "Your email address"
-msgstr "Alamat emel anda"
+msgstr ""
 
 #: domestic/forms.py:437
 msgid "Enter your email address"
-msgstr "Masukkan alamat emel anda"
+msgstr ""
 
 #: domestic/forms.py:442
 msgid "Company name (Optional)"
-msgstr "Nama syarikat"
+msgstr ""
 
 #: domestic/forms.py:451
 msgid "Select your sector"
-msgstr "Pilih sektor anda"
+msgstr ""
 
 #: domestic/forms.py:456
 msgid "Telephone number"
-msgstr "Nombor telefon"
+msgstr ""
 
 #: domestic/forms.py:458
 msgid "Enter your telephone number"
-msgstr "Masukkan nombor telefon anda"
+msgstr ""
 
 #: domestic/forms.py:462
 msgid "Position at company (Optional)"
-msgstr "Jawatan di syarikat"
+msgstr ""
 
 #: domestic/forms.py:471
 msgid "My company already exports "
-msgstr "Syarikat saya sudah mengeksport"
+msgstr ""
 
 #: domestic/forms.py:472
 msgid "My company does not export yet"
-msgstr "Syarikat saya belum mengeksport lagi"
+msgstr ""
 
 #: domestic/forms.py:480
 msgid "Select a region"
-msgstr "Pilih kawasan"
+msgstr ""
 
 #: domestic/forms.py:487
 msgid "Sector"
-msgstr "Sektor"
+msgstr ""
 
 #: domestic/models.py:164
 msgid "Country Tags"
 msgstr ""
 
 #: domestic/models.py:165
-#, fuzzy
-#| msgid "Sector"
 msgid "Sector Tags"
-msgstr "Sektor"
+msgstr ""
 
 #: domestic/models.py:166
 msgid "Region Tags"
@@ -176,9 +169,4 @@ msgstr ""
 
 #: domestic/templates/domestic/ukef/includes/card.html:8
 msgid "Opens in a new window"
-msgstr "Buka dalam tetingkap baru"
-
-#, fuzzy
-#~| msgid "Select a region"
-#~ msgid "Select a country"
-#~ msgstr "Pilih kawasan"
+msgstr ""

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-27 17:24+0100\n"
+"POT-Creation-Date: 2024-08-09 12:00+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,43 +18,47 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: forms.py:21
+#: domestic/apps.py:7
+msgid "Domestic admin"
+msgstr ""
+
+#: domestic/forms.py:21
 msgid "Full name"
 msgstr "전체 이름"
 
-#: forms.py:25
+#: domestic/forms.py:25
 msgid "Enter your full name"
 msgstr "전체 이름을 입력하세요"
 
-#: forms.py:29
+#: domestic/forms.py:29
 msgid "Job title"
 msgstr "직위"
 
-#: forms.py:32
+#: domestic/forms.py:32
 msgid "Enter your job title"
 msgstr "직위를 입력하세요"
 
-#: forms.py:36
+#: domestic/forms.py:36
 msgid "Business email address"
 msgstr "비즈니스 이메일 주소"
 
-#: forms.py:38 forms.py:39
+#: domestic/forms.py:38 domestic/forms.py:39
 msgid "Enter an email address in the correct format, like name@example.com"
 msgstr "올바른 형식의 이메일 주소를 입력하세요. 예: name@example.com"
 
-#: forms.py:43
+#: domestic/forms.py:43
 msgid "Business name"
 msgstr "회사 이름"
 
-#: forms.py:46
+#: domestic/forms.py:46
 msgid "Enter your business name"
 msgstr "회사 이름을 입력하세요"
 
-#: forms.py:50
+#: domestic/forms.py:50
 msgid "Business website"
 msgstr "회사 웹사이트"
 
-#: forms.py:54 forms.py:57
+#: domestic/forms.py:54 domestic/forms.py:57
 msgid ""
 "Enter a website address in the correct format, like https://www.example.com "
 "or www.company.com"
@@ -62,96 +66,113 @@ msgstr ""
 "https://www.example.com 또는 www.company.com과 같은 올바른 형식의 웹사이트 주"
 "소를 입력하세요"
 
-#: forms.py:63
+#: domestic/forms.py:63
 msgid "Which country are you based in?"
 msgstr "귀하의 회사가 위치한 국가는 어디인가요?"
 
-#: forms.py:68 forms.py:469
+#: domestic/forms.py:68 domestic/forms.py:469
 msgid "Do you have a specific project or proposal you’d like to discuss?"
 msgstr "토의하고 싶은 특정 프로젝트나 제안이 있으신가요?"
 
-#: forms.py:74 forms.py:475
+#: domestic/forms.py:74 domestic/forms.py:475
 msgid "Please answer this question"
 msgstr "이 질문에 답해주세요"
 
-#: forms.py:77
+#: domestic/forms.py:77
 msgid "Which country is the project located in?"
 msgstr "프로젝트가 위치한 국가는 어디인가요?"
 
-#: forms.py:83
+#: domestic/forms.py:83
 msgid "How can we help?"
 msgstr "어떻게 도움을 드릴까요?"
 
-#: forms.py:84
+#: domestic/forms.py:84
 msgid "Please tell us briefly what type of support you’re looking for"
 msgstr "요청하시는 지원의 유형에 대해 간략히 알려주세요"
 
-#: forms.py:90
+#: domestic/forms.py:90
 msgid "You must agree to the terms and conditions before registering"
 msgstr "등록하기 전에 약관에 동의해야 합니다"
 
-#: forms.py:417
+#: domestic/forms.py:417
 msgid "First name"
 msgstr "이름"
 
-#: forms.py:422
+#: domestic/forms.py:422
 msgid "Enter your first name"
 msgstr "이름을 입력하세요"
 
-#: forms.py:426
+#: domestic/forms.py:426
 msgid "Last name"
 msgstr "성"
 
-#: forms.py:431
+#: domestic/forms.py:431
 msgid "Enter your last name"
 msgstr "성을 입력하세요"
 
-#: forms.py:435
+#: domestic/forms.py:435
 msgid "Your email address"
 msgstr "이메일 주소"
 
-#: forms.py:437
+#: domestic/forms.py:437
 msgid "Enter your email address"
 msgstr "이메일 주소를 입력하세요"
 
-#: forms.py:442
+#: domestic/forms.py:442
 msgid "Company name (Optional)"
 msgstr "회사명"
 
-#: forms.py:451
+#: domestic/forms.py:451
 msgid "Select your sector"
 msgstr "산업 분야를 선택하세요"
 
-#: forms.py:456
+#: domestic/forms.py:456
 msgid "Telephone number"
 msgstr "전화번호"
 
-#: forms.py:458
+#: domestic/forms.py:458
 msgid "Enter your telephone number"
 msgstr "전화번호를 입력하세요"
 
-#: forms.py:462
-
+#: domestic/forms.py:462
 msgid "Position at company (Optional)"
 msgstr "직위"
 
-#: forms.py:471
+#: domestic/forms.py:471
 msgid "My company already exports "
 msgstr "우리 회사는 이미 수출을 합니다"
 
-#: forms.py:472
+#: domestic/forms.py:472
 msgid "My company does not export yet"
 msgstr "우리 회사는 아직 수출하지 않습니다"
 
-#: forms.py:480
+#: domestic/forms.py:480
 msgid "Select a region"
 msgstr "지역 선택"
 
-#: forms.py:487
+#: domestic/forms.py:487
 msgid "Sector"
 msgstr "산업 분야"
 
-#: templates/domestic/ukef/includes/card.html:11
+#: domestic/models.py:164
+msgid "Country Tags"
+msgstr ""
+
+#: domestic/models.py:165
+#, fuzzy
+#| msgid "Sector"
+msgid "Sector Tags"
+msgstr "산업 분야"
+
+#: domestic/models.py:166
+msgid "Region Tags"
+msgstr ""
+
+#: domestic/models.py:168
+msgid "Type of Export Tags"
+msgstr ""
+
+#: domestic/templates/domestic/ukef/includes/card.html:8
 msgid "Opens in a new window"
 msgstr "새 창에서 열림"
 
