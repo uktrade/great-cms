@@ -32,16 +32,20 @@
                                 </dd>
                             </div>
                             <div class="govuk-summary-list__row">
-                                <dt class="govuk-summary-list__key govuk-body">Business activity and sector</dt>
+                                <dt class="govuk-summary-list__key govuk-body">Sector or industry</dt>
                                 <dd class="govuk-summary-list__value govuk-body">
-                                    {{ sub_and_sub_sub_sector|get_sector_display| default:'-' }}
-                                    <br />
-                                    (in our <strong>{{ triage_data.sector|get_sector_display | default:'-' }}</strong> sector)
+                                    {% if triage_data.sector_sub %}
+                                        {{ sub_and_sub_sub_sector|get_sector_display| default:'-' }}
+                                        <br />
+                                        (in our <strong>{{ triage_data.sector|get_sector_display | default:'-' }}</strong> sector)
+                                    {% else %}
+                                        {{ triage_data.sector|get_sector_display | default:'-' }}
+                                    {% endif %}
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
                                     <a class="govuk-link"
                                        href="{% url 'international_online_offer:business-details' %}?next={% url 'international_online_offer:change-your-answers' %}">
-                                        Change<span class="govuk-visually-hidden">business activity and sector</span>
+                                        Change<span class="govuk-visually-hidden">your sector or industry?</span>
                                     </a>
                                 </dd>
                             </div>

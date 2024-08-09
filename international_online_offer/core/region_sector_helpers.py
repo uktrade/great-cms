@@ -73,16 +73,22 @@ def get_sector(sector_id, sectors):
             return sector
 
 
-def get_sub_and_sub_sub_sectors_choices(sectors_json):
+def get_sectors_as_choices(sectors_json):
     sectors_tuple = ()
     for sector_row in sectors_json:
-        sub_sector = sector_row['sub_sector_name']
-        if sub_sector:
-            sub_sub_sector = sector_row['sub_sub_sector_name']
-            if not sub_sub_sector:
-                sectors_tuple = ((sector_row['sector_id'], sub_sector),) + sectors_tuple
-            else:
-                sectors_tuple = ((sector_row['sector_id'], sub_sub_sector),) + sectors_tuple
+        parent_sector = sector_row['sector_name']
+        child_sector = sector_row['sub_sector_name']
+        grandchild_sector = sector_row['sub_sub_sector_name']
+
+        if grandchild_sector:
+            sectors_tuple = ((sector_row['sector_id'], grandchild_sector),) + sectors_tuple
+            continue
+
+        if child_sector:
+            sectors_tuple = ((sector_row['sector_id'], child_sector),) + sectors_tuple
+            continue
+
+        sectors_tuple = ((sector_row['sector_id'], parent_sector),) + sectors_tuple
 
     return sectors_tuple
 

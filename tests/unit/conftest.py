@@ -292,3 +292,10 @@ def mock_get_dbt_sectors():
             ]
         ),
     ).start()
+
+
+@pytest.fixture
+def mock_get_gva_bandings():
+    yield mock.patch(
+        'directory_api_client.api_client.dataservices.get_gva_bandings', return_value=create_response()
+    ).start()

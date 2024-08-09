@@ -1,0 +1,26 @@
+{% load humanize %}
+{% load get_sector_widget_data from component_tags %}
+{% load reference_period from content_tags %}
+{% with markets=request.GET.sector|get_sector_widget_data %}
+    {% if markets %}
+        <div class="govuk-grid-column-three-quarters govuk-!-padding-5">
+            <div class="govuk-grid-row great-card-row">
+                {% for market in markets %}
+                    {% if market.heading|lower != request.GET.market %}
+                        <div class="govuk-grid-column-one-third govuk-!-padding-right-10 ">
+                            <div class="great-bg-light-blue great-grey-border govuk-!-padding-5">
+                                <a href="{{ market.get_full_url }}"
+                                   class="govuk-heading-s govuk-!-margin-bottom-2 great-heading-link great-heading-link--no-chevron">
+                                    <h3 class="govuk-heading-xs great-heading-link__heading">
+                                        Exporting guide to {{ market.heading }}
+                                    </h2>
+                                </a>
+                                <p class="govuk-body">{{ market.heading_teaser }}</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endwith %}
