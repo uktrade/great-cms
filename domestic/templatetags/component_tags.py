@@ -4,7 +4,10 @@ from django import template
 from django.templatetags import static
 from django.utils import timezone
 
-from domestic.helpers import get_market_widget_data_helper
+from domestic.helpers import (
+    get_market_widget_data_helper,
+    get_sector_widget_data_helper,
+)
 
 register = template.Library()
 
@@ -294,3 +297,8 @@ def remove_string(value, replacement=''):
 @register.filter
 def get_market_widget_data(market):
     return get_market_widget_data_helper(market)
+
+
+@register.filter
+def get_sector_widget_data(sector):
+    return get_sector_widget_data_helper(sector)
