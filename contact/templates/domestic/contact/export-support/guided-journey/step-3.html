@@ -16,6 +16,10 @@
                         <p class="govuk-body">Your commodity code: {{ session_data.hs_code }}</p>
                     {% endif %}
 
+                    {% if session_data.sic_description %}
+                        <p class="govuk-body">Your business activity: {{ session_data.sic_description }} <a href="{% url 'core:guided-journey-step-1' %}" class="govuk-link">(Change)</a></p>
+                    {% endif %}
+
                     {% if session_data.exporter_type == 'goods' %}
                         {% include 'domestic/contact/export-support/includes/goods-widget.html' %}
                     {% endif %}

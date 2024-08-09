@@ -25,12 +25,23 @@
   .govuk-warning-text__text {
     font-family: $great-font-bold;
     -webkit-font-smoothing: auto;
-    &:not(.great-title-link, .great-card__link, .great-heading-link__heading, .govuk-notification-banner__title) {
+    &:not(
+        .great-title-link,
+        .great-card__link,
+        .great-heading-link__heading,
+        .govuk-notification-banner__title
+      ) {
       color: $great-dark-grey;
     }
   }
 
-  h2:not(.govuk-notification-banner__title, .govuk-heading-xs, .govuk-heading-s, .govuk-body-s, .govuk-fieldset__heading  ) {
+  h2:not(
+      .govuk-notification-banner__title,
+      .govuk-heading-xs,
+      .govuk-heading-s,
+      .govuk-body-s,
+      .govuk-fieldset__heading
+    ) {
     @include govuk-media-query($until: tablet) {
       font-size: 28px;
     }
@@ -43,7 +54,20 @@
   }
 
   p:not(.govuk-error-message, .govuk-hint),
-  span:not(.great-badge, .great-text-darker-grey, .govuk-details__summary-text, .great-warning-text__icon, .great-tag, .govuk-warning-text__icon, .govuk-accordion__section-heading-text-focus, .govuk-accordion-nav__chevron, .govuk-accordion-nav__chevron--down, .govuk-accordion-nav__chevron--down::after, .govuk-accordion-nav__chevron--up::after, .govuk-accordion-nav__chevron--up),
+  span:not(
+      .great-badge,
+      .great-text-darker-grey,
+      .govuk-details__summary-text,
+      .great-warning-text__icon,
+      .great-tag,
+      .govuk-warning-text__icon,
+      .govuk-accordion__section-heading-text-focus,
+      .govuk-accordion-nav__chevron,
+      .govuk-accordion-nav__chevron--down,
+      .govuk-accordion-nav__chevron--down::after,
+      .govuk-accordion-nav__chevron--up::after,
+      .govuk-accordion-nav__chevron--up
+    ),
   ol,
   ul,
   a {
@@ -82,7 +106,6 @@
   .govuk-list {
     font-family: $great-font;
   }
-
 
   .govuk-form-group--error {
     input[type='text'] {
@@ -402,7 +425,6 @@
 .govuk-skip-link {
   font-family: $great-font;
 }
-
 
 .great-container {
   max-width: 1230px;
@@ -839,6 +861,10 @@ img.richtext-image {
   min-height: 300px;
 }
 
+.great-min-height-500 {
+  min-height: 500px;
+}
+
 .great-overflow-hidden {
   overflow: hidden;
 }
@@ -1082,7 +1108,7 @@ great-icon {
 }
 
 .step-list {
-  p{
+  p {
     @extend .govuk-body;
   }
 
