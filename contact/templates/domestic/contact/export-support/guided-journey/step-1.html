@@ -1,6 +1,12 @@
 {% extends 'domestic/contact/export-support/base.html' %}
 {% load static %}
 {% block head_title %}Export support{% endblock %}
+{% block head_css %}
+    {{ block.super }}
+    <link href="{% static 'core/css/accessible-autocomplete.min.css' %}"
+          rel="stylesheet"
+          type="text/css">
+{% endblock %}
 {% block content %}
     <div class="great great-bg-white">
         <div class="great-container govuk-!-padding-top-4">
@@ -9,15 +15,61 @@
                     <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">Export support</h1>
                     <form method="post" autocomplete="off">
                         {% csrf_token %}
-                        {% for field in form.visible_fields %}
-                            <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
-                                {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
-                            </div>
-                        {% endfor %}
+                        <input type="hidden" id="sector" name="sector" />
+                        <input type="hidden" id="make_or_do_keyword" name="make_or_do_keyword" />
+
+                        <div class="govuk-!-margin-bottom-6">
+                            <label for="sic_description">What does your company make or do?</label><br />
+                            <input type="text" id="sic_description" name="sic_description" class="govuk-input great-text-input govuk-!-width-one-half" />
+                            <div id="sic_description-container"></div>
+                        </div>
+
                         <button type="submit" class="govuk-button great-min-width-250-desktop">{{ button_text }}</button>
                     </form>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
                 </div>
             </div>
         </div>
     </div>
+{% endblock %}
+
+
+{% block body_js %}
+    {{ block.super }}
+    <script type="text/javascript"
+            src="{% static 'javascript/accessible-autocomplete.min.js' %}"></script>
+    <script type="text/javascript">
+
+    document.querySelector('#sic_description').remove();
+
+    const data = {{ sic_sector_data | safe}}
+    const sic_descriptions = data.data.map(el => el.sic_description)
+    accessibleAutocomplete({
+    element: document.querySelector('#sic_description-container'),
+    id: 'sic_description',
+    name: 'sic_description',
+    source: sic_descriptions,
+    autoselect: false,
+    minLength: 3,
+    displayMenu: 'overlay',
+    templates: {
+        suggestion: (selectedSIC) => {
+            const {sic_description, dit_sector_list_field_04} = data.data.find(el => el.sic_description === selectedSIC)
+            return `<span>${sic_description}</span><br /><span>${dit_sector_list_field_04}</span>`;
+        }
+    },
+    onConfirm: (selectedSIC) => {
+        if (selectedSIC) {
+            const {dit_sector_list_field_04} = data.data.find(el => el.sic_description === selectedSIC);
+
+            document.querySelector('#sector').value = dit_sector_list_field_04;
+            document.querySelector('#make_or_do_keyword').value = document.querySelector('#sic_description').value;
+        }
+    }
+    });
+    </script>
 {% endblock %}
