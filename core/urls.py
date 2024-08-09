@@ -9,6 +9,9 @@ from config.url_redirects import redirects
 from core import cms_slugs, views, views_api
 from domestic.views.campaign import MicrositeView
 
+from learn.views import HCSATView
+
+
 app_name = 'core'
 
 SIGNUP_URL = reverse_lazy('core:signup')
@@ -173,6 +176,11 @@ urlpatterns = [
         r'^campaign-site/*(?P<page_slug>[-a-zA-Z0-9_]+)/$',
         skip_ga360(MicrositeView.as_view()),
         name='campaign-site',
+    ),
+    re_path(
+        r'^learn/categories/(?P<category>[-a-zA-Z0-9_]+)/(?P<sub_category>[-a-zA-Z0-9_]+)/(?P<page_slug>[-a-zA-Z0-9_]+)/csat/$',  # noqa:E501
+        HCSATView.as_view(),
+        name='article_page_csat',
     ),
     path('api/signed-url/', views.SignedURLView.as_view(), name='signed-url'),
     # WHEN ADDING TO THIS LIST CONSIDER WHETHER YOU SHOULD ALSO ADD THE URL NAME

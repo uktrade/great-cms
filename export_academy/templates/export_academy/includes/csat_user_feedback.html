@@ -51,7 +51,7 @@
     </div>
     <form method="post"
           novalidate
-          action="{{ request.build_absolute_uri }}"
+          action="{{ request.build_absolute_uri }}{% if '/learn/' in request.build_absolute_uri %}csat/{% endif %}"
           id="csat-form">
         {% csrf_token %}
         <div id="csat-step-1"

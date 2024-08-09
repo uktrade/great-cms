@@ -67,6 +67,9 @@ from exportplan.core.data import (
     SECTIONS as EXPORTPLAN_URL_MAP,
 )
 
+from learn.forms import CsatUserFeedbackForm
+
+
 # If we make a Redirect appear as a Snippet, we can sync it via Wagtail-Transfer
 register_snippet(Redirect)
 
@@ -1202,9 +1205,38 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
             _path = backlink_path.split('/')[3]
             return self._export_plan_url_map.get(_path)
 
-    def get_context(self, request, *args, **kwargs):
+    def get_csat(self, request):
+        from learn.models import CsatUserFeedback
+
+        csat_id = request.session.get('learn_to_export_csat_id')
+        if csat_id:
+            return CsatUserFeedback.objects.get(id=csat_id)
+        return None
+
+    def get_stage(self, request):
+        return request.session.get('learn_to_export_csat_stage', 0)
+
+    def get_initial(self, request):
+        csat = self.get_csat(request)
+        if csat:
+            satisfaction = csat.satisfaction_rating
+            if satisfaction and request.session.get('learn_to_export_csat_id', 0) == 1:
+                return {'satisfaction': satisfaction}
+        return {'satisfaction': ''}
+
+    def get_context(self, request, *args, **kwargs):  # noqa: C901
         context = super().get_context(request)
         context['refresh_on_market_change'] = True
+        context['is_logged_in'] = False
+        if request.user.is_authenticated:
+            context['is_logged_in'] = True
+
+        stage = self.get_stage(request)
+        context['csat_stage'] = stage
+        if stage == 2:
+            del request.session['learn_to_export_csat_stage']
+        context['form'] = CsatUserFeedbackForm(data=self.get_initial(request))
+
         # Prepare backlink to the export plan if we detect one and can validate it
         _backlink = self._get_backlink(request)
         if _backlink:
@@ -2479,7 +2511,7 @@ class ShareSettings(BaseSiteSetting):
 class CsatUserFeedback(TimeStampedModel):
     URL = models.CharField(max_length=255)
     user_journey = models.CharField(
-        max_length=255, null=True, choices=constants.USER_JOURNEY_CHOICES, default='ADD_PRODUCT'
+        max_length=255, null=True, choices=constants.USER_JOURNEY_CHOICES_PRODUCT, default='ADD_PRODUCT'
     )  # noqa:E501
     satisfaction_rating = models.CharField(max_length=255, choices=constants.SATISFACTION_CHOICES)
     experienced_issues = ArrayField(
