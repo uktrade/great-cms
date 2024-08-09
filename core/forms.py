@@ -5,6 +5,7 @@ from django.forms import (
     CharField,
     CheckboxSelectMultiple,
     ChoiceField,
+    HiddenInput,
     MultipleChoiceField,
     RadioSelect,
     Textarea,
@@ -171,15 +172,9 @@ class CsatUserFeedbackForm(forms.Form):
 
 
 class GuidedJourneyStep1Form(forms.Form):
-    make_or_do = CharField(
-        label='What does your company make or do?',
-        widget=TextInput(attrs={'class': 'govuk-input great-text-input', 'placeholder': 'Search...'}),
-        help_text='Enter a keyword to search a list of business activities',
-        max_length=160,
-        error_messages={
-            'required': 'Enter what your company makes or does',
-        },
-    )
+    sic_description = CharField(label='SIC Description', required=False, widget=HiddenInput)
+    make_or_do_keyword = CharField(label='Keyword', required=False, widget=HiddenInput)
+    sector = CharField(label='Sector', required=False, widget=HiddenInput)
 
 
 class GuidedJourneyStep2Form(forms.Form):

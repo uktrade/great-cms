@@ -7,12 +7,17 @@
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full great-grid-column-seven-twelfths">
                     <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">Export support</h1>
+
                     {% if session_data.sector %}
                         <p class="govuk-body">Your sector: {{ session_data.sector }}</p>
                     {% endif %}
 
                     {% if session_data.hs_code %}
                         <p class="govuk-body">Your commodity code: {{ session_data.hs_code }}</p>
+                    {% endif %}
+
+                    {% if session_data.sic_description %}
+                        <p class="govuk-body">Your business activity: {{ session_data.sic_description }} <a href="{% url 'core:guided-journey-step-1' %}" class="govuk-link">(Change)</a></p>
                     {% endif %}
 
                     {% if session_data.exporter_type == 'goods' %}
