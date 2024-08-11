@@ -1,6 +1,7 @@
 import csv
 import functools
 import math
+import os
 import re
 import urllib
 import urllib.parse as urlparse
@@ -9,6 +10,7 @@ from difflib import SequenceMatcher
 from io import StringIO
 from logging import getLogger
 from operator import itemgetter
+from pathlib import Path
 
 import boto3
 import great_components.helpers
@@ -732,6 +734,19 @@ def geoip_file_exists_in_s3(object_name: str):
         return True
 
 
+def delete_existing_geoip_files():
+    if settings.IS_CIRCLECI_ENV:
+        return
+    country = f'{settings.GEOIP_PATH}/{settings.GEOIP_COUNTRY}'
+    city = f'{settings.GEOIP_PATH}/{settings.GEOIP_CITY}'
+    file = Path(country)
+    if file.exists():
+        os.remove(country)
+    file = Path(city)
+    if file.exists():
+        os.remove(city)
+
+
 def download_geoip_files_from_s3():
     # dont download files if running in circleci
     if settings.IS_CIRCLECI_ENV:
@@ -740,22 +755,27 @@ def download_geoip_files_from_s3():
     if geoip_file_exists_in_s3(f'geoip_data/{settings.GEOIP_COUNTRY}') and geoip_file_exists_in_s3(
         f'geoip_data/{settings.GEOIP_CITY}'
     ):
-        s3_client = boto3.client(
-            's3',
-            aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
-            region_name=settings.AWS_S3_REGION_NAME,
-        )
-        s3_client.download_file(
-            settings.AWS_STORAGE_BUCKET_NAME,
-            f'geoip_data/{settings.GEOIP_CITY}',
-            f'{settings.GEOIP_PATH}/{settings.GEOIP_CITY}',
-        )
-        s3_client.download_file(
-            settings.AWS_STORAGE_BUCKET_NAME,
-            f'geoip_data/{settings.GEOIP_COUNTRY}',
-            f'{settings.GEOIP_PATH}/{settings.GEOIP_COUNTRY}',
-        )
+        try:
+            delete_existing_geoip_files()
+        except IOError:
+            pass
+        else:
+            s3_client = boto3.client(
+                's3',
+                aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+                aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+                region_name=settings.AWS_S3_REGION_NAME,
+            )
+            s3_client.download_file(
+                settings.AWS_STORAGE_BUCKET_NAME,
+                f'geoip_data/{settings.GEOIP_CITY}',
+                f'{settings.GEOIP_PATH}/{settings.GEOIP_CITY}',
+            )
+            s3_client.download_file(
+                settings.AWS_STORAGE_BUCKET_NAME,
+                f'geoip_data/{settings.GEOIP_COUNTRY}',
+                f'{settings.GEOIP_PATH}/{settings.GEOIP_COUNTRY}',
+            )
     else:
         try:
             call_command('download_geolocation_data')
