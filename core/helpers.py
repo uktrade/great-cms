@@ -735,8 +735,6 @@ def geoip_file_exists_in_s3(object_name: str):
 
 
 def delete_existing_geoip_files():
-    if settings.IS_CIRCLECI_ENV:
-        return
     country = f'{settings.GEOIP_PATH}/{settings.GEOIP_COUNTRY}'
     city = f'{settings.GEOIP_PATH}/{settings.GEOIP_CITY}'
     file = Path(country)
