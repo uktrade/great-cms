@@ -199,8 +199,13 @@ class GuidedJourneyStep4Form(forms.Form):
         choices=(
             ('customs-taxes-and-declarations/tax-and-duty-liabilities', 'Tax and duty liabilities'),
             ('customs-taxes-and-declarations/product-classification', 'Product classification'),
+            ('routes-to-market/exploring-routes-to-market', 'Exploring routes to market'),
+            (
+                'routes-to-market/prepare-your-business-to-operate-in-a-market',
+                'Prepare your business to operate in a market',
+            ),
         ),
-        widget=contact_widgets.GreatRadioSelect,
+        widget=contact_widgets.GreatFilteredRadioSelect,
         error_messages={
             'required': 'Choose a subject of your enquiry',
         },
