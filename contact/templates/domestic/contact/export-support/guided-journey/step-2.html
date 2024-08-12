@@ -6,21 +6,39 @@
         <div class="great-container govuk-!-padding-top-4">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full great-grid-column-seven-twelfths">
-                    <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">Export support</h1>
-                    {% if session_data.make_or_do %}
-                        <p class="govuk-body">{{ session_data.make_or_do }}</p>
+                    <h1 class="govuk-heading-xl govuk-!-margin-bottom-9">Export support</h1>
+                    {% if session_data.sic_description %}
+                        <p class="govuk-body">Your business activity: {{ session_data.sic_description }} <a href="{% url 'core:guided-journey-step-1' %}" class="govuk-link">(Change)</a></p>
                     {% endif %}
-                    <form method="post" autocomplete="off">
+                    <form method="post" autocomplete="off" class="great-min-height-500">
                         {% csrf_token %}
-                        {% for field in form.visible_fields %}
-                            <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
-                                {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
+                        <div class="govuk-!-margin-bottom-6">
+                            <h2 class="govuk-label-wrapper">
+                                <label class="govuk-label govuk-label--l" for="sic_description">
+                                    Select the best commodity match for '<strong>{% if session_data.make_or_do_keyword %}{{ session_data.make_or_do_keyword }}{% else %}{{ session_data.sic_description }}{% endif %}</strong>'
+                                </label>
+                            </h2>
+                            <div class="great-text-select--arrow">
+                                <select class="govuk-select great-select" name="hs_code" id="hs_code">
+                                    {% for commodity in commodities %}
+                                        <option value="{{ commodity.hs_code }}">{{ commodity.title }} ({{ commodity.hs_code }})</option>
+                                    {% endfor %}
+                                </select>
                             </div>
-                        {% endfor %}
+                        </div>
+                        
                         <button type="submit" class="govuk-button great-min-width-250-desktop">{{ button_text }}</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+{% endblock %}
+{% block body_js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        document.querySelector('#hs_code').addEventListener('change', (e) => {
+            document.querySelector('[name="hs_code"]').value = e.target.value;
+        });
+    </script> 
 {% endblock %}

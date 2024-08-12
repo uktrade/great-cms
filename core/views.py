@@ -771,16 +771,20 @@ class GuidedJourneyStep1View(GuidedJourneyMixin, FormView):
     template_name = 'domestic/contact/export-support/guided-journey/step-1.html'
 
     def get_context_data(self, **kwargs):
+        def get_sectors_and_sic_sectors_file():
+            json_data = open('core/fixtures/sectors-and-sic-sectors.json')
+            deserialised_data = json.load(json_data)
+            json_data.close()
+            return deserialised_data
+
         return super().get_context_data(
-            **kwargs,
-            progress_position=1,
+            **kwargs, progress_position=1, sic_sector_data=get_sectors_and_sic_sectors_file()
         )
 
     def get_success_url(self):
         return reverse_lazy('core:guided-journey-step-2')
 
     def form_valid(self, form):
-        form.cleaned_data['sector'] = 'food and drink'
         form.cleaned_data['exporter_type'] = 'goods'
 
         self.save_data(form)
@@ -792,9 +796,35 @@ class GuidedJourneyStep2View(GuidedJourneyMixin, FormView):
     template_name = 'domestic/contact/export-support/guided-journey/step-2.html'
 
     def get_context_data(self, **kwargs):
+        make_or_do_keyword = None
+        commodities = []
+
+        def get_hmrc_tarriff_data(make_or_do_keyword):
+            deserialised_data = helpers.product_picker(make_or_do_keyword)
+
+            mapped_results = []
+
+            for item in deserialised_data['data']:
+                mapped_results.append(
+                    {
+                        'title': item['attributes']['title'],
+                        'hs_code': item['attributes']['goods_nomenclature_item_id'],
+                    }
+                )
+
+            return mapped_results
+
+        if self.request.session.get('guided_journey_data'):
+            form_data = pickle.loads(bytes.fromhex(self.request.session.get('guided_journey_data')))[0]
+
+            make_or_do_keyword = form_data['make_or_do_keyword']
+
+            commodities = get_hmrc_tarriff_data(make_or_do_keyword)
+
         return super().get_context_data(
             **kwargs,
             progress_position=2,
+            commodities=commodities,
         )
 
     def get_success_url(self):
@@ -816,15 +846,32 @@ class GuidedJourneyStep3View(GuidedJourneyMixin, FormView):
         )
 
     def get_success_url(self):
+        return reverse_lazy('core:guided-journey-step-4')
+
+    def form_valid(self, form):
+        self.save_data(form)
+        return super().form_valid(form)
+
+
+class GuidedJourneyStep4View(GuidedJourneyMixin, FormView):
+    form_class = forms.GuidedJourneyStep4Form
+    template_name = 'domestic/contact/export-support/guided-journey/step-4.html'
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            progress_position=4,
+        )
+
+    def get_success_url(self):
         if self.request.session.get('guided_journey_data'):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('guided_journey_data')))[0]
 
             market = form_data['market']
             is_goods = form_data['exporter_type'] == 'goods'
+            sub_category = form_data['sub_category']
 
-            sub_cat_url = '/support/customs-taxes-and-declarations/tax-and-duty-liabilities/'
-
-            sub_cat_url += '?is_guided_journey=True'
+            sub_cat_url = f'/support/{sub_category}?is_guided_journey=True'
 
             if market:
                 sub_cat_url += f'&market={market}'
