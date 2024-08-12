@@ -8,33 +8,37 @@ from international_online_offer.services import get_gva_scoring_criteria
 # Scoring system takes input from EYB triage and calculates whether a user / investor is low or high value.
 # ISD use this to contact high value users for help setting up in the UK
 # The numbers are given to us from ISD and tranferred into this scoring system.
-def score_is_high_value(sector, location, hiring, spend, user_uuid):
+def score_is_high_value(sector, location, hiring, spend, user_uuid, scorecard_criteria=None):
     # Requirement from stakeholders was that we only score based on three metrics:
     # How much they are looking to spend.
     # How many people they'll be creating jobs for.
     # Choice of location (Regional level)
-    scorecard_criteria = get_gva_scoring_criteria(full_sector_name=sector)
+
+    # if scorecard criteria has not been passed retrieve from API
+    if not scorecard_criteria:
+        scorecard_criteria = get_gva_scoring_criteria(full_sector_name=sector)
+        if len(scorecard_criteria) == 1:
+            scorecard_criteria = scorecard_criteria[0]
+        else:
+            # edge case where no scoring available for a user's sector (e.g. misalignment between dbt sector list
+            # and gva bandings). The user doesn't need to be notified but the issue should be investigated as there
+            # may be false negatives
+            capture_message(f'Scoring failed for user ID {user_uuid}.')
+            return False
 
     is_high_value_capex = False
     is_high_value_labour_workforce_hire = False
     is_high_value_hpo = False
 
-    if len(scorecard_criteria) == 1:
-        scorecard_criteria = scorecard_criteria[0]
-        # using band c as requested by stakeholders
-        band_threshold = scorecard_criteria['value_band_c_minimum']
+    # using band c as requested by stakeholders
+    band_threshold = scorecard_criteria['value_band_c_minimum']
 
-        if scorecard_criteria['sector_classification_value_band'] == 'Capital intensive':
-            is_high_value_capex = is_capex_spend(spend, band_threshold)
-        elif scorecard_criteria['sector_classification_value_band'] == 'Labour intensive':
-            is_high_value_labour_workforce_hire = is_labour_workforce_hire(hiring, band_threshold)
+    if scorecard_criteria['sector_classification_value_band'] == 'Capital intensive':
+        is_high_value_capex = is_capex_spend(spend, band_threshold)
+    elif scorecard_criteria['sector_classification_value_band'] == 'Labour intensive':
+        is_high_value_labour_workforce_hire = is_labour_workforce_hire(hiring, band_threshold)
 
-        is_high_value_hpo = is_hpo(sector, location)
-    else:
-        # edge case where no scoring available for a user's sector (e.g. misalignment between dbt sector list
-        # and gva bandings). The user doesn't need to be notified but the issue should be investigated as there
-        # may be false negatives
-        capture_message(f'Scoring failed for user ID {user_uuid}.')
+    is_high_value_hpo = is_hpo(sector, location)
 
     # If the user gets a positive for any of these metrics they are considered high value
     return is_high_value_capex or is_high_value_labour_workforce_hire or is_high_value_hpo
