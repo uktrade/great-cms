@@ -306,9 +306,33 @@ def get_sector_widget_data(sector):
 
 @register.simple_tag
 def adjust_country_pronunciation(country):
-    countries_pronounced_with_the_first = ['united kingdom', 'bahamas']
+    countries_pronounced_with_the_first = [
+        'bahamas',
+        'cayman islands',
+        'central african republic',
+        'channel islands',
+        'comoros',
+        'czech republic',
+        'dominican republic',
+        'falkland islands',
+        'gambia',
+        'isle of man',
+        'ivory coast',
+        'leeward islands',
+        'maldives',
+        'marshall islands',
+        'netherlands',
+        'netherlands antilles',
+        'philippines',
+        'solomon islands',
+        'turks and caicos islands',
+        'united arab Emirates',
+        'united kingdom',
+        'united states',
+        'virgin islands'
+    ]
     country = country.lower()
 
     if country in countries_pronounced_with_the_first:
-        return f'the {country.title()}'
-    return country
+        return f"the {country.title().replace(' Of', ' of').replace(' And', ' and')}"
+    return country.title()
