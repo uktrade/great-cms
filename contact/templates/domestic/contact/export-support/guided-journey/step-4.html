@@ -5,7 +5,7 @@
     <div class="great great-bg-white">
         <div class="great-container govuk-!-padding-top-4">
             <div class="govuk-grid-row">
-                <div class="govuk-grid-column-full great-grid-column-seven-twelfths">
+                <div class="govuk-grid-column-full great-grid-column-seven-twelfths govuk-!-margin-bottom-5">
                     <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">Export support</h1>
 
                     {% if session_data.sector %}
@@ -24,17 +24,62 @@
                         {% include 'domestic/contact/export-support/includes/market-widget.html' with market=session_data.market %}
                     {% endif %}
 
-                    <form method="post" autocomplete="off">
+                    <div id="category-buttons">
+                        <h2 class="govuk-heading-s govuk-!-margin-top-5">Whats the subject of your enquiry?</h2>
+                        {% for category in categories %}
+                            <button data-matcher="{{ category.matcher }}" class="govuk-!-padding-5 govuk-!-margin-right-3 great-bg-white great-grey-border">{{ category.name }}</button>
+                        {% endfor %}
+                    </div>
+
+                    <form method="post" autocomplete="off" id="subject-of-enquiry-form" class="govuk-!-margin-top-5">
                         {% csrf_token %}
+   
                         {% for field in form.visible_fields %}
-                            <div class="govuk-form-group govuk-!-margin-top-7 govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
+                            <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
                                 {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
                             </div>
                         {% endfor %}
+
+                        <div class="govuk-!-margin-top-5 govuk-!-margin-bottom-7">
+                            <a href="" id="change-category-button" class="govuk-link"></a>
+                        </div>
+
                         <button type="submit" class="govuk-button great-min-width-250-desktop">{{ button_text }}</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+{% endblock %}
+{% block body_js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        document.querySelectorAll('[data-matcher]').forEach(el => {
+            el.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                const matcher = e.target.dataset.matcher;
+
+                if (matcher) {
+                    document.querySelector('#subject-of-enquiry-form').style.display = 'block';
+
+                    document.querySelectorAll('[data-filter]').forEach(el => el.style.display = 'none')
+                    document.querySelectorAll('[data-filter]').forEach(el => el.dataset.filter.includes(matcher) ? el.style.display = 'block' : el.style.display = 'none')
+                
+                    document.querySelector('#category-buttons').style.display = 'none';
+                    document.querySelector('#change-category-button').innerHTML = e.target.innerHTML + ' (Change)';
+                }
+            });
+        })
+
+        document.querySelector('#subject-of-enquiry-form').style.display = 'none';
+
+        document.querySelector('#change-category-button').addEventListener('click', (e) => {
+            e.preventDefault();
+
+            document.querySelector('#category-buttons').style.display = 'block';
+            document.querySelector('#change-category-button').innerHTML = '';
+            document.querySelector('#subject-of-enquiry-form').style.display = 'none';
+        });
+    </script> 
 {% endblock %}

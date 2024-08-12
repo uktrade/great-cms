@@ -1,7 +1,7 @@
 <div class="govuk-radios great-radios" data-module="govuk-radios">
     {% for group, options, index in widget.optgroups %}
         {% for option in options %}
-            <div class="govuk-radios__item govuk-!-margin-bottom-3">
+            <div class="govuk-radios__item govuk-!-margin-bottom-3" {% if option.value != None %}data-filter="{{ option.value|stringformat:'s' }}"{% endif %}>
                 {% include option.template_name with widget=option %}
             </div>
         {% endfor %}

@@ -1,12 +1,12 @@
 from wagtail.test.utils import WagtailPageTests
 
 from international.models import GreatInternationalHomePage
-from international_investment.models import InvestmentIndexPage
+from international_buy_from_the_uk.models import BuyFromTheUKIndexPage
 
 
-class InvestmentHomePageTests(WagtailPageTests):
+class BuyFromTheUKHomePageTests(WagtailPageTests):
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
-            InvestmentIndexPage,
+            BuyFromTheUKIndexPage,
             {GreatInternationalHomePage},
         )

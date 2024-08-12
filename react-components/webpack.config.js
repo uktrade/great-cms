@@ -21,6 +21,7 @@ module.exports = {
     international_styles: './international/sass/main.scss',
     expand_your_business_styles: './international_online_offer/sass/main.scss',
     investment_styles: './international_investment/sass/main.scss',
+    buy_from_the_uk_styles: './international_buy_from_the_uk/sass/main.scss',
     microsite_styles: './styles/microsite/main.scss',
     fab_styles: './find_a_buyer/static/sass/main.scss',
   },
