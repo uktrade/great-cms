@@ -1,7 +1,10 @@
+from unittest import mock
+
 import pytest
 
 from international_online_offer.core import hirings, regions, scorecard, spends
 from international_online_offer.models import ScorecardCriterion
+from tests.unit.core.test_helpers import create_response
 
 
 def populate_scoring_criteria():
@@ -23,136 +26,9 @@ def populate_scoring_criteria():
             regions.YORKSHIRE_AND_THE_HUMBER,
         ],
     )
-    ScorecardCriterion.objects.create(
-        sector='Technology and smart cities : Communications',
-        capex_spend=1079999,
-        labour_workforce_hire=None,
-        high_potential_opportunity_locations=None,
-    )
-    ScorecardCriterion.objects.create(
-        sector='Technology and smart cities : Hardware',
-        capex_spend=2399999,
-        labour_workforce_hire=None,
-        high_potential_opportunity_locations=None,
-    )
-    ScorecardCriterion.objects.create(
-        sector='Energy : Civil nuclear',
-        capex_spend=759999,
-        labour_workforce_hire=None,
-        high_potential_opportunity_locations=None,
-    )
-    ScorecardCriterion.objects.create(
-        sector='Energy : Oil and gas',
-        capex_spend=2219999,
-        labour_workforce_hire=None,
-        high_potential_opportunity_locations=None,
-    )
-    ScorecardCriterion.objects.create(
-        sector='Financial and professional services : Business and consumer services',
-        capex_spend=None,
-        labour_workforce_hire=14,
-        high_potential_opportunity_locations=None,
-    )
-    ScorecardCriterion.objects.create(
-        sector='Financial and professional services',
-        capex_spend=None,
-        labour_workforce_hire=13,
-        high_potential_opportunity_locations=None,
-    )
-    ScorecardCriterion.objects.create(
-        sector='Creative industries',
-        capex_spend=505999,
-        labour_workforce_hire=None,
-        high_potential_opportunity_locations=[regions.NORTH_EAST, regions.WEST_MIDLANDS, regions.SOUTH_EAST],
-    )
-    ScorecardCriterion.objects.create(
-        sector='Pharmaceuticals and biotechnology',
-        capex_spend=3191999,
-        labour_workforce_hire=None,
-        high_potential_opportunity_locations=[
-            regions.NORTH_EAST,
-            regions.SCOTLAND,
-            regions.YORKSHIRE_AND_THE_HUMBER,
-            regions.EAST_MIDLANDS,
-            regions.NORTH_WEST,
-            regions.EAST_OF_ENGLAND,
-            regions.WALES,
-            regions.NORTHERN_IRELAND,
-        ],
-    )
-    ScorecardCriterion.objects.create(
-        sector='Healthcare services',
-        capex_spend=None,
-        labour_workforce_hire=15,
-        high_potential_opportunity_locations=[
-            regions.NORTH_EAST,
-            regions.SOUTH_EAST,
-            regions.YORKSHIRE_AND_THE_HUMBER,
-            regions.WEST_MIDLANDS,
-        ],
-    )
-    ScorecardCriterion.objects.create(
-        sector='Energy',
-        capex_spend=3099999,
-        labour_workforce_hire=None,
-        high_potential_opportunity_locations=[regions.NORTH_EAST, regions.SCOTLAND, regions.SOUTH_EAST],
-    )
 
 
-@pytest.mark.django_db
-def test_is_capex_spend():
-    populate_scoring_criteria()
-    assert not scorecard.is_capex_spend(
-        'Food and drink',
-        spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND,
-    )
-    assert not scorecard.is_capex_spend(
-        'Technology and smart cities',
-        spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND,
-    )
-    assert scorecard.is_capex_spend(
-        'Technology and smart cities',
-        spends.TWO_MILLION_TO_FIVE_MILLION,
-    )
-    assert not scorecard.is_capex_spend(
-        'Technology and smart cities',
-        spends.ONE_MILLION_TO_TWO_MILLION,
-    )
-    assert not scorecard.is_capex_spend(
-        'Technology and smart cities',
-        spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND,
-    )
-    assert scorecard.is_capex_spend(
-        'Technology and smart cities',
-        spends.TWO_MILLION_TO_FIVE_MILLION,
-    )
-    assert not scorecard.is_capex_spend('Energy', spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND)
-    assert not scorecard.is_capex_spend('Energy', spends.ONE_MILLION_TO_TWO_MILLION)
-    assert not scorecard.is_capex_spend('Energy', spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND)
-    assert scorecard.is_capex_spend('Energy', spends.TWO_MILLION_TO_FIVE_MILLION)
-    assert not scorecard.is_capex_spend('Energy', spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND)
-    assert scorecard.is_capex_spend('Energy', spends.TWO_MILLION_TO_FIVE_MILLION)
-
-
-@pytest.mark.django_db
-def test_is_labour_workforce_hire():
-    populate_scoring_criteria()
-    assert not scorecard.is_labour_workforce_hire('Food and drink', hirings.ONE_TO_FIVE)
-    assert scorecard.is_labour_workforce_hire('Food and drink', hirings.SIX_TO_FIFTY)
-    assert scorecard.is_labour_workforce_hire('Food and drink', hirings.ONE_HUNDRED_ONE_PLUS)
-    assert not scorecard.is_labour_workforce_hire('Random sector', hirings.SIX_TO_FIFTY)
-    assert not scorecard.is_labour_workforce_hire('Food and drink', hirings.NO_PLANS_TO_HIRE_YET)
-    assert not scorecard.is_labour_workforce_hire('Financial and professional services', hirings.ONE_TO_FIVE)
-    assert not scorecard.is_labour_workforce_hire(
-        'Financial and professional services',
-        hirings.ONE_TO_FIVE,
-    )
-    assert scorecard.is_labour_workforce_hire(
-        'Financial and professional services',
-        hirings.SIX_TO_FIFTY,
-    )
-
-
+# todo: refactor test_is_hpo to use mock d-api and remove above populate_scoring_criteria once hpo work is unblocked
 @pytest.mark.parametrize(
     'sector,region,expected_result',
     (
@@ -160,14 +36,6 @@ def test_is_labour_workforce_hire():
         ('Food and drink', regions.EAST_OF_ENGLAND, True),
         ('Technology and smart cities', regions.NORTH_EAST, False),
         ('Technology and smart cities', regions.WALES, True),
-        ('Creative industries', regions.WALES, False),
-        ('Creative industries', regions.NORTH_EAST, True),
-        ('Energy', regions.WALES, False),
-        ('Energy', regions.SCOTLAND, True),
-        ('Pharmaceuticals and biotechnology', regions.LONDON, False),
-        ('Pharmaceuticals and biotechnology', regions.WALES, True),
-        ('Healthcare services', regions.SCOTLAND, False),
-        ('Healthcare services', regions.WEST_MIDLANDS, True),
     ),
 )
 @pytest.mark.django_db
@@ -176,11 +44,120 @@ def test_is_hpo(sector, region, expected_result):
     assert scorecard.is_hpo(sector, region) == expected_result
 
 
+@pytest.mark.parametrize(
+    'input,expected_result',
+    (
+        (hirings.ONE_TO_FIVE, 5),
+        (hirings.SIX_TO_FIFTY, 50),
+        (hirings.FIFTY_ONE_TO_ONE_HUNDRED, 100),
+        (hirings.ONE_HUNDRED_ONE_PLUS, 101),
+        (spends.LESS_THAN_TEN_THOUSAND, 9999),
+        (spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND, 500000),
+        (spends.FIVE_HUNDRED_THOUSAND_TO_ONE_MILLION, 1000000),
+        (spends.ONE_MILLION_TO_TWO_MILLION, 2000000),
+        (spends.TWO_MILLION_TO_FIVE_MILLION, 5000000),
+        (spends.FIVE_MILLION_TO_TEN_MILLION, 10000000),
+        (spends.MORE_THAN_TEN_MILLION, 10000000),
+    ),
+)
+def test_get_value(input, expected_result):
+    result = scorecard.get_value(input)
+    assert result == expected_result
+    assert isinstance(result, int)
+
+
+@mock.patch(
+    'directory_api_client.api_client.dataservices.get_gva_bandings',
+    return_value=create_response(
+        [
+            {
+                'full_sector_name': 'Aerospace',
+                'value_band_a_minimum': 100000000,
+                'value_band_b_minimum': 10000000,
+                'value_band_c_minimum': 1000001,
+                'value_band_d_minimum': 100000,
+                'value_band_e_minimum': 10000,
+                'start_date': '2021-04-01',
+                'end_date': '2022-03-31',
+                'sector_classification_value_band': 'Capital intensive',
+                'sector_classification_gva_multiplier': 'Capital intensive',
+            }
+        ]
+    ),
+)
 @pytest.mark.django_db
-def test_score_is_high_value():
-    populate_scoring_criteria()
-    assert not scorecard.score_is_high_value(None, None, None, None)
-    assert not scorecard.score_is_high_value('Food and drink', None, None, None)
-    assert not scorecard.score_is_high_value('Food and drink', regions.LONDON, hirings.ONE_TO_FIVE, None)
-    assert scorecard.score_is_high_value('Food and drink', regions.LONDON, hirings.ONE_HUNDRED_ONE_PLUS, None)
-    assert not scorecard.score_is_high_value('Food and drink', regions.LONDON, hirings.ONE_TO_FIVE, '1000001-3000000')
+def test_score_is_high_value_capital_intensive(mock_gva_bandings):
+    assert not scorecard.score_is_high_value(
+        'Aerospace', regions.NORTHERN_IRELAND, hirings.SIX_TO_FIFTY, spends.LESS_THAN_TEN_THOUSAND, 'abc'
+    )
+    assert not scorecard.score_is_high_value(
+        'Aerospace', regions.NORTHERN_IRELAND, hirings.SIX_TO_FIFTY, spends.FIVE_HUNDRED_THOUSAND_TO_ONE_MILLION, 'abc'
+    )
+    assert scorecard.score_is_high_value(
+        'Aerospace', regions.NORTHERN_IRELAND, hirings.SIX_TO_FIFTY, spends.ONE_MILLION_TO_TWO_MILLION, 'abc'
+    )
+    assert scorecard.score_is_high_value(
+        'Aerospace', regions.NORTHERN_IRELAND, hirings.SIX_TO_FIFTY, spends.TWO_MILLION_TO_FIVE_MILLION, 'abc'
+    )
+    assert scorecard.score_is_high_value(
+        'Aerospace', regions.NORTHERN_IRELAND, hirings.SIX_TO_FIFTY, spends.FIVE_MILLION_TO_TEN_MILLION, 'abc'
+    )
+    assert scorecard.score_is_high_value(
+        'Aerospace', regions.NORTHERN_IRELAND, hirings.SIX_TO_FIFTY, spends.MORE_THAN_TEN_MILLION, 'abc'
+    )
+
+
+@mock.patch(
+    'directory_api_client.api_client.dataservices.get_gva_bandings',
+    return_value=create_response(
+        [
+            {
+                'full_sector_name': 'Food and drink',
+                'value_band_a_minimum': 100,
+                'value_band_b_minimum': 30,
+                'value_band_c_minimum': 51,
+                'value_band_d_minimum': 10,
+                'value_band_e_minimum': 1,
+                'start_date': '2021-04-01',
+                'end_date': '2022-03-31',
+                'sector_classification_value_band': 'Labour intensive',
+                'sector_classification_gva_multiplier': 'Labour intensive',
+            }
+        ]
+    ),
+)
+@pytest.mark.django_db
+def test_score_is_high_value_labour_intensive(mock_gva_bandings):
+    assert not scorecard.score_is_high_value(
+        'Food and drink', regions.NORTHERN_IRELAND, hirings.NO_PLANS_TO_HIRE_YET, spends.LESS_THAN_TEN_THOUSAND, 'abc'
+    )
+    assert not scorecard.score_is_high_value(
+        'Food and drink', regions.NORTHERN_IRELAND, hirings.ONE_TO_FIVE, spends.LESS_THAN_TEN_THOUSAND, 'abc'
+    )
+    assert not scorecard.score_is_high_value(
+        'Food and drink', regions.NORTHERN_IRELAND, hirings.SIX_TO_FIFTY, spends.LESS_THAN_TEN_THOUSAND, 'abc'
+    )
+    assert scorecard.score_is_high_value(
+        'Food and drink',
+        regions.NORTHERN_IRELAND,
+        hirings.FIFTY_ONE_TO_ONE_HUNDRED,
+        spends.LESS_THAN_TEN_THOUSAND,
+        'abc',
+    )
+    assert scorecard.score_is_high_value(
+        'Food and drink', regions.NORTHERN_IRELAND, hirings.ONE_HUNDRED_ONE_PLUS, spends.LESS_THAN_TEN_THOUSAND, 'abc'
+    )
+
+
+@mock.patch('directory_api_client.api_client.dataservices.get_gva_bandings', return_value=create_response([]))
+@mock.patch('international_online_offer.core.scorecard.capture_message')
+def test_logging_users_sector_absent_from_gva_bandings(mock_sentry_capture_message, mock_gva_bandings):
+    scorecard.score_is_high_value(
+        'Futuristic sector',
+        regions.NORTHERN_IRELAND,
+        hirings.NO_PLANS_TO_HIRE_YET,
+        spends.LESS_THAN_TEN_THOUSAND,
+        'abc',
+    )
+    mock_sentry_capture_message.assert_called_once()
+    mock_sentry_capture_message.assert_called_with('Scoring failed for user ID abc.')

@@ -145,3 +145,16 @@ def get_market_widget_data_helper(market):
     )
 
     return matches[0] if len(matches) > 0 else None
+
+
+def get_sector_widget_data_helper(sector):
+    matches = (
+        domestic_models.CountryGuidePage.objects.live()
+        .public()
+        .specific()
+        .filter(
+            tags__name__contains=sector,
+        )
+    )
+
+    return matches if len(matches) > 0 else None
