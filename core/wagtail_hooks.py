@@ -39,6 +39,7 @@ from core.models import (
     CountryTag,
     MicrositePage,
     PersonalisationRegionTag,
+    PersonalisationTradingBlocTag,
     SectorTag,
     TypeOfExportTag,
 )
@@ -724,12 +725,23 @@ class RegionTagsSnippetViewSet(ModelViewSet):
     search_fields = ('name',)
 
 
+class TradingBlocTagsSnippetViewSet(ModelViewSet):
+    form_fields = ['name']  # only show the name field
+    model = PersonalisationTradingBlocTag
+    icon = 'tag'  # change as required
+    menu_label = 'Trading Bloc Tags'
+    menu_order = 400  # will put in 3rd place (000 being 1st, 100 2nd)
+    list_display = ['name', 'slug']
+    search_fields = ('name',)
+
+
 class TagsViewSetGroup(ModelViewSetGroup):
     items = (
         SectorTagsSnippetViewSet,
         CountryTagsSnippetViewSet,
         TypeOfExportTagsSnippetViewSet,
         RegionTagsSnippetViewSet,
+        TradingBlocTagsSnippetViewSet,
     )
     add_to_admin_menu = True
     menu_label = 'Tags'

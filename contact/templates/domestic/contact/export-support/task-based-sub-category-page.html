@@ -16,11 +16,30 @@
         <div class="great-container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full">
+                    {% if features.FEATURE_GUIDED_JOURNEY %}
+                        {% if request.GET.is_guided_journey %}
+                            <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">Export support</h1>
+                        {% endif %}
+                        {% if request.GET.is_goods %}
+                            {% include 'domestic/contact/export-support/includes/goods-widget.html' %}
+                        {% endif %}
+                        {% if request.GET.is_service %}
+                            {% include 'domestic/contact/export-support/includes/service-widget.html' %}
+                        {% endif %}
+                        {% if request.GET.market %}
+                            {% include 'domestic/contact/export-support/includes/market-widget.html' with market=request.GET.market %}
+                        {% endif %}
+                        {% if request.GET.sector %}
+                            {% include 'domestic/contact/export-support/includes/sector-widget.html' %}
+                        {% endif %}
+                    {% endif %}
                     {% if page.page_body %}
                         <div class="govuk-grid-row govuk-!-margin-top-5">
                             <div class="govuk-grid-column-two-thirds">
                                 <div class="govuk-!-margin-bottom-5">
-                                    <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">{{ page.page_title }}</h1>
+                                    {% if not request.GET.is_guided_journey %}
+                                        <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">{{ page.page_title }}</h1>
+                                    {% endif %}
                                     {% if page.page_intro %}{{ page.page_intro| richtext | add_govuk_classes }}{% endif %}
                                 </div>
                             </div>

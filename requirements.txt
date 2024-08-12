@@ -25,7 +25,7 @@ asn1crypto==1.5.1
     #   pyhanko-certvalidator
 async-timeout==4.0.3
     # via redis
-attrs==23.2.0
+attrs==24.2.0
     # via jsonschema
 babel==2.12.1
     # via
@@ -64,7 +64,7 @@ certifi==2024.7.4
     #   opensearch-py
     #   requests
     #   sentry-sdk
-cffi==1.16.0
+cffi==1.17.0
     # via cryptography
 cfgv==3.4.0
     # via pre-commit
@@ -107,7 +107,7 @@ deprecated==1.2.14
     #   opentelemetry-api
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
-directory-api-client==26.7.2
+directory-api-client==26.9.0
     # via -r requirements.in
 directory-ch-client==4.0.2
     # via -r requirements.in
@@ -137,7 +137,7 @@ distlib==0.3.8
     # via virtualenv
 dj-database-url==2.2.0
     # via -r requirements.in
-django==4.2.14
+django==4.2.15
     # via
     #   -r requirements.in
     #   directory-api-client
@@ -200,7 +200,7 @@ django-recaptcha==3.0.0
     # via -r requirements.in
 django-redis==5.4.0
     # via -r requirements.in
-django-staff-sso-client==4.2.2
+django-staff-sso-client==4.3.0
     # via -r requirements.in
 django-storages[boto3]==1.13.2
     # via
@@ -236,7 +236,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==26.1.0
+faker==26.3.0
     # via factory-boy
 filelock==3.15.4
     # via virtualenv
@@ -248,9 +248,9 @@ googleapis-common-protos==1.63.2
     # via
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
-great-components==2.6.4
+great-components==2.6.5
     # via -r requirements.in
-grpcio==1.65.2
+grpcio==1.65.4
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==22.0.0
     # via -r requirements.in
@@ -287,7 +287,7 @@ jsonschema==3.2.0
     #   directory-components
     #   drf-spectacular
     #   great-components
-kombu==5.3.7
+kombu==5.4.0
     # via celery
 l18n==2021.3
     # via wagtail
@@ -357,7 +357,7 @@ opentelemetry-instrumentation==0.43b0
     #   opentelemetry-instrumentation-wsgi
 opentelemetry-instrumentation-wsgi==0.43b0
     # via dbt-copilot-python
-opentelemetry-propagator-aws-xray==1.0.1
+opentelemetry-propagator-aws-xray==1.0.2
     # via dbt-copilot-python
 opentelemetry-proto==1.22.0
     # via
@@ -370,7 +370,7 @@ opentelemetry-sdk==1.22.0
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
     #   opentelemetry-sdk-extension-aws
-opentelemetry-sdk-extension-aws==2.0.1
+opentelemetry-sdk-extension-aws==2.0.2
     # via dbt-copilot-python
 opentelemetry-semantic-conventions==0.43b0
     # via
@@ -467,7 +467,7 @@ pytz==2023.3
     #   icalendar
     #   l18n
     #   pandas
-pyyaml==6.0.1
+pyyaml==6.0.2
     # via
     #   drf-spectacular
     #   pre-commit
@@ -504,7 +504,7 @@ requests-oauthlib==2.0.0
     # via django-staff-sso-client
 s3transfer==0.6.2
     # via boto3
-sentry-sdk==1.45.1
+sentry-sdk==2.12.0
     # via -r requirements.in
 sigauth==5.2.7
     # via
@@ -643,7 +643,7 @@ wrapt==1.16.0
     #   opentelemetry-instrumentation
 xhtml2pdf==0.2.15
     # via -r requirements.in
-zipp==3.19.2
+zipp==3.20.0
     # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:

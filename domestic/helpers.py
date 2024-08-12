@@ -4,6 +4,7 @@ from directory_forms_api_client import actions
 from django.conf import settings
 
 from core.models import CuratedListPage, DetailPage
+from domestic import models as domestic_models
 from sso import helpers as sso_helpers
 
 
@@ -131,3 +132,29 @@ def send_campaign_moderation_notification(email, template_id, full_name=None):
     response = action.save({'full_name': full_name} if full_name else {})
     response.raise_for_status()
     return response
+
+
+def get_market_widget_data_helper(market):
+    matches = (
+        domestic_models.CountryGuidePage.objects.live()
+        .public()
+        .specific()
+        .filter(
+            heading=market.title(),
+        )
+    )
+
+    return matches[0] if len(matches) > 0 else None
+
+
+def get_sector_widget_data_helper(sector):
+    matches = (
+        domestic_models.CountryGuidePage.objects.live()
+        .public()
+        .specific()
+        .filter(
+            tags__name__contains=sector,
+        )
+    )
+
+    return matches if len(matches) > 0 else None

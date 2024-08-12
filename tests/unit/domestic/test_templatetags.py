@@ -10,6 +10,7 @@ from django.utils import timezone
 
 from domestic.templatetags.component_tags import (
     append_past_year_seperator,
+    get_market_widget_data,
     get_meta_description,
     get_pagination_url,
     get_projected_or_actual,
@@ -432,3 +433,15 @@ def test_persist_language(url, language, expected_output):
 def test_replace_underscores():
     assert replace_underscores('hello_world') == 'hello-world'
     assert replace_underscores('hello world') == 'hello world'
+
+
+@mock.patch('domestic.helpers.get_market_widget_data_helper')
+@pytest.mark.django_db
+def test_get_market_widget_data(
+    mock_get_market_widget_data_helper,
+):
+    mock_get_market_widget_data_helper.return_value = None
+
+    result = get_market_widget_data('Chinax')
+
+    assert result is None

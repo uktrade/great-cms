@@ -33,7 +33,7 @@ asttokens==2.4.1
     # via stack-data
 async-timeout==4.0.3
     # via redis
-attrs==23.2.0
+attrs==24.2.0
     # via
     #   allure-python-commons
     #   jsonschema
@@ -75,7 +75,7 @@ botocore==1.27.96
     #   s3transfer
 brotli==1.1.0
     # via geventhttpclient
-browserstack-local==1.2.7
+browserstack-local==1.2.8
     # via browserstack-sdk
 browserstack-sdk==1.12.0
     # via -r requirements_test.in
@@ -95,7 +95,7 @@ certifi==2024.7.4
     #   requests
     #   selenium
     #   sentry-sdk
-cffi==1.16.0
+cffi==1.17.0
     # via cryptography
 cfgv==3.4.0
     # via pre-commit
@@ -124,7 +124,7 @@ colorama==0.4.6
     # via djlint
 configargparse==1.7
     # via locust
-coverage[toml]==7.6.0
+coverage[toml]==7.6.1
     # via
     #   pytest-codecov
     #   pytest-cov
@@ -160,7 +160,7 @@ deprecated==1.2.14
     #   opentelemetry-exporter-otlp-proto-http
 dill==0.3.8
     # via pylint
-directory-api-client==26.7.2
+directory-api-client==26.9.0
     # via -r requirements.in
 directory-ch-client==4.0.2
     # via -r requirements.in
@@ -190,7 +190,7 @@ distlib==0.3.8
     # via virtualenv
 dj-database-url==2.2.0
     # via -r requirements.in
-django==4.2.14
+django==4.2.15
     # via
     #   -r requirements.in
     #   directory-api-client
@@ -256,7 +256,7 @@ django-recaptcha==3.0.0
     # via -r requirements.in
 django-redis==5.4.0
     # via -r requirements.in
-django-staff-sso-client==4.2.2
+django-staff-sso-client==4.3.0
     # via -r requirements.in
 django-storages[boto3]==1.13.2
     # via
@@ -308,7 +308,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==26.1.0
+faker==26.3.0
     # via factory-boy
 filelock==3.15.4
     # via virtualenv
@@ -360,11 +360,11 @@ googleapis-common-protos==1.63.2
     # via
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
-great-components==2.6.4
+great-components==2.6.5
     # via -r requirements.in
 greenlet==3.0.3
     # via gevent
-grpcio==1.65.2
+grpcio==1.65.4
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==22.0.0
     # via -r requirements.in
@@ -433,7 +433,7 @@ jsonschema==3.2.0
     #   directory-components
     #   drf-spectacular
     #   great-components
-kombu==5.3.7
+kombu==5.4.0
     # via celery
 l18n==2021.3
     # via wagtail
@@ -517,7 +517,7 @@ opentelemetry-instrumentation==0.43b0
     #   opentelemetry-instrumentation-wsgi
 opentelemetry-instrumentation-wsgi==0.43b0
     # via dbt-copilot-python
-opentelemetry-propagator-aws-xray==1.0.1
+opentelemetry-propagator-aws-xray==1.0.2
     # via dbt-copilot-python
 opentelemetry-proto==1.22.0
     # via
@@ -530,7 +530,7 @@ opentelemetry-sdk==1.22.0
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
     #   opentelemetry-sdk-extension-aws
-opentelemetry-sdk-extension-aws==2.0.1
+opentelemetry-sdk-extension-aws==2.0.2
     # via dbt-copilot-python
 opentelemetry-semantic-conventions==0.43b0
     # via
@@ -717,14 +717,14 @@ pytz==2023.3
     #   icalendar
     #   l18n
     #   pandas
-pyyaml==6.0.1
+pyyaml==6.0.2
     # via
     #   browserstack-sdk
     #   djlint
     #   drf-spectacular
     #   pre-commit
     #   pyhanko
-pyzmq==26.0.3
+pyzmq==26.1.0
     # via locust
 qrcode==7.4.2
     # via pyhanko
@@ -776,7 +776,7 @@ s3transfer==0.6.2
     # via boto3
 selenium==4.23.1
     # via -r requirements_test.in
-sentry-sdk==1.45.1
+sentry-sdk==2.12.0
     # via -r requirements.in
 sigauth==5.2.7
     # via
@@ -864,7 +864,7 @@ traitlets==5.14.3
     # via
     #   ipython
     #   matplotlib-inline
-trio==0.26.0
+trio==0.26.2
     # via
     #   selenium
     #   trio-websocket
@@ -963,7 +963,7 @@ werkzeug==3.0.3
     #   flask
     #   flask-login
     #   locust
-wheel==0.43.0
+wheel==0.44.0
     # via pip-tools
 whitenoise==6.6.0
     # via -r requirements.in
@@ -979,11 +979,11 @@ wsproto==1.2.0
     # via trio-websocket
 xhtml2pdf==0.2.15
     # via -r requirements.in
-zipp==3.19.2
+zipp==3.20.0
     # via importlib-metadata
 zope-event==5.0
     # via gevent
-zope-interface==6.4.post2
+zope-interface==7.0.1
     # via gevent
 
 # The following packages are considered to be unsafe in a requirements file:
