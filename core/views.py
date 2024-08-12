@@ -38,7 +38,7 @@ from wagtail.images.views.chooser import (
 
 from core import cms_slugs, forms, helpers, serializers
 from core.constants import PRODUCT_MARKET_DATA
-from core.mixins import AuthenticatedUserRequired, PageTitleMixin, GuidedJourneyMixin
+from core.mixins import AuthenticatedUserRequired, GuidedJourneyMixin, PageTitleMixin
 from core.models import CsatUserFeedback, GreatMedia
 from core.pingdom.services import health_check_services
 from directory_constants import choices
