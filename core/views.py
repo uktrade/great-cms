@@ -861,6 +861,10 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, FormView):
         return super().get_context_data(
             **kwargs,
             progress_position=4,
+            categories=[
+                {'name': 'Customs, taxes and declarations', 'matcher': 'customs-taxes-and-declarations'},
+                {'name': 'Routes to market', 'matcher': 'routes-to-market'},
+            ],
         )
 
     def get_success_url(self):
