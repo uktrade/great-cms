@@ -9,6 +9,7 @@ from django.test import override_settings
 from django.utils import timezone
 
 from domestic.templatetags.component_tags import (
+    adjust_country_pronunciation,
     append_past_year_seperator,
     get_market_widget_data,
     get_meta_description,
@@ -445,3 +446,12 @@ def test_get_market_widget_data(
     result = get_market_widget_data('Chinax')
 
     assert result is None
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    'country, expected_output',
+    (('England', 'England'), ('Bahamas', 'the Bahamas'), ('bahamas', 'the Bahamas')('bahamaS', 'the Bahamas')),
+)
+def test_adjust_country_pronunciation(country, expected_output):
+    assert adjust_country_pronunciation(country) == expected_output

@@ -302,3 +302,13 @@ def get_market_widget_data(market):
 @register.filter
 def get_sector_widget_data(sector):
     return get_sector_widget_data_helper(sector)
+
+
+@register.simple_tag
+def adjust_country_pronunciation(country):
+    countries_pronounced_with_the_first = ['united kingdom', 'bahamas']
+    country = country.lower()
+
+    if country in countries_pronounced_with_the_first:
+        return f'the {country.title()}'
+    return country
