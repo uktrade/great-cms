@@ -1,6 +1,6 @@
 # Django
 # ------------
-django==4.2.14
+django==4.2.15
 django-environ==0.11.2
 django-redis==5.4.0
 django_storages[boto3]==1.13.2
@@ -35,8 +35,8 @@ sentry-sdk>=1.20.0,<2.0.0
 
 # DBT packages
 # ------------
-great-components==2.6.4
-directory-api-client==26.8.0
+great-components==2.6.5
+directory-api-client==26.9.0
 directory-ch-client==4.0.2
 directory-client-core==7.2.13
 directory-components==40.2.3
@@ -45,7 +45,7 @@ directory-forms-api-client==7.4.2
 directory-healthcheck==3.7
 directory-sso-api-client==7.2.7
 directory-validators==9.3.4
-django-staff-sso-client==4.2.2
+django-staff-sso-client==4.3.0
 dbt-copilot-python==0.2.1
 
 # Other Python deps
