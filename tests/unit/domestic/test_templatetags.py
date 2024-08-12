@@ -451,7 +451,7 @@ def test_get_market_widget_data(
 @pytest.mark.django_db
 @pytest.mark.parametrize(
     'country, expected_output',
-    (('England', 'England'), ('Bahamas', 'the Bahamas'), ('bahamas', 'the Bahamas')('bahamaS', 'the Bahamas')),
+    (('England', 'England'), ('Bahamas', 'the Bahamas'), ('bahamas', 'the Bahamas',) ('bahamaS', 'the Bahamas')),
 )
 def test_adjust_country_pronunciation(country, expected_output):
     assert adjust_country_pronunciation(country) == expected_output
