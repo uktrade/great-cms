@@ -125,15 +125,17 @@
         {% endif %}
         {% include './header.html' %}
     {% endblock %}
+    {% block breadcrumb_region %}
+    {% endblock %}
     {% block body_content_container %}
         <main id="content"
               tabindex="-1"
               class="{% block css_layout_class %}{% endblock css_layout_class %}"
               role="main">
             {% block content %}{% endblock %}
-            {% include 'components/inline_feedback/was_page_useful.html' %}
             {% block content_after %}{% endblock %}
         </main>
+        {% include 'components/inline_feedback/was_page_useful.html' %}
     {% endblock %}
     {% block body_footer %}
         {% include './footer.html' %}

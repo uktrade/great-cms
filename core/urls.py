@@ -8,9 +8,7 @@ from wagtail.contrib.sitemaps.views import sitemap as wagtail_sitemap
 from config.url_redirects import redirects
 from core import cms_slugs, views, views_api
 from domestic.views.campaign import MicrositeView
-
 from learn.views import HCSATView
-
 
 app_name = 'core'
 

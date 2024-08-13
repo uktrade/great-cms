@@ -1,5 +1,4 @@
 from django.http import HttpResponseRedirect, JsonResponse
-
 from django.views import View
 
 from learn.forms import CsatUserFeedbackForm
