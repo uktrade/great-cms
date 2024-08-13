@@ -1,0 +1,67 @@
+// Hero banner
+
+.great-hero {
+    position: relative;
+    padding-top: 0;
+    padding-bottom: 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+
+    & > .container {
+        min-height: 200px;
+        overflow: visible;
+        padding-top: 45px;
+    }
+
+    .great-hero__container {
+        @include govuk-media-query($from: desktop) {
+          display: flex;
+        }
+    }
+
+    .great-hero__text {
+        max-width: 100%;
+        min-height: 335px;
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        padding-bottom: 5px;
+        align-items: flex-start;
+
+        .great-hero-heading {
+            color: $great-white;
+            font-size: 32px;
+            text-shadow: 1px 1px 1px black;
+        }
+
+        .great-hero-subheading {
+            color: $great-white;
+            font-size: 18px;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 1px black;
+        }
+
+        .great-hero-description {
+            margin-bottom: 0;
+        }
+
+    }
+
+    @media (min-width: 641px) {
+        .great-hero__text {
+            min-height: 480px;
+            justify-content: center;
+
+            .great-hero-heading {
+                font-size: 60px;
+            }
+
+            .great-hero-subheading {
+                font-size: 24px;
+                margin-bottom: 0px;
+            }
+        }
+    }
+}

@@ -83,6 +83,7 @@ INSTALLED_APPS = [
     'international_online_offer.apps.ExpandYourBusinessConfig',
     'international.apps.InternationalConfig',
     'international_investment.apps.InvestmentConfig',
+    'international_buy_from_the_uk.apps.BuyFromTheUKConfig',
     'users.apps.UsersConfig',
     'learn.apps.LearnConfig',
     'captcha',

@@ -289,6 +289,24 @@ def mock_get_dbt_sectors():
                     'sub_sector_name': 'Component manufacturing',
                     'sub_sub_sector_name': 'Electronic components',
                 },
+                {
+                    'id': 243,
+                    'sector_id': 'SL0223',
+                    'full_sector_name': 'Food and drink : Bakery products',
+                    'sector_cluster_name': 'Agriculture, Food and Drink',
+                    'sector_name': 'Food and drink',
+                    'sub_sector_name': 'Bakery products',
+                    'sub_sub_sector_name': '',
+                },
+                {
+                    'id': 325,
+                    'sector_id': 'SL0329',
+                    'full_sector_name': 'Technology and smart cities : Software : Artificial intelligence',
+                    'sector_cluster_name': 'Science and Technology',
+                    'sector_name': 'Technology and smart cities',
+                    'sub_sector_name': 'Software',
+                    'sub_sub_sector_name': 'Artificial intelligence',
+                },
             ]
         ),
     ).start()

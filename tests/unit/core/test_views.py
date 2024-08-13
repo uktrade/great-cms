@@ -4,6 +4,7 @@ from unittest import mock
 from unittest.mock import MagicMock, Mock, patch
 from urllib.parse import urlencode
 
+from django.contrib.sessions.middleware import SessionMiddleware
 import pytest
 from directory_forms_api_client import actions
 from django.conf import settings
@@ -615,9 +616,12 @@ def test_get_suggested_countries(mock_get_suggested_countries_by_hs_code, client
 
 
 @pytest.mark.django_db
-def test_list_page_uses_right_template(domestic_homepage, rf, user):
+def test_list_page_uses_right_template(domestic_homepage, rf, user, get_response):
     request = rf.get('/')
     request.user = user
+    middleware = SessionMiddleware(get_response)
+    middleware.process_request(request)
+    request.session.save()
     topic_page = CuratedListPageFactory(parent=domestic_homepage)
     lesson_page = LessonPageFactory(parent=topic_page)
     response = lesson_page.serve(request)

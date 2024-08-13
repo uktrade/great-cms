@@ -135,8 +135,7 @@ class BaseContentPage(
                 retval.append({'title': crumb.breadcrumbs_label, 'url': crumb.url})
             else:
                 retval.append({'title': crumb.title, 'url': crumb.url})
-        if settings.FEATURE_DESIGN_SYSTEM:
-            retval.pop()
+        retval.pop()
         return retval
 
     def get_absolute_url(self):
@@ -215,8 +214,7 @@ class TaggedBaseContentPage(
                 retval.append({'title': crumb.breadcrumbs_label, 'url': crumb.url})
             else:
                 retval.append({'title': crumb.title, 'url': crumb.url})
-        if settings.FEATURE_DESIGN_SYSTEM:
-            retval.pop()
+        retval.pop()
         return retval
 
     def get_absolute_url(self):
