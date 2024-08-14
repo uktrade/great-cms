@@ -58,7 +58,7 @@ class ActivityStreamCmsContentPagination(ActivityStreamBasePagination):
         return page
 
 
-class ActivityStreamWhereToExportPagination(ActivityStreamBasePagination):
+class ActivityStreamHCSATPagination(ActivityStreamBasePagination):
     page_size = 100
 
     def paginate_queryset(self, queryset, request, view=None):
