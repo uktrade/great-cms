@@ -9,5 +9,5 @@ urlpatterns = [
         'contact/',
         views.ContactView.as_view(),
         name='contact',
-    ),
+    )
 ]
