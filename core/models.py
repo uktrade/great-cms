@@ -66,9 +66,7 @@ from exportplan.core.data import (
     SECTION_SLUGS as EXPORTPLAN_SLUGS,
     SECTIONS as EXPORTPLAN_URL_MAP,
 )
-
 from learn.forms import CsatUserFeedbackForm
-
 
 # If we make a Redirect appear as a Snippet, we can sync it via Wagtail-Transfer
 register_snippet(Redirect)
@@ -1189,7 +1187,7 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
 
             # Should be unreachable in current learn page with csat disabled for non-js, keeping for safety:
             return HttpResponseRedirect(self.get_success_url(request))
-        
+
         return super().serve(request, **kwargs)
 
     @cached_property
@@ -1242,6 +1240,7 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
     @property
     def get_csat_model(self):
         from learn.models import CsatUserFeedback
+
         return CsatUserFeedback
 
     def get_success_url(self, request):

@@ -9,7 +9,6 @@ from config.url_redirects import redirects
 from core import cms_slugs, views, views_api
 from domestic.views.campaign import MicrositeView
 
-
 app_name = 'core'
 
 SIGNUP_URL = reverse_lazy('core:signup')

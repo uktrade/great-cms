@@ -4,10 +4,10 @@ from unittest import mock
 from unittest.mock import MagicMock, Mock, patch
 from urllib.parse import urlencode
 
-from django.contrib.sessions.middleware import SessionMiddleware
 import pytest
 from directory_forms_api_client import actions
 from django.conf import settings
+from django.contrib.sessions.middleware import SessionMiddleware
 from django.http import JsonResponse
 from django.http.cookie import SimpleCookie
 from django.test import Client, TestCase, modify_settings, override_settings
