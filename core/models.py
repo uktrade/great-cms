@@ -1159,10 +1159,11 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         if request.method == 'POST':
             data = request.POST
             form = CsatUserFeedbackForm(data=data)
+            redirect_url = f'{self.get_success_url(request)}#hcsat_section'
 
             if 'cancelButton' in data:
                 request.session['learn_to_export_csat_stage'] = 2
-                return HttpResponseRedirect(f'{self.get_success_url(request)}#hcsat_section')
+                return HttpResponseRedirect(redirect_url)
 
             if form.is_valid():
 
@@ -1177,22 +1178,16 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
                 }
                 if self.js_enabled(request):
                     return JsonResponse(data)
-                    # Csat should only be completed once per session for learn
-                    # csat_stage = self.request.session.get('learn_to_export_csat_stage', 0)
-                    # if csat_stage == 1:
-                    #    del self.request.session['learn_to_export_csat_stage']
-                return HttpResponseRedirect(f'{self.get_success_url(request)}#hcsat_section')
+                return HttpResponseRedirect(redirect_url)
 
             if self.js_enabled(request):
                 return JsonResponse(form.errors, status=400)
-            
+
             return TemplateResponse(
                 request,
                 self.get_template(request, *args, **kwargs),
-                self.get_context(request, form=form,  *args, **kwargs),
+                self.get_context(request, form=form, *args, **kwargs),
             )
-            
-            # return self.render_to_response(self.context_data(request, form=form))
 
         return super().serve(request, **kwargs)
 
@@ -1245,8 +1240,9 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
 
     @property
     def get_csat_model(self):
+        """Import the learn CSAT model here to avoid import conflicts
+        """
         from learn.models import CsatUserFeedback
-
         return CsatUserFeedback
 
     def get_success_url(self, request):
@@ -1320,7 +1316,7 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         context['csat_stage'] = stage
         if stage == 2:
             del request.session['learn_to_export_csat_stage']
-        
+
         form = kwargs.get('form', CsatUserFeedbackForm(data=self.get_initial(request)))
         context['form'] = form
 
