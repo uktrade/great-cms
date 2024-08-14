@@ -1,25 +1,27 @@
 {% if field %}
-    {% if field.label %}
-        <label class="govuk-label govuk-label--s"
-               for="{% if labelForId %}{{ labelForId }}{% else %}{{ field.id_for_label }}{% endif %}">
-            {{ field.label }}
-            {% if optional %}<span>(Optional)</span>{% endif %}
-            {% if dynamicText %}{{ dynamicText }}{% endif %}
-        </label>
-    {% endif %}
-    {% if field.help_text %}
-        <div class="govuk-hint govuk-!-margin-bottom-2"
-             id="help_for_{{ field.auto_id }}">{{ field.help_text|safe }}</div>
-    {% endif %}
-    {% for error in field.errors %}
-        <p class="govuk-error-message" role="alert">
-            <span class="govuk-visually-hidden">Error:</span> {{ error }}
-        </p>
-    {% endfor %}
-    {% if inputWrapperClass %}
-        <div class="{{ inputWrapperClass }}">
-            {% if inputPrefixClass %}<div class="{{ inputPrefixClass }}" aria-hidden="true">{{ inputPrefixText }}</div>{% endif %}
+    <div class="{% if field.errors %} govuk-form-group--error{% endif %}">
+        {% if field.label %}
+            <label class="govuk-label govuk-label--s"
+                   for="{% if labelForId %}{{ labelForId }}{% else %}{{ field.id_for_label }}{% endif %}">
+                {{ field.label }}
+                {% if optional %}<span>(Optional)</span>{% endif %}
+                {% if dynamicText %}{{ dynamicText }}{% endif %}
+            </label>
         {% endif %}
-        {{ field }}
-        {% if inputWrapperClass %}</div>{% endif %}
+        {% if field.help_text %}
+            <div class="govuk-hint govuk-!-margin-bottom-2"
+                 id="help_for_{{ field.auto_id }}">{{ field.help_text|safe }}</div>
+        {% endif %}
+        {% for error in field.errors %}
+            <p class="govuk-error-message" role="alert">
+                <span class="govuk-visually-hidden">Error:</span> {{ error }}
+            </p>
+        {% endfor %}
+        {% if inputWrapperClass %}
+            <div class="{{ inputWrapperClass }}">
+                {% if inputPrefixClass %}<div class="{{ inputPrefixClass }}" aria-hidden="true">{{ inputPrefixText }}</div>{% endif %}
+            {% endif %}
+            {{ field }}
+            {% if inputWrapperClass %}</div>{% endif %}
+    </div>
 {% endif %}
