@@ -94,14 +94,12 @@
 {% endif %}
 <div class="govuk-!-padding-0">{% include 'learn/promo.html' with bg_class='great-bg-light-blue' %}</div>
 {% block body_inline_feedback %}
-{% if is_logged_in %}
-    <section id="hcsat_section"
-                class="govuk-!-padding-bottom-6 great-bg-white clearfix govuk-!-margin-top-0 great-border-thin-top-lighter-blue great-hidden">
-            <div class="container">
-                {% include '../export_academy/includes/csat_user_feedback.html' with form=form csat_stage=csat_stage %}
-            </div>
-    </section>
-{% endif %}
+<section id="hcsat_section"
+        class="govuk-!-padding-bottom-6 great-bg-white clearfix govuk-!-margin-top-0 great-border-thin-top-lighter-blue great-hidden">
+    <div class="container">
+        {% include '../export_academy/includes/csat_user_feedback.html' with form=form csat_stage=csat_stage %}
+    </div>
+</section>
 {% endblock %}
 {% endblock %}
 {% block body_js %}
