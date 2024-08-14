@@ -46,7 +46,7 @@ class ActivityStreamCmsContentFilter(FilterSet):
         return queryset.filter(id__gt=value)
 
 
-class ActivityStreamWhereToExportFilter(FilterSet):
+class ActivityStreamHCSATFilter(FilterSet):
     after = CharFilter(method='filter_after')
 
     def filter_after(self, queryset, name, value):
