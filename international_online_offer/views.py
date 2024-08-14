@@ -247,12 +247,12 @@ class ContactDetailsView(GA360Mixin, FormView):
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
-        leading_title = 'Provide your details so that we can contact you - we may be able to help.'
+        leading_title = 'Provide your details so that we can contact you — we may be able to help.'
         if self.request.user.is_authenticated:
             triage_data = get_triage_data_for_user(self.request)
             if triage_data:
                 if triage_data.is_high_value:
-                    leading_title = """You may be eligible for one-to-one support for your expansion.
+                    leading_title = """You may be eligible for one—to—one support for your expansion.
                     Provide your details so that an adviser can contact you to discuss your plans."""
 
         return super().get_context_data(
