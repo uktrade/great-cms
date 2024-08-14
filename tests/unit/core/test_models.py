@@ -1,9 +1,9 @@
 import time
 from unittest import mock
 
-from django.contrib.sessions.middleware import SessionMiddleware
 import pytest
 from django.contrib.auth.models import AnonymousUser
+from django.contrib.sessions.middleware import SessionMiddleware
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.http import Http404

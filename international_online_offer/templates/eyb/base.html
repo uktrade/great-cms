@@ -4,12 +4,16 @@
     <link rel="stylesheet"
           href="{% static 'expand_your_business_styles.css' %}">
 {% endblock %}
-{% block body_content_container %}
-    <div class="govuk-!-padding-bottom-3 {% if request.path == '/international/expand-your-business-in-the-uk/' %}eyb-light-blue-background{% endif %}">
+{% block css_layout_class %}
+    {% if request.path != '/international/expand-your-business-in-the-uk/' %}govuk-main-wrapper{% endif %}
+    {{ block.super }}
+{% endblock %}
+{% block breadcrumb_region %}
+    <div class="{% if request.path == '/international/expand-your-business-in-the-uk/' %}eyb-light-blue-background{% endif %}">
         {% include './includes/govuk/phase_banner.html' %}
-        {% include './includes/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
-        {% include './includes/back_link.html' with back_url=back_url %}
     </div>
+    {% include './includes/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
+    {% include './includes/back_link.html' with back_url=back_url %}
     {{ block.super }}
 {% endblock %}
 {% block body_js %}
