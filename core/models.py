@@ -7,8 +7,9 @@ from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.forms import Select
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.template.loader import render_to_string
+from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
@@ -66,9 +67,7 @@ from exportplan.core.data import (
     SECTION_SLUGS as EXPORTPLAN_SLUGS,
     SECTIONS as EXPORTPLAN_URL_MAP,
 )
-
 from learn.forms import CsatUserFeedbackForm
-
 
 # If we make a Redirect appear as a Snippet, we can sync it via Wagtail-Transfer
 register_snippet(Redirect)
@@ -1156,6 +1155,40 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
 
     def serve(self, request, *args, **kwargs):
         self.handle_page_view(request)
+
+        if request.method == 'POST':
+            data = request.POST
+            form = CsatUserFeedbackForm(data=data)
+            redirect_url = f'{self.get_success_url(request)}#hcsat_section'
+
+            if 'cancelButton' in data:
+                request.session['learn_to_export_csat_stage'] = 2
+                return HttpResponseRedirect(redirect_url)
+
+            if form.is_valid():
+
+                csat = self.get_csat(request)
+                if csat:
+                    csat_feedback = self.update_csat(request, form, csat)
+                else:
+                    csat_feedback = self.create_csat(request, form)
+
+                data = {
+                    'pk': csat_feedback.pk,
+                }
+                if self.js_enabled(request):
+                    return JsonResponse(data)
+                return HttpResponseRedirect(redirect_url)
+
+            if self.js_enabled(request):
+                return JsonResponse(form.errors, status=400)
+
+            return TemplateResponse(
+                request,
+                self.get_template(request, *args, **kwargs),
+                self.get_context(request, form=form, *args, **kwargs),
+            )
+
         return super().serve(request, **kwargs)
 
     @cached_property
@@ -1205,12 +1238,60 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
             _path = backlink_path.split('/')[3]
             return self._export_plan_url_map.get(_path)
 
-    def get_csat(self, request):
+    @property
+    def get_csat_model(self):
+        """Import the learn CSAT model here to avoid import conflicts"""
         from learn.models import CsatUserFeedback
 
+        return CsatUserFeedback
+
+    def get_success_url(self, request):
+        return request.path
+
+    def js_enabled(self, request):
+        if 'js_enabled' in request.get_full_path():
+            return True
+        return False
+
+    def update_csat(self, request, form, csat):
+
+        csat_feedback, created = self.get_csat_model.objects.update_or_create(
+            id=csat.id,
+            defaults={
+                'experienced_issues': form.cleaned_data['experience'],
+                'other_detail': form.cleaned_data['experience_other'],
+                'likelihood_of_return': form.cleaned_data['likelihood_of_return'],
+                'service_improvements_feedback': form.cleaned_data['feedback_text'],
+            },
+        )
+        csat_stage = request.session.get('learn_to_export_csat_stage', 0)
+
+        if csat_stage == 0:
+            request.session['learn_to_export_csat_stage'] = 1
+        else:
+            request.session['learn_to_export_csat_stage'] = 2
+
+        return csat_feedback
+
+    def create_csat(self, request, form):
+        csat_feedback = self.get_csat_model.objects.create(
+            satisfaction_rating=form.cleaned_data['satisfaction'],
+            experienced_issues=form.cleaned_data['experience'],
+            other_detail=form.cleaned_data['experience_other'],
+            likelihood_of_return=form.cleaned_data['likelihood_of_return'],
+            service_improvements_feedback=form.cleaned_data['feedback_text'],
+            URL=self.get_success_url(request),
+            user_journey='ARTICLE_PAGE',
+        )
+        request.session['learn_to_export_csat_id'] = csat_feedback.id
+        request.session['learn_to_export_csat_stage'] = 1
+
+        return csat_feedback
+
+    def get_csat(self, request):
         csat_id = request.session.get('learn_to_export_csat_id')
         if csat_id:
-            return CsatUserFeedback.objects.get(id=csat_id)
+            return self.get_csat_model.objects.get(id=csat_id)
         return None
 
     def get_stage(self, request):
@@ -1235,7 +1316,9 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         context['csat_stage'] = stage
         if stage == 2:
             del request.session['learn_to_export_csat_stage']
-        context['form'] = CsatUserFeedbackForm(data=self.get_initial(request))
+
+        form = kwargs.get('form', CsatUserFeedbackForm(data=self.get_initial(request)))
+        context['form'] = form
 
         # Prepare backlink to the export plan if we detect one and can validate it
         _backlink = self._get_backlink(request)
