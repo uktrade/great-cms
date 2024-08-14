@@ -1,3 +1,4 @@
+from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from django.forms import (
     BooleanField,
     CharField,
@@ -22,68 +23,12 @@ from international_online_offer.core.region_sector_helpers import (
 from international_online_offer.services import get_dbt_sectors
 
 
-class ContactForm(forms.Form):
+class ContactForm(GovNotifyEmailActionMixin, forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         sector_data_json = get_dbt_sectors()
-        sector_data_json = [
-            {
-                'id': 1,
-                'sector_id': 'SL0003',
-                'full_sector_name': 'Advanced engineering : Metallurgical process plant',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Advanced engineering',
-                'sub_sector_name': 'Metallurgical process plant',
-                'sub_sub_sector_name': '',
-            },
-            {
-                'id': 6,
-                'sector_id': 'SL00056',
-                'full_sector_name': 'Advanced engineering',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Advanced engineering',
-                'sub_sector_name': '',
-                'sub_sub_sector_name': '',
-            },
-            {
-                'id': 2,
-                'sector_id': 'SL0004',
-                'full_sector_name': 'Advanced engineering : Metals, minerals and materials',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Advanced engineering',
-                'sub_sector_name': 'Metals, minerals and materials',
-                'sub_sub_sector_name': '',
-            },
-            {
-                'id': 3,
-                'sector_id': 'SL0050',
-                'full_sector_name': 'Automotive',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Automotive',
-                'sub_sector_name': '',
-                'sub_sub_sector_name': '',
-            },
-            {
-                'id': 4,
-                'sector_id': 'SL0052',
-                'full_sector_name': 'Automotive : Component manufacturing : Bodies and coachwork',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Automotive',
-                'sub_sector_name': 'Component manufacturing',
-                'sub_sub_sector_name': 'Bodies and coachwork',
-            },
-            {
-                'id': 5,
-                'sector_id': 'SL0053',
-                'full_sector_name': 'Automotive : Component manufacturing : Electronic components',
-                'sector_cluster_name': 'Sustainability and Infrastructure',
-                'sector_name': 'Automotive',
-                'sub_sector_name': 'Component manufacturing',
-                'sub_sub_sector_name': 'Electronic components',
-            },
-        ]
         self.sub_sectors_choices = get_parent_sectors_as_choices(sector_data_json)
-        self.fields['industry'].choices = (('', ''),) + self.sub_sectors_choices
+        self.fields['sector'].choices = (('', ''),) + self.sub_sectors_choices
 
     given_name = CharField(
         label='Given name',
@@ -119,7 +64,7 @@ class ContactForm(forms.Form):
         },
     )
     # industry choices are set in form constructor to avoid set effects when importing module
-    industry = ChoiceField(
+    sector = ChoiceField(
         label='Your industry',
         help_text='Search a list of sectors and select the closest one',
         required=True,
@@ -148,9 +93,12 @@ class ContactForm(forms.Form):
     country = ChoiceField(
         label='Your country',
         help_text='Search and select a country, region or territory',
-        required=False,
+        required=True,
         widget=Select(attrs={'id': 'js-country-select', 'class': 'govuk-input'}),
         choices=(('', ''),) + COMPANY_LOCATION_CHOICES,
+        error_messages={
+            'required': 'Search and select a country, region or territory',
+        },
     )
     body = CharField(
         label='Describe what products or services you need',
@@ -158,7 +106,7 @@ class ContactForm(forms.Form):
         max_length=1000,
         required=True,
         error_messages={
-            'required': 'You must enter what products or services you need',
+            'required': 'Enter what products or services you need',
         },
         widget=Textarea(attrs={'class': 'govuk-textarea govuk-js-character-count', 'rows': 7}),
     )
@@ -167,6 +115,11 @@ class ContactForm(forms.Form):
         required=False,
         widget=Select(attrs={'class': 'govuk-select govuk-!-width-full'}),
         choices=(('', ''),) + SOURCE_CHOICES,
+    )
+    source_other = CharField(
+        label='Other source (optional)',
+        required=False,
+        widget=TextInput(attrs={'class': 'govuk-input'}),
     )
     email_contact_consent = BooleanField(
         required=False,

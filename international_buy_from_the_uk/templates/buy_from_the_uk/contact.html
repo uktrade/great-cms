@@ -11,6 +11,9 @@
 {% block content %}
     <div class="govuk-width-container great-container">
         <div class="govuk-grid-row govuk-!-margin-top-8">
+            <div class="govuk-grid-column-two-thirds">{% include 'eyb/includes/error_summary.html' %}</div>
+        </div>
+        <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds-from-desktop">
                 <h1 class="govuk-heading-l">Contact us about buying from the UK</h1>
             </div>
@@ -56,8 +59,8 @@
                     </div>
                     <div class="govuk-grid-row govuk-!-margin-bottom-4">
                         <div class="govuk-grid-column-full">
-                            <div class="{% if form.industry.errors %} govuk-form-group--error{% endif %}">
-                                {% include 'international/includes/form_field.html' with field=form.industry %}
+                            <div class="{% if form.sector.errors %} govuk-form-group--error{% endif %}">
+                                {% include 'international/includes/form_field.html' with field=form.sector %}
                             </div>
                         </div>
                     </div>
@@ -93,6 +96,13 @@
                         <div class="govuk-grid-column-full">
                             <div class="{% if form.source.errors %} govuk-form-group--error{% endif %}">
                                 {% include 'international/includes/form_field.html' with field=form.source %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="govuk-grid-row govuk-visually-hidden">
+                        <div class="govuk-grid-column-full">
+                            <div class="{% if form.source_other.errors %} govuk-form-group--error{% endif %}">
+                                {% include 'international/includes/form_field.html' with field=form.source_other %}
                             </div>
                         </div>
                     </div>
@@ -454,12 +464,17 @@
         }
 
         function sectorSuggest(query, populateResults) {
-            if (!query) return [];
             let results = [];
-            for (let i = 0; i < allSectors.length; i++) {
-                const parentSector = allSectors[i].sector_name;
-                if (parentSector.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
+            if (!query) {
+                for (let i = 0; i < allSectors.length; i++) {
                     results.push(allSectors[i]);
+                }
+            } else {
+                for (let i = 0; i < allSectors.length; i++) {
+                    const parentSector = allSectors[i].sector_name;
+                    if (parentSector.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
+                        results.push(allSectors[i]);
+                    }
                 }
             }
             populateResults(results);
@@ -468,6 +483,7 @@
         accessibleAutocomplete.enhanceSelectElement({
             selectElement: document.getElementById('js-industry-select'),
             source: sectorSuggest,
+            showAllValues: true,
             autoselect: false,
             templates: {
                 inputValue: (selectedSectorRow) => {
