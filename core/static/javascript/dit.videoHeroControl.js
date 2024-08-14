@@ -2,8 +2,8 @@ class VideoPlayerController {
     constructor(video, controlBtn, options = {}) {
         this.video = video;
         this.controlBtn = controlBtn;
-        this.playClass = options.playClass || 'atlas-hero__video-control-play';
-        this.pauseClass = options.pauseClass || 'atlas-hero__video-control-pause';
+        this.playClass = options.playClass || 'great-hero__video-control-play';
+        this.pauseClass = options.pauseClass || 'great-hero__video-control-pause';
 
         this.init();
     }
@@ -32,7 +32,7 @@ class VideoPlayerController {
         this.controlBtn.classList.remove(this.playClass, this.pauseClass);
         this.controlBtn.classList.add(btnClass);
         this.controlBtn.setAttribute('aria-label', ariaLabel);
-        this.controlBtn.querySelector('.atlas-hero__video-control-icon span').textContent = buttonText;
+        this.controlBtn.querySelector('.great-hero__video-control-icon span').textContent = buttonText;
     }
 }
 

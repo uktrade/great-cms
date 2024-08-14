@@ -13,23 +13,26 @@
         {% include 'microsites/includes/microsite_nav.html' with current_language=current_language available_languages=available_languages title=page.get_site_title menu_items=page.get_menu_items active_url=request.path use_domestic_logo=page.get_use_domestic_header_logo %}
         {% image page.hero_image original as hero_image %}
         {% if page.hero_video %}
-        <div class="great-full-width-header-image">
-        <video id="video-test" class="great-full-width great-height-360-desktop"
-                {% if page.hero_video.thumbnail %}poster="{{ page.hero_video.thumbnail }}"{% endif %}
-                autoplay loop muted disableRemotePlayback>
-                {% for source in page.hero_video.sources %}
-                    <source src="{{ source.src }}" type="{{ source.type }}">
-                {% endfor %}
-            </video>
+        
             <div class="">
-                <button id="js-video-control" class="" aria-pressed="false" aria-label="Pause video">
-                    <span class="atlas-hero__video-control-icon">
-                        <span class="atlas-visually-hidden">Pause</span>
-                    </span>
-                </button>
-                <div aria-live="polite" class="atlas-visually-hidden" id="js-video-status">Video playing</div>
+                <div class="great-full-width-header-image">
+                    <video id="video-test" class="great-full-width great-hero-video great-height-360-desktop"
+                            {% if page.hero_video.thumbnail %}poster="{{ page.hero_video.thumbnail }}"{% endif %}
+                            autoplay loop muted disableRemotePlayback>
+                            {% for source in page.hero_video.sources %}
+                                <source src="{{ source.src }}" type="{{ source.type }}">
+                            {% endfor %}
+                    </video>
+                    <div class="great-hero__video-control-container">
+                        <button id="js-video-control" class="great-hero-video-control great-hero__video-control-pause" aria-pressed="false" aria-label="Pause video">
+                            <span class="great-hero__video-control-icon">
+                                <span class="great-visually-hidden">Pause</span>
+                            </span>
+                        </button>
+                        <div aria-live="polite" class="great-visually-hidden" id="js-video-status">Video playing</div>
+                    </div>
+                </div>
             </div>
-        </div>
         {% elif hero_image %}
             <div class="great-full-width-header-image"
                  style="background-image: url({{ hero_image.url }})"></div>
