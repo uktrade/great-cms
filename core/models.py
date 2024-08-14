@@ -1240,9 +1240,9 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
 
     @property
     def get_csat_model(self):
-        """Import the learn CSAT model here to avoid import conflicts
-        """
+        """Import the learn CSAT model here to avoid import conflicts"""
         from learn.models import CsatUserFeedback
+
         return CsatUserFeedback
 
     def get_success_url(self, request):
