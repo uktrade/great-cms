@@ -93,14 +93,13 @@
 </div>
 {% endif %}
 <div class="govuk-!-padding-0">{% include 'learn/promo.html' with bg_class='great-bg-light-blue' %}</div>
-{% block body_inline_feedback %}
+{% block body_inline_feedback %}{% endblock %}
 <section id="hcsat_section"
-        class="govuk-!-padding-bottom-6 great-bg-white clearfix govuk-!-margin-top-0 great-border-thin-top-lighter-blue great-hidden">
+        class="govuk-!-padding-bottom-6 great-bg-white clearfix govuk-!-margin-top-0 great-border-thin-top-lighter-blue">
     <div class="container">
         {% include '../export_academy/includes/csat_user_feedback.html' with form=form csat_stage=csat_stage %}
     </div>
 </section>
-{% endblock %}
 {% endblock %}
 {% block body_js %}
     {{ block.super }}
@@ -136,7 +135,7 @@
     <script>
          if (sessionStorage.getItem("CsatComplete")!=='true'){
             var csat_form = document.getElementById("hcsat_section")
-            csat_form.classList.remove('great-hidden')
+            
             document.addEventListener('DOMContentLoaded', () => {
                 new CsatFormHandler('csat-form');
             });

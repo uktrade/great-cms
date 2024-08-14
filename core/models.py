@@ -9,6 +9,7 @@ from django.db import models
 from django.forms import Select
 from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.template.loader import render_to_string
+from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
@@ -1161,7 +1162,7 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
 
             if 'cancelButton' in data:
                 request.session['learn_to_export_csat_stage'] = 2
-                return HttpResponseRedirect(self.get_success_url(request))
+                return HttpResponseRedirect(f'{self.get_success_url(request)}#hcsat_section')
 
             if form.is_valid():
 
@@ -1180,13 +1181,18 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
                     # csat_stage = self.request.session.get('learn_to_export_csat_stage', 0)
                     # if csat_stage == 1:
                     #    del self.request.session['learn_to_export_csat_stage']
-                return HttpResponseRedirect(self.get_success_url(request))
+                return HttpResponseRedirect(f'{self.get_success_url(request)}#hcsat_section')
 
             if self.js_enabled(request):
                 return JsonResponse(form.errors, status=400)
-
-            # Should be unreachable in current learn page with csat disabled for non-js, keeping for safety:
-            return HttpResponseRedirect(self.get_success_url(request))
+            
+            return TemplateResponse(
+                request,
+                self.get_template(request, *args, **kwargs),
+                self.get_context(request, form=form,  *args, **kwargs),
+            )
+            
+            # return self.render_to_response(self.context_data(request, form=form))
 
         return super().serve(request, **kwargs)
 
@@ -1314,7 +1320,9 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         context['csat_stage'] = stage
         if stage == 2:
             del request.session['learn_to_export_csat_stage']
-        context['form'] = CsatUserFeedbackForm(data=self.get_initial(request))
+        
+        form = kwargs.get('form', CsatUserFeedbackForm(data=self.get_initial(request)))
+        context['form'] = form
 
         # Prepare backlink to the export plan if we detect one and can validate it
         _backlink = self._get_backlink(request)
