@@ -58,7 +58,6 @@ class CsatFormHandler {
 
     handleStepTransition(response, data) {
         this.clearExistingErrors(data);
-        console.log(response.status)
         if (response.status==200) {
             if (this.currentStep === 1) {
                 this.infoMsg.classList.remove(this.hideClass);
