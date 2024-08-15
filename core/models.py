@@ -1315,7 +1315,7 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         stage = self.get_stage(request)
         context['csat_stage'] = stage
         if stage == 2:
-            del request.session['learn_to_export_csat_stage']
+            request.session['learn_to_export_csat_stage'] = 3
 
         form = kwargs.get('form', CsatUserFeedbackForm(data=self.get_initial(request)))
         context['form'] = form
