@@ -4,14 +4,13 @@ from django.forms import (
     CharField,
     CheckboxInput,
     ChoiceField,
-    EmailField,
-    EmailInput,
     Select,
     Textarea,
     TextInput,
 )
 from great_components import forms
 
+from core.validators import is_valid_email_address
 from international_buy_from_the_uk.core.choices import (
     ORGANISATION_SIZE_CHOICES,
     SOURCE_CHOICES,
@@ -46,10 +45,11 @@ class ContactForm(GovNotifyEmailActionMixin, forms.Form):
             'required': 'Enter your family name',
         },
     )
-    email_address = EmailField(
+    email_address = CharField(
         label='Email address',
+        validators=[is_valid_email_address],
         required=True,
-        widget=EmailInput(attrs={'class': 'govuk-input'}),
+        widget=TextInput(attrs={'class': 'govuk-input'}),
         error_messages={
             'required': 'Enter an email address',
         },
@@ -85,7 +85,7 @@ class ContactForm(GovNotifyEmailActionMixin, forms.Form):
         },
     )
     organisation_size = ChoiceField(
-        label='Size of your organisation',
+        label='Size of your organisation (optional)',
         required=False,
         widget=Select(attrs={'class': 'govuk-select govuk-!-width-full'}),
         choices=(('', ''),) + ORGANISATION_SIZE_CHOICES,
@@ -123,11 +123,11 @@ class ContactForm(GovNotifyEmailActionMixin, forms.Form):
     )
     email_contact_consent = BooleanField(
         required=False,
-        label="""I would like to receive additional information by email. (optional)""",
+        label='I would like to receive additional information by email.',
         widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
     )
     telephone_contact_consent = BooleanField(
         required=False,
-        label="""I would like to receive additional information by telephone. (optional)""",
+        label='I would like to receive additional information by telephone.',
         widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
     )
