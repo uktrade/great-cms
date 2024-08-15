@@ -29,20 +29,22 @@ class ContactView(GA360Mixin, FormView):
         return success_url
 
     def send_agent_email(self, form):
-        sender = helpers.Sender(
-            email_address=form.cleaned_data['email_address'],
-            country_code=form.cleaned_data['country'],
-            ip_address=get_sender_ip_address(self.request),
-        )
-        spam_control = helpers.SpamControl(contents=[form.cleaned_data['body']])
-        response = form.save(
-            form_url=self.request.path,
-            email_address=settings.CONTACT_INDUSTRY_AGENT_EMAIL_ADDRESS,
-            template_id=settings.CONTACT_INDUSTRY_AGENT_TEMPLATE_ID,
-            sender=sender,
-            spam_control=spam_control,
-        )
-        response.raise_for_status()
+        agent_email = settings.CONTACT_INDUSTRY_AGENT_EMAIL_ADDRESS
+        if agent_email:
+            sender = helpers.Sender(
+                email_address=form.cleaned_data['email_address'],
+                country_code=form.cleaned_data['country'],
+                ip_address=get_sender_ip_address(self.request),
+            )
+            spam_control = helpers.SpamControl(contents=[form.cleaned_data['body']])
+            response = form.save(
+                form_url=self.request.path,
+                email_address=settings.CONTACT_INDUSTRY_AGENT_EMAIL_ADDRESS,
+                template_id=settings.CONTACT_INDUSTRY_AGENT_TEMPLATE_ID,
+                sender=sender,
+                spam_control=spam_control,
+            )
+            response.raise_for_status()
 
     def send_user_email(self, form):
         response = form.save(

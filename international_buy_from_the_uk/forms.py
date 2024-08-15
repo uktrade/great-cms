@@ -81,7 +81,7 @@ class ContactForm(GovNotifyEmailActionMixin, forms.Form):
         required=True,
         widget=TextInput(attrs={'class': 'govuk-input'}),
         error_messages={
-            'required': 'Enter your family name',
+            'required': 'Enter your organisation name',
         },
     )
     organisation_size = ChoiceField(
