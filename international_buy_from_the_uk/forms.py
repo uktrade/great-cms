@@ -88,7 +88,7 @@ class ContactForm(GovNotifyEmailActionMixin, forms.Form):
         label='Size of your organisation (optional)',
         required=False,
         widget=Select(attrs={'class': 'govuk-select govuk-!-width-full'}),
-        choices=(('', ''),) + ORGANISATION_SIZE_CHOICES,
+        choices=(('-', 'Choose an option'),) + ORGANISATION_SIZE_CHOICES,
     )
     country = ChoiceField(
         label='Your country',
