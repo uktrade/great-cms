@@ -609,3 +609,38 @@ def get_meta_tag_icon_path(url):
         return '/static/icons/guidance.svg'
 
     return '/static/icons/hand.svg'
+
+
+@register.simple_tag()
+def change_country_name_to_include_the(country_name):
+
+    countries_starting_with_the = [
+        'bahamas',
+        'cayman islands',
+        'central african republic',
+        'channel islands',
+        'comoros',
+        'czech republic',
+        'dominican republic',
+        'falkland islands',
+        'faroe islands',
+        'gambia',
+        'isle of man',
+        'ivory coast',
+        'leeward islands',
+        'maldives',
+        'marshall islands',
+        'netherlands',
+        'netherlands antilles',
+        'philippines',
+        'solomon islands',
+        'turks and caicos islands',
+        'united arab emirates',
+        'united kingdom',
+        'united states',
+        'virgin islands',
+    ]
+
+    if country_name.lower() in countries_starting_with_the:
+        return f'the {country_name.lower().title().replace(" Of ", " of ").replace(" And ", " and ")}'
+    return country_name.lower().title()

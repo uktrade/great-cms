@@ -15,6 +15,7 @@ from django.urls import reverse
 from core.models import CuratedListPage, DetailPage, LessonPlaceholderPage, TopicPage
 from core.templatetags.content_tags import (
     add_anchor_classes,
+    change_country_name_to_include_the,
     extract_domain,
     get_backlinked_url,
     get_category_title_for_lesson,
@@ -1151,3 +1152,17 @@ def test_h3_if(condition, else_heading, expected_output):
 )
 def test_val_to_int(float, expected):
     assert val_to_int(float) == expected
+
+
+@pytest.mark.parametrize(
+    'country_name, expected_output',
+    (
+        ('England', 'England'),
+        ('england', 'England'),
+        ('IsLe Of mAn', 'the Isle of Man'),
+        ('turks and caicos islands', 'the Turks and Caicos Islands'),
+        ('United states', 'the United States'),
+    ),
+)
+def test_change_country_name_to_include_the(country_name, expected_output):
+    assert change_country_name_to_include_the(country_name) == expected_output
