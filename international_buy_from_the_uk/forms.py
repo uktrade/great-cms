@@ -114,7 +114,7 @@ class ContactForm(GovNotifyEmailActionMixin, forms.Form):
         label='Where did you hear about great.gov.uk',
         required=False,
         widget=Select(attrs={'class': 'govuk-select govuk-!-width-full'}),
-        choices=(('', ''),) + SOURCE_CHOICES,
+        choices=(('-', 'Choose an option'),) + SOURCE_CHOICES,
     )
     source_other = CharField(
         label='Other source (optional)',

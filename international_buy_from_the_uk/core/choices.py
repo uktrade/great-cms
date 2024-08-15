@@ -16,5 +16,4 @@ SOURCE_CHOICES = (
     ('Digital - articles', 'Website article'),
     ('Digital - social networking site (e.g. LinkedIn, Xing!, Twitter, Facebook, YouTube)', 'Social media website'),
     ('At an event', 'At an event'),
-    ('Other', 'Other'),
 )
