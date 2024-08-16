@@ -1,8 +1,8 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">{% include '../includes/error_summary.html' %}</div>
 </div>
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-        <span class="govuk-caption-l">{{ hint_title }}</span>
-    </div>
-</div>
+{% if hint_title %}
+    <h2 class="govuk-caption-l">
+        <span class="govuk-visually-hidden">This section is</span>{{ hint_title }}
+    </h2>
+{% endif %}
