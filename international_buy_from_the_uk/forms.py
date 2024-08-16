@@ -73,7 +73,7 @@ class ContactForm(GovNotifyEmailActionMixin, forms.Form):
         ),
         choices=(('', ''),),
         error_messages={
-            'required': 'Select a business industry',
+            'required': 'Select an industry',
         },
     )
     organisation_name = CharField(
