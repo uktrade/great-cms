@@ -481,6 +481,15 @@
             }
         }
 
+        function sortResults(sectors) {
+            return sectors.sort((a, b) => {
+                // Sort alphabetically by sector_name if both sub_sub_sector_name and sub_sector_name are equal
+                if (a.sector_name < b.sector_name) return -1;
+                if (a.sector_name > b.sector_name) return 1;
+                return 0;
+            });
+        }
+
         function sectorSuggest(query, populateResults) {
             let results = [];
             if (!query) {
@@ -495,6 +504,7 @@
                     }
                 }
             }
+            results = sortResults(results);
             populateResults(results);
         }
 
