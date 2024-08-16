@@ -46,14 +46,14 @@
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-3">
                         <div class="{% if form.full_name.errors %} govuk-form-group--error{% endif %}">
-                            {% include './includes/form_field.html' with field=form.full_name %}
+                            {% include 'international/includes/form_field.html' with field=form.full_name %}
                         </div>
                     </div>
                 </div>
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-3">
                         <div class="{% if form.email.errors %} govuk-form-group--error{% endif %}">
-                            {% include './includes/form_field.html' with field=form.email %}
+                            {% include 'international/includes/form_field.html' with field=form.email %}
                         </div>
                     </div>
                 </div>
