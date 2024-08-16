@@ -22,7 +22,6 @@
                             <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                                 <h1 class="govuk-fieldset__heading">How many people do you want to hire in the UK in the first three years?</h1>
                             </legend>
-                            <div id="{{ form.hiring.auto_id }}" class="govuk-hint">{{ form.hiring.help_text }}</div>
                             {% for error in form.hiring.errors %}
                                 <p class="govuk-error-message" role="alert">
                                     <span class="govuk-visually-hidden">Error:</span> {{ error }}

@@ -21,10 +21,10 @@
                     </h2>
                     {% csrf_token %}
                     <fieldset class="govuk-fieldset">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l govuk-!-margin-bottom-6">
                             <h1 class="govuk-fieldset__heading">Contact details</h1>
                         </legend>
-                        <div class="govuk-hint">{{ leading_title }}</div>
+                        <p class="govuk-body">{{ leading_title }}</p>
                         <div class="govuk-form-group">
                             {% include 'international/includes/form_field.html' with field=form.full_name show_vertical_error_line=True %}
                         </div>
