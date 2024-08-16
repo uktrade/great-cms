@@ -26,8 +26,8 @@ class ContactForm(GovNotifyEmailActionMixin, forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         sector_data_json = get_dbt_sectors()
-        self.sub_sectors_choices = get_parent_sectors_as_choices(sector_data_json)
-        self.fields['sector'].choices = (('', ''),) + self.sub_sectors_choices
+        self.sector_choices = get_parent_sectors_as_choices(sector_data_json)
+        self.fields['sector'].choices = (('', ''),) + self.sector_choices
 
     given_name = CharField(
         label='Given name',
