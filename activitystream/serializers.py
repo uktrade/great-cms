@@ -10,8 +10,6 @@ from core.models import (
     GreatMedia,
     MicrositePage,
 )
-from learn.models import CsatUserFeedback as LearnToExportCsatUserFeedback
-from find_a_buyer.models import CsatUserFeedback as FindABuyerCsatUserFeedback
 from domestic.models import ArticlePage
 from export_academy.models import (
     Booking,
@@ -20,7 +18,9 @@ from export_academy.models import (
     Registration,
     VideoOnDemandPageTracking,
 )
+from find_a_buyer.models import CsatUserFeedback as FindABuyerCsatUserFeedback
 from international_online_offer.models import CsatFeedback, TriageData, UserData
+from learn.models import CsatUserFeedback as LearnToExportCsatUserFeedback
 
 logger = logging.getLogger(__name__)
 
@@ -634,7 +634,7 @@ class ActivityStreamWhereToExportCsatUserFeedbackDataSerializer(serializers.Mode
             'url',
             'user_journey',
             'satisfaction_rating',
-            'experienced_issue',
+            'experienced_issues',
             'other_detail',
             'service_improvements_feedback',
             'likelihood_of_return',
@@ -674,7 +674,7 @@ class ActivityStreamFindABuyerCsatUserFeedbackDataSerializer(serializers.ModelSe
             'url',
             'user_journey',
             'satisfaction_rating',
-            'experienced_issue',
+            'experienced_issues',
             'other_detail',
             'service_improvements_feedback',
             'likelihood_of_return',
@@ -714,7 +714,7 @@ class ActivityStreamLearnToExportCsatUserFeedbackDataSerializer(serializers.Mode
             'url',
             'user_journey',
             'satisfaction_rating',
-            'experienced_issue',
+            'experienced_issues',
             'other_detail',
             'service_improvements_feedback',
             'likelihood_of_return',
