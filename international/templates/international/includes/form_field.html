@@ -1,5 +1,10 @@
 {% if field %}
-    <div class="{% if field.errors %} govuk-form-group--error{% endif %}">
+    {% comment %}
+        class govuk-form-group--error as optional parameter to accomodate single field forms where the designs
+        require that the vertical error line includes the form title. In this case one of the widget's ancestors
+        will already have govuk-form-group--error class applied.
+    {% endcomment %}
+    <div class="{% if show_vertical_error_line and field.errors %} govuk-form-group--error{% endif %}">
         {% if field.label %}
             <label class="govuk-label govuk-label--s"
                    for="{% if labelForId %}{{ labelForId }}{% else %}{{ field.id_for_label }}{% endif %}">

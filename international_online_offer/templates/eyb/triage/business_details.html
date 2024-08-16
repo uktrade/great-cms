@@ -22,65 +22,27 @@
             <div class="govuk-grid-column-two-thirds">
                 <form method="post" onsubmit="return onSubmitBusinessDetails()">
                     {% csrf_token %}
+                    <h2 class="govuk-caption-l">
+                        <span class="govuk-visually-hidden">This section is</span>About your business
+                    </h2>
                     <fieldset class="govuk-fieldset">
-                        <h2 class="govuk-caption-l">
-                            <span class="govuk-visually-hidden">This section is</span>About your business
-                        </h2>
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading">Business details</h1>
                         </legend>
-                        <div class="govuk-form-group">{% include 'international/includes/form_field.html' with field=form.company_name %}</div>
-                        <div class="govuk-form-group">{% include 'international/includes/form_field.html' with field=form.sector_sub %}</div>
                         <div class="govuk-form-group">
-                            {% include 'international/includes/form_field.html' with field=form.company_location %}
+                            {% include 'international/includes/form_field.html' with field=form.company_name show_vertical_error_line=True %}
                         </div>
                         <div class="govuk-form-group">
-                            {% include 'international/includes/form_field.html' with field=form.company_website %}
+                            {% include 'international/includes/form_field.html' with field=form.sector_sub show_vertical_error_line=True %}
                         </div>
-                        {% comment %} <div class="govuk-form-group">
-                          <label class="govuk-label govuk-label--s" for="{{ Input id }}">
-                            {{ Input label }}
-                          </label>
-                          <div id="{{ Input hint id }}" class="govuk-hint">
-                            {{ Input hint }}
-                          </div>
-                          <input class="govuk-input" id="{{ Input id }}" name="" type="text" aria-describedby="{{ Input hint id }}">
-                        </div> {% endcomment %}
+                        <div class="govuk-form-group">
+                            {% include 'international/includes/form_field.html' with field=form.company_location show_vertical_error_line=True %}
+                        </div>
+                        <div class="govuk-form-group">
+                            {% include 'international/includes/form_field.html' with field=form.company_website show_vertical_error_line=True %}
+                        </div>
                     </fieldset>
-                    {% comment %} <div class="govuk-grid-row">
-                        <div class="govuk-grid-column-full">
-                            <h1 class="govuk-heading-l">Business details</h1>
-                        </div>
-                    </div>
-                    <div class="govuk-grid-row govuk-!-margin-bottom-4">
-                        <div class="govuk-grid-column-full">
-                            <div class="{% if form.company_name.errors %} govuk-form-group--error{% endif %}">
-                                {% include '../includes/form_field.html' with field=form.company_name %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="govuk-grid-row govuk-!-margin-bottom-4">
-                        <div class="govuk-grid-column-full">
-                            <div class="{% if form.sector_sub.errors %} govuk-form-group--error{% endif %}">
-                                {% include '../includes/form_field.html' with field=form.sector_sub %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="govuk-grid-row govuk-!-margin-bottom-4">
-                        <div class="govuk-grid-column-full">
-                            <div class="{% if form.company_location.errors %} govuk-form-group--error{% endif %}">
-                                {% include '../includes/form_field.html' with field=form.company_location %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="govuk-grid-row govuk-!-margin-bottom-4">
-                        <div class="govuk-grid-column-full">
-                            <div class="{% if form.company_website.errors %} govuk-form-group--error{% endif %}">
-                                {% include '../includes/form_field.html' with field=form.company_website %}
-                            </div>
-                        </div>
-                    </div> {% endcomment %}
-                    <div class="govuk-grid-row govuk-!-margin-top-5">
+                    <div class="govuk-grid-row">
                         <div class="govuk-grid-column-full">
                             {% include '../includes/submit_button.html' with button_text='Save and continue' %}
                         </div>
