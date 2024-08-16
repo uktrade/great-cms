@@ -66,14 +66,14 @@ class ContactForm(GovNotifyEmailActionMixin, forms.Form):
     # industry choices are set in form constructor to avoid set effects when importing module
     sector = ChoiceField(
         label='Your industry',
-        help_text='Search a list of sectors and select the closest one',
+        help_text='Search and select the closest match',
         required=True,
         widget=Select(
             attrs={'id': 'js-industry-select', 'class': 'govuk-input', 'aria-describedby': 'help_for_id_industry'}
         ),
         choices=(('', ''),),
         error_messages={
-            'required': 'Search and select a business industry',
+            'required': 'Select a business industry',
         },
     )
     organisation_name = CharField(
@@ -85,13 +85,13 @@ class ContactForm(GovNotifyEmailActionMixin, forms.Form):
         },
     )
     organisation_size = ChoiceField(
-        label='Size of your organisation (optional)',
+        label='How many people work in your organisation? (optional)',
         required=False,
         widget=Select(attrs={'class': 'govuk-select govuk-!-width-full'}),
         choices=(('-', 'Choose an option'),) + ORGANISATION_SIZE_CHOICES,
     )
     country = ChoiceField(
-        label='Your country',
+        label='Where is your organisation located?',
         help_text='Search and select a country, region or territory',
         required=True,
         widget=Select(attrs={'id': 'js-country-select', 'class': 'govuk-input'}),
@@ -101,17 +101,17 @@ class ContactForm(GovNotifyEmailActionMixin, forms.Form):
         },
     )
     body = CharField(
-        label='Describe what products or services you need',
+        label='Which products or services are you interested in?',
         help_text='Do not include personal or commercially sensitive information',
         max_length=1000,
         required=True,
         error_messages={
-            'required': 'Enter what products or services you need',
+            'required': 'Enter a description of products or services',
         },
         widget=Textarea(attrs={'class': 'govuk-textarea govuk-js-character-count', 'rows': 7}),
     )
     source = ChoiceField(
-        label='Where did you hear about great.gov.uk',
+        label='Where did you hear about great.gov.uk? (optional)',
         required=False,
         widget=Select(attrs={'class': 'govuk-select govuk-!-width-full'}),
         choices=(('-', 'Choose an option'),) + SOURCE_CHOICES,
