@@ -6,6 +6,7 @@ from great_components.mixins import GA360Mixin
 from config import settings
 from core.helpers import get_sender_ip_address
 from international_buy_from_the_uk import forms
+from international_investment.core.helpers import get_location_display
 from international_online_offer.core.region_sector_helpers import get_sectors_as_string
 from international_online_offer.services import get_dbt_sectors
 
@@ -56,6 +57,7 @@ class ContactView(GA360Mixin, FormView):
         response.raise_for_status()
 
     def form_valid(self, form):
+        form.cleaned_data['country'] = get_location_display(form.cleaned_data['country'])
         self.send_agent_email(form)
         self.send_user_email(form)
         return super().form_valid(form)
