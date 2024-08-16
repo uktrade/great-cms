@@ -46,7 +46,7 @@
                                     {% if action.data.value == 'OTHER' %}
                                         <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
                                              id="conditional-intent-{{ forloop.counter0 }}">
-                                            <div class="govuk-form-group">{% include '../includes/form_field.html' with field=form.intent_other %}</div>
+                                            <div class="govuk-form-group">{% include 'international/includes/form_field.html' with field=form.intent_other %}</div>
                                         </div>
                                     {% endif %}
                                 {% endfor %}

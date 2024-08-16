@@ -93,6 +93,17 @@ def get_sectors_as_choices(sectors_json):
     return sectors_tuple
 
 
+def get_parent_sectors_as_choices(sectors_json):
+    sectors_tuple = ()
+    for sector_row in sectors_json:
+        parent_sector = sector_row['sector_name']
+        child_sector = sector_row['sub_sector_name']
+        if not child_sector:
+            sectors_tuple = ((parent_sector, parent_sector),) + sectors_tuple
+
+    return sectors_tuple
+
+
 def get_sectors_by_selected_id(sectors_json, selected_sector_id):
     for sector_row in sectors_json:
         if sector_row['sector_id'] == selected_sector_id:

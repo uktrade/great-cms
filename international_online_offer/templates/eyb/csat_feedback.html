@@ -111,7 +111,9 @@
                                             {% if action.data.value == 'OTHER' %}
                                                 <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
                                                      id="conditional-experience-{{ forloop.counter0 }}">
-                                                    <div class="govuk-form-group">{% include './includes/form_field.html' with field=form.experience_other %}</div>
+                                                    <div class="govuk-form-group">
+                                                        {% include 'international/includes/form_field.html' with field=form.experience_other %}
+                                                    </div>
                                                 </div>
                                             {% endif %}
                                         {% endfor %}
@@ -178,7 +180,9 @@
                                             {% if action.data.value == 'OTHER' %}
                                                 <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
                                                      id="conditional-site_intentions-{{ forloop.counter0 }}">
-                                                    <div class="govuk-form-group">{% include './includes/form_field.html' with field=form.site_intentions_other %}</div>
+                                                    <div class="govuk-form-group">
+                                                        {% include 'international/includes/form_field.html' with field=form.site_intentions_other %}
+                                                    </div>
                                                 </div>
                                             {% endif %}
                                         {% endfor %}
