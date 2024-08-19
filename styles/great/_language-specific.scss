@@ -104,3 +104,16 @@ $color-error: #d4351c;
 .microsite *:lang(ko) .govuk-form-label {
   font-family: $korean-header-text-font;
 }
+
+*:lang(ar) {
+  .microsite-header > p,
+  .great-inline-feedback__container {
+    display: none;
+  }
+
+  .footer,
+  footer div.footer ul {
+    direction: ltr;
+    padding: 0;
+  }
+}
