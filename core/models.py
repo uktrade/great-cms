@@ -2614,13 +2614,15 @@ class Task(index.Indexed, models.Model):
     link_text = models.CharField(blank=True)
     url_goods = models.CharField(blank=True)
     url_services = models.CharField(blank=True)
-    message = models.TextField(blank=True)
-    is_goods = models.BooleanField(default=False)
-    is_services = models.BooleanField(default=False)
+    output_type = models.CharField(blank=True)
+    info_source = models.CharField(blank=True)
     is_essential = models.BooleanField(default=False)
+    difficulty_level = models.CharField(blank=True)
     is_simple = models.BooleanField(default=False)
     is_difficult = models.BooleanField(default=False)
-    platform = models.CharField(blank=True)
+    is_goods = models.BooleanField(default=False)
+    is_services = models.BooleanField(default=False)
+    message = models.TextField(blank=True)
 
     panels = [
         FieldPanel('task_id'),
@@ -2630,13 +2632,10 @@ class Task(index.Indexed, models.Model):
         FieldPanel('link_text'),
         FieldPanel('url_goods'),
         FieldPanel('url_services'),
+        FieldPanel('output_type'),
+        FieldPanel('info_source'),
+        FieldPanel('difficulty_level'),
         FieldPanel('message'),
-        FieldPanel('is_goods'),
-        FieldPanel('is_services'),
-        FieldPanel('is_essential'),
-        FieldPanel('is_simple'),
-        FieldPanel('is_difficult'),
-        FieldPanel('platform'),
     ]
 
     search_fields = [
