@@ -48,7 +48,7 @@
                         <div class="govuk-grid-row">
                             <div class="govuk-grid-column-full">
                                 <div class="{% if form.email.errors %} govuk-form-group--error{% endif %}">
-                                    <div class="govuk-form-group">{% include './includes/form_field.html' with field=form.email %}</div>
+                                    <div class="govuk-form-group">{% include 'international/includes/form_field.html' with field=form.email %}</div>
                                 </div>
                             </div>
                         </div>
@@ -56,7 +56,7 @@
                             <div class="govuk-grid-column-full">
                                 <div class="{% if form.password.errors %} govuk-form-group--error{% endif %}">
                                     <div class="govuk-form-group">
-                                        {% include './includes/form_field.html' with field=form.password %}
+                                        {% include 'international/includes/form_field.html' with field=form.password %}
                                         <div class="govuk-checkboxes govuk-checkboxes--small govuk-!-margin-top-1"
                                              data-module="govuk-checkboxes">
                                             <div class="govuk-checkboxes__item">
@@ -114,7 +114,7 @@
                             <div class="govuk-grid-row govuk-!-margin-bottom-7">
                                 <div class="govuk-grid-column-full">
                                     <div class="{% if form.code_confirm.errors %} govuk-form-group--error{% endif %}">
-                                        {% include './includes/form_field.html' with field=form.code_confirm %}
+                                        {% include 'international/includes/form_field.html' with field=form.code_confirm %}
                                     </div>
                                 </div>
                             </div>

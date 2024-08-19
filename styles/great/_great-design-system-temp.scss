@@ -1,0 +1,49 @@
+$great-design-system-grey-border: #7d8e96;
+$great-design-system-hover-primary-button: #003078;
+$great-design-system-interface-mono-50: #7d8e96;
+
+.great-ds-border-bottom-grey {
+  border-bottom: 1px solid $great-design-system-grey-border;
+}
+
+.great-ds-heading-link {
+  &::after {
+    top: 0.12rem;
+  }
+}
+
+.great-ds-sign-up-promo {
+  @include govuk-media-query($until: tablet) {
+    width: calc(100% + 30px);
+    position: relative;
+    left: -15px;
+  }
+
+  ul > li {
+    display: flex;
+  }
+}
+
+.great-ds-contact-us-promo {
+  display: flex;
+
+  @include govuk-media-query($until: tablet) {
+    width: calc(100% + 30px);
+    position: relative;
+    left: -15px;
+    flex-direction: column;
+    margin: -30px 0 -40px;
+  }
+
+  > * {
+    flex-basis: fit-content;
+  }
+}
+
+.great-ds-button-primary {
+  border-bottom: 3px solid $great-design-system-hover-primary-button;
+}
+
+.great-ds-text-grey {
+  color: $great-design-system-interface-mono-50;
+}

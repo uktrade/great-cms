@@ -14,26 +14,25 @@
 {% endblock %}
 {% block content %}
     <div class="govuk-width-container great-container">
-        {% include '../includes/triage_header.html' with back_url=back_url hint_title='About your expansion plans' %}
+        {% include '../includes/triage_header.html' with back_url=back_url %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <form method="post" onsubmit="return onSubmitLocation()">
                     {% csrf_token %}
-                    <div class="govuk-grid-row">
-                        <div class="govuk-grid-column-full">
-                            <h1 class="govuk-label-wrapper">
-                                <label for='js-location-select' class="govuk-label govuk-label--l">Where do you want to set up?</label>
-                            </h1>
-                        </div>
-                    </div>
-                    <div class="govuk-grid-row govuk-!-margin-bottom-2">
-                        <div class="govuk-grid-column-full">
-                            <div class="{% if form.location.errors %} govuk-form-group--error{% endif %}">
-                                {% include 'international/includes/form_field.html' with field=form.location %}
+                    <h2 class="govuk-caption-l">
+                        <span class="govuk-visually-hidden">This section is</span>About your expansion plans
+                    </h2>
+                    <div class="{% if form.location.errors %} govuk-form-group--error{% endif %}">
+                        <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-full">
+                                <h1 class="govuk-label-wrapper">
+                                    <label for='js-location-select' class="govuk-label govuk-label--l">Where do you want to set up?</label>
+                                </h1>
                             </div>
                         </div>
+                        <div class="govuk-form-group">{% include 'international/includes/form_field.html' with field=form.location %}</div>
                     </div>
-                    <div class="govuk-grid-row govuk-!-margin-top-5">
+                    <div class="govuk-grid-row">
                         <div class="govuk-grid-column-full">
                             {% include '../includes/submit_button.html' with button_text='Save and continue' %}
                         </div>
