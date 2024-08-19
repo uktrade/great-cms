@@ -7,8 +7,7 @@
     top: 49.9%; // prevent half-rendered left and top pixels
     left: 49.9%;
     width: 100.2%;
-    height: auto;
-    max-height: 360px !important;
+    object-fit: cover
 }
 
 .great-hero-video-control {
@@ -18,9 +17,10 @@
     right: 20px;
     width: 44px; 
     height: 44px;
+    min-height: 44px !important;
     border: 3px solid $great-white;
     border-radius: 50%;
-    background-color: $great-blue;
+    background-color: $color-primary-button;
     padding: 0;
     margin: 0 auto;
     cursor: pointer;
@@ -33,7 +33,7 @@
     }
 
     &:focus {
-        background-color: yellow;
+        background-color: $color-focus;
         border-color: $great-off-black;
         outline: none;
 

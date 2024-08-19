@@ -16,9 +16,9 @@
         
             <div class="">
                 <div class="great-full-width-header-image">
-                    <video id="video-test" class="great-full-width great-hero-video great-height-360-desktop"
+                    <video id="video-test" class="great-full-width-header-image great-hero-video "
                             {% if page.hero_video.thumbnail %}poster="{{ page.hero_video.thumbnail }}"{% endif %}
-                            autoplay loop muted disableRemotePlayback>
+                            autoplay muted loop disableRemotePlayback>
                             {% for source in page.hero_video.sources %}
                                 <source src="{{ source.src }}" type="{{ source.type }}">
                             {% endfor %}

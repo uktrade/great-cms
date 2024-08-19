@@ -59,7 +59,6 @@ from core.constants import (
     BACKLINK_QUERYSTRING_NAME,
     RICHTEXT_FEATURES__MINIMAL,
     RICHTEXT_FEATURES__REDUCED,
-    VIDEO_TRANSCRIPT_HELP_TEXT,
 )
 from core.context import get_context_provider
 from core.utils import PageTopicHelper, get_first_lesson
