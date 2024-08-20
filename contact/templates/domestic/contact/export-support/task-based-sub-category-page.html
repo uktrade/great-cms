@@ -36,12 +36,10 @@
                     {% if page.page_body %}
                         <div class="govuk-grid-row govuk-!-margin-top-5">
                             <div class="govuk-grid-column-two-thirds">
-                                <div class="govuk-!-margin-bottom-5">
-                                    {% if not request.GET.is_guided_journey %}
-                                        <h1 class="govuk-heading-xl govuk-!-margin-bottom-4">{{ page.page_title }}</h1>
-                                    {% endif %}
-                                    {% if page.page_intro %}{{ page.page_intro| richtext | add_govuk_classes }}{% endif %}
-                                </div>
+                                {% if not request.GET.is_guided_journey %}
+                                    <h1 class="govuk-heading-xl govuk-!-margin-bottom-4">{{ page.page_title }}</h1>
+                                {% endif %}
+                                {% if page.page_intro %}{{ page.page_intro| richtext | add_govuk_classes }}{% endif %}
                             </div>
                             <div class="govuk-grid-column-one-third"></div>
                         </div>
@@ -53,7 +51,7 @@
                                             {% if task.value.url_goods or task.value.url_services %}
                                             <details class="great-ds-details">
                                                 <summary class="govuk-!-padding-bottom-4">
-                                                    <span class="great-meta-label govuk-!-padding-top-3 govuk-!-margin-bottom-3">
+                                                    <span class="great-meta-label govuk-!-padding-top-3 govuk-!-margin-bottom-2">
                                                         <img src="{% if task.value.output_type %}{{ task.value.output_type|get_meta_tag_icon_path }}{% else %}/static/icons/guidance.svg{% endif %}"
                                                              alt="" />
                                                              {% if task.value.output_type %}
@@ -68,7 +66,7 @@
                                                                 gov.uk
                                                              {% endif %}
                                                     </span>
-                                                    <h2 class="govuk-heading-xs govuk-!-margin-bottom-2">
+                                                    <h2 class="govuk-heading-s govuk-!-margin-bottom-2">
                                                         {{ task.value.title }}
                                                     </h2>
                                                     <p class="govuk-body govuk-!-margin-bottom-4">{{ task.value.description_level_1 }}</p>
@@ -98,7 +96,7 @@
                                             <span class="great-meta-label govuk-!-padding-top-3 govuk-!-margin-bottom-3">
                                                 <img src="/static/icons/guidance.svg" alt="" /> Guidance on great.gov.uk
                                             </span>
-                                            <h2 class="govuk-heading-xs govuk-!-margin-bottom-2">
+                                            <h2 class="govuk-heading-s govuk-!-margin-bottom-2">
                                                 {{ task.value.title }}
                                             </h2>
                                             <p class="govuk-body govuk-!-margin-bottom-4">{{ task.value.description_level_1 }}</p>
