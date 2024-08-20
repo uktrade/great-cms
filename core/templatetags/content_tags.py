@@ -592,23 +592,20 @@ def get_sub_category_page_breadcrumbs(page):
 @register.filter
 def get_meta_tag_label(url):
     if 'great' in url:
-        return 'GREAT'
+        return 'great.gov.uk'
 
     if 'gov' in url:
         return 'GOV.UK'
 
-    return 'Default label'
+    return ''
 
 
 @register.filter
-def get_meta_tag_icon_path(url):
-    if 'great' in url:
+def get_meta_tag_icon_path(type):
+    if 'Service' in type:
         return '/static/icons/hand.svg'
 
-    if 'gov' in url:
-        return '/static/icons/guidance.svg'
-
-    return '/static/icons/hand.svg'
+    return '/static/icons/guidance.svg'
 
 
 @register.simple_tag()

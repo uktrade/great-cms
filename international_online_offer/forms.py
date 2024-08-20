@@ -112,7 +112,7 @@ class ContactDetailsForm(forms.Form):
     agree_info_email = BooleanField(
         required=False,
         label="""I would like to receive emails from partner organisations
-        providing expansion support in my chosen UK location. (optional)""",
+        providing expansion support in my chosen UK location.""",
         widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
     )
 

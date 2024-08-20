@@ -263,6 +263,15 @@ def mock_get_dbt_sectors():
                     'sub_sub_sector_name': '',
                 },
                 {
+                    'id': 8,
+                    'sector_id': 'SL0044424',
+                    'full_sector_name': 'Advanced engineering',
+                    'sector_cluster_name': 'Sustainability and Infrastructure',
+                    'sector_name': 'Advanced engineering',
+                    'sub_sector_name': '',
+                    'sub_sub_sector_name': '',
+                },
+                {
                     'id': 3,
                     'sector_id': 'SL0050',
                     'full_sector_name': 'Automotive',
@@ -299,6 +308,15 @@ def mock_get_dbt_sectors():
                     'sub_sub_sector_name': '',
                 },
                 {
+                    'id': 2488,
+                    'sector_id': 'SL02666',
+                    'full_sector_name': 'Food and drink',
+                    'sector_cluster_name': 'Agriculture, Food and Drink',
+                    'sector_name': 'Food and drink',
+                    'sub_sector_name': '',
+                    'sub_sub_sector_name': '',
+                },
+                {
                     'id': 325,
                     'sector_id': 'SL0329',
                     'full_sector_name': 'Technology and smart cities : Software : Artificial intelligence',
@@ -306,6 +324,15 @@ def mock_get_dbt_sectors():
                     'sector_name': 'Technology and smart cities',
                     'sub_sector_name': 'Software',
                     'sub_sub_sector_name': 'Artificial intelligence',
+                },
+                {
+                    'id': 325454,
+                    'sector_id': 'SL033339',
+                    'full_sector_name': 'Technology and smart cities',
+                    'sector_cluster_name': 'Science and Technology',
+                    'sector_name': 'Technology and smart cities',
+                    'sub_sector_name': '',
+                    'sub_sub_sector_name': '',
                 },
             ]
         ),

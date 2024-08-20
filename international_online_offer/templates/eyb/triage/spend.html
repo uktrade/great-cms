@@ -9,11 +9,12 @@
 {% block head_css %}{{ block.super }}{% endblock %}
 {% block content %}
     <div class="govuk-width-container great-container">
-        <div id="spend-container">
-            {% include '../includes/triage_header.html' with back_url=back_url hint_title='About your expansion plans' %}
-        </div>
+        <div id="spend-container">{% include '../includes/triage_header.html' with back_url=back_url %}</div>
         <div class="govuk-grid-row govuk-!-margin-bottom-3">
             <div class="govuk-grid-column-two-thirds-from-desktop">
+                <h2 class="govuk-caption-l">
+                    <span class="govuk-visually-hidden">This section is</span>About your expansion plans
+                </h2>
                 <h1 class="govuk-heading-l">How much do you want to spend on setting up in the first three years?</h1>
                 <form method="get" id="spendCurrencyForm" action="#spend-container">
                     {% csrf_token %}
@@ -35,10 +36,10 @@
                     </div>
                 </form>
                 <fieldset class="govuk-fieldset">
-                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Select an estimate</legend>
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--s great-text-dark-blue">Select an estimate</legend>
                     <form method="post">
                         {% csrf_token %}
-                        <div class="govuk-form-group govuk-!-margin-bottom-7 {% if form.spend.errors %}govuk-form-group--error{% endif %} govuk-!-margin-bottom-2">
+                        <div class="govuk-form-group {% if form.spend.errors %}govuk-form-group--error{% endif %}">
                             {% include 'domestic/contact/includes/govuk-form-field.html' with field=form.spend hide_label=True %}
                         </div>
                         {% include '../includes/submit_button.html' with button_text='Save and continue' %}
