@@ -12,6 +12,14 @@ class VideoPlayerController {
         this.controlBtn.addEventListener('click', () => {
             this.toggleVideoPlayPause();
         });
+        // Prevent autoplay on mobile, code duplicated as toggleVideoPlayPause sees video as 'paused' on init even though it autoplays
+        const screenWidth = $(window).width();
+        if (screenWidth < 800){
+            this.video.removeAttribute('autoplay')
+            this.updateButton(this.playClass, 'Play video', 'Play');
+            this.controlBtn.setAttribute('aria-pressed', 'false');
+            document.getElementById('js-video-status').textContent = 'Video paused';
+        }  
     }
 
     toggleVideoPlayPause() {
