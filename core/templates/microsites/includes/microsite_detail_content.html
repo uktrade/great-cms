@@ -30,8 +30,8 @@
                     </div>
                 </div>
             </div>
-        {% elif hero_image %}
-        {% image page.hero_image original as hero_image %}
+        {% elif page.hero_image %}
+            {% image page.hero_image original as hero_image %}
             <div class="great-full-width-header-image"
                  style="background-image: url({{ hero_image.url }})"></div>
         {% endif %}
