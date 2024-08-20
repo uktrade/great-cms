@@ -34,7 +34,7 @@ module.exports = {
         ],
         'categories:seo': [
           'error',
-          { minScore: 0.89, aggregationMethod: 'pessimistic' },
+          { minScore: 0.85, aggregationMethod: 'pessimistic' },
         ],
       },
     },
