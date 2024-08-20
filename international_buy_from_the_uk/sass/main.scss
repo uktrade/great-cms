@@ -75,3 +75,7 @@ $great-design-system-grey-border: #7d8e96;
   background-repeat: no-repeat;
   background-size: contain;
 }
+
+.great-heading-link::after {
+  top: 2px;
+}

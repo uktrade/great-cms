@@ -5,8 +5,6 @@ register = template.Library()
 
 @register.filter
 def get_url(request):
-    # import pdb
-    # pdb.set_trace()
     url = '?'
     url += 'q=' + request.GET.get('q')
     industries = request.GET.getlist('industries')

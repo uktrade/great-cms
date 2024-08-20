@@ -96,12 +96,12 @@
                                         </div>
                                     {% endif %}
                                 </div>
-                                <div>
+                                <div class="great-full-width">
                                     <a href="#"
                                        class="govuk-heading-xs govuk-!-margin-bottom-2 great-heading-link great-ds-heading-link">
-                                        <h4 class="govuk-heading-xs great-heading-link__heading">
+                                        <h2 class="govuk-heading-xs great-heading-link__heading govuk-!-font-size-24">
                                             <span>{{ company.name }}</span>
-                                        </h4>
+                                        </h2>
                                     </a>
                                     {% if company.expertise_regions %}
                                         <div class="govuk-hint">Regional expertise: {{ company.expertise_regions }}</div>
@@ -141,7 +141,7 @@
                                 </div>
                             {% endif %}
                             <ul class="govuk-pagination__list">
-                                {% for i in pagination.paginator.get_elided_page_range %}
+                                {% for i in page_range %}
                                     {% if pagination.number == i %}
                                         <li class="govuk-pagination__item govuk-pagination__item--current">
                                             <a class="govuk-link govuk-pagination__link"
@@ -151,7 +151,7 @@
                                         </li>
                                     {% else %}
                                         {% if i == pagination.paginator.ELLIPSIS %}
-                                            <li class="govuk-pagination__item govuk-pagination__item--ellipses">...</li>
+                                            <li class="govuk-pagination__item govuk-pagination__item--ellipses">{{ i }}</li>
                                         {% else %}
                                             <li class="govuk-pagination__item">
                                                 <a class="govuk-link govuk-pagination__link"

@@ -151,6 +151,7 @@ class FindASupplierSearchView(GA360Mixin, SubmitFormOnGetMixin, FormView):
         try:
             paginator = Paginator(range(count), self.page_size)
             pagination = paginator.page(form.cleaned_data['page'])
+            page_range = paginator.get_elided_page_range(form.cleaned_data['page'])
         except EmptyPage:
             return self.handle_empty_page(form)
         else:
@@ -158,6 +159,7 @@ class FindASupplierSearchView(GA360Mixin, SubmitFormOnGetMixin, FormView):
                 results=results,
                 pagination=pagination,
                 form=form,
+                page_range=page_range,
                 # filters=get_filters_labels(form.cleaned_data),
                 # pages_after_current=paginator.num_pages - pagination.number,
                 # paginator_url=helpers.get_paginator_url(form.cleaned_data)
