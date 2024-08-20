@@ -1,0 +1,192 @@
+{% extends './base.html' %}
+{% load static %}
+{% load buy_from_the_uk_filters %}
+{% block head_title %}
+    {% if form.errors %}Error:{% endif %}
+    Buy from the UK find a supplier search
+    {{ block.super }}
+{% endblock %}
+{% block meta_title %}Buy from the UK find a supplier search {{ block.super }}{% endblock %}
+{% block content %}
+    <form id="events-form" action="" method="get">
+        <section class="buy-from-the-uk-info-section govuk-!-padding-top-6 govuk-!-padding-bottom-6">
+            <div class="govuk-width-container great-container">
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds-from-desktop">
+                        <h1 class="govuk-heading-l">Find a UK supplier</h1>
+                    </div>
+                </div>
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-one-half-from-desktop">
+                        <div id="buy-from-the-uk-search-form"
+                             class="magna-header__search govuk-!-margin-bottom-4"
+                             action="{% url 'search:search' %}"
+                             method="get">
+                            <label for="magna-header-search-box" class="great-visually-hidden">Search</label>
+                            <input id="magna-header-search-box"
+                                   type="text"
+                                   name="q"
+                                   value="{% if form.q.value %}{{ form.q.value }}{% endif %}"
+                                   placeholder="Search for UK suppliers">
+                            <button>
+                                <span class="great-visually-hidden">Search</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="govuk-!-padding-top-6 govuk-!-padding-bottom-6">
+            <div class="govuk-width-container great-container">
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-one-quarter-from-desktop">
+                        <h2 class="govuk-heading-m">Filter results</h2>
+                        <div class="govuk-accordion"
+                             data-module="govuk-accordion"
+                             id="accordion-default">
+                            <div class="govuk-accordion__section">
+                                <div class="govuk-accordion__section-header">
+                                    <h2 class="govuk-accordion__section-heading">
+                                        <span class="govuk-accordion__section-button"
+                                              id="accordion-default-heading-1">
+                                            <span class="govuk-heading-s">{{ form.industries.label }}</span>
+                                        </span>
+                                    </h2>
+                                </div>
+                                <div id="accordion-default-content-1"
+                                     class="govuk-accordion__section-content govuk-!-padding-left-2 fixed-height-scroll">
+                                    <div class="govuk-checkboxes govuk-checkboxes--small"
+                                         data-module="govuk-checkboxes"
+                                         id="industries">
+                                        {% for action in form.industries %}
+                                            <div class="govuk-checkboxes__item">
+                                                <input {% if action.data.value in form.industries.value %}checked{% endif %}
+                                                       type="checkbox"
+                                                       name="industries"
+                                                       value="{{ action.data.value }}"
+                                                       class="govuk-checkboxes__input"
+                                                       id="{{ action.id_for_label }}">
+                                                <label class="govuk-label govuk-checkboxes__label"
+                                                       for="{{ action.id_for_label }}">
+                                                    {{ action.choice_label }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="govuk-button" data-module="govuk-button">Update results</button>
+                        <br />
+                        <a href="?q={{ form.q.value }}&page=1" class="govuk-link">Reset</a>
+                        {{ form.page }}
+                    </form>
+                </div>
+                <div class="govuk-grid-column-three-quarters-from-desktop">
+                    {% if results %}
+                        {% for company in results %}
+                            <div class="govuk-!-margin-bottom-4 great-ds-border-bottom-grey great-display-flex great-align-items-center great-gap">
+                                <div>
+                                    {% if company.logo %}
+                                        <div class="buy-from-the-uk-listitem-logo"
+                                             style="background-image: url('{{ company.logo }}')"></div>
+                                    {% else %}
+                                        <div class="buy-from-the-uk-listitem-logo"
+                                             style="background-image: url('{% static 'images/placeholder.png' %}')">
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <a href="#"
+                                       class="govuk-heading-xs govuk-!-margin-bottom-2 great-heading-link great-ds-heading-link">
+                                        <h4 class="govuk-heading-xs great-heading-link__heading">
+                                            <span>{{ company.name }}</span>
+                                        </h4>
+                                    </a>
+                                    {% if company.expertise_regions %}
+                                        <div class="govuk-hint">Regional expertise: {{ company.expertise_regions }}</div>
+                                    {% endif %}
+                                    {% if company.employees %}
+                                        <div class="govuk-hint">Number of employees: {{ company.employees }} Employees</div>
+                                    {% endif %}
+                                    <p class="govuk-body govuk-!-margin-bottom-4">
+                                        {% if company.highlight %}
+                                            {{ company.highlight|truncatechars_html:125 }}
+                                        {% else %}
+                                            {{ company.summary|default:company.description|truncatechars:135 }}
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <br />
+                        <br />
+                        <nav class="govuk-pagination" role="navigation" aria-label="results">
+                            {% if pagination.has_previous %}
+                                <div class="govuk-pagination__prev">
+                                    <a class="govuk-link govuk-pagination__link"
+                                       href="{{ request|get_url }}&page={{ pagination.previous_page_number }}"
+                                       rel="prev">
+                                        <svg class="govuk-pagination__icon govuk-pagination__icon--prev"
+                                             xmlns="http://www.w3.org/2000/svg"
+                                             height="13"
+                                             width="15"
+                                             aria-hidden="true"
+                                             focusable="false"
+                                             viewBox="0 0 15 13">
+                                            <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z">
+                                            </path>
+                                        </svg>
+                                        <span class="govuk-pagination__link-title">Previous</span></a>
+                                </div>
+                            {% endif %}
+                            <ul class="govuk-pagination__list">
+                                {% for i in pagination.paginator.get_elided_page_range %}
+                                    {% if pagination.number == i %}
+                                        <li class="govuk-pagination__item govuk-pagination__item--current">
+                                            <a class="govuk-link govuk-pagination__link"
+                                               href="{{ request|get_url }}&page={{ i }}"
+                                               aria-label="Page {{ i }}"
+                                               aria-current="page">{{ i }}</a>
+                                        </li>
+                                    {% else %}
+                                        {% if i == pagination.paginator.ELLIPSIS %}
+                                            <li class="govuk-pagination__item govuk-pagination__item--ellipses">...</li>
+                                        {% else %}
+                                            <li class="govuk-pagination__item">
+                                                <a class="govuk-link govuk-pagination__link"
+                                                   href="{{ request|get_url }}&page={{ i }}"
+                                                   aria-label="Page {{ i }}">{{ i }}</a>
+                                            </li>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                            {% if pagination.has_next %}
+                                <div class="govuk-pagination__next">
+                                <a class="govuk-link govuk-pagination__link"
+                                   href="{{ request|get_url }}&page={{ pagination.next_page_number }}"
+                                   rel="next"> <span class="govuk-pagination__link-title">Next</span>
+                                <svg class="govuk-pagination__icon govuk-pagination__icon--next"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     height="13"
+                                     width="15"
+                                     aria-hidden="true"
+                                     focusable="false"
+                                     viewBox="0 0 15 13">
+                                    <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z">
+                                    </path>
+                                </svg>
+                            </a>
+                        </div>
+                    {% endif %}
+                </nav>
+            {% else %}
+                <p class="govuk-heading-m">No UK businesses match your search</p>
+                <p class="govuk-body">Try different filters or a new search term.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block body_js %}{{ block.super }}{% endblock %}
