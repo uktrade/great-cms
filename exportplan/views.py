@@ -495,11 +495,11 @@ class ExportPlanDashBoard(
         stage = self.request.session.get('exportplan_csat_stage', 0)
         context['csat_stage'] = stage
         if stage == 2:
-            del self.request.session['exportplan_csat_stage']
+            self.request.session['exportplan_csat_stage'] = 3
         return context
 
     def get_success_url(self):
-        return reverse_lazy('exportplan:update', kwargs={'id': id})
+        return reverse_lazy('exportplan:dashboard', kwargs={'id': id})
 
     def get_csat(self):
         csat_id = self.request.session.get('exportplan_csat_id')
@@ -548,7 +548,7 @@ class ExportPlanDashBoard(
                 other_detail=form.cleaned_data['experience_other'],
                 likelihood_of_return=form.cleaned_data['likelihood_of_return'],
                 service_improvements_feedback=form.cleaned_data['feedback_text'],
-                URL=reverse_lazy('exportplan:update', kwargs={'id': id}),
+                URL=reverse_lazy('exportplan:dashboard', kwargs={'id': id}),
                 user_journey='EXPORT_PLAN',
             )
             self.request.session['exportplan_csat_id'] = csat_feedback.id
