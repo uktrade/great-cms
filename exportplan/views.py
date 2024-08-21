@@ -499,6 +499,7 @@ class ExportPlanDashBoard(
         return context
 
     def get_success_url(self):
+        id = self.kwargs['id']
         return reverse_lazy('exportplan:dashboard', kwargs={'id': id})
 
     def get_csat(self):
@@ -518,6 +519,7 @@ class ExportPlanDashBoard(
         return self.render_to_response(self.get_context_data(form=form))
 
     def form_valid(self, form):
+        id = self.kwargs['id']
         if 'cancelButton' in self.request.POST:
             self.request.session['exportplan_csat_stage'] = 2
             return HttpResponseRedirect(self.get_success_url())
