@@ -24,6 +24,10 @@ $great-design-system-grey-border: #7d8e96;
   background-color: $great-light-blue;
 }
 
+.buy-from-the-uk-company-profile-details-section {
+  background-color: $great-lighter-grey;
+}
+
 
 .buy-from-the-uk-home-strapline-container {
   background-color: rgba(26, 92, 164, .7);
@@ -81,11 +85,17 @@ $great-design-system-grey-border: #7d8e96;
 }
 
 .buy-from-the-uk-logo {
-  max-width: 180px;
-  min-width: 160px;
-  max-height: 180px;
-  min-height: 160px;
+  width: 100%;
+  height: 100%;
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
+}
+
+.buy-from-the-uk-logo-container {
+  background-color: #fff;
+  border: 1px solid $great-design-system-grey-border;
+  width: 180px;
+  height: 180px;
+  padding: 15px;
 }
