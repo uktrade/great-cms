@@ -172,7 +172,6 @@ class FindASupplierSearchView(GA360Mixin, SubmitFormOnGetMixin, FormView):
             page=form.cleaned_data['page'],
             sectors=form.cleaned_data['industries'],
             size=self.page_size,
-            use_fallback_cache=False,
         )
         response.raise_for_status()
         formatted = get_results_from_search_response(response)
@@ -184,6 +183,14 @@ class FindASupplierSearchView(GA360Mixin, SubmitFormOnGetMixin, FormView):
             url=reverse('international_buy_from_the_uk:find-a-supplier'), q=form.cleaned_data['q'], page=1
         )
         return redirect(url)
+
+
+def get_company_profile(number):
+    response = api_client.company.published_profile_retrieve(number=number)
+    # if response.status_code == 404:
+    #     raise Http404(f'API returned 404 for company number {number}')
+    response.raise_for_status()
+    return response.json()
 
 
 class FindASupplierProfileView(GA360Mixin, TemplateView):
@@ -198,6 +205,10 @@ class FindASupplierProfileView(GA360Mixin, TemplateView):
         )
 
     def get_context_data(self, **kwargs):
+        company_number = self.kwargs['company_number']
+        parser = CompanyParser(get_company_profile(company_number))
+        company = parser.serialize_for_template()
         return super().get_context_data(
             **kwargs,
+            company=company,
         )

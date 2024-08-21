@@ -7,17 +7,186 @@
 {% endblock %}
 {% block meta_title %}Buy from the UK find a supplier profile {{ block.super }}{% endblock %}
 {% block content %}
-    <div class="govuk-width-container great-container">
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds-from-desktop">
-                <h1 class="govuk-heading-l">Profile</h1>
+    <section class="buy-from-the-uk-info-section govuk-!-padding-top-6 govuk-!-padding-bottom-6 govuk-!-margin-bottom-6">
+        <div class="govuk-width-container great-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-one-quarter-from-desktop">
+                    {% if not company.logo %}
+                        <div class="buy-from-the-uk-logo"
+                             style="background-image: url('{{ company.logo }}')"></div>
+                    {% else %}
+                        <div class="buy-from-the-uk-logo"
+                             style="background-image: url('{% static 'images/placeholder.png' %}')"></div>
+                    {% endif %}
+                </div>
+                <div class="govuk-grid-column-three-quarters-from-desktop">
+                    <h1 class="govuk-heading-l">{{ company.name }}</h1>
+                </div>
             </div>
         </div>
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-one-half-from-desktop">
-                <p class="govuk-body">Profile intro text</p>
+    </section>
+    <section>
+        <div class="govuk-width-container great-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-one-third-from-desktop">
+                    <a href="/international/trade/suppliers/{{ company.number }}/contact/"
+                       role="button"
+                       draggable="false"
+                       class="govuk-button govuk-button--start"
+                       data-module="govuk-button">
+                        Contact company
+                        <svg class="govuk-button__start-icon"
+                             xmlns="http://www.w3.org/2000/svg"
+                             width="17.5"
+                             height="19"
+                             viewBox="0 0 33 40"
+                             aria-hidden="true"
+                             focusable="false">
+                            <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
+                        </svg>
+                    </a>
+                    <h2 class="govuk-heading-m">Business details</h2>
+                    {% if company.website %}
+                        <p class="govuk-body">
+                            <strong>Website</strong>
+                        </p>
+                        <p class="govuk-body">
+                            <a href="{{ company.website }}"
+                               target="_blank"
+                               title="Opens in a new window"
+                               rel="noopener noreferrer">{{ company.website }}</a>
+                        </p>
+                    {% endif %}
+                    <p class="govuk-body">
+                        <strong>Business type</strong>
+                    </p>
+                    {% if company.is_in_companies_house %}
+                        <p class="govuk-body">UK business registered in Companies House</p>
+                    {% else %}
+                        <p class="govuk-body">UK business not registered in Companies House</p>
+                    {% endif %}
+                    {% if company.employees %}
+                        <p class="govuk-body">
+                            <strong>Number of employees</strong>
+                        </p>
+                        <p class="govuk-body">{{ company.employees }} employees</p>
+                    {% endif %}
+                    {% if company.sectors %}
+                        <p class="govuk-body">
+                            <strong>Core industry</strong>
+                        </p>
+                        <p class="govuk-body">{{ company.sectors }}</p>
+                    {% endif %}
+                    {% if not company.is_in_companies_house %}
+                        <p class="govuk-body">
+                            <strong>{{ company.address }}</strong>
+                        </p>
+                    {% endif %}
+                    {% if company.facebook_url %}
+                        <p class="govuk-body">
+                            <a class="link" href="{{ company.facebook_url }}">
+                                <img alt="with Facebook"
+                                     height="36px"
+                                     src="{% static 'images/facebook.png' %}"
+                                     width="36px" />
+                                <span>Visit company Facebook</span>
+                            </a>
+                        </p>
+                    {% endif %}
+                    {% if company.twitter_url %}
+                        <p class="govuk-body">
+                            <a class="link" href="{{ company.twitter_url }}">
+                                <img alt="with Twitter"
+                                     height="36px"
+                                     src="{% static 'images/twitter.png' %}"
+                                     width="36px" />
+                                <span>Visit company Twitter</span>
+                            </a>
+                        </p>
+                    {% endif %}
+                    {% if company.linkedin_url %}
+                        <p class="govuk-body">
+                            <a class="link" href="{{ company.linkedin_url }}">
+                                <img alt="with LinkedIn"
+                                     height="36px"
+                                     src="{% static 'images/linkedin.png' %}"
+                                     width="36px" />
+                                <span>Visit company LinkedIn</span>
+                            </a>
+                        </p>
+                    {% endif %}
+                    {% if company.is_in_companies_house %}
+                        <p class="govuk-body-s">{{ company.name }}</p>
+                        <p class="govuk-body-s">UK registered company – number {{ company.number }}</p>
+                        <p class="govuk-body-s">Registered office address:</p>
+                        <p class="govuk-body-s">{{ company.address }}</p>
+                    {% endif %}
+                </div>
+                <div class="govuk-grid-column-two-thirds-from-desktop">
+                    <h3 class="govuk-heading-m">Company description</h3>
+                    <p class="govuk-body">{{ company.description|linebreaks }}</p>
+                    <hr>
+                    {% if company.expertise_products_services %}
+                        <div id="profile-products-services-container">
+                            <h3 class="govuk-heading-m">Products and services</h3>
+                            {% if company.expertise_products_services.Other %}
+                                <p class="govuk-body">{{ company.expertise_products_services.Other }}</p>
+                            {% endif %}
+                            <dl>
+                                {% for key, values in company.expertise_products_services.items %}
+                                    {% if values and key != 'Other' %}
+                                        <div class="govuk-summary-list__row">
+                                            <dt class="govuk-summary-list__key">{{ key }}</dt>
+                                            <dd class="govuk-summary-list__value">
+                                                {{ values }}
+                                            </dd>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </dl>
+                        </div>
+                        <hr>
+                    {% endif %}
+                    {% if company.has_expertise %}
+                        <h3 class="govuk-heading-m">Expertise</h3>
+                        <dl>
+                            {% if company.expertise_industries %}
+                                <div class="govuk-summary-list__row">
+                                    <dt class="govuk-summary-list__key">Industry</dt>
+                                    <dd class="govuk-summary-list__value">
+                                        {{ company.expertise_industries }}
+                                    </dd>
+                                </div>
+                            {% endif %}
+                            {% if company.expertise_regions %}
+                                <div class="govuk-summary-list__row">
+                                    <dt class="govuk-summary-list__key">Regional</dt>
+                                    <dd class="govuk-summary-list__value">
+                                        {{ company.expertise_regions }}
+                                    </dd>
+                                </div>
+                            {% endif %}
+                            {% if company.expertise_countries %}
+                                <div class="govuk-summary-list__row">
+                                    <dt class="govuk-summary-list__key">International</dt>
+                                    <dd class="govuk-summary-list__value">
+                                        {{ company.expertise_countries }}
+                                    </dd>
+                                </div>
+                            {% endif %}
+                            {% if company.expertise_languages %}
+                                <div class="govuk-summary-list__row">
+                                    <dt class="govuk-summary-list__key">Languages</dt>
+                                    <dd class="govuk-summary-list__value">
+                                        {{ company.expertise_languages }}
+                                    </dd>
+                                </div>
+                            {% endif %}
+                        </dl>
+                    {% endif %}
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 {% endblock %}
 {% block body_js %}{{ block.super }}{% endblock %}

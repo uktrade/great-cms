@@ -16,7 +16,7 @@ urlpatterns = [
         name='find-a-supplier',
     ),
     path(
-        'find-a-supplier/suppliers',
+        'suppliers/<slug:company_number>',
         views.FindASupplierProfileView.as_view(),
         name='find-a-supplier-profile',
     ),
