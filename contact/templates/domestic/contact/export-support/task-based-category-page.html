@@ -18,10 +18,8 @@
                 <div class="govuk-grid-column-full">
                     <div class="govuk-grid-row govuk-!-margin-top-5">
                         <div class="govuk-grid-column-two-thirds">
-                            <div class="govuk-!-margin-bottom-5">
-                                <h1 class="govuk-heading-xl govuk-!-margin-bottom-4">{{ page.page_title }}</h1>
-                                {% if page.page_intro %}{{ page.page_intro| richtext | add_govuk_classes }}{% endif %}
-                            </div>
+                            <h1 class="govuk-heading-xl govuk-!-margin-bottom-4">{{ page.page_title }}</h1>
+                            {% if page.page_intro %}{{ page.page_intro| richtext | add_govuk_classes }}{% endif %}
                         </div>
                         <div class="govuk-grid-column-one-third"></div>
                     </div>
