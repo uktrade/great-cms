@@ -1,11 +1,20 @@
 {% load static %}
+{% load i18n %}
 <div class="govuk-width-container great-container">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
+        <div class="govuk-grid-column-one-third">
             <img class="govuk-!-padding-top-2"
                  height="31.5"
                  alt="Department for business and trade logo"
                  src="{% static 'images/dbt-red-footer-logo.93fc9e99b781.svg' %}">
+        </div>
+        <div class="govuk-grid-column-two-thirds international-domestic-menu-toggle">
+            <div class="toggle-element-container toggle-element-container--domestic govuk-!-font-size-16">
+                <a href="/">{% trans 'For UK businesses' %}</a>
+            </div>
+            <div class="toggle-element-container toggle-element-container--international govuk-!-font-size-16">
+                <a href="/international/">{% trans 'For international businesses' %}</a>
+            </div>
         </div>
         {% if show_copyright %}
             <div class="govuk-grid-column-one-third">

@@ -285,3 +285,70 @@
 .international-cookie-banner-container {
     background-color: #dde5ed;
 }
+
+.international-domestic-menu-toggle {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  padding-top: 17px;
+  gap: 20px;
+  height: 50px;
+
+  // hard-coding px value to align with rest of international service
+  @media (max-width: 880px){
+    display: none;
+  }
+}
+
+.toggle-element-container {
+  @include great-international-regular;
+  text-align: center;
+  width: 230px;
+
+  a {
+    color: $color-main-text;
+    text-decoration: none;
+
+    &:focus {
+      background-color: yellow;
+      text-decoration-thickness: 4px;
+      text-decoration-line: underline;
+      text-decoration-color: $great-dark-blue;
+    }
+  }
+
+  &:focus-within {
+    border-bottom: none
+  }
+}
+
+.toggle-element-container--international {
+  border-bottom: solid 4px $great-dark-blue;
+}
+
+.mobile-domestic-link-container {
+  position: relative;
+  width: 100vw;
+  left: -20px;
+  bottom: -10px;
+  background-color: $great-light-blue;
+
+  a {
+    color: $color-main-text !important;
+    text-decoration: none;
+    padding-left: 20px;
+
+    &:focus {
+      background-color: yellow;
+      text-decoration-thickness: 4px;
+      text-decoration-line: underline;
+      text-decoration-color: $great-dark-blue;
+    }
+
+    &:after {
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      content: "\f0a9"
+    }
+  }
+}
