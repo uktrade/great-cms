@@ -551,7 +551,7 @@ class ExportPlanDashBoard(
                 likelihood_of_return=form.cleaned_data['likelihood_of_return'],
                 service_improvements_feedback=form.cleaned_data['feedback_text'],
                 URL=reverse_lazy('exportplan:dashboard', kwargs={'id': id}),
-                user_journey='EXPORT_PLAN',
+                user_journey='EXPORT_PLAN_UPDATE',
             )
             self.request.session['exportplan_csat_id'] = csat_feedback.id
             self.request.session['exportplan_csat_stage'] = 1

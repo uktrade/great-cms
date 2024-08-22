@@ -8,7 +8,7 @@ from core.models import TimeStampedModel
 class CsatUserFeedback(TimeStampedModel):
     URL = models.CharField(max_length=255)
     user_journey = models.CharField(
-        max_length=255, null=True, choices=constants.USER_JOURNEY_CHOICES_EXPORT, default='EXPORT_PLAN'
+        max_length=255, null=True, choices=constants.USER_JOURNEY_CHOICES_EXPORT, default='EXPORT_PLAN_UPDATE'
     )  # noqa:E501
     satisfaction_rating = models.CharField(max_length=255, choices=constants.SATISFACTION_CHOICES)
     experienced_issues = ArrayField(
