@@ -78,7 +78,7 @@
             <div id="export-plan-actions"></div>
         </aside>
     </section>
-    {% if export_plan_progress.sections_completed >= 2 and csat_stage < 3 %}
+    {% if export_plan.ui_progress %}
         <div class="great-border-thin-top-lighter-blue">
             <section class="govuk-!-padding-bottom-3 bg-white clearfix">
                 <div class="container">{% include './includes/csat_user_feedback.html' with form=form csat_stage=csat_stage %}</div>
@@ -88,10 +88,6 @@
 {% endblock %}
 
 {% block body_inline_feedback %}
-    {% if export_plan_progress.sections_completed >= 2 and csat_stage < 3 %}
-    {% else %}
-        {% include 'components/inline_feedback/was_page_useful.html' %}
-    {% endif %}
 {% endblock %}
 
 {% block body_js %}

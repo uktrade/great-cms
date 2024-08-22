@@ -495,7 +495,7 @@ class ExportPlanDashBoard(
         stage = self.request.session.get('exportplan_csat_stage', 0)
         context['csat_stage'] = stage
         if stage == 2:
-            self.request.session['exportplan_csat_stage'] = 3
+            del self.request.session['exportplan_csat_stage']
         return context
 
     def get_success_url(self):
