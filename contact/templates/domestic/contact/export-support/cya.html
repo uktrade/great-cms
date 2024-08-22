@@ -8,6 +8,12 @@
 
       localStorage.removeItem('dep_triage_journey');
     }
+    
+    if (localStorage.getItem('dss_user_journey') && document.getElementById('id_triage_journey')) {
+      document.getElementById('id_triage_journey').value = localStorage.getItem('dss_user_journey');
+
+      localStorage.removeItem('dss_user_journey');
+    }
     </script>
 {% endblock %}
 {% block form_fields %}

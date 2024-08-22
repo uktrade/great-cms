@@ -9,21 +9,11 @@
 {% block body_js %}
     {{ block.super }}
 
+    <script src="{% static 'javascript/great.utils.js' %}"></script>
+    <script src="{% static 'javascript/great.digital-self-serve.js' %}"></script>
     <script type="text/javascript">
-        document.querySelectorAll('[data-task-item]').forEach(el => {
-            el.addEventListener('click', (e) => {
-                const data = el.dataset.task.split('|');
-
-                window.dataLayer.push({
-                    event: 'dss_task_click',
-                    task_id: data[0],
-                    task_title: data[1],
-                    output_type: data[2],
-                });
-            })
-        })
+        GreatFrontend.DigitalSelfServe.init('{{ page.page_title }}')
     </script>
-
 {% endblock %}
 {% block body_attributes %}class="great-bg-white"{% endblock %}
 {% block breadcrumbs_block %}
