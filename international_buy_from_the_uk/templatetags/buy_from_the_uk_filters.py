@@ -11,3 +11,9 @@ def get_url(request):
         for industry in industries:
             url += '&industries=' + industry
     return url
+
+
+@register.filter
+def get_case_study_url(case_study_pk):
+    url = '/international/trade/case-study/' + str(case_study_pk)
+    return url

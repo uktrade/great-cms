@@ -1,5 +1,6 @@
 {% extends './base.html' %}
 {% load static %}
+{% load buy_from_the_uk_filters %}
 {% block head_title %}
     {% if form.errors %}Error:{% endif %}
     Buy from the UK find a supplier profile
@@ -189,6 +190,24 @@
                                 </div>
                             {% endif %}
                         </dl>
+                    {% endif %}
+                    {% if company.supplier_case_studies %}
+                        <hr>
+                        <div class="underline-flag-red">
+                            <h3 class="govuk-heading-m">{{ company.name }} case studies</h3>
+                            {% for case_study in company.supplier_case_studies %}
+                                {% if case_study.is_published_case_study %}
+                                    {% cycle 'odd' 'even' as parity silent %}
+                                    {% if parity == 'odd' %}<div class="govuk-grid-row govuk-!-margin-bottom-6">{% endif %}
+                                        <div class="govuk-grid-column-one-half">
+                                            {% with "case-study-"|add:forloop.counter as card_id %}
+                                                {% include 'components/great/card.html' with classes="great-card--cta" image_src=case_study.image_one image_alt=case_study.title title=case_study.title content=case_study.short_summary url=case_study.pk|get_case_study_url %}
+                                            {% endwith %}
+                                        </div>
+                                        {% if parity == 'even' %}</div>{% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
                     {% endif %}
                 </div>
             </div>
