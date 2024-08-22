@@ -2,6 +2,8 @@ $great-design-system-grey-border: #7d8e96;
 $great-design-system-hover-primary-button: #003078;
 $great-design-system-interface-mono-50: #7d8e96;
 $great-design-system-govuk-light-grey: #f3f2f1;
+$great-design-system-border-grey: #d9d9d9;
+
 $great-design-system-govuk-yellow-highlight: #fd0;
 $great-design-system-govuk-off-black: #0b0c0c;
 
@@ -147,4 +149,12 @@ $great-design-system-govuk-off-black: #0b0c0c;
       text-decoration: none;
     }
   }
+}
+
+.great-ds-hr {
+  background: $great-design-system-border-grey;
+  border: 0;
+  display: block;
+  height: 4px;
+  width: 100%;
 }

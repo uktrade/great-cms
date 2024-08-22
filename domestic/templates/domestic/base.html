@@ -47,7 +47,9 @@
                 {% get_canonical_url as canonical_url %}
                 <link rel="canonical" href="{{ canonical_url }}">
                 <link rel="alternate" hreflang="en-gb" href="{{ canonical_url }}" />
-                <link rel="alternate" hreflang="x-default" href="{{ request.get_host }}" />
+                <link rel="alternate"
+                      hreflang="x-default"
+                      href="{{ request.scheme }}://{{ request.get_host }}" />
             {% endif %}
         {% endwith %}
         {% block head_google_tag_manager %}
