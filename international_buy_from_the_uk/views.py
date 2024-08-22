@@ -1,19 +1,17 @@
-import directory_components.helpers
 from directory_forms_api_client import helpers
 from django.core.paginator import EmptyPage, Paginator
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse, reverse_lazy
-from django.utils.html import escape, mark_safe
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin
 
 from config import settings
 from core.helpers import get_sender_ip_address
-from directory_api_client.client import api_client
 from international_buy_from_the_uk import forms
 from international_buy_from_the_uk.core.helpers import get_url
+from international_buy_from_the_uk.services import get_company_profile, search_companies
 from international_investment.core.helpers import get_location_display
 from international_online_offer.core.region_sector_helpers import get_sectors_as_string
 from international_online_offer.services import get_dbt_sectors
@@ -84,48 +82,6 @@ class ContactView(GA360Mixin, FormView):
         )
 
 
-class CompanyParser(directory_components.helpers.CompanyParser):
-
-    def serialize_for_template(self):
-        if not self.data:
-            return {}
-        return {
-            **self.data,
-            'date_of_creation': self.date_of_creation,
-            'address': self.address,
-            'sectors': self.sectors_label,
-            'keywords': self.keywords,
-            'employees': self.employees_label,
-            'expertise_industries': self.expertise_industries_label,
-            'expertise_regions': self.expertise_regions_label,
-            'expertise_countries': self.expertise_countries_label,
-            'expertise_languages': self.expertise_languages_label,
-            'has_expertise': self.has_expertise,
-            'expertise_products_services': (self.expertise_products_services_label),
-            'is_in_companies_house': self.is_in_companies_house,
-        }
-
-
-def get_results_from_search_response(response):
-    parsed = response.json()
-    formatted_results = []
-
-    for result in parsed['hits']['hits']:
-        parser = CompanyParser(result['_source'])
-        formatted = parser.serialize_for_template()
-        if 'highlight' in result:
-            highlighted = '...'.join(
-                result['highlight'].get('description', '') or result['highlight'].get('summary', '')
-            )
-            # escape all html tags other than <em> and </em>
-            highlighted_escaped = escape(highlighted).replace('&lt;em&gt;', '<em>').replace('&lt;/em&gt;', '</em>')
-            formatted['highlight'] = mark_safe(highlighted_escaped)
-        formatted_results.append(formatted)
-
-    parsed['results'] = formatted_results
-    return parsed
-
-
 class SubmitFormOnGetMixin:
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -152,7 +108,9 @@ class FindASupplierSearchView(GA360Mixin, SubmitFormOnGetMixin, FormView):
         )
 
     def form_valid(self, form):
-        results, count = self.get_results_and_count(form)
+        results, count = search_companies(
+            form.cleaned_data['q'], form.cleaned_data['industries'], form.cleaned_data['page'], self.page_size
+        )
         try:
             paginator = Paginator(range(count), self.page_size)
             pagination = paginator.page(form.cleaned_data['page'])
@@ -167,17 +125,6 @@ class FindASupplierSearchView(GA360Mixin, SubmitFormOnGetMixin, FormView):
                 page_range=page_range,
             )
             return TemplateResponse(self.request, self.template_name, context)
-
-    def get_results_and_count(self, form):
-        response = api_client.company.search_find_a_supplier(
-            term=form.cleaned_data['q'],
-            page=form.cleaned_data['page'],
-            sectors=form.cleaned_data['industries'],
-            size=self.page_size,
-        )
-        response.raise_for_status()
-        formatted = get_results_from_search_response(response)
-        return formatted['results'], formatted['hits']['total']['value']
 
     @staticmethod
     def handle_empty_page(form):
@@ -198,14 +145,6 @@ class FindASupplierSearchView(GA360Mixin, SubmitFormOnGetMixin, FormView):
         )
 
 
-def get_company_profile(number):
-    response = api_client.company.published_profile_retrieve(number=number)
-    # if response.status_code == 404:
-    #     raise Http404(f'API returned 404 for company number {number}')
-    response.raise_for_status()
-    return response.json()
-
-
 class FindASupplierProfileView(GA360Mixin, TemplateView):
     template_name = 'buy_from_the_uk/find_a_supplier/profile.html'
 
@@ -218,9 +157,6 @@ class FindASupplierProfileView(GA360Mixin, TemplateView):
         )
 
     def get_context_data(self, **kwargs):
-        company_number = self.kwargs['company_number']
-        parser = CompanyParser(get_company_profile(company_number))
-        company = parser.serialize_for_template()
         breadcrumbs = [
             {'name': 'Home', 'url': '/international/'},
             {'name': 'Buy from the UK', 'url': '/international/buy-from-the-uk/'},
@@ -228,6 +164,6 @@ class FindASupplierProfileView(GA360Mixin, TemplateView):
         ]
         return super().get_context_data(
             **kwargs,
-            company=company,
+            company=get_company_profile(self.kwargs['company_number']),
             breadcrumbs=breadcrumbs,
         )
