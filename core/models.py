@@ -2064,6 +2064,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
+        help_text=_('Adding a hero video will replace the hero image'),
     )
 
     page_body = StreamField(
