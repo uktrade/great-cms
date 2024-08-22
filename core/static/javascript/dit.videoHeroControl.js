@@ -45,7 +45,7 @@ class VideoPlayerController {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const video = document.getElementById('video-test');
+    const video = document.getElementById('hero-video');
     const controlBtn = document.getElementById('js-video-control');
 
     if (video) {

@@ -1,9 +1,8 @@
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtailmedia.widgets import AdminMediaChooser
 
+
 # TODO: remove -  Deprecated - keeping it incase if we need to go back
-
-
 class SearchEngineOptimisationPanel(MultiFieldPanel):
     default_heading = 'Search Engine Optimisation'
     default_children = [

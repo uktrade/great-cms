@@ -14,7 +14,7 @@
         {% if page.hero_video %}
             <div class="">
                 <div class="great-full-width-header-image">
-                    <video id="video-test" class="great-full-width-header-image great-hero-video "
+                    <video id="hero-video" class="great-full-width-header-image great-hero-video "
                             autoplay muted loop disableRemotePlayback>
                             {% for source in page.hero_video.sources %}
                                 <source src="{{ source.src }}" type="{{ source.type }}">
