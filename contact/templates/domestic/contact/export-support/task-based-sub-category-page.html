@@ -6,7 +6,25 @@
 {% block meta_tags %}<meta name="robots" content="noindex">{% endblock %}
 {% block head_title %}{{ page.page_title }}{% endblock %}
 {% block meta_title %}{{ page.page_title }}{% endblock %}
-{% block body_js %}{{ block.super }}{% endblock %}
+{% block body_js %}
+    {{ block.super }}
+
+    <script type="text/javascript">
+        document.querySelectorAll('[data-task-item]').forEach(el => {
+            el.addEventListener('click', (e) => {
+                const data = el.dataset.task.split('|');
+
+                window.dataLayer.push({
+                    event: 'dss_task_click',
+                    task_id: data[0],
+                    task_title: data[1],
+                    output_type: data[2],
+                });
+            })
+        })
+    </script>
+
+{% endblock %}
 {% block body_attributes %}class="great-bg-white"{% endblock %}
 {% block breadcrumbs_block %}
     <div class="container">{% include 'breadcrumbs.html' with itemsList=page|get_sub_category_page_breadcrumbs %}</div>
@@ -86,7 +104,7 @@
                                                 {% endif %}
 
                                                 <div class="govuk-!-margin-bottom-4">
-                                                    <a href="{% if task.value.url_goods %}{{ task.value.url_goods }}{% else %}{{ task.value.url_services }}{% endif %}" class="govuk-link great-ds-link">
+                                                    <a href="{% if task.value.url_goods %}{{ task.value.url_goods }}{% else %}{{ task.value.url_services }}{% endif %}" class="govuk-link great-ds-link" data-task-item data-task="{{task.value.task_id}}|{{task.value.title}}|{{task.value.output_type}}" target="_blank">
                                                         <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> 
                                                         <span>{% if task.value.link_text %}{{ task.value.link_text }}{% else %}Read the guidance{% endif %}</span>
                                                     </a>
@@ -127,3 +145,6 @@
         </div>
     </div>
 {% endblock %}
+
+
+
