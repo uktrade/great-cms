@@ -7,9 +7,10 @@
 {% endblock %}
 {% block meta_title %}Buy from the UK find a supplier profile {{ block.super }}{% endblock %}
 {% block content %}
-    <section class="buy-from-the-uk-info-section govuk-!-padding-top-6 govuk-!-padding-bottom-4 govuk-!-margin-bottom-6">
+    <section class="buy-from-the-uk-info-section govuk-!-padding-top-1 govuk-!-padding-bottom-4 govuk-!-margin-bottom-6">
         <div class="govuk-width-container great-container">
-            <div class="govuk-grid-row">
+            <div class="govuk-!-margin-bottom-5">{% include 'eyb/includes/breadcrumbs.html' with breadcrumbs=breadcrumbs %}</div>
+            <div class="govuk-grid-row great-display-flex great-align-items-center">
                 <div class="govuk-grid-column-one-third-from-desktop govuk-!-margin-bottom-2">
                     <div class="buy-from-the-uk-logo-container">
                         {% if company.logo %}
@@ -115,12 +116,17 @@
                             </li>
                         {% endif %}
                     </ul>
+                    <hr>
                     {% if company.is_in_companies_house %}
                         <p class="govuk-body-s">{{ company.name }}</p>
                         <p class="govuk-body-s">UK registered company - number {{ company.number }}</p>
                         <p class="govuk-body-s">Registered office address:</p>
                         <p class="govuk-body-s">{{ company.address }}</p>
                     {% endif %}
+                    <div class="govuk-!-margin-bottom-2">
+                        <a class="govuk-link"
+                           href="{% url 'international:contact' %}?next={{ request.get_full_path }}">Report profile</a>
+                    </div>
                 </div>
                 <div class="govuk-grid-column-two-thirds-from-desktop">
                     <h3 class="govuk-heading-m">Company description</h3>

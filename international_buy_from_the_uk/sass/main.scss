@@ -25,7 +25,7 @@ $great-design-system-grey-border: #7d8e96;
 }
 
 .buy-from-the-uk-company-profile-details-section {
-  background-color: $great-lighter-grey;
+  background-color: $great-light-blue;
 }
 
 
@@ -98,4 +98,14 @@ $great-design-system-grey-border: #7d8e96;
   width: 180px;
   height: 180px;
   padding: 15px;
+}
+
+.highlight-em em {
+
+    background: $great-light-yellow;
+    border-bottom: 3px solid black;
+    display: inline-block;
+    padding: 3px;
+    font-style: normal;
+    font-weight: bold;
 }

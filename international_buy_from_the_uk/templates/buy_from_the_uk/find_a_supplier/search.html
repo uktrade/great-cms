@@ -8,121 +8,62 @@
 {% endblock %}
 {% block meta_title %}Buy from the UK find a supplier search {{ block.super }}{% endblock %}
 {% block content %}
-    <form id="events-form" action="" method="get">
-        <section class="buy-from-the-uk-info-section govuk-!-padding-top-6 govuk-!-padding-bottom-6">
-            <div class="govuk-width-container great-container">
-                <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-two-thirds-from-desktop">
-                        <h1 class="govuk-heading-l">Find a UK supplier</h1>
-                    </div>
-                </div>
-                <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-one-half-from-desktop">
-                        <div id="buy-from-the-uk-search-form"
-                             class="magna-header__search govuk-!-margin-bottom-4"
-                             action="{% url 'search:search' %}"
-                             method="get">
-                            <label for="magna-header-search-box" class="great-visually-hidden">Search</label>
-                            <input id="magna-header-search-box"
-                                   type="text"
-                                   name="q"
-                                   value="{% if form.q.value %}{{ form.q.value }}{% endif %}"
-                                   placeholder="Search for UK suppliers">
-                            <button>
-                                <span class="great-visually-hidden">Search</span>
-                            </button>
-                        </div>
-                    </div>
+    <section class="buy-from-the-uk-info-section govuk-!-padding-bottom-8">
+        <div class="govuk-width-container great-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds-from-desktop">
+                    <div class="govuk-!-margin-bottom-8">{% include 'eyb/includes/breadcrumbs.html' with breadcrumbs=breadcrumbs %}</div>
+                    <h1 class="govuk-heading-xl govuk-!-margin-bottom-4">Find a UK supplier</h1>
                 </div>
             </div>
-        </section>
-        <section class="govuk-!-padding-top-6 govuk-!-padding-bottom-6">
-            <div class="govuk-width-container great-container">
-                <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-one-quarter-from-desktop">
-                        <h2 class="govuk-heading-m">Filter results</h2>
-                        <div class="govuk-accordion"
-                             data-module="govuk-accordion"
-                             id="accordion-default">
-                            <div class="govuk-accordion__section">
-                                <div class="govuk-accordion__section-header">
-                                    <h2 class="govuk-accordion__section-heading">
-                                        <span class="govuk-accordion__section-button"
-                                              id="accordion-default-heading-1">
-                                            <span class="govuk-heading-s">{{ form.industries.label }}</span>
-                                        </span>
-                                    </h2>
-                                </div>
-                                <div id="accordion-default-content-1"
-                                     class="govuk-accordion__section-content govuk-!-padding-left-2 fixed-height-scroll">
-                                    <div class="govuk-checkboxes govuk-checkboxes--small"
-                                         data-module="govuk-checkboxes"
-                                         id="industries">
-                                        {% for action in form.industries %}
-                                            <div class="govuk-checkboxes__item">
-                                                <input {% if action.data.value in form.industries.value %}checked{% endif %}
-                                                       type="checkbox"
-                                                       name="industries"
-                                                       value="{{ action.data.value }}"
-                                                       class="govuk-checkboxes__input"
-                                                       id="{{ action.id_for_label }}">
-                                                <label class="govuk-label govuk-checkboxes__label"
-                                                       for="{{ action.id_for_label }}">
-                                                    {{ action.choice_label }}
-                                                </label>
-                                            </div>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="submit" class="govuk-button" data-module="govuk-button">Update results</button>
-                        <br />
-                        <a href="?q={{ form.q.value }}&page=1" class="govuk-link">Reset</a>
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-one-half-from-desktop">
+                    <form id="buy-from-the-uk-search-form"
+                          class="magna-header__search govuk-!-margin-bottom-4"
+                          action=""
+                          method="get">
+                        <label for="magna-header-search-box" class="great-visually-hidden">Search</label>
+                        <input id="magna-header-search-box"
+                               type="text"
+                               name="q"
+                               placeholder="Search for a product or service">
+                        <button type="submit">
+                            <span class="great-visually-hidden">Search</span>
+                        </button>
                         {{ form.page }}
                     </form>
                 </div>
+            </div>
+        </div>
+    </section>
+    <section class="govuk-!-padding-top-6 govuk-!-padding-bottom-6">
+        <div class="govuk-width-container great-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-one-quarter-from-desktop">
+                    {% include '../includes/filters.html' with form=form is_find_a_supplier=True %}
+                </div>
                 <div class="govuk-grid-column-three-quarters-from-desktop">
                     {% if results %}
-                        <div class="govuk-!-margin-bottom-4 great-ds-border-bottom-grey">
-                            <p class="govuk-heading-s">
-                                {{ pagination.paginator.count }} {{ pagination.paginator.count|pluralize:'result,results' }} found
+                        <div class="govuk-!-margin-bottom-4 great-grey-bottom-border">
+                            <p class="govuk-body">
+                                <strong>{{ pagination.paginator.count }} {{ pagination.paginator.count|pluralize:'result,results' }} found</strong>
+                                {% if form.q.value %}
+                                    <span>for</span>
+                                    <strong class="govuk-tag govuk-tag--grey govuk-!-margin-bottom-1">{{ form.q.value }}</strong>
+                                {% endif %}
+                                {% if form.industries.value %}
+                                    <span>in</span>
+                                    {% for action in form.industries %}
+                                        {% if action.data.value in form.industries.value %}
+                                            <strong class="govuk-tag govuk-tag--grey govuk-!-margin-bottom-1">{{ action.choice_label }}</strong>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
                             </p>
                         </div>
                         {% for company in results %}
-                            <div class="govuk-!-margin-bottom-4 great-ds-border-bottom-grey great-display-flex great-align-items-center great-gap">
-                                <div>
-                                    {% if company.logo %}
-                                        <div class="buy-from-the-uk-listitem-logo"
-                                             style="background-image: url('{{ company.logo }}')"></div>
-                                    {% else %}
-                                        <div class="buy-from-the-uk-listitem-logo"
-                                             style="background-image: url('{% static 'images/placeholder.png' %}')">
-                                        </div>
-                                    {% endif %}
-                                </div>
-                                <div class="great-full-width">
-                                    <a href="{% url 'international_buy_from_the_uk:find-a-supplier-profile' company_number=company.number %}"
-                                       class="govuk-heading-xs govuk-!-margin-bottom-2 great-heading-link great-ds-heading-link">
-                                        <h2 class="govuk-heading-xs great-heading-link__heading govuk-!-font-size-24">
-                                            <span>{{ company.name }}</span>
-                                        </h2>
-                                    </a>
-                                    {% if company.expertise_regions %}
-                                        <div class="govuk-hint">Regional expertise: {{ company.expertise_regions }}</div>
-                                    {% endif %}
-                                    {% if company.employees %}
-                                        <div class="govuk-hint">Number of employees: {{ company.employees }} Employees</div>
-                                    {% endif %}
-                                    <p class="govuk-body govuk-!-margin-bottom-4">
-                                        {% if company.highlight %}
-                                            {{ company.highlight|truncatechars_html:125 }}
-                                        {% else %}
-                                            {{ company.summary|default:company.description|truncatechars:135 }}
-                                        {% endif %}
-                                    </p>
-                                </div>
-                            </div>
+                            {% url 'international_buy_from_the_uk:find-a-supplier-profile' company_number=company.number as profile_link %}
+                            {% include '../includes/list_item.html' with logo=company.logo title=company.name link_url=profile_link company=company %}
                         {% endfor %}
                         <br />
                         <br />
@@ -194,4 +135,7 @@
     </div>
 </section>
 {% endblock %}
-{% block body_js %}{{ block.super }}{% endblock %}
+{% block body_js %}
+    {{ block.super }}
+    <script>document.getElementsByClassName("govuk-accordion__controls")[0].style.display = 'none';</script>
+{% endblock %}

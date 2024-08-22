@@ -3,6 +3,9 @@
 {% block head_title %}Buy from the UK {{ block.super }}{% endblock %}
 {% block meta_title %}Buy from the UK {{ block.super }}{% endblock %}
 {% block content %}
+    <div class="govuk-width-container great-container">
+        {% include 'eyb/includes/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
+    </div>
     {% include './includes/landing_hero.html' %}
     <section class="buy-from-the-uk-home-download-section">
         <div class="govuk-width-container great-container">
