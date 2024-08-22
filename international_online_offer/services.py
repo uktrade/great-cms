@@ -157,3 +157,8 @@ def get_dbt_sectors():
 def get_gva_scoring_criteria(full_sector_name):
     response = api_client.dataservices.get_gva_bandings(full_sector_name=full_sector_name)
     return response.json()
+
+
+def get_all_sectors_gva_scoring_criteria():
+    response = api_client.dataservices.get_all_sectors_gva_value_bands()
+    return response.json()

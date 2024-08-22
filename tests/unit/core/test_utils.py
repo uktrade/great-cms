@@ -1,5 +1,6 @@
 import pytest
 from django.contrib.auth.models import AnonymousUser
+from django.contrib.sessions.middleware import SessionMiddleware
 from django.core.files.base import ContentFile
 from django.http import HttpRequest
 from django.test import TestCase
@@ -64,7 +65,7 @@ def test_lesson_module__get_first_lesson__unhappy_path(domestic_homepage):
 
 
 @pytest.mark.django_db
-def test_multiple_modules(domestic_homepage, client, user):
+def test_multiple_modules(domestic_homepage, client, user, get_response):
     list_page = factories.ListPageFactory(parent=domestic_homepage, record_read_progress=True)
     module_1 = factories.CuratedListPageFactory(
         title='Module 1',
@@ -103,6 +104,9 @@ def test_multiple_modules(domestic_homepage, client, user):
 
     request = HttpRequest()
     request.user = user
+    middleware = SessionMiddleware(get_response)
+    middleware.process_request(request)
+    request.session.save()
 
     page1_response = detail_page_1.serve(request)
     page2_response = detail_page_2.serve(request)
@@ -127,7 +131,7 @@ def test_multiple_modules(domestic_homepage, client, user):
 
 
 @pytest.mark.django_db
-def test_placeholders_do_not_get_counted(domestic_homepage, client, user):
+def test_placeholders_do_not_get_counted(domestic_homepage, client, user, get_response):
     # Almost literally the same test as above, but with some placeholder blocks
     # mixed in to show that they don't affect lesson counts or 'next' lessons
 
@@ -181,6 +185,9 @@ def test_placeholders_do_not_get_counted(domestic_homepage, client, user):
 
     request = HttpRequest()
     request.user = user
+    middleware = SessionMiddleware(get_response)
+    middleware.process_request(request)
+    request.session.save()
 
     page1_response = detail_page_1.serve(request)
     page2_response = detail_page_2.serve(request)

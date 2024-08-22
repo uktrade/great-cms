@@ -15,13 +15,13 @@ from django.template.loader import render_to_string
 from django.utils.html import mark_safe
 from great_components import forms
 
+from contact import widgets as contact_widgets
 from core import constants
 from core.cms_slugs import (
     PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE,
     TERMS_URL,
 )
 from core.constants import CONSENT_CHOICES
-from contact import widgets as contact_widgets
 
 TERMS_LABEL = mark_safe(
     'Tick this box to accept the '
@@ -199,8 +199,13 @@ class GuidedJourneyStep4Form(forms.Form):
         choices=(
             ('customs-taxes-and-declarations/tax-and-duty-liabilities', 'Tax and duty liabilities'),
             ('customs-taxes-and-declarations/product-classification', 'Product classification'),
+            ('routes-to-market/exploring-routes-to-market', 'Exploring routes to market'),
+            (
+                'routes-to-market/prepare-your-business-to-operate-in-a-market',
+                'Prepare your business to operate in a market',
+            ),
         ),
-        widget=contact_widgets.GreatRadioSelect,
+        widget=contact_widgets.GreatFilteredRadioSelect,
         error_messages={
             'required': 'Choose a subject of your enquiry',
         },

@@ -123,14 +123,14 @@
                             </li>
                             {% if not features.FEATURE_DEA_V2 %}
                                 <li>
-                                    <a href="/learn/categories/">Learn to export</a>
+                                    <a id="menu-lte" href="/learn/categories/">Learn to export</a>
                                 </li>
                             {% endif %}
                             <li>
-                                <a href="{% url "core:compare-countries" %}">Where to export</a>
+                                <a id="menu-wte" href="{% url "core:compare-countries" %}">Where to export</a>
                             </li>
                             <li>
-                                <a href="/export-plan/">Make an export plan</a>
+                                <a id="menu-export-plan" href="/export-plan/">Make an export plan</a>
                             </li>
                             <li>
                                 <a id="view-account" href="/profile/">Account</a>
@@ -138,27 +138,27 @@
                         {% endif %}
                         {% if features.FEATURE_DEA_V2 %}
                             <li>
-                                <a href="/learn/categories/">Learn to export</a>
+                                <a id="menu-lte" href="/learn/categories/">Learn to export</a>
                             </li>
                         {% else %}
                             <li>
-                                <a href="/advice/">Advice</a>
+                                <a id="menu-advice" href="/advice/">Advice</a>
                             </li>
                         {% endif %}
                         {% if features.FEATURE_PRODUCT_EXPERIMENT_HEADER %}
                             <li>
-                                <a href="/markets/">Markets</a>
+                                <a id="menu-markets" href="/markets/">Markets</a>
                             </li>
                             <li>
-                                <a href="{% url 'core:compare-countries' %}">Products</a>
+                                <a id="menu-products" href="{% url 'core:compare-countries' %}">Products</a>
                             </li>
                         {% else %}
                             <li>
-                                <a href="/markets/">Markets</a>
+                                <a id="menu-markets" href="/markets/">Markets</a>
                             </li>
                         {% endif %}
                         <li>
-                            <a href="/services/">Services</a>
+                            <a id="menu-services" href="/services/">Services</a>
                         </li>
                         {% if request.user.is_authenticated %}
                             <li>

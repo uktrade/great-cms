@@ -1,0 +1,60 @@
+{% extends './base.html' %}
+{% load static %}
+{% block head_title %}Buy from the UK {{ block.super }}{% endblock %}
+{% block meta_title %}Buy from the UK {{ block.super }}{% endblock %}
+{% block content %}
+    {% include './includes/landing_hero.html' %}
+    <section class="buy-from-the-uk-home-download-section">
+        <div class="govuk-width-container great-container">
+            <div class="govuk-grid-row govuk-!-padding-top-8 govuk-!-padding-bottom-7">
+                <div class="govuk-grid-column-one-quarter-from-desktop">
+                    <div class="buy-from-the-uk-ebook-preview-image govuk-!-margin-bottom-2"></div>
+                </div>
+                <div class="govuk-grid-column-three-quarters-from-desktop">
+                    <h2 class="govuk-heading-m">Download our ebook: 5 reasons to buy from the UK</h2>
+                    <p class="govuk-body-m">
+                        The UK is a nation of innovators with more Nobel Prize winners than anywhere outside of the US. Every day, businesses all over the world buy products and services of the highest quality from the UK.
+                    </p>
+                    <p class="govuk-body-m">
+                        Our ebook, 5 Reasons to buy from the UK, gives insight into how the unique combination of innovation, creativity, infrastructure, robust regulatory framework, and access to capital makes the UK one of the top markets to find a supplier.
+                    </p>
+                    <a class="govuk-button"
+                       href="https://directory-cms.london.cloudapps.digital/documents/107/5_Reasons_To_Buy_From_the_UK_RElQ4Ie.pdf">
+                        Download
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="buy-from-the-uk-info-section">
+        <div class="govuk-width-container great-container">
+            <div class="govuk-grid-row great-card-row govuk-!-padding-top-8 govuk-!-padding-bottom-2">
+                <div class="govuk-grid-column-one-half-from-desktop govuk-!-margin-bottom-6">
+                    {% include 'components/great/card.html' with data_attr_title='Find a UK supplier' image_src='buy_from_the_uk/includes/svg/Icon-FindUKCompanies.svg' is_svg_image=True data_attr_location='International buy from the UK homepage' title='Find a UK supplier' show_title_link=True url='/international/trade/' content='Search our directory of businesses exporting from the UK. Find suppliers of products and services across agriculture, software, manufacturing and more.' content_class="govuk-body" classes="great-card--homepage great-international-card--cta" %}
+                </div>
+                <div class="govuk-grid-column-one-half-from-desktop govuk-!-margin-bottom-6">
+                    {% include 'components/great/card.html' with data_attr_title='Making introductions' image_src='buy_from_the_uk/includes/svg/Icon-MakeIntroductions.svg' is_svg_image=True data_attr_location='International buy from the UK homepage' title='Making introductions' show_title_link=True url='/international/buy-from-the-uk/contact/' content='Tell us about your business. We will find your ideal trade partner and make an introduction to get you off to the best start.' content_class="govuk-body" classes="great-card--homepage great-international-card--cta" %}
+                </div>
+                <div class="govuk-grid-column-one-half-from-desktop govuk-!-margin-bottom-6">
+                    {% include 'components/great/card.html' with data_attr_title='Get advice on buying from the UK' image_src='buy_from_the_uk/includes/svg/Icon-GetAdvice.svg' is_svg_image=True data_attr_location='International buy from the UK homepage' title='Get advice on buying from the UK' show_title_link=True url='/international/buy-from-the-uk/contact/' content='Get the latest information on markets and trends, and benefit from the local knowledge of our trade advisers from around the world.' content_class="govuk-body" classes="great-card--homepage great-international-card--cta" %}
+                </div>
+                <div class="govuk-grid-column-one-half-from-desktop govuk-!-margin-bottom-6">
+                    {% include 'components/great/card.html' with data_attr_title='Finance imports' image_src='buy_from_the_uk/includes/svg/Icon-Finance.svg' is_svg_image=True data_attr_location='International buy from the UK homepage' title='Finance imports' show_title_link=True url='/project-finance/' content='Find competitive financing when buying from the UK. Explore a range of financing solutions through our initiative for foreign buyers, UK Export Finance (UKEF).' content_class="govuk-body" classes="great-card--homepage great-international-card--cta" %}
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="buy-from-the-uk-contact-section">
+        <div class="govuk-width-container great-container">
+            <div class="govuk-grid-row govuk-!-padding-top-8 govuk-!-padding-bottom-8">
+                <div class="govuk-grid-column-two-thirds-from-desktop">
+                    <h2 class="govuk-heading-m">Speak to us</h2>
+                    <p class="govuk-body-m">
+                        Our teams are located in UK embassies, high commissions and consulates in cities around the world.
+                    </p>
+                    <a class="govuk-button" href="/international/trade/contact/">Get in touch</a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

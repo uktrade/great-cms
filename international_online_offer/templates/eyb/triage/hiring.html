@@ -9,17 +9,19 @@
 {% block head_css %}{{ block.super }}{% endblock %}
 {% block content %}
     <div class="govuk-width-container great-container">
-        {% include '../includes/triage_header.html' with back_url=back_url hint_title='About your expansion plans' %}
+        {% include '../includes/triage_header.html' with back_url=back_url %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-3">
                 <form method="post">
                     {% csrf_token %}
-                    <div class="govuk-form-group{% if form.hiring.errors %} govuk-form-group--error{% endif %} govuk-!-margin-bottom-7">
+                    <h2 class="govuk-caption-l">
+                        <span class="govuk-visually-hidden">This section is</span>About your expansion plans
+                    </h2>
+                    <div class="govuk-form-group{% if form.hiring.errors %} govuk-form-group--error{% endif %}">
                         <fieldset class="govuk-fieldset">
                             <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                                 <h1 class="govuk-fieldset__heading">How many people do you want to hire in the UK in the first three years?</h1>
                             </legend>
-                            <div id="{{ form.hiring.auto_id }}" class="govuk-hint">{{ form.hiring.help_text }}</div>
                             {% for error in form.hiring.errors %}
                                 <p class="govuk-error-message" role="alert">
                                     <span class="govuk-visually-hidden">Error:</span> {{ error }}

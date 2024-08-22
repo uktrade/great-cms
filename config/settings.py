@@ -83,6 +83,7 @@ INSTALLED_APPS = [
     'international_online_offer.apps.ExpandYourBusinessConfig',
     'international.apps.InternationalConfig',
     'international_investment.apps.InvestmentConfig',
+    'international_buy_from_the_uk.apps.BuyFromTheUKConfig',
     'users.apps.UsersConfig',
     'learn.apps.LearnConfig',
     'captcha',
@@ -681,6 +682,15 @@ CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID = env.str(
     'CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID',
     'c07d1fb2-dc0c-40ba-a3e0-3113638e69a3',
 )
+
+CONTACT_INDUSTRY_AGENT_EMAIL_ADDRESS = env.str('CONTACT_INDUSTRY_AGENT_EMAIL_ADDRESS', None)
+
+CONTACT_INDUSTRY_AGENT_TEMPLATE_ID = env.str(
+    'CONTACT_INDUSTRY_AGENT_TEMPLATE_ID', 'a9318bce-7d65-41b2-8d4c-b4a76ba285a2'
+)
+CONTACT_INDUSTRY_USER_TEMPLATE_ID = env.str('CONTACT_INDUSTRY_USER_TEMPLATE_ID', '6a97f783-d246-42ca-be53-26faf3b08e32')
+CONTACT_INDUSTRY_USER_REPLY_TO_ID = env.str('CONTACT_INDUSTRY_USER_REPLY_TO_ID', None)
+
 
 SUBSCRIBE_TO_FTA_UPDATES_NOTIFY_TEMPLATE_ID = env.str(
     'SUBSCRIBE_TO_FTA_UPDATES_NOTIFY_TEMPLATE_ID', 'cfa3b4b3-c232-4603-a3ce-e476ee8bab92'

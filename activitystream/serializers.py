@@ -18,7 +18,9 @@ from export_academy.models import (
     Registration,
     VideoOnDemandPageTracking,
 )
+from find_a_buyer.models import CsatUserFeedback as FindABuyerCsatUserFeedback
 from international_online_offer.models import CsatFeedback, TriageData, UserData
+from learn.models import CsatUserFeedback as LearnToExportCsatUserFeedback
 
 logger = logging.getLogger(__name__)
 
@@ -632,7 +634,7 @@ class ActivityStreamWhereToExportCsatUserFeedbackDataSerializer(serializers.Mode
             'url',
             'user_journey',
             'satisfaction_rating',
-            'experienced_issue',
+            'experienced_issues',
             'other_detail',
             'service_improvements_feedback',
             'likelihood_of_return',
@@ -643,6 +645,86 @@ class ActivityStreamWhereToExportCsatUserFeedbackDataSerializer(serializers.Mode
         Prefix field names to match activity stream format
         """
         prefix = 'dit:whereToExport:csatFeedbackData'
+        type = 'Update'
+
+        return {
+            'id': f'{prefix}:{instance.id}:{type}',
+            'type': f'{type}',
+            'object': {
+                'id': f'{prefix}:{instance.id}',
+                'type': prefix,
+                **{f'{k}': v for k, v in super().to_representation(instance).items()},
+            },
+        }
+
+
+class ActivityStreamFindABuyerCsatUserFeedbackDataSerializer(serializers.ModelSerializer):
+    """
+    Find A Buyer CSAT Feedback Data serializer for activity stream.
+    """
+
+    feedback_submission_date = serializers.DateTimeField(source='created')  # noqa: N815
+    url = serializers.CharField(source='URL')  # noqa: N815
+
+    class Meta:
+        model = FindABuyerCsatUserFeedback
+        fields = [
+            'id',
+            'feedback_submission_date',
+            'url',
+            'user_journey',
+            'satisfaction_rating',
+            'experienced_issues',
+            'other_detail',
+            'service_improvements_feedback',
+            'likelihood_of_return',
+        ]
+
+    def to_representation(self, instance):
+        """
+        Prefix field names to match activity stream format
+        """
+        prefix = 'dit:findABuyer:csatFeedbackData'
+        type = 'Update'
+
+        return {
+            'id': f'{prefix}:{instance.id}:{type}',
+            'type': f'{type}',
+            'object': {
+                'id': f'{prefix}:{instance.id}',
+                'type': prefix,
+                **{f'{k}': v for k, v in super().to_representation(instance).items()},
+            },
+        }
+
+
+class ActivityStreamLearnToExportCsatUserFeedbackDataSerializer(serializers.ModelSerializer):
+    """
+    Learn To Export CSAT Feedback Data serializer for activity stream.
+    """
+
+    feedback_submission_date = serializers.DateTimeField(source='created')  # noqa: N815
+    url = serializers.CharField(source='URL')  # noqa: N815
+
+    class Meta:
+        model = LearnToExportCsatUserFeedback
+        fields = [
+            'id',
+            'feedback_submission_date',
+            'url',
+            'user_journey',
+            'satisfaction_rating',
+            'experienced_issues',
+            'other_detail',
+            'service_improvements_feedback',
+            'likelihood_of_return',
+        ]
+
+    def to_representation(self, instance):
+        """
+        Prefix field names to match activity stream format
+        """
+        prefix = 'dit:learnToExport:csatFeedbackData'
         type = 'Update'
 
         return {

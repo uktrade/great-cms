@@ -1,9 +1,12 @@
-@import "node_modules/govuk-frontend/govuk/all";
+@import 'node_modules/@uktrade/great-design-system/dist/scss/main';
+@import 'node_modules/govuk-frontend/govuk/all';
 
-@import "reset";
-@import "colors";
-@import "utils";
-@import "components";
-@import "overrides";
-@import "sign-up";
-@import "language-specific";
+@import 'reset';
+@import 'colors';
+@import 'utils';
+@import 'components';
+@import 'overrides';
+@import 'sign-up';
+@import 'language-specific';
+
+@import 'great-design-system-temp';

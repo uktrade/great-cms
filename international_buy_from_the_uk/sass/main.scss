@@ -1,0 +1,28 @@
+@import '../../international/sass/main.scss';
+@import './hero.scss';
+
+.buy-from-the-uk-home-download-section {
+  background-color: white;
+
+  .buy-from-the-uk-ebook-preview-image {
+      background-position: top, left;
+      background-repeat: no-repeat;
+      background-size: contain;
+      min-width: 200px;
+      width: 100%;
+      max-width: 300px;
+      height: 380px;
+      margin-right: auto;
+      margin-left: auto;
+      background-image: url('/static/images/buy_from_the_uk_ebook_preview.jpg')
+  }
+}
+
+.buy-from-the-uk-info-section {
+  background-color: $great-light-blue;
+}
+
+
+.buy-from-the-uk-home-strapline-container {
+  background-color: rgba(26, 92, 164, .7);
+}

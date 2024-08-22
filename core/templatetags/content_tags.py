@@ -431,7 +431,7 @@ def get_icon_path(url):
     if url:
         if url.endswith('/'):
             url = url[:-1]
-        return 'components/great/includes/' + url.split('/support/')[1] + '.svg'
+        return 'components/great/includes/' + url.split('/')[-1] + '.svg'
     else:
         return ''
 
@@ -592,20 +592,52 @@ def get_sub_category_page_breadcrumbs(page):
 @register.filter
 def get_meta_tag_label(url):
     if 'great' in url:
-        return 'GREAT'
+        return 'great.gov.uk'
 
     if 'gov' in url:
         return 'GOV.UK'
 
-    return 'Default label'
+    return ''
 
 
 @register.filter
-def get_meta_tag_icon_path(url):
-    if 'great' in url:
+def get_meta_tag_icon_path(type):
+    if 'Service' in type:
         return '/static/icons/hand.svg'
 
-    if 'gov' in url:
-        return '/static/icons/guidance.svg'
+    return '/static/icons/guidance.svg'
 
-    return '/static/icons/hand.svg'
+
+@register.simple_tag()
+def change_country_name_to_include_the(country_name):
+
+    countries_starting_with_the = [
+        'bahamas',
+        'cayman islands',
+        'central african republic',
+        'channel islands',
+        'comoros',
+        'czech republic',
+        'dominican republic',
+        'falkland islands',
+        'faroe islands',
+        'gambia',
+        'isle of man',
+        'ivory coast',
+        'leeward islands',
+        'maldives',
+        'marshall islands',
+        'netherlands',
+        'netherlands antilles',
+        'philippines',
+        'solomon islands',
+        'turks and caicos islands',
+        'united arab emirates',
+        'united kingdom',
+        'united states',
+        'virgin islands',
+    ]
+
+    if country_name.lower() in countries_starting_with_the:
+        return f'the {country_name.lower().title().replace(" Of ", " of ").replace(" And ", " and ")}'
+    return country_name.lower().title()

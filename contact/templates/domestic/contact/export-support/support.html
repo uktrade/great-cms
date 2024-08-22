@@ -30,15 +30,16 @@
                     </div>
                     {% if page.page_body %}
                         <div class="govuk-!-padding-top-7 great-full-width-bar great-bg-light-blue">
-                            <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Online export support</h2>
+                            <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Online answers</h2>
                             <p class="govuk-body govuk-!-margin-bottom-0">
-                                Find your answers with 24/7 access to our expert guidance, tools and services.
+                                Get your answer quickly with 24/7 access to our range of support tools, services and how-to articles. 
                             </p>
                             <div class="govuk-grid-row govuk-!-padding-top-7">
                                 <div class="govuk-grid-column-three-quarters">
                                     <div class="govuk-grid-row great-card-row">
                                         {% include 'domestic/contact/export-support/includes/topic-card.html' with topics=page.page_body %}
                                     </div>
+                                    <hr class="great-ds-hr" />
                                     <div class="govuk-grid-row govuk-!-margin-bottom-9 great-display-from-tablet">
                                         <div class="govuk-grid-column-two-thirds">
                                             {% include 'domestic/contact/export-support/includes/get-in-touch.html' %}

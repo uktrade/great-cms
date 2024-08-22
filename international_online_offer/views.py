@@ -247,7 +247,7 @@ class ContactDetailsView(GA360Mixin, FormView):
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
-        leading_title = 'Provide your details so that we can contact you - we may be able to help.'
+        leading_title = 'Provide your details so that we can contact you – we may be able to help.'
         if self.request.user.is_authenticated:
             triage_data = get_triage_data_for_user(self.request)
             if triage_data:
@@ -678,7 +678,9 @@ class SignUpView(
         form = forms.SignUpForm
         if self.is_validate_code_flow():
             form = forms.CodeConfirmForm
-        return render(request, self.template_name, {'form': form})
+        return render(
+            request, self.template_name, {'form': form, 'back_url': '/international/expand-your-business-in-the-uk/'}
+        )
 
     def get_login_url(self):
         return self.request.build_absolute_uri(reverse_lazy('international_online_offer:login'))
