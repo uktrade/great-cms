@@ -10,7 +10,7 @@
             <div>
                 <h1>My export plans</h1>
                 <p>Your unique business plan to launch your exports.</p>
-                <a href="{% url 'exportplan:start' %}" class="button primary-button"><span role="img" class="fas fa-plus govuk-!-margin-right-2"></span>Create a new plan</a>
+                <a id="cta-export-plan" href="{% url 'exportplan:start' %}" class="button primary-button"><span role="img" class="fas fa-plus govuk-!-margin-right-2"></span>Create a new plan</a>
             </div>
             <div class="image-container"></div>
         </div>
@@ -58,7 +58,7 @@
                         <a href="{% url 'exportplan:start' %}"
                            class="button primary-button buttton-icon"><span role="img" class="fas fa-plus m-r-xs"></span>
                         {% if request.user.is_authenticated %}
-                            Create a  new plan
+                            Create a new plan
                         {% else %}
                             Create a free plan
                         {% endif %}
