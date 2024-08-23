@@ -33,7 +33,6 @@ def get_company_profile(number):
 
 
 def get_company_from_response(response):
-    print(response.json())
     parser = CompanyParser(response.json())
     return parser.serialize_for_template()
 
