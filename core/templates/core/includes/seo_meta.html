@@ -9,7 +9,9 @@
         <link rel="alternate"
               hreflang="en-gb"
               href="{{ self.get_seo_canonical_url }}" />
-        <link rel="alternate" hreflang="x-default" href="{{ request.get_host }}" />
+        <link rel="alternate"
+              hreflang="x-default"
+              href="{{ request.scheme }}://{{ request.get_host }}" />
         {% if self.seo_og_type == "article" and self.seo_author %}
             <meta name="author"
                   content="{% block author %}{{ self.seo_author }}{% endblock %}" />
