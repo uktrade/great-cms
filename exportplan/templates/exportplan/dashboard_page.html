@@ -81,7 +81,7 @@
     {% if export_plan.ui_progress %}
         <div class="great-border-thin-top-lighter-blue">
             <section class="govuk-!-padding-bottom-3 bg-white clearfix">
-                <div class="container">{% include './includes/csat_user_feedback.html' with form=form csat_stage=csat_stage %}</div>
+                {% include './includes/csat_user_feedback.html' with form=form csat_stage=csat_stage %}
             </section>
         </div>
     {% endif %}
@@ -92,6 +92,9 @@
 
 {% block body_js %}
     {{ block.super }}
+    <script src="{% static 'javascript/govuk.js' %}"></script>
+    <script>window.GOVUKFrontend.initAll()</script>
+
     <script type="text/javascript">
         magna.createDashboard({
         element: document.getElementById('export-plan-dashboard'),
