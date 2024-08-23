@@ -8,10 +8,6 @@
     {{ block.super }}
     {% get_canonical_url as canonical_url %}
     <link rel="canonical" href="{{ canonical_url }}">
-    <link rel="alternate" hreflang="en-gb" href="{{ canonical_url }}" />
-    <link rel="alternate"
-          hreflang="x-default"
-          href="{{ request.scheme }}://{{ request.get_host }}" />
 {% endblock %}
 {% block meta_description %}
     {% get_meta_description page %}
