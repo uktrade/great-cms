@@ -1,11 +1,17 @@
 from directory_forms_api_client import helpers
-from django.urls import reverse_lazy
+from django.core.paginator import EmptyPage, Paginator
+from django.shortcuts import redirect
+from django.template.response import TemplateResponse
+from django.urls import reverse, reverse_lazy
+from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin
 
 from config import settings
 from core.helpers import get_sender_ip_address
 from international_buy_from_the_uk import forms
+from international_buy_from_the_uk.core.helpers import get_url
+from international_buy_from_the_uk.services import get_company_profile, search_companies
 from international_investment.core.helpers import get_location_display
 from international_online_offer.core.region_sector_helpers import get_sectors_as_string
 from international_online_offer.services import get_dbt_sectors
@@ -65,8 +71,99 @@ class ContactView(GA360Mixin, FormView):
     def get_context_data(self, **kwargs):
         dbt_sectors = get_dbt_sectors()
         autocomplete_sector_data = get_sectors_as_string(dbt_sectors)
-
+        breadcrumbs = [
+            {'name': 'Home', 'url': '/international/'},
+            {'name': 'Buy from the UK', 'url': '/international/buy-from-the-uk/'},
+        ]
         return super().get_context_data(
             **kwargs,
             autocomplete_sector_data=autocomplete_sector_data,
+            breadcrumbs=breadcrumbs,
+        )
+
+
+class SubmitFormOnGetMixin:
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        data = self.request.GET or {}
+        if data:
+            kwargs['data'] = data
+        return kwargs
+
+    def get(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
+
+
+class FindASupplierSearchView(GA360Mixin, SubmitFormOnGetMixin, FormView):
+    template_name = 'buy_from_the_uk/find_a_supplier/search.html'
+    form_class = forms.SearchForm
+    page_size = 10
+
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='find-a-supplier-search',
+            business_unit='Buy from the UK',
+            site_section='Find a supplier search',
+        )
+
+    def form_valid(self, form):
+        results, count = search_companies(
+            form.cleaned_data['q'], form.cleaned_data['industries'], form.cleaned_data['page'], self.page_size
+        )
+        try:
+            paginator = Paginator(range(count), self.page_size)
+            pagination = paginator.page(form.cleaned_data['page'])
+            page_range = paginator.get_elided_page_range(form.cleaned_data['page'])
+        except EmptyPage:
+            return self.handle_empty_page(form)
+        else:
+            context = self.get_context_data(
+                results=results,
+                pagination=pagination,
+                form=form,
+                page_range=page_range,
+            )
+            return TemplateResponse(self.request, self.template_name, context)
+
+    @staticmethod
+    def handle_empty_page(form):
+        url_str = get_url(form)
+        url = '{url}{url_str}&page=1'.format(
+            url=reverse('international_buy_from_the_uk:find-a-supplier'), url_str=url_str
+        )
+        return redirect(url)
+
+    def get_context_data(self, **kwargs):
+        breadcrumbs = [
+            {'name': 'Home', 'url': '/international/'},
+            {'name': 'Buy from the UK', 'url': '/international/buy-from-the-uk/'},
+        ]
+        return super().get_context_data(
+            **kwargs,
+            breadcrumbs=breadcrumbs,
+        )
+
+
+class FindASupplierProfileView(GA360Mixin, TemplateView):
+    template_name = 'buy_from_the_uk/find_a_supplier/profile.html'
+
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='find-a-supplier-profile',
+            business_unit='Buy from the UK',
+            site_section='Find a supplier profile',
+        )
+
+    def get_context_data(self, **kwargs):
+        breadcrumbs = [
+            {'name': 'Home', 'url': '/international/'},
+            {'name': 'Buy from the UK', 'url': '/international/buy-from-the-uk/'},
+            {'name': 'Find a UK supplier', 'url': '/international/buy-from-the-uk/find-a-supplier'},
+        ]
+        return super().get_context_data(
+            **kwargs,
+            company=get_company_profile(self.kwargs['company_number']),
+            breadcrumbs=breadcrumbs,
         )

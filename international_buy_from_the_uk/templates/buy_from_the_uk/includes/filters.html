@@ -1,0 +1,48 @@
+<h2 class="govuk-heading-m govuk-!-margin-bottom-4">Filter results</h2>
+<form class="magna-header__search govuk-!-margin-bottom-4"
+      action=""
+      method="get">
+    <div class="govuk-accordion"
+         data-module="govuk-accordion"
+         id="accordion-default">
+        {% if is_find_a_supplier %}
+            <div class="govuk-accordion__section">
+                <div class="govuk-accordion__section-header">
+                    <h2 class="govuk-accordion__section-heading">
+                        <span class="govuk-accordion__section-button"
+                              id="accordion-default-heading-1">
+                            <span class="govuk-heading-s">{{ form.industries.label }}</span>
+                        </span>
+                    </h2>
+                </div>
+                <div id="accordion-default-content-1"
+                     class="govuk-accordion__section-content govuk-!-padding-left-2 fixed-height-scroll">
+                    <div class="govuk-checkboxes govuk-checkboxes--small"
+                         data-module="govuk-checkboxes"
+                         id="industries">
+                        {% for action in form.industries %}
+                            <div class="govuk-checkboxes__item">
+                                <input {% if action.data.value in form.industries.value %}checked{% endif %}
+                                       type="checkbox"
+                                       name="industries"
+                                       value="{{ action.data.value }}"
+                                       class="govuk-checkboxes__input"
+                                       id="{{ action.id_for_label }}">
+                                <label class="govuk-label govuk-checkboxes__label"
+                                       for="{{ action.id_for_label }}">{{ action.choice_label }}</label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <button type="submit" class="govuk-button" data-module="govuk-button">Update results</button>
+    <div>
+        <a href="?q={{ form.q.value }}&page=1" class="govuk-link">Reset</a>
+    </div>
+    <div class="govuk-visually-hidden">
+        {{ form.q }}
+        {{ form.page }}
+    </div>
+</form>
