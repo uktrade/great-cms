@@ -638,8 +638,8 @@ class SupportCardBlock(blocks.StructBlock):
 
 class SupportTopicCardBlock(blocks.StructBlock):
     title = blocks.CharBlock(max_length=255, label=_('Title'))
-    description = blocks.CharBlock(max_length=255, label=_('Description'))
-    link_text = blocks.CharBlock(label=_('Link text'))
+    description = blocks.CharBlock(required=False, max_length=255, label=_('Description'))
+    link_text = blocks.CharBlock(required=False, label=_('Link text'))
     link_url = blocks.CharBlock(label=_('Link url'))
 
 

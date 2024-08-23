@@ -308,7 +308,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==26.3.0
+faker==27.0.0
     # via factory-boy
 filelock==3.15.4
     # via virtualenv
@@ -364,7 +364,7 @@ great-components==2.6.5
     # via -r requirements.in
 greenlet==3.0.3
     # via gevent
-grpcio==1.65.4
+grpcio==1.65.5
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==22.0.0
     # via -r requirements.in
@@ -724,7 +724,7 @@ pyyaml==6.0.2
     #   drf-spectacular
     #   pre-commit
     #   pyhanko
-pyzmq==26.1.0
+pyzmq==26.1.1
     # via locust
 qrcode==7.4.2
     # via pyhanko
@@ -776,7 +776,7 @@ s3transfer==0.6.2
     # via boto3
 selenium==4.23.1
     # via -r requirements_test.in
-sentry-sdk==2.12.0
+sentry-sdk==2.13.0
     # via -r requirements.in
 sigauth==5.2.7
     # via
@@ -804,7 +804,7 @@ snowballstemmer==2.2.0
     # via sphinx
 sortedcontainers==2.4.0
     # via trio
-soupsieve==2.5
+soupsieve==2.6
     # via beautifulsoup4
 sphinx==7.3.7
     # via -r requirements.in
@@ -854,7 +854,7 @@ tomli==2.0.1
     #   pylint
     #   pytest
     #   sphinx
-tomlkit==0.13.0
+tomlkit==0.13.2
     # via pylint
 tqdm==4.66.4
     # via
