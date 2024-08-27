@@ -2,31 +2,46 @@
 {% block body_js %}
     {{ block.super }}
     <script type="text/javascript">
-    const search = document.querySelector('#search_markets input');
+        function customizeLayout() {
+            document.querySelector('label[for="id_markets_0"]').after(document.getElementById('search_markets'));
+            $("[data-export-support-form] .govuk-checkboxes__item").wrapAll("<div class='great-checkboxes-wrapper'></div>");
+            document.querySelector('.great-checkboxes-wrapper').after(document.querySelector('[data-value="notspecificcountry"]'));
+    
+            const p = document.createElement('p');
+            p.innerHTML = 'Or';
+            p.classList.add('govuk-body');
+            document.querySelector('.great-checkboxes-wrapper').after(p);
+        }
+    
+        customizeLayout();
+    
+        const search = document.querySelector('#search_markets input');
 
-    $(search).on("keyup", (e) => {
-        e.preventDefault();
-
-        const val = e.target.value.toLowerCase();
-
-        document.querySelectorAll('[data-label]').forEach((el) => {
-            el.style.display = !el.dataset.label.toLowerCase().includes(val) && el.dataset.value.toLowerCase() !== 'notspecificcountry' ? 'none' : 'block';
-            document.querySelector('.great-checkboxes-wrapper').style.display = 'block';
+        $(search).on("keyup", (e) => {
+            e.preventDefault();
+        
+            const val = e.target.value.toLowerCase();
+            let visibleCheckboxes = 0;
+        
+            document.querySelectorAll('[data-label]').forEach((el) => {
+                if (el.dataset.label.toLowerCase().includes(val) || el.dataset.value.toLowerCase() === 'notspecificcountry') {
+                    el.style.display = 'block';
+                    visibleCheckboxes++;
+                } else {
+                    el.style.display = 'none';
+                }
+            });
+        
+            // Update the ARIA live region with the number of results
+            const liveRegion = document.querySelector('.great-checkboxes-wrapper');
+            if (visibleCheckboxes > 0) {
+                liveRegion.setAttribute('aria-live', 'polite');
+                liveRegion.setAttribute('aria-label', `${visibleCheckboxes} options found`);
+            } else {
+                liveRegion.setAttribute('aria-live', 'assertive');
+                liveRegion.setAttribute('aria-label', 'No options found');
+            }
         });
-    });
-
-    function customizeLayout() {
-        document.querySelector('label[for="id_markets_0"]').after(document.getElementById('search_markets'));
-        $("[data-export-support-form] .govuk-checkboxes__item").wrapAll("<div class='great-checkboxes-wrapper'></div>");
-        document.querySelector('.great-checkboxes-wrapper').after(document.querySelector('[data-value="notspecificcountry"]'));
-
-        const p = document.createElement('p');
-        p.innerHTML = 'Or';
-        p.classList.add('govuk-body');
-        document.querySelector('.great-checkboxes-wrapper').after(p);
-    }
-
-    customizeLayout();
     </script>
 {% endblock %}
 {% block form_fields %}
@@ -35,7 +50,10 @@
             <div class="govuk-form-group govuk-!-margin-bottom-6" id="search_markets">
                 {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='great-text-input--search' hideLabel=True %}
             </div>
-        {% else %}
+        {% endif %}
+    {% endfor %}
+    {% for field in form.visible_fields %}
+        {% if field.name != 'search' %}
             <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
                 <div class="govuk-checkboxes" data-module="govuk-checkboxes">
                     {% include 'domestic/contact/includes/govuk-form-field.html' with field=field labelForId='id_markets_0' %}
