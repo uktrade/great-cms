@@ -16,7 +16,8 @@
         customizeLayout();
     
         const search = document.querySelector('#search_markets input');
-
+        const announcement = document.getElementById('search-results-announcement');
+        
         $(search).on("keyup", (e) => {
             e.preventDefault();
         
@@ -32,15 +33,14 @@
                 }
             });
         
-            // Update the ARIA live region with the number of results
-            const liveRegion = document.querySelector('.great-checkboxes-wrapper');
-            if (visibleCheckboxes > 0) {
-                liveRegion.setAttribute('aria-live', 'polite');
-                liveRegion.setAttribute('aria-label', `${visibleCheckboxes} options found`);
-            } else {
-                liveRegion.setAttribute('aria-live', 'assertive');
-                liveRegion.setAttribute('aria-label', 'No options found');
-            }
+            setTimeout(() => {
+                // Update the ARIA live region with the number of results
+                if (visibleCheckboxes > 0) {
+                    announcement.textContent = `${visibleCheckboxes} options found`;
+                } else {
+                    announcement.textContent = 'No options found';
+                }
+            }, 2000);
         });
     </script>
 {% endblock %}
@@ -48,7 +48,10 @@
     {% for field in form.visible_fields %}
         {% if field.name == 'search' %}
             <div class="govuk-form-group govuk-!-margin-bottom-6" id="search_markets">
-                {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='great-text-input--search' hideLabel=True %}
+                {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='great-text-input--search' ariaDescribedBy='search-description'%}
+            </div>
+            <div id="search-description" class="govuk-visually-hidden">
+                Type to search and filter the list of available countries. The results will update as you type.
             </div>
         {% endif %}
     {% endfor %}
@@ -56,9 +59,10 @@
         {% if field.name != 'search' %}
             <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
                 <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-                    {% include 'domestic/contact/includes/govuk-form-field.html' with field=field labelForId='id_markets_0' %}
+                    {% include 'domestic/contact/includes/govuk-form-field.html' with field=field hideLabel=True labelForId='id_markets_0' %}
                 </div>
             </div>
         {% endif %}
     {% endfor %}
+    <span id="search-results-announcement" class="govuk-visually-hidden" role="status" aria-live="assertive"></span>
 {% endblock %}
