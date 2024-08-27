@@ -52,6 +52,13 @@
                     {% endfor %}
                 </div>
             </div>
+            {% if export_plan.ui_progress %}
+                <div class="great-border-thin-top-lighter-blue">
+                    <section class="govuk-!-padding-bottom-3 bg-white clearfix">
+                        {% include './includes/csat_user_feedback.html' with form=form csat_stage=csat_stage %}
+                    </section>
+                </div>
+            {% endif %}
         </div>
         <aside class="export-plan-dashboard__sidebar p-v-m p-h-l text-center bg-white">
             {% if not request.user.company.logo %}
@@ -78,13 +85,7 @@
             <div id="export-plan-actions"></div>
         </aside>
     </section>
-    {% if export_plan.ui_progress %}
-        <div class="great-border-thin-top-lighter-blue">
-            <section class="govuk-!-padding-bottom-3 bg-white clearfix">
-                {% include './includes/csat_user_feedback.html' with form=form csat_stage=csat_stage %}
-            </section>
-        </div>
-    {% endif %}
+
 {% endblock %}
 
 {% block body_inline_feedback %}
