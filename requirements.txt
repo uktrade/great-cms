@@ -236,7 +236,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==27.0.0
+faker==27.4.0
     # via factory-boy
 filelock==3.15.4
     # via virtualenv
@@ -250,7 +250,7 @@ googleapis-common-protos==1.63.2
     #   opentelemetry-exporter-otlp-proto-http
 great-components==2.6.5
     # via -r requirements.in
-grpcio==1.65.5
+grpcio==1.66.0
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==22.0.0
     # via -r requirements.in
