@@ -1,9 +1,11 @@
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
+from django.core.validators import EMPTY_VALUES
 from django.forms import (
     BooleanField,
     CharField,
     CheckboxInput,
     ChoiceField,
+    HiddenInput,
     Select,
     Textarea,
     TextInput,
@@ -11,6 +13,7 @@ from django.forms import (
 from great_components import forms
 
 from core.validators import is_valid_email_address
+from directory_constants.choices import INDUSTRIES
 from international_buy_from_the_uk.core.choices import (
     ORGANISATION_SIZE_CHOICES,
     SOURCE_CHOICES,
@@ -130,4 +133,34 @@ class ContactForm(GovNotifyEmailActionMixin, forms.Form):
         required=False,
         label='I would like to receive additional information by telephone.',
         widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
+    )
+
+
+class CheckboxSelectMultipleIgnoreEmpty(forms.CheckboxSelectInlineLabelMultiple):
+
+    def value_from_datadict(self, data, files, name):
+        values = super().value_from_datadict(data, files, name)
+        if values:
+            return [value for value in values if value not in EMPTY_VALUES]
+
+
+class SearchForm(forms.Form):
+    q = forms.CharField(
+        max_length=255,
+        widget=TextInput(attrs={'class': 'govuk-visually-hidden'}),
+        required=False,
+    )
+    page = forms.IntegerField(
+        required=False,
+        widget=HiddenInput,
+        initial=1,
+    )
+    industries = forms.MultipleChoiceField(
+        label='Industry',
+        widget=CheckboxSelectMultipleIgnoreEmpty(
+            attrs={'id': 'checkbox-industry-expertise'},
+            use_nice_ids=True,
+        ),
+        choices=INDUSTRIES,
+        required=False,
     )
