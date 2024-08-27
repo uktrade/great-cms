@@ -739,7 +739,7 @@ class ActivityStreamLearnToExportCsatUserFeedbackDataSerializer(serializers.Mode
         }
 
 
-class ActivityStreamExportPlantCsatUserFeedbackDataSerializer(serializers.ModelSerializer):
+class ActivityStreamExportPlanCsatUserFeedbackDataSerializer(serializers.ModelSerializer):
     """
     Make an Export Plan CSAT Feedback Data serializer for activity stream.
     """

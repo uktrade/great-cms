@@ -37,7 +37,7 @@ from activitystream.serializers import (
     ActivityStreamExportAcademyEventSerializer,
     ActivityStreamExportAcademyRegistrationSerializer,
     ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer,
-    ActivityStreamExportPlantCsatUserFeedbackDataSerializer,
+    ActivityStreamExportPlanCsatUserFeedbackDataSerializer,
     ActivityStreamFindABuyerCsatUserFeedbackDataSerializer,
     ActivityStreamLearnToExportCsatUserFeedbackDataSerializer,
     ActivityStreamWhereToExportCsatUserFeedbackDataSerializer,
@@ -309,4 +309,4 @@ class ActivityStreamExportPlanCsatFeedbackDataView(ActivityStreamHCSATBaseView):
     """View to list Export plan csat feedback data for the activity stream"""
 
     queryset = ExportPlanCsatUserFeedback.objects.all()
-    serializer_class = ActivityStreamExportPlantCsatUserFeedbackDataSerializer
+    serializer_class = ActivityStreamExportPlanCsatUserFeedbackDataSerializer
