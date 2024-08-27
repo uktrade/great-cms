@@ -97,8 +97,11 @@ class EYBTradeShowPageTests(WagtailPageTests):
         ('Financial and professional services', 'Financial and Professional Services', 1),
     ),
 )
+@mock.patch('international_online_offer.services.get_bci_data_by_dbt_sector', return_value=[])
 @pytest.mark.django_db
-def test_eyb_guide_page_content(rf, user, domestic_site, user_sector, article_tag, expected_len_articles):
+def test_eyb_guide_page_content(
+    mock_response, rf, user, domestic_site, user_sector, article_tag, expected_len_articles
+):
     TriageData.objects.update_or_create(
         hashed_uuid='123',
         defaults={'sector': user_sector},
