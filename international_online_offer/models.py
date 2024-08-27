@@ -4,6 +4,7 @@ from django import forms
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.http import HttpResponseRedirect
+from django.utils.text import slugify
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.models import ParentalKey
 from taggit.models import TagBase, TaggedItemBase
@@ -86,11 +87,13 @@ class EYBGuidePage(BaseContentPage):
         trade_shows_page = EYBTradeShowsPage.objects.live().filter().first()
 
         # Get any EYB articles that have been tagged with user selected sector
+        # perform matching on slugs which don't have spaces, non-alphanumeric values and are lower case
         all_articles_tagged_with_sector = (
-            EYBArticlePage.objects.live().filter(tags__name=triage_data.sector)
+            EYBArticlePage.objects.live().filter(tags__slug=slugify(triage_data.sector))
             if triage_data and triage_data.sector
             else []
         )
+
         # Get any EYB articles that have been tagged with user selected intent(s)
         all_articles_tagged_with_intent = (
             EYBArticlePage.objects.live().filter(tags__name__in=triage_data.intent)
@@ -292,8 +295,11 @@ class EYBTradeShowsPage(BaseContentPage):
         all_tradeshows = []
 
         if triage_data:
+            # perform matching on slugs which don't have spaces, non-alphanumeric values and are lower case
             all_tradeshows = (
-                IOOTradeShowPage.objects.live().filter(tags__name=triage_data.sector) if triage_data.sector else []
+                IOOTradeShowPage.objects.live().filter(tags__slug=slugify(triage_data.sector))
+                if triage_data.sector
+                else []
             )
 
         breadcrumbs = [
