@@ -576,7 +576,6 @@ def val_to_int(val: Union[float, int, str]) -> int:
 def get_category_page_breadcrumbs(page):
     return [
         {'url': '/support/export-support/', 'title': 'Export Support'},
-        {'url': page.get_full_url(), 'title': page.page_title},
     ]
 
 
@@ -585,7 +584,6 @@ def get_sub_category_page_breadcrumbs(page):
     return [
         {'url': '/support/export-support/', 'title': 'Export Support'},
         {'url': page.get_parent().get_full_url(), 'title': page.get_parent().specific.page_title},
-        {'url': page.get_full_url(), 'title': page.page_title},
     ]
 
 
