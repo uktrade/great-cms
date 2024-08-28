@@ -1,3 +1,4 @@
+$great-design-system-white: #fff;
 $great-design-system-grey-border: #7d8e96;
 $great-design-system-hover-primary-button: #003078;
 $great-design-system-interface-mono-50: #7d8e96;
@@ -116,6 +117,20 @@ $great-design-system-govuk-off-black: #0b0c0c;
   }
 
   &[open] {
+    summary {
+      @include govuk-media-query($from: tablet) {
+        margin-bottom: -10px;
+      }
+
+      ~ p {
+        background: $great-design-system-white;
+        position: relative;
+        left: -30px;
+        padding-left: 30px;
+        width: calc(100% + 30px);
+      }
+    }
+
     .great-ds-details__status-text--open {
       display: inline-block;
     }
