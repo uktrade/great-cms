@@ -80,15 +80,21 @@ padding: 0 $standard-padding;
   as it is set using margin instead of... padding. This is fine for most
   pages, but collapses when there is a sidebar.
   */
+  width: 100%;
   @media (min-width: 1290px) {
     padding: 0 30px;
   }
 }
 
 .export-plan-dashboard__section {
+  background-color: #eef2f6;
   @include breakpoint(md) {
     display: flex;
   }
+}
+
+.export-plan-dashboard__section--white {
+  background-color: #fff !important;
 }
 
 .export-plan-dashboard__sidebar {
