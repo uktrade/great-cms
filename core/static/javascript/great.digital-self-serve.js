@@ -24,6 +24,12 @@ GreatFrontend.DigitalSelfServe = {
                     });
                 })
             })
+
+            document.querySelectorAll('details').forEach(el => {
+                el.addEventListener("mouseleave", (e) => {
+                    document.activeElement.blur()
+                })
+            });
         }
     }
 }
