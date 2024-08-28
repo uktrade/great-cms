@@ -3,6 +3,8 @@ from unittest import mock
 import pytest
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.test import RequestFactory
+from django.utils.text import slugify
+from wagtail.models import Page
 from wagtail.test.utils import WagtailPageTests
 
 from core.tests.helpers import create_response
@@ -10,9 +12,12 @@ from domestic.models import StructuralPage
 from international.models import GreatInternationalHomePage
 from international_online_offer.models import (
     EYBArticlePage,
+    EYBArticlePageTag,
     EYBArticlesPage,
+    EYBArticleTag,
     EYBGuidePage,
     EYBIndexPage,
+    EYBTradeShowPageTag,
     EYBTradeShowsPage,
     IOOTradeShowPage,
     TriageData,
@@ -83,26 +88,95 @@ class EYBTradeShowPageTests(WagtailPageTests):
         )
 
 
+@pytest.mark.parametrize(
+    'user_sector, article_tag, expected_len_articles',
+    (
+        ('Automotive', 'automotive', 1),
+        ('Agriculture, horticulture, fisheries and pets', 'Agriculture horticulture fisheries and pets', 1),
+        ('Food and drink', 'FOOD AND DRINK', 1),
+        ('Financial and professional services', 'Financial and Professional Services', 1),
+    ),
+)
+@mock.patch('international_online_offer.services.get_bci_data_by_dbt_sector', return_value=[])
 @pytest.mark.django_db
-def test_eyb_guide_page_content(rf, user):
+def test_eyb_guide_page_content(
+    mock_response, rf, user, domestic_site, user_sector, article_tag, expected_len_articles
+):
+    TriageData.objects.update_or_create(
+        hashed_uuid='123',
+        defaults={'sector': user_sector},
+    )
+
+    root = Page.get_first_root_node()
+
+    article_page = EYBArticlePage(
+        article_title='test123',
+        title='test123',
+        slug='test123',
+    )
+
     guide_page = EYBGuidePage(title='Guide')
+    root.add_child(instance=guide_page)
+    root.add_child(instance=article_page)
+
+    eyb_article_tag = EYBArticleTag(name=article_tag, slug=slugify(article_tag))
+    eyb_article_tag.save()
+    page_tag = EYBArticlePageTag(tag=eyb_article_tag, content_object=article_page)
+    page_tag.save()
+
     request = rf.get(guide_page.url)
     request.user = user
     request.user.hashed_uuid = '123'
     context = guide_page.get_context(request)
     assert context['complete_contact_form_link_text'] == 'Sign up'
     assert context['complete_contact_form_link'] == 'international_online_offer:signup'
-    assert len(context['get_to_know_market_articles']) == 0
+    assert len(context['get_to_know_market_articles']) == expected_len_articles
     assert len(context['finance_and_support_articles']) == 0
     assert context['trade_shows_page'] is None
 
 
+@pytest.mark.parametrize(
+    'user_sector, tradeshow_tag, expected_len_tradeshows',
+    (
+        ('Automotive', 'automotive', 1),
+        ('Agriculture, horticulture, fisheries and pets', 'Agriculture horticulture fisheries and pets', 1),
+        ('Food and drink', 'FOOD AND DRINK', 1),
+        ('Financial and professional services', 'Financial and Professional Services', 1),
+    ),
+)
 @pytest.mark.django_db
-def test_eyb_trade_page_content(rf):
-    guide_page = EYBTradeShowsPage(title='Trade')
-    request = rf.get(guide_page.url)
-    context = guide_page.get_context(request)
-    assert context['all_tradeshows'] == []
+def test_eyb_trade_page_content(rf, user, domestic_site, user_sector, tradeshow_tag, expected_len_tradeshows):
+    TriageData.objects.update_or_create(
+        hashed_uuid='123',
+        defaults={'sector': user_sector},
+    )
+
+    root = Page.get_first_root_node()
+
+    eyb_tradeshow_page = EYBTradeShowsPage(
+        title='test',
+        slug='test',
+    )
+
+    ioo_tradeshow_page = IOOTradeShowPage(
+        tradeshow_title='test123',
+        title='test123',
+        slug='test123',
+    )
+
+    root.add_child(instance=eyb_tradeshow_page)
+    root.add_child(instance=ioo_tradeshow_page)
+
+    eyb_article_tag = EYBArticleTag(name=tradeshow_tag, slug=slugify(tradeshow_tag))
+    eyb_article_tag.save()
+    tradeshow_tag = EYBTradeShowPageTag(tag=eyb_article_tag, content_object=ioo_tradeshow_page)
+    tradeshow_tag.save()
+
+    request = rf.get(eyb_tradeshow_page.url)
+    request.user = user
+    request.user.hashed_uuid = '123'
+    context = eyb_tradeshow_page.get_context(request)
+    assert len(context['all_tradeshows']) == expected_len_tradeshows
 
 
 @pytest.mark.django_db
