@@ -33,7 +33,7 @@
         <div class="govuk-width-container great-container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-one-third-from-desktop">
-                    <a href="/international/trade/suppliers/{{ company.number }}/contact/"
+                    <a href="{% url 'international_buy_from_the_uk:find-a-supplier-contact' company_number=company.number %}"
                        role="button"
                        draggable="false"
                        class="govuk-button govuk-button--start"
