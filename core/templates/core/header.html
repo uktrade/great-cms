@@ -3,9 +3,7 @@
 {% load url_map %}
 {% load get_digital_entry_point_enabled from content_tags %}
 <header class="great-header" id="header" dir="ltr" data-ga-section="header">
-    {% if not request.user.is_authenticated %}
-        {% include 'components/header_footer/global_header.html' with header_class="domestic" %}
-    {% endif %}
+    {% include 'components/header_footer/global_header.html' with header_class="domestic" %}
     <div class="great-bg-dark-blue">
         <div class="great-container great-header__container">
             <a id="header-logo-link"
