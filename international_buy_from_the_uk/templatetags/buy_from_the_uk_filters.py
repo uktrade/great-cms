@@ -1,4 +1,5 @@
 from django import template
+from django.urls import reverse_lazy
 
 register = template.Library()
 
@@ -15,5 +16,7 @@ def get_url(request):
 
 @register.filter
 def get_case_study_url(case_study_pk):
-    url = '/international/buy-from-the-uk/case-study/' + str(case_study_pk)
+    url = reverse_lazy(
+        'international_buy_from_the_uk:find-a-supplier-case-study', kwargs={'case_study_id': case_study_pk}
+    )
     return url
