@@ -1,0 +1,132 @@
+{% extends './base.html' %}
+{% load static %}
+{% load buy_from_the_uk_filters %}
+{% block head_title %}
+    Buy from the UK find a supplier case study
+    {{ block.super }}
+{% endblock %}
+{% block meta_title %}Buy from the UK find a supplier case study {{ block.super }}{% endblock %}
+{% block content %}
+    <section class="buy-from-the-uk-info-section govuk-!-padding-top-1 govuk-!-padding-bottom-0">
+        <div class="govuk-width-container great-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds-from-desktop">
+                    <div class="govuk-!-margin-bottom-2">{% include 'eyb/includes/breadcrumbs.html' with breadcrumbs=breadcrumbs %}</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="govuk-width-container great-container govuk-!-padding-top-4">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds-from-desktop">
+                    <h2 class="govuk-caption-l">
+                        <span class="govuk-visually-hidden">This section is</span>Case study
+                    </h2>
+                    <h1 class="govuk-heading-l">{{ case_study.title }}</h1>
+                </div>
+            </div>
+            <div class="govuk-grid-row govuk-!-margin-bottom-4">
+                <div class="govuk-grid-column-two-thirds-from-desktop">
+                    {% if case_study.image_one %}
+                        <img alt=""
+                             src="{{ case_study.image_one }}"
+                             aria-labelledby="case-study-image-one-caption" />
+                        {% if case_study.image_one_caption %}
+                            <p class="govuk-body-s" id="case-study-image-one-caption">{{ case_study.image_one_caption }}</p>
+                        {% endif %}
+                    {% endif %}
+                    <div class="govuk-body">{{ case_study.description|linebreaks }}</div>
+                    {% if case_study.website %}
+                        <a href="{{ case_study.website }}" class="govuk-link" target="_blank">{{ case_study.website }}</a>
+                    {% endif %}
+                    {% if case_study.image_two %}
+                        <img alt=""
+                             src="{{ case_study.image_two }}"
+                             aria-labelledby="case-study-image-two-caption" />
+                        {% if case_study.image_two_caption %}
+                            <p id="case-study-image-two-caption" class="govuk-body-s">{{ case_study.image_two_caption }}</p>
+                        {% endif %}
+                    </div>
+                {% endif %}
+                {% if case_study.image_three %}
+                    <img alt=""
+                         src="{{ case_study.image_three }}"
+                         aria-labelledby="case-study-image-three-caption" />
+                    {% if case_study.image_three_caption %}
+                        <p id="case-study-image-three-caption" class="govuk-body-s">{{ case_study.image_three_caption }}</p>
+                    {% endif %}
+                </div>
+            {% endif %}
+            <hr class="govuk-!-margin-top-4">
+            <p class="govuk-body govuk-!-margin-top-5">
+                <a href="{% url 'international_buy_from_the_uk:find-a-supplier-profile' company_number=case_study.company.number %}"
+                   role="button"
+                   draggable="false"
+                   class="govuk-button govuk-button--start"
+                   data-module="govuk-button">
+                    View company profile
+                    <svg class="govuk-button__start-icon"
+                         xmlns="http://www.w3.org/2000/svg"
+                         width="17.5"
+                         height="19"
+                         viewBox="0 0 33 40"
+                         aria-hidden="true"
+                         focusable="false">
+                        <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
+                    </svg>
+                </a>
+            </p>
+        </div>
+        <div class="govuk-grid-column-one-third-from-desktop">
+            <div class="buy-from-the-uk-company-profile-details-section govuk-!-padding-3 govuk-!-margin-bottom-5">
+                <div class="buy-from-the-uk-logo-container">
+                    {% if case_study.company.logo %}
+                        <div class="buy-from-the-uk-logo"
+                             style="background-image: url('{{ case_study.company.logo }}')"></div>
+                    {% else %}
+                        <div class="buy-from-the-uk-logo"
+                             style="background-image: url('{% static 'images/placeholder.png' %}')"></div>
+                    {% endif %}
+                </div>
+                <br>
+                {% if case_study.company.website %}
+                    <p class="govuk-heading-m">
+                        <strong>Contact</strong>
+                    </p>
+                    <p class="govuk-body">
+                        <a href="/international/trade/suppliers/{{ case_study.company.number }}/contact/">Email company</a>
+                    </p>
+                {% endif %}
+                {% if case_study.company.website %}
+                    <p class="govuk-body">
+                        <strong>Website</strong>
+                    </p>
+                    <p class="govuk-body">
+                        <a href="{{ case_study.company.website }}"
+                           target="_blank"
+                           title="Opens in a new window"
+                           rel="noopener noreferrer">{{ case_study.company.website }}</a>
+                    </p>
+                {% endif %}
+                <hr>
+                <p class="govuk-heading-m">
+                    <strong>Company details</strong>
+                </p>
+                {% if case_study.company.date_of_creation %}
+                    <p class="govuk-body">
+                        <strong>Incorporated</strong>
+                    </p>
+                    <p class="govuk-body">{{ case_study.company.date_of_creation }}</p>
+                {% endif %}
+                <p class="govuk-body">
+                    <strong>Industry</strong>
+                </p>
+                <p class="govuk-body">{{ case_study.sector.label }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+{% endblock %}
+{% block body_js %}{{ block.super }}{% endblock %}

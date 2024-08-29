@@ -20,4 +20,9 @@ urlpatterns = [
         views.FindASupplierProfileView.as_view(),
         name='find-a-supplier-profile',
     ),
+    path(
+        'case-study/<slug:case_study_id>',
+        views.FindASupplierCaseStudyView.as_view(),
+        name='find-a-supplier-case-study',
+    ),
 ]

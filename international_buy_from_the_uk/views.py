@@ -11,7 +11,11 @@ from config import settings
 from core.helpers import get_sender_ip_address
 from international_buy_from_the_uk import forms
 from international_buy_from_the_uk.core.helpers import get_url
-from international_buy_from_the_uk.services import get_company_profile, search_companies
+from international_buy_from_the_uk.services import (
+    get_case_study,
+    get_company_profile,
+    search_companies,
+)
 from international_investment.core.helpers import get_location_display
 from international_online_offer.core.region_sector_helpers import get_sectors_as_string
 from international_online_offer.services import get_dbt_sectors
@@ -165,5 +169,35 @@ class FindASupplierProfileView(GA360Mixin, TemplateView):
         return super().get_context_data(
             **kwargs,
             company=get_company_profile(self.kwargs['company_number']),
+            breadcrumbs=breadcrumbs,
+        )
+
+
+class FindASupplierCaseStudyView(GA360Mixin, TemplateView):
+    template_name = 'buy_from_the_uk/find_a_supplier/case_study.html'
+
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='find-a-supplier-case-study',
+            business_unit='Buy from the UK',
+            site_section='Find a supplier case study',
+        )
+
+    def get_context_data(self, **kwargs):
+        case_study = get_case_study(self.kwargs['case_study_id'])
+        url = reverse_lazy(
+            'international_buy_from_the_uk:find-a-supplier-profile',
+            kwargs={'company_number': case_study['company']['number']},
+        )
+        breadcrumbs = [
+            {'name': 'Home', 'url': '/international/'},
+            {'name': 'Buy from the UK', 'url': '/international/buy-from-the-uk/'},
+            {'name': 'Find a UK supplier', 'url': '/international/buy-from-the-uk/find-a-supplier'},
+            {'name': case_study['company']['name'], 'url': url},
+        ]
+        return super().get_context_data(
+            **kwargs,
+            case_study=case_study,
             breadcrumbs=breadcrumbs,
         )

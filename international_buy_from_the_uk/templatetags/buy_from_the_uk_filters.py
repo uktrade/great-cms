@@ -15,5 +15,5 @@ def get_url(request):
 
 @register.filter
 def get_case_study_url(case_study_pk):
-    url = '/international/trade/case-study/' + str(case_study_pk)
+    url = '/international/buy-from-the-uk/case-study/' + str(case_study_pk)
     return url
