@@ -29,7 +29,8 @@
             <div class="govuk-grid-row govuk-!-margin-bottom-4">
                 <div class="govuk-grid-column-two-thirds-from-desktop">
                     {% if case_study.image_one %}
-                        <img alt=""
+                        <img class="case-study-image"
+                             alt=""
                              src="{{ case_study.image_one }}"
                              aria-labelledby="case-study-image-one-caption" />
                         {% if case_study.image_one_caption %}
@@ -42,6 +43,7 @@
                     {% endif %}
                     {% if case_study.image_two %}
                         <img alt=""
+                             class="case-study-image"
                              src="{{ case_study.image_two }}"
                              aria-labelledby="case-study-image-two-caption" />
                         {% if case_study.image_two_caption %}
@@ -51,6 +53,7 @@
                 {% endif %}
                 {% if case_study.image_three %}
                     <img alt=""
+                         class="case-study-image"
                          src="{{ case_study.image_three }}"
                          aria-labelledby="case-study-image-three-caption" />
                     {% if case_study.image_three_caption %}
