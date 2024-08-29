@@ -15,7 +15,7 @@
     position: absolute;
     bottom: 0;
     right: 20px;
-    width: 44px; 
+    width: 44px;
     height: 44px;
     min-height: 44px !important;
     border: 3px solid $great-white;
@@ -33,14 +33,17 @@
     }
 
     &:focus {
-        background-color: $color-focus;
-        border-color: $great-off-black;
+        background-color: $color-primary-button;
+        border-color: $great-white;
         outline: none;
 
         .great-hero__video-control-icon {
         &:before, &:after {
-            background: $great-off-black;
+            background: $great-white;
         }
+        }
+    &:active {
+        background: $color-focus;
         }
     }
 
@@ -74,7 +77,7 @@
         right: 0;
     }
     }
-    
+
 }
 
 .great-hero__video-control-play {
@@ -90,9 +93,12 @@
         background: inherit;
       }
     }
-  
+
     &:focus .great-hero__video-control-icon {
-      background: $great-off-black;
+      background: $great-white !important;
+    }
+    &:active {
+      background: $color-focus !important;
     }
   }
 
@@ -100,7 +106,7 @@
     position: relative;
     max-width: 1300px;
     margin: -64px auto 20px;
-    height: 44px;   
+    height: 44px;
 }
 
 .great-hero__video-control-play .great-hero__video-control-icon {
