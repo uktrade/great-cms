@@ -17,7 +17,7 @@ GreatFrontend.DigitalSelfServe = {
                     const data = el.dataset.task.split('|');
 
                     window.dataLayer.push({
-                        event: 'dss_task_click',
+                        event: 'DEPCardClick',
                         task_id: data[0],
                         task_title: data[1],
                         output_type: data[2],

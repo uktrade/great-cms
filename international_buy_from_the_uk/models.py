@@ -9,11 +9,14 @@ class BuyFromTheUKIndexPage(BaseContentPage):
     template = 'buy_from_the_uk/index.html'
 
     def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
         breadcrumbs = [
             {'name': 'Home', 'url': '/international/'},
         ]
-        context = super().get_context(request, *args, **kwargs)
-        context.update(breadcrumbs=breadcrumbs)
+
+        context.update(
+            breadcrumbs=breadcrumbs,
+        )
         self.set_ga360_payload(
             page_id='Index',
             business_unit='Buy from the UK',
