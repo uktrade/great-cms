@@ -2,6 +2,9 @@ from directory_components.helpers import CompanyParser
 from django.utils.html import escape, mark_safe
 
 from directory_api_client.client import api_client
+from directory_constants.choices import INDUSTRIES
+
+INDUSTRY_CHOICES = dict(INDUSTRIES)
 
 
 class CompanyParser(CompanyParser):
@@ -67,3 +70,28 @@ def get_results_from_search_response(response):
 
     parsed['results'] = formatted_results
     return parsed
+
+
+def get_case_study(case_study_id):
+    response = api_client.company.published_case_study_retrieve(case_study_id=case_study_id)
+    response.raise_for_status()
+    return get_case_study_from_response(response)
+
+
+def get_case_study_from_response(response):
+    case_study = response.json()
+    # `format_company_details` expects `supplier_case_studies` key.
+    case_study['company']['supplier_case_studies'] = []
+    case_study['sector'] = pair_sector_value_with_label(case_study['sector'])
+    case_study['company'] = CompanyParser(case_study['company']).serialize_for_template()
+    return case_study
+
+
+def pair_sector_value_with_label(sectors_value):
+    return {'value': sectors_value, 'label': get_sectors_label(sectors_value)}
+
+
+def get_sectors_label(sectors_value):
+    if not sectors_value:
+        return sectors_value
+    return INDUSTRY_CHOICES.get(sectors_value)
