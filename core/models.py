@@ -2037,6 +2037,16 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
         verbose_name=_('Use domestic header logo'),
     )
 
+    include_link_to_great = models.BooleanField(
+        default=True,
+        help_text=_(
+            'If selected a link to great.gov will appear in the header.'
+            'Otherwise this will not be shown. '
+            'Note this checkbox only works on the root page'
+        ),
+        verbose_name=_('Include link to Great'),
+    )
+
     external_link_label = models.CharField(
         default='',
         help_text=_('The label to be included within the menu items.'),
