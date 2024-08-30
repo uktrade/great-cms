@@ -263,7 +263,6 @@ class FindASupplierContactView(CompanyProfileMixin, GA360Mixin, FormView):
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
-
         dbt_sectors = get_dbt_sectors()
         autocomplete_sector_data = get_sectors_as_string(dbt_sectors)
 
