@@ -29,7 +29,7 @@
     align-items: center;
 
     &:hover {
-        background-color: $great-dark-blue !important;
+        background-color: $great-dark-blue;
     }
 
     &:focus {
@@ -44,7 +44,7 @@
         }
     }
     &:active, &:focus-visible {
-        background: $color-focus;
+        background: $color-focus !important;
         border-color: $great-off-black;
         .great-hero__video-control-icon {
             &:before, &:after {
@@ -108,12 +108,12 @@
     }
 
     &:focus .great-hero__video-control-icon {
-      background: $great-white !important;
+      background: $great-white;
     }
     &:active, &:focus-visible {
-      background: $color-focus !important;
+      background: $color-focus;
       .great-hero__video-control-icon {
-        background: $great-off-black !important;
+        background: $great-off-black;
       }
     }
   }
