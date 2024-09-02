@@ -81,4 +81,9 @@ urlpatterns = [
         skip_ga360(activitystream.views.ActivityStreamLearnToExportCsatFeedbackDataView.as_view()),
         name='learntoexport-csats',
     ),
+    path(
+        'exportplan-csats/',
+        skip_ga360(activitystream.views.ActivityStreamExportPlanCsatFeedbackDataView.as_view()),
+        name='exportplan-csats',
+    ),
 ]

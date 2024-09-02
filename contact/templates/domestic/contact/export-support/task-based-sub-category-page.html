@@ -58,7 +58,7 @@
                                         <div class="{% if task.block_type == 'sub_task' %}govuk-!-margin-left-9{% endif %} great-ds-border-bottom-grey">
                                             {% if task.value.url_goods or task.value.url_services %}
                                             <details class="great-ds-details">
-                                                <summary class="govuk-!-padding-bottom-4">
+                                                <summary class="govuk-!-padding-bottom-6">
                                                     <span class="great-meta-label govuk-!-padding-top-3 govuk-!-margin-bottom-2">
                                                         <img src="{% if task.value.output_type %}{{ task.value.output_type|get_meta_tag_icon_path }}{% else %}/static/icons/guidance.svg{% endif %}"
                                                              alt="" />
@@ -79,7 +79,7 @@
                                                     </h2>
                                                     <p class="govuk-body govuk-!-margin-bottom-4">{{ task.value.description_level_1 }}</p>
 
-                                                    <span class="govuk-accordion__section-toggle great-ds-details__status">
+                                                    <span class="govuk-accordion__section-toggle great-ds-details__status govuk-!-margin-bottom-0">
                                                         <span class="govuk-accordion__section-toggle-focus">
                                                             <span class="govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down"></span>
                                                             <span class="govuk-accordion__section-toggle-text">
@@ -93,8 +93,8 @@
                                                 <p class="govuk-body govuk-!-margin-bottom-4">{{ task.value.description_level_2 }}</p>
                                                 {% endif %}
 
-                                                <div class="govuk-!-margin-bottom-4">
-                                                    <a href="{% if task.value.url_goods %}{{ task.value.url_goods }}{% else %}{{ task.value.url_services }}{% endif %}" class="govuk-link great-ds-link" data-task-item data-task="{{task.value.task_id}}|{{task.value.title}}|{{task.value.output_type}}" target="_blank">
+                                                <div class="govuk-!-margin-bottom-5">
+                                                    <a href="{% if task.value.url_goods %}{{ task.value.url_goods }}{% else %}{{ task.value.url_services }}{% endif %}" class="govuk-link great-ds-link" data-task-item data-task="{{task.value.task_id}}|{{task.value.title}}|{{task.value.output_type}}|{{forloop.counter}}" target="_blank">
                                                         <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> 
                                                         <span>{% if task.value.link_text %}{{ task.value.link_text }}{% else %}Read the guidance{% endif %}</span>
                                                     </a>

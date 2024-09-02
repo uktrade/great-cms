@@ -26,7 +26,7 @@ class CsatFormHandler {
             if (event.submitter && event.submitter.name == 'cancelButton'){
                 this.resetForm();
             }
-            else{
+            else {
                 try {
                     const response = await fetch(`${url}?js_enabled=True`, {
                         method: 'POST',

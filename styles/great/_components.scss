@@ -2122,6 +2122,10 @@ nav.great-breadcrumbs {
   }
 }
 
+.js-enabled .govuk-checkboxes__conditional--hidden {
+  display: none;
+}
+
 .great-cookie-notice {
   display: none;
   padding: 30px 0 0;
