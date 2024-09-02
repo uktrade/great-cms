@@ -537,6 +537,77 @@ if settings.FEATURE_DIGITAL_POINT_OF_ENTRY:
     ]
 
 
+unguided_journey_redirects = []
+
+if settings.FEATURE_UNGUIDED_JOURNEY:
+    unguided_journey_redirects += [
+        re_path(
+            r'^support/customs-taxes-declarations/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^support/establishing-a-business-overseas/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^support/expand-your-knowledge/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^support/find-a-new-export-market/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^support/funding-and-finance/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^support/codes-tariffs-and-procedures/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^support/product-classification/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^support/tax-duty-liabilities/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^support/rules-of-origin/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^support/place-of-supply-service-exporters//$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^support/customs-declarations/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^support/uk-vat/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^support/declarations-on-your-behalf/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^support/moving-goods-through-third-country/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^support/taking-goods-temporarily-out-uk/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
+            r'^support/special-procedures/$',
+            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+    ]
+
+
 if not settings.FEATURE_SHOW_OLD_CONTACT_FORM:
     contact_redirects += [
         re_path(
@@ -1133,4 +1204,11 @@ else:
             ),
         ),
     ]
-redirects += tos_redirects + contact_redirects + privacy_redirects + international_redirects + articles_redirects
+redirects += (
+    tos_redirects
+    + contact_redirects
+    + privacy_redirects
+    + international_redirects
+    + articles_redirects
+    + unguided_journey_redirects
+)

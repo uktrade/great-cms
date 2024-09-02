@@ -10,4 +10,24 @@ urlpatterns = [
         views.ContactView.as_view(),
         name='contact',
     ),
+    path(
+        'find-a-supplier/',
+        views.FindASupplierSearchView.as_view(),
+        name='find-a-supplier',
+    ),
+    path(
+        'find-a-supplier/supplier/<slug:company_number>/',
+        views.FindASupplierProfileView.as_view(),
+        name='find-a-supplier-profile',
+    ),
+    path(
+        'find-a-supplier/supplier/case-study/<slug:case_study_id>/',
+        views.FindASupplierCaseStudyView.as_view(),
+        name='find-a-supplier-case-study',
+    ),
+    path(
+        'find-a-supplier/supplier/<slug:company_number>/contact/',
+        views.FindASupplierContactView.as_view(),
+        name='find-a-supplier-contact',
+    ),
 ]

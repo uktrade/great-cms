@@ -37,6 +37,7 @@ from activitystream.serializers import (
     ActivityStreamExportAcademyEventSerializer,
     ActivityStreamExportAcademyRegistrationSerializer,
     ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer,
+    ActivityStreamExportPlanCsatUserFeedbackDataSerializer,
     ActivityStreamFindABuyerCsatUserFeedbackDataSerializer,
     ActivityStreamLearnToExportCsatUserFeedbackDataSerializer,
     ActivityStreamWhereToExportCsatUserFeedbackDataSerializer,
@@ -54,6 +55,7 @@ from export_academy.models import (
 from find_a_buyer.models import CsatUserFeedback as FindABuyerCsatUserFeedback
 from international_online_offer.models import CsatFeedback, TriageData, UserData
 from learn.models import CsatUserFeedback as LearnToExportCsatUserFeedback
+from exportplan.models import CsatUserFeedback as ExportPlanCsatUserFeedback
 
 
 class ActivityStreamView(ListAPIView):
@@ -301,3 +303,10 @@ class ActivityStreamLearnToExportCsatFeedbackDataView(ActivityStreamHCSATBaseVie
 
     queryset = LearnToExportCsatUserFeedback.objects.all()
     serializer_class = ActivityStreamLearnToExportCsatUserFeedbackDataSerializer
+
+
+class ActivityStreamExportPlanCsatFeedbackDataView(ActivityStreamHCSATBaseView):
+    """View to list Export plan csat feedback data for the activity stream"""
+
+    queryset = ExportPlanCsatUserFeedback.objects.all()
+    serializer_class = ActivityStreamExportPlanCsatUserFeedbackDataSerializer

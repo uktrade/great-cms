@@ -431,7 +431,7 @@ def get_icon_path(url):
     if url:
         if url.endswith('/'):
             url = url[:-1]
-        return 'components/great/includes/' + url.split('/support/')[1] + '.svg'
+        return 'components/great/includes/' + url.split('/')[-1] + '.svg'
     else:
         return ''
 
@@ -576,7 +576,6 @@ def val_to_int(val: Union[float, int, str]) -> int:
 def get_category_page_breadcrumbs(page):
     return [
         {'url': '/support/export-support/', 'title': 'Export Support'},
-        {'url': page.get_full_url(), 'title': page.page_title},
     ]
 
 
@@ -585,30 +584,26 @@ def get_sub_category_page_breadcrumbs(page):
     return [
         {'url': '/support/export-support/', 'title': 'Export Support'},
         {'url': page.get_parent().get_full_url(), 'title': page.get_parent().specific.page_title},
-        {'url': page.get_full_url(), 'title': page.page_title},
     ]
 
 
 @register.filter
 def get_meta_tag_label(url):
     if 'great' in url:
-        return 'GREAT'
+        return 'great.gov.uk'
 
     if 'gov' in url:
         return 'GOV.UK'
 
-    return 'Default label'
+    return ''
 
 
 @register.filter
-def get_meta_tag_icon_path(url):
-    if 'great' in url:
+def get_meta_tag_icon_path(type):
+    if 'Service' in type:
         return '/static/icons/hand.svg'
 
-    if 'gov' in url:
-        return '/static/icons/guidance.svg'
-
-    return '/static/icons/hand.svg'
+    return '/static/icons/guidance.svg'
 
 
 @register.simple_tag()

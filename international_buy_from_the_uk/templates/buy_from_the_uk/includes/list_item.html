@@ -1,0 +1,36 @@
+{% load static %}
+<div class="govuk-!-margin-bottom-6 govuk-!-padding-bottom-2 great-grey-bottom-border great-display-flex great-align-items-top great-gap">
+    <div>
+        {% if logo %}
+            <div class="buy-from-the-uk-listitem-logo"
+                 style="background-image: url('{{ logo }}')"></div>
+        {% else %}
+            <div class="buy-from-the-uk-listitem-logo"
+                 style="background-image: url('{% static 'images/placeholder.png' %}')"></div>
+        {% endif %}
+    </div>
+    <div class="great-full-width">
+        <a href="{{ link_url }}"
+           class="govuk-heading-xs govuk-!-margin-bottom-2 great-heading-link great-ds-heading-link">
+            <h2 class="govuk-heading-xs great-heading-link__heading govuk-!-font-size-24">
+                <span>{{ title|upper }}</span>
+            </h2>
+        </a>
+        {% if company %}
+            {% if company.expertise_regions %}
+                <div class="govuk-hint">Regional expertise: {{ company.expertise_regions }}</div>
+            {% endif %}
+            {% if company.employees %}
+                <div class="govuk-hint">Number of employees: {{ company.employees }} Employees</div>
+            {% endif %}
+            <p class="govuk-body govuk-!-margin-bottom-4 highlight-em">
+                {% if company.highlight %}
+                    {{ company.highlight|truncatechars_html:125 }}
+                {% else %}
+                    {{ company.summary|default:company.description|truncatechars:135 }}
+                {% endif %}
+            </p>
+        {% endif %}
+        {% if description %}<p class="govuk-body govuk-!-margin-bottom-4">{{ description }}</p>{% endif %}
+    </div>
+</div>

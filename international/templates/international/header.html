@@ -121,7 +121,7 @@
                                 </li>
                                 <li>
                                     <a class="govuk-link govuk-link--inverse great-international-nav__section-item {% if '/international/buy-from-the-uk/find-a-supplier/' in request.path %}active{% endif %}"
-                                       href="/international/trade/"
+                                       href="{% url 'international_buy_from_the_uk:find-a-supplier' %}"
                                        data-location="Buy from the UK sub-nav"
                                        data-title="Find a supplier">Find a supplier</a>
                                 </li>
@@ -222,7 +222,7 @@
                         </li>
                         <li>
                             <a class="govuk-link govuk-link--inverse great-international-subnav__item {% if '/international/buy-from-the-uk/find-a-supplier/' in request.path %}active{% endif %}"
-                               href="/international/trade/"
+                               href="{% url 'international_buy_from_the_uk:find-a-supplier' %}"
                                data-location="Buy from the UK sub-nav"
                                data-title="Find a supplier">Find a supplier</a>
                         </li>
