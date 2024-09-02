@@ -1,3 +1,4 @@
+$great-design-system-white: #fff;
 $great-design-system-grey-border: #7d8e96;
 $great-design-system-hover-primary-button: #003078;
 $great-design-system-interface-mono-50: #7d8e96;
@@ -60,10 +61,6 @@ $great-design-system-govuk-off-black: #0b0c0c;
 
     &:hover {
       background-color: $great-design-system-govuk-light-grey;
-      position: relative;
-      left: -30px;
-      padding-left: 30px;
-      width: calc(100% + 30px);
 
       .govuk-accordion-nav__chevron {
         color: $great-design-system-govuk-off-black;
@@ -116,6 +113,17 @@ $great-design-system-govuk-off-black: #0b0c0c;
   }
 
   &[open] {
+    summary {
+      @include govuk-media-query($from: tablet) {
+        margin-bottom: -10px;
+      }
+
+      ~ p {
+        background: $great-design-system-white;
+        position: relative;
+      }
+    }
+
     .great-ds-details__status-text--open {
       display: inline-block;
     }
@@ -135,8 +143,12 @@ $great-design-system-govuk-off-black: #0b0c0c;
   text-decoration: none;
 
   i {
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin-right: 10px;
+
+    @include govuk-media-query($from: tablet) {
+      font-size: 2rem;
+    }
   }
 
   span {
