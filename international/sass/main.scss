@@ -10,17 +10,16 @@ ul {
 @import 'node_modules/govuk-frontend/govuk/all';
 @import 'govuk-class-overrides';
 @import 'core-class-overrides';
-@import 'header.scss';
-@import 'footer.scss';
 @import '../../styles/great/utils';
 @import '../../styles/great/components';
 @import '../../core/components/sass/components/skip-link/base';
-@import 'hero.scss';
 @import '../../styles/widgets/buttons.scss';
 @import 'node_modules/great-styles/src/scss/helpers/_base.scss';
 @import '../../core/sass/helpers/utils.scss';
-
-
+@import '../../styles/great/_great-design-system-temp.scss';
+@import 'header.scss';
+@import 'footer.scss';
+@import 'hero.scss';
 
 body {
     margin: 0;

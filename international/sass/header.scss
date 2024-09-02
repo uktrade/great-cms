@@ -290,8 +290,6 @@
   display: flex;
   flex-direction: row;
   justify-content: right;
-  padding-top: 17px;
-  gap: 20px;
   height: 50px;
 
   // hard-coding px value to align with rest of international service
@@ -301,24 +299,24 @@
 }
 
 .toggle-element-container {
-  @include great-international-regular;
   text-align: center;
-  width: 230px;
+  padding: 17px 15px;
+  color: $color-main-text;
+  text-decoration: none;
 
-  a {
-    color: $color-main-text;
-    text-decoration: none;
+  &:focus {
+    text-decoration-thickness: 4px;
+    text-decoration-line: underline;
+    text-decoration-color: $great-dark-blue;
+    border-bottom: none;
 
-    &:focus {
-      background-color: yellow;
-      text-decoration-thickness: 4px;
-      text-decoration-line: underline;
-      text-decoration-color: $great-dark-blue;
+    .link-text{
+      background-color: $great-design-system-govuk-yellow-highlight;
     }
   }
 
   &:focus-within {
-    border-bottom: none
+    outline: none;
   }
 }
 
@@ -339,17 +337,24 @@
     padding-left: 20px;
 
     &:focus {
-      background-color: yellow;
+      background-color: $great-design-system-govuk-yellow-highlight;
       text-decoration-thickness: 4px;
       text-decoration-line: underline;
       text-decoration-color: $great-dark-blue;
     }
 
-    &:after {
+    &:before {
       font-family: "Font Awesome 5 Free";
       font-weight: 900;
+      font-size: 27px;
       content: "\f0a9";
-      padding-left: 20px;
+      text-decoration: none !important;
+      padding-right: 10px;
+      display: inline-block;
+    }
+
+    .link-text {
+      vertical-align: top;
     }
   }
 

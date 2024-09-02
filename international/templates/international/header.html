@@ -1,6 +1,6 @@
 {% load ga360_data from directory_components %}
 {% load static %}
-{% include './includes/dbt_banner.html' %}
+{% include './includes/dbt_banner.html' with show_site_toggle=True %}
 <header data-ga-section="header">
     <div class="great-international-header__main">
         <div class="govuk-width-container great-container great-international-header__main-inner {% if hide_primary_nav %}international-justify-start{% endif %}">
@@ -138,7 +138,9 @@
                         <a class="govuk-link govuk-link--inverse great-international-nav__item"
                            href="/"
                            data-location="Visit export support for UK businesses"
-                           data-title="International header (mobile)">Visit export support for UK businesses</a>
+                           data-title="International header (mobile)">
+                            <span class="link-text">Visit export support for UK businesses</span>
+                        </a>
                     </li>
                 </ul>
             </nav>
