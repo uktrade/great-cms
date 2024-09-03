@@ -18,10 +18,10 @@ from export_academy.models import (
     Registration,
     VideoOnDemandPageTracking,
 )
+from exportplan.models import CsatUserFeedback as ExportPlanCsatUserFeedback
 from find_a_buyer.models import CsatUserFeedback as FindABuyerCsatUserFeedback
 from international_online_offer.models import CsatFeedback, TriageData, UserData
 from learn.models import CsatUserFeedback as LearnToExportCsatUserFeedback
-from exportplan.models import CsatUserFeedback as ExportPlanCsatUserFeedback
 
 logger = logging.getLogger(__name__)
 
