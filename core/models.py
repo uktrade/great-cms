@@ -2272,7 +2272,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
             return parent_page.specific.use_domestic_header_logo
         else:
             return False
-        
+
     def get_include_link_to_great(self):
         parent_page = self.get_parent_page()
         if parent_page and type(parent_page.specific) is MicrositePage:
