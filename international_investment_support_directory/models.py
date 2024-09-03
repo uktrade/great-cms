@@ -1,3 +1,4 @@
+from directory_constants import expertise
 from domestic.models import BaseContentPage
 
 
@@ -16,6 +17,12 @@ class InvestmentSupportDirectoryIndexPage(BaseContentPage):
 
         context.update(
             breadcrumbs=breadcrumbs,
+            CHOICES_FINANCIAL=expertise.FINANCIAL,
+            CHOICES_HUMAN_RESOURCES=expertise.HUMAN_RESOURCES,
+            CHOICES_LEGAL=expertise.LEGAL,
+            CHOICES_PUBLICITY=expertise.PUBLICITY,
+            CHOICES_BUSINESS_SUPPORT=expertise.BUSINESS_SUPPORT,
+            CHOICES_MANAGEMENT_CONSULTING=expertise.MANAGEMENT_CONSULTING,
         )
         self.set_ga360_payload(
             page_id='Index',
