@@ -756,12 +756,15 @@ requests==2.32.3
     #   pyhanko
     #   pyhanko-certvalidator
     #   pytest-codecov
+    #   requests-aws4auth
     #   requests-mock
     #   requests-oauthlib
     #   requests-toolbelt
     #   sphinx
     #   wagtail
     #   webdriver-manager
+requests-aws4auth==1.3.1
+    # via -r requirements.in
 requests-mock==1.12.1
     # via -r requirements_test.in
 requests-oauthlib==2.0.0
