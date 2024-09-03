@@ -2030,11 +2030,21 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
     use_domestic_header_logo = models.BooleanField(
         default=True,
         help_text=_(
-            'If selected the dbt logo will be displayed in the header.'
-            ' Otherwise the UK Gov logo will be shown. '
-            'Note this checkbox only works on the root page'
+            'If selected the dbt logo will be displayed in the header. '
+            'Otherwise the UK Gov logo will be shown. '
+            'Note this checkbox only works on the root page.'
         ),
         verbose_name=_('Use domestic header logo'),
+    )
+
+    include_link_to_great = models.BooleanField(
+        default=True,
+        help_text=_(
+            'If selected a link to great.gov.uk will appear in the header. '
+            'Otherwise this will not be shown. '
+            'Note this checkbox only works on the root page.'
+        ),
+        verbose_name=_('Include link to Great'),
     )
 
     external_link_label = models.CharField(
@@ -2262,6 +2272,13 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
             return parent_page.specific.use_domestic_header_logo
         else:
             return False
+
+    def get_include_link_to_great(self):
+        parent_page = self.get_parent_page()
+        if parent_page and type(parent_page.specific) is MicrositePage:
+            return parent_page.specific.include_link_to_great
+        else:
+            return True
 
     # Return the children of a child or grandchild page
     def get_related_pages(self):
