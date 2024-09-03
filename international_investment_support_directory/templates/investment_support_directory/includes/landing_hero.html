@@ -1,0 +1,23 @@
+{% load wagtailimages_tags %}
+{% load static %}
+<style>
+    .great-hero-no-image {
+        background-image: url({% static 'images/isd_hero.png' %});
+    }
+</style>
+<section class="great-hero {% if not hero_image %}great-hero-no-image{% endif %}"
+         id="hero">
+    <div class="govuk-width-container great-container">
+        <div class="great-hero__container govuk-grid-row">
+            <div class="great-hero__text govuk-grid-column-two-thirds-from-desktop">
+                <div class="buy-from-the-uk-home-strapline-container govuk-!-padding-5">
+                    <h1 class="govuk-heading-l great-hero-heading">Find a UK investment specialist</h1>
+                    <p class="govuk-body-m great-hero-subheading">
+                        The UK Investment Support Directory connects you to specialists who can help your business set up or expand.
+                    </p>
+                </div>
+            </div>
+            <div class="govuk-grid-column-one-third-from-desktop"></div>
+        </div>
+    </div>
+</section>

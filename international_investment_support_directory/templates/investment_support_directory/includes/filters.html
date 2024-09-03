@@ -1,0 +1,341 @@
+<h2 class="govuk-heading-m govuk-!-margin-bottom-4">Filter results</h2>
+<form class="magna-header__search govuk-!-margin-bottom-4"
+      action=""
+      method="get">
+    <div class="govuk-accordion"
+         data-module="govuk-accordion"
+         id="accordion-default">
+        {% if is_find_a_supplier %}
+            <div class="govuk-accordion__section">
+                <div class="govuk-accordion__section-header">
+                    <h2 class="govuk-accordion__section-heading">
+                        <span class="govuk-accordion__section-button"
+                              id="accordion-default-heading-1">
+                            <span class="govuk-heading-s">{{ form.industries.label }}</span>
+                        </span>
+                    </h2>
+                </div>
+                <div id="accordion-default-content-1"
+                     class="govuk-accordion__section-content govuk-!-padding-left-2 fixed-height-scroll">
+                    <div class="govuk-checkboxes govuk-checkboxes--small"
+                         data-module="govuk-checkboxes"
+                         id="industries">
+                        {% for action in form.industries %}
+                            <div class="govuk-checkboxes__item">
+                                <input {% if action.data.value in form.industries.value %}checked{% endif %}
+                                       type="checkbox"
+                                       name="industries"
+                                       value="{{ action.data.value }}"
+                                       class="govuk-checkboxes__input"
+                                       id="{{ action.id_for_label }}">
+                                <label class="govuk-label govuk-checkboxes__label"
+                                       for="{{ action.id_for_label }}">{{ action.choice_label }}</label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p class="govuk-heading-m">Filter by services</p>
+            <div class="govuk-accordion__section">
+                <div class="govuk-accordion__section-header">
+                    <h2 class="govuk-accordion__section-heading">
+                        <span class="govuk-accordion__section-button"
+                              id="accordion-default-heading-5">
+                            <span class="govuk-heading-s">{{ form.expertise_products_services_financial.label }}</span>
+                        </span>
+                    </h2>
+                </div>
+                <div id="accordion-default-content-5"
+                     class="govuk-accordion__section-content govuk-!-padding-left-2 fixed-height-scroll">
+                    <div class="govuk-checkboxes govuk-checkboxes--small"
+                         data-module="govuk-checkboxes"
+                         id="expertise_products_services_financial">
+                        {% for action in form.expertise_products_services_financial %}
+                            <div class="govuk-checkboxes__item">
+                                <input {% if action.data.value in form.expertise_products_services_financial.value %}checked{% endif %}
+                                       type="checkbox"
+                                       name="expertise_products_services_financial"
+                                       value="{{ action.data.value }}"
+                                       class="govuk-checkboxes__input"
+                                       id="{{ action.id_for_label }}">
+                                <label class="govuk-label govuk-checkboxes__label"
+                                       for="{{ action.id_for_label }}">{{ action.choice_label }}</label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-accordion__section">
+                <div class="govuk-accordion__section-header">
+                    <h2 class="govuk-accordion__section-heading">
+                        <span class="govuk-accordion__section-button"
+                              id="accordion-default-heading-6">
+                            <span class="govuk-heading-s">{{ form.expertise_products_services_management.label }}</span>
+                        </span>
+                    </h2>
+                </div>
+                <div id="accordion-default-content-6"
+                     class="govuk-accordion__section-content govuk-!-padding-left-2 fixed-height-scroll">
+                    <div class="govuk-checkboxes govuk-checkboxes--small"
+                         data-module="govuk-checkboxes"
+                         id="expertise_products_services_management">
+                        {% for action in form.expertise_products_services_management %}
+                            <div class="govuk-checkboxes__item">
+                                <input {% if action.data.value in form.expertise_products_services_management.value %}checked{% endif %}
+                                       type="checkbox"
+                                       name="expertise_products_services_management"
+                                       value="{{ action.data.value }}"
+                                       class="govuk-checkboxes__input"
+                                       id="{{ action.id_for_label }}">
+                                <label class="govuk-label govuk-checkboxes__label"
+                                       for="{{ action.id_for_label }}">{{ action.choice_label }}</label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-accordion__section">
+                <div class="govuk-accordion__section-header">
+                    <h2 class="govuk-accordion__section-heading">
+                        <span class="govuk-accordion__section-button"
+                              id="accordion-default-heading-7">
+                            <span class="govuk-heading-s">{{ form.expertise_products_services_human_resources.label }}</span>
+                        </span>
+                    </h2>
+                </div>
+                <div id="accordion-default-content-7"
+                     class="govuk-accordion__section-content govuk-!-padding-left-2 fixed-height-scroll">
+                    <div class="govuk-checkboxes govuk-checkboxes--small"
+                         data-module="govuk-checkboxes"
+                         id="expertise_products_services_human_resources">
+                        {% for action in form.expertise_products_services_human_resources %}
+                            <div class="govuk-checkboxes__item">
+                                <input {% if action.data.value in form.expertise_products_services_human_resources.value %}checked{% endif %}
+                                       type="checkbox"
+                                       name="expertise_products_services_human_resources"
+                                       value="{{ action.data.value }}"
+                                       class="govuk-checkboxes__input"
+                                       id="{{ action.id_for_label }}">
+                                <label class="govuk-label govuk-checkboxes__label"
+                                       for="{{ action.id_for_label }}">{{ action.choice_label }}</label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-accordion__section">
+                <div class="govuk-accordion__section-header">
+                    <h2 class="govuk-accordion__section-heading">
+                        <span class="govuk-accordion__section-button"
+                              id="accordion-default-heading-8">
+                            <span class="govuk-heading-s">{{ form.expertise_products_services_legal.label }}</span>
+                        </span>
+                    </h2>
+                </div>
+                <div id="accordion-default-content-8"
+                     class="govuk-accordion__section-content govuk-!-padding-left-2 fixed-height-scroll">
+                    <div class="govuk-checkboxes govuk-checkboxes--small"
+                         data-module="govuk-checkboxes"
+                         id="expertise_products_services_legal">
+                        {% for action in form.expertise_products_services_legal %}
+                            <div class="govuk-checkboxes__item">
+                                <input {% if action.data.value in form.expertise_products_services_legal.value %}checked{% endif %}
+                                       type="checkbox"
+                                       name="expertise_products_services_legal"
+                                       value="{{ action.data.value }}"
+                                       class="govuk-checkboxes__input"
+                                       id="{{ action.id_for_label }}">
+                                <label class="govuk-label govuk-checkboxes__label"
+                                       for="{{ action.id_for_label }}">{{ action.choice_label }}</label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-accordion__section">
+                <div class="govuk-accordion__section-header">
+                    <h2 class="govuk-accordion__section-heading">
+                        <span class="govuk-accordion__section-button"
+                              id="accordion-default-heading-9">
+                            <span class="govuk-heading-s">{{ form.expertise_products_services_publicity.label }}</span>
+                        </span>
+                    </h2>
+                </div>
+                <div id="accordion-default-content-9"
+                     class="govuk-accordion__section-content govuk-!-padding-left-2 fixed-height-scroll">
+                    <div class="govuk-checkboxes govuk-checkboxes--small"
+                         data-module="govuk-checkboxes"
+                         id="expertise_products_services_publicity">
+                        {% for action in form.expertise_products_services_publicity %}
+                            <div class="govuk-checkboxes__item">
+                                <input {% if action.data.value in form.expertise_products_services_publicity.value %}checked{% endif %}
+                                       type="checkbox"
+                                       name="expertise_products_services_publicity"
+                                       value="{{ action.data.value }}"
+                                       class="govuk-checkboxes__input"
+                                       id="{{ action.id_for_label }}">
+                                <label class="govuk-label govuk-checkboxes__label"
+                                       for="{{ action.id_for_label }}">{{ action.choice_label }}</label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-accordion__section">
+                <div class="govuk-accordion__section-header">
+                    <h2 class="govuk-accordion__section-heading">
+                        <span class="govuk-accordion__section-button"
+                              id="accordion-default-heading-10">
+                            <span class="govuk-heading-s">{{ form.expertise_products_services_business_support.label }}</span>
+                        </span>
+                    </h2>
+                </div>
+                <div id="accordion-default-content-10"
+                     class="govuk-accordion__section-content govuk-!-padding-left-2 fixed-height-scroll">
+                    <div class="govuk-checkboxes govuk-checkboxes--small"
+                         data-module="govuk-checkboxes"
+                         id="expertise_products_services_publicity">
+                        {% for action in form.expertise_products_services_business_support %}
+                            <div class="govuk-checkboxes__item">
+                                <input {% if action.data.value in form.expertise_products_services_business_support.value %}checked{% endif %}
+                                       type="checkbox"
+                                       name="expertise_products_services_business_support"
+                                       value="{{ action.data.value }}"
+                                       class="govuk-checkboxes__input"
+                                       id="{{ action.id_for_label }}">
+                                <label class="govuk-label govuk-checkboxes__label"
+                                       for="{{ action.id_for_label }}">{{ action.choice_label }}</label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <p class="govuk-heading-m">Filter by expertise</p>
+            <div class="govuk-accordion__section">
+                <div class="govuk-accordion__section-header">
+                    <h2 class="govuk-accordion__section-heading">
+                        <span class="govuk-accordion__section-button"
+                              id="accordion-default-heading-1">
+                            <span class="govuk-heading-s">{{ form.expertise_industries.label }}</span>
+                        </span>
+                    </h2>
+                </div>
+                <div id="accordion-default-content-1"
+                     class="govuk-accordion__section-content govuk-!-padding-left-2 fixed-height-scroll">
+                    <div class="govuk-checkboxes govuk-checkboxes--small"
+                         data-module="govuk-checkboxes"
+                         id="expertise_industries">
+                        {% for action in form.expertise_industries %}
+                            <div class="govuk-checkboxes__item">
+                                <input {% if action.data.value in form.expertise_industries.value %}checked{% endif %}
+                                       type="checkbox"
+                                       name="expertise_industries"
+                                       value="{{ action.data.value }}"
+                                       class="govuk-checkboxes__input"
+                                       id="{{ action.id_for_label }}">
+                                <label class="govuk-label govuk-checkboxes__label"
+                                       for="{{ action.id_for_label }}">{{ action.choice_label }}</label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-accordion__section">
+                <div class="govuk-accordion__section-header">
+                    <h2 class="govuk-accordion__section-heading">
+                        <span class="govuk-accordion__section-button"
+                              id="accordion-default-heading-2">
+                            <span class="govuk-heading-s">{{ form.expertise_regions.label }}</span>
+                        </span>
+                    </h2>
+                </div>
+                <div id="accordion-default-content-2"
+                     class="govuk-accordion__section-content govuk-!-padding-left-2 fixed-height-scroll">
+                    <div class="govuk-checkboxes govuk-checkboxes--small"
+                         data-module="govuk-checkboxes"
+                         id="expertise_regions">
+                        {% for action in form.expertise_regions %}
+                            <div class="govuk-checkboxes__item">
+                                <input {% if action.data.value in form.expertise_regions.value %}checked{% endif %}
+                                       type="checkbox"
+                                       name="expertise_regions"
+                                       value="{{ action.data.value }}"
+                                       class="govuk-checkboxes__input"
+                                       id="{{ action.id_for_label }}">
+                                <label class="govuk-label govuk-checkboxes__label"
+                                       for="{{ action.id_for_label }}">{{ action.choice_label }}</label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-accordion__section">
+                <div class="govuk-accordion__section-header">
+                    <h2 class="govuk-accordion__section-heading">
+                        <span class="govuk-accordion__section-button"
+                              id="accordion-default-heading-3">
+                            <span class="govuk-heading-s">{{ form.expertise_countries.label }}</span>
+                        </span>
+                    </h2>
+                </div>
+                <div id="accordion-default-content-3"
+                     class="govuk-accordion__section-content govuk-!-padding-left-2 fixed-height-scroll">
+                    <div class="govuk-checkboxes govuk-checkboxes--small"
+                         data-module="govuk-checkboxes"
+                         id="expertise_countries">
+                        {% for action in form.expertise_countries %}
+                            <div class="govuk-checkboxes__item">
+                                <input {% if action.data.value in form.expertise_countries.value %}checked{% endif %}
+                                       type="checkbox"
+                                       name="expertise_countries"
+                                       value="{{ action.data.value }}"
+                                       class="govuk-checkboxes__input"
+                                       id="{{ action.id_for_label }}">
+                                <label class="govuk-label govuk-checkboxes__label"
+                                       for="{{ action.id_for_label }}">{{ action.choice_label }}</label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-accordion__section">
+                <div class="govuk-accordion__section-header">
+                    <h2 class="govuk-accordion__section-heading">
+                        <span class="govuk-accordion__section-button"
+                              id="accordion-default-heading-4">
+                            <span class="govuk-heading-s">{{ form.expertise_languages.label }}</span>
+                        </span>
+                    </h2>
+                </div>
+                <div id="accordion-default-content-4"
+                     class="govuk-accordion__section-content govuk-!-padding-left-2 fixed-height-scroll">
+                    <div class="govuk-checkboxes govuk-checkboxes--small"
+                         data-module="govuk-checkboxes"
+                         id="expertise_languages">
+                        {% for action in form.expertise_languages %}
+                            <div class="govuk-checkboxes__item">
+                                <input {% if action.data.value in form.expertise_languages.value %}checked{% endif %}
+                                       type="checkbox"
+                                       name="expertise_languages"
+                                       value="{{ action.data.value }}"
+                                       class="govuk-checkboxes__input"
+                                       id="{{ action.id_for_label }}">
+                                <label class="govuk-label govuk-checkboxes__label"
+                                       for="{{ action.id_for_label }}">{{ action.choice_label }}</label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <button type="submit" class="govuk-button" data-module="govuk-button">Update results</button>
+    <div>
+        <a href="?q={{ form.q.value }}&page=1" class="govuk-link">Reset</a>
+    </div>
+    <div class="govuk-visually-hidden">
+        {{ form.q }}
+        {{ form.page }}
+    </div>
+</form>

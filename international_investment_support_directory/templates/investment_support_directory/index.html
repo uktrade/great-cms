@@ -1,0 +1,62 @@
+{% extends './base.html' %}
+{% load static %}
+{% block head_title %}Investment support directory {{ block.super }}{% endblock %}
+{% block meta_title %}Investment support directory {{ block.super }}{% endblock %}
+{% block content %}
+    <div class="govuk-width-container great-container">
+        {% include 'eyb/includes/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
+    </div>
+    {% include './includes/landing_hero.html' %}
+    <section class="buy-from-the-uk-info-section govuk-!-padding-top-6 govuk-!-padding-bottom-3">
+        <div class="govuk-width-container great-container">
+            <form action="{% url 'international_investment_support_directory:find-a-specialist' %}"
+                  method="get">
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds-from-desktop">
+                        <label class="govuk-label govuk-label--s">Enter the skills or services you need</label>
+                        <input class="govuk-input" name="q" id="q">
+                    </input>
+                </div>
+                <div class="govuk-grid-column-one-third-from-desktop">
+                    <input class="govuk-visually-hidden" name="page" id="page" value=1>
+                </input>
+            </div>
+        </div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds-from-desktop">
+                <button type="submit"
+                        class="govuk-button govuk-!-margin-top-4"
+                        data-module="govuk-button">Find specialists</button>
+            </div>
+        </div>
+    </form>
+</div>
+</section>
+<section class="investment-support-directory-home-info-section">
+    <div class="govuk-width-container great-container">
+        <div class="govuk-grid-row govuk-!-padding-top-8 govuk-!-padding-bottom-7">
+            <div class="govuk-grid-column-one-half-from-desktop">
+                <h2 class="govuk-heading-l">UK Investment Support Directory</h2>
+                <h3 class="govuk-heading-m">Search for experienced advice</h3>
+                <p class="govuk-body">
+                    The UK Investment Support Directory is a collection of companies that have skills and experience in helping overseas businesses set up or expand in the UK.
+                </p>
+                <p class="govuk-body">
+                    Membership of the Directory does not represent an association with The Department for Business and Trade (DBT) and being listed in the Directory does not create legal relations between the member and DBT.
+                </p>
+                <h3 class="govuk-heading-m">Find the right help</h3>
+                <p class="govuk-body">
+                    To find a specialist, search the directory by entering the skill or service you are looking for in the search bar. You can also filter your search results by expertise in specific services, industry or by regional expertise.
+                </p>
+                <h3 class="govuk-heading-m">Get in touch</h3>
+                <p class="govuk-body govuk-!-margin-bottom-5">
+                    Contact your chosen specialist by clicking on 'Contact company' on their profile page. You will get your first hour of consultation for free and will also be connected to DBT for further support.
+                </p>
+            </div>
+            <div class="govuk-grid-column-one-half-from-desktop">
+                <div class="investment-support-directory-preview-image"></div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
