@@ -52,10 +52,10 @@ from export_academy.models import (
     Registration,
     VideoOnDemandPageTracking,
 )
+from exportplan.models import CsatUserFeedback as ExportPlanCsatUserFeedback
 from find_a_buyer.models import CsatUserFeedback as FindABuyerCsatUserFeedback
 from international_online_offer.models import CsatFeedback, TriageData, UserData
 from learn.models import CsatUserFeedback as LearnToExportCsatUserFeedback
-from exportplan.models import CsatUserFeedback as ExportPlanCsatUserFeedback
 
 
 class ActivityStreamView(ListAPIView):
@@ -224,14 +224,22 @@ class ActivityStreamExportAcademyBookingView(ActivityStreamExportAcademyBaseView
 class ActivityStreamExpandYourBusinessUserDataView(ActivityStreamExpandYourBusinessBaseView):
     """View to list expand your business user data for the activity stream"""
 
-    queryset = UserData.objects.all()
+    test_record_definition = Q(email__contains='.gov.uk') | Q(email__contains='digitalaccessibilitycentre')
+
+    queryset = UserData.objects.exclude(test_record_definition)
     serializer_class = ActivityStreamExpandYourBusinessUserDataSerializer
 
 
 class ActivityStreamExpandYourBusinessTriageDataView(ActivityStreamExpandYourBusinessBaseView):
     """View to list expand your business triage data for the activity stream"""
 
-    queryset = TriageData.objects.all()
+    from activitystream.views import ActivityStreamExpandYourBusinessUserDataView
+
+    user_uuids = UserData.objects.exclude(ActivityStreamExpandYourBusinessUserDataView.test_record_definition).values(
+        'hashed_uuid'
+    )
+
+    queryset = TriageData.objects.filter(hashed_uuid__in=user_uuids)
     serializer_class = ActivityStreamExpandYourBusinessTriageDataSerializer
 
 
