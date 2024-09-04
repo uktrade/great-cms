@@ -224,7 +224,7 @@ class ActivityStreamExportAcademyBookingView(ActivityStreamExportAcademyBaseView
 class ActivityStreamExpandYourBusinessUserDataView(ActivityStreamExpandYourBusinessBaseView):
     """View to list expand your business user data for the activity stream"""
 
-    test_record_definition = Q(email__contains='.gov.uk') | Q(email__contains='digitalaccessibilitycentre')
+    test_record_definition = Q(email__icontains='.gov.uk') | Q(email__icontains='digitalaccessibilitycentre')
 
     queryset = UserData.objects.exclude(test_record_definition)
     serializer_class = ActivityStreamExpandYourBusinessUserDataSerializer
