@@ -493,16 +493,9 @@ def test_activity_stream_ukea_views_pagination(api_client, resource, factory):
     assert new_items != items
 
 
-@pytest.mark.parametrize(
-    'resource,expected_count',
-    (
-        ('triages', 0),
-        ('users', 0),
-    ),
-)
 @pytest.mark.django_db
-def test_activity_stream_eyb_views(api_client, resource, expected_count):
-    url = 'http://testserver' + reverse(f'activitystream:eyb-{resource}')
+def test_activity_stream_eyb_users(api_client, eyb_user_triage_data):
+    url = 'http://testserver' + reverse('activitystream:eyb-users')
     sender = auth_sender(url=url)
     response = api_client.get(
         url,
@@ -512,7 +505,24 @@ def test_activity_stream_eyb_views(api_client, resource, expected_count):
     )
 
     assert response.status_code == 200
-    assert response.json() == EMPTY_COLLECTION
+    # endpoint does not return test email accounts and associated triage data
+    assert len(response.json()['orderedItems']) == 2
+
+
+@pytest.mark.django_db
+def test_activity_stream_eyb_triage(api_client, eyb_user_triage_data):
+    url = 'http://testserver' + reverse('activitystream:eyb-triages')
+    sender = auth_sender(url=url)
+    response = api_client.get(
+        url,
+        content_type='',
+        HTTP_AUTHORIZATION=sender.request_header,
+        HTTP_X_FORWARDED_FOR='1.2.3.4, 123.123.123.123',
+    )
+
+    assert response.status_code == 200
+    # endpoint does not return test email accounts and associated triage data
+    assert len(response.json()['orderedItems']) == 2
 
 
 @pytest.mark.django_db
