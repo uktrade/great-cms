@@ -223,19 +223,19 @@ class HCSATWithIntensionsForm(HCSATForm, ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        experience = cleaned_data.get('experience')
+        experienced_issues = cleaned_data.get('experienced_issues')
         site_intentions = cleaned_data.get('site_intentions')
 
-        if experience and 'OTHER' not in experience:
-            cleaned_data['experience_other'] = ''
+        if experienced_issues and 'OTHER' not in experienced_issues:
+            cleaned_data['other_detail'] = ''
         if site_intentions and 'OTHER' not in site_intentions:
             cleaned_data['site_intentions_other'] = ''
 
-        experience_other = cleaned_data.get('experience_other')
+        other_detail = cleaned_data.get('other_detail')
         site_intentions_other = cleaned_data.get('site_intentions_other')
 
-        if experience and any('OTHER' in s for s in experience) and not experience_other:
-            self.add_error('experience_other', 'You must enter more information regarding other experience')
+        if experienced_issues and any('OTHER' in s for s in experienced_issues) and not other_detail:
+            self.add_error('other_detail', 'You must enter more information regarding other experience')
 
         if site_intentions and any('OTHER' in s for s in site_intentions) and not site_intentions_other:
             self.add_error('site_intentions_other', 'You must enter more information regarding other service use')
