@@ -8,6 +8,7 @@ register = template.Library()
 def get_url(request):
     base_url = '?q=' + request.GET.get('q', '')
     params = [
+        'industries',
         'expertise_industries',
         'expertise_regions',
         'expertise_countries',
@@ -30,6 +31,14 @@ def get_url(request):
 
 @register.filter
 def get_case_study_url(case_study_pk):
+    url = reverse_lazy(
+        'international_buy_from_the_uk:find-a-supplier-case-study', kwargs={'case_study_id': case_study_pk}
+    )
+    return url
+
+
+@register.filter
+def get_isd_case_study_url(case_study_pk):
     url = reverse_lazy(
         'international_investment_support_directory:specialist-case-study', kwargs={'case_study_id': case_study_pk}
     )

@@ -40,42 +40,6 @@ class SearchForm(forms.Form):
         widget=HiddenInput,
         initial=1,
     )
-    expertise_industries = forms.MultipleChoiceField(
-        label='Industry expertise',
-        widget=CheckboxSelectMultipleIgnoreEmpty(
-            attrs={'id': 'checkbox-industry-expertise'},
-            use_nice_ids=True,
-        ),
-        choices=choices.INDUSTRIES,
-        required=False,
-    )
-    expertise_regions = forms.MultipleChoiceField(
-        label='Regional expertise',
-        widget=CheckboxSelectMultipleIgnoreEmpty(
-            attrs={'id': 'checkbox-regional-expertise'},
-            use_nice_ids=True,
-        ),
-        choices=choices.EXPERTISE_REGION_CHOICES,
-        required=False,
-    )
-    expertise_countries = forms.MultipleChoiceField(
-        label='International expertise',
-        widget=CheckboxSelectMultipleIgnoreEmpty(
-            attrs={'id': 'checkbox-international-expertise'},
-            use_nice_ids=True,
-        ),
-        choices=choices.COUNTRY_CHOICES,
-        required=False,
-    )
-    expertise_languages = forms.MultipleChoiceField(
-        label='Language expertise',
-        widget=CheckboxSelectMultipleIgnoreEmpty(
-            attrs={'id': 'checkbox-language-expertise'},
-            use_nice_ids=True,
-        ),
-        choices=choices.EXPERTISE_LANGUAGES,
-        required=False,
-    )
     expertise_products_services_financial = forms.MultipleChoiceField(
         label='Financial',
         widget=CheckboxSelectMultipleIgnoreEmpty(
@@ -128,6 +92,42 @@ class SearchForm(forms.Form):
             use_nice_ids=True,
         ),
         choices=choices.EXPERTISE_BUSINESS_SUPPORT,
+        required=False,
+    )
+    expertise_regions = forms.MultipleChoiceField(
+        label='Regional expertise',
+        widget=CheckboxSelectMultipleIgnoreEmpty(
+            attrs={'id': 'checkbox-regional-expertise'},
+            use_nice_ids=True,
+        ),
+        choices=choices.EXPERTISE_REGION_CHOICES,
+        required=False,
+    )
+    expertise_industries = forms.MultipleChoiceField(
+        label='Industry expertise',
+        widget=CheckboxSelectMultipleIgnoreEmpty(
+            attrs={'id': 'checkbox-industry-expertise'},
+            use_nice_ids=True,
+        ),
+        choices=choices.INDUSTRIES,
+        required=False,
+    )
+    expertise_languages = forms.MultipleChoiceField(
+        label='Language expertise',
+        widget=CheckboxSelectMultipleIgnoreEmpty(
+            attrs={'id': 'checkbox-language-expertise'},
+            use_nice_ids=True,
+        ),
+        choices=choices.EXPERTISE_LANGUAGES,
+        required=False,
+    )
+    expertise_countries = forms.MultipleChoiceField(
+        label='International expertise',
+        widget=CheckboxSelectMultipleIgnoreEmpty(
+            attrs={'id': 'checkbox-international-expertise'},
+            use_nice_ids=True,
+        ),
+        choices=choices.COUNTRY_CHOICES,
         required=False,
     )
 
