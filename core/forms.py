@@ -167,16 +167,22 @@ class HCSATForm(ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        experience = cleaned_data.get('experience')
+        experienced_issues = cleaned_data.get('experienced_issues')
 
-        if experience and 'OTHER' not in experience:
-            cleaned_data['experience_other'] = ''
+        if experienced_issues and 'OTHER' not in experienced_issues:
+            cleaned_data['other_detail'] = ''
 
-        if experience and any('NO_ISSUE' in s for s in experience):
-            for option in experience:
+        other_detail = cleaned_data.get('other_detail')
+
+        if experienced_issues and any('OTHER' in s for s in experienced_issues) and not other_detail:
+            self.add_error('other_detail', 'You must enter more information regarding other experience')
+
+        if experienced_issues and any('NO_ISSUE' in s for s in experienced_issues):
+            for option in experienced_issues:
                 if option != 'NO_ISSUE':
                     self.add_error(
-                        'experience', "Select issues you experienced, or select 'I did not experience any issues'"
+                        'experienced_issues',
+                        "Select issues you experienced, or select 'I did not experience any issues'",
                     )
                     break
         return cleaned_data
