@@ -2,7 +2,7 @@ import pytest
 
 from core import forms
 from core.cms_slugs import PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE
-from core.forms import CsatUserFeedbackForm
+from core.forms import HCSATForm
 
 
 def test_contact_us_form_empty_fields():
@@ -81,5 +81,5 @@ def test_consent_field_mixin__privacy_url():
 @pytest.mark.django_db
 def test_csat_user_feedback_form_validation(form_data, is_valid):
     data = form_data
-    form = CsatUserFeedbackForm(data)
+    form = HCSATForm(data)
     assert form.is_valid() == is_valid

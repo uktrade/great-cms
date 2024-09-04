@@ -37,7 +37,9 @@ from rest_framework.generics import GenericAPIView
 
 from config import settings
 from core import mixins as core_mixins
+from core.forms import HCSATForm
 from core.helpers import get_location
+from core.models import HCSAT
 from core.templatetags.content_tags import format_timedelta
 from directory_sso_api_client import sso_api_client
 from export_academy import filters, forms, helpers, models
@@ -55,7 +57,6 @@ from export_academy.mixins import (
 )
 from export_academy.models import (
     Booking,
-    CsatUserFeedback,
     ExportAcademyHomePage,
     Registration,
     VideoOnDemandPageTracking,
@@ -152,12 +153,12 @@ class BookingUpdateView(BookingMixin, UpdateView):
 
 class SuccessPageView(GetBreadcrumbsMixin, core_mixins.GetSnippetContentMixin, FormView):
 
-    form_class = forms.CsatUserFeedbackForm
+    form_class = HCSATForm
 
     def get_csat(self):
         csat_id = self.request.session.get('ukea_csat_id')
         if csat_id:
-            return CsatUserFeedback.objects.get(id=csat_id)
+            return HCSAT.objects.get(id=csat_id)
         return None
 
     def get_initial(self):
@@ -247,7 +248,7 @@ class SuccessPageView(GetBreadcrumbsMixin, core_mixins.GetSnippetContentMixin, F
         csat = self.get_csat()
         booking = self.get_object()
         if csat:
-            csat_feedback, created = CsatUserFeedback.objects.update_or_create(
+            csat_feedback, created = HCSAT.objects.update_or_create(
                 id=csat.id,
                 defaults={
                     'experienced_issues': form.cleaned_data['experience'],
@@ -264,7 +265,7 @@ class SuccessPageView(GetBreadcrumbsMixin, core_mixins.GetSnippetContentMixin, F
                 self.request.session['ukea_csat_stage'] = 2
 
         else:
-            csat_feedback = CsatUserFeedback.objects.create(
+            csat_feedback = HCSAT.objects.create(
                 satisfaction_rating=form.cleaned_data['satisfaction'],
                 experienced_issues=form.cleaned_data['experience'],
                 other_detail=form.cleaned_data['experience_other'],

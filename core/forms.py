@@ -6,6 +6,7 @@ from django.forms import (
     CheckboxSelectMultiple,
     ChoiceField,
     HiddenInput,
+    ModelForm,
     MultipleChoiceField,
     RadioSelect,
     Textarea,
@@ -16,12 +17,11 @@ from django.utils.html import mark_safe
 from great_components import forms
 
 from contact import widgets as contact_widgets
-from core import constants
+from core import constants, models
 from core.cms_slugs import (
     PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE,
     TERMS_URL,
 )
-from core.constants import CONSENT_CHOICES
 
 TERMS_LABEL = mark_safe(
     'Tick this box to accept the '
@@ -81,7 +81,7 @@ class ConsentFieldMixin(forms.Form):
             attrs={'id': 'checkbox-multiple'},
             use_nice_ids=True,
         ),
-        choices=CONSENT_CHOICES,
+        choices=constants.CONSENT_CHOICES,
         required=False,
     )
 
@@ -107,14 +107,15 @@ class ConsentFieldMixin(forms.Form):
         return super().order_fields(field_order)
 
 
-class CsatUserFeedbackForm(forms.Form):
-    satisfaction = ChoiceField(
-        label='Overall, how would you rate your experience with the Where to export service today?',
+class HCSATForm(ModelForm):
+
+    satisfaction_rating = ChoiceField(
+        label='Overall, how would you rate your experience with this service today?',
         choices=constants.SATISFACTION_CHOICES,
         widget=RadioSelect(attrs={'class': 'govuk-radios__input'}),
-        required=False,
+        required=True,
     )
-    experience = MultipleChoiceField(
+    experienced_issues = MultipleChoiceField(
         label='Did you experience any of the following issues?',
         help_text='Select all that apply.',
         choices=constants.EXPERIENCE_CHOICES,
@@ -124,14 +125,14 @@ class CsatUserFeedbackForm(forms.Form):
             'required': "Select issues you experienced, or select 'I did not experience any issues'",
         },
     )
-    experience_other = CharField(
+    other_detail = CharField(
         label='Please describe the issue',
         min_length=2,
         max_length=255,
         required=False,
         widget=TextInput(attrs={'class': 'govuk-input great-font-main'}),
     )
-    feedback_text = CharField(
+    service_improvements_feedback = CharField(
         label='How could we improve this service?',
         help_text="Don't include any personal information, like your name or email address.",
         max_length=1200,
@@ -154,6 +155,16 @@ class CsatUserFeedbackForm(forms.Form):
         required=False,
     )
 
+    class Meta:
+        model = models.HCSAT
+        fields = [
+            'satisfaction_rating',
+            'experienced_issues',
+            'other_detail',
+            'service_improvements_feedback',
+            'likelihood_of_return',
+        ]
+
     def clean(self):
         cleaned_data = super().clean()
         experience = cleaned_data.get('experience')
@@ -168,6 +179,61 @@ class CsatUserFeedbackForm(forms.Form):
                         'experience', "Select issues you experienced, or select 'I did not experience any issues'"
                     )
                     break
+        return cleaned_data
+
+
+class HCSATWithIntensionsForm(HCSATForm, ModelForm):
+
+    class Meta:
+        model = models.HCSAT
+        fields = [
+            'URL',
+            'user_journey',
+            'satisfaction_rating',
+            'experienced_issues',
+            'other_detail',
+            'service_improvements_feedback',
+            'likelihood_of_return',
+            'site_intentions',
+            'site_intentions_other',
+        ]
+
+    site_intentions = MultipleChoiceField(
+        label='What did you get out of this service today?',
+        help_text='Tick all that apply.',
+        choices=constants.INTENSION_CHOICES,
+        widget=CheckboxSelectMultiple(attrs={'class': 'govuk-checkboxes__input'}),
+        error_messages={
+            'required': 'You must select one or more site use options',
+        },
+    )
+    site_intentions_other = CharField(
+        label='Type your answer',
+        min_length=2,
+        max_length=100,
+        required=False,
+        widget=TextInput(attrs={'class': 'govuk-input'}),
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        experience = cleaned_data.get('experience')
+        site_intentions = cleaned_data.get('site_intentions')
+
+        if experience and 'OTHER' not in experience:
+            cleaned_data['experience_other'] = ''
+        if site_intentions and 'OTHER' not in site_intentions:
+            cleaned_data['site_intentions_other'] = ''
+
+        experience_other = cleaned_data.get('experience_other')
+        site_intentions_other = cleaned_data.get('site_intentions_other')
+
+        if experience and any('OTHER' in s for s in experience) and not experience_other:
+            self.add_error('experience_other', 'You must enter more information regarding other experience')
+
+        if site_intentions and any('OTHER' in s for s in site_intentions) and not site_intentions_other:
+            self.add_error('site_intentions_other', 'You must enter more information regarding other service use')
+
         return cleaned_data
 
 

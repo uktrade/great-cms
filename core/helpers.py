@@ -787,3 +787,44 @@ def product_picker(product):
     )
     response.raise_for_status()
     return response.json()
+
+
+def hcsat_get_initial(model, csat_id):
+    if csat_id:
+        csat_record = model.objects.get(id=csat_id)
+        satisfaction = csat_record.satisfaction_rating
+        if satisfaction:
+            return {'satisfaction': satisfaction}
+    else:
+        return {'satisfaction': ''}
+
+
+def hcsat_update_or_create(request, model, csat_id, cleaned_data, journey):
+    if csat_id:
+        model.objects.update_or_create(
+            id=csat_id,
+            defaults={
+                'experienced_issue': cleaned_data['experience'],
+                'other_detail': cleaned_data['experience_other'],
+                'likelihood_of_return': cleaned_data['likelihood_of_return'],
+                'site_intentions': cleaned_data['site_intentions'],
+                'site_intentions_other': cleaned_data['site_intentions_other'],
+                'service_improvements_feedback': cleaned_data['feedback_text'],
+            },
+        )
+        if request.session.get('csat_id'):
+            del request.session['csat_id']
+    else:
+        model.objects.create(
+            satisfaction_rating=cleaned_data['satisfaction'],
+            experienced_issue=cleaned_data['experience'],
+            other_detail=cleaned_data['experience_other'],
+            likelihood_of_return=cleaned_data['likelihood_of_return'],
+            site_intentions=cleaned_data['site_intentions'],
+            service_improvements_feedback=cleaned_data['feedback_text'],
+            site_intentions_other=cleaned_data['site_intentions_other'],
+            URL=check_url_host_is_safelisted(request),
+            user_journey=journey,
+        )
+        if request.session.get('csat_user_journey'):
+            del request.session['csat_user_journey']

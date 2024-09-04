@@ -38,8 +38,13 @@ from wagtail.images.views.chooser import (
 
 from core import cms_slugs, forms, helpers, serializers
 from core.constants import PRODUCT_MARKET_DATA
-from core.mixins import AuthenticatedUserRequired, GuidedJourneyMixin, PageTitleMixin
-from core.models import CsatUserFeedback, GreatMedia
+from core.mixins import (
+    AuthenticatedUserRequired,
+    GuidedJourneyMixin,
+    HCSATMixin,
+    PageTitleMixin,
+)
+from core.models import HCSAT, GreatMedia
 from core.pingdom.services import health_check_services
 from directory_constants import choices
 from domestic.models import DomesticDashboard, TopicLandingPage
@@ -134,7 +139,7 @@ class SignupView(GA360Mixin, PageTitleMixin, TemplateView):
         return context
 
 
-class CompareCountriesView(GA360Mixin, PageTitleMixin, TemplateView, FormView):
+class CompareCountriesView(GA360Mixin, PageTitleMixin, HCSATMixin, TemplateView, FormView):
     def __init__(self):
         super().__init__()
         self.set_ga360_payload(
@@ -142,19 +147,14 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, TemplateView, FormView):
             business_unit='MagnaUnit',
             site_section='target markets',
         )
+        self.hcsat_session_name = 'where_to_export_csat_id'
 
     template_name = 'core/compare_countries.html'
     title = 'Where to export'
-    form_class = forms.CsatUserFeedbackForm
-
-    def get_csat(self):
-        csat_id = self.request.session.get('where_to_export_csat_id')
-        if csat_id:
-            return CsatUserFeedback.objects.get(id=csat_id)
-        return None
+    form_class = forms.HCSATForm
 
     def get_initial(self):
-        csat = self.get_csat()
+        csat = self.get_csat(self.hcsat_session_name)
         if csat:
             satisfaction = csat.satisfaction_rating
             if satisfaction and self.request.session.get('where_to_export_csat_stage', 0) == 1:
@@ -189,9 +189,9 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, TemplateView, FormView):
             return HttpResponseRedirect(self.get_success_url())
 
         super().form_valid(form)
-        csat = self.get_csat()
+        csat = self.get_csat(self.hcsat_session_name)
         if csat:
-            csat_feedback, created = CsatUserFeedback.objects.update_or_create(
+            csat_feedback, created = HCSAT.objects.update_or_create(
                 id=csat.id,
                 defaults={
                     'experienced_issues': form.cleaned_data['experience'],
@@ -208,7 +208,7 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, TemplateView, FormView):
                 self.request.session['where_to_export_csat_stage'] = 2
 
         else:
-            csat_feedback = CsatUserFeedback.objects.create(
+            csat_feedback = HCSAT.objects.create(
                 satisfaction_rating=form.cleaned_data['satisfaction'],
                 experienced_issues=form.cleaned_data['experience'],
                 other_detail=form.cleaned_data['experience_other'],
