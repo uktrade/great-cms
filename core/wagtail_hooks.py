@@ -686,7 +686,7 @@ def after_edit_page(request, page):
 
 
 class SectorTagsSnippetViewSet(ModelViewSet):
-    form_fields = ['name']  # only show the name field
+    form_fields = ['name', 'slug']
     model = SectorTag
     icon = 'tag'  # change as required
     menu_label = 'Sector Tags'
