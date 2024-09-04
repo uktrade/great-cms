@@ -13,6 +13,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         with open(settings.ROOT_DIR / 'core/fixtures/sectors.csv', 'r', encoding='utf-8') as f:
             for row in csv.DictReader(StringIO(f.read()), delimiter=','):
-                if not SectorTag.objects.filter(name=row['name']).exists():
-                    SectorTag.objects.create(name=row['name'])
+                if not SectorTag.objects.filter(name=row['Sector name']).exists():
+                    SectorTag.objects.create(name=row['Sector name'])
             self.stdout.write(self.style.SUCCESS('All done, bye!'))
