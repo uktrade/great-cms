@@ -1,0 +1,51 @@
+<h2 class="govuk-heading-m govuk-!-margin-bottom-4">Filter results</h2>
+<form class="magna-header__search govuk-!-margin-bottom-4"
+      action=""
+      method="get">
+    <div class="govuk-accordion"
+         data-module="govuk-accordion"
+         id="accordion-default">
+        {% if not is_find_a_supplier %}<p class="govuk-heading-m">Filter by services</p>{% endif %}
+        {% for field in form %}
+            {% if field.field.widget.input_type == 'checkbox' %}
+                {% if forloop.counter == 9 and not is_find_a_supplier %}<p class="govuk-heading-m">Filter by expertise</p>{% endif %}
+                <div class="govuk-accordion__section">
+                    <div class="govuk-accordion__section-header">
+                        <h2 class="govuk-accordion__section-heading">
+                            <span class="govuk-accordion__section-button"
+                                  id="accordion-default-heading-{{ forloop.counter }}">
+                                <span class="govuk-heading-s">{{ field.label }}</span>
+                            </span>
+                        </h2>
+                    </div>
+                    <div id="accordion-default-content-{{ forloop.counter }}"
+                         class="govuk-accordion__section-content govuk-!-padding-left-2 fixed-height-scroll">
+                        <div class="govuk-checkboxes govuk-checkboxes--small"
+                             data-module="govuk-checkboxes">
+                            {% for action in field %}
+                                <div class="govuk-checkboxes__item">
+                                    <input {% if action.data.value in field.value %}checked{% endif %}
+                                           type="checkbox"
+                                           name="{{ field.name }}"
+                                           value="{{ action.data.value }}"
+                                           class="govuk-checkboxes__input"
+                                           id="{{ action.id_for_label }}">
+                                    <label class="govuk-label govuk-checkboxes__label"
+                                           for="{{ action.id_for_label }}">{{ action.choice_label }}</label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <button type="submit" class="govuk-button" data-module="govuk-button">Update results</button>
+    <div>
+        <a href="?q={{ form.q.value }}&page=1" class="govuk-link">Reset</a>
+    </div>
+    <div class="govuk-visually-hidden">
+        {{ form.q }}
+        {{ form.page }}
+    </div>
+</form>

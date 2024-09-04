@@ -33,7 +33,7 @@
         <div class="govuk-width-container great-container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-one-third-from-desktop">
-                    <a href="{% url 'international_buy_from_the_uk:find-a-supplier-contact' company_number=company.number %}"
+                    <a href="{% url 'international_investment_support_directory:specialist-contact' company_number=company.number %}"
                        role="button"
                        draggable="false"
                        class="govuk-button govuk-button--start"
@@ -202,7 +202,7 @@
                                     {% if parity == 'odd' %}<div class="govuk-grid-row great-card-row govuk-!-margin-bottom-6">{% endif %}
                                         <div class="govuk-grid-column-one-half">
                                             {% with "case-study-"|add:forloop.counter as card_id %}
-                                                {% include 'components/great/card.html' with classes="great-card--cta" content_class="govuk-!-margin-bottom-7" tag_container_outer_class="govuk-!-margin-bottom-0" show_title_link=True tag='Case study' tag_icon=cta_icon image_src=case_study.image_one image_alt=case_study.title title=case_study.title content=case_study.short_summary url=case_study.pk|get_case_study_url %}
+                                                {% include 'components/great/card.html' with classes="great-card--cta" content_class="govuk-!-margin-bottom-7" tag_container_outer_class="govuk-!-margin-bottom-0" show_title_link=True tag='Case study' tag_icon=cta_icon image_src=case_study.image_one image_alt=case_study.title title=case_study.title content=case_study.short_summary url=case_study.pk|get_isd_case_study_url %}
                                             {% endwith %}
                                         </div>
                                         {% if parity == 'even' %}</div>{% endif %}
