@@ -94,7 +94,7 @@
                                                 {% endif %}
 
                                                 <div class="govuk-!-margin-bottom-5">
-                                                    <a href="{% if task.value.url_goods %}{{ task.value.url_goods }}{% else %}{{ task.value.url_services }}{% endif %}" class="govuk-link great-ds-link" data-task-item data-task="{{task.value.task_id}}|{{task.value.title}}|{{task.value.output_type}}" target="_blank">
+                                                    <a href="{% if task.value.url_goods %}{{ task.value.url_goods }}{% else %}{{ task.value.url_services }}{% endif %}" class="govuk-link great-ds-link" data-task-item data-task="{{task.value.task_id}}|{{task.value.title}}|{{task.value.output_type}}|{{forloop.counter}}" target="_blank">
                                                         <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> 
                                                         <span>{% if task.value.link_text %}{{ task.value.link_text }}{% else %}Read the guidance{% endif %}</span>
                                                     </a>

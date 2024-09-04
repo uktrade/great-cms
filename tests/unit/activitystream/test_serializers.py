@@ -423,6 +423,8 @@ def test_eyb_triage_serializer():
     instance.modified = '2023-08-24 10:48:19.018536+00'
     instance.location_city = 'SWANSEA'
     instance.sector_sub = 'TEA_PROCESSING'
+    instance.sector_sub_sub = 'test'
+    instance.sector_id = '123'
 
     serializer = ActivityStreamExpandYourBusinessTriageDataSerializer()
     output = serializer.to_representation(instance)
@@ -446,6 +448,8 @@ def test_eyb_triage_serializer():
             'modified': instance.modified,
             'locationCity': instance.location_city,
             'sectorSub': instance.sector_sub,
+            'sectorSubSub': instance.sector_sub_sub,
+            'sectorID': instance.sector_id,
         },
     }
     assert output == expected

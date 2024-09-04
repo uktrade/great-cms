@@ -49,6 +49,7 @@ class MicrositePanels:
         FieldPanel('title'),
         FieldPanel('slug'),
         FieldPanel('use_domestic_header_logo'),
+        FieldPanel('include_link_to_great'),
         MultiFieldPanel(
             heading=(
                 'External Menu Link (Note this is only included in the menu '

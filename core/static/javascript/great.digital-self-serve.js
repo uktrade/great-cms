@@ -21,6 +21,7 @@ GreatFrontend.DigitalSelfServe = {
                         task_id: data[0],
                         task_title: data[1],
                         output_type: data[2],
+                        position: data[3]
                     });
                 })
             })
@@ -28,6 +29,19 @@ GreatFrontend.DigitalSelfServe = {
             document.querySelectorAll('details').forEach(el => {
                 el.addEventListener("mouseleave", (e) => {
                     document.activeElement.blur()
+                })
+            });
+
+            document.querySelectorAll('details summary').forEach(el => {
+                el.addEventListener("click", (e) => {
+                    const data = el.dataset.task.split('|');
+                    const text = el.querySelector('.govuk-accordion__section-toggle-text').innerText
+
+                    window.dataLayer.push({
+                        event: 'DEPCardClick',
+                        task_id: data[0],
+                        show_or_hide: text,
+                    });
                 })
             });
         }
