@@ -486,7 +486,7 @@ elif OPENSEARCH_PROVIDER in ['localhost', 'aws']:
         'default': {
             'BACKEND': 'wagtail.search.backends.elasticsearch7',
             'AUTO_UPDATE': True if OPENSEARCH_PROVIDER == 'aws' else False,
-            'URLS': [env.str('ELASTICSEARCH_URL', 'localhost:9200')],
+            'URLS': [env.str('OPENSEARCH_URL', 'localhost:9200')],
             'INDEX': 'great-cms',
             'TIMEOUT': 5,
             'OPTIONS': {},
