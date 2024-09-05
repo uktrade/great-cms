@@ -84,6 +84,7 @@ INSTALLED_APPS = [
     'international.apps.InternationalConfig',
     'international_investment.apps.InvestmentConfig',
     'international_buy_from_the_uk.apps.BuyFromTheUKConfig',
+    'international_investment_support_directory.apps.InvestmentSupportDirectoryConfig',
     'users.apps.UsersConfig',
     'learn.apps.LearnConfig',
     'captcha',

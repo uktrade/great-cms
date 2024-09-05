@@ -1,0 +1,21 @@
+@import '../../international/sass/main.scss';
+@import '../../international_buy_from_the_uk/sass/main.scss';
+
+$great-design-system-grey-border: #7d8e96;
+
+.investment-support-directory-home-info-section {
+  background-color: white;
+
+  .investment-support-directory-preview-image {
+      background-position: top, left;
+      background-repeat: no-repeat;
+      background-size: contain;
+      min-width: 200px;
+      width: 100%;
+      max-width: 500px;
+      height: 380px;
+      margin-right: auto;
+      margin-left: auto;
+      background-image: url('/static/images/isd_home_people.png')
+  }
+}
