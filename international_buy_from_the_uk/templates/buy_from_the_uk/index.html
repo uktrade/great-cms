@@ -88,88 +88,10 @@
                 <p class="govuk-body-m">
                     Our teams are located in UK embassies, high commissions and consulates in cities around the world.
                 </p>
-                <a class="govuk-button" href="/international/trade/contact/">Get in touch</a>
+                <a class="govuk-button"
+                   href="{% url 'international_buy_from_the_uk:contact' %}">Get in touch</a>
             </div>
         </div>
     </div>
 </section>
-{% endblock %}
-{% block body_js %}
-    {{ block.super }}
-    <script type="text/javascript"
-            src="{% static 'javascript/accessible-autocomplete.min.js' %}"></script>
-    <script>
-        const allSectorsJson = JSON.parse("{{autocomplete_sector_data | escapejs}}");
-
-        let allSectors = []
-        for (let i = 0; i < allSectorsJson.length; i++) {
-            if (!allSectorsJson[i].sub_sector_name) {
-                allSectors.push(allSectorsJson[i]);
-            }
-        }
-
-        function sortResults(sectors) {
-            return sectors.sort((a, b) => {
-                // Sort alphabetically by sector_name if both sub_sub_sector_name and sub_sector_name are equal
-                if (a.sector_name < b.sector_name) return -1;
-                if (a.sector_name > b.sector_name) return 1;
-                return 0;
-            });
-        }
-
-        function sectorSuggest(query, populateResults) {
-            let results = [];
-            if (!query) {
-                for (let i = 0; i < allSectors.length; i++) {
-                    results.push(allSectors[i]);
-                }
-            } else {
-                for (let i = 0; i < allSectors.length; i++) {
-                    const parentSector = allSectors[i].sector_name;
-                    if (parentSector.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
-                        results.push(allSectors[i]);
-                    }
-                }
-            }
-            results = sortResults(results);
-            populateResults(results);
-        }
-
-        accessibleAutocomplete.enhanceSelectElement({
-            selectElement: document.getElementById('js-industry-select'),
-            source: sectorSuggest,
-            showAllValues: true,
-            autoselect: false,
-            templates: {
-                inputValue: (selectedSectorRow) => {
-                    if (selectedSectorRow) {
-                        return selectedSectorRow.sector_name
-                    } else {
-                        return
-                    }
-                },
-                suggestion: (selectedSectorRow) => {
-                    return `<span>${selectedSectorRow.sector_name}</span>`
-                }
-            },
-            minLength: 2,
-            onConfirm: function(selectedRow) {
-                // onConfirm seems to be triggered by autocomplete many times passing null
-                if (selectedRow) {
-                    // When overriding onconfirm as per docs, it seems to then not automatically update
-                    // the actual select elements selected value and so isnt posted on form submit
-                    const sectorSelectInput = document.querySelector('#js-industry-select-select');
-                    const setSectorSelectValue = (value) => {
-                        for (let i = 0; i < sectorSelectInput.options.length; i++) {
-                            if (sectorSelectInput.options[i].value === selectedRow.sector_name) {
-                                sectorSelectInput.selectedIndex = i;
-                                break;
-                            }
-                        }
-                    }
-                    setSectorSelectValue(selectedRow);
-                }
-            }
-        });
-    </script>
 {% endblock %}
