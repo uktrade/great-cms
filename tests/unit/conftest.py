@@ -7,6 +7,7 @@ from django.http import HttpResponse
 
 from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
+from international_online_offer.models import TriageData, UserData
 from tests.helpers import create_response
 from tests.unit.core.factories import (
     CuratedListPageFactory,
@@ -479,3 +480,16 @@ def mock_get_company():
             },
         ),
     ).start()
+
+
+@pytest.mark.django_db(transaction=True)
+@pytest.fixture
+def eyb_user_triage_data():
+    UserData.objects.create(hashed_uuid=1, email='user1@test.gov.uk')
+    TriageData.objects.create(hashed_uuid=1, sector='Space')
+    UserData.objects.create(hashed_uuid=2, email='user2@company.co.uk')
+    TriageData.objects.create(hashed_uuid=2, sector='Aerospace')
+    UserData.objects.create(hashed_uuid=3, email='user3@DigitalAccessibilityCentre.co.uk')
+    TriageData.objects.create(hashed_uuid=3, sector='Advanced engineering')
+    UserData.objects.create(hashed_uuid=4, email='user4@product.com')
+    TriageData.objects.create(hashed_uuid=4, sector='Food and drink')
