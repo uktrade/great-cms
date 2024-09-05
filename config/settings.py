@@ -468,8 +468,7 @@ if ELASTIC_APM_ENABLED:
     INSTALLED_APPS.append('elasticapm.contrib.django')
 
 # aws, localhost, or govuk-paas
-OPENSEARCH_PROVIDER = env.str('ELASTICSEARCH_PROVIDER', None).lower()
-
+OPENSEARCH_PROVIDER = env.str('OPENSEARCH_PROVIDER', None).lower()
 
 # Connect to the GovPaas Opensearch instance. This option will be removed once great has migrated from GovPaaS to AWS.
 if OPENSEARCH_PROVIDER == 'govuk-paas':
