@@ -485,19 +485,12 @@ elif OPENSEARCH_PROVIDER == 'localhost':
     WAGTAILSEARCH_BACKENDS = {
         'default': {
             'BACKEND': 'wagtail.search.backends.elasticsearch7',
+            'AUTO_UPDATE': False,
+            'URLS': [env.str('ELASTICSEARCH_URL', 'localhost:9200')],
             'INDEX': 'great-cms',
             'TIMEOUT': 5,
-            'HOSTS': [
-                {
-                    'host': env.str('ELASTICSEARCH_URL', 'localhost:9200'),
-                    'port': 443,
-                    'use_ssl': True,
-                    'verify_certs': True,
-                }
-            ],
-            'OPTIONS': {
-                'connection_class': RequestsHttpConnection,
-            },
+            'OPTIONS': {},
+            'INDEX_SETTINGS': {},
         }
     }
 # Connect to the AWS Opensearch instance
