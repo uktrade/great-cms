@@ -10,7 +10,6 @@ from django.urls import reverse_lazy
 from django_log_formatter_asim import ASIMFormatter
 from opensearch_dsl.connections import connections
 from opensearchpy import RequestsHttpConnection
-from requests_aws4auth import AWS4Auth
 from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
@@ -481,7 +480,7 @@ if OPENSEARCH_PROVIDER == 'govuk-paas':
         connection_class=RequestsHttpConnection,
     )
 # Connect to the local dockerized Opensearch instance
-elif OPENSEARCH_PROVIDER == 'localhost':
+elif OPENSEARCH_PROVIDER in ['localhost', 'aws']:
     WAGTAILSEARCH_BACKENDS = {
         'default': {
             'BACKEND': 'wagtail.search.backends.elasticsearch7',
@@ -494,33 +493,33 @@ elif OPENSEARCH_PROVIDER == 'localhost':
         }
     }
 # Connect to the AWS Opensearch instance
-elif OPENSEARCH_PROVIDER == 'aws':
-    # For AWS, we use the AWS Opensearch instance for Wagtail, instead of activity stream. This will eventually
-    # This will eventually replace activitystream entirely when great.gov.uk is migrated away from GovPaaS.
-    WAGTAILSEARCH_BACKENDS = {
-        'default': {
-            'BACKEND': 'wagtail.search.backends.elasticsearch7',
-            'INDEX': 'great-cms',
-            'TIMEOUT': 5,
-            'HOSTS': [
-                {
-                    'host': env.str('ELASTICSEARCH_URL'),
-                    'port': 443,
-                    'use_ssl': True,
-                    'verify_certs': True,
-                    'http_auth': AWS4Auth(
-                        env.str('AWS_OPENSEARCH_ACCESS_KEY_ID'),
-                        env.str('AWS_OPENSEARCH_ACCESS_KEY'),
-                        env.str('AWS_OPENSEARCH_REGION_NAME'),
-                        'es',
-                    ),
-                }
-            ],
-            'OPTIONS': {
-                'connection_class': RequestsHttpConnection,
-            },
-        }
-    }
+# elif OPENSEARCH_PROVIDER == 'aws':
+#     # For AWS, we use the AWS Opensearch instance for Wagtail, instead of activity stream. This will eventually
+#     # This will eventually replace activitystream entirely when great.gov.uk is migrated away from GovPaaS.
+#     WAGTAILSEARCH_BACKENDS = {
+#         'default': {
+#             'BACKEND': 'wagtail.search.backends.elasticsearch7',
+#             'INDEX': 'great-cms',
+#             'TIMEOUT': 5,
+#             'HOSTS': [
+#                 {
+#                     'host': env.str('ELASTICSEARCH_URL'),
+#                     'port': 443,
+#                     'use_ssl': True,
+#                     'verify_certs': True,
+#                     'http_auth': AWS4Auth(
+#                         env.str('AWS_OPENSEARCH_ACCESS_KEY_ID'),
+#                         env.str('AWS_OPENSEARCH_ACCESS_KEY'),
+#                         env.str('AWS_OPENSEARCH_REGION_NAME'),
+#                         'es',
+#                     ),
+#                 }
+#             ],
+#             'OPTIONS': {
+#                 'connection_class': RequestsHttpConnection,
+#             },
+#         }
+#     }
 else:
     raise NotImplementedError()
 
