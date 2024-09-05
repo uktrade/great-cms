@@ -500,12 +500,9 @@ requests==2.32.3
     #   opentelemetry-exporter-otlp-proto-http
     #   pyhanko
     #   pyhanko-certvalidator
-    #   requests-aws4auth
     #   requests-oauthlib
     #   sphinx
     #   wagtail
-requests-aws4auth==1.3.1
-    # via -r requirements.in
 requests-oauthlib==2.0.0
     # via django-staff-sso-client
 s3transfer==0.6.2
