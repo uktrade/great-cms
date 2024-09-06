@@ -113,7 +113,7 @@ class HCSATForm(ModelForm):
         label='Overall, how would you rate your experience with this service today?',
         choices=constants.SATISFACTION_CHOICES,
         widget=RadioSelect(attrs={'class': 'govuk-radios__input'}),
-        required=True,
+        required=False,
     )
     experienced_issues = MultipleChoiceField(
         label='Did you experience any of the following issues?',
@@ -142,9 +142,9 @@ class HCSATForm(ModelForm):
             attrs={
                 'class': 'govuk-textarea govuk-js-character-count great-font-main',
                 'rows': 6,
-                'id': 'id_feedback_text',
+                'id': 'id_service_improvements_feedback',
                 'name': 'withHint',
-                'aria-describedby': 'id_feedback_text-info id_feedback_text-hint',
+                'aria-describedby': 'id_service_improvements_feedback-info id_service_improvements_feedback-hint',
             }
         ),
     )
@@ -171,11 +171,6 @@ class HCSATForm(ModelForm):
 
         if experienced_issues and 'OTHER' not in experienced_issues:
             cleaned_data['other_detail'] = ''
-
-        other_detail = cleaned_data.get('other_detail')
-
-        if experienced_issues and any('OTHER' in s for s in experienced_issues) and not other_detail:
-            self.add_error('other_detail', 'You must enter more information regarding other experience')
 
         if experienced_issues and any('NO_ISSUE' in s for s in experienced_issues):
             for option in experienced_issues:

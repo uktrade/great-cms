@@ -20,7 +20,7 @@
                     <h2 class="govuk-heading-s govuk-!-margin-bottom-0">Thank you for helping us to improve this service</h2>
                 </div>
             </div>
-            <div class="govuk-error-summary govuk-!-margin-bottom-3 {% if not form.errors %}great-hidden{% endif %}"
+            <div class="govuk-error-summary govuk-!-margin-bottom-3 {% if not hcsat_form.errors %}great-hidden{% endif %}"
                  id="error-summary"
                  aria-labelledby="error-summary-title"
                  role="alert"
@@ -29,7 +29,7 @@
                 <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
                 <div class="govuk-error-summary__body">
                     <ul class="govuk-list govuk-error-summary__list great-font-main">
-                        {% for field in form %}
+                        {% for field in hcsat_form %}
                             {% if field.errors %}
                                 {% for error in field.errors %}
                                     <li>
@@ -115,7 +115,7 @@
                                 {% if experienced_issue.data.value == 'OTHER' %}
                                     <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
                                          id="conditional-experience-{{ forloop.counter0 }}">
-                                        <div id="experience_other_group">
+                                        <div id="other_detail_group">
                                             <div class="govuk-form-group">
                                                 {% include './hcsat_form_field.html' with field=hcsat_form.other_detail custom_error='Enter the issue you experienced' %}
                                             </div>
@@ -153,7 +153,7 @@
                         </div>
                     </fieldset>
                 </div>
-                <div id="feedback_text_group"
+                <div id="service_improvements_feedback_group"
                      class="govuk-form-group great-font-main govuk-character-count{% if hcsat_form.service_improvements_feedback.errors %} govuk-form-group--error{% endif %}"
                      data-module="govuk-character-count"
                      data-maxlength="1200">
@@ -161,13 +161,13 @@
                         <label class="govuk-label govuk-label--l"
                                for="{{ hcsat_form.service_improvements_feedback.id_for_label }}">{{ hcsat_form.service_improvements_feedback.label }}</label>
                     </h2>
-                    <div id="id_feedback_text-hint" class="govuk-hint">{{ hcsat_form.service_improvements_feedback.help_text }}</div>
+                    <div id="id_service_improvements_feedback-hint" class="govuk-hint">{{ hcsat_form.service_improvements_feedback.help_text }}</div>
                     <p id="exceeding-characters-error"
                        class="govuk-error-message great-hidden">
                         <span>Your feedback must be 1200 characters or less</span>
                     </p>
                     {{ hcsat_form.service_improvements_feedback }}
-                    <div id="id_feedback_text-info"
+                    <div id="id_service_improvements_feedback-info"
                          class="govuk-hint {% if hcsat_form.service_improvements_feedback.errors %}govuk-error-message great-font-bold{% endif %}">
                         You can enter up to 1200 characters
                     </div>
