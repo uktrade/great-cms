@@ -475,6 +475,7 @@ class ExportPlanDashBoard(
 
     template_name = 'exportplan/dashboard_page.html'
     form_class = HCSATForm
+    hcsat_service_name = 'export_plan'
 
     def dispatch(self, request, *args, **kwargs):
         id = int(self.kwargs['id'])
@@ -494,11 +495,10 @@ class ExportPlanDashBoard(
             'exportplan:pdf-download', kwargs={'id': self.export_plan.get('pk')}
         )
 
-        form = self.get_form_class()
-        hcsat = self.get_hcsat
-        if hcsat:
-            form.instance = hcsat
-            context['hcsat'] = form
+        hcsat = self.get_hcsat(self.hcsat_service_name)
+        form = self.form_class(instance=hcsat)
+        context['hcsat_form'] = form
+        context['hcsat'] = hcsat
 
         return context
 
@@ -507,21 +507,26 @@ class ExportPlanDashBoard(
         return reverse_lazy('exportplan:dashboard', kwargs={'id': id})
 
     def post(self, request, *args, **kwargs):
-        form = self.get_form_class()
-        hcsat = self.get_hcsat
+        form_class = self.get_form_class()
 
-        if 'cancelButton' in self.request.POST:
+        hcsat = self.get_hcsat(self.hcsat_service_name)
+        post_data = self.request.POST
+
+        if 'cancelButton' in post_data:
             """
             Redirect user if 'cancelButton' is found in the POST data
             """
             if hcsat:
-                hcsat.stage = 3
+                hcsat.stage = 2
                 hcsat.save()
             return HttpResponseRedirect(self.get_success_url())
 
-        if hcsat:
-            form.instance.id = hcsat.id
+        form = form_class(post_data)
+
         if form.is_valid():
+            if hcsat:
+                form = form_class(post_data, instance=hcsat)
+                form.is_valid()
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
@@ -534,11 +539,18 @@ class ExportPlanDashBoard(
 
     def form_valid(self, form):
         super().form_valid(form)
-        hcsat = form.save()
-        if hcsat.stage <= 2:
-            self.request.session['hcsat_id'] = hcsat.id
-        else:
-            del self.request.session['hcsat_id']
+        id = self.kwargs['id']
+
+        hcsat = form.save(commit=False)
+
+        # Apply data specific to this service
+        hcsat.URL = reverse_lazy('exportplan:dashboard', kwargs={'id': id})
+        hcsat.user_journey = 'EXPORT_PLAN_UPDATE'
+        hcsat.session_key = self.request.session.session_key
+        hcsat.save()
+
+        self.request.session[f'{self.hcsat_service_name}_hcsat_id'] = hcsat.id
+
         if 'js_enabled' in self.request.get_full_path():
             return JsonResponse({'pk': hcsat.pk})
         return HttpResponseRedirect(self.get_success_url())

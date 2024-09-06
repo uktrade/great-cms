@@ -75,7 +75,7 @@
     </section>
     <div class="great-border-thin-top-lighter-blue">
         <section class="govuk-!-padding-bottom-6 background-white clearfix">
-            <div class="container">{% include './includes/csat_user_feedback.html' with form=form csat_stage=csat_stage %}</div>
+            <div class="container">{% include 'core/includes/hcsat.html' with hcsat_form=hcsat_form hcsat_stage=hcsat_form.stage%}</div>
         </section>
     </div>
 </div>
