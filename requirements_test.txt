@@ -131,7 +131,7 @@ coverage[toml]==7.6.1
     #   pytest-cov
 cron-descriptor==1.4.3
     # via django-celery-beat
-cryptography==42.0.4
+cryptography==43.0.1
     # via
     #   -r requirements.in
     #   pyhanko
@@ -366,7 +366,9 @@ googleapis-common-protos==1.63.2
 great-components==2.6.5
     # via -r requirements.in
 greenlet==3.0.3
-    # via gevent
+    # via
+    #   gevent
+    #   sqlalchemy
 grpcio==1.66.0
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==22.0.0
