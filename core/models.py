@@ -67,7 +67,6 @@ from exportplan.core.data import (
     SECTION_SLUGS as EXPORTPLAN_SLUGS,
     SECTIONS as EXPORTPLAN_URL_MAP,
 )
-from learn.forms import CsatUserFeedbackForm
 
 # If we make a Redirect appear as a Snippet, we can sync it via Wagtail-Transfer
 register_snippet(Redirect)
@@ -1158,7 +1157,7 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
 
         if request.method == 'POST':
             data = request.POST
-            form = CsatUserFeedbackForm(data=data)
+            form = self.get_csat_form(data=data)
             redirect_url = f'{self.get_success_url(request)}#hcsat_section'
 
             if 'cancelButton' in data:
@@ -1239,11 +1238,11 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
             return self._export_plan_url_map.get(_path)
 
     @property
-    def get_csat_model(self):
-        """Import the learn CSAT model here to avoid import conflicts"""
-        from learn.models import CsatUserFeedback
+    def get_csat_form(self):
+        """Import the core HCSATFrom here to avoid import conflicts"""
+        from .forms import HCSATForm
 
-        return CsatUserFeedback
+        return HCSATForm
 
     def get_success_url(self, request):
         return request.path
@@ -1255,7 +1254,7 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
 
     def update_csat(self, request, form, csat):
 
-        csat_feedback, created = self.get_csat_model.objects.update_or_create(
+        csat_feedback, created = HCSAT.objects.update_or_create(
             id=csat.id,
             defaults={
                 'experienced_issues': form.cleaned_data['experience'],
@@ -1274,7 +1273,7 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         return csat_feedback
 
     def create_csat(self, request, form):
-        csat_feedback = self.get_csat_model.objects.create(
+        csat_feedback = HCSAT.objects.create(
             satisfaction_rating=form.cleaned_data['satisfaction'],
             experienced_issues=form.cleaned_data['experience'],
             other_detail=form.cleaned_data['experience_other'],
@@ -1291,7 +1290,7 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
     def get_csat(self, request):
         csat_id = request.session.get('learn_to_export_csat_id')
         if csat_id:
-            return self.get_csat_model.objects.get(id=csat_id)
+            return HCSAT.objects.get(id=csat_id)
         return None
 
     def get_stage(self, request):
@@ -1317,7 +1316,7 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         if stage == 2:
             request.session['learn_to_export_csat_stage'] = 3
 
-        form = kwargs.get('form', CsatUserFeedbackForm(data=self.get_initial(request)))
+        form = kwargs.get('form', self.get_csat_form(data=self.get_initial(request)))
         context['form'] = form
 
         # Prepare backlink to the export plan if we detect one and can validate it
@@ -2628,6 +2627,37 @@ class CsatUserFeedback(TimeStampedModel):
     other_detail = models.CharField(max_length=255, null=True)
     service_improvements_feedback = models.CharField(max_length=3000, null=True)
     likelihood_of_return = models.CharField(max_length=255, choices=constants.LIKELIHOOD_CHOICES, null=True)
+
+
+class HCSAT(TimeStampedModel):
+    session_key = models.CharField(max_length=255, null=True)
+    URL = models.CharField(max_length=255)
+    user_journey = models.CharField(max_length=255, null=True, choices=constants.USER_JOURNEY_CHOICES)  # noqa:E501
+    satisfaction_rating = models.CharField(max_length=255, choices=constants.SATISFACTION_CHOICES)
+    experienced_issues = ArrayField(
+        models.CharField(max_length=255, choices=constants.EXPERIENCE_CHOICES), size=6, default=list, null=True
+    )
+    other_detail = models.CharField(max_length=255, null=True)
+    service_improvements_feedback = models.CharField(max_length=3000, null=True)
+    likelihood_of_return = models.CharField(max_length=255, choices=constants.LIKELIHOOD_CHOICES, null=True)
+
+    site_intentions = ArrayField(
+        models.CharField(max_length=255, choices=constants.INTENSION_CHOICES), size=6, default=list, null=True
+    )
+    site_intentions_other = models.CharField(max_length=255, null=True)
+
+    stage = models.IntegerField(default=0)
+
+    def save(self, *args, **kwargs):
+        # Used to manage the HCSAT stage
+        current_hcsat_stage = self.stage
+
+        # Stage 0: HCSAT has not been started
+        # Stage 1: HCSAT has satisfaction has been submitted
+        # Stage 2: HCSAT has been completed
+        if current_hcsat_stage <= 2:
+            self.stage = current_hcsat_stage + 1
+        super(HCSAT, self).save(*args, **kwargs)
 
 
 @register_snippet

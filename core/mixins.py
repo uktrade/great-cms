@@ -7,7 +7,7 @@ from django.http import Http404
 from django.utils import translation
 from great_components import helpers as great_components_helpers
 
-from core import cms_slugs
+from core import cms_slugs, models
 
 logger = logging.getLogger(__name__)
 
@@ -223,3 +223,14 @@ class GuidedJourneyMixin:
             button_text=button_text,
             session_data=form_data,
         )
+
+
+class HCSATMixin:
+
+    def get_hcsat(self, service):
+        hcsat_id = self.request.session.get(f'{service}_hcsat_id')
+        if hcsat_id:
+            qs = models.HCSAT.objects.filter(id=hcsat_id)
+            if qs:
+                return qs.first()
+        return None

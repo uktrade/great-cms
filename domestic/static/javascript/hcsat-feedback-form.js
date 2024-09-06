@@ -1,4 +1,5 @@
 class CsatFormHandler {
+
     constructor(formId) {
         this.form = document.getElementById(formId);
         this.stepOne = document.getElementById('csat-step-1');

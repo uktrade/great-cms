@@ -12,12 +12,12 @@ from django.views.generic import FormView, TemplateView, View
 from great_components.mixins import GA360Mixin
 from requests.exceptions import RequestException
 
-from core.mixins import PageTitleMixin
+from core.forms import HCSATForm
+from core.mixins import HCSATMixin, PageTitleMixin
 from core.utils import choices_to_key_value
 from directory_api_client.client import api_client
 from directory_constants import choices
 from exportplan import forms
-from exportplan.models import CsatUserFeedback
 from exportplan.context import (
     CountryDataContextProvider,
     FactbookDataContextProvider,
@@ -459,6 +459,7 @@ class ExportPlanUpdate(GA360Mixin, TemplateView):
 
 class ExportPlanDashBoard(
     GA360Mixin,
+    HCSATMixin,
     TemplateView,
     FormView,
 ):
@@ -473,7 +474,7 @@ class ExportPlanDashBoard(
         )
 
     template_name = 'exportplan/dashboard_page.html'
-    form_class = forms.CsatUserFeedbackForm
+    form_class = HCSATForm
 
     def dispatch(self, request, *args, **kwargs):
         id = int(self.kwargs['id'])
@@ -492,77 +493,52 @@ class ExportPlanDashBoard(
         context['export_plan_download_link'] = reverse_lazy(
             'exportplan:pdf-download', kwargs={'id': self.export_plan.get('pk')}
         )
-        stage = self.request.session.get('exportplan_csat_stage', 0)
-        context['csat_stage'] = stage
-        if stage == 2:
-            del self.request.session['exportplan_csat_stage']
+
+        form = self.get_form_class()
+        hcsat = self.get_hcsat
+        if hcsat:
+            form.instance = hcsat
+            context['hcsat'] = form
+
         return context
 
     def get_success_url(self):
         id = self.kwargs['id']
         return reverse_lazy('exportplan:dashboard', kwargs={'id': id})
 
-    def get_csat(self):
-        csat_id = self.request.session.get('exportplan_csat_id')
-        if csat_id:
-            return CsatUserFeedback.objects.get(id=csat_id)
-        return None
+    def post(self, request, *args, **kwargs):
+        form = self.get_form_class()
+        hcsat = self.get_hcsat
+
+        if 'cancelButton' in self.request.POST:
+            """
+            Redirect user if 'cancelButton' is found in the POST data
+            """
+            if hcsat:
+                hcsat.stage = 3
+                hcsat.save()
+            return HttpResponseRedirect(self.get_success_url())
+
+        if hcsat:
+            form.instance.id = hcsat.id
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
 
     def form_invalid(self, form):
-        if 'cancelButton' in self.request.POST:
-            self.request.session['exportplan_csat_stage'] = 2
-            return HttpResponseRedirect(self.get_success_url())
         super().form_invalid(form)
-        js_enabled = 'js_enabled' in self.request.get_full_path()
-        if js_enabled:
+        if 'js_enabled' in self.request.get_full_path():
             return JsonResponse(form.errors, status=400)
         return self.render_to_response(self.get_context_data(form=form))
 
     def form_valid(self, form):
-        id = self.kwargs['id']
-        if 'cancelButton' in self.request.POST:
-            self.request.session['exportplan_csat_stage'] = 2
-            return HttpResponseRedirect(self.get_success_url())
-
         super().form_valid(form)
-        csat = self.get_csat()
-        if csat:
-            csat_feedback, created = CsatUserFeedback.objects.update_or_create(
-                id=csat.id,
-                defaults={
-                    'experienced_issues': form.cleaned_data['experience'],
-                    'other_detail': form.cleaned_data['experience_other'],
-                    'likelihood_of_return': form.cleaned_data['likelihood_of_return'],
-                    'service_improvements_feedback': form.cleaned_data['feedback_text'],
-                },
-            )
-            csat_stage = self.request.session.get('exportplan_csat_stage', 0)
-
-            if csat_stage == 0:
-                self.request.session['exportplan_csat_stage'] = 1
-            else:
-                self.request.session['exportplan_csat_stage'] = 2
-
+        hcsat = form.save()
+        if hcsat.stage <= 2:
+            self.request.session['hcsat_id'] = hcsat.id
         else:
-            csat_feedback = CsatUserFeedback.objects.create(
-                satisfaction_rating=form.cleaned_data['satisfaction'],
-                experienced_issues=form.cleaned_data['experience'],
-                other_detail=form.cleaned_data['experience_other'],
-                likelihood_of_return=form.cleaned_data['likelihood_of_return'],
-                service_improvements_feedback=form.cleaned_data['feedback_text'],
-                URL=reverse_lazy('exportplan:dashboard', kwargs={'id': id}),
-                user_journey='EXPORT_PLAN_UPDATE',
-            )
-            self.request.session['exportplan_csat_id'] = csat_feedback.id
-            self.request.session['exportplan_csat_stage'] = 1
-
-        data = {
-            'pk': csat_feedback.pk,
-        }
-        js_enabled = 'js_enabled' in self.request.get_full_path()
-        if js_enabled:
-            csat_stage = self.request.session.get('exportplan_csat_stage', 0)
-            if csat_stage == 1:
-                del self.request.session['exportplan_csat_stage']
-            return JsonResponse(data)
+            del self.request.session['hcsat_id']
+        if 'js_enabled' in self.request.get_full_path():
+            return JsonResponse({'pk': hcsat.pk})
         return HttpResponseRedirect(self.get_success_url())
