@@ -20,7 +20,7 @@ def get_canonical_url(context):
 def hreflang_tags(context):
     request = context['request']
     canonical_url = derive_canonical_url(request)
-    absolute_url = request.get_absolute_url()
+    absolute_url = request.get_full_path()
     if canonical_url == absolute_url:
         if 'microsite' in canonical_url:
             canonical_url.replace('microsite', 'campaign-site')

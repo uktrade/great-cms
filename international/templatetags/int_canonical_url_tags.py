@@ -15,7 +15,7 @@ def get_canonical_url(context):
 def hreflang_tags(context):
     canonical_url = get_canonical_url(context)
     request = context['request']
-    absolute_url = request.get_absolute_url()
+    absolute_url = request.get_full_path()
     if absolute_url == canonical_url:
         return hreflang_and_x_default_link(canonical_url, 'en')
     return ''
