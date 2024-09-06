@@ -14,6 +14,8 @@
     {% endblock %}
     {% get_canonical_url as canonical_url %}
     <link rel="canonical" href="{{ canonical_url }}">
+    {% hreflang_tags as seo_tags %}
+    {{ seo_tags }}
     <title>
         {% block head_title %}
             {% if seo_title %}
