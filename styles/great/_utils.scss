@@ -788,6 +788,15 @@
 .great-margin-top-2 {
   margin-top: 2px !important;
 }
+.great-desktop-only-padding-horizontal-15{
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+
+  @include govuk-media-query($from: tablet) {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }
+}
 
 .great-media-container {
   > * {
