@@ -1,6 +1,7 @@
 from django import template
+from django.utils.safestring import mark_safe
 
-from core.utils import derive_canonical_url
+from core.utils import derive_canonical_url, hreflang_and_x_default_link
 
 register = template.Library()
 
@@ -14,3 +15,15 @@ def get_canonical_url(context):
         return derive_canonical_url(request)
     else:
         return ''
+
+
+@register.filter(is_safe=True, takes_context=True)
+def get_hreflang_tags(context):
+    request = context['request']
+    canonical_url = derive_canonical_url(request)
+    absolute_url = request.get_full_path()
+    if canonical_url == absolute_url:
+        if 'microsite' in canonical_url:
+            canonical_url.replace('microsite', 'campaign-site')
+        return mark_safe(hreflang_and_x_default_link(canonical_url, 'en-gb'))
+    return None
