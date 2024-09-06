@@ -22,5 +22,5 @@ def get_hreflang_tags(context):
     request = context['request']
     absolute_url = derive_absolute_url(request)
     if absolute_url == canonical_url:
-        return mark_safe(hreflang_and_x_default_link(canonical_url, 'en'))
+        return mark_safe(hreflang_and_x_default_link(canonical_url, 'en-gb'))
     return mark_safe('')
