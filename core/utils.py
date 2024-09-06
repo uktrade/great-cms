@@ -195,8 +195,17 @@ def derive_canonical_url(request):
     return f'{scheme}://{host}{path}'
 
 
+def derive_absolute_url(request):
+    scheme = request.scheme
+    host = request.get_host()
+    if not host.startswith('www.'):
+        host = f'www.{host}'
+    full_path = request.get_full_path()
+    return f'{scheme}://{host}{full_path}'
+
+
 def hreflang_and_x_default_link(canonical_url, lang):
     return (
-        f'<link rel="alternate" hreflang="{lang}" href="{canonical_url}" /></br>'
-        f'<link rel="alternate" hreflang="x-default" href="{canonical_url}" />'
+        f'<link rel="alternate" hreflang="{lang}" href="{canonical_url}" />'
+        f'\n<link rel="alternate" hreflang="x-default" href="{canonical_url}" />'
     )
