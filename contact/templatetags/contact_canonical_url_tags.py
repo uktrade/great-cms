@@ -12,7 +12,7 @@ def get_canonical_url(context):
 
 
 @register.simple_tag(takes_context=True)
-def hreflang_tags(context):
+def get_hreflang_tags(context):
     canonical_url = get_canonical_url(context)
     request = context['request']
     absolute_url = request.get_full_path()
