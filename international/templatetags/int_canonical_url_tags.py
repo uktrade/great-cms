@@ -12,7 +12,7 @@ def get_canonical_url(context):
     return derive_canonical_url(request)
 
 
-@register.filter(is_safe=True, takes_context=True)
+@register.simple_tag(takes_context=True)
 def get_hreflang_tags(context):
     canonical_url = get_canonical_url(context)
     request = context['request']
