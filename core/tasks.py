@@ -71,3 +71,15 @@ def update_countries_iso_codes():
         raise ve
     else:
         logger.info('Updating Counties ISO codes finished')
+
+
+@app.task
+def update_opensearch_index():
+    logger.info('Updating Opensearch Index from Wagtail backend...')
+    try:
+        call_command('update_index')
+    except ValueError as ve:
+        logger.exception(f'Exception in core:tasks:update_opensearch_index {str(ve)}')
+        raise ve
+    else:
+        logger.info('Opensearch index updated')
