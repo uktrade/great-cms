@@ -61,7 +61,9 @@
                     {% endif %}
                     <hr class="govuk-!-margin-top-4">
                     <p class="govuk-body govuk-!-margin-top-5">
-                        <a href="{% url 'international_investment_support_directory:specialist-profile' company_number=case_study.company.number %}"
+                        {% url 'international_investment_support_directory:specialist-profile' company_number=case_study.company.number as company_link %}
+                        {% append_search_back_url contact_link request.get_full_path as contact_link %}
+                        <a href="{{ company_link }}"
                            role="button"
                            draggable="false"
                            class="govuk-button govuk-button--start"
