@@ -96,7 +96,9 @@
                                 <strong>Contact</strong>
                             </p>
                             <p class="govuk-body">
-                                <a href="{% url 'international_buy_from_the_uk:find-a-supplier-contact' company_number=case_study.company.number %}">Email company</a>
+                                {% url 'international_buy_from_the_uk:find-a-supplier-contact' company_number=case_study.company.number as contact_link %}
+                                {% append_search_back_url contact_link request.get_full_path as contact_link %}
+                                <a href="{{ contact_link }}">Email company</a>
                             </p>
                         {% endif %}
                         {% if case_study.company.website %}
