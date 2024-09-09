@@ -218,7 +218,7 @@ class SuccessPageView(GetBreadcrumbsMixin, core_mixins.GetSnippetContentMixin, c
         return ctx
 
     def post(self, request, *args, **kwargs):
-        form_class = self.get_form_class()
+        form_class = self.form_class
 
         hcsat = self.get_hcsat(self.hcsat_service_name)
         post_data = self.request.POST
