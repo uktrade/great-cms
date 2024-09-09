@@ -109,10 +109,14 @@ class FindASpecialistProfileView(CompanyProfileMixin, GA360Mixin, TemplateView):
         )
 
     def get_context_data(self, **kwargs):
+        find_a_specialist_url = reverse_lazy('international_buy_from_the_uk:find-a-specialist-search')
+        if self.request.GET.get('back'):
+            find_a_specialist_url = self.request.get_full_path().split('back=', 1)[1]
+
         breadcrumbs = [
             {'name': 'Home', 'url': '/international/'},
             {'name': 'Investment support directory', 'url': '/international/investment-support-directory/'},
-            {'name': 'Find a UK specialist', 'url': '/international/investment-support-directory/find-a-specialist/'},
+            {'name': 'Find a UK specialist', 'url': find_a_specialist_url},
         ]
         return super().get_context_data(
             **kwargs,
@@ -140,16 +144,22 @@ class FindASpecialistCaseStudyView(CaseStudyMixin, GA360Mixin, TemplateView):
         )
 
     def get_context_data(self, **kwargs):
+        find_a_specialist_url = reverse_lazy('international_investment_support_directory:find-a-specialist')
+        company_profile_url = reverse_lazy(
+            'international_investment_support_directory:specialist-profile',
+            kwargs={'company_number': self.case_study['company']['number']},
+        )
+        if self.request.GET.get('back'):
+            find_a_specialist_url = self.request.get_full_path().split('back=', 1)[1]
+            company_profile_url = company_profile_url + '?back=' + self.request.get_full_path().split('back=', 1)[1]
+
         breadcrumbs = [
             {'name': 'Home', 'url': '/international/'},
             {'name': 'Investment support directory', 'url': '/international/investment-support-directory/'},
-            {'name': 'Find a UK specialist', 'url': '/international/investment-support-directory/find-a-specialist/'},
+            {'name': 'Find a UK specialist', 'url': find_a_specialist_url},
             {
                 'name': self.case_study['company']['name'],
-                'url': reverse_lazy(
-                    'international_investment_support_directory:specialist-profile',
-                    kwargs={'company_number': self.case_study['company']['number']},
-                ),
+                'url': company_profile_url,
             },
         ]
         return super().get_context_data(
@@ -211,9 +221,13 @@ class FindASpecialistContactView(CompanyProfileMixin, GA360Mixin, FormView):
             'international_investment_support_directory:specialist-profile',
             kwargs={'company_number': self.company['number']},
         )
+        if self.request.GET.get('back'):
+            find_a_specialist_url = self.request.get_full_path().split('back=', 1)[1]
+            company_profile_url = company_profile_url + '?back=' + self.request.get_full_path().split('back=', 1)[1]
+
         breadcrumbs = [
             {'name': 'Home', 'url': '/international/'},
-            {'name': 'Buy from the UK', 'url': '/international/buy-from-the-uk/'},
+            {'name': 'Investment support directory', 'url': '/international/investment-support-directory/'},
             {'name': 'Find a UK specialist', 'url': find_a_specialist_url},
             {'name': self.company['name'], 'url': company_profile_url},
         ]

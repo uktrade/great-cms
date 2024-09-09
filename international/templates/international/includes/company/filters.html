@@ -40,7 +40,7 @@
             {% endif %}
         {% endfor %}
     </div>
-    <button type="submit" class="govuk-button" data-module="govuk-button">Update results</button>
+    {% include 'international/includes/submit_button.html' with button_text='Update results' %}
     <div>
         <a href="?q={{ form.q.value }}&page=1" class="govuk-link">Reset</a>
     </div>

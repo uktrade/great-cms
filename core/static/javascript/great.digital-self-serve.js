@@ -35,12 +35,17 @@ GreatFrontend.DigitalSelfServe = {
             document.querySelectorAll('details summary').forEach(el => {
                 el.addEventListener("click", (e) => {
                     const data = el.dataset.task.split('|');
+                    const clicked_element = e.target.dataset.taskElementName;
                     const text = el.querySelector('.govuk-accordion__section-toggle-text').innerText
 
                     window.dataLayer.push({
                         event: 'DEPCardClick',
                         task_id: data[0],
+                        task_title: data[1],
+                        output_type: data[2],
+                        position: data[3],
                         show_or_hide: text,
+                        clicked_element: clicked_element
                     });
                 })
             });
