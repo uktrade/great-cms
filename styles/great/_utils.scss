@@ -785,16 +785,28 @@
 .great-margin-bottom-30 {
   margin-bottom: 30px !important;
 }
+
 .great-margin-top-2 {
   margin-top: 2px !important;
 }
+
 .great-desktop-only-padding-horizontal-15{
-  padding-left: 0px !important;
-  padding-right: 0px !important;
+  padding-left: 0px;
+  padding-right: 0px;
 
   @include govuk-media-query($from: tablet) {
-    padding-left: 15px !important;
-    padding-right: 15px !important;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+.great-mobile-only-padding-vertical-30{
+  padding-top: 30px;
+  padding-bottom: 30px;
+
+  @include govuk-media-query($from: tablet) {
+    padding-top: 0px;
+    padding-bottom: 0px;
   }
 }
 
