@@ -61,7 +61,7 @@
                     {% endif %}
                     <hr class="govuk-!-margin-top-4">
                     <p class="govuk-body govuk-!-margin-top-5">
-                        <a href="{% url 'international_buy_from_the_uk:find-a-supplier-profile' company_number=case_study.company.number %}"
+                        <a href="{% url 'international_investment_support_directory:specialist-profile' company_number=case_study.company.number %}"
                            role="button"
                            draggable="false"
                            class="govuk-button govuk-button--start"
@@ -96,7 +96,7 @@
                                 <strong>Contact</strong>
                             </p>
                             <p class="govuk-body">
-                                <a href="{% url 'international_buy_from_the_uk:find-a-supplier-contact' company_number=case_study.company.number %}">Email company</a>
+                                <a href="{% url 'international_investment_support_directory:specialist-contact' company_number=case_study.company.number %}">Email company</a>
                             </p>
                         {% endif %}
                         {% if case_study.company.website %}

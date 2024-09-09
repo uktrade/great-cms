@@ -27,6 +27,7 @@ import find_a_buyer.urls
 import international.urls
 import international_buy_from_the_uk.urls
 import international_investment.urls
+import international_investment_support_directory.urls
 import international_online_offer.urls
 import search.urls
 import sso.urls
@@ -98,6 +99,10 @@ if settings.FEATURE_INTERNATIONAL_INVESTMENT:
     urlpatterns = [path('international/investment/', include(international_investment.urls))] + urlpatterns
 
 urlpatterns = [path('international/buy-from-the-uk/', include(international_buy_from_the_uk.urls))] + urlpatterns
+
+urlpatterns = [
+    path('international/investment-support-directory/', include(international_investment_support_directory.urls))
+] + urlpatterns
 
 if settings.FEATURE_GREAT_CMS_OPENAPI_ENABLED:
     urlpatterns = [

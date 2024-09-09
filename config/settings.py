@@ -84,6 +84,7 @@ INSTALLED_APPS = [
     'international.apps.InternationalConfig',
     'international_investment.apps.InvestmentConfig',
     'international_buy_from_the_uk.apps.BuyFromTheUKConfig',
+    'international_investment_support_directory.apps.InvestmentSupportDirectoryConfig',
     'users.apps.UsersConfig',
     'learn.apps.LearnConfig',
     'captcha',
@@ -467,8 +468,9 @@ if ELASTIC_APM_ENABLED:
     INSTALLED_APPS.append('elasticapm.contrib.django')
 
 # aws, localhost, or govuk-paas
-OPENSEARCH_PROVIDER = env.str('ELASTICSEARCH_PROVIDER', 'aws').lower()
+OPENSEARCH_PROVIDER = env.str('OPENSEARCH_PROVIDER', None).lower()
 
+# Connect to the GovPaas Opensearch instance. This option will be removed once great has migrated from GovPaaS to AWS.
 if OPENSEARCH_PROVIDER == 'govuk-paas':
     services = {item['instance_name']: item for item in VCAP_SERVICES['opensearch']}
     OPENSEARCH_INSTANCE_NAME = env.str('OPENSEARCH_INSTANCE_NAME', VCAP_SERVICES['opensearch'][0]['instance_name'])
@@ -477,14 +479,19 @@ if OPENSEARCH_PROVIDER == 'govuk-paas':
         hosts=[services[OPENSEARCH_INSTANCE_NAME]['credentials']['uri']],
         connection_class=RequestsHttpConnection,
     )
-elif OPENSEARCH_PROVIDER == 'localhost':
-    connections.create_connection(
-        alias='default',
-        hosts=[env.str('ELASTICSEARCH_URL', 'localhost:9200')],
-        use_ssl=False,
-        verify_certs=False,
-        connection_class=RequestsHttpConnection,
-    )
+# Connect to the local dockerized Opensearch instance
+elif OPENSEARCH_PROVIDER in ['localhost', 'aws']:
+    WAGTAILSEARCH_BACKENDS = {
+        'default': {
+            'BACKEND': 'wagtail.search.backends.elasticsearch7',
+            'AUTO_UPDATE': True if OPENSEARCH_PROVIDER == 'aws' else False,
+            'URLS': [env.str('OPENSEARCH_URL', 'localhost:9200')],
+            'INDEX': 'great-cms',
+            'TIMEOUT': 5,
+            'OPTIONS': {},
+            'INDEX_SETTINGS': {},
+        }
+    }
 else:
     raise NotImplementedError()
 
