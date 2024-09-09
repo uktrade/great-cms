@@ -1,28 +1,8 @@
 {% include './govuk/panel.html' with title_text="Feedback submitted successfully" %}
-<h2 class="govuk-heading-m govuk-!-margin-top-5">
-    Thanks for your feedback, it has been successfully submitted.
-    <h2>
-        <h3 class="govuk-heading-s govuk-!-margin-top-7">
-            What happens next?
-            <h3>
-                <p class="govuk-body">
-                    We've sent your responses to the Expand Your Business team.
-                    <br>
-                    The team will store this data and use it to improve the customer experience of the service.
-                </p>
-                <a href="/international/expand-your-business-in-the-uk/guide"
-                   role="button"
-                   draggable="false"
-                   class="govuk-button govuk-button--start govuk-!-margin-top-5"
-                   data-module="govuk-button">
-                    Return to guide
-                    <svg class="govuk-button__start-icon"
-                         xmlns="http://www.w3.org/2000/svg"
-                         width="17.5"
-                         height="19"
-                         viewBox="0 0 33 40"
-                         aria-hidden="true"
-                         focusable="false">
-                        <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
-                    </svg>
-                </a>
+<h2 class="govuk-heading-m govuk-!-margin-top-5">Thanks for your feedback, it has been successfully submitted.</h2>
+<h3 class="govuk-heading-s govuk-!-margin-top-7">What happens next?</h3>
+<p class="govuk-body govuk-!-margin-bottom-5">
+    We've sent your responses to the Expand Your Business team.
+    The team will store this data and use it to improve the customer experience of the service.
+</p>
+{% include 'international/includes/start_button.html' with href='/international/expand-your-business-in-the-uk/guide' button_text='Return to guide' %}
