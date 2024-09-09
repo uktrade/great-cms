@@ -33,9 +33,7 @@
                     <div id="rating4" class="govuk-body">Satisfied</div>
                     <div id="rating5" class="govuk-body">Very satisfied</div>
                 </div>
-                <button type="submit"
-                        class="govuk-button csat-button"
-                        data-module="govuk-button">Submit and continue</button>
+                {% include 'international/includes/submit_button.html' with button_text='Submit and continue' button_classes='csat-button' %}
             </div>
         </form>
     </div>
