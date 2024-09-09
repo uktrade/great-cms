@@ -24,27 +24,29 @@ class CsatFormHandler {
             formData.append('step', this.currentStep);
             const url = this.form.action
 
+            let cancelButtonPressed = false
             if (event.submitter && event.submitter.name == 'cancelButton'){
+                cancelButtonPressed = true
+                formData.append('cancelButton',true)
                 this.resetForm();
             }
-            else {
-                try {
-                    const response = await fetch(`${url}?js_enabled=True`, {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
-                            'Accept': 'application/json',
-                            'X-Requested-With': 'XMLHttpRequest',
-                        },
-                        body: formData,
-                    });
-
+            try {
+                const response = await fetch(`${url}?js_enabled=True`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                    body: formData,
+                });
+                if (!cancelButtonPressed){
                     const data = await response.json();
                     this.handleStepTransition(response, data);
-                } catch (error) {
-                    console.error('There was a problem with the fetch operation:', error);
-                    this.showErrors();
                 }
+            } catch (error) {
+                console.error('There was a problem with the fetch operation:', error);
+                this.showErrors();
             }
         });
     }

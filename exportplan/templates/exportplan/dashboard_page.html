@@ -81,9 +81,11 @@
     {% if export_plan.ui_progress %}
         <section class="export-plan-dashboard__section export-plan-dashboard__section--white great-border-thin-top-lighter-blue">
             <div class="export-plan-dashboard__container container">
-                <section class="govuk-!-padding-bottom-3 clearfix">
-                    {% include 'core/includes/hcsat.html' with hcsat_form=hcsat_form hcsat_stage=hcsat_form.stage%}
-                </section>
+                {% if hcsat.stage != 2 %}
+                    <section class="govuk-!-padding-bottom-3 clearfix">
+                        {% include 'core/includes/hcsat.html' with hcsat_form=hcsat_form hcsat_stage=hcsat_form.stage%}
+                    </section>
+                {% endif %}
             </div>
             <aside class="export-plan-dashboard__sidebar bg-white">
             </aside>
@@ -106,11 +108,13 @@
         exportPlanProgress: {{ export_plan_progress | to_json }},
         })
     </script>
-    <script src="{% static 'javascript/hcsat-feedback-form.js' %}"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            new CsatFormHandler('csat-form');
-        });
-    </script>
+    {% if hcsat.stage != 2 %}
+        <script src="{% static 'javascript/hcsat-feedback-form.js' %}"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                new CsatFormHandler('csat-form');
+            });
+        </script>
+    {% endif %}
 
 {% endblock %}

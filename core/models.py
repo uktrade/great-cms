@@ -2653,9 +2653,9 @@ class HCSAT(TimeStampedModel):
         current_hcsat_stage = self.stage
 
         # Stage 0: HCSAT has not been started
-        # Stage 1: HCSAT has satisfaction has been submitted
+        # Stage 1: HCSAT satisfaction has been submitted
         # Stage 2: HCSAT has been completed
-        if current_hcsat_stage <= 2:
+        if current_hcsat_stage < 2:
             self.stage = current_hcsat_stage + 1
         super(HCSAT, self).save(*args, **kwargs)
 
