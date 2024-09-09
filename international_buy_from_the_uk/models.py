@@ -13,7 +13,6 @@ class BuyFromTheUKIndexPage(BaseContentPage):
         breadcrumbs = [
             {'name': 'Home', 'url': '/international/'},
         ]
-
         context.update(
             breadcrumbs=breadcrumbs,
         )

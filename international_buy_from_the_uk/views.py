@@ -172,10 +172,14 @@ class FindASupplierProfileView(CompanyProfileMixin, GA360Mixin, TemplateView):
         )
 
     def get_context_data(self, **kwargs):
+        find_a_supplier_url = reverse_lazy('international_buy_from_the_uk:find-a-supplier')
+        if self.request.GET.get('back'):
+            find_a_supplier_url = self.request.get_full_path().split('back=', 1)[1]
+
         breadcrumbs = [
             {'name': 'Home', 'url': '/international/'},
             {'name': 'Buy from the UK', 'url': '/international/buy-from-the-uk/'},
-            {'name': 'Find a UK supplier', 'url': '/international/buy-from-the-uk/find-a-supplier'},
+            {'name': 'Find a UK supplier', 'url': find_a_supplier_url},
         ]
         return super().get_context_data(
             **kwargs,
@@ -203,16 +207,22 @@ class FindASupplierCaseStudyView(CaseStudyMixin, GA360Mixin, TemplateView):
         )
 
     def get_context_data(self, **kwargs):
+        find_a_supplier_url = reverse_lazy('international_buy_from_the_uk:find-a-supplier')
+        company_profile_url = reverse_lazy(
+            'international_buy_from_the_uk:find-a-supplier-profile',
+            kwargs={'company_number': self.case_study['company']['number']},
+        )
+        if self.request.GET.get('back'):
+            find_a_supplier_url = self.request.get_full_path().split('back=', 1)[1]
+            company_profile_url = company_profile_url + '?back=' + self.request.get_full_path().split('back=', 1)[1]
+
         breadcrumbs = [
             {'name': 'Home', 'url': '/international/'},
             {'name': 'Buy from the UK', 'url': '/international/buy-from-the-uk/'},
-            {'name': 'Find a UK supplier', 'url': '/international/buy-from-the-uk/find-a-supplier'},
+            {'name': 'Find a UK supplier', 'url': find_a_supplier_url},
             {
                 'name': self.case_study['company']['name'],
-                'url': reverse_lazy(
-                    'international_buy_from_the_uk:find-a-supplier-profile',
-                    kwargs={'company_number': self.case_study['company']['number']},
-                ),
+                'url': company_profile_url,
             },
         ]
         return super().get_context_data(
@@ -267,10 +277,16 @@ class FindASupplierContactView(CompanyProfileMixin, GA360Mixin, FormView):
         autocomplete_sector_data = get_sectors_as_string(dbt_sectors)
 
         find_a_supplier_url = reverse_lazy('international_buy_from_the_uk:find-a-supplier')
+
         company_profile_url = reverse_lazy(
             'international_buy_from_the_uk:find-a-supplier-profile',
             kwargs={'company_number': self.company['number']},
         )
+
+        if self.request.GET.get('back'):
+            find_a_supplier_url = self.request.get_full_path().split('back=', 1)[1]
+            company_profile_url = company_profile_url + '?back=' + self.request.get_full_path().split('back=', 1)[1]
+
         breadcrumbs = [
             {'name': 'Home', 'url': '/international/'},
             {'name': 'Buy from the UK', 'url': '/international/buy-from-the-uk/'},

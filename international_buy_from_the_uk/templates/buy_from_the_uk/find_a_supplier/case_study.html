@@ -1,6 +1,6 @@
 {% extends './base.html' %}
 {% load static %}
-{% load buy_from_the_uk_filters %}
+{% load company_filters %}
 {% block head_title %}
     Buy from the UK find a supplier case study
     {{ block.super }}
@@ -61,22 +61,9 @@
                     {% endif %}
                     <hr class="govuk-!-margin-top-4">
                     <p class="govuk-body govuk-!-margin-top-5">
-                        <a href="{% url 'international_buy_from_the_uk:find-a-supplier-profile' company_number=case_study.company.number %}"
-                           role="button"
-                           draggable="false"
-                           class="govuk-button govuk-button--start"
-                           data-module="govuk-button">
-                            View company profile
-                            <svg class="govuk-button__start-icon"
-                                 xmlns="http://www.w3.org/2000/svg"
-                                 width="17.5"
-                                 height="19"
-                                 viewBox="0 0 33 40"
-                                 aria-hidden="true"
-                                 focusable="false">
-                                <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
-                            </svg>
-                        </a>
+                        {% url 'international_buy_from_the_uk:find-a-supplier-profile' company_number=case_study.company.number as company_link %}
+                        {% append_search_back_url contact_link request.get_full_path as contact_link %}
+                        {% include 'international/includes/start_button.html' with href=contact_link button_text='View company profile' %}
                     </p>
                 </div>
                 <div class="govuk-grid-column-one-third-from-desktop">
@@ -96,7 +83,9 @@
                                 <strong>Contact</strong>
                             </p>
                             <p class="govuk-body">
-                                <a href="{% url 'international_buy_from_the_uk:find-a-supplier-contact' company_number=case_study.company.number %}">Email company</a>
+                                {% url 'international_buy_from_the_uk:find-a-supplier-contact' company_number=case_study.company.number as contact_link %}
+                                {% append_search_back_url contact_link request.get_full_path as contact_link %}
+                                <a href="{{ contact_link }}">Email company</a>
                             </p>
                         {% endif %}
                         {% if case_study.company.website %}
