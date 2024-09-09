@@ -74,37 +74,37 @@ class EventFilter(FilterSet):
 
     sector = filters.ModelMultipleChoiceFilter(
         label='Sector',
-        field_name='sector_tags__id',
+        field_name='sector_tags__slug',
         queryset=SectorTag.objects.filter(Exists(models.SectorTaggedEvent.objects.filter(tag_id=OuterRef('id')))),
-        to_field_name='id',
+        to_field_name='slug',
         widget=forms.CheckboxSelectInlineLabelMultiple,
     )
 
     market = filters.ModelMultipleChoiceFilter(
         label='Market',
-        field_name='country_tags__id',
+        field_name='country_tags__slug',
         queryset=CountryTag.objects.filter(Exists(models.CountryTaggedEvent.objects.filter(tag_id=OuterRef('id')))),
-        to_field_name='id',
+        to_field_name='slug',
         widget=forms.CheckboxSelectInlineLabelMultiple,
     )
 
     region = filters.ModelMultipleChoiceFilter(
         label='Region',
-        field_name='region_tags__id',
+        field_name='region_tags__slug',
         queryset=PersonalisationRegionTag.objects.filter(
             Exists(models.RegionTaggedEvent.objects.filter(tag_id=OuterRef('id')))
         ),
-        to_field_name='id',
+        to_field_name='slug',
         widget=forms.CheckboxSelectInlineLabelMultiple,
     )
 
     trading_bloc = filters.ModelMultipleChoiceFilter(
         label='Trading Bloc',
-        field_name='trading_bloc_tags__id',
+        field_name='trading_bloc_tags__slug',
         queryset=PersonalisationTradingBlocTag.objects.filter(
             Exists(models.TradingBlocTaggedEvent.objects.filter(tag_id=OuterRef('id')))
         ),
-        to_field_name='id',
+        to_field_name='slug',
         widget=forms.CheckboxSelectInlineLabelMultiple,
     )
 

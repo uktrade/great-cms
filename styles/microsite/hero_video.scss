@@ -15,7 +15,7 @@
     position: absolute;
     bottom: 0;
     right: 20px;
-    width: 44px; 
+    width: 44px;
     height: 44px;
     min-height: 44px !important;
     border: 3px solid $great-white;
@@ -33,16 +33,25 @@
     }
 
     &:focus {
-        background-color: $color-focus;
-        border-color: $great-off-black;
+        background-color: $color-primary-button;
+        border-color: $great-white;
         outline: none;
 
         .great-hero__video-control-icon {
         &:before, &:after {
-            background: $great-off-black;
+            background: $great-white;
         }
         }
     }
+    &:active, &:focus-visible {
+        background: $color-focus !important;
+        border-color: $great-off-black;
+        .great-hero__video-control-icon {
+            &:before, &:after {
+              background: $great-off-black;
+            }
+          }
+        }
 
     @media (min-width: 1300px) {
         right: 0;
@@ -74,7 +83,14 @@
         right: 0;
     }
     }
-    
+    &:active, &:focus-visible {
+        background: $color-focus !important;
+        border-color: $great-off-black;
+        &:before, &:after {
+            background: $great-off-black;
+        }
+    }
+
 }
 
 .great-hero__video-control-play {
@@ -90,9 +106,15 @@
         background: inherit;
       }
     }
-  
+
     &:focus .great-hero__video-control-icon {
-      background: $great-off-black;
+      background: $great-white;
+    }
+    &:active, &:focus-visible {
+      background: $color-focus;
+      .great-hero__video-control-icon {
+        background: $great-off-black;
+      }
     }
   }
 
@@ -100,7 +122,7 @@
     position: relative;
     max-width: 1300px;
     margin: -64px auto 20px;
-    height: 44px;   
+    height: 44px;
 }
 
 .great-hero__video-control-play .great-hero__video-control-icon {
