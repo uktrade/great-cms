@@ -496,7 +496,10 @@ class ExportPlanDashBoard(
         )
 
         hcsat = self.get_hcsat(self.hcsat_service_name)
-        form = self.form_class(instance=hcsat)
+        if hcsat and hcsat.stage < 2:
+            form = self.form_class(instance=hcsat)
+        else:
+            form = self.form_class
         context['hcsat_form'] = form
         context['hcsat'] = hcsat
         if hcsat and hcsat.stage == 2:
