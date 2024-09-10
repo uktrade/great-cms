@@ -779,7 +779,7 @@ s3transfer==0.6.2
     # via boto3
 selenium==4.24.0
     # via -r requirements_test.in
-sentry-sdk==2.13.0
+sentry-sdk==2.14.0
     # via -r requirements.in
 sigauth==5.2.7
     # via
