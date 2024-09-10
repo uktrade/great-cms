@@ -14,7 +14,7 @@
                      src="{% static 'images/great-logo.svg' %}" />
                 <h3>{{ title }}</h3>
                 {% if available_languages|length == 2 %}
-                    <nav aria-label="Langugages" class="mobile-single-language-toggle">
+                    <nav aria-label="Languages" class="mobile-single-language-toggle">
                         <ul>
                             {% for language in available_languages %}
                                 {% if current_language != language.language_code %}
@@ -29,12 +29,12 @@
                     </nav>
                 {% endif %}
             </div>
-            <div class="mobile-nav-buttons{% if menu_items|length > 1 and menu_items|length > 5 %} mobile-nav-buttons--force-show{% endif %}">
+            <div class="mobile-nav-buttons{% if menu_items|length > 5 %} mobile-nav-buttons--force-show{% endif %}">
                 {% if available_languages|length > 2 %}
                     {% include 'microsites/includes/microsite_language_mobile_menu.html' with current_language=current_language available_languages=available_languages rtl_language=lang_info.bidi %}
                 {% endif %}
                 {% if available_languages|length == 2 and menu_items|length > 5 %}
-                    <nav aria-label="Langugages" class="desktop-language-selector">
+                    <nav aria-label="Languages" class="desktop-language-selector">
                         <ul>
                             {% for language in available_languages %}
                                 <li class="{% if lang_info.bidi %}rtl{% endif %} {% if current_language == language.language_code %}active{% endif %}">
@@ -50,7 +50,7 @@
             </div>
         </div>
         {% if available_languages|length == 2 and menu_items|length < 6 %}
-            <nav aria-label="Langugages" class="desktop-language-selector">
+            <nav aria-label="Languages" class="desktop-language-selector">
                 <ul>
                     {% for language in available_languages %}
                         <li class="{% if lang_info.bidi %}rtl{% endif %} {% if current_language == language.language_code %}active{% endif %}">
