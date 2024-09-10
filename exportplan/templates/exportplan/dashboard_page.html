@@ -81,9 +81,9 @@
     {% if export_plan.ui_progress %}
         <section class="export-plan-dashboard__section export-plan-dashboard__section--white great-border-thin-top-lighter-blue">
             <div class="export-plan-dashboard__container container">
-                {% if hcsat.stage != 2 %}
+                {% if hcsat_form_stage != 2 %}
                     <section class="govuk-!-padding-bottom-3 clearfix">
-                        {% include 'core/includes/hcsat.html' with hcsat_form=hcsat_form hcsat_stage=hcsat_form.stage%}
+                        {% include 'core/includes/hcsat.html' with hcsat_form=hcsat_form hcsat_stage=hcsat_form_stage%}
                     </section>
                 {% endif %}
             </div>

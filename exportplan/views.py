@@ -499,7 +499,10 @@ class ExportPlanDashBoard(
         form = self.form_class(instance=hcsat)
         context['hcsat_form'] = form
         context['hcsat'] = hcsat
-
+        if hcsat and hcsat.stage == 2:
+            context['hcsat_form_stage'] = 0
+        else:
+            context['hcsat_form_stage'] = hcsat.stage if hcsat else None
         return context
 
     def get_success_url(self):
@@ -547,6 +550,8 @@ class ExportPlanDashBoard(
         hcsat.URL = reverse_lazy('exportplan:dashboard', kwargs={'id': id})
         hcsat.user_journey = 'EXPORT_PLAN_UPDATE'
         hcsat.session_key = self.request.session.session_key
+        if hcsat.stage == 2:
+            hcsat.stage = 0
         hcsat.save()
 
         self.request.session[f'{self.hcsat_service_name}_hcsat_id'] = hcsat.id
