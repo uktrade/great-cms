@@ -309,9 +309,9 @@ class DomesticExportSupportStep4Form(forms.Form):
 
 class DomesticExportSupportStep5Form(forms.Form):
     search = forms.CharField(
-        label='Search the list',
+        label='Search countries and select all that apply',
         widget=django_widgets.TextInput(
-            attrs={'class': 'govuk-input great-text-input', 'placeholder': 'Search the list'}
+            attrs={'class': 'govuk-input great-text-input', 'aria-describedby': 'search-description'}
         ),
         required=False,
     )
