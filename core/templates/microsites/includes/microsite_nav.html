@@ -29,14 +29,27 @@
                     </nav>
                 {% endif %}
             </div>
-            <div class="mobile-nav-buttons">
+            <div class="mobile-nav-buttons{% if menu_items|length > 1 and menu_items|length > 5 %} mobile-nav-buttons--force-show{% endif %}">
                 {% if available_languages|length > 2 %}
                     {% include 'microsites/includes/microsite_language_mobile_menu.html' with current_language=current_language available_languages=available_languages rtl_language=lang_info.bidi %}
+                {% endif %}
+                {% if available_languages|length == 2 and menu_items|length > 5 %}
+                    <nav aria-label="Langugages" class="desktop-language-selector">
+                        <ul>
+                            {% for language in available_languages %}
+                                <li class="{% if lang_info.bidi %}rtl{% endif %} {% if current_language == language.language_code %}active{% endif %}">
+                                    <a href="?lang={{ language.language_code }}"
+                                    aria-current="{% if current_language == language.language_code %}true{% else %}false{% endif %}"
+                                    lang="{{ language.language_code }}">{{ language.display_name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </nav>
                 {% endif %}
                 {% include 'microsites/includes/microsite_menu_button.html' with menu_items=page.get_menu_items active_url=active_url rtl_language=lang_info.bidi %}
             </div>
         </div>
-        {% if available_languages|length == 2 %}
+        {% if available_languages|length == 2 and menu_items|length < 6 %}
             <nav aria-label="Langugages" class="desktop-language-selector">
                 <ul>
                     {% for language in available_languages %}
@@ -51,7 +64,7 @@
         {% endif %}
     </div>
     <div>
-        {% if menu_items|length > 1 %}
+        {% if menu_items|length > 1 and menu_items|length < 6 %}
             <nav>
                 <ul>
                     {% for item in menu_items %}

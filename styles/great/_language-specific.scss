@@ -106,13 +106,13 @@ $color-error: #d4351c;
 }
 
 *:lang(ar) {
-  .microsite-header > p,
   .great-inline-feedback__container {
     display: none;
   }
 
   .footer,
-  footer div.footer ul {
+  footer div.footer ul,
+  .copyright-container .copy-right {
     direction: ltr;
     padding: 0;
   }
