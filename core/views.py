@@ -44,7 +44,7 @@ from core.mixins import (
     HCSATMixin,
     PageTitleMixin,
 )
-from core.models import HCSAT, GreatMedia
+from core.models import GreatMedia
 from core.pingdom.services import health_check_services
 from directory_constants import choices
 from domestic.models import DomesticDashboard, TopicLandingPage

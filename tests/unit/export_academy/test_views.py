@@ -17,13 +17,12 @@ from wagtail_factories import DocumentFactory
 
 from config import settings
 from core import helpers
-from core.models import HeroSnippet
+from core.models import HCSAT, HeroSnippet
 from core.snippet_slugs import EA_REGISTRATION_PAGE_HERO
 from directory_sso_api_client import sso_api_client
 from export_academy.filters import EventFilter
 from export_academy.models import Booking, Registration, VideoOnDemandPageTracking
 from export_academy.views import (
-    CsatUserFeedback,
     EventsDetailsView,
     EventVideoOnDemandView,
 )
@@ -277,7 +276,7 @@ def test_csat_user_feedback_with_session_value(
     booking = factories.BookingFactory(event=event, status=booking_status, registration=registration)
     url = reverse('export_academy:booking-success', kwargs={'booking_id': booking.id})
 
-    CsatUserFeedback.objects.create(id=1, URL='http://test.com')
+    HCSAT.objects.create(id=1, URL='http://test.com')
     session = client.session
     session['ukea_csat_id'] = 1
     session.save()
@@ -299,7 +298,7 @@ def test_csat_user_feedback_submit(
     booking = factories.BookingFactory(event=event, status=booking_status, registration=registration)
     url = reverse('export_academy:booking-success', kwargs={'booking_id': booking.id})
 
-    CsatUserFeedback.objects.create(id=1, URL='http://test.com')
+    HCSAT.objects.create(id=1, URL='http://test.com')
     session = client.session
     session['ukea_csat_id'] = 1
     session['user_journey'] = 'DASHBOARD'
@@ -330,7 +329,7 @@ def test_csat_user_feedback_submit_with_javascript(
     booking = factories.BookingFactory(event=event, status=booking_status, registration=registration)
     url = reverse('export_academy:booking-success', kwargs={'booking_id': booking.id}) + '?js_enabled=True'
 
-    CsatUserFeedback.objects.create(id=1, URL='http://test.com')
+    HCSAT.objects.create(id=1, URL='http://test.com')
     session = client.session
     session['ukea_csat_id'] = 1
     session['user_journey'] = 'DASHBOARD'
