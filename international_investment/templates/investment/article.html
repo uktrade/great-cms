@@ -1,0 +1,66 @@
+{% extends './base.html' %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+{% load static %}
+{% load content_tags %}
+{% block head_title %}{{ page.article_title }} article {{ block.super }}{% endblock %}
+{% block meta_title %}{{ page.article_title }} article {{ block.super }}{% endblock %}
+{% block head_css %}{{ block.super }}{% endblock %}
+{% block content %}
+    <section class="govuk-!-padding-bottom-4">
+        <div class="govuk-width-container great-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    {% if '/sectors/' in request.get_full_path %}<p class="govuk-caption-xl">Sector</p>{% endif %}
+                    {% if '/regions/' in request.get_full_path %}<p class="govuk-caption-xl">Region</p>{% endif %}
+                    <h1 class="govuk-heading-xl">{{ page.article_title }}</h1>
+                </div>
+            </div>
+            {% if page.article_image %}
+                <div class="govuk-grid-row govuk-!-margin-bottom-4">
+                    <div class="govuk-grid-column-two-thirds">
+                        {% image page.article_image original as rendition %}
+                        <div class="image-container"
+                             style="background-image: url({{ rendition.url }})"></div>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">{{ page.article_subheading }}</div>
+            </div>
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">{% include_block page.article_body %}</div>
+            </div>
+        </div>
+    </section>
+    {% if page.data_points %}
+        <section class="investment-data-points-section govuk-!-padding-top-6">
+            <div class="govuk-width-container great-container">
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds-from-desktop">
+                        {% for points in page.data_points %}
+                            {% for data_point in points.value %}
+                                {% cycle 'one' 'two' 'three' as parity silent %}
+                                {% if parity == 'one' %}<div class="govuk-grid-row great-card-row govuk-!-padding-bottom-6">{% endif %}
+                                    <div class="govuk-grid-column-one-third-from-desktop">
+                                        <h3 class="govuk-heading-l govuk-!-margin-bottom-0">{{ data_point.value.title }}</h3>
+                                        <p class="govuk-body">{{ data_point.value.description }}</p>
+                                    </div>
+                                    {% if parity == 'three' %}</div>{% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+    {% if page.article_case_studies %}
+        <section class="investment-case-studies-section govuk-!-padding-top-4 govuk-!-padding-bottom-4">
+            <div class="govuk-width-container great-container">
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds">{% include_block page.article_case_studies %}</div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}
