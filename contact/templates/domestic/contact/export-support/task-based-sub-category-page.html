@@ -17,7 +17,7 @@
 {% endblock %}
 {% block body_attributes %}class="great-bg-white"{% endblock %}
 {% block breadcrumbs_block %}
-    <div class="container">{% include 'breadcrumbs.html' with itemsList=page|get_sub_category_page_breadcrumbs %}</div>
+    <div class="container">{% include 'breadcrumbs.html' with itemsList=page|get_sub_category_page_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}</div>
 {% endblock %}
 {% block content %}
     <div class="govuk-!-padding-bottom-9 great great-bg-white">
@@ -55,7 +55,7 @@
                             <div class="govuk-grid-column-two-thirds">
                                 <div class="govuk-!-margin-bottom-9">
                                     {% for task in page.page_body %}
-                                        <div class="{% if task.block_type == 'sub_task' %}govuk-!-margin-left-9{% endif %} great-ds-border-bottom-grey">
+                                        <div class="great-ds-border-bottom-grey">
                                             {% if task.value.url_goods or task.value.url_services %}
                                             <details class="great-ds-details">
                                                 <summary class="govuk-!-padding-bottom-6" data-task="{{task.value.task_id}}|{{task.value.title}}|{{task.value.output_type}}|{{forloop.counter}}" data-task-element-name="summary">
