@@ -1,6 +1,7 @@
 import logging
 from datetime import timedelta
 
+import sentry_sdk
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.management import call_command
@@ -71,3 +72,14 @@ def update_countries_iso_codes():
         raise ve
     else:
         logger.info('Updating Counties ISO codes finished')
+
+
+@app.task
+def update_opensearch_index():
+    logger.info('Updating Opensearch Index from Wagtail backend...')
+    try:
+        call_command('update_index')
+        sentry_sdk.capture_message('Opensearch index successfully updated.')
+    except ValueError as ve:
+        logger.exception(f'Exception in core:tasks:update_opensearch_index {str(ve)}')
+        raise ve
