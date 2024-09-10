@@ -2,7 +2,7 @@
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <div id="csat-step-1-submission-confirmation"
-                 class="csat-submission-confirmation{% if hcsat.stage != 1 or hcsat_form.errors %} great-hidden{% endif %}"
+                 class="csat-submission-confirmation{% if hcsat_stage != 1 or hcsat_form.errors %} great-hidden{% endif %}"
                  aria-live="polite"
                  tabindex="-1">
                 <div class="csat-submission-confirmation__heading">
@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div id="csat-step-2-submission-confirmation"
-                 class="csat-submission-confirmation{% if hcsat.stage != 2 or hcsat_form.errors %} great-hidden{% endif %}"
+                 class="csat-submission-confirmation{% if hcsat_stage != 2 or hcsat_form.errors %} great-hidden{% endif %}"
                  aria-live="polite"
                  tabindex="-1">
                 <div class="csat-submission-confirmation__heading">
@@ -42,7 +42,7 @@
             </div>
         </div>
         <div id="info-message"
-             class="govuk-grid-column-two-thirds {% if hcsat.stage != 1 %}great-hidden{% endif %}">
+             class="govuk-grid-column-two-thirds {% if hcsat_stage != 1 %}great-hidden{% endif %}">
             <p class="great-font-size-desktop-24 great-font-bold govuk-!-margin-bottom-6 govuk-!-margin-top-0">
                 <br>
                 To help us improve our service, we'd like to know more about your booking experience today. It will only take a minute to complete.
@@ -55,7 +55,7 @@
           id="csat-form">
         {% csrf_token %}
         <div id="csat-step-1"
-             class="govuk-grid-row{% if hcsat.stage == 1 or hcsat.stage == 2 %} great-hidden{% endif %}">
+             class="govuk-grid-row{% if hcsat_stage == 1 or hcsat_stage == 2 %} great-hidden{% endif %}">
             <div class="govuk-grid-column-two-thirds">
                 <div id="satisfaction_group"
                      class="govuk-form-group{% if hcsat_form.satisfaction_rating.errors %} govuk-form-group--error{% endif %}">
@@ -80,7 +80,7 @@
             </div>
         </div>
         <div id="csat-step-2"
-             class="govuk-grid-row{% if not hcsat.stage or hcsat.stage == 2 or hcsat.stage == 0 %} great-hidden{% endif %}">
+             class="govuk-grid-row{% if not hcsat_stage or hcsat_stage == 2 or hcsat_stage == 0 %} great-hidden{% endif %}">
             <div class="govuk-grid-column-two-thirds">
                 <div id="experience_group"
                      class="govuk-form-group{% if hcsat_form.experienced_issues.errors %} govuk-form-group--error{% endif %}">
@@ -174,13 +174,13 @@
             </div>
         </div>
         <div class="govuk-grid-row govuk-!-margin-bottom-4">
-            <div class="govuk-grid-column-one-half-from-desktop great-actions-group{% if hcsat.stage == 2 %} great-hidden{% endif %}">
-                {% if hcsat.stage == 0 %}
+            <div class="govuk-grid-column-one-half-from-desktop great-actions-group{% if hcsat_stage == 2 %} great-hidden{% endif %}">
+                {% if hcsat_stage == 0 %}
                     {% include './submit_button.html' with button_text='Submit and continue' %}
                 {% else %}
                     {% include './submit_button.html' with button_text='Submit feedback' %}
                 {% endif %}
-                {% if hcsat.stage != 1 %}
+                {% if hcsat_stage != 1 %}
                     {% include './submit_button.html' with button_name='cancelButton' button_classes='govuk-button--secondary great-hidden' button_text='Cancel' %}
                 {% else %}
                     {% include './submit_button.html' with button_name='cancelButton' button_classes='govuk-button--secondary' button_text='Cancel' %}
