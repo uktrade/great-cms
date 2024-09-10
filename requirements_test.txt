@@ -469,7 +469,7 @@ monotonic==1.6
     # via
     #   directory-ch-client
     #   directory-client-core
-msgpack==1.0.8
+msgpack==1.1.0
     # via locust
 mypy-extensions==1.0.0
     # via black
@@ -665,7 +665,7 @@ pyrsistent==0.20.0
     # via jsonschema
 pysocks==1.7.1
     # via urllib3
-pytest==8.3.2
+pytest==8.3.3
     # via
     #   -r requirements_test.in
     #   allure-pytest

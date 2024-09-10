@@ -1,0 +1,19 @@
+{
+  "scripts": {
+    "dev": "govuk-prototype-kit dev",
+    "serve": "govuk-prototype-kit serve",
+    "start": "govuk-prototype-kit start"
+  },
+  "dependencies": {
+    "@govuk-prototype-kit/common-templates": "1.2.1",
+    "govuk-frontend": "4.6.0",
+    "semver": "^5.7.2"
+  },
+  "overrides": {
+    "axios": "1.6.0"
+  },
+  "devDependencies": {
+    "browser-sync": "^3.0.2",
+    "govuk-prototype-kit": "^13.16.2"
+  }
+}
