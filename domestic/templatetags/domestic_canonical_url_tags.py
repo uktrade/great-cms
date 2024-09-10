@@ -21,7 +21,7 @@ def get_hreflang_tags(context):
     """
     Only display hreflang and x-default links if absolute url (ie the full path)
     is equal to the canonical url
-    essentially is the request url has no parameter
+    essentially if the request url has no parameter
     """
     if 'request' not in context:
         return ''
