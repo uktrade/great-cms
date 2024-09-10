@@ -11,7 +11,7 @@
     <script src="{% static 'javascript/digital-entry-point.js' %}"></script>
 {% endblock %}
 {% block breadcrumbs_block %}
-    <div class="container">{% include 'breadcrumbs.html' with itemsList=page|get_category_page_breadcrumbs %}</div>
+    <div class="container">{% include 'breadcrumbs.html' with itemsList=page|get_category_page_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}</div>
 {% endblock %}
 {% block body_attributes %}class="great-bg-white"{% endblock %}
 {% block content %}
