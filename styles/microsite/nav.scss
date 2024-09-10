@@ -283,6 +283,19 @@ $menu-border: 5px solid $color-alternative-text;
     }
   }
 
+  .mobile-nav-buttons--force-show {
+    display: inline-flex;
+    margin-top: 15px;
+    margin-left: 15px;
+    .magna-header__menu {
+      display: grid;
+    }
+    .desktop-language-selector ul {
+      margin-top: 8px;
+      margin-right: 9px;
+    }
+  }
+
   .language_button {
     padding: 6px 13px;
     &:not(:active):not(:hover):not(:focus):not([aria-expanded='true']) {
