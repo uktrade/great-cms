@@ -24,6 +24,7 @@ from international_online_offer.core import (
     scorecard,
 )
 from international_online_offer.models import (
+    CsatFeedback,
     TradeAssociation,
     TriageData,
     UserData,
@@ -864,7 +865,9 @@ class CsatWidgetView(FormView):
         request.session['csat_user_journey'] = user_journey
 
         if satisfaction:
-            csat_feedback = HCSAT.objects.create(satisfaction_rating=satisfaction, URL=url, user_journey=user_journey)
+            csat_feedback = CsatFeedback.objects.create(
+                satisfaction_rating=satisfaction, URL=url, user_journey=user_journey
+            )
             request.session['csat_complete'] = True
             request.session['csat_id'] = csat_feedback.id
 
@@ -873,7 +876,7 @@ class CsatWidgetView(FormView):
 
 
 class CsatFeedbackView(GA360Mixin, FormView):
-    form_class = HCSATWithIntensionsForm
+    form_class = forms.CsatFeedbackForm
     template_name = 'eyb/csat_feedback.html'
 
     def __init__(self):
@@ -886,7 +889,13 @@ class CsatFeedbackView(GA360Mixin, FormView):
 
     def get_initial(self):
         csat_id = self.request.session.get('csat_id')
-        return hcsat_get_initial(HCSAT, csat_id)
+        if csat_id:
+            csat_record = CsatFeedback.objects.get(id=csat_id)
+            satisfaction = csat_record.satisfaction_rating
+            if satisfaction:
+                return {'satisfaction': satisfaction}
+        else:
+            return {'satisfaction': ''}
 
     def get_success_url(self):
         success_url = reverse_lazy('international_online_offer:csat-feedback') + '?success=true'
@@ -896,9 +905,34 @@ class CsatFeedbackView(GA360Mixin, FormView):
 
     def form_valid(self, form):
         csat_id = self.request.session.get('csat_id')
-        hcsat_update_or_create(
-            self.request, HCSAT, csat_id, form.cleaned_data, self.request.session.get('csat_user_journey')
-        )
+        if csat_id:
+            CsatFeedback.objects.update_or_create(
+                id=csat_id,
+                defaults={
+                    'experienced_issue': form.cleaned_data['experience'],
+                    'other_detail': form.cleaned_data['experience_other'],
+                    'likelihood_of_return': form.cleaned_data['likelihood_of_return'],
+                    'site_intentions': form.cleaned_data['site_intentions'],
+                    'site_intentions_other': form.cleaned_data['site_intentions_other'],
+                    'service_improvements_feedback': form.cleaned_data['feedback_text'],
+                },
+            )
+            if self.request.session.get('csat_id'):
+                del self.request.session['csat_id']
+        else:
+            CsatFeedback.objects.create(
+                satisfaction_rating=form.cleaned_data['satisfaction'],
+                experienced_issue=form.cleaned_data['experience'],
+                other_detail=form.cleaned_data['experience_other'],
+                likelihood_of_return=form.cleaned_data['likelihood_of_return'],
+                site_intentions=form.cleaned_data['site_intentions'],
+                service_improvements_feedback=form.cleaned_data['feedback_text'],
+                site_intentions_other=form.cleaned_data['site_intentions_other'],
+                URL=check_url_host_is_safelisted(self.request),
+                user_journey=self.request.session.get('csat_user_journey'),
+            )
+            if self.request.session.get('csat_user_journey'):
+                del self.request.session['csat_user_journey']
         return super().form_valid(form)
 
 

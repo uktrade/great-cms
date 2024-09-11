@@ -278,7 +278,7 @@ def test_csat_user_feedback_with_session_value(
 
     HCSAT.objects.create(id=1, URL='http://test.com')
     session = client.session
-    session['export_academy_csat_id'] = 1
+    session['export_academy_hcsat_id'] = 1
     session.save()
     response = client.get(url)
     assert response.status_code == 200
@@ -300,7 +300,7 @@ def test_csat_user_feedback_submit(
 
     HCSAT.objects.create(id=1, URL='http://test.com')
     session = client.session
-    session['export_academy_csat_id'] = 1
+    session['export_academy_hcsat_id'] = 1
     session['user_journey'] = 'DASHBOARD'
     session.save()
     response = client.post(
@@ -331,7 +331,7 @@ def test_csat_user_feedback_submit_with_javascript(
 
     HCSAT.objects.create(id=1, URL='http://test.com')
     session = client.session
-    session['export_academy_csat_id'] = 1
+    session['export_academy_hcsat_id'] = 1
     session['user_journey'] = 'DASHBOARD'
     session.save()
     response = client.post(
