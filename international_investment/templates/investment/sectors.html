@@ -6,15 +6,15 @@
 {% block content %}
     {% include './includes/hero_no_text.html' with css_classes='investment-sectors-section' %}
     <section class="investment-section-overlap">
-        <div class="govuk-width-container great-container investment-white-background govuk-!-padding-5">
-            <div class="govuk-grid-row govuk-!-margin-top-5">
+        <div class="govuk-width-container great-container investment-white-background govuk-!-padding-6">
+            <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
-                    <h2 class="govuk-heading-l">Sectors</h2>
+                    <h1 class="govuk-heading-xl">Sectors</h1>
                 </div>
             </div>
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds-from-desktop">
-                    <p>
+                    <p class="govuk-body-l">
                         The UK's cutting-edge technology and revolutionary research is leading the race to a net zero carbon economy. Join the green revolution by investing and trading with UK industries.
                     </p>
                 </div>
@@ -23,7 +23,7 @@
                 {% for sector in self.get_children.specific %}
                     {% image sector.article_image original as rendition %}
                     <div class="govuk-grid-column-one-third govuk-!-margin-bottom-6">
-                        {% include 'components/great/card.html' with classes="great-card--cta" content_class="govuk-body govuk-!-margin-bottom-7" tag_container_outer_class="govuk-!-margin-bottom-0" show_title_link=True image_src=rendition.url image_alt=sector.title title=sector.title content=sector.article_teaser url=sector.url %}
+                        {% include 'components/great/card.html' with heading_class="govuk-heading-m" heading_level="h2" classes="great-card--cta great-international-card--cta" content_class="govuk-body govuk-!-margin-bottom-7" tag_container_outer_class="govuk-!-margin-bottom-0" show_title_link=True image_src=rendition.url image_alt=sector.title title=sector.title content=sector.article_teaser url=sector.url %}
                     </div>
                 {% endfor %}
             </div>

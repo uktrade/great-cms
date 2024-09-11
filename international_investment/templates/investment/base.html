@@ -4,7 +4,6 @@
     <link rel="stylesheet" href="{% static 'investment_styles.css' %}">
 {% endblock %}
 {% block breadcrumb_region %}
-    {% include 'eyb/includes/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
-    {{ block.super }}
+    {% include 'international/includes/breadcrumbs.html' with breadcrumbs=breadcrumbs wrapper_classes="light-blue-background" %}
 {% endblock %}
 {% block body_content_container %}{{ block.super }}{% endblock %}

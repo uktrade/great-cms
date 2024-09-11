@@ -6,15 +6,15 @@
 {% block content %}
     {% include './includes/hero_no_text.html' with css_classes='investment-regions-section' %}
     <section class="investment-section-overlap">
-        <div class="govuk-width-container great-container investment-white-background govuk-!-padding-5">
+        <div class="govuk-width-container great-container investment-white-background govuk-!-padding-6">
             <div class="govuk-grid-row govuk-!-margin-top-5">
                 <div class="govuk-grid-column-two-thirds">
-                    <h2 class="govuk-heading-l">Regions</h2>
+                    <h1 class="govuk-heading-xl">UK nations and regions</h1>
                 </div>
             </div>
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds-from-desktop">
-                    <p>
+                    <p class="govuk-body-l">
                         Discover the economic power of UK nations and regions with their mix of industries that invites business, trade and investment from around the world.
                     </p>
                 </div>
@@ -23,7 +23,7 @@
                 {% for region in self.get_children.specific %}
                     {% image region.article_image original as rendition %}
                     <div class="govuk-grid-column-one-third govuk-!-margin-bottom-6">
-                        {% include 'components/great/card.html' with classes="great-card--cta" content_class="govuk-body govuk-!-margin-bottom-7" tag_container_outer_class="govuk-!-margin-bottom-0" show_title_link=True image_src=rendition.url image_alt=region.title title=region.title content=region.article_teaser url=region.url %}
+                        {% include 'components/great/card.html' with heading_class="govuk-heading-m" heading_level="h2" classes="great-card--cta great-international-card--cta" content_class="govuk-body govuk-!-margin-bottom-7" tag_container_outer_class="govuk-!-margin-bottom-0" show_title_link=True image_src=rendition.url image_alt=region.title title=region.title content=region.article_teaser url=region.url %}
                     </div>
                 {% endfor %}
             </div>
