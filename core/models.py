@@ -1158,9 +1158,6 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
 
         hcsat = self.get_hcsat(request, self.hcsat_service_name)
         post_data = request.POST
-
-        print('postData',post_data)
-
         if 'cancelButton' in post_data:
             """
             Redirect user if 'cancelButton' is found in the POST data
@@ -2604,10 +2601,7 @@ class HCSAT(TimeStampedModel):
 
     stage = models.IntegerField(default=0)
 
-    def save(self, *args, **kwargs):
-        print('running save')
-        
-        
+    def save(self, *args, **kwargs):  
         # Used to manage the HCSAT stage
         current_hcsat_stage = self.stage
 

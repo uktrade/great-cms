@@ -246,7 +246,6 @@ class SuccessPageView(GetBreadcrumbsMixin, core_mixins.GetSnippetContentMixin, c
         return self.render_to_response(self.get_context_data(form=form))
 
     def form_valid(self, form):
-        print('in form valid')
         super().form_valid(form)
 
         hcsat = form.save(commit=False)
