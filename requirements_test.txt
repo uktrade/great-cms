@@ -365,7 +365,7 @@ googleapis-common-protos==1.65.0
     #   opentelemetry-exporter-otlp-proto-http
 great-components==2.6.5
     # via -r requirements.in
-greenlet==3.0.3
+greenlet==3.1.0
     # via gevent
 grpcio==1.66.1
     # via opentelemetry-exporter-otlp-proto-grpc
