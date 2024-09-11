@@ -7,8 +7,8 @@ from django.forms import (
     MultipleChoiceField,
     NumberInput,
     RadioSelect,
-    TextInput,
     Textarea,
+    TextInput,
 )
 from great_components import forms
 
