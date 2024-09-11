@@ -211,10 +211,16 @@ class SuccessPageView(GetBreadcrumbsMixin, core_mixins.GetSnippetContentMixin, c
         ctx['current_page_breadcrumb'] = 'Registration' if just_registered else 'Events'
 
         hcsat = self.get_hcsat(self.hcsat_service_name)
-        form = self.form_class(instance=hcsat)
+        if hcsat and hcsat.stage < 2:
+            form = self.form_class(instance=hcsat)
+        else:
+            form = self.form_class
         ctx['hcsat_form'] = form
         ctx['hcsat'] = hcsat
-
+        if hcsat and hcsat.stage == 2:
+            ctx['hcsat_form_stage'] = 0
+        else:
+            ctx['hcsat_form_stage'] = hcsat.stage if hcsat else None
         return ctx
 
     def post(self, request, *args, **kwargs):
@@ -258,6 +264,8 @@ class SuccessPageView(GetBreadcrumbsMixin, core_mixins.GetSnippetContentMixin, c
         hcsat.URL = reverse_lazy('export_academy:registration-success', kwargs={'booking_id': booking.id})
         hcsat.user_journey = 'EVENT_BOOKING'
         hcsat.session_key = self.request.session.session_key
+        if hcsat.stage == 2:
+            hcsat.stage = 0
         hcsat.save()
 
         self.request.session[f'{self.hcsat_service_name}_hcsat_id'] = hcsat.id

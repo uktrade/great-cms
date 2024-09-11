@@ -161,9 +161,16 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, HCSATMixin, TemplateView,
         context['max_compare_places_allowed'] = settings.MAX_COMPARE_PLACES_ALLOWED
         context['dashboard_components'] = dashboard.components if dashboard else None
         hcsat = self.get_hcsat(self.hcsat_service_name)
-        form = self.form_class(instance=hcsat)
+        if hcsat and hcsat.stage < 2:
+            form = self.form_class(instance=hcsat)
+        else:
+            form = self.form_class
         context['hcsat_form'] = form
         context['hcsat'] = hcsat
+        if hcsat and hcsat.stage == 2:
+            context['hcsat_form_stage'] = 0
+        else:
+            context['hcsat_form_stage'] = hcsat.stage if hcsat else None
         return context
 
     def post(self, request, *args, **kwargs):
@@ -206,6 +213,8 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, HCSATMixin, TemplateView,
         hcsat.URL = reverse_lazy('core:compare-countries')
         hcsat.user_journey = 'ADD_PRODUCT'
         hcsat.session_key = self.request.session.session_key
+        if hcsat.stage == 2:
+            hcsat.stage = 0
         hcsat.save()
 
         self.request.session[f'{self.hcsat_service_name}_hcsat_id'] = hcsat.id

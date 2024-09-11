@@ -73,10 +73,10 @@
             </div>
         </div>
     </section>
-    {% if hcsat.stage != 2 %}
+    {% if hcsat_form_stage != 2 %}
         <div class="great-border-thin-top-lighter-blue">
             <section class="govuk-!-padding-bottom-6 background-white clearfix">
-                <div class="container">{% include 'core/includes/hcsat.html' with hcsat_form=hcsat_form hcsat_stage=hcsat_form.stage%}</div>
+                <div class="container">{% include 'core/includes/hcsat.html' with hcsat_form=hcsat_form hcsat_stage=hcsat_form_stage%}</div>
             </section>
         </div>
     {% endif %}
