@@ -8,7 +8,7 @@
 {% block meta_title %}Buy from the UK find a supplier case study {{ block.super }}{% endblock %}
 {% block content %}
     <section>
-        <div class="govuk-width-container great-container govuk-!-padding-top-4">
+        <div class="govuk-width-container great-container govuk-!-padding-top-5">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds-from-desktop">
                     <h2 class="govuk-caption-l">
@@ -53,8 +53,8 @@
                     <hr class="govuk-!-margin-top-4">
                     <p class="govuk-body govuk-!-margin-top-5">
                         {% url 'international_buy_from_the_uk:find-a-supplier-profile' company_number=case_study.company.number as company_link %}
-                        {% append_search_back_url contact_link request.get_full_path as contact_link %}
-                        {% include 'international/includes/start_button.html' with href=contact_link button_text='View company profile' %}
+                        {% append_search_back_url company_link request.get_full_path as company_link %}
+                        {% include 'international/includes/start_button.html' with href=company_link button_text='View company profile' %}
                     </p>
                 </div>
                 <div class="govuk-grid-column-one-third-from-desktop">
