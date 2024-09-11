@@ -8,13 +8,10 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin
 
-from core.forms import HCSATWithIntensionsForm
 from core.helpers import (
     check_url_host_is_safelisted,
-    hcsat_get_initial,
-    hcsat_update_or_create,
 )
-from core.models import HCSAT
+
 from directory_sso_api_client import sso_api_client
 from international_online_offer import forms
 from international_online_offer.core import (
