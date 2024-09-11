@@ -140,11 +140,7 @@ class BusinessProfileView(MemberSendAdminRequestMixin, SuccessMessageMixin, HCSA
                     sso_session_id=self.request.user.session_id, sso_id=self.request.user.id
                 )
 
-        form_class = self.get_form_class()
-        hcsat = self.get_hcsat(self.hcsat_service_name)
-        form = form_class(instance=hcsat)
-        context['hcsat_form'] = form
-        context['hcsat'] = hcsat
+        context = self.set_csat_and_stage(self.request, context, self.hcsat_service_name, self.get_form_class())
 
         return context
 
@@ -157,7 +153,7 @@ class BusinessProfileView(MemberSendAdminRequestMixin, SuccessMessageMixin, HCSA
     def post(self, request, *args, **kwargs):
         form_class = self.get_form_class()
 
-        hcsat = self.get_hcsat(self.hcsat_service_name)
+        hcsat = self.get_hcsat(request, self.hcsat_service_name)
         post_data = self.request.POST
 
         if 'cancelButton' in post_data:

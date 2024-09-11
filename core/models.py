@@ -883,7 +883,7 @@ class LessonPlaceholderPage(Page, mixins.AuthenticatedUserRequired if not settin
         return self._redirect_to_parent_module()
 
 
-class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage):
+class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage, mixins.HCSATMixin):
     estimated_read_duration = models.DurationField(null=True, blank=True)
     parent_page_types = [
         'core.CuratedListPage',  # TEMPORARY: remove after topics refactor migration has run
@@ -891,6 +891,7 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
     ]
     template_choices = (('learn/detail_page.html', 'Learn'),)
 
+    hcsat_service_name = 'learn_to_export'
     class Meta:
         verbose_name = 'Detail page'
         verbose_name_plural = 'Detail pages'
@@ -1152,42 +1153,60 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
                     sso_id=request.user.pk,
                 )
 
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_csat_form
+
+        hcsat = self.get_hcsat(request, self.hcsat_service_name)
+        post_data = request.POST
+
+        print('postData',post_data)
+
+        if 'cancelButton' in post_data:
+            """
+            Redirect user if 'cancelButton' is found in the POST data
+            """
+            if hcsat:
+                hcsat.stage = 2
+                hcsat.save()
+            return HttpResponseRedirect(self.get_success_url())
+
+        form = form_class(post_data)
+
+        if form.is_valid():
+            if hcsat:
+                form = form_class(post_data, instance=hcsat)
+                form.is_valid()
+            return self.form_valid(form, request)
+        else:
+            return self.form_invalid(form, request)
+
+    def form_invalid(self, form, request):
+        if 'js_enabled' in request.get_full_path():
+            return JsonResponse(form.errors, status=400)
+        return self.render_to_response(self.get_context_data(form=form))
+
+    def form_valid(self, form, request):
+
+        hcsat = form.save(commit=False)
+
+        # Apply data specific to this service
+        hcsat.URL = self.get_success_url(request)
+        hcsat.user_journey = 'ARTICLE_PAGE'
+        hcsat.session_key = request.session.session_key
+        hcsat.save()
+
+        request.session[f'{self.hcsat_service_name}_hcsat_id'] = hcsat.id
+
+        if 'js_enabled' in request.get_full_path():
+            return JsonResponse({'pk': hcsat.pk})
+        return HttpResponseRedirect(self.get_success_url(request))
+
     def serve(self, request, *args, **kwargs):
         self.handle_page_view(request)
 
         if request.method == 'POST':
-            data = request.POST
-            form = self.get_csat_form(data=data)
-            redirect_url = f'{self.get_success_url(request)}#hcsat_section'
-
-            if 'cancelButton' in data:
-                request.session['learn_to_export_csat_stage'] = 2
-                return HttpResponseRedirect(redirect_url)
-
-            if form.is_valid():
-
-                csat = self.get_csat(request)
-                if csat:
-                    csat_feedback = self.update_csat(request, form, csat)
-                else:
-                    csat_feedback = self.create_csat(request, form)
-
-                data = {
-                    'pk': csat_feedback.pk,
-                }
-                if self.js_enabled(request):
-                    return JsonResponse(data)
-                return HttpResponseRedirect(redirect_url)
-
-            if self.js_enabled(request):
-                return JsonResponse(form.errors, status=400)
-
-            return TemplateResponse(
-                request,
-                self.get_template(request, *args, **kwargs),
-                self.get_context(request, form=form, *args, **kwargs),
-            )
-
+            return self.post(request)
+           
         return super().serve(request, **kwargs)
 
     @cached_property
@@ -1245,64 +1264,8 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         return HCSATForm
 
     def get_success_url(self, request):
-        return request.path
+        return request.get_full_path()
 
-    def js_enabled(self, request):
-        if 'js_enabled' in request.get_full_path():
-            return True
-        return False
-
-    def update_csat(self, request, form, csat):
-
-        csat_feedback, created = HCSAT.objects.update_or_create(
-            id=csat.id,
-            defaults={
-                'experienced_issues': form.cleaned_data['experience'],
-                'other_detail': form.cleaned_data['experience_other'],
-                'likelihood_of_return': form.cleaned_data['likelihood_of_return'],
-                'service_improvements_feedback': form.cleaned_data['feedback_text'],
-            },
-        )
-        csat_stage = request.session.get('learn_to_export_csat_stage', 0)
-
-        if csat_stage == 0:
-            request.session['learn_to_export_csat_stage'] = 1
-        else:
-            request.session['learn_to_export_csat_stage'] = 2
-
-        return csat_feedback
-
-    def create_csat(self, request, form):
-        csat_feedback = HCSAT.objects.create(
-            satisfaction_rating=form.cleaned_data['satisfaction'],
-            experienced_issues=form.cleaned_data['experience'],
-            other_detail=form.cleaned_data['experience_other'],
-            likelihood_of_return=form.cleaned_data['likelihood_of_return'],
-            service_improvements_feedback=form.cleaned_data['feedback_text'],
-            URL=self.get_success_url(request),
-            user_journey='ARTICLE_PAGE',
-        )
-        request.session['learn_to_export_csat_id'] = csat_feedback.id
-        request.session['learn_to_export_csat_stage'] = 1
-
-        return csat_feedback
-
-    def get_csat(self, request):
-        csat_id = request.session.get('learn_to_export_csat_id')
-        if csat_id:
-            return HCSAT.objects.get(id=csat_id)
-        return None
-
-    def get_stage(self, request):
-        return request.session.get('learn_to_export_csat_stage', 0)
-
-    def get_initial(self, request):
-        csat = self.get_csat(request)
-        if csat:
-            satisfaction = csat.satisfaction_rating
-            if satisfaction and request.session.get('learn_to_export_csat_id', 0) == 1:
-                return {'satisfaction': satisfaction}
-        return {'satisfaction': ''}
 
     def get_context(self, request, *args, **kwargs):  # noqa: C901
         context = super().get_context(request)
@@ -1310,14 +1273,7 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         context['is_logged_in'] = False
         if request.user.is_authenticated:
             context['is_logged_in'] = True
-
-        stage = self.get_stage(request)
-        context['csat_stage'] = stage
-        if stage == 2:
-            request.session['learn_to_export_csat_stage'] = 3
-
-        form = kwargs.get('form', self.get_csat_form(data=self.get_initial(request)))
-        context['form'] = form
+        context = self.set_csat_and_stage(request, context, self.hcsat_service_name, self.get_csat_form)
 
         # Prepare backlink to the export plan if we detect one and can validate it
         _backlink = self._get_backlink(request)
@@ -2649,13 +2605,20 @@ class HCSAT(TimeStampedModel):
     stage = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
+        print('running save')
+        
+        
         # Used to manage the HCSAT stage
         current_hcsat_stage = self.stage
 
         # Stage 0: HCSAT has not been started
         # Stage 1: HCSAT satisfaction has been submitted
         # Stage 2: HCSAT has been completed
-        if current_hcsat_stage < 2:
+        current = HCSAT.objects.filter(pk=self.pk) 
+
+        if not current:
+            self.stage = current_hcsat_stage + 1
+        elif current[0].stage == current_hcsat_stage and current_hcsat_stage < 2:
             self.stage = current_hcsat_stage + 1
         super(HCSAT, self).save(*args, **kwargs)
 

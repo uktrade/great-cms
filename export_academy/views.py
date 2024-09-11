@@ -210,23 +210,14 @@ class SuccessPageView(GetBreadcrumbsMixin, core_mixins.GetSnippetContentMixin, c
         ctx['just_registered'] = just_registered
         ctx['current_page_breadcrumb'] = 'Registration' if just_registered else 'Events'
 
-        hcsat = self.get_hcsat(self.hcsat_service_name)
-        if hcsat and hcsat.stage < 2:
-            form = self.form_class(instance=hcsat)
-        else:
-            form = self.form_class
-        ctx['hcsat_form'] = form
-        ctx['hcsat'] = hcsat
-        if hcsat and hcsat.stage == 2:
-            ctx['hcsat_form_stage'] = 0
-        else:
-            ctx['hcsat_form_stage'] = hcsat.stage if hcsat else None
+        ctx = self.set_csat_and_stage(self.request, ctx, self.hcsat_service_name, self.form_class)
+
         return ctx
 
     def post(self, request, *args, **kwargs):
         form_class = self.form_class
 
-        hcsat = self.get_hcsat(self.hcsat_service_name)
+        hcsat = self.get_hcsat(request, self.hcsat_service_name)
         post_data = self.request.POST
 
         if 'cancelButton' in post_data:
@@ -255,6 +246,7 @@ class SuccessPageView(GetBreadcrumbsMixin, core_mixins.GetSnippetContentMixin, c
         return self.render_to_response(self.get_context_data(form=form))
 
     def form_valid(self, form):
+        print('in form valid')
         super().form_valid(form)
 
         hcsat = form.save(commit=False)
@@ -264,8 +256,6 @@ class SuccessPageView(GetBreadcrumbsMixin, core_mixins.GetSnippetContentMixin, c
         hcsat.URL = reverse_lazy('export_academy:registration-success', kwargs={'booking_id': booking.id})
         hcsat.user_journey = 'EVENT_BOOKING'
         hcsat.session_key = self.request.session.session_key
-        if hcsat.stage == 2:
-            hcsat.stage = 0
         hcsat.save()
 
         self.request.session[f'{self.hcsat_service_name}_hcsat_id'] = hcsat.id

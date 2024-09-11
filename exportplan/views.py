@@ -494,18 +494,8 @@ class ExportPlanDashBoard(
         context['export_plan_download_link'] = reverse_lazy(
             'exportplan:pdf-download', kwargs={'id': self.export_plan.get('pk')}
         )
-
-        hcsat = self.get_hcsat(self.hcsat_service_name)
-        if hcsat and hcsat.stage < 2:
-            form = self.form_class(instance=hcsat)
-        else:
-            form = self.form_class
-        context['hcsat_form'] = form
-        context['hcsat'] = hcsat
-        if hcsat and hcsat.stage == 2:
-            context['hcsat_form_stage'] = 0
-        else:
-            context['hcsat_form_stage'] = hcsat.stage if hcsat else None
+        context = self.set_csat_and_stage(self.request, context, self.hcsat_service_name, self.form_class)
+       
         return context
 
     def get_success_url(self):
@@ -515,7 +505,7 @@ class ExportPlanDashBoard(
     def post(self, request, *args, **kwargs):
         form_class = self.form_class
 
-        hcsat = self.get_hcsat(self.hcsat_service_name)
+        hcsat = self.get_hcsat(request, self.hcsat_service_name)
         post_data = self.request.POST
 
         if 'cancelButton' in post_data:
@@ -553,8 +543,7 @@ class ExportPlanDashBoard(
         hcsat.URL = reverse_lazy('exportplan:dashboard', kwargs={'id': id})
         hcsat.user_journey = 'EXPORT_PLAN_UPDATE'
         hcsat.session_key = self.request.session.session_key
-        if hcsat.stage == 2:
-            hcsat.stage = 0
+
         hcsat.save()
 
         self.request.session[f'{self.hcsat_service_name}_hcsat_id'] = hcsat.id

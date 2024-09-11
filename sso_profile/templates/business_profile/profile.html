@@ -406,10 +406,10 @@
                 </div>
             </div>
         </div>
-        {% if hcsat.stage != 2 %}
+        {% if company.is_verified %}
             <div class="great-border-thin-top-lighter-blue">
                 <section class="govuk-!-padding-bottom-6 background-white clearfix">
-                    <div class="container">{% include 'core/includes/hcsat.html' with hcsat_form=hcsat_form hcsat_stage=hcsat_form.stage%}</div>
+                    <div class="container">{% include 'core/includes/hcsat.html' with hcsat_form=hcsat_form hcsat_stage=hcsat_form_stage %}</div>
                 </section>
             </div>
         {% endif %}
@@ -419,12 +419,10 @@
 {{ block.super }}
 <script src="{% static 'javascript/govuk.js' %}"></script>
 <script>window.GOVUKFrontend.initAll()</script>
-{% if hcsat.stage != 2 %}
-    <script src="{% static 'javascript/hcsat-feedback-form.js' %}"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            new CsatFormHandler('csat-form');
-        });
-    </script>
-{% endif %}
+<script src="{% static 'javascript/hcsat-feedback-form.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        new CsatFormHandler('csat-form');
+    });
+</script>
 {% endblock %}
