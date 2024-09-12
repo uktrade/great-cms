@@ -141,6 +141,8 @@ class BusinessProfileView(MemberSendAdminRequestMixin, SuccessMessageMixin, HCSA
                 )
 
         context = self.set_csat_and_stage(self.request, context, self.hcsat_service_name, self.get_form_class())
+        if 'form' in kwargs: # pass back errors from form_invalid
+            context['hcsat_form'] = kwargs['form']
 
         return context
 

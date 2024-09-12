@@ -942,6 +942,10 @@ img.richtext-image {
   }
 }
 
+.great-error-red {
+  color: #d4351c !important; // govuk-frontend govuk-hint colouring takes precedence over govuk-error-message, so overriding
+}
+
 .great-inline {
   display: inline-block;
 }

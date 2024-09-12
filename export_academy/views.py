@@ -211,6 +211,8 @@ class SuccessPageView(GetBreadcrumbsMixin, core_mixins.GetSnippetContentMixin, c
         ctx['current_page_breadcrumb'] = 'Registration' if just_registered else 'Events'
 
         ctx = self.set_csat_and_stage(self.request, ctx, self.hcsat_service_name, self.form_class)
+        if 'form' in kwargs: # pass back errors from form_invalid
+            ctx['hcsat_form'] = kwargs['form']
 
         return ctx
 

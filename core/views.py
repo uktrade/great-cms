@@ -162,6 +162,9 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, HCSATMixin, TemplateView,
         context['dashboard_components'] = dashboard.components if dashboard else None
         
         context = self.set_csat_and_stage(self.request, context, self.hcsat_service_name, form=self.form_class)
+        if 'form' in kwargs: # pass back errors from form_invalid
+            context['hcsat_form'] = kwargs['form']
+
         return context
 
     def post(self, request, *args, **kwargs):

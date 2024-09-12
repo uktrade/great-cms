@@ -1180,7 +1180,12 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
     def form_invalid(self, form, request):
         if 'js_enabled' in request.get_full_path():
             return JsonResponse(form.errors, status=400)
-        return self.render_to_response(self.get_context_data(form=form))
+        #return self.render_to_response(self.get_context_data(form=form))
+        return TemplateResponse(
+                    request,
+                    self.get_template(request),
+                    self.get_context(request, form=form),
+                )
 
     def form_valid(self, form, request):
 
@@ -1271,6 +1276,8 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         if request.user.is_authenticated:
             context['is_logged_in'] = True
         context = self.set_csat_and_stage(request, context, self.hcsat_service_name, self.get_csat_form)
+        if 'form' in kwargs: # pass back errors from form_invalid
+            context['hcsat_form'] = kwargs['form']
 
         # Prepare backlink to the export plan if we detect one and can validate it
         _backlink = self._get_backlink(request)

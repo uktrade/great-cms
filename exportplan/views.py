@@ -495,7 +495,9 @@ class ExportPlanDashBoard(
             'exportplan:pdf-download', kwargs={'id': self.export_plan.get('pk')}
         )
         context = self.set_csat_and_stage(self.request, context, self.hcsat_service_name, self.form_class)
-       
+        if 'form' in kwargs: # pass back errors from form_invalid
+            context['hcsat_form'] = kwargs['form']
+        
         return context
 
     def get_success_url(self):
