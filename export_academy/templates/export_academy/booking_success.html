@@ -84,14 +84,12 @@
 {% endblock feedback_reporter %}
 {% block body_js %}
     {{ block.super }}
-    {% if hcsat.stage != 2 %}
-        <script src="{% static 'javascript/hcsat-feedback-form.js' %}"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                new CsatFormHandler('csat-form');
-            });
-        </script>
-    {% endif %}
+    <script src="{% static 'javascript/hcsat-feedback-form.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            new CsatFormHandler('csat-form');
+        });
+    </script>
     <script src="{% static 'javascript/govuk.js' %}"></script>
     <script>window.GOVUKFrontend.initAll()</script>
 {% endblock %}

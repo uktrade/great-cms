@@ -541,6 +541,9 @@ class ExportPlanDashBoard(
 
         hcsat = form.save(commit=False)
 
+        if 'js_enabled' in self.request.get_full_path() and hcsat.stage==1:
+            hcsat.stage=0
+
         # Apply data specific to this service
         hcsat.URL = reverse_lazy('exportplan:dashboard', kwargs={'id': id})
         hcsat.user_journey = 'EXPORT_PLAN_UPDATE'

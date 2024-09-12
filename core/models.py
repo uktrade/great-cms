@@ -1191,6 +1191,9 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
 
         hcsat = form.save(commit=False)
 
+        if 'js_enabled' in self.request.get_full_path() and hcsat.stage==1:
+            hcsat.stage=0
+
         # Apply data specific to this service
         hcsat.URL = self.get_success_url(request)
         hcsat.user_journey = 'ARTICLE_PAGE'

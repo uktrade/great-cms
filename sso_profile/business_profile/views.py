@@ -189,6 +189,9 @@ class BusinessProfileView(MemberSendAdminRequestMixin, SuccessMessageMixin, HCSA
 
             hcsat = form.save(commit=False)
 
+            if 'js_enabled' in self.request.get_full_path() and hcsat.stage==1:
+                hcsat.stage=0
+
             # Apply data specific to this service
             hcsat.URL = '/profile/business-profile/'
             hcsat.user_journey = 'COMPANY_VERIFICATION'

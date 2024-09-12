@@ -253,6 +253,9 @@ class SuccessPageView(GetBreadcrumbsMixin, core_mixins.GetSnippetContentMixin, c
         hcsat = form.save(commit=False)
         booking = self.get_object()
 
+        if 'js_enabled' in self.request.get_full_path() and hcsat.stage==1:
+            hcsat.stage=0
+
         # Apply data specific to this service
         hcsat.URL = reverse_lazy('export_academy:registration-success', kwargs={'booking_id': booking.id})
         hcsat.user_journey = 'EVENT_BOOKING'

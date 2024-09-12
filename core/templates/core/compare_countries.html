@@ -50,7 +50,6 @@
 </script>
 <script src="{% static 'javascript/govuk.js' %}"></script>
 <script>window.GOVUKFrontend.initAll()</script>
-{% if hcsat.stage != 2 %}
     <script src="{% static 'javascript/hcsat-feedback-form.js' %}"></script>
     <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -78,7 +77,6 @@
         subtree: true,
     });
     </script>
-{% endif %}
 {% block body_inline_feedback %}
 {% endblock %}
 {% endblock %}

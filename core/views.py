@@ -203,6 +203,9 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, HCSATMixin, TemplateView,
 
         hcsat = form.save(commit=False)
 
+        if 'js_enabled' in self.request.get_full_path() and hcsat.stage==1:
+            hcsat.stage=0
+
         # Apply data specific to this service
         hcsat.URL = reverse_lazy('core:compare-countries')
         hcsat.user_journey = 'ADD_PRODUCT'
