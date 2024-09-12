@@ -70,38 +70,10 @@
                     </li>
                     <li>
                         {% if not hide_primary_nav %}
-                            <a class="govuk-link govuk-link--inverse great-international-nav__item {% if '/investment/' in request.path %}active{% endif %}"
-                               href="/international/investment/"
+                            <a class="govuk-link govuk-link--inverse great-international-nav__item {% if '/opportunities/' in request.path %}active{% endif %}"
+                               href="/international/investment/opportunities/"
                                data-title="Investment opportunities"
                                data-location="International header">Investment opportunities</a>
-                        {% endif %}
-                        {% if '/investment/' in request.path %}
-                            <ul class="great-international-nav__section">
-                                <li>
-                                    <a class="govuk-link govuk-link--inverse great-international-nav__section-item {% if '/international/content/investment/why-invest-in-the-uk/' in request.path %}active{% endif %}"
-                                       href="/international/content/investment/why-invest-in-the-uk/"
-                                       data-location="Investment sub-nav"
-                                       data-title="UK expansion guide">Why choose the UK</a>
-                                </li>
-                                <li>
-                                    <a class="govuk-link govuk-link--inverse great-international-nav__section-item {% if '/international/content/investment/regions/' in request.path %}active{% endif %}"
-                                       href="/international/content/investment/regions/"
-                                       data-location="Investment sub-nav"
-                                       data-title="Change your answers">UK nations and regions</a>
-                                </li>
-                                <li>
-                                    <a class="govuk-link govuk-link--inverse great-international-nav__section-item {% if '/international/content/investment/sectors/' in request.path %}active{% endif %}"
-                                       href="/international/content/investment/sectors/"
-                                       data-location="Investment sub-nav"
-                                       data-title="Edit your profile">Sectors</a>
-                                </li>
-                                <li>
-                                    <a class="govuk-link govuk-link--inverse great-international-nav__section-item {% if '/expand-your-business-in-the-uk/profile' in request.path %}active{% endif %}"
-                                       href="/international/investment/opportunities/"
-                                       data-location="Investment sub-nav"
-                                       data-title="Edit your profile">Find opportunities</a>
-                                </li>
-                            </ul>
                         {% endif %}
                     </li>
                     <li>
@@ -110,28 +82,6 @@
                                href="/international/buy-from-the-uk/"
                                data-title="Buy from the UK"
                                data-location="International header">Buy from the UK</a>
-                        {% endif %}
-                        {% if '/international/buy-from-the-uk/' in request.path %}
-                            <ul class="great-international-nav__section">
-                                <li>
-                                    <a class="govuk-link govuk-link--inverse great-international-nav__section-item {% if '/international/buy-from-the-uk/' in request.path %}active{% endif %}"
-                                       href="/international/buy-from-the-uk/"
-                                       data-location="Buy from the UK sub-nav"
-                                       data-title="How we help">How we help</a>
-                                </li>
-                                <li>
-                                    <a class="govuk-link govuk-link--inverse great-international-nav__section-item {% if '/international/buy-from-the-uk/find-a-supplier/' in request.path %}active{% endif %}"
-                                       href="{% url 'international_buy_from_the_uk:find-a-supplier' %}"
-                                       data-location="Buy from the UK sub-nav"
-                                       data-title="Find a supplier">Find a supplier</a>
-                                </li>
-                                <li>
-                                    <a class="govuk-link govuk-link--inverse great-international-nav__section-item {% if '/international/buy-from-the-uk/contact' in request.path %}active{% endif %}"
-                                       href="{% url 'international_buy_from_the_uk:contact' %}"
-                                       data-location="Buy from the UK sub-nav"
-                                       data-title="Contact us">Contact us</a>
-                                </li>
-                            </ul>
                         {% endif %}
                     </li>
                 </ul>
@@ -170,68 +120,6 @@
                                    data-title="Sign in">Sign in</a>
                             </li>
                         {% endif %}
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    {% endif %}
-    {% if '/investment/' in request.path %}
-        <div class="great-international-subnav">
-            <div class="govuk-width-container great-container">
-                <nav class="great-international-subnav" aria-label="Sub-menu">
-                    <ul>
-                        <li>
-                            <a class="govuk-link govuk-link--inverse great-international-subnav__item {% if '/international/content/investment/why-invest-in-the-uk/' in request.path %}active{% endif %}"
-                               href="/international/content/investment/why-invest-in-the-uk/"
-                               data-location="Investment sub-nav"
-                               data-title="UK expansion guide">Why choose the UK</a>
-                        </li>
-                        <li>
-                            <a class="govuk-link govuk-link--inverse great-international-subnav__item {% if '/international/content/investment/regions/' in request.path %}active{% endif %}"
-                               href="/international/content/investment/regions/"
-                               data-location="Investment sub-nav"
-                               data-title="Change your answers">UK nations and regions</a>
-                        </li>
-                        <li>
-                            <a class="govuk-link govuk-link--inverse great-international-subnav__item {% if '/international/content/investment/sectors/' in request.path %}active{% endif %}"
-                               href="/international/content/investment/sectors/"
-                               data-location="Investment sub-nav"
-                               data-title="Edit your profile">Sectors</a>
-                        </li>
-                        <li>
-                            <a class="govuk-link govuk-link--inverse great-international-subnav__item {% if '/international/investment/opportunities/' in request.path %}active{% endif %}"
-                               href="/international/investment/opportunities/"
-                               data-location="Investment sub-nav"
-                               data-title="Edit your profile">Find opportunities</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    {% endif %}
-    {% if '/buy-from-the-uk/' in request.path %}
-        <div class="great-international-subnav">
-            <div class="govuk-width-container great-container">
-                <nav class="great-international-subnav" aria-label="Sub-menu">
-                    <ul>
-                        <li>
-                            <a class="govuk-link govuk-link--inverse great-international-subnav__item {% if '/international/buy-from-the-uk/' == request.path %}active{% endif %}"
-                               href="/international/buy-from-the-uk/"
-                               data-location="Buy from the UK sub-nav"
-                               data-title="How we help">How we help</a>
-                        </li>
-                        <li>
-                            <a class="govuk-link govuk-link--inverse great-international-subnav__item {% if '/international/buy-from-the-uk/find-a-supplier/' in request.path %}active{% endif %}"
-                               href="{% url 'international_buy_from_the_uk:find-a-supplier' %}"
-                               data-location="Buy from the UK sub-nav"
-                               data-title="Find a supplier">Find a supplier</a>
-                        </li>
-                        <li>
-                            <a class="govuk-link govuk-link--inverse great-international-subnav__item {% if '/international/buy-from-the-uk/contact' in request.path %}active{% endif %}"
-                               href="{% url 'international_buy_from_the_uk:contact' %}"
-                               data-location="Buy from the UK sub-nav"
-                               data-title="Contact us">Contact us</a>
-                        </li>
                     </ul>
                 </nav>
             </div>

@@ -493,3 +493,175 @@ def eyb_user_triage_data():
     TriageData.objects.create(hashed_uuid=3, sector='Advanced engineering')
     UserData.objects.create(hashed_uuid=4, email='user4@product.com')
     TriageData.objects.create(hashed_uuid=4, sector='Food and drink')
+
+
+@pytest.fixture
+def dnb_company_list_data():
+    return {
+        'transactionDetail': {
+            'transactionID': 'rrt-040d96222d047da9a-c-eu-31139-3755888-9',
+            'transactionTimestamp': '2019-09-04T16:30:59.876Z',
+            'inLanguage': 'en-US',
+            'serviceVersion': '1',
+        },
+        'inquiryDetail': {'searchTerm': 'micro'},
+        'candidatesReturnedQuantity': 2,
+        'candidatesMatchedQuantity': 2,
+        'searchCandidates': [
+            {
+                'displaySequence': 1,
+                'organization': {
+                    'duns': '123456789',
+                    'dunsControlStatus': {
+                        'isOutOfBusiness': False,
+                        'isMarketable': False,
+                        'isTelephoneDisconnected': False,
+                        'isMailUndeliverable': False,
+                        'isDelisted': True,
+                    },
+                    'primaryName': 'Test Company 1',
+                    'primaryAddress': {
+                        'addressCountry': {'isoAlpha2Code': 'GB'},
+                        'addressLocality': {'name': 'Cheshire'},
+                        'streetAddress': {'line1': 'The Old Test Mill 1', 'line2': '100 Test Rd'},
+                    },
+                    'primaryIndustryCodes': [
+                        {'usSicV4': '5065', 'usSicV4Description': 'Whol electronic parts/equipment'}
+                    ],
+                    'corporateLinkage': {
+                        'isBranch': True,
+                        'familytreeRolesPlayed': [{'description': 'Branch/Division', 'dnbCode': 9140}],
+                    },
+                    'financials': [{'yearlyRevenue': [{'value': 51806612000, 'currency': 'USD'}]}],
+                    'registrationNumbers': [
+                        {
+                            'registrationNumber': 'F-11111',
+                            'typeDescription': 'Company Registry Identification Number (HK)',
+                            'typeDnBCode': 1358,
+                        }
+                    ],
+                    'numberOfEmployees': [
+                        {
+                            'value': 24,
+                            'informationScopeDescription': 'HQ only (here)',
+                            'informationScopeDnBCode': 9068,
+                            'reliabilityDescription': 'Actual',
+                            'reliabilityDnBCode': 9092,
+                        }
+                    ],
+                    'industryCodes': [
+                        {
+                            'code': '517919',
+                            'description': 'All Other Telecommunications',
+                            'typeDescription': 'North American Industry Classification System 2017',
+                            'typeDnbCode': 30832,
+                            'priority': 2,
+                        },
+                        {
+                            'code': '423690',
+                            'description': 'Other Electronic Parts and Equipment Merchant Wholesalers',
+                            'typeDescription': 'North American Industry Classification System 2017',
+                            'typeDnbCode': 30832,
+                            'priority': 1,
+                        },
+                    ],
+                    'telephone': [{'telephoneNumber': '123456789', 'isdCode': '852'}],
+                    'domain': 'www.test-display-one.com',
+                    'businessEntityType': {'dnbCode': 469, 'description': 'Foreign Company'},
+                    'isStandalone': True,
+                },
+            },
+            {
+                'displaySequence': 2,
+                'organization': {
+                    'duns': '234567891',
+                    'dunsControlStatus': {
+                        'isOutOfBusiness': False,
+                        'isMarketable': True,
+                        'isTelephoneDisconnected': False,
+                        'isMailUndeliverable': False,
+                        'isDelisted': False,
+                    },
+                    'primaryName': 'Acme Inc.',
+                    'primaryAddress': {
+                        'addressCountry': {'isoAlpha2Code': 'US'},
+                        'addressLocality': {'name': 'Irvine'},
+                        'addressRegion': {'name': 'California', 'abbreviatedName': 'CA'},
+                        'postalCode': '92123-1234',
+                        'streetAddress': {'line1': '492 Koller St', 'line2': 'San Francisco'},
+                    },
+                    'registeredAddress': {
+                        'addressCountry': {'isoAlpha2Code': 'US'},
+                        'addressLocality': {'name': 'Irvine'},
+                        'addressRegion': {'name': 'California', 'abbreviatedName': 'CA'},
+                        'postalCode': '92123-1234',
+                        'streetAddress': {},
+                        'streetName': '492 Koller St, San Francisco',
+                    },
+                    'primaryIndustryCodes': [{'usSicV4': '5045', 'usSicV4Description': 'Whol computers/peripherals'}],
+                    'corporateLinkage': {
+                        'isBranch': False,
+                        'familytreeRolesPlayed': [
+                            {'description': 'Subsidiary', 'dnbCode': 9159},
+                            {'description': 'Domestic Ultimate', 'dnbCode': 12774},
+                            {'description': 'Parent/Headquarters', 'dnbCode': 9141},
+                        ],
+                        'globalUltimateFamilyTreeMembersCount': 145,
+                        'globalUltimate': {'duns': '987654321', 'primaryName': 'AcMe global company Ltd.'},
+                        'parent': {'duns': '987654321', 'primaryName': 'Acme parent company Ltd.'},
+                    },
+                    'financials': [{'yearlyRevenue': [{'value': 1234556, 'currency': 'USD'}]}],
+                    'registrationNumbers': [
+                        {
+                            'registrationNumber': '87-12345677',
+                            'typeDescription': 'Federal Taxpayer Identification Number (US)',
+                            'typeDnBCode': 6863,
+                        }
+                    ],
+                    'numberOfEmployees': [
+                        {
+                            'value': 4000,
+                            'informationScopeDescription': 'Headquarters Only (Employs Here)',
+                            'informationScopeDnBCode': 9068,
+                            'reliabilityDescription': 'Actual',
+                            'reliabilityDnBCode': 9092,
+                        },
+                        {
+                            'value': 33000,
+                            'informationScopeDescription': 'Consolidated',
+                            'informationScopeDnBCode': 9067,
+                            'reliabilityDescription': 'Actual',
+                            'reliabilityDnBCode': 9092,
+                        },
+                    ],
+                    'industryCodes': [
+                        {
+                            'code': '423430',
+                            'description': 'Computer and Computer Peripheral Equipment and Software Wholesalers',
+                            'typeDescription': 'North American Industry Classification System 2017',
+                            'typeDnbCode': 30832,
+                            'priority': 1,
+                        },
+                        {
+                            'code': '1842',
+                            'description': 'Computer & Office Equipment Wholesalers',
+                            'typeDescription': 'D&B Hoovers Industry Code',
+                            'typeDnbCode': 25838,
+                            'priority': 1,
+                        },
+                        {
+                            'code': '50459903',
+                            'description': 'Computer software',
+                            'typeDescription': 'D&B Standard Industry Code',
+                            'typeDnbCode': 3599,
+                            'priority': 1,
+                        },
+                    ],
+                    'telephone': [{'telephoneNumber': '1234567', 'isdCode': '1'}],
+                    'domain': 'www.test-display-two.com',
+                    'businessEntityType': {'dnbCode': 451, 'description': 'Corporation'},
+                    'isStandalone': False,
+                },
+            },
+        ],
+    }

@@ -9,10 +9,9 @@
     {{ block.super }}
 {% endblock %}
 {% block breadcrumb_region %}
-    <div class="{% if request.path == '/international/expand-your-business-in-the-uk/' %}eyb-light-blue-background{% endif %}">
+    <div class="{% if request.path == '/international/expand-your-business-in-the-uk/' %}light-blue-background{% endif %}">
         {% include './includes/govuk/phase_banner.html' %}
     </div>
-    {% include './includes/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
     {% include './includes/back_link.html' with back_url=back_url %}
     {{ block.super }}
 {% endblock %}
