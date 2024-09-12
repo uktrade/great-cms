@@ -46,6 +46,8 @@
             {% else %}
                 {% get_canonical_url as canonical_url %}
                 <link rel="canonical" href="{{ canonical_url }}">
+                {% get_hreflang_tags as hreflang_tags %}
+                {{ hreflang_tags|linebreaksbr }}
             {% endif %}
         {% endwith %}
         {% block head_google_tag_manager %}

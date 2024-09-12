@@ -542,6 +542,10 @@ unguided_journey_redirects = []
 if settings.FEATURE_UNGUIDED_JOURNEY:
     unguided_journey_redirects += [
         re_path(
+            r'^support/$',
+            PermanentQuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+        ),
+        re_path(
             r'^support/customs-taxes-declarations/$',
             QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
         ),

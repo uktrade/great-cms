@@ -1,6 +1,7 @@
 import re
 
 import magic
+from django.utils.safestring import mark_safe
 
 trim_page_type = re.compile(r'^([^_]*)_\d*')
 
@@ -193,3 +194,27 @@ def derive_canonical_url(request):
         host = f'www.{host}'
     path = request.path
     return f'{scheme}://{host}{path}'
+
+
+def derive_absolute_url(request):
+    scheme = request.scheme
+    host = request.get_host()
+    if not host.startswith('www.'):
+        host = f'www.{host}'
+    full_path = request.get_full_path()
+    return f'{scheme}://{host}{full_path}'
+
+
+def hreflang_and_x_default_link(canonical_url, lang):
+    return (
+        f'<link rel="alternate" hreflang="{lang}" href="{canonical_url}" />'
+        f'\n<link rel="alternate" hreflang="x-default" href="{canonical_url}" />'
+    )
+
+
+def get_hreflang_tags(context, canonical_url, lang):
+    request = context['request']
+    absolute_url = derive_absolute_url(request)
+    if absolute_url == canonical_url:
+        return mark_safe(hreflang_and_x_default_link(canonical_url, lang))
+    return mark_safe('')

@@ -365,7 +365,7 @@ googleapis-common-protos==1.65.0
     #   opentelemetry-exporter-otlp-proto-http
 great-components==2.6.5
     # via -r requirements.in
-greenlet==3.0.3
+greenlet==3.1.0
     # via gevent
 grpcio==1.66.1
     # via opentelemetry-exporter-otlp-proto-grpc
@@ -469,7 +469,7 @@ monotonic==1.6
     # via
     #   directory-ch-client
     #   directory-client-core
-msgpack==1.0.8
+msgpack==1.1.0
     # via locust
 mypy-extensions==1.0.0
     # via black
@@ -665,7 +665,7 @@ pyrsistent==0.20.0
     # via jsonschema
 pysocks==1.7.1
     # via urllib3
-pytest==8.3.2
+pytest==8.3.3
     # via
     #   -r requirements_test.in
     #   allure-pytest
