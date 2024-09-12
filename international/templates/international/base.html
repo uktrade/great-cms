@@ -63,12 +63,13 @@
     {% block header_js %}{% endblock %}
     {% block head_other %}
         {% get_canonical_url as canonical_url %}
-        <meta name="description"
-              content="The Department for Business and Trade helps overseas businesses invest and expand in the UK." />
-        <link rel="canonical" href="{{ canonical_url }}">
         {% get_hreflang_tags as hreflang_tags %}
         {{ hreflang_tags }}
+        <link rel="canonical" href="{{ canonical_url }}">
+        <meta name="description"
+              content="The Department for Business and Trade helps overseas businesses invest and expand in the UK." />
     {% endblock %}
+    {% block head_sharing_metadata %}{% endblock %}
 </head>
 <body {% block body_attributes %}{% endblock %}>
     {% block body_google_tag_manager %}
