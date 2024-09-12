@@ -3,4 +3,7 @@
 {% block head_css %}
     <link rel="stylesheet" href="{% static 'buy_from_the_uk_styles.css' %}">
 {% endblock %}
+{% block breadcrumb_region %}
+    {% include 'international/includes/breadcrumbs.html' with breadcrumbs=breadcrumbs wrapper_classes="light-blue-background" %}
+{% endblock %}
 {% block body_content_container %}{{ block.super }}{% endblock %}

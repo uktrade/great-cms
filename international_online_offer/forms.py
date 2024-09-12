@@ -52,7 +52,7 @@ class BusinessDetailsForm(forms.Form):
         ),
         choices=(('', ''),),
         error_messages={
-            'required': 'Search and select a business activity',
+            'required': 'Search and select a sector',
         },
     )
 
@@ -78,7 +78,7 @@ class BusinessDetailsForm(forms.Form):
         cleaned_data = super().clean()
         company_location = cleaned_data.get('company_location')
         if not company_location:
-            self.add_error('company_location', 'Enter the country of your company headquarters')
+            self.add_error('company_location', 'Search and select a country, region or territory')
         else:
             return cleaned_data
 
