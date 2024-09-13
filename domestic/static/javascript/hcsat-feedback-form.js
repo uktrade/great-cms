@@ -22,7 +22,7 @@ class CsatFormHandler {
             event.preventDefault();
             const formData = new FormData(this.form);
             formData.append('step', this.currentStep);
-            const url = this.form.action
+            const url = this.form.action.split('#')[0] // remove hash at the end so js_enabled arg isn't ignored
 
             let cancelButtonPressed = false
             if (event.submitter && event.submitter.name == 'cancelButton'){

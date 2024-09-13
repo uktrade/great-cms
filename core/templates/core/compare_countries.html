@@ -33,15 +33,12 @@
      data-max-places-allowed="{{ max_compare_places_allowed }}"
      role="region"
      tabindex="-1"></div>
-     <div>{{hcsat_form_stage}}</div>
-{% if hcsat_form_stage != 2 %}
     <section id="hcsat_section"
             class="govuk-!-padding-bottom-6 great-bg-white clearfix govuk-!-margin-top-9 great-hidden">
         <div class="container ">
             {% include './includes/hcsat.html' with hcsat_form=hcsat_form hcsat_stage=hcsat_form_stage%}
         </div>
     </section>
-{% endif %}
 <script>
       magna.CompareMarkets({
         element: document.querySelector("#compare-markets"),
