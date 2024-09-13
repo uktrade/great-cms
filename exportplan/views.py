@@ -17,7 +17,6 @@ from core.utils import choices_to_key_value
 from directory_api_client.client import api_client
 from directory_constants import choices
 from exportplan import forms
-from exportplan.models import CsatUserFeedback
 from exportplan.context import (
     CountryDataContextProvider,
     FactbookDataContextProvider,
@@ -25,6 +24,7 @@ from exportplan.context import (
 )
 from exportplan.core import data, helpers, parsers, serializers
 from exportplan.core.processor import ExportPlanProcessor
+from exportplan.models import CsatUserFeedback
 from exportplan.utils import render_to_pdf
 
 

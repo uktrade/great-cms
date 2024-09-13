@@ -22,3 +22,30 @@
   width: 100%;
   height: 650px;
 }
+
+.investment-case-studies-section {
+  background-color: $great-light-blue;
+}
+
+.investment-sectors-section {
+  background-image: url('/static/images/international-sectors-hero.jpg');
+  height: 345px;
+}
+
+.investment-regions-section {
+  background-image: url('/static/images/international-regions-hero.jpg');
+  height: 345px;
+}
+
+.investment-section-overlap {
+  margin-top: -85px;
+  position: relative;
+}
+
+.investment-white-background {
+  background-color: white;
+}
+
+.investment-data-points-section {
+  background-color: #8CE2D0;
+}
