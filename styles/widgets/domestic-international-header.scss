@@ -2,6 +2,14 @@
 @import '../fonts/main.scss';
 @import '../sizes/sizes.scss';
 
+@mixin float-clear {
+  &:after {
+    display: block;
+    content: '';
+    clear: both;
+  }
+}
+
 .great-global-header-footer {
   background-color: $white;
   box-sizing: border-box;
@@ -16,13 +24,7 @@
   }
 }
 
-@mixin float-clear {
-  &:after {
-    display: block;
-    content: '';
-    clear: both;
-  }
-}
+
 
 @mixin flag-red-underline {
   &:after {

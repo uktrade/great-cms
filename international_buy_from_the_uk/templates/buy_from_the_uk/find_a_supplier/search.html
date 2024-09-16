@@ -1,5 +1,6 @@
 {% extends './base.html' %}
 {% load static %}
+{% load company_filters %}
 {% block head_title %}
     {% if form.errors %}Error:{% endif %}
     Buy from the UK find a supplier search
@@ -7,11 +8,10 @@
 {% endblock %}
 {% block meta_title %}Buy from the UK find a supplier search {{ block.super }}{% endblock %}
 {% block content %}
-    <section class="buy-from-the-uk-info-section govuk-!-padding-bottom-8">
+    <section class="buy-from-the-uk-info-section govuk-!-padding-top-4 govuk-!-padding-bottom-4">
         <div class="govuk-width-container great-container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds-from-desktop">
-                    <div class="govuk-!-margin-bottom-8">{% include 'eyb/includes/breadcrumbs.html' with breadcrumbs=breadcrumbs %}</div>
                     <h1 class="govuk-heading-xl govuk-!-margin-bottom-4">Find a UK supplier</h1>
                 </div>
             </div>
@@ -34,7 +34,8 @@
                         <div class="govuk-!-margin-bottom-4">
                             {% for company in results %}
                                 {% url 'international_buy_from_the_uk:find-a-supplier-profile' company_number=company.number as profile_link %}
-                                {% include 'international/includes/company/list_item.html' with logo=company.logo title=company.name link_url=profile_link company=company %}
+                                {% append_search_back_url profile_link request.get_full_path as profile_link %}
+                                {% include 'international/includes/company/list_item.html' with logo=company.logo title=company.name link_url=profile_link %}
                             {% endfor %}
                         </div>
                         {% include 'international/includes/company/pagination.html' %}

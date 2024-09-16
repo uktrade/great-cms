@@ -3,7 +3,6 @@
 {% load wagtailimages_tags %}
 {% load static %}
 {% load add_govuk_classes url_type get_sub_category_page_breadcrumbs get_meta_tag_label get_meta_tag_icon_path from content_tags %}
-{% block meta_tags %}<meta name="robots" content="noindex">{% endblock %}
 {% block head_title %}{{ page.page_title }}{% endblock %}
 {% block meta_title %}{{ page.page_title }}{% endblock %}
 {% block body_js %}
@@ -17,7 +16,7 @@
 {% endblock %}
 {% block body_attributes %}class="great-bg-white"{% endblock %}
 {% block breadcrumbs_block %}
-    <div class="container">{% include 'breadcrumbs.html' with itemsList=page|get_sub_category_page_breadcrumbs %}</div>
+    <div class="container">{% include 'breadcrumbs.html' with itemsList=page|get_sub_category_page_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}</div>
 {% endblock %}
 {% block content %}
     <div class="govuk-!-padding-bottom-9 great great-bg-white">
@@ -55,13 +54,13 @@
                             <div class="govuk-grid-column-two-thirds">
                                 <div class="govuk-!-margin-bottom-9">
                                     {% for task in page.page_body %}
-                                        <div class="{% if task.block_type == 'sub_task' %}govuk-!-margin-left-9{% endif %} great-ds-border-bottom-grey">
+                                        <div class="great-ds-border-bottom-grey">
                                             {% if task.value.url_goods or task.value.url_services %}
                                             <details class="great-ds-details">
-                                                <summary class="govuk-!-padding-bottom-6">
-                                                    <span class="great-meta-label govuk-!-padding-top-3 govuk-!-margin-bottom-2">
+                                                <summary class="govuk-!-padding-bottom-6" data-task="{{task.value.task_id}}|{{task.value.title}}|{{task.value.output_type}}|{{forloop.counter}}" data-task-element-name="summary">
+                                                    <span class="great-meta-label govuk-!-padding-top-3 govuk-!-margin-bottom-2" data-task-element-name="meta label">
                                                         <img src="{% if task.value.output_type %}{{ task.value.output_type|get_meta_tag_icon_path }}{% else %}/static/icons/guidance.svg{% endif %}"
-                                                             alt="" />
+                                                             alt="" data-task-element-name="meta icon" />
                                                              {% if task.value.output_type %}
                                                                 {{ task.value.output_type }}
                                                              {% else %}
@@ -74,17 +73,17 @@
                                                                 gov.uk
                                                              {% endif %}
                                                     </span>
-                                                    <h2 class="govuk-heading-s govuk-!-margin-bottom-2">
+                                                    <h2 class="govuk-heading-s govuk-!-margin-bottom-2" data-task-element-name="heading">
                                                         {{ task.value.title }}
                                                     </h2>
-                                                    <p class="govuk-body govuk-!-margin-bottom-4">{{ task.value.description_level_1 }}</p>
+                                                    <p class="govuk-body govuk-!-margin-bottom-4" data-task-element-name="description level 1">{{ task.value.description_level_1 }}</p>
 
-                                                    <span class="govuk-accordion__section-toggle great-ds-details__status govuk-!-margin-bottom-0">
-                                                        <span class="govuk-accordion__section-toggle-focus">
-                                                            <span class="govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down"></span>
-                                                            <span class="govuk-accordion__section-toggle-text">
-                                                                <span class="great-ds-details__status-text--closed">Show</span>
-                                                                <span class="great-ds-details__status-text--open">Hide</span>
+                                                    <span class="govuk-accordion__section-toggle great-ds-details__status govuk-!-margin-bottom-0" data-task-element-name="show/hide outer container">
+                                                        <span class="govuk-accordion__section-toggle-focus" data-task-element-name="show/hide inner container">
+                                                            <span class="govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down" data-task-element-name="show/hide icon"></span>
+                                                            <span class="govuk-accordion__section-toggle-text" data-task-element-name="show/hide text container">
+                                                                <span class="great-ds-details__status-text--closed" data-task-element-name="show/hide show text">Show</span>
+                                                                <span class="great-ds-details__status-text--open" data-task-element-name="show/hide hide text">Hide</span>
                                                             </span>
                                                         </span>
                                                     </span>

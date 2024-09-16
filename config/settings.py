@@ -468,8 +468,9 @@ if ELASTIC_APM_ENABLED:
     INSTALLED_APPS.append('elasticapm.contrib.django')
 
 # aws, localhost, or govuk-paas
-OPENSEARCH_PROVIDER = env.str('ELASTICSEARCH_PROVIDER', 'aws').lower()
+OPENSEARCH_PROVIDER = env.str('OPENSEARCH_PROVIDER', None).lower()
 
+# Connect to the GovPaas Opensearch instance. This option will be removed once great has migrated from GovPaaS to AWS.
 if OPENSEARCH_PROVIDER == 'govuk-paas':
     services = {item['instance_name']: item for item in VCAP_SERVICES['opensearch']}
     OPENSEARCH_INSTANCE_NAME = env.str('OPENSEARCH_INSTANCE_NAME', VCAP_SERVICES['opensearch'][0]['instance_name'])
@@ -478,14 +479,19 @@ if OPENSEARCH_PROVIDER == 'govuk-paas':
         hosts=[services[OPENSEARCH_INSTANCE_NAME]['credentials']['uri']],
         connection_class=RequestsHttpConnection,
     )
-elif OPENSEARCH_PROVIDER == 'localhost':
-    connections.create_connection(
-        alias='default',
-        hosts=[env.str('ELASTICSEARCH_URL', 'localhost:9200')],
-        use_ssl=False,
-        verify_certs=False,
-        connection_class=RequestsHttpConnection,
-    )
+# Connect to the local dockerized Opensearch instance
+elif OPENSEARCH_PROVIDER in ['localhost', 'aws']:
+    WAGTAILSEARCH_BACKENDS = {
+        'default': {
+            'BACKEND': 'wagtail.search.backends.elasticsearch7',
+            'AUTO_UPDATE': True if OPENSEARCH_PROVIDER == 'aws' else False,
+            'URLS': [env.str('OPENSEARCH_URL', 'localhost:9200')],
+            'INDEX': 'great-cms',
+            'TIMEOUT': 5,
+            'OPTIONS': {},
+            'INDEX_SETTINGS': {},
+        }
+    }
 else:
     raise NotImplementedError()
 
@@ -760,6 +766,10 @@ INTERNATIONAL_INVESTMENT_NOTIFY_USER_TEMPLATE_ID = env.str(
     'INTERNATIONAL_INVESTMENT_NOTIFY_USER_TEMPLATE_ID', '37b5fa22-0850-49f5-af1f-5c2984ca0309'
 )
 INTERNATIONAL_INVESTMENT_AGENT_EMAIL = env.str('INTERNATIONAL_INVESTMENT_AGENT_EMAIL', '')
+# International Dunn and Bradstreet company lookup
+DNB_API_USERNAME = env.str('DNB_API_USERNAME', '')
+DNB_API_PASSWORD = env.str('DNB_API_PASSWORD', '')
+DNB_API_RENEW_ACCESS_TOKEN_SECONDS_REMAINING = env.int('DNB_API_RENEW_ACCESS_TOKEN_SECONDS_REMAINING', 20)
 
 # geo location
 GEOIP_PATH = os.path.join(ROOT_DIR, 'core/geolocation_data')

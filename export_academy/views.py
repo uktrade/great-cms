@@ -845,8 +845,8 @@ class EventsDetailsView(DetailView):
         ctx['series'] = self.event.get_course()[0] if len(self.event.get_course()) else None
         ctx['show_past_events'] = True
         ctx['bespoke_breadcrumbs'] = [
-            {'title': 'UK Export Academy', 'url': ''},  # what is the url?
-            {'title': 'Events', 'url': ''},  # what is the url?
+            {'title': 'UK Export Academy', 'url': '/export-academy/'},
+            {'title': 'Events', 'url': '/export-academy/events/'},
         ]
         return ctx
 
@@ -900,7 +900,7 @@ class EACourseView(TemplateView):
         ctx = super().get_context_data(**kwargs)
         ctx['signed_in'] = True if self.request.user != AnonymousUser() else False
         ctx['page'] = self.page
-        ctx['bespoke_breadcrumbs'] = [{'title': 'UK Export Academy', 'url': ''}]  # what is the url?
+        ctx['bespoke_breadcrumbs'] = [{'title': 'UK Export Academy', 'url': '/export-academy/'}]
         return ctx
 
 

@@ -29,7 +29,7 @@ def get_url(request):
     return base_url
 
 
-@register.filter
+@register.simple_tag()
 def get_case_study_url(case_study_pk):
     url = reverse_lazy(
         'international_buy_from_the_uk:find-a-supplier-case-study', kwargs={'case_study_id': case_study_pk}
@@ -37,9 +37,17 @@ def get_case_study_url(case_study_pk):
     return url
 
 
-@register.filter
+@register.simple_tag()
 def get_isd_case_study_url(case_study_pk):
     url = reverse_lazy(
         'international_investment_support_directory:specialist-case-study', kwargs={'case_study_id': case_study_pk}
     )
+    return url
+
+
+@register.simple_tag()
+def append_search_back_url(url, search_url):
+    if '?back=' in search_url:
+        search_url = search_url.split('back=', 1)[1]
+    url += '?back=' + search_url
     return url

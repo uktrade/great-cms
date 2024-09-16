@@ -3,8 +3,8 @@
 {% load wagtailimages_tags %}
 {% load static %}
 {% load add_govuk_classes url_type from content_tags %}
-{% block head_title %}Support{% endblock %}
-{% block meta_title %}Support{% endblock %}
+{% block head_title %}Export support for UK businesses{% endblock %}
+{% block meta_title %}Export support for UK businesses{% endblock %}
 {% block body_js %}
     {{ block.super }}
     <script src="{% static 'javascript/digital-entry-point.js' %}"></script>
@@ -30,10 +30,7 @@
                     </div>
                     {% if page.page_body %}
                         <div class="govuk-!-padding-top-7 great-full-width-bar great-bg-light-blue">
-                            <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Online answers</h2>
-                            <p class="govuk-body govuk-!-margin-bottom-0">
-                                Get your answer quickly with 24/7 access to our range of support tools, services and how-to articles. 
-                            </p>
+                            <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Our support topics</h2>
                             <div class="govuk-grid-row govuk-!-padding-top-7">
                                 <div class="govuk-grid-column-three-quarters">
                                     <div class="govuk-grid-row great-card-row">
@@ -41,15 +38,15 @@
                                     </div>
                                     <hr class="great-ds-hr" />
                                     <div class="govuk-grid-row govuk-!-margin-bottom-9 great-display-from-tablet">
-                                        <div class="govuk-grid-column-two-thirds">
-                                            {% include 'domestic/contact/export-support/includes/get-in-touch.html' %}
+                                        <div class="govuk-grid-column-full">
+                                            {% include 'domestic/contact/export-support/includes/contact-us-promo.html' %}
                                         </div>
                                     </div>
                                 </div>
                                 <div class="govuk-grid-column-one-quarter govuk-!-margin-bottom-7">
                                     <div class="great-dep-tools-and-services">
                                         <h2 class="govuk-heading-s govuk-!-margin-bottom-5 govuk-!-padding-bottom-1 great-border-bottom-blue">
-                                            Popular tools and services
+                                            Popular answers
                                         </h2>
                                         {% include 'domestic/contact/export-support/includes/sidebar-items.html' with items=page.page_body %}
                                     </div>

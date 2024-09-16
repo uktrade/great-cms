@@ -2,10 +2,20 @@
 {% if self and self.seo_pagetitle %}
     {% load static_absolute from great_components %}
     {% load wagtailimages_tags %}
+    {% load core_seo_tags %}
     {# Standard metadata #}
     {% block html_seo_base %}
         <link rel="canonical"
               href="{% block canonical %}{{ self.get_seo_canonical_url }}{% endblock %}">
+        {% get_absolute_url as absolute_url %}
+        {% if absolute_url == self.get_seo_canonical_url %}
+            <link rel="alternate"
+                  hreflang="en-gb"
+                  href="{{ self.get_seo_canonical_url }}" />
+            <link rel="alternate"
+                  hreflang="x-default"
+                  href="{{ self.get_seo_canonical_url }}" />
+        {% endif %}
         {% if self.seo_og_type == "article" and self.seo_author %}
             <meta name="author"
                   content="{% block author %}{{ self.seo_author }}{% endblock %}" />
