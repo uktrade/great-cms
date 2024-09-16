@@ -100,8 +100,6 @@ def feature_flags(request):
     ] = settings.FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_USA
     retval['features']['FEATURE_SHOW_CUSTOMS_AND_TAXES_DROPWDOWN'] = settings.FEATURE_SHOW_CUSTOMS_AND_TAXES_DROPWDOWN
 
-    retval['features']['FEATURE_FAB_HCSAT'] = settings.FEATURE_FAB_HCSAT
-
     retval['features']['FEATURE_DESIGN_SYSTEM'] = settings.FEATURE_DESIGN_SYSTEM
 
     retval['features']['FEATURE_GREAT_ERROR'] = settings.FEATURE_GREAT_ERROR

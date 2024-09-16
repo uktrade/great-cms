@@ -547,8 +547,9 @@ class ExportPlanDashBoard(
 
         # if in second part of form (satisfaction=None) or not given, persist existing satisfaction rating
         if not hcsat.satisfaction_rating:
-            existing_satisfaction = self.get_hcsat(self.request, self.hcsat_service_name).satisfaction_rating
-            if existing_satisfaction:
+            existing_csat = self.get_hcsat(self.request, self.hcsat_service_name)
+            if existing_csat:
+                existing_satisfaction=existing_csat.satisfaction_rating
                 hcsat.satisfaction_rating = existing_satisfaction
 
         # Apply data specific to this service

@@ -144,8 +144,7 @@ def test_admin_invite_missing_email():
     ),
 )
 @pytest.mark.django_db
-def test_csat_user_feedback_form_validation(form_data, is_valid, settings):
-    settings.FEATURE_FAB_HCSAT = True
+def test_csat_user_feedback_form_validation(form_data, is_valid):
     data = form_data
     form = CsatUserFeedbackForm(data)
     assert form.is_valid() == is_valid
