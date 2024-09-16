@@ -892,6 +892,7 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
     template_choices = (('learn/detail_page.html', 'Learn'),)
 
     hcsat_service_name = 'learn_to_export'
+
     class Meta:
         verbose_name = 'Detail page'
         verbose_name_plural = 'Detail pages'
@@ -1180,12 +1181,12 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
     def form_invalid(self, form, request):
         if 'js_enabled' in request.get_full_path():
             return JsonResponse(form.errors, status=400)
-        #return self.render_to_response(self.get_context_data(form=form))
+
         return TemplateResponse(
-                    request,
-                    self.get_template(request),
-                    self.get_context(request, form=form),
-                )
+            request,
+            self.get_template(request),
+            self.get_context(request, form=form),
+        )
 
     def form_valid(self, form, request):
 
@@ -1193,13 +1194,13 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
 
         # js version handles form progression in js file, so keep on 0 for reloads
         if 'js_enabled' in request.get_full_path():
-            hcsat.stage=0
+            hcsat.stage = 0
 
         # if in second part of form (satisfaction=None) or not given, persist existing satisfaction rating
-        if not hcsat.satisfaction_rating: 
-            existingSatisfaction = self.get_hcsat(request, self.hcsat_service_name).satisfaction_rating
-            if existingSatisfaction!=None:
-                hcsat.satisfaction_rating=existingSatisfaction
+        if not hcsat.satisfaction_rating:
+            existing_satisfaction = self.get_hcsat(request, self.hcsat_service_name).satisfaction_rating
+            if existing_satisfaction:
+                hcsat.satisfaction_rating = existing_satisfaction
 
         # Apply data specific to this service
         hcsat.URL = self.get_success_url(request)
@@ -1218,7 +1219,7 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
 
         if request.method == 'POST':
             return self.post(request)
-           
+
         return super().serve(request, **kwargs)
 
     @cached_property
@@ -1278,7 +1279,6 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
     def get_success_url(self, request):
         return request.get_full_path()
 
-
     def get_context(self, request, *args, **kwargs):  # noqa: C901
         context = super().get_context(request)
         context['refresh_on_market_change'] = True
@@ -1286,7 +1286,7 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         if request.user.is_authenticated:
             context['is_logged_in'] = True
         context = self.set_csat_and_stage(request, context, self.hcsat_service_name, self.get_csat_form)
-        if 'form' in kwargs: # pass back errors from form_invalid
+        if 'form' in kwargs:  # pass back errors from form_invalid
             context['hcsat_form'] = kwargs['form']
 
         # Prepare backlink to the export plan if we detect one and can validate it
@@ -2618,14 +2618,14 @@ class HCSAT(TimeStampedModel):
 
     stage = models.IntegerField(default=0)
 
-    def save(self, *args, **kwargs):  
+    def save(self, *args, **kwargs):
         # Used to manage the HCSAT stage
         current_hcsat_stage = self.stage
 
         # Stage 0: HCSAT has not been started
         # Stage 1: HCSAT satisfaction has been submitted
         # Stage 2: HCSAT has been completed
-        current = HCSAT.objects.filter(pk=self.pk) 
+        current = HCSAT.objects.filter(pk=self.pk)
 
         if not current:
             self.stage = current_hcsat_stage + 1

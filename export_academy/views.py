@@ -211,7 +211,7 @@ class SuccessPageView(GetBreadcrumbsMixin, core_mixins.GetSnippetContentMixin, c
         ctx['current_page_breadcrumb'] = 'Registration' if just_registered else 'Events'
 
         ctx = self.set_csat_and_stage(self.request, ctx, self.hcsat_service_name, self.form_class)
-        if 'form' in kwargs: # pass back errors from form_invalid
+        if 'form' in kwargs:  # pass back errors from form_invalid
             ctx['hcsat_form'] = kwargs['form']
 
         return ctx
@@ -255,13 +255,13 @@ class SuccessPageView(GetBreadcrumbsMixin, core_mixins.GetSnippetContentMixin, c
 
         # js version handles form progression in js file, so keep on 0 for reloads
         if 'js_enabled' in self.request.get_full_path():
-            hcsat.stage=0
+            hcsat.stage = 0
 
         # if in second part of form (satisfaction=None) or not given, persist existing satisfaction rating
-        if not hcsat.satisfaction_rating: 
-            existingSatisfaction = self.get_hcsat(self.request, self.hcsat_service_name).satisfaction_rating
-            if existingSatisfaction!=None:
-                hcsat.satisfaction_rating=existingSatisfaction
+        if not hcsat.satisfaction_rating:
+            existing_satisfaction = self.get_hcsat(self.request, self.hcsat_service_name).satisfaction_rating
+            if existing_satisfaction:
+                hcsat.satisfaction_rating = existing_satisfaction
 
         # Apply data specific to this service
         hcsat.URL = reverse_lazy('export_academy:registration-success', kwargs={'booking_id': booking.id})

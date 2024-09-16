@@ -234,7 +234,7 @@ class HCSATMixin:
             if qs:
                 return qs.first()
         return None
-    
+
     def set_csat_and_stage(self, request, ctx, hcsat_service_name, form):
         hcsat = self.get_hcsat(request, hcsat_service_name)
         ctx['hcsat_form'] = form
@@ -242,7 +242,7 @@ class HCSATMixin:
 
         if hcsat and hcsat.stage == 2:
             ctx['hcsat_form_stage'] = 2
-            hcsat.stage=0
+            hcsat.stage = 0
             hcsat.save()
         else:
             ctx['hcsat_form_stage'] = hcsat.stage if hcsat else None
