@@ -1196,12 +1196,8 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         if 'js_enabled' in request.get_full_path():
             hcsat.stage = 0
 
-        # if in second part of form (satisfaction=None) or not given, persist existing satisfaction rating
-        if not hcsat.satisfaction_rating:
-            existing_csat = self.get_hcsat(self.request, self.hcsat_service_name)
-            if existing_csat:
-                existing_satisfaction=existing_csat.satisfaction_rating
-                hcsat.satisfaction_rating = existing_satisfaction
+        # if in second part of form (satisfaction=None) or not given in first part, persist existing satisfaction rating
+        hcsat = self.persist_existing_satisfaction(request, self.hcsat_service_name, hcsat)
 
         # Apply data specific to this service
         hcsat.URL = self.get_success_url(request)

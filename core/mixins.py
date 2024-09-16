@@ -247,3 +247,10 @@ class HCSATMixin:
         else:
             ctx['hcsat_form_stage'] = hcsat.stage if hcsat else None
         return ctx
+
+    def persist_existing_satisfaction(self, request, hcsat_service_name, hcsat_form):
+        if not hcsat_form.satisfaction_rating:
+            existing_csat = self.get_hcsat(request, hcsat_service_name)
+            if existing_csat:
+                hcsat_form.satisfaction_rating = existing_csat.satisfaction_rating
+        return hcsat_form
