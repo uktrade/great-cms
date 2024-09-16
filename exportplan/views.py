@@ -25,7 +25,6 @@ from exportplan.context import (
 )
 from exportplan.core import data, helpers, parsers, serializers
 from exportplan.core.processor import ExportPlanProcessor
-from exportplan.models import CsatUserFeedback
 from exportplan.utils import render_to_pdf
 
 
