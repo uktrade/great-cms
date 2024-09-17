@@ -1,0 +1,25 @@
+{% load static %}
+<div class="govuk-!-margin-bottom-6 govuk-!-padding-bottom-2 great-grey-bottom-border great-display-flex great-align-items-top great-gap">
+    <div>
+        {% if logo %}
+            <div class="listitem-logo" style="background-image: url('{{ logo }}')"></div>
+        {% else %}
+            <div class="listitem-logo"
+                 style="background-image: url('{% static 'images/placeholder.png' %}')"></div>
+        {% endif %}
+    </div>
+    <div class="great-full-width">
+        <a href="{{ link_url }}"
+           class="govuk-heading-xs govuk-!-margin-bottom-2 great-heading-link great-ds-heading-link">
+            <h2 class="govuk-heading-xs great-heading-link__heading govuk-!-font-size-24">
+                <span>{{ title|upper }}</span>
+            </h2>
+        </a>
+        {% if description %}<p class="govuk-body govuk-!-margin-bottom-4">{{ description }}</p>{% endif %}
+        {% if opportunity %}
+            <p class="govuk-body govuk-!-margin-bottom-4">
+                <i class="fa fa-map-marker-alt" aria-hidden="true"></i> {{ opportunity.location }}, {{ opportunity.region }}
+            </p>
+        {% endif %}
+    </div>
+</div>

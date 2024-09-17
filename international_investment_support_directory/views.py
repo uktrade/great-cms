@@ -109,7 +109,7 @@ class FindASpecialistProfileView(CompanyProfileMixin, GA360Mixin, TemplateView):
         )
 
     def get_context_data(self, **kwargs):
-        find_a_specialist_url = reverse_lazy('international_buy_from_the_uk:find-a-specialist-search')
+        find_a_specialist_url = reverse_lazy('international_buy_from_the_uk:find-a-specialist')
         if self.request.GET.get('back'):
             find_a_specialist_url = self.request.get_full_path().split('back=', 1)[1]
 

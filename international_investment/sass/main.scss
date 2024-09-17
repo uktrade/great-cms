@@ -49,3 +49,31 @@
 .investment-data-points-section {
   background-color: #8CE2D0;
 }
+
+.listitem-logo {
+  max-width: 120px;
+  min-width: 100px;
+  max-height: 120px;
+  min-height: 100px;
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.fixed-height-scroll {
+  max-height: 300px;
+  overflow-x: scroll;
+}
+
+.fixed-height-scroll .govuk-checkboxes--small .govuk-checkboxes__item {
+  float: none;
+}
+
+.js-enabled .govuk-accordion__section-content {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.js-enabled .govuk-accordion__section-button {
+  border-bottom: 0px;
+}

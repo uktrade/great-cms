@@ -66,6 +66,19 @@ $great-design-system-grey-border: #7d8e96;
   overflow-x: scroll;
 }
 
+.fixed-height-scroll .govuk-checkboxes--small .govuk-checkboxes__item {
+  float: none;
+}
+
+.js-enabled .govuk-accordion__section-content {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.js-enabled .govuk-accordion__section-button {
+  border-bottom: 0px;
+}
+
 .great-ds-border-bottom-grey {
   border-bottom: 1px solid $great-design-system-grey-border;
 }

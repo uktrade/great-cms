@@ -3,6 +3,17 @@ ul {
     padding-inline-start: 0px;
 }
 
+// Config
+$asset-root: '/static/images/';
+$fonts: '/static/fonts';
+$fa-font-path: '/static/fonts';
+
+// Icons
+@import 'node_modules/@fortawesome/fontawesome-free/scss/fontawesome';
+@import 'node_modules/@fortawesome/fontawesome-free/scss/solid';
+@import 'node_modules/@fortawesome/fontawesome-free/scss/regular';
+@import 'node_modules/@fortawesome/fontawesome-free/scss/brands';
+
 @import 'styles/great/_colors.scss';
 @import '../../styles/widgets/buttons.scss';
 @import 'typography';
