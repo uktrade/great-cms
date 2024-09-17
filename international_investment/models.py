@@ -16,19 +16,7 @@ from international_investment.core.helpers import (
 from international_investment.forms import InvestmentOpportunitiesSearchForm
 
 
-class SubmitFormOnGetMixin:
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        data = self.request.GET or {}
-        if data:
-            kwargs['data'] = data
-        return kwargs
-
-    def get(self, request, *args, **kwargs):
-        return super().post(request, *args, **kwargs)
-
-
-class InvestmentIndexPage(BaseContentPage, SubmitFormOnGetMixin):
+class InvestmentIndexPage(BaseContentPage):
     parent_page_types = [
         'international.GreatInternationalHomePage',
     ]
