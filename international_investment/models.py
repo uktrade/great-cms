@@ -428,6 +428,7 @@ class InvestmentOpportunityArticlePage(BaseContentPage):
         self.add_ga360_data_to_payload(request)
         context['ga360'] = self.ga360_payload
 
+        investment_opportunities_url = '/international/investment/'
         if request.GET.get('back'):
             investment_opportunities_url = request.get_full_path().split('back=', 1)[1]
 
