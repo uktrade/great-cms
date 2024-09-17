@@ -175,6 +175,7 @@ class GuidedJourneyStep1Form(forms.Form):
     sic_description = CharField(label='SIC Description', required=False, widget=HiddenInput)
     make_or_do_keyword = CharField(label='Keyword', required=False, widget=HiddenInput)
     sector = CharField(label='Sector', required=False, widget=HiddenInput)
+    exporter_type = CharField(label='Exporter type', required=False, widget=HiddenInput)
 
 
 class GuidedJourneyStep2Form(forms.Form):
@@ -197,13 +198,18 @@ class GuidedJourneyStep4Form(forms.Form):
     sub_category = ChoiceField(
         label='Whats the subject of your enquiry',
         choices=(
-            ('customs-taxes-and-declarations/tax-and-duty-liabilities', 'Tax and duty liabilities'),
-            ('customs-taxes-and-declarations/product-classification', 'Product classification'),
-            ('routes-to-market/exploring-routes-to-market', 'Exploring routes to market'),
+            ('market-selection/events-and-trade-missions', 'Events and trade missions'),
+            ('routes-to-market-and-operating-overseas/exploring-routes-to-market', 'Exploring routes to market'),
             (
-                'routes-to-market/prepare-your-business-to-operate-in-a-market',
-                'Prepare your business to operate in a market',
+                'routes-to-market-and-operating-overseas/prepare-your-business-to-operate-in-an-export-market',
+                'Prepare your business to operate in an export market',
             ),
+            ('funding-and-financial-considerations/get-funding-support', 'Get funding support'),
+            ('trade-restrictions-regulations-and-licensing/uk-trade-embargoes', 'UK trade embargoes'),
+            ('logistics/logistics-procedures', 'Logistics procedures'),
+            ('customs-taxes-and-declarations/customs-special-procedures', 'Customs special procedures'),
+            ('travelling-for-work/taking-goods-overseas-for-work', 'Taking goods overseas for work'),
+            ('managing-business-risk-and-corruption/get-uk-legal-advice', 'Get UK legal advice'),
         ),
         widget=contact_widgets.GreatFilteredRadioSelect,
         error_messages={
