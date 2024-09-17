@@ -24,6 +24,10 @@
                         {% include 'domestic/contact/export-support/includes/goods-widget.html' %}
                     {% endif %}
 
+                    {% if session_data.exporter_type == 'service' %}
+                        {% include 'domestic/contact/export-support/includes/service-widget.html' %}
+                    {% endif %}
+
                     <form method="post" autocomplete="off">
                         {% csrf_token %}
                         {% for field in form.visible_fields %}
