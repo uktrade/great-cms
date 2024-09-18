@@ -19,15 +19,19 @@
                     {% if session_data.exporter_type == 'goods' %}
                         {% include 'domestic/contact/export-support/includes/goods-widget.html' %}
                     {% endif %}
-                    
+
+                    {% if session_data.exporter_type == 'service' %}
+                        {% include 'domestic/contact/export-support/includes/service-widget.html' %}
+                    {% endif %}
+
                     {% if session_data.market %}
-                        {% include 'domestic/contact/export-support/includes/market-widget.html' with market=session_data.market %}
+                        {% include 'domestic/contact/export-support/includes/market-widget.html' with market=session_data.market related_markets=related_markets %}
                     {% endif %}
 
                     <div id="category-buttons">
                         <h2 class="govuk-heading-s govuk-!-margin-top-5">Whats the subject of your enquiry?</h2>
                         {% for category in categories %}
-                            <button data-matcher="{{ category.matcher }}" class="govuk-!-padding-5 govuk-!-margin-right-3 great-bg-white great-grey-border">{{ category.name }}</button>
+                            <button data-matcher="{{ category.matcher }}" class="govuk-!-padding-5 govuk-!-margin-right-3 govuk-!-margin-bottom-3 great-bg-white great-grey-border">{{ category.name }}</button>
                         {% endfor %}
                     </div>
 
