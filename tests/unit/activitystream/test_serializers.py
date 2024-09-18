@@ -17,15 +17,17 @@ from activitystream.serializers import (
     ArticlePageSerializer,
     CountryGuidePageSerializer,
     MicrositePageSerializer,
+    ActivityStreamDomesticHCSATUserFeedbackDataSerializer,
     PageSerializer,
 )
-from core.models import MicrositePage
+from core.models import MicrositePage, HCSAT
 from domestic.models import ArticlePage
 from international_online_offer.models import CsatFeedback, TriageData, UserData
 from tests.unit.core.factories import (
     LandingPageFactory,
     MicrositeFactory,
     MicrositePageFactory,
+    HCSATFactory,
 )
 from tests.unit.domestic.factories import ArticlePageFactory, CountryGuidePageFactory
 from tests.unit.export_academy.factories import (
@@ -484,6 +486,34 @@ def test_eyb_csat_feedback_serializer():
         'object': {
             'id': instance.id,
             'type': 'dit:expandYourBusiness:csatFeedbackData',
+            'feedback_submission_date': instance.created,
+            'url': instance.URL,
+            'user_journey': instance.user_journey,
+            'satisfaction_rating': instance.satisfaction_rating,
+            'experienced_issue': instance.experienced_issue,
+            'other_detail': instance.other_detail,
+            'service_improvements_feedback': instance.service_improvements_feedback,
+            'likelihood_of_return': instance.likelihood_of_return,
+            'site_intentions': instance.site_intentions,
+            'site_intentions_other_detail': instance.site_intentions_other,
+        },
+    }
+    assert output == expected
+
+
+@pytest.mark.django_db
+def test_domestic_hcsat_feedback_serializer():
+    instance = HCSATFactory()
+
+
+    serializer = ActivityStreamDomesticHCSATUserFeedbackDataSerializer()
+    output = serializer.to_representation(instance)
+    expected = {
+        'id': f'dit:domestic:HCSATFeedbackData:{instance.id}:Update',
+        'type': 'Update',
+        'object': {
+            'id': instance.id,
+            'type': 'dit:domestic:HCSATFeedbackData',
             'feedback_submission_date': instance.created,
             'url': instance.URL,
             'user_journey': instance.user_journey,

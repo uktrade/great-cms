@@ -41,9 +41,10 @@ from activitystream.serializers import (
     ActivityStreamFindABuyerCsatUserFeedbackDataSerializer,
     ActivityStreamLearnToExportCsatUserFeedbackDataSerializer,
     ActivityStreamWhereToExportCsatUserFeedbackDataSerializer,
+    ActivityStreamDomesticHCSATUserFeedbackDataSerializer,
     PageSerializer,
 )
-from core.models import CsatUserFeedback as WhereToExportCsatUserFeedback, MicrositePage
+from core.models import CsatUserFeedback as WhereToExportCsatUserFeedback, MicrositePage, HCSAT
 from domestic.models import ArticlePage, CountryGuidePage
 from export_academy.models import (
     Booking,
@@ -291,6 +292,12 @@ class ActivityStreamHCSATBaseView(ActivityStreamBaseView):
     def get_queryset(self):
         return self.queryset.order_by('modified')
 
+
+class ActivityStreamDomesticHCSATFeedbackDataView(ActivityStreamHCSATBaseView):
+    """View to list domestic HCSAT feedback data for the activity stream"""
+
+    queryset = HCSAT.objects.all()
+    serializer_class = ActivityStreamDomesticHCSATUserFeedbackDataSerializer
 
 class ActivityStreamWhereToExportCsatFeedbackDataView(ActivityStreamHCSATBaseView):
     """View to list where to export csat feedback data for the activity stream"""

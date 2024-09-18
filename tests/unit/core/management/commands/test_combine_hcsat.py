@@ -6,6 +6,7 @@ from find_a_buyer.models import CsatUserFeedback as FAB
 from export_academy.models import CsatUserFeedback as EXAC
 from exportplan.models import CsatUserFeedback as EXP
 from learn.models import CsatUserFeedback as LEARN
+from core.models import HCSAT
 
 from tests.unit.find_a_buyer.factories import HCSATFactory as FABHCSATFactory
 from tests.unit.exportplan.factories import HCSATFactory as EXPHCSATFactory
@@ -24,26 +25,21 @@ def test_combine_hcsat():
         EXACHCSATFactory()
         LEARNHCSATFactory()
 
-    assert FAB.objects.all() == 4
-    assert EXAC.objects.all() == 4
-    assert EXP.objects.all() == 4
-    assert LEARN.objects.all() == 4
+    assert FAB.objects.all().count() == 4
+    assert EXAC.objects.all().count() == 4
+    assert EXP.objects.all().count() == 4
+    assert LEARN.objects.all().count() == 4
 
     call_command('combine_hcsat', stdout=StringIO())
 
     # This test needs adapting. We want to assert the new HCSAT model has 16 objects
 
-    assert FAB.objects.all() == 4
-    assert EXAC.objects.all() == 4
-    assert EXP.objects.all() == 4
-    assert LEARN.objects.all() == 4
+    assert HCSAT.objects.all().count() == 16
 
     # Calling agin should not add anymore objects
     call_command('combine_hcsat', stdout=StringIO())
 
     # This test needs adapting. We want to assert the new HCSAT model has 16 objects
 
-    assert FAB.objects.all() == 4
-    assert EXAC.objects.all() == 4
-    assert EXP.objects.all() == 4
-    assert LEARN.objects.all() == 4
+    assert HCSAT.objects.all().count() == 16
+    
