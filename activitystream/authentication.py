@@ -1,5 +1,4 @@
 import logging
-import sentry_sdk
 
 from mohawk.exc import HawkFail
 from rest_framework.authentication import BaseAuthentication
@@ -30,7 +29,7 @@ class ActivityStreamAuthentication(BaseAuthentication):
         return self.authenticate_by_hawk(request)
 
     def authenticate_by_hawk(self, request):
-        sentry_sdk.capture_message(f'HTTP Headers {request.META}')
+        logger.info(f'HTTP Headers {request.META}')
         if 'HTTP_AUTHORIZATION' not in request.META:
             raise AuthenticationFailed(NO_CREDENTIALS_MESSAGE)
 
