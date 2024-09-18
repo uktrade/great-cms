@@ -4254,7 +4254,8 @@
         "sic_code": 62020,
         "sic_description": "Information technology consultancy activities",
         "dit_sector_list_full_sector_name": "Technology and smart cities",
-        "dit_sector_list_field_04": "Technology and smart cities"
+        "dit_sector_list_field_04": "Technology and smart cities",
+        "exporter_type": "service"
       },
       {
         "_id": 533,

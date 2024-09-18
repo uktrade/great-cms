@@ -56,6 +56,10 @@ $great-design-system-govuk-off-black: #0b0c0c;
 
 .great-ds-details {
   summary {
+    &::-webkit-details-marker {
+      display: none;
+    }
+
     display: block;
     margin-bottom: 0;
 
