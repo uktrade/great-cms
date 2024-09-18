@@ -23,9 +23,9 @@
                     {% if session_data.exporter_type == 'service' %}
                         {% include 'domestic/contact/export-support/includes/service-widget.html' %}
                     {% endif %}
-                    
+
                     {% if session_data.market %}
-                        {% include 'domestic/contact/export-support/includes/market-widget.html' with market=session_data.market %}
+                        {% include 'domestic/contact/export-support/includes/market-widget.html' with market=session_data.market related_markets=related_markets %}
                     {% endif %}
 
                     <div id="category-buttons">
