@@ -877,7 +877,7 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, FormView):
                     'name': 'Routes to market and operating overseas',
                     'matcher': 'routes-to-market-and-operating-overseas',
                 },
-                {'name': 'Routes to market and operating overseas', 'matcher': 'Funding and financial considerations'},
+                {'name': 'Funding and financial considerations', 'matcher': 'funding-and-financial-considerations'},
                 {
                     'name': 'Trade restrictions, regulations and licensing',
                     'matcher': 'trade-restrictions-regulations-and-licensing',
@@ -887,6 +887,7 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, FormView):
                 {'name': 'Travelling for work', 'matcher': 'travelling-for-work'},
                 {'name': 'Managing business risk and corruption', 'matcher': 'managing-business-risk-and-corruption'},
             ],
+            related_markets=[{'name': 'china', 'related': ['india', 'mexico']}],
         )
 
     def get_success_url(self):
