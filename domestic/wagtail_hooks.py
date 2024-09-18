@@ -28,3 +28,9 @@ def global_admin_css():
             static('cms-admin/css/domestic.css'),
         )
     ) + env_stylesheet
+
+
+@hooks.register('before_create_page')
+def before_create_page(request, parent_page, page_class):
+    # Use a custom create view for the AwesomePage model
+    print('something')

@@ -16,7 +16,9 @@ from export_academy.models import (
     ModuleEventSet,
     Registration,
     VideoOnDemandPageTracking,
+    CsatUserFeedback
 )
+from export_academy import choices
 
 
 class GreatMediaFactory(wagtail_factories.DocumentFactory):
@@ -130,3 +132,17 @@ class VideoOnDemandPageTrackingFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = VideoOnDemandPageTracking
+
+
+class HCSATFactory(factory.django.DjangoModelFactory):
+
+    URL = factory.fuzzy.FuzzyText(length=100)
+    user_journey = factory.fuzzy.FuzzyChoice(choices.USER_JOURNEY_CHOICES, getter=lambda choice: choice[0])
+    satisfaction_rating = factory.fuzzy.FuzzyChoice(choices.SATISFACTION_CHOICES, getter=lambda choice: choice[0])
+    experienced_issues = factory.fuzzy.FuzzyChoice(choices.EXPERIENCE_CHOICES, getter=lambda choice: choice[0])
+    other_detail = factory.fuzzy.FuzzyText(length=255)
+    service_improvements_feedback = factory.fuzzy.FuzzyText(length=255)
+    likelihood_of_return = factory.fuzzy.FuzzyChoice(choices.LIKELIHOOD_CHOICES, getter=lambda choice: choice[0])
+
+    class Meta:
+        model = CsatUserFeedback
