@@ -708,7 +708,6 @@ def test_feedback_form_full_name(captcha_stub):
         (
             forms.DomesticExportSupportStep6Form,
             {
-                'enquiry_subject': 'market_selection_ess_dep_testing',
                 'enquiry': 'n/a',
                 'about_your_experience': 'neverexported',
             },
@@ -717,10 +716,9 @@ def test_feedback_form_full_name(captcha_stub):
         ),
         (
             forms.DomesticExportSupportStep6Form,
-            {'enquiry_subject': '', 'enquiry': '', 'about_your_experience': ''},
+            {'enquiry': '', 'about_your_experience': ''},
             False,
             {
-                'enquiry_subject': 'You must select a subject for your enquiry',
                 'about_your_experience': 'Choose your export experience',
             },
         ),
