@@ -1,0 +1,112 @@
+{% extends 'domestic/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block head_css %}
+    {{ block.super }}
+    <link href="{% static 'styles/default.css' %}"
+          rel="stylesheet"
+          type="text/css" />
+    <link href="{% static 'styles/pages/search-results.css' %}"
+          rel="stylesheet"
+          type="text/css" />
+{% endblock %}
+{% block head_title %}Search{% endblock %}
+{% block meta_title %}Search{% endblock %}
+{% block css_layout_class %}
+    search-results-page
+{% endblock css_layout_class %}
+{% block content %}
+    <section id="search-results-information">
+        {% if submitted %}
+            <div class="container">
+                {% include 'components/message_box_with_icon.html' with icon="✓" heading="Your feedback has been sent" %}
+            </div>
+        {% endif %}
+        <div class="container">
+            <h1 class="heading-xlarge">
+                {% if search_query %}
+                    Search results for <span class="great-highlighted-text">{{ search_query }}</span>
+                {% else %}
+                    Search
+                {% endif %}
+            </h1>
+            <!-- Search Input -->
+            <div class="actions">
+                {% if search_query %}
+                    {% if search_results %}
+                        <p>
+                            <a href="#search-results-list" class="bland">
+                                {{ search_results_count|intcomma }} result{{ search_results_count|pluralize }} found<span class="verbose">for {{ search_query }}</span>
+                            </a>
+                        </p>
+                    {% else %}
+                        <p class="added-margin-bottom">No results found. Please try again.</p>
+                    {% endif %}
+                {% else %}
+                    <p>
+                        <p class="added-margin-bottom">Search for articles, events, and resources</p>
+                    </p>
+                {% endif %}
+                <a href="{% url 'search:feedback' %}?page={{ current_page }}&q={{ search_query }}"
+                   class="font-xsmall link">Did you find what you were looking for?</a>
+                <form id="search-form"
+                      action="{% url 'search:search' %}"
+                      class="search"
+                      method="get"
+                      aria-label="Search form">
+                    <label class="verbose" id="search-again-label" for="search-again-input">Search again</label>
+                    <input autocomplete="off"
+                           class="text form-control"
+                           name="q"
+                           placeholder=""
+                           type="search"
+                           value="{{ query }}"
+                           id="search-again-input">
+                    <input class="submit search-button" type="submit" value="Go">
+                </form>
+            </div>
+        </div>
+    </section>
+    {% if search_results %}
+        <section id="search-results-list" class="search-results-list">
+            <div class="container">
+                <h2 class="verbose">Results found</h2>
+                <p class="information verbose">
+                    Displaying items <b>{{ first_item_number }}&nbsp;-&nbsp;{{ last_item_number }}</b> of <b>{{ total_results }}</b> in total
+                </p>
+                <!-- Search Results -->
+                <ul class="results" aria-label="Search results">
+                    {% for result in search_results %}
+                        <li>
+                            <span class="type">{{ result.content_type }}</span>
+                            <a class="title link" href="{{ result.url }}">{{ result.title }}</a>
+                            <p class="description">{{ results.search_description }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <!-- Pagination -->
+                <div class="pagination">
+                    <p class="verbose">Displaying page {{ page_num }} of total {{ total_pages }}</p>
+                    {% if search_results.has_previous %}
+                        <a class="button primary-button"
+                           rel="prev"
+                           href="{% url 'search:search' %}?page={{ search_results.previous_page_number }}&q={{ search_query }}">Previous</a>
+                    {% endif %}
+                    <ol class="navigation" role="navigation" aria-label="Page navigation">
+                        {% for page_num in search_results.paginator.page_range %}
+                            <li>
+                                <a rel="prev"
+                                   href="{% url 'search:search' %}?page={{ page_num }}&q={{ search_query }}"><span class="verbose">Page</span>{{ page_num }}</a>
+                            </li>
+                        {% endfor %}
+                    </ol>
+                    {% if search_results.has_next %}
+                        <a class="button secondary-button pagination-next"
+                           rel="next"
+                           href="{% url 'search:search' %}?page={{ search_results.next_page_number }}&q={{ search_query }}">Next</a>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}
