@@ -695,7 +695,7 @@ def test_bci_data(mock_get_bci_data, mock_get_bci_data_api, client, user, settin
 
 
 @pytest.mark.django_db
-@mock.patch('international_online_offer.dnb.api.company_typeahead_search', return_value='[]')
+@mock.patch('international_online_offer.dnb.api.api_request', return_value=create_response({}))
 def test_dnb_typeahead_requires_authentication(mock_typeahead_dnp_api, client, user):
     url = reverse('international_online_offer:dnb-typeahead-company-lookup')
     response = client.get(url)
@@ -707,7 +707,7 @@ def test_dnb_typeahead_requires_authentication(mock_typeahead_dnp_api, client, u
 
 
 @pytest.mark.django_db
-@mock.patch('international_online_offer.dnb.api.company_typeahead_search', return_value='[]')
+@mock.patch('international_online_offer.dnb.api.api_request', return_value=create_response({}))
 def test_dnb_typeahead_allowed_methods(mock_typeahead_dnp_api, client, user):
     url = reverse('international_online_offer:dnb-typeahead-company-lookup')
     client.force_login(user)
@@ -726,7 +726,7 @@ def test_dnb_typeahead_allowed_methods(mock_typeahead_dnp_api, client, user):
 
 
 @pytest.mark.django_db
-@mock.patch('international_online_offer.dnb.api.company_typeahead_search', return_value='[]')
+@mock.patch('international_online_offer.dnb.api.api_request', return_value=create_response({}))
 def test_dnb_typeahead_returns_response_class(mock_typeahead_dnp_api, client, user):
     url = reverse('international_online_offer:dnb-typeahead-company-lookup')
     client.force_login(user)

@@ -20,7 +20,7 @@ def test_company_list_search(mock_api_request, dnb_company_list_data):
     assert len(output['results']) == 2
 
     assert mock_api_request.call_args[0] == ('POST', '/v1/search/companyList')
-    assert mock_api_request.call_args[1]['kwargs'] == {'json': {'searchTerm': 'hello world'}}
+    assert mock_api_request.call_args[1] == {'json': {'searchTerm': 'hello world'}}
 
 
 @mock.patch('international_online_offer.dnb.api.api_request')
@@ -36,4 +36,4 @@ def test_company_typeahead_search(mock_api_request, dnb_company_list_data):
     assert len(output['results']) == 2
 
     assert mock_api_request.call_args[0] == ('GET', '/v1/search/typeahead')
-    assert mock_api_request.call_args[1]['kwargs'] == {'params': {'searchTerm': 'acomp', 'country': 'ES'}}
+    assert mock_api_request.call_args[1] == {'params': {'searchTerm': 'acomp', 'country': 'ES'}}
