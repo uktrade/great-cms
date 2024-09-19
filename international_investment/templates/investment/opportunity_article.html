@@ -7,12 +7,11 @@
 {% block meta_title %}{{ page.article_title }} article {{ block.super }}{% endblock %}
 {% block head_css %}{{ block.super }}{% endblock %}
 {% block content %}
-    <section class="govuk-!-padding-bottom-4">
+    <section>
         <div class="govuk-width-container great-container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
-                    {% if '/sectors/' in request.get_full_path %}<p class="govuk-caption-xl">Sectors</p>{% endif %}
-                    {% if '/regions/' in request.get_full_path %}<p class="govuk-caption-xl">UK nations and regions</p>{% endif %}
+                    <p class="govuk-caption-xl">Investment opportunity</p>
                     <h1 class="govuk-heading-xl">{{ page.article_title }}</h1>
                 </div>
             </div>
@@ -39,6 +38,44 @@
                     </div>
                 </div>
             {% endif %}
+        </div>
+    </section>
+    <section class="light-blue-background govuk-!-margin-bottom-5">
+        <div class="govuk-width-container great-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    <dl>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key govuk-body">
+                                <strong>Location</strong>
+                            </dt>
+                            <dd class="govuk-summary-list__value govuk-body">
+                                <i class="fa fa-map-marker-alt" aria-hidden="true"></i> {{ page.location }}, {{ page.region }}
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key govuk-body">
+                                <strong>Investment type</strong>
+                            </dt>
+                            <dd class="govuk-summary-list__value govuk-body">
+                                {{ page.investment_type }}
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key govuk-body">
+                                <strong>Sector</strong>
+                            </dt>
+                            <dd class="govuk-summary-list__value govuk-body">
+                                {{ page.sector }}
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="govuk-width-container great-container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">{% include_block page.article_body %}</div>
             </div>

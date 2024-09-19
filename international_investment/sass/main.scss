@@ -23,10 +23,6 @@
   height: 650px;
 }
 
-.investment-case-studies-section {
-  background-color: $great-light-blue;
-}
-
 .investment-sectors-section {
   background-image: url('/static/images/international-sectors-hero.jpg');
   height: 345px;
@@ -48,4 +44,30 @@
 
 .investment-data-points-section {
   background-color: #8CE2D0;
+}
+
+.listitem-logo {
+  width: 140px;
+  height: 78px;
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.fixed-height-scroll {
+  max-height: 300px;
+  overflow-x: scroll;
+}
+
+.fixed-height-scroll .govuk-checkboxes--small .govuk-checkboxes__item {
+  float: none;
+}
+
+.js-enabled .govuk-accordion__section-content {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.js-enabled .govuk-accordion__section-button {
+  border-bottom: 0px;
 }
