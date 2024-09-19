@@ -8,10 +8,9 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.http import Http404
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy as _
 from great_components.mixins import GA360Mixin
+from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalManyToManyField
-from taggit.managers import TaggableManager
 from wagtail import blocks
 from wagtail.admin.panels import (
     FieldPanel,
@@ -51,10 +50,14 @@ from core.models import (
     CMSGenericPage,
     ContentModule,
     Country,
+    CountryTagged,
     IndustryTag,
     Region,
+    RegionTagged,
+    SectorTagged,
     SeoMixin,
     Tag,
+    TypeOfExportTagged,
 )
 from domestic import cms_panels, forms as domestic_forms
 from domestic.helpers import build_route_context, get_lesson_completion_status
@@ -160,12 +163,10 @@ class TaggedBaseContentPage(
     class Meta:
         abstract = True
 
-    country_tags = TaggableManager(through='core.CountryTagged', blank=True, verbose_name=_('Country Tags'))
-    sector_tags = TaggableManager(through='core.SectorTagged', blank=True, verbose_name=_('Sector Tags'))
-    region_tags = TaggableManager(through='core.RegionTagged', blank=True, verbose_name=_('Region Tags'))
-    type_of_export_tags = TaggableManager(
-        through='core.TypeOfExportTagged', blank=True, verbose_name=_('Type of Export Tags')
-    )
+    country_tags = ClusterTaggableManager(through=CountryTagged, blank=True)
+    sector_tags = ClusterTaggableManager(through=SectorTagged, blank=True)
+    region_tags = ClusterTaggableManager(through=RegionTagged, blank=True)
+    type_of_export_tags = ClusterTaggableManager(through=TypeOfExportTagged, blank=True)
 
     tagging_panels = [
         MultiFieldPanel(
@@ -179,7 +180,7 @@ class TaggedBaseContentPage(
         ),
     ]
 
-    @cached_classmethod
+    @classmethod
     def get_edit_handler(cls):  # noqa
         panels = [
             # Normal Wagtail panels.

@@ -3,6 +3,10 @@ from django.templatetags.static import static
 from django.utils.html import format_html
 from wagtail import hooks
 
+# from wagtail.admin.panels import ObjectList, TabbedInterface
+
+# from domestic.models import ArticlePage
+
 
 @hooks.register('insert_editor_css')
 def editor_css():
@@ -28,3 +32,19 @@ def global_admin_css():
             static('cms-admin/css/domestic.css'),
         )
     ) + env_stylesheet
+
+
+# @hooks.register('before_edit_page')
+# def modify_panels(request, page):
+#     print(f'Before edit page {page}')
+#     if isinstance(page, ArticlePage):
+#         print('Instance of Article Page')
+#         edit_handler = page.get_edit_handler()
+#         print(f'Primark key {page.pk}')
+#         tagging_panels = ObjectList(ArticlePage.tagging_panels, heading='Tags').bind_to_model(ArticlePage)
+#         panels = edit_handler.children
+#         print(f'PANELS : {panels}')
+#         panels.insert(1, tagging_panels)
+#         # panels.append(tagging_panels)
+#         print(f'AFTER APPEND PANELS : {panels}')
+#         return TabbedInterface(panels).bind_to_model(ArticlePage)

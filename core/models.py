@@ -1585,7 +1585,7 @@ class CountryTagged(GenericTaggedItemBase):
     tag = models.ForeignKey(
         CountryTag,
         on_delete=models.CASCADE,
-        related_name='%(app_label)s_%(class)s_items',
+        related_name='generic_country_tagged',
     )
 
 
@@ -1593,7 +1593,7 @@ class SectorTagged(GenericTaggedItemBase):
     tag = models.ForeignKey(
         SectorTag,
         on_delete=models.CASCADE,
-        related_name='%(app_label)s_%(class)s_items',
+        related_name='generic_sector_tagged',
     )
 
 
@@ -1601,7 +1601,7 @@ class TypeOfExportTagged(GenericTaggedItemBase):
     tag = models.ForeignKey(
         TypeOfExportTag,
         on_delete=models.CASCADE,
-        related_name='%(app_label)s_%(class)s_items',
+        related_name='generic_typeofexport_tagged',
     )
 
 
@@ -1609,7 +1609,7 @@ class RegionTagged(GenericTaggedItemBase):
     tag = models.ForeignKey(
         PersonalisationRegionTag,
         on_delete=models.CASCADE,
-        related_name='%(app_label)s_%(class)s_items',
+        related_name='generric_region_tagged',
     )
 
 
