@@ -7,6 +7,9 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from core.helpers import check_url_host_is_safelisted
 from directory_sso_api_client import sso_api_client
@@ -17,6 +20,7 @@ from international_online_offer.core import (
     regions,
     scorecard,
 )
+from international_online_offer.dnb.api import company_typeahead_search
 from international_online_offer.models import (
     CsatFeedback,
     TradeAssociation,
@@ -1027,3 +1031,14 @@ class BusinessClusterView(GA360Mixin, TemplateView):
             headline_region=headline_region,
             **kwargs,
         )
+
+
+class DNBTypeaheadView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @property
+    def allowed_methods(self):
+        return ['GET']
+
+    def get(self, request, format=None):
+        return Response(company_typeahead_search(request.GET.dict()))
