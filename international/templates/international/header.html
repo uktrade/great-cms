@@ -70,7 +70,7 @@
                     </li>
                     <li>
                         {% if not hide_primary_nav %}
-                            <a class="govuk-link govuk-link--inverse great-international-nav__item {% if '/opportunities/' in request.path %}active{% endif %}"
+                            <a class="govuk-link govuk-link--inverse great-international-nav__item {% if '/international/investment/' in request.path and '/sectors/' not in request.path and '/regions/' not in request.path %}active{% endif %}"
                                href="/international/investment/opportunities/"
                                data-title="Investment opportunities"
                                data-location="International header">Investment opportunities</a>

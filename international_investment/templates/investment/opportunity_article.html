@@ -7,7 +7,7 @@
 {% block meta_title %}{{ page.article_title }} article {{ block.super }}{% endblock %}
 {% block head_css %}{{ block.super }}{% endblock %}
 {% block content %}
-    <section class="govuk-!-padding-bottom-4">
+    <section>
         <div class="govuk-width-container great-container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
@@ -38,9 +38,12 @@
                     </div>
                 </div>
             {% endif %}
+        </div>
+    </section>
+    <section class="light-blue-background govuk-!-margin-bottom-5">
+        <div class="govuk-width-container great-container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
-                    <hr>
                     <dl>
                         <div class="govuk-summary-list__row">
                             <dt class="govuk-summary-list__key govuk-body">
@@ -67,9 +70,12 @@
                             </dd>
                         </div>
                     </dl>
-                    <hr>
                 </div>
             </div>
+        </div>
+    </section>
+    <section>
+        <div class="govuk-width-container great-container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">{% include_block page.article_body %}</div>
             </div>
@@ -99,7 +105,7 @@
         </section>
     {% endif %}
     {% if page.article_case_studies %}
-        <section class="investment-case-studies-section govuk-!-padding-top-7 govuk-!-padding-bottom-7">
+        <section class="light-blue-background govuk-!-padding-top-7 govuk-!-padding-bottom-7">
             <div class="govuk-width-container great-container">
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">

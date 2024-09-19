@@ -23,10 +23,6 @@
   height: 650px;
 }
 
-.investment-case-studies-section {
-  background-color: $great-light-blue;
-}
-
 .investment-sectors-section {
   background-image: url('/static/images/international-sectors-hero.jpg');
   height: 345px;
@@ -51,10 +47,8 @@
 }
 
 .listitem-logo {
-  max-width: 120px;
-  min-width: 100px;
-  max-height: 120px;
-  min-height: 100px;
+  width: 140px;
+  height: 78px;
   background-position: top;
   background-repeat: no-repeat;
   background-size: cover;
