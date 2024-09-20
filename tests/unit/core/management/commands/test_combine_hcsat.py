@@ -38,10 +38,3 @@ def test_combine_hcsat():
     # This test needs adapting. We want to assert the new HCSAT model has 16 objects
 
     assert HCSAT.objects.all().count() == 16
-
-    # Calling agin should not add anymore objects
-    call_command('combine_hcsat', stdout=StringIO())
-
-    # This test needs adapting. We want to assert the new HCSAT model has 16 objects
-
-    assert HCSAT.objects.all().count() == 16

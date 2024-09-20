@@ -793,7 +793,6 @@ class ActivityStreamDomesticHCSATUserFeedbackDataSerializer(serializers.ModelSer
     url = serializers.CharField(source='URL')  # noqa: N815
     site_intentions_other_detail = serializers.CharField(source='site_intentions_other')  # noqa: N815
 
-
     class Meta:
         model = HCSAT
         fields = [

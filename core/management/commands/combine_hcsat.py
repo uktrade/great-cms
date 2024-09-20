@@ -11,7 +11,7 @@ def serialize_hcsat(hcsat):
 
     serialize_hcsat = hcsat.__dict__
     del serialize_hcsat['id']
-    del serialize_hcsat['pk']
+    del serialize_hcsat['_state']
 
     return serialize_hcsat
 

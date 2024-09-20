@@ -508,8 +508,8 @@ def test_domestic_hcsat_feedback_serializer():
     serializer = ActivityStreamDomesticHCSATUserFeedbackDataSerializer()
     output = serializer.to_representation(instance)
 
-    #Remove date due to timezone mismatch
-    
+    # Remove date due to timezone mismatch
+
     del output['object']['feedback_submission_date']
     expected = {
         'id': f'dit:domestic:HCSATFeedbackData:{instance.id}:Update',
