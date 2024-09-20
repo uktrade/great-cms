@@ -23,7 +23,7 @@ urlpatterns = [
     path('feedback/success', SearchFeedbackSuccessView.as_view(), name='feedback-success'),
 ]
 
-
+# Serve search page linked to gov-pass
 if settings.OPENSEARCH_PROVIDER == 'govuk-paas':
     urlpatterns += [
         path(
@@ -32,6 +32,7 @@ if settings.OPENSEARCH_PROVIDER == 'govuk-paas':
             name='search',
         )
     ]
+# Serve search page linked to AWS Opensearch
 elif settings.OPENSEARCH_PROVIDER in ['localhost', 'aws']:
     urlpatterns += [
         path(
