@@ -471,6 +471,12 @@ class TaggedCMSGenericPageAnonymous(
     layout_panels = [FieldPanel('template')]
     settings_panels = [FieldPanel('slug')] + Page.settings_panels
 
+    search_fields = Page.search_fields + [  # Inherit search_fields from Page
+        index.SearchField('country_tags'),
+        index.SearchField('sector_tags'),
+        index.SearchField('type_of_export_tags'),
+    ]
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         field = self._meta.get_field('template')
@@ -534,6 +540,12 @@ class TaggedPage(Page):
             ],
             heading='Tags',
         ),
+    ]
+
+    search_fields = Page.search_fields + [  # Inherit search_fields from Page
+        index.SearchField('country_tags'),
+        index.SearchField('sector_tags'),
+        index.SearchField('type_of_export_tags'),
     ]
 
     @cached_classmethod
@@ -2239,6 +2251,15 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
 
     review_reminder_sent = models.DateTimeField(blank=True, null=True)
 
+    search_fields = Page.search_fields + [  # Inherit search_fields from Page
+        index.SearchField('page_title'),
+        index.SearchField('page_subheading'),
+        index.SearchField('page_teaser'),
+        index.SearchField('page_body'),
+        index.SearchField('cta_title'),
+        index.SearchField('cta_teaser'),
+    ]
+
     def get_parent_page(self):
         current_page = self.specific
         parent_page = self.get_parent().specific
@@ -2449,6 +2470,12 @@ class SupportPage(SeoMixin, cms_panels.SupportPanels, Page):
         blank=True,
     )
 
+    search_fields = Page.search_fields + [  # Inherit search_fields from Page
+        index.SearchField('page_title'),
+        index.SearchField('page_teaser'),
+        index.SearchField('page_body'),
+    ]
+
 
 class SupportTopicLandingPage(SeoMixin, cms_panels.SupportTopicLandingPanels, Page):
     template = 'domestic/contact/export-support/topic-landing.html'
@@ -2494,6 +2521,12 @@ class SupportTopicLandingPage(SeoMixin, cms_panels.SupportTopicLandingPanels, Pa
         blank=True,
     )
 
+    search_fields = Page.search_fields + [  # Inherit search_fields from Page
+        index.SearchField('page_title'),
+        index.SearchField('page_description'),
+        index.SearchField('page_body'),
+    ]
+
 
 class GetInTouchPage(SeoMixin, cms_panels.GetInTouchPanels, Page):
     template = 'domestic/contact/export-support/get-in-touch.html'
@@ -2530,6 +2563,12 @@ class GetInTouchPage(SeoMixin, cms_panels.GetInTouchPanels, Page):
         blank=True,
     )
 
+    search_fields = Page.search_fields + [  # Inherit search_fields from Page
+        index.SearchField('page_title'),
+        index.SearchField('page_teaser'),
+        index.SearchField('page_body'),
+    ]
+
 
 class TaskBasedCategoryPage(cms_panels.TaskBasedCategoryPage, Page):
     template = 'domestic/contact/export-support/task-based-category-page.html'
@@ -2548,6 +2587,11 @@ class TaskBasedCategoryPage(cms_panels.TaskBasedCategoryPage, Page):
     page_intro = models.TextField(
         null=True,
     )
+
+    search_fields = Page.search_fields + [  # Inherit search_fields from Page
+        index.SearchField('page_title'),
+        index.SearchField('page_intro'),
+    ]
 
 
 class TaskBasedSubCategoryPage(cms_panels.TaskBasedSubCategoryPage, Page):
@@ -2581,6 +2625,12 @@ class TaskBasedSubCategoryPage(cms_panels.TaskBasedSubCategoryPage, Page):
         null=True,
         blank=True,
     )
+
+    search_fields = Page.search_fields + [  # Inherit search_fields from Page
+        index.SearchField('page_title'),
+        index.SearchField('page_intro'),
+        index.SearchField('page_body'),
+    ]
 
 
 @register_setting(icon='link-external')

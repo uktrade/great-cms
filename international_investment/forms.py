@@ -2,6 +2,7 @@ from django.forms import (
     CharField,
     CheckboxSelectMultiple,
     ChoiceField,
+    HiddenInput,
     MultipleChoiceField,
     Select,
     TextInput,
@@ -149,4 +150,27 @@ class InvestmentContactForm(forms.Form):
         error_messages={
             'required': 'Enter your phone number',
         },
+    )
+
+
+class InvestmentOpportunitiesSearchForm(forms.Form):
+    page = forms.IntegerField(
+        required=False,
+        widget=HiddenInput,
+        initial=1,
+    )
+    investment_type = forms.MultipleChoiceField(
+        label='Investment type',
+        widget=CheckboxSelectMultiple(attrs={'class': 'govuk-checkboxes__input'}),
+        required=False,
+    )
+    sector = forms.MultipleChoiceField(
+        label='Sector',
+        widget=CheckboxSelectMultiple(attrs={'class': 'govuk-checkboxes__input'}),
+        required=False,
+    )
+    region = forms.MultipleChoiceField(
+        label='Region',
+        widget=CheckboxSelectMultiple(attrs={'class': 'govuk-checkboxes__input'}),
+        required=False,
     )

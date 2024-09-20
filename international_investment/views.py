@@ -15,18 +15,6 @@ from international_investment.forms import (
 from international_online_offer.forms import SpendCurrencySelectForm
 
 
-class IndexView(GA360Mixin, TemplateView):
-    template_name = 'investment/index.html'
-
-    def __init__(self):
-        super().__init__()
-        self.set_ga360_payload(
-            page_id='Index',
-            business_unit='Investment',
-            site_section='index',
-        )
-
-
 class InvestmentFundView(GA360Mixin, FormView):
     form_class = InvestmentFundForm
     template_name = 'investment/investment_fund.html'
@@ -42,7 +30,7 @@ class InvestmentFundView(GA360Mixin, FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['back_url'] = reverse_lazy('international_investment:index')
+        context['back_url'] = '/international/investment/'
         return context
 
     def form_valid(self, form):

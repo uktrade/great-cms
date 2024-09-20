@@ -17,6 +17,7 @@
                         {% csrf_token %}
                         <input type="hidden" id="sector" name="sector" />
                         <input type="hidden" id="make_or_do_keyword" name="make_or_do_keyword" />
+                        <input type="hidden" id="exporter_type" name="exporter_type" />
 
                         <div class="govuk-!-margin-bottom-6">
                             <h2 class="govuk-label-wrapper">
@@ -66,10 +67,11 @@
         },
         onConfirm: (selectedSIC) => {
             if (selectedSIC) {
-                const {dit_sector_list_field_04} = data.data.find(el => el.sic_description === selectedSIC);
+                const {dit_sector_list_field_04, exporter_type='goods'} = data.data.find(el => el.sic_description === selectedSIC);
 
                 document.querySelector('#sector').value = dit_sector_list_field_04;
                 document.querySelector('#make_or_do_keyword').value = document.querySelector('#sic_description').value;
+                document.querySelector('#exporter_type').value = exporter_type;
             }
         },
         placeholder: 'For example textiles',
