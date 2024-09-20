@@ -791,6 +791,8 @@ class ActivityStreamDomesticHCSATUserFeedbackDataSerializer(serializers.ModelSer
 
     feedback_submission_date = serializers.DateTimeField(source='created')  # noqa: N815
     url = serializers.CharField(source='URL')  # noqa: N815
+    site_intentions_other_detail = serializers.CharField(source='site_intentions_other')  # noqa: N815
+
 
     class Meta:
         model = HCSAT
@@ -804,6 +806,8 @@ class ActivityStreamDomesticHCSATUserFeedbackDataSerializer(serializers.ModelSer
             'other_detail',
             'service_improvements_feedback',
             'likelihood_of_return',
+            'site_intentions',
+            'site_intentions_other_detail',
         ]
 
     def to_representation(self, instance):
