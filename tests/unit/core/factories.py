@@ -198,7 +198,7 @@ class HCSATFactory(factory.django.DjangoModelFactory):
     other_detail = factory.fuzzy.FuzzyText(length=255)
     service_improvements_feedback = factory.fuzzy.FuzzyText(length=255)
     likelihood_of_return = factory.fuzzy.FuzzyChoice(constants.LIKELIHOOD_CHOICES, getter=lambda choice: choice[0])
-    site_intentions = factory.fuzzy.FuzzyChoice(constants.SITE_INTENTIONS, getter=lambda choice: choice[0])
+    site_intentions = factory.fuzzy.FuzzyChoice(constants.INTENSION_CHOICES, getter=lambda choice: choice[0])
     site_intentions_other = factory.fuzzy.FuzzyText(length=255)
 
     class Meta:
