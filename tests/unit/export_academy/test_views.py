@@ -22,10 +22,7 @@ from core.snippet_slugs import EA_REGISTRATION_PAGE_HERO
 from directory_sso_api_client import sso_api_client
 from export_academy.filters import EventFilter
 from export_academy.models import Booking, Registration, VideoOnDemandPageTracking
-from export_academy.views import (
-    EventsDetailsView,
-    EventVideoOnDemandView,
-)
+from export_academy.views import EventsDetailsView, EventVideoOnDemandView
 from sso import helpers as sso_helpers
 from tests.helpers import create_response
 from tests.unit.export_academy import factories

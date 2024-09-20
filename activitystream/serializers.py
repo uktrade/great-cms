@@ -6,6 +6,7 @@ from wagtail.models import Page
 from wagtail.rich_text import RichText, get_text_for_indexing
 
 from core.models import (
+    HCSAT,
     CsatUserFeedback as WhereToExportCsatUserFeedback,
     GreatMedia,
     MicrositePage,
@@ -770,6 +771,46 @@ class ActivityStreamExportPlanCsatUserFeedbackDataSerializer(serializers.ModelSe
         Prefix field names to match activity stream format
         """
         prefix = 'dit:exportPlan:csatFeedbackData'
+        type = 'Update'
+
+        return {
+            'id': f'{prefix}:{instance.id}:{type}',
+            'type': f'{type}',
+            'object': {
+                'id': f'{prefix}:{instance.id}',
+                'type': prefix,
+                **{f'{k}': v for k, v in super().to_representation(instance).items()},
+            },
+        }
+
+
+class ActivityStreamDomesticHCSATUserFeedbackDataSerializer(serializers.ModelSerializer):
+    """
+    Domestic HCSAT Feedback Data serializer for activity stream.
+    """
+
+    feedback_submission_date = serializers.DateTimeField(source='created')  # noqa: N815
+    url = serializers.CharField(source='URL')  # noqa: N815
+
+    class Meta:
+        model = HCSAT
+        fields = [
+            'id',
+            'feedback_submission_date',
+            'url',
+            'user_journey',
+            'satisfaction_rating',
+            'experienced_issues',
+            'other_detail',
+            'service_improvements_feedback',
+            'likelihood_of_return',
+        ]
+
+    def to_representation(self, instance):
+        """
+        Prefix field names to match activity stream format
+        """
+        prefix = 'dit:domestic:HCSATFeedbackData'
         type = 'Update'
 
         return {

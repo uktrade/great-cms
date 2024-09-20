@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.text import slugify
 
-from core import blocks, models
+from core import blocks, constants, models
 from core.models import Microsite, MicrositePage
 from domestic import models as domestic_models
 from tests.unit.domestic.factories import DomesticHomePageFactory
@@ -187,3 +187,19 @@ class SuperUserFactory(factory.django.DjangoModelFactory):
     password = factory.LazyFunction(lambda: make_password('abc123'))
     is_staff = True
     is_superuser = True
+
+
+class HCSATFactory(factory.django.DjangoModelFactory):
+
+    URL = factory.fuzzy.FuzzyText(length=100)
+    user_journey = factory.fuzzy.FuzzyChoice(constants.USER_JOURNEY_CHOICES, getter=lambda choice: choice[0])
+    satisfaction_rating = factory.fuzzy.FuzzyChoice(constants.SATISFACTION_CHOICES, getter=lambda choice: choice[0])
+    experienced_issues = factory.fuzzy.FuzzyChoice(constants.EXPERIENCE_CHOICES, getter=lambda choice: choice[0])
+    other_detail = factory.fuzzy.FuzzyText(length=255)
+    service_improvements_feedback = factory.fuzzy.FuzzyText(length=255)
+    likelihood_of_return = factory.fuzzy.FuzzyChoice(constants.LIKELIHOOD_CHOICES, getter=lambda choice: choice[0])
+    site_intentions = factory.fuzzy.FuzzyChoice(constants.SITE_INTENTIONS, getter=lambda choice: choice[0])
+    site_intentions_other = factory.fuzzy.FuzzyText(length=255)
+
+    class Meta:
+        model = models.HCSAT
