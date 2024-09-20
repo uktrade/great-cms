@@ -1589,11 +1589,11 @@ class CountryTagged(GenericTaggedItemBase):
     )
 
 
-class TestCountryTagged(GenericTaggedItemBase):
+class TestCountryTagged(ItemBase):
     tag = models.ForeignKey(
         CountryTag,
         on_delete=models.CASCADE,
-        related_name='%(app_label)s_%(class)s_items',
+        related_name='+',
     )
     content_object = ParentalKey('domestic.ArticlePage', related_name='test_country_tagged_items')  # noqa
 

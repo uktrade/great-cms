@@ -8,9 +8,10 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.http import Http404
 from django.utils.functional import cached_property
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from great_components.mixins import GA360Mixin
-from modelcluster.contrib.taggit import ClusterTaggableManager
+# from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalManyToManyField
 from taggit.managers import TaggableManager
 from wagtail import blocks
@@ -241,7 +242,9 @@ class TestTaggedBaseContentPage(
     class Meta:
         abstract = True
 
-    country_tags = ClusterTaggableManager(through=TestCountryTagged, blank=True, verbose_name=_('Country Tags'))
+    country_tags = TaggableManager(
+        through=TestCountryTagged, blank=True, verbose_name=_('Country Tags'), related_name='article_country_tags'
+    )  # noqa
 
     tagging_panels = [
         MultiFieldPanel(
@@ -1501,6 +1504,30 @@ class ArticlePage(
             elif page:
                 output.append(page.specific)
         return output
+
+    @classmethod
+    def from_db(cls, db, field_names, values):
+        instance = super().from_db(db, field_names, values)
+
+        # save original values, when model is loaded from database,
+        # in a separate attribute on the model
+        instance._loaded_values = dict(zip(field_names, values))
+
+        return instance
+
+    def save(self, **kwargs):
+        if not self.slug:
+            slug = f'{slugify(self.name)}-{self.start_date.strftime("%d-%B-%Y")}'.lower()
+            n = 1
+            while True:
+                if ArticlePage.objects.filter(slug=slug).exists():
+                    slug = f'{slugify(self.name)}-{self.start_date.strftime(f"%d-%B-%Y-{n}")}'.lower()
+                    n += 1
+                else:
+                    self.slug = slug
+                    break
+
+        return super().save(**kwargs)
 
 
 class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):

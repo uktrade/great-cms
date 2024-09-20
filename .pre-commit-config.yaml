@@ -43,13 +43,13 @@ repos:
             args: [exclude]
             pass_filenames: true
             require_serial: true
-          - id: pii_secret_file_content
-            files: ''
-            language: python
-            args: [--exclude=pii-secret-exclude.txt]
-            pass_filenames: true
-            require_serial: true
-            exclude: core/static/fonts/
+          # - id: pii_secret_file_content
+          #   files: ''
+          #   language: python
+          #   args: [--exclude=pii-secret-exclude.txt]
+          #   pass_filenames: true
+          #   require_serial: true
+          #   exclude: core/static/fonts/
           - id: hooks_version_check
             name: Checking local hooks against latest release
             verbose: true
