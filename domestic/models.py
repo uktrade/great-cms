@@ -10,6 +10,7 @@ from django.http import Http404
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from great_components.mixins import GA360Mixin
+from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalManyToManyField
 from taggit.managers import TaggableManager
 from wagtail import blocks
@@ -55,6 +56,7 @@ from core.models import (
     Region,
     SeoMixin,
     Tag,
+    TestCountryTagged,
 )
 from domestic import cms_panels, forms as domestic_forms
 from domestic.helpers import build_route_context, get_lesson_completion_status
@@ -174,6 +176,77 @@ class TaggedBaseContentPage(
                 FieldPanel('sector_tags'),
                 FieldPanel('region_tags'),
                 FieldPanel('type_of_export_tags'),
+            ],
+            heading='Tags',
+        ),
+    ]
+
+    @cached_classmethod
+    def get_edit_handler(cls):  # noqa
+        panels = [
+            # Normal Wagtail panels.
+            ObjectList(cls.content_panels, heading='Content'),
+            # Added custom SEO panels in new tab.
+            ObjectList(cls.tagging_panels, heading='Tags'),
+            ObjectList(SeoMixin.seo_meta_panels, heading='SEO', classname='seo'),
+            ObjectList(cls.settings_panels, heading='Settings', classname='settings'),
+        ]
+        return TabbedInterface(panels).bind_to_model(model=cls)
+
+    def get_ancestors_in_app(self):
+        """
+        Starts at 2 to exclude the root page and the homepage (which is fixed/static/mandatory).
+        Ignores 'folder' pages.
+        """
+        ancestors = self.get_ancestors()[2:]
+
+        return [
+            page
+            for page in ancestors
+            if (not hasattr(page.specific_class, 'folder_page') or not page.specific_class.folder_page)
+        ]
+
+    def get_breadcrumbs(self):
+        breadcrumbs = [page.specific for page in self.specific.get_ancestors_in_app()]
+        breadcrumbs.append(self)
+        retval = []
+
+        for crumb in breadcrumbs:
+            if hasattr(crumb, 'breadcrumbs_label'):  # breadcrumbs_label is a field on SOME Pages
+                retval.append({'title': crumb.breadcrumbs_label, 'url': crumb.url})
+            else:
+                retval.append({'title': crumb.title, 'url': crumb.url})
+        retval.pop()
+        return retval
+
+    def get_absolute_url(self):
+        base_url = settings.BASE_URL
+        if base_url[-1] == '/':
+            base_url = base_url[:-1]
+
+        path = self.get_url()
+        return base_url + path if path else ''
+
+
+class TestTaggedBaseContentPage(
+    SeoMixin,
+    DataLayerMixin,
+    Page,
+):
+    """Minimal abstract base class for pages ported from the V1 Great.gov.uk site"""
+
+    promote_panels = []
+    folder_page = False  # Some page classes will have this set to true to exclude them from breadcrumbs
+
+    class Meta:
+        abstract = True
+
+    country_tags = ClusterTaggableManager(through=TestCountryTagged, blank=True, verbose_name=_('Country Tags'))
+
+    tagging_panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel('country_tags'),
             ],
             heading='Tags',
         ),
@@ -1168,7 +1241,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, TaggedBaseContentPage)
 class ArticlePage(
     cms_panels.ArticlePagePanels,
     SocialLinksPageMixin,
-    TaggedBaseContentPage,
+    TestTaggedBaseContentPage,
 ):
     parent_page_types = [
         'domestic.CountryGuidePage',
