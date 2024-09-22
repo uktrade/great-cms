@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.urls import path
+from django.views.decorators.cache import cache_page
 
 from core import snippet_slugs
 from core.urls import SIGNUP_URL
@@ -12,7 +13,7 @@ app_name = 'export_academy'
 urlpatterns = [
     path(
         'events/',
-        views.EventListView.as_view(),
+        cache_page(60 * 15)(views.EventListView.as_view()),
         {
             'slug': snippet_slugs.EXPORT_ACADEMY_LISTING_PAGE_HERO,
             'snippet_import_path': 'core.models.HeroSnippet',  # see core.mixins.GetSnippetContentMixin
