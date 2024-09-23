@@ -1157,12 +1157,10 @@ def test_privacy_url_passed_to_fta_form_view(client, mock_free_trade_agreements)
         (
             reverse('contact:export-support-step-6'),
             {
-                'enquiry_subject': 'market_selection_ess_dep_testing',
                 'about_your_experience': 'neverexported',
             },
             reverse('contact:export-support-step-7'),
             {
-                'enquiry_subject': 'You must select a subject for your enquiry',
                 'about_your_experience': 'Choose your export experience',
             },
         ),
@@ -1344,12 +1342,10 @@ def test_feedback_submit(mock_save_only_in_database_action, page_url, form_data,
         (
             reverse('contact:export-support-step-6-edit'),
             {
-                'enquiry_subject': 'market_selection_ess_dep_testing',
                 'about_your_experience': 'neverexported',
             },
             reverse('contact:export-support-step-7'),
             {
-                'enquiry_subject': 'You must select a subject for your enquiry',
                 'about_your_experience': 'Choose your export experience',
             },
         ),
