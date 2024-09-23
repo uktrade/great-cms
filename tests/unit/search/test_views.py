@@ -4,7 +4,7 @@ import pytest
 from django.test import RequestFactory, modify_settings
 from django.urls import reverse
 from freezegun import freeze_time
-from wagtail.core.models import Page
+from wagtail.models import Page
 from wagtail.search.backends import get_search_backend
 
 from search import views
@@ -21,22 +21,22 @@ def test_search_view(mock_get_search_backend):
 
     # Create test data
     home_page = Page.objects.get(slug='home')
-    test_page1 = home_page.add_child(instance=Page(title="Test Page 1", slug="test-page-1"))
-    test_page2 = home_page.add_child(instance=Page(title="Another Test Page", slug="another-test-page"))
+    test_page1 = home_page.add_child(instance=Page(title='Test Page 1', slug='test-page-1'))
+    test_page2 = home_page.add_child(instance=Page(title='Another Test Page', slug='another-test-page'))
 
     # Refresh the search index
     search_backend = get_search_backend()
     search_backend.refresh_index()
 
     # Perform search
-    search_results = Page.objects.search("Test Page")
+    search_results = Page.objects.search('Test Page')
 
     # Assert that the search results contain the expected pages
     assert test_page1 in search_results
     assert test_page2 in search_results
 
     # Perform a search that should return no results
-    search_results_empty = Page.objects.search("Nonexistent Page")
+    search_results_empty = Page.objects.search('Nonexistent Page')
     assert not search_results_empty
 
     # Verify that the search method was called
