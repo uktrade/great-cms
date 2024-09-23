@@ -4,13 +4,13 @@
 {% block meta_title %}Investment support directory {{ block.super }}{% endblock %}
 {% block content %}
     {% include './includes/landing_hero.html' %}
-    <section class="buy-from-the-uk-info-section govuk-!-padding-top-6 govuk-!-padding-bottom-3">
+    <section class="light-blue-background govuk-!-padding-top-6 govuk-!-padding-bottom-3">
         <div class="govuk-width-container great-container">
             <form action="{% url 'international_investment_support_directory:find-a-specialist' %}"
                   method="get">
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds-from-desktop">
-                        <label class="govuk-label govuk-label--s">Enter the skills or services you need</label>
+                        <label class="govuk-label govuk-label--s">Search for the skills or services you need</label>
                         <input class="govuk-input" name="q" id="q">
                     </input>
                 </div>
@@ -56,7 +56,7 @@
         </div>
     </div>
 </section>
-<section class="buy-from-the-uk-info-section">
+<section class="light-blue-background">
     <div class="govuk-width-container great-container govuk-!-padding-bottom-8">
         <div class="govuk-grid-row govuk-!-padding-top-8 govuk-!-padding-bottom-6">
             <div class="govuk-grid-column-full">

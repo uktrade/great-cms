@@ -8,7 +8,7 @@
 {% endblock %}
 {% block meta_title %}Buy from the UK find a specialist profile {{ block.super }}{% endblock %}
 {% block content %}
-    <section class="buy-from-the-uk-info-section govuk-!-padding-top-4 govuk-!-padding-bottom-4 govuk-!-margin-bottom-6">
+    <section class="light-blue-background govuk-!-padding-top-4 govuk-!-padding-bottom-4 govuk-!-margin-bottom-6">
         <div class="govuk-width-container great-container">
             <div class="govuk-grid-row great-display-flex great-align-items-center">
                 <div class="govuk-grid-column-one-third-from-desktop govuk-!-margin-bottom-2">
@@ -35,7 +35,7 @@
                     {% url 'international_investment_support_directory:specialist-contact' company_number=company.number as contact_link %}
                     {% append_search_back_url contact_link request.get_full_path as contact_link %}
                     {% include 'international/includes/start_button.html' with href=contact_link button_text='Contact company' %}
-                    <div class="buy-from-the-uk-company-profile-details-section govuk-!-padding-3 govuk-!-margin-bottom-5">
+                    <div class="light-blue-background govuk-!-padding-3 govuk-!-margin-bottom-5">
                         <h2 class="govuk-heading-m">Business details</h2>
                         {% if company.website %}
                             <p class="govuk-body">
@@ -43,6 +43,7 @@
                             </p>
                             <p class="govuk-body">
                                 <a href="{{ company.website }}"
+                                   class="govuk-link"
                                    target="_blank"
                                    title="Opens in a new window"
                                    rel="noopener noreferrer">{{ company.website }}</a>
@@ -117,7 +118,7 @@
                 </div>
                 <div class="govuk-grid-column-two-thirds-from-desktop">
                     <h3 class="govuk-heading-m">Company description</h3>
-                    <p class="govuk-body">{{ company.description|linebreaks }}</p>
+                    <p class="govuk-body">{{ company.description }}</p>
                     {% if company.expertise_products_services %}
                         <hr>
                         <div id="profile-products-services-container">
