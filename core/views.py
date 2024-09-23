@@ -871,22 +871,7 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, FormView):
         return super().get_context_data(
             **kwargs,
             progress_position=4,
-            categories=[
-                {'name': 'Market selection', 'matcher': 'market-selection'},
-                {
-                    'name': 'Routes to market and operating overseas',
-                    'matcher': 'routes-to-market-and-operating-overseas',
-                },
-                {'name': 'Routes to market and operating overseas', 'matcher': 'Funding and financial considerations'},
-                {
-                    'name': 'Trade restrictions, regulations and licensing',
-                    'matcher': 'trade-restrictions-regulations-and-licensing',
-                },
-                {'name': 'Logistics', 'matcher': 'logistics'},
-                {'name': 'Customs, taxes and declarations', 'matcher': 'customs-taxes-and-declarations'},
-                {'name': 'Travelling for work', 'matcher': 'travelling-for-work'},
-                {'name': 'Managing business risk and corruption', 'matcher': 'managing-business-risk-and-corruption'},
-            ],
+            suggested_markets=['china', 'india', 'mexico'],
         )
 
     def get_success_url(self):
@@ -896,20 +881,20 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, FormView):
             market = form_data['market']
             is_goods = form_data['exporter_type'] == 'goods'
             is_service = form_data['exporter_type'] == 'service'
-            sub_category = form_data['sub_category']
+            category = form_data['category']
 
-            sub_cat_url = f'/support/{sub_category}?is_guided_journey=True'
+            cat_url = f'{category}?is_guided_journey=True'
 
             if market:
-                sub_cat_url += f'&market={market}'
+                cat_url += f'&market={market}'
 
             if is_goods:
-                sub_cat_url += f'&is_goods={is_goods}'
+                cat_url += f'&is_goods={is_goods}'
 
             if is_service:
-                sub_cat_url += f'&is_service={is_service}'
+                cat_url += f'&is_service={is_service}'
 
-            return sub_cat_url
+            return cat_url
 
         return reverse_lazy('core:guided-journey-step-1')
 

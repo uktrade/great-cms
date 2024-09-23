@@ -5,7 +5,7 @@
             <span>for</span>
             <strong class="govuk-tag govuk-tag--grey govuk-!-margin-bottom-1">{{ form.q.value }}</strong>
         {% endif %}
-        {% if form.industries.value or form.expertise_industries.value or form.expertise_regions.value or form.expertise_countries.value or form.expertise_languages.value or form.expertise_products_services_financial.value or form.expertise_products_services_management.value or form.expertise_products_services_human_resources.value or form.expertise_products_services_legal.value or form.expertise_products_services_publicity.value or form.expertise_products_services_business_support.value %}
+        {% if form.sector.value or form.region.value or form.investment_type.value or form.industries.value or form.expertise_industries.value or form.expertise_regions.value or form.expertise_countries.value or form.expertise_languages.value or form.expertise_products_services_financial.value or form.expertise_products_services_management.value or form.expertise_products_services_human_resources.value or form.expertise_products_services_legal.value or form.expertise_products_services_publicity.value or form.expertise_products_services_business_support.value %}
             <span>in</span>
             {% for field in form %}
                 {% if field.field.widget.input_type == 'checkbox' %}

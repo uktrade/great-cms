@@ -3,6 +3,8 @@ from unittest import mock
 import pytest
 from django.conf import settings
 from django.urls import reverse, reverse_lazy
+from rest_framework import status
+from rest_framework.response import Response
 
 from directory_sso_api_client import sso_api_client
 from international_online_offer.core import (
@@ -690,3 +692,44 @@ def test_bci_data(mock_get_bci_data, mock_get_bci_data_api, client, user, settin
     client.force_login(user)
     response = client.get(url)
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+@mock.patch('international_online_offer.dnb.api.api_request', return_value=create_response({}))
+def test_dnb_typeahead_requires_authentication(mock_typeahead_dnp_api, client, user):
+    url = reverse('international_online_offer:dnb-typeahead-company-lookup')
+    response = client.get(url)
+    assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    client.force_login(user)
+    response = client.get(url)
+    assert response.status_code == status.HTTP_200_OK
+
+
+@pytest.mark.django_db
+@mock.patch('international_online_offer.dnb.api.api_request', return_value=create_response({}))
+def test_dnb_typeahead_allowed_methods(mock_typeahead_dnp_api, client, user):
+    url = reverse('international_online_offer:dnb-typeahead-company-lookup')
+    client.force_login(user)
+
+    response = client.get(url)
+    assert response.status_code == status.HTTP_200_OK
+
+    response = client.post(url)
+    assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
+
+    response = client.delete(url)
+    assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
+
+    response = client.patch(url)
+    assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
+
+
+@pytest.mark.django_db
+@mock.patch('international_online_offer.dnb.api.api_request', return_value=create_response({}))
+def test_dnb_typeahead_returns_response_class(mock_typeahead_dnp_api, client, user):
+    url = reverse('international_online_offer:dnb-typeahead-company-lookup')
+    client.force_login(user)
+
+    response = client.get(url)
+    assert type(response) is Response

@@ -20,15 +20,6 @@ $great-design-system-grey-border: #7d8e96;
   }
 }
 
-.buy-from-the-uk-info-section {
-  background-color: $great-light-blue;
-}
-
-.buy-from-the-uk-company-profile-details-section {
-  background-color: $great-light-blue;
-}
-
-
 .buy-from-the-uk-home-strapline-container {
   background-color: rgba(26, 92, 164, .7);
 }
@@ -64,6 +55,19 @@ $great-design-system-grey-border: #7d8e96;
 .fixed-height-scroll {
   max-height: 300px;
   overflow-x: scroll;
+}
+
+.fixed-height-scroll .govuk-checkboxes--small .govuk-checkboxes__item {
+  float: none;
+}
+
+.js-enabled .govuk-accordion__section-content {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.js-enabled .govuk-accordion__section-button {
+  border-bottom: 0px;
 }
 
 .great-ds-border-bottom-grey {

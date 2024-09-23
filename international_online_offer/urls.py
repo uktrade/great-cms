@@ -93,4 +93,5 @@ urlpatterns = [
         login_required(views.BusinessClusterView.as_view(), login_url=SIGNUP_URL),
         name='bci',
     ),
+    path('dnb-typeahead-company-lookup/', views.DNBTypeaheadView.as_view(), name='dnb-typeahead-company-lookup'),
 ]

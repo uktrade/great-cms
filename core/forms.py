@@ -195,21 +195,20 @@ class GuidedJourneyStep3Form(forms.Form):
 
 
 class GuidedJourneyStep4Form(forms.Form):
-    sub_category = ChoiceField(
-        label='Whats the subject of your enquiry',
+    category = ChoiceField(
+        label='Need help with a specific problem',
         choices=(
-            ('market-selection/events-and-trade-missions', 'Events and trade missions'),
-            ('routes-to-market-and-operating-overseas/exploring-routes-to-market', 'Exploring routes to market'),
+            ('/support/market-selection', 'Market selection'),
+            ('/support/routes-to-market-and-operating-overseas', 'Routes to market and operating overseas'),
             (
-                'routes-to-market-and-operating-overseas/prepare-your-business-to-operate-in-an-export-market',
-                'Prepare your business to operate in an export market',
+                '/support/funding-and-financial-considerations',
+                'Funding and financial considerations',
             ),
-            ('funding-and-financial-considerations/get-funding-support', 'Get funding support'),
-            ('trade-restrictions-regulations-and-licensing/uk-trade-embargoes', 'UK trade embargoes'),
-            ('logistics/logistics-procedures', 'Logistics procedures'),
-            ('customs-taxes-and-declarations/customs-special-procedures', 'Customs special procedures'),
-            ('travelling-for-work/taking-goods-overseas-for-work', 'Taking goods overseas for work'),
-            ('managing-business-risk-and-corruption/get-uk-legal-advice', 'Get UK legal advice'),
+            ('/support/trade-restrictions-regulations-and-licensing', 'Trade restrictions, regulations and licensing'),
+            ('/support/logistics', 'Logistics'),
+            ('/support/customs-taxes-and-declarations', 'Customs, taxes and declarations'),
+            ('/support/travelling-for-work', 'Travelling for work'),
+            ('/support/managing-business-risk-and-corruption', 'Managing business risk and corruption'),
         ),
         widget=contact_widgets.GreatFilteredRadioSelect,
         error_messages={

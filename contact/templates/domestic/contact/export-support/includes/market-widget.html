@@ -2,11 +2,11 @@
 {% load get_market_widget_data from component_tags %}
 {% load reference_period from content_tags %}
 
-{% if market %}
-{% with market=market|get_market_widget_data %}
-<div class="great-bg-light-blue govuk-!-padding-5 great-grey-border">
-    {% if market %}
 
+{% if market %}
+{% with market=market|get_market_widget_data market_name=market %}
+<div class="great-bg-white govuk-!-padding-5">
+    {% if market %}
         <a href="{{ market.get_full_url }}" class="govuk-heading-s govuk-!-margin-bottom-2 great-heading-link great-heading-link--no-chevron">
             <h2 class="govuk-heading-s great-heading-link__heading">
             Exporting guide to {{ market.heading }}</h2>
