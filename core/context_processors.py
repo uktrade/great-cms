@@ -68,7 +68,6 @@ def migration_support_vars(request):
         'BREADCRUMBS_ROOT_URL': settings.BREADCRUMBS_ROOT_URL,
         'FEATURE_SHOW_REPORT_BARRIER_CONTENT': settings.FEATURE_SHOW_REPORT_BARRIER_CONTENT,
         'FEATURE_SHOW_BRAND_BANNER': settings.FEATURE_SHOW_BRAND_BANNER,
-        'FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK': settings.FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK,
     }
 
 
@@ -78,11 +77,9 @@ def feature_flags(request):
     retval['features'].update(settings.SSO_PROFILE_FEATURE_FLAGS)
     retval['features']['FEATURE_PRODUCT_EXPERIMENT_HEADER'] = settings.FEATURE_PRODUCT_EXPERIMENT_HEADER
     retval['features']['FEATURE_PRODUCT_EXPERIMENT_LINKS'] = settings.FEATURE_PRODUCT_EXPERIMENT_LINKS
-    retval['features']['FEATURE_DIGITAL_POINT_OF_ENTRY'] = settings.FEATURE_DIGITAL_POINT_OF_ENTRY
     retval['features']['FEATURE_DESIGN_SYSTEM'] = settings.FEATURE_DESIGN_SYSTEM
     retval['features']['FEATURE_COURSES_LANDING_PAGE'] = settings.FEATURE_COURSES_LANDING_PAGE
     retval['features']['FEATURE_DEA_V2'] = settings.FEATURE_DEA_V2
-    retval['features']['FEATURE_SHOW_OLD_CONTACT_FORM'] = settings.FEATURE_SHOW_OLD_CONTACT_FORM
     retval['features']['FEATURE_HOMEPAGE_REDESIGN_V1'] = settings.FEATURE_HOMEPAGE_REDESIGN_V1
     retval['features']['FEATURE_SHARE_COMPONENT'] = settings.FEATURE_SHARE_COMPONENT
     retval['features']['FEATURE_PRODUCT_MARKET_HERO'] = settings.FEATURE_PRODUCT_MARKET_HERO

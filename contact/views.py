@@ -39,14 +39,11 @@ class BespokeBreadcrumbMixin(TemplateView):
 class WizardBespokeBreadcrumbMixin(TemplateView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        if settings.FEATURE_DIGITAL_POINT_OF_ENTRY:
-            bespoke_breadcrumbs = [
-                {'title': 'Guidance and Support', 'url': DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE},
-            ]
-        else:
-            bespoke_breadcrumbs = [
-                {'title': 'Contact us', 'url': reverse('contact:contact-us-routing-form', kwargs={'step': 'location'})},
-            ]
+
+        bespoke_breadcrumbs = [
+            {'title': 'Guidance and Support', 'url': DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE},
+        ]
+
         ctx['bespoke_breadcrumbs'] = bespoke_breadcrumbs
         return ctx
 

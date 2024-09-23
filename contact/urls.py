@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.urls import path, reverse_lazy
 from great_components.decorators import skip_ga360
 
@@ -228,109 +227,108 @@ urlpatterns = [
 ]
 
 
-if settings.FEATURE_DIGITAL_POINT_OF_ENTRY:
-    urlpatterns += [
-        path(
-            'contact/domestic/export-support/',
-            skip_ga360(DomesticExportSupportFormStep1View.as_view()),
-            name='export-support',
-        ),
-        path(
-            'contact/domestic/export-support/edit',
-            skip_ga360(DomesticExportSupportFormStep1View.as_view()),
-            {'edit': True},
-            name='export-support-edit',
-        ),
-        path(
-            'contact/domestic/export-support/about-your-business/',
-            skip_ga360(DomesticExportSupportFormStep2AView.as_view()),
-            name='export-support-step-2a',
-        ),
-        path(
-            'contact/domestic/export-support/about-your-business/edit',
-            skip_ga360(DomesticExportSupportFormStep2AView.as_view()),
-            {'edit': True},
-            name='export-support-step-2a-edit',
-        ),
-        path(
-            'contact/domestic/export-support/about-your-other-business/',
-            skip_ga360(DomesticExportSupportFormStep2BView.as_view()),
-            name='export-support-step-2b',
-        ),
-        path(
-            'contact/domestic/export-support/about-your-other-business/edit',
-            skip_ga360(DomesticExportSupportFormStep2BView.as_view()),
-            {'edit': True},
-            name='export-support-step-2b-edit',
-        ),
-        path(
-            'contact/domestic/export-support/about-your-sole-trader-business/',
-            skip_ga360(DomesticExportSupportFormStep2CView.as_view()),
-            name='export-support-step-2c',
-        ),
-        path(
-            'contact/domestic/export-support/about-your-sole-trader-business/edit',
-            skip_ga360(DomesticExportSupportFormStep2CView.as_view()),
-            {'edit': True},
-            name='export-support-step-2c-edit',
-        ),
-        path(
-            'contact/domestic/export-support/about-you/',
-            skip_ga360(DomesticExportSupportFormStep3View.as_view()),
-            name='export-support-step-3',
-        ),
-        path(
-            'contact/domestic/export-support/about-you/edit',
-            skip_ga360(DomesticExportSupportFormStep3View.as_view()),
-            {'edit': True},
-            name='export-support-step-3-edit',
-        ),
-        path(
-            'contact/domestic/export-support/about-your-product-or-service/',
-            skip_ga360(DomesticExportSupportFormStep4View.as_view()),
-            name='export-support-step-4',
-        ),
-        path(
-            'contact/domestic/export-support/about-your-product-or-service/edit',
-            skip_ga360(DomesticExportSupportFormStep4View.as_view()),
-            {'edit': True},
-            name='export-support-step-4-edit',
-        ),
-        path(
-            'contact/domestic/export-support/about-your-export-markets/',
-            skip_ga360(DomesticExportSupportFormStep5View.as_view()),
-            name='export-support-step-5',
-        ),
-        path(
-            'contact/domestic/export-support/about-your-export-markets/edit',
-            skip_ga360(DomesticExportSupportFormStep5View.as_view()),
-            {'edit': True},
-            name='export-support-step-5-edit',
-        ),
-        path(
-            'contact/domestic/export-support/export-enquiry-details/',
-            skip_ga360(DomesticExportSupportFormStep6View.as_view()),
-            name='export-support-step-6',
-        ),
-        path(
-            'contact/domestic/export-support/export-enquiry-details/edit',
-            skip_ga360(DomesticExportSupportFormStep6View.as_view()),
-            {'edit': True},
-            name='export-support-step-6-edit',
-        ),
-        path(
-            'contact/domestic/export-support/review-export-enquiry/',
-            skip_ga360(DomesticExportSupportFormStep7View.as_view()),
-            name='export-support-step-7',
-        ),
-        path(
-            'contact/domestic/export-support/export-enquiry-submitted/',
-            skip_ga360(DomesticExportSupportFormStep8View.as_view()),
-            name='export-support-step-8',
-        ),
-        path(
-            'contact/domestic/export-support/feedback-submitted/',
-            skip_ga360(DomesticExportSupportFormStep9View.as_view()),
-            name='export-support-step-9',
-        ),
-    ]
+urlpatterns += [
+    path(
+        'contact/domestic/export-support/',
+        skip_ga360(DomesticExportSupportFormStep1View.as_view()),
+        name='export-support',
+    ),
+    path(
+        'contact/domestic/export-support/edit',
+        skip_ga360(DomesticExportSupportFormStep1View.as_view()),
+        {'edit': True},
+        name='export-support-edit',
+    ),
+    path(
+        'contact/domestic/export-support/about-your-business/',
+        skip_ga360(DomesticExportSupportFormStep2AView.as_view()),
+        name='export-support-step-2a',
+    ),
+    path(
+        'contact/domestic/export-support/about-your-business/edit',
+        skip_ga360(DomesticExportSupportFormStep2AView.as_view()),
+        {'edit': True},
+        name='export-support-step-2a-edit',
+    ),
+    path(
+        'contact/domestic/export-support/about-your-other-business/',
+        skip_ga360(DomesticExportSupportFormStep2BView.as_view()),
+        name='export-support-step-2b',
+    ),
+    path(
+        'contact/domestic/export-support/about-your-other-business/edit',
+        skip_ga360(DomesticExportSupportFormStep2BView.as_view()),
+        {'edit': True},
+        name='export-support-step-2b-edit',
+    ),
+    path(
+        'contact/domestic/export-support/about-your-sole-trader-business/',
+        skip_ga360(DomesticExportSupportFormStep2CView.as_view()),
+        name='export-support-step-2c',
+    ),
+    path(
+        'contact/domestic/export-support/about-your-sole-trader-business/edit',
+        skip_ga360(DomesticExportSupportFormStep2CView.as_view()),
+        {'edit': True},
+        name='export-support-step-2c-edit',
+    ),
+    path(
+        'contact/domestic/export-support/about-you/',
+        skip_ga360(DomesticExportSupportFormStep3View.as_view()),
+        name='export-support-step-3',
+    ),
+    path(
+        'contact/domestic/export-support/about-you/edit',
+        skip_ga360(DomesticExportSupportFormStep3View.as_view()),
+        {'edit': True},
+        name='export-support-step-3-edit',
+    ),
+    path(
+        'contact/domestic/export-support/about-your-product-or-service/',
+        skip_ga360(DomesticExportSupportFormStep4View.as_view()),
+        name='export-support-step-4',
+    ),
+    path(
+        'contact/domestic/export-support/about-your-product-or-service/edit',
+        skip_ga360(DomesticExportSupportFormStep4View.as_view()),
+        {'edit': True},
+        name='export-support-step-4-edit',
+    ),
+    path(
+        'contact/domestic/export-support/about-your-export-markets/',
+        skip_ga360(DomesticExportSupportFormStep5View.as_view()),
+        name='export-support-step-5',
+    ),
+    path(
+        'contact/domestic/export-support/about-your-export-markets/edit',
+        skip_ga360(DomesticExportSupportFormStep5View.as_view()),
+        {'edit': True},
+        name='export-support-step-5-edit',
+    ),
+    path(
+        'contact/domestic/export-support/export-enquiry-details/',
+        skip_ga360(DomesticExportSupportFormStep6View.as_view()),
+        name='export-support-step-6',
+    ),
+    path(
+        'contact/domestic/export-support/export-enquiry-details/edit',
+        skip_ga360(DomesticExportSupportFormStep6View.as_view()),
+        {'edit': True},
+        name='export-support-step-6-edit',
+    ),
+    path(
+        'contact/domestic/export-support/review-export-enquiry/',
+        skip_ga360(DomesticExportSupportFormStep7View.as_view()),
+        name='export-support-step-7',
+    ),
+    path(
+        'contact/domestic/export-support/export-enquiry-submitted/',
+        skip_ga360(DomesticExportSupportFormStep8View.as_view()),
+        name='export-support-step-8',
+    ),
+    path(
+        'contact/domestic/export-support/feedback-submitted/',
+        skip_ga360(DomesticExportSupportFormStep9View.as_view()),
+        name='export-support-step-9',
+    ),
+]

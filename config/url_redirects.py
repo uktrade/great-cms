@@ -472,69 +472,68 @@ contact_redirects = [
     ),
 ]
 
-if settings.FEATURE_DIGITAL_POINT_OF_ENTRY:
-    contact_redirects += [
-        # re_path(
-        #     r'^contact/export-advice/comment/$',
-        #     QuerystringRedirectView.as_view(url=reverse_lazy('contact:export-support')),
-        # ),
-        # re_path(
-        #     r'^contact/export-advice/personal/$',
-        #     QuerystringRedirectView.as_view(url=reverse_lazy('contact:export-support')),
-        # ),
-        # re_path(
-        #     r'^contact/export-advice/business/$',
-        #     QuerystringRedirectView.as_view(url=reverse_lazy('contact:export-support')),
-        # ),
-        # re_path(
-        #     r'^contact/domestic/success/$',
-        #     QuerystringRedirectView.as_view(url=reverse_lazy('contact:export-support')),
-        # ),
-        re_path(
-            r'^contact/office-finder/$',
-            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
-        ),
-        re_path(
-            r'^contact/office-finder/<str:postcode>/$',
-            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
-        ),
-        re_path(
-            r'^contact/office-finder/<str:postcode>/success/$',
-            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
-        ),
-        # re_path(
-        #     r'^contact/triage/great-services/$',
-        #     QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
-        # ),
-        # re_path(
-        #     r'^contact/triage/export-opportunities/$',
-        #     QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
-        # ),
-        # re_path(
-        #     r'^contact/triage/export-opportunities/opportunity-no-response/$',
-        #     QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
-        # ),
-        # re_path(
-        #     r'^contact/domestic/$',
-        #     QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
-        # ),
-        # re_path(
-        #     r'^contact/triage/export-opportunities/alerts-not-relevant/$',
-        #     QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
-        # ),
-        # re_path(
-        #     r'^contact/defence-and-security-organisation/success/$',
-        #     QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
-        # ),
-        # re_path(
-        #     r'^contact/defence-and-security-organisation/$',
-        #     QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
-        # ),
-        # re_path(
-        #     r'^contact/domestic/enquiries/$',
-        #     QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
-        # ),
-    ]
+contact_redirects += [
+    # re_path(
+    #     r'^contact/export-advice/comment/$',
+    #     QuerystringRedirectView.as_view(url=reverse_lazy('contact:export-support')),
+    # ),
+    # re_path(
+    #     r'^contact/export-advice/personal/$',
+    #     QuerystringRedirectView.as_view(url=reverse_lazy('contact:export-support')),
+    # ),
+    # re_path(
+    #     r'^contact/export-advice/business/$',
+    #     QuerystringRedirectView.as_view(url=reverse_lazy('contact:export-support')),
+    # ),
+    # re_path(
+    #     r'^contact/domestic/success/$',
+    #     QuerystringRedirectView.as_view(url=reverse_lazy('contact:export-support')),
+    # ),
+    re_path(
+        r'^contact/office-finder/$',
+        QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+    ),
+    re_path(
+        r'^contact/office-finder/<str:postcode>/$',
+        QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+    ),
+    re_path(
+        r'^contact/office-finder/<str:postcode>/success/$',
+        QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+    ),
+    # re_path(
+    #     r'^contact/triage/great-services/$',
+    #     QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+    # ),
+    # re_path(
+    #     r'^contact/triage/export-opportunities/$',
+    #     QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+    # ),
+    # re_path(
+    #     r'^contact/triage/export-opportunities/opportunity-no-response/$',
+    #     QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+    # ),
+    # re_path(
+    #     r'^contact/domestic/$',
+    #     QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+    # ),
+    # re_path(
+    #     r'^contact/triage/export-opportunities/alerts-not-relevant/$',
+    #     QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+    # ),
+    # re_path(
+    #     r'^contact/defence-and-security-organisation/success/$',
+    #     QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+    # ),
+    # re_path(
+    #     r'^contact/defence-and-security-organisation/$',
+    #     QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+    # ),
+    # re_path(
+    #     r'^contact/domestic/enquiries/$',
+    #     QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+    # ),
+]
 
 
 unguided_journey_redirects = []
@@ -612,17 +611,16 @@ if settings.FEATURE_UNGUIDED_JOURNEY:
     ]
 
 
-if not settings.FEATURE_SHOW_OLD_CONTACT_FORM:
-    contact_redirects += [
-        re_path(
-            r'^contact/triage/location/$',
-            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
-        ),
-        re_path(
-            r'^contact/triage/domestic/$',
-            QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
-        ),
-    ]
+contact_redirects += [
+    re_path(
+        r'^contact/triage/location/$',
+        QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+    ),
+    re_path(
+        r'^contact/triage/domestic/$',
+        QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE),
+    ),
+]
 
 
 articles_redirects = [

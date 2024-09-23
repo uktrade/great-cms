@@ -309,11 +309,6 @@ def get_template_translation_enabled():
     return getattr(settings, 'FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION', False)
 
 
-@register.simple_tag
-def get_digital_entry_point_enabled():
-    return getattr(settings, 'FEATURE_DIGITAL_POINT_OF_ENTRY', False)
-
-
 @register.filter
 def replace_emphasis_tags(content):
     replacements = {'i': 'em', 'b': 'strong'}

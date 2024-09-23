@@ -34,21 +34,19 @@
                             </div>
                         </div>
                     {% endif %}
-                    {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
-                        <div class="govuk-grid-row">
-                            <div class="govuk-grid-column-one-half">
-                                <div class="govuk-!-padding-5 great-bg-white">
-                                    <h2 class="govuk-heading-xs govuk-!-margin-bottom-4">Can't find your answer?</h2>
-                                    <p class="govuk-body govuk-!-margin-bottom-4">
-                                        Ask our export support team a question and find out how the department can help you sell your goods or services overseas.
-                                    </p>
-                                    <a href="{% url 'contact:export-support' %}"
-                                       class="govuk-button govuk-!-margin-bottom-4">Start your enquiry</a>
-                                    <p class="govuk-body govuk-!-margin-bottom-0">We aim to respond within 3 working days.</p>
-                                </div>
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-one-half">
+                            <div class="govuk-!-padding-5 great-bg-white">
+                                <h2 class="govuk-heading-xs govuk-!-margin-bottom-4">Can't find your answer?</h2>
+                                <p class="govuk-body govuk-!-margin-bottom-4">
+                                    Ask our export support team a question and find out how the department can help you sell your goods or services overseas.
+                                </p>
+                                <a href="{% url 'contact:export-support' %}"
+                                   class="govuk-button govuk-!-margin-bottom-4">Start your enquiry</a>
+                                <p class="govuk-body govuk-!-margin-bottom-0">We aim to respond within 3 working days.</p>
                             </div>
                         </div>
-                    {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
