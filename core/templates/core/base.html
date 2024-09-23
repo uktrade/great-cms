@@ -180,7 +180,7 @@ Welcome to great.gov.uk
 {% endblock %}
 {% block body_footer %}
 <div id="snackbar-container"></div>
-{% wagtailpagecache 86400 "core_footer_cache" site.id %}
+{% wagtailpagecache 86400 "core_footer_cache" page.cache_key site.id %}
 {% include 'components/header_footer/domestic_footer.html' %}
 {% endwagtailpagecache %}
 {% endblock %}
