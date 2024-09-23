@@ -1,7 +1,7 @@
 {% load static %}
 {% load i18n %}
 {% load static_absolute from component_tags %}
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtail_cache %}
 {% load wagtailimages_tags %}
 {% load domestic_canonical_url_tags %}
 {% get_current_language_bidi as LANGUAGE_BIDI %}
@@ -180,12 +180,14 @@
             {% include 'components/inline_feedback/was_page_useful.html' %}
         {% endblock %}
         {% block body_footer %}
+            {% wagtailpagecache 86400 "domestic_footer_cache" site.id %}
             {% include 'components/header_footer/domestic_footer.html' %}
-        {% endblock %}
-        {% block body_js %}
-            {% slugurl "privacy" as privacy_and_cookies_path %}
-            {% if request.path != privacy_and_cookies_path %}
-                <script>
+        {% endwagtailpagecache %}
+    {% endblock %}
+    {% block body_js %}
+        {% slugurl "privacy" as privacy_and_cookies_path %}
+        {% if request.path != privacy_and_cookies_path %}
+            <script>
       var element = document.createElement('div')
       document.body.appendChild(element)
       components.CookiesModal({
@@ -193,8 +195,8 @@
         privacyCookiesUrl: {{privacy_and_cookies_path}},
         preferencesUrl: '{% url "core:cookie-preferences" %}',
       })
-                </script>
-            {% endif %}
-        {% endblock %}
-    </body>
+            </script>
+        {% endif %}
+    {% endblock %}
+</body>
 </html>

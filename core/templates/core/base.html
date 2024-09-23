@@ -3,7 +3,7 @@
 {% load static_absolute from great_components %}
 {% load url_map %}
 {% load to_json %}
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtail_cache %}
 {% block head_css %}
     {% path_match "^\/learn\/" as in_learning %}
     <link href="{% static 'magna_styles.css' %}" media="all" rel="stylesheet" />
@@ -17,59 +17,55 @@
         .js-enabled-only {
             display: none;
         }
-    </style>
+</style>
 </noscript>
 {% block head_other %}
-    {% block sharing_description %}
-        <meta name="description"
-              content="{% block meta_description %}{% firstof self.seo_description page.search_description content_snippet.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description %}{% endblock %}">
-    {% endblock %}
-    {% firstof page.seo_title page.title as seo_title %}
-    {% block sharing_title %}
-        <meta name="title"
-              content="{% block meta_title %}{% if seo_title %}{{ seo_title }}{% else %}Welcome to great.gov.uk{% endif %} - great.gov.uk{% endblock %}">
-    {% endblock %}
-    <title>
-        {% block head_title %}
-            {% if seo_title %}
-                {{ seo_title }}
-            {% else %}
-                Welcome to great.gov.uk
-            {% endif %}
-            - great.gov.uk
-        {% endblock %}
-    </title>
-    {% block meta_tags %}{% endblock %}
-    {% with is_wagtail_page=page %}
-        {% if is_wagtail_page %}
-            {% include "core/includes/seo_meta.html" %}
-        {% endif %}
-    {% endwith %}
-    <meta name="intranet:environment" content="{{ APP_ENVIRONMENT }}">
-    <meta name="intranet:sentry:dsn"
-          content="{{ SENTRY_DSN|default_if_none:'' }}">
-    <meta name="intranet:sentry:browser-traces-sample-rate"
-          content="{{ SENTRY_BROWSER_TRACES_SAMPLE_RATE }}">
+{% block sharing_description %}
+<meta name="description" content="{% block meta_description %}{% firstof self.seo_description page.search_description content_snippet.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description %}{% endblock %}">
+{% endblock %}
+{% firstof page.seo_title page.title as seo_title %}
+{% block sharing_title %}
+<meta name="title" content="{% block meta_title %}{% if seo_title %}{{ seo_title }}{% else %}Welcome to great.gov.uk{% endif %} - great.gov.uk{% endblock %}">
+{% endblock %}
+<title>
+{% block head_title %}
+{% if seo_title %}
+{{ seo_title }}
+{% else %}
+Welcome to great.gov.uk
+{% endif %}
+- great.gov.uk
+{% endblock %}
+</title>
+{% block meta_tags %}{% endblock %}
+{% with is_wagtail_page=page %}
+{% if is_wagtail_page %}
+{% include "core/includes/seo_meta.html" %}
+{% endif %}
+{% endwith %}
+<meta name="intranet:environment" content="{{ APP_ENVIRONMENT }}">
+<meta name="intranet:sentry:dsn" content="{{ SENTRY_DSN|default_if_none:'' }}">
+<meta name="intranet:sentry:browser-traces-sample-rate" content="{{ SENTRY_BROWSER_TRACES_SAMPLE_RATE }}">
 {% endblock %}
 {% block vendor_js %}
-    {{ block.super }}
-    <script src="{% static 'javascript/vendor/sentry.6.19.7.tracing.replay.min.js' %}"></script>
-    <script src="{% static 'javascript/vendor/sentryinit.js' %}"></script>
+{{ block.super }}
+<script src="{% static 'javascript/vendor/sentry.6.19.7.tracing.replay.min.js' %}"></script>
+<script src="{% static 'javascript/vendor/sentryinit.js' %}"></script>
 {% endblock %}
 {% block head_js %}
-    {% if features.FEATURE_DEA_V2 %}
-        {% path_match "^\/learn\/" as in_learning %}
-        {% if in_learning %}
-            <script src="{% static 'javascript/dit.js' %}"></script>
-            <script src="{% static 'components.js' %}"></script>
-        {% endif %}
-    {% else %}
-        {{ block.super }}
-    {% endif %}
+{% if features.FEATURE_DEA_V2 %}
+{% path_match "^\/learn\/" as in_learning %}
+{% if in_learning %}
+<script src="{% static 'javascript/dit.js' %}"></script>
+<script src="{% static 'components.js' %}"></script>
+{% endif %}
+{% else %}
+{{ block.super }}
+{% endif %}
 {% endblock %}
 {% block head_js_ga360 %}
-    <script src="{% static 'javascript/dit.tagging.js' %}"></script>
-    <script type="text/javascript">
+<script src="{% static 'javascript/dit.tagging.js' %}"></script>
+<script type="text/javascript">
         window.dataLayer = window.dataLayer || [];
         {% if ga360 %}
             window.dataLayer.push({
@@ -82,18 +78,18 @@
             });
             dit.tagging.base.init();
         {% endif %}
-    </script>
+</script>
 {% endblock %}
 {% block header_js %}
-    {% path_match "^\/learn\/" as in_learning %}
-    {% if features.FEATURE_DEA_V2 and in_learning %}
-        <script src="{% static 'javascript/dit.responsive.js' %}"></script>
-        <script src="{% static 'javascript/dit.utils.js' %}"></script>
-    {% endif %}
-    <script src="{% static 'common.js' %}"></script>
-    {% if request.user.is_authenticated or not in_learning %}
-        <script type="text/javascript" src="{% static 'magna.js' %}"></script>
-        <script type="text/javascript">
+{% path_match "^\/learn\/" as in_learning %}
+{% if features.FEATURE_DEA_V2 and in_learning %}
+<script src="{% static 'javascript/dit.responsive.js' %}"></script>
+<script src="{% static 'javascript/dit.utils.js' %}"></script>
+{% endif %}
+<script src="{% static 'common.js' %}"></script>
+{% if request.user.is_authenticated or not in_learning %}
+<script type="text/javascript" src="{% static 'magna.js' %}"></script>
+<script type="text/javascript">
             // static values that will not be updated by user interacting with react components
             magna.setConfig({
                 apiLoginUrl: '{% url "sso:business-sso-login-api" %}',
@@ -139,59 +135,58 @@
                 verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
                 refreshOnMarketChange: {% if refresh_on_market_change %}true{%else%}false{% endif %},
             });
-        </script>
-    {% endif %}
+</script>
+{% endif %}
 {% endblock %}
 {% block cookie_notice %}
-    {% path_match "^\/learn\/" as in_learning %}
-    {% if features.FEATURE_DEA_V2 and in_learning %}
-        {% include 'components/cookie_notice.html' %}
-    {% endif %}
+{% path_match "^\/learn\/" as in_learning %}
+{% if features.FEATURE_DEA_V2 and in_learning %}
+{% include 'components/cookie_notice.html' %}
+{% endif %}
 {% endblock %}
 {% block skip_link %}
-    <a href="#content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
+<a href="#content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 {% endblock %}
 {% block body_header %}
-    {% path_match "^\/learn\/" as in_learning %}
-    {% if features.FEATURE_DEA_V2 and in_learning %}
-        {% include 'core/header.html' with hide_cookie_notice=False %}
-    {% else %}
-        {% include 'core/header.html' with hide_cookie_notice=True %}
-    {% endif %}
-    {% if request.user.is_authenticated %}
-        {% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
-    {% endif %}
+{% path_match "^\/learn\/" as in_learning %}
+{% if features.FEATURE_DEA_V2 and in_learning %}
+{% include 'core/header.html' with hide_cookie_notice=False %}
+{% else %}
+{% include 'core/header.html' with hide_cookie_notice=True %}
+{% endif %}
+{% if request.user.is_authenticated %}
+{% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
+{% endif %}
 {% endblock %}
-
 {% block body_content_container %}
-    {% include "wagtailseo/struct_data.html" %}
-    <main id="content" class="{% block css_layout_class %}{% endblock %}">
-        {% block content_header %}{% endblock %}
-        {% block breadcrumbs_block %}
-  
-                <div class="container">
-                    {% if bespoke_breadcrumbs %}
-                    {% include 'breadcrumbs.html' with itemsList=bespoke_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
-                    {% else %}
-                    {% include 'breadcrumbs.html' with itemsList=page.get_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
-                    {% endif %}
-                </div>
-
-        {% endblock %}
-        {% block content %}{% endblock %}
-        {% block content_after %}{% endblock %}
-    </main>
+{% include "wagtailseo/struct_data.html" %}
+<main id="content" class="{% block css_layout_class %}{% endblock %}">
+{% block content_header %}{% endblock %}
+{% block breadcrumbs_block %}
+<div class="container">
+{% if bespoke_breadcrumbs %}
+{% include 'breadcrumbs.html' with itemsList=bespoke_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
+{% else %}
+{% include 'breadcrumbs.html' with itemsList=page.get_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
+{% endif %}
+</div>
+{% endblock %}
+{% block content %}{% endblock %}
+{% block content_after %}{% endblock %}
+</main>
 {% endblock %}
 {% block body_inline_feedback %}
-    {% include 'components/inline_feedback/was_page_useful.html' %}
+{% include 'components/inline_feedback/was_page_useful.html' %}
 {% endblock %}
 {% block body_footer %}
-    <div id="snackbar-container"></div>
-    {% include 'components/header_footer/domestic_footer.html' %}
+<div id="snackbar-container"></div>
+{% wagtailpagecache 86400 "core_footer_cache" site.id %}
+{% include 'components/header_footer/domestic_footer.html' %}
+{% endwagtailpagecache %}
 {% endblock %}
 {% block body_js %}
-    {{ block.super }}
-    <script type="text/javascript">
+{{ block.super }}
+<script type="text/javascript">
       // dynamic value that can be updated by user interacting with react components
       magna.setInitialState({
         // prevents modals from opening on page load if user dismissed the modal already
@@ -211,11 +206,11 @@
         },
       })
       magna.createSnackbar({element:document.getElementById('snackbar-container')})
-    </script>
-    {% slugurl "privacy" as privacy_and_cookies_path %}
-    {% path_match "^\/learn\/" as in_learning %}
-    {% if features.FEATURE_DEA_V2 and in_learning %}
-        <script>
+</script>
+{% slugurl "privacy" as privacy_and_cookies_path %}
+{% path_match "^\/learn\/" as in_learning %}
+{% if features.FEATURE_DEA_V2 and in_learning %}
+<script>
         var element = document.createElement('div');
         document.body.appendChild(element);
         components.CookiesModal({
@@ -223,6 +218,6 @@
             privacyCookiesUrl: {{privacy_and_cookies_path}},
             preferencesUrl: '{% url "core:cookie-preferences" %}',
         });
-        </script>
-    {% endif %}
+</script>
+{% endif %}
 {% endblock %}
