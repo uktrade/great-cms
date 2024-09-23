@@ -2531,7 +2531,7 @@
       "_id": 317,
       "dit_sector_list_field_04": "Energy",
       "dit_sector_list_full_sector_name": "Energy",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-464",
       "sic_code": 35120,
       "sic_description": "Transmission of electricity"
@@ -2539,7 +2539,7 @@
       "_id": 318,
       "dit_sector_list_field_04": "Energy",
       "dit_sector_list_full_sector_name": "Energy",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-465",
       "sic_code": 35130,
       "sic_description": "Distribution of electricity"
@@ -2547,7 +2547,7 @@
       "_id": 319,
       "dit_sector_list_field_04": "Energy",
       "dit_sector_list_full_sector_name": "Energy",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-466",
       "sic_code": 35140,
       "sic_description": "Trade of electricity"
@@ -2563,7 +2563,7 @@
       "_id": 321,
       "dit_sector_list_field_04": "Energy",
       "dit_sector_list_full_sector_name": "Energy : Oil and gas",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-473",
       "sic_code": 35220,
       "sic_description": "Distribution of gaseous fuels through mains"
@@ -2571,7 +2571,7 @@
       "_id": 322,
       "dit_sector_list_field_04": "Energy",
       "dit_sector_list_full_sector_name": "Energy : Oil and gas",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-474",
       "sic_code": 35230,
       "sic_description": "Trade of gas through mains"
@@ -2579,7 +2579,7 @@
       "_id": 323,
       "dit_sector_list_field_04": "Energy",
       "dit_sector_list_full_sector_name": "Energy",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-467",
       "sic_code": 35300,
       "sic_description": "Steam and air conditioning supply"
@@ -2667,7 +2667,7 @@
       "_id": 334,
       "dit_sector_list_field_04": "Construction",
       "dit_sector_list_full_sector_name": "Construction",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-225",
       "sic_code": 41201,
       "sic_description": "Construction of commercial buildings"
@@ -2675,7 +2675,7 @@
       "_id": 335,
       "dit_sector_list_field_04": "Construction",
       "dit_sector_list_full_sector_name": "Construction",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-226",
       "sic_code": 41202,
       "sic_description": "Construction of domestic buildings"
@@ -2683,7 +2683,7 @@
       "_id": 336,
       "dit_sector_list_field_04": "Construction",
       "dit_sector_list_full_sector_name": "Construction",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-227",
       "sic_code": 42110,
       "sic_description": "Construction of roads and motorways"
@@ -2691,7 +2691,7 @@
       "_id": 337,
       "dit_sector_list_field_04": "Railways",
       "dit_sector_list_full_sector_name": "Railways",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-690",
       "sic_code": 42120,
       "sic_description": "Construction of railways and underground railways"
@@ -2699,7 +2699,7 @@
       "_id": 338,
       "dit_sector_list_field_04": "Construction",
       "dit_sector_list_full_sector_name": "Construction",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-228",
       "sic_code": 42130,
       "sic_description": "Construction of bridges and tunnels"
@@ -2707,7 +2707,7 @@
       "_id": 339,
       "dit_sector_list_field_04": "Construction",
       "dit_sector_list_full_sector_name": "Construction",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-229",
       "sic_code": 42210,
       "sic_description": "Construction of utility projects for fluids"
@@ -2715,7 +2715,7 @@
       "_id": 340,
       "dit_sector_list_field_04": "Construction",
       "dit_sector_list_full_sector_name": "Construction",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-230",
       "sic_code": 42220,
       "sic_description": "Construction of utility projects for electricity and telecommunications"
@@ -2723,7 +2723,7 @@
       "_id": 341,
       "dit_sector_list_field_04": "Water",
       "dit_sector_list_full_sector_name": "Water",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-729",
       "sic_code": 42910,
       "sic_description": "Construction of water projects"
@@ -2731,7 +2731,7 @@
       "_id": 342,
       "dit_sector_list_field_04": "Construction",
       "dit_sector_list_full_sector_name": "Construction",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-231",
       "sic_code": 42990,
       "sic_description": "Construction of other civil engineering projects n.e.c."
@@ -2739,7 +2739,7 @@
       "_id": 343,
       "dit_sector_list_field_04": "Construction",
       "dit_sector_list_full_sector_name": "Construction",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-232",
       "sic_code": 43110,
       "sic_description": "Demolition"
@@ -2747,7 +2747,7 @@
       "_id": 344,
       "dit_sector_list_field_04": "Construction",
       "dit_sector_list_full_sector_name": "Construction",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-233",
       "sic_code": 43120,
       "sic_description": "Site preparation"
@@ -2755,7 +2755,7 @@
       "_id": 345,
       "dit_sector_list_field_04": "Construction",
       "dit_sector_list_full_sector_name": "Construction",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-234",
       "sic_code": 43130,
       "sic_description": "Test drilling and boring"
@@ -2763,7 +2763,7 @@
       "_id": 346,
       "dit_sector_list_field_04": "Construction",
       "dit_sector_list_full_sector_name": "Construction",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-235",
       "sic_code": 43210,
       "sic_description": "Electrical installation"
@@ -2771,7 +2771,7 @@
       "_id": 347,
       "dit_sector_list_field_04": "Construction",
       "dit_sector_list_full_sector_name": "Construction",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-236",
       "sic_code": 43220,
       "sic_description": "Plumbing, heat and air-conditioning installation"
@@ -2779,7 +2779,7 @@
       "_id": 348,
       "dit_sector_list_field_04": "Construction",
       "dit_sector_list_full_sector_name": "Construction",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-237",
       "sic_code": 43290,
       "sic_description": "Other construction installation"
@@ -2787,7 +2787,7 @@
       "_id": 349,
       "dit_sector_list_field_04": "Construction",
       "dit_sector_list_full_sector_name": "Construction",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-238",
       "sic_code": 43310,
       "sic_description": "Plastering"
@@ -2795,7 +2795,7 @@
       "_id": 350,
       "dit_sector_list_field_04": "Construction",
       "dit_sector_list_full_sector_name": "Construction",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-239",
       "sic_code": 43320,
       "sic_description": "Joinery installation"
@@ -2803,7 +2803,7 @@
       "_id": 351,
       "dit_sector_list_field_04": "Construction",
       "dit_sector_list_full_sector_name": "Construction",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-240",
       "sic_code": 43330,
       "sic_description": "Floor and wall covering"
@@ -2811,7 +2811,7 @@
       "_id": 352,
       "dit_sector_list_field_04": "Construction",
       "dit_sector_list_full_sector_name": "Construction",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-241",
       "sic_code": 43341,
       "sic_description": "Painting"
@@ -2819,7 +2819,7 @@
       "_id": 353,
       "dit_sector_list_field_04": "Construction",
       "dit_sector_list_full_sector_name": "Construction",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-242",
       "sic_code": 43342,
       "sic_description": "Glazing"
@@ -2827,7 +2827,7 @@
       "_id": 354,
       "dit_sector_list_field_04": "Construction",
       "dit_sector_list_full_sector_name": "Construction",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-243",
       "sic_code": 43390,
       "sic_description": "Other building completion and finishing"
@@ -2891,7 +2891,7 @@
       "_id": 362,
       "dit_sector_list_field_04": "Automotive",
       "dit_sector_list_full_sector_name": "Automotive",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-158",
       "sic_code": 45310,
       "sic_description": "Wholesale trade of motor vehicle parts and accessories"
@@ -2915,7 +2915,7 @@
       "_id": 365,
       "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
       "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-102",
       "sic_code": 46110,
       "sic_description": "Agents selling agricultural raw materials, livestock, textile raw materials and semi-finished goods"
@@ -2923,7 +2923,7 @@
       "_id": 366,
       "dit_sector_list_field_04": "Advanced engineering",
       "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-055",
       "sic_code": 46120,
       "sic_description": "Agents involved in the sale of fuels, ores, metals and industrial chemicals"
@@ -2931,7 +2931,7 @@
       "_id": 367,
       "dit_sector_list_field_04": "Construction",
       "dit_sector_list_full_sector_name": "Construction",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-247",
       "sic_code": 46130,
       "sic_description": "Agents involved in the sale of timber and building materials"
@@ -2963,7 +2963,7 @@
       "_id": 371,
       "dit_sector_list_field_04": "Food and drink",
       "dit_sector_list_full_sector_name": "Food and drink",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-587",
       "sic_code": 46170,
       "sic_description": "Agents involved in the sale of food, beverages and tobacco"
@@ -2995,7 +2995,7 @@
       "_id": 375,
       "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
       "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Horticulture",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-125",
       "sic_code": 46220,
       "sic_description": "Wholesale of flowers and plants"
@@ -3003,7 +3003,7 @@
       "_id": 376,
       "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
       "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Livestock, pets and horses",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-147",
       "sic_code": 46230,
       "sic_description": "Wholesale of live animals"
@@ -3011,7 +3011,7 @@
       "_id": 377,
       "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
       "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Livestock, pets and horses",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-148",
       "sic_code": 46240,
       "sic_description": "Wholesale of hides, skins and leather"
@@ -3019,7 +3019,7 @@
       "_id": 378,
       "dit_sector_list_field_04": "Food and drink",
       "dit_sector_list_full_sector_name": "Food and drink : Fruit and vegetables",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-624",
       "sic_code": 46310,
       "sic_description": "Wholesale of fruit and vegetables"
@@ -3027,7 +3027,7 @@
       "_id": 379,
       "dit_sector_list_field_04": "Food and drink",
       "dit_sector_list_full_sector_name": "Food and drink : Meat products",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-629",
       "sic_code": 46320,
       "sic_description": "Wholesale of meat and meat products"
@@ -3035,7 +3035,7 @@
       "_id": 380,
       "dit_sector_list_field_04": "Food and drink",
       "dit_sector_list_full_sector_name": "Food and drink",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-588",
       "sic_code": 46330,
       "sic_description": "Wholesale of dairy products, eggs and edible oils and fats"
@@ -3043,7 +3043,7 @@
       "_id": 381,
       "dit_sector_list_field_04": "Food and drink",
       "dit_sector_list_full_sector_name": "Food and drink : Non-alcoholic drinks",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-632",
       "sic_code": 46341,
       "sic_description": "Wholesale of fruit and vegetable juices, mineral water and soft drinks"
@@ -3051,7 +3051,7 @@
       "_id": 382,
       "dit_sector_list_field_04": "Food and drink",
       "dit_sector_list_full_sector_name": "Food and drink : Alcoholic drinks",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-603",
       "sic_code": 46342,
       "sic_description": "Wholesale of wine, beer, spirits and other alcoholic beverages"
@@ -3059,7 +3059,7 @@
       "_id": 383,
       "dit_sector_list_field_04": "Food and drink",
       "dit_sector_list_full_sector_name": "Food and drink",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-589",
       "sic_code": 46350,
       "sic_description": "Wholesale of tobacco products"
@@ -3067,7 +3067,7 @@
       "_id": 384,
       "dit_sector_list_field_04": "Food and drink",
       "dit_sector_list_full_sector_name": "Food and drink",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-590",
       "sic_code": 46360,
       "sic_description": "Wholesale of sugar and chocolate and sugar confectionery"
@@ -3683,7 +3683,7 @@
       "_id": 461,
       "dit_sector_list_field_04": "Railways",
       "dit_sector_list_full_sector_name": "Railways",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-691",
       "sic_code": 49100,
       "sic_description": "Passenger rail transport, interurban"
@@ -3691,7 +3691,7 @@
       "_id": 462,
       "dit_sector_list_field_04": "Railways",
       "dit_sector_list_full_sector_name": "Railways",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-692",
       "sic_code": 49200,
       "sic_description": "Freight rail transport"
@@ -3699,7 +3699,7 @@
       "_id": 463,
       "dit_sector_list_field_04": "Railways",
       "dit_sector_list_full_sector_name": "Railways",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-693",
       "sic_code": 49311,
       "sic_description": "Urban and suburban passenger railway transportation by underground, metro and similar systems"
@@ -3707,7 +3707,7 @@
       "_id": 464,
       "dit_sector_list_field_04": "Automotive",
       "dit_sector_list_full_sector_name": "Automotive",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-159",
       "sic_code": 49319,
       "sic_description": "Other urban, suburban or metropolitan passenger land transport (not underground, metro or similar)"
@@ -3747,7 +3747,7 @@
       "_id": 469,
       "dit_sector_list_field_04": "Energy",
       "dit_sector_list_full_sector_name": "Energy : Oil and gas",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-477",
       "sic_code": 49500,
       "sic_description": "Transport via pipeline"
@@ -3755,7 +3755,7 @@
       "_id": 470,
       "dit_sector_list_field_04": "Maritime",
       "dit_sector_list_full_sector_name": "Maritime : Marine engineering : Ports and terminals",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-655",
       "sic_code": 50100,
       "sic_description": "Sea and coastal passenger water transport"
@@ -3763,7 +3763,7 @@
       "_id": 471,
       "dit_sector_list_field_04": "Maritime",
       "dit_sector_list_full_sector_name": "Maritime : Marine engineering : Ports and terminals",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-656",
       "sic_code": 50200,
       "sic_description": "Sea and coastal freight water transport"
@@ -3771,7 +3771,7 @@
       "_id": 472,
       "dit_sector_list_field_04": "Maritime",
       "dit_sector_list_full_sector_name": "Maritime : Marine engineering : Ports and terminals",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-657",
       "sic_code": 50300,
       "sic_description": "Inland passenger water transport"
@@ -3779,7 +3779,7 @@
       "_id": 473,
       "dit_sector_list_field_04": "Maritime",
       "dit_sector_list_full_sector_name": "Maritime : Marine engineering : Ports and terminals",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-658",
       "sic_code": 50400,
       "sic_description": "Inland freight water transport"
@@ -3787,7 +3787,7 @@
       "_id": 474,
       "dit_sector_list_field_04": "Airports",
       "dit_sector_list_full_sector_name": "Airports",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-154",
       "sic_code": 51101,
       "sic_description": "Scheduled passenger air transport"
@@ -3795,7 +3795,7 @@
       "_id": 475,
       "dit_sector_list_field_04": "Airports",
       "dit_sector_list_full_sector_name": "Airports",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-155",
       "sic_code": 51102,
       "sic_description": "Non-scheduled passenger air transport"
@@ -3803,7 +3803,7 @@
       "_id": 476,
       "dit_sector_list_field_04": "Airports",
       "dit_sector_list_full_sector_name": "Airports",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-156",
       "sic_code": 51210,
       "sic_description": "Freight air transport"
@@ -3811,7 +3811,7 @@
       "_id": 477,
       "dit_sector_list_field_04": "Space",
       "dit_sector_list_full_sector_name": "Space",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-702",
       "sic_code": 51220,
       "sic_description": "Space transport"
@@ -3843,7 +3843,7 @@
       "_id": 481,
       "dit_sector_list_field_04": "Railways",
       "dit_sector_list_full_sector_name": "Railways",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-694",
       "sic_code": 52211,
       "sic_description": "Operation of rail freight terminals"
@@ -3851,7 +3851,7 @@
       "_id": 482,
       "dit_sector_list_field_04": "Railways",
       "dit_sector_list_full_sector_name": "Railways",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-695",
       "sic_code": 52212,
       "sic_description": "Operation of rail passenger facilities at railway stations"
@@ -3859,7 +3859,7 @@
       "_id": 483,
       "dit_sector_list_field_04": "Automotive",
       "dit_sector_list_full_sector_name": "Automotive",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-167",
       "sic_code": 52213,
       "sic_description": "Operation of bus and coach passenger facilities at bus and coach stations"
@@ -3931,7 +3931,7 @@
       "_id": 492,
       "dit_sector_list_field_04": "Automotive",
       "dit_sector_list_full_sector_name": "Automotive",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-166",
       "sic_code": 53201,
       "sic_description": "Licensed carriers"
@@ -3995,7 +3995,7 @@
       "_id": 500,
       "dit_sector_list_field_04": "Food and drink",
       "dit_sector_list_full_sector_name": "Food and drink : Casual dining",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-355",
       "sic_code": 56101,
       "sic_description": "Licensed restaurants"
@@ -4003,7 +4003,7 @@
       "_id": 501,
       "dit_sector_list_field_04": "Food and drink",
       "dit_sector_list_full_sector_name": "Food and drink : Casual dining",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-356",
       "sic_code": 56102,
       "sic_description": "Unlicensed restaurants and cafes"
@@ -4011,7 +4011,7 @@
       "_id": 502,
       "dit_sector_list_field_04": "Food and drink",
       "dit_sector_list_full_sector_name": "Food and drink : Casual dining",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-357",
       "sic_code": 56103,
       "sic_description": "Take-away food shops and mobile food stands"
@@ -4051,7 +4051,7 @@
       "_id": 507,
       "dit_sector_list_field_04": "Creative industries",
       "dit_sector_list_full_sector_name": "Creative industries : Publishing",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-441",
       "sic_code": 58110,
       "sic_description": "Book publishing"
@@ -4067,7 +4067,7 @@
       "_id": 509,
       "dit_sector_list_field_04": "Creative industries",
       "dit_sector_list_full_sector_name": "Creative industries : Publishing",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-442",
       "sic_code": 58130,
       "sic_description": "Publishing of newspapers"
@@ -4075,7 +4075,7 @@
       "_id": 510,
       "dit_sector_list_field_04": "Creative industries",
       "dit_sector_list_full_sector_name": "Creative industries : Publishing",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-443",
       "sic_code": 58141,
       "sic_description": "Publishing of learned journals"
@@ -4083,7 +4083,7 @@
       "_id": 511,
       "dit_sector_list_field_04": "Creative industries",
       "dit_sector_list_full_sector_name": "Creative industries : Publishing",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-444",
       "sic_code": 58142,
       "sic_description": "Publishing of consumer and business journals and periodicals"
@@ -4099,7 +4099,7 @@
       "_id": 513,
       "dit_sector_list_field_04": "Creative industries",
       "dit_sector_list_full_sector_name": "Creative industries : Games",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-430",
       "sic_code": 58210,
       "sic_description": "Publishing of computer games"
@@ -4107,7 +4107,7 @@
       "_id": 514,
       "dit_sector_list_field_04": "Technology and smart cities",
       "dit_sector_list_full_sector_name": "Technology and smart cities : Software",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-703",
       "sic_code": 58290,
       "sic_description": "Other software publishing"
@@ -4187,7 +4187,7 @@
       "_id": 524,
       "dit_sector_list_field_04": "Creative industries",
       "dit_sector_list_full_sector_name": "Creative industries",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-384",
       "sic_code": 60100,
       "sic_description": "Radio broadcasting"
@@ -4235,7 +4235,7 @@
       "_id": 530,
       "dit_sector_list_field_04": "Creative industries",
       "dit_sector_list_full_sector_name": "Creative industries : Games",
-      "exporter_type": "",
+      "exporter_type": "goods",
       "mapping_id": "SIC-SEC-429",
       "sic_code": 62011,
       "sic_description": "Ready-made interactive leisure and entertainment software development"
@@ -4243,7 +4243,7 @@
       "_id": 531,
       "dit_sector_list_field_04": "Technology and smart cities",
       "dit_sector_list_full_sector_name": "Technology and smart cities : Software",
-      "exporter_type": "",
+      "exporter_type": "goods",
       "mapping_id": "SIC-SEC-708",
       "sic_code": 62012,
       "sic_description": "Business and domestic software development"
@@ -4283,7 +4283,7 @@
       "_id": 536,
       "dit_sector_list_field_04": "Technology and smart cities",
       "dit_sector_list_full_sector_name": "Technology and smart cities",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-709",
       "sic_code": 63120,
       "sic_description": "Web portals"
@@ -4747,7 +4747,7 @@
       "_id": 594,
       "dit_sector_list_field_04": "Advanced engineering",
       "dit_sector_list_full_sector_name": "Advanced engineering : Mechanical, electrical and process engineering",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-043",
       "sic_code": 71200,
       "sic_description": "Technical testing and analysis"
@@ -4755,7 +4755,7 @@
       "_id": 595,
       "dit_sector_list_field_04": "Pharmaceuticals and biotechnology",
       "dit_sector_list_full_sector_name": "Pharmaceuticals and biotechnology : Research and development",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-687",
       "sic_code": 72110,
       "sic_description": "Research and experimental development on biotechnology"
@@ -4763,7 +4763,7 @@
       "_id": 596,
       "dit_sector_list_field_04": "Pharmaceuticals and biotechnology",
       "dit_sector_list_full_sector_name": "Pharmaceuticals and biotechnology : Research and development",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-688",
       "sic_code": 72190,
       "sic_description": "Other research and experimental development on natural sciences and engineering"
@@ -4771,7 +4771,7 @@
       "_id": 597,
       "dit_sector_list_field_04": "Education and training",
       "dit_sector_list_full_sector_name": "Education and training",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-448",
       "sic_code": 72200,
       "sic_description": "Research and experimental development on social sciences and humanities"
@@ -4779,7 +4779,7 @@
       "_id": 598,
       "dit_sector_list_field_04": "Creative industries",
       "dit_sector_list_full_sector_name": "Creative industries : Advertising",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-391",
       "sic_code": 73110,
       "sic_description": "Advertising agencies"
@@ -4819,7 +4819,7 @@
       "_id": 603,
       "dit_sector_list_field_04": "Creative industries",
       "dit_sector_list_full_sector_name": "Creative industries",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-388",
       "sic_code": 74202,
       "sic_description": "Other specialist photography"
@@ -4827,7 +4827,7 @@
       "_id": 604,
       "dit_sector_list_field_04": "Creative industries",
       "dit_sector_list_full_sector_name": "Creative industries",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-390",
       "sic_code": 74203,
       "sic_description": "Film processing"
@@ -4891,7 +4891,7 @@
       "_id": 612,
       "dit_sector_list_field_04": "Automotive",
       "dit_sector_list_full_sector_name": "Automotive",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-161",
       "sic_code": 77110,
       "sic_description": "Renting and leasing of cars and light motor vehicles"
@@ -4899,7 +4899,7 @@
       "_id": 613,
       "dit_sector_list_field_04": "Automotive",
       "dit_sector_list_full_sector_name": "Automotive",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-162",
       "sic_code": 77120,
       "sic_description": "Renting and leasing of trucks and other heavy vehicles"
@@ -4915,7 +4915,7 @@
       "_id": 615,
       "dit_sector_list_field_04": "Creative industries",
       "dit_sector_list_full_sector_name": "Creative industries : Film and TV",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-418",
       "sic_code": 77220,
       "sic_description": "Renting of video tapes and disks"
@@ -4923,7 +4923,7 @@
       "_id": 616,
       "dit_sector_list_field_04": "Creative industries",
       "dit_sector_list_full_sector_name": "Creative industries : Equipment",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-435",
       "sic_code": 77291,
       "sic_description": "Renting and leasing of media entertainment equipment"
@@ -4939,7 +4939,7 @@
       "_id": 618,
       "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
       "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-105",
       "sic_code": 77310,
       "sic_description": "Renting and leasing of agricultural machinery and equipment"
@@ -4947,7 +4947,7 @@
       "_id": 619,
       "dit_sector_list_field_04": "Construction",
       "dit_sector_list_full_sector_name": "Construction",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-252",
       "sic_code": 77320,
       "sic_description": "Renting and leasing of construction and civil engineering machinery and equipment"
@@ -4979,7 +4979,7 @@
       "_id": 623,
       "dit_sector_list_field_04": "Aerospace",
       "dit_sector_list_full_sector_name": "Aerospace",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-095",
       "sic_code": 77351,
       "sic_description": "Renting and leasing of air passenger transport equipment"
@@ -4987,7 +4987,7 @@
       "_id": 624,
       "dit_sector_list_field_04": "Aerospace",
       "dit_sector_list_full_sector_name": "Aerospace",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-096",
       "sic_code": 77352,
       "sic_description": "Renting and leasing of freight air transport equipment"
@@ -5515,7 +5515,7 @@
       "_id": 690,
       "dit_sector_list_field_04": "Creative industries",
       "dit_sector_list_full_sector_name": "Creative industries : Performing arts",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-439",
       "sic_code": 90010,
       "sic_description": "Performing arts"
@@ -5531,7 +5531,7 @@
       "_id": 692,
       "dit_sector_list_field_04": "Creative industries",
       "dit_sector_list_full_sector_name": "Creative industries : Art",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-394",
       "sic_code": 90030,
       "sic_description": "Artistic creation"
@@ -5539,7 +5539,7 @@
       "_id": 693,
       "dit_sector_list_field_04": "Creative industries",
       "dit_sector_list_full_sector_name": "Creative industries : Art",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-395",
       "sic_code": 90040,
       "sic_description": "Operation of arts facilities"
@@ -5571,7 +5571,7 @@
       "_id": 697,
       "dit_sector_list_field_04": "Creative industries",
       "dit_sector_list_full_sector_name": "Creative industries : Experience economy : Attractions",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-412",
       "sic_code": 91030,
       "sic_description": "Operation of historical sites and buildings and similar visitor attractions"
@@ -5699,7 +5699,7 @@
       "_id": 713,
       "dit_sector_list_field_04": "Technology and smart cities",
       "dit_sector_list_full_sector_name": "Technology and smart cities : Hardware",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-722",
       "sic_code": 95110,
       "sic_description": "Repair of computers and peripheral equipment"
@@ -5707,7 +5707,7 @@
       "_id": 714,
       "dit_sector_list_field_04": "Technology and smart cities",
       "dit_sector_list_full_sector_name": "Technology and smart cities : Hardware",
-      "exporter_type": "",
+      "exporter_type": "service",
       "mapping_id": "SIC-SEC-723",
       "sic_code": 95120,
       "sic_description": "Repair of communication equipment"
