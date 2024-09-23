@@ -180,9 +180,9 @@
             {% include 'components/inline_feedback/was_page_useful.html' %}
         {% endblock %}
         {% block body_footer %}
-            {% wagtailpagecache 86400 "domestic_footer_cache" %}
+            {% wagtailcache 86400 "domestic_footer_cache" %}
             {% include 'components/header_footer/domestic_footer.html' %}
-        {% endwagtailpagecache %}
+        {% endwagtailcache %}
     {% endblock %}
     {% block body_js %}
         {% slugurl "privacy" as privacy_and_cookies_path %}
