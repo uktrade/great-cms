@@ -34,6 +34,10 @@
                     </div>
                     {% endif %}
 
+                    <div>
+                        {% include 'domestic/contact/export-support/includes/exopps-widget.html' %}
+                    </div>
+
                     <form method="post" autocomplete="off" id="subject-of-enquiry-form" class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-bg-white govuk-!-margin-top-5">
                         {% csrf_token %}
 
