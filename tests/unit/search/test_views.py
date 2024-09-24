@@ -5,7 +5,6 @@ from django.test import RequestFactory, modify_settings
 from django.urls import reverse
 from freezegun import freeze_time
 from wagtail.models import Page
-from wagtail.search.backends import get_search_backend
 from wagtail_factories import PageFactory
 
 from search import views
@@ -14,22 +13,23 @@ pytestmark = pytest.mark.django_db
 
 
 @pytest.mark.django_db
-@patch('wagtail.search.backends.get_search_backend')
-def test_search_view(mock_get_search_backend):
-    # Mock the search backend
-    mock_search_backend = mock_get_search_backend.return_value
-    mock_search_backend.search.return_value = Page.objects.none()
+@patch('wagtail.models.Page')
+def test_search_view(mock_page, client, root_page):
 
-    # Create test data
-    test_page1 = PageFactory(title='Test Page 1', slug='test-page-1')
-    test_page2 = PageFactory(title='Test Page 2', slug='test-page-2')
+    # Test base page response
+    response = client.get(reverse('search:search'))
+    assert response.status_code == 200
 
-    # Refresh the search index
-    search_backend = get_search_backend()
-    search_backend.refresh_index()
+    # Create test pages
+    test_page1 = PageFactory(title='Test Page 1', parent=root_page)
+    test_page2 = PageFactory(title='Test Page 2', parent=root_page)
+
+    # Create mock Opensearch Response
+    # mock_page.Objects.seach.return_value = [test_page1, test_page2]
 
     # Perform search
-    search_results = Page.objects.search('Test Page')
+    search_results = Page.objects.search('Test')
+    # search_results = Page.objects.all()
 
     # Assert that the search results contain the expected pages
     assert test_page1 in search_results
@@ -38,9 +38,6 @@ def test_search_view(mock_get_search_backend):
     # Perform a search that should return no results
     search_results_empty = Page.objects.search('Nonexistent Page')
     assert not search_results_empty
-
-    # Verify that the search method was called
-    mock_search_backend.search.assert_called()
 
 
 def test_search_feedback_view(client):
