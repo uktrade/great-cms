@@ -6,6 +6,7 @@ from django.urls import reverse
 from freezegun import freeze_time
 from wagtail.models import Page
 from wagtail.search.backends import get_search_backend
+from wagtail_factories import PageFactory
 
 from search import views
 
@@ -20,9 +21,8 @@ def test_search_view(mock_get_search_backend):
     mock_search_backend.search.return_value = Page.objects.none()
 
     # Create test data
-    home_page = Page.objects.get(slug='home')
-    test_page1 = home_page.add_child(instance=Page(title='Test Page 1', slug='test-page-1'))
-    test_page2 = home_page.add_child(instance=Page(title='Another Test Page', slug='another-test-page'))
+    test_page1 = PageFactory(title='Test Page 1', slug='test-page-1')
+    test_page2 = PageFactory(title='Test Page 2', slug='test-page-2')
 
     # Refresh the search index
     search_backend = get_search_backend()
