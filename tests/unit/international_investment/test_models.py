@@ -19,17 +19,17 @@ class InvestmentHomePageTests(WagtailPageTests):
 
     def test_allowed_children(self):
         self.assertAllowedSubpageTypes(
-            InvestmentSectorsPage, InvestmentRegionsPage, InvestmentOpportunityArticlePage, {InvestmentIndexPage}
+            InvestmentIndexPage, {InvestmentSectorsPage, InvestmentRegionsPage, InvestmentOpportunityArticlePage}
         )
 
 
 class InvestmentSectorsPageTests(WagtailPageTests):
 
     def test_allowed_children(self):
-        self.assertAllowedSubpageTypes(InvestmentArticlePage, {InvestmentSectorsPage})
+        self.assertAllowedSubpageTypes(InvestmentSectorsPage, {InvestmentArticlePage})
 
 
 class InvestmentRegionsPageTests(WagtailPageTests):
 
     def test_allowed_children(self):
-        self.assertAllowedSubpageTypes(InvestmentArticlePage, {InvestmentRegionsPage})
+        self.assertAllowedSubpageTypes(InvestmentRegionsPage, {InvestmentArticlePage})
