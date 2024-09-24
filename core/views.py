@@ -850,9 +850,13 @@ class GuidedJourneyStep3View(GuidedJourneyMixin, FormView):
     template_name = 'domestic/contact/export-support/guided-journey/step-3.html'
 
     def get_context_data(self, **kwargs):
+        countries_data = PRODUCT_MARKET_DATA
+        countries = [country['display_name'] for country in countries_data.values()]
+
         return super().get_context_data(
             **kwargs,
             progress_position=3,
+            countries=countries,
         )
 
     def get_success_url(self):
