@@ -87,8 +87,8 @@ class BespokeBreadcrumbMixin(TemplateView):
         return super().get_context_data(bespoke_breadcrumbs=bespoke_breadcrumbs, **kwargs)
 
 
-@method_decorator(vary_on_cookie, name='dispatch')
 @method_decorator(cache_page(60 * 5), name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class EventListView(GetBreadcrumbsMixin, GA360Mixin, core_mixins.GetSnippetContentMixin, FilterView, ListView):
     model = models.Event
     queryset = model.upcoming
