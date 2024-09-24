@@ -1,0 +1,17 @@
+<div class="govuk-!-margin-top-5 govuk-!-margin-bottom-2 govuk-!-padding-6 great-bg-white">
+    <h2 class="govuk-heading-s great-heading-link__heading">Export opportunities</h2>
+
+    {% if session_data.market %}
+        <p class="govuk-body">
+            Live export opportunities for UK businesses exporting to {{ session_data.market }}
+        </p>
+        <a href="https://www.great.gov.uk/export-opportunities/opportunities/?s=&areas[]={{ session_data.market | lower }}" class="govuk-link" target="_blank">Go to the ExOpps page</a>
+    {% else %}
+        <p class="govuk-body">
+            Live export opportunities for UK businesses selling overseas
+        </p>
+        <a href="https://www.great.gov.uk/export-opportunities/" class="govuk-link" target="_blank">Go to the ExOpps page</a>
+    {% endif %}
+</div>
+
+
