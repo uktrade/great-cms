@@ -1,21 +1,25 @@
 {% extends 'domestic/contact/export-support/base.html' %}
 {% load static %}
-{% block head_title %}Export support{% endblock %}
+{% block head_title %}Export support for UK businesses{% endblock %}
 {% block content %}
-    <div class="great great-bg-white">
+    <div class="great">
         <div class="great-container govuk-!-padding-top-4">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full great-grid-column-seven-twelfths">
-                    <h1 class="govuk-heading-xl govuk-!-margin-bottom-9">Export support</h1>
+                    <h1 class="govuk-heading-xl govuk-!-margin-bottom-5">Export support for UK businesses</h1>
                     {% if session_data.sic_description %}
-                        <p class="govuk-body">Your business activity: {{ session_data.sic_description }} <a href="{% url 'core:guided-journey-step-1' %}" class="govuk-link">(Change)</a></p>
+                    <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-bg-white">
+                        <h2 class="govuk-heading-s">What does your company make or do?</h2>
+                        <p class="govuk-body">{{ session_data.sic_description }} <a href="{% url 'core:guided-journey-step-1' %}" class="govuk-link">(Change)</a></p>
+                        <p class="govuk-body govuk-!-margin-bottom-0">Your sector is <strong class="great-font-bold">{{ session_data.sector }}</strong></p>
+                    </div>
                     {% endif %}
                     <form method="post" autocomplete="off" class="great-min-height-500">
                         {% csrf_token %}
-                        <div class="govuk-!-margin-bottom-6">
+                        <div class="govuk-!-padding-6 great-bg-white govuk-!-margin-bottom-6">
                             <h2 class="govuk-label-wrapper">
                                 <label class="govuk-label govuk-label--l" for="sic_description">
-                                    Select the best commodity match for '<strong>{% if session_data.make_or_do_keyword %}{{ session_data.make_or_do_keyword }}{% else %}{{ session_data.sic_description }}{% endif %}</strong>'
+                                    Select the best commodity match
                                 </label>
                             </h2>
                             <div class="great-text-select--arrow">
