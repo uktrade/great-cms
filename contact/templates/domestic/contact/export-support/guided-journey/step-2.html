@@ -16,6 +16,7 @@
                     {% endif %}
                     <form method="post" autocomplete="off" class="great-min-height-500">
                         {% csrf_token %}
+                        <input type="hidden" id="commodity_name" name="commodity_name" />
                         <div class="govuk-!-padding-6 great-bg-white govuk-!-margin-bottom-6">
                             <h2 class="govuk-label-wrapper">
                                 <label class="govuk-label govuk-label--l" for="sic_description">
@@ -25,7 +26,7 @@
                             <div class="great-text-select--arrow">
                                 <select class="govuk-select great-select" name="hs_code" id="hs_code">
                                     {% for commodity in commodities %}
-                                        <option value="{{ commodity.hs_code }}">{{ commodity.title }} ({{ commodity.hs_code }})</option>
+                                        <option value="{{ commodity.hs_code }}" data-commodity-name="{{ commodity.title }}">{{ commodity.title }} ({{ commodity.hs_code }})</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -43,6 +44,7 @@
     <script type="text/javascript">
         document.querySelector('#hs_code').addEventListener('change', (e) => {
             document.querySelector('[name="hs_code"]').value = e.target.value;
+            document.querySelector('[name="commodity_name"]').value = e.target[e.target.selectedIndex].dataset.commodityName;
         });
     </script> 
 {% endblock %}
