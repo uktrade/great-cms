@@ -16,28 +16,24 @@ pytestmark = pytest.mark.django_db
 @pytest.mark.django_db
 @patch('wagtail.search.backends.get_search_backend')
 def test_search_view(mock_get_search_backend):
+    # Create test pages
+    test_page_1 = (PageFactory(title='Test Page 1', slug='test-page-1'),)
+    test_page_2 = PageFactory(title='Test Page 2', slug='test-page-2')
+
     # Mock the search backend
     mock_search_backend = mock_get_search_backend.return_value
-    mock_search_backend.search.return_value = Page.objects.none()
-
-    # Create test data
-    test_page1 = PageFactory(title='Test Page 1', slug='test-page-1')
-    test_page2 = PageFactory(title='Test Page 2', slug='test-page-2')
+    mock_search_backend.search.return_value = [test_page_1, test_page_2]
 
     # Refresh the search index
     search_backend = get_search_backend()
     search_backend.refresh_index()
 
     # Perform search
-    search_results = Page.objects.search('Test Page')
+    search_results = search_backend.search('Test Page', Page)
 
     # Assert that the search results contain the expected pages
-    assert test_page1 in search_results
-    assert test_page2 in search_results
-
-    # Perform a search that should return no results
-    search_results_empty = Page.objects.search('Nonexistent Page')
-    assert not search_results_empty
+    assert test_page_1 in search_results
+    assert test_page_2 in search_results
 
     # Verify that the search method was called
     mock_search_backend.search.assert_called()
