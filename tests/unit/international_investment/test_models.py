@@ -1,7 +1,13 @@
 from wagtail.test.utils import WagtailPageTests
 
 from international.models import GreatInternationalHomePage
-from international_investment.models import InvestmentIndexPage
+from international_investment.models import (
+    InvestmentArticlePage,
+    InvestmentIndexPage,
+    InvestmentOpportunityArticlePage,
+    InvestmentRegionsPage,
+    InvestmentSectorsPage,
+)
 
 
 class InvestmentHomePageTests(WagtailPageTests):
@@ -10,3 +16,20 @@ class InvestmentHomePageTests(WagtailPageTests):
             InvestmentIndexPage,
             {GreatInternationalHomePage},
         )
+
+    def test_allowed_children(self):
+        self.assertAllowedSubpageTypes(
+            InvestmentIndexPage, {InvestmentSectorsPage, InvestmentRegionsPage, InvestmentOpportunityArticlePage}
+        )
+
+
+class InvestmentSectorsPageTests(WagtailPageTests):
+
+    def test_allowed_children(self):
+        self.assertAllowedSubpageTypes(InvestmentSectorsPage, {InvestmentArticlePage})
+
+
+class InvestmentRegionsPageTests(WagtailPageTests):
+
+    def test_allowed_children(self):
+        self.assertAllowedSubpageTypes(InvestmentRegionsPage, {InvestmentArticlePage})
