@@ -13,31 +13,33 @@ pytestmark = pytest.mark.django_db
 
 
 @pytest.mark.django_db
-@patch('wagtail.models.Page')
-def test_search_view(mock_page, client, root_page):
-
+@patch('wagtail.models.Page.objects.search')
+def test_search_view(mock_search, client, root_page):
     # Test base page response
     response = client.get(reverse('search:search'))
     assert response.status_code == 200
 
-    # Create test pages
-    test_page1 = PageFactory(title='Test Page 1', parent=root_page)
-    test_page2 = PageFactory(title='Test Page 2', parent=root_page)
+    # Create test data
+    test_page_1 = PageFactory(title='Test Page 1', parent=root_page)
+    test_page_2 = PageFactory(title='Test Page 2', parent=root_page)
 
-    # Create mock Opensearch Response
-    # mock_page.Objects.seach.return_value = [test_page1, test_page2]
+    # Mock search results
+    mock_search.return_value = Page.objects.filter(id__in=[test_page_1.id, test_page_2.id])
 
     # Perform search
-    search_results = Page.objects.search('Test')
-    # search_results = Page.objects.all()
+    search_results = Page.objects.search("Test Page")
 
     # Assert that the search results contain the expected pages
-    assert test_page1 in search_results
-    assert test_page2 in search_results
+    assert test_page_1 in search_results
+    assert test_page_2 in search_results
 
     # Perform a search that should return no results
-    search_results_empty = Page.objects.search('Nonexistent Page')
+    mock_search.return_value = Page.objects.none()
+    search_results_empty = Page.objects.search("Nonexistent Page")
     assert not search_results_empty
+
+    # Verify that the search method was called
+    mock_search.assert_called()
 
 
 def test_search_feedback_view(client):
