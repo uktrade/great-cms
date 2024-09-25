@@ -27,7 +27,7 @@ def test_search_view(mock_search, client, root_page):
     mock_search.return_value = Page.objects.filter(id__in=[test_page_1.id, test_page_2.id])
 
     # Perform search
-    search_results = Page.objects.search("Test Page")
+    search_results = Page.objects.search('Test Page')
 
     # Assert that the search results contain the expected pages
     assert test_page_1 in search_results
@@ -35,7 +35,7 @@ def test_search_view(mock_search, client, root_page):
 
     # Perform a search that should return no results
     mock_search.return_value = Page.objects.none()
-    search_results_empty = Page.objects.search("Nonexistent Page")
+    search_results_empty = Page.objects.search('Nonexistent Page')
     assert not search_results_empty
 
     # Verify that the search method was called
