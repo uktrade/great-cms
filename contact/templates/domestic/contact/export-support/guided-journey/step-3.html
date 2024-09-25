@@ -1,23 +1,33 @@
 {% extends 'domestic/contact/export-support/base.html' %}
 {% load static %}
-{% block head_title %}Export support{% endblock %}
+{% block head_title %}Export support for UK businesses{% endblock %}
+{% block head_css %}
+    {{ block.super }}
+    <link href="{% static 'core/css/accessible-autocomplete.min.css' %}"
+          rel="stylesheet"
+          type="text/css">
+{% endblock %}
 {% block content %}
-    <div class="great great-bg-white">
+    <div class="great">
         <div class="great-container govuk-!-padding-top-4">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full great-grid-column-seven-twelfths">
-                    <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">Export support</h1>
-
-                    {% if session_data.sector %}
-                        <p class="govuk-body">Your sector: {{ session_data.sector }}</p>
-                    {% endif %}
-
-                    {% if session_data.hs_code %}
-                        <p class="govuk-body">Your commodity code: {{ session_data.hs_code }}</p>
-                    {% endif %}
+                    <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">Export support for UK businesses</h1>
 
                     {% if session_data.sic_description %}
-                        <p class="govuk-body">Your business activity: {{ session_data.sic_description }} <a href="{% url 'core:guided-journey-step-1' %}" class="govuk-link">(Change)</a></p>
+                    <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-bg-white">
+                        <h2 class="govuk-heading-s">What does your company make or do?</h2>
+                        <p class="govuk-body">{{ session_data.sic_description }} <a href="{% url 'core:guided-journey-step-1' %}" class="govuk-link">(Change)</a></p>
+                        <p class="govuk-body govuk-!-margin-bottom-0">Your sector is <strong class="great-font-bold">{{ session_data.sector }}</strong></p>
+                    </div>
+                    {% endif %}
+
+                    {% if session_data.exporter_type == 'goods' and session_data.hs_code %}
+                    <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-bg-white">
+                        <h2 class="govuk-heading-s">Your commodity match</h2>
+                        <p class="govuk-body">{{session_data.commodity_name}}</p>
+                        <p class="govuk-body">Your commodity code is <strong class="great-font-bold">{{ session_data.hs_code }}</strong> <a href="{% url 'core:guided-journey-step-2' %}" class="govuk-link">(Change)</a></p>
+                    </div>
                     {% endif %}
 
                     {% if session_data.exporter_type == 'goods' %}
@@ -28,17 +38,46 @@
                         {% include 'domestic/contact/export-support/includes/service-widget.html' %}
                     {% endif %}
 
-                    <form method="post" autocomplete="off">
+                    <form method="post" autocomplete="off" class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-bg-white">
                         {% csrf_token %}
-                        {% for field in form.visible_fields %}
-                            <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
-                                {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
-                            </div>
-                        {% endfor %}
+                        <div class="govuk-!-margin-bottom-6">
+                            {% for field in form.visible_fields %}
+                                <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
+                                    {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
+                                </div>
+                            {% endfor %}
+                            <div id="market-container"></div>
+                        </div>
+                        
                         <button type="submit" class="govuk-button great-min-width-250-desktop">{{ button_text }}</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block body_js %}
+    {{ block.super }}
+    <script type="text/javascript"
+            src="{% static 'javascript/accessible-autocomplete.v3.min.js' %}"></script>
+    <script type="text/javascript">
+
+    const countries = {{ countries | safe}};
+
+    document.querySelector('#id_market').remove();
+
+    accessibleAutocomplete({
+        element: document.querySelector('#market-container'),
+        id: 'market',
+        name: 'market',
+        source: countries,
+        autoselect: false,
+        minLength: 3,
+        displayMenu: 'overlay',
+        placeholder: 'For example Germany',
+        inputClasses: 'govuk-input great-text-input govuk-!-width-two-thirds',
+        menuClasses: 'great-autocomplete-overlay'
+    });
+    </script>
 {% endblock %}

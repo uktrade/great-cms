@@ -3,16 +3,6 @@
 {% load static %}
 {% block body_js %}
     {{ block.super }}
-    {% if features.FEATURE_SHOW_CUSTOMS_AND_TAXES_DROPWDOWN %}
-    <script src="{% static 'javascript/great.utils.js' %}"></script>
-    <script src="{% static 'javascript/great.dynamic-drop-downs.js' %}"></script>
-    <script type="text/javascript">
-        GreatFrontend.DynamicDropDowns.init(
-            'customs_taxes_and_declarations_ess_dep_testing',
-            ['other_1_ess_dep_testing', 'dont_know_1_ess_dep_testing']
-        )
-    </script>
-    {% endif %}
 {% endblock %}
 {% block form_fields %}
     <div class="govuk-!-padding-5 govuk-!-margin-bottom-7 great-border-left-blue">
@@ -23,25 +13,7 @@
         </p>
     </div>
     {% for field in form.visible_fields %}
-        {% if field.name == 'enquiry_subject' %}
-            <div class="govuk-form-group govuk-!-margin-bottom-6 {% if field.errors %}govuk-form-group--error{% endif %}">
-                {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='great-text-select--arrow' %}
-            </div>
-        {% elif field.name == 'enquiry_subject_level_2' %}
-            {% if features.FEATURE_SHOW_CUSTOMS_AND_TAXES_DROPWDOWN %}
-            <div id="enquiry_subject_level_2"
-                class="govuk-form-group govuk-!-margin-bottom-6 {% if field.errors %}govuk-form-group--error{% endif %}">
-                {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='great-text-select--arrow' %}
-            </div>
-            {% endif %}
-        {% elif field.name == 'enquiry_subject_level_3' %}
-            {% if features.FEATURE_SHOW_CUSTOMS_AND_TAXES_DROPWDOWN %}
-            <div id="enquiry_subject_level_3"
-                class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
-                {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
-            </div>
-            {% endif %}
-        {% elif field.name == 'enquiry' %}
+        {% if field.name == 'enquiry' %}
             <div class="govuk-form-group govuk-!-margin-bottom-6 {% if field.errors %}govuk-form-group--error{% endif %}">
                 {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
             </div>
