@@ -184,6 +184,7 @@ class GuidedJourneyStep2Form(forms.Form):
         widget=TextInput(attrs={'class': 'govuk-input great-text-input', 'placeholder': 'Search...'}),
         required=False,
     )
+    commodity_name = CharField(label='Commodity name', required=False, widget=HiddenInput)
 
 
 class GuidedJourneyStep3Form(forms.Form):

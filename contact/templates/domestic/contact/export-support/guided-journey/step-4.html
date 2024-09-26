@@ -19,6 +19,7 @@
                     {% if session_data.exporter_type == 'goods' and session_data.hs_code %}
                     <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-bg-white">
                         <h2 class="govuk-heading-s">Your commodity match</h2>
+                        <p class="govuk-body">{{session_data.commodity_name}}</p>
                         <p class="govuk-body">Your commodity code is <strong class="great-font-bold">{{ session_data.hs_code }}</strong> <a href="{% url 'core:guided-journey-step-2' %}" class="govuk-link">(Change)</a></p>
                     </div>
                     {% endif %}
@@ -33,11 +34,13 @@
                     </div>
                     {% endif %}
 
+                    <div>
+                        {% include 'domestic/contact/export-support/includes/exopps-widget.html' %}
+                    </div>
+
                     <form method="post" autocomplete="off" id="subject-of-enquiry-form" class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-bg-white govuk-!-margin-top-5">
                         {% csrf_token %}
 
-                        <h2 class="govuk-heading-s govuk-!-margin-top-5">Need help with a specific problem??</h2>
-   
                         {% for field in form.visible_fields %}
                             <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
                                 {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
@@ -54,4 +57,17 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block body_js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        if ('{{ session_data.exporter_type}}' == 'service') {
+            const excluded_category = document.querySelector('[data-filter="/support/logistics"]');
+
+            if (excluded_category) {
+                excluded_category.style.display = 'none';
+            }
+        }
+    </script>
 {% endblock %}
