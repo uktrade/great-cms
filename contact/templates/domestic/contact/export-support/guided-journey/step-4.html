@@ -34,6 +34,32 @@
                     </div>
                     {% endif %}
 
+                    {% if session_data.sector %}
+                        {% include 'domestic/contact/export-support/includes/sector-promo-widget.html' %}
+                    {% endif %}
+
+                    {% if session_data.market %}
+                        {% include 'domestic/contact/export-support/includes/market-promo-widget.html' %}
+                    {% endif %}
+
+                    <div>
+                        {% include 'domestic/contact/export-support/includes/ukea-widget.html' %}
+                    </div>
+
+                    {% if session_data.exporter_type == 'goods' and session_data.hs_code %}
+                    <div>
+                        {% include 'domestic/contact/export-support/includes/duties-and-taxes-widget.html' %}
+                    </div>
+                    {% endif %}
+
+                    <div>
+                        {% include 'domestic/contact/export-support/includes/trade-barriers-widget.html' %}
+                    </div>
+
+                    <div>
+                        {% include 'domestic/contact/export-support/includes/visa-and-travel-widget.html' %}
+                    </div>
+
                     <div>
                         {% include 'domestic/contact/export-support/includes/exopps-widget.html' %}
                     </div>
