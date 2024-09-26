@@ -101,7 +101,7 @@ jobs:
       - run:
           name: Install @uktrade/great-design-system
           command: |
-            npm install @uktrade/great-design-system@latest
+            npm install @uktrade/great-design-system@0.0.11
       - restore_cache:
           key: v1-deps-{{ checksum "package-lock.json" }}
       - run:
