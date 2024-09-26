@@ -2,10 +2,12 @@ import datetime
 import logging
 import urllib
 
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from requests.exceptions import RequestException
+from wagtail.models import Page
 
 from core import helpers as core_helpers
 from search import forms, helpers
@@ -66,6 +68,46 @@ class SearchView(TemplateView):
                 )
 
         return {**context, **common, **results}
+
+
+class OpensearchView(TemplateView):
+    """
+    This view uses the built-in Wagtail query function to query Opensearch. Returns paginated results.
+    """
+
+    template_name = 'search_opensearch.html'
+    page_type = 'SearchResultsPage'
+
+    def get_context_data(self, *args, **kwargs):
+
+        # Get the search query & page
+        search_query = self.request.GET.get('q', None)
+        page = self.request.GET.get('page', None)
+
+        if search_query:
+            # Get the full un-paginated listing of search results as a queryset. Live pages only.
+            full_search_results = Page.objects.live().search(search_query)
+            # Show 10 resources per page
+            paginator = Paginator(full_search_results, 10)
+            # Paginate
+            try:
+                paginated_search_results = paginator.page(page)
+            except PageNotAnInteger:
+                # If page is not an integer, deliver first page.
+                paginated_search_results = paginator.page(1)
+            except EmptyPage:
+                # If page is out of range (e.g. 9999), deliver last page of results.
+                paginated_search_results = paginator.page(paginator.num_pages)
+        else:
+            # No search query provided
+            full_search_results = Page.objects.none()
+            paginated_search_results = Page.objects.none()
+
+        return {
+            'search_query': search_query,
+            'search_results': paginated_search_results,
+            'search_results_count': len(full_search_results),
+        }
 
 
 class SearchFeedbackFormView(FormView):
