@@ -17,7 +17,7 @@
                     {% if session_data.sic_description %}
                     <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-bg-white">
                         <h2 class="govuk-heading-s">What does your company make or do?</h2>
-                        <p class="govuk-body">{{ session_data.sic_description }} <a href="{% url 'core:guided-journey-step-1' %}" class="govuk-link">(Change)</a></p>
+                        <p class="govuk-body">{{ session_data.sic_description }} <a href="{% url 'core:guided-journey-step-1-edit' %}?return_to_step=3" class="govuk-link">(Change)</a></p>
                         <p class="govuk-body govuk-!-margin-bottom-0">Your sector is <strong class="great-font-bold">{{ session_data.sector }}</strong></p>
                     </div>
                     {% endif %}
@@ -26,7 +26,7 @@
                     <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-bg-white">
                         <h2 class="govuk-heading-s">Your commodity match</h2>
                         <p class="govuk-body">{{session_data.commodity_name}}</p>
-                        <p class="govuk-body">Your commodity code is <strong class="great-font-bold">{{ session_data.hs_code }}</strong> <a href="{% url 'core:guided-journey-step-2' %}" class="govuk-link">(Change)</a></p>
+                        <p class="govuk-body">Your commodity code is <strong class="great-font-bold">{{ session_data.hs_code }}</strong> <a href="{% url 'core:guided-journey-step-2-edit' %}?return_to_step=3" class="govuk-link">(Change)</a></p>
                     </div>
                     {% endif %}
 
