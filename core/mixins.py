@@ -5,7 +5,6 @@ from importlib import import_module
 from django.conf import settings
 from django.http import Http404
 from django.utils import translation
-from django.urls import reverse_lazy
 from great_components import helpers as great_components_helpers
 
 from core import cms_slugs
@@ -227,9 +226,3 @@ class GuidedJourneyMixin:
             button_text=button_text,
             session_data=form_data,
         )
-
-    def get_success_url(self):
-        return_to_step = self.request.GET.get('return_to_step')
-
-        if return_to_step:
-            return reverse_lazy(f'core:guided-journey-step-{return_to_step}')

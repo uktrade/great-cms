@@ -77,7 +77,8 @@
         displayMenu: 'overlay',
         placeholder: 'For example Germany',
         inputClasses: 'govuk-input great-text-input govuk-!-width-two-thirds',
-        menuClasses: 'great-autocomplete-overlay'
+        menuClasses: 'great-autocomplete-overlay',
+        defaultValue: '{{ session_data.market }}',
     });
     </script>
 {% endblock %}
