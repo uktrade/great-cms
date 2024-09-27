@@ -98,10 +98,10 @@ class OpensearchView(TemplateView):
         #     except EmptyPage:
         #         # If page is out of range (e.g. 9999), deliver last page of results.
         #         paginated_search_results = paginator.page(paginator.num_pages)
-        # else:
-        #     # No search query provided
-        #     full_search_results = Page.objects.none()
-        #     paginated_search_results = Page.objects.none()
+        else:
+            # No search query provided
+            full_search_results = Page.objects.none()
+            # paginated_search_results = Page.objects.none()
 
         return {
             'search_query': search_query,
