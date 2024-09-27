@@ -10,7 +10,7 @@
                     {% if session_data.sic_description %}
                     <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-bg-white">
                         <h2 class="govuk-heading-s">What does your company make or do?</h2>
-                        <p class="govuk-body">{{ session_data.sic_description }} <a href="{% url 'core:guided-journey-step-1' %}" class="govuk-link">(Change)</a></p>
+                        <p class="govuk-body">{{ session_data.sic_description }} <a href="{% url 'core:guided-journey-step-1-edit' %}?return_to_step=2" class="govuk-link">(Change)</a></p>
                         <p class="govuk-body govuk-!-margin-bottom-0">Your sector is <strong class="great-font-bold">{{ session_data.sector }}</strong></p>
                     </div>
                     {% endif %}
