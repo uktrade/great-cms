@@ -35,8 +35,8 @@ def get_buttons_for_event(user, event, on_confirmation=False):
         else:
             if event.closed:
                 result['disable_text'] = 'Closed for booking'
-
-    result['form_event_booking_buttons'] += get_event_booking_button(user, event)
+    if event.format == event.ONLINE:
+        result['form_event_booking_buttons'] += get_event_booking_button(user, event)
     return result
 
 
