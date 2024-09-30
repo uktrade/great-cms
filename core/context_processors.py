@@ -160,3 +160,33 @@ def domestic_header(request):
         'search_icon': search_icon,
         'menu_icon': menu_icon
     }
+
+def domestic_footer(request):
+    return {
+        'isInternational': False,
+        'currentYear': 2024,
+        'footerLinks': [{ 
+            'href': '/support/export-support',
+            'title': 'Export support for UK businesses',
+            'text': 'Export support for UK businesses'
+        },
+        { 
+            'href': '/contact/triage/great-account',
+            'title': 'Get help with your account',
+            'text': 'Get help with your account'
+        },
+        { 
+            'href': 'https://'+settings.DIT_ON_GOVUK,
+            'title': 'Department for Business and Trade on GOV.UK',
+            'text': 'Department for Business and Trade on GOV.UK',
+            'target':'_blank',
+            'rel': 'noopener'
+        },
+        { 
+            'href': '/support/export-support',
+            'title': 'Privacy',
+            'text': 'Privacy'
+        }],
+
+    }
+

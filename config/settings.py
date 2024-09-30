@@ -146,6 +146,7 @@ TEMPLATES = [
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'details',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'accordion',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'notification-banner',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'footer',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -156,6 +157,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'core.context_processors.domestic_header',
+                'core.context_processors.domestic_footer',
                 'great_components.context_processors.sso_processor',
                 'great_components.context_processors.ga360',
                 'great_components.context_processors.urls_processor',
