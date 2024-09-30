@@ -38,7 +38,7 @@
 }
 
 .button,
-button {
+button:not(.great-ds-button) {
   min-height: 50px;
   height: min-content;
   border-radius: 0;

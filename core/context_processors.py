@@ -118,3 +118,45 @@ def services_home_links(request):
     return {
         'international_home_link': {'url': reverse_lazy('index'), 'label': _('great.gov.uk international')},
     }
+
+def domestic_header(request):
+    search_icon = '<svg xmlns="http://www.w3.org/2000/svg" class="great-ds-icon--svg" width="20" height="20" viewBox="0 0 18 18" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.77589 13.722C6.26697 13.8589 4.79933 13.386 3.64011 12.4016C1.2472 10.3681 0.933108 6.74217 2.94069 4.31856C4.06024 2.96784 5.66793 2.27198 7.28695 2.27198C8.57164 2.27198 9.86443 2.7113 10.9249 3.61205C12.0841 4.59641 12.7949 5.97992 12.9268 7.50687C13.0588 9.03299 12.5957 10.5206 11.6235 11.6943C10.6505 12.868 9.28401 13.5884 7.77589 13.722ZM18 15.5071L13.5606 11.7361C14.3256 10.4247 14.6737 8.91169 14.5393 7.36344C14.3702 5.40128 13.4562 3.62271 11.9651 2.35558C8.88816 -0.258992 4.28286 0.148357 1.70133 3.26536C-0.881003 6.38072 -0.477867 11.0427 2.59908 13.6573C3.92344 14.7826 5.56107 15.3834 7.26914 15.3834C7.48447 15.3834 7.70061 15.3744 7.91756 15.3555C9.44591 15.2203 10.8569 14.6097 11.9999 13.6196L16.4385 17.3914L18 15.5071Z"/></svg>'
+    menu_icon = '<svg class="great-ds-icon--svg" width="16" height="17" viewBox="0 0 16 17" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M1 3.5C1 2.94687 1.44687 2.5 2 2.5H14C14.5531 2.5 15 2.94687 15 3.5C15 4.05313 14.5531 4.5 14 4.5H2C1.44687 4.5 1 4.05313 1 3.5ZM1 8.5C1 7.94688 1.44687 7.5 2 7.5H14C14.5531 7.5 15 7.94688 15 8.5C15 9.05312 14.5531 9.5 14 9.5H2C1.44687 9.5 1 9.05312 1 8.5ZM15 13.5C15 14.0531 14.5531 14.5 14 14.5H2C1.44687 14.5 1 14.0531 1 13.5C1 12.9469 1.44687 12.5 2 12.5H14C14.5531 12.5 15 12.9469 15 13.5Z"/></svg>'
+
+    return {
+        'header_classes': '',
+        'isInternational': False,
+        'sso_is_logged_in': request.user.is_authenticated,
+        'isAuthenticated': request.user.is_authenticated,
+        'hideSearch': False,
+        'hideMenuOnDesktop': False,
+        'mastheadUrl': "#",
+        'domesticLink': {'href': "#", 'text': "For UK businesses"},
+        'internationalLink': {'href': "#", 'text': "For international businesses"},
+        'searchFormAction': "#",
+        'navItemsList': [
+            {'href': "#", 'text': "Learn to export"},
+            {'href': "#", 'text': "Where to export", 'requiresAuth': True},
+            {'href': "#", 'text': "Make an export plan", 'requiresAuth': True},
+            {'href': "#", 'text': "Markets", 'requiresNoAuth': True},
+            {'href': "#", 'text': "Services", 'requiresNoAuth': True}
+        ],
+        'menuItemsList': [
+            {'text': f"Hi {request.user.first_name}" if request.user.is_authenticated else "", 'userGreeting': True, 'requiresAuth': True},
+            {'href': "#", 'text': "Dashboard", 'requiresAuth': True},
+            {'href': "#", 'text': "Where to export", 'requiresAuth': True},
+            {'href': "#", 'text': "Make an export plan", 'requiresAuth': True},
+            {'href': "#", 'text': "Account", 'requiresAuth': True},
+            {'href': "#", 'text': "Learn to export"},
+            {'href': "#", 'text': "Markets"},
+            {'href': "#", 'text': "Services"},
+            {'text': "Sign out", 'href': "#", 'button': True, 'requiresAuth': True},
+            {'text': "Sign in", 'href': "#", 'button': True, 'requiresNoAuth': True}
+        ],
+        'actionLinkList': [
+            {'href': "#", 'text': "Dashboard", 'requiresAuth': True},
+            {'href': "#", 'text': "Sign in", 'requiresNoAuth': True}
+        ],
+        'search_icon': search_icon,
+        'menu_icon': menu_icon
+    }
