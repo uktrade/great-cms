@@ -1,4 +1,7 @@
+from django.shortcuts import render
+
 from domestic.models import BaseContentPage
+from international_buy_from_the_uk.forms import IndexSearchForm
 
 
 class BuyFromTheUKIndexPage(BaseContentPage):
@@ -8,19 +11,19 @@ class BuyFromTheUKIndexPage(BaseContentPage):
     subpage_types = []
     template = 'buy_from_the_uk/index.html'
 
-    def get_context(self, request, *args, **kwargs):
-        context = super().get_context(request, *args, **kwargs)
+    def serve(self, request, *args, **kwargs):
+        form = IndexSearchForm()
+
+        # Set breadcrumbs and render the page
         breadcrumbs = [
             {'name': 'Home', 'url': '/international/'},
         ]
-        context.update(
-            breadcrumbs=breadcrumbs,
+        return render(
+            request,
+            'buy_from_the_uk/index.html',
+            {
+                'form': form,
+                'page': self,
+                'breadcrumbs': breadcrumbs,
+            },
         )
-        self.set_ga360_payload(
-            page_id='Index',
-            business_unit='Buy from the UK',
-            site_section='index',
-        )
-        self.add_ga360_data_to_payload(request)
-        context['ga360'] = self.ga360_payload
-        return context
