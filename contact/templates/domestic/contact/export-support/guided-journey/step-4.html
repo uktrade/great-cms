@@ -11,7 +11,7 @@
                     {% if session_data.sic_description %}
                     <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-bg-white">
                         <h2 class="govuk-heading-s">What does your company make or do?</h2>
-                        <p class="govuk-body">{{ session_data.sic_description }} <a href="{% url 'core:guided-journey-step-1' %}" class="govuk-link">(Change)</a></p>
+                        <p class="govuk-body">{{ session_data.sic_description }} <a href="{% url 'core:guided-journey-step-1-edit' %}?return_to_step=4" class="govuk-link">(Change)</a></p>
                         <p class="govuk-body govuk-!-margin-bottom-0">Your sector is <strong class="great-font-bold">{{ session_data.sector }}</strong></p>
                     </div>
                     {% endif %}
@@ -20,7 +20,7 @@
                     <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-bg-white">
                         <h2 class="govuk-heading-s">Your commodity match</h2>
                         <p class="govuk-body">{{session_data.commodity_name}}</p>
-                        <p class="govuk-body">Your commodity code is <strong class="great-font-bold">{{ session_data.hs_code }}</strong> <a href="{% url 'core:guided-journey-step-2' %}" class="govuk-link">(Change)</a></p>
+                        <p class="govuk-body">Your commodity code is <strong class="great-font-bold">{{ session_data.hs_code }}</strong> <a href="{% url 'core:guided-journey-step-2-edit' %}?return_to_step=4" class="govuk-link">(Change)</a></p>
                     </div>
                     {% endif %}
 
@@ -33,6 +33,32 @@
                         {% include 'domestic/contact/export-support/includes/suggested-markets-widget.html' with suggested_markets=suggested_markets %}
                     </div>
                     {% endif %}
+
+                    {% if session_data.sector %}
+                        {% include 'domestic/contact/export-support/includes/sector-promo-widget.html' %}
+                    {% endif %}
+
+                    {% if session_data.market %}
+                        {% include 'domestic/contact/export-support/includes/market-promo-widget.html' %}
+                    {% endif %}
+
+                    <div>
+                        {% include 'domestic/contact/export-support/includes/ukea-widget.html' %}
+                    </div>
+
+                    {% if session_data.exporter_type == 'goods' and session_data.hs_code %}
+                    <div>
+                        {% include 'domestic/contact/export-support/includes/duties-and-taxes-widget.html' %}
+                    </div>
+                    {% endif %}
+
+                    <div>
+                        {% include 'domestic/contact/export-support/includes/trade-barriers-widget.html' %}
+                    </div>
+
+                    <div>
+                        {% include 'domestic/contact/export-support/includes/visa-and-travel-widget.html' %}
+                    </div>
 
                     <div>
                         {% include 'domestic/contact/export-support/includes/exopps-widget.html' %}
