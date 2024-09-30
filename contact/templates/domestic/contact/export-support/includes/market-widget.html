@@ -45,6 +45,7 @@
             {% endwith %}
         {% endif %}
     {% else %}
+        <img src="/static/images/flags/{{ country_code | lower }}.svg" alt="{{ country_code | lower }} flag" width="50px" />
         <h2 class="govuk-heading-s">{{ market_name }}</h2>
         <p class="govuk-body">Sorry we don't have any information</p>
     {% endif %}
