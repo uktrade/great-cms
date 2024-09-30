@@ -888,13 +888,20 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, FormView):
     template_name = 'domestic/contact/export-support/guided-journey/step-4.html'
 
     def get_context_data(self, **kwargs):
+        countries = helpers.get_markets_list()
+        country_code = ''
         restricted_markets = ['Ukraine', 'Russia', 'Belarus', 'Israel']
         is_restricted_market = False
+        is_market_skipped = self.request.GET.get('is_market_skipped')
 
         if self.request.session.get('guided_journey_data'):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('guided_journey_data')))[0]
 
             market = form_data['market']
+
+            for code, name in countries:
+                if name == market:
+                    country_code = code
 
             if market:
                 is_restricted_market = market in restricted_markets
@@ -904,6 +911,8 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, FormView):
             progress_position=4,
             suggested_markets=['china', 'india', 'mexico'],
             is_restricted_market=is_restricted_market,
+            is_market_skipped=is_market_skipped,
+            country_code=country_code,
         )
 
     def get_success_url(self):
