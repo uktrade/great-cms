@@ -909,7 +909,7 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, FormView):
         return super().get_context_data(
             **kwargs,
             progress_position=4,
-            suggested_markets=['china', 'india', 'mexico'],
+            suggested_markets=[('china', 'cn'), ('india', 'in'), ('mexico', 'mx')],
             is_restricted_market=is_restricted_market,
             is_market_skipped=is_market_skipped,
             country_code=country_code,
