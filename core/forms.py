@@ -242,6 +242,7 @@ class GuidedJourneyStep1Form(forms.Form):
     sic_description = CharField(label='SIC Description', required=False, widget=HiddenInput)
     make_or_do_keyword = CharField(label='Keyword', required=False, widget=HiddenInput)
     sector = CharField(label='Sector', required=False, widget=HiddenInput)
+    exporter_type = CharField(label='Exporter type', required=False, widget=HiddenInput)
 
 
 class GuidedJourneyStep2Form(forms.Form):
@@ -250,6 +251,7 @@ class GuidedJourneyStep2Form(forms.Form):
         widget=TextInput(attrs={'class': 'govuk-input great-text-input', 'placeholder': 'Search...'}),
         required=False,
     )
+    commodity_name = CharField(label='Commodity name', required=False, widget=HiddenInput)
 
 
 class GuidedJourneyStep3Form(forms.Form):
@@ -261,16 +263,20 @@ class GuidedJourneyStep3Form(forms.Form):
 
 
 class GuidedJourneyStep4Form(forms.Form):
-    sub_category = ChoiceField(
-        label='Whats the subject of your enquiry',
+    category = ChoiceField(
+        label='Need help with a specific problem',
         choices=(
-            ('customs-taxes-and-declarations/tax-and-duty-liabilities', 'Tax and duty liabilities'),
-            ('customs-taxes-and-declarations/product-classification', 'Product classification'),
-            ('routes-to-market/exploring-routes-to-market', 'Exploring routes to market'),
+            ('/support/market-selection', 'Market selection'),
+            ('/support/routes-to-market-and-operating-overseas', 'Routes to market and operating overseas'),
             (
-                'routes-to-market/prepare-your-business-to-operate-in-a-market',
-                'Prepare your business to operate in a market',
+                '/support/funding-and-financial-considerations',
+                'Funding and financial considerations',
             ),
+            ('/support/trade-restrictions-regulations-and-licensing', 'Trade restrictions, regulations and licensing'),
+            ('/support/logistics', 'Logistics'),
+            ('/support/customs-taxes-and-declarations', 'Customs, taxes and declarations'),
+            ('/support/travelling-for-work', 'Travelling for work'),
+            ('/support/managing-business-risk-and-corruption', 'Managing business risk and corruption'),
         ),
         widget=contact_widgets.GreatFilteredRadioSelect,
         error_messages={

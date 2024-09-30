@@ -10,7 +10,7 @@
 {% endblock %}
 {% block content %}
     {% include './includes/landing_hero.html' %}
-    <section class="buy-from-the-uk-info-section govuk-!-padding-top-6 govuk-!-padding-bottom-3">
+    <section class="light-blue-background govuk-!-padding-top-6 govuk-!-padding-bottom-3">
         <div class="govuk-width-container great-container">
             <form action="{% url 'international_buy_from_the_uk:find-a-supplier' %}"
                   method="get">
@@ -21,20 +21,18 @@
                 </div>
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds-from-desktop">
-                        <label class="govuk-label govuk-label--s">What product or service are you buying?</label>
-                        <input class="govuk-input" name="q" id="q">
+                        {% include 'international/includes/form_field.html' with field=form.q %}
                     </input>
                 </div>
                 <div class="govuk-grid-column-one-third-from-desktop">
+                    {% include 'international/includes/form_field.html' with field=form.industries %}
                     <input class="govuk-visually-hidden" name="page" id="page" value=1>
                 </input>
             </div>
         </div>
-        <div class="govuk-grid-row">
+        <div class="govuk-grid-row govuk-!-margin-top-4">
             <div class="govuk-grid-column-two-thirds-from-desktop">
-                <button type="submit"
-                        class="govuk-button govuk-!-margin-top-4"
-                        data-module="govuk-button">Find suppliers</button>
+                {% include 'international/includes/submit_button.html' with button_text='Find suppliers' %}
             </div>
         </div>
     </form>
@@ -62,7 +60,7 @@
         </div>
     </div>
 </section>
-<section class="buy-from-the-uk-info-section">
+<section class="light-blue-background">
     <div class="govuk-width-container great-container">
         <div class="govuk-grid-row great-card-row govuk-!-padding-top-8 govuk-!-padding-bottom-2">
             <div class="govuk-grid-column-one-third-from-desktop govuk-!-margin-bottom-6">

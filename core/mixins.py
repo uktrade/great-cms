@@ -218,6 +218,9 @@ class GuidedJourneyMixin:
         if self.request.session.get('guided_journey_data'):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('guided_journey_data')))[0]
 
+        if self.kwargs.get('edit'):
+            button_text = 'Save'
+
         return super().get_context_data(
             **kwargs,
             button_text=button_text,

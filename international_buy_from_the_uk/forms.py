@@ -169,6 +169,21 @@ class SearchForm(forms.Form):
     )
 
 
+class IndexSearchForm(forms.Form):
+    q = forms.CharField(
+        label='What product or service are you buying?',
+        max_length=255,
+        widget=TextInput(attrs={'class': 'govuk-input'}),
+        required=False,
+    )
+    industries = ChoiceField(
+        label='Industry',
+        required=False,
+        widget=Select(attrs={'class': 'govuk-select govuk-!-width-full'}),
+        choices=(('', 'All industries'),) + INDUSTRIES,
+    )
+
+
 class FindASupplierContactForm(GovNotifyEmailActionMixin, forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

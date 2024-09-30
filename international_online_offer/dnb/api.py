@@ -8,11 +8,13 @@ from .mapping import extract_company_data
 logger = logging.getLogger(__name__)
 
 DNB_COMPANY_SEARCH_ENDPOINT = '/v1/search/companyList'
+DNB_TYPEAHEAD_ENDPOINT = '/v1/search/typeahead'
 
 
-def company_list_search(query: dict):
+def search(http_method: str, endpoint: str, query: dict):
     try:
-        response = api_request('POST', DNB_COMPANY_SEARCH_ENDPOINT, json=query)
+        kwargs = {'json': query} if http_method == 'POST' else {'params': query}
+        response = api_request(http_method, endpoint, **kwargs)
     except HTTPError as ex:
         if ex.response.status_code == 404:
             response_data = {}
@@ -30,3 +32,11 @@ def company_list_search(query: dict):
         'page_number': response_data.get('inquiryDetail', {}).get('pageNumber', 1),
         'results': results,
     }
+
+
+def company_list_search(query: dict):
+    return search('POST', DNB_COMPANY_SEARCH_ENDPOINT, query)
+
+
+def company_typeahead_search(query: dict):
+    return search('GET', DNB_TYPEAHEAD_ENDPOINT, query)

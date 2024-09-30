@@ -773,11 +773,26 @@ class GuidedJourneyStep1View(GuidedJourneyMixin, FormView):
         )
 
     def get_success_url(self):
+        is_service_exporter = False
+        return_to_step = self.request.GET.get('return_to_step')
+
+        if self.request.session.get('guided_journey_data'):
+            form_data = pickle.loads(bytes.fromhex(self.request.session.get('guided_journey_data')))[0]
+
+            is_service_exporter = form_data['exporter_type'] == 'service'
+
+        if is_service_exporter:
+            if return_to_step:
+                return reverse_lazy(f'core:guided-journey-step-{return_to_step}')
+
+            return reverse_lazy('core:guided-journey-step-3')
+
+        if return_to_step:
+            return reverse_lazy('core:guided-journey-step-2-edit') + f'?return_to_step={return_to_step}'
+
         return reverse_lazy('core:guided-journey-step-2')
 
     def form_valid(self, form):
-        form.cleaned_data['exporter_type'] = 'goods'
-
         self.save_data(form)
         return super().form_valid(form)
 
@@ -789,6 +804,7 @@ class GuidedJourneyStep2View(GuidedJourneyMixin, FormView):
     def get_context_data(self, **kwargs):
         make_or_do_keyword = None
         commodities = []
+        form_data = {}
 
         def get_hmrc_tarriff_data(make_or_do_keyword):
             deserialised_data = helpers.product_picker(make_or_do_keyword)
@@ -816,9 +832,15 @@ class GuidedJourneyStep2View(GuidedJourneyMixin, FormView):
             **kwargs,
             progress_position=2,
             commodities=commodities,
+            form_data=form_data,
         )
 
     def get_success_url(self):
+        return_to_step = self.request.GET.get('return_to_step')
+
+        if return_to_step:
+            return reverse_lazy(f'core:guided-journey-step-{return_to_step}')
+
         return reverse_lazy('core:guided-journey-step-3')
 
     def form_valid(self, form):
@@ -831,12 +853,21 @@ class GuidedJourneyStep3View(GuidedJourneyMixin, FormView):
     template_name = 'domestic/contact/export-support/guided-journey/step-3.html'
 
     def get_context_data(self, **kwargs):
+        countries_data = PRODUCT_MARKET_DATA
+        countries = [country['display_name'] for country in countries_data.values()]
+
         return super().get_context_data(
             **kwargs,
             progress_position=3,
+            countries=countries,
         )
 
     def get_success_url(self):
+        return_to_step = self.request.GET.get('return_to_step')
+
+        if return_to_step:
+            return reverse_lazy(f'core:guided-journey-step-{return_to_step}')
+
         return reverse_lazy('core:guided-journey-step-4')
 
     def form_valid(self, form):
@@ -852,10 +883,7 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, FormView):
         return super().get_context_data(
             **kwargs,
             progress_position=4,
-            categories=[
-                {'name': 'Customs, taxes and declarations', 'matcher': 'customs-taxes-and-declarations'},
-                {'name': 'Routes to market', 'matcher': 'routes-to-market'},
-            ],
+            suggested_markets=['china', 'india', 'mexico'],
         )
 
     def get_success_url(self):
@@ -864,17 +892,21 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, FormView):
 
             market = form_data['market']
             is_goods = form_data['exporter_type'] == 'goods'
-            sub_category = form_data['sub_category']
+            is_service = form_data['exporter_type'] == 'service'
+            category = form_data['category']
 
-            sub_cat_url = f'/support/{sub_category}?is_guided_journey=True'
+            cat_url = f'{category}?is_guided_journey=True'
 
             if market:
-                sub_cat_url += f'&market={market}'
+                cat_url += f'&market={market}'
 
             if is_goods:
-                sub_cat_url += f'&is_goods={is_goods}'
+                cat_url += f'&is_goods={is_goods}'
 
-            return sub_cat_url
+            if is_service:
+                cat_url += f'&is_service={is_service}'
+
+            return cat_url
 
         return reverse_lazy('core:guided-journey-step-1')
 
