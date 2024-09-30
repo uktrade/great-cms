@@ -205,14 +205,32 @@ if settings.FEATURE_GUIDED_JOURNEY:
             name='guided-journey-step-1',
         ),
         path(
+            'guided-journey/step-1/edit',
+            skip_ga360(views.GuidedJourneyStep1View.as_view()),
+            {'edit': True},
+            name='guided-journey-step-1-edit',
+        ),
+        path(
             'guided-journey/step-2',
             skip_ga360(views.GuidedJourneyStep2View.as_view()),
             name='guided-journey-step-2',
         ),
         path(
+            'guided-journey/step-2/edit',
+            skip_ga360(views.GuidedJourneyStep2View.as_view()),
+            {'edit': True},
+            name='guided-journey-step-2-edit',
+        ),
+        path(
             'guided-journey/step-3',
             skip_ga360(views.GuidedJourneyStep3View.as_view()),
             name='guided-journey-step-3',
+        ),
+        path(
+            'guided-journey/step-3/edit',
+            skip_ga360(views.GuidedJourneyStep3View.as_view()),
+            {'edit': True},
+            name='guided-journey-step-3-edit',
         ),
         path(
             'guided-journey/step-4',

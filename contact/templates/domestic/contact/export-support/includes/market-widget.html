@@ -8,7 +8,7 @@
 <div class="great-bg-white govuk-!-padding-5">
     {% if market %}
         <div class="govuk-!-margin-bottom-2">
-            <a href="{% url 'core:guided-journey-step-3' %}" class="govuk-link">(Change)</a>
+            <a href="{% url 'core:guided-journey-step-3-edit' %}?return_to_step=4" class="govuk-link">(Change)</a>
         </div>
 
         <a href="{{ market.get_full_url }}" class="govuk-heading-s govuk-!-margin-bottom-2 great-heading-link great-heading-link--no-chevron">

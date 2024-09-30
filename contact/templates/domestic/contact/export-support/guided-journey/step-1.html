@@ -15,9 +15,9 @@
                     <h1 class="govuk-heading-xl govuk-!-margin-bottom-5">Export support for UK businesses</h1>
                     <form method="post" autocomplete="off" class="great-min-height-500 ">
                         {% csrf_token %}
-                        <input type="hidden" id="sector" name="sector" />
-                        <input type="hidden" id="make_or_do_keyword" name="make_or_do_keyword" />
-                        <input type="hidden" id="exporter_type" name="exporter_type" />
+                        <input type="hidden" id="sector" name="sector" value="{{ session_data.sector }}" />
+                        <input type="hidden" id="make_or_do_keyword" name="make_or_do_keyword" value="{{ session_data.make_or_do_keyword }}" />
+                        <input type="hidden" id="exporter_type" name="exporter_type" value="{{ session_data.exporter_type }}" />
 
                         <div class="govuk-!-padding-6 great-bg-white">
                             <div class="govuk-!-margin-bottom-6">
@@ -61,6 +61,7 @@
         autoselect: false,
         minLength: 3,
         displayMenu: 'overlay',
+        defaultValue: '{{ session_data.sic_description }}',
         templates: {
             suggestion: (selectedSIC) => {
                 const {sic_description, dit_sector_list_field_04} = data.data.find(el => el.sic_description === selectedSIC)

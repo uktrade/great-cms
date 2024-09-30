@@ -471,12 +471,6 @@ class TaggedCMSGenericPageAnonymous(
     layout_panels = [FieldPanel('template')]
     settings_panels = [FieldPanel('slug')] + Page.settings_panels
 
-    search_fields = Page.search_fields + [  # Inherit search_fields from Page
-        index.SearchField('country_tags'),
-        index.SearchField('sector_tags'),
-        index.SearchField('type_of_export_tags'),
-    ]
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         field = self._meta.get_field('template')
@@ -540,12 +534,6 @@ class TaggedPage(Page):
             ],
             heading='Tags',
         ),
-    ]
-
-    search_fields = Page.search_fields + [  # Inherit search_fields from Page
-        index.SearchField('country_tags'),
-        index.SearchField('sector_tags'),
-        index.SearchField('type_of_export_tags'),
     ]
 
     @cached_classmethod
