@@ -167,7 +167,8 @@ class BaseContentPage(
     search_fields = Page.search_fields + [  # Inherit search_fields from Page
         index.SearchField('country_tags'),
         index.SearchField('region_tags'),
-        index.SearchField('type_of_export_tags'),
+        index.SearchField('sector_tags'),
+        index.SearchField('trading_bloc_tags'),
     ]
 
 
