@@ -783,6 +783,7 @@ class GuidedJourneyStep1View(GuidedJourneyMixin, FormView):
 
     def get_success_url(self):
         is_service_exporter = False
+        return_to_step = self.request.GET.get('return_to_step')
 
         if self.request.session.get('guided_journey_data'):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('guided_journey_data')))[0]
@@ -790,7 +791,13 @@ class GuidedJourneyStep1View(GuidedJourneyMixin, FormView):
             is_service_exporter = form_data['exporter_type'] == 'service'
 
         if is_service_exporter:
+            if return_to_step:
+                return reverse_lazy(f'core:guided-journey-step-{return_to_step}')
+
             return reverse_lazy('core:guided-journey-step-3')
+
+        if return_to_step:
+            return reverse_lazy('core:guided-journey-step-2-edit') + f'?return_to_step={return_to_step}'
 
         return reverse_lazy('core:guided-journey-step-2')
 
@@ -838,6 +845,11 @@ class GuidedJourneyStep2View(GuidedJourneyMixin, FormView):
         )
 
     def get_success_url(self):
+        return_to_step = self.request.GET.get('return_to_step')
+
+        if return_to_step:
+            return reverse_lazy(f'core:guided-journey-step-{return_to_step}')
+
         return reverse_lazy('core:guided-journey-step-3')
 
     def form_valid(self, form):
@@ -850,8 +862,7 @@ class GuidedJourneyStep3View(GuidedJourneyMixin, FormView):
     template_name = 'domestic/contact/export-support/guided-journey/step-3.html'
 
     def get_context_data(self, **kwargs):
-        countries_data = PRODUCT_MARKET_DATA
-        countries = [country['display_name'] for country in countries_data.values()]
+        countries = helpers.get_markets_list()
 
         return super().get_context_data(
             **kwargs,
@@ -860,6 +871,11 @@ class GuidedJourneyStep3View(GuidedJourneyMixin, FormView):
         )
 
     def get_success_url(self):
+        return_to_step = self.request.GET.get('return_to_step')
+
+        if return_to_step:
+            return reverse_lazy(f'core:guided-journey-step-{return_to_step}')
+
         return reverse_lazy('core:guided-journey-step-4')
 
     def form_valid(self, form):
@@ -872,10 +888,31 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, FormView):
     template_name = 'domestic/contact/export-support/guided-journey/step-4.html'
 
     def get_context_data(self, **kwargs):
+        countries = helpers.get_markets_list()
+        country_code = ''
+        restricted_markets = ['Ukraine', 'Russia', 'Belarus', 'Israel']
+        is_restricted_market = False
+        is_market_skipped = self.request.GET.get('is_market_skipped')
+
+        if self.request.session.get('guided_journey_data'):
+            form_data = pickle.loads(bytes.fromhex(self.request.session.get('guided_journey_data')))[0]
+
+            market = form_data['market']
+
+            for code, name in countries:
+                if name == market:
+                    country_code = code
+
+            if market:
+                is_restricted_market = market in restricted_markets
+
         return super().get_context_data(
             **kwargs,
             progress_position=4,
-            suggested_markets=['china', 'india', 'mexico'],
+            suggested_markets=[('china', 'cn'), ('india', 'in'), ('mexico', 'mx')],
+            is_restricted_market=is_restricted_market,
+            is_market_skipped=is_market_skipped,
+            country_code=country_code,
         )
 
     def get_success_url(self):
