@@ -59,7 +59,7 @@ class FindASpecialistSearchView(GA360Mixin, SubmitFormOnGetMixin, FormView):
         try:
             paginator = Paginator(range(count), self.page_size)
             pagination = paginator.page(form.cleaned_data['page'])
-            page_range = paginator.get_elided_page_range(form.cleaned_data['page'])
+            page_range = paginator.get_elided_page_range(form.cleaned_data['page'], on_each_side=1, on_ends=1)
         except EmptyPage:
             return self.handle_empty_page(form)
         else:

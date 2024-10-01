@@ -40,7 +40,7 @@
             {% endif %}
         </div>
     </section>
-    <section class="light-blue-background govuk-!-margin-bottom-5">
+    <section class="light-blue-background">
         <div class="govuk-width-container great-container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
@@ -74,7 +74,14 @@
             </div>
         </div>
     </section>
-    <section>
+    {% if page.investment_type == 'Foreign direct investment' or page.investment_type == 'Freeports' %}
+        <section class="light-green-background govuk-!-padding-top-7 govuk-!-padding-bottom-4">
+            <div class="govuk-width-container great-container">
+                {% include 'investment/includes/opportunity_contact.html' with button_preamble="Take advantage of this opportunity to expand your business in the UK" %}
+            </div>
+        </section>
+    {% endif %}
+    <section class="govuk-!-padding-top-6">
         <div class="govuk-width-container great-container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">{% include_block page.article_body %}</div>
@@ -112,6 +119,13 @@
                         {% include_block page.article_case_studies %}
                     </div>
                 </div>
+            </div>
+        </section>
+    {% endif %}
+    {% if page.investment_type == 'Foreign direct investment' or page.investment_type == 'Freeports' %}
+        <section class="light-green-background govuk-!-padding-top-7 govuk-!-padding-bottom-4">
+            <div class="govuk-width-container great-container">
+                {% include 'investment/includes/opportunity_contact.html' with button_preamble="Take advantage of this opportunity to expand your business in the UK" %}
             </div>
         </section>
     {% endif %}
