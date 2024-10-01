@@ -229,7 +229,6 @@ class GuidedJourneyMixin:
 
 
 class HCSATMixin:
-
     def get_hcsat(self, request, service):
         hcsat_id = request.session.get(f'{service}_hcsat_id')
         if hcsat_id:
@@ -240,6 +239,10 @@ class HCSATMixin:
 
     def set_csat_and_stage(self, request, ctx, hcsat_service_name, form):
         hcsat = self.get_hcsat(request, hcsat_service_name)
+
+        # all csat instances use the same form object, so customise initial heading depending on service
+        form.declared_fields['satisfaction_rating'].label = self.get_service_csat_heading(hcsat_service_name)
+
         ctx['hcsat_form'] = form
         ctx['hcsat'] = hcsat
 
@@ -257,3 +260,14 @@ class HCSATMixin:
             if existing_csat:
                 hcsat_form.satisfaction_rating = existing_csat.satisfaction_rating
         return hcsat_form
+
+    def get_service_csat_heading(self, hcsat_service_name):
+        service_name_to_readable_name_map = {
+            'export_academy': 'UK Export Academy event booking',
+            'where_to_export': 'Where to export',
+            'learn_to_export': 'Learn to export',
+            'export_plan': 'Make an export plan',
+            'find_a_buyer': 'Find a buyer'
+        }
+        return f"""Overall, how would you rate your experience with the
+         {service_name_to_readable_name_map[hcsat_service_name]} service today?"""

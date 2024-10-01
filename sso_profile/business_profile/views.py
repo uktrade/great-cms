@@ -101,7 +101,7 @@ class BusinessProfileView(MemberSendAdminRequestMixin, SuccessMessageMixin, HCSA
     template_name_not_fab_user = 'business_profile/is-not-business-profile-user.html'
     template_business_profile_member = 'business_profile/business-profile-member.html'
 
-    hcsat_service_name = 'fab'
+    hcsat_service_name = 'find_a_buyer'
 
     def get_template_names(self, *args, **kwargs):
         if self.request.user.company:
