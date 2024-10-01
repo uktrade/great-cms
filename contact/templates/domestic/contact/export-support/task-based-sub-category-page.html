@@ -16,7 +16,7 @@
 {% endblock %}
 {% block body_attributes %}class="great-bg-white"{% endblock %}
 {% block breadcrumbs_block %}
-    <div class="container">{% include 'breadcrumbs.html' with itemsList=page|get_sub_category_page_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}</div>
+    <div class="container">{% include 'breadcrumbs.html' with itemsList=page|get_sub_category_page_breadcrumbs:request.get_full_path homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}</div>
 {% endblock %}
 {% block content %}
     <div class="govuk-!-padding-bottom-9 great great-bg-white">
