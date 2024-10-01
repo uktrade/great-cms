@@ -61,7 +61,7 @@
                 <div id="satisfaction_group"
                      class="govuk-form-group{% if hcsat_form.satisfaction_rating.errors %} govuk-form-group--error{% endif %}">
                     <fieldset class="govuk-fieldset">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-!-margin-bottom-4">
                             <h2 class="govuk-fieldset__heading" id="{{ hcsat_form.satisfaction_rating.auto_id }}">{{ hcsat_form.satisfaction_rating.label }}</h2>
                         </legend>
                         <div class="govuk-radios" data-module="govuk-radios" id="satisfaction_rating">
@@ -87,7 +87,7 @@
                      class="govuk-form-group{% if hcsat_form.experienced_issues.errors %} govuk-form-group--error{% endif %}">
                     <fieldset class="govuk-fieldset "
                               aria-describedby="experience-hint {% if hcsat_form.experienced_issues.errors %}csat-experience-error-message{% endif %}">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-!-margin-bottom-3">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-!-margin-bottom-4">
                             <h2 class="govuk-fieldset__heading" id="{{ hcsat_form.experienced_issues.auto_id }}">{{ hcsat_form.experienced_issues.label }}</h2>
                         </legend>
                         <div id="experience-hint" class="govuk-hint govuk-!-margin-bottom-3">Select all that apply.</div>
@@ -130,7 +130,7 @@
                      class="govuk-form-group{% if hcsat_form.likelihood_of_return.errors %} govuk-form-group--error{% endif %}">
                     <fieldset class="govuk-fieldset "
                               {% if hcsat_form.likelihood_of_return.errors %}aria-describedby="csat-likelihood-of-return-error-message"{% endif %}>
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-!-margin-bottom-5">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-!-margin-bottom-4">
                             <h2 class="govuk-fieldset__heading"
                                 id="{{ hcsat_form.likelihood_of_return.auto_id }}">{{ hcsat_form.likelihood_of_return.label }}</h2>
                         </legend>
