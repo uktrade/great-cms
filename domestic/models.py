@@ -27,7 +27,6 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.models import Page
-from wagtail.search import index
 from wagtail.snippets.blocks import SnippetChooserBlock
 
 from core import blocks as core_blocks, cache_keys, helpers, mixins, service_urls
@@ -163,13 +162,6 @@ class BaseContentPage(
 
         path = self.get_url()
         return base_url + path if path else ''
-
-    search_fields = Page.search_fields + [  # Inherit search_fields from Page
-        index.SearchField('country_tags'),
-        index.SearchField('region_tags'),
-        index.SearchField('sector_tags'),
-        index.SearchField('trading_bloc_tags'),
-    ]
 
 
 class SocialLinksPageMixin(Page):
