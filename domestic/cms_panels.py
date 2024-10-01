@@ -199,6 +199,18 @@ class ArticlePagePanels:
         ),
     ]
 
+    tagging_panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel('country_tags'),
+                FieldPanel('sector_tags'),
+                FieldPanel('region_tags'),
+                FieldPanel('trading_bloc_tags'),
+            ],
+            heading='Tags',
+        ),
+    ]
+
     settings_panels = [
         FieldPanel('title'),
         FieldPanel('type_of_article', widget=Select),
@@ -347,6 +359,18 @@ class CountryGuidePagePanels:
                     ]
                 )
             ],
+        ),
+    ]
+
+    tagging_panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel('country_tags'),
+                FieldPanel('sector_tags'),
+                FieldPanel('region_tags'),
+                FieldPanel('trading_bloc_tags'),
+            ],
+            heading='Tags',
         ),
     ]
 
