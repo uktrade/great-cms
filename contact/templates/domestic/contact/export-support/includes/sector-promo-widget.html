@@ -1,7 +1,7 @@
 {% load get_market_widget_data get_sector_and_market_promo_data from component_tags %}
 
 {% with res=session_data.sector|get_sector_and_market_promo_data:session_data.market %}
-    {% for promo in res.both_matches %}
+    {% for promo in res.sector_and_market_matches %}
         <div class="govuk-!-margin-top-5 govuk-!-margin-bottom-2 govuk-!-padding-6 great-bg-white">
             <h2 class="govuk-heading-s great-heading-link__heading">{{ promo.title }}</h2>
             <p class="govuk-body">
