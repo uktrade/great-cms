@@ -27,7 +27,7 @@
     {% endif %}
     {% if features.FEATURE_HOMEPAGE_REDESIGN_V1 %}
         <section class="great great-bg-light-blue govuk-!-padding-top-0 govuk-!-padding-bottom-0">
-            <div class="govuk-width-container great-container">
+            <div class="great-container">
                 {% if page.magna_ctas_title %}
                     <h2 class="govuk-heading-l govuk-!-margin-top-9 govuk-!-margin-bottom-6">{{ page.magna_ctas_title }}</h2>
                 {% endif %}
@@ -162,7 +162,7 @@
         {% with page.campaign.0.value as campaign_block_value %}
             {% if features.FEATURE_HOMEPAGE_REDESIGN_V1 %}
                 <section class="great great-bg-light-blue govuk-!-padding-top-0 govuk-!-padding-bottom-9">
-                    <div class="govuk-width-container great-container">
+                    <div class="great-container">
                         {% if page.what_is_new_title %}
                             <h2 class="govuk-heading-l govuk-!-margin-top-9 govuk-!-margin-bottom-6">
                                 {{ page.what_is_new_title|default:"What's new" }}

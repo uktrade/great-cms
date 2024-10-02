@@ -9,7 +9,7 @@
 {% block meta_title %}Buy from the UK find a supplier profile {{ block.super }}{% endblock %}
 {% block content %}
     <section class="light-blue-background govuk-!-padding-top-4 govuk-!-padding-bottom-4 govuk-!-margin-bottom-6">
-        <div class="govuk-width-container great-container">
+        <div class="great-container">
             <div class="govuk-grid-row great-display-flex great-align-items-center">
                 <div class="govuk-grid-column-one-third-from-desktop govuk-!-margin-bottom-2">
                     <div class="buy-from-the-uk-logo-container">
@@ -29,7 +29,7 @@
         </div>
     </section>
     <section>
-        <div class="govuk-width-container great-container">
+        <div class="great-container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-one-third-from-desktop">
                     {% url 'international_buy_from_the_uk:find-a-supplier-contact' company_number=company.number as contact_link %}
