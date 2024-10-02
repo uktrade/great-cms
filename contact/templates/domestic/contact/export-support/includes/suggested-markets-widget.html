@@ -1,8 +1,9 @@
 {% load get_market_widget_data from component_tags %}
 
 <h3 class="govuk-heading-xs govuk-!-margin-top-3 great-heading-link__heading">Suggested markets</h3>
-{% for market in suggested_markets %}
+{% for market, country_code in suggested_markets %}
     {% with suggested_market_data=market|get_market_widget_data %}
+        <img src="/static/images/flags/{{ country_code | lower }}.svg" alt="{{ country_code | lower }} flag" width="50px" />
         <a href="{{ suggested_market_data.get_full_url }}" class="govuk-!-margin-bottom-2 great-heading-link great-heading-link--no-chevron">
             Exporting guide to {{ suggested_market_data.heading }}
         </a>

@@ -12,7 +12,6 @@ var eventFilters = (function () {
     setVars()
     bindEvents()
     setFilters()
-    scrollToTopOfResults()
   }
 
   function setVars() {
@@ -124,18 +123,6 @@ var eventFilters = (function () {
     filters.removeAttribute('aria-labelledby')
     mobileFiltersSelected = []
   }
-
-  function scrollToTopOfResults() {
-    // Scroll so that results are at the top of the screen
-    // when filters are changed
-    const url = new URL(window.location.href)
-    const filtersChanged = document.referrer.includes('/events/')
-    if (url.search.length && filtersChanged) {
-      const breadcrumbs = document.getElementById('breadcrumbs')
-      breadcrumbs.scrollIntoView(true)
-    }
-  }
-
   return {
     init: init,
   }

@@ -488,6 +488,11 @@ if OPENSEARCH_PROVIDER == 'govuk-paas':
     )
 # Connect to the local dockerized Opensearch instance
 elif OPENSEARCH_PROVIDER in ['localhost', 'aws']:
+    connections.create_connection(
+        alias='default',
+        hosts=[env.str('OPENSEARCH_URL', 'localhost:9200')],
+        connection_class=RequestsHttpConnection,
+    )
     WAGTAILSEARCH_BACKENDS = {
         'default': {
             'BACKEND': 'wagtail.search.backends.elasticsearch7',

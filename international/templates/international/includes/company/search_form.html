@@ -4,7 +4,9 @@
       method="get">
     <label for="magna-header-search-box" class="great-visually-hidden">Search</label>
     <input id="magna-header-search-box"
-           type="text"
+           class="govuk-input"
+           type="search"
+           value="{{ request.GET.q }}"
            name="q"
            placeholder="{% if placeholder %}{{ placeholder }}{% endif %}">
     <button type="submit">

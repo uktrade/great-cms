@@ -7,7 +7,7 @@
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full great-grid-column-seven-twelfths govuk-!-margin-bottom-5">
                     <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">Export support for UK businesses</h1>
-
+                   
                     {% if session_data.sic_description %}
                     <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-bg-white">
                         <h2 class="govuk-heading-s">What does your company make or do?</h2>
@@ -24,14 +24,18 @@
                     </div>
                     {% endif %}
 
-                    {% if session_data.market %}
-                        {% include 'domestic/contact/export-support/includes/market-widget.html' with market=session_data.market related_markets=related_markets %}
-                    {% endif %}
-
-                    {% if not session_data.market %}
+                    {% if is_market_skipped or not session_data.market %}
                     <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-bg-white">
                         {% include 'domestic/contact/export-support/includes/suggested-markets-widget.html' with suggested_markets=suggested_markets %}
                     </div>
+                    {% endif %}
+
+                    {% if not is_market_skipped and session_data.market %}
+                        {% if is_restricted_market %}
+                            {% include 'domestic/contact/export-support/includes/restricted-market-widget.html' %}
+                        {% else %}
+                            {% include 'domestic/contact/export-support/includes/market-widget.html' with market=session_data.market related_markets=related_markets %}
+                        {% endif %}
                     {% endif %}
 
                     {% if session_data.sector %}
