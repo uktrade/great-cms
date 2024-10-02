@@ -2531,33 +2531,43 @@ class Task(index.Indexed, models.Model):
         return self.title
 
 
-class CountryTaggedSectorAndMarketPromo(ItemBase):
+class CountryTaggedSectorAndMarketCard(ItemBase):
     tag = models.ForeignKey(CountryTag, related_name='+', on_delete=models.CASCADE)
-    content_object = ParentalKey(to='SectorAndMarketPromo', on_delete=models.CASCADE)
+    content_object = ParentalKey(to='SectorAndMarketCard', on_delete=models.CASCADE)
 
 
-class SectorTaggedTaggedSectorAndMarketPromo(ItemBase):
+class SectorTaggedTaggedSectorAndMarketCard(ItemBase):
     tag = models.ForeignKey(SectorTag, related_name='+', on_delete=models.CASCADE)
-    content_object = ParentalKey(to='SectorAndMarketPromo', on_delete=models.CASCADE)
+    content_object = ParentalKey(to='SectorAndMarketCard', on_delete=models.CASCADE)
 
 
 @register_snippet
-class SectorAndMarketPromo(index.Indexed, ClusterableModel):
+class SectorAndMarketCard(index.Indexed, ClusterableModel):
     title = models.CharField()
     description = models.TextField()
     link_text = models.CharField(blank=True)
     link_url = models.CharField(blank=True)
     country_tags = TaggableManager(
-        through=CountryTaggedSectorAndMarketPromo,
+        through=CountryTaggedSectorAndMarketCard,
         blank=True,
         verbose_name='Country tag',
         related_name='sector_and_market_promo_country_tags',
     )
     sector_tags = TaggableManager(
-        through=SectorTaggedTaggedSectorAndMarketPromo,
+        through=SectorTaggedTaggedSectorAndMarketCard,
         blank=True,
         verbose_name='Sector tag',
         related_name='sector_and_market_promo_sector_tags',
+    )
+    meta_label = models.CharField(
+        max_length=255,
+        choices=(
+            ('guidance_great', 'Guidance on great.gov.uk'),
+            ('service_great', 'Service on great.gov.uk'),
+            ('guidance_gov', 'Guidance on GOV.UK'),
+            ('service_gov', 'Service on GOV.UK'),
+        ),
+        blank=True,
     )
 
     panels = [
@@ -2567,6 +2577,7 @@ class SectorAndMarketPromo(index.Indexed, ClusterableModel):
         FieldPanel('link_url'),
         FieldPanel('country_tags'),
         FieldPanel('sector_tags'),
+        FieldPanel('meta_label'),
     ]
 
     search_fields = [
