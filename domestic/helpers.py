@@ -3,7 +3,7 @@ from collections import defaultdict
 from directory_forms_api_client import actions
 from django.conf import settings
 
-from core.models import CuratedListPage, DetailPage, SectorAndMarketPromo
+from core.models import CuratedListPage, DetailPage, SectorAndMarketCard
 from domestic import models as domestic_models
 from sso import helpers as sso_helpers
 
@@ -162,10 +162,10 @@ def get_sector_widget_data_helper(sector):
 
 def get_sector_and_market_promo_data_helper(sector, market):
     return {
-        'market_matches': SectorAndMarketPromo.objects.filter(
+        'market_matches': SectorAndMarketCard.objects.filter(
             country_tags__name__contains=market,
         ),
-        'sector_and_market_matches': SectorAndMarketPromo.objects.filter(
+        'sector_and_market_matches': SectorAndMarketCard.objects.filter(
             country_tags__name__contains=market,
             sector_tags__name__contains=sector,
         ),
