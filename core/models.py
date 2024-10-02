@@ -20,7 +20,7 @@ from great_components.mixins import GA360Mixin
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.models import ClusterableModel, ParentalKey
 from taggit.managers import TaggableManager
-from taggit.models import GenericTaggedItemBase, ItemBase, TagBase, TaggedItemBase
+from taggit.models import ItemBase, TagBase, TaggedItemBase
 from wagtail import blocks
 from wagtail.admin.panels import (
     FieldPanel,
@@ -423,134 +423,6 @@ class CMSGenericPage(CMSGenericPageAnonymous, mixins.AuthenticatedUserRequired):
         abstract = True
 
 
-class TaggedCMSGenericPageAnonymous(
-    SeoMixin,
-    mixins.WagtailGA360Mixin,
-    GA360Mixin,
-    Page,
-):
-    """
-    Generic page, freely inspired by Codered page
-    """
-
-    class Meta:
-        abstract = True
-
-    # Do not allow this page type to be created in wagtail admin
-    is_creatable = False
-    template_choices = []
-
-    ###############
-    # Layout fields
-    ###############
-    template = models.CharField(
-        max_length=255,
-        choices=None,
-    )
-
-    #########
-    # Panels
-    ##########
-    country_tags = ClusterTaggableManager(through='core.CountryTagged', blank=True, verbose_name=_('Country Tags'))
-    sector_tags = ClusterTaggableManager(through='core.SectorTagged', blank=True, verbose_name=_('Sector Tags'))
-    type_of_export_tags = ClusterTaggableManager(
-        through='core.TypeOfExportTagged', blank=True, verbose_name=_('Type of Export Tags')
-    )
-
-    tagging_panels = [
-        MultiFieldPanel(
-            [
-                FieldPanel('country_tags'),
-                FieldPanel('sector_tags'),
-                FieldPanel('type_of_export_tags'),
-            ],
-            heading='Tags',
-        ),
-    ]
-
-    layout_panels = [FieldPanel('template')]
-    settings_panels = [FieldPanel('slug')] + Page.settings_panels
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        field = self._meta.get_field('template')
-        field.choices = self.template_choices
-        field.required = True
-
-    @cached_classmethod
-    def get_edit_handler(cls):  # NOQA N805
-        panels = [
-            ObjectList(cls.content_panels, heading='Content'),
-            ObjectList(cls.layout_panels, heading='Layout'),
-            ObjectList(cls.tagging_panels, heading='Tags'),
-            ObjectList(SeoMixin.seo_meta_panels, heading='SEO', classname='seo'),
-            ObjectList(cls.settings_panels, heading='Settings', classname='settings'),
-        ]
-
-        return TabbedInterface(panels).bind_to_model(model=cls)
-
-    def get_template(self, request, *args, **kwargs):
-        return self.template
-
-    def get_context(self, request, *args, **kwargs):
-        context = super().get_context(request)
-
-        self.set_ga360_payload(
-            page_id=self.id,
-            business_unit=settings.GA360_BUSINESS_UNIT,
-            site_section=str(self.url or '/').split('/')[1],
-        )
-        self.add_ga360_data_to_payload(request)
-        context['ga360'] = self.ga360_payload
-
-        provider = get_context_provider(request=request, page=self)
-        if provider:
-            context.update(provider.get_context_data(request=request, page=self))
-        return context
-
-
-class TaggedCMSGenericPage(TaggedCMSGenericPageAnonymous, mixins.AuthenticatedUserRequired):
-    """
-    Generic page, freely inspired by Codered page
-    """
-
-    class Meta:
-        abstract = True
-
-
-class TaggedPage(Page):
-    country_tags = ClusterTaggableManager(through='core.CountryTagged', blank=True, verbose_name=_('Country Tags'))
-    sector_tags = ClusterTaggableManager(through='core.SectorTagged', blank=True, verbose_name=_('Sector Tags'))
-    type_of_export_tags = ClusterTaggableManager(
-        through='core.TypeOfExportTagged', blank=True, verbose_name=_('Type of Export Tags')
-    )
-
-    tagging_panels = [
-        MultiFieldPanel(
-            [
-                FieldPanel('country_tags'),
-                FieldPanel('sector_tags'),
-                FieldPanel('type_of_export_tags'),
-            ],
-            heading='Tags',
-        ),
-    ]
-
-    @cached_classmethod
-    def get_edit_handler(cls):  # noqa
-        panels = [
-            # Normal Wagtail panels.
-            ObjectList(cls.content_panels, heading='Content'),
-            ObjectList(cls.tagging_panels, heading='Tags'),
-            ObjectList(cls.promote_panels, heading='Promote'),
-            ObjectList(cls.settings_panels, heading='Settings', classname='settings'),
-        ]
-        return TabbedInterface(panels).bind_to_model(model=cls)
-
-    class Meta:  # noqa
-        abstract = True
-
-
 class LandingPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage):
     parent_page_types = [
         'domestic.DomesticHomePage',  # TODO: once we've restructured, remove this permission
@@ -745,7 +617,7 @@ class ListPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGeneric
     ]
 
 
-class CuratedListPage(settings.FEATURE_DEA_V2 and TaggedCMSGenericPageAnonymous or TaggedCMSGenericPage):
+class CuratedListPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage):
     parent_page_types = ['core.ListPage']
     subpage_types = [
         'core.TopicPage',
@@ -822,7 +694,7 @@ def hero_singular_validation(value):
         )
 
 
-class TopicPage(TaggedPage, mixins.AuthenticatedUserRequired if not settings.FEATURE_DEA_V2 else object):
+class TopicPage(Page, mixins.AuthenticatedUserRequired if not settings.FEATURE_DEA_V2 else object):
     """Structural page to allow for cleaner mapping of lessons (`DetailPage`s)
     to modules (`CuratedListPage`s).
 
@@ -1581,38 +1453,6 @@ class CountryTaggedCaseStudy(ItemBase):
     content_object = ParentalKey(to='core.CaseStudy', on_delete=models.CASCADE, related_name='country_tagged_items')
 
 
-class CountryTagged(GenericTaggedItemBase):
-    tag = models.ForeignKey(
-        CountryTag,
-        on_delete=models.CASCADE,
-        related_name='%(app_label)s_%(class)s_items',
-    )
-
-
-class SectorTagged(GenericTaggedItemBase):
-    tag = models.ForeignKey(
-        SectorTag,
-        on_delete=models.CASCADE,
-        related_name='%(app_label)s_%(class)s_items',
-    )
-
-
-class TypeOfExportTagged(GenericTaggedItemBase):
-    tag = models.ForeignKey(
-        TypeOfExportTag,
-        on_delete=models.CASCADE,
-        related_name='%(app_label)s_%(class)s_items',
-    )
-
-
-class RegionTagged(GenericTaggedItemBase):
-    tag = models.ForeignKey(
-        PersonalisationRegionTag,
-        on_delete=models.CASCADE,
-        related_name='%(app_label)s_%(class)s_items',
-    )
-
-
 class RegionTaggedCaseStudy(ItemBase):
     tag = models.ForeignKey(
         PersonalisationRegionTag, related_name='region_tagged_case_studies', on_delete=models.CASCADE
@@ -1796,17 +1636,6 @@ class CaseStudy(ClusterableModel):
         through='core.TradingBlocTaggedCaseStudy', blank=True, verbose_name='Trading bloc tags'
     )
 
-    sector_tags = TaggableManager(
-        through='core.SectorTagged', blank=True, verbose_name='Sector tags', related_name='sector_tags'
-    )
-
-    type_of_export_tags = TaggableManager(
-        through='core.TypeOfExportTagged',
-        blank=True,
-        verbose_name='Type of Export Tags',
-        related_name='type_of_export_tags',
-    )
-
     created = CreationDateTimeField('created', null=True)
     modified = ModificationDateTimeField('modified', null=True)
 
@@ -1836,23 +1665,6 @@ class CaseStudy(ClusterableModel):
             heading='Related Lesson, Topic & Module, also used for Personalisation',
         ),
     ]
-
-    tag_panels = [
-        MultiFieldPanel(
-            [
-                FieldPanel('sector_tags'),
-                FieldPanel('type_of_export_tags'),
-            ],
-            heading='Tags',
-        ),
-    ]
-
-    edit_handler = TabbedInterface(
-        [
-            ObjectList(panels, heading='Case Study'),
-            ObjectList(tag_panels, heading='Tags'),
-        ]
-    )
 
     def __str__(self):
         display_name = self.title if self.title else self.summary_context
@@ -2321,6 +2133,13 @@ class HeroSnippet(NonPageContentSnippetBase, NonPageContentSEOMixin):
             'page_path': '/export-academy/registration/',
         },
     }
+    slug = models.CharField(
+        max_length=255,
+        unique=True,
+        verbose_name='Purpose',
+        help_text='Select the use-case for this snippet from a fixed list of choices',
+        choices=[(key, val['title']) for key, val in slug_options.items()],
+    )
     title = models.CharField(
         max_length=255,
         null=True,

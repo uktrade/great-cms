@@ -1,7 +1,7 @@
 {% load static %}
 {% load i18n %}
 {% load static_absolute from component_tags %}
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtail_cache %}
 {% load wagtailimages_tags %}
 {% load domestic_canonical_url_tags %}
 {% get_current_language_bidi as LANGUAGE_BIDI %}
@@ -47,7 +47,7 @@
                 {% get_canonical_url as canonical_url %}
                 <link rel="canonical" href="{{ canonical_url }}">
                 {% get_hreflang_tags as hreflang_tags %}
-                {{ hreflang_tags|linebreaksbr }}
+                {{ hreflang_tags }}
             {% endif %}
         {% endwith %}
         {% block head_google_tag_manager %}
@@ -180,12 +180,14 @@
             {% include 'components/inline_feedback/was_page_useful.html' %}
         {% endblock %}
         {% block body_footer %}
+            {% wagtailcache 86400 "domestic_footer_cache" %}
             {% include 'components/header_footer/domestic_footer.html' %}
-        {% endblock %}
-        {% block body_js %}
-            {% slugurl "privacy" as privacy_and_cookies_path %}
-            {% if request.path != privacy_and_cookies_path %}
-                <script>
+        {% endwagtailcache %}
+    {% endblock %}
+    {% block body_js %}
+        {% slugurl "privacy" as privacy_and_cookies_path %}
+        {% if request.path != privacy_and_cookies_path %}
+            <script>
       var element = document.createElement('div')
       document.body.appendChild(element)
       components.CookiesModal({
@@ -193,8 +195,8 @@
         privacyCookiesUrl: {{privacy_and_cookies_path}},
         preferencesUrl: '{% url "core:cookie-preferences" %}',
       })
-                </script>
-            {% endif %}
-        {% endblock %}
-    </body>
+            </script>
+        {% endif %}
+    {% endblock %}
+</body>
 </html>

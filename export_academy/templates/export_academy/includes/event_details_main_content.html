@@ -24,7 +24,7 @@
                                 <dd class="govuk-summary-list__value govuk-!-margin-0 govuk-!-padding-bottom-1 govuk-!-padding-top-1">
                                     {% for type in event_types %}
                                         <a class="govuk-link govuk-link--no-visited-state  {% if not forloop.last %}govuk-!-static-padding-right-1{% endif %}"
-                                           href='/export-academy/events/?type={{ type|lower }}'>{{ type }}</a>
+                                           href='/export-academy/events/?type={{ type|slugify }}'>{{ type }}</a>
                                     {% endfor %}
                                 </dd>
                             </div>

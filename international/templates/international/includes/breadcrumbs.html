@@ -1,7 +1,8 @@
 {% if breadcrumbs %}
     <div class="{% if wrapper_classes %}{{ wrapper_classes }}{% endif %} govuk-!-padding-top-2 govuk-!-padding-bottom-1">
         <div class="govuk-width-container great-container">
-            <div class="govuk-breadcrumbs govuk-breadcrumbs--collapse-on-mobile govuk-!-margin-top-1 govuk-!-margin-bottom-1 {% if dark_mode %}govuk-breadcrumbs--inverse{% endif %}">
+            <nav aria-label="Breadcrumb"
+                 class="govuk-breadcrumbs govuk-breadcrumbs--collapse-on-mobile govuk-!-margin-top-1 govuk-!-margin-bottom-1 {% if dark_mode %}govuk-breadcrumbs--inverse{% endif %}">
                 <ol class="govuk-breadcrumbs__list">
                     {% for breadcrumb in breadcrumbs %}
                         <li class="govuk-breadcrumbs__list-item">
@@ -10,7 +11,7 @@
                         </li>
                     {% endfor %}
                 </ol>
-            </div>
+            </nav>
         </div>
     </div>
 {% endif %}

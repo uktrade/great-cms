@@ -42,15 +42,43 @@
                         {% csrf_token %}
                         <div class="govuk-!-margin-bottom-6">
                             {% for field in form.visible_fields %}
-                                <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
+                            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                                {% if field.name == 'not_sure_where_to_export' %}
+                                <div class="govuk-form-group govuk-!-margin-top-3 govuk-!-margin-bottom-3 {% if field.errors %}govuk-form-group--error{% endif %}">
+                                    <div class="govuk-checkboxes__item govuk-!-margin-bottom-3 great-checkbox">
+                                        <input class="govuk-checkboxes__input" id="id_not_sure_where_to_export" name="not_sure_where_to_export" type="checkbox" value="{{ field.value }}" />
+                                        <label id="id_not_sure_where_to_export-label" for="id_not_sure_where_to_export" class="govuk-label govuk-checkboxes__label">{{ field.label }}</label>
+                                    </div>
+                                </div>
+                                {% elif field.name == 'market_not_listed' %}
+                                <div class="govuk-form-group govuk-!-margin-bottom-3 {% if field.errors %}govuk-form-group--error{% endif %}">
+                                    <div class="govuk-checkboxes__item govuk-!-margin-bottom-3 great-checkbox">
+                                        <input class="govuk-checkboxes__input" id="id_market_not_listed" name="market_not_listed" type="checkbox" value="{{ field.value }}" data-aria-controls="conditional-unlisted-market" />
+                                        <label id="id_market_not_listed-label" for="id_market_not_listed" class="govuk-label govuk-checkboxes__label">{{ field.label }}</label>
+                                    </div>
+                                </div>
+                                {% elif field.name == 'market' %}
+                                <div class="govuk-form-group govuk-!-margin-bottom-3 {% if field.errors %}govuk-form-group--error{% endif %}">
                                     {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
                                 </div>
+                                <div id="market-container"></div>
+                                {% else %}
+                                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="conditional-unlisted-market">
+                                    <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
+                                        {% include 'domestic/contact/includes/govuk-form-field.html' with field=field hide_label=True %}
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
                             {% endfor %}
-                            <div id="market-container"></div>
                         </div>
                         
                         <button type="submit" class="govuk-button great-min-width-250-desktop">{{ button_text }}</button>
-                    </form>
+
+                        <div>
+                            <a href="{% url 'core:guided-journey-step-4' %}?is_market_skipped=True" class="govuk-link">Skip</a>
+                        </div>
+                    </form>                    
                 </div>
             </div>
         </div>
@@ -59,6 +87,8 @@
 
 {% block body_js %}
     {{ block.super }}
+    <script src="{% static 'javascript/govuk.js' %}"></script>
+    <script>window.GOVUKFrontend.initAll()</script> 
     <script type="text/javascript"
             src="{% static 'javascript/accessible-autocomplete.v3.min.js' %}"></script>
     <script type="text/javascript">
