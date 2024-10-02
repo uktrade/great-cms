@@ -2522,3 +2522,52 @@ class Task(index.Indexed, models.Model):
 
     def __str__(self):
         return self.title
+
+
+class CountryTaggedSectorAndMarketPromo(ItemBase):
+    tag = models.ForeignKey(CountryTag, related_name='+', on_delete=models.CASCADE)
+    content_object = ParentalKey(to='SectorAndMarketPromo', on_delete=models.CASCADE)
+
+
+class SectorTaggedTaggedSectorAndMarketPromo(ItemBase):
+    tag = models.ForeignKey(SectorTag, related_name='+', on_delete=models.CASCADE)
+    content_object = ParentalKey(to='SectorAndMarketPromo', on_delete=models.CASCADE)
+
+
+@register_snippet
+class SectorAndMarketPromo(index.Indexed, ClusterableModel):
+    title = models.CharField()
+    description = models.TextField()
+    link_text = models.CharField(blank=True)
+    link_url = models.CharField(blank=True)
+    country_tags = TaggableManager(
+        through=CountryTaggedSectorAndMarketPromo,
+        blank=True,
+        verbose_name='Country tag',
+        related_name='sector_and_market_promo_country_tags',
+    )
+    sector_tags = TaggableManager(
+        through=SectorTaggedTaggedSectorAndMarketPromo,
+        blank=True,
+        verbose_name='Sector tag',
+        related_name='sector_and_market_promo_sector_tags',
+    )
+
+    panels = [
+        FieldPanel('title'),
+        FieldPanel('description'),
+        FieldPanel('link_text'),
+        FieldPanel('link_url'),
+        FieldPanel('country_tags'),
+        FieldPanel('sector_tags'),
+    ]
+
+    search_fields = [
+        index.AutocompleteField('title'),
+    ]
+
+    class Meta:
+        ordering = ('title',)
+
+    def __str__(self):
+        return self.title
