@@ -313,9 +313,9 @@ class ActivityStreamExpandYourBusinessUserDataSerializer(serializers.ModelSerial
     dunsNumber = serializers.CharField(source='duns_number')  # noqa: N815
     addressLine1 = serializers.CharField(source='address_line_1')  # noqa: N815
     addressLine2 = serializers.CharField(source='address_line_2')  # noqa: N815
-    town = serializers.CharField(source='town')  # noqa: N815
-    county = serializers.CharField(source='county')  # noqa: N815
-    postcode = serializers.CharField(source='postcode')  # noqa: N815
+    town = serializers.CharField()  # noqa: N815
+    county = serializers.CharField()  # noqa: N815
+    postcode = serializers.CharField()  # noqa: N815
 
     class Meta:
         model = UserData
