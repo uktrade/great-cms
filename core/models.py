@@ -2133,6 +2133,13 @@ class HeroSnippet(NonPageContentSnippetBase, NonPageContentSEOMixin):
             'page_path': '/export-academy/registration/',
         },
     }
+    slug = models.CharField(
+        max_length=255,
+        unique=True,
+        verbose_name='Purpose',
+        help_text='Select the use-case for this snippet from a fixed list of choices',
+        choices=[(key, val['title']) for key, val in slug_options.items()],
+    )
     title = models.CharField(
         max_length=255,
         null=True,
