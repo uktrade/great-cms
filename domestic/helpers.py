@@ -161,8 +161,8 @@ def get_sector_widget_data_helper(sector):
 
 
 def get_sector_and_market_promo_data_helper(sector, market):
-    return {
-        'market_matches': SectorAndMarketCard.objects.filter(
+    res = {
+        'market_matches': SectorAndMarketCard.objects.exclude(sector_tags__name__isnull=False).filter(
             country_tags__name__contains=market,
         ),
         'sector_and_market_matches': SectorAndMarketCard.objects.filter(
@@ -170,3 +170,7 @@ def get_sector_and_market_promo_data_helper(sector, market):
             sector_tags__name__contains=sector,
         ),
     }
+
+    print(res)
+
+    return res
