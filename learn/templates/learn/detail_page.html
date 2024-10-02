@@ -133,12 +133,12 @@
     </script>
     <script src="{% static 'javascript/hcsat-feedback-form.js' %}"></script>
     <script>
-         if (sessionStorage.getItem("CsatComplete")!=='true'){
+         
             var csat_form = document.getElementById("hcsat_section")
             
             document.addEventListener('DOMContentLoaded', () => {
                 new CsatFormHandler('csat-form');
             });
-        }
+        
     </script>
 {% endblock %}

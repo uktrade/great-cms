@@ -1063,10 +1063,12 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
     def form_valid(self, form, request):
 
         hcsat = form.save(commit=False)
+        js_enabled = False
 
         # js version handles form progression in js file, so keep on 0 for reloads
         if 'js_enabled' in request.get_full_path():
             hcsat.stage = 0
+            js_enabled = True
 
         # if in second part of form (satisfaction=None) or not given in first part, persist existing satisfaction rating
         hcsat = self.persist_existing_satisfaction(request, self.hcsat_service_name, hcsat)
@@ -1075,7 +1077,7 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         hcsat.URL = self.get_success_url(request)
         hcsat.user_journey = 'ARTICLE_PAGE'
         hcsat.session_key = request.session.session_key
-        hcsat.save()
+        hcsat.save(js_enabled=js_enabled)
 
         request.session[f'{self.hcsat_service_name}_hcsat_id'] = hcsat.id
 
@@ -2474,8 +2476,9 @@ class HCSAT(TimeStampedModel):
 
     def save(self, *args, **kwargs):
         # Used to manage the HCSAT stage
-        current_hcsat_stage = self.stage
+        js_enabled = kwargs.get('js_enabled')
 
+        current_hcsat_stage = self.stage
         # Stage 0: HCSAT has not been started
         # Stage 1: HCSAT satisfaction has been submitted
         # Stage 2: HCSAT has been completed
@@ -2485,7 +2488,9 @@ class HCSAT(TimeStampedModel):
             self.stage = current_hcsat_stage + 1
         elif current[0].stage == current_hcsat_stage and current_hcsat_stage < 2:
             self.stage = current_hcsat_stage + 1
-        super(HCSAT, self).save(*args, **kwargs)
+        if js_enabled:
+            self.stage = 0
+        super(HCSAT, self).save(*args)
 
 
 @register_snippet

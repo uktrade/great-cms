@@ -200,12 +200,13 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, HCSATMixin, TemplateView,
 
     def form_valid(self, form):
         super().form_valid(form)
-
+        js_enabled=False
         hcsat = form.save(commit=False)
-
+        
         # js version handles form progression in js file, so keep on 0 for reloads
         if 'js_enabled' in self.request.get_full_path():
             hcsat.stage = 0
+            js_enabled=True
 
         # if in second part of form (satisfaction=None) or not given in first part, persist existing satisfaction rating
         hcsat = self.persist_existing_satisfaction(self.request, self.hcsat_service_name, hcsat)
@@ -214,7 +215,8 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, HCSATMixin, TemplateView,
         hcsat.URL = reverse_lazy('core:compare-countries')
         hcsat.user_journey = 'ADD_PRODUCT'
         hcsat.session_key = self.request.session.session_key
-        hcsat.save()
+        
+        hcsat.save(js_enabled=js_enabled)
 
         self.request.session[f'{self.hcsat_service_name}_hcsat_id'] = hcsat.id
 

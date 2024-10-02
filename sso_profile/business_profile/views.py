@@ -187,11 +187,14 @@ class BusinessProfileView(MemberSendAdminRequestMixin, SuccessMessageMixin, HCSA
         if 'action' not in form.cleaned_data.keys():
             super().form_valid(form)
 
+            js_enabled = False
+
             hcsat = form.save(commit=False)
 
             # js version handles form progression in js file, so keep on 0 for reloads
             if 'js_enabled' in self.request.get_full_path():
                 hcsat.stage = 0
+                js_enabled = True
 
             # if in second part of form (satisfaction=None) or not given, persist existing satisfaction rating
             hcsat = self.persist_existing_satisfaction(self.request, self.hcsat_service_name, hcsat)
@@ -200,7 +203,7 @@ class BusinessProfileView(MemberSendAdminRequestMixin, SuccessMessageMixin, HCSA
             hcsat.URL = '/profile/business-profile/'
             hcsat.user_journey = 'COMPANY_VERIFICATION'
             hcsat.session_key = self.request.session.session_key
-            hcsat.save()
+            hcsat.save(js_enabled=js_enabled)
 
             self.request.session[f'{self.hcsat_service_name}_hcsat_id'] = hcsat.id
 

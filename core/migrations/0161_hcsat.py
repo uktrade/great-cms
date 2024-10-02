@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0157_micrositepage_include_link_to_great_and_more'),
+        ('core', '0160_alter_herosnippet_slug'),
     ]
 
     operations = [

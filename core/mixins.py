@@ -251,7 +251,7 @@ class HCSATMixin:
             hcsat.stage = 0
             hcsat.save()
         else:
-            ctx['hcsat_form_stage'] = hcsat.stage if hcsat else None
+            ctx['hcsat_form_stage'] = hcsat.stage if hcsat else 0
         return ctx
 
     def persist_existing_satisfaction(self, request, hcsat_service_name, hcsat_form):
