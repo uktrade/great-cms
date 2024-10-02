@@ -484,8 +484,6 @@ elif OPENSEARCH_PROVIDER in ['localhost', 'aws']:
     connections.create_connection(
         alias='default',
         hosts=[env.str('OPENSEARCH_URL', 'localhost:9200')],
-        use_ssl=False,
-        verify_certs=False,
         connection_class=RequestsHttpConnection,
     )
     WAGTAILSEARCH_BACKENDS = {
