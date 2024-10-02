@@ -38,6 +38,7 @@ class ContactView(GA360Mixin, FormView):
 
     def submit_feedback(self, form):
         cleaned_data = form.cleaned_data
+        is_human_submission = 'csrfmiddlewaretoken' not in cleaned_data
         if self.request.GET.get('next'):
             cleaned_data['from_url'] = check_url_host_is_safelisted(self.request)
 
@@ -55,8 +56,9 @@ class ContactView(GA360Mixin, FormView):
             sender=sender,
         )
 
-        response = action.save(cleaned_data)
-        response.raise_for_status()
+        if is_human_submission:
+            response = action.save(cleaned_data)
+            response.raise_for_status()
 
     def form_valid(self, form):
         self.submit_feedback(form)
