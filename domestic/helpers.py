@@ -171,6 +171,4 @@ def get_sector_and_market_promo_data_helper(sector, market):
         ),
     }
 
-    print(res)
-
     return res
