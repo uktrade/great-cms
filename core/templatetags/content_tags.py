@@ -580,10 +580,16 @@ def get_category_page_breadcrumbs(page):
 
 
 @register.filter
-def get_sub_category_page_breadcrumbs(page):
+def get_sub_category_page_breadcrumbs(page, full_page_url):
+    parent_category_url = page.get_parent().get_full_url()
+    full_page_url = full_page_url.split('?')
+
+    if len(full_page_url) == 2:
+        parent_category_url += '?' + full_page_url[1]
+
     return [
         {'url': '/support/export-support/', 'title': 'Export Support'},
-        {'url': page.get_parent().get_full_url(), 'title': page.get_parent().specific.page_title},
+        {'url': parent_category_url, 'title': page.get_parent().specific.page_title},
     ]
 
 
@@ -639,3 +645,14 @@ def change_country_name_to_include_the(country_name):
     if country_name.lower() in countries_starting_with_the:
         return f'the {country_name.lower().title().replace(" Of ", " of ").replace(" And ", " and ")}'
     return country_name.lower().title()
+
+
+@register.filter
+def guided_journey_mode(page_url):
+
+    res = page_url.split('?')
+
+    if len(res) == 2:
+        return '?' + res[1]
+
+    return ''

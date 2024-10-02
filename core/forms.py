@@ -2,6 +2,7 @@ from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV3
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from django.forms import (
+    BooleanField,
     CharField,
     CheckboxSelectMultiple,
     ChoiceField,
@@ -258,6 +259,18 @@ class GuidedJourneyStep3Form(forms.Form):
     market = CharField(
         label='Select your market',
         widget=TextInput(attrs={'class': 'govuk-input great-text-input', 'placeholder': 'Search...'}),
+        required=False,
+    )
+    not_sure_where_to_export = BooleanField(
+        label='Not sure where to export?',
+        required=False,
+    )
+    market_not_listed = BooleanField(
+        label="My market isn't listed",
+        required=False,
+    )
+    unlisted_market = CharField(
+        label='Unlisted market',
         required=False,
     )
 

@@ -11,6 +11,8 @@
             <a href="{% url 'core:guided-journey-step-3-edit' %}?return_to_step=4" class="govuk-link">(Change)</a>
         </div>
 
+        <img src="/static/images/flags/{{ country_code | lower }}.svg" alt="{{ country_code | lower }} flag" width="50px" />
+
         <a href="{{ market.get_full_url }}" class="govuk-heading-s govuk-!-margin-bottom-2 great-heading-link great-heading-link--no-chevron">
             <h2 class="govuk-heading-s great-heading-link__heading">
             Exporting guide to {{ market.heading }}</h2>
@@ -43,6 +45,7 @@
             {% endwith %}
         {% endif %}
     {% else %}
+        <img src="/static/images/flags/{{ country_code | lower }}.svg" alt="{{ country_code | lower }} flag" width="50px" />
         <h2 class="govuk-heading-s">{{ market_name }}</h2>
         <p class="govuk-body">Sorry we don't have any information</p>
     {% endif %}

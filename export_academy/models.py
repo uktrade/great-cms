@@ -36,7 +36,7 @@ from core.models import (
     TypeOfExportTag,
 )
 from core.templatetags.content_tags import format_timedelta
-from domestic.models import BaseContentPage, TaggedBaseContentPage
+from domestic.models import BaseContentPage
 from export_academy import choices, managers
 from export_academy.blocks import (
     MetaDataBlock,
@@ -457,7 +457,43 @@ class EventsOnCourse(ClusterableModel, EventsInCoursePanel):
         ordering = ['id']
 
 
-class CoursePage(CoursePagePanels, TaggedBaseContentPage):
+class CountryTaggedCoursePage(ItemBase):
+    tag = models.ForeignKey(
+        CountryTag,
+        on_delete=models.CASCADE,
+        related_name='country_tagged_course_page',
+    )
+    content_object = ParentalKey(to='CoursePage', on_delete=models.CASCADE, related_name='country_tagged_items')
+
+
+class SectorTaggedCoursePage(ItemBase):
+    tag = models.ForeignKey(
+        SectorTag,
+        on_delete=models.CASCADE,
+        related_name='sector_tagged_course_page',
+    )
+    content_object = ParentalKey(to='CoursePage', on_delete=models.CASCADE, related_name='sector_tagged_items')
+
+
+class RegionTaggedCoursePage(ItemBase):
+    tag = models.ForeignKey(
+        PersonalisationRegionTag,
+        on_delete=models.CASCADE,
+        related_name='region_tagged_course_page',
+    )
+    content_object = ParentalKey(to='CoursePage', on_delete=models.CASCADE, related_name='region_tagged_items')
+
+
+class TradingBlocTaggedCoursePage(ItemBase):
+    tag = models.ForeignKey(
+        PersonalisationTradingBlocTag,
+        on_delete=models.CASCADE,
+        related_name='trading_bloc_tagged_course_page',
+    )
+    content_object = ParentalKey(to='CoursePage', on_delete=models.CASCADE, related_name='trading_bloc_tagged_items')
+
+
+class CoursePage(CoursePagePanels, BaseContentPage):
     class Meta:
         verbose_name = 'Series page'
         verbose_name_plural = 'Series pages'
@@ -545,6 +581,30 @@ class CoursePage(CoursePagePanels, TaggedBaseContentPage):
         max_num=2,
         # wagtail 5.0
         use_json_field=True,
+    )
+
+    country_tags = ClusterTaggableManager(
+        through=CountryTaggedCoursePage,
+        blank=True,
+        verbose_name='Country tags',
+    )
+
+    sector_tags = ClusterTaggableManager(
+        through=SectorTaggedCoursePage,
+        blank=True,
+        verbose_name='Sector tags',
+    )
+
+    region_tags = ClusterTaggableManager(
+        through=RegionTaggedCoursePage,
+        blank=True,
+        verbose_name='Region tags',
+    )
+
+    trading_bloc_tags = ClusterTaggableManager(
+        through=TradingBlocTaggedCoursePage,
+        blank=True,
+        verbose_name='Trading bloc tags',
     )
 
     def get_all_events(self):
