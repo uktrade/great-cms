@@ -376,6 +376,12 @@ def test_eyb_user_serializer():
     instance.created = '2023-08-24 10:48:19.018536+00'
     instance.modified = '2023-08-24 10:48:19.018536+00'
     instance.company_website = 'https://www.great.gov.uk'
+    instance.duns_number = 'DUNDUHDUNDUN'
+    instance.address_line_1 = '1 High street'
+    instance.address_line_2 = 'Electric avenue'
+    instance.town = 'Swansea'
+    instance.county = 'Glamorgan'
+    instance.postcode = 'SA4 4PP'
 
     serializer = ActivityStreamExpandYourBusinessUserDataSerializer()
 
@@ -399,6 +405,12 @@ def test_eyb_user_serializer():
             'created': instance.created,
             'modified': instance.modified,
             'companyWebsite': instance.company_website,
+            'dunsNumber': instance.duns_number,
+            'addressLine1': instance.address_line_1,
+            'addressLine2': instance.address_line_2,
+            'town': instance.town,
+            'county': instance.county,
+            'postcode': instance.postcode,
         },
     }
     assert output == expected
