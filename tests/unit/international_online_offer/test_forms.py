@@ -8,10 +8,13 @@ from international_online_offer.core import (
     spends,
 )
 from international_online_offer.forms import (
-    BusinessDetailsForm,
+    BusinessHeadquartersForm,
+    BusinessSectorForm,
+    CompanyDetailsForm,
     ContactDetailsForm,
     CsatFeedbackForm,
     FeedbackForm,
+    FindYourCompanyForm,
     HiringForm,
     IntentForm,
     KnowSetupLocationForm,
@@ -26,82 +29,123 @@ from international_online_offer.forms import (
     (
         (
             {
-                'company_name': 'Vault tec',
-                'sector_sub': 'SL0003',
                 'company_location': 'FR',
-                'company_website': 'http://great.gov.uk/',
             },
             True,
         ),
         (
             {
-                'company_name': '',
-                'sector_sub': 'SL0003',
-                'company_location': 'FR',
-                'company_website': 'http://great.gov.uk/',
-            },
-            False,
-        ),
-        (
-            {
-                'company_name': 'Vault tec',
-                'sector_sub': '',
-                'company_location': 'FR',
-                'company_website': 'http://great.gov.uk/',
-            },
-            False,
-        ),
-        (
-            {
-                'company_name': 'Vault tec',
-                'sector_sub': 'SL0003',
-                'company_location': '',
-                'company_website': 'http://great.gov.uk/',
-            },
-            False,
-        ),
-        (
-            {
-                'company_name': 'Vault tec',
-                'sector_sub': 'SL0003',
-                'company_location': 'FR',
-                'company_website': '',
-            },
-            False,
-        ),
-        (
-            {
-                'company_name': '',
-                'sector_sub': '',
-                'company_location': '',
-                'company_website': '',
-            },
-            False,
-        ),
-        (
-            {
-                'company_name': 'Vault tec',
-                'sector_sub': 'NOT_A_VALID_SECTOR_SUB',
-                'company_location': 'FR',
-                'company_website': 'http://great.gov.uk/',
-            },
-            False,
-        ),
-        (
-            {
-                'company_name': 'Vault tec',
-                'sector_sub': 'SL0003',
-                'company_location': 'NOT_A_VALID_LOCATION',
-                'company_website': 'http://great.gov.uk/',
+                'company_location': 'ABCDEFG',
             },
             False,
         ),
     ),
 )
 @pytest.mark.django_db
-def test_business_details_form_validation(mock_get_dbt_sectors, form_data, is_valid):
-    data = form_data
-    form = BusinessDetailsForm(data)
+def test_company_location_form_validataion(form_data, is_valid):
+    form = BusinessHeadquartersForm(form_data)
+    assert form.is_valid() == is_valid
+
+
+@pytest.mark.parametrize(
+    'form_data,is_valid',
+    (
+        (
+            {
+                'company_name': 'Test company',
+            },
+            True,
+        ),
+        (
+            {
+                'company_name': '',
+            },
+            False,
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_find_your_company_form_validataion(form_data, is_valid):
+    form = FindYourCompanyForm(form_data)
+    assert form.is_valid() == is_valid
+
+
+@pytest.mark.parametrize(
+    'form_data,is_valid',
+    (
+        (
+            {
+                'company_name': 'Test Company Inc.',
+                'company_website': 'www.testcompany.com',
+                'address_line_1': '1 A Street',
+                'town': 'Town',
+            },
+            True,
+        ),
+        (
+            {
+                'company_name': '',
+                'company_website': 'www.testcompany.com',
+                'address_line_1': '1 A Street',
+                'town': 'Town',
+            },
+            False,
+        ),
+        (
+            {
+                'company_name': 'Test Company Inc.',
+                'company_website': '',
+                'address_line_1': '1 A Street',
+                'town': 'Town',
+            },
+            False,
+        ),
+        (
+            {
+                'company_name': 'Test Company Inc.',
+                'company_website': 'www.testcompany.com',
+                'address_line_1': '',
+                'town': 'Town',
+            },
+            False,
+        ),
+        (
+            {
+                'company_name': 'Test Company Inc.',
+                'company_website': 'www.testcompany.com',
+                'address_line_1': '1 A Street',
+                'town': '',
+            },
+            False,
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_company_details_form_validataion(form_data, is_valid):
+    form = CompanyDetailsForm(form_data)
+    assert form.is_valid() == is_valid
+
+
+@pytest.mark.parametrize(
+    'form_data,is_valid',
+    (
+        (
+            {
+                'sector_sub': 'SL0003',
+            },
+            True,
+        ),
+        (
+            {
+                'sector_sub': '',
+            },
+            False,
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_company_sector_form_validataion(form_data, is_valid):
+    form = BusinessSectorForm(form_data)
     assert form.is_valid() == is_valid
 
 

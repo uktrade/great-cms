@@ -6,7 +6,7 @@
     {% endcomment %}
     <div class="{% if show_vertical_error_line and field.errors %} govuk-form-group--error{% endif %}">
         {% if field.label %}
-            <label class="govuk-label govuk-label--s"
+            <label class="{% if label_class %} {{ label_class }} {% else %} govuk-label govuk-label--s {% endif %}"
                    for="{% if labelForId %}{{ labelForId }}{% else %}{{ field.id_for_label }}{% endif %}">
                 {{ field.label }}
                 {% if optional %}<span>(Optional)</span>{% endif %}
@@ -14,7 +14,7 @@
             </label>
         {% endif %}
         {% if field.help_text %}
-            <div class="govuk-hint govuk-!-margin-bottom-2"
+            <div class="{% if help_class %} {{ help_class }} {% else %} govuk-hint govuk-!-margin-bottom-2 {% endif %}"
                  id="help_for_{{ field.auto_id }}">{{ field.help_text|safe }}</div>
         {% endif %}
         {% for error in field.errors %}
@@ -23,10 +23,10 @@
             </p>
         {% endfor %}
         {% if inputWrapperClass %}
-            <div class="{{ inputWrapperClass }}">
+            <span class="{{ inputWrapperClass }}">
                 {% if inputPrefixClass %}<div class="{{ inputPrefixClass }}" aria-hidden="true">{{ inputPrefixText }}</div>{% endif %}
             {% endif %}
             {{ field }}
-            {% if inputWrapperClass %}</div>{% endif %}
+            {% if inputWrapperClass %}</span>{% endif %}
     </div>
 {% endif %}

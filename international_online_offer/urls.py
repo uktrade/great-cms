@@ -14,9 +14,24 @@ urlpatterns = [
         name='about-your-business',
     ),
     path(
-        'business-details/',
-        login_required(views.BusinessDetailsView.as_view(), login_url=SIGNUP_URL),
-        name='business-details',
+        'business-headquarters/',
+        login_required(views.BusinessHeadQuartersView.as_view(), login_url=SIGNUP_URL),
+        name='business-headquarters',
+    ),
+    path(
+        'find-your-company/',
+        login_required(views.FindYourCompanyView.as_view(), login_url=SIGNUP_URL),
+        name='find-your-company',
+    ),
+    path(
+        'company-details/',
+        login_required(views.CompanyDetailsView.as_view(), login_url=SIGNUP_URL),
+        name='company-details',
+    ),
+    path(
+        'business-sector/',
+        login_required(views.BusinessSectorView.as_view(), login_url=SIGNUP_URL),
+        name='business-sector',
     ),
     path(
         'when-do-you-want-to-set-up/',
@@ -94,4 +109,5 @@ urlpatterns = [
         name='bci',
     ),
     path('dnb-typeahead-company-lookup/', views.DNBTypeaheadView.as_view(), name='dnb-typeahead-company-lookup'),
+    path('dnb-company-search/', views.DNBCompanySearchView.as_view(), name='dnb-company-search'),
 ]
