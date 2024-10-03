@@ -7,6 +7,7 @@ from django.utils import timezone
 from domestic.helpers import (
     get_market_widget_data_helper,
     get_sector_widget_data_helper,
+    get_sector_and_market_promo_data_helper,
 )
 
 register = template.Library()
@@ -302,3 +303,8 @@ def get_market_widget_data(market):
 @register.filter
 def get_sector_widget_data(sector):
     return get_sector_widget_data_helper(sector)
+
+
+@register.filter
+def get_sector_and_market_promo_data(sector, market):
+    return get_sector_and_market_promo_data_helper(sector, market)
