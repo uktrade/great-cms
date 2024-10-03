@@ -158,31 +158,50 @@ def test_eyb_signup_partial_complete_signup_redirect(settings, client, user):
     assert response.status_code == 302
 
 
+@pytest.mark.parametrize(
+    'url_name,response_code',
+    (
+        ('international_online_offer:about-your-business', 200),
+        ('international_online_offer:business-headquarters', 200),
+        ('international_online_offer:find-your-company', 200),
+        ('international_online_offer:company-details', 200),
+        ('international_online_offer:business-sector', 200),
+        ('international_online_offer:when-want-setup', 200),
+        ('international_online_offer:know-setup-location', 200),
+        ('international_online_offer:contact-details', 200),
+        ('international_online_offer:intent', 200),
+        ('international_online_offer:location', 200),
+        ('international_online_offer:hiring', 200),
+        ('international_online_offer:spend', 200),
+        ('international_online_offer:change-your-answers', 200),
+    ),
+)
 @pytest.mark.django_db
-def test_eyb_business_details(mock_get_dbt_sectors, client, user, settings):
+def test_eyb_triage_urls(mock_get_dbt_sectors, client, user, settings, url_name, response_code):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    user.hashed_uuid = '1234'
+    UserData.objects.create(
+        hashed_uuid=user.hashed_uuid,
+        full_name='Joe Bloggs',
+        role='Director',
+        telephone_number='07923456787',
+        agree_info_email=False,
+        duns_number='12345',
+    )
     client.force_login(user)
-    response = client.get(reverse('international_online_offer:business-details'))
-    assert response.status_code == 200
+    response = client.get(reverse(url_name))
+    assert response.status_code == response_code
 
 
 @pytest.mark.django_db
-def test_eyb_business_details_next(mock_get_dbt_sectors, client, user, settings):
+def test_eyb_business_headquarters_next(mock_get_dbt_sectors, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     client.force_login(user)
     response = client.get(
-        reverse('international_online_offer:business-details')
+        reverse('international_online_offer:business-headquarters')
         + '?next='
         + reverse('international_online_offer:change-your-answers')
     )
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
-def test_eyb_business_details_next_unhappy(mock_get_dbt_sectors, client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    client.force_login(user)
-    response = client.get(reverse('international_online_offer:business-details') + '?next=edit-your-answers')
     assert response.status_code == 200
 
 
@@ -193,7 +212,7 @@ def test_eyb_business_details_initial(mock_get_dbt_sectors, client, user, settin
         hashed_uuid='123',
         defaults={'sector': 'sector'},
     )
-    url = reverse('international_online_offer:business-details')
+    url = reverse('international_online_offer:business-sector')
     user.hashed_uuid = '123'
     client.force_login(user)
     response = client.get(url)
@@ -205,16 +224,16 @@ def test_eyb_business_details_form_valid_saves_to_db(
     mock_get_dbt_sectors, mock_get_gva_bandings, client, user, settings
 ):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:business-details')
+    url = reverse('international_online_offer:company-details')
     user.hashed_uuid = '123'
     client.force_login(user)
     response = client.post(
         url,
         {
-            'company_name': 'Vault tec',
-            'sector_sub': 'SL0003',
-            'company_location': 'FR',
-            'company_website': 'http://great.gov.uk/',
+            'company_name': 'Test Company Inc.',
+            'company_website': 'www.testcompany.com',
+            'address_line_1': '1 A Street',
+            'town': 'Town',
         },
     )
     assert response.status_code == 302
@@ -237,23 +256,20 @@ def test_eyb_business_details_form_valid_saves_to_db(
     ),
 )
 @pytest.mark.django_db
-def test_business_details_saved_to_db_gets_sector_labels(
+def test_sector_details_saved_to_db_gets_sector_labels(
     mock_get_dbt_sectors, mock_get_gva_bandings, client, user, settings
 ):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:business-details')
+    url = reverse('international_online_offer:business-sector')
     user.hashed_uuid = '123'
     client.force_login(user)
     response = client.post(
         url,
         {
-            'company_name': 'Vault tec',
-            'sector_sub': 'SL0003',
-            'company_location': 'FR',
-            'company_website': 'http://great.gov.uk/',
+            'sector_id': 'SL0003',
         },
     )
-    response = client.get(reverse('international_online_offer:business-details'))
+    response = client.get(reverse('international_online_offer:business-sector'))
     assert response.status_code == 200
 
 
@@ -577,6 +593,14 @@ def test_edit_your_answers(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:change-your-answers')
     user.hashed_uuid = '123'
+    UserData.objects.create(
+        hashed_uuid=user.hashed_uuid,
+        full_name='Joe Bloggs',
+        role='Director',
+        telephone_number='07923456787',
+        agree_info_email=False,
+        duns_number='12345',
+    )
     client.force_login(user)
     response = client.get(url)
     assert response.status_code == 200
