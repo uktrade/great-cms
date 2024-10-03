@@ -3,20 +3,25 @@
 {% block page_title %}Contact us {{ block.super }}{% endblock %}
 {% block content %}
     <div class="great-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <a href="{{ back_url }}" class="govuk-back-link govuk-!-margin-bottom-4">Back</a>
+            </div>
+        </div>
         {% if request.GET.success %}
-            <div class="govuk-grid-row govuk-!-margin-top-4"
+            <div class="govuk-grid-row govuk-!-margin-top-3"
                  id="complete_contact_form_message">
-                <div class="govuk-grid-column-full">{% include './includes/contact_success.html' with back_url=back_url %}</div>
+                <div class="govuk-grid-column-two-thirds">{% include './includes/contact_success.html' with back_url=back_url %}</div>
             </div>
         {% else %}
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
-                    <a href="{{ back_url }}" class="govuk-back-link govuk-!-margin-bottom-4">Back</a>
-                </div>
-            </div>
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds">
-                    <h1 class="govuk-heading-xl">Contact us</h1>
+                    <h1 class="govuk-heading-xl">Get help using great.gov.uk/international</h1>
+                    <p class="govuk-body">This form is for issues with the great.gov.uk/international website.</p>
+                    <p class="govuk-body">You can use it to report a problem to the great.gov.uk team.</p>
+                    <div class="govuk-inset-text">
+                        We cannot put you in touch with investment advisers, nor reply to you with investment advice.
+                    </div>
                 </div>
             </div>
             {% if form.errors and not form.non_field_errors %}
@@ -43,20 +48,6 @@
             {% endif %}
             <form method="post" novalidate action="{{ request.build_absolute_uri }}">
                 {% csrf_token %}
-                <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-3">
-                        <div class="{% if form.full_name.errors %} govuk-form-group--error{% endif %}">
-                            {% include 'international/includes/form_field.html' with field=form.full_name %}
-                        </div>
-                    </div>
-                </div>
-                <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-3">
-                        <div class="{% if form.email.errors %} govuk-form-group--error{% endif %}">
-                            {% include 'international/includes/form_field.html' with field=form.email %}
-                        </div>
-                    </div>
-                </div>
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds">
                         <div class="govuk-character-count"
@@ -85,8 +76,22 @@
                     </div>
                 </div>
                 <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-4">
-                        {% include 'international/includes/submit_button.html' with button_text='Submit' %}
+                    <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-3">
+                        <div class="{% if form.full_name.errors %} govuk-form-group--error{% endif %}">
+                            {% include 'international/includes/form_field.html' with field=form.full_name %}
+                        </div>
+                    </div>
+                </div>
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds govuk-!-margin-top-4 govuk-!-margin-bottom-3">
+                        <div class="{% if form.email.errors %} govuk-form-group--error{% endif %}">
+                            {% include 'international/includes/form_field.html' with field=form.email %}
+                        </div>
+                    </div>
+                </div>
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds govuk-!-margin-top-4 govuk-!-margin-bottom-4">
+                        {% include 'international/includes/submit_button.html' with button_text='Send message' %}
                     </div>
                 </div>
             </form>
