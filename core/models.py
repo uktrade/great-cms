@@ -2561,12 +2561,7 @@ class SectorAndMarketCard(index.Indexed, ClusterableModel):
     )
     meta_label = models.CharField(
         max_length=255,
-        choices=(
-            ('guidance_great', 'Guidance on great.gov.uk'),
-            ('service_great', 'Service on great.gov.uk'),
-            ('guidance_gov', 'Guidance on GOV.UK'),
-            ('service_gov', 'Service on GOV.UK'),
-        ),
+        choices=constants.META_LABELS,
         blank=True,
     )
 
