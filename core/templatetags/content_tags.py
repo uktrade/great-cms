@@ -14,7 +14,7 @@ from django.utils.html import format_html
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 
-from core.constants import BACKLINK_QUERYSTRING_NAME
+from core.constants import BACKLINK_QUERYSTRING_NAME, META_LABELS
 from core.helpers import millify
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage
 
@@ -654,5 +654,14 @@ def guided_journey_mode(page_url):
 
     if len(res) == 2:
         return '?' + res[1]
+
+    return ''
+
+
+@register.filter
+def get_sector_market_meta_label(selected_value):
+    for val, label in META_LABELS:
+        if selected_value == val:
+            return label
 
     return ''
