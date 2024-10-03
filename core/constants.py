@@ -1270,3 +1270,10 @@ LIKELIHOOD_CHOICES = (
     ('EXTREMELY_LIKELY', 'Extremely likely'),
     ('DONT_KNOW_OR_PREFER_NOT_TO_SAY', "Don't know/prefer not to say"),
 )
+
+META_LABELS = (
+    ('guidance_great', 'Guidance on great.gov.uk'),
+    ('service_great', 'Service on great.gov.uk'),
+    ('guidance_gov', 'Guidance on GOV.UK'),
+    ('service_gov', 'Service on GOV.UK'),
+)
