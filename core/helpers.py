@@ -42,12 +42,12 @@ FEMALE = 'xx'
 logger = getLogger(__name__)
 
 
-def check_url_host_is_safelisted(request):
-    if request.GET.get('next'):
-        if url_has_allowed_host_and_scheme(request.GET.get('next'), settings.SAFELIST_HOSTS):
-            return iri_to_uri(request.GET.get('next'))
+def check_url_host_is_safelisted(request, query_param='next'):
+    if request.GET.get(query_param):
+        if url_has_allowed_host_and_scheme(request.GET.get(query_param), settings.SAFELIST_HOSTS):
+            return iri_to_uri(request.GET.get(query_param))
         else:
-            logger.error('Host is not on the safe list - %s', request.GET.get('next'))
+            logger.error('Host is not on the safe list - %s', request.GET.get(query_param))
     return '/'
 
 
