@@ -3,6 +3,7 @@ from unittest import mock
 import pytest
 from django.conf import settings
 from django.urls import reverse, reverse_lazy
+from faker import Faker
 from rest_framework import status
 from rest_framework.response import Response
 
@@ -205,18 +206,173 @@ def test_eyb_business_headquarters_next(mock_get_dbt_sectors, client, user, sett
     assert response.status_code == 200
 
 
+@pytest.mark.parametrize(
+    'url, expected_back_url',
+    (
+        (
+            reverse('international_online_offer:business-headquarters'),
+            reverse('international_online_offer:about-your-business'),
+        ),
+        (
+            f"{reverse('international_online_offer:business-headquarters')}?back={reverse('international_online_offer:change-your-answers')}",  # noqa:E501
+            reverse('international_online_offer:change-your-answers'),
+        ),
+        (
+            f"{reverse('international_online_offer:business-headquarters')}?next={reverse('international_online_offer:change-your-answers')}",  # noqa:E501
+            reverse('international_online_offer:change-your-answers'),
+        ),
+    ),
+)
 @pytest.mark.django_db
-def test_eyb_business_details_initial(mock_get_dbt_sectors, client, user, settings):
+def test_eyb_business_headquarters_back_link(mock_get_dbt_sectors, url, expected_back_url, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    user.hashed_uuid = '123'
+    client.force_login(user)
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.context_data['back_url'] == expected_back_url
+
+
+@pytest.mark.django_db
+def test_eyb_business_headquarters_initial(mock_get_dbt_sectors, client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    company_location = 'IT'
+    UserData.objects.update_or_create(
+        hashed_uuid='123',
+        defaults={'company_location': company_location},
+    )
+    url = reverse('international_online_offer:business-headquarters')
+    user.hashed_uuid = '123'
+    client.force_login(user)
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.context_data['form'].initial['company_location'] == company_location
+
+
+@pytest.mark.parametrize(
+    'url, expected_back_url',
+    (
+        (
+            reverse('international_online_offer:find-your-company'),
+            reverse('international_online_offer:business-headquarters'),
+        ),
+        (
+            f"{reverse('international_online_offer:find-your-company')}?next={reverse('international_online_offer:change-your-answers')}",  # noqa:E501
+            reverse('international_online_offer:change-your-answers'),
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_eyb_find_your_company_back_link(mock_get_dbt_sectors, url, expected_back_url, client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    user.hashed_uuid = '123'
+    client.force_login(user)
+    UserData.objects.update_or_create(hashed_uuid='123')
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.context_data['back_url'] == expected_back_url
+
+
+@pytest.mark.django_db
+def test_eyb_find_your_company_initial(mock_get_dbt_sectors, client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    fake = Faker('it_IT')
+    user_data = {
+        'company_name': fake.company(),
+        'duns_number': fake.passport_number(),
+        'address_line_1': fake.street_address(),
+        'address_line_2': None,
+        'town': fake.city(),
+        'county': None,
+        'postcode': fake.postcode(),
+        'company_website': fake.domain_name(),
+    }
+    UserData.objects.update_or_create(
+        hashed_uuid='123',
+        defaults={**user_data},
+    )
+    url = reverse('international_online_offer:find-your-company')
+    user.hashed_uuid = '123'
+    client.force_login(user)
+    response = client.get(url)
+
+    assert response.status_code == 200
+
+    for k, v in user_data.items():
+        assert response.context_data['form'].initial[k] == v
+
+
+@pytest.mark.parametrize(
+    'url, expected_back_url',
+    (
+        (
+            reverse('international_online_offer:company-details'),
+            reverse('international_online_offer:find-your-company'),
+        ),
+        (
+            f"{reverse('international_online_offer:company-details')}?next={reverse('international_online_offer:change-your-answers')}",  # noqa:E501
+            reverse('international_online_offer:change-your-answers'),
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_eyb_company_details_back_link(mock_get_dbt_sectors, url, expected_back_url, client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    user.hashed_uuid = '123'
+    client.force_login(user)
+    UserData.objects.update_or_create(hashed_uuid='123')
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.context_data['back_url'] == expected_back_url
+
+
+@pytest.mark.django_db
+def test_eyb_company_details_initial(mock_get_dbt_sectors, client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    fake = Faker('it_IT')
+    user_data = {
+        'company_name': fake.company(),
+        'address_line_1': fake.street_address(),
+        'address_line_2': None,
+        'town': fake.city(),
+        'county': None,
+        'postcode': fake.postcode(),
+        'company_website': fake.domain_name(),
+    }
+    UserData.objects.update_or_create(
+        hashed_uuid='123',
+        defaults={**user_data},
+    )
+    url = reverse('international_online_offer:company-details')
+    user.hashed_uuid = '123'
+    client.force_login(user)
+    response = client.get(url)
+
+    assert response.status_code == 200
+
+    for k, v in user_data.items():
+        assert response.context_data['form'].initial[k] == v
+
+
+@pytest.mark.django_db
+def test_eyb_business_sector_initial(mock_get_dbt_sectors, client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    sector_id = 'SL0329'
     TriageData.objects.update_or_create(
         hashed_uuid='123',
-        defaults={'sector': 'sector'},
+        defaults={'sector_id': sector_id},
     )
     url = reverse('international_online_offer:business-sector')
     user.hashed_uuid = '123'
     client.force_login(user)
     response = client.get(url)
+
     assert response.status_code == 200
+    assert response.context_data['form'].initial['sector_sub'] == sector_id
 
 
 @pytest.mark.django_db
@@ -718,10 +874,16 @@ def test_bci_data(mock_get_bci_data, mock_get_bci_data_api, client, user, settin
     assert response.status_code == 200
 
 
+@pytest.mark.parametrize(
+    'url',
+    (
+        (reverse('international_online_offer:dnb-typeahead-company-lookup')),
+        (reverse('international_online_offer:dnb-company-search')),
+    ),
+)
 @pytest.mark.django_db
 @mock.patch('international_online_offer.dnb.api.api_request', return_value=create_response({}))
-def test_dnb_typeahead_requires_authentication(mock_typeahead_dnp_api, client, user):
-    url = reverse('international_online_offer:dnb-typeahead-company-lookup')
+def test_dnb_typeahead_requires_authentication(mock_typeahead_dnp_api, url, client, user):
     response = client.get(url)
     assert response.status_code == status.HTTP_403_FORBIDDEN
 
@@ -730,10 +892,16 @@ def test_dnb_typeahead_requires_authentication(mock_typeahead_dnp_api, client, u
     assert response.status_code == status.HTTP_200_OK
 
 
+@pytest.mark.parametrize(
+    'url',
+    (
+        (reverse('international_online_offer:dnb-typeahead-company-lookup')),
+        (reverse('international_online_offer:dnb-company-search')),
+    ),
+)
 @pytest.mark.django_db
 @mock.patch('international_online_offer.dnb.api.api_request', return_value=create_response({}))
-def test_dnb_typeahead_allowed_methods(mock_typeahead_dnp_api, client, user):
-    url = reverse('international_online_offer:dnb-typeahead-company-lookup')
+def test_dnb_typeahead_allowed_methods(mock_typeahead_dnp_api, url, client, user):
     client.force_login(user)
 
     response = client.get(url)
@@ -749,9 +917,16 @@ def test_dnb_typeahead_allowed_methods(mock_typeahead_dnp_api, client, user):
     assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
 
 
+@pytest.mark.parametrize(
+    'url',
+    (
+        (reverse('international_online_offer:dnb-typeahead-company-lookup')),
+        (reverse('international_online_offer:dnb-company-search')),
+    ),
+)
 @pytest.mark.django_db
 @mock.patch('international_online_offer.dnb.api.api_request', return_value=create_response({}))
-def test_dnb_typeahead_returns_response_class(mock_typeahead_dnp_api, client, user):
+def test_dnb_typeahead_returns_response_class(mock_typeahead_dnp_api, url, client, user):
     url = reverse('international_online_offer:dnb-typeahead-company-lookup')
     client.force_login(user)
 
