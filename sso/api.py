@@ -1,3 +1,5 @@
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
 from drf_spectacular.utils import extend_schema
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
@@ -67,6 +69,7 @@ class UserDataAPIView(generics.GenericAPIView):
 
         return serializer
 
+    @method_decorator(never_cache)
     def get(self, request, *args, **kwargs):
         response = request.user.get_user_data(name=kwargs['name'])
         return Response(status=200, data=response)
