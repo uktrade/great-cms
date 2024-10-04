@@ -906,6 +906,29 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, FormView):
             if market:
                 is_restricted_market = market in restricted_markets
 
+            action = actions.SaveOnlyInDatabaseAction(
+                full_name='Anonymous user',
+                subject='Guided Journey',
+                email_address='anonymous-user@test.com',
+                form_url=self.request.get_full_path(),
+            )
+
+            data = {
+                'sic_description': form_data['sic_description'] if form_data['sic_description'] else None,
+                'make_or_do_keyword': form_data['make_or_do_keyword'] if form_data['make_or_do_keyword'] else None,
+                'sector': form_data['sector'] if form_data['sector'] else None,
+                'exporter_type': form_data['exporter_type'] if form_data['exporter_type'] else None,
+                'hs_code': form_data['hs_code'] if form_data['hs_code'] else None,
+                'market': form_data['market'] if form_data['market'] else None,
+                'commodity_name': form_data['commodity_name'] if form_data['commodity_name'] else None,
+                'not_sure_where_to_export': (
+                    form_data['not_sure_where_to_export'] if form_data['not_sure_where_to_export'] else None
+                ),
+                'market_not_listed': form_data['market_not_listed'] if form_data['market_not_listed'] else None,
+            }
+            response = action.save(data)
+            response.raise_for_status()
+
         return super().get_context_data(
             **kwargs,
             progress_position=4,
