@@ -4,6 +4,7 @@ from django.conf.urls import include
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.urls import path, reverse_lazy
+from django.views.decorators.cache import never_cache
 from django.views.generic import RedirectView
 from drf_spectacular.views import (
     SpectacularAPIView,
@@ -45,15 +46,17 @@ if settings.ENFORCE_STAFF_SSO_ENABLED:
 # WHEN ADDING TO THIS LIST CONSIDER WHETHER YOU SHOULD ALSO ADD ANY
 # URL NAMES TO core.views.StaticViewSitemap
 urlpatterns += [
-    path('django-admin/', decorator_include(skip_ga360, admin.site.urls)),
+    path('django-admin/', decorator_include([skip_ga360, never_cache], admin.site.urls)),
     path(
         # Has to come before main /admin/ else will fail
         'admin/wagtail-transfer/',
-        decorator_include(skip_ga360, wagtailtransfer_urls),
+        decorator_include([skip_ga360, never_cache], wagtailtransfer_urls),
     ),
-    path('admin/cms-extras/', decorator_include(skip_ga360, cms_extras.urls, namespace='cms_extras')),
+    path('admin/cms-extras/', decorator_include([skip_ga360, never_cache], cms_extras.urls, namespace='cms_extras')),
     path('admin/', decorator_include(skip_ga360, wagtailadmin_urls)),
-    path('documents/', include(wagtaildocs_urls)),  # NB: doesn't skip GA as we may analytics on this
+    path(
+        'documents/', decorator_include(never_cache, wagtaildocs_urls)
+    ),  # NB: doesn't skip GA as we may analytics on this
     path('great-cms-sso/', include(sso.urls)),
     path('search/', include(search.urls, namespace='search')),
     path('activity-stream/', include(activitystream.urls, namespace='activitystream')),
