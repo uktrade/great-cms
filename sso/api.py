@@ -18,6 +18,7 @@ class LessonCompletedAPIView(generics.GenericAPIView):
         response = helpers.set_lesson_completed(session_id, lesson_obj)
         return Response(status=200, data=response)
 
+    @method_decorator(never_cache)
     def get(self, request, *args, **kwargs):
         session_id = request.user.session_id
         response = helpers.get_lesson_completed(session_id, kwargs['lesson'])
@@ -42,6 +43,7 @@ class UserProfileAPIView(generics.GenericAPIView):
 class QuestionnaireAPIView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
 
+    @method_decorator(never_cache)
     def get(self, request, *args, **kwargs):
         response = request.user.get_user_questionnaire()
         return Response(status=200, data=response)
