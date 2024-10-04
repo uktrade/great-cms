@@ -111,11 +111,15 @@
     opacity: 0.5;
   }
 
+  &:focus,
+  &:active {
+    outline: 4px solid #ffbf47;
+    outline-offset: 0;
+  }
+
   &.secondary-button {
     @include secondary();
 
-    & :focus,
-    &:active,
     &:hover {
       @include primary();
     }
@@ -123,8 +127,6 @@
 
   &.primary-button {
     @include primary();
-    & :focus,
-    &:active,
     &:hover {
       @include secondary();
     }
