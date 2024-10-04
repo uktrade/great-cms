@@ -20,17 +20,77 @@
                     <div class="govuk-summary-card__content">
                         <dl class="govuk-summary-list">
                             <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key govuk-body">Location of company headquarters</dt>
+                                <dd class="govuk-summary-list__value govuk-body">
+                                    {{ user_data.get_company_location_display }}
+                                </dd>
+                                <dd class="govuk-summary-list__actions">
+                                    <a class="govuk-link"
+                                       href="{% url 'international_online_offer:business-headquarters' %}?next={% url 'international_online_offer:find-your-company' %}&amp;back={% url 'international_online_offer:change-your-answers' %}&amp;edit_country=True ">
+                                        Change<span class="govuk-visually-hidden">location of company headquarters</span>
+                                    </a>
+                                </dd>
+                            </div>
+                            <div class="govuk-summary-list__row">
                                 <dt class="govuk-summary-list__key govuk-body">Company name</dt>
                                 <dd class="govuk-summary-list__value govuk-body">
                                     {{ user_data.company_name | default:'-' }}
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
-                                    <a class="govuk-link"
-                                       href="{% url 'international_online_offer:business-details' %}?next={% url 'international_online_offer:change-your-answers' %}">
-                                        Change<span class="govuk-visually-hidden">company name</span>
-                                    </a>
+                                    {% if duns_matched %}
+                                        <a class="govuk-link"
+                                           href="{% url 'international_online_offer:find-your-company' %}?next={% url 'international_online_offer:change-your-answers' %}">
+                                            Change<span class="govuk-visually-hidden">company name</span>
+                                        </a>
+                                    {% else %}
+                                        <a class="govuk-link"
+                                           href="{% url 'international_online_offer:company-details' %}?next={% url 'international_online_offer:change-your-answers' %}">
+                                            Change<span class="govuk-visually-hidden">company name</span>
+                                        </a>
+                                    {% endif %}
                                 </dd>
                             </div>
+                            {% if not duns_matched %}
+                                <div class="govuk-summary-list__row">
+                                    <dt class="govuk-summary-list__key govuk-body">Address of headquarters</dt>
+                                    <dd class="govuk-summary-list__value govuk-body">
+                                        {{ user_data.address_line_1 }}
+                                        <br>
+                                        {% if user_data.address_line_2|length > 0 %}
+                                            {{ user_data.address_line_2 }}
+                                            <br>
+                                        {% endif %}
+                                        {{ user_data.town }}
+                                        <br>
+                                        {% if user_data.county|length > 0 %}
+                                            {{ user_data.county }}
+                                            <br>
+                                        {% endif %}
+                                        {% if user_data.postcode|length > 0 %}
+                                            {{ user_data.postcode }}
+                                            <br>
+                                        {% endif %}
+                                    </dd>
+                                    <dd class="govuk-summary-list__actions">
+                                        <a class="govuk-link"
+                                           href="{% url 'international_online_offer:company-details' %}?next={% url 'international_online_offer:change-your-answers' %}">
+                                            Change<span class="govuk-visually-hidden">address headquarters</span>
+                                        </a>
+                                    </dd>
+                                </div>
+                                <div class="govuk-summary-list__row">
+                                    <dt class="govuk-summary-list__key govuk-body">Company website address</dt>
+                                    <dd class="govuk-summary-list__value govuk-body">
+                                        {{ user_data.company_website | default:"-" }}
+                                    </dd>
+                                    <dd class="govuk-summary-list__actions">
+                                        <a class="govuk-link"
+                                           href="{% url 'international_online_offer:company-details' %}?next={% url 'international_online_offer:change-your-answers' %}">
+                                            Change<span class="govuk-visually-hidden">company website address</span>
+                                        </a>
+                                    </dd>
+                                </div>
+                            {% endif %}
                             <div class="govuk-summary-list__row">
                                 <dt class="govuk-summary-list__key govuk-body">Sector or industry</dt>
                                 <dd class="govuk-summary-list__value govuk-body">
@@ -44,32 +104,8 @@
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
                                     <a class="govuk-link"
-                                       href="{% url 'international_online_offer:business-details' %}?next={% url 'international_online_offer:change-your-answers' %}">
+                                       href="{% url 'international_online_offer:business-sector' %}?next={% url 'international_online_offer:change-your-answers' %}">
                                         Change<span class="govuk-visually-hidden">your sector or industry?</span>
-                                    </a>
-                                </dd>
-                            </div>
-                            <div class="govuk-summary-list__row">
-                                <dt class="govuk-summary-list__key govuk-body">Location of company headquarters</dt>
-                                <dd class="govuk-summary-list__value govuk-body">
-                                    {{ user_data.get_company_location_display }}
-                                </dd>
-                                <dd class="govuk-summary-list__actions">
-                                    <a class="govuk-link"
-                                       href="{% url 'international_online_offer:business-details' %}?next={% url 'international_online_offer:change-your-answers' %}">
-                                        Change<span class="govuk-visually-hidden">location of company headquarters</span>
-                                    </a>
-                                </dd>
-                            </div>
-                            <div class="govuk-summary-list__row">
-                                <dt class="govuk-summary-list__key govuk-body">Company website address</dt>
-                                <dd class="govuk-summary-list__value govuk-body">
-                                    {{ user_data.company_website | default:"-" }}
-                                </dd>
-                                <dd class="govuk-summary-list__actions">
-                                    <a class="govuk-link"
-                                       href="{% url 'international_online_offer:business-details' %}?next={% url 'international_online_offer:change-your-answers' %}">
-                                        Change<span class="govuk-visually-hidden">company website address</span>
                                     </a>
                                 </dd>
                             </div>

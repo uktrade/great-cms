@@ -1,19 +1,22 @@
-{% comment %} {% extends '../base.html' %}
+{% extends '../base.html' %}
 {% load static %}
 {% block head_title %}
     {% if form.errors %}Error:{% endif %}
-    About your business: business details. {{ block.super }}
+    About your business: sector. {{ block.super }}
 {% endblock %}
-{% block meta_title %}About your business: business details. {{ block.super }}{% endblock %}
+{% block meta_title %}About your business: sector. {{ block.super }}{% endblock %}
 {% block head_other %}
-    <meta name="description" content="Find information to help invest within the UK" />
+    <meta name="description"
+          content="Find information to help invest within the UK" />
 {% endblock %}
 {% block head_css %}
-    <link href="{% static 'core/css/accessible-autocomplete.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'core/css/accessible-autocomplete.min.css' %}"
+          rel="stylesheet"
+          type="text/css">
     {{ block.super }}
 {% endblock %}
 {% block content %}
-    <div class="great-container">
+    <div class="govuk-width-container great-container">
         {% include '../includes/triage_header.html' with back_url=back_url %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
@@ -23,20 +26,13 @@
                         <span class="govuk-visually-hidden">This section is</span>About your business
                     </h2>
                     <fieldset class="govuk-fieldset">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l govuk-!-margin-bottom-6">
-                            <h1 class="govuk-fieldset__heading">Business details</h1>
-                        </legend>
-                        <div class="govuk-form-group">
-                            {% include 'international/includes/form_field.html' with field=form.company_name show_vertical_error_line=True %}
-                        </div>
-                        <div class="govuk-form-group">
-                            {% include 'international/includes/form_field.html' with field=form.sector_sub show_vertical_error_line=True %}
-                        </div>
-                        <div class="govuk-form-group">
-                            {% include 'international/includes/form_field.html' with field=form.company_location show_vertical_error_line=True %}
-                        </div>
-                        <div class="govuk-form-group">
-                            {% include 'international/includes/form_field.html' with field=form.company_website show_vertical_error_line=True %}
+                        <div class="{% if form.errors %} govuk-form-group--error{% endif %}">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                                <h1 class="govuk-fieldset__heading">What is your sector or industry?</h1>
+                            </legend>
+                            <div class="govuk-form-group">
+                                {% include 'international/includes/form_field.html' with field=form.sector_sub inputWrapperClass='prepend-search-icon' help_class='govuk-hint govuk-!-margin-bottom-3' %}
+                            </div>
                         </div>
                     </fieldset>
                     <div class="govuk-grid-row">
@@ -50,27 +46,20 @@
     </div>
 {% endblock %}
 {% block body_js %}
+    {% comment %} below JS migrated from business_details page {% endcomment %}
     {{ block.super }}
-    <script type="text/javascript" src="{% static 'javascript/accessible-autocomplete.min.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'javascript/accessible-autocomplete.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'javascript/countries.js' %}"></script>
-    <script type="text/javascript" src="{% static 'javascript/expand-your-business.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'javascript/expand-your-business.js' %}"></script>
     <script type="text/javascript">
         const onSubmitBusinessDetails = () => {
             if (!document.getElementById('js-sector-select').value) {
                 document.getElementById('js-sector-select-select').value = '';
             }
-            if (!document.getElementById('js-company-location-select').value) {
-                document.getElementById('js-company-location-select-select').value = '';
-            }
         }
-
-        accessibleAutocomplete.enhanceSelectElement({
-            selectElement: document.getElementById('js-company-location-select'),
-            source: countries,
-            autoselect: false,
-            minLength: 2,
-        });
-</script>
+    </script>
     <script>
         const allSectors = JSON.parse("{{autocomplete_sector_data | escapejs}}");
 
@@ -165,5 +154,6 @@
                 }
             }
         });
-</script>
-{% endblock %} {% endcomment %}
+    </script>
+    <script type="text/javascript">autocompleteFocusOnESC('#js-sector-select', '#js-sector-select__listbox')</script>
+{% endblock %}
