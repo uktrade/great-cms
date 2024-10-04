@@ -106,6 +106,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'django.middleware.cache.UpdateCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -124,6 +125,7 @@ MIDDLEWARE = [
     'great_components.middleware.NoCacheMiddlware',
     'csp.middleware.CSPMiddleware',
     'directory_components.middleware.LocaleQuerystringMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -211,6 +213,11 @@ CACHES = {
 
 CACHE_EXPIRE_SECONDS = env.int('CACHE_EXPIRE_SECONDS', 60 * 30)  # 30 minutes
 CACHE_EXPIRE_SECONDS_SHORT = env.int('CACHE_EXPIRE_SECONDS', 60 * 5)  # 5 minutes
+
+CACHE_MIDDLEWARE_ALIAS = 'default'
+CACHE_MIDDLEWARE_SECONDS = env.int('CACHE_MIDDLEWARE_SECONDS', 60 * 30)  # 30 minutes
+CACHE_MIDDLEWARE_KEY_PREFIX = 'global-cache'
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
