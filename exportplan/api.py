@@ -27,13 +27,13 @@ class ExportPlanSocietyDataByCountryView(APIView):
         return Response(data)
 
 
-@method_decorator(never_cache, name='_get_export_plan')
 class TargetAgeCountryPopulationData(APIView):
     permission_classes = [IsAuthenticated]
     serializer_class = serializers.CountryTargetAgeDataSerializer
 
-    def _get_export_plan(self, session_id, id):
-        return helpers.get_exportplan(session_id, id)
+    @method_decorator(never_cache)
+    def _get_export_plan(self, request, id):
+        return helpers.get_exportplan(request.user.id, id)
 
     def post(self, request, id):
         serializer = self.serializer_class(data=self.request.data)
@@ -42,7 +42,7 @@ class TargetAgeCountryPopulationData(APIView):
         url = serializer.validated_data['section_name']
 
         section_name = re.match(r'/export-plan/[^/]*/([^/]*)/', url)[1]
-        export_plan = self._get_export_plan(request.user.session_id, id)
+        export_plan = self._get_export_plan(request, id)
         helpers.update_ui_options_target_ages(
             sso_session_id=request.user.session_id,
             target_ages=target_ages,
