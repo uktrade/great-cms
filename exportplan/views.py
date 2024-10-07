@@ -401,8 +401,11 @@ class PDFDownload(
         return response
 
 
-@method_decorator(never_cache, name='get_context_data')
+@method_decorator(never_cache, name='dispatch')
 class ExportPlanIndex(GA360Mixin, TemplateView):
+
+    export_plan_list = None
+
     def __init__(self):
         super().__init__()
         self.set_ga360_payload(
@@ -413,10 +416,15 @@ class ExportPlanIndex(GA360Mixin, TemplateView):
 
     template_name = 'exportplan/index.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            self.export_plan_list = helpers.get_exportplan_detail_list(self.request.user.session_id)
+        return super(ExportPlanIndex, self).dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if self.request.user.is_authenticated:
-            context['exportplan_list'] = helpers.get_exportplan_detail_list(self.request.user.session_id)
+        if self.export_plan_list:
+            context['exportplan_list'] = self.export_plan_list
         return context
 
 
@@ -446,6 +454,7 @@ class ExportPlanUpdate(GA360Mixin, TemplateView):
 
     template_name = 'exportplan/start.html'
 
+    # NEEDCACHE
     def dispatch(self, request, *args, **kwargs):
         id = int(self.kwargs['id'])
         self.export_plan = helpers.get_exportplan(self.request.user.session_id, id)

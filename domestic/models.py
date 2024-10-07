@@ -223,6 +223,7 @@ class DomesticDashboard(
         [('route', core_blocks.RouteSectionBlock(icon='pick'))], use_json_field=True, null=True, blank=True
     )
 
+    # NEEDCACHE
     def get_context(self, request):
         user = request.user
         context = super().get_context(request)
