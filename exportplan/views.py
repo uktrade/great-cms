@@ -401,6 +401,7 @@ class PDFDownload(
         return response
 
 
+@method_decorator(never_cache, name='get_context_data')
 class ExportPlanIndex(GA360Mixin, TemplateView):
     def __init__(self):
         super().__init__()
