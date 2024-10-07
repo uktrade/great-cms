@@ -818,7 +818,12 @@ class GuidedJourneyStep2View(GuidedJourneyMixin, FormView):
         def get_hmrc_tarriff_data(make_or_do_keyword):
             deserialised_data = helpers.product_picker(make_or_do_keyword)
 
-            mapped_results = []
+            mapped_results = [
+                {
+                    'title': 'Please select...',
+                    'hs_code': '',
+                }
+            ]
 
             for item in deserialised_data['data']:
                 mapped_results.append(
