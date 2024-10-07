@@ -478,6 +478,7 @@ class ExportPlanDashBoard(
     template_name = 'exportplan/dashboard_page.html'
     form_class = forms.CsatUserFeedbackForm
 
+    @method_decorator(never_cache)
     def dispatch(self, request, *args, **kwargs):
         id = int(self.kwargs['id'])
         self.export_plan = helpers.get_exportplan(self.request.user.session_id, id)
@@ -486,7 +487,6 @@ class ExportPlanDashBoard(
             return redirect(reverse_lazy('exportplan:update', kwargs={'id': id}))
         return super(ExportPlanDashBoard, self).dispatch(request, *args, **kwargs)
 
-    @method_decorator(never_cache)
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         processor = ExportPlanProcessor(self.export_plan)
