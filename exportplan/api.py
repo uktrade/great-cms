@@ -1,6 +1,8 @@
 import importlib
 import re
 
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
 from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import generics
 from rest_framework.exceptions import ValidationError
@@ -29,6 +31,10 @@ class TargetAgeCountryPopulationData(APIView):
     permission_classes = [IsAuthenticated]
     serializer_class = serializers.CountryTargetAgeDataSerializer
 
+    @method_decorator(never_cache)
+    def _get_export_plan(self, session_id, id):
+        return helpers.get_exportplan(session_id, id)
+
     def post(self, request, id):
         serializer = self.serializer_class(data=self.request.data)
         serializer.is_valid(raise_exception=True)
@@ -36,7 +42,7 @@ class TargetAgeCountryPopulationData(APIView):
         url = serializer.validated_data['section_name']
 
         section_name = re.match(r'/export-plan/[^/]*/([^/]*)/', url)[1]
-        export_plan = helpers.get_exportplan(request.user.session_id, id)
+        export_plan = self._get_export_plan(request.user.session_id, id)
         helpers.update_ui_options_target_ages(
             sso_session_id=request.user.session_id,
             target_ages=target_ages,
