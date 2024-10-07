@@ -227,3 +227,30 @@ $great-design-system-govuk-blue: #1d70b8;
     }
   }
 }
+
+.great-ds-widget-container {
+  position: relative;
+
+  .great-ds-edit-control {
+    background: $great-design-system-white;
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    text-decoration: none;
+
+    span {
+      margin-right: 10px;
+      text-decoration: underline;
+    }
+  }
+
+  .great-ds-skip-control {
+    span {
+      line-height: 50px;
+    }
+
+    @include govuk-media-query($from: tablet) {
+      margin-left: 30px;
+    }
+  }
+}
