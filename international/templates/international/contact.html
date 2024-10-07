@@ -1,29 +1,23 @@
 {% extends './base.html' %}
 {% load static %}
 {% block page_title %}Contact us {{ block.super }}{% endblock %}
-{% block content %}
+{% block breadcrumb_region %}
     <div class="govuk-width-container great-container">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <a href="{{ back_url }}" class="govuk-back-link govuk-!-margin-bottom-4">Back</a>
             </div>
         </div>
+    </div>
+{% endblock %}
+{% block content %}
+    <div class="govuk-width-container great-container">
         {% if request.GET.success %}
             <div class="govuk-grid-row govuk-!-margin-top-3"
                  id="complete_contact_form_message">
                 <div class="govuk-grid-column-two-thirds">{% include './includes/contact_success.html' with back_url=back_url %}</div>
             </div>
         {% else %}
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds">
-                    <h1 class="govuk-heading-xl">Get help using great.gov.uk/international</h1>
-                    <p class="govuk-body">This form is for issues with the great.gov.uk/international website.</p>
-                    <p class="govuk-body">You can use it to report a problem to the great.gov.uk team.</p>
-                    <div class="govuk-inset-text">
-                        We cannot put you in touch with investment advisers, nor reply to you with investment advice.
-                    </div>
-                </div>
-            </div>
             {% if form.errors and not form.non_field_errors %}
                 <div class="govuk-error-summary restrict-width"
                      aria-labelledby="error-summary-title"
@@ -46,6 +40,16 @@
                     </div>
                 </div>
             {% endif %}
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    <h1 class="govuk-heading-xl">Get help using great.gov.uk/international</h1>
+                    <p class="govuk-body">This form is for issues with the great.gov.uk/international website.</p>
+                    <p class="govuk-body">You can use it to report a problem to the great.gov.uk team.</p>
+                    <div class="govuk-inset-text">
+                        We cannot put you in touch with investment advisers, nor reply to you with investment advice.
+                    </div>
+                </div>
+            </div>
             <form method="post" novalidate action="{{ request.build_absolute_uri }}">
                 {% csrf_token %}
                 <div class="govuk-grid-row">
@@ -54,12 +58,10 @@
                              data-module="govuk-character-count"
                              data-maxlength="1000">
                             <div class="govuk-form-group{% if form.how_we_can_help.errors %} govuk-form-group--error{% endif %}">
-                                <h2 class="govuk-label-wrapper">
-                                    <label class="govuk-label govuk-label--s"
-                                           for="{{ form.how_we_can_help.id_for_label }}">
-                                        {{ form.how_we_can_help.label }}
-                                    </label>
-                                </h2>
+                                <label class="govuk-label govuk-label--s"
+                                       for="{{ form.how_we_can_help.id_for_label }}">
+                                    {{ form.how_we_can_help.label }}
+                                </label>
                                 <div id="more-detail-hint" class="govuk-hint">{{ form.how_we_can_help.help_text }}</div>
                                 {% for error in form.how_we_can_help.errors %}
                                     <p class="govuk-error-message" role="alert">
