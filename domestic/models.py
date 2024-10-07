@@ -7,7 +7,9 @@ from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.http import Http404
+from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
+from django.views.decorators.cache import never_cache
 from great_components.mixins import GA360Mixin
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalManyToManyField
@@ -211,6 +213,7 @@ class DomesticHomePage(
     ]
 
 
+@method_decorator(never_cache, name='get_context')
 class DomesticDashboard(
     SeoMixin,
     mixins.WagtailAdminExclusivePageMixin,
