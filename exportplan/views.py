@@ -432,7 +432,6 @@ class ExportPlanStart(GA360Mixin, TemplateView):
     template_name = 'exportplan/start.html'
 
 
-@method_decorator(never_cache, name='dispatch')
 class ExportPlanUpdate(GA360Mixin, TemplateView):
     # This page is used to allow users to set a product/market in an export plan that doesn't have both
     export_plan = None
