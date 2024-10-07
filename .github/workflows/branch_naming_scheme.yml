@@ -1,0 +1,39 @@
+name: Check Branch Naming Scheme
+on: pull_request
+
+jobs:
+  check_pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check if branch is ok
+        run: |
+          branch_name="${{ github.head_ref }}"
+          echo "PR branch name: $branch_name"
+
+          target_branch="${{ github.base_ref }}"
+          echo "Target branch: $target_branch"
+
+          # Convert branch name to lowercase
+          branch_name=$(echo "$branch_name" | tr '[:upper:]' '[:lower:]')
+
+          # Regex for naming convention
+          regex="^(bug|feature|hotfix|patch|code-cleanup)-([A-Za-z][A-Za-z0-9]*|[A-Z]+)-([0-9]+)-(.+)$"
+
+          if [[ "$branch_name" =~ $regex ]]; then
+            echo "Branch name matches the first naming scheme."
+            if [[ "$target_branch" != "develop" ]]; then
+              echo "But doesn't match target branch 'develop'."
+              exit 1
+            fi
+          elif [[ "$branch_name" == "develop" ]]; then
+            echo "Develop branch"
+            if [[ "$target_branch" != "master" ]]; then
+              echo "But doesn't match target branch 'master'."
+              exit 1
+            fi
+          else
+            echo "Branch name does not match any approved pattern. Exiting..."
+            exit 1
+          fi
+        shell: bash
