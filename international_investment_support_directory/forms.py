@@ -33,7 +33,7 @@ class SearchForm(forms.Form):
     q = forms.CharField(
         label='Term',
         max_length=255,
-        widget=TextInput(attrs={'class': 'govuk-visually-hidden'}),
+        widget=HiddenInput,
         required=False,
     )
     page = forms.IntegerField(

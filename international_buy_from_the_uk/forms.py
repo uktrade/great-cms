@@ -175,7 +175,7 @@ class IndexSearchForm(forms.Form):
     q = forms.CharField(
         label='What product or service are you buying?',
         max_length=255,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=TextInput(attrs={'class': 'govuk-input', 'type': 'search'}),
         required=False,
     )
     industries = ChoiceField(
