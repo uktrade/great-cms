@@ -1,5 +1,3 @@
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import never_cache
 from drf_spectacular.utils import extend_schema
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
@@ -18,7 +16,6 @@ class LessonCompletedAPIView(generics.GenericAPIView):
         response = helpers.set_lesson_completed(session_id, lesson_obj)
         return Response(status=200, data=response)
 
-    @method_decorator(never_cache)
     def get(self, request, *args, **kwargs):
         session_id = request.user.session_id
         response = helpers.get_lesson_completed(session_id, kwargs['lesson'])
@@ -43,7 +40,6 @@ class UserProfileAPIView(generics.GenericAPIView):
 class QuestionnaireAPIView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
 
-    @method_decorator(never_cache)
     def get(self, request, *args, **kwargs):
         response = request.user.get_user_questionnaire()
         return Response(status=200, data=response)
@@ -71,7 +67,6 @@ class UserDataAPIView(generics.GenericAPIView):
 
         return serializer
 
-    @method_decorator(never_cache)
     def get(self, request, *args, **kwargs):
         response = request.user.get_user_data(name=kwargs['name'])
         return Response(status=200, data=response)
