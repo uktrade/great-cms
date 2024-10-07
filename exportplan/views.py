@@ -40,13 +40,12 @@ class ExportPlanMixin:
         )
         return super().dispatch(request, *args, **kwargs)
 
-    @never_cache
+    @method_decorator(never_cache)
     def processor(self):
         export_plan_id = int(self.kwargs['id'])
         export_plan = helpers.get_exportplan(self.request.user.session_id, export_plan_id)
         return ExportPlanProcessor(export_plan)
 
-    @never_cache
     def export_plan(self):
         return parsers.ExportPlanParser(self.processor.data)
 
