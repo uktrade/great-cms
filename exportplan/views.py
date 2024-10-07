@@ -6,8 +6,10 @@ from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.text import slugify
+from django.views.decorators.cache import never_cache
 from django.views.generic import FormView, TemplateView, View
 from great_components.mixins import GA360Mixin
 from requests.exceptions import RequestException
@@ -457,6 +459,7 @@ class ExportPlanUpdate(GA360Mixin, TemplateView):
         return context
 
 
+@method_decorator(never_cache, name='dispatch')
 class ExportPlanDashBoard(
     GA360Mixin,
     TemplateView,

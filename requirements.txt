@@ -108,7 +108,7 @@ deprecated==1.2.14
     #   opentelemetry-api
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
-directory-api-client==26.10.0
+directory-api-client==26.9.0
     # via -r requirements.in
 directory-ch-client==4.0.2
     # via -r requirements.in
