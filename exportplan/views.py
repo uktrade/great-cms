@@ -6,6 +6,7 @@ from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.utils.functional import cached_property
 from django.utils.text import slugify
 from django.views.generic import FormView, TemplateView, View
 from great_components.mixins import GA360Mixin
@@ -38,11 +39,13 @@ class ExportPlanMixin:
         )
         return super().dispatch(request, *args, **kwargs)
 
+    @cached_property
     def processor(self):
         export_plan_id = int(self.kwargs['id'])
         export_plan = helpers.get_exportplan(self.request.user.session_id, export_plan_id)
         return ExportPlanProcessor(export_plan)
 
+    @cached_property
     def export_plan(self):
         return parsers.ExportPlanParser(self.processor.data)
 
