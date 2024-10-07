@@ -139,7 +139,7 @@ class CompanyDetailsForm(forms.Form):
     town = CharField(
         label='Town or city',
         max_length=255,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=TextInput(attrs={'class': 'govuk-input govuk-!-width-two-thirds'}),
         error_messages={
             'required': 'Enter town or city',
         },
@@ -149,14 +149,14 @@ class CompanyDetailsForm(forms.Form):
         label='State, province or county (optional)',
         max_length=255,
         required=False,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=TextInput(attrs={'class': 'govuk-input govuk-!-width-two-thirds'}),
     )
 
     postcode = CharField(
         label='Postal code or zip code (optional)',
         max_length=255,
         required=False,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=TextInput(attrs={'class': 'govuk-input govuk-input--width-10'}),
     )
 
 

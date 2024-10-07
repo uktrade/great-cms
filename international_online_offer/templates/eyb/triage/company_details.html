@@ -42,23 +42,29 @@
                         <div class="govuk-form-group">
                             {% include 'international/includes/form_field.html' with field=form.address_line_2 show_vertical_error_line=True label_class="eyb-form-label" %}
                         </div>
-                        <div class="govuk-grid-column-one-half govuk-!-padding-0">
-                            <div class="govuk-form-group">
-                                {% include 'international/includes/form_field.html' with field=form.town show_vertical_error_line=True label_class="eyb-form-label" %}
-                            </div>
-                            <div class="govuk-form-group">
-                                {% include 'international/includes/form_field.html' with field=form.county show_vertical_error_line=True label_class="eyb-form-label" %}
-                            </div>
-                            <div class="govuk-form-group">
-                                {% include 'international/includes/form_field.html' with field=form.postcode show_vertical_error_line=True label_class="eyb-form-label" %}
-                            </div>
-                            <p class="govuk-body govuk-!-margin-bottom-0">Country, region or territory</p>
-                            <p class="govuk-body govuk-!-margin-bottom-1">{{ display_country }}</p>
-                            <a class="govuk-link"
-                               href="{% url 'international_online_offer:business-headquarters' %}?next={% url 'international_online_offer:company-details' %}&amp;edit_country=True">
-                                Change<span class="govuk-visually-hidden">location of company headquarters</span>
-                            </a>
+                        <div class="govuk-form-group">
+                            {% include 'international/includes/form_field.html' with field=form.town show_vertical_error_line=True label_class="govuk-label govuk-label--s eyb-form-label" %}
                         </div>
+                        <div class="govuk-form-group">
+                            {% include 'international/includes/form_field.html' with field=form.county show_vertical_error_line=True label_class="govuk-label govuk-label--s eyb-form-label" %}
+                        </div>
+                        <div class="govuk-form-group">
+                            {% include 'international/includes/form_field.html' with field=form.postcode show_vertical_error_line=True label_class="govuk-label govuk-label--s eyb-form-label" %}
+                        </div>
+                        <dl class="govuk-summary-list govuk-summary-list--no-border">
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-label govuk-!-width-full govuk-!-display-block govuk-!-margin-bottom-0 govuk-!-padding-bottom-0">
+                                    Country, region or territory
+                                </dt>
+                                <dd class="govuk-summary-list__value govuk-!-display-block govuk-!-padding-top-0 govuk-!-padding-bottom-0 govuk-body">
+                                    {{ display_country }}
+                                </dd>
+                                <dd class="govuk-summary-list__value govuk-!-display-block">
+                                    <a class="govuk-link"
+                                       href="{% url 'international_online_offer:business-headquarters' %}?next={% url 'international_online_offer:company-details' %}&amp;edit_country=True">Change<span class="govuk-visually-hidden">location of company headquarters</span></a>
+                                </dd>
+                            </div>
+                        </dl>
                     </fieldset>
                     <div class="govuk-grid-row govuk-!-margin-top-6">
                         <div class="govuk-grid-column-full">
