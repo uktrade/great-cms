@@ -8,7 +8,6 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.http import Http404
 from django.utils.functional import cached_property
-from django.views.decorators.cache import never_cache
 from great_components.mixins import GA360Mixin
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalManyToManyField
@@ -224,7 +223,6 @@ class DomesticDashboard(
         [('route', core_blocks.RouteSectionBlock(icon='pick'))], use_json_field=True, null=True, blank=True
     )
 
-    @never_cache
     def get_context(self, request):
         user = request.user
         context = super().get_context(request)

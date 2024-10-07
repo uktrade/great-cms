@@ -1,8 +1,6 @@
 import importlib
 import re
 
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import never_cache
 from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import generics
 from rest_framework.exceptions import ValidationError
@@ -31,7 +29,6 @@ class TargetAgeCountryPopulationData(APIView):
     permission_classes = [IsAuthenticated]
     serializer_class = serializers.CountryTargetAgeDataSerializer
 
-    @method_decorator(never_cache)
     def post(self, request, id):
         serializer = self.serializer_class(data=self.request.data)
         serializer.is_valid(raise_exception=True)
