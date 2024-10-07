@@ -6,8 +6,10 @@ from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.text import slugify
+from django.views.decorators.cache import never_cache
 from django.views.generic import FormView, TemplateView, View
 from great_components.mixins import GA360Mixin
 from requests.exceptions import RequestException
@@ -410,6 +412,7 @@ class ExportPlanIndex(GA360Mixin, TemplateView):
 
     template_name = 'exportplan/index.html'
 
+    @method_decorator(never_cache)
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
@@ -483,6 +486,7 @@ class ExportPlanDashBoard(
             return redirect(reverse_lazy('exportplan:update', kwargs={'id': id}))
         return super(ExportPlanDashBoard, self).dispatch(request, *args, **kwargs)
 
+    @method_decorator(never_cache)
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         processor = ExportPlanProcessor(self.export_plan)
