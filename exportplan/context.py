@@ -2,6 +2,7 @@ import abc
 import json
 
 from django.conf import settings
+from django.utils.decorators import method_decorator
 from django.utils.text import slugify
 from django.views.decorators.cache import never_cache
 
@@ -26,7 +27,7 @@ class BaseContextProvider(AbstractContextProvider):
         self.session_id = request.user.session_id
         return {}
 
-    @never_cache
+    @method_decorator(never_cache)
     def export_plan(self):
         user_exportplan = helpers.get_exportplan(self.session_id, self.exportplan_id)
         return parsers.ExportPlanParser(user_exportplan)
