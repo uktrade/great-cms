@@ -1,3 +1,4 @@
+import time
 from functools import reduce
 
 import pytz
@@ -110,7 +111,7 @@ def upload_exportplan_pdf(sso_session_id, exportplan_id, file):
 
 
 def get_exportplan_detail_list(sso_session_id):
-    response = api_client.exportplan.detail_list(sso_session_id)
+    response = api_client.exportplan.detail_list(sso_session_id, time.time())
     response.raise_for_status()
     exportplan_list = response.json()
     for ep in exportplan_list:
@@ -124,7 +125,7 @@ def get_exportplan_detail_list(sso_session_id):
 
 
 def get_exportplan(sso_session_id, id):
-    response = api_client.exportplan.detail(sso_session_id=sso_session_id, id=id)
+    response = api_client.exportplan.detail(sso_session_id=sso_session_id, id=id, t=time.time())
     response.raise_for_status()
     return response.json()
 

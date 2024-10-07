@@ -27,7 +27,7 @@ asn1crypto==1.5.1
     #   oscrypto
     #   pyhanko
     #   pyhanko-certvalidator
-astroid==3.3.4
+astroid==3.3.5
     # via pylint
 asttokens==2.4.1
     # via stack-data
@@ -79,7 +79,7 @@ browserstack-local==1.2.8
     # via browserstack-sdk
 browserstack-sdk==1.12.0
     # via -r requirements_test.in
-build==1.2.2
+build==1.2.2.post1
     # via pip-tools
 celery[redis]==5.3.6
     # via
@@ -161,7 +161,7 @@ deprecated==1.2.14
     #   opentelemetry-exporter-otlp-proto-http
 dill==0.3.9
     # via pylint
-directory-api-client==26.9.0
+directory-api-client==26.10.0
     # via -r requirements.in
 directory-ch-client==4.0.2
     # via -r requirements.in
@@ -731,7 +731,7 @@ qrcode==8.0
     # via pyhanko
 readtime==1.1.1
     # via -r requirements.in
-redis==5.1.0
+redis==5.1.1
     # via
     #   celery
     #   django-redis
@@ -835,7 +835,7 @@ tablib==3.5.0
     # via -r requirements.in
 telepath==0.3.1
     # via wagtail
-termcolor==2.4.0
+termcolor==2.5.0
     # via pytest-sugar
 tinycss2==1.3.0
     # via

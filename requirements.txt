@@ -108,7 +108,7 @@ deprecated==1.2.14
     #   opentelemetry-api
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
-directory-api-client==26.9.0
+directory-api-client==26.10.0
     # via -r requirements.in
 directory-ch-client==4.0.2
     # via -r requirements.in
@@ -477,7 +477,7 @@ qrcode==8.0
     # via pyhanko
 readtime==1.1.1
     # via -r requirements.in
-redis==5.1.0
+redis==5.1.1
     # via
     #   celery
     #   django-redis
