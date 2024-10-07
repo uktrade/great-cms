@@ -195,15 +195,11 @@ class GuidedJourneyStep3Form(forms.Form):
         required=False,
     )
     not_sure_where_to_export = BooleanField(
-        label='Not sure where to export?',
+        label="I don't have a specific market in mind",
         required=False,
     )
     market_not_listed = BooleanField(
         label="My market isn't listed",
-        required=False,
-    )
-    unlisted_market = CharField(
-        label='Unlisted market',
         required=False,
     )
 
