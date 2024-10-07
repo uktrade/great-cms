@@ -7,6 +7,7 @@ $great-design-system-border-grey: #d9d9d9;
 
 $great-design-system-govuk-yellow-highlight: #fd0;
 $great-design-system-govuk-off-black: #0b0c0c;
+$great-design-system-govuk-blue: #1d70b8;
 
 .great-ds-border-bottom-grey {
   border-bottom: 1px solid $great-design-system-grey-border;
@@ -48,6 +49,20 @@ $great-design-system-govuk-off-black: #0b0c0c;
 
 .great-ds-button-primary {
   border-bottom: 3px solid $great-design-system-hover-primary-button;
+
+  > span {
+    display: inline-block;
+    position: relative;
+    top: 2px;
+    margin-left: 5px;
+  }
+
+  &:hover,
+  &:focus {
+    path {
+      fill: $great-design-system-govuk-blue;
+    }
+  }
 }
 
 .great-ds-text-grey {
@@ -173,4 +188,42 @@ $great-design-system-govuk-off-black: #0b0c0c;
   display: block;
   height: 4px;
   width: 100%;
+}
+
+.great-ds-box-shadow {
+  box-shadow: 0px 4px 10px 0px rgba(4, 4, 63, 0.1);
+}
+
+.great-ds-autocomplete-input {
+  width: 200px;
+
+  @include govuk-media-query($from: mobile) {
+    width: 250px;
+  }
+
+  @include govuk-media-query($from: tablet) {
+    width: 500px;
+  }
+
+  &::placeholder {
+    color: $great-design-system-interface-mono-50;
+  }
+}
+
+.great-ds-autocomplete-input__wrapper {
+  position: relative;
+
+  &::before {
+    @include govuk-media-query($from: tablet) {
+      content: '';
+      display: inline-block;
+      height: 18px;
+      width: 18px;
+      background-image: url(/static/images/search-black.svg);
+      background-size: 18px;
+      top: 15px;
+      left: 470px;
+      position: absolute;
+    }
+  }
 }
