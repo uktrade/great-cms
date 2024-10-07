@@ -499,7 +499,8 @@ class InterstitialPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CM
     ]
 
 
-@method_decorator(never_cache, name='get_context')
+@method_decorator(never_cache, name='_get_last_completed_lesson_id')
+@method_decorator(never_cache, name='_get_lesson_completion_status')
 class ListPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage):
     parent_page_types = ['core.LandingPage']
     subpage_types = ['core.CuratedListPage']
@@ -515,17 +516,23 @@ class ListPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGeneric
         verbose_name = 'Automated list page'
         verbose_name_plural = 'Automated list pages'
 
+    def _get_last_completed_lesson_id(self, request):
+        from domestic.helpers import get_last_completed_lesson_id
+
+        return get_last_completed_lesson_id(request.user)
+
+    def _get_lesson_completion_status(self, request):
+        from domestic.helpers import get_lesson_completion_status
+
+        return get_lesson_completion_status(request.user)
+
     def get_context(self, request, *args, **kwargs):
         from core.helpers import get_high_level_completion_progress
-        from domestic.helpers import (
-            get_last_completed_lesson_id,
-            get_lesson_completion_status,
-        )
 
         context = super().get_context(request)
 
         if request.user.is_authenticated:
-            lesson_id = get_last_completed_lesson_id(request.user)
+            lesson_id = self._get_last_completed_lesson_id(request)
             if lesson_id:
                 page = DetailPage.objects.get(id=lesson_id)
                 page_topic_helper = PageTopicHelper(page)
@@ -537,7 +544,7 @@ class ListPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGeneric
                     if next_module:
                         context['next_lesson'] = get_first_lesson(next_module)
 
-            completion_status = get_lesson_completion_status(request.user)
+            completion_status = self._get_lesson_completion_status(request)
             context['high_level_completion_progress'] = get_high_level_completion_progress(
                 completion_status=completion_status,
             )
