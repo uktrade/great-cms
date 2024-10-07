@@ -7,7 +7,6 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.utils.functional import cached_property
 from django.utils.text import slugify
 from django.views.decorators.cache import never_cache
 from django.views.generic import FormView, TemplateView, View
@@ -41,13 +40,13 @@ class ExportPlanMixin:
         )
         return super().dispatch(request, *args, **kwargs)
 
-    @cached_property
+    @never_cache
     def processor(self):
         export_plan_id = int(self.kwargs['id'])
         export_plan = helpers.get_exportplan(self.request.user.session_id, export_plan_id)
         return ExportPlanProcessor(export_plan)
 
-    @cached_property
+    @never_cache
     def export_plan(self):
         return parsers.ExportPlanParser(self.processor.data)
 
@@ -446,6 +445,7 @@ class ExportPlanUpdate(GA360Mixin, TemplateView):
 
     template_name = 'exportplan/start.html'
 
+    @method_decorator(never_cache)
     def dispatch(self, request, *args, **kwargs):
         id = int(self.kwargs['id'])
         self.export_plan = helpers.get_exportplan(self.request.user.session_id, id)
