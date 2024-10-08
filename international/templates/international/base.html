@@ -1,5 +1,6 @@
 {% load static %}
 {% load i18n %}
+{% load wagtailcore_tags %}
 {% load static_absolute from directory_components %}
 {% load int_canonical_url_tags %}
 {% get_current_language_bidi as LANGUAGE_BIDI %}
@@ -41,8 +42,8 @@
             <script src="{% static 'great_components/js/vendor/jquery-3.5.0.min.js' %}"></script>
         {% endblock %}
         {% block head_js %}
-            <script src="{% static 'great_components/js/dit.components.cookie-notice.js' %}"></script>
             <script src="{% static 'javascript/dit.reveal.js' %}"></script>
+            <script src="{% static 'components.js' %}"></script>
         {% endblock %}
         {% block head_js_ga360 %}
             <script src="{% static 'great_components/js/dit.tagging.js' %}"></script>
@@ -81,49 +82,12 @@
         {% block skip_link %}
             <a href="#content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
         {% endblock %}
-        {% block cookie_notice %}
-            {% comment %} {% include 'great_components/cookie_notice.html' %} {% endcomment %}
-        {% endblock %}
+        {% if not hide_cookie_notice %}
+            {% block cookie_notice %}
+                <div class="light-blue-background">{% include 'components/cookie_notice.html' %}</div>
+            {% endblock %}
+        {% endif %}
         {% block body_header %}
-            {% if not request.COOKIES.cookie_preferences_set %}
-                <script src="{% static 'javascript/dit.cookieBanner.js' %}"></script>
-                <script>
-                    dit.cookieBanner.init({
-                        bannerId: 'atlas-cookie-banner',
-                        promptId: 'atlas-cookie-prompt',
-                        thanksId: 'atlas-cookie-thanks',
-                        acceptAllId: 'atlas-cookie-accept-all',
-                        dismissId: 'atlas-cookie-dismiss'
-                    })
-                </script>
-                <div id="atlas-cookie-banner"
-                     class="govuk-!-padding-top-4 govuk-!-padding-bottom-2 international-cookie-banner-container">
-                    <div class="great-container">
-                        <div id="atlas-cookie-prompt">
-                            <h2 class="govuk-heading-m">Cookies on great.gov.uk</h2>
-                            <p class="govuk-body">
-                                We use <a class="govuk-link" href="/privacy-and-cookies/">cookies to
-                                collect information</a> about how you use great.gov.uk. We use this information to make the
-                                website work as well as possible and improve government services.
-                            </p>
-                            <button id="atlas-cookie-accept-all" class="govuk-button">Accept all</button>
-                            <a href="/cookies/" class="govuk-button">Set
-                            cookie preferences</a>
-                        </div>
-                        {# djlint:off H021 #}
-                        <div id="atlas-cookie-thanks" style="display: none">
-                            {# djlint:on H021 #}
-                            <p class="govuk-body">
-                                You've accepted all cookies. You can
-                                <a class="govuk-link" href="/cookies/">change your
-                                settings</a>
-                                at any time.
-                            </p>
-                            <button id="atlas-cookie-dismiss" class="govuk-button">Hide this message</button>
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
             {% include './header.html' %}
         {% endblock %}
         {% block breadcrumb_region %}
@@ -146,6 +110,18 @@
             <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
             <script src="{% static 'javascript/govuk.js' %}"></script>
             <script>window.GOVUKFrontend.initAll()</script>
+            {% slugurl "privacy" as privacy_and_cookies_path %}
+            {% if request.path != privacy_and_cookies_path %}
+                <script>
+                var element = document.createElement('div')
+                document.body.appendChild(element)
+                components.CookiesModal({
+                    element: element,
+                    privacyCookiesUrl: {{privacy_and_cookies_path}},
+                    preferencesUrl: '{% url "core:cookie-preferences" %}',
+                })
+                </script>
+            {% endif %}
         {% endblock %}
     </body>
 </html>
