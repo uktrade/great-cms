@@ -205,11 +205,21 @@ else:
         },
     }
 
+# wagtail caching options
+# (see https://docs.coderedcorp.com/wagtail-cache/getting_started/django_settings.html#django-settings)
+WAGTAIL_CACHE = False
+WAGTAIL_CACHE_BACKEND = 'wagtail_cache'
+WAGTAIL_CACHE_HEADER = True
+WAGTAIL_CACHE_IGNORE_COOKIES = True
+WAGTAIL_CACHE_IGNORE_QS = None
+
+WAGTAIL_CACHE_TIMOUT = env.int('WAGTAIL_CACHE_TIMOUT', 4 * 60 * 60)  # 4 hours (in seconds)
+
 wagtail_cache = {
     'BACKEND': 'django_redis.cache.RedisCache',
     'LOCATION': REDIS_URL,
     'KEY_PREFIX': 'wagtailcache',
-    'TIMEOUT': 4 * 60 * 60,  # 4 hours (in seconds)
+    'TIMEOUT': WAGTAIL_CACHE_TIMOUT,
 }
 
 CACHES = {
@@ -218,17 +228,8 @@ CACHES = {
     'wagtail_cache': wagtail_cache,
 }
 
-
 CACHE_EXPIRE_SECONDS = env.int('CACHE_EXPIRE_SECONDS', 60 * 30)  # 30 minutes
 CACHE_EXPIRE_SECONDS_SHORT = env.int('CACHE_EXPIRE_SECONDS', 60 * 5)  # 5 minutes
-
-# wagtail caching options
-WAGTAIL_CACHE = False
-WAGTAIL_CACHE_BACKEND = 'wagtail_cache'
-WAGTAIL_CACHE_HEADER = True
-WAGTAIL_CACHE_IGNORE_COOKIES = True
-WAGTAIL_CACHE_IGNORE_QS = None
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/

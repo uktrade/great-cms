@@ -96,24 +96,6 @@ urlpatterns += [
     path('export-academy/', include(export_academy.urls, namespace='export_academy')),
 ]
 
-urlpatterns += [
-    # For anything not caught by a more specific rule above, hand over to
-    # Wagtail's page serving mechanism. This should be the last pattern in
-    # the list:
-    re_path(
-        r'^_util/authenticate_with_password/(\d+)/(\d+)/$',
-        wagtail_views.authenticate_with_password,
-        name='wagtailcore_authenticate_with_password',
-    ),
-    re_path(
-        r'^_util/login/$',
-        auth_views.LoginView.as_view(template_name=WAGTAIL_FRONTEND_LOGIN_TEMPLATE),
-        name='wagtailcore_login',
-    ),
-    # Wrap the serve function with wagtail-cache
-    re_path(serve_pattern, cache_page(wagtail_views.serve), name='wagtail_serve'),
-]
-
 handler404 = 'core.views.handler404'
 
 handler500 = 'core.views.handler500'
@@ -159,3 +141,21 @@ if settings.FEATURE_GREAT_CMS_OPENAPI_ENABLED:
             name='redoc',
         ),
     ] + urlpatterns
+
+urlpatterns += [
+    # For anything not caught by a more specific rule above, hand over to
+    # Wagtail's page serving mechanism. This should be the last pattern in
+    # the list:
+    re_path(
+        r'^_util/authenticate_with_password/(\d+)/(\d+)/$',
+        wagtail_views.authenticate_with_password,
+        name='wagtailcore_authenticate_with_password',
+    ),
+    re_path(
+        r'^_util/login/$',
+        auth_views.LoginView.as_view(template_name=WAGTAIL_FRONTEND_LOGIN_TEMPLATE),
+        name='wagtailcore_login',
+    ),
+    # Wrap the serve function with wagtail-cache
+    re_path(serve_pattern, cache_page(wagtail_views.serve), name='wagtail_serve'),
+]
