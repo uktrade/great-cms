@@ -6,7 +6,7 @@ app_name = 'international'
 
 urlpatterns = [
     path(
-        'contact/',
+        'site-help/',
         views.ContactView.as_view(),
         name='contact',
     )

@@ -673,6 +673,18 @@ figure.great-blockquote {
   }
 }
 
+.great-text-select--arrow-max-500 {
+  width: 200px;
+
+  @include govuk-media-query($from: mobile) {
+    width: 250px;
+  }
+
+  @include govuk-media-query($from: tablet) {
+    width: 500px;
+  }
+}
+
 .great-checkbox {
   .govuk-checkboxes__label:before {
     border-radius: 5px;
@@ -705,6 +717,22 @@ figure.great-blockquote {
     @include govuk-media-query($from: tablet) {
       font-size: 18px;
       height: 50px;
+    }
+  }
+
+  select.great-select--max-500 {
+    width: 200px;
+
+    @include govuk-media-query($from: mobile) {
+      width: 250px;
+    }
+
+    @include govuk-media-query($from: tablet) {
+      width: 500px;
+    }
+
+    option:first {
+      color: $great-dark-grey;
     }
   }
 }
@@ -2203,6 +2231,8 @@ nav.great-breadcrumbs {
 .great-meta-label {
   color: $great-light-grey;
   display: flex;
+  font-family: $great-font;
+  font-weight: 100;
   gap: 10px;
   font-size: 16px;
 }
