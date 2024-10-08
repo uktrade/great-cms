@@ -240,7 +240,7 @@ class CountriesView(generics.GenericAPIView):
         return Response([c for c in choices.COUNTRIES_AND_TERRITORIES_REGION if c.get('type') == 'Country'])
 
 
-@method_decorator(nocache_page, name="get")
+@method_decorator(nocache_page, name='get')
 class SuggestedCountriesView(generics.GenericAPIView):
     def get(self, request):
         hs_code = request.GET.get('hs_code')
@@ -889,10 +889,11 @@ class GuidedJourneyStep3View(GuidedJourneyMixin, FormView):
         return super().form_valid(form)
 
 
-class GuidedJourneyStep4View(GuidedJourneyMixin, FormView):
+class GuidedJourneyStep4View(GuidedJourneyMixin, TemplateView):
     template_name = 'domestic/contact/export-support/guided-journey/step-4.html'
 
     def get_context_data(self, **kwargs):
+        categories = []
         countries = helpers.get_markets_list()
         country_code = ''
         restricted_markets = ['Ukraine', 'Russia', 'Belarus', 'Israel']
@@ -901,7 +902,6 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, FormView):
 
         if self.request.session.get('guided_journey_data'):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('guided_journey_data')))[0]
-
             market = form_data['market']
 
             for code, name in countries:
@@ -910,6 +910,8 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, FormView):
 
             if market:
                 is_restricted_market = market in restricted_markets
+
+            categories = helpers.mapped_categories(form_data)
 
             action = actions.SaveOnlyInDatabaseAction(
                 full_name='Anonymous user',
@@ -941,32 +943,5 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, FormView):
             is_restricted_market=is_restricted_market,
             is_market_skipped=is_market_skipped,
             country_code=country_code,
+            categories=categories,
         )
-
-    def get_success_url(self):
-        if self.request.session.get('guided_journey_data'):
-            form_data = pickle.loads(bytes.fromhex(self.request.session.get('guided_journey_data')))[0]
-
-            market = form_data['market']
-            is_goods = form_data['exporter_type'] == 'goods'
-            is_service = form_data['exporter_type'] == 'service'
-            category = form_data['category']
-
-            cat_url = f'{category}?is_guided_journey=True'
-
-            if market:
-                cat_url += f'&market={market}'
-
-            if is_goods:
-                cat_url += f'&is_goods={is_goods}'
-
-            if is_service:
-                cat_url += f'&is_service={is_service}'
-
-            return cat_url
-
-        return reverse_lazy('core:guided-journey-step-1')
-
-    def form_valid(self, form):
-        self.save_data(form)
-        return super().form_valid(form)
