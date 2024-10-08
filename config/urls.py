@@ -1,3 +1,4 @@
+import authbroker_client.urls
 from decorator_include import decorator_include
 from django.conf import settings
 from django.conf.urls import include
@@ -39,7 +40,7 @@ urlpatterns = []
 if settings.ENFORCE_STAFF_SSO_ENABLED:
     urlpatterns += [
         path('admin/login/', RedirectView.as_view(url=reverse_lazy('authbroker_client:login'), query_string=True)),
-        path('auth/', include('authbroker_client.urls')),
+        path('auth/', decorator_include(never_cache, authbroker_client.urls)),
     ]
 
 
@@ -72,7 +73,7 @@ urlpatterns += [
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
     # the list:
-    path('', include(wagtail_urls)),
+    path('', decorator_include(never_cache, wagtail_urls)),
 ]
 
 
@@ -88,7 +89,7 @@ if settings.DEBUG:
     # Serve static and media files from development server
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns = [path('__debug__/', include(debug_toolbar.urls))] + urlpatterns
+    urlpatterns = [path('__debug__/', decorator_include(never_cache, debug_toolbar.urls))] + urlpatterns
 
 urlpatterns = [path('international/', include(international.urls))] + urlpatterns
 urlpatterns = [path('find-a-buyer/', include(find_a_buyer.urls, namespace='find_a_buyer'))] + urlpatterns
