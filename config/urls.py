@@ -5,7 +5,6 @@ from django.conf.urls import include
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.urls import path, reverse_lazy
-from django.views.decorators.cache import never_cache
 from django.views.generic import RedirectView
 from drf_spectacular.views import (
     SpectacularAPIView,
@@ -40,24 +39,44 @@ urlpatterns = []
 if settings.ENFORCE_STAFF_SSO_ENABLED:
     urlpatterns += [
         path('admin/login/', RedirectView.as_view(url=reverse_lazy('authbroker_client:login'), query_string=True)),
-        path('auth/', decorator_include(never_cache, authbroker_client.urls)),
+        path('auth/', include(authbroker_client.urls)),
     ]
 
 
 # WHEN ADDING TO THIS LIST CONSIDER WHETHER YOU SHOULD ALSO ADD ANY
 # URL NAMES TO core.views.StaticViewSitemap
 urlpatterns += [
-    path('django-admin/', decorator_include([skip_ga360, never_cache], admin.site.urls)),
+    path(
+        'django-admin/',
+        decorator_include(
+            [
+                skip_ga360,
+            ],
+            admin.site.urls,
+        ),
+    ),
     path(
         # Has to come before main /admin/ else will fail
         'admin/wagtail-transfer/',
-        decorator_include([skip_ga360, never_cache], wagtailtransfer_urls),
+        decorator_include(
+            [
+                skip_ga360,
+            ],
+            wagtailtransfer_urls,
+        ),
     ),
-    path('admin/cms-extras/', decorator_include([skip_ga360, never_cache], cms_extras.urls, namespace='cms_extras')),
-    path('admin/', decorator_include(skip_ga360, wagtailadmin_urls)),
     path(
-        'documents/', decorator_include(never_cache, wagtaildocs_urls)
-    ),  # NB: doesn't skip GA as we may analytics on this
+        'admin/cms-extras/',
+        decorator_include(
+            [
+                skip_ga360,
+            ],
+            cms_extras.urls,
+            namespace='cms_extras',
+        ),
+    ),
+    path('admin/', decorator_include(skip_ga360, wagtailadmin_urls)),
+    path('documents/', include(wagtaildocs_urls)),  # NB: doesn't skip GA as we may analytics on this
     path('great-cms-sso/', include(sso.urls)),
     path('search/', include(search.urls, namespace='search')),
     path('activity-stream/', include(activitystream.urls, namespace='activitystream')),
@@ -73,7 +92,7 @@ urlpatterns += [
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
     # the list:
-    path('', decorator_include(never_cache, wagtail_urls)),
+    path('', include(wagtail_urls)),
 ]
 
 
@@ -89,7 +108,7 @@ if settings.DEBUG:
     # Serve static and media files from development server
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns = [path('__debug__/', decorator_include(never_cache, debug_toolbar.urls))] + urlpatterns
+    urlpatterns = [path('__debug__/', include(debug_toolbar.urls))] + urlpatterns
 
 urlpatterns = [path('international/', include(international.urls))] + urlpatterns
 urlpatterns = [path('find-a-buyer/', include(find_a_buyer.urls, namespace='find_a_buyer'))] + urlpatterns

@@ -15,7 +15,6 @@ from django.template.response import TemplateResponse
 from django.urls import reverse, reverse_lazy
 from django.utils.crypto import get_random_string
 from django.utils.decorators import method_decorator
-from django.views.decorators.cache import never_cache
 from django.views.generic import FormView, TemplateView
 from django.views.generic.base import RedirectView, View
 from formtools.wizard.views import NamedUrlSessionWizardView
@@ -35,6 +34,7 @@ from wagtail.images.views.chooser import (
     ImageInsertionForm,
     ImageUploadViewMixin,
 )
+from wagtailcache.cache import nocache_page
 
 from core import cms_slugs, forms, helpers, serializers
 from core.constants import PRODUCT_MARKET_DATA
@@ -736,12 +736,12 @@ HEALTH_CHECK_STATUS = 0
 HEALTH_CHECK_EXCEPTION = 1
 
 
+@method_decorator(nocache_page, name='get')
 class PingDomView(TemplateView):
     template_name = 'directory_healthcheck/pingdom.xml'
 
     status = 'OK'
 
-    @method_decorator(never_cache)
     def get(self, *args, **kwargs):
 
         checked = {}

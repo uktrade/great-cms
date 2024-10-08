@@ -11,12 +11,10 @@ from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
 from django.urls import reverse
-from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
-from django.views.decorators.cache import cache_control
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
 from great_components.mixins import GA360Mixin
 from modelcluster.contrib.taggit import ClusterTaggableManager
@@ -46,6 +44,7 @@ from wagtail.search import index
 from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtail.snippets.models import register_snippet
 from wagtail.utils.decorators import cached_classmethod
+from wagtailcache.cache import WagtailCacheMixin
 from wagtailmedia.models import Media
 from wagtailseo.models import SeoMixin as WagtailSeoMixin, TwitterCard
 
@@ -499,8 +498,7 @@ class InterstitialPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CM
     ]
 
 
-@method_decorator(cache_control(private=True), name='get_context')
-class ListPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage):
+class ListPage(WagtailCacheMixin, settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage):
     parent_page_types = ['core.LandingPage']
     subpage_types = ['core.CuratedListPage']
 
@@ -510,6 +508,7 @@ class ListPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGeneric
         default=False,
         help_text='Should we record when a user views a page in this collection?',
     )
+    cache_control = 'no-cache'
 
     class Meta:
         verbose_name = 'Automated list page'

@@ -106,7 +106,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.cache.UpdateCacheMiddleware',
+    'wagtailcache.cache.UpdateCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -125,7 +125,7 @@ MIDDLEWARE = [
     'great_components.middleware.NoCacheMiddlware',
     'csp.middleware.CSPMiddleware',
     'directory_components.middleware.LocaleQuerystringMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',
+    'wagtailcache.cache.FetchFromCacheMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -205,18 +205,29 @@ else:
         },
     }
 
+wagtail_cache = {
+    'BACKEND': 'django_redis.cache.RedisCache',
+    'LOCATION': REDIS_URL,
+    'KEY_PREFIX': 'wagtailcache',
+    'TIMEOUT': 4 * 60 * 60,  # 4 hours (in seconds)
+}
+
 CACHES = {
     'default': cache,
     'api_fallback': cache,
+    'wagtail_cache': wagtail_cache,
 }
 
 
 CACHE_EXPIRE_SECONDS = env.int('CACHE_EXPIRE_SECONDS', 60 * 30)  # 30 minutes
 CACHE_EXPIRE_SECONDS_SHORT = env.int('CACHE_EXPIRE_SECONDS', 60 * 5)  # 5 minutes
 
-CACHE_MIDDLEWARE_ALIAS = 'default'
-CACHE_MIDDLEWARE_SECONDS = env.int('CACHE_MIDDLEWARE_SECONDS', 60 * 30)  # 30 minutes
-CACHE_MIDDLEWARE_KEY_PREFIX = 'global-cache'
+# wagtail caching options
+WAGTAIL_CACHE = False
+WAGTAIL_CACHE_BACKEND = 'wagtail_cache'
+WAGTAIL_CACHE_HEADER = True
+WAGTAIL_CACHE_IGNORE_COOKIES = True
+WAGTAIL_CACHE_IGNORE_QS = None
 
 
 # Internationalization

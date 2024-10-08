@@ -1,8 +1,6 @@
 import importlib
 import re
 
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import never_cache
 from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import generics
 from rest_framework.exceptions import ValidationError
@@ -27,7 +25,6 @@ class ExportPlanSocietyDataByCountryView(APIView):
         return Response(data)
 
 
-@method_decorator(never_cache, name='dispatch')
 class TargetAgeCountryPopulationData(APIView):
     permission_classes = [IsAuthenticated]
     serializer_class = serializers.CountryTargetAgeDataSerializer
