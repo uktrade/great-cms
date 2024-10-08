@@ -77,8 +77,6 @@ class GetTemplateForCurrentStepMixin:
         return [self.templates[self.steps.current]]
 
 
-@method_decorator(cache_page, name='dispatch')
-@method_decorator(vary_on_cookie, name='dispatch')
 class SendVerificationLetterView(
     GetTemplateForCurrentStepMixin, UpdateCompanyProfileOnFormWizardDoneMixin, SessionWizardView
 ):

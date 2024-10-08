@@ -619,12 +619,14 @@ class ListPage(WagtailCacheMixin, settings.FEATURE_DEA_V2 and CMSGenericPageAnon
     ]
 
 
-class CuratedListPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage):
+class CuratedListPage(WagtailCacheMixin, settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage):
     parent_page_types = ['core.ListPage']
     subpage_types = [
         'core.TopicPage',
     ]
     template_choices = (('learn/curated_list_page.html', 'Learn'),)
+
+    cache_control = 'no-cache'
 
     ################
     # Content fields
