@@ -28,6 +28,7 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from hashids import Hashids
 from ipware import get_client_ip
 
+from core.constants import EXPORT_SUPPORT_CATEGORIES
 from core.models import CuratedListPage
 from core.serializers import parse_opportunities
 from directory_api_client import api_client
@@ -787,3 +788,27 @@ def product_picker(product):
     )
     response.raise_for_status()
     return response.json()
+
+
+def mapped_categories(form_data):
+    categories = EXPORT_SUPPORT_CATEGORIES
+    market = form_data['market']
+    is_goods = form_data['exporter_type'] == 'goods'
+    is_service = form_data['exporter_type'] == 'service'
+    query_string = '?is_guided_journey=True'
+
+    if market:
+        query_string += f'&market={market}'
+
+    if is_goods:
+        query_string += f'&is_goods={is_goods}'
+
+    if is_service:
+        query_string += f'&is_service={is_service}'
+
+    if form_data['exporter_type'] == 'service':
+        categories = [(url, label, query_string) for url, label in categories if label != 'Logistics']
+    else:
+        categories = [(url, label, query_string) for url, label in categories]
+
+    return categories
