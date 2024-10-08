@@ -3,8 +3,9 @@ from decorator_include import decorator_include
 from django.conf import settings
 from django.conf.urls import include
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
-from django.urls import path, reverse_lazy
+from django.urls import path, re_path, reverse_lazy
 from django.views.generic import RedirectView
 from drf_spectacular.views import (
     SpectacularAPIView,
@@ -12,11 +13,12 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
 )
 from great_components.decorators import skip_ga360
-from wagtail import urls as wagtail_urls
+from wagtail import views as wagtail_views
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
+from wagtail.urls import WAGTAIL_FRONTEND_LOGIN_TEMPLATE, serve_pattern
 from wagtail_transfer import urls as wagtailtransfer_urls
-from wagtailcache.cache import nocache_page
+from wagtailcache.cache import cache_page, nocache_page
 
 import activitystream.urls
 import cms_extras.urls
@@ -98,9 +100,19 @@ urlpatterns += [
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
     # the list:
-    path('', include(wagtail_urls)),
+    re_path(
+        r'^_util/authenticate_with_password/(\d+)/(\d+)/$',
+        wagtail_views.authenticate_with_password,
+        name='wagtailcore_authenticate_with_password',
+    ),
+    re_path(
+        r'^_util/login/$',
+        auth_views.LoginView.as_view(template_name=WAGTAIL_FRONTEND_LOGIN_TEMPLATE),
+        name='wagtailcore_login',
+    ),
+    # Wrap the serve function with wagtail-cache
+    re_path(serve_pattern, cache_page(wagtail_views.serve), name='wagtail_serve'),
 ]
-
 
 handler404 = 'core.views.handler404'
 
