@@ -143,9 +143,9 @@ if settings.FEATURE_GREAT_CMS_OPENAPI_ENABLED:
     ] + urlpatterns
 
 urlpatterns += [
-    # For anything not caught by a more specific rule above, hand over to
-    # Wagtail's page serving mechanism. This should be the last pattern in
-    # the list:
+    # Added per wagtail-cache docs
+    # see
+    # https://docs.coderedcorp.com/wagtail-cache/getting_started/cache_control.html#caching-wagtail-pages-only
     re_path(
         r'^_util/authenticate_with_password/(\d+)/(\d+)/$',
         wagtail_views.authenticate_with_password,
