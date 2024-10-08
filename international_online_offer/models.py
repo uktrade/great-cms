@@ -4,6 +4,7 @@ from django import forms
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.http import HttpResponseRedirect
+from django.utils.decorators import method_decorator
 from django.utils.text import slugify
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.models import ParentalKey
@@ -13,6 +14,7 @@ from wagtail.blocks.field_block import RichTextBlock
 from wagtail.blocks.stream_block import StreamBlock
 from wagtail.fields import StreamField
 from wagtail.images.blocks import ImageChooserBlock
+from wagtailcache.cache import nocache_page
 
 from core.blocks import ColumnsBlock
 from core.models import CMSGenericPage, TimeStampedModel
@@ -30,6 +32,7 @@ from international_online_offer.forms import LocationSelectForm
 from international_online_offer.services import get_median_salaries, get_rent_data
 
 
+@method_decorator(nocache_page, name="serve")
 class EYBIndexPage(BaseContentPage):
     parent_page_types = [
         'domestic.StructuralPage',

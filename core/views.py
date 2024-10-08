@@ -240,6 +240,7 @@ class CountriesView(generics.GenericAPIView):
         return Response([c for c in choices.COUNTRIES_AND_TERRITORIES_REGION if c.get('type') == 'Country'])
 
 
+@method_decorator(nocache_page, name="get")
 class SuggestedCountriesView(generics.GenericAPIView):
     def get(self, request):
         hs_code = request.GET.get('hs_code')
@@ -889,7 +890,6 @@ class GuidedJourneyStep3View(GuidedJourneyMixin, FormView):
 
 
 class GuidedJourneyStep4View(GuidedJourneyMixin, FormView):
-    form_class = forms.GuidedJourneyStep4Form
     template_name = 'domestic/contact/export-support/guided-journey/step-4.html'
 
     def get_context_data(self, **kwargs):

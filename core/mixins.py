@@ -214,15 +214,18 @@ class GuidedJourneyMixin:
     def get_context_data(self, **kwargs):
         button_text = 'Continue'
         form_data = {}
+        is_edit_mode = False
 
         if self.request.session.get('guided_journey_data'):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('guided_journey_data')))[0]
 
         if self.kwargs.get('edit'):
+            is_edit_mode = True
             button_text = 'Save'
 
         return super().get_context_data(
             **kwargs,
             button_text=button_text,
             session_data=form_data,
+            is_edit_mode=is_edit_mode,
         )

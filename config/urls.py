@@ -87,7 +87,7 @@ urlpatterns += [
     ),  # NB: doesn't skip GA as we may analytics on this
     path('great-cms-sso/', include(sso.urls)),
     path('search/', include(search.urls, namespace='search')),
-    path('activity-stream/', include(activitystream.urls, namespace='activitystream')),
+    path('activity-stream/', decorator_include(nocache_page, activitystream.urls, namespace='activitystream')),
     path('export-plan/', include(exportplan.urls)),
     path('profile/', decorator_include(nocache_page, sso_profile.urls, namespace='sso_profile')),
     path('', include(domestic.urls, namespace='domestic')),
