@@ -2231,6 +2231,8 @@ nav.great-breadcrumbs {
 .great-meta-label {
   color: $great-light-grey;
   display: flex;
+  font-family: $great-font;
+  font-weight: 100;
   gap: 10px;
   font-size: 16px;
 }
