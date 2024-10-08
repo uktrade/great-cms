@@ -1277,3 +1277,17 @@ META_LABELS = (
     ('guidance_gov', 'Guidance on GOV.UK'),
     ('service_gov', 'Service on GOV.UK'),
 )
+
+EXPORT_SUPPORT_CATEGORIES = (
+    ('/support/market-selection', 'Market selection'),
+    ('/support/routes-to-market-and-operating-overseas', 'Routes to market and operating overseas'),
+    (
+        '/support/funding-and-financial-considerations',
+        'Funding and financial considerations',
+    ),
+    ('/support/trade-restrictions-regulations-and-licensing', 'Trade restrictions, regulations and licensing'),
+    ('/support/logistics', 'Logistics'),
+    ('/support/customs-taxes-and-declarations', 'Customs, taxes and declarations'),
+    ('/support/travelling-for-work', 'Travelling for work'),
+    ('/support/managing-business-risk-and-corruption', 'Managing business risk and corruption'),
+)

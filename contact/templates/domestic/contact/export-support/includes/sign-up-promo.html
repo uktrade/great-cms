@@ -1,4 +1,4 @@
-<div class="govuk-!-padding-6 great-bg-light-blue great-ds-sign-up-promo">
+<div class="govuk-!-padding-6 {% if classes %} {{ classes }}{% else %}great-bg-light-blue great-ds-sign-up-promo{% endif %}">
     <svg width="80"
          height="80"
          viewBox="0 0 80 80"
@@ -28,7 +28,7 @@
         <path d="M38.6673 37.332V42.6654" stroke="#333333" stroke-width="2" stroke-linecap="round" />
         <path d="M40.0007 36.0013H37.334" stroke="#333333" stroke-width="2" stroke-linecap="round" />
     </svg>
-    <h2 class="govuk-heading-s govuk-!-margin-top-4 govuk-!-margin-bottom-6">More from great.gov.uk</h2>
+    <h2 class="{% if heading_classes %} {{ heading_classes }}{% else %}govuk-heading-s govuk-!-margin-top-4 govuk-!-margin-bottom-6{% endif %}">More from great.gov.uk</h2>
     {% if not request.user.is_authenticated %}<p class="govuk-heading-s">Sign up to...</p>{% endif %}
     <ul class="great-list-blue-tick govuk-!-margin-bottom-5">
         <li class="great-display-flex">attend UK Export Academy online events</li>

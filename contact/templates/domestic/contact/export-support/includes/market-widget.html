@@ -1,48 +1,72 @@
 {% load humanize %}
-{% load get_market_widget_data from component_tags %}
+{% load component_tags %}
 {% load reference_period from content_tags %}
+
+{% load wagtailimages_tags %}
+{% load wagtailcore_tags %}
+
 
 {% if market %}
 {% with market=market|get_market_widget_data market_name=market %}
-<div class="great-bg-white govuk-!-padding-5">
+<div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-4 great-ds-box-shadow great-ds-widget-container">
     {% if market %}
-        <div class="govuk-!-margin-bottom-2">
-            <a href="{% url 'core:guided-journey-step-3-edit' %}?return_to_step=4" class="govuk-link">(Change)</a>
-        </div>
+        {% include 'domestic/contact/export-support/includes/change-button.html' with url='/guided-journey/step-3/edit?return_to_step=4' %}
 
-        <img src="/static/images/flags/{{ country_code | lower }}.svg" alt="{{ country_code | lower }} flag" width="50px" />
+        <h2 class="govuk-heading-s great-ds-market-and-flag"><span>{{ market.heading }}</span> <img src="/static/images/flags/{{ country_code | lower }}.svg" alt="{{ country_code | lower }} flag" /></h2>
 
-        <a href="{{ market.get_full_url }}" class="govuk-heading-s govuk-!-margin-bottom-2 great-heading-link great-heading-link--no-chevron">
-            <h2 class="govuk-heading-s great-heading-link__heading">
-            Exporting guide to {{ market.heading }}</h2>
-        </a>
-        <p class="govuk-body">{{ market.heading_teaser }}</p>
 
-        {% if market.stats.highlights.data %}
-            {% with highlights=market.stats.highlights %}
-                {% if highlights.data.total_uk_exports %}
-                <div class="govuk-!-margin-bottom-3">
-                    <span class="govuk-heading-m govuk-!-margin-bottom-0">£{{ highlights.data.total_uk_exports|intword }}</span>
-                    <span class="govuk-heading-xs">
-                        total UK exports to {{ page.heading }} for the {% reference_period highlights.metadata.reference_period %}
-                    </span>
+        <div class="great-ds-market-widget">
+            <div class="great-ds-market-widget__col">
+                <p class="govuk-body govuk-!-margin-bottom-2">{{ market.heading_teaser }}</p>
+
+                {% if market.stats.economic_highlights.data %}
+                <div class="great-display-flex-desktop">
+                    <figure class="govuk-!-padding-right-6">
+                        <p class="govuk-label govuk-!-margin-0">Economic growth</p>
+                        {% with market.stats.economic_highlights.data.economic_growth as economic_growth %}
+                            <p class="govuk-heading-xl govuk-!-margin-bottom-1">{{ economic_growth.value|floatformat }}%</p>
+                            <figcaption>
+                                {% with market.stats.economic_highlights.metadata.uk_data.economic_growth as uk_economic_growth %}
+                                    <p class="govuk-body-s great-text-light-grey">
+                                        {% get_projected_or_actual economic_growth.is_projection True %} figure (IMF, {{ economic_growth.year }})
+                                        <br>
+                                        The UK is {{ uk_economic_growth.value|floatformat }}% (IMF, {{ uk_economic_growth.year }}, {% get_projected_or_actual uk_economic_growth.is_projection %} figure)
+                                    </p>
+                                {% endwith %}
+                            </figcaption>
+                        {% endwith %}
+                    </figure>
+                    <figure class="govuk-!-padding-right-6">
+                        <p class="govuk-label govuk-!-margin-0">GDP per capita</p>
+                        {% with market.stats.economic_highlights.data.gdp_per_capita as gdp_per_capita %}
+                            <p class="govuk-heading-xl  govuk-!-margin-bottom-1">${{ gdp_per_capita.value|floatformat:0|intcomma }}</p>
+                            {% with market.stats.economic_highlights.metadata.uk_data.gdp_per_capita as uk_gdp_per_capita %}
+                                <figcaption>
+                                    <p class="govuk-body-s great-text-light-grey">
+                                        {% get_projected_or_actual gdp_per_capita.is_projection True %} figure (IMF, {{ gdp_per_capita.year }})
+                                        <br>
+                                        The UK is ${{ uk_gdp_per_capita.value|floatformat:0|intcomma }} (IMF, {{ uk_gdp_per_capita.year }}, {% get_projected_or_actual uk_gdp_per_capita.is_projection %} figure)
+                                    </p>
+                                </figcaption>
+                            {% endwith %}
+                        {% endwith %}
+                    </figure>
                 </div>
                 {% endif %}
-                {% if highlights.data.trading_position %}
-                    <span class="govuk-heading-m govuk-!-margin-bottom-0">
-                        {% if highlights.data.trading_position == 1 %}
-                            largest
-                        {% else %}
-                            {{ highlights.data.trading_position|ordinal }}
-                        {% endif %}
-                    </span>
-                    <span class="govuk-heading-xs">
-                        {% if highlights.data.trading_position != 1 %}largest{% endif %}
-                        UK export market
-                    </span>
-                {% endif %}
-            {% endwith %}
-        {% endif %}
+
+                <div class="govuk-!-margin-top-2">
+                    <a href="{{ market.get_full_url }}" class="govuk-link great-ds-link" target="_blank">
+                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> 
+                        <span>Read more about {{ market_name }}</span>
+                    </a>
+                </div>
+            </div>
+            <div class="great-ds-market-widget__col great-display-from-tablet">
+                {% image market.hero_image fill-640x360 as image_url %}
+                <img src="{{ image_url.url }}" alt="" class="great-max-width-100" />
+            </div>
+        </div>
+        
     {% else %}
         <img src="/static/images/flags/{{ country_code | lower }}.svg" alt="{{ country_code | lower }} flag" width="50px" />
         <h2 class="govuk-heading-s">{{ market_name }}</h2>
