@@ -4,6 +4,7 @@ from great_components.decorators import skip_ga360
 
 from search.views import (
     OpensearchView,
+    OpensearchAdminView,
     SearchFeedbackFormView,
     SearchFeedbackSuccessView,
     SearchView,
@@ -30,6 +31,11 @@ if settings.OPENSEARCH_PROVIDER == 'govuk-paas':
             '',
             skip_ga360(SearchView.as_view()),
             name='search',
+        ),
+        path(
+            'preview/',
+            skip_ga360(OpensearchAdminView.as_view()),
+            name='preview',
         )
     ]
 # Serve search page linked to AWS Opensearch
@@ -39,5 +45,10 @@ elif settings.OPENSEARCH_PROVIDER in ['localhost', 'aws']:
             '',
             skip_ga360(OpensearchView.as_view()),
             name='search',
+        ),
+        path(
+            'preview/',
+            skip_ga360(OpensearchAdminView.as_view()),
+            name='preview',
         )
     ]

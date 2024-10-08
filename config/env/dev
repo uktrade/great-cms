@@ -33,6 +33,7 @@ DIRECTORY_API_CLIENT_API_KEY=debug
 DIRECTORY_CH_SEARCH_CLIENT_BASE_URL=http://chsearch.trade.great:8012
 DIRECTORY_CH_SEARCH_CLIENT_API_KEY=debug
 OPENSEARCH_PROVIDER=localhost
+OPENSEARCH_URL=http://docker-opensearch:9200
 ENVIRONMENT_CSS_THEME_FILE=core/css/environment_dev_theme.css
 MAXMIND_LICENCE_KEY=debug
 API_CLIENT_BASE_URL=http://api.trade.great:8000
