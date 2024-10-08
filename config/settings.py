@@ -193,18 +193,6 @@ if 'redis' in VCAP_SERVICES:
 else:
     REDIS_URL = env.str('REDIS_URL')
 
-
-if env.bool('API_CACHE_DISABLED', False):
-    cache = {'BACKEND': 'django.core.cache.backends.dummy.DummyCache'}
-else:
-    cache = {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': REDIS_URL,
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        },
-    }
-
 # wagtail caching options
 # (see https://docs.coderedcorp.com/wagtail-cache/getting_started/django_settings.html#django-settings)
 WAGTAIL_CACHE = False
@@ -215,12 +203,24 @@ WAGTAIL_CACHE_IGNORE_QS = None
 
 WAGTAIL_CACHE_TIMOUT = env.int('WAGTAIL_CACHE_TIMOUT', 4 * 60 * 60)  # 4 hours (in seconds)
 
-wagtail_cache = {
-    'BACKEND': 'django_redis.cache.RedisCache',
-    'LOCATION': REDIS_URL,
-    'KEY_PREFIX': 'wagtailcache',
-    'TIMEOUT': WAGTAIL_CACHE_TIMOUT,
-}
+if env.bool('API_CACHE_DISABLED', False):
+    cache = {'BACKEND': 'django.core.cache.backends.dummy.DummyCache'}
+    wagtail_cache = {'BACKEND': 'django.core.cache.backends.dummy.DummyCache'}
+else:
+    cache = {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': REDIS_URL,
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        },
+    }
+    wagtail_cache = {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': REDIS_URL,
+        'KEY_PREFIX': 'wagtailcache',
+        'TIMEOUT': WAGTAIL_CACHE_TIMOUT,
+    }
+
 
 CACHES = {
     'default': cache,
