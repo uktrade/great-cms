@@ -3,10 +3,13 @@ from django.core.paginator import EmptyPage, Paginator
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse, reverse_lazy
+from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
+from django.views.decorators.vary import vary_on_cookie
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin
+from wagtailcache.cache import cache_page
 
 from config import settings
 from core.helpers import get_sender_ip_address
@@ -22,6 +25,8 @@ from international_online_offer.core.region_sector_helpers import get_sectors_as
 from international_online_offer.services import get_dbt_sectors
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class ContactView(GA360Mixin, FormView):
     form_class = forms.ContactForm
     template_name = 'buy_from_the_uk/contact.html'

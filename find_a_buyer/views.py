@@ -4,10 +4,12 @@ from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils.decorators import method_decorator
+from django.views.decorators.vary import vary_on_cookie
 from django.views.generic import RedirectView, TemplateView, View
 from django.views.generic.edit import FormView
 from formtools.wizard.views import SessionWizardView
 from requests.exceptions import HTTPError
+from wagtailcache.cache import cache_page
 
 from directory_api_client.client import api_client
 from directory_constants import urls
@@ -15,6 +17,8 @@ from . import forms, helpers
 from .decorators import must_have_company_profile
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class BespokeBreadcrumbMixin(TemplateView):
 
     def get_context_data(self, **kwargs):
@@ -73,6 +77,8 @@ class GetTemplateForCurrentStepMixin:
         return [self.templates[self.steps.current]]
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class SendVerificationLetterView(
     GetTemplateForCurrentStepMixin, UpdateCompanyProfileOnFormWizardDoneMixin, SessionWizardView
 ):

@@ -85,7 +85,7 @@ urlpatterns += [
     path(
         'documents/', decorator_include(nocache_page, wagtaildocs_urls)
     ),  # NB: doesn't skip GA as we may analytics on this
-    path('great-cms-sso/', include(sso.urls)),
+    path('great-cms-sso/', decorator_include(nocache_page, sso.urls)),
     path('search/', include(search.urls, namespace='search')),
     path('activity-stream/', decorator_include(nocache_page, activitystream.urls, namespace='activitystream')),
     path('export-plan/', include(exportplan.urls)),

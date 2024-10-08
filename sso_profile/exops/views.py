@@ -1,10 +1,15 @@
 from django.conf import settings
+from django.utils.decorators import method_decorator
+from django.views.decorators.vary import vary_on_cookie
 from django.views.generic import TemplateView
 from requests.exceptions import HTTPError
+from wagtailcache.cache import cache_page
 
 from sso_profile.exops import helpers
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class ExportOpportunitiesBaseView(TemplateView):
     template_name_not_exops_user = 'exops/is-not-exops-user.html'
     template_name_error = 'exops/opportunities-retrieve-error.html'

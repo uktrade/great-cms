@@ -9,10 +9,11 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.text import slugify
+from django.views.decorators.vary import vary_on_cookie
 from django.views.generic import FormView, TemplateView, View
 from great_components.mixins import GA360Mixin
 from requests.exceptions import RequestException
-from wagtailcache.cache import nocache_page
+from wagtailcache.cache import cache_page
 
 from core.mixins import PageTitleMixin
 from core.utils import choices_to_key_value
@@ -159,6 +160,8 @@ class ExportPlanSectionView(GA360Mixin, ExportPlanMixin, TemplateView):
         return [f'exportplan/sections/{self.slug}.html']
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class ExportPlanMarketingApproachView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     slug = 'marketing-approach'
     title = 'Marketing approach'
@@ -179,6 +182,8 @@ class ExportPlanMarketingApproachView(PageTitleMixin, LessonDetailsMixin, Export
         return context
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class ExportPlanAdaptingYourProductView(
     PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView
 ):
@@ -197,6 +202,8 @@ class ExportPlanAdaptingYourProductView(
         return context
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class ExportPlanTargetMarketsResearchView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     slug = 'target-markets-research'
     title = 'Target market research'
@@ -214,6 +221,8 @@ class ExportPlanTargetMarketsResearchView(PageTitleMixin, LessonDetailsMixin, Ex
         return context
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class ExportPlanBusinessObjectivesView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     title = 'Business objectives'
     text = ''
@@ -226,6 +235,8 @@ class ExportPlanBusinessObjectivesView(PageTitleMixin, LessonDetailsMixin, Expor
         return context
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class ExportPlanAboutYourBusinessView(PageTitleMixin, ExportPlanSectionView):
     title = 'About your business'
     text = ''
@@ -238,6 +249,8 @@ class ExportPlanAboutYourBusinessView(PageTitleMixin, ExportPlanSectionView):
         return context
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class CostsAndPricingView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     success_url = reverse_lazy('exportplan:about-your-business')
     title = 'Costs And Pricing'
@@ -256,6 +269,8 @@ class CostsAndPricingView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionV
         return context
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class GettingPaidView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     title = 'Getting paid'
     text = ''
@@ -275,6 +290,8 @@ class GettingPaidView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView)
         return context
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class FundingAndCreditView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     title = 'Funding and credit'
     text = ''
@@ -293,6 +310,8 @@ class FundingAndCreditView(PageTitleMixin, LessonDetailsMixin, ExportPlanSection
         return context
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class TravelBusinessPoliciesView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     title = 'Travel plan'
     text = ''
@@ -307,6 +326,8 @@ class TravelBusinessPoliciesView(PageTitleMixin, LessonDetailsMixin, ExportPlanS
         return context
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class BusinessRiskView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     title = 'Business Risk'
     text = ''
@@ -367,6 +388,8 @@ class LogoFormView(PageTitleMixin, BaseFormView):
     title = 'Upload your logo'
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class ExportPlanServicePage(GA360Mixin, TemplateView):
     def __init__(self):
         super().__init__()
@@ -401,7 +424,6 @@ class PDFDownload(
         return response
 
 
-@method_decorator(nocache_page, name='dispatch')
 class ExportPlanIndex(GA360Mixin, TemplateView):
 
     export_plan_list = None
@@ -440,7 +462,6 @@ class ExportPlanStart(GA360Mixin, TemplateView):
     template_name = 'exportplan/start.html'
 
 
-@method_decorator(nocache_page, name='dispatch')
 class ExportPlanUpdate(GA360Mixin, TemplateView):
     # This page is used to allow users to set a product/market in an export plan that doesn't have both
     export_plan = None
@@ -469,7 +490,6 @@ class ExportPlanUpdate(GA360Mixin, TemplateView):
         return context
 
 
-@method_decorator(nocache_page, name='dispatch')
 class ExportPlanDashBoard(
     GA360Mixin,
     TemplateView,

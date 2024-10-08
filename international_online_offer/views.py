@@ -5,12 +5,15 @@ from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.decorators.vary import vary_on_cookie
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from wagtailcache.cache import cache_page
 
 from core.helpers import check_url_host_is_safelisted
 from directory_sso_api_client import sso_api_client
@@ -62,6 +65,8 @@ def calculate_and_store_is_high_value(request):
         )
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class IndexView(GA360Mixin, TemplateView):
     template_name = 'eyb/index.html'
 
@@ -83,6 +88,8 @@ class IndexView(GA360Mixin, TemplateView):
         )
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class AboutYourBusinessView(GA360Mixin, TemplateView):
     template_name = 'eyb/about_your_business.html'
 
@@ -108,6 +115,8 @@ class AboutYourBusinessView(GA360Mixin, TemplateView):
         )
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class BusinessHeadQuartersView(GA360Mixin, FormView):
     template_name = 'eyb/triage/business_headquarters.html'
     form_class = forms.BusinessHeadquartersForm
@@ -209,6 +218,8 @@ class BusinessHeadQuartersView(GA360Mixin, FormView):
         )
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class FindYourCompanyView(GA360Mixin, FormView):
     template_name = 'eyb/triage/find_your_company.html'
     form_class = forms.FindYourCompanyForm
@@ -311,6 +322,8 @@ class FindYourCompanyView(GA360Mixin, FormView):
         )
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class CompanyDetailsView(GA360Mixin, FormView):
     template_name = 'eyb/triage/company_details.html'
     form_class = forms.CompanyDetailsForm
@@ -411,6 +424,8 @@ class CompanyDetailsView(GA360Mixin, FormView):
         )
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class BusinessSectorView(GA360Mixin, FormView):
     template_name = 'eyb/triage/business_sector.html'
     form_class = forms.BusinessSectorForm
@@ -642,6 +657,8 @@ class ContactDetailsView(GA360Mixin, FormView):
         )
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class KnowSetupLocationView(GA360Mixin, FormView):
     form_class = forms.KnowSetupLocationForm
     template_name = 'eyb/triage/know_your_setup_location.html'
@@ -713,6 +730,8 @@ class KnowSetupLocationView(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class WhenDoYouWantToSetupView(GA360Mixin, FormView):
     form_class = forms.WhenDoYouWantToSetupForm
     template_name = 'eyb/triage/when_want_to_setup.html'
@@ -813,6 +832,8 @@ class IntentView(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class LocationView(GA360Mixin, FormView):
     form_class = forms.LocationForm
     template_name = 'eyb/triage/location.html'
@@ -883,6 +904,8 @@ class LocationView(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class HiringView(GA360Mixin, FormView):
     form_class = forms.HiringForm
     template_name = 'eyb/triage/hiring.html'
@@ -931,6 +954,8 @@ class HiringView(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class SpendView(GA360Mixin, FormView):
     form_class = forms.SpendForm
     template_name = 'eyb/triage/spend.html'
@@ -1250,6 +1275,8 @@ class CsatWidgetView(FormView):
         return response
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class CsatFeedbackView(GA360Mixin, FormView):
     form_class = forms.CsatFeedbackForm
     template_name = 'eyb/csat_feedback.html'
@@ -1311,6 +1338,8 @@ class CsatFeedbackView(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class TradeAssociationsView(GA360Mixin, TemplateView):
     template_name = 'eyb/trade_associations.html'
 
@@ -1351,6 +1380,8 @@ class TradeAssociationsView(GA360Mixin, TemplateView):
         )
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class BusinessClusterView(GA360Mixin, TemplateView):
     template_name = 'eyb/bci.html'
 

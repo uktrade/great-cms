@@ -34,7 +34,7 @@ from wagtail.images.views.chooser import (
     ImageInsertionForm,
     ImageUploadViewMixin,
 )
-from wagtailcache.cache import nocache_page
+from wagtailcache.cache import cache_page, nocache_page
 
 from core import cms_slugs, forms, helpers, serializers
 from core.constants import PRODUCT_MARKET_DATA
@@ -235,12 +235,12 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, TemplateView, FormView):
         return reverse('core:compare-countries')
 
 
+@method_decorator(cache_page, name='get')
 class CountriesView(generics.GenericAPIView):
     def get(self, request):
         return Response([c for c in choices.COUNTRIES_AND_TERRITORIES_REGION if c.get('type') == 'Country'])
 
 
-@method_decorator(nocache_page, name='get')
 class SuggestedCountriesView(generics.GenericAPIView):
     def get(self, request):
         hs_code = request.GET.get('hs_code')
