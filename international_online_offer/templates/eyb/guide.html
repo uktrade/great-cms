@@ -7,7 +7,7 @@
 {% block meta_title %}Welcome to your UK expansion guide {{ block.super }}{% endblock %}
 {% block head_css %}{{ block.super }}{% endblock %}
 {% block content %}
-    <div class="govuk-width-container great-container">
+    <div class="great-container">
         {% if request.GET.signup %}
             <div class="govuk-grid-row govuk-!-margin-top-4">
                 <div class="govuk-grid-column-full">
@@ -131,7 +131,7 @@
                             </div>
                             <div class="govuk-grid-row govuk-!-padding-1">
                                 <div class="govuk-grid-column-full">
-                                    <button class="secondary-button button--international"
+                                    <button class="button secondary-button button--international"
                                             type="button"
                                             onclick="window.location.href='{% url 'international_online_offer:bci' %}?area=K03000001'">
                                         By location
