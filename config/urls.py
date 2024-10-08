@@ -16,6 +16,7 @@ from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail_transfer import urls as wagtailtransfer_urls
+from wagtailcache.cache import nocache_page
 
 import activitystream.urls
 import cms_extras.urls
@@ -39,7 +40,7 @@ urlpatterns = []
 if settings.ENFORCE_STAFF_SSO_ENABLED:
     urlpatterns += [
         path('admin/login/', RedirectView.as_view(url=reverse_lazy('authbroker_client:login'), query_string=True)),
-        path('auth/', include(authbroker_client.urls)),
+        path('auth/', decorator_include(nocache_page, authbroker_client.urls)),
     ]
 
 
@@ -50,6 +51,7 @@ urlpatterns += [
         'django-admin/',
         decorator_include(
             [
+                nocache_page,
                 skip_ga360,
             ],
             admin.site.urls,
@@ -60,6 +62,7 @@ urlpatterns += [
         'admin/wagtail-transfer/',
         decorator_include(
             [
+                nocache_page,
                 skip_ga360,
             ],
             wagtailtransfer_urls,
@@ -69,19 +72,22 @@ urlpatterns += [
         'admin/cms-extras/',
         decorator_include(
             [
+                nocache_page,
                 skip_ga360,
             ],
             cms_extras.urls,
             namespace='cms_extras',
         ),
     ),
-    path('admin/', decorator_include(skip_ga360, wagtailadmin_urls)),
-    path('documents/', include(wagtaildocs_urls)),  # NB: doesn't skip GA as we may analytics on this
+    path('admin/', decorator_include([skip_ga360, nocache_page], wagtailadmin_urls)),
+    path(
+        'documents/', decorator_include(nocache_page, wagtaildocs_urls)
+    ),  # NB: doesn't skip GA as we may analytics on this
     path('great-cms-sso/', include(sso.urls)),
     path('search/', include(search.urls, namespace='search')),
     path('activity-stream/', include(activitystream.urls, namespace='activitystream')),
     path('export-plan/', include(exportplan.urls)),
-    path('profile/', include(sso_profile.urls, namespace='sso_profile')),
+    path('profile/', decorator_include(nocache_page, sso_profile.urls, namespace='sso_profile')),
     path('', include(domestic.urls, namespace='domestic')),
     path('', include(core.urls, namespace='core')),
     path('', include(contact.urls)),  # No prefix because not all of them start with /contact/

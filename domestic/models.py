@@ -28,6 +28,7 @@ from wagtail.images import get_image_model_string
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.models import Page
 from wagtail.snippets.blocks import SnippetChooserBlock
+from wagtailcache.cache import WagtailCacheMixin
 
 from core import blocks as core_blocks, cache_keys, helpers, mixins, service_urls
 from core.blocks import (
@@ -212,6 +213,7 @@ class DomesticHomePage(
 
 
 class DomesticDashboard(
+    WagtailCacheMixin,
     SeoMixin,
     mixins.WagtailAdminExclusivePageMixin,
     mixins.EnableSegmentationMixin,
@@ -219,11 +221,12 @@ class DomesticDashboard(
     DataLayerMixin,
     Page,
 ):
+    cache_control = 'no-cache'
+
     components = StreamField(
         [('route', core_blocks.RouteSectionBlock(icon='pick'))], use_json_field=True, null=True, blank=True
     )
 
-    # NEEDCACHE
     def get_context(self, request):
         user = request.user
         context = super().get_context(request)
