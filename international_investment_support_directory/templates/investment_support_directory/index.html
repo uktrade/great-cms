@@ -10,12 +10,16 @@
                   method="get">
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds-from-desktop">
-                        <label class="govuk-label govuk-label--s">Search for the skills or services you need</label>
-                        <input class="govuk-input" name="q" id="q">
+                        <label for="q" class="govuk-label govuk-label--s">Search for the skills or services you need</label>
+                        <input type="search" class="govuk-input" name="q" id="q">
                     </input>
                 </div>
                 <div class="govuk-grid-column-one-third-from-desktop">
-                    <input class="govuk-visually-hidden" name="page" id="page" value=1>
+                    <input class="govuk-visually-hidden"
+                           type="hidden"
+                           name="page"
+                           id="page"
+                           value="1">
                 </input>
             </div>
         </div>
@@ -67,62 +71,74 @@
             </div>
         </div>
         <div class="govuk-grid-row">
-            <ul class="govuk-grid-column-one-third">
+            <div class="govuk-grid-column-one-third">
                 <h3 class="govuk-heading-m">Financial</h3>
-                {% for choice in CHOICES_FINANCIAL %}
-                    <li>
-                        <a class="govuk-link"
-                           href="{% url 'international_investment_support_directory:find-a-specialist' %}?q=&expertise_products_services_financial={{ choice.split|join:'+' }}&page=1">{{ choice }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-            <ul class="govuk-grid-column-one-third">
+                <ul>
+                    {% for choice in CHOICES_FINANCIAL %}
+                        <li>
+                            <a class="govuk-link"
+                               href="{% url 'international_investment_support_directory:find-a-specialist' %}?q=&expertise_products_services_financial={{ choice.split|join:'+' }}&page=1">{{ choice }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="govuk-grid-column-one-third">
                 <h3 class="govuk-heading-m">Management consulting</h3>
-                {% for choice in CHOICES_MANAGEMENT_CONSULTING %}
-                    <li>
-                        <a class="govuk-link"
-                           href="{% url 'international_investment_support_directory:find-a-specialist' %}?q=&expertise_products_services_management={{ choice.split|join:'+' }}&page=1">{{ choice }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-            <ul class="govuk-grid-column-one-third">
+                <ul>
+                    {% for choice in CHOICES_MANAGEMENT_CONSULTING %}
+                        <li>
+                            <a class="govuk-link"
+                               href="{% url 'international_investment_support_directory:find-a-specialist' %}?q=&expertise_products_services_management={{ choice.split|join:'+' }}&page=1">{{ choice }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="govuk-grid-column-one-third">
                 <h3 class="govuk-heading-m">Human resources and recruitment</h3>
-                {% for choice in CHOICES_HUMAN_RESOURCES %}
-                    <li>
-                        <a class="govuk-link"
-                           href="{% url 'international_investment_support_directory:find-a-specialist' %}?q=&expertise_products_services_human_resources={{ choice.split|join:'-' }}&page=1">{{ choice }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
+                <ul>
+                    {% for choice in CHOICES_HUMAN_RESOURCES %}
+                        <li>
+                            <a class="govuk-link"
+                               href="{% url 'international_investment_support_directory:find-a-specialist' %}?q=&expertise_products_services_human_resources={{ choice.split|join:'-' }}&page=1">{{ choice }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
         <div class="govuk-grid-row govuk-!-margin-top-8">
-            <ul class="govuk-grid-column-one-third">
+            <div class="govuk-grid-column-one-third">
                 <h3 class="govuk-heading-m">Legal</h3>
-                {% for choice in CHOICES_LEGAL %}
-                    <li>
-                        <a class="govuk-link"
-                           href="{% url 'international_investment_support_directory:find-a-specialist' %}?q=&expertise_products_services_legal={{ choice.split|join:'+' }}&page=1">{{ choice }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-            <ul class="govuk-grid-column-one-third">
+                <ul>
+                    {% for choice in CHOICES_LEGAL %}
+                        <li>
+                            <a class="govuk-link"
+                               href="{% url 'international_investment_support_directory:find-a-specialist' %}?q=&expertise_products_services_legal={{ choice.split|join:'+' }}&page=1">{{ choice }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="govuk-grid-column-one-third">
                 <h3 class="govuk-heading-m">Publicity and communications</h3>
-                {% for choice in CHOICES_PUBLICITY %}
-                    <li>
-                        <a class="govuk-link"
-                           href="{% url 'international_investment_support_directory:find-a-specialist' %}?q=&expertise_products_services_publicity={{ choice.split|join:'+' }}&page=1">{{ choice }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-            <ul class="govuk-grid-column-one-third">
+                <ul>
+                    {% for choice in CHOICES_PUBLICITY %}
+                        <li>
+                            <a class="govuk-link"
+                               href="{% url 'international_investment_support_directory:find-a-specialist' %}?q=&expertise_products_services_publicity={{ choice.split|join:'+' }}&page=1">{{ choice }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="govuk-grid-column-one-third">
                 <h3 class="govuk-heading-m">Business support</h3>
-                {% for choice in CHOICES_BUSINESS_SUPPORT %}
-                    <li>
-                        <a class="govuk-link"
-                           href="{% url 'international_investment_support_directory:find-a-specialist' %}?q=&expertise_products_services_business_support={{ choice.split|join:'+' }}&page=1">{{ choice }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
+                <ul>
+                    {% for choice in CHOICES_BUSINESS_SUPPORT %}
+                        <li>
+                            <a class="govuk-link"
+                               href="{% url 'international_investment_support_directory:find-a-specialist' %}?q=&expertise_products_services_business_support={{ choice.split|join:'+' }}&page=1">{{ choice }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
     </div>
 </section>

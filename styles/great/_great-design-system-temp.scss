@@ -4,6 +4,7 @@ $great-design-system-hover-primary-button: #003078;
 $great-design-system-interface-mono-50: #7d8e96;
 $great-design-system-govuk-light-grey: #f3f2f1;
 $great-design-system-border-grey: #d9d9d9;
+$great-design-system-purple: #a24a94;
 
 $great-design-system-govuk-yellow-highlight: #fd0;
 $great-design-system-govuk-off-black: #0b0c0c;
@@ -70,6 +71,8 @@ $great-design-system-govuk-blue: #1d70b8;
 }
 
 .great-ds-details {
+  position: relative;
+
   summary {
     &::-webkit-details-marker {
       display: none;
@@ -225,5 +228,49 @@ $great-design-system-govuk-blue: #1d70b8;
       left: 470px;
       position: absolute;
     }
+  }
+}
+
+.great-ds-widget-container {
+  position: relative;
+
+  .great-ds-edit-control {
+    background: $great-design-system-white;
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    text-decoration: none;
+
+    span {
+      margin-right: 10px;
+      text-decoration: underline;
+    }
+  }
+
+  .great-ds-skip-control {
+    span {
+      line-height: 50px;
+    }
+
+    @include govuk-media-query($from: tablet) {
+      margin-left: 30px;
+    }
+  }
+}
+
+.great-ds-purple-text {
+  color: $great-design-system-purple !important;
+}
+
+.great-ds-card-meta-label {
+  color: $great-design-system-purple !important;
+  display: flex;
+  gap: 10px;
+  font-size: 16px;
+
+  @include govuk-media-query($from: desktop) {
+    position: absolute;
+    top: 15px;
+    right: 0;
   }
 }
