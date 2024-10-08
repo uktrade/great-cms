@@ -26,7 +26,11 @@
                 </div>
                 <div class="govuk-grid-column-one-third-from-desktop">
                     {% include 'international/includes/form_field.html' with field=form.industries %}
-                    <input class="govuk-visually-hidden" name="page" id="page" value=1>
+                    <input type="hidden"
+                           class="govuk-visually-hidden"
+                           name="page"
+                           id="page"
+                           value="1">
                 </input>
             </div>
         </div>
@@ -64,13 +68,13 @@
     <div class="govuk-width-container great-container">
         <div class="govuk-grid-row great-card-row govuk-!-padding-top-8 govuk-!-padding-bottom-2">
             <div class="govuk-grid-column-one-third-from-desktop govuk-!-margin-bottom-6">
-                {% include 'components/great/card.html' with data_attr_title='Get an introduction' image_src='buy_from_the_uk/includes/svg/Icon-MakeIntroductions.svg' is_svg_image=True data_attr_location='International buy from the UK homepage' title='Get an introduction' show_title_link=True url='/international/buy-from-the-uk/contact/' content='Tell us about your business. We will find your ideal trade partner and make an introduction to get you off to the best start.' content_class="govuk-body" classes="great-card--homepage great-international-card--cta" %}
+                {% include 'components/great/card.html' with data_attr_title='Get an introduction' heading_level='h2' image_src='buy_from_the_uk/includes/svg/Icon-MakeIntroductions.svg' is_svg_image=True data_attr_location='International buy from the UK homepage' title='Get an introduction' show_title_link=True url='/international/buy-from-the-uk/contact/' content='Tell us about your business. We will find your ideal trade partner and make an introduction to get you off to the best start.' content_class="govuk-body" classes="great-card--homepage great-international-card--cta" %}
             </div>
             <div class="govuk-grid-column-one-third-from-desktop govuk-!-margin-bottom-6">
-                {% include 'components/great/card.html' with data_attr_title='Get advice on buying from the UK' image_src='buy_from_the_uk/includes/svg/Icon-GetAdvice.svg' is_svg_image=True data_attr_location='International buy from the UK homepage' title='Get advice on buying from the UK' show_title_link=True url='/international/buy-from-the-uk/contact/' content='Get the latest information on markets and trends, and benefit from the local knowledge of our trade advisers from around the world.' content_class="govuk-body" classes="great-card--homepage great-international-card--cta" %}
+                {% include 'components/great/card.html' with data_attr_title='Get advice on buying from the UK' heading_level='h2' image_src='buy_from_the_uk/includes/svg/Icon-GetAdvice.svg' is_svg_image=True data_attr_location='International buy from the UK homepage' title='Get advice on buying from the UK' show_title_link=True url='/international/buy-from-the-uk/contact/' content='Get the latest information on markets and trends, and benefit from the local knowledge of our trade advisers from around the world.' content_class="govuk-body" classes="great-card--homepage great-international-card--cta" %}
             </div>
             <div class="govuk-grid-column-one-third-from-desktop govuk-!-margin-bottom-6">
-                {% include 'components/great/card.html' with data_attr_title='Finance imports' image_src='buy_from_the_uk/includes/svg/Icon-Finance.svg' is_svg_image=True data_attr_location='International buy from the UK homepage' title='Finance imports' show_title_link=True url='/project-finance/' content='Find competitive financing when buying from the UK. Explore a range of financing solutions through our initiative for foreign buyers, UK Export Finance (UKEF).' content_class="govuk-body" classes="great-card--homepage great-international-card--cta" %}
+                {% include 'components/great/card.html' with data_attr_title='Finance imports' heading_level='h2' image_src='buy_from_the_uk/includes/svg/Icon-Finance.svg' is_svg_image=True data_attr_location='International buy from the UK homepage' title='Finance imports' show_title_link=True url='/project-finance/' content='Find competitive financing when buying from the UK. Explore a range of financing solutions through our initiative for foreign buyers, UK Export Finance (UKEF).' content_class="govuk-body" classes="great-card--homepage great-international-card--cta" %}
             </div>
         </div>
     </div>

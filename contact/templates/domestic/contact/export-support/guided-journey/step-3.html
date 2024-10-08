@@ -2,31 +2,71 @@
 {% load static %}
 {% block head_title %}Export support for UK businesses{% endblock %}
 {% block head_css %}
-    {{ block.super }}
     <link href="{% static 'core/css/accessible-autocomplete.min.css' %}"
           rel="stylesheet"
           type="text/css">
+    {{ block.super }}
 {% endblock %}
 {% block content %}
     <div class="great">
         <div class="great-container govuk-!-padding-top-4">
             <div class="govuk-grid-row">
-                <div class="govuk-grid-column-full great-grid-column-seven-twelfths">
-                    <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">Export support for UK businesses</h1>
+                <div class="govuk-grid-column-full">
+                    <div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-4 great-ds-box-shadow great-ds-widget-container">
+                        <form method="post" autocomplete="off">
+                            {% csrf_token %}
+                            <h1>
+                                <label class="govuk-heading-l govuk-!-margin-bottom-4" for="market">
+                                    Where is your target export market?
+                                </label>
+                            </h1>
+
+                            <p class="govuk-body">Start typing a country or territory in the box below.</p>
+
+                            <div class="govuk-!-margin-bottom-6">
+                                {% for field in form.visible_fields %}
+                                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                                    {% if field.name == 'not_sure_where_to_export' %}
+                                    <div class="govuk-form-group govuk-!-margin-top-3 govuk-!-margin-bottom-3 {% if field.errors %}govuk-form-group--error{% endif %}">
+                                        <div class="govuk-checkboxes__item govuk-!-margin-bottom-3 great-checkbox">
+                                            <input class="govuk-checkboxes__input" id="id_not_sure_where_to_export" name="not_sure_where_to_export" type="checkbox" value="{{ field.value }}" />
+                                            <label id="id_not_sure_where_to_export-label" for="id_not_sure_where_to_export" class="govuk-label govuk-checkboxes__label">{{ field.label }}</label>
+                                        </div>
+                                    </div>
+                                    {% elif field.name == 'market_not_listed' %}
+                                    <div class="govuk-form-group govuk-!-margin-bottom-3 {% if field.errors %}govuk-form-group--error{% endif %}">
+                                        <div class="govuk-checkboxes__item govuk-!-margin-bottom-3 great-checkbox">
+                                            <input class="govuk-checkboxes__input" id="id_market_not_listed" name="market_not_listed" type="checkbox" value="{{ field.value }}" />
+                                            <label id="id_market_not_listed-label" for="id_market_not_listed" class="govuk-label govuk-checkboxes__label">{{ field.label }}</label>
+                                        </div>
+                                    </div>
+                                    {% elif field.name == 'market' %}
+                                    <div class="govuk-form-group govuk-!-margin-bottom-3 {% if field.errors %}govuk-form-group--error{% endif %}">
+                                        {% include 'domestic/contact/includes/govuk-form-field.html' with field=field hide_label=True %}
+                                    </div>
+                                    <div id="market-container" class="great-ds-autocomplete-input__wrapper"></div>
+                                    {% endif %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        
+                            {% include 'domestic/contact/export-support/includes/continue-save-button.html' %}
+                            {% include 'domestic/contact/export-support/includes/skip-button.html' with url='/guided-journey/step-4?is_market_skipped=True' %}
+                        </form>
+                    </div>
 
                     {% if session_data.sic_description %}
-                    <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-bg-white">
-                        <h2 class="govuk-heading-s">What does your company make or do?</h2>
-                        <p class="govuk-body">{{ session_data.sic_description }} <a href="{% url 'core:guided-journey-step-1-edit' %}?return_to_step=3" class="govuk-link">(Change)</a></p>
-                        <p class="govuk-body govuk-!-margin-bottom-0">Your sector is <strong class="great-font-bold">{{ session_data.sector }}</strong></p>
-                    </div>
-                    {% endif %}
+                    <div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-4 great-ds-box-shadow great-ds-widget-container">
+                        <h2 class="govuk-heading-s govuk-!-margin-bottom-2 govuk-!-padding-right-9 govuk-!-margin-right-9">{{ session_data.sic_description }}</h2>
+                        <p class="govuk-body govuk-!-margin-bottom-2">Part of the <strong class="great-font-bold">{{ session_data.sector }}</strong> sector.</p>
+                        
+                        {% if session_data.exporter_type == 'goods' and session_data.hs_code and session_data.commodity_name %}
+                            <p class="govuk-body govuk-!-margin-bottom-0">
+                                Your commodity is <strong class="great-font-bold">{{ session_data.commodity_name }}</strong> and your commodity code is <strong class="great-font-bold">{{ session_data.hs_code }}</strong>
+                            </p>
+                        {% endif %}
 
-                    {% if session_data.exporter_type == 'goods' and session_data.hs_code %}
-                    <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-bg-white">
-                        <h2 class="govuk-heading-s">Your commodity match</h2>
-                        <p class="govuk-body">{{session_data.commodity_name}}</p>
-                        <p class="govuk-body">Your commodity code is <strong class="great-font-bold">{{ session_data.hs_code }}</strong> <a href="{% url 'core:guided-journey-step-2-edit' %}?return_to_step=3" class="govuk-link">(Change)</a></p>
+                        {% include 'domestic/contact/export-support/includes/change-button.html' with url='/guided-journey/step-1/edit?return_to_step=3' %}
                     </div>
                     {% endif %}
 
@@ -37,48 +77,6 @@
                     {% if session_data.exporter_type == 'service' %}
                         {% include 'domestic/contact/export-support/includes/service-widget.html' %}
                     {% endif %}
-
-                    <form method="post" autocomplete="off" class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-bg-white">
-                        {% csrf_token %}
-                        <div class="govuk-!-margin-bottom-6">
-                            {% for field in form.visible_fields %}
-                            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-                                {% if field.name == 'not_sure_where_to_export' %}
-                                <div class="govuk-form-group govuk-!-margin-top-3 govuk-!-margin-bottom-3 {% if field.errors %}govuk-form-group--error{% endif %}">
-                                    <div class="govuk-checkboxes__item govuk-!-margin-bottom-3 great-checkbox">
-                                        <input class="govuk-checkboxes__input" id="id_not_sure_where_to_export" name="not_sure_where_to_export" type="checkbox" value="{{ field.value }}" />
-                                        <label id="id_not_sure_where_to_export-label" for="id_not_sure_where_to_export" class="govuk-label govuk-checkboxes__label">{{ field.label }}</label>
-                                    </div>
-                                </div>
-                                {% elif field.name == 'market_not_listed' %}
-                                <div class="govuk-form-group govuk-!-margin-bottom-3 {% if field.errors %}govuk-form-group--error{% endif %}">
-                                    <div class="govuk-checkboxes__item govuk-!-margin-bottom-3 great-checkbox">
-                                        <input class="govuk-checkboxes__input" id="id_market_not_listed" name="market_not_listed" type="checkbox" value="{{ field.value }}" data-aria-controls="conditional-unlisted-market" />
-                                        <label id="id_market_not_listed-label" for="id_market_not_listed" class="govuk-label govuk-checkboxes__label">{{ field.label }}</label>
-                                    </div>
-                                </div>
-                                {% elif field.name == 'market' %}
-                                <div class="govuk-form-group govuk-!-margin-bottom-3 {% if field.errors %}govuk-form-group--error{% endif %}">
-                                    {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
-                                </div>
-                                <div id="market-container"></div>
-                                {% else %}
-                                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="conditional-unlisted-market">
-                                    <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
-                                        {% include 'domestic/contact/includes/govuk-form-field.html' with field=field hide_label=True %}
-                                    </div>
-                                </div>
-                                {% endif %}
-                            </div>
-                            {% endfor %}
-                        </div>
-                        
-                        <button type="submit" class="govuk-button great-min-width-250-desktop">{{ button_text }}</button>
-
-                        <div>
-                            <a href="{% url 'core:guided-journey-step-4' %}?is_market_skipped=True" class="govuk-link">Skip</a>
-                        </div>
-                    </form>                    
                 </div>
             </div>
         </div>
@@ -87,8 +85,6 @@
 
 {% block body_js %}
     {{ block.super }}
-    <script src="{% static 'javascript/govuk.js' %}"></script>
-    <script>window.GOVUKFrontend.initAll()</script> 
     <script type="text/javascript"
             src="{% static 'javascript/accessible-autocomplete.v3.min.js' %}"></script>
     <script type="text/javascript">
@@ -106,7 +102,7 @@
         minLength: 3,
         displayMenu: 'overlay',
         placeholder: 'For example Germany',
-        inputClasses: 'govuk-input great-text-input govuk-!-width-two-thirds',
+        inputClasses: 'govuk-input great-text-input great-ds-autocomplete-input',
         menuClasses: 'great-autocomplete-overlay',
         defaultValue: '{{ session_data.market }}',
     });
