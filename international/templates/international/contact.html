@@ -15,11 +15,14 @@
         </div>
     </div>
 {% endblock %}
+{% block css_layout_class %}
+    govuk-main-wrapper
+    {{ block.super }}
+{% endblock %}
 {% block content %}
     <div class="govuk-width-container great-container">
         {% if request.GET.success %}
-            <div class="govuk-grid-row govuk-!-margin-top-3"
-                 id="complete_contact_form_message">
+            <div class="govuk-grid-row" id="complete_contact_form_message">
                 <div class="govuk-grid-column-two-thirds">{% include './includes/contact_success.html' with back_url=back_url %}</div>
             </div>
         {% else %}
