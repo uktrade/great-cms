@@ -1,11 +1,32 @@
 {% load get_market_widget_data from component_tags %}
+{% load wagtailimages_tags %}
 
-<h3 class="govuk-heading-xs govuk-!-margin-top-3 great-heading-link__heading">Suggested markets</h3>
+
 {% for market, country_code in suggested_markets %}
     {% with suggested_market_data=market|get_market_widget_data %}
-        <img src="/static/images/flags/{{ country_code | lower }}.svg" alt="{{ country_code | lower }} flag" width="50px" />
-        <a href="{{ suggested_market_data.get_full_url }}" class="govuk-!-margin-bottom-2 great-heading-link great-heading-link--no-chevron">
-            Exporting guide to {{ suggested_market_data.heading }}
-        </a>
+    <div class="great-bg-white {% if forloop.first %}govuk-!-padding-top-2 govuk-!-padding-right-6 govuk-!-padding-bottom-6 govuk-!-padding-left-6{% else %}govuk-!-padding-6{% endif %} govuk-!-margin-bottom-1 great-ds-box-shadow great-ds-widget-container">
+        {% if forloop.first %}
+            <h2 class="great-meta-label great-ds-purple-text"><img src="/static/icons/exporter.svg" alt="" /> <span>High potential markets for the <strong class="great-font-bold">{{ session_data.sector }}</strong> sector</span></h2>
+            <hr class="great-hr-blue govuk-!-margin-top-0 govuk-!-margin-bottom-6" />
+        {% endif %}
+        <div class="great-ds-market-widget">
+            <div class="great-ds-market-widget__col">
+                <h3 class="govuk-heading-s great-ds-market-and-flag"><span>{{ suggested_market_data.heading }}</span> <img src="/static/images/flags/{{ country_code | lower }}.svg" alt="{{ country_code | lower }} flag" /></h3>
+
+                <p class="govuk-body govuk-!-margin-bottom-2">{{ suggested_market_data.heading_teaser }}</p>
+        
+                <div class="govuk-!-margin-top-2">
+                    <a href="{{ market.get_full_url }}" class="govuk-link great-ds-link" target="_blank">
+                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> 
+                        <span>Read more about {{ suggested_market_data.heading }}</span>
+                    </a>
+                </div>
+            </div>
+            <div class="great-ds-market-widget__col great-display-from-tablet">
+                {% image suggested_market_data.hero_image fill-640x360 as image_url %}
+                <img src="{{ image_url.url }}" alt="" class="great-max-width-100" />
+            </div>
+        </div>
+    </div>
     {% endwith %}
 {% endfor %}

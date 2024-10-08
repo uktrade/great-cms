@@ -17,7 +17,7 @@
   overflow-x: hidden;
 
   h1,
-  h2:not(.govuk-caption-l):not(.govuk-caption-xl),
+  h2:not(.govuk-caption-l):not(.govuk-caption-xl):not(.great-meta-label),
   h3,
   h4,
   h5,
@@ -40,7 +40,8 @@
       .govuk-heading-xs,
       .govuk-heading-s,
       .govuk-body-s,
-      .govuk-fieldset__heading
+      .govuk-fieldset__heading,
+      .great-meta-label
     ) {
     @include govuk-media-query($until: tablet) {
       font-size: 28px;
@@ -790,7 +791,7 @@
   margin-top: 2px !important;
 }
 
-.great-desktop-only-padding-horizontal-15{
+.great-desktop-only-padding-horizontal-15 {
   padding-left: 0px;
   padding-right: 0px;
 
@@ -800,7 +801,7 @@
   }
 }
 
-.great-mobile-only-padding-vertical-30{
+.great-mobile-only-padding-vertical-30 {
   padding-top: 30px;
   padding-bottom: 30px;
 

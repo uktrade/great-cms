@@ -2,40 +2,38 @@
 {% load static %}
 {% block head_title %}Export support for UK businesses{% endblock %}
 {% block head_css %}
-    {{ block.super }}
     <link href="{% static 'core/css/accessible-autocomplete.min.css' %}"
           rel="stylesheet"
           type="text/css">
+
+    {{ block.super }}
 {% endblock %}
 {% block content %}
-    <div class="great">
+    <div class="great great-min-height-500">
         <div class="great-container govuk-!-padding-top-4">
             <div class="govuk-grid-row">
-                <div class="govuk-grid-column-full great-grid-column-seven-twelfths">
-                    <h1 class="govuk-heading-xl govuk-!-margin-bottom-5">Export support for UK businesses</h1>
-                    <form method="post" autocomplete="off" class="great-min-height-500 ">
-                        {% csrf_token %}
-                        <input type="hidden" id="sector" name="sector" value="{{ session_data.sector }}" />
-                        <input type="hidden" id="make_or_do_keyword" name="make_or_do_keyword" value="{{ session_data.make_or_do_keyword }}" />
-                        <input type="hidden" id="exporter_type" name="exporter_type" value="{{ session_data.exporter_type }}" />
+                <div class="govuk-grid-column-full">
+                    <div class="great-bg-white govuk-!-padding-6 great-ds-box-shadow">
+                        <form method="post" autocomplete="off">
+                            {% csrf_token %}
+                            <input type="hidden" id="sector" name="sector" value="{{ session_data.sector }}" />
+                            <input type="hidden" id="make_or_do_keyword" name="make_or_do_keyword" value="{{ session_data.make_or_do_keyword }}" />
+                            <input type="hidden" id="exporter_type" name="exporter_type" value="{{ session_data.exporter_type }}" />
 
-                        <div class="govuk-!-padding-6 great-bg-white">
-                            <div class="govuk-!-margin-bottom-6">
-                                <h2 class="govuk-label-wrapper">
-                                    <label class="govuk-label govuk-label--l" for="sic_description">
-                                        What does your company make or do?
-                                    </label>
-                                </h2>
-                                <div class="govuk-hint govuk-!-margin-bottom-3">
-                                    Enter a keyword to search a list of business activities
-                                </div>
-                                <input type="text" id="sic_description" name="sic_description" class="govuk-input great-text-input govuk-!-width-one-half" />
-                                <div id="sic_description-container"></div>
-                            </div>
+                            <h1>
+                                <label class="govuk-heading-l govuk-!-margin-bottom-4" for="sic_description">
+                                    What does your company make or do?
+                                </label>
+                            </h1>
+                            <input type="text" id="sic_description" name="sic_description" class="govuk-input great-text-input govuk-!-width-one-half" />
+                            <div id="sic_description-container" class="great-ds-autocomplete-input__wrapper"></div>
+                            <div class="govuk-inset-text govuk-!-margin-top-4 govuk-!-margin-bottom-4">
+                                Tip: you may need to choose a broad term. For<br /> example, if you make t-shirts, try typing textiles
+                             </div>
 
-                            <button type="submit" class="govuk-button great-min-width-250-desktop">{{ button_text }}</button>
-                        </div>
-                    </form>
+                             {% include 'domestic/contact/export-support/includes/continue-save-button.html' %}
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -77,9 +75,9 @@
                 document.querySelector('#exporter_type').value = exporter_type;
             }
         },
-        placeholder: 'For example textiles',
-        inputClasses: 'govuk-input great-text-input govuk-!-width-two-thirds',
-        menuClasses: 'great-autocomplete-overlay'
+        placeholder: 'For example, financial services or coffee roaster',
+        inputClasses: 'govuk-input great-text-input great-ds-autocomplete-input',
+        menuClasses: 'great-autocomplete-overlay',
     });
     </script>
 {% endblock %}

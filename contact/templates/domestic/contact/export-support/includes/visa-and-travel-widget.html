@@ -1,15 +1,17 @@
-<div class="govuk-!-margin-top-5 govuk-!-margin-bottom-2 govuk-!-padding-6 great-bg-white">
-    <h2 class="govuk-heading-s great-heading-link__heading">Get travel documents sorted{% if session_data.market %} for {{ session_data.market }}{% endif %}</h2>
+<div class="govuk-!-padding-6 great-bg-white great-ds-box-shadow great-ds-card-panels__item">
+    <span class="great-meta-label govuk-!-margin-bottom-2">
+        <img src="/static/icons/hand.svg" alt="" />
+        Service on GOV.UK
+    </span>
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Visas and entry requirements for {{ session_data.market }}</h2>
+    <p class="govuk-body">
+        See the latest visa and passport requirements, plus up-to-date safety advice from the Foreign and Commonwealth Development Office (FCDO).
+    </p>
 
-    {% if session_data.market %}
-        <p class="govuk-body">
-            See the current entry and visa requirements for {{ session_data.market }}
-        </p>
-        <a href="https://www.gov.uk/foreign-travel-advice/{{ session_data.market | lower }}" class="govuk-link" target="_blank">Goto the Foreign travel advice page</a>
-    {% else %}
-        <p class="govuk-body">
-            See the current entry and visa requirements for all markets
-        </p>
-        <a href="https://www.gov.uk/foreign-travel-advice" class="govuk-link" target="_blank">Goto the Foreign travel advice page</a>
-    {% endif %}
+    <div>
+        <a href="https://www.gov.uk/foreign-travel-advice/{{ session_data.market | lower }}" class="govuk-link great-ds-link" target="_blank">
+            <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> 
+            <span>Use this service on GOV.UK</span>
+        </a>
+    </div>
 </div>
