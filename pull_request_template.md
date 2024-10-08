@@ -23,7 +23,6 @@ _Tick or delete as appropriate:_
 - [ ] Added all new environment variables to Vault.
 - [ ] Cleaned up old feature flags
 - [ ] Upgraded any vulnerable dependencies.
-- [ ] Ran the `make manage download_geolocation_data` command
 - [ ] I have updated security dependencies
 - [ ] Python requirements have been re-compiled.
 - [ ] Frontend assets have been re-compiled.
