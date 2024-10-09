@@ -65,7 +65,7 @@
                     <div class="great-ds-card-panels govuk-!-margin-bottom-4">
                         {% if session_data.exporter_type == 'goods' %}
                             {% include 'domestic/contact/export-support/includes/duties-and-taxes-widget.html' %}
-                            {% include 'domestic/contact/export-support/includes/exopps-widget.html' %}
+                            {% include 'domestic/contact/export-support/includes/exopps-widget.html' with market=session_data.market %}
                         {% endif %}
 
                         {% include 'domestic/contact/export-support/includes/trade-barriers-widget.html' %}
