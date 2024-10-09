@@ -817,6 +817,8 @@ class SignInView(HandleNewAndExistingUsersMixin, sso_mixins.SignInMixin, FormVie
         return ctx
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class EventsDetailsView(DetailView):
     template_name = 'export_academy/event_details.html'
     model = models.Event
@@ -923,6 +925,8 @@ class EACourseView(TemplateView):
         return ctx
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 @method_decorator(transaction.non_atomic_requests, name='dispatch')
 class EventVideoOnDemandView(GetBreadcrumbsMixin, DetailView):
     template_name = 'export_academy/event_on_demand_video.html'
