@@ -17,7 +17,6 @@ from django.template.loader import render_to_string
 from django.utils.html import mark_safe
 from great_components import forms
 
-from contact import widgets as contact_widgets
 from core import constants, models
 from core.cms_slugs import (
     PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE,

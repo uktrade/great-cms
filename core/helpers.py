@@ -790,7 +790,6 @@ def product_picker(product):
     return response.json()
 
 
-
 def hcsat_get_initial(model, csat_id):
     if csat_id:
         csat_record = model.objects.get(id=csat_id)
