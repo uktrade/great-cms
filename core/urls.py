@@ -237,6 +237,11 @@ if settings.FEATURE_GUIDED_JOURNEY:
             skip_ga360(views.GuidedJourneyStep4View.as_view()),
             name='guided-journey-step-4',
         ),
+        path(
+            'api/product-picker/<str:product>',
+            skip_ga360(views_api.ProductPickerView.as_view()),
+            name='api-product-picker',
+        ),
     ]
 
 urlpatterns += redirects
