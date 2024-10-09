@@ -821,41 +821,14 @@ class GuidedJourneyStep2View(GuidedJourneyMixin, FormView):
     template_name = 'domestic/contact/export-support/guided-journey/step-2.html'
 
     def get_context_data(self, **kwargs):
-        make_or_do_keyword = None
-        commodities = []
         form_data = {}
-
-        def get_hmrc_tarriff_data(make_or_do_keyword):
-            deserialised_data = helpers.product_picker(make_or_do_keyword)
-
-            mapped_results = [
-                {
-                    'title': 'Please select...',
-                    'hs_code': '',
-                }
-            ]
-
-            for item in deserialised_data['data']:
-                mapped_results.append(
-                    {
-                        'title': item['attributes']['title'],
-                        'hs_code': item['attributes']['goods_nomenclature_item_id'],
-                    }
-                )
-
-            return mapped_results
 
         if self.request.session.get('guided_journey_data'):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('guided_journey_data')))[0]
 
-            make_or_do_keyword = form_data['make_or_do_keyword']
-
-            commodities = get_hmrc_tarriff_data(make_or_do_keyword)
-
         return super().get_context_data(
             **kwargs,
             progress_position=2,
-            commodities=commodities,
             form_data=form_data,
         )
 
