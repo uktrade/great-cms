@@ -1160,6 +1160,14 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         if 'form' in kwargs:  # pass back errors from form_invalid
             context['hcsat_form'] = kwargs['form']
 
+        # Learn hcsat should only be shown on first article of session
+        # Check/set in this order to show confirmation message when just completed then hide csat for rest of session
+        if request.session.get('csat_complete'):
+            context['csat_complete'] = True
+
+        if context['hcsat_form_stage'] == 2:
+            request.session['csat_complete'] = True
+
         # Prepare backlink to the export plan if we detect one and can validate it
         _backlink = self._get_backlink(request)
         if _backlink:

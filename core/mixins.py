@@ -241,7 +241,8 @@ class HCSATMixin:
         hcsat = self.get_hcsat(request, hcsat_service_name)
 
         # all csat instances use the same form object, so customise initial heading depending on service
-        form.declared_fields['satisfaction_rating'].label = self.get_service_csat_heading(hcsat_service_name)
+        if 'satisfaction_rating' in form.declared_fields:
+            form.declared_fields['satisfaction_rating'].label = self.get_service_csat_heading(hcsat_service_name)
 
         ctx['hcsat_form'] = form
         ctx['hcsat'] = hcsat
@@ -267,7 +268,7 @@ class HCSATMixin:
             'where_to_export': 'Where to export',
             'learn_to_export': 'Learn to export',
             'export_plan': 'Make an export plan',
-            'find_a_buyer': 'Find a buyer'
+            'find_a_buyer': 'Find a buyer',
         }
         return f"""Overall, how would you rate your experience with the
          {service_name_to_readable_name_map[hcsat_service_name]} service today?"""
