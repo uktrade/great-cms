@@ -29,8 +29,6 @@ from core.datastructures import NotifySettings
 from directory_constants.choices import COUNTRY_CHOICES
 
 
-# DOINEED
-@method_decorator(cache_page, name='dispatch')
 class BespokeBreadcrumbMixin(TemplateView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
