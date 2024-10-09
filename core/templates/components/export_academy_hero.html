@@ -16,9 +16,9 @@ If both are available, `image_url` will be used over `image`
     {% image hero.image original as rendition %}
 {% endif %}
 {% firstof image_url rendition.url as image_url %}
-<div class="page-header article-header" id="hero">
+<div class="page-header article-header great-height-auto" id="hero">
     <div class="inner-header">
-        <div>
+        <div class="govuk-!-padding-bottom-0">
             {% if useHeaderLevel2 %}
                 <h2>{{ hero.title }}</h2>
             {% else %}
@@ -36,7 +36,7 @@ If both are available, `image_url` will be used over `image`
                 {% endif %}
             </p>
         </div>
-        <div class="image-container {% if hide_image_for_mobile %}great-display-from-tablet{% endif %}"
+        <div class="govuk-!-margin-left-2 image-container great-min-height-300 ea-events-page-hero-image {% if hide_image_for_mobile %} great-display-from-tablet{% endif %}"
              style="background: url({{ image_url }})"></div>
     </div>
 </div>
