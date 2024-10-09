@@ -196,7 +196,7 @@ else:
 # wagtail caching options
 # (see https://docs.coderedcorp.com/wagtail-cache/getting_started/django_settings.html#django-settings)
 WAGTAIL_CACHE = env.bool('WAGTAIL_CACHE', False)  # set to false for local
-WAGTAIL_CACHE_BACKEND = 'wagtail_cache'
+WAGTAIL_CACHE_BACKEND = 'great_wagtail_cache'
 WAGTAIL_CACHE_HEADER = True
 WAGTAIL_CACHE_IGNORE_COOKIES = True
 WAGTAIL_CACHE_IGNORE_QS = None
@@ -204,7 +204,7 @@ WAGTAIL_CACHE_TIMOUT = env.int('WAGTAIL_CACHE_TIMOUT', 4 * 60 * 60)  # 4 hours (
 
 if env.bool('API_CACHE_DISABLED', False):
     cache = {'BACKEND': 'django.core.cache.backends.dummy.DummyCache'}
-    wagtail_cache = {'BACKEND': 'django.core.cache.backends.dummy.DummyCache'}
+    great_wagtail_cache = {'BACKEND': 'django.core.cache.backends.dummy.DummyCache'}
 else:
     cache = {
         'BACKEND': 'django_redis.cache.RedisCache',
@@ -213,7 +213,7 @@ else:
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         },
     }
-    wagtail_cache = {
+    great_wagtail_cache = {
         'BACKEND': 'django_redis.cache.RedisCache',
         'LOCATION': REDIS_URL,
         'KEY_PREFIX': 'wagtailcache',
@@ -224,7 +224,7 @@ else:
 CACHES = {
     'default': cache,
     'api_fallback': cache,
-    'wagtail_cache': wagtail_cache,
+    'great_wagtail_cache': great_wagtail_cache,
 }
 
 CACHE_EXPIRE_SECONDS = env.int('CACHE_EXPIRE_SECONDS', 60 * 30)  # 30 minutes

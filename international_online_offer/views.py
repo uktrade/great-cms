@@ -65,7 +65,6 @@ def calculate_and_store_is_high_value(request):
         )
 
 
-# DOINEED
 @method_decorator(cache_page, name='dispatch')
 class IndexView(GA360Mixin, TemplateView):
     template_name = 'eyb/index.html'

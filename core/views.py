@@ -236,14 +236,12 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, TemplateView, FormView):
         return reverse('core:compare-countries')
 
 
-# DOINEED
 @method_decorator(cache_page, name='get')
 class CountriesView(generics.GenericAPIView):
     def get(self, request):
         return Response([c for c in choices.COUNTRIES_AND_TERRITORIES_REGION if c.get('type') == 'Country'])
 
 
-# DOINEED
 @method_decorator(cache_page, name='get')
 @method_decorator(vary_on_cookie, name='get')
 class SuggestedCountriesView(generics.GenericAPIView):
@@ -414,7 +412,6 @@ class ContactUsHelpFormView(PageTitleMixin, FormView):
         return super().form_valid(form)
 
 
-# DOINEED
 @method_decorator(cache_page, name='dispatch')
 class ContactUsHelpSuccessView(TemplateView):
     template_name = 'core/contact-us-help-form-success.html'
@@ -478,7 +475,6 @@ class OpportunitiesRedirectView(RedirectView):
         return redirect_url
 
 
-# DOINEED
 @method_decorator(cache_page, name='dispatch')
 class CookiePreferencesPageView(TemplateView):
     # NB: template currently bears the ex-V1 styling, so comes from great-cms/domestic/templates/domestic/
