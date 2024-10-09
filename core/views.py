@@ -68,8 +68,6 @@ class UpdateCompanyAPIView(generics.GenericAPIView):
         return Response(status=200)
 
 
-# DOINEED
-@method_decorator(cache_page, name='dispatch')
 class ArticleView(GA360Mixin, FormView):
     def __init__(self):
         super().__init__()
