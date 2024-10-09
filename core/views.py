@@ -893,17 +893,16 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, TemplateView):
             )
 
             data = {
-                'sic_description': form_data['sic_description'] if form_data['sic_description'] else None,
-                'make_or_do_keyword': form_data['make_or_do_keyword'] if form_data['make_or_do_keyword'] else None,
-                'sector': form_data['sector'] if form_data['sector'] else None,
-                'exporter_type': form_data['exporter_type'] if form_data['exporter_type'] else None,
-                'hs_code': form_data['hs_code'] if form_data['hs_code'] else None,
-                'market': form_data['market'] if form_data['market'] else None,
-                'commodity_name': form_data['commodity_name'] if form_data['commodity_name'] else None,
+                'sic_description': form_data.get('sic_description') if form_data.get('sic_description') else None,
+                'sector': form_data.get('sector') if form_data.get('sector') else None,
+                'exporter_type': form_data.get('exporter_type') if form_data.get('exporter_type') else None,
+                'hs_code': form_data.get('hs_code') if form_data.get('hs_code') else None,
+                'market': form_data.get('market') if form_data.get('market') else None,
+                'commodity_name': form_data.get('commodity_name') if form_data.get('commodity_name') else None,
                 'not_sure_where_to_export': (
-                    form_data['not_sure_where_to_export'] if form_data['not_sure_where_to_export'] else None
+                    form_data.get('not_sure_where_to_export') if form_data.get('not_sure_where_to_export') else None
                 ),
-                'market_not_listed': form_data['market_not_listed'] if form_data['market_not_listed'] else None,
+                'market_not_listed': form_data.get('market_not_listed') if form_data.get('market_not_listed') else None,
             }
             response = action.save(data)
             response.raise_for_status()
