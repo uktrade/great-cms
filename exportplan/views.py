@@ -6,13 +6,11 @@ from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.text import slugify
 from django.views.generic import FormView, TemplateView, View
 from great_components.mixins import GA360Mixin
 from requests.exceptions import RequestException
-from wagtailcache.cache import nocache_page
 
 from core.mixins import PageTitleMixin
 from core.utils import choices_to_key_value
@@ -401,7 +399,6 @@ class PDFDownload(
         return response
 
 
-@method_decorator(nocache_page, name='dispatch')
 class ExportPlanIndex(GA360Mixin, TemplateView):
 
     export_plan_list = None
@@ -440,7 +437,6 @@ class ExportPlanStart(GA360Mixin, TemplateView):
     template_name = 'exportplan/start.html'
 
 
-@method_decorator(nocache_page, name='dispatch')
 class ExportPlanUpdate(GA360Mixin, TemplateView):
     # This page is used to allow users to set a product/market in an export plan that doesn't have both
     export_plan = None
@@ -469,7 +465,6 @@ class ExportPlanUpdate(GA360Mixin, TemplateView):
         return context
 
 
-@method_decorator(nocache_page, name='dispatch')
 class ExportPlanDashBoard(
     GA360Mixin,
     TemplateView,

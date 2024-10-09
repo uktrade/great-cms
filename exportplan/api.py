@@ -1,14 +1,12 @@
 import importlib
 import re
 
-from django.utils.decorators import method_decorator
 from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import generics
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from wagtailcache.cache import nocache_page
 
 from exportplan.core import helpers, serializers
 from exportplan.core.processor import ExportPlanProcessor
@@ -27,7 +25,6 @@ class ExportPlanSocietyDataByCountryView(APIView):
         return Response(data)
 
 
-@method_decorator(nocache_page, name='dispatch')
 class TargetAgeCountryPopulationData(APIView):
     permission_classes = [IsAuthenticated]
     serializer_class = serializers.CountryTargetAgeDataSerializer

@@ -240,7 +240,6 @@ class CountriesView(generics.GenericAPIView):
         return Response([c for c in choices.COUNTRIES_AND_TERRITORIES_REGION if c.get('type') == 'Country'])
 
 
-@method_decorator(nocache_page, name='get')
 class SuggestedCountriesView(generics.GenericAPIView):
     def get(self, request):
         hs_code = request.GET.get('hs_code')
