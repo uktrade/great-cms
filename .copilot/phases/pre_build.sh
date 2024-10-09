@@ -23,3 +23,6 @@ fi
 # Add commands below to run as part of the pre_build phase
 
 rm ./.python-version
+
+mkdir -p /tmp/core/geolocation_data
+cp -a ./core/geolocation_data/. /tmp/core/geolocation_data/
