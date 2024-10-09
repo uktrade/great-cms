@@ -195,7 +195,7 @@ else:
 
 # wagtail caching options
 # (see https://docs.coderedcorp.com/wagtail-cache/getting_started/django_settings.html#django-settings)
-WAGTAIL_CACHE = False
+WAGTAIL_CACHE = env.bool('WAGTAIL_CACHE', False)  # set to false for local
 WAGTAIL_CACHE_BACKEND = 'wagtail_cache'
 WAGTAIL_CACHE_HEADER = True
 WAGTAIL_CACHE_IGNORE_COOKIES = True
