@@ -56,7 +56,6 @@ from core.models import (
     IndustryTag,
     PersonalisationRegionTag,
     PersonalisationTradingBlocTag,
-    Region,
     SectorTag,
     SeoMixin,
     Tag,
@@ -586,6 +585,7 @@ class MarketsTopicLandingPage(
 
     SORTBY_QUERYSTRING_NAME = 'sortby'
     REGION_QUERYSTRING_NAME = 'region'
+    TRADING_BLOC_QUERYSTRING_NAME = 'trading_bloc'
     SECTOR_QUERYSTRING_NAME = 'sector'
 
     SORTBY_OPTION_TITLE = 'title'
@@ -632,6 +632,7 @@ class MarketsTopicLandingPage(
         # querystring args come in as plus-quoted strings which are the name
         sectors = [unquote_plus(x) for x in self.get_selected_sectors(request)]
         regions = [unquote_plus(x) for x in self.get_selected_regions(request)]
+        trading_blocs = [unquote_plus(x) for x in self.get_selected_trading_blocs(request)]
 
         #  We need to only apply these if truthy, else we end up getting no results
         if sectors:
@@ -640,7 +641,11 @@ class MarketsTopicLandingPage(
             )
         if regions:
             market_pages_qs = market_pages_qs.filter(
-                country__region__name__in=regions,
+                region_tags__name__in=regions,
+            )
+        if trading_blocs:
+            market_pages_qs = market_pages_qs.filter(
+                trading_bloc_tags__name__in=trading_blocs,
             )
 
         return self.sort_results(
@@ -663,8 +668,14 @@ class MarketsTopicLandingPage(
         selected = set(request.GET.getlist(self.REGION_QUERYSTRING_NAME))
         # chain unselected items queryset onto selected items queryset to sort selected items ahead of unselected
         regions = chain(
-            Region.objects.order_by('name').filter(name__in=selected).all(),
-            Region.objects.order_by('name').exclude(name__in=selected).all(),
+            PersonalisationRegionTag.objects.order_by('name')
+            .filter(name__in=selected)
+            .filter(models.Exists(RegionTaggedCountryGuidePage.objects.filter(tag_id=models.OuterRef('id'))))
+            .all(),
+            PersonalisationRegionTag.objects.order_by('name')
+            .exclude(name__in=selected)
+            .filter(models.Exists(RegionTaggedCountryGuidePage.objects.filter(tag_id=models.OuterRef('id'))))
+            .all(),
         )
         return regions
 
@@ -676,11 +687,29 @@ class MarketsTopicLandingPage(
         )
         return sectors
 
+    def get_trading_bloc_list(self, request):
+        selected = set(request.GET.getlist(self.TRADING_BLOC_QUERYSTRING_NAME))
+        # chain unselected items queryset onto selected items queryset to sort selected items ahead of unselected
+        trading_blocs = chain(
+            PersonalisationTradingBlocTag.objects.order_by('name')
+            .filter(name__in=selected)
+            .filter(models.Exists(TradingBlocTaggedCountryGuidePage.objects.filter(tag_id=models.OuterRef('id'))))
+            .all(),
+            PersonalisationTradingBlocTag.objects.order_by('name')
+            .exclude(name__in=selected)
+            .filter(models.Exists(TradingBlocTaggedCountryGuidePage.objects.filter(tag_id=models.OuterRef('id'))))
+            .all(),
+        )
+        return trading_blocs
+
     def get_selected_sectors(self, request) -> list:
         return request.GET.getlist(self.SECTOR_QUERYSTRING_NAME)
 
     def get_selected_regions(self, request) -> list:
         return request.GET.getlist(self.REGION_QUERYSTRING_NAME)
+
+    def get_selected_trading_blocs(self, request) -> list:
+        return request.GET.getlist(self.TRADING_BLOC_QUERYSTRING_NAME)
 
     def get_context(self, request):
         context = super().get_context(request)
@@ -691,12 +720,15 @@ class MarketsTopicLandingPage(
         context['sortby'] = self._get_sortby(request)
 
         context['sector_list'] = self.get_sector_list(request)
-        context['regions_list'] = self.get_regions_list(request)
+        context['region_list'] = self.get_regions_list(request)
+        context['trading_bloc_list'] = self.get_trading_bloc_list(request)
 
         context['selected_sectors'] = self.get_selected_sectors(request)
         context['selected_regions'] = self.get_selected_regions(request)
+        context['selected_trading_blocs'] = self.get_selected_trading_blocs(request)
 
         context['number_of_regions'] = len(context['selected_regions'])
+        context['number_of_trading_blocs'] = len(context['selected_trading_blocs'])
 
         context['paginated_results'] = paginated_results
         context['number_of_results'] = relevant_markets.count()
