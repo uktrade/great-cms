@@ -678,13 +678,13 @@ class MarketsTopicLandingPage(
         return sectors
 
     def get_trading_bloc_list(self, request):
-        selected = set(request.GET.getlist(self.REGION_QUERYSTRING_NAME))
+        selected = set(request.GET.getlist(self.TRADING_BLOC_QUERYSTRING_NAME))
         # chain unselected items queryset onto selected items queryset to sort selected items ahead of unselected
-        regions = chain(
+        trading_blocs = chain(
             PersonalisationTradingBlocTag.objects.order_by('name').filter(name__in=selected).all(),
             PersonalisationTradingBlocTag.objects.order_by('name').exclude(name__in=selected).all(),
         )
-        return regions
+        return trading_blocs
 
     def get_selected_sectors(self, request) -> list:
         return request.GET.getlist(self.SECTOR_QUERYSTRING_NAME)
