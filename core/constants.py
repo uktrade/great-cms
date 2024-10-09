@@ -1279,6 +1279,27 @@ LIKELIHOOD_CHOICES = (
     ('DONT_KNOW_OR_PREFER_NOT_TO_SAY', "Don't know/prefer not to say"),
 )
 
+META_LABELS = (
+    ('guidance_great', 'Guidance on great.gov.uk'),
+    ('service_great', 'Service on great.gov.uk'),
+    ('guidance_gov', 'Guidance on GOV.UK'),
+    ('service_gov', 'Service on GOV.UK'),
+)
+
+EXPORT_SUPPORT_CATEGORIES = (
+    ('/support/market-selection', 'Market selection'),
+    ('/support/routes-to-market-and-operating-overseas', 'Routes to market and operating overseas'),
+    (
+        '/support/funding-and-financial-considerations',
+        'Funding and financial considerations',
+    ),
+    ('/support/trade-restrictions-regulations-and-licensing', 'Trade restrictions, regulations and licensing'),
+    ('/support/logistics', 'Logistics'),
+    ('/support/customs-taxes-and-declarations', 'Customs, taxes and declarations'),
+    ('/support/travelling-for-work', 'Travelling for work'),
+    ('/support/managing-business-risk-and-corruption', 'Managing business risk and corruption'),
+)
+
 INTENSION_CHOICES = (
     ('HELP_US_SET_UP_IN_THE_UK', 'Help us set up in the UK'),
     ('UNDERSTAND_THE_UK_LEGAL_SYSTEM', 'Understand the UK legal system such as tax and employment regulations'),

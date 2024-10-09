@@ -28,6 +28,7 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from hashids import Hashids
 from ipware import get_client_ip
 
+from core.constants import EXPORT_SUPPORT_CATEGORIES
 from core.models import CuratedListPage
 from core.serializers import parse_opportunities
 from directory_api_client import api_client
@@ -42,12 +43,12 @@ FEMALE = 'xx'
 logger = getLogger(__name__)
 
 
-def check_url_host_is_safelisted(request):
-    if request.GET.get('next'):
-        if url_has_allowed_host_and_scheme(request.GET.get('next'), settings.SAFELIST_HOSTS):
-            return iri_to_uri(request.GET.get('next'))
+def check_url_host_is_safelisted(request, query_param='next'):
+    if request.GET.get(query_param):
+        if url_has_allowed_host_and_scheme(request.GET.get(query_param), settings.SAFELIST_HOSTS):
+            return iri_to_uri(request.GET.get(query_param))
         else:
-            logger.error('Host is not on the safe list - %s', request.GET.get('next'))
+            logger.error('Host is not on the safe list - %s', request.GET.get(query_param))
     return '/'
 
 
@@ -789,6 +790,7 @@ def product_picker(product):
     return response.json()
 
 
+
 def hcsat_get_initial(model, csat_id):
     if csat_id:
         csat_record = model.objects.get(id=csat_id)
@@ -828,3 +830,27 @@ def hcsat_update_or_create(request, model, csat_id, cleaned_data, journey):
         )
         if request.session.get('csat_user_journey'):
             del request.session['csat_user_journey']
+
+
+def mapped_categories(form_data):
+    categories = EXPORT_SUPPORT_CATEGORIES
+    market = form_data['market']
+    is_goods = form_data['exporter_type'] == 'goods'
+    is_service = form_data['exporter_type'] == 'service'
+    query_string = '?is_guided_journey=True'
+
+    if market:
+        query_string += f'&market={market}'
+
+    if is_goods:
+        query_string += f'&is_goods={is_goods}'
+
+    if is_service:
+        query_string += f'&is_service={is_service}'
+
+    if form_data['exporter_type'] == 'service':
+        categories = [(url, label, query_string) for url, label in categories if label != 'Logistics']
+    else:
+        categories = [(url, label, query_string) for url, label in categories]
+
+    return categories

@@ -4,6 +4,7 @@ from django.forms import (
     CheckboxInput,
     CheckboxSelectMultiple,
     ChoiceField,
+    HiddenInput,
     MultipleChoiceField,
     PasswordInput,
     RadioSelect,
@@ -25,62 +26,160 @@ BLANK_COUNTRY_CHOICE = [('', '')]
 COUNTRIES = BLANK_COUNTRY_CHOICE + COUNTRY_CHOICES
 
 
-class BusinessDetailsForm(forms.Form):
+class BusinessHeadquartersForm(forms.Form):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        sector_data_json = get_dbt_sectors()
-        self.sub_sectors_choices = region_sector_helpers.get_sectors_as_choices(sector_data_json)
-        self.fields['sector_sub'].choices = (('', ''),) + self.sub_sectors_choices
+    company_location = ChoiceField(
+        label=False,
+        help_text='Enter your country, region or territory and select from results',
+        required=False,
+        widget=Select(attrs={'id': 'js-company-location-select', 'class': 'govuk-input'}),
+        choices=(('', ''),) + choices.COMPANY_LOCATION_CHOICES,
+    )
+
+    # if js is off we use a different success url
+    js_enabled = BooleanField(required=False, widget=HiddenInput(attrs={'value': 'False'}))
+
+    def clean(self):
+        cleaned_data = super().clean()
+        company_location = cleaned_data.get('company_location')
+        if not company_location:
+            self.add_error('company_location', 'Enter your country, region or territory and select from results')
+        else:
+            return cleaned_data
+
+
+class FindYourCompanyForm(forms.Form):
+    # the accessible autocomplete that we use to query and search company data enhances a div element rather
+    # than a TextInput hence in this form we use HiddenInputs to store chosen company details via hidden
+    # inputs with values set in JS
+
+    company_name = CharField(
+        required=True,
+        widget=HiddenInput(attrs={'id': 'company-name'}),
+        error_messages={
+            'required': 'Search again for company name or enter manually',
+        },
+    )
+
+    # below fields set to required=False as there is no way for the user to recover from any errors
+    duns_number = CharField(
+        required=False,
+        widget=HiddenInput(attrs={'id': 'company-duns-number'}),
+    )
+
+    address_line_1 = CharField(
+        required=False,
+        widget=HiddenInput(attrs={'id': 'address-line-1'}),
+    )
+
+    address_line_2 = CharField(
+        required=False,
+        widget=HiddenInput(attrs={'id': 'address-line-2'}),
+    )
+
+    town = CharField(
+        required=False,
+        widget=HiddenInput(attrs={'id': 'address-town'}),
+    )
+
+    county = CharField(
+        required=False,
+        widget=HiddenInput(attrs={'id': 'address-county'}),
+    )
+
+    postcode = CharField(
+        required=False,
+        widget=HiddenInput(attrs={'id': 'address-postcode'}),
+    )
+
+    company_website = CharField(
+        required=False,
+        widget=HiddenInput(attrs={'id': 'company-website'}),
+    )
+
+
+class CompanyDetailsForm(forms.Form):
 
     company_name = CharField(
         label='Company name',
-        required=True,
+        max_length=255,
         widget=TextInput(attrs={'class': 'govuk-input', 'autocomplete': 'organization'}),
         error_messages={
             'required': 'Enter your company name',
         },
     )
 
-    # sector sub choices are set in form constructor to avoid set effects when importing module
+    company_website = CharField(
+        label='Website',
+        max_length=255,
+        widget=TextInput(attrs={'class': 'govuk-input', 'autocomplete': 'url'}),
+        error_messages={
+            'required': "Enter your company's website address",
+        },
+    )
+
+    address_line_1 = CharField(
+        label='Address line 1',
+        max_length=255,
+        widget=TextInput(attrs={'class': 'govuk-input', 'autocomplete': 'address-line1'}),
+        error_messages={
+            'required': 'Enter address line 1, typically the building and street',
+        },
+    )
+
+    address_line_2 = CharField(
+        label='Address line 2 (optional)',
+        max_length=255,
+        required=False,
+        widget=TextInput(attrs={'class': 'govuk-input', 'autocomplete': 'address-line2'}),
+    )
+
+    # no autocomplete on town_or_city due to variations in international addresses, e.g. address-level1 refers
+    # to post town in the UK and state in the USA
+    town = CharField(
+        label='Town or city',
+        max_length=255,
+        widget=TextInput(attrs={'class': 'govuk-input govuk-!-width-two-thirds'}),
+        error_messages={
+            'required': 'Enter town or city',
+        },
+    )
+
+    county = CharField(
+        label='State, province or county (optional)',
+        max_length=255,
+        required=False,
+        widget=TextInput(attrs={'class': 'govuk-input govuk-!-width-two-thirds'}),
+    )
+
+    postcode = CharField(
+        label='Postal code or zip code (optional)',
+        max_length=255,
+        required=False,
+        widget=TextInput(attrs={'class': 'govuk-input govuk-input--width-10'}),
+    )
+
+
+class BusinessSectorForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        sector_data_json = get_dbt_sectors()
+        self.sub_sectors_choices = region_sector_helpers.get_sectors_as_choices(sector_data_json)
+        self.fields['sector_sub'].choices = (('', ''),) + self.sub_sectors_choices
+
+    # sector sub choices are set in form constructor to avoid side effects when importing module
     sector_sub = ChoiceField(
-        label='What is your sector or industry?',
-        help_text='Search a list of sectors and select the closest one',
+        label=False,
+        help_text='Enter your sector or industry and select the closest result',
         required=True,
         widget=Select(
             attrs={'id': 'js-sector-select', 'class': 'govuk-input', 'aria-describedby': 'help_for_id_sector_sub'}
         ),
         choices=(('', ''),),
         error_messages={
-            'required': 'Search and select a sector',
+            'required': 'Enter your sector or industry and select the closest result',
         },
     )
-
-    company_location = ChoiceField(
-        label='Where is your company headquarters located?',
-        help_text='Search and select a country, region or territory',
-        required=False,
-        widget=Select(attrs={'id': 'js-company-location-select', 'class': 'govuk-input'}),
-        choices=(('', ''),) + choices.COMPANY_LOCATION_CHOICES,
-    )
-
-    company_website = CharField(
-        label='Company website address',
-        required=True,
-        max_length=255,
-        widget=TextInput(attrs={'class': 'govuk-input', 'autocomplete': 'url'}),
-        error_messages={
-            'required': """Enter your company's website address""",
-        },
-    )
-
-    def clean(self):
-        cleaned_data = super().clean()
-        company_location = cleaned_data.get('company_location')
-        if not company_location:
-            self.add_error('company_location', 'Search and select a country, region or territory')
-        else:
-            return cleaned_data
 
 
 class ContactDetailsForm(forms.Form):

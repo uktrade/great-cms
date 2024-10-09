@@ -311,6 +311,12 @@ class ActivityStreamExpandYourBusinessUserDataSerializer(serializers.ModelSerial
     agreeInfoEmail = serializers.BooleanField(source='agree_info_email')  # noqa: N815
     landingTimeframe = serializers.CharField(source='landing_timeframe')  # noqa: N815
     companyWebsite = serializers.CharField(source='company_website')  # noqa: N815
+    dunsNumber = serializers.CharField(source='duns_number')  # noqa: N815
+    addressLine1 = serializers.CharField(source='address_line_1')  # noqa: N815
+    addressLine2 = serializers.CharField(source='address_line_2')  # noqa: N815
+    town = serializers.CharField()  # noqa: N815
+    county = serializers.CharField()  # noqa: N815
+    postcode = serializers.CharField()  # noqa: N815
 
     class Meta:
         model = UserData
@@ -329,6 +335,12 @@ class ActivityStreamExpandYourBusinessUserDataSerializer(serializers.ModelSerial
             'created',
             'modified',
             'companyWebsite',
+            'dunsNumber',
+            'addressLine1',
+            'addressLine2',
+            'town',
+            'county',
+            'postcode',
         ]
 
     def to_representation(self, instance):
