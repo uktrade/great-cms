@@ -2,6 +2,7 @@ import datetime
 import logging
 import urllib
 
+from django.conf import settings
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import Http404
 from django.urls import reverse, reverse_lazy
@@ -121,10 +122,7 @@ class OpensearchAdminView(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
 
-        print('IS STAFF? ')
-        print(self.request.user.is_staff)
-        # Only for admins
-        if not self.request.user.is_staff:
+        if not settings.FEATURE_OPENSEARCH:
             raise Http404
 
         # Get the search query & page

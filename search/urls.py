@@ -3,8 +3,8 @@ from django.urls import path
 from great_components.decorators import skip_ga360
 
 from search.views import (
-    OpensearchView,
     OpensearchAdminView,
+    OpensearchView,
     SearchFeedbackFormView,
     SearchFeedbackSuccessView,
     SearchView,
@@ -36,7 +36,7 @@ if settings.OPENSEARCH_PROVIDER == 'govuk-paas':
             'preview/',
             skip_ga360(OpensearchAdminView.as_view()),
             name='preview',
-        )
+        ),
     ]
 # Serve search page linked to AWS Opensearch
 elif settings.OPENSEARCH_PROVIDER in ['localhost', 'aws']:
@@ -50,5 +50,5 @@ elif settings.OPENSEARCH_PROVIDER in ['localhost', 'aws']:
             'preview/',
             skip_ga360(OpensearchAdminView.as_view()),
             name='preview',
-        )
+        ),
     ]

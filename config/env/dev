@@ -102,7 +102,7 @@ WAGTAIL_TRANSFER_LOCAL_DEV=False
 # your secrets-do-not-commit file, but needs to be defined here, because it needs to be defined
 # outside of secrets-do-not-commit else the same value will be used for both source and target sites
 # for Wagtail-Transfer. Sorry.
-AWS_S3_URL_PROTOCOL = env.str('AWS_S3_URL_PROTOCOL', 'http:')
+AWS_S3_URL_PROTOCOL = http:
 AWS_STORAGE_BUCKET_NAME=great-local-bucket-one
 HASHIDS_SALT=c489472d-3fbc-4009-a022-08b68bfc7b77
 FEATURE_SHOW_MAGNA_LINKS_IN_HEADER=true
