@@ -497,6 +497,23 @@ if OPENSEARCH_PROVIDER == 'govuk-paas':
         hosts=[services[OPENSEARCH_INSTANCE_NAME]['credentials']['uri']],
         connection_class=RequestsHttpConnection,
     )
+
+    # Add an admin connection for admin search preview on legacy setup
+    OPENSEARCH_ADMINSEARCH_PROVIDER = env.str('OPENSEARCH_ADMINSEARCH_PROVIDER', None).lower()
+    if OPENSEARCH_ADMINSEARCH_PROVIDER:
+        WAGTAILSEARCH_BACKENDS = {
+            'default': {
+                'BACKEND': 'wagtail.search.backends.elasticsearch7',
+                'AUTO_UPDATE': True if OPENSEARCH_PROVIDER == 'aws' else False,
+                'URLS': [env.str('OPENSEARCH_ADMINSEARCH_URL', 'localhost:9200')],
+                'INDEX': 'great-cms',
+                'TIMEOUT': 5,
+                'OPTIONS': {},
+                'INDEX_SETTINGS': {},
+            }
+        }
+
+
 # Connect to the local dockerized Opensearch instance
 elif OPENSEARCH_PROVIDER in ['localhost', 'aws']:
     connections.create_connection(
@@ -960,6 +977,8 @@ FEATURE_GREAT_ERROR = env.bool('FEATURE_GREAT_ERROR', False)
 
 FEATURE_GUIDED_JOURNEY = env.bool('FEATURE_GUIDED_JOURNEY', False)
 FEATURE_UNGUIDED_JOURNEY = env.bool('FEATURE_UNGUIDED_JOURNEY', False)
+
+FEATURE_OPENSEARCH = env.bool('FEATURE_OPENSEARCH', False)
 
 MAX_COMPARE_PLACES_ALLOWED = env.int('MAX_COMPARE_PLACES_ALLOWED', 10)
 
