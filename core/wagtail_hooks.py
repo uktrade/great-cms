@@ -760,5 +760,8 @@ def hide_tagging_menu_item(request, menu_items):
 
 @hooks.register('is_response_cacheable')
 def nocache_certain_response_status_codes(response, curr_cache_decision):
-    if response.status_code in (302, 301, 404):
+    if response.status_code in (
+        302,
+        301,
+    ):
         return False
