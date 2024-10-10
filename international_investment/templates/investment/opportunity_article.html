@@ -8,7 +8,7 @@
 {% block head_css %}{{ block.super }}{% endblock %}
 {% block content %}
     <section>
-        <div class="govuk-width-container great-container">
+        <div class="great-container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
                     <p class="govuk-caption-xl">Investment opportunity</p>
@@ -41,7 +41,7 @@
         </div>
     </section>
     <section class="light-blue-background">
-        <div class="govuk-width-container great-container">
+        <div class="great-container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
                     <dl>
@@ -76,13 +76,13 @@
     </section>
     {% if page.investment_type == 'Foreign direct investment' or page.investment_type == 'Freeports' %}
         <section class="light-green-background govuk-!-padding-top-7 govuk-!-padding-bottom-4">
-            <div class="govuk-width-container great-container">
+            <div class="great-container">
                 {% include 'investment/includes/opportunity_contact.html' with button_preamble="Take advantage of this opportunity to expand your business in the UK" %}
             </div>
         </section>
     {% endif %}
     <section class="govuk-!-padding-top-6">
-        <div class="govuk-width-container great-container">
+        <div class="great-container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">{% include_block page.article_body %}</div>
             </div>
@@ -90,7 +90,7 @@
     </section>
     {% if page.data_points %}
         <section class="investment-data-points-section govuk-!-padding-top-7">
-            <div class="govuk-width-container great-container">
+            <div class="great-container">
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds-from-desktop">
                         {% for points in page.data_points %}
@@ -113,7 +113,7 @@
     {% endif %}
     {% if page.article_case_studies %}
         <section class="light-blue-background govuk-!-padding-top-7 govuk-!-padding-bottom-7">
-            <div class="govuk-width-container great-container">
+            <div class="great-container">
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                         {% include_block page.article_case_studies %}
@@ -124,7 +124,7 @@
     {% endif %}
     {% if page.investment_type == 'Foreign direct investment' or page.investment_type == 'Freeports' %}
         <section class="light-green-background govuk-!-padding-top-7 govuk-!-padding-bottom-4">
-            <div class="govuk-width-container great-container">
+            <div class="great-container">
                 {% include 'investment/includes/opportunity_contact.html' with button_preamble="Take advantage of this opportunity to expand your business in the UK" %}
             </div>
         </section>
