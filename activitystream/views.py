@@ -34,33 +34,23 @@ from activitystream.serializers import (
     ActivityStreamExpandYourBusinessTriageDataSerializer,
     ActivityStreamExpandYourBusinessUserDataSerializer,
     ActivityStreamExportAcademyBookingSerializer,
-    ActivityStreamExportAcademyCsatUserFeedbackDataSerializer,
     ActivityStreamExportAcademyEventSerializer,
     ActivityStreamExportAcademyRegistrationSerializer,
     ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer,
-    ActivityStreamExportPlanCsatUserFeedbackDataSerializer,
-    ActivityStreamFindABuyerCsatUserFeedbackDataSerializer,
-    ActivityStreamLearnToExportCsatUserFeedbackDataSerializer,
-    ActivityStreamWhereToExportCsatUserFeedbackDataSerializer,
     PageSerializer,
 )
 from core.models import (
     HCSAT,
-    CsatUserFeedback as WhereToExportCsatUserFeedback,
     MicrositePage,
 )
 from domestic.models import ArticlePage, CountryGuidePage
 from export_academy.models import (
     Booking,
-    CsatUserFeedback,
     Event,
     Registration,
     VideoOnDemandPageTracking,
 )
-from exportplan.models import CsatUserFeedback as ExportPlanCsatUserFeedback
-from find_a_buyer.models import CsatUserFeedback as FindABuyerCsatUserFeedback
 from international_online_offer.models import CsatFeedback, TriageData, UserData
-from learn.models import CsatUserFeedback as LearnToExportCsatUserFeedback
 
 
 class ActivityStreamView(ListAPIView):
@@ -282,47 +272,12 @@ class ActivityStreamExportAcademyBaseView(ActivityStreamBaseView):
         return self.queryset.order_by('id')
 
 
-class ActivityStreamExportAcademyCsatFeedbackDataView(ActivityStreamExportAcademyBaseView):
-    """View to list export academy csat feedback data for the activity stream"""
-
-    queryset = CsatUserFeedback.objects.all()
-    serializer_class = ActivityStreamExportAcademyCsatUserFeedbackDataSerializer
-
-
 class ActivityStreamHCSATBaseView(ActivityStreamBaseView):
     filterset_class = ActivityStreamHCSATFilter
     pagination_class = ActivityStreamHCSATPagination
 
     def get_queryset(self):
         return self.queryset.order_by('id')
-
-
-class ActivityStreamWhereToExportCsatFeedbackDataView(ActivityStreamHCSATBaseView):
-    """View to list where to export csat feedback data for the activity stream"""
-
-    queryset = WhereToExportCsatUserFeedback.objects.all()
-    serializer_class = ActivityStreamWhereToExportCsatUserFeedbackDataSerializer
-
-
-class ActivityStreamFindABuyerCsatFeedbackDataView(ActivityStreamHCSATBaseView):
-    """View to list find a buyer csat feedback data for the activity stream"""
-
-    queryset = FindABuyerCsatUserFeedback.objects.all()
-    serializer_class = ActivityStreamFindABuyerCsatUserFeedbackDataSerializer
-
-
-class ActivityStreamLearnToExportCsatFeedbackDataView(ActivityStreamHCSATBaseView):
-    """View to list learn to export csat feedback data for the activity stream"""
-
-    queryset = LearnToExportCsatUserFeedback.objects.all()
-    serializer_class = ActivityStreamLearnToExportCsatUserFeedbackDataSerializer
-
-
-class ActivityStreamExportPlanCsatFeedbackDataView(ActivityStreamHCSATBaseView):
-    """View to list Export plan csat feedback data for the activity stream"""
-
-    queryset = ExportPlanCsatUserFeedback.objects.all()
-    serializer_class = ActivityStreamExportPlanCsatUserFeedbackDataSerializer
 
 
 class ActivityStreamDomesticHCSATFeedbackDataView(ActivityStreamHCSATBaseView):
