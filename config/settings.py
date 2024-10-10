@@ -486,7 +486,9 @@ if ELASTIC_APM_ENABLED:
     INSTALLED_APPS.append('elasticapm.contrib.django')
 
 # aws, localhost, or govuk-paas
-OPENSEARCH_PROVIDER = env.str('OPENSEARCH_PROVIDER', None).lower()
+OPENSEARCH_PROVIDER = env.str('OPENSEARCH_PROVIDER', None)
+if OPENSEARCH_PROVIDER:
+    OPENSEARCH_PROVIDER = OPENSEARCH_PROVIDER.lower()
 
 # Connect to the GovPaas Opensearch instance. This option will be removed once great has migrated from GovPaaS to AWS.
 if OPENSEARCH_PROVIDER == 'govuk-paas':
@@ -499,8 +501,9 @@ if OPENSEARCH_PROVIDER == 'govuk-paas':
     )
 
     # Add an admin connection for admin search preview on legacy setup
-    OPENSEARCH_ADMINSEARCH_PROVIDER = env.str('OPENSEARCH_ADMINSEARCH_PROVIDER', None).lower()
+    OPENSEARCH_ADMINSEARCH_PROVIDER = env.str('OPENSEARCH_ADMINSEARCH_PROVIDER', None)
     if OPENSEARCH_ADMINSEARCH_PROVIDER:
+        OPENSEARCH_ADMINSEARCH_PROVIDER = OPENSEARCH_ADMINSEARCH_PROVIDER.lower()
         WAGTAILSEARCH_BACKENDS = {
             'default': {
                 'BACKEND': 'wagtail.search.backends.elasticsearch7',
