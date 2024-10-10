@@ -105,6 +105,8 @@ def feature_flags(request):
     retval['features']['FEATURE_GUIDED_JOURNEY'] = settings.FEATURE_GUIDED_JOURNEY
     retval['features']['FEATURE_UNGUIDED_JOURNEY'] = settings.FEATURE_UNGUIDED_JOURNEY
 
+    retval['features']['FEATURE_OPENSEARCH'] = settings.FEATURE_OPENSEARCH
+
     return retval
 
 

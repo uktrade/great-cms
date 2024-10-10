@@ -3,11 +3,14 @@
 
 {% with res=session_data.sector|get_sector_and_market_promo_data:session_data.market %}
     {% for promo in res.sector_and_market_matches %}
+    {% if forloop.first %}
         <div class="govuk-!-padding-6 great-bg-white great-ds-box-shadow great-ds-card-panels__item">
+            {% if promo.meta_label %}
             <span class="great-meta-label govuk-!-margin-bottom-2">
-                <img src="/static/icons/hand.svg" alt="" />
-                {{ promo.meta_label| get_sector_market_meta_label }}
+                <img src="/static/icons/{% if 'guidance' in promo.meta_label  %}guidance{% else %}hand{% endif %}.svg" alt="" />
+                {{ promo.meta_label | get_sector_market_meta_label }}
             </span>
+            {% endif %}
             <h2 class="govuk-heading-s govuk-!-margin-bottom-2">{{ promo.title }}</h2>
             <p class="govuk-body">
                 {{ promo.description }}
@@ -20,5 +23,6 @@
                 </a>
             </div>
         </div>
+    {% endif %}
     {% endfor %}
 {% endwith %}
