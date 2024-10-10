@@ -149,11 +149,13 @@ class CheckboxSelectMultipleIgnoreEmpty(forms.CheckboxSelectInlineLabelMultiple)
 
 class SearchForm(forms.Form):
     q = forms.CharField(
+        label='Term',
         max_length=255,
-        widget=TextInput(attrs={'class': 'govuk-visually-hidden'}),
+        widget=HiddenInput,
         required=False,
     )
     page = forms.IntegerField(
+        label='Page',
         required=False,
         widget=HiddenInput,
         initial=1,
@@ -173,7 +175,7 @@ class IndexSearchForm(forms.Form):
     q = forms.CharField(
         label='What product or service are you buying?',
         max_length=255,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=TextInput(attrs={'class': 'govuk-input', 'type': 'search'}),
         required=False,
     )
     industries = ChoiceField(

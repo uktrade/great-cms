@@ -82,7 +82,7 @@ class InvestmentIndexPage(BaseContentPage):
                 'page': self,
                 'results': opportunities,
                 'pagination': opportunities,
-                'page_range': paginator.get_elided_page_range(number=opportunities.number),
+                'page_range': paginator.get_elided_page_range(number=opportunities.number, on_each_side=1, on_ends=1),
                 'breadcrumbs': breadcrumbs,
             },
         )

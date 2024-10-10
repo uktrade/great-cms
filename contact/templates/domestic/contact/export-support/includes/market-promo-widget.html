@@ -1,7 +1,24 @@
-<div class="govuk-!-margin-top-5 govuk-!-margin-bottom-2 govuk-!-padding-6 great-bg-white">
-    <h2 class="govuk-heading-s great-heading-link__heading">{{ session_data.market }} spotlight</h2>
-    <p class="govuk-body">
-        Read about the {{ session_data.market }} market.
-    </p>
-    <a href="" class="govuk-link" target="_blank">Go to the market spotlight</a>
-</div>
+{% load get_market_widget_data get_sector_and_market_promo_data from component_tags %}
+{% load get_sector_market_meta_label from content_tags %}
+
+{% with res=session_data.sector|get_sector_and_market_promo_data:session_data.market %}
+    {% for promo in res.market_matches %}
+        <div class="govuk-!-padding-6 great-bg-white great-ds-box-shadow great-ds-card-panels__item">
+            <span class="great-meta-label govuk-!-margin-bottom-2">
+                <img src="/static/icons/hand.svg" alt="" />
+                {{ promo.meta_label| get_sector_market_meta_label }}
+            </span>
+            <h2 class="govuk-heading-s govuk-!-margin-bottom-2">{{ promo.title }}</h2>
+            <p class="govuk-body">
+                {{ promo.description }}
+            </p>
+        
+            <div>
+                <a href="{{ promo.link_url }}" class="govuk-link great-ds-link" target="_blank">
+                    <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> 
+                    <span>{{ promo.link_text }}</span>
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+{% endwith %}

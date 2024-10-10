@@ -1,10 +1,12 @@
+<label for="magna-header-search-box" class="govuk-label govuk-label--s">What product or service are you buying?</label>
 <form id="buy-from-the-uk-search-form"
       class="magna-header__search govuk-!-margin-bottom-4"
       action=""
       method="get">
-    <label for="magna-header-search-box" class="great-visually-hidden">Search</label>
     <input id="magna-header-search-box"
-           type="text"
+           class="govuk-input"
+           type="search"
+           value="{{ request.GET.q }}"
            name="q"
            placeholder="{% if placeholder %}{{ placeholder }}{% endif %}">
     <button type="submit">

@@ -14,7 +14,7 @@ from django.utils.html import format_html
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 
-from core.constants import BACKLINK_QUERYSTRING_NAME
+from core.constants import BACKLINK_QUERYSTRING_NAME, META_LABELS
 from core.helpers import millify
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage
 
@@ -580,10 +580,16 @@ def get_category_page_breadcrumbs(page):
 
 
 @register.filter
-def get_sub_category_page_breadcrumbs(page):
+def get_sub_category_page_breadcrumbs(page, full_page_url):
+    parent_category_url = page.get_parent().get_full_url()
+    full_page_url = full_page_url.split('?')
+
+    if len(full_page_url) == 2:
+        parent_category_url += '?' + full_page_url[1]
+
     return [
         {'url': '/support/export-support/', 'title': 'Export Support'},
-        {'url': page.get_parent().get_full_url(), 'title': page.get_parent().specific.page_title},
+        {'url': parent_category_url, 'title': page.get_parent().specific.page_title},
     ]
 
 
@@ -639,3 +645,23 @@ def change_country_name_to_include_the(country_name):
     if country_name.lower() in countries_starting_with_the:
         return f'the {country_name.lower().title().replace(" Of ", " of ").replace(" And ", " and ")}'
     return country_name.lower().title()
+
+
+@register.filter
+def guided_journey_mode(page_url):
+
+    res = page_url.split('?')
+
+    if len(res) == 2:
+        return '?' + res[1]
+
+    return ''
+
+
+@register.filter
+def get_sector_market_meta_label(selected_value):
+    for val, label in META_LABELS:
+        if selected_value == val:
+            return label
+
+    return ''

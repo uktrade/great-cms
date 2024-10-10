@@ -1,0 +1,78 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block head_title %}
+    {% if form.errors %}Error:{% endif %}
+    About your business: company details. {{ block.super }}
+{% endblock %}
+{% block meta_title %}About your business: company details. {{ block.super }}{% endblock %}
+{% block head_other %}
+    <meta name="description"
+          content="Find information to help invest within the UK" />
+{% endblock %}
+{% block head_css %}
+    <link href="{% static 'core/css/accessible-autocomplete.min.css' %}"
+          rel="stylesheet"
+          type="text/css">
+    {{ block.super }}
+{% endblock %}
+{% block content %}
+    <div class="govuk-width-container great-container">
+        {% include '../includes/triage_header.html' with back_url=back_url %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <form method="post" onsubmit="return onSubmitBusinessDetails()">
+                    {% csrf_token %}
+                    <h2 class="govuk-caption-l">
+                        <span class="govuk-visually-hidden">This section is</span>About your business
+                    </h2>
+                    <h1 class="govuk-heading-l">Company details</h1>
+                    <div class="govuk-form-group">
+                        {% include 'international/includes/form_field.html' with field=form.company_name show_vertical_error_line=True label_class="eyb-form-label govuk-!-font-weight-bold" %}
+                    </div>
+                    <div class="govuk-form-group">
+                        {% include 'international/includes/form_field.html' with field=form.company_website show_vertical_error_line=True label_class="eyb-form-label govuk-!-font-weight-bold" %}
+                    </div>
+                    <fieldset class="govuk-fieldset">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s eyb-form-label govuk-!-font-weight-bold">
+                            Address of headquarters
+                        </legend>
+                        <div class="govuk-form-group">
+                            {% include 'international/includes/form_field.html' with field=form.address_line_1 show_vertical_error_line=True label_class="eyb-form-label" %}
+                        </div>
+                        <div class="govuk-form-group">
+                            {% include 'international/includes/form_field.html' with field=form.address_line_2 show_vertical_error_line=True label_class="eyb-form-label" %}
+                        </div>
+                        <div class="govuk-form-group">
+                            {% include 'international/includes/form_field.html' with field=form.town show_vertical_error_line=True label_class="govuk-label govuk-label--s eyb-form-label" %}
+                        </div>
+                        <div class="govuk-form-group">
+                            {% include 'international/includes/form_field.html' with field=form.county show_vertical_error_line=True label_class="govuk-label govuk-label--s eyb-form-label" %}
+                        </div>
+                        <div class="govuk-form-group">
+                            {% include 'international/includes/form_field.html' with field=form.postcode show_vertical_error_line=True label_class="govuk-label govuk-label--s eyb-form-label" %}
+                        </div>
+                        <dl class="govuk-summary-list govuk-summary-list--no-border">
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-label govuk-!-width-full govuk-!-display-block govuk-!-margin-bottom-0 govuk-!-padding-bottom-0">
+                                    Country, region or territory
+                                </dt>
+                                <dd class="govuk-summary-list__value govuk-!-display-block govuk-!-padding-top-0 govuk-!-padding-bottom-0 govuk-body">
+                                    {{ display_country }}
+                                </dd>
+                                <dd class="govuk-summary-list__value govuk-!-display-block">
+                                    <a class="govuk-link"
+                                       href="{% url 'international_online_offer:business-headquarters' %}?next={% url 'international_online_offer:company-details' %}&amp;edit_country=True">Change<span class="govuk-visually-hidden">location of company headquarters</span></a>
+                                </dd>
+                            </div>
+                        </dl>
+                    </fieldset>
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-full">
+                            {% include 'international/includes/submit_button.html' with button_text=progress_button_text %}
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

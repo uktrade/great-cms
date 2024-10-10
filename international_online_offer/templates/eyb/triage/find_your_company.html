@@ -1,0 +1,191 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block head_title %}
+    {% if form.errors %}Error:{% endif %}
+    About your business: find you company {{ block.super }}
+{% endblock %}
+{% block meta_title %}About your business: find your company {{ block.super }}{% endblock %}
+{% block head_other %}
+    <meta name="description"
+          content="Find information to help invest within the UK" />
+{% endblock %}
+{% block head_css %}
+    <link href="{% static 'core/css/accessible-autocomplete.min.css' %}"
+          rel="stylesheet"
+          type="text/css">
+    {{ block.super }}
+{% endblock %}
+{% block content %}
+    <div class="govuk-width-container great-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                {% comment %}
+                    lifting error messaging into this template and hardcoding id
+                    as we use hidden fields which cannot be linked to via href
+                {% endcomment %}
+                {% if form.errors %}
+                    <div class="govuk-error-summary" data-module="govuk-error-summary">
+                        <div role="alert">
+                            <h2 class="govuk-error-summary__title">There is a problem</h2>
+                            <div class="govuk-error-summary__body">
+                                <ul class="govuk-list govuk-error-summary__list">
+                                    {% for error in form.company_name.errors %}
+                                        <li>
+                                            <a href="#js-company-name-autocomplete">{{ error }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                <form method="post">
+                    {% csrf_token %}
+                    <h2 class="govuk-caption-l">
+                        <span class="govuk-visually-hidden">This section is</span>About your business
+                    </h2>
+                    <div class="govuk-form-group {% if form.errors %}govuk-form-group--error{% endif %}">
+                        <h1 class="govuk-label-wrapper">
+                            <label class="govuk-label govuk-label--l" for="js-company-name-autocomplete">Search for your company name</label>
+                        </h1>
+                        <div class="govuk-hint govuk-!-margin-bottom-3"
+                             id="help_for_js-company-name-autocomplete">
+                            Start entering your company name and select from results
+                        </div>
+                        {% if form.errors %}
+                            <div class="govuk-!-margin-bottom-3 error-text"
+                                 id="help_for_js-company-name-autocomplete">
+                                Search again for company name or enter manually
+                            </div>
+                        {% endif %}
+                        <div class="company-autocomplete-wrapper govuk-!-margin-bottom-6">
+                            {{ form }}
+                            <div id="company-autocomplete" class="prepend-search-icon"></div>
+                            <span id="autocomplete-source"
+                                  class="govuk-!-padding-top-2 govuk-!-font-size-14">Results from
+                                <a class="govuk-link"
+                                   href='https://www.dnb.com/choose-your-country.html'
+                                   target='_blank'
+                                   rel="noopener noreferrer"
+                                   title="Opens in a new window">Dun &amp; Bradstreet</a>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-full">
+                            <div class="govuk-button-group">
+                                {% include 'international/includes/submit_button.html' with button_text=progress_button_text %}
+                                <span class="govuk-body"> or <a class="govuk-link"
+    href="{% url 'international_online_offer:company-details' %}{% if is_editing %}?next={% url 'international_online_offer:change-your-answers' %} {% endif %}">Enter company details manually</a> </span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block body_js %}
+    {{ block.super }}
+    {% comment %} below pattern from https://docs.djangoproject.com/en/5.0/ref/templates/builtins/#json-script {% endcomment %}
+    {% url 'international_online_offer:dnb-typeahead-company-lookup' as typeahead_url %}
+    {% url 'international_online_offer:dnb-company-search' as company_search_url %}
+    {{ typeahead_url|json_script:'typeahead-url' }}
+    {{ company_search_url|json_script:'company-search-url' }}
+    {{ country|json_script:'country' }}
+    {{ display_country|json_script:'display_country' }}
+    <script type="text/javascript"
+            src="{% static 'javascript/accessible-autocomplete.min.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'javascript/expand-your-business.js' %}"></script>
+    <script type="text/javascript">
+                const typeaheadURL = JSON.parse(document.getElementById('typeahead-url').textContent);
+                const companySearchURL = JSON.parse(document.getElementById('company-search-url').textContent);
+                const country = JSON.parse(document.getElementById('country').textContent);
+                const display_country = JSON.parse(document.getElementById('display_country').textContent);
+                // use a flag to control whether or not we want to make an api call and display a dropdown of results.
+                let retrieveDNBCompanies = true;
+
+                function setTypeAheadInitialValue () {
+                    // set value of input text if a company name already exists (i.e. user is editing company name)
+                    let companyNameInputElement = document.querySelector('#js-company-name-autocomplete')
+                    let existingCompanyName = document.querySelector('#company-name').value
+                    if (existingCompanyName.length > 0){
+                        companyNameInputElement.value = existingCompanyName.toUpperCase();
+                        // in this scenario we don't want the dropdown to immediatly appear as soon as the page is loaded and
+                        // the input text value is set to the previous company name. The dropdown is only shown when the user focuses
+                        // on the input element.
+                        retrieveDNBCompanies = false;
+                    }
+                }
+
+                async function suggest (query, populateResults) {
+                    let queryParams = `searchTerm=${query}&countryISOAlpha2Code=${country}&candidateMaximumQuantity=25`;
+                    // only make api call if we are going to show results
+                    if (retrieveDNBCompanies == true) {
+                        r = await fetch(`${typeaheadURL}?${queryParams}`);
+                        result = await r.json();
+                        document.getElementById('autocomplete-source').classList.add('autocomplete-source-display')
+                        populateResults(result?.results);
+                    }
+                }
+
+                function formatSuggestion (company){
+                    output = `<span>${company?.primary_name.toUpperCase()}</span><br>`
+                    output += "<span class='govuk-!-font-size-16 eyb-sector-lookup-second-row'>"
+                    output += company?.address_line_1.length > 0 ? `${company?.address_line_1.toUpperCase()}, ` : ''
+                    output += company?.address_line_2.length > 0 ? `${company?.address_line_2.toUpperCase()}, ` : ''
+                    output += company?.address_town.length > 0 ? `${company?.address_town.toUpperCase()}, ` : ''
+                    output += company?.address_postcode.length > 0 ? `${company?.address_postcode.toUpperCase()}, ` : ''
+                    output += display_country.toUpperCase()
+                    output += `</span>`
+                    return output
+                }
+
+                async function getWebsite(companyDuns){
+                    // seperate function as typeahead results don't contain website
+                    website = ''
+                    try {
+                        const r = await fetch(`${companySearchURL}?duns=${companyDuns}`)
+                        result = await r.json();
+                        // there should only be one match as duns number is unique
+                        website = result.results[0]?.domain
+                    } catch (e){
+                    }
+                    return website
+                }
+
+                accessibleAutocomplete({
+                    element: document.querySelector('#company-autocomplete'),
+                    id: 'js-company-name-autocomplete',
+                    source: suggest,
+                    autoselect: false,
+                    minLength: 2,
+                    templates: {
+                        inputValue: (company) => {
+                            return company?.primary_name.toUpperCase()
+                        },
+                        suggestion: formatSuggestion
+                    },
+                    onConfirm: async function(selectedRow) {
+                        if (selectedRow){
+                            document.querySelector('#company-name').value = selectedRow?.primary_name
+                            document.querySelector('#company-duns-number').value = selectedRow?.duns_number
+                            document.querySelector('#address-line-1').value = selectedRow?.address_line_1
+                            document.querySelector('#address-line-2').value = selectedRow?.address_line_2
+                            document.querySelector('#address-town').value = selectedRow?.address_town
+                            document.querySelector('#address-county').value = selectedRow?.address_county
+                            document.querySelector('#address-postcode').value = selectedRow?.address_postcode
+                            document.querySelector('#company-website').value = await getWebsite(selectedRow?.duns_number)
+                        }
+                    }
+                });
+
+                setTypeAheadInitialValue()
+
+                document.querySelector('#js-company-name-autocomplete').addEventListener('focus', ()=>{
+                    retrieveDNBCompanies = true
+                })
+    </script>
+    <script type="text/javascript">autocompleteFocusOnESC('#js-company-name-autocomplete', '#js-company-name-autocomplete__listbox')</script>
+{% endblock %}

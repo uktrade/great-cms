@@ -30,7 +30,7 @@ $fa-font-path: '/static/fonts';
 @import '../../styles/widgets/buttons.scss';
 @import 'node_modules/great-styles/src/scss/helpers/_base.scss';
 @import '../../core/sass/helpers/utils.scss';
-
+@import 'international-overrides.scss';
 
 body {
     margin: 0;
@@ -94,4 +94,8 @@ body {
 
 .light-blue-background {
     background-color: $great-light-blue;
+}
+
+.light-green-background {
+    background-color: #8CE2D0;
 }

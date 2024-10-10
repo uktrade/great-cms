@@ -27,7 +27,7 @@ asn1crypto==1.5.1
     #   oscrypto
     #   pyhanko
     #   pyhanko-certvalidator
-astroid==3.2.4
+astroid==3.3.5
     # via pylint
 asttokens==2.4.1
     # via stack-data
@@ -55,7 +55,7 @@ beautifulsoup4==4.11.2
     #   great-components
     #   readtime
     #   wagtail
-billiard==4.2.0
+billiard==4.2.1
     # via celery
 black==24.3.0
     # via
@@ -79,7 +79,7 @@ browserstack-local==1.2.8
     # via browserstack-sdk
 browserstack-sdk==1.12.0
     # via -r requirements_test.in
-build==1.2.2
+build==1.2.2.post1
     # via pip-tools
 celery[redis]==5.3.6
     # via
@@ -159,7 +159,7 @@ deprecated==1.2.14
     #   opentelemetry-api
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
-dill==0.3.8
+dill==0.3.9
     # via pylint
 directory-api-client==26.9.0
     # via -r requirements.in
@@ -311,9 +311,9 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==28.4.1
+faker==30.1.0
     # via factory-boy
-filelock==3.16.0
+filelock==3.16.1
     # via virtualenv
 filetype==1.2.0
     # via willow
@@ -365,9 +365,9 @@ googleapis-common-protos==1.65.0
     #   opentelemetry-exporter-otlp-proto-http
 great-components==2.6.5
     # via -r requirements.in
-greenlet==3.1.0
+greenlet==3.1.1
     # via gevent
-grpcio==1.66.1
+grpcio==1.66.2
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==22.0.0
     # via -r requirements.in
@@ -385,9 +385,9 @@ html5lib==1.1
     #   xhtml2pdf
 icalendar==5.0.11
     # via -r requirements.in
-identify==2.6.0
+identify==2.6.1
     # via pre-commit
-idna==3.8
+idna==3.10
     # via
     #   requests
     #   trio
@@ -436,7 +436,7 @@ jsonschema==3.2.0
     #   directory-components
     #   drf-spectacular
     #   great-components
-kombu==5.4.0
+kombu==5.4.2
     # via celery
 l18n==2021.3
     # via wagtail
@@ -580,7 +580,7 @@ pillow-heif==0.18.0
     # via willow
 pip-tools==7.4.1
     # via -r requirements_test.in
-platformdirs==4.3.2
+platformdirs==4.3.6
     # via
     #   black
     #   pylint
@@ -597,11 +597,11 @@ pre-commit==3.8.0
     #   django-log-formatter-asim
 pre-commit-hooks==3.3.0
     # via -r requirements_test.in
-prompt-toolkit==3.0.47
+prompt-toolkit==3.0.48
     # via
     #   click-repl
     #   ipython
-protobuf==4.25.4
+protobuf==4.25.5
     # via
     #   googleapis-common-protos
     #   opentelemetry-proto
@@ -643,7 +643,7 @@ pyhanko-certvalidator==0.26.3
     # via
     #   pyhanko
     #   xhtml2pdf
-pylint==3.2.7
+pylint==3.3.1
     # via
     #   pylint-django
     #   pylint-plugin-utils
@@ -651,11 +651,9 @@ pylint-django==2.5.5
     # via -r requirements_test.in
 pylint-plugin-utils==0.8.2
     # via pylint-django
-pypdf==4.3.1
+pypdf==5.0.1
     # via xhtml2pdf
-pypng==0.20220715.0
-    # via qrcode
-pyproject-hooks==1.1.0
+pyproject-hooks==1.2.0
     # via
     #   build
     #   pip-tools
@@ -729,15 +727,15 @@ pyyaml==6.0.2
     #   pyhanko
 pyzmq==26.2.0
     # via locust
-qrcode==7.4.2
+qrcode==8.0
     # via pyhanko
 readtime==1.1.1
     # via -r requirements.in
-redis==5.0.8
+redis==5.1.1
     # via
     #   celery
     #   django-redis
-regex==2024.7.24
+regex==2024.9.11
     # via
     #   dateparser
     #   djlint
@@ -777,9 +775,9 @@ ruamel-yaml-clib==0.2.8
     # via ruamel-yaml
 s3transfer==0.6.2
     # via boto3
-selenium==4.24.0
+selenium==4.25.0
     # via -r requirements_test.in
-sentry-sdk==2.14.0
+sentry-sdk==2.15.0
     # via -r requirements.in
 sigauth==5.2.7
     # via
@@ -837,7 +835,7 @@ tablib==3.5.0
     # via -r requirements.in
 telepath==0.3.1
     # via wagtail
-termcolor==2.4.0
+termcolor==2.5.0
     # via pytest-sugar
 tinycss2==1.3.0
     # via
@@ -845,7 +843,7 @@ tinycss2==1.3.0
     #   svglib
 toml==0.10.2
     # via pre-commit-hooks
-tomli==2.0.1
+tomli==2.0.2
     # via
     #   black
     #   build
@@ -879,6 +877,7 @@ typing-extensions==4.12.2
     #   astroid
     #   black
     #   dj-database-url
+    #   faker
     #   ipython
     #   kombu
     #   opentelemetry-sdk
@@ -886,13 +885,13 @@ typing-extensions==4.12.2
     #   pydantic-core
     #   pylint
     #   pypdf
-    #   qrcode
     #   selenium
     #   wagtail-localize
-tzdata==2024.1
+tzdata==2024.2
     # via
     #   celery
     #   django-celery-beat
+    #   kombu
 tzlocal==5.2
     # via
     #   dateparser
@@ -920,7 +919,7 @@ vine==5.1.0
     #   amqp
     #   celery
     #   kombu
-virtualenv==20.26.4
+virtualenv==20.26.6
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core
@@ -983,7 +982,7 @@ wsproto==1.2.0
     # via trio-websocket
 xhtml2pdf==0.2.15
     # via -r requirements.in
-zipp==3.20.1
+zipp==3.20.2
     # via importlib-metadata
 zope-event==5.0
     # via gevent

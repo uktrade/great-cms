@@ -8,14 +8,14 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.http import Http404
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy as _
 from great_components.mixins import GA360Mixin
+from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalManyToManyField
-from taggit.managers import TaggableManager
+from modelcluster.models import ParentalKey
+from taggit.models import ItemBase
 from wagtail import blocks
 from wagtail.admin.panels import (
     FieldPanel,
-    MultiFieldPanel,
     ObjectList,
     TabbedInterface,
     cached_classmethod,
@@ -27,8 +27,8 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.models import Page
-from wagtail.search import index
 from wagtail.snippets.blocks import SnippetChooserBlock
+from wagtailcache.cache import WagtailCacheMixin
 
 from core import blocks as core_blocks, cache_keys, helpers, mixins, service_urls
 from core.blocks import (
@@ -52,8 +52,12 @@ from core.models import (
     CMSGenericPage,
     ContentModule,
     Country,
+    CountryTag,
     IndustryTag,
+    PersonalisationRegionTag,
+    PersonalisationTradingBlocTag,
     Region,
+    SectorTag,
     SeoMixin,
     Tag,
 )
@@ -104,6 +108,19 @@ class BaseContentPage(
 
     @cached_classmethod
     def get_edit_handler(cls):  # noqa
+        if hasattr(cls, 'tagging_panels'):
+            panels = [
+                # Normal Wagtail panels.
+                ObjectList(cls.content_panels, heading='Content'),
+                # Added custom SEO panels in new tab.
+                ObjectList(
+                    cls.tagging_panels,
+                    heading='Tags',
+                ),
+                ObjectList(SeoMixin.seo_meta_panels, heading='SEO', classname='seo'),
+                ObjectList(cls.settings_panels, heading='Settings', classname='settings'),
+            ]
+            return TabbedInterface(panels).bind_to_model(model=cls)
         panels = [
             # Normal Wagtail panels.
             ObjectList(cls.content_panels, heading='Content'),
@@ -146,91 +163,6 @@ class BaseContentPage(
 
         path = self.get_url()
         return base_url + path if path else ''
-
-
-class TaggedBaseContentPage(
-    SeoMixin,
-    DataLayerMixin,
-    Page,
-):
-    """Minimal abstract base class for pages ported from the V1 Great.gov.uk site"""
-
-    promote_panels = []
-    folder_page = False  # Some page classes will have this set to true to exclude them from breadcrumbs
-
-    class Meta:
-        abstract = True
-
-    country_tags = TaggableManager(through='core.CountryTagged', blank=True, verbose_name=_('Country Tags'))
-    sector_tags = TaggableManager(through='core.SectorTagged', blank=True, verbose_name=_('Sector Tags'))
-    region_tags = TaggableManager(through='core.RegionTagged', blank=True, verbose_name=_('Region Tags'))
-    type_of_export_tags = TaggableManager(
-        through='core.TypeOfExportTagged', blank=True, verbose_name=_('Type of Export Tags')
-    )
-
-    tagging_panels = [
-        MultiFieldPanel(
-            [
-                FieldPanel('country_tags'),
-                FieldPanel('sector_tags'),
-                FieldPanel('region_tags'),
-                FieldPanel('type_of_export_tags'),
-            ],
-            heading='Tags',
-        ),
-    ]
-
-    @cached_classmethod
-    def get_edit_handler(cls):  # noqa
-        panels = [
-            # Normal Wagtail panels.
-            ObjectList(cls.content_panels, heading='Content'),
-            # Added custom SEO panels in new tab.
-            ObjectList(cls.tagging_panels, heading='Tags'),
-            ObjectList(SeoMixin.seo_meta_panels, heading='SEO', classname='seo'),
-            ObjectList(cls.settings_panels, heading='Settings', classname='settings'),
-        ]
-        return TabbedInterface(panels).bind_to_model(model=cls)
-
-    def get_ancestors_in_app(self):
-        """
-        Starts at 2 to exclude the root page and the homepage (which is fixed/static/mandatory).
-        Ignores 'folder' pages.
-        """
-        ancestors = self.get_ancestors()[2:]
-
-        return [
-            page
-            for page in ancestors
-            if (not hasattr(page.specific_class, 'folder_page') or not page.specific_class.folder_page)
-        ]
-
-    def get_breadcrumbs(self):
-        breadcrumbs = [page.specific for page in self.specific.get_ancestors_in_app()]
-        breadcrumbs.append(self)
-        retval = []
-
-        for crumb in breadcrumbs:
-            if hasattr(crumb, 'breadcrumbs_label'):  # breadcrumbs_label is a field on SOME Pages
-                retval.append({'title': crumb.breadcrumbs_label, 'url': crumb.url})
-            else:
-                retval.append({'title': crumb.title, 'url': crumb.url})
-        retval.pop()
-        return retval
-
-    def get_absolute_url(self):
-        base_url = settings.BASE_URL
-        if base_url[-1] == '/':
-            base_url = base_url[:-1]
-
-        path = self.get_url()
-        return base_url + path if path else ''
-
-    search_fields = Page.search_fields + [  # Inherit search_fields from Page
-        index.SearchField('country_tags'),
-        index.SearchField('region_tags'),
-        index.SearchField('type_of_export_tags'),
-    ]
 
 
 class SocialLinksPageMixin(Page):
@@ -281,6 +213,7 @@ class DomesticHomePage(
 
 
 class DomesticDashboard(
+    WagtailCacheMixin,
     SeoMixin,
     mixins.WagtailAdminExclusivePageMixin,
     mixins.EnableSegmentationMixin,
@@ -288,6 +221,8 @@ class DomesticDashboard(
     DataLayerMixin,
     Page,
 ):
+    cache_control = 'no-cache'
+
     components = StreamField(
         [('route', core_blocks.RouteSectionBlock(icon='pick'))], use_json_field=True, null=True, blank=True
     )
@@ -787,7 +722,51 @@ def industry_accordions_validation(value):
         )
 
 
-class CountryGuidePage(cms_panels.CountryGuidePagePanels, TaggedBaseContentPage):
+class CountryTaggedCountryGuidePage(ItemBase):
+    tag = models.ForeignKey(
+        CountryTag,
+        on_delete=models.CASCADE,
+        related_name='country_tagged_market_guide',
+    )
+    content_object = ParentalKey(
+        to='domestic.CountryGuidePage', on_delete=models.CASCADE, related_name='country_tagged_items'
+    )
+
+
+class SectorTaggedCountryGuidePage(ItemBase):
+    tag = models.ForeignKey(
+        SectorTag,
+        on_delete=models.CASCADE,
+        related_name='sector_tagged_market_guide',
+    )
+    content_object = ParentalKey(
+        to='domestic.CountryGuidePage', on_delete=models.CASCADE, related_name='sector_tagged_items'
+    )
+
+
+class RegionTaggedCountryGuidePage(ItemBase):
+    tag = models.ForeignKey(
+        PersonalisationRegionTag,
+        on_delete=models.CASCADE,
+        related_name='region_tagged_market_guide',
+    )
+    content_object = ParentalKey(
+        to='domestic.CountryGuidePage', on_delete=models.CASCADE, related_name='region_tagged_items'
+    )
+
+
+class TradingBlocTaggedCountryGuidePage(ItemBase):
+    tag = models.ForeignKey(
+        PersonalisationTradingBlocTag,
+        on_delete=models.CASCADE,
+        related_name='trading_bloc_tagged_market_guide',
+    )
+    content_object = ParentalKey(
+        to='domestic.CountryGuidePage', on_delete=models.CASCADE, related_name='trading_bloc_tagged_items'
+    )
+
+
+class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
     """Ported from Great V1.
     Make a cup of tea, this model is BIG!
     """
@@ -1022,6 +1001,30 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, TaggedBaseContentPage)
         related_name='+',
     )
 
+    country_tags = ClusterTaggableManager(
+        through=CountryTaggedCountryGuidePage,
+        blank=True,
+        verbose_name='Country tags',
+    )
+
+    sector_tags = ClusterTaggableManager(
+        through=SectorTaggedCountryGuidePage,
+        blank=True,
+        verbose_name='Sector tags',
+    )
+
+    region_tags = ClusterTaggableManager(
+        through=RegionTaggedCountryGuidePage,
+        blank=True,
+        verbose_name='Region tags',
+    )
+
+    trading_bloc_tags = ClusterTaggableManager(
+        through=TradingBlocTaggedCountryGuidePage,
+        blank=True,
+        verbose_name='Trading bloc tags',
+    )
+
     @property
     def fact_sheet_columns(self):
         """
@@ -1172,10 +1175,54 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, TaggedBaseContentPage)
         return False
 
 
+class CountryTaggedArticlePage(ItemBase):
+    tag = models.ForeignKey(
+        CountryTag,
+        on_delete=models.CASCADE,
+        related_name='country_tagged_article',
+    )
+    content_object = ParentalKey(
+        to='domestic.ArticlePage', on_delete=models.CASCADE, related_name='country_tagged_items'
+    )
+
+
+class SectorTaggedArticlePage(ItemBase):
+    tag = models.ForeignKey(
+        SectorTag,
+        on_delete=models.CASCADE,
+        related_name='sector_tagged_article',
+    )
+    content_object = ParentalKey(
+        to='domestic.ArticlePage', on_delete=models.CASCADE, related_name='sector_tagged_items'
+    )
+
+
+class RegionTaggedArticlePage(ItemBase):
+    tag = models.ForeignKey(
+        PersonalisationRegionTag,
+        on_delete=models.CASCADE,
+        related_name='region_tagged_article',
+    )
+    content_object = ParentalKey(
+        to='domestic.ArticlePage', on_delete=models.CASCADE, related_name='region_tagged_items'
+    )
+
+
+class TradingBlocTaggedArticlePage(ItemBase):
+    tag = models.ForeignKey(
+        PersonalisationTradingBlocTag,
+        on_delete=models.CASCADE,
+        related_name='trading_bloc_tagged_article',
+    )
+    content_object = ParentalKey(
+        to='domestic.ArticlePage', on_delete=models.CASCADE, related_name='trading_bloc_tagged_items'
+    )
+
+
 class ArticlePage(
     cms_panels.ArticlePagePanels,
     SocialLinksPageMixin,
-    TaggedBaseContentPage,
+    BaseContentPage,
 ):
     parent_page_types = [
         'domestic.CountryGuidePage',
@@ -1412,6 +1459,30 @@ class ArticlePage(
     )
 
     tags = ParentalManyToManyField(Tag, blank=True)
+
+    country_tags = ClusterTaggableManager(
+        through=CountryTaggedArticlePage,
+        blank=True,
+        verbose_name='Country tags',
+    )
+
+    sector_tags = ClusterTaggableManager(
+        through=SectorTaggedArticlePage,
+        blank=True,
+        verbose_name='Sector tags',
+    )
+
+    region_tags = ClusterTaggableManager(
+        through=RegionTaggedArticlePage,
+        blank=True,
+        verbose_name='Region tags',
+    )
+
+    trading_bloc_tags = ClusterTaggableManager(
+        through=TradingBlocTaggedArticlePage,
+        blank=True,
+        verbose_name='Trading bloc tags',
+    )
 
     @property
     def related_pages(self):
