@@ -82,7 +82,7 @@
         <section class="export-plan-dashboard__section export-plan-dashboard__section--white great-border-thin-top-lighter-blue">
             <div class="export-plan-dashboard__container container">
                 <section class="govuk-!-padding-bottom-3 clearfix">
-                    {% include './includes/csat_user_feedback.html' with form=form csat_stage=csat_stage %}
+                    {% include 'core/includes/hcsat.html' with hcsat_form=hcsat_form hcsat_stage=hcsat_form_stage %}
                 </section>
             </div>
             <aside class="export-plan-dashboard__sidebar bg-white">
@@ -112,5 +112,6 @@
             new CsatFormHandler('csat-form');
         });
     </script>
+
 
 {% endblock %}

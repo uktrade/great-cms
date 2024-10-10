@@ -1276,9 +1276,7 @@ def test_business_user_disconnect(
 def test_csat_user_feedback_with_session_value(
     client,
     user,
-    settings,
 ):
-    settings.FEATURE_FAB_HCSAT = True
     client.force_login(user)
     url = reverse('sso_profile:business-profile')
 
@@ -1291,8 +1289,7 @@ def test_csat_user_feedback_with_session_value(
 
 
 @pytest.mark.django_db
-def test_csat_user_feedback_submit(client, user, settings):
-    settings.FEATURE_FAB_HCSAT = True
+def test_csat_user_feedback_submit(client, user):
     client.force_login(user)
     url = reverse('sso_profile:business-profile')
 
@@ -1314,8 +1311,7 @@ def test_csat_user_feedback_submit(client, user, settings):
 
 
 @pytest.mark.django_db
-def test_csat_user_feedback_submit_with_javascript(client, user, settings):
-    settings.FEATURE_FAB_HCSAT = True
+def test_csat_user_feedback_submit_with_javascript(client, user):
     client.force_login(user)
     url = reverse('sso_profile:business-profile')
     CsatUserFeedback.objects.create(id=1, URL='http://test.com')

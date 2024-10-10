@@ -24,6 +24,7 @@ from wagtail.images.views.chooser import (
 from wagtail.models import Locale
 
 from core import cms_slugs, forms, helpers, serializers, views
+from core.models import HCSAT
 from core.pingdom.services import DatabaseHealthCheck
 from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
@@ -1435,9 +1436,9 @@ def test_csat_user_feedback_with_session_value(
     client.force_login(user)
     url = reverse_lazy('core:product-market') + '?product=gin&market=germany'
 
-    views.CsatUserFeedback.objects.create(id=1, URL='http://test.com')
+    HCSAT.objects.create(id=1, URL='http://test.com')
     session = client.session
-    session['ukea_csat_id'] = 1
+    session['export_academy_csat_id'] = 1
     session.save()
     response = client.get(url)
     assert response.status_code == 200
@@ -1451,9 +1452,9 @@ def test_csat_user_feedback_submit(
     client.force_login(user)
     url = reverse_lazy('core:product-market') + '?product=gin&market=germany'
 
-    views.CsatUserFeedback.objects.create(id=1, URL='http://test.com')
+    HCSAT.objects.create(id=1, URL='http://test.com')
     session = client.session
-    session['ukea_csat_id'] = 1
+    session['export_academy_csat_id'] = 1
     session['user_journey'] = 'DASHBOARD'
     session.save()
     response = client.post(
