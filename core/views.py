@@ -877,10 +877,12 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, TemplateView):
         restricted_markets = ['Ukraine', 'Russia', 'Belarus', 'Israel']
         is_restricted_market = False
         is_market_skipped = self.request.GET.get('is_market_skipped')
+        trade_barrier_count = None
 
         if self.request.session.get('guided_journey_data'):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('guided_journey_data')))[0]
-            market = form_data['market']
+            market = form_data.get('market')
+            sector = form_data.get('sector')
 
             for code, name in countries:
                 if name == market:
@@ -888,6 +890,9 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, TemplateView):
 
             if market:
                 is_restricted_market = market in restricted_markets
+                trade_barrier_count = helpers.get_trade_barrier_count(market, None)
+            elif sector:
+                trade_barrier_count = helpers.get_trade_barrier_count(None, sector)
 
             categories = helpers.mapped_categories(form_data)
 
@@ -921,4 +926,5 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, TemplateView):
             is_market_skipped=is_market_skipped,
             country_code=country_code,
             categories=categories,
+            trade_barrier_count=trade_barrier_count,
         )
