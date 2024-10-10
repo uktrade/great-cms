@@ -16,6 +16,7 @@ import boto3
 import great_components.helpers
 import requests
 from botocore.exceptions import ClientError
+from dbt_copilot_python.utility import is_copilot
 from directory_forms_api_client import actions
 from django.conf import settings
 from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
@@ -571,12 +572,18 @@ def get_trading_blocs_name(iso2):
 
 
 def get_file_from_s3(bucket, key):
-    s3 = boto3.client(
-        's3',
-        aws_access_key_id=settings.AWS_ACCESS_KEY_ID_DATA_SCIENCE,
-        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY_DATA_SCIENCE,
-        region_name=settings.AWS_S3_REGION_NAME_DATA_SCIENCE,
-    )
+    if is_copilot():
+        s3 = boto3.client(
+            's3',
+            region_name=settings.AWS_S3_REGION_NAME_DATA_SCIENCE,
+        )
+    else: 
+        s3 = boto3.client(
+            's3',
+            aws_access_key_id=settings.AWS_ACCESS_KEY_ID_DATA_SCIENCE,
+            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY_DATA_SCIENCE,
+            region_name=settings.AWS_S3_REGION_NAME_DATA_SCIENCE,
+        )
     file_object = s3.get_object(Bucket=bucket, Key=key)
     return file_object
 
@@ -713,12 +720,18 @@ def upload_file_to_s3(file_name: str, object_name: str):
     # dont upload files if running in circleci
     if settings.IS_CIRCLECI_ENV:
         return
-    s3_client = boto3.client(
-        's3',
-        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
-        region_name=settings.AWS_S3_REGION_NAME,
-    )
+    if is_copilot():
+        s3_client = boto3.client(
+            's3',
+            region_name=settings.AWS_S3_REGION_NAME,
+        )
+    else:
+        s3_client = boto3.client(
+            's3',
+            aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,            
+            region_name=settings.AWS_S3_REGION_NAME,
+        )                                
     try:
         s3_client.upload_file(file_name, settings.AWS_STORAGE_BUCKET_NAME, object_name)
     except ClientError as ce:
@@ -759,12 +772,19 @@ def download_geoip_files_from_s3():
         except IOError:
             pass
         else:
-            s3_client = boto3.client(
-                's3',
-                aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-                aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
-                region_name=settings.AWS_S3_REGION_NAME,
-            )
+            if is_copilot():
+                s3_client = boto3.client(
+                    's3',
+                    region_name=settings.AWS_S3_REGION_NAME,
+                )
+            else:
+                s3_client = boto3.client(
+                    's3',
+                    aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+                    aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+                    region_name=settings.AWS_S3_REGION_NAME,
+                )                    
+                
             s3_client.download_file(
                 settings.AWS_STORAGE_BUCKET_NAME,
                 f'geoip_data/{settings.GEOIP_CITY}',

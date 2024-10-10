@@ -6,6 +6,9 @@ from typing import Any, Dict
 import directory_healthcheck.backends
 import environ
 import sentry_sdk
+import dj_database_url
+from dbt_copilot_python.database import database_url_from_env
+from dbt_copilot_python.utility import is_copilot
 from django.urls import reverse_lazy
 from django_log_formatter_asim import ASIMFormatter
 from opensearch_dsl.connections import connections
@@ -183,7 +186,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {'default': env.db()}
+if is_copilot():
+    DATABASES = {"default": dj_database_url.parse(database_url_from_env("DATABASE_CREDENTIALS"))}
+else:
+    DATABASES = {'default': env.db()}
+
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
 VCAP_SERVICES = env.json('VCAP_SERVICES', {})
@@ -446,8 +453,8 @@ AWS_S3_ENCRYPTION = True
 AWS_S3_FILE_OVERWRITE = False
 AWS_S3_CUSTOM_DOMAIN = env.str('AWS_S3_CUSTOM_DOMAIN', '')
 AWS_S3_URL_PROTOCOL = env.str('AWS_S3_URL_PROTOCOL', 'https:')
-AWS_ACCESS_KEY_ID = env.str('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = env.str('AWS_SECRET_ACCESS_KEY')
+AWS_ACCESS_KEY_ID = env.str('AWS_ACCESS_KEY_ID', None)
+AWS_SECRET_ACCESS_KEY = env.str('AWS_SECRET_ACCESS_KEY', None)
 AWS_S3_HOST = env.str('AWS_S3_HOST', 's3-eu-west-2.amazonaws.com')
 AWS_S3_SIGNATURE_VERSION = env.str('AWS_S3_SIGNATURE_VERSION', 's3v4')
 AWS_QUERYSTRING_AUTH = env.bool('AWS_QUERYSTRING_AUTH', False)
@@ -812,7 +819,8 @@ DNB_API_PASSWORD = env.str('DNB_API_PASSWORD', '')
 DNB_API_RENEW_ACCESS_TOKEN_SECONDS_REMAINING = env.int('DNB_API_RENEW_ACCESS_TOKEN_SECONDS_REMAINING', 20)
 
 # geo location
-GEOIP_PATH = os.path.join(ROOT_DIR, 'core/geolocation_data')
+# TMP_DIR = Path(__file__).resolve().parents[2]
+GEOIP_PATH = '/tmp'
 GEOIP_COUNTRY = 'GeoLite2-Country.mmdb'
 GEOIP_CITY = 'GeoLite2-City.mmdb'
 MAXMIND_LICENCE_KEY = env.str('MAXMIND_LICENCE_KEY')
@@ -1007,8 +1015,8 @@ BREADCRUMBS_ROOT_URL = env.str('BREADCRUMBS_ROOT_URL', 'https://great.gov.uk/')
 
 
 # Setting up the the datascience s3 bucket to read files
-AWS_ACCESS_KEY_ID_DATA_SCIENCE = env.str('AWS_ACCESS_KEY_ID_DATA_SCIENCE', '')
-AWS_SECRET_ACCESS_KEY_DATA_SCIENCE = env.str('AWS_SECRET_ACCESS_KEY_DATA_SCIENCE', '')
+AWS_ACCESS_KEY_ID_DATA_SCIENCE = env.str('AWS_ACCESS_KEY_ID_DATA_SCIENCE', None)
+AWS_SECRET_ACCESS_KEY_DATA_SCIENCE = env.str('AWS_SECRET_ACCESS_KEY_DATA_SCIENCE', None)
 AWS_STORAGE_BUCKET_NAME_DATA_SCIENCE = env.str('AWS_STORAGE_BUCKET_NAME_DATA_SCIENCE', '')
 AWS_S3_REGION_NAME_DATA_SCIENCE = env.str('AWS_S3_REGION_NAME_DATA_SCIENCE', '')
 
