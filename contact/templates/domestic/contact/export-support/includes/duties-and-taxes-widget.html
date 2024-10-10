@@ -1,17 +1,27 @@
+{% load get_market_widget_data from component_tags %}
+
+{% with market=market|get_market_widget_data %}
 <div class="govuk-!-padding-6 great-bg-white great-ds-box-shadow great-ds-card-panels__item">
     <span class="great-meta-label govuk-!-margin-bottom-2">
         <img src="/static/icons/hand.svg" alt="" />
         Service on GOV.UK
     </span>
-    <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Import duty for {{ session_data.sic_description }}</h2>
+
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-2">{% if session_data.commodity_name %}Import duty for {{ session_data.commodity_name }}{% else %}Find the rate of import duty for your product{% endif %}</h2>
+
     <p class="govuk-body">
-        See how much import duty is charged, plus other taxes and tariffs.
+        {% if market %}
+            See how much import duty is charged, plus other taxes and tariffs, when you export to {{ session_data.market }}.
+        {% else %}
+            See how much import duty is charged, plus other taxes and tariffs, when you export to your target market.
+        {% endif %}
     </p>
 
     <div>
-        <a href="https://www.check-duties-customs-exporting-goods.service.gov.uk/" class="govuk-link great-ds-link" target="_blank">
+        <a href="https://www.check-duties-customs-exporting-goods.service.gov.uk/{% if country_code %}/overview?d={{ country_code }}&ds=gtp{% endif %}{% if session_data.hs_code %}&pc={{ session_data.hs_code }}{% endif %}" class="govuk-link great-ds-link" target="_blank">
             <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> 
             <span>Use this service on GOV.UK</span>
         </a>
     </div>
 </div>
+{% endwith %}

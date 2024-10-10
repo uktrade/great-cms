@@ -25,7 +25,6 @@ _Tick or delete as appropriate:_
 - [ ] Upgraded any vulnerable dependencies.
 - [ ] I have updated security dependencies
 - [ ] Python requirements have been re-compiled.
-- [ ] Frontend assets have been re-compiled.
 - [ ] I have checked that my PR is using the latest package versions of: great-components, directory-constants, directory-healthcheck, directory-validators, directory-components, directory-api-client, directory-ch-client, django-staff-sso-client, directory-forms-api-client, directory-sso-api-client, sigauth
 
 ### Security

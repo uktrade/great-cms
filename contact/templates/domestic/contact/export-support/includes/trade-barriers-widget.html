@@ -3,13 +3,31 @@
         <img src="/static/icons/hand.svg" alt="" />
         Service on GOV.UK
     </span>
-    <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Current trade barriers in {{ session_data.market }}</h2>
+
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-2">
+        {% if trade_barrier_count and session_data.market %}
+            There are currently {{ trade_barrier_count }} trade barriers for {{ session_data.market }}
+        {% elif trade_barrier_count and session_data.sector %}
+            There are currently {{ trade_barrier_count }} trade barriers in the {{ session_data.sector }} sector
+        {% elif session_data.market %}
+            Current trade barriers in {{ session_data.market }}
+        {% else %}
+            Trade barriers
+        {% endif %}
+    </h2>
+
     <p class="govuk-body">
         See all the current and resolved trade barriers in your export market.
     </p>
 
     <div>
+        {% if trade_barrier_count and session_data.market and country_code %}
+        <a href="https://www.check-international-trade-barriers.service.gov.uk/barriers/?resolved=0&location={{ country_code | lower }}" class="govuk-link great-ds-link" target="_blank">
+        {% elif trade_barrier_count and session_data.sector %}
+        <a href="https://www.check-international-trade-barriers.service.gov.uk/barriers/?resolved=0&sector={{ session_data.sector | lower | slugify }}" class="govuk-link great-ds-link" target="_blank">
+        {% else %}
         <a href="https://www.check-international-trade-barriers.service.gov.uk/" class="govuk-link great-ds-link" target="_blank">
+        {% endif %}
             <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> 
             <span>Use this service on GOV.UK</span>
         </a>
