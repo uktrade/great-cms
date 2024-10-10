@@ -130,33 +130,34 @@ def domestic_header(request):
         'isAuthenticated': request.user.is_authenticated,
         'hideSearch': False,
         'hideMenuOnDesktop': False,
-        'mastheadUrl': "#",
-        'domesticLink': {'href': "#", 'text': "For UK businesses"},
-        'internationalLink': {'href': "#", 'text': "For international businesses"},
-        'searchFormAction': "#",
+        'use_domestic_logo': True,
+        'domesticLink': {'href': "/", 'text': "For UK businesses"},
+        'internationalLink': {'href': "/international/", 'text': "For international businesses"},
+        'searchFormAction': reverse_lazy('search:search'),
         'navItemsList': [
-            {'href': "#", 'text': "Learn to export"},
-            {'href': "#", 'text': "Where to export", 'requiresAuth': True},
-            {'href': "#", 'text': "Make an export plan", 'requiresAuth': True},
-            {'href': "#", 'text': "Markets", 'requiresNoAuth': True},
-            {'href': "#", 'text': "Services", 'requiresNoAuth': True}
+            {'href': "/learn/categories/", 'text': "Learn to export"},
+            {'href': reverse_lazy('core:compare-countries'), 'text': "Where to export", 'requiresAuth': True},
+            {'href': "/export-plan/", 'text': "Make an export plan", 'requiresAuth': True},
+            {'href': "/markets/", 'text': "Markets", 'requiresNoAuth': True},
+            {'href': "/services/", 'text': "Services", 'requiresNoAuth': True}
         ],
         'menuItemsList': [
             {'text': f"Hi {request.user.first_name}" if request.user.is_authenticated else "", 'userGreeting': True, 'requiresAuth': True},
-            {'href': "#", 'text': "Dashboard", 'requiresAuth': True},
-            {'href': "#", 'text': "Where to export", 'requiresAuth': True},
-            {'href': "#", 'text': "Make an export plan", 'requiresAuth': True},
-            {'href': "#", 'text': "Account", 'requiresAuth': True},
-            {'href': "#", 'text': "Learn to export"},
-            {'href': "#", 'text': "Markets"},
-            {'href': "#", 'text': "Services"},
-            {'text': "Sign out", 'href': "#", 'button': True, 'requiresAuth': True},
-            {'text': "Sign in", 'href': "#", 'button': True, 'requiresNoAuth': True}
+            {'href': '/dashboard/', 'text': "Dashboard", 'requiresAuth': True},
+            {'href': reverse_lazy('core:compare-countries'), 'text': "Where to export", 'requiresAuth': True},
+            {'href': '/export-plan/', 'text': "Make an export plan", 'requiresAuth': True},
+            {'href': "/profile/", 'text': "Account", 'requiresAuth': True},
+            {'href': "/learn/categories/", 'text': "Learn to export"},
+            {'href': "/markets/", 'text': "Markets"},
+            {'href': "/services/", 'text': "Services"},
+            {'text': "Sign out", 'attributes': 'onclick="signOut()"', 'button': True, 'requiresAuth': True},
+            {'text': "Sign in", 'href': reverse_lazy('core:login'), 'button': True, 'requiresNoAuth': True}
         ],
         'actionLinkList': [
-            {'href': "#", 'text': "Dashboard", 'requiresAuth': True},
-            {'href': "#", 'text': "Sign in", 'requiresNoAuth': True}
+            {'href': '/dashboard/', 'text': "Dashboard", 'requiresAuth': True},
+            {'href': reverse_lazy('core:login'), 'text': "Sign in", 'requiresNoAuth': True}
         ],
+        'mobileSiteLink': {'href': "/international", 'text': "Site for international businesses" },
         'search_icon': search_icon,
         'menu_icon': menu_icon
     }

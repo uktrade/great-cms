@@ -8,7 +8,7 @@
 {% block head_css %}{{ block.super }}{% endblock %}
 {% block content %}
     <section class="govuk-!-padding-bottom-4">
-        <div class="govuk-width-container great-container">
+        <div class="great-container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
                     {% if '/sectors/' in request.get_full_path %}<p class="govuk-caption-xl">Sectors</p>{% endif %}
@@ -46,7 +46,7 @@
     </section>
     {% if page.data_points %}
         <section class="investment-data-points-section govuk-!-padding-top-7">
-            <div class="govuk-width-container great-container">
+            <div class="great-container">
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds-from-desktop">
                         {% for points in page.data_points %}
@@ -69,7 +69,7 @@
     {% endif %}
     {% if page.article_case_studies %}
         <section class="light-blue-background govuk-!-padding-top-7 govuk-!-padding-bottom-7">
-            <div class="govuk-width-container great-container">
+            <div class="great-container">
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                         {% include_block page.article_case_studies %}
