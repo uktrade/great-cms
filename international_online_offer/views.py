@@ -5,12 +5,15 @@ from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.decorators.vary import vary_on_cookie
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from wagtailcache.cache import cache_page
 
 from core.helpers import check_url_host_is_safelisted
 from directory_sso_api_client import sso_api_client
@@ -62,6 +65,7 @@ def calculate_and_store_is_high_value(request):
         )
 
 
+@method_decorator(cache_page, name='dispatch')
 class IndexView(GA360Mixin, TemplateView):
     template_name = 'eyb/index.html'
 
@@ -83,6 +87,8 @@ class IndexView(GA360Mixin, TemplateView):
         )
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class AboutYourBusinessView(GA360Mixin, TemplateView):
     template_name = 'eyb/about_your_business.html'
 
@@ -1058,6 +1064,8 @@ class SignUpView(
             return self.do_sign_up_flow(request)
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class EditYourAnswersView(GA360Mixin, TemplateView):
     template_name = 'eyb/edit_your_answers.html'
 
@@ -1224,6 +1232,8 @@ class CsatFeedbackView(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class TradeAssociationsView(GA360Mixin, TemplateView):
     template_name = 'eyb/trade_associations.html'
 
@@ -1264,6 +1274,8 @@ class TradeAssociationsView(GA360Mixin, TemplateView):
         )
 
 
+@method_decorator(cache_page, name='get')
+@method_decorator(vary_on_cookie, name='get')
 class BusinessClusterView(GA360Mixin, TemplateView):
     template_name = 'eyb/bci.html'
 

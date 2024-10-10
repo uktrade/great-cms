@@ -756,3 +756,12 @@ register_snippet(TagsViewSetGroup)
 def hide_tagging_menu_item(request, menu_items):
     if not request.user.groups.filter(name='Tagging').exists():
         menu_items[:] = [item for item in menu_items if item.label != 'Tags']
+
+
+@hooks.register('is_response_cacheable')
+def nocache_certain_response_status_codes(response, curr_cache_decision):
+    if response.status_code in (
+        302,
+        301,
+    ):
+        return False

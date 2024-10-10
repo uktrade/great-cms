@@ -35,6 +35,7 @@ const get = function (url, params) {
 
   return fetch(parsedUrl, {
     method: 'get',
+    cache: 'no-store',
     headers: {
       Accept: 'application/json',
       'X-CSRFToken': config.csrfToken,

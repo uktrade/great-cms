@@ -29,6 +29,12 @@ class TargetAgeCountryPopulationData(APIView):
     permission_classes = [IsAuthenticated]
     serializer_class = serializers.CountryTargetAgeDataSerializer
 
+    export_plan = None
+
+    def dispatch(self, request, *args, **kwargs):
+        self.export_plan = helpers.get_exportplan(request.user.id, id)
+        return super(TargetAgeCountryPopulationData, self).dispatch(request, *args, **kwargs)
+
     def post(self, request, id):
         serializer = self.serializer_class(data=self.request.data)
         serializer.is_valid(raise_exception=True)
@@ -36,11 +42,11 @@ class TargetAgeCountryPopulationData(APIView):
         url = serializer.validated_data['section_name']
 
         section_name = re.match(r'/export-plan/[^/]*/([^/]*)/', url)[1]
-        export_plan = helpers.get_exportplan(request.user.session_id, id)
+
         helpers.update_ui_options_target_ages(
             sso_session_id=request.user.session_id,
             target_ages=target_ages,
-            export_plan=export_plan,
+            export_plan=self.export_plan,
             section_name=section_name,
         )
         return Response({'success': True})
