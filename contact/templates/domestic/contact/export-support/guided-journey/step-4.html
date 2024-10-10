@@ -49,12 +49,12 @@
 
                     {% if session_data.sector and session_data.market %}
                     {% with res=session_data.sector|get_sector_and_market_promo_data:session_data.market %}
-                        {% for promo in res.market_matches %}
-                            <div class="great-ds-card-panels govuk-!-margin-bottom-4">
-                                {% include 'domestic/contact/export-support/includes/sector-promo-widget.html' %}
-                                {% include 'domestic/contact/export-support/includes/market-promo-widget.html' %}
-                            </div>
-                        {% endfor %}
+                        {% if res.is_matches %}
+                        <div class="great-ds-card-panels govuk-!-margin-bottom-4">
+                            {% include 'domestic/contact/export-support/includes/sector-promo-widget.html' %}
+                            {% include 'domestic/contact/export-support/includes/market-promo-widget.html' %}
+                        </div>
+                        {% endif %}
                     {% endwith %}
                     {% endif %}
 
@@ -68,7 +68,7 @@
                             {% include 'domestic/contact/export-support/includes/exopps-widget.html' with market=session_data.market %}
                         {% endif %}
 
-                        {% include 'domestic/contact/export-support/includes/trade-barriers-widget.html' %}
+                        {% include 'domestic/contact/export-support/includes/trade-barriers-widget.html' with trade_barrier_count=trade_barrier_count country_code=country_code %}
                         {% include 'domestic/contact/export-support/includes/visa-and-travel-widget.html' with market=session_data.market %}
                     </div>
 

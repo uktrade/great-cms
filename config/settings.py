@@ -106,6 +106,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'wagtailcache.cache.UpdateCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -124,6 +125,7 @@ MIDDLEWARE = [
     'great_components.middleware.NoCacheMiddlware',
     'csp.middleware.CSPMiddleware',
     'directory_components.middleware.LocaleQuerystringMiddleware',
+    'wagtailcache.cache.FetchFromCacheMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -191,9 +193,18 @@ if 'redis' in VCAP_SERVICES:
 else:
     REDIS_URL = env.str('REDIS_URL')
 
+# wagtail caching options
+# (see https://docs.coderedcorp.com/wagtail-cache/getting_started/django_settings.html#django-settings)
+WAGTAIL_CACHE = env.bool('WAGTAIL_CACHE', False)  # set to false for local
+WAGTAIL_CACHE_BACKEND = 'great_wagtail_cache'
+WAGTAIL_CACHE_HEADER = True
+WAGTAIL_CACHE_IGNORE_COOKIES = True
+WAGTAIL_CACHE_IGNORE_QS = None
+WAGTAIL_CACHE_TIMOUT = env.int('WAGTAIL_CACHE_TIMOUT', 4 * 60 * 60)  # 4 hours (in seconds)
 
 if env.bool('API_CACHE_DISABLED', False):
     cache = {'BACKEND': 'django.core.cache.backends.dummy.DummyCache'}
+    great_wagtail_cache = {'BACKEND': 'django.core.cache.backends.dummy.DummyCache'}
 else:
     cache = {
         'BACKEND': 'django_redis.cache.RedisCache',
@@ -202,12 +213,19 @@ else:
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         },
     }
+    great_wagtail_cache = {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': REDIS_URL,
+        'KEY_PREFIX': 'wagtailcache',
+        'TIMEOUT': WAGTAIL_CACHE_TIMOUT,
+    }
+
 
 CACHES = {
     'default': cache,
     'api_fallback': cache,
+    'great_wagtail_cache': great_wagtail_cache,
 }
-
 
 CACHE_EXPIRE_SECONDS = env.int('CACHE_EXPIRE_SECONDS', 60 * 30)  # 30 minutes
 CACHE_EXPIRE_SECONDS_SHORT = env.int('CACHE_EXPIRE_SECONDS', 60 * 5)  # 5 minutes
@@ -479,6 +497,23 @@ if OPENSEARCH_PROVIDER == 'govuk-paas':
         hosts=[services[OPENSEARCH_INSTANCE_NAME]['credentials']['uri']],
         connection_class=RequestsHttpConnection,
     )
+
+    # Add an admin connection for admin search preview on legacy setup
+    OPENSEARCH_ADMINSEARCH_PROVIDER = env.str('OPENSEARCH_ADMINSEARCH_PROVIDER', None).lower()
+    if OPENSEARCH_ADMINSEARCH_PROVIDER:
+        WAGTAILSEARCH_BACKENDS = {
+            'default': {
+                'BACKEND': 'wagtail.search.backends.elasticsearch7',
+                'AUTO_UPDATE': True if OPENSEARCH_PROVIDER == 'aws' else False,
+                'URLS': [env.str('OPENSEARCH_ADMINSEARCH_URL', 'localhost:9200')],
+                'INDEX': 'great-cms',
+                'TIMEOUT': 5,
+                'OPTIONS': {},
+                'INDEX_SETTINGS': {},
+            }
+        }
+
+
 # Connect to the local dockerized Opensearch instance
 elif OPENSEARCH_PROVIDER in ['localhost', 'aws']:
     connections.create_connection(
@@ -942,6 +977,8 @@ FEATURE_GREAT_ERROR = env.bool('FEATURE_GREAT_ERROR', False)
 
 FEATURE_GUIDED_JOURNEY = env.bool('FEATURE_GUIDED_JOURNEY', False)
 FEATURE_UNGUIDED_JOURNEY = env.bool('FEATURE_UNGUIDED_JOURNEY', False)
+
+FEATURE_OPENSEARCH = env.bool('FEATURE_OPENSEARCH', False)
 
 MAX_COMPARE_PLACES_ALLOWED = env.int('MAX_COMPARE_PLACES_ALLOWED', 10)
 
