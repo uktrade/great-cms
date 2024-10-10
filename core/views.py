@@ -772,7 +772,6 @@ class PingDomView(TemplateView):
             )
 
 
-@method_decorator(nocache_page, name='get')
 class GuidedJourneyStep1View(GuidedJourneyMixin, FormView):
     form_class = forms.GuidedJourneyStep1Form
     template_name = 'domestic/contact/export-support/guided-journey/step-1.html'
@@ -813,7 +812,6 @@ class GuidedJourneyStep1View(GuidedJourneyMixin, FormView):
         return super().form_valid(form)
 
 
-@method_decorator(nocache_page, name='get')
 class GuidedJourneyStep2View(GuidedJourneyMixin, FormView):
     form_class = forms.GuidedJourneyStep2Form
     template_name = 'domestic/contact/export-support/guided-journey/step-2.html'
@@ -843,7 +841,6 @@ class GuidedJourneyStep2View(GuidedJourneyMixin, FormView):
         return super().form_valid(form)
 
 
-@method_decorator(nocache_page, name='get')
 class GuidedJourneyStep3View(GuidedJourneyMixin, FormView):
     form_class = forms.GuidedJourneyStep3Form
     template_name = 'domestic/contact/export-support/guided-journey/step-3.html'
@@ -870,7 +867,6 @@ class GuidedJourneyStep3View(GuidedJourneyMixin, FormView):
         return super().form_valid(form)
 
 
-@method_decorator(nocache_page, name='get')
 class GuidedJourneyStep4View(GuidedJourneyMixin, TemplateView):
     template_name = 'domestic/contact/export-support/guided-journey/step-4.html'
 
