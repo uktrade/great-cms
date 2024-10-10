@@ -4,8 +4,6 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import never_cache
 from django.views.generic import TemplateView
 from formtools.wizard.views import NamedUrlSessionWizardView
 
@@ -106,7 +104,6 @@ class SuccessPageView(BespokeBreadcrumbMixin, TemplateView):
         return context
 
 
-@method_decorator(never_cache, name='dispatch')
 class GetFinanceLeadGenerationFormView(
     mixins.PrepopulateFormMixin,
     mixins.PreventCaptchaRevalidationMixin,
