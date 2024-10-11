@@ -1368,3 +1368,9 @@ TRADE_BARRIERS_BY_SECTOR = {
     'Space': '42',
     'Water': '45',
 }
+
+EXPORTER_TYPES = (
+    ('goods', 'Goods'),
+    ('service', 'Service'),
+    ('both', 'Both'),
+)
