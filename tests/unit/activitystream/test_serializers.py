@@ -536,8 +536,6 @@ def test_domestic_hcsat_feedback_serializer():
             'other_detail': instance.other_detail,
             'service_improvements_feedback': instance.service_improvements_feedback,
             'likelihood_of_return': instance.likelihood_of_return,
-            'site_intentions': instance.site_intentions,
-            'site_intentions_other_detail': instance.site_intentions_other,
         },
     }
     assert output == expected

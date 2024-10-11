@@ -1,6 +1,6 @@
 from django.core.management import BaseCommand
 
-from core.models import HCSAT
+from core.models import HCSAT, CsatUserFeedback as WhereToExportHCSAT
 from export_academy.models import CsatUserFeedback as ExportAcademyHCSAT
 from exportplan.models import CsatUserFeedback as ExportPlanHCSAT
 from find_a_buyer.models import CsatUserFeedback as FindABuyerHCSAT
@@ -21,7 +21,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        hcsat_models = [ExportAcademyHCSAT, ExportPlanHCSAT, LearnHCSAT, FindABuyerHCSAT]
+        hcsat_models = [ExportAcademyHCSAT, WhereToExportHCSAT, ExportPlanHCSAT, LearnHCSAT, FindABuyerHCSAT]
 
         for model in hcsat_models:
             for hcsat in model.objects.all():

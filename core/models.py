@@ -2479,11 +2479,6 @@ class HCSAT(TimeStampedModel):
     service_improvements_feedback = models.CharField(max_length=3000, null=True)
     likelihood_of_return = models.CharField(max_length=255, choices=constants.LIKELIHOOD_CHOICES, null=True)
 
-    site_intentions = ArrayField(
-        models.CharField(max_length=255, choices=constants.INTENSION_CHOICES), size=6, default=list, null=True
-    )
-    site_intentions_other = models.CharField(max_length=255, null=True)
-
     stage = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):

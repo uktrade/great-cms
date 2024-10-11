@@ -183,61 +183,6 @@ class HCSATForm(ModelForm):
         return cleaned_data
 
 
-class HCSATWithIntensionsForm(HCSATForm, ModelForm):
-
-    class Meta:
-        model = models.HCSAT
-        fields = [
-            'URL',
-            'user_journey',
-            'satisfaction_rating',
-            'experienced_issues',
-            'other_detail',
-            'service_improvements_feedback',
-            'likelihood_of_return',
-            'site_intentions',
-            'site_intentions_other',
-        ]
-
-    site_intentions = MultipleChoiceField(
-        label='What did you get out of this service today?',
-        help_text='Tick all that apply.',
-        choices=constants.INTENSION_CHOICES,
-        widget=CheckboxSelectMultiple(attrs={'class': 'govuk-checkboxes__input'}),
-        error_messages={
-            'required': 'You must select one or more site use options',
-        },
-    )
-    site_intentions_other = CharField(
-        label='Type your answer',
-        min_length=2,
-        max_length=100,
-        required=False,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
-    )
-
-    def clean(self):
-        cleaned_data = super().clean()
-        experienced_issues = cleaned_data.get('experienced_issues')
-        site_intentions = cleaned_data.get('site_intentions')
-
-        if experienced_issues and 'OTHER' not in experienced_issues:
-            cleaned_data['other_detail'] = ''
-        if site_intentions and 'OTHER' not in site_intentions:
-            cleaned_data['site_intentions_other'] = ''
-
-        other_detail = cleaned_data.get('other_detail')
-        site_intentions_other = cleaned_data.get('site_intentions_other')
-
-        if experienced_issues and any('OTHER' in s for s in experienced_issues) and not other_detail:
-            self.add_error('other_detail', 'You must enter more information regarding other experience')
-
-        if site_intentions and any('OTHER' in s for s in site_intentions) and not site_intentions_other:
-            self.add_error('site_intentions_other', 'You must enter more information regarding other service use')
-
-        return cleaned_data
-
-
 class GuidedJourneyStep1Form(forms.Form):
     sic_description = CharField(label='SIC Description', required=False, widget=HiddenInput)
     make_or_do_keyword = CharField(label='Keyword', required=False, widget=HiddenInput)
