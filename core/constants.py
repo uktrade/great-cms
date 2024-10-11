@@ -1380,3 +1380,9 @@ TRADE_BARRIERS_BY_SECTOR = {
     'Technology and smart cities': '61',
     'Water': '45',
 }
+
+EXPORTER_TYPES = (
+    ('goods', 'Goods'),
+    ('service', 'Service'),
+    ('both', 'Both'),
+)
