@@ -2577,6 +2577,11 @@ class SectorAndMarketCard(index.Indexed, ClusterableModel):
         choices=constants.META_LABELS,
         blank=True,
     )
+    exporter_type = models.CharField(
+        max_length=255,
+        choices=constants.EXPORTER_TYPES,
+        blank=True,
+    )
 
     panels = [
         FieldPanel('title'),
@@ -2586,6 +2591,7 @@ class SectorAndMarketCard(index.Indexed, ClusterableModel):
         FieldPanel('country_tags'),
         FieldPanel('sector_tags'),
         FieldPanel('meta_label'),
+        FieldPanel('exporter_type'),
     ]
 
     search_fields = [

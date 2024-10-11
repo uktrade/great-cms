@@ -2,7 +2,7 @@
     "data": [
       {
         "_id": 1,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Arable crops",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-106",
@@ -11,7 +11,7 @@
       },
       {
         "_id": 2,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Arable crops",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-107",
@@ -20,7 +20,7 @@
       },
       {
         "_id": 3,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Horticulture : Fruit and vegetable production",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-129",
@@ -29,7 +29,7 @@
       },
       {
         "_id": 4,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Arable crops",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-108",
@@ -38,7 +38,7 @@
       },
       {
         "_id": 5,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Horticulture : Fruit and vegetable production",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-130",
@@ -47,7 +47,7 @@
       },
       {
         "_id": 6,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Arable crops",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-109",
@@ -56,7 +56,7 @@
       },
       {
         "_id": 7,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Horticulture : Fruit and vegetable production",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-131",
@@ -65,7 +65,7 @@
       },
       {
         "_id": 8,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Horticulture : Fruit and vegetable production",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-132",
@@ -74,7 +74,7 @@
       },
       {
         "_id": 9,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Horticulture : Fruit and vegetable production",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-133",
@@ -83,7 +83,7 @@
       },
       {
         "_id": 10,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Horticulture : Fruit and vegetable production",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-134",
@@ -92,7 +92,7 @@
       },
       {
         "_id": 11,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Horticulture : Fruit and vegetable production",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-135",
@@ -101,7 +101,7 @@
       },
       {
         "_id": 12,
-        "dit_sector_list_field_04": "Horticulture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Horticulture : Fruit and vegetable production",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-136",
@@ -110,7 +110,7 @@
       },
       {
         "_id": 13,
-        "dit_sector_list_field_04": "Horticulture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Horticulture : Fruit and vegetable production",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-137",
@@ -119,7 +119,7 @@
       },
       {
         "_id": 14,
-        "dit_sector_list_field_04": "Horticulture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Horticulture",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-126",
@@ -128,7 +128,7 @@
       },
       {
         "_id": 15,
-        "dit_sector_list_field_04": "Horticulture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Horticulture",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-127",
@@ -137,7 +137,7 @@
       },
       {
         "_id": 16,
-        "dit_sector_list_field_04": "Horticulture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Horticulture",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-128",
@@ -146,7 +146,7 @@
       },
       {
         "_id": 17,
-        "dit_sector_list_field_04": "Horticulture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Horticulture",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-124",
@@ -155,7 +155,7 @@
       },
       {
         "_id": 18,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Livestock, pets and horses",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-138",
@@ -164,7 +164,7 @@
       },
       {
         "_id": 19,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Livestock, pets and horses",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-139",
@@ -173,7 +173,7 @@
       },
       {
         "_id": 20,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Livestock, pets and horses",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-140",
@@ -182,7 +182,7 @@
       },
       {
         "_id": 21,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Livestock, pets and horses",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-141",
@@ -191,7 +191,7 @@
       },
       {
         "_id": 22,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Livestock, pets and horses",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-142",
@@ -200,7 +200,7 @@
       },
       {
         "_id": 23,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Livestock, pets and horses",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-143",
@@ -209,7 +209,7 @@
       },
       {
         "_id": 24,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Livestock, pets and horses",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-144",
@@ -218,7 +218,7 @@
       },
       {
         "_id": 25,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Livestock, pets and horses",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-145",
@@ -227,7 +227,7 @@
       },
       {
         "_id": 26,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-099",
@@ -236,7 +236,7 @@
       },
       {
         "_id": 27,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Arable crops",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-110",
@@ -245,7 +245,7 @@
       },
       {
         "_id": 28,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Livestock, pets and horses : Health, welfare and veterinary services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-149",
@@ -254,7 +254,7 @@
       },
       {
         "_id": 29,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Livestock, pets and horses",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-146",
@@ -263,7 +263,7 @@
       },
       {
         "_id": 30,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Arable crops",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-113",
@@ -272,7 +272,7 @@
       },
       {
         "_id": 31,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Arable crops : Seeds and plant varieties",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-114",
@@ -281,7 +281,7 @@
       },
       {
         "_id": 32,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-100",
@@ -290,7 +290,7 @@
       },
       {
         "_id": 33,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Forestry and logging",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-121",
@@ -299,7 +299,7 @@
       },
       {
         "_id": 34,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Forestry and logging",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-122",
@@ -308,7 +308,7 @@
       },
       {
         "_id": 35,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-101",
@@ -317,7 +317,7 @@
       },
       {
         "_id": 36,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Forestry and logging",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-123",
@@ -326,7 +326,7 @@
       },
       {
         "_id": 37,
-        "dit_sector_list_field_04": "Fisheries",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Fisheries and aquaculture",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-117",
@@ -335,7 +335,7 @@
       },
       {
         "_id": 38,
-        "dit_sector_list_field_04": "Fisheries",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Fisheries and aquaculture",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-118",
@@ -344,7 +344,7 @@
       },
       {
         "_id": 39,
-        "dit_sector_list_field_04": "Fisheries",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Fisheries and aquaculture",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-119",
@@ -353,7 +353,7 @@
       },
       {
         "_id": 40,
-        "dit_sector_list_field_04": "Fisheries",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Fisheries and aquaculture",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-120",
@@ -758,7 +758,7 @@
       },
       {
         "_id": 85,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Livestock, pets and horses : Livestock feed and nutrition",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-151",
@@ -848,7 +848,7 @@
       },
       {
         "_id": 95,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Textiles, interior textiles and carpets",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-369",
@@ -857,7 +857,7 @@
       },
       {
         "_id": 96,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Textiles, interior textiles and carpets",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-370",
@@ -866,7 +866,7 @@
       },
       {
         "_id": 97,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Textiles, interior textiles and carpets",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-371",
@@ -875,7 +875,7 @@
       },
       {
         "_id": 98,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Textiles, interior textiles and carpets",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-372",
@@ -884,7 +884,7 @@
       },
       {
         "_id": 99,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Furniture and furnishings",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-325",
@@ -893,7 +893,7 @@
       },
       {
         "_id": 100,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Textiles, interior textiles and carpets",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-373",
@@ -902,7 +902,7 @@
       },
       {
         "_id": 101,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Textiles, interior textiles and carpets",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-374",
@@ -911,7 +911,7 @@
       },
       {
         "_id": 102,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Textiles, interior textiles and carpets",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-375",
@@ -920,7 +920,7 @@
       },
       {
         "_id": 103,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Textiles, interior textiles and carpets",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-376",
@@ -929,7 +929,7 @@
       },
       {
         "_id": 104,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Textiles, interior textiles and carpets",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-377",
@@ -938,7 +938,7 @@
       },
       {
         "_id": 105,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Textiles, interior textiles and carpets",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-378",
@@ -947,7 +947,7 @@
       },
       {
         "_id": 106,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Textiles, interior textiles and carpets",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-379",
@@ -956,7 +956,7 @@
       },
       {
         "_id": 107,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Textiles, interior textiles and carpets",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-380",
@@ -965,7 +965,7 @@
       },
       {
         "_id": 108,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Clothing, footwear and fashion",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-301",
@@ -974,7 +974,7 @@
       },
       {
         "_id": 109,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Clothing, footwear and fashion",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-287",
@@ -983,7 +983,7 @@
       },
       {
         "_id": 110,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Clothing, footwear and fashion : Men's apparel",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-303",
@@ -992,7 +992,7 @@
       },
       {
         "_id": 111,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Clothing, footwear and fashion : Women's apparel",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-305",
@@ -1001,7 +1001,7 @@
       },
       {
         "_id": 112,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Clothing, footwear and fashion : Men's apparel",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-304",
@@ -1010,7 +1010,7 @@
       },
       {
         "_id": 113,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Clothing, footwear and fashion : Women's apparel",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-306",
@@ -1019,7 +1019,7 @@
       },
       {
         "_id": 114,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Clothing, footwear and fashion",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-288",
@@ -1028,7 +1028,7 @@
       },
       {
         "_id": 115,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Clothing, footwear and fashion",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-289",
@@ -1037,7 +1037,7 @@
       },
       {
         "_id": 116,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Clothing, footwear and fashion",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-299",
@@ -1046,7 +1046,7 @@
       },
       {
         "_id": 117,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Clothing, footwear and fashion",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-300",
@@ -1055,7 +1055,7 @@
       },
       {
         "_id": 118,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Clothing, footwear and fashion",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-290",
@@ -1064,7 +1064,7 @@
       },
       {
         "_id": 119,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Clothing, footwear and fashion : Accessories, bags and luggage",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-302",
@@ -1073,7 +1073,7 @@
       },
       {
         "_id": 120,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Clothing, footwear and fashion",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-291",
@@ -1136,7 +1136,7 @@
       },
       {
         "_id": 127,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-025",
@@ -1145,7 +1145,7 @@
       },
       {
         "_id": 128,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-026",
@@ -1154,7 +1154,7 @@
       },
       {
         "_id": 129,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-027",
@@ -1163,7 +1163,7 @@
       },
       {
         "_id": 130,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-028",
@@ -1172,7 +1172,7 @@
       },
       {
         "_id": 131,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Household goods",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-327",
@@ -1181,7 +1181,7 @@
       },
       {
         "_id": 132,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Books, printed media and stationery",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-396",
@@ -1190,7 +1190,7 @@
       },
       {
         "_id": 133,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Furniture and furnishings",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-324",
@@ -1199,7 +1199,7 @@
       },
       {
         "_id": 134,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-033",
@@ -1208,7 +1208,7 @@
       },
       {
         "_id": 135,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Books, printed media and stationery",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-397",
@@ -1217,7 +1217,7 @@
       },
       {
         "_id": 136,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Books, printed media and stationery",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-398",
@@ -1226,7 +1226,7 @@
       },
       {
         "_id": 137,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Books, printed media and stationery",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-399",
@@ -1235,7 +1235,7 @@
       },
       {
         "_id": 138,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Books, printed media and stationery",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-400",
@@ -1244,7 +1244,7 @@
       },
       {
         "_id": 139,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Books, printed media and stationery",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-401",
@@ -1343,7 +1343,7 @@
       },
       {
         "_id": 150,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Arable crops : Fertilisers and pesticides",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-111",
@@ -1352,7 +1352,7 @@
       },
       {
         "_id": 151,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Plastics",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-090",
@@ -1361,7 +1361,7 @@
       },
       {
         "_id": 152,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Elastomers and rubbers",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-064",
@@ -1370,7 +1370,7 @@
       },
       {
         "_id": 153,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Arable crops : Fertilisers and pesticides",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-112",
@@ -1469,7 +1469,7 @@
       },
       {
         "_id": 164,
-        "dit_sector_list_field_04": "Biotechnology",
+        "dit_sector_list_field_04": "Pharmaceuticals and biotechnology",
         "dit_sector_list_full_sector_name": "Pharmaceuticals and biotechnology : Manufacturing",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-684",
@@ -1478,7 +1478,7 @@
       },
       {
         "_id": 165,
-        "dit_sector_list_field_04": "Biotechnology",
+        "dit_sector_list_field_04": "Pharmaceuticals and biotechnology",
         "dit_sector_list_full_sector_name": "Pharmaceuticals and biotechnology : Manufacturing",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-685",
@@ -1487,7 +1487,7 @@
       },
       {
         "_id": 166,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Elastomers and rubbers",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-065",
@@ -1496,7 +1496,7 @@
       },
       {
         "_id": 167,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Elastomers and rubbers",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-066",
@@ -1505,7 +1505,7 @@
       },
       {
         "_id": 168,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Plastics",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-091",
@@ -1514,7 +1514,7 @@
       },
       {
         "_id": 169,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Plastics",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-092",
@@ -1523,7 +1523,7 @@
       },
       {
         "_id": 170,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Plastics",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-093",
@@ -1532,7 +1532,7 @@
       },
       {
         "_id": 171,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Plastics",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-094",
@@ -1541,7 +1541,7 @@
       },
       {
         "_id": 172,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-056",
@@ -1550,7 +1550,7 @@
       },
       {
         "_id": 173,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-057",
@@ -1559,7 +1559,7 @@
       },
       {
         "_id": 174,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-058",
@@ -1568,7 +1568,7 @@
       },
       {
         "_id": 175,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-047",
@@ -1577,7 +1577,7 @@
       },
       {
         "_id": 176,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-048",
@@ -1586,7 +1586,7 @@
       },
       {
         "_id": 177,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-005",
@@ -1595,7 +1595,7 @@
       },
       {
         "_id": 178,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Ceramics",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-059",
@@ -1613,7 +1613,7 @@
       },
       {
         "_id": 180,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Giftware",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-326",
@@ -1622,7 +1622,7 @@
       },
       {
         "_id": 181,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Ceramics",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-062",
@@ -1631,7 +1631,7 @@
       },
       {
         "_id": 182,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Ceramics",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-061",
@@ -1640,7 +1640,7 @@
       },
       {
         "_id": 183,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Ceramics",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-060",
@@ -1649,7 +1649,7 @@
       },
       {
         "_id": 184,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Ceramics",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-063",
@@ -1748,7 +1748,7 @@
       },
       {
         "_id": 195,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Minerals",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-088",
@@ -1757,7 +1757,7 @@
       },
       {
         "_id": 196,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Metals",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-076",
@@ -1766,7 +1766,7 @@
       },
       {
         "_id": 197,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Metals",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-068",
@@ -1775,7 +1775,7 @@
       },
       {
         "_id": 198,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Metals",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-077",
@@ -1784,7 +1784,7 @@
       },
       {
         "_id": 199,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Metals",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-069",
@@ -1793,7 +1793,7 @@
       },
       {
         "_id": 200,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Metals",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-070",
@@ -1802,7 +1802,7 @@
       },
       {
         "_id": 201,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Metals",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-078",
@@ -1811,7 +1811,7 @@
       },
       {
         "_id": 202,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Metals",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-079",
@@ -1820,7 +1820,7 @@
       },
       {
         "_id": 203,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Metals",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-080",
@@ -1829,7 +1829,7 @@
       },
       {
         "_id": 204,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Metals",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-081",
@@ -1838,7 +1838,7 @@
       },
       {
         "_id": 205,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Metals",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-082",
@@ -1847,7 +1847,7 @@
       },
       {
         "_id": 206,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Metals",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-083",
@@ -1865,7 +1865,7 @@
       },
       {
         "_id": 208,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Metals",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-071",
@@ -1874,7 +1874,7 @@
       },
       {
         "_id": 209,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Metals",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-072",
@@ -1883,7 +1883,7 @@
       },
       {
         "_id": 210,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Metals",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-073",
@@ -1892,7 +1892,7 @@
       },
       {
         "_id": 211,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Metals",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-074",
@@ -1928,7 +1928,7 @@
       },
       {
         "_id": 215,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Metals",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-087",
@@ -1946,7 +1946,7 @@
       },
       {
         "_id": 217,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-023",
@@ -1955,7 +1955,7 @@
       },
       {
         "_id": 218,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metallurgical process plant",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-046",
@@ -1964,7 +1964,7 @@
       },
       {
         "_id": 219,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Metals",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-075",
@@ -1973,7 +1973,7 @@
       },
       {
         "_id": 220,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-024",
@@ -1982,7 +1982,7 @@
       },
       {
         "_id": 221,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Household goods",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-328",
@@ -2000,7 +2000,7 @@
       },
       {
         "_id": 223,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-032",
@@ -2009,7 +2009,7 @@
       },
       {
         "_id": 224,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-050",
@@ -2018,7 +2018,7 @@
       },
       {
         "_id": 225,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-051",
@@ -2027,7 +2027,7 @@
       },
       {
         "_id": 226,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-052",
@@ -2036,7 +2036,7 @@
       },
       {
         "_id": 227,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-053",
@@ -2045,7 +2045,7 @@
       },
       {
         "_id": 228,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-054",
@@ -2054,7 +2054,7 @@
       },
       {
         "_id": 229,
-        "dit_sector_list_field_04": "Technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Technology and smart cities : Hardware",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-716",
@@ -2063,7 +2063,7 @@
       },
       {
         "_id": 230,
-        "dit_sector_list_field_04": "Technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Technology and smart cities : Hardware",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-717",
@@ -2072,7 +2072,7 @@
       },
       {
         "_id": 231,
-        "dit_sector_list_field_04": "Technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Technology and smart cities : Hardware",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-724",
@@ -2081,7 +2081,7 @@
       },
       {
         "_id": 232,
-        "dit_sector_list_field_04": "Technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Technology and smart cities : Hardware : Telecommunications and electronics systems",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-726",
@@ -2090,7 +2090,7 @@
       },
       {
         "_id": 233,
-        "dit_sector_list_field_04": "Technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Technology and smart cities : Hardware : Telecommunications and electronics systems",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-727",
@@ -2099,7 +2099,7 @@
       },
       {
         "_id": 234,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Electronic consumer products",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-310",
@@ -2108,7 +2108,7 @@
       },
       {
         "_id": 235,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-034",
@@ -2117,7 +2117,7 @@
       },
       {
         "_id": 236,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Mechanical, electrical and process engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-044",
@@ -2126,7 +2126,7 @@
       },
       {
         "_id": 237,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-006",
@@ -2135,7 +2135,7 @@
       },
       {
         "_id": 238,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Mechanical, electrical and process engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-039",
@@ -2144,7 +2144,7 @@
       },
       {
         "_id": 239,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Jewellery",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-335",
@@ -2162,7 +2162,7 @@
       },
       {
         "_id": 241,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-035",
@@ -2180,7 +2180,7 @@
       },
       {
         "_id": 243,
-        "dit_sector_list_field_04": "Technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Technology and smart cities : Hardware",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-718",
@@ -2189,7 +2189,7 @@
       },
       {
         "_id": 244,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-029",
@@ -2198,7 +2198,7 @@
       },
       {
         "_id": 245,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-030",
@@ -2207,7 +2207,7 @@
       },
       {
         "_id": 246,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-031",
@@ -2216,7 +2216,7 @@
       },
       {
         "_id": 247,
-        "dit_sector_list_field_04": "Technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Technology and smart cities : Hardware",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-719",
@@ -2225,7 +2225,7 @@
       },
       {
         "_id": 248,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-036",
@@ -2234,7 +2234,7 @@
       },
       {
         "_id": 249,
-        "dit_sector_list_field_04": "Technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Technology and smart cities : Hardware",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-720",
@@ -2243,7 +2243,7 @@
       },
       {
         "_id": 250,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-037",
@@ -2252,7 +2252,7 @@
       },
       {
         "_id": 251,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Electronic consumer products",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-311",
@@ -2261,7 +2261,7 @@
       },
       {
         "_id": 252,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Household goods",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-329",
@@ -2270,7 +2270,7 @@
       },
       {
         "_id": 253,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-007",
@@ -2279,7 +2279,7 @@
       },
       {
         "_id": 254,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-001",
@@ -2288,7 +2288,7 @@
       },
       {
         "_id": 255,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-008",
@@ -2297,7 +2297,7 @@
       },
       {
         "_id": 256,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-009",
@@ -2306,7 +2306,7 @@
       },
       {
         "_id": 257,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-010",
@@ -2315,7 +2315,7 @@
       },
       {
         "_id": 258,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-011",
@@ -2333,7 +2333,7 @@
       },
       {
         "_id": 260,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-012",
@@ -2342,7 +2342,7 @@
       },
       {
         "_id": 261,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-013",
@@ -2351,7 +2351,7 @@
       },
       {
         "_id": 262,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-014",
@@ -2360,7 +2360,7 @@
       },
       {
         "_id": 263,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-015",
@@ -2369,7 +2369,7 @@
       },
       {
         "_id": 264,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-016",
@@ -2378,7 +2378,7 @@
       },
       {
         "_id": 265,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-017",
@@ -2387,7 +2387,7 @@
       },
       {
         "_id": 266,
-        "dit_sector_list_field_04": "Agri-technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Engineering and precision farming : Machinery",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-115",
@@ -2396,7 +2396,7 @@
       },
       {
         "_id": 267,
-        "dit_sector_list_field_04": "Agri-technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Engineering and precision farming : Machinery",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-116",
@@ -2405,7 +2405,7 @@
       },
       {
         "_id": 268,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Metals",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-067",
@@ -2414,7 +2414,7 @@
       },
       {
         "_id": 269,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-002",
@@ -2423,7 +2423,7 @@
       },
       {
         "_id": 270,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metallurgical process plant",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-045",
@@ -2468,7 +2468,7 @@
       },
       {
         "_id": 275,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Clothing, footwear and fashion",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-286",
@@ -2477,7 +2477,7 @@
       },
       {
         "_id": 276,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-049",
@@ -2486,7 +2486,7 @@
       },
       {
         "_id": 277,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Plastics",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-089",
@@ -2495,7 +2495,7 @@
       },
       {
         "_id": 278,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-003",
@@ -2576,7 +2576,7 @@
       },
       {
         "_id": 287,
-        "dit_sector_list_field_04": "Transport",
+        "dit_sector_list_field_04": "Railways",
         "dit_sector_list_full_sector_name": "Railways",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-689",
@@ -2630,7 +2630,7 @@
       },
       {
         "_id": 293,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Furniture and furnishings",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-316",
@@ -2639,7 +2639,7 @@
       },
       {
         "_id": 294,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Furniture and furnishings",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-317",
@@ -2648,7 +2648,7 @@
       },
       {
         "_id": 295,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Furniture and furnishings",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-318",
@@ -2657,7 +2657,7 @@
       },
       {
         "_id": 296,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Furniture and furnishings",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-319",
@@ -2666,7 +2666,7 @@
       },
       {
         "_id": 297,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Metals",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-084",
@@ -2675,7 +2675,7 @@
       },
       {
         "_id": 298,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Jewellery",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-336",
@@ -2684,7 +2684,7 @@
       },
       {
         "_id": 299,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Jewellery",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-337",
@@ -2693,7 +2693,7 @@
       },
       {
         "_id": 300,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Musical instruments",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-408",
@@ -2702,7 +2702,7 @@
       },
       {
         "_id": 301,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-256",
@@ -2711,7 +2711,7 @@
       },
       {
         "_id": 302,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Leisure and tourism",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-341",
@@ -2720,7 +2720,7 @@
       },
       {
         "_id": 303,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-257",
@@ -2738,7 +2738,7 @@
       },
       {
         "_id": 305,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Household goods",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-330",
@@ -2747,7 +2747,7 @@
       },
       {
         "_id": 306,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-004",
@@ -2756,7 +2756,7 @@
       },
       {
         "_id": 307,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Metals",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-085",
@@ -2765,7 +2765,7 @@
       },
       {
         "_id": 308,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-018",
@@ -2774,7 +2774,7 @@
       },
       {
         "_id": 309,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-038",
@@ -2783,7 +2783,7 @@
       },
       {
         "_id": 310,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-019",
@@ -2819,7 +2819,7 @@
       },
       {
         "_id": 314,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-020",
@@ -2828,7 +2828,7 @@
       },
       {
         "_id": 315,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-021",
@@ -2927,7 +2927,7 @@
       },
       {
         "_id": 326,
-        "dit_sector_list_field_04": "Renewables",
+        "dit_sector_list_field_04": "Environment",
         "dit_sector_list_full_sector_name": "Environment : Waste management and recycling",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-482",
@@ -2936,7 +2936,7 @@
       },
       {
         "_id": 327,
-        "dit_sector_list_field_04": "Renewables",
+        "dit_sector_list_field_04": "Environment",
         "dit_sector_list_full_sector_name": "Environment : Waste management and recycling",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-483",
@@ -2945,7 +2945,7 @@
       },
       {
         "_id": 328,
-        "dit_sector_list_field_04": "Renewables",
+        "dit_sector_list_field_04": "Environment",
         "dit_sector_list_full_sector_name": "Environment : Waste management and recycling",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-484",
@@ -2954,7 +2954,7 @@
       },
       {
         "_id": 329,
-        "dit_sector_list_field_04": "Renewables",
+        "dit_sector_list_field_04": "Environment",
         "dit_sector_list_full_sector_name": "Environment : Waste management and recycling",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-485",
@@ -2972,7 +2972,7 @@
       },
       {
         "_id": 331,
-        "dit_sector_list_field_04": "Renewables",
+        "dit_sector_list_field_04": "Environment",
         "dit_sector_list_full_sector_name": "Environment : Waste management and recycling",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-486",
@@ -2981,7 +2981,7 @@
       },
       {
         "_id": 332,
-        "dit_sector_list_field_04": "Renewables",
+        "dit_sector_list_field_04": "Environment",
         "dit_sector_list_full_sector_name": "Environment : Waste management and recycling",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-487",
@@ -3026,7 +3026,7 @@
       },
       {
         "_id": 337,
-        "dit_sector_list_field_04": "Transport",
+        "dit_sector_list_field_04": "Railways",
         "dit_sector_list_full_sector_name": "Railways",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-690",
@@ -3278,7 +3278,7 @@
       },
       {
         "_id": 365,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-102",
@@ -3287,7 +3287,7 @@
       },
       {
         "_id": 366,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-055",
@@ -3305,7 +3305,7 @@
       },
       {
         "_id": 368,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-489",
@@ -3314,7 +3314,7 @@
       },
       {
         "_id": 369,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-258",
@@ -3323,7 +3323,7 @@
       },
       {
         "_id": 370,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Clothing, footwear and fashion",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-292",
@@ -3341,7 +3341,7 @@
       },
       {
         "_id": 372,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-259",
@@ -3350,7 +3350,7 @@
       },
       {
         "_id": 373,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-260",
@@ -3359,7 +3359,7 @@
       },
       {
         "_id": 374,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-103",
@@ -3368,7 +3368,7 @@
       },
       {
         "_id": 375,
-        "dit_sector_list_field_04": "Horticulture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Horticulture",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-125",
@@ -3377,7 +3377,7 @@
       },
       {
         "_id": 376,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Livestock, pets and horses",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-147",
@@ -3386,7 +3386,7 @@
       },
       {
         "_id": 377,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Livestock, pets and horses",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-148",
@@ -3485,7 +3485,7 @@
       },
       {
         "_id": 388,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Textiles, interior textiles and carpets",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-381",
@@ -3494,7 +3494,7 @@
       },
       {
         "_id": 389,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Clothing, footwear and fashion",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-293",
@@ -3503,7 +3503,7 @@
       },
       {
         "_id": 390,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Electronic consumer products",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-312",
@@ -3512,7 +3512,7 @@
       },
       {
         "_id": 391,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Electronic consumer products",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-313",
@@ -3521,7 +3521,7 @@
       },
       {
         "_id": 392,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-261",
@@ -3530,7 +3530,7 @@
       },
       {
         "_id": 393,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Cosmetics and beauty",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-307",
@@ -3539,7 +3539,7 @@
       },
       {
         "_id": 394,
-        "dit_sector_list_field_04": "Biotechnology",
+        "dit_sector_list_field_04": "Pharmaceuticals and biotechnology",
         "dit_sector_list_full_sector_name": "Pharmaceuticals and biotechnology : Marketing and sales",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-686",
@@ -3548,7 +3548,7 @@
       },
       {
         "_id": 395,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Furniture and furnishings",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-320",
@@ -3557,7 +3557,7 @@
       },
       {
         "_id": 396,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Jewellery",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-338",
@@ -3566,7 +3566,7 @@
       },
       {
         "_id": 397,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Musical instruments",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-409",
@@ -3575,7 +3575,7 @@
       },
       {
         "_id": 398,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Household goods",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-331",
@@ -3584,7 +3584,7 @@
       },
       {
         "_id": 399,
-        "dit_sector_list_field_04": "Technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Technology and smart cities : Hardware",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-721",
@@ -3593,7 +3593,7 @@
       },
       {
         "_id": 400,
-        "dit_sector_list_field_04": "Technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Technology and smart cities : Hardware : Telecommunications and electronics systems",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-728",
@@ -3602,7 +3602,7 @@
       },
       {
         "_id": 401,
-        "dit_sector_list_field_04": "Agri-technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-104",
@@ -3611,7 +3611,7 @@
       },
       {
         "_id": 402,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-022",
@@ -3629,7 +3629,7 @@
       },
       {
         "_id": 404,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Textiles, interior textiles and carpets",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-368",
@@ -3638,7 +3638,7 @@
       },
       {
         "_id": 405,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Furniture and furnishings",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-321",
@@ -3647,7 +3647,7 @@
       },
       {
         "_id": 406,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-262",
@@ -3656,7 +3656,7 @@
       },
       {
         "_id": 407,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-255",
@@ -3683,7 +3683,7 @@
       },
       {
         "_id": 410,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Metals, minerals and materials : Metals",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-086",
@@ -3719,7 +3719,7 @@
       },
       {
         "_id": 414,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-263",
@@ -3728,7 +3728,7 @@
       },
       {
         "_id": 415,
-        "dit_sector_list_field_04": "Renewables",
+        "dit_sector_list_field_04": "Environment",
         "dit_sector_list_full_sector_name": "Environment : Waste management and recycling",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-488",
@@ -3737,7 +3737,7 @@
       },
       {
         "_id": 416,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-264",
@@ -3746,7 +3746,7 @@
       },
       {
         "_id": 417,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-265",
@@ -3755,7 +3755,7 @@
       },
       {
         "_id": 418,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-266",
@@ -3836,7 +3836,7 @@
       },
       {
         "_id": 427,
-        "dit_sector_list_field_04": "Technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Technology and smart cities",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-704",
@@ -3845,7 +3845,7 @@
       },
       {
         "_id": 428,
-        "dit_sector_list_field_04": "Technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Technology and smart cities : Communications : Mobile",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-715",
@@ -3854,7 +3854,7 @@
       },
       {
         "_id": 429,
-        "dit_sector_list_field_04": "Technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Technology and smart cities : Communications",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-710",
@@ -3872,7 +3872,7 @@
       },
       {
         "_id": 431,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Textiles, interior textiles and carpets",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-382",
@@ -3881,7 +3881,7 @@
       },
       {
         "_id": 432,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-267",
@@ -3890,7 +3890,7 @@
       },
       {
         "_id": 433,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Textiles, interior textiles and carpets",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-383",
@@ -3899,7 +3899,7 @@
       },
       {
         "_id": 434,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Electronic consumer products",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-314",
@@ -3908,7 +3908,7 @@
       },
       {
         "_id": 435,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Musical instruments",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-410",
@@ -3917,7 +3917,7 @@
       },
       {
         "_id": 436,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Furniture and furnishings",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-322",
@@ -3926,7 +3926,7 @@
       },
       {
         "_id": 437,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Books, printed media and stationery",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-402",
@@ -3935,7 +3935,7 @@
       },
       {
         "_id": 438,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Books, printed media and stationery",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-403",
@@ -3953,7 +3953,7 @@
       },
       {
         "_id": 440,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-268",
@@ -3962,7 +3962,7 @@
       },
       {
         "_id": 441,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-269",
@@ -3971,7 +3971,7 @@
       },
       {
         "_id": 442,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Clothing, footwear and fashion",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-294",
@@ -3980,7 +3980,7 @@
       },
       {
         "_id": 443,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Clothing, footwear and fashion",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-295",
@@ -3989,7 +3989,7 @@
       },
       {
         "_id": 444,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Clothing, footwear and fashion",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-296",
@@ -3998,7 +3998,7 @@
       },
       {
         "_id": 445,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-285",
@@ -4025,7 +4025,7 @@
       },
       {
         "_id": 448,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Cosmetics and beauty",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-308",
@@ -4034,7 +4034,7 @@
       },
       {
         "_id": 449,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-270",
@@ -4043,7 +4043,7 @@
       },
       {
         "_id": 450,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Jewellery",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-339",
@@ -4061,7 +4061,7 @@
       },
       {
         "_id": 452,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-284",
@@ -4070,7 +4070,7 @@
       },
       {
         "_id": 453,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-271",
@@ -4088,7 +4088,7 @@
       },
       {
         "_id": 455,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-272",
@@ -4097,7 +4097,7 @@
       },
       {
         "_id": 456,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-273",
@@ -4106,7 +4106,7 @@
       },
       {
         "_id": 457,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-274",
@@ -4115,7 +4115,7 @@
       },
       {
         "_id": 458,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-275",
@@ -4124,7 +4124,7 @@
       },
       {
         "_id": 459,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-276",
@@ -4133,7 +4133,7 @@
       },
       {
         "_id": 460,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-277",
@@ -4142,7 +4142,7 @@
       },
       {
         "_id": 461,
-        "dit_sector_list_field_04": "Transport",
+        "dit_sector_list_field_04": "Railways",
         "dit_sector_list_full_sector_name": "Railways",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-691",
@@ -4151,7 +4151,7 @@
       },
       {
         "_id": 462,
-        "dit_sector_list_field_04": "Transport",
+        "dit_sector_list_field_04": "Railways",
         "dit_sector_list_full_sector_name": "Railways",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-692",
@@ -4160,7 +4160,7 @@
       },
       {
         "_id": 463,
-        "dit_sector_list_field_04": "Transport",
+        "dit_sector_list_field_04": "Railways",
         "dit_sector_list_full_sector_name": "Railways",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-693",
@@ -4178,7 +4178,7 @@
       },
       {
         "_id": 465,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-278",
@@ -4187,7 +4187,7 @@
       },
       {
         "_id": 466,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Leisure and tourism",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-342",
@@ -4196,7 +4196,7 @@
       },
       {
         "_id": 467,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-492",
@@ -4205,7 +4205,7 @@
       },
       {
         "_id": 468,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-493",
@@ -4259,7 +4259,7 @@
       },
       {
         "_id": 474,
-        "dit_sector_list_field_04": "Transport",
+        "dit_sector_list_field_04": "Airports",
         "dit_sector_list_full_sector_name": "Airports",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-154",
@@ -4268,7 +4268,7 @@
       },
       {
         "_id": 475,
-        "dit_sector_list_field_04": "Transport",
+        "dit_sector_list_field_04": "Airports",
         "dit_sector_list_full_sector_name": "Airports",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-155",
@@ -4277,7 +4277,7 @@
       },
       {
         "_id": 476,
-        "dit_sector_list_field_04": "Transport",
+        "dit_sector_list_field_04": "Airports",
         "dit_sector_list_full_sector_name": "Airports",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-156",
@@ -4304,7 +4304,7 @@
       },
       {
         "_id": 479,
-        "dit_sector_list_field_04": "Transport",
+        "dit_sector_list_field_04": "Airports",
         "dit_sector_list_full_sector_name": "Airports",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-157",
@@ -4322,7 +4322,7 @@
       },
       {
         "_id": 481,
-        "dit_sector_list_field_04": "Transport",
+        "dit_sector_list_field_04": "Railways",
         "dit_sector_list_full_sector_name": "Railways",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-694",
@@ -4331,7 +4331,7 @@
       },
       {
         "_id": 482,
-        "dit_sector_list_field_04": "Transport",
+        "dit_sector_list_field_04": "Railways",
         "dit_sector_list_full_sector_name": "Railways",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-695",
@@ -4367,7 +4367,7 @@
       },
       {
         "_id": 486,
-        "dit_sector_list_field_04": "Transport",
+        "dit_sector_list_field_04": "Airports",
         "dit_sector_list_full_sector_name": "Airports",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-152",
@@ -4385,7 +4385,7 @@
       },
       {
         "_id": 488,
-        "dit_sector_list_field_04": "Transport",
+        "dit_sector_list_field_04": "Airports",
         "dit_sector_list_full_sector_name": "Airports",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-153",
@@ -4412,7 +4412,7 @@
       },
       {
         "_id": 491,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-279",
@@ -4430,7 +4430,7 @@
       },
       {
         "_id": 493,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-280",
@@ -4439,7 +4439,7 @@
       },
       {
         "_id": 494,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Leisure and tourism : Hotels and hospitality",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-358",
@@ -4448,7 +4448,7 @@
       },
       {
         "_id": 495,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Leisure and tourism : Hotels and hospitality",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-359",
@@ -4457,7 +4457,7 @@
       },
       {
         "_id": 496,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Leisure and tourism : Hotels and hospitality",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-360",
@@ -4466,7 +4466,7 @@
       },
       {
         "_id": 497,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Leisure and tourism : Hotels and hospitality",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-361",
@@ -4475,7 +4475,7 @@
       },
       {
         "_id": 498,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Leisure and tourism : Hotels and hospitality",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-362",
@@ -4484,7 +4484,7 @@
       },
       {
         "_id": 499,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Leisure and tourism : Hotels and hospitality",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-363",
@@ -4520,7 +4520,7 @@
       },
       {
         "_id": 503,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Leisure and tourism",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-343",
@@ -4529,7 +4529,7 @@
       },
       {
         "_id": 504,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Leisure and tourism",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-344",
@@ -4538,7 +4538,7 @@
       },
       {
         "_id": 505,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Leisure and tourism",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-345",
@@ -4547,7 +4547,7 @@
       },
       {
         "_id": 506,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Leisure and tourism",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-346",
@@ -4565,7 +4565,7 @@
       },
       {
         "_id": 508,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Business and consumer services : Marketing services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-496",
@@ -4619,7 +4619,7 @@
       },
       {
         "_id": 514,
-        "dit_sector_list_field_04": "Technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Technology and smart cities : Software",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-703",
@@ -4727,7 +4727,7 @@
       },
       {
         "_id": 526,
-        "dit_sector_list_field_04": "Technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Technology and smart cities : Communications",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-711",
@@ -4736,7 +4736,7 @@
       },
       {
         "_id": 527,
-        "dit_sector_list_field_04": "Technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Technology and smart cities : Communications",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-712",
@@ -4745,7 +4745,7 @@
       },
       {
         "_id": 528,
-        "dit_sector_list_field_04": "Technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Technology and smart cities : Communications",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-713",
@@ -4754,7 +4754,7 @@
       },
       {
         "_id": 529,
-        "dit_sector_list_field_04": "Technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Technology and smart cities : Communications",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-714",
@@ -4772,7 +4772,7 @@
       },
       {
         "_id": 531,
-        "dit_sector_list_field_04": "Technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Technology and smart cities : Software",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-708",
@@ -4781,7 +4781,7 @@
       },
       {
         "_id": 532,
-        "dit_sector_list_field_04": "Technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Technology and smart cities",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-705",
@@ -4790,7 +4790,7 @@
       },
       {
         "_id": 533,
-        "dit_sector_list_field_04": "Technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Technology and smart cities",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-707",
@@ -4799,7 +4799,7 @@
       },
       {
         "_id": 534,
-        "dit_sector_list_field_04": "Technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Technology and smart cities",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-706",
@@ -4808,7 +4808,7 @@
       },
       {
         "_id": 535,
-        "dit_sector_list_field_04": "Technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Technology and smart cities : Hardware : Data centres",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-725",
@@ -4817,7 +4817,7 @@
       },
       {
         "_id": 536,
-        "dit_sector_list_field_04": "Technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Technology and smart cities",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-709",
@@ -4844,7 +4844,7 @@
       },
       {
         "_id": 539,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Banking",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-563",
@@ -4853,7 +4853,7 @@
       },
       {
         "_id": 540,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Banking",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-564",
@@ -4862,7 +4862,7 @@
       },
       {
         "_id": 541,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Banking",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-565",
@@ -4871,7 +4871,7 @@
       },
       {
         "_id": 542,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-497",
@@ -4880,7 +4880,7 @@
       },
       {
         "_id": 543,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-498",
@@ -4889,7 +4889,7 @@
       },
       {
         "_id": 544,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-499",
@@ -4898,7 +4898,7 @@
       },
       {
         "_id": 545,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-500",
@@ -4907,7 +4907,7 @@
       },
       {
         "_id": 546,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-501",
@@ -4916,7 +4916,7 @@
       },
       {
         "_id": 547,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-502",
@@ -4925,7 +4925,7 @@
       },
       {
         "_id": 548,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Capital markets",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-568",
@@ -4934,7 +4934,7 @@
       },
       {
         "_id": 549,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Capital markets",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-569",
@@ -4943,7 +4943,7 @@
       },
       {
         "_id": 550,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Capital markets : Venture capital",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-573",
@@ -4952,7 +4952,7 @@
       },
       {
         "_id": 551,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Capital markets",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-570",
@@ -4961,7 +4961,7 @@
       },
       {
         "_id": 552,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Capital markets",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-571",
@@ -4970,7 +4970,7 @@
       },
       {
         "_id": 553,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Capital markets",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-572",
@@ -4979,7 +4979,7 @@
       },
       {
         "_id": 554,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-503",
@@ -4988,7 +4988,7 @@
       },
       {
         "_id": 555,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-504",
@@ -4997,7 +4997,7 @@
       },
       {
         "_id": 556,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Banking",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-566",
@@ -5006,7 +5006,7 @@
       },
       {
         "_id": 557,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Banking",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-567",
@@ -5015,7 +5015,7 @@
       },
       {
         "_id": 558,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-505",
@@ -5024,7 +5024,7 @@
       },
       {
         "_id": 559,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-506",
@@ -5033,7 +5033,7 @@
       },
       {
         "_id": 560,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-507",
@@ -5042,7 +5042,7 @@
       },
       {
         "_id": 561,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Insurance : Life insurance",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-579",
@@ -5051,7 +5051,7 @@
       },
       {
         "_id": 562,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Insurance",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-577",
@@ -5060,7 +5060,7 @@
       },
       {
         "_id": 563,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Insurance : Life insurance",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-580",
@@ -5069,7 +5069,7 @@
       },
       {
         "_id": 564,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Insurance",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-578",
@@ -5078,7 +5078,7 @@
       },
       {
         "_id": 565,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Asset management",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-561",
@@ -5087,7 +5087,7 @@
       },
       {
         "_id": 566,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-508",
@@ -5096,7 +5096,7 @@
       },
       {
         "_id": 567,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-551",
@@ -5105,7 +5105,7 @@
       },
       {
         "_id": 568,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-550",
@@ -5114,7 +5114,7 @@
       },
       {
         "_id": 569,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Insurance",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-575",
@@ -5123,7 +5123,7 @@
       },
       {
         "_id": 570,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Insurance",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-576",
@@ -5132,7 +5132,7 @@
       },
       {
         "_id": 571,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Insurance",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-574",
@@ -5141,7 +5141,7 @@
       },
       {
         "_id": 572,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Asset management",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-562",
@@ -5150,7 +5150,7 @@
       },
       {
         "_id": 573,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Business and consumer services : Commercial real estate services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-490",
@@ -5159,7 +5159,7 @@
       },
       {
         "_id": 574,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Business and consumer services : Commercial real estate services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-553",
@@ -5168,7 +5168,7 @@
       },
       {
         "_id": 575,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-554",
@@ -5177,7 +5177,7 @@
       },
       {
         "_id": 576,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Business and consumer services : Commercial real estate services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-555",
@@ -5186,7 +5186,7 @@
       },
       {
         "_id": 577,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Business and consumer services : Commercial real estate services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-556",
@@ -5195,7 +5195,7 @@
       },
       {
         "_id": 578,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Business and consumer services : Commercial real estate services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-557",
@@ -5204,7 +5204,7 @@
       },
       {
         "_id": 579,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Legal services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-581",
@@ -5213,7 +5213,7 @@
       },
       {
         "_id": 580,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Legal services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-582",
@@ -5222,7 +5222,7 @@
       },
       {
         "_id": 581,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Legal services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-583",
@@ -5231,7 +5231,7 @@
       },
       {
         "_id": 582,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Accountancy services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-558",
@@ -5240,7 +5240,7 @@
       },
       {
         "_id": 583,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Accountancy services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-559",
@@ -5249,7 +5249,7 @@
       },
       {
         "_id": 584,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Accountancy services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-560",
@@ -5258,7 +5258,7 @@
       },
       {
         "_id": 585,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-509",
@@ -5267,7 +5267,7 @@
       },
       {
         "_id": 586,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Business and consumer services : Marketing services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-510",
@@ -5276,7 +5276,7 @@
       },
       {
         "_id": 587,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-552",
@@ -5285,7 +5285,7 @@
       },
       {
         "_id": 588,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Management consultancy",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-584",
@@ -5312,7 +5312,7 @@
       },
       {
         "_id": 591,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Mechanical, electrical and process engineering",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-040",
@@ -5321,7 +5321,7 @@
       },
       {
         "_id": 592,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Mechanical, electrical and process engineering",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-041",
@@ -5330,7 +5330,7 @@
       },
       {
         "_id": 593,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Mechanical, electrical and process engineering",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-042",
@@ -5339,7 +5339,7 @@
       },
       {
         "_id": 594,
-        "dit_sector_list_field_04": "Engineering",
+        "dit_sector_list_field_04": "Advanced engineering",
         "dit_sector_list_full_sector_name": "Advanced engineering : Mechanical, electrical and process engineering",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-043",
@@ -5348,7 +5348,7 @@
       },
       {
         "_id": 595,
-        "dit_sector_list_field_04": "Biotechnology",
+        "dit_sector_list_field_04": "Pharmaceuticals and biotechnology",
         "dit_sector_list_full_sector_name": "Pharmaceuticals and biotechnology : Research and development",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-687",
@@ -5357,7 +5357,7 @@
       },
       {
         "_id": 596,
-        "dit_sector_list_field_04": "Biotechnology",
+        "dit_sector_list_field_04": "Pharmaceuticals and biotechnology",
         "dit_sector_list_full_sector_name": "Pharmaceuticals and biotechnology : Research and development",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-688",
@@ -5366,7 +5366,7 @@
       },
       {
         "_id": 597,
-        "dit_sector_list_field_04": "Education",
+        "dit_sector_list_field_04": "Education and training",
         "dit_sector_list_full_sector_name": "Education and training",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-448",
@@ -5393,7 +5393,7 @@
       },
       {
         "_id": 600,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Business and consumer services : Market research",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-494",
@@ -5447,7 +5447,7 @@
       },
       {
         "_id": 606,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-495",
@@ -5456,7 +5456,7 @@
       },
       {
         "_id": 607,
-        "dit_sector_list_field_04": "Renewables",
+        "dit_sector_list_field_04": "Environment",
         "dit_sector_list_full_sector_name": "Environment",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-481",
@@ -5474,7 +5474,7 @@
       },
       {
         "_id": 609,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-511",
@@ -5483,7 +5483,7 @@
       },
       {
         "_id": 610,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-512",
@@ -5492,7 +5492,7 @@
       },
       {
         "_id": 611,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets : Livestock, pets and horses : Health, welfare and veterinary services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-150",
@@ -5519,7 +5519,7 @@
       },
       {
         "_id": 614,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Leisure and tourism",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-347",
@@ -5546,7 +5546,7 @@
       },
       {
         "_id": 617,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Household goods",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-334",
@@ -5555,7 +5555,7 @@
       },
       {
         "_id": 618,
-        "dit_sector_list_field_04": "Agriculture",
+        "dit_sector_list_field_04": "Agriculture, horticulture, fisheries and pets",
         "dit_sector_list_full_sector_name": "Agriculture, horticulture, fisheries and pets",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-105",
@@ -5573,7 +5573,7 @@
       },
       {
         "_id": 620,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-513",
@@ -5618,7 +5618,7 @@
       },
       {
         "_id": 625,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-514",
@@ -5627,7 +5627,7 @@
       },
       {
         "_id": 626,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-515",
@@ -5645,7 +5645,7 @@
       },
       {
         "_id": 628,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Business and consumer services : HR services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-516",
@@ -5654,7 +5654,7 @@
       },
       {
         "_id": 629,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Business and consumer services : HR services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-517",
@@ -5663,7 +5663,7 @@
       },
       {
         "_id": 630,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Business and consumer services : HR services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-518",
@@ -5672,7 +5672,7 @@
       },
       {
         "_id": 631,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Leisure and tourism : Travel",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-364",
@@ -5681,7 +5681,7 @@
       },
       {
         "_id": 632,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Leisure and tourism : Travel",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-365",
@@ -5690,7 +5690,7 @@
       },
       {
         "_id": 633,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Leisure and tourism : Travel",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-366",
@@ -5699,7 +5699,7 @@
       },
       {
         "_id": 634,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Leisure and tourism : Travel",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-367",
@@ -5735,7 +5735,7 @@
       },
       {
         "_id": 638,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-519",
@@ -5744,7 +5744,7 @@
       },
       {
         "_id": 639,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-520",
@@ -5753,7 +5753,7 @@
       },
       {
         "_id": 640,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-521",
@@ -5762,7 +5762,7 @@
       },
       {
         "_id": 641,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-522",
@@ -5771,7 +5771,7 @@
       },
       {
         "_id": 642,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-523",
@@ -5780,7 +5780,7 @@
       },
       {
         "_id": 643,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-524",
@@ -5789,7 +5789,7 @@
       },
       {
         "_id": 644,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-525",
@@ -5798,7 +5798,7 @@
       },
       {
         "_id": 645,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-526",
@@ -5816,7 +5816,7 @@
       },
       {
         "_id": 647,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Business and consumer services : Shared service centres",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-527",
@@ -5825,7 +5825,7 @@
       },
       {
         "_id": 648,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-528",
@@ -5834,7 +5834,7 @@
       },
       {
         "_id": 649,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Business and consumer services : Contact centres",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-529",
@@ -5843,7 +5843,7 @@
       },
       {
         "_id": 650,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-530",
@@ -5852,7 +5852,7 @@
       },
       {
         "_id": 651,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-531",
@@ -5861,7 +5861,7 @@
       },
       {
         "_id": 652,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-532",
@@ -5870,7 +5870,7 @@
       },
       {
         "_id": 653,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-533",
@@ -5879,7 +5879,7 @@
       },
       {
         "_id": 654,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-534",
@@ -5888,7 +5888,7 @@
       },
       {
         "_id": 655,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Business and consumer services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-535",
@@ -5897,7 +5897,7 @@
       },
       {
         "_id": 656,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-536",
@@ -5906,7 +5906,7 @@
       },
       {
         "_id": 657,
-        "dit_sector_list_field_04": "Education",
+        "dit_sector_list_field_04": "Education and training",
         "dit_sector_list_full_sector_name": "Education and training",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-449",
@@ -5915,7 +5915,7 @@
       },
       {
         "_id": 658,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Business and consumer services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-537",
@@ -5924,7 +5924,7 @@
       },
       {
         "_id": 659,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-538",
@@ -5969,7 +5969,7 @@
       },
       {
         "_id": 664,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-539",
@@ -5978,7 +5978,7 @@
       },
       {
         "_id": 665,
-        "dit_sector_list_field_04": "Education",
+        "dit_sector_list_field_04": "Education and training",
         "dit_sector_list_full_sector_name": "Education and training : Early years",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-453",
@@ -5987,7 +5987,7 @@
       },
       {
         "_id": 666,
-        "dit_sector_list_field_04": "Education",
+        "dit_sector_list_field_04": "Education and training",
         "dit_sector_list_full_sector_name": "Education and training : Schools",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-457",
@@ -5996,7 +5996,7 @@
       },
       {
         "_id": 667,
-        "dit_sector_list_field_04": "Education",
+        "dit_sector_list_field_04": "Education and training",
         "dit_sector_list_full_sector_name": "Education and training : Schools",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-458",
@@ -6005,7 +6005,7 @@
       },
       {
         "_id": 668,
-        "dit_sector_list_field_04": "Education",
+        "dit_sector_list_field_04": "Education and training",
         "dit_sector_list_full_sector_name": "Education and training : Technical and vocational education and training",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-460",
@@ -6014,7 +6014,7 @@
       },
       {
         "_id": 669,
-        "dit_sector_list_field_04": "Education",
+        "dit_sector_list_field_04": "Education and training",
         "dit_sector_list_full_sector_name": "Education and training : Technical and vocational education and training : Colleges and further education",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-462",
@@ -6023,7 +6023,7 @@
       },
       {
         "_id": 670,
-        "dit_sector_list_field_04": "Education",
+        "dit_sector_list_field_04": "Education and training",
         "dit_sector_list_full_sector_name": "Education and training : Higher education",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-455",
@@ -6032,7 +6032,7 @@
       },
       {
         "_id": 671,
-        "dit_sector_list_field_04": "Education",
+        "dit_sector_list_field_04": "Education and training",
         "dit_sector_list_full_sector_name": "Education and training : Higher education",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-456",
@@ -6041,7 +6041,7 @@
       },
       {
         "_id": 672,
-        "dit_sector_list_field_04": "Education",
+        "dit_sector_list_field_04": "Education and training",
         "dit_sector_list_full_sector_name": "Education and training",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-450",
@@ -6050,7 +6050,7 @@
       },
       {
         "_id": 673,
-        "dit_sector_list_field_04": "Education",
+        "dit_sector_list_field_04": "Education and training",
         "dit_sector_list_full_sector_name": "Education and training",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-451",
@@ -6059,7 +6059,7 @@
       },
       {
         "_id": 674,
-        "dit_sector_list_field_04": "Education",
+        "dit_sector_list_field_04": "Education and training",
         "dit_sector_list_full_sector_name": "Education and training : Technical and vocational education and training",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-461",
@@ -6068,7 +6068,7 @@
       },
       {
         "_id": 675,
-        "dit_sector_list_field_04": "Education",
+        "dit_sector_list_field_04": "Education and training",
         "dit_sector_list_full_sector_name": "Education and training",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-452",
@@ -6077,7 +6077,7 @@
       },
       {
         "_id": 676,
-        "dit_sector_list_field_04": "Education",
+        "dit_sector_list_field_04": "Education and training",
         "dit_sector_list_full_sector_name": "Education and training : Support services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-459",
@@ -6086,7 +6086,7 @@
       },
       {
         "_id": 677,
-        "dit_sector_list_field_04": "Healthcare",
+        "dit_sector_list_field_04": "Healthcare services",
         "dit_sector_list_full_sector_name": "Healthcare services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-641",
@@ -6095,7 +6095,7 @@
       },
       {
         "_id": 678,
-        "dit_sector_list_field_04": "Healthcare",
+        "dit_sector_list_field_04": "Healthcare services",
         "dit_sector_list_full_sector_name": "Healthcare services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-642",
@@ -6104,7 +6104,7 @@
       },
       {
         "_id": 679,
-        "dit_sector_list_field_04": "Healthcare",
+        "dit_sector_list_field_04": "Healthcare services",
         "dit_sector_list_full_sector_name": "Healthcare services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-643",
@@ -6113,7 +6113,7 @@
       },
       {
         "_id": 680,
-        "dit_sector_list_field_04": "Healthcare",
+        "dit_sector_list_field_04": "Healthcare services",
         "dit_sector_list_full_sector_name": "Healthcare services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-644",
@@ -6122,7 +6122,7 @@
       },
       {
         "_id": 681,
-        "dit_sector_list_field_04": "Healthcare",
+        "dit_sector_list_field_04": "Healthcare services",
         "dit_sector_list_full_sector_name": "Healthcare services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-645",
@@ -6131,7 +6131,7 @@
       },
       {
         "_id": 682,
-        "dit_sector_list_field_04": "Healthcare",
+        "dit_sector_list_field_04": "Healthcare services",
         "dit_sector_list_full_sector_name": "Healthcare services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-646",
@@ -6140,7 +6140,7 @@
       },
       {
         "_id": 683,
-        "dit_sector_list_field_04": "Healthcare",
+        "dit_sector_list_field_04": "Healthcare services",
         "dit_sector_list_full_sector_name": "Healthcare services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-647",
@@ -6149,7 +6149,7 @@
       },
       {
         "_id": 684,
-        "dit_sector_list_field_04": "Healthcare",
+        "dit_sector_list_field_04": "Healthcare services",
         "dit_sector_list_full_sector_name": "Healthcare services : Social care",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-649",
@@ -6158,7 +6158,7 @@
       },
       {
         "_id": 685,
-        "dit_sector_list_field_04": "Healthcare",
+        "dit_sector_list_field_04": "Healthcare services",
         "dit_sector_list_full_sector_name": "Healthcare services : Social care",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-650",
@@ -6167,7 +6167,7 @@
       },
       {
         "_id": 686,
-        "dit_sector_list_field_04": "Healthcare",
+        "dit_sector_list_field_04": "Healthcare services",
         "dit_sector_list_full_sector_name": "Healthcare services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-648",
@@ -6176,7 +6176,7 @@
       },
       {
         "_id": 687,
-        "dit_sector_list_field_04": "Healthcare",
+        "dit_sector_list_field_04": "Healthcare services",
         "dit_sector_list_full_sector_name": "Healthcare services : Social care",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-651",
@@ -6185,7 +6185,7 @@
       },
       {
         "_id": 688,
-        "dit_sector_list_field_04": "Education",
+        "dit_sector_list_field_04": "Education and training",
         "dit_sector_list_full_sector_name": "Education and training : Early years",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-454",
@@ -6194,7 +6194,7 @@
       },
       {
         "_id": 689,
-        "dit_sector_list_field_04": "Healthcare",
+        "dit_sector_list_field_04": "Healthcare services",
         "dit_sector_list_full_sector_name": "Healthcare services : Social care",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-652",
@@ -6239,7 +6239,7 @@
       },
       {
         "_id": 694,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Books, printed media and stationery",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-404",
@@ -6284,7 +6284,7 @@
       },
       {
         "_id": 699,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Leisure and tourism",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-348",
@@ -6293,7 +6293,7 @@
       },
       {
         "_id": 700,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Leisure and tourism",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-349",
@@ -6302,7 +6302,7 @@
       },
       {
         "_id": 701,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Leisure and tourism",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-350",
@@ -6311,7 +6311,7 @@
       },
       {
         "_id": 702,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Leisure and tourism",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-351",
@@ -6320,7 +6320,7 @@
       },
       {
         "_id": 703,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Leisure and tourism",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-352",
@@ -6329,7 +6329,7 @@
       },
       {
         "_id": 704,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Leisure and tourism",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-353",
@@ -6356,7 +6356,7 @@
       },
       {
         "_id": 707,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-540",
@@ -6365,7 +6365,7 @@
       },
       {
         "_id": 708,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-541",
@@ -6374,7 +6374,7 @@
       },
       {
         "_id": 709,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-542",
@@ -6383,7 +6383,7 @@
       },
       {
         "_id": 710,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-543",
@@ -6392,7 +6392,7 @@
       },
       {
         "_id": 711,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-544",
@@ -6401,7 +6401,7 @@
       },
       {
         "_id": 712,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-545",
@@ -6410,7 +6410,7 @@
       },
       {
         "_id": 713,
-        "dit_sector_list_field_04": "Technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Technology and smart cities : Hardware",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-722",
@@ -6419,7 +6419,7 @@
       },
       {
         "_id": 714,
-        "dit_sector_list_field_04": "Technology",
+        "dit_sector_list_field_04": "Technology and smart cities",
         "dit_sector_list_full_sector_name": "Technology and smart cities : Hardware",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-723",
@@ -6428,7 +6428,7 @@
       },
       {
         "_id": 715,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Electronic consumer products",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-315",
@@ -6437,7 +6437,7 @@
       },
       {
         "_id": 716,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Household goods",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-332",
@@ -6446,7 +6446,7 @@
       },
       {
         "_id": 717,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Clothing, footwear and fashion",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-297",
@@ -6455,7 +6455,7 @@
       },
       {
         "_id": 718,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Furniture and furnishings",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-323",
@@ -6464,7 +6464,7 @@
       },
       {
         "_id": 719,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Jewellery",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-340",
@@ -6473,7 +6473,7 @@
       },
       {
         "_id": 720,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Household goods",
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-333",
@@ -6482,7 +6482,7 @@
       },
       {
         "_id": 721,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Clothing, footwear and fashion",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-298",
@@ -6491,7 +6491,7 @@
       },
       {
         "_id": 722,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Cosmetics and beauty",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-309",
@@ -6500,7 +6500,7 @@
       },
       {
         "_id": 723,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services : Business and consumer services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-546",
@@ -6509,7 +6509,7 @@
       },
       {
         "_id": 724,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail : Leisure and tourism",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-354",
@@ -6518,7 +6518,7 @@
       },
       {
         "_id": 725,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-547",
@@ -6527,7 +6527,7 @@
       },
       {
         "_id": 726,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-283",
@@ -6536,7 +6536,7 @@
       },
       {
         "_id": 727,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-491",
@@ -6545,7 +6545,7 @@
       },
       {
         "_id": 728,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-282",
@@ -6554,7 +6554,7 @@
       },
       {
         "_id": 729,
-        "dit_sector_list_field_04": "Consumer products",
+        "dit_sector_list_field_04": "Consumer and retail",
         "dit_sector_list_full_sector_name": "Consumer and retail",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-281",
@@ -6563,7 +6563,7 @@
       },
       {
         "_id": 730,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-548",
@@ -6572,7 +6572,7 @@
       },
       {
         "_id": 731,
-        "dit_sector_list_field_04": "Financial services",
+        "dit_sector_list_field_04": "Financial and professional services",
         "dit_sector_list_full_sector_name": "Financial and professional services",
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-549",
