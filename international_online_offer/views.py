@@ -190,10 +190,11 @@ class BusinessHeadQuartersView(GA360Mixin, FormView):
 
             defaults['company_location'] = form.cleaned_data['company_location']
 
-            # there are two points at which we enter an edit state for headquarters/company record.
-            # 1) via query param, 2) if the user has chosen a different location
-            if len(user_data.company_location) > 0 and user_data.company_location != defaults['company_location']:
-                self.request.session['eyb:edit_country'] = True
+            if user_data:
+                # there are two points at which we enter an edit state for headquarters/company record.
+                # 1) via query param, 2) if the user has chosen a different location
+                if len(user_data.company_location) > 0 and user_data.company_location != defaults['company_location']:
+                    self.request.session['eyb:edit_country'] = True
 
             if self.request.session.get('eyb:edit_country', False):
                 # store new country in session until company details have been entered
@@ -295,7 +296,7 @@ class FindYourCompanyView(GA360Mixin, FormView):
         )
 
         if self.request.user.is_authenticated:
-            user = UserData.objects.get(hashed_uuid=self.request.user.hashed_uuid)
+            user_data = get_user_data_for_user(self.request)
 
             if is_editing:
                 # we are editing country so use the new company location from session cache
@@ -303,9 +304,9 @@ class FindYourCompanyView(GA360Mixin, FormView):
                 country_choice = [location for location in choices.COMPANY_LOCATION_CHOICES if country in location]
                 if len(country_choice) == 1:
                     display_country = country_choice[0][1]
-            else:
-                country = getattr(user, 'company_location', '')
-                display_country = user.get_company_location_display()
+            elif user_data:
+                country = getattr(user_data, 'company_location', None)
+                display_country = user_data.get_company_location_display()
 
         return super().get_context_data(
             **kwargs,
@@ -398,16 +399,16 @@ class CompanyDetailsView(GA360Mixin, FormView):
         )
 
         if self.request.user.is_authenticated:
-            user = UserData.objects.get(hashed_uuid=self.request.user.hashed_uuid)
+            user = UserData.objects.filter(hashed_uuid=self.request.user.hashed_uuid)
 
             if is_editing:
                 # we are editing country so use the new company location from session cache
-                country = self.request.session['eyb:new_company_location']
+                country = self.request.session.get('eyb:new_company_location', None)
                 country_choice = [location for location in choices.COMPANY_LOCATION_CHOICES if country in location]
                 if len(country_choice) == 1:
                     display_country = country_choice[0][1]
-            else:
-                display_country = user.get_company_location_display()
+            elif user.exists():
+                display_country = user[0].get_company_location_display()
 
         return super().get_context_data(
             **kwargs,
@@ -1098,7 +1099,7 @@ class EditYourAnswersView(GA360Mixin, TemplateView):
             **kwargs,
             triage_data=triage_data,
             user_data=user_data,
-            duns_matched=user_data.duns_number is not None,
+            duns_matched=getattr(user_data, 'duns_number', None) if user_data else None,
             back_url='/international/expand-your-business-in-the-uk/guide/',
             spend=spend,
             sub_and_sub_sub_sector=sub_and_sub_sub_sector,
