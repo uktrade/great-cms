@@ -45,6 +45,7 @@ from core.pingdom.services import health_check_services
 from directory_constants import choices
 from domestic.models import DomesticDashboard, TopicLandingPage
 from sso.views import SSOBusinessUserLogoutView
+from export_academy.models import Event
 
 logger = logging.getLogger(__name__)
 
@@ -878,11 +879,13 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, TemplateView):
         is_restricted_market = False
         is_market_skipped = self.request.GET.get('is_market_skipped')
         trade_barrier_count = None
+        ukea_events = None
 
         if self.request.session.get('guided_journey_data'):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('guided_journey_data')))[0]
             market = form_data.get('market')
             sector = form_data.get('sector')
+            ukea_events = helpers.get_ukea_events(Event.objects.order_by('-start_date').all(), market, sector)
 
             for code, name in countries:
                 if name == market:
@@ -927,4 +930,5 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, TemplateView):
             country_code=country_code,
             categories=categories,
             trade_barrier_count=trade_barrier_count,
+            ukea_events=ukea_events,
         )

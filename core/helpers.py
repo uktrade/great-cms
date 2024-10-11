@@ -827,3 +827,35 @@ def get_trade_barrier_count(market, sector):
             return trade_barriers_by_sector.get(sector)
 
     return None
+
+
+def get_ukea_events(all_events, market, sector):
+    events = all_events
+
+    market_and_sector_events = events.filter(
+        country_tags__name__contains=market,
+    ).filter(
+        sector_tags__name__contains=sector,
+    )
+
+    market_events = events.filter(
+        country_tags__name__contains=market,
+    )
+
+    sector_events = events.filter(
+        sector_tags__name__contains=sector,
+    )
+
+    best_events = []
+
+    for events_list in [market_and_sector_events, market_events, sector_events, events]:
+        if len(events_list) > 0:
+            best_events = best_events + list(events_list)
+
+    unique_best_events = []
+
+    for event in best_events:
+        if event not in unique_best_events:
+            unique_best_events.append(event)
+
+    return unique_best_events[:2]
