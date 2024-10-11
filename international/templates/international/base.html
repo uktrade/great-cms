@@ -21,7 +21,8 @@
             <!--[if IE]> <link rel="icon" href="{% static 'great_components/images/favicon.ico' %}" type="image/x-icon" /> <![endif]-->
         {% endblock %}
         {% block head_css %}
-            <link rel="stylesheet" href="{% static 'international_styles.css' %}">
+            <link href="{% static 'great_design_system_styles.css' %}" rel="stylesheet" type="text/css" />
+            <link rel="stylesheet" href="{% static 'international_styles.css' %}">       
         {% endblock %}
         <title>
             {% block head_title %}{{ international_home_link.label }}{% endblock %}
@@ -141,6 +142,7 @@
         {% endblock %}
         {% block body_footer %}
             {% include './footer.html' %}
+            {% include "_footer.html" with isInternational=isInternational currentYear=currentYear footerLinks=footerLinks %}
         {% endblock %}
         {% block body_js %}
             <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
