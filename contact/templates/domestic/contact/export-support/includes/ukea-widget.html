@@ -1,31 +1,23 @@
-<div class="govuk-!-padding-6 great-bg-white great-ds-box-shadow great-ds-card-panels__item great-ds-widget-container">
-    <img class="ea-logo" src="/static/images/uk-export-academy-logo.svg" alt="UK Export Academy logo" width="90px" />
-    <h2 class="govuk-heading-s govuk-!-margin-top-2">Explore the benefits and barriers of export</h2>
-    <p class="govuk-body-s great-text-light-grey">21 October at 10AM<br /> Duration: 1 hour</p>
-    <p class="govuk-body">
-        Understand the benefits and risks of exporting, enabling you to make informed decisions about your business' international growth.
-    </p>
+{% if events %}
+    {% for event in events %}
+        <div class="govuk-!-padding-6 great-bg-white great-ds-box-shadow great-ds-card-panels__item great-ds-widget-container">
+            <img class="ea-logo" src="/static/images/uk-export-academy-logo.svg" alt="UK Export Academy logo" width="90px" />
+            <h2 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-3">{{ event.name }}</h2>
+            <div class="govuk-!-margin-bottom-3">
+                <time class="govuk-body-s great-text-light-grey" datetime="{{ event.start_date|date:"Y-m-d" }}T{{ event.start_date|time:"H:i:s" }}{{ event.start_date|date:"O" }}">
+                    {{ event.start_date|date:"l" }} {{ event.start_date|date:"j F" }} at {{ event.start_date|date:"g:iA"|lower }}
+                </time>
+                <p class="govuk-body-s great-text-light-grey">Duration: {{ event.start_date|timesince:event.end_date }}</p>
+            </div>
 
-    <div>
-        <a href="https://www.great.gov.uk/export-academy/events/" class="govuk-link great-ds-link" target="_blank">
-            <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> 
-            <span>Book event</span>
-        </a>
-    </div>
-</div>
-
-<div class="govuk-!-padding-6 great-bg-white great-ds-box-shadow great-ds-card-panels__item great-ds-widget-container">
-    <img class="ea-logo" src="/static/images/uk-export-academy-logo.svg" alt="UK Export Academy logo" width="90px" />
-    <h2 class="govuk-heading-s govuk-!-margin-top-2">12 steps to ensuring your culinary creations meet global sanitary standards</h2>
-    <p class="govuk-body-s great-text-light-grey">21 October at 10AM<br /> Duration: 1 hour</p>
-    <p class="govuk-body">
-        Want to sell your food and drink overseas but finding it difficult to navigate the international compliance regulations? We are here to make the requirements much more digestible for you with 12 essential things you need to know!
-    </p>
-
-    <div>
-        <a href="https://www.great.gov.uk/export-academy/events/" class="govuk-link great-ds-link" target="_blank">
-            <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> 
-            <span>Book event</span>
-        </a>
-    </div>
-</div>
+            <p class="govuk-body">{{ event.description }}</p>
+        
+            <div>
+                <a href="{{ event.get_absolute_url }}" class="govuk-link great-ds-link" target="_blank">
+                    <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> 
+                    <span>Book event</span>
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
