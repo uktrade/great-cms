@@ -10,14 +10,6 @@
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full">
 
-                    {% if ukea_events %}
-                        {% for event in ukea_events %}
-                            <h2>{{ event.name }}</h2>
-                            <p>{{ event.description }}</p>
-                            <a href="{{ event.get_absolute_url }}">Book event</a>
-                        {% endfor %}
-                    {% endif %}
-
                     <div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-4 great-ds-box-shadow">
                         <h1 class="govuk-heading-l govuk-!-margin-bottom-0">
                             {% if session_data.sector and session_data.market %}
@@ -67,7 +59,7 @@
                     {% endif %}
 
                     <div class="great-ds-card-panels great-ds-card-panels--restricted govuk-!-margin-bottom-4">
-                        {% include 'domestic/contact/export-support/includes/ukea-widget.html' %}
+                        {% include 'domestic/contact/export-support/includes/ukea-widget.html' with events=ukea_events %}
                     </div>
 
                     <div class="great-ds-card-panels govuk-!-margin-bottom-4">

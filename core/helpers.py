@@ -35,6 +35,7 @@ from directory_api_client import api_client
 from directory_constants import choices, company_types
 from directory_sso_api_client import sso_api_client
 
+
 USER_LOCATION_CREATE_ERROR = 'Unable to save user location'
 USER_LOCATION_DETERMINE_ERROR = 'Unable to determine user location'
 MALE = 'xy'
@@ -827,3 +828,56 @@ def get_trade_barrier_count(market, sector):
             return trade_barriers_by_sector.get(sector)
 
     return None
+
+
+def get_ukea_events(all_events, market, sector):
+    events = all_events
+
+    market_and_sector_events = []
+    market_events = []
+    sector_events = []
+
+    best_events = []
+
+    if market and sector:
+        market_and_sector_events = list(
+            events.filter(
+                country_tags__name__contains=market,
+            ).filter(
+                sector_tags__name__contains=sector,
+            )
+        )
+
+    if market:
+        market_events = list(
+            events.filter(
+                country_tags__name__contains=market,
+            )
+        )
+
+    if sector:
+        sector_events = list(
+            events.filter(
+                sector_tags__name__contains=sector,
+            )
+        )
+
+    if len(market_and_sector_events) > 0:
+        best_events = best_events + market_and_sector_events
+
+    if len(market_events) > 0:
+        best_events = best_events + market_events
+
+    if len(sector_events) > 0:
+        best_events = best_events + sector_events
+
+    if len(events) > 0:
+        best_events = best_events + list(events)
+
+    unique_best_events = []
+
+    for event in best_events:
+        if event not in unique_best_events:
+            unique_best_events.append(event)
+
+    return unique_best_events[:2]
