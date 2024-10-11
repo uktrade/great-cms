@@ -20,7 +20,6 @@ from django.shortcuts import get_list_or_404, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.utils.text import get_valid_filename
-from django.views.decorators.vary import vary_on_cookie
 from django.views.generic import (
     DetailView,
     FormView,
@@ -35,7 +34,6 @@ from great_components.helpers import get_is_authenticated, get_user
 from great_components.mixins import GA360Mixin
 from icalendar import Alarm, Calendar, Event
 from rest_framework.generics import GenericAPIView
-from wagtailcache.cache import cache_page
 
 from config import settings
 from core import mixins as core_mixins
@@ -87,8 +85,9 @@ class BespokeBreadcrumbMixin(TemplateView):
         return super().get_context_data(bespoke_breadcrumbs=bespoke_breadcrumbs, **kwargs)
 
 
-@method_decorator(cache_page, name='dispatch')
-@method_decorator(vary_on_cookie, name='dispatch')
+# @method_decorator(cache_page, name='dispatch')
+# @method_decorator(vary_on_cookie, name='dispatch')
+# TEMP COMMENTED OUT
 class EventListView(GetBreadcrumbsMixin, GA360Mixin, core_mixins.GetSnippetContentMixin, FilterView, ListView):
     model = models.Event
     queryset = model.upcoming
@@ -805,8 +804,9 @@ class SignInView(HandleNewAndExistingUsersMixin, sso_mixins.SignInMixin, FormVie
         return ctx
 
 
-@method_decorator(cache_page, name='dispatch')
-@method_decorator(vary_on_cookie, name='dispatch')
+# @method_decorator(cache_page, name='dispatch')
+# @method_decorator(vary_on_cookie, name='dispatch')
+# TEMP COMMENTED OUT
 class EventsDetailsView(DetailView):
     template_name = 'export_academy/event_details.html'
     model = models.Event

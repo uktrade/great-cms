@@ -160,35 +160,57 @@ def test_eyb_signup_partial_complete_signup_redirect(settings, client, user):
 
 
 @pytest.mark.parametrize(
-    'url_name,response_code',
+    'url_name,create_user_data,response_code',
     (
-        ('international_online_offer:about-your-business', 200),
-        ('international_online_offer:business-headquarters', 200),
-        ('international_online_offer:find-your-company', 200),
-        ('international_online_offer:company-details', 200),
-        ('international_online_offer:business-sector', 200),
-        ('international_online_offer:when-want-setup', 200),
-        ('international_online_offer:know-setup-location', 200),
-        ('international_online_offer:contact-details', 200),
-        ('international_online_offer:intent', 200),
-        ('international_online_offer:location', 200),
-        ('international_online_offer:hiring', 200),
-        ('international_online_offer:spend', 200),
-        ('international_online_offer:change-your-answers', 200),
+        ('international_online_offer:about-your-business', True, 200),
+        ('international_online_offer:business-headquarters', True, 200),
+        ('international_online_offer:find-your-company', True, 200),
+        ('international_online_offer:company-details', True, 200),
+        ('international_online_offer:business-sector', True, 200),
+        ('international_online_offer:when-want-setup', True, 200),
+        ('international_online_offer:know-setup-location', True, 200),
+        ('international_online_offer:contact-details', True, 200),
+        ('international_online_offer:intent', True, 200),
+        ('international_online_offer:location', True, 200),
+        ('international_online_offer:hiring', True, 200),
+        ('international_online_offer:spend', True, 200),
+        ('international_online_offer:change-your-answers', True, 200),
+        ('international_online_offer:about-your-business', False, 200),
+        ('international_online_offer:business-headquarters', False, 200),
+        ('international_online_offer:find-your-company', False, 200),
+        ('international_online_offer:company-details', False, 200),
+        ('international_online_offer:business-sector', False, 200),
+        ('international_online_offer:when-want-setup', False, 200),
+        ('international_online_offer:know-setup-location', False, 200),
+        ('international_online_offer:contact-details', False, 200),
+        ('international_online_offer:intent', False, 200),
+        ('international_online_offer:location', False, 200),
+        ('international_online_offer:hiring', False, 200),
+        ('international_online_offer:spend', False, 200),
+        ('international_online_offer:change-your-answers', False, 200),
     ),
 )
 @pytest.mark.django_db
-def test_eyb_triage_urls(mock_get_dbt_sectors, client, user, settings, url_name, response_code):
+def test_eyb_triage_urls(mock_get_dbt_sectors, client, user, settings, url_name, create_user_data, response_code):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     user.hashed_uuid = '1234'
-    UserData.objects.create(
-        hashed_uuid=user.hashed_uuid,
-        full_name='Joe Bloggs',
-        role='Director',
-        telephone_number='07923456787',
-        agree_info_email=False,
-        duns_number='12345',
-    )
+
+    """
+    A scenario exists whereby users sign up with a great account and then navigate to EYB.
+    In this case the user is logged in and so can access the EYB URLs but does not have an EYB
+    UserData object. This is a valid flow and so we test that views are ressiliant in the
+    case of absent UserData objects.
+    """
+    if create_user_data:
+        UserData.objects.create(
+            hashed_uuid=user.hashed_uuid,
+            full_name='Joe Bloggs',
+            role='Director',
+            telephone_number='07923456787',
+            agree_info_email=False,
+            duns_number='12345',
+        )
+
     client.force_login(user)
     response = client.get(reverse(url_name))
     assert response.status_code == response_code
