@@ -198,7 +198,7 @@ else:
 WAGTAIL_CACHE = env.bool('WAGTAIL_CACHE', False)  # set to false for local
 WAGTAIL_CACHE_BACKEND = 'great_wagtail_cache'
 WAGTAIL_CACHE_HEADER = True
-WAGTAIL_CACHE_IGNORE_COOKIES = False
+WAGTAIL_CACHE_IGNORE_COOKIES = True
 WAGTAIL_CACHE_IGNORE_QS = None
 WAGTAIL_CACHE_TIMOUT = env.int('WAGTAIL_CACHE_TIMOUT', 4 * 60 * 60)  # 4 hours (in seconds)
 
