@@ -763,5 +763,6 @@ def nocache_certain_response_status_codes(response, curr_cache_decision):
     if response.status_code in (
         302,
         301,
+        403,
     ):
         return False
