@@ -13,107 +13,102 @@
     A trade barrier can slow down, limit or prevent a UK business exporting. Let us know if you think you’re facing a new trade barrier or are having issues with a current trade barrier
 {% endblock %}
 {% block content %}
-{% static 'images/report-a-trade-barrier-header.png' as xlarge_hero %}
-{% include 'components/hero.html' with image_url=xlarge_hero hero_title='Check or report a trade barrier' %}
-<section class="great" id="report-a-trade-barrier">
-    <div class="page-main-content-container">
-        <div class="container">
-            <div class="grid-row">
-                <div class="column-two-thirds">
-                    <p>
-                        Tell us if you think you’re facing a new trade barrier or have an issue with an existing trade barrier. We might be able to help resolve it.
-                    </p>
-                    <p>
-                        A trade barrier is something that slows down, limits or prevents a UK business exporting to or investing in an overseas market.
-                    </p>
-                    <p>
-                        They can affect businesses of all sizes and at all stages of exporting, even if you’re just exploring opportunities.
-                    </p>
-                    <h3 class="govuk-!-margin-bottom-4">Check if a trade barrier has already been reported</h3>
-                    <p>
-                        Check if a trade barrier has already been reported on GOV.UK. The service will give you the trade barrier title and identifying code which can be used to report any issues with an existing barrier.
-                    </p>
-                    <a href="https://www.gov.uk/barriers-trading-investing-abroad"
-                       class="button primary-button govuk-!-margin-bottom-7">Check a trade barrier</a>
-                    <h3 class="govuk-!-margin-bottom-4">Report a new trade barrier</h3>
-                    <p>You can use this service to report a new trade barrier or issues with an existing barrier.</p>
-                    <a href="{% url 'domestic:report-ma-barrier' step='about' %}"
-                       class="button primary-button govuk-!-margin-bottom-4">Report a trade barrier</a>
-                </div>
-                <div class="column-one-third great-desktop-only-padding-horizontal-15 great-mobile-only-padding-vertical-30">
-                    <h2 class="govuk-heading-s">Related Content </h2>
-                    <ul class="govuk-list govuk-!-padding-top-6 great-border-top-blue">
-                        <li>
-                            <a href="https://www.gov.uk/guidance/report-a-trade-barrier">
-                                Trade barriers: what you need to know
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://www.gov.uk/guidance/harmful-international-trade-practices-guidance-for-business">
-                                Harmful international trade practices: guidance for business
-                            </a>
-                        </li>
-                    <ul>
-                </div>
-            </div>
-            <div class="grid-row">
-                <div class="column-two-thirds">
-                    <p>
-                        If your problem is urgent, you can <a href="https://www.gov.uk/world/embassies"
+    {% static 'images/report-a-trade-barrier-header.png' as xlarge_hero %}
+    {% include 'components/hero.html' with image_url=xlarge_hero hero_title='Check or report a trade barrier' %}
+    <section class="great" id="report-a-trade-barrier">
+        <div class="page-main-content-container">
+            <div class="container">
+                <div class="grid-row">
+                    <div class="column-two-thirds">
+                        <p>
+                            Trade barriers are tariff, non-tariff or overseas direct investment restrictions that block or delay investments, exports or potential to do business.
+                        </p>
+                        <p>You might be facing a barrier if, for example:</p>
+                        <ul class="list list-bullet">
+                            <li>regulations in an overseas market prevent you exporting or investing there</li>
+                            <li>you supply services and have to pay unnecessary charges that give an advantage to domestic suppliers</li>
+                            <li>your goods are delayed from getting to market by lengthy customs procedures</li>
+                        </ul>
+                        <p>
+                            Tell us if you think you’re facing a new trade barrier or have an issue with an existing trade barrier. We might be able to help resolve it.
+                        </p>
+                        <p>
+                            If your problem is urgent, you can <a href="https://www.gov.uk/world/embassies"
     target="_blank"
     rel="noopener noreferrer"
     class="govuk-link">contact the relevant British embassy</a>. Their knowledge of local business practices and working hours might mean your barrier is resolved more quickly.
-                    </p>
-                    <p>
-                        Trade barriers are tariff, non-tariff or overseas direct investment restrictions that block or delay investments, exports or potential to do business.
-                    </p>
-                    <p>You might be facing a barrier if, for example:</p>
-                    <ul class="list list-bullet">
-                        <li>regulations in an overseas market prevent you exporting or investing there</li>
-                        <li>you supply services and have to pay unnecessary charges that give an advantage to domestic suppliers</li>
-                        <li>your goods are delayed from getting to market by lengthy customs procedures</li>
-                    </ul>
+                        </p>
+                        <h3 class="govuk-!-margin-bottom-4">Check if a trade barrier has already been reported</h3>
+                        <p>
+                            Check if a trade barrier has already been reported on GOV.UK. The service will give you the trade barrier title and identifying code which can be used to report any issues with an existing barrier.
+                        </p>
+                        <a href="https://www.gov.uk/barriers-trading-investing-abroad"
+                           class="button primary-button govuk-!-margin-bottom-7">Check a trade barrier</a>
+                        <h3 class="govuk-!-margin-bottom-4">Report a new trade barrier</h3>
+                        <p>
+                            You can use this service to
+                            <a href="{% url 'domestic:report-ma-barrier' step='about' %}"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="govuk-link">report a new trade barrier</a> or issues with an existing barrier.
+                        </p>
+                        <p>When you report a trade barrier online, you will be asked to follow these steps:</p>
+                        <ol class="list big-number-list">
+                            <li>
+                                <h3 class="heading-small margin-top-0">
+                                    Tell us about your business
+                                </h4>
+                                <p class="font-xsmall">What are your business details? How can we contact you?</p>
+                            </li>
+                            <li>
+                                <h3 class="heading-small margin-top-0">
+                                    Describe your problem
+                                </h4>
+                                <p class="font-xsmall">What’s stopping your export? Is the problem still affecting your business?</p>
+                            </li>
+                            <li>
+                                <h3 class="heading-small margin-top-0">
+                                    Tell us more about your problem
+                                </h4>
+                                <p class="font-xsmall">
+                                    Add any other details you think are relevant to your problem. If it is about an existing trade barrier include the <a href="https://www.gov.uk/barriers-trading-investing-abroad"
+    target="_blank"
+    rel="noopener noreferrer">trade barrier code</a>.
+                                </p>
+                            </li>
+                            <li>
+                                <h3 class="heading-small margin-top-0">
+                                    What happens next
+                                </h4>
+                                <p class="font-xsmall">We’ll aim to email you within 5 working days to let you know if we can help.</p>
+                            </li>
+                        </ol>
+                        <a href="{% url 'domestic:report-ma-barrier' step='about' %}"
+                           class="button primary-button govuk-!-margin-bottom-4">Report a trade barrier</a>
+                    </div>
+                    {% comment "Redundant/no content in GDUI do disabled here" %}
+                    <div class="column-one-third">
+                        <img alt class="report-barrier-image" src="{{ content_image }}" />
+                    </div>
+                    {% endcomment %}
+                    <div class="column-one-third great-desktop-only-padding-horizontal-15 great-mobile-only-padding-vertical-30">
+                        <h2 class="govuk-heading-s">Related Content</h2>
+                        <ul class="govuk-list govuk-!-padding-top-6 great-border-top-blue">
+                            <li>
+                                <a href="https://www.gov.uk/guidance/report-a-trade-barrier">Trade barriers: what you need to know</a>
+                            </li>
+                            <li>
+                                <a href="https://www.gov.uk/guidance/harmful-international-trade-practices-guidance-for-business">
+                                    Harmful international trade practices: guidance for business
+                                </a>
+                            </li>
+                            <ul>
+                            </div>
+                            <div class="grid-row">
+                                <div class="column-two-thirds"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <h2 class="heading-medium">Making a report online</h2>
-            <div class="grid-row">
-                <div class="column-two-thirds">
-                    <ol class="list big-number-list">
-                        <li>
-                            <h3 class="heading-small margin-top-0">
-                                Tell us about your business
-                            </h4>
-                            <p class="font-xsmall">What are your business details? How can we contact you?</p>
-                        </li>
-                        <li>
-                            <h3 class="heading-small margin-top-0">
-                                Describe your problem
-                            </h4>
-                            <p class="font-xsmall">What’s stopping your export? Is the problem still affecting your business?</p>
-                        </li>
-                        <li>
-                            <h3 class="heading-small margin-top-0">
-                                Tell us more about your problem
-                            </h4>
-                            <p class="font-xsmall">
-                                Add any other details you think are relevant to your problem. If it is about an existing trade barrier include the trade barrier code.
-                            </p>
-                        </li>
-                        <li>
-                            <h3 class="heading-small margin-top-0">
-                                What happens next
-                            </h4>
-                            <p class="font-xsmall">We’ll aim to email you within 5 working days to let you know if we can help.</p>
-                        </li>
-                    </ol>
-                </div>
-                {% comment "Redundant/no content in GDUI do disabled here" %}
-                <div class="column-one-third">
-                    <img alt class="report-barrier-image" src="{{ content_image }}" />
-                </div>
-                {% endcomment %}
-            </div>
-        </div>
-    </div>
-</section>
-{% endblock %}
+            </section>
+        {% endblock %}
