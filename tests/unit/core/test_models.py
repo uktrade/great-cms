@@ -885,8 +885,14 @@ class MicrositePageTests(SetUpLocaleMixin, WagtailPageTests):
         home_child = MicrositePageFactory(page_title='home-child', title='home-child', parent=home)
         home_grandchild = MicrositePageFactory(page_title='home-grandchild', title='home-grandchild', parent=home_child)
 
-        self.assertEqual(home.get_menu_items()[0]['title'], 'Home')
-        self.assertEqual(len(home.get_menu_items()), 2)
+        def safe_lstrip(value, chars=None):
+            return value.lstrip(chars) if value is not None else ''
+
+        menu_items = home.get_menu_items()
+        menu_item_url = safe_lstrip(menu_items[0]['url'], '/') if menu_items else ''
+
+        self.assertEqual(menu_items[0]['title'], 'Home')
+        self.assertEqual(len(menu_items), 2)
         self.assertEqual(home_child.get_menu_items()[0]['title'], 'Home')
         self.assertEqual(home_grandchild.get_menu_items()[0]['title'], 'Home')
 

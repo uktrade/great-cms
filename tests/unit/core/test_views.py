@@ -1060,6 +1060,10 @@ def test_serve_subtitles__login_required(client):
     assert resp.headers['location'] == reverse('core:login') + f'?next={dest}'
 
 
+def safe_lstrip(value, chars=None):
+    return value.lstrip(chars) if value is not None else ''
+
+
 class TestMicrositeLocales(TestCase):
     def setUp(self):
         self.client = Client()
@@ -1089,7 +1093,8 @@ class TestMicrositeLocales(TestCase):
         self.url = reverse_lazy('core:microsites', kwargs={'page_slug': '/microsite-page-home'})
 
     def test_correct_translation_english(self):
-        response = self.client.get(self.url)
+        url = safe_lstrip(self.url, '/')
+        response = self.client.get(url)
         html_response = response.content.decode('utf-8')
         assert 'microsite home title en-gb' in html_response and 'a microsite subheading en-gb' in html_response
 
@@ -1100,7 +1105,8 @@ class TestMicrositeLocales(TestCase):
         site_es.save()
 
         url_spanish = self.url + '?lang=es'
-        response = self.client.get(url_spanish)
+        url = safe_lstrip(url_spanish, '/')
+        response = self.client.get(url)
         html_response = response.content.decode('utf-8')
         assert (
             'página de inicio del micrositio' in html_response
@@ -1114,7 +1120,8 @@ class TestMicrositeLocales(TestCase):
         site_fr.save()
 
         url_french = self.url + '?lang=fr'
-        response = self.client.get(url_french)
+        url = safe_lstrip(url_french, '/')
+        response = self.client.get(url)
         html_response = response.content.decode('utf-8')
         assert (
             'page d&amp;#x27;accueil du microsite' in html_response
@@ -1127,7 +1134,8 @@ class TestMicrositeLocales(TestCase):
         site_pt.page_subheading = 'Subtítulo de la Página de Inicio del Micrositio'
         site_pt.save()
         url_portugeuse = self.url + '?lang=pt'
-        response = self.client.get(url_portugeuse)
+        url = safe_lstrip(url_portugeuse, '/')
+        response = self.client.get(url)
         html_response = response.content.decode('utf-8')
         assert (
             'página inicial do microsite' in html_response
@@ -1140,7 +1148,8 @@ class TestMicrositeLocales(TestCase):
         site_ko.page_subheading = '부제: 국제 무역과 경제 성장을 위한 강력한 동반자관계 구축'
         site_ko.save()
         url_korean = self.url + '?lang=ko'
-        response = self.client.get(url_korean)
+        url = safe_lstrip(url_korean, '/')
+        response = self.client.get(url)
         html_response = response.content.decode('utf-8')
         assert (
             '페이지 제목: 무역 기회 창출: 영국-대한민국 수출 포럼' in html_response
@@ -1153,7 +1162,8 @@ class TestMicrositeLocales(TestCase):
         site_zh.page_subheading = '微型网站主页字幕'
         site_zh.save()
         url_mandarin = self.url + '?lang=zh-cn'
-        response = self.client.get(url_mandarin)
+        url = safe_lstrip(url_mandarin, '/')
+        response = self.client.get(url)
         html_response = response.content.decode('utf-8')
         assert site_zh.page_title in html_response and site_zh.page_subheading in html_response  # noqa: W503
 
@@ -1163,7 +1173,8 @@ class TestMicrositeLocales(TestCase):
         site_ms.page_subheading = 'Sarikata Halaman Utama Microsite'
         site_ms.save()
         url_malay = self.url + '?lang=ms'
-        response = self.client.get(url_malay)
+        url = safe_lstrip(url_malay, '/')
+        response = self.client.get(url)
         html_response = response.content.decode('utf-8')
         assert site_ms.page_title in html_response and site_ms.page_subheading in html_response  # noqa: W503
 
@@ -1171,15 +1182,17 @@ class TestMicrositeLocales(TestCase):
         url = reverse_lazy('core:microsites', kwargs={'page_slug': '/microsite-page-home'})
 
         url_arabic = url + '?lang=ar'
-        response = self.client.get(url_arabic)
+        url = safe_lstrip(url_arabic, '/')
+        response = self.client.get(url)
         html_response = response.content.decode('utf-8')
         assert 'microsite home title en-gb' in html_response and 'a microsite subheading en-gb' in html_response
 
     def test_fall_back_to_english_for_unimplemented_language(self):
         url = reverse_lazy('core:microsites', kwargs={'page_slug': '/microsite-page-home'})
         url_za = url + '?lang=za'
+        url = safe_lstrip(url_za, '/')
 
-        response = self.client.get(url_za)
+        response = self.client.get(url)
         html_response = response.content.decode('utf-8')
         assert 'microsite home title en-gb' in html_response and 'a microsite subheading en-gb' in html_response
 
