@@ -13,7 +13,7 @@
         <div class="great-container govuk-!-padding-top-4">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full">
-                    <div class="great-bg-white govuk-!-padding-6 great-ds-box-shadow">
+                    <div class="great-bg-white govuk-!-padding-6 great-ds-box-shadow great-ds-widget-container">
                         <form method="post" autocomplete="off">
                             {% csrf_token %}
                             <input type="hidden" id="sector" name="sector" value="{{ session_data.sector }}" />
@@ -32,6 +32,10 @@
                              </div>
 
                              {% include 'domestic/contact/export-support/includes/continue-save-button.html' %}
+
+                             {% if is_edit_mode %}
+                                {% include 'domestic/contact/export-support/includes/cancel-button.html' with url='/guided-journey/step-' back_step=request.GET.return_to_step %}
+                            {% endif %}
                         </form>
                     </div>
                 </div>
