@@ -207,7 +207,7 @@ if settings.FEATURE_GUIDED_JOURNEY:
         path(
             'guided-journey/step-1/edit',
             skip_ga360(views.GuidedJourneyStep1View.as_view()),
-            {'edit': True},
+            {'edit': True, 'is_multi_step': True},
             name='guided-journey-step-1-edit',
         ),
         path(
