@@ -226,16 +226,16 @@ def get_hreflang_tags(context, canonical_url, lang):
 def persist_language_to_url(url, request=None):
     current_language = request.LANGUAGE_CODE if request and hasattr(request, 'LANGUAGE_CODE') else get_language()
     url = '/' + url.lstrip('/').replace('//', '/')
-    
+
     microsites_part, _, rest_of_url = url.partition('/microsites/')
     microsites_part = microsites_part + '/microsites/' if _ else ''
-    
+
     translated_rest = translate_url('/' + rest_of_url, current_language).lstrip('/')
-    
+
     translated_url = microsites_part + translated_rest
-    
+
     query_params = {'lang': current_language}
     if request:
         query_params.update(request.GET.dict())
-    
+
     return f"{translated_url}?{urlencode(query_params)}"

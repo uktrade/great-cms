@@ -2077,7 +2077,6 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
         else:
             return None
 
-
     # Return the children of the top level Microsite parent of current page
     def get_menu_items(self, request=None):
         parent_page = self.get_parent_page()
@@ -2090,20 +2089,24 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
             if multiple_languages:
                 parent_url = persist_language_to_url(parent_url, request)
             menu_items = [{'href': parent_url, 'text': _('Home')}]
-            
-            menu_items.extend([
-                {
-                    'href': persist_language_to_url(child.get_url(), request) if multiple_languages else child.get_url(),
-                    'text': child.title,
-                }
-                for child in parent_page.get_children().live()
-            ])
-        
+
+            menu_items.extend(
+                [
+                    {
+                        'href': (
+                            persist_language_to_url(child.get_url(), request) if multiple_languages else child.get_url()
+                        ),
+                        'text': child.title,
+                    }
+                    for child in parent_page.get_children().live()
+                ]
+            )
+
         external_links = self.get_external_menu_link()
         if external_links and multiple_languages:
             for link in external_links:
                 link['url'] = persist_language_to_url(link['url'], request)
-        
+
         return menu_items + external_links
 
     def get_use_domestic_header_logo(self):

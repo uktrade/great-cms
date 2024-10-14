@@ -147,7 +147,13 @@ TEMPLATES = [
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'text-input',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'details',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'accordion',
-            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'notification-banner',
+            ROOT_DIR
+            / 'node_modules'
+            / '@uktrade'
+            / 'great-design-system'
+            / 'dist'
+            / 'components'
+            / 'notification-banner',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
