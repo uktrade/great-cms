@@ -16,7 +16,6 @@ from django.template.loader import render_to_string
 from django.utils.html import mark_safe
 from great_components import forms
 
-from contact import widgets as contact_widgets
 from core import constants
 from core.cms_slugs import (
     PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE,
@@ -195,37 +194,10 @@ class GuidedJourneyStep3Form(forms.Form):
         required=False,
     )
     not_sure_where_to_export = BooleanField(
-        label='Not sure where to export?',
+        label="I don't have a specific market in mind",
         required=False,
     )
     market_not_listed = BooleanField(
         label="My market isn't listed",
         required=False,
-    )
-    unlisted_market = CharField(
-        label='Unlisted market',
-        required=False,
-    )
-
-
-class GuidedJourneyStep4Form(forms.Form):
-    category = ChoiceField(
-        label='Need help with a specific problem',
-        choices=(
-            ('/support/market-selection', 'Market selection'),
-            ('/support/routes-to-market-and-operating-overseas', 'Routes to market and operating overseas'),
-            (
-                '/support/funding-and-financial-considerations',
-                'Funding and financial considerations',
-            ),
-            ('/support/trade-restrictions-regulations-and-licensing', 'Trade restrictions, regulations and licensing'),
-            ('/support/logistics', 'Logistics'),
-            ('/support/customs-taxes-and-declarations', 'Customs, taxes and declarations'),
-            ('/support/travelling-for-work', 'Travelling for work'),
-            ('/support/managing-business-risk-and-corruption', 'Managing business risk and corruption'),
-        ),
-        widget=contact_widgets.GreatFilteredRadioSelect,
-        error_messages={
-            'required': 'Choose a subject of your enquiry',
-        },
     )

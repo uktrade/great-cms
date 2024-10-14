@@ -1,6 +1,13 @@
 {% extends 'domestic/contact/export-support/base.html' %}
 {% load static %}
 {% block head_title %}Export support for UK businesses{% endblock %}
+{% block head_css %}
+    <link href="{% static 'core/css/accessible-autocomplete.min.css' %}"
+          rel="stylesheet"
+          type="text/css">
+
+    {{ block.super }}
+{% endblock %}
 {% block content %}
     <div class="great great-min-height-500">
         <div class="great-container govuk-!-padding-top-4">
@@ -12,24 +19,19 @@
                                 <form method="post" autocomplete="off">
                                     {% csrf_token %}
                                     <input type="hidden" id="commodity_name" name="commodity_name" value="{{ session_data.commodity_name }}" />
+                                    <input type="hidden" id="hs_code" name="hs_code" value="{{ session_data.hs_code }}" />
         
                                     <h1>
                                         <label class="govuk-heading-l govuk-!-margin-bottom-4" for="hs_code">
-                                            Choose your commodity code
+                                            {% if is_edit_mode %}Change your commodity code{% else %}Find your commodity code{% endif %}
                                         </label>
                                     </h1>
         
-                                    <p class="govuk=body">
-                                        All goods have a commodity (HS) code. You'll need this for your export paperwork, and we can use it to show you relevant content.
+                                    <p class="govuk-body">
+                                        Start typing the name of the product you want to export and choose the best match from the list provided.
                                     </p>
         
-                                    <div class="great-text-select--arrow great-text-select--arrow-max-500">
-                                        <select class="govuk-select great-select great-select--max-500" name="hs_code" id="hs_code">
-                                            {% for commodity in commodities %}
-                                                <option value="{{ commodity.hs_code }}" data-commodity-name="{{ commodity.title }}" {% if session_data.hs_code == commodity.hs_code %}selected{% endif %}>{{ commodity.title }}{% if commodity.hs_code != '' %} ({{ commodity.hs_code }}){% endif %}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
+                                    <div id="cc_lookup-container" class="great-ds-autocomplete-input__wrapper"></div>
         
                                     <div class="govuk-inset-text govuk-!-margin-top-4 govuk-!-margin-bottom-4">
                                         If you don't export physical goods, or your product isn't listed, choose 'skip'.
@@ -38,6 +40,17 @@
                                     {% include 'domestic/contact/export-support/includes/continue-save-button.html' %}
                                     {% include 'domestic/contact/export-support/includes/skip-button.html' with url='/guided-journey/step-3?is_commodity_code_skipped=True' %}
                                 </form>
+                            </div>
+                        </div>
+                        <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-full govuk-!-padding-top-4 ">
+                                <div class="great-bg-light-blue govuk-!-padding-6 great-ds-side-note">
+                                    <span class="great-meta-label govuk-!-margin-bottom-3">
+                                        <img src="/static/icons/guidance.svg" alt="" width="30px" />
+                                    </span>
+                                    <h2 class="govuk-heading-xs govuk-!-margin-bottom-1">What is a commodity code?</h2>
+                                    <p class="govuk-body">All goods have a commodity (HS) code, used to identify and classify goods for international trade. You’ll need this for your export paperwork, and we can use it to show you relevant content. </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -54,12 +67,65 @@
         </div>
     </div>
 {% endblock %}
+
 {% block body_js %}
     {{ block.super }}
+
+    <script type="text/javascript"
+            src="{% static 'javascript/accessible-autocomplete.v3.min.js' %}"></script>
     <script type="text/javascript">
-        document.querySelector('#hs_code').addEventListener('change', (e) => {
-            document.querySelector('[name="hs_code"]').value = e.target.value;
-            document.querySelector('[name="commodity_name"]').value = e.target[e.target.selectedIndex].dataset.commodityName;
-        });
-    </script> 
+
+    function suggest (query, populateResults) {
+        let res = [];
+
+        fetch(`/api/product-picker/${query}`)
+            .then((res) => res.json())
+            .then(
+            (result) => {
+                res = result.data.map(({ attributes: { title, goods_nomenclature_item_id } }) => title + "|" + goods_nomenclature_item_id )
+
+                populateResults(res)
+            },
+            (error) => {
+                console.log(error)
+            })
+    }
+
+    accessibleAutocomplete({
+        element: document.querySelector('#cc_lookup-container'),
+        id: 'cc_lookup',
+        name: 'cc_lookup',
+        source: suggest,
+        autoselect: false,
+        minLength: 3,
+        displayMenu: 'overlay',
+        defaultValue: '{{ session_data.commodity_name }}',
+        templates: {
+            suggestion: (selectedCommodity) => {
+                if (selectedCommodity) {
+                    return `<span>${selectedCommodity}</span>`;
+                }
+            },
+            inputValue: (value) => {
+                if (value) {
+                    const commodity_name_and_code = value.split('|');
+
+                    return commodity_name_and_code[0];
+                }
+            }
+        },
+        onConfirm: (selectedCommodity) => {
+            if (selectedCommodity) {
+                const commodity_name_and_code = selectedCommodity.split('|');
+
+                document.querySelector('#commodity_name').value = commodity_name_and_code[0];
+                document.querySelector('#hs_code').value = commodity_name_and_code[1];
+                document.querySelector('#cc_lookup').value = commodity_name_and_code[0];
+            }
+        },
+        placeholder: 'For example, cheese or air-conditioning',
+        inputClasses: 'govuk-input great-text-input great-ds-autocomplete-input',
+        menuClasses: 'great-autocomplete-overlay',
+    });
+    </script>
 {% endblock %}

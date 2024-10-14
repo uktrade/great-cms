@@ -72,9 +72,12 @@
                         </div>
                     </div>
                     <div class="govuk-grid-row">
-                        <div class="govuk-grid-column-full eyb-form-action-with-alternative-link">
-                            {% include 'international/includes/submit_button.html' with button_text=progress_button_text %}
-                            <span> or <a href="{% url 'international_online_offer:company-details' %}{% if is_editing %}?next={% url 'international_online_offer:change-your-answers' %} {% endif %}">Enter company details manually</a> </span>
+                        <div class="govuk-grid-column-full">
+                            <div class="govuk-button-group">
+                                {% include 'international/includes/submit_button.html' with button_text=progress_button_text %}
+                                <span class="govuk-body"> or <a class="govuk-link"
+    href="{% url 'international_online_offer:company-details' %}{% if is_editing %}?next={% url 'international_online_offer:change-your-answers' %} {% endif %}">Enter company details manually</a> </span>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -117,7 +120,10 @@
                 }
 
                 async function suggest (query, populateResults) {
-                    let queryParams = `searchTerm=${query}&countryISOAlpha2Code=${country}&candidateMaximumQuantity=25`;
+                    // some countries in dnb listed under a truncated iso2 code,
+                    // see https://directplus.documentation.dnb.com/html/resources/CountryCodes.html
+                    let countryISO2 = country.substring(0, 2)
+                    let queryParams = `searchTerm=${query}&countryISOAlpha2Code=${countryISO2}&candidateMaximumQuantity=25`;
                     // only make api call if we are going to show results
                     if (retrieveDNBCompanies == true) {
                         r = await fetch(`${typeaheadURL}?${queryParams}`);
@@ -179,6 +185,8 @@
                 });
 
                 setTypeAheadInitialValue()
+
+                document.querySelector('#js-company-name-autocomplete').setAttribute('maxlength', 30)
 
                 document.querySelector('#js-company-name-autocomplete').addEventListener('focus', ()=>{
                     retrieveDNBCompanies = true

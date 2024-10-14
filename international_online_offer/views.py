@@ -5,12 +5,15 @@ from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.decorators.vary import vary_on_cookie
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from wagtailcache.cache import cache_page
 
 from core.helpers import check_url_host_is_safelisted
 from directory_sso_api_client import sso_api_client
@@ -62,6 +65,7 @@ def calculate_and_store_is_high_value(request):
         )
 
 
+@method_decorator(cache_page, name='dispatch')
 class IndexView(GA360Mixin, TemplateView):
     template_name = 'eyb/index.html'
 
@@ -83,6 +87,8 @@ class IndexView(GA360Mixin, TemplateView):
         )
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class AboutYourBusinessView(GA360Mixin, TemplateView):
     template_name = 'eyb/about_your_business.html'
 
@@ -184,10 +190,11 @@ class BusinessHeadQuartersView(GA360Mixin, FormView):
 
             defaults['company_location'] = form.cleaned_data['company_location']
 
-            # there are two points at which we enter an edit state for headquarters/company record.
-            # 1) via query param, 2) if the user has chosen a different location
-            if len(user_data.company_location) > 0 and user_data.company_location != defaults['company_location']:
-                self.request.session['eyb:edit_country'] = True
+            if user_data:
+                # there are two points at which we enter an edit state for headquarters/company record.
+                # 1) via query param, 2) if the user has chosen a different location
+                if len(user_data.company_location) > 0 and user_data.company_location != defaults['company_location']:
+                    self.request.session['eyb:edit_country'] = True
 
             if self.request.session.get('eyb:edit_country', False):
                 # store new country in session until company details have been entered
@@ -289,7 +296,7 @@ class FindYourCompanyView(GA360Mixin, FormView):
         )
 
         if self.request.user.is_authenticated:
-            user = UserData.objects.get(hashed_uuid=self.request.user.hashed_uuid)
+            user_data = get_user_data_for_user(self.request)
 
             if is_editing:
                 # we are editing country so use the new company location from session cache
@@ -297,9 +304,9 @@ class FindYourCompanyView(GA360Mixin, FormView):
                 country_choice = [location for location in choices.COMPANY_LOCATION_CHOICES if country in location]
                 if len(country_choice) == 1:
                     display_country = country_choice[0][1]
-            else:
-                country = getattr(user, 'company_location', '')
-                display_country = user.get_company_location_display()
+            elif user_data:
+                country = getattr(user_data, 'company_location', None)
+                display_country = user_data.get_company_location_display()
 
         return super().get_context_data(
             **kwargs,
@@ -392,16 +399,16 @@ class CompanyDetailsView(GA360Mixin, FormView):
         )
 
         if self.request.user.is_authenticated:
-            user = UserData.objects.get(hashed_uuid=self.request.user.hashed_uuid)
+            user = UserData.objects.filter(hashed_uuid=self.request.user.hashed_uuid)
 
             if is_editing:
                 # we are editing country so use the new company location from session cache
-                country = self.request.session['eyb:new_company_location']
+                country = self.request.session.get('eyb:new_company_location', None)
                 country_choice = [location for location in choices.COMPANY_LOCATION_CHOICES if country in location]
                 if len(country_choice) == 1:
                     display_country = country_choice[0][1]
-            else:
-                display_country = user.get_company_location_display()
+            elif user.exists():
+                display_country = user[0].get_company_location_display()
 
         return super().get_context_data(
             **kwargs,
@@ -475,93 +482,6 @@ class BusinessSectorView(GA360Mixin, FormView):
             back_url=self.get_back_url(),
             autocomplete_sector_data=autocomplete_sector_data,
         )
-
-
-# class BusinessDetailsView(GA360Mixin, FormView):
-#     template_name = 'eyb/triage/business_details.html'
-#     form_class = forms.BusinessDetailsForm
-
-#     def __init__(self):
-#         super().__init__()
-#         self.set_ga360_payload(
-#             page_id='BusinessDetails',
-#             business_unit='ExpandYourBusiness',
-#             site_section='business-details',
-#         )
-
-#     def get_back_url(self):
-#         back_url = reverse_lazy('international_online_offer:about-your-business')
-#         if self.request.GET.get('next'):
-#             back_url = check_url_host_is_safelisted(self.request)
-#         return back_url
-
-#     def get_success_url(self):
-#         next_url = reverse_lazy('international_online_offer:know-setup-location')
-#         if self.request.GET.get('next'):
-#             next_url = check_url_host_is_safelisted(self.request)
-#         return next_url
-
-#     def get_initial(self):
-#         if self.request.user.is_authenticated:
-#             triage_data = get_triage_data_for_user(self.request)
-#             user_data = get_user_data_for_user(self.request)
-
-#             inital_values_object = {
-#                 'company_name': '',
-#                 'sector_sub': '',
-#                 'company_location': '',
-#                 'company_website': '',
-#             }
-
-#             if triage_data:
-#                 if triage_data.sector_id:
-#                     inital_values_object['sector_sub'] = triage_data.sector_id
-
-#             if user_data:
-#                 inital_values_object['company_name'] = user_data.company_name
-#                 inital_values_object['company_location'] = user_data.company_location
-#                 inital_values_object['company_website'] = user_data.company_website
-
-#             return inital_values_object
-
-#     def form_valid(self, form):
-#         sectors_json = get_dbt_sectors()
-#         selected_sector_id = form.cleaned_data['sector_sub']
-#         parent_sector, sub_sector, sub_sub_sector = region_sector_helpers.get_sectors_by_selected_id(
-#             sectors_json, selected_sector_id
-#         )
-
-#         if self.request.user.is_authenticated:
-#             TriageData.objects.update_or_create(
-#                 hashed_uuid=self.request.user.hashed_uuid,
-#                 defaults={
-#                     'sector': parent_sector,
-#                     'sector_sub': sub_sector,
-#                     'sector_sub_sub': sub_sub_sector,
-#                     'sector_id': selected_sector_id,
-#                 },
-#             )
-
-#             UserData.objects.update_or_create(
-#                 hashed_uuid=self.request.user.hashed_uuid,
-#                 defaults={
-#                     'company_name': form.cleaned_data['company_name'],
-#                     'company_location': form.cleaned_data['company_location'],
-#                     'company_website': form.cleaned_data['company_website'],
-#                 },
-#             )
-#         calculate_and_store_is_high_value(self.request)
-#         return super().form_valid(form)
-
-#     def get_context_data(self, **kwargs):
-#         dbt_sectors = get_dbt_sectors()
-#         autocomplete_sector_data = region_sector_helpers.get_sectors_as_string(dbt_sectors)
-
-#         return super().get_context_data(
-#             **kwargs,
-#             back_url=self.get_back_url(),
-#             autocomplete_sector_data=autocomplete_sector_data,
-#         )
 
 
 class ContactDetailsView(GA360Mixin, FormView):
@@ -1145,6 +1065,8 @@ class SignUpView(
             return self.do_sign_up_flow(request)
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class EditYourAnswersView(GA360Mixin, TemplateView):
     template_name = 'eyb/edit_your_answers.html'
 
@@ -1177,7 +1099,7 @@ class EditYourAnswersView(GA360Mixin, TemplateView):
             **kwargs,
             triage_data=triage_data,
             user_data=user_data,
-            duns_matched=user_data.duns_number is not None,
+            duns_matched=getattr(user_data, 'duns_number', None) if user_data else None,
             back_url='/international/expand-your-business-in-the-uk/guide/',
             spend=spend,
             sub_and_sub_sub_sector=sub_and_sub_sub_sector,
@@ -1311,6 +1233,8 @@ class CsatFeedbackView(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
+@method_decorator(cache_page, name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class TradeAssociationsView(GA360Mixin, TemplateView):
     template_name = 'eyb/trade_associations.html'
 
@@ -1351,6 +1275,8 @@ class TradeAssociationsView(GA360Mixin, TemplateView):
         )
 
 
+@method_decorator(cache_page, name='get')
+@method_decorator(vary_on_cookie, name='get')
 class BusinessClusterView(GA360Mixin, TemplateView):
     template_name = 'eyb/bci.html'
 

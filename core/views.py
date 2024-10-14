@@ -15,7 +15,7 @@ from django.template.response import TemplateResponse
 from django.urls import reverse, reverse_lazy
 from django.utils.crypto import get_random_string
 from django.utils.decorators import method_decorator
-from django.views.decorators.cache import never_cache
+from django.views.decorators.vary import vary_on_cookie
 from django.views.generic import FormView, TemplateView
 from django.views.generic.base import RedirectView, View
 from formtools.wizard.views import NamedUrlSessionWizardView
@@ -35,6 +35,7 @@ from wagtail.images.views.chooser import (
     ImageInsertionForm,
     ImageUploadViewMixin,
 )
+from wagtailcache.cache import cache_page, nocache_page
 
 from core import cms_slugs, forms, helpers, serializers
 from core.constants import PRODUCT_MARKET_DATA
@@ -43,7 +44,11 @@ from core.models import CsatUserFeedback, GreatMedia
 from core.pingdom.services import health_check_services
 from directory_constants import choices
 from domestic.models import DomesticDashboard, TopicLandingPage
+from domestic.helpers import (
+    get_sector_widget_data_helper,
+)
 from sso.views import SSOBusinessUserLogoutView
+from export_academy.models import Event
 
 logger = logging.getLogger(__name__)
 
@@ -235,11 +240,14 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, TemplateView, FormView):
         return reverse('core:compare-countries')
 
 
+@method_decorator(cache_page, name='get')
 class CountriesView(generics.GenericAPIView):
     def get(self, request):
         return Response([c for c in choices.COUNTRIES_AND_TERRITORIES_REGION if c.get('type') == 'Country'])
 
 
+@method_decorator(cache_page, name='get')
+@method_decorator(vary_on_cookie, name='get')
 class SuggestedCountriesView(generics.GenericAPIView):
     def get(self, request):
         hs_code = request.GET.get('hs_code')
@@ -408,6 +416,7 @@ class ContactUsHelpFormView(PageTitleMixin, FormView):
         return super().form_valid(form)
 
 
+@method_decorator(cache_page, name='dispatch')
 class ContactUsHelpSuccessView(TemplateView):
     template_name = 'core/contact-us-help-form-success.html'
 
@@ -470,6 +479,7 @@ class OpportunitiesRedirectView(RedirectView):
         return redirect_url
 
 
+@method_decorator(cache_page, name='dispatch')
 class CookiePreferencesPageView(TemplateView):
     # NB: template currently bears the ex-V1 styling, so comes from great-cms/domestic/templates/domestic/
     template_name = 'domestic/cookie-preferences.html'
@@ -736,12 +746,12 @@ HEALTH_CHECK_STATUS = 0
 HEALTH_CHECK_EXCEPTION = 1
 
 
+@method_decorator(nocache_page, name='get')
 class PingDomView(TemplateView):
     template_name = 'directory_healthcheck/pingdom.xml'
 
     status = 'OK'
 
-    @method_decorator(never_cache)
     def get(self, *args, **kwargs):
 
         checked = {}
@@ -811,41 +821,14 @@ class GuidedJourneyStep2View(GuidedJourneyMixin, FormView):
     template_name = 'domestic/contact/export-support/guided-journey/step-2.html'
 
     def get_context_data(self, **kwargs):
-        make_or_do_keyword = None
-        commodities = []
         form_data = {}
-
-        def get_hmrc_tarriff_data(make_or_do_keyword):
-            deserialised_data = helpers.product_picker(make_or_do_keyword)
-
-            mapped_results = [
-                {
-                    'title': 'Please select...',
-                    'hs_code': '',
-                }
-            ]
-
-            for item in deserialised_data['data']:
-                mapped_results.append(
-                    {
-                        'title': item['attributes']['title'],
-                        'hs_code': item['attributes']['goods_nomenclature_item_id'],
-                    }
-                )
-
-            return mapped_results
 
         if self.request.session.get('guided_journey_data'):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('guided_journey_data')))[0]
 
-            make_or_do_keyword = form_data['make_or_do_keyword']
-
-            commodities = get_hmrc_tarriff_data(make_or_do_keyword)
-
         return super().get_context_data(
             **kwargs,
             progress_position=2,
-            commodities=commodities,
             form_data=form_data,
         )
 
@@ -888,21 +871,25 @@ class GuidedJourneyStep3View(GuidedJourneyMixin, FormView):
         return super().form_valid(form)
 
 
-class GuidedJourneyStep4View(GuidedJourneyMixin, FormView):
-    form_class = forms.GuidedJourneyStep4Form
+class GuidedJourneyStep4View(GuidedJourneyMixin, TemplateView):
     template_name = 'domestic/contact/export-support/guided-journey/step-4.html'
 
     def get_context_data(self, **kwargs):
+        categories = []
         countries = helpers.get_markets_list()
         country_code = ''
         restricted_markets = ['Ukraine', 'Russia', 'Belarus', 'Israel']
         is_restricted_market = False
         is_market_skipped = self.request.GET.get('is_market_skipped')
+        trade_barrier_count = None
+        ukea_events = None
+        sector = None
 
         if self.request.session.get('guided_journey_data'):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('guided_journey_data')))[0]
-
-            market = form_data['market']
+            market = form_data.get('market')
+            sector = form_data.get('sector')
+            ukea_events = helpers.get_ukea_events(Event.objects.order_by('-start_date').all(), market, sector)
 
             for code, name in countries:
                 if name == market:
@@ -910,6 +897,11 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, FormView):
 
             if market:
                 is_restricted_market = market in restricted_markets
+                trade_barrier_count = helpers.get_trade_barrier_count(market, None)
+            elif sector:
+                trade_barrier_count = helpers.get_trade_barrier_count(None, sector)
+
+            categories = helpers.mapped_categories(form_data)
 
             action = actions.SaveOnlyInDatabaseAction(
                 full_name='Anonymous user',
@@ -919,17 +911,16 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, FormView):
             )
 
             data = {
-                'sic_description': form_data['sic_description'] if form_data['sic_description'] else None,
-                'make_or_do_keyword': form_data['make_or_do_keyword'] if form_data['make_or_do_keyword'] else None,
-                'sector': form_data['sector'] if form_data['sector'] else None,
-                'exporter_type': form_data['exporter_type'] if form_data['exporter_type'] else None,
-                'hs_code': form_data['hs_code'] if form_data['hs_code'] else None,
-                'market': form_data['market'] if form_data['market'] else None,
-                'commodity_name': form_data['commodity_name'] if form_data['commodity_name'] else None,
+                'sic_description': form_data.get('sic_description') if form_data.get('sic_description') else None,
+                'sector': form_data.get('sector') if form_data.get('sector') else None,
+                'exporter_type': form_data.get('exporter_type') if form_data.get('exporter_type') else None,
+                'hs_code': form_data.get('hs_code') if form_data.get('hs_code') else None,
+                'market': form_data.get('market') if form_data.get('market') else None,
+                'commodity_name': form_data.get('commodity_name') if form_data.get('commodity_name') else None,
                 'not_sure_where_to_export': (
-                    form_data['not_sure_where_to_export'] if form_data['not_sure_where_to_export'] else None
+                    form_data.get('not_sure_where_to_export') if form_data.get('not_sure_where_to_export') else None
                 ),
-                'market_not_listed': form_data['market_not_listed'] if form_data['market_not_listed'] else None,
+                'market_not_listed': form_data.get('market_not_listed') if form_data.get('market_not_listed') else None,
             }
             response = action.save(data)
             response.raise_for_status()
@@ -937,36 +928,11 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, FormView):
         return super().get_context_data(
             **kwargs,
             progress_position=4,
-            suggested_markets=[('china', 'cn'), ('india', 'in'), ('mexico', 'mx')],
+            suggested_markets=get_sector_widget_data_helper(sector),
             is_restricted_market=is_restricted_market,
             is_market_skipped=is_market_skipped,
             country_code=country_code,
+            categories=categories,
+            trade_barrier_count=trade_barrier_count,
+            ukea_events=ukea_events,
         )
-
-    def get_success_url(self):
-        if self.request.session.get('guided_journey_data'):
-            form_data = pickle.loads(bytes.fromhex(self.request.session.get('guided_journey_data')))[0]
-
-            market = form_data['market']
-            is_goods = form_data['exporter_type'] == 'goods'
-            is_service = form_data['exporter_type'] == 'service'
-            category = form_data['category']
-
-            cat_url = f'{category}?is_guided_journey=True'
-
-            if market:
-                cat_url += f'&market={market}'
-
-            if is_goods:
-                cat_url += f'&is_goods={is_goods}'
-
-            if is_service:
-                cat_url += f'&is_service={is_service}'
-
-            return cat_url
-
-        return reverse_lazy('core:guided-journey-step-1')
-
-    def form_valid(self, form):
-        self.save_data(form)
-        return super().form_valid(form)

@@ -28,6 +28,7 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from hashids import Hashids
 from ipware import get_client_ip
 
+from core.constants import EXPORT_SUPPORT_CATEGORIES, TRADE_BARRIERS_BY_MARKET, TRADE_BARRIERS_BY_SECTOR
 from core.models import CuratedListPage
 from core.serializers import parse_opportunities
 from directory_api_client import api_client
@@ -787,3 +788,74 @@ def product_picker(product):
     )
     response.raise_for_status()
     return response.json()
+
+
+def mapped_categories(form_data):
+    categories = EXPORT_SUPPORT_CATEGORIES
+    market = form_data.get('market')
+    is_goods = form_data.get('exporter_type') == 'goods'
+    is_service = form_data.get('exporter_type') == 'service'
+    query_string = '?is_guided_journey=True'
+
+    if market:
+        query_string += f'&market={market}'
+
+    if is_goods:
+        query_string += f'&is_goods={is_goods}'
+
+    if is_service:
+        query_string += f'&is_service={is_service}'
+
+    if form_data.get('exporter_type') == 'service':
+        categories = [(url, label, query_string) for url, label in categories if label != 'Logistics']
+    else:
+        categories = [(url, label, query_string) for url, label in categories]
+
+    return categories
+
+
+def get_trade_barrier_count(market, sector):
+    trade_barriers_by_market = TRADE_BARRIERS_BY_MARKET
+    trade_barriers_by_sector = TRADE_BARRIERS_BY_SECTOR
+
+    if market:
+        if trade_barriers_by_market.get(market):
+            return trade_barriers_by_market.get(market)
+
+    if sector:
+        if trade_barriers_by_sector.get(sector):
+            return trade_barriers_by_sector.get(sector)
+
+    return None
+
+
+def get_ukea_events(all_events, market, sector):
+    events = all_events
+
+    market_and_sector_events = events.filter(
+        country_tags__name__contains=market,
+    ).filter(
+        sector_tags__name__contains=sector,
+    )
+
+    market_events = events.filter(
+        country_tags__name__contains=market,
+    )
+
+    sector_events = events.filter(
+        sector_tags__name__contains=sector,
+    )
+
+    best_events = []
+
+    for events_list in [market_and_sector_events, market_events, sector_events, events]:
+        if len(events_list) > 0:
+            best_events = best_events + list(events_list)
+
+    unique_best_events = []
+
+    for event in best_events:
+        if event not in unique_best_events:
+            unique_best_events.append(event)
+
+    return unique_best_events[:2]
