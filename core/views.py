@@ -788,7 +788,9 @@ class GuidedJourneyStep1View(GuidedJourneyMixin, FormView):
             return deserialised_data
 
         return super().get_context_data(
-            **kwargs, progress_position=1, sic_sector_data=get_sectors_and_sic_sectors_file()
+            **kwargs,
+            progress_position=1,
+            sic_sector_data=get_sectors_and_sic_sectors_file(),
         )
 
     def get_success_url(self):
@@ -812,6 +814,10 @@ class GuidedJourneyStep1View(GuidedJourneyMixin, FormView):
         return reverse_lazy('core:guided-journey-step-2')
 
     def form_valid(self, form):
+        if form.cleaned_data['exporter_type'] == 'service':
+            form.cleaned_data['hs_code'] = ''
+            form.cleaned_data['commodity_name'] = ''
+
         self.save_data(form)
         return super().form_valid(form)
 

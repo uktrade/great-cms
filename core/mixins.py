@@ -221,7 +221,9 @@ class GuidedJourneyMixin:
 
         if self.kwargs.get('edit'):
             is_edit_mode = True
-            button_text = 'Save'
+
+            if not self.kwargs.get('is_multi_step'):
+                button_text = 'Save'
 
         return super().get_context_data(
             **kwargs,
