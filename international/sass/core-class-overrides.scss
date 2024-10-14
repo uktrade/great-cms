@@ -1,65 +1,3 @@
-.block-text, .block-Columns {
-    a {
-        @extend %govuk-link;
-    }
-
-    b {
-        font-weight: bold;
-    }
-
-    h2 {
-        @extend %govuk-heading-l;
-        color: $great-dark-blue;
-    }
-
-    h3 {
-        @extend %govuk-heading-m;
-        color: $great-dark-blue;
-    }
-
-    h4 {
-        @extend %govuk-heading-s;
-        color: $great-dark-blue;
-    }
-
-    p {
-        @extend %govuk-body-m;
-        color: $great-dark-grey;
-    }
-
-    i {
-        font-size: inherit;
-    }
-
-    ol, ul {
-        @extend %govuk-list;
-        color: $great-dark-grey;
-    }
-
-    ol {
-        @extend %govuk-list--number;
-    }
-
-    ul {
-        @extend %govuk-list--bullet;
-
-        li {
-            position: static;
-            list-style: disc;
-            padding: 0;
-            color: $great-dark-grey;
-        }
-    }
-
-    h1, h2, h3, h4, h5, h6, p, ol, ul {
-        font-family: $govuk-font-family;
-    }
-  }
-
-hr {
-    background: $great-dark-grey;
-}
-
 .image-container {
     width: 100%;
     height: 300px;
@@ -111,8 +49,4 @@ hr {
     .eyb-sector-lookup-second-row {
         color: white;
     }
-}
-
-.form-group {
-    margin-bottom: 16px;
 }

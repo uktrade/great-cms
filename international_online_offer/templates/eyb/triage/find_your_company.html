@@ -120,7 +120,10 @@
                 }
 
                 async function suggest (query, populateResults) {
-                    let queryParams = `searchTerm=${query}&countryISOAlpha2Code=${country}&candidateMaximumQuantity=25`;
+                    // some countries in dnb listed under a truncated iso2 code,
+                    // see https://directplus.documentation.dnb.com/html/resources/CountryCodes.html
+                    let countryISO2 = country.substring(0, 2)
+                    let queryParams = `searchTerm=${query}&countryISOAlpha2Code=${countryISO2}&candidateMaximumQuantity=25`;
                     // only make api call if we are going to show results
                     if (retrieveDNBCompanies == true) {
                         r = await fetch(`${typeaheadURL}?${queryParams}`);
