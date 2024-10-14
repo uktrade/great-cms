@@ -396,3 +396,18 @@ $great-design-system-govuk-blue: #1d70b8;
     width: 35%;
   }
 }
+
+.great-ds-info-pane {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+
+  i {
+    color: $great-design-system-govuk-blue;
+    font-size: 36px;
+  }
+
+  @include govuk-media-query($from: tablet) {
+    flex-direction: row;
+  }
+}
