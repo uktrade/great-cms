@@ -790,6 +790,16 @@ def product_picker(product):
     return response.json()
 
 
+def hcsat_get_initial(model, csat_id):
+    if csat_id:
+        csat_record = model.objects.get(id=csat_id)
+        satisfaction = csat_record.satisfaction_rating
+        if satisfaction:
+            return {'satisfaction': satisfaction}
+    else:
+        return {'satisfaction': ''}
+
+
 def mapped_categories(form_data):
     categories = EXPORT_SUPPORT_CATEGORIES
     market = form_data.get('market')

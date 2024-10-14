@@ -1258,6 +1258,14 @@ EXPERIENCE_CHOICES = (
     ('NO_ISSUE', 'I did not experience any issues'),
 )
 
+USER_JOURNEY_CHOICES = (
+    ('ADD_PRODUCT', 'Add Product'),
+    ('ARTICLE_PAGE', 'Article Page'),
+    ('EXPORT_PLAN_UPDATE', 'Export Plan Update'),
+    ('EVENT_BOOKING', 'Event booking'),
+    ('COMPANY_VERIFICATION', 'Company verification'),
+)
+
 USER_JOURNEY_CHOICES_PRODUCT = (('ADD_PRODUCT', 'Add Product'),)
 USER_JOURNEY_CHOICES_LEARN = (('ARTICLE_PAGE', 'Article Page'),)
 USER_JOURNEY_CHOICES_EXPORT = (('EXPORT_PLAN_UPDATE', 'Export Plan Update'),)

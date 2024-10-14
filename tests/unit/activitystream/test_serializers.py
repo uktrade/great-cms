@@ -7,6 +7,7 @@ from wagtail_factories import PageFactory
 
 from activitystream.serializers import (
     ActivityStreamCmsContentSerializer,
+    ActivityStreamDomesticHCSATUserFeedbackDataSerializer,
     ActivityStreamExpandYourBusinessCsatFeedbackDataSerializer,
     ActivityStreamExpandYourBusinessTriageDataSerializer,
     ActivityStreamExpandYourBusinessUserDataSerializer,
@@ -23,6 +24,7 @@ from core.models import MicrositePage
 from domestic.models import ArticlePage
 from international_online_offer.models import CsatFeedback, TriageData, UserData
 from tests.unit.core.factories import (
+    HCSATFactory,
     LandingPageFactory,
     MicrositeFactory,
     MicrositePageFactory,
@@ -506,6 +508,34 @@ def test_eyb_csat_feedback_serializer():
             'likelihood_of_return': instance.likelihood_of_return,
             'site_intentions': instance.site_intentions,
             'site_intentions_other_detail': instance.site_intentions_other,
+        },
+    }
+    assert output == expected
+
+
+@pytest.mark.django_db
+def test_domestic_hcsat_feedback_serializer():
+    instance = HCSATFactory()
+
+    serializer = ActivityStreamDomesticHCSATUserFeedbackDataSerializer()
+    output = serializer.to_representation(instance)
+
+    # Remove date due to timezone mismatch
+
+    del output['object']['feedback_submission_date']
+    expected = {
+        'id': f'dit:domestic:HCSATFeedbackData:{instance.id}:Update',
+        'type': 'Update',
+        'object': {
+            'id': instance.id,
+            'type': 'dit:domestic:HCSATFeedbackData',
+            'url': instance.URL,
+            'user_journey': instance.user_journey,
+            'satisfaction_rating': instance.satisfaction_rating,
+            'experienced_issues': instance.experienced_issues,
+            'other_detail': instance.other_detail,
+            'service_improvements_feedback': instance.service_improvements_feedback,
+            'likelihood_of_return': instance.likelihood_of_return,
         },
     }
     assert output == expected
