@@ -1,12 +1,14 @@
-ul {
-    list-style-type: none;
-    padding-inline-start: 0px;
-}
-
 // Config
 $asset-root: '/static/images/';
 $fonts: '/static/fonts';
 $fa-font-path: '/static/fonts';
+
+// Great International Font Import
+@import 'typography';
+
+// GOVUK
+@import 'govuk-token-overrides.scss';
+@import 'node_modules/govuk-frontend/govuk/all';
 
 // Icons
 @import 'node_modules/@fortawesome/fontawesome-free/scss/fontawesome';
@@ -14,45 +16,33 @@ $fa-font-path: '/static/fonts';
 @import 'node_modules/@fortawesome/fontawesome-free/scss/regular';
 @import 'node_modules/@fortawesome/fontawesome-free/scss/brands';
 
+// Great
 @import 'styles/great/_colors.scss';
+@import 'node_modules/great-styles/src/scss/helpers/_base.scss';
+@import '../../styles/great/utils';
+@import '../../core/sass/helpers/utils.scss';
+@import '../../styles/great/_components.scss';
+
+// Great Widgets
 @import '../../styles/widgets/buttons.scss';
 @import '../../styles/widgets/cookies-modal.scss';
-@import 'typography';
-@import 'govuk-token-overrides';
-@import 'node_modules/govuk-frontend/govuk/all';
+
+// Great Components
+@import '../../core/components/sass/components/skip-link/_base.scss';
+
+// Great International
 @import 'govuk-class-overrides';
 @import 'core-class-overrides';
 @import 'header.scss';
 @import 'footer.scss';
-@import '../../styles/great/utils';
-@import '../../styles/great/components';
-@import '../../core/components/sass/components/skip-link/base';
 @import 'hero.scss';
-@import '../../styles/widgets/buttons.scss';
-@import 'node_modules/great-styles/src/scss/helpers/_base.scss';
-@import '../../core/sass/helpers/utils.scss';
-@import 'international-overrides.scss';
+@import 'reset.scss';
 
-body {
-    margin: 0;
-}
-
-#content:focus {
-    outline: none;
-}
-
-#skip-link {
-    @include great-international-regular;
-}
 
 // International home page styles start
-
 .great-international-card--cta {
-    div {
-        @include great-international-regular;
-    }
+
     .great-card__link {
-        @include great-international-bold;
         color: $great-dark-blue;
         text-underline-offset: 0px;
         text-decoration-thickness: 2px;
@@ -73,10 +63,6 @@ body {
     text-align: center;
 }
 
-.button--international {
-    font-family: 'Euclid Flex B', Roboto, Arial, sans-serif;
-}
-
 @media (min-width: 769px) {
     .spend-currency-column {
       padding-right: 0px;
@@ -87,10 +73,6 @@ body {
     float: left;
     padding: 2px 6px;
     min-height: 38px;
-}
-
-.govuk-caption-l {
-    font-family: 'Euclid Flex B', Roboto, Arial, sans-serif !important;
 }
 
 .light-blue-background {
