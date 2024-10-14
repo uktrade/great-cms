@@ -44,6 +44,9 @@ from core.models import CsatUserFeedback, GreatMedia
 from core.pingdom.services import health_check_services
 from directory_constants import choices
 from domestic.models import DomesticDashboard, TopicLandingPage
+from domestic.helpers import (
+    get_sector_widget_data_helper,
+)
 from sso.views import SSOBusinessUserLogoutView
 from export_academy.models import Event
 
@@ -880,6 +883,7 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, TemplateView):
         is_market_skipped = self.request.GET.get('is_market_skipped')
         trade_barrier_count = None
         ukea_events = None
+        sector = None
 
         if self.request.session.get('guided_journey_data'):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('guided_journey_data')))[0]
@@ -924,7 +928,7 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, TemplateView):
         return super().get_context_data(
             **kwargs,
             progress_position=4,
-            suggested_markets=[('china', 'cn'), ('india', 'in'), ('mexico', 'mx')],
+            suggested_markets=get_sector_widget_data_helper(sector),
             is_restricted_market=is_restricted_market,
             is_market_skipped=is_market_skipped,
             country_code=country_code,
