@@ -143,10 +143,10 @@
                                                         <span class="bold">{{ region }}</span>
                                                         {% if not forloop.last %}or{% endif %}
                                                         {% if forloop.last %}
-                                                            region{{ number_of_regions|pluralize:",s" }}
-                                                            {% if selected_trading_blocs %}
+                                                            {% if not selected_trading_blocs %}
+                                                                region{{ number_of_regions|pluralize:",s" }}.
                                                             {% else %}
-                                                                .
+                                                                region{{ number_of_regions|pluralize:",s" }}
                                                             {% endif %}
                                                         {% endif %}
                                                     {% endfor %}

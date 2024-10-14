@@ -668,8 +668,14 @@ class MarketsTopicLandingPage(
         selected = set(request.GET.getlist(self.REGION_QUERYSTRING_NAME))
         # chain unselected items queryset onto selected items queryset to sort selected items ahead of unselected
         regions = chain(
-            PersonalisationRegionTag.objects.order_by('name').filter(name__in=selected).all(),
-            PersonalisationRegionTag.objects.order_by('name').exclude(name__in=selected).all(),
+            PersonalisationRegionTag.objects.order_by('name')
+            .filter(name__in=selected)
+            .filter(models.Exists(RegionTaggedCountryGuidePage.objects.filter(tag_id=models.OuterRef('id'))))
+            .all(),
+            PersonalisationRegionTag.objects.order_by('name')
+            .exclude(name__in=selected)
+            .filter(models.Exists(RegionTaggedCountryGuidePage.objects.filter(tag_id=models.OuterRef('id'))))
+            .all(),
         )
         return regions
 
@@ -685,8 +691,14 @@ class MarketsTopicLandingPage(
         selected = set(request.GET.getlist(self.TRADING_BLOC_QUERYSTRING_NAME))
         # chain unselected items queryset onto selected items queryset to sort selected items ahead of unselected
         trading_blocs = chain(
-            PersonalisationTradingBlocTag.objects.order_by('name').filter(name__in=selected).all(),
-            PersonalisationTradingBlocTag.objects.order_by('name').exclude(name__in=selected).all(),
+            PersonalisationTradingBlocTag.objects.order_by('name')
+            .filter(name__in=selected)
+            .filter(models.Exists(TradingBlocTaggedCountryGuidePage.objects.filter(tag_id=models.OuterRef('id'))))
+            .all(),
+            PersonalisationTradingBlocTag.objects.order_by('name')
+            .exclude(name__in=selected)
+            .filter(models.Exists(TradingBlocTaggedCountryGuidePage.objects.filter(tag_id=models.OuterRef('id'))))
+            .all(),
         )
         return trading_blocs
 
