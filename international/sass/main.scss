@@ -35,50 +35,11 @@ $fa-font-path: '/static/fonts';
 @import 'core-class-overrides';
 @import 'header.scss';
 @import 'footer.scss';
-@import 'hero.scss';
 @import 'reset.scss';
+@import 'utils.scss';
 
+// Great International pages
+@import 'pages/index.scss';
 
-// International home page styles start
-.great-international-card--cta {
-
-    .great-card__link {
-        color: $great-dark-blue;
-        text-underline-offset: 0px;
-        text-decoration-thickness: 2px;
-    }
-}
-
-.great-international-home-uk-map {
-    background: url('/static/images/uk-map.svg');
-    display: block;
-    width: fixed;
-    height: 387px;
-    background-repeat: no-repeat;
-    background-size: contain;
-}
-// International home page styles end
-
-.great-interntional-centered-content {
-    text-align: center;
-}
-
-@media (min-width: 769px) {
-    .spend-currency-column {
-      padding-right: 0px;
-    }
-}
-
-.custom-select-button {
-    float: left;
-    padding: 2px 6px;
-    min-height: 38px;
-}
-
-.light-blue-background {
-    background-color: $great-light-blue;
-}
-
-.light-green-background {
-    background-color: #8CE2D0;
-}
+// Great International components
+@import 'hero.scss';
