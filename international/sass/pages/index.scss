@@ -1,0 +1,17 @@
+.great-international-card--cta {
+
+    .great-card__link {
+        color: $great-dark-blue;
+        text-underline-offset: 0px;
+        text-decoration-thickness: 2px;
+    }
+}
+
+.great-international-home-uk-map {
+    background: url('/static/images/uk-map.svg');
+    display: block;
+    width: fixed;
+    height: 387px;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
