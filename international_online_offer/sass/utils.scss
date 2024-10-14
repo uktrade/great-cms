@@ -1,0 +1,31 @@
+.error-text {
+    color: #D4351C;
+    font-weight: 700;
+}
+
+.eyb-form-label {
+    color: $great-dark-blue;
+    font-weight: 400;
+    line-height: 25px;
+}
+
+.eyb-profile-icon {
+    filter: invert(1);
+    width: 18px;
+    height: 18px;
+    display: inline;
+    margin-right: 5px;
+    vertical-align:middle;
+}
+
+.prepend-search-icon {
+    .autocomplete__wrapper {
+       .autocomplete__input {
+            text-indent: 32px;
+            background-image: url('../static/svg/icon-search.svg');
+            background-repeat: no-repeat;
+            background-size: 18px;
+            background-position: 9px 8px;
+       }
+    }
+}
