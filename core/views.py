@@ -39,8 +39,13 @@ from wagtailcache.cache import cache_page, nocache_page
 
 from core import cms_slugs, forms, helpers, serializers
 from core.constants import PRODUCT_MARKET_DATA
-from core.mixins import AuthenticatedUserRequired, GuidedJourneyMixin, PageTitleMixin
-from core.models import CsatUserFeedback, GreatMedia
+from core.mixins import (
+    AuthenticatedUserRequired,
+    GuidedJourneyMixin,
+    HCSATMixin,
+    PageTitleMixin,
+)
+from core.models import GreatMedia
 from core.pingdom.services import health_check_services
 from directory_constants import choices
 from domestic.models import DomesticDashboard, TopicLandingPage
@@ -139,7 +144,7 @@ class SignupView(GA360Mixin, PageTitleMixin, TemplateView):
         return context
 
 
-class CompareCountriesView(GA360Mixin, PageTitleMixin, TemplateView, FormView):
+class CompareCountriesView(GA360Mixin, PageTitleMixin, HCSATMixin, TemplateView, FormView):
     def __init__(self):
         super().__init__()
         self.set_ga360_payload(
@@ -147,24 +152,12 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, TemplateView, FormView):
             business_unit='MagnaUnit',
             site_section='target markets',
         )
+        self.hcsat_session_name = 'where_to_export_csat_id'
 
     template_name = 'core/compare_countries.html'
     title = 'Where to export'
-    form_class = forms.CsatUserFeedbackForm
-
-    def get_csat(self):
-        csat_id = self.request.session.get('where_to_export_csat_id')
-        if csat_id:
-            return CsatUserFeedback.objects.get(id=csat_id)
-        return None
-
-    def get_initial(self):
-        csat = self.get_csat()
-        if csat:
-            satisfaction = csat.satisfaction_rating
-            if satisfaction and self.request.session.get('where_to_export_csat_stage', 0) == 1:
-                return {'satisfaction': satisfaction}
-        return {'satisfaction': ''}
+    form_class = forms.HCSATForm
+    hcsat_service_name = 'where_to_export'
 
     def get_context_data(self, **kwargs):
         dashboard = DomesticDashboard.objects.live().first()
@@ -172,68 +165,68 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, TemplateView, FormView):
         context['data_tabs_enabled'] = json.dumps(settings.FEATURE_COMPARE_MARKETS_TABS)
         context['max_compare_places_allowed'] = settings.MAX_COMPARE_PLACES_ALLOWED
         context['dashboard_components'] = dashboard.components if dashboard else None
-        stage = self.request.session.get('where_to_export_csat_stage', 0)
-        context['csat_stage'] = stage
-        if stage == 2:
-            del self.request.session['where_to_export_csat_stage']
+
+        context = self.set_csat_and_stage(self.request, context, self.hcsat_service_name, form=self.form_class)
+        if 'form' in kwargs:  # pass back errors from form_invalid
+            context['hcsat_form'] = kwargs['form']
+
         return context
 
-    def form_invalid(self, form):
-        if 'cancelButton' in self.request.POST:
-            self.request.session['where_to_export_csat_stage'] = 2
+    def post(self, request, *args, **kwargs):
+        form_class = self.form_class
+
+        hcsat = self.get_hcsat(request, self.hcsat_service_name)
+        post_data = self.request.POST
+
+        if 'cancelButton' in post_data:
+            """
+            Redirect user if 'cancelButton' is found in the POST data
+            """
+            if hcsat:
+                hcsat.stage = 2
+                hcsat.save()
             return HttpResponseRedirect(self.get_success_url())
+
+        form = form_class(post_data)
+
+        if form.is_valid():
+            if hcsat:
+                form = form_class(post_data, instance=hcsat)
+                form.is_valid()
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_invalid(self, form):
         super().form_invalid(form)
-        js_enabled = 'js_enabled' in self.request.get_full_path()
-        if js_enabled:
+        if 'js_enabled' in self.request.get_full_path():
             return JsonResponse(form.errors, status=400)
         return self.render_to_response(self.get_context_data(form=form))
 
     def form_valid(self, form):
-        if 'cancelButton' in self.request.POST:
-            self.request.session['where_to_export_csat_stage'] = 2
-            return HttpResponseRedirect(self.get_success_url())
-
         super().form_valid(form)
-        csat = self.get_csat()
-        if csat:
-            csat_feedback, created = CsatUserFeedback.objects.update_or_create(
-                id=csat.id,
-                defaults={
-                    'experienced_issues': form.cleaned_data['experience'],
-                    'other_detail': form.cleaned_data['experience_other'],
-                    'likelihood_of_return': form.cleaned_data['likelihood_of_return'],
-                    'service_improvements_feedback': form.cleaned_data['feedback_text'],
-                },
-            )
-            csat_stage = self.request.session.get('where_to_export_csat_stage', 0)
+        js_enabled = False
+        hcsat = form.save(commit=False)
 
-            if csat_stage == 0:
-                self.request.session['where_to_export_csat_stage'] = 1
-            else:
-                self.request.session['where_to_export_csat_stage'] = 2
+        # js version handles form progression in js file, so keep on 0 for reloads
+        if 'js_enabled' in self.request.get_full_path():
+            hcsat.stage = 0
+            js_enabled = True
 
-        else:
-            csat_feedback = CsatUserFeedback.objects.create(
-                satisfaction_rating=form.cleaned_data['satisfaction'],
-                experienced_issues=form.cleaned_data['experience'],
-                other_detail=form.cleaned_data['experience_other'],
-                likelihood_of_return=form.cleaned_data['likelihood_of_return'],
-                service_improvements_feedback=form.cleaned_data['feedback_text'],
-                URL=reverse_lazy('core:compare-countries'),
-                user_journey='ADD_PRODUCT',
-            )
-            self.request.session['where_to_export_csat_id'] = csat_feedback.id
-            self.request.session['where_to_export_csat_stage'] = 1
+        # if in second part of form (satisfaction=None) or not given in first part, persist existing satisfaction rating
+        hcsat = self.persist_existing_satisfaction(self.request, self.hcsat_service_name, hcsat)
 
-        data = {
-            'pk': csat_feedback.pk,
-        }
-        js_enabled = 'js_enabled' in self.request.get_full_path()
-        if js_enabled:
-            csat_stage = self.request.session.get('where_to_export_csat_stage', 0)
-            if csat_stage == 1:
-                del self.request.session['where_to_export_csat_stage']
-            return JsonResponse(data)
+        # Apply data specific to this service
+        hcsat.URL = reverse_lazy('core:compare-countries')
+        hcsat.user_journey = 'ADD_PRODUCT'
+        hcsat.session_key = self.request.session.session_key
+
+        hcsat.save(js_enabled=js_enabled)
+
+        self.request.session[f'{self.hcsat_service_name}_hcsat_id'] = hcsat.id
+
+        if 'js_enabled' in self.request.get_full_path():
+            return JsonResponse({'pk': hcsat.pk})
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):

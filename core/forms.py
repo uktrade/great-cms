@@ -7,6 +7,7 @@ from django.forms import (
     CheckboxSelectMultiple,
     ChoiceField,
     HiddenInput,
+    ModelForm,
     MultipleChoiceField,
     RadioSelect,
     Textarea,
@@ -16,12 +17,11 @@ from django.template.loader import render_to_string
 from django.utils.html import mark_safe
 from great_components import forms
 
-from core import constants
+from core import constants, models
 from core.cms_slugs import (
     PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE,
     TERMS_URL,
 )
-from core.constants import CONSENT_CHOICES
 
 TERMS_LABEL = mark_safe(
     'Tick this box to accept the '
@@ -81,7 +81,7 @@ class ConsentFieldMixin(forms.Form):
             attrs={'id': 'checkbox-multiple'},
             use_nice_ids=True,
         ),
-        choices=CONSENT_CHOICES,
+        choices=constants.CONSENT_CHOICES,
         required=False,
     )
 
@@ -107,14 +107,15 @@ class ConsentFieldMixin(forms.Form):
         return super().order_fields(field_order)
 
 
-class CsatUserFeedbackForm(forms.Form):
-    satisfaction = ChoiceField(
-        label='Overall, how would you rate your experience with the Where to export service today?',
+class HCSATForm(ModelForm):
+
+    satisfaction_rating = ChoiceField(
+        label='Overall, how would you rate your experience with this service today?',
         choices=constants.SATISFACTION_CHOICES,
         widget=RadioSelect(attrs={'class': 'govuk-radios__input'}),
         required=False,
     )
-    experience = MultipleChoiceField(
+    experienced_issues = MultipleChoiceField(
         label='Did you experience any of the following issues?',
         help_text='Select all that apply.',
         choices=constants.EXPERIENCE_CHOICES,
@@ -124,14 +125,14 @@ class CsatUserFeedbackForm(forms.Form):
             'required': "Select issues you experienced, or select 'I did not experience any issues'",
         },
     )
-    experience_other = CharField(
+    other_detail = CharField(
         label='Please describe the issue',
         min_length=2,
         max_length=255,
         required=False,
         widget=TextInput(attrs={'class': 'govuk-input great-font-main'}),
     )
-    feedback_text = CharField(
+    service_improvements_feedback = CharField(
         label='How could we improve this service?',
         help_text="Don't include any personal information, like your name or email address.",
         max_length=1200,
@@ -141,9 +142,9 @@ class CsatUserFeedbackForm(forms.Form):
             attrs={
                 'class': 'govuk-textarea govuk-js-character-count great-font-main',
                 'rows': 6,
-                'id': 'id_feedback_text',
+                'id': 'id_service_improvements_feedback',
                 'name': 'withHint',
-                'aria-describedby': 'id_feedback_text-info id_feedback_text-hint',
+                'aria-describedby': 'id_service_improvements_feedback-info id_service_improvements_feedback-hint',
             }
         ),
     )
@@ -154,18 +155,29 @@ class CsatUserFeedbackForm(forms.Form):
         required=False,
     )
 
+    class Meta:
+        model = models.HCSAT
+        fields = [
+            'satisfaction_rating',
+            'experienced_issues',
+            'other_detail',
+            'service_improvements_feedback',
+            'likelihood_of_return',
+        ]
+
     def clean(self):
         cleaned_data = super().clean()
-        experience = cleaned_data.get('experience')
+        experienced_issues = cleaned_data.get('experienced_issues')
 
-        if experience and 'OTHER' not in experience:
-            cleaned_data['experience_other'] = ''
+        if experienced_issues and 'OTHER' not in experienced_issues:
+            cleaned_data['other_detail'] = ''
 
-        if experience and any('NO_ISSUE' in s for s in experience):
-            for option in experience:
+        if experienced_issues and any('NO_ISSUE' in s for s in experienced_issues):
+            for option in experienced_issues:
                 if option != 'NO_ISSUE':
                     self.add_error(
-                        'experience', "Select issues you experienced, or select 'I did not experience any issues'"
+                        'experienced_issues',
+                        "Select issues you experienced, or select 'I did not experience any issues'",
                     )
                     break
         return cleaned_data
