@@ -238,4 +238,4 @@ def persist_language_to_url(url, request=None):
     if request:
         query_params.update(request.GET.dict())
 
-    return f"{translated_url}?{urlencode(query_params)}"
+    return f'{translated_url}?{urlencode(query_params)}'
