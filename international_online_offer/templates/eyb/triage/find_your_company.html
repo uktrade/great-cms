@@ -183,6 +183,8 @@
 
                 setTypeAheadInitialValue()
 
+                document.querySelector('#js-company-name-autocomplete').setAttribute('maxlength', 30)
+
                 document.querySelector('#js-company-name-autocomplete').addEventListener('focus', ()=>{
                     retrieveDNBCompanies = true
                 })

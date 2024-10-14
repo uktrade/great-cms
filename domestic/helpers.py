@@ -161,14 +161,19 @@ def get_sector_widget_data_helper(sector):
 
 
 def get_sector_and_market_promo_data_helper(sector, market):
+    market_matches = SectorAndMarketCard.objects.exclude(sector_tags__name__isnull=False).filter(
+        country_tags__name__contains=market,
+    )
+
+    sector_and_market_matches = SectorAndMarketCard.objects.filter(
+        country_tags__name__contains=market,
+        sector_tags__name__contains=sector,
+    )
+
     res = {
-        'market_matches': SectorAndMarketCard.objects.exclude(sector_tags__name__isnull=False).filter(
-            country_tags__name__contains=market,
-        ),
-        'sector_and_market_matches': SectorAndMarketCard.objects.filter(
-            country_tags__name__contains=market,
-            sector_tags__name__contains=sector,
-        ),
+        'market_matches': market_matches,
+        'sector_and_market_matches': sector_and_market_matches,
+        'is_matches': len(market_matches) > 0 or len(sector_and_market_matches) > 0,
     }
 
     return res

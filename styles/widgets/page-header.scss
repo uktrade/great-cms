@@ -233,6 +233,17 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
           margin-left: 0;
         }
       }
+      &.ea-events-page-hero-image {
+        background-size: 100% !important;
+        background-position-y: 50% !important;
+        background-position-x: right !important;
+        display: none;
+        align-self: center;
+        width: calc(100% - 30px) !important;
+        @media screen and (min-width: 920px) {
+          display:flex;
+        }
+      }
       &.ea-landing-image-container {
         @media screen and (min-width: 901px) {
           background-size: auto 90% !important;

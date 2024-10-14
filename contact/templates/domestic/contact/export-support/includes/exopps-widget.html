@@ -1,17 +1,27 @@
-<div class="govuk-!-margin-top-5 govuk-!-margin-bottom-2 govuk-!-padding-6 great-bg-white">
-    <h2 class="govuk-heading-s great-heading-link__heading">Export opportunities</h2>
+{% load get_market_widget_data from component_tags %}
 
-    {% if session_data.market %}
-        <p class="govuk-body">
-            Live export opportunities for UK businesses exporting to {{ session_data.market }}
-        </p>
-        <a href="https://www.great.gov.uk/export-opportunities/opportunities/?s=&areas[]={{ session_data.market | lower }}" class="govuk-link" target="_blank">Go to the ExOpps page</a>
-    {% else %}
-        <p class="govuk-body">
-            Live export opportunities for UK businesses selling overseas
-        </p>
-        <a href="https://www.great.gov.uk/export-opportunities/" class="govuk-link" target="_blank">Go to the ExOpps page</a>
-    {% endif %}
+{% with market=market|get_market_widget_data market_name=market %}
+<div class="govuk-!-padding-6 great-bg-white great-ds-box-shadow great-ds-card-panels__item">
+    <span class="great-meta-label govuk-!-margin-bottom-2">
+        <img src="/static/icons/hand.svg" alt="" />
+        Service on GOV.UK
+    </span>
+
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Live export opportunities in {% if market %}{{ session_data.market }}{% else %}your export market{% endif %}</h2>
+
+    <p class="govuk-body">
+        {% if market %}
+            Pitch your company to businesses in {{ session_data.market }} who are looking for products and services like yours.
+        {% else %}
+            Pitch your company to businesses who are looking for products and services like yours.
+        {% endif %}
+    </p>
+
+    <div>
+        <a href="https://www.great.gov.uk/export-opportunities{% if market %}/opportunities/?s=&areas[]={{ session_data.market | lower }}{% endif %}" class="govuk-link great-ds-link" target="_blank">
+            <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> 
+            <span>Use this service</span>
+        </a>
+    </div>
 </div>
-
-
+{% endwith %}

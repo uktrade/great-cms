@@ -19,6 +19,8 @@ class BaseSettings(PydanticBaseSettings):
     app_environment: str
     secret_key: str
 
+    cache_middleware_seconds: int = 60 * 30  # 30 minutes
+
     @property
     def database_url(self):
         raise NotImplementedError

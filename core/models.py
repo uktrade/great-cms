@@ -44,6 +44,7 @@ from wagtail.search import index
 from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtail.snippets.models import register_snippet
 from wagtail.utils.decorators import cached_classmethod
+from wagtailcache.cache import WagtailCacheMixin
 from wagtailmedia.models import Media
 from wagtailseo.models import SeoMixin as WagtailSeoMixin, TwitterCard
 
@@ -497,7 +498,7 @@ class InterstitialPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CM
     ]
 
 
-class ListPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage):
+class ListPage(WagtailCacheMixin, settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage):
     parent_page_types = ['core.LandingPage']
     subpage_types = ['core.CuratedListPage']
 
@@ -507,6 +508,7 @@ class ListPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGeneric
         default=False,
         help_text='Should we record when a user views a page in this collection?',
     )
+    cache_control = 'no-cache'
 
     class Meta:
         verbose_name = 'Automated list page'
@@ -617,7 +619,9 @@ class ListPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGeneric
     ]
 
 
-class CuratedListPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage):
+class CuratedListPage(WagtailCacheMixin, settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage):
+    cache_control = 'no-cache'
+
     parent_page_types = ['core.ListPage']
     subpage_types = [
         'core.TopicPage',
@@ -2579,6 +2583,11 @@ class SectorAndMarketCard(index.Indexed, ClusterableModel):
         choices=constants.META_LABELS,
         blank=True,
     )
+    exporter_type = models.CharField(
+        max_length=255,
+        choices=constants.EXPORTER_TYPES,
+        blank=True,
+    )
 
     panels = [
         FieldPanel('title'),
@@ -2588,6 +2597,7 @@ class SectorAndMarketCard(index.Indexed, ClusterableModel):
         FieldPanel('country_tags'),
         FieldPanel('sector_tags'),
         FieldPanel('meta_label'),
+        FieldPanel('exporter_type'),
     ]
 
     search_fields = [
