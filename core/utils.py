@@ -226,30 +226,32 @@ def get_hreflang_tags(context, canonical_url, lang):
 def persist_language_to_url(url, request=None):
     # Get the current language
     current_language = request.LANGUAGE_CODE if request and hasattr(request, 'LANGUAGE_CODE') else get_language()
-    
+
     # Ensure url is a string
     url = str(url)
-    
+
     # Parse the URL
     parsed_url = urlparse(url)
-    
+
     # Get the query parameters
     query_params = parse_qs(parsed_url.query)
-    
+
     # Add or update the 'lang' parameter
     query_params['lang'] = [current_language]
-    
+
     # Reconstruct the URL with the updated query parameters
     new_query = urlencode(query_params, doseq=True)
-    
+
     # Ensure all components are strings and reconstruct the URL
-    new_url = urlunparse((
-        str(parsed_url.scheme),
-        str(parsed_url.netloc),
-        str(parsed_url.path),
-        str(parsed_url.params),
-        new_query,
-        str(parsed_url.fragment)
-    ))
-    
+    new_url = urlunparse(
+        (
+            str(parsed_url.scheme),
+            str(parsed_url.netloc),
+            str(parsed_url.path),
+            str(parsed_url.params),
+            new_query,
+            str(parsed_url.fragment),
+        )
+    )
+
     return new_url

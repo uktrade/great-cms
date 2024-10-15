@@ -135,12 +135,6 @@ def test_ukef_contact_form_success_view_response(rf):
     assert response.status_code == 200
     assert user_email in response.rendered_content
 
-    # Add a check for None before accessing is_authenticated
-    if request.user is not None:
-        is_authenticated = request.user.is_authenticated
-    else:
-        is_authenticated = False
-
     # test page redirect if the email doesn't exists in the session
     request.session = {}
     view = domestic.views.ukef.SuccessPageView.as_view()

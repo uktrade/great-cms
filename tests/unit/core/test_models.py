@@ -885,17 +885,17 @@ class MicrositePageTests(SetUpLocaleMixin, WagtailPageTests):
 
         menu_items = home.get_menu_items()
 
-        assert menu_items, "Menu items should not be empty"
+        assert menu_items, 'Menu items should not be empty'
 
         for item in menu_items:
-            assert 'text' in item, "Menu item should have a 'text' key"
-            assert 'href' in item, "Menu item should have an 'href' key"
+            assert 'text' in item, 'Menu item should have a text key'
+            assert 'href' in item, 'Menu item should have an href key'
 
-        assert menu_items[0]['text'] == 'Home', "First menu item should be 'Home'"
-        assert menu_items[0]['href'], "First menu item should have a non-empty href"
+        assert menu_items[0]['text'] == 'Home', 'First menu item should be Home'
+        assert menu_items[0]['href'], 'First menu item should have a non-empty href'
 
         menu_item_url = menu_items[0]['href'].lstrip('/') if menu_items else ''
-        assert menu_item_url, "Menu item URL should not be empty after stripping leading slash"
+        assert menu_item_url, 'Menu item URL should not be empty after stripping leading slash'
 
     def test_get_site_title(self):
         root = MicrositeFactory(title='root')
