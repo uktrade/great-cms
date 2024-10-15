@@ -1,4 +1,4 @@
-.govuk-heading-xl, .govuk-heading-l, .govuk-heading-m, .govuk-label, .govuk-back-link {
+.govuk-heading-xl, .govuk-heading-l, .govuk-heading-m, .govuk-label, .govuk-back-link, .govuk-fieldset__heading {
     color: $great-dark-blue;
 }
 
@@ -8,15 +8,4 @@
 
 .govuk-panel__title {
     color: $great-white;
-}
-
-.govuk-fieldset__heading {
-    font-family: 'Euclid Flex B', Roboto, Arial, sans-serif;
-    font-weight: 700;
-    line-height: 1.111;
-    @media (max-width: $mobile-size) {
-        line-height: 1.04;
-        font-size: 1.5rem;
-    }
-    color: $great-dark-blue;
 }

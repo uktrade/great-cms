@@ -37,6 +37,7 @@ from rest_framework.generics import GenericAPIView
 
 from config import settings
 from core import mixins as core_mixins
+from core.forms import HCSATForm
 from core.helpers import get_location
 from core.templatetags.content_tags import format_timedelta
 from directory_sso_api_client import sso_api_client
@@ -55,7 +56,6 @@ from export_academy.mixins import (
 )
 from export_academy.models import (
     Booking,
-    CsatUserFeedback,
     ExportAcademyHomePage,
     Registration,
     VideoOnDemandPageTracking,
@@ -150,23 +150,10 @@ class BookingUpdateView(BookingMixin, UpdateView):
         return reverse_lazy(success_url, kwargs={'booking_id': self.object.id})
 
 
-class SuccessPageView(GetBreadcrumbsMixin, core_mixins.GetSnippetContentMixin, FormView):
+class SuccessPageView(GetBreadcrumbsMixin, core_mixins.GetSnippetContentMixin, core_mixins.HCSATMixin, FormView):
 
-    form_class = forms.CsatUserFeedbackForm
-
-    def get_csat(self):
-        csat_id = self.request.session.get('ukea_csat_id')
-        if csat_id:
-            return CsatUserFeedback.objects.get(id=csat_id)
-        return None
-
-    def get_initial(self):
-        csat = self.get_csat()
-        if csat:
-            satisfaction = csat.satisfaction_rating
-            if satisfaction and self.request.session.get('ukea_csat_stage', 0) == 1:
-                return {'satisfaction': satisfaction}
-        return {'satisfaction': ''}
+    form_class = HCSATForm
+    hcsat_service_name = 'export_academy'
 
     def get_success_url(self):
         return reverse_lazy('export_academy:registration-success', kwargs={'booking_id': self.kwargs.get('booking_id')})
@@ -222,69 +209,70 @@ class SuccessPageView(GetBreadcrumbsMixin, core_mixins.GetSnippetContentMixin, F
         just_registered = self.user_just_registered(booking)
         ctx['just_registered'] = just_registered
         ctx['current_page_breadcrumb'] = 'Registration' if just_registered else 'Events'
-        stage = self.request.session.get('ukea_csat_stage', 0)
-        ctx['csat_stage'] = stage
-        if stage == 2:
-            del self.request.session['ukea_csat_stage']
+
+        ctx = self.set_csat_and_stage(self.request, ctx, self.hcsat_service_name, self.form_class)
+        if 'form' in kwargs:  # pass back errors from form_invalid
+            ctx['hcsat_form'] = kwargs['form']
+
         return ctx
 
-    def form_invalid(self, form):
-        if 'cancelButton' in self.request.POST:
-            self.request.session['ukea_csat_stage'] = 2
+    def post(self, request, *args, **kwargs):
+        form_class = self.form_class
+
+        hcsat = self.get_hcsat(request, self.hcsat_service_name)
+        post_data = self.request.POST
+
+        if 'cancelButton' in post_data:
+            """
+            Redirect user if 'cancelButton' is found in the POST data
+            """
+            if hcsat:
+                hcsat.stage = 2
+                hcsat.save()
             return HttpResponseRedirect(self.get_success_url())
+
+        form = form_class(post_data)
+
+        if form.is_valid():
+            if hcsat:
+                form = form_class(post_data, instance=hcsat)
+                form.is_valid()
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_invalid(self, form):
         super().form_invalid(form)
-        js_enabled = 'js_enabled' in self.request.get_full_path()
-        if js_enabled:
+        if 'js_enabled' in self.request.get_full_path():
             return JsonResponse(form.errors, status=400)
         return self.render_to_response(self.get_context_data(form=form))
 
     def form_valid(self, form):
-        if 'cancelButton' in self.request.POST:
-            self.request.session['ukea_csat_stage'] = 2
-            return HttpResponseRedirect(self.get_success_url())
-
         super().form_valid(form)
-        csat = self.get_csat()
+
+        js_enabled = False
+
+        hcsat = form.save(commit=False)
         booking = self.get_object()
-        if csat:
-            csat_feedback, created = CsatUserFeedback.objects.update_or_create(
-                id=csat.id,
-                defaults={
-                    'experienced_issues': form.cleaned_data['experience'],
-                    'other_detail': form.cleaned_data['experience_other'],
-                    'likelihood_of_return': form.cleaned_data['likelihood_of_return'],
-                    'service_improvements_feedback': form.cleaned_data['feedback_text'],
-                },
-            )
-            csat_stage = self.request.session.get('ukea_csat_stage', 0)
 
-            if csat_stage == 0:
-                self.request.session['ukea_csat_stage'] = 1
-            else:
-                self.request.session['ukea_csat_stage'] = 2
+        # js version handles form progression in js file, so keep on 0 for reloads
+        if 'js_enabled' in self.request.get_full_path():
+            hcsat.stage = 0
+            js_enabled = True
 
-        else:
-            csat_feedback = CsatUserFeedback.objects.create(
-                satisfaction_rating=form.cleaned_data['satisfaction'],
-                experienced_issues=form.cleaned_data['experience'],
-                other_detail=form.cleaned_data['experience_other'],
-                likelihood_of_return=form.cleaned_data['likelihood_of_return'],
-                service_improvements_feedback=form.cleaned_data['feedback_text'],
-                URL=reverse_lazy('export_academy:registration-success', kwargs={'booking_id': booking.id}),
-                user_journey='EVENT_BOOKING',
-            )
-            self.request.session['ukea_csat_id'] = csat_feedback.id
-            self.request.session['ukea_csat_stage'] = 1
+        # if in second part of form (satisfaction=None) or not given in first part, persist existing satisfaction rating
+        hcsat = self.persist_existing_satisfaction(self.request, self.hcsat_service_name, hcsat)
 
-        data = {
-            'pk': csat_feedback.pk,
-        }
-        js_enabled = 'js_enabled' in self.request.get_full_path()
-        if js_enabled:
-            csat_stage = self.request.session.get('ukea_csat_stage', 0)
-            if csat_stage == 1:
-                del self.request.session['ukea_csat_stage']
-            return JsonResponse(data)
+        # Apply data specific to this service
+        hcsat.URL = reverse_lazy('export_academy:registration-success', kwargs={'booking_id': booking.id})
+        hcsat.user_journey = 'EVENT_BOOKING'
+        hcsat.session_key = self.request.session.session_key
+        hcsat.save(js_enabled=js_enabled)
+
+        self.request.session[f'{self.hcsat_service_name}_hcsat_id'] = hcsat.id
+
+        if 'js_enabled' in self.request.get_full_path():
+            return JsonResponse({'pk': hcsat.pk})
         return HttpResponseRedirect(self.get_success_url())
 
 

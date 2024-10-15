@@ -1,73 +1,8 @@
 @import '../../international/sass/main.scss';
 @import './hero.scss';
 
-.investment-home-why-the-uk-green-heading {
-  color: $great-teal;
-  margin-bottom: 20px;
-}
-
-.investment-home-why-the-uk-sub-text {
-  font-weight: 700;
-}
-
-.investment-home-why-the-uk-source {
-  color: $great-medium-blue;
-}
-
-.investment-home-map {
-  background-image: url('/static/svg/uk-regions-K03000001.svg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  width: 100%;
-  height: 650px;
-}
-
-.investment-sectors-section {
-  background-image: url('/static/images/international-sectors-hero.jpg');
-  height: 345px;
-}
-
-.investment-regions-section {
-  background-image: url('/static/images/international-regions-hero.jpg');
-  height: 345px;
-}
-
-.investment-section-overlap {
-  margin-top: -85px;
-  position: relative;
-}
-
-.investment-white-background {
-  background-color: white;
-}
-
-.investment-data-points-section {
-  background-color: #8CE2D0;
-}
-
-.listitem-logo {
-  width: 140px;
-  height: 78px;
-  background-position: top;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.fixed-height-scroll {
-  max-height: 300px;
-  overflow-x: scroll;
-}
-
-.fixed-height-scroll .govuk-checkboxes--small .govuk-checkboxes__item {
-  float: none;
-}
-
-.js-enabled .govuk-accordion__section-content {
-  padding-top: 0px;
-  padding-bottom: 0px;
-}
-
-.js-enabled .govuk-accordion__section-button {
-  border-bottom: 0px;
-}
+// Great International Investment pages
+@import 'pages/index.scss';
+@import 'pages/search.scss';
+@import 'pages/sectors.scss';
+@import 'pages/regions.scss';

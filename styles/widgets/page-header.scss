@@ -234,9 +234,9 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
         }
       }
       &.ea-events-page-hero-image {
-        background-size: 100% !important;
+        background-size: contain !important;
         background-position-y: 50% !important;
-        background-position-x: right !important;
+        background-position-x: 50% !important;
         display: none;
         align-self: center;
         width: calc(100% - 30px) !important;

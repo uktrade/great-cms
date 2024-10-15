@@ -1,17 +1,10 @@
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from django.core.exceptions import ValidationError
 from django.forms import (
-    CharField,
     CheckboxInput,
-    CheckboxSelectMultiple,
-    ChoiceField,
     DateTimeField,
     HiddenInput,
-    MultipleChoiceField,
     PasswordInput,
-    RadioSelect,
-    Textarea,
-    TextInput,
     widgets as django_widgets,
 )
 from django.forms.widgets import ChoiceWidget
@@ -23,7 +16,6 @@ from wagtail.admin.forms import WagtailAdminModelForm
 from contact import constants, widgets as contact_widgets
 from core.validators import is_valid_uk_phone_number, is_valid_uk_postcode
 from directory_constants.choices import COUNTRY_CHOICES
-from export_academy import choices
 from export_academy.widgets import GreatRadioSelectWithOtherText, PasswordInputShowHide
 
 COUNTRIES = COUNTRY_CHOICES.copy()
@@ -341,67 +333,3 @@ class CodeConfirmForm(forms.Form):
     code_confirm = forms.CharField(
         label='Confirmation code', error_messages={'required': 'Enter your confirmation code'}
     )
-
-
-class CsatUserFeedbackForm(forms.Form):
-    satisfaction = ChoiceField(
-        label='Overall, how would you rate your experience with the UK Export Academy event booking service today?',
-        choices=choices.SATISFACTION_CHOICES,
-        widget=RadioSelect(attrs={'class': 'govuk-radios__input'}),
-        required=False,
-    )
-    experience = MultipleChoiceField(
-        label='Did you experience any of the following issues?',
-        help_text='Tick all that apply.',
-        choices=choices.EXPERIENCE_CHOICES,
-        widget=CheckboxSelectMultiple(attrs={'class': 'govuk-checkboxes__input'}),
-        required=False,
-        error_messages={
-            'required': "Select issues you experienced, or select 'I did not experience any issues'",
-        },
-    )
-    experience_other = CharField(
-        label='Please describe the issue',
-        min_length=2,
-        max_length=255,
-        required=False,
-        widget=TextInput(attrs={'class': 'govuk-input great-font-main'}),
-    )
-    feedback_text = CharField(
-        label='How could we improve this service?',
-        help_text="Don't include any personal information, like your name or email address.",
-        max_length=1200,
-        required=False,
-        error_messages={'max_length': 'Your feedback must be 1200 characters or less'},
-        widget=Textarea(
-            attrs={
-                'class': 'govuk-textarea govuk-js-character-count great-font-main',
-                'rows': 6,
-                'id': 'id_feedback_text',
-                'name': 'withHint',
-                'aria-describedby': 'id_feedback_text-info id_feedback_text-hint',
-            }
-        ),
-    )
-    likelihood_of_return = ChoiceField(
-        label='How likely are you to use this service again?',
-        choices=choices.LIKELIHOOD_CHOICES,
-        widget=RadioSelect(attrs={'class': 'govuk-radios__input'}),
-        required=False,
-    )
-
-    def clean(self):
-        cleaned_data = super().clean()
-        experience = cleaned_data.get('experience')
-
-        if experience and 'OTHER' not in experience:
-            cleaned_data['experience_other'] = ''
-
-        if experience and any('NO_ISSUE' in s for s in experience):
-            for option in experience:
-                if option != 'NO_ISSUE':
-                    self.add_error(
-                        'experience', "Select issues you experienced, or select 'I did not experience any issues'"
-                    )
-                    break
-        return cleaned_data

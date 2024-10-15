@@ -1,0 +1,45 @@
+#buy-from-the-uk-search-form {
+    height: 53px;
+    display: flex;
+    align-items: center;
+
+    button {
+        margin-top: 0;
+        margin-left: -2px;
+        flex-shrink: 0;
+        height: 50px;
+        width: 50px;
+        background-repeat: no-repeat;
+        background-position: 50%;
+        background-color: #006ccc;
+        background-image: url('/static/images/search.svg');
+        background-size: 20px;
+        border: 0;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    #magna-header-search-box {
+        height: 50px;
+        width: 100%;
+    }
+}
+
+.highlight-em em {
+    background: $great-light-yellow;
+    border-bottom: 3px solid black;
+    display: inline-block;
+    padding: 3px;
+    font-style: normal;
+    font-weight: bold;
+}
+
+.buy-from-the-uk-listitem-logo {
+    max-width: 120px;
+    min-width: 100px;
+    max-height: 120px;
+    min-height: 100px;
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: contain;
+}

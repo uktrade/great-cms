@@ -1,0 +1,33 @@
+.great-interntional-centered-content {
+    text-align: center;
+}
+
+.light-blue-background {
+    background-color: $great-light-blue;
+}
+
+.light-green-background {
+    background-color: #8CE2D0;
+}
+
+.white-background {
+    background-color: #FFFFFF;
+}
+
+.fixed-height-scroll {
+    max-height: 300px;
+    overflow-x: scroll;
+}
+
+.fixed-height-scroll .govuk-checkboxes--small .govuk-checkboxes__item {
+    float: none;
+}
+
+.js-enabled .govuk-accordion__section-content {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.js-enabled .govuk-accordion__section-button {
+    border-bottom: 0px;
+}
