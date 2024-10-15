@@ -647,9 +647,11 @@ class CuratedListPage(WagtailCacheMixin, settings.FEATURE_DEA_V2 and CMSGenericP
             qs = qs.live()
         return qs
 
+    @property
     def count_topics(self):
         return self.get_topics().count()
 
+    @property
     def count_detail_pages(self):
         count = 0
         for topic in self.get_topics():
@@ -1093,13 +1095,16 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
 
         return super().serve(request, **kwargs)
 
+    @property
     def topic_title(self):
         return self.get_parent().title
 
+    @property
     def module(self):
         """Gets the learning module this lesson belongs to"""
         return CuratedListPage.objects.live().specific().ancestor_of(self).first()
 
+    @property
     def _export_plan_url_map(self):
         """Return a lookup dictionary of URL Slugs->title for all the
         Export Plan sections we have."""
