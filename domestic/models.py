@@ -632,7 +632,7 @@ class MarketsTopicLandingPage(
         #  We need to only apply these if truthy, else we end up getting no results
         if sectors:
             market_pages_qs = market_pages_qs.filter(
-                tags__name__in=sectors,
+                sector_tags__name__in=sectors,
             )
         if regions:
             market_pages_qs = market_pages_qs.filter(
@@ -677,8 +677,14 @@ class MarketsTopicLandingPage(
     def get_sector_list(self, request):
         selected = set(request.GET.getlist(self.SECTOR_QUERYSTRING_NAME))
         sectors = chain(
-            IndustryTag.objects.order_by('name').filter(name__in=selected).all(),
-            IndustryTag.objects.order_by('name').exclude(name__in=selected).all(),
+            SectorTag.objects.order_by('name')
+            .filter(name__in=selected)
+            .filter(models.Exists(SectorTaggedCountryGuidePage.objects.filter(tag_id=models.OuterRef('id'))))
+            .all(),
+            SectorTag.objects.order_by('name')
+            .exclude(name__in=selected)
+            .filter(models.Exists(SectorTaggedCountryGuidePage.objects.filter(tag_id=models.OuterRef('id'))))
+            .all(),
         )
         return sectors
 
