@@ -102,7 +102,7 @@ cfgv==3.4.0
     # via pre-commit
 chardet==5.2.0
     # via reportlab
-charset-normalizer==3.3.2
+charset-normalizer==3.4.0
     # via requests
 click==8.1.7
     # via
@@ -125,7 +125,7 @@ colorama==0.4.6
     # via djlint
 configargparse==1.7
     # via locust
-coverage[toml]==7.6.1
+coverage[toml]==7.6.3
     # via
     #   pytest-codecov
     #   pytest-cov
@@ -187,11 +187,11 @@ directory-sso-api-client==7.2.7
     # via -r requirements.in
 directory-validators==9.3.4
     # via -r requirements.in
-distlib==0.3.8
+distlib==0.3.9
     # via virtualenv
 dj-database-url==2.2.0
     # via -r requirements.in
-django==4.2.15
+django==4.2.16
     # via
     #   -r requirements.in
     #   directory-api-client
@@ -311,7 +311,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==30.1.0
+faker==30.3.0
     # via factory-boy
 filelock==3.16.1
     # via virtualenv
@@ -349,7 +349,7 @@ freezegun==1.1.0
     # via -r requirements_test.in
 geoip2==2.9.0
     # via -r requirements.in
-gevent==24.2.1
+gevent==24.10.2
     # via
     #   geventhttpclient
     #   locust
@@ -451,7 +451,7 @@ markdown2==2.4.0
     # via
     #   -r requirements.in
     #   readtime
-markupsafe==2.1.5
+markupsafe==3.0.1
     # via
     #   jinja2
     #   werkzeug
@@ -647,7 +647,7 @@ pylint==3.3.1
     # via
     #   pylint-django
     #   pylint-plugin-utils
-pylint-django==2.5.5
+pylint-django==2.6.1
     # via -r requirements_test.in
 pylint-plugin-utils==0.8.2
     # via pylint-django
@@ -777,7 +777,7 @@ s3transfer==0.6.2
     # via boto3
 selenium==4.25.0
     # via -r requirements_test.in
-sentry-sdk==2.15.0
+sentry-sdk==2.16.0
     # via -r requirements.in
 sigauth==5.2.7
     # via
@@ -986,7 +986,7 @@ zipp==3.20.2
     # via importlib-metadata
 zope-event==5.0
     # via gevent
-zope-interface==7.0.3
+zope-interface==7.1.0
     # via gevent
 
 # The following packages are considered to be unsafe in a requirements file:
