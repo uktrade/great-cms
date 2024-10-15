@@ -6,15 +6,17 @@
     {{ block.super }}
 {% endblock %}
 {% block page_title %}Get help using great.gov.uk/international {{ block.super }}{% endblock %}
-{% block breadcrumb_region %}
-    <div class="great-container">
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                <a href="{{ back_url }}" class="govuk-back-link govuk-!-margin-bottom-4">Back</a>
+{% if not request.GET.success %}
+    {% block breadcrumb_region %}
+        <div class="great-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    <a href="{{ back_url }}" class="govuk-back-link govuk-!-margin-bottom-4">Back</a>
+                </div>
             </div>
         </div>
-    </div>
-{% endblock %}
+    {% endblock %}
+{% endif %}
 {% block css_layout_class %}
     govuk-main-wrapper
     {{ block.super }}

@@ -323,4 +323,4 @@ def get_market_code(market):
         if name == market:
             country_code = code
 
-    return country_code
+    return country_code.lower()
