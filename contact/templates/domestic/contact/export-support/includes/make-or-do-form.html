@@ -1,0 +1,20 @@
+<form action="{% url 'core:guided-journey-step-1' %}" method="post" autocomplete="off">
+    {% csrf_token %}
+    <input type="hidden" id="sector" name="sector" value="{{ session_data.sector }}" />
+    <input type="hidden" id="make_or_do_keyword" name="make_or_do_keyword" value="{{ session_data.make_or_do_keyword }}" />
+    <input type="hidden" id="exporter_type" name="exporter_type" value="{{ session_data.exporter_type }}" />
+
+    <h2>
+        <label class="govuk-heading-s govuk-!-margin-bottom-4" for="sic_description">
+            What does your company make or do?
+        </label>
+    </h2>
+    <input type="text" id="sic_description" name="sic_description" class="govuk-input great-text-input govuk-!-width-one-half" />
+    <div id="sic_description-container" class="great-ds-autocomplete-input__wrapper"></div>
+    <div class="govuk-inset-text govuk-!-margin-top-4 govuk-!-margin-bottom-4">
+        Tip: you may need to choose a broad term. For<br /> example, if you make t-shirts, try typing textiles
+    </div>
+    <div class="govuk-!-margin-bottom-6">
+        {% include 'domestic/contact/export-support/includes/continue-save-button.html' with button_text='Continue'  %}
+    </div>
+</form>

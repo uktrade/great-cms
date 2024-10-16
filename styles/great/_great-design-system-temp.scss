@@ -411,3 +411,20 @@ $great-design-system-govuk-blue: #1d70b8;
     flex-direction: row;
   }
 }
+
+.great-ds-make-or-do {
+  position: relative;
+  overflow: hidden;
+
+  img {
+    display: none;
+
+    @media only screen and (min-width: 1300px) {
+      display: block;
+      position: absolute;
+      bottom: 0;
+      right: -35%;
+      height: 100%;
+    }
+  }
+}
