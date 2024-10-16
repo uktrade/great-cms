@@ -37,8 +37,7 @@
   }
 }
 
-.button,
-button {
+.button {
   min-height: 50px;
   height: min-content;
   border-radius: 0;
@@ -79,12 +78,7 @@ button {
   }
 
   cursor: pointer;
-
-  &:active,
-  &:focus {
-    @include focus-state;
-  }
-
+  
   &.primary-button,
   &.secondary-button,
   &.tertiary-button,
@@ -117,11 +111,15 @@ button {
     opacity: 0.5;
   }
 
+  &:focus,
+  &:active {
+    outline: 4px solid #ffbf47;
+    outline-offset: 0;
+  }
+
   &.secondary-button {
     @include secondary();
 
-    & :focus,
-    &:active,
     &:hover {
       @include primary();
     }
@@ -129,8 +127,6 @@ button {
 
   &.primary-button {
     @include primary();
-    & :focus,
-    &:active,
     &:hover {
       @include secondary();
     }
@@ -226,7 +222,6 @@ button {
 
   &.remove-product {
     height: 30px;
-    background-color: blue;
 
     i {
       color: $color-delete;
