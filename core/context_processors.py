@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.urls import reverse_lazy
 from django.utils import translation
-from django.utils.translation import gettext as _
+from django.utils.translation import get_language_bidi, gettext as _
 
 from core import cms_slugs
 from directory_constants import choices, urls
@@ -191,4 +191,19 @@ def domestic_header(request):
         'mobileSiteLink': {'href': '/international', 'text': 'Site for international businesses'},
         'search_icon': search_icon,
         'menu_icon': menu_icon,
+    }
+
+
+def microsite_header(request):
+    return {
+        'rtl': get_language_bidi(),
+        'include_link_to_great': '',
+        'strapline': 'Get support for UK export or investment at <a href="https://great.gov.uk">great.gov.uk</a>',
+        'isCampaign': True,
+        'use_domestic_logo': True,
+        'site_title': '',
+        'languages': '',
+        'hideSearch': True,
+        'hideMenuOnDesktop': True,
+        'subnavItemsList': '',
     }
