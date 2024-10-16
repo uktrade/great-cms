@@ -1,11 +1,5 @@
-import environ
+from config.env import env
 
-env = environ.Env()
-for env_file in env.list('ENV_FILES', default=[]):
-    env.read_env(f'config/env/{env_file}')
-
-
-ENV_IDENTIFICATION_KEY = 'APP_ENVIRONMENT'
 DEV = 'dev'
 STAGING = 'staging'
 UAT = 'uat'
@@ -25,7 +19,7 @@ def get_wagtail_transfer_configuration() -> dict:
 
     config = {}
 
-    active_environment = env.str(ENV_IDENTIFICATION_KEY)
+    active_environment = env.app_environment
 
     def _get_config(
         env,
@@ -92,8 +86,8 @@ def get_wagtail_transfer_configuration() -> dict:
 
     if active_environment == PRODUCTION:
         # Prod needs to know about UAT to import FROM it
-        uat_base_url = env.str('WAGTAILTRANSFER_BASE_URL_UAT')
-        uat_secret = env.str('WAGTAILTRANSFER_SECRET_KEY_UAT')
+        uat_base_url = env.wagtailtransfer_base_url_uat
+        uat_secret = env.wagtailtransfer_secret_key_uat
         config.update(
             _get_config(
                 active_environment,
@@ -103,12 +97,12 @@ def get_wagtail_transfer_configuration() -> dict:
         )
     elif active_environment == DEV:
         # Dev needs to know about Staging and UAT to import FROM them
-        uat_base_url = env.str('WAGTAILTRANSFER_BASE_URL_UAT')
-        uat_secret = env.str('WAGTAILTRANSFER_SECRET_KEY_UAT')
-        staging_base_url = env.str('WAGTAILTRANSFER_BASE_URL_STAGING')
-        staging_secret = env.str('WAGTAILTRANSFER_SECRET_KEY_STAGING')
-        prod_base_url = env.str('WAGTAILTRANSFER_BASE_URL_PRODUCTION')
-        prod_secret = env.str('WAGTAILTRANSFER_SECRET_KEY_PRODUCTION')
+        uat_base_url = env.wagtailtransfer_base_url_uat
+        uat_secret = env.wagtailtransfer_secret_key_uat
+        staging_base_url = env.WAGTAILTRANSFER_BASE_URL_STAGING
+        staging_secret = env.WAGTAILTRANSFER_SECRET_KEY_STAGING
+        prod_base_url = env.WAGTAILTRANSFER_BASE_URL_PRODUCTION
+        prod_secret = env.WAGTAILTRANSFER_SECRET_KEY_PRODUCTION
         config.update(
             _get_config(
                 active_environment,
@@ -122,12 +116,12 @@ def get_wagtail_transfer_configuration() -> dict:
         )
     elif active_environment == STAGING:
         # Staging needs to know about production, to import FROM it
-        prod_base_url = env.str('WAGTAILTRANSFER_BASE_URL_PRODUCTION')
-        prod_secret = env.str('WAGTAILTRANSFER_SECRET_KEY_PRODUCTION')
-        dev_base_url = env.str('WAGTAILTRANSFER_BASE_URL_DEV')
-        dev_secret = env.str('WAGTAILTRANSFER_SECRET_KEY_DEV')
-        uat_base_url = env.str('WAGTAILTRANSFER_BASE_URL_UAT')
-        uat_secret = env.str('WAGTAILTRANSFER_SECRET_KEY_UAT')
+        prod_base_url = env.wagtailtransfer_base_url_production
+        prod_secret = env.wagtailtransfer_secret_key_production
+        dev_base_url = env.wagtailtransfer_base_url_dev
+        dev_secret = env.wagtailtransfer_secret_key_dev
+        uat_base_url = env.wagtailtransfer_base_url_uat
+        uat_secret = env.wagtailtransfer_secret_key_uat
         config.update(
             _get_config(
                 active_environment,
@@ -141,12 +135,12 @@ def get_wagtail_transfer_configuration() -> dict:
         )
     elif active_environment == UAT:
         # UAT needs to know about production, to import FROM it
-        prod_base_url = env.str('WAGTAILTRANSFER_BASE_URL_PRODUCTION')
-        prod_secret = env.str('WAGTAILTRANSFER_SECRET_KEY_PRODUCTION')
-        staging_base_url = env.str('WAGTAILTRANSFER_BASE_URL_STAGING')
-        staging_secret = env.str('WAGTAILTRANSFER_SECRET_KEY_STAGING')
-        dev_base_url = env.str('WAGTAILTRANSFER_BASE_URL_DEV')
-        dev_secret = env.str('WAGTAILTRANSFER_SECRET_KEY_DEV')
+        prod_base_url = env.wagtailtransfer_base_url_production
+        prod_secret = env.wagtailtransfer_secret_key_production
+        staging_base_url = env.wagtailtransfer_base_url_staging
+        staging_secret = env.wagtailtransfer_secret_key_staging
+        dev_base_url = env.wagtailtransfer_base_url_dev
+        dev_secret = env.wagtailtransfer_secret_key_dev
         config.update(
             _get_config(
                 active_environment,
@@ -158,7 +152,7 @@ def get_wagtail_transfer_configuration() -> dict:
                 dev_secret=dev_secret,
             )
         )
-    elif active_environment == LOCAL and env.bool('WAGTAIL_TRANSFER_LOCAL_DEV', default=False):
+    elif active_environment == LOCAL and env.wagtail_transfer_local_dev:
         # Local needs to know about Dev and Staging and UAT to import FROM them
         _get_local_config(config)
 
