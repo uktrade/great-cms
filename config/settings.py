@@ -474,6 +474,8 @@ USER_MEDIA_ON_S3 = STORAGES['default']['BACKEND'] == 'storages.backends.s3boto3.
 if USER_MEDIA_ON_S3 and (AWS_STORAGE_BUCKET_NAME or AWS_S3_CUSTOM_DOMAIN):
     if AWS_S3_CUSTOM_DOMAIN:  # eg cdn.example.com
         hostname = AWS_S3_CUSTOM_DOMAIN
+    elif is_copilot():
+        hostname = f'{AWS_STORAGE_BUCKET_NAME}'
     else:
         hostname = f'{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_HOST}'
     MEDIA_URL = f'{AWS_S3_URL_PROTOCOL}//{hostname}/'
