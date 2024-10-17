@@ -200,40 +200,40 @@ if settings.FEATURE_PRODUCT_MARKET_HERO and settings.FEATURE_PRODUCT_MARKET_SEAR
 if settings.FEATURE_GUIDED_JOURNEY:
     urlpatterns += [
         path(
-            'guided-journey/step-1',
+            'your-export-guide/what-does-your-company-make-or-do',
             skip_ga360(views.GuidedJourneyStep1View.as_view()),
             name='guided-journey-step-1',
         ),
         path(
-            'guided-journey/step-1/edit',
+            'your-export-guide/what-does-your-company-make-or-do/edit',
             skip_ga360(views.GuidedJourneyStep1View.as_view()),
             {'edit': True, 'is_multi_step': True},
             name='guided-journey-step-1-edit',
         ),
         path(
-            'guided-journey/step-2',
+            'your-export-guide/commodity-code-lookup',
             skip_ga360(views.GuidedJourneyStep2View.as_view()),
             name='guided-journey-step-2',
         ),
         path(
-            'guided-journey/step-2/edit',
+            'your-export-guide/commodity-code-lookup/edit',
             skip_ga360(views.GuidedJourneyStep2View.as_view()),
             {'edit': True},
             name='guided-journey-step-2-edit',
         ),
         path(
-            'guided-journey/step-3',
+            'your-export-guide/target-export-market',
             skip_ga360(views.GuidedJourneyStep3View.as_view()),
             name='guided-journey-step-3',
         ),
         path(
-            'guided-journey/step-3/edit',
+            'your-export-guide/target-export-market/edit',
             skip_ga360(views.GuidedJourneyStep3View.as_view()),
             {'edit': True},
             name='guided-journey-step-3-edit',
         ),
         path(
-            'guided-journey/step-4',
+            'your-export-guide/results',
             skip_ga360(views.GuidedJourneyStep4View.as_view()),
             name='guided-journey-step-4',
         ),
