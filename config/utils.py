@@ -160,16 +160,26 @@ def get_wagtail_transfer_configuration() -> dict:
 
 
 def _get_local_config(config):
-    for env_suffix in [
-        DEV,
-        STAGING,
-        UAT,
-    ]:
-        url_var_name = f'WAGTAILTRANSFER_BASE_URL_{env_suffix}'
-        key_var_name = f'WAGTAILTRANSFER_SECRET_KEY_{env_suffix}'
 
-        if env.str(url_var_name, None) and env.str(key_var_name, None):
-            config.update({env_suffix: {'BASE_URL': env.str(url_var_name), 'SECRET_KEY': env.str(key_var_name)}})
+    if env.wagtailtransfer_base_url_dev and env.wagtailtransfer_secret_key_dev:
+        config.update(
+            {DEV: {'BASE_URL': env.wagtailtransfer_base_url_dev, 'SECRET_KEY': env.wagtailtransfer_secret_key_dev}}
+        )
+
+    if env.wagtailtransfer_base_url_uat and env.wagtailtransfer_secret_key_uat:
+        config.update(
+            {UAT: {'BASE_URL': env.wagtailtransfer_base_url_uat, 'SECRET_KEY': env.wagtailtransfer_secret_key_uat}}
+        )
+
+    if env.wagtailtransfer_base_url_staging and env.wagtailtransfer_secret_key_staging:
+        config.update(
+            {
+                STAGING: {
+                    'BASE_URL': env.wagtailtransfer_base_url_staging,
+                    'SECRET_KEY': env.wagtailtransfer_secret_key_staging,
+                }
+            }
+        )
 
     config.update(
         {

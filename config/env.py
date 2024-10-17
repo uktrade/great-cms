@@ -228,15 +228,15 @@ class BaseSettings(PydanticBaseSettings):
     environment_css_theme_file: str = ''
 
     wagtail_transfer_local_dev: bool = False
-    wagtailtransfer_secret_key: str
-    wagtailtransfer_base_url_dev: str
-    wagtailtransfer_secret_key_dev: str
-    wagtailtransfer_base_url_uat: str
-    wagtailtransfer_secret_key_uat: str
-    wagtailtransfer_base_url_staging: str
-    wagtailtransfer_secret_key_staging: str
-    wagtailtransfer_base_url_production: str
-    wagtailtransfer_secret_key_production: str
+    wagtailtransfer_secret_key: str = None
+    wagtailtransfer_base_url_dev: str = None
+    wagtailtransfer_secret_key_dev: str = None
+    wagtailtransfer_base_url_uat: str = None
+    wagtailtransfer_secret_key_uat: str = None
+    wagtailtransfer_base_url_staging: str = None
+    wagtailtransfer_secret_key_staging: str = None
+    wagtailtransfer_base_url_production: str = None
+    wagtailtransfer_secret_key_production: str = None
     wagtailtransfer_chooser_api_proxy_timeout: int = 10
 
     feature_export_plan_sections_disabled_list: list = []
