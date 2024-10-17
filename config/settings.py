@@ -160,6 +160,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'core.context_processors.domestic_header',
                 'core.context_processors.domestic_footer',
+                'core.context_processors.international_footer',
                 'great_components.context_processors.sso_processor',
                 'great_components.context_processors.ga360',
                 'great_components.context_processors.urls_processor',

@@ -165,7 +165,7 @@ def domestic_header(request):
     }
 
 def domestic_footer(request):
-    return {
+    return { 'domesticFooterContext': {
         'isInternational': False,
         'currentYear': str(datetime.now().year),
         'footerLinks': [
@@ -217,30 +217,13 @@ def domestic_footer(request):
                 'text': 'Go to the page for international business',
             }
         ]
-    }
+    }}
 
 def international_footer(request):
-    return {
+    return { 'internationalFooterContext': {
         'isInternational': True,
         'currentYear': str(datetime.now().year),
         'footerLinks': [
-            { 
-                'href': '/support/export-support',
-                'title': 'This is international!!!!!!!!!!!!!!!!!!',
-                'text': 'This is international!!!!!!!!!!!!!!',
-            },
-            { 
-                'href': '/contact/triage/great-account',
-                'title': 'Get help with your account',
-                'text': 'Get help with your account',
-            },
-            { 
-                'href': 'https://'+settings.DIT_ON_GOVUK,
-                'title': 'Department for Business and Trade on GOV.UK',
-                'text': 'Department for Business and Trade on GOV.UK',
-                'target':'_blank',
-                'rel': 'noopener',
-            },
             { 
                 'href': '/privacy',
                 'title': 'Privacy',
@@ -262,14 +245,16 @@ def international_footer(request):
                 'text': 'Accessibility',
             },
             { 
-                'href': '/performance-dashboard',
-                'title': 'Performance',
-                'text': 'Performance',
+                'href': "/{% url 'international:contact' %}?next={{ feedback_next_url }}",
+                'title': 'Help using this site',
+                'text': 'Help using this site',
             },
             { 
-                'href': '/international',
-                'title': 'International business',
-                'text': 'Go to the page for international business',
-            }
+                'href': 'https://'+settings.DIT_ON_GOVUK,
+                'title': 'Department for Business and Trade on GOV.UK',
+                'text': 'Department for Business and Trade on GOV.UK',
+                'target':'_blank',
+                'rel': 'noopener',
+            },
         ]
-    }
+    }}

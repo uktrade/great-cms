@@ -142,7 +142,7 @@
         {% endblock %}
         {% block body_footer %}
             {% include './footer.html' %}
-            {% include "_footer.html" with isInternational=isInternational currentYear=currentYear footerLinks=footerLinks %}
+            {% include "_footer.html" with isInternational=internationalFooterContext.isInternational currentYear=internationalFooterContext.currentYear footerLinks=internationalFooterContext.footerLinks %}
         {% endblock %}
         {% block body_js %}
             <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
