@@ -11,7 +11,6 @@ from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
 from django.urls import reverse
-from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
@@ -43,7 +42,6 @@ from wagtail.models import Orderable, Page
 from wagtail.search import index
 from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtail.snippets.models import register_snippet
-from wagtail.utils.decorators import cached_classmethod
 from wagtailcache.cache import WagtailCacheMixin
 from wagtailmedia.models import Media
 from wagtailseo.models import SeoMixin as WagtailSeoMixin, TwitterCard
@@ -384,7 +382,7 @@ class CMSGenericPageAnonymous(
         field.choices = self.template_choices
         field.required = True
 
-    @cached_classmethod
+    @classmethod
     def get_edit_handler(cls):  # NOQA N805
         panels = [
             ObjectList(cls.content_panels, heading='Content'),
@@ -650,11 +648,11 @@ class CuratedListPage(WagtailCacheMixin, settings.FEATURE_DEA_V2 and CMSGenericP
             qs = qs.live()
         return qs
 
-    @cached_property
+    @property
     def count_topics(self):
         return self.get_topics().count()
 
-    @cached_property
+    @property
     def count_detail_pages(self):
         count = 0
         for topic in self.get_topics():
@@ -1004,7 +1002,7 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         FieldPanel('call_to_action'),
     ]
 
-    @cached_classmethod
+    @classmethod
     def get_edit_handler(cls):  # noqa
         panels = [
             ObjectList(cls.content_panels, heading='Content'),
@@ -1098,16 +1096,16 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
 
         return super().serve(request, **kwargs)
 
-    @cached_property
+    @property
     def topic_title(self):
         return self.get_parent().title
 
-    @cached_property
+    @property
     def module(self):
         """Gets the learning module this lesson belongs to"""
         return CuratedListPage.objects.live().specific().ancestor_of(self).first()
 
-    @cached_property
+    @property
     def _export_plan_url_map(self):
         """Return a lookup dictionary of URL Slugs->title for all the
         Export Plan sections we have."""

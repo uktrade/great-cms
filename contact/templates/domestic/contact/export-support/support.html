@@ -88,7 +88,7 @@
     <script type="text/javascript"
             src="{% static 'javascript/great.make-or-do-search.js' %}"></script>
     <script type="text/javascript">
-        GreatFrontend.MakeOrDoSearch.init({{ sic_sector_data | safe}}, {{ session_data.sic_description }});
+        GreatFrontend.MakeOrDoSearch.init({{ sic_sector_data | safe}});
     </script>
     {% endif %}
 {% endblock %}
