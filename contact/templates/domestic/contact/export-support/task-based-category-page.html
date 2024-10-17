@@ -44,6 +44,9 @@
                             </div>
                         </div>
                         <div class="govuk-grid-column-one-third">
+                            {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
+                                {% include 'domestic/contact/export-support/includes/guided-journey-promo.html' %}
+                            {% endif %}
                             {% include 'domestic/contact/export-support/includes/sign-up-promo.html' %}
                         </div>
                     </div>
