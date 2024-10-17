@@ -2,7 +2,6 @@ import abc
 import json
 
 from django.conf import settings
-from django.utils.functional import cached_property
 from django.utils.text import slugify
 
 from core import helpers as core_helpers
@@ -26,7 +25,7 @@ class BaseContextProvider(AbstractContextProvider):
         self.session_id = request.user.session_id
         return {}
 
-    @cached_property
+    @property
     def export_plan(self):
         user_exportplan = helpers.get_exportplan(self.session_id, self.exportplan_id)
         return parsers.ExportPlanParser(user_exportplan)

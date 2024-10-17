@@ -3,7 +3,6 @@ from django.core.paginator import EmptyPage, Paginator
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse, reverse_lazy
-from django.utils.functional import cached_property
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin
@@ -91,7 +90,7 @@ class FindASpecialistSearchView(GA360Mixin, SubmitFormOnGetMixin, FormView):
 
 
 class CompanyProfileMixin:
-    @cached_property
+    @property
     def company(self):
         company = get_company_profile(self.kwargs['company_number'])
         return company
@@ -126,7 +125,7 @@ class FindASpecialistProfileView(CompanyProfileMixin, GA360Mixin, TemplateView):
 
 
 class CaseStudyMixin:
-    @cached_property
+    @property
     def case_study(self):
         case_study = get_case_study(self.kwargs['case_study_id'])
         return case_study

@@ -1,6 +1,5 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.utils.functional import cached_property
 
 from core.helpers import CompanyParser
 from directory_constants import user_roles
@@ -21,7 +20,7 @@ class BusinessSSOUser(AbstractUser):
     mobile_phone_number = models.TextField()
     profile_image = models.URLField()
 
-    @cached_property
+    @property
     def company(self):
         company = helpers.get_company_profile(self.session_id)
         if company:
@@ -35,7 +34,7 @@ class BusinessSSOUser(AbstractUser):
         # trying to save last_logged_in, so don't raise NotImplementedError
         pass
 
-    @cached_property
+    @property
     def user_profile(self):
         return helpers.get_user_profile(self.session_id)
 
@@ -74,11 +73,11 @@ class BusinessSSOUser(AbstractUser):
     def company_type(self):
         return getattr(self.company, 'company_type', None) if self.company else None
 
-    @cached_property
+    @property
     def supplier(self):
         return get_supplier_profile(self.id)
 
-    @cached_property
+    @property
     def role(self):
         return self.supplier['role'] if self.supplier else None
 

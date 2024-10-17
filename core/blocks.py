@@ -3,7 +3,6 @@ import logging
 from django import forms
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from opensearchpy.exceptions import ConnectionError, NotFoundError
 from wagtail import blocks
@@ -382,7 +381,7 @@ class IndividualStatisticBlock(blocks.StructBlock):
 class IndividualStatisticBlockAdaptor(StructBlockAdapter):
     js_constructor = 'core.blocks.IndividualStatisticBlock'
 
-    @cached_property
+    @property
     def media(self):
         structblock_media = super().media
         return forms.Media(

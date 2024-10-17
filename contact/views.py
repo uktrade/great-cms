@@ -10,7 +10,6 @@ from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
 from django.urls import reverse, reverse_lazy
-from django.utils.functional import cached_property
 from django.utils.html import strip_tags
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
@@ -811,7 +810,7 @@ class OfficeFinderFormView(BespokeBreadcrumbMixin, SubmitFormOnGetMixin, FormVie
     form_class = contact_forms.OfficeFinderForm
     postcode = ''
 
-    @cached_property
+    @property
     def all_offices(self):
         return helpers.retrieve_regional_offices(self.postcode)
 

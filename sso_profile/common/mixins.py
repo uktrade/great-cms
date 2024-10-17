@@ -1,5 +1,3 @@
-from django.utils.functional import cached_property
-
 from sso_profile.common import helpers
 
 
@@ -17,7 +15,7 @@ class PreventCaptchaRevalidationMixin:
     redirect loop, so be aware that it's not necessarily a quick win.
     """
 
-    @cached_property
+    @property
     def captcha_step_index(self):
         for step_name, form_class in self.get_form_list().items():
             if 'captcha' in form_class.base_fields:

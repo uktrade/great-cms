@@ -5,7 +5,6 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse, reverse_lazy
-from django.utils.functional import cached_property
 from django.views.generic import FormView, TemplateView
 from formtools.wizard.views import NamedUrlSessionWizardView
 
@@ -461,7 +460,7 @@ class CollaboratorEnrolmentView(BaseEnrolmentWizardView):
             invite_key=self.request.session[constants.SESSION_KEY_INVITE_KEY],
         )
 
-    @cached_property
+    @property
     def collaborator_invition(self):
         return helpers.collaborator_invite_retrieve(self.request.session[constants.SESSION_KEY_INVITE_KEY])
 

@@ -1,10 +1,7 @@
 from directory_components.forms import BooleanField
 from directory_validators.string import no_html
 from django import forms
-from django.forms import (
-    widgets as django_widgets,
-)
-from django.utils.functional import cached_property
+from django.forms import widgets as django_widgets
 from django.utils.safestring import mark_safe
 
 from . import fields, validators
@@ -84,7 +81,7 @@ class CompaniesHouseOauth2Form(forms.Form):
         self.redirect_uri = redirect_uri
         super().__init__(*args, **kwargs)
 
-    @cached_property
+    @property
     def oauth2_response(self):
         return CompaniesHouseClient.verify_oauth2_code(code=self.cleaned_data['code'], redirect_uri=self.redirect_uri)
 

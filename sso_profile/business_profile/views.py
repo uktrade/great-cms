@@ -6,7 +6,6 @@ from django.core.files.storage import DefaultStorage
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import Http404, redirect
 from django.urls import reverse, reverse_lazy
-from django.utils.functional import cached_property
 from django.views.generic import FormView, TemplateView
 from formtools.wizard.views import NamedUrlSessionWizardView
 from requests.exceptions import HTTPError, RequestException
@@ -503,7 +502,7 @@ class AdminCollaboratorEditFormView(GetBreadCrumbsMixin, SuccessMessageMixin, Fo
             return redirect(self.success_url)
         return super().dispatch(*args, **kwargs)
 
-    @cached_property
+    @property
     def collaborator(self):
         return helpers.retrieve_collaborator(
             sso_session_id=self.request.user.session_id, collaborator_sso_id=int(self.kwargs['sso_id'])
@@ -559,7 +558,7 @@ class AdminInviteNewAdminFormView(GetBreadCrumbsMixin, SuccessMessageMixin, Form
             success_message = 'Collaborator role changed to Admin'
         return success_message % cleaned_data
 
-    @cached_property
+    @property
     def collaborators(self):
         return helpers.collaborator_list(self.request.user.session_id)
 

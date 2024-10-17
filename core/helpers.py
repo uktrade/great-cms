@@ -23,12 +23,15 @@ from django.contrib.humanize.templatetags.humanize import intword
 from django.core.management import call_command
 from django.shortcuts import redirect
 from django.utils.encoding import iri_to_uri
-from django.utils.functional import cached_property
 from django.utils.http import url_has_allowed_host_and_scheme
 from hashids import Hashids
 from ipware import get_client_ip
 
-from core.constants import EXPORT_SUPPORT_CATEGORIES, TRADE_BARRIERS_BY_MARKET, TRADE_BARRIERS_BY_SECTOR
+from core.constants import (
+    EXPORT_SUPPORT_CATEGORIES,
+    TRADE_BARRIERS_BY_MARKET,
+    TRADE_BARRIERS_BY_SECTOR,
+)
 from core.models import CuratedListPage
 from core.serializers import parse_opportunities
 from directory_api_client import api_client
@@ -600,7 +603,7 @@ class GeoLocationRedirector:
     def __init__(self, request):
         self.request = request
 
-    @cached_property
+    @property
     def country_code(self):
         client_ip, is_routable = get_client_ip(self.request)
         if client_ip and is_routable:
