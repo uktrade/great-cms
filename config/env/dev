@@ -81,7 +81,7 @@ FEATURE_INTERNATIONAL_CONTACT_TRIAGE_ENABLED=True
 
 ACTIVITY_STREAM_ACCESS_KEY_ID=123-id-key
 ACTIVITY_STREAM_SECRET_KEY=123-secret-key
-ACTIVITY_STREAM_URL=debug
+ACTIVITY_STREAM_URL=http://example.com
 ACTIVITY_STREAM_IP_ALLOWLIST=debug
 FEATURE_TEST_SEARCH_API_PAGES_ENABLED=true
 
@@ -110,3 +110,14 @@ FEATURE_INTERNATIONAL_ONLINE_OFFER=true
 FEATURE_INTERNATIONAL_INVESTMENT=true
 
 CSP_UPGRADE_INSECURE_REQUESTS=False
+
+wagtailtransfer_base_url_dev='https://www.great.dev.uktrade.digital/admin/wagtail-transfer/'
+wagtailtransfer_secret_key_dev=debug
+wagtailtransfer_base_url_uat='https://www.great.uat.uktrade.digital/admin/wagtail-transfer/'
+wagtailtransfer_secret_key_uat=debug
+wagtailtransfer_base_url_staging='https://www.great.staging.uktrade.digital/admin/wagtail-transfer/'
+wagtailtransfer_secret_key_staging=debug
+wagtailtransfer_base_url_production='https://www.great.gov.uk/admin/wagtail-transfer/'
+wagtailtransfer_secret_key_production=debug
+elastic_apm_secret_token=debug
+sentry_environment=dev
