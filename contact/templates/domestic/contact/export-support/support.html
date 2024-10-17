@@ -4,11 +4,16 @@
 {% load static %}
 {% load add_govuk_classes url_type from content_tags %}
 {% block head_title %}Export support for UK businesses{% endblock %}
-{% block meta_title %}Export support for UK businesses{% endblock %}
-{% block body_js %}
+{% block head_css %}
+    {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
+    <link href="{% static 'core/css/accessible-autocomplete.min.css' %}"
+          rel="stylesheet"
+          type="text/css">
+    {% endif %}
+
     {{ block.super }}
-    <script src="{% static 'javascript/digital-entry-point.js' %}"></script>
 {% endblock %}
+{% block meta_title %}Export support for UK businesses{% endblock %}
 {% block content %}
     <div class="great {% if request.GET.topic %}great-bg-lighter-grey{% else %}great-bg-white{% endif %}">
         <div class="great-container">
@@ -37,6 +42,14 @@
                                         {% include 'domestic/contact/export-support/includes/topic-card.html' with topics=page.page_body %}
                                     </div>
                                     <hr class="great-ds-hr" />
+
+                                    {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
+                                    <div class="govuk-!-padding-6 govuk-!-margin-bottom-6 great-bg-white great-ds-make-or-do">
+                                        {% include 'domestic/contact/export-support/includes/make-or-do-form.html' %}
+                                        <img src="{% static 'images/make-or-do.png' %}" alt="UK Export Academy logo" />
+                                    </div>
+                                    {% endif %}
+
                                     <div class="govuk-grid-row govuk-!-margin-bottom-9 great-display-from-tablet">
                                         <div class="govuk-grid-column-full">
                                             {% include 'domestic/contact/export-support/includes/contact-us-promo.html' %}
@@ -63,4 +76,19 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block body_js %}
+    {{ block.super }}
+    <script src="{% static 'javascript/digital-entry-point.js' %}"></script>
+
+    {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
+    <script type="text/javascript"
+            src="{% static 'javascript/accessible-autocomplete.v3.min.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'javascript/great.make-or-do-search.js' %}"></script>
+    <script type="text/javascript">
+        GreatFrontend.MakeOrDoSearch.init({{ sic_sector_data | safe}}, {{ session_data.sic_description }});
+    </script>
+    {% endif %}
 {% endblock %}
