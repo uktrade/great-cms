@@ -655,6 +655,7 @@ SUBSCRIBE_TO_FTA_UPDATES_NOTIFY_TEMPLATE_ID = env.subscribe_to_fta_updates_notif
 GOV_NOTIFY_ALREADY_REGISTERED_TEMPLATE_ID = env.gov_notify_already_registered_template_id
 GOV_NOTIFY_NEW_MEMBER_REGISTERED_TEMPLATE_ID = env.gov_notify_new_member_registered_template_id
 GOV_NOTIFY_COLLABORATION_REQUEST_RESENT = env.gov_notify_collaboration_request_resent
+GOV_NOTIFY_WELCOME_TEMPLATE_ID = env.gov_notify_welcome_template_id
 
 # Campaign form
 CAMPAIGN_USER_NOTIFY_TEMPLATE_ID = env.campaign_user_notify_template_id
