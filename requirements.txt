@@ -239,7 +239,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==30.3.0
+faker==30.6.0
     # via factory-boy
 filelock==3.16.1
     # via virtualenv
@@ -253,7 +253,7 @@ googleapis-common-protos==1.65.0
     #   opentelemetry-exporter-otlp-proto-http
 great-components==2.6.5
     # via -r requirements.in
-grpcio==1.66.2
+grpcio==1.67.0
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==22.0.0
     # via -r requirements.in
@@ -505,9 +505,9 @@ requests-oauthlib==2.0.0
     # via django-staff-sso-client
 s3transfer==0.6.2
     # via boto3
-sentry-sdk==2.16.0
+sentry-sdk==2.17.0
     # via -r requirements.in
-sigauth==5.2.7
+sigauth==5.3.0
     # via
     #   -r requirements.in
     #   directory-client-core
