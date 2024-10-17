@@ -428,3 +428,11 @@ $great-design-system-govuk-blue: #1d70b8;
     }
   }
 }
+
+.great-ds-make-or-do--homepage {
+  img {
+    @media only screen and (min-width: 1300px) {
+      right: 0;
+    }
+  }
+}
