@@ -53,9 +53,9 @@
                             {% include 'domestic/contact/export-support/includes/continue-save-button.html' %}
 
                             {% if is_edit_mode %}
-                                {% include 'domestic/contact/export-support/includes/cancel-button.html' with url='/guided-journey/step-4' %}
+                                {% include 'domestic/contact/export-support/includes/cancel-button.html' with url='/your-export-guide/results' %}
                             {% else %}
-                                {% include 'domestic/contact/export-support/includes/skip-button.html' with url='/guided-journey/step-4?is_market_skipped=True' %}
+                                {% include 'domestic/contact/export-support/includes/skip-button.html' with url='/your-export-guide/results?is_market_skipped=True' %}
                             {% endif %}
                         </form>
                     </div>
@@ -72,7 +72,7 @@
                                 </p>
                             {% endif %}
 
-                            {% include 'domestic/contact/export-support/includes/change-button.html' with url='/guided-journey/step-1/edit?return_to_step=3' %}
+                            {% include 'domestic/contact/export-support/includes/change-button.html' with url='/your-export-guide/what-does-your-company-make-or-do/edit?return_to_step=3' %}
                         </div>
                         {% endif %}
 

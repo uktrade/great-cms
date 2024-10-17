@@ -279,6 +279,7 @@ class BaseSettings(PydanticBaseSettings):
     feature_admin_requests_enabled: bool = False
     feature_redis_use_ssl: bool = False
     feature_great_cms_openapi_enabled: bool = False
+    feature_guided_journey_extras: bool = False
 
     ax_compare_places_allowed: int = 10
 

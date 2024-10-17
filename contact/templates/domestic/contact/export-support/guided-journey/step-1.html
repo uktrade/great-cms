@@ -34,7 +34,7 @@
                              {% include 'domestic/contact/export-support/includes/continue-save-button.html' %}
 
                              {% if is_edit_mode %}
-                                {% include 'domestic/contact/export-support/includes/cancel-button.html' with url='/guided-journey/step-' back_step=request.GET.return_to_step %}
+                                {% include 'domestic/contact/export-support/includes/cancel-button.html' with back_step=request.GET.return_to_step %}
                             {% endif %}
                         </form>
                     </div>

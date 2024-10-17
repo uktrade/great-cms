@@ -59,7 +59,7 @@
                                         <label for="regions" role="button">World regions</label>
                                         <div class="options checkbox-small full-height">
                                             <ul>
-                                                {% for region in regions_list %}
+                                                {% for region in region_list %}
                                                     <li class="multiple-choice margin-bottom-0">
                                                         <input type="checkbox"
                                                                value="{{ region.name }}"
@@ -67,6 +67,24 @@
                                                                name="region"
                                                                {% if region.name in selected_regions %}checked{% endif %} />
                                                         <label class="market-filters-label" for="region_{{ region.id }}">{{ region.name|title }}</label>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li class="filter-section">
+                                        <input type="checkbox" id="trading_blocs" checked />
+                                        <label for="trading_blocs" role="button">Trading blocs</label>
+                                        <div class="options checkbox-small full-height">
+                                            <ul>
+                                                {% for trading_bloc in trading_bloc_list %}
+                                                    <li class="multiple-choice margin-bottom-0">
+                                                        <input type="checkbox"
+                                                               value="{{ trading_bloc.name }}"
+                                                               id="trading_bloc_{{ trading_bloc.id }}"
+                                                               name="trading_bloc"
+                                                               {% if trading_bloc.name in selected_trading_blocs %}checked{% endif %} />
+                                                        <label class="market-filters-label" for="trading_bloc_{{ trading_bloc.id }}">{{ trading_bloc.name|title }}</label>
                                                     </li>
                                                 {% endfor %}
                                             </ul>
@@ -108,7 +126,7 @@
                                             </p>
                                         {% endif %}
                                     {% else %}
-                                        {% if selected_sectors or selected_regions %}
+                                        {% if selected_sectors or selected_regions or selected_trading_blocs %}
                                             <h3 class="margin-bottom-15">
                                                 There {{ number_of_results|pluralize:"is,are" }} {{ number_of_results }} market{{ number_of_results|pluralize:",s" }}
                                                 {% if selected_sectors %}
@@ -124,7 +142,25 @@
                                                     {% for region in selected_regions %}
                                                         <span class="bold">{{ region }}</span>
                                                         {% if not forloop.last %}or{% endif %}
-                                                        {% if forloop.last %}region{{ number_of_regions|pluralize:",s" }}.{% endif %}
+                                                        {% if forloop.last %}
+                                                            {% if not selected_trading_blocs %}
+                                                                region{{ number_of_regions|pluralize:",s" }}.
+                                                            {% else %}
+                                                                region{{ number_of_regions|pluralize:",s" }}
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endif %}
+                                                {% if selected_trading_blocs %}
+                                                    {% if selected_regions %}
+                                                        and the
+                                                    {% else %}
+                                                        in the
+                                                    {% endif %}
+                                                    {% for trading_bloc in selected_trading_blocs %}
+                                                        <span class="bold">{{ trading_bloc }}</span>
+                                                        {% if not forloop.last %}or{% endif %}
+                                                        {% if forloop.last %}trading bloc{{ number_of_trading_blocs|pluralize:",s" }}.{% endif %}
                                                     {% endfor %}
                                                 {% endif %}
                                             </h3>

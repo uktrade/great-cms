@@ -840,9 +840,11 @@ FEATURE_DESIGN_SYSTEM = env.feature_design_system
 
 FEATURE_GREAT_ERROR = env.feature_great_error
 
+
 FEATURE_GUIDED_JOURNEY = env.feature_guided_journey
 FEATURE_UNGUIDED_JOURNEY = env.feature_unguided_journey
 FEATURE_OPENSEARCH = env.feature_opensearch
+FEATURE_GUIDED_JOURNEY_EXTRAS = env.feature_guided_journey_extras
 
 MAX_COMPARE_PLACES_ALLOWED = env.max_compare_places_allowed
 
