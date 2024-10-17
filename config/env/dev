@@ -120,3 +120,4 @@ wagtailtransfer_secret_key_staging=debug
 wagtailtransfer_base_url_production='https://www.great.gov.uk/admin/wagtail-transfer/'
 wagtailtransfer_secret_key_production=debug
 elastic_apm_secret_token=debug
+sentry_environment=dev

@@ -29,17 +29,20 @@ class BaseSettings(PydanticBaseSettings):
 
     api_cache_disabled: bool = False
 
-    time_zone: str = 'utc'
+    cache_expire_seconds: int = 60 * 30  # 30 minutes
+    cache_expire_seconds_short: int = 60 * 5  # 5 minutes
 
-    default_file_storage: str = 'storages.backends.s3boto3.s3boto3storage'
-    staticfiles_storage: str = 'whitenoise.storage.compressedstaticfilesstorage'
+    time_zone: str = 'UTC'
+
+    default_file_storage: str = 'storages.backends.s3boto3.S3Boto3Storage'
+    staticfiles_storage: str = 'whitenoise.storage.CompressedStaticFilesStorage'
 
     base_url: str
     wagtailadmin_base_url: str
 
     sentry_browser_traces_sample_rate: float = 1.0
     sentry_dsn: str = ''
-    sentry_environment: str = ''
+    sentry_environment: str
     enable_tracing: bool = False
     traces_sample_rate: float = 1.0
 
@@ -51,6 +54,19 @@ class BaseSettings(PydanticBaseSettings):
 
     session_cookie_secure: bool = True
     csrf_cookie_secure: bool = True
+
+    privacy_cookie_domain: str = ''
+
+    aws_s3_region_name: str = ''
+    aws_storage_bucket_name: str = ''
+    aws_s3_custom_domain: str = ''
+    aws_s3_url_protocol: str = 'https:'
+    aws_access_key_id: str
+    aws_secret_access_key: str
+    aws_s3_host: str = 's3-eu-west-2.amazonaws.com'
+    aws_s3_signature_version: str = 's3v4'
+    aws_querystring_auth: bool = False
+    s3_use_sigv4: bool = True
 
     service_name: str = 'great-cms'
     elastic_apm_secret_token: str
@@ -138,10 +154,10 @@ class BaseSettings(PydanticBaseSettings):
     contact_international_agent_notify_template_id: str = ('8bd422e0-3ec4-4b05-9de8-9cf039d258a9',)
     contact_international_agent_email_address: str
     contact_international_user_notify_template_id: str = 'c07d1fb2-dc0c-40ba-a3e0-3113638e69a3'
-    contact_industry_agent_email_address: str = ''
+    contact_industry_agent_email_address: str = None
     contact_industry_agent_template_id: str = 'a9318bce-7d65-41b2-8d4c-b4a76ba285a2'
     contact_industry_user_template_id: str = '6a97f783-d246-42ca-be53-26faf3b08e32'
-    contact_industry_user_reply_to_id: str = ''
+    contact_industry_user_reply_to_id: str = None
     contact_fas_company_notify_template_id: str = 'bb88aa79-595a-44fc-9ed3-cf8a6cbd6306'
 
     subscribe_to_fta_updates_notify_template_id: str = 'cfa3b4b3-c232-4603-a3ce-e476ee8bab92'
@@ -228,7 +244,7 @@ class BaseSettings(PydanticBaseSettings):
     environment_css_theme_file: str = ''
 
     wagtail_transfer_local_dev: bool = False
-    wagtailtransfer_secret_key: str = None
+    wagtailtransfer_secret_key: str
     wagtailtransfer_base_url_dev: str = None
     wagtailtransfer_secret_key_dev: str = None
     wagtailtransfer_base_url_uat: str = None
@@ -297,18 +313,8 @@ class BaseSettings(PydanticBaseSettings):
 
     aws_access_key_id_data_science: str = ''
     aws_secret_access_key_data_science: str = ''
-    aws_s3_region_name: str = 'eu-west-2'
-    aws_storage_bucket_name: str = ''
     aws_storage_bucket_name_data_science: str = ''
-    aws_s3_region_name_data_science: str = 'eu-west-2'
-    aws_s3_custom_domain: str = ''
-    aws_s3_url_protocol: str = 'https:'
-    aws_access_key_id: str
-    aws_secret_access_key: str
-    aws_s3_host: str = 's3-eu-west-2.amazonaws.com'
-    aws_s3_signature_version: str = 's3v4'
-    aws_querystring_auth: bool = False
-    s3_use_sigv4: bool = True
+    aws_s3_region_name_data_science: str = ''
 
     elastic_apm_enabled: bool = False
     service_name: str = 'great-cms'
@@ -351,7 +357,7 @@ class BaseSettings(PydanticBaseSettings):
     campaign_site_review_reminder_hour: str = 0
     campaign_site_review_reminder_template_id: str = '9647397a-8d59-4b45-aa25-9d129eac8be8'
 
-    is_circleci_env: bool = feature_ukea_sector_filter
+    is_circleci_env: bool = False
 
     # countries iso code update config, default = once on the first of the month
     countries_iso_code_update_day: str = 1
@@ -361,9 +367,6 @@ class BaseSettings(PydanticBaseSettings):
     csp_upgrade_insecure_requests: bool = True
 
     opensearch_adminsearch_provider: str = ''
-
-    cache_expire_seconds: int = 60 * 30  # 30 minutes
-    cache_expire_seconds_short: int = 60 * 5  # 5 minutes
 
 
 class CIEnvironment(BaseSettings):

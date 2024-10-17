@@ -576,7 +576,9 @@ GOOGLE_TAG_MANAGER_ENV = env.google_tag_manager_env
 UTM_COOKIE_DOMAIN = env.utm_cookie_domain
 GA360_BUSINESS_UNIT = 'GreatMagna'
 
-PRIVACY_COOKIE_DOMAIN = UTM_COOKIE_DOMAIN
+PRIVACY_COOKIE_DOMAIN = env.privacy_cookie_domain
+if not PRIVACY_COOKIE_DOMAIN:
+    PRIVACY_COOKIE_DOMAIN = UTM_COOKIE_DOMAIN
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
