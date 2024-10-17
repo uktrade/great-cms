@@ -19,26 +19,26 @@ def environment():
 @pytest.fixture
 def vcap_services():
     data = {
-        "opensearch": [
+        'opensearch': [
             {
-                "binding_guid": "da8c42d7-4f26-4c9a-a4f0-96b4d7273b2e",
-                "binding_name": None,
-                "credentials": {
-                    "hostname": "testhost.com",
-                    "password": "examplepassword",
-                    "port": "19676",
-                    "uri": "https://testhost.com:19676",
-                    "username": "exampleusername",
+                'binding_guid': 'da8c42d7-4f26-4c9a-a4f0-96b4d7273b2e',
+                'binding_name': None,
+                'credentials': {
+                    'hostname': 'testhost.com',
+                    'password': 'examplepassword',
+                    'port': '19676',
+                    'uri': 'https://testhost.com:19676',
+                    'username': 'exampleusername',
                 },
-                "instance_guid": "f2255bde-0408-4c99-91e2-be1c1cec3ca2",
-                "instance_name": "great-cms-dev-opensearch",
-                "label": "opensearch",
-                "name": "great-cms-dev-opensearch",
-                "plan": "tiny-1",
-                "provider": None,
-                "syslog_drain_url": None,
-                "tags": [],
-                "volume_mounts": [],
+                'instance_guid': 'f2255bde-0408-4c99-91e2-be1c1cec3ca2',
+                'instance_name': 'great-cms-dev-opensearch',
+                'label': 'opensearch',
+                'name': 'great-cms-dev-opensearch',
+                'plan': 'tiny-1',
+                'provider': None,
+                'syslog_drain_url': None,
+                'tags': [],
+                'volume_mounts': [],
             }
         ],
         'postgres': [
