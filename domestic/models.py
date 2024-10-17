@@ -7,19 +7,13 @@ from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.http import Http404
-from django.utils.functional import cached_property
 from great_components.mixins import GA360Mixin
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalManyToManyField
 from modelcluster.models import ParentalKey
 from taggit.models import ItemBase
 from wagtail import blocks
-from wagtail.admin.panels import (
-    FieldPanel,
-    ObjectList,
-    TabbedInterface,
-    cached_classmethod,
-)
+from wagtail.admin.panels import FieldPanel, ObjectList, TabbedInterface
 from wagtail.blocks.field_block import RichTextBlock
 from wagtail.blocks.stream_block import StreamBlock, StreamBlockValidationError
 from wagtail.contrib.table_block.blocks import TableBlock
@@ -105,7 +99,7 @@ class BaseContentPage(
     class Meta:
         abstract = True
 
-    @cached_classmethod
+    @classmethod
     def get_edit_handler(cls):  # noqa
         if hasattr(cls, 'tagging_panels'):
             panels = [
@@ -1151,7 +1145,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
 
         return ctas
 
-    @cached_property
+    @property
     def stats(self):
         iso2 = getattr(self.country, 'iso2', None)
 

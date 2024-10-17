@@ -85,9 +85,6 @@ class BespokeBreadcrumbMixin(TemplateView):
         return super().get_context_data(bespoke_breadcrumbs=bespoke_breadcrumbs, **kwargs)
 
 
-# @method_decorator(cache_page, name='dispatch')
-# @method_decorator(vary_on_cookie, name='dispatch')
-# TEMP COMMENTED OUT
 class EventListView(GetBreadcrumbsMixin, GA360Mixin, core_mixins.GetSnippetContentMixin, FilterView, ListView):
     model = models.Event
     queryset = model.upcoming
@@ -804,9 +801,6 @@ class SignInView(HandleNewAndExistingUsersMixin, sso_mixins.SignInMixin, FormVie
         return ctx
 
 
-# @method_decorator(cache_page, name='dispatch')
-# @method_decorator(vary_on_cookie, name='dispatch')
-# TEMP COMMENTED OUT
 class EventsDetailsView(DetailView):
     template_name = 'export_academy/event_details.html'
     model = models.Event
