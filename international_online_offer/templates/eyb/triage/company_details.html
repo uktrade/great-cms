@@ -27,29 +27,29 @@
                     </h2>
                     <h1 class="govuk-heading-l">Company details</h1>
                     <div class="govuk-form-group">
-                        {% include 'international/includes/form_field.html' with field=form.company_name show_vertical_error_line=True label_class="eyb-form-label govuk-!-font-weight-bold" %}
+                        {% include 'international/includes/form_field.html' with field=form.company_name show_vertical_error_line=True label_class="govuk-label govuk-label--s govuk-!-font-weight-bold" %}
                     </div>
                     <div class="govuk-form-group">
-                        {% include 'international/includes/form_field.html' with field=form.company_website show_vertical_error_line=True label_class="eyb-form-label govuk-!-font-weight-bold" %}
+                        {% include 'international/includes/form_field.html' with field=form.company_website show_vertical_error_line=True label_class="govuk-label govuk-label--s govuk-!-font-weight-bold" %}
                     </div>
                     <fieldset class="govuk-fieldset">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s eyb-form-label govuk-!-font-weight-bold">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-label govuk-label--s govuk-!-font-weight-bold">
                             Address of headquarters
                         </legend>
                         <div class="govuk-form-group">
-                            {% include 'international/includes/form_field.html' with field=form.address_line_1 show_vertical_error_line=True label_class="eyb-form-label" %}
+                            {% include 'international/includes/form_field.html' with field=form.address_line_1 show_vertical_error_line=True label_class="govuk-label govuk-label--s govuk-!-font-weight-regular" %}
                         </div>
                         <div class="govuk-form-group">
-                            {% include 'international/includes/form_field.html' with field=form.address_line_2 show_vertical_error_line=True label_class="eyb-form-label" %}
+                            {% include 'international/includes/form_field.html' with field=form.address_line_2 show_vertical_error_line=True label_class="govuk-label govuk-label--s govuk-!-font-weight-regular" %}
                         </div>
                         <div class="govuk-form-group">
-                            {% include 'international/includes/form_field.html' with field=form.town show_vertical_error_line=True label_class="govuk-label govuk-label--s eyb-form-label" %}
+                            {% include 'international/includes/form_field.html' with field=form.town show_vertical_error_line=True label_class="govuk-label govuk-label--s govuk-!-font-weight-regular" %}
                         </div>
                         <div class="govuk-form-group">
-                            {% include 'international/includes/form_field.html' with field=form.county show_vertical_error_line=True label_class="govuk-label govuk-label--s eyb-form-label" %}
+                            {% include 'international/includes/form_field.html' with field=form.county show_vertical_error_line=True label_class="govuk-label govuk-label--s govuk-!-font-weight-regular" %}
                         </div>
                         <div class="govuk-form-group">
-                            {% include 'international/includes/form_field.html' with field=form.postcode show_vertical_error_line=True label_class="govuk-label govuk-label--s eyb-form-label" %}
+                            {% include 'international/includes/form_field.html' with field=form.postcode show_vertical_error_line=True label_class="govuk-label govuk-label--s govuk-!-font-weight-regular" %}
                         </div>
                         <dl class="govuk-summary-list govuk-summary-list--no-border">
                             <div class="govuk-summary-list__row">
