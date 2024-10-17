@@ -142,6 +142,7 @@ TEMPLATES = [
             ROOT_DIR / 'sso_profile' / 'common' / 'templates',
             ROOT_DIR / 'sso_profile' / 'enrolment' / 'templates',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'breadcrumbs',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'footer',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -151,6 +152,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'core.context_processors.domestic_footer',
+                'core.context_processors.international_footer',
                 'great_components.context_processors.sso_processor',
                 'great_components.context_processors.ga360',
                 'great_components.context_processors.urls_processor',

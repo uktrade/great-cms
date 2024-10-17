@@ -3,7 +3,7 @@
 {% show_feedback request.get_full_path as show_feedback %}
 {% if show_feedback %}
     <div class="great-full-width govuk-!-padding-top-6 govuk-!-padding-bottom-6 great-inline-feedback__container great">
-        <div class="govuk-grid-row great-container">
+        <div class="great-container">
             <div class="govuk-grid-column-two-thirds govuk-!-padding-0"
                  id="inline-feedback">
                 {% get_inline_feedback_visibility request.get_full_path as feedback_visibility %}
