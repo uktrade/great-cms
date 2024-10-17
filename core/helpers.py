@@ -1,5 +1,6 @@
 import csv
 import functools
+import json
 import math
 import os
 import re
@@ -872,3 +873,10 @@ def get_ukea_events(all_events, market, sector):
             unique_best_events.append(event)
 
     return unique_best_events[:2]
+
+
+def get_sectors_and_sic_sectors_file():
+    json_data = open('core/fixtures/sectors-and-sic-sectors.json')
+    deserialised_data = json.load(json_data)
+    json_data.close()
+    return deserialised_data

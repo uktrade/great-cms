@@ -768,16 +768,10 @@ class GuidedJourneyStep1View(GuidedJourneyMixin, FormView):
     template_name = 'domestic/contact/export-support/guided-journey/step-1.html'
 
     def get_context_data(self, **kwargs):
-        def get_sectors_and_sic_sectors_file():
-            json_data = open('core/fixtures/sectors-and-sic-sectors.json')
-            deserialised_data = json.load(json_data)
-            json_data.close()
-            return deserialised_data
-
         return super().get_context_data(
             **kwargs,
             progress_position=1,
-            sic_sector_data=get_sectors_and_sic_sectors_file(),
+            sic_sector_data=helpers.get_sectors_and_sic_sectors_file(),
         )
 
     def get_success_url(self):

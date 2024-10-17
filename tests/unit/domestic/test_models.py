@@ -14,7 +14,7 @@ from wagtail.test.utils import WagtailPageTests
 from wagtail_factories import SiteFactory
 
 from core import cache_keys, mixins, models as core_models, service_urls
-from core.models import Region
+from core.models import PersonalisationRegionTag, Region
 from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
 from domestic.forms import SectorPotentialForm
@@ -29,6 +29,7 @@ from domestic.models import (
     GuidancePage,
     MarketsTopicLandingPage,
     PerformanceDashboardPage,
+    RegionTaggedCountryGuidePage,
     StructuralPage,
     TopicLandingPage,
     TradeFinancePage,
@@ -1109,6 +1110,15 @@ class MarketsTopicLandingPageFilteringTests(SetUpLocaleMixin, WagtailPageTests):
     def _build_market_guide_for_filtering_tests(self, parent_page):
         self.country_lookup = {}
 
+        country_region_map = {
+            'Brazil': 'Latin America and Caribbean',
+            'Australia': 'Asia Pacific',
+            'France': 'Europe',
+            'New Zealand': 'Asia Pacific',
+            'Germany': 'Europe',
+            'United States': 'North America',
+        }
+
         for country_name in [
             'Brazil',
             'Australia',
@@ -1124,6 +1134,10 @@ class MarketsTopicLandingPageFilteringTests(SetUpLocaleMixin, WagtailPageTests):
                 country=core_models.Country.objects.get(
                     name=country_name,
                 ),
+            )
+            region_tag_id = PersonalisationRegionTag.objects.filter(name=country_region_map[country_name])[0].id
+            RegionTaggedCountryGuidePage.objects.create(
+                content_object_id=self.country_lookup[country_name].id, tag_id=region_tag_id
             )
 
         _get_tag = core_models.IndustryTag.objects.get
@@ -1196,7 +1210,7 @@ class MarketsTopicLandingPageFilteringTests(SetUpLocaleMixin, WagtailPageTests):
         self._build_market_guide_for_filtering_tests(
             parent_page=self.markets_topic_page,
         )
-        request = RequestFactory().get('/markets/?region=Western+Europe')
+        request = RequestFactory().get('/markets/?region=Europe')
         results = self.markets_topic_page.get_relevant_markets(request)
 
         self.assertEqual(
@@ -1211,7 +1225,7 @@ class MarketsTopicLandingPageFilteringTests(SetUpLocaleMixin, WagtailPageTests):
         self._build_market_guide_for_filtering_tests(
             parent_page=self.markets_topic_page,
         )
-        request = RequestFactory().get('/markets/?region=Western+Europe&region=Oceania')
+        request = RequestFactory().get('/markets/?region=Europe&region=Asia+Pacific')
         results = self.markets_topic_page.get_relevant_markets(request)
 
         self.assertEqual(
@@ -1228,7 +1242,7 @@ class MarketsTopicLandingPageFilteringTests(SetUpLocaleMixin, WagtailPageTests):
         self._build_market_guide_for_filtering_tests(
             parent_page=self.markets_topic_page,
         )
-        request = RequestFactory().get('/markets/?sector=Aerospace&region=South+America')
+        request = RequestFactory().get('/markets/?sector=Aerospace&region=Latin+America+and+Caribbean')
         results = self.markets_topic_page.get_relevant_markets(request)
         self.assertEqual(
             [x for x in results],
@@ -1246,7 +1260,7 @@ class MarketsTopicLandingPageFilteringTests(SetUpLocaleMixin, WagtailPageTests):
             ],
         )
 
-        request = RequestFactory().get('/markets/?region=Western+Europe&sector=Technology')
+        request = RequestFactory().get('/markets/?region=Europe&sector=Technology')
         results = self.markets_topic_page.get_relevant_markets(request)
         self.assertEqual(
             [x for x in results],
@@ -1260,7 +1274,9 @@ class MarketsTopicLandingPageFilteringTests(SetUpLocaleMixin, WagtailPageTests):
         self._build_market_guide_for_filtering_tests(
             parent_page=self.markets_topic_page,
         )
-        request = RequestFactory().get('/markets/?sector=Aerospace&sector=Sport&region=South+America&region=Oceania')
+        request = RequestFactory().get(
+            '/markets/?sector=Aerospace&sector=Sport&region=Latin+America+and+Caribbean&region=Asia+Pacific'
+        )
         results = self.markets_topic_page.get_relevant_markets(request)
         self.assertEqual(
             [x for x in results],
@@ -1278,7 +1294,7 @@ class MarketsTopicLandingPageFilteringTests(SetUpLocaleMixin, WagtailPageTests):
         results = self.markets_topic_page.get_relevant_markets(request)
         self.assertEqual([x for x in results], [])
 
-        request = RequestFactory().get('/markets/?region=Antarctica')
+        request = RequestFactory().get('/markets/?region=Middle+East%2C+Afghanistan+and+Pakistan')
         results = self.markets_topic_page.get_relevant_markets(request)
         self.assertEqual([x for x in results], [])
 

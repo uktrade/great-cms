@@ -1,0 +1,384 @@
+Market,Sector
+Algeria,Energy
+Algeria,Education and training
+Algeria,"Agriculture, horticulture, fisheries and pets"
+Argentina,"Agriculture, horticulture, fisheries and pets"
+Argentina,Energy
+Argentina,Mining
+Argentina,Railways
+Argentina,Security
+Australia,Financial and professional services
+Australia,Technology and smart cities
+Australia,Railways
+Australia,Airports
+Australia,Security
+Australia,Automotive
+Australia,Food and drink
+Australia,Advanced engineering
+Australia,Pharmaceuticals and biotechnology
+Austria,Pharmaceuticals and biotechnology
+Austria,Financial and professional services
+Austria,Railways
+Austria,Airports
+Bahrain,Financial and professional services
+Bahrain,Education and training
+Bahrain,Healthcare services
+Bahrain,Construction
+Bahrain,Energy
+Belgium,Energy
+Belgium,Food and drink
+Belgium,Technology and smart cities
+Bosnia and Herzegovina,Pharmaceuticals and biotechnology
+Bosnia and Herzegovina,Construction
+Bosnia and Herzegovina,Energy
+Brazil,Healthcare services
+Brazil,Pharmaceuticals and biotechnology
+Brazil,Energy
+Brazil,Financial and professional services
+Brazil,Education and training
+Brazil,Aerospace
+Brunei,Energy
+Brunei,Education and training
+Brunei,Financial and professional services
+Bulgaria,Security
+Bulgaria,Energy
+Bulgaria,Construction
+Bulgaria,Healthcare services
+Bulgaria,Railways
+Bulgaria,Technology and smart cities
+Canada,Aerospace
+Canada,Food and drink
+Chile,Mining
+Chile,Construction
+Chile,Technology and smart cities
+Chile,Energy
+Chile,"Agriculture, horticulture, fisheries and pets"
+China,Financial and professional services
+China,Consumer and retail
+China,Technology and smart cities
+China,Education and training
+China,Healthcare services
+China,Pharmaceuticals and biotechnology
+Columbia,Railways
+Columbia,Construction
+Columbia,Energy
+Columbia,Pharmaceuticals and biotechnology
+Columbia,Healthcare services
+Costa Rica,Pharmaceuticals and biotechnology
+Costa Rica,Railways
+Costa Rica,Maritime
+Costa Rica,Technology and smart cities
+Costa Rica,Security
+Costa Rica,Energy
+Croatia,Energy
+Croatia,Railways
+Croatia,Maritime
+Croatia,Logistics
+Croatia,Consumer and retail
+Croatia,Technology and smart cities
+Cyprus,Energy
+Cyprus,Environment
+Czech Republic,Energy
+Czech Republic,Construction
+Czech Republic,Railways
+Czech Republic,Consumer and retail
+Denmark,Advanced engineering
+Denmark,Railways
+Denmark,Energy
+Denmark,Healthcare services
+Denmark,Security
+Denmark,Technology and smart cities
+Denmark,Maritime
+Dominican Republic,Food and drink
+Dominican Republic,Construction
+Dominican Republic,Railways
+Dominican Republic,Energy
+Dominican Republic,"Agriculture, horticulture, fisheries and pets"
+Dominican Republic,Education and training
+Dominican Republic,Healthcare services
+Egypt,Education and training
+Egypt,Energy
+Egypt,Healthcare services
+Egypt,Construction
+Egypt,Railways
+Egypt,Water
+El Salvador,Energy
+El Salvador,Security
+El Salvador,Construction
+Estonia,Technology and smart cities
+Estonia,Energy
+Estonia,Railways
+Estonia,Healthcare services
+Finland,Technology and smart cities
+Finland,Energy
+Finland,Financial and professional services
+France,Energy
+France,Food and drink
+France,Advanced engineering
+France,Technology and smart cities
+France,Construction
+France,Railways
+France,Consumer and retail
+Germany,Food and drink
+Germany,Technology and smart cities
+Germany,Energy
+Germany,Healthcare services
+Germany,Consumer and retail
+Ghana,Energy
+Ghana,Financial and professional services
+Ghana,Railways
+Ghana,Maritime
+Ghana,Construction
+Ghana,Water
+Ghana,"Agriculture, horticulture, fisheries and pets"
+Ghana,Healthcare services
+Ghana,Mining
+Guatemala,Automotive
+Guatemala,"Agriculture, horticulture, fisheries and pets"
+Guatemala,Education and training
+Honduras,Energy
+"Hong Kong, China",Education and training
+"Hong Kong, China",Financial and professional services
+"Hong Kong, China",Food and drink
+"Hong Kong, China",Healthcare services
+"Hong Kong, China",Technology and smart cities
+"Hong Kong, China",Energy
+Hungary,Energy
+Hungary,Pharmaceuticals and biotechnology
+India,Technology and smart cities
+India,Financial and professional services
+India,Automotive
+Indonesia,Railways
+Indonesia,Airports
+Indonesia,Automotive
+Indonesia,Education and training
+Indonesia,Energy
+Indonesia,Food and drink
+Indonesia,Healthcare services
+Ireland,Pharmaceuticals and biotechnology
+Ireland,Construction
+Ireland,"Agriculture, horticulture, fisheries and pets"
+Ireland,Energy
+Israel,Technology and smart cities
+Israel,Pharmaceuticals and biotechnology
+Israel,Food and drink
+Italy,Security
+Italy,Technology and smart cities
+Italy,Healthcare services
+Italy,Pharmaceuticals and biotechnology
+Italy,Aerospace
+Italy,Advanced engineering
+Ivory Coast (The Republic of Côte D’Ivoire),"Agriculture, horticulture, fisheries and pets"
+Ivory Coast (The Republic of Côte D’Ivoire),Energy
+Ivory Coast (The Republic of Côte D’Ivoire),Mining
+Jamaica,Healthcare services
+Jamaica,Technology and smart cities
+Jamaica,Energy
+Japan,Technology and smart cities
+Japan,Food and drink
+Japan,Consumer and retail
+Jordan,Energy
+Jordan,Technology and smart cities
+Jordan,Water
+Jordan,Education and training
+Kenya,Healthcare services
+Kenya,Advanced engineering
+Kosovo,Financial and professional services
+Kosovo,Railways
+Kosovo,Airports
+Kosovo,Mining
+Kosovo,Technology and smart cities
+Kosovo,Energy
+Latvia,Railways
+Latvia,Construction
+Latvia,Energy
+Latvia,Education and training
+Latvia,Technology and smart cities
+Lithuania,Railways
+Lithuania,Maritime
+Lithuania,Energy
+Lithuania,Technology and smart cities
+Malaysia,Education and training
+Malaysia,Technology and smart cities
+Malaysia,Healthcare services
+Mauritius,Education and training
+Mauritius,Financial and professional services
+Mauritius,Maritime
+Mauritius,Energy
+Mauritius,Healthcare services
+Mexico,Automotive
+Mexico,Advanced engineering
+Mexico,Food and drink
+Mexico,Education and training
+Mexico,Pharmaceuticals and biotechnology
+Mexico,Healthcare services
+Mexico,Energy
+Mexico,Financial and professional services
+Mongolia,Mining
+Mongolia,Energy
+Mongolia,"Agriculture, horticulture, fisheries and pets"
+Mongolia,Education and training
+Morocco,Railways
+Morocco,Airports
+Morocco,Construction
+Morocco,Education and training
+Morocco,Healthcare services
+New Zealand,Financial and professional services
+New Zealand,Technology and smart cities
+New Zealand,"Agriculture, horticulture, fisheries and pets"
+New Zealand,Advanced engineering
+New Zealand,Railways
+New Zealand,Construction
+New Zealand,Water
+New Zealand,Food and drink
+Nicaragua,Education and training
+Nicaragua,Construction
+Nicaragua,"Agriculture, horticulture, fisheries and pets"
+Nicaragua,Energy
+Nicaragua,Technology and smart cities
+Nigeria,Energy
+Nigeria,Financial and professional services
+Nigeria,Construction
+Nigeria,"Agriculture, horticulture, fisheries and pets"
+Norway,Energy
+Norway,Railways
+Norway,Construction
+Norway,Automotive
+Norway,Security
+Norway,Food and drink
+Norway,Technology and smart cities
+Oman,Energy
+Oman,Mining
+Oman,Security
+Oman,Technology and smart cities
+Oman,Logistics
+Oman,Healthcare services
+Panama,Pharmaceuticals and biotechnology
+Panama,Education and training
+Panama,Energy
+Panama,Security
+Paraguay,"Agriculture, horticulture, fisheries and pets"
+Paraguay,Food and drink
+Paraguay,Railways
+Paraguay,Water
+Paraguay,Construction
+Paraguay,Technology and smart cities
+Peru,Mining
+Peru,Energy
+Peru,Pharmaceuticals and biotechnology
+Peru,Security
+Philippines,Railways
+Philippines,Airports
+Philippines,Water
+Philippines,Education and training
+Philippines,Technology and smart cities
+Philippines,Healthcare services
+Philippines,Security
+Portugal,Financial and professional services
+Portugal,Pharmaceuticals and biotechnology
+Portugal,Technology and smart cities
+Portugal,Mining
+Portugal,Energy
+Qatar,Sports economy
+Qatar,Energy
+Qatar,Technology and smart cities
+Qatar,Construction
+Qatar,Healthcare services
+Qatar,Security
+Romania,Railways
+Romania,Maritime
+Romania,Automotive
+Romania,Healthcare services
+Romania,Pharmaceuticals and biotechnology
+Romania,Energy
+Romania,Security
+Romania,Consumer and retail
+Saudi Arabia,Energy
+Saudi Arabia,Education and training
+Saudi Arabia,Healthcare services
+Saudi Arabia,Financial and professional services
+Saudi Arabia,Consumer and retail
+Serbia,Automotive
+Serbia,Energy
+Serbia,Mining
+Serbia,Consumer and retail
+Singapore,Financial and professional services
+Singapore,Technology and smart cities
+Singapore,Logistics
+Singapore,Energy
+Singapore,Healthcare services
+Singapore,Maritime
+Slovakia,Automotive
+Slovakia,Healthcare services
+Slovakia,Financial and professional services
+Slovenia,Railways
+Slovenia,Energy
+South Korea,Aerospace
+South Korea,Automotive
+South Korea,Pharmaceuticals and biotechnology
+South Korea,Maritime
+South Korea,Energy
+South Korea,Technology and smart cities
+Sweden,Construction
+Sweden,Railways
+Sweden,Consumer and retail
+Sweden,Food and drink
+Sweden,Energy
+Sweden,Technology and smart cities
+Sweden,Pharmaceuticals and biotechnology
+Switzerland,Pharmaceuticals and biotechnology
+Switzerland,Security
+Switzerland,Advanced engineering
+Switzerland,Consumer and retail
+Taiwan,Energy
+Taiwan,Technology and smart cities
+Taiwan,Financial and professional services
+Taiwan,Consumer and retail
+Taiwan,Education and training
+Thailand,Automotive
+Thailand,Technology and smart cities
+Thailand,Healthcare services
+Thailand,"Agriculture, horticulture, fisheries and pets"
+Thailand,Food and drink
+Thailand,Education and training
+The Netherlands,Food and drink
+The Netherlands,Energy
+The Netherlands,Technology and smart cities
+The Netherlands,Financial and professional services
+Trinidad and Tobago,Pharmaceuticals and biotechnology
+Trinidad and Tobago,Healthcare services
+Trinidad and Tobago,Security
+Trinidad and Tobago,Energy
+Turkey,Pharmaceuticals and biotechnology
+Turkey,Healthcare services
+Turkey,Advanced engineering
+Turkey,Energy
+Turkey,Security
+Turkey,Construction
+Turkey,Railways
+Turkey,Airports
+Turkey,Water
+United Arab Emirates,Education and training
+United Arab Emirates,Energy
+United Arab Emirates,Financial and professional services
+United Arab Emirates,Healthcare services
+United Arab Emirates,Pharmaceuticals and biotechnology
+United Arab Emirates,Technology and smart cities
+United Arab Emirates,Security
+United Arab Emirates,Space
+United States,Food and drink
+United States,Technology and smart cities
+United States,Pharmaceuticals and biotechnology
+Uruguay,Energy
+Uruguay,Healthcare services
+Uruguay,Pharmaceuticals and biotechnology
+Uruguay,Technology and smart cities
+Vietnam,Education and training
+Vietnam,Energy
+Vietnam,Railways
+Vietnam,Aerospace
+Vietnam,Healthcare services
+Vietnam,Technology and smart cities
+Zimbabwe,"Agriculture, horticulture, fisheries and pets"
+Zimbabwe,Mining
+Zimbabwe,Energy
