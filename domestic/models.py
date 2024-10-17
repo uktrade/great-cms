@@ -502,6 +502,7 @@ class GreatDomesticHomePage(
         context['sector_form'] = domestic_forms.SectorPotentialForm(
             sector_list=sector_list,
         )
+        context['sic_sector_data'] = helpers.get_sectors_and_sic_sectors_file()
 
         return context
 
