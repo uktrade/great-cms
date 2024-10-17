@@ -38,7 +38,7 @@
                                     </div>
                                 
                                     {% include 'domestic/contact/export-support/includes/continue-save-button.html' %}
-                                    {% include 'domestic/contact/export-support/includes/skip-button.html' with url='/guided-journey/step-3?is_commodity_code_skipped=True' %}
+                                    {% include 'domestic/contact/export-support/includes/skip-button.html' with url='/your-export-guide/target-export-market?is_commodity_code_skipped=True' %}
                                 </form>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                     <div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-9 great-ds-box-shadow great-ds-widget-container">
                         <h2 class="govuk-heading-s govuk-!-margin-bottom-2 govuk-!-padding-right-9 govuk-!-margin-right-9">{{ session_data.sic_description }}</h2>
                         <p class="govuk-body govuk-!-margin-bottom-0">Part of the <strong class="great-font-bold">{{ session_data.sector }}</strong> sector.</p>
-                        {% include 'domestic/contact/export-support/includes/change-button.html' with url='/guided-journey/step-1/edit?return_to_step=2' %}
+                        {% include 'domestic/contact/export-support/includes/change-button.html' with url='/your-export-guide/what-does-your-company-make-or-do/edit?return_to_step=2' %}
                     </div>
                     {% endif %}
                 </div>

@@ -49,6 +49,7 @@ from wagtailmedia.models import Media
 from wagtailseo.models import SeoMixin as WagtailSeoMixin, TwitterCard
 
 from core import blocks as core_blocks, cms_panels, constants, mixins, snippet_slugs
+from core import helpers
 from core.blocks import (
     LinkBlockWithHeading,
     MicrositeColumnBlock,
@@ -2262,6 +2263,11 @@ class SupportPage(SeoMixin, cms_panels.SupportPanels, Page):
         index.SearchField('page_teaser'),
         index.SearchField('page_body'),
     ]
+
+    def get_context(self, request):
+        context = super(SupportPage, self).get_context(request)
+        context['sic_sector_data'] = helpers.get_sectors_and_sic_sectors_file()
+        return context
 
 
 class SupportTopicLandingPage(SeoMixin, cms_panels.SupportTopicLandingPanels, Page):

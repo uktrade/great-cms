@@ -2033,5 +2033,25 @@
       "slug": "united-kingdom",
       "region": 440
     }
+  },
+  {
+    "model": "core.personalisationregiontag",
+    "pk": 1,
+    "fields": { "name": "Latin America and Caribbean", "slug": "latin-america-and-caribbean" }
+  },
+  {
+    "model": "core.personalisationregiontag",
+    "pk": 2,
+    "fields": { "name": "Asia Pacific", "slug": "asia-pacific" }
+  },
+  {
+    "model": "core.personalisationregiontag",
+    "pk": 3,
+    "fields": { "name": "Europe", "slug": "europe" }
+  },
+  {
+    "model": "core.personalisationregiontag",
+    "pk": 4,
+    "fields": { "name": "North America", "slug": "north-america" }
   }
 ]
