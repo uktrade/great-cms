@@ -297,10 +297,10 @@ class BaseSettings(PydanticBaseSettings):
 
     aws_access_key_id_data_science: str = ''
     aws_secret_access_key_data_science: str = ''
-    aws_s3_region_name: str
+    aws_s3_region_name: str = 'eu-west-2'
     aws_storage_bucket_name: str = ''
     aws_storage_bucket_name_data_science: str = ''
-    aws_s3_region_name_data_science: str = ''
+    aws_s3_region_name_data_science: str = 'eu-west-2'
     aws_s3_custom_domain: str = ''
     aws_s3_url_protocol: str = 'https:'
     aws_access_key_id: str
