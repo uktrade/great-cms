@@ -1,4 +1,0 @@
-make pytest_single tests/unit/activitystream/test_serializers.py::test_articleserializer__get_article_body_content_for_search__skipping_unknown_block
-make pytest_single tests/unit/config/test_utils.py::test_get_wagtail_transfer_configuration
-make pytest_single tests/unit/exportplan/test_context.py::test_pdf_context_provider
-make pytest_single tests/unit/search/test_helpers.py::test_search_with_activitystream
