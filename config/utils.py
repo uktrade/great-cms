@@ -7,6 +7,14 @@ LOCAL = 'local'
 PRODUCTION = 'production'
 
 
+def get_environment():
+    return env.app_environment
+
+
+def get_wagtail_transfer_local_dev():
+    return env.wagtail_transfer_local_dev
+
+
 def get_wagtail_transfer_configuration() -> dict:
     """Checks the environment for an indicator of where this code is running
     so that it can return an appropriate Wagtail-Transfer configuration to
@@ -19,7 +27,7 @@ def get_wagtail_transfer_configuration() -> dict:
 
     config = {}
 
-    active_environment = env.app_environment
+    active_environment = get_environment()
 
     def _get_config(
         env,
@@ -99,10 +107,10 @@ def get_wagtail_transfer_configuration() -> dict:
         # Dev needs to know about Staging and UAT to import FROM them
         uat_base_url = env.wagtailtransfer_base_url_uat
         uat_secret = env.wagtailtransfer_secret_key_uat
-        staging_base_url = env.WAGTAILTRANSFER_BASE_URL_STAGING
-        staging_secret = env.WAGTAILTRANSFER_SECRET_KEY_STAGING
-        prod_base_url = env.WAGTAILTRANSFER_BASE_URL_PRODUCTION
-        prod_secret = env.WAGTAILTRANSFER_SECRET_KEY_PRODUCTION
+        staging_base_url = env.wagtailtransfer_base_url_staging
+        staging_secret = env.wagtailtransfer_secret_key_staging
+        prod_base_url = env.wagtailtransfer_base_url_production
+        prod_secret = env.wagtailtransfer_secret_key_production
         config.update(
             _get_config(
                 active_environment,
@@ -152,7 +160,7 @@ def get_wagtail_transfer_configuration() -> dict:
                 dev_secret=dev_secret,
             )
         )
-    elif active_environment == LOCAL and env.wagtail_transfer_local_dev:
+    elif active_environment == LOCAL and get_wagtail_transfer_local_dev():
         # Local needs to know about Dev and Staging and UAT to import FROM them
         _get_local_config(config)
 

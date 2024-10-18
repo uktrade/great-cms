@@ -219,7 +219,7 @@ CACHES = {
 }
 
 CACHE_EXPIRE_SECONDS = env.cache_expire_seconds
-CACHE_EXPIRE_SECONDS_SHORT = env.cache_expire_seconds
+CACHE_EXPIRE_SECONDS_SHORT = env.cache_expire_seconds if env.cache_expire_seconds else 60 * 5  # 5 minutes
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
