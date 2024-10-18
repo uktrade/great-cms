@@ -493,14 +493,14 @@ if OPENSEARCH_PROVIDER == 'govuk-paas':
     )
 
     # Add an admin connection for admin search preview on legacy setup
-    OPENSEARCH_ADMINSEARCH_PROVIDER = env.str('OPENSEARCH_ADMINSEARCH_PROVIDER', None)
+    OPENSEARCH_ADMINSEARCH_PROVIDER = env.opensearch_adminsearch_provider
     if OPENSEARCH_ADMINSEARCH_PROVIDER:
         OPENSEARCH_ADMINSEARCH_PROVIDER = OPENSEARCH_ADMINSEARCH_PROVIDER.lower()
         WAGTAILSEARCH_BACKENDS = {
             'default': {
                 'BACKEND': 'wagtail.search.backends.elasticsearch7',
                 'AUTO_UPDATE': True if OPENSEARCH_PROVIDER == 'aws' else False,
-                'URLS': [env.str('OPENSEARCH_ADMINSEARCH_URL', 'localhost:9200')],
+                'URLS': [env.opensearch_adminsearch_url],
                 'INDEX': 'great-cms',
                 'TIMEOUT': 5,
                 'OPTIONS': {},
