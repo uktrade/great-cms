@@ -1,8 +1,0 @@
-make pytest_single tests/unit/activitystream/test_serializers.py::test_articleserializer__get_article_body_content_for_search__skipping_unknown_block
-make pytest_single tests/unit/domestic/test_models.py::test_great_domestic_homepage_geo_redirection__integration
-make pytest_single tests/unit/config/test_utils.py::test_get_wagtail_transfer_configuration
-make pytest_single tests/unit/core/test_helpers.py::test_get_location_unable_to_determine__city
-make pytest_single tests/unit/core/test_helpers.py::test_get_location_unable_to_determine__country
-make pytest_single tests/unit/core/test_helpers.py::test_get_location_success
-make pytest_single tests/unit/core/test_helpers.py::test_geolocation__integrated
-make pytest_single tests/unit/exportplan/test_context.py::test_pdf_context_provider
