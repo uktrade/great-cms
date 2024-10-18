@@ -73,6 +73,7 @@
             <link href="{% static 'microsite_styles.css' %}"
                   rel="stylesheet"
                   type="text/css" />
+            <link href="{% static 'great_design_system_styles.css' %}" rel="stylesheet" type="text/css" />
         {% endblock %}
         <style>
       .js-disabled-only {
@@ -139,6 +140,7 @@
         {% endblock %}
     </head>
     <body {% block body_attributes %}{% endblock %}>
+        <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
         {% if features.FEATURE_GREAT_ERROR %}
             {% include 'components/great/error-notification-banner.html' %}
         {% endif %}
@@ -155,15 +157,32 @@
             <a href="#content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
         {% endblock %}
         {% block body_header %}
-            {% include 'core/header.html' %}
+            {% include "_header.html" with header_classes=header_classes isInternational=isInternational mobileSiteLink=mobileSiteLink sso_is_logged_in=sso_is_logged_in isAuthenticated=isAuthenticated hideSearch=hideSearch hideMenuOnDesktop=hideMenuOnDesktop domesticLink=domesticLink internationalLink=internationalLink searchFormAction=searchFormAction navItemsList=navItemsList menuItemsList=menuItemsList actionLinkList=actionLinkList %}
+            {% url 'sso:business-sso-logout-api' as sign_out_endpoint %}
+            <script>
+                function signOut() {
+                    return fetch('{{ sign_out_endpoint }}', {
+                    method: 'post',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                    body: JSON.stringify({})
+                    }).then(function() {
+                    window.location = '/';
+                    });
+                }
+            </script>
         {% endblock %}
         {% block breadcrumbs_block %}
             {% if not '/' == request.path %}
                 <div class="container">
                     {% if bespoke_breadcrumbs %}
-                        {% include 'breadcrumbs.html' with itemsList=bespoke_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
+                        {% include '_breadcrumbs.html' with itemsList=bespoke_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
                     {% else %}
-                        {% include 'breadcrumbs.html' with itemsList=page.get_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
+                        {% include '_breadcrumbs.html' with itemsList=page.get_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
                     {% endif %}
                 </div>
             {% endif %}
@@ -195,8 +214,9 @@
         privacyCookiesUrl: {{privacy_and_cookies_path}},
         preferencesUrl: '{% url "core:cookie-preferences" %}',
       })
-            </script>
-        {% endif %}
-    {% endblock %}
-</body>
+                </script>
+            {% endif %}
+            <script src="{% static 'great_design_system_scripts.js' %}"></script>
+        {% endblock %}
+    </body>
 </html>

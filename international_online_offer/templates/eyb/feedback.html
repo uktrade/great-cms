@@ -2,7 +2,7 @@
 {% load static %}
 {% block page_title %}Feedback {{ block.super }}{% endblock %}
 {% block content %}
-    <div class="govuk-width-container great-container">
+    <div class="great-container">
         {% if request.GET.success %}
             <div class="govuk-grid-row" id="complete_contact_form_message">
                 <div class="govuk-grid-column-full">{% include './includes/feedback_success.html' %}</div>
