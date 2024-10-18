@@ -368,6 +368,8 @@ class BaseSettings(PydanticBaseSettings):
     opensearch_adminsearch_provider: str = ''
     opensearch_adminsearch_url: str = 'localhost:9200'
 
+    headless: bool = True
+
 
 class CIEnvironment(BaseSettings):
 
