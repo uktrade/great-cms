@@ -1,4 +1,5 @@
 {% load i18n wagtailimages_tags %}
+{% load static %}
 {% load content_tags %}
 <section class="great great-bg-light-blue govuk-!-padding-top-0 govuk-!-padding-bottom-0">
     <div class="great-container">
@@ -20,6 +21,13 @@
                     {% endfor %}
                 {% endfor %}
             </div>
+            {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
+            <hr class="great-ds-hr" />
+            <div class="govuk-!-padding-6 great-bg-white great-ds-make-or-do great-ds-make-or-do--homepage">
+                {% include 'domestic/contact/export-support/includes/make-or-do-form.html' %}
+                <img src="{% static 'images/make-or-do.png' %}" alt="UK Export Academy logo" />
+            </div>
+            {% endif %}
         {% else %}
             <div class="govuk-grid-row great-display-flex-desktop great-dep-homepage-row">
                 <div class="govuk-grid-column-two-thirds great-dep-card">

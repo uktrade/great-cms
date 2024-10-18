@@ -13,6 +13,15 @@
         <script src="{% static 'javascript/home.js' %}"></script>
     {% endif %}
 {% endblock %}
+{% block head_css %}
+    {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
+    <link href="{% static 'core/css/accessible-autocomplete.min.css' %}"
+          rel="stylesheet"
+          type="text/css">
+    {% endif %}
+
+    {{ block.super }}
+{% endblock %}
 {% block css_layout_class %}
     landing-page
     {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}great-bg-white{% endif %}
@@ -274,5 +283,15 @@
     </script>
     {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
         <script src="{% static 'javascript/digital-entry-point.js' %}"></script>
+    {% endif %}
+
+    {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
+        <script type="text/javascript"
+                src="{% static 'javascript/accessible-autocomplete.v3.min.js' %}"></script>
+        <script type="text/javascript"
+                src="{% static 'javascript/great.make-or-do-search.js' %}"></script>
+        <script type="text/javascript">
+            GreatFrontend.MakeOrDoSearch.init({{ sic_sector_data | safe}});
+        </script>
     {% endif %}
 {% endblock %}

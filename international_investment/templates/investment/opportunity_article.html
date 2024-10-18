@@ -40,17 +40,19 @@
             {% endif %}
         </div>
     </section>
-    <section class="light-blue-background">
-        <div class="great-container">
+    <section>
+        <div class="govuk-width-container great-container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
-                    <dl>
+                    <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-bottom-4">
+                    <dl class="govuk-summary-list govuk-summary-list--no-border">
                         <div class="govuk-summary-list__row">
                             <dt class="govuk-summary-list__key govuk-body">
                                 <strong>Location</strong>
                             </dt>
                             <dd class="govuk-summary-list__value govuk-body">
-                                <i class="fa fa-map-marker-alt" aria-hidden="true"></i> {{ page.location }}, {{ page.region }}
+                                <i class="fa fa-map-marker-alt govuk-!-margin-right-1"
+                                   aria-hidden="true"></i> {{ page.location }}, {{ page.region }}
                             </dd>
                         </div>
                         <div class="govuk-summary-list__row">
@@ -75,8 +77,8 @@
         </div>
     </section>
     {% if page.investment_type == 'Foreign direct investment' or page.investment_type == 'Freeports' %}
-        <section class="light-green-background govuk-!-padding-top-7 govuk-!-padding-bottom-4">
-            <div class="great-container">
+        <section class="light-green-background govuk-!-padding-top-6">
+            <div class="govuk-width-container great-container">
                 {% include 'investment/includes/opportunity_contact.html' with button_preamble="Take advantage of this opportunity to expand your business in the UK" %}
             </div>
         </section>
