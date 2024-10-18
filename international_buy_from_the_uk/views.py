@@ -3,12 +3,10 @@ from django.core.paginator import EmptyPage, Paginator
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse, reverse_lazy
-from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin
-from wagtailcache.cache import cache_page
 
 from config import settings
 from core.helpers import get_sender_ip_address
@@ -162,7 +160,6 @@ class CompanyProfileMixin:
         return company
 
 
-@method_decorator(cache_page, name='dispatch')
 class FindASupplierProfileView(CompanyProfileMixin, GA360Mixin, TemplateView):
     template_name = 'buy_from_the_uk/find_a_supplier/profile.html'
 
@@ -198,7 +195,6 @@ class CaseStudyMixin:
         return case_study
 
 
-@method_decorator(cache_page, name='dispatch')
 class FindASupplierCaseStudyView(CaseStudyMixin, GA360Mixin, TemplateView):
     template_name = 'buy_from_the_uk/find_a_supplier/case_study.html'
 

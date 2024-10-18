@@ -15,7 +15,6 @@ from django.template.response import TemplateResponse
 from django.urls import reverse, reverse_lazy
 from django.utils.crypto import get_random_string
 from django.utils.decorators import method_decorator
-from django.views.decorators.vary import vary_on_cookie
 from django.views.generic import FormView, TemplateView
 from django.views.generic.base import RedirectView, View
 from formtools.wizard.views import NamedUrlSessionWizardView
@@ -35,7 +34,7 @@ from wagtail.images.views.chooser import (
     ImageInsertionForm,
     ImageUploadViewMixin,
 )
-from wagtailcache.cache import cache_page, nocache_page
+from wagtailcache.cache import nocache_page
 
 from core import cms_slugs, forms, helpers, serializers
 from core.constants import PRODUCT_MARKET_DATA
@@ -233,14 +232,11 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, HCSATMixin, TemplateView,
         return reverse('core:compare-countries')
 
 
-@method_decorator(cache_page, name='get')
 class CountriesView(generics.GenericAPIView):
     def get(self, request):
         return Response([c for c in choices.COUNTRIES_AND_TERRITORIES_REGION if c.get('type') == 'Country'])
 
 
-@method_decorator(cache_page, name='get')
-@method_decorator(vary_on_cookie, name='get')
 class SuggestedCountriesView(generics.GenericAPIView):
     def get(self, request):
         hs_code = request.GET.get('hs_code')
@@ -409,7 +405,6 @@ class ContactUsHelpFormView(PageTitleMixin, FormView):
         return super().form_valid(form)
 
 
-@method_decorator(cache_page, name='dispatch')
 class ContactUsHelpSuccessView(TemplateView):
     template_name = 'core/contact-us-help-form-success.html'
 
@@ -472,7 +467,6 @@ class OpportunitiesRedirectView(RedirectView):
         return redirect_url
 
 
-@method_decorator(cache_page, name='dispatch')
 class CookiePreferencesPageView(TemplateView):
     # NB: template currently bears the ex-V1 styling, so comes from great-cms/domestic/templates/domestic/
     template_name = 'domestic/cookie-preferences.html'

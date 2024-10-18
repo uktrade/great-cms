@@ -1,7 +1,7 @@
 GreatFrontend = window.GreatFrontend || {}
 
 GreatFrontend.MakeOrDoSearch = {
-    init: (sic_sector_data={}, default_value='') => {
+    init: (sic_sector_data={}) => {
         document.querySelector('#sic_description').remove();
 
         const sic_descriptions = sic_sector_data.data.map(el => el.sic_description);
@@ -14,7 +14,7 @@ GreatFrontend.MakeOrDoSearch = {
             autoselect: false,
             minLength: 3,
             displayMenu: 'overlay',
-            defaultValue: default_value,
+            defaultValue: '',
             templates: {
                 suggestion: (selectedSIC) => {
                     const {sic_description, dit_sector_list_field_04} = sic_sector_data.data.find(el => el.sic_description === selectedSIC)

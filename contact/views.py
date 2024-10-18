@@ -10,14 +10,12 @@ from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
 from django.urls import reverse, reverse_lazy
-from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.html import strip_tags
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from formtools.wizard.views import NamedUrlSessionWizardView
 from rest_framework.generics import GenericAPIView
-from wagtailcache.cache import cache_page
 
 from contact import constants, forms as contact_forms, helpers, mixins as contact_mixins
 from core import mixins as core_mixins, snippet_slugs
@@ -216,7 +214,6 @@ class DomesticEnquiriesFormView(WizardBespokeBreadcrumbMixin, PrepopulateShortFo
     )
 
 
-@method_decorator(cache_page, name='dispatch')
 class DomesticSuccessView(BespokeBreadcrumbMixin, BaseSuccessView):
     template_name = 'domestic/contact/submit-success-domestic.html'
 
@@ -653,7 +650,6 @@ class InternationalFormView(
         return super().get_context_data(bespoke_breadcrumbs=bespoke_breadcrumbs, **kwargs)
 
 
-@method_decorator(cache_page, name='dispatch')
 class InternationalSuccessView(
     # CountryDisplayMixin,  # Omitted in migration as appears to be redundant..
     BaseSuccessView,
@@ -672,7 +668,6 @@ class EcommerceSupportFormPageView(BaseNotifyFormView):
     )
 
 
-@method_decorator(cache_page, name='dispatch')
 class ExportSupportSuccessPageView(TemplateView):
     template_name = 'domestic/contact/request-export-support-success.html'
 
@@ -803,7 +798,6 @@ class RoutingFormView(
         return context_data
 
 
-@method_decorator(cache_page, name='dispatch')
 class GuidanceView(
     BespokeBreadcrumbMixin,
     core_mixins.GetSnippetContentMixin,
