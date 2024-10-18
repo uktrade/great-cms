@@ -399,7 +399,7 @@ class InvestmentOpportunityArticlePage(BaseContentPage):
     )
 
     region = models.TextField()
-    location = models.TextField()
+    location = models.TextField(null=True, blank=True)
     sector = models.TextField()
     investment_type = models.TextField()
 
