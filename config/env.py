@@ -30,7 +30,6 @@ class BaseSettings(PydanticBaseSettings):
     api_cache_disabled: bool = False
 
     cache_expire_seconds: int = 60 * 30  # 30 minutes
-    cache_expire_seconds_short: int = 60 * 5  # 5 minutes
 
     time_zone: str = 'UTC'
 
