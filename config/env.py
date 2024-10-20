@@ -42,8 +42,8 @@ class BaseSettings(PydanticBaseSettings):
     sentry_browser_traces_sample_rate: float = 1.0
     sentry_dsn: str = ''
     sentry_environment: str
-    enable_tracing: bool = False
-    traces_sample_rate: float = 1.0
+    sentry_enable_tracing: bool = False
+    sentry_traces_sample_rate: float = 1.0
 
     secure_hsts_seconds: int = 16070400
 
