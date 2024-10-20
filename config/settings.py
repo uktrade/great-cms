@@ -29,7 +29,6 @@ APP_ENVIRONMENT = env.app_environment
 ALLOWED_HOSTS = ['*']
 
 SAFELIST_HOSTS = env.safelist_hosts
-SAFELIST_HOSTS = SAFELIST_HOSTS.split(',')
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#append-slash
 APPEND_SLASH = True
