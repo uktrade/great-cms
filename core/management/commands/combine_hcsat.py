@@ -27,6 +27,9 @@ class Command(BaseCommand):
             for hcsat in model.objects.all():
                 serialized_obj = serialize_hcsat(hcsat)
                 object, created = HCSAT.objects.get_or_create(**serialized_obj)
+                # Even though 'created' is passed through above it gets overwritten, so fix here for reporting
+                object.created = serialized_obj['created']
+                object.save()
                 if created:
                     self.stdout.write(self.style.SUCCESS('New obj created'))
                 else:
