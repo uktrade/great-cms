@@ -160,6 +160,13 @@ $great-design-system-govuk-blue: #1d70b8;
   }
 }
 
+.great-ds-details--guided-journey {
+  &[open] {
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+  }
+}
+
 .great-ds-link {
   display: inline-flex;
   text-decoration: none;
@@ -255,6 +262,10 @@ $great-design-system-govuk-blue: #1d70b8;
     @include govuk-media-query($from: tablet) {
       margin-left: 30px;
     }
+  }
+
+  .great-checkbox .govuk-checkboxes__label:before {
+    border-radius: 0;
   }
 }
 
@@ -352,6 +363,10 @@ $great-design-system-govuk-blue: #1d70b8;
         box-shadow: 0 -2px govuk-colour('yellow'), 0 4px #0b0c0c;
         text-decoration: none;
       }
+    }
+
+    > span {
+      flex-basis: inherit;
     }
 
     @include govuk-media-query($from: tablet) {

@@ -12,7 +12,7 @@
     <div class="great great-min-height-500">
         <div class="great-container govuk-!-padding-top-4">
             <div class="govuk-grid-row">
-                <div class="govuk-grid-column-full">
+                <div class="govuk-grid-column-full great-no-padding-until-tablet">
                     <div class="great-bg-white govuk-!-padding-6 great-ds-box-shadow great-ds-widget-container">
                         <form method="post" autocomplete="off">
                             {% csrf_token %}
@@ -67,7 +67,7 @@
         templates: {
             suggestion: (selectedSIC) => {
                 const {sic_description, dit_sector_list_field_04} = data.data.find(el => el.sic_description === selectedSIC)
-                return `<span>${sic_description}</span><br /><span>${dit_sector_list_field_04}</span>`;
+                return `<span>${sic_description}</span><br /><span class="govuk-body-s">${dit_sector_list_field_04}</span>`;
             }
         },
         onConfirm: (selectedSIC) => {
