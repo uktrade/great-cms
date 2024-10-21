@@ -375,7 +375,12 @@ class CIEnvironment(BaseSettings):
 
     database_url: str
     redis_url: str
-    opensearch_service: list = []
+    opensearch: list = []
+
+    @computed_field(return_type=list)
+    @property
+    def opensearch_service(self):
+        return self.opensearch
 
 
 class DBTPlatformEnvironment(BaseSettings):
