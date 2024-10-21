@@ -13,34 +13,6 @@ from config.env import env
         ('unknown', False, {}),
         ('', True, {}),
         ('unknown', True, {}),
-    ),
-    ids=(
-        'no identifier',
-        'mismatching identifier',
-        'no identifier and local enabled',
-        'mismatching identifier and local enabled',
-    ),
-)
-@mock.patch('config.env.env.app_environment')
-@mock.patch('config.env.env.wagtail_transfer_local_dev')
-def test_get_wagtail_transfer_configuration_errors(
-    mock_wagtail_transfer_local_dev, mock_app_environment, env_label, local_transfer_enabled, expected
-):
-    """Show that we return the appropriate configs for the given active env_label"""
-
-    mock_app_environment.return_value = env_label
-    mock_wagtail_transfer_local_dev.return_value = local_transfer_enabled
-
-    assert config_utils.get_wagtail_transfer_configuration() == expected
-
-
-@pytest.mark.parametrize(
-    'env_label,local_transfer_enabled,expected',
-    (
-        ('', False, {}),
-        ('unknown', False, {}),
-        ('', True, {}),
-        ('unknown', True, {}),
         (
             'uat',  # can pull from production,
             False,
