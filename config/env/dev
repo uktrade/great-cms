@@ -115,9 +115,9 @@ SENTRY_ENVIRONMENT=dev
 ELASTIC_APM_SECRET_TOKEN=debug
 FEATURE_COURSES_LANDING_PAGE=True
 
-wagtailtransfer_base_url_dev=http://example.com
-wagtailtransfer_secret_key_dev=debug
-wagtailtransfer_base_url_uat=http://example.com
-wagtailtransfer_secret_key_uat=debug
-wagtailtransfer_base_url_staging=http://example.com
-wagtailtransfer_secret_key_staging=debug
+WAGTAILTRANSFER_BASE_URL_DEV=http://example.com/admin/wagtail-transfer
+WAGTAILTRANSFER_SECRET_KEY_DEV=debug
+WAGTAILTRANSFER_BASE_URL_UAT=http://example.com/admin/wagtail-transfer
+WAGTAILTRANSFER_SECRET_KEY_UAT=debug
+WAGTAILTRANSFER_BASE_URL_STAGING=http://example.com/admin/wagtail-transfer
+WAGTAILTRANSFER_SECRET_KEY_STAGING=debug
