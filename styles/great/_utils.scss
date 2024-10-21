@@ -757,6 +757,17 @@
   overflow: hidden;
 }
 
+.great-visually-hidden-until-tablet {
+  @include govuk-media-query($until: tablet) {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+}
+
 .clearfix:after {
   display: block;
   content: '';
@@ -780,6 +791,12 @@
 
   @include govuk-media-query($from: tablet) {
     padding-left: 35px !important;
+  }
+}
+
+.great-no-padding-until-tablet {
+  @include govuk-media-query($until: tablet) {
+    padding: 0;
   }
 }
 
