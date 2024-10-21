@@ -3,7 +3,7 @@
 {% include './includes/dbt_banner.html' %}
 <header data-ga-section="header">
     <div class="great-international-header__main">
-        <div class="govuk-width-container great-container great-international-header__main-inner {% if hide_primary_nav %}international-justify-start{% endif %}">
+        <div class="great-container great-international-header__main-inner {% if hide_primary_nav %}international-justify-start{% endif %}">
             <a href="/international/"
                class="great-logo-link"
                aria-label="great.gov.uk investment home">
@@ -19,7 +19,7 @@
                 </div>
             {% endif %}
             <button id="atlas-nav-toggle"
-                    class="great-international-menu-button"
+                    class="button great-international-menu-button"
                     aria-controls="great-international-nav"
                     data-reveal-button>
                 Menu
@@ -90,7 +90,7 @@
     </div>
     {% if '/expand-your-business-in-the-uk' in request.path %}
         <div class="great-international-subnav">
-            <div class="govuk-width-container great-container">
+            <div class="great-container">
                 <nav class="great-international-subnav" aria-label="Sub-menu">
                     <ul>
                         {% if request.user.is_authenticated %}

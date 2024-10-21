@@ -54,3 +54,16 @@ $fa-font-path: '/static/fonts';
 @import 'shared/base';
 
 @import '../components/sass/components/cookie-notice/base';
+
+// TO DO - remove the below styles when we use the Great Design System to style all buttons/links
+.personalization-menu-button.tag--icon {
+    border-bottom: 3px solid transparent;
+}
+
+.personalization-menu-button.tag--icon:focus,
+.personalization-menu-button.tag--icon:active {
+  background-color: #fd0;
+  outline: none;
+  border-bottom: 3px solid #222;
+  color: #222;
+}
