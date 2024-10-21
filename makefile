@@ -84,7 +84,7 @@ LOCUST := \
 	locust \
 		--locustfile $(LOCUST_FILE) \
 		--users=$(NUM_USERS) \
-		--hatch-rate=$(HATCH_RATE) \
+		--spawn-rate=$(HATCH_RATE) \
 		--run-time=$(RUN_TIME) \
 		--headless \
 		--csv=./results/results
@@ -93,7 +93,7 @@ kill_webserver := \
 	pkill -f runserver_plus
 
 test_load:
-	ENV_FILES='test,dev' python manage.py runserver_plus 0.0.0.0:8020 --keep-meta-shutdown &
+	ENV_FILES='test,dev' python manage.py runserver_plus 127.0.0.1:8020 --keep-meta-shutdown &
 	sleep 5
 	$(LOCUST)
 	-$(kill_webserver)

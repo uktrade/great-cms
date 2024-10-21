@@ -2,7 +2,8 @@ from unittest import mock
 
 import pytest
 
-from config.utils import get_wagtail_transfer_configuration, strip_password_data
+from config import utils as config_utils
+from config.env import env
 
 
 @pytest.mark.parametrize(
@@ -17,16 +18,16 @@ from config.utils import get_wagtail_transfer_configuration, strip_password_data
             False,
             {
                 'production': {
-                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_PRODUCTION',
-                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_PRODUCTION',
+                    'BASE_URL': env.wagtailtransfer_base_url_production,
+                    'SECRET_KEY': env.wagtailtransfer_secret_key_production,
                 },
                 'staging': {
-                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_STAGING',
-                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_STAGING',
+                    'BASE_URL': env.wagtailtransfer_base_url_staging,
+                    'SECRET_KEY': env.wagtailtransfer_secret_key_staging,
                 },
                 'dev': {
-                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_DEV',
-                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_DEV',
+                    'BASE_URL': env.wagtailtransfer_base_url_dev,
+                    'SECRET_KEY': env.wagtailtransfer_secret_key_dev,
                 },
             },
         ),
@@ -35,16 +36,16 @@ from config.utils import get_wagtail_transfer_configuration, strip_password_data
             False,
             {
                 'production': {
-                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_PRODUCTION',
-                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_PRODUCTION',
+                    'BASE_URL': env.wagtailtransfer_base_url_production,
+                    'SECRET_KEY': env.wagtailtransfer_secret_key_production,
                 },
                 'uat': {
-                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_UAT',
-                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_UAT',
+                    'BASE_URL': env.wagtailtransfer_base_url_uat,
+                    'SECRET_KEY': env.wagtailtransfer_secret_key_uat,
                 },
                 'dev': {
-                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_DEV',
-                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_DEV',
+                    'BASE_URL': env.wagtailtransfer_base_url_dev,
+                    'SECRET_KEY': env.wagtailtransfer_secret_key_dev,
                 },
             },
         ),
@@ -53,16 +54,16 @@ from config.utils import get_wagtail_transfer_configuration, strip_password_data
             False,
             {
                 'production': {
-                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_PRODUCTION',
-                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_PRODUCTION',
+                    'BASE_URL': env.wagtailtransfer_base_url_production,
+                    'SECRET_KEY': env.wagtailtransfer_secret_key_production,
                 },
                 'uat': {
-                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_UAT',
-                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_UAT',
+                    'BASE_URL': env.wagtailtransfer_base_url_uat,
+                    'SECRET_KEY': env.wagtailtransfer_secret_key_uat,
                 },
                 'staging': {
-                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_STAGING',
-                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_STAGING',
+                    'BASE_URL': env.wagtailtransfer_base_url_staging,
+                    'SECRET_KEY': env.wagtailtransfer_secret_key_staging,
                 },
             },
         ),
@@ -71,16 +72,16 @@ from config.utils import get_wagtail_transfer_configuration, strip_password_data
             True,
             {
                 'uat': {
-                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_UAT',
-                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_UAT',
+                    'BASE_URL': env.wagtailtransfer_base_url_uat,
+                    'SECRET_KEY': env.wagtailtransfer_secret_key_uat,
                 },
                 'staging': {
-                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_STAGING',
-                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_STAGING',
+                    'BASE_URL': env.wagtailtransfer_base_url_staging,
+                    'SECRET_KEY': env.wagtailtransfer_secret_key_staging,
                 },
                 'dev': {
-                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_DEV',
-                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_DEV',
+                    'BASE_URL': env.wagtailtransfer_base_url_dev,
+                    'SECRET_KEY': env.wagtailtransfer_secret_key_dev,
                 },
                 'local_one_on_8020': {
                     'BASE_URL': 'http://greatcms.trade.great:8020/admin/wagtail-transfer/',
@@ -98,16 +99,16 @@ from config.utils import get_wagtail_transfer_configuration, strip_password_data
             True,  # Danger! - or thankfully not... we won't act on this unless the env is `local`
             {
                 'production': {
-                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_PRODUCTION',
-                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_PRODUCTION',
+                    'BASE_URL': env.wagtailtransfer_base_url_production,
+                    'SECRET_KEY': env.wagtailtransfer_secret_key_production,
                 },
                 'uat': {
-                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_UAT',
-                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_UAT',
+                    'BASE_URL': env.wagtailtransfer_base_url_uat,
+                    'SECRET_KEY': env.wagtailtransfer_secret_key_uat,
                 },
                 'dev': {
-                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_DEV',
-                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_DEV',
+                    'BASE_URL': env.wagtailtransfer_base_url_dev,
+                    'SECRET_KEY': env.wagtailtransfer_secret_key_dev,
                 },
             },
         ),
@@ -125,28 +126,19 @@ from config.utils import get_wagtail_transfer_configuration, strip_password_data
         'accidental local transfer enabled does not give bad config on real env',
     ),
 )
-def test_get_wagtail_transfer_configuration(env_label, local_transfer_enabled, expected):
+@mock.patch('config.utils.get_environment')
+@mock.patch('config.utils.get_wagtail_transfer_local_dev')
+def test_get_wagtail_transfer_configuration(
+    mock_get_wagtail_transfer_local_dev, mock_get_environment, env_label, local_transfer_enabled, expected
+):
     """Show that we return the appropriate configs for the given active env_label"""
-
-    def _env_side_effect(requested_env_key, default=''):
-        # Return the patched APP_ENVIRONMENT value,
-        # or just replay the env key with a prefix
-        if requested_env_key == 'APP_ENVIRONMENT':
-            return env_label
-        return f'value_of_{requested_env_key.upper()}'
-
-    with mock.patch('config.utils.env.str') as mock_env_str:
-        with mock.patch('config.utils.env.bool') as mock_env_bool:
-            # Warning: this mocked re turn value covers all calls to env.bool()
-            mock_env_bool.return_value = local_transfer_enabled
-
-            mock_env_str.side_effect = _env_side_effect
-
-            assert get_wagtail_transfer_configuration() == expected
+    mock_get_environment.return_value = env_label
+    mock_get_wagtail_transfer_local_dev.return_value = local_transfer_enabled
+    assert config_utils.get_wagtail_transfer_configuration() == expected
 
 
 def test_strip_password_data():
-    event_with_password = strip_password_data({'request': {'data': {'password': 'abc123'}}}, None)
-    strip_password_data({'request': {}}, None)  # Assure no error is raise when no password is present
+    event_with_password = config_utils.strip_password_data({'request': {'data': {'password': 'abc123'}}}, None)
+    config_utils.strip_password_data({'request': {}}, None)  # Assure no error is raise when no password is present
 
     assert event_with_password['request']['data']['password'] is None

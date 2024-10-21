@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from unittest.mock import patch
 
-import environ
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from wagtail_factories import SiteFactory
 
+from config.env import env
 from core import cms_slugs, helpers as core_helpers
 from directory_api_client import api_client
 from directory_constants import choices
@@ -88,8 +88,7 @@ JAPAN = {
 @pytest.fixture(scope='session')
 def browser():
     options = Options()
-    env = environ.Env()
-    headless = env.bool('HEADLESS', True)
+    headless = env.headless
     if headless:
         options.add_argument('--headless')
         options.add_argument('--window-size=1600x2200')

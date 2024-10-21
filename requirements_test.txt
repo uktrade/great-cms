@@ -125,7 +125,7 @@ colorama==0.4.6
     # via djlint
 configargparse==1.7
     # via locust
-coverage[toml]==7.6.3
+coverage[toml]==7.6.4
     # via
     #   pytest-codecov
     #   pytest-cov
@@ -161,7 +161,7 @@ deprecated==1.2.14
     #   opentelemetry-exporter-otlp-proto-http
 dill==0.3.9
     # via pylint
-directory-api-client==26.9.0
+directory-api-client==26.11.0
     # via -r requirements.in
 directory-ch-client==4.0.2
     # via -r requirements.in
@@ -349,7 +349,7 @@ freezegun==1.1.0
     # via -r requirements_test.in
 geoip2==2.9.0
     # via -r requirements.in
-gevent==24.10.2
+gevent==24.10.3
     # via
     #   geventhttpclient
     #   locust
@@ -451,7 +451,7 @@ markdown2==2.4.0
     # via
     #   -r requirements.in
     #   readtime
-markupsafe==3.0.1
+markupsafe==3.0.2
     # via
     #   jinja2
     #   werkzeug
@@ -576,7 +576,7 @@ pillow==10.3.0
     #   reportlab
     #   wagtail
     #   xhtml2pdf
-pillow-heif==0.18.0
+pillow-heif==0.20.0
     # via willow
 pip-tools==7.4.1
     # via -r requirements_test.in
@@ -605,7 +605,7 @@ protobuf==4.25.5
     # via
     #   googleapis-common-protos
     #   opentelemetry-proto
-psutil==6.0.0
+psutil==6.1.0
     # via
     #   browserstack-local
     #   browserstack-sdk
@@ -771,7 +771,7 @@ requests-toolbelt==1.0.0
     # via browserstack-sdk
 ruamel-yaml==0.18.6
     # via pre-commit-hooks
-ruamel-yaml-clib==0.2.8
+ruamel-yaml-clib==0.2.12
     # via ruamel-yaml
 s3transfer==0.6.2
     # via boto3
@@ -919,7 +919,7 @@ vine==5.1.0
     #   amqp
     #   celery
     #   kombu
-virtualenv==20.26.6
+virtualenv==20.27.0
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core
