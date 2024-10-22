@@ -775,6 +775,7 @@ class GuidedJourneyStep1View(GuidedJourneyMixin, FormView):
         )
 
     def get_success_url(self):
+        is_goods_exporter = False
         is_service_exporter = False
         return_to_step = self.request.GET.get('return_to_step')
 
@@ -782,11 +783,15 @@ class GuidedJourneyStep1View(GuidedJourneyMixin, FormView):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('guided_journey_data')))[0]
 
             is_service_exporter = form_data['exporter_type'] == 'service'
+            is_goods_exporter = form_data['exporter_type'] == 'goods'
 
         if is_service_exporter:
             if return_to_step:
                 return reverse_lazy(f'core:guided-journey-step-{return_to_step}')
 
+            return reverse_lazy('core:guided-journey-step-3')
+
+        if not is_goods_exporter and not is_service_exporter:
             return reverse_lazy('core:guided-journey-step-3')
 
         if return_to_step:
