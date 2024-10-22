@@ -332,7 +332,7 @@ class EYBTradeShowPageTag(TaggedItemBase):
 class IOOTradeShowPage(BaseContentPage):
     parent_page_types = ['international_online_offer.EYBTradeShowsPage']
     subpage_types = []
-    template = 'eyb/trade-shows.html'
+    template = 'eyb/trade_shows.html'
     tradeshow_title = models.TextField()
     tradeshow_subheading = StreamField(
         [
