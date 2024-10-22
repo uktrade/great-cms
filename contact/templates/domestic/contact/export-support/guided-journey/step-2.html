@@ -1,6 +1,6 @@
 {% extends 'domestic/contact/export-support/base.html' %}
 {% load static %}
-{% block head_title %}Export support for UK businesses{% endblock %}
+{% block head_title %}Export support for UK businesses - {% if is_edit_mode %}Change your commodity code{% else %}Find your commodity code{% endif %}{% endblock %}
 {% block head_css %}
     <link href="{% static 'core/css/accessible-autocomplete.min.css' %}"
           rel="stylesheet"
@@ -46,7 +46,7 @@
                             <div class="govuk-grid-column-full govuk-!-padding-top-4 ">
                                 <div class="great-bg-light-blue govuk-!-padding-6 great-ds-side-note">
                                     <span class="great-meta-label govuk-!-margin-bottom-3">
-                                        <img src="/static/icons/guidance.svg" alt="" width="30px" />
+                                        <img src="/static/icons/guidance.svg" alt="Guidance icon" width="30px" />
                                     </span>
                                     <h2 class="govuk-heading-xs govuk-!-margin-bottom-1">What is a commodity code?</h2>
                                     <p class="govuk-body">All goods have a commodity (HS) code, used to identify and classify goods for international trade. You’ll need this for your export paperwork, and we can use it to show you relevant content. </p>
@@ -58,7 +58,9 @@
                     {% if session_data.sic_description %}
                     <div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-9 great-ds-box-shadow great-ds-widget-container">
                         <h2 class="govuk-heading-s govuk-!-margin-bottom-2 govuk-!-padding-right-9 govuk-!-margin-right-9">{{ session_data.sic_description }}</h2>
-                        <p class="govuk-body govuk-!-margin-bottom-0">Part of the <strong class="great-font-bold">{{ session_data.sector }}</strong> sector.</p>
+                        {% if session_data.sector %}
+                            <p class="govuk-body govuk-!-margin-bottom-0">Part of the <strong class="great-font-bold">{{ session_data.sector }}</strong> sector.</p>
+                        {% endif %}
                         {% include 'domestic/contact/export-support/includes/change-button.html' with url='/your-export-guide/what-does-your-company-make-or-do/edit?return_to_step=2' %}
                     </div>
                     {% endif %}

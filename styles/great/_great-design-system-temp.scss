@@ -229,7 +229,6 @@ $great-design-system-govuk-blue: #1d70b8;
 
   &::before {
     @include govuk-media-query($from: tablet) {
-      content: '';
       display: inline-block;
       height: 18px;
       width: 18px;
@@ -243,6 +242,14 @@ $great-design-system-govuk-blue: #1d70b8;
 
     @include govuk-media-query($from: desktop) {
       left: 470px;
+    }
+  }
+}
+
+.js-enabled .great-ds-autocomplete-input__wrapper {
+  &::before {
+    @include govuk-media-query($from: tablet) {
+      content: '';
     }
   }
 }
