@@ -202,7 +202,9 @@ class GuidedJourneyStep2Form(forms.Form):
 class GuidedJourneyStep3Form(forms.Form):
     market = CharField(
         label='Select your market',
-        widget=TextInput(attrs={'class': 'govuk-input great-text-input', 'placeholder': 'Search...'}),
+        widget=TextInput(
+            attrs={'class': 'govuk-input great-text-input govuk-!-width-one-half', 'placeholder': 'For example Germany'}
+        ),
         required=False,
     )
     not_sure_where_to_export = BooleanField(
