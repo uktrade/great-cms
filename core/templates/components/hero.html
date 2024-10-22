@@ -22,7 +22,7 @@ If both are available, `image_url` will be used over `image`
             <h1 class="govuk-heading-l govuk-!-static-margin-0 govuk-!-static-margin-bottom-2">{{ hero_title }}</h1>
             <p>{{ hero_text|richtext }}</p>
         </div>
-        <div class="image-container {% if hide_image_for_mobile %}great-display-from-tablet{% endif %} full-height-img right-aligned"
+        <div class="image-container {% if ukea_event_confirmation %} ea-events-page-hero-image {% endif %}{% if hide_image_for_mobile %}great-display-from-tablet{% endif %} full-height-img right-aligned"
              style="background: url({{ image_url }})"></div>
     </div>
 </div>

@@ -226,6 +226,9 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
       &.right-aligned {
         background-position-x: right !important;
       }
+      &.great-contain-image {
+        background-size: contain !important;
+      }
 
       @media only screen and (min-width: $mobile-size) and (max-width: 980px) {
         margin-left: -8%;
