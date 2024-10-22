@@ -13,4 +13,13 @@
   @include govuk-media-query($from: desktop) {
     width: 500px;
   }
+
+  .autocomplete__option {
+    &:hover,
+    &:focus {
+      span {
+        color: white;
+      }
+    }
+  }
 }
