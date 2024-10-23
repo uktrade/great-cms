@@ -798,6 +798,10 @@
   @include govuk-media-query($until: tablet) {
     padding: 0;
   }
+
+  @include govuk-media-query($from: tablet, $until: desktop) {
+    padding: 0 20px;
+  }
 }
 
 .great-margin-bottom-30 {
