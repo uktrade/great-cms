@@ -102,20 +102,20 @@ def international_header(request):
         'menuItemsList': [
             {
                 'href': '/international/expand-your-business-in-the-uk/',
-                'attributes': 'data-title="Expand your business" data-location="International header"',
+                'location': 'International header',
                 'text': 'Expand your business',
                 'isCurrent': '/expand-your-business-in-the-uk' in request.path,
             },
             {
                 'href': '/international/investment/opportunities/',
                 'text': 'Investment opportunities',
-                'attributes': 'data-title="Investment opportunities" data-location="International header"',
+                'location': 'International header',
                 'isCurrent': '/international/investment/' in request.path,
             },
             {
                 'href': '/international/buy-from-the-uk/',
                 'text': 'Buy from the UK',
-                'attributes': 'data-title="Buy from the UK" data-location="International header"',
+                'location': 'International header',
                 'isCurrent': '/international/buy-from-the-uk/' in request.path,
             },
         ],
