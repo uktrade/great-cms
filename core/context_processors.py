@@ -122,97 +122,103 @@ def services_home_links(request):
         'international_home_link': {'url': reverse_lazy('index'), 'label': _('great.gov.uk international')},
     }
 
+
 def domestic_footer(request):
-    return { 'domesticFooterContext': {
-        'isInternational': False,
-        'currentYear': str(datetime.now().year),
-        'footerLinks': [
-            { 
-                'href': '/support/export-support',
-                'title': 'Export support for UK businesses',
-                'text': 'Export support for UK businesses',
-            },
-            { 
-                'href': '/contact/triage/great-account',
-                'title': 'Get help with your account',
-                'text': 'Get help with your account',
-            },
-            { 
-                'href': 'https://'+settings.DIT_ON_GOVUK,
-                'title': 'Department for Business and Trade on GOV.UK',
-                'text': 'Department for Business and Trade on GOV.UK',
-                'target':'_blank',
-                'rel': 'noopener',
-            },
-            { 
-                'href': '/privacy',
-                'title': 'Privacy',
-                'text': 'Privacy',
-            },
-            { 
-                'href': '/cookies',
-                'title': 'Cookies',
-                'text': 'Cookies',
-            },
-            { 
-                'href': '/terms-and-conditions',
-                'title': 'Terms and conditions',
-                'text': 'Terms and conditions',
-            },
-            { 
-                'href': '/accessibility-statement',
-                'title': 'Accessibility',
-                'text': 'Accessibility',
-            },
-            { 
-                'href': '/performance-dashboard',
-                'title': 'Performance',
-                'text': 'Performance',
-            },
-            { 
-                'href': '/international',
-                'title': 'International business',
-                'text': 'Go to the page for international business',
-            }
-        ]
-    }}
+    return {
+        'domesticFooterContext': {
+            'isInternational': False,
+            'currentYear': str(datetime.now().year),
+            'footerLinks': [
+                {
+                    'href': '/support/export-support',
+                    'title': 'Export support for UK businesses',
+                    'text': 'Export support for UK businesses',
+                },
+                {
+                    'href': '/contact/triage/great-account',
+                    'title': 'Get help with your account',
+                    'text': 'Get help with your account',
+                },
+                {
+                    'href': 'https://' + settings.DIT_ON_GOVUK,
+                    'title': 'Department for Business and Trade on GOV.UK',
+                    'text': 'Department for Business and Trade on GOV.UK',
+                    'target': '_blank',
+                    'rel': 'noopener',
+                },
+                {
+                    'href': '/privacy',
+                    'title': 'Privacy',
+                    'text': 'Privacy',
+                },
+                {
+                    'href': '/cookies',
+                    'title': 'Cookies',
+                    'text': 'Cookies',
+                },
+                {
+                    'href': '/terms-and-conditions',
+                    'title': 'Terms and conditions',
+                    'text': 'Terms and conditions',
+                },
+                {
+                    'href': '/accessibility-statement',
+                    'title': 'Accessibility',
+                    'text': 'Accessibility',
+                },
+                {
+                    'href': '/performance-dashboard',
+                    'title': 'Performance',
+                    'text': 'Performance',
+                },
+                {
+                    'href': '/international',
+                    'title': 'International business',
+                    'text': 'Go to the page for international business',
+                },
+            ],
+        },
+    }
+
 
 def international_footer(request):
-    return { 'internationalFooterContext': {
-        'isInternational': True,
-        'currentYear': str(datetime.now().year),
-        'footerLinks': [
-            { 
-                'href': '/privacy',
-                'title': 'Privacy',
-                'text': 'Privacy',
-            },
-            { 
-                'href': '/cookies',
-                'title': 'Cookies',
-                'text': 'Cookies',
-            },
-            { 
-                'href': '/terms-and-conditions',
-                'title': 'Terms and conditions',
-                'text': 'Terms and conditions',
-            },
-            { 
-                'href': '/accessibility-statement',
-                'title': 'Accessibility',
-                'text': 'Accessibility',
-            },
-            { 
-                'href': "/{% url 'international:contact' %}?next={{ feedback_next_url }}",
-                'title': 'Help using this site',
-                'text': 'Help using this site',
-            },
-            { 
-                'href': 'https://'+settings.DIT_ON_GOVUK,
-                'title': 'Department for Business and Trade on GOV.UK',
-                'text': 'Department for Business and Trade on GOV.UK',
-                'target':'_blank',
-                'rel': 'noopener',
-            },
-        ]
-    }}
+    return {
+        'internationalFooterContext': {
+            'isInternational': True,
+            'currentYear': str(datetime.now().year),
+            'footerLinks': [
+                {
+                    'href': '/privacy',
+                    'title': 'Privacy',
+                    'text': 'Privacy',
+                },
+                {
+                    'href': '/cookies',
+                    'title': 'Cookies',
+                    'text': 'Cookies',
+                },
+                {
+                    'href': '/terms-and-conditions',
+                    'title': 'Terms and conditions',
+                    'text': 'Terms and conditions',
+                },
+                {
+                    'href': '/accessibility-statement',
+                    'title': 'Accessibility',
+                    'text': 'Accessibility',
+                },
+                {
+                    'href': "/{% url 'international:contact' %}?next={{ feedback_next_url }}",
+                    'title': 'Help using this site',
+                    'text': 'Help using this site',
+                },
+                {
+                    'href': 'https://' + settings.DIT_ON_GOVUK,
+                    'title': 'Department for Business and Trade on GOV.UK',
+                    'text': 'Department for Business and Trade on GOV.UK',
+                    'target': '_blank',
+                    'rel': 'noopener',
+                },
+            ],
+        },
+    }

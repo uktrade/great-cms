@@ -2102,55 +2102,54 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
 
     def get_footer_links(self):
         return [
-            { 
+            {
                 'href': '/support/export-support',
                 'title': 'Export support for UK businesses',
                 'text': 'Export support for UK businesses',
             },
-            { 
+            {
                 'href': '/contact/triage/great-account',
                 'title': 'Get help with your account',
                 'text': 'Get help with your account',
             },
-            { 
-                'href': 'https://'+settings.DIT_ON_GOVUK,
+            {
+                'href': 'https://' + settings.DIT_ON_GOVUK,
                 'title': 'Department for Business and Trade on GOV.UK',
                 'text': 'Department for Business and Trade on GOV.UK',
-                'target':'_blank',
+                'target': '_blank',
                 'rel': 'noopener',
             },
-            { 
+            {
                 'href': '/privacy',
                 'title': 'Privacy',
                 'text': 'Privacy',
             },
-            { 
+            {
                 'href': '/cookies',
                 'title': 'Cookies',
                 'text': 'Cookies',
             },
-            { 
+            {
                 'href': '/terms-and-conditions',
                 'title': 'Terms and conditions',
                 'text': 'Terms and conditions',
             },
-            { 
+            {
                 'href': '/accessibility-statement',
                 'title': 'Accessibility',
                 'text': 'Accessibility',
             },
-            { 
+            {
                 'href': '/performance-dashboard',
                 'title': 'Performance',
                 'text': 'Performance',
             },
-            { 
+            {
                 'href': '/',
                 'title': 'Support for UK export or investment',
                 'text': 'Get support for UK export or investment at great.gov.uk',
-            }
+            },
         ]
-    
 
 
 @register_snippet
