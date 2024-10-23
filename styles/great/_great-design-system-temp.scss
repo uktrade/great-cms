@@ -260,9 +260,13 @@ $great-design-system-govuk-blue: #1d70b8;
   .great-ds-edit-control {
     background: $great-design-system-white;
     position: absolute;
-    top: 30px;
+    top: 20px;
     right: 30px;
     text-decoration: none;
+
+    @include govuk-media-query($from: tablet) {
+      top: 30px;
+    }
 
     span {
       margin-right: 10px;
@@ -330,6 +334,12 @@ $great-design-system-govuk-blue: #1d70b8;
       }
     }
   }
+
+  .great-ds-market-widget__image {
+    @include govuk-media-query($from: tablet, $until: desktop) {
+      margin-top: 30px;
+    }
+  }
 }
 
 .great-ds-category-panels {
@@ -384,7 +394,13 @@ $great-design-system-govuk-blue: #1d70b8;
     }
 
     > span {
-      flex-basis: inherit;
+      flex-basis: auto;
+    }
+
+    > svg {
+      width: 60px;
+      min-width: 60px;
+      height: auto;
     }
 
     @include govuk-media-query($from: tablet) {
@@ -421,12 +437,13 @@ $great-design-system-govuk-blue: #1d70b8;
 
 .great-ds-card-panels {
   display: flex;
-  gap: 20px;
+  gap: 15px;
   flex-wrap: wrap;
   flex-direction: column;
 
   @include govuk-media-query($from: tablet) {
     flex-direction: row;
+    gap: 20px;
   }
 
   > .great-ds-card-panels__item {
