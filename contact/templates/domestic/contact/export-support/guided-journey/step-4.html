@@ -1,4 +1,4 @@
-{% extends 'domestic/contact/export-support/base.html' %}
+{% extends 'domestic/contact/export-support/guided-journey/base.html' %}
 {% load static %}
 {% load get_icon_path get_sector_market_meta_label from content_tags %}
 {% load get_market_widget_data get_sector_and_market_promo_data from component_tags %}
@@ -90,7 +90,7 @@
 
                     <div class="great-ds-card-panels govuk-!-margin-bottom-9">
                         {% include 'domestic/contact/export-support/includes/contact-us-promo.html' with classes="great-ds-box-shadow great-ds-card-panels__item" %}
-                        {% include 'domestic/contact/export-support/includes/sign-up-promo.html' with classes="great-ds-box-shadow great-ds-card-panels__item great-bg-white" heading_classes="govuk-heading-xs govuk-!-margin-top-0 govuk-!-margin-bottom-4" %}
+                        {% include 'domestic/contact/export-support/includes/sign-up-promo.html' with classes="great-ds-box-shadow great-ds-card-panels__item great-bg-white" heading_classes="govuk-heading-xs govuk-!-margin-top-0 govuk-!-margin-bottom-4" hide_sign_up_message=True %}
                     </div>
                 </div>
             </div>
