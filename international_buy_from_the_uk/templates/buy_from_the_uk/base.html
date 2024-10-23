@@ -1,6 +1,7 @@
 {% extends 'international/base.html' %}
 {% load static %}
 {% block head_css %}
+    {{ block.super }}
     <link rel="stylesheet" href="{% static 'buy_from_the_uk_styles.css' %}">
 {% endblock %}
 {% block breadcrumb_region %}

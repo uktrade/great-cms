@@ -3,11 +3,6 @@ $asset-root: '/static/images/';
 $fonts: '/static/fonts';
 $fa-font-path: '/static/fonts';
 
-// Great International Font Import
-@import 'typography';
-
-// GOVUK
-@import 'govuk-token-overrides.scss';
 @import 'node_modules/govuk-frontend/govuk/all';
 
 // Icons
@@ -16,8 +11,6 @@ $fa-font-path: '/static/fonts';
 @import 'node_modules/@fortawesome/fontawesome-free/scss/regular';
 @import 'node_modules/@fortawesome/fontawesome-free/scss/brands';
 
-// Great
-@import 'styles/great/_colors.scss';
 @import 'node_modules/great-styles/src/scss/helpers/_base.scss';
 @import '../../styles/great/utils';
 @import '../../core/sass/helpers/utils.scss';
