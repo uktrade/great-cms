@@ -13,6 +13,7 @@ from wagtail.blocks.field_block import RichTextBlock
 from wagtail.blocks.stream_block import StreamBlock
 from wagtail.fields import StreamField
 from wagtail.images.blocks import ImageChooserBlock
+from wagtailcache.cache import WagtailCacheMixin
 
 from core.blocks import ColumnsBlock
 from core.models import CMSGenericPage, TimeStampedModel
@@ -64,7 +65,7 @@ def get_user_data_for_user(request):
         return None
 
 
-class EYBGuidePage(BaseContentPage):
+class EYBGuidePage(WagtailCacheMixin, BaseContentPage):
     parent_page_types = ['international_online_offer.EYBIndexPage']
     subpage_types = [
         'international_online_offer.EYBArticlePage',
@@ -284,7 +285,7 @@ class EYBArticlePage(BaseContentPage):
         return context
 
 
-class EYBTradeShowsPage(BaseContentPage):
+class EYBTradeShowsPage(WagtailCacheMixin, BaseContentPage):
     parent_page_types = ['international_online_offer.EYBGuidePage']
     subpage_types = ['international_online_offer.IOOTradeShowPage']
     template = 'eyb/trade_shows.html'
@@ -331,7 +332,7 @@ class EYBTradeShowPageTag(TaggedItemBase):
 class IOOTradeShowPage(BaseContentPage):
     parent_page_types = ['international_online_offer.EYBTradeShowsPage']
     subpage_types = []
-    template = 'eyb/trade-shows.html'
+    template = 'eyb/trade_shows.html'
     tradeshow_title = models.TextField()
     tradeshow_subheading = StreamField(
         [
