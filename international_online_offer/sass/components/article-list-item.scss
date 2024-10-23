@@ -43,12 +43,6 @@
         display: block;
     }
 
-    a:hover {
-        .article-list-item-title,.article-list-item-teaser {
-            @extend %govuk-link;
-        }
-    }
-
     .trade-show-link {
         text-decoration: underline;
     }
@@ -116,13 +110,6 @@
             margin-bottom: 0px;
         }
     }
-
-    a:hover {
-        .article-list-item-title {
-            @extend %govuk-link;
-        }
-    }
-
 
     .image-container {
         position: relative;
