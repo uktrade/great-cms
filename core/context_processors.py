@@ -158,8 +158,8 @@ def domestic_header(request):
         'hideSearch': False,
         'hideMenuOnDesktop': False,
         'use_domestic_logo': True,
-        'domesticLink': {'href': '/', 'text': 'For UK businesses'},
-        'internationalLink': {'href': '/international/', 'text': 'For international businesses'},
+        'domesticLink': {'href': '/', 'text': 'Export from the UK'},
+        'internationalLink': {'href': '/international/', 'text': 'Invest in the UK'},
         'searchFormAction': reverse_lazy('search:search'),
         'navItemsList': [
             {'href': '/learn/categories/', 'text': 'Learn to export'},
@@ -198,7 +198,7 @@ def microsite_header(request):
     return {
         'rtl': get_language_bidi(),
         'include_link_to_great': '',
-        'strapline': 'Get support for UK export or investment at <a href="https://great.gov.uk">great.gov.uk</a>',
+        'strapline': 'Get support for UK export or investment at <a class="great-ds-header__link" href="https://great.gov.uk">great.gov.uk</a>',
         'isCampaign': True,
         'use_domestic_logo': True,
         'site_title': '',
