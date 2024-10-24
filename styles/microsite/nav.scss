@@ -153,7 +153,7 @@ $menu-border: 5px solid $color-alternative-text;
       }
     }
 
-    nav:not([aria-label="Langugages"]) {
+    nav:not([aria-label="Languages"]) {
       width: 100%;
 
       @include width-container();
