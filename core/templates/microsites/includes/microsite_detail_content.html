@@ -9,28 +9,25 @@
 <div class="microsite-main {{ view.slug }}-microsite"
      lang="{{ current_language }}"
      dir="{% if current_language == 'ar' %}rtl{% else %}ltr{% endif %}">
-    {% include "_header.html" with rtl=rtl include_link_to_great=include_link_to_great strapline=strapline domesticLink='' internationalLink='' navItemsList='' menuItemsList='' actionLinkList='' isCampaign=isCampaign use_domestic_logo=use_domestic_logo siteTitle=site_title languages=available_languages hideSearch=hideSearch hideMenuOnDesktop=hideMenuOnDesktop subnavItemsList=subnavItemsList %}
-    {% if page.hero_video %}
-        <div>
-            <div class="great-full-width-header-image">
-                <video id="hero-video"
-                       class="great-full-width-header-image great-hero-video "
-                       autoplay
-                       muted
-                       loop
-                       disableRemotePlayback>
-                    {% for source in page.hero_video.sources %}<source src="{{ source.src }}" type="{{ source.type }}">{% endfor %}
-                </video>
-                <div class="great-hero__video-control-container">
-                    <button id="js-video-control"
-                            class="button great-hero-video-control great-hero__video-control-pause"
-                            aria-pressed="false"
-                            aria-label="Pause video">
-                        <span class="great-hero__video-control-icon">
-                            <span class="great-visually-hidden">Pause</span>
-                        </span>
-                    </button>
-                    <div aria-live="polite" class="great-visually-hidden" id="js-video-status">Video playing</div>
+    <header>
+        {% include "_header.html" with rtl=rtl include_link_to_great=include_link_to_great strapline=strapline domesticLink='' internationalLink='' navItemsList='' menuItemsList='' actionLinkList='' isCampaign=isCampaign use_domestic_logo=use_domestic_logo siteTitle=site_title languages=available_languages hideSearch=hideSearch hideMenuOnDesktop=hideMenuOnDesktop subnavItemsList=subnavItemsList %}
+        {% if page.hero_video %}
+            <div>
+                <div class="great-full-width-header-image">
+                    <video id="hero-video" class="great-full-width-header-image great-hero-video "
+                            autoplay muted loop disableRemotePlayback>
+                            {% for source in page.hero_video.sources %}
+                                <source src="{{ source.src }}" type="{{ source.type }}">
+                            {% endfor %}
+                    </video>
+                    <div class="great-hero__video-control-container" dir="ltr">
+                        <button id="js-video-control" class="great-hero-video-control great-hero__video-control-pause" aria-pressed="false" aria-label="Pause video">
+                            <span class="great-hero__video-control-icon">
+                                <span class="great-visually-hidden">Pause</span>
+                            </span>
+                        </button>
+                        <div aria-live="polite" class="great-visually-hidden" id="js-video-status">Video playing</div>
+                    </div>
                 </div>
             </div>
         </div>
