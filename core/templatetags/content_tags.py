@@ -698,3 +698,10 @@ def get_visa_and_travel_country_slug(country):
             return slug
 
     return slugify(country.lower())
+
+
+@register.filter
+def split_title(title):
+    title_parts = title.split('  ')
+
+    return title_parts
