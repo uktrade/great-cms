@@ -7,7 +7,7 @@
 {% block meta_title %}{{ page.article_title }} article {{ block.super }}{% endblock %}
 {% block head_css %}{{ block.super }}{% endblock %}
 {% block content %}
-    <div class="govuk-width-container great-container">
+    <div class="great-container">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <h1 class="govuk-heading-xl">{{ page.article_title }}</h1>
@@ -38,7 +38,7 @@
     {% if 'find-the-right-location-and-premises' in request.path or show_rent_component %}
         {% include './includes/rent.html' with rent_location_form=location_form large_warehouse_rent=large_warehouse_rent small_warehouse_rent=small_warehouse_rent shopping_centre=shopping_centre high_street_retail=high_street_retail work_office=work_office %}
     {% endif %}
-    <div class="govuk-width-container great-container">
+    <div class="great-container">
         <div class="govuk-grid-row govuk-!-margin-top-3">
             <div class="govuk-grid-column-two-thirds">{% include './includes/csat_rating.html' with user_journey='ARTICLE' %}</div>
         </div>
