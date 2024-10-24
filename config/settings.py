@@ -6,6 +6,8 @@ from typing import Any, Dict
 import directory_healthcheck.backends
 import environ
 import sentry_sdk
+import dj_database_url
+from dbt_copilot_python.database import database_url_from_env
 from dbt_copilot_python.utility import is_copilot
 from django.urls import reverse_lazy
 from django_log_formatter_asim import ASIMFormatter
@@ -184,7 +186,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {'default': env.db()}
+if is_copilot():
+    DATABASES = {"default": dj_database_url.parse(database_url_from_env("DATABASE_CREDENTIALS"))}
+else:
+    DATABASES = {'default': env.db()}
+
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
 VCAP_SERVICES = env.json('VCAP_SERVICES', {})
@@ -823,7 +829,8 @@ DNB_API_PASSWORD = env.str('DNB_API_PASSWORD', '')
 DNB_API_RENEW_ACCESS_TOKEN_SECONDS_REMAINING = env.int('DNB_API_RENEW_ACCESS_TOKEN_SECONDS_REMAINING', 20)
 
 # geo location
-GEOIP_PATH = os.path.join(ROOT_DIR, 'core/geolocation_data')
+# TMP_DIR = Path(__file__).resolve().parents[2]
+GEOIP_PATH = '/tmp'
 GEOIP_COUNTRY = 'GeoLite2-Country.mmdb'
 GEOIP_CITY = 'GeoLite2-City.mmdb'
 MAXMIND_LICENCE_KEY = env.str('MAXMIND_LICENCE_KEY')

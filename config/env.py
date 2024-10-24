@@ -1,4 +1,5 @@
 import os
+import dj_database_url
 from typing import Any, Optional, Union
 
 from dbt_copilot_python.database import database_url_from_env
@@ -46,7 +47,7 @@ class DBTPlatformEnvironment(BaseSettings):
         if self.build_step:
             return 'postgres://'
 
-        return database_url_from_env('DATABASE_CREDENTIALS')
+        return dj_database_url.parse(database_url_from_env("DATABASE_CREDENTIALS"))
 
     @computed_field(return_type=str)
     @property
