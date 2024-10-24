@@ -165,31 +165,26 @@ def domestic_header(request):
             {
                 'href': '/learn/categories/',
                 'text': 'Learn to export',
-                'isCurrent': '/learn/categories/' in request.path
+                'isCurrent': '/learn/categories/' in request.path,
             },
             {
                 'href': reverse_lazy('core:compare-countries'),
                 'text': 'Where to export',
                 'requiresAuth': True,
-                'isCurrent': '/compare-countries' in request.path
+                'isCurrent': '/compare-countries' in request.path,
             },
             {
                 'href': '/export-plan/',
                 'text': 'Make an export plan',
                 'requiresAuth': True,
-                'isCurrent': '/export-plan' in request.path
+                'isCurrent': '/export-plan' in request.path,
             },
-            {
-                'href': '/markets/',
-                'text': 'Markets',
-                'requiresNoAuth': True,
-                'isCurrent': '/markets' in request.path
-            },
+            {'href': '/markets/', 'text': 'Markets', 'requiresNoAuth': True, 'isCurrent': '/markets' in request.path},
             {
                 'href': '/services/',
                 'text': 'Services',
                 'requiresNoAuth': True,
-                'isCurrent': '/services' in request.path
+                'isCurrent': '/services' in request.path,
             },
         ],
         'menuItemsList': [
@@ -202,53 +197,30 @@ def domestic_header(request):
                 'href': '/dashboard/',
                 'text': 'Dashboard',
                 'requiresAuth': True,
-                'isCurrent': '/dashboard' in request.path
+                'isCurrent': '/dashboard' in request.path,
             },
             {
                 'href': reverse_lazy('core:compare-countries'),
                 'text': 'Where to export',
                 'requiresAuth': True,
-                'isCurrent': '/compare-countries' in request.path
+                'isCurrent': '/compare-countries' in request.path,
             },
             {
                 'href': '/export-plan/',
                 'text': 'Make an export plan',
                 'requiresAuth': True,
-                'isCurrent': '/export-plan' in request.path
+                'isCurrent': '/export-plan' in request.path,
             },
-            {
-                'href': '/profile/',
-                'text': 'Account',
-                'requiresAuth': True,
-                'isCurrent': '/profile' in request.path
-            },
+            {'href': '/profile/', 'text': 'Account', 'requiresAuth': True, 'isCurrent': '/profile' in request.path},
             {
                 'href': '/learn/categories/',
                 'text': 'Learn to export',
-                'isCurrent': '/learn/categories/' in request.path
+                'isCurrent': '/learn/categories/' in request.path,
             },
-            {
-                'href': '/markets/',
-                'text': 'Markets',
-                'isCurrent': '/markets' in request.path
-            },
-            {
-                'href': '/services/',
-                'text': 'Services',
-                'isCurrent': '/services' in request.path
-            },
-            {
-                'text': 'Sign out',
-                'attributes': 'onclick="signOut()"',
-                'button': True,
-                'requiresAuth': True
-            },
-            {
-                'text': 'Sign in',
-                'href': reverse_lazy('core:login'),
-                'button': True,
-                'requiresNoAuth': True
-            },
+            {'href': '/markets/', 'text': 'Markets', 'isCurrent': '/markets' in request.path},
+            {'href': '/services/', 'text': 'Services', 'isCurrent': '/services' in request.path},
+            {'text': 'Sign out', 'attributes': 'onclick="signOut()"', 'button': True, 'requiresAuth': True},
+            {'text': 'Sign in', 'href': reverse_lazy('core:login'), 'button': True, 'requiresNoAuth': True},
         ],
         'actionLinkList': [
             {'href': '/dashboard/', 'text': 'Dashboard', 'requiresAuth': True},
@@ -264,8 +236,10 @@ def microsite_header(request):
     return {
         'rtl': get_language_bidi(),
         'include_link_to_great': '',
-        'strapline': ('Get support for UK export or investment at '
-                      '<a class="great-ds-header__link" href="https://great.gov.uk">great.gov.uk</a>'),
+        'strapline': (
+            'Get support for UK export or investment at '
+            '<a class="great-ds-header__link" href="https://great.gov.uk">great.gov.uk</a>'
+        ),
         'isCampaign': True,
         'use_domestic_logo': True,
         'site_title': '',
