@@ -1,9 +1,7 @@
 from directory_components.forms import BooleanField
 from directory_validators.string import no_html
 from django import forms
-from django.forms import (
-    widgets as django_widgets,
-)
+from django.forms import widgets as django_widgets
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 

@@ -47,12 +47,10 @@ from core.mixins import (
 from core.models import GreatMedia
 from core.pingdom.services import health_check_services
 from directory_constants import choices
+from domestic.helpers import get_sector_widget_data_helper
 from domestic.models import DomesticDashboard, TopicLandingPage
-from domestic.helpers import (
-    get_sector_widget_data_helper,
-)
-from sso.views import SSOBusinessUserLogoutView
 from export_academy.models import Event
+from sso.views import SSOBusinessUserLogoutView
 
 logger = logging.getLogger(__name__)
 

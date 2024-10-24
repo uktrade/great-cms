@@ -4,10 +4,7 @@ from django import template
 from django.templatetags import static
 from django.utils import timezone
 
-from core.helpers import (
-    get_markets_list,
-)
-
+from core.helpers import get_markets_list
 from domestic.helpers import (
     get_market_widget_data_helper,
     get_sector_and_market_promo_data_helper,

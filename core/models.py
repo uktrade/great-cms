@@ -46,8 +46,14 @@ from wagtailcache.cache import WagtailCacheMixin
 from wagtailmedia.models import Media
 from wagtailseo.models import SeoMixin as WagtailSeoMixin, TwitterCard
 
-from core import blocks as core_blocks, cms_panels, constants, mixins, snippet_slugs
-from core import helpers
+from core import (
+    blocks as core_blocks,
+    cms_panels,
+    constants,
+    helpers,
+    mixins,
+    snippet_slugs,
+)
 from core.blocks import (
     LinkBlockWithHeading,
     MicrositeColumnBlock,
