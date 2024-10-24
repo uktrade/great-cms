@@ -29,7 +29,11 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from hashids import Hashids
 from ipware import get_client_ip
 
-from core.constants import EXPORT_SUPPORT_CATEGORIES, TRADE_BARRIERS_BY_MARKET, TRADE_BARRIERS_BY_SECTOR
+from core.constants import (
+    EXPORT_SUPPORT_CATEGORIES,
+    TRADE_BARRIERS_BY_MARKET,
+    TRADE_BARRIERS_BY_SECTOR,
+)
 from core.models import CuratedListPage
 from core.serializers import parse_opportunities
 from directory_api_client import api_client
