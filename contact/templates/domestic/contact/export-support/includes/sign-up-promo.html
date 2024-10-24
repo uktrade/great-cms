@@ -29,7 +29,7 @@
         <path d="M40.0007 36.0013H37.334" stroke="#333333" stroke-width="2" stroke-linecap="round" />
     </svg>
     <h2 class="{% if heading_classes %} {{ heading_classes }}{% else %}govuk-heading-s govuk-!-margin-top-4 govuk-!-margin-bottom-6{% endif %}">More from great.gov.uk</h2>
-    {% if not request.user.is_authenticated %}<p class="govuk-heading-s">Sign up to...</p>{% endif %}
+    {% if not request.user.is_authenticated and not hide_sign_up_message %}<p class="govuk-heading-s">Sign up to...</p>{% endif %}
     <ul class="great-list-blue-tick govuk-!-margin-bottom-5">
         <li class="great-display-flex">attend UK Export Academy online events</li>
         <li class="great-display-flex">compare markets with Where to Export</li>

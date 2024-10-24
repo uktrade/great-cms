@@ -34,20 +34,26 @@
                         {% endif %}
                     </div>
                     {% if page.page_body %}
-                        <div class="govuk-!-padding-top-7 great-full-width-bar great-bg-light-blue">
-                            <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Our support topics</h2>
+                        <div class="{% if not features.FEATURE_GUIDED_JOURNEY_EXTRAS %}govuk-!-padding-top-7{% endif %} great-full-width-bar great-bg-light-blue">
+                            {% if not features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
+                                <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Our support topics</h2>
+                            {% endif %}
                             <div class="govuk-grid-row govuk-!-padding-top-7">
                                 <div class="govuk-grid-column-three-quarters">
-                                    <div class="govuk-grid-row great-card-row">
+                                    {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
+                                        <h2 class="govuk-heading-s govuk-!-margin-bottom-6">Our support topics</h2>
+                                    {% endif %}
+                                    <div class="govuk-grid-row great-card-row{% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %} great-ds-category-panels great-ds-category-panels--landing{% endif %}">
                                         {% include 'domestic/contact/export-support/includes/topic-card.html' with topics=page.page_body %}
                                     </div>
-                                    <hr class="great-ds-hr" />
+                                    <hr class="great-ds-hr{% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %} govuk-!-margin-top-7 govuk-!-margin-bottom-7{% endif %}" />
 
                                     {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
                                     <div class="govuk-!-padding-6 govuk-!-margin-bottom-6 great-bg-white great-ds-make-or-do">
                                         {% include 'domestic/contact/export-support/includes/make-or-do-form.html' %}
                                         <img src="{% static 'images/make-or-do.png' %}" alt="UK Export Academy logo" />
                                     </div>
+                                    <hr class="great-ds-hr govuk-!-margin-top-7 govuk-!-margin-bottom-7" />
                                     {% endif %}
 
                                     <div class="govuk-grid-row govuk-!-margin-bottom-9 great-display-from-tablet">
@@ -58,7 +64,7 @@
                                 </div>
                                 <div class="govuk-grid-column-one-quarter govuk-!-margin-bottom-7">
                                     <div class="great-dep-tools-and-services">
-                                        <h2 class="govuk-heading-s govuk-!-margin-bottom-5 govuk-!-padding-bottom-1 great-border-bottom-blue">
+                                        <h2 class="govuk-heading-s govuk-!-margin-bottom-5 {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}govuk-!-padding-bottom-6 {% else %}govuk-!-padding-bottom-1{% endif %} great-border-bottom-blue">
                                             Popular answers
                                         </h2>
                                         {% include 'domestic/contact/export-support/includes/sidebar-items.html' with items=page.page_body %}

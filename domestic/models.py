@@ -453,18 +453,17 @@ class GreatDomesticHomePage(
             return redirector.get_response()
         return super().serve(request, *args, **kwargs)
 
-    def _get_industry_tag_usage_counts(self, industry_tag):
-        return industry_tag.countryguidepage_set.all().live().count()
+    def _get_industry_tag_usage_counts(self, sector_tag):
+        return SectorTaggedCountryGuidePage.objects.filter(tag_id=sector_tag).count()
 
     def _get_sector_list_uncached(self):
         return [
             {
                 'id': tag.id,
                 'name': tag.name,
-                'icon': tag.icon,
                 'pages_count': self._get_industry_tag_usage_counts(tag),
             }
-            for tag in IndustryTag.objects.all()
+            for tag in SectorTag.objects.all()
         ]
 
     def get_sector_list(self, request):
@@ -632,7 +631,7 @@ class MarketsTopicLandingPage(
         #  We need to only apply these if truthy, else we end up getting no results
         if sectors:
             market_pages_qs = market_pages_qs.filter(
-                tags__name__in=sectors,
+                sector_tags__name__in=sectors,
             )
         if regions:
             market_pages_qs = market_pages_qs.filter(
@@ -663,10 +662,7 @@ class MarketsTopicLandingPage(
         selected = set(request.GET.getlist(self.REGION_QUERYSTRING_NAME))
         # chain unselected items queryset onto selected items queryset to sort selected items ahead of unselected
         regions = chain(
-            PersonalisationRegionTag.objects.order_by('name')
-            .filter(name__in=selected)
-            .filter(models.Exists(RegionTaggedCountryGuidePage.objects.filter(tag_id=models.OuterRef('id'))))
-            .all(),
+            PersonalisationRegionTag.objects.order_by('name').filter(name__in=selected).all(),
             PersonalisationRegionTag.objects.order_by('name')
             .exclude(name__in=selected)
             .filter(models.Exists(RegionTaggedCountryGuidePage.objects.filter(tag_id=models.OuterRef('id'))))
@@ -677,8 +673,11 @@ class MarketsTopicLandingPage(
     def get_sector_list(self, request):
         selected = set(request.GET.getlist(self.SECTOR_QUERYSTRING_NAME))
         sectors = chain(
-            IndustryTag.objects.order_by('name').filter(name__in=selected).all(),
-            IndustryTag.objects.order_by('name').exclude(name__in=selected).all(),
+            SectorTag.objects.order_by('name').filter(name__in=selected).all(),
+            SectorTag.objects.order_by('name')
+            .exclude(name__in=selected)
+            .filter(models.Exists(SectorTaggedCountryGuidePage.objects.filter(tag_id=models.OuterRef('id'))))
+            .all(),
         )
         return sectors
 
@@ -686,10 +685,7 @@ class MarketsTopicLandingPage(
         selected = set(request.GET.getlist(self.TRADING_BLOC_QUERYSTRING_NAME))
         # chain unselected items queryset onto selected items queryset to sort selected items ahead of unselected
         trading_blocs = chain(
-            PersonalisationTradingBlocTag.objects.order_by('name')
-            .filter(name__in=selected)
-            .filter(models.Exists(TradingBlocTaggedCountryGuidePage.objects.filter(tag_id=models.OuterRef('id'))))
-            .all(),
+            PersonalisationTradingBlocTag.objects.order_by('name').filter(name__in=selected).all(),
             PersonalisationTradingBlocTag.objects.order_by('name')
             .exclude(name__in=selected)
             .filter(models.Exists(TradingBlocTaggedCountryGuidePage.objects.filter(tag_id=models.OuterRef('id'))))

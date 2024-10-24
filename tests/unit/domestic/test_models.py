@@ -30,6 +30,7 @@ from domestic.models import (
     MarketsTopicLandingPage,
     PerformanceDashboardPage,
     RegionTaggedCountryGuidePage,
+    SectorTaggedCountryGuidePage,
     StructuralPage,
     TopicLandingPage,
     TradeFinancePage,
@@ -1090,7 +1091,7 @@ class MarketsTopicLandingPageFilteringTests(SetUpLocaleMixin, WagtailPageTests):
 
     def setUp(self):
         # Ensure we have the expected data loaded (from the fixture)
-        assert core_models.IndustryTag.objects.count() == 42
+        assert core_models.SectorTag.objects.count() == 42
         assert core_models.Region.objects.count() == 22
         assert core_models.Country.objects.count() == 269
 
@@ -1140,17 +1141,17 @@ class MarketsTopicLandingPageFilteringTests(SetUpLocaleMixin, WagtailPageTests):
                 content_object_id=self.country_lookup[country_name].id, tag_id=region_tag_id
             )
 
-        _get_tag = core_models.IndustryTag.objects.get
+        _get_tag = core_models.SectorTag.objects.get
 
-        self.country_lookup['Australia'].tags.add(_get_tag(name='Sport'))
-        self.country_lookup['Brazil'].tags.add(_get_tag(name='Aerospace'))
-        self.country_lookup['Brazil'].tags.add(_get_tag(name='Engineering'))
-        self.country_lookup['France'].tags.add(_get_tag(name='Aerospace'))
-        self.country_lookup['France'].tags.add(_get_tag(name='Food and drink'))
-        self.country_lookup['France'].tags.add(_get_tag(name='Technology'))
-        self.country_lookup['Germany'].tags.add(_get_tag(name='Technology'))
-        self.country_lookup['United States'].tags.add(_get_tag(name='Leisure and tourism'))
-        self.country_lookup['New Zealand'].tags.add(_get_tag(name='Leisure and tourism'))
+        self.country_lookup['Australia'].sector_tags.add(_get_tag(name='Sport'))
+        self.country_lookup['Brazil'].sector_tags.add(_get_tag(name='Aerospace'))
+        self.country_lookup['Brazil'].sector_tags.add(_get_tag(name='Engineering'))
+        self.country_lookup['France'].sector_tags.add(_get_tag(name='Aerospace'))
+        self.country_lookup['France'].sector_tags.add(_get_tag(name='Food and drink'))
+        self.country_lookup['France'].sector_tags.add(_get_tag(name='Technology'))
+        self.country_lookup['Germany'].sector_tags.add(_get_tag(name='Technology'))
+        self.country_lookup['United States'].sector_tags.add(_get_tag(name='Leisure and tourism'))
+        self.country_lookup['New Zealand'].sector_tags.add(_get_tag(name='Leisure and tourism'))
 
         for cgp in self.country_lookup.values():
             cgp.save()  # To persist the tags
@@ -1746,7 +1747,7 @@ class GreatDomesticHomePageTests(SetUpLocaleMixin, WagtailPageTests):
 
     def setUp(self):
         # Ensure we have the expected data loaded (from the fixture)
-        self.assertEqual(core_models.IndustryTag.objects.count(), 42)
+        self.assertEqual(core_models.SectorTag.objects.count(), 42)
         self.assertEqual(core_models.Region.objects.count(), 22)
         self.assertEqual(core_models.Country.objects.count(), 269)
 
@@ -1761,7 +1762,7 @@ class GreatDomesticHomePageTests(SetUpLocaleMixin, WagtailPageTests):
         self.markets_topic_page = MarketsTopicLandingPage(title='Markets')
         self.great_domestic_homepage.add_child(instance=self.markets_topic_page)
 
-        assert core_models.IndustryTag.objects.exists()
+        assert core_models.SectorTag.objects.exists()
 
         cache.clear()
 
@@ -1779,66 +1780,61 @@ class GreatDomesticHomePageTests(SetUpLocaleMixin, WagtailPageTests):
                 live=True,
                 last_published_at=_now - timedelta(minutes=i),
             )
-            cgp.tags.add(tags[tag_idx])
             cgp.save()
+            SectorTaggedCountryGuidePage.objects.create(content_object_id=cgp.id, tag_id=tags[tag_idx].id)
 
     def test_get_sector_list(self):
         self._make_country_guide_pages_with_industry_tags(
             self.markets_topic_page,
             18,
-            [x for x in core_models.IndustryTag.objects.all()[:4]],
+            [x for x in core_models.SectorTag.objects.all()[:4]],
             # 5 tagged Advanced manufacturing
             # 5 tagged Aerospace
             # 4 tagged Agri-technology
             # 4 tagged Agriculture
         )
 
-        tag1 = core_models.IndustryTag.objects.get(name='Advanced manufacturing')
-        tag2 = core_models.IndustryTag.objects.get(name='Aerospace')
-        tag3 = core_models.IndustryTag.objects.get(name='Agri-technology')
-        tag4 = core_models.IndustryTag.objects.get(name='Agriculture')
+        tag1 = core_models.SectorTag.objects.get(name='Advanced manufacturing')
+        tag2 = core_models.SectorTag.objects.get(name='Aerospace')
+        tag3 = core_models.SectorTag.objects.get(name='Agri-technology')
+        tag4 = core_models.SectorTag.objects.get(name='Agriculture')
 
         expected_sector_list = [
             {
                 'id': tag1.id,
                 'name': tag1.name,
-                'icon': tag1.icon,
                 'pages_count': 5,
             },
             {
                 'id': tag2.id,
                 'name': tag2.name,
-                'icon': tag2.icon,
                 'pages_count': 5,
             },
             {
                 'id': tag3.id,
                 'name': tag3.name,
-                'icon': tag3.icon,
                 'pages_count': 4,
             },
             {
                 'id': tag4.id,
                 'name': tag4.name,
-                'icon': tag4.icon,
                 'pages_count': 4,
             },
         ]
 
         # There are also all the other sectors we haven't set up test data for
-        for tag in core_models.IndustryTag.objects.all()[4:]:
+        for tag in core_models.SectorTag.objects.all()[4:]:
             expected_sector_list.append(
                 {
                     'id': tag.id,
                     'name': tag.name,
-                    'icon': tag.icon,
                     'pages_count': 0,
                 }
             )
         # Quick check our test data is as expected
         self.assertEqual(
             len(expected_sector_list),
-            core_models.IndustryTag.objects.count(),
+            core_models.SectorTag.objects.count(),
         )
 
         request = RequestFactory().get('/')
@@ -1868,7 +1864,7 @@ class GreatDomesticHomePageTests(SetUpLocaleMixin, WagtailPageTests):
         output = self.great_domestic_homepage.get_sector_list(request)
         self.assertEqual(
             len(output),
-            core_models.IndustryTag.objects.count(),
+            core_models.SectorTag.objects.count(),
         )
         # output will have been cached
         self.assertEqual(

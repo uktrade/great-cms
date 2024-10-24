@@ -4,7 +4,7 @@
 <section class="great great-bg-light-blue govuk-!-padding-top-0 govuk-!-padding-bottom-0">
     <div class="govuk-width-container great-container">
         {% if data.dep_title %}
-            <h2 class="govuk-heading-l govuk-!-margin-top-9 {% if data.dep_sub_title %}govuk-!-margin-bottom-0{% else %}govuk-!-margin-bottom-6{% endif %}">
+            <h2 class="govuk-heading-l {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}govuk-!-margin-top-7{% else %}govuk-!-margin-top-9{% endif %} {% if data.dep_sub_title %}govuk-!-margin-bottom-0{% else %}govuk-!-margin-bottom-6{% endif %}">
                 {{ data.dep_title }}
             </h2>
         {% endif %}
@@ -12,6 +12,21 @@
             <p class="govuk-body govuk-!-margin-top-0 govuk-!-margin-bottom-6">{{ data.dep_sub_title }}</p>
         {% endif %}
         {% if features.FEATURE_HOMEPAGE_REDESIGN_V1 and data.dep_cards %}
+            
+            {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
+            <div class="govuk-!-padding-bottom-7 great-ds-category-panels great-ds-category-panels--homepage">
+                {% for cards in data.dep_cards %}
+                    {% for card in cards.value %}
+                        {% with svg_path=card.value.link_url|get_icon_path %}
+                        <a href="{{ card.value.link_url }}" data-ga-digital-entry-point>
+                            {% include svg_path %} 
+                            <span data-title="{{ card.value.link_text|add:' - Homepage' }}" data-location="Homepage">{{ card.value.link_text  }}</span>
+                        </a>
+                        {% endwith %}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            {% else %}
             <div class="govuk-grid-row govuk-!-padding-bottom-0 great-card-row">
                 {% for cards in data.dep_cards %}
                     {% for card in cards.value %}
@@ -21,11 +36,12 @@
                     {% endfor %}
                 {% endfor %}
             </div>
+            {% endif %}
+
             {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
-            <hr class="great-ds-hr" />
             <div class="govuk-!-padding-6 great-bg-white great-ds-make-or-do great-ds-make-or-do--homepage">
                 {% include 'domestic/contact/export-support/includes/make-or-do-form.html' %}
-                <img src="{% static 'images/make-or-do.png' %}" alt="UK Export Academy logo" />
+                <img src="{% static 'images/make-or-do.jpg' %}" alt="" />
             </div>
             {% endif %}
         {% else %}

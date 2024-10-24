@@ -89,7 +89,7 @@ class EYBTradeShowPageTests(WagtailPageTests):
 
 
 @pytest.mark.parametrize(
-    'user_sector, article_tag, expected_len_articles',
+    'user_sector, sector_tag, expected_len_articles',
     (
         ('Automotive', 'automotive', 1),
         ('Agriculture, horticulture, fisheries and pets', 'Agriculture horticulture fisheries and pets', 1),
@@ -99,12 +99,12 @@ class EYBTradeShowPageTests(WagtailPageTests):
 )
 @mock.patch('international_online_offer.services.get_bci_data_by_dbt_sector', return_value=[])
 @pytest.mark.django_db
-def test_eyb_guide_page_content(
-    mock_response, rf, user, domestic_site, user_sector, article_tag, expected_len_articles
-):
+def test_eyb_guide_page_content(mock_response, rf, user, domestic_site, user_sector, sector_tag, expected_len_articles):
+    intent = 'SET_UP_A_NEW_DISTRIBUTION_CENTRE'
+
     TriageData.objects.update_or_create(
         hashed_uuid='123',
-        defaults={'sector': user_sector},
+        defaults={'sector': user_sector, 'intent': [intent]},
     )
 
     root = Page.get_first_root_node()
@@ -119,9 +119,16 @@ def test_eyb_guide_page_content(
     root.add_child(instance=guide_page)
     root.add_child(instance=article_page)
 
-    eyb_article_tag = EYBArticleTag(name=article_tag, slug=slugify(article_tag))
-    eyb_article_tag.save()
-    page_tag = EYBArticlePageTag(tag=eyb_article_tag, content_object=article_page)
+    # tag with users sector
+    sector_tag = EYBArticleTag(name=sector_tag, slug=slugify(sector_tag))
+    sector_tag.save()
+    page_tag = EYBArticlePageTag(tag=sector_tag, content_object=article_page)
+    page_tag.save()
+
+    # tag with intent
+    intent_tag = EYBArticleTag(name=intent, slug=slugify(intent))
+    intent_tag.save()
+    page_tag = EYBArticlePageTag(tag=intent_tag, content_object=article_page)
     page_tag.save()
 
     request = rf.get(guide_page.url)

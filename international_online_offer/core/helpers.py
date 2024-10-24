@@ -4,27 +4,6 @@ from django.conf import settings
 from international_online_offer.core import choices, intents, professions, regions
 
 
-def filter_articles_sector_only(all_sector_tagged_articles):
-    sector_only_articles = []
-    for page in all_sector_tagged_articles:
-        all_tags = page.tags.all() if hasattr(page.tags, 'all') else page.tags
-        if len(all_tags) == 1:
-            sector_only_articles.append(page)
-
-    return sector_only_articles
-
-
-def filter_intent_articles_specific_to_sector(all_intent_tagged_articles, sector_filter):
-    intent_articles_specific_to_sector = []
-    for page in all_intent_tagged_articles:
-        all_tags = page.tags.all() if hasattr(page.tags, 'all') else page.tags
-        for tag in all_tags:
-            if tag.name == sector_filter:
-                intent_articles_specific_to_sector.append(page)
-
-    return intent_articles_specific_to_sector
-
-
 def send_welcome_notification(email, form_url):
     action = actions.GovNotifyEmailAction(
         template_id=settings.EYB_ENROLMENT_WELCOME_TEMPLATE_ID,

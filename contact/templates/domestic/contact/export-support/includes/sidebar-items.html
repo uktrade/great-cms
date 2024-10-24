@@ -10,7 +10,12 @@
                                 <span class="govuk-tag great-tag great-tag--{{ block.value.type }}"
                                       data-category="{{ block.value.type|tag_text_mapper }}">{{ block.value.type|tag_text_mapper }}</span>
                             {% endif %}
-                            {% include 'components/great/heading-link.html' with url=block.value.link_url text=block.value.title data_attr="data-ga-digital-entry-point" data_attr_title=block.value.title data_attr_location="sidebar" heading_level="h2" %}
+
+                            {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
+                                {% include 'components/great/heading-link.html' with url=block.value.link_url text=block.value.title data_attr="data-ga-digital-entry-point" data_attr_title=block.value.title data_attr_location="sidebar" heading_level="h2" classes="great-heading-link--no-chevron" %}
+                            {% else %}
+                                {% include 'components/great/heading-link.html' with url=block.value.link_url text=block.value.title data_attr="data-ga-digital-entry-point" data_attr_title=block.value.title data_attr_location="sidebar" heading_level="h2" %}
+                            {% endif %}
                             <p class="govuk-body govuk-!-margin-bottom-2">{{ block.value.description }}</p>
                         </div>
                         <hr class="govuk-!-margin-top-0 great-hr-blue great-hr-blue--thin" />
