@@ -15,33 +15,6 @@ from international_online_offer.core import (
 from international_online_offer.models import TriageData
 
 
-def test_find_articles_based_on_tags():
-    class MockArticle:
-        def __init__(self, tags):
-            self.tags = tags
-
-    class MockTag:
-        def __init__(self, name):
-            self.name = name
-
-    tag = MockTag('Technology and smart cities')
-    tag2 = MockTag('Creative industries')
-    tag3 = MockTag(intents.SET_UP_A_NEW_DISTRIBUTION_CENTRE)
-    tag4 = MockTag(intents.SET_UP_NEW_PREMISES)
-
-    article_tech = MockArticle([tag])
-    article_creative = MockArticle([tag2])
-    article_tech_and_dist_centre = MockArticle([tag, tag3])
-    article_tech_and_premises = MockArticle([tag, tag4])
-
-    articles = [article_tech, article_creative, article_tech_and_dist_centre, article_tech_and_premises]
-
-    assert len(helpers.filter_articles_sector_only(articles)) == 2
-    assert len(helpers.filter_intent_articles_specific_to_sector(articles, 'Technology and smart cities')) == 3
-    assert helpers.filter_articles_sector_only([]) == []
-    assert helpers.filter_intent_articles_specific_to_sector([], 'Technology and smart cities') == []
-
-
 def test_can_show_salary_rent_component():
     class MockTag:
         def __init__(self, name):
