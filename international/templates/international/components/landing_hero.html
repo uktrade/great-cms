@@ -19,7 +19,7 @@
 </style>
 <section class="great-hero {% if not hero_image %}great-hero-no-image{% endif %}"
          id="hero">
-    <div class="govuk-width-container great-container">
+    <div class="great-container">
         <div class="great-hero__container govuk-grid-row">
             <div class="great-hero__text govuk-grid-column-one-half">
                 <h1 class="govuk-heading-l great-hero-heading">{{ heading }}</h1>
@@ -30,7 +30,7 @@
     </div>
 </section>
 <section class="great-hero-cards govuk-!-padding-bottom-6">
-    <div class="govuk-width-container great-container">
+    <div class="great-container">
         <div class="govuk-grid-row great-card-row">
             <div class="govuk-grid-column-one-third-from-desktop govuk-!-margin-bottom-6">
                 {% include 'components/great/card.html' with content="Get the guidance and insights to help you set up and grow your business in the UK" data_attr_title='How to expand your business' data_attr_location='International homepage' title='How to expand your business' url="/international/expand-your-business-in-the-uk/" show_title_link=True heading_class="govuk-heading-m" content_class="govuk-body" classes="great-international-card--cta" heading_level="h2" %}
