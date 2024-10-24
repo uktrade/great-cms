@@ -1,18 +1,6 @@
 .autocomplete__wrapper .great-autocomplete-overlay {
-  width: 200px;
+  width: 100%;
   max-height: 240px;
-
-  @include govuk-media-query($from: mobile) {
-    width: 250px;
-  }
-
-  @include govuk-media-query($from: tablet) {
-    width: 350px;
-  }
-
-  @include govuk-media-query($from: desktop) {
-    width: 500px;
-  }
 
   .autocomplete__option {
     &:hover,

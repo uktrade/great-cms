@@ -2012,11 +2012,11 @@ nav.great-breadcrumbs {
 
   .great-hero__heading {
     mark {
-      display: block;
+      display: inline;
       background: $great-dark-blue;
       color: $great-white;
 
-      @include govuk-media-query($from: tablet) {
+      @include govuk-media-query($from: desktop) {
         display: inline-block;
         padding-right: 40px;
       }
@@ -2026,7 +2026,9 @@ nav.great-breadcrumbs {
       }
 
       &:last-of-type {
-        padding-bottom: 10px;
+        @include govuk-media-query($from: desktop) {
+          padding-bottom: 10px;
+        }
       }
     }
   }
@@ -2037,6 +2039,7 @@ nav.great-breadcrumbs {
     padding: 25px 40px 20px 0;
     margin-top: 0;
     margin-bottom: 10px;
+    max-width: 700px;
   }
 }
 
