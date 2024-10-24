@@ -1,30 +1,35 @@
-{% extends 'domestic/contact/export-support/base.html' %}
+{% extends 'domestic/contact/export-support/guided-journey/base.html' %}
 {% load static %}
 {% load get_icon_path get_sector_market_meta_label from content_tags %}
 {% load get_market_widget_data get_sector_and_market_promo_data from component_tags %}
 
-{% block head_title %}Export support for UK businesses{% endblock %}
+{% block head_title %}Export support for UK businesses - Results{% endblock %}
 {% block content %}
     <div class="great">
         <div class="great-container govuk-!-padding-top-4">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full great-no-padding-until-tablet">
 
+                    {% if session_data.sector %}
                     <div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-4 great-ds-box-shadow">
                         <h1 class="govuk-heading-l govuk-!-margin-bottom-0">
-                            {% if session_data.sector and session_data.market %}
+                            {% if session_data.market %}
                                 Exporting {{ session_data.sector }} to {{ session_data.market }}
-                            {% elif session_data.sector %}
+                            {% else %}
                                 Exporting {{ session_data.sector }}
                             {% endif %}
                         </h1>
                     </div>
+                    {% endif %}
 
                     {% if session_data.sic_description %}
                     <div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-4 great-ds-box-shadow great-ds-widget-container">
                         <h2 class="govuk-heading-s govuk-!-margin-bottom-2 govuk-!-padding-right-9 govuk-!-margin-right-9">{{ session_data.sic_description }}</h2>
-                        <p class="govuk-body govuk-!-margin-bottom-2">Part of the <strong class="great-font-bold">{{ session_data.sector }}</strong> sector.</p>
                         
+                        {% if session_data.sector %}
+                            <p class="govuk-body govuk-!-margin-bottom-2">Part of the <strong class="great-font-bold">{{ session_data.sector }}</strong> sector.</p>
+                        {% endif %}
+
                         {% if session_data.exporter_type == 'goods' and session_data.hs_code and session_data.commodity_name %}
                             <p class="govuk-body govuk-!-margin-bottom-0">
                                 Your commodity is <strong class="great-font-bold">{{ session_data.commodity_name }}</strong> and your commodity code is <strong class="great-font-bold">{{ session_data.hs_code }}</strong>.
@@ -85,7 +90,7 @@
 
                     <div class="great-ds-card-panels govuk-!-margin-bottom-9">
                         {% include 'domestic/contact/export-support/includes/contact-us-promo.html' with classes="great-ds-box-shadow great-ds-card-panels__item" %}
-                        {% include 'domestic/contact/export-support/includes/sign-up-promo.html' with classes="great-ds-box-shadow great-ds-card-panels__item great-bg-white" heading_classes="govuk-heading-xs govuk-!-margin-top-0 govuk-!-margin-bottom-4" %}
+                        {% include 'domestic/contact/export-support/includes/sign-up-promo.html' with classes="great-ds-box-shadow great-ds-card-panels__item great-bg-white" heading_classes="govuk-heading-xs govuk-!-margin-top-0 govuk-!-margin-bottom-4" hide_sign_up_message=True %}
                     </div>
                 </div>
             </div>

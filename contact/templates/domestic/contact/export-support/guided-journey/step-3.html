@@ -1,6 +1,6 @@
-{% extends 'domestic/contact/export-support/base.html' %}
+{% extends 'domestic/contact/export-support/guided-journey/base.html' %}
 {% load static %}
-{% block head_title %}Export support for UK businesses{% endblock %}
+{% block head_title %}Export support for UK businesses - {% if is_edit_mode %}Where would you like to export to?{% else %}Where is your target export market?{% endif %}{% endblock %}
 {% block head_css %}
     <link href="{% static 'core/css/accessible-autocomplete.min.css' %}"
           rel="stylesheet"
@@ -64,8 +64,11 @@
                         {% if session_data.sic_description %}
                         <div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-4 great-ds-box-shadow great-ds-widget-container">
                             <h2 class="govuk-heading-s govuk-!-margin-bottom-2 govuk-!-padding-right-9 govuk-!-margin-right-9">{{ session_data.sic_description }}</h2>
-                            <p class="govuk-body govuk-!-margin-bottom-2">Part of the <strong class="great-font-bold">{{ session_data.sector }}</strong> sector.</p>
                             
+                            {% if session_data.sector %}
+                                <p class="govuk-body govuk-!-margin-bottom-2">Part of the <strong class="great-font-bold">{{ session_data.sector }}</strong> sector.</p>
+                            {% endif %}
+
                             {% if session_data.exporter_type == 'goods' and session_data.hs_code and session_data.commodity_name %}
                                 <p class="govuk-body govuk-!-margin-bottom-0">
                                     Your commodity is <strong class="great-font-bold">{{ session_data.commodity_name }}</strong> and your commodity code is <strong class="great-font-bold">{{ session_data.hs_code }}</strong>.
