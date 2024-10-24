@@ -576,11 +576,14 @@ def get_trading_blocs_name(iso2):
 
 
 def get_file_from_s3(bucket, key):
+    kwargs = {}
+    if hasattr(settings, 'AWS_ACCESS_KEY_ID_DATA_SCIENCE') and hasattr(settings, 'AWS_SECRET_ACCESS_KEY_DATA_SCIENCE'):
+        kwargs['aws_access_key_id'] = settings.AWS_ACCESS_KEY_ID_DATA_SCIENCE
+        kwargs['aws_secret_access_key'] = settings.AWS_SECRET_ACCESS_KEY_DATA_SCIENCE
     s3 = boto3.client(
         's3',
-        aws_access_key_id=settings.AWS_ACCESS_KEY_ID_DATA_SCIENCE,
-        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY_DATA_SCIENCE,
         region_name=settings.AWS_S3_REGION_NAME_DATA_SCIENCE,
+        **kwargs,
     )
     file_object = s3.get_object(Bucket=bucket, Key=key)
     return file_object
@@ -714,15 +717,23 @@ def send_campaign_site_review_reminder(email_list, site_name, review_days, revie
         response.raise_for_status()
 
 
+def _get_s3_client_kwargs():
+    kwargs = {}
+    if hasattr(settings, 'AWS_ACCESS_KEY_ID') and hasattr(settings, 'AWS_SECRET_ACCESS_KEY'):
+        kwargs['aws_access_key_id'] = settings.AWS_ACCESS_KEY_ID
+        kwargs['aws_secret_access_key'] = settings.AWS_SECRET_ACCESS_KEY
+
+    return kwargs
+
+
 def upload_file_to_s3(file_name: str, object_name: str):
     # dont upload files if running in circleci
     if settings.IS_CIRCLECI_ENV:
         return
     s3_client = boto3.client(
         's3',
-        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
         region_name=settings.AWS_S3_REGION_NAME,
+        **_get_s3_client_kwargs(),
     )
     try:
         s3_client.upload_file(file_name, settings.AWS_STORAGE_BUCKET_NAME, object_name)
@@ -766,9 +777,8 @@ def download_geoip_files_from_s3():
         else:
             s3_client = boto3.client(
                 's3',
-                aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-                aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
                 region_name=settings.AWS_S3_REGION_NAME,
+                **_get_s3_client_kwargs(),
             )
             s3_client.download_file(
                 settings.AWS_STORAGE_BUCKET_NAME,
