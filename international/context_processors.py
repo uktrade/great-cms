@@ -36,8 +36,8 @@ def international_header(request):
     )
 
     site_title = {
-        'text': "Expand your business in the UK",
-        'href': "/international/expand-your-business-in-the-uk/guide/",
+        'text': 'Expand your business in the UK',
+        'href': '/international/expand-your-business-in-the-uk/guide/',
     }
 
     if not hide_primary_nav(request)['hide_primary_nav']:
