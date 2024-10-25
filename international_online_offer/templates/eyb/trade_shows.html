@@ -7,7 +7,7 @@
 {% block meta_title %}Trade events {{ block.super }}{% endblock %}
 {% block head_css %}{{ block.super }}{% endblock %}
 {% block content %}
-    <div class="govuk-width-container great-container">
+    <div class="great-container">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">Trade events</h1>
@@ -37,8 +37,8 @@
                                     {% endif %}
                                     <div class="govuk-grid-row">
                                         <div class="govuk-grid-column-full">
-                                            <h3 class="govuk-heading-m article-list-item-title trade-show-link">{{ page.specific.tradeshow_title }}</h3>
-                                            <p class="govuk-body article-list-item-teaser">{{ page.specific.tradeshow_subheading }}</p>
+                                            <h3 class="govuk-heading-m trade-show-link">{{ page.specific.tradeshow_title }}</h3>
+                                            <p class="govuk-body">{{ page.specific.tradeshow_subheading }}</p>
                                         </div>
                                     </div>
                                 </a>

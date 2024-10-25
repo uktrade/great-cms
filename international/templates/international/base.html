@@ -23,6 +23,9 @@
         {% endblock %}
         {% block head_css %}
             <link rel="stylesheet" href="{% static 'international_styles.css' %}">
+            <link href="{% static 'great_design_system_styles.css' %}"
+                  rel="stylesheet"
+                  type="text/css" />
         {% endblock %}
         <title>
             {% block head_title %}{{ international_home_link.label }}{% endblock %}
@@ -78,7 +81,7 @@
         {% block body_google_tag_manager %}
             {% include 'great_components/google_tag_manager_body.html' %}
         {% endblock %}
-        <script type="text/javascript">document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
+        <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
         {% block skip_link %}
             <a href="#content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
         {% endblock %}
@@ -88,7 +91,7 @@
             {% endblock %}
         {% endif %}
         {% block body_header %}
-            {% include './header.html' %}
+            {% include "_header.html" with header_classes=header_classes hideMainNav=hideMainNav isInternational=isInternational mobileSiteLink=mobileSiteLink sso_is_logged_in=sso_is_logged_in isAuthenticated=isAuthenticated hideSearch=hideSearch hideMenuOnDesktop=hideMenuOnDesktop domesticLink=domesticLink internationalLink=internationalLink searchFormAction=searchFormAction navItemsList=navItemsList menuItemsList=menuItemsList actionLinkList=actionLinkList %}
         {% endblock %}
         {% block breadcrumb_region %}
             {% include 'international/includes/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
@@ -101,15 +104,17 @@
                 {% block content %}{% endblock %}
                 {% block content_after %}{% endblock %}
             </main>
-            {% include 'components/inline_feedback/was_page_useful.html' %}
+        {% endblock %}
+        {% block feedback_reporter %}
+            <div class="great-container override-negative-margin">
+                {% include 'components/inline_feedback/was_page_useful.html' %}
+            </div>
         {% endblock %}
         {% block body_footer %}
             {% include './footer.html' %}
         {% endblock %}
         {% block body_js %}
-            <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
-            <script src="{% static 'javascript/govuk.js' %}"></script>
-            <script>window.GOVUKFrontend.initAll()</script>
+            <script src="{% static 'great_design_system_scripts.js' %}"></script>
             {% slugurl "privacy" as privacy_and_cookies_path %}
             {% if request.path != privacy_and_cookies_path %}
                 <script>
@@ -122,6 +127,30 @@
                 })
                 </script>
             {% endif %}
+            <script>
+                const signOut = () => {
+                return fetch('{% url "sso:business-sso-logout-api" %}', {
+                    method: 'post',
+                    headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    },
+                    body: JSON.stringify({})
+                }).then(function() {
+                    window.location = '/international/expand-your-business-in-the-uk/login';
+                });
+                }
+                const enterKeyPressed = (event) => {
+                    if (event.keyCode == 13) {
+                        signOut()
+                        return true;
+                     } else {
+                        return false;
+                     }
+                }
+            </script>
         {% endblock %}
     </body>
 </html>

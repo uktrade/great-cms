@@ -161,9 +161,9 @@
             {% if not '/' == request.path %}
                 <div class="container">
                     {% if bespoke_breadcrumbs %}
-                        {% include 'breadcrumbs.html' with itemsList=bespoke_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
+                        {% include '_breadcrumbs.html' with itemsList=bespoke_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
                     {% else %}
-                        {% include 'breadcrumbs.html' with itemsList=page.get_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
+                        {% include '_breadcrumbs.html' with itemsList=page.get_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
                     {% endif %}
                 </div>
             {% endif %}
