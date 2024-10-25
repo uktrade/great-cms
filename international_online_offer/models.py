@@ -1,10 +1,7 @@
-from itertools import chain
-
 from django import forms
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.http import HttpResponseRedirect
-from django.utils.text import slugify
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.models import ParentalKey
 from taggit.models import TagBase, TaggedItemBase
@@ -87,32 +84,30 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage):
         # Get trade shows page (should only be one, is a parent / container page for all trade show pages)
         trade_shows_page = EYBTradeShowsPage.objects.live().filter().first()
 
-        # Get any EYB articles that have been tagged with user selected sector
-        # perform matching on slugs which don't have spaces, non-alphanumeric values and are lower case
-        all_articles_tagged_with_sector = (
-            EYBArticlePage.objects.live().filter(tags__slug=slugify(triage_data.sector))
-            if triage_data and triage_data.sector
-            else []
-        )
+        """
+            Surface articles that have been tagged with the user's sector and their intent.
+            I.e. each article needs two tags to display, for example, 'Food and drink',
+            and 'Set up a new distribution centre'.
+        """
+        all_articles_tagged_with_sector_and_intent = []
 
-        # Get any EYB articles that have been tagged with user selected intent(s)
-        all_articles_tagged_with_intent = (
-            EYBArticlePage.objects.live().filter(tags__name__in=triage_data.intent)
-            if triage_data and triage_data.intent
-            else []
-        )
+        if triage_data and triage_data.sector and triage_data.intent:
+            """
+            Wagtail doesn't allow commas in tags and we need to match the sector
+            'Agriculture, horticulture, fisheries and pets' i.e. below will match the tag
+            'Agriculture horticulture fisheries and pets'
+            """
+            user_sector = triage_data.sector.replace(',', '')
+
+            all_articles_tagged_with_sector_and_intent = (
+                EYBArticlePage.objects.live()
+                .filter(tags__name__iexact=user_sector)
+                .filter(tags__name__in=triage_data.intent)
+            )
+
         # Get any EYB articles that have been tagged with FINANCE_AND_SUPPORT
         all_articles_tagged_with_finance_and_support = EYBArticlePage.objects.live().filter(
             tags__name=filter_tags.FINANCE_AND_SUPPORT
-        )
-
-        # Filter rule to get articles that have ONLY been tagged with the users selected sector
-        sector_only_articles = helpers.filter_articles_sector_only(all_articles_tagged_with_sector)
-        # Filter rule to get intent articles that are tagged with the users selected sector
-        intent_articles_specific_to_sector = (
-            helpers.filter_intent_articles_specific_to_sector(all_articles_tagged_with_intent, triage_data.sector)
-            if triage_data and triage_data.sector
-            else []
         )
 
         breadcrumbs = [
@@ -125,7 +120,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage):
             triage_data=triage_data,
             user_data=user_data,
             bci_data=bci_data[0] if bci_data and len(bci_data) > 0 else None,
-            get_to_know_market_articles=list(chain(sector_only_articles, intent_articles_specific_to_sector)),
+            get_to_know_market_articles=all_articles_tagged_with_sector_and_intent,
             finance_and_support_articles=all_articles_tagged_with_finance_and_support,
             trade_shows_page=trade_shows_page,
             is_triage_data_complete=is_triage_data_complete,
@@ -211,7 +206,12 @@ class EYBArticlePage(BaseContentPage):
         null=True,
         blank=True,
     )
-    tags = ClusterTaggableManager(through=EYBArticlePageTag, blank=True, verbose_name='Article Tags')
+    tags = ClusterTaggableManager(
+        through=EYBArticlePageTag,
+        blank=True,
+        verbose_name='Article Tags',
+        help_text="A comma-separated list of tags. Each article needs at least two tags to display a) a sector, b) an intent. Do not include commas in the sector name, e.g. 'Agriculture, horticulture, fisheries and pets' is tagged as 'Agriculture horticulture fisheries and pets'",  # noqa:E501
+    )
     content_panels = CMSGenericPage.content_panels + [
         FieldPanel('article_title'),
         FieldPanel('article_subheading'),
@@ -295,13 +295,14 @@ class EYBTradeShowsPage(WagtailCacheMixin, BaseContentPage):
         triage_data = get_triage_data_for_user(request)
         all_tradeshows = []
 
-        if triage_data:
-            # perform matching on slugs which don't have spaces, non-alphanumeric values and are lower case
-            all_tradeshows = (
-                IOOTradeShowPage.objects.live().filter(tags__slug=slugify(triage_data.sector))
-                if triage_data.sector
-                else []
-            )
+        if triage_data and triage_data.sector:
+            """
+            Wagtail doesn't allow commas in tags and we need to match the sector
+            'Agriculture, horticulture, fisheries and pets' i.e. below will match the tag
+            'Agriculture horticulture fisheries and pets'
+            """
+            user_sector = triage_data.sector.replace(',', '')
+            all_tradeshows = IOOTradeShowPage.objects.live().filter(tags__name__iexact=user_sector)
 
         breadcrumbs = [
             {'name': 'Home', 'url': '/international/'},
@@ -346,7 +347,12 @@ class IOOTradeShowPage(BaseContentPage):
         blank=True,
     )
     tradeshow_link = models.URLField(blank=True, max_length=255, null=True)
-    tags = ClusterTaggableManager(through=EYBTradeShowPageTag, blank=True, verbose_name='Trade Show Tags')
+    tags = ClusterTaggableManager(
+        through=EYBTradeShowPageTag,
+        blank=True,
+        verbose_name='Trade Show Tags',
+        help_text="A comma-separated list of tags. Do not include commas in the sector name, e.g. 'Agriculture, horticulture, fisheries and pets' is tagged as 'Agriculture horticulture fisheries and pets'",  # noqa:E501
+    )
     content_panels = CMSGenericPage.content_panels + [
         FieldPanel('tradeshow_title'),
         FieldPanel('tradeshow_subheading'),
