@@ -50,7 +50,7 @@ def international_header(request):
         site_title = None
 
     return {
-        'international_header_context': {   
+        'international_header_context': {
             'header_classes': '',
             'isInternational': True,
             'sso_is_logged_in': is_authenticated,
@@ -70,27 +70,27 @@ def international_header(request):
                     'location': 'International header',
                     'isCurrent': '/expand-your-business-in-the-uk' in request.path,
                     'navItemsListChildren': [
-                    {
-                        'href': reverse_lazy('international_online_offer:login'),
-                        'text': 'Sign in',
-                        'location': 'EYB sub-nav',
-                        'requiresNoAuth': True,
-                        'isCurrent': '/expand-your-business-in-the-uk/login/' in request.path,
-                    },
-                    {
-                        'href': reverse_lazy('international_online_offer:change-your-answers'),
-                        'text': 'Your details',
-                        'location': 'EYB sub-nav',
-                        'requiresAuth': user_completed_triage(request),
-                        'isCurrent': '/expand-your-business-in-the-uk/change-your-answers' in request.path,
-                    },
-                    {
-                        'text': 'Sign out',
-                        'location': 'EYB sub-nav',
-                        'href': '#',
-                        'attributes': 'onclick="signOut()"',
-                        'requiresAuth': True,
-                    },
+                        {
+                            'href': reverse_lazy('international_online_offer:login'),
+                            'text': 'Sign in',
+                            'location': 'EYB sub-nav',
+                            'requiresNoAuth': True,
+                            'isCurrent': '/expand-your-business-in-the-uk/login/' in request.path,
+                        },
+                        {
+                            'href': reverse_lazy('international_online_offer:change-your-answers'),
+                            'text': 'Your details',
+                            'location': 'EYB sub-nav',
+                            'requiresAuth': user_completed_triage(request),
+                            'isCurrent': '/expand-your-business-in-the-uk/change-your-answers' in request.path,
+                        },
+                        {
+                            'text': 'Sign out',
+                            'location': 'EYB sub-nav',
+                            'href': '#',
+                            'attributes': 'onclick="signOut()"',
+                            'requiresAuth': True,
+                        },
                     ],
                 },
                 {
