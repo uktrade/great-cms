@@ -7,7 +7,7 @@ import directory_healthcheck.backends
 import environ
 import sentry_sdk
 import dj_database_url
-from dbt_copilot_python.database import database_url_from_env
+from dbt_copilot_python.database import database_from_env
 from dbt_copilot_python.utility import is_copilot
 from django.urls import reverse_lazy
 from django_log_formatter_asim import ASIMFormatter
@@ -187,7 +187,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 if is_copilot():
-    DATABASES = database_url_from_env("DATABASE_CREDENTIALS")
+    DATABASES = database_from_env("DATABASE_CREDENTIALS")
 else:
     DATABASES = {'default': env.db()}
 
