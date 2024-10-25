@@ -187,9 +187,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 if is_copilot():
-    # DATABASES = {"default": dj_database_url.parse(database_url_from_env("DATABASE_CREDENTIALS"))}
-    DATABASES = {"default": "test123"}
-    print(f"{DATABASES} databases_object")
+    DATABASES = database_url_from_env("DATABASE_CREDENTIALS")
 else:
     DATABASES = {'default': env.db()}
 
