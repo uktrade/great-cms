@@ -23,11 +23,18 @@
     float: none;
 }
 
-.js-enabled .govuk-accordion__section-content {
+.js-enabled .govuk-accordion__section-content.fixed-height-scroll {
     padding-top: 0px;
     padding-bottom: 0px;
 }
 
-.js-enabled .govuk-accordion__section-button {
+.js-enabled .govuk-accordion__section-button.fixed-height-scroll {
     border-bottom: 0px;
+}
+
+.override-negative-margin {
+    .govuk-grid-row {
+        margin-left: 0px;
+        margin-right: 0px
+    }
 }
