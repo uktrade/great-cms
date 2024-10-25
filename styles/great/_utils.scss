@@ -522,6 +522,10 @@
   max-width: 80%;
 }
 
+.great-max-width-500 {
+  max-width: 500px;
+}
+
 .great-min-width-200-desktop {
   @include govuk-media-query($from: tablet) {
     min-width: 200px;
