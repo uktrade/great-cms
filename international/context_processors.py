@@ -35,8 +35,10 @@ def international_header(request):
         '12.0113 13.2122 11.6272L10.085 8.5Z"/></svg>'
     )
 
+    is_authenticated = is_authenticated = getattr(getattr(request, 'user', None), 'is_authenticated', False)
     site_title_href = '/international/expand-your-business-in-the-uk/'
-    if request.user.is_authenticated:
+
+    if is_authenticated:
         site_title_href = '/international/expand-your-business-in-the-uk/guide/'
 
     site_title = {
@@ -50,8 +52,8 @@ def international_header(request):
     return {
         'header_classes': '',
         'isInternational': True,
-        'sso_is_logged_in': request.user.is_authenticated,
-        'isAuthenticated': request.user.is_authenticated,
+        'sso_is_logged_in': is_authenticated,
+        'isAuthenticated': is_authenticated,
         'hideSearch': True,
         'hideMenuOnDesktop': True,
         'use_domestic_logo': False,
