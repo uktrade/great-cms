@@ -117,9 +117,7 @@ if is_copilot():
         env: Union[DBTPlatformEnvironment, GovPaasEnvironment] = DBTPlatformEnvironment(secret_key='FAKE_SECRET_KEY')
     else:
         # When deployed read values from DBT Platform environment
-        print('DBT1------DBTPLATFORMENVIRONMENT------------')
         env = DBTPlatformEnvironment()
 else:
     # Gov PaaS environment
-    print('GOVPAAS1------GOVPAASENVIRONMENT------------')
     env = GovPaasEnvironment()

@@ -187,10 +187,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 if is_copilot():
-    print('using copilot')
-    DATABASES = {"default": dj_database_url.parse(database_url_from_env("DATABASE_CREDENTIALS"))}
+    # DATABASES = {"default": dj_database_url.parse(database_url_from_env("DATABASE_CREDENTIALS"))}
+    DATABASES = {"default": "test123"}
+    print(f"{DATABASES} databases_object")
 else:
-    print('not using copilot')
     DATABASES = {'default': env.db()}
 
 DATABASES['default']['ATOMIC_REQUESTS'] = True
