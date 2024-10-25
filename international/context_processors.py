@@ -35,9 +35,13 @@ def international_header(request):
         '12.0113 13.2122 11.6272L10.085 8.5Z"/></svg>'
     )
 
+    site_title_href = '/international/expand-your-business-in-the-uk/'
+    if request.user.is_authenticated:
+        site_title_href = '/international/expand-your-business-in-the-uk/guide/'
+
     site_title = {
         'text': 'Expand your business in the UK',
-        'href': '/international/expand-your-business-in-the-uk/guide/',
+        'href': site_title_href,
     }
 
     if not hide_primary_nav(request)['hide_primary_nav']:
