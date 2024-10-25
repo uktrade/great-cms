@@ -16,7 +16,7 @@
     }
 
     .great-hero__container {
-        @include govuk-media-query($from: desktop) {
+        @media (min-width: 769px) {
           display: flex;
         }
     }

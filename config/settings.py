@@ -143,6 +143,18 @@ TEMPLATES = [
             ROOT_DIR / 'sso_profile' / 'common' / 'templates',
             ROOT_DIR / 'sso_profile' / 'enrolment' / 'templates',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'breadcrumbs',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'header',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'button',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'text-input',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'details',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'accordion',
+            ROOT_DIR
+            / 'node_modules'
+            / '@uktrade'
+            / 'great-design-system'
+            / 'dist'
+            / 'components'
+            / 'notification-banner',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -152,6 +164,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'core.context_processors.domestic_header',
                 'great_components.context_processors.sso_processor',
                 'great_components.context_processors.ga360',
                 'great_components.context_processors.urls_processor',
@@ -171,6 +184,7 @@ TEMPLATES = [
                 'international_online_offer.context_processors.feedback_next_url',
                 'international_online_offer.context_processors.hide_primary_nav',
                 'international_online_offer.context_processors.user_completed_triage',
+                'international.context_processors.international_header',
             ],
         },
     },

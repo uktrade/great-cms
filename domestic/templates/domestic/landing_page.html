@@ -161,7 +161,9 @@
         </section>
     {% else %}
         {% if page.campaign or page.what_is_new_pages %}
-            {% if features.FEATURE_PRODUCT_MARKET_HERO %}
+            {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
+                {% include 'components/landing_hero_with_link.html' with hero_image=page.hero_image heading=page.hero_text subtitle=page.hero_subtitle cta_text=page.hero_cta_text cta_link=page.hero_cta_url %}
+            {% elif features.FEATURE_PRODUCT_MARKET_HERO %}
                 {% include 'components/landing_hero_with_input.html' with hero_image=page.hero_image heading=page.hero_text subtitle=page.hero_subtitle cta_text=page.hero_cta_text cta_link=page.hero_cta_url %}
             {% elif not request.user.is_authenticated %}
                 {% include 'components/landing_hero_with_cta_multiple_background.html' with hero_image=page.hero_image heading=page.hero_text subtitle=page.hero_subtitle cta_text=page.hero_cta_text cta_link=page.hero_cta_url %}
@@ -182,7 +184,7 @@
     {% endif %}
     {% if features.FEATURE_HOMEPAGE_REDESIGN_V1 %}
         <section class="great great-bg-light-blue govuk-!-padding-top-0 govuk-!-padding-bottom-0">
-            <div class="govuk-width-container great-container">
+            <div class="great-container">
                 {% if page.magna_ctas_title %}
                     <h2 class="govuk-heading-l govuk-!-margin-top-9 govuk-!-margin-bottom-6">{{ page.magna_ctas_title }}</h2>
                 {% endif %}
@@ -250,6 +252,8 @@
             {% include 'components/informative_banner.html' with banner_heading='Report a trade barrier' banner_content='Tell us about trade barriers affecting your ability to trade so we can help fix them. <br><a href="/report-trade-barrier/">How to report a trade barrier</a>' %}
         </section>
     {% endif %}
+
+    {% if not features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
     <section class="sector-potential-section padding-bottom-0">
         <div class="sector-potential-wrapper padding-top-45 padding-top-60-m padding-bottom-45 padding-bottom-60-m{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-bg-white{% endif %}">
             <div class="container padding-bottom-45-m">
@@ -261,7 +265,7 @@
                           method="get">
                         {{ sector_form }}
                         <button type="submit"
-                                class="primary-button margin-top-15 show-markets"
+                                class="button primary-button margin-top-15 show-markets"
                                 id="sector-submit">Show markets</button>
                         <span class="verbose">Select a sector to enable the submit button.</span>
                     </form>
@@ -292,6 +296,8 @@
             </div>
         </div>
     </section>
+    {% endif %}
+
     {% if page.madb_title and page.madb_image %}
         <section class="landing-page-section export-goods-from-uk padding-bottom-45 padding-bottom-60-m padding-top-45 padding-top-60-m">
             <div class="container padding-top-45 padding-top-60">
@@ -317,9 +323,9 @@
         {% with page.campaign.0.value as campaign_block_value %}
             {% if features.FEATURE_HOMEPAGE_REDESIGN_V1 %}
                 <section class="great great-bg-light-blue govuk-!-padding-top-0 govuk-!-padding-bottom-9">
-                    <div class="govuk-width-container great-container">
+                    <div class="great-container">
                         {% if page.what_is_new_title %}
-                            <h2 class="govuk-heading-l govuk-!-margin-top-9 govuk-!-margin-bottom-6">
+                            <h2 class="govuk-heading-l {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}govuk-!-margin-top-0{% else %}govuk-!-margin-top-9{% endif %} govuk-!-margin-bottom-6">
                                 {{ page.what_is_new_title|default:"What's new" }}
                             </h2>
                         {% endif %}

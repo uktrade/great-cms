@@ -35,7 +35,7 @@
                     {% block extra_content_pre_submit %}{% endblock %}
                     <div>
                         {% if wizard.steps.step1 != wizard.steps.count %}
-                            <button type="submit" class="primary-button margin-top-30">
+                            <button type="submit" class="button primary-button margin-top-30">
                                 {% block button_continue_label %}Continue{% endblock %}
                             </button>
                         {% else %}
@@ -48,7 +48,7 @@
                     {% block back_button %}
                         {% if wizard.steps.prev %}
                             <button name="wizard_goto_step"
-                                    class="previous-step"
+                                    class="button previous-step"
                                     type="submit"
                                     value="{{ wizard.steps.prev }}">Back</button>
                         {% endif %}

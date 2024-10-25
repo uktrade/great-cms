@@ -54,8 +54,12 @@ $great-design-system-govuk-blue: #1d70b8;
   > span {
     display: inline-block;
     position: relative;
-    top: 2px;
+    top: 3px;
     margin-left: 5px;
+
+    @include govuk-media-query($until: tablet) {
+      top: 2px;
+    }
   }
 
   &:hover,
@@ -192,6 +196,50 @@ $great-design-system-govuk-blue: #1d70b8;
   }
 }
 
+.great-ds-link--inverted {
+  i {
+    position: relative;
+
+    &::before {
+      z-index: 1;
+      position: relative;
+    }
+
+    &::after {
+      content: '';
+      background: $great-design-system-white;
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      border-radius: 100px;
+
+      @include govuk-media-query($from: tablet) {
+        width: 28px;
+        height: 28px;
+      }
+    }
+  }
+
+  span {
+    color: $great-design-system-white;
+  }
+
+  &:focus {
+    span {
+      color: $great-design-system-govuk-off-black;
+    }
+  }
+
+  &:active:focus {
+    span {
+      color: $great-design-system-white;
+    }
+  }
+}
+
 .great-ds-hr {
   background: $great-design-system-border-grey;
   border: 0;
@@ -205,22 +253,15 @@ $great-design-system-govuk-blue: #1d70b8;
 }
 
 .great-ds-autocomplete-input {
-  width: 200px;
-
-  @include govuk-media-query($from: mobile) {
-    width: 250px;
-  }
-
-  @include govuk-media-query($from: tablet) {
-    width: 350px;
-  }
-
-  @include govuk-media-query($from: desktop) {
-    width: 500px;
-  }
+  width: 100%;
 
   &::placeholder {
     color: $great-design-system-interface-mono-50;
+    font-size: 14px;
+
+    @include govuk-media-query($from: tablet) {
+      font-size: 16px;
+    }
   }
 }
 
@@ -228,29 +269,25 @@ $great-design-system-govuk-blue: #1d70b8;
   position: relative;
 
   &::before {
-    @include govuk-media-query($from: tablet) {
-      display: inline-block;
-      height: 18px;
-      width: 18px;
-      background-color: $great-design-system-white;
-      background-image: url(/static/images/search-black.svg);
-      background-size: 18px;
-      top: 15px;
-      left: 320px;
-      position: absolute;
-    }
+    display: inline-block;
+    height: 18px;
+    width: 18px;
+    background-color: $great-design-system-white;
+    background-image: url(/static/images/search-black.svg);
+    background-size: 18px;
+    top: 13px;
+    left: calc(100% - 30px);
+    position: absolute;
 
-    @include govuk-media-query($from: desktop) {
-      left: 470px;
+    @include govuk-media-query($from: tablet) {
+      top: 15px;
     }
   }
 }
 
 .js-enabled .great-ds-autocomplete-input__wrapper {
   &::before {
-    @include govuk-media-query($from: tablet) {
-      content: '';
-    }
+    content: '';
   }
 }
 
@@ -359,6 +396,7 @@ $great-design-system-govuk-blue: #1d70b8;
     color: $great-design-system-govuk-blue;
     font-weight: 600;
     flex-basis: calc(100% - 10px);
+    line-height: 25px;
     margin-bottom: 20px;
     padding: 15px;
     border-radius: 10px;
@@ -376,8 +414,8 @@ $great-design-system-govuk-blue: #1d70b8;
       &::before {
         content: '';
         position: absolute;
-        width: calc(100% + 8px);
-        height: calc(100% + 8px);
+        width: calc(100% + 4px);
+        height: calc(100% + 4px);
         top: -4px;
         left: -4px;
         display: block;
@@ -457,6 +495,34 @@ $great-design-system-govuk-blue: #1d70b8;
   }
 }
 
+.great-ds-category-panels--homepage {
+  @include govuk-media-query($from: tablet) {
+    gap: 30px;
+  }
+
+  > a {
+    gap: 10px;
+    flex-direction: row;
+    align-items: center;
+
+    @include govuk-media-query($from: tablet) {
+      flex-direction: column;
+      align-items: flex-start;
+      flex-basis: calc(50% - 15px);
+      gap: 10px;
+      padding: 15px;
+    }
+
+    @include govuk-media-query($from: desktop) {
+      flex-basis: calc(25% - 22.5px);
+    }
+
+    @media only screen and (min-width: 961px) {
+      padding: 15px 30px;
+    }
+  }
+}
+
 .great-ds-card-panels {
   display: flex;
   gap: 15px;
@@ -511,7 +577,8 @@ $great-design-system-govuk-blue: #1d70b8;
 
 .great-ds-make-or-do {
   position: relative;
-  overflow: hidden;
+  overflow: initial;
+  overflow-x: clip;
 
   img {
     display: none;
@@ -528,6 +595,28 @@ $great-design-system-govuk-blue: #1d70b8;
 
 .great-ds-make-or-do--homepage {
   img {
+    display: none;
+
+    @media only screen and (min-width: 900px) {
+      display: block;
+      position: absolute;
+      bottom: 0;
+      right: -35%;
+      height: 100%;
+    }
+
+    @media only screen and (min-width: 950px) {
+      right: -30%;
+    }
+
+    @media only screen and (min-width: 1100px) {
+      right: -15%;
+    }
+
+    @media only screen and (min-width: 1200px) {
+      right: -5%;
+    }
+
     @media only screen and (min-width: 1300px) {
       right: 0;
     }
