@@ -126,7 +126,7 @@ def international_header(request):
                     'isCurrent': '/international/buy-from-the-uk/' in request.path,
                 },
             ],
-            'mobileSiteLink': {'href': '/', 'text': 'Export help for UK businesses'},
+            'mobileSiteLink': {'href': '/', 'text': 'Export from the UK'},
             'search_icon': search_icon,
             'menu_icon': menu_icon,
         }

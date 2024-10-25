@@ -226,7 +226,7 @@ def domestic_header(request):
             {'href': '/dashboard/', 'text': 'Dashboard', 'requiresAuth': True},
             {'href': reverse_lazy('core:login'), 'text': 'Sign in', 'requiresNoAuth': True},
         ],
-        'mobileSiteLink': {'href': '/international', 'text': 'Site for international businesses'},
+        'mobileSiteLink': {'href': '/international', 'text': 'Invest in the UK'},
         'search_icon': search_icon,
         'menu_icon': menu_icon,
     }
