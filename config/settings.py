@@ -188,6 +188,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 if is_copilot():
     DATABASES = database_from_env("DATABASE_CREDENTIALS")
+    DATABASES["default"]["ENGINE"] = "django.db.backends.postgresql"
 else:
     DATABASES = {'default': env.db()}
 
