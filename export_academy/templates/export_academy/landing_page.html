@@ -87,7 +87,7 @@
                 {% endif %}
             {% elif contentSection.block_type == 'Series_Section' %}
                 {% if features.FEATURE_COURSES_LANDING_PAGE %}
-                    <div class="great-container  govuk-!-padding-bottom-0">
+                    <div class="govuk-width-container great-container  govuk-!-padding-bottom-0">
                         {% if contentSection.value.series_section_title %}
                             <h2 class="govuk-heading-l govuk-!-static-margin-bottom-2">{{ contentSection.value.series_section_title }}</h2>
                             <p>{{contentSection.value.series_section_description }}</p>

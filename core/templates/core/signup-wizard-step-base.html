@@ -31,7 +31,7 @@
                     {% block back_button %}
                         {% if wizard.steps.prev %}
                             <button name="wizard_goto_step"
-                                    class="button great-mvp-wizard-back-button"
+                                    class="great-mvp-wizard-back-button"
                                     type="submit"
                                     value="{{ wizard.steps.prev }}">Back</button>
                         {% endif %}
@@ -50,7 +50,7 @@
                         {% block submit_button %}
                             {% if wizard.steps.step1 != wizard.steps.count %}
                                 <button type="submit"
-                                        class="button primary-button great-mvp-wizard-step-button m-b-s">
+                                        class="primary-button great-mvp-wizard-step-button m-b-s">
                                     {% block button_submit_label %}Save and continue{% endblock %}
                                 </button>
                             {% else %}

@@ -8,7 +8,6 @@ from django.utils.translation import get_language
 from wagtail.models import Locale
 
 from contact.views import BaseNotifyUserFormView
-from core.context_processors import microsite_header
 from core.datastructures import NotifySettings
 from core.helpers import get_location
 from core.models import MicrositePage
@@ -173,18 +172,6 @@ class CampaignView(BaseNotifyUserFormView):
             kwargs['form'] = None
         if not self.current_page:
             raise Http404
-        page = self.current_page
-        include_link_to_great = page.get_include_link_to_great() if hasattr(page, 'get_include_link_to_great') else ''
-        use_domestic_logo = page.get_use_domestic_header_logo() if hasattr(page, 'get_use_domestic_header_logo') else ''
-        site_title = page.get_site_title() if hasattr(page, 'get_site_title') else ''
-        menu_items = page.get_menu_items() if hasattr(page, 'get_menu_items') else ''
-        microsite_context = microsite_header(self.request)
-        microsite_context['include_link_to_great'] = include_link_to_great
-        microsite_context['use_domestic_logo'] = use_domestic_logo
-        microsite_context['site_title'] = site_title
-        microsite_context['subnavItemsList'] = menu_items
-        kwargs.update(microsite_context)
-
         return super().get_context_data(
             **kwargs,
             page=self.current_page,

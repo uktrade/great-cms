@@ -82,6 +82,13 @@ $color-error: #d4351c;
     float: right;
   }
 
+  .microsite-header {
+    p {
+      margin-left: 0;
+      margin-right: auto;
+    }
+  }
+
   .govuk-form-group-error {
     padding-left: 0 !important;
     padding-right: 15px;

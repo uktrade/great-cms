@@ -882,20 +882,17 @@ class MicrositePageTests(SetUpLocaleMixin, WagtailPageTests):
     def test_get_menu_items(self):
         root = MicrositeFactory(title='root')
         home = MicrositePageFactory(page_title='home', title='home', parent=root)
+        home_child = MicrositePageFactory(page_title='home-child', title='home-child', parent=home)
+        home_grandchild = MicrositePageFactory(page_title='home-grandchild', title='home-grandchild', parent=home_child)
 
-        menu_items = home.get_menu_items()
+        self.assertEqual(home.get_menu_items()[0]['title'], 'Home')
+        self.assertEqual(len(home.get_menu_items()), 2)
+        self.assertEqual(home_child.get_menu_items()[0]['title'], 'Home')
+        self.assertEqual(home_grandchild.get_menu_items()[0]['title'], 'Home')
 
-        assert menu_items, 'Menu items should not be empty'
-
-        for item in menu_items:
-            assert 'text' in item, 'Menu item should have a text key'
-            assert 'href' in item, 'Menu item should have an href key'
-
-        assert menu_items[0]['text'] == 'Home', 'First menu item should be Home'
-        assert menu_items[0]['href'], 'First menu item should have a non-empty href'
-
-        menu_item_url = menu_items[0]['href'].lstrip('/') if menu_items else ''
-        assert menu_item_url, 'Menu item URL should not be empty after stripping leading slash'
+        self.assertEquals(home.get_related_pages(), [{'title': 'home-child', 'url': None}])
+        self.assertEqual(home_child.get_related_pages()[0]['title'], 'home-grandchild')
+        self.assertEquals(home_grandchild.get_related_pages(), [])
 
     def test_get_site_title(self):
         root = MicrositeFactory(title='root')
