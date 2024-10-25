@@ -2,9 +2,6 @@ import re
 
 import magic
 from django.utils.safestring import mark_safe
-from django.utils.http import urlencode
-from django.utils.translation import get_language
-from urllib.parse import urlparse, urlunparse, parse_qs
 
 trim_page_type = re.compile(r'^([^_]*)_\d*')
 
@@ -221,37 +218,3 @@ def get_hreflang_tags(context, canonical_url, lang):
     if absolute_url == canonical_url:
         return mark_safe(hreflang_and_x_default_link(canonical_url, lang))
     return mark_safe('')
-
-
-def persist_language_to_url(url, request=None):
-    # Get the current language
-    current_language = request.LANGUAGE_CODE if request and hasattr(request, 'LANGUAGE_CODE') else get_language()
-
-    # Ensure url is a string
-    url = str(url)
-
-    # Parse the URL
-    parsed_url = urlparse(url)
-
-    # Get the query parameters
-    query_params = parse_qs(parsed_url.query)
-
-    # Add or update the 'lang' parameter
-    query_params['lang'] = [current_language]
-
-    # Reconstruct the URL with the updated query parameters
-    new_query = urlencode(query_params, doseq=True)
-
-    # Ensure all components are strings and reconstruct the URL
-    new_url = urlunparse(
-        (
-            str(parsed_url.scheme),
-            str(parsed_url.netloc),
-            str(parsed_url.path),
-            str(parsed_url.params),
-            new_query,
-            str(parsed_url.fragment),
-        )
-    )
-
-    return new_url

@@ -10,8 +10,7 @@
     {% if in_learning %}
         <link href="{% static 'learn_styles.css' %}" media="all" rel="stylesheet" />
     {% endif %}
-    <link href="{% static 'great_design_system_styles.css' %}" rel="stylesheet" type="text/css" />
-
+    <style>
 {% endblock %}
 <noscript>
     <style>
@@ -149,27 +148,15 @@ Welcome to great.gov.uk
 <a href="#content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 {% endblock %}
 {% block body_header %}
-    {% include "_header.html" with header_classes=header_classes isInternational=isInternational mobileSiteLink=mobileSiteLink sso_is_logged_in=sso_is_logged_in isAuthenticated=isAuthenticated hideSearch=hideSearch hideMenuOnDesktop=hideMenuOnDesktop domesticLink=domesticLink internationalLink=internationalLink searchFormAction=searchFormAction navItemsList=navItemsList menuItemsList=menuItemsList actionLinkList=actionLinkList %}
-    {% url 'sso:business-sso-logout-api' as sign_out_endpoint %}
-    <script>
-        function signOut() {
-            return fetch('{{ sign_out_endpoint }}', {
-            method: 'post',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                'X-CSRFToken': '{{ csrf_token }}',
-                'X-Requested-With': 'XMLHttpRequest',
-            },
-            body: JSON.stringify({})
-            }).then(function() {
-            window.location = '/';
-            });
-        }
-    </script>
-    {% if request.user.is_authenticated %}
-        {% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
-    {% endif %}
+{% path_match "^\/learn\/" as in_learning %}
+{% if features.FEATURE_DEA_V2 and in_learning %}
+{% include 'core/header.html' with hide_cookie_notice=False %}
+{% else %}
+{% include 'core/header.html' with hide_cookie_notice=True %}
+{% endif %}
+{% if request.user.is_authenticated %}
+{% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
+{% endif %}
 {% endblock %}
 {% block body_content_container %}
 {% include "wagtailseo/struct_data.html" %}
@@ -231,8 +218,6 @@ Welcome to great.gov.uk
             privacyCookiesUrl: {{privacy_and_cookies_path}},
             preferencesUrl: '{% url "core:cookie-preferences" %}',
         });
-        </script>
-    {% endif %}
-    <script src="{% static 'great_design_system_scripts.js' %}"></script>
-
+</script>
+{% endif %}
 {% endblock %}

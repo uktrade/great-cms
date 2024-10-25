@@ -62,7 +62,7 @@ from core.constants import (
     RICHTEXT_FEATURES__REDUCED,
 )
 from core.context import get_context_provider
-from core.utils import PageTopicHelper, get_first_lesson, persist_language_to_url
+from core.utils import PageTopicHelper, get_first_lesson
 from exportplan.core.data import (
     SECTION_SLUGS as EXPORTPLAN_SLUGS,
     SECTIONS as EXPORTPLAN_URL_MAP,
@@ -2053,36 +2053,18 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
             return None
 
     # Return the children of the top level Microsite parent of current page
-    def get_menu_items(self, request=None):
+    def get_menu_items(self):
         parent_page = self.get_parent_page()
         menu_items = []
-
-        multiple_languages = len(settings.LANGUAGES) > 1
-
         if parent_page:
-            parent_url = parent_page.get_url()
-            if multiple_languages:
-                parent_url = persist_language_to_url(parent_url, request)
-            menu_items = [{'href': parent_url, 'text': _('Home')}]
-
-            menu_items.extend(
-                [
-                    {
-                        'href': (
-                            persist_language_to_url(child.get_url(), request) if multiple_languages else child.get_url()
-                        ),
-                        'text': child.title,
-                    }
-                    for child in parent_page.get_children().live()
-                ]
-            )
-
-        external_links = self.get_external_menu_link()
-        if external_links and multiple_languages:
-            for link in external_links:
-                link['url'] = persist_language_to_url(link['url'], request)
-
-        return menu_items + external_links
+            menu_items = [{'url': parent_page.get_url(), 'title': _('Home')}] + [
+                {
+                    'url': child.get_url(),
+                    'title': child.title,
+                }
+                for child in parent_page.get_children().live()
+            ]
+        return menu_items + self.get_external_menu_link()
 
     def get_use_domestic_header_logo(self):
         parent_page = self.get_parent_page()

@@ -1,3 +1,8 @@
+// GOVUK styles with Great styles
+// All classes are prefixed with either
+// .govuk- or .great-
+@import 'styles/great/main.scss';
+
 // MAIN
 @import 'partials/profile_base';
 @import 'partials/profile_general';

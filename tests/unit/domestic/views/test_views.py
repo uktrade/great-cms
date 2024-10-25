@@ -6,7 +6,6 @@ from django.conf import settings
 from django.test import TestCase
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import activate
-from django.contrib.auth.models import AnonymousUser
 from wagtail.models import Locale
 from wagtail.test.utils import WagtailPageTests
 
@@ -129,7 +128,7 @@ def test_ukef_contact_form_notify_success(
 def test_ukef_contact_form_success_view_response(rf):
     user_email = 'test@test.com'
     request = rf.get(reverse('domestic:uk-export-contact-success'))
-    request.user = AnonymousUser()
+    request.user = None
     request.session = {'user_email': user_email}
     view = domestic.views.ukef.SuccessPageView.as_view()
     response = view(request)

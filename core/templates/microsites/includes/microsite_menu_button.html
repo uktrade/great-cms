@@ -1,0 +1,30 @@
+{% load i18n %}
+{% load get_template_translation_enabled from content_tags %}
+{% load persist_language from component_tags %}
+{% get_template_translation_enabled as TRANSLATE_TEXT %}
+{% if menu_items|length > 1 %}
+    <div class="magna-header__menu">
+        <button type="button"
+                class="magna-header__dropdown-button"
+                data-reveal-button
+                data-reveal-modal
+                aria-controls="main-menu">
+                {% if rtl_language %}<span class="govuk-!-padding-left-2 great-text-white">{% endif %}
+                    {% translate "Menu" %}
+                    {% if rtl_language %}</span>{% endif %}
+            <span class="magna-header__dropdown-button__icon"></span>
+        </button>
+        <div id="main-menu"
+             class="magna-header__dropdown {% if rtl_language %}rtl-page{% endif %}">
+            <ul class="magna-header__menu-items">
+                {% for item in menu_items %}
+                    <li>
+                        <a class="{% if active_url == item.url %}active {% endif %}{% if rtl_language %}rtl{% endif %}"
+                           href="{{ item.url|persist_language:request.GET }}">{{ item.title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="magna-header__overlay"></div>
+    </div>
+{% endif %}

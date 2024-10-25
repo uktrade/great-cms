@@ -1,0 +1,17 @@
+{% load static %}
+{% load i18n %}
+<div class="microsite-header">
+    {% if use_domestic_logo %}
+        <img alt="Department for Business and Trade"
+             src="{% static 'images/DBT_Red_DIGI.svg' %}" />
+    {% else %}
+        <img alt="Department for Business and Trade"
+             src="{% static 'images/ukgov-logo-colour-digi.svg' %}" />
+    {% endif %}
+    {% if include_link_to_great %}
+        <p>
+            Get support for UK export or investment at
+            <a href="/">great.gov.uk</a>
+        </p>
+    {% endif %}
+</div>

@@ -8,3 +8,9 @@
 body {
     background-color: $color-background-color
 }
+
+a:active,
+.personalization-menu-button.tag--icon:focus,
+.personalization-menu-button.tag--icon:active {
+    @include focus-state()
+}
