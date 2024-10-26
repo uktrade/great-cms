@@ -10,6 +10,4 @@ def is_circleci():
 
 
 def get_env_files():
-    return [
-        'config/env/' + filename for filename in os.getenv('ENV_FILES', '').split(',') if filename != 'secrets-template'
-    ]
+    return ['config/env/' + filename for filename in os.getenv('ENV_FILES', '').split(',')]
