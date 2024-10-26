@@ -2001,6 +2001,48 @@ nav.great-breadcrumbs {
   }
 }
 
+.great-hero--flight-path {
+  background-color: $great-dark-blue;
+  background-image: none;
+
+  @include govuk-media-query($from: desktop) {
+    background-color: transparent;
+    background-image: url(/static/images/flight-paths.png);
+  }
+
+  .great-hero__heading {
+    mark {
+      display: inline;
+      background: $great-dark-blue;
+      color: $great-white;
+
+      @include govuk-media-query($from: desktop) {
+        display: inline-block;
+        padding-right: 40px;
+      }
+
+      &:first-of-type {
+        position: relative;
+      }
+
+      &:last-of-type {
+        @include govuk-media-query($from: desktop) {
+          padding-bottom: 10px;
+        }
+      }
+    }
+  }
+
+  .great-hero__subtitle {
+    display: inline-block;
+    background: $great-dark-blue;
+    padding: 25px 40px 20px 0;
+    margin-top: 0;
+    margin-bottom: 10px;
+    max-width: 700px;
+  }
+}
+
 // Product/Market campaign page
 
 .great-product-market {

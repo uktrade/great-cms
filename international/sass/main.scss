@@ -3,11 +3,6 @@ $asset-root: '/static/images/';
 $fonts: '/static/fonts';
 $fa-font-path: '/static/fonts';
 
-// Great International Font Import
-@import 'typography';
-
-// GOVUK
-@import 'govuk-token-overrides.scss';
 @import 'node_modules/govuk-frontend/govuk/all';
 
 // Icons
@@ -16,8 +11,6 @@ $fa-font-path: '/static/fonts';
 @import 'node_modules/@fortawesome/fontawesome-free/scss/regular';
 @import 'node_modules/@fortawesome/fontawesome-free/scss/brands';
 
-// Great
-@import 'styles/great/_colors.scss';
 @import 'node_modules/great-styles/src/scss/helpers/_base.scss';
 @import '../../styles/great/utils';
 @import '../../core/sass/helpers/utils.scss';
@@ -31,7 +24,6 @@ $fa-font-path: '/static/fonts';
 @import '../../core/components/sass/components/skip-link/_base.scss';
 
 // Great International
-@import 'govuk-class-overrides';
 @import 'core-class-overrides';
 @import 'header.scss';
 @import 'footer.scss';
@@ -43,3 +35,38 @@ $fa-font-path: '/static/fonts';
 
 // Great International components
 @import 'hero.scss';
+
+.block-text {
+    h1 {
+        margin-bottom: 30px
+    }
+    h2 {
+        margin-bottom: 30px
+    }
+    h3 {
+        margin-bottom: 20px
+    }
+    h4 {
+        margin-bottom: 20px
+    }
+    h5 {
+        margin-bottom: 10px
+    }
+    p {
+        margin-bottom: 10px;
+        line-height: 1.3;
+    }
+    ul {
+        padding-left: 20px;
+        list-style-type: disc;
+        margin-bottom: 20px;
+        line-height: 1.3;
+
+        li {
+            margin-bottom: 5px;
+            display: list-item;
+            text-align: -webkit-match-parent;
+            unicode-bidi: isolate;
+        }
+    }
+}

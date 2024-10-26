@@ -1,22 +1,30 @@
 {% extends 'domestic/base.html' %}
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
+{% load component_tags %}
+{% load domestic_canonical_url_tags %}
 {% load static %}
 {% load add_govuk_classes url_type get_sub_category_page_breadcrumbs get_meta_tag_label get_meta_tag_icon_path from content_tags %}
 {% block head_title %}{{ page.page_title }}{% endblock %}
 {% block meta_title %}{{ page.page_title }}{% endblock %}
+{% block meta_tags %}
+    {{ block.super }}
+    {% get_canonical_url as canonical_url %}
+    <link rel="canonical" href="{{ canonical_url }}">
+    {% get_hreflang_tags as hreflang_tags %}
+    {{ hreflang_tags }}
+{% endblock %}
 {% block body_js %}
     {{ block.super }}
-
     <script src="{% static 'javascript/great.utils.js' %}"></script>
     <script src="{% static 'javascript/great.digital-self-serve.js' %}"></script>
-    <script type="text/javascript">
-        GreatFrontend.DigitalSelfServe.init('{{ page.page_title }}')
-    </script>
+    <script type="text/javascript">GreatFrontend.DigitalSelfServe.init('{{ page.page_title }}')</script>
 {% endblock %}
 {% block body_attributes %}class="great-bg-white"{% endblock %}
 {% block breadcrumbs_block %}
-    <div class="container">{% include 'breadcrumbs.html' with itemsList=page|get_sub_category_page_breadcrumbs:request.get_full_path homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}</div>
+    <div class="container">
+        {% include '_breadcrumbs.html' with itemsList=page|get_sub_category_page_breadcrumbs:request.get_full_path homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
+    </div>
 {% endblock %}
 {% block content %}
     <div class="govuk-!-padding-bottom-9 great great-bg-white">
@@ -37,57 +45,78 @@
                                     {% for task in page.page_body %}
                                         <div class="great-ds-border-bottom-grey">
                                             {% if task.value.url_goods or task.value.url_services %}
-                                            <details class="great-ds-details">
-                                                <summary class="govuk-!-padding-bottom-6" data-task="{{task.value.task_id}}|{{task.value.title}}|{{task.value.output_type}}|{{forloop.counter}}" data-task-element-name="summary">
-                                                    <span class="great-meta-label govuk-!-padding-top-3 govuk-!-margin-bottom-2" data-task-element-name="meta label">
-                                                        <img src="{% if task.value.output_type %}{{ task.value.output_type|get_meta_tag_icon_path }}{% else %}/static/icons/guidance.svg{% endif %}"
-                                                             alt="" data-task-element-name="meta icon" />
-                                                             {% if task.value.output_type %}
+                                                <details class="great-ds-details">
+                                                    <summary class="govuk-!-padding-bottom-6"
+                                                             data-task="{{ task.value.task_id }}|{{ task.value.title }}|{{ task.value.output_type }}|{{ forloop.counter }}"
+                                                             data-task-element-name="summary">
+                                                        <span class="great-meta-label govuk-!-padding-top-3 govuk-!-margin-bottom-2"
+                                                              data-task-element-name="meta label">
+                                                            <img src="{% if task.value.output_type %}{{ task.value.output_type|get_meta_tag_icon_path }}{% else %}/static/icons/guidance.svg{% endif %}"
+                                                                 alt=""
+                                                                 data-task-element-name="meta icon" />
+                                                            {% if task.value.output_type %}
                                                                 {{ task.value.output_type }}
-                                                             {% else %}
+                                                            {% else %}
                                                                 Guidance
-                                                             {% endif %} on 
-
-                                                             {% if task.value.info_source %}
-                                                                {{ task.value.info_source  }}
-                                                             {% else %}
+                                                            {% endif %}
+                                                            on
+                                                            {% if task.value.info_source %}
+                                                                {{ task.value.info_source }}
+                                                            {% else %}
                                                                 gov.uk
-                                                             {% endif %}
-                                                    </span>
-                                                    <h2 class="govuk-heading-s govuk-!-margin-bottom-2" data-task-element-name="heading">
-                                                        {{ task.value.title }}
-                                                    </h2>
-                                                    <p class="govuk-body govuk-!-margin-bottom-4" data-task-element-name="description level 1">{{ task.value.description_level_1 }}</p>
-
-                                                    <span class="govuk-accordion__section-toggle great-ds-details__status govuk-!-margin-bottom-0" data-task-element-name="show/hide outer container">
-                                                        <span class="govuk-accordion__section-toggle-focus" data-task-element-name="show/hide inner container">
-                                                            <span class="govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down" data-task-element-name="show/hide icon"></span>
-                                                            <span class="govuk-accordion__section-toggle-text" data-task-element-name="show/hide text container">
-                                                                <span class="great-ds-details__status-text--closed" data-task-element-name="show/hide show text">Show</span>
-                                                                <span class="great-ds-details__status-text--open" data-task-element-name="show/hide hide text">Hide</span>
+                                                            {% endif %}
+                                                        </span>
+                                                        <h2 class="govuk-heading-s govuk-!-margin-bottom-2"
+                                                            data-task-element-name="heading">
+                                                            {{ task.value.title }}
+                                                        </h2>
+                                                        <p class="govuk-body govuk-!-margin-bottom-4"
+                                                           data-task-element-name="description level 1">
+                                                            {{ task.value.description_level_1 }}
+                                                        </p>
+                                                        <span class="govuk-accordion__section-toggle great-ds-details__status govuk-!-margin-bottom-0"
+                                                              data-task-element-name="show/hide outer container">
+                                                            <span class="govuk-accordion__section-toggle-focus"
+                                                                  data-task-element-name="show/hide inner container">
+                                                                <span class="govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down"
+                                                                      data-task-element-name="show/hide icon"></span>
+                                                                <span class="govuk-accordion__section-toggle-text"
+                                                                      data-task-element-name="show/hide text container">
+                                                                    <span class="great-ds-details__status-text--closed"
+                                                                          data-task-element-name="show/hide show text">Show</span>
+                                                                    <span class="great-ds-details__status-text--open"
+                                                                          data-task-element-name="show/hide hide text">Hide</span>
+                                                                </span>
                                                             </span>
                                                         </span>
-                                                    </span>
-                                                </summary>
-                                                {% if task.value.description_level_2 %}
-                                                <p class="govuk-body govuk-!-margin-bottom-4">{{ task.value.description_level_2 }}</p>
-                                                {% endif %}
-
-                                                <div class="govuk-!-margin-bottom-5">
-                                                    <a href="{% if task.value.url_goods %}{{ task.value.url_goods }}{% else %}{{ task.value.url_services }}{% endif %}" class="govuk-link great-ds-link" data-task-item data-task="{{task.value.task_id}}|{{task.value.title}}|{{task.value.output_type}}|{{forloop.counter}}" target="_blank">
-                                                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> 
-                                                        <span>{% if task.value.link_text %}{{ task.value.link_text }}{% else %}Read the guidance{% endif %}</span>
-                                                    </a>
-                                                </div>
-                                            </details>
+                                                    </summary>
+                                                    {% if task.value.description_level_2 %}
+                                                        <p class="govuk-body govuk-!-margin-bottom-4">{{ task.value.description_level_2 }}</p>
+                                                    {% endif %}
+                                                    <div class="govuk-!-margin-bottom-5">
+                                                        <a href="{% if task.value.url_goods %}{{ task.value.url_goods }}{% else %}{{ task.value.url_services }}{% endif %}"
+                                                           class="govuk-link great-ds-link"
+                                                           data-task-item
+                                                           data-task="{{ task.value.task_id }}|{{ task.value.title }}|{{ task.value.output_type }}|{{ forloop.counter }}"
+                                                           target="_blank">
+                                                            <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                                            <span>
+                                                                {% if task.value.link_text %}
+                                                                    {{ task.value.link_text }}
+                                                                {% else %}
+                                                                    Read the guidance
+                                                                {% endif %}
+                                                            </span>
+                                                        </a>
+                                                    </div>
+                                                </details>
                                             {% else %}
-                                            <span class="great-meta-label govuk-!-padding-top-3 govuk-!-margin-bottom-3">
-                                                <img src="/static/icons/guidance.svg" alt="" /> Guidance on great.gov.uk
-                                            </span>
-                                            <h2 class="govuk-heading-s govuk-!-margin-bottom-2">
-                                                {{ task.value.title }}
-                                            </h2>
-                                            <p class="govuk-body govuk-!-margin-bottom-4">{{ task.value.description_level_1 }}</p>
+                                                <span class="great-meta-label govuk-!-padding-top-3 govuk-!-margin-bottom-3">
+                                                    <img src="{% static 'icons/guidance.svg' %}" alt="" />
+                                                    Guidance on great.gov.uk
+                                                </span>
+                                                <h2 class="govuk-heading-s govuk-!-margin-bottom-2">{{ task.value.title }}</h2>
+                                                <p class="govuk-body govuk-!-margin-bottom-4">{{ task.value.description_level_1 }}</p>
                                             {% endif %}
                                         </div>
                                     {% endfor %}

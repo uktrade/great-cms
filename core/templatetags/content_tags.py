@@ -13,6 +13,7 @@ from django.utils.dateparse import parse_datetime
 from django.utils.html import format_html
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
+from django.utils.text import slugify
 
 from core.constants import BACKLINK_QUERYSTRING_NAME, META_LABELS
 from core.helpers import millify
@@ -665,3 +666,42 @@ def get_sector_market_meta_label(selected_value):
             return label
 
     return ''
+
+
+@register.filter
+def get_exopps_country_slug(country):
+    country_mappings = [('United States', 'the-usa')]
+
+    for country_name, slug in country_mappings:
+        if country == country_name:
+            return slug
+
+    return slugify(country.lower())
+
+
+@register.filter
+def get_visa_and_travel_country_slug(country):
+    country_mappings = [
+        ('Congo (Democratic Republic)', 'democratic-republic-of-the-congo'),
+        ('Czechia', 'czech-republic'),
+        ('East Timor', 'timor-leste'),
+        ('Ivory Coast', 'cote-d-ivoire'),
+        ('Myanmar (Burma)', 'myanmar'),
+        ('St Vincent', 'st-vincent-and-the-grenadines'),
+        ('The Bahamas', 'bahamas'),
+        ('United States', 'usa'),
+        ('Vatican City', 'italy'),
+    ]
+
+    for country_name, slug in country_mappings:
+        if country == country_name:
+            return slug
+
+    return slugify(country.lower())
+
+
+@register.filter
+def split_title(title):
+    title_parts = title.split('  ')
+
+    return title_parts

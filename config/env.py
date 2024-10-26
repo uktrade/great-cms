@@ -370,6 +370,8 @@ class BaseSettings(PydanticBaseSettings):
 
     headless: bool = True
 
+    is_docker: bool = False
+
 
 class CIEnvironment(BaseSettings):
 

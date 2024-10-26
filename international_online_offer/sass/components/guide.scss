@@ -12,11 +12,8 @@
 
 .bci-row-item{
     border-top: 1px solid $great-border-grey;
-
-    @include govuk-media-query($until: tablet) {
+    @media (max-width: 768px) {
         display: flex;
         align-items: center;
-      }
-
-
+    }
 }

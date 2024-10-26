@@ -6,6 +6,7 @@ from typing import Any, Dict
 import directory_healthcheck.backends
 import dj_database_url
 import sentry_sdk
+from dbt_copilot_python.utility import is_copilot
 from django.urls import reverse_lazy
 from django_log_formatter_asim import ASIMFormatter
 from opensearch_dsl.connections import connections
@@ -138,6 +139,18 @@ TEMPLATES = [
             ROOT_DIR / 'sso_profile' / 'common' / 'templates',
             ROOT_DIR / 'sso_profile' / 'enrolment' / 'templates',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'breadcrumbs',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'header',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'button',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'text-input',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'details',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'accordion',
+            ROOT_DIR
+            / 'node_modules'
+            / '@uktrade'
+            / 'great-design-system'
+            / 'dist'
+            / 'components'
+            / 'notification-banner',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -166,6 +179,7 @@ TEMPLATES = [
                 'international_online_offer.context_processors.feedback_next_url',
                 'international_online_offer.context_processors.hide_primary_nav',
                 'international_online_offer.context_processors.user_completed_triage',
+                'international.context_processors.international_header',
             ],
         },
     },
@@ -437,12 +451,19 @@ AWS_S3_ENCRYPTION = True
 AWS_S3_FILE_OVERWRITE = False
 AWS_S3_CUSTOM_DOMAIN = env.aws_s3_custom_domain
 AWS_S3_URL_PROTOCOL = env.aws_s3_url_protocol
-AWS_ACCESS_KEY_ID = env.aws_access_key_id
-AWS_SECRET_ACCESS_KEY = env.aws_secret_access_key
 AWS_S3_HOST = env.aws_s3_host
 AWS_S3_SIGNATURE_VERSION = env.aws_s3_signature_version
 AWS_QUERYSTRING_AUTH = env.aws_querystring_auth
 S3_USE_SIGV4 = env.s3_use_sigv4
+
+if not is_copilot():
+    # DBT platform uses AWS IAM roles to implicitly access resources. Hence this is only required in Gov UK PaaS
+    AWS_ACCESS_KEY_ID = env.aws_access_key_id
+    AWS_SECRET_ACCESS_KEY = env.aws_secret_access_key
+
+    # Setting up the the datascience s3 bucket to read files
+    AWS_ACCESS_KEY_ID_DATA_SCIENCE = env.aws_access_key_id_data_science
+    AWS_SECRET_ACCESS_KEY_DATA_SCIENCE = env.aws_secret_access_key_data_science
 
 USER_MEDIA_ON_S3 = STORAGES['default']['BACKEND'] == 'storages.backends.s3boto3.S3Boto3Storage'
 
@@ -462,7 +483,14 @@ if DEBUG:
     INSTALLED_APPS += ['debug_toolbar']
     MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE
     INTERNAL_IPS = ['127.0.0.1', '10.0.2.2']
+    if env.is_docker:
+        import socket
 
+        hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+        INTERNAL_IPS = [ip[:-1] + '1' for ip in ips] + INTERNAL_IPS
+        DEBUG_TOOLBAR_CONFIG = {
+            'SHOW_TOOLBAR_CALLBACK': lambda request: DEBUG,
+        }
 
 ELASTIC_APM_ENABLED = env.elastic_apm_enabled
 if ELASTIC_APM_ENABLED:
