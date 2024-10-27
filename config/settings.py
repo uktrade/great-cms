@@ -29,7 +29,7 @@ env = environ.Env()
 for env_file in env.list('ENV_FILES', default=[]):
     env.read_env(f'config/env/{env_file}')
 
-DEBUG = env.bool('DEBUG', False)
+DEBUG = newenv.debug
 SECRET_KEY = env.str('SECRET_KEY')
 APP_ENVIRONMENT = env.str('APP_ENVIRONMENT')
 
