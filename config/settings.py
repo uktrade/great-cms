@@ -16,7 +16,6 @@ from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
 
 import healthcheck.backends
-from config.env import env as newenv
 from .utils import get_wagtail_transfer_configuration, strip_password_data
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
@@ -27,7 +26,7 @@ env = environ.Env()
 for env_file in env.list('ENV_FILES', default=[]):
     env.read_env(f'config/env/{env_file}')
 
-DEBUG = newenv.debug
+DEBUG = env.bool('DEBUG', False)
 SECRET_KEY = env.str('SECRET_KEY')
 APP_ENVIRONMENT = env.str('APP_ENVIRONMENT')
 
