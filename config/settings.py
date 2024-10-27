@@ -31,7 +31,7 @@ for env_file in env.list('ENV_FILES', default=[]):
 
 DEBUG = newenv.debug
 SECRET_KEY = newenv.secret_key
-APP_ENVIRONMENT = env.str('APP_ENVIRONMENT')
+APP_ENVIRONMENT = newenv.app_environment
 
 # As the app is running behind a host-based router supplied by GDS PaaS, we can open ALLOWED_HOSTS
 ALLOWED_HOSTS = ['*']
