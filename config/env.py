@@ -295,7 +295,7 @@ class BaseSettings(PydanticBaseSettings):
     feature_great_cms_openapi_enabled: bool = False
     feature_guided_journey_extras: bool = False
 
-    ax_compare_places_allowed: int = 10
+    max_compare_places_allowed: int = 10
 
     beta_token: str = ''
     beta_whitelisted_endpoints: str = None
