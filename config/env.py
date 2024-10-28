@@ -47,7 +47,7 @@ class DBTPlatformEnvironment(BaseSettings):
         if self.build_step:
             return 'postgres://'
 
-        return dj_database_url.parse(database_url_from_env("DATABASE_CREDENTIALS"))
+        return dj_database_url.parse(database_url_from_env('DATABASE_CREDENTIALS'))
 
     @computed_field(return_type=str)
     @property
@@ -114,13 +114,10 @@ class GovPaasEnvironment(BaseSettings):
 if is_copilot():
     if 'BUILD_STEP' in os.environ:
         # When building use the fake settings in circleci env file
-        print('--RUNNING DBTPLATFORM AT BUILDTIME--')
         env: Union[DBTPlatformEnvironment, GovPaasEnvironment] = DBTPlatformEnvironment(secret_key='FAKE_SECRET_KEY')
     else:
         # When deployed read values from DBT Platform environment
-        print('--RUNNING DBTPLATFORM AT RUNTIME--')
         env = DBTPlatformEnvironment()
 else:
     # Gov PaaS environment
-    print('--RUNNING GOVPAAS--')    
     env = GovPaasEnvironment()

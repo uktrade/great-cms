@@ -17,7 +17,6 @@ import boto3
 import great_components.helpers
 import requests
 from botocore.exceptions import ClientError
-from dbt_copilot_python.utility import is_copilot
 from directory_forms_api_client import actions
 from django.conf import settings
 from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
