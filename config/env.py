@@ -1,3 +1,4 @@
+import os
 from typing import Any, Optional
 
 from dbt_copilot_python.database import database_url_from_env
@@ -5,7 +6,7 @@ from dbt_copilot_python.utility import is_copilot
 from pydantic import BaseModel, ConfigDict, computed_field
 from pydantic_settings import BaseSettings as PydanticBaseSettings, SettingsConfigDict
 
-from config.helpers import get_env_files, is_circleci, is_local
+from config.helpers import is_circleci, is_local
 
 
 class BaseSettings(PydanticBaseSettings):
@@ -192,9 +193,9 @@ class BaseSettings(PydanticBaseSettings):
 
     maxmind_licence_key: str
     geolocation_maxmind_database_file_url: str = 'https://download.maxmind.com/app/geoip_download'
-    geoip_download_day: str = 1
-    geoip_download_hour: str = 0
-    geoip_download_minute: str = 0
+    geoip_download_day: int = 1
+    geoip_download_hour: int = 0
+    geoip_download_minute: int = 0
 
     companies_house_api_key: str = ''
     companies_house_client_id: str = ''
@@ -474,7 +475,8 @@ class GovPaasEnvironment(BaseSettings):
 
 if is_local() or is_circleci():
     # Load environment files in a local or CI environment
-    env = CIEnvironment(_env_file=get_env_files(), _env_file_encoding='utf-8')
+    env_files = ['config/env/' + filename for filename in os.getenv('ENV_FILES', '').split(',')]
+    env = CIEnvironment(_env_file=env_files, _env_file_encoding='utf-8')
 elif is_copilot():
     # When deployed read values from DBT Platform environment
     env = DBTPlatformEnvironment()

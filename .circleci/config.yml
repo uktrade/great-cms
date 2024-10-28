@@ -217,10 +217,10 @@ jobs:
           command: |
             python3 -m venv venv
             . venv/bin/activate
-            mkdir /tmp/results
+            mkdir results
             make test_load
       - store_artifacts:
-          path: /tmp/results/
+          path: ./results/
           destination: locust_results
 
   test_javascript:
