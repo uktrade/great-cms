@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "start": "echo start",
     "lighthouse": "lhci autorun",
     "test": "jest --testPathIgnorePatterns=venv --config jest.config.js",
     "test:dev": "jest --watch",
