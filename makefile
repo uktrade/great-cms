@@ -88,13 +88,13 @@ LOCUST := \
 		--spawn-rate=$(HATCH_RATE) \
 		--run-time=$(RUN_TIME) \
 		--csv=./results/results \
-		-H http://127.0.0.1:8020
+		-H http://127.0.0.1:8030
 
 kill_webserver := \
 	pkill -f runserver
 
 test_load:
-	ENV_FILES='test,dev' python manage.py runserver 127.0.0.1:8020 &
+	ENV_FILES='test,dev' python manage.py runserver 127.0.0.1:8030 &
 	sleep 10
 	$(LOCUST)
 	-$(kill_webserver)

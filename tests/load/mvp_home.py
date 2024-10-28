@@ -9,6 +9,5 @@ class MVPTasks(TaskSet):
 
 
 class MVP(HttpUser):
-    host = 'http://127.0.0.1:8020'
     tasks = [MVPTasks]
     wait_time = between(1, 2)
