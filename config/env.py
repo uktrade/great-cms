@@ -372,8 +372,8 @@ class BaseSettings(PydanticBaseSettings):
 
 class CIEnvironment(BaseSettings):
 
-    database_url: str
-    redis_url: str
+    database_url: str = 'postgres://'
+    redis_url: str = 'rediss://'
     opensearch: list = []
 
     @computed_field(return_type=list)

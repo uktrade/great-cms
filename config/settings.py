@@ -512,7 +512,7 @@ if ELASTIC_APM_ENABLED:
     INSTALLED_APPS.append('elasticapm.contrib.django')
 
 # aws, localhost, or govuk-paas
-OPENSEARCH_PROVIDER = env.opensearch_provider
+OPENSEARCH_PROVIDER = return_value_if_not_debug(env.opensearch_provider)
 if OPENSEARCH_PROVIDER:
     OPENSEARCH_PROVIDER = OPENSEARCH_PROVIDER.lower()
 
