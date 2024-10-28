@@ -6,7 +6,6 @@ from typing import Any, Dict
 import directory_healthcheck.backends
 import environ
 import sentry_sdk
-import dj_database_url
 from dbt_copilot_python.database import database_from_env
 from dbt_copilot_python.utility import is_copilot
 from django.urls import reverse_lazy
@@ -189,6 +188,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 if is_copilot():
     DATABASES = database_from_env("DATABASE_CREDENTIALS")
     DATABASES["default"]["ENGINE"] = "django.db.backends.postgresql"
+    
 else:
     DATABASES = {'default': env.db()}
 
