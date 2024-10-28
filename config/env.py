@@ -40,7 +40,7 @@ class BaseSettings(PydanticBaseSettings):
     wagtailadmin_base_url: str
 
     sentry_browser_traces_sample_rate: float = 1.0
-    sentry_dsn: str = 'debug'
+    sentry_dsn: str = ''
     sentry_environment: str = 'dev'
     sentry_enable_tracing: bool = False
     sentry_traces_sample_rate: float = 1.0
@@ -193,9 +193,9 @@ class BaseSettings(PydanticBaseSettings):
 
     maxmind_licence_key: str
     geolocation_maxmind_database_file_url: str = 'https://download.maxmind.com/app/geoip_download'
-    geoip_download_day: int = 1
-    geoip_download_hour: int = 0
-    geoip_download_minute: int = 0
+    geoip_download_day: str = 1
+    geoip_download_hour: str = 0
+    geoip_download_minute: str = 0
 
     companies_house_api_key: str = ''
     companies_house_client_id: str = ''
@@ -296,7 +296,7 @@ class BaseSettings(PydanticBaseSettings):
     feature_great_cms_openapi_enabled: bool = False
     feature_guided_journey_extras: bool = False
 
-    max_compare_places_allowed: int = 10
+    ax_compare_places_allowed: int = 10
 
     beta_token: str = ''
     beta_whitelisted_endpoints: str = None
