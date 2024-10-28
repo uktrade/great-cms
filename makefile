@@ -87,7 +87,7 @@ LOCUST := \
 		--spawn-rate=$(HATCH_RATE) \
 		--run-time=$(RUN_TIME) \
 		--headless \
-		--csv=./results/results
+		--csv=/tmp/results
 
 kill_webserver := \
 	pkill -f runserver_plus
