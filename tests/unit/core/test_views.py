@@ -1467,3 +1467,126 @@ def test_csat_user_feedback_submit(
         },
     )
     assert response.status_code == 302
+
+
+@pytest.mark.parametrize(
+    'page_url,form_data,redirect_url',
+    (
+        (
+            reverse('core:guided-journey-step-1'),
+            {
+                'sic_description': 'Production of coffee and coffee substitutes',
+                'make_or_do_keyword': 'coffee',
+                'sector': 'Food and drink',
+                'exporter_type': 'goods',
+            },
+            reverse('core:guided-journey-step-2'),
+        ),
+        (
+            reverse('core:guided-journey-step-1-edit') + '?return_to_step=3',
+            {
+                'sic_description': 'Tea processing',
+                'make_or_do_keyword': 'tea',
+                'sector': 'Food and drink',
+                'exporter_type': 'goods',
+            },
+            reverse('core:guided-journey-step-2-edit') + '?return_to_step=3',
+        ),
+        (
+            reverse('core:guided-journey-step-1-edit') + '?return_to_step=3',
+            {
+                'sic_description': 'Tax consultancy',
+                'make_or_do_keyword': 'tax',
+                'sector': 'Financial and professional services',
+                'exporter_type': 'service',
+            },
+            reverse('core:guided-journey-step-3'),
+        ),
+        (
+            reverse('core:guided-journey-step-2'),
+            {
+                'hs_code': '1234567890',
+                'commodity_name': 'coffee beans',
+            },
+            reverse('core:guided-journey-step-3'),
+        ),
+        (
+            reverse('core:guided-journey-step-3'),
+            {
+                'market': 'Mexico',
+            },
+            reverse('core:guided-journey-step-4'),
+        ),
+        (
+            reverse('core:guided-journey-step-3-edit') + '?return_to_step=4',
+            {
+                'market': 'China',
+            },
+            reverse('core:guided-journey-step-4'),
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_guided_journey_as_goods_exporter(page_url, form_data, redirect_url, client):
+    response = client.post(
+        page_url,
+        form_data,
+    )
+
+    assert response.status_code == 302
+    assert response.url == redirect_url
+
+
+@pytest.mark.parametrize(
+    'page_url,form_data,redirect_url',
+    (
+        (
+            reverse('core:guided-journey-step-1'),
+            {
+                'sic_description': 'Information technology consultancy activities',
+                'make_or_do_keyword': 'consult',
+                'sector': 'Technology and smart cities',
+                'exporter_type': 'service',
+            },
+            reverse('core:guided-journey-step-3'),
+        ),
+        (
+            reverse('core:guided-journey-step-1-edit') + '?return_to_step=3',
+            {
+                'sic_description': 'Tax consultancy',
+                'make_or_do_keyword': 'tax',
+                'sector': 'Financial and professional services',
+                'exporter_type': 'service',
+            },
+            reverse('core:guided-journey-step-3'),
+        ),
+        (
+            reverse('core:guided-journey-step-3'),
+            {
+                'market': 'Mexico',
+            },
+            reverse('core:guided-journey-step-4'),
+        ),
+        (
+            reverse('core:guided-journey-step-3-edit') + '?return_to_step=4',
+            {
+                'market': 'China',
+            },
+            reverse('core:guided-journey-step-4'),
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_guided_journey_as_service_exporter(
+    page_url,
+    form_data,
+    redirect_url,
+    client,
+):
+    response = client.post(
+        page_url,
+        form_data,
+    )
+
+    assert response.status_code == 302
+    assert response.url == redirect_url
