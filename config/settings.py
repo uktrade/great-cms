@@ -16,24 +16,27 @@ from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
 
 import healthcheck.backends
+from config.env import env as newenv
 from .utils import get_wagtail_transfer_configuration, strip_password_data
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
 CORE_APP_DIR = ROOT_DIR / 'core'
+
+assert newenv is not None
 
 env = environ.Env()
 
 for env_file in env.list('ENV_FILES', default=[]):
     env.read_env(f'config/env/{env_file}')
 
-DEBUG = env.bool('DEBUG', False)
+DEBUG = newenv.debug
 SECRET_KEY = env.str('SECRET_KEY')
-APP_ENVIRONMENT = env.str('APP_ENVIRONMENT')
+APP_ENVIRONMENT = newenv.app_environment
 
 # As the app is running behind a host-based router supplied by GDS PaaS, we can open ALLOWED_HOSTS
 ALLOWED_HOSTS = ['*']
 
-SAFELIST_HOSTS = env.list('SAFELIST_HOSTS', default=[])
+SAFELIST_HOSTS = newenv.safelist_hosts
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#append-slash
 APPEND_SLASH = True
@@ -209,14 +212,14 @@ else:
 
 # wagtail caching options
 # (see https://docs.coderedcorp.com/wagtail-cache/getting_started/django_settings.html#django-settings)
-WAGTAIL_CACHE = env.bool('WAGTAIL_CACHE', False)  # set to false for local
+WAGTAIL_CACHE = newenv.wagtail_cache  # set to false for local
 WAGTAIL_CACHE_BACKEND = 'great_wagtail_cache'
 WAGTAIL_CACHE_HEADER = True
 WAGTAIL_CACHE_IGNORE_COOKIES = True
 WAGTAIL_CACHE_IGNORE_QS = None
-WAGTAIL_CACHE_TIMOUT = env.int('WAGTAIL_CACHE_TIMOUT', 4 * 60 * 60)  # 4 hours (in seconds)
+WAGTAIL_CACHE_TIMOUT = newenv.wagtail_cache_timout  # 4 hours (in seconds)
 
-if env.bool('API_CACHE_DISABLED', False):
+if newenv.api_cache_disabled:
     cache = {'BACKEND': 'django.core.cache.backends.dummy.DummyCache'}
     great_wagtail_cache = {'BACKEND': 'django.core.cache.backends.dummy.DummyCache'}
 else:
@@ -241,15 +244,17 @@ CACHES = {
     'great_wagtail_cache': great_wagtail_cache,
 }
 
-CACHE_EXPIRE_SECONDS = env.int('CACHE_EXPIRE_SECONDS', 60 * 30)  # 30 minutes
-CACHE_EXPIRE_SECONDS_SHORT = env.int('CACHE_EXPIRE_SECONDS', 60 * 5)  # 5 minutes
+CACHE_EXPIRE_SECONDS = newenv.cache_expire_seconds  # 30 minutes
+CACHE_EXPIRE_SECONDS_SHORT = newenv.cache_expire_seconds
+if not CACHE_EXPIRE_SECONDS_SHORT:
+    CACHE_EXPIRE_SECONDS_SHORT = 60 * 5  # 5 minutes
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-gb'
 
-TIME_ZONE = env.str('TIME_ZONE', 'UTC')
+TIME_ZONE = newenv.time_zone
 
 USE_I18N = True
 
@@ -292,10 +297,10 @@ STATICFILES_DIRS = [
 
 STORAGES = {
     'default': {
-        'BACKEND': env.str('DEFAULT_FILE_STORAGE', 'storages.backends.s3boto3.S3Boto3Storage'),
+        'BACKEND': newenv.default_file_storage,
     },
     'staticfiles': {
-        'BACKEND': env.str('STATICFILES_STORAGE', 'whitenoise.storage.CompressedStaticFilesStorage'),
+        'BACKEND': newenv.staticfiles_storage,
     },
 }
 
@@ -416,31 +421,31 @@ else:
 
 
 # Sentry
-SENTRY_BROWSER_TRACES_SAMPLE_RATE = env.float('SENTRY_BROWSER_TRACES_SAMPLE_RATE', 1.0)
-SENTRY_DSN = env.str('SENTRY_DSN', '')
-if SENTRY_DSN:
+SENTRY_BROWSER_TRACES_SAMPLE_RATE = newenv.sentry_browser_traces_sample_rate
+SENTRY_DSN = newenv.sentry_dsn
+if SENTRY_DSN and SENTRY_DSN != 'debug':
     sentry_sdk.init(
-        dsn=env.str('SENTRY_DSN'),
-        environment=env.str('SENTRY_ENVIRONMENT'),
+        dsn=SENTRY_DSN,
+        environment=newenv.sentry_environment,
         integrations=[DjangoIntegration(), CeleryIntegration(), RedisIntegration()],
         before_send=strip_password_data,
-        enable_tracing=env.bool('SENTRY_ENABLE_TRACING', False),
-        traces_sample_rate=env.float('SENTRY_TRACES_SAMPLE_RATE', 1.0),
+        enable_tracing=newenv.sentry_enable_tracing,
+        traces_sample_rate=newenv.sentry_traces_sample_rate,
     )
 
 USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_HSTS_SECONDS = env.int('SECURE_HSTS_SECONDS', 16070400)
+SECURE_HSTS_SECONDS = newenv.secure_hsts_seconds
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_SSL_REDIRECT = env.bool('SECURE_SSL_REDIRECT', True)
+SECURE_SSL_REDIRECT = newenv.secure_ssl_redirect
 
-SESSION_ENGINE = env.str('SESSION_ENGINE', 'django.contrib.sessions.backends.cache')
+SESSION_ENGINE = newenv.session_engine
 
-SESSION_COOKIE_SECURE = env.bool('SESSION_COOKIE_SECURE', True)
+SESSION_COOKIE_SECURE = newenv.session_cookie_secure
 SESSION_COOKIE_HTTPONLY = True
 # must be None to allow copy upstream to work
 SESSION_COOKIE_SAMESITE = None
-CSRF_COOKIE_SECURE = env.bool('CSRF_COOKIE_SECURE', True)
+CSRF_COOKIE_SECURE = newenv.csrf_cookie_secure
 CSRF_COOKIE_HTTPONLY = True
 
 # security
@@ -459,11 +464,11 @@ AWS_AUTO_CREATE_BUCKET = False
 AWS_S3_ENCRYPTION = True
 AWS_S3_FILE_OVERWRITE = False
 AWS_S3_CUSTOM_DOMAIN = env.str('AWS_S3_CUSTOM_DOMAIN', '')
-AWS_S3_URL_PROTOCOL = env.str('AWS_S3_URL_PROTOCOL', 'https:')
-AWS_S3_HOST = env.str('AWS_S3_HOST', 's3-eu-west-2.amazonaws.com')
-AWS_S3_SIGNATURE_VERSION = env.str('AWS_S3_SIGNATURE_VERSION', 's3v4')
-AWS_QUERYSTRING_AUTH = env.bool('AWS_QUERYSTRING_AUTH', False)
-S3_USE_SIGV4 = env.bool('S3_USE_SIGV4', True)
+AWS_S3_URL_PROTOCOL = newenv.aws_s3_url_protocol
+AWS_S3_HOST = newenv.aws_s3_host
+AWS_S3_SIGNATURE_VERSION = newenv.aws_s3_signature_version
+AWS_QUERYSTRING_AUTH = newenv.aws_querystring_auth
+S3_USE_SIGV4 = newenv.s3_use_sigv4
 
 if not is_copilot():
     # DBT platform uses AWS IAM roles to implicitly access resources. Hence this is only required in Gov UK PaaS
@@ -514,7 +519,7 @@ if ELASTIC_APM_ENABLED:
     INSTALLED_APPS.append('elasticapm.contrib.django')
 
 # aws, localhost, or govuk-paas
-OPENSEARCH_PROVIDER = env.str('OPENSEARCH_PROVIDER', None)
+OPENSEARCH_PROVIDER = env.str('OPENSEARCH_PROVIDER', '')
 if OPENSEARCH_PROVIDER:
     OPENSEARCH_PROVIDER = OPENSEARCH_PROVIDER.lower()
 
@@ -529,7 +534,7 @@ if OPENSEARCH_PROVIDER == 'govuk-paas':
     )
 
     # Add an admin connection for admin search preview on legacy setup
-    OPENSEARCH_ADMINSEARCH_PROVIDER = env.str('OPENSEARCH_ADMINSEARCH_PROVIDER', None)
+    OPENSEARCH_ADMINSEARCH_PROVIDER = env.str('OPENSEARCH_ADMINSEARCH_PROVIDER', '')
     if OPENSEARCH_ADMINSEARCH_PROVIDER:
         OPENSEARCH_ADMINSEARCH_PROVIDER = OPENSEARCH_ADMINSEARCH_PROVIDER.lower()
         WAGTAILSEARCH_BACKENDS = {
@@ -549,14 +554,14 @@ if OPENSEARCH_PROVIDER == 'govuk-paas':
 elif OPENSEARCH_PROVIDER in ['localhost', 'aws']:
     connections.create_connection(
         alias='default',
-        hosts=[env.str('OPENSEARCH_URL', 'localhost:9200')],
+        hosts=[newenv.opensearch_url],
         connection_class=RequestsHttpConnection,
     )
     WAGTAILSEARCH_BACKENDS = {
         'default': {
             'BACKEND': 'wagtail.search.backends.elasticsearch7',
             'AUTO_UPDATE': True if OPENSEARCH_PROVIDER == 'aws' else False,
-            'URLS': [env.str('OPENSEARCH_URL', 'localhost:9200')],
+            'URLS': [newenv.opensearch_url],
             'INDEX': 'great-cms',
             'TIMEOUT': 5,
             'OPTIONS': {},
