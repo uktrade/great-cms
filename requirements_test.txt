@@ -75,7 +75,7 @@ botocore==1.27.96
     #   s3transfer
 brotli==1.1.0
     # via geventhttpclient
-browserstack-local==1.2.8
+browserstack-local==1.2.9
     # via browserstack-sdk
 browserstack-sdk==1.12.0
     # via -r requirements_test.in
@@ -293,7 +293,7 @@ elastic-apm==6.1.3
     # via -r requirements.in
 elasticsearch==7.13.4
     # via -r requirements.in
-et-xmlfile==1.1.0
+et-xmlfile==2.0.0
     # via openpyxl
 events==0.5
     # via opensearch-py
@@ -311,7 +311,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==30.6.0
+faker==30.8.1
     # via factory-boy
 filelock==3.16.1
     # via virtualenv
@@ -651,7 +651,7 @@ pylint-django==2.6.1
     # via -r requirements_test.in
 pylint-plugin-utils==0.8.2
     # via pylint-django
-pypdf==5.0.1
+pypdf==5.1.0
     # via xhtml2pdf
 pyproject-hooks==1.2.0
     # via
@@ -731,7 +731,7 @@ qrcode==8.0
     # via pyhanko
 readtime==1.1.1
     # via -r requirements.in
-redis==5.1.1
+redis==5.2.0
     # via
     #   celery
     #   django-redis
@@ -837,7 +837,7 @@ telepath==0.3.1
     # via wagtail
 termcolor==2.5.0
     # via pytest-sugar
-tinycss2==1.3.0
+tinycss2==1.4.0
     # via
     #   cssselect2
     #   svglib
@@ -960,7 +960,7 @@ webencodings==0.5.1
     #   tinycss2
 websocket-client==1.8.0
     # via selenium
-werkzeug==3.0.4
+werkzeug==3.0.6
     # via
     #   -r requirements_test.in
     #   flask
@@ -986,7 +986,7 @@ zipp==3.20.2
     # via importlib-metadata
 zope-event==5.0
     # via gevent
-zope-interface==7.1.0
+zope-interface==7.1.1
     # via gevent
 
 # The following packages are considered to be unsafe in a requirements file:

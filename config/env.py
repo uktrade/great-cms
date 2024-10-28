@@ -79,11 +79,11 @@ class BaseSettings(PydanticBaseSettings):
 
     enforce_staff_sso_enabled: bool = False
 
-    staff_sso_authbroker_url: str
-    authbroker_client_id: str
-    authbroker_client_secret: str
+    staff_sso_authbroker_url: str = 'debug'
+    authbroker_client_id: str = 'debug'
+    authbroker_client_secret: str = 'debug'
 
-    sso_proxy_login_url: str
+    sso_proxy_login_url: str = 'debug'
 
     sso_api_client_base_url: str = 'debug'
     sso_signature_secret: str = 'debug'
@@ -124,6 +124,15 @@ class BaseSettings(PydanticBaseSettings):
 
     find_a_supplier_contact_url: str = '/international/trade/contact/'
 
+    contact_enquiries_agent_email_address: str = 'debug'
+    contact_ecommerce_export_support_agent_email_address: str = 'debug'
+    contact_dit_agent_email_address: str = 'debug'
+    contact_events_agent_email_address: str = 'debug'
+    contact_dso_agent_email_address: str = 'debug'
+    contact_international_agent_email_address: str = 'debug'
+    contact_industry_agent_email_address: str = 'debug'
+    contact_industry_user_reply_to_id: str = 'debug'
+
     contact_exporting_to_uk_hmrc_url: str = 'https://www.tax.service.gov.uk/shortforms/form/CITEX_CGEF'
     confirm_verification_code_template_id: str = 'a1eb4b0c-9bab-44d3-ac2f-7585bf7da24c'
     enrolment_welcome_template_id: str = '0a4ae7a9-7f67-4f5d-a536-54df2dee42df'
@@ -132,40 +141,29 @@ class BaseSettings(PydanticBaseSettings):
     contactus_enquries_confirmation_template_id: str = '68030d40-4574-4aa1-b3ff-941320929964'
     contact_domestic_zendesk_subject: str = 'Great.gov.uk contact form'
     contact_enquiries_agent_notify_template_id: str = '7a343ec9-7670-4813-9ed4-ae83d3e1f5f7'
-    contact_enquiries_agent_email_address: str = 'debug'
     contact_enquiries_user_notify_template_id: str = '61c82be6-b140-46fc-aeb2-472df8a94d35'
-    contact_ecommerce_export_support_agent_email_address: str = 'debug'
     contact_ecommerce_export_support_agent_notify_template_id: str = 'a56114d3-515e-4ee7-bb1a-9a0ceab04378'
     contact_ecommerce_export_support_notify_template_id: str = '18d807d2-f4cf-4b93-96c1-0d3169bd0906'
     contact_office_agent_notify_template_id: str = '0492eb2b-7daf-4b37-99cd-be3abbb9eb32'
     contact_office_user_notify_template_id: str = '03c031e1-1ee5-43f9-8b24-f6e4cfd56cf1'
-    contact_dit_agent_email_address: str = 'debug'
     contact_events_user_notify_template_id: str = '2d5d556a-e0fa-4a9b-81a0-6ed3fcb2e3da'
     contact_events_agent_notify_template_id: str = '7a343ec9-7670-4813-9ed4-ae83d3e1f5f7'
-    contact_events_agent_email_address: str = 'debug'
     contact_dso_agent_notify_template_id: str = '7a343ec9-7670-4813-9ed4-ae83d3e1f5f7'
     contact_dso_user_notify_template_id: str = 'a6a3db79-944f-4c59-8eeb-2f756019976c'
-    contact_dso_agent_email_address: str = 'debug'
     contact_exporting_user_notify_template_id: str = '5abd7372-a92d-4351-bccb-b9a38d353e75'
     contact_exporting_agent_subject: str = 'A form was submitted on great.gov.uk'
     contact_exporting_user_reply_to_email_id: str = 'ac1b973d-5b49-4d0d-a197-865fd25b4a97'
-    contact_international_agent_notify_template_id: str = ('8bd422e0-3ec4-4b05-9de8-9cf039d258a9',)
-    contact_international_agent_email_address: str = 'debug'
+    contact_international_agent_notify_template_id: str = '8bd422e0-3ec4-4b05-9de8-9cf039d258a9'
     contact_international_user_notify_template_id: str = 'c07d1fb2-dc0c-40ba-a3e0-3113638e69a3'
-    contact_industry_agent_email_address: str = 'debug'
     contact_industry_agent_template_id: str = 'a9318bce-7d65-41b2-8d4c-b4a76ba285a2'
     contact_industry_user_template_id: str = '6a97f783-d246-42ca-be53-26faf3b08e32'
-    contact_industry_user_reply_to_id: str = 'debug'
     contact_fas_company_notify_template_id: str = 'bb88aa79-595a-44fc-9ed3-cf8a6cbd6306'
-
     subscribe_to_fta_updates_notify_template_id: str = 'cfa3b4b3-c232-4603-a3ce-e476ee8bab92'
     gov_notify_welcome_template_id: str = '0a4ae7a9-7f67-4f5d-a536-54df2dee42df'
     gov_notify_already_registered_template_id: str = '5c8cc5aa-a4f5-48ae-89e6-df5572c317ec'
     gov_notify_new_member_registered_template_id: str = '439a8415-52d8-4975-b230-15cd34305bb5'
     gov_notify_collaboration_request_resent: str = '60c14d97-8e58-4e5f-96e9-e0ca49bc3b96'
-
     campaign_user_notify_template_id: str = '1e00a6d9-8505-44e0-b314-6c01c46bc1b7'
-
     ukef_contact_user_notify_template_id: str = '09677460-1796-4a60-a37c-c1a59068219e'
     ukef_contact_agent_notify_template_id: str = 'e24ba486-6337-46ce-aba3-45d1d3a2aa66'
     ukef_contact_agent_email_address: str = 'debug'
@@ -351,16 +349,16 @@ class BaseSettings(PydanticBaseSettings):
     campaign_moderators_email_template_id: str = '75c6fde4-f27c-4f75-b7ed-2b526912a041'
     campaign_moderation_requestor_email_template_id: str = '321db5bd-362c-45de-b8ce-6e9b0f36198e'
     campaign_moderation_reply_to_id: str = '654df5da-c214-4297-bb55-27690ce1813d'
-    campaign_site_review_reminder_minute: str = 0
-    campaign_site_review_reminder_hour: str = 0
+    campaign_site_review_reminder_minute: int = 0
+    campaign_site_review_reminder_hour: int = 0
     campaign_site_review_reminder_template_id: str = '9647397a-8d59-4b45-aa25-9d129eac8be8'
 
     is_circleci_env: bool = False
 
     # countries iso code update config, default = once on the first of the month
-    countries_iso_code_update_day: str = 1
-    countries_iso_code_update_hour: str = 0
-    countries_iso_code_update_minute: str = 0
+    countries_iso_code_update_day: int = 1
+    countries_iso_code_update_hour: int = 0
+    countries_iso_code_update_minute: int = 0
 
     csp_upgrade_insecure_requests: bool = True
 

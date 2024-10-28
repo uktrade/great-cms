@@ -19,6 +19,14 @@ import healthcheck.backends
 from config.env import env
 from .utils import get_wagtail_transfer_configuration, strip_password_data
 
+
+def return_value_if_not_debug(value):
+    if value != 'debug':
+        return value
+    else:
+        return ''
+
+
 ROOT_DIR = Path(__file__).resolve().parents[1]
 CORE_APP_DIR = ROOT_DIR / 'core'
 
@@ -304,8 +312,8 @@ WAGTAIL_FRONTEND_LOGIN_URL = reverse_lazy('core:login')
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
-BASE_URL = env.base_url
-WAGTAILADMIN_BASE_URL = env.wagtailadmin_base_url
+BASE_URL = return_value_if_not_debug(env.base_url)
+WAGTAILADMIN_BASE_URL = return_value_if_not_debug(env.wagtailadmin_base_url)
 
 
 # Logging for development
@@ -411,7 +419,7 @@ SENTRY_BROWSER_TRACES_SAMPLE_RATE = env.sentry_browser_traces_sample_rate
 SENTRY_DSN = env.sentry_dsn
 if SENTRY_DSN and SENTRY_DSN != 'debug':
     sentry_sdk.init(
-        dsn=env.sentry_dsn,
+        dsn=SENTRY_DSN,
         environment=env.sentry_environment,
         integrations=[DjangoIntegration(), CeleryIntegration(), RedisIntegration()],
         before_send=strip_password_data,
@@ -443,13 +451,13 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 # django-storages
-AWS_S3_REGION_NAME = env.aws_s3_region_name
-AWS_STORAGE_BUCKET_NAME = env.aws_storage_bucket_name
+AWS_S3_REGION_NAME = return_value_if_not_debug(env.aws_s3_region_name)
+AWS_STORAGE_BUCKET_NAME = return_value_if_not_debug(env.aws_storage_bucket_name)
 AWS_DEFAULT_ACL = None
 AWS_AUTO_CREATE_BUCKET = False
 AWS_S3_ENCRYPTION = True
 AWS_S3_FILE_OVERWRITE = False
-AWS_S3_CUSTOM_DOMAIN = env.aws_s3_custom_domain
+AWS_S3_CUSTOM_DOMAIN = return_value_if_not_debug(env.aws_s3_custom_domain)
 AWS_S3_URL_PROTOCOL = env.aws_s3_url_protocol
 AWS_S3_HOST = env.aws_s3_host
 AWS_S3_SIGNATURE_VERSION = env.aws_s3_signature_version
@@ -458,12 +466,12 @@ S3_USE_SIGV4 = env.s3_use_sigv4
 
 if not is_copilot():
     # DBT platform uses AWS IAM roles to implicitly access resources. Hence this is only required in Gov UK PaaS
-    AWS_ACCESS_KEY_ID = env.aws_access_key_id
-    AWS_SECRET_ACCESS_KEY = env.aws_secret_access_key
+    AWS_ACCESS_KEY_ID = return_value_if_not_debug(env.aws_access_key_id)
+    AWS_SECRET_ACCESS_KEY = return_value_if_not_debug(env.aws_secret_access_key)
 
     # Setting up the the datascience s3 bucket to read files
-    AWS_ACCESS_KEY_ID_DATA_SCIENCE = env.aws_access_key_id_data_science
-    AWS_SECRET_ACCESS_KEY_DATA_SCIENCE = env.aws_secret_access_key_data_science
+    AWS_ACCESS_KEY_ID_DATA_SCIENCE = return_value_if_not_debug(env.aws_access_key_id_data_science)
+    AWS_SECRET_ACCESS_KEY_DATA_SCIENCE = return_value_if_not_debug(env.aws_secret_access_key_data_science)
 
 USER_MEDIA_ON_S3 = STORAGES['default']['BACKEND'] == 'storages.backends.s3boto3.S3Boto3Storage'
 
@@ -496,8 +504,8 @@ ELASTIC_APM_ENABLED = env.elastic_apm_enabled
 if ELASTIC_APM_ENABLED:
     ELASTIC_APM = {
         'SERVICE_NAME': env.service_name,
-        'SECRET_TOKEN': env.elastic_apm_secret_token,
-        'SERVER_URL': env.elastic_apm_url,
+        'SECRET_TOKEN': return_value_if_not_debug(env.elastic_apm_secret_token),
+        'SERVER_URL': return_value_if_not_debug(env.elastic_apm_url),
         'ENVIRONMENT': env.app_environment,
         'SERVER_TIMEOUT': env.elastic_apm_server_timeout,
     }
@@ -512,7 +520,9 @@ if OPENSEARCH_PROVIDER:
 if OPENSEARCH_PROVIDER == 'govuk-paas':
     services = {item['instance_name']: item for item in env.opensearch_service}
     OPENSEARCH_INSTANCE_NAME = (
-        env.opensearch_instance_name if env.opensearch_instance_name else env.opensearch_service[0]['instance_name']
+        env.opensearch_instance_name
+        if env.opensearch_instance_name and env.opensearch_instance_name != 'debug'
+        else env.opensearch_service[0]['instance_name']
     )
     connections.create_connection(
         alias='default',
@@ -521,7 +531,7 @@ if OPENSEARCH_PROVIDER == 'govuk-paas':
     )
 
     # Add an admin connection for admin search preview on legacy setup
-    OPENSEARCH_ADMINSEARCH_PROVIDER = env.opensearch_adminsearch_provider
+    OPENSEARCH_ADMINSEARCH_PROVIDER = return_value_if_not_debug(env.opensearch_adminsearch_provider)
     if OPENSEARCH_ADMINSEARCH_PROVIDER:
         OPENSEARCH_ADMINSEARCH_PROVIDER = OPENSEARCH_ADMINSEARCH_PROVIDER.lower()
         WAGTAILSEARCH_BACKENDS = {
@@ -565,9 +575,9 @@ AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
 ENFORCE_STAFF_SSO_ENABLED = env.enforce_staff_sso_enabled
 
 # authbroker config
-AUTHBROKER_URL = env.staff_sso_authbroker_url
-AUTHBROKER_CLIENT_ID = env.authbroker_client_id
-AUTHBROKER_CLIENT_SECRET = env.authbroker_client_secret
+AUTHBROKER_URL = return_value_if_not_debug(env.staff_sso_authbroker_url)
+AUTHBROKER_CLIENT_ID = return_value_if_not_debug(env.authbroker_client_id)
+AUTHBROKER_CLIENT_SECRET = return_value_if_not_debug(env.authbroker_client_secret)
 
 if ENFORCE_STAFF_SSO_ENABLED:
     AUTHENTICATION_BACKENDS.append('sso.backends.StaffSSOUserBackend')
@@ -575,36 +585,36 @@ if ENFORCE_STAFF_SSO_ENABLED:
     LOGIN_REDIRECT_URL = reverse_lazy('wagtailadmin_home')
 
 else:
-    LOGIN_URL = env.sso_proxy_login_url
+    LOGIN_URL = return_value_if_not_debug(env.sso_proxy_login_url)
 
 # Business SSO API Client
-DIRECTORY_SSO_API_CLIENT_BASE_URL = env.sso_api_client_base_url
-DIRECTORY_SSO_API_CLIENT_API_KEY = env.sso_signature_secret
+DIRECTORY_SSO_API_CLIENT_BASE_URL = return_value_if_not_debug(env.sso_api_client_base_url)
+DIRECTORY_SSO_API_CLIENT_API_KEY = return_value_if_not_debug(env.sso_signature_secret)
 DIRECTORY_SSO_API_CLIENT_SENDER_ID = env.directory_sso_api_client_sender_id
 DIRECTORY_SSO_API_CLIENT_DEFAULT_TIMEOUT = 15
 
 SSO_PROFILE_URL = env.sso_profile_url  # directory-sso-profile is now in great-cms
 
-SSO_PROXY_LOGIN_URL = env.sso_proxy_login_url
-SSO_PROXY_LOGOUT_URL = env.sso_proxy_logout_url
-SSO_PROXY_SIGNUP_URL = env.sso_proxy_signup_url
-SSO_PROXY_PASSWORD_RESET_URL = env.sso_proxy_password_reset_url
-SSO_PROXY_REDIRECT_FIELD_NAME = env.sso_proxy_redirect_field_name
-SSO_SESSION_COOKIE = env.sso_session_cookie
+SSO_PROXY_LOGIN_URL = return_value_if_not_debug(env.sso_proxy_login_url)
+SSO_PROXY_LOGOUT_URL = return_value_if_not_debug(env.sso_proxy_logout_url)
+SSO_PROXY_SIGNUP_URL = return_value_if_not_debug(env.sso_proxy_signup_url)
+SSO_PROXY_PASSWORD_RESET_URL = return_value_if_not_debug(env.sso_proxy_password_reset_url)
+SSO_PROXY_REDIRECT_FIELD_NAME = return_value_if_not_debug(env.sso_proxy_redirect_field_name)
+SSO_SESSION_COOKIE = return_value_if_not_debug(env.sso_session_cookie)
 SSO_DISPLAY_LOGGED_IN_COOKIE = env.sso_display_logged_in_cookie
 
-SSO_OAUTH2_LINKEDIN_URL = env.sso_oauth2_linkedin_url
-SSO_OAUTH2_GOOGLE_URL = env.sso_oauth2_google_url
+SSO_OAUTH2_LINKEDIN_URL = return_value_if_not_debug(env.sso_oauth2_linkedin_url)
+SSO_OAUTH2_GOOGLE_URL = return_value_if_not_debug(env.sso_oauth2_google_url)
 
 AUTHENTICATION_BACKENDS.append('sso.backends.BusinessSSOUserBackend')
 
 # Google tag manager
-GOOGLE_TAG_MANAGER_ID = env.google_tag_manager_id
-GOOGLE_TAG_MANAGER_ENV = env.google_tag_manager_env
-UTM_COOKIE_DOMAIN = env.utm_cookie_domain
+GOOGLE_TAG_MANAGER_ID = return_value_if_not_debug(env.google_tag_manager_id)
+GOOGLE_TAG_MANAGER_ENV = return_value_if_not_debug(env.google_tag_manager_env)
+UTM_COOKIE_DOMAIN = return_value_if_not_debug(env.utm_cookie_domain)
 GA360_BUSINESS_UNIT = 'GreatMagna'
 
-PRIVACY_COOKIE_DOMAIN = env.privacy_cookie_domain
+PRIVACY_COOKIE_DOMAIN = return_value_if_not_debug(env.privacy_cookie_domain)
 if not PRIVACY_COOKIE_DOMAIN:
     PRIVACY_COOKIE_DOMAIN = UTM_COOKIE_DOMAIN
 
@@ -624,21 +634,21 @@ WAGTAILMEDIA = {
 
 
 # Google captcha
-RECAPTCHA_PUBLIC_KEY = env.recaptcha_public_key
-RECAPTCHA_PRIVATE_KEY = env.recaptcha_private_key
+RECAPTCHA_PUBLIC_KEY = return_value_if_not_debug(env.recaptcha_public_key)
+RECAPTCHA_PRIVATE_KEY = return_value_if_not_debug(env.recaptcha_private_key)
 RECAPTCHA_REQUIRED_SCORE = env.recaptcha_required_score
 SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
 
 
 # directory forms api client
-DIRECTORY_FORMS_API_BASE_URL = env.directory_forms_api_base_url
-DIRECTORY_FORMS_API_API_KEY = env.directory_forms_api_api_key
-DIRECTORY_FORMS_API_SENDER_ID = env.directory_forms_api_sender_id
+DIRECTORY_FORMS_API_BASE_URL = return_value_if_not_debug(env.directory_forms_api_base_url)
+DIRECTORY_FORMS_API_API_KEY = return_value_if_not_debug(env.directory_forms_api_api_key)
+DIRECTORY_FORMS_API_SENDER_ID = return_value_if_not_debug(env.directory_forms_api_sender_id)
 DIRECTORY_FORMS_API_DEFAULT_TIMEOUT = env.directory_api_forms_default_timeout
 DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME = env.directory_forms_api_zendesk_sevice_name
 
 # EU exit
-EU_EXIT_ZENDESK_SUBDOMAIN = env.eu_exit_zendesk_subdomain
+EU_EXIT_ZENDESK_SUBDOMAIN = return_value_if_not_debug(env.eu_exit_zendesk_subdomain)
 
 # Contact
 INVEST_CONTACT_URL = env.invest_contact_url
@@ -652,32 +662,34 @@ CONTACTUS_ENQURIES_SUPPORT_TEMPLATE_ID = env.enquries_contactus_template_id
 CONTACTUS_ENQURIES_CONFIRMATION_TEMPLATE_ID = env.contactus_enquries_confirmation_template_id
 CONTACT_DOMESTIC_ZENDESK_SUBJECT = env.contact_domestic_zendesk_subject
 CONTACT_ENQUIRIES_AGENT_NOTIFY_TEMPLATE_ID = env.contact_enquiries_agent_notify_template_id
-CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS = env.contact_enquiries_agent_email_address
+CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS = return_value_if_not_debug(env.contact_enquiries_agent_email_address)
 CONTACT_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID = env.contact_enquiries_user_notify_template_id
-CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_EMAIL_ADDRESS = env.contact_ecommerce_export_support_agent_email_address
+CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_EMAIL_ADDRESS = return_value_if_not_debug(
+    env.contact_ecommerce_export_support_agent_email_address
+)
 CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_NOTIFY_TEMPLATE_ID = (
     env.contact_ecommerce_export_support_agent_notify_template_id
 )
 CONTACT_ECOMMERCE_EXPORT_SUPPORT_NOTIFY_TEMPLATE_ID = env.contact_ecommerce_export_support_notify_template_id
 CONTACT_OFFICE_AGENT_NOTIFY_TEMPLATE_ID = env.contact_office_agent_notify_template_id
 CONTACT_OFFICE_USER_NOTIFY_TEMPLATE_ID = env.contact_office_user_notify_template_id
-CONTACT_DIT_AGENT_EMAIL_ADDRESS = env.contact_dit_agent_email_address
+CONTACT_DIT_AGENT_EMAIL_ADDRESS = return_value_if_not_debug(env.contact_dit_agent_email_address)
 CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID = env.contact_events_user_notify_template_id
 CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID = env.contact_events_agent_notify_template_id
-CONTACT_EVENTS_AGENT_EMAIL_ADDRESS = env.contact_events_agent_email_address
+CONTACT_EVENTS_AGENT_EMAIL_ADDRESS = return_value_if_not_debug(env.contact_events_agent_email_address)
 CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID = env.contact_dso_agent_notify_template_id
 CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID = env.contact_dso_user_notify_template_id
-CONTACT_DSO_AGENT_EMAIL_ADDRESS = env.contact_dso_agent_email_address
+CONTACT_DSO_AGENT_EMAIL_ADDRESS = return_value_if_not_debug(env.contact_dso_agent_email_address)
 CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID = env.contact_exporting_user_notify_template_id
 CONTACT_EXPORTING_AGENT_SUBJECT = env.contact_exporting_agent_subject
 CONTACT_EXPORTING_USER_REPLY_TO_EMAIL_ID = env.contact_exporting_user_reply_to_email_id
 CONTACT_INTERNATIONAL_AGENT_NOTIFY_TEMPLATE_ID = env.contact_international_agent_notify_template_id
-CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS = env.contact_international_agent_email_address
+CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS = return_value_if_not_debug(env.contact_international_agent_email_address)
 CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID = env.contact_international_user_notify_template_id
-CONTACT_INDUSTRY_AGENT_EMAIL_ADDRESS = env.contact_industry_agent_email_address
+CONTACT_INDUSTRY_AGENT_EMAIL_ADDRESS = return_value_if_not_debug(env.contact_industry_agent_email_address)
 CONTACT_INDUSTRY_AGENT_TEMPLATE_ID = env.contact_industry_agent_template_id
 CONTACT_INDUSTRY_USER_TEMPLATE_ID = env.contact_industry_user_template_id
-CONTACT_INDUSTRY_USER_REPLY_TO_ID = env.contact_industry_user_reply_to_id
+CONTACT_INDUSTRY_USER_REPLY_TO_ID = return_value_if_not_debug(env.contact_industry_user_reply_to_id)
 CONTACT_FAS_COMPANY_NOTIFY_TEMPLATE_ID = env.contact_fas_company_notify_template_id
 
 SUBSCRIBE_TO_FTA_UPDATES_NOTIFY_TEMPLATE_ID = env.subscribe_to_fta_updates_notify_template_id
@@ -693,8 +705,8 @@ CAMPAIGN_USER_NOTIFY_TEMPLATE_ID = env.campaign_user_notify_template_id
 # UK Export Finance
 UKEF_CONTACT_USER_NOTIFY_TEMPLATE_ID = env.ukef_contact_user_notify_template_id
 UKEF_CONTACT_AGENT_NOTIFY_TEMPLATE_ID = env.ukef_contact_agent_notify_template_id
-UKEF_CONTACT_AGENT_EMAIL_ADDRESS = env.ukef_contact_agent_email_address
-UKEF_FORM_SUBMIT_TRACKER_URL = env.ukef_form_submit_tracker_url  # A Pardot URL
+UKEF_CONTACT_AGENT_EMAIL_ADDRESS = return_value_if_not_debug(env.ukef_contact_agent_email_address)
+UKEF_FORM_SUBMIT_TRACKER_URL = return_value_if_not_debug(env.ukef_form_submit_tracker_url)  # A Pardot URL
 
 # Export academy
 EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID = env.export_academy_notify_registration_template_id
@@ -707,18 +719,18 @@ EXPORT_ACADEMY_EVENT_ALLOW_JOIN_BEFORE_START_MINS = env.export_academy_event_all
 # International
 INTERNATIONAL_INVESTMENT_NOTIFY_AGENT_TEMPLATE_ID = env.international_investment_notify_agent_template_id
 INTERNATIONAL_INVESTMENT_NOTIFY_USER_TEMPLATE_ID = env.international_investment_notify_user_template_id
-INTERNATIONAL_INVESTMENT_AGENT_EMAIL = env.international_investment_agent_email
+INTERNATIONAL_INVESTMENT_AGENT_EMAIL = return_value_if_not_debug(env.international_investment_agent_email)
 
 # International Dunn and Bradstreet company lookup
-DNB_API_USERNAME = env.dnb_api_username
-DNB_API_PASSWORD = env.dnb_api_password
+DNB_API_USERNAME = return_value_if_not_debug(env.dnb_api_username)
+DNB_API_PASSWORD = return_value_if_not_debug(env.dnb_api_password)
 DNB_API_RENEW_ACCESS_TOKEN_SECONDS_REMAINING = env.dnb_api_renew_access_token_seconds_remaining
 
 # geo location
 GEOIP_PATH = os.path.join(ROOT_DIR, 'core/geolocation_data')
 GEOIP_COUNTRY = 'GeoLite2-Country.mmdb'
 GEOIP_CITY = 'GeoLite2-City.mmdb'
-MAXMIND_LICENCE_KEY = env.maxmind_licence_key
+MAXMIND_LICENCE_KEY = return_value_if_not_debug(env.maxmind_licence_key)
 GEOLOCATION_MAXMIND_DATABASE_FILE_URL = env.geolocation_maxmind_database_file_url
 # geoip download config, default = once on the first of the month
 GEOIP_DOWNLOAD_DAY = env.geoip_download_day
@@ -726,26 +738,26 @@ GEOIP_DOWNLOAD_HOUR = env.geoip_download_hour
 GEOIP_DOWNLOAD_MINUTE = env.geoip_download_minute
 
 # Companies House
-COMPANIES_HOUSE_API_KEY = env.companies_house_api_key
-COMPANIES_HOUSE_CLIENT_ID = env.companies_house_client_id
-COMPANIES_HOUSE_CLIENT_SECRET = env.companies_house_client_secret
+COMPANIES_HOUSE_API_KEY = return_value_if_not_debug(env.companies_house_api_key)
+COMPANIES_HOUSE_CLIENT_ID = return_value_if_not_debug(env.companies_house_client_id)
+COMPANIES_HOUSE_CLIENT_SECRET = return_value_if_not_debug(env.companies_house_client_secret)
 COMPANIES_HOUSE_URL = env.companies_house_url
 COMPANIES_HOUSE_API_URL = env.companies_house_api_url
 
 # directory-api
-DIRECTORY_API_CLIENT_BASE_URL = env.directory_api_client_base_url
-DIRECTORY_API_CLIENT_API_KEY = env.directory_api_client_api_key
+DIRECTORY_API_CLIENT_BASE_URL = return_value_if_not_debug(env.directory_api_client_base_url)
+DIRECTORY_API_CLIENT_API_KEY = return_value_if_not_debug(env.directory_api_client_api_key)
 DIRECTORY_API_CLIENT_SENDER_ID = 'directory'
 DIRECTORY_API_CLIENT_DEFAULT_TIMEOUT = 15
 
 # Companies House Search
-DIRECTORY_CH_SEARCH_CLIENT_BASE_URL = env.directory_ch_search_client_base_url
-DIRECTORY_CH_SEARCH_CLIENT_API_KEY = env.directory_ch_search_client_api_key
+DIRECTORY_CH_SEARCH_CLIENT_BASE_URL = return_value_if_not_debug(env.directory_ch_search_client_base_url)
+DIRECTORY_CH_SEARCH_CLIENT_API_KEY = return_value_if_not_debug(env.directory_ch_search_client_api_key)
 DIRECTORY_CH_SEARCH_CLIENT_SENDER_ID = env.directory_ch_search_client_sender_id
 DIRECTORY_CH_SEARCH_CLIENT_DEFAULT_TIMEOUT = env.directory_ch_search_client_default_timeout
 
 # getAddress.io
-GET_ADDRESS_API_KEY = env.get_address_api_key
+GET_ADDRESS_API_KEY = return_value_if_not_debug(env.get_address_api_key)
 
 CHECK_DUTIES_URL = env.check_duties_url
 
@@ -756,16 +768,16 @@ UNITED_NATIONS_URL = env.united_nations_url
 
 # 3CE commodity classification
 CCCE_BASE_URL = env.ccce_base_url
-COMMODITY_SEARCH_TOKEN = env.ccce_commodity_search_token
+COMMODITY_SEARCH_TOKEN = return_value_if_not_debug(env.ccce_commodity_search_token)
 COMMODITY_SEARCH_URL = CCCE_BASE_URL + '/ccce/apis/classify/v1/interactive/classify-start'
 COMMODITY_SEARCH_REFINE_URL = CCCE_BASE_URL + '/ccce/apis/classify/v1/interactive/classify-continue'
 CCCE_IMPORT_SCHEDULE_URL = CCCE_BASE_URL + '/ccce/apis/tradedata/import/v1/schedule'
 
 # directory constants
-DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON = env.directory_constants_url_single_sign_on
+DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON = return_value_if_not_debug(env.directory_constants_url_single_sign_on)
 DIRECTORY_CLIENT_CORE_CACHE_EXPIRE_SECONDS = 60 * 60 * 30
-DIRECTORY_CONSTANTS_URL_FIND_A_BUYER = env.directory_constants_url_find_a_buyer
-DIRECTORY_CONSTANTS_URL_GREAT_DOMESTIC = env.directory_constants_url_great_domestic
+DIRECTORY_CONSTANTS_URL_FIND_A_BUYER = return_value_if_not_debug(env.directory_constants_url_find_a_buyer)
+DIRECTORY_CONSTANTS_URL_GREAT_DOMESTIC = return_value_if_not_debug(env.directory_constants_url_great_domestic)
 
 # directory validators
 VALIDATOR_MAX_LOGO_SIZE_BYTES = env.validator_max_logo_size_bytes
@@ -777,13 +789,13 @@ WAGTAILDOCS_SERVE_METHOD = 'direct'  # Don't proxy documents via the PaaS - they
 # CHANGE THIS IF WE START USING PRIVATE DOCUMENTS
 
 # Wagtail customisations
-ENVIRONMENT_CSS_THEME_FILE = env.environment_css_theme_file
+ENVIRONMENT_CSS_THEME_FILE = return_value_if_not_debug(env.environment_css_theme_file)
 
 # Wagtail-transfer configuration
 
 WAGTAILTRANSFER_SOURCES = get_wagtail_transfer_configuration()
 
-WAGTAILTRANSFER_SECRET_KEY = env.wagtailtransfer_secret_key
+WAGTAILTRANSFER_SECRET_KEY = return_value_if_not_debug(env.wagtailtransfer_secret_key)
 WAGTAILTRANSFER_UPDATE_RELATED_MODELS = [
     'wagtailimages.image',
     'wagtaildocs',
@@ -879,12 +891,12 @@ FEATURE_GUIDED_JOURNEY_EXTRAS = env.feature_guided_journey_extras
 
 MAX_COMPARE_PLACES_ALLOWED = env.max_compare_places_allowed
 
-BETA_ENVIRONMENT = env.beta_token
+BETA_ENVIRONMENT = return_value_if_not_debug(env.beta_token)
 
 if BETA_ENVIRONMENT != '':
     MIDDLEWARE = ['core.middleware.TimedAccessMiddleware'] + MIDDLEWARE
-    BETA_WHITELISTED_ENDPOINTS = env.beta_whitelisted_endpoints
-    BETA_BLACKLISTED_USERS = env.beta_blacklisted_users
+    BETA_WHITELISTED_ENDPOINTS = return_value_if_not_debug(env.beta_whitelisted_endpoints)
+    BETA_BLACKLISTED_USERS = return_value_if_not_debug(env.beta_blacklisted_users)
     BETA_TOKEN_EXPIRATION_DAYS = env.beta_token_expiration_days
 
 if sys.argv[0:1][0].find('pytest') != -1:
@@ -904,10 +916,10 @@ BREADCRUMBS_ROOT_URL = env.breadcrumbs_root_url
 
 
 # Setting up the the datascience s3 bucket to read files
-AWS_ACCESS_KEY_ID_DATA_SCIENCE = env.aws_access_key_id_data_science
-AWS_SECRET_ACCESS_KEY_DATA_SCIENCE = env.aws_secret_access_key_data_science
-AWS_STORAGE_BUCKET_NAME_DATA_SCIENCE = env.aws_storage_bucket_name_data_science
-AWS_S3_REGION_NAME_DATA_SCIENCE = env.aws_s3_region_name_data_science
+AWS_ACCESS_KEY_ID_DATA_SCIENCE = return_value_if_not_debug(env.aws_access_key_id_data_science)
+AWS_SECRET_ACCESS_KEY_DATA_SCIENCE = return_value_if_not_debug(env.aws_secret_access_key_data_science)
+AWS_STORAGE_BUCKET_NAME_DATA_SCIENCE = return_value_if_not_debug(env.aws_storage_bucket_name_data_science)
+AWS_S3_REGION_NAME_DATA_SCIENCE = return_value_if_not_debug(env.aws_s3_region_name_data_science)
 
 # Report a Trade Barrier / "marketaccess"
 MARKET_ACCESS_ZENDESK_SUBJECT = env.market_access_zendesk_subject
@@ -919,7 +931,7 @@ MARKET_ACCESS_FORMS_API_ZENDESK_SERVICE_NAME = env.market_access_forms_api_zende
 FEATURE_FLAG_TEST_SEARCH_API_PAGES_ON = env.feature_test_search_api_pages_enabled
 
 # Healthcheck: https://github.com/uktrade/directory-healthcheck/
-DIRECTORY_HEALTHCHECK_TOKEN = env.health_check_token
+DIRECTORY_HEALTHCHECK_TOKEN = return_value_if_not_debug(env.health_check_token)
 DIRECTORY_HEALTHCHECK_BACKENDS = [
     directory_healthcheck.backends.APIBackend,
     directory_healthcheck.backends.SingleSignOnBackend,
@@ -933,20 +945,24 @@ if FEATURE_FLAG_TEST_SEARCH_API_PAGES_ON:
 
 
 # ActivityStream config, for search
-ACTIVITY_STREAM_ACCESS_KEY_ID = env.activity_stream_access_key_id
-ACTIVITY_STREAM_SECRET_KEY = env.activity_stream_secret_key
-ACTIVITY_STREAM_URL = env.activity_stream_url
-ACTIVITY_STREAM_IP_ALLOWLIST = env.activity_stream_ip_allowlist
+ACTIVITY_STREAM_ACCESS_KEY_ID = return_value_if_not_debug(env.activity_stream_access_key_id)
+ACTIVITY_STREAM_SECRET_KEY = return_value_if_not_debug(env.activity_stream_secret_key)
+ACTIVITY_STREAM_URL = return_value_if_not_debug(env.activity_stream_url)
+ACTIVITY_STREAM_IP_ALLOWLIST = return_value_if_not_debug(env.activity_stream_ip_allowlist)
 
 
 # formerly from directory-sso-profile
-EXPORTING_OPPORTUNITIES_API_BASIC_AUTH_USERNAME = env.exporting_opportunities_api_basic_auth_username
-EXPORTING_OPPORTUNITIES_API_BASIC_AUTH_PASSWORD = env.exporting_opportunities_api_basic_auth_password
-EXPORTING_OPPORTUNITIES_API_BASE_URL = env.exporting_opportunities_api_base_url
-EXPORTING_OPPORTUNITIES_API_SECRET = env.exporting_opportunities_api_secret
-EXPORTING_OPPORTUNITIES_SEARCH_URL = env.exporting_opportunities_search_url
+EXPORTING_OPPORTUNITIES_API_BASIC_AUTH_USERNAME = return_value_if_not_debug(
+    env.exporting_opportunities_api_basic_auth_username
+)
+EXPORTING_OPPORTUNITIES_API_BASIC_AUTH_PASSWORD = return_value_if_not_debug(
+    env.exporting_opportunities_api_basic_auth_password
+)
+EXPORTING_OPPORTUNITIES_API_BASE_URL = return_value_if_not_debug(env.exporting_opportunities_api_base_url)
+EXPORTING_OPPORTUNITIES_API_SECRET = return_value_if_not_debug(env.exporting_opportunities_api_secret)
+EXPORTING_OPPORTUNITIES_SEARCH_URL = return_value_if_not_debug(env.exporting_opportunities_search_url)
 
-URL_PREFIX_DOMAIN = env.url_prefix_domain
+URL_PREFIX_DOMAIN = return_value_if_not_debug(env.url_prefix_domain)
 
 # Ported from SSO_PROFILE
 SSO_PROFILE_FEATURE_FLAGS = {
@@ -960,13 +976,13 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 500 * 1024 * 1024
 DATA_UPLOAD_MAX_MEMORY_SIZE = 500 * 1024 * 1024
 FILE_UPLOAD_PERMISSIONS = 0o644
 
-HASHIDS_SALT = env.hashids_salt
+HASHIDS_SALT = return_value_if_not_debug(env.hashids_salt)
 
 # ClamAV anti-virus engine
 CLAM_AV_ENABLED = env.clam_av_enabled
-CLAM_AV_HOST = env.clam_av_host
-CLAM_AV_USERNAME = env.clam_av_username
-CLAM_AV_PASSWORD = env.clam_av_password
+CLAM_AV_HOST = return_value_if_not_debug(env.clam_av_host)
+CLAM_AV_USERNAME = return_value_if_not_debug(env.clam_av_username)
+CLAM_AV_PASSWORD = return_value_if_not_debug(env.clam_av_password)
 
 # Restriction document upload by filetypes
 WAGTAILDOCS_EXTENSIONS = [
@@ -1005,7 +1021,7 @@ SPECTACULAR_SETTINGS = {
 }
 
 # Wagtail Campaign pages notification settings:
-MODERATION_EMAIL_DIST_LIST = env.moderation_email_dist_list
+MODERATION_EMAIL_DIST_LIST = return_value_if_not_debug(env.moderation_email_dist_list)
 
 CAMPAIGN_MODERATORS_EMAIL_TEMPLATE_ID = env.campaign_moderators_email_template_id
 CAMPAIGN_MODERATION_REQUESTOR_EMAIL_TEMPLATE_ID = env.campaign_moderation_requestor_email_template_id
