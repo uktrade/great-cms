@@ -16,27 +16,24 @@ from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
 
 import healthcheck.backends
-from config.env import env as newenv
 from .utils import get_wagtail_transfer_configuration, strip_password_data
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
 CORE_APP_DIR = ROOT_DIR / 'core'
-
-assert newenv is not None
 
 env = environ.Env()
 
 for env_file in env.list('ENV_FILES', default=[]):
     env.read_env(f'config/env/{env_file}')
 
-DEBUG = newenv.debug
+DEBUG = env.bool('DEBUG', False)
 SECRET_KEY = env.str('SECRET_KEY')
-APP_ENVIRONMENT = newenv.app_environment
+APP_ENVIRONMENT = env.str('APP_ENVIRONMENT')
 
 # As the app is running behind a host-based router supplied by GDS PaaS, we can open ALLOWED_HOSTS
 ALLOWED_HOSTS = ['*']
 
-SAFELIST_HOSTS = newenv.safelist_hosts
+SAFELIST_HOSTS = env.list('SAFELIST_HOSTS', default=[])
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#append-slash
 APPEND_SLASH = True
@@ -212,14 +209,14 @@ else:
 
 # wagtail caching options
 # (see https://docs.coderedcorp.com/wagtail-cache/getting_started/django_settings.html#django-settings)
-WAGTAIL_CACHE = newenv.wagtail_cache  # set to false for local
+WAGTAIL_CACHE = env.bool('WAGTAIL_CACHE', False)  # set to false for local
 WAGTAIL_CACHE_BACKEND = 'great_wagtail_cache'
 WAGTAIL_CACHE_HEADER = True
 WAGTAIL_CACHE_IGNORE_COOKIES = True
 WAGTAIL_CACHE_IGNORE_QS = None
-WAGTAIL_CACHE_TIMOUT = newenv.wagtail_cache_timout  # 4 hours (in seconds)
+WAGTAIL_CACHE_TIMOUT = env.int('WAGTAIL_CACHE_TIMOUT', 4 * 60 * 60)  # 4 hours (in seconds)
 
-if newenv.api_cache_disabled:
+if env.bool('API_CACHE_DISABLED', False):
     cache = {'BACKEND': 'django.core.cache.backends.dummy.DummyCache'}
     great_wagtail_cache = {'BACKEND': 'django.core.cache.backends.dummy.DummyCache'}
 else:
@@ -244,17 +241,15 @@ CACHES = {
     'great_wagtail_cache': great_wagtail_cache,
 }
 
-CACHE_EXPIRE_SECONDS = newenv.cache_expire_seconds  # 30 minutes
-CACHE_EXPIRE_SECONDS_SHORT = newenv.cache_expire_seconds
-if not CACHE_EXPIRE_SECONDS_SHORT:
-    CACHE_EXPIRE_SECONDS_SHORT = 60 * 5  # 5 minutes
+CACHE_EXPIRE_SECONDS = env.int('CACHE_EXPIRE_SECONDS', 60 * 30)  # 30 minutes
+CACHE_EXPIRE_SECONDS_SHORT = env.int('CACHE_EXPIRE_SECONDS', 60 * 5)  # 5 minutes
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-gb'
 
-TIME_ZONE = newenv.time_zone
+TIME_ZONE = env.str('TIME_ZONE', 'UTC')
 
 USE_I18N = True
 
@@ -297,10 +292,10 @@ STATICFILES_DIRS = [
 
 STORAGES = {
     'default': {
-        'BACKEND': newenv.default_file_storage,
+        'BACKEND': env.str('DEFAULT_FILE_STORAGE', 'storages.backends.s3boto3.S3Boto3Storage'),
     },
     'staticfiles': {
-        'BACKEND': newenv.staticfiles_storage,
+        'BACKEND': env.str('STATICFILES_STORAGE', 'whitenoise.storage.CompressedStaticFilesStorage'),
     },
 }
 
@@ -421,31 +416,31 @@ else:
 
 
 # Sentry
-SENTRY_BROWSER_TRACES_SAMPLE_RATE = newenv.sentry_browser_traces_sample_rate
-SENTRY_DSN = newenv.sentry_dsn
-if SENTRY_DSN and SENTRY_DSN != 'debug':
+SENTRY_BROWSER_TRACES_SAMPLE_RATE = env.float('SENTRY_BROWSER_TRACES_SAMPLE_RATE', 1.0)
+SENTRY_DSN = env.str('SENTRY_DSN', '')
+if SENTRY_DSN:
     sentry_sdk.init(
-        dsn=SENTRY_DSN,
-        environment=newenv.sentry_environment,
+        dsn=env.str('SENTRY_DSN'),
+        environment=env.str('SENTRY_ENVIRONMENT'),
         integrations=[DjangoIntegration(), CeleryIntegration(), RedisIntegration()],
         before_send=strip_password_data,
-        enable_tracing=newenv.sentry_enable_tracing,
-        traces_sample_rate=newenv.sentry_traces_sample_rate,
+        enable_tracing=env.bool('SENTRY_ENABLE_TRACING', False),
+        traces_sample_rate=env.float('SENTRY_TRACES_SAMPLE_RATE', 1.0),
     )
 
 USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_HSTS_SECONDS = newenv.secure_hsts_seconds
+SECURE_HSTS_SECONDS = env.int('SECURE_HSTS_SECONDS', 16070400)
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_SSL_REDIRECT = newenv.secure_ssl_redirect
+SECURE_SSL_REDIRECT = env.bool('SECURE_SSL_REDIRECT', True)
 
-SESSION_ENGINE = newenv.session_engine
+SESSION_ENGINE = env.str('SESSION_ENGINE', 'django.contrib.sessions.backends.cache')
 
-SESSION_COOKIE_SECURE = newenv.session_cookie_secure
+SESSION_COOKIE_SECURE = env.bool('SESSION_COOKIE_SECURE', True)
 SESSION_COOKIE_HTTPONLY = True
 # must be None to allow copy upstream to work
 SESSION_COOKIE_SAMESITE = None
-CSRF_COOKIE_SECURE = newenv.csrf_cookie_secure
+CSRF_COOKIE_SECURE = env.bool('CSRF_COOKIE_SECURE', True)
 CSRF_COOKIE_HTTPONLY = True
 
 # security
@@ -464,11 +459,11 @@ AWS_AUTO_CREATE_BUCKET = False
 AWS_S3_ENCRYPTION = True
 AWS_S3_FILE_OVERWRITE = False
 AWS_S3_CUSTOM_DOMAIN = env.str('AWS_S3_CUSTOM_DOMAIN', '')
-AWS_S3_URL_PROTOCOL = newenv.aws_s3_url_protocol
-AWS_S3_HOST = newenv.aws_s3_host
-AWS_S3_SIGNATURE_VERSION = newenv.aws_s3_signature_version
-AWS_QUERYSTRING_AUTH = newenv.aws_querystring_auth
-S3_USE_SIGV4 = newenv.s3_use_sigv4
+AWS_S3_URL_PROTOCOL = env.str('AWS_S3_URL_PROTOCOL', 'https:')
+AWS_S3_HOST = env.str('AWS_S3_HOST', 's3-eu-west-2.amazonaws.com')
+AWS_S3_SIGNATURE_VERSION = env.str('AWS_S3_SIGNATURE_VERSION', 's3v4')
+AWS_QUERYSTRING_AUTH = env.bool('AWS_QUERYSTRING_AUTH', False)
+S3_USE_SIGV4 = env.bool('S3_USE_SIGV4', True)
 
 if not is_copilot():
     # DBT platform uses AWS IAM roles to implicitly access resources. Hence this is only required in Gov UK PaaS
@@ -519,7 +514,7 @@ if ELASTIC_APM_ENABLED:
     INSTALLED_APPS.append('elasticapm.contrib.django')
 
 # aws, localhost, or govuk-paas
-OPENSEARCH_PROVIDER = env.str('OPENSEARCH_PROVIDER', '')
+OPENSEARCH_PROVIDER = env.str('OPENSEARCH_PROVIDER', None)
 if OPENSEARCH_PROVIDER:
     OPENSEARCH_PROVIDER = OPENSEARCH_PROVIDER.lower()
 
@@ -534,7 +529,7 @@ if OPENSEARCH_PROVIDER == 'govuk-paas':
     )
 
     # Add an admin connection for admin search preview on legacy setup
-    OPENSEARCH_ADMINSEARCH_PROVIDER = env.str('OPENSEARCH_ADMINSEARCH_PROVIDER', '')
+    OPENSEARCH_ADMINSEARCH_PROVIDER = env.str('OPENSEARCH_ADMINSEARCH_PROVIDER', None)
     if OPENSEARCH_ADMINSEARCH_PROVIDER:
         OPENSEARCH_ADMINSEARCH_PROVIDER = OPENSEARCH_ADMINSEARCH_PROVIDER.lower()
         WAGTAILSEARCH_BACKENDS = {
@@ -554,14 +549,14 @@ if OPENSEARCH_PROVIDER == 'govuk-paas':
 elif OPENSEARCH_PROVIDER in ['localhost', 'aws']:
     connections.create_connection(
         alias='default',
-        hosts=[newenv.opensearch_url],
+        hosts=[env.str('OPENSEARCH_URL', 'localhost:9200')],
         connection_class=RequestsHttpConnection,
     )
     WAGTAILSEARCH_BACKENDS = {
         'default': {
             'BACKEND': 'wagtail.search.backends.elasticsearch7',
             'AUTO_UPDATE': True if OPENSEARCH_PROVIDER == 'aws' else False,
-            'URLS': [newenv.opensearch_url],
+            'URLS': [env.str('OPENSEARCH_URL', 'localhost:9200')],
             'INDEX': 'great-cms',
             'TIMEOUT': 5,
             'OPTIONS': {},
@@ -973,42 +968,49 @@ WAGTAILTRANSFER_LOOKUP_FIELDS = {
     'auth.permission': ['content_type_id', 'id'],
 }
 
-FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST = newenv.feature_export_plan_sections_disabled_list
-FEATURE_COMPARE_MARKETS_TABS = newenv.feature_compare_markets_tabs
-FEATURE_SHOW_REPORT_BARRIER_CONTENT = newenv.feature_show_report_barrier_content
-FEATURE_SHOW_BRAND_BANNER = newenv.feature_show_brand_banner
-FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK = newenv.feature_show_international_footer_link
-FEATURE_SHOW_CASE_STUDY_RANKINGS = newenv.feature_show_case_study_rankings
-FEATURE_INTERNATIONAL_ONLINE_OFFER = newenv.feature_international_online_offer
-FEATURE_INTERNATIONAL_INVESTMENT = newenv.feature_international_investment
-FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION = newenv.feature_microsite_enable_template_translation
-FEATURE_DIGITAL_POINT_OF_ENTRY = newenv.feature_digital_point_of_entry
-FEATURE_PRODUCT_EXPERIMENT_HEADER = newenv.feature_product_experiment_header
-FEATURE_PRODUCT_EXPERIMENT_LINKS = newenv.feature_product_experiment_links
-FEATURE_DESIGN_SYSTEM = newenv.feature_design_system
-FEATURE_COURSES_LANDING_PAGE = newenv.feature_courses_landing_page
-FEATURE_DEA_V2 = newenv.feature_dea_v2
-FEATURE_SHOW_OLD_CONTACT_FORM = newenv.feature_show_old_contact_form
-FEATURE_HOMEPAGE_REDESIGN_V1 = newenv.feature_homepage_redesign_v1
-FEATURE_SHARE_COMPONENT = newenv.feature_share_component
-FEATURE_PRODUCT_MARKET_HERO = newenv.feature_product_market_hero
-FEATURE_PRODUCT_MARKET_SEARCH_ENABLED = newenv.feature_product_market_search_enabled
-FEATURE_SHOW_USA_CTA = newenv.feature_show_usa_cta
-FEATURE_SHOW_EU_CTA = newenv.feature_show_eu_cta
-FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_CHINA = newenv.feature_show_market_guide_sector_spotlight_china
-FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_GERMANY = newenv.feature_show_market_guide_sector_spotlight_germany
-FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_USA = newenv.feature_show_market_guide_sector_spotlight_usa
-FEATURE_UKEA_SECTOR_FILTER = newenv.feature_ukea_sector_filter
-FEATURE_UKEA_REGION_FILTER = newenv.feature_ukea_region_filter
-FEATURE_UKEA_MARKET_FILTER = newenv.feature_ukea_market_filter
-FEATURE_UKEA_TRADING_BLOC_FILTER = newenv.feature_ukea_trading_bloc_filter
-FEATURE_MARKET_GUIDES_SECTOR_LINKS = newenv.feature_market_guides_sector_links
-FEATURE_DESIGN_SYSTEM = newenv.feature_design_system
-FEATURE_GREAT_ERROR = newenv.feature_great_error
-FEATURE_GUIDED_JOURNEY = newenv.feature_guided_journey
-FEATURE_UNGUIDED_JOURNEY = newenv.feature_unguided_journey
-FEATURE_OPENSEARCH = newenv.feature_opensearch
-FEATURE_GUIDED_JOURNEY_EXTRAS = newenv.feature_guided_journey_extras
+FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST = env.list('FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST', default=[])
+FEATURE_COMPARE_MARKETS_TABS = env.str('FEATURE_COMPARE_MARKETS_TABS', '{ }')
+FEATURE_SHOW_REPORT_BARRIER_CONTENT = env.bool('FEATURE_SHOW_REPORT_BARRIER_CONTENT', False)
+FEATURE_SHOW_BRAND_BANNER = env.bool('FEATURE_SHOW_BRAND_BANNER', False)
+FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK = env.bool('FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK', False)
+FEATURE_SHOW_CASE_STUDY_RANKINGS = env.bool('FEATURE_SHOW_CASE_STUDY_RANKINGS', False)
+FEATURE_INTERNATIONAL_ONLINE_OFFER = env.bool('FEATURE_INTERNATIONAL_ONLINE_OFFER', False)
+FEATURE_INTERNATIONAL_INVESTMENT = env.bool('FEATURE_INTERNATIONAL_INVESTMENT', False)
+FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION = env.bool('FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION', False)
+FEATURE_DIGITAL_POINT_OF_ENTRY = env.bool('FEATURE_DIGITAL_POINT_OF_ENTRY', False)
+FEATURE_PRODUCT_EXPERIMENT_HEADER = env.bool('FEATURE_PRODUCT_EXPERIMENT_HEADER', False)
+FEATURE_PRODUCT_EXPERIMENT_LINKS = env.bool('FEATURE_PRODUCT_EXPERIMENT_LINKS', False)
+FEATURE_DESIGN_SYSTEM = env.bool('FEATURE_DESIGN_SYSTEM', False)
+FEATURE_COURSES_LANDING_PAGE = env.bool('FEATURE_COURSES_LANDING_PAGE', False)
+FEATURE_DEA_V2 = env.bool('FEATURE_DEA_V2', False)
+FEATURE_SHOW_OLD_CONTACT_FORM = env.bool('FEATURE_SHOW_OLD_CONTACT_FORM', False)
+FEATURE_HOMEPAGE_REDESIGN_V1 = env.bool('FEATURE_HOMEPAGE_REDESIGN_V1', False)
+FEATURE_SHARE_COMPONENT = env.bool('FEATURE_SHARE_COMPONENT', False)
+FEATURE_PRODUCT_MARKET_HERO = env.bool('FEATURE_PRODUCT_MARKET_HERO', False)
+FEATURE_PRODUCT_MARKET_SEARCH_ENABLED = env.bool('FEATURE_PRODUCT_MARKET_SEARCH_ENABLED', False)
+FEATURE_SHOW_USA_CTA = env.bool('FEATURE_SHOW_USA_CTA', False)
+FEATURE_SHOW_EU_CTA = env.bool('FEATURE_SHOW_EU_CTA', False)
+FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_CHINA = env.bool('FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_CHINA', False)
+FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_GERMANY = env.bool(
+    'FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_GERMANY', False
+)
+FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_USA = env.bool('FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_USA', False)
+FEATURE_UKEA_SECTOR_FILTER = env.bool('FEATURE_UKEA_SECTOR_FILTER', False)
+FEATURE_UKEA_REGION_FILTER = env.bool('FEATURE_UKEA_REGION_FILTER', False)
+FEATURE_UKEA_MARKET_FILTER = env.bool('FEATURE_UKEA_MARKET_FILTER', False)
+FEATURE_UKEA_TRADING_BLOC_FILTER = env.bool('FEATURE_UKEA_TRADING_BLOC_FILTER', False)
+FEATURE_MARKET_GUIDES_SECTOR_LINKS = env.bool('FEATURE_MARKET_GUIDES_SECTOR_LINKS', False)
+
+FEATURE_DESIGN_SYSTEM = env.bool('FEATURE_DESIGN_SYSTEM', False)
+
+FEATURE_GREAT_ERROR = env.bool('FEATURE_GREAT_ERROR', False)
+
+FEATURE_GUIDED_JOURNEY = env.bool('FEATURE_GUIDED_JOURNEY', False)
+FEATURE_GUIDED_JOURNEY_EXTRAS = env.bool('FEATURE_GUIDED_JOURNEY_EXTRAS', False)
+
+FEATURE_UNGUIDED_JOURNEY = env.bool('FEATURE_UNGUIDED_JOURNEY', False)
+
+FEATURE_OPENSEARCH = env.bool('FEATURE_OPENSEARCH', False)
 
 MAX_COMPARE_PLACES_ALLOWED = env.int('MAX_COMPARE_PLACES_ALLOWED', 10)
 
