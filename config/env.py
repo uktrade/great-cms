@@ -40,7 +40,7 @@ class BaseSettings(PydanticBaseSettings):
 
     sentry_browser_traces_sample_rate: float = 1.0
     sentry_dsn: str = 'debug'
-    sentry_environment: str
+    sentry_environment: str = 'dev'
     sentry_enable_tracing: bool = False
     sentry_traces_sample_rate: float = 1.0
 
