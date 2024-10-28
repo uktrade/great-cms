@@ -41,6 +41,9 @@ from core.templatetags.content_tags import (
     tag_text_mapper,
     url_type,
     val_to_int,
+    get_exopps_country_slug,
+    get_visa_and_travel_country_slug,
+    split_title,
 )
 from core.templatetags.object_tags import get_item
 from core.templatetags.progress_bar import progress_bar
@@ -1166,3 +1169,46 @@ def test_val_to_int(float, expected):
 )
 def test_change_country_name_to_include_the(country_name, expected_output):
     assert change_country_name_to_include_the(country_name) == expected_output
+
+
+@pytest.mark.parametrize(
+    'country_name, expected_output',
+    (
+        ('Mexico', 'mexico'),
+        ('United Kingdom', 'united-kingdom'),
+        ('United States', 'the-usa'),
+    ),
+)
+def test_get_exopps_country_slug(country_name, expected_output):
+    assert get_exopps_country_slug(country_name) == expected_output
+
+
+@pytest.mark.parametrize(
+    'country_name, expected_output',
+    (
+        ('Mexico', 'mexico'),
+        ('United Kingdom', 'united-kingdom'),
+        ('Congo (Democratic Republic)', 'democratic-republic-of-the-congo'),
+        ('Czechia', 'czech-republic'),
+        ('East Timor', 'timor-leste'),
+        ('Ivory Coast', 'cote-d-ivoire'),
+        ('Myanmar (Burma)', 'myanmar'),
+        ('St Vincent', 'st-vincent-and-the-grenadines'),
+        ('The Bahamas', 'bahamas'),
+        ('United States', 'usa'),
+        ('Vatican City', 'italy'),
+    ),
+)
+def test_get_visa_and_travel_country_slug(country_name, expected_output):
+    assert get_visa_and_travel_country_slug(country_name) == expected_output
+
+
+@pytest.mark.parametrize(
+    'title, expected_output',
+    (
+        ('A normal title', ['A normal title']),
+        ('A split  title', ['A split', 'title']),
+    ),
+)
+def test_split_title(title, expected_output):
+    assert split_title(title) == expected_output

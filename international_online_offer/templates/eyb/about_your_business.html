@@ -8,7 +8,7 @@
 {% endblock %}
 {% load eyb_tags %}
 {% block content %}
-    <div class="govuk-width-container great-container">
+    <div class="great-container">
         {% if request.GET.signup %}
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
@@ -48,8 +48,8 @@
                 <a href="{% url 'international_online_offer:business-headquarters' %}{% if request.GET.signup %}?signup=true{% endif %} "
                    role="button"
                    draggable="false"
-                   class="govuk-button govuk-button--start"
-                   data-module="govuk-button">
+                   class="great-ds-button"
+                   data-module="great-ds-button">
                     Continue
                     <svg class="govuk-button__start-icon"
                          xmlns="http://www.w3.org/2000/svg"

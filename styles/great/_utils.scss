@@ -522,6 +522,10 @@
   max-width: 80%;
 }
 
+.great-max-width-500 {
+  max-width: 500px;
+}
+
 .great-min-width-200-desktop {
   @include govuk-media-query($from: tablet) {
     min-width: 200px;
@@ -757,6 +761,17 @@
   overflow: hidden;
 }
 
+.great-visually-hidden-until-tablet {
+  @include govuk-media-query($until: tablet) {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+}
+
 .clearfix:after {
   display: block;
   content: '';
@@ -780,6 +795,16 @@
 
   @include govuk-media-query($from: tablet) {
     padding-left: 35px !important;
+  }
+}
+
+.great-no-padding-until-tablet {
+  @include govuk-media-query($until: tablet) {
+    padding: 0;
+  }
+
+  @include govuk-media-query($from: tablet, $until: desktop) {
+    padding: 0 20px;
   }
 }
 

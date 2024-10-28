@@ -7,7 +7,7 @@
 {% block meta_title %}Welcome to your UK expansion guide {{ block.super }}{% endblock %}
 {% block head_css %}{{ block.super }}{% endblock %}
 {% block content %}
-    <div class="govuk-width-container great-container">
+    <div class="great-container">
         {% if request.GET.signup %}
             <div class="govuk-grid-row govuk-!-margin-top-4">
                 <div class="govuk-grid-column-full">
@@ -163,8 +163,8 @@
                                                 </div>
                                             </div>
                                             <div class="govuk-grid-column-two-thirds">
-                                                <h3 class="govuk-heading-m article-list-item-title">Trade events</h3>
-                                                <p class="govuk-body article-list-item-teaser">
+                                                <h3 class="govuk-heading-m">Trade events</h3>
+                                                <p class="govuk-body">
                                                     Attending a UK trade event can help you develop networks and get the latest insights from your sector.
                                                 </p>
                                             </div>
@@ -184,10 +184,8 @@
                                                 </div>
                                             </div>
                                             <div class="govuk-grid-column-two-thirds">
-                                                <h3 class="govuk-heading-m article-list-item-title">Trade associations</h3>
-                                                <p class="govuk-body article-list-item-teaser">
-                                                    Joining a UK trade association can be a useful way to find new clients and form partnerships.
-                                                </p>
+                                                <h3 class="govuk-heading-m">Trade associations</h3>
+                                                <p class="govuk-body">Joining a UK trade association can be a useful way to find new clients and form partnerships.</p>
                                             </div>
                                         </div>
                                     </a>
@@ -205,7 +203,7 @@
                                                      style="background-image: url({{ rendition.url }})"></div>
                                             </div>
                                             <div class="govuk-grid-column-two-thirds">
-                                                <h3 class="govuk-heading-m article-list-item-title">{{ page.article_title }}</h3>
+                                                <h3 class="govuk-heading-m">{{ page.article_title }}</h3>
                                                 <p class="govuk-body article-list-item-teaser">{{ page.article_teaser }}</p>
                                             </div>
                                         </div>
@@ -236,8 +234,8 @@
                                                      style="background-image: url({{ rendition.url }})"></div>
                                             </div>
                                             <div class="govuk-grid-column-two-thirds">
-                                                <h3 class="govuk-heading-m article-list-item-title">{{ page.article_title }}</h3>
-                                                <p class="govuk-body article-list-item-teaser">{{ page.article_teaser }}</p>
+                                                <h3 class="govuk-heading-m">{{ page.article_title }}</h3>
+                                                <p class="govuk-body">{{ page.article_teaser }}</p>
                                             </div>
                                         </div>
                                     </a>

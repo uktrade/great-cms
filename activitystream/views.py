@@ -39,10 +39,7 @@ from activitystream.serializers import (
     ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer,
     PageSerializer,
 )
-from core.models import (
-    HCSAT,
-    MicrositePage,
-)
+from core.models import HCSAT, MicrositePage
 from domestic.models import ArticlePage, CountryGuidePage
 from export_academy.models import (
     Booking,

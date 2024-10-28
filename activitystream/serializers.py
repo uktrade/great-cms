@@ -5,11 +5,7 @@ from taggit.serializers import TagListSerializerField
 from wagtail.models import Page
 from wagtail.rich_text import RichText, get_text_for_indexing
 
-from core.models import (
-    HCSAT,
-    GreatMedia,
-    MicrositePage,
-)
+from core.models import HCSAT, GreatMedia, MicrositePage
 from domestic.models import ArticlePage
 from export_academy.models import (
     Booking,
