@@ -66,8 +66,13 @@
         defaultValue: '{{ session_data.sic_description }}',
         templates: {
             suggestion: (selectedSIC) => {
-                const {sic_description, dit_sector_list_field_04} = data.data.find(el => el.sic_description === selectedSIC)
-                return `<span>${sic_description}</span><br /><span class="govuk-body-s">${dit_sector_list_field_04}</span>`;
+                const match = data.data.find(el => el.sic_description === selectedSIC)
+
+                if (match && match.sic_description && match.dit_sector_list_field_04) {
+                    return `<span>${match.sic_description}</span><br /><span class="govuk-body-s">${match.dit_sector_list_field_04}</span>`;
+                }
+
+                return '<span>No results found</span>';
             }
         },
         onConfirm: (selectedSIC) => {
