@@ -40,7 +40,7 @@
                     </div>
                     {% endif %}
 
-                    {% if is_market_skipped or not session_data.market %}
+                    {% if not session_data.market %}
                         {% include 'domestic/contact/export-support/includes/suggested-markets-widget.html' with suggested_markets=suggested_markets %}
                     {% endif %}
 

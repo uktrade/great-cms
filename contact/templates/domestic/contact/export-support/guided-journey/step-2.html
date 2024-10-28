@@ -38,7 +38,7 @@
                                     </div>
                                 
                                     {% include 'domestic/contact/export-support/includes/continue-save-button.html' %}
-                                    {% include 'domestic/contact/export-support/includes/skip-button.html' with url='/your-export-guide/target-export-market?is_commodity_code_skipped=True' %}
+                                    {% include 'domestic/contact/export-support/includes/skip-button.html' with url='/your-export-guide/target-export-market?is_commodity_code_skipped=True' back_step=request.GET.return_to_step %}
                                 </form>
                             </div>
                         </div>
