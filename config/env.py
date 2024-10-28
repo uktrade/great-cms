@@ -18,7 +18,7 @@ class BaseSettings(PydanticBaseSettings):
 
     # Start of Environment Variables
     debug: bool = False
-    secret_key: str = 'debug'
+    secret_key: str = 'NOVALUE'
     app_environment: str = 'dev'
 
     safelist_hosts: str = []
@@ -35,11 +35,11 @@ class BaseSettings(PydanticBaseSettings):
     default_file_storage: str = 'storages.backends.s3boto3.S3Boto3Storage'
     staticfiles_storage: str = 'whitenoise.storage.CompressedStaticFilesStorage'
 
-    base_url: str = 'debug'
-    wagtailadmin_base_url: str = 'debug'
+    base_url: str = 'NOVALUE'
+    wagtailadmin_base_url: str = 'NOVALUE'
 
     sentry_browser_traces_sample_rate: float = 1.0
-    sentry_dsn: str = 'debug'
+    sentry_dsn: str = 'NOVALUE'
     sentry_environment: str = 'dev'
     sentry_enable_tracing: bool = False
     sentry_traces_sample_rate: float = 1.0
@@ -53,70 +53,70 @@ class BaseSettings(PydanticBaseSettings):
     session_cookie_secure: bool = True
     csrf_cookie_secure: bool = True
 
-    privacy_cookie_domain: str = 'debug'
+    privacy_cookie_domain: str = 'NOVALUE'
 
-    aws_s3_region_name: str = 'debug'
-    aws_storage_bucket_name: str = 'debug'
-    aws_s3_custom_domain: str = 'debug'
+    aws_s3_region_name: str = 'NOVALUE'
+    aws_storage_bucket_name: str = 'NOVALUE'
+    aws_s3_custom_domain: str = 'NOVALUE'
     aws_s3_url_protocol: str = 'https:'
-    aws_access_key_id: str = 'debug'
-    aws_secret_access_key: str = 'debug'
+    aws_access_key_id: str = 'NOVALUE'
+    aws_secret_access_key: str = 'NOVALUE'
     aws_s3_host: str = 's3-eu-west-2.amazonaws.com'
     aws_s3_signature_version: str = 's3v4'
     aws_querystring_auth: bool = False
     s3_use_sigv4: bool = True
 
     service_name: str = 'great-cms'
-    elastic_apm_secret_token: str = 'debug'
-    elastic_apm_url: str = 'debug'
+    elastic_apm_secret_token: str = 'NOVALUE'
+    elastic_apm_url: str = 'NOVALUE'
     elastic_apm_server_timeout: str = '20s'
 
-    opensearch_provider: str = 'debug'
-    opensearch_instance_name: str = 'debug'
+    opensearch_provider: str = 'NOVALUE'
+    opensearch_instance_name: str = 'NOVALUE'
     opensearch_url: str = 'localhost:9200'
 
     elasticsearch_case_study_index: str = 'case-studies'
 
     enforce_staff_sso_enabled: bool = False
 
-    staff_sso_authbroker_url: str = 'debug'
-    authbroker_client_id: str = 'debug'
-    authbroker_client_secret: str = 'debug'
+    staff_sso_authbroker_url: str = 'NOVALUE'
+    authbroker_client_id: str = 'NOVALUE'
+    authbroker_client_secret: str = 'NOVALUE'
 
-    sso_proxy_login_url: str = 'debug'
+    sso_proxy_login_url: str = 'NOVALUE'
 
-    sso_api_client_base_url: str = 'debug'
-    sso_signature_secret: str = 'debug'
+    sso_api_client_base_url: str = 'NOVALUE'
+    sso_signature_secret: str = 'NOVALUE'
     directory_sso_api_client_sender_id: str = 'directory'
 
     sso_profile_url: str = '/profile/'  # directory-sso-profile is now in great-cms
 
-    sso_proxy_login_url: str = 'debug'
-    sso_proxy_logout_url: str = 'debug'
-    sso_proxy_signup_url: str = 'debug'
-    sso_proxy_password_reset_url: str = 'debug'
-    sso_proxy_redirect_field_name: str = 'debug'
-    sso_session_cookie: str = 'debug'
+    sso_proxy_login_url: str = 'NOVALUE'
+    sso_proxy_logout_url: str = 'NOVALUE'
+    sso_proxy_signup_url: str = 'NOVALUE'
+    sso_proxy_password_reset_url: str = 'NOVALUE'
+    sso_proxy_redirect_field_name: str = 'NOVALUE'
+    sso_session_cookie: str = 'NOVALUE'
     sso_display_logged_in_cookie: str = 'sso_display_logged_in'
 
-    sso_oauth2_linkedin_url: str = 'debug'
-    sso_oauth2_google_url: str = 'debug'
+    sso_oauth2_linkedin_url: str = 'NOVALUE'
+    sso_oauth2_google_url: str = 'NOVALUE'
 
-    google_tag_manager_id: str = 'debug'
-    google_tag_manager_env: str = 'debug'
-    utm_cookie_domain: str = 'debug'
+    google_tag_manager_id: str = 'NOVALUE'
+    google_tag_manager_env: str = 'NOVALUE'
+    utm_cookie_domain: str = 'NOVALUE'
 
-    recaptcha_public_key: str = 'debug'
-    recaptcha_private_key: str = 'debug'
+    recaptcha_public_key: str = 'NOVALUE'
+    recaptcha_private_key: str = 'NOVALUE'
     recaptcha_required_score: float = 0.5
 
-    directory_forms_api_base_url: str = 'debug'
-    directory_forms_api_api_key: str = 'debug'
-    directory_forms_api_sender_id: str = 'debug'
+    directory_forms_api_base_url: str = 'NOVALUE'
+    directory_forms_api_api_key: str = 'NOVALUE'
+    directory_forms_api_sender_id: str = 'NOVALUE'
     directory_forms_api_default_timeout: int = 5
     directory_forms_api_zendesk_sevice_name: str = 'directory'
 
-    eu_exit_zendesk_subdomain: str = 'debug'
+    eu_exit_zendesk_subdomain: str = 'NOVALUE'
 
     invest_contact_url: str = 'https://invest.great.gov.uk/contact/'
 
@@ -124,14 +124,14 @@ class BaseSettings(PydanticBaseSettings):
 
     find_a_supplier_contact_url: str = '/international/trade/contact/'
 
-    contact_enquiries_agent_email_address: str = 'debug'
-    contact_ecommerce_export_support_agent_email_address: str = 'debug'
-    contact_dit_agent_email_address: str = 'debug'
-    contact_events_agent_email_address: str = 'debug'
-    contact_dso_agent_email_address: str = 'debug'
-    contact_international_agent_email_address: str = 'debug'
-    contact_industry_agent_email_address: str = 'debug'
-    contact_industry_user_reply_to_id: str = 'debug'
+    contact_enquiries_agent_email_address: str = 'NOVALUE'
+    contact_ecommerce_export_support_agent_email_address: str = 'NOVALUE'
+    contact_dit_agent_email_address: str = 'NOVALUE'
+    contact_events_agent_email_address: str = 'NOVALUE'
+    contact_dso_agent_email_address: str = 'NOVALUE'
+    contact_international_agent_email_address: str = 'NOVALUE'
+    contact_industry_agent_email_address: str = 'NOVALUE'
+    contact_industry_user_reply_to_id: str = 'NOVALUE'
 
     contact_exporting_to_uk_hmrc_url: str = 'https://www.tax.service.gov.uk/shortforms/form/CITEX_CGEF'
     confirm_verification_code_template_id: str = 'a1eb4b0c-9bab-44d3-ac2f-7585bf7da24c'
@@ -166,8 +166,8 @@ class BaseSettings(PydanticBaseSettings):
     campaign_user_notify_template_id: str = '1e00a6d9-8505-44e0-b314-6c01c46bc1b7'
     ukef_contact_user_notify_template_id: str = '09677460-1796-4a60-a37c-c1a59068219e'
     ukef_contact_agent_notify_template_id: str = 'e24ba486-6337-46ce-aba3-45d1d3a2aa66'
-    ukef_contact_agent_email_address: str = 'debug'
-    ukef_form_submit_tracker_url: str = 'debug'
+    ukef_contact_agent_email_address: str = 'NOVALUE'
+    ukef_form_submit_tracker_url: str = 'NOVALUE'
 
     export_academy_notify_registration_template_id: str = '3b68c119-fdc5-4517-90dc-043e88853b0f'
 
@@ -182,41 +182,41 @@ class BaseSettings(PydanticBaseSettings):
 
     international_investment_notify_agent_template_id: str = 'ca1a4f1b-7c0b-4eb7-bfb2-fdff898b09f3'
     international_investment_notify_user_template_id: str = '37b5fa22-0850-49f5-af1f-5c2984ca0309'
-    international_investment_agent_email: str = 'debug'
+    international_investment_agent_email: str = 'NOVALUE'
 
-    dnb_api_username: str = 'debug'
-    dnb_api_password: str = 'debug'
+    dnb_api_username: str = 'NOVALUE'
+    dnb_api_password: str = 'NOVALUE'
     dnb_api_renew_access_token_seconds_remaining: int = 20
 
-    maxmind_licence_key: str = 'debug'
+    maxmind_licence_key: str = 'NOVALUE'
     geolocation_maxmind_database_file_url: str = 'https://download.maxmind.com/app/geoip_download'
     geoip_download_day: int = 1
     geoip_download_hour: int = 0
     geoip_download_minute: int = 0
 
-    companies_house_api_key: str = 'debug'
-    companies_house_client_id: str = 'debug'
-    companies_house_client_secret: str = 'debug'
+    companies_house_api_key: str = 'NOVALUE'
+    companies_house_client_id: str = 'NOVALUE'
+    companies_house_client_secret: str = 'NOVALUE'
     companies_house_url: str = 'https://account.companieshouse.gov.uk'
     companies_house_api_url: str = 'https://api.companieshouse.gov.uk'
 
-    directory_api_client_base_url: str = 'debug'
-    directory_api_client_api_key: str = 'debug'
+    directory_api_client_base_url: str = 'NOVALUE'
+    directory_api_client_api_key: str = 'NOVALUE'
 
-    directory_ch_search_client_base_url: str = 'debug'
-    directory_ch_search_client_api_key: str = 'debug'
+    directory_ch_search_client_base_url: str = 'NOVALUE'
+    directory_ch_search_client_api_key: str = 'NOVALUE'
     directory_ch_search_client_sender_id: str = 'directory'
     directory_ch_search_client_default_timeout: str = 5
 
-    directory_forms_api_base_url: str = 'debug'
-    directory_forms_api_api_key: str = 'debug'
-    directory_forms_api_sender_id: str = 'debug'
+    directory_forms_api_base_url: str = 'NOVALUE'
+    directory_forms_api_api_key: str = 'NOVALUE'
+    directory_forms_api_sender_id: str = 'NOVALUE'
     directory_api_forms_default_timeout: int = 5
     directory_forms_api_zendesk_sevice_name: str = 'directory'
 
     max_compare_places_allowed: int = 10
 
-    get_address_api_key: str = 'debug'
+    get_address_api_key: str = 'NOVALUE'
 
     check_duties_url: str = 'https://www.check-duties-customs-exporting-goods.service.gov.uk/selectdest'
 
@@ -227,28 +227,28 @@ class BaseSettings(PydanticBaseSettings):
     united_nations_url: str = 'https://www.un.org/en/'
 
     ccce_base_url: str = 'https://info.stage.3ceonline.com'
-    ccce_commodity_search_token: str = 'debug'
+    ccce_commodity_search_token: str = 'NOVALUE'
 
-    directory_constants_url_single_sign_on: str = 'debug'
-    directory_constants_url_find_a_buyer: str = 'debug'
-    directory_constants_url_great_domestic: str = 'debug'
+    directory_constants_url_single_sign_on: str = 'NOVALUE'
+    directory_constants_url_find_a_buyer: str = 'NOVALUE'
+    directory_constants_url_great_domestic: str = 'NOVALUE'
 
     validator_max_logo_size_bytes: int = 2 * 1024 * 1024
     validator_max_case_study_image_size_bytes: int = 2 * 1024 * 1024
     validator_max_case_study_video_size_bytes: int = 20 * 1024 * 1024
 
-    environment_css_theme_file: str = 'debug'
+    environment_css_theme_file: str = 'NOVALUE'
 
     wagtail_transfer_local_dev: bool = False
-    wagtailtransfer_secret_key: str = 'debug'
-    wagtailtransfer_base_url_dev: str = 'debug'
-    wagtailtransfer_secret_key_dev: str = 'debug'
-    wagtailtransfer_base_url_uat: str = 'debug'
-    wagtailtransfer_secret_key_uat: str = 'debug'
-    wagtailtransfer_base_url_staging: str = 'debug'
-    wagtailtransfer_secret_key_staging: str = 'debug'
-    wagtailtransfer_base_url_production: str = 'debug'
-    wagtailtransfer_secret_key_production: str = 'debug'
+    wagtailtransfer_secret_key: str = 'NOVALUE'
+    wagtailtransfer_base_url_dev: str = 'NOVALUE'
+    wagtailtransfer_secret_key_dev: str = 'NOVALUE'
+    wagtailtransfer_base_url_uat: str = 'NOVALUE'
+    wagtailtransfer_secret_key_uat: str = 'NOVALUE'
+    wagtailtransfer_base_url_staging: str = 'NOVALUE'
+    wagtailtransfer_secret_key_staging: str = 'NOVALUE'
+    wagtailtransfer_base_url_production: str = 'NOVALUE'
+    wagtailtransfer_secret_key_production: str = 'NOVALUE'
     wagtailtransfer_chooser_api_proxy_timeout: int = 10
 
     feature_export_plan_sections_disabled_list: list = []
@@ -295,9 +295,9 @@ class BaseSettings(PydanticBaseSettings):
 
     ax_compare_places_allowed: int = 10
 
-    beta_token: str = 'debug'
-    beta_whitelisted_endpoints: str = 'debug'
-    beta_blacklisted_users: str = 'debug'
+    beta_token: str = 'NOVALUE'
+    beta_whitelisted_endpoints: str = 'NOVALUE'
+    beta_blacklisted_users: str = 'NOVALUE'
     beta_token_expiration_days: int = 30
 
     great_support_email: str = 'great.support@trade.gov.uk'
@@ -307,45 +307,45 @@ class BaseSettings(PydanticBaseSettings):
 
     breadcrumbs_root_url: str = 'https://great.gov.uk/'
 
-    aws_access_key_id_data_science: str = 'debug'
-    aws_secret_access_key_data_science: str = 'debug'
-    aws_storage_bucket_name_data_science: str = 'debug'
-    aws_s3_region_name_data_science: str = 'debug'
+    aws_access_key_id_data_science: str = 'NOVALUE'
+    aws_secret_access_key_data_science: str = 'NOVALUE'
+    aws_storage_bucket_name_data_science: str = 'NOVALUE'
+    aws_s3_region_name_data_science: str = 'NOVALUE'
 
     elastic_apm_enabled: bool = False
     service_name: str = 'great-cms'
-    elastic_apm_secret_token: str = 'debug'
-    elastic_apm_url: str = 'debug'
+    elastic_apm_secret_token: str = 'NOVALUE'
+    elastic_apm_url: str = 'NOVALUE'
     elastic_apm_server_timeout: str = '20s'
 
     market_access_zendesk_subject: str = 'market access'
     market_access_forms_api_zendesk_service_name: str = 'market_access'
 
-    health_check_token: str = 'debug'
+    health_check_token: str = 'NOVALUE'
 
-    activity_stream_access_key_id: str = 'debug'
-    activity_stream_secret_key: str = 'debug'
-    activity_stream_url: str = 'debug'
-    activity_stream_ip_allowlist: str = 'debug'
+    activity_stream_access_key_id: str = 'NOVALUE'
+    activity_stream_secret_key: str = 'NOVALUE'
+    activity_stream_url: str = 'NOVALUE'
+    activity_stream_ip_allowlist: str = 'NOVALUE'
 
-    exporting_opportunities_api_basic_auth_username: str = 'debug'
-    exporting_opportunities_api_basic_auth_password: str = 'debug'
-    exporting_opportunities_api_base_url: str = 'debug'
-    exporting_opportunities_api_secret: str = 'debug'
-    exporting_opportunities_search_url: str = 'debug'
+    exporting_opportunities_api_basic_auth_username: str = 'NOVALUE'
+    exporting_opportunities_api_basic_auth_password: str = 'NOVALUE'
+    exporting_opportunities_api_base_url: str = 'NOVALUE'
+    exporting_opportunities_api_secret: str = 'NOVALUE'
+    exporting_opportunities_search_url: str = 'NOVALUE'
 
-    url_prefix_domain: str = 'debug'
+    url_prefix_domain: str = 'NOVALUE'
 
-    hashids_salt: str = 'debug'
+    hashids_salt: str = 'NOVALUE'
 
     clam_av_enabled: bool = False
-    clam_av_host: str = 'debug'
-    clam_av_username: str = 'debug'
-    clam_av_password: str = 'debug'
+    clam_av_host: str = 'NOVALUE'
+    clam_av_username: str = 'NOVALUE'
+    clam_av_password: str = 'NOVALUE'
 
     celery_task_always_eager: bool = True
 
-    moderation_email_dist_list: str = 'debug'
+    moderation_email_dist_list: str = 'NOVALUE'
     campaign_moderators_email_template_id: str = '75c6fde4-f27c-4f75-b7ed-2b526912a041'
     campaign_moderation_requestor_email_template_id: str = '321db5bd-362c-45de-b8ce-6e9b0f36198e'
     campaign_moderation_reply_to_id: str = '654df5da-c214-4297-bb55-27690ce1813d'
@@ -362,7 +362,7 @@ class BaseSettings(PydanticBaseSettings):
 
     csp_upgrade_insecure_requests: bool = True
 
-    opensearch_adminsearch_provider: str = 'debug'
+    opensearch_adminsearch_provider: str = 'NOVALUE'
     opensearch_adminsearch_url: str = 'localhost:9200'
 
     headless: bool = True
