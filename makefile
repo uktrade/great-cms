@@ -91,11 +91,11 @@ LOCUST := \
 		-H http://127.0.0.1:8020
 
 kill_webserver := \
-	pkill -f runserver_plus
+	pkill -f runserver
 
 test_load:
-	ENV_FILES='test,dev' python manage.py runserver_plus 127.0.0.1:8020 --keep-meta-shutdown &
-	sleep 5
+	ENV_FILES='test,dev' python manage.py runserver 127.0.0.1:8020 &
+	sleep 10
 	$(LOCUST)
 	-$(kill_webserver)
 
