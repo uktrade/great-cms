@@ -1,7 +1,5 @@
-{% load get_market_widget_data from component_tags %}
 {% load is_cheg_excluded_country from content_tags %}
 
-{% with market=market|get_market_widget_data %}
 <div class="govuk-!-padding-6 great-bg-white great-ds-box-shadow great-ds-card-panels__item">
     <span class="great-meta-label govuk-!-margin-bottom-2">
         <img src="/static/icons/hand.svg" alt="" />
@@ -29,4 +27,3 @@
         </a>
     </div>
 </div>
-{% endwith %}
