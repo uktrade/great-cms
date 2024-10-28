@@ -696,36 +696,19 @@ CONTACT_INDUSTRY_USER_TEMPLATE_ID = newenv.contact_industry_user_template_id
 CONTACT_INDUSTRY_USER_REPLY_TO_ID = env.str('CONTACT_INDUSTRY_USER_REPLY_TO_ID', None)
 CONTACT_FAS_COMPANY_NOTIFY_TEMPLATE_ID = newenv.contact_fas_company_notify_template_id
 
-SUBSCRIBE_TO_FTA_UPDATES_NOTIFY_TEMPLATE_ID = env.str(
-    'SUBSCRIBE_TO_FTA_UPDATES_NOTIFY_TEMPLATE_ID', 'cfa3b4b3-c232-4603-a3ce-e476ee8bab92'
-)
+SUBSCRIBE_TO_FTA_UPDATES_NOTIFY_TEMPLATE_ID = newenv.subscribe_to_fta_updates_notify_template_id
 
-GOV_NOTIFY_WELCOME_TEMPLATE_ID = env.str('GOV_NOTIFY_WELCOME_TEMPLATE_ID', '0a4ae7a9-7f67-4f5d-a536-54df2dee42df')
+GOV_NOTIFY_WELCOME_TEMPLATE_ID = newenv.gov_notify_welcome_template_id
+GOV_NOTIFY_ALREADY_REGISTERED_TEMPLATE_ID = newenv.gov_notify_already_registered_template_id
+GOV_NOTIFY_NEW_MEMBER_REGISTERED_TEMPLATE_ID = newenv.gov_notify_new_member_registered_template_id
+GOV_NOTIFY_COLLABORATION_REQUEST_RESENT = newenv.gov_notify_collaboration_request_resent
 
-
-GOV_NOTIFY_ALREADY_REGISTERED_TEMPLATE_ID = env.str(
-    'GOV_NOTIFY_ALREADY_REGISTERED_TEMPLATE_ID', '5c8cc5aa-a4f5-48ae-89e6-df5572c317ec'
-)
-GOV_NOTIFY_NEW_MEMBER_REGISTERED_TEMPLATE_ID = env.str(
-    'GOV_NOTIFY_NEW_MEMBER_REGISTERED_TEMPLATE_ID', '439a8415-52d8-4975-b230-15cd34305bb5'
-)
-
-GOV_NOTIFY_COLLABORATION_REQUEST_RESENT = env.str(
-    'GOV_NOTIFY_COLLABORATION_REQUEST_RESENT', '60c14d97-8e58-4e5f-96e9-e0ca49bc3b96'
-)
 
 # Campaign form
-
-CAMPAIGN_USER_NOTIFY_TEMPLATE_ID = env.str(
-    'CAMPAIGN_USER_NOTIFY_TEMPLATE_ID ',
-    '1e00a6d9-8505-44e0-b314-6c01c46bc1b7',
-)
+CAMPAIGN_USER_NOTIFY_TEMPLATE_ID = newenv.campaign_user_notify_template_id
 
 # UK Export Finance
-UKEF_CONTACT_USER_NOTIFY_TEMPLATE_ID = env.str(
-    'UKEF_CONTACT_USER_NOTIFY_TEMPLATE_ID',
-    '09677460-1796-4a60-a37c-c1a59068219e',
-)
+UKEF_CONTACT_USER_NOTIFY_TEMPLATE_ID = newenv.ukef_contact_user_notify_template_id
 UKEF_CONTACT_AGENT_NOTIFY_TEMPLATE_ID = env.str(
     'UKEF_CONTACT_AGENT_NOTIFY_TEMPLATE_ID',
     'e24ba486-6337-46ce-aba3-45d1d3a2aa66',
@@ -736,56 +719,40 @@ UKEF_CONTACT_AGENT_EMAIL_ADDRESS = env.str(
 UKEF_FORM_SUBMIT_TRACKER_URL = env.str('UKEF_FORM_SUBMIT_TRACKER_URL')  # A Pardot URL
 
 # Export academy
-EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID = env.str(
-    'EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID', '3b68c119-fdc5-4517-90dc-043e88853b0f'
-)
-EXPORT_ACADEMY_NOTIFY_BOOKING_TEMPLATE_ID = env.str(
-    'EXPORT_ACADEMY_NOTIFY_BOOKING_TEMPLATE_ID', '109d5d9e-4c5f-4be5-bc35-5769ef51a8df'
-)
-EXPORT_ACADEMY_NOTIFY_CANCELLATION_TEMPLATE_ID = env.str(
-    'EXPORT_ACADEMY_NOTIFY_CANCELLATION_TEMPLATE_ID', 'a073bd50-bd01-4cea-98c9-f2a54a0a1b56'
-)
-EXPORT_ACADEMY_NOTIFY_EVENT_REMINDER_TEMPLATE_ID = env.str(
-    'EXPORT_ACADEMY_NOTIFY_EVENT_REMINDER_TEMPLATE_ID', 'b446f2be-8c92-40af-a5c8-e21b8d9e8077'
-)
-EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID = env.str(
-    'EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID', 'ff45b258-ae9e-4939-a049-089d959ddfee'
-)
-EXPORT_ACADEMY_EVENT_ALLOW_JOIN_BEFORE_START_MINS = env.int('EXPORT_ACADEMY_EVENT_ALLOW_JOIN_BEFORE_START_MINS', 30)
+EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID = newenv.export_academy_notify_registration_template_id
+EXPORT_ACADEMY_NOTIFY_BOOKING_TEMPLATE_ID = newenv.export_academy_notify_booking_template_id
+EXPORT_ACADEMY_NOTIFY_CANCELLATION_TEMPLATE_ID = newenv.export_academy_notify_cancellation_template_id
+EXPORT_ACADEMY_NOTIFY_EVENT_REMINDER_TEMPLATE_ID = newenv.export_academy_notify_event_reminder_template_id
+EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID = newenv.export_academy_notify_follow_up_template_id
+EXPORT_ACADEMY_EVENT_ALLOW_JOIN_BEFORE_START_MINS = newenv.export_academy_event_allow_join_before_start_mins
 
 # International
-INTERNATIONAL_INVESTMENT_NOTIFY_AGENT_TEMPLATE_ID = env.str(
-    'INTERNATIONAL_INVESTMENT_NOTIFY_AGENT_TEMPLATE_ID', 'ca1a4f1b-7c0b-4eb7-bfb2-fdff898b09f3'
-)
-INTERNATIONAL_INVESTMENT_NOTIFY_USER_TEMPLATE_ID = env.str(
-    'INTERNATIONAL_INVESTMENT_NOTIFY_USER_TEMPLATE_ID', '37b5fa22-0850-49f5-af1f-5c2984ca0309'
-)
+INTERNATIONAL_INVESTMENT_NOTIFY_AGENT_TEMPLATE_ID = newenv.international_investment_notify_agent_template_id
+INTERNATIONAL_INVESTMENT_NOTIFY_USER_TEMPLATE_ID = newenv.international_investment_notify_user_template_id
 INTERNATIONAL_INVESTMENT_AGENT_EMAIL = env.str('INTERNATIONAL_INVESTMENT_AGENT_EMAIL', '')
+
 # International Dunn and Bradstreet company lookup
 DNB_API_USERNAME = env.str('DNB_API_USERNAME', '')
 DNB_API_PASSWORD = env.str('DNB_API_PASSWORD', '')
-DNB_API_RENEW_ACCESS_TOKEN_SECONDS_REMAINING = env.int('DNB_API_RENEW_ACCESS_TOKEN_SECONDS_REMAINING', 20)
+DNB_API_RENEW_ACCESS_TOKEN_SECONDS_REMAINING = newenv.dnb_api_renew_access_token_seconds_remaining
 
 # geo location
 GEOIP_PATH = os.path.join(ROOT_DIR, 'core/geolocation_data')
 GEOIP_COUNTRY = 'GeoLite2-Country.mmdb'
 GEOIP_CITY = 'GeoLite2-City.mmdb'
 MAXMIND_LICENCE_KEY = env.str('MAXMIND_LICENCE_KEY')
-GEOLOCATION_MAXMIND_DATABASE_FILE_URL = env.str(
-    'GEOLOCATION_MAXMIND_DATABASE_FILE_URL',
-    'https://download.maxmind.com/app/geoip_download',
-)
+GEOLOCATION_MAXMIND_DATABASE_FILE_URL = newenv.geolocation_maxmind_database_file_url
 # geoip download config, default = once on the first of the month
-GEOIP_DOWNLOAD_DAY = env.str('GEOIP_DOWNLOAD_DAY', 1)
-GEOIP_DOWNLOAD_HOUR = env.str('GEOIP_DOWNLOAD_HOUR', 0)
-GEOIP_DOWNLOAD_MINUTE = env.str('GEOIP_DOWNLOAD_MINUTE', 0)
+GEOIP_DOWNLOAD_DAY = newenv.geoip_download_day
+GEOIP_DOWNLOAD_HOUR = newenv.geoip_download_hour
+GEOIP_DOWNLOAD_MINUTE = newenv.geoip_download_minute
 
 # Companies House
 COMPANIES_HOUSE_API_KEY = env.str('COMPANIES_HOUSE_API_KEY', '')
 COMPANIES_HOUSE_CLIENT_ID = env.str('COMPANIES_HOUSE_CLIENT_ID', '')
 COMPANIES_HOUSE_CLIENT_SECRET = env.str('COMPANIES_HOUSE_CLIENT_SECRET', '')
-COMPANIES_HOUSE_URL = env.str('COMPANIES_HOUSE_URL', 'https://account.companieshouse.gov.uk')
-COMPANIES_HOUSE_API_URL = env.str('COMPANIES_HOUSE_API_URL', 'https://api.companieshouse.gov.uk')
+COMPANIES_HOUSE_URL = newenv.companies_house_url
+COMPANIES_HOUSE_API_URL = newenv.companies_house_api_url
 
 # directory-api
 DIRECTORY_API_CLIENT_BASE_URL = env.str('DIRECTORY_API_CLIENT_BASE_URL')
@@ -796,22 +763,20 @@ DIRECTORY_API_CLIENT_DEFAULT_TIMEOUT = 15
 # Companies House Search
 DIRECTORY_CH_SEARCH_CLIENT_BASE_URL = env.str('DIRECTORY_CH_SEARCH_CLIENT_BASE_URL')
 DIRECTORY_CH_SEARCH_CLIENT_API_KEY = env.str('DIRECTORY_CH_SEARCH_CLIENT_API_KEY')
-DIRECTORY_CH_SEARCH_CLIENT_SENDER_ID = env.str('DIRECTORY_CH_SEARCH_CLIENT_SENDER_ID', 'directory')
-DIRECTORY_CH_SEARCH_CLIENT_DEFAULT_TIMEOUT = env.str('DIRECTORY_CH_SEARCH_CLIENT_DEFAULT_TIMEOUT', 5)
+DIRECTORY_CH_SEARCH_CLIENT_SENDER_ID = newenv.directory_ch_search_client_sender_id
+DIRECTORY_CH_SEARCH_CLIENT_DEFAULT_TIMEOUT = newenv.directory_ch_search_client_default_timeout
 
 # getAddress.io
 GET_ADDRESS_API_KEY = env.str('GET_ADDRESS_API_KEY')
 
-CHECK_DUTIES_URL = env.str(
-    'CHECK_DUTIES_URL', 'https://www.check-duties-customs-exporting-goods.service.gov.uk/selectdest'
-)
-CIA_FACTBOOK_URL = env.str('CIA_FACTBOOK_URL', 'https://www.cia.gov/the-world-factbook/')
-WORLD_BANK_URL = env.str('WORLD_BANK_URL', 'https://www.worldbank.org/')
-DATA_WORLD_BANK_URL = env.str('DATA_WORLD_BANK_URL', 'https://data.worldbank.org/indicator/NY.ADJ.NNTY.PC.CD')
-UNITED_NATIONS_URL = env.str('UNITED_NATIONS_URL', 'https://www.un.org/en/')
+CHECK_DUTIES_URL = newenv.check_duties_url
+CIA_FACTBOOK_URL = newenv.cia_factbook_url
+WORLD_BANK_URL = newenv.world_bank_url
+DATA_WORLD_BANK_URL = newenv.data_world_bank_url
+UNITED_NATIONS_URL = newenv.united_nations_url
 
 # 3CE commodity classification
-CCCE_BASE_URL = env.str('CCCE_BASE_URL', 'https://info.stage.3ceonline.com')
+CCCE_BASE_URL = newenv.ccce_base_url
 COMMODITY_SEARCH_TOKEN = env.str('CCCE_COMMODITY_SEARCH_TOKEN', '')
 COMMODITY_SEARCH_URL = CCCE_BASE_URL + '/ccce/apis/classify/v1/interactive/classify-start'
 COMMODITY_SEARCH_REFINE_URL = CCCE_BASE_URL + '/ccce/apis/classify/v1/interactive/classify-continue'
@@ -824,9 +789,9 @@ DIRECTORY_CONSTANTS_URL_FIND_A_BUYER = env.str('DIRECTORY_CONSTANTS_URL_FIND_A_B
 DIRECTORY_CONSTANTS_URL_GREAT_DOMESTIC = env.str('DIRECTORY_CONSTANTS_URL_GREAT_DOMESTIC', '')
 
 # directory validators
-VALIDATOR_MAX_LOGO_SIZE_BYTES = env.int('VALIDATOR_MAX_LOGO_SIZE_BYTES', 2 * 1024 * 1024)
-VALIDATOR_MAX_CASE_STUDY_IMAGE_SIZE_BYTES = env.int('VALIDATOR_MAX_CASE_STUDY_IMAGE_SIZE_BYTES', 2 * 1024 * 1024)
-VALIDATOR_MAX_CASE_STUDY_VIDEO_SIZE_BYTES = env.int('VALIDATOR_MAX_CASE_STUDY_VIDEO_SIZE_BYTES', 20 * 1024 * 1024)
+VALIDATOR_MAX_LOGO_SIZE_BYTES = newenv.validator_max_logo_size_bytes
+VALIDATOR_MAX_CASE_STUDY_IMAGE_SIZE_BYTES = newenv.validator_max_case_study_image_size_bytes
+VALIDATOR_MAX_CASE_STUDY_VIDEO_SIZE_BYTES = newenv.validator_max_case_study_video_size_bytes
 
 # CHANGE THIS IF WE START USING PRIVATE DOCUMENTS
 WAGTAILDOCS_SERVE_METHOD = 'direct'  # Don't proxy documents via the PaaS - they are public anyway.
@@ -872,7 +837,7 @@ WAGTAILTRANSFER_UPDATE_RELATED_MODELS = [
 ]
 
 # Give W-T a little more time than the default 5 secs to do things
-WAGTAILTRANSFER_CHOOSER_API_PROXY_TIMEOUT = env.int('WAGTAILTRANSFER_CHOOSER_API_PROXY_TIMEOUT', 10)
+WAGTAILTRANSFER_CHOOSER_API_PROXY_TIMEOUT = newenv.wagtailtransfer_chooser_api_proxy_timeout
 
 WAGTAILTRANSFER_FOLLOWED_REVERSE_RELATIONS = [
     # (model, reverse_relationship_name, track_deletions)
@@ -892,49 +857,42 @@ WAGTAILTRANSFER_LOOKUP_FIELDS = {
     'auth.permission': ['content_type_id', 'id'],
 }
 
-FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST = env.list('FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST', default=[])
-FEATURE_COMPARE_MARKETS_TABS = env.str('FEATURE_COMPARE_MARKETS_TABS', '{ }')
-FEATURE_SHOW_REPORT_BARRIER_CONTENT = env.bool('FEATURE_SHOW_REPORT_BARRIER_CONTENT', False)
-FEATURE_SHOW_BRAND_BANNER = env.bool('FEATURE_SHOW_BRAND_BANNER', False)
-FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK = env.bool('FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK', False)
-FEATURE_SHOW_CASE_STUDY_RANKINGS = env.bool('FEATURE_SHOW_CASE_STUDY_RANKINGS', False)
-FEATURE_INTERNATIONAL_ONLINE_OFFER = env.bool('FEATURE_INTERNATIONAL_ONLINE_OFFER', False)
-FEATURE_INTERNATIONAL_INVESTMENT = env.bool('FEATURE_INTERNATIONAL_INVESTMENT', False)
-FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION = env.bool('FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION', False)
-FEATURE_DIGITAL_POINT_OF_ENTRY = env.bool('FEATURE_DIGITAL_POINT_OF_ENTRY', False)
-FEATURE_PRODUCT_EXPERIMENT_HEADER = env.bool('FEATURE_PRODUCT_EXPERIMENT_HEADER', False)
-FEATURE_PRODUCT_EXPERIMENT_LINKS = env.bool('FEATURE_PRODUCT_EXPERIMENT_LINKS', False)
-FEATURE_DESIGN_SYSTEM = env.bool('FEATURE_DESIGN_SYSTEM', False)
-FEATURE_COURSES_LANDING_PAGE = env.bool('FEATURE_COURSES_LANDING_PAGE', False)
-FEATURE_DEA_V2 = env.bool('FEATURE_DEA_V2', False)
-FEATURE_SHOW_OLD_CONTACT_FORM = env.bool('FEATURE_SHOW_OLD_CONTACT_FORM', False)
-FEATURE_HOMEPAGE_REDESIGN_V1 = env.bool('FEATURE_HOMEPAGE_REDESIGN_V1', False)
-FEATURE_SHARE_COMPONENT = env.bool('FEATURE_SHARE_COMPONENT', False)
-FEATURE_PRODUCT_MARKET_HERO = env.bool('FEATURE_PRODUCT_MARKET_HERO', False)
-FEATURE_PRODUCT_MARKET_SEARCH_ENABLED = env.bool('FEATURE_PRODUCT_MARKET_SEARCH_ENABLED', False)
-FEATURE_SHOW_USA_CTA = env.bool('FEATURE_SHOW_USA_CTA', False)
-FEATURE_SHOW_EU_CTA = env.bool('FEATURE_SHOW_EU_CTA', False)
-FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_CHINA = env.bool('FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_CHINA', False)
-FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_GERMANY = env.bool(
-    'FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_GERMANY', False
-)
-FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_USA = env.bool('FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_USA', False)
-FEATURE_UKEA_SECTOR_FILTER = env.bool('FEATURE_UKEA_SECTOR_FILTER', False)
-FEATURE_UKEA_REGION_FILTER = env.bool('FEATURE_UKEA_REGION_FILTER', False)
-FEATURE_UKEA_MARKET_FILTER = env.bool('FEATURE_UKEA_MARKET_FILTER', False)
-FEATURE_UKEA_TRADING_BLOC_FILTER = env.bool('FEATURE_UKEA_TRADING_BLOC_FILTER', False)
-FEATURE_MARKET_GUIDES_SECTOR_LINKS = env.bool('FEATURE_MARKET_GUIDES_SECTOR_LINKS', False)
-
-FEATURE_DESIGN_SYSTEM = env.bool('FEATURE_DESIGN_SYSTEM', False)
-
-FEATURE_GREAT_ERROR = env.bool('FEATURE_GREAT_ERROR', False)
-
-FEATURE_GUIDED_JOURNEY = env.bool('FEATURE_GUIDED_JOURNEY', False)
-FEATURE_GUIDED_JOURNEY_EXTRAS = env.bool('FEATURE_GUIDED_JOURNEY_EXTRAS', False)
-
-FEATURE_UNGUIDED_JOURNEY = env.bool('FEATURE_UNGUIDED_JOURNEY', False)
-
-FEATURE_OPENSEARCH = env.bool('FEATURE_OPENSEARCH', False)
+FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST = newenv.feature_export_plan_sections_disabled_list
+FEATURE_COMPARE_MARKETS_TABS = newenv.feature_compare_markets_tabs
+FEATURE_SHOW_REPORT_BARRIER_CONTENT = newenv.feature_show_report_barrier_content
+FEATURE_SHOW_BRAND_BANNER = newenv.feature_show_brand_banner
+FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK = newenv.feature_show_international_footer_link
+FEATURE_SHOW_CASE_STUDY_RANKINGS = newenv.feature_show_case_study_rankings
+FEATURE_INTERNATIONAL_ONLINE_OFFER = newenv.feature_international_online_offer
+FEATURE_INTERNATIONAL_INVESTMENT = newenv.feature_international_investment
+FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION = newenv.feature_microsite_enable_template_translation
+FEATURE_DIGITAL_POINT_OF_ENTRY = newenv.feature_digital_point_of_entry
+FEATURE_PRODUCT_EXPERIMENT_HEADER = newenv.feature_product_experiment_header
+FEATURE_PRODUCT_EXPERIMENT_LINKS = newenv.feature_product_experiment_links
+FEATURE_DESIGN_SYSTEM = newenv.feature_design_system
+FEATURE_COURSES_LANDING_PAGE = newenv.feature_courses_landing_page
+FEATURE_DEA_V2 = newenv.feature_dea_v2
+FEATURE_SHOW_OLD_CONTACT_FORM = newenv.feature_show_old_contact_form
+FEATURE_HOMEPAGE_REDESIGN_V1 = newenv.feature_homepage_redesign_v1
+FEATURE_SHARE_COMPONENT = newenv.feature_share_component
+FEATURE_PRODUCT_MARKET_HERO = newenv.feature_product_market_hero
+FEATURE_PRODUCT_MARKET_SEARCH_ENABLED = newenv.feature_product_market_search_enabled
+FEATURE_SHOW_USA_CTA = newenv.feature_show_usa_cta
+FEATURE_SHOW_EU_CTA = newenv.feature_show_eu_cta
+FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_CHINA = newenv.feature_show_market_guide_sector_spotlight_china
+FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_GERMANY = newenv.feature_show_market_guide_sector_spotlight_germany
+FEATURE_SHOW_MARKET_GUIDE_SECTOR_SPOTLIGHT_USA = newenv.feature_show_market_guide_sector_spotlight_usa
+FEATURE_UKEA_SECTOR_FILTER = newenv.feature_ukea_sector_filter
+FEATURE_UKEA_REGION_FILTER = newenv.feature_ukea_region_filter
+FEATURE_UKEA_MARKET_FILTER = newenv.feature_ukea_market_filter
+FEATURE_UKEA_TRADING_BLOC_FILTER = newenv.feature_ukea_trading_bloc_filter
+FEATURE_MARKET_GUIDES_SECTOR_LINKS = newenv.feature_market_guides_sector_links
+FEATURE_DESIGN_SYSTEM = newenv.feature_design_system
+FEATURE_GREAT_ERROR = newenv.feature_great_error
+FEATURE_GUIDED_JOURNEY = newenv.feature_guided_journey
+FEATURE_GUIDED_JOURNEY_EXTRAS = newenv.feature_guided_journey_extras
+FEATURE_UNGUIDED_JOURNEY = newenv.feature_unguided_journey
+FEATURE_OPENSEARCH = newenv.feature_opensearch
 
 MAX_COMPARE_PLACES_ALLOWED = env.int('MAX_COMPARE_PLACES_ALLOWED', 10)
 
