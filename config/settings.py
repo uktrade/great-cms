@@ -16,7 +16,10 @@ from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
 
 import healthcheck.backends
+from config.env import env as newenv
 from .utils import get_wagtail_transfer_configuration, strip_password_data
+
+assert newenv is not None
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
 CORE_APP_DIR = ROOT_DIR / 'core'
@@ -26,9 +29,9 @@ env = environ.Env()
 for env_file in env.list('ENV_FILES', default=[]):
     env.read_env(f'config/env/{env_file}')
 
-DEBUG = env.bool('DEBUG', False)
-SECRET_KEY = env.str('SECRET_KEY')
-APP_ENVIRONMENT = env.str('APP_ENVIRONMENT')
+DEBUG = newenv.debug
+SECRET_KEY = newenv.secret_key
+APP_ENVIRONMENT = newenv.app_environment
 
 # As the app is running behind a host-based router supplied by GDS PaaS, we can open ALLOWED_HOSTS
 ALLOWED_HOSTS = ['*']

@@ -18,7 +18,7 @@ class BaseSettings(PydanticBaseSettings):
 
     # Start of Environment Variables
     debug: bool = False
-    secret_key: str = 'debug'
+    secret_key: str = 'fake_secret_key'
     app_environment: str = 'dev'
 
     safelist_hosts: str = []
