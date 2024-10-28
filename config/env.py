@@ -35,8 +35,8 @@ class BaseSettings(PydanticBaseSettings):
     default_file_storage: str = 'storages.backends.s3boto3.S3Boto3Storage'
     staticfiles_storage: str = 'whitenoise.storage.CompressedStaticFilesStorage'
 
-    base_url: str
-    wagtailadmin_base_url: str
+    base_url: str = 'debug'
+    wagtailadmin_base_url: str = 'debug'
 
     sentry_browser_traces_sample_rate: float = 1.0
     sentry_dsn: str = 'debug'
@@ -53,26 +53,26 @@ class BaseSettings(PydanticBaseSettings):
     session_cookie_secure: bool = True
     csrf_cookie_secure: bool = True
 
-    privacy_cookie_domain: str = ''
+    privacy_cookie_domain: str = 'debug'
 
-    aws_s3_region_name: str = ''
-    aws_storage_bucket_name: str = ''
-    aws_s3_custom_domain: str = ''
+    aws_s3_region_name: str = 'debug'
+    aws_storage_bucket_name: str = 'debug'
+    aws_s3_custom_domain: str = 'debug'
     aws_s3_url_protocol: str = 'https:'
-    aws_access_key_id: str
-    aws_secret_access_key: str
+    aws_access_key_id: str = 'debug'
+    aws_secret_access_key: str = 'debug'
     aws_s3_host: str = 's3-eu-west-2.amazonaws.com'
     aws_s3_signature_version: str = 's3v4'
     aws_querystring_auth: bool = False
     s3_use_sigv4: bool = True
 
     service_name: str = 'great-cms'
-    elastic_apm_secret_token: str
-    elastic_apm_url: str = ''
+    elastic_apm_secret_token: str = 'debug'
+    elastic_apm_url: str = 'debug'
     elastic_apm_server_timeout: str = '20s'
 
-    opensearch_provider: str = ''
-    opensearch_instance_name: str = ''
+    opensearch_provider: str = 'debug'
+    opensearch_instance_name: str = 'debug'
     opensearch_url: str = 'localhost:9200'
 
     elasticsearch_case_study_index: str = 'case-studies'
@@ -85,38 +85,38 @@ class BaseSettings(PydanticBaseSettings):
 
     sso_proxy_login_url: str
 
-    sso_api_client_base_url: str = ''
-    sso_signature_secret: str = ''
+    sso_api_client_base_url: str = 'debug'
+    sso_signature_secret: str = 'debug'
     directory_sso_api_client_sender_id: str = 'directory'
 
     sso_profile_url: str = '/profile/'  # directory-sso-profile is now in great-cms
 
-    sso_proxy_login_url: str
-    sso_proxy_logout_url: str
-    sso_proxy_signup_url: str
-    sso_proxy_password_reset_url: str
-    sso_proxy_redirect_field_name: str
-    sso_session_cookie: str
+    sso_proxy_login_url: str = 'debug'
+    sso_proxy_logout_url: str = 'debug'
+    sso_proxy_signup_url: str = 'debug'
+    sso_proxy_password_reset_url: str = 'debug'
+    sso_proxy_redirect_field_name: str = 'debug'
+    sso_session_cookie: str = 'debug'
     sso_display_logged_in_cookie: str = 'sso_display_logged_in'
 
-    sso_oauth2_linkedin_url: str
-    sso_oauth2_google_url: str
+    sso_oauth2_linkedin_url: str = 'debug'
+    sso_oauth2_google_url: str = 'debug'
 
-    google_tag_manager_id: str
-    google_tag_manager_env: str = ''
-    utm_cookie_domain: str
+    google_tag_manager_id: str = 'debug'
+    google_tag_manager_env: str = 'debug'
+    utm_cookie_domain: str = 'debug'
 
-    recaptcha_public_key: str
-    recaptcha_private_key: str
+    recaptcha_public_key: str = 'debug'
+    recaptcha_private_key: str = 'debug'
     recaptcha_required_score: float = 0.5
 
-    directory_forms_api_base_url: str
-    directory_forms_api_api_key: str
-    directory_forms_api_sender_id: str
+    directory_forms_api_base_url: str = 'debug'
+    directory_forms_api_api_key: str = 'debug'
+    directory_forms_api_sender_id: str = 'debug'
     directory_forms_api_default_timeout: int = 5
     directory_forms_api_zendesk_sevice_name: str = 'directory'
 
-    eu_exit_zendesk_subdomain: str
+    eu_exit_zendesk_subdomain: str = 'debug'
 
     invest_contact_url: str = 'https://invest.great.gov.uk/contact/'
 
@@ -132,30 +132,30 @@ class BaseSettings(PydanticBaseSettings):
     contactus_enquries_confirmation_template_id: str = '68030d40-4574-4aa1-b3ff-941320929964'
     contact_domestic_zendesk_subject: str = 'Great.gov.uk contact form'
     contact_enquiries_agent_notify_template_id: str = '7a343ec9-7670-4813-9ed4-ae83d3e1f5f7'
-    contact_enquiries_agent_email_address: str
+    contact_enquiries_agent_email_address: str = 'debug'
     contact_enquiries_user_notify_template_id: str = '61c82be6-b140-46fc-aeb2-472df8a94d35'
-    contact_ecommerce_export_support_agent_email_address: str
+    contact_ecommerce_export_support_agent_email_address: str = 'debug'
     contact_ecommerce_export_support_agent_notify_template_id: str = 'a56114d3-515e-4ee7-bb1a-9a0ceab04378'
     contact_ecommerce_export_support_notify_template_id: str = '18d807d2-f4cf-4b93-96c1-0d3169bd0906'
     contact_office_agent_notify_template_id: str = '0492eb2b-7daf-4b37-99cd-be3abbb9eb32'
     contact_office_user_notify_template_id: str = '03c031e1-1ee5-43f9-8b24-f6e4cfd56cf1'
-    contact_dit_agent_email_address: str
+    contact_dit_agent_email_address: str = 'debug'
     contact_events_user_notify_template_id: str = '2d5d556a-e0fa-4a9b-81a0-6ed3fcb2e3da'
     contact_events_agent_notify_template_id: str = '7a343ec9-7670-4813-9ed4-ae83d3e1f5f7'
-    contact_events_agent_email_address: str
+    contact_events_agent_email_address: str = 'debug'
     contact_dso_agent_notify_template_id: str = '7a343ec9-7670-4813-9ed4-ae83d3e1f5f7'
     contact_dso_user_notify_template_id: str = 'a6a3db79-944f-4c59-8eeb-2f756019976c'
-    contact_dso_agent_email_address: str
+    contact_dso_agent_email_address: str = 'debug'
     contact_exporting_user_notify_template_id: str = '5abd7372-a92d-4351-bccb-b9a38d353e75'
     contact_exporting_agent_subject: str = 'A form was submitted on great.gov.uk'
     contact_exporting_user_reply_to_email_id: str = 'ac1b973d-5b49-4d0d-a197-865fd25b4a97'
     contact_international_agent_notify_template_id: str = ('8bd422e0-3ec4-4b05-9de8-9cf039d258a9',)
-    contact_international_agent_email_address: str
+    contact_international_agent_email_address: str = 'debug'
     contact_international_user_notify_template_id: str = 'c07d1fb2-dc0c-40ba-a3e0-3113638e69a3'
-    contact_industry_agent_email_address: str = None
+    contact_industry_agent_email_address: str = 'debug'
     contact_industry_agent_template_id: str = 'a9318bce-7d65-41b2-8d4c-b4a76ba285a2'
     contact_industry_user_template_id: str = '6a97f783-d246-42ca-be53-26faf3b08e32'
-    contact_industry_user_reply_to_id: str = None
+    contact_industry_user_reply_to_id: str = 'debug'
     contact_fas_company_notify_template_id: str = 'bb88aa79-595a-44fc-9ed3-cf8a6cbd6306'
 
     subscribe_to_fta_updates_notify_template_id: str = 'cfa3b4b3-c232-4603-a3ce-e476ee8bab92'
@@ -168,8 +168,8 @@ class BaseSettings(PydanticBaseSettings):
 
     ukef_contact_user_notify_template_id: str = '09677460-1796-4a60-a37c-c1a59068219e'
     ukef_contact_agent_notify_template_id: str = 'e24ba486-6337-46ce-aba3-45d1d3a2aa66'
-    ukef_contact_agent_email_address: str
-    ukef_form_submit_tracker_url: str
+    ukef_contact_agent_email_address: str = 'debug'
+    ukef_form_submit_tracker_url: str = 'debug'
 
     export_academy_notify_registration_template_id: str = '3b68c119-fdc5-4517-90dc-043e88853b0f'
 
@@ -184,41 +184,41 @@ class BaseSettings(PydanticBaseSettings):
 
     international_investment_notify_agent_template_id: str = 'ca1a4f1b-7c0b-4eb7-bfb2-fdff898b09f3'
     international_investment_notify_user_template_id: str = '37b5fa22-0850-49f5-af1f-5c2984ca0309'
-    international_investment_agent_email: str = ''
+    international_investment_agent_email: str = 'debug'
 
-    dnb_api_username: str = ''
-    dnb_api_password: str = ''
+    dnb_api_username: str = 'debug'
+    dnb_api_password: str = 'debug'
     dnb_api_renew_access_token_seconds_remaining: int = 20
 
-    maxmind_licence_key: str
+    maxmind_licence_key: str = 'debug'
     geolocation_maxmind_database_file_url: str = 'https://download.maxmind.com/app/geoip_download'
-    geoip_download_day: str = 1
-    geoip_download_hour: str = 0
-    geoip_download_minute: str = 0
+    geoip_download_day: int = 1
+    geoip_download_hour: int = 0
+    geoip_download_minute: int = 0
 
-    companies_house_api_key: str = ''
-    companies_house_client_id: str = ''
-    companies_house_client_secret: str = ''
+    companies_house_api_key: str = 'debug'
+    companies_house_client_id: str = 'debug'
+    companies_house_client_secret: str = 'debug'
     companies_house_url: str = 'https://account.companieshouse.gov.uk'
     companies_house_api_url: str = 'https://api.companieshouse.gov.uk'
 
-    directory_api_client_base_url: str
-    directory_api_client_api_key: str
+    directory_api_client_base_url: str = 'debug'
+    directory_api_client_api_key: str = 'debug'
 
-    directory_ch_search_client_base_url: str
-    directory_ch_search_client_api_key: str
+    directory_ch_search_client_base_url: str = 'debug'
+    directory_ch_search_client_api_key: str = 'debug'
     directory_ch_search_client_sender_id: str = 'directory'
     directory_ch_search_client_default_timeout: str = 5
 
-    directory_forms_api_base_url: str
-    directory_forms_api_api_key: str
-    directory_forms_api_sender_id: str
+    directory_forms_api_base_url: str = 'debug'
+    directory_forms_api_api_key: str = 'debug'
+    directory_forms_api_sender_id: str = 'debug'
     directory_api_forms_default_timeout: int = 5
     directory_forms_api_zendesk_sevice_name: str = 'directory'
 
     max_compare_places_allowed: int = 10
 
-    get_address_api_key: str
+    get_address_api_key: str = 'debug'
 
     check_duties_url: str = 'https://www.check-duties-customs-exporting-goods.service.gov.uk/selectdest'
 
@@ -229,28 +229,28 @@ class BaseSettings(PydanticBaseSettings):
     united_nations_url: str = 'https://www.un.org/en/'
 
     ccce_base_url: str = 'https://info.stage.3ceonline.com'
-    ccce_commodity_search_token: str = ''
+    ccce_commodity_search_token: str = 'debug'
 
-    directory_constants_url_single_sign_on: str = ''
-    directory_constants_url_find_a_buyer: str = ''
-    directory_constants_url_great_domestic: str = ''
+    directory_constants_url_single_sign_on: str = 'debug'
+    directory_constants_url_find_a_buyer: str = 'debug'
+    directory_constants_url_great_domestic: str = 'debug'
 
     validator_max_logo_size_bytes: int = 2 * 1024 * 1024
     validator_max_case_study_image_size_bytes: int = 2 * 1024 * 1024
     validator_max_case_study_video_size_bytes: int = 20 * 1024 * 1024
 
-    environment_css_theme_file: str = ''
+    environment_css_theme_file: str = 'debug'
 
     wagtail_transfer_local_dev: bool = False
-    wagtailtransfer_secret_key: str
-    wagtailtransfer_base_url_dev: str = None
-    wagtailtransfer_secret_key_dev: str = None
-    wagtailtransfer_base_url_uat: str = None
-    wagtailtransfer_secret_key_uat: str = None
-    wagtailtransfer_base_url_staging: str = None
-    wagtailtransfer_secret_key_staging: str = None
-    wagtailtransfer_base_url_production: str = None
-    wagtailtransfer_secret_key_production: str = None
+    wagtailtransfer_secret_key: str = 'debug'
+    wagtailtransfer_base_url_dev: str = 'debug'
+    wagtailtransfer_secret_key_dev: str = 'debug'
+    wagtailtransfer_base_url_uat: str = 'debug'
+    wagtailtransfer_secret_key_uat: str = 'debug'
+    wagtailtransfer_base_url_staging: str = 'debug'
+    wagtailtransfer_secret_key_staging: str = 'debug'
+    wagtailtransfer_base_url_production: str = 'debug'
+    wagtailtransfer_secret_key_production: str = 'debug'
     wagtailtransfer_chooser_api_proxy_timeout: int = 10
 
     feature_export_plan_sections_disabled_list: list = []
@@ -297,9 +297,9 @@ class BaseSettings(PydanticBaseSettings):
 
     ax_compare_places_allowed: int = 10
 
-    beta_token: str = ''
-    beta_whitelisted_endpoints: str = None
-    beta_blacklisted_users: str = None
+    beta_token: str = 'debug'
+    beta_whitelisted_endpoints: str = 'debug'
+    beta_blacklisted_users: str = 'debug'
     beta_token_expiration_days: int = 30
 
     great_support_email: str = 'great.support@trade.gov.uk'
@@ -309,45 +309,45 @@ class BaseSettings(PydanticBaseSettings):
 
     breadcrumbs_root_url: str = 'https://great.gov.uk/'
 
-    aws_access_key_id_data_science: str = ''
-    aws_secret_access_key_data_science: str = ''
-    aws_storage_bucket_name_data_science: str = ''
-    aws_s3_region_name_data_science: str = ''
+    aws_access_key_id_data_science: str = 'debug'
+    aws_secret_access_key_data_science: str = 'debug'
+    aws_storage_bucket_name_data_science: str = 'debug'
+    aws_s3_region_name_data_science: str = 'debug'
 
     elastic_apm_enabled: bool = False
     service_name: str = 'great-cms'
-    elastic_apm_secret_token: str
-    elastic_apm_url: str
+    elastic_apm_secret_token: str = 'debug'
+    elastic_apm_url: str = 'debug'
     elastic_apm_server_timeout: str = '20s'
 
     market_access_zendesk_subject: str = 'market access'
     market_access_forms_api_zendesk_service_name: str = 'market_access'
 
-    health_check_token: str
+    health_check_token: str = 'debug'
 
-    activity_stream_access_key_id: str
-    activity_stream_secret_key: str
-    activity_stream_url: str
-    activity_stream_ip_allowlist: str
+    activity_stream_access_key_id: str = 'debug'
+    activity_stream_secret_key: str = 'debug'
+    activity_stream_url: str = 'debug'
+    activity_stream_ip_allowlist: str = 'debug'
 
-    exporting_opportunities_api_basic_auth_username: str = ''
-    exporting_opportunities_api_basic_auth_password: str = ''
-    exporting_opportunities_api_base_url: str
-    exporting_opportunities_api_secret: str
-    exporting_opportunities_search_url: str
+    exporting_opportunities_api_basic_auth_username: str = 'debug'
+    exporting_opportunities_api_basic_auth_password: str = 'debug'
+    exporting_opportunities_api_base_url: str = 'debug'
+    exporting_opportunities_api_secret: str = 'debug'
+    exporting_opportunities_search_url: str = 'debug'
 
-    url_prefix_domain: str = ''
+    url_prefix_domain: str = 'debug'
 
-    hashids_salt: str
+    hashids_salt: str = 'debug'
 
     clam_av_enabled: bool = False
-    clam_av_host: str = ''
-    clam_av_username: str = ''
-    clam_av_password: str = ''
+    clam_av_host: str = 'debug'
+    clam_av_username: str = 'debug'
+    clam_av_password: str = 'debug'
 
     celery_task_always_eager: bool = True
 
-    moderation_email_dist_list: str = ''
+    moderation_email_dist_list: str = 'debug'
     campaign_moderators_email_template_id: str = '75c6fde4-f27c-4f75-b7ed-2b526912a041'
     campaign_moderation_requestor_email_template_id: str = '321db5bd-362c-45de-b8ce-6e9b0f36198e'
     campaign_moderation_reply_to_id: str = '654df5da-c214-4297-bb55-27690ce1813d'
@@ -364,7 +364,7 @@ class BaseSettings(PydanticBaseSettings):
 
     csp_upgrade_insecure_requests: bool = True
 
-    opensearch_adminsearch_provider: str = ''
+    opensearch_adminsearch_provider: str = 'debug'
     opensearch_adminsearch_url: str = 'localhost:9200'
 
     headless: bool = True
