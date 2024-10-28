@@ -82,12 +82,13 @@ HATCH_RATE?=2
 RUN_TIME?=30s
 LOCUST := \
 	locust \
-		--locustfile $(LOCUST_FILE) \
+		-f $(LOCUST_FILE) \
+		--headless \
 		--users=$(NUM_USERS) \
 		--spawn-rate=$(HATCH_RATE) \
 		--run-time=$(RUN_TIME) \
-		--headless \
-		--csv=./results/results
+		--csv=./results/results \
+		-H http://127.0.0.1:8020
 
 kill_webserver := \
 	pkill -f runserver_plus
