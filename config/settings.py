@@ -30,13 +30,13 @@ for env_file in env.list('ENV_FILES', default=[]):
     env.read_env(f'config/env/{env_file}')
 
 DEBUG = newenv.debug
-SECRET_KEY = newenv.secret_key
+SECRET_KEY = env.str('SECRET_KEY')
 APP_ENVIRONMENT = newenv.app_environment
 
 # As the app is running behind a host-based router supplied by GDS PaaS, we can open ALLOWED_HOSTS
 ALLOWED_HOSTS = ['*']
 
-SAFELIST_HOSTS = env.list('SAFELIST_HOSTS', default=[])
+SAFELIST_HOSTS = newenv.safelist_hosts
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#append-slash
 APPEND_SLASH = True
@@ -212,14 +212,14 @@ else:
 
 # wagtail caching options
 # (see https://docs.coderedcorp.com/wagtail-cache/getting_started/django_settings.html#django-settings)
-WAGTAIL_CACHE = env.bool('WAGTAIL_CACHE', False)  # set to false for local
+WAGTAIL_CACHE = newenv.wagtail_cache  # set to false for local
 WAGTAIL_CACHE_BACKEND = 'great_wagtail_cache'
 WAGTAIL_CACHE_HEADER = True
 WAGTAIL_CACHE_IGNORE_COOKIES = True
 WAGTAIL_CACHE_IGNORE_QS = None
-WAGTAIL_CACHE_TIMOUT = env.int('WAGTAIL_CACHE_TIMOUT', 4 * 60 * 60)  # 4 hours (in seconds)
+WAGTAIL_CACHE_TIMOUT = newenv.wagtail_cache_timout  # 4 hours (in seconds)
 
-if env.bool('API_CACHE_DISABLED', False):
+if newenv.api_cache_disabled:
     cache = {'BACKEND': 'django.core.cache.backends.dummy.DummyCache'}
     great_wagtail_cache = {'BACKEND': 'django.core.cache.backends.dummy.DummyCache'}
 else:
@@ -244,15 +244,17 @@ CACHES = {
     'great_wagtail_cache': great_wagtail_cache,
 }
 
-CACHE_EXPIRE_SECONDS = env.int('CACHE_EXPIRE_SECONDS', 60 * 30)  # 30 minutes
-CACHE_EXPIRE_SECONDS_SHORT = env.int('CACHE_EXPIRE_SECONDS', 60 * 5)  # 5 minutes
+CACHE_EXPIRE_SECONDS = newenv.cache_expire_seconds  # 30 minutes
+CACHE_EXPIRE_SECONDS_SHORT = newenv.cache_expire_seconds
+if not CACHE_EXPIRE_SECONDS_SHORT:
+    CACHE_EXPIRE_SECONDS_SHORT = 60 * 5  # 5 minutes
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-gb'
 
-TIME_ZONE = env.str('TIME_ZONE', 'UTC')
+TIME_ZONE = newenv.time_zone
 
 USE_I18N = True
 
@@ -295,10 +297,10 @@ STATICFILES_DIRS = [
 
 STORAGES = {
     'default': {
-        'BACKEND': env.str('DEFAULT_FILE_STORAGE', 'storages.backends.s3boto3.S3Boto3Storage'),
+        'BACKEND': newenv.default_file_storage,
     },
     'staticfiles': {
-        'BACKEND': env.str('STATICFILES_STORAGE', 'whitenoise.storage.CompressedStaticFilesStorage'),
+        'BACKEND': newenv.staticfiles_storage,
     },
 }
 
@@ -419,11 +421,11 @@ else:
 
 
 # Sentry
-SENTRY_BROWSER_TRACES_SAMPLE_RATE = env.float('SENTRY_BROWSER_TRACES_SAMPLE_RATE', 1.0)
-SENTRY_DSN = env.str('SENTRY_DSN', '')
+SENTRY_BROWSER_TRACES_SAMPLE_RATE = newenv.sentry_browser_traces_sample_rate
+SENTRY_DSN = newenv.sentry_dsn
 if SENTRY_DSN:
     sentry_sdk.init(
-        dsn=env.str('SENTRY_DSN'),
+        dsn=SENTRY_DSN,
         environment=env.str('SENTRY_ENVIRONMENT'),
         integrations=[DjangoIntegration(), CeleryIntegration(), RedisIntegration()],
         before_send=strip_password_data,
