@@ -15,7 +15,7 @@ from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 
-from core.constants import BACKLINK_QUERYSTRING_NAME, META_LABELS
+from core.constants import BACKLINK_QUERYSTRING_NAME, META_LABELS, CHEG_EXCLUDED_COUNTRY_CODES
 from core.helpers import millify
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage
 
@@ -705,3 +705,11 @@ def split_title(title):
     title_parts = title.split('  ')
 
     return title_parts
+
+
+@register.filter
+def is_cheg_excluded_country(country_code):
+    if country_code in CHEG_EXCLUDED_COUNTRY_CODES:
+        return True
+
+    return False
