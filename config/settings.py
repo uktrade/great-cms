@@ -423,7 +423,7 @@ else:
 # Sentry
 SENTRY_BROWSER_TRACES_SAMPLE_RATE = newenv.sentry_browser_traces_sample_rate
 SENTRY_DSN = newenv.sentry_dsn
-if SENTRY_DSN:
+if SENTRY_DSN and SENTRY_DSN != 'debug':
     sentry_sdk.init(
         dsn=SENTRY_DSN,
         environment=env.str('SENTRY_ENVIRONMENT'),

@@ -18,7 +18,7 @@ class BaseSettings(PydanticBaseSettings):
 
     # Start of Environment Variables
     debug: bool = False
-    secret_key: str
+    secret_key: str = 'debug'
     app_environment: str = 'dev'
 
     safelist_hosts: str = []
@@ -39,7 +39,7 @@ class BaseSettings(PydanticBaseSettings):
     wagtailadmin_base_url: str
 
     sentry_browser_traces_sample_rate: float = 1.0
-    sentry_dsn: str = ''
+    sentry_dsn: str = 'debug'
     sentry_environment: str
     sentry_enable_tracing: bool = False
     sentry_traces_sample_rate: float = 1.0
