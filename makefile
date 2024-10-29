@@ -84,7 +84,7 @@ LOCUST := \
 	locust \
 		--locustfile $(LOCUST_FILE) \
 		--users=$(NUM_USERS) \
-		--hatch-rate=$(HATCH_RATE) \
+		--spawn-rate=$(HATCH_RATE) \
 		--run-time=$(RUN_TIME) \
 		--headless \
 		--csv=./results/results
