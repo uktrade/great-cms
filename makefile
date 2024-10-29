@@ -87,7 +87,7 @@ LOCUST := \
         -u ${NUM_USERS} \
         --spawn-rate=${SPAWN_RATE} \
 		--run-time=${RUN_TIME} \
-        -f ${LOCUST_FILE}
+        -f ${LOCUST_FILE} \
 		--csv=./results/results
 
 kill_webserver := \
