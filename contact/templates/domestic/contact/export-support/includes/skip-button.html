@@ -1,2 +1,7 @@
-
-<a href="{{ url }}" class="govuk-link great-ds-skip-control"><span>Skip</span></a>
+{% if back_step == '3' %}
+    <a href="{% url 'core:guided-journey-step-3' %}" class="govuk-link great-ds-skip-control"><span>Skip</span></a>
+{% elif back_step == '4' %}
+    <a href="{% url 'core:guided-journey-step-4' %}" class="govuk-link great-ds-skip-control"><span>Skip</span></a>
+{% else %}
+    <a href="{{ url }}" class="govuk-link great-ds-skip-control"><span>Skip</span></a>
+{% endif %}

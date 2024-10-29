@@ -40,7 +40,7 @@
                     </div>
                     {% endif %}
 
-                    {% if is_market_skipped or not session_data.market %}
+                    {% if not session_data.market %}
                         {% include 'domestic/contact/export-support/includes/suggested-markets-widget.html' with suggested_markets=suggested_markets %}
                     {% endif %}
 
@@ -48,7 +48,7 @@
                         {% if is_restricted_market %}
                             {% include 'domestic/contact/export-support/includes/restricted-market-widget.html' %}
                         {% else %}
-                            {% include 'domestic/contact/export-support/includes/market-widget.html' with market=session_data.market related_markets=related_markets %}
+                            {% include 'domestic/contact/export-support/includes/market-widget.html' with market=market_guide related_markets=related_markets %}
                         {% endif %}
                     {% endif %}
 
@@ -69,12 +69,12 @@
 
                     <div class="great-ds-card-panels govuk-!-margin-bottom-4">
                         {% if session_data.exporter_type == 'goods' %}
-                            {% include 'domestic/contact/export-support/includes/duties-and-taxes-widget.html' with market=session_data.market country_code=country_code %}
-                            {% include 'domestic/contact/export-support/includes/exopps-widget.html' with market=session_data.market %}
+                            {% include 'domestic/contact/export-support/includes/duties-and-taxes-widget.html' with market=market_guide country_code=country_code %}
+                            {% include 'domestic/contact/export-support/includes/exopps-widget.html' with market=market_guide %}
                         {% endif %}
 
                         {% include 'domestic/contact/export-support/includes/trade-barriers-widget.html' with trade_barrier_count=trade_barrier_count country_code=country_code %}
-                        {% include 'domestic/contact/export-support/includes/visa-and-travel-widget.html' with market=session_data.market %}
+                        {% include 'domestic/contact/export-support/includes/visa-and-travel-widget.html' with market=market_guide %}
                     </div>
 
                     <div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-4 great-ds-box-shadow">
