@@ -90,18 +90,15 @@ LOCUST := \
 		--csv=./results/results
 
 kill_webserver := \
-	pkill -f runserver
+	pkill -f runserver_plus
+
+loadserver:  # runs on 8020
+	ENV_FILES='test,dev' python manage.py runserver_plus 0.0.0.0:8020 --keep-meta-shutdown $(ARGUMENTS)
 
 test_load:
-	sleep 30
+	sleep 25
 	$(LOCUST)
 	-$(kill_webserver)
-
-kill_webserver := \
-	pkill -f runserver
-
-loadserver:  # runs on 8030
-	ENV_FILES='test,dev' python manage.py runserver 127.0.0.1:8030 &
 
 requirements:
 	pip-compile --upgrade -r --annotate requirements.in
