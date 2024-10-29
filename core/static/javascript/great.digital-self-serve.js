@@ -32,7 +32,7 @@ GreatFrontend.DigitalSelfServe = {
                 })
             });
 
-            document.querySelectorAll('details summary').forEach(el => {
+            document.querySelectorAll('details.great-ds-details--task-based summary').forEach(el => {
                 el.addEventListener("click", (e) => {
                     const data = el.dataset.task.split('|');
                     const clicked_element = e.target.dataset.taskElementName;
