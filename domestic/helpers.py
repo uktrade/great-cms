@@ -163,7 +163,12 @@ def get_sector_widget_data_helper(sector):
     return matches if len(matches) > 0 else None
 
 
-def get_sector_and_market_promo_data_helper(sector, market):
+def get_sector_and_market_promo_data_helper(sector, market, exporter_type):
+    market_and_exporter_type_matches = SectorAndMarketCard.objects.exclude(sector_tags__name__isnull=False).filter(
+        country_tags__name__contains=market,
+        exporter_type=exporter_type,
+    )
+
     market_matches = SectorAndMarketCard.objects.exclude(sector_tags__name__isnull=False).filter(
         country_tags__name__contains=market,
     )
@@ -174,9 +179,11 @@ def get_sector_and_market_promo_data_helper(sector, market):
     )
 
     res = {
+        'market_and_exporter_type_matches': market_and_exporter_type_matches,
         'market_matches': market_matches,
         'sector_and_market_matches': sector_and_market_matches,
         'is_matches': len(market_matches) > 0 or len(sector_and_market_matches) > 0,
+        'is_market_and_exporter_type_matches': len(market_and_exporter_type_matches) > 0,
     }
 
     return res

@@ -45,7 +45,7 @@
                                     {% for task in page.page_body %}
                                         <div class="great-ds-border-bottom-grey">
                                             {% if task.value.url_goods or task.value.url_services %}
-                                                <details class="great-ds-details">
+                                                <details class="great-ds-details great-ds-details--task-based">
                                                     <summary class="govuk-!-padding-bottom-6"
                                                              data-task="{{ task.value.task_id }}|{{ task.value.title }}|{{ task.value.output_type }}|{{ forloop.counter }}"
                                                              data-task-element-name="summary">

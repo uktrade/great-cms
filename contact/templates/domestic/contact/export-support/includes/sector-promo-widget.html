@@ -1,7 +1,7 @@
 {% load get_sector_and_market_promo_data from component_tags %}
 {% load get_sector_market_meta_label from content_tags %}
 
-{% with res=session_data.sector|get_sector_and_market_promo_data:session_data.market %}
+{% with res=session_data|get_sector_and_market_promo_data %}
     {% for promo in res.sector_and_market_matches %}
     {% if forloop.first %}
         <div class="govuk-!-padding-6 great-bg-white great-ds-box-shadow great-ds-card-panels__item">

@@ -1,28 +1,18 @@
 {% load get_sector_and_market_promo_data from component_tags %}
 {% load get_sector_market_meta_label from content_tags %}
 
-{% with res=session_data.sector|get_sector_and_market_promo_data:session_data.market %}
-    {% for promo in res.market_matches %}
-    {% if forloop.first %}
-        <div class="govuk-!-padding-6 great-bg-white great-ds-box-shadow great-ds-card-panels__item">
-            {% if promo.meta_label %}
-            <span class="great-meta-label govuk-!-margin-bottom-2">
-                <img src="/static/icons/{% if 'guidance' in promo.meta_label  %}guidance{% else %}hand{% endif %}.svg" alt="" />
-                {{ promo.meta_label | get_sector_market_meta_label }}
-            </span>
-            {% endif %}
-            <h2 class="govuk-heading-s govuk-!-margin-bottom-2">{{ promo.title }}</h2>
-            <p class="govuk-body">
-                {{ promo.description }}
-            </p>
-        
-            <div>
-                <a href="{{ promo.link_url }}" class="govuk-link great-ds-link" target="_blank">
-                    <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> 
-                    <span>{{ promo.link_text }}</span>
-                </a>
-            </div>
-        </div>
+{% with res=session_data|get_sector_and_market_promo_data %}
+    {% if res.is_market_and_exporter_type_matches %}
+        {% for promo in res.market_and_exporter_type_matches %}
+        {% if forloop.first %}
+            {% include 'domestic/contact/export-support/includes/sector-and-market-card.html' with promo=promo %}
+        {% endif %}
+        {% endfor %}
+    {% else %}
+        {% for promo in res.market_matches %}
+        {% if forloop.first %}
+            {% include 'domestic/contact/export-support/includes/sector-and-market-card.html' with promo=promo %}
+        {% endif %}
+        {% endfor %}
     {% endif %}
-    {% endfor %}
 {% endwith %}
