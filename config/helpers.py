@@ -6,7 +6,7 @@ def is_local():
 
 
 def is_circleci():
-    return 'IS_CIRCLECI' in os.environ
+    return 'IS_CIRCLECI_ENV' in os.environ
 
 
 def get_env_files():

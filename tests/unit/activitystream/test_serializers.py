@@ -1,4 +1,5 @@
 import json
+import logging
 
 import pytest
 from django.test import TestCase
@@ -182,55 +183,56 @@ def test_articleserializer__get_article_body_content_for_search__skipping_unknow
     # Rather than add a new block to the streamfield and then confirm its skipped, we can test
     # the core code by removing a block type from the list that the serializer knows about
 
-    article_instance = ArticlePageFactory(
-        article_title='article test',
-        article_teaser='Descriptive text',
-        slug='article-test',
-    )
-    article_instance.article_body = json.dumps(
-        [
-            {
-                'type': 'text',
-                'value': '<p>Hello, World!</p>',
-            },
-            {
-                'type': 'pull_quote',
-                'value': {
-                    'quote': 'dummy quotestring',
-                    'attribution': 'dummy attribution string',
-                    'role': 'dummy role string',
-                    'organisation': 'dummy organisation string',
-                    'organisation_link': 'https://example.com/dummy-org-link',
-                },
-            },
-            {
-                'type': 'text',
-                'value': '<h2>Goodbye, World!</h2><p>Lorem <b>ipsum</b> <i>dolor</i> sit amet.</p>',
-            },
-        ]
-    )
-    article_instance.save()
-
-    serializer = ArticlePageSerializer()
-    serializer.expected_block_types = [
-        'pull_quote',
-    ]  # ie, 'text' is not in here
-
-    assert len(caplog.records) == 1
-    searchable_content = serializer._get_article_body_content_for_search(article_instance)
-
-    assert len(caplog.records) == 3
-    for i in range(1, 3):
-        assert caplog.records[i].message == (
-            'Unhandled block type "text" in ArticlePage.body_text. Leaving out of search index content.'
+    with caplog.at_level(logging.DEBUG):
+        article_instance = ArticlePageFactory(
+            article_title='article test',
+            article_teaser='Descriptive text',
+            slug='article-test',
         )
-        assert caplog.records[i].levelname == 'ERROR'
+        article_instance.article_body = json.dumps(
+            [
+                {
+                    'type': 'text',
+                    'value': '<p>Hello, World!</p>',
+                },
+                {
+                    'type': 'pull_quote',
+                    'value': {
+                        'quote': 'dummy quotestring',
+                        'attribution': 'dummy attribution string',
+                        'role': 'dummy role string',
+                        'organisation': 'dummy organisation string',
+                        'organisation_link': 'https://example.com/dummy-org-link',
+                    },
+                },
+                {
+                    'type': 'text',
+                    'value': '<h2>Goodbye, World!</h2><p>Lorem <b>ipsum</b> <i>dolor</i> sit amet.</p>',
+                },
+            ]
+        )
+        article_instance.save()
 
-    assert searchable_content == (
-        # Only the pull-quote's content is here:
-        'dummy quotestring dummy attribution string dummy role string '
-        'dummy organisation string https://example.com/dummy-org-link'
-    )
+        serializer = ArticlePageSerializer()
+        serializer.expected_block_types = [
+            'pull_quote',
+        ]  # ie, 'text' is not in here
+
+        assert len(caplog.records) == 1
+        searchable_content = serializer._get_article_body_content_for_search(article_instance)
+
+        assert len(caplog.records) == 3
+        for i in range(1, 3):
+            assert caplog.records[i].message == (
+                'Unhandled block type "text" in ArticlePage.body_text. Leaving out of search index content.'
+            )
+            assert caplog.records[i].levelname == 'ERROR'
+
+        assert searchable_content == (
+            # Only the pull-quote's content is here:
+            'dummy quotestring dummy attribution string dummy role string '
+            'dummy organisation string https://example.com/dummy-org-link'
+        )
 
 
 @pytest.mark.django_db
