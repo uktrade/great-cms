@@ -53,7 +53,7 @@
                     {% endif %}
 
                     {% if session_data.sector and session_data.market %}
-                    {% with res=session_data.sector|get_sector_and_market_promo_data:session_data.market %}
+                    {% with res=session_data|get_sector_and_market_promo_data %}
                         {% if res.is_matches %}
                         <div class="great-ds-card-panels govuk-!-margin-bottom-4">
                             {% include 'domestic/contact/export-support/includes/sector-promo-widget.html' %}
