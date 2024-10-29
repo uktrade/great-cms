@@ -18,8 +18,8 @@
                             <div class="govuk-grid-column-two-thirds">
                                 <form method="post" autocomplete="off" class="great-max-width-500">
                                     {% csrf_token %}
-                                    <input type="hidden" id="commodity_name" name="commodity_name" value="{{ session_data.commodity_name }}" />
-                                    <input type="hidden" id="hs_code" name="hs_code" value="{{ session_data.hs_code }}" />
+                                    <input type="hidden" id="commodity_name" name="commodity_name" />
+                                    <input type="hidden" id="hs_code" name="hs_code" />
         
                                     <h1>
                                         <label class="govuk-heading-l govuk-!-margin-bottom-4" for="hs_code">
@@ -38,7 +38,7 @@
                                     </div>
                                 
                                     {% include 'domestic/contact/export-support/includes/continue-save-button.html' %}
-                                    {% include 'domestic/contact/export-support/includes/skip-button.html' with url='/your-export-guide/target-export-market?is_commodity_code_skipped=True' %}
+                                    {% include 'domestic/contact/export-support/includes/skip-button.html' with url='/your-export-guide/target-export-market?is_commodity_code_skipped=True' back_step=request.GET.return_to_step %}
                                 </form>
                             </div>
                         </div>
@@ -101,7 +101,7 @@
         autoselect: false,
         minLength: 3,
         displayMenu: 'overlay',
-        defaultValue: '{{ session_data.commodity_name }}',
+        defaultValue: '',
         templates: {
             suggestion: (selectedCommodity) => {
                 if (selectedCommodity) {
