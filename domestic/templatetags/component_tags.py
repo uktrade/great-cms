@@ -307,8 +307,21 @@ def get_sector_widget_data(sector):
 
 
 @register.filter
-def get_sector_and_market_promo_data(sector, market):
-    return get_sector_and_market_promo_data_helper(sector, market)
+def get_sector_and_market_promo_data(session_data):
+    sector = 'None'
+    market = 'None'
+    exporter_type = 'goods'
+
+    if session_data.get('sector'):
+        sector = session_data.get('sector')
+
+    if session_data.get('market'):
+        market = session_data.get('market')
+
+    if session_data.get('exporter_type'):
+        exporter_type = session_data.get('exporter_type')
+
+    return get_sector_and_market_promo_data_helper(sector, market, exporter_type)
 
 
 @register.filter
