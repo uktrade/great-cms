@@ -858,17 +858,17 @@ def get_ukea_events(all_events, market, sector):
     events = all_events.filter(closed=False)
 
     market_and_sector_events = events.filter(
-        country_tags__name__contains=market,
+        country_tags__name__contains=str(market),
     ).filter(
-        sector_tags__name__contains=sector,
+        sector_tags__name__contains=str(sector),
     )
 
     market_events = events.filter(
-        country_tags__name__contains=market,
+        country_tags__name__contains=str(market),
     )
 
     sector_events = events.filter(
-        sector_tags__name__contains=sector,
+        sector_tags__name__contains=str(sector),
     )
 
     best_events = []
