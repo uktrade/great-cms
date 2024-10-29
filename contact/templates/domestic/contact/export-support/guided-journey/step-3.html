@@ -1,4 +1,4 @@
-{% extends 'domestic/contact/export-support/base.html' %}
+{% extends 'domestic/contact/export-support/guided-journey/base.html' %}
 {% load static %}
 {% block head_title %}Export support for UK businesses - {% if is_edit_mode %}Where would you like to export to?{% else %}Where is your target export market?{% endif %}{% endblock %}
 {% block head_css %}
@@ -13,7 +13,7 @@
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full great-no-padding-until-tablet">
                     <div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-4 great-ds-box-shadow great-ds-widget-container">
-                        <form method="post" autocomplete="off">
+                        <form method="post" autocomplete="off" data-target-market-form>
                             {% csrf_token %}
                             <h1>
                                 <label class="govuk-heading-l govuk-!-margin-bottom-4" for="market">
@@ -23,7 +23,7 @@
 
                             <p class="govuk-body">Start typing a country or territory in the box below.</p>
 
-                            <div class="govuk-!-margin-bottom-6">
+                            <div class="govuk-!-margin-bottom-6 great-max-width-500">
                                 {% for field in form.visible_fields %}
                                 <div class="govuk-checkboxes" data-module="govuk-checkboxes">
                                     {% if field.name == 'not_sure_where_to_export' %}
@@ -116,5 +116,16 @@
         menuClasses: 'great-autocomplete-overlay',
         defaultValue: '{{ session_data.market }}',
     });
+
+    const checkboxes = document.querySelectorAll('[data-target-market-form] input[type="checkbox"]');
+    const market_input = document.querySelector('[data-target-market-form] input#market')
+
+    if (market_input && checkboxes && checkboxes.length >= 1) {
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('click', (e) => {
+                market_input.value = '';
+            });
+        });
+    }
     </script>
 {% endblock %}

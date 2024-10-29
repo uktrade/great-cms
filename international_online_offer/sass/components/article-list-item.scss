@@ -38,22 +38,24 @@
         text-decoration: none;
     }
 
+    a:hover {
+        h3, p {
+            text-decoration: underline;
+            text-decoration-thickness: max(1px, .0625rem);
+            text-underline-offset: .1578em;
+        }
+    }
+
     a:focus {
         outline: 2px solid #fd0;
         display: block;
-    }
-
-    a:hover {
-        .article-list-item-title,.article-list-item-teaser {
-            @extend %govuk-link;
-        }
     }
 
     .trade-show-link {
         text-decoration: underline;
     }
 
-    h4 {
+    h3 {
         margin-bottom: 15px;
 
         @media (min-width: 640px) {
@@ -64,6 +66,8 @@
             -webkit-box-orient: vertical;
         }
     }
+
+
 
     p {
         margin-bottom: 5px;
@@ -116,13 +120,6 @@
             margin-bottom: 0px;
         }
     }
-
-    a:hover {
-        .article-list-item-title {
-            @extend %govuk-link;
-        }
-    }
-
 
     .image-container {
         position: relative;

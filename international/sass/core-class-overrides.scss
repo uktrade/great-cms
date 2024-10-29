@@ -8,11 +8,11 @@
 }
 
 .autocomplete__input {
-    font-family: $govuk-font-family;
+    // font-family: $govuk-font-family;
 }
 
 .autocomplete__option {
-    font-family: $govuk-font-family;
+    // font-family: $govuk-font-family;
 }
 
 .autocomplete__option:hover {
@@ -45,17 +45,4 @@
     .eyb-sector-lookup-second-row {
         color: white;
     }
-}
-
-h1, h2, h3, h4, h5, h6 {
-    font-family: "Euclid Flex B", Arial, Helvetica, Verdana;
-    margin: 0;
-    color: $great-dark-blue;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-}
-
-.govuk-caption-xl, .govuk-caption-l, .govuk-caption-m, .govuk-caption-m, .govuk-caption-s, .govuk-caption-xs  {
-    font-family: "Euclid Flex B", Arial, Helvetica, Verdana !important;
 }

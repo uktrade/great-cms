@@ -144,6 +144,18 @@ TEMPLATES = [
             ROOT_DIR / 'sso_profile' / 'enrolment' / 'templates',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'breadcrumbs',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'footer',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'header',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'button',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'text-input',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'details',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'accordion',
+            ROOT_DIR
+            / 'node_modules'
+            / '@uktrade'
+            / 'great-design-system'
+            / 'dist'
+            / 'components'
+            / 'notification-banner',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -174,6 +186,7 @@ TEMPLATES = [
                 'international_online_offer.context_processors.feedback_next_url',
                 'international_online_offer.context_processors.hide_primary_nav',
                 'international_online_offer.context_processors.user_completed_triage',
+                'international.context_processors.international_header',
             ],
         },
     },
@@ -483,7 +496,14 @@ if DEBUG:
     INSTALLED_APPS += ['debug_toolbar']
     MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE
     INTERNAL_IPS = ['127.0.0.1', '10.0.2.2']
+    if env('IS_DOCKER', default=False):
+        import socket
 
+        hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+        INTERNAL_IPS = [ip[:-1] + '1' for ip in ips] + INTERNAL_IPS
+        DEBUG_TOOLBAR_CONFIG = {
+            'SHOW_TOOLBAR_CALLBACK': lambda request: DEBUG,
+        }
 
 ELASTIC_APM_ENABLED = env('ELASTIC_APM_ENABLED', default=False)
 if ELASTIC_APM_ENABLED:

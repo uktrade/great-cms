@@ -1,4 +1,4 @@
-{% extends 'domestic/contact/export-support/base.html' %}
+{% extends 'domestic/contact/export-support/guided-journey/base.html' %}
 {% load static %}
 {% block head_title %}Export support for UK businesses - What does your company make or do?{% endblock %}
 {% block head_css %}
@@ -26,9 +26,9 @@
                                 </label>
                             </h1>
                             <input type="text" id="sic_description" name="sic_description" class="govuk-input great-text-input govuk-!-width-one-half" />
-                            <div id="sic_description-container" class="great-ds-autocomplete-input__wrapper"></div>
-                            <div class="govuk-inset-text govuk-!-margin-top-4 govuk-!-margin-bottom-4">
-                                Tip: you may need to choose a broad term. For<br /> example, if you make t-shirts, try typing textiles
+                            <div id="sic_description-container" class="great-ds-autocomplete-input__wrapper great-max-width-500"></div>
+                            <div class="govuk-inset-text govuk-!-margin-top-4 govuk-!-margin-bottom-4 great-max-width-500">
+                                Tip: you may need to choose a broad term. For example, if you make t-shirts, try typing textiles
                              </div>
 
                              {% include 'domestic/contact/export-support/includes/continue-save-button.html' %}
@@ -66,8 +66,13 @@
         defaultValue: '{{ session_data.sic_description }}',
         templates: {
             suggestion: (selectedSIC) => {
-                const {sic_description, dit_sector_list_field_04} = data.data.find(el => el.sic_description === selectedSIC)
-                return `<span>${sic_description}</span><br /><span class="govuk-body-s">${dit_sector_list_field_04}</span>`;
+                const match = data.data.find(el => el.sic_description === selectedSIC)
+
+                if (match && match.sic_description && match.dit_sector_list_field_04) {
+                    return `<span>${match.sic_description}</span><br /><span class="govuk-body-s">${match.dit_sector_list_field_04}</span>`;
+                }
+
+                return '<span>No results found</span>';
             }
         },
         onConfirm: (selectedSIC) => {
@@ -82,6 +87,7 @@
         placeholder: 'For example, financial services or coffee roaster',
         inputClasses: 'govuk-input great-text-input great-ds-autocomplete-input',
         menuClasses: 'great-autocomplete-overlay',
+        required: true,
     });
     </script>
 {% endblock %}

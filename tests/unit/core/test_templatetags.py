@@ -43,6 +43,8 @@ from core.templatetags.content_tags import (
     val_to_int,
     get_exopps_country_slug,
     get_visa_and_travel_country_slug,
+    split_title,
+    is_cheg_excluded_country,
 )
 from core.templatetags.object_tags import get_item
 from core.templatetags.progress_bar import progress_bar
@@ -1200,3 +1202,26 @@ def test_get_exopps_country_slug(country_name, expected_output):
 )
 def test_get_visa_and_travel_country_slug(country_name, expected_output):
     assert get_visa_and_travel_country_slug(country_name) == expected_output
+
+
+@pytest.mark.parametrize(
+    'title, expected_output',
+    (
+        ('A normal title', ['A normal title']),
+        ('A split  title', ['A split', 'title']),
+    ),
+)
+def test_split_title(title, expected_output):
+    assert split_title(title) == expected_output
+
+
+@pytest.mark.parametrize(
+    'country_code, expected_output',
+    (
+        ('AD', True),
+        ('TV', True),
+        ('CL', False),
+    ),
+)
+def test_is_cheg_excluded_country(country_code, expected_output):
+    assert is_cheg_excluded_country(country_code) == expected_output

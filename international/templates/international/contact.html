@@ -8,7 +8,7 @@
 {% block page_title %}Get help using great.gov.uk/international {{ block.super }}{% endblock %}
 {% if not request.GET.success %}
     {% block breadcrumb_region %}
-        <div class="govuk-width-container great-container">
+        <div class="great-container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
                     <a href="{{ back_url }}" class="govuk-back-link govuk-!-margin-bottom-4">Back</a>
@@ -22,7 +22,7 @@
     {{ block.super }}
 {% endblock %}
 {% block content %}
-    <div class="govuk-width-container great-container">
+    <div class="great-container">
         {% if request.GET.success %}
             <div class="govuk-grid-row" id="complete_contact_form_message">
                 <div class="govuk-grid-column-two-thirds">{% include './includes/contact_success.html' with back_url=back_url %}</div>
