@@ -82,7 +82,7 @@
                         <div class="govuk-!-padding-bottom-6 great-ds-category-panels">
                             {% for url, label, query_string in categories %}
                                 {% with svg_path=url|get_icon_path %}
-                                <a href="{{ url }}{{ query_string }}" target="_blank">{% include svg_path %} <span>{{ label }}</span></a>
+                                <a href="{{ url }}{{ query_string }}" target="_blank" data-ga-digital-entry-point>{% include svg_path %} <span data-title="{{ label }}">{{ label }}</span></a>
                                 {% endwith %}
                             {% endfor %}
                         </div>

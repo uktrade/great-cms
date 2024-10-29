@@ -32,7 +32,7 @@ GreatFrontend.DigitalSelfServe = {
                 })
             });
 
-            document.querySelectorAll('details.great-ds-details--task-based summary').forEach(el => {
+            document.querySelectorAll('details.great-ds-details summary').forEach(el => {
                 el.addEventListener("click", (e) => {
                     const data = el.dataset.task.split('|');
                     const clicked_element = e.target.dataset.taskElementName;
@@ -47,6 +47,25 @@ GreatFrontend.DigitalSelfServe = {
                         show_or_hide: text,
                         clicked_element: clicked_element
                     });
+                })
+            });
+
+            document.querySelectorAll('a[data-ga-digital-entry-point]').forEach(el => {
+                el.addEventListener("click", (e) => {
+                    e.preventDefault();
+
+                    const title = el.querySelector('[data-title]');
+
+                    if (window.dataLayer) {
+                        window.dataLayer.push({
+                            event: 'DEPCardClick',
+                            category: 'guided journey',
+                            title: title.dataset.title,
+                            location: 'guided journey',
+                        });
+                    }
+
+                    window.open(el.href, '_blank');
                 })
             });
         }
