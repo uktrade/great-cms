@@ -51,7 +51,7 @@ def international_header(request):
 
     return {
         'header_classes': '',
-        'isInternational': True,
+        'is_international': True,
         'sso_is_logged_in': is_authenticated,
         'isAuthenticated': is_authenticated,
         'hideSearch': True,

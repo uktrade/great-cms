@@ -125,10 +125,10 @@ def services_home_links(request):
 
 def domestic_footer(request):
     return {
-        'domesticFooterContext': {
-            'isInternational': False,
-            'currentYear': str(datetime.now().year),
-            'footerLinks': [
+        'domestic_footer_context': {
+            'is_international': False,
+            'current_year': str(datetime.now().year),
+            'footer_links': [
                 {
                     'href': '/support/export-support',
                     'title': 'Export support for UK businesses',
@@ -183,10 +183,10 @@ def domestic_footer(request):
 
 def international_footer(request):
     return {
-        'internationalFooterContext': {
-            'isInternational': True,
-            'currentYear': str(datetime.now().year),
-            'footerLinks': [
+        'international_footer_context': {
+            'is_international': True,
+            'current_year': str(datetime.now().year),
+            'footer_links': [
                 {
                     'href': '/privacy',
                     'title': 'Privacy',
@@ -221,4 +221,60 @@ def international_footer(request):
                 },
             ],
         },
+    }
+
+
+def microsite_footer(request):
+    return {
+        'is_international': False,
+        'current_year': str(datetime.now().year),
+        'footer_links': [
+            {
+                'href': '/support/export-support',
+                'title': 'Export support for UK businesses',
+                'text': 'Export support for UK businesses',
+            },
+            {
+                'href': '/contact/triage/great-account',
+                'title': 'Get help with your account',
+                'text': 'Get help with your account',
+            },
+            {
+                'href': 'https://' + settings.DIT_ON_GOVUK,
+                'title': 'Department for Business and Trade on GOV.UK',
+                'text': 'Department for Business and Trade on GOV.UK',
+                'target': '_blank',
+                'rel': 'noopener',
+            },
+            {
+                'href': '/privacy',
+                'title': 'Privacy',
+                'text': 'Privacy',
+            },
+            {
+                'href': '/cookies',
+                'title': 'Cookies',
+                'text': 'Cookies',
+            },
+            {
+                'href': '/terms-and-conditions',
+                'title': 'Terms and conditions',
+                'text': 'Terms and conditions',
+            },
+            {
+                'href': '/accessibility-statement',
+                'title': 'Accessibility',
+                'text': 'Accessibility',
+            },
+            {
+                'href': '/performance-dashboard',
+                'title': 'Performance',
+                'text': 'Performance',
+            },
+            {
+                'href': '/',
+                'title': 'Support for UK export or investment',
+                'text': 'Get support for UK export or investment at great.gov.uk',
+            },
+        ],
     }

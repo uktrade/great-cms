@@ -8,6 +8,7 @@ from django.utils.translation import get_language
 from wagtail.models import Locale
 
 from contact.views import BaseNotifyUserFormView
+from core.context_processors import microsite_footer
 from core.datastructures import NotifySettings
 from core.helpers import get_location
 from core.models import MicrositePage
@@ -172,6 +173,9 @@ class CampaignView(BaseNotifyUserFormView):
             kwargs['form'] = None
         if not self.current_page:
             raise Http404
+
+        footer_context = microsite_footer(self.request)
+        kwargs.update(footer_context)
         return super().get_context_data(
             **kwargs,
             page=self.current_page,
