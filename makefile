@@ -76,26 +76,28 @@ check_migrations:
 webserver:  # runs on 8020
 	ENV_FILES='secrets-do-not-commit,dev' python manage.py runserver_plus 0.0.0.0:8020 --keep-meta-shutdown $(ARGUMENTS)
 
-LOCUST_FILE?=tests/load/mvp_home.py
-NUM_USERS?=10
-HATCH_RATE?=2
-RUN_TIME?=30s
+LOCUST_FILE=tests/load/mvp_home.py
+NUM_USERS=10
+SPAWN_RATE=2
+RUN_TIME=30s
 LOCUST := \
 	locust \
-		-f $(LOCUST_FILE) \
-		--headless \
-		--users=$(NUM_USERS) \
-		--spawn-rate=$(HATCH_RATE) \
-		--run-time=$(RUN_TIME) \
-		--csv=./results/results \
-		-H http://127.0.0.1:8030
+		--host=http://127.0.0.1:8030 \
+        --headless \
+        -u ${NUM_USERS} \
+        --spawn-rate=${SPAWN_RATE} \
+		--run-time=${RUN_TIME} \
+        -f ${LOCUST_FILE}
+		--csv=./results/results
 
 kill_webserver := \
 	pkill -f runserver
 
-test_load:
+loadserver:  # runs on 8030
 	ENV_FILES='test,dev' python manage.py runserver 127.0.0.1:8030 &
-	sleep 10
+
+test_load:
+	sleep 30
 	$(LOCUST)
 	-$(kill_webserver)
 
