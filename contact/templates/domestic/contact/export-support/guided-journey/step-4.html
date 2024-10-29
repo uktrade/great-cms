@@ -97,3 +97,8 @@
         </div>
     </div>
 {% endblock %}
+
+{% block body_js %}
+    {{ block.super }}
+    <script type="text/javascript">GreatFrontend.DigitalSelfServe.init('Export support for UK businesses - Results')</script>
+{% endblock %}
