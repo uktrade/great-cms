@@ -93,7 +93,7 @@ kill_webserver := \
 	pkill -f runserver_plus
 
 loadserver:  # runs on 8020
-	ENV_FILES='test,dev' python manage.py runserver_plus 0.0.0.0:8020 --keep-meta-shutdown $(ARGUMENTS)
+	ENV_FILES='test,dev' python manage.py runserver_plus 0.0.0.0:8020 --keep-meta-shutdown &
 
 test_load:
 	sleep 25
