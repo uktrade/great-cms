@@ -184,7 +184,7 @@
     {% endif %}
     {% if features.FEATURE_HOMEPAGE_REDESIGN_V1 %}
         <section class="great great-bg-light-blue govuk-!-padding-top-0 govuk-!-padding-bottom-0">
-            <div class="govuk-width-container great-container">
+            <div class="great-container">
                 {% if page.magna_ctas_title %}
                     <h2 class="govuk-heading-l govuk-!-margin-top-9 govuk-!-margin-bottom-6">{{ page.magna_ctas_title }}</h2>
                 {% endif %}
@@ -265,7 +265,7 @@
                           method="get">
                         {{ sector_form }}
                         <button type="submit"
-                                class="primary-button margin-top-15 show-markets"
+                                class="button primary-button margin-top-15 show-markets"
                                 id="sector-submit">Show markets</button>
                         <span class="verbose">Select a sector to enable the submit button.</span>
                     </form>
@@ -323,7 +323,7 @@
         {% with page.campaign.0.value as campaign_block_value %}
             {% if features.FEATURE_HOMEPAGE_REDESIGN_V1 %}
                 <section class="great great-bg-light-blue govuk-!-padding-top-0 govuk-!-padding-bottom-9">
-                    <div class="govuk-width-container great-container">
+                    <div class="great-container">
                         {% if page.what_is_new_title %}
                             <h2 class="govuk-heading-l {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}govuk-!-margin-top-0{% else %}govuk-!-margin-top-9{% endif %} govuk-!-margin-bottom-6">
                                 {{ page.what_is_new_title|default:"What's new" }}
