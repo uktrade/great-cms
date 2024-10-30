@@ -1,6 +1,6 @@
 {% load get_exopps_country_slug from content_tags %}
 
-<div class="govuk-!-padding-6 great-bg-white great-ds-box-shadow great-ds-card-panels__item">
+<div class="govuk-!-padding-6 great-bg-white great-ds-box-shadow great-ds-card-panels__item{% if full_width %} great-ds-card-panels__item--full-width{% endif %}">
     <span class="great-meta-label govuk-!-margin-bottom-2">
         <img src="/static/icons/hand.svg" alt="" />
         Service on GOV.UK
