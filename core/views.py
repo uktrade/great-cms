@@ -2,6 +2,7 @@ import abc
 import json
 import logging
 import pickle
+from datetime import datetime
 
 from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import Sender
@@ -47,7 +48,10 @@ from core.mixins import (
 from core.models import GreatMedia
 from core.pingdom.services import health_check_services
 from directory_constants import choices
-from domestic.helpers import get_sector_widget_data_helper, get_market_widget_data_helper
+from domestic.helpers import (
+    get_market_widget_data_helper,
+    get_sector_widget_data_helper,
+)
 from domestic.models import DomesticDashboard, TopicLandingPage
 from export_academy.models import Event
 from sso.views import SSOBusinessUserLogoutView
@@ -880,7 +884,9 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, TemplateView):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('guided_journey_data')))[0]
             market = form_data.get('market')
             sector = form_data.get('sector')
-            ukea_events = helpers.get_ukea_events(Event.objects.order_by('-start_date').all(), market, sector)
+            ukea_events = helpers.get_ukea_events(
+                Event.objects.filter(start_date__gte=datetime.now()).order_by('start_date').all(), market, sector
+            )
 
             for code, name in countries:
                 if name == market:
