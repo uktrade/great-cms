@@ -24,6 +24,9 @@ def feedback_next_url(request):
 
 def is_using_triage(request):
     current_url = request.build_absolute_uri(request.path)
+    business_headquarters = str(reverse_lazy('international_online_offer:business-headquarters'))
+    find_your_company = str(reverse_lazy('international_online_offer:find-your-company'))
+    business_sector = str(reverse_lazy('international_online_offer:business-sector'))
     business_details = str(reverse_lazy('international_online_offer:company-details'))
     contact_details = str(reverse_lazy('international_online_offer:contact-details'))
     when_want_setup = str(reverse_lazy('international_online_offer:when-want-setup'))
@@ -34,6 +37,9 @@ def is_using_triage(request):
     hiring_url = str(reverse_lazy('international_online_offer:hiring'))
     spend_url = str(reverse_lazy('international_online_offer:spend'))
     triage_urls = [
+        business_headquarters,
+        business_sector,
+        find_your_company,
         business_details,
         contact_details,
         when_want_setup,

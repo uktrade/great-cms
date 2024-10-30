@@ -19,7 +19,7 @@
                 <form method="get" id="spendCurrencyForm" action="#spend-container">
                     {% csrf_token %}
                     {% if request.GET.next %}<input type="hidden" name="next" id="next" value="{{ request.GET.next }}" />{% endif %}
-                    <div class="govuk-grid-row">
+                    <div class="govuk-grid-row govuk-!-margin-bottom-6">
                         <div class="govuk-grid-column-two-thirds-from-desktop">
                             <div class="govuk-grid-row">
                                 <div class="govuk-grid-column-three-quarters">
@@ -36,7 +36,7 @@
                     </div>
                 </form>
                 <fieldset class="govuk-fieldset">
-                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--s great-text-dark-blue">Select an estimate</legend>
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Select an estimate</legend>
                     <form method="post">
                         {% csrf_token %}
                         <div class="govuk-form-group {% if form.spend.errors %}govuk-form-group--error{% endif %}">
@@ -56,7 +56,7 @@
     <script type="text/javascript"
             src="{% static 'javascript/expand-your-business.js' %}"></script>
     <script>
-        document.getElementById("change-currency-button").style.visibility = "hidden";
+        document.getElementById("change-currency-button").style.display = "none";
         function refreshSelectedCurrency() {
             document.getElementById('spendCurrencyForm').submit();
         }
