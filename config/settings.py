@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'wagtail.images',
     'wagtail.search',
     'wagtail',
+    'wagtail.contrib.frontend_cache',
     'wagtail.contrib.routable_page',
     'wagtail.contrib.settings',
     'wagtailmedia',
@@ -207,9 +208,21 @@ if 'redis' in VCAP_SERVICES:
 else:
     REDIS_URL = env.str('REDIS_URL')
 
-# wagtail caching options
-# (see https://docs.coderedcorp.com/wagtail-cache/getting_started/django_settings.html#django-settings)
+# Caching
 WAGTAIL_CACHE = env.bool('WAGTAIL_CACHE', False)  # set to false for local
+
+# Frontend cache invalidator - Wagtail
+# see https://docs.wagtail.org/en/v6.2/reference/contrib/frontendcache.html
+if WAGTAIL_CACHE:
+    WAGTAILFRONTENDCACHE = {
+        'cloudfront': {
+            'BACKEND': 'wagtail.contrib.frontend_cache.backends.CloudfrontBackend',
+            'DISTRIBUTION_ID': env.str('AWS_CLOUDFRONT_DISTRIBUTION_ID', None),
+        },
+    }
+
+# Backend caching - Wagtail
+# see https://docs.coderedcorp.com/wagtail-cache/getting_started/django_settings.html#django-settings
 WAGTAIL_CACHE_BACKEND = 'great_wagtail_cache'
 WAGTAIL_CACHE_HEADER = True
 WAGTAIL_CACHE_IGNORE_COOKIES = True
@@ -243,6 +256,7 @@ CACHES = {
 
 CACHE_EXPIRE_SECONDS = env.int('CACHE_EXPIRE_SECONDS', 60 * 30)  # 30 minutes
 CACHE_EXPIRE_SECONDS_SHORT = env.int('CACHE_EXPIRE_SECONDS', 60 * 5)  # 5 minutes
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
