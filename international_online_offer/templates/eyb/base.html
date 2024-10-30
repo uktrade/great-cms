@@ -5,16 +5,14 @@
     <link rel="stylesheet"
           href="{% static 'expand_your_business_styles.css' %}">
 {% endblock %}
-{% block css_layout_class %}
-    {% if request.path != '/international/expand-your-business-in-the-uk/' %}govuk-main-wrapper{% endif %}
-    {{ block.super }}
-{% endblock %}
 {% block breadcrumb_region %}
     <div class="{% if request.path == '/international/expand-your-business-in-the-uk/' %}light-blue-background{% endif %}">
         {% include './includes/govuk/phase_banner.html' %}
     </div>
     {% include './includes/back_link.html' with back_url=back_url %}
-    {{ block.super }}
+    <div class="{% if request.path == '/international/expand-your-business-in-the-uk/' %}light-blue-background{% endif %}">
+        {{ block.super }}
+    </div>
 {% endblock %}
 {% block body_js %}
     {{ block.super }}

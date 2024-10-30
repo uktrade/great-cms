@@ -25,16 +25,12 @@
                     <h2 class="govuk-caption-l">
                         <span class="govuk-visually-hidden">This section is</span>About your business
                     </h2>
-                    <fieldset class="govuk-fieldset">
-                        <div class="{% if form.errors %} govuk-form-group--error{% endif %}">
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                                <h1 class="govuk-fieldset__heading">What is your sector or industry?</h1>
-                            </legend>
-                            <div class="govuk-form-group">
-                                {% include 'international/includes/form_field.html' with field=form.sector_sub inputWrapperClass='prepend-search-icon' help_class='govuk-hint govuk-!-margin-bottom-3' %}
-                            </div>
-                        </div>
-                    </fieldset>
+                    <div class="govuk-form-group {% if form.errors %}govuk-form-group--error{% endif %}">
+                        <h1 class="govuk-label-wrapper">
+                            <label class="govuk-label govuk-label--l" for="js-sector-select">What is your sector or industry?</label>
+                        </h1>
+                        {% include 'international/includes/form_field.html' with field=form.sector_sub inputWrapperClass='prepend-search-icon' help_class='govuk-hint govuk-!-margin-bottom-3' %}
+                    </div>
                     <div class="govuk-grid-row">
                         <div class="govuk-grid-column-full">
                             {% include 'international/includes/submit_button.html' with button_text='Save and continue' %}
