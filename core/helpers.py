@@ -9,6 +9,7 @@ import urllib.parse as urlparse
 from collections import Counter
 from difflib import SequenceMatcher
 from io import StringIO
+from itertools import chain
 from logging import getLogger
 from operator import itemgetter
 from pathlib import Path
@@ -855,35 +856,45 @@ def get_trade_barrier_count(market, sector):
 
 
 def get_ukea_events(all_events, market, sector):
-    events = all_events.filter(closed=False)
+    events = all_events.filter(closed=False, country_tags__isnull=True, sector_tags__isnull=True)
+    market = str(market or '')
+    sector = str(sector or '')
 
-    market_and_sector_events = events.filter(
-        country_tags__name__contains=str(market),
-    ).filter(
-        sector_tags__name__contains=str(sector),
-    )
+    if market != '' and sector != '':
+        events = list(
+            chain(
+                all_events.filter(
+                    closed=False, country_tags__name__contains=str(market), sector_tags__name__contains=str(sector)
+                ),
+                all_events.filter(closed=False, country_tags__isnull=True, sector_tags__name__contains=str(sector)),
+                all_events.filter(closed=False, country_tags__name__contains=str(market), sector_tags__isnull=True),
+                events,
+            )
+        )
 
-    market_events = events.filter(
-        country_tags__name__contains=str(market),
-    )
+    if market != '' and sector == '':
+        events = list(
+            chain(
+                all_events.filter(closed=False, country_tags__name__contains=str(market), sector_tags__isnull=True),
+                all_events.filter(
+                    closed=False,
+                    country_tags__name__contains=str(market),
+                    sector_tags__isnull=False,
+                ),
+                events,
+            )
+        )
 
-    sector_events = events.filter(
-        sector_tags__name__contains=str(sector),
-    )
+    if sector != '' and market == '':
+        events = list(
+            chain(
+                all_events.filter(closed=False, country_tags__isnull=True, sector_tags__name__contains=str(sector)),
+                all_events.filter(closed=False, country_tags__isnull=False, sector_tags__name__contains=str(sector)),
+                events,
+            )
+        )
 
-    best_events = []
-
-    for events_list in [market_and_sector_events, market_events, sector_events, events]:
-        if len(events_list) > 0:
-            best_events = best_events + list(events_list)
-
-    unique_best_events = []
-
-    for event in best_events:
-        if event not in unique_best_events:
-            unique_best_events.append(event)
-
-    return unique_best_events[:2]
+    return events[:2]
 
 
 def get_sectors_and_sic_sectors_file():

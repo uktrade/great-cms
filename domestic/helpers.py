@@ -156,7 +156,7 @@ def get_sector_widget_data_helper(sector):
             .public()
             .specific()
             .filter(
-                tags__name__contains=sector,
+                sector_tags__name__contains=sector,
             )
         )
 
