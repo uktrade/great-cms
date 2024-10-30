@@ -175,6 +175,10 @@ $great-design-system-govuk-blue: #1d70b8;
   display: inline-flex;
   text-decoration: none;
 
+  &.govuk-link {
+    text-decoration: none;
+  }
+
   i {
     font-size: 1.5rem;
     margin-right: 10px;
@@ -363,7 +367,7 @@ $great-design-system-govuk-blue: #1d70b8;
 }
 
 .great-ds-market-and-flag {
-  display: inline-flex;
+  display: inline-flex !important;
   gap: 20px;
 
   img {
