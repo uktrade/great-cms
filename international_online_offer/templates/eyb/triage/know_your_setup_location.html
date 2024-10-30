@@ -22,13 +22,11 @@
                         <span class="govuk-visually-hidden">This section is</span>About your expansion plans
                     </h2>
                     <fieldset class="govuk-fieldset">
-                        <div class="{% if form.know_setup_location.errors %}govuk-form-group--error{% endif %}">
+                        <div class="govuk-form-group {% if form.know_setup_location.errors %}govuk-form-group--error{% endif %}">
                             <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                                 <h1 class="govuk-fieldset__heading">Do you know where you want to set up in the UK?</h1>
                             </legend>
-                            <div class="govuk-form-group">
-                                {% include 'domestic/contact/includes/govuk-form-field.html' with field=form.know_setup_location hide_label=True %}
-                            </div>
+                            {% include 'domestic/contact/includes/govuk-form-field.html' with field=form.know_setup_location hide_label=True %}
                         </div>
                     </fieldset>
                     <div class="govuk-grid-row">

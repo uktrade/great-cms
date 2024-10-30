@@ -835,10 +835,6 @@ $desktop: 1024px;
 
     border-top: 10px solid $blue-deep-10;
 
-    @include breakpoint(sm) {
-      border-top: unset;
-    }
-
     &:before {
       content: '';
       position: absolute;
@@ -850,7 +846,7 @@ $desktop: 1024px;
       z-index: 0;
     }
 
-    @include breakpoint(sm) {
+    @include tablet {
       &:before {
         left: -2000px;
         right: -2000px;

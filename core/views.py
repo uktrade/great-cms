@@ -819,6 +819,9 @@ class GuidedJourneyStep2View(GuidedJourneyMixin, FormView):
 
         if self.request.session.get('guided_journey_data'):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('guided_journey_data')))[0]
+            form_data = ({**form_data, 'hs_code': '', 'commodity_name': ''},)
+            form_data = pickle.dumps(form_data).hex()
+            self.request.session['guided_journey_data'] = form_data
 
         return super().get_context_data(
             **kwargs,
@@ -845,6 +848,7 @@ class GuidedJourneyStep3View(GuidedJourneyMixin, FormView):
 
     def get_context_data(self, **kwargs):
         countries = helpers.get_markets_list()
+        countries = [(country_code, country) for country_code, country in countries if country_code != 'GB']
 
         return super().get_context_data(
             **kwargs,

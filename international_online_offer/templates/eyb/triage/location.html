@@ -22,17 +22,11 @@
                     <h2 class="govuk-caption-l">
                         <span class="govuk-visually-hidden">This section is</span>About your expansion plans
                     </h2>
-                    <div class="{% if form.location.errors %} govuk-form-group--error{% endif %}">
-                        <div class="govuk-grid-row">
-                            <div class="govuk-grid-column-full">
-                                <h1 class="govuk-label-wrapper">
-                                    <label for='js-location-select' class="govuk-label govuk-label--l">Where do you want to set up?</label>
-                                </h1>
-                            </div>
-                        </div>
-                        <div class="govuk-form-group">
-                            {% include 'international/includes/form_field.html' with field=form.location inputWrapperClass='prepend-search-icon' %}
-                        </div>
+                    <div class="govuk-form-group {% if form.location.errors %}govuk-form-group--error{% endif %}">
+                        <h1 class="govuk-label-wrapper">
+                            <label class="govuk-label govuk-label--l" for='js-location-select'>Where do you want to set up?</label>
+                        </h1>
+                        {% include 'international/includes/form_field.html' with field=form.location inputWrapperClass='prepend-search-icon' %}
                     </div>
                     <div class="govuk-grid-row">
                         <div class="govuk-grid-column-full">

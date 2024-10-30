@@ -14,13 +14,16 @@
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full">
                     <form class="salary-location-form"
+                          id="rent-location-form"
                           action="{{ request.build_absolute_uri }}#location-component"
                           method="get">
                         <div class="govuk-grid-row">
-                            <div class="govuk-grid-column-full govuk-!-margin-bottom-3">
+                            <div class="govuk-grid-column-one-quarter-from-desktop">
                                 {% include 'international/includes/form_field.html' with field=rent_location_form.location %}
+                            </div>
+                            <div class="govuk-grid-column-three-quarters-from-desktop">
                                 <button type="submit"
-                                        class="govuk-button govuk-!-margin-bottom-0"
+                                        class="govuk-button great-ds-button--secondary govuk-!-margin-top-3 govuk-!-margin-bottom-0"
                                         id="rent-location-submit">Change</button>
                             </div>
                         </div>
@@ -205,3 +208,9 @@
         </div>
     </div>
 </div>
+<script>
+    document.getElementById("rent-location-submit").style.display = "none";
+    function refreshSelectedLocation() {
+        document.getElementById('rent-location-form').submit();
+    }
+</script>
