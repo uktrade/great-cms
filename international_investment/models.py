@@ -24,6 +24,7 @@ class InvestmentIndexPage(BaseContentPage):
         'international_investment.InvestmentSectorsPage',
         'international_investment.InvestmentRegionsPage',
         'international_investment.InvestmentOpportunityArticlePage',
+        'domestic.StructuralPage',
     ]
     template = 'investment/index.html'
 
