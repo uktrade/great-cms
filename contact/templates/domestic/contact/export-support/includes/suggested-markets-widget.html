@@ -1,6 +1,28 @@
 {% load get_market_widget_data get_market_code from component_tags %}
 {% load wagtailimages_tags %}
 
+{% if not session_data.market %}
+<div class="govuk-!-margin-top-4 govuk-!-margin-bottom-4 govuk-!-padding-6 great-bg-white great-ds-widget-container great-ds-widget-info-box">
+    <i class="fa fa-info-circle" aria-hidden="true"></i>
+    <div>
+        <h2 class="govuk-heading-s great-heading-link__heading govuk-!-margin-bottom-2 govuk-!-margin-right-9">
+            {% if session_data.not_sure_where_to_export %}
+                You told us you don't have a specific market in mind
+            {% elif session_data.market_not_listed %}
+                You told us your market isn't listed
+            {% else %}
+                You have not selected a market
+            {% endif %}
+        </h2>
+        <a href="{{ market.get_full_url }}" class="govuk-link great-ds-link">
+            <span>View all our market guides</span>
+        </a>
+    </div>
+    
+    {% include 'domestic/contact/export-support/includes/change-button.html' with url='/your-export-guide/target-export-market/edit?return_to_step=4' %}
+</div>
+{% endif %}
+
 {% with suggested_markets_length=suggested_markets|length %}
 {% if suggested_markets_length >= 1 %}
 <div class="govuk-!-margin-bottom-4">
@@ -13,7 +35,7 @@
         {% endif %}
         <div class="great-ds-market-widget">
             <div class="great-ds-market-widget__col">
-                <h3 class="govuk-heading-s great-ds-market-and-flag"><span>{{ market.heading }}</span> <img src="/static/images/flags/{{ market.heading | get_market_code }}.svg" alt="{{ market.heading }} flag" /></h3>
+                <h3 class="govuk-heading-s great-ds-market-and-flag"><span>{{ market.heading }}</span> <img src="/static/images/flags/{{ market.heading | get_market_code }}.svg" alt="{{ market.heading }} flag" width="40px" /></h3>
 
                 <p class="govuk-body govuk-!-margin-bottom-2">{{ market.heading_teaser }}</p>
         

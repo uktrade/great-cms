@@ -54,8 +54,6 @@
 
                             {% if is_edit_mode %}
                                 {% include 'domestic/contact/export-support/includes/cancel-button.html' with url='/your-export-guide/results' %}
-                            {% else %}
-                                {% include 'domestic/contact/export-support/includes/skip-button.html' with url='/your-export-guide/results?is_market_skipped=True' %}
                             {% endif %}
                         </form>
                     </div>
@@ -98,6 +96,9 @@
     <script type="text/javascript"
             src="{% static 'javascript/accessible-autocomplete.v3.min.js' %}"></script>
     <script type="text/javascript">
+    const checkboxes = document.querySelectorAll('[data-target-market-form] input[type="checkbox"]');
+    const market_not_listed_checkbox = document.querySelector('[data-target-market-form] input#id_market_not_listed');
+    const not_sure_where_to_export_checkbox = document.querySelector('[data-target-market-form] input#id_not_sure_where_to_export');
 
     const countries = {{ countries | safe}};
 
@@ -111,21 +112,33 @@
         autoselect: false,
         minLength: 3,
         displayMenu: 'overlay',
-        placeholder: 'For example Germany',
+        placeholder: 'For example, Germany',
         inputClasses: 'govuk-input great-text-input great-ds-autocomplete-input',
         menuClasses: 'great-autocomplete-overlay',
         defaultValue: '{{ session_data.market }}',
+        onConfirm: (selectedSIC) => {
+            not_sure_where_to_export_checkbox.checked = false;
+            market_not_listed_checkbox.checked = false;
+        },
     });
 
-    const checkboxes = document.querySelectorAll('[data-target-market-form] input[type="checkbox"]');
-    const market_input = document.querySelector('[data-target-market-form] input#market')
+    const market_input = document.querySelector('[data-target-market-form] input#market');
 
     if (market_input && checkboxes && checkboxes.length >= 1) {
         checkboxes.forEach(checkbox => {
             checkbox.addEventListener('click', (e) => {
                 market_input.value = '';
+
+                if (e.target.id == 'id_market_not_listed') {
+                    not_sure_where_to_export_checkbox.checked = false;
+                }
+
+                if (e.target.id == 'id_not_sure_where_to_export') {
+                    market_not_listed_checkbox.checked = false;
+                }
             });
         });
     }
     </script>
+    <script type="text/javascript">GreatFrontend.DigitalSelfServe.init('Export support for UK businesses - Where is your target export market?')</script>
 {% endblock %}

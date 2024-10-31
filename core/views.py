@@ -2,6 +2,7 @@ import abc
 import json
 import logging
 import pickle
+from datetime import datetime
 
 from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import Sender
@@ -47,7 +48,10 @@ from core.mixins import (
 from core.models import GreatMedia
 from core.pingdom.services import health_check_services
 from directory_constants import choices
-from domestic.helpers import get_sector_widget_data_helper, get_market_widget_data_helper
+from domestic.helpers import (
+    get_market_widget_data_helper,
+    get_sector_widget_data_helper,
+)
 from domestic.models import DomesticDashboard, TopicLandingPage
 from export_academy.models import Event
 from sso.views import SSOBusinessUserLogoutView
@@ -815,6 +819,9 @@ class GuidedJourneyStep2View(GuidedJourneyMixin, FormView):
 
         if self.request.session.get('guided_journey_data'):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('guided_journey_data')))[0]
+            form_data = ({**form_data, 'hs_code': '', 'commodity_name': ''},)
+            form_data = pickle.dumps(form_data).hex()
+            self.request.session['guided_journey_data'] = form_data
 
         return super().get_context_data(
             **kwargs,
@@ -841,6 +848,7 @@ class GuidedJourneyStep3View(GuidedJourneyMixin, FormView):
 
     def get_context_data(self, **kwargs):
         countries = helpers.get_markets_list()
+        countries = [(country_code, country) for country_code, country in countries if country_code != 'GB']
 
         return super().get_context_data(
             **kwargs,
@@ -880,7 +888,9 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, TemplateView):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('guided_journey_data')))[0]
             market = form_data.get('market')
             sector = form_data.get('sector')
-            ukea_events = helpers.get_ukea_events(Event.objects.order_by('-start_date').all(), market, sector)
+            ukea_events = helpers.get_ukea_events(
+                Event.objects.filter(start_date__gte=datetime.now()).order_by('start_date').all(), market, sector
+            )
 
             for code, name in countries:
                 if name == market:

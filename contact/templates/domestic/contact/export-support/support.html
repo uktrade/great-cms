@@ -43,7 +43,7 @@
                                     {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
                                         <h2 class="govuk-heading-s govuk-!-margin-bottom-6">Our support topics</h2>
                                     {% endif %}
-                                    <div class="govuk-grid-row great-card-row{% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %} great-ds-category-panels great-ds-category-panels--landing{% endif %}">
+                                    <div class="govuk-grid-row great-card-row{% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %} great-ds-category-panels great-ds-category-panels--landing govuk-!-padding-left-3 govuk-!-padding-right-3{% endif %}">
                                         {% include 'domestic/contact/export-support/includes/topic-card.html' with topics=page.page_body %}
                                     </div>
                                     <hr class="great-ds-hr{% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %} govuk-!-margin-top-7 govuk-!-margin-bottom-7{% endif %}" />

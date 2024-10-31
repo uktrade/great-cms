@@ -5,7 +5,7 @@
 {% load int_canonical_url_tags %}
 {% get_current_language_bidi as LANGUAGE_BIDI %}
 <!DOCTYPE html>
-<html dir="ltr" lang="en-gb">
+<html dir="ltr" lang="en">
     <head>
         {% block head_google_tag_manager %}
             {% if great_components_analytics %}
@@ -91,7 +91,7 @@
             {% endblock %}
         {% endif %}
         {% block body_header %}
-            {% include "_header.html" with header_classes=header_classes hideMainNav=hideMainNav isInternational=isInternational mobileSiteLink=mobileSiteLink sso_is_logged_in=sso_is_logged_in isAuthenticated=isAuthenticated hideSearch=hideSearch hideMenuOnDesktop=hideMenuOnDesktop domesticLink=domesticLink internationalLink=internationalLink searchFormAction=searchFormAction navItemsList=navItemsList menuItemsList=menuItemsList actionLinkList=actionLinkList %}
+            {% include "_header.html" with use_domestic_logo=international_header_context.use_domestic_logo header_classes=international_header_context.header_classes hideMainNav=international_header_context.hideMainNav isInternational=international_header_context.isInternational mobileSiteLink=international_header_context.mobileSiteLink sso_is_logged_in=international_header_context.sso_is_logged_in isAuthenticated=international_header_context.isAuthenticated hideSearch=international_header_context.hideSearch hideMenuOnDesktop=international_header_context.hideMenuOnDesktop domesticLink=international_header_context.domesticLink internationalLink=international_header_context.internationalLink searchFormAction=international_header_context.searchFormAction navItemsList=international_header_context.navItemsList menuItemsList=international_header_context.menuItemsList actionLinkList=international_header_context.actionLinkList siteTitle=international_header_context.siteTitle %}
         {% endblock %}
         {% block breadcrumb_region %}
             {% include 'international/includes/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
@@ -99,7 +99,7 @@
         {% block body_content_container %}
             <main id="content"
                   tabindex="-1"
-                  class="{% block css_layout_class %}{% endblock css_layout_class %}"
+                  class="{% block css_layout_class %}govuk-main-wrapper {% endblock css_layout_class %}"
                   role="main">
                 {% block content %}{% endblock %}
                 {% block content_after %}{% endblock %}

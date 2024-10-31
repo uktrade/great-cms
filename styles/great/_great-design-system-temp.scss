@@ -175,6 +175,10 @@ $great-design-system-govuk-blue: #1d70b8;
   display: inline-flex;
   text-decoration: none;
 
+  &.govuk-link {
+    text-decoration: none;
+  }
+
   i {
     font-size: 1.5rem;
     margin-right: 10px;
@@ -326,6 +330,25 @@ $great-design-system-govuk-blue: #1d70b8;
   }
 }
 
+.great-ds-widget-info-box {
+  display: flex;
+  gap: 10px;
+
+  @include govuk-media-query($from: tablet) {
+    gap: 20px;
+  }
+
+  > i {
+    color: $great-design-system-govuk-blue;
+    font-size: 1.5rem;
+
+    @include govuk-media-query($from: tablet) {
+      font-size: 2rem;
+      gap: 20px;
+    }
+  }
+}
+
 .great-ds-purple-text {
   color: $great-design-system-purple !important;
 }
@@ -344,10 +367,11 @@ $great-design-system-govuk-blue: #1d70b8;
 }
 
 .great-ds-market-and-flag {
-  display: inline-flex;
+  display: inline-flex !important;
   gap: 20px;
 
   img {
+    box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.2);
     width: 40px;
   }
 }
@@ -540,6 +564,10 @@ $great-design-system-govuk-blue: #1d70b8;
     &:only-child {
       flex-basis: 100%;
     }
+  }
+
+  > .great-ds-card-panels__item--full-width {
+    flex-basis: 100%;
   }
 }
 

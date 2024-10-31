@@ -393,7 +393,7 @@ class LocationSelectForm(forms.Form):
     location = ChoiceField(
         label='Select a location',
         choices=choices.REGION_CHOICES,
-        widget=Select(attrs={'class': 'govuk-select'}),
+        widget=Select(attrs={'class': 'govuk-select', 'onchange': 'refreshSelectedLocation()'}),
     )
 
 

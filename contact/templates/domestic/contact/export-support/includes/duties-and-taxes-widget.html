@@ -17,10 +17,10 @@
     </p>
 
     <div>
-        {% if country_code|is_cheg_excluded_country %}
-        <a href="https://www.check-duties-customs-exporting-goods.service.gov.uk" class="govuk-link great-ds-link" target="_blank">
+        {% if country_code|is_cheg_excluded_country or not country_code %}
+        <a href="https://www.check-duties-customs-exporting-goods.service.gov.uk/selectdest?utm_source=great&utm_medium=referral&utm_campaign=chegdeeplinks" class="govuk-link great-ds-link" target="_blank">
         {% else %}
-        <a href="https://www.check-duties-customs-exporting-goods.service.gov.uk{% if country_code %}/overview?d={{ country_code }}&ds=gtp{% endif %}{% if session_data.hs_code %}&pc={{ session_data.hs_code }}{% endif %}" class="govuk-link great-ds-link" target="_blank">
+        <a href="https://www.check-duties-customs-exporting-goods.service.gov.uk/overview?{% if country_code %}d={{ country_code }}&ds=gtp{% endif %}{% if session_data.hs_code %}&pc={{ session_data.hs_code }}{% endif %}&utm_source=great&utm_medium=referral&utm_campaign=chegdeeplinks" class="govuk-link great-ds-link" target="_blank">
         {% endif %}
             <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> 
             <span>Use this service on GOV.UK</span>

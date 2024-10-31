@@ -3,6 +3,8 @@
 {% load static %}
 {% block head_title %}International {{ block.super }}{% endblock %}
 {% block meta_title %}International {{ block.super }}{% endblock %}
+{% block css_layout_class %}
+{% endblock css_layout_class %}
 {% block content %}
     {% include './components/landing_hero.html' with hero_image=page.hero_image heading=page.hero_text subtitle=page.hero_subtitle %}
     {% if page.dep_cards %}
