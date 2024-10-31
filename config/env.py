@@ -374,8 +374,6 @@ class BaseSettings(PydanticBaseSettings):
 
     # AWS CF cache invalidation
     aws_cloudfront_distribution_id: str = ''
-    frontend_cache_aws_access_key_id: str = ''
-    frontend_cache_aws_secret_access_key: str = ''
 
 
 class CIEnvironment(BaseSettings):
