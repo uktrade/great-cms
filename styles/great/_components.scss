@@ -1930,7 +1930,9 @@ nav.great-breadcrumbs {
   align-items: center;
 
   button {
-    margin-top: 0px !important;
+    margin: 0px !important;
+    min-width: auto;
+    width: auto;
   }
 }
 
