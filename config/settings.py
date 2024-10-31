@@ -218,6 +218,9 @@ if WAGTAIL_CACHE:
         'cloudfront': {
             'BACKEND': 'wagtail.contrib.frontend_cache.backends.CloudfrontBackend',
             'DISTRIBUTION_ID': env.str('AWS_CLOUDFRONT_DISTRIBUTION_ID', None),
+            'AWS_ACCESS_KEY_ID': os.environ['AWS_CLOUNDFRONT_AWS_ACCESS_KEY_ID'],
+            'AWS_SECRET_ACCESS_KEY': os.environ['AWS_CLOUNDFRONT_SECRET_ACCESS_KEY'],
+            'AWS_SESSION_TOKEN': os.environ['AWS_CLOUNDFRONT_SESSION_TOKEN']
         },
     }
 
