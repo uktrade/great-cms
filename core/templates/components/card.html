@@ -25,7 +25,7 @@
                     {% if subheading %}<p class="subheading">{{ subheading }}</p>{% endif %}
                     {% if title or heading %}
                         <h4 {% if card_id %}id="{{ card_id|add:'-heading' }}"{% endif %}
-                            class="{% if white_bg_card %}govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2 great-text-blue{% endif %}">
+                            class="govuk-!-margin-bottom-2{% if white_bg_card %} govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2 great-text-blue{% endif %}">
                             {% firstof title heading %}
                         </h4>
                     {% endif %}
