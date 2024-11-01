@@ -31,7 +31,6 @@ from international_online_offer.services import get_median_salaries, get_rent_da
 
 class EYBIndexPage(BaseContentPage):
     parent_page_types = [
-        'domestic.StructuralPage',
         'international.GreatInternationalHomePage',
     ]
     subpage_types = [
