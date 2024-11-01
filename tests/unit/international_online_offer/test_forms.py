@@ -42,7 +42,7 @@ from international_online_offer.forms import (
     ),
 )
 @pytest.mark.django_db
-def test_company_location_form_validataion(form_data, is_valid):
+def test_company_location_form_validataion(mock_get_countries_regions_territories, form_data, is_valid):
     form = BusinessHeadquartersForm(form_data)
     assert form.is_valid() == is_valid
 
@@ -144,7 +144,7 @@ def test_company_details_form_validataion(form_data, is_valid):
     ),
 )
 @pytest.mark.django_db
-def test_company_sector_form_validataion(form_data, is_valid):
+def test_company_sector_form_validataion(mock_get_dbt_sectors, form_data, is_valid):
     form = BusinessSectorForm(form_data)
     assert form.is_valid() == is_valid
 

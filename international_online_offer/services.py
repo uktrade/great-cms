@@ -162,3 +162,14 @@ def get_gva_scoring_criteria(full_sector_name):
 def get_all_sectors_gva_scoring_criteria():
     response = api_client.dataservices.get_all_sectors_gva_value_bands()
     return response.json()
+
+
+def get_countries_regions_territories():
+    response = api_client.dataservices.get_all_countries_territories_regions()
+    return response.json()
+
+
+def get_country_display_name(iso2_code: str) -> str:
+    response = api_client.dataservices.get_country_territory_region(iso2_code)
+    data = response.json()
+    return data['name']
