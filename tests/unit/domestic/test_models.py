@@ -37,7 +37,6 @@ from domestic.models import (
     industry_accordions_validation,
     main_statistics_validation,
 )
-from international_investment.models import InvestmentArticlePage
 from tests.helpers import SetUpLocaleMixin, create_response
 from tests.unit.core.factories import (
     CountryFactory,
@@ -2100,7 +2099,6 @@ class StructuralPageTests(WagtailPageTests):
             StructuralPage,
             {
                 ArticlePage,
-                InvestmentArticlePage,
             },
         )
 

@@ -8,8 +8,6 @@ from international_investment.models import (
     InvestmentRegionsPage,
     InvestmentSectorsPage,
 )
-from domestic.models import StructuralPage
-
 
 class InvestmentHomePageTests(WagtailPageTests):
     def test_allowed_parents(self):
@@ -20,7 +18,7 @@ class InvestmentHomePageTests(WagtailPageTests):
 
     def test_allowed_children(self):
         self.assertAllowedSubpageTypes(
-            InvestmentIndexPage, {InvestmentSectorsPage, InvestmentRegionsPage, InvestmentOpportunityArticlePage, StructuralPage}
+            InvestmentIndexPage, {InvestmentSectorsPage, InvestmentRegionsPage, InvestmentOpportunityArticlePage, InvestmentArticlePage}
         )
 
 
