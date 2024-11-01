@@ -212,7 +212,7 @@ else:
 WAGTAIL_CACHE = env.bool('WAGTAIL_CACHE', False)  # set to false for local
 
 # Frontend cache invalidator - Wagtail
-# see https://docs.wagtail.org/en/v6.2/reference/contrib/frontendcache.html
+# see https://docs.wagtail.org/en/v5.2/reference/contrib/frontendcache.html#amazon-cloudfront
 if WAGTAIL_CACHE:
     WAGTAILFRONTENDCACHE = {
         'cloudfront': {
