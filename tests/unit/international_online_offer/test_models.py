@@ -8,7 +8,6 @@ from wagtail.models import Page
 from wagtail.test.utils import WagtailPageTests
 
 from core.tests.helpers import create_response
-from domestic.models import StructuralPage
 from international.models import GreatInternationalHomePage
 from international_online_offer.models import (
     EYBArticlePage,
@@ -32,7 +31,6 @@ class EYBIndexPageTests(WagtailPageTests):
         self.assertAllowedParentPageTypes(
             EYBIndexPage,
             {
-                StructuralPage,
                 GreatInternationalHomePage,
             },
         )
