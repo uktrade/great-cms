@@ -1174,18 +1174,24 @@ figure.great-blockquote {
     min-height: 367px;
   }
 
+  > div:first-of-type {
+    @media screen and (max-width: 850px) {
+      width: 100%;
+    }
+  }
+
+  p:last-of-type {
+    margin-bottom: 30px;
+  }
+
   img {
     display: none;
     bottom: 0;
     position: absolute;
     right: 0;
 
-    @include govuk-media-query($from: tablet) {
-      display: block;
-      max-width: 450px;
-    }
-
     @media screen and (min-width: 851px) {
+      display: block;
       max-width: 600px;
     }
 
