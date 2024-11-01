@@ -845,7 +845,7 @@
   }
 }
 
-.great-grid-column-seven-twelfths {
+.great .great-grid-column-seven-twelfths {
   @include govuk-media-query($from: desktop) {
     width: calc(58.333% + 30px);
   }
