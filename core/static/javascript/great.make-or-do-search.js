@@ -33,6 +33,7 @@ GreatFrontend.MakeOrDoSearch = {
             placeholder: 'For example, financial services or coffee roaster',
             inputClasses: 'govuk-input great-text-input great-ds-autocomplete-input',
             menuClasses: 'great-autocomplete-overlay',
+            required: true,
         });
     }
 }

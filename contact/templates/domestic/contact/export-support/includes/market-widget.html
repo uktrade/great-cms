@@ -11,7 +11,7 @@
 <div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-4 great-ds-box-shadow great-ds-widget-container">
     {% include 'domestic/contact/export-support/includes/change-button.html' with url='/your-export-guide/target-export-market/edit?return_to_step=4' %}
 
-    <h2 class="govuk-heading-s great-ds-market-and-flag"><span>{{ market.heading }}</span> {% if country_code %}<img src="/static/images/flags/{{ country_code | lower }}.svg" alt="{{ market_name }} flag" width="40px" />{% endif %}</h2>
+    <h2 class="govuk-heading-s great-ds-market-and-flag"><span>{{ market.heading }}</span> {% if country_code %}<img src="/static/images/flags/{{ country_code | lower }}.svg" alt="{{ market_name }} flag" width="40px" height="30px" />{% endif %}</h2>
 
     <div class="great-ds-market-widget">
         <div class="great-ds-market-widget__col">
@@ -74,12 +74,12 @@
             <p class="govuk-heading-s govuk-!-margin-bottom-2 great-ds-market-and-flag">
                 <span>Sorry, there's currently no market guide for {{ market_name }}</span>
                 {% if country_code %}
-                    <img src="/static/images/flags/{{ country_code | lower }}.svg" alt="{{ market_name }} flag" width="40px" />
+                    <img src="/static/images/flags/{{ country_code | lower }}.svg" alt="{{ market_name }} flag" width="40px" height="30px" />
                 {% endif %}
             </p>
             <div>
-                <a href="https://www.great.gov.uk/markets/" class="govuk-link great-ds-link" target="_blank">
-                    <span>View all our market guides</span>
+                <a href="https://www.great.gov.uk/markets/" class="govuk-link great-ds-link" target="_blank" data-ga-digital-entry-point>
+                    <span data-title="View all our market guides">View all our market guides</span>
                 </a>
             </div>
         </div>
