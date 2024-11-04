@@ -856,7 +856,9 @@ def get_trade_barrier_count(market, sector):
 
 
 def get_ukea_events(all_events, market, sector):
-    events = all_events.filter(closed=False, country_tags__isnull=True, sector_tags__isnull=True)
+    events = all_events.filter(
+        closed=False, country_tags__isnull=True, sector_tags__isnull=True, region_tags__isnull=True
+    )
     market = str(market or '')
     sector = str(sector or '')
 
