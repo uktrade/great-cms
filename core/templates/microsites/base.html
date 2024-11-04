@@ -150,7 +150,6 @@
             {% block content_after %}{% endblock %}
         {% endblock %}
         {% block body_footer %}
-            {% include 'core/footer.html' %}
             {% include "_footer.html" with isInternational=is_international currentYear=current_year footerLinks=footer_links %}
         {% endblock %}
         {% block body_js %}

@@ -112,7 +112,6 @@
             </div>
         {% endblock %}
         {% block body_footer %}
-            {% include './footer.html' %}
             {% include "_footer.html" with isInternational=international_footer_context.is_international currentYear=international_footer_context.current_year footerLinks=international_footer_context.footer_links %}
         {% endblock %}
         {% block body_js %}
