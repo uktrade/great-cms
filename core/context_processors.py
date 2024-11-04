@@ -140,13 +140,6 @@ def domestic_footer(request):
                     'text': 'Get help with your account',
                 },
                 {
-                    'href': 'https://' + settings.DIT_ON_GOVUK,
-                    'title': 'Department for Business and Trade on GOV.UK',
-                    'text': 'Department for Business and Trade on GOV.UK',
-                    'target': '_blank',
-                    'rel': 'noopener',
-                },
-                {
                     'href': '/privacy',
                     'title': 'Privacy',
                     'text': 'Privacy',
@@ -165,11 +158,6 @@ def domestic_footer(request):
                     'href': '/accessibility-statement',
                     'title': 'Accessibility',
                     'text': 'Accessibility',
-                },
-                {
-                    'href': '/performance-dashboard',
-                    'title': 'Performance',
-                    'text': 'Performance',
                 },
                 {
                     'href': '/international',
@@ -188,6 +176,11 @@ def international_footer(request):
             'current_year': str(datetime.now().year),
             'footer_links': [
                 {
+                    'href': "/{% url 'international:contact' %}?next={{ feedback_next_url }}",
+                    'title': 'Help using this site',
+                    'text': 'Help using this site',
+                },
+                {
                     'href': '/privacy',
                     'title': 'Privacy',
                     'text': 'Privacy',
@@ -208,16 +201,9 @@ def international_footer(request):
                     'text': 'Accessibility',
                 },
                 {
-                    'href': "/{% url 'international:contact' %}?next={{ feedback_next_url }}",
-                    'title': 'Help using this site',
-                    'text': 'Help using this site',
-                },
-                {
-                    'href': 'https://' + settings.DIT_ON_GOVUK,
-                    'title': 'Department for Business and Trade on GOV.UK',
-                    'text': 'Department for Business and Trade on GOV.UK',
-                    'target': '_blank',
-                    'rel': 'noopener',
+                    'href': '/',
+                    'title': 'Export support',
+                    'text': 'Go to the page for export support',
                 },
             ],
         },
