@@ -440,10 +440,5 @@
     {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
         <script type="text/javascript"
                 src="{% static 'javascript/accessible-autocomplete.v3.min.js' %}"></script>
-        <script type="text/javascript"
-                src="{% static 'javascript/great.make-or-do-search.js' %}"></script>
-        <script type="text/javascript">
-            GreatFrontend.MakeOrDoSearch.init({{ sic_sector_data | safe}});
-        </script>
     {% endif %}
 {% endblock %}
