@@ -1,5 +1,7 @@
 from typing import Dict, List, Tuple
 
+from rest_framework import status
+
 from directory_api_client import api_client
 from international_online_offer.core import regions
 from international_online_offer.core.professions import (
@@ -171,5 +173,10 @@ def get_countries_regions_territories():
 
 def get_country_display_name(iso2_code: str) -> str:
     response = api_client.dataservices.get_country_territory_region(iso2_code)
-    data = response.json()
-    return data['name']
+    country_display_name = ''
+
+    if response.status_code == status.HTTP_200_OK:
+        data = response.json()
+        country_display_name = data['name']
+
+    return country_display_name

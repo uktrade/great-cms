@@ -164,3 +164,12 @@ def test_get_countries_regions_territories(mock_get_countries_regions_territorie
 def test_get_country_region_territory(mock_get_country_region_territory):
     country_name = services.get_country_display_name('FJ')
     assert country_name == 'Fiji'
+
+
+@mock.patch(
+    'international_online_offer.services.api_client.dataservices.get_country_territory_region',
+    return_value=create_response(status_code=404),
+)
+def test_get_country_region_territory_404(mock_get_country_region_territory_404):
+    country_name = services.get_country_display_name('abcdefg')
+    assert country_name == ''
