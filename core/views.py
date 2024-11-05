@@ -16,6 +16,7 @@ from django.template.response import TemplateResponse
 from django.urls import reverse, reverse_lazy
 from django.utils.crypto import get_random_string
 from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, TemplateView
 from django.views.generic.base import RedirectView, View
 from formtools.wizard.views import NamedUrlSessionWizardView
@@ -765,6 +766,7 @@ class PingDomView(TemplateView):
             )
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class GuidedJourneyStep1View(GuidedJourneyMixin, FormView):
     form_class = forms.GuidedJourneyStep1Form
     template_name = 'domestic/contact/export-support/guided-journey/step-1.html'
