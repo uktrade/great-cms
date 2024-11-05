@@ -70,25 +70,19 @@ dit.tagging.base = new function() {
 
         function sendVideoEvent(video, action) {
             var videoPercent = 0
+            var videoStatus = 'progress'
             const currentPercent = calculateVideoPercent(video[0]);
-                if (currentPercent >= 25 && currentPercent < 50)
-                    {
-                        action = 'progress'
-                        videoPercent = 25
-                    }
+                if (currentPercent < 25)
+                    videoPercent = 0;
+                else if (currentPercent >= 25 && currentPercent < 50)
+                        videoPercent = 25;
                 else if (currentPercent >= 50 && currentPercent < 75)
-                    {
-                        action = 'progress'
-                        videoPercent = 50
-                    }
-
+                        videoPercent = 50;
                 else if (currentPercent >= 75 && currentPercent < 100)
-                    {
-                        action = 'progress'
-                        videoPercent = 75
-                    }
+                        videoPercent = 75;
+
                 else {
-                        action = 'ended'
+                        videoStatus = 'ended'
                         videoPercent = 100
                     }
 
@@ -107,6 +101,7 @@ dit.tagging.base = new function() {
             }
             videoEvent['video_percent'] = videoPercent
             videoEvent['video_title'] = title
+            videoEvent['video_status'] = videoStatus
             sendEvent(videoEvent);
         }
 
