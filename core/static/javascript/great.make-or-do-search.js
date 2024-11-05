@@ -35,5 +35,20 @@ GreatFrontend.MakeOrDoSearch = {
             menuClasses: 'great-autocomplete-overlay',
             required: true,
         });
+
+        document.querySelector('[data-make-or-do-form] button').addEventListener('click', (e) => {
+            e.preventDefault();
+
+            const form = document.querySelector('[data-make-or-do-form]');
+
+            const sector_value = form.querySelector('#sector').value;
+            const make_or_do_keyword_value = form.querySelector('#make_or_do_keyword').value;
+            const exporter_type_value = form.querySelector('#exporter_type').value;
+            const sic_description_value = form.querySelector('#sic_description').value;
+
+            const qs = `?sector=${sector_value}&make_or_do=${make_or_do_keyword_value}&exporter_type=${exporter_type_value}&sic_description=${sic_description_value}`;
+            
+            window.location = `/your-export-guide/what-does-your-company-make-or-do/get${qs}`;
+        });
     }
 }

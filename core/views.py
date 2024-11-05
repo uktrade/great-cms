@@ -810,6 +810,33 @@ class GuidedJourneyStep1View(GuidedJourneyMixin, FormView):
         return super().form_valid(form)
 
 
+class GuidedJourneyStep1GetView(View):
+    def get(self, request):
+        sector = request.GET.get('sector')
+        make_or_do = request.GET.get('make_or_do')
+        exporter_type = request.GET.get('exporter_type')
+        sic_description = request.GET.get('sic_description')
+
+        if sector and make_or_do and exporter_type and sic_description:
+            form_data = (
+                {
+                    'sector': sector,
+                    'make_or_do': make_or_do,
+                    'exporter_type': exporter_type,
+                    'sic_description': sic_description,
+                },
+            )
+            form_data = pickle.dumps(form_data).hex()
+            self.request.session['guided_journey_data'] = form_data
+
+            if exporter_type == 'goods':
+                return HttpResponseRedirect(reverse_lazy('core:guided-journey-step-2'))
+
+            return HttpResponseRedirect(reverse_lazy('core:guided-journey-step-3'))
+
+        return HttpResponseRedirect(reverse_lazy('core:guided-journey-step-1'))
+
+
 class GuidedJourneyStep2View(GuidedJourneyMixin, FormView):
     form_class = forms.GuidedJourneyStep2Form
     template_name = 'domestic/contact/export-support/guided-journey/step-2.html'
