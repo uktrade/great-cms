@@ -197,3 +197,46 @@ def get_spend_choices_by_currency(currency):
     elif currency == 'USD':
         spend_choices = choices.SPEND_CHOICES_USD
     return spend_choices
+
+
+def get_field_value(instance, field_name):
+    """Utility function to get the value of a field from an instance."""
+    return getattr(instance, field_name, None)
+
+def get_current_step(user_data, triage_data):
+    # Steps in the triage and associated required fields. 
+    # If any of these fields are empty, return the view to 
+    # allow the user to continue where they left off.
+    TRIAGE_STEPS = {
+        'business-headquarters': ['company_location'],
+        'find-your-company': ['company_name', 'address_line_1', 'town'],
+        'business-sector': ['sector'],
+        'know-setup-location': ['location_none', 'location'],
+        'when-want-setup': ['landing_timeframe'],
+        'intent': ['intent'],
+        'hiring': ['hiring'],
+        'spend': ['spend'],
+        'contact-details': ['full_name', 'role', 'telephone_number'],
+    }
+
+    for view_name, fields in TRIAGE_STEPS.items():
+        for field in fields:
+            value = None
+            if hasattr(user_data, field):
+                value = get_field_value(user_data, field)
+                source = 'user_data'
+            elif hasattr(triage_data, field):
+                value = get_field_value(triage_data, field)
+                source = 'triage_data'
+            else:
+                source = 'none'
+
+            # Debugging output
+            print(f"Checking field '{field}' from '{source}': Value = {value}")
+
+            # Check for None explicitly to handle boolean fields correctly
+            if value is None or value == '' or value == []:
+                print(f"Field '{field}' is None, returning view '{view_name}'")
+                return view_name
+    
+    return None  # Triage is completed

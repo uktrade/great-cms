@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.models import ParentalKey
 from taggit.models import TagBase, TaggedItemBase
@@ -80,10 +80,17 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage):
     ]
     template = 'eyb/guide.html'
 
-    def get_context(self, request, *args, **kwargs):
-        context = super().get_context(request, *args, **kwargs)
+    def serve(self, request, *args, **kwargs):
         user_data = get_user_data_for_user(request)
         triage_data = get_triage_data_for_user(request)
+
+        # Determine the current step view name
+        current_step_view = helpers.get_current_step(user_data, triage_data)
+        if current_step_view:
+            response = redirect(f'international_online_offer:{current_step_view}')
+            response['Location'] += '?resume=true'
+            return response
+
         is_triage_data_complete = helpers.is_triage_data_complete(triage_data)
 
         bci_data = None
@@ -123,28 +130,23 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage):
             {'name': 'Home', 'url': '/international/'},
         ]
 
-        context.update(
-            complete_contact_form_link='international_online_offer:signup',
-            complete_contact_form_link_text='Sign up',
-            triage_data=triage_data,
-            user_data=user_data,
-            bci_data=bci_data[0] if bci_data and len(bci_data) > 0 else None,
-            get_to_know_market_articles=all_articles_tagged_with_sector_and_intent,
-            finance_and_support_articles=all_articles_tagged_with_finance_and_support,
-            trade_shows_page=trade_shows_page,
-            is_triage_data_complete=is_triage_data_complete,
-            breadcrumbs=breadcrumbs,
+        return render(
+            request,
+            'eyb/guide.html',
+            {
+                'page': self,
+                'complete_contact_form_link':'international_online_offer:signup',
+                'complete_contact_form_link_text':'Sign up',
+                'triage_data':triage_data,
+                'user_data':user_data,
+                'bci_data':bci_data[0] if bci_data and len(bci_data) > 0 else None,
+                'get_to_know_market_articles':all_articles_tagged_with_sector_and_intent,
+                'finance_and_support_articles':all_articles_tagged_with_finance_and_support,
+                'trade_shows_page':trade_shows_page,
+                'is_triage_data_complete':is_triage_data_complete,
+                'breadcrumbs':breadcrumbs,
+            },
         )
-
-        self.set_ga360_payload(
-            page_id='Guide',
-            business_unit='ExpandYourBusiness',
-            site_section='guide',
-        )
-        self.add_ga360_data_to_payload(request)
-        context['ga360'] = self.ga360_payload
-
-        return context
 
 
 class EYBArticleTag(TagBase):
@@ -377,7 +379,7 @@ class EYBArticlesPage(BaseContentPage):
 
 class TriageData(TimeStampedModel):
     hashed_uuid = models.CharField(max_length=200)
-    sector = models.CharField(max_length=255)
+    sector = models.CharField(max_length=255) #required
     sector_sub = models.CharField(max_length=255, default=None, null=True)
     sector_sub_sub = models.CharField(max_length=255, default=None, null=True)
     sector_id = models.CharField(default=None, null=True)
@@ -385,7 +387,7 @@ class TriageData(TimeStampedModel):
         models.CharField(max_length=255, choices=choices.INTENT_CHOICES),
         size=6,
         default=list,
-    )
+    ) #required
 
     def get_intent_display(self):
         out = []
@@ -395,13 +397,13 @@ class TriageData(TimeStampedModel):
         return out
 
     intent_other = models.CharField(max_length=255)
-    location = models.CharField(max_length=255, choices=choices.REGION_CHOICES)
+    location = models.CharField(max_length=255, choices=choices.REGION_CHOICES) #required
     location_city = models.CharField(
         max_length=255, default=None, null=True, choices=region_sector_helpers.generate_location_choices(False)
     )
-    location_none = models.BooleanField(default=None, null=True)
-    hiring = models.CharField(max_length=255, choices=choices.HIRING_CHOICES)
-    spend = models.CharField(max_length=255, choices=choices.SPEND_CHOICES)
+    location_none = models.BooleanField(default=None, null=True) #required
+    hiring = models.CharField(max_length=255, choices=choices.HIRING_CHOICES) #required
+    spend = models.CharField(max_length=255, choices=choices.SPEND_CHOICES) #required
     spend_other = models.CharField(max_length=255, null=True)
     is_high_value = models.BooleanField(default=False)
 
@@ -411,21 +413,21 @@ class UserData(TimeStampedModel):
     company_name = models.CharField(max_length=255)
     company_location = models.CharField(max_length=255)
     duns_number = models.CharField(max_length=255, null=True, blank=True)
-    address_line_1 = models.CharField(max_length=255, null=True, blank=True)
+    address_line_1 = models.CharField(max_length=255, null=True, blank=True) #required
     address_line_2 = models.CharField(max_length=255, null=True, blank=True)
-    town = models.CharField(max_length=255, null=True, blank=True)
+    town = models.CharField(max_length=255, null=True, blank=True) #required
     county = models.CharField(max_length=255, null=True, blank=True)
     postcode = models.CharField(max_length=255, null=True, blank=True)
-    full_name = models.CharField(max_length=255)
-    role = models.CharField(max_length=255)
-    email = models.CharField(max_length=255)
-    telephone_number = models.CharField(max_length=255)
+    full_name = models.CharField(max_length=255) #required
+    role = models.CharField(max_length=255) #required
+    email = models.CharField(max_length=255) 
+    telephone_number = models.CharField(max_length=255) #required
     agree_terms = models.BooleanField(default=False)
     agree_info_email = models.BooleanField(default=False)
     landing_timeframe = models.CharField(
         null=True, default=None, max_length=255, choices=choices.LANDING_TIMEFRAME_CHOICES
-    )
-    company_website = models.CharField(max_length=255, null=True)
+    ) #required
+    company_website = models.CharField(max_length=255, null=True) #required
 
 
 class TradeAssociation(models.Model):
