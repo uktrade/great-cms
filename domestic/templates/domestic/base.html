@@ -184,7 +184,6 @@
         {% endblock %}
         {% block body_footer %}
             {% wagtailcache 86400 "domestic_footer_cache" %}
-            {% include 'components/header_footer/domestic_footer.html' %}
             {% include "_footer.html" with isInternational=domestic_footer_context.is_international currentYear=domestic_footer_context.current_year footerLinks=domestic_footer_context.footer_links %}
         {% endwagtailcache %}
     {% endblock %}
