@@ -211,6 +211,11 @@ if settings.FEATURE_GUIDED_JOURNEY:
             name='guided-journey-step-1-edit',
         ),
         path(
+            'your-export-guide/what-does-your-company-make-or-do/get',
+            views.GuidedJourneyStep1GetView.as_view(),
+            name='guided-journey-step-1-get',
+        ),
+        path(
             'your-export-guide/commodity-code-lookup',
             skip_ga360(views.GuidedJourneyStep2View.as_view()),
             name='guided-journey-step-2',
