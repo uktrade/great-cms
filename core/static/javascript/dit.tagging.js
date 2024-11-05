@@ -42,7 +42,8 @@ dit.tagging.base = new function() {
         }
 
         function addTaggingForVideos() {
-            $("#hero-campaign-section-watch-video-button").click(function() { sendVideoEvent($(this), 'play') });
+
+            $("#hero-campaign-section-watch-video-button").on('click',function() { sendVideoEvent($(this), 'play') });
             $('video')
                 .on('play', function() { sendVideoEvent($(this), 'play') })
                 .on('pause', function() { sendVideoEvent($(this), 'pause') })
@@ -63,11 +64,38 @@ dit.tagging.base = new function() {
             sendEvent(linkEvent(action, type, element, value, destination));
         }
 
+        function calculateVideoPercent(video) {
+            return Math.floor((video.currentTime / video.duration) * 100);
+        }
+
         function sendVideoEvent(video, action) {
+            var videoPercent = 0
+            const currentPercent = calculateVideoPercent(video[0]);
+                if (currentPercent >= 25 && currentPercent < 50)
+                    {
+                        action = 'progress'
+                        videoPercent = 25
+                    }
+                else if (currentPercent >= 50 && currentPercent < 75)
+                    {
+                        action = 'progress'
+                        videoPercent = 50
+                    }
+
+                else if (currentPercent >= 75 && currentPercent < 100)
+                    {
+                        action = 'progress'
+                        videoPercent = 75
+                    }
+                else {
+                        action = 'ended'
+                        videoPercent = 100
+                    }
+
             var type = video.data('ga-type') || 'video';
             var element = video.data('ga-element') || inferElement(video);
             var value = video.data('ga-value') || inferVideoValue(video);
-
+            var title = video.data('title')
             var videoEvent = event(action, type, element, value)
 
             if (video.length>0) {
@@ -77,6 +105,8 @@ dit.tagging.base = new function() {
             if (eventTitle) {
                 videoEvent['eventTitle'] = eventTitle.getAttribute('data-ga-event-title');
             }
+            videoEvent['video_percent'] = videoPercent
+            videoEvent['video_title'] = title
             sendEvent(videoEvent);
         }
 
