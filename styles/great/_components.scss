@@ -1807,8 +1807,8 @@ nav.great-breadcrumbs {
   background-image: none;
 
   @include govuk-media-query($from: desktop) {
-    background-color: transparent;
-    background-image: url(/static/images/flight-paths.png);
+    background-color: $great-dark-blue;
+    background-image: url(/static/images/water-lilies.png);
   }
 
   .great-hero__heading {
