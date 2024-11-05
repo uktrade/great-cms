@@ -348,6 +348,82 @@ def mock_get_gva_bandings():
 
 
 @pytest.fixture
+def mock_get_countries_regions_territories():
+    yield mock.patch(
+        'international_online_offer.services.api_client.dataservices.get_all_countries_territories_regions',
+        return_value=create_response(
+            json_body=[
+                {
+                    'id': 82,
+                    'created': '2024-10-30T16:55:08.063331Z',
+                    'modified': '2024-10-30T16:55:08.063337Z',
+                    'reference_id': 'CTHMTC00084',
+                    'name': 'Fiji',
+                    'type': 'Country',
+                    'iso1_code': '242',
+                    'iso2_code': 'FJ',
+                    'iso3_code': 'FJI',
+                    'overseas_region': 'Asia Pacific',
+                    'start_date': None,
+                    'end_date': None,
+                },
+                {
+                    'id': 83,
+                    'created': '2024-10-30T16:55:08.063361Z',
+                    'modified': '2024-10-30T16:55:08.063367Z',
+                    'reference_id': 'CTHMTC00085',
+                    'name': 'Finland',
+                    'type': 'Country',
+                    'iso1_code': '246',
+                    'iso2_code': 'FI',
+                    'iso3_code': 'FIN',
+                    'overseas_region': 'Europe',
+                    'start_date': None,
+                    'end_date': None,
+                },
+                {
+                    'id': 84,
+                    'created': '2024-10-30T16:55:08.063391Z',
+                    'modified': '2024-10-30T16:55:08.063397Z',
+                    'reference_id': 'CTHMTC00086',
+                    'name': 'France',
+                    'type': 'Country',
+                    'iso1_code': '250',
+                    'iso2_code': 'FR',
+                    'iso3_code': 'FRA',
+                    'overseas_region': 'Europe',
+                    'start_date': None,
+                    'end_date': None,
+                },
+            ]
+        ),
+    ).start()
+
+
+@pytest.fixture
+def mock_get_country_region_territory():
+    yield mock.patch(
+        'international_online_offer.services.api_client.dataservices.get_country_territory_region',
+        return_value=create_response(
+            json_body={
+                'id': 82,
+                'created': '2024-10-30T16:55:08.063331Z',
+                'modified': '2024-10-30T16:55:08.063337Z',
+                'reference_id': 'CTHMTC00084',
+                'name': 'Fiji',
+                'type': 'Country',
+                'iso1_code': '242',
+                'iso2_code': 'FJ',
+                'iso3_code': 'FJI',
+                'overseas_region': 'Asia Pacific',
+                'start_date': None,
+                'end_date': None,
+            },
+        ),
+    ).start()
+
+
+@pytest.fixture
 def mock_get_company():
     yield mock.patch(
         'directory_api_client.api_client.company.published_profile_retrieve',

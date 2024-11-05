@@ -49,11 +49,12 @@
     {% comment %} below JS migrated from business_details page {% endcomment %}
     <script type="text/javascript"
             src="{% static 'javascript/accessible-autocomplete.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'javascript/countries.js' %}"></script>
     <script type="text/javascript"
             src="{% static 'javascript/expand-your-business.js' %}"></script>
     <script type="text/javascript">document.getElementById('id_js_enabled').value='True'</script>
     <script type="text/javascript">
+        const locationChoices = {{location_choices|safe}};
+
         const onSubmitBusinessDetails = () => {
             if (!document.getElementById('js-company-location-select').value) {
                 document.getElementById('js-company-location-select-select').value = '';
@@ -62,7 +63,7 @@
 
         accessibleAutocomplete.enhanceSelectElement({
             selectElement: document.getElementById('js-company-location-select'),
-            source: countries,
+            source: locationChoices,
             autoselect: false,
             minLength: 2,
         });
