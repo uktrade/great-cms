@@ -128,6 +128,7 @@ def domestic_footer(request):
         'domestic_footer_context': {
             'is_international': False,
             'current_year': str(datetime.now().year),
+            'logo_link_href': 'https://www.gov.uk/government/organisations/department-for-business-and-trade',
             'footer_links': [
                 {
                     'href': '/support/export-support',
@@ -161,8 +162,8 @@ def domestic_footer(request):
                 },
                 {
                     'href': '/international',
-                    'title': 'International business',
-                    'text': 'Go to the page for international business',
+                    'title': 'Invest in the UK',
+                    'text': 'Invest in the UK',
                 },
             ],
         },
@@ -174,9 +175,10 @@ def international_footer(request):
         'international_footer_context': {
             'is_international': True,
             'current_year': str(datetime.now().year),
+            'logo_link_href': 'https://www.gov.uk/',
             'footer_links': [
                 {
-                    'href': "/{% url 'international:contact' %}?next={{ feedback_next_url }}",
+                    'href': '/international/site-help/?next=' + request.build_absolute_uri(request.path),
                     'title': 'Help using this site',
                     'text': 'Help using this site',
                 },
@@ -202,8 +204,8 @@ def international_footer(request):
                 },
                 {
                     'href': '/',
-                    'title': 'Export support',
-                    'text': 'Go to the page for export support',
+                    'title': 'Export from the UK',
+                    'text': 'Export from the UK',
                 },
             ],
         },
@@ -214,6 +216,7 @@ def microsite_footer(request):
     return {
         'is_international': False,
         'current_year': str(datetime.now().year),
+        'logo_link_href': '/',
         'footer_links': [
             {
                 'href': '/support/export-support',
