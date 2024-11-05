@@ -24,6 +24,7 @@ class InvestmentIndexPage(BaseContentPage):
         'international_investment.InvestmentSectorsPage',
         'international_investment.InvestmentRegionsPage',
         'international_investment.InvestmentOpportunityArticlePage',
+        'international_investment.InvestmentArticlePage',
     ]
     template = 'investment/index.html'
 
@@ -190,6 +191,7 @@ class InvestmentArticlePage(BaseContentPage):
     parent_page_types = [
         'international_investment.InvestmentSectorsPage',
         'international_investment.InvestmentRegionsPage',
+        'international_investment.InvestmentIndexPage',
     ]
     subpage_types = []
     template = 'investment/article.html'
@@ -303,8 +305,10 @@ class InvestmentArticlePage(BaseContentPage):
 
         breadcrumbs = [
             {'name': 'Home', 'url': '/international/'},
-            {'name': parent_page_name, 'url': parent_directory},
         ]
+
+        if not parent_page_name == 'Investment':
+            breadcrumbs.append({'name': parent_page_name, 'url': parent_directory})
 
         context.update(
             breadcrumbs=breadcrumbs,

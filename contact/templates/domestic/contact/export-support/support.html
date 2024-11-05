@@ -50,7 +50,7 @@
 
                                     {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
                                     <div class="govuk-!-padding-6 govuk-!-margin-bottom-6 great-bg-white great-ds-make-or-do">
-                                        {% include 'domestic/contact/export-support/includes/make-or-do-form.html' %}
+                                        {% include 'domestic/contact/export-support/includes/make-or-do-link.html' %}
                                         <img src="{% static 'images/make-or-do.png' %}" alt="UK Export Academy logo" />
                                     </div>
                                     <hr class="great-ds-hr govuk-!-margin-top-7 govuk-!-margin-bottom-7" />
@@ -71,9 +71,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="govuk-grid-row govuk-!-margin-bottom-9 great-display-until-tablet">
+                            <div class="govuk-grid-row govuk-!-margin-top-6 govuk-!-margin-bottom-9 great-display-until-tablet">
                                 <div class="govuk-grid-column-one-half">
-                                    {% include 'domestic/contact/export-support/includes/get-in-touch.html' %}
+                                    {% include 'domestic/contact/export-support/includes/contact-us-promo.html' %}
                                 </div>
                             </div>
                         </div>
@@ -91,10 +91,5 @@
     {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
     <script type="text/javascript"
             src="{% static 'javascript/accessible-autocomplete.v3.min.js' %}"></script>
-    <script type="text/javascript"
-            src="{% static 'javascript/great.make-or-do-search.js' %}"></script>
-    <script type="text/javascript">
-        GreatFrontend.MakeOrDoSearch.init({{ sic_sector_data | safe}});
-    </script>
     {% endif %}
 {% endblock %}

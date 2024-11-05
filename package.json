@@ -74,7 +74,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "@fortawesome/fontawesome-free": "^5.15.4",
-    "@uktrade/great-design-system": "0.0.65",
+    "@uktrade/great-design-system": "0.0.69",
     "govuk-frontend": "^4.5.0",
     "great-styles": "github:uktrade/great-styles",
     "prop-types": "15.7.2",

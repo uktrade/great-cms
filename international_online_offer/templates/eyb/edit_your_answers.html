@@ -2,6 +2,7 @@
 {% load static %}
 {% load humanize %}
 {% load sector_filters %}
+{% load location_select_filters %}
 {% block head_title %}Change your answers {{ block.super }}{% endblock %}
 {% block meta_title %}Change your answers {{ block.super }}{% endblock %}
 {% block content %}
@@ -22,7 +23,7 @@
                             <div class="govuk-summary-list__row">
                                 <dt class="govuk-summary-list__key govuk-body">Location of company headquarters</dt>
                                 <dd class="govuk-summary-list__value govuk-body">
-                                    {{ user_data.get_company_location_display }}
+                                    {{ user_data.company_location | get_company_location_display }}
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
                                     <a class="govuk-link"
