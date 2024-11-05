@@ -30,7 +30,7 @@ GreatFrontend.MakeOrDoSearch = {
                     document.querySelector('#exporter_type').value = exporter_type;
                 }
             },
-            placeholder: 'For example, financial services or coffee roaster',
+            placeholder: 'For example, financial services or coffee',
             inputClasses: 'govuk-input great-text-input great-ds-autocomplete-input',
             menuClasses: 'great-autocomplete-overlay',
             required: true,
