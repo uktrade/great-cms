@@ -351,6 +351,10 @@ $great-design-system-govuk-blue: #1d70b8;
 
 .great-ds-purple-text {
   color: $great-design-system-purple !important;
+
+  @include govuk-media-query($until: tablet) {
+    line-height: 24px;
+  }
 }
 
 .great-ds-card-meta-label {
