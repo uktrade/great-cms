@@ -165,31 +165,6 @@ def can_show_rent_component(tags):
     return False
 
 
-def is_triage_data_complete(triage_data):
-    return bool(
-        triage_data
-        and triage_data.sector
-        and (triage_data.intent or triage_data.intent_other)
-        and (triage_data.location or triage_data.location_none)
-        and triage_data.hiring
-        and (triage_data.spend or triage_data.spend_other)
-    )
-
-
-def is_user_data_complete(user_data):
-    return bool(
-        user_data
-        and user_data.email
-        and user_data.company_name
-        and user_data.company_location
-        and user_data.full_name
-        and user_data.role
-        and user_data.telephone_number
-        and user_data.landing_timeframe
-        and user_data.company_website
-    )
-
-
 def get_spend_choices_by_currency(currency):
     spend_choices = choices.SPEND_CHOICES
     if currency == 'EUR':
@@ -203,9 +178,10 @@ def get_field_value(instance, field_name):
     """Utility function to get the value of a field from an instance."""
     return getattr(instance, field_name, None)
 
+
 def get_current_step(user_data, triage_data):
-    # Steps in the triage and associated required fields. 
-    # If any of these fields are empty, return the view to 
+    # Steps in the triage and associated required fields.
+    # If any of these fields are empty, return the view to
     # allow the user to continue where they left off.
     TRIAGE_STEPS = {
         'business-headquarters': ['company_location'],
@@ -224,19 +200,35 @@ def get_current_step(user_data, triage_data):
             value = None
             if hasattr(user_data, field):
                 value = get_field_value(user_data, field)
-                source = 'user_data'
             elif hasattr(triage_data, field):
                 value = get_field_value(triage_data, field)
-                source = 'triage_data'
-            else:
-                source = 'none'
-
-            # Debugging output
-            print(f"Checking field '{field}' from '{source}': Value = {value}")
 
             # Check for None explicitly to handle boolean fields correctly
             if value is None or value == '' or value == []:
-                print(f"Field '{field}' is None, returning view '{view_name}'")
                 return view_name
-    
-    return None  # Triage is completed
+
+    return None  # Cannot get current step as triage is completed
+
+
+def is_triage_complete(user_data, triage_data):
+    if user_data is None or triage_data is None:
+        return False
+
+    if (
+        user_data.company_location
+        and user_data.company_name
+        and user_data.address_line_1
+        and user_data.town
+        and user_data.role
+        and user_data.company_name
+        and user_data.telephone_number
+        and user_data.landing_timeframe
+        and triage_data.sector
+        and triage_data.location_none is not None
+        and triage_data.intent
+        and triage_data.spend
+        and triage_data.hiring
+    ):
+        return True
+
+    return False
