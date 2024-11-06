@@ -1,4 +1,4 @@
-<form action="{% url 'core:guided-journey-step-1' %}" method="post" autocomplete="off">
+<form action="{% url 'core:guided-journey-step-1' %}" method="post" autocomplete="off" data-make-or-do-form>
     {% csrf_token %}
     <input type="hidden" id="sector" name="sector" value="{{ session_data.sector }}" />
     <input type="hidden" id="make_or_do_keyword" name="make_or_do_keyword" value="{{ session_data.make_or_do_keyword }}" />
