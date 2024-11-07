@@ -70,17 +70,19 @@ def test_render_video_tag__with_thumbnail():
         thumbnail=mock_thumbnail,
         subtitles=[],
         transcript='Transcript text',
+        title='File title',
     )
     block = dict(video=video_mock)
     html = render_video(block)
 
-    assert (
-        # Whitespace in this string is important for matching output
-        '<video preload="metadata" controls controlsList="nodownload"\n'
-        '            poster="https://example.com/thumb.png" data-v-duration="120">'
-    ) in html
+    assert '<video preload="metadata"' in html
+    assert 'controls controlsList="nodownload"' in html
+    assert 'poster="https://example.com/thumb.png"' in html
+    assert 'data-v-duration="120"' in html
+    assert 'data-title="File title"' in html
     assert '<source src="/media/foo.mp4#t=0.1" type="video/mp4">' in html
     assert 'Your browser does not support the video tag.' in html
+    assert 'Transcript text' in html
 
 
 def test_render_video_tag__without_thumbnail():
@@ -90,13 +92,17 @@ def test_render_video_tag__without_thumbnail():
         thumbnail=None,
         subtitles=[],
         transcript='Transcript text',
+        title='File title',
     )
     block = dict(video=video_mock)
     html = render_video(block)
-    # Whitespace in this string is important for matching output
-    assert '<video preload="metadata" controls controlsList="nodownload"\n            data-v-duration="120">' in html
+    assert '<video preload="metadata"' in html
+    assert 'controls controlsList="nodownload"' in html
+    assert 'data-v-duration="120"' in html
+    assert 'data-title="File title"' in html
     assert '<source src="/media/foo.mp4#t=0.1" type="video/mp4">' in html
     assert 'Your browser does not support the video tag.' in html
+    assert 'Transcript text' in html
 
 
 def test_render_video_tag__with_subtitles():
@@ -119,11 +125,14 @@ def test_render_video_tag__with_subtitles():
             },
         ],
         transcript='Transcript text',
+        title='File title',
     )
     block = dict(video=video_mock)
     html = render_video(block)
     # Whitespace in this string is important for matching output
-    assert '<video preload="metadata" controls controlsList="nodownload"\n            data-v-duration="120">' in html
+    assert '<video preload="metadata"' in html
+    assert 'controls controlsList="nodownload"' in html
+    assert 'data-v-duration="120"' in html
     assert '<source src="/media/foo.mp4#t=0.1" type="video/mp4">' in html
     assert 'Your browser does not support the video tag.' in html
     assert (
@@ -134,6 +143,8 @@ def test_render_video_tag__with_subtitles():
         '<track label="English"\n       kind="subtitles"\n       srclang="en"\n       src="/subtitles/123/en/content.vtt"'  # noqa:E501
         in html
     )
+    assert 'data-title="File title"' in html
+    assert 'Transcript text' in html
 
 
 def test_render_video_tag__without_title_or_event():

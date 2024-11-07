@@ -32,7 +32,7 @@ def render_video(block, event_name=None):  # noqa: C901
     video_transcript = getattr(block['video'], 'transcript', '')
 
     video = block['video']
-
+    video_title = video.title
     timestamp_to_allow_poster_image_to_work_on_mobile_safari = '#t=0.1'
 
     sources_data = []
@@ -101,7 +101,9 @@ def render_video(block, event_name=None):  # noqa: C901
     rendered = format_html(
         f"""
             <video preload="metadata" controls controlsList="nodownload"
-            {_get_poster_attribute(video)}{VIDEO_DURATION_DATA_ATTR_NAME}="{video_duration}">
+            {_get_poster_attribute(video)}
+            data-title="{video_title}"
+            {VIDEO_DURATION_DATA_ATTR_NAME}="{video_duration}">
                 {sources}
                 {subtitles}
                 Your browser does not support the video tag.
