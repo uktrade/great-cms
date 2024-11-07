@@ -400,14 +400,14 @@ class CompanyDetailsView(GA360Mixin, FormView):
         )
 
         if self.request.user.is_authenticated:
-            user = UserData.objects.filter(hashed_uuid=self.request.user.hashed_uuid)
+            user_data = get_user_data_for_user(self.request)
             country = ''
 
             if is_editing:
                 # we are editing country so use the new company location from session cache
                 country = self.request.session.get('eyb:new_company_location', None)
-            elif user.exists():
-                country = getattr(user, 'company_location', '')
+            elif user_data:
+                country = getattr(user_data, 'company_location', '')
 
         display_country = get_country_display_name(country)
 
