@@ -19,6 +19,7 @@ from core.templatetags.content_tags import (
     extract_domain,
     get_backlinked_url,
     get_category_title_for_lesson,
+    get_exopps_country_slug,
     get_icon_path,
     get_inline_feedback_visibility,
     get_international_icon_path,
@@ -28,23 +29,22 @@ from core.templatetags.content_tags import (
     get_text_blocks,
     get_topic_blocks,
     get_topic_title_for_lesson,
+    get_visa_and_travel_country_slug,
     h3_if,
     handle_external_links,
     highlighted_text,
+    is_cheg_excluded_country,
     is_email,
     is_lesson_page,
     is_placeholder_page,
     make_bold,
     remove_bold_from_headings,
     show_feedback,
+    split_title,
     str_to_datetime,
     tag_text_mapper,
     url_type,
     val_to_int,
-    get_exopps_country_slug,
-    get_visa_and_travel_country_slug,
-    split_title,
-    is_cheg_excluded_country,
 )
 from core.templatetags.object_tags import get_item
 from core.templatetags.progress_bar import progress_bar
@@ -981,9 +981,9 @@ class HandleExternalLinksFilterTest(TestCase):
 class IsEmailFilterTest(TestCase):
     def test_is_email_valid(self):
         valid_emails = [
-            'example@example.com',
-            'user1234@test.co',
-            'user.name@email.co.uk',
+            'example@example.com',  # /PS-IGNORE
+            'user1234@test.co',  # /PS-IGNORE
+            'user.name@email.co.uk',  # /PS-IGNORE
         ]
 
         for email in valid_emails:
@@ -996,7 +996,7 @@ class IsEmailFilterTest(TestCase):
             'user@example',
             'user@example.',
             'user@.com',
-            '@example.com',
+            '@example.com',  # /PS-IGNORE
             'user@.com',
         ]
 
