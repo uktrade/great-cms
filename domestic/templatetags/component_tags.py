@@ -99,10 +99,10 @@ def ga360_data(parser, token):
         elif parameter.startswith(include_form_data_param_name):
             include_form_data = parameter[len(include_form_data_param_name) :]  # noqa: E203
 
-    return GA360Data(nodelist, target, action, ga_type, element, value, include_form_data)
+    return GA360Data(nodelist, target, action, ga_type, element, value, include_form_data)  # /PS-IGNORE
 
 
-class GA360Data(template.Node):
+class GA360Data(template.Node):  # /PS-IGNORE
     def __init__(self, nodelist, target, action=None, ga_type=None, element=None, value=None, include_form_data=None):
         self.nodelist = nodelist
         self.target = template.Variable(target)
