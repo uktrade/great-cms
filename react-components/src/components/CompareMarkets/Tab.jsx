@@ -18,7 +18,7 @@ function Tab(props) {
 			aria-selected={selected}
 			aria-controls={`${tabId}-tab`}
 			tabIndex={selected ? '0' : '-1'}
-			className={`tab-list-item ${
+			className={`button tab-list-item ${
 				selected ? 'tab-list-active' : ''
 			}`}
 			onClick={() => onClick(tabId)}

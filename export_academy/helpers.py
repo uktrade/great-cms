@@ -12,6 +12,7 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
+from django.template.loader import render_to_string
 
 from export_academy.models import Booking, Event, Registration
 
@@ -241,3 +242,23 @@ def update_booking(email, event_id, request):
     booking.cookies_accepted_on_details_view = cookies_set
     booking.details_viewed = timezone.now()
     booking.save()
+
+
+def get_accordion_items(events, signed_in=False):
+    items = []
+    for index, (module, event) in enumerate(events.items(), 1):
+        content_html = render_to_string(
+            'export_academy/includes/module_list_content.html',
+            {
+                'summary': module.summary,
+                'event': event,
+                'signed_in': signed_in
+            }
+        )
+        
+        items.append({
+            'heading': {'text': f"{index}. {module.title}"},
+            'content': {'html': content_html},
+            'expanded': False
+        })
+    return items

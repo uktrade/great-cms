@@ -1,0 +1,17 @@
+<p class="govuk-body govuk-!-margin-bottom-0">{{ summary }}</p>
+<h4 class="govuk-heading-xs great-font-size-18 govuk-!-margin-bottom-3 govuk-!-padding-top-5">
+    Join next live event
+    {% if not signed_in %}(sign in required){% endif %}
+</h4>
+<div class="great-bg-light-blue govuk-!-padding-3">
+    {% include 'export_academy/includes/event_item_badge.html' with event=event %}
+</div>
+{% if event.past_event_video_recording %}
+    <h4 class="govuk-heading-xs great-font-size-18 govuk-!-margin-bottom-3 govuk-!-padding-top-5">
+        Watch a past event recording
+        {% if not signed_in %}(sign in required){% endif %}
+    </h4>
+    <div class="great-bg-light-blue govuk-!-padding-3">
+        {% include 'export_academy/includes/event_item_badge.html' with event=event display_past_recording=True %}
+    </div>
+{% endif %}
