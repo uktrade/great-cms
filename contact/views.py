@@ -1037,7 +1037,7 @@ class InlineFeedbackView(GenericAPIView):
             data['page_useful'] = request.query_params['page_useful']
             is_human_submission = True
 
-        email_address = request.user.email if request.user.is_authenticated else 'blank@example.com'
+        email_address = request.user.email if request.user.is_authenticated else 'blank@example.com'  # /PS-IGNORE
 
         sender = Sender(
             email_address=email_address,

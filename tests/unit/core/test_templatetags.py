@@ -19,6 +19,7 @@ from core.templatetags.content_tags import (
     extract_domain,
     get_backlinked_url,
     get_category_title_for_lesson,
+    get_exopps_country_slug,
     get_icon_path,
     get_inline_feedback_visibility,
     get_international_icon_path,
@@ -28,23 +29,22 @@ from core.templatetags.content_tags import (
     get_text_blocks,
     get_topic_blocks,
     get_topic_title_for_lesson,
+    get_visa_and_travel_country_slug,
     h3_if,
     handle_external_links,
     highlighted_text,
+    is_cheg_excluded_country,
     is_email,
     is_lesson_page,
     is_placeholder_page,
     make_bold,
     remove_bold_from_headings,
     show_feedback,
+    split_title,
     str_to_datetime,
     tag_text_mapper,
     url_type,
     val_to_int,
-    get_exopps_country_slug,
-    get_visa_and_travel_country_slug,
-    split_title,
-    is_cheg_excluded_country,
 )
 from core.templatetags.object_tags import get_item
 from core.templatetags.progress_bar import progress_bar
@@ -70,17 +70,19 @@ def test_render_video_tag__with_thumbnail():
         thumbnail=mock_thumbnail,
         subtitles=[],
         transcript='Transcript text',
+        title='File title',
     )
     block = dict(video=video_mock)
     html = render_video(block)
 
-    assert (
-        # Whitespace in this string is important for matching output
-        '<video preload="metadata" controls controlsList="nodownload"\n'
-        '            poster="https://example.com/thumb.png" data-v-duration="120">'
-    ) in html
+    assert '<video preload="metadata"' in html
+    assert 'controls controlsList="nodownload"' in html
+    assert 'poster="https://example.com/thumb.png"' in html
+    assert 'data-v-duration="120"' in html
+    assert 'data-title="File title"' in html
     assert '<source src="/media/foo.mp4#t=0.1" type="video/mp4">' in html
     assert 'Your browser does not support the video tag.' in html
+    assert 'Transcript text' in html
 
 
 def test_render_video_tag__without_thumbnail():
@@ -90,13 +92,17 @@ def test_render_video_tag__without_thumbnail():
         thumbnail=None,
         subtitles=[],
         transcript='Transcript text',
+        title='File title',
     )
     block = dict(video=video_mock)
     html = render_video(block)
-    # Whitespace in this string is important for matching output
-    assert '<video preload="metadata" controls controlsList="nodownload"\n            data-v-duration="120">' in html
+    assert '<video preload="metadata"' in html
+    assert 'controls controlsList="nodownload"' in html
+    assert 'data-v-duration="120"' in html
+    assert 'data-title="File title"' in html
     assert '<source src="/media/foo.mp4#t=0.1" type="video/mp4">' in html
     assert 'Your browser does not support the video tag.' in html
+    assert 'Transcript text' in html
 
 
 def test_render_video_tag__with_subtitles():
@@ -119,11 +125,14 @@ def test_render_video_tag__with_subtitles():
             },
         ],
         transcript='Transcript text',
+        title='File title',
     )
     block = dict(video=video_mock)
     html = render_video(block)
     # Whitespace in this string is important for matching output
-    assert '<video preload="metadata" controls controlsList="nodownload"\n            data-v-duration="120">' in html
+    assert '<video preload="metadata"' in html
+    assert 'controls controlsList="nodownload"' in html
+    assert 'data-v-duration="120"' in html
     assert '<source src="/media/foo.mp4#t=0.1" type="video/mp4">' in html
     assert 'Your browser does not support the video tag.' in html
     assert (
@@ -134,6 +143,8 @@ def test_render_video_tag__with_subtitles():
         '<track label="English"\n       kind="subtitles"\n       srclang="en"\n       src="/subtitles/123/en/content.vtt"'  # noqa:E501
         in html
     )
+    assert 'data-title="File title"' in html
+    assert 'Transcript text' in html
 
 
 def test_render_video_tag__without_title_or_event():
@@ -981,9 +992,9 @@ class HandleExternalLinksFilterTest(TestCase):
 class IsEmailFilterTest(TestCase):
     def test_is_email_valid(self):
         valid_emails = [
-            'example@example.com',
-            'user1234@test.co',
-            'user.name@email.co.uk',
+            'example@example.com',  # /PS-IGNORE
+            'user1234@test.co',  # /PS-IGNORE
+            'user.name@email.co.uk',  # /PS-IGNORE
         ]
 
         for email in valid_emails:
@@ -996,7 +1007,7 @@ class IsEmailFilterTest(TestCase):
             'user@example',
             'user@example.',
             'user@.com',
-            '@example.com',
+            '@example.com',  # /PS-IGNORE
             'user@.com',
         ]
 
