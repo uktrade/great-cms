@@ -2,7 +2,7 @@ from directory_forms_api_client import actions
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
-from great_components.mixins import GA360Mixin
+from great_components.mixins import GA360Mixin  # /PS-IGNORE
 
 from config import settings
 from international_investment.core.helpers import get_location_display
@@ -15,7 +15,7 @@ from international_investment.forms import (
 from international_online_offer.forms import SpendCurrencySelectForm
 
 
-class InvestmentFundView(GA360Mixin, FormView):
+class InvestmentFundView(GA360Mixin, FormView):  # /PS-IGNORE
     form_class = InvestmentFundForm
     template_name = 'investment/investment_fund.html'
     success_url = reverse_lazy('international_investment:investment-types')
@@ -43,7 +43,7 @@ class InvestmentFundView(GA360Mixin, FormView):
         return self.request.session.get('triage_data')
 
 
-class InvestmentTypesView(GA360Mixin, FormView):
+class InvestmentTypesView(GA360Mixin, FormView):  # /PS-IGNORE
     form_class = InvestmentTypesForm
     template_name = 'investment/investment_types.html'
     success_url = reverse_lazy('international_investment:investment-estimate')
@@ -71,7 +71,7 @@ class InvestmentTypesView(GA360Mixin, FormView):
         return self.request.session.get('triage_data')
 
 
-class InvestmentEstimateView(GA360Mixin, FormView):
+class InvestmentEstimateView(GA360Mixin, FormView):  # /PS-IGNORE
     form_class = InvestmentEstimateForm
     template_name = 'investment/investment_estimate.html'
     success_url = reverse_lazy('international_investment:investment-contact-details')
@@ -116,7 +116,7 @@ class InvestmentEstimateView(GA360Mixin, FormView):
         return initial_data
 
 
-class InvestmentContactView(GA360Mixin, FormView):
+class InvestmentContactView(GA360Mixin, FormView):  # /PS-IGNORE
     form_class = InvestmentContactForm
     template_name = 'investment/investment_contact.html'
     success_url = reverse_lazy('international_investment:investment-submission-success')
@@ -172,7 +172,7 @@ class InvestmentContactView(GA360Mixin, FormView):
         response.raise_for_status()
 
 
-class InvestmentSubmissionSuccessView(GA360Mixin, TemplateView):
+class InvestmentSubmissionSuccessView(GA360Mixin, TemplateView):  # /PS-IGNORE
     template_name = 'investment/investment_success.html'
 
     def __init__(self):

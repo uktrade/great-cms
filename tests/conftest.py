@@ -175,7 +175,7 @@ def get_user():
         id=1,
         pk=1,
         mobile_phone_number='55512345',
-        email='jim@example.com',
+        email='jim@example.com',  # /PS-IGNORE
         first_name='Jim',
         last_name='Cross',
         session_id='123',
@@ -774,7 +774,7 @@ def mock_send_verification_code_email():
 def mock_regenerate_verification_code():
     body = {
         'user_uidb64': 'MjE1ODk1',
-        'verification_token': 'bq1ftj-e82fb7b694d200b144012bfac0c866b2',
+        'verification_token': 'bq1ftj-e82fb7b694d200b144012bfac0c866b2',  # /PS-IGNORE
         'code': '19507',
         'expiration_date': '2023-06-19T11:00:00Z',
     }

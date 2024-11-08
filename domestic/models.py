@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.http import Http404
-from great_components.mixins import GA360Mixin
+from great_components.mixins import GA360Mixin  # /PS-IGNORE
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalManyToManyField
 from modelcluster.models import ParentalKey
@@ -64,8 +64,8 @@ TRADE_BARRIERS_SERVICE = 'https://www.check-international-trade-barriers.service
 
 class DataLayerMixin(
     Page,
-    mixins.WagtailGA360Mixin,
-    GA360Mixin,  # from great-components, but could be moved into great-cms
+    mixins.WagtailGA360Mixin,  # /PS-IGNORE
+    GA360Mixin,  # from great-components, but could be moved into great-cms /PS-IGNORE
 ):
     """Mixin to automatically set the GA360/DataLayer payload on all pages
     that implement it"""
@@ -76,7 +76,7 @@ class DataLayerMixin(
     def get_context(self, request):
         context = super().get_context(request)
 
-        self.set_ga360_payload(  # from GA360Mixin
+        self.set_ga360_payload(  # from GA360Mixin /PS-IGNORE
             page_id=self.id,
             business_unit=settings.GA360_BUSINESS_UNIT,
             site_section=self.slug,
