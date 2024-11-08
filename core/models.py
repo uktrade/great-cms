@@ -2070,12 +2070,8 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
             parent_url_clean = parent_url
             if multiple_languages:
                 parent_url = persist_language_to_url(parent_url, request)
-            
-            menu_items = [{
-                'href': parent_url, 
-                'text': _('Home'), 
-                'isCurrent': parent_url_clean == self.url
-            }]
+
+            menu_items = [{'href': parent_url, 'text': _('Home'), 'isCurrent': parent_url_clean == self.url}]
 
             menu_items.extend(
                 [
@@ -2084,7 +2080,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                             persist_language_to_url(child.get_url(), request) if multiple_languages else child.get_url()
                         ),
                         'text': child.title,
-                        'isCurrent': self.url == child.url
+                        'isCurrent': self.url == child.url,
                     }
                     for child in parent_page.get_children().live()
                 ]
