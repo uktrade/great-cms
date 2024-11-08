@@ -16,6 +16,7 @@ from core.views import (
     QuerystringRedirectView,
     TranslationRedirectView,
 )
+from international.url_redirects import international_migration_redirects
 
 build_great_international_url = partial(urljoin, '/international/')
 
@@ -890,7 +891,7 @@ articles_redirects = [
     ),
     re_path(
         r'^investment-support-directory/$',
-        QuerystringRedirectView.as_view(url='/international/investment-support-directory/'),
+        PermanentQuerystringRedirectView.as_view(url='/international/investment-support-directory/'),
         name='international-investment-support-directory-home',
     ),
     re_path(
@@ -1215,4 +1216,5 @@ redirects += (
     + international_redirects
     + articles_redirects
     + unguided_journey_redirects
+    + international_migration_redirects
 )
