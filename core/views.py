@@ -19,7 +19,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import FormView, TemplateView
 from django.views.generic.base import RedirectView, View
 from formtools.wizard.views import NamedUrlSessionWizardView
-from great_components.mixins import GA360Mixin
+from great_components.mixins import GA360Mixin  # /PS-IGNORE
 from rest_framework import generics
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -78,7 +78,7 @@ class UpdateCompanyAPIView(generics.GenericAPIView):
         return Response(status=200)
 
 
-class ArticleView(GA360Mixin, FormView):
+class ArticleView(GA360Mixin, FormView):  # /PS-IGNORE
     def __init__(self):
         super().__init__()
         self.set_ga360_payload(
@@ -109,7 +109,7 @@ class ArticleView(GA360Mixin, FormView):
         )
 
 
-class LoginView(GA360Mixin, PageTitleMixin, TemplateView):
+class LoginView(GA360Mixin, PageTitleMixin, TemplateView):  # /PS-IGNORE
     def __init__(self):
         super().__init__()
         self.set_ga360_payload(
@@ -132,7 +132,7 @@ class LogoutView(RedirectView):
         return super().get_redirect_url(*args, **kwargs)
 
 
-class SignupView(GA360Mixin, PageTitleMixin, TemplateView):
+class SignupView(GA360Mixin, PageTitleMixin, TemplateView):  # /PS-IGNORE
     template_name = 'core/signup.html'
     title = 'Sign up'
 
@@ -145,7 +145,7 @@ class SignupView(GA360Mixin, PageTitleMixin, TemplateView):
         return context
 
 
-class CompareCountriesView(GA360Mixin, PageTitleMixin, HCSATMixin, TemplateView, FormView):
+class CompareCountriesView(GA360Mixin, PageTitleMixin, HCSATMixin, TemplateView, FormView):  # /PS-IGNORE
     def __init__(self):
         super().__init__()
         self.set_ga360_payload(
@@ -301,7 +301,7 @@ class AbstractSignupWizardView(abc.ABC):
         return url
 
 
-class SignupForTailoredContentWizardView(GA360Mixin, AbstractSignupWizardView, NamedUrlSessionWizardView):
+class SignupForTailoredContentWizardView(GA360Mixin, AbstractSignupWizardView, NamedUrlSessionWizardView):  # /PS-IGNORE
     extra_context = {'allow_skip_signup': True}
     templates = {
         STEP_START: 'core/signup-wizard-step-start-tailored-content.html',
@@ -324,7 +324,7 @@ class SignupForTailoredContentWizardView(GA360Mixin, AbstractSignupWizardView, N
         return super().get_context_data(**kwargs)
 
 
-class SignupForExportPlanWizardView(GA360Mixin, AbstractSignupWizardView, NamedUrlSessionWizardView):
+class SignupForExportPlanWizardView(GA360Mixin, AbstractSignupWizardView, NamedUrlSessionWizardView):  # /PS-IGNORE
     extra_context = {'allow_skip_signup': False}
     templates = {
         STEP_START: 'core/signup-wizard-step-start-export-plan.html',
@@ -341,7 +341,7 @@ class SignupForExportPlanWizardView(GA360Mixin, AbstractSignupWizardView, NamedU
     )
 
 
-class CompanyNameFormView(GA360Mixin, FormView):
+class CompanyNameFormView(GA360Mixin, FormView):  # /PS-IGNORE
     def __init__(self):
         super().__init__()
         self.set_ga360_payload(
@@ -699,7 +699,7 @@ class ProductMarketView(TemplateView):
         action = actions.SaveOnlyInDatabaseAction(
             full_name='Anonymous user',
             subject='Product and Market experiment',
-            email_address='anonymous-user@test.com',
+            email_address='anonymous-user@test.com',  # /PS-IGNORE
             form_url=self.request.get_full_path(),
         )
 
@@ -810,6 +810,33 @@ class GuidedJourneyStep1View(GuidedJourneyMixin, FormView):
         return super().form_valid(form)
 
 
+class GuidedJourneyStep1GetView(View):
+    def get(self, request):
+        sector = request.GET.get('sector')
+        make_or_do = request.GET.get('make_or_do')
+        exporter_type = request.GET.get('exporter_type')
+        sic_description = request.GET.get('sic_description')
+
+        if sector and make_or_do and exporter_type and sic_description:
+            form_data = (
+                {
+                    'sector': sector,
+                    'make_or_do': make_or_do,
+                    'exporter_type': exporter_type,
+                    'sic_description': sic_description,
+                },
+            )
+            form_data = pickle.dumps(form_data).hex()
+            self.request.session['guided_journey_data'] = form_data
+
+            if exporter_type == 'goods':
+                return HttpResponseRedirect(reverse_lazy('core:guided-journey-step-2'))
+
+            return HttpResponseRedirect(reverse_lazy('core:guided-journey-step-3'))
+
+        return HttpResponseRedirect(reverse_lazy('core:guided-journey-step-1'))
+
+
 class GuidedJourneyStep2View(GuidedJourneyMixin, FormView):
     form_class = forms.GuidedJourneyStep2Form
     template_name = 'domestic/contact/export-support/guided-journey/step-2.html'
@@ -908,7 +935,7 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, TemplateView):
             action = actions.SaveOnlyInDatabaseAction(
                 full_name='Anonymous user',
                 subject='Guided Journey',
-                email_address='anonymous-user@test.com',
+                email_address='anonymous-user@test.com',  # /PS-IGNORE
                 form_url=self.request.get_full_path(),
             )
 

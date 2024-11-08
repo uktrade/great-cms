@@ -1174,18 +1174,24 @@ figure.great-blockquote {
     min-height: 367px;
   }
 
+  > div:first-of-type {
+    @media screen and (max-width: 850px) {
+      width: 100%;
+    }
+  }
+
+  p:last-of-type {
+    margin-bottom: 30px;
+  }
+
   img {
     display: none;
     bottom: 0;
     position: absolute;
     right: 0;
 
-    @include govuk-media-query($from: tablet) {
-      display: block;
-      max-width: 450px;
-    }
-
     @media screen and (min-width: 851px) {
+      display: block;
       max-width: 600px;
     }
 
@@ -1801,8 +1807,8 @@ nav.great-breadcrumbs {
   background-image: none;
 
   @include govuk-media-query($from: desktop) {
-    background-color: transparent;
-    background-image: url(/static/images/flight-paths.png);
+    background-color: $great-dark-blue;
+    background-image: url(/static/images/water-lilies.png);
   }
 
   .great-hero__heading {
@@ -1930,7 +1936,9 @@ nav.great-breadcrumbs {
   align-items: center;
 
   button {
-    margin-top: 0px !important;
+    margin: 0px !important;
+    min-width: auto;
+    width: auto;
   }
 }
 

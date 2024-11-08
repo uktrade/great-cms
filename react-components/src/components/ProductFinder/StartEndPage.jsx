@@ -89,7 +89,7 @@ export default function StartEndPage(props) {
       {searchCompletedMode ? (
         <>
           <button
-            className="primary-button save-product m-t-s"
+            className="button primary-button save-product m-t-s"
             type="button"
             onClick={saveNamedProduct}
             disabled={!nameOkToSave(commodityName)}

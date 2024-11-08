@@ -522,8 +522,10 @@
   max-width: 80%;
 }
 
-.great-max-width-500 {
-  max-width: 500px;
+.great-max-width-500-from-tablet {
+  @include govuk-media-query($from: tablet) {
+    max-width: 500px;
+  }
 }
 
 .great-min-width-200-desktop {
@@ -843,7 +845,7 @@
   }
 }
 
-.great-grid-column-seven-twelfths {
+.great .great-grid-column-seven-twelfths {
   @include govuk-media-query($from: desktop) {
     width: calc(58.333% + 30px);
   }

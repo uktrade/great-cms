@@ -19,7 +19,10 @@ from contact import widgets as contact_widgets
 from core.validators import is_valid_email_address
 from directory_constants.choices import COUNTRY_CHOICES
 from international_online_offer.core import choices, intents, region_sector_helpers
-from international_online_offer.services import get_dbt_sectors
+from international_online_offer.services import (
+    get_countries_regions_territories,
+    get_dbt_sectors,
+)
 
 TERMS_LABEL = mark_safe('I agree to the <a href="#" target="_blank">Terms and Conditions</a>')
 BLANK_COUNTRY_CHOICE = [('', '')]
@@ -27,13 +30,19 @@ COUNTRIES = BLANK_COUNTRY_CHOICE + COUNTRY_CHOICES
 
 
 class BusinessHeadquartersForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        countries_regions_territories = get_countries_regions_territories()
+        self.fields['company_location'].choices = (('', ''),) + tuple(
+            [(area['iso2_code'], area['name']) for area in countries_regions_territories]
+        )
 
     company_location = ChoiceField(
         label=False,
         help_text='Enter your country, region or territory and select from results',
         required=False,
         widget=Select(attrs={'id': 'js-company-location-select', 'class': 'govuk-input'}),
-        choices=(('', ''),) + choices.COMPANY_LOCATION_CHOICES,
+        choices=(('', ''),),
     )
 
     # if js is off we use a different success url

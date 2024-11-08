@@ -7,7 +7,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
-from great_components.mixins import GA360Mixin
+from great_components.mixins import GA360Mixin  # /PS-IGNORE
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -16,7 +16,6 @@ from core.helpers import check_url_host_is_safelisted
 from directory_sso_api_client import sso_api_client
 from international_online_offer import forms
 from international_online_offer.core import (
-    choices,
     helpers,
     region_sector_helpers,
     regions,
@@ -34,7 +33,12 @@ from international_online_offer.models import (
     get_triage_data_for_user,
     get_user_data_for_user,
 )
-from international_online_offer.services import get_bci_data, get_dbt_sectors
+from international_online_offer.services import (
+    get_bci_data,
+    get_countries_regions_territories,
+    get_country_display_name,
+    get_dbt_sectors,
+)
 from sso import helpers as sso_helpers, mixins as sso_mixins
 
 
@@ -62,7 +66,7 @@ def calculate_and_store_is_high_value(request):
         )
 
 
-class IndexView(GA360Mixin, TemplateView):
+class IndexView(GA360Mixin, TemplateView):  # /PS-IGNORE
     template_name = 'eyb/index.html'
 
     def __init__(self):
@@ -83,7 +87,7 @@ class IndexView(GA360Mixin, TemplateView):
         )
 
 
-class AboutYourBusinessView(GA360Mixin, TemplateView):
+class AboutYourBusinessView(GA360Mixin, TemplateView):  # /PS-IGNORE
     template_name = 'eyb/about_your_business.html'
 
     def __init__(self):
@@ -108,7 +112,7 @@ class AboutYourBusinessView(GA360Mixin, TemplateView):
         )
 
 
-class BusinessHeadQuartersView(GA360Mixin, FormView):
+class BusinessHeadQuartersView(GA360Mixin, FormView):  # /PS-IGNORE
     template_name = 'eyb/triage/business_headquarters.html'
     form_class = forms.BusinessHeadquartersForm
     js_enabled = False
@@ -202,15 +206,20 @@ class BusinessHeadQuartersView(GA360Mixin, FormView):
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
+        countries_regions_territories = get_countries_regions_territories()
         is_editing = self.request.session.get('eyb:edit_country', False)
         progress_button_text = 'Continue' if is_editing else 'Save and continue'
 
         return super().get_context_data(
-            **kwargs, back_url=self.get_back_url(), is_editing=is_editing, progress_button_text=progress_button_text
+            **kwargs,
+            back_url=self.get_back_url(),
+            is_editing=is_editing,
+            progress_button_text=progress_button_text,
+            location_choices=[area['name'] for area in countries_regions_territories],
         )
 
 
-class FindYourCompanyView(GA360Mixin, FormView):
+class FindYourCompanyView(GA360Mixin, FormView):  # /PS-IGNORE
     template_name = 'eyb/triage/find_your_company.html'
     form_class = forms.FindYourCompanyForm
     fields = [
@@ -295,12 +304,10 @@ class FindYourCompanyView(GA360Mixin, FormView):
             if is_editing:
                 # we are editing country so use the new company location from session cache
                 country = self.request.session['eyb:new_company_location']
-                country_choice = [location for location in choices.COMPANY_LOCATION_CHOICES if country in location]
-                if len(country_choice) == 1:
-                    display_country = country_choice[0][1]
             elif user_data:
                 country = getattr(user_data, 'company_location', None)
-                display_country = user_data.get_company_location_display()
+
+            display_country = get_country_display_name(country)
 
         return super().get_context_data(
             **kwargs,
@@ -312,7 +319,7 @@ class FindYourCompanyView(GA360Mixin, FormView):
         )
 
 
-class CompanyDetailsView(GA360Mixin, FormView):
+class CompanyDetailsView(GA360Mixin, FormView):  # /PS-IGNORE
     template_name = 'eyb/triage/company_details.html'
     form_class = forms.CompanyDetailsForm
     fields = [
@@ -393,16 +400,16 @@ class CompanyDetailsView(GA360Mixin, FormView):
         )
 
         if self.request.user.is_authenticated:
-            user = UserData.objects.filter(hashed_uuid=self.request.user.hashed_uuid)
+            user_data = get_user_data_for_user(self.request)
+            country = ''
 
             if is_editing:
                 # we are editing country so use the new company location from session cache
                 country = self.request.session.get('eyb:new_company_location', None)
-                country_choice = [location for location in choices.COMPANY_LOCATION_CHOICES if country in location]
-                if len(country_choice) == 1:
-                    display_country = country_choice[0][1]
-            elif user.exists():
-                display_country = user[0].get_company_location_display()
+            elif user_data:
+                country = getattr(user_data, 'company_location', '')
+
+        display_country = get_country_display_name(country)
 
         return super().get_context_data(
             **kwargs,
@@ -412,7 +419,7 @@ class CompanyDetailsView(GA360Mixin, FormView):
         )
 
 
-class BusinessSectorView(GA360Mixin, FormView):
+class BusinessSectorView(GA360Mixin, FormView):  # /PS-IGNORE
     template_name = 'eyb/triage/business_sector.html'
     form_class = forms.BusinessSectorForm
 
@@ -478,7 +485,7 @@ class BusinessSectorView(GA360Mixin, FormView):
         )
 
 
-class ContactDetailsView(GA360Mixin, FormView):
+class ContactDetailsView(GA360Mixin, FormView):  # /PS-IGNORE
     template_name = 'eyb/triage/contact_details.html'
     form_class = forms.ContactDetailsForm
 
@@ -556,7 +563,7 @@ class ContactDetailsView(GA360Mixin, FormView):
         )
 
 
-class KnowSetupLocationView(GA360Mixin, FormView):
+class KnowSetupLocationView(GA360Mixin, FormView):  # /PS-IGNORE
     form_class = forms.KnowSetupLocationForm
     template_name = 'eyb/triage/know_your_setup_location.html'
 
@@ -627,7 +634,7 @@ class KnowSetupLocationView(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
-class WhenDoYouWantToSetupView(GA360Mixin, FormView):
+class WhenDoYouWantToSetupView(GA360Mixin, FormView):  # /PS-IGNORE
     form_class = forms.WhenDoYouWantToSetupForm
     template_name = 'eyb/triage/when_want_to_setup.html'
 
@@ -679,7 +686,7 @@ class WhenDoYouWantToSetupView(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
-class IntentView(GA360Mixin, FormView):
+class IntentView(GA360Mixin, FormView):  # /PS-IGNORE
     form_class = forms.IntentForm
     template_name = 'eyb/triage/intent.html'
 
@@ -727,7 +734,7 @@ class IntentView(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
-class LocationView(GA360Mixin, FormView):
+class LocationView(GA360Mixin, FormView):  # /PS-IGNORE
     form_class = forms.LocationForm
     template_name = 'eyb/triage/location.html'
 
@@ -797,7 +804,7 @@ class LocationView(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
-class HiringView(GA360Mixin, FormView):
+class HiringView(GA360Mixin, FormView):  # /PS-IGNORE
     form_class = forms.HiringForm
     template_name = 'eyb/triage/hiring.html'
 
@@ -845,7 +852,7 @@ class HiringView(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
-class SpendView(GA360Mixin, FormView):
+class SpendView(GA360Mixin, FormView):  # /PS-IGNORE
     form_class = forms.SpendForm
     template_name = 'eyb/triage/spend.html'
 
@@ -910,7 +917,7 @@ class SpendView(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
-class LoginView(GA360Mixin, sso_mixins.SignInMixin, TemplateView):
+class LoginView(GA360Mixin, sso_mixins.SignInMixin, TemplateView):  # /PS-IGNORE
     form_class = forms.LoginForm
     template_name = 'eyb/login.html'
     success_url = '/international/expand-your-business-in-the-uk/guide/'
@@ -949,7 +956,11 @@ class LoginView(GA360Mixin, sso_mixins.SignInMixin, TemplateView):
 
 
 class SignUpView(
-    GA360Mixin, sso_mixins.ResendVerificationMixin, sso_mixins.VerifyCodeMixin, sso_mixins.SignUpMixin, TemplateView
+    GA360Mixin,  # /PS-IGNORE
+    sso_mixins.ResendVerificationMixin,
+    sso_mixins.VerifyCodeMixin,
+    sso_mixins.SignUpMixin,
+    TemplateView,  # /PS-IGNORE
 ):
     template_name = 'eyb/signup.html'
     success_url = '/international/expand-your-business-in-the-uk/guide/'
@@ -1059,7 +1070,7 @@ class SignUpView(
             return self.do_sign_up_flow(request)
 
 
-class EditYourAnswersView(GA360Mixin, TemplateView):
+class EditYourAnswersView(GA360Mixin, TemplateView):  # /PS-IGNORE
     template_name = 'eyb/edit_your_answers.html'
 
     def __init__(self):
@@ -1098,7 +1109,7 @@ class EditYourAnswersView(GA360Mixin, TemplateView):
         )
 
 
-class FeedbackView(GA360Mixin, FormView):
+class FeedbackView(GA360Mixin, FormView):  # /PS-IGNORE
     form_class = forms.FeedbackForm
     template_name = 'eyb/feedback.html'
     subject = 'EYB Feedback form'
@@ -1134,7 +1145,7 @@ class FeedbackView(GA360Mixin, FormView):
         action = actions.SaveOnlyInDatabaseAction(
             full_name='EYB User',
             subject=self.subject,
-            email_address='anonymous-user@expand-your-business.trade.gov.uk',
+            email_address='anonymous-user@expand-your-business.trade.gov.uk',  # /PS-IGNORE
             form_url=self.request.get_full_path(),
         )
 
@@ -1164,7 +1175,7 @@ class CsatWidgetView(FormView):
         return response
 
 
-class CsatFeedbackView(GA360Mixin, FormView):
+class CsatFeedbackView(GA360Mixin, FormView):  # /PS-IGNORE
     form_class = forms.CsatFeedbackForm
     template_name = 'eyb/csat_feedback.html'
 
@@ -1225,7 +1236,7 @@ class CsatFeedbackView(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
-class TradeAssociationsView(GA360Mixin, TemplateView):
+class TradeAssociationsView(GA360Mixin, TemplateView):  # /PS-IGNORE
     template_name = 'eyb/trade_associations.html'
 
     def __init__(self):
@@ -1265,7 +1276,7 @@ class TradeAssociationsView(GA360Mixin, TemplateView):
         )
 
 
-class BusinessClusterView(GA360Mixin, TemplateView):
+class BusinessClusterView(GA360Mixin, TemplateView):  # /PS-IGNORE
     template_name = 'eyb/bci.html'
 
     def __init__(self):

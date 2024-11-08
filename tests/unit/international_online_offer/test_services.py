@@ -150,3 +150,26 @@ def test_get_rent_data(client):
 
     for idx, rent_value in enumerate(rent_values):
         assert rent_data_from_api[idx] == rent_value
+
+
+def test_get_countries_regions_territories(mock_get_countries_regions_territories):
+    countries_regions_territories_from_api = services.get_countries_regions_territories()
+    assert len(countries_regions_territories_from_api) == 3
+
+    assert countries_regions_territories_from_api[0]['id'] == 82
+    assert countries_regions_territories_from_api[1]['id'] == 83
+    assert countries_regions_territories_from_api[2]['id'] == 84
+
+
+def test_get_country_region_territory(mock_get_country_region_territory):
+    country_name = services.get_country_display_name('FJ')
+    assert country_name == 'Fiji'
+
+
+@mock.patch(
+    'international_online_offer.services.api_client.dataservices.get_country_territory_region',
+    return_value=create_response(status_code=404),
+)
+def test_get_country_region_territory_404(mock_get_country_region_territory_404):
+    country_name = services.get_country_display_name('abcdefg')
+    assert country_name == ''

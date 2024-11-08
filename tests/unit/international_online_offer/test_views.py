@@ -191,7 +191,17 @@ def test_eyb_signup_partial_complete_signup_redirect(settings, client, user):
     ),
 )
 @pytest.mark.django_db
-def test_eyb_triage_urls(mock_get_dbt_sectors, client, user, settings, url_name, create_user_data, response_code):
+def test_eyb_triage_urls(
+    mock_get_dbt_sectors,
+    mock_get_countries_regions_territories,
+    mock_get_country_region_territory,
+    client,
+    user,
+    settings,
+    url_name,
+    create_user_data,
+    response_code,
+):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     user.hashed_uuid = '1234'
 
@@ -287,7 +297,16 @@ def test_eyb_business_headquarters_initial(mock_get_dbt_sectors, client, user, s
     ),
 )
 @pytest.mark.django_db
-def test_eyb_find_your_company_back_link(mock_get_dbt_sectors, url, expected_back_url, client, user, settings):
+def test_eyb_find_your_company_back_link(
+    mock_get_dbt_sectors,
+    mock_get_countries_regions_territories,
+    mock_get_country_region_territory,
+    url,
+    expected_back_url,
+    client,
+    user,
+    settings,
+):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     user.hashed_uuid = '123'
     client.force_login(user)
@@ -299,7 +318,7 @@ def test_eyb_find_your_company_back_link(mock_get_dbt_sectors, url, expected_bac
 
 
 @pytest.mark.django_db
-def test_eyb_find_your_company_initial(mock_get_dbt_sectors, client, user, settings):
+def test_eyb_find_your_company_initial(mock_get_dbt_sectors, mock_get_country_region_territory, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     fake = Faker('it_IT')
     user_data = {
@@ -341,7 +360,9 @@ def test_eyb_find_your_company_initial(mock_get_dbt_sectors, client, user, setti
     ),
 )
 @pytest.mark.django_db
-def test_eyb_company_details_back_link(mock_get_dbt_sectors, url, expected_back_url, client, user, settings):
+def test_eyb_company_details_back_link(
+    mock_get_dbt_sectors, mock_get_country_region_territory, url, expected_back_url, client, user, settings
+):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     user.hashed_uuid = '123'
     client.force_login(user)
@@ -353,7 +374,7 @@ def test_eyb_company_details_back_link(mock_get_dbt_sectors, url, expected_back_
 
 
 @pytest.mark.django_db
-def test_eyb_company_details_initial(mock_get_dbt_sectors, client, user, settings):
+def test_eyb_company_details_initial(mock_get_dbt_sectors, mock_get_country_region_territory, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     fake = Faker('it_IT')
     user_data = {
@@ -767,7 +788,7 @@ def test_eyb_contact_details_initial(client, user, settings):
 
 
 @pytest.mark.django_db
-def test_edit_your_answers(client, user, settings):
+def test_edit_your_answers(mock_get_country_region_territory, client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:change-your-answers')
     user.hashed_uuid = '123'

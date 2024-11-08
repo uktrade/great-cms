@@ -31,7 +31,6 @@ from international_online_offer.services import get_median_salaries, get_rent_da
 
 class EYBIndexPage(BaseContentPage):
     parent_page_types = [
-        'domestic.StructuralPage',
         'international.GreatInternationalHomePage',
     ]
     subpage_types = [
@@ -410,7 +409,7 @@ class TriageData(TimeStampedModel):
 class UserData(TimeStampedModel):
     hashed_uuid = models.CharField(max_length=200)
     company_name = models.CharField(max_length=255)
-    company_location = models.CharField(max_length=255, choices=choices.COMPANY_LOCATION_CHOICES)
+    company_location = models.CharField(max_length=255)
     duns_number = models.CharField(max_length=255, null=True, blank=True)
     address_line_1 = models.CharField(max_length=255, null=True, blank=True)
     address_line_2 = models.CharField(max_length=255, null=True, blank=True)

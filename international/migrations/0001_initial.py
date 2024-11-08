@@ -532,8 +532,8 @@ class Migration(migrations.Migration):
             bases=(
                 international.cms_panels.GreatInternationalHomePagePanels,
                 'wagtailcore.page',
-                core.mixins.WagtailGA360Mixin,
-                great_components.mixins.GA360Mixin,
+                core.mixins.WagtailGA360Mixin,  # /PS-IGNORE
+                great_components.mixins.GA360Mixin,  # /PS-IGNORE
             ),
         ),
     ]
