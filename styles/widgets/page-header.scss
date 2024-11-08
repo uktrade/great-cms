@@ -227,6 +227,10 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
         background-position-x: right !important;
       }
 
+      &.left-aligned {
+        background-position-x: left !important;
+      }
+
       @media only screen and (min-width: $mobile-size) and (max-width: 980px) {
         margin-left: -8%;
         &.right-aligned {
@@ -234,9 +238,7 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
         }
       }
       &.ea-events-page-hero-image {
-        background-size: contain !important;
-        background-position-y: 50% !important;
-        background-position-x: 50% !important;
+        background-size: auto 100% !important;
         display: none;
         align-self: center;
         width: calc(100% - 30px) !important;
