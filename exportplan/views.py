@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from django.utils.functional import cached_property
 from django.utils.text import slugify
 from django.views.generic import FormView, TemplateView, View
-from great_components.mixins import GA360Mixin
+from great_components.mixins import GA360Mixin  # /PS-IGNORE
 from requests.exceptions import RequestException
 
 from core.forms import HCSATForm
@@ -140,7 +140,7 @@ class FormContextMixin:
         return context
 
 
-class ExportPlanSectionView(GA360Mixin, ExportPlanMixin, TemplateView):
+class ExportPlanSectionView(GA360Mixin, ExportPlanMixin, TemplateView):  # /PS-IGNORE
     def __init__(self):
         super().__init__()
         self.set_ga360_payload(
@@ -318,7 +318,7 @@ class BusinessRiskView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView
         return context
 
 
-class BaseFormView(GA360Mixin, FormView):
+class BaseFormView(GA360Mixin, FormView):  # /PS-IGNORE
     def __init__(self):
         super().__init__()
         self.set_ga360_payload(
@@ -365,7 +365,7 @@ class LogoFormView(PageTitleMixin, BaseFormView):
     title = 'Upload your logo'
 
 
-class ExportPlanServicePage(GA360Mixin, TemplateView):
+class ExportPlanServicePage(GA360Mixin, TemplateView):  # /PS-IGNORE
     def __init__(self):
         super().__init__()
         self.set_ga360_payload(
@@ -399,7 +399,7 @@ class PDFDownload(
         return response
 
 
-class ExportPlanIndex(GA360Mixin, TemplateView):
+class ExportPlanIndex(GA360Mixin, TemplateView):  # /PS-IGNORE
 
     export_plan_list = None
 
@@ -425,7 +425,7 @@ class ExportPlanIndex(GA360Mixin, TemplateView):
         return context
 
 
-class ExportPlanStart(GA360Mixin, TemplateView):
+class ExportPlanStart(GA360Mixin, TemplateView):  # /PS-IGNORE
     def __init__(self):
         super().__init__()
         self.set_ga360_payload(
@@ -437,7 +437,7 @@ class ExportPlanStart(GA360Mixin, TemplateView):
     template_name = 'exportplan/start.html'
 
 
-class ExportPlanUpdate(GA360Mixin, TemplateView):
+class ExportPlanUpdate(GA360Mixin, TemplateView):  # /PS-IGNORE
     # This page is used to allow users to set a product/market in an export plan that doesn't have both
     export_plan = None
 
@@ -466,7 +466,7 @@ class ExportPlanUpdate(GA360Mixin, TemplateView):
 
 
 class ExportPlanDashBoard(
-    GA360Mixin,
+    GA360Mixin,  # /PS-IGNORE
     HCSATMixin,
     TemplateView,
     FormView,

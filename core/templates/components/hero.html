@@ -22,7 +22,10 @@ If both are available, `image_url` will be used over `image`
             <h1 class="govuk-heading-l govuk-!-static-margin-0 govuk-!-static-margin-bottom-2">{{ hero_title }}</h1>
             <p>{{ hero_text|richtext }}</p>
         </div>
-        <div class="image-container {% if hide_image_for_mobile %}great-display-from-tablet{% endif %} full-height-img right-aligned"
+        <div class="image-container full-height-img 
+            {% if hide_image_for_mobile %}great-display-from-tablet {% endif %} 
+            {% if hide_image_for_tablet %}great-display-from-desktop {% endif %} 
+            {% if left_aligned %} left-aligned {% else %} right-aligned {% endif %}"
              style="background: url({{ image_url }})"></div>
     </div>
 </div>

@@ -137,11 +137,13 @@
     <script>
         var csat_form = document.getElementById("hcsat_section")
         //learn hcsat should only be shown on first article of session
-        if (sessionStorage.csat_complete) == true {
+        if (sessionStorage.csat_complete) {
             csat_form.classList.add('great-hidden')
         }
+        else {
         document.addEventListener('DOMContentLoaded', () => {
             new CsatFormHandler('csat-form');
         });
+    }
     </script>
 {% endblock %}

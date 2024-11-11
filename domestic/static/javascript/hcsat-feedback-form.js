@@ -67,7 +67,7 @@ class CsatFormHandler {
                 this.cancelButton.classList.remove('great-hidden');
                 this.stepTransition(this.stepOne, this.stepTwo, this.stepOneSuccessMessage, 'Submit feedback');
                 this.currentStep = 2;
-                sessionStorage.CsatComplete = 'true' 
+                sessionStorage.csat_complete = 'true' 
             } else {
                 this.stepTransition(this.stepTwo, this.stepOne, this.stepTwoSuccessMessage, '');
                 this.form.classList.add(this.hideClass);

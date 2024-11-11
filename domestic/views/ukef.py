@@ -140,8 +140,8 @@ class GetFinanceLeadGenerationFormView(
                     {
                         'email': self.request.user.email,
                         'phone': getattr(self.request.user.company, 'mobile_number', ''),
-                        'firstname': self.guess_given_name,
-                        'lastname': self.guess_family_name,
+                        'firstname': self.guess_given_name,  # /PS-IGNORE
+                        'lastname': self.guess_family_name,  # /PS-IGNORE
                     }
                 )
             elif step == self.COMPANY_DETAILS and self.request.user.company:
