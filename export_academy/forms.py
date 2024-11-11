@@ -45,20 +45,20 @@ PHONE_INVALID_MESSAGE = 'Enter a valid UK telephone number'
 
 class PersonalDetails(forms.Form):
     first_name = forms.CharField(
-        label=_('First name'),
+        label=_('First name'),  # /PS-IGNORE
         min_length=2,
         max_length=50,
         error_messages={
-            'required': _('Enter your first name'),
+            'required': _('Enter your first name'),  # /PS-IGNORE
         },
         widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
     )
     last_name = forms.CharField(
-        label=_('Last name'),
+        label=_('Last name'),  # /PS-IGNORE
         min_length=2,
         max_length=50,
         error_messages={
-            'required': _('Enter your last name'),
+            'required': _('Enter your last name'),  # /PS-IGNORE
         },
         widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
     )

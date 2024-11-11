@@ -3,10 +3,10 @@ from unittest import mock
 
 import pytest
 from django.conf import settings
+from django.contrib.auth.models import AnonymousUser
 from django.test import TestCase
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import activate
-from django.contrib.auth.models import AnonymousUser
 from wagtail.models import Locale
 from wagtail.test.utils import WagtailPageTests
 
@@ -111,14 +111,14 @@ def test_ukef_contact_form_notify_success(
             form_session=mock_form_session(),
             form_url=url,
             sender={
-                'email_address': 'test@test.com',
+                'email_address': 'test@test.com',  # /PS-IGNORE
                 'country_code': None,
                 'ip_address': None,
             },
             template_id=settings.UKEF_CONTACT_AGENT_NOTIFY_TEMPLATE_ID,
         ),
         mock.call(
-            email_address='test@test.com',
+            email_address='test@test.com',  # /PS-IGNORE
             form_session=mock_form_session(),
             form_url=url,
             template_id=settings.UKEF_CONTACT_USER_NOTIFY_TEMPLATE_ID,
@@ -127,10 +127,10 @@ def test_ukef_contact_form_notify_success(
 
 
 def test_ukef_contact_form_success_view_response(rf):
-    user_email = 'test@test.com'
+    user_email = 'test@test.com'  # /PS-IGNORE
     request = rf.get(reverse('domestic:uk-export-contact-success'))
     request.user = AnonymousUser()
-    request.session = {'user_email': user_email}
+    request.session = {'user_email': user_email}  # /PS-IGNORE
     view = domestic.views.ukef.SuccessPageView.as_view()
     response = view(request)
     assert response.status_code == 200
@@ -196,10 +196,10 @@ def test_ukef_lead_generation_captcha_revalidation(
         reverse(url_name, kwargs={'step': 'your-details'}),
         {
             view_name + '-current_step': 'your-details',
-            'your-details-firstname': 'test',
-            'your-details-lastname': 'test',
+            'your-details-firstname': 'test',  # /PS-IGNORE
+            'your-details-lastname': 'test',  # /PS-IGNORE
             'your-details-position': 'test',
-            'your-details-email': 'test@example.com',
+            'your-details-email': 'test@example.com',  # /PS-IGNORE
             'your-details-phone': 'test',
         },
     )
@@ -260,10 +260,10 @@ def test_ukef_lead_generation_submit(mock_action, client, settings, captcha_stub
     )
     form_three = forms.PersonalDetailsForm(
         data={
-            'firstname': 'Test',
-            'lastname': 'Example',
+            'firstname': 'Test',  # /PS-IGNORE
+            'lastname': 'Example',  # /PS-IGNORE
             'position': 'Thing',
-            'email': 'test@example.com',
+            'email': 'test@example.com',  # /PS-IGNORE
             'phone': '2342',
         }
     )
@@ -285,7 +285,7 @@ def test_ukef_lead_generation_submit(mock_action, client, settings, captcha_stub
             kwargs={'step': 'your-details'},
         ),
         sender={
-            'email_address': 'test@example.com',
+            'email_address': 'test@example.com',  # /PS-IGNORE
             'country_code': None,
             'ip_address': None,
         },
@@ -297,10 +297,10 @@ def test_ukef_lead_generation_submit(mock_action, client, settings, captcha_stub
             'categories': ['Securing upfront funding'],
             'comment': 'thing',
             'captcha': 'PASS',
-            'firstname': 'Test',
-            'lastname': 'Example',
+            'firstname': 'Test',  # /PS-IGNORE
+            'lastname': 'Example',  # /PS-IGNORE
             'position': 'Thing',
-            'email': 'test@example.com',
+            'email': 'test@example.com',  # /PS-IGNORE
             'phone': '2342',
             'contact_consent': [CONSENT_EMAIL],
         }
@@ -340,10 +340,10 @@ def test_ukef_lead_generation_initial_data(client, user, mock_get_company_profil
     response_one = client.get(reverse(url_name, kwargs={'step': 'your-details'}))
 
     assert response_one.context_data['form'].initial == {
-        'email': user.email,
+        'email': user.email,  # /PS-IGNORE
         'phone': '07171771717',
-        'firstname': 'Jim',
-        'lastname': 'Cross',
+        'firstname': 'Jim',  # /PS-IGNORE
+        'lastname': 'Cross',  # /PS-IGNORE
     }
 
     response_two = client.get(reverse(url_name, kwargs={'step': 'company-details'}))

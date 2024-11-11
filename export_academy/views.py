@@ -31,7 +31,7 @@ from django.views.generic import (
 from django_filters.views import FilterView
 from drf_spectacular.utils import extend_schema
 from great_components.helpers import get_is_authenticated, get_user
-from great_components.mixins import GA360Mixin
+from great_components.mixins import GA360Mixin  # /PS-IGNORE
 from icalendar import Alarm, Calendar, Event
 from rest_framework.generics import GenericAPIView
 
@@ -86,7 +86,9 @@ class BespokeBreadcrumbMixin(TemplateView):
         return super().get_context_data(bespoke_breadcrumbs=bespoke_breadcrumbs, **kwargs)
 
 
-class EventListView(GetBreadcrumbsMixin, GA360Mixin, core_mixins.GetSnippetContentMixin, FilterView, ListView):
+class EventListView(
+    GetBreadcrumbsMixin, GA360Mixin, core_mixins.GetSnippetContentMixin, FilterView, ListView  # /PS-IGNORE
+):  # /PS-IGNORE
     model = models.Event
     queryset = model.upcoming
     filterset_class = filters.EventFilter
@@ -95,7 +97,7 @@ class EventListView(GetBreadcrumbsMixin, GA360Mixin, core_mixins.GetSnippetConte
 
     def __init__(self):
         super().__init__()
-        self.set_ga360_payload(  # from GA360Mixin
+        self.set_ga360_payload(  # from GA360Mixin # /PS-IGNORE
             page_id='MagnaPage',
             business_unit=settings.GA360_BUSINESS_UNIT,
             site_section='export-academy',

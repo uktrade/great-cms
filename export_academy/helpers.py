@@ -203,7 +203,7 @@ def calender_content(url):
         'Kind regards, \n'
         'UK Export Academy Team,\n'
         'Department for Business and Trade\n'
-        'E: exportacademy@businessandtrade.gov.uk <mailto:exportacademy@businessandtrade.gov.uk>'
+        'E: exportacademy@businessandtrade.gov.uk <mailto:exportacademy@businessandtrade.gov.uk>'  # /PS-IGNORE
     )
 
 
