@@ -82,7 +82,6 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage):
     template = 'eyb/guide.html'
 
     def serve(self, request, *args, **kwargs):
-        context = self.get_context(request)
         user_data = get_user_data_for_user(request)
         triage_data = get_triage_data_for_user(request)
 
@@ -93,6 +92,15 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage):
             if request.GET.get('login'):
                 response['Location'] += '?resume=true'
             return response
+
+        context = self.get_context(request, user_data, triage_data)
+
+        return TemplateResponse(request, self.template, context)
+
+    def get_context(self, request, user_data, triage_data, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        user_data = get_user_data_for_user(request)
+        triage_data = get_triage_data_for_user(request)
 
         bci_data = None
         if triage_data and triage_data.sector:
@@ -131,17 +139,27 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage):
             {'name': 'Home', 'url': '/international/'},
         ]
 
-        context['complete_contact_form_link'] = 'international_online_offer:signup'
-        context['complete_contact_form_link_text'] = 'Sign up'
-        context['triage_data'] = triage_data
-        context['user_data'] = user_data
-        context['bci_data'] = (bci_data[0] if bci_data and len(bci_data) > 0 else None,)
-        context['get_to_know_market_articles'] = all_articles_tagged_with_sector_and_intent
-        context['finance_and_support_articles'] = all_articles_tagged_with_finance_and_support
-        context['trade_shows_page'] = trade_shows_page
-        context['breadcrumbs'] = breadcrumbs
+        context.update(
+            complete_contact_form_link='international_online_offer:signup',
+            complete_contact_form_link_text='Sign up',
+            triage_data=triage_data,
+            user_data=user_data,
+            bci_data=bci_data[0] if bci_data and len(bci_data) > 0 else None,
+            get_to_know_market_articles=all_articles_tagged_with_sector_and_intent,
+            finance_and_support_articles=all_articles_tagged_with_finance_and_support,
+            trade_shows_page=trade_shows_page,
+            breadcrumbs=breadcrumbs,
+        )
 
-        return TemplateResponse(request, self.template, context)
+        self.set_ga360_payload(
+            page_id='Guide',
+            business_unit='ExpandYourBusiness',
+            site_section='guide',
+        )
+        self.add_ga360_data_to_payload(request)
+        context['ga360'] = self.ga360_payload
+
+        return context
 
 
 class EYBArticleTag(TagBase):
