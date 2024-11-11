@@ -9,6 +9,10 @@ from wagtail.test.utils import WagtailPageTests
 
 from core.tests.helpers import create_response
 from international.models import GreatInternationalHomePage
+from international_online_offer.core.hirings import ONE_HUNDRED_ONE_PLUS
+from international_online_offer.core.intents import SET_UP_A_NEW_DISTRIBUTION_CENTRE
+from international_online_offer.core.landing_timeframes import UNDER_SIX_MONTHS
+from international_online_offer.core.spends import ONE_MILLION_TO_TWO_MILLION
 from international_online_offer.models import (
     EYBArticlePage,
     EYBArticlePageTag,
@@ -97,12 +101,31 @@ class EYBTradeShowPageTests(WagtailPageTests):
 )
 @mock.patch('international_online_offer.services.get_bci_data_by_dbt_sector', return_value=[])
 @pytest.mark.django_db
-def test_eyb_guide_page_content(mock_response, rf, user, domestic_site, user_sector, sector_tag, expected_len_articles):
-    intent = 'SET_UP_A_NEW_DISTRIBUTION_CENTRE'
+def test_eyb_guide_page_content(rf, user, domestic_site, user_sector, sector_tag, expected_len_articles):
 
     TriageData.objects.update_or_create(
         hashed_uuid='123',
-        defaults={'sector': user_sector, 'intent': [intent]},
+        defaults={
+            'sector': user_sector,
+            'intent': [SET_UP_A_NEW_DISTRIBUTION_CENTRE],
+            'location_none': True,
+            'spend': [ONE_MILLION_TO_TWO_MILLION],
+            'hiring': [ONE_HUNDRED_ONE_PLUS],
+        },
+    )
+
+    UserData.objects.update_or_create(
+        hashed_uuid='123',
+        defaults={
+            'full_name': 'Joe Bloggs',
+            'company_location': 'FJ',
+            'company_name': 'DBT Co.',
+            'address_line_1': '123 high street',
+            'town': 'The town',
+            'role': 'Developer',
+            'telephone_number': '07912345678',
+            'landing_timeframe': [UNDER_SIX_MONTHS],
+        },
     )
 
     root = Page.get_first_root_node()
@@ -124,7 +147,7 @@ def test_eyb_guide_page_content(mock_response, rf, user, domestic_site, user_sec
     page_tag.save()
 
     # tag with intent
-    intent_tag = EYBArticleTag(name=intent, slug=slugify(intent))
+    intent_tag = EYBArticleTag(name=SET_UP_A_NEW_DISTRIBUTION_CENTRE, slug=slugify(SET_UP_A_NEW_DISTRIBUTION_CENTRE))
     intent_tag.save()
     page_tag = EYBArticlePageTag(tag=intent_tag, content_object=article_page)
     page_tag.save()
@@ -132,7 +155,8 @@ def test_eyb_guide_page_content(mock_response, rf, user, domestic_site, user_sec
     request = rf.get(guide_page.url)
     request.user = user
     request.user.hashed_uuid = '123'
-    context = guide_page.get_context(request)
+    response = guide_page.serve(request)
+    context = response.context_data
     assert context['complete_contact_form_link_text'] == 'Sign up'
     assert context['complete_contact_form_link'] == 'international_online_offer:signup'
     assert len(context['get_to_know_market_articles']) == expected_len_articles
