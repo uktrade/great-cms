@@ -78,7 +78,8 @@ $color-error: #d4351c;
 
 *[dir='rtl'] {
   .govuk-grid-column-two-thirds,
-  .govuk-grid-column-three-quarters {
+  .govuk-grid-column-three-quarters,
+  .govuk-grid-column-one-quarter {
     float: right;
   }
 
