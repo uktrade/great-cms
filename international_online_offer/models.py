@@ -392,7 +392,7 @@ class EYBArticlesPage(BaseContentPage):
 
 class TriageData(TimeStampedModel):
     hashed_uuid = models.CharField(max_length=200)
-    sector = models.CharField(max_length=255)  # required
+    sector = models.CharField(max_length=255)
     sector_sub = models.CharField(max_length=255, default=None, null=True)
     sector_sub_sub = models.CharField(max_length=255, default=None, null=True)
     sector_id = models.CharField(default=None, null=True)
@@ -400,7 +400,7 @@ class TriageData(TimeStampedModel):
         models.CharField(max_length=255, choices=choices.INTENT_CHOICES),
         size=6,
         default=list,
-    )  # required
+    )
 
     def get_intent_display(self):
         out = []
@@ -410,13 +410,13 @@ class TriageData(TimeStampedModel):
         return out
 
     intent_other = models.CharField(max_length=255)
-    location = models.CharField(max_length=255, choices=choices.REGION_CHOICES)  # required
+    location = models.CharField(max_length=255, choices=choices.REGION_CHOICES)
     location_city = models.CharField(
         max_length=255, default=None, null=True, choices=region_sector_helpers.generate_location_choices(False)
     )
-    location_none = models.BooleanField(default=None, null=True)  # required
-    hiring = models.CharField(max_length=255, choices=choices.HIRING_CHOICES)  # required
-    spend = models.CharField(max_length=255, choices=choices.SPEND_CHOICES)  # required
+    location_none = models.BooleanField(default=None, null=True)
+    hiring = models.CharField(max_length=255, choices=choices.HIRING_CHOICES)
+    spend = models.CharField(max_length=255, choices=choices.SPEND_CHOICES)
     spend_other = models.CharField(max_length=255, null=True)
     is_high_value = models.BooleanField(default=False)
 
@@ -426,21 +426,21 @@ class UserData(TimeStampedModel):
     company_name = models.CharField(max_length=255)
     company_location = models.CharField(max_length=255)
     duns_number = models.CharField(max_length=255, null=True, blank=True)
-    address_line_1 = models.CharField(max_length=255, null=True, blank=True)  # required
+    address_line_1 = models.CharField(max_length=255, null=True, blank=True)
     address_line_2 = models.CharField(max_length=255, null=True, blank=True)
-    town = models.CharField(max_length=255, null=True, blank=True)  # required
+    town = models.CharField(max_length=255, null=True, blank=True)
     county = models.CharField(max_length=255, null=True, blank=True)
     postcode = models.CharField(max_length=255, null=True, blank=True)
-    full_name = models.CharField(max_length=255)  # required
-    role = models.CharField(max_length=255)  # required
+    full_name = models.CharField(max_length=255)
+    role = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
-    telephone_number = models.CharField(max_length=255)  # required
+    telephone_number = models.CharField(max_length=255)
     agree_terms = models.BooleanField(default=False)
     agree_info_email = models.BooleanField(default=False)
     landing_timeframe = models.CharField(
         null=True, default=None, max_length=255, choices=choices.LANDING_TIMEFRAME_CHOICES
-    )  # required
-    company_website = models.CharField(max_length=255, null=True)  # required
+    )
+    company_website = models.CharField(max_length=255, null=True)
 
 
 class TradeAssociation(models.Model):
