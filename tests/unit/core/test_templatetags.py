@@ -992,9 +992,9 @@ class HandleExternalLinksFilterTest(TestCase):
 class IsEmailFilterTest(TestCase):
     def test_is_email_valid(self):
         valid_emails = [
-            'example@example.com',
-            'user1234@test.co',
-            'user.name@email.co.uk',
+            'example@example.com',  # /PS-IGNORE
+            'user1234@test.co',  # /PS-IGNORE
+            'user.name@email.co.uk',  # /PS-IGNORE
         ]
 
         for email in valid_emails:
@@ -1007,7 +1007,7 @@ class IsEmailFilterTest(TestCase):
             'user@example',
             'user@example.',
             'user@.com',
-            '@example.com',
+            '@example.com',  # /PS-IGNORE
             'user@.com',
         ]
 

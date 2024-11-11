@@ -473,6 +473,6 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=('wagtailcore.page', core.mixins.WagtailGA360Mixin, great_components.mixins.GA360Mixin),
+            bases=('wagtailcore.page', core.mixins.WagtailGA360Mixin, great_components.mixins.GA360Mixin),  # /PS-IGNORE
         ),
     ]

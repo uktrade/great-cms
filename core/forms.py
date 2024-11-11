@@ -55,8 +55,8 @@ class ContactUsHelpForm(GovNotifyEmailActionMixin, forms.Form):
         label='Please give us as much detail as you can',
         widget=Textarea,
     )
-    given_name = forms.CharField(label='First name')
-    family_name = forms.CharField(label='Last name')
+    given_name = forms.CharField(label='First name')  # /PS-IGNORE
+    family_name = forms.CharField(label='Last name')  # /PS-IGNORE
     email = forms.EmailField()
     captcha = ReCaptchaField(label='', label_suffix='', widget=ReCaptchaV3())
     terms_agreed = forms.BooleanField(label=TERMS_LABEL)

@@ -117,8 +117,8 @@ def get_export_support_field_mappings(key, form_data):
         'about_your_experience': {
             'neverexported': """I have never exported but have a product suitable or that
             could be developed for export""",
-            'notinlast12months': 'I have exported before but not in the last 12 months',
-            'last12months': 'I have exported in the last 12 months',
+            'notinlast12months': 'I have exported before but not in the last 12 months',  # /PS-IGNORE
+            'last12months': 'I have exported in the last 12 months',  # /PS-IGNORE
             'noproduct': 'I do not have a product for export',
         },
     }
@@ -169,8 +169,8 @@ def get_steps(form_data, second_step_edit_page, markets):
         {
             'title': 'About you',
             'answers': [
-                ('First name', form_data.get('first_name')),
-                ('Last name', form_data.get('last_name')),
+                ('First name', form_data.get('first_name')),  # /PS-IGNORE
+                ('Last name', form_data.get('last_name')),  # /PS-IGNORE
                 ('Job title', form_data.get('job_title')),
                 ('UK telephone number', form_data.get('uk_telephone_number')),
                 ('Email address', form_data.get('email')),
