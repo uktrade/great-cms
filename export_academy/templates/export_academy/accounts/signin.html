@@ -31,6 +31,12 @@
             {% include 'export_academy/accounts/includes/new_user_body_text.html' with is_signin=True %}
         {% endif %}
     {% endblock %}
+    {% block body_footer%}
+    {% include "_footer.html" with isInternational=domestic_footer_context.is_international currentYear=domestic_footer_context.current_year footerLinks=domestic_footer_context.footer_links logoLinkHref=domestic_footer_context.logo_link_href %}
+    {% endblock %}
+    {% block body_inline_feedback %}
+        {{block.super }}
+    {% endblock %}
     {% block body_js %}
         {{ block.super }}
         <script src="{% static 'javascript/govuk.js' %}"></script>
