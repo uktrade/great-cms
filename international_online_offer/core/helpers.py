@@ -187,7 +187,7 @@ def get_current_step(user_data, triage_data):
         'business-headquarters': ['company_location'],
         'find-your-company': ['company_name', 'address_line_1', 'town'],
         'business-sector': ['sector'],
-        'know-setup-location': ['location_none', 'location'],
+        'know-setup-location': ['location_none'],
         'when-want-setup': ['landing_timeframe'],
         'intent': ['intent'],
         'hiring': ['hiring'],
@@ -218,9 +218,9 @@ def is_triage_complete(user_data, triage_data):
         user_data.company_location
         and user_data.company_name
         and user_data.address_line_1
+        and user_data.full_name
         and user_data.town
         and user_data.role
-        and user_data.company_name
         and user_data.telephone_number
         and user_data.landing_timeframe
         and triage_data.sector
