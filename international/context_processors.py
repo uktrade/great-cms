@@ -102,7 +102,7 @@ def international_header(request):
                     'navItemsListChildren': nav_items_list_children,
                 },
                 {
-                    'href': '/international/investment/opportunities/',
+                    'href': '/international/investment/',
                     'text': 'Investment opportunities',
                     'location': 'International header',
                     'isCurrent': '/international/investment/' in request.path,
@@ -122,7 +122,7 @@ def international_header(request):
                     'isCurrent': '/expand-your-business-in-the-uk' in request.path,
                 },
                 {
-                    'href': '/international/investment/opportunities/',
+                    'href': '/international/investment/',
                     'text': 'Investment opportunities',
                     'location': 'International header',
                     'isCurrent': '/international/investment/' in request.path,
