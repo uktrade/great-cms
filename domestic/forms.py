@@ -35,8 +35,8 @@ class UKEFContactForm(GovNotifyEmailActionMixin, forms.Form):
     email = forms.EmailField(
         label=_('Business email address'),
         error_messages={
-            'required': _('Enter an email address in the correct format, like name@example.com'),
-            'invalid': _('Enter an email address in the correct format, like name@example.com'),
+            'required': _('Enter an email address in the correct format, like name@example.com'),  # /PS-IGNORE
+            'invalid': _('Enter an email address in the correct format, like name@example.com'),  # /PS-IGNORE
         },
     )
     business_name = forms.CharField(
@@ -145,8 +145,8 @@ class CategoryForm(forms.Form):
 class PersonalDetailsForm(forms.Form):
     error_css_class = 'input-field-container has-error'
 
-    firstname = forms.CharField(label='Your first name')
-    lastname = forms.CharField(label='Your last name')
+    firstname = forms.CharField(label='Your first name')  # /PS-IGNORE
+    lastname = forms.CharField(label='Your last name')  # /PS-IGNORE
     position = forms.CharField(label='Position in company')
     email = forms.EmailField(label='Email address')
     phone = forms.CharField(label='Phone')
@@ -249,14 +249,14 @@ class MarketAccessAboutForm(forms.Form):
         'Other',
     )
 
-    firstname = forms.CharField(
-        label='First name',
-        error_messages={'required': 'Enter your first name'},
+    firstname = forms.CharField(  # /PS-IGNORE
+        label='First name',  # /PS-IGNORE
+        error_messages={'required': 'Enter your first name'},  # /PS-IGNORE
     )
 
-    lastname = forms.CharField(
-        label='Last name',
-        error_messages={'required': 'Enter your last name'},
+    lastname = forms.CharField(  # /PS-IGNORE
+        label='Last name',  # /PS-IGNORE
+        error_messages={'required': 'Enter your last name'},  # /PS-IGNORE
     )
 
     jobtitle = forms.CharField(
@@ -414,21 +414,21 @@ class MarketAccessSummaryForm(GovNotifyEmailActionMixin, forms.Form):
 
 class CampaignShortForm(GovNotifyEmailActionMixin, forms.Form):
     first_name = forms.CharField(
-        label=_('First name'),
+        label=_('First name'),  # /PS-IGNORE
         min_length=2,
         max_length=50,
         required=True,
         error_messages={
-            'required': _('Enter your first name'),
+            'required': _('Enter your first name'),  # /PS-IGNORE
         },
     )
     last_name = forms.CharField(
-        label=_('Last name'),
+        label=_('Last name'),  # /PS-IGNORE
         min_length=2,
         max_length=50,
         required=True,
         error_messages={
-            'required': _('Enter your last name'),
+            'required': _('Enter your last name'),  # /PS-IGNORE
         },
     )
     email = forms.EmailField(

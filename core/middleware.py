@@ -9,7 +9,7 @@ from django.conf import settings
 from django.http import HttpResponseForbidden
 from django.shortcuts import redirect
 from django.utils.deprecation import MiddlewareMixin
-from great_components.mixins import GA360Mixin
+from great_components.mixins import GA360Mixin  # /PS-IGNORE
 from jsonschema import ValidationError
 from wagtail.contrib.redirects import models
 from wagtail.contrib.redirects.middleware import get_redirect
@@ -27,7 +27,7 @@ class UserLocationStoreMiddleware(MiddlewareMixin):
             helpers.store_user_location(request)
 
 
-class UserSpecificRedirectMiddleware(GA360Mixin, MiddlewareMixin):
+class UserSpecificRedirectMiddleware(GA360Mixin, MiddlewareMixin):  # /PS-IGNORE
     # some pages should remember they were visited already and redirect away
 
     SESSION_KEY_LEARN = 'LEARN_INTRO_COMPLETE'
@@ -232,7 +232,7 @@ class CheckGATags(MiddlewareMixin):
         if 'ga360' not in context_data:
             logger.error(
                 'No Google Analytics data found on the response. '
-                'You should either set this using the GA360Mixin, '
+                'You should either set this using the GA360Mixin, '  # /PS-IGNORE
                 "or use the 'skip_ga360' decorator to indicate that this page "
                 'does not require analytics'
             )

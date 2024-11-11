@@ -47,7 +47,8 @@ class TestListingPageLoggedOut:
 
     def test_show_more_chevron_orientation(self, listing_page):
         listing_page.click_show_more_first_event_list_card()
-        # we get a matrix back from selenium's computed css property. below assertion corresponds to rotate270deg
+        # we get a matrix back from selenium's computed css property.
+        # below assertion corresponds to rotate270deg /PS-IGNORE
         # see https://angrytools.com/css-generator/transform/ for a tool to compute alternative rotations
         assert listing_page.get_chevron_transform_of_first_event_list_card() == 'matrix(0, -1, 1, 0, 0, 0)'
 

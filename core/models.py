@@ -15,7 +15,7 @@ from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
-from great_components.mixins import GA360Mixin
+from great_components.mixins import GA360Mixin  # /PS-IGNORE
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.models import ClusterableModel, ParentalKey
 from taggit.managers import TaggableManager
@@ -353,8 +353,8 @@ class SeoMixin(WagtailSeoMixin):
 
 class CMSGenericPageAnonymous(
     SeoMixin,
-    mixins.WagtailGA360Mixin,
-    GA360Mixin,
+    mixins.WagtailGA360Mixin,  # /PS-IGNORE
+    GA360Mixin,  # /PS-IGNORE
     Page,
 ):
     """
@@ -709,7 +709,7 @@ class TopicPage(Page, mixins.AuthenticatedUserRequired if not settings.FEATURE_D
     Not intented to be viewed by end users, so will redirect to the parent
     module if accessed.
 
-    Also, for the above reason, mixins.WagtailGA360Mixin and GA360Mixin
+    Also, for the above reason, mixins.WagtailGA360Mixin and GA360Mixin /PS-IGNORE
     are not used."""
 
     parent_page_types = ['core.CuratedListPage']
@@ -744,7 +744,7 @@ class LessonPlaceholderPage(Page, mixins.AuthenticatedUserRequired if not settin
     Not intented to be viewed by end users, so will redirect to the parent
     module if accessed.
 
-    Also, for the above reason, mixins.WagtailGA360Mixin and GA360Mixin
+    Also, for the above reason, mixins.WagtailGA360Mixin and GA360Mixin # /PS-IGNORE
     are not used."""
 
     parent_page_types = ['core.TopicPage']
@@ -2067,9 +2067,11 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
 
         if parent_page:
             parent_url = parent_page.get_url()
+            parent_url_clean = parent_url
             if multiple_languages:
                 parent_url = persist_language_to_url(parent_url, request)
-            menu_items = [{'href': parent_url, 'text': _('Home')}]
+
+            menu_items = [{'href': parent_url, 'text': _('Home'), 'isCurrent': parent_url_clean == self.url}]
 
             menu_items.extend(
                 [
@@ -2078,6 +2080,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                             persist_language_to_url(child.get_url(), request) if multiple_languages else child.get_url()
                         ),
                         'text': child.title,
+                        'isCurrent': self.url == child.url,
                     }
                     for child in parent_page.get_children().live()
                 ]

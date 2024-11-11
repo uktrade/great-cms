@@ -6,7 +6,7 @@ from django.urls import reverse, reverse_lazy
 from django.utils.functional import cached_property
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
-from great_components.mixins import GA360Mixin
+from great_components.mixins import GA360Mixin  # /PS-IGNORE
 
 from config import settings
 from core.helpers import get_sender_ip_address
@@ -31,7 +31,7 @@ class SubmitFormOnGetMixin:
         return super().post(request, *args, **kwargs)
 
 
-class FindASpecialistSearchView(GA360Mixin, SubmitFormOnGetMixin, FormView):
+class FindASpecialistSearchView(GA360Mixin, SubmitFormOnGetMixin, FormView):  # /PS-IGNORE
     template_name = 'investment_support_directory/find_a_specialist/search.html'
     form_class = forms.SearchForm
     page_size = 10
@@ -97,7 +97,7 @@ class CompanyProfileMixin:
         return company
 
 
-class FindASpecialistProfileView(CompanyProfileMixin, GA360Mixin, TemplateView):
+class FindASpecialistProfileView(CompanyProfileMixin, GA360Mixin, TemplateView):  # /PS-IGNORE
     template_name = 'investment_support_directory/find_a_specialist/profile.html'
 
     def __init__(self):
@@ -132,7 +132,7 @@ class CaseStudyMixin:
         return case_study
 
 
-class FindASpecialistCaseStudyView(CaseStudyMixin, GA360Mixin, TemplateView):
+class FindASpecialistCaseStudyView(CaseStudyMixin, GA360Mixin, TemplateView):  # /PS-IGNORE
     template_name = 'investment_support_directory/find_a_specialist/case_study.html'
 
     def __init__(self):
@@ -169,7 +169,7 @@ class FindASpecialistCaseStudyView(CaseStudyMixin, GA360Mixin, TemplateView):
         )
 
 
-class FindASpecialistContactView(CompanyProfileMixin, GA360Mixin, FormView):
+class FindASpecialistContactView(CompanyProfileMixin, GA360Mixin, FormView):  # /PS-IGNORE
     form_class = forms.FindASpecialistContactForm
     template_name = 'investment_support_directory/find_a_specialist/contact.html'
     company_email_address = None
