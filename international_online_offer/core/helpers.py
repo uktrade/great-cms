@@ -183,7 +183,7 @@ def get_current_step(user_data, triage_data):
     # Steps in the triage and associated required fields.
     # If any of these fields are empty, return the view to
     # allow the user to continue where they left off.
-    TRIAGE_STEPS = {
+    triage_steps = {
         'business-headquarters': ['company_location'],
         'find-your-company': ['company_name', 'address_line_1', 'town'],
         'business-sector': ['sector'],
@@ -195,7 +195,7 @@ def get_current_step(user_data, triage_data):
         'contact-details': ['full_name', 'role', 'telephone_number'],
     }
 
-    for view_name, fields in TRIAGE_STEPS.items():
+    for view_name, fields in triage_steps.items():
         for field in fields:
             value = None
             if hasattr(user_data, field):
