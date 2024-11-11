@@ -6,6 +6,8 @@ from django.utils.translation import get_language_bidi, gettext as _
 from core import cms_slugs
 from directory_constants import choices, urls
 
+from datetime import datetime
+
 
 def javascript_components(request):
     password_reset_url = urls.domestic.SINGLE_SIGN_ON / 'accounts/password/reset/'
@@ -247,4 +249,138 @@ def microsite_header(request):
         'hideSearch': True,
         'hideMenuOnDesktop': True,
         'subnavItemsList': '',
+    }
+
+
+def domestic_footer(request):
+    return {
+        'domestic_footer_context': {
+            'is_international': False,
+            'current_year': str(datetime.now().year),
+            'logo_link_href': 'https://www.gov.uk/government/organisations/department-for-business-and-trade',
+            'footer_links': [
+                {
+                    'href': '/support/export-support',
+                    'title': 'Export support for UK businesses',
+                    'text': 'Export support for UK businesses',
+                },
+                {
+                    'href': '/contact/triage/great-account',
+                    'title': 'Get help with your account',
+                    'text': 'Get help with your account',
+                },
+                {
+                    'href': '/privacy',
+                    'title': 'Privacy',
+                    'text': 'Privacy',
+                },
+                {
+                    'href': '/cookies',
+                    'title': 'Cookies',
+                    'text': 'Cookies',
+                },
+                {
+                    'href': '/terms-and-conditions',
+                    'title': 'Terms and conditions',
+                    'text': 'Terms and conditions',
+                },
+                {
+                    'href': '/accessibility-statement',
+                    'title': 'Accessibility',
+                    'text': 'Accessibility',
+                },
+                {
+                    'href': '/international',
+                    'title': 'Invest in the UK',
+                    'text': 'Invest in the UK',
+                },
+            ],
+        },
+    }
+
+
+def international_footer(request):
+    return {
+        'international_footer_context': {
+            'is_international': True,
+            'current_year': str(datetime.now().year),
+            'logo_link_href': 'https://www.gov.uk/',
+            'footer_links': [
+                {
+                    'href': '/international/site-help/?next=' + request.build_absolute_uri(request.path),
+                    'title': 'Help using this site',
+                    'text': 'Help using this site',
+                },
+                {
+                    'href': '/privacy',
+                    'title': 'Privacy',
+                    'text': 'Privacy',
+                },
+                {
+                    'href': '/cookies',
+                    'title': 'Cookies',
+                    'text': 'Cookies',
+                },
+                {
+                    'href': '/terms-and-conditions',
+                    'title': 'Terms and conditions',
+                    'text': 'Terms and conditions',
+                },
+                {
+                    'href': '/accessibility-statement',
+                    'title': 'Accessibility',
+                    'text': 'Accessibility',
+                },
+                {
+                    'href': '/',
+                    'title': 'Export from the UK',
+                    'text': 'Export from the UK',
+                },
+            ],
+        },
+    }
+
+
+def microsite_footer(request):
+    return {
+        'is_international': False,
+        'current_year': str(datetime.now().year),
+        'logo_link_href': '/',
+        'footer_links': [
+            {
+                'href': '/',
+                'title': 'Export from the UK',
+                'text': 'Export from the UK',
+            },
+            {
+                'href': '/international',
+                'title': 'Invest in the UK',
+                'text': 'Invest in the UK',
+            },
+            {
+                'href': '/contact/triage/great-account',
+                'title': 'Get help with your account',
+                'text': 'Get help with your account',
+            },
+            {
+                'href': '/privacy',
+                'title': 'Privacy',
+                'text': 'Privacy',
+            },
+            {
+                'href': '/cookies',
+                'title': 'Cookies',
+                'text': 'Cookies',
+            },
+            {
+                'href': '/terms-and-conditions',
+                'title': 'Terms and conditions',
+                'text': 'Terms and conditions',
+            },
+            {
+                'href': '/accessibility-statement',
+                'title': 'Accessibility',
+                'text': 'Accessibility',
+            },
+        ],
     }

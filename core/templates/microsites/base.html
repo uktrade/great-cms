@@ -151,10 +151,10 @@
             {% block content_after %}{% endblock %}
         {% endblock %}
         {% block body_footer %}
-            {% include 'core/footer.html' %}
+            {% include "_footer.html" with isInternational=microsite_footer_context.is_international currentYear=microsite_footer_context.current_year footerLinks=microsite_footer_context.footer_links logoLinkHref=microsite_footer_context.logo_link_href %}
         {% endblock %}
         {% block body_js %}
-            {% slugurl "privacy" as privacy_and_cookies_path %}
+            {% slugurl "p   rivacy" as privacy_and_cookies_path %}
             {% if request.path != privacy_and_cookies_path %}
                 <script data-language-code={{page.locale.language_code}} data-translate-text-feat-flag={{TRANSLATE_TEXT}}>
       const data = document.currentScript.dataset
