@@ -11,6 +11,7 @@
           content="Find information to help invest within the UK" />
 {% endblock %}
 {% block content %}
+    {{block.super}}
     <div class="great-container">
         {% include '../includes/triage_header.html' with back_url=back_url %}
         <div class="govuk-grid-row">
