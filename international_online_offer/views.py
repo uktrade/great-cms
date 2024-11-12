@@ -920,7 +920,7 @@ class SpendView(GA360Mixin, FormView):  # /PS-IGNORE
 class LoginView(GA360Mixin, sso_mixins.SignInMixin, TemplateView):  # /PS-IGNORE
     form_class = forms.LoginForm
     template_name = 'eyb/login.html'
-    success_url = '/international/expand-your-business-in-the-uk/guide/'
+    success_url = '/international/expand-your-business-in-the-uk/guide/?login=true'
 
     def __init__(self):
         super().__init__()

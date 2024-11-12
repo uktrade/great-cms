@@ -8,7 +8,7 @@
 {% endblock css_layout_class %}
 {% block content %}
     {% block hero %}
-        {% include 'components/hero.html' with image=page.hero_image hero_title="Markets" hero_text="Research export opportunities and prepare your business for new markets" %}
+        {% include 'components/hero.html' with image=page.hero_image hero_title="Market Guides" hero_text="Find the answers you need on your target export market, including doing business, tax rates and import regulations.<br><br>Filter by sector to see the markets best suited to your product or service." %}
     {% endblock %}
     {% comment %} {% if page.teaser %}
 <section id="markets-banner-section" class="topic-list-section padding-bottom-60-m padding-top-15-m">
@@ -32,8 +32,6 @@
                                 <a id="skip-link"
                                    class="accessibility-skip-to-section"
                                    href="#markets-results">Skip filters and go to the market results.</a>
-                                <h4 class="margin-top-0 margin-bottom-30 margin-bottom-15-m margin-top-15 govuk-!-padding-left-1"
-                                    id="filters-heading">Filter market guides</h4>
                                 <span class="verbose">Selecting a filter with Javascript enabled will refresh the page.</span>
                                 <ul>
                                     <li class="filter-section">
@@ -125,6 +123,35 @@
                                                 <a href="/support/export-support/" class="govuk-link">Access our expert guidance, tools and services 24/7 using our online export support</a>
                                             </p>
                                         {% endif %}
+                                    {% elif selected_sectors and not selected_regions and not selected_trading_blocs %}
+                                        <h3 class="margin-bottom-15">
+                                            These markets are looking to work with UK businesses from the
+                                            {% for sector in selected_sectors %}
+                                                {% if forloop.last and not forloop.first %}and{% endif %}
+                                                <span class="bold">{{ sector }}
+                                                    {% if forloop.revcounter0 > 1 %},{% endif %}
+                                                </span>
+                                                {% if forloop.last %}sector{{ number_of_sectors|pluralize:",s" }}.{% endif %}
+                                            {% endfor %}
+                                        </h3>
+                                    {% elif not selected_sectors and selected_regions and not selected_trading_blocs %}
+                                        <h3 class="margin-bottom-15">
+                                            There {{ number_of_results|pluralize:"is,are" }} {{ number_of_results }} market guide{{ number_of_results|pluralize:",s" }} in the
+                                            {% for region in selected_regions %}
+                                                <span class="bold">{{ region }}</span>
+                                                {% if not forloop.last %}or{% endif %}
+                                                {% if forloop.last %}region{{ number_of_regions|pluralize:",s" }}.{% endif %}
+                                            {% endfor %}
+                                        </h3>
+                                    {% elif not selected_sectors and not selected_regions and selected_trading_blocs %}
+                                        <h3 class="margin-bottom-15">
+                                            There {{ number_of_results|pluralize:"is,are" }} {{ number_of_results }} market guide{{ number_of_results|pluralize:",s" }} in the
+                                            {% for trading_bloc in selected_trading_blocs %}
+                                                <span class="bold">{{ trading_bloc }}</span>
+                                                {% if not forloop.last %}or{% endif %}
+                                                {% if forloop.last %}trading bloc{{ number_of_trading_blocs|pluralize:",s" }}.{% endif %}
+                                            {% endfor %}
+                                        </h3>
                                     {% else %}
                                         {% if selected_sectors or selected_regions or selected_trading_blocs %}
                                             <h3 class="margin-bottom-15">
@@ -166,7 +193,7 @@
                                             </h3>
                                         {% endif %}
                                     {% endif %}
-                                    {% if selected_sectors or selected_regions %}
+                                    {% if selected_sectors or selected_regions or selected_trading_blocs %}
                                         <p class="margin-bottom-45-m">
                                             <a href="{{ request.path }}"
                                                class="view-markets link bold margin-top-15">Clear all filters</a>
@@ -176,23 +203,7 @@
                                         <a href="#"
                                            class="button mobile-filter-toggle"
                                            id="mobile-filter-toggle">Filter</a>
-                                        {% if number_of_results %}
-                                            <label for="sortby" class="margin-right-15 margin-left-15">Sort by</label>
-                                            <span class="verbose">Selecting a sort option, with Javascript enabled, will refresh the page.</span>
-                                            <select name="sortby" class="sort-control form-control" id="sortby">
-                                                {% for option in sortby_options %}
-                                                    <option value="{{ option.value }}"
-                                                            {% if sortby == option.value %}selected{% endif %}>
-                                                        {{ option.label }}
-                                                    </option>
-                                                {% endfor %}
-                                            </select>
-                                            {% if features.FEATURE_PRODUCT_EXPERIMENT_LINKS %}
-                                                <a href="{% url 'core:compare-countries' %}"
-                                                   class="govuk-link govuk-!-margin-left-6">Find information about your product</a>
-                                            {% endif %}
-                                        </div>
-                                    {% endif %}
+                                    </div>
                                 </div>
                                 <div class="flex-grid markets-grid">
                                     {% include 'components/card_grid.html' with cards=paginated_results href='' %}

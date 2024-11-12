@@ -14,7 +14,7 @@
             <div>
                 <div class="great-full-width-header-image">
                     <video id="hero-video" class="great-full-width-header-image great-hero-video "
-                            autoplay muted loop disableRemotePlayback>
+                            autoplay muted loop disableRemotePlayback playsinline>
                             {% for source in page.hero_video.sources %}
                                 <source src="{{ source.src }}" type="{{ source.type }}">
                             {% endfor %}

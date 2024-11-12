@@ -52,7 +52,7 @@
                             </dt>
                             <dd class="govuk-summary-list__value govuk-body">
                                 <i class="fa fa-map-marker-alt govuk-!-margin-right-1"
-                                   aria-hidden="true"></i> {{ page.location }}, {{ page.region }}
+                                   aria-hidden="true"></i> {%if page.location%}{{ page.location }}, {% endif %}{{ page.region }}
                             </dd>
                         </div>
                         <div class="govuk-summary-list__row">
