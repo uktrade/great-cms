@@ -260,6 +260,11 @@ def domestic_footer(request):
             'logo_link_href': 'https://www.gov.uk/government/organisations/department-for-business-and-trade',
             'footer_links': [
                 {
+                    'href': '/international',
+                    'title': 'Invest in the UK',
+                    'text': 'Invest in the UK',
+                },
+                {
                     'href': '/support/export-support',
                     'title': 'Export support for UK businesses',
                     'text': 'Export support for UK businesses',
@@ -288,11 +293,6 @@ def domestic_footer(request):
                     'href': '/accessibility-statement',
                     'title': 'Accessibility',
                     'text': 'Accessibility',
-                },
-                {
-                    'href': '/international',
-                    'title': 'Invest in the UK',
-                    'text': 'Invest in the UK',
                 },
             ],
         },
