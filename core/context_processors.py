@@ -247,4 +247,5 @@ def microsite_header(request):
         'hideSearch': True,
         'hideMenuOnDesktop': True,
         'subnavItemsList': '',
+        'mobileSiteLink': '',
     }
