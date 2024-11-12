@@ -16,6 +16,7 @@ from django.template.response import TemplateResponse
 from django.urls import reverse, reverse_lazy
 from django.utils.crypto import get_random_string
 from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, TemplateView
 from django.views.generic.base import RedirectView, View
 from formtools.wizard.views import NamedUrlSessionWizardView
@@ -765,6 +766,7 @@ class PingDomView(TemplateView):
             )
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class GuidedJourneyStep1View(GuidedJourneyMixin, FormView):
     form_class = forms.GuidedJourneyStep1Form
     template_name = 'domestic/contact/export-support/guided-journey/step-1.html'
@@ -780,6 +782,8 @@ class GuidedJourneyStep1View(GuidedJourneyMixin, FormView):
         is_goods_exporter = False
         is_service_exporter = False
         return_to_step = self.request.GET.get('return_to_step')
+        commodity_lookup_results = None
+        commodity_length = 0
 
         if self.request.session.get('guided_journey_data'):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('guided_journey_data')))[0]
@@ -787,17 +791,34 @@ class GuidedJourneyStep1View(GuidedJourneyMixin, FormView):
             is_service_exporter = form_data['exporter_type'] == 'service'
             is_goods_exporter = form_data['exporter_type'] == 'goods'
 
-        if is_service_exporter:
-            if return_to_step:
-                return reverse_lazy(f'core:guided-journey-step-{return_to_step}')
+            if is_goods_exporter:
+                commodity_lookup_results = helpers.product_picker(form_data.get('make_or_do_keyword'))['data']
+                commodity_length = len(commodity_lookup_results)
+
+        conditions = (
+            (is_service_exporter and return_to_step, reverse_lazy(f'core:guided-journey-step-{return_to_step}')),
+            (is_service_exporter, reverse_lazy('core:guided-journey-step-3')),
+            (not is_goods_exporter and not is_service_exporter, reverse_lazy('core:guided-journey-step-3')),
+            (return_to_step, reverse_lazy('core:guided-journey-step-2-edit') + f'?return_to_step={return_to_step}'),
+        )
+
+        for condition, url in conditions:
+            if condition:
+                return url
+
+        if commodity_length == 1:
+            commodity_name = ''
+            hs_code = ''
+
+            for item in commodity_lookup_results:
+                commodity_name = item['attributes']['title']
+                hs_code = item['attributes']['goods_nomenclature_item_id']
+
+            form_data = ({**form_data, 'hs_code': hs_code, 'commodity_name': commodity_name},)
+            form_data = pickle.dumps(form_data).hex()
+            self.request.session['guided_journey_data'] = form_data
 
             return reverse_lazy('core:guided-journey-step-3')
-
-        if not is_goods_exporter and not is_service_exporter:
-            return reverse_lazy('core:guided-journey-step-3')
-
-        if return_to_step:
-            return reverse_lazy('core:guided-journey-step-2-edit') + f'?return_to_step={return_to_step}'
 
         return reverse_lazy('core:guided-journey-step-2')
 
@@ -843,9 +864,35 @@ class GuidedJourneyStep2View(GuidedJourneyMixin, FormView):
 
     def get_context_data(self, **kwargs):
         form_data = {}
+        show_results = False
+        commodities = None
+
+        def get_hmrc_tarriff_data(make_or_do_keyword):
+            deserialised_data = helpers.product_picker(make_or_do_keyword)
+            mapped_results = [
+                {
+                    'title': 'Please select...',
+                    'hs_code': '',
+                }
+            ]
+            for item in deserialised_data['data']:
+                mapped_results.append(
+                    {
+                        'title': item['attributes']['title'],
+                        'hs_code': item['attributes']['goods_nomenclature_item_id'],
+                    }
+                )
+            return mapped_results
 
         if self.request.session.get('guided_journey_data'):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('guided_journey_data')))[0]
+
+            if form_data.get('is_keyword_match') == 'True' and form_data.get('make_or_do_keyword'):
+                commodities = get_hmrc_tarriff_data(form_data.get('make_or_do_keyword'))
+
+                if len(commodities) > 2:
+                    show_results = True
+
             form_data = ({**form_data, 'hs_code': '', 'commodity_name': ''},)
             form_data = pickle.dumps(form_data).hex()
             self.request.session['guided_journey_data'] = form_data
@@ -854,6 +901,8 @@ class GuidedJourneyStep2View(GuidedJourneyMixin, FormView):
             **kwargs,
             progress_position=2,
             form_data=form_data,
+            show_results=show_results,
+            commodities=commodities,
         )
 
     def get_success_url(self):

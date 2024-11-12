@@ -23,7 +23,7 @@
 
                             <p class="govuk-body">Start typing a country or territory in the box below.</p>
 
-                            <div class="govuk-!-margin-bottom-6 great-max-width-500-from-tablet">
+                            <div class="govuk-!-margin-bottom-6 great-max-width-{% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH %}675{% else %}500{% endif %}-from-tablet">
                                 {% for field in form.visible_fields %}
                                 <div class="govuk-checkboxes" data-module="govuk-checkboxes">
                                     {% if field.name == 'not_sure_where_to_export' %}
