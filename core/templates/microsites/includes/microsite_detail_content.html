@@ -9,13 +9,12 @@
 <div class="microsite-main {{ view.slug }}-microsite"
      lang="{{ current_language }}"
      dir="{% if current_language == 'ar' %}rtl{% else %}ltr{% endif %}">
-    <header>
         {% include "_header.html" with rtl=rtl include_link_to_great=include_link_to_great strapline=strapline domesticLink='' internationalLink='' navItemsList='' menuItemsList='' actionLinkList='' isCampaign=isCampaign use_domestic_logo=use_domestic_logo siteTitle=site_title languages=available_languages hideSearch=hideSearch hideMenuOnDesktop=hideMenuOnDesktop subnavItemsList=subnavItemsList greatLogoHref=great_logo_href %}
         {% if page.hero_video %}
             <div>
                 <div class="great-full-width-header-image">
                     <video id="hero-video" class="great-full-width-header-image great-hero-video "
-                            autoplay muted loop disableRemotePlayback>
+                            autoplay muted loop disableRemotePlayback playsinline>
                             {% for source in page.hero_video.sources %}
                                 <source src="{{ source.src }}" type="{{ source.type }}">
                             {% endfor %}

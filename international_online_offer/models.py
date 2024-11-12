@@ -2,7 +2,8 @@ from django import forms
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.template.response import TemplateResponse
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.models import ParentalKey
 from taggit.models import TagBase, TaggedItemBase
@@ -80,11 +81,26 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage):
     ]
     template = 'eyb/guide.html'
 
-    def get_context(self, request, *args, **kwargs):
+    def serve(self, request, *args, **kwargs):
+        user_data = get_user_data_for_user(request)
+        triage_data = get_triage_data_for_user(request)
+
+        # Determine the current step view name
+        current_step_view = helpers.get_current_step(user_data, triage_data)
+        if current_step_view:
+            response = redirect(f'international_online_offer:{current_step_view}')
+            if request.GET.get('login'):
+                response['Location'] += '?resume=true'
+            return response
+
+        context = self.get_context(request, user_data, triage_data)
+
+        return TemplateResponse(request, self.template, context)
+
+    def get_context(self, request, user_data, triage_data, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         user_data = get_user_data_for_user(request)
         triage_data = get_triage_data_for_user(request)
-        is_triage_data_complete = helpers.is_triage_data_complete(triage_data)
 
         bci_data = None
         if triage_data and triage_data.sector:
@@ -132,7 +148,6 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage):
             get_to_know_market_articles=all_articles_tagged_with_sector_and_intent,
             finance_and_support_articles=all_articles_tagged_with_finance_and_support,
             trade_shows_page=trade_shows_page,
-            is_triage_data_complete=is_triage_data_complete,
             breadcrumbs=breadcrumbs,
         )
 
