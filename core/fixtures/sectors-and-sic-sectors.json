@@ -7,7 +7,8 @@
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-106",
         "sic_code": 1110,
-        "sic_description": "Growing of cereals (except rice), leguminous crops and oil seeds"
+        "sic_description": "Growing of cereals (except rice), leguminous crops and oil seeds",
+        "keywords": "wheat, maize, barley, rye, oats, millets, beans, chick peas, lentils, peas, linseed, sesame seed, sunflower seed"
       },
       {
         "_id": 2,
@@ -88,7 +89,8 @@
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-134",
         "sic_code": 1230,
-        "sic_description": "Growing of citrus fruits"
+        "sic_description": "Growing of citrus fruits",
+        "keywords": "grapefruit, pomelo, lemons, limes, oranges, tangerines, mandarins, clementines"
       },
       {
         "_id": 11,
@@ -601,7 +603,8 @@
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-609",
         "sic_code": 10512,
-        "sic_description": "Butter and cheese production"
+        "sic_description": "Butter and cheese production",
+        "keywords": "butter, cheese"
       },
       {
         "_id": 68,
@@ -2257,7 +2260,8 @@
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-311",
         "sic_code": 27510,
-        "sic_description": "Manufacture of electric domestic appliances"
+        "sic_description": "Manufacture of electric domestic appliances",
+        "keywords": "refrigerators, freezers, dishwashers, vacuum, shavers, toothbrushes, microwave, toasters, tea makers, coffee makers"
       },
       {
         "_id": 252,
@@ -2707,7 +2711,8 @@
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-256",
         "sic_code": 32300,
-        "sic_description": "Manufacture of sports goods"
+        "sic_description": "Manufacture of sports goods",
+        "keywords": "balls, skis, ski boots, sailboards, surfboards, landing nets, sports gloves, ice skates, roller skates, athletic equipment"
       },
       {
         "_id": 302,
@@ -3679,7 +3684,8 @@
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-476",
         "sic_code": 46719,
-        "sic_description": "Wholesale of other fuels and related products"
+        "sic_description": "Wholesale of other fuels and related products",
+        "keywords": "charcoal, coal, coke, fuel wood, naphtha,  crude petroleum, crude oil, diesel fuel, gasoline, fuel oil, heating oil, kerosene"
       },
       {
         "_id": 410,
