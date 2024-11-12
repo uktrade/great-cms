@@ -9,7 +9,7 @@ from wagtail.test.utils import WagtailPageTests
 
 from core.tests.helpers import create_response
 from international.models import GreatInternationalHomePage
-from international_online_offer.core.hirings import ONE_HUNDRED_ONE_PLUS
+from international_online_offer.core.hirings import TWENTY_ONE_PLUS
 from international_online_offer.core.intents import SET_UP_A_NEW_DISTRIBUTION_CENTRE
 from international_online_offer.core.landing_timeframes import UNDER_SIX_MONTHS
 from international_online_offer.core.spends import ONE_MILLION_TO_TWO_MILLION
@@ -110,7 +110,7 @@ def test_eyb_guide_page_content(rf, user, domestic_site, user_sector, sector_tag
             'intent': [SET_UP_A_NEW_DISTRIBUTION_CENTRE],
             'location_none': True,
             'spend': [ONE_MILLION_TO_TWO_MILLION],
-            'hiring': [ONE_HUNDRED_ONE_PLUS],
+            'hiring': [TWENTY_ONE_PLUS],
         },
     )
 

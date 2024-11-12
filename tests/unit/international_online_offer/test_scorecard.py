@@ -48,9 +48,9 @@ def test_is_hpo(sector, region, expected_result):
     'input,expected_result',
     (
         (hirings.ONE_TO_FIVE, 5),
-        (hirings.SIX_TO_FIFTY, 50),
-        (hirings.FIFTY_ONE_TO_ONE_HUNDRED, 100),
-        (hirings.ONE_HUNDRED_ONE_PLUS, 101),
+        (hirings.SIX_TO_TEN, 50),
+        (hirings.ELEVEN_TO_TWENTY, 100),
+        (hirings.TWENTY_ONE_PLUS, 101),
         (spends.LESS_THAN_TEN_THOUSAND, 9999),
         (spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND, 500000),
         (spends.FIVE_HUNDRED_THOUSAND_TO_ONE_MILLION, 1000000),
@@ -88,22 +88,22 @@ def test_get_value(input, expected_result):
 @pytest.mark.django_db
 def test_score_is_high_value_capital_intensive(mock_gva_bandings):
     assert not scorecard.score_is_high_value(
-        'Aerospace', regions.NORTHERN_IRELAND, hirings.SIX_TO_FIFTY, spends.LESS_THAN_TEN_THOUSAND, 'abc'
+        'Aerospace', regions.NORTHERN_IRELAND, hirings.SIX_TO_TEN, spends.LESS_THAN_TEN_THOUSAND, 'abc'
     )
     assert not scorecard.score_is_high_value(
-        'Aerospace', regions.NORTHERN_IRELAND, hirings.SIX_TO_FIFTY, spends.FIVE_HUNDRED_THOUSAND_TO_ONE_MILLION, 'abc'
+        'Aerospace', regions.NORTHERN_IRELAND, hirings.SIX_TO_TEN, spends.FIVE_HUNDRED_THOUSAND_TO_ONE_MILLION, 'abc'
     )
     assert scorecard.score_is_high_value(
-        'Aerospace', regions.NORTHERN_IRELAND, hirings.SIX_TO_FIFTY, spends.ONE_MILLION_TO_TWO_MILLION, 'abc'
+        'Aerospace', regions.NORTHERN_IRELAND, hirings.SIX_TO_TEN, spends.ONE_MILLION_TO_TWO_MILLION, 'abc'
     )
     assert scorecard.score_is_high_value(
-        'Aerospace', regions.NORTHERN_IRELAND, hirings.SIX_TO_FIFTY, spends.TWO_MILLION_TO_FIVE_MILLION, 'abc'
+        'Aerospace', regions.NORTHERN_IRELAND, hirings.SIX_TO_TEN, spends.TWO_MILLION_TO_FIVE_MILLION, 'abc'
     )
     assert scorecard.score_is_high_value(
-        'Aerospace', regions.NORTHERN_IRELAND, hirings.SIX_TO_FIFTY, spends.FIVE_MILLION_TO_TEN_MILLION, 'abc'
+        'Aerospace', regions.NORTHERN_IRELAND, hirings.SIX_TO_TEN, spends.FIVE_MILLION_TO_TEN_MILLION, 'abc'
     )
     assert scorecard.score_is_high_value(
-        'Aerospace', regions.NORTHERN_IRELAND, hirings.SIX_TO_FIFTY, spends.MORE_THAN_TEN_MILLION, 'abc'
+        'Aerospace', regions.NORTHERN_IRELAND, hirings.SIX_TO_TEN, spends.MORE_THAN_TEN_MILLION, 'abc'
     )
 
 
@@ -135,17 +135,17 @@ def test_score_is_high_value_labour_intensive(mock_gva_bandings):
         'Food and drink', regions.NORTHERN_IRELAND, hirings.ONE_TO_FIVE, spends.LESS_THAN_TEN_THOUSAND, 'abc'
     )
     assert not scorecard.score_is_high_value(
-        'Food and drink', regions.NORTHERN_IRELAND, hirings.SIX_TO_FIFTY, spends.LESS_THAN_TEN_THOUSAND, 'abc'
+        'Food and drink', regions.NORTHERN_IRELAND, hirings.SIX_TO_TEN, spends.LESS_THAN_TEN_THOUSAND, 'abc'
     )
     assert scorecard.score_is_high_value(
         'Food and drink',
         regions.NORTHERN_IRELAND,
-        hirings.FIFTY_ONE_TO_ONE_HUNDRED,
+        hirings.ELEVEN_TO_TWENTY,
         spends.LESS_THAN_TEN_THOUSAND,
         'abc',
     )
     assert scorecard.score_is_high_value(
-        'Food and drink', regions.NORTHERN_IRELAND, hirings.ONE_HUNDRED_ONE_PLUS, spends.LESS_THAN_TEN_THOUSAND, 'abc'
+        'Food and drink', regions.NORTHERN_IRELAND, hirings.TWENTY_ONE_PLUS, spends.LESS_THAN_TEN_THOUSAND, 'abc'
     )
 
 
