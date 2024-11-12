@@ -36,6 +36,7 @@ class CsatFormHandler {
                 const response = await fetch(`${url}?js_enabled=True`, {
                     method: 'POST',
                     headers: {
+                        'cache_control': 'no-cache',
                         'X-CSRFToken': csrfToken,
                         'Accept': 'application/json',
                         'X-Requested-With': 'XMLHttpRequest',
