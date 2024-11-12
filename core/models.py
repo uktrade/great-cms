@@ -764,7 +764,12 @@ class LessonPlaceholderPage(Page, mixins.AuthenticatedUserRequired if not settin
         return self._redirect_to_parent_module()
 
 
-class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage, mixins.HCSATMixin):
+from wagtailcache.cache import WagtailCacheMixin
+
+
+class DetailPage(
+    settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage, mixins.HCSATMixin, WagtailCacheMixin
+):
     estimated_read_duration = models.DurationField(null=True, blank=True)
     parent_page_types = [
         'core.CuratedListPage',  # TEMPORARY: remove after topics refactor migration has run
@@ -777,6 +782,9 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
     class Meta:
         verbose_name = 'Detail page'
         verbose_name_plural = 'Detail pages'
+
+    def cache_control(self):
+        return 'no-cache'
 
     ################
     # Content fields
