@@ -1,8 +1,7 @@
 from django.urls import reverse_lazy
 
 from international_online_offer.core.helpers import (
-    is_triage_data_complete,
-    is_user_data_complete,
+    is_triage_complete as is_triage_complete_helper,
 )
 from international_online_offer.models import (
     get_triage_data_for_user,
@@ -72,7 +71,6 @@ def hide_primary_nav(request):
     return {'hide_primary_nav': hide_primary_nav}
 
 
-def user_completed_triage(request):
-    triage_data = get_triage_data_for_user(request)
-    user_data = get_user_data_for_user(request)
-    return {'user_completed_triage': is_triage_data_complete(triage_data) and is_user_data_complete(user_data)}
+def is_triage_complete(request):
+    triage_complete = is_triage_complete_helper(get_user_data_for_user(request), get_triage_data_for_user(request))
+    return {'is_triage_complete': triage_complete}

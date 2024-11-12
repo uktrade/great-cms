@@ -5,14 +5,11 @@ from directory_forms_api_client import actions
 
 from international_online_offer.core import (
     helpers,
-    hirings,
     intents,
     professions,
     region_sector_helpers,
     regions,
-    spends,
 )
-from international_online_offer.models import TriageData
 
 
 def test_can_show_salary_rent_component():
@@ -105,18 +102,6 @@ def test_get_rent_data():
 def test_get_sector_professions_by_level():
     food_drink_profession = helpers.get_sector_professions_by_level('Food and drink')
     assert food_drink_profession['entry_level'] == 'bartenders, waiting staff and cooks'
-
-
-@pytest.mark.django_db
-def test_is_triage_data_complete():
-    mock_triage_data = TriageData()
-    mock_triage_data.sector = 'Food and drink'
-    mock_triage_data.intent_other = 'TEST OTHER INTENT'
-    mock_triage_data.location = regions.LONDON
-    mock_triage_data.hiring = hirings.SIX_TO_FIFTY
-    mock_triage_data.spend = spends.FIVE_HUNDRED_THOUSAND_TO_ONE_MILLION
-    assert helpers.is_triage_data_complete(None) is False
-    assert helpers.is_triage_data_complete(mock_triage_data) is True
 
 
 @pytest.mark.django_db
