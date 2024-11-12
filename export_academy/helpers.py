@@ -8,11 +8,11 @@ from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth.views import redirect_to_login
 from django.db.models import Q
 from django.shortcuts import redirect
+from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
-from django.template.loader import render_to_string
 
 from export_academy.models import Booking, Event, Registration
 
@@ -249,16 +249,9 @@ def get_accordion_items(events, signed_in=False):
     for index, (module, event) in enumerate(events.items(), 1):
         content_html = render_to_string(
             'export_academy/includes/module_list_content.html',
-            {
-                'summary': module.summary,
-                'event': event,
-                'signed_in': signed_in
-            }
+            {'summary': module.summary, 'event': event, 'signed_in': signed_in},
         )
-        
-        items.append({
-            'heading': {'text': f"{index}. {module.title}"},
-            'content': {'html': content_html},
-            'expanded': False
-        })
-    return items
+
+        items.append({'heading': {'text': f"{index}. {module.title}"}, 'content': {'html': content_html}})
+
+    return {'items': items, 'id': 'accordion-default', 'classes': 'govuk-!-static-padding-bottom-0'}

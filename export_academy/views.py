@@ -44,10 +44,10 @@ from directory_sso_api_client import sso_api_client
 from export_academy import filters, forms, helpers, models
 from export_academy.helpers import (
     calender_content,
+    get_accordion_items,
     get_badges_for_event,
     get_buttons_for_event,
     update_booking,
-    get_accordion_items,
 )
 from export_academy.mixins import (
     BookingMixin,
@@ -905,16 +905,15 @@ class EACourseView(TemplateView):
         self.page = get_list_or_404(models.CoursePage, live=True, slug=kwargs['slug'])[0]
         ctx = super().get_context_data(**kwargs)
         signed_in = self.request.user != AnonymousUser()
-        
-        ctx.update({
-            'signed_in': signed_in,
-            'page': self.page,
-            'bespoke_breadcrumbs': [{'title': 'UK Export Academy', 'url': '/export-academy/'}],
-            'accordion': {
-                'id': 'accordion-default',
-                'items': get_accordion_items(self.page.get_events(), signed_in)
+
+        ctx.update(
+            {
+                'signed_in': signed_in,
+                'page': self.page,
+                'bespoke_breadcrumbs': [{'title': 'UK Export Academy', 'url': '/export-academy/'}],
+                'accordion': get_accordion_items(self.page.get_events(), signed_in),
             }
-        })
+        )
         return ctx
 
 
