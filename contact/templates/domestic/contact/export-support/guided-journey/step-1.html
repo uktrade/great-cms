@@ -19,21 +19,30 @@
                             <input type="hidden" id="sector" name="sector" value="{{ session_data.sector }}" />
                             <input type="hidden" id="make_or_do_keyword" name="make_or_do_keyword" value="{{ session_data.make_or_do_keyword }}" />
                             <input type="hidden" id="exporter_type" name="exporter_type" value="{{ session_data.exporter_type }}" />
-
+                            {% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH %}
+                            <input type="hidden" id="is_keyword_match" name="is_keyword_match" value="{{ session_data.is_keyword_match }}" />
+                            {% endif %}
                             <h1>
                                 <label class="govuk-heading-l govuk-!-margin-bottom-4" for="sic_description">
                                     What does your company make or do?
                                 </label>
                             </h1>
                             <input type="text" id="sic_description" name="sic_description" class="govuk-input great-text-input govuk-!-width-one-half" />
-                            <div id="sic_description-container" class="great-ds-autocomplete-input__wrapper great-max-width-500-from-tablet"></div>
-                            <div class="govuk-inset-text govuk-!-margin-top-4 govuk-!-margin-bottom-4 great-max-width-500-from-tablet">
+                            <div id="sic_description-container" class="great-ds-autocomplete-input__wrapper great-max-width-{% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH %}675{% else %}500{% endif %}-from-tablet">
+                                {% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH %}
+                                <button id="clear_search">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                    <span class="great-visually-hidden">clear</span>
+                                </button>
+                                {% endif %}
+                            </div>
+                            <div class="govuk-inset-text govuk-!-margin-top-4 govuk-!-margin-bottom-4 great-max-width-{% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH %}675{% else %}500{% endif %}-from-tablet">
                                 Tip: you may need to choose a broad term. For example, if you make t-shirts, try typing textiles
-                             </div>
+                            </div>
 
-                             {% include 'domestic/contact/export-support/includes/continue-save-button.html' %}
+                            {% include 'domestic/contact/export-support/includes/continue-save-button.html' %}
 
-                             {% if is_edit_mode %}
+                            {% if is_edit_mode %}
                                 {% include 'domestic/contact/export-support/includes/cancel-button.html' with back_step=request.GET.return_to_step %}
                             {% endif %}
                         </form>
@@ -49,10 +58,16 @@
     {{ block.super }}
     <script type="text/javascript"
             src="{% static 'javascript/accessible-autocomplete.v3.min.js' %}"></script>
+    
+    {% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH %}
+    <script type="text/javascript"
+            src="{% static 'javascript/great.make-or-do-search-enhanced.js' %}"></script>
     <script type="text/javascript">
-
+        GreatFrontend.MakeOrDoSearchEnhanced.init({{ sic_sector_data | safe}}, '{{ session_data.sic_description }}');
+    </script>
+    {% else %}
+    <script type="text/javascript">
     document.querySelector('#sic_description').remove();
-
     const data = {{ sic_sector_data | safe}}
     const sic_descriptions = data.data.map(el => el.sic_description)
     accessibleAutocomplete({
@@ -90,5 +105,6 @@
         required: true,
     });
     </script>
+    {% endif %}
     <script type="text/javascript">GreatFrontend.DigitalSelfServe.init('Export support for UK businesses - What does your company make or do?')</script>
 {% endblock %}
