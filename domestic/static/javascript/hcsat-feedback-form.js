@@ -31,10 +31,12 @@ class CsatFormHandler {
                 this.resetForm();
             }
             try {
+                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value
+                console.log('csrfToken:',csrfToken)
                 const response = await fetch(`${url}?js_enabled=True`, {
                     method: 'POST',
                     headers: {
-                        'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+                        'X-CSRFToken': csrfToken,
                         'Accept': 'application/json',
                         'X-Requested-With': 'XMLHttpRequest',
                     },
