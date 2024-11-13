@@ -175,6 +175,7 @@ urlpatterns = [
         name='campaign-site',
     ),
     path('api/signed-url/', views.SignedURLView.as_view(), name='signed-url'),
+    path('api/getcsrftoken/', views.CSRFView.as_view(), name='csrftoken'),
     # WHEN ADDING TO THIS LIST CONSIDER WHETHER YOU SHOULD ALSO ADD THE URL NAME
     # TO core.views.StaticViewSitemap
 ]

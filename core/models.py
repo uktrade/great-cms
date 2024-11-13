@@ -73,6 +73,8 @@ from exportplan.core.data import (
     SECTION_SLUGS as EXPORTPLAN_SLUGS,
     SECTIONS as EXPORTPLAN_URL_MAP,
 )
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_protect
 
 # If we make a Redirect appear as a Snippet, we can sync it via Wagtail-Transfer
 register_snippet(Redirect)
@@ -764,7 +766,9 @@ class LessonPlaceholderPage(Page, mixins.AuthenticatedUserRequired if not settin
         return self._redirect_to_parent_module()
 
 
-class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage, mixins.HCSATMixin):
+class DetailPage(
+    settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage, mixins.HCSATMixin, WagtailCacheMixin
+):
     estimated_read_duration = models.DurationField(null=True, blank=True)
     parent_page_types = [
         'core.CuratedListPage',  # TEMPORARY: remove after topics refactor migration has run
@@ -1094,6 +1098,7 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
             return JsonResponse({'pk': hcsat.pk})
         return HttpResponseRedirect(self.get_success_url(request))
 
+    @method_decorator(csrf_protect, name='post')
     def serve(self, request, *args, **kwargs):
         self.handle_page_view(request)
 
