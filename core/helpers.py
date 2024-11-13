@@ -51,7 +51,10 @@ logger = getLogger(__name__)
 
 def check_url_host_is_safelisted(request, query_param='next'):
     if request.GET.get(query_param):
-        if url_has_allowed_host_and_scheme(request.GET.get(query_param), settings.SAFELIST_HOSTS):
+        safelist_hosts = settings.SAFELIST_HOSTS.split(',')
+        # This function doesnt play nice with strings commar separated
+        # but can handle iterable strings okay
+        if url_has_allowed_host_and_scheme(request.GET.get(query_param), safelist_hosts):
             return iri_to_uri(request.GET.get(query_param))
         else:
             logger.error('Host is not on the safe list - %s', request.GET.get(query_param))
