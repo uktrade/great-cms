@@ -252,6 +252,6 @@ def get_accordion_items(events, signed_in=False):
             {'summary': module.summary, 'event': event, 'signed_in': signed_in},
         )
 
-        items.append({'heading': {'text': f"{index}. {module.title}"}, 'content': {'html': content_html}})
+        items.append({'heading': {'text': f'{index}. {module.title}'}, 'content': {'html': content_html}})
 
     return {'items': items, 'id': 'accordion-default', 'classes': 'govuk-!-static-padding-bottom-0'}
