@@ -73,6 +73,8 @@ from exportplan.core.data import (
     SECTION_SLUGS as EXPORTPLAN_SLUGS,
     SECTIONS as EXPORTPLAN_URL_MAP,
 )
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_protect
 
 # If we make a Redirect appear as a Snippet, we can sync it via Wagtail-Transfer
 register_snippet(Redirect)
@@ -764,9 +766,6 @@ class LessonPlaceholderPage(Page, mixins.AuthenticatedUserRequired if not settin
         return self._redirect_to_parent_module()
 
 
-from wagtailcache.cache import WagtailCacheMixin
-
-
 class DetailPage(
     settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage, mixins.HCSATMixin, WagtailCacheMixin
 ):
@@ -782,9 +781,6 @@ class DetailPage(
     class Meta:
         verbose_name = 'Detail page'
         verbose_name_plural = 'Detail pages'
-
-    def cache_control(self):
-        return 'no-cache'
 
     ################
     # Content fields
@@ -1102,6 +1098,7 @@ class DetailPage(
             return JsonResponse({'pk': hcsat.pk})
         return HttpResponseRedirect(self.get_success_url(request))
 
+    @method_decorator(csrf_protect, name='post')
     def serve(self, request, *args, **kwargs):
         self.handle_page_view(request)
 

@@ -55,6 +55,8 @@ from domestic.helpers import (
 from domestic.models import DomesticDashboard, TopicLandingPage
 from export_academy.models import Event
 from sso.views import SSOBusinessUserLogoutView
+from django.middleware.csrf import get_token
+from rest_framework.views import APIView
 
 logger = logging.getLogger(__name__)
 
@@ -966,3 +968,16 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, TemplateView):
             ukea_events=ukea_events,
             market_guide=market_guide,
         )
+
+
+@method_decorator(never_cache, name='dispatch')
+class CSRFView(APIView):
+    permission_classes = []
+    authentication_classes = []
+
+    def _get_token(self, request):
+        token = get_token(request)
+        return JsonResponse(status=200, data={'csrftoken': token})
+
+    def dispatch(self, request, *args, **kwargs):
+        return self._get_token(request)
