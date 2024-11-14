@@ -26,6 +26,7 @@ from international_online_offer.dnb.api import (
     company_typeahead_search,
 )
 from international_online_offer.models import (
+    EYBHCSAT,
     CsatFeedback,
     TradeAssociation,
     TriageData,
@@ -1236,8 +1237,11 @@ class CsatFeedbackView(GA360Mixin, FormView):  # /PS-IGNORE
         return super().form_valid(form)
 
 
-class TradeAssociationsView(GA360Mixin, TemplateView):  # /PS-IGNORE
+class TradeAssociationsView(GA360Mixin, TemplateView, EYBHCSAT):  # /PS-IGNORE
     template_name = 'eyb/trade_associations.html'
+
+    def get_template(self, request):
+        return self.template_name
 
     def __init__(self):
         super().__init__()
@@ -1268,12 +1272,20 @@ class TradeAssociationsView(GA360Mixin, TemplateView):  # /PS-IGNORE
             {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#tailored-guide'},
         ]
 
-        return super().get_context_data(
+        context_data = super().get_context_data(
             triage_data=triage_data,
             all_trade_associations=all_trade_associations,
             breadcrumbs=breadcrumbs,
             **kwargs,
         )
+
+        self.set_csat_and_stage(self.request, context_data, self.hcsat_service_name, self.get_csat_form)
+        if 'form' in kwargs:  # pass back errors from form_invalid
+            context_data['hcsat_form'] = kwargs['form']
+
+        self.set_is_csat_complete(self.request, context_data)
+
+        return context_data
 
 
 class BusinessClusterView(GA360Mixin, TemplateView):  # /PS-IGNORE

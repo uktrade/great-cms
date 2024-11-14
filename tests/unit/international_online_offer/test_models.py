@@ -8,6 +8,7 @@ from wagtail.models import Page
 from wagtail.test.utils import WagtailPageTests
 
 from core.tests.helpers import create_response
+from international.forms import InternationalHCSATForm
 from international.models import GreatInternationalHomePage
 from international_online_offer.core.hirings import TWENTY_ONE_PLUS
 from international_online_offer.core.intents import SET_UP_A_NEW_DISTRIBUTION_CENTRE
@@ -155,6 +156,7 @@ def test_eyb_guide_page_content(rf, user, domestic_site, user_sector, sector_tag
     request = rf.get(guide_page.url)
     request.user = user
     request.user.hashed_uuid = '123'
+    request.session = {}
     response = guide_page.serve(request)
     context = response.context_data
     assert context['complete_contact_form_link_text'] == 'Sign up'
@@ -204,6 +206,7 @@ def test_eyb_trade_page_content(rf, user, domestic_site, user_sector, tradeshow_
     request = rf.get(eyb_tradeshow_page.url)
     request.user = user
     request.user.hashed_uuid = '123'
+    request.session = {}
     context = eyb_tradeshow_page.get_context(request)
     assert len(context['all_tradeshows']) == expected_len_tradeshows
 
@@ -305,6 +308,28 @@ def test_article_page_context(mock_get_median_salaries, mock_get_rent_data, user
     request = RequestFactory().get('/any/')
     user.hashed_uuid = '123'
     request.user = user
+    request.session = {}
 
     output = page.get_context(request=request)
     assert output['professions_by_sector']['sector'] == 'Food and drink'
+
+
+@pytest.mark.django_db
+def test_eyb_hcsat():
+    pages = [
+        EYBArticlePage(
+            title='Test EYB Article Page',
+            article_title='Test Article',
+        ),
+        EYBGuidePage(title='Guide'),
+        EYBTradeShowsPage(title='Trade'),
+    ]
+
+    for page in pages:
+        assert page.is_international_hcsat is True
+        assert page.hcsat_service_name == 'eyb'
+        assert type(page.get_csat_form()) == InternationalHCSATForm
+        assert (
+            page.get_service_csat_heading(page.hcsat_service_name)
+            == 'Overall, how would you rate your experience with the\n         Expand your business service today?'
+        )

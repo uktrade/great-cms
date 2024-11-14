@@ -15,6 +15,7 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtailcache.cache import WagtailCacheMixin
 
 from core.blocks import ColumnsBlock
+from core.mixins import HCSATNonFormPageMixin
 from core.models import CMSGenericPage, TimeStampedModel
 from domestic.models import BaseContentPage
 from international_online_offer import services
@@ -73,7 +74,12 @@ def get_user_data_for_user(request):
         return None
 
 
-class EYBGuidePage(WagtailCacheMixin, BaseContentPage):
+class EYBHCSAT(HCSATNonFormPageMixin):
+    hcsat_service_name = 'eyb'
+    is_international_hcsat = True
+
+
+class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
     parent_page_types = ['international_online_offer.EYBIndexPage']
     subpage_types = [
         'international_online_offer.EYBArticlePage',
@@ -83,6 +89,10 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage):
     template = 'eyb/guide.html'
 
     def serve(self, request, *args, **kwargs):
+        # hcsat
+        if request.method == 'POST':
+            return self.post(request)
+
         user_data = get_user_data_for_user(request)
         triage_data = get_triage_data_for_user(request)
 
@@ -94,15 +104,28 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage):
                 response['Location'] += '?resume=true'
             return response
 
-        context = self.get_context(request, user_data, triage_data)
+        context = self.get_context(request, user_data=user_data, triage_data=triage_data)
 
         return TemplateResponse(request, self.template, context)
 
-    def get_context(self, request, user_data, triage_data, *args, **kwargs):
-        context = super().get_context(request, *args, **kwargs)
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request)
         context['accordion'] = get_step_guide_accordion_items()
-        user_data = get_user_data_for_user(request)
-        triage_data = get_triage_data_for_user(request)
+
+        """
+            Accept user_data and triage_data via kwargs to avoid multiple db calls.
+            not using positional arguments as hcsat form invalid calls get_context
+            and we want to keep the implementation of hcsat as generic as possible.
+        """
+        if 'user_data' not in kwargs:
+            user_data = get_user_data_for_user(request)
+        else:
+            user_data = kwargs['user_data']
+
+        if 'triage_data' not in kwargs:
+            triage_data = get_triage_data_for_user(request)
+        else:
+            triage_data = kwargs['triage_data']
 
         bci_data = None
         if triage_data and triage_data.sector:
@@ -161,6 +184,12 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage):
         self.add_ga360_data_to_payload(request)
         context['ga360'] = self.ga360_payload
 
+        self.set_csat_and_stage(request, context, self.hcsat_service_name, self.get_csat_form)
+        if 'form' in kwargs:  # pass back errors from form_invalid
+            context['hcsat_form'] = kwargs['form']
+
+        self.set_is_csat_complete(request, context)
+
         return context
 
 
@@ -177,7 +206,7 @@ class EYBArticlePageTag(TaggedItemBase):
     content_object = ParentalKey('international_online_offer.EYBArticlePage', related_name='ioo_article_tagged_items')
 
 
-class EYBArticlePage(BaseContentPage):
+class EYBArticlePage(BaseContentPage, EYBHCSAT):
     parent_page_types = [
         'international_online_offer.EYBGuidePage',
         'international_online_offer.EYBArticlesPage',
@@ -247,8 +276,14 @@ class EYBArticlePage(BaseContentPage):
         FieldPanel('tags'),
     ]
 
+    def serve(self, request, *args, **kwargs):
+        # hcsat
+        if request.method == 'POST':
+            return self.post(request)
+        return super().serve(request, *args, **kwargs)
+
     def get_context(self, request, *args, **kwargs):
-        context = super().get_context(request, *args, **kwargs)
+        context = super().get_context(request)
         if helpers.is_authenticated(request):
             triage_data = get_triage_data_for_user(request)
 
@@ -308,16 +343,29 @@ class EYBArticlePage(BaseContentPage):
         )
         self.add_ga360_data_to_payload(request)
         context['ga360'] = self.ga360_payload
+
+        self.set_csat_and_stage(request, context, self.hcsat_service_name, self.get_csat_form)
+        if 'form' in kwargs:  # pass back errors from form_invalid
+            context['hcsat_form'] = kwargs['form']
+
+        self.set_is_csat_complete(request, context)
+
         return context
 
 
-class EYBTradeShowsPage(WagtailCacheMixin, BaseContentPage):
+class EYBTradeShowsPage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
     parent_page_types = ['international_online_offer.EYBGuidePage']
     subpage_types = ['international_online_offer.IOOTradeShowPage']
     template = 'eyb/trade_shows.html'
 
+    def serve(self, request, *args, **kwargs):
+        # hcsat
+        if request.method == 'POST':
+            return self.post(request)
+        return super().serve(request, *args, **kwargs)
+
     def get_context(self, request, *args, **kwargs):
-        context = super().get_context(request, *args, **kwargs)
+        context = super().get_context(request)
         triage_data = get_triage_data_for_user(request)
         all_tradeshows = []
 
@@ -346,6 +394,13 @@ class EYBTradeShowsPage(WagtailCacheMixin, BaseContentPage):
         )
         self.add_ga360_data_to_payload(request)
         context['ga360'] = self.ga360_payload
+
+        self.set_csat_and_stage(request, context, self.hcsat_service_name, self.get_csat_form)
+        if 'form' in kwargs:  # pass back errors from form_invalid
+            context['hcsat_form'] = kwargs['form']
+
+        self.set_is_csat_complete(request, context)
+
         return context
 
 

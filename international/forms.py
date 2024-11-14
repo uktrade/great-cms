@@ -1,7 +1,16 @@
-from django.forms import CharField, Textarea, TextInput
+from django.forms import (
+    CharField,
+    CheckboxSelectMultiple,
+    MultipleChoiceField,
+    Textarea,
+    TextInput,
+)
 from great_components import forms
 
+from core.forms import HCSATForm as DomesticHCSATForm
+from core.models import HCSAT
 from core.validators import is_valid_email_address
+from international.choices import INTENSION_CHOICES
 
 
 class ContactForm(forms.Form):
@@ -36,3 +45,32 @@ class ContactForm(forms.Form):
             'required': 'Enter your email address',
         },
     )
+
+
+class InternationalHCSATForm(DomesticHCSATForm):
+    service_specific_feedback = MultipleChoiceField(
+        label='What did you get out of this service today?',
+        help_text='Tick all that apply.',
+        choices=INTENSION_CHOICES,
+        widget=CheckboxSelectMultiple(attrs={'class': 'govuk-checkboxes__input'}),
+        required=False,
+    )
+    service_specific_feedback_other = CharField(
+        label='Enter your answer',
+        min_length=2,
+        max_length=100,
+        required=False,
+        widget=TextInput(attrs={'class': 'govuk-input'}),
+    )
+
+    class Meta:
+        model = HCSAT
+        fields = [
+            'satisfaction_rating',
+            'experienced_issues',
+            'other_detail',
+            'service_improvements_feedback',
+            'likelihood_of_return',
+            'service_specific_feedback',
+            'service_specific_feedback_other',
+        ]
