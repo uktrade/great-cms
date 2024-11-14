@@ -11,6 +11,8 @@ from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_protect
+from django.utils.decorators import method_decorator
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
@@ -1094,6 +1096,7 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
             return JsonResponse({'pk': hcsat.pk})
         return HttpResponseRedirect(self.get_success_url(request))
 
+    @method_decorator(csrf_protect, name='post')
     def serve(self, request, *args, **kwargs):
         self.handle_page_view(request)
 
