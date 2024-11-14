@@ -34,7 +34,7 @@ class CsatFormHandler {
                 const response = await fetch(`${url}?js_enabled=True`, {
                     method: 'POST',
                     headers: {
-                        'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
                         'Accept': 'application/json',
                         'X-Requested-With': 'XMLHttpRequest',
                     },
