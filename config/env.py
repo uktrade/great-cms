@@ -1,9 +1,9 @@
 import os
-from typing import Any, Optional
+from typing import Any, List, Optional
 
 from dbt_copilot_python.database import database_url_from_env
 from dbt_copilot_python.utility import is_copilot
-from pydantic import BaseModel, ConfigDict, computed_field
+from pydantic import BaseModel, ConfigDict, Field, computed_field
 from pydantic_settings import BaseSettings as PydanticBaseSettings, SettingsConfigDict
 
 from config.helpers import is_circleci, is_local
@@ -22,7 +22,7 @@ class BaseSettings(PydanticBaseSettings):
     secret_key: str = 'fake_secret_key'
     app_environment: str = 'dev'
 
-    safelist_hosts: str = []
+    safelist_hosts: List[str] = Field(default_factory=list)
 
     wagtail_cache: bool = False
     wagtail_cache_timout: int = 4 * 60 * 60  # 4 hours (in seconds)
@@ -260,8 +260,6 @@ class BaseSettings(PydanticBaseSettings):
     feature_show_brand_banner: bool = False
     feature_show_international_footer_link: bool = False
     feature_show_case_study_rankings: bool = False
-    feature_international_online_offer: bool = False
-    feature_international_investment: bool = False
     feature_microsite_enable_template_translation: bool = False
     feature_digital_point_of_entry: bool = False
     feature_product_experiment_header: bool = False
