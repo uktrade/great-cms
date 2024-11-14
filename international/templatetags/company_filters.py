@@ -51,3 +51,48 @@ def append_search_back_url(url, search_url):
         search_url = search_url.split('back=', 1)[1]
     url += '?back=' + search_url
     return url
+
+
+@register.simple_tag
+def get_filter_accordion_items(form):
+    items = []
+
+    for index, field in enumerate(form, 1):
+        if field.field.widget.input_type == 'checkbox':
+            items.append(
+                {
+                    'heading': {'text': field.label},
+                    'content': {'html': _create_checkbox_html(field, _get_field_values(field))},
+                }
+            )
+
+    return items
+
+
+def _get_field_values(field):
+    if hasattr(field, 'value'):
+        if callable(field.value):
+            return field.value() or []
+        return field.value or []
+    return []
+
+
+def _create_checkbox_html(field, field_values):
+    checkboxes_html = (
+        '<div class="govuk-checkboxes govuk-checkboxes--small fixed-height-scroll" ' 'data-module="govuk-checkboxes">'
+    )
+
+    for action in field:
+        value = action.data['value'] if isinstance(action.data, dict) else action.data.value
+        checked = 'checked' if value in field_values else ''
+        checkboxes_html += (
+            f'<div class="govuk-checkboxes__item">'
+            f'<input {checked} type="checkbox" name="{field.name}" '
+            f'value="{value}" class="govuk-checkboxes__input" '
+            f'id="{action.id_for_label}">'
+            f'<label class="govuk-label govuk-checkboxes__label" '
+            f'for="{action.id_for_label}">{action.choice_label}</label>'
+            f'</div>'
+        )
+
+    return checkboxes_html + '</div>'

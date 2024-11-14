@@ -1,47 +1,21 @@
+{% load company_filters %}
 {% if is_find_a_supplier %}<h2 class="govuk-heading-m govuk-!-margin-bottom-4">Filter results</h2>{% endif %}
 <form class="magna-header__search govuk-!-margin-bottom-4"
       action=""
       method="get">
-    <div class="govuk-accordion"
-         data-module="govuk-accordion"
-         id="accordion-default">
-        {% if not is_find_a_supplier %}<h2 class="govuk-heading-m">Filter by services</h2>{% endif %}
-        {% for field in form %}
-            {% if field.field.widget.input_type == 'checkbox' %}
-                {% if forloop.counter == 9 and not is_find_a_supplier %}
-                    <h2 class="govuk-heading-m">Filter by expertise</h2>
-                {% endif %}
-                <div class="govuk-accordion__section">
-                    <div class="govuk-accordion__section-header">
-                        <h3 class="govuk-accordion__section-heading">
-                            <span class="govuk-accordion__section-button"
-                                  id="accordion-default-heading-{{ forloop.counter }}">
-                                <span class="govuk-heading-s">{{ field.label }}</span>
-                            </span>
-                        </h3>
-                    </div>
-                    <div id="accordion-default-content-{{ forloop.counter }}"
-                         class="govuk-accordion__section-content govuk-!-padding-left-2 fixed-height-scroll">
-                        <div class="govuk-checkboxes govuk-checkboxes--small"
-                             data-module="govuk-checkboxes">
-                            {% for action in field %}
-                                <div class="govuk-checkboxes__item">
-                                    <input {% if action.data.value in field.value %}checked{% endif %}
-                                           type="checkbox"
-                                           name="{{ field.name }}"
-                                           value="{{ action.data.value }}"
-                                           class="govuk-checkboxes__input"
-                                           id="{{ action.id_for_label }}">
-                                    <label class="govuk-label govuk-checkboxes__label"
-                                           for="{{ action.id_for_label }}">{{ action.choice_label }}</label>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-        {% endfor %}
-    </div>
+    {% get_filter_accordion_items form as accordion_items %}
+    {% if not is_find_a_supplier %}
+        <h2 class="govuk-heading-m">Filter by services</h2>
+        {% with first_items=accordion_items|slice:":6" %}
+            {% include '_accordion.html' with id='accordion-default' items=first_items %}
+        {% endwith %}
+        <h2 class="govuk-heading-m">Filter by expertise</h2>
+        {% with remaining_items=accordion_items|slice:"6:" %}
+            {% include '_accordion.html' with id='accordion-expertise' items=remaining_items %}
+        {% endwith %}
+    {% else %}
+        {% include '_accordion.html' with id='accordion-default' items=accordion_items %}
+    {% endif %}
     {% include 'international/includes/submit_button.html' with button_text='Update results' %}
     <div>
         <a href="?q={{ form.q.value }}&page=1" class="govuk-link">Reset</a>
