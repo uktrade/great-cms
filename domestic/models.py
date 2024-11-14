@@ -715,6 +715,7 @@ class MarketsTopicLandingPage(
         context['selected_regions'] = self.get_selected_regions(request)
         context['selected_trading_blocs'] = self.get_selected_trading_blocs(request)
 
+        context['number_of_sectors'] = len(context['selected_sectors'])
         context['number_of_regions'] = len(context['selected_regions'])
         context['number_of_trading_blocs'] = len(context['selected_trading_blocs'])
 
