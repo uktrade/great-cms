@@ -48,7 +48,4 @@
         </div>
     </section>
 {% endblock %}
-{% block body_js %}
-    {{ block.super }}
-    <script>document.getElementsByClassName("govuk-accordion__controls")[0].style.display = 'none';</script>
-{% endblock %}
+{% block body_js %}{{ block.super }}{% endblock %}

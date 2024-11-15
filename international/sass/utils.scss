@@ -19,16 +19,16 @@
     overflow-x: scroll;
 }
 
-.fixed-height-scroll .govuk-checkboxes--small .govuk-checkboxes__item {
+.fixed-height-scroll.govuk-checkboxes--small .govuk-checkboxes__item {
     float: none;
 }
 
-.js-enabled .govuk-accordion__section-content.fixed-height-scroll {
-    padding-top: 0px;
-    padding-bottom: 0px;
+.js-enabled .govuk-accordion__section-content .fixed-height-scroll {
+    margin-top: -20px;
+    margin-bottom: -20px;
 }
 
-.js-enabled .govuk-accordion__section-button.fixed-height-scroll {
+.js-enabled .govuk-accordion__section-button .fixed-height-scroll {
     border-bottom: 0px;
 }
 

@@ -79,7 +79,8 @@ def _get_field_values(field):
 
 def _create_checkbox_html(field, field_values):
     checkboxes_html = (
-        '<div class="govuk-checkboxes govuk-checkboxes--small fixed-height-scroll" ' 'data-module="govuk-checkboxes">'
+        '<div class="govuk-checkboxes govuk-checkboxes--small fixed-height-scroll govuk-!-padding-left-2" '
+        'data-module="govuk-checkboxes">'
     )
 
     for action in field:
