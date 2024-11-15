@@ -46,9 +46,6 @@ def set_cookies_from_cookie_jar(cookie_jar, response, whitelist):
 def get_cookie_jar(response):
     cookie_jar = requests.cookies.RequestsCookieJar(policy=LiberalCookiePolicy())
     requests.cookies.extract_cookies_to_jar(jar=cookie_jar, request=response.request, response=response.raw)
-
-    print("--Extracted cookies:--", [(cookie.name, cookie.value) for cookie in cookie_jar])
-
     return cookie_jar
 
 

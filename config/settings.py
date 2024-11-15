@@ -24,7 +24,7 @@ CORE_APP_DIR = ROOT_DIR / 'core'
 
 env = environ.Env()
 
-for env_file in env.list('ENV_FILES', default=[]): 
+for env_file in env.list('ENV_FILES', default=[]):
     env.read_env(f'config/env/{env_file}')
 
 DEBUG = env.bool('DEBUG', False)
