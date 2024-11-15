@@ -104,6 +104,10 @@ def test_multiple_modules(domestic_homepage, client, user, get_response):
 
     request = HttpRequest()
     request.user = user
+
+    request.META['CSRF_COOKIE'] = 'fake-csrf-token'
+    request._dont_enforce_csrf_checks = True
+
     middleware = SessionMiddleware(get_response)
     middleware.process_request(request)
     request.session.save()
@@ -185,6 +189,10 @@ def test_placeholders_do_not_get_counted(domestic_homepage, client, user, get_re
 
     request = HttpRequest()
     request.user = user
+
+    request.META['CSRF_COOKIE'] = 'fake-csrf-token'
+    request._dont_enforce_csrf_checks = True
+
     middleware = SessionMiddleware(get_response)
     middleware.process_request(request)
     request.session.save()
