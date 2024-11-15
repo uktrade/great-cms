@@ -1,17 +1,22 @@
 from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import Sender
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin
 
+from core.forms import HCSATForm
 from core.helpers import check_url_host_is_safelisted
+from core.mixins import HCSATMixin
 from international import forms
 
 
-class ContactView(GA360Mixin, FormView):
+class ContactView(GA360Mixin, HCSATMixin, FormView):
     form_class = forms.ContactForm
     template_name = 'international/contact.html'
     subject = 'Great.gov.uk International contact form'
+
+    hcsat_service_name = 'find_a_supplier'
 
     def __init__(self):
         super().__init__()
@@ -34,7 +39,11 @@ class ContactView(GA360Mixin, FormView):
         return success_url
 
     def get_context_data(self, **kwargs):
-        return super().get_context_data(**kwargs, back_url=self.get_back_url())
+        context = super().get_context_data(**kwargs, back_url=self.get_back_url())
+        context = self.set_csat_and_stage(self.request, context, self.hcsat_service_name, self.get_form_class())
+        if 'form' in kwargs:  # pass back errors from form_invalid
+            context['hcsat_form'] = kwargs['form']
+        return context
 
     def submit_feedback(self, form):
         cleaned_data = form.cleaned_data
@@ -60,6 +69,67 @@ class ContactView(GA360Mixin, FormView):
             response = action.save(cleaned_data)
             response.raise_for_status()
 
+    def get_form_class(self):
+        if self.request.POST.get('action', None):
+            return forms.ContactForm
+        else:
+            return HCSATForm
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+
+        hcsat = self.get_hcsat(request, self.hcsat_service_name)
+        post_data = self.request.POST
+
+        if 'cancelButton' in post_data:
+            """
+            Redirect user if 'cancelButton' is found in the POST data
+            """
+            if hcsat:
+                hcsat.stage = 2
+                hcsat.save()
+            return HttpResponseRedirect(self.get_success_url())
+
+        form = form_class(post_data)
+
+        if form.is_valid():
+            if hcsat and 'action' not in form.cleaned_data.keys():
+                form = form_class(post_data, instance=hcsat)
+                form.is_valid()
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_invalid(self, form):
+        super().form_invalid(form)
+        if 'js_enabled' in self.request.get_full_path():
+            return JsonResponse(form.errors, status=400)
+        return self.render_to_response(self.get_context_data(form=form))
+
     def form_valid(self, form):
         self.submit_feedback(form)
+        if 'action' not in form.cleaned_data.keys():
+            super().form_valid(form)
+
+            js_enabled = False
+
+            hcsat = form.save(commit=False)
+
+            if 'js_enabled' in self.request.get_full_path():
+                hcsat.stage = 0
+                js_enabled = True
+
+            hcsat = self.persist_existing_satisfaction(self.request, self.hcsat_service_name, hcsat)
+
+            # Apply data specific to this service
+            hcsat.URL = '/international/buy-from-the-uk/'
+            hcsat.user_journey = 'COMPANY_CONTACT'
+            hcsat.session_key = self.request.session.session_key
+            hcsat.save(js_enabled=js_enabled)
+
+            self.request.session[f'{self.hcsat_service_name}_hcsat_id'] = hcsat.id
+
+            if 'js_enabled' in self.request.get_full_path():
+                return JsonResponse({'pk': hcsat.pk})
+            return HttpResponseRedirect(self.get_success_url())
         return super().form_valid(form)
