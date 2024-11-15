@@ -608,6 +608,10 @@ GOOGLE_TAG_MANAGER_ENV = env.google_tag_manager_env
 UTM_COOKIE_DOMAIN = env.utm_cookie_domain
 GA360_BUSINESS_UNIT = 'GreatMagna'
 
+GA4_API_URL = env.ga4_api_url
+GA4_API_SECRET = env.ga4_api_secret
+GA4_MEASUREMENT_ID = env.ga4_measurement_id
+
 PRIVACY_COOKIE_DOMAIN = env.privacy_cookie_domain
 if not PRIVACY_COOKIE_DOMAIN:
     PRIVACY_COOKIE_DOMAIN = UTM_COOKIE_DOMAIN
