@@ -1022,6 +1022,7 @@ CSP_WORKER_SRC = ("'self'", "'unsafe-inline'", 'https:', 'blob:')  # noqa
 CSP_OBJECT_SRC = ("'none'",)  # noqa
 CSP_SCRIPT_SRC = (
     "'self'",
+    "'unsafe-inline'",
     "'unsafe-eval'",
     'https://www.google.com',
     'https://www.gstatic.com',
