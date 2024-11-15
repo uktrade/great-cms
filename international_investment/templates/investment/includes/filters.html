@@ -1,101 +1,10 @@
+{% load investment_filters %}
 <h2 class="govuk-heading-m govuk-!-margin-bottom-4">Filter results</h2>
 <form class="magna-header__search govuk-!-margin-bottom-4"
       action=""
       method="get">
-    <div class="govuk-accordion"
-         data-module="govuk-accordion"
-         id="accordion-default">
-        {% if form.investment_type %}
-            <div class="govuk-accordion__section">
-                <div class="govuk-accordion__section-header">
-                    <h2 class="govuk-accordion__section-heading">
-                        <span class="govuk-accordion__section-button"
-                              id="accordion-default-heading-1">
-                            <span class="govuk-heading-s">Investment type</span>
-                        </span>
-                    </h2>
-                </div>
-                <div id="accordion-default-content-1"
-                     class="govuk-accordion__section-content govuk-!-padding-left-2 fixed-height-scroll">
-                    <div class="govuk-checkboxes govuk-checkboxes--small"
-                         data-module="govuk-checkboxes">
-                        {% for action in form.investment_type %}
-                            <div class="govuk-checkboxes__item">
-                                <input {% if action.data.value in form.investment_type.value %}checked{% endif %}
-                                       type="checkbox"
-                                       name="{{ form.investment_type.name }}"
-                                       value="{{ action.data.value }}"
-                                       class="govuk-checkboxes__input"
-                                       id="{{ action.id_for_label }}">
-                                <label class="govuk-label govuk-checkboxes__label"
-                                       for="{{ action.id_for_label }}">{{ action.choice_label }}</label>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        {% endif %}
-        {% if form.sector %}
-            <div class="govuk-accordion__section">
-                <div class="govuk-accordion__section-header">
-                    <h2 class="govuk-accordion__section-heading">
-                        <span class="govuk-accordion__section-button"
-                              id="accordion-default-heading-2">
-                            <span class="govuk-heading-s">Sector</span>
-                        </span>
-                    </h2>
-                </div>
-                <div id="accordion-default-content-2"
-                     class="govuk-accordion__section-content govuk-!-padding-left-2 fixed-height-scroll">
-                    <div class="govuk-checkboxes govuk-checkboxes--small"
-                         data-module="govuk-checkboxes">
-                        {% for action in form.sector %}
-                            <div class="govuk-checkboxes__item">
-                                <input {% if action.data.value in form.sector.value %}checked{% endif %}
-                                       type="checkbox"
-                                       name="{{ form.sector.name }}"
-                                       value="{{ action.data.value }}"
-                                       class="govuk-checkboxes__input"
-                                       id="{{ action.id_for_label }}">
-                                <label class="govuk-label govuk-checkboxes__label"
-                                       for="{{ action.id_for_label }}">{{ action.choice_label }}</label>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        {% endif %}
-        {% if form.region %}
-            <div class="govuk-accordion__section">
-                <div class="govuk-accordion__section-header">
-                    <h2 class="govuk-accordion__section-heading">
-                        <span class="govuk-accordion__section-button"
-                              id="accordion-default-heading-3">
-                            <span class="govuk-heading-s">UK nation or region</span>
-                        </span>
-                    </h2>
-                </div>
-                <div id="accordion-default-content-3"
-                     class="govuk-accordion__section-content govuk-!-padding-left-2 fixed-height-scroll">
-                    <div class="govuk-checkboxes govuk-checkboxes--small"
-                         data-module="govuk-checkboxes">
-                        {% for action in form.region %}
-                            <div class="govuk-checkboxes__item">
-                                <input {% if action.data.value in form.region.value %}checked{% endif %}
-                                       type="checkbox"
-                                       name="{{ form.region.name }}"
-                                       value="{{ action.data.value }}"
-                                       class="govuk-checkboxes__input"
-                                       id="{{ action.id_for_label }}">
-                                <label class="govuk-label govuk-checkboxes__label"
-                                       for="{{ action.id_for_label }}">{{ action.choice_label }}</label>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        {% endif %}
-    </div>
+    {% get_filter_accordion_items form as accordion_items %}
+    {% include '_accordion.html' with id='accordion-default' items=accordion_items headingClasses='govuk-accordion__section-button--size-19' %}
     {% include 'international/includes/submit_button.html' with button_text='Update results' %}
     <div>
         <a href="?page=1" class="govuk-link">Reset</a>
