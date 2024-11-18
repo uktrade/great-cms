@@ -22,7 +22,7 @@ class BaseSettings(PydanticBaseSettings):
     secret_key: str = 'fake_secret_key'
     app_environment: str = 'dev'
 
-    safelist_hosts: str = []
+    safelist_hosts: str = ''
 
     wagtail_cache: bool = False
     wagtail_cache_timout: int = 4 * 60 * 60  # 4 hours (in seconds)
