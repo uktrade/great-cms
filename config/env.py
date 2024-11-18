@@ -3,7 +3,7 @@ from typing import Any, Optional
 
 from dbt_copilot_python.database import database_url_from_env
 from dbt_copilot_python.utility import is_copilot
-from pydantic import BaseModel, ConfigDict, Field, computed_field, validator
+from pydantic import BaseModel, ConfigDict, computed_field
 from pydantic_settings import BaseSettings as PydanticBaseSettings, SettingsConfigDict
 
 from config.helpers import is_circleci, is_local
@@ -22,15 +22,7 @@ class BaseSettings(PydanticBaseSettings):
     secret_key: str = 'fake_secret_key'
     app_environment: str = 'dev'
 
-    # safelist_hosts: str = []
-    safelist_hosts: list[str] = Field(default_factory=list)
-
-    @validator("safelist_hosts", pre=True)
-    def split_comma_separated(cls, v: object) -> object:
-        if isinstance(v, str):
-            v = v.strip()
-            return [] if v == "" else v.split(",")
-        return v
+    safelist_hosts: str = []
 
     wagtail_cache: bool = False
     wagtail_cache_timout: int = 4 * 60 * 60  # 4 hours (in seconds)
