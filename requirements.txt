@@ -251,7 +251,7 @@ googleapis-common-protos==1.66.0
     # via
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
-great-components==2.7.0
+great-components==2.7.1
     # via -r requirements.in
 grpcio==1.68.0
     # via opentelemetry-exporter-otlp-proto-grpc
