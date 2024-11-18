@@ -8,7 +8,7 @@ register = template.Library()
 def get_url(value, param=None):
     if param is None:
         return value
-    return f"{value}?{urlencode(param)}"
+    return f'{value}?{urlencode(param)}'
 
 
 @register.simple_tag
