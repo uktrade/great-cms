@@ -6,6 +6,7 @@ from typing import Any, Dict
 import directory_healthcheck.backends
 import dj_database_url
 import sentry_sdk
+from dbt_copilot_python.database import database_from_env
 from dbt_copilot_python.utility import is_copilot
 from django.urls import reverse_lazy
 from django_log_formatter_asim import ASIMFormatter
@@ -195,9 +196,15 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Database
-# Database
-# https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-DATABASES = {'default': dj_database_url.config(default=env.database_url)}
+# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
+
+if is_copilot():
+    DATABASES = database_from_env('DATABASE_CREDENTIALS')
+    DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
+    
+else:
+    DATABASES = {'default': env.db()}
+
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
 REDIS_URL = env.redis_url
@@ -719,7 +726,10 @@ DNB_API_PASSWORD = env.dnb_api_password
 DNB_API_RENEW_ACCESS_TOKEN_SECONDS_REMAINING = env.dnb_api_renew_access_token_seconds_remaining
 
 # geo location
-GEOIP_PATH = os.path.join(ROOT_DIR, 'core/geolocation_data')
+if is_copilot():
+    GEOIP_PATH = '/tmp'
+else:
+    GEOIP_PATH = os.path.join(ROOT_DIR, 'core/geolocation_data')
 GEOIP_COUNTRY = 'GeoLite2-Country.mmdb'
 GEOIP_CITY = 'GeoLite2-City.mmdb'
 MAXMIND_LICENCE_KEY = env.maxmind_licence_key
