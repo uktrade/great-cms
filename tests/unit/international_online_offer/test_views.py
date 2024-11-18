@@ -28,7 +28,6 @@ from tests.helpers import create_response
 
 @pytest.mark.django_db
 def test_login(client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:login')
     response = client.get(url)
     assert response.status_code == 200
@@ -36,7 +35,6 @@ def test_login(client, settings):
 
 @pytest.mark.django_db
 def test_signup(client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:signup')
     response = client.get(url)
     assert response.status_code == 200
@@ -49,7 +47,6 @@ def test_signup(client, settings):
 @mock.patch('directory_forms_api_client.actions.SaveOnlyInDatabaseAction')
 @pytest.mark.django_db
 def test_feedback_submit(mock_save_only_in_database_action, form_data, client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:feedback') + '?next=' + form_data['next']
     response = client.post(
         url,
@@ -151,7 +148,7 @@ def test_business_eyb_sso_signup_verify_code_success(mock_send_welcome_notificat
 
 @pytest.mark.django_db
 def test_eyb_signup_partial_complete_signup_redirect(settings, client, user):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     url = reverse('international_online_offer:signup')
     user.hashed_uuid = '123'
     client.force_login(user)
@@ -202,7 +199,7 @@ def test_eyb_triage_urls(
     create_user_data,
     response_code,
 ):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     user.hashed_uuid = '1234'
 
     """
@@ -228,7 +225,7 @@ def test_eyb_triage_urls(
 
 @pytest.mark.django_db
 def test_eyb_business_headquarters_next(mock_get_dbt_sectors, client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     client.force_login(user)
     response = client.get(
         reverse('international_online_offer:business-headquarters')
@@ -257,7 +254,7 @@ def test_eyb_business_headquarters_next(mock_get_dbt_sectors, client, user, sett
 )
 @pytest.mark.django_db
 def test_eyb_business_headquarters_back_link(mock_get_dbt_sectors, url, expected_back_url, client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     user.hashed_uuid = '123'
     client.force_login(user)
     response = client.get(url)
@@ -268,7 +265,7 @@ def test_eyb_business_headquarters_back_link(mock_get_dbt_sectors, url, expected
 
 @pytest.mark.django_db
 def test_eyb_business_headquarters_initial(mock_get_dbt_sectors, client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     company_location = 'IT'
     UserData.objects.update_or_create(
         hashed_uuid='123',
@@ -307,7 +304,7 @@ def test_eyb_find_your_company_back_link(
     user,
     settings,
 ):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     user.hashed_uuid = '123'
     client.force_login(user)
     UserData.objects.update_or_create(hashed_uuid='123')
@@ -319,7 +316,7 @@ def test_eyb_find_your_company_back_link(
 
 @pytest.mark.django_db
 def test_eyb_find_your_company_initial(mock_get_dbt_sectors, mock_get_country_region_territory, client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     fake = Faker('it_IT')
     user_data = {
         'company_name': fake.company(),
@@ -363,7 +360,7 @@ def test_eyb_find_your_company_initial(mock_get_dbt_sectors, mock_get_country_re
 def test_eyb_company_details_back_link(
     mock_get_dbt_sectors, mock_get_country_region_territory, url, expected_back_url, client, user, settings
 ):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     user.hashed_uuid = '123'
     client.force_login(user)
     UserData.objects.update_or_create(hashed_uuid='123')
@@ -375,7 +372,7 @@ def test_eyb_company_details_back_link(
 
 @pytest.mark.django_db
 def test_eyb_company_details_initial(mock_get_dbt_sectors, mock_get_country_region_territory, client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     fake = Faker('it_IT')
     user_data = {
         'company_name': fake.company(),
@@ -403,7 +400,7 @@ def test_eyb_company_details_initial(mock_get_dbt_sectors, mock_get_country_regi
 
 @pytest.mark.django_db
 def test_eyb_business_sector_initial(mock_get_dbt_sectors, client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     sector_id = 'SL0329'
     TriageData.objects.update_or_create(
         hashed_uuid='123',
@@ -422,7 +419,7 @@ def test_eyb_business_sector_initial(mock_get_dbt_sectors, client, user, setting
 def test_eyb_business_details_form_valid_saves_to_db(
     mock_get_dbt_sectors, mock_get_gva_bandings, client, user, settings
 ):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     url = reverse('international_online_offer:company-details')
     user.hashed_uuid = '123'
     client.force_login(user)
@@ -458,7 +455,7 @@ def test_eyb_business_details_form_valid_saves_to_db(
 def test_sector_details_saved_to_db_gets_sector_labels(
     mock_get_dbt_sectors, mock_get_gva_bandings, client, user, settings
 ):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     url = reverse('international_online_offer:business-sector')
     user.hashed_uuid = '123'
     client.force_login(user)
@@ -474,7 +471,7 @@ def test_sector_details_saved_to_db_gets_sector_labels(
 
 @pytest.mark.django_db
 def test_intent(client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     client.force_login(user)
     url = reverse('international_online_offer:intent')
     response = client.get(url)
@@ -483,7 +480,7 @@ def test_intent(client, user, settings):
 
 @pytest.mark.django_db
 def test_intent_next(client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     client.force_login(user)
     response = client.get(
         reverse('international_online_offer:intent')
@@ -495,7 +492,7 @@ def test_intent_next(client, user, settings):
 
 @pytest.mark.django_db
 def test_intent_initial(client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     TriageData.objects.update_or_create(
         hashed_uuid='123',
         defaults={'intent': [intents.SET_UP_NEW_PREMISES], 'intent_other': ''},
@@ -509,7 +506,7 @@ def test_intent_initial(client, user, settings):
 
 @pytest.mark.django_db
 def test_intent_form_valid_saves_to_db(client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     url = reverse('international_online_offer:intent')
     user.hashed_uuid = '123'
     client.force_login(user)
@@ -519,7 +516,7 @@ def test_intent_form_valid_saves_to_db(client, user, settings):
 
 @pytest.mark.django_db
 def test_know_setup_location(mock_get_dbt_sectors, client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     client.force_login(user)
     url = reverse('international_online_offer:know-setup-location')
     response = client.get(url)
@@ -528,7 +525,7 @@ def test_know_setup_location(mock_get_dbt_sectors, client, user, settings):
 
 @pytest.mark.django_db
 def test_know_setup_location_next(mock_get_dbt_sectors, client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     client.force_login(user)
     response = client.get(
         reverse('international_online_offer:know-setup-location')
@@ -540,7 +537,7 @@ def test_know_setup_location_next(mock_get_dbt_sectors, client, user, settings):
 
 @pytest.mark.django_db
 def test_know_setup_location_initial(mock_get_dbt_sectors, client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     TriageData.objects.update_or_create(
         hashed_uuid='123',
         defaults={'location_none': False},
@@ -556,7 +553,7 @@ def test_know_setup_location_initial(mock_get_dbt_sectors, client, user, setting
 def test_know_setup_location_form_valid_saves_to_db(
     mock_get_dbt_sectors, mock_get_gva_bandings, client, user, settings
 ):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     url = reverse('international_online_offer:know-setup-location')
     user.hashed_uuid = '123'
     client.force_login(user)
@@ -566,7 +563,7 @@ def test_know_setup_location_form_valid_saves_to_db(
 
 @pytest.mark.django_db
 def test_know_when_want_setup(client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     client.force_login(user)
     url = reverse('international_online_offer:when-want-setup')
     response = client.get(url)
@@ -575,7 +572,7 @@ def test_know_when_want_setup(client, user, settings):
 
 @pytest.mark.django_db
 def test_know_when_want_setup_next(client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     client.force_login(user)
     response = client.get(
         reverse('international_online_offer:when-want-setup')
@@ -587,7 +584,7 @@ def test_know_when_want_setup_next(client, user, settings):
 
 @pytest.mark.django_db
 def test_know_when_want_setup_initial(client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     TriageData.objects.update_or_create(
         hashed_uuid='123',
         defaults={'location_none': False},
@@ -601,7 +598,7 @@ def test_know_when_want_setup_initial(client, user, settings):
 
 @pytest.mark.django_db
 def test_know_when_want_setup_form_valid_saves_to_db(client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     url = reverse('international_online_offer:when-want-setup')
     user.hashed_uuid = '123'
     client.force_login(user)
@@ -611,7 +608,7 @@ def test_know_when_want_setup_form_valid_saves_to_db(client, user, settings):
 
 @pytest.mark.django_db
 def test_location(mock_get_dbt_sectors, client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     client.force_login(user)
     url = reverse('international_online_offer:location')
     response = client.get(url)
@@ -623,7 +620,7 @@ def test_location(mock_get_dbt_sectors, client, user, settings):
 
 @pytest.mark.django_db
 def test_location_next(mock_get_dbt_sectors, client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     client.force_login(user)
     response = client.get(
         reverse('international_online_offer:location')
@@ -635,7 +632,7 @@ def test_location_next(mock_get_dbt_sectors, client, user, settings):
 
 @pytest.mark.django_db
 def test_location_initial(mock_get_dbt_sectors, client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     TriageData.objects.update_or_create(
         hashed_uuid='123',
         defaults={'location': 'location'},
@@ -649,7 +646,7 @@ def test_location_initial(mock_get_dbt_sectors, client, user, settings):
 
 @pytest.mark.django_db
 def test_location_form_valid_saves_to_db(mock_get_dbt_sectors, client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     url = reverse('international_online_offer:location')
     user.hashed_uuid = '123'
     client.force_login(user)
@@ -659,7 +656,7 @@ def test_location_form_valid_saves_to_db(mock_get_dbt_sectors, client, user, set
 
 @pytest.mark.django_db
 def test_location_saved_to_db_gets_labels(mock_get_dbt_sectors, mock_get_gva_bandings, client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     url = reverse('international_online_offer:location')
     user.hashed_uuid = '123'
     client.force_login(user)
@@ -673,7 +670,7 @@ def test_location_saved_to_db_gets_labels(mock_get_dbt_sectors, mock_get_gva_ban
 
 @pytest.mark.django_db
 def test_hiring(mock_get_dbt_sectors, client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     client.force_login(user)
     url = reverse('international_online_offer:hiring')
     response = client.get(url)
@@ -682,7 +679,7 @@ def test_hiring(mock_get_dbt_sectors, client, user, settings):
 
 @pytest.mark.django_db
 def test_hiring_next(mock_get_dbt_sectors, client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     client.force_login(user)
     response = client.get(
         reverse('international_online_offer:hiring')
@@ -694,7 +691,7 @@ def test_hiring_next(mock_get_dbt_sectors, client, user, settings):
 
 @pytest.mark.django_db
 def test_hiring_initial(mock_get_dbt_sectors, client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     TriageData.objects.update_or_create(
         hashed_uuid='123',
         defaults={'hiring': 'hiring'},
@@ -708,7 +705,7 @@ def test_hiring_initial(mock_get_dbt_sectors, client, user, settings):
 
 @pytest.mark.django_db
 def test_hiring_form_valid_saves_to_db(mock_get_dbt_sectors, mock_get_gva_bandings, client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     url = reverse('international_online_offer:hiring')
     user.hashed_uuid = '123'
     client.force_login(user)
@@ -718,7 +715,7 @@ def test_hiring_form_valid_saves_to_db(mock_get_dbt_sectors, mock_get_gva_bandin
 
 @pytest.mark.django_db
 def test_spend(mock_get_dbt_sectors, client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     client.force_login(user)
     url = reverse('international_online_offer:spend')
     response = client.get(url)
@@ -727,7 +724,7 @@ def test_spend(mock_get_dbt_sectors, client, user, settings):
 
 @pytest.mark.django_db
 def test_spend_next(mock_get_dbt_sectors, client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     client.force_login(user)
     response = client.get(
         reverse('international_online_offer:spend')
@@ -739,7 +736,7 @@ def test_spend_next(mock_get_dbt_sectors, client, user, settings):
 
 @pytest.mark.django_db
 def test_spend_initial(mock_get_dbt_sectors, client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     TriageData.objects.update_or_create(
         hashed_uuid='123',
         defaults={'spend': 'spend'},
@@ -753,7 +750,7 @@ def test_spend_initial(mock_get_dbt_sectors, client, user, settings):
 
 @pytest.mark.django_db
 def test_spend_form_valid_saves_to_db(mock_get_dbt_sectors, mock_get_gva_bandings, client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     url = reverse('international_online_offer:spend')
     user.hashed_uuid = '123'
     client.force_login(user)
@@ -763,7 +760,7 @@ def test_spend_form_valid_saves_to_db(mock_get_dbt_sectors, mock_get_gva_banding
 
 @pytest.mark.django_db
 def test_eyb_contact_details(client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     url = reverse('international_online_offer:contact-details')
     client.force_login(user)
     response = client.get(url)
@@ -772,7 +769,7 @@ def test_eyb_contact_details(client, user, settings):
 
 @pytest.mark.django_db
 def test_eyb_contact_details_initial(client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     UserData.objects.create(
         hashed_uuid='123',
         full_name='Joe Bloggs',
@@ -789,7 +786,7 @@ def test_eyb_contact_details_initial(client, user, settings):
 
 @pytest.mark.django_db
 def test_edit_your_answers(mock_get_country_region_territory, client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     url = reverse('international_online_offer:change-your-answers')
     user.hashed_uuid = '123'
     UserData.objects.create(
@@ -807,7 +804,7 @@ def test_edit_your_answers(mock_get_country_region_territory, client, user, sett
 
 @pytest.mark.django_db
 def test_trade_associations(client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     url = reverse('international_online_offer:trade-associations')
     user.hashed_uuid = '123'
     client.force_login(user)
@@ -841,7 +838,7 @@ def test_trade_associations(client, user, settings):
 
 @pytest.mark.django_db
 def test_feedback(client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     url = reverse('international_online_offer:feedback')
     response = client.get(url)
     assert response.status_code == 200
@@ -849,7 +846,7 @@ def test_feedback(client, settings):
 
 @pytest.mark.django_db
 def test_csat_feedback(client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     client.force_login(user)
     url = reverse('international_online_offer:csat-feedback')
     response = client.get(url)
@@ -858,7 +855,7 @@ def test_csat_feedback(client, user, settings):
 
 @pytest.mark.django_db
 def test_csat_feedback_with_session_value(client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     client.force_login(user)
     url = reverse('international_online_offer:csat-feedback')
     CsatFeedback.objects.create(id=1, URL='http://test.com')
@@ -871,7 +868,7 @@ def test_csat_feedback_with_session_value(client, user, settings):
 
 @pytest.mark.django_db
 def test_csat_feedback_submit(client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     url = reverse('international_online_offer:csat-feedback') + '?url=http://testurl.com'
     CsatFeedback.objects.create(id=1, URL='http://test.com')
     session = client.session
@@ -893,7 +890,7 @@ def test_csat_feedback_submit(client, settings):
 
 @pytest.mark.django_db
 def test_csat_widget(client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     url = reverse('international_online_offer:csat-widget-submit') + '?url=http://testurl.com'
     response = client.post(url, {'satisfaction': 'SATISFIED', 'user_journey': 'DASHBOARD'})
     assert response.status_code == 302
@@ -903,7 +900,7 @@ def test_csat_widget(client, settings):
 @mock.patch('directory_api_client.api_client.dataservices.get_business_cluster_information_by_dbt_sector')
 @mock.patch('international_online_offer.services.get_bci_data')
 def test_bci_data(mock_get_bci_data, mock_get_bci_data_api, client, user, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+
     url = f"{reverse('international_online_offer:bci')}?area=K03000001"
     user.hashed_uuid = '123'
     TriageData.objects.update_or_create(

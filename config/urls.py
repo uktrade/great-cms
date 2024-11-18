@@ -110,19 +110,15 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns = [path('__debug__/', include(debug_toolbar.urls))] + urlpatterns
 
-urlpatterns = [path('international/', include(international.urls))] + urlpatterns
 urlpatterns = [path('find-a-buyer/', include(find_a_buyer.urls, namespace='find_a_buyer'))] + urlpatterns
 
-if settings.FEATURE_INTERNATIONAL_ONLINE_OFFER:
-    urlpatterns = [
-        path('international/expand-your-business-in-the-uk/', include(international_online_offer.urls))
-    ] + urlpatterns
-
-if settings.FEATURE_INTERNATIONAL_INVESTMENT:
-    urlpatterns = [path('international/investment/', include(international_investment.urls))] + urlpatterns
-
+# Great International
+urlpatterns = [path('international/', include(international.urls))] + urlpatterns
+urlpatterns = [
+    path('international/expand-your-business-in-the-uk/', include(international_online_offer.urls))
+] + urlpatterns
+urlpatterns = [path('international/investment/', include(international_investment.urls))] + urlpatterns
 urlpatterns = [path('international/buy-from-the-uk/', include(international_buy_from_the_uk.urls))] + urlpatterns
-
 urlpatterns = [
     path('international/investment-support-directory/', include(international_investment_support_directory.urls))
 ] + urlpatterns

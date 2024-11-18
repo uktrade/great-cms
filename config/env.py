@@ -260,8 +260,6 @@ class BaseSettings(PydanticBaseSettings):
     feature_show_brand_banner: bool = False
     feature_show_international_footer_link: bool = False
     feature_show_case_study_rankings: bool = False
-    feature_international_online_offer: bool = False
-    feature_international_investment: bool = False
     feature_microsite_enable_template_translation: bool = False
     feature_digital_point_of_entry: bool = False
     feature_product_experiment_header: bool = False
