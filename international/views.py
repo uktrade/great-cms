@@ -107,7 +107,7 @@ class ContactView(GA360Mixin, HCSATMixin, FormView):
         return self.render_to_response(self.get_context_data(form=form))
 
     def form_valid(self, form):
-        
+
         if self.get_form_class() is forms.ContactForm:
             self.submit_feedback(form)
 
