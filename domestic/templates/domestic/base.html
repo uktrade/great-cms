@@ -199,21 +199,19 @@
             {% include 'components/inline_feedback/was_page_useful.html' %}
         {% endblock %}
         {% block body_footer %}
-            {% wagtailcache 86400 "domestic_footer_cache" %}
             {% include "_footer.html" with isInternational=domestic_footer_context.is_international currentYear=domestic_footer_context.current_year footerLinks=domestic_footer_context.footer_links logoLinkHref=domestic_footer_context.logo_link_href %}
-        {% endwagtailcache %}
-    {% endblock %}
-    {% block body_js %}
-        {% slugurl "privacy" as privacy_and_cookies_path %}
-        {% if request.path != privacy_and_cookies_path %}
-            <script>
-      var element = document.createElement('div')
-      document.body.appendChild(element)
-      components.CookiesModal({
-        element: element,
-        privacyCookiesUrl: {{privacy_and_cookies_path}},
-        preferencesUrl: '{% url "core:cookie-preferences" %}',
-      })
+        {% endblock %}
+        {% block body_js %}
+            {% slugurl "privacy" as privacy_and_cookies_path %}
+            {% if request.path != privacy_and_cookies_path %}
+                <script>
+        var element = document.createElement('div')
+        document.body.appendChild(element)
+        components.CookiesModal({
+            element: element,
+            privacyCookiesUrl: {{privacy_and_cookies_path}},
+            preferencesUrl: '{% url "core:cookie-preferences" %}',
+        })
                 </script>
             {% endif %}
             <script src="{% static 'great_design_system_scripts.js' %}"></script>
