@@ -285,6 +285,62 @@ import pytest
             '/international/contact/',
             '/international/site-help/',
         ),
+        (
+            '/international/content/investment/how-we-can-help/global-entrepreneur-program/',
+            '/campaign-site/gep/',
+        ),
+        (
+            '/international/content/investment/how-we-can-help/the-venture-capital-unit/',
+            '/international/expand-your-business-in-the-uk/',
+        ),
+        (
+            '/international/content/investment/how-we-can-help/',
+            '/international/expand-your-business-in-the-uk/',
+        ),
+        (
+            '/international/content/investment/why-invest-in-the-uk/',
+            '/international/',
+        ),
+        (
+            '/international/content/investment/how-we-can-help/research-and-development-rd-support-in-the-uk/',
+            '/international/expand-your-business-in-the-uk/',
+        ),
+        (
+            '/international/trade/contact/',
+            '/international/',
+        ),
+        (
+            '/international/invest/contact/',
+            '/international/',
+        ),
+        (
+            '/international/content/investment/how-we-can-help/the-office-for-investment/',
+            '/international/',
+        ),
+        (
+            '/international/content/investment/how-we-can-help/hire-skilled-workers-for-your-uk-operations/',
+            '/international/expand-your-business-in-the-uk/',
+        ),
+        (
+            '/international/content/investment/how-we-can-help/access-finance-in-the-uk/',
+            '/international/expand-your-business-in-the-uk/',
+        ),
+        (
+            '/international/content/investment/how-we-can-help/establish-a-base-for-business-in-the-uk/',
+            '/international/expand-your-business-in-the-uk/',
+        ),
+        (
+            '/international/content/investment/how-we-can-help/register-a-company-in-the-uk/',
+            '/international/expand-your-business-in-the-uk/',
+        ),
+        (
+            '/international/content/investment/how-we-can-help/uk-visas-and-migration/',
+            '/international/expand-your-business-in-the-uk/',
+        ),
+        (
+            '/international/content/investment/how-we-can-help/open-a-uk-business-bank-account/',
+            '/international/expand-your-business-in-the-uk/',
+        ),
     ),
 )
 @pytest.mark.django_db
