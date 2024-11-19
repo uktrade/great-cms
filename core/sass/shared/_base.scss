@@ -120,31 +120,3 @@ $tablet: 768px;
     }
   }
 }
-
-.shared-footer {
-  overflow: hidden;
-
-  .magna-footer__links {
-    max-width: 70%;
-    flex-wrap: wrap;
-
-    @include mobile {
-      max-width: 100%;
-    }
-
-    li {
-      margin-bottom: $standard-padding;
-    }
-  }
-
-  .magna-footer__nav {
-    background-color: $color-footer;
-    @include mobile {
-      flex-direction: column-reverse;
-    }
-  }
-
-  .magna-footer__great-logo img {
-    width: auto;
-  }
-}

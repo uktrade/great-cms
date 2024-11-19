@@ -155,5 +155,6 @@ core/components/static/stylesheets/maps/
 
 #Docker config file
 Dockerfile.dev
+constraints.txt
 
 .lighthouseci/

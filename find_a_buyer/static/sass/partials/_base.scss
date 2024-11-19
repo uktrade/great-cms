@@ -328,21 +328,3 @@ a.no-focus-highlight {
     top: .5em;
   }
 }
-
-
-/* Mobile
- **********************/
-@media (max-width: 480px) {
-  .ed-form-back-button {
-    margin: 0 0 40px 0;
-  }
-  #great-footer {
-    .great-footer-logo-container {
-      margin-left: 0;
-      padding: 46px 20px 30px;
-    }
-    .great-footer-links {
-      padding: 30px 0;
-    }
-  }
-}
