@@ -1211,7 +1211,7 @@ def test_domestic_export_support_form_pages(
         (
             reverse('contact:export-support-step-8'),
             {
-                'help_us_improve': 'easy',
+                'help_us_improve': 'satisfied',
             },
             reverse('contact:export-support-step-9'),
             {
@@ -1386,17 +1386,27 @@ def test_feedback_form_success(
     client.force_login(user)
 
     response = client.post(
-        reverse('contact:export-support-step-8'),
-        {'help_us_improve': 'easy', 'help_us_further': 'yes'},
+        reverse('contact:export-support-step-9'),
+        {
+            'form_issues': ['I_did_not_find_what_I_was_looking_for'],
+            'type_of_support': ['Market_selection'],
+            'explored_great': 'yes',
+            'how_can_we_improve': '',
+        },
     )
 
     assert response.status_code == 302
-    assert response.url == reverse('contact:export-support-step-9')
+    assert response.url == reverse('contact:export-support-step-10')
 
     assert mock_action_class().save.call_count == 1
 
     assert mock_action_class().save.call_args_list[0] == mock.call(
-        {'help_us_improve': 'easy', 'help_us_further': 'yes'}
+        {
+            'form_issues': ['I_did_not_find_what_I_was_looking_for'],
+            'type_of_support': ['Market_selection'],
+            'explored_great': 'yes',
+            'how_can_we_improve': '',
+        }
     )
 
 
