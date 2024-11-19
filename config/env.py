@@ -1,6 +1,7 @@
 import os
 from typing import Any, Optional
 
+import dj_database_url
 from dbt_copilot_python.database import database_url_from_env
 from dbt_copilot_python.utility import is_copilot
 from pydantic import BaseModel, ConfigDict, computed_field
@@ -397,7 +398,10 @@ class DBTPlatformEnvironment(BaseSettings):
     @computed_field(return_type=str)
     @property
     def database_url(self):
-        return database_url_from_env('DATABASE_CREDENTIALS')
+        if self.build_step:
+            return 'postgres://'
+
+        return dj_database_url.parse(database_url_from_env('DATABASE_CREDENTIALS'))
 
     @computed_field(return_type=str)
     @property
