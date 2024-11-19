@@ -40,17 +40,17 @@ class AuthenticatedUserRequired:
     authenticated_user_required_redirect_url = cms_slugs.SIGNUP_URL
 
 
-class WagtailGA360Mixin:
+class WagtailGA360Mixin:  # /PS-IGNORE
     """
-    We can't use GA360Mixin.get_context_data() because that was for a
+    We can't use GA360Mixin.get_context_data() because that was for a /PS-IGNORE
     view not a model, so this is duplicated code :o(
 
     This mixin pulls values relative to GA into the context and it's meant be
-    used along in GA360Mixin inside the model's get_context() method.
+    used along in GA360Mixin inside the model's get_context() method. /PS-IGNORE
 
     An example setup would look like:
 
-    class DomesticDashboard(mixins.WagtailGA360Mixin, GA360Mixin, Page):
+    class DomesticDashboard(mixins.WagtailGA360Mixin, GA360Mixin, Page): # /PS-IGNORE
         ...
         def get_context(self, request):
             ...

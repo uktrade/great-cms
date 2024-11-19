@@ -3,7 +3,7 @@ from directory_forms_api_client.helpers import Sender
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import FormView
-from great_components.mixins import GA360Mixin
+from great_components.mixins import GA360Mixin  # /PS-IGNORE
 
 from core.forms import HCSATForm
 from core.helpers import check_url_host_is_safelisted
@@ -11,7 +11,7 @@ from core.mixins import HCSATMixin
 from international import forms
 
 
-class ContactView(GA360Mixin, HCSATMixin, FormView):
+class ContactView(GA360Mixin, HCSATMixin, FormView):  # /PS-IGNORE
     form_class = forms.ContactForm
     template_name = 'international/contact.html'
     subject = 'Great.gov.uk International contact form'

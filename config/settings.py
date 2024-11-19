@@ -29,7 +29,7 @@ APP_ENVIRONMENT = env.app_environment
 # As the app is running behind a host-based router supplied by GDS PaaS, we can open ALLOWED_HOSTS
 ALLOWED_HOSTS = ['*']
 
-SAFELIST_HOSTS = env.safelist_hosts
+SAFELIST_HOSTS = [host.strip() for host in env.safelist_hosts.split(',')]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#append-slash
 APPEND_SLASH = True
@@ -140,6 +140,7 @@ TEMPLATES = [
             ROOT_DIR / 'sso_profile' / 'enrolment' / 'templates',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'breadcrumbs',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'header',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'footer',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'button',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'text-input',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'details',
@@ -165,6 +166,8 @@ TEMPLATES = [
                 'great_components.context_processors.ga360',
                 'great_components.context_processors.urls_processor',
                 'great_components.context_processors.header_footer_processor',
+                'core.context_processors.domestic_footer',
+                'core.context_processors.international_footer',
                 'core.context_processors.javascript_components',
                 'core.context_processors.env_vars',
                 'core.context_processors.analytics_vars',
@@ -179,7 +182,7 @@ TEMPLATES = [
                 'international_online_offer.context_processors.eyb_user',
                 'international_online_offer.context_processors.feedback_next_url',
                 'international_online_offer.context_processors.hide_primary_nav',
-                'international_online_offer.context_processors.user_completed_triage',
+                'international_online_offer.context_processors.is_triage_complete',
                 'international.context_processors.international_header',
             ],
         },
@@ -843,8 +846,6 @@ FEATURE_SHOW_REPORT_BARRIER_CONTENT = env.feature_show_report_barrier_content
 FEATURE_SHOW_BRAND_BANNER = env.feature_show_brand_banner
 FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK = env.feature_show_international_footer_link
 FEATURE_SHOW_CASE_STUDY_RANKINGS = env.feature_show_case_study_rankings
-FEATURE_INTERNATIONAL_ONLINE_OFFER = env.feature_international_online_offer
-FEATURE_INTERNATIONAL_INVESTMENT = env.feature_international_investment
 FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION = env.feature_microsite_enable_template_translation
 FEATURE_DIGITAL_POINT_OF_ENTRY = env.feature_digital_point_of_entry
 FEATURE_PRODUCT_EXPERIMENT_HEADER = env.feature_product_experiment_header

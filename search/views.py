@@ -178,7 +178,7 @@ class SearchFeedbackFormView(FormView):
     # to appease FormsAPI.
     #
     def form_valid(self, form):
-        email = form.cleaned_data['contact_email'] or 'emailnotgiven@example.com'
+        email = form.cleaned_data['contact_email'] or 'emailnotgiven@example.com'  # /PS-IGNORE
         name = form.cleaned_data['contact_name'] or 'Name not given'
         subject = 'Search Feedback - ' + datetime.datetime.now().strftime('%H:%M %d %b %Y')
 

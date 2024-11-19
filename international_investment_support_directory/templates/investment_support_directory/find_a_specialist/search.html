@@ -17,7 +17,7 @@
             </div>
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-one-half-from-desktop">
-                    {% include 'international/includes/company/search_form.html' with placeholder='Search for the skills or services you need' %}
+                    {% include 'international/includes/company/search_form.html' with label='Search for the skills or services you need' %}
                 </div>
             </div>
         </div>
@@ -48,7 +48,4 @@
         </div>
     </section>
 {% endblock %}
-{% block body_js %}
-    {{ block.super }}
-    <script>document.getElementsByClassName("govuk-accordion__controls")[0].style.display = 'none';</script>
-{% endblock %}
+{% block body_js %}{{ block.super }}{% endblock %}

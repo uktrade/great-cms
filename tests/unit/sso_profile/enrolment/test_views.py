@@ -37,7 +37,7 @@ def user():
         id=1,
         pk=1,
         mobile_phone_number='55512345',
-        email='jim@example.com',
+        email='jim@example.com',  # /PS-IGNORE
         first_name='Jim',
         last_name='Cross',
         session_id='123',
@@ -123,7 +123,7 @@ def preverified_company_data():
         'name': 'Example corp',
         'number': '1234567',
         'po_box': '',
-        'postal_code': 'EE3 3EE',
+        'postal_code': 'EE3 3EE',  # /PS-IGNORE
     }
 
 
@@ -150,7 +150,7 @@ def mock_collaborator_invite_retrieve():
     response = create_response(
         {
             'uuid': 'daca6991-21a1-4318-bc84-69349b89c26d',
-            'collaborator_email': 'jim@example.com',
+            'collaborator_email': 'jim@example.com',  # /PS-IGNORE
             'company': '1',
             'requestor': '2',
             'accepted': False,
@@ -230,7 +230,7 @@ def mock_add_collaborator(client):
             'sso_id': 300,
             'name': 'Abc',
             'company': 12345,
-            'company_email': 'xyz@xyzcorp.com',
+            'company_email': 'xyz@xyzcorp.com',  # /PS-IGNORE
             'mobile_number': '9876543210',
             'role': user_roles.MEMBER,
         },
@@ -244,7 +244,7 @@ def mock_add_collaborator(client):
 def mock_get_company_admins(client):
     response = [
         {
-            'company_email': 'admin@xyzcorp.com',
+            'company_email': 'admin@xyzcorp.com',  # /PS-IGNORE
             'company': '12345',
             'sso_id': 1,
             'name': 'Jim Abc',
@@ -252,7 +252,7 @@ def mock_get_company_admins(client):
             'role': user_roles.ADMIN,
         },
         {
-            'company_email': 'admin2@xyzcorp.com',
+            'company_email': 'admin2@xyzcorp.com',  # /PS-IGNORE
             'company': '12345',
             'sso_id': 2,
             'name': 'Pete Abc',
@@ -281,7 +281,7 @@ def mock_claim_company(client):
 
 @pytest.fixture(autouse=True)
 def mock_create_user():
-    response = create_response({'email': 'test@test.com', 'verification_code': '123456'})
+    response = create_response({'email': 'test@test.com', 'verification_code': '123456'})  # /PS-IGNORE
     patch = mock.patch.object(helpers.sso_api_client.user, 'create_user', return_value=response)
     yield patch.start()
     patch.stop()
@@ -337,7 +337,7 @@ def mock_notify_already_registered():
 def steps_data(captcha_stub):
     data = {
         constants.USER_ACCOUNT: {
-            'email': 'jim@example.com',
+            'email': 'jim@example.com',  # /PS-IGNORE
             'password': 'thing',
             'password_confirmed': 'thing',
             'captcha': captcha_stub,
@@ -352,7 +352,7 @@ def steps_data(captcha_stub):
             'confirmed_is_company_representative': True,
         },
         constants.VERIFICATION: {'code': '12345'},
-        constants.RESEND_VERIFICATION: {'email': 'jim@example.com'},
+        constants.RESEND_VERIFICATION: {'email': 'jim@example.com'},  # /PS-IGNORE
         BUSINESS_INFO_NON_COMPANIES_HOUSE: {
             'company_type': 'SOLE_TRADER',
             'company_name': 'Test company',
@@ -650,8 +650,8 @@ def test_companies_house_enrolment_submit_end_to_end(
     assert mock_enrolment_send.call_args == mock.call(
         {
             'sso_id': 1,
-            'company_email': 'jim@example.com',
-            'contact_email_address': 'jim@example.com',
+            'company_email': 'jim@example.com',  # /PS-IGNORE
+            'contact_email_address': 'jim@example.com',  # /PS-IGNORE
             'company_name': 'Example corp',
             'company_number': '12345678',
             'date_of_creation': '2001-01-20',
@@ -701,11 +701,11 @@ def test_companies_house_enrolment_submit_end_to_end_logged_in(
         {
             'address_line_1': '555 fake street',
             'address_line_2': 'London',
-            'company_email': 'jim@example.com',
+            'company_email': 'jim@example.com',  # /PS-IGNORE
             'company_name': 'Example corp',
             'company_number': '12345678',
             'company_type': 'COMPANIES_HOUSE',
-            'contact_email_address': 'jim@example.com',
+            'contact_email_address': 'jim@example.com',  # /PS-IGNORE
             'date_of_creation': '2001-01-20',
             'job_title': 'Exampler',
             'name': None,
@@ -772,11 +772,11 @@ def test_companies_house_enrolment_submit_end_to_end_no_address(
         {
             'address_line_1': '555 fake street',
             'address_line_2': 'London',
-            'company_email': 'jim@example.com',
+            'company_email': 'jim@example.com',  # /PS-IGNORE
             'company_name': 'Example corp',
             'company_number': 'IP345678',
             'company_type': 'COMPANIES_HOUSE',
-            'contact_email_address': 'jim@example.com',
+            'contact_email_address': 'jim@example.com',  # /PS-IGNORE
             'date_of_creation': '2001-01-20',
             'job_title': 'Exampler',
             'name': None,  # to good way in tests to populate this after login
@@ -892,7 +892,7 @@ def test_companies_house_enrolment_submit_end_to_end_company_has_account(
             'sso_id': 1,
             'name': None,
             'company': '12345678',
-            'company_email': 'jim@example.com',
+            'company_email': 'jim@example.com',  # /PS-IGNORE
             'mobile_number': '1232342',
         },
     )
@@ -959,7 +959,7 @@ def test_companies_house_enrolment_submit_end_to_end_company_second_user(
             'sso_id': 1,
             'name': None,
             'company': '12345678',
-            'company_email': 'jim@example.com',
+            'company_email': 'jim@example.com',  # /PS-IGNORE
             'mobile_number': '1232342',
         },
     )
@@ -1015,7 +1015,7 @@ def test_companies_house_enrolment_submit_end_to_end_company_has_user_profile(
             'sso_id': 1,
             'name': 'Foo Bar',
             'company': '12345678',
-            'company_email': 'jim@example.com',
+            'company_email': 'jim@example.com',  # /PS-IGNORE
             'mobile_number': '',
         },
     )
@@ -1074,7 +1074,9 @@ def test_create_user_enrolment(client, steps_data, submit_step_builder, company_
 def test_create_user_enrolment_already_exists(
     company_type, form_url_name, steps_data, mock_create_user, submit_step_builder, mock_notify_already_registered
 ):
-    mock_create_user.return_value = create_response(json_body={'email': ['already registered']}, status_code=400)
+    mock_create_user.return_value = create_response(
+        json_body={'email': ['already registered']}, status_code=400
+    )  # /PS-IGNORE
 
     submit_step = submit_step_builder(company_type)
 
@@ -1082,7 +1084,7 @@ def test_create_user_enrolment_already_exists(
     assert response.status_code == 302
     assert mock_notify_already_registered.call_count == 1
     assert mock_notify_already_registered.call_args == mock.call(
-        email='jim@example.com', form_url=reverse(form_url_name, kwargs={'step': constants.USER_ACCOUNT})
+        email='jim@example.com', form_url=reverse(form_url_name, kwargs={'step': constants.USER_ACCOUNT})  # /PS-IGNORE
     )
 
 
@@ -1129,7 +1131,9 @@ def test_create_user_enrolment_bad_then_good_password(
     response = client.get(response.url)
     assert response.context_data['form'].errors == {'password': ['something is wrong']}
 
-    mock_create_user.return_value = create_response({'email': 'test@test.com', 'verification_code': '123456'})
+    mock_create_user.return_value = create_response(
+        {'email': 'test@test.com', 'verification_code': '123456'}  # /PS-IGNORE
+    )  # /PS-IGNORE
 
     response = submit_step(data=steps_data[constants.USER_ACCOUNT], step_name=constants.USER_ACCOUNT)
 
@@ -1164,7 +1168,9 @@ def test_user_verification_passes_cookies(company_type, submit_step_builder, cli
 def test_user_verification_manual_passes_cookies(company_type, submit_step_builder, client):
     submit_step = submit_step_builder(company_type)
 
-    response = submit_step(data={'email': 'test@test.com', 'code': '12345'}, step_name=constants.VERIFICATION)
+    response = submit_step(
+        data={'email': 'test@test.com', 'code': '12345'}, step_name=constants.VERIFICATION  # /PS-IGNORE
+    )  # /PS-IGNORE
     assert response.status_code == 302
 
     assert str(response.cookies['debug_sso_session_cookie']) == (
@@ -1204,7 +1210,9 @@ def test_confirm_user_verify_code_manual_email(
     mock_confirm_verification_code.return_value = create_response(status_code=400, json_body={'code': ['Invalid code']})
     submit_step = submit_step_builder(company_type)
 
-    response = submit_step(data={'email': 'test@test.com', 'code': '12345'}, step_name=constants.VERIFICATION)
+    response = submit_step(
+        data={'email': 'test@test.com', 'code': '12345'}, step_name=constants.VERIFICATION  # /PS-IGNORE
+    )  # /PS-IGNORE
 
     assert response.status_code == 302
 
@@ -1244,7 +1252,9 @@ def test_confirm_user_verify_code(
 
     assert response.status_code == 302
     assert mock_confirm_verification_code.call_count == 1
-    assert mock_confirm_verification_code.call_args == mock.call({'email': 'jim@example.com', 'code': '12345'})
+    assert mock_confirm_verification_code.call_args == mock.call(
+        {'email': 'jim@example.com', 'code': '12345'}  # /PS-IGNORE
+    )  # /PS-IGNORE
 
 
 def test_confirm_user_resend_verification_code(
@@ -1257,11 +1267,11 @@ def test_confirm_user_resend_verification_code(
     assert response.status_code == 302
 
     assert mock_regenerate_verification_code.call_count == 1
-    assert mock_regenerate_verification_code.call_args == mock.call({'email': 'jim@example.com'})
+    assert mock_regenerate_verification_code.call_args == mock.call({'email': 'jim@example.com'})  # /PS-IGNORE
 
     assert mock_send_verification_code_email.call_count == 1
     assert mock_send_verification_code_email.call_args == mock.call(
-        email='jim@example.com',
+        email='jim@example.com',  # /PS-IGNORE
         form_url='/profile/enrol/resend-verification/resend/',
         verification_code={'code': '12345', 'expiration_date': '2018-01-17T12:00:01Z'},
         verification_link='http://testserver/profile/enrol/resend-verification/verification/',
@@ -1282,7 +1292,7 @@ def test_confirm_user_resend_verification_code_user_verified(
     assert response.status_code == 302
 
     assert mock_regenerate_verification_code.call_count == 1
-    assert mock_regenerate_verification_code.call_args == mock.call({'email': 'jim@example.com'})
+    assert mock_regenerate_verification_code.call_args == mock.call({'email': 'jim@example.com'})  # /PS-IGNORE
 
     assert mock_send_verification_code_email.call_count == 0
 
@@ -1300,7 +1310,7 @@ def test_confirm_user_resend_verification_code_no_user(
     assert response.status_code == 302
 
     assert mock_regenerate_verification_code.call_count == 1
-    assert mock_regenerate_verification_code.call_args == mock.call({'email': 'jim@example.com'})
+    assert mock_regenerate_verification_code.call_args == mock.call({'email': 'jim@example.com'})  # /PS-IGNORE
 
     assert mock_send_verification_code_email.call_count == 0
 
@@ -1521,8 +1531,8 @@ def test_non_companies_house_enrolment_submit_end_to_end_logged_in(
     assert mock_enrolment_send.call_args == mock.call(
         {
             'sso_id': 1,
-            'company_email': 'jim@example.com',
-            'contact_email_address': 'jim@example.com',
+            'company_email': 'jim@example.com',  # /PS-IGNORE
+            'contact_email_address': 'jim@example.com',  # /PS-IGNORE
             'company_type': 'SOLE_TRADER',
             'company_name': 'Test company',
             'sectors': ['AEROSPACE'],

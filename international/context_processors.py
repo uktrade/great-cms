@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 
 from international_online_offer.context_processors import (
     hide_primary_nav,
-    user_completed_triage,
+    is_triage_complete,
 )
 
 
@@ -49,6 +49,36 @@ def international_header(request):
     if not hide_primary_nav(request)['hide_primary_nav']:
         site_title = None
 
+    hide_details_link = not is_triage_complete(request)['is_triage_complete']
+
+    nav_items_list_children = [
+        {
+            'href': reverse_lazy('international_online_offer:login'),
+            'text': 'Sign in',
+            'location': 'EYB sub-nav',
+            'requiresNoAuth': True,
+            'isCurrent': '/expand-your-business-in-the-uk/login/' in request.path,
+        },
+        {
+            'text': 'Sign out',
+            'location': 'EYB sub-nav',
+            'href': '#',
+            'attributes': 'onclick="signOut()"',
+            'requiresAuth': True,
+        },
+    ]
+
+    details_object = {
+        'href': reverse_lazy('international_online_offer:change-your-answers'),
+        'text': 'Your details',
+        'location': 'EYB sub-nav',
+        'requiresAuth': True,
+        'isCurrent': '/expand-your-business-in-the-uk/change-your-answers' in request.path,
+    }
+
+    if not hide_details_link:
+        nav_items_list_children.insert(1, details_object)
+
     return {
         'international_header_context': {
             'header_classes': '',
@@ -69,32 +99,10 @@ def international_header(request):
                     'text': 'Expand your business',
                     'location': 'International header',
                     'isCurrent': '/expand-your-business-in-the-uk' in request.path,
-                    'navItemsListChildren': [
-                        {
-                            'href': reverse_lazy('international_online_offer:login'),
-                            'text': 'Sign in',
-                            'location': 'EYB sub-nav',
-                            'requiresNoAuth': True,
-                            'isCurrent': '/expand-your-business-in-the-uk/login/' in request.path,
-                        },
-                        {
-                            'href': reverse_lazy('international_online_offer:change-your-answers'),
-                            'text': 'Your details',
-                            'location': 'EYB sub-nav',
-                            'requiresAuth': user_completed_triage(request),
-                            'isCurrent': '/expand-your-business-in-the-uk/change-your-answers' in request.path,
-                        },
-                        {
-                            'text': 'Sign out',
-                            'location': 'EYB sub-nav',
-                            'href': '#',
-                            'attributes': 'onclick="signOut()"',
-                            'requiresAuth': True,
-                        },
-                    ],
+                    'navItemsListChildren': nav_items_list_children,
                 },
                 {
-                    'href': '/international/investment/opportunities/',
+                    'href': '/international/investment/',
                     'text': 'Investment opportunities',
                     'location': 'International header',
                     'isCurrent': '/international/investment/' in request.path,
@@ -114,7 +122,7 @@ def international_header(request):
                     'isCurrent': '/expand-your-business-in-the-uk' in request.path,
                 },
                 {
-                    'href': '/international/investment/opportunities/',
+                    'href': '/international/investment/',
                     'text': 'Investment opportunities',
                     'location': 'International header',
                     'isCurrent': '/international/investment/' in request.path,

@@ -22,7 +22,7 @@ class BaseSettings(PydanticBaseSettings):
     secret_key: str = 'fake_secret_key'
     app_environment: str = 'dev'
 
-    safelist_hosts: str = []
+    safelist_hosts: str = ''
 
     wagtail_cache: bool = False
     wagtail_cache_timout: int = 4 * 60 * 60  # 4 hours (in seconds)
@@ -127,25 +127,25 @@ class BaseSettings(PydanticBaseSettings):
 
     contact_exporting_to_uk_hmrc_url: str = 'https://www.tax.service.gov.uk/shortforms/form/CITEX_CGEF'
     confirm_verification_code_template_id: str = 'a1eb4b0c-9bab-44d3-ac2f-7585bf7da24c'
-    enrolment_welcome_template_id: str = '0a4ae7a9-7f67-4f5d-a536-54df2dee42df'
-    eyb_enrolment_welcome_template_id: str = '651ea9b4-af61-4cd6-a969-6e305ffa133a'
-    enquries_contactus_template_id: str = '3af1de7c-e5c2-4691-b2ce-3856fad97ad0'
+    enrolment_welcome_template_id: str = '0a4ae7a9-7f67-4f5d-a536-54df2dee42df'  # /PS-IGNORE
+    eyb_enrolment_welcome_template_id: str = '651ea9b4-af61-4cd6-a969-6e305ffa133a'  # /PS-IGNORE
+    enquries_contactus_template_id: str = '3af1de7c-e5c2-4691-b2ce-3856fad97ad0'  # /PS-IGNORE
     contactus_enquries_confirmation_template_id: str = '68030d40-4574-4aa1-b3ff-941320929964'
     contact_domestic_zendesk_subject: str = 'Great.gov.uk contact form'
-    contact_enquiries_agent_notify_template_id: str = '7a343ec9-7670-4813-9ed4-ae83d3e1f5f7'
+    contact_enquiries_agent_notify_template_id: str = '7a343ec9-7670-4813-9ed4-ae83d3e1f5f7'  # /PS-IGNORE
     contact_enquiries_agent_email_address: str
-    contact_enquiries_user_notify_template_id: str = '61c82be6-b140-46fc-aeb2-472df8a94d35'
+    contact_enquiries_user_notify_template_id: str = '61c82be6-b140-46fc-aeb2-472df8a94d35'  # /PS-IGNORE
     contact_ecommerce_export_support_agent_email_address: str
     contact_ecommerce_export_support_agent_notify_template_id: str = 'a56114d3-515e-4ee7-bb1a-9a0ceab04378'
     contact_ecommerce_export_support_notify_template_id: str = '18d807d2-f4cf-4b93-96c1-0d3169bd0906'
     contact_office_agent_notify_template_id: str = '0492eb2b-7daf-4b37-99cd-be3abbb9eb32'
-    contact_office_user_notify_template_id: str = '03c031e1-1ee5-43f9-8b24-f6e4cfd56cf1'
+    contact_office_user_notify_template_id: str = '03c031e1-1ee5-43f9-8b24-f6e4cfd56cf1'  # /PS-IGNORE
     contact_dit_agent_email_address: str
-    contact_events_user_notify_template_id: str = '2d5d556a-e0fa-4a9b-81a0-6ed3fcb2e3da'
-    contact_events_agent_notify_template_id: str = '7a343ec9-7670-4813-9ed4-ae83d3e1f5f7'
+    contact_events_user_notify_template_id: str = '2d5d556a-e0fa-4a9b-81a0-6ed3fcb2e3da'  # /PS-IGNORE
+    contact_events_agent_notify_template_id: str = '7a343ec9-7670-4813-9ed4-ae83d3e1f5f7'  # /PS-IGNORE
     contact_events_agent_email_address: str
-    contact_dso_agent_notify_template_id: str = '7a343ec9-7670-4813-9ed4-ae83d3e1f5f7'
-    contact_dso_user_notify_template_id: str = 'a6a3db79-944f-4c59-8eeb-2f756019976c'
+    contact_dso_agent_notify_template_id: str = '7a343ec9-7670-4813-9ed4-ae83d3e1f5f7'  # /PS-IGNORE
+    contact_dso_user_notify_template_id: str = 'a6a3db79-944f-4c59-8eeb-2f756019976c'  # /PS-IGNORE
     contact_dso_agent_email_address: str
     contact_exporting_user_notify_template_id: str = '5abd7372-a92d-4351-bccb-b9a38d353e75'
     contact_exporting_agent_subject: str = 'A form was submitted on great.gov.uk'
@@ -154,30 +154,30 @@ class BaseSettings(PydanticBaseSettings):
     contact_international_agent_email_address: str
     contact_international_user_notify_template_id: str = 'c07d1fb2-dc0c-40ba-a3e0-3113638e69a3'
     contact_industry_agent_email_address: str = None
-    contact_industry_agent_template_id: str = 'a9318bce-7d65-41b2-8d4c-b4a76ba285a2'
+    contact_industry_agent_template_id: str = 'a9318bce-7d65-41b2-8d4c-b4a76ba285a2'  # /PS-IGNORE
     contact_industry_user_template_id: str = '6a97f783-d246-42ca-be53-26faf3b08e32'
     contact_industry_user_reply_to_id: str = None
-    contact_fas_company_notify_template_id: str = 'bb88aa79-595a-44fc-9ed3-cf8a6cbd6306'
+    contact_fas_company_notify_template_id: str = 'bb88aa79-595a-44fc-9ed3-cf8a6cbd6306'  # /PS-IGNORE
 
-    subscribe_to_fta_updates_notify_template_id: str = 'cfa3b4b3-c232-4603-a3ce-e476ee8bab92'
-    gov_notify_welcome_template_id: str = '0a4ae7a9-7f67-4f5d-a536-54df2dee42df'
-    gov_notify_already_registered_template_id: str = '5c8cc5aa-a4f5-48ae-89e6-df5572c317ec'
+    subscribe_to_fta_updates_notify_template_id: str = 'cfa3b4b3-c232-4603-a3ce-e476ee8bab92'  # /PS-IGNORE
+    gov_notify_welcome_template_id: str = '0a4ae7a9-7f67-4f5d-a536-54df2dee42df'  # /PS-IGNORE
+    gov_notify_already_registered_template_id: str = '5c8cc5aa-a4f5-48ae-89e6-df5572c317ec'  # /PS-IGNORE
     gov_notify_new_member_registered_template_id: str = '439a8415-52d8-4975-b230-15cd34305bb5'
-    gov_notify_collaboration_request_resent: str = '60c14d97-8e58-4e5f-96e9-e0ca49bc3b96'
+    gov_notify_collaboration_request_resent: str = '60c14d97-8e58-4e5f-96e9-e0ca49bc3b96'  # /PS-IGNORE
 
-    campaign_user_notify_template_id: str = '1e00a6d9-8505-44e0-b314-6c01c46bc1b7'
+    campaign_user_notify_template_id: str = '1e00a6d9-8505-44e0-b314-6c01c46bc1b7'  # /PS-IGNORE
 
     ukef_contact_user_notify_template_id: str = '09677460-1796-4a60-a37c-c1a59068219e'
-    ukef_contact_agent_notify_template_id: str = 'e24ba486-6337-46ce-aba3-45d1d3a2aa66'
+    ukef_contact_agent_notify_template_id: str = 'e24ba486-6337-46ce-aba3-45d1d3a2aa66'  # /PS-IGNORE
     ukef_contact_agent_email_address: str
     ukef_form_submit_tracker_url: str
 
     export_academy_notify_registration_template_id: str = '3b68c119-fdc5-4517-90dc-043e88853b0f'
 
     export_academy_notify_booking_template_id: str = '109d5d9e-4c5f-4be5-bc35-5769ef51a8df'
-    export_academy_notify_cancellation_template_id: str = 'a073bd50-bd01-4cea-98c9-f2a54a0a1b56'
+    export_academy_notify_cancellation_template_id: str = 'a073bd50-bd01-4cea-98c9-f2a54a0a1b56'  # /PS-IGNORE
     export_academy_notify_event_reminder_template_id: str = 'b446f2be-8c92-40af-a5c8-e21b8d9e8077'
-    export_academy_notify_follow_up_template_id: str = 'ff45b258-ae9e-4939-a049-089d959ddfee'
+    export_academy_notify_follow_up_template_id: str = 'ff45b258-ae9e-4939-a049-089d959ddfee'  # /PS-IGNORE
     export_academy_event_allow_join_before_start_mins: int = 30
     export_academy_automated_notify_time_delay_minutes: int = 30
     export_academy_remove_event_media_after_days: int = 14
@@ -260,8 +260,6 @@ class BaseSettings(PydanticBaseSettings):
     feature_show_brand_banner: bool = False
     feature_show_international_footer_link: bool = False
     feature_show_case_study_rankings: bool = False
-    feature_international_online_offer: bool = False
-    feature_international_investment: bool = False
     feature_microsite_enable_template_translation: bool = False
     feature_digital_point_of_entry: bool = False
     feature_product_experiment_header: bool = False
@@ -303,7 +301,7 @@ class BaseSettings(PydanticBaseSettings):
     beta_blacklisted_users: str = None
     beta_token_expiration_days: int = 30
 
-    great_support_email: str = 'great.support@trade.gov.uk'
+    great_support_email: str = 'great.support@trade.gov.uk'  # /PS-IGNORE
     dit_on_govuk: str = 'www.gov.uk/government/organisations/department-for-business-and-trade'
     travel_advice_covid19: str = 'https://www.gov.uk/guidance/travel-advice-novel-coronavirus'
     travel_advice_foreign: str = 'https://www.gov.uk/foreign-travel-advice'
@@ -354,7 +352,7 @@ class BaseSettings(PydanticBaseSettings):
     campaign_moderation_reply_to_id: str = '654df5da-c214-4297-bb55-27690ce1813d'
     campaign_site_review_reminder_minute: str = 0
     campaign_site_review_reminder_hour: str = 0
-    campaign_site_review_reminder_template_id: str = '9647397a-8d59-4b45-aa25-9d129eac8be8'
+    campaign_site_review_reminder_template_id: str = '9647397a-8d59-4b45-aa25-9d129eac8be8'  # /PS-IGNORE
 
     is_circleci_env: bool = False
 

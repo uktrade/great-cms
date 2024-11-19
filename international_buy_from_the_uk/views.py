@@ -6,7 +6,7 @@ from django.urls import reverse, reverse_lazy
 from django.utils.functional import cached_property
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
-from great_components.mixins import GA360Mixin
+from great_components.mixins import GA360Mixin  # /PS-IGNORE
 
 from config import settings
 from core.helpers import get_sender_ip_address
@@ -22,7 +22,7 @@ from international_online_offer.core.region_sector_helpers import get_sectors_as
 from international_online_offer.services import get_dbt_sectors
 
 
-class ContactView(GA360Mixin, FormView):
+class ContactView(GA360Mixin, FormView):  # /PS-IGNORE
     form_class = forms.ContactForm
     template_name = 'buy_from_the_uk/contact.html'
 
@@ -102,7 +102,7 @@ class SubmitFormOnGetMixin:
         return super().post(request, *args, **kwargs)
 
 
-class FindASupplierSearchView(GA360Mixin, SubmitFormOnGetMixin, FormView):
+class FindASupplierSearchView(GA360Mixin, SubmitFormOnGetMixin, FormView):  # /PS-IGNORE
     template_name = 'buy_from_the_uk/find_a_supplier/search.html'
     form_class = forms.SearchForm
     page_size = 10
@@ -160,7 +160,7 @@ class CompanyProfileMixin:
         return company
 
 
-class FindASupplierProfileView(CompanyProfileMixin, GA360Mixin, TemplateView):
+class FindASupplierProfileView(CompanyProfileMixin, GA360Mixin, TemplateView):  # /PS-IGNORE
     template_name = 'buy_from_the_uk/find_a_supplier/profile.html'
 
     def __init__(self):
@@ -195,7 +195,7 @@ class CaseStudyMixin:
         return case_study
 
 
-class FindASupplierCaseStudyView(CaseStudyMixin, GA360Mixin, TemplateView):
+class FindASupplierCaseStudyView(CaseStudyMixin, GA360Mixin, TemplateView):  # /PS-IGNORE
     template_name = 'buy_from_the_uk/find_a_supplier/case_study.html'
 
     def __init__(self):
@@ -232,7 +232,7 @@ class FindASupplierCaseStudyView(CaseStudyMixin, GA360Mixin, TemplateView):
         )
 
 
-class FindASupplierContactView(CompanyProfileMixin, GA360Mixin, FormView):
+class FindASupplierContactView(CompanyProfileMixin, GA360Mixin, FormView):  # /PS-IGNORE
     form_class = forms.FindASupplierContactForm
     template_name = 'buy_from_the_uk/find_a_supplier/contact.html'
     company_email_address = None

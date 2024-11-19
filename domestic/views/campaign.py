@@ -8,7 +8,7 @@ from django.utils.translation import get_language
 from wagtail.models import Locale
 
 from contact.views import BaseNotifyUserFormView
-from core.context_processors import microsite_header
+from core.context_processors import microsite_header, microsite_footer
 from core.datastructures import NotifySettings
 from core.helpers import get_location
 from core.models import MicrositePage
@@ -187,6 +187,8 @@ class CampaignView(BaseNotifyUserFormView):
         microsite_context['site_title'] = site_title
         microsite_context['subnavItemsList'] = menu_items
         microsite_context['great_logo_href'] = great_logo_href
+
+        microsite_context['microsite_footer_context'] = microsite_footer(self.request)
         kwargs.update(microsite_context)
 
         return super().get_context_data(

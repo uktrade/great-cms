@@ -31,7 +31,7 @@ from django.views.generic import (
 from django_filters.views import FilterView
 from drf_spectacular.utils import extend_schema
 from great_components.helpers import get_is_authenticated, get_user
-from great_components.mixins import GA360Mixin
+from great_components.mixins import GA360Mixin  # /PS-IGNORE
 from icalendar import Alarm, Calendar, Event
 from rest_framework.generics import GenericAPIView
 
@@ -44,6 +44,7 @@ from directory_sso_api_client import sso_api_client
 from export_academy import filters, forms, helpers, models
 from export_academy.helpers import (
     calender_content,
+    get_accordion_items,
     get_badges_for_event,
     get_buttons_for_event,
     update_booking,
@@ -85,7 +86,9 @@ class BespokeBreadcrumbMixin(TemplateView):
         return super().get_context_data(bespoke_breadcrumbs=bespoke_breadcrumbs, **kwargs)
 
 
-class EventListView(GetBreadcrumbsMixin, GA360Mixin, core_mixins.GetSnippetContentMixin, FilterView, ListView):
+class EventListView(
+    GetBreadcrumbsMixin, GA360Mixin, core_mixins.GetSnippetContentMixin, FilterView, ListView  # /PS-IGNORE
+):  # /PS-IGNORE
     model = models.Event
     queryset = model.upcoming
     filterset_class = filters.EventFilter
@@ -94,7 +97,7 @@ class EventListView(GetBreadcrumbsMixin, GA360Mixin, core_mixins.GetSnippetConte
 
     def __init__(self):
         super().__init__()
-        self.set_ga360_payload(  # from GA360Mixin
+        self.set_ga360_payload(  # from GA360Mixin # /PS-IGNORE
             page_id='MagnaPage',
             business_unit=settings.GA360_BUSINESS_UNIT,
             site_section='export-academy',
@@ -901,9 +904,16 @@ class EACourseView(TemplateView):
     def get_context_data(self, **kwargs):
         self.page = get_list_or_404(models.CoursePage, live=True, slug=kwargs['slug'])[0]
         ctx = super().get_context_data(**kwargs)
-        ctx['signed_in'] = True if self.request.user != AnonymousUser() else False
-        ctx['page'] = self.page
-        ctx['bespoke_breadcrumbs'] = [{'title': 'UK Export Academy', 'url': '/export-academy/'}]
+        signed_in = self.request.user != AnonymousUser()
+
+        ctx.update(
+            {
+                'signed_in': signed_in,
+                'page': self.page,
+                'bespoke_breadcrumbs': [{'title': 'UK Export Academy', 'url': '/export-academy/'}],
+                'accordion': get_accordion_items(self.page.get_events(), signed_in),
+            }
+        )
         return ctx
 
 
