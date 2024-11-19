@@ -193,9 +193,7 @@ Welcome to great.gov.uk
 {% endblock %}
 {% block body_footer %}
 <div id="snackbar-container"></div>
-{% wagtailcache 86400 "core_footer_cache" %}
-{% include 'components/header_footer/domestic_footer.html' %}
-{% endwagtailcache %}
+{% include "_footer.html" with isInternational=domestic_footer_context.is_international currentYear=domestic_footer_context.current_year footerLinks=domestic_footer_context.footer_links logoLinkHref=domestic_footer_context.logo_link_href %}
 {% endblock %}
 {% block body_js %}
 {{ block.super }}
