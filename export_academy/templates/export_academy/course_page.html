@@ -60,7 +60,7 @@
                 <section class="govuk-grid-column-two-thirds-from-desktop great-no-float govuk-!-padding-0 govuk-!-static-padding-bottom-6">
                     <h2 class="govuk-heading-m">{{ page.course_content_heading }}</h2>
                     <p class="govuk-body">{{ page.course_content_desc }}</p>
-                    {% include './includes/module_list.html' with signed_in=signed_in events=page.get_events %}
+                    {% include '_accordion.html' with id=accordion.id items=accordion.items classes=accordion.classes %}
                 </section>
             </div>
         </div>
