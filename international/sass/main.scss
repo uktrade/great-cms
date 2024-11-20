@@ -3,13 +3,32 @@ $asset-root: '/static/images/';
 $fonts: '/static/fonts';
 $fa-font-path: '/static/fonts';
 
-@import 'node_modules/govuk-frontend/govuk/all';
-
 // Icons
 @import 'node_modules/@fortawesome/fontawesome-free/scss/fontawesome';
 @import 'node_modules/@fortawesome/fontawesome-free/scss/solid';
 @import 'node_modules/@fortawesome/fontawesome-free/scss/regular';
 @import 'node_modules/@fortawesome/fontawesome-free/scss/brands';
+
+// These are the bare minimum styles required to help
+// use older great styles.
+// When the new design system replaces some of the old great
+// styles we should be able to remove these imports.
+@import "node_modules/govuk-frontend/govuk/settings/all";
+@import "node_modules/govuk-frontend/govuk/tools/all";
+
+// We've been able to specifically import some of the
+// helpers rather than all
+@import "node_modules/govuk-frontend/govuk/helpers/spacing";
+@import "node_modules/govuk-frontend/govuk/helpers/media-queries";
+@import "node_modules/govuk-frontend/govuk/helpers/focused";
+@import "node_modules/govuk-frontend/govuk/helpers/font-faces";
+@import "node_modules/govuk-frontend/govuk/helpers/typography";
+@import "node_modules/govuk-frontend/govuk/helpers/links";
+
+@import "node_modules/govuk-frontend/govuk/core/links";
+@import "node_modules/govuk-frontend/govuk/core/lists";
+
+
 
 @import 'node_modules/great-styles/src/scss/helpers/_base.scss';
 @import '../../styles/great/utils';
