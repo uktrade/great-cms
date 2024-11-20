@@ -15,11 +15,10 @@
 {% endblock %}
 {% block head_css %}
     {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
-    <link href="{% static 'core/css/accessible-autocomplete.min.css' %}"
-          rel="stylesheet"
-          type="text/css">
+        <link href="{% static 'core/css/accessible-autocomplete.min.css' %}"
+              rel="stylesheet"
+              type="text/css">
     {% endif %}
-
     {{ block.super }}
 {% endblock %}
 {% block css_layout_class %}
@@ -252,52 +251,50 @@
             {% include 'components/informative_banner.html' with banner_heading='Report a trade barrier' banner_content='Tell us about trade barriers affecting your ability to trade so we can help fix them. <br><a href="/report-trade-barrier/">How to report a trade barrier</a>' %}
         </section>
     {% endif %}
-
     {% if not features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
-    <section class="sector-potential-section padding-bottom-0">
-        <div class="sector-potential-wrapper padding-top-45 padding-top-60-m padding-bottom-45 padding-bottom-60-m{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-bg-white{% endif %}">
-            <div class="container padding-bottom-45-m">
-                <div class="width-full width-two-thirds-l">
-                    <h2 class="heading-large margin-top-0">Find new markets for your business</h2>
-                    <p>Use our guides to identify new export markets and inform your international sales plan.</p>
-                    <form class="sector-potential-form"
-                          action="{% slugurl 'markets' %}"
-                          method="get">
-                        {{ sector_form }}
-                        <button type="submit"
-                                class="button primary-button margin-top-15 show-markets"
-                                id="sector-submit">Show markets</button>
-                        <span class="verbose">Select a sector to enable the submit button.</span>
-                    </form>
+        <section class="sector-potential-section padding-bottom-0">
+            <div class="sector-potential-wrapper padding-top-45 padding-top-60-m padding-bottom-45 padding-bottom-60-m{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-bg-white{% endif %}">
+                <div class="container padding-bottom-45-m">
+                    <div class="width-full width-two-thirds-l">
+                        <h2 class="heading-large margin-top-0">Find new markets for your business</h2>
+                        <p>Use our guides to identify new export markets and inform your international sales plan.</p>
+                        <form class="sector-potential-form"
+                              action="{% slugurl 'markets' %}"
+                              method="get">
+                            {{ sector_form }}
+                            <button type="submit"
+                                    class="button primary-button margin-top-15 show-markets"
+                                    id="sector-submit">Show markets</button>
+                            <span class="verbose">Select a sector to enable the submit button.</span>
+                        </form>
+                    </div>
+                </div>
+                <div class="container sector-selector-quick-links">
+                    <hr>
+                    <ul class="grid-row">
+                        {% for sector in top_sectors %}
+                            {% if sector.pages_count > 0 %}
+                                <li>
+                                    <a href="{% slugurl 'markets' %}?sector={{ sector.name }}"
+                                       class="quick-link link">
+                                        {% image sector.icon original as sector_icon_rendition %}
+                                        <img src="{{ sector_icon_rendition.url }}" alt="" class="quick-links-icon">
+                                        <span class="sector-name">{{ sector.name }}</span>
+                                        <p class="sector-page-count font-small">{{ sector.pages_count }} market guide{{ sector.pages_count|pluralize }}</p>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="margin-top-15 margin-top-60-m">
+                    <div class="container">
+                        <a href="{% slugurl 'markets' %}" class="view-markets link bold">View all market guides</a>
+                    </div>
                 </div>
             </div>
-            <div class="container sector-selector-quick-links">
-                <hr>
-                <ul class="grid-row">
-                    {% for sector in top_sectors %}
-                        {% if sector.pages_count > 0 %}
-                            <li>
-                                <a href="{% slugurl 'markets' %}?sector={{ sector.name }}"
-                                   class="quick-link link">
-                                    {% image sector.icon original as sector_icon_rendition %}
-                                    <img src="{{ sector_icon_rendition.url }}" alt="" class="quick-links-icon">
-                                    <span class="sector-name">{{ sector.name }}</span>
-                                    <p class="sector-page-count font-small">{{ sector.pages_count }} market guide{{ sector.pages_count|pluralize }}</p>
-                                </a>
-                            </li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="margin-top-15 margin-top-60-m">
-                <div class="container">
-                    <a href="{% slugurl 'markets' %}" class="view-markets link bold">View all market guides</a>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
     {% endif %}
-
     {% if page.madb_title and page.madb_image %}
         <section class="landing-page-section export-goods-from-uk padding-bottom-45 padding-bottom-60-m padding-top-45 padding-top-60-m">
             <div class="container padding-top-45 padding-top-60">
@@ -387,13 +384,12 @@
                 </section>
             {% endif %}
             <div class="campaign-video-transcript" id="campaign-video-transcript">
-                <details closed>
-                    <summary>
-                        <span class="bold font-overpass">View video trancript</span>
-                    </summary>
-                    <div class="campaign-video-transcript-text rich-text"
-                         id="campaign-video-transcript-text">{{ campaign_block_value.video.transcript }}</div>
-                </details>
+                {% if campaign_block_value.video.transcript %}
+                    {% include '_details.html' with
+                    summaryText="View video transcript"
+                    detailsHtml=campaign_block_value.video.transcript
+                    classes="govuk-!-margin-bottom-5" %}
+                {% endif %}
             </div>
         {% endwith %}
     {% endif %}
@@ -436,14 +432,11 @@
     {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
         <script src="{% static 'javascript/digital-entry-point.js' %}"></script>
     {% endif %}
-
     {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
         <script type="text/javascript"
                 src="{% static 'javascript/accessible-autocomplete.v3.min.js' %}"></script>
         <script type="text/javascript"
                 src="{% static 'javascript/great.make-or-do-search.js' %}"></script>
-        <script type="text/javascript">
-            GreatFrontend.MakeOrDoSearch.init({{ sic_sector_data | safe}});
-        </script>
+        <script type="text/javascript">GreatFrontend.MakeOrDoSearch.init({{ sic_sector_data | safe}});</script>
     {% endif %}
 {% endblock %}
