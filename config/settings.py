@@ -730,7 +730,10 @@ DNB_API_PASSWORD = env.dnb_api_password
 DNB_API_RENEW_ACCESS_TOKEN_SECONDS_REMAINING = env.dnb_api_renew_access_token_seconds_remaining
 
 # geo location
-GEOIP_PATH = os.path.join(ROOT_DIR, 'core/geolocation_data')
+if is_copilot():
+    GEOIP_PATH = '/tmp'
+else:
+    GEOIP_PATH = os.path.join(ROOT_DIR, 'core/geolocation_data')
 GEOIP_COUNTRY = 'GeoLite2-Country.mmdb'
 GEOIP_CITY = 'GeoLite2-City.mmdb'
 MAXMIND_LICENCE_KEY = env.maxmind_licence_key
