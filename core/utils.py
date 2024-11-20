@@ -1,10 +1,10 @@
 import re
+from urllib.parse import parse_qs, urlparse, urlunparse
 
 import magic
-from django.utils.safestring import mark_safe
 from django.utils.http import urlencode
+from django.utils.safestring import mark_safe
 from django.utils.translation import get_language
-from urllib.parse import urlparse, urlunparse, parse_qs
 
 trim_page_type = re.compile(r'^([^_]*)_\d*')
 

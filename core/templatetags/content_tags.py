@@ -15,7 +15,11 @@ from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 
-from core.constants import BACKLINK_QUERYSTRING_NAME, META_LABELS, CHEG_EXCLUDED_COUNTRY_CODES
+from core.constants import (
+    BACKLINK_QUERYSTRING_NAME,
+    CHEG_EXCLUDED_COUNTRY_CODES,
+    META_LABELS,
+)
 from core.helpers import millify
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage
 

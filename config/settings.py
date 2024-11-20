@@ -30,7 +30,7 @@ APP_ENVIRONMENT = env.app_environment
 # As the app is running behind a host-based router supplied by GDS PaaS, we can open ALLOWED_HOSTS
 ALLOWED_HOSTS = ['*']
 
-SAFELIST_HOSTS = env.safelist_hosts
+SAFELIST_HOSTS = [host.strip() for host in env.safelist_hosts.split(',')]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#append-slash
 APPEND_SLASH = True
@@ -201,9 +201,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 if is_copilot():
     DATABASES = database_from_env('DATABASE_CREDENTIALS')
     DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
-    
+
 else:
-    DATABASES = {'default': env.db()}
+    DATABASES = {'default': dj_database_url.config(default=env.database_url)}
 
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
@@ -614,6 +614,10 @@ GOOGLE_TAG_MANAGER_ID = env.google_tag_manager_id
 GOOGLE_TAG_MANAGER_ENV = env.google_tag_manager_env
 UTM_COOKIE_DOMAIN = env.utm_cookie_domain
 GA360_BUSINESS_UNIT = 'GreatMagna'
+
+GA4_API_URL = env.ga4_api_url
+GA4_API_SECRET = env.ga4_api_secret
+GA4_MEASUREMENT_ID = env.ga4_measurement_id
 
 PRIVACY_COOKIE_DOMAIN = env.privacy_cookie_domain
 if not PRIVACY_COOKIE_DOMAIN:

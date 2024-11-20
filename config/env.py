@@ -1,7 +1,7 @@
 import os
-import dj_database_url
-from typing import Any, Optional, Union
+from typing import Any, Optional
 
+import dj_database_url
 from dbt_copilot_python.database import database_url_from_env
 from dbt_copilot_python.utility import is_copilot
 from pydantic import BaseModel, ConfigDict, computed_field
@@ -23,7 +23,7 @@ class BaseSettings(PydanticBaseSettings):
     secret_key: str = 'fake_secret_key'
     app_environment: str = 'dev'
 
-    safelist_hosts: str = []
+    safelist_hosts: str = ''
 
     wagtail_cache: bool = False
     wagtail_cache_timout: int = 4 * 60 * 60  # 4 hours (in seconds)
@@ -107,6 +107,10 @@ class BaseSettings(PydanticBaseSettings):
     google_tag_manager_id: str
     google_tag_manager_env: str = ''
     utm_cookie_domain: str
+
+    ga4_api_url: str = 'https://www.google-analytics.com/mp/collect'
+    ga4_api_secret: str = ''
+    ga4_measurement_id: str = ''
 
     recaptcha_public_key: str
     recaptcha_private_key: str
