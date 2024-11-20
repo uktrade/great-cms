@@ -8,7 +8,7 @@ from django.utils.translation import get_language
 from wagtail.models import Locale
 
 from contact.views import BaseNotifyUserFormView
-from core.context_processors import microsite_header, microsite_footer
+from core.context_processors import microsite_footer, microsite_header
 from core.datastructures import NotifySettings
 from core.helpers import get_location
 from core.models import MicrositePage
