@@ -178,9 +178,14 @@ def get_current_step(user_data, triage_data):
     # Steps in the triage and associated required fields.
     # If any of these fields are empty, return the view to
     # allow the user to continue where they left off.
+    find_your_company_step = ['company_name']
+    if not user_data.duns_number:
+        find_your_company_step.append('address_line_1')
+        find_your_company_step.append('town')
+
     triage_steps = {
         'business-headquarters': ['company_location'],
-        'find-your-company': ['company_name', 'address_line_1', 'town'],
+        'find-your-company': find_your_company_step,
         'business-sector': ['sector'],
         'know-setup-location': ['location_none'],
         'when-want-setup': ['landing_timeframe'],
@@ -209,12 +214,18 @@ def is_triage_complete(user_data, triage_data):
     if user_data is None or triage_data is None:
         return False
 
+    if user_data.address_line_1 or user_data.duns_number:
+        print("TRUE")
+
+    if user_data.town or user_data.duns_number:
+        print("TRUE")
+
     if (
         user_data.company_location
         and user_data.company_name
-        and user_data.address_line_1
+        and (user_data.address_line_1 or user_data.duns_number)
         and user_data.full_name
-        and user_data.town
+        and (user_data.town or user_data.duns_number)
         and user_data.role
         and user_data.telephone_number
         and user_data.landing_timeframe

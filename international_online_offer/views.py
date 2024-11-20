@@ -158,8 +158,6 @@ class BusinessHeadQuartersView(GA360Mixin, FormView):  # /PS-IGNORE
         country, if not (e.g. using back button navigation inside triage) use the cache with modified country.
         """
 
-        self.request.session['eyb:edit_country'] = self.request.GET.get('edit_country', 'False') == 'True'
-
         company_location = ''
         if self.request.user.is_authenticated:
             user_data = get_user_data_for_user(self.request)
@@ -188,6 +186,8 @@ class BusinessHeadQuartersView(GA360Mixin, FormView):  # /PS-IGNORE
             defaults = {}
 
             defaults['company_location'] = form.cleaned_data['company_location']
+
+            self.request.session['eyb:edit_country'] = self.request.GET.get('edit_country', 'False') == 'True'
 
             if user_data:
                 # there are two points at which we enter an edit state for headquarters/company record.
