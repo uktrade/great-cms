@@ -44,6 +44,7 @@ from directory_sso_api_client import sso_api_client
 from export_academy import filters, forms, helpers, models
 from export_academy.helpers import (
     calender_content,
+    get_accordion_items,
     get_badges_for_event,
     get_buttons_for_event,
     update_booking,
@@ -903,9 +904,16 @@ class EACourseView(TemplateView):
     def get_context_data(self, **kwargs):
         self.page = get_list_or_404(models.CoursePage, live=True, slug=kwargs['slug'])[0]
         ctx = super().get_context_data(**kwargs)
-        ctx['signed_in'] = True if self.request.user != AnonymousUser() else False
-        ctx['page'] = self.page
-        ctx['bespoke_breadcrumbs'] = [{'title': 'UK Export Academy', 'url': '/export-academy/'}]
+        signed_in = self.request.user != AnonymousUser()
+
+        ctx.update(
+            {
+                'signed_in': signed_in,
+                'page': self.page,
+                'bespoke_breadcrumbs': [{'title': 'UK Export Academy', 'url': '/export-academy/'}],
+                'accordion': get_accordion_items(self.page.get_events(), signed_in),
+            }
+        )
         return ctx
 
 

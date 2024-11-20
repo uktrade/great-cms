@@ -6,6 +6,7 @@ from typing import Any, Dict
 import directory_healthcheck.backends
 import dj_database_url
 import sentry_sdk
+from dbt_copilot_python.database import database_from_env
 from dbt_copilot_python.utility import is_copilot
 from django.urls import reverse_lazy
 from django_log_formatter_asim import ASIMFormatter
@@ -29,7 +30,7 @@ APP_ENVIRONMENT = env.app_environment
 # As the app is running behind a host-based router supplied by GDS PaaS, we can open ALLOWED_HOSTS
 ALLOWED_HOSTS = ['*']
 
-SAFELIST_HOSTS = env.safelist_hosts
+SAFELIST_HOSTS = [host.strip() for host in env.safelist_hosts.split(',')]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#append-slash
 APPEND_SLASH = True
@@ -196,9 +197,15 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Database
-# Database
-# https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-DATABASES = {'default': dj_database_url.config(default=env.database_url)}
+# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
+
+if is_copilot():
+    DATABASES = database_from_env('DATABASE_CREDENTIALS')
+    DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
+
+else:
+    DATABASES = {'default': dj_database_url.config(default=env.database_url)}
+
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
 REDIS_URL = env.redis_url
@@ -608,6 +615,10 @@ GOOGLE_TAG_MANAGER_ID = env.google_tag_manager_id
 GOOGLE_TAG_MANAGER_ENV = env.google_tag_manager_env
 UTM_COOKIE_DOMAIN = env.utm_cookie_domain
 GA360_BUSINESS_UNIT = 'GreatMagna'
+
+GA4_API_URL = env.ga4_api_url
+GA4_API_SECRET = env.ga4_api_secret
+GA4_MEASUREMENT_ID = env.ga4_measurement_id
 
 PRIVACY_COOKIE_DOMAIN = env.privacy_cookie_domain
 if not PRIVACY_COOKIE_DOMAIN:

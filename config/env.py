@@ -22,7 +22,7 @@ class BaseSettings(PydanticBaseSettings):
     secret_key: str = 'fake_secret_key'
     app_environment: str = 'dev'
 
-    safelist_hosts: str = []
+    safelist_hosts: str = ''
 
     wagtail_cache: bool = False
     wagtail_cache_timout: int = 4 * 60 * 60  # 4 hours (in seconds)
@@ -106,6 +106,10 @@ class BaseSettings(PydanticBaseSettings):
     google_tag_manager_id: str
     google_tag_manager_env: str = ''
     utm_cookie_domain: str
+
+    ga4_api_url: str = 'https://www.google-analytics.com/mp/collect'
+    ga4_api_secret: str = ''
+    ga4_measurement_id: str = ''
 
     recaptcha_public_key: str
     recaptcha_private_key: str

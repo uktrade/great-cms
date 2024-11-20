@@ -79,7 +79,9 @@
                     </div>
                 </div>
                 <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-full">{% include './includes/step_guide.html' %}</div>
+                    <div class="govuk-grid-column-full">
+                        {% include '_accordion.html' with id=accordion.id items=accordion.items classes=accordion.classes %}
+                    </div>
                 </div>
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-full">
