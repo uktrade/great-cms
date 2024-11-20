@@ -5,6 +5,7 @@ set -e
 
 # Add commands below to run inside the container after all the other buildpacks have been applied
 
+echo "Running image_build_run.sh"
 export BUILD_STEP='true'
 
 # shellcheck disable=SC2046
@@ -33,23 +34,22 @@ export DIRECTORY_FORMS_API_BASE_URL='http://forms.trade.great:8011'
 export DIRECTORY_FORMS_DEFAULT_TIMEOUT='30'
 export DIRECTORY_API_CLIENT_BASE_URL='http://api.trade.great:8000'
 export DIRECTORY_API_CLIENT_API_KEY='debug'
-export DIRECTORY_FORMS_API_API_KEY='01234567890123456789012345678912'
+export DIRECTORY_FORMS_API_API_KEY=''
 export DIRECTORY_FORMS_API_SENDER_ID='12345678-1234-1234-1234-123456789012'
 export EU_EXIT_ZENDESK_SUBDOMAIN='debug'
-export CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS='great-cms-local-dev@mail.ci.uktrade.digital'
-export CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_EMAIL_ADDRESS='great-cms-local-dev@mail.ci.uktrade.digital'
-export CONTACT_DIT_AGENT_EMAIL_ADDRESS='great-cms-local-dev@mail.ci.uktrade.digital'
-export CONTACT_EVENTS_AGENT_EMAIL_ADDRESS='great-cms-local-dev@mail.ci.uktrade.digital'
-export CONTACT_DSO_AGENT_EMAIL_ADDRESS='great-cms-local-dev@mail.ci.uktrade.digital'
-export CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS='great-cms-local-dev@mail.ci.uktrade.digital'
-export UKEF_CONTACT_AGENT_EMAIL_ADDRESS='great-cms-local-dev@mail.ci.uktrade.digital'
+export CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS='local'
+export CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_EMAIL_ADDRESS='local'
+export CONTACT_DIT_AGENT_EMAIL_ADDRESS='local'
+export CONTACT_EVENTS_AGENT_EMAIL_ADDRESS='local'
+export CONTACT_DSO_AGENT_EMAIL_ADDRESS='local'
+export CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS='lcoal'
+export UKEF_CONTACT_AGENT_EMAIL_ADDRESS='lcoal'
 export UKEF_FORM_SUBMIT_TRACKER_URL='http://go.pardot.com/l/590031/2018-08-16/5kj25l'
 export MAXMIND_LICENCE_KEY='debug'
 export WAGTAILTRANSFER_SECRET_KEY='local-one'
 export WAGTAIL_TRANSFER_LOCAL_DEV='False'
 export HEALTH_CHECK_TOKEN='debug'
-
-echo "Running image_build_run.sh"
+export ELASTIC_APM_SECRET_TOKEN='fake-token'
 
 echo "Running collectstatic"
 python manage.py collectstatic --noinput
