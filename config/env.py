@@ -107,6 +107,10 @@ class BaseSettings(PydanticBaseSettings):
     google_tag_manager_env: str = ''
     utm_cookie_domain: str
 
+    ga4_api_url: str = 'https://www.google-analytics.com/mp/collect'
+    ga4_api_secret: str = ''
+    ga4_measurement_id: str = ''
+
     recaptcha_public_key: str
     recaptcha_private_key: str
     recaptcha_required_score: float = 0.5
