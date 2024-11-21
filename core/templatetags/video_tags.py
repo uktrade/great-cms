@@ -81,12 +81,12 @@ def render_video(block, event_name=None):  # noqa: C901
                 </div>
             """
 
-        summary_text = ""
+        summary_text = ''
         if hidden_text:
             summary_text = f"""<span class="govuk-visually-hidden">View transcript for {hidden_text} recording</span>
                              <span aria-hidden="true">View transcript</span>"""
         else:
-            summary_text = "View Transcript"
+            summary_text = 'View transcript'
 
         transcript_container = render_to_string(
             '_details.html',
