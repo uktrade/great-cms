@@ -161,7 +161,7 @@ class DomesticExportSupportStep1Form(forms.Form):
     company_registration_number = forms.CharField(
         label='Company registration number',
         help_text='Information about the company helps us to improve how we answer your query.',
-        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input', 'maxlength': '8'}),
         required=False,
     )
     business_postcode = forms.CharField(
