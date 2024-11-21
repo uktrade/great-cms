@@ -2,6 +2,7 @@
 {% load static %}
 {% load wagtailimages_tags %}
 {% load company_filters %}
+{% load investment_filters %}
 {% block head_title %}
     {% if form.errors %}Error:{% endif %}
     Investment opportunity search
@@ -46,7 +47,4 @@
         </div>
     </section>
 {% endblock %}
-{% block body_js %}
-    {{ block.super }}
-    <script>document.getElementsByClassName("govuk-accordion__controls")[0].style.display = 'none';</script>
-{% endblock %}
+{% block body_js %}{{ block.super }}{% endblock %}

@@ -17,7 +17,9 @@
         </a>
         {% if opportunity %}
             <p class="govuk-body govuk-!-margin-bottom-2">
-                <i class="fa fa-map-marker-alt" aria-hidden="true"></i> <span class="govuk-hint">{{ opportunity.location }}, {{ opportunity.region }}</span>
+                <i class="fa fa-map-marker-alt" aria-hidden="true"></i> <span class="govuk-hint">
+                    {% if opportunity.location %}{{ opportunity.location }},{% endif %}
+                {{ opportunity.region }}</span>
             </p>
         {% endif %}
         {% if description %}<p class="govuk-body govuk-!-margin-bottom-4">{{ description }}</p>{% endif %}

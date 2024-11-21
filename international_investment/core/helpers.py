@@ -1,8 +1,3 @@
-from international_investment.core.choices import (
-    SPEND_CHOICES,
-    SPEND_CHOICES_EURO,
-    SPEND_CHOICES_USD,
-)
 from international_online_offer.core.choices import COMPANY_LOCATION_CHOICES
 
 
@@ -11,15 +6,6 @@ def get_location_display(value):
         if key == value:
             return display
     return value
-
-
-def get_spend_choices_by_currency(currency):
-    spend_choices = SPEND_CHOICES
-    if currency == 'EUR':
-        spend_choices = SPEND_CHOICES_EURO
-    elif currency == 'USD':
-        spend_choices = SPEND_CHOICES_USD
-    return spend_choices
 
 
 def get_investment_opportunities_search_filters(opportunities):
@@ -41,7 +27,6 @@ def get_investment_opportunities_search_filters(opportunities):
     investment_type_filters.sort()
 
     sector_choices = tuple((sector_filter, sector_filter) for sector_filter in sector_filters)
-
     region_choices = tuple((region_filter, region_filter) for region_filter in region_filters)
 
     investment_type_choices = tuple(
