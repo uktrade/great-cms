@@ -766,7 +766,11 @@ class LessonPlaceholderPage(Page, mixins.AuthenticatedUserRequired if not settin
         return self._redirect_to_parent_module()
 
 
-class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage, mixins.HCSATMixin):
+class DetailPage(
+    WagtailCacheMixin, settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGenericPage, mixins.HCSATMixin
+):
+    cache_control = 'no-cache'
+
     estimated_read_duration = models.DurationField(null=True, blank=True)
     parent_page_types = [
         'core.CuratedListPage',  # TEMPORARY: remove after topics refactor migration has run
