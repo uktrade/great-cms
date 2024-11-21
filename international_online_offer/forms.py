@@ -66,7 +66,7 @@ class FindYourCompanyForm(forms.Form):
         required=True,
         widget=HiddenInput(attrs={'id': 'company-name'}),
         error_messages={
-            'required': 'Search again for company name or enter manually',
+            'required': 'Search for company name or enter manually',
         },
     )
 
@@ -75,7 +75,7 @@ class FindYourCompanyForm(forms.Form):
         required=True,
         widget=HiddenInput(attrs={'id': 'company-duns-number'}),
         error_messages={
-            'required': 'When searching please select an option or enter manually',
+            'required': 'Search for company name or enter manually',
         },
     )
 

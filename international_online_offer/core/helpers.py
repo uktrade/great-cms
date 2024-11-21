@@ -214,12 +214,6 @@ def is_triage_complete(user_data, triage_data):
     if user_data is None or triage_data is None:
         return False
 
-    if user_data.address_line_1 or user_data.duns_number:
-        print("TRUE")
-
-    if user_data.town or user_data.duns_number:
-        print("TRUE")
-
     if (
         user_data.company_location
         and user_data.company_name
