@@ -108,9 +108,6 @@ class ContactView(GA360Mixin, HCSATMixin, FormView):  # /PS-IGNORE
 
     def form_valid(self, form):
 
-        if self.get_form_class() is forms.ContactForm:
-            self.submit_feedback(form)
-
         if 'action' not in form.cleaned_data.keys():
             super().form_valid(form)
 
@@ -135,4 +132,6 @@ class ContactView(GA360Mixin, HCSATMixin, FormView):  # /PS-IGNORE
             if 'js_enabled' in self.request.get_full_path():
                 return JsonResponse({'pk': hcsat.pk})
             return HttpResponseRedirect(self.get_success_url())
+        else:
+            self.submit_feedback(form)
         return super().form_valid(form)
