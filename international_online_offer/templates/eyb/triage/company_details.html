@@ -16,7 +16,7 @@
     {{ block.super }}
 {% endblock %}
 {% block content %}
-    {{block.super}}
+    {{ block.super }}
     <div class="great-container">
         {% include '../includes/triage_header.html' with back_url=back_url %}
         <div class="govuk-grid-row">
@@ -62,7 +62,7 @@
                                 </dd>
                                 <dd class="govuk-summary-list__value govuk-!-display-block">
                                     <a class="govuk-link"
-                                       href="{% url 'international_online_offer:business-headquarters' %}?next={% url 'international_online_offer:company-details' %}&amp;edit_country=True">Change<span class="govuk-visually-hidden">location of company headquarters</span></a>
+                                       href="{% url 'international_online_offer:business-headquarters' %}?next={% url 'international_online_offer:company-details' %}">Change<span class="govuk-visually-hidden">location of company headquarters</span></a>
                                 </dd>
                             </div>
                         </dl>
