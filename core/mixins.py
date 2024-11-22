@@ -3,7 +3,8 @@ import pickle
 from importlib import import_module
 
 from django.conf import settings
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect, JsonResponse
+from django.template.response import TemplateResponse
 from django.utils import translation
 from great_components import helpers as great_components_helpers
 
@@ -234,6 +235,8 @@ class GuidedJourneyMixin:
 
 
 class HCSATMixin:
+    is_international_hcsat = False
+
     def get_hcsat(self, request, service):
         hcsat_id = request.session.get(f'{service}_hcsat_id')
         if hcsat_id:
@@ -258,7 +261,16 @@ class HCSATMixin:
             hcsat.save()
         else:
             ctx['hcsat_form_stage'] = hcsat.stage if hcsat else 0
+
         return ctx
+
+    def set_is_csat_complete(self, request, context):
+        # Check/set in this order to show confirmation message when just completed then hide csat for rest of session
+        if request.session.get('csat_complete'):
+            context['csat_complete'] = True
+
+        if context['hcsat_form_stage'] == 2:
+            request.session['csat_complete'] = True
 
     def persist_existing_satisfaction(self, request, hcsat_service_name, hcsat_form):
         if not hcsat_form.satisfaction_rating:
@@ -274,6 +286,93 @@ class HCSATMixin:
             'learn_to_export': 'Learn to export',
             'export_plan': 'Make an export plan',
             'find_a_buyer': 'Find a buyer',
+            'eyb': 'Expand your business',
         }
         return f"""Overall, how would you rate your experience with the
          {service_name_to_readable_name_map[hcsat_service_name]} service today?"""
+
+
+class HCSATNonFormPageMixin(HCSATMixin):
+    """
+    A mixin that can be used for adding HCSAT to pages that do not extend django's form view,
+    e.g. Wagtail pages. Do not use in a form page as methods such as form_valid are defined below.
+    """
+
+    @property
+    def get_csat_form(self):
+        """Import the core HCSATFrom here to avoid import conflicts"""
+        from core.forms import HCSATForm as DomesticHCSAT
+        from international.forms import InternationalHCSATForm
+
+        return InternationalHCSATForm if self.is_international_hcsat else DomesticHCSAT
+
+    def get_success_url(self, request):
+        return request.get_full_path()
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_csat_form
+
+        hcsat = self.get_hcsat(request, self.hcsat_service_name)
+        post_data = request.POST
+        if 'cancelButton' in post_data:
+            """
+            Redirect user if 'cancelButton' is found in the POST data
+            """
+            if hcsat:
+                hcsat.stage = 2
+                hcsat.save()
+            return HttpResponseRedirect(self.get_success_url(request))
+
+        form = form_class(post_data)
+
+        if form.is_valid():
+            if hcsat:
+                form = form_class(post_data, instance=hcsat)
+                form.is_valid()
+            return self.form_valid(form, request)
+        else:
+            return self.form_invalid(form, request)
+
+    def form_invalid(self, form, request):
+        if 'js_enabled' in request.get_full_path():
+            return JsonResponse(form.errors, status=400)
+
+        context = {}
+        if hasattr(self, 'get_context'):
+            # wagtail page
+            context = self.get_context(request, form=form)
+        elif hasattr(self, 'get_context_data'):
+            # django view/template
+            context = self.get_context_data(form=form)
+
+        return TemplateResponse(
+            request,
+            self.get_template(request),
+            context,
+        )
+
+    def form_valid(self, form, request):
+
+        hcsat = form.save(commit=False)
+        js_enabled = False
+
+        # js version handles form progression in js file, so keep on 0 for reloads
+        if 'js_enabled' in request.get_full_path():
+            hcsat.stage = 0
+            js_enabled = True
+
+        # if in second part of form (satisfaction=None) or not given in first part, persist existing satisfaction rating
+        hcsat = self.persist_existing_satisfaction(request, self.hcsat_service_name, hcsat)
+
+        # Apply data specific to this service
+        hcsat.URL = self.get_success_url(request)
+        hcsat.user_journey = 'ARTICLE_PAGE'
+        hcsat.session_key = request.session.session_key
+        hcsat.service_name = getattr(self, 'hcsat_service_name', '')
+        hcsat.save(js_enabled=js_enabled)
+
+        request.session[f'{self.hcsat_service_name}_hcsat_id'] = hcsat.id
+
+        if 'js_enabled' in request.get_full_path():
+            return JsonResponse({'pk': hcsat.pk})
+        return HttpResponseRedirect(self.get_success_url(request))

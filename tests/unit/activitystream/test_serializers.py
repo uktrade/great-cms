@@ -331,8 +331,8 @@ def test_ukea_registration_serializer():
             'email': instance.email,
             'externalId': instance.external_id,
             'hashedSsoId': instance.hashed_sso_id,
-            'firstName': instance.first_name,
-            'lastName': instance.last_name,
+            'firstName': instance.first_name,  # /PS-IGNORE
+            'lastName': instance.last_name,  # /PS-IGNORE
             'data': instance.data,
         },
     }
@@ -372,7 +372,7 @@ def test_eyb_user_serializer():
     instance.company_location = 'UK'
     instance.full_name = 'Name'
     instance.role = 'Director'
-    instance.email = 'email@email.com'
+    instance.email = 'email@email.com'  # /PS-IGNORE
     instance.telephone_number = '07123567896'
     instance.agree_terms = True
     instance.agree_info_email = False
@@ -385,7 +385,7 @@ def test_eyb_user_serializer():
     instance.address_line_2 = 'Electric avenue'
     instance.town = 'Swansea'
     instance.county = 'Glamorgan'
-    instance.postcode = 'SA4 4PP'
+    instance.postcode = 'SA4 4PP'  # /PS-IGNORE
 
     serializer = ActivityStreamExpandYourBusinessUserDataSerializer()
 
@@ -538,8 +538,12 @@ def test_domestic_hcsat_feedback_serializer():
             'other_detail': instance.other_detail,
             'service_improvements_feedback': instance.service_improvements_feedback,
             'likelihood_of_return': instance.likelihood_of_return,
+            'service_name': instance.service_name,
+            'service_specific_feedback': instance.service_specific_feedback,
+            'service_specific_feedback_other': instance.service_specific_feedback_other,
         },
     }
+
     assert output == expected
 
 
