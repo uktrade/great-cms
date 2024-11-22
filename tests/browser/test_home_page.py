@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
+import logging
 from typing import List
 
-import allure
 import pytest
 from selenium.webdriver.remote.webdriver import WebDriver
 
@@ -24,9 +24,11 @@ pytestmark = [
     pytest.mark.django_db,
 ]
 
+logger = logging.getLogger(__name__)
 
-@allure.step('Fill out and submit sign-up form')
+
 def submit_sign_up_form(browser: WebDriver, email: str, password: str):
+    logger.info('Fill out and submit sign-up form')
     email_input = find_element(browser, SignUpModal.EMAIL)
     password_input = find_element(browser, SignUpModal.PASSWORD)
     submit_button = find_element(browser, SignUpModal.SUBMIT)
@@ -36,8 +38,8 @@ def submit_sign_up_form(browser: WebDriver, email: str, password: str):
     submit_button.click()
 
 
-@allure.step('Submit verification code')
 def submit_verification_code(browser: WebDriver, code: str):
+    logger.info('Submit verification code')
     code_input = find_element(browser, SignUpModalVerificationCode.VERIFICATION_CODE)
     code_input.send_keys(code)
 
@@ -45,8 +47,8 @@ def submit_verification_code(browser: WebDriver, code: str):
     submit_code.click()
 
 
-@allure.step('Should not see errors during sign-up process')
 def should_not_see_sign_up_errors(browser: WebDriver):
+    logger.info('Should not see errors during sign-up process')
     error = 'Expected not to see sign-up errors'
     try:
         assert not is_element_present(browser, SignUpModal.ERROR_MESSAGES), error
@@ -55,10 +57,10 @@ def should_not_see_sign_up_errors(browser: WebDriver):
         raise
 
 
-@allure.step('Should see errors')
 def should_see_expected_error_messages(
     browser: WebDriver, expected_email_errors: List[str], expected_password_errors: List[str]
 ):
+    logger.info('Should see errors')
     attach_jpg_screenshot(browser, 'Sign-up modal with errors', selector=SignUpModal.MODAL)
     error_elements = find_elements(browser, SignUpModal.ERROR_MESSAGES)
     error_messages = [error.text for error in error_elements]

@@ -11,11 +11,11 @@ from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
 from django.urls import reverse
-from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
+from django.views.decorators.csrf import csrf_protect
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
 from great_components.mixins import GA360Mixin  # /PS-IGNORE
 from modelcluster.contrib.taggit import ClusterTaggableManager
@@ -2514,6 +2514,13 @@ class HCSAT(TimeStampedModel):
     likelihood_of_return = models.CharField(max_length=255, choices=constants.LIKELIHOOD_CHOICES, null=True)
 
     stage = models.IntegerField(default=0)
+
+    # enable service specific HCSAT questions to be stored
+    service_name = models.CharField(max_length=255, null=True, blank=True)
+    service_specific_feedback = ArrayField(
+        models.CharField(max_length=255), size=10, default=list, null=True, blank=True
+    )
+    service_specific_feedback_other = models.CharField(max_length=255, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         # Used to manage the HCSAT stage
