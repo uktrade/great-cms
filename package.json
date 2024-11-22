@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "start": "echo start",
     "lighthouse": "lhci autorun",
     "test": "jest --testPathIgnorePatterns=venv --config jest.config.js",
     "test:dev": "jest --watch",
@@ -74,7 +75,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "@fortawesome/fontawesome-free": "^5.15.4",
-    "@uktrade/great-design-system": "1.0.7",
+    "@uktrade/great-design-system": "1.0.8",
     "govuk-frontend": "^4.5.0",
     "great-styles": "github:uktrade/great-styles",
     "prop-types": "15.7.2",

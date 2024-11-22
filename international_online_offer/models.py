@@ -28,6 +28,7 @@ from international_online_offer.core import (
 )
 from international_online_offer.forms import LocationSelectForm
 from international_online_offer.services import get_median_salaries, get_rent_data
+from .helpers import get_step_guide_accordion_items
 
 
 class EYBIndexPage(BaseContentPage):
@@ -99,6 +100,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage):
 
     def get_context(self, request, user_data, triage_data, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
+        context['accordion'] = get_step_guide_accordion_items()
         user_data = get_user_data_for_user(request)
         triage_data = get_triage_data_for_user(request)
 

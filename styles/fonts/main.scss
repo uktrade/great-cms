@@ -29,7 +29,7 @@ article > p {
   padding-bottom: $standard-padding;
 }
 
-#great-footer-copyright, .subheading  {
+.subheading  {
 @include p-mixin
 }
 
@@ -37,11 +37,6 @@ article > p {
   font-family: $header-font !important;
   color: $color-main-text !important;
   font-weight: $font-weight-semi-bold;
-}
-
-#great-footer-copyright {
-  font-size: $font-size-p-small;
-  line-height: $p-line-height;
 }
 
 //just overidde colors

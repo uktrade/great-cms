@@ -60,8 +60,8 @@ class BaseSettings(PydanticBaseSettings):
     aws_storage_bucket_name: str = ''
     aws_s3_custom_domain: str = ''
     aws_s3_url_protocol: str = 'https:'
-    aws_access_key_id: str
-    aws_secret_access_key: str
+    aws_access_key_id: str = ''
+    aws_secret_access_key: str = ''
     aws_s3_host: str = 's3-eu-west-2.amazonaws.com'
     aws_s3_signature_version: str = 's3v4'
     aws_querystring_auth: bool = False
@@ -106,6 +106,10 @@ class BaseSettings(PydanticBaseSettings):
     google_tag_manager_id: str
     google_tag_manager_env: str = ''
     utm_cookie_domain: str
+
+    ga4_api_url: str = 'https://www.google-analytics.com/mp/collect'
+    ga4_api_secret: str = ''
+    ga4_measurement_id: str = ''
 
     recaptcha_public_key: str
     recaptcha_private_key: str
