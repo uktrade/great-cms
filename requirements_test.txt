@@ -8,10 +8,6 @@
 
 alabaster==0.7.16
     # via sphinx
-allure-pytest==2.13.5
-    # via -r requirements_test.in
-allure-python-commons==2.13.5
-    # via allure-pytest
 amqp==5.3.1
     # via kombu
 annotated-types==0.7.0
@@ -35,7 +31,6 @@ async-timeout==5.0.1
     # via redis
 attrs==24.2.0
     # via
-    #   allure-python-commons
     #   jsonschema
     #   outcome
     #   trio
@@ -582,9 +577,7 @@ platformdirs==4.3.6
     #   pylint
     #   virtualenv
 pluggy==1.5.0
-    # via
-    #   allure-python-commons
-    #   pytest
+    # via pytest
 polib==1.2.0
     # via wagtail-localize
 pre-commit==3.8.0
@@ -662,7 +655,6 @@ pysocks==1.7.1
 pytest==8.3.3
     # via
     #   -r requirements_test.in
-    #   allure-pytest
     #   pytest-codecov
     #   pytest-cov
     #   pytest-django
@@ -773,7 +765,7 @@ s3transfer==0.6.2
     # via boto3
 selenium==4.26.1
     # via -r requirements_test.in
-sentry-sdk==2.18.0
+sentry-sdk==2.19.0
     # via -r requirements.in
 sigauth==5.3.0
     # via
