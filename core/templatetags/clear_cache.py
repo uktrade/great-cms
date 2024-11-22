@@ -18,8 +18,20 @@ class ClearCacheNode(template.Node):
                 'utf-8'
             )
         )
+        from django.core.cache.utils import make_template_fragment_key
+
         cache_key = 'template.cache.%s.%s' % (self.fragment_name, args.hexdigest())
-        cache.delete(cache_key)
+        print('clear-cache key', cache_key)
+        from django.core.cache import cache
+
+        key = make_template_fragment_key('hcsat')
+
+        result2 = cache.delete(key)
+        result1 = cache.delete_many(keys=cache.keys('*hcsat*'))
+        result = cache.delete(cache_key)
+        print('result', result)
+        print('result1', result1)
+        print('result2', result2)
         return ''
 
 
@@ -42,6 +54,7 @@ def clear_cache(parser, token):
     """
     try:
         tokens = token.split_contents()
+        print('tokens', tokens)
     except ValueError:
         raise template.TemplateSyntaxError('%r tag requires at least one argument' % token.contents.split()[0])
     return ClearCacheNode(tokens[1], tokens[2:])

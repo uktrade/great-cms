@@ -96,6 +96,8 @@
 {% block body_inline_feedback %}{% endblock %}
 {% load clear_cache %}
 {% clear_cache hcsat %}
+{% load cache %}
+{% cache 500 hcsat %}
 {% block hcsat %}
 {% if not csat_complete %}
     <section id="hcsat_section"
@@ -106,6 +108,7 @@
     </section>
 {% endif %}
 {% endblock %}
+{% endcache %}
 {% clear_cache hcsat %}
 {% endblock %}
 {% block body_js %}
