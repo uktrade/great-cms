@@ -1,0 +1,9 @@
+{% extends 'domestic/contact/export-support/base.html' %}
+{% block form_fields %}
+    {% for field in form.visible_fields %}
+        <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
+            {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
+        </div>
+        {% if not forloop.last %}<hr>{% endif %}
+    {% endfor %}
+{% endblock %}
