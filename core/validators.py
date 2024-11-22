@@ -1,3 +1,6 @@
+from datetime import time
+
+import sentry_sdk
 from django.conf import settings
 from django.forms import ValidationError
 from django.utils.translation import gettext_lazy as _
@@ -18,12 +21,17 @@ def validate_file_infection(file):
     if not settings.CLAM_AV_ENABLED:
         return
 
-    response = clam_av_client.scan_chunked(file).json()
-    is_file_infected = response['malware']
+    start_time = time.time()
+    try:
+        response = clam_av_client.scan_chunked(file).json()
+        is_file_infected = response['malware']
 
-    if is_file_infected:
-        raise ValidationError('Rejected: uploaded file did not pass security scan')
-
+        if is_file_infected:
+            raise ValidationError('Rejected: uploaded file did not pass security scan')
+    finally:
+        end_time = time.time()
+        scan_duration = end_time - start_time
+        sentry_sdk.capture_message(f'Virus scan for file {file.name} took {scan_duration:.2f} seconds')
     file.seek(0)
 
 
