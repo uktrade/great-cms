@@ -3,7 +3,6 @@
 # Testing
 # ------------
 Werkzeug
-allure-pytest
 pillow>=7.1.0
 selenium
 flask
