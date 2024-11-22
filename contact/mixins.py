@@ -31,6 +31,9 @@ class ExportSupportFormMixin:
         if kwargs.get('is_feedback_form'):
             button_text = 'Submit feedback'
 
+        if kwargs.get('is_satisfaction_form'):
+            button_text = 'Submit and continue'
+
         if self.kwargs.get('edit'):
             button_text = 'Save'
 
