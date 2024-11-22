@@ -746,7 +746,7 @@ def test_feedback_form_full_name(captcha_stub):
         (
             forms.DomesticExportSupportStep8Form,
             {
-                'help_us_improve': 'easy',
+                'help_us_improve': 'satisfied',
             },
             True,
             {},
@@ -759,6 +759,27 @@ def test_feedback_form_full_name(captcha_stub):
             False,
             {
                 'help_us_improve': 'Choose an option',
+            },
+        ),
+        (
+            forms.DomesticExportSupportStep9Form,
+            {
+                'form_issues': ['I_did_not_find_what_I_was_looking_for'],
+                'type_of_support': ['Market_selection'],
+                'explored_great': 'yes',
+                'how_can_we_improve': '',
+            },
+            True,
+            {},
+        ),
+        (
+            forms.DomesticExportSupportStep9Form,
+            {'form_issues': '', 'type_of_support': '', 'explored_great': '', 'how_can_we_improve': ''},
+            False,
+            {
+                'form_issues': 'Choose an option',
+                'type_of_support': 'Choose an option',
+                'explored_great': 'Choose an option',
             },
         ),
     ),
