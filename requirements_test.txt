@@ -363,7 +363,7 @@ googleapis-common-protos==1.66.0
     # via
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
-great-components==2.7.2
+great-components==2.6.5
     # via -r requirements.in
 greenlet==3.1.1
     # via gevent
@@ -773,7 +773,7 @@ s3transfer==0.6.2
     # via boto3
 selenium==4.26.1
     # via -r requirements_test.in
-sentry-sdk==2.18.0
+sentry-sdk==2.19.0
     # via -r requirements.in
 sigauth==5.3.0
     # via
@@ -970,7 +970,7 @@ willow[heif]==1.6.3
     # via
     #   wagtail
     #   willow
-wrapt==1.16.0
+wrapt==1.17.0
     # via
     #   deprecated
     #   opentelemetry-instrumentation
