@@ -10,7 +10,16 @@
         <div class="great-container govuk-!-margin-top-9">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full great-grid-column-seven-twelfths">
-                    {% include 'components/great/notification-banner.html' with title='Thank you for your feedback' message='Your feedback has been successfully submitted' %}
+                    <div class="govuk-notification-banner govuk-notification-banner--success">
+                        <div class="govuk-notification-banner__header">
+                            <h2 class="govuk-heading-l govuk-notification-banner__title">Thank you for your further feedback</h2>
+                        </div>
+                        <div class="govuk-notification-banner__content">
+                            <p class="govuk-notification-banner__heading govuk-!-padding-top-4 govuk-!-padding-bottom-4">
+                                We really value you providing us with detailed feedback.
+                            </p>
+                        </div>
+                    </div>
                     <a href="/"
                        class="govuk-button govuk-botton--secondary great-min-300-button">Return to home</a>
                 </div>
