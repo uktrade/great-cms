@@ -530,6 +530,7 @@ def test_feedback_form_full_name(captcha_stub):
             {
                 'business_type': 'limitedcompany',
                 'business_name': 'Test business ltd',
+                'company_registration_number': '01234567',
                 'business_postcode': 'SW1A 1AA',
             },
             True,
@@ -540,6 +541,7 @@ def test_feedback_form_full_name(captcha_stub):
             {
                 'business_type': '',
                 'business_name': '',
+                'company_registration_number': '',
                 'business_postcode': '',
             },
             False,
