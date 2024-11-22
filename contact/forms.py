@@ -161,7 +161,7 @@ class DomesticExportSupportStep1Form(forms.Form):
     company_registration_number = forms.CharField(
         label='Company registration number',
         help_text='Information about the company helps us to improve how we answer your query.',
-        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input', 'maxlength': '8'}),
         required=False,
     )
     business_postcode = forms.CharField(
@@ -425,28 +425,78 @@ class DomesticExportSupportStep7Form(forms.Form):
 class DomesticExportSupportStep8Form(forms.Form):
     help_us_improve = forms.ChoiceField(
         label='Help us improve',
-        help_text='Overall, how easy did you feel the form was to understand and complete?',
+        help_text='Overall, how would you rate your experience with the enquiry form today?',
         widget=contact_widgets.GreatRadioSelect,
         choices=(
-            ('veryEasy', 'Very easy'),
-            ('easy', 'Easy'),
-            ('neither', 'Neither easy or difficult'),
-            ('difficult', 'Difficult'),
-            ('veryDifficult', 'Very difficult'),
+            ('veryDissatisfied', 'Very dissatisfied'),
+            ('dissatisfied', 'Dissatisfied'),
+            ('neither', 'Neither satisfied nor dissatisfied'),
+            ('satisfied', 'Satisfied'),
+            ('verySatisfied', 'Very satisfied'),
         ),
         error_messages={
             'required': 'Choose an option',
         },
     )
-    help_us_further = forms.ChoiceField(
-        label='Would you be interested in helping us further?',
-        help_text="""We regularly conduct user research sessions and are looking for participants
-         , if you're interested in being contacted please confirm below.""",
+
+
+class DomesticExportSupportStep9Form(forms.Form):
+    form_issues = forms.MultipleChoiceField(
+        label='1. Did you experience any of the following issues?',
+        help_text='Select all that apply',
+        widget=contact_widgets.GreatCheckboxes,
+        choices=[
+            ('I_did_not_find_what_I_was_looking_for', 'I did not find what I was looking for'),
+            ('I_found_it_difficult_to_navigate_the_service', 'I found it difficult to navigate the service'),
+            ('The_service_lacks_the_feature_I_need', 'The service lacks the feature I need'),
+            ('I_was_unable_to_load/refresh/visit_a_page', 'I was unable to load/refresh/visit a page'),
+            ('Other', 'Other'),
+            ('I_did_not_experience_any_issues', 'I did not experience any issues'),
+        ],
+        error_messages={
+            'required': 'Choose an option',
+        },
+    )
+
+    type_of_support = forms.MultipleChoiceField(
+        label='2. What support were you looking for today?',
+        help_text='Select all that apply',
+        widget=contact_widgets.GreatCheckboxes,
+        choices=[
+            ('Market_selection', 'Market selection'),
+            ('Routes_to_market_and_operating_overseas', 'Routes to market and operating overseas'),
+            ('Funding_and_financial_considerations', 'Funding and financial considerations'),
+            ('Trade_restrictions_regulations_and_licensing', 'Trade restrictions, regulations and licensing'),
+            ('Logistics', 'Logistics'),
+            ('Customs_taxes_and_declarations', 'Customs, taxes and declarations'),
+            ('Travelling_for_work', 'Travelling for work'),
+            ('Managing_business_risk_and_corruption', 'Managing business risk and corruption'),
+            ('Other', 'Other'),
+            ("I_don't_know", "I don't know"),
+        ],
+        error_messages={
+            'required': 'Choose an option',
+        },
+    )
+
+    explored_great = forms.ChoiceField(
+        label='3. Did you try to find support on great.gov.uk prior to submitting your enquiry?',
         widget=contact_widgets.GreatRadioSelect,
         choices=(
-            ('yes', 'Yes, I am interested in helping with user research'),
-            ('no', 'No, I am not interested in helping with user research'),
+            ('yes', 'Yes'),
+            ('no', 'No'),
+            ('notSure', "I don't know"),
         ),
+        error_messages={
+            'required': 'Choose an option',
+        },
+    )
+
+    how_can_we_improve = forms.CharField(
+        label='4. How could we improve the service?',
+        help_text='(Do not include any personal information like your name or email address.)',
+        widget=django_widgets.Textarea(attrs={'class': 'govuk-textarea'}),
+        max_length=200,
         required=False,
     )
 
