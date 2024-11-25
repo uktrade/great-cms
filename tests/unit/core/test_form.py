@@ -30,7 +30,7 @@ def test_contact_us_form_non_empty_fields():
         'comment': 'no comment',
         'given_name': 'First',
         'family_name': 'family',
-        'email': 'test@test1234.com',
+        'email': 'test@test1234.com',  # /PS-IGNORE
         'terms_agreed': True,
         'captcha': 'True',
     }
