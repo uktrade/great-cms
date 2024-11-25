@@ -2,7 +2,9 @@
 from bs4 import BeautifulSoup
 from django import template
 from django.templatetags import static
+from django.urls import reverse
 from django.utils import timezone
+from django.utils.safestring import mark_safe
 
 from core.helpers import get_markets_list
 from domestic.helpers import (
@@ -334,3 +336,26 @@ def get_market_code(market):
             country_code = code
 
     return country_code.lower()
+
+
+@register.inclusion_tag('_cta_banner.html')
+def render_markets_cta():
+    return {
+        'backgroundClass': 'great-ds-cta-banner--bg-dark-blue',
+        'actionLinkClass': 'great-ds-action-link--white',
+        'headingText': 'Kick start your exporting journey today',
+        'leadingText': 'Learn how to export, find the right market and develop an export plan.',
+        'signUpLink': {'href': '/dashboard', 'linkText': 'Get started'},
+    }
+
+
+@register.inclusion_tag('_cta_banner.html')
+def render_finance_cta(page):
+    return {
+        'headingText': mark_safe(page.contact_proposition),
+        'leadingText': '',
+        'signUpLink': {
+            'href': reverse('domestic:uk-export-finance-lead-generation-form', kwargs={'step': 'contact'}),
+            'linkText': page.contact_button,
+        },
+    }

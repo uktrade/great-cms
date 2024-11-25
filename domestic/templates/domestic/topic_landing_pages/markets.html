@@ -1,5 +1,5 @@
 {% extends 'domestic/base.html' %}
-{% load pagination from component_tags %}
+{% load pagination render_markets_cta from component_tags %}
 {% load static %}
 {% block head_title %}Markets{% endblock %}
 {% block meta_title %}Markets{% endblock %}
@@ -236,9 +236,7 @@
                 </form>
             </div>
             <div class="container">
-                <div class="margin-top-30">
-                    {% include 'components/learning_banner.html' with tag_text="New" heading="Kick start your exporting journey today" sub_heading="Learn how to export, find the right market and develop an export plan." cta_text="Get Started" cta_url="/dashboard/" cta_alt_text="Get Started" %}
-                </div>
+                <div class="margin-top-30">{% render_markets_cta %}</div>
             </div>
         </section>
     {% endblock %}
