@@ -188,6 +188,7 @@ class GuidedJourneyStep1Form(forms.Form):
     make_or_do_keyword = CharField(label='Keyword', required=False, widget=HiddenInput)
     sector = CharField(label='Sector', required=False, widget=HiddenInput)
     exporter_type = CharField(label='Exporter type', required=False, widget=HiddenInput)
+    is_keyword_match = CharField(label='Is keyword match', required=False, widget=HiddenInput)
 
 
 class GuidedJourneyStep2Form(forms.Form):

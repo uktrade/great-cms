@@ -258,6 +258,7 @@ $great-design-system-govuk-blue: #1d70b8;
 
 .great-ds-autocomplete-input.govuk-input {
   width: 100%;
+  padding-right: 40px;
 
   &::placeholder {
     color: $great-design-system-interface-mono-50;
@@ -285,6 +286,23 @@ $great-design-system-govuk-blue: #1d70b8;
 
     @include govuk-media-query($from: tablet) {
       top: 15px;
+    }
+  }
+
+  button {
+    cursor: pointer;
+    display: none;
+    position: absolute;
+    border: none;
+    background: $great-design-system-white;
+    width: 30px;
+    height: 30px;
+    top: 7px;
+    right: 10px;
+    z-index: 1;
+
+    @include govuk-media-query($from: tablet) {
+      top: 10px;
     }
   }
 }
@@ -587,7 +605,7 @@ $great-design-system-govuk-blue: #1d70b8;
 }
 
 .great-ds-side-note {
-  @media only screen and (min-width: 961px) {
+  @media only screen and (min-width: 1250px) {
     position: absolute;
     top: 30px;
     right: 30px;
