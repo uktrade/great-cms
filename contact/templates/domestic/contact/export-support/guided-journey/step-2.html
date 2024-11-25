@@ -19,9 +19,7 @@
                                 <form method="post" autocomplete="off" class="great-max-width-{% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH %}675{% else %}500{% endif %}-from-tablet">
                                     {% csrf_token %}
                                     <input type="hidden" id="commodity_name" name="commodity_name" />
-                                    {% if not features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH and not show_results %}
                                     <input type="hidden" id="hs_code" name="hs_code" />
-                                    {% endif %}
 
                                     <h1>
                                         <label class="govuk-heading-l govuk-!-margin-bottom-4" for="hs_code">
@@ -99,6 +97,8 @@
 
     {% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH and show_results %}
     <script type="text/javascript">
+        document.querySelector('input[type="hidden"]#hs_code').remove();
+
         document.querySelector('#hs_code').addEventListener('change', (e) => {
             document.querySelector('[name="hs_code"]').value = e.target.value;
             document.querySelector('[name="commodity_name"]').value = e.target[e.target.selectedIndex].dataset.commodityName;
