@@ -102,7 +102,7 @@ GreatFrontend.MakeOrDoSearchEnhanced = {
             showNoOptionsFound: false,
         });
 
-        const clear_search_button = document.querySelector('[data-make-or-do-form] button');
+        const clear_search_button = document.querySelector('#clear_search');
 
         if (clear_search_button) {
             document.querySelector('#clear_search').addEventListener('click', (e) => {
@@ -115,18 +115,18 @@ GreatFrontend.MakeOrDoSearchEnhanced = {
         
                 document.querySelector('#clear_search').style.display = 'none';
             });
-        }
 
-        document.querySelector('#clear_search').style.display = 'none';
+            document.querySelector('#clear_search').style.display = 'none';
     
-        document.querySelector('#sic_description').addEventListener('focus', (e) => {
-            document.querySelector('#clear_search').style.display = 'block';
-        });
-    
-        document.querySelector('#sic_description').addEventListener('blur', (e) => {
-            setTimeout(() => {
-                document.querySelector('#clear_search').style.display = 'none';
-            }, 200);
-        });
+            document.querySelector('#sic_description').addEventListener('focus', (e) => {
+                document.querySelector('#clear_search').style.display = 'block';
+            });
+        
+            document.querySelector('#sic_description').addEventListener('blur', (e) => {
+                setTimeout(() => {
+                    document.querySelector('#clear_search').style.display = 'none';
+                }, 200);
+            });
+        }
     }
 }
