@@ -87,7 +87,7 @@
                             <div class="govuk-button-group">
                                 {% include 'international/includes/submit_button.html' with button_text=progress_button_text %}
                                 <span class="govuk-body"> or <a class="govuk-link"
-    href="{% url 'international_online_offer:company-details' %}{% if is_editing %}?next={% url 'international_online_offer:change-your-answers' %}{% elif request.GET.next %}?next={% url 'international_online_offer:change-your-answers' %}{% endif %}">Enter company details manually</a> </span>
+    href="{% url 'international_online_offer:company-details' %}{% if request.GET.company_location_change %}?company_location_change=true{% endif %}{% if request.GET.next %}?next={{ request.GET.next }}&back={% url 'international_online_offer:find-your-company' %}?next={{ request.GET.next }}{% endif %}">Enter company details manually</a> </span>
                             </div>
                         </div>
                     </div>

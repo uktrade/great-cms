@@ -138,19 +138,14 @@ class BusinessHeadQuartersView(GA360Mixin, FormView):  # /PS-IGNORE
     def get_success_url(self):
         if self.js_enabled:
             next_url = reverse_lazy('international_online_offer:find-your-company')
-            if self.request.GET.get('next'):
-                next_url += '?next=' + reverse_lazy('international_online_offer:change-your-answers')
-                next_url += (
-                    '&back='
-                    + reverse_lazy('international_online_offer:business-headquarters')
-                    + '?next='
-                    + reverse_lazy('international_online_offer:change-your-answers')
-                )
         else:
-            next_url = f"{reverse_lazy('international_online_offer:company-details')}?back={reverse_lazy('international_online_offer:business-headquarters')}"  # noqa: E501
+            next_url = reverse_lazy('international_online_offer:company-details')  # noqa: E501
 
         if self.request.GET.get('next') and not self.changed_company_location:
             next_url = check_url_host_is_safelisted(self.request)
+
+        if self.changed_company_location:
+            next_url += '?company_location_change=true'
 
         return next_url
 
@@ -237,8 +232,11 @@ class FindYourCompanyView(GA360Mixin, FormView):  # /PS-IGNORE
     def get_back_url(self):
         back_url = reverse_lazy('international_online_offer:business-headquarters')
 
-        if self.request.GET.get('back'):
+        if self.request.GET.get('back') and not self.request.GET.get('company_location_change'):
             back_url = check_url_host_is_safelisted(self.request, 'back')
+
+        if self.request.GET.get('next'):
+            back_url += '?back=' + self.request.GET.get('next')
 
         return back_url
 
@@ -247,6 +245,9 @@ class FindYourCompanyView(GA360Mixin, FormView):  # /PS-IGNORE
 
         if self.request.GET.get('next'):
             next_url = check_url_host_is_safelisted(self.request)
+
+        if self.request.GET.get('company_location_change'):
+            next_url = reverse_lazy('international_online_offer:change-your-answers')
 
         return next_url
 
@@ -315,11 +316,16 @@ class CompanyDetailsView(GA360Mixin, FormView):  # /PS-IGNORE
 
     def get_back_url(self):
         back_url = reverse_lazy('international_online_offer:find-your-company')
+        if self.request.GET.get('company_location_change'):
+            back_url += '?company_location_change=true'
 
         if self.request.GET.get('back'):
             back_url = check_url_host_is_safelisted(self.request, 'back')
+            if self.request.GET.get('next'):
+                back_url += '?next=' + self.request.GET.get('next')
         elif self.request.GET.get('next'):
             back_url = check_url_host_is_safelisted(self.request)
+
         return back_url
 
     def get_success_url(self):
@@ -327,6 +333,9 @@ class CompanyDetailsView(GA360Mixin, FormView):  # /PS-IGNORE
 
         if self.request.GET.get('next'):
             next_url = check_url_host_is_safelisted(self.request)
+
+        if self.request.GET.get('company_location_change'):
+            next_url = reverse_lazy('international_online_offer:change-your-answers')
 
         return next_url
 
