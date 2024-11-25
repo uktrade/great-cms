@@ -198,6 +198,9 @@ class HCSATFactory(factory.django.DjangoModelFactory):
     other_detail = factory.fuzzy.FuzzyText(length=255)
     service_improvements_feedback = factory.fuzzy.FuzzyText(length=255)
     likelihood_of_return = factory.fuzzy.FuzzyChoice(constants.LIKELIHOOD_CHOICES, getter=lambda choice: choice[0])
+    service_name = factory.fuzzy.FuzzyChoice(['export_academy', 'find_a_buyer', 'eyb'])
+    service_specific_feedback = ['HELP_US_SET_UP_IN_THE_UK', 'PUT_US_IN_TOUCH_WITH_EXPERTS']
+    service_specific_feedback_other = factory.fuzzy.FuzzyText(length=255)
 
     class Meta:
         model = models.HCSAT
