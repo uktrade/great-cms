@@ -60,10 +60,6 @@
                                 <dd class="govuk-summary-list__value govuk-!-display-block govuk-!-padding-top-0 govuk-!-padding-bottom-0 govuk-body">
                                     {{ display_country }}
                                 </dd>
-                                <dd class="govuk-summary-list__value govuk-!-display-block">
-                                    <a class="govuk-link"
-                                       href="{% url 'international_online_offer:business-headquarters' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">Change<span class="govuk-visually-hidden">location of company headquarters</span></a>
-                                </dd>
                             </div>
                         </dl>
                     </fieldset>
