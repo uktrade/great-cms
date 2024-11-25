@@ -52,11 +52,6 @@ urlpatterns = [
         name='eyb-users',
     ),
     path(
-        'eyb-csats/',
-        skip_ga360(activitystream.views.ActivityStreamExpandYourBusinessCsatFeedbackDataView.as_view()),
-        name='eyb-csats',
-    ),
-    path(
         'ukea-videoondemandpagetracking/',
         skip_ga360(activitystream.views.ActivityStreamExportAcademyVideoOnDemandPageTrackingView.as_view()),
         name='ukea-videoondemandpagetracking',
