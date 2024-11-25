@@ -5,7 +5,7 @@ from urllib.parse import urlparse
 from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import FormSessionMixin, Sender
 from django.conf import settings
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
@@ -1091,16 +1091,19 @@ class InlineFeedbackView(GenericAPIView):
             country_code=None,
         )
 
-        if is_human_submission:
-            action = actions.SaveOnlyInDatabaseAction(
-                full_name='NA',
-                email_address=email_address,
-                subject='NA',
-                sender=sender,
-                form_url=self.request.get_full_path(),
-            )
+        # Return HttpResponseBadRequest() for all requests not made by a human
+        if is_human_submission is False:
+            return HttpResponseBadRequest()
 
-            save_result = action.save(data)
+        action = actions.SaveOnlyInDatabaseAction(
+            full_name='NA',
+            email_address=email_address,
+            subject='NA',
+            sender=sender,
+            form_url=self.request.get_full_path(),
+        )
+
+        save_result = action.save(data)
 
         if js_enabled:
             response = HttpResponse()
