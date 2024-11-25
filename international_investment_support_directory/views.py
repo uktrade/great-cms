@@ -1,5 +1,6 @@
 from directory_forms_api_client import helpers
 from django.core.paginator import EmptyPage, Paginator
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse, reverse_lazy
@@ -9,7 +10,9 @@ from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin  # /PS-IGNORE
 
 from config import settings
+from core.forms import HCSATForm
 from core.helpers import get_sender_ip_address
+from core.mixins import HCSATMixin
 from international_buy_from_the_uk.services import get_case_study, get_company_profile
 from international_investment.core.helpers import get_location_display
 from international_investment_support_directory import forms
@@ -169,10 +172,12 @@ class FindASpecialistCaseStudyView(CaseStudyMixin, GA360Mixin, TemplateView):  #
         )
 
 
-class FindASpecialistContactView(CompanyProfileMixin, GA360Mixin, FormView):  # /PS-IGNORE
+class FindASpecialistContactView(CompanyProfileMixin, GA360Mixin, HCSATMixin, FormView):  # /PS-IGNORE
     form_class = forms.FindASpecialistContactForm
+    hcsat_form = HCSATForm
     template_name = 'investment_support_directory/find_a_specialist/contact.html'
     company_email_address = None
+    hcsat_service_name = 'isd'
 
     def __init__(self):
         super().__init__()
@@ -184,12 +189,41 @@ class FindASpecialistContactView(CompanyProfileMixin, GA360Mixin, FormView):  # 
 
     def get_success_url(self):
         success_url = (
-            reverse_lazy('international:contact')
+            reverse(
+                'international_investment_support_directory:specialist-contact',
+                kwargs={'company_number': self.kwargs['company_number']},
+            )
             + '?success=true'
-            + '&next='
-            + '/international/investment-support-directory'
         )
         return success_url
+
+    def post(self, request, *args, **kwargs):
+        if 'email_address' in request.POST:
+            # contact form
+            return super().post(request)
+        else:
+            # hcsat form
+            form_class = self.hcsat_form
+            hcsat = self.get_hcsat(request, self.hcsat_service_name)
+            post_data = request.POST
+            if 'cancelButton' in post_data:
+                """
+                Redirect user if 'cancelButton' is found in the POST data
+                """
+                if hcsat:
+                    hcsat.stage = 2
+                    hcsat.save()
+                return HttpResponseRedirect(self.get_success_url(request))
+
+            form = form_class(post_data)
+
+            if form.is_valid():
+                if hcsat:
+                    form = form_class(post_data, instance=hcsat)
+                    form.is_valid()
+                return self.form_valid(form)
+            else:
+                return self.form_invalid(form)
 
     def send_email(self, form):
         sender = helpers.Sender(
@@ -208,9 +242,35 @@ class FindASpecialistContactView(CompanyProfileMixin, GA360Mixin, FormView):  # 
         response.raise_for_status()
 
     def form_valid(self, form):
-        form.cleaned_data['country'] = get_location_display(form.cleaned_data['country'])
-        self.send_email(form)
-        return super().form_valid(form)
+        if type(form) is HCSATForm:
+            js_enabled = False
+            hcsat = form.save(commit=False)
+
+            # js version handles form progression in js file, so keep on 0 for reloads
+            if 'js_enabled' in self.request.get_full_path():
+                hcsat.stage = 0
+                js_enabled = True
+
+            # if in second part of form (satisfaction=None) or not given in first part, persist existing satisfaction rating  # noqa: E501
+            hcsat = self.persist_existing_satisfaction(self.request, self.hcsat_service_name, hcsat)
+
+            # Apply data specific to this service
+            hcsat.URL = '/international/investment-support-directory'
+            hcsat.user_journey = 'ISD_CONTACT'
+            hcsat.session_key = self.request.session.session_key
+            hcsat.service_name = 'isd'
+
+            hcsat.save(js_enabled=js_enabled)
+
+            self.request.session[f'{self.hcsat_service_name}_hcsat_id'] = hcsat.id
+
+            if 'js_enabled' in self.request.get_full_path():
+                return JsonResponse({'pk': hcsat.pk})
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            form.cleaned_data['country'] = get_location_display(form.cleaned_data['country'])
+            self.send_email(form)
+            return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         dbt_sectors = get_dbt_sectors()
@@ -231,9 +291,22 @@ class FindASpecialistContactView(CompanyProfileMixin, GA360Mixin, FormView):  # 
             {'name': 'Find a UK specialist', 'url': find_a_specialist_url},
             {'name': self.company['name'], 'url': company_profile_url},
         ]
-        return super().get_context_data(
+        context = super().get_context_data(
             **kwargs,
             autocomplete_sector_data=autocomplete_sector_data,
             breadcrumbs=breadcrumbs,
             company=self.company,
+            continue_url='/international/investment-support-directory/',
         )
+
+        context = self.set_csat_and_stage(self.request, context, self.hcsat_service_name, form=self.hcsat_form)
+        if 'form' in kwargs:  # pass back errors from form_invalid
+            context['hcsat_form'] = kwargs['form']
+
+        return context
+
+    def form_invalid(self, form):
+        super().form_invalid(form)
+        if 'js_enabled' in self.request.get_full_path():
+            return JsonResponse(form.errors, status=400)
+        return self.render_to_response(self.get_context_data(form=form))
