@@ -89,16 +89,6 @@ urlpatterns = [
         name='feedback',
     ),
     path(
-        'csat-widget-submit/',
-        login_required(views.CsatWidgetView.as_view(), login_url=SIGNUP_URL),
-        name='csat-widget-submit',
-    ),
-    path(
-        'csat-feedback/',
-        login_required(views.CsatFeedbackView.as_view(), login_url=SIGNUP_URL),
-        name='csat-feedback',
-    ),
-    path(
         'trade-associations/',
         login_required(views.TradeAssociationsView.as_view(), login_url=SIGNUP_URL),
         name='trade-associations',

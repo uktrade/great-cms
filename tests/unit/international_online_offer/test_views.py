@@ -17,12 +17,7 @@ from international_online_offer.core import (
     regions,
     spends,
 )
-from international_online_offer.models import (
-    CsatFeedback,
-    TradeAssociation,
-    TriageData,
-    UserData,
-)
+from international_online_offer.models import TradeAssociation, TriageData, UserData
 from international_online_offer.views import TradeAssociationsView
 from sso import helpers as sso_helpers
 from tests.helpers import create_response
@@ -862,58 +857,6 @@ def test_feedback(client, settings):
     url = reverse('international_online_offer:feedback')
     response = client.get(url)
     assert response.status_code == 200
-
-
-@pytest.mark.django_db
-def test_csat_feedback(client, user, settings):
-
-    client.force_login(user)
-    url = reverse('international_online_offer:csat-feedback')
-    response = client.get(url)
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
-def test_csat_feedback_with_session_value(client, user, settings):
-
-    client.force_login(user)
-    url = reverse('international_online_offer:csat-feedback')
-    CsatFeedback.objects.create(id=1, URL='http://test.com')
-    session = client.session
-    session['csat_id'] = 1
-    session.save()
-    response = client.get(url)
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
-def test_csat_feedback_submit(client, settings):
-
-    url = reverse('international_online_offer:csat-feedback') + '?url=http://testurl.com'
-    CsatFeedback.objects.create(id=1, URL='http://test.com')
-    session = client.session
-    session['csat_id'] = 1
-    session['user_journey'] = 'DASHBOARD'
-    session.save()
-    response = client.post(
-        url,
-        {
-            'satisfaction': 'SATISFIED',
-            'user_journey': 'DASHBOARD',
-            'experience': ['I_DID_NOT_FIND_WHAT_I_WAS_LOOKING_FOR'],
-            'likelihood_of_return': 'LIKELY',
-            'site_intentions': ['PUT_US_IN_TOUCH_WITH_EXPERTS'],
-        },
-    )
-    assert response.status_code == 302
-
-
-@pytest.mark.django_db
-def test_csat_widget(client, settings):
-
-    url = reverse('international_online_offer:csat-widget-submit') + '?url=http://testurl.com'
-    response = client.post(url, {'satisfaction': 'SATISFIED', 'user_journey': 'DASHBOARD'})
-    assert response.status_code == 302
 
 
 @pytest.mark.django_db
