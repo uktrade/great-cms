@@ -251,7 +251,7 @@ googleapis-common-protos==1.66.0
     # via
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
-great-components==2.7.2
+great-components==2.6.5
     # via -r requirements.in
 grpcio==1.68.0
     # via opentelemetry-exporter-otlp-proto-grpc
@@ -640,7 +640,7 @@ willow[heif]==1.6.3
     # via
     #   wagtail
     #   willow
-wrapt==1.16.0
+wrapt==1.17.0
     # via
     #   deprecated
     #   opentelemetry-instrumentation
