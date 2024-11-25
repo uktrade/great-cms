@@ -528,6 +528,12 @@
   }
 }
 
+.great-max-width-675-from-tablet {
+  @include govuk-media-query($from: tablet) {
+    max-width: 675px;
+  }
+}
+
 .great-min-width-200-desktop {
   @include govuk-media-query($from: tablet) {
     min-width: 200px;
@@ -924,6 +930,10 @@ img.richtext-image {
 
 .great-overflow-hidden {
   overflow: hidden;
+}
+
+.great-overflow-inherit {
+  overflow: inherit;
 }
 
 .great-hidden {

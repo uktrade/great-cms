@@ -3,7 +3,7 @@
   max-height: 144px;
 
   @media only screen and (min-width: 900px) {
-    max-height: 200px;
+    max-height: 275px;
   }
 
   .autocomplete__option {
@@ -14,4 +14,14 @@
       }
     }
   }
+}
+
+.autocomplete__menu li:not(.SelectiveLookupDisplay__list-item--inactive):hover,
+.autocomplete__menu li:not(.SelectiveLookupDisplay__list-item--inactive):focus,
+.SelectiveLookupDisplay
+  li:not(.SelectiveLookupDisplay__list-item--inactive):hover,
+.SelectiveLookupDisplay
+  li:not(.SelectiveLookupDisplay__list-item--inactive):focus {
+  background-color: #1d70b8 !important;
+  color: #fff;
 }
