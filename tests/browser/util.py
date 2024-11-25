@@ -7,7 +7,6 @@ from enum import EnumMeta
 from io import BytesIO
 from typing import List, Union
 
-import allure
 from PIL import Image
 from selenium.common.exceptions import (
     ElementClickInterceptedException,
@@ -50,12 +49,8 @@ def attach_jpg_screenshot(
     else:
         screenshot_png = browser.get_screenshot_as_png()
     screenshot_jpg = convert_png_to_jpg(screenshot_png)
-    allure.attach(
-        screenshot_jpg,
-        name=page_name,
-        attachment_type=allure.attachment_type.JPG,
-        extension='jpg',
-    )
+    # Remediate the risk of using Allure. alternative screenshot upload lib/tool will be adopted
+    logger.info('%s for %s attached', screenshot_jpg, page_name)
 
 
 def is_element_present(browser: WebDriver, selector: Selector) -> bool:

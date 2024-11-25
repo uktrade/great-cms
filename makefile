@@ -3,8 +3,6 @@ ARGUMENTS = $(filter-out $@,$(MAKECMDGOALS)) $(filter-out --,$(MAKEFLAGS))
 clean:
 	-find . -type f -name "*.pyc" -delete
 	-find . -type d -name "__pycache__" -delete
-	-rm -fr ./allure_report/
-	-rm -fr ./allure_results/
 
 # configuration for black and isort is in pyproject.toml
 autoformat:
@@ -55,7 +53,6 @@ pytest_browser:
 	pytest \
 		tests/browser \
 		--junit-xml=./results/pytest_browser_report.xml \
-		--alluredir=./allure_results/ \
 		--ignore='./venv/' \
 		--color=no \
 		$(ARGUMENTS)

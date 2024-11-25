@@ -8,6 +8,7 @@ from rest_framework import status
 from rest_framework.response import Response
 
 from directory_sso_api_client import sso_api_client
+from international.forms import InternationalHCSATForm
 from international_online_offer.core import (
     helpers,
     hirings,
@@ -22,6 +23,7 @@ from international_online_offer.models import (
     TriageData,
     UserData,
 )
+from international_online_offer.views import TradeAssociationsView
 from sso import helpers as sso_helpers
 from tests.helpers import create_response
 
@@ -64,7 +66,8 @@ def test_business_eyb_sso_login(mock_send_code, mock_regenerate_code, client, re
     requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=401)
 
     response = client.post(
-        reverse_lazy('international_online_offer:login'), {'email': 'test@test.com', 'password': 'passwor1234'}
+        reverse_lazy('international_online_offer:login'),
+        {'email': 'test@test.com', 'password': 'passwor1234'},  # /PS-IGNORE
     )
 
     assert mock_send_code.call_count == 1
@@ -76,7 +79,8 @@ def test_business_eyb_sso_login(mock_send_code, mock_regenerate_code, client, re
 def test_business_eyb_sso_login_fail(client, requests_mock):
     requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=200)
     response = client.post(
-        reverse_lazy('international_online_offer:login'), {'email': 'test@test.com', 'password': 'passwor1234'}
+        reverse_lazy('international_online_offer:login'),
+        {'email': 'test@test.com', 'password': 'passwor1234'},  # /PS-IGNORE
     )
     assert response.status_code == 200
 
@@ -85,7 +89,8 @@ def test_business_eyb_sso_login_fail(client, requests_mock):
 def test_business_eyb_sso_login_success(client, requests_mock):
     requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=302)
     response = client.post(
-        reverse_lazy('international_online_offer:login'), {'email': 'test@test.com', 'password': 'passwor1234'}
+        reverse_lazy('international_online_offer:login'),
+        {'email': 'test@test.com', 'password': 'passwor1234'},  # /PS-IGNORE
     )
     assert response.status_code == 302
 
@@ -95,11 +100,12 @@ def test_business_eyb_sso_login_success(client, requests_mock):
 def test_business_eyb_sso_signup_success(mock_send_code, client, requests_mock):
     requests_mock.post(
         settings.DIRECTORY_SSO_API_CLIENT_BASE_URL + 'api/v1/user/',
-        text='{"uidb64": "133", "verification_token" : "344", "verification_code" : "54322", "email": "test@test.com"}',
+        text='{"uidb64": "133", "verification_token" : "344", "verification_code" : "54322", "email": "test@test.com"}',  # noqa:E501 /PS-IGNORE
         status_code=201,
     )
     response = client.post(
-        reverse_lazy('international_online_offer:signup'), {'email': 'test@test.com', 'password': 'password1234'}
+        reverse_lazy('international_online_offer:signup'),
+        {'email': 'test@test.com', 'password': 'password1234'},  # /PS-IGNORE
     )
     assert mock_send_code.call_count == 1
     assert response.status_code == 302
@@ -110,7 +116,8 @@ def test_business_eyb_sso_signup_success(mock_send_code, client, requests_mock):
 def test_business_eyb_sso_signup_fail(mock_create_user, client):
     mock_create_user.return_value = create_response(status_code=400, json_body={'email': ['Incorrect email']})
     response = client.post(
-        reverse_lazy('international_online_offer:signup'), {'email': 'test@test.com', 'password': 'passwor1234'}
+        reverse_lazy('international_online_offer:signup'),
+        {'email': 'test@test.com', 'password': 'passwor1234'},  # /PS-IGNORE
     )
     assert response.status_code == 200
 
@@ -124,7 +131,8 @@ def test_business_eyb_sso_signup_regen_code(
 ):
     mock_create_user.return_value = create_response(status_code=409)
     response = client.post(
-        reverse_lazy('international_online_offer:signup'), {'email': 'test@test.com', 'password': 'passwor1234'}
+        reverse_lazy('international_online_offer:signup'),
+        {'email': 'test@test.com', 'password': 'passwor1234'},  # /PS-IGNORE
     )
     assert mock_regenerate_code.call_count == 1
     assert mock_send_code.call_count == 1
@@ -136,7 +144,7 @@ def test_business_eyb_sso_signup_regen_code(
 def test_business_eyb_sso_signup_verify_code_success(mock_send_welcome_notification, client, requests_mock):
     requests_mock.post(
         settings.DIRECTORY_SSO_API_CLIENT_BASE_URL + 'api/v1/verification-code/verify/',
-        text='{"uidb64": "133", "token" : "344", "code" : "54322", "email" : "test@test.com"}',
+        text='{"uidb64": "133", "token" : "344", "code" : "54322", "email" : "test@test.com"}',  # /PS-IGNORE
         status_code=201,
     )
     response = client.post(
@@ -834,6 +842,18 @@ def test_trade_associations(client, user, settings):
     assert len(all_trade_associations) == 1
     assert all_trade_associations[0].sector == 'Food and drink'
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_trade_association_hcsat(client, user):
+    trade_association_view = TradeAssociationsView()
+    assert trade_association_view.is_international_hcsat is True
+    assert trade_association_view.hcsat_service_name == 'eyb'
+    assert type(trade_association_view.get_csat_form()) == InternationalHCSATForm
+    assert (
+        trade_association_view.get_service_csat_heading(trade_association_view.hcsat_service_name)
+        == 'Overall, how would you rate your experience with the\n         Expand your business service today?'
+    )
 
 
 @pytest.mark.django_db

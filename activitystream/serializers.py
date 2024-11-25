@@ -607,6 +607,9 @@ class ActivityStreamDomesticHCSATUserFeedbackDataSerializer(serializers.ModelSer
             'other_detail',
             'service_improvements_feedback',
             'likelihood_of_return',
+            'service_name',
+            'service_specific_feedback',
+            'service_specific_feedback_other',
         ]
 
     def to_representation(self, instance):
