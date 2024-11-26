@@ -8,15 +8,17 @@ from great_components.mixins import GA360Mixin  # /PS-IGNORE
 from core.forms import HCSATForm
 from core.helpers import check_url_host_is_safelisted
 from core.mixins import HCSATMixin
+from wagtailcache.cache import WagtailCacheMixin
 from international import forms
 
 
-class ContactView(GA360Mixin, HCSATMixin, FormView):  # /PS-IGNORE
+class ContactView(WagtailCacheMixin, GA360Mixin, HCSATMixin, FormView):  # /PS-IGNORE
     form_class = forms.ContactForm
     template_name = 'international/contact.html'
     subject = 'Great.gov.uk International contact form'
 
     hcsat_service_name = 'find_a_supplier'
+    cache_control = 'no-cache'
 
     def __init__(self):
         super().__init__()
