@@ -27,7 +27,7 @@
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
                                     <a class="govuk-link"
-                                       href="{% url 'international_online_offer:business-headquarters' %}?next={% url 'international_online_offer:find-your-company' %}&amp;back={% url 'international_online_offer:change-your-answers' %}&amp;edit_country=True ">
+                                       href="{% url 'international_online_offer:business-headquarters' %}?next={% url 'international_online_offer:change-your-answers' %}">
                                         Change<span class="govuk-visually-hidden">location of company headquarters</span>
                                     </a>
                                 </dd>
@@ -38,9 +38,9 @@
                                     {{ user_data.company_name | default:'-' }}
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
-                                    {% if duns_matched %}
+                                    {% if duns_matched or not user_data.address_line_1 %}
                                         <a class="govuk-link"
-                                           href="{% url 'international_online_offer:find-your-company' %}?next={% url 'international_online_offer:change-your-answers' %}">
+                                           href="{% url 'international_online_offer:find-your-company' %}?next={% url 'international_online_offer:change-your-answers' %}&back={% url 'international_online_offer:change-your-answers' %}">
                                             Change<span class="govuk-visually-hidden">company name</span>
                                         </a>
                                     {% else %}
@@ -51,11 +51,11 @@
                                     {% endif %}
                                 </dd>
                             </div>
-                            {% if not duns_matched %}
+                            {% if not duns_matched and user_data.address_line_1 %}
                                 <div class="govuk-summary-list__row">
                                     <dt class="govuk-summary-list__key govuk-body">Address of headquarters</dt>
                                     <dd class="govuk-summary-list__value govuk-body">
-                                        {{ user_data.address_line_1 }}
+                                        {{ user_data.address_line_1|default:'-' }}
                                         <br>
                                         {% if user_data.address_line_2|length > 0 %}
                                             {{ user_data.address_line_2 }}

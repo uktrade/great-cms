@@ -52,12 +52,14 @@ def test_company_location_form_validataion(mock_get_countries_regions_territorie
         (
             {
                 'company_name': 'Test company',
+                'duns_number': '111',
             },
             True,
         ),
         (
             {
                 'company_name': '',
+                'duns_number': '',
             },
             False,
         ),

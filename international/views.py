@@ -1,5 +1,6 @@
 from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import Sender
+from django.http import HttpResponseBadRequest
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin  # /PS-IGNORE
@@ -39,6 +40,11 @@ class ContactView(GA360Mixin, FormView):  # /PS-IGNORE
     def submit_feedback(self, form):
         cleaned_data = form.cleaned_data
         is_human_submission = 'csrfmiddlewaretoken' not in cleaned_data
+
+        # Return HttpResponseBadRequest() for all requests not made by a human
+        if is_human_submission is False:
+            return HttpResponseBadRequest()
+
         if self.request.GET.get('next'):
             cleaned_data['from_url'] = check_url_host_is_safelisted(self.request)
 
@@ -56,9 +62,8 @@ class ContactView(GA360Mixin, FormView):  # /PS-IGNORE
             sender=sender,
         )
 
-        if is_human_submission:
-            response = action.save(cleaned_data)
-            response.raise_for_status()
+        response = action.save(cleaned_data)
+        response.raise_for_status()
 
     def form_valid(self, form):
         self.submit_feedback(form)
