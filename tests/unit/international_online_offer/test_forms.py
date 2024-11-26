@@ -12,7 +12,6 @@ from international_online_offer.forms import (
     BusinessSectorForm,
     CompanyDetailsForm,
     ContactDetailsForm,
-    CsatFeedbackForm,
     FeedbackForm,
     FindYourCompanyForm,
     HiringForm,
@@ -318,40 +317,3 @@ def test_feedback_form_validation(form_data, is_valid):
     assert form.is_valid() == is_valid
     if not is_valid:
         assert form.errors['feedback_text'][0] == 'You must enter information on how we could improve this service'
-
-
-@pytest.mark.parametrize(
-    'form_data,is_valid',
-    (
-        (
-            {
-                'satisfaction': 'VERY_SATISFIED',
-                'experience': ['I_DID_NOT_FIND_WHAT_I_WAS_LOOKING_FOR'],
-                'experience_other': '',
-                'feedback_text': 'This is some feedback',
-                'likelihood_of_return': 'LIKELY',
-                'site_intentions': ['PUT_US_IN_TOUCH_WITH_EXPERTS'],
-                'site_intentions_other': '',
-            },
-            True,
-        ),
-        (
-            {
-                'satisfaction': 'VERY_SATISFIED',
-                'experience': ['OTHER'],
-                'experience_other': '',
-                'feedback_text': 'This is some feedback',
-                'likelihood_of_return': 'LIKELY',
-                'site_intentions': ['OTHER'],
-                'site_intentions_other': '',
-            },
-            False,
-        ),
-        ({'satisfaction': 'VERY_SATISFIED', '': '', '': '', '': '', '': '', '': ''}, False),
-    ),
-)
-@pytest.mark.django_db
-def test_csat_feedback_form_validation(form_data, is_valid):
-    data = form_data
-    form = CsatFeedbackForm(data)
-    assert form.is_valid() == is_valid
