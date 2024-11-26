@@ -3,7 +3,7 @@
         <strong>{{ pagination.paginator.count }} {{ pagination.paginator.count|pluralize:'result,results' }} found</strong>
         {% if form.q.value %}
             <span>for</span>
-            <strong class="govuk-tag govuk-tag--grey govuk-!-margin-bottom-1">{{ form.q.value }}</strong>
+            <strong class="govuk-tag govuk-tag--grey no-max-width govuk-!-margin-bottom-1">{{ form.q.value }}</strong>
         {% endif %}
         {% if form.sector.value or form.region.value or form.investment_type.value or form.industries.value or form.expertise_industries.value or form.expertise_regions.value or form.expertise_countries.value or form.expertise_languages.value or form.expertise_products_services_financial.value or form.expertise_products_services_management.value or form.expertise_products_services_human_resources.value or form.expertise_products_services_legal.value or form.expertise_products_services_publicity.value or form.expertise_products_services_business_support.value %}
             <span>in</span>
@@ -11,7 +11,7 @@
                 {% if field.field.widget.input_type == 'checkbox' %}
                     {% for action in field %}
                         {% if action.data.value in field.value %}
-                            <strong class="govuk-tag govuk-tag--grey govuk-!-margin-bottom-1">{{ action.choice_label }}</strong>
+                            <strong class="govuk-tag govuk-tag--grey no-max-width govuk-!-margin-bottom-1">{{ action.choice_label }}</strong>
                         {% endif %}
                     {% endfor %}
                 {% endif %}

@@ -30,7 +30,6 @@ from activitystream.pagination import (
 from activitystream.serializers import (
     ActivityStreamCmsContentSerializer,
     ActivityStreamDomesticHCSATUserFeedbackDataSerializer,
-    ActivityStreamExpandYourBusinessCsatFeedbackDataSerializer,
     ActivityStreamExpandYourBusinessTriageDataSerializer,
     ActivityStreamExpandYourBusinessUserDataSerializer,
     ActivityStreamExportAcademyBookingSerializer,
@@ -47,7 +46,7 @@ from export_academy.models import (
     Registration,
     VideoOnDemandPageTracking,
 )
-from international_online_offer.models import CsatFeedback, TriageData, UserData
+from international_online_offer.models import TriageData, UserData
 
 
 class ActivityStreamView(ListAPIView):
@@ -247,13 +246,6 @@ class ActivityStreamCmsContentView(ActivityStreamBaseView):
 
     def get_queryset(self):
         return self.queryset.order_by('id')
-
-
-class ActivityStreamExpandYourBusinessCsatFeedbackDataView(ActivityStreamExpandYourBusinessBaseView):
-    """View to list expand your business csat feedback data for the activity stream"""
-
-    queryset = CsatFeedback.objects.all()
-    serializer_class = ActivityStreamExpandYourBusinessCsatFeedbackDataSerializer
 
 
 class ActivityStreamExportAcademyVideoOnDemandPageTrackingView(ActivityStreamExportAcademyBaseView):

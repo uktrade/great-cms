@@ -525,22 +525,6 @@ class RentData(models.Model):
     gbp_per_month = models.DecimalField(max_digits=10, decimal_places=2, null=True)
 
 
-class CsatFeedback(TimeStampedModel):
-    URL = models.CharField(max_length=255)
-    user_journey = models.CharField(max_length=255, null=True)
-    satisfaction_rating = models.CharField(max_length=255, choices=choices.SATISFACTION_CHOICES)
-    experienced_issue = ArrayField(
-        models.CharField(max_length=255, choices=choices.EXPERIENCE_CHOICES), size=6, default=list, null=True
-    )
-    other_detail = models.CharField(max_length=255, null=True)
-    service_improvements_feedback = models.CharField(max_length=255, null=True)
-    likelihood_of_return = models.CharField(max_length=255, choices=choices.LIKELIHOOD_CHOICES, null=True)
-    site_intentions = ArrayField(
-        models.CharField(max_length=255, choices=choices.INTENSION_CHOICES), size=6, default=list, null=True
-    )
-    site_intentions_other = models.CharField(max_length=255, null=True)
-
-
 class ChoiceArrayField(ArrayField):
 
     def formfield(self, **kwargs):
