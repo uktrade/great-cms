@@ -7,7 +7,8 @@
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-106",
         "sic_code": 1110,
-        "sic_description": "Growing of cereals (except rice), leguminous crops and oil seeds"
+        "sic_description": "Growing of cereals (except rice), leguminous crops and oil seeds",
+        "keywords": "wheat, maize, barley, rye, oats, millets, beans, chick peas, lentils, peas, linseed, sesame seed, sunflower seed"
       },
       {
         "_id": 2,
@@ -88,7 +89,8 @@
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-134",
         "sic_code": 1230,
-        "sic_description": "Growing of citrus fruits"
+        "sic_description": "Growing of citrus fruits",
+        "keywords": "grapefruit, pomelo, lemons, limes, oranges, tangerines, mandarins, clementines, other citrus fruits"
       },
       {
         "_id": 11,
@@ -97,7 +99,8 @@
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-135",
         "sic_code": 1240,
-        "sic_description": "Growing of pome fruits and stone fruits"
+        "sic_description": "Growing of pome fruits and stone fruits",
+        "keywords": "apples, apricots, cherries, sour cherries, peaches, nectarines, pears, quinces, plums, sloes, pome fruits, stone fruits"
       },
       {
         "_id": 12,
@@ -115,7 +118,8 @@
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-137",
         "sic_code": 1260,
-        "sic_description": "Growing of oleaginous fruits"
+        "sic_description": "Growing of oleaginous fruits",
+        "keywords": "coconuts, oil palms, olives"
       },
       {
         "_id": 14,
@@ -133,7 +137,8 @@
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-127",
         "sic_code": 1280,
-        "sic_description": "Growing of spices, aromatic, drug and pharmaceutical crops"
+        "sic_description": "Growing of spices, aromatic, drug and pharmaceutical crops",
+        "keywords": "anise, spice crops, pharmaceutical crops, pepper, nutmeg, mace, cardamoms, ginger, coriander, clove, cinnamon, chilli, bay, basil, vanilla, aromatic crops"
       },
       {
         "_id": 16,
@@ -601,7 +606,8 @@
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-609",
         "sic_code": 10512,
-        "sic_description": "Butter and cheese production"
+        "sic_description": "Butter and cheese production",
+        "keywords": "butter, cheese"
       },
       {
         "_id": 68,
@@ -691,7 +697,8 @@
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-615",
         "sic_code": 10821,
-        "sic_description": "Manufacture of cocoa and chocolate confectionery"
+        "sic_description": "Manufacture of cocoa and chocolate confectionery",
+        "keywords": "chocolate, milk chocolate, drinking chocolate, cocoa products, cocoa powder, cocoa oil, cocoa fat, cocoa butter, chocolate confectionery"
       },
       {
         "_id": 78,
@@ -709,7 +716,8 @@
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-633",
         "sic_code": 10831,
-        "sic_description": "Tea processing"
+        "sic_description": "Tea processing",
+        "keywords": "chamomile herb infusions, tea preparations, tea extract, tea essence, tea blending, tea, soluble tea, mint herb infusions, herb tea"
       },
       {
         "_id": 80,
@@ -817,7 +825,8 @@
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-607",
         "sic_code": 11050,
-        "sic_description": "Manufacture of beer"
+        "sic_description": "Manufacture of beer",
+        "keywords": "brewing, ale, porter, malt liquors, low and non-alcoholic beer, lager, brewery, stout"
       },
       {
         "_id": 92,
@@ -1411,7 +1420,8 @@
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-193",
         "sic_code": 20412,
-        "sic_description": "Manufacture of cleaning and polishing preparations"
+        "sic_description": "Manufacture of cleaning and polishing preparations",
+        "keywords": "artificial waxes, polishes, sanitary cleaner, scouring paste, scouring powder, shoe dye, shoe polish, ski wax, creams, deoderiser, floor cleaner, wax"
       },
       {
         "_id": 158,
@@ -1474,7 +1484,8 @@
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-684",
         "sic_code": 21100,
-        "sic_description": "Manufacture of basic pharmaceutical products"
+        "sic_description": "Manufacture of basic pharmaceutical products",
+        "keywords": "antibiotics, o-acetylsalicylic acids, pharmaceutical chemicals, provitamins, vitamins, quaternary ammonium salts and fatty amines, salicyclic medicaments, salines, sulphonamides, veterinary biologicals, microbiological cultures, medicinal feed additives, medicinal active substances, blood processing, chemically pure sugars, cyclamates, gland extracts, gland processing, hormone, lactones"
       },
       {
         "_id": 165,
@@ -2095,7 +2106,8 @@
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-727",
         "sic_code": 26309,
-        "sic_description": "Manufacture of communication equipment other than telegraph, and telephone apparatus and equipment"
+        "sic_description": "Manufacture of communication equipment other than telegraph, and telephone apparatus and equipment",
+        "keywords": "reception apparatus, relay transmitters, television equipment, transponders, video conferencing equipment, radio communications equipment, radio beacons"
       },
       {
         "_id": 234,
@@ -2257,7 +2269,8 @@
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-311",
         "sic_code": 27510,
-        "sic_description": "Manufacture of electric domestic appliances"
+        "sic_description": "Manufacture of electric domestic appliances",
+        "keywords": "refrigerators, freezers, dishwashers, vacuum, shavers, toothbrushes, microwave, toasters, tea makers, coffee makers"
       },
       {
         "_id": 252,
@@ -2518,7 +2531,8 @@
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-168",
         "sic_code": 29201,
-        "sic_description": "Manufacture of bodies (coachwork) for motor vehicles (except caravans)"
+        "sic_description": "Manufacture of bodies (coachwork) for motor vehicles (except caravans)",
+        "keywords": "bodies for motor vehicles, coachwork, cabs, body shell, outfitting for motor vehicles"
       },
       {
         "_id": 281,
@@ -2536,7 +2550,8 @@
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-176",
         "sic_code": 29203,
-        "sic_description": "Manufacture of caravans"
+        "sic_description": "Manufacture of caravans",
+        "keywords": "caravan, special purpose caravan, permanent residential caravan, outfitting of caravans, movile canteen, mobile bank, conversion of vehicles to caravans, caravan trailers, caravan chassis"
       },
       {
         "_id": 283,
@@ -2617,7 +2632,8 @@
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-177",
         "sic_code": 30920,
-        "sic_description": "Manufacture of bicycles and invalid carriages"
+        "sic_description": "Manufacture of bicycles and invalid carriages",
+        "keywords": "baby carriage, invalid carriage, bicycle pedals, perambulator, push chair, tandems, tricycles, wheelchair, bath chair, bicycle parts, bicycles, bikes, childrens bicycles, childrens tricycles, cycles"
       },
       {
         "_id": 292,
@@ -2707,7 +2723,8 @@
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-256",
         "sic_code": 32300,
-        "sic_description": "Manufacture of sports goods"
+        "sic_description": "Manufacture of sports goods",
+        "keywords": "balls, skis, ski boots, sailboards, surfboards, landing nets, sports gloves, ice skates, roller skates, athletic equipment"
       },
       {
         "_id": 302,
@@ -3337,7 +3354,8 @@
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-587",
         "sic_code": 46170,
-        "sic_description": "Agents involved in the sale of food, beverages and tobacco"
+        "sic_description": "Agents involved in the sale of food, beverages and tobacco",
+        "keywords": "alcoholic beverages, tobacco, non-alcoholic beverages, fruit, vegetables, food, confectionary, beverages"
       },
       {
         "_id": 372,
@@ -3679,7 +3697,8 @@
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-476",
         "sic_code": 46719,
-        "sic_description": "Wholesale of other fuels and related products"
+        "sic_description": "Wholesale of other fuels and related products",
+        "keywords": "charcoal, coal, coke, fuel wood, naphtha,  crude petroleum, crude oil, diesel fuel, gasoline, fuel oil, heating oil, kerosene"
       },
       {
         "_id": 410,
@@ -6226,7 +6245,8 @@
         "exporter_type": "goods",
         "mapping_id": "SIC-SEC-394",
         "sic_code": 90030,
-        "sic_description": "Artistic creation"
+        "sic_description": "Artistic creation",
+        "keywords": "art expert, music composer, painters, art restoration, playwright, poet, sculptors, song writer, artist, author, cartoonist, designing, engravers, journalists, illustrating"
       },
       {
         "_id": 693,
@@ -6496,7 +6516,8 @@
         "exporter_type": "service",
         "mapping_id": "SIC-SEC-309",
         "sic_code": 96020,
-        "sic_description": "Hairdressing and other beauty treatment"
+        "sic_description": "Hairdressing and other beauty treatment",
+        "keywords": "barber, pedicure, manicurist, make-up, beauty treatment, hairdressing activities, facial massage, beard trimming"
       },
       {
         "_id": 723,
