@@ -66,14 +66,17 @@ class FindYourCompanyForm(forms.Form):
         required=True,
         widget=HiddenInput(attrs={'id': 'company-name'}),
         error_messages={
-            'required': 'Search again for company name or enter manually',
+            'required': 'Search for company name or enter manually',
         },
     )
 
     # below fields set to required=False as there is no way for the user to recover from any errors
     duns_number = CharField(
-        required=False,
+        required=True,
         widget=HiddenInput(attrs={'id': 'company-duns-number'}),
+        error_messages={
+            'required': 'Search for company name or enter manually',
+        },
     )
 
     address_line_1 = CharField(

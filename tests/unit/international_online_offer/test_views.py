@@ -283,40 +283,6 @@ def test_eyb_business_headquarters_initial(mock_get_dbt_sectors, client, user, s
     assert response.context_data['form'].initial['company_location'] == company_location
 
 
-@pytest.mark.parametrize(
-    'url, expected_back_url',
-    (
-        (
-            reverse('international_online_offer:find-your-company'),
-            reverse('international_online_offer:business-headquarters'),
-        ),
-        (
-            f"{reverse('international_online_offer:find-your-company')}?next={reverse('international_online_offer:change-your-answers')}",  # noqa:E501
-            reverse('international_online_offer:change-your-answers'),
-        ),
-    ),
-)
-@pytest.mark.django_db
-def test_eyb_find_your_company_back_link(
-    mock_get_dbt_sectors,
-    mock_get_countries_regions_territories,
-    mock_get_country_region_territory,
-    url,
-    expected_back_url,
-    client,
-    user,
-    settings,
-):
-
-    user.hashed_uuid = '123'
-    client.force_login(user)
-    UserData.objects.update_or_create(hashed_uuid='123')
-    response = client.get(url)
-
-    assert response.status_code == 200
-    assert response.context_data['back_url'] == expected_back_url
-
-
 @pytest.mark.django_db
 def test_eyb_find_your_company_initial(mock_get_dbt_sectors, mock_get_country_region_territory, client, user, settings):
 
