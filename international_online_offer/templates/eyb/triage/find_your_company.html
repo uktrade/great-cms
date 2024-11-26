@@ -16,7 +16,7 @@
     {{ block.super }}
 {% endblock %}
 {% block content %}
-    {{block.super}}
+    {{ block.super }}
     <div class="great-container">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
@@ -35,6 +35,13 @@
                                             <a href="#js-company-name-autocomplete">{{ error }}</a>
                                         </li>
                                     {% endfor %}
+                                    {% if not form.company_name.errors %}
+                                        {% for error in form.duns_number.errors %}
+                                            <li>
+                                                <a href="#js-company-name-autocomplete">{{ error }}</a>
+                                            </li>
+                                        {% endfor %}
+                                    {% endif %}
                                 </ul>
                             </div>
                         </div>
@@ -56,7 +63,10 @@
                         {% if form.errors %}
                             <div class="govuk-!-margin-bottom-3 error-text"
                                  id="help_for_js-company-name-autocomplete">
-                                Search again for company name or enter manually
+                                {% for error in form.company_name.errors %}{{ error }}{% endfor %}
+                                {% if not form.company_name.errors %}
+                                    {% for error in form.duns_number.errors %}{{ error }}{% endfor %}
+                                {% endif %}
                             </div>
                         {% endif %}
                         <div class="company-autocomplete-wrapper govuk-!-margin-bottom-6">
@@ -77,7 +87,7 @@
                             <div class="govuk-button-group">
                                 {% include 'international/includes/submit_button.html' with button_text=progress_button_text %}
                                 <span class="govuk-body"> or <a class="govuk-link"
-    href="{% url 'international_online_offer:company-details' %}{% if is_editing %}?next={% url 'international_online_offer:change-your-answers' %} {% endif %}">Enter company details manually</a> </span>
+    href="{% url 'international_online_offer:company-details' %}{% if request.GET.company_location_change %}?company_location_change=true{% endif %}{% if request.GET.next %}?next={{ request.GET.next }}&back={% url 'international_online_offer:find-your-company' %}?next={{ request.GET.next }}{% endif %}">Enter company details manually</a> </span>
                             </div>
                         </div>
                     </div>
@@ -109,14 +119,17 @@
 
                 function setTypeAheadInitialValue () {
                     // set value of input text if a company name already exists (i.e. user is editing company name)
-                    let companyNameInputElement = document.querySelector('#js-company-name-autocomplete')
-                    let existingCompanyName = document.querySelector('#company-name').value
-                    if (existingCompanyName.length > 0){
-                        companyNameInputElement.value = existingCompanyName.toUpperCase();
-                        // in this scenario we don't want the dropdown to immediatly appear as soon as the page is loaded and
-                        // the input text value is set to the previous company name. The dropdown is only shown when the user focuses
-                        // on the input element.
-                        retrieveDNBCompanies = false;
+                    dnsNumber = document.querySelector('#company-duns-number').value;
+                    if (dnsNumber) {
+                        let companyNameInputElement = document.querySelector('#js-company-name-autocomplete')
+                        let existingCompanyName = document.querySelector('#company-name').value
+                        if (existingCompanyName.length > 0){
+                            companyNameInputElement.value = existingCompanyName.toUpperCase();
+                            // in this scenario we don't want the dropdown to immediatly appear as soon as the page is loaded and
+                            // the input text value is set to the previous company name. The dropdown is only shown when the user focuses
+                            // on the input element.
+                            retrieveDNBCompanies = false;
+                        }
                     }
                 }
 
@@ -187,10 +200,15 @@
 
                 setTypeAheadInitialValue()
 
+
                 document.querySelector('#js-company-name-autocomplete').setAttribute('maxlength', 30)
 
                 document.querySelector('#js-company-name-autocomplete').addEventListener('focus', ()=>{
                     retrieveDNBCompanies = true
+                })
+
+                document.querySelector('#js-company-name-autocomplete').addEventListener('input', ()=>{
+                    document.querySelector('#company-duns-number').value = ''
                 })
     </script>
     <script type="text/javascript">autocompleteFocusOnESC('#js-company-name-autocomplete', '#js-company-name-autocomplete__listbox')</script>

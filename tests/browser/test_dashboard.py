@@ -3,7 +3,6 @@ import logging
 import random
 from typing import List
 
-import allure
 import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -33,16 +32,16 @@ pytestmark = [
 logger = logging.getLogger(__name__)
 
 
-@allure.step('Select random sample of sectors')
 def select_random_sample_sectors() -> List[str]:
+    logger.info('Select random sample of sectors')
     sector_labels = [label for _, label in choices.SECTORS]
     sectors = random.sample(sector_labels, random.randint(1, 5))
     logger.info(f'Selected random sample of sectors: {sectors}')
     return sectors
 
 
-@allure.step('Enter sector names: {industries}')
 def enter_and_submit_industries(browser, industries):
+    logger.info('Enter sector names: %s', industries)
     industries_input = find_element(browser, DashboardModalLetsGetToKnowYou.INDUSTRIES_INPUT)
     for industry in industries:
         industries_input.send_keys(industry)
@@ -59,17 +58,16 @@ def enter_and_submit_industries(browser, industries):
     attach_jpg_screenshot(browser, 'Dashboard with success query parameter')
 
 
-@allure.step('Should see "Lets get to know you modal"')
 def should_see_lets_get_to_know_you_modal(browser: WebDriver):
+    logger.info('Should see "Lets get to know you modal"')
     should_see_all_elements(browser, DashboardModalLetsGetToKnowYou)
 
 
-@allure.step('Should NOT see "Lets get to know you modal"')
 def should_not_see_lets_get_to_know_you_modal(browser: WebDriver):
+    logger.info('Should NOT see "Lets get to know you modal"')
     should_not_see_any_element(browser, DashboardModalLetsGetToKnowYou)
 
 
-@allure.step('Should see dashboard welcome')
 def test_dashboard_welcome(
     mock_dashboard_profile_events_opportunities,
     mock_all_dashboard_and_export_plan_requests_and_responses,
@@ -77,6 +75,7 @@ def test_dashboard_welcome(
     server_user_browser_dashboard,
     client,
 ):
+    logger.info('Should see dashboard welcome')
     live_server, user, browser = server_user_browser_dashboard
     try:
         user.first_name = 'TEST USER'

@@ -13,7 +13,7 @@ from export_academy.models import (
     Registration,
     VideoOnDemandPageTracking,
 )
-from international_online_offer.models import CsatFeedback, TriageData, UserData
+from international_online_offer.models import TriageData, UserData
 
 logger = logging.getLogger(__name__)
 
@@ -410,52 +410,6 @@ class ActivityStreamExpandYourBusinessTriageDataSerializer(serializers.ModelSeri
         }
 
 
-class ActivityStreamExpandYourBusinessCsatFeedbackDataSerializer(serializers.ModelSerializer):
-    """
-    Expand Your Business CSAT Feedback Data serializer for activity stream.
-
-    - Adds extra response fields required by activity stream.
-    - Adds the required prefix to field names
-    """
-
-    feedback_submission_date = serializers.DateTimeField(source='created')  # noqa: N815
-    url = serializers.CharField(source='URL')  # noqa: N815
-    site_intentions_other_detail = serializers.CharField(source='site_intentions_other')  # noqa: N815
-
-    class Meta:
-        model = CsatFeedback
-        fields = [
-            'id',
-            'feedback_submission_date',
-            'url',
-            'user_journey',
-            'satisfaction_rating',
-            'experienced_issue',
-            'other_detail',
-            'service_improvements_feedback',
-            'likelihood_of_return',
-            'site_intentions',
-            'site_intentions_other_detail',
-        ]
-
-    def to_representation(self, instance):
-        """
-        Prefix field names to match activity stream format
-        """
-        prefix = 'dit:expandYourBusiness:csatFeedbackData'
-        type = 'Update'
-
-        return {
-            'id': f'{prefix}:{instance.id}:{type}',
-            'type': f'{type}',
-            'object': {
-                'id': f'{prefix}:{instance.id}',
-                'type': prefix,
-                **{f'{k}': v for k, v in super().to_representation(instance).items()},
-            },
-        }
-
-
 class ActivityStreamCmsContentSerializer(serializers.ModelSerializer):
     """
     CMS content serializer for Activity Stream.
@@ -607,6 +561,9 @@ class ActivityStreamDomesticHCSATUserFeedbackDataSerializer(serializers.ModelSer
             'other_detail',
             'service_improvements_feedback',
             'likelihood_of_return',
+            'service_name',
+            'service_specific_feedback',
+            'service_specific_feedback_other',
         ]
 
     def to_representation(self, instance):

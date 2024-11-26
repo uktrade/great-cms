@@ -60,8 +60,8 @@ class BaseSettings(PydanticBaseSettings):
     aws_storage_bucket_name: str = ''
     aws_s3_custom_domain: str = ''
     aws_s3_url_protocol: str = 'https:'
-    aws_access_key_id: str
-    aws_secret_access_key: str
+    aws_access_key_id: str = ''
+    aws_secret_access_key: str = ''
     aws_s3_host: str = 's3-eu-west-2.amazonaws.com'
     aws_s3_signature_version: str = 's3v4'
     aws_querystring_auth: bool = False
@@ -297,6 +297,7 @@ class BaseSettings(PydanticBaseSettings):
     feature_redis_use_ssl: bool = False
     feature_great_cms_openapi_enabled: bool = False
     feature_guided_journey_extras: bool = False
+    feature_guided_journey_enhanced_search: bool = False
 
     ax_compare_places_allowed: int = 10
 

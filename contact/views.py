@@ -5,7 +5,7 @@ from urllib.parse import urlparse
 from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import FormSessionMixin, Sender
 from django.conf import settings
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
@@ -584,7 +584,7 @@ class DomesticExportSupportFormStep8View(contact_mixins.ExportSupportFormMixin, 
     success_url = reverse_lazy('contact:export-support-step-9')
     subject = 'DPE Feedback form'
 
-    def submit_feedback(self, form):
+    def submit_and_continue(self, form):
         cleaned_data = form.cleaned_data
         form_data = {**self.initial_data, **cleaned_data}
 
@@ -617,24 +617,71 @@ class DomesticExportSupportFormStep8View(contact_mixins.ExportSupportFormMixin, 
 
     def get_context_data(self, **kwargs):
         office_details = self.get_office_details()
-        is_feedback_form = True
+        is_satisfaction_form = True
         show_regional_office = False
 
         return super().get_context_data(
             **kwargs,
             heading_text='Thank you for your enquiry',
             strapline_text="We've sent a confirmation email to the email address you provided.",
-            is_feedback_form=is_feedback_form,
+            confirmation=True,
+            is_satisfaction_form=is_satisfaction_form,
             office_details=office_details,
             show_regional_office=show_regional_office,
         )
 
     def form_valid(self, form):
-        self.submit_feedback(form)
+        self.submit_and_continue(form)
         return super().form_valid(form)
 
 
-class DomesticExportSupportFormStep9View(TemplateView):
+class DomesticExportSupportFormStep9View(contact_mixins.ExportSupportFormMixin, FormView):
+    form_class = contact_forms.DomesticExportSupportStep9Form
+    template_name = 'domestic/contact/export-support/hcsat.html'
+    success_url = reverse_lazy('contact:export-support-step-10')
+    subject = 'hcsat feedback form'
+
+    def submit_and_continue(self, form):
+        cleaned_data = form.cleaned_data
+        form_data = {**self.initial_data, **cleaned_data}
+
+        sender = Sender(
+            email_address=form_data.get('email'),
+            country_code=None,
+        )
+
+        action = actions.SaveOnlyInDatabaseAction(
+            full_name=f"{form_data.get('first_name')} {form_data.get('last_name')}",
+            email_address=form_data.get('email'),
+            subject=self.subject,
+            sender=sender,
+            form_url=self.request.get_full_path(),
+        )
+
+        response = action.save(cleaned_data)
+        response.raise_for_status()
+
+    def get_context_data(self, **kwargs):
+        # office_details = self.get_office_details()
+        is_feedback_form = True
+        show_regional_office = False
+
+        return super().get_context_data(
+            **kwargs,
+            heading_text='Thank you for your rating',
+            strapline_text='Please help us improve the service further by answering the following questions',
+            is_feedback_form=is_feedback_form,
+            # office_details=office_details,
+            show_regional_office=show_regional_office,
+        )
+
+    def form_valid(self, form):
+        self.save_data(form)
+        self.submit_and_continue(form)
+        return super().form_valid(form)
+
+
+class DomesticExportSupportFormStep10View(TemplateView):
     template_name = 'domestic/contact/export-support/feedback-confirmation.html'
 
 
@@ -1059,16 +1106,19 @@ class InlineFeedbackView(GenericAPIView):
             country_code=None,
         )
 
-        if is_human_submission:
-            action = actions.SaveOnlyInDatabaseAction(
-                full_name='NA',
-                email_address=email_address,
-                subject='NA',
-                sender=sender,
-                form_url=self.request.get_full_path(),
-            )
+        # Return HttpResponseBadRequest() for all requests not made by a human
+        if is_human_submission is False:
+            return HttpResponseBadRequest()
 
-            save_result = action.save(data)
+        action = actions.SaveOnlyInDatabaseAction(
+            full_name='NA',
+            email_address=email_address,
+            subject='NA',
+            sender=sender,
+            form_url=self.request.get_full_path(),
+        )
+
+        save_result = action.save(data)
 
         if js_enabled:
             response = HttpResponse()

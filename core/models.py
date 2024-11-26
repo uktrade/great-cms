@@ -2515,6 +2515,13 @@ class HCSAT(TimeStampedModel):
 
     stage = models.IntegerField(default=0)
 
+    # enable service specific HCSAT questions to be stored
+    service_name = models.CharField(max_length=255, null=True, blank=True)
+    service_specific_feedback = ArrayField(
+        models.CharField(max_length=255), size=10, default=list, null=True, blank=True
+    )
+    service_specific_feedback_other = models.CharField(max_length=255, null=True, blank=True)
+
     def save(self, *args, **kwargs):
         # Used to manage the HCSAT stage
         js_enabled = kwargs.get('js_enabled')

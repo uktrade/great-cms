@@ -4,7 +4,6 @@ from enum import EnumMeta
 from typing import List
 from urllib.parse import urljoin
 
-import allure
 from django.urls import reverse
 from pytest_django.live_server_helper import LiveServer
 from selenium.common.exceptions import StaleElementReferenceException
@@ -15,7 +14,6 @@ from tests.browser.util import attach_jpg_screenshot, is_element_visible
 logger = logging.getLogger(__name__)
 
 
-@allure.step('Visit {page_name} page')
 def visit_page(
     live_server: LiveServer,
     browser: WebDriver,
@@ -25,6 +23,7 @@ def visit_page(
     *,
     endpoint: str = None,
 ):
+    logger.info('Visit %s page', page_name)
     if view_name and not endpoint:
         url = urljoin(live_server.url, reverse(view_name))
     else:
@@ -35,15 +34,15 @@ def visit_page(
         should_not_see_errors(browser)
 
 
-@allure.step('Should see all expected page sections')
 def should_see_all_expected_page_sections(browser: WebDriver, selector_enums: List[EnumMeta]):
+    logger.info('Should see all expected page sections')
     attach_jpg_screenshot(browser, f'View of the whole page: {browser.current_url}')
     for selector_enum in selector_enums:
         should_see_all_elements(browser, selector_enum)
 
 
-@allure.step('Should see all elements from: {selectors_enum}')
 def should_see_all_elements(browser: WebDriver, selectors_enum: EnumMeta):
+    logger.info('Should see all elements from: %s', selectors_enum)
     for selector in selectors_enum:
         if not selector.value:
             continue
@@ -58,8 +57,8 @@ def should_see_all_elements(browser: WebDriver, selectors_enum: EnumMeta):
     logger.info(f'All elements from {selectors_enum} are visible on {browser.current_url}')
 
 
-@allure.step('Should not see element: {selector}')
 def should_not_see_element(browser, selector):
+    logger.info('Should not see element: %s', selector)
     if not selector.is_visible:
         return
     assertion_error = f'Unexpected element is visible "{selector}"'
@@ -73,8 +72,8 @@ def should_not_see_element(browser, selector):
         raise
 
 
-@allure.step('Should not see elements from: {selectors_enum}')
 def should_not_see_any_element(browser, selectors_enum):
+    logger.info('Should not see elements from: %s', selectors_enum)
     for selector in selectors_enum:
         if not selector.is_visible:
             continue
@@ -89,8 +88,8 @@ def should_not_see_any_element(browser, selectors_enum):
             raise
 
 
-@allure.step('Should not see errors')
 def should_not_see_errors(browser):
+    logger.info('Should not see errors')
     assertion_error = ''
     page_source = browser.page_source
     try:

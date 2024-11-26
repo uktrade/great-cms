@@ -8,6 +8,7 @@ from rest_framework import status
 from rest_framework.response import Response
 
 from directory_sso_api_client import sso_api_client
+from international.forms import InternationalHCSATForm
 from international_online_offer.core import (
     helpers,
     hirings,
@@ -16,12 +17,8 @@ from international_online_offer.core import (
     regions,
     spends,
 )
-from international_online_offer.models import (
-    CsatFeedback,
-    TradeAssociation,
-    TriageData,
-    UserData,
-)
+from international_online_offer.models import TradeAssociation, TriageData, UserData
+from international_online_offer.views import TradeAssociationsView
 from sso import helpers as sso_helpers
 from tests.helpers import create_response
 
@@ -64,7 +61,8 @@ def test_business_eyb_sso_login(mock_send_code, mock_regenerate_code, client, re
     requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=401)
 
     response = client.post(
-        reverse_lazy('international_online_offer:login'), {'email': 'test@test.com', 'password': 'passwor1234'}
+        reverse_lazy('international_online_offer:login'),
+        {'email': 'test@test.com', 'password': 'passwor1234'},  # /PS-IGNORE
     )
 
     assert mock_send_code.call_count == 1
@@ -76,7 +74,8 @@ def test_business_eyb_sso_login(mock_send_code, mock_regenerate_code, client, re
 def test_business_eyb_sso_login_fail(client, requests_mock):
     requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=200)
     response = client.post(
-        reverse_lazy('international_online_offer:login'), {'email': 'test@test.com', 'password': 'passwor1234'}
+        reverse_lazy('international_online_offer:login'),
+        {'email': 'test@test.com', 'password': 'passwor1234'},  # /PS-IGNORE
     )
     assert response.status_code == 200
 
@@ -85,7 +84,8 @@ def test_business_eyb_sso_login_fail(client, requests_mock):
 def test_business_eyb_sso_login_success(client, requests_mock):
     requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=302)
     response = client.post(
-        reverse_lazy('international_online_offer:login'), {'email': 'test@test.com', 'password': 'passwor1234'}
+        reverse_lazy('international_online_offer:login'),
+        {'email': 'test@test.com', 'password': 'passwor1234'},  # /PS-IGNORE
     )
     assert response.status_code == 302
 
@@ -95,11 +95,12 @@ def test_business_eyb_sso_login_success(client, requests_mock):
 def test_business_eyb_sso_signup_success(mock_send_code, client, requests_mock):
     requests_mock.post(
         settings.DIRECTORY_SSO_API_CLIENT_BASE_URL + 'api/v1/user/',
-        text='{"uidb64": "133", "verification_token" : "344", "verification_code" : "54322", "email": "test@test.com"}',
+        text='{"uidb64": "133", "verification_token" : "344", "verification_code" : "54322", "email": "test@test.com"}',  # noqa:E501 /PS-IGNORE
         status_code=201,
     )
     response = client.post(
-        reverse_lazy('international_online_offer:signup'), {'email': 'test@test.com', 'password': 'password1234'}
+        reverse_lazy('international_online_offer:signup'),
+        {'email': 'test@test.com', 'password': 'password1234'},  # /PS-IGNORE
     )
     assert mock_send_code.call_count == 1
     assert response.status_code == 302
@@ -110,7 +111,8 @@ def test_business_eyb_sso_signup_success(mock_send_code, client, requests_mock):
 def test_business_eyb_sso_signup_fail(mock_create_user, client):
     mock_create_user.return_value = create_response(status_code=400, json_body={'email': ['Incorrect email']})
     response = client.post(
-        reverse_lazy('international_online_offer:signup'), {'email': 'test@test.com', 'password': 'passwor1234'}
+        reverse_lazy('international_online_offer:signup'),
+        {'email': 'test@test.com', 'password': 'passwor1234'},  # /PS-IGNORE
     )
     assert response.status_code == 200
 
@@ -124,7 +126,8 @@ def test_business_eyb_sso_signup_regen_code(
 ):
     mock_create_user.return_value = create_response(status_code=409)
     response = client.post(
-        reverse_lazy('international_online_offer:signup'), {'email': 'test@test.com', 'password': 'passwor1234'}
+        reverse_lazy('international_online_offer:signup'),
+        {'email': 'test@test.com', 'password': 'passwor1234'},  # /PS-IGNORE
     )
     assert mock_regenerate_code.call_count == 1
     assert mock_send_code.call_count == 1
@@ -136,7 +139,7 @@ def test_business_eyb_sso_signup_regen_code(
 def test_business_eyb_sso_signup_verify_code_success(mock_send_welcome_notification, client, requests_mock):
     requests_mock.post(
         settings.DIRECTORY_SSO_API_CLIENT_BASE_URL + 'api/v1/verification-code/verify/',
-        text='{"uidb64": "133", "token" : "344", "code" : "54322", "email" : "test@test.com"}',
+        text='{"uidb64": "133", "token" : "344", "code" : "54322", "email" : "test@test.com"}',  # /PS-IGNORE
         status_code=201,
     )
     response = client.post(
@@ -278,40 +281,6 @@ def test_eyb_business_headquarters_initial(mock_get_dbt_sectors, client, user, s
 
     assert response.status_code == 200
     assert response.context_data['form'].initial['company_location'] == company_location
-
-
-@pytest.mark.parametrize(
-    'url, expected_back_url',
-    (
-        (
-            reverse('international_online_offer:find-your-company'),
-            reverse('international_online_offer:business-headquarters'),
-        ),
-        (
-            f"{reverse('international_online_offer:find-your-company')}?next={reverse('international_online_offer:change-your-answers')}",  # noqa:E501
-            reverse('international_online_offer:change-your-answers'),
-        ),
-    ),
-)
-@pytest.mark.django_db
-def test_eyb_find_your_company_back_link(
-    mock_get_dbt_sectors,
-    mock_get_countries_regions_territories,
-    mock_get_country_region_territory,
-    url,
-    expected_back_url,
-    client,
-    user,
-    settings,
-):
-
-    user.hashed_uuid = '123'
-    client.force_login(user)
-    UserData.objects.update_or_create(hashed_uuid='123')
-    response = client.get(url)
-
-    assert response.status_code == 200
-    assert response.context_data['back_url'] == expected_back_url
 
 
 @pytest.mark.django_db
@@ -837,63 +806,23 @@ def test_trade_associations(client, user, settings):
 
 
 @pytest.mark.django_db
+def test_trade_association_hcsat(client, user):
+    trade_association_view = TradeAssociationsView()
+    assert trade_association_view.is_international_hcsat is True
+    assert trade_association_view.hcsat_service_name == 'eyb'
+    assert type(trade_association_view.get_csat_form()) == InternationalHCSATForm
+    assert (
+        trade_association_view.get_service_csat_heading(trade_association_view.hcsat_service_name)
+        == 'Overall, how would you rate your experience with the\n         Expand your business service today?'
+    )
+
+
+@pytest.mark.django_db
 def test_feedback(client, settings):
 
     url = reverse('international_online_offer:feedback')
     response = client.get(url)
     assert response.status_code == 200
-
-
-@pytest.mark.django_db
-def test_csat_feedback(client, user, settings):
-
-    client.force_login(user)
-    url = reverse('international_online_offer:csat-feedback')
-    response = client.get(url)
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
-def test_csat_feedback_with_session_value(client, user, settings):
-
-    client.force_login(user)
-    url = reverse('international_online_offer:csat-feedback')
-    CsatFeedback.objects.create(id=1, URL='http://test.com')
-    session = client.session
-    session['csat_id'] = 1
-    session.save()
-    response = client.get(url)
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
-def test_csat_feedback_submit(client, settings):
-
-    url = reverse('international_online_offer:csat-feedback') + '?url=http://testurl.com'
-    CsatFeedback.objects.create(id=1, URL='http://test.com')
-    session = client.session
-    session['csat_id'] = 1
-    session['user_journey'] = 'DASHBOARD'
-    session.save()
-    response = client.post(
-        url,
-        {
-            'satisfaction': 'SATISFIED',
-            'user_journey': 'DASHBOARD',
-            'experience': ['I_DID_NOT_FIND_WHAT_I_WAS_LOOKING_FOR'],
-            'likelihood_of_return': 'LIKELY',
-            'site_intentions': ['PUT_US_IN_TOUCH_WITH_EXPERTS'],
-        },
-    )
-    assert response.status_code == 302
-
-
-@pytest.mark.django_db
-def test_csat_widget(client, settings):
-
-    url = reverse('international_online_offer:csat-widget-submit') + '?url=http://testurl.com'
-    response = client.post(url, {'satisfaction': 'SATISFIED', 'user_journey': 'DASHBOARD'})
-    assert response.status_code == 302
 
 
 @pytest.mark.django_db

@@ -106,9 +106,10 @@
             </main>
         {% endblock %}
         {% block feedback_reporter %}
-            <div class="great-container override-negative-margin">
-                {% include 'components/inline_feedback/was_page_useful.html' %}
-            </div>
+            <section id="inline_feedback_section"
+                     class="great-bg-white clearfix govuk-!-margin-top-0">
+                <div class="container">{% include 'components/inline_feedback/was_page_useful.html' %}</div>
+            </section>
         {% endblock %}
         {% block body_footer %}
         {% include "_footer.html" with isInternational=international_footer_context.is_international currentYear=international_footer_context.current_year footerLinks=international_footer_context.footer_links logoLinkHref=international_footer_context.logo_link_href %}

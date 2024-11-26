@@ -9,7 +9,6 @@ from wagtail_factories import PageFactory
 from activitystream.serializers import (
     ActivityStreamCmsContentSerializer,
     ActivityStreamDomesticHCSATUserFeedbackDataSerializer,
-    ActivityStreamExpandYourBusinessCsatFeedbackDataSerializer,
     ActivityStreamExpandYourBusinessTriageDataSerializer,
     ActivityStreamExpandYourBusinessUserDataSerializer,
     ActivityStreamExportAcademyBookingSerializer,
@@ -23,7 +22,7 @@ from activitystream.serializers import (
 )
 from core.models import MicrositePage
 from domestic.models import ArticlePage
-from international_online_offer.models import CsatFeedback, TriageData, UserData
+from international_online_offer.models import TriageData, UserData
 from tests.unit.core.factories import (
     HCSATFactory,
     LandingPageFactory,
@@ -331,8 +330,8 @@ def test_ukea_registration_serializer():
             'email': instance.email,
             'externalId': instance.external_id,
             'hashedSsoId': instance.hashed_sso_id,
-            'firstName': instance.first_name,
-            'lastName': instance.last_name,
+            'firstName': instance.first_name,  # /PS-IGNORE
+            'lastName': instance.last_name,  # /PS-IGNORE
             'data': instance.data,
         },
     }
@@ -372,7 +371,7 @@ def test_eyb_user_serializer():
     instance.company_location = 'UK'
     instance.full_name = 'Name'
     instance.role = 'Director'
-    instance.email = 'email@email.com'
+    instance.email = 'email@email.com'  # /PS-IGNORE
     instance.telephone_number = '07123567896'
     instance.agree_terms = True
     instance.agree_info_email = False
@@ -385,7 +384,7 @@ def test_eyb_user_serializer():
     instance.address_line_2 = 'Electric avenue'
     instance.town = 'Swansea'
     instance.county = 'Glamorgan'
-    instance.postcode = 'SA4 4PP'
+    instance.postcode = 'SA4 4PP'  # /PS-IGNORE
 
     serializer = ActivityStreamExpandYourBusinessUserDataSerializer()
 
@@ -472,50 +471,6 @@ def test_eyb_triage_serializer():
 
 
 @pytest.mark.django_db
-def test_eyb_csat_feedback_serializer():
-    instance = CsatFeedback()
-
-    instance.id = 123
-    instance.created = '2023-08-24 10:48:19.018536+00'
-    instance.modified = '2023-08-24 10:48:19.018536+00'
-    instance.URL = 'http://testurl.com'
-    instance.user_journey = 'GUIDE'
-    instance.satisfaction_rating = 'SATISFIED'
-    instance.experienced_issue = [
-        'I_DID_NOT_FIND_WHAT_I_WAS_LOOKING_FOR',
-        'I_FOUND_IT_DIFFICULT_TO_NAVIGATE_THE_SITE',
-        'OTHER',
-    ]
-    instance.other_detail = 'Some other detail'
-    instance.service_improvements_feedback = 'Some service improvements detail'
-    instance.likelihood_of_return = 'UNLIKELY'
-    instance.site_intentions = ['HELP_US_SET_UP_IN_THE_UK,UNDERSTAND_THE_UK_LEGAL_SYSTEM', 'OTHER']
-    instance.site_intentions_other = 'Some intentions other detail'
-
-    serializer = ActivityStreamExpandYourBusinessCsatFeedbackDataSerializer()
-    output = serializer.to_representation(instance)
-    expected = {
-        'id': f'dit:expandYourBusiness:csatFeedbackData:{instance.id}:Update',
-        'type': 'Update',
-        'object': {
-            'id': instance.id,
-            'type': 'dit:expandYourBusiness:csatFeedbackData',
-            'feedback_submission_date': instance.created,
-            'url': instance.URL,
-            'user_journey': instance.user_journey,
-            'satisfaction_rating': instance.satisfaction_rating,
-            'experienced_issue': instance.experienced_issue,
-            'other_detail': instance.other_detail,
-            'service_improvements_feedback': instance.service_improvements_feedback,
-            'likelihood_of_return': instance.likelihood_of_return,
-            'site_intentions': instance.site_intentions,
-            'site_intentions_other_detail': instance.site_intentions_other,
-        },
-    }
-    assert output == expected
-
-
-@pytest.mark.django_db
 def test_domestic_hcsat_feedback_serializer():
     instance = HCSATFactory()
 
@@ -538,8 +493,12 @@ def test_domestic_hcsat_feedback_serializer():
             'other_detail': instance.other_detail,
             'service_improvements_feedback': instance.service_improvements_feedback,
             'likelihood_of_return': instance.likelihood_of_return,
+            'service_name': instance.service_name,
+            'service_specific_feedback': instance.service_specific_feedback,
+            'service_specific_feedback_other': instance.service_specific_feedback_other,
         },
     }
+
     assert output == expected
 
 

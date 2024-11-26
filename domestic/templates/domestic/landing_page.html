@@ -432,7 +432,13 @@
     {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
         <script src="{% static 'javascript/digital-entry-point.js' %}"></script>
     {% endif %}
-    {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
+    {% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH and features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
+        <script type="text/javascript"
+                src="{% static 'javascript/accessible-autocomplete.v3.min.js' %}"></script>
+        <script type="text/javascript"
+                src="{% static 'javascript/great.make-or-do-search-enhanced.js' %}"></script>
+        <script type="text/javascript">GreatFrontend.MakeOrDoSearchEnhanced.init({{ sic_sector_data | safe}});</script>
+    {% elif not features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH and features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
         <script type="text/javascript"
                 src="{% static 'javascript/accessible-autocomplete.v3.min.js' %}"></script>
         <script type="text/javascript"
