@@ -43,6 +43,8 @@ class ContactView(WagtailCacheMixin, GA360Mixin, HCSATMixin, FormView):  # /PS-I
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs, back_url=self.get_back_url())
         context = self.set_csat_and_stage(self.request, context, self.hcsat_service_name, self.get_form_class())
+        if 'buy-from-the-uk' in self.request.GET.get('next'):
+            context['show_hcsat'] = True
         if 'form' in kwargs:  # pass back errors from form_invalid
             context['hcsat_form'] = kwargs['form']
         return context
@@ -72,10 +74,10 @@ class ContactView(WagtailCacheMixin, GA360Mixin, HCSATMixin, FormView):  # /PS-I
             response.raise_for_status()
 
     def get_form_class(self):
-        if self.request.POST.get('action', None):
-            return forms.ContactForm
-        else:
+        if 'buy-from-the-uk' in self.request.GET.get('next'):
             return HCSATForm
+        else:
+            return forms.ContactForm
 
     def post(self, request, *args, **kwargs):
         form_class = self.get_form_class()
@@ -95,7 +97,7 @@ class ContactView(WagtailCacheMixin, GA360Mixin, HCSATMixin, FormView):  # /PS-I
         form = form_class(post_data)
 
         if form.is_valid():
-            if hcsat and 'action' not in form.cleaned_data.keys():
+            if 'buy-from-the-uk' in self.request.GET.get('next'):
                 form = form_class(post_data, instance=hcsat)
                 form.is_valid()
             return self.form_valid(form)
@@ -109,8 +111,7 @@ class ContactView(WagtailCacheMixin, GA360Mixin, HCSATMixin, FormView):  # /PS-I
         return self.render_to_response(self.get_context_data(form=form))
 
     def form_valid(self, form):
-
-        if 'action' not in form.cleaned_data.keys():
+        if 'buy-from-the-uk' in self.request.GET.get('next'):
             super().form_valid(form)
 
             js_enabled = False
