@@ -346,6 +346,7 @@ def render_markets_cta():
         'headingText': 'Kick start your exporting journey today',
         'leadingText': 'Learn how to export, find the right market and develop an export plan.',
         'signUpLink': {'href': '/dashboard', 'linkText': 'Get started'},
+        'landscapeImagePath': '/static/images/markets-cta-image.png',
     }
 
 

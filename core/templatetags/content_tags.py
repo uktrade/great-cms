@@ -729,7 +729,7 @@ def render_signup_cta():
             'Join live events from the UK Export Academy',
             'Compare markets using live export data',
         ],
-        'backgroundClass': '',
+        'backgroundClass': 'great-ds-cta-banner--bg-white',
         'signInLink': {'href': '/login', 'preLinkText': 'Already signed up?', 'linkText': 'Sign in'},
         'signUpLink': {'href': '/signup', 'linkText': 'Sign up to get started'},
         'landscapeImagePath': '/static/images/lte-signup-promo-landscape.png',

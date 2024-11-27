@@ -23,7 +23,7 @@
     {% endif %}  {% endcomment %}
     {% block child_pages %}
         <section id="{{ page.slug }}-list-section"
-                 class="topic-list-section markets-landing govuk-!-margin-top-6">
+                 class="topic-list-section markets-landing govuk-!-margin-top-6 govuk-!-padding-bottom-0">
             <div class="container">
                 <form id="sectors-form" action="" method="get">
                     <div class="grid-row">
@@ -235,9 +235,7 @@
                     <input class="button" type="submit" value="Submit form" />
                 </form>
             </div>
-            <div class="container">
-                <div class="margin-top-30">{% render_markets_cta %}</div>
-            </div>
+            <div class="margin-top-30">{% render_markets_cta %}</div>
         </section>
     {% endblock %}
 {% endblock %}
