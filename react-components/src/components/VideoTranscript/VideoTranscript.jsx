@@ -8,7 +8,7 @@ const VideoTranscript = ({ transcript }) => {
   return transcript ? (
     <div className="video-transcript">
       <button className="link link--icon m-t-xs" onClick={() => setIsOpen(!isOpen)}>
-        <span className={iconClasses}></span> <span className="link--underline">View this</span>
+        <span className={iconClasses}></span> <span className="link--underline">View transcript</span>
       </button>
       {isOpen && <div className="video-transcript__text-area m-t-xs">{transcript}</div>}
     </div>
