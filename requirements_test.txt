@@ -358,7 +358,7 @@ googleapis-common-protos==1.66.0
     # via
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
-great-components==2.6.5
+great-components==2.7.2
     # via -r requirements.in
 greenlet==3.1.1
     # via gevent
@@ -376,7 +376,7 @@ html5lib==1.1
     #   xhtml2pdf
 icalendar==5.0.11
     # via -r requirements.in
-identify==2.6.2
+identify==2.6.3
     # via pre-commit
 idna==3.10
     # via
@@ -420,7 +420,7 @@ jsbeautifier==1.15.1
     # via
     #   cssbeautifier
     #   djlint
-json5==0.9.28
+json5==0.10.0
     # via djlint
 jsonschema==3.2.0
     # via
@@ -763,7 +763,7 @@ ruamel-yaml-clib==0.2.12
     # via ruamel-yaml
 s3transfer==0.6.2
     # via boto3
-selenium==4.26.1
+selenium==4.27.1
     # via -r requirements_test.in
 sentry-sdk==2.19.0
     # via -r requirements.in
@@ -907,7 +907,7 @@ vine==5.1.0
     #   amqp
     #   celery
     #   kombu
-virtualenv==20.27.1
+virtualenv==20.28.0
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core
