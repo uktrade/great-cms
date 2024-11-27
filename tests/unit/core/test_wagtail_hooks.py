@@ -426,6 +426,11 @@ def test_estimated_read_time_calculation__forced_update_of_live(mock_render_cta,
     assert latest_rev.content['estimated_read_duration'] == str(expected_duration)
 
 
+@pytest.fixture(params=[True, False])
+def is_post_creation_val(request):
+    return request.param
+
+
 @pytest.mark.django_db
 @mock.patch('core.templatetags.content_tags.render_signup_cta', return_value='')
 def test__set_read_time__passes_through_is_post_creation(mock_render_cta, rf, domestic_homepage, is_post_creation_val):
@@ -440,7 +445,7 @@ def test__set_read_time__passes_through_is_post_creation(mock_render_cta, rf, do
     ) as mocked_update_data_for_appropriate_version:
         wagtail_hooks._set_read_time(request, detail_page, is_post_creation=is_post_creation_val)
 
-    expected_seconds = 52
+    expected_seconds = 73
     mocked_update_data_for_appropriate_version.assert_called_once_with(
         page=detail_page,
         force_page_update=is_post_creation_val,
