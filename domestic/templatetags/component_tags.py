@@ -341,8 +341,7 @@ def get_market_code(market):
 @register.inclusion_tag('_cta_banner.html')
 def render_markets_cta():
     return {
-        'backgroundClass': 'great-ds-cta-banner--bg-dark-blue',
-        'actionLinkClass': 'great-ds-action-link--white',
+        'backgroundClass': 'great-ds-cta-banner--bg-green',
         'headingText': 'Kick start your exporting journey today',
         'leadingText': 'Learn how to export, find the right market and develop an export plan.',
         'signUpLink': {'href': '/dashboard', 'linkText': 'Get started'},
