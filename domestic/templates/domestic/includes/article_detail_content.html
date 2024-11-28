@@ -47,10 +47,10 @@
                         </video>
                     </div>
                     {% if page.article_video_transcript %}
-                        <details closed class="margin-bottom-0 rich-text">
-                            <summary>View video transcript</summary>
-                            {{ page.article_video_transcript|richtext }}
-                        </details>
+                        {% include '_details.html' with
+                        summaryText="View video transcript"
+                        detailsHtml=page.article_video_transcript
+                        classes="margin-bottom-0 rich-text" %}
                     {% endif %}
                 {% endif %}
                 {% if page.article_image and not page.article_video %}
@@ -76,7 +76,7 @@
                             <p>Learn how to start exporting with our easy-to-follow online course.</p>
                         </div>
                         <a href="/signup/"
-                        class="button primary-button learn-more-button margin-bottom-60">Sign up for free</a>
+                           class="button primary-button learn-more-button margin-bottom-60">Sign up for free</a>
                     </div>
                 </section>
             {% endif %}

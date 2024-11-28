@@ -3,6 +3,7 @@ from django.forms.utils import flatatt
 from django.template.defaultfilters import linebreaksbr
 from django.template.loader import render_to_string
 from django.utils.html import format_html, format_html_join
+from django.utils.safestring import mark_safe
 
 from core.constants import VIDEO_DURATION_DATA_ATTR_NAME
 
@@ -62,7 +63,6 @@ def render_video(block, event_name=None):  # noqa: C901
     hidden_text = event_name if event_name else video.title
 
     if video_transcript:
-
         min_length = 1000
         end_position = video_transcript.find('.', min_length)
 
@@ -73,30 +73,31 @@ def render_video(block, event_name=None):  # noqa: C901
 
         show_full_transcript_details = len(initial_transcript) < len(video_transcript)
 
-        transcript_container = """<details
-            class="govuk-details govuk-!-static-padding-top-4 govuk-!-static-margin-bottom-0"
-            data-module="govuk-details">
-                <summary class="govuk-details__summary">
-                    <span class="govuk-details__summary-text">"""
-        if hidden_text:
-            transcript_container = f"""{transcript_container}<span class="govuk-visually-hidden">
-                View transcript for {hidden_text} recording</span>
-                <span aria-hidden="true">View transcript</span>"""
-        else:
-            transcript_container = f"""{transcript_container}View Transcript"""
-
-        transcript_container = f"""{transcript_container}</span>
-                </summary>
-                <div class="govuk-details__text govuk-body great-video-transcipt-text govuk-!-margin-0">
-                    {linebreaksbr(initial_transcript)}
-                    {'<div class="govuk-!-margin-top-2">'
-                     '<a class="govuk-link" href="?fullTranscript=true">'
-                     'Read full transcript'
-                     '</a>'
-                     '</div>' if show_full_transcript_details else ''}
+        transcript_html = linebreaksbr(initial_transcript)
+        if show_full_transcript_details:
+            transcript_html += """
+                <div class="govuk-!-margin-top-2">
+                    <a class="govuk-link" href="?fullTranscript=true">Read full transcript</a>
                 </div>
-            </details>
-        """
+            """
+
+        summary_text = ''
+        if hidden_text:
+            summary_text = f"""<span class="govuk-visually-hidden">View transcript for {hidden_text} recording</span>
+                             <span aria-hidden="true">View transcript</span>"""
+        else:
+            summary_text = 'View transcript'
+
+        transcript_container = render_to_string(
+            '_details.html',
+            {
+                'summaryText': mark_safe(summary_text),
+                'detailsHtml': mark_safe(transcript_html),
+                'classes': 'govuk-!-static-padding-top-4 govuk-!-static-margin-bottom-0',
+                'moduleAttr': 'govuk-details',
+                'textClasses': 'govuk-body great-video-transcipt-text govuk-!-margin-0',
+            },
+        )
 
     rendered = format_html(
         f"""
