@@ -324,8 +324,15 @@ class InvestmentArticlePage(BaseContentPage):
 
 class CustomInvestmentOpportunitiesPageForm(WagtailAdminPageForm):
     help_text = 'Select multiple items by holding the Ctrl key (Windows) or the Command key (Mac).'
-    dbt_sectors = DBTSectorsAPIMultipleChoiceField(required=False, label='DBT sectors', help_text=help_text)
-    dbt_locations = DBTRegionsMultipleChoiceField(required=False, label='DBT locations', help_text=help_text)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['dbt_sectors'] = DBTSectorsAPIMultipleChoiceField(
+            required=False, label='DBT sectors', help_text=self.help_text
+        )
+        self.fields['dbt_locations'] = DBTRegionsMultipleChoiceField(
+            required=False, label='DBT locations', help_text=self.help_text
+        )
 
 
 class InvestmentOpportunityArticlePage(BaseContentPage):
