@@ -153,6 +153,13 @@ TEMPLATES = [
             / 'dist'
             / 'components'
             / 'notification-banner',
+            ROOT_DIR
+            / 'node_modules'
+            / '@uktrade'
+            / 'great-design-system'
+            / 'dist'
+            / 'components'
+            / 'notification-banner',
         ],
         'APP_DIRS': True,
         'OPTIONS': {

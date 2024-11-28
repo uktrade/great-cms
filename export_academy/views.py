@@ -17,6 +17,7 @@ from django.http import (
     JsonResponse,
 )
 from django.shortcuts import get_list_or_404, get_object_or_404, redirect
+from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.utils.text import get_valid_filename
@@ -216,6 +217,17 @@ class SuccessPageView(GetBreadcrumbsMixin, core_mixins.GetSnippetContentMixin, c
         ctx = self.set_csat_and_stage(self.request, ctx, self.hcsat_service_name, self.form_class)
         if 'form' in kwargs:  # pass back errors from form_invalid
             ctx['hcsat_form'] = kwargs['form']
+
+        # Create notification context with all required variables
+        notification_context = {
+            'editing_registration': ctx.get('editing_registration'),
+            'event': ctx.get('event'),
+            'booking': ctx.get('booking'),
+            'heading_text': ctx.get('heading'),
+            'text': render_to_string('export_academy/includes/booking_success_content.html', ctx),
+        }
+
+        ctx.update(notification_context)  # Update the context directly
 
         return ctx
 

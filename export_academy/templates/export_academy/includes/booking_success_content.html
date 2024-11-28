@@ -1,0 +1,29 @@
+{% load event_list_buttons %}
+{% if editing_registration %}
+    <p class="great-font-size-desktop-24 padding-top-30-l padding-bottom-30-l">
+        Your registration details have been successfully updated.
+    </p>
+{% else %}
+    <p class="great-font-size-desktop-24">Event details:</p>
+    <div class="informative-banner govuk-!-margin-bottom-4">
+        <p class="great-font-size-desktop-24 govuk-!-font-weight-bold">{{ event.name }}</p>
+        <br>
+        <p class="great-font-size-desktop-24">
+            On {{ event.start_date|date:"D, j M" }} at {{ event.start_date|date:"g:iA"|lower }}
+        </p>
+    </div>
+    <span class="great-break-word">
+        <p class="great-font-size-mobile-18 govuk-!-margin-right-7">
+            We've emailed a
+            {% if booking.status == 'Confirmed' %}
+                booking
+            {% else %}
+                cancellation
+            {% endif %}
+            confirmation to {{ booking.registration.email }}
+        </p>
+    </span>
+    {% if booking.status == 'Confirmed' %}
+        {% event_list_buttons event %}
+    {% endif %}
+{% endif %}
