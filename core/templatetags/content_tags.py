@@ -717,3 +717,30 @@ def is_cheg_excluded_country(country_code):
         return True
 
     return False
+
+
+@register.inclusion_tag('_cta_banner.html')
+def render_signup_cta(background=None, link=None):
+    background_class = 'great-ds-cta-banner--bg-white'
+    if background:
+        background_class = f'great-ds-cta-banner--bg-{background}'
+
+    link_color = ''
+    if link:
+        link_color = f'great-ds-action-link--{link}'
+
+    return {
+        'headingText': 'Accelerate your learning',
+        'leadingText': "Sign up to Great.gov.uk and you'll be able to:",
+        'listItems': [
+            'Track your learning progress and read case studies',
+            'Join live events from the UK Export Academy',
+            'Compare markets using live export data',
+        ],
+        'backgroundClass': background_class,
+        'actionLinkClass': link_color,
+        'signInLink': {'href': '/login', 'preLinkText': 'Already signed up?', 'linkText': 'Sign in'},
+        'signUpLink': {'href': '/signup', 'linkText': 'Sign up to get started'},
+        'landscapeImagePath': '/static/images/lte-signup-promo-landscape.png',
+        'portraitImagePath': '/static/images/lte-signup-promo-portrait.png',
+    }

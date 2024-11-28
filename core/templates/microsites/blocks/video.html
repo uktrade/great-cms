@@ -9,7 +9,7 @@
                 <video controls class="govuk-!-width-full govuk-!-margin-bottom-2">
                     <source src="{{ value.video.url }}"
                             type="video/{{ value.video.file_extension }}">
-                        {% blocktranslate with video_url=value.video.url%}
+                    {% blocktranslate with video_url=value.video.url%}
                     <p>Your browser doesn't support HTML5 video. Here is a <a class="link" href="{{ video_url }}">link to the video</a> instead.</p>
                   {% endblocktranslate %}
                 </video>
@@ -17,14 +17,10 @@
             {% if value.video.title %}<h4 class="govuk-!-margin-top-4">{{ value.video.title }}</h4>{% endif %}
             {% if value.video.description %}<p>{{ value.video.description }}</p>{% endif %}
             {% if value.video.transcript %}
-                <details closed class="govuk-details govuk-!-margin-bottom-5">
-                    <summary class="govuk-details__summary">
-                        <span class="govuk-details__summary-text">
-                            {% translate "View video transcript" %}
-                        </span>
-                    </summary>
-                    <div class="govuk-details__text">{{ value.video.transcript|richtext }}</div>
-                </details>
+                {% include '_details.html' with
+                summaryText="View video transcript"
+                detailsHtml=value.video.transcript
+                classes="govuk-!-margin-bottom-5" %}
             {% endif %}
         {% endif %}
     </div>

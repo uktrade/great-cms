@@ -11,14 +11,7 @@
             {% endfilter %}
         </div>
         {% if value.transcript %}
-            <details closed class="govuk-details govuk-!-margin-bottom-5">
-                <summary class="govuk-details__summary">
-                    <span class="govuk-details__summary-text">
-                        {% translate "View video transcript" %}
-                    </span>
-                </summary>
-                <div class="govuk-details__text">{{ value.transcript|richtext }}</div>
-            </details>
+            {% include '_details.html' with summaryText="View video transcript" detailsHtml=value.transcript|richtext %}
         {% endif %}
     </div>
 </div>

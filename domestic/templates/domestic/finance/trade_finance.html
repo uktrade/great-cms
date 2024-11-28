@@ -2,6 +2,7 @@
 {% load static %}
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
+{% load component_tags %}
 {% block head_css %}
     {{ block.super }}
     <link href="{% static 'styles/get-finance.css' %}"
@@ -12,54 +13,54 @@
 {% block meta_title %}UK Export Finance - Trade Finance{% endblock %}
 {% block css_layout_class %}get-finance{% endblock %}
 {% block content %}
-{% image page.hero_image original as hero_image_rendition %}
-<section id="get-finance-hero">
-    {% include 'components/hero.html' with hero_title="Trade finance for UK exporters" hero_text="When it comes to exporting, having a great product or service is only half the story. Putting the right finance and insurance in place can make the difference, helping you to win contracts, fulfil orders and get paid." image_url=hero_image_rendition.url %}
-</section>
-<section id="contact-section" class="contact-section padding-vertical-30">
-    {% include 'domestic/finance/includes/get_finance_cta.html' %}
-</section>
-<section id="advantages-section" class="advantages-section padding-bottom-60">
-    <div class="container">
-        <div class="grid-row">
-            <div class="column-two-thirds">
-                <h2 class="heading-large margin-top-30 margin-bottom-45">{{ page.advantages_title }}</h2>
-            </div>
-        </div>
-        <div class="flex-grid advantages-list-container">
-            {% for advantage_block in page.advantages %}
-                <div class="column-half-l column-third-xl service-card padding-bottom-30">
-                    <div class="image-container">
-                        {% image advantage_block.value.icon original as advantage_icon_rendition %}
-                        <img src="{{ advantage_icon_rendition.url }}"
-                             width="40"
-                             class="float-left"
-                             alt="" />
-                    </div>
-                    <div class="advantages-content float-right wrap-tight rich-text">
-                        {{ advantage_block.value.content|richtext }}
-                        <div class="clearfix"></div>
-                    </div>
+    {% image page.hero_image original as hero_image_rendition %}
+    <section id="get-finance-hero">
+        {% include 'components/hero.html' with hero_title="Trade finance for UK exporters" hero_text="When it comes to exporting, having a great product or service is only half the story. Putting the right finance and insurance in place can make the difference, helping you to win contracts, fulfil orders and get paid." image_url=hero_image_rendition.url %}
+    </section>
+    <section id="contact-section" class="contact-section">
+        {% render_finance_cta page %}
+    </section>
+    <section id="advantages-section" class="advantages-section padding-bottom-60">
+        <div class="container">
+            <div class="grid-row">
+                <div class="column-two-thirds">
+                    <h2 class="heading-large margin-top-30 margin-bottom-45">{{ page.advantages_title }}</h2>
                 </div>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-<section id="get-finance-video" class="get-finance-video padding-vertical-60">
-    <div class="container">
-        <div class="flex-grid reverse-columns-s">
-            <div class="column-half-l wrap-tight evidence-section rich-text">{{ page.evidence|richtext }}</div>
-            <div class="column-half-l video-container">
-                <video controls controlsList="nodownload">
-                    <source src="{{ page.evidence_video.url }}"
-                            type="video/{{ page.evidence_video.file_extension|default:'mp4' }}">
-                </video>
+            </div>
+            <div class="flex-grid advantages-list-container">
+                {% for advantage_block in page.advantages %}
+                    <div class="column-half-l column-third-xl service-card padding-bottom-30">
+                        <div class="image-container">
+                            {% image advantage_block.value.icon original as advantage_icon_rendition %}
+                            <img src="{{ advantage_icon_rendition.url }}"
+                                 width="40"
+                                 class="float-left"
+                                 alt="" />
+                        </div>
+                        <div class="advantages-content float-right wrap-tight rich-text">
+                            {{ advantage_block.value.content|richtext }}
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
-    </div>
-</section>
-<section id="contact-section-bottom"
-         class="contact-section-bottom padding-top-30 padding-bottom-0">
-    {% include 'domestic/finance/includes/get_finance_cta.html' %}
-</section>
+    </section>
+    <section id="get-finance-video" class="get-finance-video padding-vertical-60">
+        <div class="container">
+            <div class="flex-grid reverse-columns-s">
+                <div class="column-half-l wrap-tight evidence-section rich-text">{{ page.evidence|richtext }}</div>
+                <div class="column-half-l video-container">
+                    <video controls controlsList="nodownload">
+                        <source src="{{ page.evidence_video.url }}"
+                                type="video/{{ page.evidence_video.file_extension|default:'mp4' }}">
+                    </video>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="contact-section-bottom"
+             class="contact-section-bottom govuk-!-margin-top-6">
+        {% render_finance_cta page %}
+    </section>
 {% endblock %}

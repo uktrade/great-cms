@@ -265,7 +265,7 @@ html5lib==1.1
     #   xhtml2pdf
 icalendar==5.0.11
     # via -r requirements.in
-identify==2.6.2
+identify==2.6.3
     # via pre-commit
 idna==3.10
     # via requests
@@ -597,7 +597,7 @@ vine==5.1.0
     #   amqp
     #   celery
     #   kombu
-virtualenv==20.27.1
+virtualenv==20.28.0
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core
@@ -640,7 +640,7 @@ willow[heif]==1.6.3
     # via
     #   wagtail
     #   willow
-wrapt==1.16.0
+wrapt==1.17.0
     # via
     #   deprecated
     #   opentelemetry-instrumentation
