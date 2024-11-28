@@ -5,42 +5,43 @@
 {% load pluralize from content_tags %}
 {% load get_item from object_tags %}
 {% load get_css_class_from_string from content_tags %}
+{% load render_signup_cta from content_tags %}
 {% block body_attributes %}class="great-bg-white"{% endblock %}
 {% block content %}
-<div id="learn-root"
-     class="learn__page learn__category-page great-hero-box-shadow-bottom">
-    {% with high_level_completion_progress|get_item:page.id as module_completion_data %}
-        <section>
-            <div class="great-container">
-                <div class="page-header article-header stack-at-tablet-width ea-landing-page govuk-!-padding-left-0 {{ page.title| get_css_class_from_string }}">
-                    <div class="inner-header govuk-!-margin-left-0 govuk-!-static-padding-0">
-                        <div>
-                            <h1 id="topic-title">{{ page.title }}</h1>
-                            <p>{{ page.heading | richtext }}</p>
+    <div id="learn-root"
+         class="learn__page learn__category-page great-hero-box-shadow-bottom">
+        {% with high_level_completion_progress|get_item:page.id as module_completion_data %}
+            <section>
+                <div class="great-container">
+                    <div class="page-header article-header stack-at-tablet-width ea-landing-page govuk-!-padding-left-0 {{ page.title| get_css_class_from_string }}">
+                        <div class="inner-header govuk-!-margin-left-0 govuk-!-static-padding-0">
+                            <div>
+                                <h1 id="topic-title">{{ page.title }}</h1>
+                                <p>{{ page.heading | richtext }}</p>
+                            </div>
+                            <div class="image-container image-full-width great-display-from-tablet lte-landing-image-container"></div>
                         </div>
-                        <div class="image-container image-full-width great-display-from-tablet lte-landing-image-container"></div>
                     </div>
                 </div>
-            </div>
-        </section>
-    {% endwith %}
-</div>
-<div class="great govuk-grid great-bg-white ">
-    <section class="great-container" id="topic-lesson-list">
-        <ol class="learn__topics-list">
-            {% for topic in page.get_topics %}
-                {% with module_completion_progress.completed_lesson_pages|get_item:topic.id as lesson_completion_data_for_topic %}
-                    <li id="lesson-{{ topic.slug }}">
-                        {% include 'core/curated_topic.html' with topic=topic completed_lessons=lesson_completion_data_for_topic %}
-                    </li>
-                {% endwith %}
-            {% endfor %}
-        </ol>
-    </section>
-    <div class="govuk-grid-column-full govuk-!-padding-0">
-        {% include 'learn/promo.html' with bg_class="great-bg-light-blue" %}
+            </section>
+        {% endwith %}
     </div>
-</div>
+    <div class="great govuk-grid great-bg-white ">
+        <section class="great-container" id="topic-lesson-list">
+            <ol class="learn__topics-list">
+                {% for topic in page.get_topics %}
+                    {% with module_completion_progress.completed_lesson_pages|get_item:topic.id as lesson_completion_data_for_topic %}
+                        <li id="lesson-{{ topic.slug }}">
+                            {% include 'core/curated_topic.html' with topic=topic completed_lessons=lesson_completion_data_for_topic %}
+                        </li>
+                    {% endwith %}
+                {% endfor %}
+            </ol>
+        </section>
+    </div>
+    {% if not request.user.is_authenticated %}
+        {% render_signup_cta 'green' 'black' %}
+    {% endif %}
 </div>
 {% endblock %}
 {% block body_js %}

@@ -9,35 +9,39 @@
 {% load add_govuk_classes from content_tags %}
 {% load get_page_url from content_tags %}
 {% load render_automated_list_page_card_content from content_tags %}
+{% load render_signup_cta from content_tags %}
+{% load content_tags %}
 {% block meta_description %}
     Learn how to successfully export your products to new markets with our comprehensive lessons and case studies
 {% endblock %}
 {% block content %}
-<div class="page-header learn-header great">
-    <div class="inner-header">
-        <div>
-            <h1>{{ page.title }}</h1>
-            <p>{{ page.description | richtext | add_govuk_classes }}</p>
+    <div class="page-header learn-header great">
+        <div class="inner-header">
+            <div>
+                <h1>{{ page.title }}</h1>
+                <p>{{ page.description | richtext | add_govuk_classes }}</p>
+            </div>
+            <div class="image-container"></div>
         </div>
-        <div class="image-container"></div>
     </div>
-</div>
-<section id="learn-root" class="great great-container govuk-!-margin-top-6">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-margin-bottom-6 great-flex-grid great-gap">
-            {% for learning_module in page.get_children.specific.live %}
-                {% with high_level_completion_progress|get_item:learning_module.id as module_completion_data %}
-                    {% get_page_url learning_module as learning_module_url %}
-                    {% render_automated_list_page_card_content learning_module request module_completion_data as automated_page_content %}
-                    {% include 'components/great/card.html' with url=learning_module_url content=automated_page_content bypass_class_filter=True title=learning_module.title show_title_link=True heading_level='h2' %}
-                {% endwith %}
-            {% endfor %}
+    <section id="learn-root" class="great great-container govuk-!-margin-top-6">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-margin-bottom-6 great-flex-grid great-gap">
+                {% for learning_module in page.get_children.specific.live %}
+                    {% with high_level_completion_progress|get_item:learning_module.id as module_completion_data %}
+                        {% get_page_url learning_module as learning_module_url %}
+                        {% render_automated_list_page_card_content learning_module request module_completion_data as automated_page_content %}
+                        {% include 'components/great/card.html' with url=learning_module_url content=automated_page_content bypass_class_filter=True title=learning_module.title show_title_link=True heading_level='h2' %}
+                    {% endwith %}
+                {% endfor %}
+            </div>
+            <aside class="govuk-grid-column-one-third-from-desktop">
+                {% include 'learn/includes/aside_links.html' with items=page.popular_links %}
+                {% include 'learn/includes/ukea_cta.html' with details=page.ukea_cta %}
+            </aside>
         </div>
-        <aside class="govuk-grid-column-one-third-from-desktop">
-            {% include 'learn/includes/aside_links.html' with items=page.popular_links %}
-            {% include 'learn/includes/ukea_cta.html' with details=page.ukea_cta %}
-        </aside>
-    </div>
-</section>
-{% include 'learn/promo.html' %}
+    </section>
+    {% if not request.user.is_authenticated %}
+        {% render_signup_cta %}
+    {% endif %}
 {% endblock %}
