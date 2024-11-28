@@ -78,7 +78,6 @@ class ContactView(WagtailCacheMixin, GA360Mixin, HCSATMixin, FormView):  # /PS-I
     def get_form_class(self):
         next_url = self.request.GET.get('next', '')
         parsed_next_url = urlparse(next_url)
-        print(next_url)
         if parsed_next_url.scheme and parsed_next_url.netloc:
             return forms.ContactForm
         elif 'buy-from-the-uk' in next_url:
