@@ -13,7 +13,9 @@ from international.models import GreatInternationalHomePage
 from international_online_offer.core.hirings import TWENTY_ONE_PLUS
 from international_online_offer.core.intents import SET_UP_A_NEW_DISTRIBUTION_CENTRE
 from international_online_offer.core.landing_timeframes import UNDER_SIX_MONTHS
-from international_online_offer.core.spends import ONE_MILLION_TO_TWO_MILLION
+from international_online_offer.core.spends import (
+    ONE_MILLION_TO_TWO_MILLION_FIVE_HUNDRED_THOUSAND,
+)
 from international_online_offer.models import (
     EYBArticlePage,
     EYBArticlePageTag,
@@ -110,7 +112,7 @@ def test_eyb_guide_page_content(rf, user, domestic_site, user_sector, sector_tag
             'sector': user_sector,
             'intent': [SET_UP_A_NEW_DISTRIBUTION_CENTRE],
             'location_none': True,
-            'spend': [ONE_MILLION_TO_TWO_MILLION],
+            'spend': [ONE_MILLION_TO_TWO_MILLION_FIVE_HUNDRED_THOUSAND],
             'hiring': [TWENTY_ONE_PLUS],
         },
     )

@@ -13,13 +13,11 @@ from tests.unit.core.test_helpers import create_response
         (hirings.SIX_TO_TEN, 10),
         (hirings.ELEVEN_TO_TWENTY, 20),
         (hirings.TWENTY_ONE_PLUS, 21),
-        (spends.LESS_THAN_TEN_THOUSAND, 9999),
-        (spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND, 500000),
+        (spends.LESS_THAN_FIVE_HUNDRED_THOUSAND, 499999),
         (spends.FIVE_HUNDRED_THOUSAND_TO_ONE_MILLION, 1000000),
-        (spends.ONE_MILLION_TO_TWO_MILLION, 2000000),
-        (spends.TWO_MILLION_TO_FIVE_MILLION, 5000000),
-        (spends.FIVE_MILLION_TO_TEN_MILLION, 10000000),
-        (spends.MORE_THAN_TEN_MILLION, 10000000),
+        (spends.ONE_MILLION_TO_TWO_MILLION_FIVE_HUNDRED_THOUSAND, 2500000),
+        (spends.TWO_MILLION_FIVE_HUNDRED_THOUSAND_TO_FIVE_MILLION, 5000000),
+        (spends.MORE_THAN_FIVE_MILLION, 5000000),
     ),
 )
 def test_get_value(input, expected_result):
@@ -50,22 +48,27 @@ def test_get_value(input, expected_result):
 @pytest.mark.django_db
 def test_score_is_high_value_capital_intensive(mock_gva_bandings):
     assert not scorecard.score_is_high_value(
-        'Aerospace', regions.NORTHERN_IRELAND, hirings.SIX_TO_TEN, spends.LESS_THAN_TEN_THOUSAND, 'abc'
+        'Aerospace', regions.NORTHERN_IRELAND, hirings.SIX_TO_TEN, spends.LESS_THAN_FIVE_HUNDRED_THOUSAND, 'abc'
     )
     assert not scorecard.score_is_high_value(
         'Aerospace', regions.NORTHERN_IRELAND, hirings.SIX_TO_TEN, spends.FIVE_HUNDRED_THOUSAND_TO_ONE_MILLION, 'abc'
     )
     assert scorecard.score_is_high_value(
-        'Aerospace', regions.NORTHERN_IRELAND, hirings.SIX_TO_TEN, spends.ONE_MILLION_TO_TWO_MILLION, 'abc'
+        'Aerospace',
+        regions.NORTHERN_IRELAND,
+        hirings.SIX_TO_TEN,
+        spends.ONE_MILLION_TO_TWO_MILLION_FIVE_HUNDRED_THOUSAND,
+        'abc',
     )
     assert scorecard.score_is_high_value(
-        'Aerospace', regions.NORTHERN_IRELAND, hirings.SIX_TO_TEN, spends.TWO_MILLION_TO_FIVE_MILLION, 'abc'
+        'Aerospace',
+        regions.NORTHERN_IRELAND,
+        hirings.SIX_TO_TEN,
+        spends.TWO_MILLION_FIVE_HUNDRED_THOUSAND_TO_FIVE_MILLION,
+        'abc',
     )
     assert scorecard.score_is_high_value(
-        'Aerospace', regions.NORTHERN_IRELAND, hirings.SIX_TO_TEN, spends.FIVE_MILLION_TO_TEN_MILLION, 'abc'
-    )
-    assert scorecard.score_is_high_value(
-        'Aerospace', regions.NORTHERN_IRELAND, hirings.SIX_TO_TEN, spends.MORE_THAN_TEN_MILLION, 'abc'
+        'Aerospace', regions.NORTHERN_IRELAND, hirings.SIX_TO_TEN, spends.MORE_THAN_FIVE_MILLION, 'abc'
     )
 
 
@@ -91,23 +94,31 @@ def test_score_is_high_value_capital_intensive(mock_gva_bandings):
 @pytest.mark.django_db
 def test_score_is_high_value_labour_intensive(mock_gva_bandings):
     assert not scorecard.score_is_high_value(
-        'Food and drink', regions.NORTHERN_IRELAND, hirings.NO_PLANS_TO_HIRE_YET, spends.LESS_THAN_TEN_THOUSAND, 'abc'
+        'Food and drink',
+        regions.NORTHERN_IRELAND,
+        hirings.NO_PLANS_TO_HIRE_YET,
+        spends.LESS_THAN_FIVE_HUNDRED_THOUSAND,
+        'abc',
     )
     assert not scorecard.score_is_high_value(
-        'Food and drink', regions.NORTHERN_IRELAND, hirings.ONE_TO_FIVE, spends.LESS_THAN_TEN_THOUSAND, 'abc'
+        'Food and drink', regions.NORTHERN_IRELAND, hirings.ONE_TO_FIVE, spends.LESS_THAN_FIVE_HUNDRED_THOUSAND, 'abc'
     )
     assert not scorecard.score_is_high_value(
-        'Food and drink', regions.NORTHERN_IRELAND, hirings.SIX_TO_TEN, spends.LESS_THAN_TEN_THOUSAND, 'abc'
+        'Food and drink', regions.NORTHERN_IRELAND, hirings.SIX_TO_TEN, spends.LESS_THAN_FIVE_HUNDRED_THOUSAND, 'abc'
     )
     assert not scorecard.score_is_high_value(
         'Food and drink',
         regions.NORTHERN_IRELAND,
         hirings.ELEVEN_TO_TWENTY,
-        spends.LESS_THAN_TEN_THOUSAND,
+        spends.LESS_THAN_FIVE_HUNDRED_THOUSAND,
         'abc',
     )
     assert not scorecard.score_is_high_value(
-        'Food and drink', regions.NORTHERN_IRELAND, hirings.TWENTY_ONE_PLUS, spends.LESS_THAN_TEN_THOUSAND, 'abc'
+        'Food and drink',
+        regions.NORTHERN_IRELAND,
+        hirings.TWENTY_ONE_PLUS,
+        spends.LESS_THAN_FIVE_HUNDRED_THOUSAND,
+        'abc',
     )
 
 
@@ -118,7 +129,7 @@ def test_logging_users_sector_absent_from_gva_bandings(mock_sentry_capture_messa
         'Futuristic sector',
         regions.NORTHERN_IRELAND,
         hirings.NO_PLANS_TO_HIRE_YET,
-        spends.LESS_THAN_TEN_THOUSAND,
+        spends.LESS_THAN_FIVE_HUNDRED_THOUSAND,
         'abc',
     )
     mock_sentry_capture_message.assert_called_once()

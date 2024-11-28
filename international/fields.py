@@ -20,7 +20,7 @@ class DBTSectorsAPIMultipleChoiceField(forms.MultipleChoiceField):
             choices = get_full_sector_names_as_choices(data)
             self.choices = choices
         except requests.RequestException as e:
-            raise ValidationError(f"Error fetching data from API: {e}")
+            raise ValidationError(f'Error fetching data from API: {e}')
 
 
 class DBTRegionsMultipleChoiceField(forms.MultipleChoiceField):
