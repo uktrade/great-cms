@@ -285,6 +285,7 @@ class HCSATMixin:
             'where_to_export': 'Where to export',
             'learn_to_export': 'Learn to export',
             'export_plan': 'Make an export plan',
+            'find_a_supplier': 'Find a supplier',
             'find_a_buyer': 'Find a buyer',
             'eyb': 'Expand your business',
         }

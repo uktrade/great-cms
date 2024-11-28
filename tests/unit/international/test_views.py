@@ -6,7 +6,7 @@ from django.urls import reverse
 
 @pytest.mark.django_db
 def test_contact(client, settings):
-    url = reverse('international:contact')
+    url = reverse('international:contact') + '?next=/international/buy-from-the-uk/'
     response = client.get(url)
     assert response.status_code == 200
 
@@ -23,7 +23,7 @@ def test_contact_with_param(client, settings):
 def test_contact_submit(mock_action_class, client, settings):
     url = reverse('international:contact')
     response = client.post(
-        url,
+        url + '?next=/international/buy-from-the-uk/',
         {
             'full_name': 'Joe Bloggs',
             'email': 'test@test.com',
