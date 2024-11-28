@@ -40,7 +40,7 @@
         </section>
     </div>
     {% if not request.user.is_authenticated %}
-        {% render_signup_cta %}
+        {% render_signup_cta 'green' 'black' %}
     {% endif %}
 </div>
 {% endblock %}
