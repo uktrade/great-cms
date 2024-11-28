@@ -42,11 +42,19 @@ class ContactView(WagtailCacheMixin, GA360Mixin, HCSATMixin, FormView):  # /PS-I
             success_url = success_url + '&next=' + check_url_host_is_safelisted(self.request)
         return success_url
 
+    def is_find_a_supplier_submission(self):
+        next_url = self.request.GET.get('next', '')
+        parsed_next_url = urlparse(next_url)
+        if parsed_next_url.scheme and parsed_next_url.netloc:
+            return False  # Contact form
+        return True  # HCSAT form
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs, back_url=self.get_back_url())
         context = self.set_csat_and_stage(self.request, context, self.hcsat_service_name, self.get_form_class())
-        if 'buy-from-the-uk' in self.request.GET.get('next'):
-            context['show_hcsat'] = True
+        if self.is_find_a_supplier_submission():
+            if 'buy-from-the-uk' in self.request.GET.get('next'):
+                context['show_hcsat'] = True
         if 'form' in kwargs:  # pass back errors from form_invalid
             context['hcsat_form'] = kwargs['form']
         return context
@@ -80,11 +88,9 @@ class ContactView(WagtailCacheMixin, GA360Mixin, HCSATMixin, FormView):  # /PS-I
         response.raise_for_status()
 
     def get_form_class(self):
-        next_url = self.request.GET.get('next', '')
-        parsed_next_url = urlparse(next_url)
-        if parsed_next_url.scheme and parsed_next_url.netloc:
+        if not self.is_find_a_supplier_submission():
             return forms.ContactForm
-        elif 'buy-from-the-uk' in next_url:
+        elif 'buy-from-the-uk' in self.request.GET.get('next', ''):
             return HCSATForm
         else:
             return forms.ContactForm
@@ -107,9 +113,7 @@ class ContactView(WagtailCacheMixin, GA360Mixin, HCSATMixin, FormView):  # /PS-I
         form = form_class(post_data)
 
         if form.is_valid():
-            next_url = self.request.GET.get('next', '')
-            parsed_next_url = urlparse(next_url)
-            if not (parsed_next_url.scheme or parsed_next_url.netloc):
+            if self.is_find_a_supplier_submission():
                 form = form_class(post_data, instance=hcsat)
                 form.is_valid()
             return self.form_valid(form)
@@ -123,9 +127,7 @@ class ContactView(WagtailCacheMixin, GA360Mixin, HCSATMixin, FormView):  # /PS-I
         return self.render_to_response(self.get_context_data(form=form))
 
     def form_valid(self, form):
-        next_url = self.request.GET.get('next', '')
-        parsed_next_url = urlparse(next_url)
-        if not (parsed_next_url.scheme or parsed_next_url.netloc):
+        if self.is_find_a_supplier_submission():
             super().form_valid(form)
 
             js_enabled = False
