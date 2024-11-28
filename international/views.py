@@ -1,14 +1,16 @@
+from urllib.parse import urlparse
+
 from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import Sender
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin  # /PS-IGNORE
+from wagtailcache.cache import WagtailCacheMixin
 
 from core.forms import HCSATForm
 from core.helpers import check_url_host_is_safelisted
 from core.mixins import HCSATMixin
-from wagtailcache.cache import WagtailCacheMixin
 from international import forms
 
 
@@ -74,7 +76,12 @@ class ContactView(WagtailCacheMixin, GA360Mixin, HCSATMixin, FormView):  # /PS-I
             response.raise_for_status()
 
     def get_form_class(self):
-        if 'buy-from-the-uk' in self.request.GET.get('next'):
+        next_url = self.request.GET.get('next', '')
+        parsed_next_url = urlparse(next_url)
+        print(next_url)
+        if parsed_next_url.scheme and parsed_next_url.netloc:
+            return forms.ContactForm
+        elif 'buy-from-the-uk' in next_url:
             return HCSATForm
         else:
             return forms.ContactForm
