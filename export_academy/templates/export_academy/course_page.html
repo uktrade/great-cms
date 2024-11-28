@@ -4,6 +4,7 @@
 {% load humanize %}
 {% load component_tags wagtailcore_tags wagtailimages_tags content_tags %}
 {% load add_govuk_classes from content_tags %}
+{% load render_course_cta from course_cta %}
 {% block head_title %}{{ page.title }} – UK Export Academy – great.gov.uk{% endblock %}
 {% block meta_title %}{{ page.title }} – UK Export Academy – great.gov.uk{% endblock %}
 {% block body_js %}
@@ -80,25 +81,6 @@
             {% include './includes/review_block.html' with reviews=page.reviews %}
         {% endif %}
         {% if not signed_in %}
-            <div class="container">
-                <section class="govuk-grid-column-two-thirds-from-desktop govuk-!-padding-0 govuk-!-static-padding-bottom-8 govuk-!-static-padding-top-8 great-no-float">
-                    <h2 class="govuk-heading-m govuk-!-margin-bottom-4">Unlock your export potential</h2>
-                    <p class="govuk-body govuk-!-margin-bottom-4">
-                        Join the UK Export Academy for instant access to live events with Q&A, and event recordings available on demand.
-                    </p>
-                    <div>
-                        <a role="button"
-                           class="button  primary-button great-primary-button--chevron govuk-!-margin-bottom-4"
-                           href="{% url 'export_academy:signup' %}?next={% url 'export_academy:course' slug=slug %}">Sign up to get started</a>
-                        <div>
-                            <p class="govuk-body great-inline govuk-!-static-margin-bottom-0 govuk-!-static-margin-top-0 govuk-!-static-margin-right-2">
-                                Already joined the UK Export Academy?
-                            </p>
-                            <a class="govuk-link govuk-!-margin-bottom-4 govuk-link--no-visited-state ukea-signin-link"
-                               href="{% url 'export_academy:signin' %}?next={% url 'export_academy:course' slug=slug %}">Sign in</a>
-                        </div>
-                    </div>
-                </section>
-            </div>
+            {% render_course_cta %}
         {% endif %}
     {% endblock %}

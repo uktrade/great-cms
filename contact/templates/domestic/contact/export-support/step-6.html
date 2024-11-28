@@ -1,9 +1,7 @@
 {% extends 'domestic/contact/export-support/base.html' %}
 {% load content_tags %}
 {% load static %}
-{% block body_js %}
-    {{ block.super }}
-{% endblock %}
+{% block body_js %}{{ block.super }}{% endblock %}
 {% block form_fields %}
     <div class="govuk-!-padding-5 govuk-!-margin-bottom-7 great-border-left-blue">
         <p class="govuk-heading-m govuk-!-margin-bottom-0">
@@ -17,21 +15,7 @@
             <div class="govuk-form-group govuk-!-margin-bottom-6 {% if field.errors %}govuk-form-group--error{% endif %}">
                 {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
             </div>
-            <details class="govuk-details great-details" data-module="govuk-details">
-                <summary class="govuk-details__summary">
-                    <span class="govuk-details__summary-text govuk-link">Tips on writing your enquiry</span>
-                </summary>
-                <div class="govuk-details__text">
-                    <ul class="govuk-list govuk-list--bullet">
-                        <li>
-                            A specific understanding/outline of the product, or service you intend to export. If you have a commodity code available this would be a best case.
-                        </li>
-                        <li>Rough timelines for expected delivery of goods/services.</li>
-                        <li>Detail on the issue you are attempting to resolve.</li>
-                        <li>Any information/questions you have been requested to provide by customs/customers.</li>
-                    </ul>
-                </div>
-            </details>
+            {% include '_details.html' with id=details.id summaryText=details.summaryText detailsHtml=details.detailsHtml %}
         {% else %}
             <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
                 {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
