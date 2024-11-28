@@ -537,12 +537,3 @@ class ChoiceArrayField(ArrayField):
         # care for it.
         # pylint:disable=bad-super-call
         return super(ArrayField, self).formfield(**defaults)
-
-
-class ScorecardCriterion(models.Model):
-    sector = models.CharField(max_length=255)
-    capex_spend = models.IntegerField(null=True, blank=True)
-    labour_workforce_hire = models.IntegerField(null=True, blank=True)
-    high_potential_opportunity_locations = ChoiceArrayField(
-        base_field=models.CharField(max_length=255, choices=choices.REGION_CHOICES), default=list, null=True, blank=True
-    )
