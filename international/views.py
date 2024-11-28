@@ -103,7 +103,9 @@ class ContactView(WagtailCacheMixin, GA360Mixin, HCSATMixin, FormView):  # /PS-I
         form = form_class(post_data)
 
         if form.is_valid():
-            if 'buy-from-the-uk' in self.request.GET.get('next'):
+            next_url = self.request.GET.get('next', '')
+            parsed_next_url = urlparse(next_url)
+            if not (parsed_next_url.scheme or parsed_next_url.netloc):
                 form = form_class(post_data, instance=hcsat)
                 form.is_valid()
             return self.form_valid(form)
@@ -117,7 +119,9 @@ class ContactView(WagtailCacheMixin, GA360Mixin, HCSATMixin, FormView):  # /PS-I
         return self.render_to_response(self.get_context_data(form=form))
 
     def form_valid(self, form):
-        if 'buy-from-the-uk' in self.request.GET.get('next'):
+        next_url = self.request.GET.get('next', '')
+        parsed_next_url = urlparse(next_url)
+        if not (parsed_next_url.scheme or parsed_next_url.netloc):
             super().form_valid(form)
 
             js_enabled = False
