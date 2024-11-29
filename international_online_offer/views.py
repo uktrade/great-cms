@@ -231,6 +231,9 @@ class FindYourCompanyView(GA360Mixin, FormView):  # /PS-IGNORE
     def get_back_url(self):
         back_url = reverse_lazy('international_online_offer:business-headquarters')
 
+        if self.request.GET.get('company_location_change'):
+            back_url += '?back=' + reverse_lazy('international_online_offer:change-your-answers')
+
         if self.request.GET.get('back') and not self.request.GET.get('company_location_change'):
             back_url = check_url_host_is_safelisted(self.request, 'back')
 
@@ -1151,7 +1154,10 @@ class TradeAssociationsView(GA360Mixin, TemplateView, EYBHCSAT):  # /PS-IGNORE
 
         breadcrumbs = [
             {'name': 'Home', 'url': '/international/'},
-            {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#tailored-guide'},
+            {
+                'name': 'Your expansion guide',
+                'url': '/international/expand-your-business-in-the-uk/guide/#tailored-guide',
+            },
         ]
 
         context_data = super().get_context_data(
@@ -1194,7 +1200,10 @@ class BusinessClusterView(GA360Mixin, TemplateView):  # /PS-IGNORE
     def get_context_data(self, **kwargs):
         breadcrumbs = [
             {'name': 'Home', 'url': '/international/'},
-            {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#tailored-guide'},
+            {
+                'name': 'Your expansion guide',
+                'url': '/international/expand-your-business-in-the-uk/guide/#tailored-guide',
+            },
         ]
 
         geo_area = self.request.GET.get('area', None)
