@@ -16,10 +16,13 @@
     {% else %}
         {% include '_accordion.html' with id='accordion-default' items=accordion_items headingClasses='govuk-accordion__section-button--size-19' %}
     {% endif %}
-    {% include 'international/includes/submit_button.html' with button_text='Update results' %}
+    <div id="submit-button-container">
+        {% include 'international/includes/submit_button.html' with button_text='Update results' %}
+    </div>
     <div>
         <a href="?q={{ form.q.value }}&page=1" class="govuk-link">Reset</a>
     </div>
     {{ form.q }}
     {{ form.page }}
 </form>
+<script>document.getElementById("submit-button-container").style.display = 'none';</script>
