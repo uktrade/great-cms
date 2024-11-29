@@ -72,21 +72,24 @@
                         <div class="company-autocomplete-wrapper govuk-!-margin-bottom-6">
                             {{ form }}
                             <div id="company-autocomplete" class="prepend-search-icon"></div>
-                            <span id="autocomplete-source"
-                                  class="govuk-!-padding-top-2 govuk-!-font-size-14">Results from
-                                <a class="govuk-link"
-                                   href='https://www.dnb.com/choose-your-country.html'
-                                   target='_blank'
-                                   rel="noopener noreferrer"
-                                   title="Opens in a new window">Dun &amp; Bradstreet</a>
-                            </span>
+                            <p id="autocomplete-source"
+                               class="govuk-hint govuk-!-font-size-16 govuk-!-margin-top-3">
+                                Results from
+                                <a class="govuk-link govuk-link--muted"
+                                   href="https://www.dnb.com/choose-your-country.html"
+                                   target="_blank"
+                                   rel="noopener noreferrer">
+                                    Dun &amp; Bradstreet
+                                    <span class="govuk-visually-hidden">(opens in a new tab)</span>
+                                </a>
+                            </p>
                         </div>
                     </div>
                     <div class="govuk-grid-row">
                         <div class="govuk-grid-column-full">
                             <div class="govuk-button-group">
                                 {% include 'international/includes/submit_button.html' with button_text=progress_button_text %}
-                                <span class="govuk-body"> or <a class="govuk-link"
+                                <span class="govuk-body"> or <a class="govuk-link govuk-!-margin-left-1"
     href="{% url 'international_online_offer:company-details' %}{% if request.GET.company_location_change %}?company_location_change=true{% endif %}{% if request.GET.next %}?next={{ request.GET.next }}&back={% url 'international_online_offer:find-your-company' %}?next={{ request.GET.next }}{% endif %}">Enter company details manually</a> </span>
                             </div>
                         </div>
