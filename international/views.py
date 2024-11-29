@@ -2,7 +2,7 @@ from urllib.parse import urlparse
 
 from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import Sender
-from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, HttpResponseRedirect, JsonResponse
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin  # /PS-IGNORE

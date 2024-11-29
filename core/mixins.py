@@ -288,6 +288,8 @@ class HCSATMixin:
             'find_a_supplier': 'Find a supplier',
             'find_a_buyer': 'Find a buyer',
             'eyb': 'Expand your business',
+            'investment_ops': 'Investment Opportunities',
+            'isd': 'Investment Support Directory',
         }
         return f"""Overall, how would you rate your experience with the
          {service_name_to_readable_name_map[hcsat_service_name]} service today?"""

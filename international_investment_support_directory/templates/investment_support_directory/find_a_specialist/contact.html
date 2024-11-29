@@ -14,169 +14,194 @@
 {% endblock %}
 {% block content %}
     <div class="great-container">
-        <div class="govuk-grid-row govuk-!-margin-top-8">
-            <div class="govuk-grid-column-two-thirds">{% include 'eyb/includes/error_summary.html' %}</div>
-        </div>
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds-from-desktop">
-                <h1 class="govuk-heading-l">Send a message to {{ company.name }}</h1>
+        {% if request.GET.success %}
+            <div class="govuk-grid-row" id="complete_contact_form_message">
+                <div class="govuk-grid-column-two-thirds govuk-!-padding-bottom-6">
+                    {% include '../includes/contact_success.html' with back_url=back_url %}
+                </div>
             </div>
-        </div>
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-one-half-from-desktop">
-                <p class="govuk-body">
-                    Enter your details and a brief message about your needs. We'll send these to the business you've selected.
-                </p>
+        {% else %}
+            <div class="govuk-grid-row govuk-!-margin-top-8">
+                <div class="govuk-grid-column-two-thirds">{% include 'eyb/includes/error_summary.html' %}</div>
             </div>
-        </div>
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-one-half-from-desktop">
-                <form method="post" onsubmit="return onSubmitContact()">
-                    {% csrf_token %}
-                    <div class="govuk-grid-row govuk-!-margin-bottom-4">
-                        <div class="govuk-grid-column-full">
-                            <div class="{% if form.given_name.errors %} govuk-form-group--error{% endif %}">
-                                {% include 'international/includes/form_field.html' with field=form.given_name %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="govuk-grid-row govuk-!-margin-bottom-4">
-                        <div class="govuk-grid-column-full">
-                            <div class="{% if form.family_name.errors %} govuk-form-group--error{% endif %}">
-                                {% include 'international/includes/form_field.html' with field=form.family_name %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="govuk-grid-row govuk-!-margin-bottom-4">
-                        <div class="govuk-grid-column-full">
-                            <div class="{% if form.company_name.errors %} govuk-form-group--error{% endif %}">
-                                {% include 'international/includes/form_field.html' with field=form.company_name %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="govuk-grid-row govuk-!-margin-bottom-4">
-                        <div class="govuk-grid-column-full">
-                            <div class="{% if form.country.errors %} govuk-form-group--error{% endif %}">
-                                {% include 'international/includes/form_field.html' with field=form.country %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="govuk-grid-row govuk-!-margin-bottom-4">
-                        <div class="govuk-grid-column-full">
-                            <div class="{% if form.email_address.errors %} govuk-form-group--error{% endif %}">
-                                {% include 'international/includes/form_field.html' with field=form.email_address %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="govuk-grid-row govuk-!-margin-bottom-4">
-                        <div class="govuk-grid-column-full">
-                            <div class="{% if form.sector.errors %} govuk-form-group--error{% endif %}">
-                                {% include 'international/includes/form_field.html' with field=form.sector %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="govuk-grid-row">
-                        <div class="govuk-grid-column-full">
-                            <div class="govuk-character-count"
-                                 data-module="govuk-character-count"
-                                 data-maxlength="200">
-                                <div class="govuk-form-group{% if form.subject.errors %} govuk-form-group--error{% endif %}">
-                                    <h1 class="govuk-label-wrapper">
-                                        <label class="govuk-label govuk-label--s"
-                                               for="{{ form.subject.id_for_label }}">{{ form.subject.label }}</label>
-                                    </h1>
-                                    <div id="more-detail-hint" class="govuk-hint">{{ form.subject.help_text }}</div>
-                                    {% for error in form.subject.errors %}
-                                        <p class="govuk-error-message" role="alert">
-                                            <span class="govuk-visually-hidden">Error:</span> {{ error }}
-                                        </p>
-                                    {% endfor %}
-                                    {{ form.subject }}
-                                </div>
-                                <div id="id_subject-info"
-                                     class="govuk-hint govuk-character-count__message">
-                                    You can enter up to 200 characters
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds-from-desktop">
+                    <h1 class="govuk-heading-l">Send a message to {{ company.name }}</h1>
+                </div>
+            </div>
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-one-half-from-desktop">
+                    <p class="govuk-body">
+                        Enter your details and a brief message about your needs. We'll send these to the business you've selected.
+                    </p>
+                </div>
+            </div>
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-one-half-from-desktop">
+                    <form method="post" onsubmit="return onSubmitContact()">
+                        {% csrf_token %}
+                        <div class="govuk-grid-row govuk-!-margin-bottom-4">
+                            <div class="govuk-grid-column-full">
+                                <div class="{% if form.given_name.errors %} govuk-form-group--error{% endif %}">
+                                    {% include 'international/includes/form_field.html' with field=form.given_name %}
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="govuk-grid-row">
-                        <div class="govuk-grid-column-full">
-                            <div class="govuk-character-count"
-                                 data-module="govuk-character-count"
-                                 data-maxlength="1000">
-                                <div class="govuk-form-group{% if form.body.errors %} govuk-form-group--error{% endif %}">
-                                    <h1 class="govuk-label-wrapper">
-                                        <label class="govuk-label govuk-label--s" for="{{ form.body.id_for_label }}">{{ form.body.label }}</label>
-                                    </h1>
-                                    <div id="more-detail-hint" class="govuk-hint">{{ form.body.help_text }}</div>
-                                    {% for error in form.body.errors %}
-                                        <p class="govuk-error-message" role="alert">
-                                            <span class="govuk-visually-hidden">Error:</span> {{ error }}
-                                        </p>
-                                    {% endfor %}
-                                    {{ form.body }}
+                        <div class="govuk-grid-row govuk-!-margin-bottom-4">
+                            <div class="govuk-grid-column-full">
+                                <div class="{% if form.family_name.errors %} govuk-form-group--error{% endif %}">
+                                    {% include 'international/includes/form_field.html' with field=form.family_name %}
                                 </div>
-                                <div id="id_body-info" class="govuk-hint govuk-character-count__message">You can enter up to 1000 characters</div>
                             </div>
                         </div>
-                    </div>
-                    <div class="govuk-grid-row govuk-!-margin-bottom-4">
-                        <div class="govuk-grid-column-full">
-                            <div class="{% if form.terms.errors %} govuk-form-group--error{% endif %}">
-                                {% for error in form.terms.errors %}
-                                    <p class="govuk-error-message" role="alert">
-                                        <span class="govuk-visually-hidden">Error:</span> {{ error }}
-                                    </p>
-                                {% endfor %}
-                                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-                                    <div class="govuk-checkboxes__item">
-                                        {{ form.terms }}
-                                        <label class="govuk-label govuk-checkboxes__label" for="id_terms">
-                                            <p class="govuk-body">
-                                                I agree to the <a class="govuk-link" href="/terms-and-conditions/" target="_blank">great.gov.uk terms and conditions</a> and I understand that:
+                        <div class="govuk-grid-row govuk-!-margin-bottom-4">
+                            <div class="govuk-grid-column-full">
+                                <div class="{% if form.company_name.errors %} govuk-form-group--error{% endif %}">
+                                    {% include 'international/includes/form_field.html' with field=form.company_name %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="govuk-grid-row govuk-!-margin-bottom-4">
+                            <div class="govuk-grid-column-full">
+                                <div class="{% if form.country.errors %} govuk-form-group--error{% endif %}">
+                                    {% include 'international/includes/form_field.html' with field=form.country %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="govuk-grid-row govuk-!-margin-bottom-4">
+                            <div class="govuk-grid-column-full">
+                                <div class="{% if form.email_address.errors %} govuk-form-group--error{% endif %}">
+                                    {% include 'international/includes/form_field.html' with field=form.email_address %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="govuk-grid-row govuk-!-margin-bottom-4">
+                            <div class="govuk-grid-column-full">
+                                <div class="{% if form.sector.errors %} govuk-form-group--error{% endif %}">
+                                    {% include 'international/includes/form_field.html' with field=form.sector %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-full">
+                                <div class="govuk-character-count"
+                                     data-module="govuk-character-count"
+                                     data-maxlength="200">
+                                    <div class="govuk-form-group{% if form.subject.errors %} govuk-form-group--error{% endif %}">
+                                        <h1 class="govuk-label-wrapper">
+                                            <label class="govuk-label govuk-label--s"
+                                                   for="{{ form.subject.id_for_label }}">
+                                                {{ form.subject.label }}
+                                            </label>
+                                        </h1>
+                                        <div id="more-detail-hint" class="govuk-hint">{{ form.subject.help_text }}</div>
+                                        {% for error in form.subject.errors %}
+                                            <p class="govuk-error-message" role="alert">
+                                                <span class="govuk-visually-hidden">Error:</span> {{ error }}
                                             </p>
-                                            <ul class="govuk-list govuk-list--bullet">
-                                                <li>
-                                                    the Department for Business and Trade (DBT) is not endorsing the character, ability, goods or services of members of the directory
-                                                </li>
-                                                <li>there is no legal relationship between DBT and directory members</li>
-                                                <li>
-                                                    DBT is not liable for any direct or indirect loss or damage that might happen after a directory member provides a good or service
-                                                </li>
-                                            </ul>
-                                        </label>
+                                        {% endfor %}
+                                        {{ form.subject }}
+                                    </div>
+                                    <div id="id_subject-info"
+                                         class="govuk-hint govuk-character-count__message">
+                                        You can enter up to 200 characters
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="govuk-grid-row govuk-!-margin-bottom-4">
-                        <div class="govuk-grid-column-full">
-                            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-                                <div class="govuk-checkboxes__item">
-                                    {{ form.marketing_consent }}
-                                    <label class="govuk-label govuk-checkboxes__label"
-                                           for="id_marketing_consent">{{ form.marketing_consent.label }}</label>
+                        <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-full">
+                                <div class="govuk-character-count"
+                                     data-module="govuk-character-count"
+                                     data-maxlength="1000">
+                                    <div class="govuk-form-group{% if form.body.errors %} govuk-form-group--error{% endif %}">
+                                        <h1 class="govuk-label-wrapper">
+                                            <label class="govuk-label govuk-label--s" for="{{ form.body.id_for_label }}">{{ form.body.label }}</label>
+                                        </h1>
+                                        <div id="more-detail-hint" class="govuk-hint">{{ form.body.help_text }}</div>
+                                        {% for error in form.body.errors %}
+                                            <p class="govuk-error-message" role="alert">
+                                                <span class="govuk-visually-hidden">Error:</span> {{ error }}
+                                            </p>
+                                        {% endfor %}
+                                        {{ form.body }}
+                                    </div>
+                                    <div id="id_body-info" class="govuk-hint govuk-character-count__message">You can enter up to 1000 characters</div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="govuk-grid-row govuk-!-margin-top-4">
-                        <div class="govuk-grid-column-full">
-                            {% include 'international/includes/submit_button.html' with button_text='Send message' %}
+                        <div class="govuk-grid-row govuk-!-margin-bottom-4">
+                            <div class="govuk-grid-column-full">
+                                <div class="{% if form.terms.errors %} govuk-form-group--error{% endif %}">
+                                    {% for error in form.terms.errors %}
+                                        <p class="govuk-error-message" role="alert">
+                                            <span class="govuk-visually-hidden">Error:</span> {{ error }}
+                                        </p>
+                                    {% endfor %}
+                                    <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                                        <div class="govuk-checkboxes__item">
+                                            {{ form.terms }}
+                                            <label class="govuk-label govuk-checkboxes__label" for="id_terms">
+                                                <p class="govuk-body">
+                                                    I agree to the <a class="govuk-link" href="/terms-and-conditions/" target="_blank">great.gov.uk terms and conditions</a> and I understand that:
+                                                </p>
+                                                <ul class="govuk-list govuk-list--bullet">
+                                                    <li>
+                                                        the Department for Business and Trade (DBT) is not endorsing the character, ability, goods or services of members of the directory
+                                                    </li>
+                                                    <li>there is no legal relationship between DBT and directory members</li>
+                                                    <li>
+                                                        DBT is not liable for any direct or indirect loss or damage that might happen after a directory member provides a good or service
+                                                    </li>
+                                                </ul>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                        <div class="govuk-grid-row govuk-!-margin-bottom-4">
+                            <div class="govuk-grid-column-full">
+                                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                                    <div class="govuk-checkboxes__item">
+                                        {{ form.marketing_consent }}
+                                        <label class="govuk-label govuk-checkboxes__label"
+                                               for="id_marketing_consent">{{ form.marketing_consent.label }}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="govuk-grid-row govuk-!-margin-top-4">
+                            <div class="govuk-grid-column-full">
+                                {% include 'international/includes/submit_button.html' with button_text='Send message' %}
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
+        {% endif %}
     </div>
+{% endblock %}
+{% block feedback_reporter %}
+    {% if not csat_complete and request.GET.success %}
+        <section id="hcsat_section"
+                 class="great-bg-white clearfix govuk-!-margin-top-0 govuk-!-padding-bottom-6 great-inline-feedback__container">
+            <div class="container">
+                <div class="great-container ">
+                    {% include 'core/includes/hcsat.html' with hcsat_form=hcsat_form hcsat_stage=hcsat_form_stage leading_text="To help us improve our service, we'd like to know more about your experience today. It will only take a minute to complete." %}
+                </div>
+            </div>
+        </section>
+    {% endif %}
+    {{ block.super }}
 {% endblock %}
 {% block body_js %}
     {{ block.super }}
     <script type="text/javascript"
             src="{% static 'javascript/accessible-autocomplete.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'javascript/countries.js' %}"></script>
+    <script src="{% static 'javascript/govuk.js' %}"></script>
+    <script src="{% static 'javascript/hcsat-feedback-form.js' %}"></script>
     <script type="text/javascript">
         const onSubmitContact = () => {
             if (!document.getElementById('js-industry-select').value) {
@@ -187,12 +212,17 @@
             }
         }
 
-        accessibleAutocomplete.enhanceSelectElement({
-            selectElement: document.getElementById('js-country-select'),
-            source: countries,
-            autoselect: false,
-            minLength: 2,
-        });
+        const countrySelectElement = document.getElementById('js-country-select')
+
+        if (countrySelectElement) {
+            accessibleAutocomplete.enhanceSelectElement({
+                selectElement: countrySelectElement,
+                source: countries,
+                autoselect: false,
+                minLength: 2,
+            });
+        }
+
     </script>
     <script>
         const allSectorsJson = JSON.parse("{{autocomplete_sector_data | escapejs}}");
@@ -231,41 +261,60 @@
             populateResults(results);
         }
 
-        accessibleAutocomplete.enhanceSelectElement({
-            selectElement: document.getElementById('js-industry-select'),
-            source: sectorSuggest,
-            showAllValues: true,
-            autoselect: false,
-            templates: {
-                inputValue: (selectedSectorRow) => {
-                    if (selectedSectorRow) {
-                        return selectedSectorRow.sector_name
-                    } else {
-                        return
+        const industrySelectElement = document.getElementById('js-industry-select')
+
+        if (industrySelectElement){
+            accessibleAutocomplete.enhanceSelectElement({
+                selectElement: industrySelectElement,
+                source: sectorSuggest,
+                showAllValues: true,
+                autoselect: false,
+                templates: {
+                    inputValue: (selectedSectorRow) => {
+                        if (selectedSectorRow) {
+                            return selectedSectorRow.sector_name
+                        } else {
+                            return
+                        }
+                    },
+                    suggestion: (selectedSectorRow) => {
+                        return `<span>${selectedSectorRow.sector_name}</span>`
                     }
                 },
-                suggestion: (selectedSectorRow) => {
-                    return `<span>${selectedSectorRow.sector_name}</span>`
-                }
-            },
-            minLength: 2,
-            onConfirm: function(selectedRow) {
-                // onConfirm seems to be triggered by autocomplete many times passing null
-                if (selectedRow) {
-                    // When overriding onconfirm as per docs, it seems to then not automatically update
-                    // the actual select elements selected value and so isnt posted on form submit
-                    const sectorSelectInput = document.querySelector('#js-industry-select-select');
-                    const setSectorSelectValue = (value) => {
-                        for (let i = 0; i < sectorSelectInput.options.length; i++) {
-                            if (sectorSelectInput.options[i].value === selectedRow.sector_name) {
-                                sectorSelectInput.selectedIndex = i;
-                                break;
+                minLength: 2,
+                onConfirm: function(selectedRow) {
+                    // onConfirm seems to be triggered by autocomplete many times passing null
+                    if (selectedRow) {
+                        // When overriding onconfirm as per docs, it seems to then not automatically update
+                        // the actual select elements selected value and so isnt posted on form submit
+                        const sectorSelectInput = document.querySelector('#js-industry-select-select');
+                        const setSectorSelectValue = (value) => {
+                            for (let i = 0; i < sectorSelectInput.options.length; i++) {
+                                if (sectorSelectInput.options[i].value === selectedRow.sector_name) {
+                                    sectorSelectInput.selectedIndex = i;
+                                    break;
+                                }
                             }
                         }
+                        setSectorSelectValue(selectedRow);
                     }
-                    setSectorSelectValue(selectedRow);
                 }
-            }
+            });
+        }
+    </script>
+    <script>
+        var csat_form = document.getElementById("hcsat_section")
+        var inline_feedback = document.getElementById("inline_feedback_section")
+        const csat_complete_key = 'isd_csat_complete'
+        // allow hcsat feedback to be given once, after which show 'Is this page useful?'
+        if (sessionStorage.getItem(csat_complete_key)==='true') {
+            csat_form.classList.add('great-hidden')
+            inline_feedback.classList.remove('great-hidden')
+        } else {
+            inline_feedback.classList.add('great-hidden')
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            new CsatFormHandler('csat-form', csat_complete_key);
         });
     </script>
 {% endblock %}
