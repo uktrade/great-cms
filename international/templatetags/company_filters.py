@@ -89,7 +89,7 @@ def _create_checkbox_html(field, field_values):
         checked = 'checked' if value in field_values else ''
         checkboxes_html += (
             f'<div class="govuk-checkboxes__item">'
-            f'<input {checked} type="checkbox" name="{field.name}" '
+            f'<input {checked} onchange="this.form.submit()" type="checkbox" name="{field.name}" '
             f'value="{value}" class="govuk-checkboxes__input" '
             f'id="{action.id_for_label}">'
             f'<label class="govuk-label govuk-checkboxes__label" '
