@@ -48,6 +48,7 @@ dit.tagging.base = new function() {
                 .on('play', function() { sendVideoEvent($(this), 'play') })
                 .on('pause', function() { sendVideoEvent($(this), 'pause') })
                 .on('ended', function() { sendVideoEvent($(this), 'ended') })
+                .on('timeupdate', function() { sendVideoEvent($(this), 'progress') });
         }
 
         function addTaggingForForms() {
@@ -70,7 +71,7 @@ dit.tagging.base = new function() {
 
         function sendVideoEvent(video, action) {
             var videoPercent = 0
-            var videoStatus = 'progress'
+            var videoStatus = action
             const currentPercent = calculateVideoPercent(video[0]);
                 if (currentPercent < 25)
                     videoPercent = 0;
