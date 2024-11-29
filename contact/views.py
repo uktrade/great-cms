@@ -492,6 +492,21 @@ class DomesticExportSupportFormStep6View(contact_mixins.ExportSupportFormMixin, 
             ],
             business_name=form_data.get('business_name'),
             back_link=back_link,
+            details={
+                'id': 'detailsElement',
+                'summaryText': 'Tips on writing your enquiry',
+                'detailsHtml': """
+                    <ul class="govuk-list govuk-list--bullet">
+                        <li>
+                            A specific understanding/outline of the product, or service you intend to export.
+                             If you have a commodity code available this would be a best case.
+                        </li>
+                        <li>Rough timelines for expected delivery of goods/services.</li>
+                        <li>Detail on the issue you are attempting to resolve.</li>
+                        <li>Any information/questions you have been requested to provide by customs/customers.</li>
+                    </ul>
+                """,
+            },
         )
 
     def form_valid(self, form):

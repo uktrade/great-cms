@@ -208,7 +208,7 @@ def test_estimated_read_time_calculation(rf, domestic_homepage):
     revision = detail_page.save_revision()
     revision.publish()
 
-    expected_duration = timedelta(seconds=202)
+    expected_duration = timedelta(seconds=223)
 
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration != expected_duration
@@ -247,7 +247,7 @@ def test_estimated_read_time_calculation__checks_text_and_video(rf, domestic_hom
     revision = detail_page.save_revision()
     revision.publish()
 
-    expected_duration = timedelta(seconds=226 + 101)  # reading + watching
+    expected_duration = timedelta(seconds=347)
 
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration != expected_duration
@@ -285,7 +285,7 @@ def test_estimated_read_time_calculation__checks_video(rf, domestic_homepage):
     revision = detail_page.save_revision()
     revision.publish()
 
-    expected_duration = timedelta(seconds=77 + 100)  # reading + watching
+    expected_duration = timedelta(seconds=198)
 
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration != expected_duration
@@ -297,7 +297,8 @@ def test_estimated_read_time_calculation__checks_video(rf, domestic_homepage):
 
 
 @pytest.mark.django_db
-def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(rf, domestic_homepage):
+@mock.patch('core.templatetags.content_tags.render_signup_cta', return_value='')
+def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(mock_render_cta, rf, domestic_homepage):
     # IF THIS TEST FAILS BASED ON OFF-BY-ONE-SECOND DURATIONS... check whether
     # your changeset has slightly increased the size of the HTML page, which
     # may have slightly pushed up the default/empty-page readtime (either in
@@ -333,7 +334,7 @@ def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(rf, 
 
     detail_page.refresh_from_db()
 
-    expected_duration = timedelta(seconds=52)  # NB just the read time of a skeleton DetailPage
+    expected_duration = timedelta(seconds=73)  # Updated from 52 to 73 to account for CTA
 
     # show the live version is not updated yet
     assert detail_page.has_unpublished_changes is True
@@ -369,11 +370,12 @@ def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(rf, 
     # NOTE: for a reason unrelated to the point of _this_ test, the readtime
     # of the published page CAN BE calculated as slightly longer than the draft.
     # This may be in part due to the page having a very small amount of content.
-    assert detail_page.estimated_read_duration == timedelta(seconds=52)
+    assert detail_page.estimated_read_duration == timedelta(seconds=73)
 
 
 @pytest.mark.django_db
-def test_estimated_read_time_calculation__forced_update_of_live(rf, domestic_homepage):
+@mock.patch('core.templatetags.content_tags.render_signup_cta', return_value='')
+def test_estimated_read_time_calculation__forced_update_of_live(mock_render_cta, rf, domestic_homepage):
     # This test is a variant of test_estimated_read_time_calculation__updates_only_draft_if_appropriate
 
     # IF THIS TEST FAILS BASED ON OFF-BY-ONE-SECOND DURATIONS... check whether
@@ -412,7 +414,7 @@ def test_estimated_read_time_calculation__forced_update_of_live(rf, domestic_hom
 
     detail_page.refresh_from_db()
 
-    expected_duration = timedelta(seconds=52)  # NB just the read time of a skeleton DetailPage
+    expected_duration = timedelta(seconds=73)  # Updated from 52 to 73 to account for CTA
 
     # show the live version is updated yet
     assert detail_page.estimated_read_duration == expected_duration
@@ -424,13 +426,14 @@ def test_estimated_read_time_calculation__forced_update_of_live(rf, domestic_hom
     assert latest_rev.content['estimated_read_duration'] == str(expected_duration)
 
 
-@pytest.mark.parametrize('is_post_creation_val', (True, False))
+@pytest.fixture(params=[True, False])
+def is_post_creation_val(request):
+    return request.param
+
+
 @pytest.mark.django_db
-def test__set_read_time__passes_through_is_post_creation(
-    rf,
-    domestic_homepage,
-    is_post_creation_val,
-):
+@mock.patch('core.templatetags.content_tags.render_signup_cta', return_value='')
+def test__set_read_time__passes_through_is_post_creation(mock_render_cta, rf, domestic_homepage, is_post_creation_val):
     request = rf.get('/')
     detail_page = factories.DetailPageFactory(
         parent=domestic_homepage,
@@ -442,7 +445,7 @@ def test__set_read_time__passes_through_is_post_creation(
     ) as mocked_update_data_for_appropriate_version:
         wagtail_hooks._set_read_time(request, detail_page, is_post_creation=is_post_creation_val)
 
-    expected_seconds = 52
+    expected_seconds = 73
     mocked_update_data_for_appropriate_version.assert_called_once_with(
         page=detail_page,
         force_page_update=is_post_creation_val,

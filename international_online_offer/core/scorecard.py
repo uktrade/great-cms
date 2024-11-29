@@ -1,7 +1,8 @@
+from django.db.models import Q
 from sentry_sdk import capture_message
 
+from international_investment.models import InvestmentOpportunityArticlePage
 from international_online_offer.core import hirings
-from international_online_offer.models import ScorecardCriterion
 from international_online_offer.services import get_gva_scoring_criteria
 
 
@@ -66,11 +67,12 @@ def is_labour_workforce_hire(hiring, threshold):
     return hiring_upper_value >= threshold
 
 
-# todo: refactor hpo calculations to use d-api once ready
 def is_hpo(sector, location):
-    hpo_scoring = ScorecardCriterion.objects.filter(sector__iexact=sector).first()
+    investment_opps = InvestmentOpportunityArticlePage.objects.filter(
+        Q(dbt_sectors__contains=[sector]) & Q(dbt_locations__contains=[location])
+    )
 
-    if hpo_scoring:
-        return location in hpo_scoring.high_potential_opportunity_locations
+    if investment_opps:
+        return True
 
     return False

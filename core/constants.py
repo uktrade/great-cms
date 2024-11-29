@@ -1264,6 +1264,7 @@ USER_JOURNEY_CHOICES = (
     ('EXPORT_PLAN_UPDATE', 'Export Plan Update'),
     ('EVENT_BOOKING', 'Event booking'),
     ('COMPANY_VERIFICATION', 'Company verification'),
+    ('COMPANY_CONTACT', 'Company contact'),
 )
 
 USER_JOURNEY_CHOICES_PRODUCT = (('ADD_PRODUCT', 'Add Product'),)

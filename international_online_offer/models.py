@@ -312,7 +312,10 @@ class EYBArticlePage(BaseContentPage, EYBHCSAT):
 
                 breadcrumbs = [
                     {'name': 'Home', 'url': '/international/'},
-                    {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#tailored-guide'},
+                    {
+                        'name': 'Your expansion guide',
+                        'url': '/international/expand-your-business-in-the-uk/guide/#tailored-guide',
+                    },
                 ]
 
                 context.update(
@@ -380,7 +383,10 @@ class EYBTradeShowsPage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
 
         breadcrumbs = [
             {'name': 'Home', 'url': '/international/'},
-            {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#tailored-guide'},
+            {
+                'name': 'Your expansion guide',
+                'url': '/international/expand-your-business-in-the-uk/guide/#tailored-guide',
+            },
         ]
         context.update(
             triage_data=triage_data,
@@ -537,12 +543,3 @@ class ChoiceArrayField(ArrayField):
         # care for it.
         # pylint:disable=bad-super-call
         return super(ArrayField, self).formfield(**defaults)
-
-
-class ScorecardCriterion(models.Model):
-    sector = models.CharField(max_length=255)
-    capex_spend = models.IntegerField(null=True, blank=True)
-    labour_workforce_hire = models.IntegerField(null=True, blank=True)
-    high_potential_opportunity_locations = ChoiceArrayField(
-        base_field=models.CharField(max_length=255, choices=choices.REGION_CHOICES), default=list, null=True, blank=True
-    )

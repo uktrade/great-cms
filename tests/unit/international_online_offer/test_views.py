@@ -723,7 +723,7 @@ def test_spend_form_valid_saves_to_db(mock_get_dbt_sectors, mock_get_gva_banding
     url = reverse('international_online_offer:spend')
     user.hashed_uuid = '123'
     client.force_login(user)
-    response = client.post(url, {'spend': spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND})
+    response = client.post(url, {'spend': spends.FIVE_HUNDRED_THOUSAND_TO_ONE_MILLION})
     assert response.status_code == 302
 
 

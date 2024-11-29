@@ -52,7 +52,9 @@
                             </dt>
                             <dd class="govuk-summary-list__value govuk-body">
                                 <i class="fa fa-map-marker-alt govuk-!-margin-right-1"
-                                   aria-hidden="true"></i> {%if page.location%}{{ page.location }}, {% endif %}{{ page.region }}
+                                   aria-hidden="true"></i>
+                                {% if page.location %}{{ page.location }},{% endif %}
+                                {{ page.region }}
                             </dd>
                         </div>
                         <div class="govuk-summary-list__row">
@@ -77,7 +79,7 @@
         </div>
     </section>
     {% if page.investment_type == 'Foreign direct investment' or page.investment_type == 'Freeports' %}
-        <section class="light-green-background govuk-!-padding-top-6">
+        <section class="light-green-background govuk-!-padding-top-6 govuk-!-padding-bottom-3">
             <div class="great-container">
                 {% include 'investment/includes/opportunity_contact.html' with button_preamble="Take advantage of this opportunity to expand your business in the UK" %}
             </div>
@@ -114,7 +116,7 @@
         </section>
     {% endif %}
     {% if page.article_case_studies %}
-        <section class="light-blue-background govuk-!-padding-top-7 govuk-!-padding-bottom-7">
+        <section class="light-blue-background govuk-!-padding-top-5 govuk-!-padding-bottom-7">
             <div class="great-container">
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
@@ -125,7 +127,7 @@
         </section>
     {% endif %}
     {% if page.investment_type == 'Foreign direct investment' or page.investment_type == 'Freeports' %}
-        <section class="light-green-background govuk-!-padding-top-7 govuk-!-padding-bottom-4">
+        <section class="light-green-background govuk-!-padding-top-6 govuk-!-padding-bottom-3">
             <div class="great-container">
                 {% include 'investment/includes/opportunity_contact.html' with button_preamble="Take advantage of this opportunity to expand your business in the UK" %}
             </div>

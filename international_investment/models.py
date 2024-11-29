@@ -1,6 +1,8 @@
+from django.contrib.postgres.fields import ArrayField
 from django.core.paginator import Paginator
 from django.db import models
 from django.shortcuts import render
+from wagtail.admin.forms import WagtailAdminPageForm
 from wagtail.admin.panels import FieldPanel
 from wagtail.blocks.field_block import RichTextBlock
 from wagtail.blocks.stream_block import StreamBlock
@@ -10,6 +12,10 @@ from wagtail.images.blocks import ImageChooserBlock
 from core.blocks import BasicTopicCardBlock, ColumnsBlock
 from core.models import CMSGenericPage
 from domestic.models import BaseContentPage
+from international.fields import (
+    DBTRegionsMultipleChoiceField,
+    DBTSectorsAPIMultipleChoiceField,
+)
 from international_investment.core.helpers import (
     get_investment_opportunities_search_filters,
 )
@@ -316,6 +322,19 @@ class InvestmentArticlePage(BaseContentPage):
         return context
 
 
+class CustomInvestmentOpportunitiesPageForm(WagtailAdminPageForm):
+    help_text = 'Select multiple items by holding the Ctrl key (Windows) or the Command key (Mac).'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['dbt_sectors'] = DBTSectorsAPIMultipleChoiceField(
+            required=False, label='DBT sectors', help_text=self.help_text
+        )
+        self.fields['dbt_locations'] = DBTRegionsMultipleChoiceField(
+            required=False, label='DBT locations', help_text=self.help_text
+        )
+
+
 class InvestmentOpportunityArticlePage(BaseContentPage):
     parent_page_types = [
         'international_investment.InvestmentIndexPage',
@@ -382,7 +401,6 @@ class InvestmentOpportunityArticlePage(BaseContentPage):
         null=True,
         blank=True,
     )
-
     data_points = StreamField(
         [
             (
@@ -401,11 +419,20 @@ class InvestmentOpportunityArticlePage(BaseContentPage):
         null=True,
         blank=True,
     )
-
     region = models.TextField()
     location = models.TextField(null=True, blank=True)
     sector = models.TextField()
     investment_type = models.TextField()
+    dbt_sectors = ArrayField(
+        models.CharField(max_length=255),
+        blank=True,
+        default=list,
+    )
+    dbt_locations = ArrayField(
+        models.CharField(max_length=255),
+        blank=True,
+        default=list,
+    )
 
     content_panels = CMSGenericPage.content_panels + [
         FieldPanel('article_title'),
@@ -419,7 +446,11 @@ class InvestmentOpportunityArticlePage(BaseContentPage):
         FieldPanel('location'),
         FieldPanel('sector'),
         FieldPanel('investment_type'),
+        FieldPanel('dbt_sectors'),
+        FieldPanel('dbt_locations'),
     ]
+
+    base_form_class = CustomInvestmentOpportunitiesPageForm
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)

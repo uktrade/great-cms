@@ -73,6 +73,16 @@ def get_sector(sector_id, sectors):
             return sector
 
 
+def get_full_sector_names_as_choices(sectors_json):
+    # First, sort the sector names alphabetically (A-Z)
+    sorted_sectors = sorted(sectors_json, key=lambda x: x['full_sector_name'])
+
+    # Create the tuple of choices, each choice is a tuple of (value, label)
+    sectors_tuple = tuple((sector['full_sector_name'], sector['full_sector_name']) for sector in sorted_sectors)
+
+    return sectors_tuple
+
+
 def get_sectors_as_choices(sectors_json):
     sectors_tuple = ()
     for sector_row in sectors_json:

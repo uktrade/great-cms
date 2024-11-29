@@ -25,7 +25,7 @@
     <div class="great-container">
         {% if request.GET.success %}
             <div class="govuk-grid-row" id="complete_contact_form_message">
-                <div class="govuk-grid-column-two-thirds">{% include './includes/contact_success.html' with back_url=back_url %}</div>
+                <div class="govuk-grid-column-two-thirds">{% include './includes/contact_success.html' with show_hcsat=show_hcsat hcsat_form=hcsat_form hcsat_stage=hcsat_form_stage back_url=back_url %}</div>
             </div>
         {% else %}
             {% if form.errors and not form.non_field_errors %}
@@ -110,3 +110,7 @@
         {% endif %}
     </div>
 {% endblock content %}
+{% if show_hcsat %}
+{% block feedback_reporter %}
+{% endblock %}
+{% endif %}
