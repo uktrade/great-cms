@@ -23,11 +23,9 @@
                 </input>
             </div>
         </div>
-        <div class="govuk-grid-row">
+        <div class="govuk-grid-row govuk-!-margin-top-4">
             <div class="govuk-grid-column-two-thirds-from-desktop">
-                <button type="submit"
-                        class="govuk-button govuk-!-margin-top-4"
-                        data-module="govuk-button">Find specialists</button>
+                {% include 'international/includes/submit_button.html' with button_text='Find specialists' %}
             </div>
         </div>
     </form>
