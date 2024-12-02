@@ -224,7 +224,7 @@ class SuccessPageView(GetBreadcrumbsMixin, core_mixins.GetSnippetContentMixin, c
             'event': ctx.get('event'),
             'booking': ctx.get('booking'),
             'heading_text': ctx.get('heading'),
-            'text': render_to_string('export_academy/includes/booking_success_content.html', ctx),
+            'text': render_to_string('export_academy/includes/booking_success_content.html', ctx, request=self.request),
         }
 
         ctx.update(notification_context)  # Update the context directly

@@ -19,19 +19,7 @@
         <div class="great-container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-                    <div class="govuk-notification-banner govuk-notification-banner--success govuk-!-width"
-                         role="alert"
-                         aria-labelledby="govuk-notification-banner-title"
-                         data-module="govuk-notification-banner">
-                        <div class="govuk-notification-banner__header">
-                            <h2 class="govuk-notification-banner__title"
-                                id="govuk-notification-banner-title">Success</h2>
-                        </div>
-                        <div class="govuk-notification-banner__content">
-                            <h3 class="govuk-notification-banner__heading">You've signed back in</h3>
-                            <p class="govuk-body">Continue telling us about your business.</p>
-                        </div>
-                    </div>
+                    {% include '_notification-banner.html' with type='success' titleText='Success' html='<h3 class="govuk-notification-banner__heading">You\'ve signed back in</h3><p class="govuk-body">Continue telling us about your business.</p>' %}
                 </div>
             </div>
         </div>

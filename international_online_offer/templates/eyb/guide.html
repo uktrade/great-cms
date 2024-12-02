@@ -9,240 +9,231 @@
 {% block head_css %}{{ block.super }}{% endblock %}
 {% block content %}
     <div class="great-container">
-        {% if request.GET.signup %}
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-                    <div class="govuk-notification-banner govuk-notification-banner--success"
-                         role="alert"
-                         aria-labelledby="govuk-notification-banner-title"
-                         data-module="govuk-notification-banner">
-                        <div class="govuk-notification-banner__header">
-                            <h2 class="govuk-notification-banner__title"
-                                id="govuk-notification-banner-title">Success</h2>
-                        </div>
-                        <div class="govuk-notification-banner__content">
-                            <h3 class="govuk-notification-banner__heading">Here's your guide to expanding your business in the UK</h3>
-                            <p class="govuk-body">
-                                We've created your guide from everything you've told us about your business in our <strong>{{ triage_data.sector|get_sector_display }}</strong> sector. If anything changes, you can <a class="govuk-notification-banner__link"
-    href="{% url 'international_online_offer:change-your-answers' %}">update your details</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {% endif %}
+        {% comment %} {% if request.GET.signup %} {% endcomment %}
         <div class="govuk-grid-row">
-            <div class="govuk-grid-column-full">
-                <span class="govuk-caption-l">Your expansion guide</span>
-                <h1 class="govuk-heading-l">Setting up a {{ triage_data.sector|get_sector_display }} business in the UK</h1>
-            </div>
+            <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                {% with notification_content=triage_data.sector|get_sector_display %}
+                    {% url 'international_online_offer:change-your-answers' as change_url %}
+                    {% with banner_html='<h3 class="govuk-notification-banner__heading">Here\'s your guide to expanding your business in the UK</h3><p class="govuk-body">We\'ve created your guide from everything you\'ve told us about your business in our <strong>'|add:notification_content|add:'</strong> sector. If anything changes, you can <a class="govuk-notification-banner__link" href="'|add:change_url|add:'">update your details</a></p>' %}
+                    {% include '_notification-banner.html' with type='success' titleText='Success' html=banner_html %}
+                {% endwith %}
+            {% endwith %}
         </div>
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-full">
-                <div class="govuk-grid-row govuk-!-padding-3 govuk-!-margin-0 govuk-!-margin-bottom-8 guide-edit-panel">
-                    <div class="govuk-grid-column-one-quarter">
-                        <p class="govuk-body">Sector</p>
-                        <h2 class="govuk-heading-m">{{ triage_data.sector|get_sector_display }}</h2>
-                    </div>
-                    <div class="govuk-grid-column-one-quarter">
-                        <p class="govuk-body">Headquarters</p>
-                        <h2 class="govuk-heading-m">{{ user_data.company_location|get_company_location_display }}</h2>
-                    </div>
-                    <div class="govuk-grid-column-one-quarter">
-                        <p class="govuk-body">Company name</p>
-                        <h2 class="govuk-heading-m">{{ user_data.company_name }}</h2>
-                    </div>
-                    <div class="govuk-grid-column-one-quarter">
-                        <p class="govuk-body">
-                            <a class="govuk-link"
-                               href="{% url 'international_online_offer:change-your-answers' %}">Change your details</a>
-                        </p>
-                    </div>
-                </div>
+    </div>
+</div>
+{% comment %} {% endif %} {% endcomment %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <span class="govuk-caption-l">Your expansion guide</span>
+        <h1 class="govuk-heading-l">Setting up a {{ triage_data.sector|get_sector_display }} business in the UK</h1>
+    </div>
+</div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <div class="govuk-grid-row govuk-!-padding-3 govuk-!-margin-0 govuk-!-margin-bottom-8 guide-edit-panel">
+            <div class="govuk-grid-column-one-quarter">
+                <p class="govuk-body">Sector</p>
+                <h2 class="govuk-heading-m">{{ triage_data.sector|get_sector_display }}</h2>
             </div>
-        </div>
-        <div class="govuk-tabs" data-module="govuk-tabs">
-            <h2 class="govuk-tabs__title">Contents</h2>
-            <ul class="govuk-tabs__list">
-                <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
-                    <a class="govuk-tabs__tab" href="#step-by-step-guide">Checklist for UK expansion</a>
-                </li>
-                <li class="govuk-tabs__list-item">
-                    <a class="govuk-tabs__tab" href="#tailored-guide">Tailored guide</a>
-                </li>
-            </ul>
-            <div class="govuk-tabs__panel" id="step-by-step-guide">
-                <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-full">
-                        <h2 class="govuk-heading-l">Checklist for UK expansion</h2>
-                        <p class="govuk-body">Topics you may need to know more about and tasks you may need to complete.</p>
-                    </div>
-                </div>
-                <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-full">
-                        {% include '_accordion.html' with id=accordion.id items=accordion.items classes=accordion.classes %}
-                    </div>
-                </div>
-                <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-full">
-                        <p class="govuk-body-m">
-                            <a class="govuk-link" href="#tailored-guide">View your tailored guide</a>
-                        </p>
-                    </div>
-                </div>
+            <div class="govuk-grid-column-one-quarter">
+                <p class="govuk-body">Headquarters</p>
+                <h2 class="govuk-heading-m">{{ user_data.company_location|get_company_location_display }}</h2>
             </div>
-            <div class="govuk-tabs__panel govuk-tabs__panel--hidden"
-                 id="tailored-guide">
-                {% if get_to_know_market_articles or trade_shows_page and triage_data.sector %}
-                    <div class="govuk-grid-row">
-                        <div class="govuk-grid-column-full">
-                            <h2 class="govuk-heading-l">Your tailored guide to expanding your business</h2>
-                            <p class="govuk-body">
-                                Your tailored guide is based on information you've given us about your sector and expansion plans.
-                            </p>
-                        </div>
-                    </div>
-                    {% if bci_data %}
-                        <div class="govuk-grid-row">
-                            <div class="govuk-grid-column-full">
-                                <h2 class="govuk-heading-m">
-                                    Market data for the {{ bci_data.dbt_sector_name|default:""|lower }} sector in the UK, {{ bci_data.business_count_release_year|default:"" }}
-                                </h2>
-                            </div>
-                        </div>
-                        <div class="govuk-grid-column-full light-blue-background">
-                            <div class="govuk-grid-row govuk-!-padding-2">
-                                <div class="govuk-grid-column-one-quarter">
-                                    <h2 class="govuk-heading-xl govuk-!-padding-0  govuk-!-margin-bottom-1">
-                                        {{ bci_data.total_business_count|default:"N/A"|intcomma }}
-                                    </h2>
-                                    <p class="govuk-body">businesses</p>
-                                </div>
-                                <div class="govuk-grid-column-one-quarter">
-                                    <h2 class="govuk-heading-xl govuk-!-padding-0 govuk-!-margin-bottom-1">
-                                        {{ bci_data.total_employee_count|default:"N/A"|intcomma }}
-                                    </h2>
-                                    <p class="govuk-body">employees</p>
-                                </div>
-                            </div>
-                            <div class="govuk-grid-row govuk-!-padding-1">
-                                <div class="govuk-grid-column-full">
-                                    <button class="button secondary-button"
-                                            type="button"
-                                            onclick="window.location.href='{% url 'international_online_offer:bci' %}?area=K03000001'">
-                                        By location
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="govuk-grid-row govuk-!-padding-top-3">
-                                <div class="govuk-grid-column-full">
-                                    <p class="govuk-body-s">
-                                        Source:
-                                        <a href="https://www.ons.gov.uk/aboutus/whatwedo/paidservices/interdepartmentalbusinessregisteridbr">
-                                            Inter-Departmental Business Register, Office for National Statistics
-                                        </a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
-                    <div class="govuk-grid-row govuk-!-margin-bottom-6">
-                        {% if trade_shows_page and triage_data.sector %}
-                            <div class="govuk-grid-column-full">
-                                <div class="article-list-item">
-                                    <a class="article-list-item-a" href="{{ trade_shows_page.url }}">
-                                        <div class="govuk-grid-row">
-                                            <div class="govuk-grid-column-one-third">
-                                                <div class="image-container"
-                                                     alt="Buinsess people talking at networking event"
-                                                     style="background-image: url({% static 'images/trade_events.png' %})">
-                                                </div>
-                                            </div>
-                                            <div class="govuk-grid-column-two-thirds">
-                                                <h3 class="govuk-heading-m">Trade events</h3>
-                                                <p class="govuk-body">
-                                                    Attending a UK trade event can help you develop networks and get the latest insights from your sector.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="govuk-grid-column-full">
-                                <div class="article-list-item">
-                                    <a class="article-list-item-a"
-                                       href="{% url 'international_online_offer:trade-associations' %}">
-                                        <div class="govuk-grid-row">
-                                            <div class="govuk-grid-column-one-third">
-                                                <div class="image-container"
-                                                     alt="Buinsess people talking about how trade associations can help a business grow"
-                                                     style="background-image: url({% static 'images/trade_associations.png' %})">
-                                                </div>
-                                            </div>
-                                            <div class="govuk-grid-column-two-thirds">
-                                                <h3 class="govuk-heading-m">Trade associations</h3>
-                                                <p class="govuk-body">Joining a UK trade association can be a useful way to find new clients and form partnerships.</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        {% endif %}
-                        <div class="govuk-grid-column-full">
-                            {% for page in get_to_know_market_articles %}
-                                {% image page.article_image original as rendition %}
-                                <div class="article-list-item">
-                                    <a href="{{ page.url }}?back=true">
-                                        <div class="govuk-grid-row">
-                                            <div class="govuk-grid-column-one-third">
-                                                <div class="image-container"
-                                                     style="background-image: url({{ rendition.url }})"></div>
-                                            </div>
-                                            <div class="govuk-grid-column-two-thirds">
-                                                <h3 class="govuk-heading-m">{{ page.article_title }}</h3>
-                                                <p class="govuk-body article-list-item-teaser">{{ page.article_teaser }}</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                {% endif %}
-                {% if finance_and_support_articles %}
-                    <div class="govuk-grid-row">
-                        <div class="govuk-grid-column-full">
-                            <h2 class="govuk-heading-l">Finance and support</h2>
-                            <p class="govuk-body">
-                                Find out about getting access to finance, plus the financial incentives and support available when you set up your business in the UK.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="govuk-grid-row govuk-!-margin-bottom-6">
-                        <div class="govuk-grid-column-full">
-                            {% for page in finance_and_support_articles %}
-                                {% image page.article_image original as rendition %}
-                                <div class="article-list-item">
-                                    <a href="{{ page.url }}?back=true">
-                                        <div class="govuk-grid-row">
-                                            <div class="govuk-grid-column-one-third">
-                                                <div class="image-container"
-                                                     style="background-image: url({{ rendition.url }})"></div>
-                                            </div>
-                                            <div class="govuk-grid-column-two-thirds">
-                                                <h3 class="govuk-heading-m">{{ page.article_title }}</h3>
-                                                <p class="govuk-body">{{ page.article_teaser }}</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                {% endif %}
+            <div class="govuk-grid-column-one-quarter">
+                <p class="govuk-body">Company name</p>
+                <h2 class="govuk-heading-m">{{ user_data.company_name }}</h2>
+            </div>
+            <div class="govuk-grid-column-one-quarter">
+                <p class="govuk-body">
+                    <a class="govuk-link"
+                       href="{% url 'international_online_offer:change-your-answers' %}">Change your details</a>
+                </p>
             </div>
         </div>
     </div>
+</div>
+<div class="govuk-tabs" data-module="govuk-tabs">
+    <h2 class="govuk-tabs__title">Contents</h2>
+    <ul class="govuk-tabs__list">
+        <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+            <a class="govuk-tabs__tab" href="#step-by-step-guide">Checklist for UK expansion</a>
+        </li>
+        <li class="govuk-tabs__list-item">
+            <a class="govuk-tabs__tab" href="#tailored-guide">Tailored guide</a>
+        </li>
+    </ul>
+    <div class="govuk-tabs__panel" id="step-by-step-guide">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <h2 class="govuk-heading-l">Checklist for UK expansion</h2>
+                <p class="govuk-body">Topics you may need to know more about and tasks you may need to complete.</p>
+            </div>
+        </div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                {% include '_accordion.html' with id=accordion.id items=accordion.items classes=accordion.classes %}
+            </div>
+        </div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <p class="govuk-body-m">
+                    <a class="govuk-link" href="#tailored-guide">View your tailored guide</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="govuk-tabs__panel govuk-tabs__panel--hidden"
+         id="tailored-guide">
+        {% if get_to_know_market_articles or trade_shows_page and triage_data.sector %}
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    <h2 class="govuk-heading-l">Your tailored guide to expanding your business</h2>
+                    <p class="govuk-body">
+                        Your tailored guide is based on information you've given us about your sector and expansion plans.
+                    </p>
+                </div>
+            </div>
+            {% if bci_data %}
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-full">
+                        <h2 class="govuk-heading-m">
+                            Market data for the {{ bci_data.dbt_sector_name|default:""|lower }} sector in the UK, {{ bci_data.business_count_release_year|default:"" }}
+                        </h2>
+                    </div>
+                </div>
+                <div class="govuk-grid-column-full light-blue-background">
+                    <div class="govuk-grid-row govuk-!-padding-2">
+                        <div class="govuk-grid-column-one-quarter">
+                            <h2 class="govuk-heading-xl govuk-!-padding-0  govuk-!-margin-bottom-1">
+                                {{ bci_data.total_business_count|default:"N/A"|intcomma }}
+                            </h2>
+                            <p class="govuk-body">businesses</p>
+                        </div>
+                        <div class="govuk-grid-column-one-quarter">
+                            <h2 class="govuk-heading-xl govuk-!-padding-0 govuk-!-margin-bottom-1">
+                                {{ bci_data.total_employee_count|default:"N/A"|intcomma }}
+                            </h2>
+                            <p class="govuk-body">employees</p>
+                        </div>
+                    </div>
+                    <div class="govuk-grid-row govuk-!-padding-1">
+                        <div class="govuk-grid-column-full">
+                            <button class="button secondary-button"
+                                    type="button"
+                                    onclick="window.location.href='{% url 'international_online_offer:bci' %}?area=K03000001'">
+                                By location
+                            </button>
+                        </div>
+                    </div>
+                    <div class="govuk-grid-row govuk-!-padding-top-3">
+                        <div class="govuk-grid-column-full">
+                            <p class="govuk-body-s">
+                                Source:
+                                <a href="https://www.ons.gov.uk/aboutus/whatwedo/paidservices/interdepartmentalbusinessregisteridbr">
+                                    Inter-Departmental Business Register, Office for National Statistics
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="govuk-grid-row govuk-!-margin-bottom-6">
+                {% if trade_shows_page and triage_data.sector %}
+                    <div class="govuk-grid-column-full">
+                        <div class="article-list-item">
+                            <a class="article-list-item-a" href="{{ trade_shows_page.url }}">
+                                <div class="govuk-grid-row">
+                                    <div class="govuk-grid-column-one-third">
+                                        <div class="image-container"
+                                             alt="Buinsess people talking at networking event"
+                                             style="background-image: url({% static 'images/trade_events.png' %})">
+                                        </div>
+                                    </div>
+                                    <div class="govuk-grid-column-two-thirds">
+                                        <h3 class="govuk-heading-m">Trade events</h3>
+                                        <p class="govuk-body">
+                                            Attending a UK trade event can help you develop networks and get the latest insights from your sector.
+                                        </p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="govuk-grid-column-full">
+                        <div class="article-list-item">
+                            <a class="article-list-item-a"
+                               href="{% url 'international_online_offer:trade-associations' %}">
+                                <div class="govuk-grid-row">
+                                    <div class="govuk-grid-column-one-third">
+                                        <div class="image-container"
+                                             alt="Buinsess people talking about how trade associations can help a business grow"
+                                             style="background-image: url({% static 'images/trade_associations.png' %})">
+                                        </div>
+                                    </div>
+                                    <div class="govuk-grid-column-two-thirds">
+                                        <h3 class="govuk-heading-m">Trade associations</h3>
+                                        <p class="govuk-body">Joining a UK trade association can be a useful way to find new clients and form partnerships.</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="govuk-grid-column-full">
+                    {% for page in get_to_know_market_articles %}
+                        {% image page.article_image original as rendition %}
+                        <div class="article-list-item">
+                            <a href="{{ page.url }}?back=true">
+                                <div class="govuk-grid-row">
+                                    <div class="govuk-grid-column-one-third">
+                                        <div class="image-container"
+                                             style="background-image: url({{ rendition.url }})"></div>
+                                    </div>
+                                    <div class="govuk-grid-column-two-thirds">
+                                        <h3 class="govuk-heading-m">{{ page.article_title }}</h3>
+                                        <p class="govuk-body article-list-item-teaser">{{ page.article_teaser }}</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        {% if finance_and_support_articles %}
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    <h2 class="govuk-heading-l">Finance and support</h2>
+                    <p class="govuk-body">
+                        Find out about getting access to finance, plus the financial incentives and support available when you set up your business in the UK.
+                    </p>
+                </div>
+            </div>
+            <div class="govuk-grid-row govuk-!-margin-bottom-6">
+                <div class="govuk-grid-column-full">
+                    {% for page in finance_and_support_articles %}
+                        {% image page.article_image original as rendition %}
+                        <div class="article-list-item">
+                            <a href="{{ page.url }}?back=true">
+                                <div class="govuk-grid-row">
+                                    <div class="govuk-grid-column-one-third">
+                                        <div class="image-container"
+                                             style="background-image: url({{ rendition.url }})"></div>
+                                    </div>
+                                    <div class="govuk-grid-column-two-thirds">
+                                        <h3 class="govuk-heading-m">{{ page.article_title }}</h3>
+                                        <p class="govuk-body">{{ page.article_teaser }}</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+</div>
 {% endblock %}
 {% block feedback_reporter %}
     {% if not csat_complete %}
