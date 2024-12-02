@@ -9,7 +9,7 @@
 {% block head_css %}{{ block.super }}{% endblock %}
 {% block content %}
     <div class="great-container">
-        {% comment %} {% if request.GET.signup %} {% endcomment %}
+        {% if request.GET.signup %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                 {% with notification_content=triage_data.sector|get_sector_display %}
@@ -20,7 +20,7 @@
                 {% endwith %}
             </div>
         </div>
-        {% comment %} {% endif %} {% endcomment %}
+        {% endif %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
                 <span class="govuk-caption-l">Your expansion guide</span>
