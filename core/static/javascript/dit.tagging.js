@@ -18,6 +18,8 @@ if (!String.prototype.includes) {
 var dit = dit || {}
 dit.tagging = dit.tagging || {};
 dit.tagging.base = new function() {
+    var lastVideoPercent = -1;
+
     this.init = function(debug_mode) {
         $(document).ready(function() {
             addTaggingForLinks();
@@ -87,6 +89,14 @@ dit.tagging.base = new function() {
                         videoPercent = 100
                     }
 
+                if (videoPercent !== lastVideoPercent) {
+                    sendVideoEventDetails(video, videoStatus, videoPercent, action)
+                    lastVideoPercent = videoPercent;
+                }
+
+
+        }
+        function sendVideoEventDetails(video, videoStatus, videoPercent, action) {
             var type = video.data('ga-type') || 'video';
             var element = video.data('ga-element') || inferElement(video);
             var value = video.data('ga-value') || inferVideoValue(video);
