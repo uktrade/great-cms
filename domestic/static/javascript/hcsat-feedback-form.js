@@ -1,6 +1,6 @@
 class CsatFormHandler {
 
-    constructor(formId) {
+    constructor(formId, csat_complete_key='csat_complete') {
         this.form = document.getElementById(formId);
         this.stepOne = document.getElementById('csat-step-1');
         this.stepTwo = document.getElementById('csat-step-2');
@@ -14,6 +14,7 @@ class CsatFormHandler {
         this.cancelButton = this.form.querySelectorAll('button[type="submit"]')[1];
         this.currentStep = 1;
         this.hideClass = 'great-hidden';
+        this.csat_complete_key = csat_complete_key;
         this.initializeEventListeners();
     }
 
@@ -67,7 +68,7 @@ class CsatFormHandler {
                 this.cancelButton.classList.remove('great-hidden');
                 this.stepTransition(this.stepOne, this.stepTwo, this.stepOneSuccessMessage, 'Submit feedback');
                 this.currentStep = 2;
-                sessionStorage.csat_complete = 'true' 
+                sessionStorage.setItem(this.csat_complete_key, 'true')
             } else {
                 this.stepTransition(this.stepTwo, this.stepOne, this.stepTwoSuccessMessage, '');
                 this.form.classList.add(this.hideClass);
