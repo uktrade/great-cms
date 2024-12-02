@@ -7,6 +7,28 @@
 {% block meta_title %}Change your answers {{ block.super }}{% endblock %}
 {% block content %}
     <div class="great-container">
+        {% if request.GET.details_updated %}
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                    <div class="govuk-notification-banner govuk-notification-banner--success"
+                         role="alert"
+                         aria-labelledby="govuk-notification-banner-title"
+                         data-module="govuk-notification-banner">
+                        <div class="govuk-notification-banner__header">
+                            <h2 class="govuk-notification-banner__title"
+                                id="govuk-notification-banner-title">Success</h2>
+                        </div>
+                        <div class="govuk-notification-banner__content">
+                            <h3 class="govuk-notification-banner__heading">Your details have been updated</h3>
+                            <p class="govuk-body">
+                                <a class="govuk-notification-banner__link"
+                                   href="/international/expand-your-business-in-the-uk/guide/">Return to guide</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds-from-desktop">
                 <h1 class="govuk-heading-l">Your details</h1>

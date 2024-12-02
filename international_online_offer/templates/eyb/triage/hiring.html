@@ -8,7 +8,7 @@
 {% block meta_title %}How many people are you looking to hire in the UK? {{ block.super }}{% endblock %}
 {% block head_css %}{{ block.super }}{% endblock %}
 {% block content %}
-    {{block.super}}
+    {{ block.super }}
     <div class="great-container">
         {% include '../includes/triage_header.html' with back_url=back_url %}
         <div class="govuk-grid-row">
@@ -39,7 +39,7 @@
                             </div>
                         </fieldset>
                     </div>
-                    {% include 'international/includes/submit_button.html' with button_text='Save and continue' %}
+                    {% include 'international/includes/submit_button.html' with button_text=progress_button_text %}
                 </form>
             </div>
         </div>
