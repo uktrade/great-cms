@@ -10,6 +10,8 @@ from wagtail.fields import StreamField
 from wagtail.images.blocks import ImageChooserBlock
 
 from core.blocks import BasicTopicCardBlock, ColumnsBlock
+from core.forms import HCSATForm
+from core.mixins import HCSATNonFormPageMixin
 from core.models import CMSGenericPage
 from domestic.models import BaseContentPage
 from international.fields import (
@@ -335,7 +337,11 @@ class CustomInvestmentOpportunitiesPageForm(WagtailAdminPageForm):
         )
 
 
-class InvestmentOpportunityArticlePage(BaseContentPage):
+class InvestmentOpportunityArticlePage(BaseContentPage, HCSATNonFormPageMixin):
+    base_form_class = CustomInvestmentOpportunitiesPageForm
+    hcsat_service_name = 'investment_ops'
+    is_international_hcsat = True
+
     parent_page_types = [
         'international_investment.InvestmentIndexPage',
     ]
@@ -450,10 +456,14 @@ class InvestmentOpportunityArticlePage(BaseContentPage):
         FieldPanel('dbt_locations'),
     ]
 
-    base_form_class = CustomInvestmentOpportunitiesPageForm
+    def serve(self, request, *args, **kwargs):
+        # hcsat
+        if request.method == 'POST':
+            return self.post(request)
+        return super().serve(request, *args, **kwargs)
 
     def get_context(self, request, *args, **kwargs):
-        context = super().get_context(request, *args, **kwargs)
+        context = super().get_context(request)
 
         self.set_ga360_payload(
             page_id='OpportunityArticle',
@@ -475,4 +485,11 @@ class InvestmentOpportunityArticlePage(BaseContentPage):
         context.update(
             breadcrumbs=breadcrumbs,
         )
+
+        self.set_csat_and_stage(request, context, self.hcsat_service_name, HCSATForm)
+        if 'form' in kwargs:  # pass back errors from form_invalid
+            context['hcsat_form'] = kwargs['form']
+
+        self.set_is_csat_complete(request, context)
+
         return context

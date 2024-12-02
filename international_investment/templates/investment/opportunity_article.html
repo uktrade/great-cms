@@ -85,7 +85,7 @@
             </div>
         </section>
     {% endif %}
-    <section class="govuk-!-padding-top-6">
+    <section class="govuk-!-padding-top-6 govuk-!-padding-bottom-6">
         <div class="great-container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">{% include_block page.article_body %}</div>
@@ -133,4 +133,37 @@
             </div>
         </section>
     {% endif %}
+{% endblock %}
+{% block feedback_reporter %}
+    {% if not csat_complete %}
+        <section id="hcsat_section"
+                 class="great-bg-white clearfix govuk-!-margin-top-0 govuk-!-padding-bottom-6 great-inline-feedback__container">
+            <div class="container">
+                <div class="great-container ">
+                    {% include 'core/includes/hcsat.html' with hcsat_form=hcsat_form hcsat_stage=hcsat_form_stage leading_text="To help us improve our service, we'd like to know more about your experience today. It will only take a minute to complete." %}
+                </div>
+            </div>
+        </section>
+    {% endif %}
+    {{ block.super }}
+{% endblock %}
+{% block body_js %}
+    {{ block.super }}
+    <script src="{% static 'javascript/govuk.js' %}"></script>
+    <script src="{% static 'javascript/hcsat-feedback-form.js' %}"></script>
+    <script>
+        var csat_form = document.getElementById("hcsat_section")
+        var inline_feedback = document.getElementById("inline_feedback_section")
+        const csat_complete_key = 'investment_ops_csat_complete'
+        // allow hcsat feedback to be given once, after which show 'Is this page useful?'
+        if (sessionStorage.getItem(csat_complete_key)==='true') {
+            csat_form.classList.add('great-hidden')
+            inline_feedback.classList.remove('great-hidden')
+        } else {
+            inline_feedback.classList.add('great-hidden')
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            new CsatFormHandler('csat-form', csat_complete_key);
+        });
+    </script>
 {% endblock %}
