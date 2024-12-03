@@ -40,14 +40,7 @@
                     <p class="govuk-body govuk-!-margin-top-4">{{ step_text }}</p>
                     {% block content_top %}{% endblock %}
                     {% if confirmation %}
-                        <div class="govuk-notification-banner govuk-notification-banner--success">
-                            <div class="govuk-notification-banner__header">
-                                <h2 class="govuk-heading-xl govuk-notification-banner__title">{{ heading_text }}</h2>
-                            </div>
-                            <div class="govuk-notification-banner__content">
-                                <p class="govuk-body govuk-notification-banner__heading">{{ strapline_text }}</p>
-                            </div>
-                        </div>
+                        {% include '_notification-banner.html' with type='success' titleText=heading_text text=strapline_text %}
                     {% else %}
                         <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">{{ heading_text }}</h1>
                         <p class="govuk-body govuk-!-margin-bottom-7">
