@@ -51,6 +51,8 @@ def international_header(request):
 
     hide_details_link = not is_triage_complete(request)['is_triage_complete']
 
+    user_on_verify_code_page = True if request.GET.get('uidb64') and request.GET.get('token') else False
+
     nav_items_list_children = [
         {
             'href': reverse_lazy('international_online_offer:login'),
@@ -99,7 +101,7 @@ def international_header(request):
                     'text': 'Expand your business',
                     'location': 'International header',
                     'isCurrent': '/expand-your-business-in-the-uk' in request.path,
-                    'navItemsListChildren': nav_items_list_children,
+                    'navItemsListChildren': nav_items_list_children if not user_on_verify_code_page else [],
                 },
                 {
                     'href': '/international/investment/',

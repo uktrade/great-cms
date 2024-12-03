@@ -79,15 +79,16 @@
         <script>
             var csat_form = document.getElementById("hcsat_section")
             var inline_feedback = document.getElementById("inline_feedback_section")
+            const csat_complete_key = 'eyb_csat_complete'
             // allow hcsat feedback to be given once, after which show 'Is this page useful?'
-            if (sessionStorage.csat_complete) {
+            if (sessionStorage.getItem(csat_complete_key)==='true') {
                 csat_form.classList.add('great-hidden')
                 inline_feedback.classList.remove('great-hidden')
             } else {
                 inline_feedback.classList.add('great-hidden')
             }
             document.addEventListener('DOMContentLoaded', () => {
-                new CsatFormHandler('csat-form');
+                new CsatFormHandler('csat-form', csat_complete_key);
             });
         </script>
     {% endblock %}
