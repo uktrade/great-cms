@@ -11,7 +11,7 @@
           content="Find information to help invest within the UK" />
 {% endblock %}
 {% block content %}
-    {{block.super}}
+    {{ block.super }}
     <div class="great-container">
         {% include '../includes/triage_header.html' with back_url=back_url %}
         <div class="govuk-grid-row">
@@ -44,11 +44,7 @@
                             </div>
                         </div>
                     </fieldset>
-                    {% if request.GET.next %}
-                        {% include 'international/includes/submit_button.html' with button_text='Save and continue' %}
-                    {% else %}
-                        {% include 'international/includes/submit_button.html' with button_text='Save and view guide' %}
-                    {% endif %}
+                    {% include 'international/includes/submit_button.html' with button_text=progress_button_text %}
                 </form>
             </div>
         </div>
