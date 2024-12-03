@@ -112,7 +112,7 @@
             </section>
         {% endblock %}
         {% block body_footer %}
-        {% include "_footer.html" with isInternational=international_footer_context.is_international currentYear=international_footer_context.current_year footerLinks=international_footer_context.footer_links logoLinkHref=international_footer_context.logo_link_href %}
+            {% include "_footer.html" with isInternational=international_footer_context.is_international currentYear=international_footer_context.current_year footerLinks=international_footer_context.footer_links logoLinkHref=international_footer_context.logo_link_href %}
         {% endblock %}
         {% block body_js %}
             <script src="{% static 'great_design_system_scripts.js' %}"></script>
