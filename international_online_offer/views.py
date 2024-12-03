@@ -249,7 +249,7 @@ class FindYourCompanyView(GA360Mixin, FormView):  # /PS-IGNORE
             next_url = check_url_host_is_safelisted(self.request)
 
         if self.request.GET.get('company_location_change'):
-            next_url = reverse_lazy('international_online_offer:change-your-answers')
+            next_url = reverse_lazy('international_online_offer:change-your-answers') + '?details_updated=true'
 
         return next_url
 
@@ -291,7 +291,7 @@ class FindYourCompanyView(GA360Mixin, FormView):  # /PS-IGNORE
             back_url=self.get_back_url(),
             country=country,
             display_country=display_country,
-            progress_button_text='Save and continue',
+            progress_button_text='Save changes' if self.request.GET.get('next') else 'Save and continue',
         )
 
 
@@ -337,7 +337,7 @@ class CompanyDetailsView(GA360Mixin, FormView):  # /PS-IGNORE
             next_url = check_url_host_is_safelisted(self.request)
 
         if self.request.GET.get('company_location_change'):
-            next_url = reverse_lazy('international_online_offer:change-your-answers')
+            next_url = reverse_lazy('international_online_offer:change-your-answers') + '?details_updated=true'
 
         return next_url
 
@@ -380,7 +380,7 @@ class CompanyDetailsView(GA360Mixin, FormView):  # /PS-IGNORE
             **kwargs,
             back_url=self.get_back_url(),
             display_country=display_country,
-            progress_button_text='Save and continue',
+            progress_button_text='Save changes' if self.request.GET.get('next') else 'Save and continue',
         )
 
 
@@ -405,7 +405,7 @@ class BusinessSectorView(GA360Mixin, FormView):  # /PS-IGNORE
     def get_success_url(self):
         next_url = reverse_lazy('international_online_offer:know-setup-location')
         if self.request.GET.get('next'):
-            next_url = check_url_host_is_safelisted(self.request)
+            next_url = check_url_host_is_safelisted(self.request) + '?details_updated=true'
         return next_url
 
     def get_initial(self):
@@ -447,6 +447,7 @@ class BusinessSectorView(GA360Mixin, FormView):  # /PS-IGNORE
             **kwargs,
             back_url=self.get_back_url(),
             autocomplete_sector_data=autocomplete_sector_data,
+            progress_button_text='Save changes' if self.request.GET.get('next') else 'Save and continue',
         )
 
 
@@ -472,7 +473,7 @@ class ContactDetailsView(GA360Mixin, FormView):  # /PS-IGNORE
         next_url = '/international/expand-your-business-in-the-uk/guide/'
         next_url += '?signup=true' if self.request.GET.signup else ''
         if self.request.GET.get('next'):
-            next_url = check_url_host_is_safelisted(self.request)
+            next_url = check_url_host_is_safelisted(self.request) + '?details_updated=true'
         return next_url
 
     def get_initial(self):
@@ -525,6 +526,7 @@ class ContactDetailsView(GA360Mixin, FormView):  # /PS-IGNORE
             **kwargs,
             back_url=self.get_back_url(),
             leading_title=leading_title,
+            progress_button_text='Save changes' if self.request.GET.get('next') else 'Save and view guide',
         )
 
 
@@ -565,6 +567,7 @@ class KnowSetupLocationView(GA360Mixin, FormView):  # /PS-IGNORE
         return super().get_context_data(
             **kwargs,
             back_url=self.get_back_url(),
+            progress_button_text='Save and continue',
         )
 
     def get_initial(self):
@@ -625,13 +628,14 @@ class WhenDoYouWantToSetupView(GA360Mixin, FormView):  # /PS-IGNORE
     def get_success_url(self):
         next_url = reverse_lazy('international_online_offer:intent')
         if self.request.GET.get('next'):
-            next_url = check_url_host_is_safelisted(self.request)
+            next_url = check_url_host_is_safelisted(self.request) + '?details_updated=true'
         return next_url
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
             **kwargs,
             back_url=self.get_back_url(),
+            progress_button_text='Save changes' if self.request.GET.get('next') else 'Save and continue',
         )
 
     def get_initial(self):
@@ -672,13 +676,14 @@ class IntentView(GA360Mixin, FormView):  # /PS-IGNORE
     def get_success_url(self):
         next_url = reverse_lazy('international_online_offer:hiring')
         if self.request.GET.get('next'):
-            next_url = check_url_host_is_safelisted(self.request)
+            next_url = check_url_host_is_safelisted(self.request) + '?details_updated=true'
         return next_url
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
             **kwargs,
             back_url=self.get_back_url(),
+            progress_button_text='Save changes' if self.request.GET.get('next') else 'Save and continue',
         )
 
     def get_initial(self):
@@ -720,7 +725,7 @@ class LocationView(GA360Mixin, FormView):  # /PS-IGNORE
     def get_success_url(self):
         next_url = reverse_lazy('international_online_offer:when-want-setup')
         if self.request.GET.get('next'):
-            next_url = check_url_host_is_safelisted(self.request)
+            next_url = check_url_host_is_safelisted(self.request) + '?details_updated=true'
         return next_url
 
     def get_context_data(self, **kwargs):
@@ -738,6 +743,7 @@ class LocationView(GA360Mixin, FormView):  # /PS-IGNORE
             autocomplete_location_data=region_sector_helpers.get_region_and_cities_json_file_as_string(),
             region=region,
             city=city,
+            progress_button_text='Save changes' if self.request.GET.get('next') else 'Save and continue',
         )
 
     def get_initial(self):
@@ -790,13 +796,14 @@ class HiringView(GA360Mixin, FormView):  # /PS-IGNORE
     def get_success_url(self):
         next_url = reverse_lazy('international_online_offer:spend')
         if self.request.GET.get('next'):
-            next_url = check_url_host_is_safelisted(self.request)
+            next_url = check_url_host_is_safelisted(self.request) + '?details_updated=true'
         return next_url
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
             **kwargs,
             back_url=self.get_back_url(),
+            progress_button_text='Save changes' if self.request.GET.get('next') else 'Save and continue',
         )
 
     def get_initial(self):
@@ -844,7 +851,7 @@ class SpendView(GA360Mixin, FormView):  # /PS-IGNORE
     def get_success_url(self):
         next_url = reverse_lazy('international_online_offer:contact-details')
         if self.request.GET.get('next'):
-            next_url = check_url_host_is_safelisted(self.request)
+            next_url = check_url_host_is_safelisted(self.request) + '?details_updated=true'
         return next_url
 
     def get_context_data(self, **kwargs):
@@ -856,6 +863,7 @@ class SpendView(GA360Mixin, FormView):  # /PS-IGNORE
             **kwargs,
             back_url=self.get_back_url(),
             step_text='Step 5 of 5',
+            progress_button_text='Save changes' if self.request.GET.get('next') else 'Save and continue',
             question_text='How much do you want to spend on setting up in the first three years?',
             why_we_ask_this_question_text="""We'll use this information to provide customised content
               relevant to your spend.""",
