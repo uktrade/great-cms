@@ -312,7 +312,10 @@ class EYBArticlePage(BaseContentPage, EYBHCSAT):
 
                 breadcrumbs = [
                     {'name': 'Home', 'url': '/international/'},
-                    {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#tailored-guide'},
+                    {
+                        'name': 'Your expansion guide',
+                        'url': '/international/expand-your-business-in-the-uk/guide/#tailored-guide',
+                    },
                 ]
 
                 context.update(
@@ -380,7 +383,10 @@ class EYBTradeShowsPage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
 
         breadcrumbs = [
             {'name': 'Home', 'url': '/international/'},
-            {'name': 'Guide', 'url': '/international/expand-your-business-in-the-uk/guide/#tailored-guide'},
+            {
+                'name': 'Your expansion guide',
+                'url': '/international/expand-your-business-in-the-uk/guide/#tailored-guide',
+            },
         ]
         context.update(
             triage_data=triage_data,

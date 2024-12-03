@@ -8,7 +8,7 @@
 {% block meta_title %}{{ question_text }} {{ block.super }}{% endblock %}
 {% block head_css %}{{ block.super }}{% endblock %}
 {% block content %}
-    {{block.super}}
+    {{ block.super }}
     <div class="great-container">
         <div id="spend-container">{% include '../includes/triage_header.html' with back_url=back_url %}</div>
         <div class="govuk-grid-row govuk-!-margin-bottom-3">
@@ -43,7 +43,7 @@
                         <div class="govuk-form-group {% if form.spend.errors %}govuk-form-group--error{% endif %}">
                             {% include 'domestic/contact/includes/govuk-form-field.html' with field=form.spend hide_label=True %}
                         </div>
-                        {% include 'international/includes/submit_button.html' with button_text='Save and continue' %}
+                        {% include 'international/includes/submit_button.html' with button_text=progress_button_text %}
                     </form>
                 </fieldset>
             </div>
