@@ -15,6 +15,7 @@ from opensearchpy import RequestsHttpConnection
 from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
+from urllib.parse import unquote
 
 import healthcheck.backends
 from config.env import env
@@ -554,16 +555,19 @@ if OPENSEARCH_PROVIDER == 'govuk-paas':
 
 # Connect to the local dockerized Opensearch instance
 elif OPENSEARCH_PROVIDER in ['localhost', 'aws']:
+
+    decoded_opensearch_url = unquote(env.opensearch_url)
+
     connections.create_connection(
         alias='default',
-        hosts=[env.opensearch_url],
+        hosts=[decoded_opensearch_url],
         connection_class=RequestsHttpConnection,
     )
     WAGTAILSEARCH_BACKENDS = {
         'default': {
             'BACKEND': 'wagtail.search.backends.elasticsearch7',
             'AUTO_UPDATE': True if OPENSEARCH_PROVIDER == 'aws' else False,
-            'URLS': [env.opensearch_url],
+            'URLS': [decoded_opensearch_url],
             'INDEX': 'great-cms',
             'TIMEOUT': 5,
             'OPTIONS': {},
