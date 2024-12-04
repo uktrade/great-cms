@@ -719,28 +719,26 @@ def is_cheg_excluded_country(country_code):
     return False
 
 
-def convert_anchor_identifier_a_to_span(soup):
+def convert_anchor_identifier_a_to_span(input_html):
+    # find all <a> tags used as anchor identifiers, and replace with identical spans
+    soup = BeautifulSoup(input_html, 'html.parser')
     for anchor in soup.find_all('a', attrs={'linktype': 'anchor-target'}):
         new_tag = soup.new_tag('span')
-
-        # Replicate <a> attributes on span
-        new_tag.string = anchor.text
-        new_tag.id = anchor.id
+        # Replicate <a> attributes on span and replace
+        new_tag.string = anchor.string
         new_tag.attrs['data-id'] = anchor.attrs['data-id']
         new_tag.attrs['id'] = anchor.attrs['id']
-
         anchor.replace_with(new_tag)
     return mark_safe(str(soup))
 
 
 @register.filter
 def convert_anchor_identifiers_to_span(value):
-    # Issue only occurs in content_modules where render_a method in core/rich_text.py is not used
+    # Issue only occurs in content_modules where render_a method in core/rich_text.py does not fire, so return as-is
     if value.block_type != 'content_module':
         return value
-    rich_text_field = value.value.content
-    soup = BeautifulSoup(rich_text_field, 'html.parser')
-    return convert_anchor_identifier_a_to_span(soup)
+    rich_text_html = value.value.content
+    return convert_anchor_identifier_a_to_span(rich_text_html)
 
 
 @register.inclusion_tag('_cta_banner.html')
