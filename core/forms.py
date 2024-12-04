@@ -1,6 +1,8 @@
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV3
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
+from django.core.validators import FileExtensionValidator
+from wagtail.documents.forms import BaseDocumentForm
 from django.forms import (
     BooleanField,
     CharField,
@@ -16,12 +18,17 @@ from django.forms import (
 from django.template.loader import render_to_string
 from django.utils.html import mark_safe
 from great_components import forms
+from wagtail.models import ValidationError
 
+from config import settings
 from core import constants, models
+
 from core.cms_slugs import (
     PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE,
     TERMS_URL,
 )
+from core.utils import get_mime_type
+from core.validators import validate_file_infection
 
 TERMS_LABEL = mark_safe(
     'Tick this box to accept the '
@@ -216,3 +223,28 @@ class GuidedJourneyStep3Form(forms.Form):
         label="My market isn't listed",
         required=False,
     )
+
+
+# class GreatDocumentForm(BaseDocumentForm):
+
+#     def clean(self):
+#         super().clean()
+#         max_size = 20 * 1024 * 1024  # 20MB
+#         uploaded_file = self.cleaned_data['file']
+#         if uploaded_file.size > max_size:
+#             print('File size validation error')
+#             raise ValidationError(message='The file size exceeds the 20MB limit.', code='invalid')
+#         mimetype = get_mime_type(uploaded_file)
+#         allowed_extensions = getattr(settings, 'WAGTAILDOCS_EXTENSIONS', None)
+#         allowed_mimetypes = getattr(settings, 'WAGTAILDOCS_MIME_TYPES', None)
+#         if allowed_extensions:
+#             print('File extension validation error')
+#             validate = FileExtensionValidator(allowed_extensions)
+#             validate(uploaded_file)
+#         if allowed_mimetypes and mimetype not in allowed_mimetypes:
+#             print('File type validation error')
+#             raise ValidationError(message="File\'s mime type not allowed.", code='invalid')
+#         if settings.CLAM_AV_ENABLED:
+#             validate_file_infection(uploaded_file)
+
+#         return uploaded_file

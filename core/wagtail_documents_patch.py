@@ -14,6 +14,13 @@ def clean(self):
 
     More info : https://docs.djangoproject.com/en/3.1/ref/validators/#fileextensionvalidator
     """
+
+    max_size = 20 * 1024 * 1024  # 20MB
+    if self.file and self.file.size > max_size:
+        # import pdb
+        # pdb.set_trace()
+        raise ValidationError(message='The file size exceeds the 20MB limit.', code='invalid')
+
     mimetype = get_mime_type(self.file)
     allowed_extensions = getattr(settings, 'WAGTAILDOCS_EXTENSIONS', None)
     allowed_mimetypes = getattr(settings, 'WAGTAILDOCS_MIME_TYPES', None)

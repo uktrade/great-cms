@@ -5,6 +5,7 @@ from urllib.parse import unquote, urlparse
 from django.conf import settings
 from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
+from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.forms import Select
 from django.http import Http404, HttpResponseRedirect, JsonResponse
@@ -35,6 +36,7 @@ from wagtail.blocks.field_block import RichTextBlock
 from wagtail.blocks.stream_block import StreamBlock, StreamBlockValidationError
 from wagtail.contrib.redirects.models import Redirect
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
+from wagtail.documents.models import AbstractDocument, Document as WagtailDocument
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
@@ -70,7 +72,8 @@ from core.constants import (
     RICHTEXT_FEATURES__REDUCED,
 )
 from core.context import get_context_provider
-from core.utils import PageTopicHelper, get_first_lesson, persist_language_to_url
+from core.utils import PageTopicHelper, get_first_lesson, get_mime_type, persist_language_to_url
+from core.validators import validate_file_infection
 from exportplan.core.data import (
     SECTION_SLUGS as EXPORTPLAN_SLUGS,
     SECTIONS as EXPORTPLAN_URL_MAP,
@@ -2644,3 +2647,30 @@ class SectorAndMarketCard(index.Indexed, ClusterableModel):
 
     def __str__(self):
         return self.title
+
+
+class GreatDocument(AbstractDocument):
+    admin_form_fields = WagtailDocument.admin_form_fields
+
+    def clean(self):
+        super().clean()
+        max_size = 20 * 1024 * 1024  # 20MB
+        if self.file and self.file.size > max_size:
+            print('File size validation error')
+            raise ValidationError(message='The file size exceeds the 20MB limit.', code='invalid')
+        mimetype = get_mime_type(self.file)
+        allowed_extensions = getattr(settings, 'WAGTAILDOCS_EXTENSIONS', None)
+        allowed_mimetypes = getattr(settings, 'WAGTAILDOCS_MIME_TYPES', None)
+        if allowed_extensions:
+            print('File extension validation error')
+            validate = FileExtensionValidator(allowed_extensions)
+            validate(self.file)
+        if allowed_mimetypes and mimetype not in allowed_mimetypes:
+            print('File type validation error')
+            raise ValidationError(message="File\'s mime type not allowed.", code='invalid')
+        if settings.CLAM_AV_ENABLED:
+            validate_file_infection(self.file)
+
+    class Meta:
+        verbose_name = 'document'
+        verbose_name_plural = 'documents'

@@ -3,7 +3,6 @@ from django.forms import ValidationError
 from django.utils.translation import gettext_lazy as _
 from ukpostcodeutils import validation
 
-from core.helpers import clam_av_client
 from regex import EMAIL_ADDRESS_REGEX, PHONE_NUMBER_REGEX
 
 PHONE_INVALID_MESSAGE = 'Enter a valid UK telephone number'
@@ -15,6 +14,7 @@ def is_valid_uk_postcode(value):
 
 
 def validate_file_infection(file):
+    from core.helpers import clam_av_client
     if not settings.CLAM_AV_ENABLED:
         return
 

@@ -989,6 +989,8 @@ CLAM_AV_HOST = env.clam_av_host
 CLAM_AV_USERNAME = env.clam_av_username
 CLAM_AV_PASSWORD = env.clam_av_password
 
+WAGTAILDOCS_DOCUMENT_MODEL = 'core.GreatDocument'
+# WAGTAILDOCS_DOCUMENT_FORM_BASE = 'core.forms.GreatDocumentForm'
 # Restriction document upload by filetypes
 WAGTAILDOCS_EXTENSIONS = [
     'pdf',
