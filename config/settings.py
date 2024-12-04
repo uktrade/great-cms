@@ -2,6 +2,7 @@ import os
 import sys
 from pathlib import Path
 from typing import Any, Dict
+from urllib.parse import unquote
 
 import directory_healthcheck.backends
 import dj_database_url
@@ -15,7 +16,6 @@ from opensearchpy import RequestsHttpConnection
 from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
-from urllib.parse import unquote
 
 import healthcheck.backends
 from config.env import env
