@@ -121,10 +121,6 @@ class OpensearchAdminView(TemplateView):
     page_type = 'SearchResultsPage'
 
     def get_context_data(self, *args, **kwargs):
-
-        if not settings.FEATURE_OPENSEARCH:
-            raise Http404
-
         # Get the search query & page
         search_query = self.request.GET.get('q', None)
         page = self.request.GET.get('page', None)

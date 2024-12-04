@@ -72,7 +72,6 @@ class BaseSettings(PydanticBaseSettings):
     elastic_apm_url: str = ''
     elastic_apm_server_timeout: str = '20s'
 
-    opensearch_provider: str = ''
     opensearch_instance_name: str = ''
     opensearch_url: str = 'localhost:9200'
 
@@ -260,6 +259,8 @@ class BaseSettings(PydanticBaseSettings):
 
     feature_export_plan_sections_disabled_list: list = []
     feature_compare_markets_tabs: str = '{ }'
+    feature_opensearch: bool = False
+    feature_search_preview: bool = False
     feature_show_report_barrier_content: bool = False
     feature_show_brand_banner: bool = False
     feature_show_international_footer_link: bool = False
@@ -290,7 +291,6 @@ class BaseSettings(PydanticBaseSettings):
     feature_great_error: bool = False
     feature_guided_journey: bool = False
     feature_unguided_journey: bool = False
-    feature_opensearch: bool = False
     feature_test_search_api_pages_enabled: bool = False
     feature_maintenance_mode_enabled: bool = False
     feature_admin_requests_enabled: bool = False
