@@ -520,6 +520,7 @@ if ELASTIC_APM_ENABLED:
     INSTALLED_APPS.append('elasticapm.contrib.django')
 
 # How do we power search?
+FEATURE_OPENSEARCH = env.feature_opensearch
 if FEATURE_OPENSEARCH:  # Power search via Opensearch
     decoded_opensearch_url = unquote(env.opensearch_url)
 
@@ -751,7 +752,7 @@ CHECK_DUTIES_URL = env.check_duties_url
 
 CIA_FACTBOOK_URL = env.cia_factbook_url
 WORLD_BANK_URL = env.world_bank_url
-fDATA_WORLD_BANK_URL = env.data_world_bank_url
+DATA_WORLD_BANK_URL = env.data_world_bank_url
 UNITED_NATIONS_URL = env.united_nations_url
 
 # 3CE commodity classification
