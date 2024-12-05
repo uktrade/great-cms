@@ -720,7 +720,7 @@ def is_cheg_excluded_country(country_code):
 
 
 def convert_anchor_identifier_a_to_span(input_html):
-    # find all <a> tags used as anchor identifiers, and replace with identical spans
+    # find all <a> tags used as anchor identifiers, and replace with spans of same id
     soup = BeautifulSoup(input_html, 'html.parser')
     for anchor in soup.find_all('a', attrs={'linktype': 'anchor-target'}):
         new_tag = soup.new_tag('span')
