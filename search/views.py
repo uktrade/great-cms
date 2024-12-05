@@ -2,9 +2,7 @@ import datetime
 import logging
 import urllib
 
-from django.conf import settings
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.http import Http404
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
