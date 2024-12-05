@@ -875,6 +875,7 @@ FEATURE_GREAT_ERROR = env.feature_great_error
 FEATURE_GUIDED_JOURNEY = env.feature_guided_journey
 FEATURE_UNGUIDED_JOURNEY = env.feature_unguided_journey
 FEATURE_OPENSEARCH = env.feature_opensearch
+FEATURE_SEARCH_PREVIEW = env.feature_search_preview
 FEATURE_GUIDED_JOURNEY_EXTRAS = env.feature_guided_journey_extras
 FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH = env.feature_guided_journey_enhanced_search
 
