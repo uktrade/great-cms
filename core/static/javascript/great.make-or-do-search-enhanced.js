@@ -4,8 +4,6 @@ GreatFrontend.MakeOrDoSearchEnhanced = {
   init: (sic_sector_data = {}, default_value = '') => {
     document.querySelector('#sic_description').remove()
 
-    console.log('ffff', typeof sic_sector_data)
-
     const sic_descriptions = sic_sector_data.data.map((el) => {
       const keywords = el.keywords ? '|' + el.keywords : ''
       return el.sic_description + keywords
@@ -21,6 +19,12 @@ GreatFrontend.MakeOrDoSearchEnhanced = {
       defaultValue: default_value,
       templates: {
         suggestion: (selectedSIC) => {
+          const listbox = document.querySelector('#sic_description__listbox')
+
+          if (listbox) {
+            listbox.style.visibility = 'visible'
+          }
+
           const search_input = document.querySelector('#sic_description')
 
           const match = sic_sector_data.data.find((el) => {
@@ -112,6 +116,10 @@ GreatFrontend.MakeOrDoSearchEnhanced = {
                 ' (' +
                 make_or_do_keyword.value +
                 ')'
+
+              document.querySelector(
+                '#sic_description__listbox'
+              ).style.visibility = 'hidden'
             }
           }, 10)
         }
@@ -120,7 +128,6 @@ GreatFrontend.MakeOrDoSearchEnhanced = {
       inputClasses: 'govuk-input great-text-input great-ds-autocomplete-input',
       menuClasses: 'great-autocomplete-overlay',
       required: true,
-      showNoOptionsFound: false,
     })
 
     const clear_search_button = document.querySelector('#clear_search')
