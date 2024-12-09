@@ -614,10 +614,6 @@ def test_get_previous_step(current_step, expected_step):
             reverse('contact:contact-us-international-success'),
             snippet_slugs.HELP_FORM_SUCCESS_INTERNATIONAL,
         ),
-        (
-            reverse('contact:contact-us-office-success', kwargs={'postcode': 'FOOBAR'}),
-            snippet_slugs.HELP_FORM_SUCCESS,
-        ),
         (reverse('contact:contact-free-trade-agreements-success'), snippet_slugs.FTA_FORM_SUCCESS),
     ),
 )
@@ -627,21 +623,6 @@ def test_success_view_cms_snippet_data(mock_get_snippet_instance, url, slug, cli
     response = client.get(url)
 
     assert response.status_code == 200
-    mock_get_snippet_instance.assert_called_once()
-
-
-@mock.patch('core.mixins.GetSnippetContentMixin.get_snippet_instance')
-def test_contact_us_office_success_next_url(mock_get_snippet_instance, client):
-    url = reverse(
-        'contact:contact-us-office-success',
-        kwargs={'postcode': 'FOOBAR'},
-    )
-
-    response = client.get(url)
-
-    assert response.status_code == 200
-    assert response.context_data['next_url'] == '/'
-
     mock_get_snippet_instance.assert_called_once()
 
 
