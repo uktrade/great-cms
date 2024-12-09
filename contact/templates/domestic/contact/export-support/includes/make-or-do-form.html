@@ -12,6 +12,11 @@
             What does your company make or do?
         </label>
     </h2>
+    {% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH %}
+    <p id="event-name-error" class="govuk-error-message">
+        <span class="govuk-visually-hidden">Error:</span> <strong></strong>
+    </p>
+    {% endif %}
     <input type="text" id="sic_description" name="sic_description" class="govuk-input great-text-input govuk-!-width-one-half" />
     <div id="sic_description-container" class="great-ds-autocomplete-input__wrapper great-max-width-500-from-tablet">
         {% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH %}
