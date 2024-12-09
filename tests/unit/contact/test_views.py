@@ -1,9 +1,7 @@
-import pickle
 from unittest import mock
 
 import django.forms
 import pytest
-import requests_mock
 from directory_forms_api_client import actions
 from django.conf import settings
 from django.http import QueryDict
@@ -15,7 +13,6 @@ from core import snippet_slugs
 from core.cms_slugs import PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE
 from core.constants import CONSENT_EMAIL
 from core.tests.helpers import create_response
-from directory_api_client.exporting import url_lookup_by_postcode
 
 pytestmark = pytest.mark.django_db
 
@@ -37,13 +34,13 @@ def build_wizard_url(step):
 @pytest.fixture
 def valid_request_export_support_form_data(captcha_stub):
     return {
-        'first_name': 'Test',
-        'last_name': 'Name',
-        'email': 'test@test.com',
+        'first_name': 'Test',  # /PS-IGNORE
+        'last_name': 'Name',  # /PS-IGNORE
+        'email': 'test@test.com',  # /PS-IGNORE
         'phone_number': '+447501234567',
         'job_title': 'developer',
         'company_name': 'Limited',
-        'company_postcode': 'sw1 1bb',
+        'company_postcode': 'sw1 1bb',  # /PS-IGNORE
         'employees_number': '1-9',
         'annual_turnover': '',
         'currently_export': 'no',
@@ -51,38 +48,6 @@ def valid_request_export_support_form_data(captcha_stub):
         'terms_agreed': True,
         'g-recaptcha-response': captcha_stub,
     }
-
-
-@pytest.fixture()
-def all_office_details():
-    return [
-        {
-            'is_match': True,
-            'region_id': 'east_midlands',
-            'name': 'DIT East Midlands',
-            'address_street': 'The International Trade Centre, 5 Merus Court, Meridian Business Park',
-            'address_city': 'Leicester',
-            'address_postcode': 'LE19 1RJ',
-            'email': 'test+east_midlands@examoke.com',
-            'phone': '0345 052 4001',
-            'phone_other': '',
-            'phone_other_comment': '',
-            'website': None,
-        },
-        {
-            'is_match': False,
-            'region_id': 'west_midlands',
-            'name': 'DIT West Midlands',
-            'address_street': 'The International Trade Centre, 10 New Street, Midlands Business Park',
-            'address_city': 'Birmingham',
-            'address_postcode': 'B20 1RJ',
-            'email': 'test+west_midlands@examoke.com',
-            'phone': '0208 555 4001',
-            'phone_other': '',
-            'phone_other_comment': '',
-            'website': None,
-        },
-    ]
 
 
 @pytest.mark.parametrize(
@@ -113,20 +78,20 @@ def test_zendesk_submit_success(mock_form_session, client, url, success_url, vie
         full_name = 'Foo B'
 
     with mock.patch.object(view_class, 'form_class', Form):
-        response = client.post(url, {'email': 'foo@bar.com'})
+        response = client.post(url, {'email': 'foo@bar.com'})  # /PS-IGNORE
 
     assert response.status_code == 302
     assert response.url == success_url
 
     assert Form.save.call_count == 1
     assert Form.save.call_args == mock.call(
-        email_address='foo@bar.com',
+        email_address='foo@bar.com',  # /PS-IGNORE
         form_session=mock_form_session(),
         form_url=url,
         full_name='Foo B',
         subject=subject,
         service_name=settings.DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME,
-        sender={'email_address': 'foo@bar.com', 'country_code': None, 'ip_address': None},
+        sender={'email_address': 'foo@bar.com', 'country_code': None, 'ip_address': None},  # /PS-IGNORE
         subdomain=subdomain,
     )
 
@@ -195,7 +160,7 @@ def test_notify_form_submit_success(
         save = mock.Mock()
 
     with mock.patch.object(view_class, 'form_class', Form):
-        response = client.post(url, {'email': 'test@example.com'})
+        response = client.post(url, {'email': 'test@example.com'})  # /PS-IGNORE
 
     assert response.status_code == 302
     assert response.url == success_url
@@ -208,14 +173,14 @@ def test_notify_form_submit_success(
             form_url=url,
             form_session=mock_form_session(),
             sender={
-                'email_address': 'test@example.com',
+                'email_address': 'test@example.com',  # /PS-IGNORE
                 'country_code': None,
                 'ip_address': None,
             },
         ),
         mock.call(
             template_id=user_template,
-            email_address='test@example.com',
+            email_address='test@example.com',  # /PS-IGNORE
             form_url=url,
             form_session=mock_form_session(),
         ),
@@ -459,14 +424,14 @@ def test_ecommerce_export_form_notify_success(
             form_session=mock_form_session(),
             form_url=url,
             sender={
-                'email_address': 'test@test.com',
+                'email_address': 'test@test.com',  # /PS-IGNORE
                 'country_code': None,
                 'ip_address': None,
             },
             template_id=settings.CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_NOTIFY_TEMPLATE_ID,
         ),
         mock.call(
-            email_address='test@test.com',
+            email_address='test@test.com',  # /PS-IGNORE
             form_session=mock_form_session(),
             form_url=url,
             template_id=settings.CONTACT_ECOMMERCE_EXPORT_SUPPORT_NOTIFY_TEMPLATE_ID,
@@ -637,51 +602,6 @@ def test_get_previous_step(current_step, expected_step):
     assert view.get_prev_step() == expected_step
 
 
-@pytest.mark.skipif(settings.FEATURE_DIGITAL_POINT_OF_ENTRY, reason='Redirect to new contact form')
-def test_office_finder_valid(all_office_details, client):
-    with requests_mock.mock() as mock:
-        mock.get(url_lookup_by_postcode.format(postcode='LE191RJ'), json=all_office_details)
-        response = client.get(reverse('contact:office-finder'), {'postcode': 'LE19 1RJ'})
-
-    assert response.status_code == 200
-
-    assert response.context_data['office_details'][0] == {
-        'address': (
-            'The International Trade Centre\n' '5 Merus Court\n' 'Meridian Business Park\n' 'Leicester\n' 'LE19 1RJ'
-        ),
-        'is_match': True,
-        'region_id': 'east_midlands',
-        'name': 'DIT East Midlands',
-        'address_street': 'The International Trade Centre, ' '5 Merus Court, ' 'Meridian Business Park',
-        'address_city': 'Leicester',
-        'address_postcode': 'LE19 1RJ',
-        'email': 'test+east_midlands@examoke.com',
-        'phone': '0345 052 4001',
-        'phone_other': '',
-        'phone_other_comment': '',
-        'website': None,
-    }
-
-    assert response.context_data['other_offices'] == [
-        {
-            'address': (
-                'The International Trade Centre\n' '10 New Street\n' 'Midlands Business Park\n' 'Birmingham\n' 'B20 1RJ'
-            ),
-            'is_match': False,
-            'region_id': 'west_midlands',
-            'name': 'DIT West Midlands',
-            'address_street': 'The International Trade Centre, ' '10 New Street, ' 'Midlands Business Park',
-            'address_city': 'Birmingham',
-            'address_postcode': 'B20 1RJ',
-            'email': 'test+west_midlands@examoke.com',
-            'phone': '0208 555 4001',
-            'phone_other': '',
-            'phone_other_comment': '',
-            'website': None,
-        }
-    ]
-
-
 @pytest.mark.parametrize(
     'url,slug',
     (
@@ -779,7 +699,7 @@ def test_exporting_from_uk_contact_form_submission(
     settings,
 ):
     company_profile.return_value = create_response(status_code=404)
-    mock_retrieve_regional_office_email.return_value = 'regional@example.com'
+    mock_retrieve_regional_office_email.return_value = 'regional@example.com'  # /PS-IGNORE
 
     url_name = 'contact:contact-us-export-advice'
     view_name = 'exporting_advice_form_view'
@@ -797,11 +717,11 @@ def test_exporting_from_uk_contact_form_submission(
         reverse(url_name, kwargs={'step': 'personal'}),
         {
             view_name + '-current_step': 'personal',
-            'personal-first_name': 'test',
-            'personal-last_name': 'test',
+            'personal-first_name': 'test',  # /PS-IGNORE
+            'personal-last_name': 'test',  # /PS-IGNORE
             'personal-position': 'test',
-            'personal-email': 'test@example.com',
-            'personal-phone': 'test',
+            'personal-email': 'test@example.com',  # /PS-IGNORE
+            'personal-phone': 'test',  # /PS-IGNORE
         },
     )
 
@@ -832,7 +752,7 @@ def test_exporting_from_uk_contact_form_submission(
     assert mock_notify_action.call_count == 1
     assert mock_notify_action.call_args == mock.call(
         template_id=settings.CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID,
-        email_address='test@example.com',
+        email_address='test@example.com',  # /PS-IGNORE
         form_url='/contact/export-advice/comment/',
         form_session=mock_form_session(),
         email_reply_to_id=settings.CONTACT_EXPORTING_USER_REPLY_TO_EMAIL_ID,
@@ -841,10 +761,10 @@ def test_exporting_from_uk_contact_form_submission(
     assert mock_notify_action().save.call_args == mock.call(
         {
             'comment': 'some comment',
-            'first_name': 'test',
-            'last_name': 'test',
+            'first_name': 'test',  # /PS-IGNORE
+            'last_name': 'test',  # /PS-IGNORE
             'position': 'test',
-            'email': 'test@example.com',
+            'email': 'test@example.com',  # /PS-IGNORE
             'phone': 'test',
             'company_type': 'LIMITED',
             'companies_house_number': '12345678',
@@ -856,19 +776,19 @@ def test_exporting_from_uk_contact_form_submission(
             'industry_other': '',
             'turnover': '0-25k',
             'employees': '1-10',
-            'region_office_email': 'regional@example.com',
+            'region_office_email': 'regional@example.com',  # /PS-IGNORE
             'contact_consent': [CONSENT_EMAIL],
         }
     )
 
     assert mock_email_action.call_count == 1
     assert mock_email_action.call_args == mock.call(
-        recipients=['regional@example.com'],
+        recipients=['regional@example.com'],  # /PS-IGNORE
         subject=settings.CONTACT_EXPORTING_AGENT_SUBJECT,
         reply_to=[settings.DEFAULT_FROM_EMAIL],
         form_url='/contact/export-advice/comment/',
         form_session=mock_form_session(),
-        sender={'email_address': 'test@example.com', 'country_code': None, 'ip_address': None},
+        sender={'email_address': 'test@example.com', 'country_code': None, 'ip_address': None},  # /PS-IGNORE
     )
     assert mock_email_action().save.call_count == 1
     assert mock_email_action().save.call_args == mock.call({'text_body': mock.ANY, 'html_body': mock.ANY})
@@ -909,7 +829,7 @@ def test_exporting_from_uk_contact_form_initial_data_business(
 
     client.force_login(user)
 
-    mock_retrieve_regional_office_email.return_value = 'regional@example.com'
+    mock_retrieve_regional_office_email.return_value = 'regional@example.com'  # /PS-IGNORE
 
     url_name = 'contact:contact-us-export-advice'
 
@@ -1003,7 +923,9 @@ def test_fta_form_submit_success(mock_form_session, client, settings):
         save = mock.Mock()
 
     with mock.patch.object(views.FTASubscribeFormView, 'form_class', Form):
-        response = client.post(reverse('contact:contact-free-trade-agreements'), {'email': 'test@example.com'})
+        response = client.post(
+            reverse('contact:contact-free-trade-agreements'), {'email': 'test@example.com'}  # /PS-IGNORE
+        )
 
     assert response.status_code == 302
     assert response.url == reverse('contact:contact-free-trade-agreements-success')
@@ -1012,7 +934,7 @@ def test_fta_form_submit_success(mock_form_session, client, settings):
     assert Form.save.call_args_list == [
         mock.call(
             template_id=settings.SUBSCRIBE_TO_FTA_UPDATES_NOTIFY_TEMPLATE_ID,
-            email_address='test@example.com',
+            email_address='test@example.com',  # /PS-IGNORE
             form_url=reverse('contact:contact-free-trade-agreements'),
             form_session=mock_form_session(),
         ),
@@ -1033,13 +955,13 @@ def test_privacy_url_passed_to_fta_form_view(client, mock_free_trade_agreements)
             {
                 'business_type': 'limitedcompany',
                 'business_name': 'Test business ltd',
-                'business_postcode': 'SW1A 1AA',
+                'business_postcode': 'SW1A 1AA',  # /PS-IGNORE
             },
             reverse('contact:export-support-step-2a'),
             {
                 'business_type': 'Choose a business type',
                 'business_name': 'Enter your business name',
-                'business_postcode': 'Enter your business postcode',
+                'business_postcode': 'Enter your business postcode',  # /PS-IGNORE
             },
         ),
         (
@@ -1047,13 +969,13 @@ def test_privacy_url_passed_to_fta_form_view(client, mock_free_trade_agreements)
             {
                 'business_type': 'other',
                 'business_name': 'Test business ltd',
-                'business_postcode': 'SW1A 1AA',
+                'business_postcode': 'SW1A 1AA',  # /PS-IGNORE
             },
             reverse('contact:export-support-step-2b'),
             {
                 'business_type': 'Choose a business type',
                 'business_name': 'Enter your business name',
-                'business_postcode': 'Enter your business postcode',
+                'business_postcode': 'Enter your business postcode',  # /PS-IGNORE
             },
         ),
         (
@@ -1061,7 +983,7 @@ def test_privacy_url_passed_to_fta_form_view(client, mock_free_trade_agreements)
             {
                 'business_type': 'soletrader',
                 'business_name': 'Test business ltd',
-                'business_postcode': 'SW1A 1AA',
+                'business_postcode': 'SW1A 1AA',  # /PS-IGNORE
             },
             reverse('contact:export-support-step-2c'),
             {
@@ -1119,19 +1041,19 @@ def test_privacy_url_passed_to_fta_form_view(client, mock_free_trade_agreements)
         (
             reverse('contact:export-support-step-3'),
             {
-                'first_name': 'Test',
-                'last_name': 'Name',
+                'first_name': 'Test',  # /PS-IGNORE
+                'last_name': 'Name',  # /PS-IGNORE
                 'job_title': 'Test job title',
                 'uk_telephone_number': '07171771717',
-                'email': 'name@example.com',
+                'email': 'name@example.com',  # /PS-IGNORE
             },
             reverse('contact:export-support-step-4'),
             {
-                'first_name': 'Enter your first name',
-                'last_name': 'Enter your last name',
+                'first_name': 'Enter your first name',  # /PS-IGNORE
+                'last_name': 'Enter your last name',  # /PS-IGNORE
                 'job_title': 'Enter your job title',
-                'uk_telephone_number': 'Enter your telephone number',
-                'email': 'Enter an email address in the correct format, like name@example.com',
+                'uk_telephone_number': 'Enter your telephone number',  # /PS-IGNORE
+                'email': 'Enter an email address in the correct format, like name@example.com',  # /PS-IGNORE
             },
         ),
         (
@@ -1244,9 +1166,9 @@ def test_feedback_submit(mock_save_only_in_database_action, page_url, form_data,
         (
             reverse('contact:export-support-edit'),
             {
-                'business_type': 'soletrader',
-                'business_name': 'Test business ltd',
-                'business_postcode': 'SW1A 1AA',
+                'business_type': 'soletrader',  # /PS-IGNORE
+                'business_name': 'Test business ltd',  # /PS-IGNORE
+                'business_postcode': 'SW1A 1AA',  # /PS-IGNORE
             },
             reverse('contact:export-support-step-7'),
             {
@@ -1304,19 +1226,19 @@ def test_feedback_submit(mock_save_only_in_database_action, page_url, form_data,
         (
             reverse('contact:export-support-step-3-edit'),
             {
-                'first_name': 'Test',
-                'last_name': 'Name',
+                'first_name': 'Test',  # /PS-IGNORE
+                'last_name': 'Name',  # /PS-IGNORE
                 'job_title': 'Test job title',
                 'uk_telephone_number': '07171771717',
-                'email': 'name@example.com',
+                'email': 'name@example.com',  # /PS-IGNORE
             },
             reverse('contact:export-support-step-7'),
             {
-                'first_name': 'Enter your first name',
-                'last_name': 'Enter your last name',
-                'job_title': 'Enter your job title',
+                'first_name': 'Enter your first name',  # /PS-IGNORE
+                'last_name': 'Enter your last name',  # /PS-IGNORE
+                'job_title': 'Enter your job title',  # /PS-IGNORE
                 'uk_telephone_number': 'Enter your telephone number',
-                'email': 'Enter an email address in the correct format, like name@example.com',
+                'email': 'Enter an email address in the correct format, like name@example.com',  # /PS-IGNORE
             },
         ),
         (
@@ -1408,42 +1330,6 @@ def test_feedback_form_success(
             'how_can_we_improve': '',
         }
     )
-
-
-@mock.patch('contact.helpers.retrieve_regional_offices')
-def test_regional_office_not_displayed_on_confirmation_page(
-    mock_retrieve_regional_offices,
-    client,
-    user,
-):
-    mock_retrieve_regional_offices.return_value = [
-        {
-            'address': (
-                'The International Trade Centre\n' '5 Merus Court\n' 'Meridian Business Park\n' 'Leicester\n' 'LE19 1RJ'
-            ),
-            'is_match': True,
-            'region_id': 'east_midlands',
-            'name': 'DIT East Midlands',
-            'address_street': 'The International Trade Centre, ' '5 Merus Court, ' 'Meridian Business Park',
-            'address_city': 'Leicester',
-            'address_postcode': 'LE19 1RJ',
-            'email': 'test+east_midlands@examoke.com',
-            'phone': '0345 052 4001',
-            'phone_other': '',
-            'phone_other_comment': '',
-            'website': None,
-        }
-    ]
-    client.force_login(user)
-    session = client.session
-    form_data = ({'business_postcode': 'LE19 1RJ'},)
-    form_data = pickle.dumps(form_data).hex()
-    session['form_data'] = form_data
-    session.save()
-
-    response = client.get(reverse('contact:export-support-step-8'))
-
-    assert '<address>' not in str(response.rendered_content)
 
 
 @mock.patch.object(actions, 'SaveOnlyInDatabaseAction')

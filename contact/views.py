@@ -8,9 +8,7 @@ from django.conf import settings
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
-from django.template.response import TemplateResponse
 from django.urls import reverse, reverse_lazy
-from django.utils.functional import cached_property
 from django.utils.html import strip_tags
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
@@ -604,21 +602,8 @@ class DomesticExportSupportFormStep8View(contact_mixins.ExportSupportFormMixin, 
         response = action.save(cleaned_data)
         response.raise_for_status()
 
-    def get_office_details(self):
-        postcode = ''
-
-        if self.request.session.get('form_data'):
-            postcode = pickle.loads(bytes.fromhex(self.request.session.get('form_data')))[0].get('business_postcode')
-            regional_offices = helpers.retrieve_regional_offices(postcode)
-
-        return (
-            helpers.extract_regional_office_details(regional_offices) if self.request.session.get('form_data') else None
-        )
-
     def get_context_data(self, **kwargs):
-        office_details = self.get_office_details()
         is_satisfaction_form = True
-        show_regional_office = False
 
         return super().get_context_data(
             **kwargs,
@@ -626,8 +611,6 @@ class DomesticExportSupportFormStep8View(contact_mixins.ExportSupportFormMixin, 
             strapline_text="We've sent a confirmation email to the email address you provided.",
             confirmation=True,
             is_satisfaction_form=is_satisfaction_form,
-            office_details=office_details,
-            show_regional_office=show_regional_office,
         )
 
     def form_valid(self, form):
@@ -662,17 +645,13 @@ class DomesticExportSupportFormStep9View(contact_mixins.ExportSupportFormMixin, 
         response.raise_for_status()
 
     def get_context_data(self, **kwargs):
-        # office_details = self.get_office_details()
         is_feedback_form = True
-        show_regional_office = False
 
         return super().get_context_data(
             **kwargs,
             heading_text='Thank you for your rating',
             strapline_text='Please help us improve the service further by answering the following questions',
             is_feedback_form=is_feedback_form,
-            # office_details=office_details,
-            show_regional_office=show_regional_office,
         )
 
     def form_valid(self, form):
@@ -681,7 +660,7 @@ class DomesticExportSupportFormStep9View(contact_mixins.ExportSupportFormMixin, 
         return super().form_valid(form)
 
 
-class DomesticExportSupportFormStep10View(TemplateView):
+class DomesticExportSupportFormStep10View(TemplateView):  # /PS-IGNORE
     template_name = 'domestic/contact/export-support/feedback-confirmation.html'
 
 
@@ -741,7 +720,6 @@ class RoutingFormView(
     # given the current step, based on selected  option, where to redirect.
     redirect_mapping = {
         constants.DOMESTIC: {
-            constants.TRADE_OFFICE: reverse_lazy('contact:office-finder'),
             constants.EXPORT_ADVICE: reverse_lazy(
                 'contact:contact-us-export-advice',
                 kwargs={'step': 'comment'},
@@ -866,30 +844,6 @@ class GuidanceView(
     TemplateView,
 ):
     template_name = 'domestic/contact/guidance.html'
-
-
-class OfficeFinderFormView(BespokeBreadcrumbMixin, SubmitFormOnGetMixin, FormView):
-    template_name = 'domestic/contact/office-finder.html'
-    form_class = contact_forms.OfficeFinderForm
-    postcode = ''
-
-    @cached_property
-    def all_offices(self):
-        return helpers.retrieve_regional_offices(self.postcode)
-
-    def form_valid(self, form):
-        self.postcode = form.cleaned_data['postcode']
-        office_details = helpers.extract_regional_office_details(self.all_offices)
-        other_offices = helpers.extract_other_offices_details(self.all_offices)
-        return TemplateResponse(
-            self.request,
-            self.template_name,
-            {
-                'office_details': office_details,
-                'other_offices': other_offices,
-                **self.get_context_data(),
-            },
-        )
 
 
 class OfficeContactFormView(WizardBespokeBreadcrumbMixin, PrepopulateShortFormMixin, BaseNotifyFormView):
