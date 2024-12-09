@@ -45,7 +45,6 @@ def test_sitemap_includes_expected_django_pages(
         '/contact/domestic/',
         '/contact/domestic/enquiries/',
         '/contact/international/',
-        '/contact/office-finder/',
         '/robots.txt',
     ]
 

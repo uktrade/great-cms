@@ -2,6 +2,7 @@ import os
 import sys
 from pathlib import Path
 from typing import Any, Dict
+from urllib.parse import unquote
 
 import directory_healthcheck.backends
 import dj_database_url
@@ -15,7 +16,6 @@ from opensearchpy import RequestsHttpConnection
 from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
-from urllib.parse import unquote
 
 import healthcheck.backends
 from config.env import env
@@ -519,43 +519,9 @@ if ELASTIC_APM_ENABLED:
     }
     INSTALLED_APPS.append('elasticapm.contrib.django')
 
-# aws, localhost, or govuk-paas
-OPENSEARCH_PROVIDER = env.opensearch_provider
-if OPENSEARCH_PROVIDER:
-    OPENSEARCH_PROVIDER = OPENSEARCH_PROVIDER.lower()
-
-# Connect to the GovPaas Opensearch instance. This option will be removed once great has migrated from GovPaaS to AWS.
-if OPENSEARCH_PROVIDER == 'govuk-paas':
-    services = {item['instance_name']: item for item in env.opensearch_service}
-    OPENSEARCH_INSTANCE_NAME = (
-        env.opensearch_instance_name if env.opensearch_instance_name else env.opensearch_service[0]['instance_name']
-    )
-    connections.create_connection(
-        alias='default',
-        hosts=[services[OPENSEARCH_INSTANCE_NAME]['credentials']['uri']],
-        connection_class=RequestsHttpConnection,
-    )
-
-    # Add an admin connection for admin search preview on legacy setup
-    OPENSEARCH_ADMINSEARCH_PROVIDER = env.opensearch_adminsearch_provider
-    if OPENSEARCH_ADMINSEARCH_PROVIDER:
-        OPENSEARCH_ADMINSEARCH_PROVIDER = OPENSEARCH_ADMINSEARCH_PROVIDER.lower()
-        WAGTAILSEARCH_BACKENDS = {
-            'default': {
-                'BACKEND': 'wagtail.search.backends.elasticsearch7',
-                'AUTO_UPDATE': True if OPENSEARCH_PROVIDER == 'aws' else False,
-                'URLS': [env.opensearch_adminsearch_url],
-                'INDEX': 'great-cms',
-                'TIMEOUT': 5,
-                'OPTIONS': {},
-                'INDEX_SETTINGS': {},
-            }
-        }
-
-
-# Connect to the local dockerized Opensearch instance
-elif OPENSEARCH_PROVIDER in ['localhost', 'aws']:
-
+# How do we power search?
+FEATURE_OPENSEARCH = env.feature_opensearch
+if FEATURE_OPENSEARCH:  # Power search via Opensearch
     decoded_opensearch_url = unquote(env.opensearch_url)
 
     connections.create_connection(
@@ -566,7 +532,7 @@ elif OPENSEARCH_PROVIDER in ['localhost', 'aws']:
     WAGTAILSEARCH_BACKENDS = {
         'default': {
             'BACKEND': 'wagtail.search.backends.elasticsearch7',
-            'AUTO_UPDATE': True if OPENSEARCH_PROVIDER == 'aws' else False,
+            'AUTO_UPDATE': False,
             'URLS': [decoded_opensearch_url],
             'INDEX': 'great-cms',
             'TIMEOUT': 5,
@@ -574,8 +540,17 @@ elif OPENSEARCH_PROVIDER in ['localhost', 'aws']:
             'INDEX_SETTINGS': {},
         }
     }
-else:
-    raise NotImplementedError()
+
+else:  # Power search via Activity Stream  # TODO: Remove once Opensearch implemented on PROD
+    services = {item['instance_name']: item for item in env.opensearch_service}
+    OPENSEARCH_INSTANCE_NAME = (
+        env.opensearch_instance_name if env.opensearch_instance_name else env.opensearch_service[0]['instance_name']
+    )
+    connections.create_connection(
+        alias='default',
+        hosts=[services[OPENSEARCH_INSTANCE_NAME]['credentials']['uri']],
+        connection_class=RequestsHttpConnection,
+    )
 
 OPENSEARCH_CASE_STUDY_INDEX = env.elasticsearch_case_study_index
 
@@ -899,6 +874,7 @@ FEATURE_GREAT_ERROR = env.feature_great_error
 FEATURE_GUIDED_JOURNEY = env.feature_guided_journey
 FEATURE_UNGUIDED_JOURNEY = env.feature_unguided_journey
 FEATURE_OPENSEARCH = env.feature_opensearch
+FEATURE_SEARCH_PREVIEW = env.feature_search_preview
 FEATURE_GUIDED_JOURNEY_EXTRAS = env.feature_guided_journey_extras
 FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH = env.feature_guided_journey_enhanced_search
 

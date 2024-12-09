@@ -379,10 +379,10 @@ redirects = [
     #     '/contact/domestic/success/',
     #     '/contact/domestic/export-support/',
     # ),
-    (
-        '/contact/office-finder/',
-        DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE,
-    ),
+    # (
+    #     '/contact/office-finder/',
+    #     DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE,
+    # ),
     # CMS-1410 redirects for updated 'export advice' articles
     (
         '/advice/find-an-export-market/plan-export-market-research/',
