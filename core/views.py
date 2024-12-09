@@ -558,7 +558,6 @@ class StaticViewSitemap(DjangoSitemap):
             '/contact/domestic/',
             '/contact/domestic/enquiries/',
             '/contact/international/',
-            '/contact/office-finder/',
             # These were removed from the V1 sitemap because the pages were 404ing anyway because
             # FEATURE_EXPORTING_TO_UK_ON_ENABLED was not set on production any more, so the views
             # ExportingToUKDERAFormView, ExportingToUKBEISFormView and ExportingToUKFormView have
