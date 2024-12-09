@@ -30,6 +30,7 @@ from core.blocks import (
     ButtonBlock,
     ColumnsBlock,
     SupportHomepageCardBlock,
+    ArticleListingLinkBlock,
 )
 from core.constants import (
     ARTICLE_TYPES,
@@ -1543,21 +1544,30 @@ class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):
 
     landing_page_title = models.CharField(max_length=255)
 
-    hero_image = models.ForeignKey(
-        'core.AltTextImage',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
     hero_teaser = models.CharField(
+        help_text='Listing page heading. This is the large heading at the top of the page.',
         max_length=255,
-        null=True,
-        blank=True,
     )
 
     list_teaser = RichTextField(
         features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
+    )
+
+    use_updated_link_format = models.BooleanField(
+        help_text='Show the updated listing page with custom text and links instead of auto-generated button links',
+        default=False,
+        null=True,
+        blank=True,
+    )
+
+    article_pages = StreamField(
+        [
+            ('article_link', ArticleListingLinkBlock()),
+            ('text_block', RichTextBlock()),
+        ],
+        use_json_field=True,
         null=True,
         blank=True,
     )
