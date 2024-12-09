@@ -132,14 +132,6 @@ def test_zendesk_submit_success(mock_form_session, client, url, success_url, vie
             settings.CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID,
             settings.CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS,
         ),
-        (
-            reverse('contact:office-finder-contact', kwargs={'postcode': 'FOO'}),
-            reverse('contact:contact-us-office-success', kwargs={'postcode': 'FOO'}),
-            views.OfficeContactFormView,
-            settings.CONTACT_OFFICE_AGENT_NOTIFY_TEMPLATE_ID,
-            settings.CONTACT_OFFICE_USER_NOTIFY_TEMPLATE_ID,
-            settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS,
-        ),
     ),
 )
 @mock.patch.object(views.FormSessionMixin, 'form_session_class')
@@ -192,7 +184,6 @@ contact_urls_for_prefill_tests = (
     reverse('contact:contact-us-enquiries'),
     reverse('contact:contact-us-dso-form'),
     reverse('contact:contact-us-events-form'),
-    reverse('contact:office-finder-contact', kwargs={'postcode': 'FOOBAR'}),
 )
 
 

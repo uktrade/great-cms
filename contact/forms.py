@@ -698,37 +698,6 @@ class OfficeFinderForm(forms.Form):
         return self.cleaned_data['postcode'].replace(' ', '')
 
 
-class TradeOfficeContactForm(
-    SerializeDataMixin, GovNotifyEmailActionMixin, ConsentFieldMixin, BaseShortForm, forms.Form
-):
-    phone_number = forms.CharField(
-        label='UK telephone number (optional)',
-        required=False,
-        min_length=8,
-        max_length=16,
-        help_text='This can be a landline or mobile number',
-        error_messages={
-            'max_length': PHONE_ERROR_MESSAGE,
-            'min_length': PHONE_ERROR_MESSAGE,
-            'invalid': PHONE_ERROR_MESSAGE,
-        },
-    )
-
-    def clean_phone_number(self):
-        phone_number = self.cleaned_data['phone_number'].replace(' ', '')
-        if phone_number == '':
-            return phone_number
-        if not PHONE_NUMBER_REGEX.match(phone_number):
-            raise ValidationError(PHONE_ERROR_MESSAGE)
-        return phone_number
-
-    def order_fields(self, field_order):
-        # move phone_number field to be positioned after the email field
-        field_order = field_order or list(self.fields.keys())
-        field_order.insert(field_order.index('email') + 1, field_order.pop(field_order.index('phone_number')))
-        return super().order_fields(field_order)
-
-
 class EventsForm(
     ConsentFieldMixin,
 ):

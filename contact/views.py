@@ -846,40 +846,6 @@ class GuidanceView(
     template_name = 'domestic/contact/guidance.html'
 
 
-class OfficeContactFormView(WizardBespokeBreadcrumbMixin, PrepopulateShortFormMixin, BaseNotifyFormView):
-    template_name = 'domestic/contact/step.html'
-    form_class = contact_forms.TradeOfficeContactForm
-
-    @property
-    def agent_email(self):
-        return (
-            helpers.retrieve_regional_office_email(self.kwargs['postcode'])
-            or settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS  # noqa: W503
-        )
-
-    @property
-    def notify_settings(self):
-        return NotifySettings(
-            agent_template=settings.CONTACT_OFFICE_AGENT_NOTIFY_TEMPLATE_ID,
-            agent_email=self.agent_email,
-            user_template=settings.CONTACT_OFFICE_USER_NOTIFY_TEMPLATE_ID,
-        )
-
-    def get_success_url(self):
-        return reverse(
-            'contact:contact-us-office-success',
-            kwargs={'postcode': self.kwargs['postcode']},
-        )
-
-
-class OfficeSuccessView(DomesticSuccessView):
-    def get_context_data(self, **kwargs):
-        return {
-            **super().get_context_data(**kwargs),
-            'next_url': '/',
-        }
-
-
 class EventsFormView(WizardBespokeBreadcrumbMixin, PrepopulateShortFormMixin, BaseNotifyFormView):
     form_class = contact_forms.EventsForm
     template_name = 'domestic/contact/step.html'
