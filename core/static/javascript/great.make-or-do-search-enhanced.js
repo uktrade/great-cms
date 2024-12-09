@@ -123,6 +123,9 @@ GreatFrontend.MakeOrDoSearchEnhanced = {
 
     const clear_search_button = document.querySelector('#clear_search')
     const sic_description = document.querySelector('#sic_description')
+    const submit_button = document.querySelector(
+      '[data-make-or-do-form] button[type="submit"]'
+    )
 
     if (clear_search_button) {
       clear_search_button.addEventListener('click', (e) => {
@@ -150,6 +153,50 @@ GreatFrontend.MakeOrDoSearchEnhanced = {
         setTimeout(() => {
           clear_search_button.style.display = 'none'
         }, 200)
+      })
+    }
+
+    if (submit_button) {
+      submit_button.addEventListener('click', (e) => {
+        e.preventDefault()
+
+        const form = document.querySelector('[data-make-or-do-form]')
+        const sector_hidden_input = document.querySelector(
+          '[data-make-or-do-form] #sector'
+        )
+        const sic_description = document.querySelector(
+          '[data-make-or-do-form] #sic_description'
+        )
+
+        const is_a_result_selected =
+          sector_hidden_input && sector_hidden_input.value !== ''
+
+        const is_sic_description_empty =
+          sic_description && sic_description.value == ''
+
+        const is_sic_description_unrecognised =
+          sic_description &&
+          sic_description.value !== '' &&
+          sector_hidden_input &&
+          sector_hidden_input.value == ''
+
+        if (is_a_result_selected) {
+          form.submit()
+        } else {
+          const error_message = document.querySelector(
+            '[data-make-or-do-form] #event-name-error strong'
+          )
+
+          form.classList = 'govuk-form-group--error'
+
+          if (is_sic_description_empty) {
+            error_message.innerHTML = 'Please add something'
+          }
+
+          if (is_sic_description_unrecognised) {
+            error_message.innerHTML = "Sorry, we don't understand that"
+          }
+        }
       })
     }
   },
