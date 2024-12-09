@@ -218,6 +218,6 @@ const sic_sector_data = JSON.parse(
   document.getElementById('sic_sector_data').textContent
 )
 
-if (sic_sector_data && init_args) {
+if (sic_sector_data) {
   GreatFrontend.MakeOrDoSearchEnhanced.init(sic_sector_data, init_args)
 }
