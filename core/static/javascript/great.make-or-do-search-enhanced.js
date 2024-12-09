@@ -4,6 +4,8 @@ GreatFrontend.MakeOrDoSearchEnhanced = {
   init: (sic_sector_data = {}, default_value = '') => {
     document.querySelector('#sic_description').remove()
 
+    console.log('ffff', typeof sic_sector_data)
+
     const sic_descriptions = sic_sector_data.data.map((el) => {
       const keywords = el.keywords ? '|' + el.keywords : ''
       return el.sic_description + keywords
@@ -200,4 +202,15 @@ GreatFrontend.MakeOrDoSearchEnhanced = {
       })
     }
   },
+}
+
+const init_args = document.querySelector('[data-great-init-js]').dataset
+  .greatInitJs
+
+const sic_sector_data = JSON.parse(
+  document.getElementById('sic_sector_data').textContent
+)
+
+if (sic_sector_data && init_args) {
+  GreatFrontend.MakeOrDoSearchEnhanced.init(sic_sector_data, init_args)
 }
