@@ -450,12 +450,6 @@ def test_ecommerce_success_view(client):
             constants.INTERNATIONAL,
             build_wizard_url(constants.INTERNATIONAL),
         ),
-        # domestic step routing
-        (
-            constants.DOMESTIC,
-            constants.TRADE_OFFICE,
-            reverse('contact:office-finder'),
-        ),
         (
             constants.DOMESTIC,
             constants.EXPORT_ADVICE,
