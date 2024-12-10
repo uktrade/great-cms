@@ -1,6 +1,9 @@
 export const isAddVideoPage = (pathname) =>
   pathname === '/admin/media/video/add/'
 
+export const isAddMultipleDocument = (pathname) =>
+  pathname === '/admin/documents/multiple/add/'
+
 export const isEditVideoPage = (pathname) =>
   pathname.includes('/admin/media/edit/')
 

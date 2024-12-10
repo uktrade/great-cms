@@ -13,6 +13,7 @@ module.exports = {
     great_design_system_styles: './styles/great-design-system/main.scss',
     common: './core/js/common.js',
     largevideoupload: './core/js/largevideoupload.js',
+    documentupload: './core/js/documentupload.js',
     custom_wagtaildraftailanchors: "./core/js/custom_wagtaildraftailanchors/wagtail_draftail_anchor.js",
     modifyAnchorLinkLabel: "./core/js/modifyAnchorLinkLabel.js",
     loggedout_styles: './domestic/sass/main.scss',
