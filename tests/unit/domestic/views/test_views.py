@@ -421,7 +421,9 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
         self.assertEqual(request.status_code, 404)
 
     def test_get_current_page(self):
-        self.listing_page = ArticleListingPageFactory(slug='test-listing', title='test', landing_page_title='test')
+        self.listing_page = ArticleListingPageFactory(
+            slug='test-listing', title='test', landing_page_title='test', hero_teaser='list one'
+        )
         ArticlePageFactory(slug='test-article-one', parent=self.listing_page, article_title='test')
         url = '/campaigns/test-article-one/'
         request = self.client.get(url)

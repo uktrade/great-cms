@@ -1,7 +1,7 @@
 {% if settings.core.ShareSettings.share_prefix and settings.core.ShareSettings.hashtags and settings.wagtailseo.SeoSettings.twitter_site %}
     <div class="govuk-!-padding-top-3 great-share">
         <{{ heading_level|default:'h2' }} class="govuk-heading-s">Share this page</{{ heading_level|default:'h2' }}>
-        <ul class="govuk-!-margin-top-4">
+        <ul class="govuk-!-margin-top-4 {% if list_classes %} {{ list_classes }} {% endif %}">
             <li class="govuk-!-margin-bottom-2">
                 <a href="mailto:?subject={{ settings.core.ShareSettings.share_prefix|urlencode }}&body={{ page_title|urlencode }}: {{ page_url }}"
                    target="_blank"
@@ -73,7 +73,7 @@
                     let btn_copy_url = document.createElement("button")
                     btn_copy_url.classList.add("button", "secondary-button", "small-button")
                     btn_copy_url.setAttribute("type", "button")
-                    btn_copy_url.innerHTML = "<span role='img' class='fa fa-link'></span> Copy link"
+                    btn_copy_url.innerHTML = "<span class='great-share-copy-link-container'><span role='img' class='fa fa-link'></span><span class=>Copy link</span></div>"
                     btn_copy_url.addEventListener("click", copy_url_to_clipboard)
                     li_btn_container.appendChild(btn_copy_url)
                     social_share_parent.appendChild(li_btn_container)

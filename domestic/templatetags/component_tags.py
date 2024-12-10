@@ -360,3 +360,12 @@ def render_finance_cta(page):
             'linkText': page.contact_button,
         },
     }
+
+
+@register.inclusion_tag('_cta_banner.html')
+def render_market_article_cta(page):
+    return {
+        'headingText': page.cta_title,
+        'leadingText': page.cta_teaser,
+        'signUpLink': {'href': page.cta_link, 'linkText': page.cta_link_label},
+    }

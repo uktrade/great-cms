@@ -118,13 +118,12 @@ class ArticleListingPagePanels:
                 'If in doubt, make them both the same.'
             ),
         ),
-        MultiFieldPanel(heading='Hero', children=[FieldPanel('hero_image'), FieldPanel('hero_teaser')]),
+        FieldPanel('hero_teaser'),
         FieldPanel('list_teaser'),
+        FieldPanel('article_pages'),
     ]
 
-    settings_panels = [
-        FieldPanel('slug'),
-    ]
+    settings_panels = [FieldPanel('slug'), FieldPanel('use_updated_link_format')]
 
 
 class ArticlePagePanels:

@@ -658,3 +658,8 @@ class DataTableBlock(TableBlock):
 
     class Meta:
         template = 'core/table.html'
+
+
+class ArticleListingLinkBlock(blocks.StructBlock):
+    link_text = blocks.CharBlock(max_length=255, label='Link text')
+    link_page = blocks.PageChooserBlock(page_type='domestic.ArticlePage', label='Choose article page')
