@@ -7,43 +7,45 @@
 {% block content %}
     <section id="{% block page_id %}article-list-page{% endblock %}">
         <div class="container great">
-            {% if page.hero_teaser %}
-                <h1 class="govuk-heading-xl govuk-!-padding-top-6 govuk-!-margin-bottom-6 great-font-bold"> {{ page.hero_teaser }} </h1>
-            {% endif %}
-            {% if page.list_teaser %}
-                <div class="grid-row">
-                    <div class="column-two-thirds-l column-full govuk-!-margin-top-9 govuk-!-margin-bottom-6">
-                        <div class="lede rich-text article-detail">{{ page.list_teaser|richtext }}</div>
+            <div class="column-two-thirds govuk-!-margin-bottom-4">
+                {% if page.hero_teaser %}
+                    <h1 class="govuk-heading-xl govuk-!-padding-top-6 govuk-!-margin-bottom-6 great-font-bold"> {{ page.hero_teaser }} </h1>
+                {% endif %}
+                {% if page.list_teaser %}
+                    <div class="grid-row">
+                        <div class="column-two-thirds-l column-full govuk-!-margin-top-9 govuk-!-margin-bottom-6">
+                            <div class="lede rich-text article-detail">{{ page.list_teaser|richtext }}</div>
+                        </div>
                     </div>
-                </div>
-            {% endif %}
-            <div class="grid-row">
-                <div>
-                    <ul class="content-list">
-                        {% block content_list %}
-                            {% if page.use_updated_link_format %}
-                                {% for text_or_link_block in page.article_pages %}
-                                    {% if text_or_link_block.block_type == 'text_block' %}
-                                        <div class="govuk-!-margin-top-6 govuk-!-margin-bottom-6"> {{ text_or_link_block.value|richtext }} </div>
-                                    {% else %}
-                                        <div class="govuk-!-padding-bottom-4">
-                                            {% include 'components/great/card.html' with title=text_or_link_block.value.link_text url=text_or_link_block.value.link_page.url show_title_link=True  heading_class="govuk-heading-m great-font-weight-semi-bold great-font-bold" container_class="govuk-!-padding-0" classes="great-card--no-active-jump" a_classes="great-card-thin-border-only-focus-text" content_tag="p" tag_container_inner_class="great-text-blue" %}
-                                        </div>
-                                    {% endif %}
-                                {% endfor %}
-                            {% else %}
-                                {% for article in page.specific.get_articles %}
-                                    <a href="{{ article.url }}">
-                                        <li>
-                                            <h3>{{ article.article_title }}</h3>
-                                            <button onclick="window.location.href='{{ article.url }}'"
-                                                    class="button primary-button">View article</button>
-                                        </li>
-                                    </a>
-                                {% endfor %}
-                            {% endif %}
-                        {% endblock %}
-                    </ul>
+                {% endif %}
+                <div class="grid-row">
+                    <div>
+                        <ul class="content-list">
+                            {% block content_list %}
+                                {% if page.use_updated_link_format %}
+                                    {% for text_or_link_block in page.article_pages %}
+                                        {% if text_or_link_block.block_type == 'text_block' %}
+                                            <div class="govuk-!-margin-top-4 govuk-!-margin-bottom-4"> {{ text_or_link_block.value|richtext }} </div>
+                                        {% else %}
+                                            <div class="">
+                                                {% include 'components/great/card.html' with title=text_or_link_block.value.link_text url=text_or_link_block.value.link_page.url show_title_link=True  heading_class="govuk-heading-xs great-font-weight-semi-bold great-line-height-25 great-font-size-18 govuk-!-margin-bottom-0 govuk-!-padding-top-2" container_class="govuk-!-padding-bottom-2" classes="great-card--no-active-jump" a_classes="great-card-thin-border-only-focus-text" content_tag="p" tag_container_inner_class="great-text-blue" exclude_br=True %}
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    {% for article in page.specific.get_articles %}
+                                        <a href="{{ article.url }}">
+                                            <li>
+                                                <h3>{{ article.article_title }}</h3>
+                                                <button onclick="window.location.href='{{ article.url }}'"
+                                                        class="button primary-button">View article</button>
+                                            </li>
+                                        </a>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endblock %}
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

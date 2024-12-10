@@ -54,8 +54,8 @@
                     {% endfilter %}
                 {% endif %}
             {% endif %}
-        {% else %}
-        <br>
+        {% elif not exclude_br %}
+            <br>
         {% endif %}
         {% if tag and tag_icon %}
             <span class="govuk-caption great-text-dark-grey great-card__tag {% if tag_container_outer_class %}{{ tag_container_outer_class }}{% endif %}">
