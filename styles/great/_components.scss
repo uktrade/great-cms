@@ -403,12 +403,21 @@ figure.great-blockquote {
   }
 }
 
+.great-card-only-focus-text {
+  &:hover {
+    border-bottom: 4px solid rgba(0, 0, 0, 0.2) !important;
+    .great-card__link {
+      color: $govuk-brand-colour !important;
+    }
+  }
+}
+
 .great-card--no-active-jump {
   a {
     &:active {
       height: auto;
       margin-top: 0;
-      padding-top: 3px;
+      padding-top: 0;
     }
   }
 }
@@ -1608,14 +1617,17 @@ nav.great-breadcrumbs {
     &.small-button {
       min-width: 126px;
       min-height: 44px;
+      height: fit-content;
       line-height: 25px;
       padding: 12px 15px;
       display: flex;
       align-items: center;
-
-      > span {
-        padding-right: 8px;
-        font-size: 14px;
+      .great-share-copy-link-container {
+        margin:auto;
+        > span {
+          padding-right: 8px;
+          font-size: 14px;
+        }
       }
     }
   }

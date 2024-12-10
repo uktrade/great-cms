@@ -27,7 +27,7 @@
                                         <div class="govuk-!-margin-top-6 govuk-!-margin-bottom-6"> {{ text_or_link_block.value|richtext }} </div>
                                     {% else %}
                                         <div class="govuk-!-padding-bottom-4">
-                                            {% include 'components/great/card.html' with title=text_or_link_block.value.link_text url=text_or_link_block.value.link_page.url show_title_link=True  heading_class="govuk-heading-xs" container_class="govuk-!-padding-0" classes="" content_tag="p" %}
+                                            {% include 'components/great/card.html' with title=text_or_link_block.value.link_text url=text_or_link_block.value.link_page.url show_title_link=True  heading_class="govuk-heading-m" container_class="govuk-!-padding-0" classes="great-card--no-active-jump" a_classes="great-card-only-focus-text" content_tag="p" tag_container_inner_class="great-text-blue" %}
                                         </div>
                                     {% endif %}
                                 {% endfor %}

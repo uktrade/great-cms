@@ -73,7 +73,7 @@
                     let btn_copy_url = document.createElement("button")
                     btn_copy_url.classList.add("button", "secondary-button", "small-button")
                     btn_copy_url.setAttribute("type", "button")
-                    btn_copy_url.innerHTML = "<span role='img' class='fa fa-link'></span> Copy link"
+                    btn_copy_url.innerHTML = "<span class='great-share-copy-link-container'><span role='img' class='fa fa-link'></span><span class=>Copy link</span></div>"
                     btn_copy_url.addEventListener("click", copy_url_to_clipboard)
                     li_btn_container.appendChild(btn_copy_url)
                     social_share_parent.appendChild(li_btn_container)

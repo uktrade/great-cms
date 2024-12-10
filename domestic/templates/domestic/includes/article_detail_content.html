@@ -6,7 +6,6 @@
         <header>
             <div class="grid-row">
                 <div class="column-two-thirds">
-                    {% if page.type_of_article %}<p class="subheading">{{ page.type_of_article }}</p>{% endif %}
                     <h1 class="heading-xlarge">{{ page.article_title }}</h1>
                     {% if page.article_subheading %}<h2 class="heading-medium">{{ page.article_subheading }}</h2>{% endif %}
                     {% if page.article_teaser %}
@@ -65,7 +64,9 @@
                 </section>
             </div>
             {% block related_content %}
-                {% include 'domestic/includes/article_related_content_list.html' with include_share=True share_display_block=True %}
+                <div class="govuk-!-padding-bottom-4">
+                    {% include 'domestic/includes/article_related_content_list.html' with include_share=True share_display_block=True %}
+                </div>
             {% endblock %}
             {% if page.type_of_article|lower == 'advice' %}
                 <section class="grid-row">
