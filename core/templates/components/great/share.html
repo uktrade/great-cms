@@ -1,7 +1,7 @@
 {% if settings.core.ShareSettings.share_prefix and settings.core.ShareSettings.hashtags and settings.wagtailseo.SeoSettings.twitter_site %}
     <div class="govuk-!-padding-top-3 great-share">
         <{{ heading_level|default:'h2' }} class="govuk-heading-s">Share this page</{{ heading_level|default:'h2' }}>
-        <ul class="govuk-!-margin-top-4 {% if display_block %} great-display-block-important {% endif %}">
+        <ul class="govuk-!-margin-top-4 {% if list_classes %} {{ list_classes }} {% endif %}">
             <li class="govuk-!-margin-bottom-2">
                 <a href="mailto:?subject={{ settings.core.ShareSettings.share_prefix|urlencode }}&body={{ page_title|urlencode }}: {{ page_url }}"
                    target="_blank"

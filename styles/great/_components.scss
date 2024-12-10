@@ -403,9 +403,10 @@ figure.great-blockquote {
   }
 }
 
-.great-card-only-focus-text {
+.great-card-thin-border-only-focus-text {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2) !important;
   &:hover {
-    border-bottom: 4px solid rgba(0, 0, 0, 0.2) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2) !important;
     .great-card__link {
       color: $govuk-brand-colour !important;
     }
@@ -1626,7 +1627,8 @@ nav.great-breadcrumbs {
         margin:auto;
         > span {
           padding-right: 8px;
-          font-size: 14px;
+          font-size: 18px;
+          line-height: 25px;
         }
       }
     }

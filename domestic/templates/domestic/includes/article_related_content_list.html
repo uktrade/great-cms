@@ -14,6 +14,6 @@
         </div>
     {% endif %}
     {% if include_share %}
-        {% include 'components/great/share.html' with page_url=request.build_absolute_uri page_title=page.title display_block=share_display_block %}
+        {% include 'components/great/share.html' with page_url=request.build_absolute_uri page_title=page.title list_classes=share_list_classes %}
     {% endif %}
 </div>

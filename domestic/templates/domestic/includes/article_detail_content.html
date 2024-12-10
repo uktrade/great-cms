@@ -65,7 +65,7 @@
             </div>
             {% block related_content %}
                 <div class="govuk-!-padding-bottom-4">
-                    {% include 'domestic/includes/article_related_content_list.html' with include_share=True share_display_block=True %}
+                    {% include 'domestic/includes/article_related_content_list.html' with include_share=True share_list_classes="great-display-block-important" %}
                 </div>
             {% endblock %}
             {% if page.type_of_article|lower == 'advice' %}
