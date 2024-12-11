@@ -30,6 +30,7 @@ from core.templatetags.content_tags import (
     get_topic_blocks,
     get_topic_title_for_lesson,
     get_visa_and_travel_country_slug,
+    get_visa_and_travel_url_for_eu_countries,
     h3_if,
     handle_external_links,
     highlighted_text,
@@ -1213,6 +1214,20 @@ def test_get_exopps_country_slug(country_name, expected_output):
 )
 def test_get_visa_and_travel_country_slug(country_name, expected_output):
     assert get_visa_and_travel_country_slug(country_name) == expected_output
+
+
+@pytest.mark.parametrize(
+    'country_name, expected_output',
+    (
+        ('Austria', 'https://www.gov.uk/guidance/travel-to-austria-for-work'),
+        ('France', 'https://www.gov.uk/guidance/travel-to-france-for-work'),
+        ('Poland', 'https://www.gov.uk/guidance/travel-to-poland-for-work'),
+        ('United States', None),
+        ('Australia', None),
+    ),
+)
+def test_get_visa_and_travel_url_for_eu_countries(country_name, expected_output):
+    assert get_visa_and_travel_url_for_eu_countries(country_name) == expected_output
 
 
 @pytest.mark.parametrize(

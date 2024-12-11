@@ -19,6 +19,7 @@ from core.constants import (
     BACKLINK_QUERYSTRING_NAME,
     CHEG_EXCLUDED_COUNTRY_CODES,
     META_LABELS,
+    EU_TRAVEL_ADVICE_URLS,
 )
 from core.helpers import millify
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage
@@ -700,6 +701,15 @@ def get_visa_and_travel_country_slug(country):
             return slug
 
     return slugify(country.lower())
+
+
+@register.filter
+def get_visa_and_travel_url_for_eu_countries(country):
+    for country_name, url in EU_TRAVEL_ADVICE_URLS:
+        if country == country_name:
+            return url
+
+    return None
 
 
 @register.filter
