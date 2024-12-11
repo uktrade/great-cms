@@ -133,45 +133,6 @@
     .article-content {
       margin-left: 0;
     }
-
-    .related-content-list .content-list {
-      display: none;
-    }
-  }
-
-  @media (min-width: 641px) {
-    .article-content {
-      &:not(.column-seven-ninths) {
-        & > * {
-          &:not(.quote) {
-            padding-left: calc((100% / 9 * 2) + 5px);
-          }
-        }
-      }
-      .quote {
-        padding-left: calc((100% / 9 * 2) + 35px);
-        .body-text {
-          max-width: calc(980px - 25%);
-          width: 75%;
-        }
-      }
-    }
-  }
-  @media (min-width: 1261px) {
-    .article-content {
-      &:not(.column-seven-ninths) {
-        & > * {
-          &:not(.quote) {
-            padding-left: calc((100% / 9 * 2) + 5px);
-          }
-        }
-      }
-      .quote {
-        width: calc(100vw - 8px);
-        margin-left: calc(600px - 50vw);
-        padding-left: calc((50vw - 600px) + (100% / 9 * 2) + 5px);
-      }
-    }
   }
 
   .learn-more-button {
