@@ -138,7 +138,7 @@ distlib==0.3.9
     # via virtualenv
 dj-database-url==2.2.0
     # via -r requirements.in
-django==4.2.16
+django==4.2.17
     # via
     #   -r requirements.in
     #   directory-api-client
@@ -239,7 +239,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==33.0.0
+faker==33.1.0
     # via factory-boy
 filelock==3.16.1
     # via virtualenv
@@ -253,7 +253,7 @@ googleapis-common-protos==1.66.0
     #   opentelemetry-exporter-otlp-proto-http
 great-components==2.7.2
     # via -r requirements.in
-grpcio==1.68.0
+grpcio==1.68.1
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==22.0.0
     # via -r requirements.in
@@ -397,7 +397,7 @@ pillow==10.3.0
     #   reportlab
     #   wagtail
     #   xhtml2pdf
-pillow-heif==0.20.0
+pillow-heif==0.21.0
     # via willow
 platformdirs==4.3.6
     # via virtualenv
@@ -477,7 +477,7 @@ qrcode==8.0
     # via pyhanko
 readtime==1.1.1
     # via -r requirements.in
-redis==5.2.0
+redis==5.2.1
     # via
     #   celery
     #   django-redis
@@ -505,13 +505,13 @@ requests-oauthlib==2.0.0
     # via django-staff-sso-client
 s3transfer==0.6.2
     # via boto3
-sentry-sdk==2.19.0
+sentry-sdk==2.19.2
     # via -r requirements.in
 sigauth==5.3.0
     # via
     #   -r requirements.in
     #   directory-client-core
-six==1.16.0
+six==1.17.0
     # via
     #   html5lib
     #   jsonschema
@@ -554,7 +554,7 @@ tinycss2==1.4.0
     # via
     #   cssselect2
     #   svglib
-tomli==2.1.0
+tomli==2.2.1
     # via sphinx
 typing-extensions==4.12.2
     # via

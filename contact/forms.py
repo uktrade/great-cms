@@ -1,4 +1,3 @@
-import requests.exceptions
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV3
 from directory_forms_api_client.forms import (
@@ -18,7 +17,7 @@ from great_components import forms
 
 import regex
 from contact import constants, mixins as contact_mixins, widgets as contact_widgets
-from contact.helpers import get_free_trade_agreements, retrieve_regional_office
+from contact.helpers import get_free_trade_agreements
 from core import helpers
 from core.forms import TERMS_LABEL, ConsentFieldMixin
 from core.validators import is_valid_uk_postcode
@@ -80,8 +79,8 @@ class BaseShortForm(forms.Form):
         label='Please give us as much detail as you can',
         widget=Textarea,
     )
-    given_name = forms.CharField(label='First name')
-    family_name = forms.CharField(label='Last name')
+    given_name = forms.CharField(label='First name')  # /PS-IGNORE
+    family_name = forms.CharField(label='Last name')  # /PS-IGNORE
     email = forms.EmailField()
     company_type = forms.ChoiceField(
         label='Company type',
@@ -109,28 +108,11 @@ class ShortZendeskForm(SerializeDataMixin, ZendeskActionMixin, BaseShortForm):
         return f'{cleaned_data["given_name"]} {cleaned_data["family_name"]}'
 
 
-class ShortNotifyForm(SerializeDataMixin, GovNotifyEmailActionMixin, BaseShortForm):
-    @property
-    def serialized_data(self):
-        data = super().serialized_data
-        try:
-            details = retrieve_regional_office(data['postcode'])
-        except requests.exceptions.RequestException:
-            pass
-        else:
-            if details:
-                data['dit_regional_office_name'] = details['name']
-                data['dit_regional_office_email'] = details['email']
-        data.setdefault('dit_regional_office_name', '')
-        data.setdefault('dit_regional_office_email', '')
-        return data
-
-
 class DomesticForm(ConsentFieldMixin, ShortZendeskForm):
     pass
 
 
-class DomesticEnquiriesForm(ConsentFieldMixin, ShortNotifyForm):
+class DomesticEnquiriesForm(ConsentFieldMixin):
     pass
 
 
@@ -229,17 +211,17 @@ class DomesticExportSupportStep2CForm(contact_mixins.DomesticExportSupportStep2M
 
 class DomesticExportSupportStep3Form(forms.Form):
     first_name = forms.CharField(
-        label='First name',
+        label='First name',  # /PS-IGNORE
         widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
         error_messages={
-            'required': 'Enter your first name',
+            'required': 'Enter your first name',  # /PS-IGNORE
         },
     )
     last_name = forms.CharField(
-        label='Last name',
+        label='Last name',  # /PS-IGNORE
         widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
         error_messages={
-            'required': 'Enter your last name',
+            'required': 'Enter your last name',  # /PS-IGNORE
         },
     )
     job_title = forms.CharField(
@@ -262,8 +244,8 @@ class DomesticExportSupportStep3Form(forms.Form):
         label='Email address',
         widget=django_widgets.EmailInput(attrs={'class': 'govuk-input great-text-input'}),
         error_messages={
-            'required': 'Enter an email address in the correct format, like name@example.com',
-            'invalid': 'Enter an email address in the correct format, like name@example.com',
+            'required': 'Enter an email address in the correct format, like name@example.com',  # /PS-IGNORE
+            'invalid': 'Enter an email address in the correct format, like name@example.com',  # /PS-IGNORE
         },
     )
 
@@ -354,8 +336,8 @@ class DomesticExportSupportStep6Form(forms.Form):
                 'neverexported',
                 'I have never exported but have a product or service suitable or that could be developed for export',
             ),
-            ('notinlast12months', 'I have exported before but not in the last 12 months'),
-            ('last12months', 'I have exported in the last 12 months'),
+            ('notinlast12months', 'I have exported before but not in the last 12 months'),  # /PS-IGNORE
+            ('last12months', 'I have exported in the last 12 months'),  # /PS-IGNORE
             ('noproduct', 'I do not have a product or service for export'),
         ),
         error_messages={
@@ -511,16 +493,22 @@ class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):
     )
 
     first_name = forms.CharField(
-        label='First name', min_length=2, max_length=50, error_messages={'required': 'Enter your first name'}
+        label='First name',  # /PS-IGNORE
+        min_length=2,
+        max_length=50,
+        error_messages={'required': 'Enter your first name'},  # /PS-IGNORE
     )
     last_name = forms.CharField(
-        label='Last name', min_length=2, max_length=50, error_messages={'required': 'Enter your last name'}
+        label='Last name',  # /PS-IGNORE
+        min_length=2,
+        max_length=50,
+        error_messages={'required': 'Enter your last name'},  # /PS-IGNORE
     )
     email = forms.EmailField(
-        label='Email address',
+        label='Email address',  # /PS-IGNORE
         error_messages={
-            'required': 'Enter an email address in the correct format, like name@example.com',
-            'invalid': 'Enter an email address in the correct format, like name@example.com',
+            'required': 'Enter an email address in the correct format, like name@example.com',  # /PS-IGNORE
+            'invalid': 'Enter an email address in the correct format, like name@example.com',  # /PS-IGNORE
         },
     )
     phone_number = forms.CharField(
@@ -703,54 +691,21 @@ class OfficeFinderForm(forms.Form):
     MESSAGE_NOT_FOUND = 'The postcode you entered does not exist'
 
     postcode = forms.CharField(
-        label='Enter your postcode', help_text='For example SW1A 2AA', validators=[is_valid_uk_postcode]
+        label='Enter your postcode', help_text='For example SW1A 2AA', validators=[is_valid_uk_postcode]  # /PS-IGNORE
     )
 
     def clean_postcode(self):
         return self.cleaned_data['postcode'].replace(' ', '')
 
 
-class TradeOfficeContactForm(
-    SerializeDataMixin, GovNotifyEmailActionMixin, ConsentFieldMixin, BaseShortForm, forms.Form
-):
-    phone_number = forms.CharField(
-        label='UK telephone number (optional)',
-        required=False,
-        min_length=8,
-        max_length=16,
-        help_text='This can be a landline or mobile number',
-        error_messages={
-            'max_length': PHONE_ERROR_MESSAGE,
-            'min_length': PHONE_ERROR_MESSAGE,
-            'invalid': PHONE_ERROR_MESSAGE,
-        },
-    )
-
-    def clean_phone_number(self):
-        phone_number = self.cleaned_data['phone_number'].replace(' ', '')
-        if phone_number == '':
-            return phone_number
-        if not PHONE_NUMBER_REGEX.match(phone_number):
-            raise ValidationError(PHONE_ERROR_MESSAGE)
-        return phone_number
-
-    def order_fields(self, field_order):
-        # move phone_number field to be positioned after the email field
-        field_order = field_order or list(self.fields.keys())
-        field_order.insert(field_order.index('email') + 1, field_order.pop(field_order.index('phone_number')))
-        return super().order_fields(field_order)
-
-
 class EventsForm(
     ConsentFieldMixin,
-    ShortNotifyForm,
 ):
     pass
 
 
 class DefenceAndSecurityOrganisationForm(
     ConsentFieldMixin,
-    ShortNotifyForm,
 ):
     pass
 
@@ -789,10 +744,10 @@ class CommentForm(forms.Form):
 
 
 class PersonalDetailsForm(forms.Form):
-    first_name = forms.CharField(label='First name')
-    last_name = forms.CharField(label='Last name')
+    first_name = forms.CharField(label='First name')  # /PS-IGNORE
+    last_name = forms.CharField(label='Last name')  # /PS-IGNORE
     position = forms.CharField(label='Position in organisation')
-    email = forms.EmailField(label='Email address')
+    email = forms.EmailField(label='Email address')  # /PS-IGNORE
     phone = forms.CharField(label='Phone')
 
 
@@ -881,25 +836,25 @@ class InternationalContactForm(
 
 class FTASubscribeForm(GovNotifyEmailActionMixin, forms.Form):
     first_name = forms.CharField(
-        label='First name',
+        label='First name',  # /PS-IGNORE
         required=True,
         error_messages={
-            'required': 'Enter a first name',
+            'required': 'Enter a first name',  # /PS-IGNORE
         },
     )
 
     last_name = forms.CharField(
-        label='Last name',
+        label='Last name',  # /PS-IGNORE
         required=True,
         error_messages={
-            'required': 'Enter a last name',
+            'required': 'Enter a last name',  # /PS-IGNORE
         },
     )
 
     email = forms.EmailField(
-        label='Your email address',
+        label='Your email address',  # /PS-IGNORE
         error_messages={
-            'required': 'Enter your email address',
+            'required': 'Enter your email address',  # /PS-IGNORE
         },
         required=True,
     )

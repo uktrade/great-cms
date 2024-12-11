@@ -932,6 +932,7 @@ def test_service_removed_view(
         parent=advice_topic_page,
         landing_page_title='Listing Page',
         title='Listing Page',
+        hero_teaser='list one',
     )
 
     article_page_1 = ArticlePageFactory(

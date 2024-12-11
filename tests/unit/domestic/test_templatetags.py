@@ -19,6 +19,7 @@ from domestic.templatetags.component_tags import (
     persist_language,
     replace_underscores,
 )
+from core.templatetags.content_tags import convert_anchor_identifier_a_to_span
 from tests.unit.export_academy.factories import EventFactory
 
 
@@ -445,3 +446,17 @@ def test_get_market_widget_data(
     result = get_market_widget_data('Chinax')
 
     assert result is None
+
+
+def test_anchor_is_correctly_converted_to_span():
+    input_html = '<p data-block-key="123"><a data-id="anchor" id="anchor" linktype="anchor-target">anchor text</a></p>'
+    actual_output = convert_anchor_identifier_a_to_span(input_html)
+    expected_output = '<p data-block-key="123"><span data-id="anchor" id="anchor">anchor text</span></p>'
+    assert actual_output == expected_output
+
+
+def test_regular_link_is_not_converted_to_span():
+    input_html = '<p data-block-key="321"><a href="http://www.google.com">text for regular link</a></p>'
+    actual_output = convert_anchor_identifier_a_to_span(input_html)
+    expected_output = '<p data-block-key="321"><a href="http://www.google.com">text for regular link</a></p>'
+    assert actual_output == expected_output
