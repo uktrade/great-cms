@@ -1,4 +1,4 @@
-{% load get_visa_and_travel_country_slug from content_tags %}
+{% load get_visa_and_travel_country_slug get_visa_and_travel_url_for_eu_countries from content_tags %}
 
 <div class="govuk-!-padding-6 great-bg-white great-ds-box-shadow great-ds-card-panels__item">
     <span class="great-meta-label govuk-!-margin-bottom-2">
@@ -13,7 +13,13 @@
     </p>
 
     <div>
-        <a href="https://www.gov.uk/foreign-travel-advice/{% if market %}{{ session_data.market | get_visa_and_travel_country_slug }}/entry-requirements{% endif %}" class="govuk-link great-ds-link" target="_blank">
+        {% with is_eu_market=session_data.market|get_visa_and_travel_url_for_eu_countries %}
+            {% if is_eu_market %}
+            <a href="{{ session_data.market | get_visa_and_travel_url_for_eu_countries }}" class="govuk-link great-ds-link" target="_blank">
+            {% else %}
+            <a href="https://www.gov.uk/foreign-travel-advice/{% if market %}{{ session_data.market | get_visa_and_travel_country_slug }}/entry-requirements{% endif %}" class="govuk-link great-ds-link" target="_blank">
+            {% endif %}
+        {% endwith %}
             <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> 
             <span>Use this service</span>
         </a>
