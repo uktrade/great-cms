@@ -110,8 +110,6 @@
     {{ display_country|json_script:'display_country' }}
     <script type="text/javascript"
             src="{% static 'javascript/accessible-autocomplete.min.js' %}"></script>
-    <script type="text/javascript"
-            src="{% static 'javascript/expand-your-business.js' %}"></script>
     <script type="text/javascript">
                 const typeaheadURL = JSON.parse(document.getElementById('typeahead-url').textContent);
                 const companySearchURL = JSON.parse(document.getElementById('company-search-url').textContent);
@@ -136,10 +134,43 @@
                     }
                 }
 
+                function getCountryISO2(country) {
+                    // some companies in dnb listed under a truncated iso2 code, e.g. a company in AE-AZ should be called with country=AE
+                    let truncatedISO = country.substring(0, 2)
+                    // some companies in dnb require the api to be called with a different iso2 code, e.g. companies in Guernsey (GG)
+                    // are listed under United Kingdom (GB)
+                    const mapping = {
+                        'AX': 'FI',
+                        'CC': 'AU',
+                        'NC': 'FR',
+                        'GG': 'GB',
+                        'IM': 'GB',
+                        'JE': 'GB',
+                        'YT': 'FR',
+                        'UM': 'US',
+                        'NU': 'NZ',
+                        'PW': 'FM',
+                        'PS': 'IL',
+                        'PR': 'US',
+                        'BL': 'FR',
+                        'MF': 'FR',
+                        'PM': 'FR',
+                        'SJ': 'NO',
+                        'VA': 'IT',
+                        'VI': 'US',
+                        'WF': 'FR',
+                        'EH': 'MA'
+                    }
+
+                    return truncatedISO in mapping ? mapping[truncatedISO] : truncatedISO
+                }
+
+                function getCountryDisplayName(countryISO2){
+                    return countryISO2 in countryISO2CodeToName ? countryISO2CodeToName[countryISO2] : countryISO2
+                }
+
                 async function suggest (query, populateResults) {
-                    // some countries in dnb listed under a truncated iso2 code,
-                    // see https://directplus.documentation.dnb.com/html/resources/CountryCodes.html
-                    let countryISO2 = country.substring(0, 2)
+                    let countryISO2 = getCountryISO2(country)
                     let queryParams = `searchTerm=${query}&countryISOAlpha2Code=${countryISO2}&candidateMaximumQuantity=25`;
                     // only make api call if we are going to show results
                     if (retrieveDNBCompanies == true) {
@@ -157,7 +188,7 @@
                     output += company?.address_line_2.length > 0 ? `${company?.address_line_2.toUpperCase()}, ` : ''
                     output += company?.address_town.length > 0 ? `${company?.address_town.toUpperCase()}, ` : ''
                     output += company?.address_postcode.length > 0 ? `${company?.address_postcode.toUpperCase()}, ` : ''
-                    output += display_country.toUpperCase()
+                    output += company?.address_country.length > 0 ? `${getCountryDisplayName(company?.address_country).toUpperCase()}` : ''
                     output += `</span>`
                     return output
                 }
