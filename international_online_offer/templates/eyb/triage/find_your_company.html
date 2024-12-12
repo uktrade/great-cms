@@ -110,6 +110,7 @@
     {{ display_country|json_script:'display_country' }}
     <script type="text/javascript"
             src="{% static 'javascript/accessible-autocomplete.min.js' %}"></script>
+    <script src="{% static 'javascript/vendor/lodash.debounce.js' %}"></script>
     <script type="text/javascript">
                 const typeaheadURL = JSON.parse(document.getElementById('typeahead-url').textContent);
                 const companySearchURL = JSON.parse(document.getElementById('company-search-url').textContent);
@@ -170,6 +171,7 @@
                 }
 
                 async function suggest (query, populateResults) {
+                    console.log(`get company query is ${query}`)
                     let countryISO2 = getCountryISO2(country)
                     let queryParams = `searchTerm=${query}&countryISOAlpha2Code=${countryISO2}&candidateMaximumQuantity=25`;
                     // only make api call if we are going to show results
@@ -209,7 +211,7 @@
                 accessibleAutocomplete({
                     element: document.querySelector('#company-autocomplete'),
                     id: 'js-company-name-autocomplete',
-                    source: suggest,
+                    source: debounce(suggest, 300),
                     autoselect: false,
                     minLength: 2,
                     templates: {
