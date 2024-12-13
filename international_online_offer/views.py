@@ -10,6 +10,7 @@ from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin  # /PS-IGNORE
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.throttling import UserRateThrottle
 from rest_framework.views import APIView
 
 from core.helpers import check_url_host_is_safelisted
@@ -1246,8 +1247,13 @@ class BusinessClusterView(GA360Mixin, TemplateView):  # /PS-IGNORE
         )
 
 
+class DNBThrottleClass(UserRateThrottle):
+    THROTTLE_RATES = {'user': '200/hour'}
+
+
 class DNBTypeaheadView(APIView):
     permission_classes = [IsAuthenticated]
+    throttle_classes = [DNBThrottleClass]
 
     @property
     def allowed_methods(self):
@@ -1259,6 +1265,7 @@ class DNBTypeaheadView(APIView):
 
 class DNBCompanySearchView(APIView):
     permission_classes = [IsAuthenticated]
+    throttle_classes = [DNBThrottleClass]
 
     @property
     def allowed_methods(self):
