@@ -444,7 +444,6 @@ class CountryGuideIndustryBlock(blocks.StructBlock):
 
 
 class CountryGuideIndustryLinkBlock(blocks.StructBlock):
-
     icon = ImageChooserBlock(required=False, label='Industry icon')
     title = blocks.CharBlock(max_length=255, label='Industry title')
     page = blocks.PageChooserBlock(label='Page')

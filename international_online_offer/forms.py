@@ -111,7 +111,6 @@ class FindYourCompanyForm(forms.Form):
 
 
 class CompanyDetailsForm(forms.Form):
-
     company_name = CharField(
         label='Company name',
         max_length=255,
@@ -318,7 +317,6 @@ class HiringForm(forms.Form):
 
 
 class SpendForm(forms.Form):
-
     spend = ChoiceField(
         label='Select an estimate',
         required=True,

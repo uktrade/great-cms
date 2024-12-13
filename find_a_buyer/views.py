@@ -16,7 +16,6 @@ from .decorators import must_have_company_profile
 
 
 class BespokeBreadcrumbMixin(TemplateView):
-
     def get_context_data(self, **kwargs):
         bespoke_breadcrumbs = [
             {'title': 'Business profile', 'url': reverse('sso_profile:business-profile')},
@@ -64,7 +63,6 @@ class UpdateCompanyProfileOnFormWizardDoneMixin:
 
 
 class GetTemplateForCurrentStepMixin:
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         assert self.templates
@@ -76,7 +74,6 @@ class GetTemplateForCurrentStepMixin:
 class SendVerificationLetterView(
     GetTemplateForCurrentStepMixin, UpdateCompanyProfileOnFormWizardDoneMixin, SessionWizardView
 ):
-
     ADDRESS = 'address'
     SENT = 'sent'
 
@@ -114,7 +111,6 @@ class SendVerificationLetterView(
 
 
 class CompanyVerifyView(BespokeBreadcrumbMixin, TemplateView):
-
     template_name = 'company-verify-hub.html'
 
     def get_context_data(self, **kwargs):
@@ -126,7 +122,6 @@ class CompanyVerifyView(BespokeBreadcrumbMixin, TemplateView):
 
 
 class CompanyAddressVerificationView(BespokeBreadcrumbMixin, GetTemplateForCurrentStepMixin, SessionWizardView):
-
     ADDRESS = 'address'
     SUCCESS = 'success'
 
@@ -155,7 +150,6 @@ class Oauth2CallbackUrlMixin:
 
 
 class CompaniesHouseOauth2View(Oauth2CallbackUrlMixin, RedirectView):
-
     def get_redirect_url(self):
         company = helpers.get_company_profile(self.request.user.session_id)
         return helpers.CompaniesHouseClient.make_oauth2_url(
@@ -165,7 +159,6 @@ class CompaniesHouseOauth2View(Oauth2CallbackUrlMixin, RedirectView):
 
 
 class CompaniesHouseOauth2CallbackView(SubmitFormOnGetMixin, Oauth2CallbackUrlMixin, FormView):
-
     form_class = forms.CompaniesHouseOauth2Form
     template_name = 'companies-house-oauth2-callback.html'
     error_template = 'companies-house-oauth2-error.html'
@@ -187,7 +180,6 @@ class CompaniesHouseOauth2CallbackView(SubmitFormOnGetMixin, Oauth2CallbackUrlMi
 
 
 class CSVDumpGenericView(View):
-
     def get(self, request, *args, **kwargs):
         token = request.GET.get('token')
         if not token:
@@ -199,14 +191,12 @@ class CSVDumpGenericView(View):
 
 
 class BuyerCSVDumpView(CSVDumpGenericView):
-
     @staticmethod
     def get_file(token):
         return api_client.buyer.get_csv_dump(token)
 
 
 class SupplierCSVDumpView(CSVDumpGenericView):
-
     @staticmethod
     def get_file(token):
         return api_client.supplier.get_csv_dump(token)

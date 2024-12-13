@@ -168,7 +168,6 @@ def get_wagtail_transfer_configuration() -> dict:
 
 
 def _get_local_config(config):
-
     if env.wagtailtransfer_base_url_dev and env.wagtailtransfer_secret_key_dev:
         config.update(
             {DEV: {'BASE_URL': env.wagtailtransfer_base_url_dev, 'SECRET_KEY': env.wagtailtransfer_secret_key_dev}}

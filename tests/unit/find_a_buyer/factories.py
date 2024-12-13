@@ -6,7 +6,6 @@ from find_a_buyer.models import CsatUserFeedback
 
 
 class HCSATFactory(factory.django.DjangoModelFactory):
-
     URL = factory.fuzzy.FuzzyText(length=100)
     user_journey = factory.fuzzy.FuzzyChoice(choices.USER_JOURNEY_CHOICES, getter=lambda choice: choice[0])
     satisfaction_rating = factory.fuzzy.FuzzyChoice(choices.SATISFACTION_CHOICES, getter=lambda choice: choice[0])

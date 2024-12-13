@@ -10,14 +10,12 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         def make_json(csv_file_path, json_file_path):
-
             data = {'data': []}
 
             with open(csv_file_path, encoding='utf-8') as csvf:
                 csv_reader = csv.DictReader(csvf)
 
                 for rows in csv_reader:
-
                     sic_dict = {
                         '_id': rows['_id'],
                         'dit_sector_list_field_04': rows['dit_sector_list_field_04'],

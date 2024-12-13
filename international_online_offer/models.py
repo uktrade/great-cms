@@ -300,9 +300,13 @@ class EYBArticlePage(BaseContentPage, EYBHCSAT):
                 median_salaries = get_median_salaries(triage_data.sector, geo_region=region)
                 cleaned_median_salaries = helpers.clean_salary_data(median_salaries)
 
-                (large_warehouse_rent, small_warehouse_rent, shopping_centre, high_street_retail, work_office) = (
-                    get_rent_data(region)
-                )
+                (
+                    large_warehouse_rent,
+                    small_warehouse_rent,
+                    shopping_centre,
+                    high_street_retail,
+                    work_office,
+                ) = get_rent_data(region)
 
                 professions_by_sector = helpers.get_sector_professions_by_level(triage_data.sector)
 
@@ -532,7 +536,6 @@ class RentData(models.Model):
 
 
 class ChoiceArrayField(ArrayField):
-
     def formfield(self, **kwargs):
         defaults = {
             'form_class': forms.MultipleChoiceField,
