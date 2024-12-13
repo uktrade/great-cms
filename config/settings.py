@@ -545,16 +545,16 @@ if FEATURE_OPENSEARCH:  # Power search via Opensearch
         }
     }
 
-else:  # Power search via Activity Stream  # TODO: Remove once Opensearch implemented on PROD
-    services = {item['instance_name']: item for item in env.opensearch_service}
-    OPENSEARCH_INSTANCE_NAME = (
-        env.opensearch_instance_name if env.opensearch_instance_name else env.opensearch_service[0]['instance_name']
-    )
-    connections.create_connection(
-        alias='default',
-        hosts=[services[OPENSEARCH_INSTANCE_NAME]['credentials']['uri']],
-        connection_class=RequestsHttpConnection,
-    )
+# else:  # Power search via Activity Stream  # TODO: Remove once Opensearch implemented on PROD
+#     services = {item['instance_name']: item for item in env.opensearch_service}
+#     OPENSEARCH_INSTANCE_NAME = (
+#         env.opensearch_instance_name if env.opensearch_instance_name else env.opensearch_service[0]['instance_name']
+#     )
+#     connections.create_connection(
+#         alias='default',
+#         hosts=[services[OPENSEARCH_INSTANCE_NAME]['credentials']['uri']],
+#         connection_class=RequestsHttpConnection,
+#     )
 
 OPENSEARCH_CASE_STUDY_INDEX = env.elasticsearch_case_study_index
 
