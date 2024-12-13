@@ -1,7 +1,10 @@
 import logging
+import uuid
 from datetime import timedelta
 
+import requests
 import sentry_sdk
+from celery import shared_task
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.management import call_command
@@ -11,6 +14,37 @@ from django.utils import timezone
 from config.celery import app
 
 logger = logging.getLogger(__name__)
+
+
+@shared_task
+def send_to_ga4(request_url, request_headers):
+    logger.info('Sending to Google Analytics 4 (GA4) %s...', request_url)
+    try:
+        response = requests.post(
+            'https://www.google-analytics.com/mp/collect',
+            params={
+                'api_secret': settings.GA4_API_SECRET,
+                'measurement_id': settings.GA4_MEASUREMENT_ID,
+            },
+            json={
+                'client_id': str(uuid.uuid4()),  # Generate a new client ID
+                'events': [
+                    {
+                        'name': 'page_view',
+                        'params': {
+                            'session_id': str(uuid.uuid4()),
+                            'engagement_time_msec': '100',
+                            'page_location': request_url,
+                            'user_agent': request_headers.get('user-agent', ''),
+                            'referrer': request_headers.get('referer', ''),
+                        },
+                    }
+                ],
+            },
+        )
+        logger.info(f'GA4 tracking sent with status code {response.status_code}')
+    except Exception as e:
+        logger.error(f'Error sending GA4 tracking data: {e}')
 
 
 @app.task
