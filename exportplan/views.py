@@ -400,7 +400,6 @@ class PDFDownload(
 
 
 class ExportPlanIndex(GA360Mixin, TemplateView):  # /PS-IGNORE
-
     export_plan_list = None
 
     def __init__(self):

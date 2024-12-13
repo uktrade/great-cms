@@ -190,7 +190,6 @@ class SuperUserFactory(factory.django.DjangoModelFactory):
 
 
 class HCSATFactory(factory.django.DjangoModelFactory):
-
     URL = factory.fuzzy.FuzzyText(length=100)
     user_journey = factory.fuzzy.FuzzyChoice(constants.USER_JOURNEY_CHOICES, getter=lambda choice: choice[0])
     satisfaction_rating = factory.fuzzy.FuzzyChoice(constants.SATISFACTION_CHOICES, getter=lambda choice: choice[0])

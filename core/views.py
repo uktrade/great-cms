@@ -742,7 +742,6 @@ class PingDomView(TemplateView):
     status = 'OK'
 
     def get(self, *args, **kwargs):
-
         checked = {}
         for service in health_check_services:
             checked[service.name] = service().check()

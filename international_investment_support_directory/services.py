@@ -8,7 +8,6 @@ INDUSTRY_CHOICES = dict(INDUSTRIES)
 
 
 class CompanyParser(CompanyParser):
-
     def serialize_for_template(self):
         if not self.data:
             return {}

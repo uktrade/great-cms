@@ -16,7 +16,6 @@ from domestic.forms import (
 
 
 class BespokeBreadcrumbMixin(TemplateView):
-
     def get_context_data(self, **kwargs):
         bespoke_breadcrumbs = [
             {'title': 'Trade barriers', 'url': reverse('domestic:market-access')},
