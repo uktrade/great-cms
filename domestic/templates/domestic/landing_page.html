@@ -385,10 +385,7 @@
             {% endif %}
             <div class="campaign-video-transcript" id="campaign-video-transcript">
                 {% if campaign_block_value.video.transcript %}
-                    {% include '_details.html' with
-                    summaryText="View video transcript"
-                    detailsHtml=campaign_block_value.video.transcript
-                    classes="govuk-!-margin-bottom-5" %}
+                    {% include '_details.html' with summaryText="View video transcript" detailsHtml=campaign_block_value.video.transcript classes="govuk-!-margin-bottom-5" %}
                 {% endif %}
             </div>
         {% endwith %}

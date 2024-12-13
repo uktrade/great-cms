@@ -7,10 +7,7 @@
     </div>
 {% endblock %}
 {% block below_form %}
-    {% include '_details.html' with
-    summaryText='I cannot find my business name'
-    detailsText="Check you have selected the correct business type and the spelling of your company name above. If you still need help, contact us."
-    %}
+    {% include '_details.html' with summaryText='I cannot find my business name' detailsText="Check you have selected the correct business type and the spelling of your company name above. If you still need help, contact us." %}
 {% endblock %}
 {% block body_js %}
     {{ block.super }}
