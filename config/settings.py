@@ -493,7 +493,11 @@ if USER_MEDIA_ON_S3 and (AWS_STORAGE_BUCKET_NAME or AWS_S3_CUSTOM_DOMAIN):
 
 # PDF statics need to be stored on public s3 drive for access
 if AWS_STORAGE_BUCKET_NAME:
-    PDF_STATIC_URL = f'{AWS_S3_URL_PROTOCOL}//{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_HOST}/export_plan_pdf_statics/'
+    if is_copilot():    
+        PDF_STATIC_URL = f'{AWS_S3_URL_PROTOCOL}//{AWS_STORAGE_BUCKET_NAME}/export_plan_pdf_statics/'
+    else:
+        PDF_STATIC_URL = f'{AWS_S3_URL_PROTOCOL}//{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_HOST}/export_plan_pdf_statics/'
+
 
 if DEBUG:
     INSTALLED_APPS += ['debug_toolbar']
