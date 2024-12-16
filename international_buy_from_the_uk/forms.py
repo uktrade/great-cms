@@ -140,7 +140,6 @@ class ContactForm(GovNotifyEmailActionMixin, forms.Form):
 
 
 class CheckboxSelectMultipleIgnoreEmpty(forms.CheckboxSelectInlineLabelMultiple):
-
     def value_from_datadict(self, data, files, name):
         values = super().value_from_datadict(data, files, name)
         if values:

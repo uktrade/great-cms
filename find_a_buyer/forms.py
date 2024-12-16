@@ -23,7 +23,6 @@ class AutoFocusFieldMixin:
 
 
 class CompanyAddressVerificationForm(AutoFocusFieldMixin, IndentedInvalidFieldsMixin, forms.Form):
-
     postal_full_name = forms.CharField(
         label='Your name',
         max_length=255,
@@ -44,7 +43,6 @@ class CompanyAddressVerificationForm(AutoFocusFieldMixin, IndentedInvalidFieldsM
 
 
 class CompanyCodeVerificationForm(AutoFocusFieldMixin, IndentedInvalidFieldsMixin, forms.Form):
-
     error_messages = {'different': 'Incorrect code.'}
 
     code = fields.DecimalField(

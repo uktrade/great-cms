@@ -355,7 +355,6 @@ class HCSATNonFormPageMixin(HCSATMixin):
         )
 
     def form_valid(self, form, request):
-
         hcsat = form.save(commit=False)
         js_enabled = False
 

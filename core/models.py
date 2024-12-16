@@ -1072,7 +1072,6 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
         )
 
     def form_valid(self, form, request):
-
         hcsat = form.save(commit=False)
         js_enabled = False
 
