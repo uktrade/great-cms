@@ -69,9 +69,6 @@ class SearchView(TemplateView):
                     query,
                     page,
                 )
-                sentry_sdk.capture_message(f'/search successful: status code {response.status_code},'
-                                           f' message: {response.content}')
-
         return {**context, **common, **results}
 
 
