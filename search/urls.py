@@ -26,15 +26,7 @@ urlpatterns = [
 
 # Search URLs
 # How do we power our search? # TODO: Remove flag when new search is released
-if settings.FEATURE_OPENSEARCH:  # Serve search through Opensearch
-    urlpatterns += [
-        path(
-            '',
-            skip_ga360(OpensearchView.as_view()),
-            name='search',
-        ),
-    ]
-else:  # Serve legacy search that queries ActivityStream
+if settings.FEATURE_ACTIVITY_STREAM:  # Serve legacy search that queries ActivityStream
     urlpatterns += [
         path(
             '',
@@ -42,6 +34,16 @@ else:  # Serve legacy search that queries ActivityStream
             name='search',
         ),
     ]
+
+else:  # Serve search through Opensearch
+    urlpatterns += [
+        path(
+            '',
+            skip_ga360(OpensearchView.as_view()),
+            name='search',
+        ),
+    ]
+
 
 # Display the latest WIP search preview? # TODO: Remove when new search is released
 if settings.FEATURE_OPENSEARCH and settings.FEATURE_SEARCH_PREVIEW:
