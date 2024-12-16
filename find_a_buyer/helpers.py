@@ -111,7 +111,6 @@ def build_company_address(company_profile):
     ]
     address_parts = []
     for field_name in field_names:
-
         value = company_profile.get(field_name)
         if value:
             address_parts.append(value)

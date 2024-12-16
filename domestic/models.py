@@ -27,10 +27,10 @@ from wagtailcache.cache import WagtailCacheMixin
 from core import blocks as core_blocks, cache_keys, helpers, mixins, service_urls
 from core.blocks import (
     AdvantageBlock,
+    ArticleListingLinkBlock,
     ButtonBlock,
     ColumnsBlock,
     SupportHomepageCardBlock,
-    ArticleListingLinkBlock,
 )
 from core.constants import (
     ARTICLE_TYPES,

@@ -68,7 +68,6 @@ logger = logging.getLogger(__name__)
 
 
 class GetBreadcrumbsMixin:
-
     @property
     def get_breadcrumbs(self):
         return [
@@ -77,7 +76,6 @@ class GetBreadcrumbsMixin:
 
 
 class BespokeBreadcrumbMixin(TemplateView):
-
     def get_context_data(self, **kwargs):
         bespoke_breadcrumbs = [
             {'title': 'UK Export Academy', 'url': '/export-academy/'},
@@ -154,7 +152,6 @@ class BookingUpdateView(BookingMixin, UpdateView):
 
 
 class SuccessPageView(GetBreadcrumbsMixin, core_mixins.GetSnippetContentMixin, core_mixins.HCSATMixin, FormView):
-
     form_class = HCSATForm
     hcsat_service_name = 'export_academy'
 

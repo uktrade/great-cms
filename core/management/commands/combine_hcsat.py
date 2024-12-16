@@ -8,7 +8,6 @@ from learn.models import CsatUserFeedback as LearnHCSAT
 
 
 def serialize_hcsat(hcsat):
-
     serialize_hcsat = hcsat.__dict__
     del serialize_hcsat['id']
     del serialize_hcsat['_state']
@@ -20,7 +19,6 @@ class Command(BaseCommand):
     help = 'Used to combine data from hcsat implementations into one model'
 
     def handle(self, *args, **options):
-
         hcsat_models = [ExportAcademyHCSAT, WhereToExportHCSAT, ExportPlanHCSAT, LearnHCSAT, FindABuyerHCSAT]
 
         for model in hcsat_models:
