@@ -59,13 +59,16 @@ class SearchView(TemplateView):
                     'error_message': response.content,
                     'error_status_code': response.status_code,
                 }
-
+                sentry_sdk.capture_message(
+                    f"/search failed: status code {response.status_code}, response: {response}", "error"
+                )
             else:
                 results = helpers.parse_results(
                     response,
                     query,
                     page,
                 )
+                sentry_sdk.capture_message(f"/search successful: response: {response}")
 
         return {**context, **common, **results}
 
