@@ -22,9 +22,7 @@
                                 {% include 'international/includes/form_field.html' with field=rent_location_form.location %}
                             </div>
                             <div class="govuk-grid-column-three-quarters-from-desktop">
-                                <button type="submit"
-                                        class="govuk-button great-ds-button--secondary govuk-!-margin-top-3 govuk-!-margin-bottom-0"
-                                        id="rent-location-submit">Change</button>
+                                {% include "_button.html" with text='Change' id='rent-location-submit' classes='govuk-!-margin-top-5 govuk-!-margin-bottom-0 great-ds-button--inline' %}
                             </div>
                         </div>
                     </form>
