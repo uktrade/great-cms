@@ -171,7 +171,6 @@
                 }
 
                 async function suggest (query, populateResults) {
-                    console.log(`get company query is ${query}`)
                     let countryISO2 = getCountryISO2(country)
                     let queryParams = `searchTerm=${query}&countryISOAlpha2Code=${countryISO2}&candidateMaximumQuantity=25`;
                     // only make api call if we are going to show results
