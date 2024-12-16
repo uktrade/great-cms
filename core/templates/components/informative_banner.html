@@ -1,6 +1,7 @@
 <div class="container">
     <div class="informative-banner">
         <div>
+            {% if h4_banner_heading %}<h4 class="govuk-!-margin-bottom-3">{{ h4_banner_heading }}</h4>{% endif %}
             {% if banner_heading %}<h3 class="govuk-!-margin-bottom-3">{{ banner_heading }}</h3>{% endif %}
             {% if banner_label %}<span>{{ banner_label }}</span>{% endif %}
             {{ banner_content }}

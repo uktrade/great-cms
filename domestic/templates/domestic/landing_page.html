@@ -175,6 +175,11 @@
             {% include 'components/landing_hero_with_cta.html' with hero_image=page.hero_image heading=page.hero_text_signedin subtitle=page.hero_subtitle_signedin cta_text=page.hero_cta_text_signedin cta_link=page.hero_cta_url_signedin %}
         {% endif %}
     {% endif %}
+    {% if page.notification_title %}
+        <section class="report-trade-barrier padding-bottom-15 padding-top-30 great-bg-light-blue">
+            {% include 'components/informative_banner.html' with h4_banner_heading=page.notification_title banner_content=page.notification_body|richtext %}
+        </section>
+    {% endif %}
     {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
         {% include 'components/digital_entry_point_homepage_row.html' with data=page %}
     {% endif %}
