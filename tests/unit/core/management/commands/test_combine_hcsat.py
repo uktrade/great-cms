@@ -18,9 +18,7 @@ from tests.unit.learn.factories import HCSATFactory as LearnHCSATFactory
 
 @pytest.mark.django_db
 def test_combine_hcsat():
-
     for x in range(4):
-
         # Create 4 hcsats in each implementation
 
         FindABuyerHCSATFactory()

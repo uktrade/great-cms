@@ -24,6 +24,7 @@ class BaseSettings(PydanticBaseSettings):
 
     safelist_hosts: str = ''
 
+    wagtaildocs_serve_method: str = 'redirect'
     wagtail_cache: bool = False
     wagtail_cache_timout: int = 4 * 60 * 60  # 4 hours (in seconds)
 
@@ -377,7 +378,6 @@ class BaseSettings(PydanticBaseSettings):
 
 
 class CIEnvironment(BaseSettings):
-
     database_url: str
     redis_url: str
     opensearch: list = []

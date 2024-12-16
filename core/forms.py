@@ -108,7 +108,6 @@ class ConsentFieldMixin(forms.Form):
 
 
 class HCSATForm(ModelForm):
-
     satisfaction_rating = ChoiceField(
         label='Overall, how would you rate your experience with this service today?',
         choices=constants.SATISFACTION_CHOICES,

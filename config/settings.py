@@ -774,7 +774,7 @@ VALIDATOR_MAX_CASE_STUDY_IMAGE_SIZE_BYTES = env.validator_max_case_study_image_s
 VALIDATOR_MAX_CASE_STUDY_VIDEO_SIZE_BYTES = env.validator_max_case_study_video_size_bytes
 
 # CHANGE THIS IF WE START USING PRIVATE DOCUMENTS
-WAGTAILDOCS_SERVE_METHOD = 'direct'  # Don't proxy documents via the PaaS - they are public anyway.
+WAGTAILDOCS_SERVE_METHOD = env.wagtaildocs_serve_method  # Don't proxy documents via the PaaS - they are public anyway.
 # CHANGE THIS IF WE START USING PRIVATE DOCUMENTS
 
 # Wagtail customisations

@@ -63,7 +63,6 @@ def extract_trading_names(company_data):
 
 
 def extract_company_data(company_data):
-
     company = {
         'duns_number': company_data['organization']['duns'],
         'primary_name': company_data['organization']['primaryName'],

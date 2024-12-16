@@ -88,7 +88,6 @@ class PersonalDetails(forms.Form):
 
 
 class ExportExperience(forms.Form):
-
     export_experience = forms.ChoiceField(
         label=_('What is your export experience?'),
         choices=(

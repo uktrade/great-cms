@@ -40,7 +40,6 @@ class TestGetAccessToken:
 
     @freeze_time('2024-09-11 12:00:00')
     def test_success(self, redis_client, requests_mock):
-
         token_data = {
             ACCESS_TOKEN_KEY: 'an-access-token',
         }
@@ -87,7 +86,6 @@ class TestRenewToken:
 )
 @freeze_time('2024-09-11 12:00:00')
 def test_is_token_valid(redis_client, token, ttl, expected):
-
     if token:
         redis_client.set(ACCESS_TOKEN_KEY, token, ex=ttl)
 
@@ -110,7 +108,6 @@ def test_is_token_valid(redis_client, token, ttl, expected):
 )
 @freeze_time('2024-09-11 12:00:00')
 def test_renew_dnb_token_if_close_to_expiring(mock_renew_token, settings, redis_client, ttl, expected):
-
     redis_client.set(ACCESS_TOKEN_KEY, 'a-key', ex=ttl)
 
     settings.DNB_API_RENEW_ACCESS_TOKEN_SECONDS_REMAINING = 300
@@ -122,9 +119,7 @@ def test_renew_dnb_token_if_close_to_expiring(mock_renew_token, settings, redis_
 
 @freeze_time('2024-09-11 12:00:00')
 class TestGetDnbAccessToken:
-
     def test_success(self, requests_mock):
-
         fake_token = {
             'access_token': 'an-access-token',
             'expiresIn': 86400,

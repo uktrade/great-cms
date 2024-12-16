@@ -26,13 +26,11 @@ class InvestmentHomePageTests(WagtailPageTests):
 
 
 class InvestmentSectorsPageTests(WagtailPageTests):
-
     def test_allowed_children(self):
         self.assertAllowedSubpageTypes(InvestmentSectorsPage, {InvestmentArticlePage})
 
 
 class InvestmentRegionsPageTests(WagtailPageTests):
-
     def test_allowed_children(self):
         self.assertAllowedSubpageTypes(InvestmentRegionsPage, {InvestmentArticlePage})
 
