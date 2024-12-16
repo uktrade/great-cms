@@ -38,11 +38,9 @@ class Command(BaseCommand):
             return False, 0
 
     def handle(self, *args, **options):
-
         sites = Microsite.objects.filter(title='Great Campaign Sites', live=True)
 
         for site in sites:
-
             for page in site.get_children().specific().filter(live=True):
                 if page.first_published_at or page.review_reminder_sent:
                     review_needed, review_days = self.review_required(page)

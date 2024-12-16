@@ -9,7 +9,6 @@ class LessonPageContextProvider(AbstractPageContextProvider):
 
     @staticmethod
     def get_context_data(request, page):
-
         full_transcript = request.GET.get('fullTranscript')
         if full_transcript:
             bespoke_breadcrumbs = [

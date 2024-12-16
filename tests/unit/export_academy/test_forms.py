@@ -115,7 +115,6 @@ from export_academy.models import Event
 )
 @pytest.mark.django_db
 def test_registration_form_validation(form, form_empty, error_messages):
-
     # Checks is_valid returns true for the given form data
     assert form.is_valid()
 

@@ -387,7 +387,6 @@ def session_client_company_factory(client, settings):
 
 @pytest.fixture
 def session_intent_factory(client):
-
     def session_intent(intent):
         session = client.session
         session[intent] = intent

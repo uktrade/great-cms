@@ -1062,7 +1062,6 @@ class MarketsTopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
 
 
 class MarketsTopicLandingPageCanonicalTests(SetUpLocaleMixin, WagtailPageTests):
-
     def setUp(self):
         DomesticHomePageFactory(slug='root')
         self.homepage = DomesticHomePage.objects.get(url_path='/')
@@ -2125,7 +2124,6 @@ class TradeFinancePageTests(WagtailPageTests):
 
 
 class FindABuyerPageTests(SetUpLocaleMixin, WagtailPageTests):
-
     def test_can_create_find_a_buyer_homepage(self):
         fab = FindABuyerPageFactory()
         self.assertEqual(fab.title, 'Connect directly with international buyers')
