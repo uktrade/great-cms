@@ -103,7 +103,7 @@
                 </div>
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds govuk-!-margin-top-4 govuk-!-margin-bottom-4">
-                        {% include 'international/includes/submit_button.html' with button_text='Send message' %}
+                        {% include "_button.html" with text='Send message' %}
                     </div>
                 </div>
             </form>
@@ -116,7 +116,8 @@
                  class="great-bg-white clearfix govuk-!-margin-top-0 govuk-!-padding-bottom-6 great-inline-feedback__container">
             <div class="container">
                 <div class="great-container ">
-                    {% include 'core/includes/hcsat.html' with hcsat_form=hcsat_form hcsat_stage=hcsat_form_stage leading_text="To help us improve our service, we'd like to know more about your experience today. It will only take a minute to complete." %}
+                    {% include 'core/includes/hcsat.html' with hcsat_form=hcsat_form hcsat_stage=hcsat_form_stage leading_text="""To help us improve our service,
+                    we'd like to know more about your experience today. It will only take a minute to complete.""" %}
                 </div>
             </div>
         </section>
