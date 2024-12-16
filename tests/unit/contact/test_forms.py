@@ -1,5 +1,4 @@
 import pytest
-import requests
 import requests_mock
 
 from contact import constants, forms, views
@@ -15,7 +14,7 @@ def domestic_data(captcha_stub):
     return {
         'given_name': 'Test',
         'family_name': 'Example',
-        'email': 'test@example.com',
+        'email': 'test@example.com',  # /PS-IGNORE
         'company_type': 'LIMITED',
         'organisation_name': 'Example corp',
         'postcode': 'ABC123',
@@ -25,42 +24,10 @@ def domestic_data(captcha_stub):
     }
 
 
-def test_short_notify_form_serialize_data(domestic_data):
-    office_details = [
-        {
-            'is_match': True,
-            'name': 'Some Office',
-            'email': 'foo@example.com',
-        },
-    ]
-    form = forms.ShortNotifyForm(data=domestic_data)
-
-    assert form.is_valid()
-    with requests_mock.mock() as mock:
-        mock.get(
-            url_lookup_by_postcode.format(postcode='ABC123'),
-            json=office_details,
-        )
-        data = form.serialized_data
-
-    assert data == {
-        'given_name': 'Test',
-        'family_name': 'Example',
-        'email': 'test@example.com',
-        'company_type': 'LIMITED',
-        'company_type_other': '',
-        'organisation_name': 'Example corp',
-        'postcode': 'ABC123',
-        'comment': 'Help please',
-        'dit_regional_office_name': 'Some Office',
-        'dit_regional_office_email': 'foo@example.com',
-    }
-
-
 def test_short_zendesk_form_serialize_data(domestic_data):
     office_details = {
         'name': 'Some Office',
-        'email': 'foo@example.com',
+        'email': 'foo@example.com',  # /PS-IGNORE
     }
     form = forms.ShortZendeskForm(data=domestic_data)
 
@@ -75,7 +42,7 @@ def test_short_zendesk_form_serialize_data(domestic_data):
     assert data == {
         'given_name': 'Test',
         'family_name': 'Example',
-        'email': 'test@example.com',
+        'email': 'test@example.com',  # /PS-IGNORE
         'company_type': 'LIMITED',
         'company_type_other': '',
         'organisation_name': 'Example corp',
@@ -90,87 +57,9 @@ def test_short_zendesk_form_serialize_data(domestic_data):
     [
         (
             {
-                'comment': 'Test entry.',
-                'given_name': 'Test',
-                'family_name': 'Example',
-                'email': 'test@example.com',
-                'phone_number': '07000404200',
-                'company_type': 'LIMITED',
-                'company_type_other': '',
-                'organisation_name': 'Example corp',
-                'postcode': 'ABC123',
-                'terms_agreed': True,
-                'contact_consent': [],
-            },
-            True,
-        ),
-        (
-            {
-                'comment': 'Test entry.',
-                'given_name': 'Test',
-                'family_name': 'Example',
-                'email': 'test@example.com',
-                'phone_number': '',
-                'company_type': 'LIMITED',
-                'company_type_other': '',
-                'organisation_name': 'Example corp',
-                'postcode': 'ABC123',
-                'terms_agreed': True,
-                'contact_consent': [],
-            },
-            True,
-        ),
-        (
-            {
-                'comment': 'Test entry.',
-                'given_name': 'Test',
-                'family_name': 'Example',
-                'email': 'test@example.com',
-                'phone_number': 'abcdefghi',
-                'company_type': 'LIMITED',
-                'company_type_other': '',
-                'organisation_name': 'Example corp',
-                'postcode': 'ABC123',
-                'terms_agreed': True,
-                'contact_consent': [],
-            },
-            False,
-        ),
-        (
-            {
-                'comment': 'Test entry.',
-                'given_name': 'Test',
-                'family_name': 'Example',
-                'email': 'test@example.com',
-                'phone_number': '1234567891011121314151617181920',
-                'company_type': 'LIMITED',
-                'company_type_other': '',
-                'organisation_name': 'Example corp',
-                'postcode': 'ABC123',
-                'terms_agreed': True,
-                'contact_consent': [],
-            },
-            False,
-        ),
-    ],
-)
-def test_trade_office_contact_form(form_data, is_valid):
-    form = forms.TradeOfficeContactForm(data=form_data)
-    assert form.is_valid() == is_valid
-    if is_valid:
-        data = form.serialized_data
-        del form_data['terms_agreed']
-        assert form_data == data
-
-
-@pytest.mark.parametrize(
-    'form_data, is_valid',
-    [
-        (
-            {
-                'email': 'johndoe@mail.com',
-                'last_name': 'john',
-                'first_name': 'doe',
+                'email': 'johndoe@mail.com',  # /PS-IGNORE
+                'last_name': 'john',  # /PS-IGNORE
+                'first_name': 'doe',  # /PS-IGNORE
                 'terms_agreed': True,
                 'free_trade_agreements': ['FTA 1'],
                 'company_already_exports': 'I_EXPORT_ALREADY',
@@ -179,9 +68,9 @@ def test_trade_office_contact_form(form_data, is_valid):
         ),
         (
             {
-                'email': '',
-                'last_name': '',
-                'first_name': '',
+                'email': '',  # /PS-IGNORE
+                'last_name': '',  # /PS-IGNORE
+                'first_name': '',  # /PS-IGNORE
                 'terms_agreed': False,
                 'free_trade_agreements': [],
                 'company_already_exports': '',
@@ -209,54 +98,11 @@ def test_get_fta_choices(mock_free_trade_agreements):
     assert choices == expected_choices
 
 
-def test_domestic_contact_form_serialize_data_office_lookup_error(domestic_data):
-    form = forms.ShortNotifyForm(data=domestic_data)
-
-    assert form.is_valid()
-
-    with requests_mock.mock() as mock:
-        mock.get(
-            url_lookup_by_postcode.format(postcode='ABC123'),
-            exc=requests.exceptions.ConnectTimeout,
-        )
-        data = form.serialized_data
-
-    assert data['dit_regional_office_name'] == ''
-    assert data['dit_regional_office_email'] == ''
-
-
-def test_domestic_contact_form_serialize_data_office_lookup_not_found(domestic_data):
-    form = forms.ShortNotifyForm(data=domestic_data)
-
-    assert form.is_valid()
-
-    with requests_mock.mock() as mock:
-        mock.get(url_lookup_by_postcode.format(postcode='ABC123'), status_code=404)
-        data = form.serialized_data
-
-    assert data['dit_regional_office_name'] == ''
-    assert data['dit_regional_office_email'] == ''
-
-
-def test_domestic_contact_form_serialize_data_office_lookup_none_returned(domestic_data):
-    form = forms.ShortNotifyForm(data=domestic_data)
-
-    assert form.is_valid()
-
-    with requests_mock.mock() as mock:
-        mock.get(url_lookup_by_postcode.format(postcode='ABC123'), json=None)
-
-    data = form.serialized_data
-
-    assert data['dit_regional_office_name'] == ''
-    assert data['dit_regional_office_email'] == ''
-
-
 def test_feedback_form_serialize_data(captcha_stub):
     form = forms.FeedbackForm(
         data={
             'name': 'Test Example',
-            'email': 'test@example.com',
+            'email': 'test@example.com',  # /PS-IGNORE
             'comment': 'Help please',
             'g-recaptcha-response': captcha_stub,
             'terms_agreed': True,
@@ -266,7 +112,7 @@ def test_feedback_form_serialize_data(captcha_stub):
     assert form.is_valid()
     assert form.serialized_data == {
         'name': 'Test Example',
-        'email': 'test@example.com',
+        'email': 'test@example.com',  # /PS-IGNORE
         'comment': 'Help please',
     }
     assert form.full_name == 'Test Example'
@@ -302,7 +148,7 @@ def test_marketing_form_api_serialization(valid_request_export_support_form_data
     (
         (
             {
-                'email': 'test@test.com',
+                'email': 'test@test.com',  # /PS-IGNORE
                 'phone_number': '+447500192913',
                 'company_name': 'Limited',
                 'company_location': 'London',
@@ -313,7 +159,7 @@ def test_marketing_form_api_serialization(valid_request_export_support_form_data
                 'advertising_feedback': '4',
             },
             'first_name',
-            'Enter your first name',
+            'Enter your first name',  # /PS-IGNORE
         ),
         (
             {
@@ -328,12 +174,12 @@ def test_marketing_form_api_serialization(valid_request_export_support_form_data
                 'advertising_feedback': '4',
             },
             'email',
-            'Enter an email address in the correct format,' ' like name@example.com',
+            'Enter an email address in the correct format,' ' like name@example.com',  # /PS-IGNORE
         ),
         (
             {
                 'first_name': 'Test name',
-                'email': 'test@test.com',
+                'email': 'test@test.com',  # /PS-IGNORE
                 'phone_number': '++00192913',  # invalid field data
                 'company_name': 'Limited',
                 'company_location': 'London',
@@ -348,8 +194,8 @@ def test_marketing_form_api_serialization(valid_request_export_support_form_data
         ),
         (
             {
-                'first_name': 'Test name',
-                'email': 'test@test.com',
+                'first_name': 'Test name',  # /PS-IGNORE
+                'email': 'test@test.com',  # /PS-IGNORE
                 'company_name': 'Limited',
                 'company_location': 'London',
                 'sector': '3',
@@ -395,22 +241,22 @@ def test_postcode_validation(valid_request_export_support_form_data):
     assert form.is_valid()
 
     # validate a phone number without spaces
-    valid_request_export_support_form_data['company_postcode'] = 'W1A1AA'
+    valid_request_export_support_form_data['company_postcode'] = 'W1A1AA'  # /PS-IGNORE
     form = forms.ExportSupportForm(data=valid_request_export_support_form_data)
     assert form.is_valid()
 
     # # validate a postcode with spaces
-    valid_request_export_support_form_data['company_postcode'] = 'W1A 1AA'
+    valid_request_export_support_form_data['company_postcode'] = 'W1A 1AA'  # /PS-IGNORE
     form = forms.ExportSupportForm(data=valid_request_export_support_form_data)
     assert form.is_valid()
 
     # # validate a postcode with mixed case
-    valid_request_export_support_form_data['company_postcode'] = 'w1a 1Aa'
+    valid_request_export_support_form_data['company_postcode'] = 'w1a 1Aa'  # /PS-IGNORE
     form = forms.ExportSupportForm(data=valid_request_export_support_form_data)
     assert form.is_valid()
 
     # # check invalid postcode format fails
-    valid_request_export_support_form_data['company_postcode'] = 'W1A W1A'
+    valid_request_export_support_form_data['company_postcode'] = 'W1A W1A'  # /PS-IGNORE
     form = forms.ExportSupportForm(data=valid_request_export_support_form_data)
     assert form.is_valid() is False
 
@@ -512,7 +358,7 @@ def test_feedback_form_full_name(captcha_stub):
     form_instance = forms.FeedbackForm(
         data={
             'name': 'Alice McTest',
-            'email': 'Alice.McTest@example.com',
+            'email': 'Alice.McTest@example.com',  # /PS-IGNORE
             'comment': 'I am Alice McTest and I am using your website',
             'g-recaptcha-response': captcha_stub,
             'terms_agreed': True,
@@ -531,7 +377,7 @@ def test_feedback_form_full_name(captcha_stub):
                 'business_type': 'limitedcompany',
                 'business_name': 'Test business ltd',
                 'company_registration_number': '01234567',
-                'business_postcode': 'SW1A 1AA',
+                'business_postcode': 'SW1A 1AA',  # /PS-IGNORE
             },
             True,
             {},
@@ -644,11 +490,11 @@ def test_feedback_form_full_name(captcha_stub):
         (
             forms.DomesticExportSupportStep3Form,
             {
-                'first_name': 'Test',
-                'last_name': 'Name',
+                'first_name': 'Test',  # /PS-IGNORE
+                'last_name': 'Name',  # /PS-IGNORE
                 'job_title': 'Test job title',
                 'uk_telephone_number': '07171771717',
-                'email': 'name@example.com',
+                'email': 'name@example.com',  # /PS-IGNORE
             },
             True,
             {},
@@ -656,19 +502,19 @@ def test_feedback_form_full_name(captcha_stub):
         (
             forms.DomesticExportSupportStep3Form,
             {
-                'first_name': '',
-                'last_name': '',
+                'first_name': '',  # /PS-IGNORE
+                'last_name': '',  # /PS-IGNORE
                 'job_title': '',
                 'uk_telephone_number': '',
-                'email': '',
+                'email': '',  # /PS-IGNORE
             },
             False,
             {
-                'first_name': 'Enter your first name',
-                'last_name': 'Enter your last name',
+                'first_name': 'Enter your first name',  # /PS-IGNORE
+                'last_name': 'Enter your last name',  # /PS-IGNORE
                 'job_title': 'Enter your job title',
                 'uk_telephone_number': 'Enter your telephone number',
-                'email': 'Enter an email address in the correct format, like name@example.com',
+                'email': 'Enter an email address in the correct format, like name@example.com',  # /PS-IGNORE
             },
         ),
         (

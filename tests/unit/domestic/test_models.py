@@ -865,14 +865,17 @@ class TopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
         article_list_one = ArticleListingPage(
             title='list one',
             landing_page_title='List One',
+            hero_teaser='list one',
         )
         article_list_two = ArticleListingPage(
             title='list two',
             landing_page_title='List Two',
+            hero_teaser='list two',
         )
         article_list_three = ArticleListingPage(
             title='list three',
             landing_page_title='List Three',
+            hero_teaser='list three',
         )
 
         # note deliberate out-of-sequence ordering here
@@ -1361,6 +1364,7 @@ class ArticleListingPageTests(SetUpLocaleMixin, WagtailPageTests):
         listing_page = ArticleListingPageFactory(
             title='Test listing page',
             landing_page_title='Test Listing Page',
+            hero_teaser='list one',
         )
         for i in range(5):
             _title = f'Article {i}'
@@ -1397,6 +1401,7 @@ class ArticleListingPageTests(SetUpLocaleMixin, WagtailPageTests):
         listing_page = ArticleListingPageFactory(
             title='Test listing page',
             landing_page_title='Test Listing Page',
+            hero_teaser='list one',
         )
         for i in range(5):
             _title = f'Article {i}'

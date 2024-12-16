@@ -2,6 +2,7 @@ from django.conf import settings
 from django.urls import path, reverse_lazy
 from great_components.decorators import skip_ga360
 
+from contact.views import DomesticExportSupportFormStep10View  # /PS-IGNORE
 from contact.views import (
     DefenceAndSecurityOrganisationFormView,
     DomesticEnquiriesFormView,
@@ -16,7 +17,6 @@ from contact.views import (
     DomesticExportSupportFormStep7View,
     DomesticExportSupportFormStep8View,
     DomesticExportSupportFormStep9View,
-    DomesticExportSupportFormStep10View,
     DomesticFormView,
     DomesticSuccessView,
     EcommerceSupportFormPageView,
@@ -29,9 +29,6 @@ from contact.views import (
     InlineFeedbackView,
     InternationalFormView,
     InternationalSuccessView,
-    OfficeContactFormView,
-    OfficeFinderFormView,
-    OfficeSuccessView,
     RoutingFormView,
 )
 from core import snippet_slugs
@@ -107,21 +104,6 @@ urlpatterns = [
         'campaigns/ecommerce-export-support/success/',
         skip_ga360(ExportSupportSuccessPageView.as_view()),
         name='ecommerce-export-support-success',
-    ),
-    path('contact/office-finder/', skip_ga360(OfficeFinderFormView.as_view()), name='office-finder'),
-    path(
-        'contact/office-finder/<str:postcode>/',
-        skip_ga360(OfficeContactFormView.as_view()),
-        name='office-finder-contact',
-    ),
-    path(
-        'contact/office-finder/<str:postcode>/success/',
-        skip_ga360(OfficeSuccessView.as_view()),
-        {
-            'slug': snippet_slugs.HELP_FORM_SUCCESS,
-            'snippet_import_path': 'contact.models.ContactSuccessSnippet',  # see core.mixins.GetSnippetContentMixin
-        },
-        name='contact-us-office-success',
     ),
     path(
         'contact/events/',
@@ -336,7 +318,7 @@ if settings.FEATURE_DIGITAL_POINT_OF_ENTRY:
         ),
         path(
             'contact/domestic/export-support/feedback-submitted/',
-            skip_ga360(DomesticExportSupportFormStep10View.as_view()),
+            skip_ga360(DomesticExportSupportFormStep10View.as_view()),  # /PS-IGNORE
             name='export-support-step-10',
         ),
     ]

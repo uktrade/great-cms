@@ -10,23 +10,6 @@
         <li>longer to reply to your enquiry</li>
         <li>more information to answer your enquiry</li>
     </ul>
-    {% if show_regional_office and office_details %}
-        <h3 class="govuk-heading-s">Can't wait?</h3>
-        <p class="govuk-body">You can contact your regional DBT office shown below to follow up your enquiry.</p>
-        <address>
-            {% for office in office_details %}
-                {{ office.name }}
-                <br />
-                {{ office.address_street }}
-                <br />
-                {{ office.address_city }}
-                <br />
-                {{ office.address_postcode }}
-                <br />
-                <a href="tel:{{ office.phone }}" class="govuk-link">{{ office.phone }}</a>
-            {% endfor %}
-        </address>
-    {% endif %}
     <hr class="great-hr-blue great-hr-blue--thin" />
     {% for field in form.visible_fields %}
         <div class="govuk-form-group govuk-!-margin-bottom-8 {% if field.errors %}govuk-form-group--error{% endif %}">

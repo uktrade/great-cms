@@ -45,7 +45,6 @@ def test_sitemap_includes_expected_django_pages(
         '/contact/domestic/',
         '/contact/domestic/enquiries/',
         '/contact/international/',
-        '/contact/office-finder/',
         '/robots.txt',
     ]
 
@@ -136,16 +135,19 @@ def test_sitemap_excludes_wagtail_pages_that_require_auth(  # noqa: C901
         title='list one',
         landing_page_title='List One',
         slug='article-list-1',
+        hero_teaser='list one',
     )
     article_list_two = domestic_factories.ArticleListingPage(
         title='list two',
         landing_page_title='List Two',
         slug='article-list-2',
+        hero_teaser='list two',
     )
     article_list_three = domestic_factories.ArticleListingPage(
         title='list three',
         landing_page_title='List Three',
         slug='article-list-3',
+        hero_teaser='list two',
     )
 
     # note deliberate out-of-sequence ordering here

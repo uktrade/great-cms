@@ -1,3 +1,4 @@
+{% load convert_anchor_identifiers_to_span from content_tags %}
 {% for block in streamfield_content %}
     {% if block.block_type == 'form' %}
         {% if form %}
@@ -21,7 +22,9 @@
             </div>
         {% endif %}
     {% else %}
-        <div class="block-text">{{ block }}</div>
+        <div class="block-text">
+            {{ block | convert_anchor_identifiers_to_span }}
+        </div>
     {% endif %}
 {% endfor %}
 {% block body_js %}

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db.models import Exists, OuterRef, Q
 from django.utils import timezone
 from django_filters import FilterSet, filters
@@ -75,7 +77,17 @@ class EventFilter(FilterSet):
     sector = filters.ModelMultipleChoiceFilter(
         label='Sector',
         field_name='sector_tags__slug',
-        queryset=SectorTag.objects.filter(Exists(models.SectorTaggedEvent.objects.filter(tag_id=OuterRef('id')))),
+        queryset=SectorTag.objects.filter(
+            Exists(
+                models.SectorTaggedEvent.objects.filter(tag_id=OuterRef('id')).filter(
+                    Exists(
+                        models.Event.objects.filter(id=OuterRef('content_object_id')).filter(
+                            start_date__gte=datetime.now()
+                        )
+                    )
+                )
+            )
+        ),
         to_field_name='slug',
         widget=forms.CheckboxSelectInlineLabelMultiple,
     )
@@ -83,7 +95,17 @@ class EventFilter(FilterSet):
     market = filters.ModelMultipleChoiceFilter(
         label='Market',
         field_name='country_tags__slug',
-        queryset=CountryTag.objects.filter(Exists(models.CountryTaggedEvent.objects.filter(tag_id=OuterRef('id')))),
+        queryset=CountryTag.objects.filter(
+            Exists(
+                models.CountryTaggedEvent.objects.filter(tag_id=OuterRef('id')).filter(
+                    Exists(
+                        models.Event.objects.filter(id=OuterRef('content_object_id')).filter(
+                            start_date__gte=datetime.now()
+                        )
+                    )
+                )
+            )
+        ),
         to_field_name='slug',
         widget=forms.CheckboxSelectInlineLabelMultiple,
     )
@@ -92,7 +114,15 @@ class EventFilter(FilterSet):
         label='Region',
         field_name='region_tags__slug',
         queryset=PersonalisationRegionTag.objects.filter(
-            Exists(models.RegionTaggedEvent.objects.filter(tag_id=OuterRef('id')))
+            Exists(
+                models.RegionTaggedEvent.objects.filter(tag_id=OuterRef('id')).filter(
+                    Exists(
+                        models.Event.objects.filter(id=OuterRef('content_object_id')).filter(
+                            start_date__gte=datetime.now()
+                        )
+                    )
+                )
+            )
         ),
         to_field_name='slug',
         widget=forms.CheckboxSelectInlineLabelMultiple,
@@ -102,7 +132,15 @@ class EventFilter(FilterSet):
         label='Trading Bloc',
         field_name='trading_bloc_tags__slug',
         queryset=PersonalisationTradingBlocTag.objects.filter(
-            Exists(models.TradingBlocTaggedEvent.objects.filter(tag_id=OuterRef('id')))
+            Exists(
+                models.TradingBlocTaggedEvent.objects.filter(tag_id=OuterRef('id')).filter(
+                    Exists(
+                        models.Event.objects.filter(id=OuterRef('content_object_id')).filter(
+                            start_date__gte=datetime.now()
+                        )
+                    )
+                )
+            )
         ),
         to_field_name='slug',
         widget=forms.CheckboxSelectInlineLabelMultiple,
