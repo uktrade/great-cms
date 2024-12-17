@@ -41,7 +41,13 @@ class BusinessHeadquartersForm(forms.Form):
         label=False,
         help_text='Enter your country, region or territory and select from results',
         required=False,
-        widget=Select(attrs={'id': 'js-company-location-select', 'class': 'govuk-input'}),
+        widget=Select(
+            attrs={
+                'id': 'js-company-location-select',
+                'class': 'govuk-input',
+                'aria-controls': 'js-company-location-select__listbox',
+            }
+        ),
         choices=(('', ''),),
     )
 
