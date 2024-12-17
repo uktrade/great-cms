@@ -10,26 +10,16 @@
 {% block content %}
     <div class="great-container">
         {% if request.GET.signup %}
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-                    <div class="govuk-notification-banner govuk-notification-banner--success"
-                         role="alert"
-                         aria-labelledby="govuk-notification-banner-title"
-                         data-module="govuk-notification-banner">
-                        <div class="govuk-notification-banner__header">
-                            <h2 class="govuk-notification-banner__title"
-                                id="govuk-notification-banner-title">Success</h2>
-                        </div>
-                        <div class="govuk-notification-banner__content">
-                            <h3 class="govuk-notification-banner__heading">Here's your guide to expanding your business in the UK</h3>
-                            <p class="govuk-body">
-                                We've created your guide from everything you've told us about your business in our <strong>{{ triage_data.sector|get_sector_display }}</strong> sector. If anything changes, you can <a class="govuk-notification-banner__link"
-    href="{% url 'international_online_offer:change-your-answers' %}">update your details</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                {% with notification_content=triage_data.sector|get_sector_display %}
+                    {% url 'international_online_offer:change-your-answers' as change_url %}
+                    {% with banner_html='<h3 class="govuk-notification-banner__heading">Here\'s your guide to expanding your business in the UK</h3><p class="govuk-body">We\'ve created your guide from everything you\'ve told us about your business in our <strong>'|add:notification_content|add:'</strong> sector. If anything changes, you can <a class="govuk-notification-banner__link" href="'|add:change_url|add:'">update your details</a></p>' %}
+                        {% include '_notification-banner.html' with type='success' titleText='Success' html=banner_html %}
+                    {% endwith %}
+                {% endwith %}
             </div>
+        </div>
         {% endif %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
