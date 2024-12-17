@@ -45,7 +45,6 @@ class BusinessHeadquartersForm(forms.Form):
             attrs={
                 'id': 'js-company-location-select',
                 'class': 'govuk-input',
-                'aria-controls': 'js-company-location-select__listbox',
             }
         ),
         choices=(('', ''),),
