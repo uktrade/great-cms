@@ -31,6 +31,7 @@ def env_vars(request):
     data['world_bank_url'] = settings.WORLD_BANK_URL
     data['data_world_bank_url'] = settings.DATA_WORLD_BANK_URL
     data['united_nations_url'] = settings.UNITED_NATIONS_URL
+    data['base_url'] = settings.BASE_URL
     return data
 
 
