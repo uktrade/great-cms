@@ -109,7 +109,7 @@
     {{ country|json_script:'country' }}
     {{ display_country|json_script:'display_country' }}
     <script type="text/javascript"
-            src="{% static 'javascript/accessible-autocomplete.min.js' %}"></script>
+            src="{% static 'javascript/accessible-autocomplete.v3.01.min.js' %}"></script>
     <script src="{% static 'javascript/vendor/lodash.debounce.js' %}"></script>
     <script type="text/javascript">
                 const typeaheadURL = JSON.parse(document.getElementById('typeahead-url').textContent);
