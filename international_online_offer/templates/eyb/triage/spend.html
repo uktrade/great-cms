@@ -61,5 +61,19 @@
         function refreshSelectedCurrency() {
             document.getElementById('spendCurrencyForm').submit();
         }
+        function checkAndFocusCurrency() {
+            // Check if the hash in the URL is "#location-component"
+            if (window.location.hash === "#spend-container") {
+                const currencyElement = document.getElementById('id_spend_currency');
+                if (currencyElement) {
+                    // set focus on the element
+                    currencyElement.focus();
+                }
+            }
+        }
+
+        setTimeout(() => {
+            checkAndFocusCurrency()
+        }, 300)
     </script>
 {% endblock %}

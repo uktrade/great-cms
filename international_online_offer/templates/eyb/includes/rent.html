@@ -211,4 +211,19 @@
     function refreshSelectedLocation() {
         document.getElementById('rent-location-form').submit();
     }
+
+    function checkAndFocusLocation() {
+        // Check if the hash in the URL is "#location-component"
+        if (window.location.hash === "#location-component") {
+            const locationElement = document.getElementById('id_location');
+            if (locationElement) {
+                // set focus on the element
+                locationElement.focus();
+            }
+        }
+    }
+
+    setTimeout(() => {
+        checkAndFocusLocation()
+    }, 300)
 </script>
