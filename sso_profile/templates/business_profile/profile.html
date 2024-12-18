@@ -18,7 +18,7 @@
                     {% if company.is_published %}
                         {% if company.is_published_find_a_supplier %}
                             <div>
-                                <a href="{{ services_urls.fas }}suppliers/{{ company.number }}/">View Find a Supplier profile</a>
+                                <a href="{{ base_url }}/international/buy-from-the-uk/find-a-supplier/supplier/{{ company.number }}/">View Find a Supplier profile</a>
                             </div>
                         {% endif %}
                         {% if company.is_published_investment_support_directory %}

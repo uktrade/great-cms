@@ -2,6 +2,7 @@ import datetime
 import logging
 import urllib
 
+import sentry_sdk
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
@@ -59,14 +60,15 @@ class SearchView(TemplateView):
                     'error_message': response.content,
                     'error_status_code': response.status_code,
                 }
-
+                sentry_sdk.capture_message(
+                    f'/search failed: status code {response.status_code}, message: {response.content}', 'error'
+                )
             else:
                 results = helpers.parse_results(
                     response,
                     query,
                     page,
                 )
-
         return {**context, **common, **results}
 
 
