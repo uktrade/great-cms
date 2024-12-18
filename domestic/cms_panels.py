@@ -44,6 +44,14 @@ class GreatDomesticHomePagePanels:
             ],
         ),
         MultiFieldPanel(
+            heading='Notification banner',
+            classname='collapsible',
+            children=[
+                FieldPanel('notification_title'),
+                FieldPanel('notification_body'),
+            ],
+        ),
+        MultiFieldPanel(
             heading='Digital Entry Point CTA',
             classname='collapsible',
             children=[

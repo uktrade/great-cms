@@ -17,10 +17,7 @@
             {% if value.video.title %}<h4 class="govuk-!-margin-top-4">{{ value.video.title }}</h4>{% endif %}
             {% if value.video.description %}<p>{{ value.video.description }}</p>{% endif %}
             {% if value.video.transcript %}
-                {% include '_details.html' with
-                summaryText="View video transcript"
-                detailsHtml=value.video.transcript
-                classes="govuk-!-margin-bottom-5" %}
+                {% include '_details.html' with summaryText="View video transcript" detailsHtml=value.video.transcript classes="govuk-!-margin-bottom-5" %}
             {% endif %}
         {% endif %}
     </div>
