@@ -374,6 +374,8 @@ class BaseSettings(PydanticBaseSettings):
 
     is_docker: bool = False
 
+    feature_great_migration_banner: bool = False
+
 
 class CIEnvironment(BaseSettings):
     database_url: str
