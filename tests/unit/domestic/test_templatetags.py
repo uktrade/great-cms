@@ -8,6 +8,7 @@ from django.template import Context, Template
 from django.test import override_settings
 from django.utils import timezone
 
+from core.templatetags.content_tags import convert_anchor_identifier_a_to_span
 from domestic.templatetags.component_tags import (
     append_past_year_seperator,
     get_market_widget_data,
@@ -19,7 +20,6 @@ from domestic.templatetags.component_tags import (
     persist_language,
     replace_underscores,
 )
-from core.templatetags.content_tags import convert_anchor_identifier_a_to_span
 from tests.unit.export_academy.factories import EventFactory
 
 

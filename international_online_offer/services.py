@@ -96,7 +96,6 @@ def get_bci_data(dbt_sector_name: str, area: str) -> Tuple[Dict, Dict, Dict, int
 
 
 def get_salary_data(vertical: str, professional_level: str = None, geo_region: str = None):
-
     response = api_client.dataservices.get_eyb_salary_data(vertical, professional_level, geo_region)
 
     return response.json()
@@ -130,7 +129,6 @@ def get_median_salaries(vertical: str, professional_level: str = None, geo_regio
 
 
 def get_rent_data(geo_region: str, vertical: str = None, sub_vertical: str = None) -> Tuple:
-
     response = api_client.dataservices.get_eyb_commercial_rent_data(geo_region, vertical, sub_vertical)
 
     rent_data = response.json()

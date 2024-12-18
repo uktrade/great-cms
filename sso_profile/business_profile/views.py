@@ -24,7 +24,6 @@ MEDIA = 'images'
 
 
 class BespokeBreadcrumbMixin(TemplateView):
-
     def get_context_data(self, **kwargs):
         bespoke_breadcrumbs = [
             {'title': 'About', 'url': reverse('sso_profile:about')},
@@ -51,7 +50,6 @@ class DisconnectFromCompanyMixin:
 
 
 class MemberSendAdminRequestMixin:
-
     success_url = reverse_lazy('sso_profile:business-profile')
 
     def form_valid(self, form):
@@ -96,7 +94,6 @@ class MemberSendAdminRequestMixin:
 
 
 class BusinessProfileView(MemberSendAdminRequestMixin, SuccessMessageMixin, HCSATMixin, FormView):
-
     template_name_fab_user = 'business_profile/profile.html'
     template_name_not_fab_user = 'business_profile/is-not-business-profile-user.html'
     template_business_profile_member = 'business_profile/business-profile-member.html'

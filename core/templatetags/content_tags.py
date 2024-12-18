@@ -619,7 +619,6 @@ def get_meta_tag_icon_path(type):
 
 @register.simple_tag()
 def change_country_name_to_include_the(country_name):
-
     countries_starting_with_the = [
         'bahamas',
         'cayman islands',
@@ -654,7 +653,6 @@ def change_country_name_to_include_the(country_name):
 
 @register.filter
 def guided_journey_mode(page_url):
-
     res = page_url.split('?')
 
     if len(res) == 2:

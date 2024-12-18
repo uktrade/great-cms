@@ -24,6 +24,7 @@ class BaseSettings(PydanticBaseSettings):
 
     safelist_hosts: str = ''
 
+    wagtaildocs_serve_method: str = 'redirect'
     wagtail_cache: bool = False
     wagtail_cache_timout: int = 4 * 60 * 60  # 4 hours (in seconds)
 
@@ -298,6 +299,7 @@ class BaseSettings(PydanticBaseSettings):
     feature_great_cms_openapi_enabled: bool = False
     feature_guided_journey_extras: bool = False
     feature_guided_journey_enhanced_search: bool = False
+    feature_activity_stream: bool = False
 
     ax_compare_places_allowed: int = 10
 
@@ -368,16 +370,12 @@ class BaseSettings(PydanticBaseSettings):
 
     csp_upgrade_insecure_requests: bool = True
 
-    opensearch_adminsearch_provider: str = ''
-    opensearch_adminsearch_url: str = 'localhost:9200'
-
     headless: bool = True
 
     is_docker: bool = False
 
 
 class CIEnvironment(BaseSettings):
-
     database_url: str
     redis_url: str
     opensearch: list = []

@@ -7,7 +7,6 @@ from international_online_offer.core import professions, regions
 
 @mock.patch('international_online_offer.services.get_bci_data_by_dbt_sector')
 def test_get_bci_data(client):
-
     gb_bci_data = services.get_bci_data('Automotive', regions.GB_GEO_CODE)
     # a 5 element tuple should be returned
     assert len(gb_bci_data) == 5

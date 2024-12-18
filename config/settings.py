@@ -493,7 +493,11 @@ if USER_MEDIA_ON_S3 and (AWS_STORAGE_BUCKET_NAME or AWS_S3_CUSTOM_DOMAIN):
 
 # PDF statics need to be stored on public s3 drive for access
 if AWS_STORAGE_BUCKET_NAME:
-    PDF_STATIC_URL = f'{AWS_S3_URL_PROTOCOL}//{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_HOST}/export_plan_pdf_statics/'
+    if is_copilot():
+        PDF_STATIC_URL = f'{AWS_S3_URL_PROTOCOL}//{AWS_STORAGE_BUCKET_NAME}/export_plan_pdf_statics/'
+    else:
+        PDF_STATIC_URL = f'{AWS_S3_URL_PROTOCOL}//{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_HOST}/export_plan_pdf_statics/'
+
 
 if DEBUG:
     INSTALLED_APPS += ['debug_toolbar']
@@ -774,7 +778,7 @@ VALIDATOR_MAX_CASE_STUDY_IMAGE_SIZE_BYTES = env.validator_max_case_study_image_s
 VALIDATOR_MAX_CASE_STUDY_VIDEO_SIZE_BYTES = env.validator_max_case_study_video_size_bytes
 
 # CHANGE THIS IF WE START USING PRIVATE DOCUMENTS
-WAGTAILDOCS_SERVE_METHOD = 'direct'  # Don't proxy documents via the PaaS - they are public anyway.
+WAGTAILDOCS_SERVE_METHOD = env.wagtaildocs_serve_method  # Don't proxy documents via the PaaS - they are public anyway.
 # CHANGE THIS IF WE START USING PRIVATE DOCUMENTS
 
 # Wagtail customisations
@@ -875,6 +879,7 @@ FEATURE_GUIDED_JOURNEY = env.feature_guided_journey
 FEATURE_UNGUIDED_JOURNEY = env.feature_unguided_journey
 FEATURE_OPENSEARCH = env.feature_opensearch
 FEATURE_SEARCH_PREVIEW = env.feature_search_preview
+FEATURE_ACTIVITY_STREAM = env.feature_activity_stream
 FEATURE_GUIDED_JOURNEY_EXTRAS = env.feature_guided_journey_extras
 FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH = env.feature_guided_journey_enhanced_search
 

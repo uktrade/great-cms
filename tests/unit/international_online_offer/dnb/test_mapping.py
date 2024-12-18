@@ -117,7 +117,6 @@ def test_extract_trading_names(input_data, expected):
 
 
 def test_company_list_ingest(dnb_company_list_data):
-
     extracted_data = extract_company_data(dnb_company_list_data['searchCandidates'][0])
 
     assert extracted_data == {

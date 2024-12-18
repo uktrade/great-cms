@@ -22,7 +22,6 @@ from international_online_offer.services import get_dbt_sectors
 
 
 class CheckboxSelectMultipleIgnoreEmpty(forms.CheckboxSelectInlineLabelMultiple):
-
     def value_from_datadict(self, data, files, name):
         values = super().value_from_datadict(data, files, name)
         if values:
