@@ -31,6 +31,7 @@ def env_vars(request):
     data['world_bank_url'] = settings.WORLD_BANK_URL
     data['data_world_bank_url'] = settings.DATA_WORLD_BANK_URL
     data['united_nations_url'] = settings.UNITED_NATIONS_URL
+    data['base_url'] = settings.BASE_URL
     return data
 
 
@@ -110,6 +111,7 @@ def feature_flags(request):
     retval['features']['FEATURE_UNGUIDED_JOURNEY'] = settings.FEATURE_UNGUIDED_JOURNEY
 
     retval['features']['FEATURE_OPENSEARCH'] = settings.FEATURE_OPENSEARCH
+    retval['features']['FEATURE_GREAT_MIGRATION_BANNER'] = settings.FEATURE_GREAT_MIGRATION_BANNER
 
     return retval
 

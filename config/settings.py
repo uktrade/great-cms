@@ -879,6 +879,7 @@ FEATURE_GUIDED_JOURNEY = env.feature_guided_journey
 FEATURE_UNGUIDED_JOURNEY = env.feature_unguided_journey
 FEATURE_OPENSEARCH = env.feature_opensearch
 FEATURE_SEARCH_PREVIEW = env.feature_search_preview
+FEATURE_ACTIVITY_STREAM = env.feature_activity_stream
 FEATURE_GUIDED_JOURNEY_EXTRAS = env.feature_guided_journey_extras
 FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH = env.feature_guided_journey_enhanced_search
 
@@ -1059,3 +1060,5 @@ COUNTRIES_ISO_CODE_UPDATE_HOUR = env.countries_iso_code_update_hour
 COUNTRIES_ISO_CODE_UPDATE_MINUTE = env.countries_iso_code_update_minute
 
 COUNTRIES_ISO_CODE_UPDATE_API = 'https://restcountries.com/v3.1/all?fields=name,cca2'
+
+FEATURE_GREAT_MIGRATION_BANNER = env.feature_great_migration_banner
