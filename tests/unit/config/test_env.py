@@ -155,7 +155,7 @@ def test_dbt_platform_environment(database_credentials, environment):
     os.environ['APP_ENVIRONMENT'] = 'local'
     os.environ['COPILOT_ENVIRONMENT_NAME'] = 'test'
     os.environ['DATABASE_CREDENTIALS'] = database_credentials
-    os.environ['CELERY_BROKER_URL'] = 'rediss://examplepassword@example.com:6379'  # /PS-IGNORE
+    os.environ['REDIS_ENDPOINT'] = 'rediss://examplepassword@example.com:6379'  # /PS-IGNORE
 
     reload(environment_reader)
 
@@ -169,7 +169,7 @@ def test_dbt_platform_environment(database_credentials, environment):
 
 def test_ci_environment():
     os.environ['DATABASE_URL'] = 'postgres://exampleuser:examplepassword@example.com:5432/exampledb'  # /PS-IGNORE
-    os.environ['REDIS_ENDPOINT'] = 'rediss://examplepassword@example.com:6379'  # /PS-IGNORE
+    os.environ['REDIS_URL'] = 'rediss://examplepassword@example.com:6379'  # /PS-IGNORE
 
     reload(environment_reader)
 
