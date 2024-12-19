@@ -189,6 +189,18 @@ GreatFrontend.MakeOrDoSearchEnhanced = {
           sector_hidden_input &&
           sector_hidden_input.value == ''
 
+        const is_sic_results_available = () => {
+          const results = document.querySelectorAll(
+            '#sic_description__listbox li:not(.autocomplete__option--no-results)'
+          )
+
+          if (results && results.length >= 1) {
+            return true
+          }
+
+          return false
+        }
+
         if (is_a_result_selected) {
           form.submit()
         } else {
@@ -203,7 +215,11 @@ GreatFrontend.MakeOrDoSearchEnhanced = {
           }
 
           if (is_sic_description_unrecognised) {
-            error_message.innerHTML = "Sorry, we don't understand that"
+            if (is_sic_results_available()) {
+              error_message.innerHTML = 'Results are available'
+            } else {
+              error_message.innerHTML = "Sorry, we don't understand that"
+            }
           }
         }
       })
