@@ -25,7 +25,7 @@ asn1crypto==1.5.1
     #   pyhanko-certvalidator
 async-timeout==5.0.1
     # via redis
-attrs==24.2.0
+attrs==24.3.0
     # via jsonschema
 babel==2.12.1
     # via
@@ -193,7 +193,7 @@ django-ipware==6.0.3
     # via -r requirements.in
 django-log-formatter-asim==0.0.4
     # via -r requirements.in
-django-modelcluster==6.3
+django-modelcluster==6.4
     # via wagtail
 django-permissionedforms==0.1
     # via wagtail
@@ -464,7 +464,6 @@ pytz==2023.3
     # via
     #   dateparser
     #   directory-validators
-    #   django-modelcluster
     #   icalendar
     #   l18n
     #   pandas
@@ -542,7 +541,7 @@ sphinxcontrib-serializinghtml==2.0.0
     # via sphinx
 sqlalchemy==1.4.49
     # via -r requirements.in
-sqlparse==0.5.2
+sqlparse==0.5.3
     # via django
 svglib==1.5.1
     # via xhtml2pdf
