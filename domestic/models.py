@@ -315,6 +315,13 @@ class GreatDomesticHomePage(
     hero_cta_url_signedin = models.CharField(null=True, blank=True, max_length=255)
     # EU exit chevrons StreamField WAS here in V1 - no longer the case
 
+    notification_title = models.TextField(null=True, blank=True)
+    notification_body = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
+    )
+
     dep_title = models.TextField(null=True, blank=True)
     dep_sub_title = models.TextField(null=True, blank=True)
     dep_primary_cta_title = models.TextField(null=True, blank=True)
