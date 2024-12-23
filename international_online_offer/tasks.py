@@ -1,5 +1,3 @@
-from django.core.management import call_command
-
 from config.celery import app
 from international_online_offer.core import scorecard
 from international_online_offer.models import TriageData
@@ -37,8 +35,3 @@ def rescore_eyb_users():
             if is_high_value != user_triage_data.is_high_value:
                 user_triage_data.is_high_value = is_high_value
                 user_triage_data.save()
-
-
-@app.task
-def check_trade_association_links():
-    call_command('check_trade_association_links')

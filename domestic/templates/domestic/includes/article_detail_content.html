@@ -45,7 +45,10 @@
                         </video>
                     </div>
                     {% if page.article_video_transcript %}
-                        {% include '_details.html' with summaryText="View video transcript" detailsHtml=page.article_video_transcript classes="margin-bottom-0 rich-text" %}
+                        {% include '_details.html' with
+                        summaryText="View video transcript"
+                        detailsHtml=page.article_video_transcript
+                        classes="margin-bottom-0 rich-text" %}
                     {% endif %}
                 {% endif %}
                 {% if page.article_image and not page.article_video %}

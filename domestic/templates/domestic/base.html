@@ -73,9 +73,7 @@
             <link href="{% static 'microsite_styles.css' %}"
                   rel="stylesheet"
                   type="text/css" />
-            <link href="{% static 'great_design_system_styles.css' %}"
-                  rel="stylesheet"
-                  type="text/css" />
+            <link href="{% static 'great_design_system_styles.css' %}" rel="stylesheet" type="text/css" />
         {% endblock %}
         <style>
       .js-disabled-only {
@@ -177,9 +175,6 @@
                     });
                 }
             </script>
-        {% endblock %}
-        {% block maintenance_banner %}
-            {% include 'components/great/migration_notice_banner.html' %}
         {% endblock %}
         {% block breadcrumbs_block %}
             {% if not '/' == request.path %}

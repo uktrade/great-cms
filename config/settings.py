@@ -1060,5 +1060,3 @@ COUNTRIES_ISO_CODE_UPDATE_HOUR = env.countries_iso_code_update_hour
 COUNTRIES_ISO_CODE_UPDATE_MINUTE = env.countries_iso_code_update_minute
 
 COUNTRIES_ISO_CODE_UPDATE_API = 'https://restcountries.com/v3.1/all?fields=name,cca2'
-
-FEATURE_GREAT_MIGRATION_BANNER = env.feature_great_migration_banner

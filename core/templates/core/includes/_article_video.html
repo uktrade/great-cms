@@ -11,7 +11,10 @@
             </video>
         </div>
         {% if value.video.transcript %}
-            {% include '_details.html' with summaryText="View video transcript" detailsHtml=value.video.transcript classes="margin-bottom-0 rich-text" %}
+            {% include '_details.html' with
+            summaryText="View video transcript"
+            detailsHtml=value.video.transcript
+            classes="margin-bottom-0 rich-text" %}
         {% endif %}
     {% endif %}
 </div>

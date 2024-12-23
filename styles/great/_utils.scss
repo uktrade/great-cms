@@ -482,10 +482,6 @@
   background-color: $great-dark-blue;
 }
 
-.great-bg-button-blue {
-  background-color: $color-primary-button;
-}
-
 .great-text-dark-blue {
   color: $great-dark-blue !important;
 }
@@ -935,10 +931,6 @@ img.richtext-image {
   min-height: 300px;
 }
 
-.great-min-height-50 {
-  min-height: 50px;
-}
-
 .great-min-height-500 {
   min-height: 500px;
 }
@@ -1024,12 +1016,8 @@ img.richtext-image {
   color: #d4351c !important; // govuk-frontend govuk-hint colouring takes precedence over govuk-error-message, so overriding
 }
 
-.great-inline-block {
-  display: inline-block;
-}
-
 .great-inline {
-  display: inline;
+  display: inline-block;
 }
 
 .great-circle-image {
