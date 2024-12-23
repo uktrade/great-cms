@@ -88,7 +88,7 @@
                     <div class="govuk-grid-row">
                         <div class="govuk-grid-column-full">
                             <div class="govuk-button-group">
-                                {% include 'international/includes/submit_button.html' with button_text=progress_button_text %}
+                                {% include "_button.html" with text=progress_button_text classes="govuk-!-margin-right-2" %}
                                 <span class="govuk-body"> or <a class="govuk-link govuk-!-margin-left-1"
     href="{% url 'international_online_offer:company-details' %}{% if request.GET.company_location_change %}?company_location_change=true{% endif %}{% if request.GET.next %}?next={{ request.GET.next }}&back={% url 'international_online_offer:find-your-company' %}?next={{ request.GET.next }}{% endif %}">Enter company details manually</a> </span>
                             </div>
@@ -109,7 +109,9 @@
     {{ country|json_script:'country' }}
     {{ display_country|json_script:'display_country' }}
     <script type="text/javascript"
-            src="{% static 'javascript/accessible-autocomplete.min.js' %}"></script>
+            src="{% static 'javascript/accessible-autocomplete.v3.01.min.js' %}"></script>
+    <script src="{% static 'javascript/vendor/lodash.debounce.js' %}"></script>
+    <script type="text/javascript" src="{% static 'javascript/countries.js' %}"></script>
     <script type="text/javascript">
                 const typeaheadURL = JSON.parse(document.getElementById('typeahead-url').textContent);
                 const companySearchURL = JSON.parse(document.getElementById('company-search-url').textContent);
@@ -209,7 +211,7 @@
                 accessibleAutocomplete({
                     element: document.querySelector('#company-autocomplete'),
                     id: 'js-company-name-autocomplete',
-                    source: suggest,
+                    source: debounce(suggest, 300),
                     autoselect: false,
                     minLength: 2,
                     templates: {
