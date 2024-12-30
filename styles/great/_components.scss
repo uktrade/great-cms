@@ -1411,11 +1411,42 @@ nav.great-breadcrumbs {
       display: block;
       float: left;
       margin-left: 0;
-      margin-right: 10px;
+      margin-right: 20px;
       background-position: center;
       background-repeat: no-repeat;
       background-size: 100%;
       background: url('/static/icons/dark-blue-tick.svg');
+      background-size: cover;
+      background-position: center;
+    }
+  }
+}
+
+.great-list-black-tick {
+  list-style: none;
+
+  > li {
+    display: block;
+    clear: left;
+    padding: 7.5px 0;
+
+    @include govuk-media-query($until: tablet) {
+      display: flex;
+    }
+
+    &:before {
+      content: '';
+      height: 30px;
+      width: 30px;
+      min-width: 30px;
+      display: block;
+      float: left;
+      margin-left: 0;
+      margin-right: 20px;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 100%;
+      background: url('/static/icons/black-tick.svg');
       background-size: cover;
       background-position: center;
     }
@@ -1624,7 +1655,7 @@ nav.great-breadcrumbs {
       display: flex;
       align-items: center;
       .great-share-copy-link-container {
-        margin:auto;
+        margin: auto;
         > span {
           padding-right: 8px;
           font-size: 18px;
@@ -2088,7 +2119,7 @@ nav.great-breadcrumbs {
 }
 
 .great-meta-label {
-  color: $great-light-grey;
+  color: $great-grey;
   display: flex;
   font-family: $great-font;
   font-weight: 100;
