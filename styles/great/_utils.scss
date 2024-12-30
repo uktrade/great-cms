@@ -487,6 +487,10 @@
   background-color: $color-primary-button;
 }
 
+.great-bg-mint-green {
+  background-color: #8ce2d0;
+}
+
 .great-text-dark-blue {
   color: $great-dark-blue !important;
 }
@@ -1237,6 +1241,14 @@ great-icon {
 }
 
 .great-display-flex-from-desktop {
+  @include govuk-media-query($from: desktop) {
+    display: flex;
+  }
+}
+
+.great-display-flex-from-tablet {
+  display: none;
+
   @include govuk-media-query($from: desktop) {
     display: flex;
   }

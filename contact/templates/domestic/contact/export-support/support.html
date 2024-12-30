@@ -5,103 +5,135 @@
 {% load add_govuk_classes url_type from content_tags %}
 {% block head_title %}Export support for UK businesses{% endblock %}
 {% block head_css %}
-    {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
-    <link href="{% static 'core/css/accessible-autocomplete.min.css' %}"
-          rel="stylesheet"
-          type="text/css">
-    {% endif %}
+{% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
+<link href="{% static 'core/css/accessible-autocomplete.min.css' %}"
+        rel="stylesheet"
+        type="text/css">
+{% endif %}
 
-    {{ block.super }}
+{{ block.super }}
 {% endblock %}
 {% block meta_title %}Export support for UK businesses{% endblock %}
 {% block content %}
-    <div class="great {% if request.GET.topic %}great-bg-lighter-grey{% else %}great-bg-white{% endif %}">
-        <div class="great-container">
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-full">
-                    <div class="govuk-grid-row great-dep-triage-hero">
-                        <div class="govuk-grid-column-one-third">
-                            <h1 class="govuk-heading-xl govuk-!-margin-top-8 govuk-!-margin-bottom-2">Export support for UK businesses</h1>
-                            {% if page.page_teaser %}{{ page.page_teaser| richtext | add_govuk_classes }}{% endif %}
-                        </div>
-                        {% if page.hero_image %}
-                            <div class="govuk-grid-column-two-thirds">
-                                {% image page.hero_image width-650 as hero_image %}
-                                <img src="{{ hero_image.url }}"
-                                     alt="{{ hero_image.alt }}"
-                                     class="great-full-width" />
-                            </div>
+<div class="great {% if request.GET.topic %}great-bg-lighter-grey{% else %}great-bg-white{% endif %}">
+    <div class="great-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                {% if page.page_body %}
+                    <div class="{% if not features.FEATURE_GUIDED_JOURNEY_EXTRAS %}govuk-!-padding-top-7{% endif %} great-full-width-bar great-bg-light-blue">
+                        {% if not features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
+                            <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Our support topics</h2>
                         {% endif %}
-                    </div>
-                    {% if page.page_body %}
-                        <div class="{% if not features.FEATURE_GUIDED_JOURNEY_EXTRAS %}govuk-!-padding-top-7{% endif %} great-full-width-bar great-bg-light-blue">
-                            {% if not features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
-                                <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Our support topics</h2>
-                            {% endif %}
-                            <div class="govuk-grid-row govuk-!-padding-top-7">
-                                <div class="govuk-grid-column-three-quarters">
-                                    {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
-                                        <h2 class="govuk-heading-s govuk-!-margin-bottom-6">Our support topics</h2>
-                                    {% endif %}
-                                    <div class="govuk-grid-row great-card-row{% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %} great-ds-category-panels great-ds-category-panels--landing govuk-!-padding-left-3 govuk-!-padding-right-3{% endif %}">
-                                        {% include 'domestic/contact/export-support/includes/topic-card.html' with topics=page.page_body %}
-                                    </div>
-                                    <hr class="great-ds-hr{% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %} govuk-!-margin-top-7 govuk-!-margin-bottom-7{% endif %}" />
+                        <div class="govuk-grid-row govuk-!-padding-top-0">
+                            <div class="govuk-grid-column-full">
+                                <div class="great-container">
+                                    <h1 class="govuk-heading-xl {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}govuk-!-padding-top-4{% else %}govuk-!-padding-top-9{% endif %} {% if data.dep_sub_title %}govuk-!-margin-bottom-2{% else %}govuk-!-margin-bottom-4{% endif %}">
+                                        Get tailor-made help and support
+                                    </h1>
+                            
+                                    <label class="great-max-width-575-from-tablet govuk-!-margin-top-2 govuk-!-margin-bottom-2 great-display-block" for="sic_description">
+                                        Enter your product or service and pick the best match from the list.
+                                    </label>
+                        
+                                    <form action="{% url 'core:guided-journey-step-1' %}" method="post" autocomplete="off" data-make-or-do-form class="great-position-relative">
+                                        {% csrf_token %}
+                                        <input type="hidden" id="sector" name="sector" value="{{ session_data.sector }}" />
+                                        <input type="hidden" id="make_or_do_keyword" name="make_or_do_keyword" value="{{ session_data.make_or_do_keyword }}" />
+                                        <input type="hidden" id="exporter_type" name="exporter_type" value="{{ session_data.exporter_type }}" />
+                                        {% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH %}
+                                        <input type="hidden" id="is_keyword_match" name="is_keyword_match" value="{{ session_data.is_keyword_match }}" />
+                                        {% endif %}
+                                    
+                                        <div data-make-or-do-form-error>
+                                            {% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH %}
+                                            <p id="event-name-error" class="govuk-error-message">
+                                                <span class="govuk-visually-hidden">Error:</span> <strong></strong>
+                                            </p>
+                                            {% endif %}
+                                            <input type="text" id="sic_description" name="sic_description" class="govuk-input great-text-input govuk-!-width-one-half" />
+                                            <div id="sic_description-container" class="great-ds-autocomplete-input__wrapper great-bg-white govuk-!-margin-bottom-4 great-max-width-575-from-tablet">
+                                                {% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH %}
+                                                <button id="clear_search">
+                                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                                    <span class="great-visually-hidden">clear</span>
+                                                </button>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="govuk-!-margin-bottom-6">
+                                            {% include 'domestic/contact/export-support/includes/continue-save-button.html' with button_text='Continue'  %}
+                                        </div>
+                            
+                                        <img src="{% static '/images/guided_journey_graphics.png' %}" alt="" class="great-ds-guided-journey-graphic " />
+                                    </form>
+                            
+                                    <ul class="great-list-black-tick govuk-!-margin-top-7 govuk-!-margin-bottom-6">
+                                        <li><span>Results based on your market, sector, product or service</span></li>
+                                        <li><span>Content sourced from across government</span></li>
+                                        <li><span>Direct access to guidance and services on GOV.UK</span></li>
+                                    </ul>
+                                </div>
 
-                                    {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
-                                    <div class="govuk-!-padding-6 govuk-!-margin-bottom-6 great-bg-white great-ds-make-or-do">
-                                        {% include 'domestic/contact/export-support/includes/make-or-do-form.html' %}
-                                        <img src="{% static 'images/make-or-do.png' %}" alt="UK Export Academy logo" />
-                                    </div>
-                                    <hr class="great-ds-hr govuk-!-margin-top-7 govuk-!-margin-bottom-7" />
-                                    {% endif %}
+                                {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
+                                    <h2 class="govuk-heading-l govuk-!-margin-bottom-6">Or browse our support topics to find your answers</h2>
+                                {% endif %}
+                                <div class="govuk-grid-row great-card-row{% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %} great-ds-category-panels great-ds-category-panels--homepage govuk-!-padding-left-3 govuk-!-padding-right-3 govuk-!-margin-bottom-9{% endif %}">
+                                    {% include 'domestic/contact/export-support/includes/topic-card.html' with topics=page.page_body %}
+                                </div>
 
-                                    <div class="govuk-grid-row govuk-!-margin-bottom-9 great-display-from-tablet">
-                                        <div class="govuk-grid-column-full">
-                                            {% include 'domestic/contact/export-support/includes/contact-us-promo.html' %}
+                                <div class="govuk-grid-row govuk-!-margin-bottom-9 great-display-flex-from-tablet">
+                                    <div class="govuk-grid-column-one-half">
+                                        <div class="govuk-!-padding-6 great-bg-white great-ds-box-shadow great-height-100-desktop">
+                                            <h2 class="govuk-heading-l govuk-!-margin-bottom-4">Ask the team a question</h2>
+                                            <p class="govuk-body">Can't find your answer? Get in touch to see how the Department for Business and Trade can help you sell your products and services overseas.</p>
+                                            <a href="/contact/domestic/export-support/" class="govuk-button govuk-!-margin-bottom-4 great-ds-button-primary">Start your enquiry</a>
+                                            <p class="govuk-hint">We aim to respond within 3 working days </p>
+                                        </div>
+                                    </div>
+                                    <div class="govuk-grid-column-one-half">
+                                        <div class="govuk-!-padding-6 great-bg-white great-ds-box-shadow great-height-100-desktop">
+                                            <h2 class="govuk-heading-l govuk-!-margin-bottom-4">Sign up to...</h2>
+                                            <ul class="great-list-blue-tick">
+                                                <li class="govuk-!-margin-bottom-2">attend UK Export Academy online events</li>
+                                                <li class="govuk-!-margin-bottom-2">compare markets with Where to Export</li>
+                                                <li class="govuk-!-margin-bottom-2">build your own online export plan</li>
+                                            </ul>
+                                            <a href="/signup/" class="govuk-link great-ds-link">
+                                                <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> 
+                                                <span>Get started</span>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="govuk-grid-column-one-quarter govuk-!-margin-bottom-7">
-                                    <div class="great-dep-tools-and-services">
-                                        <h2 class="govuk-heading-s govuk-!-margin-bottom-5 {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}govuk-!-padding-bottom-6 {% else %}govuk-!-padding-bottom-1{% endif %} great-border-bottom-blue">
-                                            Popular answers
-                                        </h2>
-                                        {% include 'domestic/contact/export-support/includes/sidebar-items.html' with items=page.page_body %}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="govuk-grid-row govuk-!-margin-top-6 govuk-!-margin-bottom-9 great-display-until-tablet">
-                                <div class="govuk-grid-column-one-half">
-                                    {% include 'domestic/contact/export-support/includes/contact-us-promo.html' %}
-                                </div>
                             </div>
                         </div>
-                    {% endif %}
-                </div>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
+</div>
 {% endblock %}
 
 {% block body_js %}
-    {{ block.super }}
-    <script src="{% static 'javascript/digital-entry-point.js' %}"></script>
+{{ block.super }}
+<script src="{% static 'javascript/digital-entry-point.js' %}"></script>
 
-    {% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH and features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
-    <script type="text/javascript"
-                    src="{% static 'javascript/accessible-autocomplete.v3.min.js' %}"></script>
-    {{ sic_sector_data | json_script:'sic_sector_data'}}
-    <div data-great-init-js=""></div>
-    <script type="text/javascript"
-            src="{% static 'javascript/great.make-or-do-search-enhanced.js' %}"></script>
-    {% elif not features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH and features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
-    <script type="text/javascript"
-            src="{% static 'javascript/accessible-autocomplete.v3.min.js' %}"></script>
-    <script type="text/javascript"
-            src="{% static 'javascript/great.make-or-do-search.js' %}"></script>
-    <script type="text/javascript">
-        GreatFrontend.MakeOrDoSearch.init({{ sic_sector_data | safe}});
-    </script>
-    {% endif %}
+{% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH and features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
+<script type="text/javascript"
+                src="{% static 'javascript/accessible-autocomplete.v3.min.js' %}"></script>
+{{ sic_sector_data | json_script:'sic_sector_data'}}
+<div data-great-init-js=""></div>
+<script type="text/javascript"
+        src="{% static 'javascript/great.make-or-do-search-enhanced.js' %}"></script>
+{% elif not features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH and features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
+<script type="text/javascript"
+        src="{% static 'javascript/accessible-autocomplete.v3.min.js' %}"></script>
+<script type="text/javascript"
+        src="{% static 'javascript/great.make-or-do-search.js' %}"></script>
+<script type="text/javascript">
+    GreatFrontend.MakeOrDoSearch.init({{ sic_sector_data | safe}});
+</script>
+{% endif %}
 {% endblock %}
