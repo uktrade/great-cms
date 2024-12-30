@@ -19,6 +19,12 @@ GreatFrontend.MakeOrDoSearchEnhanced = {
       defaultValue: default_value,
       templates: {
         suggestion: (selectedSIC) => {
+          const listbox = document.querySelector('#sic_description__listbox')
+
+          if (listbox) {
+            listbox.style.visibility = 'visible'
+          }
+
           const search_input = document.querySelector('#sic_description')
 
           const match = sic_sector_data.data.find((el) => {
@@ -35,15 +41,22 @@ GreatFrontend.MakeOrDoSearchEnhanced = {
 
             if (match.keywords) {
               keywords = match.keywords
-              keyword_parts = keywords.split(', ')
+              keyword_parts = keywords
+                .split(', ')
+                .sort((a, b) => a.length - b.length)
             }
 
             if (search_input && keyword_parts) {
               let keyword_match = ''
 
-              keyword_parts.forEach((keyword) => {
-                if (keyword.includes(search_input.value)) {
+              keyword_parts.some((keyword) => {
+                if (
+                  keyword
+                    .toLowerCase()
+                    .includes(search_input.value.toLowerCase())
+                ) {
                   keyword_match = keyword
+                  return true
                 }
               })
 
@@ -84,15 +97,24 @@ GreatFrontend.MakeOrDoSearchEnhanced = {
           document.querySelector('#exporter_type').value = exporter_type
 
           if (keywords) {
-            is_keyword_match = keywords.includes(make_or_do_keyword.value)
+            is_keyword_match = keywords
+              .toLowerCase()
+              .includes(make_or_do_keyword.value.toLowerCase())
 
             let keyword_match = ''
 
-            keyword_parts = keywords.split(', ')
+            keyword_parts = keywords
+              .split(', ')
+              .sort((a, b) => a.length - b.length)
 
-            keyword_parts.forEach((keyword) => {
-              if (keyword.includes(make_or_do_keyword.value)) {
+            keyword_parts.some((keyword) => {
+              if (
+                keyword
+                  .toLowerCase()
+                  .includes(make_or_do_keyword.value.toLowerCase())
+              ) {
                 keyword_match = keyword
+                return true
               }
             })
 
@@ -110,19 +132,25 @@ GreatFrontend.MakeOrDoSearchEnhanced = {
                 ' (' +
                 make_or_do_keyword.value +
                 ')'
+
+              document.querySelector(
+                '#sic_description__listbox'
+              ).style.visibility = 'hidden'
             }
           }, 10)
         }
       },
-      placeholder: 'For example, financial services or coffee',
+      placeholder: 'For example, financial services or coffee roaster',
       inputClasses: 'govuk-input great-text-input great-ds-autocomplete-input',
       menuClasses: 'great-autocomplete-overlay',
       required: true,
-      showNoOptionsFound: false,
     })
 
     const clear_search_button = document.querySelector('#clear_search')
     const sic_description = document.querySelector('#sic_description')
+    const submit_button = document.querySelector(
+      '[data-make-or-do-form] button[type="submit"]'
+    )
 
     if (clear_search_button) {
       clear_search_button.addEventListener('click', (e) => {
@@ -152,5 +180,83 @@ GreatFrontend.MakeOrDoSearchEnhanced = {
         }, 200)
       })
     }
+
+    if (submit_button) {
+      submit_button.addEventListener('click', (e) => {
+        e.preventDefault()
+
+        const form = document.querySelector('[data-make-or-do-form]')
+        const sector_hidden_input = document.querySelector(
+          '[data-make-or-do-form] #sector'
+        )
+        const sic_description = document.querySelector(
+          '[data-make-or-do-form] #sic_description'
+        )
+        const form_error_el = document.querySelector(
+          '[data-make-or-do-form-error]'
+        )
+
+        const is_a_result_selected =
+          sector_hidden_input && sector_hidden_input.value !== ''
+
+        const is_sic_description_empty =
+          sic_description && sic_description.value == ''
+
+        const is_sic_description_unrecognised =
+          sic_description &&
+          sic_description.value !== '' &&
+          sector_hidden_input &&
+          sector_hidden_input.value == ''
+
+        const is_sic_results_available = () => {
+          const results = document.querySelectorAll(
+            '#sic_description__listbox li:not(.autocomplete__option--no-results)'
+          )
+
+          if (results && results.length >= 1) {
+            return true
+          }
+
+          return false
+        }
+
+        if (is_a_result_selected) {
+          form.submit()
+        } else {
+          const error_message = document.querySelector(
+            '[data-make-or-do-form] #event-name-error strong'
+          )
+
+          if (form_error_el) {
+            form_error_el.classList =
+              'govuk-form-group--error great-bring-to-front'
+
+            if (is_sic_description_empty) {
+              error_message.innerHTML = 'You must enter a product or service'
+            }
+
+            if (is_sic_description_unrecognised) {
+              if (is_sic_results_available()) {
+                error_message.innerHTML = 'Choose an option from the list below'
+              } else {
+                error_message.innerHTML =
+                  'We do not recognise your product or service'
+              }
+            }
+          }
+        }
+      })
+    }
   },
+}
+
+const init_args = document.querySelector('[data-great-init-js]').dataset
+  .greatInitJs
+
+const sic_sector_data = JSON.parse(
+  document.getElementById('sic_sector_data').textContent
+)
+
+if (sic_sector_data) {
+  GreatFrontend.MakeOrDoSearchEnhanced.init(sic_sector_data, init_args)
 }

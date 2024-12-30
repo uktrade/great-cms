@@ -109,7 +109,8 @@
   }
 
   .govuk-form-group--error {
-    input[type='text'] {
+    input[type='text'],
+    select {
       border-color: govuk-colour('red');
 
       &:focus {
@@ -529,6 +530,12 @@
 .great-max-width-500-from-tablet {
   @include govuk-media-query($from: tablet) {
     max-width: 500px;
+  }
+}
+
+.great-max-width-575-from-tablet {
+  @include govuk-media-query($from: tablet) {
+    max-width: 575px;
   }
 }
 
@@ -1325,4 +1332,9 @@ great-icon {
 
 .great-hr-grey {
   background: $govuk-border-colour;
+}
+
+.great-bring-to-front {
+  position: relative;
+  z-index: 1;
 }

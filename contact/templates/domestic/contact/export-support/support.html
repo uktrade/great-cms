@@ -91,11 +91,10 @@
     {% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH and features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
     <script type="text/javascript"
                     src="{% static 'javascript/accessible-autocomplete.v3.min.js' %}"></script>
+    {{ sic_sector_data | json_script:'sic_sector_data'}}
+    <div data-great-init-js=""></div>
     <script type="text/javascript"
             src="{% static 'javascript/great.make-or-do-search-enhanced.js' %}"></script>
-    <script type="text/javascript">
-        GreatFrontend.MakeOrDoSearchEnhanced.init({{ sic_sector_data | safe}});
-    </script>
     {% elif not features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH and features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
     <script type="text/javascript"
             src="{% static 'javascript/accessible-autocomplete.v3.min.js' %}"></script>
