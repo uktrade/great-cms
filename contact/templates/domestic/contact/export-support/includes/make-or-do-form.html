@@ -12,18 +12,33 @@
             What does your company make or do?
         </label>
     </h2>
-    <input type="text" id="sic_description" name="sic_description" class="govuk-input great-text-input govuk-!-width-one-half" />
-    <div id="sic_description-container" class="great-ds-autocomplete-input__wrapper great-max-width-500-from-tablet">
+
+    <div data-make-or-do-form-error>
         {% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH %}
-        <button id="clear_search">
-            <i class="fa fa-times" aria-hidden="true"></i>
-            <span class="great-visually-hidden">clear</span>
-        </button>
+            <p class="govuk-hint govuk-!-margin-bottom-4 great-max-width-575-from-tablet">Enter one or more words that best describes your company's product or service and pick the best match from the list provided.</p>
+        {% endif %}
+
+        {% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH %}
+        <p id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> <strong></strong>
+        </p>
+        {% endif %}
+        <input type="text" id="sic_description" name="sic_description" class="govuk-input great-text-input govuk-!-width-one-half" />
+        <div id="sic_description-container" class="great-ds-autocomplete-input__wrapper great-bg-white govuk-!-margin-bottom-4 great-max-width-575-from-tablet">
+            {% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH %}
+            <button id="clear_search">
+                <i class="fa fa-times" aria-hidden="true"></i>
+                <span class="great-visually-hidden">clear</span>
+            </button>
+            {% endif %}
+        </div>
+        {% if not features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH %}
+        <div class="govuk-inset-text govuk-!-margin-bottom-4 great-max-width-575-from-tablet">
+            Tip: you may need to choose a broad term. For example, if you make t-shirts, try typing textiles
+        </div>
         {% endif %}
     </div>
-    <div class="govuk-inset-text govuk-!-margin-top-4 govuk-!-margin-bottom-4 great-max-width-500-from-tablet">
-        Tip: you may need to choose a broad term. For example, if you make t-shirts, try typing textiles
-    </div>
+    
     <div class="govuk-!-margin-bottom-6">
         {% include 'domestic/contact/export-support/includes/continue-save-button.html' with button_text='Continue'  %}
     </div>
