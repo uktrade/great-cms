@@ -13,10 +13,10 @@
         <div class="great-container govuk-!-padding-top-4">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full great-no-padding-until-tablet">
-                    <div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-4 great-ds-box-shadow great-ds-widget-container">
+                    <div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-4 great-ds-box-shadow great-ds-widget-container{% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH %} great-min-height-500{% endif %}">
                         <div class="govuk-grid-row">
                             <div class="govuk-grid-column-two-thirds">
-                                <form method="post" autocomplete="off" class="great-max-width-{% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH %}675{% else %}500{% endif %}-from-tablet">
+                                <form method="post" autocomplete="off" class="great-max-width-{% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH %}675{% else %}500{% endif %}-from-tablet" data-commodity-form>
                                     {% csrf_token %}
                                     <input type="hidden" id="commodity_name" name="commodity_name" />
                                     <input type="hidden" id="hs_code" name="hs_code" />
@@ -25,39 +25,39 @@
                                         <label class="govuk-heading-l govuk-!-margin-bottom-4" for="hs_code">
                                             {% if is_edit_mode %}
                                               Change your commodity code
-                                            {% elif features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH and show_results %}
-                                                Choose your commodity code
+                                            {% elif features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH %}
+                                                Choose your commodity
                                             {% else %}
                                               Find your commodity code
                                             {% endif %}
                                         </label>
                                     </h1>
 
+                                    <div data-commodity-form-error>
                                     {% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH and show_results %}
-                                    <p class="govuk-body">
-                                        Choose the best product match from the list provided.
+                                    <p class="govuk-hint">
+                                        Pick the commodity that best matches the goods you want to export from the list below.
                                     </p>
-                                    <div class="great-text-select--arrow govuk-!-margin-bottom-3">
+
+                                    <p id="event-name-error" class="govuk-error-message">
+                                        <span class="govuk-visually-hidden">Error:</span> <strong></strong>
+                                    </p>
+
+                                    <div class="great-text-select--arrow govuk-!-margin-bottom-4">
                                         <select class="govuk-select great-select" name="hs_code" id="hs_code">
                                             {% for commodity in commodities %}
                                                 <option value="{{ commodity.hs_code }}" data-commodity-name="{{ commodity.title }}" {% if session_data.hs_code == commodity.hs_code %}selected{% endif %}>{{ commodity.title }}{% if commodity.hs_code != '' %} ({{ commodity.hs_code }}){% endif %}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
-                                    <div class="govuk-inset-text govuk-!-margin-top-4 govuk-!-margin-bottom-4">
-                                        If you don't export physical goods, or your product isn't listed, choose 'skip'.
-                                    </div>
                                     {% else %}
-                                    <p class="govuk-body">
+                                    <p class="govuk-hint">
                                         Start typing the name of the product you want to export and choose the best match from the list provided.
                                     </p>
         
-                                    <div id="cc_lookup-container" class="great-ds-autocomplete-input__wrapper"></div>
-        
-                                    <div class="govuk-inset-text govuk-!-margin-top-4 govuk-!-margin-bottom-4">
-                                        If you don't export physical goods, or your product isn't listed, choose 'skip'.
-                                    </div>
+                                    <div id="cc_lookup-container" class="great-ds-autocomplete-input__wrapper govuk-!-margin-bottom-4"></div>
                                     {% endif %}
+                                    </div>
                                 
                                     {% include 'domestic/contact/export-support/includes/continue-save-button.html' %}
                                     {% include 'domestic/contact/export-support/includes/skip-button.html' with url='/your-export-guide/target-export-market?is_commodity_code_skipped=True' back_step=request.GET.return_to_step %}
@@ -70,8 +70,14 @@
                                     <span class="great-meta-label govuk-!-margin-bottom-3">
                                         <img src="/static/icons/guidance.svg" alt="Guidance icon" width="30px" />
                                     </span>
+                                    
+                                    {% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH %}
+                                    <h2 class="govuk-heading-xs govuk-!-margin-bottom-1">What is a commodity?</h2>
+                                    <p class="govuk-body">A commodity is any product or raw material that is traded internationally. All commodities have an internationally recognised commodity (HS) code that is used to identify and classify goods. You’ll need this code for your export paperwork, and we can use it to show you relevant content.</p>
+                                    {% else %}
                                     <h2 class="govuk-heading-xs govuk-!-margin-bottom-1">What is a commodity code?</h2>
                                     <p class="govuk-body">All goods have a commodity (HS) code, used to identify and classify goods for international trade. You’ll need this for your export paperwork, and we can use it to show you relevant content. </p>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -97,12 +103,38 @@
 
     {% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH and show_results %}
     <script type="text/javascript">
+        const form = document.querySelector('[data-commodity-form]')
+        const submit_button = document.querySelector('[data-commodity-form] button[type="submit"]')
+        const select = form.querySelector('[data-commodity-form] select')
+        const form_error_el = document.querySelector('[data-commodity-form-error]')
+        const error_message = document.querySelector('[data-commodity-form] #event-name-error strong')
+
         document.querySelector('input[type="hidden"]#hs_code').remove();
 
         document.querySelector('#hs_code').addEventListener('change', (e) => {
             document.querySelector('[name="hs_code"]').value = e.target.value;
             document.querySelector('[name="commodity_name"]').value = e.target[e.target.selectedIndex].dataset.commodityName;
+
+            if (error_message && form_error_el && e.target.value !== '') {
+                form_error_el.classList = ''
+                error_message.innerHTML = ''
+            }
         });
+
+        if (submit_button) {
+            submit_button.addEventListener('click', (e) => {
+                e.preventDefault()
+
+                const is_value_empty = error_message && form_error_el && select && select.value == ''
+                
+                if (is_value_empty) {
+                    form_error_el.classList = 'govuk-form-group--error great-bring-to-front'
+                    error_message.innerHTML = 'Choose an option from the list below'
+                } else {
+                    form.submit()
+                }
+            });
+        }
     </script>
     {% else %}
     <script type="text/javascript"
