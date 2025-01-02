@@ -9,6 +9,26 @@
 {% block head_css %}{{ block.super }}{% endblock %}
 {% block content %}
     <div class="great-container">
+        {% if request.user.is_superuser %}
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                    <div class="govuk-notification-banner govuk-notification-banner--error"
+                         role="alert"
+                         aria-labelledby="govuk-notification-banner-title"
+                         data-module="govuk-notification-banner">
+                        <div class="govuk-notification-banner__header">
+                            <h2 class="govuk-notification-banner__title"
+                                id="govuk-notification-banner-title">Error</h2>
+                        </div>
+                        <div class="govuk-notification-banner__content">
+                            <h3 class="govuk-notification-banner__heading">
+                                You are logged in as a wagtail user, please logout and user another account for EYB
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
         {% if request.GET.signup %}
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
@@ -249,7 +269,7 @@
         <section id="hcsat_section"
                  class="great-bg-white clearfix govuk-!-margin-top-0 govuk-!-padding-bottom-6 great-inline-feedback__container">
             <div class="container">
-                <div class="great-container ">
+                <div class="great-container">
                     {% include 'core/includes/hcsat.html' with hcsat_form=hcsat_form hcsat_stage=hcsat_form_stage leading_text="To help us improve our service, we'd like to know more about your experience today. It will only take a minute to complete." %}
                 </div>
             </div>
