@@ -97,12 +97,13 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         triage_data = get_triage_data_for_user(request)
 
         # Determine the current step view name
-        current_step_view = helpers.get_current_step(user_data, triage_data)
-        if current_step_view:
-            response = redirect(f'international_online_offer:{current_step_view}')
-            if request.GET.get('login'):
-                response['Location'] += '?resume=true'
-            return response
+        if not request.user.is_superuser:
+            current_step_view = helpers.get_current_step(user_data, triage_data)
+            if current_step_view:
+                response = redirect(f'international_online_offer:{current_step_view}')
+                if request.GET.get('login'):
+                    response['Location'] += '?resume=true'
+                return response
 
         context = self.get_context(request, user_data=user_data, triage_data=triage_data)
 
