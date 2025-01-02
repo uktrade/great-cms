@@ -396,7 +396,7 @@ class DBTPlatformEnvironment(BaseSettings):
     """
 
     build_step: bool = False
-    celery_broker_url: str = ''
+    redis_endpoint: str = ''
     opensearch: list = []
 
     @computed_field(return_type=str)
@@ -407,7 +407,7 @@ class DBTPlatformEnvironment(BaseSettings):
     @computed_field(return_type=str)
     @property
     def redis_url(self):
-        return self.celery_broker_url
+        return self.redis_endpoint
 
     @computed_field(return_type=list)
     @property

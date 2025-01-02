@@ -7,6 +7,7 @@ from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.http import Http404
+from django.utils.functional import cached_property
 from great_components.mixins import GA360Mixin  # /PS-IGNORE
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalManyToManyField
@@ -1147,7 +1148,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
 
         return ctas
 
-    @property
+    @cached_property
     def stats(self):
         iso2 = getattr(self.country, 'iso2', None)
 
