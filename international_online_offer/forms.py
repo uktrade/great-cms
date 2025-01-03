@@ -139,7 +139,7 @@ class CompanyDetailsForm(forms.Form):
         max_length=255,
         widget=TextInput(attrs={'class': 'govuk-input', 'autocomplete': 'address-line1'}),
         error_messages={
-            'required': 'Enter address line 1, typically the building and street',
+            'required': 'Enter address line 1, for example building or street name',
         },
     )
 
@@ -282,7 +282,7 @@ class IntentForm(forms.Form):
             cleaned_data['intent_other'] = ''
         intent_other = cleaned_data.get('intent_other')
         if intent and any(intents.OTHER in s for s in intent) and not intent_other:
-            self.add_error('intent_other', 'Please enter more information here')
+            self.add_error('intent_other', 'Enter how you plan to expand in the UK')
         else:
             return cleaned_data
 
@@ -328,7 +328,7 @@ class SpendForm(forms.Form):
         widget=contact_widgets.GreatRadioSelect,
         choices=choices.SPEND_CHOICES,
         error_messages={
-            'required': 'Select one option',
+            'required': 'Select how much you want to spend',
         },
     )
 
