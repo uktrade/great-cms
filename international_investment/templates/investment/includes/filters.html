@@ -5,9 +5,7 @@
       method="get">
     {% get_filter_accordion_items form as accordion_items %}
     {% include '_accordion.html' with id='accordion-default' items=accordion_items headingClasses='govuk-accordion__section-button--size-19' %}
-    <div id="submit-button-container">
-        {% include 'international/includes/submit_button.html' with button_text='Update results' %}
-    </div>
+    <div id="submit-button-container">{% include "_button.html" with text='Update results' %}</div>
     <div>
         <a href="?page=1" class="govuk-link">Reset</a>
     </div>

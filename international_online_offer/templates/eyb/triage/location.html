@@ -30,9 +30,7 @@
                         {% include 'international/includes/form_field.html' with field=form.location inputWrapperClass='prepend-search-icon' %}
                     </div>
                     <div class="govuk-grid-row">
-                        <div class="govuk-grid-column-full">
-                            {% include 'international/includes/submit_button.html' with button_text=progress_button_text %}
-                        </div>
+                        <div class="govuk-grid-column-full">{% include "_button.html" with text=progress_button_text %}</div>
                     </div>
                 </form>
             </div>
@@ -42,7 +40,7 @@
 {% block body_js %}
     {{ block.super }}
     <script type="text/javascript"
-            src="{% static 'javascript/accessible-autocomplete.min.js' %}"></script>
+            src="{% static 'javascript/accessible-autocomplete.v3.01.min.js' %}"></script>
     <script type="text/javascript">
         // Gets json list of regions and cities from django - flattens to use
         // with autocomplete.
