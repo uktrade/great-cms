@@ -175,10 +175,8 @@ def get_spend_choices_by_currency(currency):
 
 
 def get_current_step(user_data, triage_data):
-    if not user_data:
+    if not user_data or not triage_data:
         return 'about-your-business'
-    if not triage_data:
-        return 'business-sector'
 
     find_your_company_step = ['company_name']
     if not user_data.duns_number:
