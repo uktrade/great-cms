@@ -127,18 +127,15 @@
                             </div>
                             <div class="govuk-grid-row govuk-!-padding-1">
                                 <div class="govuk-grid-column-full">
-                                    <button class="button secondary-button"
-                                            type="button"
-                                            onclick="window.location.href='{% url 'international_online_offer:bci' %}?area=K03000001'">
-                                        By location
-                                    </button>
+                                    {% include '_action_link.html' with linkText='Compare market data across UK nations and regions' linkHref='/international/expand-your-business-in-the-uk/business-cluster-information/?area=K03000001' %}
                                 </div>
                             </div>
                             <div class="govuk-grid-row govuk-!-padding-top-3">
                                 <div class="govuk-grid-column-full">
                                     <p class="govuk-body-s">
                                         Source:
-                                        <a href="https://www.ons.gov.uk/aboutus/whatwedo/paidservices/interdepartmentalbusinessregisteridbr">
+                                        <a class="govuk-link"
+                                           href="https://www.ons.gov.uk/aboutus/whatwedo/paidservices/interdepartmentalbusinessregisteridbr">
                                             Inter-Departmental Business Register, Office for National Statistics
                                         </a>
                                     </p>
