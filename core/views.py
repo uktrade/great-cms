@@ -943,6 +943,7 @@ class GuidedJourneyStep3View(GuidedJourneyMixin, FormView):
         return super().form_valid(form)
 
 
+@method_decorator(nocache_page, name='get')
 class GuidedJourneyStep4View(GuidedJourneyMixin, TemplateView):
     template_name = 'domestic/contact/export-support/guided-journey/step-4.html'
 
