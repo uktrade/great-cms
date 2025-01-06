@@ -109,7 +109,17 @@
                                     Market data for the {{ bci_data.dbt_sector_name|default:""|lower }} sector in the UK, {{ bci_data.business_count_release_year|default:"" }}
                                 </h2>
                                 <div class="govuk-grid-column-full light-blue-background">
-                                    <div class="govuk-grid-row govuk-!-padding-2">
+                                    <ul class="great-inline-flex great-gap-10-30 govuk-!-margin-bottom-0 govuk-grid-column-full govuk-!-padding-0">
+                                        <li class="great-flex-grid govuk-heading-xl govuk-!-margin-bottom-0 govuk-grid-column-one-quarter">
+                                            <strong>{{ bci_data.total_business_count|default:"N/A"|intcomma }}</strong>
+                                            <span class="govuk-body float-left">businesses</span>
+                                        </li>
+                                        <li class="great-flex-grid govuk-heading-xl govuk-!-margin-bottom-0 govuk-grid-column-one-quarter">
+                                            <strong>{{ bci_data.total_employee_count|default:"N/A"|intcomma }}</strong>
+                                            <span class="govuk-body float-left">employees</span>
+                                        </li>
+                                    </ul>
+                                    {% comment %} <div class="govuk-grid-row govuk-!-padding-2">
                                         <div class="govuk-grid-column-one-quarter">
                                             <h2 class="govuk-heading-xl govuk-!-padding-0  govuk-!-margin-bottom-1">
                                                 {{ bci_data.total_business_count|default:"N/A"|intcomma }}
@@ -122,7 +132,7 @@
                                             </h2>
                                             <p class="govuk-body">employees</p>
                                         </div>
-                                    </div>
+                                    </div> {% endcomment %}
                                     <div class="govuk-grid-row govuk-!-padding-1">
                                         <div class="govuk-grid-column-full">
                                             {% include '_action_link.html' with linkText='Compare market data across UK nations and regions' linkHref='/international/expand-your-business-in-the-uk/business-cluster-information/?area=K03000001' %}
@@ -132,7 +142,7 @@
                                         <div class="govuk-grid-column-full">
                                             <p class="govuk-body-s">
                                                 Source:
-                                                <a class="govuk-link"
+                                                <a class="govuk-link govuk-link--muted"
                                                    href="https://www.ons.gov.uk/aboutus/whatwedo/paidservices/interdepartmentalbusinessregisteridbr">
                                                     Inter-Departmental Business Register, Office for National Statistics
                                                 </a>
