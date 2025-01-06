@@ -155,45 +155,11 @@
                     {% endif %}
                     <div class="govuk-grid-row govuk-!-margin-bottom-6">
                         {% if trade_shows_page and triage_data.sector %}
-                            <div class="govuk-grid-column-full">
-                                <div class="article-list-item">
-                                    <a class="article-list-item-a" href="{{ trade_shows_page.url }}">
-                                        <div class="govuk-grid-row">
-                                            <div class="govuk-grid-column-one-third">
-                                                <div class="image-container"
-                                                     alt="Buinsess people talking at networking event"
-                                                     style="background-image: url({% static 'images/trade_events.png' %})">
-                                                </div>
-                                            </div>
-                                            <div class="govuk-grid-column-two-thirds">
-                                                <h3 class="govuk-link govuk-heading-m">Trade events</h3>
-                                                <p class="govuk-body">
-                                                    Attending a UK trade event can help you develop networks and get the latest insights from your sector.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="govuk-grid-column-full">
-                                <div class="article-list-item">
-                                    <a class="article-list-item-a"
-                                       href="{% url 'international_online_offer:trade-associations' %}">
-                                        <div class="govuk-grid-row">
-                                            <div class="govuk-grid-column-one-third">
-                                                <div class="image-container"
-                                                     alt="Buinsess people talking about how trade associations can help a business grow"
-                                                     style="background-image: url({% static 'images/trade_associations.png' %})">
-                                                </div>
-                                            </div>
-                                            <div class="govuk-grid-column-two-thirds">
-                                                <h3 class="govuk-heading-m">Trade associations</h3>
-                                                <p class="govuk-body">Joining a UK trade association can be a useful way to find new clients and form partnerships.</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
+                            {% static 'images/trade_events.png' as img_path %}
+                            {% include './includes/article_list_item.html' with leading_image_path=img_path url=trade_shows_page.url link_title='Trade events' link_description='Attending a UK trade event can help you develop networks and get the latest insights from your sector.' %}
+                            {% static 'images/trade_associations.png' as img_path %}
+                            {% url 'international_online_offer:trade-associations' as trade_associations_url %}
+                            {% include './includes/article_list_item.html' with leading_image_path=img_path url=trade_associations_url link_title='Trade associations' link_description='Joining a UK trade association can be a useful way to find new clients and form partnerships.' %}
                         {% endif %}
                         <div class="govuk-grid-column-full">
                             {% for page in get_to_know_market_articles %}

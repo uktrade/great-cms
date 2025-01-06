@@ -35,7 +35,16 @@
     border: 1px solid $great-light-grey;
 
     a {
-        text-decoration: none;
+        text-decoration-line: underline;
+        text-decoration-thickness: 3px;
+        color: #1D70B8 !important;
+        text-underline-position: under;
+
+        --webkit-text-underline-offset: 0.05rem;
+
+        @media(min-width: 640px) {
+          --webkit-text-underline-offset: 0.1rem;
+        }
     }
 
     a:hover {
