@@ -35,30 +35,38 @@
     border: 1px solid $great-light-grey;
 
     a {
-        text-decoration-line: underline;
-        text-decoration-thickness: 3px;
-        color: #1D70B8 !important;
-        text-underline-position: under;
+        h3 {
+            text-decoration-line: underline;
+            text-decoration-thickness: 3px;
+            color: #1D70B8 !important;
+            text-underline-position: under;
 
-        --webkit-text-underline-offset: 0.05rem;
+            --webkit-text-underline-offset: 0.05rem;
 
-        @media(min-width: 640px) {
-          --webkit-text-underline-offset: 0.1rem;
-        }
-    }
-
-    a:hover {
-        h3, p {
-            text-decoration: underline;
-            text-decoration-thickness: max(1px, .0625rem);
-            text-underline-offset: .1578em;
+            @media(min-width: 640px) {
+                --webkit-text-underline-offset: 0.1rem;
+            }
         }
     }
 
     a:focus {
-        outline: 2px solid #fd0;
-        display: block;
+        h3 {
+            display: inline-block;
+            text-decoration: none;
+            outline: 3px solid rgba(0, 0, 0, 0);
+            color: #222222 !important;
+            background-color: #FFDD00;
+            box-shadow: 0 -2px #FFDD00, 0 4px #0b0c0c;
+        }
     }
+
+    a:hover {
+        h3{
+            color: #003078 !important;
+            text-decoration-thickness: 10%;
+        }
+    }
+
 
     .trade-show-link {
         text-decoration: underline;

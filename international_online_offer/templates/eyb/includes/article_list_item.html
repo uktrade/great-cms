@@ -1,18 +1,16 @@
 {% load static %}
-<div class="govuk-grid-column-full">
-    <div class="article-list-item">
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-one-third">
-                <div class="image-container"
-                     alt="Buinsess people talking at networking event"
-                     style="background-image: url({{ leading_image_path }})"></div>
-            </div>
-            <div class="govuk-grid-column-two-thirds">
-                <a class="article-list-item-a" href="{{ url }}">
-                    <h3 class="govuk-link govuk-heading-m">{{ link_title }}</h3>
-                </a>
-                <p class="govuk-body">{{ link_description }}</p>
-            </div>
+<div class="article-list-item">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-third">
+            <div class="image-container"
+                 alt="{{ leading_image_alt_text }}"
+                 style="background-image: url({{ leading_image_path }})"></div>
         </div>
-    </a>
+        <div class="govuk-grid-column-two-thirds">
+            <a class="article-list-item-a eyb-article-link" href="{{ url }}">
+                <h3 class="govuk-link govuk-heading-m">{{ link_title }}</h3>
+            </a>
+            <p class="govuk-body">{{ link_description }}</p>
+        </div>
+    </div>
 </div>
