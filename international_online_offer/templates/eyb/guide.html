@@ -119,20 +119,6 @@
                                             <span class="govuk-body float-left">employees</span>
                                         </li>
                                     </ul>
-                                    {% comment %} <div class="govuk-grid-row govuk-!-padding-2">
-                                        <div class="govuk-grid-column-one-quarter">
-                                            <h2 class="govuk-heading-xl govuk-!-padding-0  govuk-!-margin-bottom-1">
-                                                {{ bci_data.total_business_count|default:"N/A"|intcomma }}
-                                            </h2>
-                                            <p class="govuk-body">businesses</p>
-                                        </div>
-                                        <div class="govuk-grid-column-one-quarter">
-                                            <h2 class="govuk-heading-xl govuk-!-padding-0 govuk-!-margin-bottom-1">
-                                                {{ bci_data.total_employee_count|default:"N/A"|intcomma }}
-                                            </h2>
-                                            <p class="govuk-body">employees</p>
-                                        </div>
-                                    </div> {% endcomment %}
                                     <div class="govuk-grid-row govuk-!-padding-1">
                                         <div class="govuk-grid-column-full">
                                             {% include '_action_link.html' with linkText='Compare market data across UK nations and regions' linkHref='/international/expand-your-business-in-the-uk/business-cluster-information/?area=K03000001' %}
