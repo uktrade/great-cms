@@ -765,6 +765,7 @@ class PingDomView(TemplateView):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
+@method_decorator(nocache_page, name='get')
 class GuidedJourneyStep1View(GuidedJourneyMixin, FormView):
     form_class = forms.GuidedJourneyStep1Form
     template_name = 'domestic/contact/export-support/guided-journey/step-1.html'
@@ -829,6 +830,7 @@ class GuidedJourneyStep1View(GuidedJourneyMixin, FormView):
         return super().form_valid(form)
 
 
+@method_decorator(nocache_page, name='get')
 class GuidedJourneyStep1GetView(View):
     def get(self, request):
         sector = request.GET.get('sector')
@@ -856,6 +858,7 @@ class GuidedJourneyStep1GetView(View):
         return HttpResponseRedirect(reverse_lazy('core:guided-journey-step-1'))
 
 
+@method_decorator(nocache_page, name='get')
 class GuidedJourneyStep2View(GuidedJourneyMixin, FormView):
     form_class = forms.GuidedJourneyStep2Form
     template_name = 'domestic/contact/export-support/guided-journey/step-2.html'
@@ -916,6 +919,7 @@ class GuidedJourneyStep2View(GuidedJourneyMixin, FormView):
         return super().form_valid(form)
 
 
+@method_decorator(nocache_page, name='get')
 class GuidedJourneyStep3View(GuidedJourneyMixin, FormView):
     form_class = forms.GuidedJourneyStep3Form
     template_name = 'domestic/contact/export-support/guided-journey/step-3.html'
