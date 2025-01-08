@@ -175,13 +175,12 @@ def get_spend_choices_by_currency(currency):
 
 
 def get_current_step(user_data, triage_data):
-    # Steps in the triage and associated required fields.
-    # If any of these fields are empty, return the view to
-    # allow the user to continue where they left off.
+    if not user_data or not triage_data:
+        return 'about-your-business'
+
     find_your_company_step = ['company_name']
     if not user_data.duns_number:
-        find_your_company_step.append('address_line_1')
-        find_your_company_step.append('town')
+        find_your_company_step += ['address_line_1', 'town']
 
     triage_steps = {
         'business-headquarters': ['company_location'],
@@ -197,17 +196,11 @@ def get_current_step(user_data, triage_data):
 
     for view_name, fields in triage_steps.items():
         for field in fields:
-            value = None
-            if hasattr(user_data, field):
-                value = getattr(user_data, field, None)
-            elif hasattr(triage_data, field):
-                value = getattr(triage_data, field, None)
-
-            # Check for None explicitly to handle boolean fields correctly
-            if value is None or value == '' or value == []:
+            value = getattr(user_data, field, getattr(triage_data, field, None))
+            if value in (None, '', []):
                 return view_name
 
-    return None  # Cannot get current step as triage is completed
+    return None  # All steps are completed
 
 
 def is_triage_complete(user_data, triage_data):
