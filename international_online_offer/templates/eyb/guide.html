@@ -108,7 +108,7 @@
                                 <h3 class="govuk-heading-m">
                                     Market data for the {{ bci_data.dbt_sector_name|default:""|lower }} sector in the UK, {{ bci_data.business_count_release_year|default:"" }}
                                 </h3>
-                                <div class="govuk-grid-column-full light-blue-background govuk-!-padding-top-4">
+                                <div class="govuk-grid-column-full light-blue-background govuk-!-padding-top-4 govuk-!-padding-bottom-4">
                                     <ul class="great-inline-flex great-gap-10-30 govuk-!-margin-bottom-0 govuk-grid-column-full govuk-!-padding-0">
                                         <li class="great-flex-grid govuk-heading-xl govuk-!-margin-bottom-0 govuk-grid-column-one-quarter">
                                             <strong class="govuk-!-padding-0">{{ bci_data.total_business_count|default:"N/A"|intcomma }}</strong>
@@ -126,7 +126,7 @@
                                     </div>
                                     <div class="govuk-grid-row govuk-!-padding-top-3">
                                         <div class="govuk-grid-column-full">
-                                            <p class="govuk-body-s">
+                                            <p class="govuk-body-s govuk-!-margin-bottom-0">
                                                 Source:
                                                 <a class="govuk-link govuk-link--muted"
                                                    href="https://www.ons.gov.uk/aboutus/whatwedo/paidservices/interdepartmentalbusinessregisteridbr">
