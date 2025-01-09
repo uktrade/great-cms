@@ -11,4 +11,4 @@ def get_document_link(document_title: str, document_type) -> str:
     except Document.DoesNotExist:
         return ''
     else:
-        return f'/documents/{document.id}/{document_title}.{document_type}'
+        return document.url
