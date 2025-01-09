@@ -51,7 +51,6 @@ class UpdateCompanyProfileOnFormWizardDoneMixin:
 
     def done(self, *args, **kwargs):
         data = self.serialize_form_data()
-        data['is_verification_letter_sent'] = True  # Mixin only used in SendVerificationLetterView
         response = api_client.company.profile_update(sso_session_id=self.request.user.session_id, data=data)
         try:
             response.raise_for_status()
