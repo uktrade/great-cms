@@ -33,7 +33,7 @@ class BusinessHeadquartersForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         countries_regions_territories = get_countries_regions_territories()
-        self.fields['company_location'].choices = (('', ''),) + tuple(
+        self.fields['company_location'].choices = (('', 'Choose location'),) + tuple(
             [(area['iso2_code'], area['name']) for area in countries_regions_territories]
         )
 
@@ -44,7 +44,7 @@ class BusinessHeadquartersForm(forms.Form):
         widget=Select(
             attrs={
                 'id': 'js-company-location-select',
-                'class': 'govuk-input',
+                'class': 'govuk-select',
             }
         ),
         choices=(('', ''),),
@@ -181,7 +181,7 @@ class BusinessSectorForm(forms.Form):
         super().__init__(*args, **kwargs)
         sector_data_json = get_dbt_sectors()
         self.sub_sectors_choices = region_sector_helpers.get_sectors_as_choices(sector_data_json)
-        self.fields['sector_sub'].choices = (('', ''),) + self.sub_sectors_choices
+        self.fields['sector_sub'].choices = (('', 'Choose a sector or location'),) + self.sub_sectors_choices
 
     # sector sub choices are set in form constructor to avoid side effects when importing module
     sector_sub = ChoiceField(
@@ -189,7 +189,7 @@ class BusinessSectorForm(forms.Form):
         help_text='Enter your sector or industry and select the closest result',
         required=True,
         widget=Select(
-            attrs={'id': 'js-sector-select', 'class': 'govuk-input', 'aria-describedby': 'help_for_id_sector_sub'}
+            attrs={'id': 'js-sector-select', 'class': 'govuk-select', 'aria-describedby': 'help_for_id_sector_sub'}
         ),
         choices=(('', ''),),
         error_messages={
@@ -297,9 +297,9 @@ class LocationForm(forms.Form):
             'required': 'Search and select a location',
         },
         widget=Select(
-            attrs={'id': 'js-location-select', 'class': 'govuk-input', 'aria-describedby': 'help_for_id_location'}
+            attrs={'id': 'js-location-select', 'class': 'govuk-select', 'aria-describedby': 'help_for_id_location'}
         ),
-        choices=(('', ''),) + region_sector_helpers.generate_location_choices(),
+        choices=(('', 'Select a location'),) + region_sector_helpers.generate_location_choices(),
     )
 
     location_none = BooleanField(

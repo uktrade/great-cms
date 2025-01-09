@@ -27,7 +27,7 @@
                         <h1 class="govuk-label-wrapper">
                             <label class="govuk-label govuk-label--l" for='js-location-select'>Where do you want to set up?</label>
                         </h1>
-                        {% include 'international/includes/form_field.html' with field=form.location inputWrapperClass='prepend-search-icon' %}
+                        {% include 'international/includes/form_field.html' with field=form.location inputWrapperClass='prepend-search-icon' help_class='govuk-hint govuk-!-margin-bottom-3 js-enabled-only' %}
                     </div>
                     <div class="govuk-grid-row">
                         <div class="govuk-grid-column-full">{% include "_button.html" with text=progress_button_text %}</div>
@@ -60,6 +60,7 @@
             selectElement: document.querySelector('#js-location-select'),
             source: flattenedRegionsAndCities,
             autoselect: false,
+            defaultValue: '',
             minLength: 2,
             onConfirm: function(selectedText) {
                 // onConfirm seems to be triggered by autocomplete many times passing null
