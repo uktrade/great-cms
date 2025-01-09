@@ -35,21 +35,9 @@
     border: 1px solid $great-light-grey;
 
     a {
-        text-decoration: none;
+        display: inline-block;
     }
 
-    a:hover {
-        h3, p {
-            text-decoration: underline;
-            text-decoration-thickness: max(1px, .0625rem);
-            text-underline-offset: .1578em;
-        }
-    }
-
-    a:focus {
-        outline: 2px solid #fd0;
-        display: block;
-    }
 
     .trade-show-link {
         text-decoration: underline;

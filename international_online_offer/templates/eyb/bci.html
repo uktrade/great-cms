@@ -28,7 +28,7 @@
                              class="bci-map__region" />
                     </div>
                     <div class="govuk-grid-column-full-width govuk-grid-column-three-quarters-from-desktop">
-                        <h2 class="govuk-heading-l govuk-!-margin-bottom-6">{{ headline_region.name }}</h2>
+                        <h2 class="govuk-heading-l govuk-!-margin-bottom-6">{{ headline_region.bci_card_title }}</h2>
                         <div class="govuk-!-margin-bottom-5">
                             <h3 class="govuk-heading-m govuk-!-margin-bottom-2">Population</h3>
                             <p class="govuk-heading-xl govuk-!-margin-bottom-1">{{ headline_region.population_million }} million</p>
@@ -37,14 +37,16 @@
                             <h3 class="govuk-heading-m govuk-!-margin-bottom-2">
                                 Market data for {{ triage_data.sector|get_sector_display|default:""|lower }}, {{ bci_release_year }}
                             </h3>
-                            <div class="govuk-grid-column-one-half govuk-grid-column-one-third-from-desktop govuk-!-padding-0">
-                                <h2 class="govuk-heading-xl govuk-!-margin-bottom-1">{{ bci_headline.total_business_count|default:"-"|intcomma }}</h2>
-                                <p class="govuk-body">businesses</p>
-                            </div>
-                            <div class="govuk-grid-column-one-half govuk-grid-column-one-third-from-desktop govuk-!-padding-0">
-                                <h2 class="govuk-heading-xl govuk-!-margin-bottom-1">{{ bci_headline.total_employee_count|default:"-"|intcomma }}</h2>
-                                <p class="govuk-body">employees</p>
-                            </div>
+                            <ul class="great-inline-flex great-gap-10-30 govuk-!-margin-bottom-0 govuk-grid-column-full govuk-!-padding-0">
+                                <li class="great-flex-grid govuk-heading-xl govuk-!-margin-bottom-0 govuk-grid-column-one-quarter">
+                                    <strong class="govuk-!-padding-0">{{ bci_headline.total_business_count|default:"-"|intcomma }}</strong>
+                                    <span class="govuk-!-padding-0 govuk-body float-left">businesses</span>
+                                </li>
+                                <li class="great-flex-grid govuk-heading-xl govuk-!-margin-bottom-0 govuk-grid-column-one-quarter">
+                                    <strong class="govuk-!-padding-0">{{ bci_headline.total_employee_count|default:"-"|intcomma }}</strong>
+                                    <span class="govuk-!-padding-0 govuk-body float-left">employees</span>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -66,7 +68,8 @@
                     <div class="govuk-grid-column-full">
                         <p class="govuk-body-xs great-text-grey govuk-!-margin-bottom-2">
                             Source:
-                            <a href="https://www.ons.gov.uk/aboutus/whatwedo/paidservices/interdepartmentalbusinessregisteridbr">
+                            <a class="govuk-link govuk-link--muted"
+                               href="https://www.ons.gov.uk/aboutus/whatwedo/paidservices/interdepartmentalbusinessregisteridbr">
                                 Inter-Departmental Business Register, Office for National Statistics
                             </a>
                         </p>
