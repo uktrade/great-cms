@@ -341,6 +341,11 @@ import pytest
             '/international/content/investment/how-we-can-help/open-a-uk-business-bank-account/',
             '/international/expand-your-business-in-the-uk/',
         ),
+        ('/international/content/invest/how-to-setup-in-the-uk/', '/international/expand-your-business-in-the-uk/'),
+        (
+            '/international/content/invest/how-to-setup-in-the-uk/random-sub-route/',
+            '/international/expand-your-business-in-the-uk/',
+        ),
     ),
 )
 @pytest.mark.django_db
