@@ -33,7 +33,7 @@
                                 Which country, region or territory is your headquarters located in?
                             </label>
                         </h1>
-                        {% include 'international/includes/form_field.html' with field=form.company_location inputWrapperClass='prepend-search-icon' help_class='govuk-hint govuk-!-margin-bottom-3' %}
+                        {% include 'international/includes/form_field.html' with field=form.company_location inputWrapperClass='prepend-search-icon' help_class='govuk-hint govuk-!-margin-bottom-3 js-enabled-only' %}
                     </div>
                     <div class="govuk-grid-row">
                         <div class="govuk-grid-column-full">{% include "_button.html" with text=progress_button_text %}</div>
@@ -50,7 +50,7 @@
             src="{% static 'javascript/accessible-autocomplete.v3.01.min.js' %}"></script>
     <script type="text/javascript">document.getElementById('id_js_enabled').value='True'</script>
     <script type="text/javascript">
-        const locationChoices = {{location_choices|safe}};
+        let locationChoices = {{location_choices|safe}};
 
         const onSubmitBusinessDetails = () => {
             if (!document.getElementById('js-company-location-select').value) {
@@ -61,6 +61,7 @@
         accessibleAutocomplete.enhanceSelectElement({
             selectElement: document.getElementById('js-company-location-select'),
             source: locationChoices,
+            defaultValue: '',
             autoselect: false,
             minLength: 2,
         });

@@ -30,7 +30,7 @@
                         <h1 class="govuk-label-wrapper">
                             <label class="govuk-label govuk-label--l" for="js-sector-select">What is your sector or industry?</label>
                         </h1>
-                        {% include 'international/includes/form_field.html' with field=form.sector_sub inputWrapperClass='prepend-search-icon' help_class='govuk-hint govuk-!-margin-bottom-3' %}
+                        {% include 'international/includes/form_field.html' with field=form.sector_sub inputWrapperClass='prepend-search-icon' help_class='govuk-hint govuk-!-margin-bottom-3 js-enabled-only' %}
                     </div>
                     <div class="govuk-grid-row">
                         <div class="govuk-grid-column-full">{% include "_button.html" with text=progress_button_text %}</div>
@@ -100,6 +100,7 @@
             selectElement: document.getElementById('js-sector-select'),
             source: sectorSuggest,
             autoselect: false,
+            defaultValue: '',
             templates: {
                 inputValue: (selectedSectorRow) => {
                     if (selectedSectorRow) {
