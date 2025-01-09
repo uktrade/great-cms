@@ -33,7 +33,7 @@ class BusinessHeadquartersForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         countries_regions_territories = get_countries_regions_territories()
-        self.fields['company_location'].choices = (('', 'Choose location'),) + tuple(
+        self.fields['company_location'].choices = (('', 'Choose a location'),) + tuple(
             [(area['iso2_code'], area['name']) for area in countries_regions_territories]
         )
 
@@ -181,7 +181,7 @@ class BusinessSectorForm(forms.Form):
         super().__init__(*args, **kwargs)
         sector_data_json = get_dbt_sectors()
         self.sub_sectors_choices = region_sector_helpers.get_sectors_as_choices(sector_data_json)
-        self.fields['sector_sub'].choices = (('', 'Choose a sector or location'),) + self.sub_sectors_choices
+        self.fields['sector_sub'].choices = (('', 'Choose a sector or industry'),) + self.sub_sectors_choices
 
     # sector sub choices are set in form constructor to avoid side effects when importing module
     sector_sub = ChoiceField(
@@ -299,7 +299,7 @@ class LocationForm(forms.Form):
         widget=Select(
             attrs={'id': 'js-location-select', 'class': 'govuk-select', 'aria-describedby': 'help_for_id_location'}
         ),
-        choices=(('', 'Select a location'),) + region_sector_helpers.generate_location_choices(),
+        choices=(('', 'Choose a location'),) + region_sector_helpers.generate_location_choices(),
     )
 
     location_none = BooleanField(
