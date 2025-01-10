@@ -36,6 +36,7 @@ import international_online_offer.urls
 import search.urls
 import sso.urls
 import sso_profile.urls
+from core.views import WagtailServeDocument
 
 urlpatterns = []
 
@@ -82,6 +83,11 @@ urlpatterns += [
         ),
     ),
     path('admin/', decorator_include([skip_ga360, nocache_page], wagtailadmin_urls)),
+    path(
+        'document/<str:document_title>/<str:document_type>/',
+        nocache_page(WagtailServeDocument.as_view()),
+        name='wagtail_serve_documents',
+    ),
     path(
         'documents/', decorator_include(nocache_page, wagtaildocs_urls)
     ),  # NB: doesn't skip GA as we may analytics on this
