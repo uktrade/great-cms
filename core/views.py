@@ -1029,10 +1029,11 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, TemplateView):
 
 class WagtailServeDocument(View):
 
-    def get(self, request, document_title, document_type):
+    def get(self, request, document_title):
         try:
             document = Document.objects.get(title=document_title)
         except Document.DoesNotExist:
             return HttpResponseBadRequest(())
         else:
-            return HttpResponseRedirect(redirect_to=document.url)
+            url = f'/documents/{document.id}/{document.filename}'
+            return HttpResponseRedirect(redirect_to=url)
