@@ -84,13 +84,13 @@ urlpatterns += [
     ),
     path('admin/', decorator_include([skip_ga360, nocache_page], wagtailadmin_urls)),
     path(
-        'document/get/<str:document_title>/',
+        'documents/', decorator_include(nocache_page, wagtaildocs_urls)
+    ),  # NB: doesn't skip GA as we may analytics on this
+    path(
+        'document/<str:document_title>/',
         nocache_page(WagtailServeDocument.as_view()),
         name='wagtail_serve_documents',
     ),
-    path(
-        'documents/', decorator_include(nocache_page, wagtaildocs_urls)
-    ),  # NB: doesn't skip GA as we may analytics on this
     path('great-cms-sso/', include(sso.urls)),
     path('search/', include(search.urls, namespace='search')),
     path('activity-stream/', decorator_include(nocache_page, activitystream.urls, namespace='activitystream')),
