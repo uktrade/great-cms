@@ -419,10 +419,12 @@
 {{ block.super }}
 <script src="{% static 'javascript/govuk.js' %}"></script>
 <script>window.GOVUKFrontend.initAll()</script>
-<script src="{% static 'javascript/hcsat-feedback-form.js' %}"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        new CsatFormHandler('csat-form');
-    });
-</script>
+{% if company.is_published %}
+    <script src="{% static 'javascript/hcsat-feedback-form.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            new CsatFormHandler('csat-form');
+        });
+    </script>
+{% endif %}
 {% endblock %}
