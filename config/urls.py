@@ -84,7 +84,7 @@ urlpatterns += [
     ),
     path('admin/', decorator_include([skip_ga360, nocache_page], wagtailadmin_urls)),
     path(
-        'document/<str:document_title>/',
+        'document/get/<str:document_title>/',
         nocache_page(WagtailServeDocument.as_view()),
         name='wagtail_serve_documents',
     ),

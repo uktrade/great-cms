@@ -1035,5 +1035,4 @@ class WagtailServeDocument(View):
         except Document.DoesNotExist:
             return HttpResponseBadRequest(())
         else:
-            url = f'/documents/{document.id}/{document.filename}'
-            return HttpResponseRedirect(redirect_to=url)
+            return HttpResponseRedirect(redirect_to=document.file.url)
