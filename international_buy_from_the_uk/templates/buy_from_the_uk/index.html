@@ -1,6 +1,5 @@
 {% extends './base.html' %}
 {% load static %}
-{% load get_document_link from document_tags %}
 {% block head_title %}Buy from the UK {{ block.super }}{% endblock %}
 {% block meta_title %}Buy from the UK {{ block.super }}{% endblock %}
 {% block head_css %}
@@ -57,9 +56,8 @@
                 <p class="govuk-body-m">
                     Our ebook, 5 Reasons to buy from the UK, gives insight into how the unique combination of innovation, creativity, infrastructure, robust regulatory framework, and access to capital makes the UK one of the top markets to find a supplier.
                 </p>
-                {% get_document_link "5_Reasons_To_Buy_From_the_UK_RElQ4Ie" "pdf" as document_link %}
                 <a class="govuk-button"
-                    href="{{ document_link }}"">
+                   href="https://directory-cms.london.cloudapps.digital/documents/107/5_Reasons_To_Buy_From_the_UK_RElQ4Ie.pdf">
                     Download
                 </a>
             </div>
