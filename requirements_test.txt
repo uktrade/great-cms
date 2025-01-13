@@ -448,7 +448,7 @@ markupsafe==3.0.2
     #   werkzeug
 matplotlib-inline==0.1.7
     # via ipython
-maxminddb==2.6.2
+maxminddb==2.6.3
     # via geoip2
 mccabe==0.7.0
     # via

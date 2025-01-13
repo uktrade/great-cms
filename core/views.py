@@ -9,7 +9,13 @@ from directory_forms_api_client.helpers import Sender
 from django.conf import settings
 from django.contrib.sitemaps import Sitemap as DjangoSitemap
 from django.core.files.storage import default_storage
-from django.http import Http404, HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import (
+    Http404,
+    HttpResponse,
+    HttpResponseBadRequest,
+    HttpResponseRedirect,
+    JsonResponse,
+)
 from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
@@ -27,6 +33,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from storages.backends.s3boto3 import S3Boto3Storage
 from wagtail.contrib.sitemaps import Sitemap as WagtailSitemap
+from wagtail.documents.models import Document
 from wagtail.images import get_image_model
 from wagtail.images.views import chooser
 from wagtail.images.views.chooser import (
@@ -1018,3 +1025,14 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, TemplateView):
             ukea_events=ukea_events,
             market_guide=market_guide,
         )
+
+
+class WagtailServeDocument(View):
+
+    def get(self, request, document_title):
+        try:
+            document = Document.objects.get(title=document_title)
+        except Document.DoesNotExist:
+            return HttpResponseBadRequest(())
+        else:
+            return HttpResponseRedirect(redirect_to=document.file.url)
