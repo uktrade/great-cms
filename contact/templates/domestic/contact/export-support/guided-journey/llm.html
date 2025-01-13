@@ -6,6 +6,11 @@
         <div class="great-container govuk-!-padding-top-9">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full govuk-!-margin-bottom-9">
+                    {% if task_id == '67890' %}
+                    <h1 class="govuk-heading-l govuk-!-margin-bottom-4">How do I grow my {{ session_data.commodity_name }} business in {{ session_data.market }}?</h1>
+                    {% elif task_id == '12345' %}
+                    <h1 class="govuk-heading-l govuk-!-margin-bottom-4">How do I export {{ session_data.commodity_name }} to {{ session_data.market }}?</h1>
+                    {% endif %}
                     <div id="llm_response_text">{{ content }}</div>
                 </div>
             </div>
@@ -22,7 +27,15 @@
             .then((res) => res.text())
             .then(
             (text) => {
-                document.getElementById('llm_response_text').innerHTML = text;
+                const parts = text.split('\\n');
+
+                let html_string = ''
+                
+                parts.forEach(part => {
+                    html_string += `<p>${part}</p>`
+                })
+
+                document.getElementById('llm_response_text').innerHTML = html_string;
             },
             (error) => {
                 console.log(error)

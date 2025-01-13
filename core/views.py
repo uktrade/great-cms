@@ -1028,7 +1028,7 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, TemplateView):
 
 
 @method_decorator(nocache_page, name='get')
-class GuidedJourneyLLMView(TemplateView):
+class GuidedJourneyLLMView(GuidedJourneyMixin, TemplateView):
     template_name = 'domestic/contact/export-support/guided-journey/llm.html'
 
     def get_context_data(self, **kwargs):
