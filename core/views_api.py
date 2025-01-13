@@ -1,6 +1,7 @@
 import datetime
 import logging
 import math
+import pickle
 
 from directory_ch_client.client import ch_search_api_client
 from django.conf import settings
@@ -211,8 +212,19 @@ class ProductPickerView(generics.GenericAPIView):
 
 class GuidedJourneyLLMView(generics.GenericAPIView):
     def get(self, request, **kwargs):
-        prompts = {'12345': 'What is exporting?', '67890': 'What is a business?'}
+        if self.request.session.get('guided_journey_data'):
+            form_data = pickle.loads(bytes.fromhex(self.request.session.get('guided_journey_data')))[0]
 
-        task_id = kwargs['task_id']
-        data = helpers.llm(prompts.get(task_id))
-        return Response(data)
+            market = form_data['market']
+            commodity_name = form_data['commodity_name']
+
+            prompts = {
+                '12345': f'How do I export {commodity_name} to {market}?',
+                '67890': f'How do I grow my {commodity_name} business in {market}?',
+            }
+
+            task_id = kwargs['task_id']
+            data = helpers.llm(prompts.get(task_id))
+            return Response(data)
+
+        return 'No commodity name or market provided'

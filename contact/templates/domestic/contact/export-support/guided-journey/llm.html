@@ -1,13 +1,31 @@
-<div id="llm_response_text">{{ content }}</div>
+{% extends 'domestic/contact/export-support/guided-journey/base.html' %}
+{% load static %}
+{% block head_title %}Export support for UK businesses{% endblock %}
+{% block content %}
+    <div class="great">
+        <div class="great-container govuk-!-padding-top-9">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full govuk-!-margin-bottom-9">
+                    <div id="llm_response_text">{{ content }}</div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+{% endblock %}
 
-<script>
-    fetch('/api/llm/{{ task_id }}')
-        .then((res) => res.text())
-        .then(
-        (text) => {
-            document.getElementById('llm_response_text').innerHTML = text;
-        },
-        (error) => {
-            console.log(error)
-        })
-</script>
+{% block body_js %}
+    {{ block.super }}
+
+    <script>
+        fetch('/api/llm/{{ task_id }}')
+            .then((res) => res.text())
+            .then(
+            (text) => {
+                document.getElementById('llm_response_text').innerHTML = text;
+            },
+            (error) => {
+                console.log(error)
+            })
+    </script>
+{% endblock %}
