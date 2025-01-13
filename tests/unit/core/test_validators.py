@@ -6,6 +6,7 @@ from django.test import override_settings
 
 from core.validators import (
     is_valid_email_address,
+    is_valid_international_phone_number,
     is_valid_uk_phone_number,
     is_valid_uk_postcode,
     validate_file_infection,
@@ -73,6 +74,25 @@ def test_validate_file_infection_negative_scan(mock_clam_av_client_scan):
 def test_is_valid_uk_phone_number(phone_number, raise_expected):
     try:
         is_valid_uk_phone_number(phone_number)
+        if raise_expected:
+            assert False, f'Excepted {phone_number} to fail validation. It did not'
+    except ValidationError:
+        if not raise_expected:
+            assert False, f'Excepted {phone_number} to pass validation. It did not'
+
+
+@pytest.mark.parametrize(
+    'phone_number, raise_expected',
+    (
+        ('07508236677', False),
+        ('invalid phone number', True),
+        ('+1 (123) 456-7890', False),
+        ('123.456.7890', False),
+    ),
+)
+def test_is_valid_international_phone_number(phone_number, raise_expected):
+    try:
+        is_valid_international_phone_number(phone_number)
         if raise_expected:
             assert False, f'Excepted {phone_number} to fail validation. It did not'
     except ValidationError:
