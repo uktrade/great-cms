@@ -20,6 +20,23 @@
     <div class="great-container">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
+                {% if user_registered_pre_dnb_lookup and request.GET.resume %}
+                    <div class="govuk-notification-banner govuk-!-width"
+                         role="status"
+                         aria-labelledby="govuk-notification-banner-title"
+                         data-module="govuk-notification-banner">
+                        <div class="govuk-notification-banner__header">
+                            <h2 class="govuk-notification-banner__title"
+                                id="govuk-notification-banner-title">Important</h2>
+                        </div>
+                        <div class="govuk-notification-banner__content">
+                            <h3 class="govuk-notification-banner__heading">More information needed</h3>
+                            <p class="govuk-body">
+                                Search for your company name or enter company details manually, to continue using this service.
+                            </p>
+                        </div>
+                    </div>
+                {% endif %}
                 {% comment %}
                     lifting error messaging into this template and hardcoding id
                     as we use hidden fields which cannot be linked to via href
@@ -90,7 +107,8 @@
                             <div class="govuk-button-group">
                                 {% include "_button.html" with text=progress_button_text classes="govuk-!-margin-right-2" %}
                                 <span class="govuk-body"> or <a class="govuk-link govuk-!-margin-left-1"
-    href="{% url 'international_online_offer:company-details' %}{% if request.GET.company_location_change %}?company_location_change=true{% endif %}{% if request.GET.next %}?next={{ request.GET.next }}&back={% url 'international_online_offer:find-your-company' %}?next={{ request.GET.next }}{% endif %}">Enter company details manually</a> </span>
+    href="{% url 'international_online_offer:company-details' %}{% if request.GET.company_location_change %}?company_location_change=true{% elif request.GET.next %}?next={{ request.GET.next }}&back={% url 'international_online_offer:find-your-company' %}?next={{ request.GET.next }}{% elif user_registered_pre_dnb_lookup and request.GET.resume %}?resume={{ request.GET.resume }}&user_registered_pre_dnb_lookup={{ user_registered_pre_dnb_lookup }}{% endif %}">
+                                Enter company details manually</a> </span>
                             </div>
                         </div>
                     </div>
