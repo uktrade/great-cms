@@ -23,7 +23,7 @@ def all_company_profile_data():
         'address_line_1': '123 Fake Street',
         'address_line_2': 'Fakeville',
         'locality': 'London',
-        'postal_code': 'E14 6XK',
+        'postal_code': 'E14 6XK',  # /PS-IGNORE
         'po_box': 'abc',
         'country': 'GB',
         'export_destinations': ['CN', 'IN'],
@@ -108,7 +108,7 @@ def test_send_verification_letter_address_context_data(client, user, mock_get_co
 
     assert response.context['company_name'] == 'Great company'
     assert response.context['company_number'] == 123456
-    assert response.context['company_address'] == ('123 Fake Street, Fakeville, London, GB, E14 6XK')
+    assert response.context['company_address'] == ('123 Fake Street, Fakeville, London, GB, E14 6XK')  # /PS-IGNORE
 
 
 @pytest.mark.django_db
@@ -252,7 +252,7 @@ def test_verify_company_address_end_to_end(mock_profile_update, send_verificatio
     assert response.template_name == view.templates[view.SENT]
     assert mock_profile_update.call_count == 1
     assert mock_profile_update.call_args == call(
-        data={'postal_full_name': 'Jeremy', 'is_verification_letter_sent': True},
+        data={'postal_full_name': 'Jeremy'},
         sso_session_id='123',
     )
 

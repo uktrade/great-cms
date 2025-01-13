@@ -71,9 +71,9 @@ cfgv==3.4.0
     # via pre-commit
 chardet==5.2.0
     # via reportlab
-charset-normalizer==3.4.0
+charset-normalizer==3.4.1
     # via requests
-click==8.1.7
+click==8.1.8
     # via
     #   celery
     #   click-didyoumean
@@ -239,7 +239,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==33.1.0
+faker==33.3.0
     # via factory-boy
 filelock==3.16.1
     # via virtualenv
@@ -253,7 +253,7 @@ googleapis-common-protos==1.66.0
     #   opentelemetry-exporter-otlp-proto-http
 great-components==2.7.2
     # via -r requirements.in
-grpcio==1.68.1
+grpcio==1.69.0
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==22.0.0
     # via -r requirements.in
@@ -265,7 +265,7 @@ html5lib==1.1
     #   xhtml2pdf
 icalendar==5.0.11
     # via -r requirements.in
-identify==2.6.3
+identify==2.6.5
     # via pre-commit
 idna==3.10
     # via requests
@@ -279,7 +279,7 @@ inflection==0.5.1
     # via drf-spectacular
 iso3166==1.0.1
     # via -r requirements.in
-jinja2==3.1.4
+jinja2==3.1.5
     # via sphinx
 jmespath==1.0.1
     # via
@@ -305,7 +305,7 @@ markdown2==2.4.0
     #   readtime
 markupsafe==3.0.2
     # via jinja2
-maxminddb==2.6.2
+maxminddb==2.6.3
     # via geoip2
 mohawk==1.1.0
     # via sigauth
@@ -373,7 +373,7 @@ opentelemetry-sdk==1.22.0
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
     #   opentelemetry-sdk-extension-aws
-opentelemetry-sdk-extension-aws==2.0.2
+opentelemetry-sdk-extension-aws==2.1.0
     # via dbt-copilot-python
 opentelemetry-semantic-conventions==0.43b0
     # via
@@ -423,7 +423,7 @@ pydantic-core==2.18.4
     # via pydantic
 pydantic-settings==2.3.1
     # via -r requirements.in
-pygments==2.18.0
+pygments==2.19.1
     # via sphinx
 pyhanko==0.25.1
     # via xhtml2pdf
@@ -596,7 +596,7 @@ vine==5.1.0
     #   amqp
     #   celery
     #   kombu
-virtualenv==20.28.0
+virtualenv==20.28.1
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core

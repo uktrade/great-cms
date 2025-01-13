@@ -77,7 +77,7 @@ def get_step_guide_accordion_items():
                     f'</p>'
                     f'<p class="govuk-body">'
                     f'<a class="govuk-link" href="/international/expand-your-business-in-the-uk/guide/'
-                    f'detailed-guides/open-a-business-bank-account">'
+                    f'detailed-guides/how-to-choose-and-set-up-a-uk-bank-account/">'
                     f'Read our guide on business banking'
                     f'</a>'
                     f'</p>'
