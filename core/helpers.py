@@ -806,6 +806,41 @@ def product_picker(product):
     return response.json()
 
 
+def llm(prompt):
+    brt = boto3.client(
+        service_name='bedrock-runtime',
+        region_name='eu-west-2',
+        aws_access_key_id=settings.AWS_ACCESS_KEY_ID_BEDROCK,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY_BEDROCK,
+        aws_session_token=settings.AWS_SESSION_TOKEN_BEDROCK,
+    )
+
+    # Set the model ID, e.g., Amazon Titan Text G1 - Express.
+    model_id = 'amazon.titan-text-express-v1'
+
+    # Format the request payload using the model's native structure.
+    native_request = {
+        'inputText': prompt,
+        'textGenerationConfig': {'maxTokenCount': 512, 'temperature': 0.5, 'topP': 0.9},
+    }
+
+    # Convert the native request to JSON.
+    request = json.dumps(native_request)
+
+    try:
+        # Invoke the model with the request.
+        response = brt.invoke_model(modelId=model_id, body=request)
+
+    except (ClientError, Exception) as e:
+        return f"ERROR: Can't invoke '{model_id}'. Reason: {e}"
+
+    # Decode the response body.
+    model_response = json.loads(response['body'].read())
+
+    # Extract and print the response text.
+    return model_response['results'][0]['outputText']
+
+
 def hcsat_get_initial(model, csat_id):
     if csat_id:
         csat_record = model.objects.get(id=csat_id)

@@ -1,0 +1,13 @@
+<div id="llm_response_text">{{ content }}</div>
+
+<script>
+    fetch('/api/llm/{{ task_id }}')
+        .then((res) => res.text())
+        .then(
+        (text) => {
+            document.getElementById('llm_response_text').innerHTML = text;
+        },
+        (error) => {
+            console.log(error)
+        })
+</script>

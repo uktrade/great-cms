@@ -1062,3 +1062,8 @@ COUNTRIES_ISO_CODE_UPDATE_MINUTE = env.countries_iso_code_update_minute
 COUNTRIES_ISO_CODE_UPDATE_API = 'https://restcountries.com/v3.1/all?fields=name,cca2'
 
 FEATURE_GREAT_MIGRATION_BANNER = env.feature_great_migration_banner
+
+
+AWS_ACCESS_KEY_ID_BEDROCK = env.aws_access_key_id_bedrock
+AWS_SECRET_ACCESS_KEY_BEDROCK = env.aws_secret_access_key_bedrock
+AWS_SESSION_TOKEN_BEDROCK = env.aws_session_token_bedrock

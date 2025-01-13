@@ -376,6 +376,10 @@ class BaseSettings(PydanticBaseSettings):
 
     feature_great_migration_banner: bool = False
 
+    aws_access_key_id_bedrock: str = ''
+    aws_secret_access_key_bedrock: str = ''
+    aws_session_token_bedrock: str = ''
+
 
 class CIEnvironment(BaseSettings):
     database_url: str

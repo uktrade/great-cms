@@ -207,3 +207,12 @@ class ProductPickerView(generics.GenericAPIView):
         product = kwargs['product']
         data = helpers.product_picker(product)
         return Response(data)
+
+
+class GuidedJourneyLLMView(generics.GenericAPIView):
+    def get(self, request, **kwargs):
+        prompts = {'12345': 'What is exporting?', '67890': 'What is a business?'}
+
+        task_id = kwargs['task_id']
+        data = helpers.llm(prompts.get(task_id))
+        return Response(data)

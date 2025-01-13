@@ -247,6 +247,16 @@ if settings.FEATURE_GUIDED_JOURNEY:
             skip_ga360(views_api.ProductPickerView.as_view()),
             name='api-product-picker',
         ),
+        path(
+            'your-export-guide/llm/<str:task_id>',
+            skip_ga360(views.GuidedJourneyLLMView.as_view()),
+            name='guided-journey-llm',
+        ),
+        path(
+            'api/llm/<str:task_id>',
+            skip_ga360(views_api.GuidedJourneyLLMView.as_view()),
+            name='api-llm',
+        ),
     ]
 
 urlpatterns += redirects
