@@ -220,7 +220,13 @@ class GuidedJourneyLLMView(generics.GenericAPIView):
             commodity_name = form_data['commodity_name']
             task_id = kwargs['task_id']
 
-            prompt = render_to_string(f'core/prompts/{task_id}.html', {'commodity_name': commodity_name, 'market': market,})
+            prompt = render_to_string(
+                f'core/prompts/{task_id}.html',
+                {
+                    'commodity_name': commodity_name,
+                    'market': market,
+                },
+            )
 
             data = helpers.llm(prompt)
             return Response(data)
