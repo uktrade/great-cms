@@ -3,6 +3,7 @@ import logging
 import math
 import pickle
 
+from django.template.loader import render_to_string
 from directory_ch_client.client import ch_search_api_client
 from django.conf import settings
 from drf_spectacular.types import OpenApiTypes
@@ -217,14 +218,11 @@ class GuidedJourneyLLMView(generics.GenericAPIView):
 
             market = form_data['market']
             commodity_name = form_data['commodity_name']
-
-            prompts = {
-                '12345': f'How do I export {commodity_name} to {market}?',
-                '67890': f'How do I grow my {commodity_name} business in {market}?',
-            }
-
             task_id = kwargs['task_id']
-            data = helpers.llm(prompts.get(task_id))
+
+            prompt = render_to_string(f'core/prompts/{task_id}.html', {'commodity_name': commodity_name, 'market': market,})
+
+            data = helpers.llm(prompt)
             return Response(data)
 
         return 'No commodity name or market provided'
