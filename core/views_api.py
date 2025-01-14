@@ -232,3 +232,8 @@ class GuidedJourneyLLMView(generics.GenericAPIView):
             return Response(data)
 
         return 'No commodity name or market provided'
+
+    def post(self, request, *args, **kwargs):
+        print(request.body)
+
+        return Response('Uploaded response to S3')
