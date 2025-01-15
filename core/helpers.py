@@ -832,13 +832,13 @@ def llm(prompt):
         response = brt.invoke_model(modelId=model_id, body=request)
 
     except (ClientError, Exception) as e:
-        return f"ERROR: Can't invoke '{model_id}'. Reason: {e}"
+        return {'error': True, 'response': f"ERROR: Can't invoke '{model_id}'. Reason: {e}"}
 
     # Decode the response body.
     model_response = json.loads(response['body'].read())
 
     # Extract and print the response text.
-    return model_response['results'][0]['outputText']
+    return {'error': False, 'response': model_response['results'][0]['outputText']}
 
 
 def hcsat_get_initial(model, csat_id):

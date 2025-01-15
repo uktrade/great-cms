@@ -1,6 +1,48 @@
 {% extends 'domestic/contact/export-support/guided-journey/base.html' %}
 {% load static %}
 {% block head_title %}Export support for UK businesses{% endblock %}
+
+
+{% block head_css %}
+    {{ block.super }}
+
+    <style>
+        .loader-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .loader {
+            width: 50px;
+            aspect-ratio: 1;
+            display: grid;
+        }
+        .loader::before,
+        .loader::after {    
+            content:"";
+            grid-area: 1/1;
+            --c:no-repeat radial-gradient(farthest-side,#25b09b 92%,#0000);
+            background: 
+                var(--c) 50%  0, 
+                var(--c) 50%  100%, 
+                var(--c) 100% 50%, 
+                var(--c) 0    50%;
+            background-size: 12px 12px;
+            animation: l12 1s infinite;
+        }
+        .loader::before {
+            margin: 4px;
+            filter: hue-rotate(45deg);
+            background-size: 8px 8px;
+            animation-timing-function: linear
+        }
+
+        @keyframes l12 { 
+            100% {transform: rotate(.5turn)}
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
     <div class="great">
         <div class="great-container govuk-!-padding-top-9">
@@ -11,7 +53,11 @@
                     {% elif task_id == '12345' %}
                     <h1 class="govuk-heading-l govuk-!-margin-bottom-4">How do I export {{ session_data.commodity_name }} to {{ session_data.market }}?</h1>
                     {% endif %}
-                    <div id="llm_response_text">{{ content }}</div>
+                    <div id="llm_response_text">
+                        <div class="loader-container">
+                            <div class="loader"></div> {{ content }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -24,31 +70,35 @@
 
     <script>
         fetch('/api/llm/{{ task_id }}')
-            .then((res) => res.text())
+            .then((res) => res.json())
             .then(
-            (text) => {
-                const parts = text.split('\\n');
+            ({error, response}) => {
+                if (error) {
+                    document.getElementById('llm_response_text').innerHTML = 'Sorry, something went wrong';
+                } else {
+                    const parts = response.split('\n');
 
-                let html_string = ''
-                
-                parts.forEach(part => {
-                    html_string += `<p>${part}</p>`
-                })
+                    let html_string = ''
 
-                document.getElementById('llm_response_text').innerHTML = html_string;
-
-                fetch('/api/llm/{{ task_id }}', {
-                    method: "POST",
-                    body: JSON.stringify({ llm_response: html_string }),
-                })
-                .then((res) => res.text())
-                .then(
-                    (text) => {
-                        console.log(text);
-                    },
-                    (error) => {
-                        console.log(error);
+                    parts.forEach(part => {
+                        html_string += `<p>${part}</p>`
                     })
+
+                    document.getElementById('llm_response_text').innerHTML = html_string;
+
+                    fetch('/api/llm/{{ task_id }}', {
+                        method: "POST",
+                        body: JSON.stringify({ llm_response: html_string }),
+                    })
+                    .then((res) => res.text())
+                    .then(
+                        (text) => {
+                            console.log(text);
+                        },
+                        (error) => {
+                            console.log(error);
+                        })
+                }
             },
             (error) => {
                 console.log(error)
