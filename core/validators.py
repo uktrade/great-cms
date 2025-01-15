@@ -38,8 +38,9 @@ def is_valid_international_phone_number(phone_number):
     """
     Validates that a phone number is composed of characters found in telephone numbers:
     0-9, spaces, hyphens, full stops, or open/close brackets, optionally preceded with a plus sign.
+    Extensions can be included using 'ext' or 'x' followed by digits.
     """
-    regex = r'^\+?[\d().\- ]{1,}$'
+    regex = r'^\+?[\d().\- ]+(?:\s*(?:ext|ext.|x)\s*\d+)?$'
     if not re.match(regex, phone_number):
         raise ValidationError('Enter a phone number in the correct format')
 

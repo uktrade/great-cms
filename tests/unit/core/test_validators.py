@@ -17,7 +17,7 @@ from tests.helpers import create_response
 @pytest.mark.parametrize(
     'postcode, raise_expected',
     (
-        ('SW1A1AA', False),
+        ('SW1A1AA', False),  # /PS-IGNORE
         ('90201', True),
         ('postcode', True),
         ('', True),
@@ -88,6 +88,9 @@ def test_is_valid_uk_phone_number(phone_number, raise_expected):
         ('invalid phone number', True),
         ('+1 (123) 456-7890', False),
         ('123.456.7890', False),
+        ('01234 765432 ext 1230', False),
+        ('01234 765432 ext. 1230', False),
+        ('01234 765432 x1230', False),
     ),
 )
 def test_is_valid_international_phone_number(phone_number, raise_expected):
@@ -103,7 +106,7 @@ def test_is_valid_international_phone_number(phone_number, raise_expected):
 @pytest.mark.parametrize(
     'email_address, raise_expected',
     (
-        ('joebloggs@businessandtrade.gov.uk', False),
+        ('joebloggs@businessandtrade.gov.uk', False),  # /PS-IGNORE
         ('joebloggs@businessandtrade', True),
         ('asdasdasd', True),
     ),
