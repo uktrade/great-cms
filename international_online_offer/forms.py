@@ -16,7 +16,7 @@ from django.utils.html import mark_safe
 from great_components import forms
 
 from contact import widgets as contact_widgets
-from core.validators import is_valid_email_address
+from core.validators import is_valid_email_address, is_valid_international_phone_number
 from directory_constants.choices import COUNTRY_CHOICES
 from international_online_offer.core import choices, intents, region_sector_helpers
 from international_online_offer.services import (
@@ -200,29 +200,21 @@ class BusinessSectorForm(forms.Form):
 
 class ContactDetailsForm(forms.Form):
     full_name = CharField(
-        label='Full name',
-        required=True,
+        label='Full name (optional)',
+        required=False,
         widget=TextInput(attrs={'class': 'govuk-input', 'autocomplete': 'name'}),
-        error_messages={
-            'required': 'Enter your full name',
-        },
     )
     role = CharField(
-        label='Job title',
-        required=True,
+        label='Job title (optional)',
+        required=False,
         widget=TextInput(attrs={'class': 'govuk-input', 'autocomplete': 'organization-title'}),
-        error_messages={
-            'required': 'Enter your job title',
-        },
     )
     telephone_number = CharField(
-        label='Phone number',
+        label='Phone number (optional)',
+        required=False,
         help_text='Include the country code',
-        required=True,
+        validators=[is_valid_international_phone_number],
         widget=TextInput(attrs={'class': 'govuk-input', 'autocomplete': 'tel'}),
-        error_messages={
-            'required': 'Enter your phone number',
-        },
     )
     agree_info_email = BooleanField(
         required=False,

@@ -262,37 +262,64 @@
                             <div class="govuk-summary-list__row">
                                 <dt class="govuk-summary-list__key govuk-body">Full name</dt>
                                 <dd class="govuk-summary-list__value govuk-body">
-                                    {{ user_data.full_name | default:'-' }}
+                                    {% if user_data.full_name %}
+                                        {{ user_data.full_name }}
+                                    {% else %}
+                                        <a class="govuk-link"
+                                           href="{% url 'international_online_offer:contact-details' %}?next={% url 'international_online_offer:change-your-answers' %}">
+                                            Enter full name
+                                        </a>
+                                    {% endif %}
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
-                                    <a class="govuk-link"
-                                       href="{% url 'international_online_offer:contact-details' %}?next={% url 'international_online_offer:change-your-answers' %}">
-                                        Change<span class="govuk-visually-hidden">full name</span>
-                                    </a>
+                                    {% if user_data.full_name %}
+                                        <a class="govuk-link"
+                                           href="{% url 'international_online_offer:contact-details' %}?next={% url 'international_online_offer:change-your-answers' %}">
+                                            Change<span class="govuk-visually-hidden">full name</span>
+                                        </a>
+                                    {% endif %}
                                 </dd>
                             </div>
                             <div class="govuk-summary-list__row">
                                 <dt class="govuk-summary-list__key govuk-body">Job title</dt>
                                 <dd class="govuk-summary-list__value govuk-body">
-                                    {{ user_data.role | default:'-' }}
+                                    {% if user_data.role %}
+                                        {{ user_data.role }}
+                                    {% else %}
+                                        <a class="govuk-link"
+                                           href="{% url 'international_online_offer:contact-details' %}?next={% url 'international_online_offer:change-your-answers' %}">
+                                            Enter job title
+                                        </a>
+                                    {% endif %}
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
-                                    <a class="govuk-link"
-                                       href="{% url 'international_online_offer:contact-details' %}?next={% url 'international_online_offer:change-your-answers' %}">
-                                        Change<span class="govuk-visually-hidden">job title</span>
-                                    </a>
+                                    {% if user_data.role %}
+                                        <a class="govuk-link"
+                                           href="{% url 'international_online_offer:contact-details' %}?next={% url 'international_online_offer:change-your-answers' %}">
+                                            Change<span class="govuk-visually-hidden">job title</span>
+                                        </a>
+                                    {% endif %}
                                 </dd>
                             </div>
                             <div class="govuk-summary-list__row">
                                 <dt class="govuk-summary-list__key govuk-body">Phone number</dt>
                                 <dd class="govuk-summary-list__value govuk-body">
-                                    {{ user_data.telephone_number | default:'-' }}
+                                    {% if user_data.telephone_number %}
+                                        {{ user_data.telephone_number }}
+                                    {% else %}
+                                        <a class="govuk-link"
+                                           href="{% url 'international_online_offer:contact-details' %}?next={% url 'international_online_offer:change-your-answers' %}">
+                                            Enter phone number
+                                        </a>
+                                    {% endif %}
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
-                                    <a class="govuk-link"
-                                       href="{% url 'international_online_offer:contact-details' %}?next={% url 'international_online_offer:change-your-answers' %}">
-                                        Change<span class="govuk-visually-hidden">phone number</span>
-                                    </a>
+                                    {% if user_data.telephone_number %}
+                                        <a class="govuk-link"
+                                           href="{% url 'international_online_offer:contact-details' %}?next={% url 'international_online_offer:change-your-answers' %}">
+                                            Change<span class="govuk-visually-hidden">phone number</span>
+                                        </a>
+                                    {% endif %}
                                 </dd>
                             </div>
                         </dl>
