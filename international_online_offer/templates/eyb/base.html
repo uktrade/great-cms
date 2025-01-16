@@ -15,7 +15,7 @@
     </div>
 {% endblock %}
 {% block content %}
-    {% if request.GET.resume and not form.errors %}
+    {% if request.GET.resume and not form.errors and not user_registered_pre_dnb_lookup %}
         <div class="great-container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
