@@ -1,14 +1,15 @@
 {% load humanize %}
 {% load static %}
-<div class="govuk-grid-row govuk-!-padding-4 bci-row-item">
-    <div class="govuk-grid-column-one-third">
+
+<tr class="govuk-table__row bci-row-item">
+    <td class="govuk-table__cell govuk-!-width-one-half">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 {% if bci_region.geo_code in hyperlinked_geo_codes %}
-                    <a class="govuk-link govuk-heading-m govuk-!-margin-bottom-0"
+                    <a class="govuk-link govuk-heading-l govuk-!-margin-bottom-0"
                        href="{% url 'international_online_offer:bci' %}?area={{ bci_region.geo_code }}">{{ bci_region.geo_description }}</a>
                 {% else %}
-                    <h3 class="govuk-heading-m govuk-!-margin-bottom-0">{{ bci_region.geo_description }}</h3>
+                    <h3 class="govuk-heading-l govuk-!-margin-bottom-0">{{ bci_region.geo_description }}</h3>
                 {% endif %}
             </div>
             <div class="govuk-grid-column-one-third">
@@ -17,17 +18,17 @@
                      class="bci-map__subregion" />
             </div>
         </div>
-    </div>
-    <div class="govuk-grid-column-one-third great-interntional-centered-content">
-        <h2 class="govuk-heading-xl govuk-!-padding-0 govuk-!-margin-bottom-1 ">
-            {{ bci_region.total_business_count|default:"-"|intcomma }}
-        </h2>
+    </td>
+    <td class="govuk-table__cell govuk-!-width-one-quarter">
+        <p class="govuk-heading-l govuk-!-text-align-centre">
+            <strong class="govuk-!-padding-0">{{ bci_region.total_business_count|default:"-"|intcomma }}</strong>
+        </p>
         <p class="govuk-body only-mobile">businesses</p>
-    </div>
-    <div class="govuk-grid-column-one-third great-interntional-centered-content">
-        <h2 class="govuk-heading-xl govuk-!-padding-0 govuk-!-margin-bottom-1">
-            {{ bci_region.total_employee_count|default:"-"|intcomma }}
-        </h2>
+    </td>
+    <td class="govuk-table__cell govuk-!-width-one-quarter">
+        <p class="govuk-heading-l govuk-!-text-align-centre">
+            <strong class="govuk-!-padding-0">{{ bci_region.total_employee_count|default:"-"|intcomma }}</strong>
+        </p>
         <p class="govuk-body only-mobile">employees</p>
-    </div>
-</div>
+    </td>
+</tr>

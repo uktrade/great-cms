@@ -31,18 +31,18 @@
                         <h2 class="govuk-heading-l govuk-!-margin-bottom-6">{{ headline_region.bci_card_title }}</h2>
                         <div class="govuk-!-margin-bottom-5">
                             <h3 class="govuk-heading-m govuk-!-margin-bottom-2">Population</h3>
-                            <p class="govuk-heading-xl govuk-!-margin-bottom-1">{{ headline_region.population_million }} million</p>
+                            <p class="govuk-heading-l govuk-!-margin-bottom-1">{{ headline_region.population_million }} million</p>
                         </div>
                         <div class="govuk-!-margin-bottom-5">
                             <h3 class="govuk-heading-m govuk-!-margin-bottom-2">
                                 Market data for {{ triage_data.sector|get_sector_display|default:""|lower }}, {{ bci_release_year }}
                             </h3>
                             <ul class="great-inline-flex great-gap-10-30 govuk-!-margin-bottom-0 govuk-grid-column-full govuk-!-padding-0">
-                                <li class="great-flex-grid govuk-heading-xl govuk-!-margin-bottom-0 govuk-grid-column-one-quarter">
+                                <li class="great-flex-grid govuk-heading-l govuk-!-margin-bottom-0 govuk-grid-column-one-third">
                                     <strong class="govuk-!-padding-0">{{ bci_headline.total_business_count|default:"-"|intcomma }}</strong>
                                     <span class="govuk-!-padding-0 govuk-body float-left">businesses</span>
                                 </li>
-                                <li class="great-flex-grid govuk-heading-xl govuk-!-margin-bottom-0 govuk-grid-column-one-quarter">
+                                <li class="great-flex-grid govuk-heading-l govuk-!-margin-bottom-0 govuk-grid-column-one-third">
                                     <strong class="govuk-!-padding-0">{{ bci_headline.total_employee_count|default:"-"|intcomma }}</strong>
                                     <span class="govuk-!-padding-0 govuk-body float-left">employees</span>
                                 </li>
@@ -50,20 +50,24 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="govuk-grid-row govuk-!-padding-4 great-display-from-tablet">
-                    <div class="govuk-grid-column-one-third">
-                        <h4 class="govuk-heading-s">{{ headline_region.sub_area_table_header }}</h4>
-                    </div>
-                    <div class="govuk-grid-column-one-third great-interntional-centered-content">
-                        <h4 class="govuk-heading-s">Businesses</h4>
-                    </div>
-                    <div class="govuk-grid-column-one-third great-interntional-centered-content">
-                        <h4 class="govuk-heading-s">Employees</h4>
-                    </div>
+                    <table class="govuk-table">
+                      <thead class="govuk-table__head">
+                        <tr class="govuk-table__row">
+                          <th scope="col" class="govuk-table__header">{{ headline_region.sub_area_table_header }}</th>
+                            <th scope="col" class="govuk-table__header govuk-!-text-align-centre ">Businesses</th>
+                            <th scope="col" class="govuk-table__header govuk-!-text-align-centre ">Employees</th>
+                        </tr>
+                      </thead>
+                      <tbody class="govuk-table__body">
+                        {% for region in bci_detail %}
+                            {% include './includes/bci_row_item.html' with bci_region=region %}
+                        {% endfor %}
+                      </tbody>
+                    </table>
                 </div>
-                {% for region in bci_detail %}
-                    {% include './includes/bci_row_item.html' with bci_region=region %}
-                {% endfor %}
+
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-full">
                         <p class="govuk-body-xs great-text-grey govuk-!-margin-bottom-2">
