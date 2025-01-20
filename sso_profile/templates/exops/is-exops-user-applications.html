@@ -25,7 +25,7 @@
                             <a class="link" href="{{ enquiry.opportunity_url }}">{{ enquiry.title }}</a>
                         </div>
                         <div class="sso-profile-eig-opportunity-item-description">
-                            <span>{{ enquiry.description|linebreaks }}</span>
+                            <span>{{ enquiry.description|safe|linebreaks }}</span>
                         </div>
                         <div class="sso-profile-eig-opportunity-item-expires">
                             <strong>Opportunity expires:</strong><span>{{ enquiry.expiration_date|parse_date:"%Y-%m-%d"|date:"d F Y" }}</span>
