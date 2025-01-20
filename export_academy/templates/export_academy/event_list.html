@@ -84,7 +84,7 @@
                                 <div class="govuk-!-padding-left-3 govuk-!-margin-bottom-2 govuk-!-padding-right-3">
                                     <{{ event.past_year_seperator|h3_if:'h2' }} class="govuk-heading-s govuk-!-margin-bottom-0 great-text-dark-grey">
                                     <a href="{{ event.get_absolute_url }}"
-                                       class="govuk-link great-underline-no-offset govuk-heading-m great-title-link event{% user_is_booked_on_event request.user event as event_is_booked %}{% if not event_is_booked %}-not{% endif %}-booked">
+                                       class="govuk-link govuk-heading-s great-title-link event{% user_is_booked_on_event request.user event as event_is_booked %}{% if not event_is_booked %}-not{% endif %}-booked">
                                         {{ event.name }}
                                         <span class="great-visually-hidden">– {{ event.start_date|date:"d F" }} at {{ event.start_date|time:"gA" }}</span>
                                     </a>
