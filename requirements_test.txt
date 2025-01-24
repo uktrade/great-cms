@@ -149,7 +149,7 @@ decorator==5.1.1
     #   ipython
 defusedxml==0.7.1
     # via willow
-deprecated==1.2.15
+deprecated==1.2.16
     # via
     #   opentelemetry-api
     #   opentelemetry-exporter-otlp-proto-grpc
@@ -260,7 +260,7 @@ django-storages[boto3]==1.13.2
     #   django-storages
 django-taggit==4.0.0
     # via wagtail
-django-timezone-field==7.0
+django-timezone-field==7.1
     # via django-celery-beat
 django-treebeard==4.7
     # via
@@ -300,15 +300,15 @@ exceptiongroup==1.2.2
     #   trio-websocket
 execnet==2.1.1
     # via pytest-xdist
-executing==2.1.0
+executing==2.2.0
     # via stack-data
 factory-boy==3.3.0
     # via
     #   -r /Users/davidurquhart/great/greatcms/requirements.in
     #   wagtail-factories
-faker==33.3.0
+faker==35.0.0
     # via factory-boy
-filelock==3.16.1
+filelock==3.17.0
     # via virtualenv
 filetype==1.2.0
     # via willow
@@ -362,7 +362,7 @@ great-components==2.7.2
     # via -r /Users/davidurquhart/great/greatcms/requirements.in
 greenlet==3.1.1
     # via gevent
-grpcio==1.69.0
+grpcio==1.70.0
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==22.0.0
     # via -r /Users/davidurquhart/great/greatcms/requirements.in
@@ -376,7 +376,7 @@ html5lib==1.1
     #   xhtml2pdf
 icalendar==5.0.11
     # via -r /Users/davidurquhart/great/greatcms/requirements.in
-identify==2.6.5
+identify==2.6.6
     # via pre-commit
 idna==3.10
     # via
@@ -586,7 +586,7 @@ pre-commit==3.8.0
     #   django-log-formatter-asim
 pre-commit-hooks==3.3.0
     # via -r requirements_test.in
-prompt-toolkit==3.0.48
+prompt-toolkit==3.0.50
     # via
     #   click-repl
     #   ipython
@@ -762,9 +762,9 @@ ruamel-yaml-clib==0.2.12
     # via ruamel-yaml
 s3transfer==0.6.2
     # via boto3
-selenium==4.27.1
+selenium==4.28.1
     # via -r requirements_test.in
-sentry-sdk==2.19.2
+sentry-sdk==2.20.0
     # via -r /Users/davidurquhart/great/greatcms/requirements.in
 sigauth==5.3.0
     # via
@@ -874,7 +874,7 @@ typing-extensions==4.12.2
     #   pypdf
     #   selenium
     #   wagtail-localize
-tzdata==2024.2
+tzdata==2025.1
     # via
     #   celery
     #   django-celery-beat
@@ -906,7 +906,7 @@ vine==5.1.0
     #   amqp
     #   celery
     #   kombu
-virtualenv==20.28.1
+virtualenv==20.29.1
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core
@@ -961,7 +961,7 @@ willow[heif]==1.6.3
     # via
     #   wagtail
     #   willow
-wrapt==1.17.0
+wrapt==1.17.2
     # via
     #   deprecated
     #   opentelemetry-instrumentation

@@ -40,6 +40,8 @@ const get = function (url, params) {
       Accept: 'application/json',
       'X-CSRFToken': config.csrfToken,
       'X-Requested-With': 'XMLHttpRequest',
+      'cache-control': 'no-cache',
+      'pragma': 'no-cache',
     },
   })
 }
