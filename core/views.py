@@ -43,7 +43,7 @@ from wagtail.images.views.chooser import (
     ImageInsertionForm,
     ImageUploadViewMixin,
 )
-from wagtailcache.cache import WagtailCacheMixin, nocache_page
+from wagtailcache.cache import nocache_page
 
 from core import cms_slugs, forms, helpers, serializers
 from core.constants import PRODUCT_MARKET_DATA
@@ -153,11 +153,8 @@ class SignupView(GA360Mixin, PageTitleMixin, TemplateView):  # /PS-IGNORE
         return context
 
 
-class CompareCountriesView(
-    WagtailCacheMixin, GA360Mixin, PageTitleMixin, HCSATMixin, TemplateView, FormView  # /PS-IGNORE
-):
-
-    cache_control = 'no-cache'
+@method_decorator(nocache_page, name='get')
+class CompareCountriesView(GA360Mixin, PageTitleMixin, HCSATMixin, TemplateView, FormView):  # /PS-IGNORE
 
     def __init__(self):
         super().__init__()
