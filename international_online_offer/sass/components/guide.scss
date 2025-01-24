@@ -10,10 +10,18 @@
     width: 197px;
 }
 
-.bci-row-item{
-    border-top: 1px solid $great-border-grey;
-    @media (max-width: 768px) {
-        display: flex;
-        align-items: center;
+.bci-table-header{
+    width: 33.33%;
+}
+
+.bci-table-header__region{
+    @media (min-width: 641px) {
+        width: 50%;
+    }
+}
+
+.bci-table-header__stat{
+    @media (min-width: 641px) {
+        width: 25%;
     }
 }
