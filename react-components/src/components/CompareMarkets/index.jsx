@@ -102,6 +102,10 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
     return products
   }
 
+  console.error("DEBUGGING START")
+  console.error("productsLoaded: " + productsLoaded)
+  console.error("selectedLength: " + selectedLength)
+  console.error("DEBUGGING END")
   return (
     productsLoaded && (
       <>
