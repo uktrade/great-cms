@@ -29,6 +29,8 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
   console.log("DEBUGGING START selectedLength = Object.keys(comparisonMarkets || []).length")
   console.log("selectedLength: " + selectedLength)
   console.log("comparisonMarkets: " + comparisonMarkets)
+  console.log("Object.keys(comparisonMarkets || []).length: " + Object.keys(comparisonMarkets || []).length)
+  console.log("Object.keys(comparisonMarkets): " + Object.keys(comparisonMarkets))
   console.log("DEBUGGING END")
 
 
