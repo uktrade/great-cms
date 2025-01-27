@@ -21,18 +21,14 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
   const { products, productsLoaded } = useUserProducts()
   const [comparisonMarkets, _setComparisonMarkets] = useComparisonMarkets()
   const [activeProduct] = useActiveProduct()
-
   const cacheVersion = useSelector((state) => getCacheVersion(state))
+
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
 
   const hasProducts = products && products.length
   const selectedLength = Object.keys(comparisonMarkets || []).length
-  console.log("DEBUGGING START selectedLength = Object.keys(comparisonMarkets || []).length")
-  console.log("selectedLength: " + selectedLength)
-  console.log("comparisonMarkets: " + comparisonMarkets)
-  console.log("Object.keys(comparisonMarkets || []).length: " + Object.keys(comparisonMarkets || []).length)
-  console.log("Object.keys(comparisonMarkets): " + Object.keys(comparisonMarkets))
-  console.log("DEBUGGING END")
 
+  sleep(2000)
 
   const pushAnalytics = (markets, market, remove) => {
     const marketNames = Object.values(markets).map((v) => v.country_name)
@@ -109,10 +105,10 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
     return products
   }
 
-  // console.log("DEBUGGING START")
-  // console.log("productsLoaded: " + productsLoaded)
-  // console.log("selectedLength: " + selectedLength)
-  // console.log("DEBUGGING END")
+  console.log("DEBUGGING START")
+  console.log("productsLoaded: " + productsLoaded)
+  console.log("selectedLength: " + selectedLength)
+  console.log("DEBUGGING END")
   return (
     productsLoaded && (
       <>
