@@ -26,6 +26,11 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
 
   const hasProducts = products && products.length
   const selectedLength = Object.keys(comparisonMarkets || []).length
+  console.log("DEBUGGING START selectedLength = Object.keys(comparisonMarkets || []).length")
+  console.log("selectedLength: " + selectedLength)
+  console.log("comparisonMarkets: " + comparisonMarkets)
+  console.log("DEBUGGING END")
+
 
   const pushAnalytics = (markets, market, remove) => {
     const marketNames = Object.values(markets).map((v) => v.country_name)
@@ -102,10 +107,10 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
     return products
   }
 
-  console.log("DEBUGGING START")
-  console.log("productsLoaded: " + productsLoaded)
-  console.log("selectedLength: " + selectedLength)
-  console.log("DEBUGGING END")
+  // console.log("DEBUGGING START")
+  // console.log("productsLoaded: " + productsLoaded)
+  // console.log("selectedLength: " + selectedLength)
+  // console.log("DEBUGGING END")
   return (
     productsLoaded && (
       <>
