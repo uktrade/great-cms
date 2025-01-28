@@ -30,6 +30,12 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
   const selectedLength = Object.keys(comparisonMarkets || []).length
 
   console.log("comparisonMarkets: " + comparisonMarkets)
+  if (comparisonMarkets) {
+    console.log(comparisonMarkets.length)
+  }
+  else {
+    console.log("NO LENGTH")
+  }
 
 
   const pushAnalytics = (markets, market, remove) => {
