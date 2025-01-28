@@ -31,10 +31,10 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
 
   console.log("comparisonMarkets: " + comparisonMarkets)
   if (comparisonMarkets) {
-    console.log(comparisonMarkets.length)
+    console.log("Object.keys(comparisonMarkets: " + Object.keys(comparisonMarkets))
   }
   else {
-    console.log("NO LENGTH")
+    console.log("NOT DEFINED")
   }
 
 
