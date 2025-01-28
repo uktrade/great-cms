@@ -31,7 +31,13 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
 
   console.log("comparisonMarkets: " + comparisonMarkets)
   if (comparisonMarkets) {
-    console.log("Object.keys(comparisonMarkets: " + Object.keys(comparisonMarkets))
+    if (Object.keys(comparisonMarkets)) {
+      console.log("Object.keys(comparisonMarkets: " + Object.keys(comparisonMarkets))
+      console.log("typeof(comparisonMarkets): " + typeof(comparisonMarkets))
+    }
+    else {
+      console.log("typeof(comparisonMarkets): " + typeof(comparisonMarkets))
+    }
   }
   else {
     console.log("NOT DEFINED")
