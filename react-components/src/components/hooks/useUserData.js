@@ -17,6 +17,7 @@ const useUserData = (
   context = 'Unknown context',
   duplicateComparator = deepEqual
 ) => {
+  console.log("INVOKED useUserData: " + blobName + " " + autoload)
   const blobValue = useSelector(
     (state) => state.userSettings && state.userSettings[blobName]
   )
@@ -102,6 +103,7 @@ const useUserData = (
     }
   }
 
+  console.log("EXITING useUserData: " + blobValue)
   return [
     blobValue || defaultValue,
     saveBlob,

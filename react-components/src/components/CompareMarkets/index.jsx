@@ -23,8 +23,6 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
   const [activeProduct] = useActiveProduct()
   const cacheVersion = useSelector((state) => getCacheVersion(state))
 
-  const sleep = ms => new Promise(r => setTimeout(r, ms));
-
   console.log('COMPONENT INVOKED')
   const hasProducts = products && products.length
   const selectedLength = Object.keys(comparisonMarkets || []).length
