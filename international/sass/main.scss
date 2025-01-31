@@ -150,9 +150,12 @@ $fa-font-path: '/static/fonts';
 }
 
 .autocomplete {
+    &__input {
+        height: 40px;
+    }
+
     &__input, &__option {
         font-size: 19px;
         line-height: 25px;
-        height: 40px;
     }
 }
