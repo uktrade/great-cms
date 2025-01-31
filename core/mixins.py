@@ -246,6 +246,8 @@ class HCSATMixin:
         return None
 
     def set_csat_and_stage(self, request, ctx, hcsat_service_name, form):
+        from core.helpers import submit_hcsat_to_forms_api
+
         hcsat = self.get_hcsat(request, hcsat_service_name)
 
         # all csat instances use the same form object, so customise initial heading depending on service
@@ -258,7 +260,8 @@ class HCSATMixin:
         if hcsat and hcsat.stage == 2:
             ctx['hcsat_form_stage'] = 2
             hcsat.stage = 0
-            hcsat.save()
+            submit_hcsat_to_forms_api(self, form)
+            hcsat.delete()
         else:
             ctx['hcsat_form_stage'] = hcsat.stage if hcsat else 0
 

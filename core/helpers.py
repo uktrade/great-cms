@@ -19,6 +19,7 @@ import great_components.helpers
 import requests
 from botocore.exceptions import ClientError
 from directory_forms_api_client import actions
+from directory_forms_api_client.helpers import Sender
 from django.conf import settings
 from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
 from django.contrib.humanize.templatetags.humanize import intword
@@ -904,3 +905,21 @@ def get_sectors_and_sic_sectors_file():
     deserialised_data = json.load(json_data)
     json_data.close()
     return deserialised_data
+
+
+def submit_hcsat_to_forms_api(self, form):
+    cleaned_data = form.cleaned_data
+    form_data = {**self.initial_data, **cleaned_data}
+
+    sender = Sender(
+        email_address=form_data.get('email'),
+        country_code=None,
+    )
+
+    action = actions.SaveOnlyInDatabaseAction(
+        sender=sender,
+        form_url=self.request.get_full_path(),
+    )
+
+    response = action.save(cleaned_data)
+    response.raise_for_status()
