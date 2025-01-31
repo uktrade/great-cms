@@ -2,26 +2,28 @@
     border: 1px solid $great-light-grey;
 }
 
-.bci-map__subregion {
-    width: 76px;
-}
+.bci {
+    &-map {
+        &__region {
+            width: 197px;
+        }
 
-.bci-map__region {
-    width: 197px;
-}
-
-.bci-table-header{
-    width: 33.33%;
-}
-
-.bci-table-header__region{
-    @media (min-width: 641px) {
-        width: 50%;
+        &__subregion {
+            width: 76px;
+        }
     }
-}
 
-.bci-table-header__stat{
-    @media (min-width: 641px) {
-        width: 25%;
+    &-table-header {
+        width: 33.33%;
+
+        @media (min-width: $mobile-size) {
+            &__region {
+                width: 50%;
+            }
+
+            &__stat {
+                width: 25%;
+            }
+        }
     }
 }
