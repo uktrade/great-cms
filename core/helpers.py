@@ -613,7 +613,7 @@ class GeoLocationRedirector:
     @cached_property
     def country_code(self):
         client_ip, is_routable = get_client_ip(self.request)
-        sentry_sdk.capture_message("GeoIP from request: {client_ip}")
+        sentry_sdk.capture_message(f"GeoIP from request: {client_ip}")
         if client_ip and is_routable:
             try:
                 response = GeoIP2().country(client_ip)
