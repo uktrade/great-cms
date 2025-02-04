@@ -10,7 +10,11 @@
 {% block content %}
     {{ block.super }}
     <div class="great-container">
-        {% include '../includes/triage_header.html' with back_url=back_url %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                {% include '../includes/error_summary.html' with error_message_link='#hiring-select_0' %}
+            </div>
+        </div>
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <form method="post">
