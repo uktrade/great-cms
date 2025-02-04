@@ -614,6 +614,8 @@ class GeoLocationRedirector:
     def country_code(self):
         client_ip, is_routable = get_client_ip(self.request)
         sentry_sdk.capture_message(f"GeoIP from request: {client_ip}")
+        sentry_sdk.capture_message(f"GeoIP request headers: {self.request.META}") # TODO DPM-705 delete
+        sentry_sdk.capture_message(f"GeoIP is_routable: {is_routable}")
         if client_ip and is_routable:
             try:
                 response = GeoIP2().country(client_ip)
@@ -638,7 +640,6 @@ class GeoLocationRedirector:
 
     def get_response(self):
         params = self.request.GET.dict()
-        sentry_sdk.capture_message(f"HTTP_X_FORWARDED_FOR headers: {self.request.META.get('HTTP_X_FORWARDED_FOR')}")
         params[self.LANGUAGE_PARAM] = self.country_language
         url = '{url}?{querystring}'.format(url='/international/', querystring=urllib.parse.urlencode(params))
         response = redirect(url)
