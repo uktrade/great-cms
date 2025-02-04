@@ -502,7 +502,7 @@ def test_get_suggested_markets(patch_get_suggested_markets):
 
 def test_get_sender_ip():
     request = HttpRequest()
-    request.META = {'REMOTE_ADDR': '192.168.93.2'}
+    request.META = {'HTTP_X_FORWARDED_FOR': '192.168.93.2, 127.0.0.1, 127.0.0.2'}
     ip_address = helpers.get_sender_ip_address(request)
     assert ip_address == '192.168.93.2'
 
