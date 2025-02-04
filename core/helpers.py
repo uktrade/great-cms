@@ -614,7 +614,7 @@ class GeoLocationRedirector:
     def country_code(self):
         # Find x-forwarded-for
         try:
-            x_forwarded_for = self.request.META["HTTP_X_FORWARDED_FOR"]
+            x_forwarded_for = self.request.META['HTTP_X_FORWARDED_FOR']
             client_ip = x_forwarded_for.split(',')[-3].strip()
             response = GeoIP2().country(client_ip)
             return response['country_code']
