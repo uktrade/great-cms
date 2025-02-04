@@ -23,19 +23,8 @@
                             <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                                 <h1 class="govuk-fieldset__heading">How many people do you want to hire in the UK in the first three years?</h1>
                             </legend>
-                            {% for error in form.hiring.errors %}
-                                <p class="govuk-error-message" role="alert">
-                                    <span class="govuk-visually-hidden">Error:</span> {{ error }}
-                                </p>
-                            {% endfor %}
-                            <div class="govuk-radios" data-module="govuk-radios" id="hiring">
-                                {% for hire in form.hiring %}
-                                    {% if forloop.counter == form.hiring|length %}<div class="govuk-radios__divider">or</div>{% endif %}
-                                    <div class="govuk-radios__item">
-                                        {{ hire.tag }}
-                                        <label class="govuk-label govuk-radios__label" for="{{ hire.id_for_label }}">{{ hire.choice_label }}</label>
-                                    </div>
-                                {% endfor %}
+                            <div class="govuk-form-group {% if form.hiring.errors %}govuk-form-group--error{% endif %}">
+                                {% include 'domestic/contact/includes/govuk-form-field.html' with field=form.hiring hide_label=True %}
                             </div>
                         </fieldset>
                     </div>

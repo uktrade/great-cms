@@ -7,7 +7,6 @@ from django.forms import (
     HiddenInput,
     MultipleChoiceField,
     PasswordInput,
-    RadioSelect,
     Select,
     Textarea,
     TextInput,
@@ -305,7 +304,7 @@ class HiringForm(forms.Form):
     hiring = ChoiceField(
         label='How many people are you looking to hire in the UK?',
         required=True,
-        widget=RadioSelect(attrs={'id': 'hiring-select', 'class': 'govuk-radios__input'}),
+        widget=contact_widgets.GreatRadioSelect(attrs={'id': 'hiring-select', 'class': 'govuk-radios__input'}),
         choices=choices.HIRING_CHOICES,
         error_messages={
             'required': 'Select how many people you want to hire',
