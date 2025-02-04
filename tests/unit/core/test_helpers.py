@@ -34,7 +34,7 @@ def test_get_location_international(rf):
 
     actual = helpers.get_location(request)
 
-    assert actual == 'US'
+    assert actual["country"] == 'US'
 
 
 def test_get_location_domestic(rf):
@@ -43,7 +43,7 @@ def test_get_location_domestic(rf):
 
     actual = helpers.get_location(request)
 
-    assert actual in ['GB', 'IE']
+    assert actual["country"] in ['GB', 'IE']
 
 
 @mock.patch.object(helpers.GeoIP2, 'city')
