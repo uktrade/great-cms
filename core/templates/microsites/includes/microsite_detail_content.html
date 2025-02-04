@@ -58,8 +58,11 @@
                 {% endif %}
             {% endblock %}
             {% block social_media %}
-                {% include 'microsites/blocks/social_media.html' with twitter=page.twitter email=page.email facebook=page.facebook linkedin=page.linkedin %}
+                {% if page.show_social_media %}
+                    {% include 'components/great/share.html' with page_url=request.build_absolute_uri page_title=page.title %}
+                {% endif %}
             {% endblock %}
+            
             <section class="govuk-grid-column-three-quarters govuk-!-static-padding-left-0 govuk-!-static-padding-top-9">
                 {% if page.last_published_at %}
                     <p class="govuk-body great-text-grey govuk-!-static-margin-bottom-0">

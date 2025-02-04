@@ -2032,9 +2032,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
         blank=True,
     )
 
-    twitter = models.URLField(blank=True, verbose_name=_('Twitter'))
-    facebook = models.URLField(blank=True, verbose_name=_('Facebook'))
-    linkedin = models.URLField(blank=True, verbose_name=_('LinkedIn'))
+    show_social_media = models.BooleanField(default=False)
 
     review_reminder_sent = models.DateTimeField(blank=True, null=True)
 
