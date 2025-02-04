@@ -1,4 +1,4 @@
-{% if settings.core.ShareSettings.share_prefix and settings.core.ShareSettings.hashtags and settings.wagtailseo.SeoSettings.twitter_site %}
+
     <div class="govuk-!-padding-top-3 great-share">
         <{{ heading_level|default:'h2' }} class="govuk-heading-s">Share this page</{{ heading_level|default:'h2' }}>
         <ul class="govuk-!-margin-top-4 {% if list_classes %} {{ list_classes }} {% endif %}">
@@ -53,10 +53,12 @@
 
                     const copy_url_to_clipboard = async function (event) {
                         try {
+                            console.log('inere')
                             await navigator.clipboard.writeText(window.location.href)
                             document.getElementById(aria_copy_url_id).innerHTML = "Link copied"
                             event.srcElement.innerHTML = "<span role='img' class='fa fa-check'></span> Link copied"
                           } catch (e) {
+                            console.log(e)
                         }
                     }
 
@@ -82,4 +84,3 @@
             {% endblock %}
         </ul>
     </div>
-{% endif %}

@@ -27,7 +27,7 @@ export const Form = ({
         handleSubmit()
       }}
     >
-      <h3 className="govuk-heading-m govuk-!-margin-top-8 govuk-!-margin-bottom-6 great-width-auto">Sign in</h3>
+      <h1 className="govuk-heading-m govuk-!-margin-top-8 govuk-!-margin-bottom-6 great-width-auto">Sign in</h1>
 
       {/* eslint-disable-next-line no-underscore-dangle,react/prop-types */}
       <ErrorList errors={errors.__all__ || []} className="govuk-!-margin-bottom-2" />

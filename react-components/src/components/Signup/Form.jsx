@@ -30,9 +30,9 @@ const Form = ({
     autoComplete="new-off"
   >
     {showTitle && (
-      <h3 className="govuk-heading-m govuk-!-margin-top-8 govuk-!-margin-bottom-6">
+      <h1 className="govuk-heading-m govuk-!-margin-top-8 govuk-!-margin-bottom-6">
         Create an account
-      </h3>
+      </h1>
     )}
 
 

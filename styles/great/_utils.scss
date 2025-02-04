@@ -748,7 +748,7 @@
   display: block;
 
   @include govuk-media-query($from: 901px) {
-    display: none;
+    display: none !important;
   }
 }
 
