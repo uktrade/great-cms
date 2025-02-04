@@ -28,23 +28,29 @@ def create_test_image(extension):
     return byte_io
 
 
-@mock.patch.object(helpers, 'get_client_ip')
-def test_get_location_unknown_ip(mock_get_client_ip, rf):
-    mock_get_client_ip.return_value = None, None
+def test_get_location_international(rf):
     request = rf.get('/')
+    request.META['HTTP_X_FORWARDED_FOR'] = '8.8.8.8, 127.0.0.1, 127.0.0.2'
 
     actual = helpers.get_location(request)
 
-    assert actual is None
-    assert mock_get_client_ip.call_count == 1
-    assert mock_get_client_ip.call_args == mock.call(request)
+    assert actual == 'US'
+
+
+def test_get_location_domestic(rf):
+    request = rf.get('/')
+    request.META['HTTP_X_FORWARDED_FOR'] = '213.120.234.38, 127.0.0.1, 127.0.0.2'
+
+    actual = helpers.get_location(request)
+
+    assert actual in ['GB', 'IE']
 
 
 @mock.patch.object(helpers.GeoIP2, 'city')
-@mock.patch.object(helpers, 'get_client_ip', return_value=('127.0.0.1', True))
-def test_get_location_unable_to_determine__city(mock_get_client_ip, mock_city, rf):
-    mock_city.side_effect = helpers.GeoIP2Exception
+def test_get_location_unable_to_determine__city(mock_city, rf):
     request = rf.get('/')
+    request.META['HTTP_X_FORWARDED_FOR'] = '127.0.0.1, 127.0.0.2, 127.0.0.3'
+    mock_city.side_effect = helpers.GeoIP2Exception
 
     actual = helpers.get_location(request)
 
@@ -54,10 +60,10 @@ def test_get_location_unable_to_determine__city(mock_get_client_ip, mock_city, r
 
 
 @mock.patch.object(helpers.GeoIP2, 'country')
-@mock.patch.object(helpers, 'get_client_ip', return_value=('127.0.0.1', True))
-def test_get_location_unable_to_determine__country(mock_get_client_ip, mock_country, rf):
+def test_get_location_unable_to_determine__country(mock_country, rf):
     mock_country.side_effect = helpers.GeoIP2Exception
     request = rf.get('/')
+    request.META['HTTP_X_FORWARDED_FOR'] = '127.0.0.1, 127.0.0.2, 127.0.0.3'
 
     actual = helpers.GeoLocationRedirector(request).country_code
 
@@ -67,9 +73,9 @@ def test_get_location_unable_to_determine__country(mock_get_client_ip, mock_coun
 
 
 @mock.patch.object(helpers.GeoIP2, 'city')
-@mock.patch.object(helpers, 'get_client_ip', return_value=('127.0.0.1', True))
-def test_get_location_success(mock_get_client_ip, mock_city, rf):
+def test_get_location_success(mock_city, rf):
     request = rf.get('/')
+    request.META['HTTP_X_FORWARDED_FOR'] = '127.0.0.1, 127.0.0.2, 127.0.0.3'
     mock_city.return_value = {
         'city': 'Mountain View',
         'continent_code': 'NA',
