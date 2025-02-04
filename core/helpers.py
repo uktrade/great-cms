@@ -79,16 +79,9 @@ def age_group_mapping(target_ages):
 def get_location(request):
     try:
         x_forwarded_for = request.META['HTTP_X_FORWARDED_FOR']
-    except (KeyError, IndexError, GeoIP2Exception) as e:
-        sentry_sdk.capture_exception(e)
-
-    client_ip = x_forwarded_for.split(',')[-3].strip()
-
-    try:
+        client_ip = x_forwarded_for.split(',')[-3].strip()
         city = GeoIP2().city(client_ip)
-    except GeoIP2Exception:
-        logger.error(USER_LOCATION_DETERMINE_ERROR)
-    else:
+
         return {
             'country': city['country_code'],
             'region': city['region'],
@@ -96,6 +89,9 @@ def get_location(request):
             'longitude': city['longitude'],
             'city': city['city'],
         }
+
+    except (KeyError, IndexError, GeoIP2Exception) as e:
+        sentry_sdk.capture_exception(e)
 
 
 def store_user_location(request):
