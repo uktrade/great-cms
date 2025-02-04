@@ -1426,13 +1426,10 @@ nav.great-breadcrumbs {
   list-style: none;
 
   > li {
-    display: block;
+    display: flex;
+    align-items: center;
     clear: left;
-    padding: 7.5px 0;
-
-    @include govuk-media-query($until: tablet) {
-      display: flex;
-    }
+    padding: 0 0 20px;
 
     &:before {
       content: '';
@@ -1449,6 +1446,12 @@ nav.great-breadcrumbs {
       background: url('/static/icons/black-tick.svg');
       background-size: cover;
       background-position: center;
+
+      @include govuk-media-query($from: tablet) {
+        height: 40px;
+        width: 40px;
+        min-width: 40px;
+      }
     }
   }
 }
