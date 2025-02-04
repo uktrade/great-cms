@@ -90,7 +90,7 @@ def get_location(request):
             'city': city['city'],
         }
 
-    except (KeyError, IndexError) as e:
+    except (KeyError, IndexError, GeoIP2Exception) as e:
         sentry_sdk.capture_exception(e)
 
 
@@ -375,7 +375,7 @@ def get_sender_ip_address(request):
         x_forwarded_for = request.META['HTTP_X_FORWARDED_FOR']
         client_ip = x_forwarded_for.split(',')[-3].strip()
         return client_ip
-    except (KeyError, IndexError, GeoIP2Exception) as e:
+    except (KeyError, IndexError) as e:
         sentry_sdk.capture_exception(e)
 
 
