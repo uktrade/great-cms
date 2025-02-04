@@ -90,7 +90,7 @@ def get_location(request):
             'city': city['city'],
         }
 
-    except (KeyError, IndexError, GeoIP2Exception) as e:
+    except (KeyError, IndexError) as e:
         sentry_sdk.capture_exception(e)
 
 
