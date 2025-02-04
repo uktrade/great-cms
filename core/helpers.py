@@ -17,6 +17,7 @@ from pathlib import Path
 import boto3
 import great_components.helpers
 import requests
+import sentry_sdk
 from botocore.exceptions import ClientError
 from directory_forms_api_client import actions
 from django.conf import settings
@@ -611,14 +612,14 @@ class GeoLocationRedirector:
 
     @cached_property
     def country_code(self):
-        client_ip, is_routable = get_client_ip(self.request)
-        if client_ip and is_routable:
-            try:
-                response = GeoIP2().country(client_ip)
-            except GeoIP2Exception:
-                pass
-            else:
-                return response['country_code']
+        # Find x-forwarded-for
+        try:
+            x_forwarded_for = self.request.META["HTTP_X_FORWARDED_FOR"]
+            client_ip = x_forwarded_for.split(',')[-3].strip()
+            response = GeoIP2().country(client_ip)
+            return response['country_code']
+        except (KeyError, IndexError, GeoIP2Exception) as e:
+            sentry_sdk.capture_exception(e)
 
     @property
     def country_language(self):
