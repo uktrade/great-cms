@@ -131,59 +131,59 @@ def test_store_user_location_success(mock_user_location_create, mock_get_locatio
     assert mock_user_location_create.call_args == mock.call(sso_session_id=user.session_id, data={'country': 'US'})
 
 
-@mock.patch('core.helpers.get_client_ip', mock.Mock(return_value=(None, False)))
 def test_geolocation_redirector_unroutable(rf):
     request = rf.get('/')
+    request.META['HTTP_X_FORWARDED_FOR'] = '127.0.0.1, 127.0.0.2, 127.0.0.3'
     redirector = helpers.GeoLocationRedirector(request)
 
     assert redirector.should_redirect is False
 
 
-@mock.patch('core.helpers.get_client_ip', mock.Mock(return_value=('8.8.8.8', True)))
 def test_geolocation_redirector_cookie_set(rf):
     request = rf.get('/')
+    request.META['HTTP_X_FORWARDED_FOR'] = '8.8.8.8, 127.0.0.2, 127.0.0.3'
     request.COOKIES[helpers.GeoLocationRedirector.COOKIE_NAME] = True
     redirector = helpers.GeoLocationRedirector(request)
 
     assert redirector.should_redirect is False
 
 
-@mock.patch('core.helpers.get_client_ip', mock.Mock(return_value=('8.8.8.8', True)))
 def test_geolocation_redirector_language_param(rf):
     request = rf.get('/', {'lang': 'en-gb'})
+    request.META['HTTP_X_FORWARDED_FOR'] = '8.8.8.8, 127.0.0.2, 127.0.0.3'
     redirector = helpers.GeoLocationRedirector(request)
 
     assert redirector.should_redirect is False
 
 
-@mock.patch('core.helpers.get_client_ip', mock.Mock(return_value=('8.8.8.8', True)))
 @mock.patch('core.helpers.GeoLocationRedirector.country_code', mock.PropertyMock(return_value=None))
 def test_geolocation_redirector_unknown_country(rf):
     request = rf.get('/', {'lang': 'en-gb'})
+    request.META['HTTP_X_FORWARDED_FOR'] = '8.8.8.8, 127.0.0.2, 127.0.0.3'
     redirector = helpers.GeoLocationRedirector(request)
 
     assert redirector.should_redirect is False
 
 
-@mock.patch('core.helpers.get_client_ip', mock.Mock(return_value=('8.8.8.8', True)))
 @mock.patch('core.helpers.GeoLocationRedirector.country_code', new_callable=mock.PropertyMock)
 @pytest.mark.parametrize('country_code', helpers.GeoLocationRedirector.DOMESTIC_COUNTRY_CODES)
 def test_geolocation_redirector_is_domestic(mock_country_code, rf, country_code):
     mock_country_code.return_value = country_code
 
     request = rf.get('/', {'lang': 'en-gb'})
+    request.META['HTTP_X_FORWARDED_FOR'] = '8.8.8.8, 127.0.0.2, 127.0.0.3'
     redirector = helpers.GeoLocationRedirector(request)
 
     assert redirector.should_redirect is False
 
 
-@mock.patch('core.helpers.get_client_ip', mock.Mock(return_value=('8.8.8.8', True)))
 @mock.patch('core.helpers.GeoLocationRedirector.country_code', new_callable=mock.PropertyMock)
 @pytest.mark.parametrize('country_code', helpers.GeoLocationRedirector.COUNTRY_TO_LANGUAGE_MAP)
 def test_geolocation_redirector_is_international(mock_country_code, rf, country_code):
     mock_country_code.return_value = country_code
 
     request = rf.get('/')
+    request.META['HTTP_X_FORWARDED_FOR'] = '8.8.8.8, 127.0.0.2, 127.0.0.3'
     redirector = helpers.GeoLocationRedirector(request)
 
     assert redirector.should_redirect is True
