@@ -7,9 +7,7 @@
                     {% for field in form %}
                         {% for error in field.errors %}
                             <li>
-                                {% if error_message_link %}
-                                    <a href="{{ error_message_link }}">{{ error }}</a>
-                                {% elif field.id_for_label %}
+                                {% if field.id_for_label %}
                                     <a href="#{{ field.id_for_label }}">{{ error }}</a>
                                 {% else %}
                                     <a href="#{{ field.auto_id }}">{{ error }}</a>
