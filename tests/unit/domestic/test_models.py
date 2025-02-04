@@ -1982,6 +1982,7 @@ def test_great_domestic_homepage_geo_redirection__integration(
     client,
     ip,
     expected_target_lang,
+    rf,
 ):
     homepage = GreatDomesticHomePageFactory(
         parent=root_page,
@@ -1992,7 +1993,9 @@ def test_great_domestic_homepage_geo_redirection__integration(
         hostname=client._base_environ()['SERVER_NAME'],
     )
 
-    response = client.get(homepage.url, headers={'HTTP_X_FORWARDED_FOR': ip})
+    request = rf.get(homepage.url)
+    request.META['HTTP_X_FORWARDED_FOR'] = ip
+    response = homepage.serve(request)
 
     if expected_target_lang is not None:
         assert response.status_code == 302
