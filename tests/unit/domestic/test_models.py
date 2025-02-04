@@ -1970,11 +1970,11 @@ class GreatDomesticHomePageTests(SetUpLocaleMixin, WagtailPageTests):
 @pytest.mark.parametrize(
     'ip,expected_target_lang',
     (
-        ('221.194.47.204', 'zh-hans'),
-        ('144.76.204.44', 'de'),
-        ('195.12.50.155', 'es'),
-        ('110.50.243.6', 'ja'),
-        ('213.121.43.1', None),  # a UK IP address (bt.com)
+        ('221.194.47.204, 127.0.0.1, 127.0.0.2', 'zh-hans'),
+        ('144.76.204.44, 127.0.0.1, 127.0.0.2', 'de'),
+        ('195.12.50.155, 127.0.0.1, 127.0.0.2', 'es'),
+        ('110.50.243.6, 127.0.0.1, 127.0.0.2', 'ja'),
+        ('213.121.43.1, 127.0.0.1, 127.0.0.2', None),  # a UK IP address (bt.com)
     ),
 )
 def test_great_domestic_homepage_geo_redirection__integration(
@@ -1992,7 +1992,7 @@ def test_great_domestic_homepage_geo_redirection__integration(
         hostname=client._base_environ()['SERVER_NAME'],
     )
 
-    response = client.get(homepage.url, REMOTE_ADDR=ip)
+    response = client.get(homepage.url, headers={'HTTP_X_FORWARDED_FOR': ip})
 
     if expected_target_lang is not None:
         assert response.status_code == 302

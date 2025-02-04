@@ -49,7 +49,7 @@ def test_get_location_domestic(rf):
 @mock.patch.object(helpers.GeoIP2, 'city')
 def test_get_location_unable_to_determine__city(mock_city, rf):
     request = rf.get('/')
-    request.META['HTTP_X_FORWARDED_FOR'] = '127.0.0.1, 127.0.0.2, 127.0.0.3'
+    request.META['HTTP_X_FORWARDED_FOR'] = '127.0.0.1, 127.0.0.2, 127.0.0.3'  #  /PS-IGNORE
     mock_city.side_effect = helpers.GeoIP2Exception
 
     actual = helpers.get_location(request)
@@ -139,6 +139,13 @@ def test_geolocation_redirector_unroutable(rf):
     assert redirector.should_redirect is False
 
 
+# def test_geolocation_redirector_unroutable(rf):
+#     request = rf.get('/', headers={'HTTP_X_FORWARDED_FOR': '127.0.0.1, 127.0.0.2, 127.0.0.3'})
+#     redirector = helpers.GeoLocationRedirector(request)
+#
+#     assert redirector.should_redirect is False
+
+
 def test_geolocation_redirector_cookie_set(rf):
     request = rf.get('/')
     request.META['HTTP_X_FORWARDED_FOR'] = '8.8.8.8, 127.0.0.2, 127.0.0.3'
@@ -192,14 +199,14 @@ def test_geolocation_redirector_is_international(mock_country_code, rf, country_
 @pytest.mark.parametrize(
     'ip_address,language',
     (
-        ('221.194.47.204', 'zh-hans'),
-        ('144.76.204.44', 'de'),
-        ('195.12.50.155', 'es'),
-        ('110.50.243.6', 'ja'),
+        ('221.194.47.204, 127.0.0.1, 127.0.0.2', 'zh-hans'),
+        ('144.76.204.44, 127.0.0.1, 127.0.0.2', 'de'),
+        ('195.12.50.155, 127.0.0.1, 127.0.0.2', 'es'),
+        ('110.50.243.6, 127.0.0.1, 127.0.0.2', 'ja'),
     ),
 )
 def test_geolocation__integrated(rf, ip_address, language, settings):
-    request = rf.get('/', {'a': 'b'}, REMOTE_ADDR=ip_address)
+    request = rf.get('/', {'a': 'b'}, headers={'X-Forwarded-For': ip_address})
 
     # NB: requires the geo-data file to already be present in the repo
     redirector = helpers.GeoLocationRedirector(request)
