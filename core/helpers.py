@@ -28,6 +28,7 @@ from django.shortcuts import redirect
 from django.utils.encoding import iri_to_uri
 from django.utils.functional import cached_property
 from django.utils.http import url_has_allowed_host_and_scheme
+from geoip2.errors import GeoIP2Error
 from hashids import Hashids
 
 from core.constants import (
@@ -622,7 +623,7 @@ class GeoLocationRedirector:
             client_ip = x_forwarded_for.split(',')[-3].strip()
             response = GeoIP2().country(client_ip)
             return response['country_code']
-        except (KeyError, IndexError, GeoIP2Exception) as e:
+        except (KeyError, IndexError, GeoIP2Exception, GeoIP2Error) as e:
             sentry_sdk.capture_exception(e)
 
     @property
