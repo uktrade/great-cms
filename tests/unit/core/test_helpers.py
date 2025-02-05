@@ -7,6 +7,7 @@ from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.http import HttpRequest
 from django.test import RequestFactory, modify_settings, override_settings
+from geoip2.errors import AddressNotFoundError
 from PIL import Image, ImageDraw
 from requests.exceptions import HTTPError
 
@@ -134,16 +135,8 @@ def test_store_user_location_success(mock_user_location_create, mock_get_locatio
 def test_geolocation_redirector_unroutable(rf):
     request = rf.get('/')
     request.META['HTTP_X_FORWARDED_FOR'] = '127.0.0.1, 127.0.0.2, 127.0.0.3'
-    redirector = helpers.GeoLocationRedirector(request)
-
-    assert redirector.should_redirect is False
-
-
-# def test_geolocation_redirector_unroutable(rf):
-#     request = rf.get('/', headers={'HTTP_X_FORWARDED_FOR': '127.0.0.1, 127.0.0.2, 127.0.0.3'})
-#     redirector = helpers.GeoLocationRedirector(request)
-#
-#     assert redirector.should_redirect is False
+    with pytest.raises(AddressNotFoundError):
+        helpers.GeoLocationRedirector(request)
 
 
 def test_geolocation_redirector_cookie_set(rf):
