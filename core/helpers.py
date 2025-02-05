@@ -17,6 +17,7 @@ from pathlib import Path
 import boto3
 import great_components.helpers
 import requests
+import sentry_sdk
 from botocore.exceptions import ClientError
 from directory_forms_api_client import actions
 from django.conf import settings
@@ -27,8 +28,8 @@ from django.shortcuts import redirect
 from django.utils.encoding import iri_to_uri
 from django.utils.functional import cached_property
 from django.utils.http import url_has_allowed_host_and_scheme
+from geoip2.errors import GeoIP2Error
 from hashids import Hashids
-from ipware import get_client_ip
 
 from core.constants import (
     EXPORT_SUPPORT_CATEGORIES,
@@ -77,20 +78,21 @@ def age_group_mapping(target_ages):
 
 
 def get_location(request):
-    client_ip, is_routable = get_client_ip(request)
-    if client_ip and is_routable:
-        try:
-            city = GeoIP2().city(client_ip)
-        except GeoIP2Exception:
-            logger.error(USER_LOCATION_DETERMINE_ERROR)
-        else:
-            return {
-                'country': city['country_code'],
-                'region': city['region'],
-                'latitude': city['latitude'],
-                'longitude': city['longitude'],
-                'city': city['city'],
-            }
+    try:
+        x_forwarded_for = request.META['HTTP_X_FORWARDED_FOR']
+        client_ip = x_forwarded_for.split(',')[-3].strip()
+        city = GeoIP2().city(client_ip)
+
+        return {
+            'country': city['country_code'],
+            'region': city['region'],
+            'latitude': city['latitude'],
+            'longitude': city['longitude'],
+            'city': city['city'],
+        }
+
+    except (KeyError, IndexError, GeoIP2Exception) as e:
+        sentry_sdk.capture_exception(e)
 
 
 def store_user_location(request):
@@ -370,8 +372,12 @@ def get_suggested_countries_by_hs_code(sso_session_id, hs_code):
 
 
 def get_sender_ip_address(request):
-    ip, is_routable = get_client_ip(request)
-    return ip or None
+    try:
+        x_forwarded_for = request.META['HTTP_X_FORWARDED_FOR']
+        client_ip = x_forwarded_for.split(',')[-3].strip()
+        return client_ip
+    except (KeyError, IndexError) as e:
+        sentry_sdk.capture_exception(e)
 
 
 def millify(n):
@@ -611,14 +617,14 @@ class GeoLocationRedirector:
 
     @cached_property
     def country_code(self):
-        client_ip, is_routable = get_client_ip(self.request)
-        if client_ip and is_routable:
-            try:
-                response = GeoIP2().country(client_ip)
-            except GeoIP2Exception:
-                pass
-            else:
-                return response['country_code']
+        # Find x-forwarded-for
+        try:
+            x_forwarded_for = self.request.META['HTTP_X_FORWARDED_FOR']
+            client_ip = x_forwarded_for.split(',')[-3].strip()
+            response = GeoIP2().country(client_ip)
+            return response['country_code']
+        except (KeyError, IndexError, GeoIP2Exception, GeoIP2Error) as e:
+            sentry_sdk.capture_exception(e)
 
     @property
     def country_language(self):
