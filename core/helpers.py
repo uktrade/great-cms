@@ -79,7 +79,8 @@ def age_group_mapping(target_ages):
 
 def get_location(request):
     try:
-        client_ip = get_sender_ip_address(request)
+        x_forwarded_for = request.META['HTTP_X_FORWARDED_FOR']
+        client_ip = x_forwarded_for.split(',')[-3].strip()
         city = GeoIP2().city(client_ip)
 
         return {
@@ -618,7 +619,8 @@ class GeoLocationRedirector:
     def country_code(self):
         # Find x-forwarded-for
         try:
-            client_ip = get_sender_ip_address(self.request)
+            x_forwarded_for = self.request.META['HTTP_X_FORWARDED_FOR']
+            client_ip = x_forwarded_for.split(',')[-3].strip()
             response = GeoIP2().country(client_ip)
             return response['country_code']
         except (KeyError, IndexError, GeoIP2Exception, GeoIP2Error) as e:
