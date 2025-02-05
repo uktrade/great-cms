@@ -29,7 +29,8 @@ def create_test_image(extension):
 
 
 def test_get_location_international(rf):
-    request = rf.get('/', headers={'X-Forwarded-For': '8.8.8.8, 127.0.0.1, 127.0.0.2'})
+    request = rf.get('/')
+    request.META['HTTP_X_FORWARDED_FOR'] = '8.8.8.8, 127.0.0.1, 127.0.0.2'
 
     actual = helpers.get_location(request)
 
@@ -37,7 +38,8 @@ def test_get_location_international(rf):
 
 
 def test_get_location_domestic(rf):
-    request = rf.get('/', headers={'X-Forwarded-For': '213.120.234.38, 127.0.0.1, 127.0.0.2'})
+    request = rf.get('/')
+    request.META['HTTP_X_FORWARDED_FOR'] = '213.120.234.38, 127.0.0.1, 127.0.0.2'
 
     actual = helpers.get_location(request)
 
