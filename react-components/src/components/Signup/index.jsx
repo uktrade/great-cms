@@ -68,7 +68,7 @@ export const Signup = (props) => {
         <div class="great-logo">
           </div>
         <div className="signup__info-panel__content">
-          <h3 className="signup__info-panel__heading">Get exporting and grow your business</h3>
+          <h2 className="signup__info-panel__heading">Get exporting and grow your business</h2>
           <ul className="signup__info-panel__subheadings">
             {subHeadings.map((heading) => (
               <li key={heading}>

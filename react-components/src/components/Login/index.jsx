@@ -59,7 +59,7 @@ export const Login = ({ nextUrl, ...props }) => {
     <div className="great signup">
       <div className="signup__info-panel login-panel hide_image_below_1200">
         <div className="signup__info-panel__content">
-          <h3 class='signup__info-panel__heading'>Get exporting and grow your business</h3>
+          <h2 class='signup__info-panel__heading'>Get exporting and grow your business</h2>
           <ul className="signup__info-panel__subheadings">
             {subHeadings.map((heading) => (
               <li key={heading}>
