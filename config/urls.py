@@ -36,6 +36,7 @@ import international_online_offer.urls
 import search.urls
 import sso.urls
 import sso_profile.urls
+from core.views import WagtailServeDocument
 
 urlpatterns = []
 
@@ -85,6 +86,11 @@ urlpatterns += [
     path(
         'documents/', decorator_include(nocache_page, wagtaildocs_urls)
     ),  # NB: doesn't skip GA as we may analytics on this
+    path(
+        'document/<str:document_title>/',
+        nocache_page(WagtailServeDocument.as_view()),
+        name='wagtail_serve_documents',
+    ),
     path('great-cms-sso/', include(sso.urls)),
     path('search/', include(search.urls, namespace='search')),
     path('activity-stream/', decorator_include(nocache_page, activitystream.urls, namespace='activitystream')),

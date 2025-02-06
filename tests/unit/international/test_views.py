@@ -31,3 +31,10 @@ def test_contact_submit(mock_action_class, client, settings):
         },
     )
     assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_contact_success(client, settings):
+    url = reverse('international:contact-success')
+    response = client.get(url)
+    assert response.status_code == 200
