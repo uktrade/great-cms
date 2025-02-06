@@ -622,9 +622,11 @@ class GeoLocationRedirector:
             x_forwarded_for = self.request.META['HTTP_X_FORWARDED_FOR']
             client_ip = x_forwarded_for.split(',')[-3].strip()
             response = GeoIP2().country(client_ip)
+            logger.info(f'GeoIP data located country code {response["country_code"]} for ip: {client_ip}')
             return response['country_code']
         except (KeyError, IndexError, GeoIP2Exception, GeoIP2Error) as e:
             sentry_sdk.capture_exception(e)
+            logger.exception(f'GeoIP failed to locate country code. Error: {str(e)}')
 
     @property
     def country_language(self):
