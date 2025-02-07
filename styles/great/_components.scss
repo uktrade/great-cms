@@ -1374,7 +1374,11 @@ nav.great-breadcrumbs {
   }
 }
 
+// FIXME: Is this ever used?
 .great-breadcrumbs li:after {
+  background: yellow;
+  border: 10px solid red;
+
   box-sizing: initial;
   transform: rotate(-45deg);
   content: '';
@@ -1391,6 +1395,7 @@ nav.great-breadcrumbs {
   top: 0.25em;
 }
 
+// FIXME: Is this ever used?
 .great-breadcrumbs ol li:last-child:after {
   display: none;
 }

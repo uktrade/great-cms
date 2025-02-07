@@ -107,7 +107,9 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
 
         context = self.get_context(request, user_data=user_data, triage_data=triage_data)
 
-        return TemplateResponse(request, self.template, context)
+        return TemplateResponse(
+            request, 'eyb/guide-dynamic.html' if ('dynamic' in request.GET) else self.template, context
+        )
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request)
