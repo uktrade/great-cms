@@ -3,9 +3,11 @@
 @import 'styles/sizes/sizes.scss';
 
 @import 'utils.scss';
+@import '../../international/sass/hero.scss';
 
 // Great International Expand your business pages
 @import 'pages/index.scss';
+@import 'pages/guide-dynamic.scss';
 
 // Great International Expand your business components
 @import 'components/service-start.scss';

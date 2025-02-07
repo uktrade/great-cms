@@ -1,0 +1,104 @@
+@use '../../../styles/great/constants' as great-constants;
+
+// RESET start
+.govuk-phase-banner {
+	border: none;
+}
+
+.great-breadcrumbs {
+	background: white;
+}
+
+.govuk-main-wrapper {
+	padding: 0;
+	// TODO: use a constant
+	background-color: #eef2f6;
+}
+
+.great-container {
+		/*
+		The selector has position: static, which makes it always appear
+		behind the hero and z-index has no effect on it because of that.
+		*/
+		position: relative;
+}
+// RESET end
+
+// the value of .great-container left or right padding
+$margin-compensation: great-constants.$great-container-padding;
+$gap: 30px;
+
+@mixin vertical-space {
+	gap: $gap;
+	display: flex;
+	flex-direction: column;
+
+	@media (max-width: 1024px) {
+		gap: 20px;
+	}
+}
+
+.dynamic-guide {
+	&__hero {
+		position: absolute;
+		width: 100%;
+		height: 450px;
+		// background: url("https://www.great.gov.uk/static/images/international-regions-hero.jpg") no-repeat center center;
+		background: url("/static/images/international-dynamic-guide-hero.jpg") no-repeat center center;
+		background-size: cover;
+
+		@media (max-width: 1024px) {
+			height: 270px;
+		}
+
+		@media (max-width: 768px) {
+			height: 80px;
+		}
+	}
+
+	&__layout {
+		@include vertical-space();
+		padding-bottom: 70px;
+	}
+
+	&__top {
+		margin-top: 188px;
+		height: 332px;
+
+		@media (max-width: 1024px) {
+			margin-top: 80px;
+		}
+
+		@media (max-width: 768px) {
+			margin-left: -15px;
+			margin-right: -15px;
+		}
+	}
+
+	&__bottom {
+		gap: 30px;
+		display: flex;
+
+		@media (max-width: 768px) {
+			flex-direction: column;
+			margin-left: -$margin-compensation;
+			margin-right: -$margin-compensation;
+		}
+	}
+
+	&__left {
+		@include vertical-space();
+		flex: 2 0 0;
+	}
+
+	&__right {
+		@include vertical-space();
+		flex: 1 0 0;
+	}
+
+	&__panel {
+		background: white;
+		box-shadow: 0 4px 10px #04043F1A;
+		padding: 15px;
+	}
+}
