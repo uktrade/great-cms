@@ -23,95 +23,82 @@
             {% if all_trade_associations %}
                 <div class="govuk-grid-column-full">
                     {% for ass in all_trade_associations %}
-                        <div class="article-list-item">
-                            {% if request.user.is_authenticated %}
-                                <a class="article-list-item-a"
-                                   rel="noopener noreferrer"
-                                   target="_blank"
-                                   rel="noopener noreferrer"
-                                   href="{{ ass.website_link }}">
-                                {% else %}
-                                    <a class="article-list-item-a"
-                                       href="{% url 'international_online_offer:signup' %}">
-                                    {% endif %}
-                                    <div class="govuk-grid-row">
-                                        <div class="govuk-grid-column-full">
-                                            <h3 class="govuk-heading-m trade-show-link">{{ ass.association_name }}</h3>
-                                            <p class="govuk-body">{{ ass.brief_description }}</p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        {% endfor %}
-                        <nav class="govuk-pagination" role="navigation" aria-label="results">
-                            {% if all_trade_associations.has_previous %}
-                                <div class="govuk-pagination__prev">
-                                    <a class="govuk-link govuk-pagination__link"
-                                       href="?page={{ all_trade_associations.previous_page_number }}"
-                                       rel="prev">
-                                        <svg class="govuk-pagination__icon govuk-pagination__icon--prev"
-                                             xmlns="http://www.w3.org/2000/svg"
-                                             height="13"
-                                             width="15"
-                                             aria-hidden="true"
-                                             focusable="false"
-                                             viewBox="0 0 15 13">
-                                            <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z">
-                                            </path>
-                                        </svg>
-                                        <span class="govuk-pagination__link-title">Previous</span></a>
-                                </div>
-                            {% endif %}
-                            <ul class="govuk-pagination__list">
-                                {% for i in all_trade_associations.paginator.page_range %}
-                                    {% if all_trade_associations.number == i %}
-                                        <li class="govuk-pagination__item govuk-pagination__item--current">
-                                            <a class="govuk-link govuk-pagination__link"
-                                               href="?page={{ i }}"
-                                               aria-label="Page {{ i }}"
-                                               aria-current="page">{{ i }}</a>
-                                        </li>
-                                    {% else %}
-                                        <li class="govuk-pagination__item">
-                                            <a class="govuk-link govuk-pagination__link"
-                                               href="?page={{ i }}"
-                                               aria-label="Page {{ i }}">{{ i }}</a>
-                                        </li>
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
-                            {% if all_trade_associations.has_next %}
-                                <div class="govuk-pagination__next">
+                        {% if request.user.is_authenticated %}
+                            {% include './includes/article_list_item.html' with rel="noopener noreferrer" target="_blank" url=ass.website_link link_title=ass.association_name link_description=ass.brief_description %}
+                        {% else %}
+                            {% url 'international_online_offer:signup' as signup_url %}
+                            {% include './includes/article_list_item.html' with url=signup_url link_title=ass.association_name link_description=ass.brief_description %}
+                        {% endif %}
+                    {% endfor %}
+                    <nav class="govuk-pagination" role="navigation" aria-label="results">
+                        {% if all_trade_associations.has_previous %}
+                            <div class="govuk-pagination__prev">
                                 <a class="govuk-link govuk-pagination__link"
-                                   href="?page={{ all_trade_associations.next_page_number }}"
-                                   rel="next"> <span class="govuk-pagination__link-title">Next</span>
-                                <svg class="govuk-pagination__icon govuk-pagination__icon--next"
-                                     xmlns="http://www.w3.org/2000/svg"
-                                     height="13"
-                                     width="15"
-                                     aria-hidden="true"
-                                     focusable="false"
-                                     viewBox="0 0 15 13">
-                                    <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z">
-                                    </path>
-                                </svg>
-                            </a>
-                        </div>
-                    {% endif %}
-                </nav>
+                                   href="?page={{ all_trade_associations.previous_page_number }}"
+                                   rel="prev">
+                                    <svg class="govuk-pagination__icon govuk-pagination__icon--prev"
+                                         xmlns="http://www.w3.org/2000/svg"
+                                         height="13"
+                                         width="15"
+                                         aria-hidden="true"
+                                         focusable="false"
+                                         viewBox="0 0 15 13">
+                                        <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z">
+                                        </path>
+                                    </svg>
+                                    <span class="govuk-pagination__link-title">Previous</span></a>
+                            </div>
+                        {% endif %}
+                        <ul class="govuk-pagination__list">
+                            {% for i in all_trade_associations.paginator.page_range %}
+                                {% if all_trade_associations.number == i %}
+                                    <li class="govuk-pagination__item govuk-pagination__item--current">
+                                        <a class="govuk-link govuk-pagination__link"
+                                           href="?page={{ i }}"
+                                           aria-label="Page {{ i }}"
+                                           aria-current="page">{{ i }}</a>
+                                    </li>
+                                {% else %}
+                                    <li class="govuk-pagination__item">
+                                        <a class="govuk-link govuk-pagination__link"
+                                           href="?page={{ i }}"
+                                           aria-label="Page {{ i }}">{{ i }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                        {% if all_trade_associations.has_next %}
+                            <div class="govuk-pagination__next">
+                            <a class="govuk-link govuk-pagination__link"
+                               href="?page={{ all_trade_associations.next_page_number }}"
+                               rel="next"> <span class="govuk-pagination__link-title">Next</span>
+                            <svg class="govuk-pagination__icon govuk-pagination__icon--next"
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 height="13"
+                                 width="15"
+                                 aria-hidden="true"
+                                 focusable="false"
+                                 viewBox="0 0 15 13">
+                                <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z">
+                                </path>
+                            </svg>
+                        </a>
+                    </div>
+                {% endif %}
+            </nav>
+        </div>
+    {% else %}
+        <div class="govuk-grid-column-full">
+            <div class="govuk-warning-text">
+                <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                <strong class="govuk-warning-text__text">
+                    <span class="govuk-warning-text__assistive">Warning</span>
+                    There are currently no related trade associations
+                </strong>
             </div>
-        {% else %}
-            <div class="govuk-grid-column-full">
-                <div class="govuk-warning-text">
-                    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-                    <strong class="govuk-warning-text__text">
-                        <span class="govuk-warning-text__assistive">Warning</span>
-                        There are currently no related trade associations
-                    </strong>
-                </div>
-            </div>
-        {% endif %}
-    </div>
+        </div>
+    {% endif %}
+</div>
 </div>
 {% endblock %}
 {% block feedback_reporter %}
@@ -120,7 +107,9 @@
                  class="great-bg-white clearfix govuk-!-margin-top-0 govuk-!-padding-bottom-6 great-inline-feedback__container">
             <div class="container">
                 <div class="great-container ">
+                    <!-- djlint:off T027-->
                     {% include 'core/includes/hcsat.html' with hcsat_form=hcsat_form hcsat_stage=hcsat_form_stage leading_text="To help us improve our service, we'd like to know more about your experience today. It will only take a minute to complete." %}
+                    <!-- djlint:on -->
                 </div>
             </div>
         </section>

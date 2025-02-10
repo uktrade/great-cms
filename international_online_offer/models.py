@@ -518,6 +518,7 @@ class TradeAssociation(models.Model):
     website_link = models.CharField(max_length=255)
     sector = models.CharField(max_length=255)
     brief_description = models.CharField(max_length=255)
+    link_valid = models.BooleanField(default=True, null=True)
 
 
 class SalaryData(models.Model):

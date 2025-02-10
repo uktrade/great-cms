@@ -30,9 +30,7 @@
                                     {% include 'international/includes/form_field.html' with field=salary_location_form.location %}
                                 </div>
                                 <div class="govuk-grid-column-three-quarters-from-desktop">
-                                    <button type="submit"
-                                            class="govuk-button great-ds-button--secondary govuk-!-margin-top-3 govuk-!-margin-bottom-0"
-                                            id="salary-location-submit">Change</button>
+                                    {% include "_button.html" with text='Change' id='salary-location-submit' classes='govuk-!-margin-top-5 govuk-!-margin-bottom-0 great-ds-button--inline' %}
                                 </div>
                             </div>
                         </form>
@@ -89,7 +87,23 @@
 {% endif %}
 <script>
     document.getElementById("salary-location-submit").style.display = "none";
+
     function refreshSelectedLocation() {
         document.getElementById('salary-location-form').submit();
     }
+
+    function checkAndFocusLocation() {
+        // Check if the hash in the URL is "#location-component"
+        if (window.location.hash === "#location-component") {
+            const locationElement = document.getElementById('id_location');
+            if (locationElement) {
+                // set focus on the element
+                locationElement.focus();
+            }
+        }
+    }
+
+    setTimeout(() => {
+        checkAndFocusLocation()
+    }, 300)
 </script>

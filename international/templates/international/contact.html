@@ -25,10 +25,10 @@
     <div class="great-container">
         {% if form.errors and not form.non_field_errors %}
             <div class="govuk-error-summary restrict-width"
-                    aria-labelledby="error-summary-title"
-                    role="alert"
-                    tabindex="-1"
-                    data-module="error-summary">
+                 aria-labelledby="error-summary-title"
+                 role="alert"
+                 tabindex="-1"
+                 data-module="error-summary">
                 <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
                 <div class="govuk-error-summary__body">
                     <ul class="govuk-list govuk-error-summary__list">
@@ -60,11 +60,11 @@
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
                     <div class="govuk-character-count"
-                            data-module="govuk-character-count"
-                            data-maxlength="1000">
+                         data-module="govuk-character-count"
+                         data-maxlength="1000">
                         <div class="govuk-form-group{% if form.how_we_can_help.errors %} govuk-form-group--error{% endif %}">
                             <label class="govuk-label govuk-label--s"
-                                    for="{{ form.how_we_can_help.id_for_label }}">
+                                   for="{{ form.how_we_can_help.id_for_label }}">
                                 {{ form.how_we_can_help.label }}
                             </label>
                             <div id="more-detail-hint" class="govuk-hint">{{ form.how_we_can_help.help_text }}</div>
@@ -76,7 +76,7 @@
                             {{ form.how_we_can_help }}
                         </div>
                         <div id="id_how_we_can_help-info"
-                                class="govuk-hint govuk-character-count__message">
+                             class="govuk-hint govuk-character-count__message">
                             You can enter up to 1000 characters
                         </div>
                     </div>
@@ -98,11 +98,10 @@
             </div>
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds govuk-!-margin-top-4 govuk-!-margin-bottom-4">
-                    {% include 'international/includes/submit_button.html' with button_text='Send message' %}
+                    {% include '_button.html' with text='Send message' %}
                 </div>
             </div>
         </form>
-
     </div>
 {% endblock content %}
 {% block feedback_reporter %}
@@ -111,7 +110,9 @@
                  class="great-bg-white clearfix govuk-!-margin-top-0 govuk-!-padding-bottom-6 great-inline-feedback__container">
             <div class="container">
                 <div class="great-container ">
+                    <!-- djlint:off T027-->
                     {% include 'core/includes/hcsat.html' with hcsat_form=hcsat_form hcsat_stage=hcsat_form_stage leading_text="To help us improve our service, we'd like to know more about your experience today. It will only take a minute to complete." %}
+                    <!-- djlint:on -->
                 </div>
             </div>
         </section>

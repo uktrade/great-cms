@@ -54,7 +54,7 @@
                     <p class="govuk-body govuk-!-margin-top-5">
                         {% url 'international_buy_from_the_uk:find-a-supplier-profile' company_number=case_study.company.number as company_link %}
                         {% append_search_back_url company_link request.get_full_path as company_link %}
-                        {% include 'international/includes/start_button.html' with href=company_link button_text='View company profile' %}
+                        {% include '_action_link.html' with linkText='View company profile' linkHref=company_link %}
                     </p>
                 </div>
                 <div class="govuk-grid-column-one-third-from-desktop">
@@ -76,7 +76,7 @@
                             <p class="govuk-body">
                                 {% url 'international_buy_from_the_uk:find-a-supplier-contact' company_number=case_study.company.number as contact_link %}
                                 {% append_search_back_url contact_link request.get_full_path as contact_link %}
-                                <a href="{{ contact_link }}">Email company</a>
+                                <a class="govuk-link" href="{{ contact_link }}">Email company</a>
                             </p>
                         {% endif %}
                         {% if case_study.company.website %}
@@ -87,7 +87,8 @@
                                 <a href="{{ case_study.company.website }}"
                                    target="_blank"
                                    title="Opens in a new window"
-                                   rel="noopener noreferrer">{{ case_study.company.website }}</a>
+                                   rel="noopener noreferrer"
+                                   class="govuk-link">{{ case_study.company.website }}</a>
                             </p>
                         {% endif %}
                         <hr>
