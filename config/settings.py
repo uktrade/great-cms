@@ -340,7 +340,7 @@ if DEBUG:
         'loggers': {
             'django.request': {
                 'handlers': ['console'],
-                'level': 'INFO',
+                'level': 'ERROR',
                 'propagate': True,
             },
             'mohawk': {
