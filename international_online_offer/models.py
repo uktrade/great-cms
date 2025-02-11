@@ -27,7 +27,7 @@ from international_online_offer.core import (
     region_sector_helpers,
     regions,
 )
-from international_online_offer.forms import LocationSelectForm
+from international_online_offer.forms import LocationSelectForm, WagtailAdminDBTSectors
 from international_online_offer.services import get_median_salaries, get_rent_data
 from .helpers import get_step_guide_accordion_items
 
@@ -214,6 +214,7 @@ class EYBArticlePage(BaseContentPage, EYBHCSAT):
     ]
     subpage_types = []
     template = 'eyb/article.html'
+    base_form_class = WagtailAdminDBTSectors
     article_title = models.TextField()
     article_subheading = StreamField(
         [
@@ -262,6 +263,12 @@ class EYBArticlePage(BaseContentPage, EYBHCSAT):
         null=True,
         blank=True,
     )
+    dbt_sectors = ArrayField(
+        models.CharField(),
+        blank=True,
+        default=list,
+        help_text='Select multiple sectors by holding the Ctrl key (Windows) or the Command key (Mac).',
+    )
     tags = ClusterTaggableManager(
         through=EYBArticlePageTag,
         blank=True,
@@ -274,6 +281,7 @@ class EYBArticlePage(BaseContentPage, EYBHCSAT):
         FieldPanel('article_teaser'),
         FieldPanel('article_image'),
         FieldPanel('article_body'),
+        FieldPanel('dbt_sectors'),
         FieldPanel('tags'),
     ]
 
