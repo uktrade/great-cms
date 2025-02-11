@@ -35,9 +35,7 @@
             </div>
         </div>
         <div class="govuk-grid-row govuk-!-margin-top-4">
-            <div class="govuk-grid-column-two-thirds-from-desktop">
-                {% include 'international/includes/submit_button.html' with button_text='Find suppliers' %}
-            </div>
+            <div class="govuk-grid-column-two-thirds-from-desktop">{% include "_button.html" with text='Find suppliers' %}</div>
         </div>
     </form>
 </div>
@@ -56,7 +54,8 @@
                 <p class="govuk-body-m">
                     Our ebook, 5 Reasons to buy from the UK, gives insight into how the unique combination of innovation, creativity, infrastructure, robust regulatory framework, and access to capital makes the UK one of the top markets to find a supplier.
                 </p>
-                <a class="govuk-button" href="/document/Five reasons to buy from the UK">Download</a>
+                <a class="govuk-button-secondary great-ds-button--secondary"
+                   href="/document/Five reasons to buy from the UK">Download</a>
             </div>
         </div>
     </div>
@@ -84,8 +83,8 @@
                 <p class="govuk-body-m">
                     Our teams are located in UK embassies, high commissions and consulates in cities around the world.
                 </p>
-                <a class="govuk-button"
-                   href="{% url 'international_buy_from_the_uk:contact' %}">Get in touch</a>
+                {% url 'international_buy_from_the_uk:contact' as contact_url %}
+                {% include '_action_link.html' with linkText='Get in touch' linkHref=contact_url %}
             </div>
         </div>
     </div>

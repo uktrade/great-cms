@@ -9,7 +9,8 @@
            value="{{ request.GET.q }}"
            name="q"
            placeholder="{% if placeholder %}{{ placeholder }}{% endif %}">
-    <button type="submit">
+    <button class="great-ds-button great-ds-button--icon great-ds-button--search"
+            type="submit">
         <span class="great-visually-hidden">Search</span>
     </button>
     {{ form.page }}

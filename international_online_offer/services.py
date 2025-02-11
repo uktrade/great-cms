@@ -63,7 +63,12 @@ def get_bci_data(dbt_sector_name: str, area: str) -> Tuple[Dict, Dict, Dict, int
             ],
         )
         hyperlinked_geo_codes = [regions.ENGLAND_GEO_CODE]
-        headline_region = {'name': 'UK nations', 'sub_area_table_header': 'Nation', 'population_million': 67}
+        headline_region = {
+            'name': 'UK nations',
+            'bci_card_title': 'UK',
+            'sub_area_table_header': 'Nation',
+            'population_million': 67,
+        }
     elif area == regions.ENGLAND_GEO_CODE:
         bci_headline = get_bci_data_by_dbt_sector(bci_sector, geo_codes=[regions.ENGLAND_GEO_CODE])
         bci_detail = get_bci_data_by_dbt_sector(
@@ -83,6 +88,7 @@ def get_bci_data(dbt_sector_name: str, area: str) -> Tuple[Dict, Dict, Dict, int
         hyperlinked_geo_codes = []
         headline_region = {
             'name': 'English regions',
+            'bci_card_title': 'England',
             'sub_area_table_header': 'Region',
             'population_million': 56.5,
         }

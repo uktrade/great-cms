@@ -2,18 +2,28 @@
     border: 1px solid $great-light-grey;
 }
 
-.bci-map__subregion {
-    width: 76px;
-}
+.bci {
+    &-map {
+        &__region {
+            width: 197px;
+        }
 
-.bci-map__region {
-    width: 197px;
-}
+        &__subregion {
+            width: 76px;
+        }
+    }
 
-.bci-row-item{
-    border-top: 1px solid $great-border-grey;
-    @media (max-width: 768px) {
-        display: flex;
-        align-items: center;
+    &-table-header {
+        width: 33.33%;
+
+        @media (min-width: $mobile-size) {
+            &__region {
+                width: 50%;
+            }
+
+            &__stat {
+                width: 25%;
+            }
+        }
     }
 }

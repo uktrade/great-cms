@@ -1,3 +1,5 @@
+from datetime import datetime, timezone
+
 from directory_forms_api_client import actions
 from django.conf import settings
 from django.core.paginator import Paginator
@@ -10,6 +12,7 @@ from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin  # /PS-IGNORE
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.throttling import UserRateThrottle
 from rest_framework.views import APIView
 
 from core.helpers import check_url_host_is_safelisted
@@ -251,6 +254,16 @@ class FindYourCompanyView(GA360Mixin, FormView):  # /PS-IGNORE
         if self.request.GET.get('company_location_change'):
             next_url = reverse_lazy('international_online_offer:change-your-answers') + '?details_updated=true'
 
+        # user registered pre-dnb integration and is navigating via login flow
+        if self.request.user.is_authenticated:
+            user_data = get_user_data_for_user(self.request)
+            if (
+                user_data
+                and user_data.created < datetime(2024, 10, 3, tzinfo=timezone.utc)
+                and self.request.GET.get('resume', False) == 'true'
+            ):
+                next_url = reverse_lazy('international_online_offer:change-your-answers') + '?details_updated=true'
+
         return next_url
 
     def get_initial(self):
@@ -275,23 +288,27 @@ class FindYourCompanyView(GA360Mixin, FormView):  # /PS-IGNORE
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
-        country = ''
-        display_country = ''
+        ctx = {}
+        ctx['country'] = ''
+        ctx['display_country'] = ''
+        ctx['user_registered_pre_dnb_lookup'] = False
 
         if self.request.user.is_authenticated:
             user_data = get_user_data_for_user(self.request)
 
             if user_data:
-                country = getattr(user_data, 'company_location', None)
+                ctx['country'] = getattr(user_data, 'company_location', None)
+                ctx['user_registered_pre_dnb_lookup'] = user_data.created < datetime(2024, 10, 3, tzinfo=timezone.utc)
 
-            display_country = get_country_display_name(country)
+            ctx['display_country'] = get_country_display_name(ctx['country'])
+
+        progress_button_text = 'Save and continue'
+
+        if ctx.get('user_registered_pre_dnb_lookup', False) or self.request.GET.get('next'):
+            progress_button_text = 'Save changes'
 
         return super().get_context_data(
-            **kwargs,
-            back_url=self.get_back_url(),
-            country=country,
-            display_country=display_country,
-            progress_button_text='Save changes' if self.request.GET.get('next') else 'Save and continue',
+            **kwargs, **ctx, back_url=self.get_back_url(), progress_button_text=progress_button_text
         )
 
 
@@ -339,6 +356,16 @@ class CompanyDetailsView(GA360Mixin, FormView):  # /PS-IGNORE
         if self.request.GET.get('company_location_change'):
             next_url = reverse_lazy('international_online_offer:change-your-answers') + '?details_updated=true'
 
+        # user registered pre-dnb integration and is navigating via login flow
+        if self.request.user.is_authenticated:
+            user_data = get_user_data_for_user(self.request)
+            if (
+                user_data
+                and user_data.created < datetime(2024, 10, 3, tzinfo=timezone.utc)
+                and self.request.GET.get('resume', False) == 'true'
+            ):
+                next_url = reverse_lazy('international_online_offer:change-your-answers') + '?details_updated=true'
+
         return next_url
 
     def get_initial(self):
@@ -375,12 +402,18 @@ class CompanyDetailsView(GA360Mixin, FormView):  # /PS-IGNORE
                 country = getattr(user_data, 'company_location', '')
 
         display_country = get_country_display_name(country)
+        user_registered_pre_dnb_lookup = self.request.GET.get('user_registered_pre_dnb_lookup', False)
+        progress_button_text = 'Save and continue'
+
+        if self.request.GET.get('next') or (user_registered_pre_dnb_lookup and self.request.GET.get('resume')):
+            progress_button_text = 'Save changes'
 
         return super().get_context_data(
             **kwargs,
             back_url=self.get_back_url(),
             display_country=display_country,
-            progress_button_text='Save changes' if self.request.GET.get('next') else 'Save and continue',
+            user_registered_pre_dnb_lookup=user_registered_pre_dnb_lookup,
+            progress_button_text=progress_button_text,
         )
 
 
@@ -1153,7 +1186,7 @@ class TradeAssociationsView(GA360Mixin, TemplateView, EYBHCSAT):  # /PS-IGNORE
             trade_association_sectors = helpers.get_trade_assoication_sectors_from_sector(triage_data.sector)
 
             all_trade_associations = TradeAssociation.objects.filter(
-                Q(sector__icontains=triage_data.sector) | Q(sector__in=trade_association_sectors)
+                Q(link_valid=True) & (Q(sector__icontains=triage_data.sector) | Q(sector__in=trade_association_sectors))
             )
 
         page = self.request.GET.get('page', 1)
@@ -1246,8 +1279,13 @@ class BusinessClusterView(GA360Mixin, TemplateView):  # /PS-IGNORE
         )
 
 
+class DNBThrottleClass(UserRateThrottle):
+    THROTTLE_RATES = {'user': '200/hour'}
+
+
 class DNBTypeaheadView(APIView):
     permission_classes = [IsAuthenticated]
+    throttle_classes = [DNBThrottleClass]
 
     @property
     def allowed_methods(self):
@@ -1259,6 +1297,7 @@ class DNBTypeaheadView(APIView):
 
 class DNBCompanySearchView(APIView):
     permission_classes = [IsAuthenticated]
+    throttle_classes = [DNBThrottleClass]
 
     @property
     def allowed_methods(self):

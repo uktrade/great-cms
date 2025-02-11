@@ -30,12 +30,10 @@
                         <h1 class="govuk-label-wrapper">
                             <label class="govuk-label govuk-label--l" for="js-sector-select">What is your sector or industry?</label>
                         </h1>
-                        {% include 'international/includes/form_field.html' with field=form.sector_sub inputWrapperClass='prepend-search-icon' help_class='govuk-hint govuk-!-margin-bottom-3' %}
+                        {% include 'international/includes/form_field.html' with field=form.sector_sub inputWrapperClass='prepend-search-icon' help_class='govuk-hint govuk-!-margin-bottom-3 js-enabled-only' %}
                     </div>
                     <div class="govuk-grid-row">
-                        <div class="govuk-grid-column-full">
-                            {% include 'international/includes/submit_button.html' with button_text=progress_button_text %}
-                        </div>
+                        <div class="govuk-grid-column-full">{% include "_button.html" with text=progress_button_text %}</div>
                     </div>
                 </form>
             </div>
@@ -46,10 +44,8 @@
     {% comment %} below JS migrated from business_details page {% endcomment %}
     {{ block.super }}
     <script type="text/javascript"
-            src="{% static 'javascript/accessible-autocomplete.min.js' %}"></script>
+            src="{% static 'javascript/accessible-autocomplete.v3.01.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'javascript/countries.js' %}"></script>
-    <script type="text/javascript"
-            src="{% static 'javascript/expand-your-business.js' %}"></script>
     <script type="text/javascript">
         const onSubmitBusinessDetails = () => {
             if (!document.getElementById('js-sector-select').value) {
@@ -104,6 +100,7 @@
             selectElement: document.getElementById('js-sector-select'),
             source: sectorSuggest,
             autoselect: false,
+            defaultValue: '',
             templates: {
                 inputValue: (selectedSectorRow) => {
                     if (selectedSectorRow) {
