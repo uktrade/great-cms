@@ -247,13 +247,12 @@ if settings.FEATURE_GUIDED_JOURNEY:
             skip_ga360(views_api.ProductPickerView.as_view()),
             name='api-product-picker',
         ),
-
         path(
             'growth-hub-finder',
             skip_ga360(views.GrowthHubFinderView.as_view()),
             name='growth-hub-finder',
         ),
     ]
-    
+
 
 urlpatterns += redirects

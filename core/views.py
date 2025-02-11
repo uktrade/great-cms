@@ -1044,53 +1044,56 @@ class GrowthHubFinderView(View):
     def get(self, request):
         postcode = request.GET.get('postcode')
 
-        response = requests.get(
-            f'https://api.postcodes.io/postcodes/{postcode}', timeout=4
-        )
+        response = requests.get(f'https://api.postcodes.io/postcodes/{postcode}', timeout=4)
         response.raise_for_status()
 
         data = response.json()
 
-
         constituency = data.get('result').get('parliamentary_constituency_2024')
-        
         growth_hubs = (
             ('Cities of London and Westminster, Romford', 'London Business Hub'),
             ('Darlington', 'Tees Valley Business Hub'),
-            ('Salford', 'Greater Manchester Business Growth Hub')
+            ('Salford', 'Greater Manchester Business Growth Hub'),
         )
-
         nearest_growth_hub = None
-
         for constituencies, growth_hub_name in growth_hubs:
             if constituency in constituencies:
                 nearest_growth_hub = growth_hub_name
 
-
-
         admin_district = data.get('result').get('admin_district')
-
         councils = (
             ('Havering', 'Havering London Borough Council'),
             ('Westminster', 'Westminster City Council'),
             ('Darlington', 'Darlington Borough Council'),
-            ('Salford', 'Salford City Council')
+            ('Salford', 'Salford City Council'),
         )
-
         nearest_council = None
-
         for admin_districts, council_name in councils:
             if admin_district in admin_districts:
                 nearest_council = council_name
 
+        chambers_of_commerce = (
+            ('Havering, Westminster', 'London Chamber of Commerce and Industry'),
+            ('Darlington', 'North East England Chamber of Commerce'),
+            ('Salford', 'Greater Manchester Chamber of Commerce'),
+        )
+        nearest_chamber_of_commerce = None
+        for admin_districts, chamber_of_commerce_name in chambers_of_commerce:
+            if admin_district in admin_districts:
+                nearest_chamber_of_commerce = chamber_of_commerce_name
 
-        return render(request, "core/growth-hub.html", {
-            "postcode": postcode,
-            "nearest_growth_hub": nearest_growth_hub,
-            "nearest_council": nearest_council
-        })
-    
+        return render(
+            request,
+            "core/growth-hub.html",
+            {
+                "postcode": postcode,
+                "nearest_growth_hub": nearest_growth_hub,
+                "nearest_council": nearest_council,
+                "nearest_chamber_of_commerce": nearest_chamber_of_commerce,
+            },
+        )
+
     def post(self, request):
         postcode = request.POST.get('postcode')
-        
+
         return HttpResponseRedirect(reverse_lazy('core:growth-hub-finder') + f'?postcode={postcode}')
