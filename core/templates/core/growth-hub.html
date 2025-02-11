@@ -1,0 +1,18 @@
+{% extends 'domestic/base.html' %}
+
+{% load static %}
+{% block head_title %}{{ page.page_title }}{% endblock %}
+
+{% block content %}
+    <div class="govuk-!-padding-bottom-9 great great-bg-white">
+        <div class="great-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    <h2 class="govuk-heading-l govuk-!-padding-top-6 govuk-!-margin-bottom-3">Get support in  your area</h2>
+                    <p class="govuk-body">Your nearest growth hub is {{ nearest_growth_hub }}.</p>
+                    <p class="govuk-body">Your nearest council is {{ nearest_council }}.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

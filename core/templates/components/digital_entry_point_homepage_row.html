@@ -3,6 +3,15 @@
 {% load content_tags %}
 <section class="great great-bg-light-blue govuk-!-padding-top-0 govuk-!-padding-bottom-0 great-overflow-inherit">
     <div class="great-container">
+        <h2 class="govuk-heading-l govuk-!-padding-top-6 govuk-!-margin-bottom-3">Where is your business based?</h2>
+
+        <form action="/growth-hub-finder" method="post">
+            <fieldset class="great-max-width-500-from-tablet">
+                <input id="postcode" name="postcode" type="text" class="govuk-input great-text-input great-ds-autocomplete-input govuk-!-margin-bottom-3" />
+                <button type="submit" class="govuk-button great-ds-button-primary govuk-!-margin-0">Find my nearest growth hub</button>
+            </fieldset>
+        </form>
+
         {% if data.dep_title %}
             <h2 class="govuk-heading-l {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}govuk-!-padding-top-7{% else %}govuk-!-padding-top-9{% endif %} {% if data.dep_sub_title %}govuk-!-margin-bottom-0{% else %}govuk-!-margin-bottom-6{% endif %}">
                 {{ data.dep_title }}
