@@ -43,7 +43,7 @@
                         <div class="govuk-form-group {% if form.spend.errors %}govuk-form-group--error{% endif %}">
                             {% include 'domestic/contact/includes/govuk-form-field.html' with field=form.spend hide_label=True %}
                         </div>
-                        {% include 'international/includes/submit_button.html' with button_text=progress_button_text %}
+                        {% include "_button.html" with text=progress_button_text %}
                     </form>
                 </fieldset>
             </div>
@@ -54,12 +54,24 @@
     {{ block.super }}
     <script type="text/javascript"
             src="{% static 'javascript/dit.components.toggleOther.js' %}"></script>
-    <script type="text/javascript"
-            src="{% static 'javascript/expand-your-business.js' %}"></script>
     <script>
         document.getElementById("change-currency-button").style.display = "none";
         function refreshSelectedCurrency() {
             document.getElementById('spendCurrencyForm').submit();
         }
+        function checkAndFocusCurrency() {
+            // Check if the hash in the URL is "#location-component"
+            if (window.location.hash === "#spend-container") {
+                const currencyElement = document.getElementById('id_spend_currency');
+                if (currencyElement) {
+                    // set focus on the element
+                    currencyElement.focus();
+                }
+            }
+        }
+
+        setTimeout(() => {
+            checkAndFocusCurrency()
+        }, 300)
     </script>
 {% endblock %}
