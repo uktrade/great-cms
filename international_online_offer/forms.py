@@ -419,7 +419,7 @@ class FeedbackForm(forms.Form):
 
 
 class WagtailAdminDBTSectors(WagtailAdminPageForm):
-    help_text = 'Select multiple items by holding the Ctrl key (Windows) or the Command key (Mac).'
+    help_text = 'Select multiple items by holding the Ctrl key (Windows) or the Command key (Mac). Currently the parent sector only is used for mapping.'  # noqa:E501
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

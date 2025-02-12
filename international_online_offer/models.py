@@ -148,12 +148,18 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             'Agriculture, horticulture, fisheries and pets' i.e. below will match the tag
             'Agriculture horticulture fisheries and pets'
             """
-            user_sector = triage_data.sector.replace(',', '')
+            user_sector_no_commas = triage_data.sector.replace(',', '')
 
+            # display articles based on free text tags
             all_articles_tagged_with_sector_and_intent = (
                 EYBArticlePage.objects.live()
-                .filter(tags__name__iexact=user_sector)
+                .filter(tags__name__iexact=user_sector_no_commas)
                 .filter(tags__name__in=triage_data.intent)
+            )
+
+            # include articles based on user sector and article's dbt sector not including any duplicates
+            all_articles_tagged_with_sector_and_intent = all_articles_tagged_with_sector_and_intent.union(
+                EYBArticlePage.objects.live().filter(dbt_sectors__contains=[triage_data.sector])
             )
 
         # Get any EYB articles that have been tagged with FINANCE_AND_SUPPORT
@@ -267,7 +273,7 @@ class EYBArticlePage(BaseContentPage, EYBHCSAT):
         models.CharField(),
         blank=True,
         default=list,
-        help_text='Select multiple sectors by holding the Ctrl key (Windows) or the Command key (Mac).',
+        help_text='Select multiple sectors by holding the Ctrl key (Windows) or the Command key (Mac). Currently the parent sector only is used for mapping.',  # noqa:E501
     )
     tags = ClusterTaggableManager(
         through=EYBArticlePageTag,
