@@ -626,6 +626,7 @@ WAGTAILMEDIA = {
 
 
 # Google captcha
+RECAPTCHA_DOMAIN = env.recaptcha_domain
 RECAPTCHA_PUBLIC_KEY = env.recaptcha_public_key
 RECAPTCHA_PRIVATE_KEY = env.recaptcha_private_key
 RECAPTCHA_REQUIRED_SCORE = env.recaptcha_required_score
