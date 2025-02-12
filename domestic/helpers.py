@@ -164,18 +164,28 @@ def get_sector_widget_data_helper(sector):
 
 
 def get_sector_and_market_promo_data_helper(sector, market, exporter_type):
+    exporter_type_exclude = 'service' if exporter_type == 'goods' else 'goods'
+
     market_and_exporter_type_matches = SectorAndMarketCard.objects.exclude(sector_tags__name__isnull=False).filter(
         country_tags__name__contains=market,
         exporter_type=exporter_type,
     )
 
-    market_matches = SectorAndMarketCard.objects.exclude(sector_tags__name__isnull=False).filter(
-        country_tags__name__contains=market,
+    market_matches = (
+        SectorAndMarketCard.objects.exclude(sector_tags__name__isnull=False)
+        .filter(
+            country_tags__name__contains=market,
+        )
+        .exclude(
+            exporter_type=exporter_type_exclude,
+        )
     )
 
     sector_and_market_matches = SectorAndMarketCard.objects.filter(
         country_tags__name__contains=market,
         sector_tags__name__contains=sector,
+    ).exclude(
+        exporter_type=exporter_type_exclude,
     )
 
     res = {
