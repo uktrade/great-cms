@@ -16,6 +16,15 @@
                 {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
             </div>
             {% include '_details.html' with id=details.id summaryText=details.summaryText detailsHtml=details.detailsHtml %}
+        {% elif field.name == 'about_your_experience' %}
+            <fieldset class="govuk-fieldset">
+                <legend class="govuk-label great-font-bold">
+                    About your export experience
+                </legend>
+                <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
+                    {% include 'domestic/contact/includes/govuk-form-field.html' with field=field hide_label=True %}
+                </div>
+            </fieldset>
         {% else %}
             <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
                 {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}

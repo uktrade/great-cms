@@ -111,6 +111,7 @@ class BaseSettings(PydanticBaseSettings):
     ga4_api_secret: str = ''
     ga4_measurement_id: str = ''
 
+    recaptcha_domain: str = 'www.google.com'
     recaptcha_public_key: str
     recaptcha_private_key: str
     recaptcha_required_score: float = 0.5

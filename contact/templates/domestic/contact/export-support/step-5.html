@@ -55,14 +55,19 @@
             </div>
         {% endif %}
     {% endfor %}
-    {% for field in form.visible_fields %}
-        {% if field.name != 'search' %}
-            <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
-                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-                    {% include 'domestic/contact/includes/govuk-form-field.html' with field=field hideLabel=True labelForId='id_markets_0' %}
+    <fieldset aria-describedby="checkboxes-hint">
+        <div id="checkboxes-hint" class="govuk-visually-hidden">
+            Select all that apply
+        </div>
+        {% for field in form.visible_fields %}
+            {% if field.name != 'search' %}
+                <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
+                    <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                        {% include 'domestic/contact/includes/govuk-form-field.html' with field=field hideLabel=True labelForId='id_markets_0' %}
+                    </div>
                 </div>
-            </div>
-        {% endif %}
-    {% endfor %}
+            {% endif %}
+        {% endfor %}
+    </fieldset>
     <span id="search-results-announcement" class="govuk-visually-hidden" role="status" aria-live="assertive"></span>
 {% endblock %}
