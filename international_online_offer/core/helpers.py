@@ -191,7 +191,6 @@ def get_current_step(user_data, triage_data):
         'intent': ['intent'],
         'hiring': ['hiring'],
         'spend': ['spend'],
-        'contact-details': ['full_name', 'role', 'telephone_number'],
     }
 
     for view_name, fields in triage_steps.items():
@@ -211,10 +210,7 @@ def is_triage_complete(user_data, triage_data):
         user_data.company_location
         and user_data.company_name
         and (user_data.address_line_1 or user_data.duns_number)
-        and user_data.full_name
         and (user_data.town or user_data.duns_number)
-        and user_data.role
-        and user_data.telephone_number
         and user_data.landing_timeframe
         and triage_data.sector
         and triage_data.location_none is not None
