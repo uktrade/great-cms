@@ -874,7 +874,7 @@ class EventsDetailsView(DetailView):
                 else:
                     current_url = self.request.get_full_path()
                     signin_link = reverse_lazy('export_academy:signin') + f'?next={current_url}'
-                    return f"""<a class='govuk-link'∂ href='{signin_link}'>
+                    return f"""<a class='govuk-link' href='{signin_link}'>
                     Sign in to watch<span class="govuk-visually-hidden"> event recording</span></a>"""
             else:
                 return view_more_events
