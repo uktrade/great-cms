@@ -187,7 +187,7 @@
         {% include 'components/great/three_card_section.html' with title=page.slice_title columns=page.slice_columns %}
     {% endif %}
     {% if features.FEATURE_HOMEPAGE_REDESIGN_V1 %}
-        <section class="great great-bg-light-blue govuk-!-padding-top-0 govuk-!-padding-bottom-0">
+        <section class="great great-bg-white govuk-!-padding-top-0 govuk-!-padding-bottom-0">
             <div class="great-container">
                 {% if page.magna_ctas_title %}
                     <h2 class="govuk-heading-l govuk-!-margin-top-9 govuk-!-margin-bottom-6">{{ page.magna_ctas_title }}</h2>
@@ -196,7 +196,7 @@
                     {% for column_block in page.magna_ctas_columns %}
                         <div class="govuk-grid-column-one-third">
                             {% image column_block.value.image fill-640x360 as thumbnail %}
-                            {% include 'components/great/card.html' with title=column_block.value.text url=column_block.value.url show_title_link=True image_src=thumbnail.url image_alt=column_block.value.image.alt_text content=column_block.value.content %}
+                            {% include 'components/great/card.html' with title=column_block.value.text url=column_block.value.url show_title_link=True image_src=thumbnail.url image_alt=column_block.value.image.alt_text content=column_block.value.content a_classes="great-bg-light-blue" %}
                         </div>
                     {% endfor %}
                 </div>
@@ -252,7 +252,7 @@
         </section>
     {% endif %}
     {% if FEATURE_SHOW_REPORT_BARRIER_CONTENT %}
-        <section class="report-trade-barrier padding-bottom-30 padding-bottom-45-m padding-top-30{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-bg-light-blue{% endif %}">
+        <section class="report-trade-barrier padding-bottom-30 padding-bottom-45-m padding-top-30{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-bg-white{% endif %}">
             {% include 'components/informative_banner.html' with banner_heading='Report a trade barrier' banner_content='Tell us about trade barriers affecting your ability to trade so we can help fix them. <br><a href="/report-trade-barrier/">How to report a trade barrier</a>' %}
         </section>
     {% endif %}
@@ -324,7 +324,7 @@
     {% if page.campaign or page.what_is_new_pages %}
         {% with page.campaign.0.value as campaign_block_value %}
             {% if features.FEATURE_HOMEPAGE_REDESIGN_V1 %}
-                <section class="great great-bg-light-blue govuk-!-padding-top-0 govuk-!-padding-bottom-9">
+                <section class="great great-bg-white govuk-!-padding-top-0 govuk-!-padding-bottom-9">
                     <div class="great-container">
                         {% if page.what_is_new_title %}
                             <h2 class="govuk-heading-l {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}govuk-!-margin-top-0{% else %}govuk-!-margin-top-9{% endif %} govuk-!-margin-bottom-6">
@@ -336,7 +336,7 @@
                                 {% for link_block in page.what_is_new_pages %}
                                     <div class="govuk-grid-column-one-third">
                                         {% image link_block.value.image fill-640x360 as thumbnail %}
-                                        {% include 'components/great/card.html' with title=link_block.value.text tag=link_block.value.source url=link_block.value.url show_title_link=True image_src=thumbnail.url image_alt=column_block.value.image.alt_text content=link_block.value.content %}
+                                        {% include 'components/great/card.html' with title=link_block.value.text tag=link_block.value.source url=link_block.value.url show_title_link=True image_src=thumbnail.url image_alt=column_block.value.image.alt_text content=link_block.value.content a_classes="great-bg-light-blue" %}
                                     </div>
                                 {% endfor %}
                             </div>
@@ -437,9 +437,10 @@
     {% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH and features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
         <script type="text/javascript"
                 src="{% static 'javascript/accessible-autocomplete.v3.min.js' %}"></script>
+        {{ sic_sector_data | json_script:'sic_sector_data'}}
+        <div data-great-init-js=""></div>
         <script type="text/javascript"
                 src="{% static 'javascript/great.make-or-do-search-enhanced.js' %}"></script>
-        <script type="text/javascript">GreatFrontend.MakeOrDoSearchEnhanced.init({{ sic_sector_data | safe}});</script>
     {% elif not features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH and features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
         <script type="text/javascript"
                 src="{% static 'javascript/accessible-autocomplete.v3.min.js' %}"></script>

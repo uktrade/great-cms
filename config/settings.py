@@ -203,7 +203,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-if is_copilot():
+if is_copilot() and not env.is_docker:
     DATABASES = database_from_env('DATABASE_CREDENTIALS')
     DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
 
@@ -626,6 +626,7 @@ WAGTAILMEDIA = {
 
 
 # Google captcha
+RECAPTCHA_DOMAIN = env.recaptcha_domain
 RECAPTCHA_PUBLIC_KEY = env.recaptcha_public_key
 RECAPTCHA_PRIVATE_KEY = env.recaptcha_private_key
 RECAPTCHA_REQUIRED_SCORE = env.recaptcha_required_score
