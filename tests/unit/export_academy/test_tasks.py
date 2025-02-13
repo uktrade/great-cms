@@ -1,11 +1,13 @@
 from datetime import timedelta
 from unittest import mock
+from unittest.mock import ANY
 
 import pytest
 from django.urls import reverse
 from django.utils import timezone
 
 from config import settings
+from core.tasks import submit_hcsat_feedback_to_forms_api
 from export_academy.models import Event
 from export_academy.tasks import (
     remove_past_events_media,
@@ -13,6 +15,7 @@ from export_academy.tasks import (
     send_automated_events_notification,
 )
 from tests.helpers import create_response
+from tests.unit.core.factories import HCSATFactory
 from tests.unit.export_academy import factories
 
 
@@ -55,7 +58,7 @@ def test_notify_registration_valid_event(mock_notify_action, user):
                 {
                     'first_name': 'Jim',
                     'event_name': 'Event name',
-                    'email_address': 'jim@example.com',
+                    'email_address': 'jim@example.com',  # /PS-IGNORE
                     'event_date': expected_start_day,
                     'event_time': expected_event_time,
                     'event_url': expected_event_url,
@@ -153,7 +156,7 @@ def test_notify_event_complete_valid_event(mock_complete_action, user):
     assert mock_complete_action().save.call_count == 1
     assert mock_complete_action().save.call_args == mock.call(
         {
-            'template_id': 'ff45b258-ae9e-4939-a049-089d959ddfee',
+            'template_id': 'ff45b258-ae9e-4939-a049-089d959ddfee',  # /PS-IGNORE
             'bulk_email_entries': [
                 {'first_name': user.first_name, 'event_name': event.name, 'email_address': user.email}
             ],
@@ -186,7 +189,7 @@ def test_notify_event_complete_cancelled_email_not_sent(mock_complete_action, us
     assert mock_complete_action.call_count == 2
     assert mock_complete_action().save.call_count == 1
     assert mock_complete_action().save.call_args == mock.call(
-        {'template_id': 'ff45b258-ae9e-4939-a049-089d959ddfee', 'bulk_email_entries': []}
+        {'template_id': 'ff45b258-ae9e-4939-a049-089d959ddfee', 'bulk_email_entries': []}  # /PS-IGNORE
     )
 
     # Verify Event has been updated in DB as email sent.
@@ -250,3 +253,33 @@ def test_notify_event_unpublished_email_not_sent(mock_complete_action, user):
     assert mock_complete_action.call_count == 1
     assert mock_complete_action().save.call_count == 0
     assert mock_complete_action().save.call_args is None
+
+
+@mock.patch('directory_forms_api_client.actions.HCSatAction')
+@pytest.mark.django_db
+def test_submit_hcsat_feedback_to_forms_api_task(mock_hcsat_action):
+
+    hcsat = HCSATFactory()
+
+    # Run task - we are
+    submit_hcsat_feedback_to_forms_api()
+    assert mock_hcsat_action.call_count == 1
+    assert mock_hcsat_action().save.call_count == 1
+    assert mock_hcsat_action().save.call_args == {
+        'hcsat_feedback_entries': [
+            {
+                'id': 1,
+                'feedback_submission_date': ANY,
+                'url': hcsat.URL,
+                'user_journey': hcsat.user_journey,
+                'satisfaction_rating': hcsat.satisfaction_rating,
+                'experienced_issues': hcsat.experienced_issues,
+                'other_detail': hcsat.other_detail,
+                'service_improvements_feedback': hcsat.service_improvements_feedback,
+                'likelihood_of_return': hcsat.likelihood_of_return,
+                'service_name': hcsat.service_name,
+                'service_specific_feedback': hcsat.service_specific_feedback,
+                'service_specific_feedback_other': hcsat.service_specific_feedback_other,
+            }
+        ]
+    }
