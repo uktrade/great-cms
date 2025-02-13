@@ -18,7 +18,7 @@ class Command(BaseCommand):
                 data['hcsat_feedback_entries'].append(
                     {
                         'id': feedback.pk,
-                        'feedback_submission_date': feedback.created.strftime("%d/%m/%Y, %H:%M:%S"),
+                        'feedback_submission_date': feedback.created.strftime('%d/%m/%Y, %H:%M:%S'),
                         'url': feedback.URL,
                         'user_journey': feedback.user_journey,
                         'satisfaction_rating': feedback.satisfaction_rating,
