@@ -13,10 +13,12 @@ from django.forms import (
 )
 from django.utils.html import mark_safe
 from great_components import forms
+from wagtail.admin.forms import WagtailAdminPageForm
 
 from contact import widgets as contact_widgets
 from core.validators import is_valid_email_address, is_valid_international_phone_number
 from directory_constants.choices import COUNTRY_CHOICES
+from international.fields import DBTSectorsAPIMultipleChoiceField
 from international_online_offer.core import choices, intents, region_sector_helpers
 from international_online_offer.services import (
     get_countries_regions_territories,
@@ -414,3 +416,13 @@ class FeedbackForm(forms.Form):
         },
         widget=Textarea(attrs={'class': 'govuk-textarea govuk-js-character-count', 'rows': 7}),
     )
+
+
+class WagtailAdminDBTSectors(WagtailAdminPageForm):
+    help_text = 'Select multiple items by holding the Ctrl key (Windows) or the Command key (Mac). Currently the parent sector only is used for mapping.'  # noqa:E501
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['dbt_sectors'] = DBTSectorsAPIMultipleChoiceField(
+            required=False, label='DBT sectors', help_text=self.help_text
+        )
