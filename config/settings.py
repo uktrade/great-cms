@@ -120,6 +120,7 @@ MIDDLEWARE = [
     'core.middleware.StoreUserExpertiseMiddleware',
     'core.middleware.CheckGATags',
     'core.middleware.HHTPHeaderDisallowEmbeddingMiddleware',
+    'core.middleware.GA4TrackingMiddleware',
     # 'directory_sso_api_client.middleware.AuthenticationMiddleware',
     'great_components.middleware.NoCacheMiddlware',
     'csp.middleware.CSPMiddleware',

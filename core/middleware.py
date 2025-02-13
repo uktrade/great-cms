@@ -16,6 +16,7 @@ from wagtail.contrib.redirects.middleware import get_redirect
 
 from core import helpers
 from core.fern import Fern
+from core.tasks import send_to_ga4
 from sso.models import BusinessSSOUser
 
 logger = logging.getLogger(__name__)
@@ -278,4 +279,19 @@ class HHTPHeaderDisallowEmbeddingMiddleware(MiddlewareMixin):
     def __call__(self, request):
         response = super().__call__(request)
         response['X-Permitted-Cross-Domain-Policies'] = 'none'
+        return response
+
+
+# Middleware class to handle GA tracking asynchronously
+class GA4TrackingMiddleware(MiddlewareMixin):
+    def process_response(self, request, response):
+
+        if not 200 <= response.status_code < 300:
+            return response
+
+        if getattr(response, 'skip_ga360', False):
+            return response
+
+        if settings.GA4_API_SECRET and settings.GA4_MEASUREMENT_ID:
+            send_to_ga4.delay(request.path, dict(request.headers))
         return response
