@@ -107,7 +107,9 @@ def international_header(request):
                     'href': '/international/investment/',
                     'text': 'Investment opportunities',
                     'location': 'International header',
-                    'isCurrent': '/international/investment/' in request.path,
+                    'isCurrent': '/international/investment/' == request.path
+                    or '/international/investment/' in request.path
+                    and '?back=' in request.get_full_path(),
                 },
                 {
                     'href': '/international/buy-from-the-uk/',

@@ -27,7 +27,7 @@ from international_online_offer.core import (
     region_sector_helpers,
     regions,
 )
-from international_online_offer.forms import LocationSelectForm
+from international_online_offer.forms import LocationSelectForm, WagtailAdminDBTSectors
 from international_online_offer.services import get_median_salaries, get_rent_data
 from .helpers import get_step_guide_accordion_items
 
@@ -148,12 +148,18 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             'Agriculture, horticulture, fisheries and pets' i.e. below will match the tag
             'Agriculture horticulture fisheries and pets'
             """
-            user_sector = triage_data.sector.replace(',', '')
+            user_sector_no_commas = triage_data.sector.replace(',', '')
 
+            # display articles based on free text tags
             all_articles_tagged_with_sector_and_intent = (
                 EYBArticlePage.objects.live()
-                .filter(tags__name__iexact=user_sector)
+                .filter(tags__name__iexact=user_sector_no_commas)
                 .filter(tags__name__in=triage_data.intent)
+            )
+
+            # include articles based on user sector and article's dbt sector not including any duplicates
+            all_articles_tagged_with_sector_and_intent = all_articles_tagged_with_sector_and_intent.union(
+                EYBArticlePage.objects.live().filter(dbt_sectors__contains=[triage_data.sector])
             )
 
         # Get any EYB articles that have been tagged with FINANCE_AND_SUPPORT
@@ -214,6 +220,7 @@ class EYBArticlePage(BaseContentPage, EYBHCSAT):
     ]
     subpage_types = []
     template = 'eyb/article.html'
+    base_form_class = WagtailAdminDBTSectors
     article_title = models.TextField()
     article_subheading = StreamField(
         [
@@ -262,6 +269,12 @@ class EYBArticlePage(BaseContentPage, EYBHCSAT):
         null=True,
         blank=True,
     )
+    dbt_sectors = ArrayField(
+        models.CharField(),
+        blank=True,
+        default=list,
+        help_text='Select multiple sectors by holding the Ctrl key (Windows) or the Command key (Mac). Currently the parent sector only is used for mapping.',  # noqa:E501
+    )
     tags = ClusterTaggableManager(
         through=EYBArticlePageTag,
         blank=True,
@@ -274,6 +287,7 @@ class EYBArticlePage(BaseContentPage, EYBHCSAT):
         FieldPanel('article_teaser'),
         FieldPanel('article_image'),
         FieldPanel('article_body'),
+        FieldPanel('dbt_sectors'),
         FieldPanel('tags'),
     ]
 
@@ -518,6 +532,7 @@ class TradeAssociation(models.Model):
     website_link = models.CharField(max_length=255)
     sector = models.CharField(max_length=255)
     brief_description = models.CharField(max_length=255)
+    link_valid = models.BooleanField(default=True, null=True)
 
 
 class SalaryData(models.Model):

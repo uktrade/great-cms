@@ -7,17 +7,18 @@ from django.forms import (
     HiddenInput,
     MultipleChoiceField,
     PasswordInput,
-    RadioSelect,
     Select,
     Textarea,
     TextInput,
 )
 from django.utils.html import mark_safe
 from great_components import forms
+from wagtail.admin.forms import WagtailAdminPageForm
 
 from contact import widgets as contact_widgets
-from core.validators import is_valid_email_address
+from core.validators import is_valid_email_address, is_valid_international_phone_number
 from directory_constants.choices import COUNTRY_CHOICES
+from international.fields import DBTSectorsAPIMultipleChoiceField
 from international_online_offer.core import choices, intents, region_sector_helpers
 from international_online_offer.services import (
     get_countries_regions_territories,
@@ -33,7 +34,7 @@ class BusinessHeadquartersForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         countries_regions_territories = get_countries_regions_territories()
-        self.fields['company_location'].choices = (('', ''),) + tuple(
+        self.fields['company_location'].choices = (('', 'Choose a location'),) + tuple(
             [(area['iso2_code'], area['name']) for area in countries_regions_territories]
         )
 
@@ -41,7 +42,12 @@ class BusinessHeadquartersForm(forms.Form):
         label=False,
         help_text='Enter your country, region or territory and select from results',
         required=False,
-        widget=Select(attrs={'id': 'js-company-location-select', 'class': 'govuk-input'}),
+        widget=Select(
+            attrs={
+                'id': 'js-company-location-select',
+                'class': 'govuk-select',
+            }
+        ),
         choices=(('', ''),),
     )
 
@@ -134,7 +140,7 @@ class CompanyDetailsForm(forms.Form):
         max_length=255,
         widget=TextInput(attrs={'class': 'govuk-input', 'autocomplete': 'address-line1'}),
         error_messages={
-            'required': 'Enter address line 1, typically the building and street',
+            'required': 'Enter address line 1, for example building or street name',
         },
     )
 
@@ -176,7 +182,7 @@ class BusinessSectorForm(forms.Form):
         super().__init__(*args, **kwargs)
         sector_data_json = get_dbt_sectors()
         self.sub_sectors_choices = region_sector_helpers.get_sectors_as_choices(sector_data_json)
-        self.fields['sector_sub'].choices = (('', ''),) + self.sub_sectors_choices
+        self.fields['sector_sub'].choices = (('', 'Choose a sector or industry'),) + self.sub_sectors_choices
 
     # sector sub choices are set in form constructor to avoid side effects when importing module
     sector_sub = ChoiceField(
@@ -184,7 +190,7 @@ class BusinessSectorForm(forms.Form):
         help_text='Enter your sector or industry and select the closest result',
         required=True,
         widget=Select(
-            attrs={'id': 'js-sector-select', 'class': 'govuk-input', 'aria-describedby': 'help_for_id_sector_sub'}
+            attrs={'id': 'js-sector-select', 'class': 'govuk-select', 'aria-describedby': 'help_for_id_sector_sub'}
         ),
         choices=(('', ''),),
         error_messages={
@@ -195,29 +201,21 @@ class BusinessSectorForm(forms.Form):
 
 class ContactDetailsForm(forms.Form):
     full_name = CharField(
-        label='Full name',
-        required=True,
+        label='Full name (optional)',
+        required=False,
         widget=TextInput(attrs={'class': 'govuk-input', 'autocomplete': 'name'}),
-        error_messages={
-            'required': 'Enter your full name',
-        },
     )
     role = CharField(
-        label='Job title',
-        required=True,
+        label='Job title (optional)',
+        required=False,
         widget=TextInput(attrs={'class': 'govuk-input', 'autocomplete': 'organization-title'}),
-        error_messages={
-            'required': 'Enter your job title',
-        },
     )
     telephone_number = CharField(
-        label='Phone number',
+        label='Phone number (optional)',
+        required=False,
         help_text='Include the country code',
-        required=True,
+        validators=[is_valid_international_phone_number],
         widget=TextInput(attrs={'class': 'govuk-input', 'autocomplete': 'tel'}),
-        error_messages={
-            'required': 'Enter your phone number',
-        },
     )
     agree_info_email = BooleanField(
         required=False,
@@ -277,7 +275,7 @@ class IntentForm(forms.Form):
             cleaned_data['intent_other'] = ''
         intent_other = cleaned_data.get('intent_other')
         if intent and any(intents.OTHER in s for s in intent) and not intent_other:
-            self.add_error('intent_other', 'Please enter more information here')
+            self.add_error('intent_other', 'Enter how you plan to expand in the UK')
         else:
             return cleaned_data
 
@@ -292,9 +290,9 @@ class LocationForm(forms.Form):
             'required': 'Search and select a location',
         },
         widget=Select(
-            attrs={'id': 'js-location-select', 'class': 'govuk-input', 'aria-describedby': 'help_for_id_location'}
+            attrs={'id': 'js-location-select', 'class': 'govuk-select', 'aria-describedby': 'help_for_id_location'}
         ),
-        choices=(('', ''),) + region_sector_helpers.generate_location_choices(),
+        choices=(('', 'Choose a location'),) + region_sector_helpers.generate_location_choices(),
     )
 
     location_none = BooleanField(
@@ -308,7 +306,7 @@ class HiringForm(forms.Form):
     hiring = ChoiceField(
         label='How many people are you looking to hire in the UK?',
         required=True,
-        widget=RadioSelect(attrs={'id': 'hiring-select', 'class': 'govuk-radios__input'}),
+        widget=contact_widgets.GreatRadioSelect(attrs={'id': 'hiring-select', 'class': 'govuk-radios__input'}),
         choices=choices.HIRING_CHOICES,
         error_messages={
             'required': 'Select how many people you want to hire',
@@ -323,7 +321,7 @@ class SpendForm(forms.Form):
         widget=contact_widgets.GreatRadioSelect,
         choices=choices.SPEND_CHOICES,
         error_messages={
-            'required': 'Select one option',
+            'required': 'Select how much you want to spend',
         },
     )
 
@@ -418,3 +416,13 @@ class FeedbackForm(forms.Form):
         },
         widget=Textarea(attrs={'class': 'govuk-textarea govuk-js-character-count', 'rows': 7}),
     )
+
+
+class WagtailAdminDBTSectors(WagtailAdminPageForm):
+    help_text = 'Select multiple items by holding the Ctrl key (Windows) or the Command key (Mac). Currently the parent sector only is used for mapping.'  # noqa:E501
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['dbt_sectors'] = DBTSectorsAPIMultipleChoiceField(
+            required=False, label='DBT sectors', help_text=self.help_text
+        )

@@ -27,12 +27,10 @@
                         <h1 class="govuk-label-wrapper">
                             <label class="govuk-label govuk-label--l" for='js-location-select'>Where do you want to set up?</label>
                         </h1>
-                        {% include 'international/includes/form_field.html' with field=form.location inputWrapperClass='prepend-search-icon' %}
+                        {% include 'international/includes/form_field.html' with field=form.location inputWrapperClass='prepend-search-icon' help_class='govuk-hint govuk-!-margin-bottom-3 js-enabled-only' %}
                     </div>
                     <div class="govuk-grid-row">
-                        <div class="govuk-grid-column-full">
-                            {% include 'international/includes/submit_button.html' with button_text=progress_button_text %}
-                        </div>
+                        <div class="govuk-grid-column-full">{% include "_button.html" with text=progress_button_text %}</div>
                     </div>
                 </form>
             </div>
@@ -42,7 +40,7 @@
 {% block body_js %}
     {{ block.super }}
     <script type="text/javascript"
-            src="{% static 'javascript/accessible-autocomplete.min.js' %}"></script>
+            src="{% static 'javascript/accessible-autocomplete.v3.01.min.js' %}"></script>
     <script type="text/javascript">
         // Gets json list of regions and cities from django - flattens to use
         // with autocomplete.
@@ -62,6 +60,7 @@
             selectElement: document.querySelector('#js-location-select'),
             source: flattenedRegionsAndCities,
             autoselect: false,
+            defaultValue: '',
             minLength: 2,
             onConfirm: function(selectedText) {
                 // onConfirm seems to be triggered by autocomplete many times passing null

@@ -8,69 +8,73 @@
 {% block content %}
     <div class="great-container">
         <div class="govuk-grid-row">
-            <div class="govuk-grid-column-full">
+            <div class="govuk-grid-column-two-thirds">
                 <p class="govuk-body-l great-text-grey govuk-!-margin-bottom-2">
                     Market data for {{ bci_headline.dbt_sector_name|default:""|lower }}
                 </p>
-            </div>
-        </div>
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">{{ headline_region.name }}</h1>
             </div>
         </div>
         {% if bci_headline and bci_detail %}
+            <div class="govuk-grid-row govuk-!-margin-1 govuk-!-padding-4 light-blue-background">
+                <div class="govuk-grid-column-one-quarter-from-desktop">
+                    <img src="{% static 'svg' %}/uk-regions-{{ bci_headline.geo_code }}.svg"
+                         alt="{{ bci_headline.geo_description }} map"
+                         class="bci-map__region" />
+                </div>
+                <div class="govuk-grid-column-full-width govuk-grid-column-three-quarters-from-desktop">
+                    <h2 class="govuk-heading-l govuk-!-margin-bottom-6">{{ headline_region.bci_card_title }}</h2>
+                    <div class="govuk-!-margin-bottom-5">
+                        <h3 class="govuk-heading-m govuk-!-margin-bottom-2">Population</h3>
+                        <p class="govuk-heading-l govuk-!-margin-bottom-1">{{ headline_region.population_million }} million</p>
+                    </div>
+                    <div class="govuk-!-margin-bottom-5">
+                        <h3 class="govuk-heading-m govuk-!-margin-bottom-2">
+                            Market data for {{ triage_data.sector|get_sector_display|default:""|lower }}, {{ bci_release_year }}
+                        </h3>
+                        <ul class="great-inline-flex great-gap-10-30 govuk-!-margin-bottom-0 govuk-grid-column-full govuk-!-padding-0">
+                            <li class="great-flex-grid govuk-heading-l govuk-!-margin-bottom-0 govuk-grid-column-one-third">
+                                <strong class="govuk-!-padding-0">{{ bci_headline.total_business_count|default:"-"|intcomma }}</strong>
+                                <span class="govuk-!-padding-0 govuk-body">businesses</span>
+                            </li>
+                            <li class="great-flex-grid govuk-heading-l govuk-!-margin-bottom-0 govuk-grid-column-one-third">
+                                <strong class="govuk-!-padding-0">{{ bci_headline.total_employee_count|default:"-"|intcomma }}</strong>
+                                <span class="govuk-!-padding-0 govuk-body">employees</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-row govuk-!-padding-4">
+                <table class="govuk-table">
+                    <thead class="govuk-table__head">
+                        <tr class="govuk-table__row">
+                            <th scope="col"
+                                class="govuk-table__header bci-table-header bci-table-header__region">
+                                {{ headline_region.sub_area_table_header }}
+                            </th>
+                            <th scope="col"
+                                class="govuk-table__header bci-table-header bci-table-header__stat">Businesses</th>
+                            <th scope="col"
+                                class="govuk-table__header bci-table-header bci-table-header__stat">Employees</th>
+                        </tr>
+                    </thead>
+                    <tbody class="govuk-table__body">
+                        {% for region in bci_detail %}
+                            {% include './includes/bci_row_item.html' with bci_region=region %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
             <div class="govuk-grid-row">
-                <div class="govuk-grid-row govuk-!-margin-1 govuk-!-padding-4 light-blue-background">
-                    <div class="govuk-grid-column-one-quarter-from-desktop">
-                        <img src="{% static 'svg' %}/uk-regions-{{ bci_headline.geo_code }}.svg"
-                             alt="{{ bci_headline.geo_description }} map"
-                             class="bci-map__region" />
-                    </div>
-                    <div class="govuk-grid-column-full-width govuk-grid-column-three-quarters-from-desktop">
-                        <h2 class="govuk-heading-l govuk-!-margin-bottom-6">{{ headline_region.name }}</h2>
-                        <div class="govuk-!-margin-bottom-5">
-                            <h3 class="govuk-heading-m govuk-!-margin-bottom-2">Population</h3>
-                            <p class="govuk-heading-xl govuk-!-margin-bottom-1">{{ headline_region.population_million }} million</p>
-                        </div>
-                        <div class="govuk-!-margin-bottom-5">
-                            <h3 class="govuk-heading-m govuk-!-margin-bottom-2">
-                                Market data for {{ triage_data.sector|get_sector_display|default:""|lower }}, {{ bci_release_year }}
-                            </h3>
-                            <div class="govuk-grid-column-one-half govuk-grid-column-one-third-from-desktop govuk-!-padding-0">
-                                <h2 class="govuk-heading-xl govuk-!-margin-bottom-1">{{ bci_headline.total_business_count|default:"-"|intcomma }}</h2>
-                                <p class="govuk-body">businesses</p>
-                            </div>
-                            <div class="govuk-grid-column-one-half govuk-grid-column-one-third-from-desktop govuk-!-padding-0">
-                                <h2 class="govuk-heading-xl govuk-!-margin-bottom-1">{{ bci_headline.total_employee_count|default:"-"|intcomma }}</h2>
-                                <p class="govuk-body">employees</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="govuk-grid-row govuk-!-padding-4 great-display-from-tablet">
-                    <div class="govuk-grid-column-one-third">
-                        <h4 class="govuk-heading-s">{{ headline_region.sub_area_table_header }}</h4>
-                    </div>
-                    <div class="govuk-grid-column-one-third great-interntional-centered-content">
-                        <h4 class="govuk-heading-s">Businesses</h4>
-                    </div>
-                    <div class="govuk-grid-column-one-third great-interntional-centered-content">
-                        <h4 class="govuk-heading-s">Employees</h4>
-                    </div>
-                </div>
-                {% for region in bci_detail %}
-                    {% include './includes/bci_row_item.html' with bci_region=region %}
-                {% endfor %}
-                <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-full">
-                        <p class="govuk-body-xs great-text-grey govuk-!-margin-bottom-2">
-                            Source:
-                            <a href="https://www.ons.gov.uk/aboutus/whatwedo/paidservices/interdepartmentalbusinessregisteridbr">
-                                Inter-Departmental Business Register, Office for National Statistics
-                            </a>
-                        </p>
-                    </div>
+                <div class="govuk-grid-column-full">
+                    <p class="govuk-body-xs great-text-grey govuk-!-margin-bottom-2">
+                        Source:
+                        <a class="govuk-link govuk-link--muted"
+                           href="https://www.ons.gov.uk/aboutus/whatwedo/paidservices/interdepartmentalbusinessregisteridbr">
+                            Inter-Departmental Business Register, Office for National Statistics
+                        </a>
+                    </p>
                 </div>
             {% else %}
                 <div class="govuk-grid-row">
@@ -79,6 +83,5 @@
                     </div>
                 </div>
             {% endif %}
-        </div>
-    {% endblock %}
-    {% block body_js %}{{ block.super }}{% endblock %}
+        {% endblock %}
+        {% block body_js %}{{ block.super }}{% endblock %}
