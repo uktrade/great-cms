@@ -18,6 +18,8 @@ if (!String.prototype.includes) {
 var dit = dit || {}
 dit.tagging = dit.tagging || {};
 dit.tagging.base = new function() {
+    var lastVideoPercent = -1;
+
     this.init = function(debug_mode) {
         $(document).ready(function() {
             addTaggingForLinks();
@@ -48,6 +50,7 @@ dit.tagging.base = new function() {
                 .on('play', function() { sendVideoEvent($(this), 'play') })
                 .on('pause', function() { sendVideoEvent($(this), 'pause') })
                 .on('ended', function() { sendVideoEvent($(this), 'ended') })
+                .on('timeupdate', function() { sendVideoEvent($(this), 'progress') });
         }
 
         function addTaggingForForms() {
@@ -70,7 +73,7 @@ dit.tagging.base = new function() {
 
         function sendVideoEvent(video, action) {
             var videoPercent = 0
-            var videoStatus = 'progress'
+            var videoStatus = action
             const currentPercent = calculateVideoPercent(video[0]);
                 if (currentPercent < 25)
                     videoPercent = 0;
@@ -86,6 +89,14 @@ dit.tagging.base = new function() {
                         videoPercent = 100
                     }
 
+                if (videoPercent !== lastVideoPercent) {
+                    sendVideoEventDetails(video, videoStatus, videoPercent, action)
+                    lastVideoPercent = videoPercent;
+                }
+
+
+        }
+        function sendVideoEventDetails(video, videoStatus, videoPercent, action) {
             var type = video.data('ga-type') || 'video';
             var element = video.data('ga-element') || inferElement(video);
             var value = video.data('ga-value') || inferVideoValue(video);
