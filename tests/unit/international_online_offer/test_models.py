@@ -94,17 +94,27 @@ class EYBTradeShowPageTests(WagtailPageTests):
 
 
 @pytest.mark.parametrize(
-    'user_sector, sector_tag, expected_len_articles',
+    'user_sector, sector_tag, dbt_sectors, expected_len_articles',
     (
-        ('Automotive', 'automotive', 1),
-        ('Agriculture, horticulture, fisheries and pets', 'Agriculture horticulture fisheries and pets', 1),
-        ('Food and drink', 'FOOD AND DRINK', 1),
-        ('Financial and professional services', 'Financial and Professional Services', 1),
+        ('Automotive', 'automotive', ['Automotive'], 2),
+        (
+            'Agriculture, horticulture, fisheries and pets',
+            'Agriculture horticulture fisheries and pets',
+            ['Agriculture, horticulture, fisheries and pets'],
+            2,
+        ),
+        ('Food and drink', 'FOOD AND DRINK', ['Food and drink'], 2),
+        (
+            'Financial and professional services',
+            'Financial and Professional Services',
+            ['Financial and professional services'],
+            2,
+        ),
     ),
 )
 @mock.patch('international_online_offer.services.get_bci_data_by_dbt_sector', return_value=[])
 @pytest.mark.django_db
-def test_eyb_guide_page_content(rf, user, domestic_site, user_sector, sector_tag, expected_len_articles):
+def test_eyb_guide_page_content(rf, user, domestic_site, user_sector, sector_tag, dbt_sectors, expected_len_articles):
     TriageData.objects.update_or_create(
         hashed_uuid='123',
         defaults={
@@ -153,6 +163,12 @@ def test_eyb_guide_page_content(rf, user, domestic_site, user_sector, sector_tag
     intent_tag.save()
     page_tag = EYBArticlePageTag(tag=intent_tag, content_object=article_page)
     page_tag.save()
+
+    # article with dbt sector only
+    article_page_with_dbt_sector = EYBArticlePage(
+        article_title='test321', title='test321', slug='test321', dbt_sectors=dbt_sectors
+    )
+    root.add_child(instance=article_page_with_dbt_sector)
 
     request = rf.get(guide_page.url)
     request.user = user
