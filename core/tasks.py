@@ -83,3 +83,14 @@ def update_opensearch_index():
     except ValueError as ve:
         logger.exception(f'Exception in core:tasks:update_opensearch_index {str(ve)}')
         raise ve
+
+
+@app.task
+def submit_hcsat_feedback_to_forms_api():
+    logger.info('Submitting HCSAT feedback to Forms API...')
+    try:
+        call_command('submit_hcsat_feedback')
+        sentry_sdk.capture_message('HCSAT feedback submitted to Forms API successfully.')
+    except ValueError as ve:
+        logger.exception(f'Exception in core:tasks:submit_hcsat_feedback {str(ve)}')
+        raise ve

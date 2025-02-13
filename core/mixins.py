@@ -9,6 +9,7 @@ from django.utils import translation
 from great_components import helpers as great_components_helpers
 
 from core import cms_slugs, models
+from core.constants import HCSatStage
 
 logger = logging.getLogger(__name__)
 
@@ -246,7 +247,6 @@ class HCSATMixin:
         return None
 
     def set_csat_and_stage(self, request, ctx, hcsat_service_name, form):
-        from core.helpers import submit_hcsat_to_forms_api
 
         hcsat = self.get_hcsat(request, hcsat_service_name)
 
@@ -257,13 +257,12 @@ class HCSATMixin:
         ctx['hcsat_form'] = form
         ctx['hcsat'] = hcsat
 
-        if hcsat and hcsat.stage == 2:
-            ctx['hcsat_form_stage'] = 2
-            hcsat.stage = 0
-            submit_hcsat_to_forms_api(self, form)
-            hcsat.delete()
+        if hcsat and hcsat.stage == HCSatStage.COMPLETED.value:
+            ctx['hcsat_form_stage'] = HCSatStage.COMPLETED.value
+            hcsat.stage = HCSatStage.NOT_STARTED.value
+            hcsat.save()
         else:
-            ctx['hcsat_form_stage'] = hcsat.stage if hcsat else 0
+            ctx['hcsat_form_stage'] = hcsat.stage if hcsat else HCSatStage.NOT_STARTED.value
 
         return ctx
 
@@ -325,7 +324,7 @@ class HCSATNonFormPageMixin(HCSATMixin):
             Redirect user if 'cancelButton' is found in the POST data
             """
             if hcsat:
-                hcsat.stage = 2
+                hcsat.stage = HCSatStage.COMPLETED.value
                 hcsat.save()
             return HttpResponseRedirect(self.get_success_url(request))
 
@@ -363,7 +362,7 @@ class HCSATNonFormPageMixin(HCSATMixin):
 
         # js version handles form progression in js file, so keep on 0 for reloads
         if 'js_enabled' in request.get_full_path():
-            hcsat.stage = 0
+            hcsat.stage = HCSatStage.NOT_STARTED.value
             js_enabled = True
 
         # if in second part of form (satisfaction=None) or not given in first part, persist existing satisfaction rating

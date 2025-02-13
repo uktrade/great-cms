@@ -126,7 +126,7 @@ directory-constants==24.1.3
     #   -r requirements.in
     #   directory-components
     #   great-components
-directory-forms-api-client==7.5.0
+directory-forms-api-client==7.5.1
     # via -r requirements.in
 directory-healthcheck==3.7
     # via -r requirements.in
@@ -239,7 +239,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==35.2.0
+faker==36.1.0
     # via factory-boy
 filelock==3.17.0
     # via virtualenv
@@ -265,7 +265,7 @@ html5lib==1.1
     #   xhtml2pdf
 icalendar==5.0.11
     # via -r requirements.in
-identify==2.6.6
+identify==2.6.7
     # via pre-commit
 idna==3.10
     # via requests
@@ -431,7 +431,7 @@ pyhanko-certvalidator==0.26.5
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==5.2.0
+pypdf==5.3.0
     # via xhtml2pdf
 pyquery==2.0.1
     # via readtime
@@ -448,7 +448,6 @@ python-dateutil==2.9.0.post0
     #   botocore
     #   celery
     #   dateparser
-    #   faker
     #   icalendar
     #   opensearch-dsl
     #   opensearch-py
@@ -504,7 +503,7 @@ requests-oauthlib==2.0.0
     # via django-staff-sso-client
 s3transfer==0.6.2
     # via boto3
-sentry-sdk==2.20.0
+sentry-sdk==2.21.0
     # via -r requirements.in
 sigauth==5.3.0
     # via
@@ -559,7 +558,6 @@ typing-extensions==4.12.2
     # via
     #   asgiref
     #   dj-database-url
-    #   faker
     #   kombu
     #   opentelemetry-sdk
     #   pydantic
@@ -570,6 +568,7 @@ tzdata==2025.1
     # via
     #   celery
     #   django-celery-beat
+    #   faker
     #   kombu
 tzlocal==5.2
     # via
@@ -596,7 +595,7 @@ vine==5.1.0
     #   amqp
     #   celery
     #   kombu
-virtualenv==20.29.1
+virtualenv==20.29.2
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core

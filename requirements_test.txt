@@ -120,7 +120,7 @@ colorama==0.4.6
     # via djlint
 configargparse==1.7
     # via locust
-coverage[toml]==7.6.10
+coverage[toml]==7.6.12
     # via
     #   pytest-codecov
     #   pytest-cov
@@ -131,7 +131,7 @@ cryptography==43.0.1
     #   -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
     #   pyhanko
     #   pyhanko-certvalidator
-cssbeautifier==1.15.1
+cssbeautifier==1.15.3
     # via djlint
 cssselect==1.2.0
     # via pyquery
@@ -174,7 +174,7 @@ directory-constants==24.1.3
     #   -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
     #   directory-components
     #   great-components
-directory-forms-api-client==7.5.0
+directory-forms-api-client==7.5.1
     # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
 directory-healthcheck==3.7
     # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
@@ -306,7 +306,7 @@ factory-boy==3.3.0
     # via
     #   -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
     #   wagtail-factories
-faker==35.2.0
+faker==36.1.0
     # via factory-boy
 filelock==3.17.0
     # via virtualenv
@@ -376,7 +376,7 @@ html5lib==1.1
     #   xhtml2pdf
 icalendar==5.0.11
     # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
-identify==2.6.6
+identify==2.6.7
     # via pre-commit
 idna==3.10
     # via
@@ -416,7 +416,7 @@ jmespath==1.0.1
     # via
     #   boto3
     #   botocore
-jsbeautifier==1.15.1
+jsbeautifier==1.15.3
     # via
     #   cssbeautifier
     #   djlint
@@ -640,7 +640,7 @@ pylint-django==2.6.1
     # via -r requirements_test.in
 pylint-plugin-utils==0.8.2
     # via pylint-django
-pypdf==5.2.0
+pypdf==5.3.0
     # via xhtml2pdf
 pyproject-hooks==1.2.0
     # via
@@ -666,7 +666,7 @@ pytest-cov==6.0.0
     # via
     #   -r requirements_test.in
     #   pytest-codecov
-pytest-django==4.9.0
+pytest-django==4.10.0
     # via -r requirements_test.in
 pytest-sugar==1.0.0
     # via -r requirements_test.in
@@ -683,7 +683,6 @@ python-dateutil==2.9.0.post0
     #   botocore
     #   celery
     #   dateparser
-    #   faker
     #   freezegun
     #   icalendar
     #   opensearch-dsl
@@ -764,7 +763,7 @@ s3transfer==0.6.2
     # via boto3
 selenium==4.28.1
     # via -r requirements_test.in
-sentry-sdk==2.20.0
+sentry-sdk==2.21.0
     # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
 sigauth==5.3.0
     # via
@@ -864,7 +863,6 @@ typing-extensions==4.12.2
     #   black
     #   dj-database-url
     #   djlint
-    #   faker
     #   ipython
     #   kombu
     #   opentelemetry-sdk
@@ -878,6 +876,7 @@ tzdata==2025.1
     # via
     #   celery
     #   django-celery-beat
+    #   faker
     #   kombu
 tzlocal==5.2
     # via
@@ -906,7 +905,7 @@ vine==5.1.0
     #   amqp
     #   celery
     #   kombu
-virtualenv==20.29.1
+virtualenv==20.29.2
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core

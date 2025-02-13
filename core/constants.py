@@ -1,3 +1,5 @@
+from enum import Enum
+
 SERVICE_NAME = 'great-cms'
 
 VIDEO_DURATION_DATA_ATTR_NAME = 'data-v-duration'
@@ -1436,3 +1438,9 @@ CHEG_EXCLUDED_COUNTRY_CODES = [
     'GM',
     'ZM',
 ]
+
+
+class HCSatStage(Enum):
+    NOT_STARTED = 0  # Stage 0: HCSAT has not been started
+    SUBMITTED = 1  # Stage 1: HCSAT satisfaction has been submitted
+    COMPLETED = 2  # Stage 2: HCSAT has been completed
