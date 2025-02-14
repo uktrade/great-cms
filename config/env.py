@@ -301,6 +301,7 @@ class BaseSettings(PydanticBaseSettings):
     feature_guided_journey_extras: bool = False
     feature_guided_journey_enhanced_search: bool = False
     feature_activity_stream: bool = False
+    feature_business_growth_triage: bool = False
 
     ax_compare_places_allowed: int = 10
 

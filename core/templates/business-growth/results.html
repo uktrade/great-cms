@@ -1,0 +1,24 @@
+{% extends 'domestic/contact/export-support/guided-journey/base.html' %}
+{% load static %}
+{% block head_title %}Business Growth - Triage Results{% endblock %}
+{% block content %}
+    <div class="great{% if is_edit_mode %}  great-min-height-500{% endif %}">
+        <div class="great-container govuk-!-padding-top-4">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full great-no-padding-until-tablet">
+                    <div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-4 great-ds-box-shadow great-ds-widget-container">
+                        <h1>
+                            Your results
+                        </h1>
+                        {{ session_data }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block body_js %}
+    {{ block.super }}
+    
+{% endblock %}

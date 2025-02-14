@@ -113,6 +113,8 @@ def feature_flags(request):
     retval['features']['FEATURE_OPENSEARCH'] = settings.FEATURE_OPENSEARCH
     retval['features']['FEATURE_GREAT_MIGRATION_BANNER'] = settings.FEATURE_GREAT_MIGRATION_BANNER
 
+    retval['features']['FEATURE_BUSINESS_GROWTH_TRIAGE'] = settings.FEATURE_BUSINESS_GROWTH_TRIAGE
+
     return retval
 
 

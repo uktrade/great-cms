@@ -12,11 +12,14 @@ from django.forms import (
     RadioSelect,
     Textarea,
     TextInput,
+    widgets,
 )
+
 from django.template.loader import render_to_string
 from django.utils.html import mark_safe
 from great_components import forms
 
+from core.validators import is_valid_uk_postcode
 from core import constants, models
 from core.cms_slugs import (
     PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE,
@@ -214,4 +217,47 @@ class GuidedJourneyStep3Form(forms.Form):
     market_not_listed = BooleanField(
         label="My market isn't listed",
         required=False,
+    )
+
+
+class BusinessGrowthTriageStep1Form(forms.Form):
+    country = ChoiceField(
+        label='Where are you based?',
+        widget=widgets.Select(attrs={'class': 'govuk-select great-select govuk-!-width-one-half'}),
+        choices=(
+            ('', 'Select your country'),
+            ('uk', 'United Kingdom'),
+        ),
+        error_messages={
+            'required': 'Select your country',
+        },
+    )
+    sector = ChoiceField(
+        label='Sector',
+        widget=widgets.Select(attrs={'class': 'govuk-select great-select govuk-!-width-one-half'}),
+        choices=(
+            ('', 'Select your sector'),
+            ('it', 'Information Technology'),
+        ),
+        error_messages={
+            'required': 'Select your sector',
+        },
+    )
+    business_stage = ChoiceField(
+        label='Stage of business',
+        widget=widgets.Select(attrs={'class': 'govuk-select great-select govuk-!-width-one-half'}),
+        choices=(
+            ('', 'Select your busines stage'),
+            ('startup', 'Startup'),
+        ),
+        error_messages={
+            'required': 'Select your stage of business',
+        },
+    )
+    postcode = CharField(
+        label='Postcode',
+        widget=widgets.TextInput(attrs={'class': 'govuk-input great-text-input govuk-!-width-one-half'}),
+        max_length=50,
+        error_messages={'required': 'Enter your postcode', 'invalid': 'Please enter a UK postcode'},
+        validators=[is_valid_uk_postcode],
     )

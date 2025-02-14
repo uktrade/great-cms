@@ -52,6 +52,7 @@ from core.mixins import (
     GuidedJourneyMixin,
     HCSATMixin,
     PageTitleMixin,
+    BusinessGrowthTriageMixin,
 )
 from core.models import GreatMedia
 from core.pingdom.services import health_check_services
@@ -1024,6 +1025,34 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, TemplateView):
             trade_barrier_count=trade_barrier_count,
             ukea_events=ukea_events,
             market_guide=market_guide,
+        )
+
+
+class BusinessGrowthTriageStep1View(BusinessGrowthTriageMixin, FormView):
+    form_class = forms.BusinessGrowthTriageStep1Form
+    template_name = 'business-growth/step-1.html'
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            progress_position=3,
+        )
+
+    def get_success_url(self):
+        return reverse_lazy('core:business-growth-triage-results')
+
+    def form_valid(self, form):
+        self.save_data(form)
+        return super().form_valid(form)
+
+
+class BusinessGrowthTriageResultsView(BusinessGrowthTriageMixin, TemplateView):
+    template_name = 'business-growth/results.html'
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            progress_position=3,
         )
 
 
