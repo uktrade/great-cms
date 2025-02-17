@@ -1028,14 +1028,35 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, TemplateView):
         )
 
 
+class BusinessGrowthLandingView(BusinessGrowthTriageMixin, FormView):
+    form_class = forms.BusinessGrowthLandingForm
+    template_name = 'business-growth/landing.html'
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+        )
+
+    def get_success_url(self):
+        return reverse_lazy('core:business-growth-triage-step-1')
+
+    def form_valid(self, form):
+        self.save_data(form)
+        return super().form_valid(form)
+
+
 class BusinessGrowthTriageStep1View(BusinessGrowthTriageMixin, FormView):
     form_class = forms.BusinessGrowthTriageStep1Form
     template_name = 'business-growth/step-1.html'
 
     def get_context_data(self, **kwargs):
+        if self.request.session.get('business_growth_triage_data'):
+            form_data = pickle.loads(bytes.fromhex(self.request.session.get('business_growth_triage_data')))[0]
+            type = form_data.get('type')
+
         return super().get_context_data(
             **kwargs,
-            progress_position=3,
+            type=type,
         )
 
     def get_success_url(self):
@@ -1052,7 +1073,6 @@ class BusinessGrowthTriageResultsView(BusinessGrowthTriageMixin, TemplateView):
     def get_context_data(self, **kwargs):
         return super().get_context_data(
             **kwargs,
-            progress_position=3,
         )
 
 

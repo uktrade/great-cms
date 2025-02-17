@@ -252,6 +252,11 @@ if settings.FEATURE_GUIDED_JOURNEY:
 if settings.FEATURE_BUSINESS_GROWTH_TRIAGE:
     urlpatterns += [
         path(
+            'business-growth',
+            skip_ga360(views.BusinessGrowthLandingView.as_view()),
+            name='business-growth-landing',
+        ),
+        path(
             'business-growth/tell-us-a-little-more',
             skip_ga360(views.BusinessGrowthTriageStep1View.as_view()),
             name='business-growth-triage-step-1',

@@ -1,24 +1,17 @@
 {% extends 'domestic/contact/export-support/guided-journey/base.html' %}
 {% load static %}
-{% block head_title %}Business Growth - Triage{% endblock %}
+{% block head_title %}Business Growth - Triage Results{% endblock %}
 {% block content %}
     <div class="great{% if is_edit_mode %}  great-min-height-500{% endif %}">
         <div class="great-container govuk-!-padding-top-4">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full great-no-padding-until-tablet">
                     <div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-4 great-ds-box-shadow great-ds-widget-container">
+                        <h1 class="govuk-heading-l govuk-!-margin-bottom-6">
+                            Find the right support for your business
+                        </h1>
                         <form method="post" autocomplete="off" data-target-market-form>
                             {% csrf_token %}
-                            <h1 class="govuk-heading-l govuk-!-margin-bottom-6">
-                                {% if type == 'starting' %}
-                                    Starting a new business
-                                {% elif type == 'scaling' %}
-                                    Growing your business
-                                {% elif type == 'expanding' %}
-                                    Expanding your business
-                                {% endif %}
-                            </h1>
-
                             <div class="govuk-!-margin-bottom-6 great-max-width-{% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH %}675{% else %}500{% endif %}-from-tablet">
                                 {% for field in form.visible_fields %}
                                 <div class="govuk-checkboxes" data-module="govuk-checkboxes">
@@ -30,7 +23,6 @@
                             </div>
                         
                             {% include 'domestic/contact/export-support/includes/continue-save-button.html' with button_text='Continue' %}
-
                         </form>
                     </div>
                 </div>

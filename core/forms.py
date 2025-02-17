@@ -220,6 +220,21 @@ class GuidedJourneyStep3Form(forms.Form):
     )
 
 
+class BusinessGrowthLandingForm(forms.Form):
+    type = ChoiceField(
+        label='What support do you want?',
+        widget=widgets.Select(attrs={'class': 'govuk-select great-select govuk-!-width-one-half'}),
+        choices=(
+            ('starting', 'Starting a new business'),
+            ('scaling', 'Scaling an existing business'),
+            ('expanding', 'Expanding internationally'),
+        ),
+        error_messages={
+            'required': 'Select your type',
+        },
+    )
+
+
 class BusinessGrowthTriageStep1Form(forms.Form):
     country = ChoiceField(
         label='Where are you based?',
