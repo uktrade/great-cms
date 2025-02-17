@@ -1591,3 +1591,41 @@ def test_guided_journey_as_service_exporter(
 
     assert response.status_code == 302
     assert response.url == redirect_url
+
+
+@pytest.mark.parametrize(
+    'page_url,form_data,redirect_url',
+    (
+        (
+            reverse('core:business-growth-landing'),
+            {
+                'type': 'starting',
+            },
+            reverse('core:business-growth-triage-step-1'),
+        ),
+        (
+            reverse('core:business-growth-triage-step-1'),
+            {
+                'country': 'uk',
+                'sector': 'it',
+                'business_stage': 'startup',
+                'postcode': 'SW1A 1AA',  # /PS-IGNORE
+            },
+            reverse('core:business-growth-triage-results'),
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_business_growth_triage(
+    page_url,
+    form_data,
+    redirect_url,
+    client,
+):
+    response = client.post(
+        page_url,
+        form_data,
+    )
+
+    assert response.status_code == 302
+    assert response.url == redirect_url

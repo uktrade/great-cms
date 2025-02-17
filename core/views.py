@@ -1050,6 +1050,8 @@ class BusinessGrowthTriageStep1View(BusinessGrowthTriageMixin, FormView):
     template_name = 'business-growth/step-1.html'
 
     def get_context_data(self, **kwargs):
+        type = None
+
         if self.request.session.get('business_growth_triage_data'):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('business_growth_triage_data')))[0]
             type = form_data.get('type')
