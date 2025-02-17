@@ -2,7 +2,7 @@ import pytest
 
 from core import forms
 from core.cms_slugs import PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE
-from core.forms import HCSATForm
+from core.forms import HCSATForm, BusinessGrowthTriageStep1Form
 
 
 def test_contact_us_form_empty_fields():
@@ -83,3 +83,44 @@ def test_csat_user_feedback_form_validation(form_data, is_valid):
     data = form_data
     form = HCSATForm(data)
     assert form.is_valid() == is_valid
+
+
+@pytest.mark.parametrize(
+    'form, form_data, form_is_valid, error_messages',
+    (
+        (
+            BusinessGrowthTriageStep1Form,
+            {
+                'country': 'uk',
+                'sector': 'it',
+                'business_stage': 'startup',
+                'postcode': 'SW1A 1AA',  # /PS-IGNORE
+            },
+            True,
+            {},
+        ),
+        (
+            BusinessGrowthTriageStep1Form,
+            {
+                'country': '',
+                'sector': '',
+                'business_stage': '',
+                'postcode': '',
+            },
+            False,
+            {
+                'country': 'Select your country',
+                'sector': 'Select your sector',
+                'business_stage': 'Select your stage of business',
+                'postcode': 'Enter your postcode',
+            },
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_business_growth_triage_form_validation(form, form_data, form_is_valid, error_messages):
+    form = form(form_data)
+    assert form.is_valid() is form_is_valid
+    if not form_is_valid:
+        for key in error_messages:
+            assert error_messages[key] in form.errors[key]
