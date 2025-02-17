@@ -10,15 +10,15 @@
     <div class="great-container">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
-                <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">Trade events</h1>
-                <p class="govuk-body">
-                    Attending a UK trade event can help you develop networks and get the latest insights from your sector.
-                </p>
+                <h2 class="govuk-caption-xl">{{ triage_data.sector|get_sector_display }}</h2>
+                <h1 class="govuk-heading-xl">UK events</h1>
             </div>
         </div>
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
-                <h2 class="govuk-heading-l">UK trade events for the {{ triage_data.sector|get_sector_display|lower }} sector</h2>
+                <p class="govuk-body">
+                    Attending a UK trade event can help you develop networks and get the latest insights from your sector.
+                </p>
             </div>
         </div>
         <div class="govuk-grid-row govuk-!-margin-bottom-6">
