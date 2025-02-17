@@ -178,6 +178,7 @@ def test_geolocation_redirector_is_international(mock_country_code, rf, country_
     mock_country_code.return_value = country_code
 
     request = rf.get('/')
+    request.META['HTTP_X_FORWARDED_FOR'] = '83.229.26.13, 127.0.0.2, 127.0.0.3'
     redirector = helpers.GeoLocationRedirector(request)
 
     assert redirector.should_redirect is True

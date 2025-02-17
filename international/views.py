@@ -9,6 +9,7 @@ from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin  # /PS-IGNORE
 from wagtailcache.cache import WagtailCacheMixin
 
+from core.constants import HCSatStage
 from core.forms import HCSATForm
 from core.helpers import check_url_host_is_safelisted
 from core.mixins import HCSATMixin
@@ -107,7 +108,7 @@ class ContactView(WagtailCacheMixin, GA360Mixin, HCSATMixin, FormView):  # /PS-I
             Redirect user if 'cancelButton' is found in the POST data
             """
             if hcsat:
-                hcsat.stage = 2
+                hcsat.stage = HCSatStage.COMPLETED.value
                 hcsat.save()
             return HttpResponseRedirect(self.get_success_url())
 
@@ -137,7 +138,7 @@ class ContactView(WagtailCacheMixin, GA360Mixin, HCSATMixin, FormView):  # /PS-I
             hcsat = form.save(commit=False)
 
             if 'js_enabled' in self.request.get_full_path():
-                hcsat.stage = 0
+                hcsat.stage = HCSatStage.NOT_STARTED.value
                 js_enabled = True
 
             hcsat = self.persist_existing_satisfaction(self.request, self.hcsat_service_name, hcsat)

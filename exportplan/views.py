@@ -12,6 +12,7 @@ from django.views.generic import FormView, TemplateView, View
 from great_components.mixins import GA360Mixin  # /PS-IGNORE
 from requests.exceptions import RequestException
 
+from core.constants import HCSatStage
 from core.forms import HCSATForm
 from core.mixins import HCSATMixin, PageTitleMixin
 from core.utils import choices_to_key_value
@@ -522,7 +523,7 @@ class ExportPlanDashBoard(
             Redirect user if 'cancelButton' is found in the POST data
             """
             if hcsat:
-                hcsat.stage = 2
+                hcsat.stage = HCSatStage.COMPLETED.value
                 hcsat.save()
             return HttpResponseRedirect(self.get_success_url())
 
@@ -551,7 +552,7 @@ class ExportPlanDashBoard(
 
         # js version handles form progression in js file, so keep on 0 for reloads
         if 'js_enabled' in self.request.get_full_path():
-            hcsat.stage = 0
+            hcsat.stage = HCSatStage.NOT_STARTED.value
             js_enabled = True
 
         # if in second part of form (satisfaction=None) or not given in first part, persist existing satisfaction rating

@@ -68,6 +68,7 @@ from core.constants import (
     BACKLINK_QUERYSTRING_NAME,
     RICHTEXT_FEATURES__MINIMAL,
     RICHTEXT_FEATURES__REDUCED,
+    HCSatStage,
 )
 from core.context import get_context_provider
 from core.utils import PageTopicHelper, get_first_lesson, persist_language_to_url
@@ -1047,7 +1048,7 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
             Redirect user if 'cancelButton' is found in the POST data
             """
             if hcsat:
-                hcsat.stage = 2
+                hcsat.stage = HCSatStage.COMPLETED.value
                 hcsat.save()
             return HttpResponseRedirect(self.get_success_url(request))
 
@@ -1077,7 +1078,7 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
 
         # js version handles form progression in js file, so keep on 0 for reloads
         if 'js_enabled' in request.get_full_path():
-            hcsat.stage = 0
+            hcsat.stage = HCSatStage.NOT_STARTED.value
             js_enabled = True
 
         # if in second part of form (satisfaction=None) or not given in first part, persist existing satisfaction rating
@@ -2536,7 +2537,8 @@ class HCSAT(TimeStampedModel):
         elif current[0].stage == current_hcsat_stage and current_hcsat_stage < 2:
             self.stage = current_hcsat_stage + 1
         if js_enabled:
-            self.stage = 0
+            self.stage = HCSatStage.NOT_STARTED.value
+
         super(HCSAT, self).save(*args)
 
 

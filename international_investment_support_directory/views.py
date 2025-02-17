@@ -10,6 +10,7 @@ from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin  # /PS-IGNORE
 
 from config import settings
+from core.constants import HCSatStage
 from core.forms import HCSATForm
 from core.helpers import get_sender_ip_address
 from core.mixins import HCSATMixin
@@ -211,7 +212,7 @@ class FindASpecialistContactView(CompanyProfileMixin, GA360Mixin, HCSATMixin, Fo
                 Redirect user if 'cancelButton' is found in the POST data
                 """
                 if hcsat:
-                    hcsat.stage = 2
+                    hcsat.stage = HCSatStage.COMPLETED.value
                     hcsat.save()
                 return HttpResponseRedirect(self.get_success_url(request))
 
@@ -248,7 +249,7 @@ class FindASpecialistContactView(CompanyProfileMixin, GA360Mixin, HCSATMixin, Fo
 
             # js version handles form progression in js file, so keep on 0 for reloads
             if 'js_enabled' in self.request.get_full_path():
-                hcsat.stage = 0
+                hcsat.stage = HCSatStage.NOT_STARTED.value
                 js_enabled = True
 
             # if in second part of form (satisfaction=None) or not given in first part, persist existing satisfaction rating  # noqa: E501
