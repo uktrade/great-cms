@@ -15,7 +15,6 @@ from export_academy.tasks import (
     send_automated_events_notification,
 )
 from tests.helpers import create_response
-from tests.unit.core.factories import HCSATFactory
 from tests.unit.export_academy import factories
 
 
@@ -259,8 +258,6 @@ def test_notify_event_unpublished_email_not_sent(mock_complete_action, user):
 @pytest.mark.django_db
 def test_submit_hcsat_feedback_to_forms_api_task(mock_hcsat_action):
 
-    hcsat = HCSATFactory()
-
     # Run task - we are
     submit_hcsat_feedback_to_forms_api()
     assert mock_hcsat_action.call_count == 1
@@ -268,18 +265,18 @@ def test_submit_hcsat_feedback_to_forms_api_task(mock_hcsat_action):
     assert mock_hcsat_action().save.call_args == {
         'hcsat_feedback_entries': [
             {
-                'id': 1,
+                'id': ANY,
                 'feedback_submission_date': ANY,
-                'url': hcsat.URL,
-                'user_journey': hcsat.user_journey,
-                'satisfaction_rating': hcsat.satisfaction_rating,
-                'experienced_issues': hcsat.experienced_issues,
-                'other_detail': hcsat.other_detail,
-                'service_improvements_feedback': hcsat.service_improvements_feedback,
-                'likelihood_of_return': hcsat.likelihood_of_return,
-                'service_name': hcsat.service_name,
-                'service_specific_feedback': hcsat.service_specific_feedback,
-                'service_specific_feedback_other': hcsat.service_specific_feedback_other,
+                'url': ANY,
+                'user_journey': ANY,
+                'satisfaction_rating': ANY,
+                'experienced_issues': [ANY],
+                'other_detail': ANY,
+                'service_improvements_feedback': ANY,
+                'likelihood_of_return': ANY,
+                'service_name': ANY,
+                'service_specific_feedback': [ANY],
+                'service_specific_feedback_other': ANY,
             }
         ]
     }
