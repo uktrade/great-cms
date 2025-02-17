@@ -440,6 +440,7 @@ class IOOTradeShowPage(BaseContentPage):
     parent_page_types = ['international_online_offer.EYBTradeShowsPage']
     subpage_types = []
     template = 'eyb/trade_shows.html'
+    base_form_class = WagtailAdminDBTSectors
     tradeshow_title = models.TextField()
     tradeshow_subheading = StreamField(
         [
@@ -453,11 +454,18 @@ class IOOTradeShowPage(BaseContentPage):
         blank=True,
     )
     tradeshow_link = models.URLField(blank=True, max_length=255, null=True)
+    tradeshow_location = models.TextField(blank=True, max_length=255, null=True)
+    dbt_sectors = ArrayField(
+        models.CharField(),
+        blank=True,
+        default=list,
+        help_text='Select multiple sectors by holding the Ctrl key (Windows) or the Command key (Mac). Currently the parent sector only is used for mapping.',  # noqa:E501
+    )
     tags = ClusterTaggableManager(
         through=EYBTradeShowPageTag,
         blank=True,
         verbose_name='Trade Show Tags',
-        help_text="A comma-separated list of tags. Do not include commas in the sector name, e.g. 'Agriculture, horticulture, fisheries and pets' is tagged as 'Agriculture horticulture fisheries and pets'",  # noqa:E501
+        help_text="A comma-separated list of tags.",
     )
     content_panels = CMSGenericPage.content_panels + [
         FieldPanel('tradeshow_title'),
