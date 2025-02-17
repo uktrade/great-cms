@@ -400,6 +400,11 @@ class EYBTradeShowsPage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             user_sector = triage_data.sector.replace(',', '')
             all_tradeshows = IOOTradeShowPage.objects.live().filter(tags__name__iexact=user_sector)
 
+            # include articles based on user sector and article's dbt sector not including any duplicates
+            all_tradeshows = all_tradeshows.union(
+                IOOTradeShowPage.objects.live().filter(dbt_sectors__contains=[triage_data.sector])
+            )
+
         breadcrumbs = [
             {'name': 'Home', 'url': '/international/'},
             {
@@ -471,6 +476,8 @@ class IOOTradeShowPage(BaseContentPage):
         FieldPanel('tradeshow_title'),
         FieldPanel('tradeshow_subheading'),
         FieldPanel('tradeshow_link'),
+        FieldPanel('tradeshow_location'),
+        FieldPanel('dbt_sectors'),
         FieldPanel('tags'),
     ]
 
