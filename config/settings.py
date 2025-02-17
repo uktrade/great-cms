@@ -884,6 +884,8 @@ FEATURE_ACTIVITY_STREAM = env.feature_activity_stream
 FEATURE_GUIDED_JOURNEY_EXTRAS = env.feature_guided_journey_extras
 FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH = env.feature_guided_journey_enhanced_search
 
+FEATURE_BUSINESS_GROWTH_TRIAGE = env.feature_business_growth_triage
+
 MAX_COMPARE_PLACES_ALLOWED = env.max_compare_places_allowed
 
 BETA_ENVIRONMENT = env.beta_token
