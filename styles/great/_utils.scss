@@ -109,7 +109,8 @@
   }
 
   .govuk-form-group--error {
-    input[type='text'] {
+    input[type='text'],
+    select {
       border-color: govuk-colour('red');
 
       &:focus {
@@ -486,6 +487,10 @@
   background-color: $color-primary-button;
 }
 
+.great-bg-mint-green {
+  background-color: #8ce2d0;
+}
+
 .great-text-dark-blue {
   color: $great-dark-blue !important;
 }
@@ -529,6 +534,12 @@
 .great-max-width-500-from-tablet {
   @include govuk-media-query($from: tablet) {
     max-width: 500px;
+  }
+}
+
+.great-max-width-575-from-tablet {
+  @include govuk-media-query($from: tablet) {
+    max-width: 575px;
   }
 }
 
@@ -1235,6 +1246,14 @@ great-icon {
   }
 }
 
+.great-display-flex-from-tablet {
+  display: none;
+
+  @include govuk-media-query($from: desktop) {
+    display: flex;
+  }
+}
+
 .great-flex-row {
   flex-direction: row !important;
 }
@@ -1325,4 +1344,9 @@ great-icon {
 
 .great-hr-grey {
   background: $govuk-border-colour;
+}
+
+.great-bring-to-front {
+  position: relative;
+  z-index: 1;
 }

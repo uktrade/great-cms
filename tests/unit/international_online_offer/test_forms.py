@@ -228,6 +228,42 @@ def test_triage_spend_form_validation(form_data, is_valid):
                 'telephone_number': '',
                 'agree_info_email': '',
             },
+            True,
+        ),
+        (
+            {
+                'full_name': '',
+                'role': '',
+                'telephone_number': '079125423464',
+                'agree_info_email': '',
+            },
+            True,
+        ),
+        (
+            {
+                'full_name': '',
+                'role': '',
+                'telephone_number': '+12453.23445',
+                'agree_info_email': '',
+            },
+            True,
+        ),
+        (
+            {
+                'full_name': '',
+                'role': '',
+                'telephone_number': '+188 458484 ext 123',
+                'agree_info_email': '',
+            },
+            True,
+        ),
+        (
+            {
+                'full_name': '',
+                'role': '',
+                'telephone_number': 'invalid telephone number',
+                'agree_info_email': '',
+            },
             False,
         ),
     ),

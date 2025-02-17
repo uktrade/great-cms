@@ -55,6 +55,10 @@ app.conf.beat_schedule = {
             day_of_month=settings.COUNTRIES_ISO_CODE_UPDATE_DAY,
         ),
     },
+    'check_trade_association_links_weekly': {
+        'task': 'international_online_offer.tasks.check_trade_association_links',
+        'schedule': crontab(minute=59, hour=23, day_of_week=0),
+    },
 }
 
 if settings.FEATURE_REDIS_USE_SSL:
