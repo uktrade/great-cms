@@ -153,6 +153,9 @@ $fa-font-path: '/static/fonts';
     &__input, &__option {
         font-size: 19px;
         line-height: 25px;
+    }
+
+    &__input {
         height: 40px;
     }
 }
