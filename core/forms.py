@@ -252,7 +252,9 @@ class BusinessGrowthTriageStep1Form(forms.Form):
         widget=widgets.Select(attrs={'class': 'govuk-select great-select govuk-!-width-one-half'}),
         choices=(
             ('', 'Select your sector'),
-            ('it', 'Information Technology'),
+            ('Advanced manufacturing', 'Advanced manufacturing'),
+            ('Aerospace', 'Aerospace'),
+            ('Food and drink', 'Food and drink'),
         ),
         error_messages={
             'required': 'Select your sector',
@@ -275,4 +277,20 @@ class BusinessGrowthTriageStep1Form(forms.Form):
         max_length=50,
         error_messages={'required': 'Enter your postcode', 'invalid': 'Please enter a UK postcode'},
         validators=[is_valid_uk_postcode],
+    )
+    turnover = ChoiceField(
+        label='Average annual turnover',
+        widget=widgets.Select(attrs={'class': 'govuk-select great-select govuk-!-width-one-half'}),
+        choices=(
+            ('Up to £85,000', 'Up to £85,000'),
+            ('£85,001 up to £249,999', '£85,001 up to £249,999'),
+            ('£250,000 up to £499,999', '£250,000 up to £499,999'),
+            ('£500,000 +', '£500,000 +'),
+            ("I don't know", "I don't know"),
+            ("I'd prefer not to say", "I'd prefer not to say"),
+        ),
+        error_messages={
+            'required': 'Select your annual turnover',
+        },
+        required=False,
     )
