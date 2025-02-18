@@ -102,6 +102,7 @@ INSTALLED_APPS = [
     'wagtailfontawesomesvg',
     'wagtail_localize',
     'wagtail_localize.locales',
+    'ddtrace.contrib.django',
 ]
 
 MIDDLEWARE = [
