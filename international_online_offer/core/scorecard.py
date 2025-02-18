@@ -2,7 +2,7 @@ from django.db.models import Q
 from sentry_sdk import capture_message
 
 from international_investment.models import InvestmentOpportunityArticlePage
-from international_online_offer.core import hirings
+from international_online_offer.core import hirings, spends
 from international_online_offer.services import get_gva_scoring_criteria
 
 
@@ -54,11 +54,19 @@ def get_value(value_in: str) -> int:
 
 
 def is_capex_spend(spend, threshold):
-    spend_upper_value = get_value(spend)
-    return spend_upper_value >= threshold
+    # the maximum value a user can choose is £5m+ so we return true to accommodate sectors with a gva banding >£5m
+    if spend == spends.MORE_THAN_FIVE_MILLION:
+        return True
+    else:
+        spend_upper_value = get_value(spend)
+        return spend_upper_value >= threshold
 
 
 def is_labour_workforce_hire(hiring, threshold):
+    # the maximum value a user can choose is 21+ so we return true to accommodate sectors with a gva banding 21
+    if hiring == hirings.TWENTY_ONE_PLUS:
+        return True
+
     if hiring == hirings.NO_PLANS_TO_HIRE_YET:
         hiring_upper_value = 0
     else:
