@@ -59,10 +59,9 @@
             {% endblock %}
             {% block social_media %}
                 {% if page.show_social_media %}
-                    {% include 'components/great/share.html' with page_url=request.build_absolute_uri page_title=page.title %}
+                    {% include 'components/great/share.html' with page_url=request.build_absolute_uri page_title=page.title list_classes='govuk-!-padding-left-0 great-list-style-none' %}
                 {% endif %}
             {% endblock %}
-            
             <section class="govuk-grid-column-three-quarters govuk-!-static-padding-left-0 govuk-!-static-padding-top-9">
                 {% if page.last_published_at %}
                     <p class="govuk-body great-text-grey govuk-!-static-margin-bottom-0">

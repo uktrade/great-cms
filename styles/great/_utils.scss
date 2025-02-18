@@ -1212,6 +1212,10 @@ great-icon {
   }
 }
 
+.great-list-style-none {
+  list-style-type: none;
+}
+
 .step-list {
   p {
     @extend .govuk-body;
