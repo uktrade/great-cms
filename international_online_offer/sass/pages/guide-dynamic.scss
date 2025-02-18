@@ -1,6 +1,5 @@
 @use '../../../styles/great/constants' as great-constants;
 
-// RESET start
 .govuk-phase-banner {
 	border: none;
 }
@@ -11,8 +10,7 @@
 
 .govuk-main-wrapper {
 	padding: 0;
-	// TODO: use a constant
-	background-color: #eef2f6;
+	background-color: $great-light-blue;
 }
 
 .great-container {
@@ -22,7 +20,6 @@
 		*/
 		position: relative;
 }
-// RESET end
 
 // the value of .great-container left or right padding
 $margin-compensation: great-constants.$great-container-padding;
@@ -43,7 +40,6 @@ $gap: 30px;
 		position: absolute;
 		width: 100%;
 		height: 450px;
-		// background: url("https://www.great.gov.uk/static/images/international-regions-hero.jpg") no-repeat center center;
 		background: url("/static/images/international-dynamic-guide-hero.jpg") no-repeat center center;
 		background-size: cover;
 
