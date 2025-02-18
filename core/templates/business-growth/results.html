@@ -8,9 +8,9 @@
                 <div class="govuk-grid-column-full great-no-padding-until-tablet">
                     <div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-4 great-ds-box-shadow great-ds-widget-container">
                         {% if session_data.type == 'starting' %}
-                            {% include 'business-growth/includes/starting.html' with sector=session_data.sector %}
+                            {% include 'business-growth/includes/starting.html' with sector=session_data.sector location=constituency council=council %}
                         {% elif session_data.type == 'scaling' %}
-                            {% include 'business-growth/includes/scaling.html' with sector=session_data.sector %}
+                            {% include 'business-growth/includes/scaling.html' with sector=session_data.sector location=constituency council=council %}
                         {% endif %}
                     </div>
                 </div>

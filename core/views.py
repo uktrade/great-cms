@@ -2,6 +2,7 @@ import abc
 import json
 import logging
 import pickle
+import requests
 from datetime import datetime
 
 from directory_forms_api_client import actions
@@ -1082,8 +1083,25 @@ class BusinessGrowthTriageResultsView(BusinessGrowthTriageMixin, TemplateView):
     template_name = 'business-growth/results.html'
 
     def get_context_data(self, **kwargs):
+        constituency = None
+        council = None
+
+        if self.request.session.get('business_growth_triage_data'):
+            form_data = pickle.loads(bytes.fromhex(self.request.session.get('business_growth_triage_data')))[0]
+            postcode = form_data.get('postcode')
+
+            response = requests.get(f'https://api.postcodes.io/postcodes/{postcode}', timeout=4)
+            response.raise_for_status()
+            data = response.json()
+
+            constituency = data.get('result').get('parliamentary_constituency_2024')
+            council = data.get('result').get('admin_district')
+
         return super().get_context_data(
             **kwargs,
+            constituency=constituency,
+            council=council,
+            growth_hub={'name': 'The Growth Hub'},
         )
 
 
