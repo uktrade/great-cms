@@ -32,9 +32,9 @@ def test_get_value(input, expected_result):
         [
             {
                 'full_sector_name': 'Aerospace',
-                'value_band_a_minimum': 100000000,
-                'value_band_b_minimum': 10000000,
-                'value_band_c_minimum': 1000001,
+                'value_band_a_minimum': 1000000000,
+                'value_band_b_minimum': 100000000,
+                'value_band_c_minimum': 10000000,
                 'value_band_d_minimum': 100000,
                 'value_band_e_minimum': 10000,
                 'start_date': '2021-04-01',
@@ -53,14 +53,14 @@ def test_score_is_high_value_capital_intensive(mock_gva_bandings):
     assert not scorecard.score_is_high_value(
         'Aerospace', regions.NORTHERN_IRELAND, hirings.SIX_TO_TEN, spends.FIVE_HUNDRED_THOUSAND_TO_ONE_MILLION, 'abc'
     )
-    assert scorecard.score_is_high_value(
+    assert not scorecard.score_is_high_value(
         'Aerospace',
         regions.NORTHERN_IRELAND,
         hirings.SIX_TO_TEN,
         spends.ONE_MILLION_TO_TWO_MILLION_FIVE_HUNDRED_THOUSAND,
         'abc',
     )
-    assert scorecard.score_is_high_value(
+    assert not scorecard.score_is_high_value(
         'Aerospace',
         regions.NORTHERN_IRELAND,
         hirings.SIX_TO_TEN,
@@ -113,7 +113,7 @@ def test_score_is_high_value_labour_intensive(mock_gva_bandings):
         spends.LESS_THAN_FIVE_HUNDRED_THOUSAND,
         'abc',
     )
-    assert not scorecard.score_is_high_value(
+    assert scorecard.score_is_high_value(
         'Food and drink',
         regions.NORTHERN_IRELAND,
         hirings.TWENTY_ONE_PLUS,
