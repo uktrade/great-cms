@@ -149,6 +149,13 @@ $fa-font-path: '/static/fonts';
     }
 }
 
-.autocomplete__input {
-    font-size: 19px;
+.autocomplete {
+    &__input, &__option {
+        font-size: 19px;
+        line-height: 25px;
+    }
+
+    &__input {
+        height: 40px;
+    }
 }

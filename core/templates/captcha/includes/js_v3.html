@@ -1,4 +1,4 @@
-<script src="https://www.google.com/recaptcha/api.js?render={{ public_key }}"></script>
+<script src="https://{{ recaptcha_domain }}/recaptcha/api.js?render={{ public_key }}"></script>
 <script>
   // attach reCapture check on form submit to stop token expiry.
   grecaptcha.ready(function() {

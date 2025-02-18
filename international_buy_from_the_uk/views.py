@@ -295,4 +295,5 @@ class FindASupplierContactView(CompanyProfileMixin, GA360Mixin, FormView):  # /P
             breadcrumbs=breadcrumbs,
             company=self.company,
             public_key=settings.RECAPTCHA_PUBLIC_KEY,
+            recaptcha_domain=settings.RECAPTCHA_DOMAIN,
         )
