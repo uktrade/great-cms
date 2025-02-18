@@ -1038,6 +1038,15 @@ class BusinessGrowthLandingView(BusinessGrowthTriageMixin, FormView):
         )
 
     def get_success_url(self):
+        type = None
+
+        if self.request.session.get('business_growth_triage_data'):
+            form_data = pickle.loads(bytes.fromhex(self.request.session.get('business_growth_triage_data')))[0]
+            type = form_data.get('type')
+
+        if type == 'expanding':
+            return '/international'
+
         return reverse_lazy('core:business-growth-triage-step-1')
 
     def form_valid(self, form):

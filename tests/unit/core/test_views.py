@@ -1604,6 +1604,20 @@ def test_guided_journey_as_service_exporter(
             reverse('core:business-growth-triage-step-1'),
         ),
         (
+            reverse('core:business-growth-landing'),
+            {
+                'type': 'scaling',
+            },
+            reverse('core:business-growth-triage-step-1'),
+        ),
+        (
+            reverse('core:business-growth-landing'),
+            {
+                'type': 'expanding',
+            },
+            '/international',
+        ),
+        (
             reverse('core:business-growth-triage-step-1'),
             {
                 'country': 'uk',
