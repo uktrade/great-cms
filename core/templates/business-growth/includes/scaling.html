@@ -14,3 +14,11 @@
 
 <p>Nearest growth hub:</p>
 <p>{{ growth_hub.name }}</p>
+
+{% if sector_content %}
+<ul>
+{% for content in sector_content %}
+    <li>{{ content }}</li>
+{% endfor %}
+</ul>
+{% endif %}

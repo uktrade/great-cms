@@ -1085,10 +1085,22 @@ class BusinessGrowthTriageResultsView(BusinessGrowthTriageMixin, TemplateView):
     def get_context_data(self, **kwargs):
         constituency = None
         council = None
+        sector = None
+
+        sector_content = {
+            'Advanced manufacturing': [
+                'Advanced manufacturing 1',
+                'Advanced manufacturing 2',
+                'Advanced manufacturing 3',
+            ],
+            'Aerospace': ['Aerospace 1', 'Aerospace 2', 'Aerospace 3'],
+            'Food and drink': ['Food and drink 1', 'Food and drink 2', 'Food and drink 3'],
+        }
 
         if self.request.session.get('business_growth_triage_data'):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('business_growth_triage_data')))[0]
             postcode = form_data.get('postcode')
+            sector = form_data.get('sector')
 
             response = requests.get(f'https://api.postcodes.io/postcodes/{postcode}', timeout=4)
             response.raise_for_status()
@@ -1102,6 +1114,7 @@ class BusinessGrowthTriageResultsView(BusinessGrowthTriageMixin, TemplateView):
             constituency=constituency,
             council=council,
             growth_hub={'name': 'The Growth Hub'},
+            sector_content=sector_content.get(sector),
         )
 
 
