@@ -113,10 +113,11 @@ def test_delete_users_raise_error_in_production():
 @pytest.mark.django_db
 def test_submit_hcsat_feedback_to_forms_api_task(mock_hcsat_action):
 
-    with freeze_time("2012-01-14 12:00:02"):
+    feedback_date = '2012-01-14 12:00:02'
+    with freeze_time(feedback_date):
 
-        submission_1 = HCSATFactory(created="2012-01-14 12:00:02")
-        submission_2 = HCSATFactory(created="2012-01-14 12:00:02")
+        submission_1 = HCSATFactory(created=feedback_date)
+        submission_2 = HCSATFactory(created=feedback_date)
 
         # Run task - we are testing
         submit_hcsat_feedback_to_forms_api()
@@ -128,7 +129,7 @@ def test_submit_hcsat_feedback_to_forms_api_task(mock_hcsat_action):
                 'hcsat_feedback_entries': [
                     {
                         'id': submission_1.id,
-                        'feedback_submission_date': "2012-01-14 12:00:02",
+                        'feedback_submission_date': feedback_date,
                         'url': submission_1.URL,
                         'user_journey': submission_1.user_journey,
                         'satisfaction_rating': submission_1.satisfaction_rating,
@@ -142,7 +143,7 @@ def test_submit_hcsat_feedback_to_forms_api_task(mock_hcsat_action):
                     },
                     {
                         'id': submission_2.id,
-                        'feedback_submission_date': "2012-01-14 12:00:02",
+                        'feedback_submission_date': feedback_date,
                         'url': submission_2.URL,
                         'user_journey': submission_2.user_journey,
                         'satisfaction_rating': submission_2.satisfaction_rating,
