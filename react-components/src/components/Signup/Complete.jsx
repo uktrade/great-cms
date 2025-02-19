@@ -7,7 +7,7 @@ const Complete = ({
  }) => (
   <div id='signup__complete'>
     <span role='img' className='fas fa-check-circle text-green-100 icon-large' />
-    {showTitle && <h2 className='h-s'>Sign up complete</h2>}
+    {showTitle && <h1 className='h-s'>Sign up complete</h1>}
     <p className='body-l text-black-100'>Your account has been created.</p>
     <a
       id='signup-modal-submit-success'
