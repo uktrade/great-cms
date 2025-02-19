@@ -39,7 +39,6 @@ class MicrositePanels:
                 FieldPanel('cta_link'),
             ],
         ),
-        FieldPanel('show_social_media', heading='Show social media share links'),
     ]
 
     settings_panels = [
