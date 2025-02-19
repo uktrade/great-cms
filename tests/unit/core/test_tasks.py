@@ -5,13 +5,16 @@ import pytest
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.utils import timezone
+from freezegun import freeze_time
 
 from core.tasks import (
     delete_inactive_admin_users_after_sixty_days,
     enact_page_schedule,
+    submit_hcsat_feedback_to_forms_api,
     update_geoip_data,
 )
 from tests.unit.core.factories import (
+    HCSATFactory,
     MicrositeFactory,
     MicrositePageFactory,
     SuperUserFactory,
@@ -104,3 +107,55 @@ def test_delete_users_raise_error_in_production():
     settings.APP_ENVIRONMENT = 'production'
     with pytest.raises(Exception, match='This task cannot be run on the current environment'):
         delete_inactive_admin_users_after_sixty_days()
+
+
+@mock.patch('directory_forms_api_client.actions.HCSatAction')
+@pytest.mark.django_db
+def test_submit_hcsat_feedback_to_forms_api_task(mock_hcsat_action):
+
+    with freeze_time("2012-01-14 12:00:02"):
+
+        submission_1 = HCSATFactory(created="2012-01-14 12:00:02")
+        submission_2 = HCSATFactory(created="2012-01-14 12:00:02")
+
+        # Run task - we are testing
+        submit_hcsat_feedback_to_forms_api()
+        assert mock_hcsat_action.call_count == 1
+        assert mock_hcsat_action().save.call_count == 1
+
+        expected = mock.call(
+            {
+                'hcsat_feedback_entries': [
+                    {
+                        'id': submission_1.id,
+                        'feedback_submission_date': "2012-01-14 12:00:02",
+                        'url': submission_1.URL,
+                        'user_journey': submission_1.user_journey,
+                        'satisfaction_rating': submission_1.satisfaction_rating,
+                        'experienced_issues': submission_1.experienced_issues,
+                        'other_detail': submission_1.other_detail,
+                        'service_improvements_feedback': submission_1.service_improvements_feedback,
+                        'likelihood_of_return': submission_1.likelihood_of_return,
+                        'service_name': submission_1.service_name,
+                        'service_specific_feedback': submission_1.service_specific_feedback,
+                        'service_specific_feedback_other': submission_1.service_specific_feedback_other,
+                    },
+                    {
+                        'id': submission_2.id,
+                        'feedback_submission_date': "2012-01-14 12:00:02",
+                        'url': submission_2.URL,
+                        'user_journey': submission_2.user_journey,
+                        'satisfaction_rating': submission_2.satisfaction_rating,
+                        'experienced_issues': submission_2.experienced_issues,
+                        'other_detail': submission_2.other_detail,
+                        'service_improvements_feedback': submission_2.service_improvements_feedback,
+                        'likelihood_of_return': submission_2.likelihood_of_return,
+                        'service_name': submission_2.service_name,
+                        'service_specific_feedback': submission_2.service_specific_feedback,
+                        'service_specific_feedback_other': submission_2.service_specific_feedback_other,
+                    },
+                ]
+            }
+        )
+
+        assert mock_hcsat_action().save.call_args == expected
