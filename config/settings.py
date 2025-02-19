@@ -300,7 +300,7 @@ STATICFILES_DIRS = [
 
 STORAGES = {
     'default': {
-        'BACKEND': env.default_file_storage,
+        'BACKEND': 'core.storage_classes.CustomStorage' if env.is_docker else env.default_file_storage,
     },
     'staticfiles': {
         'BACKEND': env.staticfiles_storage,
@@ -456,6 +456,20 @@ X_FRAME_OPTIONS = 'DENY'
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
+if DEBUG:
+    INSTALLED_APPS += ['debug_toolbar']
+    MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE
+    INTERNAL_IPS = ['127.0.0.1', '10.0.2.2']
+    if env.is_docker:
+        import socket
+
+        hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+        INTERNAL_IPS = [ip[:-1] + '1' for ip in ips] + INTERNAL_IPS
+        DEBUG_TOOLBAR_CONFIG = {
+            'SHOW_TOOLBAR_CALLBACK': lambda request: DEBUG,
+        }
+        AWS_ENDPOINT_URL = env.aws_endpoint_url
+
 # message framework
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
@@ -499,19 +513,6 @@ if AWS_STORAGE_BUCKET_NAME:
     else:
         PDF_STATIC_URL = f'{AWS_S3_URL_PROTOCOL}//{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_HOST}/export_plan_pdf_statics/'
 
-
-if DEBUG:
-    INSTALLED_APPS += ['debug_toolbar']
-    MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE
-    INTERNAL_IPS = ['127.0.0.1', '10.0.2.2']
-    if env.is_docker:
-        import socket
-
-        hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
-        INTERNAL_IPS = [ip[:-1] + '1' for ip in ips] + INTERNAL_IPS
-        DEBUG_TOOLBAR_CONFIG = {
-            'SHOW_TOOLBAR_CALLBACK': lambda request: DEBUG,
-        }
 
 ELASTIC_APM_ENABLED = env.elastic_apm_enabled
 if ELASTIC_APM_ENABLED:
