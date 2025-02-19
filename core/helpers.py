@@ -581,6 +581,10 @@ def get_file_from_s3(bucket, key):
     if hasattr(settings, 'AWS_ACCESS_KEY_ID_DATA_SCIENCE') and hasattr(settings, 'AWS_SECRET_ACCESS_KEY_DATA_SCIENCE'):
         kwargs['aws_access_key_id'] = settings.AWS_ACCESS_KEY_ID_DATA_SCIENCE
         kwargs['aws_secret_access_key'] = settings.AWS_SECRET_ACCESS_KEY_DATA_SCIENCE
+
+    if hasattr(settings.AWS_ENDPOINT_URL):
+        kwargs['endpoint_url'] = settings.AWS_ENDPOINT_URL
+        
     s3 = boto3.client(
         's3',
         region_name=settings.AWS_S3_REGION_NAME_DATA_SCIENCE,
@@ -723,6 +727,9 @@ def _get_s3_client_kwargs():
     if hasattr(settings, 'AWS_ACCESS_KEY_ID') and hasattr(settings, 'AWS_SECRET_ACCESS_KEY'):
         kwargs['aws_access_key_id'] = settings.AWS_ACCESS_KEY_ID
         kwargs['aws_secret_access_key'] = settings.AWS_SECRET_ACCESS_KEY
+
+    if hasattr(settings.AWS_ENDPOINT_URL):
+        kwargs['endpoint_url'] = settings.AWS_ENDPOINT_URL
 
     return kwargs
 
