@@ -200,11 +200,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Django>=3.2 will not do it for you anymore
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+IS_DOCKER = env.is_docker
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-if is_copilot() and not env.is_docker:
+if is_copilot() and not IS_DOCKER:
     DATABASES = database_from_env('DATABASE_CREDENTIALS')
     DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
 
@@ -300,7 +301,7 @@ STATICFILES_DIRS = [
 
 STORAGES = {
     'default': {
-        'BACKEND': 'core.storage_classes.CustomStorage' if env.is_docker else env.default_file_storage,
+        'BACKEND': 'core.storage_classes.CustomStorage' if IS_DOCKER else env.default_file_storage,
     },
     'staticfiles': {
         'BACKEND': env.staticfiles_storage,
@@ -460,7 +461,7 @@ if DEBUG:
     INSTALLED_APPS += ['debug_toolbar']
     MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE
     INTERNAL_IPS = ['127.0.0.1', '10.0.2.2']
-    if env.is_docker:
+    if IS_DOCKER:
         import socket
 
         hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
