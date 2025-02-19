@@ -1,0 +1,66 @@
+{% load static from static %}
+{% load i18n %}
+{% load get_template_translation_enabled from content_tags %}
+{% get_template_translation_enabled as TRANSLATE_TEXT %}
+{% if twitter or email or facebook or linkedin %}
+    
+
+
+
+<div class="govuk-!-padding-top-3 great-share">
+    <{{ heading_level|default:'h2' }} class="govuk-heading-s">Follow us</{{ heading_level|default:'h2' }}>
+    <ul class="govuk-!-margin-top-4 {% if list_classes %} {{ list_classes }} {% endif %}">
+        {% if twitter %}
+        <li class="govuk-!-margin-bottom-2">
+            <a href="{{ twitter }}"
+            target="_blank"
+            rel="noopener noreferrer external"
+            class="govuk-link govuk-heading-xs">
+             <svg width="40"
+                  height="40"
+                  viewBox="0 0 40 40"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                 <path fill-rule="evenodd" clip-rule="evenodd" d="M0 20C0 8.95 8.95 0 20 0C25.3 0 30.3875 2.1125 34.1375 5.8625C37.8875 9.6125 40 14.7 40 20C40 31.05 31.05 40 20 40C8.95 40 0 31.05 0 20ZM28.955 10.8594H25.8538L20.7434 16.7009L16.325 10.8594H9.92562L17.5719 20.8578L10.325 29.1406H13.4281L19.0213 22.7497L23.9094 29.1406H30.1503L22.1797 18.6031L28.955 10.8594ZM26.4838 27.2844H24.7653L13.5472 12.6181H15.3913L26.4838 27.2844Z" />
+             </svg>
+             <span>X</span>
+         </a>
+            
+        </li>
+        {% endif %}
+        {% if facebook %}
+        <li class="govuk-!-margin-bottom-2">
+            
+            <a href="{{ facebook }}"
+                target="_blank"
+                rel="noopener noreferrer external"
+                class="govuk-link govuk-heading-xs">
+                <svg width="40"
+                    height="40"
+                    viewBox="0 0 40 40"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path d="M40.0004 20.1234C40.0016 9.41802 31.6722 0.585727 21.0469 0.0255604C10.4217 -0.534607 1.22051 7.37347 0.109711 18.0204C-1.00109 28.6673 6.36735 38.3255 16.8766 39.9976V25.94H11.8004V20.1234H16.8766V15.6867C16.8766 10.6463 19.8576 7.85782 24.429 7.85782C25.9286 7.87862 27.4247 8.00993 28.9052 8.2507V13.2049H26.3814C23.8957 13.2049 23.1242 14.7572 23.1242 16.3479V20.1234H28.6766L27.7814 25.94H23.1242V39.9976C32.8424 38.4513 39.9994 30.023 40.0004 20.1234Z" />
+                </svg>
+                <span>Facebook</span>
+            </a>
+            
+        </li>
+        {% endif %}
+        {% if linkedin %}
+        <li class="govuk-!-margin-bottom-2">
+            <a href="{{ linkedin }}"
+            target="_blank"
+            rel="noopener noreferrer external"
+            class="govuk-link govuk-heading-xs">
+            <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                <path d="M39.375 20C39.375 30.7005 30.7005 39.375 20 39.375C9.29945 39.375 0.625 30.7005 0.625 20C0.625 9.29945 9.29945 0.625 20 0.625C30.7005 0.625 39.375 9.29945 39.375 20Z"/>
+                <path class="great-fill-white" d="M14.9523 29.1406H11.1613V16.9354H14.9523V29.1406ZM13.0548 15.2705C11.8428 15.2705 10.8594 14.2667 10.8594 13.0548C10.8594 12.4725 11.0907 11.9141 11.5024 11.5024C11.9141 11.0907 12.4725 10.8594 13.0548 10.8594C13.637 10.8594 14.1954 11.0907 14.6071 11.5024C15.0188 11.9141 15.2501 12.4725 15.2501 13.0548C15.2501 14.2667 14.2667 15.2705 13.0548 15.2705ZM29.1365 29.1406H25.3538V23.1992C25.3538 21.7832 25.3252 19.9674 23.3828 19.9674C21.4119 19.9674 21.1099 21.5058 21.1099 23.0972V29.1406H17.3231V16.9354H20.9589V18.6003H21.012C21.518 17.6414 22.7544 16.6294 24.5989 16.6294C28.4347 16.6294 29.1406 19.1553 29.1406 22.4361V29.1406H29.1365Z"/>
+            </svg>        
+            <span>LinkedIn</span>
+            </a>   
+        </li>
+        {% endif %}      
+    </ul>
+</div>
+{% endif %}
