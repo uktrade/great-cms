@@ -67,6 +67,7 @@ class BaseSettings(PydanticBaseSettings):
     aws_s3_signature_version: str = 's3v4'
     aws_querystring_auth: bool = False
     s3_use_sigv4: bool = True
+    aws_endpoint_url: str = ''
 
     service_name: str = 'great-cms'
     elastic_apm_secret_token: str
