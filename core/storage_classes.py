@@ -6,5 +6,5 @@ class CustomStorage(S3Boto3Storage):
 
     bucket_name = settings.AWS_STORAGE_BUCKET_NAME
 
-    if settings.IS_DOCKER:
+    if settings.IS_LOCAL_DOCKER_DEVELOPMENT:
         custom_domain = '{0}/{1}'.format('localhost:4566', bucket_name)
