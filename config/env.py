@@ -374,7 +374,7 @@ class BaseSettings(PydanticBaseSettings):
 
     headless: bool = True
 
-    is_docker: bool = False
+    is_local_docker_development: bool = False
 
     feature_great_migration_banner: bool = False
 
