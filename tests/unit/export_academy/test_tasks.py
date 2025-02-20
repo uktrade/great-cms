@@ -55,7 +55,7 @@ def test_notify_registration_valid_event(mock_notify_action, user):
                 {
                     'first_name': 'Jim',
                     'event_name': 'Event name',
-                    'email_address': 'jim@example.com',
+                    'email_address': 'jim@example.com',  # /PS-IGNORE
                     'event_date': expected_start_day,
                     'event_time': expected_event_time,
                     'event_url': expected_event_url,
@@ -153,7 +153,7 @@ def test_notify_event_complete_valid_event(mock_complete_action, user):
     assert mock_complete_action().save.call_count == 1
     assert mock_complete_action().save.call_args == mock.call(
         {
-            'template_id': 'ff45b258-ae9e-4939-a049-089d959ddfee',
+            'template_id': 'ff45b258-ae9e-4939-a049-089d959ddfee',  # /PS-IGNORE
             'bulk_email_entries': [
                 {'first_name': user.first_name, 'event_name': event.name, 'email_address': user.email}
             ],
@@ -186,7 +186,7 @@ def test_notify_event_complete_cancelled_email_not_sent(mock_complete_action, us
     assert mock_complete_action.call_count == 2
     assert mock_complete_action().save.call_count == 1
     assert mock_complete_action().save.call_args == mock.call(
-        {'template_id': 'ff45b258-ae9e-4939-a049-089d959ddfee', 'bulk_email_entries': []}
+        {'template_id': 'ff45b258-ae9e-4939-a049-089d959ddfee', 'bulk_email_entries': []}  # /PS-IGNORE
     )
 
     # Verify Event has been updated in DB as email sent.

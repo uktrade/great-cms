@@ -36,7 +36,7 @@ from core.constants import (
     TRADE_BARRIERS_BY_MARKET,
     TRADE_BARRIERS_BY_SECTOR,
 )
-from core.models import CuratedListPage
+from core.models import HCSAT, CuratedListPage
 from core.serializers import parse_opportunities
 from directory_api_client import api_client
 from directory_constants import choices, company_types
@@ -910,3 +910,11 @@ def get_sectors_and_sic_sectors_file():
     deserialised_data = json.load(json_data)
     json_data.close()
     return deserialised_data
+
+
+def send_hcsat_feedback(data: HCSAT) -> None:
+    action = actions.HCSatAction(
+        form_url=str(),
+    )
+    response = action.save(data)
+    response.raise_for_status()

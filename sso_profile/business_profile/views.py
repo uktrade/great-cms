@@ -13,6 +13,7 @@ from requests.exceptions import HTTPError, RequestException
 
 import sso_profile.common.forms
 import sso_profile.common.mixins
+from core.constants import HCSatStage
 from core.forms import HCSATForm
 from core.mixins import HCSATMixin
 from directory_api_client.client import api_client
@@ -160,7 +161,7 @@ class BusinessProfileView(MemberSendAdminRequestMixin, SuccessMessageMixin, HCSA
             Redirect user if 'cancelButton' is found in the POST data
             """
             if hcsat:
-                hcsat.stage = 2
+                hcsat.stage = HCSatStage.COMPLETED.value
                 hcsat.save()
             return HttpResponseRedirect(self.get_success_url())
 
@@ -190,7 +191,7 @@ class BusinessProfileView(MemberSendAdminRequestMixin, SuccessMessageMixin, HCSA
 
             # js version handles form progression in js file, so keep on 0 for reloads
             if 'js_enabled' in self.request.get_full_path():
-                hcsat.stage = 0
+                hcsat.stage = HCSatStage.NOT_STARTED.value
                 js_enabled = True
 
             # if in second part of form (satisfaction=None) or not given, persist existing satisfaction rating

@@ -16,7 +16,7 @@ from django.http import (
     HttpResponseRedirect,
     JsonResponse,
 )
-from django.shortcuts import get_list_or_404, get_object_or_404, redirect
+from django.shortcuts import get_list_or_404, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.utils.text import get_valid_filename
@@ -37,6 +37,7 @@ from rest_framework.generics import GenericAPIView
 
 from config import settings
 from core import mixins as core_mixins
+from core.constants import HCSatStage
 from core.forms import HCSATForm
 from core.helpers import get_location
 from core.templatetags.content_tags import format_timedelta
@@ -227,7 +228,7 @@ class SuccessPageView(GetBreadcrumbsMixin, core_mixins.GetSnippetContentMixin, c
             Redirect user if 'cancelButton' is found in the POST data
             """
             if hcsat:
-                hcsat.stage = 2
+                hcsat.stage = HCSatStage.COMPLETED.value
                 hcsat.save()
             return HttpResponseRedirect(self.get_success_url())
 
@@ -257,7 +258,7 @@ class SuccessPageView(GetBreadcrumbsMixin, core_mixins.GetSnippetContentMixin, c
 
         # js version handles form progression in js file, so keep on 0 for reloads
         if 'js_enabled' in self.request.get_full_path():
-            hcsat.stage = 0
+            hcsat.stage = HCSatStage.NOT_STARTED.value
             js_enabled = True
 
         # if in second part of form (satisfaction=None) or not given in first part, persist existing satisfaction rating
@@ -843,7 +844,7 @@ class EventsDetailsView(DetailView):
         ctx['signed_in'] = self.signed_in
         ctx['booked'] = self.booked
         ctx['warning_text'] = self.get_warning_text()
-        ctx['warning_call_to_action'] = self.warning_call_to_action
+        ctx['warning_call_to_action'] = self.get_warning_call_to_action()
         ctx['has_event_badges'] = len(self.get_badges_for_event(self.event)) > 0
         ctx['series'] = self.event.get_course()[0] if len(self.event.get_course()) else None
         ctx['show_past_events'] = True
@@ -871,12 +872,11 @@ class EventsDetailsView(DetailView):
                     Watch <span class="govuk-visually-hidden">event recording</span>now</a>"""
                     else:
                         return view_more_events
-                registration_link = redirect(
-                    reverse_lazy('export_academy:registration', kwargs=dict(event_id=self.event.id))
-                )
-                return f"""<a class='govuk-link'∂ href='../../..{ registration_link.url }'>
-            Sign in to watch<span class="govuk-visually-hidden"> event recording</span></a>"""
-
+                else:
+                    current_url = self.request.get_full_path()
+                    signin_link = reverse_lazy('export_academy:signin') + f'?next={current_url}'
+                    return f"""<a class='govuk-link' href='{signin_link}'>
+                    Sign in to watch<span class="govuk-visually-hidden"> event recording</span></a>"""
             else:
                 return view_more_events
         return ''
