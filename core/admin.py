@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from wagtail.images.views.images import (
-    CreateView as image_add_view,
-    EditView as image_edit_view,
+    CreateView as ImageAddView,
+    EditView as ImageEditView,
 )
 from wagtail_modeladmin import views
 from wagtail_modeladmin.mixins import ThumbnailMixin
@@ -19,13 +19,13 @@ class PageViewAdmin(admin.ModelAdmin):
 
 class StandardImageEditViewWrapper(views.EditView):
     def get(self, request):
-        response = image_edit_view(request, self.instance_pk)  # pragma: no cover
+        response = ImageEditView(request, self.instance_pk)  # pragma: no cover
         return response  # pragma: no cover
 
 
 class StandardImageCreateViewWrapper(views.CreateView):
     def get(self, request):
-        response = image_add_view(request)  # pragma: no cover
+        response = ImageAddView(request)  # pragma: no cover
         return response  # pragma: no cover
 
 
