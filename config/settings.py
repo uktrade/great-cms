@@ -200,12 +200,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Django>=3.2 will not do it for you anymore
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
-IS_DOCKER = env.is_docker
+IS_LOCAL_DOCKER_DEVELOPMENT = env.is_local_docker_development
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-if is_copilot() and not IS_DOCKER:
+if is_copilot() and not IS_LOCAL_DOCKER_DEVELOPMENT:
     DATABASES = database_from_env('DATABASE_CREDENTIALS')
     DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
 
@@ -301,7 +301,7 @@ STATICFILES_DIRS = [
 
 STORAGES = {
     'default': {
-        'BACKEND': 'core.storage_classes.CustomStorage' if IS_DOCKER else env.default_file_storage,
+        'BACKEND': 'core.storage_classes.CustomStorage' if IS_LOCAL_DOCKER_DEVELOPMENT else env.default_file_storage,
     },
     'staticfiles': {
         'BACKEND': env.staticfiles_storage,
@@ -461,7 +461,7 @@ if DEBUG:
     INSTALLED_APPS += ['debug_toolbar']
     MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE
     INTERNAL_IPS = ['127.0.0.1', '10.0.2.2']
-    if IS_DOCKER:
+    if IS_LOCAL_DOCKER_DEVELOPMENT:
         import socket
 
         hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
@@ -1046,7 +1046,11 @@ CSP_FONT_SRC = (
     "'self'",
     'https://fonts.gstatic.com',
 )  # noqa
-CSP_IMG_SRC = ("'self'", "data:", "https:")  # noqa
+
+if IS_LOCAL_DOCKER_DEVELOPMENT:
+    CSP_IMG_SRC = ("'self'", "data:", "https:", "http:")
+else:
+    CSP_IMG_SRC = ("'self'", "data:", "https:")  # noqa
 CSP_FRAME_SRC = ("'self'", 'https://www.google.com', 'https:')
 CSP_FRAME_ANCESTORS = ("'self'",)  # noqa
 CSP_UPGRADE_INSECURE_REQUESTS = env.csp_upgrade_insecure_requests
