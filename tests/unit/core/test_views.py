@@ -905,7 +905,7 @@ def test_contact_us_help_notify_save_success(
             sender={
                 'email_address': contact_form_data['email'],
                 'country_code': get_location_value['country'] if get_location_value else None,
-                'ip_address': '127.0.0.1',
+                'ip_address': None,
             },
             template_id=settings.CONTACTUS_ENQURIES_SUPPORT_TEMPLATE_ID,
         ),
