@@ -2,7 +2,7 @@
 {% load wagtailcore_tags %}
 {% load static %}
 {% block form %}
-    <h3 class="govuk-heading-m govuk-!-margin-top-8 govuk-!-margin-bottom-6">Create an account</h3>
+    <h1 class="govuk-heading-m govuk-!-margin-top-8 govuk-!-margin-bottom-6">Create an account</h1>
     {% csrf_token %}
     {% for field in form.visible_fields %}
         <div class="govuk-form-group {% if field.errors %}govuk-form-group--error govuk-!-margin-top-6{% endif %}">
