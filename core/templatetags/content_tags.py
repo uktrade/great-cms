@@ -774,3 +774,20 @@ def render_signup_cta(background=None, link=None):
         'landscapeImagePath': '/static/images/lte-signup-promo-landscape.png',
         'portraitImagePath': '/static/images/lte-signup-promo-portrait.png',
     }
+
+
+@register.filter
+def sector_based_image(sector):
+    res = None
+
+    mapping = (
+        ('Advanced manufacturing', 'industry'),
+        ('Aerospace', 'plane'),
+        ('Food and drink', 'carrot'),
+    )
+
+    for sector_name, icon_name in mapping:
+        if sector == sector_name:
+            res = icon_name
+
+    return res
