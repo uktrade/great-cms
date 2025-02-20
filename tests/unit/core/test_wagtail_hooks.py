@@ -13,7 +13,7 @@ from django.utils.safestring import mark_safe
 from freezegun import freeze_time
 from wagtail.admin.menu import DismissibleMenuItem
 from wagtail.rich_text import RichText
-from wagtail.tests.utils import WagtailPageTests
+from wagtail.test.utils import WagtailPageTests
 
 from config import settings
 from core import cms_slugs, wagtail_hooks
