@@ -1048,7 +1048,7 @@ CSP_FONT_SRC = (
 )  # noqa
 
 if IS_LOCAL_DOCKER_DEVELOPMENT:
-    CSP_IMG_SRC = ("'self'", "data:", "https:", "http:")
+    CSP_IMG_SRC = ("'self'", "data:", "https:", "http:")  # noqa
 else:
     CSP_IMG_SRC = ("'self'", "data:", "https:")  # noqa
 CSP_FRAME_SRC = ("'self'", 'https://www.google.com', 'https:')
