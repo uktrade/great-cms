@@ -5,12 +5,14 @@
 {% load pagination from component_tags %}
 {% load append_past_year_seperator from component_tags %}
 {% load h3_if from content_tags %}
+{% load render_events_hero from events_hero %}
 {% block head_title %}Events – UK Export Academy{% endblock %}
 {% block content %}
     <div class="great great-hero-box-shadow-bottom">
         {% block hero %}
             {% with content_snippet as hero %}
                 <div class="ea-listing-page">
+                    {% render_events_hero %}
                     {% include 'components/export_academy_hero.html' with hero=hero hide_image_for_mobile=True %}
                 </div>
             {% endwith %}

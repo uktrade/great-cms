@@ -151,6 +151,10 @@ TEMPLATES = [
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'cta_banner',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'action_link',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'responsive_image',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'hero',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'pagination',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'input',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'label',
             ROOT_DIR
             / 'node_modules'
             / '@uktrade'
