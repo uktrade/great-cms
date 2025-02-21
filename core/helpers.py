@@ -590,7 +590,7 @@ def get_file_from_s3(bucket, key):
 
     if hasattr(settings.AWS_ENDPOINT_URL):
         kwargs['endpoint_url'] = settings.AWS_ENDPOINT_URL
-        
+
     s3 = boto3.client(
         's3',
         region_name=settings.AWS_S3_REGION_NAME_DATA_SCIENCE,
