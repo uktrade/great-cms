@@ -46,17 +46,23 @@ $gap: 30px;
 }
 
 .dynamic-guide {
+	// The only purpose of this selector is to hold the following variables
+	// so we use this to make it not participate in the layout.
+	display: contents;
+
 	--vertical-gap: 15px;
 	--grid-side-margin: calc(var(--vertical-gap) * 2);
 	--hero-image-height: 80px;
+	--vertical-padding: 15px;
 
 	@media (min-width: sizes.$tablet-size) {
 		--hero-image-height: 270px;
+		--vertical-padding: 30px;
 	}
 
 	@media (min-width: sizes.$donknowhowtonameit-size) {
-		--vertical-gap: 30px;
 		--hero-image-height: 450px;
+		--vertical-gap: 30px;
 	}
 
 	&__hero-image {
@@ -95,16 +101,7 @@ $gap: 30px;
 	}
 
 	&__hero {
-		padding: 20px great-constants.$great-container-padding 25px;
-		grid-area: top;
-
-		@media (min-width: sizes.$tablet-size) {
-			display: initial;
-			grid-area: 1 / 1;
-			padding: 0;
-			margin: $gap;
-			margin-right: 0;
-		}
+		grid-area: hero;
 	}
 
 	&__icon-edit {
@@ -116,9 +113,7 @@ $gap: 30px;
 
 		@media (min-width: sizes.$tablet-size) {
 			display: initial;
-			grid-area: 1 / 2;
-			margin: $gap;
-			margin-left: 0;
+			grid-area: region-map;
 			background-image: url("/static/svg/regions/uk-all.svg");
 			background-size: contain;
 			background-repeat: no-repeat;
@@ -131,6 +126,10 @@ $gap: 30px;
 		&-top {
 			@include shadow-thrower();
 			grid-area: top;
+			display: grid;
+			grid-template-columns: subgrid;
+			grid-template-areas: "hero region-map";
+			padding: 20px var(--vertical-padding) 25px;
 		}
 
 		&-left {

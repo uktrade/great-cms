@@ -13,27 +13,22 @@
     <div class="dynamic-guide">
         <div class="dynamic-guide__hero-image"></div>
         <div class="dynamic-guide__grid">
-            <div class="dynamic-guide__panel-top"></div>
-            {% comment %}
-				Note that dynamic-guide__hero and dynamic-guid__region-map are not
-				children of dynamic-guide__panel-top eventhough they visually appear
-				as such. This is because we are using grid layout but we avoid using
-				subgrid.
-            {% endcomment %}
-            <div class="dynamic-guide__hero">
-                <h2 class="govuk-caption-xl">Your company name</h2>
-                <h1 class="govuk-heading-xl">Expand your business and set up in the UK</h1>
-                <p class="govuk-body">
-                    This guide is based on the details and plans you provided about your business, in our <strong>Advanced engineering</strong> sector.
-                </p>
-                <a class="govuk-link">
-                    <img class="dynamic-guide__icon-edit"
-                         alt="Pencil icon"
-                         src="{% static '/static/svg/icon-edit.svg' %}" />
-                    Change your details and plans
-                </a>
+            <div class="dynamic-guide__panel-top">
+                <div class="dynamic-guide__hero">
+                    <h2 class="govuk-caption-xl">Your company name</h2>
+                    <h1 class="govuk-heading-xl">Expand your business and set up in the UK</h1>
+                    <p class="govuk-body">
+                        This guide is based on the details and plans you provided about your business, in our <strong>Advanced engineering</strong> sector.
+                    </p>
+                    <a class="govuk-link">
+                        <img class="dynamic-guide__icon-edit"
+                             alt="Pencil icon"
+                             src="{% static 'svg/icon-edit.svg' %}" />
+                        Change your details and plans
+                    </a>
+                </div>
+                <div class="dynamic-guide__region-map"></div>
             </div>
-            <div class="dynamic-guide__region-map"></div>
             <div class="dynamic-guide__panel-left">
                 <div class="dynamic-guide__section">{% lorem %}</div>
                 <div class="dynamic-guide__section">{% lorem %}</div>
