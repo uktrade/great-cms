@@ -1,0 +1,150 @@
+@use '../../../styles/sizes/sizes' as sizes;
+
+$gap: 30px;
+
+.govuk-phase-banner {
+	border: none;
+}
+
+.great-breadcrumbs {
+	background: white;
+}
+
+.govuk-main-wrapper {
+	padding: 0;
+	background-color: $great-light-blue;
+}
+
+.great-container {
+		/*
+		The selector has position: static, which makes it always appear
+		behind the hero and z-index has no effect on it because of that.
+		*/
+		position: relative;
+}
+
+@mixin display-contents-on-small-screens {
+	display: contents;
+
+	@media (min-width: sizes.$tablet-size) {
+		display: initial;
+	}
+}
+
+@mixin vertical-spacer {
+	@media (min-width: sizes.$tablet-size) {
+		display: flex;
+		flex-direction: column;
+		gap: var(--vertical-gap);
+	}
+}
+
+@mixin shadow-thrower {
+	background: white;
+	box-shadow: 0 4px 10px #04043F1A;
+}
+
+.dynamic-guide {
+	// The only purpose of this selector is to hold the following variables
+	// so we use this to make it not participate in the layout.
+	display: contents;
+
+	--vertical-gap: 15px;
+	--grid-side-margin: calc(var(--vertical-gap) * 2);
+	--hero-image-height: 80px;
+	--vertical-padding: 15px;
+
+	@media (min-width: sizes.$tablet-size) {
+		--hero-image-height: 270px;
+		--vertical-padding: 30px;
+	}
+
+	@media (min-width: sizes.$donknowhowtonameit-size) {
+		--hero-image-height: 450px;
+		--vertical-gap: 30px;
+	}
+
+	&__hero-image {
+		position: absolute;
+		width: 100%;
+		height: var(--hero-image-height);
+		background: url("/static/images/international-dynamic-guide-hero.jpg") no-repeat center center;
+		background-size: cover;
+	}
+
+	&__grid {
+		// This is required for the grid to participate in the z-index
+		// so that hero-image appears behind it.
+		position: relative;
+		display: grid;
+		grid-template:
+			"top"
+			"left"
+			"right";
+		row-gap: var(--vertical-gap);
+		column-gap: $gap;
+		padding: 80px 0;
+
+		@media (min-width: sizes.$tablet-size) {
+			width: min(calc(100% - var(--grid-side-margin)), sizes.$content-max-width);
+			margin: auto;
+			grid-template:
+				"top top"
+				"left right"
+				/ 2fr 1fr;
+		}
+
+		@media (min-width: sizes.$donknowhowtonameit-size) {
+			padding-top: 188px;
+		}
+	}
+
+	&__hero {
+		grid-area: hero;
+	}
+
+	&__icon-edit {
+		margin-right: 10px;
+	}
+
+	&__region-map {
+		display: none;
+
+		@media (min-width: sizes.$tablet-size) {
+			display: initial;
+			grid-area: region-map;
+			background-image: url("/static/svg/regions/uk-all.svg");
+			background-size: contain;
+			background-repeat: no-repeat;
+			background-position-x: right;
+			background-position-y: top;
+		}
+	}
+
+	&__panel {
+		&-top {
+			@include shadow-thrower();
+			grid-area: top;
+			display: grid;
+			grid-template-columns: subgrid;
+			grid-template-areas: "hero region-map";
+			padding: 20px var(--vertical-padding) 25px;
+		}
+
+		&-left {
+			@include display-contents-on-small-screens();
+			@include vertical-spacer();
+			grid-area: left;
+		}
+
+		&-right {
+			@include display-contents-on-small-screens();
+			@include vertical-spacer();
+			grid-area: right;
+		}
+	}
+
+	&__section {
+		@include shadow-thrower();
+	}
+}
