@@ -40,9 +40,10 @@ class MicrositePanels:
             ],
         ),
         MultiFieldPanel(
-            heading='Social media',
+            heading="Social media 'follow us' links",
             children=[FieldPanel('twitter'), FieldPanel('facebook'), FieldPanel('linkedin')],
         ),
+        FieldPanel('show_social_media_share', heading="Show social media 'share page' links"),
     ]
 
     settings_panels = [
