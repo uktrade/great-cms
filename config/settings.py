@@ -201,11 +201,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Django>=3.2 will not do it for you anymore
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+IS_LOCAL_DOCKER_DEVELOPMENT = env.is_local_docker_development
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-if is_copilot() and not env.is_docker:
+if is_copilot() and not IS_LOCAL_DOCKER_DEVELOPMENT:
     DATABASES = database_from_env('DATABASE_CREDENTIALS')
     DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
 
@@ -302,7 +303,7 @@ STATICFILES_DIRS = [
 
 STORAGES = {
     'default': {
-        'BACKEND': env.default_file_storage,
+        'BACKEND': 'core.storage_classes.CustomStorage' if IS_LOCAL_DOCKER_DEVELOPMENT else env.default_file_storage,
     },
     'staticfiles': {
         'BACKEND': env.staticfiles_storage,
@@ -458,6 +459,20 @@ X_FRAME_OPTIONS = 'DENY'
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
+if DEBUG:
+    INSTALLED_APPS += ['debug_toolbar']
+    MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE
+    INTERNAL_IPS = ['127.0.0.1', '10.0.2.2']
+    if IS_LOCAL_DOCKER_DEVELOPMENT:
+        import socket
+
+        hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+        INTERNAL_IPS = [ip[:-1] + '1' for ip in ips] + INTERNAL_IPS
+        DEBUG_TOOLBAR_CONFIG = {
+            'SHOW_TOOLBAR_CALLBACK': lambda request: DEBUG,
+        }
+        AWS_ENDPOINT_URL = env.aws_endpoint_url
+
 # message framework
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
@@ -501,19 +516,6 @@ if AWS_STORAGE_BUCKET_NAME:
     else:
         PDF_STATIC_URL = f'{AWS_S3_URL_PROTOCOL}//{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_HOST}/export_plan_pdf_statics/'
 
-
-if DEBUG:
-    INSTALLED_APPS += ['debug_toolbar']
-    MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE
-    INTERNAL_IPS = ['127.0.0.1', '10.0.2.2']
-    if env.is_docker:
-        import socket
-
-        hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
-        INTERNAL_IPS = [ip[:-1] + '1' for ip in ips] + INTERNAL_IPS
-        DEBUG_TOOLBAR_CONFIG = {
-            'SHOW_TOOLBAR_CALLBACK': lambda request: DEBUG,
-        }
 
 ELASTIC_APM_ENABLED = env.elastic_apm_enabled
 if ELASTIC_APM_ENABLED:
@@ -1048,7 +1050,11 @@ CSP_FONT_SRC = (
     "'self'",
     'https://fonts.gstatic.com',
 )  # noqa
-CSP_IMG_SRC = ("'self'", "data:", "https:")  # noqa
+
+if IS_LOCAL_DOCKER_DEVELOPMENT:
+    CSP_IMG_SRC = ("'self'", "data:", "https:", "http:")  # noqa
+else:
+    CSP_IMG_SRC = ("'self'", "data:", "https:")  # noqa
 CSP_FRAME_SRC = ("'self'", 'https://www.google.com', 'https:')
 CSP_FRAME_ANCESTORS = ("'self'",)  # noqa
 CSP_UPGRADE_INSECURE_REQUESTS = env.csp_upgrade_insecure_requests
