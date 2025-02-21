@@ -28,23 +28,29 @@ def create_test_image(extension):
     return byte_io
 
 
-@mock.patch.object(helpers, 'get_client_ip')
-def test_get_location_unknown_ip(mock_get_client_ip, rf):
-    mock_get_client_ip.return_value = None, None
+def test_get_location_international(rf):
     request = rf.get('/')
+    request.META['HTTP_X_FORWARDED_FOR'] = '8.8.8.8, 127.0.0.1, 127.0.0.2'
 
     actual = helpers.get_location(request)
 
-    assert actual is None
-    assert mock_get_client_ip.call_count == 1
-    assert mock_get_client_ip.call_args == mock.call(request)
+    assert actual['country'] == 'US'
+
+
+def test_get_location_domestic(rf):
+    request = rf.get('/')
+    request.META['HTTP_X_FORWARDED_FOR'] = '213.120.234.38, 127.0.0.1, 127.0.0.2'
+
+    actual = helpers.get_location(request)
+
+    assert actual['country'] in ['GB', 'IE']
 
 
 @mock.patch.object(helpers.GeoIP2, 'city')
-@mock.patch.object(helpers, 'get_client_ip', return_value=('127.0.0.1', True))
-def test_get_location_unable_to_determine__city(mock_get_client_ip, mock_city, rf):
-    mock_city.side_effect = helpers.GeoIP2Exception
+def test_get_location_unable_to_determine__city(mock_city, rf):
     request = rf.get('/')
+    request.META['HTTP_X_FORWARDED_FOR'] = '127.0.0.1, 127.0.0.2, 127.0.0.3'  # /PS-IGNORE
+    mock_city.side_effect = helpers.GeoIP2Exception
 
     actual = helpers.get_location(request)
 
@@ -54,10 +60,10 @@ def test_get_location_unable_to_determine__city(mock_get_client_ip, mock_city, r
 
 
 @mock.patch.object(helpers.GeoIP2, 'country')
-@mock.patch.object(helpers, 'get_client_ip', return_value=('127.0.0.1', True))
-def test_get_location_unable_to_determine__country(mock_get_client_ip, mock_country, rf):
+def test_get_location_unable_to_determine__country(mock_country, rf):
     mock_country.side_effect = helpers.GeoIP2Exception
     request = rf.get('/')
+    request.META['HTTP_X_FORWARDED_FOR'] = '127.0.0.1, 127.0.0.2, 127.0.0.3'
 
     actual = helpers.GeoLocationRedirector(request).country_code
 
@@ -67,9 +73,9 @@ def test_get_location_unable_to_determine__country(mock_get_client_ip, mock_coun
 
 
 @mock.patch.object(helpers.GeoIP2, 'city')
-@mock.patch.object(helpers, 'get_client_ip', return_value=('127.0.0.1', True))
-def test_get_location_success(mock_get_client_ip, mock_city, rf):
+def test_get_location_success(mock_city, rf):
     request = rf.get('/')
+    request.META['HTTP_X_FORWARDED_FOR'] = '127.0.0.1, 127.0.0.2, 127.0.0.3'
     mock_city.return_value = {
         'city': 'Mountain View',
         'continent_code': 'NA',
@@ -125,59 +131,59 @@ def test_store_user_location_success(mock_user_location_create, mock_get_locatio
     assert mock_user_location_create.call_args == mock.call(sso_session_id=user.session_id, data={'country': 'US'})
 
 
-@mock.patch('core.helpers.get_client_ip', mock.Mock(return_value=(None, False)))
 def test_geolocation_redirector_unroutable(rf):
     request = rf.get('/')
-    redirector = helpers.GeoLocationRedirector(request)
+    request.META['HTTP_X_FORWARDED_FOR'] = '127.0.0.1, 127.0.0.2, 127.0.0.3'
 
+    redirector = helpers.GeoLocationRedirector(request)
     assert redirector.should_redirect is False
 
 
-@mock.patch('core.helpers.get_client_ip', mock.Mock(return_value=('8.8.8.8', True)))
 def test_geolocation_redirector_cookie_set(rf):
     request = rf.get('/')
+    request.META['HTTP_X_FORWARDED_FOR'] = '8.8.8.8, 127.0.0.2, 127.0.0.3'
     request.COOKIES[helpers.GeoLocationRedirector.COOKIE_NAME] = True
     redirector = helpers.GeoLocationRedirector(request)
 
     assert redirector.should_redirect is False
 
 
-@mock.patch('core.helpers.get_client_ip', mock.Mock(return_value=('8.8.8.8', True)))
 def test_geolocation_redirector_language_param(rf):
     request = rf.get('/', {'lang': 'en-gb'})
+    request.META['HTTP_X_FORWARDED_FOR'] = '8.8.8.8, 127.0.0.2, 127.0.0.3'
     redirector = helpers.GeoLocationRedirector(request)
 
     assert redirector.should_redirect is False
 
 
-@mock.patch('core.helpers.get_client_ip', mock.Mock(return_value=('8.8.8.8', True)))
 @mock.patch('core.helpers.GeoLocationRedirector.country_code', mock.PropertyMock(return_value=None))
 def test_geolocation_redirector_unknown_country(rf):
     request = rf.get('/', {'lang': 'en-gb'})
+    request.META['HTTP_X_FORWARDED_FOR'] = '8.8.8.8, 127.0.0.2, 127.0.0.3'
     redirector = helpers.GeoLocationRedirector(request)
 
     assert redirector.should_redirect is False
 
 
-@mock.patch('core.helpers.get_client_ip', mock.Mock(return_value=('8.8.8.8', True)))
 @mock.patch('core.helpers.GeoLocationRedirector.country_code', new_callable=mock.PropertyMock)
 @pytest.mark.parametrize('country_code', helpers.GeoLocationRedirector.DOMESTIC_COUNTRY_CODES)
 def test_geolocation_redirector_is_domestic(mock_country_code, rf, country_code):
     mock_country_code.return_value = country_code
 
     request = rf.get('/', {'lang': 'en-gb'})
+    request.META['HTTP_X_FORWARDED_FOR'] = '8.8.8.8, 127.0.0.2, 127.0.0.3'
     redirector = helpers.GeoLocationRedirector(request)
 
     assert redirector.should_redirect is False
 
 
-@mock.patch('core.helpers.get_client_ip', mock.Mock(return_value=('8.8.8.8', True)))
 @mock.patch('core.helpers.GeoLocationRedirector.country_code', new_callable=mock.PropertyMock)
 @pytest.mark.parametrize('country_code', helpers.GeoLocationRedirector.COUNTRY_TO_LANGUAGE_MAP)
 def test_geolocation_redirector_is_international(mock_country_code, rf, country_code):
     mock_country_code.return_value = country_code
 
     request = rf.get('/')
+    request.META['HTTP_X_FORWARDED_FOR'] = '8.8.8.8, 127.0.0.2, 127.0.0.3'
     redirector = helpers.GeoLocationRedirector(request)
 
     assert redirector.should_redirect is True
@@ -186,14 +192,14 @@ def test_geolocation_redirector_is_international(mock_country_code, rf, country_
 @pytest.mark.parametrize(
     'ip_address,language',
     (
-        ('221.194.47.204', 'zh-hans'),
-        ('144.76.204.44', 'de'),
-        ('195.12.50.155', 'es'),
-        ('110.50.243.6', 'ja'),
+        ('221.194.47.204, 127.0.0.1, 127.0.0.2', 'zh-hans'),
+        ('144.76.204.44, 127.0.0.1, 127.0.0.2', 'de'),
+        ('195.12.50.155, 127.0.0.1, 127.0.0.2', 'es'),
+        ('110.50.243.6, 127.0.0.1, 127.0.0.2', 'ja'),
     ),
 )
 def test_geolocation__integrated(rf, ip_address, language, settings):
-    request = rf.get('/', {'a': 'b'}, REMOTE_ADDR=ip_address)
+    request = rf.get('/', {'a': 'b'}, headers={'X-Forwarded-For': ip_address})
 
     # NB: requires the geo-data file to already be present in the repo
     redirector = helpers.GeoLocationRedirector(request)
@@ -496,7 +502,7 @@ def test_get_suggested_markets(patch_get_suggested_markets):
 
 def test_get_sender_ip():
     request = HttpRequest()
-    request.META = {'REMOTE_ADDR': '192.168.93.2'}
+    request.META = {'HTTP_X_FORWARDED_FOR': '192.168.93.2, 127.0.0.1, 127.0.0.2'}
     ip_address = helpers.get_sender_ip_address(request)
     assert ip_address == '192.168.93.2'
 

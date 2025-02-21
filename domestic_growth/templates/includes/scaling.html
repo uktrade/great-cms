@@ -1,0 +1,59 @@
+{% load sector_based_image from content_tags %}
+
+<div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-6 great-ds-box-shadow great-ds-widget-container">
+    <div class="govuk-!-margin-bottom-6">
+        <a class="govuk-link govuk-!-margin-bottom-6" href="{% url 'domestic_growth:domestic-growth-landing' %}">
+            Change your details and plans
+        </a>
+    </div>
+    
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">
+        Scaling up an {{ sector }} business in {{ location }} <i class="fa fa-{{ sector | sector_based_image }}"></i>
+    </h1>
+</div>
+
+<div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-6 great-ds-box-shadow great-ds-widget-container">
+    <div class="govuk-tabs" data-module="govuk-tabs">
+        <h2 class="govuk-tabs__title">
+          Contents
+        </h2>
+        <ul class="govuk-tabs__list">
+          <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+            <a class="govuk-tabs__tab" href="#expert-advice">
+              Expert advice
+            </a>
+          </li>
+          <li class="govuk-tabs__list-item">
+            <a class="govuk-tabs__tab" href="#selling-overseas">
+              Selling overseas
+            </a>
+          </li>
+          <li class="govuk-tabs__list-item">
+            <a class="govuk-tabs__tab" href="#skills-and-mentoring">
+              Skills and mentoring
+            </a>
+          </li>
+          <li class="govuk-tabs__list-item">
+            <a class="govuk-tabs__tab" href="#hr-and-people">
+              HR and people
+            </a>
+          </li>
+        </ul>
+        <div class="govuk-tabs__panel" id="expert-advice">
+          <h2 class="govuk-heading-l">Expert advice</h2>
+          <p>Content coming soon</p>
+        </div>
+        <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="selling-overseas">
+            <h2 class="govuk-heading-l">Selling overseas</h2>
+            <p>Content coming soon</p>
+        </div>
+        <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="skills-and-mentoring">
+            <h2 class="govuk-heading-l">Skills and mentoring</h2>
+            <p>Content coming soon</p>
+        </div>
+        <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="hr-and-people">
+            <h2 class="govuk-heading-l">HR and people</h2>
+            <p>Content coming soon</p>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-<script src="https://{{ recaptcha_domain }}/recaptcha/api.js?render={{ public_key }}{% if api_params %}&{{ api_params }}{% endif %}"></script>
+<script src="https://{{ recaptcha_domain }}/recaptcha/api.js?render={{ public_key }}"></script>
 <script>
   // attach reCapture check on form submit to stop token expiry.
   grecaptcha.ready(function() {
@@ -7,8 +7,7 @@
       event.preventDefault();
       grecaptcha.execute('{{ public_key }}', {action: 'form'})
         .then(function(token) {
-          {% comment 'console.log for browser compatibility' %} console.log("reCAPTCHA validated for 'data-widget-uuid=\"{{ widget_uuid }}\"'. Setting input value...") {% endcomment %}
-          var element = document.querySelector('.g-recaptcha[data-widget-uuid="{{ widget_uuid }}"]');
+          var element = document.querySelector('#id_captcha');
           element.value = token;
           form.submit();
         });

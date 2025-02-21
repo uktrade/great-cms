@@ -35,9 +35,7 @@ class ContactView(GA360Mixin, FormView):  # /PS-IGNORE
         )
 
     def get_success_url(self):
-        success_url = (
-            reverse_lazy('international:contact') + '?success=true' + '&next=' + '/international/buy-from-the-uk'
-        )
+        success_url = reverse_lazy('international:contact-success') + '?next=' + '/international/buy-from-the-uk'
         return success_url
 
     def send_agent_email(self, form):
@@ -246,9 +244,7 @@ class FindASupplierContactView(CompanyProfileMixin, GA360Mixin, FormView):  # /P
         )
 
     def get_success_url(self):
-        success_url = (
-            reverse_lazy('international:contact') + '?success=true' + '&next=' + '/international/buy-from-the-uk'
-        )
+        success_url = reverse_lazy('international:contact-success') + '?next=' + '/international/buy-from-the-uk'
         return success_url
 
     def send_email(self, form):
@@ -298,4 +294,6 @@ class FindASupplierContactView(CompanyProfileMixin, GA360Mixin, FormView):  # /P
             autocomplete_sector_data=autocomplete_sector_data,
             breadcrumbs=breadcrumbs,
             company=self.company,
+            public_key=settings.RECAPTCHA_PUBLIC_KEY,
+            recaptcha_domain=settings.RECAPTCHA_DOMAIN,
         )

@@ -445,4 +445,8 @@ international_migration_redirects = [
         r'^international/content/investment/how-we-can-help/open-a-uk-business-bank-account/$',
         PermanentQuerystringRedirectView.as_view(url='/international/expand-your-business-in-the-uk/'),
     ),
+    re_path(
+        r'^international/content/invest/how-to-setup-in-the-uk/.*$',
+        PermanentQuerystringRedirectView.as_view(url='/international/expand-your-business-in-the-uk/'),
+    ),
 ]

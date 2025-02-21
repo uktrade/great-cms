@@ -102,6 +102,7 @@ INSTALLED_APPS = [
     'wagtailfontawesomesvg',
     'wagtail_localize',
     'wagtail_localize.locales',
+    'domestic_growth.apps.DomesticGrowthConfig',
 ]
 
 MIDDLEWARE = [
@@ -120,6 +121,7 @@ MIDDLEWARE = [
     'core.middleware.StoreUserExpertiseMiddleware',
     'core.middleware.CheckGATags',
     'core.middleware.HHTPHeaderDisallowEmbeddingMiddleware',
+    'core.middleware.GA4TrackingMiddleware',
     # 'directory_sso_api_client.middleware.AuthenticationMiddleware',
     'great_components.middleware.NoCacheMiddlware',
     'csp.middleware.CSPMiddleware',
@@ -203,7 +205,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-if is_copilot():
+if is_copilot() and not env.is_docker:
     DATABASES = database_from_env('DATABASE_CREDENTIALS')
     DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
 
@@ -294,6 +296,7 @@ STATICFILES_DIRS = [
     str(ROOT_DIR / 'sso_profile' / 'static'),
     str(ROOT_DIR / 'international_online_offer' / 'static'),
     str(ROOT_DIR / 'find_a_buyer' / 'static'),
+    str(ROOT_DIR / 'domestic_growth' / 'static'),
 ]
 
 
@@ -626,6 +629,7 @@ WAGTAILMEDIA = {
 
 
 # Google captcha
+RECAPTCHA_DOMAIN = env.recaptcha_domain
 RECAPTCHA_PUBLIC_KEY = env.recaptcha_public_key
 RECAPTCHA_PRIVATE_KEY = env.recaptcha_private_key
 RECAPTCHA_REQUIRED_SCORE = env.recaptcha_required_score
@@ -882,6 +886,8 @@ FEATURE_SEARCH_PREVIEW = env.feature_search_preview
 FEATURE_ACTIVITY_STREAM = env.feature_activity_stream
 FEATURE_GUIDED_JOURNEY_EXTRAS = env.feature_guided_journey_extras
 FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH = env.feature_guided_journey_enhanced_search
+
+FEATURE_DOMESTIC_GROWTH = env.feature_domestic_growth
 
 MAX_COMPARE_PLACES_ALLOWED = env.max_compare_places_allowed
 

@@ -1,6 +1,6 @@
 {% extends 'export_academy/accounts/base.html' %}
 {% block form %}
-    <h3 class="govuk-!-margin-top-3 govuk-!-margin-bottom-7">Sign up Complete</h3>
+    <h1 class="govuk-!-margin-top-3 govuk-!-margin-bottom-7">Sign up Complete</h1>
     <p class="govuk-!-margin-bottom-2">Your account has been created.</p>
     <a href="{% if next %}{{ next }}{% else %}{% url "export_academy:upcoming-events" %}{% endif %}"
        class="govuk-button govuk-!-margin-top-6 great-width-auto">Continue</a>

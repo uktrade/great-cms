@@ -19,6 +19,7 @@ from core.constants import (
     BACKLINK_QUERYSTRING_NAME,
     CHEG_EXCLUDED_COUNTRY_CODES,
     META_LABELS,
+    EU_TRAVEL_ADVICE_URLS,
 )
 from core.helpers import millify
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage
@@ -703,6 +704,15 @@ def get_visa_and_travel_country_slug(country):
 
 
 @register.filter
+def get_visa_and_travel_url_for_eu_countries(country):
+    for country_name, url in EU_TRAVEL_ADVICE_URLS:
+        if country == country_name:
+            return url
+
+    return None
+
+
+@register.filter
 def split_title(title):
     title_parts = title.split('  ')
 
@@ -764,3 +774,20 @@ def render_signup_cta(background=None, link=None):
         'landscapeImagePath': '/static/images/lte-signup-promo-landscape.png',
         'portraitImagePath': '/static/images/lte-signup-promo-portrait.png',
     }
+
+
+@register.filter
+def sector_based_image(sector):
+    res = None
+
+    mapping = (
+        ('Advanced manufacturing', 'industry'),
+        ('Aerospace', 'plane'),
+        ('Food and drink', 'carrot'),
+    )
+
+    for sector_name, icon_name in mapping:
+        if sector == sector_name:
+            res = icon_name
+
+    return res

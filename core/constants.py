@@ -1,3 +1,5 @@
+from enum import Enum
+
 SERVICE_NAME = 'great-cms'
 
 VIDEO_DURATION_DATA_ATTR_NAME = 'data-v-duration'
@@ -1436,3 +1438,43 @@ CHEG_EXCLUDED_COUNTRY_CODES = [
     'GM',
     'ZM',
 ]
+
+
+class HCSatStage(Enum):
+    NOT_STARTED = 0  # Stage 0: HCSAT has not been started
+    SUBMITTED = 1  # Stage 1: HCSAT satisfaction has been submitted
+    COMPLETED = 2  # Stage 2: HCSAT has been completed
+
+
+EU_TRAVEL_ADVICE_URLS = (
+    ('Austria', 'https://www.gov.uk/guidance/travel-to-austria-for-work'),
+    ('Belgium', 'https://www.gov.uk/guidance/travel-to-belgium-for-work'),
+    ('Bulgaria', 'https://www.gov.uk/guidance/travel-to-bulgaria-for-work'),
+    ('Croatia', 'https://www.gov.uk/guidance/travel-to-croatia-for-work'),
+    ('Cyprus', 'https://www.gov.uk/guidance/travel-to-cyprus-for-work'),
+    ('Czechia', 'https://www.gov.uk/guidance/travel-to-the-czech-republic-for-work'),
+    ('Denmark', 'https://www.gov.uk/guidance/travel-to-denmark-for-work'),
+    ('Estonia', 'https://www.gov.uk/guidance/travel-to-estonia-for-work'),
+    ('Finland', 'https://www.gov.uk/guidance/travel-to-finland-for-work'),
+    ('France', 'https://www.gov.uk/guidance/travel-to-france-for-work'),
+    ('Germany', 'https://www.gov.uk/guidance/travel-to-germany-for-work'),
+    ('Greece', 'https://www.gov.uk/guidance/travel-to-greece-for-work'),
+    ('Hungary', 'https://www.gov.uk/guidance/travel-to-hungary-for-work'),
+    ('Iceland', 'https://www.gov.uk/guidance/travel-to-iceland-for-work'),
+    ('Italy', 'https://www.gov.uk/guidance/travel-to-italy-for-work'),
+    ('Latvia', 'https://www.gov.uk/guidance/travel-to-latvia-for-work'),
+    ('Liechtenstein', 'https://www.gov.uk/guidance/travel-to-liechtenstein-for-work'),
+    ('Lithuania', 'https://www.gov.uk/guidance/travel-to-lithuania-for-work'),
+    ('Luxembourg', 'https://www.gov.uk/guidance/travel-to-luxembourg-for-work'),
+    ('Malta', 'https://www.gov.uk/guidance/travel-to-malta-for-work'),
+    ('Netherlands', 'https://www.gov.uk/guidance/travel-to-the-netherlands-for-work'),
+    ('Norway', 'https://www.gov.uk/guidance/travel-to-norway-for-work'),
+    ('Poland', 'https://www.gov.uk/guidance/travel-to-poland-for-work'),
+    ('Portugal', 'https://www.gov.uk/guidance/travel-to-portugal-for-work'),
+    ('Romania', 'https://www.gov.uk/guidance/travel-to-romania-for-work'),
+    ('Slovakia', 'https://www.gov.uk/guidance/travel-to-slovakia-for-work'),
+    ('Slovenia', 'https://www.gov.uk/guidance/travel-to-slovenia-for-work'),
+    ('Spain', 'https://www.gov.uk/guidance/travel-to-spain-for-work'),
+    ('Sweden', 'https://www.gov.uk/guidance/travel-to-sweden-for-work'),
+    ('Switzerland', 'https://www.gov.uk/guidance/travel-to-switzerland-for-work'),
+)

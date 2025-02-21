@@ -1,3 +1,5 @@
+from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV3
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from django.core.validators import EMPTY_VALUES
 from django.forms import (
@@ -284,8 +286,11 @@ class FindASupplierContactForm(GovNotifyEmailActionMixin, forms.Form):
         widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
     )
 
+    captcha = ReCaptchaField(widget=ReCaptchaV3())
+
     @property
     def serialized_data(self):
         data = super().serialized_data
         data['sector_label'] = data['sector']
+        del data['captcha']
         return data

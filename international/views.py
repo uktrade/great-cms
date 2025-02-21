@@ -4,10 +4,12 @@ from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import Sender
 from django.http import HttpResponseBadRequest, HttpResponseRedirect, JsonResponse
 from django.urls import reverse, reverse_lazy
+from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin  # /PS-IGNORE
 from wagtailcache.cache import WagtailCacheMixin
 
+from core.constants import HCSatStage
 from core.forms import HCSATForm
 from core.helpers import check_url_host_is_safelisted
 from core.mixins import HCSATMixin
@@ -37,9 +39,9 @@ class ContactView(WagtailCacheMixin, GA360Mixin, HCSATMixin, FormView):  # /PS-I
         return back_url
 
     def get_success_url(self):
-        success_url = reverse_lazy('international:contact') + '?success=true'
+        success_url = reverse_lazy('international:contact-success')
         if self.request.GET.get('next'):
-            success_url = success_url + '&next=' + check_url_host_is_safelisted(self.request)
+            success_url = success_url + '?next=' + check_url_host_is_safelisted(self.request)
         return success_url
 
     def is_find_a_supplier_submission(self):
@@ -106,7 +108,7 @@ class ContactView(WagtailCacheMixin, GA360Mixin, HCSATMixin, FormView):  # /PS-I
             Redirect user if 'cancelButton' is found in the POST data
             """
             if hcsat:
-                hcsat.stage = 2
+                hcsat.stage = HCSatStage.COMPLETED.value
                 hcsat.save()
             return HttpResponseRedirect(self.get_success_url())
 
@@ -136,7 +138,7 @@ class ContactView(WagtailCacheMixin, GA360Mixin, HCSATMixin, FormView):  # /PS-I
             hcsat = form.save(commit=False)
 
             if 'js_enabled' in self.request.get_full_path():
-                hcsat.stage = 0
+                hcsat.stage = HCSatStage.NOT_STARTED.value
                 js_enabled = True
 
             hcsat = self.persist_existing_satisfaction(self.request, self.hcsat_service_name, hcsat)
@@ -155,3 +157,28 @@ class ContactView(WagtailCacheMixin, GA360Mixin, HCSATMixin, FormView):  # /PS-I
         else:
             self.submit_feedback(form)
         return super().form_valid(form)
+
+
+class ContactSuccessView(WagtailCacheMixin, GA360Mixin, TemplateView):  # /PS-IGNORE
+    template_name = 'international/contact_success.html'
+    subject = 'Great.gov.uk International contact form success'
+
+    cache_control = 'no-cache'
+
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='Contact',
+            business_unit='Great.gov.uk International',
+            site_section='contact',
+        )
+
+    def get_back_url(self):
+        back_url = '/international/'
+        if self.request.GET.get('next'):
+            back_url = check_url_host_is_safelisted(self.request)
+        return back_url
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs, back_url=self.get_back_url())
+        return context

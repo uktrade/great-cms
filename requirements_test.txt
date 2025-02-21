@@ -23,13 +23,13 @@ asn1crypto==1.5.1
     #   oscrypto
     #   pyhanko
     #   pyhanko-certvalidator
-astroid==3.3.6
+astroid==3.3.8
     # via pylint
 asttokens==3.0.0
     # via stack-data
 async-timeout==5.0.1
     # via redis
-attrs==24.3.0
+attrs==25.1.0
     # via
     #   jsonschema
     #   outcome
@@ -70,7 +70,7 @@ botocore==1.27.96
     #   s3transfer
 brotli==1.1.0
     # via geventhttpclient
-browserstack-local==1.2.9
+browserstack-local==1.2.10
     # via browserstack-sdk
 browserstack-sdk==1.12.0
     # via -r requirements_test.in
@@ -97,9 +97,9 @@ cfgv==3.4.0
     # via pre-commit
 chardet==5.2.0
     # via reportlab
-charset-normalizer==3.4.0
+charset-normalizer==3.4.1
     # via requests
-click==8.1.7
+click==8.1.8
     # via
     #   black
     #   celery
@@ -120,7 +120,7 @@ colorama==0.4.6
     # via djlint
 configargparse==1.7
     # via locust
-coverage[toml]==7.6.9
+coverage[toml]==7.6.12
     # via
     #   pytest-codecov
     #   pytest-cov
@@ -131,7 +131,7 @@ cryptography==43.0.1
     #   -r requirements.in
     #   pyhanko
     #   pyhanko-certvalidator
-cssbeautifier==1.15.1
+cssbeautifier==1.15.3
     # via djlint
 cssselect==1.2.0
     # via pyquery
@@ -149,7 +149,7 @@ decorator==5.1.1
     #   ipython
 defusedxml==0.7.1
     # via willow
-deprecated==1.2.15
+deprecated==1.2.18
     # via
     #   opentelemetry-api
     #   opentelemetry-exporter-otlp-proto-grpc
@@ -174,7 +174,7 @@ directory-constants==24.1.3
     #   -r requirements.in
     #   directory-components
     #   great-components
-directory-forms-api-client==7.4.2
+directory-forms-api-client==7.5.1
     # via -r requirements.in
 directory-healthcheck==3.7
     # via -r requirements.in
@@ -186,7 +186,7 @@ distlib==0.3.9
     # via virtualenv
 dj-database-url==2.2.0
     # via -r requirements.in
-django==4.2.17
+django==4.2.19
     # via
     #   -r requirements.in
     #   directory-api-client
@@ -260,7 +260,7 @@ django-storages[boto3]==1.13.2
     #   django-storages
 django-taggit==4.0.0
     # via wagtail
-django-timezone-field==7.0
+django-timezone-field==7.1
     # via django-celery-beat
 django-treebeard==4.7
     # via
@@ -272,7 +272,7 @@ djangorestframework==3.15.2
     #   drf-spectacular
     #   sigauth
     #   wagtail
-djlint==1.36.3
+djlint==1.36.4
     # via -r requirements_test.in
 docutils==0.21.2
     # via sphinx
@@ -300,15 +300,15 @@ exceptiongroup==1.2.2
     #   trio-websocket
 execnet==2.1.1
     # via pytest-xdist
-executing==2.1.0
+executing==2.2.0
     # via stack-data
 factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==33.1.0
+faker==36.1.1
     # via factory-boy
-filelock==3.16.1
+filelock==3.17.0
     # via virtualenv
 filetype==1.2.0
     # via willow
@@ -350,11 +350,11 @@ gevent==24.11.1
     #   locust
 geventhttpclient==2.2.1
     # via locust
-gitdb==4.0.11
+gitdb==4.0.12
     # via gitpython
-gitpython==3.1.43
+gitpython==3.1.44
     # via -r requirements_test.in
-googleapis-common-protos==1.66.0
+googleapis-common-protos==1.67.0
     # via
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
@@ -362,7 +362,7 @@ great-components==2.7.2
     # via -r requirements.in
 greenlet==3.1.1
     # via gevent
-grpcio==1.68.1
+grpcio==1.70.0
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==22.0.0
     # via -r requirements.in
@@ -376,7 +376,7 @@ html5lib==1.1
     #   xhtml2pdf
 icalendar==5.0.11
     # via -r requirements.in
-identify==2.6.3
+identify==2.6.7
     # via pre-commit
 idna==3.10
     # via
@@ -408,7 +408,7 @@ itsdangerous==2.2.0
     # via flask
 jedi==0.19.2
     # via ipython
-jinja2==3.1.4
+jinja2==3.1.5
     # via
     #   flask
     #   sphinx
@@ -416,7 +416,7 @@ jmespath==1.0.1
     # via
     #   boto3
     #   botocore
-jsbeautifier==1.15.1
+jsbeautifier==1.15.3
     # via
     #   cssbeautifier
     #   djlint
@@ -448,7 +448,7 @@ markupsafe==3.0.2
     #   werkzeug
 matplotlib-inline==0.1.7
     # via ipython
-maxminddb==2.6.2
+maxminddb==2.6.3
     # via geoip2
 mccabe==0.7.0
     # via
@@ -524,7 +524,7 @@ opentelemetry-sdk==1.22.0
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
     #   opentelemetry-sdk-extension-aws
-opentelemetry-sdk-extension-aws==2.0.2
+opentelemetry-sdk-extension-aws==2.1.0
     # via dbt-copilot-python
 opentelemetry-semantic-conventions==0.43b0
     # via
@@ -535,7 +535,9 @@ opentelemetry-util-http==0.43b0
 oscrypto==1.3.0
     # via pyhanko-certvalidator
 outcome==1.3.0.post0
-    # via trio
+    # via
+    #   trio
+    #   trio-websocket
 packaging==24.2
     # via
     #   black
@@ -586,15 +588,15 @@ pre-commit==3.8.0
     #   django-log-formatter-asim
 pre-commit-hooks==3.3.0
     # via -r requirements_test.in
-prompt-toolkit==3.0.48
+prompt-toolkit==3.0.50
     # via
     #   click-repl
     #   ipython
-protobuf==4.25.5
+protobuf==4.25.6
     # via
     #   googleapis-common-protos
     #   opentelemetry-proto
-psutil==6.1.0
+psutil==7.0.0
     # via
     #   browserstack-local
     #   browserstack-sdk
@@ -622,7 +624,7 @@ pydantic-settings==2.3.1
     # via -r requirements.in
 pyflakes==3.1.0
     # via flake8
-pygments==2.18.0
+pygments==2.19.1
     # via
     #   ipython
     #   sphinx
@@ -632,7 +634,7 @@ pyhanko-certvalidator==0.26.5
     # via
     #   pyhanko
     #   xhtml2pdf
-pylint==3.3.2
+pylint==3.3.4
     # via
     #   pylint-django
     #   pylint-plugin-utils
@@ -640,7 +642,7 @@ pylint-django==2.6.1
     # via -r requirements_test.in
 pylint-plugin-utils==0.8.2
     # via pylint-django
-pypdf==5.1.0
+pypdf==5.3.0
     # via xhtml2pdf
 pyproject-hooks==1.2.0
     # via
@@ -666,7 +668,7 @@ pytest-cov==6.0.0
     # via
     #   -r requirements_test.in
     #   pytest-codecov
-pytest-django==4.9.0
+pytest-django==4.10.0
     # via -r requirements_test.in
 pytest-sugar==1.0.0
     # via -r requirements_test.in
@@ -683,7 +685,6 @@ python-dateutil==2.9.0.post0
     #   botocore
     #   celery
     #   dateparser
-    #   faker
     #   freezegun
     #   icalendar
     #   opensearch-dsl
@@ -712,7 +713,7 @@ pyyaml==6.0.2
     #   drf-spectacular
     #   pre-commit
     #   pyhanko
-pyzmq==26.2.0
+pyzmq==26.2.1
     # via locust
 qrcode==8.0
     # via pyhanko
@@ -756,15 +757,15 @@ requests-oauthlib==2.0.0
     # via django-staff-sso-client
 requests-toolbelt==1.0.0
     # via browserstack-sdk
-ruamel-yaml==0.18.6
+ruamel-yaml==0.18.10
     # via pre-commit-hooks
 ruamel-yaml-clib==0.2.12
     # via ruamel-yaml
 s3transfer==0.6.2
     # via boto3
-selenium==4.27.1
+selenium==4.29.0
     # via -r requirements_test.in
-sentry-sdk==2.19.2
+sentry-sdk==2.22.0
     # via -r requirements.in
 sigauth==5.3.0
     # via
@@ -783,7 +784,7 @@ six==1.17.0
     #   python-bidi
     #   python-dateutil
     #   w3lib
-smmap==5.0.1
+smmap==5.0.2
     # via gitdb
 sniffio==1.3.1
     # via trio
@@ -851,11 +852,11 @@ traitlets==5.14.3
     # via
     #   ipython
     #   matplotlib-inline
-trio==0.27.0
+trio==0.29.0
     # via
     #   selenium
     #   trio-websocket
-trio-websocket==0.11.1
+trio-websocket==0.12.1
     # via selenium
 typing-extensions==4.12.2
     # via
@@ -863,7 +864,7 @@ typing-extensions==4.12.2
     #   astroid
     #   black
     #   dj-database-url
-    #   faker
+    #   djlint
     #   ipython
     #   kombu
     #   opentelemetry-sdk
@@ -873,12 +874,13 @@ typing-extensions==4.12.2
     #   pypdf
     #   selenium
     #   wagtail-localize
-tzdata==2024.2
+tzdata==2025.1
     # via
     #   celery
     #   django-celery-beat
+    #   faker
     #   kombu
-tzlocal==5.2
+tzlocal==5.3
     # via
     #   dateparser
     #   pyhanko
@@ -905,7 +907,7 @@ vine==5.1.0
     #   amqp
     #   celery
     #   kombu
-virtualenv==20.28.0
+virtualenv==20.29.2
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core
@@ -960,7 +962,7 @@ willow[heif]==1.6.3
     # via
     #   wagtail
     #   willow
-wrapt==1.17.0
+wrapt==1.17.2
     # via
     #   deprecated
     #   opentelemetry-instrumentation

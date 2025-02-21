@@ -111,6 +111,7 @@ class BaseSettings(PydanticBaseSettings):
     ga4_api_secret: str = ''
     ga4_measurement_id: str = ''
 
+    recaptcha_domain: str = 'www.google.com'
     recaptcha_public_key: str
     recaptcha_private_key: str
     recaptcha_required_score: float = 0.5
@@ -300,6 +301,7 @@ class BaseSettings(PydanticBaseSettings):
     feature_guided_journey_extras: bool = False
     feature_guided_journey_enhanced_search: bool = False
     feature_activity_stream: bool = False
+    feature_domestic_growth: bool = False
 
     ax_compare_places_allowed: int = 10
 

@@ -9,7 +9,13 @@ from directory_forms_api_client.helpers import Sender
 from django.conf import settings
 from django.contrib.sitemaps import Sitemap as DjangoSitemap
 from django.core.files.storage import default_storage
-from django.http import Http404, HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import (
+    Http404,
+    HttpResponse,
+    HttpResponseBadRequest,
+    HttpResponseRedirect,
+    JsonResponse,
+)
 from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
@@ -27,6 +33,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from storages.backends.s3boto3 import S3Boto3Storage
 from wagtail.contrib.sitemaps import Sitemap as WagtailSitemap
+from wagtail.documents.models import Document
 from wagtail.images import get_image_model
 from wagtail.images.views import chooser
 from wagtail.images.views.chooser import (
@@ -39,7 +46,7 @@ from wagtail.images.views.chooser import (
 from wagtailcache.cache import nocache_page
 
 from core import cms_slugs, forms, helpers, serializers
-from core.constants import PRODUCT_MARKET_DATA
+from core.constants import PRODUCT_MARKET_DATA, HCSatStage
 from core.mixins import (
     AuthenticatedUserRequired,
     GuidedJourneyMixin,
@@ -185,7 +192,7 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, HCSATMixin, TemplateView,
             Redirect user if 'cancelButton' is found in the POST data
             """
             if hcsat:
-                hcsat.stage = 2
+                hcsat.stage = HCSatStage.COMPLETED.value
                 hcsat.save()
             return HttpResponseRedirect(self.get_success_url())
 
@@ -212,7 +219,7 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, HCSATMixin, TemplateView,
 
         # js version handles form progression in js file, so keep on 0 for reloads
         if 'js_enabled' in self.request.get_full_path():
-            hcsat.stage = 0
+            hcsat.stage = HCSatStage.NOT_STARTED.value
             js_enabled = True
 
         # if in second part of form (satisfaction=None) or not given in first part, persist existing satisfaction rating
@@ -1018,3 +1025,14 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, TemplateView):
             ukea_events=ukea_events,
             market_guide=market_guide,
         )
+
+
+class WagtailServeDocument(View):
+
+    def get(self, request, document_title):
+        try:
+            document = Document.objects.get(title=document_title)
+        except Document.DoesNotExist:
+            return HttpResponseBadRequest(())
+        else:
+            return HttpResponseRedirect(redirect_to=document.file.url)
