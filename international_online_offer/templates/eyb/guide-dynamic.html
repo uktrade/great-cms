@@ -6,48 +6,58 @@
 {% load location_select_filters %}
 {% block head_title %}Welcome to your UK expansion guide {{ block.super }}{% endblock %}
 {% block meta_title %}Welcome to your UK expansion guide {{ block.super }}{% endblock %}
-{% block head_css %}
-    <link rel="stylesheet"
-          href="{% static 'expand_your_business_styles.css' %}">
-    {{ block.super }}
-{% endblock %}
 {% block breadcrumb_region %}
     <div class="great-breadcrumb-region light-blue-background">{{ block.super }}</div>
 {% endblock %}
 {% block content %}
-    <div class="dynamic-guide__hero"></div>
-    <div class="great-container">
-        <div class="dynamic-guide__layout">
-            <div class="dynamic-guide__top dynamic-guide__panel">{% lorem %}</div>
-            <div class="dynamic-guide__bottom">
-                <div class="dynamic-guide__left">
-                    <div class="dynamic-guide__panel">{% lorem %}</div>
-                    <div class="dynamic-guide__panel">{% lorem %}</div>
-                    <div class="dynamic-guide__panel">{% lorem %}</div>
-                    <div class="dynamic-guide__panel">{% lorem %}</div>
-                    <div class="dynamic-guide__panel">{% lorem %}</div>
-                </div>
-                <div class="dynamic-guide__right">
-                    <div class="dynamic-guide__panel">{% lorem %}</div>
-                    <div class="dynamic-guide__panel">{% lorem %}</div>
-                    <div class="dynamic-guide__panel">{% lorem %}</div>
-                </div>
+    <div class="dynamic-guide">
+        <div class="dynamic-guide__hero-image"></div>
+        <div class="dynamic-guide__grid">
+            <div class="dynamic-guide__panel-top"></div>
+            {% comment %}
+				Note that dynamic-guide__hero and dynamic-guid__region-map are not
+				children of dynamic-guide__panel-top eventhough they visually appear
+				as such. This is because we are using grid layout but we avoid using
+				subgrid.
+            {% endcomment %}
+            <div class="dynamic-guide__hero">
+                <h2 class="govuk-caption-xl">Your company name</h2>
+                <h1 class="govuk-heading-xl">Expand your business and set up in the UK</h1>
+                <p class="govuk-body">
+                    This guide is based on the details and plans you provided about your business, in our <strong>Advanced engineering</strong> sector.
+                </p>
+                <a class="govuk-link">
+                    <img class="dynamic-guide__icon-edit"
+                         alt="Pencil icon"
+                         src="{% static '/static/svg/icon-edit.svg' %}" />
+                    Change your details and plans
+                </a>
+            </div>
+            <div class="dynamic-guide__region-map"></div>
+            <div class="dynamic-guide__panel-left">
+                <div class="dynamic-guide__section">{% lorem %}</div>
+                <div class="dynamic-guide__section">{% lorem %}</div>
+                <div class="dynamic-guide__section">{% lorem %}</div>
+            </div>
+            <div class="dynamic-guide__panel-right">
+                <div class="dynamic-guide__section">{% lorem %}</div>
+                <div class="dynamic-guide__section">{% lorem %}</div>
+                <div class="dynamic-guide__section">{% lorem %}</div>
             </div>
         </div>
-    </div>
-{% endblock %}
-{% block feedback_reporter %}
-    {% if not csat_complete %}
-        <section id="hcsat_section"
-                 class="great-bg-white clearfix govuk-!-margin-top-0 govuk-!-padding-bottom-6 great-inline-feedback__container">
-            <div class="container">
-                <div class="great-container ">
-                    <!-- djlint:off T027-->
-                    {% include 'core/includes/hcsat.html' with hcsat_form=hcsat_form hcsat_stage=hcsat_form_stage leading_text="To help us improve our service, we'd like to know more about your experience today. It will only take a minute to complete." %}
-                    <!-- djlint:on -->
+    {% endblock %}
+    {% block feedback_reporter %}
+        {% if not csat_complete %}
+            <section id="hcsat_section"
+                     class="great-bg-white clearfix govuk-!-margin-top-0 govuk-!-padding-bottom-6 great-inline-feedback__container">
+                <div class="container">
+                    <div class="great-container ">
+                        <!-- djlint:off T027-->
+                        {% include 'core/includes/hcsat.html' with hcsat_form=hcsat_form hcsat_stage=hcsat_form_stage leading_text="To help us improve our service, we'd like to know more about your experience today. It will only take a minute to complete." %}
+                        <!-- djlint:on -->
+                    </div>
                 </div>
-            </div>
-        </section>
-    {% endif %}
-    {{ block.super }}
-{% endblock %}
+            </section>
+        {% endif %}
+        {{ block.super }}
+    {% endblock %}
