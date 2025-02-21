@@ -156,6 +156,5 @@ core/geolocation_data/GeoLite2-City.mmdb
 
 #Docker config file
 Dockerfile.dev
-constraints.txt
 
 .lighthouseci/
