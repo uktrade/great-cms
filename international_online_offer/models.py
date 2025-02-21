@@ -8,8 +8,7 @@ from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.models import ParentalKey
 from taggit.models import TagBase, TaggedItemBase
 from wagtail.admin.panels import FieldPanel
-from wagtail.blocks.field_block import RichTextBlock
-from wagtail.blocks.stream_block import StreamBlock
+from wagtail.blocks import RichTextBlock, StreamBlock
 from wagtail.fields import StreamField
 from wagtail.images.blocks import ImageChooserBlock
 from wagtailcache.cache import WagtailCacheMixin
@@ -459,7 +458,13 @@ class IOOTradeShowPage(BaseContentPage):
         blank=True,
     )
     tradeshow_link = models.URLField(blank=True, max_length=255, null=True)
-    tradeshow_location = models.TextField(blank=True, max_length=255, null=True)
+    tradeshow_locale = models.CharField(blank=True, null=True)
+    tradeshow_city = models.TextField(
+        choices=region_sector_helpers.generate_location_choices(include_regions=False), blank=True, null=True
+    )
+    tradeshow_region = models.TextField(
+        choices=region_sector_helpers.generate_location_choices(include_cities=False), blank=True, null=True
+    )
     dbt_sectors = ArrayField(
         models.CharField(),
         blank=True,
@@ -476,7 +481,9 @@ class IOOTradeShowPage(BaseContentPage):
         FieldPanel('tradeshow_title'),
         FieldPanel('tradeshow_subheading'),
         FieldPanel('tradeshow_link'),
-        FieldPanel('tradeshow_location'),
+        FieldPanel('tradeshow_locale'),
+        FieldPanel('tradeshow_city'),
+        FieldPanel('tradeshow_region'),
         FieldPanel('dbt_sectors'),
         FieldPanel('tags'),
     ]
