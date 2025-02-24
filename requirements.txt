@@ -36,7 +36,7 @@ backoff==2.2.1
     #   opentelemetry-exporter-otlp-proto-common
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
-beautifulsoup4==4.13.3
+beautifulsoup4==4.12.3
     # via
     #   directory-components
     #   great-components
@@ -163,9 +163,7 @@ django==4.2.19
     #   django-redis
     #   django-staff-sso-client
     #   django-storages
-    #   django-stubs-ext
     #   django-taggit
-    #   django-tasks
     #   django-timezone-field
     #   django-treebeard
     #   djangorestframework
@@ -186,7 +184,7 @@ django-environ==0.11.2
     # via -r requirements.in
 django-extensions==3.2.3
     # via -r requirements.in
-django-filter==25.1
+django-filter==24.3
     # via wagtail
 django-formtools==2.3
     # via -r requirements.in
@@ -210,11 +208,7 @@ django-storages[boto3]==1.13.2
     # via
     #   -r requirements.in
     #   django-storages
-django-stubs-ext==5.1.3
-    # via django-tasks
 django-taggit==6.1.0
-    # via wagtail
-django-tasks==0.6.1
     # via wagtail
 django-timezone-field==7.1
     # via django-celery-beat
@@ -297,6 +291,8 @@ jsonschema==3.2.0
     #   great-components
 kombu==5.4.2
     # via celery
+l18n==2021.3
+    # via wagtail
 laces==0.1.2
     # via wagtail
 lxml==5.1.0
@@ -469,6 +465,7 @@ pytz==2023.3
     #   dateparser
     #   directory-validators
     #   icalendar
+    #   l18n
     #   pandas
 pyyaml==6.0.2
     # via
@@ -517,6 +514,7 @@ six==1.17.0
     # via
     #   html5lib
     #   jsonschema
+    #   l18n
     #   mohawk
     #   opensearch-dsl
     #   opensearch-py
@@ -560,10 +558,7 @@ tomli==2.2.1
 typing-extensions==4.12.2
     # via
     #   asgiref
-    #   beautifulsoup4
     #   dj-database-url
-    #   django-stubs-ext
-    #   django-tasks
     #   kombu
     #   opentelemetry-sdk
     #   pydantic
@@ -605,8 +600,9 @@ virtualenv==20.29.2
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core
-wagtail==6.4.1
+wagtail==6.3
     # via
+    #   -r requirements.in
     #   wagtail-cache
     #   wagtail-factories
     #   wagtail-localize
