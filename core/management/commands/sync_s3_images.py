@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 
 
 class Command(BaseCommand):
-    help = 'Used to scrape a give url for all images and dump to json'
+    help = 'Used to scrape a given url for all <img> tags and and dump the src attr to json'
 
     def add_arguments(self, parser):
         parser.add_argument('url_to_scrape', type=str, help='Please add a valid url')
