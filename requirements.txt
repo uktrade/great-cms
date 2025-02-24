@@ -36,7 +36,7 @@ backoff==2.2.1
     #   opentelemetry-exporter-otlp-proto-common
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
-beautifulsoup4==4.12.3
+beautifulsoup4==4.13.3
     # via
     #   directory-components
     #   great-components
@@ -186,7 +186,7 @@ django-environ==0.11.2
     # via -r requirements.in
 django-extensions==3.2.3
     # via -r requirements.in
-django-filter==24.3
+django-filter==25.1
     # via wagtail
 django-formtools==2.3
     # via -r requirements.in
@@ -230,7 +230,7 @@ djangorestframework==3.15.2
     #   wagtail
 docutils==0.21.2
     # via sphinx
-draftjs-exporter==5.0.0
+draftjs-exporter==5.1.0
     # via wagtail
 drf-spectacular==0.26.2
     # via -r requirements.in
@@ -254,7 +254,7 @@ filetype==1.2.0
     # via willow
 geoip2==2.9.0
     # via -r requirements.in
-googleapis-common-protos==1.67.0
+googleapis-common-protos==1.68.0
     # via
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
@@ -270,7 +270,7 @@ html5lib==1.1
     # via xhtml2pdf
 icalendar==5.0.11
     # via -r requirements.in
-identify==2.6.7
+identify==2.6.8
     # via pre-commit
 idna==3.10
     # via requests
@@ -560,6 +560,7 @@ tomli==2.2.1
 typing-extensions==4.12.2
     # via
     #   asgiref
+    #   beautifulsoup4
     #   dj-database-url
     #   django-stubs-ext
     #   django-tasks
@@ -604,7 +605,7 @@ virtualenv==20.29.2
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core
-wagtail==6.4
+wagtail==6.4.1
     # via
     #   wagtail-cache
     #   wagtail-factories

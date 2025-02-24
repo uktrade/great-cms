@@ -102,6 +102,7 @@ INSTALLED_APPS = [
     'wagtailfontawesomesvg',
     'wagtail_localize',
     'wagtail_localize.locales',
+    'domestic_growth.apps.DomesticGrowthConfig',
 ]
 
 MIDDLEWARE = [
@@ -295,6 +296,7 @@ STATICFILES_DIRS = [
     str(ROOT_DIR / 'sso_profile' / 'static'),
     str(ROOT_DIR / 'international_online_offer' / 'static'),
     str(ROOT_DIR / 'find_a_buyer' / 'static'),
+    str(ROOT_DIR / 'domestic_growth' / 'static'),
 ]
 
 
@@ -884,6 +886,8 @@ FEATURE_SEARCH_PREVIEW = env.feature_search_preview
 FEATURE_ACTIVITY_STREAM = env.feature_activity_stream
 FEATURE_GUIDED_JOURNEY_EXTRAS = env.feature_guided_journey_extras
 FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH = env.feature_guided_journey_enhanced_search
+
+FEATURE_DOMESTIC_GROWTH = env.feature_domestic_growth
 
 MAX_COMPARE_PLACES_ALLOWED = env.max_compare_places_allowed
 

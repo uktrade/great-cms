@@ -25,6 +25,7 @@ import cms_extras.urls
 import contact.urls
 import core.urls
 import domestic.urls
+import domestic_growth.urls
 import export_academy.urls
 import exportplan.urls
 import find_a_buyer.urls
@@ -97,6 +98,7 @@ urlpatterns += [
     path('export-plan/', include(exportplan.urls)),
     path('profile/', decorator_include(nocache_page, sso_profile.urls, namespace='sso_profile')),
     path('', include(domestic.urls, namespace='domestic')),
+    path('', include(domestic_growth.urls, namespace='domestic_growth')),
     path('', include(core.urls, namespace='core')),
     path('', include(contact.urls)),  # No prefix because not all of them start with /contact/
     path('export-academy/', include(export_academy.urls, namespace='export_academy')),
