@@ -184,16 +184,28 @@ def test_eyb_guide_page_content(rf, user, domestic_site, user_sector, sector_tag
 
 
 @pytest.mark.parametrize(
-    'user_sector, tradeshow_tag, expected_len_tradeshows',
+    'user_sector, tradeshow_tag, dbt_sector, expected_len_tradeshows',
     (
-        ('Automotive', 'automotive', 1),
-        ('Agriculture, horticulture, fisheries and pets', 'Agriculture horticulture fisheries and pets', 1),
-        ('Food and drink', 'FOOD AND DRINK', 1),
-        ('Financial and professional services', 'Financial and Professional Services', 1),
+        ('Automotive', 'automotive', 'Automotive', 2),
+        (
+            'Agriculture, horticulture, fisheries and pets',
+            'Agriculture horticulture fisheries and pets',
+            'Agriculture, horticulture, fisheries and pets',
+            2,
+        ),
+        ('Food and drink', 'FOOD AND DRINK', 'Food and drink', 2),
+        (
+            'Financial and professional services',
+            'Financial and Professional Services',
+            'Financial and professional services',
+            2,
+        ),
     ),
 )
 @pytest.mark.django_db
-def test_eyb_trade_page_content(rf, user, domestic_site, user_sector, tradeshow_tag, expected_len_tradeshows):
+def test_eyb_trade_page_content(
+    rf, user, domestic_site, user_sector, tradeshow_tag, dbt_sector, expected_len_tradeshows
+):
     TriageData.objects.update_or_create(
         hashed_uuid='123',
         defaults={'sector': user_sector},
@@ -219,6 +231,11 @@ def test_eyb_trade_page_content(rf, user, domestic_site, user_sector, tradeshow_
     eyb_article_tag.save()
     tradeshow_tag = EYBTradeShowPageTag(tag=eyb_article_tag, content_object=ioo_tradeshow_page)
     tradeshow_tag.save()
+
+    ioo_tradeshow_page_with_dbt_sector = IOOTradeShowPage(
+        tradeshow_title='test321', title='test321', slug='test321', dbt_sectors=[dbt_sector]
+    )
+    root.add_child(instance=ioo_tradeshow_page_with_dbt_sector)
 
     request = rf.get(eyb_tradeshow_page.url)
     request.user = user

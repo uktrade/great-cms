@@ -400,6 +400,11 @@ class EYBTradeShowsPage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             user_sector = triage_data.sector.replace(',', '')
             all_tradeshows = IOOTradeShowPage.objects.live().filter(tags__name__iexact=user_sector)
 
+            # include tradeshows based on user sector and article's dbt sector not including any duplicates
+            all_tradeshows = all_tradeshows.union(
+                IOOTradeShowPage.objects.live().filter(dbt_sectors__contains=[triage_data.sector])
+            )
+
         breadcrumbs = [
             {'name': 'Home', 'url': '/international/'},
             {
@@ -440,6 +445,7 @@ class IOOTradeShowPage(BaseContentPage):
     parent_page_types = ['international_online_offer.EYBTradeShowsPage']
     subpage_types = []
     template = 'eyb/trade_shows.html'
+    base_form_class = WagtailAdminDBTSectors
     tradeshow_title = models.TextField()
     tradeshow_subheading = StreamField(
         [
@@ -452,17 +458,34 @@ class IOOTradeShowPage(BaseContentPage):
         null=True,
         blank=True,
     )
+    tradeshow_locale = models.CharField(blank=True, null=True)
+    tradeshow_city = models.TextField(
+        choices=region_sector_helpers.generate_location_choices(include_regions=False), blank=True, null=True
+    )
+    tradeshow_region = models.TextField(
+        choices=region_sector_helpers.generate_location_choices(include_cities=False), blank=True, null=True
+    )
     tradeshow_link = models.URLField(blank=True, max_length=255, null=True)
+    dbt_sectors = ArrayField(
+        models.CharField(),
+        blank=True,
+        default=list,
+        help_text='Select multiple sectors by holding the Ctrl key (Windows) or the Command key (Mac). Currently the parent sector only is used for mapping.',  # noqa:E501
+    )
     tags = ClusterTaggableManager(
         through=EYBTradeShowPageTag,
         blank=True,
         verbose_name='Trade Show Tags',
-        help_text="A comma-separated list of tags. Do not include commas in the sector name, e.g. 'Agriculture, horticulture, fisheries and pets' is tagged as 'Agriculture horticulture fisheries and pets'",  # noqa:E501
+        help_text="A comma-separated list of tags.",  # noqa:E501
     )
     content_panels = CMSGenericPage.content_panels + [
         FieldPanel('tradeshow_title'),
         FieldPanel('tradeshow_subheading'),
         FieldPanel('tradeshow_link'),
+        FieldPanel('tradeshow_locale'),
+        FieldPanel('tradeshow_city'),
+        FieldPanel('tradeshow_region'),
+        FieldPanel('dbt_sectors'),
         FieldPanel('tags'),
     ]
 

@@ -1,6 +1,7 @@
 [
   {
     "region": "East Midlands",
+    "region_display": "East Midlands, England",
     "cities": [
       "Mansfield",
       "North West Leicestershire",
@@ -39,6 +40,7 @@
   },
   {
     "region": "East of England",
+    "region_display": "East of England",
     "cities": [
       "North Norfolk",
       "King's Lynn and West Norfolk",
@@ -90,6 +92,7 @@
   },
   {
     "region": "London",
+    "region_display": "London",
     "cities": [
       "Hammersmith and Fulham",
       "Hounslow",
@@ -127,6 +130,7 @@
   },
   {
     "region": "North East",
+    "region_display": "North East England",
     "cities": [
       "Sunderland",
       "Gateshead",
@@ -144,6 +148,7 @@
   },
   {
     "region": "North West",
+    "region_display": "North West England",
     "cities": [
       "Barrow-in-Furness",
       "Preston",
@@ -188,6 +193,7 @@
   },
   {
     "region": "Northern Ireland",
+    "region_display": "Northern Ireland",
     "cities": [
       "Lisburn and Castlereagh",
       "Causeway Coast and Glens",
@@ -204,6 +210,7 @@
   },
   {
     "region": "Scotland",
+    "region_display": "Scotland",
     "cities": [
       "Orkney Islands",
       "Scottish Borders",
@@ -241,6 +248,7 @@
   },
   {
     "region": "South East",
+    "region_display": "South East England",
     "cities": [
       "Canterbury",
       "Reigate and Banstead",
@@ -310,6 +318,7 @@
   },
   {
     "region": "South West",
+    "region_display": "South West England",
     "cities": [
       "Cornwall",
       "Torbay",
@@ -345,6 +354,7 @@
   },
   {
     "region": "Wales",
+    "region_display": "Wales",
     "cities": [
       "Newport",
       "Rhondda Cynon Taf",
@@ -372,6 +382,7 @@
   },
   {
     "region": "West Midlands",
+    "region_display": "West Midlands, England",
     "cities": [
       "Warwick",
       "Bromsgrove",
@@ -407,6 +418,7 @@
   },
   {
     "region": "Yorkshire and The Humber",
+    "region_display": "Yorkshire and the Humber, England",
     "cities": [
       "Bradford",
       "Sheffield",
