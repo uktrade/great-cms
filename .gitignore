@@ -156,5 +156,6 @@ core/geolocation_data/GeoLite2-City.mmdb
 
 #Docker config file
 Dockerfile.dev
+s3_images.json
 
 .lighthouseci/
