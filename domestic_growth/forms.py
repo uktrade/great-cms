@@ -1,10 +1,7 @@
-from django.forms import (
-    CharField,
-    ChoiceField,
-    widgets,
-)
-from core.validators import is_valid_uk_postcode
+from django.forms import CharField, ChoiceField, widgets
 from great_components import forms
+
+from core.validators import is_valid_uk_postcode
 
 
 class StartingABusinessForm(forms.Form):
