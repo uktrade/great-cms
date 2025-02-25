@@ -37,3 +37,54 @@ class DomesticGrowthLandingPage(SeoMixin, cms_panels.DomesticGrowthLandingPagePa
         null=True,
         blank=True,
     )
+
+    support_title = models.TextField(
+        null=True,
+    )
+
+    support_body = StreamField(
+        [
+            (
+                'support_cards',
+                StreamBlock(
+                    [
+                        ('support_card', DomesticGrowthCardBlock()),
+                    ],
+                    block_counts={
+                        'support_card': {'min_num': 3},
+                    },
+                ),
+            ),
+        ],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
+
+    popular_title = models.TextField(
+        null=True,
+    )
+
+    popular_body = StreamField(
+        [
+            (
+                'popular_cards',
+                StreamBlock(
+                    [
+                        ('popular_card', DomesticGrowthCardBlock()),
+                    ],
+                    block_counts={
+                        'popular_card': {'min_num': 3},
+                    },
+                ),
+            ),
+        ],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
+
+    def get_context(self, request):
+        context = super(DomesticGrowthLandingPage, self).get_context(request)
+        context['news'] = (('article 1'), ('article 2'), ('article 3'))
+        return context

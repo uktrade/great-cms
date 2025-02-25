@@ -10,6 +10,20 @@ class DomesticGrowthLandingPagePanels:
                 FieldPanel('hero_body'),
             ],
         ),
+        MultiFieldPanel(
+            heading='Support',
+            children=[
+                FieldPanel('support_title'),
+                FieldPanel('support_body'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='Popular',
+            children=[
+                FieldPanel('popular_title'),
+                FieldPanel('popular_body'),
+            ],
+        ),
     ]
 
     settings_panels = [FieldPanel('title'), FieldPanel('slug')]
