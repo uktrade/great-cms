@@ -20,7 +20,7 @@ django-log-formatter-asim==0.0.4
 wagtail==6.3
 wagtail-cache==2.5.1
 wagtail-factories==4.2.1
-wagtail-font-awesome-svg==1.0.1
+wagtail-font-awesome-svg==0.0.3
 wagtail-localize==1.11.3
 wagtail-modeladmin==2.1.0
 wagtail-seo==3.0.0
