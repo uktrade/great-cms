@@ -7,6 +7,7 @@ class DomesticGrowthLandingPagePanels:
             heading='Hero',
             children=[
                 FieldPanel('hero_title'),
+                FieldPanel('hero_body'),
             ],
         ),
     ]
