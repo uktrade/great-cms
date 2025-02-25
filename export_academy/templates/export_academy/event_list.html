@@ -2,17 +2,29 @@
 {% load static %}
 {% load event_list_buttons %}
 {% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
 {% load pagination from component_tags %}
 {% load append_past_year_seperator from component_tags %}
 {% load h3_if from content_tags %}
 {% load render_events_hero from events_hero %}
 {% block head_title %}Events – UK Export Academy{% endblock %}
 {% block content %}
-    <div class="great great-hero-box-shadow-bottom">
+    <div class="great">
         {% block hero %}
             {% with content_snippet as hero %}
+                {% if not image_url %}
+                    {% image hero.image original as rendition %}
+                {% endif %}
+                {% firstof image_url rendition.url as image_url %}
                 <div class="ea-listing-page">
-                    {% render_events_hero %}
+                    {% is_logged_in as user_is_registered %}
+                    {% if user_is_registered %}
+                        {% render_events_hero image_url hero.title hero.text hero.ea_registered_text %}
+                    {% elif not request.user.is_anoymous %}
+                        {% render_events_hero image_url hero.title hero.text hero.logged_in_text %}
+                    {% else %}
+                        {% render_events_hero image_url hero.title hero.text hero.logged_out_text    %}
+                    {% endif %}
                     {% include 'components/export_academy_hero.html' with hero=hero hide_image_for_mobile=True %}
                 </div>
             {% endwith %}
