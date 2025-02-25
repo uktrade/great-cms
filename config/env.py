@@ -119,7 +119,7 @@ class BaseSettings(PydanticBaseSettings):
     directory_forms_api_base_url: str
     directory_forms_api_api_key: str
     directory_forms_api_sender_id: str
-    directory_forms_api_default_timeout: int = 5
+    directory_forms_api_default_timeout: int = 30
     directory_forms_api_zendesk_sevice_name: str = 'directory'
 
     eu_exit_zendesk_subdomain: str
