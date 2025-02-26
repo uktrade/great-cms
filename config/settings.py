@@ -201,11 +201,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Django>=3.2 will not do it for you anymore
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+IS_LOCAL_DOCKER_DEVELOPMENT = env.is_local_docker_development
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-if is_copilot() and not env.is_docker:
+if is_copilot() and not IS_LOCAL_DOCKER_DEVELOPMENT:
     DATABASES = database_from_env('DATABASE_CREDENTIALS')
     DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
 
@@ -458,6 +459,19 @@ X_FRAME_OPTIONS = 'DENY'
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
+if DEBUG:
+    INSTALLED_APPS += ['debug_toolbar']
+    MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE
+    INTERNAL_IPS = ['127.0.0.1', '10.0.2.2']
+    if IS_LOCAL_DOCKER_DEVELOPMENT:
+        import socket
+
+        hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+        INTERNAL_IPS = [ip[:-1] + '1' for ip in ips] + INTERNAL_IPS
+        DEBUG_TOOLBAR_CONFIG = {
+            'SHOW_TOOLBAR_CALLBACK': lambda request: DEBUG,
+        }
+
 # message framework
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
@@ -500,20 +514,6 @@ if AWS_STORAGE_BUCKET_NAME:
         PDF_STATIC_URL = f'{AWS_S3_URL_PROTOCOL}//{AWS_STORAGE_BUCKET_NAME}/export_plan_pdf_statics/'
     else:
         PDF_STATIC_URL = f'{AWS_S3_URL_PROTOCOL}//{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_HOST}/export_plan_pdf_statics/'
-
-
-if DEBUG:
-    INSTALLED_APPS += ['debug_toolbar']
-    MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE
-    INTERNAL_IPS = ['127.0.0.1', '10.0.2.2']
-    if env.is_docker:
-        import socket
-
-        hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
-        INTERNAL_IPS = [ip[:-1] + '1' for ip in ips] + INTERNAL_IPS
-        DEBUG_TOOLBAR_CONFIG = {
-            'SHOW_TOOLBAR_CALLBACK': lambda request: DEBUG,
-        }
 
 ELASTIC_APM_ENABLED = env.elastic_apm_enabled
 if ELASTIC_APM_ENABLED:
