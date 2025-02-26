@@ -520,7 +520,7 @@ if DEBUG:
     INSTALLED_APPS += ['debug_toolbar']
     MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE
     INTERNAL_IPS = ['127.0.0.1', '10.0.2.2']
-    if env.is_docker:
+    if IS_LOCAL_DOCKER_DEVELOPMENT:
         import socket
 
         hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
