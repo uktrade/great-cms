@@ -5,7 +5,7 @@ from taggit.serializers import TagListSerializerField
 from wagtail.models import Page
 from wagtail.rich_text import RichText, get_text_for_indexing
 
-from core.models import GreatMedia, MicrositePage
+from core.models import HCSAT, GreatMedia, MicrositePage
 from domestic.models import ArticlePage
 from export_academy.models import (
     Booking,
@@ -537,5 +537,48 @@ class ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer(serializers
                 'registrationHashedSsoId': instance.registration.hashed_sso_id if instance.registration else None,
                 'videoId': instance.video.id if instance.video else None,
                 'videoTitle': instance.video.title if instance.video else None,
+            },
+        }
+
+
+class ActivityStreamDomesticHCSATUserFeedbackDataSerializer(serializers.ModelSerializer):
+    """
+    Domestic HCSAT Feedback Data serializer for activity stream.
+    """
+
+    feedback_submission_date = serializers.DateTimeField(source='created')  # noqa: N815
+    url = serializers.CharField(source='URL')  # noqa: N815
+
+    class Meta:
+        model = HCSAT
+        fields = [
+            'id',
+            'feedback_submission_date',
+            'url',
+            'user_journey',
+            'satisfaction_rating',
+            'experienced_issues',
+            'other_detail',
+            'service_improvements_feedback',
+            'likelihood_of_return',
+            'service_name',
+            'service_specific_feedback',
+            'service_specific_feedback_other',
+        ]
+
+    def to_representation(self, instance):
+        """
+        Prefix field names to match activity stream format
+        """
+        prefix = 'dit:domestic:HCSATFeedbackData'
+        type = 'Update'
+
+        return {
+            'id': f'{prefix}:{instance.id}:{type}',
+            'type': f'{type}',
+            'object': {
+                'id': f'{prefix}:{instance.id}',
+                'type': prefix,
+                **{f'{k}': v for k, v in super().to_representation(instance).items()},
             },
         }
