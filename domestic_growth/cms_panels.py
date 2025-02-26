@@ -24,6 +24,12 @@ class DomesticGrowthLandingPagePanels:
                 FieldPanel('popular_body'),
             ],
         ),
+        MultiFieldPanel(
+            heading='News',
+            children=[
+                FieldPanel('news_title'),
+            ],
+        ),
     ]
 
     settings_panels = [FieldPanel('title'), FieldPanel('slug')]

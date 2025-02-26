@@ -85,6 +85,10 @@ class DomesticGrowthLandingPage(SeoMixin, cms_panels.DomesticGrowthLandingPagePa
         blank=True,
     )
 
+    news_title = models.TextField(
+        null=True,
+    )
+
     def get_context(self, request):
         context = super(DomesticGrowthLandingPage, self).get_context(request)
         context['news'] = helpers.get_dbt_news_articles()

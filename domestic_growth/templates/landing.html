@@ -40,17 +40,15 @@
                     {% endif %}
 
                     {% if page.support_body %}
-                    <ul class="govuk-!-padding-bottom-9">
+                        <div class="govuk-grid-row govuk-!-padding-bottom-4 great-card-row">
                         {% for blocks in page.support_body %}
                             {% for block in blocks.value %}
-                            <li>
-                                <a href="{{ block.value.url }}" class="govuk-link">
-                                    {{ block.value.title }}
-                                </a>
-                            </li>
+                            <div class="govuk-grid-column-one-third">
+                                {% include 'components/great/card.html' with title=block.value.title url=block.value.url show_title_link=True %}
+                            </div>
                             {% endfor %}
                         {% endfor %}
-                    </ul>
+                        </div>
                     {% endif %}
                 </div>
             </div>
@@ -87,9 +85,11 @@
         <div class="great-container govuk-!-padding-top-4">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full great-no-padding-until-tablet">
+                    {% if page.news_title %}
                     <h2 class="govuk-heading-l govuk-!-margin-bottom-6">
-                        News for businesses starting and growing in the UK
+                        {{ page.news_title }}
                     </h2>
+                    {% endif %}
 
                     {% if news %}
                     <div class="govuk-grid-row govuk-!-padding-bottom-4 great-card-row">
