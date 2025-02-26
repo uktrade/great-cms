@@ -56,4 +56,9 @@ urlpatterns = [
         skip_ga360(activitystream.views.ActivityStreamExportAcademyVideoOnDemandPageTrackingView.as_view()),
         name='ukea-videoondemandpagetracking',
     ),
+    path(
+        'domestic-hcsats/',
+        skip_ga360(activitystream.views.ActivityStreamDomesticHCSATFeedbackDataView.as_view()),
+        name='domestic-hcsats',
+    ),
 ]
