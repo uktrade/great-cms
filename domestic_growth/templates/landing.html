@@ -92,11 +92,13 @@
                     </h2>
 
                     {% if news %}
-                    <ul class="govuk-!-padding-bottom-9">
-                        {% for article in news%}
-                            {{ article }}
+                    <div class="govuk-grid-row govuk-!-padding-bottom-4 great-card-row">
+                        {% for article in news %}
+                        <div class="govuk-grid-column-one-third">
+                            {% include 'components/great/card.html' with title=article.title url=article.href show_title_link=True image_src=article.image.medium_resolution_url image_alt=article.image.alt_text content=article.summary|safe %}
+                        </div>
                         {% endfor %}
-                    </ul>
+                    </div>
                     {% endif %}
                 </div>
             </div>

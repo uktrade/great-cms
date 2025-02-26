@@ -1,6 +1,7 @@
 from django.db import models
 from domestic_growth import (
     cms_panels,
+    helpers,
 )
 from wagtail.blocks.stream_block import StreamBlock
 from wagtail.fields import StreamField
@@ -86,5 +87,5 @@ class DomesticGrowthLandingPage(SeoMixin, cms_panels.DomesticGrowthLandingPagePa
 
     def get_context(self, request):
         context = super(DomesticGrowthLandingPage, self).get_context(request)
-        context['news'] = (('article 1'), ('article 2'), ('article 3'))
+        context['news'] = helpers.get_dbt_news_articles()
         return context
