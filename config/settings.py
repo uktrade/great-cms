@@ -459,18 +459,6 @@ X_FRAME_OPTIONS = 'DENY'
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
-if DEBUG:
-    INSTALLED_APPS += ['debug_toolbar']
-    MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE
-    INTERNAL_IPS = ['127.0.0.1', '10.0.2.2']
-    if IS_LOCAL_DOCKER_DEVELOPMENT:
-        import socket
-
-        hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
-        INTERNAL_IPS = [ip[:-1] + '1' for ip in ips] + INTERNAL_IPS
-        DEBUG_TOOLBAR_CONFIG = {
-            'SHOW_TOOLBAR_CALLBACK': lambda request: DEBUG,
-        }
 
 # message framework
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
