@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0167_alter_hcsat_user_journey'),
+        ('core', '0168_micrositepage_show_social_media_share'),
     ]
 
     operations = [
