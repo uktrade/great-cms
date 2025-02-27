@@ -19,13 +19,15 @@ class PageViewAdmin(admin.ModelAdmin):
 
 class StandardImageEditViewWrapper(views.EditView):
     def get(self, request):
-        response = ImageEditView(request, self.instance_pk)  # pragma: no cover
+        view = ImageEditView.as_view()
+        response = view(request, self.instance_pk)  # pragma: no cover
         return response  # pragma: no cover
 
 
 class StandardImageCreateViewWrapper(views.CreateView):
     def get(self, request):
-        response = ImageAddView(request)  # pragma: no cover
+        view = ImageAddView.as_view()
+        response = view(request)  # pragma: no cover
         return response  # pragma: no cover
 
 
