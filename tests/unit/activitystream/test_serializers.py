@@ -471,38 +471,6 @@ def test_eyb_triage_serializer():
 
 
 @pytest.mark.django_db
-def test_domestic_hcsat_feedback_serializer():
-    instance = HCSATFactory()
-
-    serializer = ActivityStreamDomesticHCSATUserFeedbackDataSerializer()
-    output = serializer.to_representation(instance)
-
-    # Remove date due to timezone mismatch
-
-    del output['object']['feedback_submission_date']
-    expected = {
-        'id': f'dit:domestic:HCSATFeedbackData:{instance.id}:Update',
-        'type': 'Update',
-        'object': {
-            'id': instance.id,
-            'type': 'dit:domestic:HCSATFeedbackData',
-            'url': instance.URL,
-            'user_journey': instance.user_journey,
-            'satisfaction_rating': instance.satisfaction_rating,
-            'experienced_issues': instance.experienced_issues,
-            'other_detail': instance.other_detail,
-            'service_improvements_feedback': instance.service_improvements_feedback,
-            'likelihood_of_return': instance.likelihood_of_return,
-            'service_name': instance.service_name,
-            'service_specific_feedback': instance.service_specific_feedback,
-            'service_specific_feedback_other': instance.service_specific_feedback_other,
-        },
-    }
-
-    assert output == expected
-
-
-@pytest.mark.django_db
 class TestMicrositeSerializer(TestCase):
     @pytest.fixture(autouse=True)
     def domestic_homepage_fixture(self, domestic_homepage):
@@ -734,3 +702,35 @@ def test_ukea_videoondemandpagetracking_serializer():
             'modified': instance.modified.isoformat(),
         },
     }
+
+
+@pytest.mark.django_db
+def test_domestic_hcsat_feedback_serializer():
+    instance = HCSATFactory()
+
+    serializer = ActivityStreamDomesticHCSATUserFeedbackDataSerializer()
+    output = serializer.to_representation(instance)
+
+    # Remove date due to timezone mismatch
+
+    del output['object']['feedback_submission_date']
+    expected = {
+        'id': f'dit:domestic:HCSATFeedbackData:{instance.id}:Update',
+        'type': 'Update',
+        'object': {
+            'id': instance.id,
+            'type': 'dit:domestic:HCSATFeedbackData',
+            'url': instance.URL,
+            'user_journey': instance.user_journey,
+            'satisfaction_rating': instance.satisfaction_rating,
+            'experienced_issues': instance.experienced_issues,
+            'other_detail': instance.other_detail,
+            'service_improvements_feedback': instance.service_improvements_feedback,
+            'likelihood_of_return': instance.likelihood_of_return,
+            'service_name': instance.service_name,
+            'service_specific_feedback': instance.service_specific_feedback,
+            'service_specific_feedback_other': instance.service_specific_feedback_other,
+        },
+    }
+
+    assert output == expected
