@@ -1300,8 +1300,7 @@ def test_set_microsite_expiry_date(rf, domestic_homepage):
 
     microsite_page_with_expire_date.expiry_date = updated_expiry_date
 
-    revision = microsite_page_with_expire_date.save_revision()
-    revision.publish()
+    wagtail_hooks.set_microsite_expiry_date(None, microsite_page_with_expire_date)
 
     assert microsite_page_with_expire_date.expire_at == updated_expiry_date
 
