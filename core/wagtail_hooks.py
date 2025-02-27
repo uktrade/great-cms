@@ -347,14 +347,6 @@ def register_s3_media_file_adapter():
 
 
 @hooks.register('insert_global_admin_css')
-def editor_css():
-    return format_html(
-        '<link rel="stylesheet" href="{}">',  # noqa: P103
-        static('cms-admin/css/case-study.css'),
-    )
-
-
-@hooks.register('insert_global_admin_css')
 def global_admin_css():
     return format_html(
         '<link rel="stylesheet" href="{}">',  # noqa: P103
