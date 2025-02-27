@@ -123,3 +123,24 @@
     }
 
 }
+
+.listitem{
+    &-logo {
+        width: 60px;
+        height: 60px;
+        background-position: top;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    &-title-link {
+        text-decoration: none !important;
+
+        &::after {
+            content: '\f35d';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: static;
+            padding-left: 5px;
+        }
+    }
+}
