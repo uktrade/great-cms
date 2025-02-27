@@ -1,6 +1,7 @@
 import hashlib
 import mimetypes
 from urllib.parse import unquote, urlparse
+from datetime import datetime
 
 from django.conf import settings
 from django.contrib.postgres.fields import ArrayField
@@ -2038,6 +2039,13 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
     linkedin = models.URLField(blank=True, verbose_name=_('LinkedIn'))
 
     review_reminder_sent = models.DateTimeField(blank=True, null=True)
+
+    # Pass in as function so that datetime.now() is not evaluated on model definition.
+    def get_datetime_one_year_ahead():
+        now = datetime.now()
+        return now.replace(year=now.year + 1)
+
+    expiry_date = models.DateTimeField(default=get_datetime_one_year_ahead)
 
     search_fields = Page.search_fields + [  # Inherit search_fields from Page
         index.SearchField('page_title'),
