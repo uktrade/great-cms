@@ -17,19 +17,19 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
                 <p class="govuk-body">
-                    Attending a UK trade event can help you develop networks and get the latest insights from your sector.
+                    Attending conferences, fairs or trade shows can help you make industry connections in the UK and get the latest insights from your sector.
                 </p>
             </div>
         </div>
         <div class="govuk-grid-row govuk-!-margin-bottom-6">
-            {% if all_tradeshows %}
+            {% if paginated_tradeshows %}
                 <div class="govuk-grid-column-full">
-                    {% for page in all_tradeshows %}
+                    {% for page in paginated_tradeshows.object_list %}
                         {% if request.user.is_authenticated %}
-                            {% include './includes/article_list_item.html' with rel="noopener noreferrer" target="_blank" url=page.specific.tradeshow_link link_title=page.specific.tradeshow_title link_description=page.specific.tradeshow_subheading %}
+                            {% include './includes/list_item.html' with rel="noopener noreferrer" target="_blank" icon='icon' url=page.specific.tradeshow_link link_title=page.specific.tradeshow_title description=page.specific.tradeshow_subheading location=page.specific.location_display %}
                         {% else %}
                             {% url 'international_online_offer:signup' as signup_url %}
-                            {% include './includes/article_list_item.html' with url=signup_url link_title=page.specific.tradeshow_title link_description=page.specific.tradeshow_subheading %}
+                            {% include './includes/list_item.html' with url=signup_url link_title=page.specific.tradeshow_title link_description=page.specific.tradeshow_subheading %}
                         {% endif %}
                     {% endfor %}
                 </div>
@@ -45,6 +45,13 @@
                 </div>
             {% endif %}
         </div>
+        {% if total_pages > 1 %}
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    {% include '_numbered_pagination.html' with currentPage=request.GET.page totalPagesRange=total_pages_range %}
+                </div>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
 {% block feedback_reporter %}

@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.postgres.fields import ArrayField
+from django.core.paginator import Paginator
 from django.db import models
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
@@ -405,6 +406,11 @@ class EYBTradeShowsPage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 IOOTradeShowPage.objects.live().filter(dbt_sectors__contains=[triage_data.sector])
             )
 
+        paginator = Paginator(all_tradeshows, 20)
+        page = request.GET.get('page', 1)
+        paginated_tradeshows = paginator.get_page(page)
+        total_pages_range = range(1, paginator.num_pages + 1)
+
         breadcrumbs = [
             {'name': 'Home', 'url': '/international/'},
             {
@@ -414,7 +420,9 @@ class EYBTradeShowsPage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         ]
         context.update(
             triage_data=triage_data,
-            all_tradeshows=all_tradeshows,
+            paginated_tradeshows=paginated_tradeshows,
+            total_pages=paginator.num_pages,
+            total_pages_range=total_pages_range,
             breadcrumbs=breadcrumbs,
         )
         self.set_ga360_payload(
@@ -459,10 +467,10 @@ class IOOTradeShowPage(BaseContentPage):
         blank=True,
     )
     tradeshow_locale = models.CharField(blank=True, null=True)
-    tradeshow_city = models.TextField(
+    tradeshow_city = models.CharField(
         choices=region_sector_helpers.generate_location_choices(include_regions=False), blank=True, null=True
     )
-    tradeshow_region = models.TextField(
+    tradeshow_region = models.CharField(
         choices=region_sector_helpers.generate_location_choices(include_cities=False), blank=True, null=True
     )
     tradeshow_link = models.URLField(blank=True, max_length=255, null=True)
@@ -488,6 +496,27 @@ class IOOTradeShowPage(BaseContentPage):
         FieldPanel('dbt_sectors'),
         FieldPanel('tags'),
     ]
+
+    @property
+    def location_display(self):
+        output = ''
+
+        if self.tradeshow_locale:
+            output += self.tradeshow_locale
+
+            if self.tradeshow_city or self.tradeshow_region:
+                output += ', '
+
+        if self.tradeshow_city:
+            output += self.get_tradeshow_city_display()
+
+            if self.tradeshow_region:
+                output += ', '
+
+        if self.tradeshow_region:
+            output += self.get_tradeshow_region_display()
+
+        return output
 
 
 class EYBArticlesPage(BaseContentPage):
