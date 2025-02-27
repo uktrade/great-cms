@@ -11,39 +11,15 @@
     <div class="great great-hero-box-shadow-bottom">
         {% image page.hero_image original as rendition %}
         <section class="background-white govuk-!-padding-bottom-0">
-            <div class="container">
-                {% if user.is_anonymous %}
-                     {% render_ukea_homepage_hero rendition.url page.title page.hero_text page.hero_text_below_cta_logged_out page.hero_cta.label page.hero_cta.internal_link page.hero_cta.external_link %}
-                        {% else %}
-                        {% render_ukea_homepage_hero rendition.url page.title page.hero_text page.hero_cta_logged_in page.hero_cta_logged_in.label page.hero_cta_logged_in.internal_link page.hero_cta_logged_in.external_link %}
-                        {% endif %}
-                <div class="page-header article-header stack-at-tablet-width ea-landing-page govuk-!-padding-left-0"
-                     id="hero">
-                     
-                    <div class="inner-header govuk-!-margin-left-0 govuk-!-static-padding-0">
-                        
-                        <div>
-                            <h1>{{ page.title }}</h1>
-                            <p>{{ page.hero_text | richtext | add_govuk_classes }}</p>
-                            {% if user.is_anonymous %}
-                                {% include_block page.hero_cta %}
-                                {% render_ukea_homepage_hero rendition.url page.title page.hero_text page.hero_text_below_cta_logged_out page.hero_cta.label page.hero_cta.internal_link page.hero_cta.external_link %}
-                                
-                                <p>{{ page.hero_text_below_cta_logged_out | richtext | add_govuk_classes }}</p>
-                            {% else %}
-                                {% include_block page.hero_cta_logged_in %}
-                                {% render_ukea_homepage_hero rendition.url page.title page.hero_text page.hero_cta_logged_in page.hero_cta_logged_in.label page.hero_cta_logged_in.internal_link page.hero_cta_logged_in.external_link %}
-                            {% endif %}
-                        </div>
-                        <div class="image-container image-full-width great-display-from-tablet ea-landing-image-container"
-                             style="background: url({{ rendition.url }})">
-                            <img class="ea-logo"
-                                 src="{% static 'images/uk-export-academy-logo.svg' %}"
-                                 alt="UK Export Academy logo" />
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% if user.is_anonymous %}
+                    {% with page.hero_cta|first as cta %}
+                        {% render_ukea_homepage_hero rendition.url page.title page.hero_text page.hero_text_below_cta_logged_out cta.value.label cta.value.link.internal_link.url cta.value.link.external_link %}
+                    {% endwith%}
+                {% else %}
+                    {% with page.hero_cta_logged_in|first as cta %}
+                        {% render_ukea_homepage_hero rendition.url page.title page.hero_text None cta.value.label cta.value.link.internal_link.url cta.value.link.external_link %}
+                    {% endwith%}
+                {% endif %}
         </div>
     </section>
     {% if page.banner_label %}

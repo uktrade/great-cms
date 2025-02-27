@@ -19,24 +19,25 @@ def render_events_hero(image_url, hero_title, text, conditional_text):
 def render_ukea_homepage_hero(
     image_url,
     hero_title,
-    hero_description_part_1,
-    hero_description_part_2,
+    above_cta_text,
+    below_cta_text,
     action_link_label,
     action_link_internal,
     action_link_external,
 ):
-    if not (action_link_internal or action_link_external):
+    if not action_link_label and (action_link_internal or action_link_external):
         action_link_label = None
         action_link_url = None
     elif action_link_internal:
-        action_link_url = action_link_internal.url
+        action_link_url = action_link_internal
     else:
         action_link_url = action_link_external
 
     return {
         'pngImagePath': image_url,
         'heading': hero_title,
-        'descriptionHtml': hero_description_part_1,
+        'aboveCtaHtml': above_cta_text,
+        'belowCtaHtml': below_cta_text,
         'classes': 'great-ds-hero--bg-white great-ds-hero--box-shadow great-ds-hero--large-image-cropping',
         'actionLinkUrl': action_link_url,
         'actionLinkText': action_link_label,
