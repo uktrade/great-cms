@@ -36,7 +36,7 @@ attrs==25.1.0
     #   trio
 babel==2.12.1
     # via
-    #   -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    #   -r requirements.in
     #   sphinx
 backoff==2.2.1
     # via
@@ -62,7 +62,7 @@ blinker==1.9.0
     # via flask
 boto3==1.24.96
     # via
-    #   -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    #   -r requirements.in
     #   django-storages
 botocore==1.27.96
     # via
@@ -78,12 +78,12 @@ build==1.2.2.post1
     # via pip-tools
 celery[redis]==5.3.6
     # via
-    #   -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    #   -r requirements.in
     #   dbt-copilot-python
     #   django-celery-beat
 certifi==2024.7.4
     # via
-    #   -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    #   -r requirements.in
     #   elastic-apm
     #   elasticsearch
     #   geventhttpclient
@@ -128,7 +128,7 @@ cron-descriptor==1.4.5
     # via django-celery-beat
 cryptography==43.0.1
     # via
-    #   -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    #   -r requirements.in
     #   pyhanko
     #   pyhanko-certvalidator
 cssbeautifier==1.15.3
@@ -139,10 +139,10 @@ cssselect2==0.7.0
     # via svglib
 dateparser==0.7.2
     # via
-    #   -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    #   -r requirements.in
     #   -r requirements_test.in
 dbt-copilot-python==0.2.1
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 decorator==5.1.1
     # via
     #   ipdb
@@ -157,38 +157,38 @@ deprecated==1.2.18
 dill==0.3.9
     # via pylint
 directory-api-client==26.12.0
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 directory-ch-client==4.0.2
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 directory-client-core==7.2.13
     # via
-    #   -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    #   -r requirements.in
     #   directory-api-client
     #   directory-ch-client
     #   directory-forms-api-client
     #   directory-sso-api-client
 directory-components==40.2.3
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 directory-constants==24.1.3
     # via
-    #   -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    #   -r requirements.in
     #   directory-components
     #   great-components
 directory-forms-api-client==7.5.1
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 directory-healthcheck==3.7
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 directory-sso-api-client==7.2.7
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 directory-validators==9.3.4
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 distlib==0.3.9
     # via virtualenv
 dj-database-url==2.2.0
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
-django==4.2.17
+    # via -r requirements.in
+django==4.2.19
     # via
-    #   -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    #   -r requirements.in
     #   directory-api-client
     #   directory-ch-client
     #   directory-client-core
@@ -223,40 +223,40 @@ django==4.2.17
     #   wagtail-localize
     #   wagtailmedia
 django-celery-beat==2.5.0
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 django-csp==3.7
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 django-debug-toolbar==3.2.4
     # via -r requirements_test.in
 django-decorator-include==3.0
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 django-environ==0.11.2
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 django-extensions==3.2.3
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 django-filter==23.5
     # via wagtail
 django-formtools==2.3
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 django-health-check==3.18.2
     # via directory-healthcheck
 django-ipware==6.0.3
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 django-log-formatter-asim==0.0.4
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 django-modelcluster==6.4
     # via wagtail
 django-permissionedforms==0.1
     # via wagtail
 django-recaptcha==3.0.0
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 django-redis==5.4.0
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 django-staff-sso-client==4.3.0
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 django-storages[boto3]==1.13.2
     # via
-    #   -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    #   -r requirements.in
     #   django-storages
 django-taggit==4.0.0
     # via wagtail
@@ -264,11 +264,11 @@ django-timezone-field==7.1
     # via django-celery-beat
 django-treebeard==4.7
     # via
-    #   -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    #   -r requirements.in
     #   wagtail
 djangorestframework==3.15.2
     # via
-    #   -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    #   -r requirements.in
     #   drf-spectacular
     #   sigauth
     #   wagtail
@@ -279,15 +279,15 @@ docutils==0.21.2
 draftjs-exporter==2.1.7
     # via wagtail
 drf-spectacular==0.26.2
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 editorconfig==0.17.0
     # via
     #   cssbeautifier
     #   jsbeautifier
 elastic-apm==6.1.3
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 elasticsearch==7.13.4
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 et-xmlfile==2.0.0
     # via openpyxl
 events==0.5
@@ -304,9 +304,9 @@ executing==2.2.0
     # via stack-data
 factory-boy==3.3.0
     # via
-    #   -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    #   -r requirements.in
     #   wagtail-factories
-faker==36.1.0
+faker==36.1.1
     # via factory-boy
 filelock==3.17.0
     # via virtualenv
@@ -343,7 +343,7 @@ flask-login==0.6.3
 freezegun==1.1.0
     # via -r requirements_test.in
 geoip2==2.9.0
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 gevent==24.11.1
     # via
     #   geventhttpclient
@@ -354,28 +354,28 @@ gitdb==4.0.12
     # via gitpython
 gitpython==3.1.44
     # via -r requirements_test.in
-googleapis-common-protos==1.66.0
+googleapis-common-protos==1.67.0
     # via
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
 great-components==2.7.2
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 greenlet==3.1.1
     # via gevent
 grpcio==1.70.0
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==22.0.0
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 h11==0.14.0
     # via wsproto
 hashids==0.8.4
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 html5lib==1.1
     # via
     #   wagtail
     #   xhtml2pdf
 icalendar==5.0.11
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 identify==2.6.7
     # via pre-commit
 idna==3.10
@@ -399,7 +399,7 @@ ipdb==0.13.13
 ipython==8.18.1
     # via ipdb
 iso3166==1.0.1
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 isort==5.12.0
     # via
     #   -r requirements_test.in
@@ -435,12 +435,12 @@ locust==2.27.0
     # via -r requirements_test.in
 lxml==5.1.0
     # via
-    #   -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    #   -r requirements.in
     #   pyquery
     #   svglib
 markdown2==2.4.0
     # via
-    #   -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    #   -r requirements.in
     #   readtime
 markupsafe==3.0.2
     # via
@@ -468,21 +468,21 @@ nodeenv==1.9.1
     # via pre-commit
 numpy==1.26.4
     # via
-    #   -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    #   -r requirements.in
     #   pandas
 oauthlib==3.2.2
     # via
-    #   -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    #   -r requirements.in
     #   requests-oauthlib
 olefile==0.47
     # via directory-validators
 openpyxl==3.1.5
     # via wagtail
 opensearch-dsl==2.1.0
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 opensearch-py==2.6.0
     # via
-    #   -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    #   -r requirements.in
     #   opensearch-dsl
 opentelemetry-api==1.22.0
     # via
@@ -535,7 +535,9 @@ opentelemetry-util-http==0.43b0
 oscrypto==1.3.0
     # via pyhanko-certvalidator
 outcome==1.3.0.post0
-    # via trio
+    # via
+    #   trio
+    #   trio-websocket
 packaging==24.2
     # via
     #   black
@@ -547,7 +549,7 @@ packaging==24.2
     #   sphinx
     #   webdriver-manager
 pandas==1.5.3
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 parso==0.8.4
     # via jedi
 pathspec==0.12.1
@@ -560,7 +562,7 @@ pexpect==4.9.0
     # via ipython
 pillow==10.3.0
     # via
-    #   -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    #   -r requirements.in
     #   -r requirements_test.in
     #   directory-validators
     #   pillow-heif
@@ -594,13 +596,13 @@ protobuf==4.25.6
     # via
     #   googleapis-common-protos
     #   opentelemetry-proto
-psutil==6.1.1
+psutil==7.0.0
     # via
     #   browserstack-local
     #   browserstack-sdk
     #   locust
 psycopg2==2.9.9
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 ptyprocess==0.7.0
     # via pexpect
 pure-eval==0.2.3
@@ -614,12 +616,12 @@ pycparser==2.22
     # via cffi
 pydantic==2.7.3
     # via
-    #   -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    #   -r requirements.in
     #   pydantic-settings
 pydantic-core==2.18.4
     # via pydantic
 pydantic-settings==2.3.1
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 pyflakes==3.1.0
     # via flake8
 pygments==2.19.1
@@ -674,7 +676,7 @@ pytest-xdist==3.6.1
     # via -r requirements_test.in
 python-bidi==0.4.2
     # via
-    #   -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    #   -r requirements.in
     #   xhtml2pdf
 python-crontab==3.2.0
     # via django-celery-beat
@@ -696,7 +698,7 @@ python-dotenv==1.0.1
 python-ipware==3.0.0
     # via django-ipware
 python-magic==0.4.27
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 pytz==2023.3
     # via
     #   dateparser
@@ -716,7 +718,7 @@ pyzmq==26.2.1
 qrcode==8.0
     # via pyhanko
 readtime==1.1.1
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 redis==5.2.1
     # via
     #   celery
@@ -761,13 +763,13 @@ ruamel-yaml-clib==0.2.12
     # via ruamel-yaml
 s3transfer==0.6.2
     # via boto3
-selenium==4.28.1
+selenium==4.29.0
     # via -r requirements_test.in
-sentry-sdk==2.21.0
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+sentry-sdk==2.22.0
+    # via -r requirements.in
 sigauth==5.3.0
     # via
-    #   -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    #   -r requirements.in
     #   directory-client-core
 six==1.17.0
     # via
@@ -793,7 +795,7 @@ sortedcontainers==2.4.0
 soupsieve==2.6
     # via beautifulsoup4
 sphinx==7.3.7
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 sphinxcontrib-applehelp==2.0.0
     # via sphinx
 sphinxcontrib-devhelp==2.0.0
@@ -807,7 +809,7 @@ sphinxcontrib-qthelp==2.0.0
 sphinxcontrib-serializinghtml==2.0.0
     # via sphinx
 sqlalchemy==1.4.49
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 sqlparse==0.5.3
     # via
     #   django
@@ -817,7 +819,7 @@ stack-data==0.6.3
 svglib==1.5.1
     # via xhtml2pdf
 tablib==3.5.0
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 telepath==0.3.1
     # via wagtail
 termcolor==2.5.0
@@ -850,11 +852,11 @@ traitlets==5.14.3
     # via
     #   ipython
     #   matplotlib-inline
-trio==0.28.0
+trio==0.29.0
     # via
     #   selenium
     #   trio-websocket
-trio-websocket==0.11.1
+trio-websocket==0.12.1
     # via selenium
 typing-extensions==4.12.2
     # via
@@ -878,19 +880,19 @@ tzdata==2025.1
     #   django-celery-beat
     #   faker
     #   kombu
-tzlocal==5.2
+tzlocal==5.3
     # via
     #   dateparser
     #   pyhanko
 uk-postcode-utils==1.1
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 uritemplate==4.1.1
     # via drf-spectacular
 uritools==4.0.3
     # via pyhanko-certvalidator
 urllib3[socks]==1.26.19
     # via
-    #   -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    #   -r requirements.in
     #   botocore
     #   directory-validators
     #   elastic-apm
@@ -911,7 +913,7 @@ w3lib==1.22.0
     # via directory-client-core
 wagtail==5.2.6
     # via
-    #   -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    #   -r requirements.in
     #   wagtail-cache
     #   wagtail-factories
     #   wagtail-localize
@@ -920,21 +922,21 @@ wagtail==5.2.6
     #   wagtail-trash
     #   wagtailmedia
 wagtail-cache==2.3.0
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 wagtail-factories==4.1.0
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 wagtail-font-awesome-svg==0.0.3
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 wagtail-localize==1.7
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 wagtail-seo==2.4.1
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 wagtail-transfer==0.9.2
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 wagtail-trash==1.0.1
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 wagtailmedia==0.14.5
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 wcwidth==0.2.13
     # via prompt-toolkit
 webdriver-manager==4.0.2
@@ -955,7 +957,7 @@ werkzeug==3.1.3
 wheel==0.45.1
     # via pip-tools
 whitenoise==6.6.0
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 willow[heif]==1.6.3
     # via
     #   wagtail
@@ -967,7 +969,7 @@ wrapt==1.17.2
 wsproto==1.2.0
     # via trio-websocket
 xhtml2pdf==0.2.15
-    # via -r /Users/davidurquhart/great/great-deploy/great-docker/great-cms/requirements.in
+    # via -r requirements.in
 zipp==3.21.0
     # via importlib-metadata
 zope-event==5.0

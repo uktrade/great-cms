@@ -138,7 +138,7 @@ distlib==0.3.9
     # via virtualenv
 dj-database-url==2.2.0
     # via -r requirements.in
-django==4.2.17
+django==4.2.19
     # via
     #   -r requirements.in
     #   directory-api-client
@@ -239,7 +239,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==36.1.0
+faker==36.1.1
     # via factory-boy
 filelock==3.17.0
     # via virtualenv
@@ -247,7 +247,7 @@ filetype==1.2.0
     # via willow
 geoip2==2.9.0
     # via -r requirements.in
-googleapis-common-protos==1.66.0
+googleapis-common-protos==1.67.0
     # via
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
@@ -503,7 +503,7 @@ requests-oauthlib==2.0.0
     # via django-staff-sso-client
 s3transfer==0.6.2
     # via boto3
-sentry-sdk==2.21.0
+sentry-sdk==2.22.0
     # via -r requirements.in
 sigauth==5.3.0
     # via
@@ -570,7 +570,7 @@ tzdata==2025.1
     #   django-celery-beat
     #   faker
     #   kombu
-tzlocal==5.2
+tzlocal==5.3
     # via
     #   dateparser
     #   pyhanko
