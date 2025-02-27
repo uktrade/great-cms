@@ -6,7 +6,7 @@
 {% load pagination from component_tags %}
 {% load append_past_year_seperator from component_tags %}
 {% load h3_if from content_tags %}
-{% load render_events_hero from events_hero %}
+{% load render_events_hero from ukea_hero_banners %}
 {% block head_title %}Events – UK Export Academy{% endblock %}
 {% block content %}
     <div class="great">
@@ -23,7 +23,7 @@
                     {% elif not request.user.is_anoymous %}
                         {% render_events_hero image_url hero.title hero.text hero.logged_in_text %}
                     {% else %}
-                        {% render_events_hero image_url hero.title hero.text hero.logged_out_text    %}
+                        {% render_events_hero image_url hero.title hero.text hero.logged_out_text %}
                     {% endif %}
                     {% include 'components/export_academy_hero.html' with hero=hero hide_image_for_mobile=True %}
                 </div>
