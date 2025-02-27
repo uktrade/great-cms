@@ -103,8 +103,14 @@ $gap: 30px;
 		grid-area: hero;
 	}
 
-	&__icon-edit {
-		margin-right: 10px;
+	&__edit-link {
+		display: flex;
+		align-items: baseline;
+		gap: 10px;
+
+		& > svg {
+			transform: translateY(4px);
+		}
 	}
 
 	&__region-map {
