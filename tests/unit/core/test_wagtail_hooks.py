@@ -1299,7 +1299,9 @@ def test_set_microsite_expiry_date(rf, domestic_homepage):
     updated_expiry_date = expected_date.replace(month=expected_date.month + 1)
 
     microsite_page_with_expire_date.expiry_date = updated_expiry_date
-    microsite_page_with_expire_date.publish()
+
+    revision = microsite_page_with_expire_date.save_revision()
+    revision.publish()
 
     assert microsite_page_with_expire_date.expire_at == updated_expiry_date
 
