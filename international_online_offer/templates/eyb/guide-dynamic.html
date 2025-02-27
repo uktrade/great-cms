@@ -16,17 +16,16 @@
             <div class="dynamic-guide__panel-top">
                 <div class="dynamic-guide__hero">
                     <h2 class="govuk-caption-xl">Your company name</h2>
-                    <h1 class="govuk-heading-xl">Expand your business and set up in the UK</h1>
+                    <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">Expand your business and set up in the UK</h1>
                     <p class="govuk-body">
                         This guide is based on the details and plans you provided about your business, in our <strong>Advanced engineering</strong> sector.
                     </p>
-                    <a class="govuk-link">
-                        <img class="dynamic-guide__icon-edit"
-                             aria-hidden="true"
-                             alt=""
-                             src="{% static 'svg/icon-edit.svg' %}" />
-                        Change your details and plans
-                    </a>
+                    {% comment %}
+                    Note that the icon must be inlined so that it can adapt its color when the link is in :focus
+                    {% endcomment %}
+                    <a class="govuk-link dynamic-guide__edit-link" href="#">
+                        {% include './includes/icons/icon-edit.svg' %}
+                    Change your details and plans</a>
                 </div>
                 <div class="dynamic-guide__region-map"></div>
             </div>
