@@ -1,0 +1,23 @@
+{% load dynamic_snippet from content_tags %}
+
+{% for category in page.body %}
+    <h3>{{ category.value.title }}</h3>
+
+    {% for sub_category in category.value.section %}
+        <h4>{{ sub_category.value.title }}</h4>
+
+        <ul>
+            {% for task in sub_category.value.task %}
+            <li>
+                {% if 'Dynamic' in task.title %}
+                    {% with dynamic_task=task|dynamic_snippet %}
+                    <a class="govuk-link" href="{{ dynamic_task.url_goods }}">{{ dynamic_task.title }}</a>
+                    {% endwith %}
+                {% else %}
+                    <a class="govuk-link" href="{{ task.url_goods }}">{{ task.title }}</a>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+{% endfor %}

@@ -1,12 +1,15 @@
 from django.db import models
+
 from domestic_growth import (
     cms_panels,
     helpers,
 )
+from wagtail import blocks
 from wagtail.blocks.stream_block import StreamBlock
 from wagtail.fields import StreamField
 from wagtail.models import Page
 from wagtailseo.models import SeoMixin
+from wagtail.snippets.blocks import SnippetChooserBlock
 from domestic_growth.blocks import DomesticGrowthCardBlock
 
 
@@ -93,3 +96,45 @@ class DomesticGrowthLandingPage(SeoMixin, cms_panels.DomesticGrowthLandingPagePa
         context = super(DomesticGrowthLandingPage, self).get_context(request)
         context['news'] = helpers.get_dbt_news_articles()
         return context
+
+
+class DomesticGrowthResultsPage(SeoMixin, cms_panels.DomesticGrowthResultsPagePanels, Page):
+    template = 'results.html'
+
+    class Meta:
+        verbose_name = 'Domestic Growth Results page'
+
+    body = StreamField(
+        [
+            (
+                'category',
+                blocks.StructBlock(
+                    [
+                        ('title', blocks.CharBlock()),
+                        (
+                            'section',
+                            StreamBlock(
+                                [
+                                    ('sub_category', blocks.StructBlock(
+                                        [
+                                            ('title', blocks.CharBlock()),
+                                            (
+                                                'task',
+                                                blocks.ListBlock(
+                                                    SnippetChooserBlock('core.Task'),
+                                                    label='Choose task',
+                                                ),
+                                            ),      
+                                        ]
+                                    ))
+                                ],
+                            ),
+                        ),
+                    ],
+                ),
+            ),
+        ],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )

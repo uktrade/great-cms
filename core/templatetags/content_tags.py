@@ -791,3 +791,14 @@ def sector_based_image(sector):
             res = icon_name
 
     return res
+
+
+@register.filter
+def dynamic_snippet(task):
+    res = {
+        'title': task.title + ' - Dynamic version'
+    }
+
+    return res
+
+

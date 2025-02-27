@@ -33,3 +33,16 @@ class DomesticGrowthLandingPagePanels:
     ]
 
     settings_panels = [FieldPanel('title'), FieldPanel('slug')]
+
+
+class DomesticGrowthResultsPagePanels:
+    content_panels = [
+        MultiFieldPanel(
+            heading='Body',
+            children=[
+                FieldPanel('body'),
+            ],
+        ),
+    ]
+
+    settings_panels = [FieldPanel('title'), FieldPanel('slug')]
