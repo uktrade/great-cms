@@ -523,6 +523,7 @@ class UserData(TimeStampedModel):
         null=True, default=None, max_length=255, choices=choices.LANDING_TIMEFRAME_CHOICES
     )
     company_website = models.CharField(max_length=255, null=True)
+    reminder_email_sent = models.DateTimeField(null=True, blank=True)
 
 
 class TradeAssociation(models.Model):
