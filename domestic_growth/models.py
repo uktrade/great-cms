@@ -1,3 +1,5 @@
+import pickle
+
 from django.db import models
 
 from domestic_growth import (
@@ -10,6 +12,12 @@ from wagtail.fields import StreamField
 from wagtail.models import Page
 from wagtailseo.models import SeoMixin
 from wagtail.snippets.blocks import SnippetChooserBlock
+from wagtail.search import index
+from wagtail.admin.panels import (
+    FieldPanel,
+)
+from wagtail.snippets.models import register_snippet
+
 from domestic_growth.blocks import DomesticGrowthCardBlock
 
 
@@ -115,18 +123,21 @@ class DomesticGrowthResultsPage(SeoMixin, cms_panels.DomesticGrowthResultsPagePa
                             'section',
                             StreamBlock(
                                 [
-                                    ('sub_category', blocks.StructBlock(
-                                        [
-                                            ('title', blocks.CharBlock()),
-                                            (
-                                                'task',
-                                                blocks.ListBlock(
-                                                    SnippetChooserBlock('core.Task'),
-                                                    label='Choose task',
+                                    (
+                                        'sub_category',
+                                        blocks.StructBlock(
+                                            [
+                                                ('title', blocks.CharBlock()),
+                                                (
+                                                    'content',
+                                                    blocks.ListBlock(
+                                                        SnippetChooserBlock('domestic_growth.DomesticGrowthContent'),
+                                                        label='Choose content snippet',
+                                                    ),
                                                 ),
-                                            ),      
-                                        ]
-                                    ))
+                                            ]
+                                        ),
+                                    )
                                 ],
                             ),
                         ),
@@ -138,3 +149,48 @@ class DomesticGrowthResultsPage(SeoMixin, cms_panels.DomesticGrowthResultsPagePa
         null=True,
         blank=True,
     )
+
+    def get_context(self, request):
+        context = super(DomesticGrowthResultsPage, self).get_context(request)
+
+        form_data = {}
+
+        if request.session.get('domestic_growth_triage_data'):
+            form_data = pickle.loads(bytes.fromhex(request.session.get('domestic_growth_triage_data')))[0]
+
+        context['session_data'] = form_data
+        return context
+
+
+@register_snippet
+class DomesticGrowthContent(index.Indexed, models.Model):
+    content_id = models.CharField(blank=True)
+    title = models.CharField()
+    description = models.TextField()
+    link_text = models.CharField(blank=True)
+    url = models.CharField(blank=True)
+    sector = models.CharField(blank=True)
+    is_dynamic = models.BooleanField(default=False)
+
+    panels = [
+        FieldPanel('content_id'),
+        FieldPanel('title'),
+        FieldPanel('description'),
+        FieldPanel('link_text'),
+        FieldPanel('url'),
+        FieldPanel('sector'),
+        FieldPanel('is_dynamic'),
+    ]
+
+    search_fields = [
+        index.AutocompleteField('title'),
+    ]
+
+    class Meta:
+        ordering = ('title',)
+
+    def __str__(self):
+        if self.is_dynamic:
+            return self.title + ' (***** Dynamic *****)'
+
+        return self.title

@@ -794,11 +794,13 @@ def sector_based_image(sector):
 
 
 @register.filter
-def dynamic_snippet(task):
-    res = {
-        'title': task.title + ' - Dynamic version'
-    }
+def dynamic_snippet(snippet, sector):
+    res = {'title': snippet.title}
+
+    if sector == 'Food and drink':
+        res = {'title': snippet.title + ' - (Food and drink)'}
+
+    if sector == 'Aerospace':
+        res = {'title': snippet.title + ' - (Aerospace)'}
 
     return res
-
-

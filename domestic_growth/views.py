@@ -27,7 +27,7 @@ class StartingABusinessView(TriageMixin, FormView):
         )
 
     def get_success_url(self):
-        return reverse_lazy('domestic_growth:domestic-growth-starting-a-business-results')
+        return '/results-test'
 
     def form_valid(self, form):
         self.save_data(form)

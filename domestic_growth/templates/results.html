@@ -1,23 +1,81 @@
+{% extends 'includes/base.html' %}
+
 {% load dynamic_snippet from content_tags %}
 
-{% for category in page.body %}
-    <h3>{{ category.value.title }}</h3>
+{% block head_title %}Domestic Growth - Results{% endblock %}
 
-    {% for sub_category in category.value.section %}
-        <h4>{{ sub_category.value.title }}</h4>
+{% block content %}
+<div class="great great-bg-lighter-grey">
+    <div class="great-container govuk-!-padding-top-4">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full great-no-padding-until-tablet">
+                <div>
+                    <div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-6 great-ds-box-shadow great-ds-widget-container">
+                        <h1 class="govuk-heading-xl govuk-!-margin-bottom-0">
+                            Starting a new business
+                        </h1>
+                    </div>
 
-        <ul>
-            {% for task in sub_category.value.task %}
-            <li>
-                {% if 'Dynamic' in task.title %}
-                    {% with dynamic_task=task|dynamic_snippet %}
-                    <a class="govuk-link" href="{{ dynamic_task.url_goods }}">{{ dynamic_task.title }}</a>
-                    {% endwith %}
-                {% else %}
-                    <a class="govuk-link" href="{{ task.url_goods }}">{{ task.title }}</a>
-                {% endif %}
-            </li>
-            {% endfor %}
-        </ul>
-    {% endfor %}
-{% endfor %}
+                    <div class="govuk-!-margin-bottom-6">
+                        <a href="/domestic-growth/starting-a-new-business" class="govuk-link">Back</a>
+                    </div>
+                    
+                    <div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-6 great-ds-box-shadow great-ds-widget-container">
+                        <div class="govuk-tabs" data-module="govuk-tabs">
+                            <h2 class="govuk-tabs__title">
+                              Contents
+                            </h2>
+                            <ul class="govuk-tabs__list">
+                                {% for category in page.body %}
+                                    <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+                                        <a class="govuk-tabs__tab" href="#{{ category.value.title | slugify }}">
+                                            {{ category.value.title }}
+                                        </a>
+                                      </li>
+                                {% endfor %}
+                                <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+                                    <a class="govuk-tabs__tab" href="#speak-to-someone">
+                                        Speak to someone about your future business
+                                    </a>
+                                </li>
+                            </ul>
+
+                            {% for category in page.body %}
+                                <div class="govuk-tabs__panel" id="{{ category.value.title | slugify  }}">
+                                <h2 class="govuk-heading-l">{{ category.value.title }}</h2>
+                                {% for sub_category in category.value.section %}
+                                    <h4>{{ sub_category.value.title }}</h4>
+                                    <ul>
+                                        {% for content in sub_category.value.content %}
+                                        <li>
+                                            {% if content.is_dynamic %}
+                                                {% with dynamic_content_snippet=content|dynamic_snippet:session_data.sector %}
+                                                <a class="govuk-link" href="{{ dynamic_content_snippet.url }}">{{ dynamic_content_snippet.title }}</a>
+                                                {% endwith %}
+                                            {% else %}
+                                                <a class="govuk-link" href="{{ content.url }}">{{ content.title }}</a>
+                                            {% endif %}
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endfor %}
+                              </div>
+                            {% endfor %}
+                            <div class="govuk-tabs__panel" id="speak-to-someone">
+                                <h2 class="govuk-heading-l">Speak to someone about your future business</h2>
+                                <p>Growth Hub</p>
+                                <p>Chamber of commerce</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block body_js %}
+    {{ block.super }}
+
+{% endblock %}
