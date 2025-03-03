@@ -197,8 +197,8 @@
                         <div class="govuk-grid-column-one-third">
                             {% image column_block.value.image fill-640x360 as thumbnail %}
                             <div class="great-ds-card-container">
-                                {% include '_card.html' with type="mounted-blue" href=column_block.value.url imageUrl=thumbnail.url imageAlt=column_block.value.image.alt_text title=column_block.value.text description=column_block.value.content id="{{ page.magna_ctas_title }}
-                                _{{ forloop.counter }}"  %}
+                                {% include '_card.html' with type="mounted-blue" href=column_block.value.url imageUrl=thumbnail.url imageAlt=column_block.value.image.alt_text title=column_block.value.text description=column_block.value.content id="id_magna_cta_{{ forloop.counter }}
+                                " %}
                             </div>
                             {% comment %} {% include 'components/great/card.html' with title=column_block.value.text
                             url=column_block.value.url
@@ -220,8 +220,8 @@
                         <div class="column-third-m column-full">
                             {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
                                 <div class="great-ds-card-container">
-                                    {% include '_card.html' with type="mounted-blue" href=column_block.value.url imageUrl=column_block.value.url title=column_block.value.text description=column_block.value.content id="{{ page.magna_ctas_title }}
-                                    _{{ forloop.counter }}"%}
+                                    {% include '_card.html' with type="mounted-blue" href=column_block.value.url imageUrl=column_block.value.url title=column_block.value.text description=column_block.value.content id="id_magna_cta_{{ forloop.counter }}
+                                    "%}
                                 </div>
                                 {% comment %} {% include 'components/card.html' with title=column_block.value.text
                                 url=column_block.value.url
@@ -232,8 +232,7 @@
                                 white_bg_card=True %} {% endcomment %}
                             {% else %}
                                 <div class="great-ds-card-container">
-                                    {% include '_card.html' with href=column_block.value.url imageUrl=column_block.value.image title=column_block.value.text description=column_block.value.content id="{{ page.magna_ctas_title }}
-                                    _{{ forloop.counter }}"  %}
+                                    {% include '_card.html' with href=column_block.value.url imageUrl=column_block.value.image title=column_block.value.text description=column_block.value.content id="id_magna_cta_|add:forloop.counter" %}
                                 </div>
                                 {% comment %}
                                 {% include 'components/card.html' with title=column_block.value.text
@@ -259,8 +258,8 @@
                     {% for column_block in page.how_dit_helps_columns %}
                         <div class="column-third-m column-full">
                             <div class="great-ds-card-container">
-                                {% include '_card.html' with href=column_block.value.url imageUrl=column_block.value.image title=column_block.value.text description=column_block.value.content id="{{ page.how_dit_helps_title }}
-                                _{{ forloop.counter }}" metadataText=column_block.value.source  %}
+                                {% include '_card.html' with href=column_block.value.url imageUrl=column_block.value.image title=column_block.value.text description=column_block.value.content id="id_how_dit_helps_{{ forloop.counter }}
+                                " metadataText=column_block.value.source  %}
                             </div>
                             {% comment %} {% include 'components/card.html' with
                             title=column_block.value.text
@@ -379,8 +378,8 @@
                                     <div class="govuk-grid-column-one-third">
                                         {% image link_block.value.image fill-640x360 as thumbnail %}
                                         <div class="great-ds-card-container">
-                                            {% include '_card.html' with type="mounted-blue" href=link_block.value.url imageUrl=thumbnail.url imageAlt=column_block.value.image.alt_text title=link_block.value.text description=link_block.value.content id="{{ page.how_dit_helps_title }}
-                                            _{{ forloop.counter }}"   %}
+                                            {% include '_card.html' with type="mounted-blue" href=link_block.value.url imageUrl=thumbnail.url imageAlt=column_block.value.image.alt_text title=link_block.value.text description=link_block.value.content id="id_how_dit_helps_{{ forloop.counter }}
+                                            "   %}
                                         </div>
                                         {% comment %} {% include 'components/great/card.html' with title=link_block.value.text tag=link_block.value.source
                                         url=link_block.value.url
@@ -431,8 +430,7 @@
                                 {% for link_block in page.what_is_new_pages %}
                                     <div class="column-third-m column-full">
                                         <div class="great-ds-card-container">
-                                            {% include '_card.html' with classes="great-bg-light-blue" href=link_block.value.url imageUrl=link_block.value.image title=link_block.value.text description=link_block.value.content id="{{ page.what_is_new_title }}
-                                            _{{ forloop.counter }}" metadataText=link_block.value.source  %}
+                                            {% include '_card.html' with classes="great-bg-light-blue" href=link_block.value.url imageUrl=link_block.value.image title=link_block.value.text description=link_block.value.content id="what_is_new_|add:forloop.counter" metadataText=link_block.value.source %}
                                         </div>
                                         {% comment %} {% include 'components/card.html' with title=link_block.value.text
                                         subheading=link_block.value.source
