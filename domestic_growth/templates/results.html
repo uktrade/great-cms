@@ -5,6 +5,7 @@
 {% block head_title %}Domestic Growth - Results{% endblock %}
 
 {% block content %}
+
 <div class="great great-bg-lighter-grey">
     <div class="great-container govuk-!-padding-top-4">
         <div class="govuk-grid-row">
@@ -51,6 +52,7 @@
                                             {% if content.is_dynamic %}
                                                 {% with dynamic_content_snippet=content|dynamic_snippet:session_data.sector %}
                                                 <a class="govuk-link" href="{{ dynamic_content_snippet.url }}">{{ dynamic_content_snippet.title }}</a>
+                                                <p class="govuk-body">{{ dynamic_content_snippet.description }}</p>
                                                 {% endwith %}
                                             {% else %}
                                                 <a class="govuk-link" href="{{ content.url }}">{{ content.title }}</a>

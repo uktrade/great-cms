@@ -23,6 +23,7 @@ from core.constants import (
 )
 from core.helpers import millify
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage
+from domestic_growth.models import DomesticGrowthContent
 
 logger = logging.getLogger(__name__)
 
@@ -795,12 +796,16 @@ def sector_based_image(sector):
 
 @register.filter
 def dynamic_snippet(snippet, sector):
-    res = {'title': snippet.title}
+    content_snippets = DomesticGrowthContent.objects.all()
 
-    if sector == 'Food and drink':
-        res = {'title': snippet.title + ' - (Food and drink)'}
+    filtered_snippets = list(
+        content_snippets.filter(content_id__contains=str(snippet.content_id), sector__contains=str(sector))
+    )
 
-    if sector == 'Aerospace':
-        res = {'title': snippet.title + ' - (Aerospace)'}
+    match = None
 
-    return res
+    for s in filtered_snippets:
+        if s.sector == sector:
+            match = s
+
+    return match
