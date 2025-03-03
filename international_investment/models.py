@@ -25,6 +25,9 @@ from international_investment.forms import InvestmentOpportunitiesSearchForm
 
 
 class InvestmentIndexPage(BaseContentPage):
+
+    MAX_PER_PAGE = 10
+
     parent_page_types = [
         'international.GreatInternationalHomePage',
     ]
@@ -77,9 +80,9 @@ class InvestmentIndexPage(BaseContentPage):
             opportunities = opportunities.filter(investment_type__in=investment_type)
 
         # Paginate results
-        paginator = Paginator(opportunities, 10)
-        page = request.GET.get('page', 1)
-        opportunities = paginator.get_page(page)
+        paginator = Paginator(opportunities, self.MAX_PER_PAGE)
+        page_obj = paginator.get_page(request.GET.get('page', 1))
+        elided_page_range = paginator.get_elided_page_range(number=page_obj.number, on_each_side=1, on_ends=1)
 
         # Set breadcrumbs and render the page
         breadcrumbs = [{'name': 'Home', 'url': '/international/'}]
@@ -90,8 +93,8 @@ class InvestmentIndexPage(BaseContentPage):
                 'form': form,
                 'page': self,
                 'results': opportunities,
-                'pagination': opportunities,
-                'page_range': paginator.get_elided_page_range(number=opportunities.number, on_each_side=1, on_ends=1),
+                page_obj: page_obj,
+                'elided_page_range': elided_page_range,
                 'breadcrumbs': breadcrumbs,
             },
         )
