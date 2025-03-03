@@ -196,7 +196,16 @@
                     {% for column_block in page.magna_ctas_columns %}
                         <div class="govuk-grid-column-one-third">
                             {% image column_block.value.image fill-640x360 as thumbnail %}
-                            {% include 'components/great/card.html' with title=column_block.value.text url=column_block.value.url show_title_link=True image_src=thumbnail.url image_alt=column_block.value.image.alt_text content=column_block.value.content a_classes="great-bg-light-blue" %}
+                            <div class="great-ds-card-container">
+                                {% include '_card.html' with type="mounted-blue" href=column_block.value.url imageUrl=thumbnail.url imageAlt=column_block.value.image.alt_text title=column_block.value.text description=column_block.value.content id="{{ page.magna_ctas_title }}
+                                _{{ forloop.counter }}"  %}
+                            </div>
+                            {% comment %} {% include 'components/great/card.html' with title=column_block.value.text
+                            url=column_block.value.url
+                            show_title_link=True
+                            image_src=thumbnail.url
+                            image_alt=column_block.value.image.alt_text
+                            content=column_block.value.content a_classes="great-bg-light-blue" %} {% endcomment %}
                         </div>
                     {% endfor %}
                 </div>
@@ -210,9 +219,30 @@
                     {% for column_block in page.magna_ctas_columns %}
                         <div class="column-third-m column-full">
                             {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
-                                {% include 'components/card.html' with title=column_block.value.text url=column_block.value.url card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True transparent_card=False show_sign_in_required=False white_bg_card=True %}
+                                <div class="great-ds-card-container">
+                                    {% include '_card.html' with type="mounted-blue" href=column_block.value.url imageUrl=column_block.value.url title=column_block.value.text description=column_block.value.content id="{{ page.magna_ctas_title }}
+                                    _{{ forloop.counter }}"%}
+                                </div>
+                                {% comment %} {% include 'components/card.html' with title=column_block.value.text
+                                url=column_block.value.url
+                                card_image=column_block.value.image html_snippet=column_block.value.content
+                                no_padding_card=True
+                                transparent_card=False
+                                show_sign_in_required=False
+                                white_bg_card=True %} {% endcomment %}
                             {% else %}
-                                {% include 'components/card.html' with title=column_block.value.text url=column_block.value.url card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True transparent_card=True show_sign_in_required=True white_bg_card=False %}
+                                <div class="great-ds-card-container">
+                                    {% include '_card.html' with href=column_block.value.url imageUrl=column_block.value.image title=column_block.value.text description=column_block.value.content id="{{ page.magna_ctas_title }}
+                                    _{{ forloop.counter }}"  %}
+                                </div>
+                                {% comment %}
+                                {% include 'components/card.html' with title=column_block.value.text
+                                url=column_block.value.url
+                                card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True
+                                transparent_card=True
+                                show_sign_in_required=True
+                                white_bg_card=False %}
+                                {% endcomment %}
                             {% endif %}
                         </div>
                     {% endfor %}
@@ -228,7 +258,19 @@
                 <div class="grid-row wrap-tight">
                     {% for column_block in page.how_dit_helps_columns %}
                         <div class="column-third-m column-full">
-                            {% include 'components/card.html' with title=column_block.value.text subheading=column_block.value.source url=column_block.value.url card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True transparent_card=True show_sign_in_required=False %}
+                            <div class="great-ds-card-container">
+                                {% include '_card.html' with href=column_block.value.url imageUrl=column_block.value.image title=column_block.value.text description=column_block.value.content id="{{ page.how_dit_helps_title }}
+                                _{{ forloop.counter }}" metadataText=column_block.value.source  %}
+                            </div>
+                            {% comment %} {% include 'components/card.html' with
+                            title=column_block.value.text
+                            subheading=column_block.value.source
+                            url=column_block.value.url
+                            card_image=column_block.value.image
+                            html_snippet=column_block.value.content
+                            no_padding_card=True
+                            transparent_card=True
+                            show_sign_in_required=False %} {% endcomment %}
                         </div>
                     {% endfor %}
                 </div>
@@ -336,7 +378,15 @@
                                 {% for link_block in page.what_is_new_pages %}
                                     <div class="govuk-grid-column-one-third">
                                         {% image link_block.value.image fill-640x360 as thumbnail %}
-                                        {% include 'components/great/card.html' with title=link_block.value.text tag=link_block.value.source url=link_block.value.url show_title_link=True image_src=thumbnail.url image_alt=column_block.value.image.alt_text content=link_block.value.content a_classes="great-bg-light-blue" %}
+                                        <div class="great-ds-card-container">
+                                            {% include '_card.html' with type="mounted-blue" href=link_block.value.url imageUrl=thumbnail.url imageAlt=column_block.value.image.alt_text title=link_block.value.text description=link_block.value.content id="{{ page.how_dit_helps_title }}
+                                            _{{ forloop.counter }}"   %}
+                                        </div>
+                                        {% comment %} {% include 'components/great/card.html' with title=link_block.value.text tag=link_block.value.source
+                                        url=link_block.value.url
+                                        show_title_link=True
+                                        image_src=thumbnail.url
+                                        image_alt=column_block.value.image.alt_text content=link_block.value.content a_classes="great-bg-light-blue" %} {% endcomment %}
                                     </div>
                                 {% endfor %}
                             </div>
@@ -380,7 +430,17 @@
                             <div class="grid-row{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-display-flex-from-desktop great{% endif %}">
                                 {% for link_block in page.what_is_new_pages %}
                                     <div class="column-third-m column-full">
-                                        {% include 'components/card.html' with title=link_block.value.text subheading=link_block.value.source url=link_block.value.url card_image=link_block.value.image html_snippet=link_block.value.content no_padding_card=True transparent_card=True show_sign_in_required=False white_bg_card=features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
+                                        <div class="great-ds-card-container">
+                                            {% include '_card.html' with classes="great-bg-light-blue" href=link_block.value.url imageUrl=link_block.value.image title=link_block.value.text description=link_block.value.content id="{{ page.what_is_new_title }}
+                                            _{{ forloop.counter }}" metadataText=link_block.value.source  %}
+                                        </div>
+                                        {% comment %} {% include 'components/card.html' with title=link_block.value.text
+                                        subheading=link_block.value.source
+                                        url=link_block.value.url
+                                        card_image=link_block.value.image html_snippet=link_block.value.content no_padding_card=True
+                                        transparent_card=True
+                                        show_sign_in_required=False
+                                        white_bg_card=features.FEATURE_DIGITAL_POINT_OF_ENTRY %} {% endcomment %}
                                     </div>
                                 {% endfor %}
                             </div>
@@ -437,7 +497,7 @@
     {% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH and features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
         <script type="text/javascript"
                 src="{% static 'javascript/accessible-autocomplete.v3.min.js' %}"></script>
-        {{ sic_sector_data | json_script:'sic_sector_data'}}
+        {{ sic_sector_data | json_script:'sic_sector_data' }}
         <div data-great-init-js=""></div>
         <script type="text/javascript"
                 src="{% static 'javascript/great.make-or-do-search-enhanced.js' %}"></script>
