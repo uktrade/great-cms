@@ -1,5 +1,5 @@
 {% extends 'domestic/base.html' %}
-{% load render_markets_cta from component_tags %}
+{% load pagination render_markets_cta from component_tags %}
 {% load static %}
 {% block head_title %}Markets{% endblock %}
 {% block meta_title %}Markets{% endblock %}
@@ -225,10 +225,10 @@
                                 </div>
                             </div>
                             <div class="flex-grid markets-grid">
-                                {% include 'components/card_grid.html' with cards=page_obj.object_list href='' %}
+                                {% include 'components/card_grid.html' with cards=page_obj href='' %}
                             </div>
                             <div class="markets-pagination column-two-thirds column-three-quarters-xl">
-                                {% include '_numbered_pagination.html' %}
+                                {% pagination page_obj=page_obj %}
                             </div>
                         </div>
                     </div>

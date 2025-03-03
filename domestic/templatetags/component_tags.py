@@ -186,6 +186,27 @@ def get_meta_description(page):
     return description if description is not None else ''
 
 
+def get_pagination_url(request, page_param_name):
+    """Remove pagination param from request url"""
+    url = request.path
+    params = request.GET.copy()
+    params.pop(page_param_name, None)
+    if params:
+        return f'{url}?{params.urlencode()}&'
+    return f'{url}?'
+
+
+@register.inclusion_tag('_numbered_pagination.html', takes_context=True)
+def pagination(context, page_obj, page_param_name='page', elided_page_range=None):
+    current_url = get_pagination_url(request=context['request'], page_param_name=page_param_name)
+    return {
+        'page_obj': page_obj,
+        'page_param_name': page_param_name,
+        'current_url': current_url,
+        'elided_page_range': elided_page_range
+    }
+
+
 @register.inclusion_tag('components/message_box.html')
 def message_box(**kwargs):
     return kwargs
