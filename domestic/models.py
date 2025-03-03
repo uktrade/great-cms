@@ -703,7 +703,10 @@ class MarketsTopicLandingPage(
 
         paginator = Paginator(relevant_markets, self.MAX_PER_PAGE)
         page_obj = paginator.get_page(request.GET.get('page', 1))
-        elided_page_range = [page_num for page_num in page_obj.paginator.get_elided_page_range(page_obj.number, on_each_side=1, on_ends=1)]
+        elided_page_range = [
+            page_num
+            for page_num in page_obj.paginator.get_elided_page_range(page_obj.number, on_each_side=1, on_ends=1)
+        ]
         context['page_obj'] = page_obj
         context['elided_page_range'] = elided_page_range
 

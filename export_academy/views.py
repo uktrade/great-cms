@@ -134,7 +134,10 @@ class EventListView(
 
         # We need call the get_elided_page_range on the Paginator class
         page_obj = ctx["page_obj"]
-        elided_page_range = [page_num for page_num in page_obj.paginator.get_elided_page_range(page_obj.number, on_each_side=1, on_ends=1)]
+        elided_page_range = [
+            page_num
+            for page_num in page_obj.paginator.get_elided_page_range(page_obj.number, on_each_side=1, on_ends=1)
+        ]
         ctx['elided_page_range'] = elided_page_range
 
         return ctx
