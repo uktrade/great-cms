@@ -749,7 +749,7 @@ def convert_anchor_identifiers_to_span(value):
     return convert_anchor_identifier_a_to_span(rich_text_html)
 
 
-@register.inclusion_tag('_cta-banner.html.html')
+@register.inclusion_tag('_cta-banner.html')
 def render_signup_cta(background=None, link=None):
     background_class = 'great-ds-cta-banner--bg-white'
     if background:
