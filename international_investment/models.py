@@ -25,7 +25,6 @@ from international_investment.forms import InvestmentOpportunitiesSearchForm
 
 
 class InvestmentIndexPage(BaseContentPage):
-
     MAX_PER_PAGE = 10
 
     parent_page_types = [

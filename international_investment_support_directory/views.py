@@ -63,13 +63,13 @@ class FindASpecialistSearchView(GA360Mixin, SubmitFormOnGetMixin, FormView):  # 
         )
 
         paginator = Paginator(range(count), self.page_size)
-        
+
         # Bespoke logic to handle redirection
         try:
-            pagination = paginator.page(page_num)
+            paginator.page(page_num)
         except EmptyPage:
             return self.handle_empty_page(form)
-        
+
         page_obj = paginator.get_page(page_num)
         elided_page_range = page_obj.get_elided_page_range(page_num, on_each_side=1, on_ends=1)
 

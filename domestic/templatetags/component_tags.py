@@ -203,7 +203,7 @@ def pagination(context, page_obj, page_param_name='page', elided_page_range=None
         'page_obj': page_obj,
         'page_param_name': page_param_name,
         'current_url': current_url,
-        'elided_page_range': elided_page_range
+        'elided_page_range': elided_page_range,
     }
 
 

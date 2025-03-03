@@ -1191,7 +1191,6 @@ class TradeAssociationsView(GA360Mixin, TemplateView, EYBHCSAT):  # /PS-IGNORE
                 Q(link_valid=True) & (Q(sector__icontains=triage_data.sector) | Q(sector__in=trade_association_sectors))
             )
 
-
         paginator = Paginator(all_trade_associations, self.MAX_PER_PAGE)
         page_obj = paginator.get_page(self.request.GET.get('page', 1))
 

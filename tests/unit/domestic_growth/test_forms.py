@@ -1,6 +1,6 @@
 import pytest
 
-from domestic_growth.forms import StartingABusinessForm, ScalingABusinessForm
+from domestic_growth.forms import ScalingABusinessForm, StartingABusinessForm
 
 
 @pytest.mark.parametrize(
