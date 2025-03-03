@@ -197,8 +197,7 @@
                         <div class="govuk-grid-column-one-third">
                             {% image column_block.value.image fill-640x360 as thumbnail %}
                             <div class="great-ds-card-container">
-                                {% include '_card.html' with type="mounted-blue" href=column_block.value.url imageUrl=thumbnail.url imageAlt=column_block.value.image.alt_text title=column_block.value.text description=column_block.value.content id="id_magna_cta_{{ forloop.counter }}
-                                " %}
+                                {% include '_card.html' with type="mounted-blue" href=column_block.value.url imageUrl=thumbnail.url imageAlt=column_block.value.image.alt_text title=column_block.value.text description=column_block.value.content id="id_magna_cta_{{ forloop.counter }}" %}
                             </div>
                             {% comment %} {% include 'components/great/card.html' with title=column_block.value.text
                             url=column_block.value.url
