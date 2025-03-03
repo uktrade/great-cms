@@ -186,40 +186,6 @@ def get_meta_description(page):
     return description if description is not None else ''
 
 
-# TODO? Reimplement, if we can't address this better at the Wagtail level
-# @register.filter
-# def add_href_target(value, request):
-#     soup = BeautifulSoup(value, 'html.parser')
-#     for element in soup.findAll('a', attrs={'href': re.compile('^http')}):
-#         if request.META['HTTP_HOST'] not in element.attrs['href']:
-#             element.attrs['target'] = '_blank'
-#             element.attrs['title'] = 'Opens in a new window'
-#             element.attrs['rel'] = 'noopener noreferrer'
-#     return str(soup)
-
-
-def get_pagination_url(request, page_param_name):
-    """Remove pagination param from request url"""
-    url = request.path
-    params = request.GET.copy()
-    params.pop(page_param_name, None)
-    if params:
-        return f'{url}?{params.urlencode()}&'
-    return f'{url}?'
-
-
-@register.inclusion_tag('components/pagination/pagination.html', takes_context=True)
-def pagination(context, pagination_page, page_param_name='page'):
-    paginator = pagination_page.paginator
-    pagination_url = get_pagination_url(request=context['request'], page_param_name=page_param_name)
-    return {
-        'page_param_name': page_param_name,
-        'pagination': pagination_page,
-        'url': pagination_url,
-        'pages_after_current': paginator.num_pages - pagination_page.number,
-    }
-
-
 @register.inclusion_tag('components/message_box.html')
 def message_box(**kwargs):
     return kwargs
