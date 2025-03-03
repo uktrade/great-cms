@@ -24,7 +24,7 @@ from .utils import get_wagtail_transfer_configuration, strip_password_data
 ROOT_DIR = Path(__file__).resolve().parents[1]
 CORE_APP_DIR = ROOT_DIR / 'core'
 
-DEBUG = False
+DEBUG = env.debug
 SECRET_KEY = env.secret_key
 APP_ENVIRONMENT = env.app_environment
 
