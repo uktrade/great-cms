@@ -199,12 +199,20 @@ def get_pagination_url(request, page_param_name):
 @register.inclusion_tag('_numbered_pagination.html', takes_context=True)
 def pagination(context, page_obj, page_param_name='page', elided_page_range=None):
     current_url = get_pagination_url(request=context['request'], page_param_name=page_param_name)
-    return {
-        'page_obj': page_obj,
-        'page_param_name': page_param_name,
-        'current_url': current_url,
-        'elided_page_range': elided_page_range,
+
+    context = {
+        'currentPageURL': current_url,
+        'elidedPageRange': elided_page_range,
+        'elidedPageStr': '...',
+        'pageParamName': page_param_name,
     }
+
+    context['previousPageNumber'] = page_obj.previous_page_number() if page_obj.has_previous() else None
+    context['currentPageNumber'] = page_obj.number
+    context['nextPageNumber'] = page_obj.next_page_number() if page_obj.has_next() else None
+    context['lastPageNumber'] = page_obj.paginator.num_pages
+
+    return context
 
 
 @register.inclusion_tag('components/message_box.html')

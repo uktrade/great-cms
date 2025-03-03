@@ -31,7 +31,7 @@
                             {% include './includes/article_list_item.html' with url=signup_url link_title=ass.association_name link_description=ass.brief_description %}
                         {% endif %}
                     {% endfor %}
-                    {% pagination page_obj=page_obj %}
+                    {% pagination page_obj=page_obj elided_page_range=elided_page_range %}
                 </div>
             {% else %}
                 <div class="govuk-grid-column-full">

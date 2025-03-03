@@ -1193,6 +1193,7 @@ class TradeAssociationsView(GA360Mixin, TemplateView, EYBHCSAT):  # /PS-IGNORE
 
         paginator = Paginator(all_trade_associations, self.MAX_PER_PAGE)
         page_obj = paginator.get_page(self.request.GET.get('page', 1))
+        elided_page_range = page_obj.paginator.get_elided_page_range(page_obj.number, on_each_side=1, on_ends=1)
 
         breadcrumbs = [
             {'name': 'Home', 'url': '/international/'},
@@ -1205,6 +1206,7 @@ class TradeAssociationsView(GA360Mixin, TemplateView, EYBHCSAT):  # /PS-IGNORE
         context_data = super().get_context_data(
             triage_data=triage_data,
             page_obj=page_obj,
+            elided_page_range=elided_page_range,
             breadcrumbs=breadcrumbs,
             **kwargs,
         )
