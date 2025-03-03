@@ -333,7 +333,7 @@ def get_market_code(market):
     return country_code.lower()
 
 
-@register.inclusion_tag('_cta_banner.html')
+@register.inclusion_tag('_cta-banner.html.html')
 def render_markets_cta():
     return {
         'backgroundClass': 'great-ds-cta-banner--bg-green',
@@ -345,7 +345,7 @@ def render_markets_cta():
     }
 
 
-@register.inclusion_tag('_cta_banner.html')
+@register.inclusion_tag('_cta-banner.html.html')
 def render_finance_cta(page):
     return {
         'headingText': mark_safe(page.contact_proposition),
@@ -357,7 +357,7 @@ def render_finance_cta(page):
     }
 
 
-@register.inclusion_tag('_cta_banner.html')
+@register.inclusion_tag('_cta-banner.html.html')
 def render_market_article_cta(page):
     return {
         'headingText': page.cta_title,
