@@ -21,7 +21,7 @@
     $ make secrets
     $ make ARGUMENTS=migrate manage
 
-### Requirements
+### Requirements.
 
 * [Python 3.9](https://www.python.org/downloads/release/python-3913/)
 * [Postgres 10](https://www.postgresql.org/)
