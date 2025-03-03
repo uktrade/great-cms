@@ -23,7 +23,6 @@ def test_global_admin_css__no_customisation(mock_static):
 @mock.patch('domestic.wagtail_hooks.static')
 def test_global_admin_css__with_customisation(mock_static):
     mock_static.side_effect = _fake_static
-    breakpoint()
     assert global_admin_css() == (
         '<link rel="stylesheet" href="/path/to/static/cms-admin/css/domestic.css">'
         '<link rel="stylesheet" href="/path/to/static/cms-admin/css/domestic-editor.css'
