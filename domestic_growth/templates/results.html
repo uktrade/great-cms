@@ -63,8 +63,14 @@
                             {% endfor %}
                             <div class="govuk-tabs__panel" id="speak-to-someone">
                                 <h2 class="govuk-heading-l">Speak to someone about your future business</h2>
-                                <p>Growth Hub</p>
-                                <p>Chamber of commerce</p>
+                                {% if growth_hub %}
+                                    <h3 class="govuk-heading-s">{{ growth_hub.title }}</h3>
+                                    <p class="govuk-hint">{{ growth_hub.distance }}</p>
+                                    <p class="govuk-body">{{ growth_hub.address }}</p>
+                                    <p class="govuk-body">
+                                        <a href="mailto:{{ growth_hub.email }}" class="govuk-link">{{ growth_hub.email }}</a>
+                                    </p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

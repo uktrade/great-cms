@@ -19,3 +19,12 @@ def get_dbt_news_articles():
     news_articles = data.get('details').get('ordered_featured_documents')
 
     return news_articles[:3]
+
+
+def get_nearest_growth_hub_by_postode(postcode):
+    return {
+        'title': 'The Growth Hub',
+        'distance': f'1.2 miles from {postcode}',
+        'address': 'Street name, Town/City, County, Postcode',
+        'email': 'growthhub@mail.com',
+    }

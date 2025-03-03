@@ -27,7 +27,16 @@ class StartingABusinessView(TriageMixin, FormView):
         )
 
     def get_success_url(self):
-        return '/results-test'
+        qs = ''
+
+        if self.request.session.get('domestic_growth_triage_data'):
+            form_data = pickle.loads(bytes.fromhex(self.request.session.get('domestic_growth_triage_data')))[0]
+            postcode = form_data.get('postcode')
+            sector = form_data.get('sector')
+
+            qs = f'?postcode={postcode}&sector={sector}'
+
+        return f'/results-test{qs}'
 
     def form_valid(self, form):
         self.save_data(form)

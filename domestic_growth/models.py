@@ -154,11 +154,21 @@ class DomesticGrowthResultsPage(SeoMixin, cms_panels.DomesticGrowthResultsPagePa
         context = super(DomesticGrowthResultsPage, self).get_context(request)
 
         form_data = {}
+        growth_hub = None
 
         if request.session.get('domestic_growth_triage_data'):
             form_data = pickle.loads(bytes.fromhex(request.session.get('domestic_growth_triage_data')))[0]
+            growth_hub = helpers.get_nearest_growth_hub_by_postode(form_data.get('postcode'))
+        elif request.GET.get('postcode') and request.GET.get('sector'):
+            form_data = {
+                'postcode': request.GET.get('postcode'),
+                'sector': request.GET.get('sector'),
+            }
+            growth_hub = helpers.get_nearest_growth_hub_by_postode(request.GET.get('postcode'))
 
         context['session_data'] = form_data
+        context['growth_hub'] = growth_hub
+
         return context
 
 
