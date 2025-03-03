@@ -791,3 +791,8 @@ def sector_based_image(sector):
             res = icon_name
 
     return res
+
+
+@register.simple_tag
+def define(val=None):
+    return val
