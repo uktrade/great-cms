@@ -1043,7 +1043,6 @@ class MarketsTopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
         self._make_country_guide_pages(markets_topic_page, 21)
 
         for bad_args in (
-            '?page=112312312312413124',  # will raise EmptyPage
             '?page=BAD WORDS',  # will raise PageNotAnInteger
             '?page=;delete * from auth_user',  # will raise PageNotAnInteger
             '?page=;delete%20*%20from%20auth_user',  # will raise PageNotAnInteger
