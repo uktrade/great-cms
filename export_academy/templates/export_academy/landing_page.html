@@ -77,7 +77,14 @@
                         {% for panel in contentSection.value.panels %}
                             <div class="govuk-grid-column-one-third govuk-!-padding-bottom-6">
                                 {% image panel.value.image fill-640x360 as thumbnail %}
-                                {% include 'components/great/card.html' with heading_level=contentSection.value.panel_section_title|h3_if:'h2' url=panel.value.link title=panel.value.title show_title_link=True image_src=thumbnail.url image_alt=panel.value.image.alt_text content=panel.value.description %}
+                                <div class="great-ds-card-container">
+                                    {% include '_card.html' with href=panel.value.link imageUrl=thumbnail.url imageAlt=panel.value.image.alt_text title=panel.value.title description=panel.value.description id="type_of_events_{{ forloop.counter }}" %}
+                                </div> 
+                                 {% comment %} {% include 'components/great/card.html' with heading_level=contentSection.value.panel_section_title|h3_if:'h2' 
+                                url=panel.value.link 
+                                title=panel.value.title
+                                show_title_link=True 
+                                image_src=thumbnail.url image_alt=panel.value.image.alt_text content=panel.value.description %} {% endcomment %}
                             </div>  
                         {% endfor %}
                     </div>
