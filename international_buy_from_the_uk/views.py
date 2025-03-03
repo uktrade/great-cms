@@ -128,7 +128,7 @@ class FindASupplierSearchView(GA360Mixin, SubmitFormOnGetMixin, FormView):  # /P
             return self.handle_empty_page(form)
 
         page_obj = paginator.get_page(page_num)
-        elided_page_range = page_obj.get_elided_page_range(page_num, on_each_side=1, on_ends=1)
+        elided_page_range = page_obj.paginator.get_elided_page_range(page_num, on_each_side=1, on_ends=1)
 
         context = self.get_context_data(
             results=results,

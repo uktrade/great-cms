@@ -228,7 +228,7 @@
                                 {% include 'components/card_grid.html' with cards=page_obj href='' %}
                             </div>
                             <div class="markets-pagination column-two-thirds column-three-quarters-xl">
-                                {% pagination page_obj=page_obj %}
+                                {% pagination page_obj=page_obj elided_page_range=elided_page_range %}
                             </div>
                         </div>
                     </div>
