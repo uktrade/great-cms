@@ -581,7 +581,7 @@ class MarketsTopicLandingPage(
 ):
     """Singleton page intended for use as the top of the Markets section"""
 
-    MAX_PER_PAGE = 2
+    MAX_PER_PAGE = 18
 
     SORTBY_QUERYSTRING_NAME = 'sortby'
     REGION_QUERYSTRING_NAME = 'region'
@@ -704,7 +704,6 @@ class MarketsTopicLandingPage(
         paginator = Paginator(relevant_markets, self.MAX_PER_PAGE)
         page_obj = paginator.get_page(request.GET.get('page', 1))
         elided_page_range = [page_num for page_num in page_obj.paginator.get_elided_page_range(page_obj.number, on_each_side=1, on_ends=1)]
-        print (elided_page_range)
         context['page_obj'] = page_obj
         context['elided_page_range'] = elided_page_range
 

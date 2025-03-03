@@ -71,7 +71,7 @@ class FindASpecialistSearchView(GA360Mixin, SubmitFormOnGetMixin, FormView):  # 
             return self.handle_empty_page(form)
 
         page_obj = paginator.get_page(page_num)
-        elided_page_range = page_obj.paginator.get_elided_page_range(page_obj.number, on_each_side=1, on_ends=1)
+        elided_page_range = [page_num for page_num in page_obj.paginator.get_elided_page_range(page_obj.number, on_each_side=1, on_ends=1)]
 
         context = self.get_context_data(
             results=results,
