@@ -31,42 +31,147 @@
             </div>
             <div class="dynamic-guide__panel-left">
                 <div class="dynamic-guide__section essential-topics">
-                    <h2 class="govuk-heading-l">
-                        Essential topics for all businesses
-                    </h2>
+                    <h2 class="govuk-heading-l">Essential topics for all businesses</h2>
                     <ul class="essential-topics__list essential-topics">
                         <li class="essential-topics__item">
-                            <img class="essential-topics__icon" alt="Business structure icon" src="{% static 'svg/icon-planning.svg' %}"/>
-                            <a href="#">
-                                UK business registration
-                            </a>
+                            <img class="essential-topics__icon"
+                                 alt="Business structure icon"
+                                 src="{% static 'svg/icon-planning.svg' %}" />
+                            <a href="#">UK business registration</a>
                         </li>
                         <li class="essential-topics__item">
-                            <img class="essential-topics__icon" alt="Business structure icon" src="{% static 'svg/icon-ukvisa.svg' %}"/>
-                            <a href="#">
-                                Checking if you need visas
-                            </a>
+                            <img class="essential-topics__icon"
+                                 alt="Business structure icon"
+                                 src="{% static 'svg/icon-ukvisa.svg' %}" />
+                            <a href="#">Checking if you need visas</a>
                         </li>
                         <li class="essential-topics__item">
-                            <img class="essential-topics__icon" alt="Business structure icon" src="{% static 'svg/icon-bank.svg' %}"/>
-                            <a href="#">
-                                Business bank accounts
-                            </a>
+                            <img class="essential-topics__icon"
+                                 alt="Business structure icon"
+                                 src="{% static 'svg/icon-bank.svg' %}" />
+                            <a href="#">Business bank accounts</a>
                         </li>
                         <li class="essential-topics__item">
-                            <img class="essential-topics__icon" alt="Business structure icon" src="{% static 'svg/icon-tax.svg' %}"/>
-                            <a href="#">
-                                UK taxes
-                            </a>
+                            <img class="essential-topics__icon"
+                                 alt="Business structure icon"
+                                 src="{% static 'svg/icon-tax.svg' %}" />
+                            <a href="#">UK taxes</a>
                         </li>
                     </ul>
                 </div>
-                <div class="dynamic-guide__section">{% lorem %}</div>
+                {% include './includes/dynamic-guide/section_left_start.html' with caption='Sector name' heading='Market data' %}
+                <div>...not implemented yet</div>
+                <div>{% include '_action_link.html' with linkText='Compare data across UK nations and regions' linkHref='#' %}</div>
+                {% include './includes/dynamic-guide/section_left_end.html' %}
+                {% include './includes/dynamic-guide/section_left_start.html' with caption='Sector name' heading='Locations of investment opportunities' %}
+                <div>...not implemented yet</div>
+                <div>{% include '_action_link.html' with linkText='View more opportunities in this sector' linkHref='#' %}</div>
+                {% include './includes/dynamic-guide/section_left_end.html' %}
+                {% include './includes/dynamic-guide/section_left_start.html' with caption='Sector name' heading='UK events' %}
+                <div>...not implemented yet</div>
+                <div>{% include '_action_link.html' with linkText='View more events for this sector' linkHref='#' %}</div>
+                {% include './includes/dynamic-guide/section_left_end.html' %}
+                {% include './includes/dynamic-guide/section_left_start.html' with caption='Sector name' heading='UK associations' %}
+                <div>...not implemented yet</div>
+                <div>{% include '_action_link.html' with linkText='View more associations for this sector' linkHref='#' %}</div>
+                {% include './includes/dynamic-guide/section_left_end.html' %}
+                {% include './includes/dynamic-guide/section_left_start.html' with caption='Sector name' heading='Setting up a base in the UK' %}
+                <div>...not implemented yet</div>
+                {% include './includes/dynamic-guide/section_left_end.html' %}
+                {% include './includes/dynamic-guide/section_left_start.html' with caption='Sector name' heading='Recruiting and employing people in the UK' %}
+                <div>...not implemented yet</div>
+                {% include './includes/dynamic-guide/section_left_end.html' %}
+                <div class="dynamic-guide__section section section--left">
+                    <div class="section__header">
+                        <p class="govuk-caption-l">Sector name</p>
+                        <h2 class="govuk-heading-l">Title</h2>
+                        <p class="govuk-body">Lorem ipsum dolor sit amet</p>
+                    </div>
+                </div>
             </div>
             <div class="dynamic-guide__panel-right">
-                <div class="dynamic-guide__section">{% lorem %}</div>
-                <div class="dynamic-guide__section">{% lorem %}</div>
-                <div class="dynamic-guide__section">{% lorem %}</div>
+                <div class="dynamic-guide__section section section--right section--find-a-consultant">
+                    <div class="section__header">
+                        <h2 class="govuk-heading-m section__heading">Find a consultant</h2>
+                        <img class="essential-topics__icon"
+                             alt="Business structure icon"
+                             src="{% static 'svg/icon-planning.svg' %}" />
+                    </div>
+                    <p class="govuk-body">
+                        You will need to be aware of UK regulations and legislation framework in the [sectorName] sector.
+                    </p>
+                    {% include '_action_link.html' with linkText='Search our business directory' linkHref='#' %}
+                </div>
+                <div class="dynamic-guide__section section section--right">
+                    <div class="section__header">
+                        <h2 class="govuk-heading-m section__heading">Regulations</h2>
+                        <img class="essential-topics__icon"
+                             alt="Business structure icon"
+                             src="{% static 'svg/icon-planning.svg' %}" />
+                    </div>
+                    <ul class="link-list">
+                        <li class="link-list__item">
+                            <a href="#" class="link-list__link">
+                                <h3 class="great-ds-title-arrow__text">Regulations for [sectorName]</h3>
+                            </a>
+                            <p class="govuk-body">
+                                You will need to be aware of UK regulations and legislation framework in the [sectorName] sector.
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="dynamic-guide__section section section--right">
+                    <div class="section__header">
+                        <h2 class="govuk-heading-m section__heading">Funding and help for overseas businesses</h2>
+                        <img class="essential-topics__icon"
+                             alt="Business structure icon"
+                             src="{% static 'svg/icon-planning.svg' %}" />
+                    </div>
+                    <ul class="link-list">
+                        <li class="link-list__item">
+                            <a href="#" class="link-list__link">
+                                <h3 class="great-ds-title-arrow__text">Research and development support for [sectorName]</h3>
+                            </a>
+                            <p class="govuk-body">
+                                Businesses can benefit from research and development programmes and initiatives in the advanced engineering sector.
+                            </p>
+                        </li>
+                        <li class="link-list__item">
+                            <a href="#" class="link-list__link">
+                                <h3 class="great-ds-title-arrow__text">Incentives for innovative businesses</h3>
+                            </a>
+                            <p class="govuk-body">
+                                Find out about tax reliefs and R&D support for cutting edge overseas businesses setting up in the UK.
+                            </p>
+                        </li>
+                        <li class="link-list__item">
+                            <a href="#" class="link-list__link">
+                                <h3 class="great-ds-title-arrow__text">Finance for your expansion</h3>
+                            </a>
+                            <p class="govuk-body">
+                                See a range of options for raising capital in the UK including loans, equity financing and development funding.
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="dynamic-guide__section section section--right">
+                    <div class="section__header">
+                        <h2 class="govuk-heading-m section__heading">Selling from the UK</h2>
+                        <img class="essential-topics__icon"
+                             alt="Business structure icon"
+                             src="{% static 'svg/icon-planning.svg' %}" />
+                    </div>
+                    <ul class="link-list">
+                        <li class="link-list__item">
+                            <a href="#" class="link-list__link">
+                                <h3 class="great-ds-title-arrow__text">Guidance for exporting</h3>
+                            </a>
+                            <p class="govuk-body">
+                                What to consider if you want to use the UK as a base to export to other overseas markets. Includes regulations and trade agreements.
+                            </p>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     {% endblock %}
