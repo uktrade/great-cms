@@ -79,8 +79,8 @@
                 <ul class="results" aria-label="Search results">
                     {% for result in search_results %}
                         <li>
-                            <span class="type">{{ result.content_type }}</span>
-                            <a class="title link" href="{{ result.url }}">{{ result.title }}</a>
+                            <span class="type">{{ result.content_type|map_search_result_type }}</span>
+                            <a class="title link" href="{{ result.url }}">{{ result.seo_title }}</a>
                             <p class="description">{{ result.search_description }}</p>
                         </li>
                     {% endfor %}
