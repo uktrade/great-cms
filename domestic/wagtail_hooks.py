@@ -4,14 +4,6 @@ from django.utils.html import format_html
 from wagtail import hooks
 
 
-@hooks.register('insert_editor_css')
-def editor_css():
-    return format_html(
-        '<link rel="stylesheet" href="{}">',  # noqa: P103
-        static('cms-admin/css/domestic-editor.css'),
-    )
-
-
 @hooks.register('insert_global_admin_css')
 def global_admin_css():
     env_stylesheet = ''
@@ -22,9 +14,18 @@ def global_admin_css():
             static(settings.ENVIRONMENT_CSS_THEME_FILE),
         )
 
+    domestic_stylesheet = format_html(
+        '<link rel="stylesheet" href="{}">',  # noqa: P103
+        static('cms-admin/css/domestic-editor.css'),
+    )
+
     return (
-        format_html(
-            '<link rel="stylesheet" href="{}">',  # noqa: P103
-            static('cms-admin/css/domestic.css'),
+        (
+            format_html(
+                '<link rel="stylesheet" href="{}">',  # noqa: P103
+                static('cms-admin/css/domestic.css'),
+            )
         )
-    ) + env_stylesheet
+        + domestic_stylesheet
+        + env_stylesheet
+    )

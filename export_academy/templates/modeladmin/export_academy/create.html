@@ -38,31 +38,39 @@
         {% block footer %}
             <footer class="footer">
                 <ul>
-                    <li class="actions footer__container">
+                    <li class="actions actions--primary footer__container">
                         {% block form_actions %}
-                            <div class="dropdown dropup dropdown-button match-width">
-                                <button type="submit"
-                                        class="button action-save button-longrunning"
-                                        data-clicked-text="{% trans 'Saving…' %}">
-                                    {% icon name="spinner" %}<em>{% trans 'Save' %}</em>
-                                </button>
-                                <div class="dropdown-toggle">{% icon name="arrow-up" %}</div>
-                                <ul>
-                                    <li>
-                                        <button type="submit"
-                                                class="button button-longrunning"
-                                                name="live"
-                                                value="on"
-                                                data-clicked-text="{% trans 'Publishing...' %}">
-                                            {% icon name="spinner" %}<em>{% trans 'Publish' %}</em>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                        {% endblock %}
-                    </li>
-                </ul>
-            </footer>
-        {% endblock %}
-    </form>
+                            {% fragment as default_action_item %}
+                            <button type="submit"
+                                    class="button action-save button-longrunning w-w-full"
+                                    data-controller="w-progress"
+                                    data-action="w-progress#activate"
+                                    data-w-progress-active-value="{% trans 'Saving…' %}">
+                                {% icon name="spinner" %}
+                                <em data-w-progress-target="label">{% trans 'Save' %}</em>
+                            </button>
+                        {% endfragment %}
+                        {% fragment as more_action_items %}
+                        <button type="submit"
+                                class="button button-longrunning"
+                                name="live"
+                                value="on"
+                                data-clicked-text="{% trans 'Publishing...' %}">
+                            {% icon name="spinner" %}
+                            <em>{% trans 'Publish' %}</em>
+                        </button>
+                    {% endfragment %}
+                    {% if more_action_items.strip %}
+                        {% dropdown_button button=default_action_item toggle_icon="arrow-up" %}
+                        {{ more_action_items }}
+                    {% enddropdown_button %}
+                {% else %}
+                    {{ default_action_item }}
+                {% endif %}
+            {% endblock %}
+        </li>
+    </ul>
+</footer>
+{% endblock %}
+</form>
 {% endblock %}

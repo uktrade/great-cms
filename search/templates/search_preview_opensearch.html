@@ -1,6 +1,7 @@
 {% extends 'domestic/base.html' %}
 {% load static %}
 {% load humanize %}
+{% load search %}
 {% block head_css %}
     {{ block.super }}
     <link href="{% static 'styles/default.css' %}"
@@ -44,7 +45,7 @@
                     {% endif %}
                 {% else %}
                     <p>
-                        <p class="added-margin-bottom">Search for articles, events, and resources</p>
+                        <p class="added-margin-bottom">Search for articles, and resources</p>
                     </p>
                 {% endif %}
                 <a href="{% url 'search:feedback' %}?page={{ current_page }}&q={{ search_query }}"
@@ -78,9 +79,9 @@
                 <ul class="results" aria-label="Search results">
                     {% for result in search_results %}
                         <li>
-                            <span class="type">{{ result.content_type }}</span>
-                            <a class="title link" href="{{ result.url }}">{{ result.title }}</a>
-                            <p class="description">{{ results.search_description }}</p>
+                            <span class="type">{{ result.content_type|map_search_result_type }}</span>
+                            <a class="title link" href="{{ result.url }}">{{ result.seo_title }}</a>
+                            <p class="description">{{ result.search_description }}</p>
                         </li>
                     {% endfor %}
                 </ul>

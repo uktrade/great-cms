@@ -104,7 +104,6 @@ def revision():
             id='test_revision_id',
             created_at=datetime.datetime.now(),
             user=user,
-            submitted_for_moderation=True,
             content_object=campaign_site_page,
         )
 
