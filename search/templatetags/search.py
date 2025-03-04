@@ -13,13 +13,10 @@ def map_search_result_type(content_type):
     """
 
     if 'Campaign' in content_type:
-        return 'Campaign' 
-
+        return 'Campaign'
     elif 'lesson' in content_type:
-        return 'Export Academy' 
-    
+        return 'Export Academy'
     elif 'Topic' or 'Task' in content_type:
-       return 'Service' 
-    
+        return 'Service'
     else:
         return 'Article'
