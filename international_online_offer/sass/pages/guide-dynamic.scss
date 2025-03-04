@@ -23,6 +23,12 @@ $gap: 30px;
 		position: relative;
 }
 
+.great-ds-title-arrow__text {
+	// This is to remove the double underline if this is applied to a link.
+	// For this to work, the link must be an ancestor of this element.
+	text-decoration: none;
+}
+
 @mixin display-contents-on-small-screens {
 	display: contents;
 
@@ -201,5 +207,110 @@ $gap: 30px;
 
 	&__icon {
 		width: 60px;
+	}
+}
+
+.section {
+
+	& > * {
+		padding: 20px var(--vertical-padding);
+
+		@media (min-width: sizes.$tablet-size) {
+			padding: 30px var(--vertical-padding);
+		}
+
+		&:not(:last-child) {
+			border-bottom: 1px solid #bdbdbd;
+		}
+	}
+
+	&__header {
+		padding-bottom: 15px;
+
+		& .govuk-body {
+			margin: 0;
+		}
+	}
+
+	&--left {
+		&__header {
+			& .govuk-heading-l {
+				margin-bottom: 15px;
+			}
+		}
+	}
+
+	&--find-a-consultant {
+		padding: 15px 0 20px;
+
+		@media (min-width: sizes.$tablet-size) {
+			padding: 30px 0;
+		}
+
+		// The double & increases the selector's specificity so we don't have to
+		// use !important
+		&#{&} > * {
+			border-bottom: none;
+			padding-top: 0;
+			padding-bottom: 0;
+		}
+	}
+
+	&--right {
+		& > * {
+			// The horizontal padding of 20px is inconsistent with the cards in the
+			// left column which have padding 15px.
+			padding: 15px 20px 25px;
+
+			@media (min-width: sizes.$tablet-size) {
+				padding: 20px 30px 30px;
+			}
+		}
+
+		.section {
+			&__header {
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: center;
+				gap: 10px;
+				padding-bottom: 15px;
+
+				@media (min-width: sizes.$tablet-size) {
+					padding-bottom: 20px;
+					flex-direction: column-reverse;
+					align-items: flex-start;
+				}
+			}
+
+			&__heading {
+				// Override govuk-heading-m margin
+				margin: 0;
+			}
+		}
+	}
+}
+
+.link-list {
+	list-style: none;
+	margin: 0;
+
+	&__item {
+		margin: 0;
+		padding: 15px 0;
+		border-bottom: 1px solid #bdbdbd;
+
+		&:first-child {
+			padding-top: 0;
+		}
+
+		&:last-child {
+			padding-bottom: 0;
+			border-bottom: none;
+		}
+
+		& > *:not(:first-child) {
+			margin-bottom: 0;
+		}
 	}
 }
