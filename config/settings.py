@@ -541,7 +541,7 @@ if FEATURE_OPENSEARCH:  # Power search via Opensearch
     WAGTAILSEARCH_BACKENDS = {
         'default': {
             'BACKEND': 'wagtail.search.backends.elasticsearch7',
-            'AUTO_UPDATE': True,
+            'AUTO_UPDATE': False,
             'URLS': [decoded_opensearch_url],
             'INDEX': 'great-cms',
             'TIMEOUT': 5,
