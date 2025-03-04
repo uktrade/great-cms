@@ -471,6 +471,10 @@
   background: $great-white;
 }
 
+.great-fill-white {
+  fill: $great-white !important;
+}
+
 .great-bg-lighter-grey {
   background-color: $great-lighter-grey;
 }
@@ -1210,6 +1214,10 @@ great-icon {
   > li {
     list-style-type: disc;
   }
+}
+
+.great-list-style-none {
+  list-style-type: none;
 }
 
 .step-list {
