@@ -151,7 +151,7 @@ class DomesticGrowthResultsPage(SeoMixin, cms_panels.DomesticGrowthResultsPagePa
         context['qs'] = '?postcode=' + request.GET.get('postcode') + '&sector=' + request.GET.get('sector')
 
         return context
-    
+
 
 class DomesticGrowthChildResultsPage(SeoMixin, cms_panels.DomesticGrowthResultsPagePanels, Page):
     template = 'results-child.html'
@@ -159,7 +159,9 @@ class DomesticGrowthChildResultsPage(SeoMixin, cms_panels.DomesticGrowthResultsP
     class Meta:
         verbose_name = 'Domestic Growth Child Results page'
 
-    parent_page_types = ['domestic_growth.DomesticGrowthResultsPage',]
+    parent_page_types = [
+        'domestic_growth.DomesticGrowthResultsPage',
+    ]
 
     body = StreamField(
         [
