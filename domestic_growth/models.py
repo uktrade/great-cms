@@ -112,35 +112,15 @@ class DomesticGrowthResultsPage(SeoMixin, cms_panels.DomesticGrowthResultsPagePa
     class Meta:
         verbose_name = 'Domestic Growth Results page'
 
+    subpage_types = ['domestic_growth.DomesticGrowthChildResultsPage']
+
     body = StreamField(
         [
             (
-                'category',
+                'growth_hub',
                 blocks.StructBlock(
                     [
                         ('title', blocks.CharBlock()),
-                        (
-                            'section',
-                            StreamBlock(
-                                [
-                                    (
-                                        'sub_category',
-                                        blocks.StructBlock(
-                                            [
-                                                ('title', blocks.CharBlock()),
-                                                (
-                                                    'content',
-                                                    blocks.ListBlock(
-                                                        SnippetChooserBlock('domestic_growth.DomesticGrowthContent'),
-                                                        label='Choose content snippet',
-                                                    ),
-                                                ),
-                                            ]
-                                        ),
-                                    )
-                                ],
-                            ),
-                        ),
                     ],
                 ),
             ),
@@ -152,6 +132,59 @@ class DomesticGrowthResultsPage(SeoMixin, cms_panels.DomesticGrowthResultsPagePa
 
     def get_context(self, request):
         context = super(DomesticGrowthResultsPage, self).get_context(request)
+
+        form_data = {}
+        growth_hub = None
+
+        if request.session.get('domestic_growth_triage_data'):
+            form_data = pickle.loads(bytes.fromhex(request.session.get('domestic_growth_triage_data')))[0]
+            growth_hub = helpers.get_nearest_growth_hub_by_postode(form_data.get('postcode'))
+        elif request.GET.get('postcode') and request.GET.get('sector'):
+            form_data = {
+                'postcode': request.GET.get('postcode'),
+                'sector': request.GET.get('sector'),
+            }
+            growth_hub = helpers.get_nearest_growth_hub_by_postode(request.GET.get('postcode'))
+
+        context['session_data'] = form_data
+        context['growth_hub'] = growth_hub
+
+        return context
+    
+
+class DomesticGrowthChildResultsPage(SeoMixin, cms_panels.DomesticGrowthResultsPagePanels, Page):
+    template = 'results-child.html'
+
+    class Meta:
+        verbose_name = 'Domestic Growth Child Results page'
+
+    parent_page_types = ['domestic_growth.DomesticGrowthResultsPage',]
+
+    body = StreamField(
+        [
+            (
+                'section',
+                blocks.StructBlock(
+                    [
+                        ('title', blocks.CharBlock()),
+                        (
+                            'content',
+                            blocks.ListBlock(
+                                SnippetChooserBlock('domestic_growth.DomesticGrowthContent'),
+                                label='Choose content snippet',
+                            ),
+                        ),
+                    ]
+                ),
+            ),
+        ],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
+
+    def get_context(self, request):
+        context = super(DomesticGrowthChildResultsPage, self).get_context(request)
 
         form_data = {}
         growth_hub = None

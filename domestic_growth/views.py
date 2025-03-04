@@ -36,7 +36,7 @@ class StartingABusinessView(TriageMixin, FormView):
 
             qs = f'?postcode={postcode}&sector={sector}'
 
-        return f'/results-test{qs}'
+        return f'/starting-a-business-guide{qs}'
 
     def form_valid(self, form):
         self.save_data(form)

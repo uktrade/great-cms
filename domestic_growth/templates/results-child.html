@@ -1,6 +1,5 @@
 {% extends 'includes/base.html' %}
 
-{% load wagtailcore_tags %}
 {% load dynamic_snippet from content_tags %}
 
 {% block head_title %}Domestic Growth - Results{% endblock %}
@@ -15,7 +14,7 @@
                     <div class="govuk-!-margin-bottom-6">
                         <a href="/domestic-growth/starting-a-new-business" class="govuk-link">Back</a>
                     </div>
-
+                    
                     <div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-6 great-ds-box-shadow great-ds-widget-container">
                         <h1 class="govuk-heading-xl govuk-!-margin-bottom-0">
                             Starting a new {{ session_data.sector | lower }} business
@@ -32,11 +31,11 @@
                             </button>
                             <ul class="govuk-service-navigation__list" id="navigation">
                                 <li class="govuk-service-navigation__item">
-                                    <a class="govuk-service-navigation__link" href="{{ page.get_url }}">
-                                        {{ page.title }}
+                                    <a class="govuk-service-navigation__link" href="{{ page.get_parent.get_url }}">
+                                        {{ page.get_parent.title }}
                                     </a>
                                 </li>
-                                {% for child_page in page.get_children %}
+                                {% for child_page in page.get_parent.get_children %}
                                     {% with page=child_page.specific parent_page_title=page.page_title %}
                                     <li class="govuk-service-navigation__item">
                                         <a class="govuk-service-navigation__link" href="{{ page.get_url }}">
@@ -52,15 +51,25 @@
                     </div>
 
                     <div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-6 great-ds-box-shadow great-ds-widget-container">
-                        <h2 class="govuk-heading-l">Speak to someone about your future business</h2>
-                        {% if growth_hub %}
-                            <h3 class="govuk-heading-s">{{ growth_hub.title }}</h3>
-                            <p class="govuk-hint">{{ growth_hub.distance }}</p>
-                            <p class="govuk-body">{{ growth_hub.address }}</p>
-                            <p class="govuk-body">
-                                <a href="mailto:{{ growth_hub.email }}" class="govuk-link">{{ growth_hub.email }}</a>
-                            </p>
-                        {% endif %}
+                        {% for section in page.body %}
+                        <div>
+                            <h2 class="govuk-heading-l">{{ section.value.title }}</h2>
+                            <ul>
+                                {% for content in section.value.content %}
+                                <li>
+                                    {% if content.is_dynamic %}
+                                        {% with dynamic_content_snippet=content|dynamic_snippet:session_data.sector %}
+                                        <a class="govuk-link" href="{{ dynamic_content_snippet.url }}">{{ dynamic_content_snippet.title }}</a>
+                                        <p class="govuk-body">{{ dynamic_content_snippet.description }}</p>
+                                        {% endwith %}
+                                    {% else %}
+                                        <a class="govuk-link" href="{{ content.url }}">{{ content.title }}</a>
+                                    {% endif %}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
