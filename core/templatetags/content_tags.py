@@ -18,8 +18,8 @@ from django.utils.text import slugify
 from core.constants import (
     BACKLINK_QUERYSTRING_NAME,
     CHEG_EXCLUDED_COUNTRY_CODES,
-    META_LABELS,
     EU_TRAVEL_ADVICE_URLS,
+    META_LABELS,
 )
 from core.helpers import millify
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage
@@ -749,7 +749,7 @@ def convert_anchor_identifiers_to_span(value):
     return convert_anchor_identifier_a_to_span(rich_text_html)
 
 
-@register.inclusion_tag('_cta_banner.html')
+@register.inclusion_tag('_cta-banner.html')
 def render_signup_cta(background=None, link=None):
     background_class = 'great-ds-cta-banner--bg-white'
     if background:
@@ -791,3 +791,8 @@ def sector_based_image(sector):
             res = icon_name
 
     return res
+
+
+@register.simple_tag
+def define(val=None):
+    return val
