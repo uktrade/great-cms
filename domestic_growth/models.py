@@ -148,6 +148,7 @@ class DomesticGrowthResultsPage(SeoMixin, cms_panels.DomesticGrowthResultsPagePa
 
         context['session_data'] = form_data
         context['growth_hub'] = growth_hub
+        context['qs'] = '?postcode=' + request.GET.get('postcode') + '&sector=' + request.GET.get('sector')
 
         return context
     
@@ -201,6 +202,7 @@ class DomesticGrowthChildResultsPage(SeoMixin, cms_panels.DomesticGrowthResultsP
 
         context['session_data'] = form_data
         context['growth_hub'] = growth_hub
+        context['qs'] = '?postcode=' + request.GET.get('postcode') + '&sector=' + request.GET.get('sector')
 
         return context
 

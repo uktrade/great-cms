@@ -21,7 +21,7 @@
                         </h1>
                     </div>
 
-                    <div class="govuk-service-navigation"
+                    <div class="govuk-service-navigation govuk-!-margin-bottom-8"
                     data-module="govuk-service-navigation">
                     <div class="govuk-width-container">
                         <div class="govuk-service-navigation__container">
@@ -31,17 +31,26 @@
                             </button>
                             <ul class="govuk-service-navigation__list" id="navigation">
                                 <li class="govuk-service-navigation__item">
-                                    <a class="govuk-service-navigation__link" href="{{ page.get_parent.get_url }}">
-                                        {{ page.get_parent.title }}
+                                    <a class="govuk-service-navigation__link" href="{{ page.get_parent.get_url}}{{ qs }}">
+                                        Getting started
                                     </a>
                                 </li>
+
                                 {% for child_page in page.get_parent.get_children %}
                                     {% with page=child_page.specific parent_page_title=page.page_title %}
-                                    <li class="govuk-service-navigation__item">
-                                        <a class="govuk-service-navigation__link" href="{{ page.get_url }}">
-                                            {{ page.title }}
-                                        </a>
-                                    </li>
+                                        {% if request.path == page.get_url %}
+                                        <li class="govuk-service-navigation__item govuk-service-navigation__item--active">
+                                            <a class="govuk-service-navigation__link" href="{{ page.get_url }}{{ qs }}" aria-current="true">
+                                              <strong class="govuk-service-navigation__active-fallback">{{ page.title }}</strong>
+                                            </a>
+                                        </li>
+                                        {% else %}
+                                        <li class="govuk-service-navigation__item">
+                                            <a class="govuk-service-navigation__link" href="{{ page.get_url }}{{ qs }}">
+                                                {{ page.title }}
+                                            </a>
+                                        </li>
+                                        {% endif %}
                                     {% endwith %}
                                 {% endfor %}
                             </ul>

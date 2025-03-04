@@ -22,7 +22,7 @@
                         </h1>
                     </div>
 
-                    <div class="govuk-service-navigation"
+                    <div class="govuk-service-navigation govuk-!-margin-bottom-8"
                     data-module="govuk-service-navigation">
                     <div class="govuk-width-container">
                         <div class="govuk-service-navigation__container">
@@ -31,15 +31,26 @@
                             Menu
                             </button>
                             <ul class="govuk-service-navigation__list" id="navigation">
-                                <li class="govuk-service-navigation__item">
-                                    <a class="govuk-service-navigation__link" href="{{ page.get_url }}">
-                                        {{ page.title }}
+                                {% with child_page_length=page.get_children|length %}
+                                {% if child_page_length > 0 %}
+                                <li class="govuk-service-navigation__item govuk-service-navigation__item--active">
+                                    <a class="govuk-service-navigation__link" href="{{ page.get_url }}{{ qs }}" aria-current="true">
+                                      <strong class="govuk-service-navigation__active-fallback"> Getting started</strong>
                                     </a>
                                 </li>
+                                {% else %}
+                                <li class="govuk-service-navigation__item">
+                                    <a class="govuk-service-navigation__link" href="{{ page.get_url }}{{ qs }}">
+                                        Getting started
+                                    </a>
+                                </li>
+                                {% endif %}
+                                {% endwith %}
+
                                 {% for child_page in page.get_children %}
                                     {% with page=child_page.specific parent_page_title=page.page_title %}
                                     <li class="govuk-service-navigation__item">
-                                        <a class="govuk-service-navigation__link" href="{{ page.get_url }}">
+                                        <a class="govuk-service-navigation__link" href="{{ page.get_url }}{{ qs }}">
                                             {{ page.title }}
                                         </a>
                                     </li>
@@ -52,7 +63,8 @@
                     </div>
 
                     <div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-6 great-ds-box-shadow great-ds-widget-container">
-                        <h2 class="govuk-heading-l">Speak to someone about your future business</h2>
+                        {% for block in page.body %}
+                        <h2 class="govuk-heading-l">{{ block.value.title }}</h2>
                         {% if growth_hub %}
                             <h3 class="govuk-heading-s">{{ growth_hub.title }}</h3>
                             <p class="govuk-hint">{{ growth_hub.distance }}</p>
@@ -61,6 +73,7 @@
                                 <a href="mailto:{{ growth_hub.email }}" class="govuk-link">{{ growth_hub.email }}</a>
                             </p>
                         {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
             </div>
