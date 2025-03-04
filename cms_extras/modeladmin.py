@@ -2,13 +2,9 @@ import csv
 
 from django.utils.html import format_html_join, strip_tags
 from wagtail.admin.views.mixins import Echo
-from wagtail.contrib.modeladmin.helpers import ButtonHelper
-from wagtail.contrib.modeladmin.options import (
-    ModelAdmin,
-    ModelAdminGroup,
-    modeladmin_register,
-)
-from wagtail.contrib.modeladmin.views import IndexView
+from wagtail_modeladmin.helpers import ButtonHelper
+from wagtail_modeladmin.options import ModelAdmin, ModelAdminGroup, modeladmin_register
+from wagtail_modeladmin.views import IndexView
 
 from contact.modeladmin import ContactSuccessSnippetAdmin, ContactUsGuidanceSnippetAdmin
 from core.models import CaseStudy
