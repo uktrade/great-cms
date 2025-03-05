@@ -12,13 +12,23 @@
             <div class="govuk-grid-column-full great-no-padding-until-tablet">
                 <div>
                     <div class="govuk-!-margin-bottom-6">
+                        {% if 'growing' in request.path %}
+                        <a href="/domestic-growth/scaling-an-existing-business" class="govuk-link">Back</a>
+                        {% else %}
                         <a href="/domestic-growth/starting-a-new-business" class="govuk-link">Back</a>
+                        {% endif %}
                     </div>
                     
                     <div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-6 great-ds-box-shadow great-ds-widget-container">
+                        {% if 'growing' in request.path %}
+                        <h1 class="govuk-heading-xl govuk-!-margin-bottom-0">
+                            Growing a {{ session_data.sector | lower }} business
+                        </h1>
+                        {% else %}
                         <h1 class="govuk-heading-xl govuk-!-margin-bottom-0">
                             Starting a new {{ session_data.sector | lower }} business
                         </h1>
+                        {% endif %}
                     </div>
 
                     <div class="govuk-service-navigation govuk-!-margin-bottom-8"
@@ -61,22 +71,17 @@
 
                     <div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-6 great-ds-box-shadow great-ds-widget-container">
                         {% for section in page.body %}
-                        <div>
+                        <div class="govuk-!-margin-bottom-6">
                             <h2 class="govuk-heading-l">{{ section.value.title }}</h2>
-                            <ul>
-                                {% for content in section.value.content %}
-                                <li>
-                                    {% if content.is_dynamic %}
-                                        {% with dynamic_content_snippet=content|dynamic_snippet:session_data.sector %}
-                                        <a class="govuk-link" href="{{ dynamic_content_snippet.url }}">{{ dynamic_content_snippet.title }}</a>
-                                        <p class="govuk-body">{{ dynamic_content_snippet.description }}</p>
-                                        {% endwith %}
-                                    {% else %}
-                                        <a class="govuk-link" href="{{ content.url }}">{{ content.title }}</a>
-                                    {% endif %}
-                                </li>
-                                {% endfor %}
-                            </ul>
+                            {% for content in section.value.content %}
+                                {% if content.is_dynamic %}
+                                    {% with dynamic_content_snippet=content|dynamic_snippet:session_data.sector %}
+                                        {% include 'components/great/card.html' with title=dynamic_content_snippet.title url=dynamic_content_snippet.url show_title_link=True content=dynamic_content_snippet.description %}
+                                    {% endwith %}
+                                {% else %}
+                                    {% include 'components/great/card.html' with title=content.title url=content.url show_title_link=True content=content.description %}
+                                {% endif %}
+                            {% endfor %}
                         </div>
                         {% endfor %}
                     </div>

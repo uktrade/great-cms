@@ -10,82 +10,104 @@
 <div class="great great-bg-lighter-grey">
     <div class="great-container govuk-!-padding-top-4">
         <div class="govuk-grid-row">
-            <div class="govuk-grid-column-full great-no-padding-until-tablet">
-                <div>
-                    <div class="govuk-!-margin-bottom-6">
-                        {% if 'growing' in request.path %}
-                        <a href="/domestic-growth/scaling-an-existing-business" class="govuk-link">Back</a>
-                        {% else %}
-                        <a href="/domestic-growth/starting-a-new-business" class="govuk-link">Back</a>
-                        {% endif %}
-                    </div>
+            <div class="govuk-!-margin-bottom-6">
+                {% if 'growing' in request.path %}
+                <a href="/domestic-growth/scaling-an-existing-business" class="govuk-link">Back</a>
+                {% else %}
+                <a href="/domestic-growth/starting-a-new-business" class="govuk-link">Back</a>
+                {% endif %}
+            </div>
 
-                    <div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-6 great-ds-box-shadow great-ds-widget-container">
-                        {% if 'growing' in request.path %}
-                        <h1 class="govuk-heading-xl govuk-!-margin-bottom-0">
-                            Growing a {{ session_data.sector | lower }} business
-                        </h1>
-                        {% else %}
-                        <h1 class="govuk-heading-xl govuk-!-margin-bottom-0">
-                            Starting a new {{ session_data.sector | lower }} business
-                        </h1>
-                        {% endif %}
-                    </div>
+            <div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-6 great-ds-box-shadow great-ds-widget-container">
+                {% if 'growing' in request.path %}
+                <h1 class="govuk-heading-xl govuk-!-margin-bottom-0">
+                    Growing a {{ session_data.sector | lower }} business
+                </h1>
+                {% else %}
+                <h1 class="govuk-heading-xl govuk-!-margin-bottom-0">
+                    Starting a new {{ session_data.sector | lower }} business
+                </h1>
+                {% endif %}
+            </div>
 
-                    <div class="govuk-service-navigation govuk-!-margin-bottom-8"
-                    data-module="govuk-service-navigation">
-                    <div class="govuk-width-container">
-                        <div class="govuk-service-navigation__container">
-                        <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
-                            <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle" aria-controls="navigation" hidden>
-                            Menu
-                            </button>
-                            <ul class="govuk-service-navigation__list" id="navigation">
-                                {% with child_page_length=page.get_children|length %}
-                                {% if child_page_length > 0 %}
-                                <li class="govuk-service-navigation__item govuk-service-navigation__item--active">
-                                    <a class="govuk-service-navigation__link" href="{{ page.get_url }}{{ qs }}" aria-current="true">
-                                      <strong class="govuk-service-navigation__active-fallback"> Getting started</strong>
-                                    </a>
-                                </li>
-                                {% else %}
+            <div class="govuk-service-navigation govuk-!-margin-bottom-8"
+                data-module="govuk-service-navigation">
+                <div class="govuk-width-container">
+                    <div class="govuk-service-navigation__container">
+                    <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
+                        <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle" aria-controls="navigation" hidden>
+                        Menu
+                        </button>
+                        <ul class="govuk-service-navigation__list" id="navigation">
+                            {% with child_page_length=page.get_children|length %}
+                            {% if child_page_length > 0 %}
+                            <li class="govuk-service-navigation__item govuk-service-navigation__item--active">
+                                <a class="govuk-service-navigation__link" href="{{ page.get_url }}{{ qs }}" aria-current="true">
+                                    <strong class="govuk-service-navigation__active-fallback"> Getting started</strong>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="govuk-service-navigation__item">
+                                <a class="govuk-service-navigation__link" href="{{ page.get_url }}{{ qs }}">
+                                    Getting started
+                                </a>
+                            </li>
+                            {% endif %}
+                            {% endwith %}
+
+                            {% for child_page in page.get_children %}
+                                {% with page=child_page.specific parent_page_title=page.page_title %}
                                 <li class="govuk-service-navigation__item">
                                     <a class="govuk-service-navigation__link" href="{{ page.get_url }}{{ qs }}">
-                                        Getting started
+                                        {{ page.title }}
                                     </a>
                                 </li>
-                                {% endif %}
                                 {% endwith %}
-
-                                {% for child_page in page.get_children %}
-                                    {% with page=child_page.specific parent_page_title=page.page_title %}
-                                    <li class="govuk-service-navigation__item">
-                                        <a class="govuk-service-navigation__link" href="{{ page.get_url }}{{ qs }}">
-                                            {{ page.title }}
-                                        </a>
-                                    </li>
-                                    {% endwith %}
-                                {% endfor %}
-                            </ul>
-                        </nav>
-                        </div>
-                    </div>
-                    </div>
-
-                    <div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-6 great-ds-box-shadow great-ds-widget-container">
-                        {% for block in page.body %}
-                        <h2 class="govuk-heading-l">{{ block.value.title }}</h2>
-                        {% if growth_hub %}
-                            <h3 class="govuk-heading-s">{{ growth_hub.title }}</h3>
-                            <p class="govuk-hint">{{ growth_hub.distance }}</p>
-                            <p class="govuk-body">{{ growth_hub.address }}</p>
-                            <p class="govuk-body">
-                                <a href="mailto:{{ growth_hub.email }}" class="govuk-link">{{ growth_hub.email }}</a>
-                            </p>
-                        {% endif %}
-                        {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </nav>
                     </div>
                 </div>
+                </div>
+        </div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds great-no-padding-until-tablet">
+                <div>
+                    <div class="great-bg-white govuk-!-padding-6 govuk-!-margin-bottom-6 great-ds-box-shadow great-ds-widget-container">
+                        {% for block in page.body %}
+                            {% if block.block_type == 'growth_hub' %}
+                                <h2 class="govuk-heading-l">{{ block.value.title }}</h2>
+                                {% if growth_hub %}
+                                    <h3 class="govuk-heading-s">{{ growth_hub.title }}</h3>
+                                    <p class="govuk-hint">{{ growth_hub.distance }}</p>
+                                    <p class="govuk-body">{{ growth_hub.address }}</p>
+                                    <p class="govuk-body">
+                                        <a href="mailto:{{ growth_hub.email }}" class="govuk-link">{{ growth_hub.email }}</a>
+                                    </p>
+                                {% endif %}
+                            {% else %}
+                            {% endif %}
+                        {% endfor %}
+
+                        <h2 class="govuk-heading-l">Your local chamber of commerce</h2>
+                        <p>
+                            Elliot House<br />
+                            151 Deansgate<br />
+                            Manchester<br />
+                            M3 3WD<br />
+                            Telephone: 0161 393 4321<br /> 
+                            Email: <a href="" class="govuk-link">info@gmchamber.co.uk</a><br /> 
+
+                            <p class="govuk-body">With over 4000 members, the largest accredited Chamber of Commerce in the UK, the Chamber is located in the heart of the City Centre and has a strong presence in Greater Manchester’s ten local authority areas.</p>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-one-third govuk-!-padding-6 great-bg-dark-blue">
+                <h2 class="govuk-heading-m great-text-white">Get this guide in your inbox</h2>
+                <p class="govuk-body great-text-white">Enter an email address to send this to yourself or colleagues</p>
+                <input type="text" class="govuk-input govuk-!-margin-bottom-6" placeholder="Email address" />
+                {% include 'domestic/contact/export-support/includes/continue-save-button.html' with button_text='Send' %}
             </div>
         </div>
     </div>
