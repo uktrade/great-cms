@@ -25,17 +25,17 @@ class FeedbackForm(SaveOnlyInDatabaseAPIForm):
     contact_name = forms.CharField(
         label='What is your name?',
         required=False,
-        widget=TextInput(attrs={'class': 'govuk-!-width-one-half', 'label-class': 'form-label'})
+        widget=TextInput(attrs={'class': 'govuk-!-width-one-half', 'label-class': 'form-label'}),
     )
     contact_email = forms.EmailField(
         label='What is your email address?',
         required=False,
-        widget=TextInput(attrs={'class': 'govuk-!-width-one-half', 'label-class': 'form-label'})
+        widget=TextInput(attrs={'class': 'govuk-!-width-one-half', 'label-class': 'form-label'}),
     )
     contact_number = forms.CharField(
         label='What is your phone number? (optional)',
         required=False,
-        widget=TextInput(attrs={'class': 'govuk-!-width-one-half', 'label-class': 'form-label'})
+        widget=TextInput(attrs={'class': 'govuk-!-width-one-half', 'label-class': 'form-label'}),
     )
     captcha = ReCaptchaField(label='', label_suffix='', widget=ReCaptchaV3())
 
