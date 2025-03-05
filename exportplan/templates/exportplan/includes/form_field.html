@@ -1,9 +1,11 @@
 <div class="form-group{% if field.errors %} form-group-error{% endif %}">
+    {%  if field.field.widget.input_type not in 'text,email'%}
     {% if field.label %}{{ field.label_tag }}{% endif %}
+    {% endif %}
     {% if field.errors %}<span class="error-message">{{ field.errors }}</span>{% endif %}
     {% if field.help_text %}<span class="form-hint">{{ field.help_text }}</span>{% endif %}
     {% if field.field.widget.input_type in 'text,email' %}
-        {% include '_text-input.html' with id=field.id_for_label name=field.name classes=field.field.widget_css_classes type=field.field.widget.input_type labelClasses=field.css_classes%}
+        {% include '_text-input.html' with id=field.id_for_label name=field.name classes=field.field.widget_css_classes type=field.field.widget.input_type labelClasses=field.field.label_css_classes label=field.label %}
     {% else %}
         {{ field }}
     {% endif %}

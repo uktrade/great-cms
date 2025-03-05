@@ -135,7 +135,7 @@ cssbeautifier==1.15.4
     # via djlint
 cssselect==1.2.0
     # via pyquery
-cssselect2==0.7.0
+cssselect2==0.8.0
     # via svglib
 dateparser==0.7.2
     # via
@@ -307,7 +307,7 @@ factory-boy==3.3.0
     # via
     #   -r /app/requirements.in
     #   wagtail-factories
-faker==36.1.1
+faker==36.2.2
     # via factory-boy
 filelock==3.17.0
     # via virtualenv
@@ -359,7 +359,7 @@ googleapis-common-protos==1.69.0
     # via
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
-great-components==2.7.3
+great-components==2.7.4
     # via -r /app/requirements.in
 greenlet==3.1.1
     # via

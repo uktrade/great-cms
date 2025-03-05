@@ -1,10 +1,12 @@
 {% if field %}
+    {%  if field.field.widget.input_type not in 'text,email'%}
     <label class="govuk-label govuk-label--s"
            for="{% if labelForId %}{{ labelForId }}{% else %}{{ field.id_for_label }}{% endif %}">
         {{ field.label }}
         {% if optional %}<span>(Optional)</span>{% endif %}
         {% if dynamicText %}{{ dynamicText }}{% endif %}
     </label>
+    {% endif %}
     {% if field.help_text %}<div class="govuk-hint govuk-!-margin-bottom-2">{{ field.help_text|safe }}</div>{% endif %}
     {% if custom_error %}
         <p class="govuk-error-message great-hidden" role="alert">
@@ -21,7 +23,7 @@
             {% if inputPrefixClass %}<div class="{{ inputPrefixClass }}" aria-hidden="true">{{ inputPrefixText }}</div>{% endif %}
         {% endif %}
         {% if field.field.widget.input_type in 'text,email' %}
-            {% include '_text-input.html' with id=field.id_for_label name=field.name classes=field.field.widget_css_classes type=field.field.widget.input_type labelClasses=field.css_classes%}
+            {% include '_text-input.html' with id=field.id_for_label name=field.name classes=field.field.widget_css_classes type=field.field.widget.input_type labelClasses=field.field.label_css_classes label=field.label %}
         {% else %}
             {{ field }}
         {% endif %}

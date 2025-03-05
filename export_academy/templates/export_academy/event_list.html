@@ -38,17 +38,19 @@
                                                         role="button"
                                                         aria-expanded="true"
                                                         aria-controls="{{ field.label }}_fields"></button>
+                                                {%  if field.field.widget.input_type not in 'text,email'%}
                                                 <label class="arrows-left arrows-left-active filter-section-headings govuk-!-padding-left-2"
                                                        for="{{ field.label }}"
                                                        id="{{ field.label }}_label">
                                                     <h2>{{ field.label }}</h2>
                                                 </label>
+                                                {% endif %}
                                                 <div id="{{ field.label }}_fields"
                                                      class="options checkbox-small filter-section-active">
                                                     {% if request.GET.booking_period == 'upcoming' or request.GET.booking_period == 'past' %}
                                                         {% filter disable_period_radios %}
                                                         {% if field.field.widget.input_type in 'text,email' %}
-                                                            {% include '_text-input.html' with id=field.id_for_label name=field.name classes=field.field.widget_css_classes type=field.field.widget.input_type labelClasses=field.css_classes%}
+                                                            {% include '_text-input.html' with id=field.id_for_label name=field.name classes=field.field.widget_css_classes type=field.field.widget.input_type labelClasses=field.field.label_css_classes label=field.label %}
                                                         {% else %}
                                                             {{ field }}
                                                         {% endif %}
@@ -56,7 +58,7 @@
                                                     {% else %}
                                                         {% filter set_all_events %}
                                                             {% if field.field.widget.input_type in 'text,email' %}
-                                                                {% include '_text-input.html' with id=field.id_for_label name=field.name classes=field.field.widget_css_classes type=field.field.widget.input_type labelClasses=field.css_classes%}
+                                                                {% include '_text-input.html' with id=field.id_for_label name=field.name classes=field.field.widget_css_classes type=field.field.widget.input_type labelClasses=field.field.label_css_classes label=field.label %}
                                                             {% else %}
                                                                 {{ field }}
                                                             {% endif %}

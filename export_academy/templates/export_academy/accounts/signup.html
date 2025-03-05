@@ -6,6 +6,7 @@
     {% csrf_token %}
     {% for field in form.visible_fields %}
         <div class="govuk-form-group {% if field.errors %}govuk-form-group--error govuk-!-margin-top-6{% endif %}">
+            {%  if field.field.widget.input_type not in 'text,email'%}
             {% if field.label == 'Password' %}
                 {% include 'domestic/contact/includes/govuk-form-field.html' with field=field label_classes='great-signup-form-label great-font-weight-semi-bold great-font-size-18 great-line-height-30' help_text_classes='govuk-!-padding-bottom-1 great-line-height-30 great-font-size-18 govuk-body-l great-text-dark-grey' %}
             {% elif field.label == 'UK telephone number' %}
@@ -28,13 +29,14 @@
                         </p>
                     {% endfor %}
                     {% if field.field.widget.input_type in 'text,email' %}
-                        {% include '_text-input.html' with id=field.id_for_label name=field.name classes=field.field.widget_css_classes type=field.field.widget.input_type labelClasses=field.css_classes%}
+                        {% include '_text-input.html' with id=field.id_for_label name=field.name classes=field.field.widget_css_classes type=field.field.widget.input_type labelClasses=field.field.label_css_classes label=field.label %}
                     {% else %}
                         {{ field }}
                     {% endif %}
                 </div>
             {% else %}
                 {% include 'domestic/contact/includes/govuk-form-field.html' with field=field label_classes='great-signup-form-label great-font-weight-semi-bold great-font-size-18 great-line-height-30' %}
+            {% endif %}
             {% endif %}
         </div>
     {% endfor %}

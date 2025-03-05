@@ -1,11 +1,13 @@
 {% if field %}
     {% if not hide_label %}
+        {%  if field.field.widget.input_type not in 'text,email'%}
         <label class="govuk-label great-font-bold {% if label_classes %}{{ label_classes }}{% endif %}{% if hideLabel %} great-visually-hidden{% endif %}"
                for="{% if labelForId %}{{ labelForId }}{% else %}{{ field.id_for_label }}{% endif %}">
             {{ field.label }}
             {% if optional %}<span>(Optional)</span>{% endif %}
             {% if dynamicText %}{{ dynamicText }}{% endif %}
         </label>
+        {% endif %}
     {% endif %}
     {% if field.help_text %}
         <div class="{% if help_text_classes %}{{ help_text_classes }}{% endif %} govuk-hint govuk-!-margin-bottom-2 ">
@@ -19,7 +21,7 @@
     {% endfor %}
     {% if inputWrapperClass %}<div class="{{ inputWrapperClass }}">{% endif %}
         {% if field.field.widget.input_type in 'text,email' %}
-            {% include '_text-input.html' with id=field.id_for_label name=field.name classes=field.field.widget_css_classes type=field.field.widget.input_type labelClasses=field.css_classes%}
+            {% include '_text-input.html' with id=field.id_for_label name=field.name classes=field.field.widget_css_classes type=field.field.widget.input_type labelClasses=field.field.label_css_classes label=field.label %}
         {% else %}
             {{ field }}
         {% endif %}

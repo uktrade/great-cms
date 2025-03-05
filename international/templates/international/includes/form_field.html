@@ -6,12 +6,14 @@
     {% endcomment %}
     <div class="{% if show_vertical_error_line and field.errors %} govuk-form-group--error{% endif %}">
         {% if field.label %}
+            {%  if field.field.widget.input_type not in 'text,email'%}
             <label class="{% if label_class %} {{ label_class }} {% else %} govuk-label govuk-label--s {% endif %}"
                    for="{% if labelForId %}{{ labelForId }}{% else %}{{ field.id_for_label }}{% endif %}">
                 {{ field.label }}
                 {% if optional %}<span>(Optional)</span>{% endif %}
                 {% if dynamicText %}{{ dynamicText }}{% endif %}
             </label>
+            {% endif %}
         {% endif %}
         {% if field.help_text %}
             <div class="{% if help_class %} {{ help_class }} {% else %} govuk-hint govuk-!-margin-bottom-2 {% endif %}"
@@ -27,7 +29,7 @@
                 {% if inputPrefixClass %}<div class="{{ inputPrefixClass }}" aria-hidden="true">{{ inputPrefixText }}</div>{% endif %}
             {% endif %}
             {% if field.field.widget.input_type in 'text,email' %}
-                {% include '_text-input.html' with id=field.id_for_label name=field.name classes=field.field.widget_css_classes type=field.field.widget.input_type labelClasses=field.css_classes%}
+                {% include '_text-input.html' with id=field.id_for_label name=field.name classes=field.field.widget_css_classes type=field.field.widget.input_type labelClasses=field.field.label_css_classes label=field.label %}
             {% else %}
                 {{ field }}
             {% endif %}

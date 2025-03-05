@@ -4,16 +4,18 @@
         <fieldset>
             {% if field.label %}<legend>{{ field.label_tag }}</legend>{% endif %}
         {% else %}
+            {%  if field.field.widget.input_type not in 'text,email'%}
             {% if field.label %}
                 {{ field.label_tag }}
             {% elif field.field.widget.hidden_label %}
                 <label class="visually-hidden" for="{{ field.id_for_label }}">{{ field.field.widget.hidden_label }}</label>
             {% endif %}
+            {% endif %}
         {% endif %}
         {% if field.errors %}<div class="error-message" role="alert" aria-atomic="true">{{ field.errors }}</div>{% endif %}
         {% if field.help_text %}<span class="form-hint">{{ field.help_text }}</span>{% endif %}
         {% if field.field.widget.input_type in 'text,email' %}
-            {% include '_text-input.html' with id=field.id_for_label name=field.name classes=field.field.widget_css_classes type=field.field.widget.input_type labelClasses=field.css_classes%}
+            {% include '_text-input.html' with id=field.id_for_label name=field.name classes=field.field.widget_css_classes type=field.field.widget.input_type labelClasses=field.field.label_css_classes label=field.label %}
         {% else %}
             {{ field }}
         {% endif %}
