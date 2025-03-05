@@ -47,11 +47,19 @@
                                                      class="options checkbox-small filter-section-active">
                                                     {% if request.GET.booking_period == 'upcoming' or request.GET.booking_period == 'past' %}
                                                         {% filter disable_period_radios %}
+                                                        {% if field.field.widget.input_type in 'text,email' %}
+                                                            {% include '_text-input.html' with id=field.id_for_label name=field.name classes=field.field.widget_css_classes type=field.field.widget.input_type labelClasses=field.css_classes%}
+                                                        {% else %}
                                                             {{ field }}
+                                                        {% endif %}
                                                         {% endfilter %}
                                                     {% else %}
                                                         {% filter set_all_events %}
-                                                            {{ field }}
+                                                            {% if field.field.widget.input_type in 'text,email' %}
+                                                                {% include '_text-input.html' with id=field.id_for_label name=field.name classes=field.field.widget_css_classes type=field.field.widget.input_type labelClasses=field.css_classes%}
+                                                            {% else %}
+                                                                {{ field }}
+                                                            {% endif %}
                                                         {% endfilter %}
                                                     {% endif %}
                                                 </div>

@@ -12,6 +12,10 @@
         {% endif %}
         {% if field.errors %}<div class="error-message" role="alert" aria-atomic="true">{{ field.errors }}</div>{% endif %}
         {% if field.help_text %}<span class="form-hint">{{ field.help_text }}</span>{% endif %}
-        {{ field }}
+        {% if field.field.widget.input_type in 'text,email' %}
+            {% include '_text-input.html' with id=field.id_for_label name=field.name classes=field.field.widget_css_classes type=field.field.widget.input_type labelClasses=field.css_classes%}
+        {% else %}
+            {{ field }}
+        {% endif %}
         {% if field.field.widget.is_grouped %}</fieldset>{% endif %}
 </div>

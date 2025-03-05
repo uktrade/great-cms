@@ -20,6 +20,10 @@
         <div class="{{ inputWrapperClass }}">
             {% if inputPrefixClass %}<div class="{{ inputPrefixClass }}" aria-hidden="true">{{ inputPrefixText }}</div>{% endif %}
         {% endif %}
-        {{ field }}
+        {% if field.field.widget.input_type in 'text,email' %}
+            {% include '_text-input.html' with id=field.id_for_label name=field.name classes=field.field.widget_css_classes type=field.field.widget.input_type labelClasses=field.css_classes%}
+        {% else %}
+            {{ field }}
+        {% endif %}
         {% if inputWrapperClass %}</div>{% endif %}
 {% endif %}

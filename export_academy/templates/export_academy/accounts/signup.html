@@ -27,7 +27,11 @@
                             <span class="govuk-visually-hidden">Error:</span> {{ error }}
                         </p>
                     {% endfor %}
-                    {{ field }}
+                    {% if field.field.widget.input_type in 'text,email' %}
+                        {% include '_text-input.html' with id=field.id_for_label name=field.name classes=field.field.widget_css_classes type=field.field.widget.input_type labelClasses=field.css_classes%}
+                    {% else %}
+                        {{ field }}
+                    {% endif %}
                 </div>
             {% else %}
                 {% include 'domestic/contact/includes/govuk-form-field.html' with field=field label_classes='great-signup-form-label great-font-weight-semi-bold great-font-size-18 great-line-height-30' %}
