@@ -1,7 +1,7 @@
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV3
 from directory_forms_api_client.forms import SaveOnlyInDatabaseAPIForm
-from django.forms import HiddenInput, IntegerField, Textarea
+from django.forms import HiddenInput, IntegerField, Textarea, TextInput
 from great_components import forms
 
 
@@ -22,9 +22,21 @@ class FeedbackForm(SaveOnlyInDatabaseAPIForm):
         widget=forms.RadioSelect(),
         choices=[('yes', 'Yes'), ('no', 'No')],
     )
-    contact_name = forms.CharField(label='What is your name?', required=False)
-    contact_email = forms.EmailField(label='What is your email address?', required=False)
-    contact_number = forms.CharField(label='What is your phone number? (optional)', required=False)
+    contact_name = forms.CharField(
+        label='What is your name?',
+        required=False,
+        widget=TextInput({'class': 'govuk-!-width-one-half'})
+    )
+    contact_email = forms.EmailField(
+        label='What is your email address?',
+        required=False,
+        widget=TextInput({'class': 'govuk-!-width-one-half'})
+    )
+    contact_number = forms.CharField(
+        label='What is your phone number? (optional)',
+        required=False,
+        widget=TextInput({'class': 'govuk-!-width-one-half'})
+    )
     captcha = ReCaptchaField(label='', label_suffix='', widget=ReCaptchaV3())
 
     @property
