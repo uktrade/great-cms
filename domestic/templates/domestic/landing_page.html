@@ -193,20 +193,12 @@
                     <h2 class="govuk-heading-l govuk-!-margin-top-9 govuk-!-margin-bottom-6">{{ page.magna_ctas_title }}</h2>
                 {% endif %}
                 <div class="govuk-grid-row govuk-!-padding-bottom-4 great-card-row">
-                    {% for column_block in page.magna_ctas_columns %}
-                        <div class="govuk-grid-column-one-third">
+                    <div class="great-ds-card-container">
+                        {% for column_block in page.magna_ctas_columns %}
                             {% image column_block.value.image fill-640x360 as thumbnail %}
-                            <div class="great-ds-card-container">
-                                {% include '_card.html' with type="mounted-blue" href=column_block.value.url imageUrl=thumbnail.url imageAlt=column_block.value.image.alt_text title=column_block.value.text description=column_block.value.content id="id_magna_cta_{{ forloop.counter }}" %}
-                            </div>
-                            {% comment %} {% include 'components/great/card.html' with title=column_block.value.text
-                            url=column_block.value.url
-                            show_title_link=True
-                            image_src=thumbnail.url
-                            image_alt=column_block.value.image.alt_text
-                            content=column_block.value.content a_classes="great-bg-light-blue" %} {% endcomment %}
-                        </div>
-                    {% endfor %}
+                            {% include '_card.html' with type="mounted-blue" href=column_block.value.url imageUrl=thumbnail.url imageAlt=column_block.value.image.alt_text title=column_block.value.text description=column_block.value.content id=page.slug titleSize="m" classes="great-ds-card--3" %}
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </section>
@@ -215,35 +207,15 @@
             <div class="container wrap-tight">
                 <h2 class="govuk-heading-l govuk-!-padding-top-9 govuk-!-margin-bottom-6">{{ page.magna_ctas_title }}</h2>
                 <div class="grid-row wrap-tight{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-display-flex-from-desktop{% endif %}">
-                    {% for column_block in page.magna_ctas_columns %}
-                        <div class="column-third-m column-full">
+                    <div class="great-ds-card-container">
+                        {% for column_block in page.magna_ctas_columns %}
                             {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
-                                <div class="great-ds-card-container">
-                                    {% include '_card.html' with type="mounted-blue" href=column_block.value.url imageUrl=column_block.value.url title=column_block.value.text description=column_block.value.content id="id_magna_cta_{{ forloop.counter }}
-                                    "%}
-                                </div>
-                                {% comment %} {% include 'components/card.html' with title=column_block.value.text
-                                url=column_block.value.url
-                                card_image=column_block.value.image html_snippet=column_block.value.content
-                                no_padding_card=True
-                                transparent_card=False
-                                show_sign_in_required=False
-                                white_bg_card=True %} {% endcomment %}
+                                {% include '_card.html' with type="mounted-blue" href=column_block.value.url imageUrl=column_block.value.url title=column_block.value.text description=column_block.value.content id=page.slug titleSize="m" classes="great-ds-card--3" %}
                             {% else %}
-                                <div class="great-ds-card-container">
-                                    {% include '_card.html' with href=column_block.value.url imageUrl=column_block.value.image title=column_block.value.text description=column_block.value.content id="id_magna_cta_|add:forloop.counter" %}
-                                </div>
-                                {% comment %}
-                                {% include 'components/card.html' with title=column_block.value.text
-                                url=column_block.value.url
-                                card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True
-                                transparent_card=True
-                                show_sign_in_required=True
-                                white_bg_card=False %}
-                                {% endcomment %}
+                                {% include '_card.html' with href=column_block.value.url imageUrl=column_block.value.image title=column_block.value.text description=column_block.value.content id=page.slug titleSize="m" classes="great-ds-card--3" %}
                             {% endif %}
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
+                    </div>
                 </div>
                 <hr />
             </div>
@@ -254,22 +226,11 @@
             <div class="container wrap-tight">
                 <h2 class="margin-bottom-30">Here to help with your exporting journey</h2>
                 <div class="grid-row wrap-tight">
-                    {% for column_block in page.how_dit_helps_columns %}
-                        <div class="column-third-m column-full">
-                            <div class="great-ds-card-container">
-                                {% include '_card.html' with href=column_block.value.url imageUrl=column_block.value.image title=column_block.value.text description=column_block.value.content id="id_how_dit_helps_{{ forloop.counter }}" metadataText=column_block.value.source  %}
-                            </div>
-                            {% comment %} {% include 'components/card.html' with
-                            title=column_block.value.text
-                            subheading=column_block.value.source
-                            url=column_block.value.url
-                            card_image=column_block.value.image
-                            html_snippet=column_block.value.content
-                            no_padding_card=True
-                            transparent_card=True
-                            show_sign_in_required=False %} {% endcomment %}
-                        </div>
-                    {% endfor %}
+                    <div class="great-ds-card-container">
+                        {% for column_block in page.how_dit_helps_columns %}
+                            {% include '_card.html' with href=column_block.value.url imageUrl=column_block.value.image title=column_block.value.text description=column_block.value.content id=page.slug metadataText=column_block.value.source titleSize="m" classes="great-ds-card--3" %}
+                        {% endfor %}
+                    </div>
                 </div>
                 <hr />
             </div>
@@ -372,19 +333,12 @@
                         {% endif %}
                         {% if page.what_is_new_pages %}
                             <div class="govuk-grid-row govuk-!-padding-bottom-4 great-card-row">
-                                {% for link_block in page.what_is_new_pages %}
-                                    <div class="govuk-grid-column-one-third">
+                                <div class="great-ds-card-container">
+                                    {% for link_block in page.what_is_new_pages %}
                                         {% image link_block.value.image fill-640x360 as thumbnail %}
-                                        <div class="great-ds-card-container">
-                                            {% include '_card.html' with type="mounted-blue" href=link_block.value.url imageUrl=thumbnail.url imageAlt=column_block.value.image.alt_text title=link_block.value.text description=link_block.value.content id="id_how_dit_helps_{{ forloop.counter }}" %}
-                                        </div>
-                                        {% comment %} {% include 'components/great/card.html' with title=link_block.value.text tag=link_block.value.source
-                                        url=link_block.value.url
-                                        show_title_link=True
-                                        image_src=thumbnail.url
-                                        image_alt=column_block.value.image.alt_text content=link_block.value.content a_classes="great-bg-light-blue" %} {% endcomment %}
-                                    </div>
-                                {% endfor %}
+                                        {% include '_card.html' with type="mounted-blue" href=link_block.value.url imageUrl=thumbnail.url imageAlt=column_block.value.image.alt_text title=link_block.value.text description=link_block.value.content id=page.slug titleSize="m" metadataText=link_block.value.source classes="great-ds-card--3" %}
+                                    {% endfor %}
+                                </div>
                             </div>
                         {% endif %}
                     </div>
@@ -424,20 +378,11 @@
                         {% endif %}
                         {% if page.what_is_new_pages %}
                             <div class="grid-row{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-display-flex-from-desktop great{% endif %}">
-                                {% for link_block in page.what_is_new_pages %}
-                                    <div class="column-third-m column-full">
-                                        <div class="great-ds-card-container">
-                                            {% include '_card.html' with classes="great-bg-light-blue" href=link_block.value.url imageUrl=link_block.value.image title=link_block.value.text description=link_block.value.content id="what_is_new_|add:forloop.counter" metadataText=link_block.value.source %}
-                                        </div>
-                                        {% comment %} {% include 'components/card.html' with title=link_block.value.text
-                                        subheading=link_block.value.source
-                                        url=link_block.value.url
-                                        card_image=link_block.value.image html_snippet=link_block.value.content no_padding_card=True
-                                        transparent_card=True
-                                        show_sign_in_required=False
-                                        white_bg_card=features.FEATURE_DIGITAL_POINT_OF_ENTRY %} {% endcomment %}
-                                    </div>
-                                {% endfor %}
+                                <div class="great-ds-card-container">
+                                    {% for link_block in page.what_is_new_pages %}
+                                        {% include '_card.html' with classes="great-bg-light-blue" href=link_block.value.url imageUrl=link_block.value.image title=link_block.value.text description=link_block.value.content id=page.slug metadataText=link_block.value.source titleSize="m" classes="great-ds-card--3" %}
+                                    {% endfor %}
+                                </div>
                             </div>
                         {% endif %}
                     </div>

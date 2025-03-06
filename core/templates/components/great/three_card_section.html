@@ -2,11 +2,11 @@
     <div class="great-container">
         {% if title %}<h2 class="govuk-heading-l govuk-!-margin-bottom-5">{{ title }}</h2>{% endif %}
         <div class="govuk-grid-row">
-            {% for column_block in columns %}
-                <div class="govuk-grid-column-one-third">
-                    {% include 'components/great/card.html' with title=column_block.value.title url=column_block.value.url image=column_block.value.image source=column_block.value.source summary=column_block.value.summary %}
-                </div>
-            {% endfor %}
+            <div class="great-ds-card-container">
+                {% for column_block in columns %}
+                    {% include '_card.html' with type="mounted-blue" href=column_block.value.url imageUrl=column_block.value.image title=column_block.value.title description=column_block.value.content id=page.slug titleSize="m" hideArrow="true" classes="great-ds-card--3" %}
+                {% endfor %}
+            </div>
         </div>
         <hr class="govuk-!-margin-top-6 govuk-!-margin-bottom-0 great-hr-blue" />
     </div>
