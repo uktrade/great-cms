@@ -378,6 +378,8 @@ class BaseSettings(PydanticBaseSettings):
 
     feature_great_migration_banner: bool = False
 
+    frontend_cache_distribution_id: str = ''
+
 
 class CIEnvironment(BaseSettings):
     database_url: str
