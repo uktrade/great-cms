@@ -1,0 +1,19 @@
+{% load static %}
+<div class="rich-link">
+    {% static icon_path as icon_path_ %}
+    {% if icon_path %}
+        <img class="dynamic-guide__icon" alt="" src="{{ icon_path_ }}" />
+    {% elif image_path %}
+        <img class="rich-link__image" alt={{ image_alt }} src="{{ image_path }}" />
+    {% endif %}
+    <div class="rich-link__content">
+        {% include link_external|yesno:"./external-link.html,./internal-link.html" with url=link_url text=link_text %}
+        {% if location %}
+            <div>
+                <i class="fa fa-sm fa-map-marker-alt" aria-hidden="true"></i>
+                <span class="govuk-hint">{{ location }}</span>
+            </div>
+        {% endif %}
+        <p class="govuk-body">{{ body }}</p>
+    </div>
+</div>
