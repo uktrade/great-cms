@@ -85,21 +85,34 @@
                                         <a href="mailto:{{ growth_hub.email }}" class="govuk-link">{{ growth_hub.email }}</a>
                                     </p>
                                 {% endif %}
-                            {% else %}
+                            {% endif %}
+
+                            {% if block.block_type == 'chamber_of_commerce' %}
+                                <h2 class="govuk-heading-l">{{ block.value.title }}</h2>
+                                {% if chamber_of_commerce %}
+                                    <h3 class="govuk-heading-s">{{ chamber_of_commerce.title }}</h3>
+                                    <p class="govuk-body">{{ chamber_of_commerce.address }}</p>
+                                    <p class="govuk-body">
+                                        <a href="mailto:{{ chamber_of_commerce.email }}" class="govuk-link">{{ chamber_of_commerce.email }}</a>
+                                    </p>
+                                    <p class="govuk-body">With over 4000 members, the largest accredited Chamber of Commerce in the UK, the Chamber is located in the heart of the City Centre and has a strong presence in Greater Manchester’s ten local authority areas.</p>
+                                {% endif %}
+                            {% endif %}
+
+                            {% if block.block_type == 'trade_associations' %}
+                                <h2 class="govuk-heading-l">{{ block.value.title }}</h2>
+                                {% if trade_associations %}
+                                    <ul>
+                                        {% for trade_association in trade_associations %}
+                                        <li>
+                                            <a href="{{ trade_association.url }}">{{ trade_association.name }}</a>
+                                            <p class="govuk-body">{{ trade_association.description }}</p>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
                             {% endif %}
                         {% endfor %}
-
-                        <h2 class="govuk-heading-l">Your local chamber of commerce</h2>
-                        <p>
-                            Elliot House<br />
-                            151 Deansgate<br />
-                            Manchester<br />
-                            M3 3WD<br />
-                            Telephone: 0161 393 4321<br /> 
-                            Email: <a href="" class="govuk-link">info@gmchamber.co.uk</a><br /> 
-
-                            <p class="govuk-body">With over 4000 members, the largest accredited Chamber of Commerce in the UK, the Chamber is located in the heart of the City Centre and has a strong presence in Greater Manchester’s ten local authority areas.</p>
-                        </p>
                     </div>
                 </div>
             </div>

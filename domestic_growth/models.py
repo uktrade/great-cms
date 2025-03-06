@@ -20,7 +20,6 @@ from wagtail.snippets.models import register_snippet
 
 from domestic_growth.blocks import DomesticGrowthCardBlock
 
-
 class DomesticGrowthLandingPage(SeoMixin, cms_panels.DomesticGrowthLandingPagePanels, Page):
     template = 'landing.html'
 
@@ -124,6 +123,22 @@ class DomesticGrowthResultsPage(SeoMixin, cms_panels.DomesticGrowthResultsPagePa
                     ],
                 ),
             ),
+            (
+                'chamber_of_commerce',
+                blocks.StructBlock(
+                    [
+                        ('title', blocks.CharBlock()),
+                    ],
+                ),
+            ),
+            (
+                'trade_associations',
+                blocks.StructBlock(
+                    [
+                        ('title', blocks.CharBlock()),
+                    ],
+                ),
+            ),
         ],
         use_json_field=True,
         null=True,
@@ -134,21 +149,29 @@ class DomesticGrowthResultsPage(SeoMixin, cms_panels.DomesticGrowthResultsPagePa
         context = super(DomesticGrowthResultsPage, self).get_context(request)
 
         form_data = {}
-        growth_hub = None
+        dynamic_data = None
 
         if request.session.get('domestic_growth_triage_data'):
             form_data = pickle.loads(bytes.fromhex(request.session.get('domestic_growth_triage_data')))[0]
-            growth_hub = helpers.get_nearest_growth_hub_by_postode(form_data.get('postcode'))
+            dynamic_data = helpers.get_nearest_by_postcode(form_data.get('postcode'))
         elif request.GET.get('postcode') and request.GET.get('sector'):
             form_data = {
                 'postcode': request.GET.get('postcode'),
                 'sector': request.GET.get('sector'),
             }
-            growth_hub = helpers.get_nearest_growth_hub_by_postode(request.GET.get('postcode'))
+            dynamic_data = helpers.get_nearest_by_postcode(form_data.get('postcode'))
 
         context['session_data'] = form_data
-        context['growth_hub'] = growth_hub
+        context['growth_hub'] = dynamic_data['growth_hub']
+        context['chamber_of_commerce'] = dynamic_data['chamber_of_commerce']
         context['qs'] = '?postcode=' + request.GET.get('postcode') + '&sector=' + request.GET.get('sector')
+        context['trade_associations'] = [
+            {
+                'name': 'Generic Trade Assocation name',
+                'description': 'More info about generic trade association',
+                'url': 'www.tradeassociation.com',
+            }
+        ]
 
         return context
 
@@ -190,20 +213,16 @@ class DomesticGrowthChildResultsPage(SeoMixin, cms_panels.DomesticGrowthResultsP
         context = super(DomesticGrowthChildResultsPage, self).get_context(request)
 
         form_data = {}
-        growth_hub = None
 
         if request.session.get('domestic_growth_triage_data'):
             form_data = pickle.loads(bytes.fromhex(request.session.get('domestic_growth_triage_data')))[0]
-            growth_hub = helpers.get_nearest_growth_hub_by_postode(form_data.get('postcode'))
         elif request.GET.get('postcode') and request.GET.get('sector'):
             form_data = {
                 'postcode': request.GET.get('postcode'),
                 'sector': request.GET.get('sector'),
             }
-            growth_hub = helpers.get_nearest_growth_hub_by_postode(request.GET.get('postcode'))
 
         context['session_data'] = form_data
-        context['growth_hub'] = growth_hub
         context['qs'] = '?postcode=' + request.GET.get('postcode') + '&sector=' + request.GET.get('sector')
 
         return context
