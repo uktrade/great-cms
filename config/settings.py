@@ -103,6 +103,7 @@ INSTALLED_APPS = [
     'wagtail_localize',
     'wagtail_localize.locales',
     'domestic_growth.apps.DomesticGrowthConfig',
+    'wagtail.contrib.frontend_cache',
 ]
 
 MIDDLEWARE = [
@@ -1070,3 +1071,16 @@ COUNTRIES_ISO_CODE_UPDATE_MINUTE = env.countries_iso_code_update_minute
 COUNTRIES_ISO_CODE_UPDATE_API = 'https://restcountries.com/v3.1/all?fields=name,cca2'
 
 FEATURE_GREAT_MIGRATION_BANNER = env.feature_great_migration_banner
+
+
+wagtail_cf = {}
+for dist_id in env.frontend_cache_distribution_id.split(','):
+    if dist_id:
+        cf_dist = {
+            'BACKEND': 'core.cache.GreatCloudfrontBackend',
+            'DISTRIBUTION_ID': dist_id.split(':')[0],
+            'HOSTNAMES': [dist_id.split(':')[1]],
+        }
+        wagtail_cf[dist_id.split(':')[0]] = cf_dist
+
+WAGTAILFRONTENDCACHE = wagtail_cf
