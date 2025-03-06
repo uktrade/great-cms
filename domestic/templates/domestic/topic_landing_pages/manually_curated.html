@@ -11,17 +11,14 @@
         <section id="{{ page.slug }}-list-section"
                  class="topic-list-section govuk-!-margin-top-6">
             <div class="container">
-                <div class="flex-grid">
+                <div class="great-ds-card-container">
                     {% for panel in page.panels %}
-                        <div class="column-third-xl column-half-l">
-                            <div class="great-ds-card-container">
-                                {% include '_card.html' with href=panel.value.link_url imageUrl=thumbnail.url imageAlt=panel.value.image.alt_text title=panel.value.link_text description=panel.value.description id="{{page.slug}}_{{ forloop.counter }}" %}
-                            </div>
-                            {% comment %} {% include 'components/card.html' with url=panel.value.link_url 
-                            title=panel.value.link_text 
-                            card_image=panel.value.image 
-                            description=panel.value.description only %} {% endcomment %}
-                        </div>
+                        {% include '_card.html' with href=panel.value.link_url imageUrl=panel.value.image imageAlt=panel.value.image.alt_text title=panel.value.link_text description=panel.value.description id="{{ page.slug }}
+                        _{{ forloop.counter }}" hideArrow="true" classes="great-ds-card--3" titleSize="m" %}
+                        {% comment %} {% include 'components/card.html' with url=panel.value.link_url
+                            title=panel.value.link_text
+                            card_image=panel.value.image
+                        description=panel.value.description only %} {% endcomment %}
                     {% endfor %}
                 </div>
             </div>
