@@ -78,6 +78,10 @@
                                     {% with dynamic_content_snippet=content|dynamic_snippet:session_data.sector %}
                                         {% include 'components/great/card.html' with title=dynamic_content_snippet.title url=dynamic_content_snippet.url show_title_link=True content=dynamic_content_snippet.description %}
                                     {% endwith %}
+                                {% elif 'UKEA' in content.title and ukea_events %}
+                                    {% for event in ukea_events %}
+                                        {{ event.name }}
+                                    {% endfor %}
                                 {% else %}
                                     {% include 'components/great/card.html' with title=content.title url=content.url show_title_link=True content=content.description %}
                                 {% endif %}

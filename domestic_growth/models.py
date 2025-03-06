@@ -20,6 +20,7 @@ from wagtail.snippets.models import register_snippet
 
 from domestic_growth.blocks import DomesticGrowthCardBlock
 
+
 class DomesticGrowthLandingPage(SeoMixin, cms_panels.DomesticGrowthLandingPagePanels, Page):
     template = 'landing.html'
 
@@ -224,6 +225,12 @@ class DomesticGrowthChildResultsPage(SeoMixin, cms_panels.DomesticGrowthResultsP
 
         context['session_data'] = form_data
         context['qs'] = '?postcode=' + request.GET.get('postcode') + '&sector=' + request.GET.get('sector')
+        context['ukea_events'] = [
+            {
+                'name': 'Sector based UKEA Event',
+                'url': 'www.ukea.com',
+            }
+        ]
 
         return context
 
