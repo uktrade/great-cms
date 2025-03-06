@@ -18,8 +18,8 @@ from django.utils.text import slugify
 from core.constants import (
     BACKLINK_QUERYSTRING_NAME,
     CHEG_EXCLUDED_COUNTRY_CODES,
-    META_LABELS,
     EU_TRAVEL_ADVICE_URLS,
+    META_LABELS,
 )
 from core.helpers import millify
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage
@@ -739,6 +739,15 @@ def convert_anchor_identifier_a_to_span(input_html):
         new_tag.attrs['id'] = anchor.attrs['id']
         anchor.replace_with(new_tag)
     return mark_safe(str(soup))
+
+
+@register.filter
+def convert_anchor_identifiers_to_span(value):
+    # Issue only occurs in content_modules where render_a method in core/rich_text.py does not fire, so return as-is
+    if value.block_type != 'content_module':
+        return value
+    rich_text_html = value.value.content
+    return convert_anchor_identifier_a_to_span(rich_text_html)
 
 
 @register.inclusion_tag('_cta-banner.html')
