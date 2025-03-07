@@ -41,7 +41,7 @@ APPEND_SLASH = True
 INSTALLED_APPS = [
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
-    'wagtail.contrib.modeladmin',
+    'wagtail_modeladmin',
     'wagtail.contrib.table_block',
     'wagtail.embeds',
     'wagtail.sites',
@@ -204,11 +204,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Django>=3.2 will not do it for you anymore
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+IS_LOCAL_DOCKER_DEVELOPMENT = env.is_local_docker_development
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-if is_copilot() and not env.is_docker:
+if is_copilot() and not IS_LOCAL_DOCKER_DEVELOPMENT:
     DATABASES = database_from_env('DATABASE_CREDENTIALS')
     DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
 
@@ -461,6 +462,7 @@ X_FRAME_OPTIONS = 'DENY'
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
+
 # message framework
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
@@ -509,7 +511,7 @@ if DEBUG:
     INSTALLED_APPS += ['debug_toolbar']
     MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE
     INTERNAL_IPS = ['127.0.0.1', '10.0.2.2']
-    if env.is_docker:
+    if IS_LOCAL_DOCKER_DEVELOPMENT:
         import socket
 
         hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
@@ -542,7 +544,7 @@ if FEATURE_OPENSEARCH:  # Power search via Opensearch
     WAGTAILSEARCH_BACKENDS = {
         'default': {
             'BACKEND': 'wagtail.search.backends.elasticsearch7',
-            'AUTO_UPDATE': False,
+            'AUTO_UPDATE': True,
             'URLS': [decoded_opensearch_url],
             'INDEX': 'great-cms',
             'TIMEOUT': 5,

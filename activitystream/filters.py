@@ -44,3 +44,12 @@ class ActivityStreamCmsContentFilter(FilterSet):
     def filter_after(self, queryset, name, value):
         value = value or '0'
         return queryset.filter(id__gt=value)
+
+
+class ActivityStreamHCSATFilter(FilterSet):
+    after = CharFilter(method='filter_after')
+
+    def filter_after(self, queryset, name, value):
+        value = value or '0.000000'
+        after_ts = datetime.datetime.fromtimestamp(float(value), tz=datetime.timezone.utc)
+        return queryset.filter(modified__gt=after_ts)

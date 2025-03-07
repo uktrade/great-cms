@@ -18,15 +18,18 @@ from activitystream.filters import (
     ActivityStreamCmsContentFilter,
     ActivityStreamExpandYourBusinessFilter,
     ActivityStreamExportAcademyFilter,
+    ActivityStreamHCSATFilter,
     PageFilter,
 )
 from activitystream.pagination import (
     ActivityStreamCmsContentPagination,
     ActivityStreamExpandYourBusinessPagination,
     ActivityStreamExportAcademyPagination,
+    ActivityStreamHCSATPagination,
 )
 from activitystream.serializers import (
     ActivityStreamCmsContentSerializer,
+    ActivityStreamDomesticHCSATUserFeedbackDataSerializer,
     ActivityStreamExpandYourBusinessTriageDataSerializer,
     ActivityStreamExpandYourBusinessUserDataSerializer,
     ActivityStreamExportAcademyBookingSerializer,
@@ -35,7 +38,7 @@ from activitystream.serializers import (
     ActivityStreamExportAcademyVideoOnDemandPageTrackingSerializer,
     PageSerializer,
 )
-from core.models import MicrositePage
+from core.models import HCSAT, MicrositePage
 from domestic.models import ArticlePage, CountryGuidePage
 from export_academy.models import (
     Booking,
@@ -256,3 +259,18 @@ class ActivityStreamExportAcademyBaseView(ActivityStreamBaseView):
 
     def get_queryset(self):
         return self.queryset.order_by('id')
+
+
+class ActivityStreamHCSATBaseView(ActivityStreamBaseView):
+    filterset_class = ActivityStreamHCSATFilter
+    pagination_class = ActivityStreamHCSATPagination
+
+    def get_queryset(self):
+        return self.queryset.order_by('id')
+
+
+class ActivityStreamDomesticHCSATFeedbackDataView(ActivityStreamHCSATBaseView):
+    """View to list domestic HCSAT feedback data for the activity stream"""
+
+    queryset = HCSAT.objects.all()
+    serializer_class = ActivityStreamDomesticHCSATUserFeedbackDataSerializer

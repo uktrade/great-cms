@@ -1,4 +1,4 @@
-from wagtail.contrib.modeladmin.options import ModelAdmin
+from wagtail_modeladmin.options import ModelAdmin
 
 from .models import ContactSuccessSnippet, ContactUsGuidanceSnippet
 

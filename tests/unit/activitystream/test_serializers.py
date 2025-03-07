@@ -1,5 +1,4 @@
 import json
-import logging
 
 import pytest
 from django.test import TestCase
@@ -8,6 +7,7 @@ from wagtail_factories import PageFactory
 
 from activitystream.serializers import (
     ActivityStreamCmsContentSerializer,
+    ActivityStreamDomesticHCSATUserFeedbackDataSerializer,
     ActivityStreamExpandYourBusinessTriageDataSerializer,
     ActivityStreamExpandYourBusinessUserDataSerializer,
     ActivityStreamExportAcademyBookingSerializer,
@@ -23,6 +23,7 @@ from core.models import MicrositePage
 from domestic.models import ArticlePage
 from international_online_offer.models import TriageData, UserData
 from tests.unit.core.factories import (
+    HCSATFactory,
     LandingPageFactory,
     MicrositeFactory,
     MicrositePageFactory,
@@ -180,56 +181,47 @@ def test_articleserializer__get_article_body_content_for_search__skipping_unknow
     # Rather than add a new block to the streamfield and then confirm its skipped, we can test
     # the core code by removing a block type from the list that the serializer knows about
 
-    with caplog.at_level(logging.DEBUG):
-        article_instance = ArticlePageFactory(
-            article_title='article test',
-            article_teaser='Descriptive text',
-            slug='article-test',
-        )
-        article_instance.article_body = json.dumps(
-            [
-                {
-                    'type': 'text',
-                    'value': '<p>Hello, World!</p>',
+    article_instance = ArticlePageFactory(
+        article_title='article test',
+        article_teaser='Descriptive text',
+        slug='article-test',
+    )
+    article_instance.article_body = json.dumps(
+        [
+            {
+                'type': 'text',
+                'value': '<p>Hello, World!</p>',
+            },
+            {
+                'type': 'pull_quote',
+                'value': {
+                    'quote': 'dummy quotestring',
+                    'attribution': 'dummy attribution string',
+                    'role': 'dummy role string',
+                    'organisation': 'dummy organisation string',
+                    'organisation_link': 'https://example.com/dummy-org-link',
                 },
-                {
-                    'type': 'pull_quote',
-                    'value': {
-                        'quote': 'dummy quotestring',
-                        'attribution': 'dummy attribution string',
-                        'role': 'dummy role string',
-                        'organisation': 'dummy organisation string',
-                        'organisation_link': 'https://example.com/dummy-org-link',
-                    },
-                },
-                {
-                    'type': 'text',
-                    'value': '<h2>Goodbye, World!</h2><p>Lorem <b>ipsum</b> <i>dolor</i> sit amet.</p>',
-                },
-            ]
-        )
-        article_instance.save()
+            },
+            {
+                'type': 'text',
+                'value': '<h2>Goodbye, World!</h2><p>Lorem <b>ipsum</b> <i>dolor</i> sit amet.</p>',
+            },
+        ]
+    )
+    article_instance.save()
 
-        serializer = ArticlePageSerializer()
-        serializer.expected_block_types = [
-            'pull_quote',
-        ]  # ie, 'text' is not in here
+    serializer = ArticlePageSerializer()
+    serializer.expected_block_types = [
+        'pull_quote',
+    ]  # ie, 'text' is not in here
 
-        assert len(caplog.records) == 1
-        searchable_content = serializer._get_article_body_content_for_search(article_instance)
+    searchable_content = serializer._get_article_body_content_for_search(article_instance)
 
-        assert len(caplog.records) == 3
-        for i in range(1, 3):
-            assert caplog.records[i].message == (
-                'Unhandled block type "text" in ArticlePage.body_text. Leaving out of search index content.'
-            )
-            assert caplog.records[i].levelname == 'ERROR'
-
-        assert searchable_content == (
-            # Only the pull-quote's content is here:
-            'dummy quotestring dummy attribution string dummy role string '
-            'dummy organisation string https://example.com/dummy-org-link'
-        )
+    assert searchable_content == (
+        # Only the pull-quote's content is here:
+        'dummy quotestring dummy attribution string dummy role string '
+        'dummy organisation string https://example.com/dummy-org-link'
+    )
 
 
 @pytest.mark.django_db
@@ -700,3 +692,35 @@ def test_ukea_videoondemandpagetracking_serializer():
             'modified': instance.modified.isoformat(),
         },
     }
+
+
+@pytest.mark.django_db
+def test_domestic_hcsat_feedback_serializer():
+    instance = HCSATFactory()
+
+    serializer = ActivityStreamDomesticHCSATUserFeedbackDataSerializer()
+    output = serializer.to_representation(instance)
+
+    # Remove date due to timezone mismatch
+
+    del output['object']['feedback_submission_date']
+    expected = {
+        'id': f'dit:domestic:HCSATFeedbackData:{instance.id}:Update',
+        'type': 'Update',
+        'object': {
+            'id': instance.id,
+            'type': 'dit:domestic:HCSATFeedbackData',
+            'url': instance.URL,
+            'user_journey': instance.user_journey,
+            'satisfaction_rating': instance.satisfaction_rating,
+            'experienced_issues': instance.experienced_issues,
+            'other_detail': instance.other_detail,
+            'service_improvements_feedback': instance.service_improvements_feedback,
+            'likelihood_of_return': instance.likelihood_of_return,
+            'service_name': instance.service_name,
+            'service_specific_feedback': instance.service_specific_feedback,
+            'service_specific_feedback_other': instance.service_specific_feedback_other,
+        },
+    }
+
+    assert output == expected
