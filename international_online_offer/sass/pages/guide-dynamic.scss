@@ -437,3 +437,43 @@ a {
 		}
 	}
 }
+
+.tab-content {
+	display: grid;
+	grid-template:
+		" icon  .    title  title title"
+		" icon  .    .      .     ." 5px
+		" icon  .    figure .     explanation"
+		/ 60px  10px auto   30px  auto;
+
+	&__icon {
+		grid-area: icon;
+	}
+
+	&__title {
+		grid-area: title;
+		margin: 0;
+	}
+
+	&__figure {
+		grid-area: figure;
+	}
+
+	&__description {
+		grid-area: description;
+	}
+
+	&__explanation {
+		grid-area: explanation;
+	}
+
+	&__value {
+		margin: 0;
+	}
+}
+
+.rent-data {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}

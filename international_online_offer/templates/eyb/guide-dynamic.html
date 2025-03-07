@@ -82,6 +82,10 @@
                 {% include './includes/dynamic-guide/rich_link.html' with icon_path='svg/icon-planning.svg' link_url='#' link_text='How to find a business property' body='A suitable location near customers, staff and supply chains is crucial to your success in the UK.' %}
                 {% include './includes/dynamic-guide/rich_link.html' with icon_path='svg/icon-planning.svg' link_url='#' link_text='Set up a new premises for [ SectorName ]' body='How to find premises and decide on the best location to expand your [SectorName] business in the UK.' %}
                 {% include './includes/dynamic-guide/rich_link.html' with icon_path='svg/icon-planning.svg' link_url='#' link_text='Set up a new distribution centre for [SectorName]' body='Find help to select a location and logistics partner.' %}
+                <div class="rent-data">
+                    {% include './includes/dynamic-guide/select.html' with label=rent_data.select.label items=rent_data.select.items %}
+                    {% include '_tabs.html' with title="Wtf" items=rent_data.tabs %}
+                </div>
                 {% include './includes/dynamic-guide/section_left_end.html' %}
                 {% include './includes/dynamic-guide/section_left_start.html' with caption='Sector name' heading='Recruiting and employing people in the UK' %}
                 {% include './includes/dynamic-guide/rich_link.html' with icon_path='svg/icon-planning.svg' link_url='#' link_text='How to become an employer and recruit staff' body='A guide to your responsibilities as a UK employer, employment regulations and how to find people with the right skills. ' %}

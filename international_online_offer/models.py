@@ -3,6 +3,7 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
+from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.models import ParentalKey
@@ -147,7 +148,8 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                         'icon_path': 'svg/icon-planning.svg',
                         'prefix': '£',
                         'value': 16018,
-                        'description': 'For professions like IT user support, IT operations technicians and electricians',
+                        'description': 'For professions like IT user support, '
+                        'IT operations technicians and electricians',
                     },
                     {
                         'icon_path': 'svg/icon-planning.svg',
@@ -159,11 +161,66 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                         'icon_path': 'svg/icon-planning.svg',
                         'prefix': '£',
                         'value': 39397,
-                        'description': 'For professions like senior restaurant manager and food company chief executive.',
+                        'description': 'For professions like senior restaurant '
+                        'manager and food company chief executive.',
                     },
                 ],
                 'data_year': '1979',
                 'data_source': 'Inter-Departmental Business Register, Office for National Statistics',
+            },
+            'rent_data': {
+                'select': {
+                    'label': {'text': 'Average rent data for'},
+                    'items': [
+                        {'value': 'foo', 'text': 'Foo'},
+                        {'value': 'bar', 'text': 'Bar'},
+                        {'value': 'baz', 'text': 'Baz'},
+                    ],
+                },
+                'tabs': [
+                    {
+                        'id': 'foo',
+                        'label': 'Foo',
+                        'panel': {
+                            'html': render_to_string(
+                                'eyb/includes/dynamic-guide/tab_content.html',
+                                {
+                                    'title': 'Foo',
+                                    'value_from': 12345,
+                                    'value_to': 4321,
+                                },
+                            )
+                        },
+                    },
+                    {
+                        'id': 'bar',
+                        'label': 'Bar',
+                        'panel': {
+                            'html': render_to_string(
+                                'eyb/includes/dynamic-guide/tab_content.html',
+                                {
+                                    'title': 'Bar',
+                                    'value_from': 22334455,
+                                    'value_to': 55443322,
+                                },
+                            )
+                        },
+                    },
+                    {
+                        'id': 'baz',
+                        'label': 'Baz',
+                        'panel': {
+                            'html': render_to_string(
+                                'eyb/includes/dynamic-guide/tab_content.html',
+                                {
+                                    'title': 'Baz',
+                                    'value_from': 333777,
+                                    'value_to': 777333,
+                                },
+                            )
+                        },
+                    },
+                ],
             },
         }
 
