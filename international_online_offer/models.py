@@ -107,6 +107,66 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
 
         context = self.get_context(request, user_data=user_data, triage_data=triage_data)
 
+        context = {
+            **context,
+            'market_data': {
+                'select': {
+                    'label': {'text': 'Data for'},
+                    'items': [
+                        {'value': 'foo', 'text': 'Foo'},
+                        {'value': 'bar', 'text': 'Bar'},
+                        {'value': 'baz', 'text': 'Baz'},
+                    ],
+                },
+                'figures': [
+                    {
+                        'icon_path': 'svg/icon-planning.svg',
+                        'value': 117830,
+                        'description': 'businesses in this sector',
+                    },
+                    {
+                        'icon_path': 'svg/icon-planning.svg',
+                        'value': 1342100,
+                        'description': 'employees in this sector',
+                    },
+                ],
+                'data_year': '1979',
+                'data_source': 'Inter-Departmental Business Register, Office for National Statistics',
+            },
+            'salary_data': {
+                'select': {
+                    'label': {'text': 'Average annual salary data for'},
+                    'items': [
+                        {'value': 'foo', 'text': 'Foo'},
+                        {'value': 'bar', 'text': 'Bar'},
+                        {'value': 'baz', 'text': 'Baz'},
+                    ],
+                },
+                'figures': [
+                    {
+                        'icon_path': 'svg/icon-planning.svg',
+                        'prefix': '£',
+                        'value': 16018,
+                        'description': 'For professions like IT user support, IT operations technicians and electricians',
+                    },
+                    {
+                        'icon_path': 'svg/icon-planning.svg',
+                        'prefix': '£',
+                        'value': 20404,
+                        'description': 'For professions like electronic engineers and IT project managers',
+                    },
+                    {
+                        'icon_path': 'svg/icon-planning.svg',
+                        'prefix': '£',
+                        'value': 39397,
+                        'description': 'For professions like senior restaurant manager and food company chief executive.',
+                    },
+                ],
+                'data_year': '1979',
+                'data_source': 'Inter-Departmental Business Register, Office for National Statistics',
+            },
+        }
+
         return TemplateResponse(
             request, 'eyb/guide-dynamic.html' if ('dynamic' in request.GET) else self.template, context
         )

@@ -60,7 +60,7 @@
                     </ul>
                 </div>
                 {% include './includes/dynamic-guide/section_left_start.html' with caption='Sector name' heading='Market data' %}
-                <div>...not implemented yet</div>
+                {% include './includes/dynamic-guide/figures.html' with options=market_data only %}
                 {% include '_action_link.html' with linkText='Compare data across UK nations and regions' linkHref='#' %}
                 {% include './includes/dynamic-guide/section_left_end.html' %}
                 {% include './includes/dynamic-guide/section_left_start.html' with caption='Sector name' heading='Locations of investment opportunities' description='South Wales is pioneering the way forward in designing, developing, and commercialising the compound semiconductors needed for a net zero economy.' %}
@@ -82,20 +82,12 @@
                 {% include './includes/dynamic-guide/rich_link.html' with icon_path='svg/icon-planning.svg' link_url='#' link_text='How to find a business property' body='A suitable location near customers, staff and supply chains is crucial to your success in the UK.' %}
                 {% include './includes/dynamic-guide/rich_link.html' with icon_path='svg/icon-planning.svg' link_url='#' link_text='Set up a new premises for [ SectorName ]' body='How to find premises and decide on the best location to expand your [SectorName] business in the UK.' %}
                 {% include './includes/dynamic-guide/rich_link.html' with icon_path='svg/icon-planning.svg' link_url='#' link_text='Set up a new distribution centre for [SectorName]' body='Find help to select a location and logistics partner.' %}
-                <div>Tab nav to be implemented</div>
                 {% include './includes/dynamic-guide/section_left_end.html' %}
                 {% include './includes/dynamic-guide/section_left_start.html' with caption='Sector name' heading='Recruiting and employing people in the UK' %}
                 {% include './includes/dynamic-guide/rich_link.html' with icon_path='svg/icon-planning.svg' link_url='#' link_text='How to become an employer and recruit staff' body='A guide to your responsibilities as a UK employer, employment regulations and how to find people with the right skills. ' %}
                 {% include './includes/dynamic-guide/rich_link.html' with icon_path='svg/icon-planning.svg' link_url='#' link_text='Recruit expert talent for your [SectorName] business' body='Recruitment agencies, events and partnerships can help you tap into the huge network of UK [SectorName] talent.' %}
-                <div>Tab nav to be implemented</div>
+                {% include './includes/dynamic-guide/figures.html' with options=salary_data only %}
                 {% include './includes/dynamic-guide/section_left_end.html' %}
-                <div class="dynamic-guide__section section section--left">
-                    <div class="section__header">
-                        <p class="govuk-caption-l">Sector name</p>
-                        <h2 class="govuk-heading-l">Title</h2>
-                        <p class="govuk-body">Lorem ipsum dolor sit amet</p>
-                    </div>
-                </div>
             </div>
             <div class="dynamic-guide__panel-right">
                 <div class="dynamic-guide__section section section--right section--find-a-consultant">
