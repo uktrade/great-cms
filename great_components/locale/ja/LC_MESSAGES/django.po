@@ -1,0 +1,125 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-12-19 13:48+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: great_components/templates/great_components/card.html:12
+#: great_components/templates/great_components/cta_card.html:7
+#: great_components/templates/great_components/header_footer/footer_base.html:27
+msgid "Opens in a new window"
+msgstr ""
+
+#: great_components/templates/great_components/cookie_notice.html:5
+msgid "Great.gov.uk uses cookies to make the site simpler."
+msgstr ""
+
+#: great_components/templates/great_components/cookie_notice.html:5
+msgid "Find out more about cookies"
+msgstr ""
+
+#: great_components/templates/great_components/header_footer/domestic_header_nav.html:4
+#: great_components/templates/great_components/header_footer/international_header_desktop_nav.html:4
+#: great_components/templates/great_components/header_footer/international_header_mobile_nav.html:4
+msgid "Main menu"
+msgstr "メインメニュー"
+
+#: great_components/templates/great_components/header_footer/footer_base.html:14
+msgid "Contact us"
+msgstr "連絡する"
+
+#: great_components/templates/great_components/header_footer/footer_base.html:17
+msgid "Privacy and cookies"
+msgstr "プライバシー"
+
+#: great_components/templates/great_components/header_footer/footer_base.html:20
+msgid "Terms and conditions"
+msgstr "規約"
+
+#: great_components/templates/great_components/header_footer/footer_base.html:27
+msgid "Department for International Trade on GOV.UK"
+msgstr "GOV.UK の国際通商省サイト"
+
+#: great_components/templates/great_components/header_footer/global_header.html:8
+msgid "For UK businesses"
+msgstr "英国でのビジネスについて"
+
+#: great_components/templates/great_components/header_footer/global_header.html:9
+msgid "For international businesses"
+msgstr "国際的なビジネスについて"
+
+#: great_components/templates/great_components/header_footer/international_footer.html:8
+msgid "Department for International Trade"
+msgstr "国際通商省"
+
+#: great_components/templates/great_components/header_footer/international_footer.html:12
+msgid "Great Britain and Northern Ireland"
+msgstr "英国（グレートブリテン及び北アイルランド連合王国）"
+
+#: great_components/templates/great_components/header_footer/international_footer.html:21
+msgid "Go to the page for UK businesses"
+msgstr "英国のビジネスのページ"
+
+#: great_components/templates/great_components/header_footer/international_header_desktop_sub_nav.html:5
+msgid "Sub-menu"
+msgstr ""
+
+#: great_components/templates/great_components/header_footer/language_switcher.html:13
+msgid "Language"
+msgstr "言語"
+
+#: great_components/templates/great_components/header_footer/language_switcher.html:16
+msgid "Select"
+msgstr "変更"
+
+#: great_components/templates/great_components/header_footer/mobile_menu_button.html:10
+msgid "Menu"
+msgstr ""
+
+#: great_components/templates/great_components/search-page-expandable-options.html:5
+#, python-format
+msgid "Toggle %(label)s filter options"
+msgstr ""
+
+#: great_components/templates/great_components/search-page-selected-filters.html:6
+msgid "Selected filters"
+msgstr ""
+
+#: great_components/templates/great_components/search-page-selected-filters.html:10
+msgid "Clear all"
+msgstr ""
+
+#~ msgid "Country"
+#~ msgstr "国"
+
+#~ msgid "Invest"
+#~ msgstr "投資"
+
+#~ msgid "UK setup guide"
+#~ msgstr "英国での事業設立"
+
+#~ msgid "Find a UK supplier"
+#~ msgstr "英国のサプライヤー検索"
+
+#~ msgid "Industries"
+#~ msgstr "産業"
+
+#~ msgid "How to do business with the UK"
+#~ msgstr "英国でのビジネスの進め方"
+
+#~ msgid "Page in English only"
+#~ msgstr "こちらのページは英語です"

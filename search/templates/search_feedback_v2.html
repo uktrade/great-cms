@@ -1,0 +1,68 @@
+{% extends 'domestic/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block head_css %}
+    {{ block.super }}
+    <link href="{% static 'styles/pages/search-results.css' %}"
+          rel="stylesheet"
+          type="text/css" />
+{% endblock %}
+{% block head_title %}Feedback Form{% endblock %}
+{% block meta_title %}Feedback Form{% endblock %}
+{% block content %}
+    <section id="search-results-information"
+             class="great govuk-!-padding-bottom-0">
+        
+    <div class="container govuk-!-padding-top-8">
+        <h1 class="govuk-heading-l">Your feedback will help us improve the website</h1>
+    </div>
+</section>
+<div class="results-wrapper">
+    <div class="container search-results-container">
+        <form action="{% url 'search:feedback' %}?{{ request.GET.urlencode }}"
+              method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            {% for field in form.hidden_fields %}
+            {{ hidden_field.errors }}
+            {{ hidden_field }}
+            {% endfor %}
+            {% for field in form.visible_fields %}
+            {{ field.errors }}
+            {{ field }}
+            {{ field.help_text }}
+            {% endfor %}
+            
+            <p class="margin-bottom-30 margin-top-60-l margin-top-45-m margin-top-30">
+                Thanks for taking the time to help users of our site.
+            </p>
+            <div class="form-group{% if field.errors %} form-group-error{% endif %}">
+                {% if form.captcha.errors %}<span class="error-message">{{ form.captcha.errors }}</span>{% endif %}
+                {% if form.captcha.help_text %}<span class="form-hint">{{ form.captcha.help_text }}</span>{% endif %}
+                {{ form.captcha }}
+            </div>
+            <input class="button primary-button" type="submit" value="Submit">
+        </form>
+    </div>
+</div>
+<script>
+  // If JS is enabled, initially hide the contact details box
+  contactDetails = document.getElementById("contact-details")
+  radios = document.getElementsByClassName('multiple-choice')
+  contactDetails.style.display = 'none'
+
+  function check_if_checked(){
+    if(document.getElementById("id_contactable_0").checked){
+      contactDetails.style.display = 'block'
+    } else {
+      contactDetails.style.display = 'none'
+    }
+  }
+
+  for (var i = 0; i < radios.length; i++) {
+    radios[i].addEventListener('click', check_if_checked, false);
+  }
+
+  check_if_checked()
+</script>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% load add_export_elements_classes from great_components %}
+
+<div class="g-banner-info">
+  <div class="w-3-4">
+    {% if banner_label %}
+      <h2>{{ banner_label }}</h2>
+    {% endif %}
+    {% if banner_content %}
+      {{ banner_content|add_export_elements_classes }}
+    {% endif %}
+  </div>
+</div>

@@ -1,0 +1,11 @@
+<div class="g-message-box-with-icon border-medium border-{{ border_colour|default:'teal' }} {{ box_class|default:'w-full bg-white' }}">
+  <div class="g-message-box-icon font-large text-white bg-{{ border_colour|default:'teal' }}" aria-hidden="true">{{ icon|default:'✓' }}</div>
+  <div class="g-message-box-content">
+    {% block content %}
+    {% if heading %}
+      <{{ heading_level|default:'h3' }} class="box-heading h-m {{ heading_class|default:'text-teal' }}">{{ heading }}</{{ heading_level|default:'h3' }}>
+    {% endif %}
+    <p class="box-description">{{ description }}</p>
+    {% endblock %}
+  </div>
+</div>

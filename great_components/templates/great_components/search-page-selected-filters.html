@@ -1,0 +1,13 @@
+{% load i18n %}
+
+{% if filters %}
+  <div class="g-filters m-bottom-s">
+    <div class="p-xs">
+      <label class="g-filters-label p-b-xs">{% trans 'Selected filters' %}</label>
+        {% for value in filters %}
+          <mark>{{ value }}</mark>
+        {% endfor %}
+      <a href="{{ clear_all_link }}" class="link clear-all-link">{% trans 'Clear all' %}</a>
+    </div>
+  </div>
+{% endif %}

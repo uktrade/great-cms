@@ -1,0 +1,19 @@
+
+<section
+  {% if section_id or id %}id="{% firstof section_id id %}"{% endif %}
+  class="g-case-study p-v-xl-l p-v-l {% if background_tint %}background-tint{% endif %}"
+  style="background-image: url({% firstof background_image_url background_image img_url image_url image_src img_src image %})">
+  <div class="container">
+    <div class="content w-full w-2-3-l w-1-2-xl">
+      <div class="w-1-2-all border-thin border-flag-red"></div>
+      <h2 class="h-l">{% firstof title heading %}</h2>
+        <img class="display-mobile-tablet w-full" src="{% firstof background_image_url background_image img_url image_url image_src img_src image %}" alt="">
+      {% block content %}
+      <p>{% firstof subtitle description %}</p>
+      {% if cta_link and cta_text %}
+        <a class="g-button m-bottom-0" href="{{ cta_link }}">{{ cta_text }}</a>
+      {% endif %}
+      {% endblock %}
+    </div>
+  </div>
+</section>

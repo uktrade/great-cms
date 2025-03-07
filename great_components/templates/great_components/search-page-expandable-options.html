@@ -1,0 +1,9 @@
+{% load i18n %}
+
+<div class="g-expandable-fieldset">
+    <label class="g-expandable-options-label" for="toggle_id_{{ field.name }}">{{ label }}</label>
+    <button aria-label="{% blocktrans %}Toggle {{label}} filter options{% endblocktrans %}" type="button" id="toggle_id_{{ field.name }}" aria-controls="id_{{ field.name }}-container" class="filter-collapse {{ open|yesno:',checked' }}" alt="{{ alt }}"></button>
+    <div class="{{ field.css_classes }}" id="id_{{ field.name }}-container" aria-expanded="false">
+        {{field}}
+    </div>
+</div>

@@ -1,0 +1,43 @@
+{% load i18n %}
+{% load add_export_elements_classes from great_components %}
+
+<div class="g-card{% if title and not description and not html_content %} only-title{% endif %}{% if transparent %} bg-transparent{% else %} bg-white{% endif %}"
+  {% if card_id %}id="{{ card_id }}"{% endif %}
+>
+  {% if url %}
+  <a
+    class="g-card-link"
+    href="{{ url }}"
+    {% if card_id %}id="{{ card_id|add:'-link' }}"{% endif %}
+    {% if external_link %}target="_blank" rel="noopener noreferrer" title="{% trans 'Opens in a new window' %}"{% endif %}
+    >
+  {% endif %}
+    {% block image %}
+    {% if image %}
+        <img class="g-card-image" src="{{ image }}" alt="{{ img_alt }}" {% if card_id %}id="{{ card_id|add:'-image' }}"{% endif %}>
+    {% endif %}
+    {% endblock %}
+    <div class="g-card-inner {% if no_padding and image %} p-top-s{% elif no_padding and not image %} p-0{% else %} p-s{% endif %}{% if html_content %} html-content{% endif %}">
+      {% block content %}
+      {% if html_content %}
+      {{ html_content }}
+      {% else %}
+        {% if subheading %}
+          <p class="h-sub">{{ subheading }}</p>
+        {% endif %}
+        {% if title %}
+          <h3 class="heading">{{ title }}</h3>
+        {% endif %}
+        {% if description %}
+          <p class="description">{{ description }}</p>
+        {% endif %}
+        {% if html_snippet %}
+        {{ html_snippet|add_export_elements_classes }}
+        {% endif %}
+      {% endif %}
+      {% endblock %}
+    </div>
+  {% if url %}
+  </a>
+  {% endif %}
+</div>

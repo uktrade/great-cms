@@ -1,0 +1,9 @@
+{% load ga360_data from great_components %}
+
+{% ga360_data "a" value="logo" %}
+  <a id="great-header-logo" class="g-header-logo" href="{{ url }}">
+    {% block header_logo %}
+      <img src="{{ image_source }}" alt="{{ image_alt_text }}">
+    {% endblock %}
+  </a>
+{% end_ga360_data %}

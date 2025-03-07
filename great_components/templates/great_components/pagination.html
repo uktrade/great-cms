@@ -1,0 +1,51 @@
+{% comment %}
+    if there are not many items then show the them all:
+         1 2 3 4  5
+
+    if there is a previous or next button then list fewer pages to cater for small screens:
+         1 2 3 ... 5 NEXT
+    PREV 1 2 3 ... 5 NEXT
+
+    if there are lots of items then show multiple ellipsis:
+         1 ... 8 9 10 ... 15      NEXT
+    PREV 1 ... 8 9 10 ... 15      NEXT
+    PREV 1 ... 8 9 10 ... 15
+{% endcomment %}
+
+{% if pagination.paginator.num_pages > 1 %}
+    <nav class="g-pagination">
+        {% if pagination.has_previous %}
+            <a class="g-button-ghost-blue g-pagination-previous g-pagination-page" href="{{ url }}{{ page_param_name }}={{ pagination.previous_page_number}}">Previous</a>
+        {% endif %}
+            <ol class="g-pagination-list {{ pagination.has_previous|yesno:'has-previous ,' }}{{ pagination.has_next|yesno:'has-next,' }}">
+                {% if pagination.paginator.num_pages <= 6 %}
+                    {% comment %} 1 2 3 4 5 6 {% endcomment %}
+                    {% for number in pagination.paginator.page_range %}
+                        {% include 'great_components/pagination-number.html' %}
+                    {% endfor %}
+                {% elif pagination.number < 5 %}
+                    {% comment %} 1 2 3 ... 7 {% endcomment %}
+                    {% for number in pagination.paginator.page_range|slice:':4' %}
+                        {% include 'great_components/pagination-number.html' %}
+                    {% endfor %}
+                    {% include 'great_components/pagination-number.html' with number=pagination.paginator.num_pages ellipsis_before=True %}
+                {% elif pages_after_current < 4 %}
+                    {% comment %} 1 ... 4 5 6 7 {% endcomment %}
+                    {% include 'great_components/pagination-number.html' with number='1' ellipsis_after=True %}
+                    {% for number in pagination.paginator.page_range|slice:'-4:' %}
+                        {% include 'great_components/pagination-number.html' %}
+                    {% endfor %}
+                {% else %}
+                    {% comment %} 1 ... 9 10 11 ... 15{% endcomment %}
+                    {% include 'great_components/pagination-number.html' with number='1' ellipsis_after=True%}
+                    {% include 'great_components/pagination-number.html' with number=pagination.previous_page_number%}
+                    {% include 'great_components/pagination-number.html' with number=pagination.number %}
+                    {% include 'great_components/pagination-number.html' with number=pagination.next_page_number ellipsis_after=True %}
+                    {% include 'great_components/pagination-number.html' with number=pagination.paginator.num_pages %}
+                {% endif %}
+            </ol>
+        {% if pagination.has_next %}
+            <a class="g-button-ghost-blue g-pagination-page g-pagination-next" href="{{ url }}{{ page_param_name }}={{ pagination.next_page_number }}">Next</a>
+        {% endif %}
+    </nav>
+{% endif %}

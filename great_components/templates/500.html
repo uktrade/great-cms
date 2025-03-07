@@ -1,0 +1,17 @@
+{% extends 'great_components/base.html' %}
+
+{% block head_title %}Sorry, there is a problem with the service{% endblock %}
+
+{% block content %}
+<section class="p-v-xxl">
+  <div class="container">
+    <h1 class="h-l">Sorry, there is a problem with the service</h1>
+    <ul class="list list-bullet">
+      <li>If the problem persists, please <a class="link" href="{{ services_urls.feedback }}">report the problem</a>.</li>
+      <li><a class="link" href="{% block home_url %}{{ services_urls.exred }}{% endblock %}">Go to the homepage</a>.</li>
+    </ul>
+  </div>
+</section>
+{% endblock %}
+
+{% block feedback_reporter %}{% endblock %}

@@ -1,13 +1,30 @@
+{% load define from content_tags %}
+
+{% define field.id_for_label as field_id %}
+{% define field.name as field_name %}
+{% define field.errors as field_errors %}
+{% define field.field.widget as widget %}
+{% define widget.input_type as field_type %}
+{% define widget.template_name as field_template_name %}
+{% define widget.attrs.class as field_classes %}
+{% define field.field.gds_mapping.label as field_label_dict %}
+{% define field.field.gds_mapping.error as field_error_dict %}
+{% define field.field.gds_mapping.hint as field_hint_dict %}
+{% define widget.attrs.cols as field_cols %}
+{% define widget.attrs.rows as field_rows %}
+
+
+{%  if field_type not in 'text,email,tel,textarea'%}
 <div class="form-group{% if field.errors %} form-group-error{% endif %}">
-    {%  if field.field.widget.input_type not in 'text,email'%}
-        {% if field.label %}{{ field.label_tag }}{% endif %}
-    {% endif %}
+    {% if field.label %}{{ field.label_tag }}{% endif %}
     {% if field.errors %}<span class="error-message">{{ field.errors }}</span>{% endif %}
     {% if field.help_text %}<span class="form-hint">{{ field.help_text }}</span>{% endif %}
-    
-    {% if field.field.widget.input_type in 'text,email' %}
-        {% include '_text-input.html' with id=field.id_for_label name=field.name classes=field.field.widget_css_classes type=field.field.widget.input_type labelClasses=field.field.label_css_classes label=field.label %}
-    {% else %}
-        {{ field }}
-    {% endif %}
+    {{ field }}
 </div>
+
+{% elif field_type in 'textarea' %}
+    {% include field_template_name with id=field_id name=field_name classes=field_classes cols=field_cols rows=field_rows label=field_label_dict hint=field_hint_dict %}
+{% elif field_type in 'text,tel,email' %}
+    {% include field_template_name with id=field_id name=field_name classes=field_classes type=field_type label=field_label_dict hint=field_hint_dict %}
+{% endif %}
+

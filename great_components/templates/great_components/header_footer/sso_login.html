@@ -1,0 +1,12 @@
+{% if not sso_is_logged_in %}
+  <li class="anonymous">
+    <a id="header-sign-in-link" href="{{ sso_login_url }}" class="account-link signin">Sign in</a>
+  </li>
+{% else %}
+  <li class="authenticated">
+    <a id="header-profile-link" href="{{ sso_profile_url }}" class="account-link profile">Account</a>
+  </li>
+  <li class="authenticated">
+    <a id="header-sign-out-link" href="{{ sso_logout_url }}" class="account-link signout">Sign out</a>
+  </li>
+{% endif %}

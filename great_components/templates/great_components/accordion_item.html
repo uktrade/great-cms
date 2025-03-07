@@ -1,0 +1,10 @@
+{% load add_export_elements_classes from great_components %}
+
+<details closed class="g-accordion">
+  <summary class="w-full link">{{ item.heading }}</summary>
+  {% block content %}
+  <div class="w-full w-2-3-m">
+    {{ item.content|add_export_elements_classes }}
+  </div>
+  {% endblock %}
+</details>

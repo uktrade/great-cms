@@ -1,0 +1,20 @@
+{% extends 'great_components/base.html' %}
+
+{% block head_title %}This page cannot be found{% endblock %}
+
+{% block content %}
+<section class="p-v-xxl">
+  <div class="container">
+    <div class="w-2-3">
+      <h1 class="h-l">This page cannot be found</h1>
+      <ul class="list list-bullet">
+          <li>If you entered a web address please check it’s correct.</li>
+          <li>If you followed a link here, <a class="link" href="{{ services_urls.feedback }}">let us know</a>.</li>
+          <li><a class="link" href="{{ services_urls.exred }}">Go to the homepage</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block feedback_reporter %}{% endblock %}

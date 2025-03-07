@@ -1,0 +1,15 @@
+
+<section class="g-hero {% if not image %}g-hero-no-image{% endif %}" id="hero" {% if image %}style="background-image: url({{ image }})"{% endif %}>
+  <div class="container">
+    <div class="g-hero-title">
+      {% if hero_subheading %}
+        <h1 id="hero-heading" class="g-hero-heading with-subheading">
+          <span class="g-hero-subheading">{{ hero_subheading }}</span>
+          <span>{{ hero_text }}</span>
+        </h1>
+      {% else %}
+        <h1 class="h-l" id="hero-heading">{{ hero_text }}</h1>
+      {% endif %}
+    </div>
+  </div>
+</section>

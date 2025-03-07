@@ -1,0 +1,10 @@
+<div class="g-message-box {{ box_class|default:'border-teal bg-white' }}">
+  <div class="g-message-box-content">
+    {% block content %}
+    {% if heading %}
+      <{{ heading_level|default:'h3' }} class="box-heading h-m {{ heading_class|default:'text-teal' }}">{{ heading }}</{{ heading_level|default:'h3' }}>
+    {% endif %}
+    <p class="box-description">{{ description }}</p>
+    {% endblock %}
+  </div>
+</div>

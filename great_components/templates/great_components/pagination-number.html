@@ -1,0 +1,11 @@
+{% if ellipsis_before %}
+    <li class="g-pagination-ellipsis text-active-blue"><span>...</span></li>
+{% endif %}
+
+<li>
+  <a href="{{ url }}page={{ number }}" class="g-pagination-button {% if pagination.number == number %}g-button{% else %}g-button-ghost-blue{% endif %}">{{ number }}</a>
+</li>
+
+{% if ellipsis_after %}
+    <li class="g-pagination-ellipsis text-active-blue"><span>...</span></li>
+{% endif %}

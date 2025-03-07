@@ -1,0 +1,42 @@
+{% load add_export_elements_classes from great_components %}
+
+<section class="g-feature-list " style="background-image: url('{{ background_image }}')">
+  <div class="container p-v-s">
+    <div class="w-2-3-l m-bottom-s">
+      <{{ title_level|default:'h2' }} class="{{ title_class|default:'h-l'}}">{{ title }}</{{ title_level|default:'h2' }}>
+          {{ intro_html|add_export_elements_classes|safe }}
+    </div>
+    <div class="flex-grid reverse-columns-l">
+        <div class="c-1-2-xl c-full-m">
+            <ul class="flex-grid">
+                {% for item in items_list %}
+                    <li class="c-1-2-l list-item">
+                      <div class="list-item-container">
+                        <h3 class="h-m">{{ item.title }}</h3>
+                        {{ item.text|add_export_elements_classes|safe }}
+                      </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% if image %}
+        <div class="c-1-2-xl media">
+            <div class="flex-grid">
+                <figure>
+                    <img class="w-full" src="{{ image }}" alt="{{ img_alt }}">
+                </figure>
+            </div>
+        </div>
+        {% elif video %}
+        <div class="c-1-2-xl media">
+            <div class="flex-grid">
+                <video controls class="w-full">
+                    <source src="{{ video.url }}" type="video/{{ video.file_extension }}">
+                    <p>Your browser doesn't support HTML5 video. Here is a <a class="link" href="{{ video.url }}">link to the video</a> instead.</p>
+                </video>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+  </div>
+</section>

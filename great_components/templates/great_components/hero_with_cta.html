@@ -1,0 +1,19 @@
+
+<section class="great-hero {% if not image %}great-hero-no-image{% endif %}" id="hero" {% if image %}style="background-image: url({{ image }})"{% endif %}>
+  <div class="container">
+    <div class="great-hero-text w-1-2-xl w-2-3-l w-full">
+      <h1 class="h-xl">{{ heading }}</h1>
+      {% block content %}
+      {% if subheading %}
+        <h2 class="h-xl">{{ subheading }}</h2>
+      {% endif %}
+      {% if subtitle %}
+        <p>{{ subtitle }}</p>
+      {% endif %}
+      {% if cta_text and cta_link %}
+        <a href="{{ cta_link }}" class="g-button button-blue margin-bottom-30">{{ cta_text }}</a>
+      {% endif %}
+      {% endblock %}
+    </div>
+  </div>
+</section>
