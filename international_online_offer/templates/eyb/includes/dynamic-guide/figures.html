@@ -1,0 +1,21 @@
+{% load static %}
+{% load humanize %}
+<div class="figures">
+    {% include '_select.html' with label=options.select.label items=options.select.items formGroupClasses='figures__select' %}
+    <div class="figures__list">
+        {% for figure in options.figures %}
+            <div class="figures__figure">
+                <img class="dynamic-guide__icon figures__icon"
+                     alt=""
+                     src="{% static figure.icon_path %}" />
+                {% comment %} TODO: Shouldn't this be a definition list? {% endcomment %}
+                <p class="figures__value govuk-heading-l">{{ figure.prefix }}{{ figure.value|intcomma }}{{ figure.suffix }}</p>
+                <p class="figures__description govuk-body">{{ figure.description }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    <p class="figures__disclaimer govuk-body-s">
+        <span>Figures reflect {{ options.data_year }} data.</span>
+        <span>Source: {{ options.data_source }}</span>
+    </p>
+</div>

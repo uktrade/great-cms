@@ -1,5 +1,7 @@
 @use '../../../styles/sizes/sizes' as sizes;
 
+@import 'styles/great/_colors.scss';
+
 $gap: 30px;
 // Copied from https://github.com/uktrade/great-design-system/blob/main/src/components/header/_header.scss#L16
 $text-underline-offset: .3em;
@@ -359,5 +361,79 @@ a {
 .external-link {
 	&__icon {
 		margin-left: 10px;
+	}
+}
+
+.figures {
+	display: flex;
+	flex-direction: column;
+	gap: 25px;
+
+	&__select {
+		margin: 0;
+
+		@media (min-width: sizes.$tablet-size) {
+			display: flex;
+			gap: 10px;
+			align-items: baseline;
+		}
+
+		label {
+			font-weight: bold;
+		}
+	}
+
+	&__list {
+		display: flex;
+		flex-direction: column;
+		gap: 40px;
+
+		@media (min-width: sizes.$donknowhowtonameit-size) {
+			flex-direction: row;
+			gap: 30px;
+		}
+	}
+
+	&__figure {
+		display: grid;
+		grid-template:
+			"icon value"
+			"icon description"
+			/ 60px 1fr;
+		row-gap: 5px;
+		column-gap: 15px;
+		flex: 1 1;
+
+		@media (min-width: sizes.$donknowhowtonameit-size) {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+		}
+	}
+
+	&__icon {
+		grid-area: icon;
+	}
+
+	&__value {
+		grid-area: value;
+		margin: 0;
+	}
+
+	&__description {
+		grid-area: description;
+		margin: 0;
+	}
+
+	&__disclaimer {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		color: $great-text-dark-grey;
+		margin: 0;
+
+		@media (min-width: sizes.$donknowhowtonameit-size) {
+			display: block;
+		}
 	}
 }
