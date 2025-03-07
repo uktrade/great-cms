@@ -1,6 +1,7 @@
 {% extends './base.html' %}
 {% load static %}
 {% load company_filters %}
+{% load pagination from component_tags %}
 {% block head_title %}
     {% if form.errors %}Error:{% endif %}
     Buy from the UK find a supplier search
@@ -39,7 +40,7 @@
                                 {% include 'international/includes/company/list_item.html' with logo=company.logo title=company.name link_url=profile_link %}
                             {% endfor %}
                         </div>
-                        {% include 'international/includes/company/pagination.html' %}
+                        {% pagination page_obj=page_obj elided_page_range=elided_page_range %}
                     {% else %}
                         <h3 class="govuk-heading-m">No UK businesses match your search</h3>
                         <p class="govuk-body">Try different filters or a new search term.</p>
