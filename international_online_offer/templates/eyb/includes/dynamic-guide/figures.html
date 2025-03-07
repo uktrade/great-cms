@@ -1,7 +1,7 @@
 {% load static %}
 {% load humanize %}
 <div class="figures">
-    {% include '_select.html' with label=options.select.label items=options.select.items formGroupClasses='figures__select' %}
+    {% include './select.html' with label=options.select.label items=options.select.items %}
     <div class="figures__list">
         {% for figure in options.figures %}
             <div class="figures__figure">
