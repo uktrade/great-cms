@@ -77,8 +77,20 @@
                     {% for result in search_results %}
                         <li>
                             <span class="type">{{ result.content_type|map_search_result_type }}</span>
-                            <a class="title link" href="{{ result.url }}">{{ result.seo_title }}</a>
-                            <p class="description">{{ result.search_description }}</p>
+                                <a class="title link" href="{{ result.url }}">
+                                    {% if result.seo_title %}
+                                        {{ result.seo_title }}
+                                    {% else %}
+                                        {{ result.title }}
+                                    {% endif %}        
+                                </a>
+                            <p class="description">
+                                {% if result.search_description %}
+                                    {{ result.search_description }}
+                                {% else %} 
+                                    No description available
+                                {% endif %}       
+                            </p>
                         </li>
                     {% endfor %}
                 </ul>
