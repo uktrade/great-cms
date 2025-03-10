@@ -3,7 +3,7 @@ from django import template
 register = template.Library()
 
 
-@register.inclusion_tag('_cta_banner.html')
+@register.inclusion_tag('_cta-banner.html')
 def render_course_cta():
     return {
         'headingText': 'Unlock your export potential',

@@ -34,7 +34,7 @@
                 <div class="govuk-grid-column-one-third-from-desktop">
                     {% url 'international_investment_support_directory:specialist-contact' company_number=company.number as contact_link %}
                     {% append_search_back_url contact_link request.get_full_path as contact_link %}
-                    {% include '_action_link.html' with linkText='Contact company' linkHref=contact_link %}
+                    {% include '_action-link.html' with linkText='Contact company' linkHref=contact_link %}
                     <div class="light-blue-background govuk-!-padding-3 govuk-!-margin-bottom-5 govuk-!-margin-top-4">
                         <h2 class="govuk-heading-m">Business details</h2>
                         {% if company.website %}
