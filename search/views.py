@@ -113,7 +113,6 @@ class OpensearchView(TemplateView):
             if (len(next_pages) > 0) and (next_pages[-1] + 1 < total_pages):
                 show_last_page = True
 
-
         else:
             # No search query provided
             full_search_results = Page.objects.none()
@@ -128,7 +127,7 @@ class OpensearchView(TemplateView):
             'show_first_page': show_first_page,
             'show_last_page': show_last_page,
             'prev_pages': prev_pages,
-            'next_pages': next_pages
+            'next_pages': next_pages,
         }
 
 

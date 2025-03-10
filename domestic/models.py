@@ -1515,13 +1515,12 @@ class ArticlePage(
         verbose_name='Trading bloc tags',
     )
 
-    search_fields = Page.search_fields + [ # Inherit search_fields from BaseContentPage
+    search_fields = Page.search_fields + [  # Inherit search_fields from BaseContentPage
         index.SearchField('article_title'),
         index.FilterField('article_subheading'),
         index.FilterField('article_teaser'),
         index.FilterField('article_body'),
     ]
-
 
     @property
     def related_pages(self):
