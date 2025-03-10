@@ -86,6 +86,8 @@ class OpensearchView(TemplateView):
         page = self.request.GET.get('page', 1)
         show_first_page = False
         show_last_page = False
+        prev_pages = None
+        next_pages = None
         total_pages = 0
 
         if search_query:
