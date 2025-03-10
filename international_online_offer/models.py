@@ -138,7 +138,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 'select': {
                     'label': {'text': 'Average annual salary data for'},
                     'items': [
-                        {'value': 'foo', 'text': 'Foo'},
+                        {'value': 'uk', 'text': 'United Kingdom'},
                         {'value': 'bar', 'text': 'Bar'},
                         {'value': 'baz', 'text': 'Baz'},
                     ],
@@ -179,13 +179,13 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 },
                 'tabs': [
                     {
-                        'id': 'foo',
-                        'label': 'Foo',
+                        'id': 'large-warehouse',
+                        'label': 'Large warehouse',
                         'panel': {
                             'html': render_to_string(
                                 'eyb/includes/dynamic-guide/tab_content.html',
                                 {
-                                    'title': 'Foo',
+                                    'title': 'Large warehouse',
                                     'value_from': 12345,
                                     'value_to': 4321,
                                 },
@@ -193,13 +193,13 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                         },
                     },
                     {
-                        'id': 'bar',
-                        'label': 'Bar',
+                        'id': 'small-warehouse',
+                        'label': 'Small warehouse',
                         'panel': {
                             'html': render_to_string(
                                 'eyb/includes/dynamic-guide/tab_content.html',
                                 {
-                                    'title': 'Bar',
+                                    'title': 'Small warehouse',
                                     'value_from': 22334455,
                                     'value_to': 55443322,
                                 },
@@ -207,13 +207,41 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                         },
                     },
                     {
-                        'id': 'baz',
-                        'label': 'Baz',
+                        'id': 'shopping-centre',
+                        'label': 'Shopping centre',
                         'panel': {
                             'html': render_to_string(
                                 'eyb/includes/dynamic-guide/tab_content.html',
                                 {
-                                    'title': 'Baz',
+                                    'title': 'Shopping centre',
+                                    'value_from': 333777,
+                                    'value_to': 777333,
+                                },
+                            )
+                        },
+                    },
+                    {
+                        'id': 'high-street-retail',
+                        'label': 'High street retail',
+                        'panel': {
+                            'html': render_to_string(
+                                'eyb/includes/dynamic-guide/tab_content.html',
+                                {
+                                    'title': 'High street retail',
+                                    'value_from': 333777,
+                                    'value_to': 777333,
+                                },
+                            )
+                        },
+                    },
+                    {
+                        'id': 'work-office',
+                        'label': 'Work office',
+                        'panel': {
+                            'html': render_to_string(
+                                'eyb/includes/dynamic-guide/tab_content.html',
+                                {
+                                    'title': 'Work office',
                                     'value_from': 333777,
                                     'value_to': 777333,
                                 },
