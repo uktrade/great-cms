@@ -437,7 +437,7 @@ def get_icon_path(url):
     if url:
         if url.endswith('/'):
             url = url[:-1]
-        return 'components/great/includes/' + url.split('/')[-1] + '.svg'
+        return '/static/icons/' + url.split('/')[-1] + '.svg'
     else:
         return ''
 
@@ -792,3 +792,11 @@ def sector_based_image(sector):
             res = icon_name
 
     return res
+
+
+@register.filter
+def add_bullets(description, bullets):
+    if not bullets:
+        return description
+    bullet_list = '<ul>' + ''.join([f'<li>{bullet}</li>' for bullet in bullets]) + '</ul>'
+    return f'{description}<br><br>{bullet_list}'
