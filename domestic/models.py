@@ -22,6 +22,7 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.models import Page
+from wagtail.search import index
 from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtailcache.cache import WagtailCacheMixin
 
@@ -1513,6 +1514,14 @@ class ArticlePage(
         blank=True,
         verbose_name='Trading bloc tags',
     )
+
+    search_fields = Page.search_fields + [ # Inherit search_fields from BaseContentPage
+        index.SearchField('article_title'),
+        index.FilterField('article_subheading'),
+        index.FilterField('article_teaser'),
+        index.FilterField('article_body'),
+    ]
+
 
     @property
     def related_pages(self):
