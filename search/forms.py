@@ -2,7 +2,7 @@ from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV3
 from directory_forms_api_client.forms import SaveOnlyInDatabaseAPIForm
 from django.forms import HiddenInput, IntegerField
-from great_components import forms
+from core.gds_tooling import forms
 
 
 class FeedbackForm(SaveOnlyInDatabaseAPIForm):
