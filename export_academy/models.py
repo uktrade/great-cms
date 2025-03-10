@@ -17,6 +17,7 @@ from modelcluster.models import ClusterableModel
 from taggit.managers import TaggableManager
 from taggit.models import ItemBase, TagBase
 from wagtail.fields import RichTextField, StreamField
+from wagtail.search import index
 from wagtail.snippets.models import register_snippet
 
 from config import settings
@@ -606,6 +607,13 @@ class CoursePage(CoursePagePanels, BaseContentPage):
         blank=True,
         verbose_name='Trading bloc tags',
     )
+
+    search_fields = BaseContentPage.search_fields + [  # Inherit search_fields from Page
+        index.SearchField('page_heading'),
+        index.SearchField('summary'),
+        index.SearchField('course_content_heading'),
+        index.SearchField('course_content_desc'),
+    ]
 
     def get_all_events(self):
         events = []
