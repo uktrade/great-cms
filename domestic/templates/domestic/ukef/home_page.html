@@ -1,5 +1,6 @@
 {% extends 'domestic/base.html' %}
 {% load wagtailcore_tags %}
+{% load add_bullets from content_tags %}
 {% load static %}
 {% block head_css %}
     {{ block.super }}
@@ -27,17 +28,17 @@
     </section>
     <section id="card-list-section" class="card-list-section padding-vertical-60">
         <div class="container">
-            <div class="flex-grid margin-top-30">
-                <div class="column-half-l column-full">
-                    {% slugurl 'trade-finance' as trade_finance_url %}
-                    {% static 'images/Trade-finance-thumbnail.png' as offer_section_image %}
-                    {% include 'domestic/ukef/includes/card.html' with id='small-and-medium-businesses' url=trade_finance_url img_src=offer_section_image title='Trade finance for UK exporters' description='When it comes to exporting, having a great product or service is only half the story: you need to have the right finance and insurance in place. Our trade finance offer includes:' bullets=trade_finance_bullets %}
-                </div>
-                <div class="column-half-l column-full">
-                    {% url 'domestic:project-finance' as project_finance_url %}
-                    {% static 'images/UKEF-Finance-International-thumbnail.png' as large_corporations %}
-                    {% include 'domestic/ukef/includes/card.html' with id='large-corporations-card' url=project_finance_url img_src=large_corporations title='Finance for international projects' description='We support UK exports with attractive financing terms for buyers. Find out more about lending to overseas buyers and the guarantees we offer to financial institutions.' bullets=project_finance_bullets %}
-                </div>
+            <div class="great-ds-card-container">
+                {% slugurl 'trade-finance' as trade_finance_url %}
+                {% static 'images/Trade-finance-thumbnail.png' as offer_section_image %}
+                {% with trade_finance_description|add_bullets:trade_finance_bullets as formatted_description %}
+                    {% include '_card.html' with href=trade_finance_url imageUrl=offer_section_image title='Trade finance for UK exporters' id='small-and-medium-businesses' description=formatted_description|safe classes="great-ds-card--2" titleSize="l" hideArrow="true" %}
+                {% endwith %}
+                {% url 'domestic:project-finance' as project_finance_url %}
+                {% static 'images/UKEF-Finance-International-thumbnail.png' as large_corporations %}
+                {% with project_finance_description|add_bullets:project_finance_bullets as formatted_description %}
+                    {% include '_card.html' with href=project_finance_url imageUrl=large_corporations title='Finance for international projects' id='large-corporations-card' description=formatted_description|safe classes="great-ds-card--2" titleSize="l" hideArrow="true" %}
+                {% endwith %}
             </div>
         </div>
     </section>

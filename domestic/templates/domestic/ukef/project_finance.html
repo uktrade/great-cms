@@ -13,156 +13,153 @@
 {% block meta_title %}UK Export Finance - Project Finance{% endblock %}
 {% block css_layout_class %}uk-export-finance-landing{% endblock %}
 {% block content %}
-{% static 'images/UKEF-finance-for-international-projects-header.png' as project_finance_hero_image %}
-{% include 'components/hero.html' with image_url=project_finance_hero_image hero_title='The UK’s export credit agency' hero_text='Find the support available to buyers of your goods and service exports' %}
-<section id="teaser-section" class="teaser-section padding-vertical-60">
-    <div class="container">
-        <div class="grid-row">
-            <div class="column-two-thirds">
-                <h2 class="heading heading-large padding-bottom-30 margin-vertical-0">Achieve more with our flexible finance</h2>
-                <div class="teaser-text">
-                    UK Export Finance (UKEF) works with banks to provide ﬂexible, innovative, and competitive ﬁnancing solutions. We support UK exporters, international project sponsors and buyers of UK goods and services.
+    {% static 'images/UKEF-finance-for-international-projects-header.png' as project_finance_hero_image %}
+    {% include 'components/hero.html' with image_url=project_finance_hero_image hero_title='The UK’s export credit agency' hero_text='Find the support available to buyers of your goods and service exports' %}
+    <section id="teaser-section" class="teaser-section padding-vertical-60">
+        <div class="container">
+            <div class="grid-row">
+                <div class="column-two-thirds">
+                    <h2 class="heading heading-large padding-bottom-30 margin-vertical-0">Achieve more with our flexible finance</h2>
+                    <div class="teaser-text">
+                        UK Export Finance (UKEF) works with banks to provide ﬂexible, innovative, and competitive ﬁnancing solutions. We support UK exporters, international project sponsors and buyers of UK goods and services.
+                    </div>
                 </div>
-            </div>
-            <div class="column-quarter more-about-section float-right">
-                <div class="panel-vertical-narrow padding-top-0 margin-top-30 margin-top-0-l">
-                    <h2 class="heading heading-medium margin-top-15 margin-bottom-15">More about UKEF</h2>
-                    <ul>
-                        <li>
-                            <a href="{% url 'domestic:country-cover' %}" class="link body-text bold">Check our country cover</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'domestic:what-we-offer-you' %}"
-                               class="link body-text bold">What we offer you</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'domestic:how-we-assess-your-project' %}"
-                               class="link body-text bold">How we assess your projects</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'domestic:uk-export-contact' %}"
-                               class="link body-text bold">Get in touch</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<section id="why-we-offer-section"
-         class="why-we-offer-section padding-vertical-60">
-    <div class="container">
-        <div class="grid-row">
-            <div class="column-half padding-0 column-one-third">
-                <img src="{% static 'images/ukef_landing_offer_section_image_2024.jpg' %}"
-                     id="offer-section-image "
-                     class="offer-section-image"
-                     alt="">
-            </div>
-            <div class="column-half offer-section-text margin-top-30 margin-top-0-l padding-horizontal-45-l padding-vertical-0">
-                <div class="grid-row">
-                    <div class="column-seven-ninths padding-left-90-l">
-                        <h2 class="heading-large offer-section-title padding-bottom-30 margin-top-0">What we offer</h2>
-                        <p class="body-text">
-                            We activate the UK supply chain, connecting overseas project sponsors and buyers with UK exporters, through government-backed financing.
-                        </p>
-                        <p class="body-text">
-                            UKEF cooperates with many other export credit agencies (ECAs), allowing us to collaboratively support international project financing needs.
-                        </p>
-                        <p class="body-text">
-                            We know that every opportunity is different, and finding the right financial structure can be the key to success.
-                        </p>
+                <div class="column-quarter more-about-section float-right">
+                    <div class="panel-vertical-narrow padding-top-0 margin-top-30 margin-top-0-l">
+                        <h2 class="heading heading-medium margin-top-15 margin-bottom-15">More about UKEF</h2>
+                        <ul>
+                            <li>
+                                <a href="{% url 'domestic:country-cover' %}" class="link body-text bold">Check our country cover</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'domestic:what-we-offer-you' %}"
+                                   class="link body-text bold">What we offer you</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'domestic:how-we-assess-your-project' %}"
+                                   class="link body-text bold">How we assess your projects</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'domestic:uk-export-contact' %}"
+                                   class="link body-text bold">Get in touch</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-<section id="how-we-can-help-you"
-         class="how-we-can-help-you padding-vertical-60 padding-bottom-0">
-    <div class="container">
-        <div class="grid-row">
-            <div class="column-full">
-                <div class="column-half padding-0">
-                    <h2 class="margin-top-0">How we can help you</h2>
-                    <p class="how-can-we-help-you padding-bottom-45">
-                        Our medium and long-term financing solutions are tailored to each transaction, but working with UKEF typically follows these steps.
+    </section>
+    <section id="why-we-offer-section"
+             class="why-we-offer-section padding-vertical-60">
+        <div class="container">
+            <div class="grid-row">
+                <div class="column-half padding-0 column-one-third">
+                    <img src="{% static 'images/ukef_landing_offer_section_image_2024.jpg' %}"
+                         id="offer-section-image "
+                         class="offer-section-image"
+                         alt="">
+                </div>
+                <div class="column-half offer-section-text margin-top-30 margin-top-0-l padding-horizontal-45-l padding-vertical-0">
+                    <div class="grid-row">
+                        <div class="column-seven-ninths padding-left-90-l">
+                            <h2 class="heading-large offer-section-title padding-bottom-30 margin-top-0">What we offer</h2>
+                            <p class="body-text">
+                                We activate the UK supply chain, connecting overseas project sponsors and buyers with UK exporters, through government-backed financing.
+                            </p>
+                            <p class="body-text">
+                                UKEF cooperates with many other export credit agencies (ECAs), allowing us to collaboratively support international project financing needs.
+                            </p>
+                            <p class="body-text">
+                                We know that every opportunity is different, and finding the right financial structure can be the key to success.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="how-we-can-help-you"
+             class="how-we-can-help-you padding-vertical-60 padding-bottom-0">
+        <div class="container">
+            <div class="grid-row">
+                <div class="column-full">
+                    <div class="column-half padding-0">
+                        <h2 class="margin-top-0">How we can help you</h2>
+                        <p class="how-can-we-help-you padding-bottom-45">
+                            Our medium and long-term financing solutions are tailored to each transaction, but working with UKEF typically follows these steps.
+                        </p>
+                    </div>
+                </div>
+                <div class="column-full column-half-l section-one-body padding-right-90-l">
+                    <h2 class="heading-medium margin-top-0">Exploring financing options</h2>
+                    <p class="body-text">
+                        If you are unable to obtain support from your bank, or if the cost is
+                        too high, you can work with them to
+                        <a href="{% url 'domestic:what-we-offer-you' %}" class="link">explore financing options</a> with UKEF.
+                    </p>
+                    <h2 class="heading-medium">Examining eligibility</h2>
+                    <p class="body-text">
+                        UKEF support is on a first come first serve basis subject to
+                        <a href="https://www.gov.uk/guidance/country-cover-policy-and-indicators#a-to-z-list-of-country-cover-policies-and-indicators"
+                           class="link"
+                           rel="noopener noreferrer"
+                           target="_blank"
+                           title="Opens in a new window">country limits</a>,
+                        and to meeting <a href="{% url 'domestic:how-we-assess-your-project' %}" class="link">eligibility criteria</a>.
+                        These include minimum risk standards, UK content, anti-bribery and corruption and due
+                        diligence around environmental, social and human rights standards.
+                    </p>
+                    <h2 class="heading-medium">Negotiating terms</h2>
+                    <p class="body-text">
+                        The terms of the transaction will be negotiated with UKEF and the bank in the documentation
+                        process. This can take some time, depending on the complexity of the project.
+                    </p>
+                    <h2 class="heading-medium">Securing finance</h2>
+                    <p class="body-text">
+                        Once documentation and draw-down specifics are agreed, you are ready to access
+                        UKEF’s support for your international business opportunity.
                     </p>
                 </div>
-            </div>
-            <div class="column-full column-half-l section-one-body padding-right-90-l">
-                <h3 class="heading-medium margin-top-0">Exploring financing options</h3>
-                <p class="body-text">
-                    If you are unable to obtain support from your bank, or if the cost is
-                    too high, you can work with them to
-                    <a href="{% url 'domestic:what-we-offer-you' %}" class="link">explore financing options</a> with UKEF.
-                </p>
-                <h3 class="heading-medium">Examining eligibility</h3>
-                <p class="body-text">
-                    UKEF support is on a first come first serve basis subject to
-                    <a href="https://www.gov.uk/guidance/country-cover-policy-and-indicators#a-to-z-list-of-country-cover-policies-and-indicators"
-                       class="link"
-                       rel="noopener noreferrer"
-                       target="_blank"
-                       title="Opens in a new window">country limits</a>,
-                    and to meeting <a href="{% url 'domestic:how-we-assess-your-project' %}" class="link">eligibility criteria</a>.
-                    These include minimum risk standards, UK content, anti-bribery and corruption and due
-                    diligence around environmental, social and human rights standards.
-                </p>
-                <h3 class="heading-medium">Negotiating terms</h3>
-                <p class="body-text">
-                    The terms of the transaction will be negotiated with UKEF and the bank in the documentation
-                    process. This can take some time, depending on the complexity of the project.
-                </p>
-                <h3 class="heading-medium">Securing finance</h3>
-                <p class="body-text">
-                    Once documentation and draw-down specifics are agreed, you are ready to access
-                    UKEF’s support for your international business opportunity.
-                </p>
-            </div>
-            <div class="column-full column-half-l">
-                <img src="{% static 'images/ukef_landing_how_we_can_help_2024.jpg' %}" alt="" />
-            </div>
-        </div>
-    </div>
-</section>
-<section id="about-us-and-our-services"
-         class="about-us-and-our-services padding-vertical-60">
-    <div class="container">
-        <div class="flex-grid">
-            <div class="column-full">
-                <h2 class="heading heading-large padding-bottom-30 margin-top-0">About us and our services</h2>
-            </div>
-            <div class="column-third column-full">
-                {% url 'domestic:what-we-offer-you' as what_we_offer_you %}
-                {% include 'components/card.html' with title='What we offer you' description='We can offer lending, guarantees, and insurance to help make international projects happen.' url=what_we_offer_you %}
-            </div>
-            <div class="column-third column-full">
-                {% url 'domestic:how-we-assess-your-project' as how_we_assess_your_project %}
-                {% include 'components/card.html' with title='How we assess your project' description='How we assess the eligibility of all potential transactions, including our UK content requirements.' url=how_we_assess_your_project %}
-            </div>
-            <div class="column-third column-full">
-                {% url 'domestic:country-cover' as country_cover %}
-                {% include 'components/card.html' with title='Check our country cover' description='Our market risk appetite and information on the countries we cover.' url=country_cover %}
-            </div>
-        </div>
-    </div>
-</section>
-<section id="contact-us-section"
-         class="contact-us-section padding-vertical-60">
-    <div class="container">
-        <div class="flex-grid">
-            <div class="column-half">
-                <h2 class="heading-large">Speak to us</h2>
-                <p class="margin-bottom-45">
-                    Our teams are located in UK embassies, high commissions and consulates in cities around the world.
-                </p>
-                <div>
-                    <a href="{% url 'domestic:uk-export-contact' %}"
-                       class="button primary-button">Get in touch</a>
+                <div class="column-full column-half-l">
+                    <img src="{% static 'images/ukef_landing_how_we_can_help_2024.jpg' %}"
+                         alt="" />
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+    <section id="about-us-and-our-services"
+             class="about-us-and-our-services padding-vertical-60">
+        <div class="container">
+            <div class="flex-grid">
+                <div class="column-full">
+                    <h2 class="heading heading-large padding-bottom-30 margin-top-0">About us and our services</h2>
+                </div>
+            </div>
+            <div class="great-ds-card-container">
+                {% url 'domestic:what-we-offer-you' as what_we_offer_you %}
+                {% include '_card.html' with href=what_we_offer_you title='What we offer you' id='what_we_offer_you' description='We can offer lending, guarantees, and insurance to help make international projects happen.' classes="great-ds-card--3" hideArrow="true" %}
+                {% url 'domestic:how-we-assess-your-project' as how_we_assess_your_project %}
+                {% include '_card.html' with href=how_we_assess_your_project title='How we assess your project' id='how_we_assess_your_project' description='How we assess the eligibility of all potential transactions, including our UK content requirements.' classes="great-ds-card--3" hideArrow="true" %}
+                {% url 'domestic:country-cover' as country_cover %}
+                {% include '_card.html' with href=country_cover title='Check our country cover' id='country_cover' description='Our market risk appetite and information on the countries we cover.' classes="great-ds-card--3" hideArrow="true" %}
+            </div>
+        </div>
+    </section>
+    <section id="contact-us-section"
+             class="contact-us-section padding-vertical-60">
+        <div class="container">
+            <div class="flex-grid">
+                <div class="column-half">
+                    <h2 class="heading-large">Speak to us</h2>
+                    <p class="margin-bottom-45">
+                        Our teams are located in UK embassies, high commissions and consulates in cities around the world.
+                    </p>
+                    <div>
+                        <a href="{% url 'domestic:uk-export-contact' %}"
+                           class="button primary-button">Get in touch</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}
