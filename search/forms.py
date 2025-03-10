@@ -13,7 +13,7 @@ class FeedbackForm(SaveOnlyInDatabaseAPIForm):
     )
     search_target = forms.CharField(
         label='Whether yes or no, please let us know what you were searching for',
-        widget=forms.Textarea(attrs={'class': 'govuk-!-width-one-half', 'rows': 15, 'cols': 15, 'label-class': 'form-label'}),
+        widget=forms.Textarea(attrs={'class': 'govuk-!-width-one-half', 'rows': 5, 'cols': 15, 'label-class': 'form-label'}),
     )
     from_search_query = forms.CharField(widget=HiddenInput(), required=False)
     from_search_page = IntegerField(widget=HiddenInput(), required=False)
@@ -25,16 +25,19 @@ class FeedbackForm(SaveOnlyInDatabaseAPIForm):
     contact_name = forms.CharField(
         label='What is your name?',
         required=False,
+        hide_on_page_load=True,
         widget=forms.TextInput(attrs={'class': 'govuk-!-width-one-half', 'label-class': 'form-label'}),
     )
     contact_email = forms.EmailField(
         label='What is your email address?',
         required=False,
+        hide_on_page_load=True,
         widget=forms.EmailInput(attrs={'class': 'govuk-!-width-one-half', 'label-class': 'form-label'}),
     )
     contact_number = forms.CharField(
         label='What is your phone number? (optional)',
         required=False,
+        hide_on_page_load=True,
         widget=forms.TextInput(attrs={'class': 'govuk-!-width-one-half', 'label-class': 'form-label'}),
     )
     captcha = ReCaptchaField(label='', label_suffix='', widget=ReCaptchaV3())

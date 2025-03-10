@@ -38,8 +38,16 @@ class WidgetGDSMixin(widgets.Widget):
 
     def get_context(self, name, value, attrs):
         ctx = super().get_context(name, value, attrs)
-        ctx['field'] = self.field
+        field = self.field
+        ctx['field'] = field
+        if field.hide_on_page_load:
+            try:
+                widget_class = ctx["widget"]["attrs"]["class"]
+                ctx["widget"]["attrs"]["class"] = f'hide-on-page-load {widget_class}'
+            except KeyError:
+                pass
         return ctx
+
 
 def widget_factory(base_class):
     bases = (WidgetGDSMixin, base_class)

@@ -1,5 +1,5 @@
 from core.gds_tooling.forms.fields import (
-    DirectoryComponentsFieldMixin,
+    GDSFieldMixin,
     BindNestedFormMixin,
     DirectoryComponentsBoundField,
     field_factory,
@@ -54,7 +54,7 @@ __all__ = [
     'Form',
     'get_language_form_initial_data',
     'LanguageForm',
-    'DirectoryComponentsFieldMixin',
+    'GDSFieldMixin',
     'BindNestedFormMixin',
     'DirectoryComponentsBoundField',
     'field_factory',

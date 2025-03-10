@@ -23,16 +23,14 @@
               method="post">
             {% csrf_token %}
             {{ form.non_field_errors }}
-            {{form.result_found}}
+            {{ form.result_found}}
             {{ form.search_target }}
             {{ form.from_search_query.as_hidden }}
             {{ form.from_search_page.as_hidden }}
             {{ form.contactable }}
-            <div id="contact-details">
-              {{ form.contact_name }}
-              {{ form.contact_email }}
-              {{ form.contact_number }}
-            </div>
+            {{ form.contact_name }}
+            {{ form.contact_email }}
+            {{ form.contact_number }}
             <p class="margin-bottom-30 margin-top-60-l margin-top-45-m margin-top-30">
                 Thanks for taking the time to help users of our site.
             </p>
@@ -47,15 +45,22 @@
 </div>
 <script>
   // If JS is enabled, initially hide the contact details box
-  contactDetails = document.getElementById("contact-details")
-  radios = document.getElementsByClassName('multiple-choice')
-  contactDetails.style.display = 'none'
+  contactDetails = document.getElementsByClassName("hide-on-page-load")
+  radios = document.getElementsByClassName('govuk-radios__input')
+
+  document.querySelectorAll('.hide-on-page-load').forEach(function(el) {
+    el.style.display = 'none'
+  });
 
   function check_if_checked(){
     if(document.getElementById("id_contactable_0").checked){
-      contactDetails.style.display = 'block'
+      document.querySelectorAll('.hide-on-page-load').forEach(function(el) {
+        el.style.display = 'block'
+      });
     } else {
-      contactDetails.style.display = 'none'
+      document.querySelectorAll('.hide-on-page-load').forEach(function(el) {
+        el.style.display = 'none'
+      });
     }
   }
 
@@ -63,6 +68,5 @@
     radios[i].addEventListener('click', check_if_checked, false);
   }
 
-  check_if_checked()
 </script>
 {% endblock %}

@@ -39,15 +39,14 @@ class DirectoryComponentsBoundField(BoundField):
         return f'{css_classes} {self.field.container_css_classes}'
 
 
-class DirectoryComponentsFieldMixin:
+class GDSFieldMixin:
 
-    def __init__(self, container_css_classes='form-group', *args, **kwargs):
+    def __init__(self, hide_on_page_load=False, container_css_classes='form-group', *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if not hasattr(self.widget, 'css_class_name'):
-            self.widget.attrs['class'] = self.widget.attrs.get('class', '') + ' form-control'
         self.label_suffix = ''
         self._container_css_classes = container_css_classes
         self.widget.field = self
+        self.hide_on_page_load = hide_on_page_load
 
     @property
     def container_css_classes(self):
@@ -75,6 +74,9 @@ class DirectoryComponentsFieldMixin:
     @property
     def label_css_classes(self):
         try:
+            widget_defined_class = self.widget.attrs['label-class']
+            if self.hide_on_page_load:
+                return f'hide-on-page-load {widget_defined_class}'
             return self.widget.attrs['label-class']
         except KeyError:
             return ''
@@ -98,7 +100,7 @@ class DirectoryComponentsFieldMixin:
 
 
 def field_factory(base_class):
-    bases = (DirectoryComponentsFieldMixin, base_class)
+    bases = (GDSFieldMixin, base_class)
     return type(base_class.__name__, bases, {})
 
 
@@ -125,7 +127,7 @@ URLField = field_factory(forms.URLField)
 UUIDField = field_factory(forms.UUIDField)
 
 
-class BooleanField(DirectoryComponentsFieldMixin, forms.BooleanField):
+class BooleanField(GDSFieldMixin, forms.BooleanField):
     widget = widgets.CheckboxWithInlineLabel
 
     @property
