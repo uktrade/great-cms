@@ -23,15 +23,15 @@
                         <ul class="content-list">
                             {% block content_list %}
                                 {% if page.use_updated_link_format %}
-                                    {% for text_or_link_block in page.article_pages %}
-                                        {% if text_or_link_block.block_type == 'text_block' %}
-                                            <div class="govuk-!-margin-top-4 govuk-!-margin-bottom-4">{{ text_or_link_block.value|richtext }}</div>
-                                        {% else %}
-                                            <div class="">
-                                                {% include 'components/great/card.html' with title=text_or_link_block.value.link_text url=text_or_link_block.value.link_page.url show_title_link=True  heading_class="govuk-heading-xs great-font-weight-semi-bold great-line-height-25 great-font-size-18 govuk-!-margin-bottom-0 govuk-!-padding-top-2" container_class="govuk-!-padding-bottom-2" classes="great-card--no-active-jump" a_classes="great-card-thin-border-only-focus-text" content_tag="p" tag_container_inner_class="great-text-blue" exclude_br=True %}
-                                            </div>
-                                        {% endif %}
-                                    {% endfor %}
+                                    <div class="great-ds-card-container">
+                                        {% for text_or_link_block in page.article_pages %}
+                                            {% if text_or_link_block.block_type == 'text_block' %}
+                                                <div class="govuk-!-margin-top-4 govuk-!-margin-bottom-4">{{ text_or_link_block.value|richtext }}</div>
+                                            {% else %}
+                                                {% include '_card.html' with type="unmounted" href=text_or_link_block.value.link_page.url id=page.slug classes="great-ds-card--full" title=text_or_link_block.value.link_text %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
                                 {% else %}
                                     {% for article in page.specific.get_articles %}
                                         <a href="{{ article.url }}">
