@@ -1,16 +1,16 @@
 {% load url_type get_icon_path from content_tags %}
-{% for topic in topics %}
-    {% if topic.block_type == 'topic_cards' %}
-        {% for block in topic.value %}
-            {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
-                {% with svg_path=block.value.link_url|get_icon_path %}
-                <a href="{{ block.value.link_url }}" data-ga-digital-entry-point>{% include svg_path %} <span data-title="{{ block.value.title }}">{{ block.value.title }}</span></a>
-                {% endwith %}
-            {% else %}
-            <div class="govuk-grid-column-one-third great-card--homepage-container">
-                {% include 'components/great/card.html' with title=block.value.title url=block.value.link_url show_title_link=True image_src=block.value.link_url|get_icon_path is_svg_image=True data_attr="data-ga-digital-entry-point" data_attr_title=block.value.title content=block.value.description heading_class="govuk-heading-xs" classes="great-card--dep-landing" content_tag="p" %}
-            </div>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
-{% endfor %}
+<div class="great-ds-card-container">
+    {% for topic in topics %}
+        {% if topic.block_type == 'topic_cards' %}
+            {% for block in topic.value %}
+                {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
+                    {% with svg_path=block.value.link_url|get_icon_path %}
+                        {% include '_card.html' with type="elevated" href=block.value.link_url iconSvg=svg_path title=block.value.title id=page.slug classes="great-ds-card--4" %}
+                    {% endwith %}
+                {% else %}
+                    {% include '_card.html' with type="elevated" href=block.value.link_url iconSvg=block.value.link_url|get_icon_path title=block.value.title id=page.slug description=block.value.description classes="great-ds-card--4" %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+</div>
