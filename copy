@@ -1,4 +1,0 @@
-cp core/wagtail_hooks.py ~/core-hooks§
-cp domestic/wagtail_hooks.py ~/domestic-hooks§
-cp export_academy/templates/modeladmin/export_academy/create.html ~/
-cp export_academy/templates/modeladmin/export_academy/edit.html ~/

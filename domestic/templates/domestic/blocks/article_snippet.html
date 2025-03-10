@@ -2,5 +2,5 @@
     {% if not value.hide_title %}
         <h2{% if value.title_id %} id="{{value.title_id}}"{% endif %}>{{ value.title }} </h2>
     {% endif %}
-    <div>{{ value.content | safe }}</div>
+    <div>{{ value.content|richtext }}</div>
 </div>
