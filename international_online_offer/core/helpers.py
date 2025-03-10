@@ -91,11 +91,11 @@ def get_salary_region_from_region(region):
     # This is the only salary region (from statista, external dataset)
     # that is not quite an exact match to the eyb regions
     if region == regions.EAST_OF_ENGLAND:
-        return 'East'
+        return 'east'
 
-    for v, d in choices.REGION_CHOICES:
+    for v, _ in choices.REGION_CHOICES:
         if v == region:
-            return d
+            return v.lower().replace('_', ' ')
 
 
 def is_authenticated(request):

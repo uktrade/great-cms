@@ -1,0 +1,28 @@
+{% load static %}
+<div class="govuk-!-padding-bottom-6 govuk-!-padding-top-6 great-grey-bottom-border great-display-flex great-align-items-top great-gap">
+    <div>
+        {% if icon %}
+            <div class="listitem-logo"
+                 style="background-image: url('{% static 'svg/icon-planning-status.svg' %}')"></div>
+        {% endif %}
+    </div>
+    <div class="great-full-width">
+        <a href="{{ url }}"
+           {% if rel %}rel="{{ rel }}"{% endif %}
+           {% if target %}target="{{ target }}"{% endif %}
+           class="govuk-heading-xs govuk-!-margin-bottom-1 great-heading-link great-ds-heading-link listitem-title-link">
+            <h2 class="govuk-heading-xs great-heading-link__heading govuk-!-font-size-24">
+                <span>{{ link_title }}</span>
+            </h2>
+        </a>
+        {% if location %}
+            <p class="govuk-body govuk-!-margin-bottom-1">
+                <i class="fa fa-map-marker-alt govuk-!-margin-right-1"
+                   aria-hidden="true">
+                </i>
+                <span class="govuk-hint">{{ location }}</span>
+            </p>
+        {% endif %}
+        {% if description %}<p class="govuk-body">{{ description }}</p>{% endif %}
+    </div>
+</div>
