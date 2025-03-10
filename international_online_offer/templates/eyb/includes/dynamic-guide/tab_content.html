@@ -6,7 +6,12 @@
          src="{% static 'svg/icon-bank.svg' %}" />
     <h3 class="govuk-heading-s tab-content__title">{{ title }}</h3>
     <div class="tab-content__figure">
-        <div class="tab-content__value govuk-heading-m">£{{ value_from|intcomma }} – £{{ value_to|intcomma }}</div>
+        <div class="tab-content__value--tablet govuk-heading-m govuk-!-margin-bottom-0">
+            £{{ value_from|intcomma }} – £{{ value_to|intcomma }}
+        </div>
+        <div class="tab-content__value--mobile govuk-heading-l govuk-!-margin-bottom-0">
+            £{{ value_from|intcomma }} – £{{ value_to|intcomma }}
+        </div>
         <div class="tab-content__description">per calendar month</div>
     </div>
     <div class="tab-content__explanation">

@@ -58,6 +58,16 @@ a {
 	box-shadow: 0 4px 10px #04043F1A;
 }
 
+.govuk-tabs {
+	&__list, &__title {
+		display: none;
+
+		@media (min-width: sizes.$tablet-size) {
+			display: initial;
+		}
+	}
+}
+
 .dynamic-guide {
 	// The only purpose of this selector is to hold the following variables
 	// so we use this to make it not participate in the layout.
@@ -439,12 +449,26 @@ a {
 }
 
 .tab-content {
-	display: grid;
-	grid-template:
-		" icon  .    title  title title"
-		" icon  .    .      .     ." 5px
-		" icon  .    figure .     explanation"
-		/ 60px  10px auto   30px  auto;
+	// display: grid;
+
+
+	@media (min-width: sizes.$tablet-size) {
+		display: grid;
+		grid-template:
+			" icon title"
+			" icon figure"
+			" icon explanation"
+			/ 60px auto;
+		gap: 10px;
+	}
+
+	@media (min-width: sizes.$donknowhowtonameit-size) {
+		grid-template:
+			" icon  .    title  title title"
+			" icon  .    .      .     ." 5px
+			" icon  .    figure .     explanation"
+			/ 60px  10px auto   30px  auto;
+	}
 
 	&__icon {
 		grid-area: icon;
@@ -469,6 +493,18 @@ a {
 
 	&__value {
 		margin: 0;
+
+		&--mobile {
+			@media (min-width: sizes.$donknowhowtonameit-size) {
+				display: none;
+			}
+		}
+
+		&--tablet {
+			@media (max-width: sizes.$donknowhowtonameit-size) {
+				display: none;
+			}
+		}
 	}
 }
 
