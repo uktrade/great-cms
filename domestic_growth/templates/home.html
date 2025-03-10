@@ -1,0 +1,59 @@
+{% extends 'includes/base.html' %}
+
+{% block head_title %}Domestic Growth - Landing{% endblock %}
+
+{% block content %}
+    <section class="great great-bg-dark-blue">
+        <div class="great-container govuk-!-padding-top-4">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full great-no-padding-until-tablet">
+                    {% if page.hero_title %}
+                    <h1 class="govuk-heading-xl govuk-!-margin-bottom-6 great-text-white">
+                        {{ page.hero_title }}
+                    </h1>
+                    {% endif %}
+
+                    {% if page.hero_body %}
+                    <div class="govuk-!-padding-bottom-9 great-ds-category-panels great-ds-category-panels--homepage">
+                        {% for blocks in page.hero_body %}
+                            {% for block in blocks.value %}
+                                <a href="{{ block.value.url }}">
+                                    <span>{{ block.value.title }}</span>
+                                </a>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="great great-bg-white">
+        <div class="great-container govuk-!-padding-top-4">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full great-no-padding-until-tablet">
+                    {% if page.news_title %}
+                    <h2 class="govuk-heading-l govuk-!-margin-bottom-6">
+                        {{ page.news_title }}
+                    </h2>
+                    {% endif %}
+
+                    {% if news %}
+                    <div class="govuk-grid-row govuk-!-padding-bottom-4 great-card-row">
+                        {% for article in news %}
+                        <div class="govuk-grid-column-one-third">
+                            {% include 'components/great/card.html' with title=article.title url=article.href show_title_link=True image_src=article.image.medium_resolution_url image_alt=article.image.alt_text content=article.summary|safe %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block body_js %}
+    {{ block.super }}
+{% endblock %}
