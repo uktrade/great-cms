@@ -360,6 +360,7 @@ a {
 		display: none;
 
 		@media (min-width: sizes.$tablet-size) {
+			display: initial;
 			width: 140px;
 		}
 	}
