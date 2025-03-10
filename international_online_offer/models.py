@@ -114,7 +114,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 'select': {
                     'label': {'text': 'Data for'},
                     'items': [
-                        {'value': 'foo', 'text': 'Foo'},
+                        {'value': 'uk', 'text': 'United Kingdom'},
                         {'value': 'bar', 'text': 'Bar'},
                         {'value': 'baz', 'text': 'Baz'},
                     ],
@@ -172,7 +172,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 'select': {
                     'label': {'text': 'Average rent data for'},
                     'items': [
-                        {'value': 'foo', 'text': 'Foo'},
+                        {'value': 'uk', 'text': 'United Kingdom'},
                         {'value': 'bar', 'text': 'Bar'},
                         {'value': 'baz', 'text': 'Baz'},
                     ],
