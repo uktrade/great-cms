@@ -1084,3 +1084,4 @@ for dist_id in env.frontend_cache_distribution_id.split(','):
         wagtail_cf[dist_id.split(':')[0]] = cf_dist
 
 WAGTAILFRONTENDCACHE = wagtail_cf
+CF_ROLE_ARN = env.cf_role_arn

@@ -379,6 +379,7 @@ class BaseSettings(PydanticBaseSettings):
     feature_great_migration_banner: bool = False
 
     frontend_cache_distribution_id: str = ''
+    cf_role_arn: str = ''
 
 
 class CIEnvironment(BaseSettings):
