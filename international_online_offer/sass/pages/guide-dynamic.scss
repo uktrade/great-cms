@@ -207,6 +207,7 @@ a {
 	}
 
 	&__item {
+		@include shadow-thrower();
 		display: flex;
     align-items: center;
     gap: 15px;
