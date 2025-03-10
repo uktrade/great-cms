@@ -8,15 +8,6 @@ from domestic_growth.forms import StartingABusinessForm, ScalingABusinessForm
 from domestic_growth.helpers import get_postcode_data
 
 
-class LandingView(TriageMixin, TemplateView):
-    template_name = 'landing.html'
-
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(
-            **kwargs,
-        )
-
-
 class StartingABusinessView(TriageMixin, FormView):
     form_class = StartingABusinessForm
     template_name = 'starting-a-business.html'
