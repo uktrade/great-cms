@@ -195,16 +195,6 @@ class SearchFeedbackFormView(FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        form = context["form"]
-
-        for field in form.fields.values():
-            try:
-                print(field.widget.input_type)
-
-            except AttributeError:
-                pass
-
-
         bespoke_breadcrumbs = [
             {'title': 'Search', 'url': reverse('search:search')},
         ]
