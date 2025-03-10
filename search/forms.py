@@ -8,12 +8,12 @@ from core.gds_tooling import forms
 class FeedbackForm(SaveOnlyInDatabaseAPIForm):
     result_found = forms.ChoiceField(
         label='Did you find what you were looking for on the site today?',
-        widget=forms.RadioSelect(),
+        widget=forms.RadioSelects(),
         choices=[('yes', 'Yes'), ('no', 'No')],
     )
     search_target = forms.CharField(
         label='Whether yes or no, please let us know what you were searching for',
-        widget=forms.Textarea(attrs={'class': 'govuk-!-width-one-half', 'rows': 4, 'cols': 15, 'label-class': 'form-label'}),
+        widget=forms.Textarea(attrs={'class': 'govuk-!-width-one-half', 'rows': 15, 'cols': 15, 'label-class': 'form-label'}),
     )
     from_search_query = forms.CharField(widget=HiddenInput(), required=False)
     from_search_page = IntegerField(widget=HiddenInput(), required=False)

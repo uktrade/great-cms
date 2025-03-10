@@ -199,7 +199,8 @@ class SearchFeedbackFormView(FormView):
 
         for field in form.fields.values():
             try:
-                print(dir(field.widget))
+                print(field.widget.input_type)
+
             except AttributeError:
                 pass
 

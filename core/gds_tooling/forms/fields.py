@@ -4,38 +4,6 @@ from django.forms.boundfield import BoundField
 from core.gds_tooling.forms import widgets
 
 
-__all__ = [
-    'DirectoryComponentsFieldMixin',
-    'BindNestedFormMixin',
-    'DirectoryComponentsBoundField',
-    'field_factory',
-    'PaddedCharField',
-    'RadioNested',
-    'BooleanField',
-    'CharField',
-    'ChoiceField',
-    'DateField',
-    'DateTimeField',
-    'DecimalField',
-    'DurationField',
-    'EmailField',
-    'FileField',
-    'FilePathField',
-    'FloatField',
-    'GenericIPAddressField',
-    'ImageField',
-    'IntegerField',
-    'MultipleChoiceField',
-    'RegexField',
-    'SlugField',
-    'TimeField',
-    'TypedChoiceField',
-    'TypedMultipleChoiceField',
-    'URLField',
-    'UUIDField',
-]
-
-
 class BindNestedFormMixin:
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -91,7 +59,8 @@ class DirectoryComponentsFieldMixin:
         gds_dict = {}
         if obj:
             gds_dict = {'text': obj}
-            gds_dict['classes'] = cls
+            gds_dict['class'] = cls
+            gds_dict['id'] = self.widget.id_for_label
         return gds_dict    
 
     @property

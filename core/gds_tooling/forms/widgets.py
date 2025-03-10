@@ -3,28 +3,72 @@ from django import forms
 from django.utils.text import slugify
 
 
-__all__ = [
-    'CheckboxSelectInlineLabelMultiple',
-    'CheckboxWithInlineLabel',
-    'ChoiceWidget',
-    'PrettyIDsMixin',
-    'RadioSelect',
-    'SelectMultipleAutocomplete',
-    'TextInputWithSubmitButton',
-    'TextInput',
-    'EmailInput',
-    'Textarea'
-]
 
+class WidgetGDSMixin(widgets.Widget):
+    '''
+    Used to add field to widget as gds file structure requires the following:
+    widget = {
+            name: 'example',
+            value: 'Example value',
+            id_for_label: 'id-example',
+            field: {
+                label: {
+                    class: '',
+                    text: 'Text area example',
+                    id: '1234-5678-9101-1121'
+                },
+                hint: {
+                    class: '',
+                    text: 'This is a hint',
+                    id: 'id-example'
+                }
+            },
+            attrs: {
+                rows: 5
+            }
+        }
+    '''
 
-class FieldMixin(widgets.Widget):
-
+    # default template_name
+    template_name = '_input.html'
     field = None
+
+    # default input_type
+    input_type = 'text'
 
     def get_context(self, name, value, attrs):
         ctx = super().get_context(name, value, attrs)
         ctx['field'] = self.field
         return ctx
+
+def widget_factory(base_class):
+    bases = (WidgetGDSMixin, base_class)
+    return type(base_class.__name__, bases, {})
+
+TextInput = widget_factory(widgets.TextInput)
+NumberInput = widget_factory(widgets.NumberInput)
+EmailInput = widget_factory(widgets.EmailInput)
+URLInput = widget_factory(widgets.URLInput)
+PasswordInput = widget_factory(widgets.PasswordInput)
+HiddenInput = widget_factory(widgets.HiddenInput)
+MultipleHiddenInput = widget_factory(widgets.MultipleHiddenInput)
+FileInput = widget_factory(widgets.FileInput)
+ClearableFileInput = widget_factory(widgets.ClearableFileInput)
+Textarea = widget_factory(widgets.Textarea)
+DateInput = widget_factory(widgets.DateInput)
+DateTimeInput = widget_factory(widgets.DateTimeInput)
+TimeInput = widget_factory(widgets.TimeInput)
+CheckboxInput = widget_factory(widgets.CheckboxInput)
+NullBooleanSelect = widget_factory(widgets.NullBooleanSelect)
+SelectMultiple = widget_factory(widgets.SelectMultiple)
+RadioSelect = widget_factory(widgets.RadioSelect)
+CheckboxSelectMultiple = widget_factory(widgets.CheckboxSelectMultiple)
+MultiWidget = widget_factory(widgets.MultiWidget)
+SplitDateTimeWidget = widget_factory(widgets.SplitDateTimeWidget)
+SplitHiddenDateTimeWidget = widget_factory(widgets.SplitHiddenDateTimeWidget)
+SelectDateWidget = widget_factory(widgets.SelectDateWidget)
+ChoiceWidget = widget_factory(widgets.ChoiceWidget)
+
 
 class PrettyIDsMixin:
     def __init__(self, use_nice_ids=False, *args, **kwargs):
@@ -70,7 +114,7 @@ class PrettyIDsMixin:
         }
 
 
-class ChoiceWidget(PrettyIDsMixin, widgets.ChoiceWidget, FieldMixin):
+class ChoiceWidget(PrettyIDsMixin, ChoiceWidget):
     pass
 
 
@@ -80,8 +124,14 @@ class RadioSelect(ChoiceWidget):
     css_class_name = 'g-select-multiple'
     input_type = 'radio'
 
+class RadioSelects(ChoiceWidget):
+    template_name = '_multiple_input.html'
+    option_template_name = '_radio_option.html'
+    css_class_name = 'g-select-multiple'
+    input_type = 'radio'
 
-class CheckboxWithInlineLabel(forms.widgets.CheckboxInput, FieldMixin):
+
+class CheckboxWithInlineLabel(CheckboxInput):
     template_name = 'great_components/form_widgets/checkbox_inline.html'
     container_css_classes = 'form-group'
 
@@ -97,7 +147,7 @@ class CheckboxWithInlineLabel(forms.widgets.CheckboxInput, FieldMixin):
         return context
 
 
-class CheckboxSelectInlineLabelMultiple(PrettyIDsMixin, widgets.CheckboxSelectMultiple, FieldMixin):
+class CheckboxSelectInlineLabelMultiple(PrettyIDsMixin, CheckboxSelectMultiple):
     template_name = 'great_components/form_widgets/multiple_input.html'
     option_template_name = 'great_components/form_widgets/checkbox_inline_multiple.html'
     css_class_name = 'g-select-multiple'
@@ -108,7 +158,7 @@ class CheckboxSelectInlineLabelMultiple(PrettyIDsMixin, widgets.CheckboxSelectMu
         self.attrs['class'] = self.attrs.get('class', self.css_class_name)
 
 
-class SelectMultipleAutocomplete(widgets.SelectMultiple, FieldMixin):
+class SelectMultipleAutocomplete(SelectMultiple):
 
     container_css_classes = 'g-multi-select-autocomplete'
 
@@ -122,7 +172,7 @@ class SelectMultipleAutocomplete(widgets.SelectMultiple, FieldMixin):
         )
 
 
-class RadioNestedWidget(RadioSelect, FieldMixin):
+class RadioNestedWidget(RadioSelect):
     option_template_name = 'great_components/form_widgets/nested-radio.html'
     container_css_classes = 'form-group g-radio-nested-container'
 
@@ -137,18 +187,12 @@ class RadioNestedWidget(RadioSelect, FieldMixin):
         self.nested_form = form
 
 
-class TextInputWithSubmitButton(forms.TextInput, FieldMixin):
+class TextInputWithSubmitButton(TextInput):
     container_css_classes = 'text-input-with-submit-button-container'
     template_name = 'great_components/form_widgets/text-input-with-submit-button.html'
 
 
-class TextInput(widgets.TextInput, FieldMixin):
-    template_name = '_input.html'
 
-
-class EmailInput(widgets.EmailInput, FieldMixin):
-    template_name = '_input.html'
-
-
-class Textarea(widgets.Textarea, FieldMixin):
+class Textarea(widgets.Textarea):
     template_name = '_textarea.html'
+
