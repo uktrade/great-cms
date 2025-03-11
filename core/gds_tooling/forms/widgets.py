@@ -156,7 +156,7 @@ class CheckboxSelectInlineLabelMultiple(PrettyIDsMixin, CheckboxSelectMultiple):
 
 class GDSCheckboxSelectInlineLabelMultiple(CheckboxSelectInlineLabelMultiple):
     template_name = '_multiple_input.html'
-    option_template_name = '_checkbox_inline_multiple.html'
+    option_template_name = '_checkbox_option.html'
 
 
 class GDSTextarea(Textarea):

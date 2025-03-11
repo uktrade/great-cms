@@ -27,7 +27,7 @@ from core.gds_tooling.forms.fields import (
     ReCaptchaField,
 )
 
-from core.gds_tooling.forms.forms import GDSFormMixin, Form, get_language_form_initial_data, LanguageForm
+from core.gds_tooling.forms.forms import FormMixin, GDSForm, GDSFormMixin, Form, get_language_form_initial_data, LanguageForm
 
 from core.gds_tooling.forms.widgets import (
     CheckboxSelectInlineLabelMultiple,
@@ -50,8 +50,10 @@ from core.gds_tooling.forms.widgets import (
 )  # noqa
 
 __all__ = [
+    'FormMixin',
     'GDSFormMixin',
     'Form',
+    'GDSForm',
     'get_language_form_initial_data',
     'LanguageForm',
     'GDSFieldMixin',

@@ -13,16 +13,28 @@ BLANK_COUNTRY_CHOICE = [("", "Select a country")]
 COUNTRIES = BLANK_COUNTRY_CHOICE + COUNTRY_CHOICES
 
 
-class GDSFormMixin:
+class FormMixin:
     use_required_attribute = False
     error_css_class = 'form-group-error'
     error_summary_heading = None
 
     def __str__(self):
         return render_to_string('form.html', {'form': self})
+    
+class GDSFormMixin:
+    use_required_attribute = False
+    error_css_class = 'form-group-error'
+    error_summary_heading = None
+
+    def __str__(self):
+        return render_to_string('_form.html', {'form': self})
 
 
-class Form(GDSFormMixin, forms.Form):
+class Form(FormMixin, forms.Form):
+    pass
+
+
+class GDSForm(GDSFormMixin, forms.Form):
     pass
 
 

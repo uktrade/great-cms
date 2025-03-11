@@ -834,13 +834,16 @@ class InternationalContactForm(
     terms_agreed = forms.BooleanField(label=TERMS_LABEL)
 
 
-class FTASubscribeForm(GovNotifyEmailActionMixin, forms.Form):
+class FTASubscribeForm(GovNotifyEmailActionMixin, forms.GDSForm):
     first_name = forms.CharField(
         label='First name',  # /PS-IGNORE
         required=True,
         error_messages={
             'required': 'Enter a first name',  # /PS-IGNORE
         },
+        widget=forms.GDSTextInput(
+            attrs={ 'label-class': 'form-label'}
+        )
     )
 
     last_name = forms.CharField(
@@ -849,6 +852,9 @@ class FTASubscribeForm(GovNotifyEmailActionMixin, forms.Form):
         error_messages={
             'required': 'Enter a last name',  # /PS-IGNORE
         },
+        widget=forms.GDSTextInput(
+            attrs={ 'label-class': 'form-label'}
+        )
     )
 
     email = forms.EmailField(
@@ -857,6 +863,9 @@ class FTASubscribeForm(GovNotifyEmailActionMixin, forms.Form):
             'required': 'Enter your email address',  # /PS-IGNORE
         },
         required=True,
+        widget=forms.GDSEmailInput(
+            attrs={ 'label-class': 'form-label'}
+        )
     )
 
     choices = (
@@ -870,20 +879,21 @@ class FTASubscribeForm(GovNotifyEmailActionMixin, forms.Form):
         error_messages={
             'required': 'Select I export already or I am interested in exporting',
         },
-        widget=GroupedRadioSelect(),
         label='Does your company already export?',
+        widget=forms.GDSRadioSelect(),
     )
 
     def get_fta_choices():
         response = get_free_trade_agreements()
         choices = response['data']
         choices.append(constants.FUTURE_FTAS_CHOICE)
+        choices.append('testing')
         return [(c, c) for c in choices]
 
     free_trade_agreements = forms.MultipleChoiceField(
         label='I would like information about the following FTAs:',
         choices=get_fta_choices,
-        widget=forms.CheckboxSelectInlineLabelMultiple(
+        widget=forms.GDSCheckboxSelectInlineLabelMultiple(
             attrs={'id': 'checkbox-multiple'},
             use_nice_ids=True,
         ),
@@ -891,7 +901,6 @@ class FTASubscribeForm(GovNotifyEmailActionMixin, forms.Form):
         error_messages={
             'required': 'Select the FTAs you would like to receive updates on',
         },
-        container_css_classes='form-group bold-label heading-medium',
     )
 
     terms_agreed = forms.BooleanField(
