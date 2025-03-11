@@ -1,3 +1,5 @@
+{% load wagtailcore_tags %}
+
 <div class="block-text">
     {% if not value.hide_title %}
         <h2{% if value.title_id %} id="{{value.title_id}}"{% endif %}>{{ value.title }} </h2>
