@@ -110,6 +110,30 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
 
         context = {
             **context,
+            'essential_topics': [
+                {
+                    'icon_path': 'svg/icon-planning.svg',
+                    'text': 'UK business registration',
+                    'url': '#',
+                },
+                {
+                    'icon_path': 'svg/icon-ukvisa.svg',
+                    'text': 'Checking if you need visas',
+                    'url': '#',
+                },
+                {
+                    'icon_path': 'svg/icon-bank.svg',
+                    'text': 'Business bank accounts',
+                    'url': '#',
+                },
+                {
+                    'icon_path': 'svg/icon-tax.svg',
+                    'text': 'UK taxes',
+                    'url': '#',
+                },
+            ],
+            'company_name': 'Dummy company',
+            'sector_name': 'Dummy sector',
             'market_data': {
                 'select': {
                     'label': {'text': 'Data for'},
@@ -134,40 +158,90 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 'data_year': '1979',
                 'data_source': 'Inter-Departmental Business Register, Office for National Statistics',
             },
-            'salary_data': {
-                'select': {
-                    'label': {'text': 'Average annual salary data for'},
-                    'items': [
-                        {'value': 'uk', 'text': 'United Kingdom'},
-                        {'value': 'bar', 'text': 'Bar'},
-                        {'value': 'baz', 'text': 'Baz'},
-                    ],
+            'locations': [
+                {
+                    'title': 'Compound semiconductors and applications in South Wales',
+                    'location': 'Wales',
+                    'image': '/static/images/ukef_landing_offer_section_image_2024.jpg',
+                    'url': '#',
+                    'description': 'South Wales is pioneering the way forward in'
+                    ' designing, developing, and commercialising the compound semiconductors'
+                    ' needed for a net zero economy.',
                 },
-                'figures': [
-                    {
-                        'icon_path': 'svg/icon-planning.svg',
-                        'prefix': '£',
-                        'value': 16018,
-                        'description': 'For professions like IT user support, '
-                        'IT operations technicians and electricians',
-                    },
-                    {
-                        'icon_path': 'svg/icon-planning.svg',
-                        'prefix': '£',
-                        'value': 20404,
-                        'description': 'For professions like electronic engineers and IT project managers',
-                    },
-                    {
-                        'icon_path': 'svg/icon-planning.svg',
-                        'prefix': '£',
-                        'value': 39397,
-                        'description': 'For professions like senior restaurant '
-                        'manager and food company chief executive.',
-                    },
-                ],
-                'data_year': '1979',
-                'data_source': 'Inter-Departmental Business Register, Office for National Statistics',
-            },
+                {
+                    'title': 'Connected and immersive technologies for future mobility in Coventry and Warwickshire',
+                    'location': 'Coventry and Warwickshire, Midlands of England',
+                    'image': '/static/images/ukef_landing_how_we_can_help_2024.jpg',
+                    'url': '#',
+                    'description': 'The latest vehicle technologies demand ever greater deployment '
+                    'of connectivity, autonomy and security. Coventry and Warwickshire is a global '
+                    'centre for automotive software innovation.',
+                },
+            ],
+            'more_locations_link': '#',
+            'events': [
+                {
+                    'title': 'Advanced Engineering',
+                    'location': 'Wales',
+                    'icon': 'svg/icon-planning.svg',
+                    'url': '#',
+                    'description': 'Exhibition space and networking opportunities across the advanced '
+                    'engineering supply chain, from R&D and design to testing, quality control, '
+                    'manufacturing, and maintenance.',
+                    'website': 'example.com',
+                },
+                {
+                    'title': 'Mach exhibition',
+                    'location': 'Birmingham, Midlands of England',
+                    'icon': 'svg/icon-planning.svg',
+                    'url': '#',
+                    'description': 'Organised by the Manufacturing Technologies Association, '
+                    'MACH connects UK manufacturing engineers, decision makers, '
+                    'buyers and specifiers with suppliers of new technology, equipment, '
+                    'services and processes. Held every 2 years.',
+                    'website': 'example.com',
+                },
+            ],
+            'more_events_link': '#',
+            'associations': [
+                {
+                    'title': 'British Chemical Engineering CA',
+                    'url': '#',
+                    'description': 'BCECA has provided a focus for intelligence gathering and knowledge '
+                    'sharing for more than 50 years. Their membership includes many of the world’s most '
+                    'widely recognised and respected engineering contractors. ',
+                },
+                {
+                    'title': "British Engineering Manufacturers' Association (BEMA)",
+                    'url': '#',
+                    'description': "The British Engineering Manufacturers' Association Limited (BEMA) "
+                    'is now the largest engineering trade association in the South West of England, '
+                    'supporting the demands of industry to benefit the member companies with hel...',
+                },
+            ],
+            'more_associations_link': '#',
+            'bases': [
+                {
+                    'title': 'How to find a business property',
+                    'icon': 'svg/icon-planning.svg',
+                    'url': '#',
+                    'description': 'A suitable location near customers, staff, '
+                    'transport hubs and supply chains is crucial to your success in the UK.',
+                },
+                {
+                    'title': 'Set up a new premises for [ SectorName ]',
+                    'icon': 'svg/icon-planning.svg',
+                    'url': '#',
+                    'description': 'How to find premises and decide on the best location to '
+                    'expand your [SectorName] business in the UK.',
+                },
+                {
+                    'title': 'Set up a new distribution centre for [SectorName]',
+                    'icon': 'svg/icon-planning.svg',
+                    'url': '#',
+                    'description': 'Find help to select a location and logistics partner.',
+                },
+            ],
             'rent_data': {
                 'select': {
                     'label': {'text': 'Average rent data for'},
@@ -250,6 +324,106 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                     },
                 ],
             },
+            'recruit_and_employ': [
+                {
+                    'title': 'How to become an employer and recruit staff',
+                    'icon': 'svg/icon-planning.svg',
+                    'url': '#',
+                    'description': 'A guide to your responsibilities as a UK employer, '
+                    'employment regulations and how to find people with the right skills.',
+                },
+                {
+                    'title': 'Recruit expert talent for your [SectorName] business',
+                    'icon': 'svg/icon-planning.svg',
+                    'url': '#',
+                    'description': 'Recruitment agencies, events and partnerships can help you '
+                    'tap into the huge network of UK [SectorName] talent.',
+                },
+            ],
+            'salary_data': {
+                'select': {
+                    'label': {'text': 'Average annual salary data for'},
+                    'items': [
+                        {'value': 'uks', 'text': 'United Kingdom'},
+                        {'value': 'bar', 'text': 'Bar'},
+                        {'value': 'baz', 'text': 'Baz'},
+                    ],
+                },
+                'figures': [
+                    {
+                        'icon_path': 'svg/icon-planning.svg',
+                        'prefix': '£',
+                        'value': 16018,
+                        'description': 'For professions like IT user support, '
+                        'IT operations technicians and electricians',
+                    },
+                    {
+                        'icon_path': 'svg/icon-planning.svg',
+                        'prefix': '£',
+                        'value': 20404,
+                        'description': 'For professions like electronic engineers and IT project managers',
+                    },
+                    {
+                        'icon_path': 'svg/icon-planning.svg',
+                        'prefix': '£',
+                        'value': 39397,
+                        'description': 'For professions like senior restaurant '
+                        'manager and food company chief executive.',
+                    },
+                ],
+                'data_year': '1979',
+                'data_source': 'Inter-Departmental Business Register, Office for National Statistics',
+            },
+            'right_panel_sections': [
+                {
+                    'title': 'Regulations',
+                    'icon_path': 'svg/icon-planning.svg',
+                    'items': [
+                        {
+                            'title': 'Regulations for [SectorName]',
+                            'url': '#',
+                            'text': 'You will need to be aware of UK regulations '
+                            'and legislation framework in the Dummy sector sector.',
+                        },
+                    ],
+                },
+                {
+                    'title': 'Funding and help for overseas businesses',
+                    'icon_path': 'svg/icon-planning.svg',
+                    'items': [
+                        {
+                            'title': 'Research and development support for {{ sector_name }}',
+                            'url': '#',
+                            'text': 'Businesses can benefit from research and development programmes '
+                            'and initiatives in the advanced engineering sector.',
+                        },
+                        {
+                            'title': 'Incentives for innovative businesses',
+                            'url': '#',
+                            'text': 'Find out about tax reliefs and R&D support '
+                            'for cutting edge overseas businesses setting up in the UK.',
+                        },
+                        {
+                            'title': 'Finance for your expansion',
+                            'url': '#',
+                            'text': 'See a range of options for raising capital in the UK '
+                            'including loans, equity financing and development funding.',
+                        },
+                    ],
+                },
+                {
+                    'title': 'Selling from the UK',
+                    'icon_path': 'svg/icon-planning.svg',
+                    'items': [
+                        {
+                            'title': 'Guidance for exporting',
+                            'url': '#',
+                            'text': 'What to consider if you want to use the UK as a base '
+                            'to export to other overseas markets. Includes regulations and trade agreements.',
+                        },
+                    ],
+                },
+            ],
         }
 
         return TemplateResponse(

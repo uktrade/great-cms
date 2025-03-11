@@ -14,6 +14,7 @@
                 <span class="govuk-hint">{{ location }}</span>
             </div>
         {% endif %}
-        <p class="govuk-body">{{ body }}</p>
+        <p class="govuk-body govuk-!-margin-bottom-0">{{ body }}</p>
+        {% if website %}<p class="rich-link__website govuk-body-s govuk-!-margin-bottom-0">{{ website }}</p>{% endif %}
     </div>
 </div>

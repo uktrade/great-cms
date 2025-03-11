@@ -353,6 +353,7 @@ a {
 	&__content {
 		display: flex;
 		flex-direction: column;
+		flex: 1 1;
 		gap: 5px;
 	}
 
@@ -363,6 +364,10 @@ a {
 			display: initial;
 			width: 140px;
 		}
+	}
+
+	&__website {
+		color: $great-text-dark-grey;
 	}
 
 	& > * {
