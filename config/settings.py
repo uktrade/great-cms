@@ -41,7 +41,7 @@ APPEND_SLASH = True
 INSTALLED_APPS = [
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
-    'wagtail.contrib.modeladmin',
+    'wagtail_modeladmin',
     'wagtail.contrib.table_block',
     'wagtail.embeds',
     'wagtail.sites',
@@ -545,7 +545,7 @@ if FEATURE_OPENSEARCH:  # Power search via Opensearch
     WAGTAILSEARCH_BACKENDS = {
         'default': {
             'BACKEND': 'wagtail.search.backends.elasticsearch7',
-            'AUTO_UPDATE': False,
+            'AUTO_UPDATE': True,
             'URLS': [decoded_opensearch_url],
             'INDEX': 'great-cms',
             'TIMEOUT': 5,
