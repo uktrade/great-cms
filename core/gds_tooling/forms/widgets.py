@@ -4,7 +4,6 @@ from django import forms
 from django.utils.text import slugify
 
 
-
 class WidgetGDSMixin(widgets.Widget):
     '''
     Used to add field to widget as gds file structure requires the following:
@@ -47,6 +46,7 @@ def widget_factory(base_class):
     bases = (WidgetGDSMixin, base_class)
     return type(base_class.__name__, bases, {})
 
+
 TextInput = widget_factory(widgets.TextInput)
 NumberInput = widget_factory(widgets.NumberInput)
 EmailInput = widget_factory(widgets.EmailInput)
@@ -81,28 +81,19 @@ class PrettyIDsMixin:
             self.id_separator = '-'
         super().__init__(*args, **kwargs)
 
-    def create_option(
-            self, name, value, label, selected, index,
-            subindex=None, attrs=None):
+    def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
         """Patch to use nicer ids."""
-        index = str(index) if subindex is None else "%s%s%s" % (
-            index, self.id_separator, subindex)
+        index = str(index) if subindex is None else "%s%s%s" % (index, self.id_separator, subindex)
         if attrs is None:
             attrs = {}
-        option_attrs = self.build_attrs(
-            self.attrs, attrs) if self.option_inherits_attrs else {}
+        option_attrs = self.build_attrs(self.attrs, attrs) if self.option_inherits_attrs else {}
         if selected:
             option_attrs.update(self.checked_attribute)
         if 'id' in option_attrs:
             if self.use_nice_ids:
-                option_attrs['id'] = "%s%s%s" % (
-                    option_attrs['id'],
-                    self.id_separator,
-                    slugify(label.lower())
-                    )
+                option_attrs['id'] = "%s%s%s" % (option_attrs['id'], self.id_separator, slugify(label.lower()))
             else:
-                option_attrs['id'] = self.id_for_label(
-                    option_attrs['id'], index)
+                option_attrs['id'] = self.id_for_label(option_attrs['id'], index)
         return {
             'name': name,
             'value': value,
@@ -131,6 +122,7 @@ class GDSRadioSelect(RadioSelect):
     '''
     New widget that will play nicely with the great-design-system
     '''
+
     template_name = '_multiple_input.html'
     option_template_name = '_radio_option.html'
 
@@ -149,7 +141,7 @@ class CheckboxWithInlineLabel(CheckboxInput):
         context['label'] = self.label
         context['help_text'] = self.help_text
         return context
-    
+
 
 class CheckboxSelectInlineLabelMultiple(PrettyIDsMixin, CheckboxSelectMultiple):
     template_name = 'multiple_input.html'
@@ -166,17 +158,21 @@ class GDSCheckboxSelectInlineLabelMultiple(CheckboxSelectInlineLabelMultiple):
     template_name = '_multiple_input.html'
     option_template_name = '_checkbox_inline_multiple.html'
 
+
 class GDSTextarea(Textarea):
     '''
     New widget that will play nicely with the great-design-system
     '''
+
     input_type = 'text'
     template_name = '_textarea.html'
+
 
 class GDSTextInput(TextInput):
     '''
     New widget that will play nicely with the great-design-system
     '''
+
     template_name = '_input.html'
 
 
@@ -184,6 +180,7 @@ class GDSEmailInput(GDSTextInput):
     '''
     New widget that will play nicely with the great-design-system
     '''
+
     input_type = 'email'
 
 
@@ -191,6 +188,7 @@ class GDSHiddenInput(HiddenInput):
     '''
     New widget that will play nicely with the great-design-system
     '''
+
     input_type = 'hidden'
     template_name = '_hidden_input.html'
 

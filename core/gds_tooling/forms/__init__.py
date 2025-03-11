@@ -24,14 +24,10 @@ from core.gds_tooling.forms.fields import (
     TypedMultipleChoiceField,
     URLField,
     UUIDField,
-    ReCaptchaField
+    ReCaptchaField,
 )
 
-from core.gds_tooling.forms.forms import (
-    GDSFormMixin,
-    Form,
-    get_language_form_initial_data,
-    LanguageForm)
+from core.gds_tooling.forms.forms import GDSFormMixin, Form, get_language_form_initial_data, LanguageForm
 
 from core.gds_tooling.forms.widgets import (
     CheckboxSelectInlineLabelMultiple,
@@ -50,8 +46,8 @@ from core.gds_tooling.forms.widgets import (
     HiddenInput,
     GDSHiddenInput,
     GDSReCaptchaV3,
-    ReCaptchaV3
-) #noqa
+    ReCaptchaV3,
+)  # noqa
 
 __all__ = [
     'GDSFormMixin',
@@ -105,5 +101,5 @@ __all__ = [
     'HiddenInput',
     'GDSHiddenInput',
     'ReCaptchaV3',
-    'GDSReCaptchaV3'
+    'GDSReCaptchaV3',
 ]

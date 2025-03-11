@@ -10,7 +10,9 @@ class FeedbackForm(SaveOnlyInDatabaseAPIForm):
     )
     search_target = forms.CharField(
         label='Whether yes or no, please let us know what you were searching for',
-        widget=forms.GDSTextarea(attrs={'class': 'govuk-!-width-one-half', 'rows': 5, 'cols': 15, 'label-class': 'form-label'}),
+        widget=forms.GDSTextarea(
+            attrs={'class': 'govuk-!-width-one-half', 'rows': 5, 'cols': 15, 'label-class': 'form-label'}
+        ),
     )
     from_search_query = forms.CharField(widget=forms.GDSHiddenInput(), required=False)
     from_search_page = forms.IntegerField(widget=forms.GDSHiddenInput(), required=False)

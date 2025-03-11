@@ -9,11 +9,7 @@ class GDSBoundField(BoundField):
     def label_tag(self, contents=None, attrs=None, label_suffix=None):
         attrs = attrs or {}
         attrs['class'] = attrs.get('class', '') + ' form-label'
-        return super().label_tag(
-            contents=contents,
-            attrs=attrs,
-            label_suffix=label_suffix
-        )
+        return super().label_tag(contents=contents, attrs=attrs, label_suffix=label_suffix)
 
     def css_classes(self, *args, **kwargs):
         css_classes = super().css_classes(*args, **kwargs)
@@ -21,7 +17,6 @@ class GDSBoundField(BoundField):
 
 
 class GDSFieldMixin:
-
     def __init__(self, hide_on_page_load=False, container_css_classes='form-group', *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.label_suffix = ''
@@ -33,7 +28,6 @@ class GDSFieldMixin:
     def container_css_classes(self):
         widget_class = getattr(self.widget, 'container_css_classes', '')
         return f'{self._container_css_classes} {widget_class}'
-    
 
     def gds_dict_helper(self, obj, cls):
         gds_dict = {}
@@ -41,7 +35,7 @@ class GDSFieldMixin:
             gds_dict = {'text': obj}
             gds_dict['class'] = cls
             gds_dict['id'] = self.widget.id_for_label
-        return gds_dict    
+        return gds_dict
 
     @property
     def gds_mapping(self):

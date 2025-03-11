@@ -14,7 +14,6 @@ COUNTRIES = BLANK_COUNTRY_CHOICE + COUNTRY_CHOICES
 
 
 class GDSFormMixin:
-
     use_required_attribute = False
     error_css_class = 'form-group-error'
     error_summary_heading = None
@@ -28,10 +27,7 @@ class Form(GDSFormMixin, forms.Form):
 
 
 class LanguageForm(forms.Form):
-    lang = ChoiceField(
-        widget=Select(attrs={'id': 'great-header-language-select'}),
-        choices=[]  # set by __init__
-    )
+    lang = ChoiceField(widget=Select(attrs={'id': 'great-header-language-select'}), choices=[])  # set by __init__
 
     def __init__(self, language_choices=settings.LANGUAGES, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -43,6 +39,4 @@ class LanguageForm(forms.Form):
 
 
 def get_language_form_initial_data():
-    return {
-        'lang': translation.get_language()
-    }
+    return {'lang': translation.get_language()}
