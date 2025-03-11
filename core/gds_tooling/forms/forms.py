@@ -18,6 +18,10 @@ class FormMixin:
     error_css_class = 'form-group-error'
     error_summary_heading = None
 
+    def __init__(self, is_gds_form=False, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.is_gds_form = is_gds_form
+
     def __str__(self):
         return render_to_string('form.html', {'form': self})
     
@@ -25,6 +29,10 @@ class GDSFormMixin:
     use_required_attribute = False
     error_css_class = 'form-group-error'
     error_summary_heading = None
+
+    def __init__(self, is_gds_form=True, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.is_gds_form = is_gds_form
 
     def __str__(self):
         return render_to_string('_form.html', {'form': self})

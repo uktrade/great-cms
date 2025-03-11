@@ -19,7 +19,7 @@ import regex
 from contact import constants, mixins as contact_mixins, widgets as contact_widgets
 from contact.helpers import get_free_trade_agreements
 from core import helpers
-from core.forms import TERMS_LABEL, ConsentFieldMixin
+from core.forms import TERMS_LABEL, ConsentFieldMixin, GDSConsentFieldMixin
 from core.validators import is_valid_uk_postcode
 from directory_constants import choices
 from directory_constants.choices import COUNTRY_CHOICES
@@ -74,19 +74,29 @@ class SerializeDataMixin:
         return data
 
 
-class BaseShortForm(forms.Form):
+class BaseShortForm(forms.GDSForm):
     comment = forms.CharField(
         label='Please give us as much detail as you can',
-        widget=Textarea,
+        widget=forms.GDSTextarea(
+            attrs={'rows': 10, 'cols': 40, 'label-class': 'form-label'}
+        ),
     )
-    given_name = forms.CharField(label='First name')  # /PS-IGNORE
-    family_name = forms.CharField(label='Last name')  # /PS-IGNORE
-    email = forms.EmailField()
+    given_name = forms.CharField(
+        label='First name',
+        widget = forms.GDSTextInput(attrs={ 'label-class': 'form-label'})
+        )  # /PS-IGNORE
+    family_name = forms.CharField(
+        label='Last name',
+        widget = forms.GDSTextInput(attrs={ 'label-class': 'form-label'})
+        )  # /PS-IGNORE
+    email = forms.EmailField(
+        label='Email address',
+        widget = forms.GDSEmailInput(attrs={ 'label-class': 'form-label'})
+    )  # /PS-IGNORE
     company_type = forms.ChoiceField(
-        label='Company type',
-        label_suffix='',
-        widget=GroupedRadioSelect(),
         choices=constants.COMPANY_TYPE_CHOICES,
+        label='Does your company already export?',
+        widget=forms.GDSRadioSelect(),
     )
     company_type_other = forms.ChoiceField(
         label='Type of organisation',
@@ -94,9 +104,13 @@ class BaseShortForm(forms.Form):
         choices=(('', 'Please select'),) + constants.COMPANY_TYPE_OTHER_CHOICES,
         required=False,
     )
-    organisation_name = forms.CharField()
-    postcode = forms.CharField()
-    captcha = ReCaptchaField(label='', label_suffix='', widget=ReCaptchaV3())
+    organisation_name = forms.CharField(
+        widget = forms.GDSTextInput(attrs={ 'label-class': 'form-label'})
+    )  # /PS-IGNORE
+    postcode = forms.CharField(
+        widget = forms.GDSTextInput(attrs={ 'label-class': 'form-label'})
+    )
+    captcha = forms.ReCaptchaField(label='', label_suffix='', widget=forms.GDSReCaptchaV3())
     terms_agreed = forms.BooleanField(label=TERMS_LABEL)
 
 
@@ -108,15 +122,15 @@ class ShortZendeskForm(SerializeDataMixin, ZendeskActionMixin, BaseShortForm):
         return f'{cleaned_data["given_name"]} {cleaned_data["family_name"]}'
 
 
-class DomesticForm(ConsentFieldMixin, ShortZendeskForm):
+class DomesticForm(GDSConsentFieldMixin, ShortZendeskForm):
     pass
 
 
-class DomesticEnquiriesForm(ConsentFieldMixin):
+class DomesticEnquiriesForm(GDSConsentFieldMixin):
     pass
 
 
-class DomesticExportSupportStep1Form(forms.Form):
+class DomesticExportSupportStep1Form(forms.GDSForm):
     business_type = forms.ChoiceField(
         label='Business type',
         help_text='Understanding the business type will help us provide you with a better service',
@@ -483,7 +497,7 @@ class DomesticExportSupportStep9Form(forms.Form):
     )
 
 
-class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):
+class ExportSupportForm(GovNotifyEmailActionMixin, forms.GDSForm):
     EMPLOYEES_NUMBER_CHOICES = (
         ('1-9', '1 to 9'),
         ('10-49', '10 to 49'),
@@ -497,12 +511,14 @@ class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):
         min_length=2,
         max_length=50,
         error_messages={'required': 'Enter your first name'},  # /PS-IGNORE
+        widget=forms.GDSTextInput(attrs={'class': 'govuk-!-width-one-half', 'label-class': 'form-label'})
     )
     last_name = forms.CharField(
         label='Last name',  # /PS-IGNORE
         min_length=2,
         max_length=50,
         error_messages={'required': 'Enter your last name'},  # /PS-IGNORE
+        widget=forms.GDSTextInput(attrs={'class': 'govuk-!-width-one-half', 'label-class': 'form-label'})
     )
     email = forms.EmailField(
         label='Email address',  # /PS-IGNORE
@@ -510,6 +526,7 @@ class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):
             'required': 'Enter an email address in the correct format, like name@example.com',  # /PS-IGNORE
             'invalid': 'Enter an email address in the correct format, like name@example.com',  # /PS-IGNORE
         },
+        widget=forms.GDSEmailInput(attrs={'class': 'govuk-!-width-one-half', 'label-class': 'form-label'})
     )
     phone_number = forms.CharField(
         label='UK telephone number',
@@ -521,6 +538,7 @@ class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):
             'required': 'Enter a UK phone number',
             'invalid': 'Please enter a UK phone number',
         },
+        widget=forms.GDSTextInput(attrs={'class': 'govuk-!-width-one-half', 'label-class': 'form-label'})
     )
     job_title = forms.CharField(
         label='Job title',
@@ -528,6 +546,7 @@ class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):
         error_messages={
             'required': 'Enter your job title',
         },
+        widget=forms.GDSTextInput(attrs={'class': 'govuk-!-width-one-half', 'label-class': 'form-label'})
     )
     company_name = forms.CharField(
         label='Business name',
@@ -535,12 +554,14 @@ class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):
         error_messages={
             'required': 'Enter your business name',
         },
+        widget=forms.GDSTextInput(attrs={'class': 'govuk-!-width-one-half', 'label-class': 'form-label'})
     )
     company_postcode = forms.CharField(
         label='Business postcode',
         max_length=50,
         error_messages={'required': 'Enter your business postcode', 'invalid': 'Please enter a UK postcode'},
         validators=[is_valid_uk_postcode],
+        widget=forms.GDSTextInput(attrs={'class': 'govuk-!-width-one-half', 'label-class': 'form-label'})
     )
     annual_turnover = forms.ChoiceField(
         label='Annual turnover',
@@ -553,13 +574,13 @@ class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):
             ('£10M to £50M', '£10M to £50M'),
             ('£50M or higher', '£50M or higher'),
         ),
-        widget=GroupedRadioSelect,
+        widget=forms.GDSCheckboxSelectInlineLabelMultiple,
         required=False,
     )
     employees_number = forms.ChoiceField(
         label='Number of employees',
         choices=EMPLOYEES_NUMBER_CHOICES,
-        widget=GroupedRadioSelect,
+        widget=forms.GDSCheckboxSelectInlineLabelMultiple,
         error_messages={
             'required': 'Choose a number',
         },
@@ -567,7 +588,7 @@ class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):
     currently_export = forms.ChoiceField(
         label='Do you currently export?',
         choices=(('yes', 'Yes'), ('no', 'No')),
-        widget=GroupedRadioSelect,
+        widget=forms.GDSRadioSelect,
         error_messages={'required': 'Please answer this question'},
     )
 
@@ -579,9 +600,11 @@ class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):
     )
     comment = forms.CharField(
         label='Please give us as much detail as you can on your enquiry',
-        widget=Textarea,
+        widget=forms.GDSTextarea(
+            attrs={'class': 'govuk-!-width-one-half', 'rows': 10, 'cols': 40, 'label-class': 'form-label'}
+        ),
     )
-    captcha = ReCaptchaField(label='', label_suffix='', widget=ReCaptchaV3())
+    captcha = forms.ReCaptchaField(label='', label_suffix='', widget=forms.GDSReCaptchaV3())
 
     def clean_phone_number(self):
         phone_number = self.cleaned_data['phone_number'].replace(' ', '')

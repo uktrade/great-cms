@@ -15,7 +15,7 @@ from django.forms import (
 )
 from django.template.loader import render_to_string
 from django.utils.html import mark_safe
-from great_components import forms
+from core.gds_tooling import forms
 
 from core import constants, models
 from core.cms_slugs import (
@@ -78,6 +78,39 @@ class ConsentFieldMixin(forms.Form):
     contact_consent = forms.MultipleChoiceField(
         # label is set in init to avoid circular dependency
         widget=forms.CheckboxSelectInlineLabelMultiple(
+            attrs={'id': 'checkbox-multiple'},
+            use_nice_ids=True,
+        ),
+        choices=constants.CONSENT_CHOICES,
+        required=False,
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['contact_consent'].label = render_to_string(
+            'core/includes/contact-consent.html',
+            {'privacy_url': PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE},
+        )
+
+    @staticmethod
+    def move_to_end(fields, name):
+        fields.remove(name)
+        fields.append(name)
+
+    def order_fields(self, field_order):
+        # move terms agreed and captcha to the back
+        field_order = field_order or list(self.fields.keys())
+        field_order = field_order[:]
+        self.move_to_end(fields=field_order, name='contact_consent')
+        if 'captcha' in field_order:
+            self.move_to_end(fields=field_order, name='captcha')
+        return super().order_fields(field_order)
+    
+
+class GDSConsentFieldMixin(forms.GDSForm):
+    contact_consent = forms.MultipleChoiceField(
+        # label is set in init to avoid circular dependency
+        widget=forms.GDSCheckboxSelectInlineLabelMultiple(
             attrs={'id': 'checkbox-multiple'},
             use_nice_ids=True,
         ),

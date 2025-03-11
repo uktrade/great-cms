@@ -27,25 +27,25 @@
                         {% csrf_token %}
                         <fieldset class="margin-bottom-20">
                             <h2 class="heading-medium margin-bottom-50">Your details</h2>
-                            {% include 'core/includes/form_field.html' with field=form.first_name %}
-                            {% include 'core/includes/form_field.html' with field=form.last_name %}
-                            {% include 'core/includes/form_field.html' with field=form.email %}
-                            {% include 'core/includes/form_field.html' with field=form.phone_number %}
-                            {% include 'core/includes/form_field.html' with field=form.job_title %}
+                            {{ form.first_name }}
+                            {{ form.last_name }}
+                            {{ form.email }}
+                            {{ form.phone_number }}
+                            {{ form.job_title }}
                         </fieldset>
                         <fieldset class="margin-bottom-20">
                             <h2 class="heading-medium margin-bottom-50">About your business</h2>
-                            {% include 'core/includes/form_field.html' with field=form.company_name %}
-                            <div class="width-half">{% include 'core/includes/form_field.html' with field=form.company_postcode %}</div>
-                            {% include 'core/includes/form_field.html' with field=form.annual_turnover %}
-                            {% include 'core/includes/form_field.html' with field=form.employees_number %}
-                            {% include 'core/includes/form_field.html' with field=form.currently_export %}
+                            {{ form.company_name }}
+                            <div class="width-half">{{ form.company_postcode }}</div>
+                            {{ form.annual_turnover }}
+                            {{ form.employees_number }}
+                            {{ form.currently_export }}
                         </fieldset>
                         <fieldset>
                             <h2 class="heading-medium margin-bottom-50">Get Business Support</h2>
-                            {% include 'core/includes/form_field.html' with field=form.comment %}
-                            {% include 'core/includes/form_field.html' with field=form.terms_agreed %}
-                            {% include 'core/includes/form_field.html' with field=form.captcha %}
+                            {{ form.comment }}
+                            {{ form.terms_agreed }}
+                            {{ form.captcha }}
                         </fieldset>
                         <button type="submit" class="button primary-button">Submit</button>
                     </form>

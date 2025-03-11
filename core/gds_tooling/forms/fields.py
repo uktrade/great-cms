@@ -116,3 +116,18 @@ class BooleanField(GDSFieldMixin, forms.BooleanField):
             self.widget.label = label
             self.widget.help_text = help_text
             self.label = ''
+
+class GDSBooleanField(GDSFieldMixin, forms.BooleanField):
+    widget = widgets.GDSCheckboxSelectInlineLabelMultiple
+
+    @property
+    def container_css_classes(self):
+        widget_class = getattr(self.widget, 'container_css_classes', '')
+        return widget_class
+
+    def __init__(self, label='', help_text='', *args, **kwargs):
+        super().__init__(label=label, *args, **kwargs)
+        if isinstance(self.widget, widgets.GDSCheckboxSelectInlineLabelMultiple):
+            self.widget.label = label
+            self.widget.help_text = help_text
+            self.label = ''
