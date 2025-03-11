@@ -1,3 +1,4 @@
+from captcha.widgets import ReCaptchaV3
 from django.forms import widgets
 from django import forms
 from django.utils.text import slugify
@@ -35,12 +36,10 @@ class WidgetGDSMixin(widgets.Widget):
         ctx = super().get_context(name, value, attrs)
         field = self.field
         ctx['field'] = field
-        if field.hide_on_page_load:
-            try:
+        if hasattr(field, 'hide_on_page_load'):
+            if hasattr(ctx["widget"]["attrs"], 'class'):
                 widget_class = ctx["widget"]["attrs"]["class"]
                 ctx["widget"]["attrs"]["class"] = f'hide-on-page-load {widget_class}'
-            except KeyError:
-                pass
         return ctx
 
 
@@ -187,3 +186,19 @@ class GDSEmailInput(GDSTextInput):
     '''
     input_type = 'email'
 
+
+class GDSHiddenInput(HiddenInput):
+    '''
+    New widget that will play nicely with the great-design-system
+    '''
+    input_type = 'hidden'
+    template_name = '_hidden_input.html'
+
+    def get_context(self, name, value, attrs):
+        ctx = super().get_context(name, value, attrs)
+        ctx["widget"]["type"] = self.input_type
+        return ctx
+
+
+class GDSReCaptchaV3(ReCaptchaV3, GDSHiddenInput):
+    pass

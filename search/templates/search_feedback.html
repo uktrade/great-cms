@@ -19,26 +19,17 @@
 </section>
 <div class="results-wrapper">
     <div class="container search-results-container">
-        <form action="{% url 'search:feedback' %}?{{ request.GET.urlencode }}"
-              method="post">
+      <form action="{% url 'search:feedback' %}?{{ request.GET.urlencode }}" method="post">
             {% csrf_token %}
-            {{ form.non_field_errors }}
-            {{ form.result_found}}
-            {{ form.search_target }}
-            {{ form.from_search_query.as_hidden }}
-            {{ form.from_search_page.as_hidden }}
-            {{ form.contactable }}
-            {{ form.contact_name }}
-            {{ form.contact_email }}
-            {{ form.contact_number }}
+            {% for field in form.hidden_fields %}
+              {{ field }}
+            {% endfor %}
+            {% for field in form.visible_fields %}
+              {{ field }}
+            {% endfor %}
             <p class="margin-bottom-30 margin-top-60-l margin-top-45-m margin-top-30">
                 Thanks for taking the time to help users of our site.
             </p>
-            <div class="form-group{% if field.errors %} form-group-error{% endif %}">
-                {% if form.captcha.errors %}<span class="error-message">{{ form.captcha.errors }}</span>{% endif %}
-                {% if form.captcha.help_text %}<span class="form-hint">{{ form.captcha.help_text }}</span>{% endif %}
-                {{ form.captcha }}
-            </div>
             <input class="button primary-button" type="submit" value="Submit">
         </form>
     </div>

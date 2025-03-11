@@ -23,7 +23,8 @@ from core.gds_tooling.forms.fields import (
     TypedChoiceField,
     TypedMultipleChoiceField,
     URLField,
-    UUIDField
+    UUIDField,
+    ReCaptchaField
 )
 
 from core.gds_tooling.forms.forms import (
@@ -46,7 +47,10 @@ from core.gds_tooling.forms.widgets import (
     GDSTextInput,
     GDSEmailInput,
     GDSTextarea,
-    HiddenInput
+    HiddenInput,
+    GDSHiddenInput,
+    GDSReCaptchaV3,
+    ReCaptchaV3
 ) #noqa
 
 __all__ = [
@@ -82,6 +86,7 @@ __all__ = [
     'TypedMultipleChoiceField',
     'URLField',
     'UUIDField',
+    'ReCaptchaField',
     'CheckboxSelectInlineLabelMultiple',
     'GDSCheckboxSelectInlineLabelMultiple',
     'CheckboxWithInlineLabel',
@@ -97,5 +102,8 @@ __all__ = [
     'GDSTextInput',
     'GDSEmailInput',
     'GDSTextarea',
-    'HiddenInput'
+    'HiddenInput',
+    'GDSHiddenInput',
+    'ReCaptchaV3',
+    'GDSReCaptchaV3'
 ]
