@@ -13,6 +13,7 @@ class GreatCloudfrontBackend(CloudfrontBackend):
 
     def _get_params(self, params):
         import boto3
+
         role_arn = settings.CF_INVALIDATION_ROLE_ARN
         sts_client = boto3.client('sts')
         assumed_role = sts_client.assume_role(RoleArn=role_arn, RoleSessionName='CloudFrontInvalidationSession')
