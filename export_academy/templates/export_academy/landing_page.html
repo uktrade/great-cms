@@ -6,18 +6,18 @@
 {% load event_list_buttons %}
 {% load add_govuk_classes from content_tags %}
 {% load h3_if from content_tags %}
-{% load render_ukea_homepage_hero from ukea_hero_banners %}
+{% load render_ukea_and_fab_homepage_heros from component_tags %}
 {% block content %}
     <div class="great great-hero-box-shadow-bottom">
         {% image page.hero_image original as rendition %}
         <section class="background-white govuk-!-padding-bottom-0">
             {% if user.is_anonymous %}
                     {% with page.hero_cta|first as cta %}
-                        {% render_ukea_homepage_hero rendition.url page.title page.hero_text page.hero_text_below_cta_logged_out cta.value.label cta.value.link.internal_link.url cta.value.link.external_link %}
+                        {% render_ukea_and_fab_homepage_heros rendition.url page.title page.hero_text page.hero_text_below_cta_logged_out cta.value.label cta.value.link.internal_link.url cta.value.link.external_link %}
                     {% endwith%}
                 {% else %}
                     {% with page.hero_cta_logged_in|first as cta %}
-                        {% render_ukea_homepage_hero rendition.url page.title page.hero_text None cta.value.label cta.value.link.internal_link.url cta.value.link.external_link %}
+                        {% render_ukea_and_fab_homepage_heros rendition.url page.title page.hero_text None cta.value.label cta.value.link.internal_link.url cta.value.link.external_link %}
                     {% endwith%}
                 {% endif %}
         </div>

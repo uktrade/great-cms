@@ -369,3 +369,97 @@ def render_market_article_cta(page):
         'leadingText': page.cta_teaser,
         'signUpLink': {'href': page.cta_link, 'linkText': page.cta_link_label},
     }
+
+
+@register.inclusion_tag('_hero.html')
+def render_event_list_hero(image_url, hero_title, text, conditional_text):
+    description_html = text + '<br>' + conditional_text
+    return {
+        'pngImagePath': image_url,
+        'heading': hero_title,
+        'aboveCtaHtml': description_html,
+        'classes': 'great-ds-hero--bg-white great-ds-hero--box-shadow great-ds-hero--large-image-cropping',
+    }
+
+
+# UKEA and FAB share logged-in/logged-out hero cta patterns, so share this tag
+@register.inclusion_tag('_hero.html')
+def render_ukea_and_fab_homepage_heros(
+    image_url,
+    hero_title,
+    above_cta_text,
+    below_cta_text,
+    action_link_label,
+    action_link_internal,
+    action_link_external,
+):
+    if not action_link_label and (action_link_internal or action_link_external):
+        action_link_label = None
+        action_link_url = None
+    elif action_link_internal:
+        action_link_url = action_link_internal
+    else:
+        action_link_url = action_link_external
+
+    return {
+        'pngImagePath': image_url,
+        'heading': hero_title,
+        'aboveCtaHtml': above_cta_text,
+        'belowCtaHtml': below_cta_text,
+        'classes': 'great-ds-hero--bg-white great-ds-hero--box-shadow great-ds-hero--large-image-cropping',
+        'actionLinkUrl': action_link_url,
+        'actionLinkText': action_link_label,
+    }
+
+
+@register.inclusion_tag('_hero.html')
+def render_export_plan_hero(
+    image_url,
+    hero_title,
+    above_cta_text,
+    action_link_label,
+    action_link_url_name,
+):
+    action_link_url = reverse(action_link_url_name)
+    return {
+        'pngImagePath': image_url,
+        'heading': hero_title,
+        'aboveCtaHtml': above_cta_text,
+        'classes': 'great-ds-hero--bg-white great-ds-hero--large-image-cropping',
+        'actionLinkUrl': action_link_url,
+        'actionLinkText': action_link_label,
+    }
+
+
+@register.inclusion_tag('_hero.html')
+def render_account_hero(image_url, hero_title, hero_text=None, email=None):
+    if hero_text and email:
+        hero_text = hero_text + email + '.'
+    return {
+        'pngImagePath': image_url,
+        'heading': hero_title,
+        'aboveCtaText': hero_text,
+        'classes': 'great-ds-hero--bg-white great-ds-hero--box-shadow great-ds-hero--large-image-cropping',
+    }
+
+
+@register.filter
+def get_hero_image_path_from_class(title):
+    get_started_header_img = '/static/images/learn-to-export-topic1-header.png'
+    identify_opportunities_header_img = '/static/images/learn-to-export-topic2-header.png'
+    prepare_to_sell_header_img = '/static/images/learn-to-export-topic3-header.png'
+    regulations_licensing_header_img = '/static/images/learn-to-export-topic4-header.png'
+    funding_financing_header_img = '/static/images/learn-to-export-topic5-header.png'
+    export_plan_header_img = '/static/images/export-plan-header.png'
+    account_img = '/static/images/accounts-header.png'
+
+    title_to_image_path_map = {
+        'get-started': get_started_header_img,
+        'identify-opportunities-and-research-the-market': identify_opportunities_header_img,
+        'prepare-to-sell-into-a-new-country': prepare_to_sell_header_img,
+        'regulations-licensing-and-logistics': regulations_licensing_header_img,
+        'funding-financing-and-getting-paid': funding_financing_header_img,
+        'export-plan-header': export_plan_header_img,
+        'account-header': account_img,
+    }
+    return str(title_to_image_path_map[title])

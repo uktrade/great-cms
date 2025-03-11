@@ -13,5 +13,4 @@ If both are available, `image_url` will be used over `image`
     {% image image original as rendition %}
 {% endif %}
 {% firstof image_url rendition.url as image_url %}
-<div class="market-details-header"
-     {% if image_url %}style="background: url({{ image_url }})"{% endif %}></div>
+     {% include '_hero.html' with pngImagePath=image_url classes="great-ds-hero--image-only"%}
