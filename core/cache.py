@@ -4,22 +4,18 @@ from wagtail.contrib.frontend_cache.backends import CloudfrontBackend
 
 class GreatCloudfrontBackend(CloudfrontBackend):
     def __init__(self, params):
-        breakpoint()
         params = self._get_params(params)
         super().__init__(params)
 
     def _create_invalidation(self, distribution_id, paths):
         paths = list(paths)
-        breakpoint()
         super()._create_invalidation(distribution_id, paths)
 
     def _get_params(self, params):
         import boto3
-
-        role_arn = settings.CF_ROLE_ARN
-
+        role_arn = settings.CF_INVALIDATION_ROLE_ARN
         sts_client = boto3.client('sts')
-        assumed_role = sts_client.assume_role(RoleArn=role_arn, RoleSessionName="CloudFrontInvalidationSession")
+        assumed_role = sts_client.assume_role(RoleArn=role_arn, RoleSessionName='CloudFrontInvalidationSession')
         credentials = assumed_role['Credentials']
         params['AWS_ACCESS_KEY_ID'] = credentials['AccessKeyId']
         params['AWS_SECRET_ACCESS_KEY'] = credentials['SecretAccessKey']
