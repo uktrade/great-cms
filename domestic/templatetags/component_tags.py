@@ -373,7 +373,10 @@ def render_market_article_cta(page):
 
 @register.inclusion_tag('_hero.html')
 def render_event_list_hero(image_url, hero_title, text, conditional_text):
-    description_html = text + '<br>' + conditional_text
+    if text and conditional_text:
+        description_html = text + '<br>' + conditional_text
+    else:
+        description_html = text
     return {
         'pngImagePath': image_url,
         'heading': hero_title,
@@ -462,4 +465,8 @@ def get_hero_image_path_from_class(title):
         'export-plan-header': export_plan_header_img,
         'account-header': account_img,
     }
-    return str(title_to_image_path_map[title])
+
+    if title in title_to_image_path_map.keys:
+        return str(title_to_image_path_map[title])
+    else:
+        return ''
