@@ -466,7 +466,7 @@ def get_hero_image_path_from_class(title):
         'account-header': account_img,
     }
 
-    if title in title_to_image_path_map.keys:
+    if title in title_to_image_path_map.keys():
         return str(title_to_image_path_map[title])
     else:
         return ''
