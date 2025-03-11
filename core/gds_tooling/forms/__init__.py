@@ -1,10 +1,7 @@
 from core.gds_tooling.forms.fields import (
     GDSFieldMixin,
-    BindNestedFormMixin,
-    DirectoryComponentsBoundField,
+    GDSBoundField,
     field_factory,
-    PaddedCharField,
-    RadioNested,
     BooleanField,
     CharField,
     ChoiceField,
@@ -30,33 +27,36 @@ from core.gds_tooling.forms.fields import (
 )
 
 from core.gds_tooling.forms.forms import (
-     DirectoryComponentsFormMixin,
+    GDSFormMixin,
     Form,
     get_language_form_initial_data,
     LanguageForm)
 
 from core.gds_tooling.forms.widgets import (
     CheckboxSelectInlineLabelMultiple,
+    GDSCheckboxSelectInlineLabelMultiple,
     CheckboxWithInlineLabel,
     ChoiceWidget,
     PrettyIDsMixin,
     RadioSelect,
-    RadioSelects,
-    SelectMultipleAutocomplete,
-    TextInputWithSubmitButton,
     TextInput,
     EmailInput,
-    Textarea
+    Textarea,
+    GDSRadioSelect,
+    GDSTextInput,
+    GDSEmailInput,
+    GDSTextarea,
+    HiddenInput
 ) #noqa
 
 __all__ = [
-    'DirectoryComponentsFormMixin',
+    'GDSFormMixin',
     'Form',
     'get_language_form_initial_data',
     'LanguageForm',
     'GDSFieldMixin',
     'BindNestedFormMixin',
-    'DirectoryComponentsBoundField',
+    'GDSBoundField',
     'field_factory',
     'PaddedCharField',
     'RadioNested',
@@ -83,14 +83,19 @@ __all__ = [
     'URLField',
     'UUIDField',
     'CheckboxSelectInlineLabelMultiple',
+    'GDSCheckboxSelectInlineLabelMultiple',
     'CheckboxWithInlineLabel',
     'ChoiceWidget',
     'PrettyIDsMixin',
     'RadioSelect',
-    'RadioSelects',
+    'GDSRadioSelect',
     'SelectMultipleAutocomplete',
     'TextInputWithSubmitButton',
     'TextInput',
     'EmailInput',
-    'Textarea'
+    'Textarea',
+    'GDSTextInput',
+    'GDSEmailInput',
+    'GDSTextarea',
+    'HiddenInput'
 ]

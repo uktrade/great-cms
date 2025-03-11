@@ -51,7 +51,7 @@ class GroupedRadioSelect(
 
 
 class IntegerField(
-    forms.DirectoryComponentsFieldMixin,
+    forms.GDSFieldMixin,
     DjangoIntegerField,
 ):
     pass

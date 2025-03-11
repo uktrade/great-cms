@@ -1,7 +1,7 @@
 import pickle
 
 from django.forms import widgets as django_widgets
-from great_components import forms
+from core.gds_tooling import forms
 
 from contact import constants
 

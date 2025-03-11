@@ -4,27 +4,7 @@ from django.forms.boundfield import BoundField
 from core.gds_tooling.forms import widgets
 
 
-class BindNestedFormMixin:
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for name, field in self.fields.items():
-            if isinstance(field, RadioNested):
-                nested_form = field.nested_form_class(*args, **kwargs)
-                # require the nested fields to be provided if the parent field is checked
-                if field.coerce(self[name].data) != field.nested_form_choice:
-                    for item in nested_form.fields.values():
-                        item.required = False
-                field.bind_nested_form(nested_form)
-
-    def clean(self):
-        super().clean()
-        for field_name in list(self.cleaned_data.keys()):
-            field = self.fields[field_name]
-            if isinstance(field, RadioNested) and field.nested_form.is_valid():
-                self.cleaned_data.update(field.nested_form.cleaned_data)
-
-
-class DirectoryComponentsBoundField(BoundField):
+class GDSBoundField(BoundField):
     def label_tag(self, contents=None, attrs=None, label_suffix=None):
         attrs = attrs or {}
         attrs['class'] = attrs.get('class', '') + ' form-label'
@@ -96,7 +76,7 @@ class GDSFieldMixin:
             return ''
 
     def get_bound_field(self, form, field_name):
-        return DirectoryComponentsBoundField(form, self, field_name)
+        return GDSBoundField(form, self, field_name)
 
 
 def field_factory(base_class):
@@ -141,40 +121,3 @@ class BooleanField(GDSFieldMixin, forms.BooleanField):
             self.widget.label = label
             self.widget.help_text = help_text
             self.label = ''
-
-
-class PaddedCharField(CharField):
-    def __init__(self, fillchar, *args, **kwargs):
-        self.fillchar = fillchar
-        super().__init__(*args, **kwargs)
-
-    def to_python(self, *args, **kwargs):
-        value = super().to_python(*args, **kwargs)
-        if value not in self.empty_values:
-            return value.rjust(self.max_length, self.fillchar)
-        return value
-
-
-class RadioNested(TypedChoiceField):
-    MESSAGE_FORM_MIXIN = 'This field requires the form to use BindNestedFormMixin'
-    widget = widgets.RadioNestedWidget
-
-    def __init__(self, nested_form_class=None, nested_form_choice=True, *args, **kwargs):
-        self.nested_form_class = nested_form_class
-        self.nested_form_choice = nested_form_choice
-        super().__init__(*args, **kwargs)
-        self.widget.nested_form_choice = nested_form_choice
-
-    def bind_nested_form(self, form):
-        self.nested_form = form
-        self.widget.bind_nested_form(form)
-
-    def validate(self, value):
-        super().validate(value)
-        if value and not self.nested_form.is_valid():
-            # trigger the form to mark the field as invalid. the nested form will then render the real errors
-            raise forms.ValidationError(message='')
-
-    def get_bound_field(self, form, field_name):
-        assert isinstance(form, BindNestedFormMixin), self.MESSAGE_FORM_MIXIN
-        return super().get_bound_field(form, field_name)
