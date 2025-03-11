@@ -13,7 +13,7 @@ from django.forms import (
     ValidationError,
     widgets as django_widgets,
 )
-from great_components import forms
+from core.gds_tooling import forms
 
 import regex
 from contact import constants, mixins as contact_mixins, widgets as contact_widgets

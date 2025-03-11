@@ -29,12 +29,7 @@ class WidgetGDSMixin(widgets.Widget):
         }
     '''
 
-    # default template_name
-    template_name = '_input.html'
     field = None
-
-    # default input_type
-    input_type = 'text'
 
     def get_context(self, name, value, attrs):
         ctx = super().get_context(name, value, attrs)
@@ -127,20 +122,22 @@ class ChoiceWidget(PrettyIDsMixin, ChoiceWidget):
 
 
 class RadioSelect(ChoiceWidget):
-    template_name = '_multiple_input.html'
-    option_template_name = '_radio_option.html'
+    template_name = 'multiple_input.html'
+    option_template_name = 'radio_option.html'
     css_class_name = 'g-select-multiple'
     input_type = 'radio'
 
-class RadioSelects(ChoiceWidget):
+
+class GDSRadioSelect(RadioSelect):
+    '''
+    New widget that will play nicely with the great-design-system
+    '''
     template_name = '_multiple_input.html'
     option_template_name = '_radio_option.html'
-    css_class_name = 'g-select-multiple'
-    input_type = 'radio'
 
 
 class CheckboxWithInlineLabel(CheckboxInput):
-    template_name = 'great_components/form_widgets/checkbox_inline.html'
+    template_name = 'checkbox_inline.html'
     container_css_classes = 'form-group'
 
     def __init__(self, label='', help_text=None, *args, **kwargs):
@@ -153,11 +150,11 @@ class CheckboxWithInlineLabel(CheckboxInput):
         context['label'] = self.label
         context['help_text'] = self.help_text
         return context
-
+    
 
 class CheckboxSelectInlineLabelMultiple(PrettyIDsMixin, CheckboxSelectMultiple):
-    template_name = 'great_components/form_widgets/multiple_input.html'
-    option_template_name = 'great_components/form_widgets/checkbox_inline_multiple.html'
+    template_name = 'multiple_input.html'
+    option_template_name = 'checkbox_inline_multiple.html'
     css_class_name = 'g-select-multiple'
     input_type = 'checkbox'
 
@@ -166,41 +163,27 @@ class CheckboxSelectInlineLabelMultiple(PrettyIDsMixin, CheckboxSelectMultiple):
         self.attrs['class'] = self.attrs.get('class', self.css_class_name)
 
 
-class SelectMultipleAutocomplete(SelectMultiple):
+class GDSCheckboxSelectInlineLabelMultiple(CheckboxSelectInlineLabelMultiple):
+    template_name = '_multiple_input.html'
+    option_template_name = '_checkbox_inline_multiple.html'
 
-    container_css_classes = 'g-multi-select-autocomplete'
-
-    class Media:
-        css = {
-            'all': ('great_components/js/vendor/accessible-autocomplete.min.css',)
-        }
-        js = (
-            'great_components/js/vendor/accessible-autocomplete.min.js',
-            'great_components/js/dit.components.multiselect-autocomplete.js',
-        )
-
-
-class RadioNestedWidget(RadioSelect):
-    option_template_name = 'great_components/form_widgets/nested-radio.html'
-    container_css_classes = 'form-group g-radio-nested-container'
-
-    def create_option(self, *args, **kwargs):
-        return {
-            **super().create_option(*args, **kwargs),
-            'nested_form': self.nested_form,
-            'nested_form_choice': self.nested_form_choice,
-        }
-
-    def bind_nested_form(self, form):
-        self.nested_form = form
-
-
-class TextInputWithSubmitButton(TextInput):
-    container_css_classes = 'text-input-with-submit-button-container'
-    template_name = 'great_components/form_widgets/text-input-with-submit-button.html'
-
-
-
-class Textarea(widgets.Textarea):
+class GDSTextarea(Textarea):
+    '''
+    New widget that will play nicely with the great-design-system
+    '''
+    input_type = 'text'
     template_name = '_textarea.html'
+
+class GDSTextInput(TextInput):
+    '''
+    New widget that will play nicely with the great-design-system
+    '''
+    template_name = '_input.html'
+
+
+class GDSEmailInput(GDSTextInput):
+    '''
+    New widget that will play nicely with the great-design-system
+    '''
+    input_type = 'email'
 
