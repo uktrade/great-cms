@@ -92,6 +92,10 @@ a {
 		width: 60px;
 	}
 
+	&__disclaimer {
+		color: $great-text-dark-grey;
+	}
+
 	&__hero-image {
 		position: absolute;
 		width: 100%;
@@ -456,9 +460,6 @@ a {
 }
 
 .tab-content {
-	// display: grid;
-
-
 	@media (min-width: sizes.$tablet-size) {
 		display: grid;
 		grid-template:

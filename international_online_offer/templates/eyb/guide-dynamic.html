@@ -73,7 +73,9 @@
                     {% include './includes/dynamic-guide/rich_link.html' with icon_path=base.icon link_url=base.url link_text=base.title location=base.location body=base.description website=base.website %}
                 {% endfor %}
                 <div class="rent-data">
-                    {% include './includes/dynamic-guide/rent_data.html' with rent_data_location_select_form=rent_data_location_select_form rent_data=rent_data %}
+                    {% include './includes/dynamic-guide/select.html' with label=rent_data.select.label items=rent_data.select.items %}
+                    {% include '_tabs.html' with title="Wtf" items=rent_data.tabs classes="govuk-!-margin-bottom-0" %}
+                    <p class="dynamic-guide__disclaimer govuk-body-s govuk-!-margin-bottom-0">{{ rent_data.disclaimer }}</p>
                 </div>
                 {% include './includes/dynamic-guide/section_left_end.html' %}
                 {% include './includes/dynamic-guide/section_left_start.html' with caption=sector_name heading='Recruiting and employing people in the UK' %}
@@ -116,19 +118,20 @@
                 {% endfor %}
             </div>
         </div>
-    {% endblock %}
-    {% block feedback_reporter %}
-        {% if not csat_complete %}
-            <section id="hcsat_section"
-                     class="great-bg-white clearfix govuk-!-margin-top-0 govuk-!-padding-bottom-6 great-inline-feedback__container">
-                <div class="container">
-                    <div class="great-container ">
-                        <!-- djlint:off T027-->
-                        {% include 'core/includes/hcsat.html' with hcsat_form=hcsat_form hcsat_stage=hcsat_form_stage leading_text="To help us improve our service, we'd like to know more about your experience today. It will only take a minute to complete." %}
-                        <!-- djlint:on -->
-                    </div>
+    </div>
+{% endblock %}
+{% block feedback_reporter %}
+    {% if not csat_complete %}
+        <section id="hcsat_section"
+                 class="great-bg-white clearfix govuk-!-margin-top-0 govuk-!-padding-bottom-6 great-inline-feedback__container">
+            <div class="container">
+                <div class="great-container ">
+                    <!-- djlint:off T027-->
+                    {% include 'core/includes/hcsat.html' with hcsat_form=hcsat_form hcsat_stage=hcsat_form_stage leading_text="To help us improve our service, we'd like to know more about your experience today. It will only take a minute to complete." %}
+                    <!-- djlint:on -->
                 </div>
-            </section>
-        {% endif %}
-        {{ block.super }}
-    {% endblock %}
+            </div>
+        </section>
+    {% endif %}
+    {{ block.super }}
+{% endblock %}
