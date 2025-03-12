@@ -76,6 +76,7 @@ class OpensearchView(TemplateView):
     """
     This view uses the built-in Wagtail query function to query Opensearch. Returns paginated results.
     """
+
     MAX_PER_PAGE = 10
     template_name = 'search_opensearch.html'
     page_type = 'SearchResultsPage'
@@ -109,6 +110,7 @@ class OpensearchAdminView(TemplateView):
     """
     This view is an admin preview of Opensearch on servers where it is not deployed yet.
     """
+
     MAX_PER_PAGE = 10
     template_name = 'search_preview_opensearch.html'
     page_type = 'SearchResultsPage'
