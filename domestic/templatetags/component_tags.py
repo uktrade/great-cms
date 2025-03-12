@@ -240,13 +240,6 @@ def pagination_obj_range_upper_limit(page_obj):
     return upper_limit
 
 
-@register.simple_tag
-def get_topic_title_for_lesson(detail_page: DetailPage) -> str:
-    """For the given lesson, find the topic it belongs to and
-    return that topic's title"""
-    return detail_page.get_parent().title
-
-
 @register.inclusion_tag('components/message_box.html')
 def message_box(**kwargs):
     return kwargs
