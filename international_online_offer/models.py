@@ -323,6 +323,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                         },
                     },
                 ],
+                'disclaimer': 'Figures reflect 2023 data. Source: Statista',
             },
             'recruit_and_employ': [
                 {
