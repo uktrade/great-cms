@@ -114,23 +114,32 @@ class FindASupplierSearchView(GA360Mixin, SubmitFormOnGetMixin, FormView):  # /P
         )
 
     def form_valid(self, form):
+        page_num = form.cleaned_data['page']
         results, count = search_companies(
-            form.cleaned_data['q'], form.cleaned_data['industries'], form.cleaned_data['page'], self.page_size
+            form.cleaned_data['q'], form.cleaned_data['industries'], page_num, self.page_size
         )
+
+        paginator = Paginator(results, self.page_size)
+
+        # Bespoke logic to handle redirection
         try:
-            paginator = Paginator(range(count), self.page_size)
-            pagination = paginator.page(form.cleaned_data['page'])
-            page_range = paginator.get_elided_page_range(form.cleaned_data['page'], on_each_side=1, on_ends=1)
+            paginator.page(page_num)
         except EmptyPage:
             return self.handle_empty_page(form)
-        else:
-            context = self.get_context_data(
-                results=results,
-                pagination=pagination,
-                form=form,
-                page_range=page_range,
-            )
-            return TemplateResponse(self.request, self.template_name, context)
+
+        page_obj = paginator.get_page(page_num)
+        elided_page_range = [
+            page_num
+            for page_num in page_obj.paginator.get_elided_page_range(page_obj.number, on_each_side=1, on_ends=1)
+        ]
+
+        context = self.get_context_data(
+            results=results,
+            page_obj=page_obj,
+            elided_page_range=elided_page_range,
+            form=form,
+        )
+        return TemplateResponse(self.request, self.template_name, context)
 
     @staticmethod
     def handle_empty_page(form):
