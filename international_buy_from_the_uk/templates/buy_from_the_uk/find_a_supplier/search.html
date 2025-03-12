@@ -31,7 +31,7 @@
                     {% include 'international/includes/company/filters.html' with form=form is_find_a_supplier=True %}
                 </div>
                 <div class="govuk-grid-column-three-quarters-from-desktop">
-                    {% if page_obj %}
+                    {% if results %}
                         {% include 'international/includes/company/results_header.html' %}
                         <div class="govuk-!-margin-bottom-4">
                             {% for company in page_obj %}
