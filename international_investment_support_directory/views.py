@@ -62,7 +62,7 @@ class FindASpecialistSearchView(GA360Mixin, SubmitFormOnGetMixin, FormView):  # 
             page_size=self.page_size,
         )
 
-        paginator = Paginator(range(count), self.page_size)
+        paginator = Paginator(results, self.page_size)
 
         # Bespoke logic to handle redirection
         try:

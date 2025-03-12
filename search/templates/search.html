@@ -8,6 +8,7 @@
           type="text/css" />
 
 {% endblock %}
+{% load component_tags %}
 {% block head_title %}Search{% endblock %}
 {% block meta_title %}Search{% endblock %}
 {% block css_layout_class %}
@@ -23,19 +24,19 @@
     </div>
     <div class="container">
         <h1 class="heading-xlarge">
-            Search results for <span class="great-highlighted-text">{{ query }}</span>
+            Search results for <span class="great-highlighted-text">{{ search_query }}</span>
         </h1>
         <div class="actions">
             {% if results %}
                 <p>
                     <a href="#search-results-list" class="bland">
-                        {{ total_results|intcomma }} result{{ total_results|pluralize }} found<span class="verbose">for {{ query }}</span>
+                        {{ page_obj.paginator.count|intcomma }} result{{ page_obj.paginator.count|pluralize }} found<span class="verbose">for {{ query }}</span>
                     </a>
                 </p>
             {% else %}
                 <p class="added-margin-bottom">No results found. Please try again.</p>
             {% endif %}
-            <a href="{% url 'search:feedback' %}?page={{ current_page }}&q={{ query }}"
+            <a href="{% url 'search:feedback' %}?page={{ page_obj.number }}&q={{ search_query }}"
                class="font-xsmall link">Did you find what you were looking for?</a>
             <form id="search-form"
                   action="{% url 'search:search' %}"
@@ -48,22 +49,22 @@
                        name="q"
                        placeholder=""
                        type="search"
-                       value="{{ query }}"
+                       value="{{ page_obj.number }}"
                        id="search-again-input">
                 <input class="submit search-button" type="submit" value="Go">
             </form>
         </div>
     </div>
 </section>
-{% if results %}
+{% if page_obj %}
     <section id="search-results-list" class="search-results-list">
         <div class="container">
             <h2 class="verbose">Results found</h2>
             <p class="information verbose">
-                Displaying items <b>{{ first_item_number }}&nbsp;-&nbsp;{{ last_item_number }}</b> of <b>{{ total_results }}</b> in total
+                Displaying items <b>{{ page_obj|pagination_obj_range_lower_limit }}&nbsp;-&nbsp;{{ page_obj|pagination_obj_range_upper_limit }}</b> of <b>{{ page_obj.paginator.count|intcomma }}</b> in total
             </p>
             <ul class="results" aria-label="Search results">
-                {% for result in results %}
+                {% for result in page_obj %}
                     <li>
                         <span class="type">{{ result.type }}</span>
                         <a class="title link" href="{{ result.url }}">{{ result.name }}</a>
@@ -71,58 +72,7 @@
                     </li>
                 {% endfor %}
             </ul>
-            {% if total_pages > 1 %}
-                <div class="pagination">
-                    <p class="verbose">Displaying page {{ current_page }} of total {{ total_pages }}</p>
-                    {% if current_page != 1 %}
-                        <a class="button primary-button"
-                           rel="prev"
-                           href="{% url 'search:search' %}?page={{ previous_page }}&q={{ query }}">Previous</a>
-                    {% endif %}
-                    <ol class="navigation" role="navigation" aria-label="Page navigation">
-                        {% if show_first_page %}
-                            <li>
-                                <a href="{% url 'search:search' %}?page=1&q={{ query }}"><span class="verbose">Page</span>1</a>
-                            </li>
-                            <li class="active-blue-text margin-right-0 margin-top-15 margin-15-m">
-                                <span class="verbose">Page links truncated</span>
-                                <span>...</span>
-                            </li>
-                        {% endif %}
-                        {% for page in prev_pages %}
-                            <li>
-                                <a rel="prev"
-                                   href="{% url 'search:search' %}?page={{ page }}&q={{ query }}"><span class="verbose">Page</span>{{ page }}</a>
-                            </li>
-                        {% endfor %}
-                        <li>
-                            <span class="verbose">Page</span>
-                            <span class="active current">{{ current_page }}</span>
-                            <span class="verbose">(current)</span>
-                        </li>
-                        {% for page in next_pages %}
-                            <li>
-                                <a rel="next"
-                                   href="{% url 'search:search' %}?page={{ page }}&q={{ query }}"><span class="verbose">Page</span>{{ page }}</a>
-                            </li>
-                        {% endfor %}
-                        {% if show_last_page %}
-                            <li class="active-blue-text margin-right-0 margin-top-15 margin-15-m">
-                                <span class="verbose">Page links truncated</span>
-                                <span>...</span>
-                            </li>
-                            <li>
-                                <a href="{% url 'search:search' %}?page={{ total_pages }}&q={{ query }}"><span class="verbose">Page</span>{{ total_pages }}</a>
-                            </li>
-                        {% endif %}
-                    </ol>
-                    {% if current_page != total_pages %}
-                        <a class="button secondary-button pagination-next"
-                           rel="next"
-                           href="{% url 'search:search' %}?page={{ next_page }}&q={{ query }}">Next</a>
-                    {% endif %}
-                </div>
-            {% endif %}
+            {% pagination page_obj=page_obj elided_page_range=elided_page_range %}
         </div>
     </section>
 {% else %}

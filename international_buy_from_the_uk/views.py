@@ -119,7 +119,7 @@ class FindASupplierSearchView(GA360Mixin, SubmitFormOnGetMixin, FormView):  # /P
             form.cleaned_data['q'], form.cleaned_data['industries'], page_num, self.page_size
         )
 
-        paginator = Paginator(range(count), self.page_size)
+        paginator = Paginator(results, self.page_size)
 
         # Bespoke logic to handle redirection
         try:
