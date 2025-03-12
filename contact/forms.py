@@ -736,19 +736,27 @@ class DefenceAndSecurityOrganisationForm(
 class FeedbackForm(
     SerializeDataMixin,
     ZendeskActionMixin,
-    forms.Form,
+    forms.GDSForm,
 ):
-    name = forms.CharField()
-    email = forms.EmailField()
+    name = forms.CharField(
+        label='Name',
+        widget=forms.GDSTextInput(
+            attrs={'class': 'govuk-!-width-one-half', 'label-class': 'form-label'}
+        )
+    )
+    email = forms.EmailField(
+        label='Email address',
+        widget=forms.GDSEmailInput(
+            attrs={'class': 'govuk-!-width-one-half', 'label-class': 'form-label'}
+        ),
+    )
     comment = forms.CharField(
         label='Feedback',
-        widget=Textarea,
+        widget=forms.GDSTextarea(
+            attrs={'class': 'govuk-!-width-one-half', 'rows': 10, 'cols': 40, 'label-class': 'form-label'}
+        ),
     )
-    captcha = ReCaptchaField(
-        label='',
-        label_suffix='',
-        widget=ReCaptchaV3(),
-    )
+    captcha = forms.ReCaptchaField(label='', label_suffix='', widget=forms.GDSReCaptchaV3())
     terms_agreed = forms.BooleanField(
         label=TERMS_LABEL,
     )
