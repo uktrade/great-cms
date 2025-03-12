@@ -1072,9 +1072,9 @@ COUNTRIES_ISO_CODE_UPDATE_API = 'https://restcountries.com/v3.1/all?fields=name,
 
 FEATURE_GREAT_MIGRATION_BANNER = env.feature_great_migration_banner
 
-
+FRONTEND_CACHE_DISTRIBUTION_ID = env.frontend_cache_distribution_id
 wagtail_cf = {}
-for dist_id in env.frontend_cache_distribution_id.split(','):
+for dist_id in FRONTEND_CACHE_DISTRIBUTION_ID.split(','):
     if dist_id:
         cf_dist = {
             'BACKEND': 'core.cache.GreatCloudfrontBackend',
