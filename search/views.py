@@ -3,7 +3,7 @@ import logging
 import urllib
 
 import sentry_sdk
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.core.paginator import Paginator
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
@@ -106,7 +106,6 @@ class OpensearchView(TemplateView):
         return ctx
 
 
-
 class OpensearchAdminView(TemplateView):
     """
     This view is an admin preview of Opensearch on servers where it is not deployed yet.
@@ -134,7 +133,7 @@ class OpensearchAdminView(TemplateView):
             ]
             ctx['page_obj'] = page_obj
             ctx['elided_page_range'] = elided_page_range
-        
+
         ctx['search_results'] = full_search_results
         ctx['search_results_count'] = full_search_results.count()
         ctx['search_query'] = search_query
