@@ -76,6 +76,7 @@ class OpensearchView(TemplateView):
     """
     This view uses the built-in Wagtail query function to query Opensearch. Returns paginated results.
     """
+
     MAX_PER_PAGE = 10
     template_name = 'search_opensearch.html'
     page_type = 'SearchResultsPage'
@@ -86,7 +87,6 @@ class OpensearchView(TemplateView):
         full_search_results = Page.objects.none()
 
         if search_query:
-
             # Get the full un-paginated listing of search results as a queryset. Live pages only.
             full_search_results = Page.objects.live().search(search_query)
             # Show 10 resources per page
@@ -121,7 +121,6 @@ class OpensearchAdminView(TemplateView):
         full_search_results = Page.objects.none()
 
         if search_query:
-
             # Get the full un-paginated listing of search results as a queryset. Live pages only.
             full_search_results = Page.objects.live().search(search_query)
             # Show 10 resources per page
