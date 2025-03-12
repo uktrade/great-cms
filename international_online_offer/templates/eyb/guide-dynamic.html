@@ -44,28 +44,28 @@
                 </div>
                 {% include './includes/dynamic-guide/section_left_start.html' with caption=sector_name heading='Market data' %}
                 {% include './includes/dynamic-guide/figures.html' with options=market_data only %}
-                {% include '_action_link.html' with linkText='Compare data across UK nations and regions' linkHref='#' %}
+                {% include '_action-link.html' with linkText='Compare data across UK nations and regions' linkHref='#' %}
                 {% include './includes/dynamic-guide/section_left_end.html' %}
                 {% include './includes/dynamic-guide/section_left_start.html' with caption=sector_name heading='Locations of investment opportunities' description='South Wales is pioneering the way forward in designing, developing, and commercialising the compound semiconductors needed for a net zero economy.' %}
                 {% for location in locations %}
                     {% include './includes/dynamic-guide/rich_link.html' with image_path=location.image link_url=location.url link_text=location.title location=location.location body=location.description %}
                 {% endfor %}
                 <div>
-                    {% include '_action_link.html' with linkText='View more opportunities in this sector' linkHref=more_locations_link %}
+                    {% include '_action-link.html' with linkText='View more opportunities in this sector' linkHref=more_locations_link %}
                 </div>
                 {% include './includes/dynamic-guide/section_left_end.html' %}
                 {% include './includes/dynamic-guide/section_left_start.html' with caption=sector_name heading='UK events' description='Attending conferences, fairs or trade shows can help you make industry connections in the UK and get the latest insights from your sector.' %}
                 {% for event in events %}
                     {% include './includes/dynamic-guide/rich_link.html' with link_external=True icon_path=event.icon link_url=event.url link_text=event.title location=event.location body=event.description website=event.website %}
                 {% endfor %}
-                <div>{% include '_action_link.html' with linkText='View more events for this sector' linkHref=more_events_link %}</div>
+                <div>{% include '_action-link.html' with linkText='View more events for this sector' linkHref=more_events_link %}</div>
                 {% include './includes/dynamic-guide/section_left_end.html' %}
                 {% include './includes/dynamic-guide/section_left_start.html' with caption=sector_name heading='UK associations' description='Joining industry-based associations, forums or networks can be a useful way to find new clients and form partnerships.' %}
                 {% for association in associations %}
                     {% include './includes/dynamic-guide/rich_link.html' with link_external=True link_url=association.url link_text=association.title body=association.description %}
                 {% endfor %}
                 <div>
-                    {% include '_action_link.html' with linkText='View more associations for this sector' linkHref=more_associations_link %}
+                    {% include '_action-link.html' with linkText='View more associations for this sector' linkHref=more_associations_link %}
                 </div>
                 {% include './includes/dynamic-guide/section_left_end.html' %}
                 {% include './includes/dynamic-guide/section_left_start.html' with caption=sector_name heading='Setting up a base in the UK' %}
@@ -95,7 +95,7 @@
                     <p class="govuk-body">
                         You will need to be aware of UK regulations and legislation framework in the {{ sector_name }} sector.
                     </p>
-                    {% include '_action_link.html' with linkText='Search our business directory' linkHref='#' %}
+                    {% include '_action-link.html' with linkText='Search our business directory' linkHref='#' %}
                 </div>
                 {% for section in right_panel_sections %}
                     <div class="dynamic-guide__section section section--right">
