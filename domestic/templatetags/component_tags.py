@@ -229,7 +229,7 @@ def pagination_obj_range_lower_limit(page_obj):
 @register.filter
 def pagination_obj_range_upper_limit(page_obj):
 
-    total_objects = page_obj.count
+    total_objects = page_obj.paginator.count
     current_page_number = page_obj.number
     per_page = page_obj.paginator.per_page
 
