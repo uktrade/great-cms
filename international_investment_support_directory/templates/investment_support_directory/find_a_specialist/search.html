@@ -34,7 +34,7 @@
                     {% if results %}
                         {% include 'international/includes/company/results_header.html' %}
                         <div class="govuk-!-margin-bottom-4">
-                            {% for company in page_obj %}
+                            {% for company in results %}
                                 {% url 'international_investment_support_directory:specialist-profile' company_number=company.number as profile_link %}
                                 {% append_search_back_url profile_link request.get_full_path as profile_link %}
                                 {% include 'international/includes/company/list_item.html' with logo=company.logo title=company.name link_url=profile_link company=company %}
