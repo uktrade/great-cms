@@ -741,7 +741,6 @@ def convert_anchor_identifier_a_to_span(input_html):
     return mark_safe(str(soup))
 
 
-
 @register.filter
 def convert_anchor_identifiers_to_span(value):
     # Issue only occurs in content_modules where render_a method in core/rich_text.py does not fire, so return as-is
