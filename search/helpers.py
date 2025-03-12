@@ -5,7 +5,9 @@ from math import ceil
 import requests
 import sentry_sdk
 from django.conf import settings
+from django.core.paginator import Paginator
 from mohawk import Sender
+from wagtail.models import Page
 
 from search import serializers
 
@@ -24,45 +26,20 @@ def parse_results(response, query, page):
     content = json.loads(response.content)
 
     if 'error' in content:
-        results = []
-        total_results = 0
-        total_pages = 1
         sentry_sdk.capture_message(f"There was an error in /search: {content['error']}")
+        return {'search_results': None}
     else:
-        results = serializers.parse_search_results(content)
-        total_results = content['hits']['total']['value']  # This nested structure is AS V2 / ES7 data format
-        total_pages = ceil(total_results / float(RESULTS_PER_PAGE))
-
-    prev_pages = list(range(1, current_page))[-3:]
-    if (len(prev_pages) > 0) and (prev_pages[0] > 2):
-        show_first_page = True
-    else:
-        show_first_page = False
-
-    next_pages = list(range(current_page + 1, total_pages + 1))[:3]
-    if (len(next_pages) > 0) and (next_pages[-1] + 1 < total_pages):
-        show_last_page = True
-    else:
-        show_last_page = False
-
-    first_item_number = ((current_page - 1) * RESULTS_PER_PAGE) + 1
-    if current_page == total_pages:
-        last_item_number = total_results
-    else:
-        last_item_number = (current_page) * RESULTS_PER_PAGE
-
+        full_search_results = serializers.parse_search_results(content)
+        paginator = Paginator(full_search_results, RESULTS_PER_PAGE)
+        page_obj = paginator.get_page(current_page)
+        elided_page_range = [
+            page_num
+            for page_num in page_obj.paginator.get_elided_page_range(page_obj.number, on_each_side=1, on_ends=1)
+        ]
     return {
-        'results': results,
-        'total_results': total_results,
-        'total_pages': total_pages,
-        'previous_page': current_page - 1,
-        'next_page': current_page + 1,
-        'prev_pages': prev_pages,
-        'next_pages': next_pages,
-        'show_first_page': show_first_page,
-        'show_last_page': show_last_page,
-        'first_item_number': first_item_number,
-        'last_item_number': last_item_number,
+        'search_results': full_search_results,
+        'page_obj': page_obj,
+        'elided_page_range': elided_page_range,
     }
 
 

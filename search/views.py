@@ -31,23 +31,23 @@ class SearchView(TemplateView):
         context = super().get_context_data(*args, **kwargs)
 
         results = {}
-        query = self.request.GET.get('q', '')
+        search_query = self.request.GET.get('q', '')
         submitted = self.request.GET.get('submitted', '')
         page = helpers.sanitise_page(self.request.GET.get('page', '1'))
 
         common = {
             'submitted': submitted,
-            'query': query,
+            'search_query': search_query,
             'current_page': page,
         }
 
         try:
-            opensearch_query = helpers.format_query(query, page)
+            opensearch_query = helpers.format_query(search_query, page)
             response = helpers.search_with_activitystream(opensearch_query)
         except RequestException:
             logger.error(
-                "Activity Stream connection for Search failed. Query: '{query}'".format(
-                    query=query,
+                "Activity Stream connection for Search failed. Query: '{search_query}'".format(
+                    search_query=search_query,
                 )
             )
             results = {
@@ -66,7 +66,7 @@ class SearchView(TemplateView):
             else:
                 results = helpers.parse_results(
                     response,
-                    query,
+                    search_query,
                     page,
                 )
         return {**context, **common, **results}
