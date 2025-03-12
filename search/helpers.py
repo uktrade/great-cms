@@ -1,13 +1,11 @@
 import json
 from datetime import date
-from math import ceil
 
 import requests
 import sentry_sdk
 from django.conf import settings
 from django.core.paginator import Paginator
 from mohawk import Sender
-from wagtail.models import Page
 
 from search import serializers
 
