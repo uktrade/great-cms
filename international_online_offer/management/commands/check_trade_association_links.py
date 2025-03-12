@@ -34,7 +34,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for trade_association in TradeAssociation.objects.all():
-
             try:
                 link_valid = self.check_page_found(trade_association.website_link)
             except Exception:

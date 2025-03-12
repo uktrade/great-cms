@@ -2,6 +2,7 @@
 {% load static %}
 {% load wagtailimages_tags %}
 {% load company_filters %}
+{% load pagination from component_tags %}
 {% load investment_filters %}
 {% block head_title %}
     {% if form.errors %}Error:{% endif %}
@@ -29,16 +30,16 @@
                     {% include 'investment/includes/filters.html' with form=form %}
                 </div>
                 <div class="govuk-grid-column-three-quarters-from-desktop">
-                    {% if results %}
+                    {% if page_obj %}
                         {% include 'international/includes/company/results_header.html' %}
                         <div class="govuk-!-margin-bottom-4">
-                            {% for opportunity in results %}
+                            {% for opportunity in page_obj %}
                                 {% image opportunity.article_image original as rendition %}
                                 {% append_search_back_url opportunity.url request.get_full_path as opportunity_link %}
                                 {% include 'investment/includes/list_item.html' with logo=rendition.url title=opportunity.article_title link_url=opportunity_link description=opportunity.article_teaser opportunity=opportunity %}
                             {% endfor %}
                         </div>
-                        {% include 'international/includes/investment_opportunities/pagination.html' %}
+                        {% pagination page_obj=page_obj elided_page_range=elided_page_range %}
                     {% else %}
                         <h3 class="govuk-heading-m">No opportunities match your search</h3>
                         <p class="govuk-body">Try different filters</p>

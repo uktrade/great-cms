@@ -247,7 +247,6 @@ class HCSATMixin:
         return None
 
     def set_csat_and_stage(self, request, ctx, hcsat_service_name, form):
-
         hcsat = self.get_hcsat(request, hcsat_service_name)
 
         # all csat instances use the same form object, so customise initial heading depending on service

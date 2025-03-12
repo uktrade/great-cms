@@ -112,10 +112,8 @@ def test_delete_users_raise_error_in_production():
 @mock.patch('directory_forms_api_client.actions.HCSatAction')
 @pytest.mark.django_db
 def test_submit_hcsat_feedback_to_forms_api_task(mock_hcsat_action):
-
     feedback_date = '2012-01-14 12:00:02'
     with freeze_time(feedback_date):
-
         submission_1 = HCSATFactory(created=feedback_date)
         submission_2 = HCSATFactory(created=feedback_date)
 

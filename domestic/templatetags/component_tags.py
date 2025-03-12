@@ -186,18 +186,6 @@ def get_meta_description(page):
     return description if description is not None else ''
 
 
-# TODO? Reimplement, if we can't address this better at the Wagtail level
-# @register.filter
-# def add_href_target(value, request):
-#     soup = BeautifulSoup(value, 'html.parser')
-#     for element in soup.findAll('a', attrs={'href': re.compile('^http')}):
-#         if request.META['HTTP_HOST'] not in element.attrs['href']:
-#             element.attrs['target'] = '_blank'
-#             element.attrs['title'] = 'Opens in a new window'
-#             element.attrs['rel'] = 'noopener noreferrer'
-#     return str(soup)
-
-
 def get_pagination_url(request, page_param_name):
     """Remove pagination param from request url"""
     url = request.path
@@ -208,16 +196,23 @@ def get_pagination_url(request, page_param_name):
     return f'{url}?'
 
 
-@register.inclusion_tag('components/pagination/pagination.html', takes_context=True)
-def pagination(context, pagination_page, page_param_name='page'):
-    paginator = pagination_page.paginator
-    pagination_url = get_pagination_url(request=context['request'], page_param_name=page_param_name)
-    return {
-        'page_param_name': page_param_name,
-        'pagination': pagination_page,
-        'url': pagination_url,
-        'pages_after_current': paginator.num_pages - pagination_page.number,
+@register.inclusion_tag('_numbered_pagination.html', takes_context=True)
+def pagination(context, page_obj, page_param_name='page', elided_page_range=None):
+    current_url = get_pagination_url(request=context['request'], page_param_name=page_param_name)
+
+    context = {
+        'currentPageURL': current_url,
+        'elidedPageRange': elided_page_range,
+        'elidedPageStr': '...',
+        'pageParamName': page_param_name,
     }
+
+    context['previousPageNumber'] = page_obj.previous_page_number() if page_obj.has_previous() else None
+    context['currentPageNumber'] = page_obj.number
+    context['nextPageNumber'] = page_obj.next_page_number() if page_obj.has_next() else None
+    context['lastPageNumber'] = page_obj.paginator.num_pages
+
+    return context
 
 
 @register.inclusion_tag('components/message_box.html')
@@ -338,7 +333,7 @@ def get_market_code(market):
     return country_code.lower()
 
 
-@register.inclusion_tag('_cta_banner.html')
+@register.inclusion_tag('_cta-banner.html')
 def render_markets_cta():
     return {
         'backgroundClass': 'great-ds-cta-banner--bg-green',
@@ -350,7 +345,7 @@ def render_markets_cta():
     }
 
 
-@register.inclusion_tag('_cta_banner.html')
+@register.inclusion_tag('_cta-banner.html')
 def render_finance_cta(page):
     return {
         'headingText': mark_safe(page.contact_proposition),
@@ -362,7 +357,7 @@ def render_finance_cta(page):
     }
 
 
-@register.inclusion_tag('_cta_banner.html')
+@register.inclusion_tag('_cta-banner.html')
 def render_market_article_cta(page):
     return {
         'headingText': page.cta_title,
