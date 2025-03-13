@@ -1,4 +1,5 @@
-{% load convert_anchor_identifiers_to_span from content_tags %}
+{% load convert_anchor_identifier_a_to_span from content_tags %}
+{% load wagtailcore_tags %}
 {% for block in streamfield_content %}
     {% if block.block_type == 'form' %}
         {% if form %}
@@ -23,7 +24,11 @@
         {% endif %}
     {% else %}
         <div class="block-text">
-            {{ block | convert_anchor_identifiers_to_span }}
+            {% if block.block_type != 'content_module' %}
+                {{ block }}
+            {% else %}
+                {{ block.value.content | richtext | convert_anchor_identifier_a_to_span }}
+            {% endif %}
         </div>
     {% endif %}
 {% endfor %}
