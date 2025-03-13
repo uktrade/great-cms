@@ -4,37 +4,18 @@
 {% load wagtailcore_tags %}
 {% load pagination from component_tags %}
 {% load replace_underscores from component_tags %}
-{% load append_past_year_seperator from component_tags %}
+{% load append_past_year_seperator render_event_details_hero from component_tags %}
 {% load add_govuk_classes from content_tags %}
 {% block head_title %}Events – {{ event.name }}{% endblock %}
 {% block meta_title %}Events – {{ event.name }}{% endblock %}
 {% block css_layout_class %}great-bg-white{% endblock %}
 {% block content %}
-    <section class="great govuk-!-padding-bottom-6 govuk-!-padding-top-9">
-        <div class="great-container event-details-header-container">
-            <div class="event-details-header-info govuk-grid-column-two-thirds-from-desktop govuk-!-static-padding-0">
-                <h2 class="govuk-caption-l">
-                    {{ event.format|replace_underscores }} event
-                </h4>
-                <h1 class="govuk-heading-l govuk-!-static-margin-0 govuk-!-static-margin-bottom-2">
-                    {{ event.name }}
-                </h2>
-                <time datetime="{{ event.start_date|date:"Y-m-d" }}T{{ event.start_date|time:"H:i:s" }}{{ event.start_date|date:"O" }}">
-                    {{ event.start_date|date:"l" }} {{ event.start_date|date:"j F" }} at {{ event.start_date|date:"g:iA"|lower }}
-                </time>
-                {% if has_event_badges %}
-                    <div class="govuk-!-margin-top-2">{% event_list_badges event %}</div>
-                {% endif %}
-            </div>
-            <div class="event-details-header-logo">
-                <img class="ea-logo"
-                     src="{% static 'images/uk-export-academy-logo.svg' %}"
-                     alt="UK Export Academy logo" />
-            </div>
-        </div>
-    </section>
+    {% static 'images/uk-export-academy-logo.svg' as image %}
+    {% with event.format|replace_underscores as event_type %}
+    {% render_event_details_hero image event_type event.name event.start_date %}
     {% if event.format == event.ONLINE %}
         {% include './includes/event_details_banner.html' %}
     {% endif %}
+    {% endwith %}
     {% include './includes/event_details_main_content.html' %}
 {% endblock %}

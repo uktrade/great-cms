@@ -416,6 +416,31 @@ def render_ukea_and_fab_homepage_heros(
 
 
 @register.inclusion_tag('_hero.html')
+def render_event_details_hero(
+    image_url,
+    event_type,
+    event_name,
+    event_dates,
+):
+
+    event_date_string = event_dates.strftime('%A %d %B at %I:%M%p')
+
+    if event_type:
+        caption = event_type.capitalize() + ' event'
+    else:
+        caption = 'Event'
+
+    return {
+        'pngImagePath': image_url,
+        'caption': caption,
+        'heading': event_name,
+        'aboveCtaText': event_date_string,
+        'classes': 'great-ds-hero--bg-white great-ds-hero--small-image',
+        'aboveCtaClasses': 'great-text-grey',
+    }
+
+
+@register.inclusion_tag('_hero.html')
 def render_export_plan_hero(
     image_url,
     hero_title,
