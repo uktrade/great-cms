@@ -25,12 +25,10 @@
 
                     {% if page.explore_body %}
                     <div class="govuk-!-padding-bottom-9">
-                        <div class="govuk-grid-row">
+                        <div class="great-ds-card-container">
                         {% for blocks in page.explore_body %}
                             {% for block in blocks.value %}
-                            <div class="govuk-grid-column-one-quarter">
-                                {% include "_card.html" with classes="great-ds-card--full" title=block.value.title href=block.value.url id=block.value.title type="elevated" %}
-                            </div>
+                                {% include "_card.html" with type="elevated" href=block.value.url iconSvg="/static/icons/exporter.svg" title=block.value.title id=block.value.title %}
                             {% endfor %}
                         {% endfor %}
                         </div>
@@ -53,12 +51,10 @@
 
                     {% if page.guidance_body %}
                     <div class="govuk-!-padding-bottom-9">
-                        <div class="govuk-grid-row">
+                        <div class="great-ds-card-container">
                         {% for blocks in page.guidance_body %}
                             {% for block in blocks.value %}
-                            <div class="govuk-grid-column-one-half govuk-!-margin-bottom-6">
-                                {% include "_card.html" with classes="great-ds-card--full" title=block.value.title href=block.value.url id=block.value.title description=block.value.description %}
-                            </div>
+                                {% include "_card.html" with href=block.value.url type="mounted" title=block.value.title description=block.value.description metadataIconType="guidance" metadataText="Guidance" metaDataIconPath="/static/icons" id=block.value.title classes="great-ds-card--2"  %}
                             {% endfor %}
                         {% endfor %}
                         </div>
