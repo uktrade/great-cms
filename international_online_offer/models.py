@@ -28,7 +28,11 @@ from international_online_offer.core import (
     region_sector_helpers,
     regions,
 )
-from international_online_offer.forms import LocationSelectForm, WagtailAdminDBTSectors
+from international_online_offer.forms import (
+    DynamicGuideBCIRegionSelectForm,
+    LocationSelectForm,
+    WagtailAdminDBTSectors,
+)
 from international_online_offer.services import get_median_salaries, get_rent_data
 from .helpers import get_step_guide_accordion_items
 
@@ -134,30 +138,9 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             ],
             'company_name': 'Dummy company',
             'sector_name': 'Dummy sector',
-            'market_data': {
-                'select': {
-                    'label': {'text': 'Data for'},
-                    'items': [
-                        {'value': 'uk', 'text': 'United Kingdom'},
-                        {'value': 'bar', 'text': 'Bar'},
-                        {'value': 'baz', 'text': 'Baz'},
-                    ],
-                },
-                'figures': [
-                    {
-                        'icon_path': 'svg/icon-planning.svg',
-                        'value': 117830,
-                        'description': 'businesses in this sector',
-                    },
-                    {
-                        'icon_path': 'svg/icon-planning.svg',
-                        'value': 1342100,
-                        'description': 'employees in this sector',
-                    },
-                ],
-                'data_year': '1979',
-                'data_source': 'Inter-Departmental Business Register, Office for National Statistics',
-            },
+            'market_data_location_select_form': DynamicGuideBCIRegionSelectForm(
+                initial={'market_data_location': context['market_data_location']}
+            ),
             'locations': [
                 {
                     'title': 'Compound semiconductors and applications in South Wales',
@@ -449,9 +432,14 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         else:
             triage_data = kwargs['triage_data']
 
-        bci_data = None
-        if triage_data and triage_data.sector:
-            bci_data = services.get_bci_data_by_dbt_sector(triage_data.sector, [regions.GB_GEO_CODE])
+        market_data_location = request.GET.get(
+            'market_data_location',
+            triage_data.location if triage_data and triage_data.location else choices.regions.LONDON,
+        )
+
+        bci_data = services.get_bci_data_by_dbt_sector(
+            triage_data.sector, [regions.region_choices_to_geocode_mapping[market_data_location]]
+        )
 
         # Get trade shows page (should only be one, is a parent / container page for all trade show pages)
         trade_shows_page = EYBTradeShowsPage.objects.live().filter().first()
@@ -497,6 +485,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             complete_contact_form_link_text='Sign up',
             triage_data=triage_data,
             user_data=user_data,
+            market_data_location=market_data_location,
             bci_data=bci_data[0] if bci_data and len(bci_data) > 0 else None,
             get_to_know_market_articles=all_articles_tagged_with_sector_and_intent,
             finance_and_support_articles=all_articles_tagged_with_finance_and_support,
