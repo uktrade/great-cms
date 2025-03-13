@@ -74,7 +74,7 @@
                 {% endfor %}
                 <div class="rent-data">
                     {% include './includes/dynamic-guide/select.html' with label=rent_data.select.label items=rent_data.select.items %}
-                    {% include '_tabs.html' with title="Wtf" items=rent_data.tabs classes="govuk-!-margin-bottom-0" %}
+                    {% include '_tabs.html' with title="Average rent data" items=rent_data.tabs classes="govuk-!-margin-bottom-0" %}
                     <p class="dynamic-guide__disclaimer govuk-body-s govuk-!-margin-bottom-0">{{ rent_data.disclaimer }}</p>
                 </div>
                 {% include './includes/dynamic-guide/section_left_end.html' %}
