@@ -1,0 +1,150 @@
+{% extends 'includes/base.html' %}
+
+{% block head_title %}Domestic Growth - Landing{% endblock %}
+
+{% block content %}
+    <section class="great great-bg-dark-blue">
+        <div class="great-container govuk-!-padding-top-9">
+            <div class="govuk-grid-row govuk-!-margin-bottom-6">
+                <div class="govuk-grid-column-one-half great-no-padding-until-tablet">
+                    {% if page.hero_title %}
+                    <h1 class="govuk-heading-xl govuk-!-margin-bottom-6 great-text-white">
+                        {{ page.hero_title }}
+                    </h1>
+                    {% endif %}
+
+                    {% if page.hero_intro %}
+                    <p class="govuk-body govuk-!-margin-bottom-6 great-text-white">
+                        {{ page.hero_intro }}
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full great-no-padding-until-tablet">
+
+                    {% if page.explore_body %}
+                    <div class="govuk-!-padding-bottom-9">
+                        <div class="govuk-grid-row">
+                        {% for blocks in page.explore_body %}
+                            {% for block in blocks.value %}
+                            <div class="govuk-grid-column-one-quarter">
+                                {% include "_card.html" with classes="great-ds-card--full" title=block.value.title href=block.value.url id=block.value.title type="elevated" %}
+                            </div>
+                            {% endfor %}
+                        {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="great great-bg-light-blue govuk-!-padding-bottom-0">
+        <div class="great-container govuk-!-padding-top-9">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full great-no-padding-until-tablet">
+                    {% if page.guidance_title %}
+                    <h2 class="govuk-heading-l govuk-!-margin-bottom-6">
+                        {{ page.guidance_title }}
+                    </h2>
+                    {% endif %}
+
+                    {% if page.guidance_body %}
+                    <div class="govuk-!-padding-bottom-9">
+                        <div class="govuk-grid-row">
+                        {% for blocks in page.guidance_body %}
+                            {% for block in blocks.value %}
+                            <div class="govuk-grid-column-one-half govuk-!-margin-bottom-6">
+                                {% include "_card.html" with classes="great-ds-card--full" title=block.value.title href=block.value.url id=block.value.title description=block.value.description %}
+                            </div>
+                            {% endfor %}
+                        {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="great great-bg-white govuk-!-padding-bottom-6">
+        <div class="great-container govuk-!-padding-top-7">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds great-no-padding-until-tablet">
+                    {% if page.about_title %}
+                    <h2 class="govuk-heading-l govuk-!-margin-bottom-3">
+                        {{ page.about_title }}
+                    </h2>
+                    {% endif %}
+
+                    {% if page.about_intro %}
+                    <p class="govuk-caption-l govuk-!-margin-bottom-3">
+                        {{ page.about_intro }}
+                    </p>
+                    {% endif %}
+
+                    {% if page.about_description %}
+                    <p class="govuk-body govuk-!-margin-bottom-3">
+                        {{ page.about_description }}
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="great great-bg-white govuk-!-padding-bottom-3">
+        <div class="great-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds great-no-padding-until-tablet">
+                    {% if page.news_title %}
+                    <h2 class="govuk-heading-l govuk-!-margin-bottom-4">
+                        {{ page.news_title }}
+                    </h2>
+                    {% endif %}
+
+                    {% if news %}
+                    <div class="govuk-!-padding-bottom-4">
+                        {% for article in news %}
+                            {% include "_card.html" with classes="great-ds-card--full great-ds-card--unmounted" title=article.title href=article.href description=article.summary|safe id=article.title %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    <div class="govuk-!-padding-bottom-4">
+                        {% include "_action-link.html" with linkHref=page.news_link_url  linkText=page.news_link_text %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="great great-bg-light-blue govuk-!-padding-bottom-9">
+        <div class="great-container govuk-!-padding-top-9">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds great-no-padding-until-tablet">
+                    {% if page.feedback_title %}
+                    <h2 class="govuk-heading-l govuk-!-margin-bottom-6">
+                        {{ page.feedback_title }}
+                    </h1>
+                    {% endif %}
+
+                    {% if page.feedback_description %}
+                    <p class="govuk-body govuk-!-margin-bottom-6">
+                        {{ page.feedback_description }}
+                    </p>
+                    {% endif %}
+
+                    <div class="govuk-!-padding-bottom-0">
+                        {% include "_action-link.html" with linkHref=page.feedback_link_url  linkText=page.feedback_link_text %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block body_js %}
+    {{ block.super }}
+{% endblock %}
