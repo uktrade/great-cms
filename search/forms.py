@@ -3,7 +3,7 @@ from captcha.widgets import ReCaptchaV3
 from directory_forms_api_client.forms import SaveOnlyInDatabaseAPIForm
 from django.forms import HiddenInput, IntegerField, Textarea
 from great_components import forms as old_forms
-from core.gds_tooling import forms
+from gds_tooling import forms
 
 
 class FeedbackForm(SaveOnlyInDatabaseAPIForm):
@@ -33,7 +33,7 @@ class FeedbackForm(SaveOnlyInDatabaseAPIForm):
         if 'captcha' in self.cleaned_data:
             del self.cleaned_data['captcha']
         return self.cleaned_data
-    
+
 
 class GDSFeedbackForm(SaveOnlyInDatabaseAPIForm):
     result_found = forms.ChoiceField(
