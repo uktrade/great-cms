@@ -238,6 +238,11 @@ class SearchFeedbackFormView(FormView):
             return self.request.path
 
 
+class GDSSearchFeedbackFormView(SearchFeedbackFormView):
+    template_name = 'gds_search_feedback.html'
+    form_class = forms.GDSFeedbackForm
+
+
 class SearchFeedbackSuccessView(TemplateView):
     template_name = 'search_feedback_confirmation.html'
 

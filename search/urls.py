@@ -6,6 +6,7 @@ from search.views import (
     OpensearchAdminView,
     OpensearchView,
     SearchFeedbackFormView,
+    GDSSearchFeedbackFormView,
     SearchFeedbackSuccessView,
     SearchView,
 )
@@ -20,6 +21,11 @@ urlpatterns = [
         'feedback/',
         SearchFeedbackFormView.as_view(),
         name='feedback',
+    ),
+    path(
+        'gds-feedback/',
+        GDSSearchFeedbackFormView.as_view(),
+        name='gds-feedback',
     ),
     path('feedback/success', SearchFeedbackSuccessView.as_view(), name='feedback-success'),
 ]
