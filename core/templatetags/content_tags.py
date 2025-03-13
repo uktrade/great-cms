@@ -749,7 +749,7 @@ def convert_anchor_identifiers_to_span(value):
     return convert_anchor_identifier_a_to_span(rich_text_html)
 
 
-@register.inclusion_tag('_cta_banner.html')
+@register.inclusion_tag('_cta-banner.html')
 def render_signup_cta(background=None, link=None):
     background_class = 'great-ds-cta-banner--bg-white'
     if background:
@@ -791,3 +791,33 @@ def sector_based_image(sector):
             res = icon_name
 
     return res
+
+@register.tag(name="capture")
+def do_capture(parser, token):
+    """
+    Capture the content of a block into a variable.
+    
+    Usage:
+    {% capture variable_name %}
+        ... content ...
+    {% endcapture %}
+    """
+    try:
+        tag_name, variable_name = token.contents.split(None, 1)
+    except ValueError:
+        raise template.TemplateSyntaxError("'capture' node requires a variable name.")
+    
+    nodelist = parser.parse(('endcapture',))
+    parser.delete_first_token()
+    
+    return CaptureNode(nodelist, variable_name)
+
+class CaptureNode(template.Node):
+    def __init__(self, nodelist, variable_name):
+        self.nodelist = nodelist
+        self.variable_name = variable_name
+        
+    def render(self, context):
+        output = self.nodelist.render(context)
+        context[self.variable_name] = output
+        return ''
