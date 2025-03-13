@@ -14,7 +14,6 @@ class DomesticGrowthHomePagePanels:
         MultiFieldPanel(
             heading='Explore section',
             children=[
-                FieldPanel('explore_title'),
                 FieldPanel('explore_body'),
             ],
         ),
@@ -26,11 +25,13 @@ class DomesticGrowthHomePagePanels:
             ],
         ),
         MultiFieldPanel(
-            heading='About section',
+            heading='Case study section',
             children=[
-                FieldPanel('about_title'),
-                FieldPanel('about_intro'),
-                FieldPanel('about_description'),
+                FieldPanel('case_study_title'),
+                FieldPanel('case_study_intro'),
+                FieldPanel('case_study_link_text'),
+                FieldPanel('case_study_link_url'),
+                FieldPanel('case_study_image'),
             ],
         ),
         MultiFieldPanel(
@@ -39,6 +40,8 @@ class DomesticGrowthHomePagePanels:
                 FieldPanel('news_title'),
                 FieldPanel('news_link_text'),
                 FieldPanel('news_link_url'),
+                FieldPanel('news_link_text_extra'),
+                FieldPanel('news_link_url_extra'),
             ],
         ),
         MultiFieldPanel(
