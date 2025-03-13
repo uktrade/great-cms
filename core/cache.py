@@ -13,6 +13,7 @@ class GreatCloudfrontBackend(CloudfrontBackend):
 
     def _get_params(self, params):
         import boto3
+
         boto3.set_stream_logger('')
         role_arn = settings.CF_INVALIDATION_ROLE_ARN
         sts_client = boto3.client('sts')
