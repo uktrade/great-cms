@@ -1,6 +1,5 @@
 from captcha.widgets import ReCaptchaV3
 from django.forms import widgets
-from django import forms
 from django.utils.text import slugify
 
 

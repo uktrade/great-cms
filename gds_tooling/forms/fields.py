@@ -1,4 +1,4 @@
-from captcha.fields import ReCaptchaField
+from captcha.fields import ReCaptchaField  # noqa
 from django import forms
 from django.forms.boundfield import BoundField
 
@@ -116,6 +116,7 @@ class BooleanField(GDSFieldMixin, forms.BooleanField):
             self.widget.label = label
             self.widget.help_text = help_text
             self.label = ''
+
 
 class GDSBooleanField(GDSFieldMixin, forms.BooleanField):
     widget = widgets.GDSCheckboxSelectInlineLabelMultiple

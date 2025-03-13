@@ -1,4 +1,4 @@
-from core.gds_tooling.forms.fields import (
+from gds_tooling.forms.fields import (
     GDSFieldMixin,
     GDSBoundField,
     field_factory,
@@ -28,9 +28,16 @@ from core.gds_tooling.forms.fields import (
     ReCaptchaField,
 )
 
-from core.gds_tooling.forms.forms import FormMixin, GDSForm, GDSFormMixin, Form, get_language_form_initial_data, LanguageForm
+from gds_tooling.forms.forms import (
+    FormMixin,
+    GDSForm,
+    GDSFormMixin,
+    Form,
+    get_language_form_initial_data,
+    LanguageForm,
+)
 
-from core.gds_tooling.forms.widgets import (
+from gds_tooling.forms.widgets import (
     CheckboxSelectInlineLabelMultiple,
     GDSCheckboxSelectInlineLabelMultiple,
     CheckboxWithInlineLabel,

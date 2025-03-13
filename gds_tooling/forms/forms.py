@@ -24,7 +24,8 @@ class FormMixin:
 
     def __str__(self):
         return render_to_string('form.html', {'form': self})
-    
+
+
 class GDSFormMixin:
     use_required_attribute = False
     error_css_class = 'form-group-error'
