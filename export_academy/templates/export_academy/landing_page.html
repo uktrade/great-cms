@@ -76,8 +76,7 @@
                         <div class="great-ds-card-container">
                             {% for panel in contentSection.value.panels %}
                                 {% image panel.value.image fill-640x360 as thumbnail %}
-                                {% include '_card.html' with href=panel.value.link imageUrl=thumbnail.url imageAlt=panel.value.image.alt_text title=panel.value.title description=panel.value.description id="type_of_events_{{ forloop.counter }}
-                                " classes="great-ds-card--3" titleSize="m" %}
+                                {% include '_card.html' with href=panel.value.link imageUrl=thumbnail.url imageAlt=panel.value.image.alt_text title=panel.value.title description=panel.value.description id=page.slug classes="great-ds-card--3" titleSize="m" %}
                             {% endfor %}
                         </div>
                     </div>
