@@ -42,8 +42,8 @@
                         {% endfor %}
                     </ul>
                 </div>
-                {% include './includes/dynamic-guide/section_left_start.html' with caption=sector_name heading='Market data' %}
-                {% include './includes/dynamic-guide/figures.html' with options=market_data only %}
+                {% include './includes/dynamic-guide/section_left_start.html' with caption=triage_data.sector|get_sector_display heading='Market data' %}
+                {% include './includes/dynamic-guide/market_data.html' with market_data_location_select_form=market_data_location_select_form market_data=bci_data %}
                 {% include '_action-link.html' with linkText='Compare data across UK nations and regions' linkHref='#' %}
                 {% include './includes/dynamic-guide/section_left_end.html' %}
                 {% include './includes/dynamic-guide/section_left_start.html' with caption=sector_name heading='Locations of investment opportunities' description='South Wales is pioneering the way forward in designing, developing, and commercialising the compound semiconductors needed for a net zero economy.' %}
