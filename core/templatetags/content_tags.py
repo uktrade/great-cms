@@ -461,70 +461,16 @@ def get_international_icon_path(url):
 
 
 @register.simple_tag
-def render_automated_list_page_card_content(page, request, module_completion_data):
-    if request.user.is_authenticated and module_completion_data:
-        completion_percentage = module_completion_data.get('completion_percentage', 0)
-        completion_count = module_completion_data.get('completion_count', 0)
-        total_pages = module_completion_data.get('total_pages', 0)
-        html_content = format_html(
-            f"""
-            <div class="learn-card-description">
-                { page.heading}
-            </div>
-            <div class="progess-container great-display-flex great-flex-wrap great-flex-column-until-tablet great-gap">
-            <div class="learn__category-progress-container">
-                <div class="learn__category-progress">
-                <span style="width: {completion_percentage}%"></span>
-                </div>
-                <span class="govuk-label">
-                    {completion_count}
-                    /
-                    {total_pages}
-                    marked as complete
-                 </span>
-                </div>
-                </div>
-        """
-        )
-    else:
-        html_content = format_html(
-            f"""
-            <div class="learn-card-description">
-            { page.heading}
-            </div>
-        """
-        )
-    return html_content
-
-
-@register.simple_tag
-def render_curated_topic_card_content(page, completed_lessons):
+def render_completed_tag(page, completed_lessons):
     if completed_lessons is None or not hasattr(completed_lessons, '__iter__'):
         completed_lessons = []
 
     if str(page.id) in map(str, completed_lessons):
-        html_content = f"""
-            <div class="great-display-flex great-gap-10-30 great-justify-space-between
-                  great-flex-column-until-desktop">
-                <h3 class="govuk-link great-font-bold govuk-!-margin-0 great-title-link
-                     great-card__link great-card__link--underline great-card__link--heading">
-                    <span>{page.title}</span>
-                </h3>
-                <span class="great-badge completed govuk-!-margin-top-2">Completed</span>
-            </div>
-            """
+        print("true")
+        return 'true'
     else:
-        html_content = f"""
-            <div class="great-display-flex great-gap-10-30 great-justify-space-between">
-                <h3 class="govuk-link great-font-bold govuk-!-margin-0 great-title-link
-                     great-card__link great-card__link--underline great-card__link--heading">
-                    <span>{page.title}</span>
-                </h3>
-                <span role="img" class="fa fa-arrow-right govuk-!-margin-right-2 great-text-blue
-                     great-font-size-18 great-height-min-content govuk-!-margin-top-1"></span>
-            </div>
-            """
-    return html_content
+        print("false")
+        return 'false'
 
 
 @register.simple_tag
