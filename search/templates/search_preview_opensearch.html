@@ -86,7 +86,9 @@
                     {% endfor %}
                 </ul>
                 <!-- Pagination -->
+                {% if page_obj.has_other_pages %}
                 {% pagination page_obj=page_obj elided_page_range=elided_page_range %}
+                {% endif %}
             </div>
         </section>
     {% endif %}
