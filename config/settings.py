@@ -450,7 +450,7 @@ SECURE_HSTS_SECONDS = env.secure_hsts_seconds
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_SSL_REDIRECT = env.secure_ssl_redirect
 
-SESSION_ENGINE = env.session_engine
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 
 SESSION_COOKIE_SECURE = env.session_cookie_secure
 SESSION_COOKIE_HTTPONLY = True
@@ -1077,15 +1077,17 @@ COUNTRIES_ISO_CODE_UPDATE_API = 'https://restcountries.com/v3.1/all?fields=name,
 FEATURE_GREAT_MIGRATION_BANNER = env.feature_great_migration_banner
 
 FRONTEND_CACHE_DISTRIBUTION_ID = env.frontend_cache_distribution_id
-wagtail_cf = {}
-for dist_id in FRONTEND_CACHE_DISTRIBUTION_ID.split(','):
-    if dist_id:
-        cf_dist = {
-            'BACKEND': 'core.cache.GreatCloudfrontBackend',
-            'DISTRIBUTION_ID': dist_id.split(':')[0],
-            'HOSTNAMES': [dist_id.split(':')[1]],
-        }
-        wagtail_cf[dist_id.split(':')[0]] = cf_dist
-
+wagtail_cf = {
+    'E2HWMSZMIF5TZ': {
+        'BACKEND': 'core.cache.GreatCloudfrontBackend',
+        'DISTRIBUTION_ID': 'E2HWMSZMIF5TZ',
+        'HOSTNAMES': ['dev.great.uktrade.digital', 'www.dev.bgs.uktrade.digital'],
+    },
+    'E23MTQ578HN48K': {
+        'BACKEND': 'core.cache.GreatCloudfrontBackend',
+        'DISTRIBUTION_ID': 'E23MTQ578HN48K',
+        'HOSTNAMES': ['www.dev.bgs.uktrade.digital', 'dev.great.uktrade.digital'],
+    },
+}
 WAGTAILFRONTENDCACHE = wagtail_cf
 CF_INVALIDATION_ROLE_ARN = env.cf_invalidation_role_arn
