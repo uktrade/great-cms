@@ -442,3 +442,11 @@ class DynamicGuideRentDataSelectForm(forms.Form):
         choices=choices.REGION_CHOICES,
         widget=Select(attrs={'onchange': 'refreshRentDataSelectedRegion()'}),
     )
+
+
+class DynamicGuideSalaryDataSelectForm(forms.Form):
+    salary_data_location = ChoiceField(
+        label='',
+        choices=choices.REGION_CHOICES,
+        widget=Select(attrs={'onchange': 'refreshSalaryDataSelectedRegion()'}),
+    )
