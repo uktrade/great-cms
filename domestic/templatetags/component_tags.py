@@ -203,7 +203,7 @@ def pagination(context, page_obj, page_param_name='page', elided_page_range=None
     context = {
         'currentPageURL': current_url,
         'elidedPageRange': elided_page_range,
-        'elidedPageStr': '...',
+        'elidedPageStr': '…',  # Copied from django pagination output
         'pageParamName': page_param_name,
     }
 
