@@ -242,6 +242,18 @@ class GDSSearchFeedbackFormView(SearchFeedbackFormView):
     template_name = 'gds_search_feedback.html'
     form_class = forms.GDSFeedbackForm
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # form = context["form"]
+        # for field in form.fields.values():
+        #     try:
+        #         print (field.widget.field.gds_mapping)
+        #     except AttributeError:
+        #         print('missing')
+
+        return context
+
 
 class SearchFeedbackSuccessView(TemplateView):
     template_name = 'search_feedback_confirmation.html'

@@ -6,7 +6,7 @@ from django.forms import Select
 from django.template.loader import render_to_string
 from django.utils import translation
 
-from gds_tooling.forms import ChoiceField
+from gds_tooling.forms import GDSChoiceField
 
 
 BLANK_COUNTRY_CHOICE = [("", "Select a country")]
@@ -48,7 +48,7 @@ class GDSForm(GDSFormMixin, forms.Form):
 
 
 class LanguageForm(forms.Form):
-    lang = ChoiceField(widget=Select(attrs={'id': 'great-header-language-select'}), choices=[])  # set by __init__
+    lang = GDSChoiceField(widget=Select(attrs={'id': 'great-header-language-select'}), choices=[])  # set by __init__
 
     def __init__(self, language_choices=settings.LANGUAGES, *args, **kwargs):
         super().__init__(*args, **kwargs)

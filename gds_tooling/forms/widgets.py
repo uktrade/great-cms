@@ -5,30 +5,33 @@ from django.utils.text import slugify
 
 class WidgetGDSMixin(widgets.Widget):
     '''
-    Used to add field to widget as gds file structure requires the following:
-    widget = {
-            name: 'example',
-            value: 'Example value',
-            id_for_label: 'id-example',
-            field: {
-                gds_mapping:{
-                    label: {
-                        class: '',
-                        text: 'Text area example',
-                        id: '1234-5678-9101-1121'
-                    },
-                    hint: {
-                        class: '',
-                        text: 'This is a hint',
-                        id: 'id-example'
-                    },
-                    error: {}
-                }
-            },
-            attrs: {
-                rows: 5
+    Used to add field to widget context. 
+
+    context = {
+        'widget': {
+            'name': 'example',
+            'value': 'Example value',
+            'id_for_label': 'id-example',
+            'attrs': {
+                'rows': 5
+            }
+        },
+        'field': {
+            'gds_mapping':{
+                'label': {
+                    'class': '',
+                    'text': 'Text area example',
+                    'id': '1234-5678-9101-1121'
+                },
+                'hint': {
+                    'class': '',
+                    'text': 'This is a hint',
+                    'id': 'id-example'
+                },
+                'error': {}
             }
         }
+    }
     '''
 
     field = None
@@ -37,6 +40,7 @@ class WidgetGDSMixin(widgets.Widget):
         ctx = super().get_context(name, value, attrs)
         field = self.field
         ctx['field'] = field
+
         if hasattr(field, 'hide_on_page_load'):
             if hasattr(ctx["widget"]["attrs"], 'class'):
                 widget_class = ctx["widget"]["attrs"]["class"]
