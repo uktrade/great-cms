@@ -6,9 +6,15 @@ from domestic_growth import (
 )
 from wagtail import blocks
 from wagtail.blocks.stream_block import StreamBlock
-from wagtail.fields import StreamField
+from wagtail.fields import StreamField, RichTextField
 from wagtail.models import Page
 from wagtailseo.models import SeoMixin
+from wagtail.search import index
+from wagtail.snippets.blocks import SnippetChooserBlock
+from wagtail.admin.panels import (
+    FieldPanel,
+)
+from wagtail.snippets.models import register_snippet
 
 
 from domestic_growth.blocks import DomesticGrowthCardBlock
@@ -180,6 +186,13 @@ class DomesticGrowthChildGuidePage(SeoMixin, cms_panels.DomesticGrowthChildGuide
                     [
                         ('title', blocks.CharBlock()),
                         ('intro', blocks.CharBlock()),
+                        (
+                            'content',
+                            blocks.ListBlock(
+                                SnippetChooserBlock('domestic_growth.DomesticGrowthContent'),
+                                label='Choose snippet',
+                            ),
+                        ),
                     ]
                 ),
             ),
@@ -188,3 +201,28 @@ class DomesticGrowthChildGuidePage(SeoMixin, cms_panels.DomesticGrowthChildGuide
         null=True,
         blank=True,
     )
+
+
+@register_snippet
+class DomesticGrowthContent(index.Indexed, models.Model):
+    content_id = models.CharField()
+    title = models.CharField()
+    description = RichTextField(blank=True)
+    url = models.CharField(blank=True)
+
+    panels = [
+        FieldPanel('content_id'),
+        FieldPanel('title'),
+        FieldPanel('description'),
+        FieldPanel('url'),
+    ]
+
+    search_fields = [
+        index.AutocompleteField('title'),
+    ]
+
+    class Meta:
+        ordering = ('title',)
+
+    def __str__(self):
+        return self.title
