@@ -466,10 +466,8 @@ def render_completed_tag(page, completed_lessons):
         completed_lessons = []
 
     if str(page.id) in map(str, completed_lessons):
-        print("true")
         return 'true'
     else:
-        print("false")
         return 'false'
 
 
