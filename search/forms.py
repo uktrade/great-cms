@@ -84,7 +84,7 @@ class GDSFeedbackForm(SaveOnlyInDatabaseAPIForm):
 class GDSFeedbackConditionalRevealForm(SaveOnlyInDatabaseAPIForm, gds_forms.GDSConditionalRevealForm):
     result_found = gds_forms.GDSChoiceField(
         label='Did you find what you were looking for on the site today?',
-        widget=gds_forms.GDSRadioSelect(fieldset=True),
+        widget=gds_forms.GDSRadioSelect(),
         choices=[('yes', 'Yes'), ('no', 'No')],
     )
     search_target = gds_forms.GDSCharField(
