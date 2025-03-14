@@ -1166,6 +1166,8 @@ class FeedbackView(GA360Mixin, FormView):  # /PS-IGNORE
 class TradeAssociationsView(GA360Mixin, TemplateView, EYBHCSAT):  # /PS-IGNORE
     template_name = 'eyb/trade_associations.html'
 
+    MAX_PER_PAGE = 18
+
     def get_template(self, request):
         return self.template_name
 
@@ -1189,9 +1191,12 @@ class TradeAssociationsView(GA360Mixin, TemplateView, EYBHCSAT):  # /PS-IGNORE
                 Q(link_valid=True) & (Q(sector__icontains=triage_data.sector) | Q(sector__in=trade_association_sectors))
             )
 
-        page = self.request.GET.get('page', 1)
-        paginator = Paginator(all_trade_associations, 20)
-        all_trade_associations = paginator.page(page)
+        paginator = Paginator(all_trade_associations, self.MAX_PER_PAGE)
+        page_obj = paginator.get_page(self.request.GET.get('page', 1))
+        elided_page_range = [
+            page_num
+            for page_num in page_obj.paginator.get_elided_page_range(page_obj.number, on_each_side=1, on_ends=1)
+        ]
 
         breadcrumbs = [
             {'name': 'Home', 'url': '/international/'},
@@ -1203,7 +1208,8 @@ class TradeAssociationsView(GA360Mixin, TemplateView, EYBHCSAT):  # /PS-IGNORE
 
         context_data = super().get_context_data(
             triage_data=triage_data,
-            all_trade_associations=all_trade_associations,
+            page_obj=page_obj,
+            elided_page_range=elided_page_range,
             breadcrumbs=breadcrumbs,
             **kwargs,
         )

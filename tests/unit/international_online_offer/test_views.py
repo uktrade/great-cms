@@ -759,7 +759,7 @@ def test_trade_associations(client, user, settings):
     )
     response = client.get(url)
     context = response.context_data
-    all_trade_associations = context['all_trade_associations']
+    all_trade_associations = context['page_obj']
     assert len(all_trade_associations) == 1
     assert all_trade_associations[0].sector == 'Food and drink'
     assert response.status_code == 200
