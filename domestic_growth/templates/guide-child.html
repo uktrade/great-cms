@@ -81,6 +81,10 @@
                         <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-bg-white">
                             <h3 class="govuk-heading-m govuk-!-margin-bottom-3">{{ section.value.title }}</h3>
                             <p class="govuk-caption">{{ section.value.intro }}</p>
+
+                            {% for content in section.value.content %}
+                                {% include "_card.html" with classes="great-ds-card--full" type="unmounted" title=content.title href=content.url description=content.description|safe id=content.content_id %}
+                            {% endfor %}
                         </div>
                         {% endfor %}
                     {% endif %}
