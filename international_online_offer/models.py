@@ -31,6 +31,7 @@ from international_online_offer.core import (
 from international_online_offer.forms import (
     DynamicGuideBCIRegionSelectForm,
     DynamicGuideRentDataSelectForm,
+    DynamicGuideSalaryDataSelectForm,
     LocationSelectForm,
     WagtailAdminDBTSectors,
 )
@@ -144,6 +145,9 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             ),
             'rent_data_location_select_form': DynamicGuideRentDataSelectForm(
                 initial={'rent_data_location': context['rent_data_location']}
+            ),
+            'salary_data_location_select_form': DynamicGuideSalaryDataSelectForm(
+                initial={'salary_data_location': context['salary_data_location']}
             ),
             'locations': [
                 {
@@ -450,6 +454,15 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             work_office,
         ) = get_rent_data(region)
 
+        salary_data_location = request.GET.get(
+            'salary_data_location', triage_data.location if triage_data.location else choices.regions.LONDON
+        )
+        salary_region = helpers.get_salary_region_from_region(salary_data_location)
+
+        median_salaries = get_median_salaries(triage_data.sector, geo_region=salary_region)
+        cleaned_median_salaries = helpers.clean_salary_data(median_salaries)
+        professions_by_sector = helpers.get_sector_professions_by_level(triage_data.sector)
+
         # Get trade shows page (should only be one, is a parent / container page for all trade show pages)
         trade_shows_page = EYBTradeShowsPage.objects.live().filter().first()
 
@@ -502,6 +515,13 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             shopping_centre=shopping_centre,
             high_street_retail=high_street_retail,
             work_office=work_office,
+            entry_salary=cleaned_median_salaries.get(professions.ENTRY_LEVEL),
+            mid_salary=cleaned_median_salaries.get(professions.MID_SENIOR_LEVEL),
+            executive_salary=cleaned_median_salaries.get(professions.DIRECTOR_EXECUTIVE_LEVEL),
+            salary_error_msg=cleaned_median_salaries.get('error_msg'),
+            salary_data_location=salary_data_location,
+            cleaned_median_salaries=cleaned_median_salaries,
+            professions_by_sector=professions_by_sector,
             get_to_know_market_articles=all_articles_tagged_with_sector_and_intent,
             finance_and_support_articles=all_articles_tagged_with_finance_and_support,
             trade_shows_page=trade_shows_page,

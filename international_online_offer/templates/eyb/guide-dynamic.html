@@ -68,7 +68,7 @@
                     {% include '_action-link.html' with linkText='View more associations for this sector' linkHref=more_associations_link %}
                 </div>
                 {% include './includes/dynamic-guide/section_left_end.html' %}
-                {% include './includes/dynamic-guide/section_left_start.html' with caption=sector_name heading='Setting up a base in the UK' %}
+                {% include './includes/dynamic-guide/section_left_start.html' with caption=triage_data.sector|get_sector_display heading='Setting up a base in the UK' %}
                 {% for base in bases %}
                     {% include './includes/dynamic-guide/rich_link.html' with icon_path=base.icon link_url=base.url link_text=base.title location=base.location body=base.description website=base.website %}
                 {% endfor %}
@@ -80,7 +80,7 @@
                 {% for item in recruit_and_employ %}
                     {% include './includes/dynamic-guide/rich_link.html' with icon_path=item.icon link_url=item.url link_text=item.title location=item.location body=item.description website=item.website %}
                 {% endfor %}
-                {% include './includes/dynamic-guide/figures.html' with options=salary_data only %}
+                {% include './includes/dynamic-guide/salary_data.html' with salary_data_location_select_form=salary_data_location_select_form entry_salary=entry_salary mid_salary=mid_salary executive_salary=executive_salary professions_by_sector=professions_by_sector %}
                 {% include './includes/dynamic-guide/section_left_end.html' %}
             </div>
             <div class="dynamic-guide__panel-right">
