@@ -426,3 +426,27 @@ class WagtailAdminDBTSectors(WagtailAdminPageForm):
         self.fields['dbt_sectors'] = DBTSectorsAPIMultipleChoiceField(
             required=False, label='DBT sectors', help_text=self.help_text
         )
+
+
+class DynamicGuideBCIRegionSelectForm(forms.Form):
+    market_data_location = ChoiceField(
+        label='',
+        choices=choices.REGION_CHOICES,
+        widget=Select(attrs={'onchange': 'refreshMarketDataSelectedRegion()'}),
+    )
+
+
+class DynamicGuideRentDataSelectForm(forms.Form):
+    rent_data_location = ChoiceField(
+        label='',
+        choices=choices.REGION_CHOICES,
+        widget=Select(attrs={'onchange': 'refreshRentDataSelectedRegion()'}),
+    )
+
+
+class DynamicGuideSalaryDataSelectForm(forms.Form):
+    salary_data_location = ChoiceField(
+        label='',
+        choices=choices.REGION_CHOICES,
+        widget=Select(attrs={'onchange': 'refreshSalaryDataSelectedRegion()'}),
+    )

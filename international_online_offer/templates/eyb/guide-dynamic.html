@@ -42,47 +42,45 @@
                         {% endfor %}
                     </ul>
                 </div>
-                {% include './includes/dynamic-guide/section_left_start.html' with caption=sector_name heading='Market data' %}
-                {% include './includes/dynamic-guide/figures.html' with options=market_data only %}
-                {% include '_action_link.html' with linkText='Compare data across UK nations and regions' linkHref='#' %}
+                {% include './includes/dynamic-guide/section_left_start.html' with caption=triage_data.sector|get_sector_display heading='Market data' %}
+                {% include './includes/dynamic-guide/market_data.html' with market_data_location_select_form=market_data_location_select_form market_data=bci_data %}
+                {% include '_action-link.html' with linkText='Compare data across UK nations and regions' linkHref='#' %}
                 {% include './includes/dynamic-guide/section_left_end.html' %}
                 {% include './includes/dynamic-guide/section_left_start.html' with caption=sector_name heading='Locations of investment opportunities' description='South Wales is pioneering the way forward in designing, developing, and commercialising the compound semiconductors needed for a net zero economy.' %}
                 {% for location in locations %}
                     {% include './includes/dynamic-guide/rich_link.html' with image_path=location.image link_url=location.url link_text=location.title location=location.location body=location.description %}
                 {% endfor %}
                 <div>
-                    {% include '_action_link.html' with linkText='View more opportunities in this sector' linkHref=more_locations_link %}
+                    {% include '_action-link.html' with linkText='View more opportunities in this sector' linkHref=more_locations_link %}
                 </div>
                 {% include './includes/dynamic-guide/section_left_end.html' %}
                 {% include './includes/dynamic-guide/section_left_start.html' with caption=sector_name heading='UK events' description='Attending conferences, fairs or trade shows can help you make industry connections in the UK and get the latest insights from your sector.' %}
                 {% for event in events %}
                     {% include './includes/dynamic-guide/rich_link.html' with link_external=True icon_path=event.icon link_url=event.url link_text=event.title location=event.location body=event.description website=event.website %}
                 {% endfor %}
-                <div>{% include '_action_link.html' with linkText='View more events for this sector' linkHref=more_events_link %}</div>
+                <div>{% include '_action-link.html' with linkText='View more events for this sector' linkHref=more_events_link %}</div>
                 {% include './includes/dynamic-guide/section_left_end.html' %}
                 {% include './includes/dynamic-guide/section_left_start.html' with caption=sector_name heading='UK associations' description='Joining industry-based associations, forums or networks can be a useful way to find new clients and form partnerships.' %}
                 {% for association in associations %}
                     {% include './includes/dynamic-guide/rich_link.html' with link_external=True link_url=association.url link_text=association.title body=association.description %}
                 {% endfor %}
                 <div>
-                    {% include '_action_link.html' with linkText='View more associations for this sector' linkHref=more_associations_link %}
+                    {% include '_action-link.html' with linkText='View more associations for this sector' linkHref=more_associations_link %}
                 </div>
                 {% include './includes/dynamic-guide/section_left_end.html' %}
-                {% include './includes/dynamic-guide/section_left_start.html' with caption=sector_name heading='Setting up a base in the UK' %}
+                {% include './includes/dynamic-guide/section_left_start.html' with caption=triage_data.sector|get_sector_display heading='Setting up a base in the UK' %}
                 {% for base in bases %}
                     {% include './includes/dynamic-guide/rich_link.html' with icon_path=base.icon link_url=base.url link_text=base.title location=base.location body=base.description website=base.website %}
                 {% endfor %}
                 <div class="rent-data">
-                    {% include './includes/dynamic-guide/select.html' with label=rent_data.select.label items=rent_data.select.items %}
-                    {% include '_tabs.html' with title="Average rent data" items=rent_data.tabs classes="govuk-!-margin-bottom-0" %}
-                    <p class="dynamic-guide__disclaimer govuk-body-s govuk-!-margin-bottom-0">{{ rent_data.disclaimer }}</p>
+                    {% include './includes/dynamic-guide/rent_data.html' with rent_data_location_select_form=rent_data_location_select_form rent_data=rent_data %}
                 </div>
                 {% include './includes/dynamic-guide/section_left_end.html' %}
                 {% include './includes/dynamic-guide/section_left_start.html' with caption=sector_name heading='Recruiting and employing people in the UK' %}
                 {% for item in recruit_and_employ %}
                     {% include './includes/dynamic-guide/rich_link.html' with icon_path=item.icon link_url=item.url link_text=item.title location=item.location body=item.description website=item.website %}
                 {% endfor %}
-                {% include './includes/dynamic-guide/figures.html' with options=salary_data only %}
+                {% include './includes/dynamic-guide/salary_data.html' with salary_data_location_select_form=salary_data_location_select_form entry_salary=entry_salary mid_salary=mid_salary executive_salary=executive_salary professions_by_sector=professions_by_sector %}
                 {% include './includes/dynamic-guide/section_left_end.html' %}
             </div>
             <div class="dynamic-guide__panel-right">
@@ -96,7 +94,7 @@
                     <p class="govuk-body">
                         You will need to be aware of UK regulations and legislation framework in the {{ sector_name }} sector.
                     </p>
-                    {% include '_action_link.html' with linkText='Search our business directory' linkHref='#' %}
+                    {% include '_action-link.html' with linkText='Search our business directory' linkHref='#' %}
                 </div>
                 {% for section in right_panel_sections %}
                     <div class="dynamic-guide__section section section--right">

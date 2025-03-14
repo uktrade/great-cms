@@ -1,5 +1,6 @@
 {% load static %}
 {% load humanize %}
+{% load content_tags %}
 <div class="tab-content">
     <img class="dynamic-guide__icon tab-content__icon"
          alt="Business structure icon"
@@ -7,14 +8,12 @@
     <h3 class="govuk-heading-s tab-content__title">{{ title }}</h3>
     <div class="tab-content__figure">
         <div class="tab-content__value--tablet govuk-heading-m govuk-!-margin-bottom-0">
-            £{{ value_from|intcomma }} – £{{ value_to|intcomma }}
+            £{{ value|val_to_int|default:'-'|intcomma }}
         </div>
         <div class="tab-content__value--mobile govuk-heading-l govuk-!-margin-bottom-0">
-            £{{ value_from|intcomma }} – £{{ value_to|intcomma }}
+            £{{ value|val_to_int|default:'-'|intcomma }}
         </div>
         <div class="tab-content__description">per calendar month</div>
     </div>
-    <div class="tab-content__explanation">
-        A large warehouse is an industrial unit that is 31,600 sq m / 340,000 sq ft on average in the UK.
-    </div>
+    <div class="tab-content__explanation">{{ explanation }}</div>
 </div>
