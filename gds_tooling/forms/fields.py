@@ -6,9 +6,9 @@ from gds_tooling.forms import widgets
 
 
 class GDSBoundField(BoundField):
-    def label_tag(self, contents=None, attrs=None, label_suffix=None):
+    def label_tag(self, contents=None, attrs=None, label_suffix=None, tag=None):
         attrs = attrs or {}
-        attrs['class'] = attrs.get('class', '') + ' form-label'
+        attrs['class'] = attrs.get('class', '') + ' govuk-label'
         return super().label_tag(contents=contents, attrs=attrs, label_suffix=label_suffix)
 
     def css_classes(self, *args, **kwargs):
@@ -17,12 +17,20 @@ class GDSBoundField(BoundField):
 
 
 class GDSFieldMixin:
-    def __init__(self, hide_on_page_load=False, container_css_classes='form-group', *args, **kwargs):
+    def __init__(
+            self,
+            linked_conditional_reveal=None,
+            hide_on_page_load=False,
+            container_css_classes='govuk-form-group',
+            *args,
+            **kwargs
+            ):
         super().__init__(*args, **kwargs)
         self.label_suffix = ''
         self._container_css_classes = container_css_classes
         self.widget.field = self
         self.hide_on_page_load = hide_on_page_load
+        self.linked_conditional_reveal = linked_conditional_reveal
 
     @property
     def container_css_classes(self):
@@ -43,6 +51,9 @@ class GDSFieldMixin:
             'label': self.gds_dict_helper(self.label, self.label_css_classes),
             'hint': self.gds_dict_helper(self.help_text, self.hint_css_classes),
             'error': self.gds_dict_helper(self.error_messages, self.error_css_classes),
+            'fieldset': {
+                'legend': self.fieldset_css_classes
+            },
         }
         return gds_dict
 
@@ -62,6 +73,17 @@ class GDSFieldMixin:
             return self.widget.attrs['help-class']
         except KeyError:
             return ''
+        
+    @property
+    def fieldset_css_classes(self):
+        if self.widget.fieldset:
+            gds_dict = {'text': self.label, 'id': self.widget.id_for_label}
+            try:
+                gds_dict['class'] = self.widget.attrs['fieldset-class']
+            except KeyError:
+                gds_dict['class'] = ''
+            return gds_dict
+        return ''
 
     @property
     def error_css_classes(self):

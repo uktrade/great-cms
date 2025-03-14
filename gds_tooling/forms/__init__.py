@@ -32,6 +32,7 @@ from gds_tooling.forms.fields import (
 from gds_tooling.forms.forms import (
     FormMixin,
     GDSForm,
+    GDSConditionalRevealForm,
     GDSFormMixin,
     Form,
     get_language_form_initial_data,
@@ -43,12 +44,16 @@ from gds_tooling.forms.widgets import (
     GDSCheckboxSelectInlineLabelMultiple,
     CheckboxWithInlineLabel,
     ChoiceWidget,
-    PrettyIDsMixin,
+    CreateOptionMixin,
     RadioSelect,
     TextInput,
     EmailInput,
     Textarea,
     GDSRadioSelect,
+    GDSRadioConditionalRevealSelect,
+    GDSDjangoCopyTextarea,
+    GDSDjangoCopyTextInput,
+    GDSDjangoCopyEmailInput,
     GDSTextInput,
     GDSEmailInput,
     GDSTextarea,
@@ -56,6 +61,7 @@ from gds_tooling.forms.widgets import (
     GDSHiddenInput,
     GDSReCaptchaV3,
     ReCaptchaV3,
+    create_optional_reveal_widget
 )  # noqa
 
 __all__ = [
@@ -63,6 +69,7 @@ __all__ = [
     'GDSFormMixin',
     'Form',
     'GDSForm',
+    'GDSConditionalRevealForm',
     'get_language_form_initial_data',
     'LanguageForm',
     'GDSFieldMixin',
@@ -100,9 +107,10 @@ __all__ = [
     'GDSCheckboxSelectInlineLabelMultiple',
     'CheckboxWithInlineLabel',
     'ChoiceWidget',
-    'PrettyIDsMixin',
+    'CreateOptionMixin',
     'RadioSelect',
     'GDSRadioSelect',
+    'GDSRadioConditionalRevealSelect',
     'SelectMultipleAutocomplete',
     'TextInputWithSubmitButton',
     'TextInput',
@@ -111,8 +119,12 @@ __all__ = [
     'GDSTextInput',
     'GDSEmailInput',
     'GDSTextarea',
+    'GDSDjangoCopyTextarea',
+    'GDSDjangoCopyTextInput',
+    'GDSDjangoCopyEmailInput',
     'HiddenInput',
     'GDSHiddenInput',
     'ReCaptchaV3',
     'GDSReCaptchaV3',
+    'create_optional_reveal_widget'
 ]
