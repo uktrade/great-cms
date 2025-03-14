@@ -30,6 +30,7 @@ from international_online_offer.core import (
 )
 from international_online_offer.forms import (
     DynamicGuideBCIRegionSelectForm,
+    DynamicGuideRentDataSelectForm,
     LocationSelectForm,
     WagtailAdminDBTSectors,
 )
@@ -141,6 +142,9 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             'market_data_location_select_form': DynamicGuideBCIRegionSelectForm(
                 initial={'market_data_location': context['market_data_location']}
             ),
+            'rent_data_location_select_form': DynamicGuideRentDataSelectForm(
+                initial={'rent_data_location': context['rent_data_location']}
+            ),
             'locations': [
                 {
                     'title': 'Compound semiconductors and applications in South Wales',
@@ -226,14 +230,6 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 },
             ],
             'rent_data': {
-                'select': {
-                    'label': {'text': 'Average rent data for'},
-                    'items': [
-                        {'value': 'uk', 'text': 'United Kingdom'},
-                        {'value': 'bar', 'text': 'Bar'},
-                        {'value': 'baz', 'text': 'Baz'},
-                    ],
-                },
                 'tabs': [
                     {
                         'id': 'large-warehouse',
@@ -243,8 +239,8 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                                 'eyb/includes/dynamic-guide/tab_content.html',
                                 {
                                     'title': 'Large warehouse',
-                                    'value_from': 12345,
-                                    'value_to': 4321,
+                                    'value': context['large_warehouse_rent'],
+                                    'explanation': 'A large warehouse is an industrial unit that is 340,000 sq foot on average in the UK.',  # noqa: E501
                                 },
                             )
                         },
@@ -257,8 +253,8 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                                 'eyb/includes/dynamic-guide/tab_content.html',
                                 {
                                     'title': 'Small warehouse',
-                                    'value_from': 22334455,
-                                    'value_to': 55443322,
+                                    'value': context['small_warehouse_rent'],
+                                    'explanation': 'A small warehouse is an industrial unit. Calculation based on a small warehouse being 5000 sq foot',  # noqa: E501
                                 },
                             )
                         },
@@ -271,8 +267,8 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                                 'eyb/includes/dynamic-guide/tab_content.html',
                                 {
                                     'title': 'Shopping centre',
-                                    'value_from': 333777,
-                                    'value_to': 777333,
+                                    'value': context['shopping_centre'],
+                                    'explanation': ' A shopping centre unit is near a group of shops, sometimes under one roof. Calculation based on average UK unit being 204 sq foot',  # noqa: E501
                                 },
                             )
                         },
@@ -285,8 +281,8 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                                 'eyb/includes/dynamic-guide/tab_content.html',
                                 {
                                     'title': 'High street retail',
-                                    'value_from': 333777,
-                                    'value_to': 777333,
+                                    'value': context['high_street_retail'],
+                                    'explanation': 'High street retail is a concentration of shops in either urban or urban-like areas. Calculation based on average UK unit being 2195 sq foot',  # noqa: E501
                                 },
                             )
                         },
@@ -299,8 +295,8 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                                 'eyb/includes/dynamic-guide/tab_content.html',
                                 {
                                     'title': 'Work office',
-                                    'value_from': 333777,
-                                    'value_to': 777333,
+                                    'value': context['work_office'],
+                                    'explanation': 'A work office is a room or set of rooms in which business, professional duties, clerical work, etc, are carried out. Calculation based on average UK work office being 16,671 sq foot',  # noqa: E501
                                 },
                             )
                         },
@@ -441,6 +437,19 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             triage_data.sector, [regions.region_choices_to_geocode_mapping[market_data_location]]
         )
 
+        rent_data_location = request.GET.get(
+            'rent_data_location', triage_data.location if triage_data.location else choices.regions.LONDON
+        )
+        region = helpers.get_salary_region_from_region(rent_data_location)
+
+        (
+            large_warehouse_rent,
+            small_warehouse_rent,
+            shopping_centre,
+            high_street_retail,
+            work_office,
+        ) = get_rent_data(region)
+
         # Get trade shows page (should only be one, is a parent / container page for all trade show pages)
         trade_shows_page = EYBTradeShowsPage.objects.live().filter().first()
 
@@ -487,6 +496,12 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             user_data=user_data,
             market_data_location=market_data_location,
             bci_data=bci_data[0] if bci_data and len(bci_data) > 0 else None,
+            rent_data_location=rent_data_location,
+            large_warehouse_rent=large_warehouse_rent,
+            small_warehouse_rent=small_warehouse_rent,
+            shopping_centre=shopping_centre,
+            high_street_retail=high_street_retail,
+            work_office=work_office,
             get_to_know_market_articles=all_articles_tagged_with_sector_and_intent,
             finance_and_support_articles=all_articles_tagged_with_finance_and_support,
             trade_shows_page=trade_shows_page,

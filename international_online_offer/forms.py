@@ -432,5 +432,13 @@ class DynamicGuideBCIRegionSelectForm(forms.Form):
     market_data_location = ChoiceField(
         label='',
         choices=choices.REGION_CHOICES,
-        widget=Select(attrs={'formGroupClasses': 'figures__select', 'onchange': 'refreshSelectedRegion()'}),
+        widget=Select(attrs={'onchange': 'refreshMarketDataSelectedRegion()'}),
+    )
+
+
+class DynamicGuideRentDataSelectForm(forms.Form):
+    rent_data_location = ChoiceField(
+        label='',
+        choices=choices.REGION_CHOICES,
+        widget=Select(attrs={'onchange': 'refreshRentDataSelectedRegion()'}),
     )

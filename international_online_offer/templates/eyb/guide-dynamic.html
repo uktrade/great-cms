@@ -73,8 +73,7 @@
                     {% include './includes/dynamic-guide/rich_link.html' with icon_path=base.icon link_url=base.url link_text=base.title location=base.location body=base.description website=base.website %}
                 {% endfor %}
                 <div class="rent-data">
-                    {% include './includes/dynamic-guide/select.html' with label=rent_data.select.label items=rent_data.select.items %}
-                    {% include '_tabs.html' with title="Wtf" items=rent_data.tabs %}
+                    {% include './includes/dynamic-guide/rent_data.html' with rent_data_location_select_form=rent_data_location_select_form rent_data=rent_data %}
                 </div>
                 {% include './includes/dynamic-guide/section_left_end.html' %}
                 {% include './includes/dynamic-guide/section_left_start.html' with caption=sector_name heading='Recruiting and employing people in the UK' %}
