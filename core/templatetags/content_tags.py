@@ -18,8 +18,8 @@ from django.utils.text import slugify
 from core.constants import (
     BACKLINK_QUERYSTRING_NAME,
     CHEG_EXCLUDED_COUNTRY_CODES,
-    META_LABELS,
     EU_TRAVEL_ADVICE_URLS,
+    META_LABELS,
 )
 from core.helpers import millify
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage
@@ -575,7 +575,9 @@ def val_to_int(val: Union[float, int, str]) -> int:
     Utility function that can be called from a django template to return the whole number
     of a decimal. Not to be confused with django's intcomma which retains the fraction part.
     """
-    return int(round(float(val)))
+    if val:
+        return int(round(float(val)))
+    return None
 
 
 @register.filter
