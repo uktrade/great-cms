@@ -116,19 +116,20 @@
                 {% endfor %}
             </div>
         </div>
-    {% endblock %}
-    {% block feedback_reporter %}
-        {% if not csat_complete %}
-            <section id="hcsat_section"
-                     class="great-bg-white clearfix govuk-!-margin-top-0 govuk-!-padding-bottom-6 great-inline-feedback__container">
-                <div class="container">
-                    <div class="great-container ">
-                        <!-- djlint:off T027-->
-                        {% include 'core/includes/hcsat.html' with hcsat_form=hcsat_form hcsat_stage=hcsat_form_stage leading_text="To help us improve our service, we'd like to know more about your experience today. It will only take a minute to complete." %}
-                        <!-- djlint:on -->
-                    </div>
+    </div>
+{% endblock %}
+{% block feedback_reporter %}
+    {% if not csat_complete %}
+        <section id="hcsat_section"
+                 class="great-bg-white clearfix govuk-!-margin-top-0 govuk-!-padding-bottom-6 great-inline-feedback__container">
+            <div class="container">
+                <div class="great-container ">
+                    <!-- djlint:off T027-->
+                    {% include 'core/includes/hcsat.html' with hcsat_form=hcsat_form hcsat_stage=hcsat_form_stage leading_text="To help us improve our service, we'd like to know more about your experience today. It will only take a minute to complete." %}
+                    <!-- djlint:on -->
                 </div>
-            </section>
-        {% endif %}
-        {{ block.super }}
-    {% endblock %}
+            </div>
+        </section>
+    {% endif %}
+    {{ block.super }}
+{% endblock %}
