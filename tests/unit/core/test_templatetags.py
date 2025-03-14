@@ -1054,7 +1054,7 @@ def test_get_icon_path_with_slash(input, expected_output):
 @pytest.mark.parametrize(
     'input, expected_output',
     (
-        ('/support/uk-investment-zones/', 'international/includes/svg/investment-zones.svg'),
+        ('/support/uk-investment-zones/', '/static/icons/investment-zones.svg'),
         ('', ''),
     ),
 )
