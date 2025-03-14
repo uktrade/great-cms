@@ -456,7 +456,7 @@ def get_international_icon_path(url):
     )
     for url_to_icon in url_to_icon_list:
         if url_to_icon[0] in url:
-            return 'international/includes/svg/' + url_to_icon[1] + '.svg'
+            return '/static/icons/' + url_to_icon[1] + '.svg'
     return ''
 
 
@@ -685,6 +685,12 @@ def convert_anchor_identifier_a_to_span(input_html):
         new_tag.attrs['id'] = anchor.attrs['id']
         anchor.replace_with(new_tag)
     return mark_safe(str(soup))
+
+
+@register.filter
+def get_attributes(title, location):
+    attributes = {'data_attr_title': title, 'data_attr_location': location}
+    return attributes
 
 
 @register.filter

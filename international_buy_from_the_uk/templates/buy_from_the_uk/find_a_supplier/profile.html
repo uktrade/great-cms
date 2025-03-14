@@ -183,20 +183,17 @@
                         <div class="underline-flag-red">
                             <h2 class="govuk-heading-m">{{ company.name }} case studies</h2>
                             {% static 'icons/guidance.svg' as cta_icon %}
-                            {% for case_study in company.supplier_case_studies %}
-                                {% get_case_study_url case_study.pk as case_study_url %}
-                                {% append_search_back_url case_study_url request.get_full_path as case_study_url %}
-                                {% if case_study.is_published_case_study %}
-                                    {% cycle 'odd' 'even' as parity silent %}
-                                    {% if parity == 'odd' %}<div class="govuk-grid-row great-card-row govuk-!-margin-bottom-6">{% endif %}
-                                        <div class="govuk-grid-column-one-half">
-                                            {% with "case-study-"|add:forloop.counter as card_id %}
-                                                {% include 'components/great/card.html' with classes="great-card--cta" content_class="govuk-body govuk-!-margin-bottom-7" tag_container_outer_class="govuk-!-margin-bottom-0" show_title_link=True tag='Case study' tag_icon=cta_icon image_src=case_study.image_one image_alt='' title=case_study.title content=case_study.short_summary url=case_study_url %}
-                                            {% endwith %}
-                                        </div>
-                                        {% if parity == 'even' %}</div>{% endif %}
-                                {% endif %}
-                            {% endfor %}
+                            <div class="great-ds-card-container">
+                                {% for case_study in company.supplier_case_studies %}
+                                    {% get_case_study_url case_study.pk as case_study_url %}
+                                    {% append_search_back_url case_study_url request.get_full_path as case_study_url %}
+                                    {% if case_study.is_published_case_study %}
+                                        {% with "case-study-"|add:forloop.counter as card_id %}
+                                            {% include '_card.html' with type="mounted-blue" href=case_study_url imageUrl=case_study.image_on title=case_study.title description=case_study.short_summary id=card_id classes="great-ds-card--2" metadataText='Case study' metadataIconType="guidance" metaDataIconPath="/static/icons" %}
+                                        {% endwith %}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
                         </div>
                     {% endif %}
                 </div>

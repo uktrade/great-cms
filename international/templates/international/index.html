@@ -17,13 +17,15 @@
                     </div>
                 </div>
                 <div class="govuk-grid-row great-card-row govuk-!-padding-bottom-9">
-                    {% for cards in page.dep_cards %}
-                        {% for card in cards.value %}
-                            <div class="govuk-grid-column-one-half-from-desktop govuk-!-margin-bottom-6">
-                                {% include 'components/great/card.html' with data_attr_title=card.value.link_text data_attr_location='International homepage' title=card.value.link_text show_title_link=True url=card.value.link_url content=card.value.description image_src=card.value.link_url|get_international_icon_path is_svg_image=True content_class="govuk-body" classes="great-card--homepage great-international-card--cta" %}
-                            </div>
+                    <div class="great-ds-card-container">
+                        {% for cards in page.dep_cards %}
+                            {% for card in cards.value %}
+                                {% with attributes=card.value.link_text|get_attributes:'International homepage' %}
+                                    {% include '_card.html' with href=card.value.link_url title=card.value.link_text description=card.value.description id=page.slug titleSize="m" classes="great-ds-card--2" iconSvg=card.value.link_url|get_international_icon_path attributes=attributes %}
+                                {% endwith %}
+                            {% endfor %}
                         {% endfor %}
-                    {% endfor %}
+                    </div>
                 </div>
             </div>
         </section>
