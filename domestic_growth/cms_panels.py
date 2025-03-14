@@ -53,3 +53,39 @@ class DomesticGrowthHomePagePanels:
     ]
 
     settings_panels = [FieldPanel('title'), FieldPanel('slug')]
+
+
+class DomesticGrowthGuidePagePanels:
+    content_panels = [
+        MultiFieldPanel(
+            heading='Hero section',
+            children=[
+                FieldPanel('hero_title'),
+                FieldPanel('hero_intro'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='Body section',
+            children=[
+                FieldPanel('body_title'),
+                FieldPanel('body_intro'),
+            ],
+        ),
+    ]
+
+    settings_panels = [FieldPanel('title'), FieldPanel('slug')]
+
+
+class DomesticGrowthChildGuidePagePanels:
+    content_panels = [
+        MultiFieldPanel(
+            heading='Body section',
+            children=[
+                FieldPanel('body_title'),
+                FieldPanel('body_intro'),
+                FieldPanel('body_sections'),
+            ],
+        ),
+    ]
+
+    settings_panels = [FieldPanel('title'), FieldPanel('slug')]

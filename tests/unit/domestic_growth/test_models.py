@@ -1,7 +1,11 @@
 from wagtail.test.utils import WagtailPageTests
 
 from tests.helpers import SetUpLocaleMixin
-from .factories import DomesticGrowthHomePageFactory
+from .factories import (
+    DomesticGrowthHomePageFactory,
+    DomesticGrowthGuidePageFactory,
+    DomesticGrowthChildGuidePageFactory,
+)
 
 
 class DomesticGrowthHomePageTests(SetUpLocaleMixin, WagtailPageTests):
@@ -36,3 +40,31 @@ class DomesticGrowthHomePageTests(SetUpLocaleMixin, WagtailPageTests):
         self.assertEqual(homepage.feedback_description, 'Test description')
         self.assertEqual(homepage.feedback_link_text, 'Test link text')
         self.assertEqual(homepage.feedback_link_url, 'Test link url')
+
+
+class DomesticGrowthGuidePageTests(SetUpLocaleMixin, WagtailPageTests):
+    def test_can_create_homepage(self):
+        homepage = DomesticGrowthGuidePageFactory(
+            hero_title='Test title',
+            hero_intro='Test intro',
+            body_title='Test title',
+            body_intro='Test intro',
+        )
+        self.assertEqual(homepage.title, 'guidepage')
+
+        self.assertEqual(homepage.hero_title, 'Test title')
+        self.assertEqual(homepage.hero_intro, 'Test intro')
+        self.assertEqual(homepage.body_title, 'Test title')
+        self.assertEqual(homepage.body_intro, 'Test intro')
+
+
+class DomesticGrowthChildGuidePageTests(SetUpLocaleMixin, WagtailPageTests):
+    def test_can_create_homepage(self):
+        homepage = DomesticGrowthChildGuidePageFactory(
+            body_title='Test title',
+            body_intro='Test intro',
+        )
+        self.assertEqual(homepage.title, 'child-guidepage')
+
+        self.assertEqual(homepage.body_title, 'Test title')
+        self.assertEqual(homepage.body_intro, 'Test intro')

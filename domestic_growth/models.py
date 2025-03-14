@@ -4,6 +4,7 @@ from domestic_growth import (
     cms_panels,
     helpers,
 )
+from wagtail import blocks
 from wagtail.blocks.stream_block import StreamBlock
 from wagtail.fields import StreamField
 from wagtail.models import Page
@@ -126,3 +127,64 @@ class DomesticGrowthHomePage(SeoMixin, cms_panels.DomesticGrowthHomePagePanels, 
         context = super(DomesticGrowthHomePage, self).get_context(request)
         context['news'] = helpers.get_dbt_news_articles()
         return context
+
+
+class DomesticGrowthGuidePage(SeoMixin, cms_panels.DomesticGrowthGuidePagePanels, Page):
+    template = 'guide.html'
+
+    class Meta:
+        verbose_name = 'Domestic Growth Guide page'
+
+    subpage_types = ['domestic_growth.DomesticGrowthChildGuidePage']
+
+    hero_title = models.TextField(
+        null=True,
+    )
+
+    hero_intro = models.TextField(
+        null=True,
+    )
+
+    body_title = models.TextField(
+        null=True,
+    )
+
+    body_intro = models.TextField(
+        null=True,
+    )
+
+
+class DomesticGrowthChildGuidePage(SeoMixin, cms_panels.DomesticGrowthChildGuidePagePanels, Page):
+    template = 'guide-child.html'
+
+    class Meta:
+        verbose_name = 'Domestic Growth Child Guide page'
+
+    parent_page_types = [
+        'domestic_growth.DomesticGrowthGuidePage',
+    ]
+
+    body_title = models.TextField(
+        null=True,
+    )
+
+    body_intro = models.TextField(
+        null=True,
+    )
+
+    body_sections = StreamField(
+        [
+            (
+                'section',
+                blocks.StructBlock(
+                    [
+                        ('title', blocks.CharBlock()),
+                        ('intro', blocks.CharBlock()),
+                    ]
+                ),
+            ),
+        ],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
