@@ -17,10 +17,10 @@
                 </div>
             {% endif %}
             {% if has_collaborators %}
-                {% include 'great_components/form_widgets/form_field.html' with field=form.sso_id %}
+                {% include 'gds_tooling/form_widgets/form_field.html' with field=form.sso_id %}
                 <p class="bold-small">Or</p>
             {% endif %}
-            {% include 'great_components/form_widgets/form_field.html' with field=form.collaborator_email %}
+            {% include 'gds_tooling/form_widgets/form_field.html' with field=form.collaborator_email %}
             <button class="button primary-button">Send invitation</button>
         </form>
         <a class="link"

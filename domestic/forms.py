@@ -4,7 +4,7 @@ from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from django.forms import Select, Textarea, TextInput
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
-from great_components import forms
+from gds_tooling import forms
 
 from contact.forms import TERMS_LABEL
 from core.forms import ConsentFieldMixin

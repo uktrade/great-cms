@@ -1,4 +1,4 @@
-from great_components import forms
+from gds_tooling import forms
 
 
 class PersonalProfileEdit(forms.Form):

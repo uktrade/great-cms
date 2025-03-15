@@ -9,13 +9,13 @@ from django.conf import settings
 from django.http import HttpResponseForbidden
 from django.shortcuts import redirect
 from django.utils.deprecation import MiddlewareMixin
-from great_components.mixins import GA360Mixin  # /PS-IGNORE
 from jsonschema import ValidationError
 from wagtail.contrib.redirects import models
 from wagtail.contrib.redirects.middleware import get_redirect
 
 from core import helpers
 from core.fern import Fern
+from core.mixins import GA360Mixin  # /PS-IGNORE
 from core.tasks import send_to_ga4
 from sso.models import BusinessSSOUser
 
@@ -294,4 +294,60 @@ class GA4TrackingMiddleware(MiddlewareMixin):
 
         if settings.GA4_API_SECRET and settings.GA4_MEASUREMENT_ID:
             send_to_ga4.delay(request.path, dict(request.headers))
+        return response
+
+
+import abc
+import logging
+import urllib.parse
+
+import jsonschema as jsonschema
+from django.conf import settings
+from django.middleware.locale import LocaleMiddleware
+from django.shortcuts import redirect
+from django.utils import translation
+from django.urls import resolve
+from django.urls.exceptions import Resolver404
+from django.utils.deprecation import MiddlewareMixin
+from jsonschema import ValidationError
+
+from great_tags import constants
+from core import helpers
+
+logger = logging.getLogger(__name__)
+
+
+def get_raw_uri(request):
+    """
+    Return an absolute URI from variables available in this request. Skip
+    allowed hosts protection, so may return insecure URI.
+    """
+    return '{scheme}://{host}{path}'.format(
+        scheme=request.scheme,
+        host=request._get_raw_host(),
+        path=request.get_full_path(),
+    )
+
+
+class MaintenanceModeMiddleware(MiddlewareMixin):
+    maintenance_url = 'https://sorry.great.gov.uk'
+
+    def process_request(self, request):
+        if settings.FEATURE_FLAGS['MAINTENANCE_MODE_ON']:
+            return redirect(self.maintenance_url)
+
+
+class NoCacheMiddlware(MiddlewareMixin):
+    """Tell the browser to not cache the pages.
+
+    Information that should be kept private can be viewed by anyone
+    with access to the files in the browser's cache directory.
+
+    """
+
+    NO_CACHE_HEADER_VALUE = 'no-store, no-cache, must-revalidate'
+
+    def process_response(self, request, response):
+        if helpers.get_is_authenticated(request):
+            response['Cache-Control'] = self.NO_CACHE_HEADER_VALUE
         return response

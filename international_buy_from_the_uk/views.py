@@ -6,7 +6,7 @@ from django.urls import reverse, reverse_lazy
 from django.utils.functional import cached_property
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
-from great_components.mixins import GA360Mixin  # /PS-IGNORE
+from core.mixins import GA360Mixin  # /PS-IGNORE
 
 from config import settings
 from core.helpers import get_sender_ip_address

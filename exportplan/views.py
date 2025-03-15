@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from django.utils.functional import cached_property
 from django.utils.text import slugify
 from django.views.generic import FormView, TemplateView, View
-from great_components.mixins import GA360Mixin  # /PS-IGNORE
+from core.mixins import GA360Mixin  # /PS-IGNORE
 from requests.exceptions import RequestException
 
 from core.constants import HCSatStage

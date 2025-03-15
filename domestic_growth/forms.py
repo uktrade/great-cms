@@ -4,7 +4,7 @@ from django.forms import (
     widgets,
 )
 from core.validators import is_valid_uk_postcode
-from great_components import forms
+from gds_tooling import forms
 
 
 class StartingABusinessForm(forms.Form):

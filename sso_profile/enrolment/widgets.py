@@ -1,12 +1,12 @@
 import django.forms
-import great_components.forms
+import gds_tooling.forms
 
 
 class PostcodeInput(django.forms.TextInput):
     template_name = 'enrolment/widgets/postcode.html'
 
 
-class RadioSelect(great_components.forms.RadioSelect):
+class RadioSelect(gds_tooling.forms.RadioSelect):
     option_template_name = 'enrolment/widgets/radio_option.html'
 
     def __init__(self, help_text, *args, **kwargs):

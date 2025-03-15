@@ -10,7 +10,7 @@ from django.forms import (
     Textarea,
     TextInput,
 )
-from great_components import forms
+from gds_tooling import forms
 
 from core.validators import is_valid_email_address
 from directory_constants import choices

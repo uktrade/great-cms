@@ -9,7 +9,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
-from great_components.mixins import GA360Mixin  # /PS-IGNORE
+from core.mixins import GA360Mixin  # /PS-IGNORE
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.throttling import UserRateThrottle

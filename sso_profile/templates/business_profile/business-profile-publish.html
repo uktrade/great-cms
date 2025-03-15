@@ -27,7 +27,7 @@
                         {{ is_published|yesno:"Already published on great.gov.uk UK Investment Support Directory,Publish on great.gov.uk UK Investment Support Directory" }}
                     </h2>
                     <p>This business profile is ready to be published on UK Investment Support Directory on great.gov.uk.</p>
-                    {% include 'great_components/form_widgets/form_field.html' with field=form.is_published_investment_support_directory %}
+                    {% include 'gds_tooling/form_widgets/form_field.html' with field=form.is_published_investment_support_directory %}
                 </div>
             {% endwith %}
         {% endif %}
@@ -39,7 +39,7 @@
                 <p>
                     This business profile can be published now on <a class="link" target="_blank" href="https://www.great.gov.uk/trade/">great.gov.uk/trade/</a>.
                 </p>
-                {% include 'great_components/form_widgets/form_field.html' with field=form.is_published_find_a_supplier %}
+                {% include 'gds_tooling/form_widgets/form_field.html' with field=form.is_published_find_a_supplier %}
             </div>
         {% endwith %}
         <div>

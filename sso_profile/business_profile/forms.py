@@ -3,8 +3,8 @@ import directory_validators.string
 import directory_validators.url
 from django.forms import ImageField, SelectMultiple, Textarea, ValidationError
 from django.utils.safestring import mark_safe
-from great_components import forms
-from great_components.helpers import tokenize_keywords
+from gds_tooling import forms
+from core.helpers import tokenize_keywords
 
 from core.validators import validate_file_infection
 from directory_constants import choices, expertise, user_roles

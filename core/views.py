@@ -26,7 +26,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, TemplateView
 from django.views.generic.base import RedirectView, View
 from formtools.wizard.views import NamedUrlSessionWizardView
-from great_components.mixins import GA360Mixin  # /PS-IGNORE
+from core.mixins import GA360Mixin  # /PS-IGNORE
 from rest_framework import generics
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated

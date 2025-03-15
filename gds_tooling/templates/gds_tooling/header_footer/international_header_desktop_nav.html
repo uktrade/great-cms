@@ -1,0 +1,13 @@
+{% load i18n %}
+
+<div class="main-nav-container desktop">
+  <nav class="main-nav desktop" aria-label="{% trans 'Main menu' %}">
+    <ul class="nav-list">
+      {% for header_item in tier_one_items %}
+        <li class="menu-item{% if header_item.is_active %} active{% endif %}">
+          <a class="link-heading" href="{{ header_item.url }}">{% trans header_item.title %}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </nav>
+</div>

@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.urls import path
-from great_components.decorators import skip_ga360
+from core.decorators import skip_ga360
 
 from search.views import (
     OpensearchAdminView,

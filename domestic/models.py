@@ -8,7 +8,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.http import Http404
 from django.utils.functional import cached_property
-from great_components.mixins import GA360Mixin  # /PS-IGNORE
+from core.mixins import GA360Mixin  # /PS-IGNORE
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalManyToManyField
 from modelcluster.models import ParentalKey

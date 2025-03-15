@@ -30,8 +30,8 @@ from django.views.generic import (
 )
 from django_filters.views import FilterView
 from drf_spectacular.utils import extend_schema
-from great_components.helpers import get_is_authenticated, get_user
-from great_components.mixins import GA360Mixin  # /PS-IGNORE
+from core.helpers import get_is_authenticated, get_user
+from core.mixins import GA360Mixin  # /PS-IGNORE
 from icalendar import Alarm, Calendar, Event
 from rest_framework.generics import GenericAPIView
 

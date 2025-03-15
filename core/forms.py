@@ -15,7 +15,7 @@ from django.forms import (
 )
 from django.template.loader import render_to_string
 from django.utils.html import mark_safe
-from great_components import forms
+from gds_tooling import forms
 
 from core import constants, models
 from core.cms_slugs import (

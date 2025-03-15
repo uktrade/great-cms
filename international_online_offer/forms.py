@@ -12,7 +12,7 @@ from django.forms import (
     TextInput,
 )
 from django.utils.html import mark_safe
-from great_components import forms
+from gds_tooling import forms
 from wagtail.admin.forms import WagtailAdminPageForm
 
 from contact import widgets as contact_widgets

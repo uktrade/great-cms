@@ -1,5 +1,5 @@
 from django.forms import CheckboxSelectMultiple, HiddenInput
-from great_components import forms
+from gds_tooling import forms
 
 
 class InvestmentOpportunitiesSearchForm(forms.Form):

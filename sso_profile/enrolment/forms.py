@@ -12,7 +12,7 @@ from django.forms import (
 )
 from django.http.request import QueryDict
 from django.utils.safestring import mark_safe
-from great_components import forms
+from gds_tooling import forms
 
 from directory_constants import choices
 from sso_profile.common.forms import TERMS_LABEL

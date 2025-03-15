@@ -7,6 +7,7 @@ import re
 import urllib
 import urllib.parse as urlparse
 from collections import Counter
+from datetime import datetime
 from difflib import SequenceMatcher
 from io import StringIO
 from itertools import chain
@@ -15,7 +16,6 @@ from operator import itemgetter
 from pathlib import Path
 
 import boto3
-import great_components.helpers
 import requests
 import sentry_sdk
 from botocore.exceptions import ClientError
@@ -48,6 +48,41 @@ MALE = 'xy'
 FEMALE = 'xx'
 
 logger = getLogger(__name__)
+
+
+def get_user(request):
+    # backwards compatibility with new and old style of user auth
+    for attribute in ['user', 'sso_user']:
+        if hasattr(request, attribute):
+            return getattr(request, attribute)
+        
+
+def get_is_authenticated(request):
+    # backwards compatibility with new and old style of user auth
+    user = get_user(request)
+    if hasattr(user, 'is_authenticated'):
+        return bool(user.is_authenticated)
+    return user is not None
+
+
+def values_to_labels(values, choices):
+    return ', '.join([choices.get(item) for item in values if item in choices])
+
+
+def tokenize_keywords(keywords):
+    sanitized = keywords.replace(', ', ',').replace(' ,', ',').strip(' ,')
+    return sanitized.split(',')
+
+
+def add_next(destination_url, current_url):
+    if 'next=' in destination_url:
+        return destination_url
+    concatenation_character = '&' if '?' in destination_url else '?'
+    return '{url}{concatenation_character}next={next}'.format(
+        url=destination_url,
+        concatenation_character=concatenation_character,
+        next=current_url,
+    )
 
 
 def check_url_host_is_safelisted(request, query_param='next'):
@@ -150,9 +185,20 @@ def is_fuzzy_match(label_a, label_b):
     return match.ratio() > 0.9
 
 
-class CompanyParser(great_components.helpers.CompanyParser):
-    INDUSTRIES = great_components.helpers.CompanyParser.INDUSTRIES
+class CompanyParser:
 
+    """
+    Parse the company details provided by directory-api's company
+    serializer
+
+    """
+
+    SECTORS = dict(choices.INDUSTRIES)
+    EMPLOYEES = dict(choices.EMPLOYEES)
+    INDUSTRIES = dict(choices.INDUSTRIES)
+    COUNTRIES = dict(choices.COUNTRY_CHOICES)
+    REGIONS = dict(choices.EXPERTISE_REGION_CHOICES)
+    LANGUAGES = dict(choices.EXPERTISE_LANGUAGES)
     SIC_CODES = dict(choices.SIC_CODES)
 
     def __init__(self, data):
@@ -160,16 +206,104 @@ class CompanyParser(great_components.helpers.CompanyParser):
         data.setdefault('expertise_products_services', {})
         data.setdefault('expertise_countries', [])
         data.setdefault('expertise_industries', [])
-        super().__init__(data=data)
+        self.data = data
 
-    def __getattr__(self, name):
-        return self.data.get(name)
+    def __bool__(self):
+        return bool(self.data)
+
+    @property
+    def is_publishable(self):
+        return self.data['is_publishable']
+
+    @property
+    def date_of_creation(self):
+        if self.data.get('date_of_creation'):
+            date = datetime.strptime(self.data['date_of_creation'], '%Y-%m-%d')
+            return date.strftime('%d %B %Y')
+
+    @property
+    def address(self):
+        address = []
+        fields = [
+            'address_line_1', 'address_line_2', 'locality', 'postal_code'
+        ]
+        for field in fields:
+            value = self.data.get(field)
+            if value:
+                address.append(value)
+        return ', '.join(address)
+
+    @property
+    def keywords(self):
+        if self.data.get('keywords'):
+            return ', '.join(tokenize_keywords(self.data['keywords']))
+        return ''
+
+    @property
+    def sectors_label(self):
+        return values_to_labels(
+            values=self.data.get('sectors') or [],
+            choices=self.SECTORS
+        )
+
+    @property
+    def employees_label(self):
+        if self.data.get('employees'):
+            return self.EMPLOYEES.get(self.data['employees'])
 
     @property
     def expertise_industries_labels(self):
         if self.data['expertise_industries']:
             return values_to_labels(values=self.data['expertise_industries'], choices=self.INDUSTRIES)
         return []
+
+    @property
+    def expertise_regions_label(self):
+        return values_to_labels(
+            values=self.data.get('expertise_regions') or [],
+            choices=self.REGIONS
+        )
+
+    @property
+    def expertise_countries_label(self):
+        return values_to_labels(
+            values=self.data.get('expertise_countries') or [],
+            choices=self.COUNTRIES
+        )
+
+    @property
+    def expertise_languages_label(self):
+        return values_to_labels(
+            values=self.data.get('expertise_languages') or [],
+            choices=self.LANGUAGES
+        )
+
+    @property
+    def is_in_companies_house(self):
+        return self.data.get('company_type') == company_types.COMPANIES_HOUSE
+
+    @property
+    def has_expertise(self):
+        fields = [
+            'expertise_industries',
+            'expertise_regions',
+            'expertise_countries',
+            'expertise_languages',
+        ]
+        return any(self.data.get(field) for field in fields)
+
+    @property
+    def expertise_products_services_label(self):
+        value = self.data.get('expertise_products_services')
+        if not value:
+            return {}
+        return {
+            key.replace('-', ' ').capitalize(): ', '.join(value)
+            for key, value in value.items()
+        }
+
+    def __getattr__(self, name):
+        return self.data.get(name)
 
     @property
     def expertise_countries_value_label_pairs(self):
@@ -198,11 +332,7 @@ class CompanyParser(great_components.helpers.CompanyParser):
 
     @property
     def nature_of_business(self):
-        return great_components.helpers.values_to_labels(values=self.data.get('sic_codes', []), choices=self.SIC_CODES)
-
-    @property
-    def is_in_companies_house(self):
-        return self.data.get('company_type') == company_types.COMPANIES_HOUSE
+        return values_to_labels(values=self.data.get('sic_codes', []), choices=self.SIC_CODES)
 
     @property
     def is_identity_check_message_sent(self):
@@ -246,10 +376,6 @@ class CompanyParser(great_components.helpers.CompanyParser):
             'date_of_creation': self.date_of_creation,
             'address': self.address,
         }
-
-
-def values_to_labels(values, choices):
-    return [choices.get(item) for item in values if item in choices]
 
 
 def values_to_value_label_pairs(values, choices):

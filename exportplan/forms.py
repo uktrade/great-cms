@@ -1,6 +1,6 @@
 import directory_validators.file
 from django.forms import ImageField, NumberInput, Textarea
-from great_components import forms
+from gds_tooling import forms
 
 from core.validators import validate_file_infection
 

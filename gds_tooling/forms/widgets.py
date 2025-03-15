@@ -133,7 +133,6 @@ class CreateOptionMixin:
             'wrap_label': True,
             'reveals': reveal_fields
         }
-        print(options)
         return options
 
 

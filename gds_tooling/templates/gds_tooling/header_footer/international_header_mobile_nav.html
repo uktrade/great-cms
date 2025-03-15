@@ -1,0 +1,20 @@
+{% load i18n %}
+
+<div class="main-nav-container mobile">
+  <nav id="great-header-mobile-nav" class="main-nav mobile expanded" aria-label="{% trans 'Main menu' %}">
+    <ul class="nav-list">
+      {% for node in navigation_tree %}
+        <li class="menu-item" data-js-menu-item-container>
+          <a class="link-heading" href="{{ node.tier_one_item.url }}" data-js-menu-index="{{ forloop.counter0 }}">{% trans node.tier_one_item.title %}</a>
+          <ul class="sub-nav-mobile-list" data-js-sub-menu>
+            {% for item in node.tier_two_items %}
+              <li class="menu-item">
+                <a class="link-heading" href="{{ item.url }}" data-js-sub-menu-index="{{ forloop.counter0 }}">{{ item.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </li>
+      {% endfor %}
+    </ul>
+  </nav>
+</div>

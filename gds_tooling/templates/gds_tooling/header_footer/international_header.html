@@ -1,0 +1,25 @@
+{% load static %}
+{% load i18n %}
+
+<header id="great-international-header" class="g-header g-international-header" dir="ltr" data-ga-section="header">
+  {% include 'gds_tooling/header_footer/global_header.html' with header_class="international" %}
+
+  <div class="menu">
+    <div class="container">
+
+      {% block header_logo %}
+        {% static 'gds_tooling/images/great.svg' as logo_image_url %}
+        {% include 'gds_tooling/header_footer/header_logo.html' with url=services_urls.great_international image_source=logo_image_url image_alt_text='Great Britain and Northern Ireland' %}
+      {% endblock %}
+
+      <div class="extra-links">
+        {% include 'gds_tooling/header_footer/language_switcher.html' %}
+      </div>
+
+      {% include 'gds_tooling/header_footer/international_header_desktop_nav.html' %}
+      {% include 'gds_tooling/header_footer/mobile_menu_button.html' %}
+    </div>
+    {% include 'gds_tooling/header_footer/international_header_mobile_nav.html' %}
+  </div>
+</header>
+{% include 'gds_tooling/header_footer/international_header_desktop_sub_nav.html' %}

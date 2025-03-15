@@ -13,7 +13,7 @@ from django.forms import (
     ValidationError,
     widgets as django_widgets,
 )
-from great_components import forms
+from gds_tooling import forms
 
 import regex
 from contact import constants, mixins as contact_mixins, widgets as contact_widgets
@@ -33,7 +33,7 @@ PHONE_ERROR_MESSAGE = 'Please enter a valid UK phone number'
 
 
 class GroupedRadioSelect(
-    forms.widgets.PrettyIDsMixin,
+    forms.widgets.CreateOptionMixin,
     django_widgets.ChoiceWidget,
 ):
     # The customised version of RadioSelect in great-components (used in Great V2) is older
@@ -43,15 +43,15 @@ class GroupedRadioSelect(
     # https://github.com/uktrade/directory-components/blob/master/directory_components/forms/widgets.py
     # with https://github.com/uktrade/great-components/blob/master/great_components/forms/widgets.py
 
-    template_name = 'great_components/form_widgets/multiple_input.html'
-    option_template_name = 'great_components/form_widgets/radio_option.html'
+    template_name = 'gds_tooling/form_widgets/multiple_input.html'
+    option_template_name = 'gds_tooling/form_widgets/radio_option.html'
     css_class_name = 'select-multiple'
     input_type = 'radio'
     is_grouped = True
 
 
 class IntegerField(
-    forms.DirectoryComponentsFieldMixin,
+    forms.GDSFieldMixin,
     DjangoIntegerField,
 ):
     pass

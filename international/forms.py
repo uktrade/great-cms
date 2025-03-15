@@ -5,7 +5,7 @@ from django.forms import (
     Textarea,
     TextInput,
 )
-from great_components import forms
+from gds_tooling import forms
 
 from core.forms import HCSATForm as DomesticHCSATForm
 from core.models import HCSAT

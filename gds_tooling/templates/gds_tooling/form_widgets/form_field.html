@@ -1,0 +1,10 @@
+<div class="{{ field.css_classes }} form-field-container" id="{{ field.id_for_label }}-container">
+  {% if field.label %}{{ field.label_tag }}{% endif %}
+  {% if field.errors %}
+    <div class="error-message">{{ field.errors }}</div>
+  {% endif %}
+  {% if field.help_text %}
+    <span class="form-hint">{{ field.help_text }}</span>
+  {% endif %}
+  {{ field }}
+</div>

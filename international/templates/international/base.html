@@ -8,18 +8,18 @@
 <html dir="ltr" lang="en">
     <head>
         {% block head_google_tag_manager %}
-            {% if great_components_analytics %}
+            {% if great_analytics %}
                 <meta id="utmCookieDomain"
-                      value="{{ great_components_analytics.UTM_COOKIE_DOMAIN }}" />
+                      value="{{ great_analytics.UTM_COOKIE_DOMAIN }}" />
             {% endif %}
-            {% include 'great_components/google_tag_manager_head.html' %}
+            {% include 'gds_tooling/google_tag_manager_head.html' %}
         {% endblock %}
         {% block cookie_domain_meta %}<meta id="privacyCookieDomain" value="{{ PRIVACY_COOKIE_DOMAIN }}" />{% endblock %}
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {% block head_favicon %}
-            <link href='{% static 'great_components/images/favicon-192x192.png' %}' rel='shortcut icon' type='image/png'>
-            <!--[if IE]> <link rel="icon" href="{% static 'great_components/images/favicon.ico' %}" type="image/x-icon" /> <![endif]-->
+            <link href='{% static 'gds_tooling/images/favicon-192x192.png' %}' rel='shortcut icon' type='image/png'>
+            <!--[if IE]> <link rel="icon" href="{% static 'gds_tooling/images/favicon.ico' %}" type="image/x-icon" /> <![endif]-->
         {% endblock %}
         {% block head_css %}
             <link rel="stylesheet" href="{% static 'international_styles.css' %}">
@@ -41,15 +41,15 @@
             </style>
         </noscript>
         {% block vendor_js %}
-            <script src="{% static 'great_components/js/vendor/details-polyfill.js' %}"></script>
-            <script src="{% static 'great_components/js/vendor/jquery-3.5.0.min.js' %}"></script>
+            <script src="{% static 'gds_tooling/js/vendor/details-polyfill.js' %}"></script>
+            <script src="{% static 'gds_tooling/js/vendor/jquery-3.5.0.min.js' %}"></script>
         {% endblock %}
         {% block head_js %}
             <script src="{% static 'javascript/dit.reveal.js' %}"></script>
             <script src="{% static 'components.js' %}"></script>
         {% endblock %}
         {% block head_js_ga360 %}
-            <script src="{% static 'great_components/js/dit.tagging.js' %}"></script>
+            <script src="{% static 'gds_tooling/js/dit.tagging.js' %}"></script>
             <script type="text/javascript">
                     window.dataLayer = window.dataLayer || [];
                     {% if ga360 and not skip_ga360 %}
@@ -79,7 +79,7 @@
     </head>
     <body {% block body_attributes %}{% endblock %}>
         {% block body_google_tag_manager %}
-            {% include 'great_components/google_tag_manager_body.html' %}
+            {% include 'gds_tooling/google_tag_manager_body.html' %}
         {% endblock %}
         <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
         {% block skip_link %}

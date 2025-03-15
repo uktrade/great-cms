@@ -1,5 +1,5 @@
 from django.forms import widgets
-from great_components import forms
+from gds_tooling import forms
 
 
 class GreatRadioSelect(widgets.ChoiceWidget):

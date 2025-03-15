@@ -10,7 +10,7 @@ from django.forms import (
 from django.forms.widgets import ChoiceWidget
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from great_components import forms
+from gds_tooling import forms
 from wagtail.admin.forms import WagtailAdminModelForm
 
 from contact import constants, widgets as contact_widgets

@@ -20,7 +20,7 @@ from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
-from great_components.helpers import add_next
+from core.helpers import add_next
 from wagtail import hooks
 from wagtail.admin.menu import DismissibleMenuItem
 from wagtail.admin.rich_text.converters.html_to_contentstate import (

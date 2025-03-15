@@ -1,5 +1,5 @@
 from django.urls import path
-from great_components.decorators import skip_ga360
+from core.decorators import skip_ga360
 
 import activitystream.views
 

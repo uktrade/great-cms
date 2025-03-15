@@ -1,6 +1,6 @@
 import pytest
 from bs4 import BeautifulSoup
-from great_components import forms
+from gds_tooling import forms
 
 from sso_profile.enrolment import widgets
 

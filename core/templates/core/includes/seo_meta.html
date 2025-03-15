@@ -1,6 +1,6 @@
 {# Only render this template if we have what appears to be a wagtail-seo page #}
 {% if self and self.seo_pagetitle %}
-    {% load static_absolute from great_components %}
+    {% load static_absolute from great_tags %}
     {% load wagtailimages_tags %}
     {% load core_seo_tags %}
     {# Standard metadata #}
@@ -35,7 +35,7 @@
             {% image page.article_image width-1200 as article_image %}
             {% firstof hero_image hero_image_medium article_image as sharable_image %}
             <meta property="og:image"
-                  content="{% block og_image %}{% if self.seo_image_url %}{{ self.seo_image_url }}{% elif sharable_image %}{{ sharable_image.url }}{% else %}{% static_absolute 'great_components/images/opengraph-image.png' %}{% endif %}{% endblock %}" />
+                  content="{% block og_image %}{% if self.seo_image_url %}{{ self.seo_image_url }}{% elif sharable_image %}{{ sharable_image.url }}{% else %}{% static_absolute 'gds_tooling/images/opengraph-image.png' %}{% endif %}{% endblock %}" />
             <meta property="og:image:alt"
                   content="{% block og_image_alt %}{% if self.seo_image_alt_text %}{{ self.seo_image_alt_text }}{% elif sharable_image %}{{ sharable_image.alt_text }}{% else %}{% endif %}{% endblock %}" />
             <meta property="og:site_name"
