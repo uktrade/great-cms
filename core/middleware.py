@@ -311,7 +311,7 @@ from django.urls.exceptions import Resolver404
 from django.utils.deprecation import MiddlewareMixin
 from jsonschema import ValidationError
 
-from great_tags import constants
+from core import constants
 from core import helpers
 
 logger = logging.getLogger(__name__)
