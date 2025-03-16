@@ -1,7 +1,7 @@
 from unittest import mock
 
 import pytest
-from great_tags.forms import CharField, EmailField
+from gds_tooling.forms import CharField, EmailField
 
 from sso_profile.enrolment import forms, helpers
 
