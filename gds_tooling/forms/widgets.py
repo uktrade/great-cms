@@ -97,15 +97,6 @@ class CreateOptionMixin:
             self.id_separator = '-'
         super().__init__(*args, **kwargs)
 
-    def create_reveal_field(self, value):
-        reveal_fields = []
-        if value == 'yes' and self.linked_conditional_reveal_fields:
-            reveal_fields = [
-                revel_field_name.update({'template_name': '_reveal_input.html'})
-                for revel_field_name in self.linked_conditional_reveal_fields
-            ]
-        return reveal_fields
-
     def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
         """Patch to use nicer ids."""
         index = str(index) if subindex is None else '%s%s%s' % (index, self.id_separator, subindex)
@@ -119,7 +110,12 @@ class CreateOptionMixin:
                 option_attrs['id'] = '%s%s%s' % (option_attrs['id'], self.id_separator, slugify(label.lower()))
             else:
                 option_attrs['id'] = self.id_for_label(option_attrs['id'], index)
-        reveal_fields = self.create_reveal_field(value)
+        reveal_fields = []
+        if value == 'yes':
+            if self.linked_conditional_reveal_fields:
+                for reveal_field_name in self.linked_conditional_reveal_fields:
+                    reveal_field_name['template_name'] = '_reveal_input.html'
+                    reveal_fields.append(reveal_field_name)
 
         options = {
             'name': name,
