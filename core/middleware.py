@@ -296,26 +296,6 @@ class GA4TrackingMiddleware(MiddlewareMixin):
         return response
 
 
-import abc
-import logging
-import urllib.parse
-
-import jsonschema as jsonschema
-from django.conf import settings
-from django.middleware.locale import LocaleMiddleware
-from django.shortcuts import redirect
-from django.utils import translation
-from django.urls import resolve
-from django.urls.exceptions import Resolver404
-from django.utils.deprecation import MiddlewareMixin
-from jsonschema import ValidationError
-
-from core import constants
-from core import helpers
-
-logger = logging.getLogger(__name__)
-
-
 def get_raw_uri(request):
     """
     Return an absolute URI from variables available in this request. Skip

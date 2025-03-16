@@ -87,7 +87,7 @@ __all__ = [
     'GDSCharField',
     'CharField',
     'GDSChoiceField',
-    'ChoicField',
+    'ChoiceField',
     'DateField',
     'DateTimeField',
     'DecimalField',

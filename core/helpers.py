@@ -222,16 +222,6 @@ class CompanyParser:
             return date.strftime('%d %B %Y')
 
     @property
-    def address(self):
-        address = []
-        fields = ['address_line_1', 'address_line_2', 'locality', 'postal_code']
-        for field in fields:
-            value = self.data.get(field)
-            if value:
-                address.append(value)
-        return ', '.join(address)
-
-    @property
     def keywords(self):
         if self.data.get('keywords'):
             return ', '.join(tokenize_keywords(self.data['keywords']))
