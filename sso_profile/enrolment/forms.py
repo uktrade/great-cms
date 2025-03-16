@@ -12,9 +12,9 @@ from django.forms import (
 )
 from django.http.request import QueryDict
 from django.utils.safestring import mark_safe
-from gds_tooling import forms
 
 from directory_constants import choices
+from gds_tooling import forms
 from sso_profile.common.forms import TERMS_LABEL
 from sso_profile.enrolment import constants, helpers
 from sso_profile.enrolment.widgets import PostcodeInput, RadioSelect

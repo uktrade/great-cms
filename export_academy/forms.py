@@ -10,13 +10,13 @@ from django.forms import (
 from django.forms.widgets import ChoiceWidget
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from gds_tooling import forms
 from wagtail.admin.forms import WagtailAdminModelForm
 
 from contact import constants, widgets as contact_widgets
 from core.validators import is_valid_uk_phone_number, is_valid_uk_postcode
 from directory_constants.choices import COUNTRY_CHOICES
 from export_academy.widgets import GreatRadioSelectWithOtherText, PasswordInputShowHide
+from gds_tooling import forms
 
 COUNTRIES = COUNTRY_CHOICES.copy()
 COUNTRIES.insert(0, ('', 'Select a country'))

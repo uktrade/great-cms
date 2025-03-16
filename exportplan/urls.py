@@ -1,8 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.urls import path, register_converter, reverse_lazy
 from django.views.generic.base import RedirectView
-from core.decorators import skip_ga360
 
+from core.decorators import skip_ga360
 from core.helpers import HashIdConverter
 from exportplan import api, views
 

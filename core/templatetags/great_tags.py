@@ -1,15 +1,13 @@
-from bs4 import BeautifulSoup
 import re
-
 from collections import namedtuple
 
+from bs4 import BeautifulSoup
 from django import template
 from django.templatetags import static
-from django.utils.text import slugify
 from django.utils.html import mark_safe
+from django.utils.text import slugify
 
 from core import helpers
-
 
 register = template.Library()
 

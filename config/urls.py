@@ -12,7 +12,6 @@ from drf_spectacular.views import (
     SpectacularRedocView,
     SpectacularSwaggerView,
 )
-from core.decorators import skip_ga360
 from wagtail import views as wagtail_views
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
@@ -37,6 +36,7 @@ import international_online_offer.urls
 import search.urls
 import sso.urls
 import sso_profile.urls
+from core.decorators import skip_ga360
 from core.views import WagtailServeDocument
 
 urlpatterns = []

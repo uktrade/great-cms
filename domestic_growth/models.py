@@ -1,15 +1,10 @@
 from django.db import models
-
-from domestic_growth import (
-    cms_panels,
-    helpers,
-)
 from wagtail.blocks.stream_block import StreamBlock
 from wagtail.fields import StreamField
 from wagtail.models import Page
 from wagtailseo.models import SeoMixin
 
-
+from domestic_growth import cms_panels, helpers
 from domestic_growth.blocks import DomesticGrowthCardBlock
 
 

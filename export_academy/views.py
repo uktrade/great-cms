@@ -30,8 +30,6 @@ from django.views.generic import (
 )
 from django_filters.views import FilterView
 from drf_spectacular.utils import extend_schema
-from core.helpers import get_is_authenticated, get_user
-from core.mixins import GA360Mixin  # /PS-IGNORE
 from icalendar import Alarm, Calendar, Event
 from rest_framework.generics import GenericAPIView
 
@@ -39,7 +37,8 @@ from config import settings
 from core import mixins as core_mixins
 from core.constants import HCSatStage
 from core.forms import HCSATForm
-from core.helpers import get_location
+from core.helpers import get_is_authenticated, get_location, get_user
+from core.mixins import GA360Mixin  # /PS-IGNORE
 from core.templatetags.content_tags import format_timedelta
 from directory_sso_api_client import sso_api_client
 from export_academy import filters, forms, helpers, models

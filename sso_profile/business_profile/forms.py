@@ -3,11 +3,11 @@ import directory_validators.string
 import directory_validators.url
 from django.forms import ImageField, SelectMultiple, Textarea, ValidationError
 from django.utils.safestring import mark_safe
-from gds_tooling import forms
-from core.helpers import tokenize_keywords
 
+from core.helpers import tokenize_keywords
 from core.validators import validate_file_infection
 from directory_constants import choices, expertise, user_roles
+from gds_tooling import forms
 from sso_profile.business_profile import constants, validators
 
 INDUSTRY_CHOICES = [('', 'Select an industry')] + list(choices.INDUSTRIES)

@@ -1,9 +1,9 @@
 import pickle
 
 from django.forms import widgets as django_widgets
-from gds_tooling import forms
 
 from contact import constants
+from gds_tooling import forms
 
 
 class ExportSupportFormMixin:

@@ -12,12 +12,12 @@ from django.forms import (
     TextInput,
 )
 from django.utils.html import mark_safe
-from gds_tooling import forms
 from wagtail.admin.forms import WagtailAdminPageForm
 
 from contact import widgets as contact_widgets
 from core.validators import is_valid_email_address, is_valid_international_phone_number
 from directory_constants.choices import COUNTRY_CHOICES
+from gds_tooling import forms
 from international.fields import DBTSectorsAPIMultipleChoiceField
 from international_online_offer.core import choices, intents, region_sector_helpers
 from international_online_offer.services import (

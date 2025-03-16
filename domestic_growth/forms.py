@@ -1,8 +1,5 @@
-from django.forms import (
-    CharField,
-    ChoiceField,
-    widgets,
-)
+from django.forms import CharField, ChoiceField, widgets
+
 from core.validators import is_valid_uk_postcode
 from gds_tooling import forms
 

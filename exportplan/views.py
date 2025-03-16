@@ -9,11 +9,11 @@ from django.urls import reverse_lazy
 from django.utils.functional import cached_property
 from django.utils.text import slugify
 from django.views.generic import FormView, TemplateView, View
-from core.mixins import GA360Mixin  # /PS-IGNORE
 from requests.exceptions import RequestException
 
 from core.constants import HCSatStage
 from core.forms import HCSATForm
+from core.mixins import GA360Mixin  # /PS-IGNORE
 from core.mixins import HCSATMixin, PageTitleMixin
 from core.utils import choices_to_key_value
 from directory_api_client.client import api_client

@@ -26,7 +26,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, TemplateView
 from django.views.generic.base import RedirectView, View
 from formtools.wizard.views import NamedUrlSessionWizardView
-from core.mixins import GA360Mixin  # /PS-IGNORE
 from rest_framework import generics
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -47,6 +46,7 @@ from wagtailcache.cache import nocache_page
 
 from core import cms_slugs, forms, helpers, serializers
 from core.constants import PRODUCT_MARKET_DATA, HCSatStage
+from core.mixins import GA360Mixin  # /PS-IGNORE
 from core.mixins import (
     AuthenticatedUserRequired,
     GuidedJourneyMixin,

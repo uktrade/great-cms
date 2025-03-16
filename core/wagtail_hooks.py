@@ -20,7 +20,6 @@ from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
-from core.helpers import add_next
 from wagtail import hooks
 from wagtail.admin.menu import DismissibleMenuItem
 from wagtail.admin.rich_text.converters.html_to_contentstate import (
@@ -35,6 +34,7 @@ from wagtail_transfer.files import File as WTFile, FileTransferError
 from wagtail_transfer.models import ImportedFile
 
 from core import constants, mixins, views
+from core.helpers import add_next
 from core.models import (
     CountryTag,
     MicrositePage,

@@ -1,7 +1,7 @@
 import pytest
 from bs4 import BeautifulSoup
-from gds_tooling import forms
 
+from gds_tooling import forms
 from sso_profile.enrolment import widgets
 
 pytestmark = pytest.mark.django_db

@@ -12,10 +12,10 @@ from django.forms import (
     Textarea,
     TextInput,
 )
-from gds_tooling import forms
 
 from core.validators import is_valid_email_address
 from directory_constants.choices import INDUSTRIES
+from gds_tooling import forms
 from international_buy_from_the_uk.core.choices import (
     ORGANISATION_SIZE_CHOICES,
     SOURCE_CHOICES,

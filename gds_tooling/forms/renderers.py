@@ -1,6 +1,6 @@
+from django.conf import settings
 from django.forms.renderers import DjangoTemplates
 from django.utils.functional import cached_property
-from django.conf import settings
 
 
 class GDSDivFormRenderer(DjangoTemplates):

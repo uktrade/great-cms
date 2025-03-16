@@ -4,8 +4,8 @@ from django.conf import settings
 from django.urls import reverse_lazy
 from django.utils import translation
 from django.utils.translation import get_language_bidi, gettext as _
-from core import cms_slugs
-from core import helpers
+
+from core import cms_slugs, helpers
 from directory_constants import choices, urls
 
 

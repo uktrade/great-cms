@@ -9,13 +9,13 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
-from core.mixins import GA360Mixin  # /PS-IGNORE
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.throttling import UserRateThrottle
 from rest_framework.views import APIView
 
 from core.helpers import check_url_host_is_safelisted
+from core.mixins import GA360Mixin  # /PS-IGNORE
 from directory_sso_api_client import sso_api_client
 from international_online_offer import forms
 from international_online_offer.core import (

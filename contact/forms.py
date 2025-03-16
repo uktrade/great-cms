@@ -13,7 +13,6 @@ from django.forms import (
     ValidationError,
     widgets as django_widgets,
 )
-from gds_tooling import forms
 
 import regex
 from contact import constants, mixins as contact_mixins, widgets as contact_widgets
@@ -23,6 +22,7 @@ from core.forms import TERMS_LABEL, ConsentFieldMixin
 from core.validators import is_valid_uk_postcode
 from directory_constants import choices
 from directory_constants.choices import COUNTRY_CHOICES
+from gds_tooling import forms
 from regex import PHONE_NUMBER_REGEX
 
 BLANK_COUNTRY_CHOICE = [('', 'Select a country')]

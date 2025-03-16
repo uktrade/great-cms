@@ -3,7 +3,6 @@ from datetime import datetime
 from django.db.models import Exists, OuterRef, Q
 from django.utils import timezone
 from django_filters import FilterSet, filters
-from gds_tooling import forms
 
 from core.models import (
     CountryTag,
@@ -13,6 +12,7 @@ from core.models import (
 )
 from export_academy import models
 from export_academy.helpers import is_export_academy_registered
+from gds_tooling import forms
 
 
 class EventFilter(FilterSet):

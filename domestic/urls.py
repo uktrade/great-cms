@@ -1,9 +1,9 @@
 from django.urls import path
 from django.views.generic import TemplateView
-from core.decorators import skip_ga360
 
 import domestic.views.marketaccess
 import domestic.views.ukef
+from core.decorators import skip_ga360
 from domestic.views.campaign import CampaignView
 
 app_name = 'domestic'

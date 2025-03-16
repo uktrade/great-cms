@@ -2,11 +2,11 @@ import directory_healthcheck.views
 from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import path, re_path, reverse_lazy
-from core.decorators import skip_ga360
 from wagtail.contrib.sitemaps.views import sitemap as wagtail_sitemap
 
 from config.url_redirects import redirects
 from core import cms_slugs, views, views_api
+from core.decorators import skip_ga360
 from domestic.views.campaign import MicrositeView
 
 app_name = 'core'

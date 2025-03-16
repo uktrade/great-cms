@@ -1,6 +1,6 @@
 from django.urls import path
-from core.decorators import skip_ga360
 
+from core.decorators import skip_ga360
 from sso.api import (
     LessonCompletedAPIView,
     QuestionnaireAPIView,

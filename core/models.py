@@ -17,7 +17,6 @@ from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
-from core.mixins import GA360Mixin  # /PS-IGNORE
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.models import ClusterableModel, ParentalKey
 from taggit.managers import TaggableManager
@@ -71,6 +70,7 @@ from core.constants import (
     HCSatStage,
 )
 from core.context import get_context_provider
+from core.mixins import GA360Mixin  # /PS-IGNORE
 from core.utils import PageTopicHelper, get_first_lesson, persist_language_to_url
 from exportplan.core.data import (
     SECTION_SLUGS as EXPORTPLAN_SLUGS,

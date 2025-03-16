@@ -1,8 +1,6 @@
 import wagtail_factories
 
-from domestic_growth.models import (
-    DomesticGrowthHomePage,
-)
+from domestic_growth.models import DomesticGrowthHomePage
 
 
 class DomesticGrowthHomePageFactory(wagtail_factories.PageFactory):

@@ -4,13 +4,13 @@ from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from django.forms import Select, Textarea, TextInput
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
-from gds_tooling import forms
 
 from contact.forms import TERMS_LABEL
 from core.forms import ConsentFieldMixin
 from core.models import IndustryTag
 from directory_constants import choices
 from directory_constants.choices import COUNTRY_CHOICES
+from gds_tooling import forms
 
 COUNTRIES = COUNTRY_CHOICES.copy()
 COUNTRIES.insert(0, ('', 'Select a country'))

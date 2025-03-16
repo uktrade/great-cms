@@ -10,10 +10,10 @@ from django.forms import (
     Textarea,
     TextInput,
 )
-from gds_tooling import forms
 
 from core.validators import is_valid_email_address
 from directory_constants import choices
+from gds_tooling import forms
 from international_online_offer.core.choices import COMPANY_LOCATION_CHOICES
 from international_online_offer.core.region_sector_helpers import (
     get_parent_sectors_as_choices,

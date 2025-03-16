@@ -1,7 +1,7 @@
 from django.utils.safestring import mark_safe
-from gds_tooling import forms
 
 from directory_constants import urls
+from gds_tooling import forms
 
 TERMS_LABEL = mark_safe(
     'Tick this box to accept the '

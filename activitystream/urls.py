@@ -1,7 +1,7 @@
 from django.urls import path
-from core.decorators import skip_ga360
 
 import activitystream.views
+from core.decorators import skip_ga360
 
 app_name = 'activitystream'
 

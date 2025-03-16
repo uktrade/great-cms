@@ -7,12 +7,12 @@ from django.urls import reverse, reverse_lazy
 from django.utils.functional import cached_property
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
-from core.mixins import GA360Mixin  # /PS-IGNORE
 
 from config import settings
 from core.constants import HCSatStage
 from core.forms import HCSATForm
 from core.helpers import get_sender_ip_address
+from core.mixins import GA360Mixin  # /PS-IGNORE
 from core.mixins import HCSATMixin
 from international_buy_from_the_uk.services import get_case_study, get_company_profile
 from international_investment.core.helpers import get_location_display

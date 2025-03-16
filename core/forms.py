@@ -15,13 +15,13 @@ from django.forms import (
 )
 from django.template.loader import render_to_string
 from django.utils.html import mark_safe
-from gds_tooling import forms
 
 from core import constants, models
 from core.cms_slugs import (
     PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE,
     TERMS_URL,
 )
+from gds_tooling import forms
 
 TERMS_LABEL = mark_safe(
     'Tick this box to accept the '

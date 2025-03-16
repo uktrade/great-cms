@@ -186,7 +186,6 @@ def is_fuzzy_match(label_a, label_b):
 
 
 class CompanyParser:
-
     """
     Parse the company details provided by directory-api's company
     serializer
