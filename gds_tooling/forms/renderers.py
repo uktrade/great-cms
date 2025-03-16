@@ -9,15 +9,15 @@ class GDSDivFormRenderer(DjangoTemplates):
     """
 
     # New gds template
-    form_template_name = "_div.html"
-    formset_template_name = "django/forms/formsets/div.html"
+    form_template_name = '_div.html'
+    formset_template_name = 'django/forms/formsets/div.html'
 
     @cached_property
     def engine(self):
         return self.backend(
             {
-                "APP_DIRS": True,
-                "DIRS": [
+                'APP_DIRS': True,
+                'DIRS': [
                     settings.ROOT_DIR
                     / 'node_modules'
                     / '@uktrade'
@@ -33,7 +33,7 @@ class GDSDivFormRenderer(DjangoTemplates):
                     / 'components'
                     / 'widgets',
                 ],
-                "NAME": "gdsforms",
-                "OPTIONS": {},
+                'NAME': 'gdsforms',
+                'OPTIONS': {},
             }
         )

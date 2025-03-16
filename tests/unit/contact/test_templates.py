@@ -2,7 +2,7 @@ import pytest
 from django.conf import settings
 from django.template.loader import render_to_string
 
-from gds_tooling.context_processors import urls_processor
+from core.context_processors import urls_processor
 
 pytestmark = pytest.mark.django_db
 

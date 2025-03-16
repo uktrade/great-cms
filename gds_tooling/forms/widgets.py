@@ -9,7 +9,7 @@ def create_optional_reveal_widget(name, classes='', label=''):
 
 
 class WidgetGDSMixin(widgets.Widget):
-    '''
+    """
     Used to add field to widget context.
 
     context = {
@@ -37,7 +37,7 @@ class WidgetGDSMixin(widgets.Widget):
             }
         }
     }
-    '''
+    """
 
     field = None
 
@@ -52,9 +52,9 @@ class WidgetGDSMixin(widgets.Widget):
         ctx['field'] = field
 
         if hasattr(field, 'hide_on_page_load'):
-            if hasattr(ctx["widget"]["attrs"], 'class'):
-                widget_class = ctx["widget"]["attrs"]["class"]
-                ctx["widget"]["attrs"]["class"] = f'hide-on-page-load {widget_class}'
+            if hasattr(ctx['widget']['attrs'], 'class'):
+                widget_class = ctx['widget']['attrs']['class']
+                ctx['widget']['attrs']['class'] = f'hide-on-page-load {widget_class}'
         return ctx
 
 
@@ -108,7 +108,7 @@ class CreateOptionMixin:
 
     def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
         """Patch to use nicer ids."""
-        index = str(index) if subindex is None else "%s%s%s" % (index, self.id_separator, subindex)
+        index = str(index) if subindex is None else '%s%s%s' % (index, self.id_separator, subindex)
         if attrs is None:
             attrs = {}
         option_attrs = self.build_attrs(self.attrs, attrs) if self.option_inherits_attrs else {}
@@ -116,7 +116,7 @@ class CreateOptionMixin:
             option_attrs.update(self.checked_attribute)
         if 'id' in option_attrs:
             if self.use_nice_ids:
-                option_attrs['id'] = "%s%s%s" % (option_attrs['id'], self.id_separator, slugify(label.lower()))
+                option_attrs['id'] = '%s%s%s' % (option_attrs['id'], self.id_separator, slugify(label.lower()))
             else:
                 option_attrs['id'] = self.id_for_label(option_attrs['id'], index)
         reveal_fields = self.create_reveal_field(value)
@@ -265,7 +265,7 @@ class GDSHiddenInput(HiddenInput):
 
     def get_context(self, name, value, attrs):
         ctx = super().get_context(name, value, attrs)
-        ctx["widget"]["type"] = self.input_type
+        ctx['widget']['type'] = self.input_type
         return ctx
 
 

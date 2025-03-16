@@ -52,7 +52,7 @@ def add_anchors_to_all_headings(value, suffix=''):
 @register.filter
 def add_href_target(value, request):
     soup = BeautifulSoup(value, 'html.parser')
-    for element in soup.findAll('a', attrs={'href': re.compile("^http")}):
+    for element in soup.findAll('a', attrs={'href': re.compile('^http')}):
         if request.META['HTTP_HOST'] not in element.attrs['href']:
             element.attrs['target'] = '_blank'
             element.attrs['title'] = 'Opens in a new window'
@@ -312,19 +312,19 @@ def ga360_data(parser, token):
         include_form_data_param_name = 'include_form_data='
 
         if parameter.startswith(action_param_name):
-            action = parameter[len(action_param_name) :]
+            action = parameter[len(action_param_name):]
 
         elif parameter.startswith(type_param_name):
-            ga_type = parameter[len(type_param_name) :]
+            ga_type = parameter[len(type_param_name):]
 
         elif parameter.startswith(element_param_name):
-            element = parameter[len(element_param_name) :]
+            element = parameter[len(element_param_name):]
 
         elif parameter.startswith(value_param_name):
-            value = parameter[len(value_param_name) :]
+            value = parameter[len(value_param_name):]
 
         elif parameter.startswith(include_form_data_param_name):
-            include_form_data = parameter[len(include_form_data_param_name) :]
+            include_form_data = parameter[len(include_form_data_param_name):]
 
     return GA360Data(nodelist, target, action, ga_type, element, value, include_form_data)
 

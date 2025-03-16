@@ -206,7 +206,7 @@ TEMPLATES = [
     },
 ]
 
-FORM_RENDERER = "gds_tooling.forms.renderers.GDSDivFormRenderer"
+FORM_RENDERER = 'gds_tooling.forms.renderers.GDSDivFormRenderer'
 
 WSGI_APPLICATION = 'config.wsgi.application'
 

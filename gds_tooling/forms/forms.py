@@ -7,7 +7,7 @@ from django.utils import translation
 from directory_constants.choices import COUNTRY_CHOICES
 from gds_tooling.forms import GDSChoiceField
 
-BLANK_COUNTRY_CHOICE = [("", "Select a country")]
+BLANK_COUNTRY_CHOICE = [('', 'Select a country')]
 COUNTRIES = BLANK_COUNTRY_CHOICE + COUNTRY_CHOICES
 
 
