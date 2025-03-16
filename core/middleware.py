@@ -285,7 +285,6 @@ class HHTPHeaderDisallowEmbeddingMiddleware(MiddlewareMixin):
 # Middleware class to handle GA tracking asynchronously
 class GA4TrackingMiddleware(MiddlewareMixin):
     def process_response(self, request, response):
-
         if not 200 <= response.status_code < 300:
             return response
 

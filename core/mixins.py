@@ -247,7 +247,6 @@ class HCSATMixin:
         return None
 
     def set_csat_and_stage(self, request, ctx, hcsat_service_name, form):
-
         hcsat = self.get_hcsat(request, hcsat_service_name)
 
         # all csat instances use the same form object, so customise initial heading depending on service
@@ -406,16 +405,18 @@ class GA360Mixin:
             },
             json={
                 'client_id': str(uuid.uuid4()),
-                'events': [{
-                    'name': 'page_view',
-                    'params': {
-                        'page_id': self.ga360_payload.get('page_id'),
-                        'business_unit': self.ga360_payload.get('business_unit'),
-                        'site_section': self.ga360_payload.get('site_section'),
-                        'site_subsection': self.ga360_payload.get('site_subsection'),
-                        'site_language': self.ga360_payload.get('site_language'),
+                'events': [
+                    {
+                        'name': 'page_view',
+                        'params': {
+                            'page_id': self.ga360_payload.get('page_id'),
+                            'business_unit': self.ga360_payload.get('business_unit'),
+                            'site_section': self.ga360_payload.get('site_section'),
+                            'site_subsection': self.ga360_payload.get('site_subsection'),
+                            'site_language': self.ga360_payload.get('site_language'),
+                        },
                     }
-                }],
+                ],
             },
         )
         logger.info('Request status code %s', req.status_code)

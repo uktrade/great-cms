@@ -44,24 +44,25 @@ class GDSForm(GDSFormMixin, forms.Form):
     def __str__(self):
         return render_to_string('_form.html', self.get_context())
 
-class GDSConditionalRevealForm(GDSFormMixin, forms.Form):
 
+class GDSConditionalRevealForm(GDSFormMixin, forms.Form):
     def __str__(self):
         return render_to_string('_form.html', self.get_context())
-    
+
     def visible_fields(self):
         """
         Return a list of BoundField objects that aren't hidden fields.
         The opposite of the hidden_fields() method.
         """
         return [field for field in self if not field.is_hidden and not field.field.linked_conditional_reveal]
-    
+
     def is_hidden_reveal_fields(self):
         """
         Return a list of all the BoundField objects that are hidden fields.
         Useful for manual form layout in templates.
         """
         return [field for field in self if field.field.linked_conditional_reveal]
+
 
 class LanguageForm(forms.Form):
     lang = GDSChoiceField(widget=Select(attrs={'id': 'great-header-language-select'}), choices=[])  # set by __init__

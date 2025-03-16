@@ -55,7 +55,7 @@ def get_user(request):
     for attribute in ['user', 'sso_user']:
         if hasattr(request, attribute):
             return getattr(request, attribute)
-        
+
 
 def get_is_authenticated(request):
     # backwards compatibility with new and old style of user auth
@@ -224,9 +224,7 @@ class CompanyParser:
     @property
     def address(self):
         address = []
-        fields = [
-            'address_line_1', 'address_line_2', 'locality', 'postal_code'
-        ]
+        fields = ['address_line_1', 'address_line_2', 'locality', 'postal_code']
         for field in fields:
             value = self.data.get(field)
             if value:
@@ -241,10 +239,7 @@ class CompanyParser:
 
     @property
     def sectors_label(self):
-        return values_to_labels(
-            values=self.data.get('sectors') or [],
-            choices=self.SECTORS
-        )
+        return values_to_labels(values=self.data.get('sectors') or [], choices=self.SECTORS)
 
     @property
     def employees_label(self):
@@ -259,24 +254,15 @@ class CompanyParser:
 
     @property
     def expertise_regions_label(self):
-        return values_to_labels(
-            values=self.data.get('expertise_regions') or [],
-            choices=self.REGIONS
-        )
+        return values_to_labels(values=self.data.get('expertise_regions') or [], choices=self.REGIONS)
 
     @property
     def expertise_countries_label(self):
-        return values_to_labels(
-            values=self.data.get('expertise_countries') or [],
-            choices=self.COUNTRIES
-        )
+        return values_to_labels(values=self.data.get('expertise_countries') or [], choices=self.COUNTRIES)
 
     @property
     def expertise_languages_label(self):
-        return values_to_labels(
-            values=self.data.get('expertise_languages') or [],
-            choices=self.LANGUAGES
-        )
+        return values_to_labels(values=self.data.get('expertise_languages') or [], choices=self.LANGUAGES)
 
     @property
     def is_in_companies_house(self):
@@ -297,10 +283,7 @@ class CompanyParser:
         value = self.data.get('expertise_products_services')
         if not value:
             return {}
-        return {
-            key.replace('-', ' ').capitalize(): ', '.join(value)
-            for key, value in value.items()
-        }
+        return {key.replace('-', ' ').capitalize(): ', '.join(value) for key, value in value.items()}
 
     def __getattr__(self, name):
         return self.data.get(name)

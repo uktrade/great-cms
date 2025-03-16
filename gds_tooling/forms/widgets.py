@@ -4,17 +4,13 @@ from django.utils.text import slugify
 
 
 def create_optional_reveal_widget(name, classes='', label=''):
-    optgroup = {
-        'name': name,
-        'label': label,
-        'attrs': {'class': classes},
-        'type': 'text',
-        'id': f'id_{name}'
-    }
+    optgroup = {'name': name, 'label': label, 'attrs': {'class': classes}, 'type': 'text', 'id': f'id_{name}'}
     return optgroup
+
+
 class WidgetGDSMixin(widgets.Widget):
     '''
-    Used to add field to widget context. 
+    Used to add field to widget context.
 
     context = {
         'widget': {
@@ -45,7 +41,7 @@ class WidgetGDSMixin(widgets.Widget):
 
     field = None
 
-    def __init__(self, linked_conditional_reveal_fields = None,fieldset = False, *args, **kwargs):
+    def __init__(self, linked_conditional_reveal_fields=None, fieldset=False, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fieldset = fieldset
         self.linked_conditional_reveal_fields = linked_conditional_reveal_fields
@@ -118,9 +114,9 @@ class CreateOptionMixin:
         if value == 'yes':
             if self.linked_conditional_reveal_fields:
                 for reveal_field_name in self.linked_conditional_reveal_fields:
-                    reveal_field_name['template_name'] = '_reveal_input.html' 
+                    reveal_field_name['template_name'] = '_reveal_input.html'
                     reveal_fields.append(reveal_field_name)
-        
+
         options = {
             'name': name,
             'value': value,
@@ -131,7 +127,7 @@ class CreateOptionMixin:
             'type': self.input_type,
             'template_name': self.option_template_name,
             'wrap_label': True,
-            'reveals': reveal_fields
+            'reveals': reveal_fields,
         }
         return options
 
@@ -142,6 +138,7 @@ class ChoiceWidget(CreateOptionMixin, ChoiceWidget):
 
 class GDSChoiceWidget(ChoiceWidget):
     pass
+
 
 class RadioSelect(ChoiceWidget):
     template_name = 'gds_tooling/form_widgets/multiple_input.html'

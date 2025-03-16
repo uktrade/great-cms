@@ -1,4 +1,4 @@
-from captcha.fields import ReCaptchaField # noqa
+from captcha.fields import ReCaptchaField  # noqa
 from django import forms
 from django.forms.boundfield import BoundField
 
@@ -17,7 +17,6 @@ class GDSBoundField(BoundField):
 
 
 class DirectoryComponentsFieldMixin:
-
     def __init__(self, container_css_classes='form-group', *args, **kwargs):
         super().__init__(*args, **kwargs)
         if not hasattr(self.widget, 'css_class_name'):
@@ -50,13 +49,13 @@ class DirectoryComponentsFieldMixin:
 
 class GDSFieldMixin:
     def __init__(
-            self,
-            linked_conditional_reveal=None,
-            hide_on_page_load=False,
-            container_css_classes='govuk-form-group',
-            *args,
-            **kwargs
-            ):
+        self,
+        linked_conditional_reveal=None,
+        hide_on_page_load=False,
+        container_css_classes='govuk-form-group',
+        *args,
+        **kwargs,
+    ):
         super().__init__(*args, **kwargs)
         self.label_suffix = ''
         self._container_css_classes = container_css_classes
@@ -83,9 +82,7 @@ class GDSFieldMixin:
             'label': self.gds_dict_helper(self.label, self.label_css_classes),
             'hint': self.gds_dict_helper(self.help_text, self.hint_css_classes),
             'error': self.gds_dict_helper(self.error_messages, self.error_css_classes),
-            'fieldset': {
-                'legend': self.fieldset_css_classes
-            },
+            'fieldset': {'legend': self.fieldset_css_classes},
         }
         return gds_dict
 
@@ -105,7 +102,7 @@ class GDSFieldMixin:
             return self.widget.attrs['help-class']
         except KeyError:
             return ''
-        
+
     @property
     def fieldset_css_classes(self):
         if self.widget.fieldset:
@@ -131,6 +128,7 @@ class GDSFieldMixin:
 def field_factory(base_class):
     bases = (DirectoryComponentsFieldMixin, base_class)
     return type(base_class.__name__, bases, {})
+
 
 def gds_field_factory(base_class):
     bases = (GDSFieldMixin, base_class)
@@ -162,6 +160,8 @@ TypedChoiceField = field_factory(forms.TypedChoiceField)
 TypedMultipleChoiceField = field_factory(forms.TypedMultipleChoiceField)
 URLField = field_factory(forms.URLField)
 UUIDField = field_factory(forms.UUIDField)
+
+
 class GDSReCaptchaField(ReCaptchaField):
     pass
 

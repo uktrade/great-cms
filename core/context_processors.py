@@ -460,7 +460,7 @@ def header_footer_processor(request):
         'international_news': urls.international.NEWS,
         'how_to_do_business_with_the_uk': urls.international.EXPAND_HOW_TO_DO_BUSINESS,
         'industries': urls.international.ABOUT_UK_INDUSTRIES,
-        'market_access': urls.domestic.HOME / 'report-trade-barrier'
+        'market_access': urls.domestic.HOME / 'report-trade-barrier',
     }
     header_footer_urls = {**header_footer_urls, **advice_urls}
     return {'header_footer_urls': header_footer_urls}

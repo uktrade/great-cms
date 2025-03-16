@@ -65,7 +65,7 @@ from gds_tooling.forms.widgets import (
     GDSHiddenInput,
     GDSReCaptchaV3,
     ReCaptchaV3,
-    create_optional_reveal_widget
+    create_optional_reveal_widget,
 )  # noqa
 
 __all__ = [
@@ -134,5 +134,5 @@ __all__ = [
     'GDSHiddenInput',
     'ReCaptchaV3',
     'GDSReCaptchaV3',
-    'create_optional_reveal_widget'
+    'create_optional_reveal_widget',
 ]

@@ -96,11 +96,19 @@ class GDSFeedbackConditionalRevealForm(SaveOnlyInDatabaseAPIForm, gds_forms.GDSC
     from_search_page = gds_forms.GDSIntegerField(widget=gds_forms.GDSHiddenInput(), required=False)
     contactable = gds_forms.GDSChoiceField(
         label='May we contact you with some brief follow-up questions on your experience?',
-        widget=gds_forms.GDSRadioConditionalRevealSelect(linked_conditional_reveal_fields=[
-            gds_forms.create_optional_reveal_widget('contact_name', classes='govuk-!-width-one-half', label='What is your name?'),
-            gds_forms.create_optional_reveal_widget('contact_email', classes='govuk-!-width-one-half', label='What is your email address?'),
-            gds_forms.create_optional_reveal_widget('contact_number', classes='govuk-!-width-one-half', label='What is your phone number? (optional)')
-            ]),
+        widget=gds_forms.GDSRadioConditionalRevealSelect(
+            linked_conditional_reveal_fields=[
+                gds_forms.create_optional_reveal_widget(
+                    'contact_name', classes='govuk-!-width-one-half', label='What is your name?'
+                ),
+                gds_forms.create_optional_reveal_widget(
+                    'contact_email', classes='govuk-!-width-one-half', label='What is your email address?'
+                ),
+                gds_forms.create_optional_reveal_widget(
+                    'contact_number', classes='govuk-!-width-one-half', label='What is your phone number? (optional)'
+                ),
+            ]
+        ),
         choices=[('no', 'No'), ('yes', 'Yes')],
     )
     contact_name = gds_forms.GDSCharField(
@@ -115,7 +123,9 @@ class GDSFeedbackConditionalRevealForm(SaveOnlyInDatabaseAPIForm, gds_forms.GDSC
         required=False,
         hide_on_page_load=True,
         linked_conditional_reveal='contactable',
-        widget=gds_forms.GDSDjangoCopyEmailInput(attrs={'class': 'govuk-!-width-one-half', 'label-class': 'form-label'}),
+        widget=gds_forms.GDSDjangoCopyEmailInput(
+            attrs={'class': 'govuk-!-width-one-half', 'label-class': 'form-label'}
+        ),
     )
     contact_number = gds_forms.GDSCharField(
         label='What is your phone number? (optional)',

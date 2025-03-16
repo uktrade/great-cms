@@ -1028,7 +1028,6 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, TemplateView):
 
 
 class WagtailServeDocument(View):
-
     def get(self, request, document_title):
         try:
             document = Document.objects.get(title=document_title)

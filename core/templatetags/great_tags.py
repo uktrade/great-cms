@@ -189,9 +189,7 @@ def case_study(**kwargs):
 @register.inclusion_tag('gds_tooling/pagination.html', takes_context=True)
 def pagination(context, pagination_page, page_param_name='page'):
     paginator = pagination_page.paginator
-    pagination_url = helpers.get_pagination_url(
-        request=context['request'], page_param_name=page_param_name
-    )
+    pagination_url = helpers.get_pagination_url(request=context['request'], page_param_name=page_param_name)
     return {
         'page_param_name': page_param_name,
         'pagination': pagination_page,
@@ -205,17 +203,14 @@ HeaderItem = namedtuple('HeaderItem', 'title url is_active')
 
 @register.inclusion_tag('gds_tooling/header_footer/international_header.html', takes_context=True)
 def international_header(context, navigation_tree, site_section, site_sub_section):
-
     tier_one_items = []
     tier_two_items = []
 
     for node in navigation_tree:
         node_is_active = node.tier_one_item.name == site_section
-        tier_one_items.append(HeaderItem(
-            title=node.tier_one_item.title,
-            url=node.tier_one_item.url,
-            is_active=node_is_active
-        ))
+        tier_one_items.append(
+            HeaderItem(title=node.tier_one_item.title, url=node.tier_one_item.url, is_active=node_is_active)
+        )
 
         if node_is_active:
             tier_two_items = [
@@ -319,32 +314,25 @@ def ga360_data(parser, token):
         include_form_data_param_name = 'include_form_data='
 
         if parameter.startswith(action_param_name):
-            action = parameter[len(action_param_name):]
+            action = parameter[len(action_param_name) :]
 
         elif parameter.startswith(type_param_name):
-            ga_type = parameter[len(type_param_name):]
+            ga_type = parameter[len(type_param_name) :]
 
         elif parameter.startswith(element_param_name):
-            element = parameter[len(element_param_name):]
+            element = parameter[len(element_param_name) :]
 
         elif parameter.startswith(value_param_name):
-            value = parameter[len(value_param_name):]
+            value = parameter[len(value_param_name) :]
 
         elif parameter.startswith(include_form_data_param_name):
-            include_form_data = parameter[len(include_form_data_param_name):]
+            include_form_data = parameter[len(include_form_data_param_name) :]
 
-    return GA360Data(nodelist, target, action,
-                     ga_type, element, value, include_form_data)
+    return GA360Data(nodelist, target, action, ga_type, element, value, include_form_data)
 
 
 class GA360Data(template.Node):
-    def __init__(self, nodelist,
-                 target,
-                 action=None,
-                 ga_type=None,
-                 element=None,
-                 value=None,
-                 include_form_data=None):
+    def __init__(self, nodelist, target, action=None, ga_type=None, element=None, value=None, include_form_data=None):
         self.nodelist = nodelist
         self.target = template.Variable(target)
         self.action = template.Variable(action) if action is not None else None
