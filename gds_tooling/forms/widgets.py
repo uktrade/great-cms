@@ -144,8 +144,8 @@ class GDSChoiceWidget(ChoiceWidget):
     pass
 
 class RadioSelect(ChoiceWidget):
-    template_name = 'multiple_input.html'
-    option_template_name = 'radio_option.html'
+    template_name = 'gds_tooling/form_widgets/multiple_input.html'
+    option_template_name = 'gds_tooling/form_widgets/radio_option.html'
     css_class_name = 'g-select-multiple'
     input_type = 'radio'
 
@@ -173,7 +173,7 @@ class GDSRadioConditionalRevealSelect(GDSChoiceWidget):
 
 
 class CheckboxWithInlineLabel(CheckboxInput):
-    template_name = 'checkbox_inline.html'
+    template_name = 'gds_tooling/form_widgets/checkbox_inline.html'
     container_css_classes = 'form-group'
 
     def __init__(self, label='', help_text=None, *args, **kwargs):
@@ -189,8 +189,8 @@ class CheckboxWithInlineLabel(CheckboxInput):
 
 
 class CheckboxSelectInlineLabelMultiple(CreateOptionMixin, CheckboxSelectMultiple):
-    template_name = 'multiple_input.html'
-    option_template_name = 'checkbox_inline_multiple.html'
+    template_name = 'gds_tooling/form_widgets/multiple_input.html'
+    option_template_name = 'gds_tooling/form_widgets/checkbox_inline_multiple.html'
     css_class_name = 'g-select-multiple'
     input_type = 'checkbox'
 

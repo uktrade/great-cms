@@ -8,12 +8,44 @@ from gds_tooling.forms import widgets
 class GDSBoundField(BoundField):
     def label_tag(self, contents=None, attrs=None, label_suffix=None, tag=None):
         attrs = attrs or {}
-        attrs['class'] = attrs.get('class', '') + ' govuk-label'
+        attrs['class'] = attrs.get('class', '') + ' govuk-label '
         return super().label_tag(contents=contents, attrs=attrs, label_suffix=label_suffix)
 
     def css_classes(self, *args, **kwargs):
         css_classes = super().css_classes(*args, **kwargs)
         return f'{css_classes} {self.field.container_css_classes}'
+
+
+class DirectoryComponentsFieldMixin:
+
+    def __init__(self, container_css_classes='form-group', *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not hasattr(self.widget, 'css_class_name'):
+            self.widget.attrs['class'] = self.widget.attrs.get('class', '') + ' form-control'
+        self.label_suffix = ''
+        self._container_css_classes = container_css_classes
+
+    @property
+    def container_css_classes(self):
+        widget_class = getattr(self.widget, 'container_css_classes', '')
+        return f'{self._container_css_classes} {widget_class}'
+
+    @property
+    def widget_css_classes(self):
+        try:
+            return self.widget.attrs['class']
+        except (KeyError, AttributeError):
+            return ''
+
+    @property
+    def label_css_classes(self):
+        try:
+            return self.widget.attrs['label-class']
+        except (KeyError, AttributeError):
+            return ''
+
+    def get_bound_field(self, form, field_name):
+        return GDSBoundField(form, self, field_name)
 
 
 class GDSFieldMixin:
@@ -97,19 +129,23 @@ class GDSFieldMixin:
 
 
 def field_factory(base_class):
+    bases = (DirectoryComponentsFieldMixin, base_class)
+    return type(base_class.__name__, bases, {})
+
+def gds_field_factory(base_class):
     bases = (GDSFieldMixin, base_class)
     return type(base_class.__name__, bases, {})
 
 
-GDSCharField = field_factory(forms.CharField)
+GDSCharField = gds_field_factory(forms.CharField)
 CharField = field_factory(forms.CharField)
-GDSChoiceField = field_factory(forms.ChoiceField)
+GDSChoiceField = gds_field_factory(forms.ChoiceField)
 ChoiceField = field_factory(forms.ChoiceField)
 DateField = field_factory(forms.DateField)
 DateTimeField = field_factory(forms.DateTimeField)
 DecimalField = field_factory(forms.DecimalField)
 DurationField = field_factory(forms.DurationField)
-GDSEmailField = field_factory(forms.EmailField)
+GDSEmailField = gds_field_factory(forms.EmailField)
 EmailField = field_factory(forms.EmailField)
 FileField = field_factory(forms.FileField)
 FilePathField = field_factory(forms.FilePathField)
@@ -117,7 +153,7 @@ FloatField = field_factory(forms.FloatField)
 IntegerField = field_factory(forms.IntegerField)
 GenericIPAddressField = field_factory(forms.GenericIPAddressField)
 ImageField = field_factory(forms.ImageField)
-GDSIntegerField = field_factory(forms.IntegerField)
+GDSIntegerField = gds_field_factory(forms.IntegerField)
 MultipleChoiceField = field_factory(forms.MultipleChoiceField)
 RegexField = field_factory(forms.RegexField)
 SlugField = field_factory(forms.SlugField)
