@@ -148,9 +148,9 @@ class RadioSelect(ChoiceWidget):
 
 
 class GDSRadioSelect(GDSChoiceWidget):
-    '''
+    """
     New widget that will play nicely with the great-design-system
-    '''
+    """
 
     template_name = '__multiple_input.html'
     option_template_name = '_radio_option.html'
@@ -159,9 +159,9 @@ class GDSRadioSelect(GDSChoiceWidget):
 
 
 class GDSRadioConditionalRevealSelect(GDSChoiceWidget):
-    '''
+    """
     New widget that will play nicely with the great-design-system
-    '''
+    """
 
     template_name = '_multiple_input.html'
     option_template_name = '_radio_option_conditional_reveal.html'
@@ -202,59 +202,59 @@ class GDSCheckboxSelectInlineLabelMultiple(CheckboxSelectInlineLabelMultiple):
 
 
 class GDSDjangoCopyTextarea(Textarea):
-    '''
+    """
     New widget that will play nicely with the great-design-system
-    '''
+    """
 
     input_type = 'text'
     template_name = '__textarea.html'
 
 
 class GDSDjangoCopyTextInput(TextInput):
-    '''
+    """
     New widget that will play nicely with the great-design-system
-    '''
+    """
 
     template_name = '__input.html'
 
 
 class GDSDjangoCopyEmailInput(GDSDjangoCopyTextInput):
-    '''
+    """
     New widget that will play nicely with the great-design-system
-    '''
+    """
 
     input_type = 'email'
 
 
 class GDSTextarea(Textarea):
-    '''
+    """
     New widget that will play nicely with the great-design-system
-    '''
+    """
 
     input_type = 'text'
     template_name = '_textarea.html'
 
 
 class GDSTextInput(TextInput):
-    '''
+    """
     New widget that will play nicely with the great-design-system
-    '''
+    """
 
     template_name = '_input.html'
 
 
 class GDSEmailInput(GDSTextInput):
-    '''
+    """
     New widget that will play nicely with the great-design-system
-    '''
+    """
 
     input_type = 'email'
 
 
 class GDSHiddenInput(HiddenInput):
-    '''
+    """
     New widget that will play nicely with the great-design-system
-    '''
+    """
 
     input_type = 'hidden'
     template_name = '_hidden_input.html'
