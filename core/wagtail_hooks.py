@@ -653,15 +653,14 @@ def register_em_feature(features):
     features.register_converter_rule('contentstate', feature_name, db_conversion)
 
 
-# Sets a default expiry date for a subsection of page types
+# Update expiry date for campaign and microsite pages using MicrositePage expiry_date field, which defaults to one year.
 @hooks.register('after_publish_page')
-def set_default_expiry_date(request, page):
+def set_microsite_expiry_date(request, page):
     page_template_names = ['microsites/micro_site_page.html']
 
-    # Checks if the page type is in the list and whether it already has an expiry date
-    if page.template in page_template_names:
-        now = datetime.datetime.now()
-        page.expire_at = now.replace(year=now.year + 1)
+    # Checks if the page type is in the list and whether the expiry date has been changed since last publish
+    if page.template in page_template_names and page.expire_at != page.expiry_date:
+        page.expire_at = page.expiry_date
         page.save_revision()
 
 
