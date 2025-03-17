@@ -5,7 +5,7 @@
 {% endblock css_layout_class %}
 {% block content %}
     {% block hero %}
-    {% image page.hero_image original as rendition %}
+        {% image page.hero_image original as rendition %}
         {% include '_hero.html' with pngImagePath=rendition.url heading=page.title aboveCtaText="Complete short step-by-step lessons to accelerate your exporting ability." classes="great-ds-hero--large-image-cropping great-ds-hero--bg-white" %}
     {% endblock %}
     {% block intro_section %}{% endblock %}
