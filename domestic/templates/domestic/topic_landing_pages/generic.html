@@ -1,0 +1,22 @@
+{% extends 'domestic/base.html' %}
+{% load wagtailimages_tags %}
+{% block css_layout_class %}
+    article-list-page
+{% endblock css_layout_class %}
+{% block content %}
+    {% block hero %}
+    
+
+    {% image page.hero_image original as rendition %}
+        {% include '_hero.html' with pngImagePath=rendition.url heading=page.title aboveCtaText="Complete short step-by-step lessons to accelerate your exporting ability." classes="great-ds-hero--large-image-cropping great-ds-hero--bg-white" %}
+    {% endblock %}
+    {% block intro_section %}{% endblock %}
+    {% block child_pages %}
+        <section id="{{ page.meta.slug }}-list-section" class="topic-list-section">
+            <div class="container">
+                <div class="flex-grid">{% include 'components/card_grid.html' with cards=page.child_pages href='' %}</div>
+            </div>
+        </section>
+    {% endblock %}
+    {% block footer_section %}{% endblock %}
+{% endblock %}
