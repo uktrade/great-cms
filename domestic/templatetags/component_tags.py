@@ -446,6 +446,40 @@ def render_event_details_hero(
 
 
 @register.inclusion_tag('_hero.html')
+def render_ukea_course_hero(
+    image_url,
+    hero_title,
+    hero_caption,
+    above_cta_description_html,
+    signed_in,
+    course_slug,
+):
+    action_link_url = None
+    action_link_label = None
+    description_html = None
+    if not signed_in:
+        signup_url = reverse('export_academy:signup')
+        signin_url = reverse('export_academy:signin')
+        next_url = reverse('export_academy:course', args={course_slug})
+        action_link_url = signup_url + '?next=' + next_url
+        action_link_label = 'Sign up to get started'
+        description_url = signin_url + '?next=' + next_url
+        description_html = "<p> Already joined the UK Export Academy? <a href='" + description_url + "'>Sign in</a></p>"
+
+    return {
+        'pngImagePath': image_url,
+        'heading': hero_title,
+        'caption': hero_caption,
+        'aboveCtaHtml': above_cta_description_html,
+        'belowCtaHtml': description_html,
+        'actionLinkUrl': action_link_url,
+        'actionLinkText': action_link_label,
+        'classes': 'great-ds-hero--bg-white great-ds-hero--large-image-cropping',
+        'aboveCtaClasses': 'govuk-link--no-visited-state',
+    }
+
+
+@register.inclusion_tag('_hero.html')
 def render_export_plan_hero(
     image_url,
     hero_title,
