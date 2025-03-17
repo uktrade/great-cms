@@ -1,6 +1,7 @@
 {% extends 'domestic/base.html' %}
 {% load pagination render_markets_cta from component_tags %}
 {% load static %}
+{% load wagtailimages_tags %}
 {% block head_title %}Markets{% endblock %}
 {% block meta_title %}Markets{% endblock %}
 {% block css_layout_class %}
@@ -226,10 +227,10 @@
                             </div>
                             <div class="great-ds-card-container">
                                 {% for page in paginated_results %}
-                                    {% include '_card.html' with href=page.url imageUrl=page.hero_image title=page.landing_page_title|default:page.title id=page.slug hideArrow="true" classes="great-ds-card--3" titleSize="m" %}
+                                    {% image page.hero_image fill-640x360 as thumbnail %}
+                                    {% include '_card.html' with href=page.url imageUrl=thumbnail.url title=page.landing_page_title|default:page.title id=page.slug hideArrow="true" classes="great-ds-card--3" titleSize="m" %}
                                 {% endfor %}
                             </div>
-                            {% comment %} {% include 'components/card_grid.html' with cards=paginated_results href='' %} {% endcomment %}
                             <div class="markets-pagination column-two-thirds column-three-quarters-xl">
                                 {% pagination pagination_page=paginated_results %}
                             </div>
