@@ -68,6 +68,12 @@ a {
 	}
 }
 
+.govuk-form-group {
+	display: flex;
+	gap: 10px;
+	align-items: baseline;
+}
+
 .dynamic-guide {
 	// The only purpose of this selector is to hold the following variables
 	// so we use this to make it not participate in the layout.

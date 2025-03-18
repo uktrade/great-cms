@@ -29,7 +29,6 @@ class DomesticGrowthHomePageTests(SetUpLocaleMixin, WagtailPageTests):
             feedback_link_text='Test link text',
             feedback_link_url='Test link url',
         )
-
         self.assertEqual(homepage.title, 'homepage')
 
         self.assertEqual(homepage.hero_title, 'Test title')
