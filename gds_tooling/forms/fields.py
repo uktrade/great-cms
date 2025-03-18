@@ -14,15 +14,30 @@ class GDSBoundField(BoundField):
     def css_classes(self, *args, **kwargs):
         css_classes = super().css_classes(*args, **kwargs)
         return f'{css_classes} {self.field.container_css_classes}'
+    
+    def help_text_css_classes(self):
+        """
+        Return a string of space-separated CSS classes for this field.
+        """
+        return f'{self.field.widget.help_text_class_name} govuk-hint'
 
 
 class DirectoryComponentsFieldMixin:
-    def __init__(self, container_css_classes='form-group', *args, **kwargs):
+    def __init__(self, 
+                linked_conditional_reveal=None,
+                linked_conditional_reveal_fields=[],
+                linked_conditional_reveal_choice='yes',
+                container_css_classes='form-group', 
+                *args, **kwargs
+            ):
         super().__init__(*args, **kwargs)
         if not hasattr(self.widget, 'css_class_name'):
             self.widget.attrs['class'] = self.widget.attrs.get('class', '') + ' form-control'
         self.label_suffix = ''
         self._container_css_classes = container_css_classes
+        self.linked_conditional_reveal = linked_conditional_reveal
+        self.linked_conditional_reveal_fields = linked_conditional_reveal_fields
+        self.linked_conditional_reveal_choice = linked_conditional_reveal_choice
 
     @property
     def container_css_classes(self):
@@ -51,6 +66,9 @@ class GDSFieldMixin:
     def __init__(
         self,
         linked_conditional_reveal=None,
+        linked_conditional_reveal_fields=[],
+        linked_conditional_reveal_choice='yes',
+        choice_help_text=[],
         hide_on_page_load=False,
         container_css_classes='govuk-form-group',
         *args,
@@ -60,8 +78,13 @@ class GDSFieldMixin:
         self.label_suffix = ''
         self._container_css_classes = container_css_classes
         self.widget.field = self
+        self.widget.linked_conditional_reveal_fields = linked_conditional_reveal_fields
+        self.widget.choice_help_text = choice_help_text
         self.hide_on_page_load = hide_on_page_load
         self.linked_conditional_reveal = linked_conditional_reveal
+        self.linked_conditional_reveal_fields = linked_conditional_reveal_fields
+        self.linked_conditional_reveal_choice = linked_conditional_reveal_choice
+        self.choice_help_text = choice_help_text
 
     @property
     def container_css_classes(self):

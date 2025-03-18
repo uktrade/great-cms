@@ -40,8 +40,9 @@ class WidgetGDSMixin(widgets.Widget):
     """
 
     field = None
+    help_text_class_name=''
 
-    def __init__(self, linked_conditional_reveal_fields=None, fieldset=False, *args, **kwargs):
+    def __init__(self, fieldset=False, linked_conditional_reveal_fields=[], *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fieldset = fieldset
         self.linked_conditional_reveal_fields = linked_conditional_reveal_fields
@@ -49,7 +50,9 @@ class WidgetGDSMixin(widgets.Widget):
     def get_context(self, name, value, attrs):
         ctx = super().get_context(name, value, attrs)
         field = self.field
+        linked_conditional_reveal_fields = self.linked_conditional_reveal_fields if hasattr(self, 'linked_conditional_reveal_fields') else []
         ctx['field'] = field
+        ctx['linked_conditional_reveal_fields'] = linked_conditional_reveal_fields
 
         if hasattr(field, 'hide_on_page_load'):
             if hasattr(ctx['widget']['attrs'], 'class'):
@@ -98,7 +101,7 @@ class CreateOptionMixin:
         super().__init__(*args, **kwargs)
 
     def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
-        """Patch to use nicer ids."""
+        """Patch to use nicer ids and add conditional reveal fields to ChoiceFields."""
         index = str(index) if subindex is None else '%s%s%s' % (index, self.id_separator, subindex)
         if attrs is None:
             attrs = {}
@@ -111,11 +114,17 @@ class CreateOptionMixin:
             else:
                 option_attrs['id'] = self.id_for_label(option_attrs['id'], index)
         reveal_fields = []
-        if value == 'yes':
-            if self.linked_conditional_reveal_fields:
-                for reveal_field_name in self.linked_conditional_reveal_fields:
-                    reveal_field_name['template_name'] = '_reveal_input.html'
-                    reveal_fields.append(reveal_field_name)
+        if hasattr(self, 'linked_conditional_reveal_choice'):
+            if value == self.linked_conditional_reveal_choice:
+                reveal_fields = self.linked_conditional_reveal_fields if hasattr(self, 'linked_conditional_reveal_fields') else []
+        
+        help_text = ''
+        help_text_css = ''
+        if hasattr(self, 'choice_help_text'):
+            for help_text_choice_name, help_text_choice_text in self.choice_help_text:
+                if value ==help_text_choice_name:
+                    help_text = help_text_choice_text
+                    help_text_css = self.help_text_class_name
 
         options = {
             'name': name,
@@ -128,6 +137,8 @@ class CreateOptionMixin:
             'template_name': self.option_template_name,
             'wrap_label': True,
             'reveals': reveal_fields,
+            'help_text': help_text,
+            'help_text_css': help_text_css
         }
         return options
 
@@ -156,6 +167,7 @@ class GDSRadioSelect(GDSChoiceWidget):
     option_template_name = '_radio_option.html'
     option_reveal_template_name = '_reveal_input.html'
     use_fieldset = True
+    help_text_class_name='govuk-radios__hint'
 
 
 class GDSRadioConditionalRevealSelect(GDSChoiceWidget):
@@ -167,6 +179,7 @@ class GDSRadioConditionalRevealSelect(GDSChoiceWidget):
     option_template_name = '_radio_option_conditional_reveal.html'
     option_reveal_template_name = '_reveal_input.html'
     use_fieldset = True
+    help_text_class_name='govuk-radios__hint'
 
 
 class CheckboxWithInlineLabel(CheckboxInput):

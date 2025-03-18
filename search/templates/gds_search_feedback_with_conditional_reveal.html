@@ -19,13 +19,13 @@
 </section>
 <div class="results-wrapper">
     <div class="container search-results-container">
-      <form action="{% url 'search:feedback' %}?{{ request.GET.urlencode }}" method="post">
+      <form action="{% url 'search:gds-feedback-conditional-reveal' %}?{{ request.GET.urlencode }}" method="post">
             {% csrf_token %}
             {{form}}
             <p class="margin-bottom-30 margin-top-60-l margin-top-45-m margin-top-30">
                 Thanks for taking the time to help users of our site.
             </p>
-            <input class="button primary-button" type="submit" value="Submit">
+            {% include '_button.html' with input=True text='submit' type='submit' %}
         </form>
     </div>
 </div>

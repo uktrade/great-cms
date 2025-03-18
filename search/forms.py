@@ -90,26 +90,17 @@ class GDSFeedbackConditionalRevealForm(SaveOnlyInDatabaseAPIForm, gds_forms.GDSC
     search_target = gds_forms.GDSCharField(
         label='Whether yes or no, please let us know what you were searching for',
         widget=gds_forms.GDSDjangoCopyTextarea(
-            attrs={'class': 'govuk-!-width-one-half', 'rows': 5, 'cols': 15, 'label-class': 'form-label'}
+            attrs={'class': 'govuk-!-width-one-half', 'rows': 5, 'cols': 15}
         ),
     )
     from_search_query = gds_forms.GDSCharField(widget=gds_forms.GDSHiddenInput(), required=False)
     from_search_page = gds_forms.GDSIntegerField(widget=gds_forms.GDSHiddenInput(), required=False)
     contactable = gds_forms.GDSChoiceField(
         label='May we contact you with some brief follow-up questions on your experience?',
-        widget=gds_forms.GDSRadioConditionalRevealSelect(
-            linked_conditional_reveal_fields=[
-                gds_forms.create_optional_reveal_widget(
-                    'contact_name', classes='govuk-!-width-one-half', label='What is your name?'
-                ),
-                gds_forms.create_optional_reveal_widget(
-                    'contact_email', classes='govuk-!-width-one-half', label='What is your email address?'
-                ),
-                gds_forms.create_optional_reveal_widget(
-                    'contact_number', classes='govuk-!-width-one-half', label='What is your phone number? (optional)'
-                ),
-            ]
-        ),
+        linked_conditional_reveal_fields=['contact_name','contact_email','contact_number'],
+        linked_conditional_reveal_choice='yes',
+        choice_help_text=[('no', 'this is a choice hint')],
+        widget=gds_forms.GDSRadioConditionalRevealSelect(),
         choices=[('no', 'No'), ('yes', 'Yes')],
     )
     contact_name = gds_forms.GDSCharField(
@@ -117,7 +108,7 @@ class GDSFeedbackConditionalRevealForm(SaveOnlyInDatabaseAPIForm, gds_forms.GDSC
         required=False,
         hide_on_page_load=True,
         linked_conditional_reveal='contactable',
-        widget=gds_forms.GDSDjangoCopyTextInput(attrs={'class': 'govuk-!-width-one-half', 'label-class': 'form-label'}),
+        widget=gds_forms.GDSDjangoCopyTextInput(attrs={'class': 'govuk-!-width-one-half'}),
     )
     contact_email = gds_forms.GDSEmailField(
         label='What is your email address?',
@@ -125,15 +116,15 @@ class GDSFeedbackConditionalRevealForm(SaveOnlyInDatabaseAPIForm, gds_forms.GDSC
         hide_on_page_load=True,
         linked_conditional_reveal='contactable',
         widget=gds_forms.GDSDjangoCopyEmailInput(
-            attrs={'class': 'govuk-!-width-one-half', 'label-class': 'form-label'}
+            attrs={'class': 'govuk-!-width-one-half'}
         ),
     )
     contact_number = gds_forms.GDSCharField(
         label='What is your phone number? (optional)',
-        required=False,
+        required=True,
         hide_on_page_load=True,
         linked_conditional_reveal='contactable',
-        widget=gds_forms.GDSDjangoCopyTextInput(attrs={'class': 'govuk-!-width-one-half', 'label-class': 'form-label'}),
+        widget=gds_forms.GDSDjangoCopyTextInput(attrs={'class': 'govuk-!-width-one-half'}),
     )
     captcha = gds_forms.GDSReCaptchaField(label='', label_suffix='', widget=gds_forms.GDSReCaptchaV3())
 
