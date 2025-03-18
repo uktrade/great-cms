@@ -3,7 +3,7 @@
     <div class="great-ds-card-container">
         {% for cta in block.value %}
             {% get_cta_attributes cta as cta_attrs %}
-            {% include '_card.html' with type="mounted-blue" href=cta_attrs.link title=cta.link_text metadataText=cta_attrs.tag_description metadataIconType=cta_attrs.tag_description metaDataIconPath="/static/icons" id=page.slug titleSize="s" classes="great-ds-card--3" %}
+            {% include '_card.html' with type="mounted-blue" href=cta_attrs.link title=cta.link_text metadataText=cta_attrs.tag_description metadataIconType=cta_attrs.tag_description|lower metaDataIconPath="/static/icons" id=page.slug titleSize="s" classes="great-ds-card--3" %}
         {% endfor %}
     </div>
 </div>
