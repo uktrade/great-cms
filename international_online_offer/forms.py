@@ -428,11 +428,15 @@ class WagtailAdminDBTSectors(WagtailAdminPageForm):
         )
 
 
+class GreatSelect(Select):
+    template_name = 'eyb/widgets/select.html'
+
+
 class DynamicGuideBCIRegionSelectForm(forms.Form):
     market_data_location = ChoiceField(
         label='',
         choices=choices.REGION_CHOICES,
-        widget=Select(attrs={'onchange': 'refreshMarketDataSelectedRegion()'}),
+        widget=GreatSelect(attrs={'onchange': 'refreshMarketDataSelectedRegion()'}),
     )
 
 
@@ -440,7 +444,7 @@ class DynamicGuideRentDataSelectForm(forms.Form):
     rent_data_location = ChoiceField(
         label='',
         choices=choices.REGION_CHOICES,
-        widget=Select(attrs={'onchange': 'refreshRentDataSelectedRegion()'}),
+        widget=GreatSelect(attrs={'onchange': 'refreshRentDataSelectedRegion()'}),
     )
 
 
@@ -448,5 +452,5 @@ class DynamicGuideSalaryDataSelectForm(forms.Form):
     salary_data_location = ChoiceField(
         label='',
         choices=choices.REGION_CHOICES,
-        widget=Select(attrs={'onchange': 'refreshSalaryDataSelectedRegion()'}),
+        widget=GreatSelect(attrs={'onchange': 'refreshSalaryDataSelectedRegion()'}),
     )
