@@ -741,15 +741,6 @@ def convert_anchor_identifier_a_to_span(input_html):
     return mark_safe(str(soup))
 
 
-@register.filter
-def convert_anchor_identifiers_to_span(value):
-    # Issue only occurs in content_modules where render_a method in core/rich_text.py does not fire, so return as-is
-    if value.block_type != 'content_module':
-        return value
-    rich_text_html = value.value.content
-    return convert_anchor_identifier_a_to_span(rich_text_html)
-
-
 @register.inclusion_tag('_cta-banner.html')
 def render_signup_cta(background=None, link=None):
     background_class = 'great-ds-cta-banner--bg-white'

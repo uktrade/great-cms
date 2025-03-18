@@ -9,8 +9,8 @@
 {% load get_hero_image_path_from_class from component_tags %}
 {% block body_attributes %}class="great-bg-white"{% endblock %}
 {% block content %}
-    {% with page.title|get_css_class_from_string|get_hero_image_path_from_class as heroImagePath %}
-        {% include '_hero.html' with pngImagePath=heroImagePath heading=page.title aboveCtaHtml=page.heading classes="great-ds-hero--large-image-cropping great-ds-hero--box-shadow great-ds-hero--bg-white"%}
+    {% with page.title|get_css_class_from_string|get_hero_image_path_from_class as image_url %}
+        {% include '_hero.html' with pngImagePath=image_url heading=page.title aboveCtaHtml=page.heading classes="great-ds-hero--large-image-cropping great-ds-hero--box-shadow great-ds-hero--bg-white"%}
     {% endwith %}
     <div class="great govuk-grid great-bg-white ">
         <section class="great-container" id="topic-lesson-list">

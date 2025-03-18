@@ -13,9 +13,9 @@
     {% static 'images/uk-export-academy-logo.svg' as image %}
     {% with event.format|replace_underscores as event_type %}
     {% render_event_details_hero image event_type event.name event.start_date %}
+    {% endwith %}
     {% if event.format == event.ONLINE %}
         {% include './includes/event_details_banner.html' %}
     {% endif %}
-    {% endwith %}
     {% include './includes/event_details_main_content.html' %}
 {% endblock %}
