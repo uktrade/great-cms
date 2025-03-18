@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load get_hero_image_path_from_class render_account_hero from component_tags %}
+{% load render_account_hero from component_tags %}
 {% block content %}
     <div>
         {% if request.user.is_authenticated and not request.user.has_user_profile %}
@@ -12,13 +12,11 @@
                 {% include 'components/banner.html' with banner_content='Complete your profile to help overseas buyers find you. <a href="'|add:url|add:'">Complete Business Profile</a>.</p>'|safe badge_content='Business Profile incomplete' %}
             </div>
         {% endif %}
-        {% with 'account-header'|get_hero_image_path_from_class as image_path %}
-            {% if request.user.is_authenticated %}
-                {% render_account_hero image_path "Account" "You are signed in as " request.user.email %}
-            {% else %}
-                {% render_account_hero image_path "Account" %}
-            {% endif %}
-        {% endwith %}
+        {% if request.user.is_authenticated %}
+            {% render_account_hero '/static/images/accounts-header.png' "Account" "You are signed in as " request.user.email %}
+        {% else %}
+            {% render_account_hero '/static/images/accounts-header.png' "Account" %}
+        {% endif %}
     </div>
     <div class="sso-profile-tab-container">
         <div class="container">

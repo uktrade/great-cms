@@ -15,10 +15,8 @@
 {% endblock %}
 {% block content %}
     {% block hero %}
-        <div class="great" id="ea-course-page-header">
-            {% image page.hero_image max-800x600 as hero_image %}
-            {% render_ukea_course_hero hero_image.url page.page_heading 'Series' page.summary signed_in  slug %}
-        </div>
+        {% image page.hero_image max-800x600 as hero_image %}
+        {% render_ukea_course_hero hero_image.url page.page_heading 'Series' page.summary signed_in  slug %}
     {% endblock %}
     <div class="great">
         <section class="great-container govuk-!-static-padding-top-6 govuk-!-static-padding-bottom-6">

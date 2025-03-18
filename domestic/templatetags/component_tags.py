@@ -511,14 +511,12 @@ def render_account_hero(image_url, hero_title, hero_text=None, email=None):
 
 
 @register.filter
-def get_hero_image_path_from_class(title):
+def get_lte_image_path_from_class(title):
     get_started_header_img = '/static/images/learn-to-export-topic1-header.png'
     identify_opportunities_header_img = '/static/images/learn-to-export-topic2-header.png'
     prepare_to_sell_header_img = '/static/images/learn-to-export-topic3-header.png'
     regulations_licensing_header_img = '/static/images/learn-to-export-topic4-header.png'
     funding_financing_header_img = '/static/images/learn-to-export-topic5-header.png'
-    export_plan_header_img = '/static/images/export-plan-header.png'
-    account_img = '/static/images/accounts-header.png'
 
     title_to_image_path_map = {
         'get-started': get_started_header_img,
@@ -526,8 +524,6 @@ def get_hero_image_path_from_class(title):
         'prepare-to-sell-into-a-new-country': prepare_to_sell_header_img,
         'regulations-licensing-and-logistics': regulations_licensing_header_img,
         'funding-financing-and-getting-paid': funding_financing_header_img,
-        'export-plan-header': export_plan_header_img,
-        'account-header': account_img,
     }
 
     if title in title_to_image_path_map.keys():
