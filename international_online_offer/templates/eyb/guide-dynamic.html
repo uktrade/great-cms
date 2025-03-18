@@ -15,16 +15,16 @@
         <div class="dynamic-guide__grid">
             <div class="dynamic-guide__panel-top">
                 <div class="dynamic-guide__hero">
-                    <h2 class="govuk-caption-xl">{{ company_name }}</h2>
+                    <h2 class="govuk-caption-xl">{{ user_data.company_name }}</h2>
                     <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">Expand your business and set up in the UK</h1>
                     <p class="govuk-body">
-                        This guide is based on the details and plans you provided about your business, in our <strong>{{ sector_name }}</strong> sector.
+                        This guide is based on the details and plans you provided about your business, in our <strong>{{ triage_data.sector }}</strong> sector.
                     </p>
                     {% comment %}
                     TODO: Use a fontawesome icon.
                     Note that the icon must be inlined so that it can adapt its color when the link is in :focus
                     {% endcomment %}
-                    <a class="govuk-link dynamic-guide__edit-link" href="#">
+                    <a class="govuk-link dynamic-guide__edit-link" href="{% url 'international_online_offer:change-your-answers' %}">
                         {% include './includes/icons/icon-edit.svg' %}
                     Change your details and plans</a>
                 </div>
@@ -42,11 +42,11 @@
                         {% endfor %}
                     </ul>
                 </div>
-                {% include './includes/dynamic-guide/section_left_start.html' with caption=triage_data.sector|get_sector_display heading='Market data' %}
+                {% include './includes/dynamic-guide/section_left_start.html' with caption=triage_data.sector heading='Market data' %}
                 {% include './includes/dynamic-guide/market_data.html' with market_data_location_select_form=market_data_location_select_form market_data=bci_data %}
-                {% include '_action-link.html' with linkText='Compare data across UK nations and regions' linkHref='#' %}
+                {% include '_action-link.html' with linkText='Compare data across UK nations and regions' linkHref='/international/expand-your-business-in-the-uk/business-cluster-information/?area=K03000001' %}
                 {% include './includes/dynamic-guide/section_left_end.html' %}
-                {% include './includes/dynamic-guide/section_left_start.html' with caption=sector_name heading='Locations of investment opportunities' description='South Wales is pioneering the way forward in designing, developing, and commercialising the compound semiconductors needed for a net zero economy.' %}
+                {% include './includes/dynamic-guide/section_left_start.html' with caption=triage_data.sector heading='Locations of investment opportunities' description='Find out which UK nations and regions are home to attractive opportunities for your sector.' %}
                 {% for location in locations %}
                     {% include './includes/dynamic-guide/rich_link.html' with image_path=location.image link_url=location.url link_text=location.title location=location.location body=location.description %}
                 {% endfor %}
@@ -54,13 +54,13 @@
                     {% include '_action-link.html' with linkText='View more opportunities in this sector' linkHref=more_locations_link %}
                 </div>
                 {% include './includes/dynamic-guide/section_left_end.html' %}
-                {% include './includes/dynamic-guide/section_left_start.html' with caption=sector_name heading='UK events' description='Attending conferences, fairs or trade shows can help you make industry connections in the UK and get the latest insights from your sector.' %}
+                {% include './includes/dynamic-guide/section_left_start.html' with caption=triage_data.sector heading='UK events' description='Attending conferences, fairs or trade shows can help you make industry connections in the UK and get the latest insights from your sector.' %}
                 {% for event in events %}
                     {% include './includes/dynamic-guide/rich_link.html' with link_external=True icon_path=event.icon link_url=event.url link_text=event.title location=event.location body=event.description website=event.website %}
                 {% endfor %}
                 <div>{% include '_action-link.html' with linkText='View more events for this sector' linkHref=more_events_link %}</div>
                 {% include './includes/dynamic-guide/section_left_end.html' %}
-                {% include './includes/dynamic-guide/section_left_start.html' with caption=sector_name heading='UK associations' description='Joining industry-based associations, forums or networks can be a useful way to find new clients and form partnerships.' %}
+                {% include './includes/dynamic-guide/section_left_start.html' with caption=triage_data.sector heading='UK associations' description='Joining industry-based associations, forums or networks can be a useful way to find new clients and form partnerships.' %}
                 {% for association in associations %}
                     {% include './includes/dynamic-guide/rich_link.html' with link_external=True link_url=association.url link_text=association.title body=association.description %}
                 {% endfor %}
@@ -76,7 +76,7 @@
                     {% include './includes/dynamic-guide/rent_data.html' with rent_data_location_select_form=rent_data_location_select_form rent_data=rent_data %}
                 </div>
                 {% include './includes/dynamic-guide/section_left_end.html' %}
-                {% include './includes/dynamic-guide/section_left_start.html' with caption=sector_name heading='Recruiting and employing people in the UK' %}
+                {% include './includes/dynamic-guide/section_left_start.html' with caption=triage_data.sector heading='Recruiting and employing people in the UK' %}
                 {% for item in recruit_and_employ %}
                     {% include './includes/dynamic-guide/rich_link.html' with icon_path=item.icon link_url=item.url link_text=item.title location=item.location body=item.description website=item.website %}
                 {% endfor %}
