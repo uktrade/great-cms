@@ -3,6 +3,6 @@
     <h2 class="govuk-heading-s govuk-!-margin-top-3">Learn more with free training</h2>
     {% get_article_cta_attributes page.call_to_action.0.value.0 as cta_attrs %}
     <div class="great-ds-card-container">
-        {% include '_card.html' with type="mounted-blue" href=cta_attrs.link imageUrl=cta_attrs.image title=cta_attrs.title description=cta_attrs.description metadataText=cta_attrs.type metadataIconType=cta_attrs.type metaDataIconPath="/static/icons" classes="great-ds-card--full" id=page.slug %}
+        {% include '_card.html' with type="mounted-blue" href=cta_attrs.link imageUrl=cta_attrs.image title=cta_attrs.title description=cta_attrs.description metadataText=cta_attrs.type metadataIconType=cta_attrs.type|lower metaDataIconPath="/static/icons" classes="great-ds-card--full" id=page.slug %}
     </div>
 </div>
