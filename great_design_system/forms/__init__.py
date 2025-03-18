@@ -33,7 +33,6 @@ from great_design_system.forms.widgets import (  # noqa
     ReCaptchaV3,
     Textarea,
     TextInput,
-    create_optional_reveal_widget,
 )
 
 __all__ = [
