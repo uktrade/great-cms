@@ -1,6 +1,5 @@
 import pickle
 
-from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
 
 from domestic_growth.mixins import TriageMixin
@@ -18,7 +17,15 @@ class StartingABusinessView(TriageMixin, FormView):
         )
 
     def get_success_url(self):
-        return reverse_lazy('domestic_growth:domestic-growth-starting-a-business-results')
+        qs = ''
+
+        if self.request.session.get('domestic_growth_triage_data'):
+            form_data = pickle.loads(bytes.fromhex(self.request.session.get('domestic_growth_triage_data')))[0]
+            postcode = form_data.get('postcode')
+            sector = form_data.get('sector')
+            qs = f'?postcode={postcode}&sector={sector}'
+
+        return f'/starting-a-business-guide{qs}'
 
     def form_valid(self, form):
         self.save_data(form)
@@ -72,7 +79,15 @@ class ScalingABusinessView(TriageMixin, FormView):
         )
 
     def get_success_url(self):
-        return reverse_lazy('domestic_growth:domestic-growth-scaling-a-business-results')
+        qs = ''
+
+        if self.request.session.get('domestic_growth_triage_data'):
+            form_data = pickle.loads(bytes.fromhex(self.request.session.get('domestic_growth_triage_data')))[0]
+            postcode = form_data.get('postcode')
+            sector = form_data.get('sector')
+            qs = f'?postcode={postcode}&sector={sector}'
+
+        return f'/growing-a-business-guide{qs}'
 
     def form_valid(self, form):
         self.save_data(form)
