@@ -24,10 +24,10 @@
                 {% else %}
                     {% if subheading %}<p class="subheading">{{ subheading }}</p>{% endif %}
                     {% if title or heading %}
-                        <h4 {% if card_id %}id="{{ card_id|add:'-heading' }}"{% endif %}
+                        <h3 {% if card_id %}id="{{ card_id|add:'-heading' }}"{% endif %}
                             class="govuk-!-margin-bottom-2{% if white_bg_card %} govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2 great-text-blue{% endif %}">
                             {% firstof title heading %}
-                        </h4>
+                        </h3>
                     {% endif %}
                     {% if html_snippet %}
                         <div {% if card_id %}id="{{ card_id|add:'-body' }}"{% endif %}>

@@ -3,18 +3,9 @@ import pickle
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
 
-from domestic_growth.mixins import TriageMixin
-from domestic_growth.forms import StartingABusinessForm, ScalingABusinessForm
+from domestic_growth.forms import ScalingABusinessForm, StartingABusinessForm
 from domestic_growth.helpers import get_postcode_data
-
-
-class LandingView(TriageMixin, TemplateView):
-    template_name = 'landing.html'
-
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(
-            **kwargs,
-        )
+from domestic_growth.mixins import TriageMixin
 
 
 class StartingABusinessView(TriageMixin, FormView):

@@ -54,7 +54,7 @@
                     <p class="govuk-body govuk-!-margin-top-5">
                         {% url 'international_buy_from_the_uk:find-a-supplier-profile' company_number=case_study.company.number as company_link %}
                         {% append_search_back_url company_link request.get_full_path as company_link %}
-                        {% include '_action_link.html' with linkText='View company profile' linkHref=company_link %}
+                        {% include '_action-link.html' with linkText='View company profile' linkHref=company_link %}
                     </p>
                 </div>
                 <div class="govuk-grid-column-one-third-from-desktop">
