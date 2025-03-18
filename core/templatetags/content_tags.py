@@ -18,8 +18,8 @@ from django.utils.text import slugify
 from core.constants import (
     BACKLINK_QUERYSTRING_NAME,
     CHEG_EXCLUDED_COUNTRY_CODES,
-    META_LABELS,
     EU_TRAVEL_ADVICE_URLS,
+    META_LABELS,
 )
 from core.helpers import millify
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage

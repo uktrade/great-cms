@@ -1,4 +1,5 @@
 import requests
+
 from directory_api_client import api_client
 
 

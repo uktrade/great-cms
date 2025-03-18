@@ -1,12 +1,12 @@
 from wagtail.test.utils import WagtailPageTests
 
+from domestic_growth.models import DomesticGrowthContent
 from tests.helpers import SetUpLocaleMixin
 from .factories import (
-    DomesticGrowthHomePageFactory,
-    DomesticGrowthGuidePageFactory,
     DomesticGrowthChildGuidePageFactory,
+    DomesticGrowthGuidePageFactory,
+    DomesticGrowthHomePageFactory,
 )
-from domestic_growth.models import DomesticGrowthContent
 
 
 class DomesticGrowthHomePageTests(SetUpLocaleMixin, WagtailPageTests):
