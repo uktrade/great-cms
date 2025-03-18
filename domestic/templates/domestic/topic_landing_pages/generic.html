@@ -1,4 +1,5 @@
 {% extends 'domestic/base.html' %}
+{% load i18n wagtailimages_tags %}
 {% block css_layout_class %}
     article-list-page
 {% endblock css_layout_class %}
@@ -12,10 +13,10 @@
             <div class="container">
                 <div class="great-ds-card-container">
                     {% for page in page.child_pages %}
-                        {% include '_card.html' with href=page.url imageUrl=page.hero_image title=page.title id=page.slug hideArrow="true" classes="great-ds-card--3" titleSize="m" %}
+                        {% image page.article_image fill-640x360 as thumbnail %}
+                        {% include '_card.html' with href=page.url imageUrl=thumbnail.url title=page.title id=page.slug hideArrow="true" classes="great-ds-card--3" titleSize="m" %}
                     {% endfor %}
                 </div>
-                {% comment %} <div class="flex-grid">{% include 'components/card_grid.html' with cards=page.child_pages href='' %}</div> {% endcomment %}
             </div>
         </section>
     {% endblock %}
