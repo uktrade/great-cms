@@ -120,22 +120,26 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 {
                     'icon_path': 'svg/icon-planning.svg',
                     'text': 'UK business registration',
-                    'url': '#',
+                    'url': '/international/expand-your-business-in-the-uk/guide/'
+                    f'detailed-guides/set-up-and-register-your-business',
                 },
                 {
                     'icon_path': 'svg/icon-ukvisa.svg',
                     'text': 'Checking if you need visas',
-                    'url': '#',
+                    'url': '/international/expand-your-business-in-the-uk/guide/'
+                    f'detailed-guides/how-to-apply-for-a-visa',
                 },
                 {
                     'icon_path': 'svg/icon-bank.svg',
                     'text': 'Business bank accounts',
-                    'url': '#',
+                    'url': '/international/expand-your-business-in-the-uk/guide/'
+                    f'detailed-guides/how-to-choose-and-set-up-a-uk-bank-account/',
                 },
                 {
                     'icon_path': 'svg/icon-tax.svg',
                     'text': 'UK taxes',
-                    'url': '#',
+                    'url': '/international/expand-your-business-in-the-uk/'
+                    f'guide/detailed-guides/how-to-register-for-tax-and-claim-tax-allowances',
                 },
             ],
             'company_name': 'Dummy company',
@@ -169,7 +173,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                     'centre for automotive software innovation.',
                 },
             ],
-            'more_locations_link': '#',
+            'more_locations_link': '/international/investment/?sector=' + triage_data.sector,
             'events': [
                 {
                     'title': 'Advanced Engineering',
@@ -193,7 +197,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                     'website': 'example.com',
                 },
             ],
-            'more_events_link': '#',
+            'more_events_link': '/international/expand-your-business-in-the-uk/guide/trade-shows',
             'associations': [
                 {
                     'title': 'British Chemical Engineering CA',
@@ -210,7 +214,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                     'supporting the demands of industry to benefit the member companies with hel...',
                 },
             ],
-            'more_associations_link': '#',
+            'more_associations_link': '/international/expand-your-business-in-the-uk/trade-associations',
             'bases': [
                 {
                     'title': 'How to find a business property',
