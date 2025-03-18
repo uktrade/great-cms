@@ -96,7 +96,6 @@
         {% endblock %}
         {% block head_js %}
             <script src="{% static 'javascript/dit.js' %}"></script>
-            <script src="{% static 'components.js' %}"></script>
             <script>
       // Safari saves a snapshot of a page as it was when the user left, so upon going "back" it doesn’t have to reload and instead it loads the saved snapshot state. That has an unwanted side effect that cookie modal is shown when clicking "go back to the page you came from".
       window.onpageshow = function(event) {
@@ -138,8 +137,9 @@
         {% endblock %}
         <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled')</script>
         {% block cookie_notice %}
-            {% include 'components/cookie_notice.html' with lang=page.locale.language_code %}
-        {% endblock %}
+            {% include '_cookie-banner.html' with preferencesUrl="/cookies" title="Cookie preferences saved" preText="You've" postText="additional cookies. You can" linkText="change your cookie settings" endText="at any time." acceptedText="accepted" rejectedText="rejected" hideButtonText="Hide this message" %}
+            {% include '_cookie-modal.html' with preferencesUrl="/cookies" title="Cookies on great.gov.uk" description="We use some essential cookies to make this website work. We'd like to set additional cookies to understand how you use great.gov.uk and improve our export support services." acceptButtonText="Accept additional cookies" rejectButtonText="Reject additional cookies" preferencesLinkText="View cookies"%}
+    {% endblock %}
         {% block skip_link %}
             <a class="govuk-skip-link" href="#content">{% translate "Skip to main content" %}</a>
         {% endblock %}
@@ -154,22 +154,6 @@
             {% include "_footer.html" with isInternational=microsite_footer_context.is_international currentYear=microsite_footer_context.current_year footerLinks=microsite_footer_context.footer_links logoLinkHref=microsite_footer_context.logo_link_href %}
         {% endblock %}
         {% block body_js %}
-            {% slugurl "privacy" as privacy_and_cookies_path %}
-            {% if request.path != privacy_and_cookies_path %}
-                <script data-language-code={{page.locale.language_code}} data-translate-text-feat-flag={{TRANSLATE_TEXT}}>
-      const data = document.currentScript.dataset
-      const lang = (data.translateTextFeatFlag === 'True') ? data.languageCode : 'en-gb'
-
-      var element = document.createElement('div')
-      document.body.appendChild(element)
-      components.CookiesModal({
-        element: element,
-        privacyCookiesUrl: {{privacy_and_cookies_path}},
-        preferencesUrl: '{% url "core:cookie-preferences" %}',
-        lang: lang
-      })
-                </script>
-            {% endif %}
             <script src="{% static 'great_design_system_scripts.js' %}"></script>
         {% endblock %}
     </body>
