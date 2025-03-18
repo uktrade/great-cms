@@ -15,10 +15,12 @@ from wagtail.fields import StreamField
 from wagtail.images.blocks import ImageChooserBlock
 from wagtailcache.cache import WagtailCacheMixin
 
+
 from core.blocks import ColumnsBlock
 from core.mixins import HCSATNonFormPageMixin
 from core.models import CMSGenericPage, TimeStampedModel
 from domestic.models import BaseContentPage
+from international_investment.models import InvestmentOpportunityArticlePage
 from international_online_offer import services
 from international_online_offer.core import (
     choices,
@@ -111,8 +113,41 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 if request.GET.get('login'):
                     response['Location'] += '?resume=true'
                 return response
+            
+        
 
         context = self.get_context(request, user_data=user_data, triage_data=triage_data)
+
+        investment_opportunity_cards = []
+
+        for investment_opportunity in context['investment_opportunities']:
+            image_url = ''
+            if investment_opportunity.article_image:
+                rendition = investment_opportunity.article_image.get_rendition('original')
+                image_url = rendition.url  # This is the URL for the image
+            investment_opportunity_cards.append(
+                {
+                    'title': investment_opportunity.article_title,
+                    'location': investment_opportunity.location + ', ' + investment_opportunity.region if investment_opportunity.location else investment_opportunity.region,
+                    'image': image_url,
+                    'url': investment_opportunity.url,
+                    'description': investment_opportunity.article_teaser,
+                }
+            )
+        
+        trade_event_cards = []
+
+        for trade_event in context['trade_events']:
+            trade_event_cards.append(
+                {
+                    'title': trade_event.tradeshow_title,
+                    'location': '',
+                    'icon': 'svg/icon-event.svg',
+                    'url': trade_event.tradeshow_link,
+                    'description': trade_event.tradeshow_subheading,
+                    'website': trade_event.tradeshow_link,
+                }
+            )
 
         context = {
             **context,
@@ -153,50 +188,9 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             'salary_data_location_select_form': DynamicGuideSalaryDataSelectForm(
                 initial={'salary_data_location': context['salary_data_location']}
             ),
-            'locations': [
-                {
-                    'title': 'Compound semiconductors and applications in South Wales',
-                    'location': 'Wales',
-                    'image': '/static/images/ukef_landing_offer_section_image_2024.jpg',
-                    'url': '#',
-                    'description': 'South Wales is pioneering the way forward in'
-                    ' designing, developing, and commercialising the compound semiconductors'
-                    ' needed for a net zero economy.',
-                },
-                {
-                    'title': 'Connected and immersive technologies for future mobility in Coventry and Warwickshire',
-                    'location': 'Coventry and Warwickshire, Midlands of England',
-                    'image': '/static/images/ukef_landing_how_we_can_help_2024.jpg',
-                    'url': '#',
-                    'description': 'The latest vehicle technologies demand ever greater deployment '
-                    'of connectivity, autonomy and security. Coventry and Warwickshire is a global '
-                    'centre for automotive software innovation.',
-                },
-            ],
+            'locations': investment_opportunity_cards,
             'more_locations_link': '/international/investment/?sector=' + triage_data.sector,
-            'events': [
-                {
-                    'title': 'Advanced Engineering',
-                    'location': 'Wales',
-                    'icon': 'svg/icon-planning.svg',
-                    'url': '#',
-                    'description': 'Exhibition space and networking opportunities across the advanced '
-                    'engineering supply chain, from R&D and design to testing, quality control, '
-                    'manufacturing, and maintenance.',
-                    'website': 'example.com',
-                },
-                {
-                    'title': 'Mach exhibition',
-                    'location': 'Birmingham, Midlands of England',
-                    'icon': 'svg/icon-planning.svg',
-                    'url': '#',
-                    'description': 'Organised by the Manufacturing Technologies Association, '
-                    'MACH connects UK manufacturing engineers, decision makers, '
-                    'buyers and specifiers with suppliers of new technology, equipment, '
-                    'services and processes. Held every 2 years.',
-                    'website': 'example.com',
-                },
-            ],
+            'events': trade_event_cards,
             'more_events_link': '/international/expand-your-business-in-the-uk/guide/trade-shows',
             'associations': [
                 {
@@ -503,6 +497,12 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             tags__name=filter_tags.FINANCE_AND_SUPPORT
         )
 
+        # Get first three investment opportunities A-Z by sector
+        investment_opportunities = InvestmentOpportunityArticlePage.objects.live().filter(dbt_sectors__contains=[triage_data.sector]).order_by('article_title')[:3]
+
+        # Get first three trade events A-Z by sector
+        trade_events = IOOTradeShowPage.objects.live().filter(tags__name__iexact=triage_data.sector.replace(',', '')).order_by('tradeshow_title')[:3]
+        
         breadcrumbs = [
             {'name': 'Home', 'url': '/international/'},
         ]
@@ -531,6 +531,8 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             finance_and_support_articles=all_articles_tagged_with_finance_and_support,
             trade_shows_page=trade_shows_page,
             breadcrumbs=breadcrumbs,
+            investment_opportunities=investment_opportunities,
+            trade_events=trade_events,
         )
 
         self.set_ga360_payload(
