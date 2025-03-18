@@ -70,15 +70,19 @@
                 </div>
                 {% include './includes/dynamic-guide/section_left_end.html' %}
                 {% endif %}
+                {% if trade_associations|length > 0 %}
                 {% include './includes/dynamic-guide/section_left_start.html' with caption=triage_data.sector heading='UK associations' description='Joining industry-based associations, forums or networks can be a useful way to find new clients and form partnerships.' %}
-                {% for association in associations %}
+                {% for association in associations|slice:':2' %}
                     {% include './includes/dynamic-guide/rich_link.html' with link_external=True link_url=association.url link_text=association.title body=association.description %}
                 {% endfor %}
                 <div>
+                    {% if trade_associations|length > 2 %}
                     {% include '_action-link.html' with linkText='View more associations for this sector' linkHref=more_associations_link %}
+                    {% endif %}
                 </div>
                 {% include './includes/dynamic-guide/section_left_end.html' %}
-                {% include './includes/dynamic-guide/section_left_start.html' with caption=triage_data.sector|get_sector_display heading='Setting up a base in the UK' %}
+                {% endif %}
+                {% include './includes/dynamic-guide/section_left_start.html' with caption=triage_data.sector heading='Setting up a base in the UK' %}
                 {% for base in bases %}
                     {% include './includes/dynamic-guide/rich_link.html' with icon_path=base.icon link_url=base.url link_text=base.title location=base.location body=base.description website=base.website %}
                 {% endfor %}
@@ -99,12 +103,12 @@
                         <h2 class="govuk-heading-m section__heading">Find a consultant</h2>
                         <img class="dynamic-guide__icon"
                              alt="Business structure icon"
-                             src="{% static 'svg/icon-planning.svg' %}" />
+                             src="{% static 'svg/icon-consultant.svg' %}" />
                     </div>
                     <p class="govuk-body">
-                        You will need to be aware of UK regulations and legislation framework in the {{ sector_name }} sector.
+                        You will need to be aware of UK regulations and legislation framework in the {{ triage_data.sector }} sector.
                     </p>
-                    {% include '_action-link.html' with linkText='Search our business directory' linkHref='#' %}
+                    {% include '_action-link.html' with linkText='Search our business directory' linkHref='/international/investment-support-directory/' %}
                 </div>
                 {% for section in right_panel_sections %}
                     <div class="dynamic-guide__section section section--right">
