@@ -143,13 +143,12 @@
                             </div>
                         </div>
                     {% endif %}
-                    {% if page.is_eu_country and features.FEATURE_SHOW_EU_CTA %}
-                        {% static 'icons/guidance.svg' as cta_icon %}
-                        <div class="column-quarter-l">
-                            {% include 'components/great/card.html' with heading_class="great-card__link--heading--18" heading_level="h3" tag_container_inner_class="article-page-cta-container-inner-container" container_class="great article-page-cta-container-title-container" classes="great-card--cta great-card--cta-with-content great-card--cta-with-border govuk-!-padding-0 govuk-!-margin-bottom-8" title="How to pay VAT when exporting to the EU" content="Understand the VAT requirements when exporting goods and services to EU countries." content_tag="p" url="/campaign-site/vat-in-eu/" show_title_link=True tag="Exporting advice" tag_icon=cta_icon %}
-                        </div>
-                    {% endif %}
                 </div>
+                {% if page.is_eu_country and features.FEATURE_SHOW_EU_CTA %}
+                    <div class="great-ds-card-container">
+                        {% include '_card.html' with href="campaign-site/vat-in-eu/" type="mounted-blue" title="How to pay VAT when exporting to the EU" description="Understand the VAT requirements when exporting goods and services to EU countries." id=page.slug metadataText="Exporting advice" metadataIconType="guidance" metaDataIconPath="/static/icons" %}
+                    </div>
+                {% endif %}
             </div>
         </section>
     {% endif %}
@@ -518,15 +517,13 @@
              class="news-events padding-vertical-60">
         <div class="container">
             <h2 class="heading-large margin-top-0 margin-bottom-45">News and events</h2>
-            <div class="flex-grid">
+            <div class="great-ds-card-container">
                 {% for related_page in page.related_pages %}
-                    <div class="column-full column-half-l column-third-xl">
-                        {% if related_page.page_type == 'InternationalArticlePage' %}
-                            {% include 'components/card.html' with card_id=related_page.slug url=related_page.url card_image=related_page.article_image sub_heading='Article' title=related_page.title description=related_page.teaser %}
-                        {% else %}
-                            {% include 'components/card.html' with card_id=related_page.slug url=related_page.url card_image=related_page.article_image sub_heading='Campaign' title=related_page.title description=related_page.teaser %}
-                        {% endif %}
-                    </div>
+                    {% if related_page.page_type == 'InternationalArticlePage' %}
+                        {% include '_card.html' with href=related_page.url imageUrl=related_page.article_image title=related_page.title description=related_page.teaser id=related_page.slug metadataText='Article' classes="great-ds-card--3" hideArrow="true" %}
+                    {% else %}
+                        {% include '_card.html' with href=related_page.url imageUrl=related_page.article_image title=related_page.title description=related_page.teaser id=related_page.slug metadataText='Campaign' classes="great-ds-card--3" hideArrow="true" %}
+                    {% endif %}
                 {% endfor %}
             </div>
         </div>

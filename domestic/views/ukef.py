@@ -44,6 +44,13 @@ class UKEFHomeView(TemplateView):
             'direct lending',
             'credit and bond insurance',
         ]
+        context['trade_finance_description'] = (
+            'When it comes to exporting, having a great product or service is only half the story: you need to have the right finance and insurance in place. Our trade finance offer includes:'  # noqa E501
+        )
+
+        context['project_finance_description'] = (
+            'We support UK exports with attractive financing terms for buyers. Find out more about lending to overseas buyers and the guarantees we offer to financial institutions.'  # noqa E501
+        )
         return context
 
 
