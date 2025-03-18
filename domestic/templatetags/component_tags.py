@@ -338,6 +338,7 @@ def get_market_code(market):
     return country_code.lower()
 
 
+# Design system call to action banner componenents
 @register.inclusion_tag('_cta-banner.html')
 def render_markets_cta():
     return {
@@ -371,6 +372,7 @@ def render_market_article_cta(page):
     }
 
 
+# Design system hero componenents
 @register.inclusion_tag('_hero.html')
 def render_event_list_hero(image_url, hero_title, text, conditional_text):
     if text and conditional_text:
@@ -511,7 +513,7 @@ def render_account_hero(image_url, hero_title, hero_text=None, email=None):
 
 
 @register.filter
-def get_lte_image_path_from_class(title):
+def get_lte_hero_image_path_from_class(title):
     get_started_header_img = '/static/images/learn-to-export-topic1-header.png'
     identify_opportunities_header_img = '/static/images/learn-to-export-topic2-header.png'
     prepare_to_sell_header_img = '/static/images/learn-to-export-topic3-header.png'
