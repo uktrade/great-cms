@@ -3,7 +3,7 @@ from directory_forms_api_client.forms import SaveOnlyInDatabaseAPIForm
 from great_design_system import forms
 
 
-class FeedbackForm(SaveOnlyInDatabaseAPIForm, forms.From):
+class FeedbackForm(SaveOnlyInDatabaseAPIForm, forms.Form):
     result_found = forms.ChoiceField(
         label='Did you find what you were looking for on the site today?',
         widget=forms.RadioSelect(),
