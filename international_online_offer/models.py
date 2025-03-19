@@ -316,7 +316,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 initial={'salary_data_location': context['salary_data_location']}
             ),
             'locations': self.create_investment_opportunity_cards(context),
-            'more_locations_link': '/international/investment/?sector=' + triage_data.sector,
+            'more_locations_link': '/international/investment/',
             'events': self.create_trade_event_cards(context),
             'more_events_link': '/international/expand-your-business-in-the-uk/guide/trade-shows',
             'associations': self.create_trade_association_cards(context),
