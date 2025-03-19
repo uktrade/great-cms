@@ -97,7 +97,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         'international_online_offer.EYBTradeShowsPage',
         'international_online_offer.EYBArticlesPage',
     ]
-    template = 'eyb/guide.html'
+    template = 'eyb/guide-dynamic.html'
 
     def create_investment_opportunity_cards(self, context):
         investment_opportunity_cards = []
@@ -418,7 +418,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         }
 
         return TemplateResponse(
-            request, 'eyb/guide-dynamic.html' if ('dynamic' in request.GET) else self.template, context
+            request, self.template, context
         )
 
     def get_context(self, request, *args, **kwargs):
