@@ -155,6 +155,16 @@ class RadioSelectConditionalReveal(ChoiceWidget):
     help_text_class_name = 'govuk-radios__hint'
 
 
+class SelectOne(ChoiceWidget):
+    """
+    New widget that will play nicely with the great-design-system
+    """
+
+    template_name = '_select.html'
+    option_template_name = '_select_option.html'
+    help_text_class_name = 'govuk-radios__hint'
+
+
 class Textarea(Textarea):
     """
     New widget that will play nicely with the great-design-system

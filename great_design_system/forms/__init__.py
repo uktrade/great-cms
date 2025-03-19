@@ -33,6 +33,7 @@ from great_design_system.forms.widgets import (  # noqa
     ReCaptchaV3,
     Textarea,
     TextInput,
+    SelectOne,
 )
 
 __all__ = [
@@ -68,4 +69,5 @@ __all__ = [
     'ReCaptchaV3',
     'Textarea',
     'TextInput',
+    'SelectOne',
 ]

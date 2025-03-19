@@ -12,8 +12,18 @@ from core.models import IndustryTag
 from directory_constants import choices
 from directory_constants.choices import COUNTRY_CHOICES
 
+from great_design_system import forms as gds_forms
+
 COUNTRIES = COUNTRY_CHOICES.copy()
 COUNTRIES.insert(0, ('', 'Select a country'))
+
+
+class MarketsForm(gds_forms.Form):
+    sort_by = gds_forms.ChoiceField(
+        label='Sort by',
+        widget=gds_forms.SelectOne(),
+        choices=[('title', 'Market A-Z'), ('last_published_at', 'Recently updated')],
+    )
 
 
 class UKEFContactForm(GovNotifyEmailActionMixin, forms.Form):
