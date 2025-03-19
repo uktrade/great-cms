@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
@@ -19,6 +20,7 @@ from core.blocks import ColumnsBlock
 from core.mixins import HCSATNonFormPageMixin
 from core.models import CMSGenericPage, TimeStampedModel
 from domestic.models import BaseContentPage
+from international_investment.models import InvestmentOpportunityArticlePage
 from international_online_offer import services
 from international_online_offer.core import (
     choices,
@@ -114,28 +116,78 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
 
         context = self.get_context(request, user_data=user_data, triage_data=triage_data)
 
+        investment_opportunity_cards = []
+
+        for investment_opportunity in context['investment_opportunities']:
+            image_url = ''
+            if investment_opportunity.article_image:
+                rendition = investment_opportunity.article_image.get_rendition('original')
+                image_url = rendition.url  # This is the URL for the image
+            investment_opportunity_cards.append(
+                {
+                    'title': investment_opportunity.article_title,
+                    'location': (
+                        investment_opportunity.location + ', ' + investment_opportunity.region
+                        if investment_opportunity.location
+                        else investment_opportunity.region
+                    ),
+                    'image': image_url,
+                    'url': investment_opportunity.url,
+                    'description': investment_opportunity.article_teaser,
+                }
+            )
+
+        trade_event_cards = []
+
+        for trade_event in context['trade_events']:
+            trade_event_cards.append(
+                {
+                    'title': trade_event.tradeshow_title,
+                    'location': '',
+                    'icon': 'svg/icon-event.svg',
+                    'url': trade_event.tradeshow_link,
+                    'description': trade_event.tradeshow_subheading,
+                    'website': trade_event.tradeshow_link,
+                }
+            )
+
+        trade_association_cards = []
+
+        for trade_association in context['trade_associations']:
+            trade_association_cards.append(
+                {
+                    'title': trade_association.association_name,
+                    'url': trade_association.website_link,
+                    'description': trade_association.brief_description,
+                }
+            )
+
         context = {
             **context,
             'essential_topics': [
                 {
                     'icon_path': 'svg/icon-planning.svg',
                     'text': 'UK business registration',
-                    'url': '#',
+                    'url': '/international/expand-your-business-in-the-uk/guide/'
+                    'detailed-guides/set-up-and-register-your-business',
                 },
                 {
                     'icon_path': 'svg/icon-ukvisa.svg',
                     'text': 'Checking if you need visas',
-                    'url': '#',
+                    'url': '/international/expand-your-business-in-the-uk/guide/'
+                    'detailed-guides/how-to-apply-for-a-visa',
                 },
                 {
                     'icon_path': 'svg/icon-bank.svg',
                     'text': 'Business bank accounts',
-                    'url': '#',
+                    'url': '/international/expand-your-business-in-the-uk/guide/'
+                    'detailed-guides/how-to-choose-and-set-up-a-uk-bank-account/',
                 },
                 {
                     'icon_path': 'svg/icon-tax.svg',
                     'text': 'UK taxes',
-                    'url': '#',
+                    'url': '/international/expand-your-business-in-the-uk/'
+                    'guide/detailed-guides/how-to-register-for-tax-and-claim-tax-allowances',
                 },
             ],
             'company_name': 'Dummy company',
@@ -149,86 +201,30 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             'salary_data_location_select_form': DynamicGuideSalaryDataSelectForm(
                 initial={'salary_data_location': context['salary_data_location']}
             ),
-            'locations': [
-                {
-                    'title': 'Compound semiconductors and applications in South Wales',
-                    'location': 'Wales',
-                    'image': '/static/images/ukef_landing_offer_section_image_2024.jpg',
-                    'url': '#',
-                    'description': 'South Wales is pioneering the way forward in'
-                    ' designing, developing, and commercialising the compound semiconductors'
-                    ' needed for a net zero economy.',
-                },
-                {
-                    'title': 'Connected and immersive technologies for future mobility in Coventry and Warwickshire',
-                    'location': 'Coventry and Warwickshire, Midlands of England',
-                    'image': '/static/images/ukef_landing_how_we_can_help_2024.jpg',
-                    'url': '#',
-                    'description': 'The latest vehicle technologies demand ever greater deployment '
-                    'of connectivity, autonomy and security. Coventry and Warwickshire is a global '
-                    'centre for automotive software innovation.',
-                },
-            ],
-            'more_locations_link': '#',
-            'events': [
-                {
-                    'title': 'Advanced Engineering',
-                    'location': 'Wales',
-                    'icon': 'svg/icon-planning.svg',
-                    'url': '#',
-                    'description': 'Exhibition space and networking opportunities across the advanced '
-                    'engineering supply chain, from R&D and design to testing, quality control, '
-                    'manufacturing, and maintenance.',
-                    'website': 'example.com',
-                },
-                {
-                    'title': 'Mach exhibition',
-                    'location': 'Birmingham, Midlands of England',
-                    'icon': 'svg/icon-planning.svg',
-                    'url': '#',
-                    'description': 'Organised by the Manufacturing Technologies Association, '
-                    'MACH connects UK manufacturing engineers, decision makers, '
-                    'buyers and specifiers with suppliers of new technology, equipment, '
-                    'services and processes. Held every 2 years.',
-                    'website': 'example.com',
-                },
-            ],
-            'more_events_link': '#',
-            'associations': [
-                {
-                    'title': 'British Chemical Engineering CA',
-                    'url': '#',
-                    'description': 'BCECA has provided a focus for intelligence gathering and knowledge '
-                    'sharing for more than 50 years. Their membership includes many of the world’s most '
-                    'widely recognised and respected engineering contractors. ',
-                },
-                {
-                    'title': "British Engineering Manufacturers' Association (BEMA)",
-                    'url': '#',
-                    'description': "The British Engineering Manufacturers' Association Limited (BEMA) "
-                    'is now the largest engineering trade association in the South West of England, '
-                    'supporting the demands of industry to benefit the member companies with hel...',
-                },
-            ],
-            'more_associations_link': '#',
+            'locations': investment_opportunity_cards,
+            'more_locations_link': '/international/investment/?sector=' + triage_data.sector,
+            'events': trade_event_cards,
+            'more_events_link': '/international/expand-your-business-in-the-uk/guide/trade-shows',
+            'associations': trade_association_cards,
+            'more_associations_link': '/international/expand-your-business-in-the-uk/trade-associations',
             'bases': [
                 {
                     'title': 'How to find a business property',
-                    'icon': 'svg/icon-planning.svg',
+                    'icon': 'svg/icon-find-property.svg',
                     'url': '#',
                     'description': 'A suitable location near customers, staff, '
                     'transport hubs and supply chains is crucial to your success in the UK.',
                 },
                 {
                     'title': 'Set up a new premises for [ SectorName ]',
-                    'icon': 'svg/icon-planning.svg',
+                    'icon': 'svg/icon-premises.svg',
                     'url': '#',
                     'description': 'How to find premises and decide on the best location to '
                     'expand your [SectorName] business in the UK.',
                 },
                 {
                     'title': 'Set up a new distribution centre for [SectorName]',
-                    'icon': 'svg/icon-planning.svg',
+                    'icon': 'svg/icon-distribution.svg',
                     'url': '#',
                     'description': 'Find help to select a location and logistics partner.',
                 },
@@ -311,14 +307,14 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             'recruit_and_employ': [
                 {
                     'title': 'How to become an employer and recruit staff',
-                    'icon': 'svg/icon-planning.svg',
+                    'icon': 'svg/icon-staff.svg',
                     'url': '#',
                     'description': 'A guide to your responsibilities as a UK employer, '
                     'employment regulations and how to find people with the right skills.',
                 },
                 {
                     'title': 'Recruit expert talent for your [SectorName] business',
-                    'icon': 'svg/icon-planning.svg',
+                    'icon': 'svg/icon-talent.svg',
                     'url': '#',
                     'description': 'Recruitment agencies, events and partnerships can help you '
                     'tap into the huge network of UK [SectorName] talent.',
@@ -359,54 +355,55 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 'data_source': 'Inter-Departmental Business Register, Office for National Statistics',
             },
             'right_panel_sections': [
-                {
-                    'title': 'Regulations',
-                    'icon_path': 'svg/icon-planning.svg',
-                    'items': [
-                        {
-                            'title': 'Regulations for [SectorName]',
-                            'url': '#',
-                            'text': 'You will need to be aware of UK regulations '
-                            'and legislation framework in the Dummy sector sector.',
-                        },
-                    ],
-                },
+                # {
+                #     'title': 'Regulations',
+                #     'icon_path': 'svg/icon-regulations.svg',
+                #     'items': [
+                #         {
+                #             'title': 'Regulations for [Dummay sector]',
+                #             'url': '#',
+                #             'text': 'You will need to be aware of UK regulations '
+                #             'and legislation framework in the [Dummy sector] sector.',
+                #         },
+                #     ],
+                # }, TODO this is only shown if the article exists in the sectors wagtail folder
                 {
                     'title': 'Funding and help for overseas businesses',
-                    'icon_path': 'svg/icon-planning.svg',
+                    'icon_path': 'svg/icon-finance.svg',
                     'items': [
-                        {
-                            'title': 'Research and development support for {{ sector_name }}',
-                            'url': '#',
-                            'text': 'Businesses can benefit from research and development programmes '
-                            'and initiatives in the advanced engineering sector.',
-                        },
+                        # {
+                        #     'title': 'Research and development support for {{ sector_name }}',
+                        #     'url': '#',
+                        #     'text': 'Businesses can benefit from research and development programmes '
+                        #     'and initiatives in the advanced engineering sector.',
+                        # }, TODO this is only shown if the article exists in the sectors wagtail folder
                         {
                             'title': 'Incentives for innovative businesses',
-                            'url': '#',
+                            'url': '/international/expand-your-business-in-the-uk'
+                            '/guide/finance-and-support/incentives-funding-support',
                             'text': 'Find out about tax reliefs and R&D support '
                             'for cutting edge overseas businesses setting up in the UK.',
                         },
                         {
                             'title': 'Finance for your expansion',
-                            'url': '#',
+                            'url': '/international/expand-your-business-in-the-uk/guide/finance-and-support/finance',
                             'text': 'See a range of options for raising capital in the UK '
                             'including loans, equity financing and development funding.',
                         },
                     ],
                 },
-                {
-                    'title': 'Selling from the UK',
-                    'icon_path': 'svg/icon-planning.svg',
-                    'items': [
-                        {
-                            'title': 'Guidance for exporting',
-                            'url': '#',
-                            'text': 'What to consider if you want to use the UK as a base '
-                            'to export to other overseas markets. Includes regulations and trade agreements.',
-                        },
-                    ],
-                },
+                # {
+                #     'title': 'Selling from the UK',
+                #     'icon_path': 'svg/icon-export.svg',
+                #     'items': [
+                #         {
+                #             'title': 'Guidance for exporting',
+                #             'url': '#',
+                #             'text': 'What to consider if you want to use the UK as a base '
+                #             'to export to other overseas markets. Includes regulations and trade agreements.',
+                #         },
+                #     ],
+                # }, TODO this is only down if triage_data.intent contains onwards sales and exports
             ],
         }
 
@@ -499,6 +496,28 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             tags__name=filter_tags.FINANCE_AND_SUPPORT
         )
 
+        # Get first three investment opportunities A-Z by sector
+        investment_opportunities = (
+            InvestmentOpportunityArticlePage.objects.live()
+            .filter(dbt_sectors__contains=[triage_data.sector])
+            .order_by('article_title')[:3]
+        )
+
+        # Get first three trade events A-Z by sector
+        trade_events = (
+            IOOTradeShowPage.objects.live()
+            .filter(tags__name__iexact=triage_data.sector.replace(',', ''))
+            .order_by('tradeshow_title')[:3]
+        )
+
+        # Get first three trade associations A-Z by sector
+        # Try getting trade associations by exact sector match or in mapped list of sectors
+        trade_association_sectors = helpers.get_trade_assoication_sectors_from_sector(triage_data.sector)
+
+        trade_associations = TradeAssociation.objects.filter(
+            Q(link_valid=True) & (Q(sector__icontains=triage_data.sector) | Q(sector__in=trade_association_sectors))
+        ).order_by('association_name')[:3]
+
         breadcrumbs = [
             {'name': 'Home', 'url': '/international/'},
         ]
@@ -527,6 +546,9 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             finance_and_support_articles=all_articles_tagged_with_finance_and_support,
             trade_shows_page=trade_shows_page,
             breadcrumbs=breadcrumbs,
+            investment_opportunities=investment_opportunities,
+            trade_events=trade_events,
+            trade_associations=trade_associations,
         )
 
         self.set_ga360_payload(

@@ -22,7 +22,7 @@
                 <div class="figures__figure">
                     <img class="dynamic-guide__icon figures__icon"
                          alt=""
-                         src="{% static 'svg/icon-planning.svg' %}" />
+                         src="{% static 'svg/icon-salary-entry.svg' %}" />
                     <p class="figures__value govuk-heading-l">£{{ entry_salary|intcomma }}</p>
                     {% if professions_by_sector.entry_level %}
                         <p class="figures__description govuk-body">For professions like {{ professions_by_sector.entry_level|default:'-' }}</p>
@@ -33,7 +33,7 @@
                 <div class="figures__figure">
                     <img class="dynamic-guide__icon figures__icon"
                          alt=""
-                         src="{% static 'svg/icon-planning.svg' %}" />
+                         src="{% static 'svg/icon-salary-mid.svg' %}" />
                     <p class="figures__value govuk-heading-l">£{{ mid_salary|intcomma }}</p>
                     {% if professions_by_sector.entry_level %}
                         <p class="figures__description govuk-body">For professions like {{ professions_by_sector.mid_level|default:'-' }}</p>
@@ -44,7 +44,7 @@
                 <div class="figures__figure">
                     <img class="dynamic-guide__icon figures__icon"
                          alt=""
-                         src="{% static 'svg/icon-planning.svg' %}" />
+                         src="{% static 'svg/icon-salary-executive.svg' %}" />
                     <p class="figures__value govuk-heading-l">£{{ executive_salary|intcomma }}</p>
                     {% if professions_by_sector.executive_level %}
                         <p class="figures__description govuk-body">
