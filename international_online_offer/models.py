@@ -99,6 +99,137 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
     ]
     template = 'eyb/guide.html'
 
+    def create_investment_opportunity_cards(self, context):
+        investment_opportunity_cards = []
+        for investment_opportunity in context['investment_opportunities']:
+            image_url = ''
+            if investment_opportunity.article_image:
+                rendition = investment_opportunity.article_image.get_rendition('original')
+                image_url = rendition.url  # This is the URL for the image
+            investment_opportunity_cards.append(
+                {
+                    'title': investment_opportunity.article_title,
+                    'location': investment_opportunity.location + ', ' + investment_opportunity.region if investment_opportunity.location else investment_opportunity.region,
+                    'image': image_url,
+                    'url': investment_opportunity.url,
+                    'description': investment_opportunity.article_teaser,
+                }
+            )
+        return investment_opportunity_cards
+
+    def create_trade_event_cards(self, context):
+        trade_event_cards = []
+        for trade_event in context['trade_events']:
+            trade_event_cards.append(
+                {
+                    'title': trade_event.tradeshow_title,
+                    'location': '',
+                    'icon': 'svg/icon-event.svg',
+                    'url': trade_event.tradeshow_link,
+                    'description': trade_event.tradeshow_subheading,
+                    'website': trade_event.tradeshow_link,
+                }
+            )
+        return trade_event_cards
+
+    def create_trade_association_cards(self, context):
+        trade_association_cards = []
+        for trade_association in context['trade_associations']:
+            trade_association_cards.append({
+                    'title': trade_association.association_name,
+                    'url': trade_association.website_link,
+                    'description': trade_association.brief_description
+                }
+            )
+        return trade_association_cards
+
+    def _add_set_up_new_premises_card(self, tag, intent_article, triage_data, base_cards):
+        if tag.name == intents.SET_UP_NEW_PREMISES:
+            base_cards.append({
+                'title': 'Set up a new premises for ' + triage_data.sector,
+                'icon': 'svg/icon-premises.svg',
+                'url': intent_article.url,
+                'description': 'How to find premises and decide on the best location to '
+                f'expand your {triage_data.sector} business in the UK.',
+            })
+
+    def _add_set_up_new_distribution_centre_card(self, tag, intent_article, triage_data, base_cards):
+        if tag.name == intents.SET_UP_A_NEW_DISTRIBUTION_CENTRE:
+            base_cards.append({
+                'title': 'Set up a new distribution centre for ' + triage_data.sector,
+                'icon': 'svg/icon-distribution.svg',
+                'url': intent_article.url,
+                'description': 'Find help to select a location and logistics partner.',
+            })
+
+    def _add_find_people_with_specialist_skills_card(self, tag, intent_article, triage_data, recruit_and_employ_cards):
+        if tag.name == intents.FIND_PEOPLE_WITH_SPECIALIST_SKILLS:
+            recruit_and_employ_cards.append({
+                'title': f'Recruit expert talent for your {triage_data.sector} business',
+                'icon': 'svg/icon-talent.svg',
+                'url': intent_article.url,
+                'description': 'Recruitment agencies, events and partnerships can help you '
+                f'tap into the huge network of UK {triage_data.sector} talent.',
+            })
+
+    def _add_research_and_development_card(self, tag, intent_article, triage_data, right_panel_sections):
+        if tag.name == intents.RESEARCH_DEVELOP_AND_COLLABORATE:
+            research_and_development_item = {
+                'title': f'Research and development support for {triage_data.sector}',
+                'url': intent_article.url,
+                'text': 'Businesses can benefit from research and development programmes '
+                        f'and initiatives in the {triage_data.sector} sector.',
+            }
+            for section in right_panel_sections:
+                if section['title'] == 'Funding and help for overseas businesses':
+                    section['items'].insert(0, research_and_development_item)
+
+    def _add_regulations_card(self, tag, intent_article, triage_data, right_panel_sections):
+        if tag.name == 'REGULATIONS':
+            regulations_section = {
+                'title': 'Regulations',
+                'icon_path': 'svg/icon-regulations.svg',
+                'items': [
+                    {
+                        'title': f'Regulations for {triage_data.sector}',
+                        'url': intent_article.url,
+                        'text': 'You will need to be aware of UK regulations '
+                                f'and legislation framework in the {triage_data.sector} sector.',
+                    },
+                ],
+            }
+            right_panel_sections.insert(0, regulations_section)
+
+    def _add_onward_sales_and_exports_card(self, tag, intent_article, triage_data, right_panel_sections):
+        if tag.name == intents.ONWARD_SALES_AND_EXPORTS_FROM_THE_UK:
+            exports_section = {
+                'title': 'Selling from the UK',
+                'icon_path': 'svg/icon-export.svg',
+                'items': [
+                    {
+                        'title': 'Guidance for exporting',
+                        'url': intent_article.url,
+                        'text': 'What to consider if you want to use the UK as a base '
+                                'to export to other overseas markets. Includes regulations and trade agreements.',
+                    },
+                ],
+            }
+            right_panel_sections.insert(len(right_panel_sections) + 1, exports_section)
+
+    def add_dynamic_cards(self, context, triage_data, base_cards, recruit_and_employ_cards, right_panel_sections):
+        for intent_article in context['get_to_know_market_articles']:
+            for tag in intent_article.tags.all():
+                self._add_set_up_new_premises_card(tag, intent_article, triage_data, base_cards)
+                self._add_set_up_new_distribution_centre_card(tag, intent_article, triage_data, base_cards)
+                self._add_find_people_with_specialist_skills_card(
+                    tag, intent_article, triage_data, recruit_and_employ_cards
+                )
+                self._add_research_and_development_card(tag, intent_article, triage_data, right_panel_sections)
+                self._add_regulations_card(tag, intent_article, triage_data, right_panel_sections)
+                self._add_onward_sales_and_exports_card(tag, intent_article, triage_data, right_panel_sections)
+
+        return base_cards, recruit_and_employ_cards, right_panel_sections
+
     def serve(self, request, *args, **kwargs):
         # hcsat
         if request.method == 'POST':
@@ -115,50 +246,8 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 if request.GET.get('login'):
                     response['Location'] += '?resume=true'
                 return response
-            
-        
 
         context = self.get_context(request, user_data=user_data, triage_data=triage_data)
-
-        investment_opportunity_cards = []
-
-        for investment_opportunity in context['investment_opportunities']:
-            image_url = ''
-            if investment_opportunity.article_image:
-                rendition = investment_opportunity.article_image.get_rendition('original')
-                image_url = rendition.url  # This is the URL for the image
-            investment_opportunity_cards.append(
-                {
-                    'title': investment_opportunity.article_title,
-                    'location': investment_opportunity.location + ', ' + investment_opportunity.region if investment_opportunity.location else investment_opportunity.region,
-                    'image': image_url,
-                    'url': investment_opportunity.url,
-                    'description': investment_opportunity.article_teaser,
-                }
-            )
-        
-        trade_event_cards = []
-
-        for trade_event in context['trade_events']:
-            trade_event_cards.append(
-                {
-                    'title': trade_event.tradeshow_title,
-                    'location': '',
-                    'icon': 'svg/icon-event.svg',
-                    'url': trade_event.tradeshow_link,
-                    'description': trade_event.tradeshow_subheading,
-                    'website': trade_event.tradeshow_link,
-                }
-            )
-
-        trade_association_cards = []
-
-        for trade_association in context['trade_associations']:
-            trade_association_cards.append({
-                    'title': trade_association.association_name,
-                    'url': trade_association.website_link,
-                    'description': trade_association.brief_description
-                })
 
         base_cards = [{
             'title': 'How to find a business property',
@@ -199,69 +288,9 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             }
         ]
 
-        for intent_article in context['get_to_know_market_articles']:
-            for tag in intent_article.tags.all():
-                if tag.name == intents.SET_UP_NEW_PREMISES:
-                    base_cards.append({
-                        'title': 'Set up a new premises for ' + triage_data.sector,
-                        'icon': 'svg/icon-premises.svg',
-                        'url': intent_article.url,
-                        'description': 'How to find premises and decide on the best location to '
-                        f'expand your {triage_data.sector} business in the UK.',
-                    })
-                if tag.name == intents.SET_UP_A_NEW_DISTRIBUTION_CENTRE:
-                    base_cards.append({
-                        'title': 'Set up a new distribution centre for ' + triage_data.sector,
-                        'icon': 'svg/icon-distribution.svg',
-                        'url': intent_article.url,
-                        'description': 'Find help to select a location and logistics partner.',
-                    })
-                if tag.name == intents.FIND_PEOPLE_WITH_SPECIALIST_SKILLS:
-                    recruit_and_employ_cards.append({
-                        'title': f'Recruit expert talent for your {triage_data.sector} business',
-                        'icon': 'svg/icon-talent.svg',
-                        'url': intent_article.url,
-                        'description': 'Recruitment agencies, events and partnerships can help you '
-                        f'tap into the huge network of UK {triage_data.sector} talent.',
-                    })
-                if tag.name == intents.RESEARCH_DEVELOP_AND_COLLABORATE:
-                    research_and_development_item = {
-                        'title': f'Research and development support for { triage_data.sector }',
-                        'url': intent_article.url,
-                        'text': 'Businesses can benefit from research and development programmes '
-                        f'and initiatives in the {triage_data.sector} sector.',
-                    }
-                    for section in right_panel_sections:
-                        if section['title'] == 'Funding and help for overseas businesses':
-                            section['items'].insert(0, research_and_development_item)
-                if tag.name == 'REGULATIONS':
-                    regulations_section = {
-                        'title': 'Regulations',
-                        'icon_path': 'svg/icon-regulations.svg',
-                        'items': [
-                            {
-                                'title': f'Regulations for {triage_data.sector}',
-                                'url': intent_article.url,
-                                'text': 'You will need to be aware of UK regulations '
-                                f'and legislation framework in the {triage_data.sector} sector.',
-                            },
-                        ],
-                    }
-                    right_panel_sections.insert(0, regulations_section)
-                if tag.name == intents.ONWARD_SALES_AND_EXPORTS_FROM_THE_UK:
-                    exports_section = {
-                        'title': 'Selling from the UK',
-                        'icon_path': 'svg/icon-export.svg',
-                        'items': [
-                            {
-                                'title': 'Guidance for exporting',
-                                'url': intent_article.url,
-                                'text': 'What to consider if you want to use the UK as a base '
-                                'to export to other overseas markets. Includes regulations and trade agreements.',
-                            },
-                        ],
-                    }
-                    right_panel_sections.insert(len(right_panel_sections) + 1, exports_section)
+        base_cards, recruit_and_employ_cards, right_panel_sections = self.add_dynamic_cards(
+            context, triage_data, base_cards, recruit_and_employ_cards, right_panel_sections
+        )
 
         context = {
             **context,
@@ -302,11 +331,11 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             'salary_data_location_select_form': DynamicGuideSalaryDataSelectForm(
                 initial={'salary_data_location': context['salary_data_location']}
             ),
-            'locations': investment_opportunity_cards,
+            'locations': self.create_investment_opportunity_cards(context),
             'more_locations_link': '/international/investment/?sector=' + triage_data.sector,
-            'events': trade_event_cards,
+            'events': self.create_trade_event_cards(context),
             'more_events_link': '/international/expand-your-business-in-the-uk/guide/trade-shows',
-            'associations': trade_association_cards,
+            'associations': self.create_trade_association_cards(context),
             'more_associations_link': '/international/expand-your-business-in-the-uk/trade-associations',
             'bases': base_cards,
             'rent_data': {
