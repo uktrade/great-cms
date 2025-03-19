@@ -10,7 +10,7 @@
         {% include './includes/govuk/phase_banner.html' %}
     </div>
     {% include './includes/back_link.html' with back_url=back_url %}
-    <div class="great-breadcrumbs {% if request.path == '/international/expand-your-business-in-the-uk/' %}light-blue-background{% endif %}">
+    <div class="{% if request.path == '/international/expand-your-business-in-the-uk/' %}light-blue-background{% endif %}">
         {{ block.super }}
     </div>
 {% endblock %}

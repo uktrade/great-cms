@@ -126,7 +126,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                     'location': '',
                     'icon': 'svg/icon-event.svg',
                     'url': trade_event.tradeshow_link,
-                    'description': trade_event.tradeshow_subheading,
+                    'description': trade_event.specific.tradeshow_subheading,
                     'website': trade_event.tradeshow_link,
                 }
             )
@@ -142,91 +142,106 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 }
             )
         return trade_association_cards
+    
+    def _add_find_business_property_card(self, tag, intent_article, base_cards):
+        if tag.name == filter_tags.FIND_BUSINESS_PROPERTY:
+            base_cards.insert(0, {
+            'title': intent_article.title,
+            'icon': 'svg/icon-find-property.svg',
+            'url': intent_article.url,
+            'description': intent_article.article_teaser,
+        })
 
-    def _add_set_up_new_premises_card(self, tag, intent_article, triage_data, base_cards):
+    def _add_set_up_new_premises_card(self, tag, intent_article, base_cards):
         if tag.name == intents.SET_UP_NEW_PREMISES:
             base_cards.append({
-                'title': 'Set up a new premises for ' + triage_data.sector,
+                'title': intent_article.title,
                 'icon': 'svg/icon-premises.svg',
                 'url': intent_article.url,
-                'description': 'How to find premises and decide on the best location to '
-                f'expand your {triage_data.sector} business in the UK.',
+                'description': intent_article.article_teaser,
             })
 
-    def _add_set_up_new_distribution_centre_card(self, tag, intent_article, triage_data, base_cards):
+    def _add_set_up_new_distribution_centre_card(self, tag, intent_article, base_cards):
         if tag.name == intents.SET_UP_A_NEW_DISTRIBUTION_CENTRE:
             base_cards.append({
-                'title': 'Set up a new distribution centre for ' + triage_data.sector,
+                'title': intent_article.title,
                 'icon': 'svg/icon-distribution.svg',
                 'url': intent_article.url,
-                'description': 'Find help to select a location and logistics partner.',
+                'description': intent_article.article_teaser,
             })
 
-    def _add_find_people_with_specialist_skills_card(self, tag, intent_article, triage_data, recruit_and_employ_cards):
+    def _add_find_expert_talent_card(self, tag, intent_article, recruit_and_employ_cards):
+        if tag.name == filter_tags.FIND_EXPERT_TALENT:
+            recruit_and_employ_cards.insert(0, {
+                'title': intent_article.title,
+                'icon': 'svg/icon-staff.svg',
+                'url': intent_article.url,
+                'description': intent_article.article_teaser,
+            })
+
+    def _add_find_people_with_specialist_skills_card(self, tag, intent_article, recruit_and_employ_cards):
         if tag.name == intents.FIND_PEOPLE_WITH_SPECIALIST_SKILLS:
             recruit_and_employ_cards.append({
-                'title': f'Recruit expert talent for your {triage_data.sector} business',
+                'title': intent_article.title,
                 'icon': 'svg/icon-talent.svg',
                 'url': intent_article.url,
-                'description': 'Recruitment agencies, events and partnerships can help you '
-                f'tap into the huge network of UK {triage_data.sector} talent.',
+                'description': intent_article.article_teaser,
             })
 
-    def _add_research_and_development_card(self, tag, intent_article, triage_data, right_panel_sections):
-        if tag.name == intents.RESEARCH_DEVELOP_AND_COLLABORATE:
-            research_and_development_item = {
-                'title': f'Research and development support for {triage_data.sector}',
+    def _add_support_and_funding_cards(self, tag, intent_article, right_panel_sections):
+        if tag.name == intents.RESEARCH_DEVELOP_AND_COLLABORATE or tag.name == filter_tags.FINANCE_AND_SUPPORT:
+            card_item = {
+                'title': intent_article.title,
                 'url': intent_article.url,
-                'text': 'Businesses can benefit from research and development programmes '
-                        f'and initiatives in the {triage_data.sector} sector.',
+                'text': intent_article.article_teaser,
             }
             for section in right_panel_sections:
                 if section['title'] == 'Funding and help for overseas businesses':
-                    section['items'].insert(0, research_and_development_item)
+                    section['items'].append(card_item)
 
-    def _add_regulations_card(self, tag, intent_article, triage_data, right_panel_sections):
+    def _add_regulations_card(self, tag, intent_article, right_panel_sections):
         if tag.name == 'REGULATIONS':
             regulations_section = {
                 'title': 'Regulations',
                 'icon_path': 'svg/icon-regulations.svg',
                 'items': [
                     {
-                        'title': f'Regulations for {triage_data.sector}',
+                        'title': intent_article.title,
                         'url': intent_article.url,
-                        'text': 'You will need to be aware of UK regulations '
-                                f'and legislation framework in the {triage_data.sector} sector.',
+                        'text': intent_article.article_teaser,
                     },
                 ],
             }
             right_panel_sections.insert(0, regulations_section)
 
-    def _add_onward_sales_and_exports_card(self, tag, intent_article, triage_data, right_panel_sections):
+    def _add_onward_sales_and_exports_card(self, tag, intent_article, right_panel_sections):
         if tag.name == intents.ONWARD_SALES_AND_EXPORTS_FROM_THE_UK:
             exports_section = {
                 'title': 'Selling from the UK',
                 'icon_path': 'svg/icon-export.svg',
                 'items': [
                     {
-                        'title': 'Guidance for exporting',
+                        'title': intent_article.title,
                         'url': intent_article.url,
-                        'text': 'What to consider if you want to use the UK as a base '
-                                'to export to other overseas markets. Includes regulations and trade agreements.',
+                        'text': intent_article.article_teaser,
                     },
                 ],
             }
             right_panel_sections.insert(len(right_panel_sections) + 1, exports_section)
 
-    def add_dynamic_cards(self, context, triage_data, base_cards, recruit_and_employ_cards, right_panel_sections):
-        for intent_article in context['get_to_know_market_articles']:
+    def add_dynamic_cards(self, context, base_cards, recruit_and_employ_cards, right_panel_sections):
+        for intent_article in context['all_articles']:
             for tag in intent_article.tags.all():
-                self._add_set_up_new_premises_card(tag, intent_article, triage_data, base_cards)
-                self._add_set_up_new_distribution_centre_card(tag, intent_article, triage_data, base_cards)
+                self._add_find_business_property_card(tag, intent_article, base_cards)
+                self._add_set_up_new_premises_card(tag, intent_article, base_cards)
+                self._add_set_up_new_distribution_centre_card(tag, intent_article, base_cards)
+                self._add_find_expert_talent_card(tag, intent_article, recruit_and_employ_cards)
                 self._add_find_people_with_specialist_skills_card(
-                    tag, intent_article, triage_data, recruit_and_employ_cards
+                    tag, intent_article, recruit_and_employ_cards
                 )
-                self._add_research_and_development_card(tag, intent_article, triage_data, right_panel_sections)
-                self._add_regulations_card(tag, intent_article, triage_data, right_panel_sections)
-                self._add_onward_sales_and_exports_card(tag, intent_article, triage_data, right_panel_sections)
+                self._add_support_and_funding_cards(tag, intent_article, right_panel_sections)
+                self._add_regulations_card(tag, intent_article, right_panel_sections)
+                self._add_onward_sales_and_exports_card(tag, intent_article, right_panel_sections)
 
         return base_cards, recruit_and_employ_cards, right_panel_sections
 
@@ -249,47 +264,19 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
 
         context = self.get_context(request, user_data=user_data, triage_data=triage_data)
 
-        base_cards = [{
-            'title': 'How to find a business property',
-            'icon': 'svg/icon-find-property.svg',
-            'url': '/international/expand-your-business-in-the-uk/guide/detailed-guides/'
-            'find-the-right-location-and-premises',
-            'description': 'A suitable location near customers, staff, '
-            'transport hubs and supply chains is crucial to your success in the UK.',
-        }]
-
-        recruit_and_employ_cards = [{
-            'title': 'How to become an employer and recruit staff',
-            'icon': 'svg/icon-staff.svg',
-            'url': '/international/expand-your-business-in-the-uk/guide/detailed-guides/find-expert-talent',
-            'description': 'A guide to your responsibilities as a UK employer, '
-            'employment regulations and how to find people with the right skills.',
-        }]
+        base_cards = []
+        recruit_and_employ_cards = []
 
         right_panel_sections = [
             {
                 'title': 'Funding and help for overseas businesses',
                 'icon_path': 'svg/icon-finance.svg',
-                'items': [
-                    {
-                        'title': 'Incentives for innovative businesses',
-                        'url': '/international/expand-your-business-in-the-uk/guide/'
-                        'finance-and-support/incentives-funding-support',
-                        'text': 'Find out about tax reliefs and R&D support '
-                        'for cutting edge overseas businesses setting up in the UK.',
-                    },
-                    {
-                        'title': 'Finance for your expansion',
-                        'url': '/international/expand-your-business-in-the-uk/guide/finance-and-support/finance',
-                        'text': 'See a range of options for raising capital in the UK '
-                        'including loans, equity financing and development funding.',
-                    },
-                ],
+                'items': [],
             }
         ]
 
         base_cards, recruit_and_employ_cards, right_panel_sections = self.add_dynamic_cards(
-            context, triage_data, base_cards, recruit_and_employ_cards, right_panel_sections
+            context, base_cards, recruit_and_employ_cards, right_panel_sections
         )
 
         context = {
@@ -320,8 +307,6 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                     f'guide/detailed-guides/how-to-register-for-tax-and-claim-tax-allowances',
                 },
             ],
-            'company_name': 'Dummy company',
-            'sector_name': 'Dummy sector',
             'market_data_location_select_form': DynamicGuideBCIRegionSelectForm(
                 initial={'market_data_location': context['market_data_location']}
             ),
@@ -474,15 +459,18 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         # Get trade shows page (should only be one, is a parent / container page for all trade show pages)
         trade_shows_page = EYBTradeShowsPage.objects.live().filter().first()
 
-        """
-            Surface articles that have been tagged with the user's sector and their intent.
-            I.e. each article needs two tags to display, for example, 'Food and drink',
-            and 'Set up a new distribution centre'.
-        """
-        all_articles_tagged_with_sector = []
+        # Get any EYB articles that have been tagged with any of the filter tags setup by content team
+        all_articles = EYBArticlePage.objects.live().filter(
+            Q(tags__name=filter_tags.FINANCE_AND_SUPPORT) |
+            Q(tags__name=filter_tags.REGULATIONS) |
+            Q(tags__name=filter_tags.FIND_EXPERT_TALENT) |
+            Q(tags__name=filter_tags.FIND_BUSINESS_PROPERTY)
+        )
 
         if triage_data and triage_data.sector:
             """
+            Surface articles that have been tagged with the user's sector.
+            I.e. each article needs two tags to display, for example, 'Food and drink'.
             Wagtail doesn't allow commas in tags and we need to match the sector
             'Agriculture, horticulture, fisheries and pets' i.e. below will match the tag
             'Agriculture horticulture fisheries and pets'
@@ -490,20 +478,15 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             user_sector_no_commas = triage_data.sector.replace(',', '')
 
             # display articles based on free text tags
-            all_articles_tagged_with_sector = (
+            all_articles = all_articles.union(
                 EYBArticlePage.objects.live()
                 .filter(tags__name__iexact=user_sector_no_commas)
             )
 
             # include articles based on user sector and article's dbt sector not including any duplicates
-            all_articles_tagged_with_sector = all_articles_tagged_with_sector.union(
+            all_articles = all_articles.union(
                 EYBArticlePage.objects.live().filter(dbt_sectors__contains=[triage_data.sector])
             )
-
-        # Get any EYB articles that have been tagged with FINANCE_AND_SUPPORT
-        all_articles_tagged_with_finance_and_support = EYBArticlePage.objects.live().filter(
-            tags__name=filter_tags.FINANCE_AND_SUPPORT
-        )
 
         # Get first three investment opportunities A-Z by sector
         investment_opportunities = InvestmentOpportunityArticlePage.objects.live().filter(dbt_sectors__contains=[triage_data.sector]).order_by('article_title')[:3]
@@ -543,8 +526,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             salary_data_location=salary_data_location,
             cleaned_median_salaries=cleaned_median_salaries,
             professions_by_sector=professions_by_sector,
-            get_to_know_market_articles=all_articles_tagged_with_sector,
-            finance_and_support_articles=all_articles_tagged_with_finance_and_support,
+            all_articles=all_articles,
             trade_shows_page=trade_shows_page,
             breadcrumbs=breadcrumbs,
             investment_opportunities=investment_opportunities,

@@ -38,7 +38,9 @@
                         {% for topic in essential_topics %}
                             <li class="essential-topics__item">
                                 <img class="dynamic-guide__icon" alt="" src="{% static topic.icon_path %}" />
-                                <a href="{{ topic.url }}">{{ topic.text }}</a>
+                                <a class="great-ds-action-link__link" href="{{ topic.url }}">
+                                    <span class="great-ds-action-link__text">{{ topic.text }}</span>
+                                </a>
                             </li>
                         {% endfor %}
                     </ul>

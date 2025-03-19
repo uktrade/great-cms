@@ -1,5 +1,3 @@
-{% comment %}
-	FIXME: We can't use great-ds-title-arrow__text as it doesn't work on
-	small screens with long text
-{% endcomment %}
-<a href="{{ url }}" class="great-ds-title-arrow__text">{{ text }}</a>
+<a href="{{ url }}" class="great-ds-title-arrow__text">
+    {% include '_title-arrow.html' with text=text hideArrow="true" %}
+</a>
