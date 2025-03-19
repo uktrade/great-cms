@@ -159,23 +159,24 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                     'url': trade_association.website_link,
                     'description': trade_association.brief_description
                 })
-            
+
         base_cards = [{
-                    'title': 'How to find a business property',
-                    'icon': 'svg/icon-find-property.svg',
-                    'url': '/international/expand-your-business-in-the-uk/guide/detailed-guides/find-the-right-location-and-premises',
-                    'description': 'A suitable location near customers, staff, '
-                    'transport hubs and supply chains is crucial to your success in the UK.',
-                }]
-        
+            'title': 'How to find a business property',
+            'icon': 'svg/icon-find-property.svg',
+            'url': '/international/expand-your-business-in-the-uk/guide/detailed-guides/'
+            'find-the-right-location-and-premises',
+            'description': 'A suitable location near customers, staff, '
+            'transport hubs and supply chains is crucial to your success in the UK.',
+        }]
+
         recruit_and_employ_cards = [{
-                    'title': 'How to become an employer and recruit staff',
-                    'icon': 'svg/icon-staff.svg',
-                    'url': '/international/expand-your-business-in-the-uk/guide/detailed-guides/find-expert-talent', 
-                    'description': 'A guide to your responsibilities as a UK employer, '
-                    'employment regulations and how to find people with the right skills.',
-                }]
-        
+            'title': 'How to become an employer and recruit staff',
+            'icon': 'svg/icon-staff.svg',
+            'url': '/international/expand-your-business-in-the-uk/guide/detailed-guides/find-expert-talent',
+            'description': 'A guide to your responsibilities as a UK employer, '
+            'employment regulations and how to find people with the right skills.',
+        }]
+
         right_panel_sections = [
             {
                 'title': 'Funding and help for overseas businesses',
@@ -183,7 +184,8 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 'items': [
                     {
                         'title': 'Incentives for innovative businesses',
-                        'url': '/international/expand-your-business-in-the-uk/guide/finance-and-support/incentives-funding-support',
+                        'url': '/international/expand-your-business-in-the-uk/guide/'
+                        'finance-and-support/incentives-funding-support',
                         'text': 'Find out about tax reliefs and R&D support '
                         'for cutting edge overseas businesses setting up in the UK.',
                     },
@@ -211,28 +213,28 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                     base_cards.append({
                         'title': 'Set up a new distribution centre for ' + triage_data.sector,
                         'icon': 'svg/icon-distribution.svg',
-                        'url': intent_article.url,  
+                        'url': intent_article.url,
                         'description': 'Find help to select a location and logistics partner.',
                     })
                 if tag.name == intents.FIND_PEOPLE_WITH_SPECIALIST_SKILLS:
                     recruit_and_employ_cards.append({
-                    'title': f'Recruit expert talent for your {triage_data.sector} business',
-                    'icon': 'svg/icon-talent.svg',
-                    'url': intent_article.url,
-                    'description': 'Recruitment agencies, events and partnerships can help you '
-                    f'tap into the huge network of UK {triage_data.sector} talent.',
-                })
+                        'title': f'Recruit expert talent for your {triage_data.sector} business',
+                        'icon': 'svg/icon-talent.svg',
+                        'url': intent_article.url,
+                        'description': 'Recruitment agencies, events and partnerships can help you '
+                        f'tap into the huge network of UK {triage_data.sector} talent.',
+                    })
                 if tag.name == intents.RESEARCH_DEVELOP_AND_COLLABORATE:
                     research_and_development_item = {
-                            'title': f'Research and development support for { triage_data.sector }',
-                            'url': intent_article.url,
-                            'text': 'Businesses can benefit from research and development programmes '
-                            f'and initiatives in the {triage_data.sector} sector.',
-                        }
+                        'title': f'Research and development support for { triage_data.sector }',
+                        'url': intent_article.url,
+                        'text': 'Businesses can benefit from research and development programmes '
+                        f'and initiatives in the {triage_data.sector} sector.',
+                    }
                     for section in right_panel_sections:
                         if section['title'] == 'Funding and help for overseas businesses':
                             section['items'].insert(0, research_and_development_item)
-                if tag.name == 'REGULATIONS': # TODO this isnt a selectable intent but is used to tag artcles
+                if tag.name == 'REGULATIONS':
                     regulations_section = {
                         'title': 'Regulations',
                         'icon_path': 'svg/icon-regulations.svg',
@@ -260,8 +262,6 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                         ],
                     }
                     right_panel_sections.insert(len(right_panel_sections) + 1, exports_section)
-
-
 
         context = {
             **context,
