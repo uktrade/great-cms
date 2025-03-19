@@ -14,7 +14,7 @@
 {% block css_layout_class %}uk-export-country-cover{% endblock %}
 {% block content %}
     {% static 'images/UKEF-check-our-country-cover-header.png' as finance_export_hero_image %}
-    {% include 'components/hero.html' with image_url=finance_export_hero_image hero_title='Check our country cover' hero_text='Information on our market risk appetite and the countries we cover.' %}
+    {% include '_hero.html' with pngImagePath=finance_export_hero_image heading="Check our country cover" aboveCtaText="Information on our market risk appetite and the countries we cover." classes="great-ds-hero--bg-white great-ds-hero--large-image-cropping great-ds-hero--box-shadow" %}
 <section id="teaser-section"
          class="teaser-section padding-top-30 padding-bottom-60">
     <div class="container">

@@ -8,18 +8,7 @@
     {% endblock %}
     <div class="main-section export-plan-content {% block mainclasses %}{% endblock %} {{ view.slug }}-content"
          id="{{ view.slug }}-content">
-        <section class="m-b-l">
-            <div class="page-header">
-                <div class="inner-header">
-                    <div>
-                        <p class="sub-header">{{ export_plan.name }}</p>
-                        <h1>{{ view.title }}</h1>
-                        <p>{{ view.text }}</p>
-                    </div>
-                    <div class="image-container" style="background: url({{ view.image }})"></div>
-                </div>
-            </div>
-        </section>
+         {% include '_hero.html' with pngImagePath=view.image caption=export_plan.name heading=view.title aboveCtaText=view.text classes='great-ds-hero--large-image-cropping great-ds-hero--bg-white' %}
         <section class="container">
             <div class="grid">
                 <div class="c-1-4-l">&nbsp;</div>

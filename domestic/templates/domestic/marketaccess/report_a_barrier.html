@@ -13,8 +13,8 @@
     A trade barrier can slow down, limit or prevent a UK business exporting. Let us know if you think you’re facing a new trade barrier or are having issues with a current trade barrier
 {% endblock %}
 {% block content %}
-    {% static 'images/report-a-trade-barrier-header.png' as xlarge_hero %}
-    {% include 'components/hero.html' with image_url=xlarge_hero hero_title='Check or report a trade barrier' %}
+    {% static 'images/report-a-trade-barrier-header.png' as image_url %}
+    {% include '_hero.html' with pngImagePath=image_url heading="Check or report a trade barrier" classes="great-ds-hero--bg-white great-ds-hero--large-image-cropping great-ds-hero--box-shadow"%}
     <section class="great" id="report-a-trade-barrier">
         <div class="page-main-content-container">
             <div class="container">

@@ -1,0 +1,195 @@
+{% extends 'includes/base.html' %}
+
+{% load wagtailimages_tags %}
+
+{% block head_title %}Domestic Growth - Landing{% endblock %}
+
+{% block content %}
+    {% image page.hero_image width-1600 as hero_image %}
+    <section class="govuk-!-padding-bottom-6 great-ds-bg-dark-blue bgs-hero" style="background-image: url({{ hero_image.url }});">
+        <div class="great-ds-container govuk-!-padding-top-9">
+            <div class="govuk-grid-row govuk-!-margin-bottom-6">
+                <div class="govuk-grid-column-two-thirds">
+                    {% if page.hero_title %}
+                    <h1 class="govuk-heading-xxl govuk-!-margin-bottom-6 great-ds-text-white">
+                        {{ page.hero_title }}
+                    </h1>
+                    {% endif %}
+
+                    {% if page.hero_intro %}
+                    <p class="govuk-body-l govuk-!-margin-bottom-6 great-ds-text-white">
+                        {{ page.hero_intro }}
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <h2 class="govuk-visually-hidden">Explore</h2>
+
+            <div class="govuk-grid-row govuk-!-margin-bottom-6">
+                {% if page.explore_body %}
+                <div class="govuk-grid-column-full">
+                    <div class="great-ds-card-container">
+                    {% for blocks in page.explore_body %}
+                        {% for block in blocks.value %}
+                            {% if block.block_type == 'explore_card' %}
+                                {% with index=forloop.counter|stringformat:"i" %}
+                                    {% with svg_icon_path="/static/icons/homepage/"|add:index|add:".svg" %}
+                                        {% include "_card.html" with type="elevated" href=block.value.url iconSvg=svg_icon_path title=block.value.title id=block.value.title %}
+                                    {% endwith %}
+                                {% endwith %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    
+    {% if page.explore_body %}
+    <section class="govuk-!-padding-bottom-6 great-ds-bg-light-blue">
+        <div class="great-ds-container govuk-!-padding-top-9">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    <div class="govuk-!-padding-bottom-3">
+                        <h2 class="govuk-visually-hidden">Benefits</h2>
+                        <div class="govuk-grid-row">
+                        {% for blocks in page.explore_body %}
+                            {% for block in blocks.value %}
+                                {% if block.block_type == 'benefit_explore_card' %}
+                                <div class="govuk-grid-column-one-third govuk-!-margin-bottom-3">
+                                    <div class="great-ds-border-bottom--white">
+                                        <h3 class="govuk-heading-m">{{ block.value.title }}</h3>
+                                        <p class="govuk-body">{{ block.value.description }}</p>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    {% if page.case_study_title and page.case_study_intro and page.case_study_link_url and page.case_study_link_text and page.case_study_image %}
+    <section class="govuk-!-padding-bottom-6 great-ds-bg-light-blue">
+        <div class="great-ds-container govuk-!-padding-top-9">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    {% image page.case_study_image width-650 as case_study_image %}
+                    <div class="great-ds-cta-banner">
+                        <div class="govuk-!-padding-top-7">
+                            <div class="govuk-grid-row">
+                                <div class="govuk-grid-column-one-half">
+                                    <q class='govuk-heading-l'>{{ page.case_study_title }}</q>
+                                    <q class="great-ds-cta-banner-leading-text">{{ page.case_study_intro }}</q>
+                                        
+                                    <div class="great-ds-cta-banner__action-link-container">
+                                        {% include "_action-link.html" with linkText=page.case_study_link_text linkHref=page.case_study_link_url %}
+                                    </div>
+                                </div>
+                                <div class="govuk-grid-column-one-half">
+                                    <img src="{{ case_study_image.url }}" alt="" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <section class="govuk-!-padding-bottom-9 great-ds-bg-light-blue">
+        <div class="great-ds-container govuk-!-padding-top-9">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    {% if page.guidance_title %}
+                    <h2 class="govuk-heading-l govuk-!-margin-bottom-6">
+                        {{ page.guidance_title }}
+                    </h2>
+                    {% endif %}
+
+                    {% if page.guidance_body %}
+                    <div class="great-ds-card-container">
+                        {% for blocks in page.guidance_body %}
+                            {% for block in blocks.value %}
+                                {% include "_card.html" with href=block.value.url type="mounted" title=block.value.title description=block.value.description metadataIconType="guidance" metadataText="Guidance on GOV.UK" metaDataIconPath="/static/icons" id=block.value.title classes="great-ds-card--2" hideArrow="true"  %}
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="great-ds-bg-light-blue govuk-!-padding-bottom-3">
+        <div class="great-ds-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    {% if page.news_title %}
+                    <h2 class="govuk-heading-l govuk-!-margin-bottom-4">
+                        {{ page.news_title }}
+                    </h2>
+                    {% endif %}
+
+                    {% if news %}
+                    <div class="great-ds-card-container govuk-!-padding-bottom-4">
+                        {% for article in news %}
+                            {% include "_card.html" with imageUrl=article.image.medium_resolution_url  href=article.href type="mounted" title=article.title description=article.summary|safe id=article.title classes="great-ds-card--3" hideArrow="true"  %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    {% if page.news_link_url and page.news_link_text %}
+                    <div class="govuk-!-padding-bottom-4">
+                        {% include "_action-link.html" with linkHref=page.news_link_url linkText=page.news_link_text %}
+                    </div>
+                    {% endif %}
+
+                    {% if page.news_link_url_extra and page.news_link_text_extra %}
+                    <div class="govuk-!-padding-bottom-4">
+                        {% include "_action-link.html" with linkHref=page.news_link_url_extra linkText=page.news_link_text_extra %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="great-ds-bg-light-blue govuk-!-padding-bottom-9">
+        <div class="great-ds-container govuk-!-padding-top-9">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    {% if page.feedback_title %}
+                    <h2 class="govuk-heading-l govuk-!-margin-bottom-3">
+                        {{ page.feedback_title }}
+                    </h1>
+                    {% endif %}
+
+                    {% if page.feedback_description %}
+                    <p class="govuk-body govuk-!-margin-bottom-3">
+                        {{ page.feedback_description }}
+                    </p>
+                    {% endif %}
+
+                    {% if page.feedback_link_url and page.feedback_link_text %}
+                    <div class="govuk-!-padding-bottom-0">
+                        {% include "_action-link.html" with linkHref=page.feedback_link_url  linkText=page.feedback_link_text %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block body_js %}
+    {{ block.super }}
+{% endblock %}

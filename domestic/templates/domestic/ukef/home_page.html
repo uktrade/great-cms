@@ -1,5 +1,6 @@
 {% extends 'domestic/base.html' %}
 {% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
 {% load static %}
 {% block head_css %}
     {{ block.super }}
@@ -11,8 +12,10 @@
 {% block meta_title %}UK Export Finance{% endblock %}
 {% block css_layout_class %}uk-export-finance{% endblock %}
 {% block content %}
-    {% static 'images/UKEF-Home-header.png' as hero_xlarge %}
-    {% include 'components/hero.html' with image_url=hero_xlarge hero_title='UK Export Finance' hero_text='Get the right finance and insurance in place to help you win contracts, fulfil orders and get paid' %}
+    {% static 'images/UKEF-Home-header.png' as static_image_path %}
+    {% with static_image_path as image_path %}
+        {% include '_hero.html' with pngImagePath=image_path heading="UK Export Finance" aboveCtaText="Get the right finance and insurance in place to help you win contracts, fulfil orders and get paid" classes="great-ds-hero--cropping great-ds-hero--bg-white" %}
+    {% endwith %}
     <section id="list-teaser-section"
              class="list-teaser-section padding-top-30 padding-bottom-60">
         <div class="container">
