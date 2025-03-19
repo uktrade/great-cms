@@ -88,7 +88,7 @@
                                 {% if result.search_description %}
                                    {{ result.search_description }}
                                 {% else %} 
-                                    {% firstof result.specific.seo_description result.specific.search_description esult.specific.featured_description result.specific.heading_teaser result.specific.teaser result.specific.page_teaser result.specific.page_subheading result.specific.seo_title result.specific.title 'No description available' %}   
+                                    {% firstof result.specific.seo_description result.specific.search_description result.specific.featured_description result.specific.heading_teaser result.specific.teaser result.specific.page_teaser result.specific.page_subheading result.specific.seo_title result.specific.title 'No description available' %}   
                                 {% endif %}
                             </p>
                         </li>
