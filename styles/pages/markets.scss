@@ -33,7 +33,7 @@
     }
 
     .card:last-of-type {
-      margin-bottom: $large-padding;
+      margin-bottom: 20px;
     }
   }
 }
@@ -196,7 +196,3 @@
   }
 }
 
-
-  .markets-pagination{
-    float: right!important;
-  }

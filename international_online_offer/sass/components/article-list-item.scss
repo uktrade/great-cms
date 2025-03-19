@@ -34,6 +34,10 @@
     padding: 15px;
     border: 1px solid $great-light-grey;
 
+    &:last-of-type {
+        margin-bottom: 20px;
+    }
+
     a {
         display: inline-block;
     }
