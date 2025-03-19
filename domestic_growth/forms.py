@@ -1,10 +1,31 @@
-from django.forms import (
-    CharField,
-    ChoiceField,
-    widgets,
-)
-from core.validators import is_valid_uk_postcode
+from django.forms import CharField, ChoiceField, Select, widgets
 from great_components import forms
+
+from core.validators import is_valid_uk_postcode
+from international_online_offer.core import region_sector_helpers
+from international_online_offer.services import get_dbt_sectors
+
+
+class StartingABusinessSectorForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        sector_data_json = get_dbt_sectors()
+        self.sub_sectors_choices = region_sector_helpers.get_sectors_as_choices(sector_data_json)
+        self.fields['sector_sub'].choices = (('', 'Choose a sector or industry'),) + self.sub_sectors_choices
+
+    # sector sub choices are set in form constructor to avoid side effects when importing module
+    sector_sub = ChoiceField(
+        label=False,
+        help_text='Enter your sector or industry and select the closest result',
+        required=True,
+        widget=Select(
+            attrs={'id': 'js-sector-select', 'class': 'govuk-select', 'aria-describedby': 'help_for_id_sector_sub'}
+        ),
+        choices=(('', ''),),
+        error_messages={
+            'required': 'Enter your sector or industry and select the closest result',
+        },
+    )
 
 
 class StartingABusinessForm(forms.Form):
