@@ -8,9 +8,6 @@ class GDSDivFormRenderer(DjangoTemplates):
     Form renderer to point to the new gds templates
     """
 
-    # New gds template
-    form_template_name = '_div.html'
-
     @cached_property
     def engine(self):
         return self.backend(

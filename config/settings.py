@@ -103,7 +103,7 @@ INSTALLED_APPS = [
     'wagtail_localize',
     'wagtail_localize.locales',
     'domestic_growth.apps.DomesticGrowthConfig',
-    'great_design_system'
+    'great_design_system',
 ]
 
 MIDDLEWARE = [
