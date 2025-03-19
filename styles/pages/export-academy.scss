@@ -251,54 +251,6 @@
   }
 }
 
-.ea-landing-page {
-  &.page-header {
-    .inner-header > div:first-child {
-      @media screen and (max-width: 640px) {
-        min-width: auto;
-      }
-
-      min-width: 570px;
-    }
-  }
-
-  .ea-logo {
-    position: absolute;
-    bottom: 20px;
-    right: 0;
-    width: 200px;
-
-    @media only screen and (max-width: 340px) {
-      bottom: 10px;
-    }
-
-    @media only screen and (min-width: 341px) and (max-width: 640px) {
-      bottom: 15px;
-    }
-
-    @media only screen and (max-width: 900px) {
-      width: 30%;
-    }
-  }
-}
-
-.ea-listing-page {
-  > .page-header {
-    @media screen and (max-width: 640px) {
-      height: auto;
-    }
-
-    .inner-header > div:first-child {
-      @media screen and (max-width: 640px) {
-        min-width: auto;
-        padding-bottom: 0;
-      }
-
-      min-width: 570px;
-    }
-  }
-}
-
 .ea-filter-summary::after {
   content: '';
   display: block;
@@ -527,30 +479,6 @@
   color: #505a5f !important;
 }
 
-#ea-course-page-header {
-  > div {
-    height: auto;
-  }
-  .inner-header {
-    min-height: 300px;
-    max-width: 1230px;
-    padding-top: 60px;
-    > div:first-of-type {
-      padding-top: 0px;
-      padding-bottom: 30px;
-      @media only screen and (min-width: 901px) {
-        min-width: 50%;
-      }
-    }
-    .image-container {
-      @media only screen and (min-width: 901px) {
-        height: auto;
-        background-size: 100% auto !important;
-        background-position-y: bottom !important;
-      }
-    }
-  }
-}
 .presentation-icon {
   height: 100px;
 }

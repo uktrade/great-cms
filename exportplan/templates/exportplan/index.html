@@ -1,20 +1,12 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% load render_export_plan_hero from component_tags %}
 {% block head_other %}
     <meta name="description"
           content="Write your own export plan with our online tool to help you kick start your export journey" />
 {% endblock %}
 {% block content %}
-    <div class="page-header export-plan-header">
-        <div class="inner-header">
-            <div>
-                <h1>My export plans</h1>
-                <p>Your unique business plan to launch your exports.</p>
-                <a id="cta-make-export-plan" href="{% url 'exportplan:start' %}" class="button primary-button"><span role="img" class="fas fa-plus govuk-!-margin-right-2"></span>Create a new plan</a>
-            </div>
-            <div class="image-container"></div>
-        </div>
-    </div>
+    {% render_export_plan_hero '/static/images/export-plan-header.png' "My export plans" "Your unique business plan to launch your exports." "Create a new plan" "exportplan:start" %}
     <input id="details-reveal" type="checkbox" class="button hide-show-trigger">
     {% if exportplan_list %}
         <div class="container m-t-s">
