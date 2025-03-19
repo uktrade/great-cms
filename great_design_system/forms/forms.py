@@ -68,13 +68,13 @@ class Form(GDSFormMixin, forms.Form):
                 errors_str = self.get_errors_str(bf_errors)
                 self.create_linked_reveal_option_fields(bf)
                 fields.append((bf, errors_str))
-
-        return {
+        ctx = {
             'form': self,
             'fields': fields,
             'hidden_fields': hidden_fields,
             'errors': top_errors,
         }
+        return ctx
 
     def __str__(self):
         return render_to_string('_form.html', self.get_context())

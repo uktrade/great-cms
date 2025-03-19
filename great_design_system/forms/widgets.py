@@ -17,19 +17,7 @@ class GDSWidgetMixin(widgets.Widget):
             }
         },
         'field': {
-            'gds_mapping':{
-                'label': {
-                    'class': '',
-                    'text': 'Text area example',
-                    'id': '1234-5678-9101-1121'
-                },
-                'hint': {
-                    'class': '',
-                    'text': 'This is a hint',
-                    'id': 'id-example'
-                },
-                'error': {}
-            }
+            ...
         }
     }
     """
@@ -148,7 +136,7 @@ class RadioSelect(ChoiceWidget):
     New widget that will play nicely with the great-design-system
     """
 
-    template_name = '__multiple_input.html'
+    template_name = '_multiple_input.html'
     option_template_name = '_radio_option.html'
     option_reveal_template_name = '_reveal_input.html'
     use_fieldset = True
