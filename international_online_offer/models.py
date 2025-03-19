@@ -29,6 +29,7 @@ from international_online_offer.core import (
     professions,
     region_sector_helpers,
     regions,
+    intents,
 )
 from international_online_offer.forms import (
     DynamicGuideBCIRegionSelectForm,
@@ -158,9 +159,111 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 {
                     'title': trade_association.association_name,
                     'url': trade_association.website_link,
-                    'description': trade_association.brief_description,
-                }
-            )
+                    'description': trade_association.brief_description
+                })
+            
+        base_cards = [{
+                    'title': 'How to find a business property',
+                    'icon': 'svg/icon-find-property.svg',
+                    'url': '/international/expand-your-business-in-the-uk/guide/detailed-guides/find-the-right-location-and-premises',
+                    'description': 'A suitable location near customers, staff, '
+                    'transport hubs and supply chains is crucial to your success in the UK.',
+                }]
+        
+        recruit_and_employ_cards = [{
+                    'title': 'How to become an employer and recruit staff',
+                    'icon': 'svg/icon-staff.svg',
+                    'url': '/international/expand-your-business-in-the-uk/guide/detailed-guides/find-expert-talent', 
+                    'description': 'A guide to your responsibilities as a UK employer, '
+                    'employment regulations and how to find people with the right skills.',
+                }]
+        
+        right_panel_sections = [
+            {
+                'title': 'Funding and help for overseas businesses',
+                'icon_path': 'svg/icon-finance.svg',
+                'items': [
+                    {
+                        'title': 'Incentives for innovative businesses',
+                        'url': '/international/expand-your-business-in-the-uk/guide/finance-and-support/incentives-funding-support',
+                        'text': 'Find out about tax reliefs and R&D support '
+                        'for cutting edge overseas businesses setting up in the UK.',
+                    },
+                    {
+                        'title': 'Finance for your expansion',
+                        'url': '/international/expand-your-business-in-the-uk/guide/finance-and-support/finance',
+                        'text': 'See a range of options for raising capital in the UK '
+                        'including loans, equity financing and development funding.',
+                    },
+                ],
+            }
+        ]
+
+        for intent_article in context['get_to_know_market_articles']:
+            for tag in intent_article.tags.all():
+                if tag.name == intents.SET_UP_NEW_PREMISES:
+                    base_cards.append({
+                        'title': 'Set up a new premises for ' + triage_data.sector,
+                        'icon': 'svg/icon-premises.svg',
+                        'url': intent_article.url,
+                        'description': 'How to find premises and decide on the best location to '
+                        f'expand your {triage_data.sector} business in the UK.',
+                    })
+                if tag.name == intents.SET_UP_A_NEW_DISTRIBUTION_CENTRE:
+                    base_cards.append({
+                        'title': 'Set up a new distribution centre for ' + triage_data.sector,
+                        'icon': 'svg/icon-distribution.svg',
+                        'url': intent_article.url,  
+                        'description': 'Find help to select a location and logistics partner.',
+                    })
+                if tag.name == intents.FIND_PEOPLE_WITH_SPECIALIST_SKILLS:
+                    recruit_and_employ_cards.append({
+                    'title': f'Recruit expert talent for your {triage_data.sector} business',
+                    'icon': 'svg/icon-talent.svg',
+                    'url': intent_article.url,
+                    'description': 'Recruitment agencies, events and partnerships can help you '
+                    f'tap into the huge network of UK {triage_data.sector} talent.',
+                })
+                if tag.name == intents.RESEARCH_DEVELOP_AND_COLLABORATE:
+                    research_and_development_item = {
+                            'title': f'Research and development support for { triage_data.sector }',
+                            'url': intent_article.url,
+                            'text': 'Businesses can benefit from research and development programmes '
+                            f'and initiatives in the {triage_data.sector} sector.',
+                        }
+                    for section in right_panel_sections:
+                        if section['title'] == 'Funding and help for overseas businesses':
+                            section['items'].insert(0, research_and_development_item)
+                if tag.name == 'REGULATIONS': # TODO this isnt a selectable intent but is used to tag artcles
+                    regulations_section = {
+                        'title': 'Regulations',
+                        'icon_path': 'svg/icon-regulations.svg',
+                        'items': [
+                            {
+                                'title': f'Regulations for {triage_data.sector}',
+                                'url': intent_article.url,
+                                'text': 'You will need to be aware of UK regulations '
+                                f'and legislation framework in the {triage_data.sector} sector.',
+                            },
+                        ],
+                    }
+                    right_panel_sections.insert(0, regulations_section)
+                if tag.name == intents.ONWARD_SALES_AND_EXPORTS_FROM_THE_UK:
+                    exports_section = {
+                        'title': 'Selling from the UK',
+                        'icon_path': 'svg/icon-export.svg',
+                        'items': [
+                            {
+                                'title': 'Guidance for exporting',
+                                'url': intent_article.url,
+                                'text': 'What to consider if you want to use the UK as a base '
+                                'to export to other overseas markets. Includes regulations and trade agreements.',
+                            },
+                        ],
+                    }
+                    right_panel_sections.insert(len(right_panel_sections) + 1, exports_section)
+
+
 
         context = {
             **context,
@@ -207,28 +310,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             'more_events_link': '/international/expand-your-business-in-the-uk/guide/trade-shows',
             'associations': trade_association_cards,
             'more_associations_link': '/international/expand-your-business-in-the-uk/trade-associations',
-            'bases': [
-                {
-                    'title': 'How to find a business property',
-                    'icon': 'svg/icon-find-property.svg',
-                    'url': '#',
-                    'description': 'A suitable location near customers, staff, '
-                    'transport hubs and supply chains is crucial to your success in the UK.',
-                },
-                {
-                    'title': 'Set up a new premises for [ SectorName ]',
-                    'icon': 'svg/icon-premises.svg',
-                    'url': '#',
-                    'description': 'How to find premises and decide on the best location to '
-                    'expand your [SectorName] business in the UK.',
-                },
-                {
-                    'title': 'Set up a new distribution centre for [SectorName]',
-                    'icon': 'svg/icon-distribution.svg',
-                    'url': '#',
-                    'description': 'Find help to select a location and logistics partner.',
-                },
-            ],
+            'bases': base_cards,
             'rent_data': {
                 'tabs': [
                     {
@@ -304,107 +386,8 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 ],
                 'disclaimer': 'Figures reflect 2023 data. Source: Statista',
             },
-            'recruit_and_employ': [
-                {
-                    'title': 'How to become an employer and recruit staff',
-                    'icon': 'svg/icon-staff.svg',
-                    'url': '#',
-                    'description': 'A guide to your responsibilities as a UK employer, '
-                    'employment regulations and how to find people with the right skills.',
-                },
-                {
-                    'title': 'Recruit expert talent for your [SectorName] business',
-                    'icon': 'svg/icon-talent.svg',
-                    'url': '#',
-                    'description': 'Recruitment agencies, events and partnerships can help you '
-                    'tap into the huge network of UK [SectorName] talent.',
-                },
-            ],
-            'salary_data': {
-                'select': {
-                    'label': {'text': 'Average annual salary data for'},
-                    'items': [
-                        {'value': 'uks', 'text': 'United Kingdom'},
-                        {'value': 'bar', 'text': 'Bar'},
-                        {'value': 'baz', 'text': 'Baz'},
-                    ],
-                },
-                'figures': [
-                    {
-                        'icon_path': 'svg/icon-planning.svg',
-                        'prefix': '£',
-                        'value': 16018,
-                        'description': 'For professions like IT user support, '
-                        'IT operations technicians and electricians',
-                    },
-                    {
-                        'icon_path': 'svg/icon-planning.svg',
-                        'prefix': '£',
-                        'value': 20404,
-                        'description': 'For professions like electronic engineers and IT project managers',
-                    },
-                    {
-                        'icon_path': 'svg/icon-planning.svg',
-                        'prefix': '£',
-                        'value': 39397,
-                        'description': 'For professions like senior restaurant '
-                        'manager and food company chief executive.',
-                    },
-                ],
-                'data_year': '1979',
-                'data_source': 'Inter-Departmental Business Register, Office for National Statistics',
-            },
-            'right_panel_sections': [
-                # {
-                #     'title': 'Regulations',
-                #     'icon_path': 'svg/icon-regulations.svg',
-                #     'items': [
-                #         {
-                #             'title': 'Regulations for [Dummay sector]',
-                #             'url': '#',
-                #             'text': 'You will need to be aware of UK regulations '
-                #             'and legislation framework in the [Dummy sector] sector.',
-                #         },
-                #     ],
-                # }, TODO this is only shown if the article exists in the sectors wagtail folder
-                {
-                    'title': 'Funding and help for overseas businesses',
-                    'icon_path': 'svg/icon-finance.svg',
-                    'items': [
-                        # {
-                        #     'title': 'Research and development support for {{ sector_name }}',
-                        #     'url': '#',
-                        #     'text': 'Businesses can benefit from research and development programmes '
-                        #     'and initiatives in the advanced engineering sector.',
-                        # }, TODO this is only shown if the article exists in the sectors wagtail folder
-                        {
-                            'title': 'Incentives for innovative businesses',
-                            'url': '/international/expand-your-business-in-the-uk'
-                            '/guide/finance-and-support/incentives-funding-support',
-                            'text': 'Find out about tax reliefs and R&D support '
-                            'for cutting edge overseas businesses setting up in the UK.',
-                        },
-                        {
-                            'title': 'Finance for your expansion',
-                            'url': '/international/expand-your-business-in-the-uk/guide/finance-and-support/finance',
-                            'text': 'See a range of options for raising capital in the UK '
-                            'including loans, equity financing and development funding.',
-                        },
-                    ],
-                },
-                # {
-                #     'title': 'Selling from the UK',
-                #     'icon_path': 'svg/icon-export.svg',
-                #     'items': [
-                #         {
-                #             'title': 'Guidance for exporting',
-                #             'url': '#',
-                #             'text': 'What to consider if you want to use the UK as a base '
-                #             'to export to other overseas markets. Includes regulations and trade agreements.',
-                #         },
-                #     ],
-                # }, TODO this is only down if triage_data.intent contains onwards sales and exports
-            ],
+            'recruit_and_employ': recruit_and_employ_cards,
+            'right_panel_sections': right_panel_sections
         }
 
         return TemplateResponse(
@@ -469,9 +452,9 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             I.e. each article needs two tags to display, for example, 'Food and drink',
             and 'Set up a new distribution centre'.
         """
-        all_articles_tagged_with_sector_and_intent = []
+        all_articles_tagged_with_sector = []
 
-        if triage_data and triage_data.sector and triage_data.intent:
+        if triage_data and triage_data.sector:
             """
             Wagtail doesn't allow commas in tags and we need to match the sector
             'Agriculture, horticulture, fisheries and pets' i.e. below will match the tag
@@ -480,14 +463,13 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             user_sector_no_commas = triage_data.sector.replace(',', '')
 
             # display articles based on free text tags
-            all_articles_tagged_with_sector_and_intent = (
+            all_articles_tagged_with_sector = (
                 EYBArticlePage.objects.live()
                 .filter(tags__name__iexact=user_sector_no_commas)
-                .filter(tags__name__in=triage_data.intent)
             )
 
             # include articles based on user sector and article's dbt sector not including any duplicates
-            all_articles_tagged_with_sector_and_intent = all_articles_tagged_with_sector_and_intent.union(
+            all_articles_tagged_with_sector = all_articles_tagged_with_sector.union(
                 EYBArticlePage.objects.live().filter(dbt_sectors__contains=[triage_data.sector])
             )
 
@@ -542,7 +524,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             salary_data_location=salary_data_location,
             cleaned_median_salaries=cleaned_median_salaries,
             professions_by_sector=professions_by_sector,
-            get_to_know_market_articles=all_articles_tagged_with_sector_and_intent,
+            get_to_know_market_articles=all_articles_tagged_with_sector,
             finance_and_support_articles=all_articles_tagged_with_finance_and_support,
             trade_shows_page=trade_shows_page,
             breadcrumbs=breadcrumbs,
