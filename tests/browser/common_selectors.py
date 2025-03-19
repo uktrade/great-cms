@@ -196,7 +196,7 @@ class TargetMarketsRecommendedCountries(SelectorsEnum):
 
 
 class TopicLessonListing(SelectorsEnum):
-    TITLE = Selector(By.ID, 'topic-title')
+    TITLE = Selector(By.CLASS_NAME, 'great-ds-hero__heading')
     LESSON_LIST = Selector(By.ID, 'topic-lesson-list')
     LESSON_LINKS = Selector(By.CSS_SELECTOR, 'li[id^=lesson-]')
 

@@ -3,14 +3,6 @@
 @import '../sizes/sizes.scss';
 
 $where-to-export-image: url(/static/images/where-to-export-header.png);
-$export-plan-image: url(/static/images/export-plan-header.png);
-$learn-to-export-image: url(/static/images/learn-to-export-header.png);
-$account-image: url(/static/images/accounts-header.png);
-$get-started-header: url(/static/images/learn-to-export-topic1-header.png);
-$identify-opportunities-header: url(/static/images/learn-to-export-topic2-header.png);
-$prepare-to-sell-header: url(/static/images/learn-to-export-topic3-header.png);
-$regulations-licensing-header: url(/static/images/learn-to-export-topic4-header.png);
-$funding-financing-header: url(/static/images/learn-to-export-topic5-header.png);
 
 @mixin page-header-container-mixin() {
   max-width: 1230px; /* Initial max width until 1660px */
@@ -91,6 +83,7 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
   }
 }
 
+// TODO delete .page-header once WTE hero refactored
 .page-header {
   position: relative;
   background-color: $color-main-background !important;
@@ -102,47 +95,11 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
   flex-wrap: wrap;
   box-sizing: border-box;
 
-  &.get-started .image-container {
-    background: $get-started-header;
-  }
-
-  &.identify-opportunities-and-research-the-market .image-container {
-    background: $identify-opportunities-header;
-  }
-
-  &.prepare-to-sell-into-a-new-country .image-container {
-    background: $prepare-to-sell-header;
-  }
-
-  &.regulations-licensing-and-logistics .image-container {
-    background: $regulations-licensing-header;
-  }
-
-  &.funding-financing-and-getting-paid .image-container {
-    background: $funding-financing-header;
-  }
-
   &.where-to-export-header .image-container {
     background: $where-to-export-image;
   }
-
-  &.export-plan-header .image-container {
-    background: $export-plan-image;
-  }
-
-  &.account-header .image-container {
-    background: $account-image;
-  }
-
-  &.market-header .image-container {
-    background: url(/static/images/export-plan-header.png);
-  }
-
-  &.learn-header .image-container {
-    background: $learn-to-export-image;
-  }
-
-  .inner-header {
+  
+  .inner-header { 
     max-width: $max-header-width;
     width: 100%;
     height: 100%;
@@ -192,28 +149,6 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
           margin-bottom: $standard-padding;
         }
       }
-
-      .lesson-summary {
-        display: inline-flex;
-        align-items: center;
-
-        span,
-        i {
-          color: $color-gov-link;
-        }
-
-        i {
-          padding-bottom: 3px;
-        }
-
-        .learn__category-topics {
-          padding-left: $standard-padding;
-        }
-
-        .learn__category-lessons {
-          padding-left: $standard-padding * 0.5;
-        }
-      }
     }
 
     .image-container {
@@ -237,28 +172,6 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
           margin-left: 0;
         }
       }
-      &.ea-events-page-hero-image {
-        background-size: auto 100% !important;
-        display: none;
-        align-self: center;
-        width: calc(100% - 30px) !important;
-        @media screen and (min-width: 920px) {
-          display:flex;
-        }
-      }
-      &.ea-landing-image-container {
-        @media screen and (min-width: 901px) {
-          background-size: auto 90% !important;
-          background-position-y: bottom !important;
-        }
-      }
-      &.lte-landing-image-container {
-        @media screen and (min-width: 901px) {
-          background-size: auto 90% !important;
-          background-position-y: bottom !important;
-        }
-      }
-
       &:not(.image-full-width) {
         @media only screen and (min-width: 980px) {
           background-position-y: 50% !important;

@@ -8,18 +8,15 @@
 {% block head_title %}{{ page.title }} – UK Export Academy – great.gov.uk{% endblock %}
 {% block meta_title %}{{ page.title }} – UK Export Academy – great.gov.uk{% endblock %}
 {% block body_js %}
+    {{ block.super }}
     <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
     <script src="{% static 'javascript/govuk.js' %}"></script>
     <script>window.GOVUKFrontend.initAll()</script>
 {% endblock %}
 {% block content %}
     {% block hero %}
-        {% with content_snippet as hero %}
-            <div class="great" id="ea-course-page-header">
-                {% image page.hero_image max-800x600 as hero_image %}
-                {% include 'components/course_page_hero.html' with image_url=hero_image.url hero_title=page.page_heading hero_subeading='Series' hero_text=page.summary signed_in=signed_in slug=slug %}
-            </div>
-        {% endwith %}
+        {% image page.hero_image max-800x600 as hero_image %}
+        {% render_ukea_course_hero hero_image.url page.page_heading 'Series' page.summary signed_in  slug %}
     {% endblock %}
     <div class="great">
         <section class="great-container govuk-!-static-padding-top-6 govuk-!-static-padding-bottom-6">
