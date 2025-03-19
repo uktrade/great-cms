@@ -461,8 +461,8 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
 
         # Get any EYB articles that have been tagged with any of the filter tags setup by content team
         all_articles = EYBArticlePage.objects.live().filter(
-            Q(tags__name=filter_tags.FINANCE_AND_SUPPORT) | Q(tags__name=filter_tags.REGULATIONS)
-            | Q(tags__name=filter_tags.FIND_EXPERT_TALENT) | Q(tags__name=filter_tags.FIND_BUSINESS_PROPERTY)
+            Q(tags__name=filter_tags.FINANCE_AND_SUPPORT) | Q(tags__name=filter_tags.FIND_EXPERT_TALENT)
+            | Q(tags__name=filter_tags.FIND_BUSINESS_PROPERTY)
         )
 
         if triage_data and triage_data.sector:
