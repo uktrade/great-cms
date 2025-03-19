@@ -142,15 +142,15 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 }
             )
         return trade_association_cards
-    
+
     def _add_find_business_property_card(self, tag, intent_article, base_cards):
         if tag.name == filter_tags.FIND_BUSINESS_PROPERTY:
             base_cards.insert(0, {
-            'title': intent_article.title,
-            'icon': 'svg/icon-find-property.svg',
-            'url': intent_article.url,
-            'description': intent_article.article_teaser,
-        })
+                'title': intent_article.title,
+                'icon': 'svg/icon-find-property.svg',
+                'url': intent_article.url,
+                'description': intent_article.article_teaser,
+            })
 
     def _add_set_up_new_premises_card(self, tag, intent_article, base_cards):
         if tag.name == intents.SET_UP_NEW_PREMISES:
@@ -461,10 +461,8 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
 
         # Get any EYB articles that have been tagged with any of the filter tags setup by content team
         all_articles = EYBArticlePage.objects.live().filter(
-            Q(tags__name=filter_tags.FINANCE_AND_SUPPORT) |
-            Q(tags__name=filter_tags.REGULATIONS) |
-            Q(tags__name=filter_tags.FIND_EXPERT_TALENT) |
-            Q(tags__name=filter_tags.FIND_BUSINESS_PROPERTY)
+            Q(tags__name=filter_tags.FINANCE_AND_SUPPORT) | Q(tags__name=filter_tags.REGULATIONS)
+            | Q(tags__name=filter_tags.FIND_EXPERT_TALENT) | Q(tags__name=filter_tags.FIND_BUSINESS_PROPERTY)
         )
 
         if triage_data and triage_data.sector:
