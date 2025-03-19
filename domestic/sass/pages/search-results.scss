@@ -20,6 +20,9 @@
     margin-bottom: $spacing-3;
     max-width: 900px;
     padding: 0;
+    &:last-of-type {
+      margin-bottom: 20px;
+    }
   }
 
   .title {
@@ -134,7 +137,7 @@
 
 #search-results-list {
   padding-top: $x-large-padding;
-  p {
+  .description {
     margin-bottom: $spacing-3;
   }
 }

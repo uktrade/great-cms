@@ -73,7 +73,7 @@
                     Displaying items <b>{{ page_obj|pagination_obj_range_lower_limit }}&nbsp;-&nbsp;{{ page_obj|pagination_obj_range_upper_limit }}</b> of <b>{{ page_obj.paginator.count|intcomma }}</b> in total
                 </p>
                 <!-- Search Results -->
-                <ul class="results" aria-label="Search results">
+                <ul class="results govuk-!-margin-bottom-0" aria-label="Search results">
                     {% for result in page_obj %}
                         <li>
                             <span class="type">{{ result.content_type|map_search_result_type }}</span>
