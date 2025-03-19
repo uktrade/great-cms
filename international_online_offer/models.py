@@ -40,7 +40,6 @@ from international_online_offer.forms import (
     WagtailAdminDBTSectors,
 )
 from international_online_offer.services import get_median_salaries, get_rent_data
-from .helpers import get_step_guide_accordion_items
 
 
 class EYBIndexPage(BaseContentPage):
@@ -408,13 +407,13 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request)
-        context['accordion'] = get_step_guide_accordion_items()
 
         """
             Accept user_data and triage_data via kwargs to avoid multiple db calls.
             not using positional arguments as hcsat form invalid calls get_context
             and we want to keep the implementation of hcsat as generic as possible.
         """
+
         if 'user_data' not in kwargs:
             user_data = get_user_data_for_user(request)
         else:
@@ -451,13 +450,9 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             'salary_data_location', triage_data.location if triage_data.location else choices.regions.LONDON
         )
         salary_region = helpers.get_salary_region_from_region(salary_data_location)
-
         median_salaries = get_median_salaries(triage_data.sector, geo_region=salary_region)
         cleaned_median_salaries = helpers.clean_salary_data(median_salaries)
         professions_by_sector = helpers.get_sector_professions_by_level(triage_data.sector)
-
-        # Get trade shows page (should only be one, is a parent / container page for all trade show pages)
-        trade_shows_page = EYBTradeShowsPage.objects.live().filter().first()
 
         # Get any EYB articles that have been tagged with any of the filter tags setup by content team
         all_articles = EYBArticlePage.objects.live().filter(
@@ -490,12 +485,16 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         investment_opportunities = InvestmentOpportunityArticlePage.objects.live().filter(dbt_sectors__contains=[triage_data.sector]).order_by('article_title')[:3]
 
         # Get first three trade events A-Z by sector
-        trade_events = IOOTradeShowPage.objects.live().filter(tags__name__iexact=triage_data.sector.replace(',', '')).order_by('tradeshow_title')[:3]
-        
-        # Get first three trade associations A-Z by sector
+        trade_events = (
+            IOOTradeShowPage.objects.live()
+            .filter(tags__name__iexact=triage_data.sector.replace(',', ''))
+            .order_by('tradeshow_title')[:3]
+        )
+
         # Try getting trade associations by exact sector match or in mapped list of sectors
         trade_association_sectors = helpers.get_trade_assoication_sectors_from_sector(triage_data.sector)
 
+        # Get first three trade associations A-Z by sector
         trade_associations = TradeAssociation.objects.filter(
             Q(link_valid=True) & (Q(sector__icontains=triage_data.sector) | Q(sector__in=trade_association_sectors))
         ).order_by('association_name')[:3]
@@ -505,8 +504,6 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         ]
 
         context.update(
-            complete_contact_form_link='international_online_offer:signup',
-            complete_contact_form_link_text='Sign up',
             triage_data=triage_data,
             user_data=user_data,
             market_data_location=market_data_location,
@@ -525,7 +522,6 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             cleaned_median_salaries=cleaned_median_salaries,
             professions_by_sector=professions_by_sector,
             all_articles=all_articles,
-            trade_shows_page=trade_shows_page,
             breadcrumbs=breadcrumbs,
             investment_opportunities=investment_opportunities,
             trade_events=trade_events,
