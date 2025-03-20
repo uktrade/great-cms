@@ -338,6 +338,7 @@ def get_market_code(market):
     return country_code.lower()
 
 
+# Design system call to action banner componenents
 @register.inclusion_tag('_cta-banner.html')
 def render_markets_cta():
     return {
@@ -369,3 +370,165 @@ def render_market_article_cta(page):
         'leadingText': page.cta_teaser,
         'signUpLink': {'href': page.cta_link, 'linkText': page.cta_link_label},
     }
+
+
+# Design system hero componenents
+@register.inclusion_tag('_hero.html')
+def render_event_list_hero(image_url, hero_title, text, conditional_text):
+    if text and conditional_text:
+        description_html = text + '<br>' + conditional_text
+    else:
+        description_html = text
+    return {
+        'pngImagePath': image_url,
+        'heading': hero_title,
+        'aboveCtaHtml': description_html,
+        'classes': 'great-ds-hero--bg-white great-ds-hero--box-shadow great-ds-hero--large-image-cropping',
+    }
+
+
+# UKEA and FAB share logged-in/logged-out hero cta patterns, so share this tag
+@register.inclusion_tag('_hero.html')
+def render_ukea_and_fab_homepage_heros(
+    image_url,
+    hero_title,
+    above_cta_text,
+    below_cta_text,
+    action_link_label,
+    action_link_internal,
+    action_link_external,
+):
+    if not action_link_label and (action_link_internal or action_link_external):
+        action_link_label = None
+        action_link_url = None
+    elif action_link_internal:
+        action_link_url = action_link_internal
+    else:
+        action_link_url = action_link_external
+
+    return {
+        'pngImagePath': image_url,
+        'heading': hero_title,
+        'aboveCtaHtml': above_cta_text,
+        'belowCtaHtml': below_cta_text,
+        'classes': 'great-ds-hero--bg-white great-ds-hero--box-shadow great-ds-hero--large-image-cropping',
+        'actionLinkUrl': action_link_url,
+        'actionLinkText': action_link_label,
+    }
+
+
+@register.inclusion_tag('_hero.html')
+def render_event_details_hero(
+    image_url,
+    event_type,
+    event_name,
+    event_dates,
+):
+
+    # event string should read '4:05pm' instead of '04:05pm', so remove leading '0'
+    event_date_hour = event_dates.strftime('%I')
+    if int(event_date_hour) < 10:
+        event_date_hour = event_date_hour[1]
+
+    event_date_string = event_dates.strftime('%A %d %B at ') + event_date_hour + event_dates.strftime(':%M%p')
+
+    if event_type:
+        caption = event_type.capitalize() + ' event'
+    else:
+        caption = 'Event'
+
+    return {
+        'pngImagePath': image_url,
+        'caption': caption,
+        'heading': event_name,
+        'aboveCtaText': event_date_string,
+        'classes': 'great-ds-hero--bg-white great-ds-hero--small-image',
+        'aboveCtaClasses': 'great-text-grey',
+    }
+
+
+@register.inclusion_tag('_hero.html')
+def render_ukea_course_hero(
+    image_url,
+    hero_title,
+    hero_caption,
+    above_cta_description_html,
+    signed_in,
+    course_slug,
+):
+    action_link_url = None
+    action_link_label = None
+    description_html = None
+    if not signed_in:
+        signup_url = reverse('export_academy:signup')
+        signin_url = reverse('export_academy:signin')
+        next_url = reverse('export_academy:course', args={course_slug})
+        action_link_url = signup_url + '?next=' + next_url
+        action_link_label = 'Sign up to get started'
+        description_url = signin_url + '?next=' + next_url
+        description_html = "<p> Already joined the UK Export Academy? <a href='" + description_url + "'>Sign in</a></p>"
+
+    return {
+        'pngImagePath': image_url,
+        'heading': hero_title,
+        'caption': hero_caption,
+        'aboveCtaHtml': above_cta_description_html,
+        'belowCtaHtml': description_html,
+        'actionLinkUrl': action_link_url,
+        'actionLinkText': action_link_label,
+        'classes': 'great-ds-hero--bg-white great-ds-hero--large-image-cropping',
+        'aboveCtaClasses': 'govuk-link--no-visited-state',
+    }
+
+
+@register.inclusion_tag('_hero.html')
+def render_export_plan_hero(
+    image_url,
+    hero_title,
+    above_cta_text,
+    action_link_label,
+    action_link_url_name,
+):
+    action_link_url = reverse(action_link_url_name)
+    return {
+        'pngImagePath': image_url,
+        'heading': hero_title,
+        'aboveCtaHtml': above_cta_text,
+        'classes': 'great-ds-hero--bg-white great-ds-hero--large-image-cropping',
+        'actionLinkUrl': action_link_url,
+        'actionLinkText': action_link_label,
+    }
+
+
+@register.inclusion_tag('_hero.html')
+def render_account_hero(image_url, hero_title, hero_text=None, email=None):
+    if hero_text and email:
+        hero_text = hero_text + email + '.'
+    return {
+        'pngImagePath': image_url,
+        'heading': hero_title,
+        'aboveCtaText': hero_text,
+        'classes': 'great-ds-hero--bg-white great-ds-hero--box-shadow great-ds-hero--large-image-cropping',
+    }
+
+
+@register.filter
+def get_lte_hero_image_path_from_class(title):
+    get_started_header_img = '/static/images/learn-to-export-topic1-header.png'
+    identify_opportunities_header_img = '/static/images/learn-to-export-topic2-header.png'
+    prepare_to_sell_header_img = '/static/images/learn-to-export-topic3-header.png'
+    regulations_licensing_header_img = '/static/images/learn-to-export-topic4-header.png'
+    funding_financing_header_img = '/static/images/learn-to-export-topic5-header.png'
+
+    title_to_image_path_map = {
+        'get-started': get_started_header_img,
+        'identify-opportunities-and-research-the-market': identify_opportunities_header_img,
+        'prepare-to-sell-into-a-new-country': prepare_to_sell_header_img,
+        'regulations-licensing-and-logistics': regulations_licensing_header_img,
+        'funding-financing-and-getting-paid': funding_financing_header_img,
+    }
+
+    if title in title_to_image_path_map.keys():
+        return str(title_to_image_path_map[title])
+    else:
+        return ''

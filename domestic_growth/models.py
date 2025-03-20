@@ -35,11 +35,6 @@ class DomesticGrowthHomePage(SeoMixin, cms_panels.DomesticGrowthHomePagePanels, 
         null=True,
     )
 
-    explore_title = models.TextField(
-        null=True,
-        blank=True,
-    )
-
     explore_body = StreamField(
         [
             (
@@ -53,10 +48,45 @@ class DomesticGrowthHomePage(SeoMixin, cms_panels.DomesticGrowthHomePagePanels, 
                     },
                 ),
             ),
+            (
+                'explore_benefit_cards',
+                StreamBlock(
+                    [
+                        ('benefit_explore_card', DomesticGrowthCardBlock()),
+                    ],
+                    block_counts={
+                        'benefit_explore_card': {'min_num': 3},
+                    },
+                ),
+            ),
         ],
         use_json_field=True,
         null=True,
         blank=True,
+    )
+
+    case_study_title = models.TextField(
+        null=True,
+    )
+
+    case_study_intro = models.TextField(
+        null=True,
+    )
+
+    case_study_link_text = models.TextField(
+        null=True,
+    )
+
+    case_study_link_url = models.TextField(
+        null=True,
+    )
+
+    case_study_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
     )
 
     guidance_title = models.TextField(
@@ -82,18 +112,6 @@ class DomesticGrowthHomePage(SeoMixin, cms_panels.DomesticGrowthHomePagePanels, 
         blank=True,
     )
 
-    about_title = models.TextField(
-        null=True,
-    )
-
-    about_intro = models.TextField(
-        null=True,
-    )
-
-    about_description = models.TextField(
-        null=True,
-    )
-
     news_title = models.TextField(
         null=True,
     )
@@ -103,6 +121,14 @@ class DomesticGrowthHomePage(SeoMixin, cms_panels.DomesticGrowthHomePagePanels, 
     )
 
     news_link_url = models.TextField(
+        null=True,
+    )
+
+    news_link_text_extra = models.TextField(
+        null=True,
+    )
+
+    news_link_url_extra = models.TextField(
         null=True,
     )
 

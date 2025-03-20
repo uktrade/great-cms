@@ -1,6 +1,8 @@
 {% extends 'domestic/base.html' %}
 {% load wagtailcore_tags %}
 {% load static %}
+{% load wagtailimages_tags %}
+{% load is_logged_in from event_list_buttons %}
 {% block head_title %}
     {{ title }} –
     {% if is_editing %}
@@ -24,9 +26,18 @@
     {% block content_top %}
         {% block hero %}
             {% with content_snippet as hero %}
-                <div class="great ea-listing-page">
-                    {% include 'components/export_academy_hero.html' with hero=hero hide_image_for_mobile=True useHeaderLevel2=True %}
-                </div>
+            {% if not image_url %}
+                {% image hero.image original as rendition %}
+            {% endif %}
+            {% firstof image_url rendition.url as image_url %}
+            {% is_logged_in as user_is_registered %}
+                {% if user_is_registered %}
+                    {% include '_hero.html' with pngImagePath=image_url headingLevel=2 heading=hero.title aboveCtaHtml=hero.text belowCtaHtml=hero.ea_registered_text classes="great-ds-hero--bg-white great-ds-hero--large-image-cropping"%}
+                {% elif not request.user.is_anoymous %}
+                    {% include '_hero.html' with pngImagePath=image_url headingLevel=2 heading=hero.title aboveCtaHtml=hero.text belowCtaHtml=hero.logged_in_text classes="great-ds-hero--bg-white great-ds-hero--large-image-cropping"%}
+                {% else %}
+                    {% include '_hero.html' with pngImagePath=image_url headingLevel=2 heading=hero.title aboveCtaHtml=hero.text belowCtaHtml=hero.logged_out_text classes="great-ds-hero--bg-white great-ds-hero--large-image-cropping"%}
+                {% endif %}
             {% endwith %}
         {% endblock %}
 {% endblock %}
