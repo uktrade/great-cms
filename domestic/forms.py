@@ -11,7 +11,6 @@ from core.forms import ConsentFieldMixin
 from core.models import IndustryTag
 from directory_constants import choices
 from directory_constants.choices import COUNTRY_CHOICES
-
 from great_design_system import forms as gds_forms
 
 COUNTRIES = COUNTRY_CHOICES.copy()

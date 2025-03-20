@@ -10,9 +10,8 @@ from wagtail.snippets.models import register_snippet
 from wagtailseo.models import SeoMixin
 
 from domestic_growth import cms_panels, helpers
-from international_online_offer.models import TradeAssociation
-
 from domestic_growth.blocks import DomesticGrowthCardBlock
+from international_online_offer.models import TradeAssociation
 
 
 class DomesticGrowthHomePage(SeoMixin, cms_panels.DomesticGrowthHomePagePanels, Page):

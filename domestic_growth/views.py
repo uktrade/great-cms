@@ -2,8 +2,8 @@ import pickle
 
 from django.views.generic import FormView
 
+from domestic_growth.forms import ScalingABusinessForm, StartingABusinessForm
 from domestic_growth.mixins import TriageMixin
-from domestic_growth.forms import StartingABusinessForm, ScalingABusinessForm
 
 
 class StartingABusinessView(TriageMixin, FormView):

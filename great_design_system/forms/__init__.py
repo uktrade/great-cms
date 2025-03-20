@@ -31,9 +31,9 @@ from great_design_system.forms.widgets import (  # noqa
     RadioSelect,
     RadioSelectConditionalReveal,
     ReCaptchaV3,
+    SelectOne,
     Textarea,
     TextInput,
-    SelectOne,
 )
 
 __all__ = [
