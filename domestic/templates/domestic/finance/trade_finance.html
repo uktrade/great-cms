@@ -14,9 +14,7 @@
 {% block css_layout_class %}get-finance{% endblock %}
 {% block content %}
     {% image page.hero_image original as hero_image_rendition %}
-    <section id="get-finance-hero">
-        {% include 'components/hero.html' with hero_title="Trade finance for UK exporters" hero_text="When it comes to exporting, having a great product or service is only half the story. Putting the right finance and insurance in place can make the difference, helping you to win contracts, fulfil orders and get paid." image_url=hero_image_rendition.url %}
-    </section>
+    {% include '_hero.html' with pngImagePath=hero_image_rendition.url heading="Trade finance for UK exporters" aboveCtaText="When it comes to exporting, having a great product or service is only half the story. Putting the right finance and insurance in place can make the difference, helping you to win contracts, fulfil orders and get paid." classes="great-ds-hero--bg-white great-ds-hero--large-image-cropping" %}
     <section id="contact-section" class="contact-section">
         {% render_finance_cta page %}
     </section>
