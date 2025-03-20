@@ -53,19 +53,19 @@
                     {% endif %}
                 </div>
             {% endif %}
-        </div>
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-full">
-                <span class="govuk-body body-text source-text">
-                    Figures reflect 2023 median gross salaries.
-                    <br>
-                    Source: Statista
-                </span>
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    <span class="govuk-body body-text source-text">
+                        Figures reflect 2023 median gross salaries.
+                        <br>
+                        Source: Statista
+                    </span>
+                </div>
             </div>
-        </div>
-    {% else %}
-        <span class="govuk-body body-text source-text">{{ salary_error_msg }}</span>
-    {% endif %}
+        {% else %}
+            <span class="govuk-body body-text source-text">{{ salary_error_msg }}</span>
+        {% endif %}
+    </div>
 </div>
 <script>
     document.getElementById("change-salary-data-location").style.display = "none";
