@@ -434,7 +434,7 @@ class GreatSelect(Select):
 
 class DynamicGuideBCIRegionSelectForm(forms.Form):
     market_data_location = ChoiceField(
-        label='',
+        label='Data for',
         choices=choices.REGION_CHOICES,
         widget=GreatSelect(attrs={'onchange': 'refreshMarketDataSelectedRegion()'}),
     )
@@ -442,7 +442,7 @@ class DynamicGuideBCIRegionSelectForm(forms.Form):
 
 class DynamicGuideRentDataSelectForm(forms.Form):
     rent_data_location = ChoiceField(
-        label='',
+        label='Average rent data for',
         choices=choices.REGION_CHOICES,
         widget=GreatSelect(attrs={'onchange': 'refreshRentDataSelectedRegion()'}),
     )
@@ -450,7 +450,7 @@ class DynamicGuideRentDataSelectForm(forms.Form):
 
 class DynamicGuideSalaryDataSelectForm(forms.Form):
     salary_data_location = ChoiceField(
-        label='',
+        label='Average annual salary data for',
         choices=choices.REGION_CHOICES,
         widget=GreatSelect(attrs={'onchange': 'refreshSalaryDataSelectedRegion()'}),
     )

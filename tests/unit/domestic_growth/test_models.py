@@ -1,12 +1,12 @@
 from wagtail.test.utils import WagtailPageTests
 
-from domestic_growth.models import DomesticGrowthContent
 from tests.helpers import SetUpLocaleMixin
 from .factories import (
-    DomesticGrowthChildGuidePageFactory,
-    DomesticGrowthGuidePageFactory,
     DomesticGrowthHomePageFactory,
+    DomesticGrowthGuidePageFactory,
+    DomesticGrowthChildGuidePageFactory,
 )
+from domestic_growth.models import DomesticGrowthContent
 
 
 class DomesticGrowthHomePageTests(SetUpLocaleMixin, WagtailPageTests):
@@ -14,13 +14,16 @@ class DomesticGrowthHomePageTests(SetUpLocaleMixin, WagtailPageTests):
         homepage = DomesticGrowthHomePageFactory(
             hero_title='Test title',
             hero_intro='Test intro',
+            case_study_title='Test title',
+            case_study_intro='Test intro',
+            case_study_link_text='Test link text',
+            case_study_link_url='Test link url',
             guidance_title='Test title',
-            about_title='Test title',
-            about_intro='Test intro',
-            about_description='Test description',
             news_title='Test title',
             news_link_url='www.test.com',
             news_link_text='Test link text',
+            news_link_text_extra='Test link text extra',
+            news_link_url_extra='www.testextra.com',
             feedback_title='Test title',
             feedback_description='Test description',
             feedback_link_text='Test link text',
@@ -30,13 +33,17 @@ class DomesticGrowthHomePageTests(SetUpLocaleMixin, WagtailPageTests):
 
         self.assertEqual(homepage.hero_title, 'Test title')
         self.assertEqual(homepage.hero_intro, 'Test intro')
+        self.assertEqual(homepage.case_study_title, 'Test title')
+        self.assertEqual(homepage.case_study_intro, 'Test intro')
+        self.assertEqual(homepage.case_study_link_text, 'Test link text')
+        self.assertEqual(homepage.case_study_link_url, 'Test link url')
         self.assertEqual(homepage.guidance_title, 'Test title')
-        self.assertEqual(homepage.about_title, 'Test title')
-        self.assertEqual(homepage.about_intro, 'Test intro')
-        self.assertEqual(homepage.about_description, 'Test description')
         self.assertEqual(homepage.news_title, 'Test title')
         self.assertEqual(homepage.news_link_url, 'www.test.com')
         self.assertEqual(homepage.news_link_text, 'Test link text')
+        self.assertEqual(homepage.news_link_url, 'www.test.com')
+        self.assertEqual(homepage.news_link_text_extra, 'Test link text extra')
+        self.assertEqual(homepage.news_link_url_extra, 'www.testextra.com')
         self.assertEqual(homepage.feedback_title, 'Test title')
         self.assertEqual(homepage.feedback_description, 'Test description')
         self.assertEqual(homepage.feedback_link_text, 'Test link text')

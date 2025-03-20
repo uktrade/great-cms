@@ -22,7 +22,7 @@
 {% endblock %}
 {% block body_attributes %}class="great-bg-white"{% endblock %}
 {% block breadcrumbs_block %}
-    <div class="container">
+    <div class="great-ds-container">
         {% include '_breadcrumbs.html' with itemsList=page|get_sub_category_page_breadcrumbs:request.get_full_path homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
     </div>
 {% endblock %}
