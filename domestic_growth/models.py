@@ -6,6 +6,7 @@ from domestic_growth import (
 )
 from wagtail import blocks
 from wagtail.blocks.stream_block import StreamBlock
+from wagtailcache.cache import WagtailCacheMixin
 from wagtail.fields import StreamField, RichTextField
 from wagtail.models import Page
 from wagtailseo.models import SeoMixin
@@ -16,6 +17,7 @@ from wagtail.admin.panels import (
 )
 from wagtail.snippets.models import register_snippet
 
+from international_online_offer.models import TradeAssociation
 
 from domestic_growth.blocks import DomesticGrowthCardBlock
 
@@ -161,8 +163,10 @@ class DomesticGrowthHomePage(SeoMixin, cms_panels.DomesticGrowthHomePagePanels, 
         return context
 
 
-class DomesticGrowthGuidePage(SeoMixin, cms_panels.DomesticGrowthGuidePagePanels, Page):
+class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGrowthGuidePagePanels, Page):
     template = 'guide.html'
+
+    cache_control = 'no-cache'
 
     class Meta:
         verbose_name = 'Domestic Growth Guide page'
@@ -185,9 +189,30 @@ class DomesticGrowthGuidePage(SeoMixin, cms_panels.DomesticGrowthGuidePagePanels
         null=True,
     )
 
+    def get_context(self, request):
+        context = super(DomesticGrowthGuidePage, self).get_context(request)
 
-class DomesticGrowthChildGuidePage(SeoMixin, cms_panels.DomesticGrowthChildGuidePagePanels, Page):
+        postcode = request.GET.get('postcode')
+        sector = request.GET.get('sector')
+
+        if postcode and request.GET.get('sector'):
+            context['qs'] = f'?postcode={postcode}&sector={sector}'
+
+        if postcode:
+            context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
+
+        if sector:
+            context['trade_associations'] = TradeAssociation.objects.filter(sector__icontains=sector)
+        else:
+            context['trade_associations'] = TradeAssociation.objects.all()
+
+        return context
+
+
+class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGrowthChildGuidePagePanels, Page):
     template = 'guide-child.html'
+
+    cache_control = 'no-cache'
 
     class Meta:
         verbose_name = 'Domestic Growth Child Guide page'
@@ -227,6 +252,20 @@ class DomesticGrowthChildGuidePage(SeoMixin, cms_panels.DomesticGrowthChildGuide
         null=True,
         blank=True,
     )
+
+    def get_context(self, request):
+        context = super(DomesticGrowthChildGuidePage, self).get_context(request)
+
+        postcode = request.GET.get('postcode')
+        sector = request.GET.get('sector')
+
+        if postcode and request.GET.get('sector'):
+            context['qs'] = f'?postcode={postcode}&sector={sector}'
+
+        if postcode:
+            context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
+
+        return context
 
 
 @register_snippet
