@@ -165,6 +165,7 @@ TEMPLATES = [
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'forms',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'widgets',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'title-arrow',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'tag',
             ROOT_DIR
             / 'node_modules'
             / '@uktrade'

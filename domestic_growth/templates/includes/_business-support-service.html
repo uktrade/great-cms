@@ -1,0 +1,32 @@
+{% if country == 'england' %}
+    <div>
+        <p>Business Support Service (England)<br>
+        <a href="mailto:enquiries@businesssupportservice.co.uk">enquiries@businesssupportservice.co.uk</a><br>
+        Telephone: 0800 998 1098<br>
+        <a href="https://secure.livechatinc.com/licence/10701242/v2/open_chat.cgi?groups=0">Webchat</a><br>
+        Monday to Friday, 9am to 6pm (except <a href="/bank-holidays">bank holidays</a>)<br>
+        <a href="/call-charges">Find out about call charges</a></p>
+    </div>
+    {% elif country == 'scotland' %}
+    <div>
+        <p>Find Business Support Scotland<br>
+        Telephone: 0300 303 0660<br>
+        Textphone: 0800 023 2071<br>
+        Monday to Friday, 9am to 5pm (except <a href="/bank-holidays#scotland">bank holidays</a>)<br>
+        <a href="/call-charges">Find out about call charges</a></p>
+    </div>
+    {% elif country == 'wales' %}
+    <div>
+        <p>Business Wales Helpline<br>
+        Telephone: 0300 060 3000<br>
+        Monday to Friday, 10am to 4pm (except <a href="/bank-holidays">bank holidays</a>)  <br>
+        <a href="/call-charges">Find out about call charges</a></p>
+    </div>
+    {% elif country == 'northern ireland' %}
+    <div>
+        <p>Invest Northern Ireland<br>
+        Telephone: 0800 181 4422<br>
+        Monday to Friday, 9:30am to 4:30pm (except <a href="/bank-holidays#northern-ireland">bank holidays</a>)<br>
+        <a href="/call-charges">Find out about call charges</a></p>
+    </div>
+{% endif %}

@@ -10,6 +10,8 @@ from wagtail.snippets.models import register_snippet
 from wagtailseo.models import SeoMixin
 
 from domestic_growth import cms_panels, helpers
+from international_online_offer.models import TradeAssociation
+
 from domestic_growth.blocks import DomesticGrowthCardBlock
 
 
@@ -178,6 +180,25 @@ class DomesticGrowthGuidePage(SeoMixin, cms_panels.DomesticGrowthGuidePagePanels
         null=True,
     )
 
+    def get_context(self, request):
+        context = super(DomesticGrowthGuidePage, self).get_context(request)
+
+        postcode = request.GET.get('postcode')
+        sector = request.GET.get('sector')
+
+        if postcode and request.GET.get('sector'):
+            context['qs'] = f'?postcode={postcode}&sector={sector}'
+
+        if postcode:
+            context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
+
+        if sector:
+            context['trade_associations'] = TradeAssociation.objects.filter(sector__icontains=sector)
+        else:
+            context['trade_associations'] = TradeAssociation.objects.all()
+
+        return context
+
 
 class DomesticGrowthChildGuidePage(SeoMixin, cms_panels.DomesticGrowthChildGuidePagePanels, Page):
     template = 'guide-child.html'
@@ -220,6 +241,20 @@ class DomesticGrowthChildGuidePage(SeoMixin, cms_panels.DomesticGrowthChildGuide
         null=True,
         blank=True,
     )
+
+    def get_context(self, request):
+        context = super(DomesticGrowthChildGuidePage, self).get_context(request)
+
+        postcode = request.GET.get('postcode')
+        sector = request.GET.get('sector')
+
+        if postcode and request.GET.get('sector'):
+            context['qs'] = f'?postcode={postcode}&sector={sector}'
+
+        if postcode:
+            context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
+
+        return context
 
 
 @register_snippet

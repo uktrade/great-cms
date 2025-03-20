@@ -11,7 +11,7 @@ from django.urls import reverse
                 'sector': 'Aerospace',
                 'postcode': 'SW1A 1AA',  # /PS-IGNORE
             },
-            reverse('domestic_growth:domestic-growth-starting-a-business-results'),
+            '/starting-a-business-guide?postcode=SW1A%201AA&sector=Aerospace',
         ),
         (
             reverse('domestic_growth:domestic-growth-scaling-a-business'),
@@ -21,7 +21,7 @@ from django.urls import reverse
                 'business_stage': 'startup',
                 'postcode': 'SW1A 1AA',  # /PS-IGNORE
             },
-            reverse('domestic_growth:domestic-growth-scaling-a-business-results'),
+            '/growing-a-business-guide?postcode=SW1A%201AA&sector=Aerospace',
         ),
     ),
 )
