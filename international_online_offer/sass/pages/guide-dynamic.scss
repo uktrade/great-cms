@@ -15,11 +15,6 @@ $text-underline-offset: .3em;
 	--grid-side-margin: calc(var(--vertical-gap) * 2);
 	--hero-image-height: 80px;
 	--vertical-padding: 15px;
-
-	.great-ds-title-arrow__text {
-		margin-bottom: 0;
-		text-underline-offset: $text-underline-offset;
-	}
 	
 	@mixin display-contents-on-small-screens {
 		display: contents;
@@ -27,6 +22,13 @@ $text-underline-offset: .3em;
 		@media (min-width: sizes.$tablet-size) {
 			display: initial;
 		}
+	}
+
+	.great-ds-title-arrow-wrapper {
+		justify-content: space-between;
+		flex-direction: row;
+		gap: 0;
+		display: flex;
 	}
 	
 	@mixin vertical-spacer {

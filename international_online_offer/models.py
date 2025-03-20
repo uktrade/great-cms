@@ -402,7 +402,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         }
 
         return TemplateResponse(
-            request, self.template, context
+            request, 'eyb/guide-dynamic.html', context
         )
 
     def get_context(self, request, *args, **kwargs):
