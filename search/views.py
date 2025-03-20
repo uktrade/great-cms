@@ -16,62 +16,6 @@ from search import forms, helpers
 logger = logging.getLogger(__name__)
 
 
-class SearchView(TemplateView):
-    """Search results page.
-
-    URL parameters:
-        q:string - string to be searched
-        page:int - results page number
-    """
-
-    template_name = 'search.html'
-    page_type = 'SearchResultsPage'
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-
-        results = {}
-        query = self.request.GET.get('q', '')
-        submitted = self.request.GET.get('submitted', '')
-        page = helpers.sanitise_page(self.request.GET.get('page', '1'))
-
-        common = {
-            'submitted': submitted,
-            'query': query,
-            'current_page': page,
-        }
-
-        try:
-            opensearch_query = helpers.format_query(query, page)
-            response = helpers.search_with_activitystream(opensearch_query)
-        except RequestException:
-            logger.error(
-                "Activity Stream connection for Search failed. Query: '{query}'".format(
-                    query=query,
-                )
-            )
-            results = {
-                'error_status_code': 500,
-                'error_message': 'Activity Stream connection failed',
-            }
-        else:
-            if response.status_code != 200:
-                results = {
-                    'error_message': response.content,
-                    'error_status_code': response.status_code,
-                }
-                sentry_sdk.capture_message(
-                    f'/search failed: status code {response.status_code}, message: {response.content}', 'error'
-                )
-            else:
-                results = helpers.parse_results(
-                    response,
-                    query,
-                    page,
-                )
-        return {**context, **common, **results}
-
-
 class OpensearchView(TemplateView):
     """
     This view uses the built-in Wagtail query function to query Opensearch. Returns paginated results.
@@ -130,45 +74,6 @@ class OpensearchView(TemplateView):
             'show_last_page': show_last_page,
             'prev_pages': prev_pages,
             'next_pages': next_pages,
-        }
-
-
-class OpensearchAdminView(TemplateView):
-    """
-    This view is an admin preview of Opensearch on servers where it is not deployed yet.
-    """
-
-    template_name = 'search_preview_opensearch.html'
-    page_type = 'SearchResultsPage'
-
-    def get_context_data(self, *args, **kwargs):
-        # Get the search query & page
-        search_query = self.request.GET.get('q', None)
-        page = self.request.GET.get('page', None)
-
-        if search_query:
-            # Get the full un-paginated listing of search results as a queryset. Live pages only.
-            full_search_results = Page.objects.live().search(search_query)
-            # Show 10 resources per page
-            paginator = Paginator(full_search_results, 10)
-            # Paginate
-            try:
-                paginated_search_results = paginator.page(page)
-            except PageNotAnInteger:
-                # If page is not an integer, deliver first page.
-                paginated_search_results = paginator.page(1)
-            except EmptyPage:
-                # If page is out of range (e.g. 9999), deliver last page of results.
-                paginated_search_results = paginator.page(paginator.num_pages)
-        else:
-            # No search query provided
-            full_search_results = Page.objects.none()
-            paginated_search_results = Page.objects.none()
-
-        return {
-            'search_query': search_query,
-            'search_results': paginated_search_results,
-            'search_results_count': len(full_search_results),
         }
 
 
