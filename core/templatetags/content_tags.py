@@ -575,9 +575,7 @@ def val_to_int(val: Union[float, int, str]) -> int:
     Utility function that can be called from a django template to return the whole number
     of a decimal. Not to be confused with django's intcomma which retains the fraction part.
     """
-    if val:
-        return int(round(float(val)))
-    return None
+    return int(round(float(val)))
 
 
 @register.filter
