@@ -8,10 +8,10 @@
     <h3 class="govuk-heading-s tab-content__title">{{ title }}</h3>
     <div class="tab-content__figure">
         <div class="tab-content__value--tablet govuk-heading-m govuk-!-margin-bottom-0">
-            £{{ value|val_to_int|default:'-'|intcomma }}
+            £{{ value|default:'-'|intcomma }}
         </div>
         <div class="tab-content__value--mobile govuk-heading-l govuk-!-margin-bottom-0">
-            £{{ value|val_to_int|default:'-'|intcomma }}
+            £{{ value|default:'-'|intcomma }}
         </div>
         <div class="tab-content__description">per calendar month</div>
     </div>

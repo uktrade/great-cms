@@ -116,12 +116,26 @@ $text-underline-offset: .3em;
 
 		@media (min-width: sizes.$tablet-size) {
 			display: initial;
-			grid-area: region-map;
 			background-image: url("/static/svg/regions/uk-all.svg");
 			background-size: contain;
 			background-repeat: no-repeat;
 			background-position-x: right;
 			background-position-y: top;
+		}
+	}
+
+	&__region-map-and-location-container {
+		grid-area: region-map-and-location-container;
+		display: grid;
+		grid-template-rows: 1fr auto;
+	}
+
+	&__region-map-location {
+		display: none;
+
+		@media (min-width: sizes.$tablet-size) {
+			display: initial;
+			text-align: right;
 		}
 	}
 
@@ -131,7 +145,7 @@ $text-underline-offset: .3em;
 			grid-area: top;
 			display: grid;
 			grid-template-columns: subgrid;
-			grid-template-areas: "hero region-map";
+			grid-template-areas: "hero region-map-and-location-container";
 			padding: 20px var(--vertical-padding) 25px;
 		}
 

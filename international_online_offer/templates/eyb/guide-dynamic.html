@@ -44,7 +44,12 @@
                         {% include './includes/icons/icon-edit.svg' %}
                     Change your details and plans</a>
                 </div>
-                <div class="dynamic-guide__region-map"></div>
+                <div class="dynamic-guide__region-map-and-location-container">
+                    <div class="dynamic-guide__region-map"></div>
+                    <div class="dynamic-guide__region-map-location">
+                        {% if triage_data.location %}<i class="fa fa-map-marker-alt govuk-!-margin-right-1" aria-hidden="true"></i> {{triage_data.get_location_display}}{% endif %}
+                    </div>
+                </div>
             </div>
             <div class="dynamic-guide__panel-left">
                 <div class="dynamic-guide__section essential-topics">
