@@ -4,6 +4,15 @@
 {% load humanize %}
 {% load sector_filters %}
 {% load location_select_filters %}
+{% block head_css %}
+    {{ block.super }}
+    <style type="text/css">
+        .dynamic-guide__hero-image {
+            background: url({{hero_image_url}}) no-repeat center center;
+            background-size: cover;
+        }
+    </style>
+{% endblock %}
 {% block head_title %}Welcome to your UK expansion guide {{ block.super }}{% endblock %}
 {% block meta_title %}Welcome to your UK expansion guide {{ block.super }}{% endblock %}
 {% block breadcrumb_region %}

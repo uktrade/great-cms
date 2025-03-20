@@ -221,3 +221,38 @@ def is_triage_complete(user_data, triage_data):
         return True
 
     return False
+
+def get_hero_image_by_sector(sector):
+    base_path = '/static/img/dynamic-guide-hero-images/'
+    file_type = '.jpg'
+    sector_to_image_map = {
+        'Advanced engineering': f'hero-advanced-manufacturing{file_type}',
+        'Aerospace': f'hero-aerospace{file_type}',
+        'Agriculture, horticulture, fisheries and pets': f'hero-agriculture{file_type}',
+        'Airports': f'hero-airports{file_type}',
+        'Automotive': f'hero-automotive{file_type}',
+        'Chemicals': f'hero-chemicals{file_type}',
+        'Construction': f'hero-construction{file_type}',
+        'Consumer and retail': f'hero-retail{file_type}',
+        'Creative industries': f'hero-creative{file_type}',
+        'Defence': f'hero-defence{file_type}',
+        'Education and training': f'hero-education{file_type}',
+        'Energy': f'hero-energy{file_type}',
+        'Environment': f'hero-environment{file_type}',
+        'Financial and professional services': f'hero-finance{file_type}',
+        'Food and drink': f'hero-food-and-drink{file_type}',
+        'Healthcare services': f'hero-health-and-pharma{file_type}',
+        'Logistics': f'hero-logistics{file_type}',
+        'Maritime': f'hero-maritime{file_type}',
+        'Medical devices and equipment': f'hero-health-and-pharma{file_type}',
+        'Mining': f'hero-mining{file_type}',
+        'Pharmaceuticals and biotechnology': f'hero-health-and-pharma{file_type}',
+        'Railways': f'hero-rail{file_type}',
+        'Security': f'hero-security{file_type}',
+        'Space': f'hero-space{file_type}',
+        'Sports economy': f'hero-sport{file_type}',
+        'Technology and smart cities': f'hero-tech{file_type}',
+        'Water': f'hero-water{file_type}',
+    }
+    # we dont have a default image so will use finance as fallback cause I like it
+    return f'{base_path}{sector_to_image_map.get(sector, "hero-finance.jpg")}'

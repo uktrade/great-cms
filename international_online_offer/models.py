@@ -503,6 +503,11 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             {'name': 'Home', 'url': '/international/'},
         ]
 
+        print('HERES TU ------- ')
+        hero_image_url = helpers.get_hero_image_by_sector(triage_data.sector)
+        print(hero_image_url)
+        print("SFHFSJLF -------")
+
         context.update(
             triage_data=triage_data,
             user_data=user_data,
@@ -526,6 +531,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             investment_opportunities=investment_opportunities,
             trade_events=trade_events,
             trade_associations=trade_associations,
+            hero_image_url=hero_image_url,
         )
 
         self.set_ga360_payload(
