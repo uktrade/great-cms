@@ -2,16 +2,14 @@ import datetime
 import logging
 import urllib
 
-import sentry_sdk
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
-from requests.exceptions import RequestException
 from wagtail.models import Page
 
 from core import helpers as core_helpers
-from search import forms, helpers
+from search import forms
 
 logger = logging.getLogger(__name__)
 
