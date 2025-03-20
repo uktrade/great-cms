@@ -7,7 +7,10 @@
 {% block head_title %}Welcome to your UK expansion guide {{ block.super }}{% endblock %}
 {% block meta_title %}Welcome to your UK expansion guide {{ block.super }}{% endblock %}
 {% block breadcrumb_region %}
-    <div class="great-breadcrumb-region light-blue-background">{{ block.super }}</div>
+    <div class="{% if request.path == '/international/expand-your-business-in-the-uk/guide/' %}light-blue-background{% endif %}">
+        {% include './includes/govuk/phase_banner.html' with hide_border=True %}
+    </div>
+    {% include 'international/includes/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
 {% endblock %}
 {% block css_layout_class %}light-blue-background{% endblock %}
 {% block content %}
