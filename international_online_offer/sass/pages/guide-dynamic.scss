@@ -243,12 +243,10 @@ $text-underline-offset: .3em;
 				padding: 30px 0;
 			}
 
-			// The double & increases the selector's specificity so we don't have to
-			// use !important
-			&#{&} > * {
-				border-bottom: none;
-				padding-top: 0;
-				padding-bottom: 0;
+			& > * {
+				border-bottom: none !important;
+				padding-top: 0 !important;
+				padding-bottom: 0 !important;
 			}
 		}
 
@@ -272,7 +270,7 @@ $text-underline-offset: .3em;
 					gap: 10px;
 					padding-bottom: 15px;
 
-					@media (min-width: sizes.$tablet-size) {
+					@media (min-width: sizes.$tablet-size) and (max-width: sizes.$donknowhowtonameit-size) {
 						padding-bottom: 20px;
 						flex-direction: column-reverse;
 						align-items: flex-start;
