@@ -5,6 +5,7 @@ from django.views.generic import FormView, TemplateView
 
 from domestic_growth.forms import ScalingABusinessForm, StartingABusinessForm
 from domestic_growth.helpers import get_postcode_data
+from domestic_growth.mixins import TriageMixin
 
 
 class StartingABusinessView(TriageMixin, FormView):
