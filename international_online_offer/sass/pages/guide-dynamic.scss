@@ -15,10 +15,10 @@ $text-underline-offset: .3em;
 	--grid-side-margin: calc(var(--vertical-gap) * 2);
 	--hero-image-height: 80px;
 	--vertical-padding: 15px;
-	
+
 	@mixin display-contents-on-small-screens {
 		display: contents;
-	
+
 		@media (min-width: sizes.$tablet-size) {
 			display: initial;
 		}
@@ -30,7 +30,7 @@ $text-underline-offset: .3em;
 		gap: 0;
 		display: flex;
 	}
-	
+
 	@mixin vertical-spacer {
 		@media (min-width: sizes.$tablet-size) {
 			display: flex;
@@ -38,16 +38,10 @@ $text-underline-offset: .3em;
 			gap: var(--vertical-gap);
 		}
 	}
-	
+
 	@mixin shadow-thrower {
 		background: white;
 		box-shadow: 0 4px 10px #04043F1A;
-	}
-	
-	.govuk-form-group {
-		display: flex;
-		gap: 10px;
-		align-items: baseline;
 	}
 
 	@media (min-width: sizes.$tablet-size) {
@@ -163,24 +157,24 @@ $text-underline-offset: .3em;
 		display: flex;
 		flex-direction: column;
 		gap: 15px;
-	
+
 		@media (min-width: sizes.$tablet-size) {
 			padding: 30px;
 			gap: 20px;
 		}
-	
+
 		&__list {
 			display: grid;
 			gap: 20px;
 			margin: 0;
 			padding: 0;
-	
+
 			@media (min-width: sizes.$tablet-size) {
 				grid-template-columns: 1fr 1fr;
 				gap: 30px;
 			}
 		}
-	
+
 		&__item {
 			@include shadow-thrower();
 			display: flex;
@@ -191,49 +185,49 @@ $text-underline-offset: .3em;
 		list-style: none;
 		padding: 15px;
 			font-weight: bold;
-	
+
 			@media (min-width: sizes.$tablet-size) {
 				flex-direction: column;
 				align-items: flex-start;
 			}
-	
+
 			@media (min-width: sizes.$donknowhowtonameit-size) {
 				flex-direction: row;
 				align-items: center;
 			}
 		}
-	
+
 	}
-	
+
 	.section {
 		& > * {
 			padding: 20px var(--vertical-padding);
-	
+
 			@media (min-width: sizes.$tablet-size) {
 				padding: 30px var(--vertical-padding);
 			}
-	
+
 			&:not(:last-child) {
 				border-bottom: 1px solid #bdbdbd;
 			}
 		}
-	
+
 		&__header {
 			padding-bottom: 15px;
-	
+
 			@media (min-width: sizes.$tablet-size) {
 				padding-bottom: 20px;
 			}
-	
+
 			& .govuk-body {
 				margin: 0;
 			}
-	
+
 			& > *:last-child {
 				margin-bottom: 0;
 			}
 		}
-	
+
 		&--left {
 			&__header {
 				& .govuk-heading-l {
@@ -241,14 +235,14 @@ $text-underline-offset: .3em;
 				}
 			}
 		}
-	
+
 		&--find-a-consultant {
 			padding: 15px 0 20px;
-	
+
 			@media (min-width: sizes.$tablet-size) {
 				padding: 30px 0;
 			}
-	
+
 			// The double & increases the selector's specificity so we don't have to
 			// use !important
 			&#{&} > * {
@@ -257,18 +251,18 @@ $text-underline-offset: .3em;
 				padding-bottom: 0;
 			}
 		}
-	
+
 		&--right {
 			& > * {
 				// The horizontal padding of 20px is inconsistent with the cards in the
 				// left column which have padding 15px.
 				padding: 15px 20px 25px;
-	
+
 				@media (min-width: sizes.$tablet-size) {
 					padding: 20px 30px 30px;
 				}
 			}
-	
+
 			.section {
 				&__header {
 					display: flex;
@@ -277,14 +271,14 @@ $text-underline-offset: .3em;
 					align-items: center;
 					gap: 10px;
 					padding-bottom: 15px;
-	
+
 					@media (min-width: sizes.$tablet-size) {
 						padding-bottom: 20px;
 						flex-direction: column-reverse;
 						align-items: flex-start;
 					}
 				}
-	
+
 				&__heading {
 					// Override govuk-heading-m margin
 					margin: 0;
@@ -292,11 +286,11 @@ $text-underline-offset: .3em;
 			}
 		}
 	}
-	
+
 	.link-list {
 		list-style: none;
 		margin: 0;
-	
+
 		&__item {
 			display: flex;
 			flex-direction: column;
@@ -304,88 +298,74 @@ $text-underline-offset: .3em;
 			margin: 0;
 			padding: 15px 0;
 			border-bottom: 1px solid #bdbdbd;
-	
+
 			&:first-child {
 				padding-top: 0;
 			}
-	
+
 			&:last-child {
 				padding-bottom: 0;
 				border-bottom: none;
 			}
-	
+
 			& > *:not(:first-child) {
 				margin-bottom: 0;
 			}
 		}
 	}
-	
+
 	.rich-link {
 		display: flex;
 		align-items: flex-start;
 		gap: 20px;
-	
+
 		&__content {
 			display: flex;
 			flex-direction: column;
 			flex: 1 1;
 			gap: 5px;
 		}
-	
+
 		&__image {
 			display: none;
-	
+
 			@media (min-width: sizes.$tablet-size) {
 				display: initial;
 				width: 140px;
 			}
 		}
-	
+
 		&__website {
 			color: $great-text-dark-grey;
 		}
-	
+
 		& > * {
 			margin: 0;
 		}
 	}
-	
+
 	.external-link {
 		&__icon {
 			margin-left: 10px;
 		}
 	}
-	
+
 	.figures {
 		display: flex;
 		flex-direction: column;
 		gap: 25px;
-	
-		&__select {
-			margin: 0;
-	
-			@media (min-width: sizes.$tablet-size) {
-				display: flex;
-				gap: 10px;
-				align-items: baseline;
-			}
-	
-			label {
-				font-weight: bold;
-			}
-		}
-	
+
 		&__list {
 			display: flex;
 			flex-direction: column;
 			gap: 40px;
-	
+
 			@media (min-width: sizes.$donknowhowtonameit-size) {
 				flex-direction: row;
 				gap: 30px;
 			}
 		}
-	
+
 		&__figure {
 			display: grid;
 			grid-template:
@@ -395,41 +375,41 @@ $text-underline-offset: .3em;
 			row-gap: 5px;
 			column-gap: 15px;
 			flex: 1 1;
-	
+
 			@media (min-width: sizes.$donknowhowtonameit-size) {
 				display: flex;
 				flex-direction: column;
 				gap: 10px;
 			}
 		}
-	
+
 		&__icon {
 			grid-area: icon;
 		}
-	
+
 		&__value {
 			grid-area: value;
 			margin: 0;
 		}
-	
+
 		&__description {
 			grid-area: description;
 			margin: 0;
 		}
-	
+
 		&__disclaimer {
 			display: flex;
 			flex-direction: column;
 			gap: 4px;
 			color: $great-text-dark-grey;
 			margin: 0;
-	
+
 			@media (min-width: sizes.$donknowhowtonameit-size) {
 				display: block;
 			}
 		}
 	}
-	
+
 	.tab-content {
 		@media (min-width: sizes.$tablet-size) {
 			display: grid;
@@ -440,7 +420,7 @@ $text-underline-offset: .3em;
 				/ 60px auto;
 			gap: 10px;
 		}
-	
+
 		@media (min-width: sizes.$donknowhowtonameit-size) {
 			grid-template:
 				" icon  .    title  title title"
@@ -448,37 +428,37 @@ $text-underline-offset: .3em;
 				" icon  .    figure .     explanation"
 				/ 60px  10px auto   30px  auto;
 		}
-	
+
 		&__icon {
 			grid-area: icon;
 		}
-	
+
 		&__title {
 			grid-area: title;
 			margin: 0;
 		}
-	
+
 		&__figure {
 			grid-area: figure;
 		}
-	
+
 		&__description {
 			grid-area: description;
 		}
-	
+
 		&__explanation {
 			grid-area: explanation;
 		}
-	
+
 		&__value {
 			margin: 0;
-	
+
 			&--mobile {
 				@media (min-width: sizes.$donknowhowtonameit-size) {
 					display: none;
 				}
 			}
-	
+
 			&--tablet {
 				@media (max-width: sizes.$donknowhowtonameit-size) {
 					display: none;
@@ -486,12 +466,10 @@ $text-underline-offset: .3em;
 			}
 		}
 	}
-	
+
 	.rent-data {
 		display: flex;
 		flex-direction: column;
 		gap: 10px;
 	}
 }
-
-
