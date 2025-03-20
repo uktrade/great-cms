@@ -17,11 +17,6 @@ class FeedbackForm(SaveOnlyInDatabaseAPIForm, forms.Form):
     from_search_page = forms.IntegerField(widget=forms.HiddenInput(), required=False)
     contactable = forms.ChoiceField(
         label='May we contact you with some brief follow-up questions on your experience?',
-        widget=forms.RadioSelect(),
-        choices=[('yes', 'Yes'), ('no', 'No')],
-    )
-    contactable = forms.ChoiceField(
-        label='May we contact you with some brief follow-up questions on your experience?',
         linked_conditional_reveal_fields=['contact_name', 'contact_email', 'contact_number'],
         linked_conditional_reveal_choice='yes',
         widget=forms.RadioSelectConditionalReveal(),
@@ -49,6 +44,6 @@ class FeedbackForm(SaveOnlyInDatabaseAPIForm, forms.Form):
 
     @property
     def serialized_data(self):
-        if 'captcha' in self.cleaned_data:
-            del self.cleaned_data['captcha']
-        return self.cleaned_data
+        data = super().serialized_data
+        del data['captcha']
+        return data
