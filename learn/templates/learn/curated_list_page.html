@@ -6,26 +6,12 @@
 {% load get_item from object_tags %}
 {% load get_css_class_from_string from content_tags %}
 {% load render_signup_cta from content_tags %}
+{% load get_lte_hero_image_path_from_class from component_tags %}
 {% block body_attributes %}class="great-bg-white"{% endblock %}
 {% block content %}
-    <div id="learn-root"
-         class="learn__page learn__category-page great-hero-box-shadow-bottom">
-        {% with high_level_completion_progress|get_item:page.id as module_completion_data %}
-            <section>
-                <div class="great-container">
-                    <div class="page-header article-header stack-at-tablet-width ea-landing-page govuk-!-padding-left-0 {{ page.title| get_css_class_from_string }}">
-                        <div class="inner-header govuk-!-margin-left-0 govuk-!-static-padding-0">
-                            <div>
-                                <h1 id="topic-title">{{ page.title }}</h1>
-                                <p>{{ page.heading | richtext }}</p>
-                            </div>
-                            <div class="image-container image-full-width great-display-from-tablet lte-landing-image-container"></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        {% endwith %}
-    </div>
+    {% with page.title|get_css_class_from_string|get_lte_hero_image_path_from_class as image_url %}
+        {% include '_hero.html' with pngImagePath=image_url heading=page.title aboveCtaHtml=page.heading classes="great-ds-hero--large-image-cropping great-ds-hero--box-shadow great-ds-hero--bg-white"%}
+    {% endwith %}
     <div class="great govuk-grid great-bg-white ">
         <section class="great-container" id="topic-lesson-list">
             <ol class="learn__topics-list">
