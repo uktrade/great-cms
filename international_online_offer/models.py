@@ -105,10 +105,13 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             if investment_opportunity.article_image:
                 rendition = investment_opportunity.article_image.get_rendition('original')
                 image_url = rendition.url  # This is the URL for the image
+            location_text = investment_opportunity.location + ', ' + investment_opportunity.region \
+                if investment_opportunity.location else investment_opportunity.region
+
             investment_opportunity_cards.append(
                 {
                     'title': investment_opportunity.article_title,
-                    'location': investment_opportunity.location + ', ' + investment_opportunity.region if investment_opportunity.location else investment_opportunity.region,
+                    'location': location_text,
                     'image': image_url,
                     'url': investment_opportunity.url,
                     'description': investment_opportunity.article_teaser,
@@ -135,11 +138,10 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         trade_association_cards = []
         for trade_association in context['trade_associations']:
             trade_association_cards.append({
-                    'title': trade_association.association_name,
-                    'url': trade_association.website_link,
-                    'description': trade_association.brief_description
-                }
-            )
+                'title': trade_association.association_name,
+                'url': trade_association.website_link,
+                'description': trade_association.brief_description
+            })
         return trade_association_cards
 
     def _add_find_business_property_card(self, tag, intent_article, base_cards):
@@ -285,25 +287,25 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                     'icon_path': 'svg/icon-planning.svg',
                     'text': 'UK business registration',
                     'url': '/international/expand-your-business-in-the-uk/guide/'
-                    f'detailed-guides/set-up-and-register-your-business',
+                    'detailed-guides/set-up-and-register-your-business',
                 },
                 {
                     'icon_path': 'svg/icon-ukvisa.svg',
                     'text': 'Checking if you need visas',
                     'url': '/international/expand-your-business-in-the-uk/guide/'
-                    f'detailed-guides/how-to-apply-for-a-visa',
+                    'detailed-guides/how-to-apply-for-a-visa',
                 },
                 {
                     'icon_path': 'svg/icon-bank.svg',
                     'text': 'Business bank accounts',
                     'url': '/international/expand-your-business-in-the-uk/guide/'
-                    f'detailed-guides/how-to-choose-and-set-up-a-uk-bank-account/',
+                    'detailed-guides/how-to-choose-and-set-up-a-uk-bank-account/',
                 },
                 {
                     'icon_path': 'svg/icon-tax.svg',
                     'text': 'UK taxes',
                     'url': '/international/expand-your-business-in-the-uk/'
-                    f'guide/detailed-guides/how-to-register-for-tax-and-claim-tax-allowances',
+                    'guide/detailed-guides/how-to-register-for-tax-and-claim-tax-allowances',
                 },
             ],
             'market_data_location_select_form': DynamicGuideBCIRegionSelectForm(
@@ -482,7 +484,8 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             )
 
         # Get first three investment opportunities A-Z by sector
-        investment_opportunities = InvestmentOpportunityArticlePage.objects.live().filter(dbt_sectors__contains=[triage_data.sector]).order_by('article_title')[:3]
+        investment_opportunities = InvestmentOpportunityArticlePage.objects.live().filter(
+            dbt_sectors__contains=[triage_data.sector]).order_by('article_title')[:3]
 
         # Get first three trade events A-Z by sector
         trade_events = (
@@ -498,15 +501,13 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         trade_associations = TradeAssociation.objects.filter(
             Q(link_valid=True) & (Q(sector__icontains=triage_data.sector) | Q(sector__in=trade_association_sectors))
         ).order_by('association_name')[:3]
-        
+
         breadcrumbs = [
             {'name': 'Home', 'url': '/international/'},
         ]
 
-        print('HERES TU ------- ')
         hero_image_url = helpers.get_hero_image_by_sector(triage_data.sector)
-        print(hero_image_url)
-        print("SFHFSJLF -------")
+        region_map_image_url = helpers.get_region_map_image_by_region(triage_data.location)
 
         context.update(
             triage_data=triage_data,
@@ -532,6 +533,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             trade_events=trade_events,
             trade_associations=trade_associations,
             hero_image_url=hero_image_url,
+            region_map_image_url=region_map_image_url,
         )
 
         self.set_ga360_payload(

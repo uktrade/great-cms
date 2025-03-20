@@ -222,6 +222,7 @@ def is_triage_complete(user_data, triage_data):
 
     return False
 
+
 def get_hero_image_by_sector(sector):
     base_path = '/static/img/dynamic-guide-hero-images/'
     file_type = '.jpg'
@@ -256,3 +257,23 @@ def get_hero_image_by_sector(sector):
     }
     # we dont have a default image so will use finance as fallback cause I like it
     return f'{base_path}{sector_to_image_map.get(sector, "hero-finance.jpg")}'
+
+
+def get_region_map_image_by_region(region):
+    base_path = '/static/svg/regions/'
+    file_type = '.svg'
+    region_to_image_map = {
+        regions.EAST_OF_ENGLAND: f'uk-england-east{file_type}',
+        regions.EAST_MIDLANDS: f'uk-england-east-midlands{file_type}',
+        regions.LONDON: f'uk-england-london{file_type}',
+        regions.NORTH_EAST: f'uk-england-north-east{file_type}',
+        regions.NORTH_WEST: f'uk-england-north-west{file_type}',
+        regions.NORTHERN_IRELAND: f'uk-northern-ireland{file_type}',
+        regions.SOUTH_EAST: f'uk-england-south-east{file_type}',
+        regions.SOUTH_WEST: f'uk-england-south-west{file_type}',
+        regions.SCOTLAND: f'uk-scotland{file_type}',
+        regions.WALES: f'uk-wales{file_type}',
+        regions.WEST_MIDLANDS: f'uk-england-west-midlands{file_type}',
+        regions.YORKSHIRE_AND_THE_HUMBER: f'uk-england-yorkshire-and-the-humber{file_type}',
+    }
+    return f'{base_path}{region_to_image_map.get(region, "uk-all.svg")}'
