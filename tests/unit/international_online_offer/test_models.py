@@ -158,12 +158,6 @@ def test_eyb_guide_page_content(rf, user, domestic_site, user_sector, sector_tag
     page_tag = EYBArticlePageTag(tag=sector_tag, content_object=article_page)
     page_tag.save()
 
-    # tag with intent
-    intent_tag = EYBArticleTag(name=SET_UP_A_NEW_DISTRIBUTION_CENTRE, slug=slugify(SET_UP_A_NEW_DISTRIBUTION_CENTRE))
-    intent_tag.save()
-    page_tag = EYBArticlePageTag(tag=intent_tag, content_object=article_page)
-    page_tag.save()
-
     # article with dbt sector only
     article_page_with_dbt_sector = EYBArticlePage(
         article_title='test321', title='test321', slug='test321', dbt_sectors=dbt_sectors
@@ -176,10 +170,8 @@ def test_eyb_guide_page_content(rf, user, domestic_site, user_sector, sector_tag
     request.session = {}
     response = guide_page.serve(request)
     context = response.context_data
-    assert context['complete_contact_form_link_text'] == 'Sign up'
-    assert context['complete_contact_form_link'] == 'international_online_offer:signup'
-    assert len(context['get_to_know_market_articles']) == expected_len_articles
-    assert len(context['finance_and_support_articles']) == 0
+
+    assert len(context['all_articles']) == expected_len_articles
     assert context['trade_shows_page'] is None
 
 

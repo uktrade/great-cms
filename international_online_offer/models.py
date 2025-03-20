@@ -105,8 +105,11 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             if investment_opportunity.article_image:
                 rendition = investment_opportunity.article_image.get_rendition('original')
                 image_url = rendition.url  # This is the URL for the image
-            location_text = investment_opportunity.location + ', ' + investment_opportunity.region \
-                if investment_opportunity.location else investment_opportunity.region
+            location_text = (
+                investment_opportunity.location + ', ' + investment_opportunity.region
+                if investment_opportunity.location
+                else investment_opportunity.region
+            )
 
             investment_opportunity_cards.append(
                 {
@@ -137,57 +140,71 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
     def create_trade_association_cards(self, context):
         trade_association_cards = []
         for trade_association in context['trade_associations']:
-            trade_association_cards.append({
-                'title': trade_association.association_name,
-                'url': trade_association.website_link,
-                'description': trade_association.brief_description
-            })
+            trade_association_cards.append(
+                {
+                    'title': trade_association.association_name,
+                    'url': trade_association.website_link,
+                    'description': trade_association.brief_description,
+                }
+            )
         return trade_association_cards
 
     def _add_find_business_property_card(self, tag, intent_article, base_cards):
         if tag.name == filter_tags.FIND_BUSINESS_PROPERTY:
-            base_cards.insert(0, {
-                'title': intent_article.title,
-                'icon': 'svg/icon-find-property.svg',
-                'url': intent_article.url,
-                'description': intent_article.article_teaser,
-            })
+            base_cards.insert(
+                0,
+                {
+                    'title': intent_article.title,
+                    'icon': 'svg/icon-find-property.svg',
+                    'url': intent_article.url,
+                    'description': intent_article.article_teaser,
+                },
+            )
 
     def _add_set_up_new_premises_card(self, tag, intent_article, base_cards):
         if tag.name == intents.SET_UP_NEW_PREMISES:
-            base_cards.append({
-                'title': intent_article.title,
-                'icon': 'svg/icon-premises.svg',
-                'url': intent_article.url,
-                'description': intent_article.article_teaser,
-            })
+            base_cards.append(
+                {
+                    'title': intent_article.title,
+                    'icon': 'svg/icon-premises.svg',
+                    'url': intent_article.url,
+                    'description': intent_article.article_teaser,
+                }
+            )
 
     def _add_set_up_new_distribution_centre_card(self, tag, intent_article, base_cards):
         if tag.name == intents.SET_UP_A_NEW_DISTRIBUTION_CENTRE:
-            base_cards.append({
-                'title': intent_article.title,
-                'icon': 'svg/icon-distribution.svg',
-                'url': intent_article.url,
-                'description': intent_article.article_teaser,
-            })
+            base_cards.append(
+                {
+                    'title': intent_article.title,
+                    'icon': 'svg/icon-distribution.svg',
+                    'url': intent_article.url,
+                    'description': intent_article.article_teaser,
+                }
+            )
 
     def _add_find_expert_talent_card(self, tag, intent_article, recruit_and_employ_cards):
         if tag.name == filter_tags.FIND_EXPERT_TALENT:
-            recruit_and_employ_cards.insert(0, {
-                'title': intent_article.title,
-                'icon': 'svg/icon-staff.svg',
-                'url': intent_article.url,
-                'description': intent_article.article_teaser,
-            })
+            recruit_and_employ_cards.insert(
+                0,
+                {
+                    'title': intent_article.title,
+                    'icon': 'svg/icon-staff.svg',
+                    'url': intent_article.url,
+                    'description': intent_article.article_teaser,
+                },
+            )
 
     def _add_find_people_with_specialist_skills_card(self, tag, intent_article, recruit_and_employ_cards):
         if tag.name == intents.FIND_PEOPLE_WITH_SPECIALIST_SKILLS:
-            recruit_and_employ_cards.append({
-                'title': intent_article.title,
-                'icon': 'svg/icon-talent.svg',
-                'url': intent_article.url,
-                'description': intent_article.article_teaser,
-            })
+            recruit_and_employ_cards.append(
+                {
+                    'title': intent_article.title,
+                    'icon': 'svg/icon-talent.svg',
+                    'url': intent_article.url,
+                    'description': intent_article.article_teaser,
+                }
+            )
 
     def _add_support_and_funding_cards(self, tag, intent_article, right_panel_sections):
         if tag.name == intents.RESEARCH_DEVELOP_AND_COLLABORATE or tag.name == filter_tags.FINANCE_AND_SUPPORT:
@@ -237,9 +254,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 self._add_set_up_new_premises_card(tag, intent_article, base_cards)
                 self._add_set_up_new_distribution_centre_card(tag, intent_article, base_cards)
                 self._add_find_expert_talent_card(tag, intent_article, recruit_and_employ_cards)
-                self._add_find_people_with_specialist_skills_card(
-                    tag, intent_article, recruit_and_employ_cards
-                )
+                self._add_find_people_with_specialist_skills_card(tag, intent_article, recruit_and_employ_cards)
                 self._add_support_and_funding_cards(tag, intent_article, right_panel_sections)
                 self._add_regulations_card(tag, intent_article, right_panel_sections)
                 self._add_onward_sales_and_exports_card(tag, intent_article, right_panel_sections)
@@ -400,12 +415,10 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 'disclaimer': 'Figures reflect 2023 data. Source: Statista',
             },
             'recruit_and_employ': recruit_and_employ_cards,
-            'right_panel_sections': right_panel_sections
+            'right_panel_sections': right_panel_sections,
         }
 
-        return TemplateResponse(
-            request, 'eyb/guide-dynamic.html', context
-        )
+        return TemplateResponse(request, 'eyb/guide-dynamic.html', context)
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request)
@@ -458,7 +471,8 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
 
         # Get any EYB articles that have been tagged with any of the filter tags setup by content team
         all_articles = EYBArticlePage.objects.live().filter(
-            Q(tags__name=filter_tags.FINANCE_AND_SUPPORT) | Q(tags__name=filter_tags.FIND_EXPERT_TALENT)
+            Q(tags__name=filter_tags.FINANCE_AND_SUPPORT)
+            | Q(tags__name=filter_tags.FIND_EXPERT_TALENT)
             | Q(tags__name=filter_tags.FIND_BUSINESS_PROPERTY)
         )
 
@@ -474,8 +488,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
 
             # display articles based on free text tags
             all_articles = all_articles.union(
-                EYBArticlePage.objects.live()
-                .filter(tags__name__iexact=user_sector_no_commas)
+                EYBArticlePage.objects.live().filter(tags__name__iexact=user_sector_no_commas)
             )
 
             # include articles based on user sector and article's dbt sector not including any duplicates
@@ -484,8 +497,11 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             )
 
         # Get first three investment opportunities A-Z by sector
-        investment_opportunities = InvestmentOpportunityArticlePage.objects.live().filter(
-            dbt_sectors__contains=[triage_data.sector]).order_by('article_title')[:3]
+        investment_opportunities = (
+            InvestmentOpportunityArticlePage.objects.live()
+            .filter(dbt_sectors__contains=[triage_data.sector])
+            .order_by('article_title')[:3]
+        )
 
         # Get first three trade events A-Z by sector
         trade_events = (
