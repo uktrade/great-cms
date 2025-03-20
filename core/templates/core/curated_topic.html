@@ -7,12 +7,10 @@
      id="{{ topic.id }}">
     <h2 id="{{ topic.slug }}"
         class="learn__topic-item-title govuk-heading-m govuk-!-padding-0 govuk-!-margin-0">{{ topic.title }}</h2>
-    <ul class="learn__lessons-list">
-        <div class="great-ds-card-container">
-            {% for page in topic.get_lesson_pages %}
-                {% render_completed_tag page completed_lessons as completedTag %}
-                {% include '_card.html' with type="unmounted" href=page.url title=page.title id=page.slug classes="great-ds-card--full" completedTag=completedTag %}
-            {% endfor %}
-        </div>
-    </ul>
+    <div class="great-ds-card-container">
+        {% for page in topic.get_lesson_pages %}
+            {% render_completed_tag page completed_lessons as completedTag %}
+            {% include '_card.html' with type="unmounted" href=page.url title=page.title id=page.slug classes="great-ds-card--full" completedTag=completedTag %}
+        {% endfor %}
+    </div>
 </div>

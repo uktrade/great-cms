@@ -30,7 +30,7 @@
                     {% for learning_module in page.get_children.specific.live %}
                         {% with high_level_completion_progress|get_item:learning_module.id as module_completion_data %}
                             {% get_page_url learning_module as learning_module_url %}
-                            {% include '_card.html' with href=learning_module_url title=learning_module.title description=page.heading id=page.slug titleSize="m" classes="great-ds-card--full" progressCompletionPercentage=module_completion_data.completion_percentage progressCompletionCount=module_completion_data.completion_count progressTotalPages=module_completion_data.total_pages %}
+                            {% include '_card.html' with href=learning_module_url title=learning_module.title description=learning_module.heading|striptags id=page.slug titleSize="m" classes="great-ds-card--full" progressCompletionPercentage=module_completion_data.completion_percentage progressCompletionCount=module_completion_data.completion_count progressTotalPages=module_completion_data.total_pages %}
                         {% endwith %}
                     {% endfor %}
                 </div>

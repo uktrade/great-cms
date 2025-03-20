@@ -196,7 +196,7 @@
                     <div class="great-ds-card-container">
                         {% for column_block in page.magna_ctas_columns %}
                             {% image column_block.value.image fill-640x360 as thumbnail %}
-                            {% include '_card.html' with type="mounted-blue" href=column_block.value.url imageUrl=thumbnail.url imageAlt=column_block.value.image.alt_text title=column_block.value.text description=column_block.value.content id=page.slug titleSize="m" classes="great-ds-card--3" %}
+                            {% include '_card.html' with href=column_block.value.url imageUrl=thumbnail.url imageAlt=column_block.value.image.alt_text title=column_block.value.text description=column_block.value.content id=page.slug titleSize="m" classes="great-ds-card--3" %}
                         {% endfor %}
                     </div>
                 </div>
@@ -210,7 +210,7 @@
                     <div class="great-ds-card-container">
                         {% for column_block in page.magna_ctas_columns %}
                             {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
-                                {% include '_card.html' with type="mounted-blue" href=column_block.value.url imageUrl=column_block.value.url title=column_block.value.text description=column_block.value.content id=page.slug titleSize="m" classes="great-ds-card--3" %}
+                                {% include '_card.html' with href=column_block.value.url imageUrl=column_block.value.url title=column_block.value.text description=column_block.value.content id=page.slug titleSize="m" classes="great-ds-card--3" %}
                             {% else %}
                                 {% include '_card.html' with href=column_block.value.url imageUrl=column_block.value.image title=column_block.value.text description=column_block.value.content id=page.slug titleSize="m" classes="great-ds-card--3" %}
                             {% endif %}
@@ -336,7 +336,7 @@
                                 <div class="great-ds-card-container">
                                     {% for link_block in page.what_is_new_pages %}
                                         {% image link_block.value.image fill-640x360 as thumbnail %}
-                                        {% include '_card.html' with type="mounted-blue" href=link_block.value.url imageUrl=thumbnail.url imageAlt=column_block.value.image.alt_text title=link_block.value.text description=link_block.value.content id=page.slug titleSize="m" metadataText=link_block.value.source classes="great-ds-card--3" %}
+                                        {% include '_card.html' with href=link_block.value.url imageUrl=thumbnail.url imageAlt=column_block.value.image.alt_text title=link_block.value.text description=link_block.value.content id=page.slug titleSize="m" metadataText=link_block.value.source classes="great-ds-card--3" %}
                                     {% endfor %}
                                 </div>
                             </div>

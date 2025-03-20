@@ -492,22 +492,9 @@
     <section id="country-guide-need-help-section" class="great">
         <h2 class="heading-large margin-top-0">Next steps</h2>
         <div>
-            <div>
-                {% static 'images/learn-to-export-header.png' as need_help_image_url %}
-                {% slugurl 'advice' as advice_url %}
-                <img src={{ need_help_image_url }} alt="Contact us">
-                <h3 class="govuk-heading-m govuk-!-margin-0">Get ready to do business abroad</h3>
-                <p>Step-by-step lessons to accelerate your exporting ability.</p>
-                <a class="button primary-button" href="{{ advice_url }}">Read more</a>
-            </div>
-            <div>
-                {% static 'images/find_export_answers.png' as find_export_answers_img %}
-                <img src="{{ find_export_answers_img }}" alt="Contact us">
-                <h3 class="govuk-heading-m govuk-!-margin-0">Find the answers to your exporting questions</h3>
-                <p>
-                    Get instant help from our online services and how-to articles or contact our Export Support Service to access our wider network of support.
-                </p>
-                <a class="button primary-button" href="/support/export-support/">Find answers</a>
+            <div class="great-ds-card-container">
+                {% include '_card.html' with href="/learn/categories" imageUrl="/static/images/learn-to-export-header.png" imageAlt="Contact us" title="Get ready to do business abroad" description="Step-by-step lessons to accelerate your exporting ability." id=page.slug titleSize="m" classes="great-ds-card--2" hideArrow="true" %}
+                {% include '_card.html' with href="/support/export-support" imageUrl="/static/images/find_export_answers.png" imageAlt="Contact us" title="Find the answers to your exporting questions" description="Get instant help from our online services and how-to articles or contact our Export Support Service to access our wider network of support." id=page.slug titleSize="m" classes="great-ds-card--2" hideArrow="true" %}
             </div>
         </div>
     </div>
