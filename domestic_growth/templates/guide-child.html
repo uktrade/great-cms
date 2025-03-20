@@ -3,21 +3,35 @@
 {% block head_title %}Domestic Growth - Guide child page{% endblock %}
 
 {% block content %}
-    <section class="great great-bg-dark-blue">
-        <div class="great-container govuk-!-padding-top-9">
+    <section class="great-ds-bg-blue govuk-!-padding-bottom-9">
+        <div class="great-ds-container govuk-!-padding-top-8">
             <div class="govuk-grid-row">
-                <div class="govuk-grid-column-one-half great-no-padding-until-tablet">
-                    {% if page.get_parent.hero_title %}
-                    <h1 class="govuk-heading-xl govuk-!-margin-bottom-6 great-text-white">
-                        {{ page.get_parent.hero_title }}
-                    </h1>
-                    {% endif %}
+                <div class="govuk-grid-column-two-thirds">
+                    <div class="great-ds-bg-white govuk-!-padding-6">
+                        {% if page.get_parent.hero_title %}
+                        <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">
+                            {{ page.get_parent.hero_title }}
+                        </h1>
+                        {% endif %}
 
-                    {% if page.get_parent.hero_intro %}
-                    <p class="govuk-body govuk-!-margin-bottom-6 great-text-white">
-                        {{ page.get_parent.hero_intro }}
-                    </p>
-                    {% endif %}
+                        {% if page.get_parent.hero_intro %}
+                        <p class="govuk-body govuk-!-margin-bottom-6">
+                            {{ page.get_parent.hero_intro }}
+                        </p>
+                        {% endif %}
+
+                        {% if local_support_data.postcode_data.country %}
+                            {% include "_tag.html" with text=local_support_data.postcode_data.country type="error" %}
+                        {% endif %}
+
+                        {% if local_support_data.postcode_data.region %}
+                            {% include "_tag.html" with text=local_support_data.postcode_data.region type="information" %}
+                        {% endif %}
+
+                        {% if local_support_data.postcode_data.admin_district %}
+                            {% include "_tag.html" with text=local_support_data.postcode_data.admin_district type="success" %}
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
@@ -60,10 +74,10 @@
         </div>
     </div>
 
-    <section class="great great-bg-light-blue govuk-!-padding-bottom-6">
-        <div class="great-container govuk-!-padding-top-7">
+    <section class="great great-ds-bg-light-blue govuk-!-padding-bottom-6">
+        <div class="great-ds-container govuk-!-padding-top-7">
             <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds great-no-padding-until-tablet">
+                <div class="govuk-grid-column-two-thirds">
                     {% if page.body_title %}
                     <h2 class="govuk-heading-l govuk-!-margin-bottom-3">
                         {{ page.body_title }}
@@ -78,7 +92,7 @@
 
                     {% if page.body_sections %}
                         {% for section in page.body_sections %}
-                        <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-bg-white">
+                        <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-ds-bg-white great-ds-border-top-grey-3">
                             <h3 class="govuk-heading-m govuk-!-margin-bottom-3">{{ section.value.title }}</h3>
                             <p class="govuk-caption">{{ section.value.intro }}</p>
 
