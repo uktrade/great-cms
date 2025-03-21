@@ -60,11 +60,11 @@ class StartingABusinessLocationFormView(BaseTriageFormView):
                     'postcode': form.cleaned_data['postcode'],
                 },
             )
-            
+
         return super().form_valid(form)
 
     def get_success_url(self):
-        return super().get_success_url('domestic_growth:domestic-growth-starting-a-business-sector')
+        return super().get_success_url('domestic_growth:domestic-growth-pre-start-sector')
 
 
 class StartingABusinessSectorFormView(BaseTriageFormView):
@@ -93,7 +93,7 @@ class StartingABusinessSectorFormView(BaseTriageFormView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return super().get_success_url('domestic_growth:domestic-growth-starting-a-business-results')
+        return super().get_success_url('domestic_growth:domestic-growth-pre-start-guide')
 
 
 class StartingABusinessResultsView(TemplateView):
