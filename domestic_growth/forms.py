@@ -46,7 +46,7 @@ class StartingABusinessSectorForm(forms.Form):
     dont_know_sector_yet = BooleanField(
         required=False,
         initial=False,
-        label="I don't know yet",
+        label='I don\'t know yet',
         widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
     )
 
@@ -58,7 +58,7 @@ class StartingABusinessSectorForm(forms.Form):
 
         if not (sector or dont_know_sector_yet):
             self.add_error(
-                'sector', "Enter your sector or industry and select the closest result, or select I don’t know yet"
+                'sector', 'Enter your sector or industry and select the closest result, or select I don’t know yet'
             )
 
 

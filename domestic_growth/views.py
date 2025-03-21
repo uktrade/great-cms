@@ -2,14 +2,14 @@ from urllib.parse import urlencode
 from uuid import UUID, uuid4
 
 from django.urls import reverse_lazy
-from django.views.generic import FormView, TemplateView
+from django.views.generic import FormView
 from pydantic import HttpUrl
 
 from domestic_growth.forms import (
     StartingABusinessLocationForm,
     StartingABusinessSectorForm,
 )
-from domestic_growth.models import StartingABusinessUser
+from domestic_growth.models import StartingABusinessTriage
 from international_online_offer.core import region_sector_helpers
 from international_online_offer.services import get_dbt_sectors
 
@@ -36,16 +36,20 @@ class BaseTriageFormView(FormView):
         else:
             return uuid4()
 
-    def get_success_url(self, success_view_name: str, params: dict = {}) -> HttpUrl:
+    def get_success_url(self, success_url: str, params: dict = {}) -> HttpUrl:
         """
         Accepts a success view name for example, 'domestic_growth:domestic-growth-starting-a-business-sector`
         and if we are using a uuid as opposed to a session_key appends a query string parameter
         """
-        if type(self.session_id) is UUID:
-            params = {'session_id': self.session_id, **params}
-            return f'{reverse_lazy(success_view_name)}?{urlencode(params)}'
+        try:
+            if type(self.session_id) is UUID or type(UUID(self.session_id)) is UUID:
+                params = {'session_id': self.session_id, **params}
+                return f'{success_url}?{urlencode(params)}'
+        except ValueError as e:  # NOQA:F841
+            # todo logging of invalid session id in URL. thrown by UUID constructor when invalid parameter passed.
+            pass
 
-        return reverse_lazy(success_view_name)
+        return success_url
 
 
 class StartingABusinessLocationFormView(BaseTriageFormView):
@@ -54,17 +58,17 @@ class StartingABusinessLocationFormView(BaseTriageFormView):
 
     def form_valid(self, form):
         if form.is_valid():
-            StartingABusinessUser.objects.update_or_create(
+            StartingABusinessTriage.objects.update_or_create(
                 session_id=self.session_id,
                 defaults={
                     'postcode': form.cleaned_data['postcode'],
                 },
             )
-            
+
         return super().form_valid(form)
 
     def get_success_url(self):
-        return super().get_success_url('domestic_growth:domestic-growth-starting-a-business-sector')
+        return super().get_success_url(reverse_lazy('domestic_growth:domestic-growth-pre-start-sector'))
 
 
 class StartingABusinessSectorFormView(BaseTriageFormView):
@@ -82,7 +86,7 @@ class StartingABusinessSectorFormView(BaseTriageFormView):
 
     def form_valid(self, form):
         if form.is_valid():
-            StartingABusinessUser.objects.update_or_create(
+            StartingABusinessTriage.objects.update_or_create(
                 session_id=self.session_id,
                 defaults={
                     'sector_id': form.cleaned_data['sector'],
@@ -93,8 +97,4 @@ class StartingABusinessSectorFormView(BaseTriageFormView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return super().get_success_url('domestic_growth:domestic-growth-starting-a-business-results')
-
-
-class StartingABusinessResultsView(TemplateView):
-    template_name = 'starting-a-business/results.html'
+        return super().get_success_url('/support-in-uk/pre-start-guide/')
