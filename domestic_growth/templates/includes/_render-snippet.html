@@ -1,0 +1,13 @@
+{% if content.content_id in dynamic_snippet_ids %}
+    {% for snippet_id, snippet_name in dynamic_snippet_names %}
+        {% if content.content_id == snippet_id %}
+            {% if snippet_name == 'Contracts finder' %}
+                Do something for Contracts finder
+            {% elif snippet_name == 'International Trade Adviser' %}
+                Do something for International Trade Adviser
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% else %}
+    {% include "_card.html" with classes="great-ds-card--full" type="unmounted" title=content.title href=content.url description=content.description|safe id=content.content_id %}
+{% endif %}

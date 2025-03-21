@@ -265,6 +265,13 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
         if postcode:
             context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
 
+        context['dynamic_snippet_ids'] = ('BGS_13_001', 'BGS_12_005', 'BGS_9_21')
+        context['dynamic_snippet_names'] = (
+            ('BGS_13_001', 'Contracts finder'),
+            ('BGS_12_005', 'International Trade Adviser'),
+            ('BGS_9_21', 'Apprenticeships placeholder'),
+        )
+
         return context
 
 
