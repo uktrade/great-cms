@@ -5,8 +5,8 @@ from wagtailcache.cache import nocache_page
 from django.views.generic import FormView
 from django.utils.decorators import method_decorator
 
+from domestic_growth.forms import ScalingABusinessForm, StartingABusinessForm
 from domestic_growth.mixins import TriageMixin
-from domestic_growth.forms import StartingABusinessForm, ScalingABusinessForm
 
 
 @method_decorator(nocache_page, name='get')

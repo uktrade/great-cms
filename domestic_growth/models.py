@@ -1,25 +1,18 @@
 from django.db import models
-
-from domestic_growth import (
-    cms_panels,
-    helpers,
-)
 from wagtail import blocks
+from wagtail.admin.panels import FieldPanel
 from wagtail.blocks.stream_block import StreamBlock
 from wagtailcache.cache import WagtailCacheMixin
 from wagtail.fields import StreamField, RichTextField
 from wagtail.models import Page
-from wagtailseo.models import SeoMixin
 from wagtail.search import index
 from wagtail.snippets.blocks import SnippetChooserBlock
-from wagtail.admin.panels import (
-    FieldPanel,
-)
 from wagtail.snippets.models import register_snippet
+from wagtailseo.models import SeoMixin
 
-from international_online_offer.models import TradeAssociation
-
+from domestic_growth import cms_panels, helpers
 from domestic_growth.blocks import DomesticGrowthCardBlock
+from international_online_offer.models import TradeAssociation
 
 
 class DomesticGrowthHomePage(SeoMixin, cms_panels.DomesticGrowthHomePagePanels, Page):

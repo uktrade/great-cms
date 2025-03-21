@@ -732,6 +732,8 @@ class MarketsTopicLandingPage(
         context['paginated_results'] = paginated_results
         context['number_of_results'] = relevant_markets.count()
 
+        context['markets_form'] = domestic_forms.MarketsForm()
+
         return context
 
 

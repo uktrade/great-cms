@@ -1,6 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from wagtail.images.views.images import CreateView as ImageAddView, EditView as ImageEditView
+from wagtail.images.views.images import (
+    CreateView as ImageAddView,
+    EditView as ImageEditView,
+)
 from wagtail_modeladmin import views
 from wagtail_modeladmin.mixins import ThumbnailMixin
 from wagtail_modeladmin.options import ModelAdmin, modeladmin_register
