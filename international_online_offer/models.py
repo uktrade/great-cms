@@ -161,12 +161,12 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 },
             )
 
-    def _add_set_up_new_premises_card(self, tag, intent_article, base_cards):
+    def _add_set_up_new_premises_card(self, tag, intent_article, base_cards, triage_data):
         if tag.name == intents.SET_UP_NEW_PREMISES:
             base_cards.append(
                 {
                     'title': intent_article.title,
-                    'icon': 'svg/icon-premises.svg',
+                    'icon': helpers.get_premises_image_by_sector(triage_data.sector),
                     'url': intent_article.url,
                     'description': intent_article.article_teaser,
                 }
@@ -195,12 +195,12 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 },
             )
 
-    def _add_find_people_with_specialist_skills_card(self, tag, intent_article, recruit_and_employ_cards):
+    def _add_find_people_with_specialist_skills_card(self, tag, intent_article, recruit_and_employ_cards, triage_data):
         if tag.name == intents.FIND_PEOPLE_WITH_SPECIALIST_SKILLS:
             recruit_and_employ_cards.append(
                 {
                     'title': intent_article.title,
-                    'icon': 'svg/icon-talent.svg',
+                    'icon': helpers.get_talent_image_by_sector(triage_data.sector),
                     'url': intent_article.url,
                     'description': intent_article.article_teaser,
                 }
@@ -247,14 +247,14 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             }
             right_panel_sections.insert(len(right_panel_sections) + 1, exports_section)
 
-    def add_dynamic_cards(self, context, base_cards, recruit_and_employ_cards, right_panel_sections):
+    def add_dynamic_cards(self, context, base_cards, recruit_and_employ_cards, right_panel_sections, triage_data):
         for intent_article in context['all_articles']:
             for tag in intent_article.tags.all():
                 self._add_find_business_property_card(tag, intent_article, base_cards)
-                self._add_set_up_new_premises_card(tag, intent_article, base_cards)
+                self._add_set_up_new_premises_card(tag, intent_article, base_cards, triage_data)
                 self._add_set_up_new_distribution_centre_card(tag, intent_article, base_cards)
                 self._add_find_expert_talent_card(tag, intent_article, recruit_and_employ_cards)
-                self._add_find_people_with_specialist_skills_card(tag, intent_article, recruit_and_employ_cards)
+                self._add_find_people_with_specialist_skills_card(tag, intent_article, recruit_and_employ_cards, triage_data)
                 self._add_support_and_funding_cards(tag, intent_article, right_panel_sections)
                 self._add_regulations_card(tag, intent_article, right_panel_sections)
                 self._add_onward_sales_and_exports_card(tag, intent_article, right_panel_sections)
@@ -292,7 +292,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         ]
 
         base_cards, recruit_and_employ_cards, right_panel_sections = self.add_dynamic_cards(
-            context, base_cards, recruit_and_employ_cards, right_panel_sections
+            context, base_cards, recruit_and_employ_cards, right_panel_sections, triage_data
         )
 
         context = {
