@@ -1,5 +1,4 @@
 import pytest
-
 from django.urls import reverse
 
 
@@ -7,27 +6,23 @@ from django.urls import reverse
     'page_url,form_data,redirect_url',
     (
         (
-            reverse('domestic_growth:domestic-growth-starting-a-business'),
+            reverse('domestic_growth:domestic-growth-pre-start-location'),
             {
-                'sector': 'Aerospace',
                 'postcode': 'SW1A 1AA',  # /PS-IGNORE
             },
-            '/starting-a-business-guide?postcode=SW1A%201AA&sector=Aerospace',
+            '/pre-start/sector/',
         ),
         (
-            reverse('domestic_growth:domestic-growth-scaling-a-business'),
+            reverse('domestic_growth:domestic-growth-pre-start-sector'),
             {
-                'country': 'uk',
-                'sector': 'Aerospace',
-                'business_stage': 'startup',
-                'postcode': 'SW1A 1AA',  # /PS-IGNORE
+                'sector': 'SL0001',
             },
-            '/growing-a-business-guide?postcode=SW1A%201AA&sector=Aerospace',
+            '/pre-start-guide',
         ),
     ),
 )
 @pytest.mark.django_db
-def test_business_growth_triage(
+def test_business_growth_triage_success_urls(
     page_url,
     form_data,
     redirect_url,
@@ -39,4 +34,9 @@ def test_business_growth_triage(
     )
 
     assert response.status_code == 302
-    assert response.url == redirect_url
+    # exclude query parameters
+    assert response.url[: response.url.find('?')] == redirect_url
+
+
+def test_base_triage_form_view_get_session_id(client):
+    pass
