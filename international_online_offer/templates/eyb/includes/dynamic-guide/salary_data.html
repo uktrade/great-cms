@@ -4,7 +4,7 @@
 <div class="figures" id="salary-data">
     <form method="get"
           id="salary-data-location-select-form"
-          action="#salary-data-figures">
+          action="#salary-data">
         {% csrf_token %}
         {% comment %} remove below hidden input which is just to ensure that the dynamic query parameter is persisted for dev  {% endcomment %}
         <input type="hidden" name="dynamic" id="dynamic" value="true" />
@@ -60,7 +60,7 @@
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
             <p class="govuk-body govuk-hint govuk-!-font-size-16">
-                Figures reflect 2023 data. Source: <a href="https://www.statista.com/" target="_blank">Statista <i class="fa fa-sm fa-external-link-alt external-link__icon"
+                Figures reflect 2023 data. Source: <a class="govuk-link" href="https://www.statista.com/" target="_blank">Statista <i class="fa fa-sm fa-external-link-alt external-link__icon"
                     aria-hidden="true"></i></a> 
             </p>
         </div>

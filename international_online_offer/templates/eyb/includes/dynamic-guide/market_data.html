@@ -3,7 +3,7 @@
 <div class="figures" id="market-data">
     <form method="get"
           id="market-data-location-select-form"
-          action="#market-data-figures">
+          action="#market-data">
         {% csrf_token %}
         {% comment %} remove below hidden input which is just to ensure that the dynamic query parameter is persisted for dev  {% endcomment %}
         <input type="hidden" name="dynamic" id="dynamic" value="true" />
@@ -19,14 +19,14 @@
         <div class="figures__figure">
             <img class="dynamic-guide__icon figures__icon"
                  alt=""
-                 src="{% static 'svg/icon-planning.svg' %}" />
+                 src="{% static 'svg/icon-businesses.svg' %}" />
             <p class="figures__value govuk-heading-l">{{ market_data.total_business_count|intcomma }}</p>
             <p class="figures__description govuk-body">businesses in this sector</p>
         </div>
         <div class="figures__figure">
             <img class="dynamic-guide__icon figures__icon"
                  alt=""
-                 src="{% static 'svg/icon-planning.svg' %}" />
+                 src="{% static 'svg/icon-employees.svg' %}" />
             <p class="figures__value govuk-heading-l">{{ market_data.total_employee_count|intcomma }}</p>
             <p class="figures__description govuk-body">employees in this sector</p>
         </div>
