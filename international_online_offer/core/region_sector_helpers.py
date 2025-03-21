@@ -32,7 +32,6 @@ def generate_location_choices(include_regions=True, include_cities=True):
     # repack the json in a dictionay of tuples for cities
 
     json_data = get_region_and_cities_json_file()
-    json_data = sorted(json_data, key=lambda x: x['region'], reverse=True)
 
     locations_tuple = ()
     for region_obj in json_data:
@@ -40,8 +39,10 @@ def generate_location_choices(include_regions=True, include_cities=True):
             for city in region_obj['cities']:
                 locations_tuple = ((to_literal(city), city),) + locations_tuple
         if include_regions:
-            locations_tuple = ((to_literal(region_obj['region']), region_obj['region']),) + locations_tuple
-    return locations_tuple
+            locations_tuple = ((to_literal(region_obj['region']), region_obj['region_display']),) + locations_tuple
+
+    # return result set sorted alphabetically
+    return tuple(sorted(locations_tuple))
 
 
 def is_region(choice):

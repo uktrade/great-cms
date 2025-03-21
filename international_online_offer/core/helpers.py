@@ -91,11 +91,11 @@ def get_salary_region_from_region(region):
     # This is the only salary region (from statista, external dataset)
     # that is not quite an exact match to the eyb regions
     if region == regions.EAST_OF_ENGLAND:
-        return 'East'
+        return 'east'
 
-    for v, d in choices.REGION_CHOICES:
+    for v, _ in choices.REGION_CHOICES:
         if v == region:
-            return d
+            return v.lower().replace('_', ' ')
 
 
 def is_authenticated(request):
@@ -221,3 +221,131 @@ def is_triage_complete(user_data, triage_data):
         return True
 
     return False
+
+
+def get_hero_image_by_sector(sector):
+    base_path = '/static/img/dynamic-guide-hero-images/'
+    file_type = '.jpg'
+    sector_to_image_map = {
+        'Advanced engineering': f'hero-advanced-manufacturing{file_type}',
+        'Aerospace': f'hero-aerospace{file_type}',
+        'Agriculture, horticulture, fisheries and pets': f'hero-agriculture{file_type}',
+        'Airports': f'hero-airports{file_type}',
+        'Automotive': f'hero-automotive{file_type}',
+        'Chemicals': f'hero-chemicals{file_type}',
+        'Construction': f'hero-construction{file_type}',
+        'Consumer and retail': f'hero-retail{file_type}',
+        'Creative industries': f'hero-creative{file_type}',
+        'Defence': f'hero-defence{file_type}',
+        'Education and training': f'hero-education{file_type}',
+        'Energy': f'hero-energy{file_type}',
+        'Environment': f'hero-environment{file_type}',
+        'Financial and professional services': f'hero-finance{file_type}',
+        'Food and drink': f'hero-food-and-drink{file_type}',
+        'Healthcare services': f'hero-health-and-pharma{file_type}',
+        'Logistics': f'hero-logistics{file_type}',
+        'Maritime': f'hero-maritime{file_type}',
+        'Medical devices and equipment': f'hero-health-and-pharma{file_type}',
+        'Mining': f'hero-mining{file_type}',
+        'Pharmaceuticals and biotechnology': f'hero-health-and-pharma{file_type}',
+        'Railways': f'hero-rail{file_type}',
+        'Security': f'hero-security{file_type}',
+        'Space': f'hero-space{file_type}',
+        'Sports economy': f'hero-sport{file_type}',
+        'Technology and smart cities': f'hero-tech{file_type}',
+        'Water': f'hero-water{file_type}',
+    }
+    # we dont have a default image so will use finance as fallback cause I like it
+    return f'{base_path}{sector_to_image_map.get(sector, "hero-finance.jpg")}'
+
+
+def get_region_map_image_by_region(region):
+    base_path = '/static/svg/regions/'
+    file_type = '.svg'
+    region_to_image_map = {
+        regions.EAST_OF_ENGLAND: f'uk-england-east{file_type}',
+        regions.EAST_MIDLANDS: f'uk-england-east-midlands{file_type}',
+        regions.LONDON: f'uk-england-london{file_type}',
+        regions.NORTH_EAST: f'uk-england-north-east{file_type}',
+        regions.NORTH_WEST: f'uk-england-north-west{file_type}',
+        regions.NORTHERN_IRELAND: f'uk-northern-ireland{file_type}',
+        regions.SOUTH_EAST: f'uk-england-south-east{file_type}',
+        regions.SOUTH_WEST: f'uk-england-south-west{file_type}',
+        regions.SCOTLAND: f'uk-scotland{file_type}',
+        regions.WALES: f'uk-wales{file_type}',
+        regions.WEST_MIDLANDS: f'uk-england-west-midlands{file_type}',
+        regions.YORKSHIRE_AND_THE_HUMBER: f'uk-england-yorkshire-and-the-humber{file_type}',
+    }
+    return f'{base_path}{region_to_image_map.get(region, "uk-all.svg")}'
+
+
+def get_premises_image_by_sector(sector):
+    base_path = 'svg/sector-premises/'
+    file_type = '.svg'
+    sector_to_image_map = {
+        'Advanced engineering': f'icon-premises-advanced-engineering{file_type}',
+        'Aerospace': f'icon-premises-aerospace{file_type}',
+        'Agriculture, horticulture, fisheries and pets': f'icon-premises-agriculture{file_type}',
+        'Airports': f'icon-premises-airport{file_type}',
+        'Automotive': f'icon-premises-automotive{file_type}',
+        'Chemicals': f'icon-premises-chemicals{file_type}',
+        'Construction': f'icon-premises-construction{file_type}',
+        'Consumer and retail': f'icon-premises-retail{file_type}',
+        'Creative industries': f'icon-premises-creative{file_type}',
+        'Defence': f'icon-premises-defence{file_type}',
+        'Education and training': f'icon-premises-education{file_type}',
+        'Energy': f'icon-premises-energy{file_type}',
+        'Environment': f'icon-premises-environment{file_type}',
+        'Financial and professional services': f'icon-premises-finance{file_type}',
+        'Food and drink': f'icon-premises-food{file_type}',
+        'Healthcare services': f'icon-premises-health{file_type}',
+        'Logistics': f'icon-premises-logistics{file_type}',
+        'Maritime': f'icon-premises-maritime{file_type}',
+        'Medical devices and equipment': f'icon-premises-health{file_type}',
+        'Mining': f'icon-premises-mining{file_type}',
+        'Pharmaceuticals and biotechnology': f'icon-premises-health{file_type}',
+        'Railways': f'icon-premises-rail{file_type}',
+        'Security': f'icon-premises-security{file_type}',
+        'Space': f'icon-premises-space{file_type}',
+        'Sports economy': f'icon-premises-sport{file_type}',
+        'Technology and smart cities': f'icon-premises-tech{file_type}',
+        'Water': f'icon-premises-water{file_type}',
+    }
+    # we dont have a default image so will use agriculture as fallback cause I like it
+    return f'{base_path}{sector_to_image_map.get(sector, "icon-premises-agriculture.svg")}'
+
+
+def get_talent_image_by_sector(sector):
+    base_path = 'svg/sector-talent/'
+    file_type = '.svg'
+    sector_to_image_map = {
+        'Advanced engineering': f'icon-talent-advanced-engineering{file_type}',
+        'Aerospace': f'icon-talent-aerospace{file_type}',
+        'Agriculture, horticulture, fisheries and pets': f'icon-talent-agriculture{file_type}',
+        'Airports': f'icon-talent-airport{file_type}',
+        'Automotive': f'icon-talent-automotive{file_type}',
+        'Chemicals': f'icon-talent-chemicals{file_type}',
+        'Construction': f'icon-talent-construction{file_type}',
+        'Consumer and retail': f'icon-talent-retail{file_type}',
+        'Creative industries': f'icon-talent-creative{file_type}',
+        'Defence': f'icon-talent-defence{file_type}',
+        'Education and training': f'icon-talent-education{file_type}',
+        'Energy': f'icon-talent-energy{file_type}',
+        'Environment': f'icon-talent-environment{file_type}',
+        'Financial and professional services': f'icon-talent-finance{file_type}',
+        'Food and drink': f'icon-talent-food{file_type}',
+        'Healthcare services': f'icon-talent-health{file_type}',
+        'Logistics': f'icon-talent-logistics{file_type}',
+        'Maritime': f'icon-talent-maritime{file_type}',
+        'Medical devices and equipment': f'icon-talent-health{file_type}',
+        'Mining': f'icon-talent-mining{file_type}',
+        'Pharmaceuticals and biotechnology': f'icon-talent-health{file_type}',
+        'Railways': f'icon-talent-rail{file_type}',
+        'Security': f'icon-talent-security{file_type}',
+        'Space': f'icon-talent-space{file_type}',
+        'Sports economy': f'icon-talent-sport{file_type}',
+        'Technology and smart cities': f'icon-talent-tech{file_type}',
+        'Water': f'icon-talent-water{file_type}',
+    }
+    # we dont have a default image so will use creative as fallback cause I like it
+    return f'{base_path}{sector_to_image_map.get(sector, "icon-talent-creative.svg")}'

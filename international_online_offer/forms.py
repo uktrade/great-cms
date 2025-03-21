@@ -426,3 +426,31 @@ class WagtailAdminDBTSectors(WagtailAdminPageForm):
         self.fields['dbt_sectors'] = DBTSectorsAPIMultipleChoiceField(
             required=False, label='DBT sectors', help_text=self.help_text
         )
+
+
+class GreatSelect(Select):
+    template_name = 'eyb/widgets/select.html'
+
+
+class DynamicGuideBCIRegionSelectForm(forms.Form):
+    market_data_location = ChoiceField(
+        label='Data for',
+        choices=choices.REGION_CHOICES,
+        widget=GreatSelect(attrs={'onchange': 'refreshMarketDataSelectedRegion()'}),
+    )
+
+
+class DynamicGuideRentDataSelectForm(forms.Form):
+    rent_data_location = ChoiceField(
+        label='Average rent data for',
+        choices=choices.REGION_CHOICES,
+        widget=GreatSelect(attrs={'onchange': 'refreshRentDataSelectedRegion()'}),
+    )
+
+
+class DynamicGuideSalaryDataSelectForm(forms.Form):
+    salary_data_location = ChoiceField(
+        label='Average annual salary data for',
+        choices=choices.REGION_CHOICES,
+        widget=GreatSelect(attrs={'onchange': 'refreshSalaryDataSelectedRegion()'}),
+    )

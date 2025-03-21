@@ -1,0 +1,20 @@
+<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="9" y="23.969" width="29" height="21" rx="2" fill="#59CBE8"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M42 28.969H44.5296C45.4044 28.969 46.1777 29.5375 46.4386 30.3724L50.1886 42.3724C50.591 43.6603 49.6289 44.969 48.2796 44.969H38" fill="white"/>
+<path d="M42 28.969H44.5296C45.4044 28.969 46.1777 29.5375 46.4386 30.3724L50.1886 42.3724C50.591 43.6603 49.6289 44.969 48.2796 44.969H38" stroke="#222222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M47 52.969H19" stroke="#222222" stroke-width="2" stroke-linecap="round"/>
+<path d="M15 52.969H13" stroke="#222222" stroke-width="2" stroke-linecap="round"/>
+<path d="M38 44.969H11C9.89543 44.969 9 44.0736 9 42.969V25.969C9 24.8644 9.89543 23.969 11 23.969H26" stroke="#222222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M30 28.969V11.469" stroke="#222222" stroke-width="2" stroke-linecap="round"/>
+<path d="M23 23.969L20.4558 16.3365C20.1836 15.5199 19.4193 14.969 18.5585 14.969H15" stroke="#222222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M38 44.969V23.969L41.4721 16.1567C41.7931 15.4345 42.5094 14.969 43.2997 14.969H47" stroke="#222222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="3" cy="3" r="3" transform="matrix(0 -1 -1 0 14 17.969)" fill="white" stroke="#222222" stroke-width="2"/>
+<circle cx="3" cy="3" r="3" transform="matrix(0 -1 -1 0 52 17.969)" fill="white" stroke="#222222" stroke-width="2"/>
+<circle cx="3" cy="3" r="3" transform="matrix(0 -1 -1 0 33 10.969)" fill="white" stroke="#222222" stroke-width="2"/>
+<path d="M48 36.969H42.5" stroke="#222222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M34 23.969H38" stroke="#222222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M14 38.969H13" stroke="#222222" stroke-width="2" stroke-linecap="round"/>
+<path d="M21.5 38.969H18" stroke="#222222" stroke-width="2" stroke-linecap="round"/>
+<circle cx="17" cy="45.969" r="3" fill="white" stroke="#222222" stroke-width="2"/>
+<circle cx="43" cy="45.969" r="3" fill="white" stroke="#222222" stroke-width="2"/>
+</svg>

@@ -37,21 +37,37 @@ def test_get_trade_assoication_sectors_from_sector():
 
 @mock.patch.object(actions, 'GovNotifyEmailAction')
 def test_send_eyb_welcome_notification(mock_action_class, settings):
-    helpers.send_welcome_notification(email='jim@example.com', form_url='foo')
+    helpers.send_welcome_notification(email='jim@example.com', form_url='foo')  # /PS-IGNORE
 
     assert mock_action_class.call_count == 1
     assert mock_action_class.call_args == mock.call(
         template_id=settings.EYB_ENROLMENT_WELCOME_TEMPLATE_ID,
-        email_address='jim@example.com',
+        email_address='jim@example.com',  # /PS-IGNORE
         form_url='foo',
     )
     assert mock_action_class().save.call_count == 1
 
 
+@pytest.mark.parametrize(
+    'dbt_region, region_aligned_with_statista',
+    (
+        (regions.EAST_OF_ENGLAND, 'east'),
+        (regions.EAST_MIDLANDS, 'east midlands'),
+        (regions.LONDON, 'london'),
+        (regions.NORTH_EAST, 'north east'),
+        (regions.NORTH_WEST, 'north west'),
+        (regions.SOUTH_EAST, 'south east'),
+        (regions.SOUTH_WEST, 'south west'),
+        (regions.WEST_MIDLANDS, 'west midlands'),
+        (regions.YORKSHIRE_AND_THE_HUMBER, 'yorkshire and the humber'),
+        (regions.NORTHERN_IRELAND, 'northern ireland'),
+        (regions.SCOTLAND, 'scotland'),
+        (regions.WALES, 'wales'),
+    ),
+)
 @pytest.mark.django_db
-def test_get_salary_region_from_region():
-    assert helpers.get_salary_region_from_region(regions.EAST_OF_ENGLAND) == 'East'
-    assert helpers.get_salary_region_from_region(regions.WALES) == 'Wales'
+def test_get_salary_region_from_region(dbt_region, region_aligned_with_statista):
+    assert helpers.get_salary_region_from_region(dbt_region) == region_aligned_with_statista
 
 
 @pytest.mark.django_db
@@ -127,7 +143,7 @@ def test_get_region_and_cities_json_file_as_string():
             True,
             True,
             384,
-            ('WEST_MIDLANDS', 'West Midlands'),
+            ('WEST_MIDLANDS', 'West Midlands, England'),
             ('BAD_TUPLE', 'Bad Tuple'),
         ),
         (
@@ -135,13 +151,13 @@ def test_get_region_and_cities_json_file_as_string():
             True,
             372,
             ('CARDIFF', 'Cardiff'),
-            ('WEST_MIDLANDS', 'West Midlands'),
+            ('WEST_MIDLANDS', 'West Midlands, England'),
         ),
         (
             True,
             False,
             12,
-            ('WEST_MIDLANDS', 'West Midlands'),
+            ('WEST_MIDLANDS', 'West Midlands, England'),
             ('CARDIFF', 'Cardiff'),
         ),
     ),
