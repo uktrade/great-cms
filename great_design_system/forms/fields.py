@@ -47,14 +47,6 @@ class GDSFieldMixin:
         widget_class = getattr(self.widget, 'container_css_classes', '')
         return f'{self._container_css_classes} {widget_class}'
 
-    def gds_dict_helper(self, obj, cls):
-        gds_dict = {}
-        if obj:
-            gds_dict = {'text': obj}
-            gds_dict['class'] = cls
-            gds_dict['id'] = self.widget.id_for_label
-        return gds_dict
-
     def get_bound_field(self, form, field_name):
         return GDSBoundField(form, self, field_name)
 
