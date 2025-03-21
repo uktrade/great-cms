@@ -63,7 +63,6 @@
         {% path_match "^\/learn\/" as in_learning %}
         {% if in_learning %}
             <script src="{% static 'javascript/dit.js' %}"></script>
-            <script src="{% static 'components.js' %}"></script>
         {% endif %}
     {% else %}
         {{ block.super }}
@@ -147,8 +146,9 @@
 {% block cookie_notice %}
     {% path_match "^\/learn\/" as in_learning %}
     {% if features.FEATURE_DEA_V2 and in_learning %}
-        {% include 'components/cookie_notice.html' %}
-    {% endif %}
+        {% include '_cookie-banner.html' with preferencesUrl="/cookies" title="Cookie preferences saved" preText="You've" postText="additional cookies. You can" linkText="change your cookie settings" endText="at any time." acceptedText="accepted" rejectedText="rejected" hideButtonText="Hide this message" %}
+        {% include '_cookie-modal.html' with preferencesUrl="/cookies" title="Cookies on great.gov.uk" description="We use some essential cookies to make this website work. We'd like to set additional cookies to understand how you use great.gov.uk and improve our export support services." acceptButtonText="Accept additional cookies" rejectButtonText="Reject additional cookies" preferencesLinkText="View cookies"%}
+{% endif %}
 {% endblock %}
 {% block skip_link %}
     <a href="#content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
@@ -226,18 +226,5 @@
       })
       magna.createSnackbar({element:document.getElementById('snackbar-container')})
     </script>
-    {% slugurl "privacy" as privacy_and_cookies_path %}
-    {% path_match "^\/learn\/" as in_learning %}
-    {% if features.FEATURE_DEA_V2 and in_learning %}
-        <script>
-        var element = document.createElement('div');
-        document.body.appendChild(element);
-        components.CookiesModal({
-            element: element,
-            privacyCookiesUrl: {{privacy_and_cookies_path}},
-            preferencesUrl: '{% url "core:cookie-preferences" %}',
-        });
-        </script>
-    {% endif %}
     <script src="{% static 'great_design_system_scripts.js' %}"></script>
 {% endblock %}

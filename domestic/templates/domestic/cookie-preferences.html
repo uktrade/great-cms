@@ -138,7 +138,7 @@
     if (!confirmation) {
       throw confirmationSelector + ' was not found';
     }
-    var policy = components.CookiesNotice.getPolicyOrDefault();
+    var policy = window.GreatDS.cookieManager.getPolicy();
 
     for (var cookieType in policy) {
         var radioButton;
@@ -151,7 +151,6 @@
             radioButton.checked = true;
         }
     }
-
     form[radioButtons.usage].value = policy.usage ? 'on' : 'off';
     form[radioButtons.settings].value = policy.settings ? 'on' : 'off';
     form[radioButtons.campaigns].value = policy.campaigns ? 'on' : 'off';
@@ -162,8 +161,8 @@
       var usage = form[radioButtons.usage].value === 'on';
       var campaigns = form[radioButtons.campaigns].value === 'on';
 
-      components.CookiesNotice.createPoliciesCookie(settings, usage, campaigns);
-      components.CookiesNotice.setPreferencesCookie();
+      window.GreatDS.cookieManager.setPolicy(settings, usage, campaigns);
+      window.GreatDS.cookieManager.setPreferences();
 
       confirmation.classList.add('display-block');
       window.scrollTo(0, 0);
