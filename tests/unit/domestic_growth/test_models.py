@@ -82,10 +82,21 @@ class DomesticGrowthChildGuidePageTests(SetUpLocaleMixin, WagtailPageTests):
 class DomesticGrowthContentTests(SetUpLocaleMixin, WagtailPageTests):
     def test_can_create_snippet(self):
         snippet = DomesticGrowthContent.objects.create(
-            content_id='123', title='Test title', description='Test description', url='www.url.com'
+            content_id='123',
+            title='Test title',
+            description='Test description',
+            url='www.url.com',
+            region='London',
+            sector='Aerospace',
+            is_dynamic=False,
+            show_image=False,
         )
 
         self.assertEqual(snippet.content_id, '123')
         self.assertEqual(snippet.title, 'Test title')
         self.assertEqual(snippet.description, 'Test description')
         self.assertEqual(snippet.url, 'www.url.com')
+        self.assertEqual(snippet.region, 'London')
+        self.assertEqual(snippet.sector, 'Aerospace')
+        self.assertEqual(snippet.is_dynamic, False)
+        self.assertEqual(snippet.show_image, False)
