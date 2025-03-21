@@ -2,7 +2,8 @@ from django.db import models
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
 from wagtail.blocks.stream_block import StreamBlock
-from wagtail.fields import RichTextField, StreamField
+from wagtailcache.cache import WagtailCacheMixin
+from wagtail.fields import StreamField, RichTextField
 from wagtail.models import Page
 from wagtail.search import index
 from wagtail.snippets.blocks import SnippetChooserBlock
@@ -155,8 +156,10 @@ class DomesticGrowthHomePage(SeoMixin, cms_panels.DomesticGrowthHomePagePanels, 
         return context
 
 
-class DomesticGrowthGuidePage(SeoMixin, cms_panels.DomesticGrowthGuidePagePanels, Page):
+class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGrowthGuidePagePanels, Page):
     template = 'guide.html'
+
+    cache_control = 'no-cache'
 
     class Meta:
         verbose_name = 'Domestic Growth Guide page'
@@ -199,8 +202,10 @@ class DomesticGrowthGuidePage(SeoMixin, cms_panels.DomesticGrowthGuidePagePanels
         return context
 
 
-class DomesticGrowthChildGuidePage(SeoMixin, cms_panels.DomesticGrowthChildGuidePagePanels, Page):
+class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGrowthChildGuidePagePanels, Page):
     template = 'guide-child.html'
+
+    cache_control = 'no-cache'
 
     class Meta:
         verbose_name = 'Domestic Growth Child Guide page'
