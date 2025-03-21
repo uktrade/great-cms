@@ -254,7 +254,9 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 self._add_set_up_new_premises_card(tag, intent_article, base_cards, triage_data)
                 self._add_set_up_new_distribution_centre_card(tag, intent_article, base_cards)
                 self._add_find_expert_talent_card(tag, intent_article, recruit_and_employ_cards)
-                self._add_find_people_with_specialist_skills_card(tag, intent_article, recruit_and_employ_cards, triage_data)
+                self._add_find_people_with_specialist_skills_card(
+                    tag, intent_article, recruit_and_employ_cards, triage_data
+                )
                 self._add_support_and_funding_cards(tag, intent_article, right_panel_sections)
                 self._add_regulations_card(tag, intent_article, right_panel_sections)
                 self._add_onward_sales_and_exports_card(tag, intent_article, right_panel_sections)
