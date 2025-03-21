@@ -1,10 +1,12 @@
 {% if content.content_id in dynamic_snippet_ids %}
     {% for snippet_id, snippet_name in dynamic_snippet_names %}
         {% if content.content_id == snippet_id %}
-            {% if snippet_name == 'Contracts finder' %}
-                Do something for Contracts finder
+            {% if snippet_name == 'Finance and support for your business' %}
+                {% include 'includes/dynamic-snippets/_finance-and-support.html' with content=content region='london' %}
             {% elif snippet_name == 'International Trade Adviser' %}
-                Do something for International Trade Adviser
+                {% include "includes/dynamic-snippets/_ita.html" with turnover='>500k' %}
+            {% elif snippet_name == 'Find a grant' %}
+                {% include 'includes/dynamic-snippets/_find-a-grant.html' with content=content region='3' %}
             {% endif %}
         {% endif %}
     {% endfor %}

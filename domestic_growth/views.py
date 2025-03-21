@@ -28,7 +28,7 @@ class StartingABusinessView(TriageMixin, FormView):
             sector = form_data.get('sector')
             qs = f'?postcode={postcode}&sector={sector}'
 
-        return f'/starting-a-business-guide{qs}'
+        return f'/support-in-uk/starting-a-business-guide{qs}'
 
     def form_valid(self, form):
         self.save_data(form)
@@ -54,7 +54,7 @@ class ScalingABusinessView(TriageMixin, FormView):
             sector = form_data.get('sector')
             qs = f'?postcode={postcode}&sector={sector}'
 
-        return f'/growing-a-business-guide{qs}'
+        return f'/support-in-uk/growing-a-business-guide{qs}'
 
     def form_valid(self, form):
         self.save_data(form)
