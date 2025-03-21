@@ -2,7 +2,7 @@
 {% load get_category_page_breadcrumbs from content_tags %}
 {% load static %}
 {% block breadcrumbs_block %}
-    <div class="container">
+    <div class="great-ds-container">
         {% include '_breadcrumbs.html' with itemsList=""|get_category_page_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
     </div>
 {% endblock %}

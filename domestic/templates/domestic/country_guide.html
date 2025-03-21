@@ -1,6 +1,7 @@
 {% extends 'domestic/base.html' %}
 {% load static %}
 {% load humanize %}
+{% load wagtailimages_tags %}
 {% load component_tags wagtailcore_tags wagtailimages_tags content_tags %}
 {% block css_layout_class %}country-guide-page{% endblock %}
 {% block head_js %}
@@ -8,7 +9,12 @@
     {% if page.stats.market_trends %}<script src="https://cdn.plot.ly/plotly-1.58.5.min.js"></script>{% endif %}
 {% endblock %}
 {% block content %}
-    {% include 'components/market-details-header.html' with image=page.hero_image %}
+
+    {% if not image_url %}
+        {% image page.hero_image original as rendition %}
+    {% endif %}
+    {% firstof image_url rendition.url as image_url %}
+    {% include '_hero.html' with pngImagePath=image_url classes="great-ds-hero--image-only"%}
     {% if page.heading_teaser %}
         <section id="country-guide-teaser-section"
                  class="teaser-section padding-vertical-30">

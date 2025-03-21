@@ -25,4 +25,8 @@ if settings.FEATURE_DOMESTIC_GROWTH:
             skip_ga360(views.StartingABusinessResultsView.as_view()),
             name='domestic-growth-starting-a-business-results',
         ),
+            'domestic-growth/scaling-an-existing-business',
+            skip_ga360(views.ScalingABusinessView.as_view()),
+            name='domestic-growth-scaling-a-business',
+        ),
     ]
