@@ -121,14 +121,11 @@
                             </div>
                         </div>
                     {% endif %}
-                    {% if local_support_data.postcode_data.country %}
-                        <div class="great-ds-bg-white great-ds-border-top-grey-3 govuk-!-padding-6 govuk-!-margin-bottom-6">
-                            <h3 class="govuk-heading-m govuk-!-margin-bottom-4">Business support service</h3>
-                            {% with country=local_support_data.postcode_data.country|lower %}
-                                {% include 'includes/_business-support-service.html' with country=country %}
-                            {% endwith %}
-                        </div>
-                    {% endif %}
+                </div>
+            </div>
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    {% include 'includes/_business-support-service.html' with country=country %}
                 </div>
             </div>
         </div>
