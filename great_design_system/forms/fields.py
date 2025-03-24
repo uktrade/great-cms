@@ -11,7 +11,27 @@ class GDSBoundField(BoundField):
 
     def css_classes(self, *args, **kwargs):
         css_classes = super().css_classes(*args, **kwargs)
+
+        if self.field.widget.input_type == 'password':
+            css_classes = f'{css_classes} govuk-password-input'
+
         return f'{css_classes} {self.field.container_css_classes}'
+
+    def field_attrs(self):
+        attrs = {}
+        if self.field.widget.input_type == 'password':
+            attrs = {
+                'data-module': 'govuk-password-input',
+                'data-show-password-text': 'Show',
+                'data-hide-password-text': 'Hide',
+                'data-show-password-aria-label-text': 'Show password',
+                'data-hide-password-aria-label-text': 'Hide password',
+                'data-password-shown-announcement-text': 'Password shown',
+                'data-password-hidden-announcement-text': 'Password Hidden',
+            }
+            data_module_attrs = self.field.widget.data_module_attrs
+            attrs.update(**data_module_attrs)
+        return attrs
 
     def help_text_css_classes(self):
         """

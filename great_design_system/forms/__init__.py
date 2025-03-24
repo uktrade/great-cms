@@ -34,6 +34,8 @@ from great_design_system.forms.widgets import (  # noqa
     SelectOne,
     Textarea,
     TextInput,
+    PasswordInput,
+    CheckboxSelectMultiple,
 )
 
 __all__ = [
@@ -70,4 +72,6 @@ __all__ = [
     'Textarea',
     'TextInput',
     'SelectOne',
+    'PasswordInput',
+    'CheckboxSelectMultiple',
 ]

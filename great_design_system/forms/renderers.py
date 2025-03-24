@@ -42,6 +42,13 @@ class GDSDivFormRenderer(DjangoTemplates):
                     / 'dist'
                     / 'components'
                     / 'label',
+                    settings.ROOT_DIR
+                    / 'node_modules'
+                    / '@uktrade'
+                    / 'great-design-system'
+                    / 'dist'
+                    / 'components'
+                    / 'button',
                 ],
                 'NAME': 'gdsforms',
                 'OPTIONS': {},

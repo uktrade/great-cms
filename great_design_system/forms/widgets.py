@@ -25,10 +25,11 @@ class GDSWidgetMixin(widgets.Widget):
     field = None
     help_text_class_name = ''
 
-    def __init__(self, fieldset=False, linked_conditional_reveal_fields=[], *args, **kwargs):
+    def __init__(self, data_module_attrs={}, fieldset=False, linked_conditional_reveal_fields=[], *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fieldset = fieldset
         self.linked_conditional_reveal_fields = linked_conditional_reveal_fields
+        self.data_module_attrs = data_module_attrs
 
     def get_context(self, name, value, attrs):
         ctx = super().get_context(name, value, attrs)
@@ -118,6 +119,7 @@ class CreateOptionMixin:
             'index': index,
             'attrs': option_attrs,
             'type': self.input_type,
+            'template_class_name': self.template_class_name,
             'template_name': self.option_template_name,
             'wrap_label': True,
             'reveals': self.get_option_reveal_fields(value),
@@ -136,11 +138,17 @@ class RadioSelect(ChoiceWidget):
     New widget that will play nicely with the great-design-system
     """
 
+    input_type = 'radio'
+    template_class_name = 'radios'
     template_name = '_multiple_input.html'
-    option_template_name = '_radio_option.html'
-    option_reveal_template_name = '_reveal_input.html'
+    option_template_name = '_option.html'
     use_fieldset = True
     help_text_class_name = 'govuk-radios__hint'
+
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
+        context['widget']['template_class_name'] = self.template_class_name
+        return context
 
 
 class RadioSelectConditionalReveal(ChoiceWidget):
@@ -148,11 +156,18 @@ class RadioSelectConditionalReveal(ChoiceWidget):
     New widget that will play nicely with the great-design-system
     """
 
+    input_type = 'radio'
+    template_class_name = 'radios'
     template_name = '_multiple_input.html'
-    option_template_name = '_radio_option_conditional_reveal.html'
+    option_template_name = '_option_conditional_reveal.html'
     option_reveal_template_name = '_reveal_input.html'
     use_fieldset = True
     help_text_class_name = 'govuk-radios__hint'
+
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
+        context['widget']['template_class_name'] = self.template_class_name
+        return context
 
 
 class SelectOne(ChoiceWidget):
@@ -202,6 +217,27 @@ class HiddenInput(HiddenInput):
         ctx = super().get_context(name, value, attrs)
         ctx['widget']['type'] = self.input_type
         return ctx
+
+
+class PasswordInput(PasswordInput):
+
+    input_type = 'password'
+    template_name = '_password-input.html'
+
+
+class CheckboxSelectMultiple(ChoiceWidget, CheckboxSelectMultiple):
+
+    input_type = 'checkbox'
+    template_class_name = 'checkboxes'
+    template_name = '_multiple_input.html'
+    option_template_name = '_option.html'
+    use_fieldset = True
+    help_text_class_name = 'govuk-radios__hint'
+
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
+        context['widget']['template_class_name'] = self.template_class_name
+        return context
 
 
 class ReCaptchaV3(ReCaptchaV3, HiddenInput):
