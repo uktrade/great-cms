@@ -445,7 +445,7 @@ def test_individual_statistic_block_adaptor_media_property():
 
     # version may change
     expected = (
-        '<script src="/static/wagtailadmin/js/telepath/blocks.js?v=a6a3a46e"></script>\n'
+        '<script src="/static/wagtailadmin/js/telepath/blocks.js?v=dec51e62"></script>\n'
         '<script src="/static/javascript/individualstatistic-block.js"></script>'
     )
 
