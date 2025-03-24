@@ -18,6 +18,7 @@ from wagtail.admin.panels import (
 from wagtail.snippets.models import register_snippet
 
 from international_online_offer.models import TradeAssociation
+from international_online_offer.core.helpers import get_hero_image_by_sector
 
 from domestic_growth.blocks import DomesticGrowthCardBlock
 
@@ -203,6 +204,7 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
 
         if sector:
             context['trade_associations'] = TradeAssociation.objects.filter(sector__icontains=sector)
+            context['hero_image_url'] = get_hero_image_by_sector(sector)
         else:
             context['trade_associations'] = TradeAssociation.objects.all()
 
@@ -264,6 +266,9 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
 
         if postcode:
             context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
+
+        if sector:
+            context['hero_image_url'] = get_hero_image_by_sector(sector)
 
         return context
 
