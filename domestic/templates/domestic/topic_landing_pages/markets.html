@@ -1,4 +1,5 @@
 {% extends 'domestic/base.html' %}
+{% load wagtailimages_tags %}
 {% load pagination render_markets_cta from component_tags %}
 {% load static %}
 {% load wagtailimages_tags %}
@@ -9,7 +10,8 @@
 {% endblock css_layout_class %}
 {% block content %}
     {% block hero %}
-        {% include 'components/hero.html' with image=page.hero_image hero_title="Market Guides" hero_text="Find the answers you need on your target export market, including doing business, tax rates and import regulations. Filter by sector to see the markets best suited to your product or service." %}
+        {% image page.hero_image original as rendition %}
+        {% include '_hero.html' with pngImagePath=rendition.url heading="Market Guides" aboveCtaText="Find the answers you need on your target export market, including doing business, tax rates and import regulations. Filter by sector to see the markets best suited to your product or service." classes="great-ds-hero--bg-white"%}
     {% endblock %}
     {% comment %} {% if page.teaser %}
 <section id="markets-banner-section" class="topic-list-section padding-bottom-60-m padding-top-15-m">

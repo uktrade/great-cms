@@ -19,23 +19,17 @@
     <script src="{% static 'javascript/digital-entry-point.js' %}"></script>
 {% endblock %}
 {% block breadcrumbs_block %}
-    <div class="container">
+    <div class="great-ds-container">
         {% include '_breadcrumbs.html' with itemsList=page|get_category_page_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
     </div>
 {% endblock %}
 {% block body_attributes %}class="great-bg-white"{% endblock %}
 {% block content %}
     <div class="govuk-!-padding-bottom-9 great great-bg-white">
-        <div class="great-container">
+        {% include '_hero.html' with heading=page.page_title aboveCtaHtml=page.page_intro classes="great-ds-hero--bg-white"%}
+        <div class="great-ds-container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full">
-                    <div class="govuk-grid-row govuk-!-margin-top-5">
-                        <div class="govuk-grid-column-two-thirds">
-                            <h1 class="govuk-heading-xl govuk-!-margin-bottom-4">{{ page.page_title }}</h1>
-                            {% if page.page_intro %}{{ page.page_intro| richtext | add_govuk_classes }}{% endif %}
-                        </div>
-                        <div class="govuk-grid-column-one-third"></div>
-                    </div>
                     <div class="govuk-grid-row govuk-!-margin-top-5 govuk-!-margin-bottom-9">
                         <div class="govuk-grid-column-two-thirds">
                             <div class="govuk-!-margin-bottom-9 govuk-!-padding-top-3">

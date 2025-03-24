@@ -25,7 +25,7 @@ asn1crypto==1.5.1
     #   pyhanko-certvalidator
 async-timeout==5.0.1
     # via redis
-attrs==25.2.0
+attrs==25.3.0
     # via jsonschema
 babel==2.12.1
     # via
@@ -108,7 +108,7 @@ deprecated==1.2.18
     #   opentelemetry-api
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
-directory-api-client==26.13.0
+directory-api-client==26.14.0
     # via -r requirements.in
 directory-ch-client==4.0.2
     # via -r requirements.in
@@ -240,15 +240,15 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==37.0.0
+faker==37.0.2
     # via factory-boy
-filelock==3.17.0
+filelock==3.18.0
     # via virtualenv
 filetype==1.2.0
     # via willow
 geoip2==2.9.0
     # via -r requirements.in
-googleapis-common-protos==1.69.1
+googleapis-common-protos==1.69.2
     # via
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
@@ -289,7 +289,7 @@ jsonschema==3.2.0
     #   directory-components
     #   drf-spectacular
     #   great-components
-kombu==5.4.2
+kombu==5.5.0
     # via celery
 l18n==2021.3
     # via wagtail
@@ -398,9 +398,9 @@ pillow==10.3.0
     #   reportlab
     #   wagtail
     #   xhtml2pdf
-pillow-heif==0.21.0
+pillow-heif==0.22.0
     # via willow
-platformdirs==4.3.6
+platformdirs==4.3.7
     # via virtualenv
 polib==1.2.0
     # via wagtail-localize
@@ -428,11 +428,11 @@ pygments==2.19.1
     # via sphinx
 pyhanko==0.25.1
     # via xhtml2pdf
-pyhanko-certvalidator==0.26.7
+pyhanko-certvalidator==0.26.8
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==5.3.1
+pypdf==5.4.0
     # via xhtml2pdf
 pyquery==2.0.1
     # via readtime
@@ -504,7 +504,7 @@ requests-oauthlib==2.0.0
     # via django-staff-sso-client
 s3transfer==0.6.2
     # via boto3
-sentry-sdk==2.22.0
+sentry-sdk==2.24.0
     # via -r requirements.in
 sigauth==5.3.0
     # via

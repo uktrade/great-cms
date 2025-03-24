@@ -14,15 +14,7 @@
     Learn how to successfully export your products to new markets with our comprehensive lessons and case studies
 {% endblock %}
 {% block content %}
-    <div class="page-header learn-header great">
-        <div class="inner-header">
-            <div>
-                <h1>{{ page.title }}</h1>
-                <p>{{ page.description | richtext | add_govuk_classes }}</p>
-            </div>
-            <div class="image-container"></div>
-        </div>
-    </div>
+    {% include '_hero.html' with pngImagePath='/static/images/learn-to-export-header.png' heading=page.title aboveCtaHtml=page.description classes="great-ds-hero--large-image-cropping great-ds-hero--bg-white"%}
     <section id="learn-root" class="great great-container govuk-!-margin-top-6">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds-from-desktop">
