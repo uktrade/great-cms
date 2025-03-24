@@ -9,9 +9,9 @@ from wagtail.search import index
 from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtail.snippets.models import register_snippet
 from wagtailseo.models import SeoMixin
-
 from domestic_growth import cms_panels, helpers
 from domestic_growth.blocks import DomesticGrowthCardBlock
+from international_online_offer.core.helpers import get_hero_image_by_sector
 from international_online_offer.models import TradeAssociation
 
 
@@ -196,6 +196,7 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
 
         if sector:
             context['trade_associations'] = TradeAssociation.objects.filter(sector__icontains=sector)
+            context['hero_image_url'] = get_hero_image_by_sector(sector)
         else:
             context['trade_associations'] = TradeAssociation.objects.all()
 
@@ -257,6 +258,9 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
 
         if postcode:
             context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
+
+        if sector:
+            context['hero_image_url'] = get_hero_image_by_sector(sector)
 
         return context
 

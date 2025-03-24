@@ -170,3 +170,54 @@
     {% endif %}
     {{ block.super }}
 {% endblock %}
+{% block body_js %}
+    {{ block.super }}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Function to focus on the element based on the hash
+            function focusElementBasedOnHash() {
+                const hash = window.location.hash;
+        
+                // Use the appropriate ID based on the hash
+                if (hash.includes('#market-data')) {
+                    focusElement('id_market_data_location');
+                } else if (hash.includes('#rent-data-location-select-form')) {
+                    focusElement('id_rent_data_location');
+                } else if (hash.includes('#salary-data')) {
+                    focusElement('id_salary_data_location');
+                }
+            }
+        
+            // Focus element if it exists
+            function focusElement(elementId) {
+                const element = document.getElementById(elementId);
+                if (element) {
+                    element.focus();
+                }
+            }
+        
+            // Check for the element initially and on every hash change
+            focusElementBasedOnHash(); // Initial check
+        
+            window.addEventListener('hashchange', () => {
+                focusElementBasedOnHash();
+            });
+        
+            // Fallback using setInterval to ensure the element is available before trying to focus
+            const checkInterval = setInterval(() => {
+                const hash = window.location.hash;
+                if (hash.includes('#market-data') && document.getElementById('id_market_data_location')) {
+                    focusElement('id_market_data_location');
+                    clearInterval(checkInterval); // Stop checking after success
+                } else if (hash.includes('#rent-data-location-select-form') && document.getElementById('id_rent_data_location')) {
+                    focusElement('id_rent_data_location');
+                    clearInterval(checkInterval); // Stop checking after success
+                } else if (hash.includes('#salary-data') && document.getElementById('id_salary_data_location')) {
+                    focusElement('id_salary_data_location');
+                    clearInterval(checkInterval); // Stop checking after success
+                }
+            }, 500); // Check every 500ms
+        
+        });
+    </script>
+{% endblock %}
