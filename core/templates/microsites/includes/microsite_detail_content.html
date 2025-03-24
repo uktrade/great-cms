@@ -32,8 +32,7 @@
         </div>
     {% elif page.hero_image %}
         {% image page.hero_image original as hero_image %}
-        <div class="great-full-width-header-image"
-             style="background-image: url({{ hero_image.url }})"></div>
+             {% include '_hero.html' with pngImagePath=hero_image.url classes="great-ds-hero--image-only"%}   
     {% endif %}
     <main id="content"
           tabindex="-1"

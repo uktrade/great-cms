@@ -16,18 +16,8 @@ if settings.FEATURE_DOMESTIC_GROWTH:
             name='domestic-growth-starting-a-business',
         ),
         path(
-            'domestic-growth/starting-a-new-business/results',
-            skip_ga360(views.StartingABusinessResultsView.as_view()),
-            name='domestic-growth-starting-a-business-results',
-        ),
-        path(
             'domestic-growth/scaling-an-existing-business',
             skip_ga360(views.ScalingABusinessView.as_view()),
             name='domestic-growth-scaling-a-business',
-        ),
-        path(
-            'domestic-growth/scaling-an-existing-business/results',
-            skip_ga360(views.ScalingABusinessResultsView.as_view()),
-            name='domestic-growth-scaling-a-business-results',
         ),
     ]

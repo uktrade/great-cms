@@ -5,31 +5,18 @@
 {% load wagtailimages_tags %}
 {% load event_list_buttons %}
 {% load add_govuk_classes from content_tags %}
-{% block content %}
-    <div class="great great-hero-box-shadow-bottom">
-        {% image page.hero_image original as rendition %}
-        <section class="background-white govuk-!-padding-bottom-0">
-            <div class="container">
-                <div class="page-header article-header stack-at-tablet-width ea-landing-page govuk-!-padding-left-0"
-                     id="hero">
-                    <div class="inner-header govuk-!-margin-left-0 govuk-!-static-padding-0">
-                        <div>
-                            <h1>{{ page.title }}</h1>
-                            <p>{{ page.hero_text | richtext | add_govuk_classes }}</p>
-                            {% if user.is_anonymous %}
-                                {% include_block page.hero_cta %}
-                                <p>{{ page.hero_text_below_cta_logged_out | richtext | add_govuk_classes }}</p>
-                            {% else %}
-                                {% include_block page.hero_cta_logged_in %}
-                            {% endif %}
-                        </div>
-                        <div class="image-container image-full-width great-display-from-tablet ea-landing-image-container"
-                             style="background: url({{ rendition.url }})"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+{% load render_ukea_and_fab_homepage_heros from component_tags %}
+{% block content %}   
+    {% image page.hero_image original as rendition %}     
+    {% if user.is_anonymous %}
+        {% with page.hero_cta|first as cta %}
+            {% render_ukea_and_fab_homepage_heros rendition.url page.title page.hero_text page.hero_text_below_cta_logged_out cta.value.label cta.value.link.internal_link.url cta.value.link.external_link %}
+        {% endwith%}
+    {% else %}
+        {% with page.hero_cta_logged_in|first as cta %}
+            {% render_ukea_and_fab_homepage_heros rendition.url page.title page.hero_text None cta.value.label cta.value.link.internal_link.url cta.value.link.external_link %}
+        {% endwith%}
+    {% endif %}
     <section class="great-bg-light-blue panels-container govuk-!-padding-bottom-0 govuk-!-padding-top-0">
         <div class="grid-row great-bg-white govuk-!-static-padding-bottom-7 govuk-!-static-padding-top-7">
             <div class="great great-bg-white lesson-page">

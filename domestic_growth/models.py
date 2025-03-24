@@ -4,11 +4,20 @@ from domestic_growth import (
     cms_panels,
     helpers,
 )
+from wagtail import blocks
 from wagtail.blocks.stream_block import StreamBlock
-from wagtail.fields import StreamField
+from wagtailcache.cache import WagtailCacheMixin
+from wagtail.fields import StreamField, RichTextField
 from wagtail.models import Page
 from wagtailseo.models import SeoMixin
+from wagtail.search import index
+from wagtail.snippets.blocks import SnippetChooserBlock
+from wagtail.admin.panels import (
+    FieldPanel,
+)
+from wagtail.snippets.models import register_snippet
 
+from international_online_offer.models import TradeAssociation
 
 from domestic_growth.blocks import DomesticGrowthCardBlock
 
@@ -35,11 +44,6 @@ class DomesticGrowthHomePage(SeoMixin, cms_panels.DomesticGrowthHomePagePanels, 
         null=True,
     )
 
-    explore_title = models.TextField(
-        null=True,
-        blank=True,
-    )
-
     explore_body = StreamField(
         [
             (
@@ -53,10 +57,45 @@ class DomesticGrowthHomePage(SeoMixin, cms_panels.DomesticGrowthHomePagePanels, 
                     },
                 ),
             ),
+            (
+                'explore_benefit_cards',
+                StreamBlock(
+                    [
+                        ('benefit_explore_card', DomesticGrowthCardBlock()),
+                    ],
+                    block_counts={
+                        'benefit_explore_card': {'min_num': 3},
+                    },
+                ),
+            ),
         ],
         use_json_field=True,
         null=True,
         blank=True,
+    )
+
+    case_study_title = models.TextField(
+        null=True,
+    )
+
+    case_study_intro = models.TextField(
+        null=True,
+    )
+
+    case_study_link_text = models.TextField(
+        null=True,
+    )
+
+    case_study_link_url = models.TextField(
+        null=True,
+    )
+
+    case_study_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
     )
 
     guidance_title = models.TextField(
@@ -82,18 +121,6 @@ class DomesticGrowthHomePage(SeoMixin, cms_panels.DomesticGrowthHomePagePanels, 
         blank=True,
     )
 
-    about_title = models.TextField(
-        null=True,
-    )
-
-    about_intro = models.TextField(
-        null=True,
-    )
-
-    about_description = models.TextField(
-        null=True,
-    )
-
     news_title = models.TextField(
         null=True,
     )
@@ -103,6 +130,14 @@ class DomesticGrowthHomePage(SeoMixin, cms_panels.DomesticGrowthHomePagePanels, 
     )
 
     news_link_url = models.TextField(
+        null=True,
+    )
+
+    news_link_text_extra = models.TextField(
+        null=True,
+    )
+
+    news_link_url_extra = models.TextField(
         null=True,
     )
 
@@ -126,3 +161,144 @@ class DomesticGrowthHomePage(SeoMixin, cms_panels.DomesticGrowthHomePagePanels, 
         context = super(DomesticGrowthHomePage, self).get_context(request)
         context['news'] = helpers.get_dbt_news_articles()
         return context
+
+
+class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGrowthGuidePagePanels, Page):
+    template = 'guide.html'
+
+    cache_control = 'no-cache'
+
+    class Meta:
+        verbose_name = 'Domestic Growth Guide page'
+
+    subpage_types = ['domestic_growth.DomesticGrowthChildGuidePage']
+
+    hero_title = models.TextField(
+        null=True,
+    )
+
+    hero_intro = models.TextField(
+        null=True,
+    )
+
+    body_title = models.TextField(
+        null=True,
+    )
+
+    body_intro = models.TextField(
+        null=True,
+    )
+
+    def get_context(self, request):
+        context = super(DomesticGrowthGuidePage, self).get_context(request)
+
+        postcode = request.GET.get('postcode')
+        sector = request.GET.get('sector')
+
+        if postcode and request.GET.get('sector'):
+            context['qs'] = f'?postcode={postcode}&sector={sector}'
+
+        if postcode:
+            context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
+
+        if sector:
+            context['trade_associations'] = TradeAssociation.objects.filter(sector__icontains=sector)
+        else:
+            context['trade_associations'] = TradeAssociation.objects.all()
+
+        return context
+
+
+class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGrowthChildGuidePagePanels, Page):
+    template = 'guide-child.html'
+
+    cache_control = 'no-cache'
+
+    class Meta:
+        verbose_name = 'Domestic Growth Child Guide page'
+
+    parent_page_types = [
+        'domestic_growth.DomesticGrowthGuidePage',
+    ]
+
+    body_title = models.TextField(
+        null=True,
+    )
+
+    body_intro = models.TextField(
+        null=True,
+    )
+
+    body_sections = StreamField(
+        [
+            (
+                'section',
+                blocks.StructBlock(
+                    [
+                        ('title', blocks.CharBlock()),
+                        ('intro', blocks.CharBlock()),
+                        (
+                            'content',
+                            blocks.ListBlock(
+                                SnippetChooserBlock('domestic_growth.DomesticGrowthContent'),
+                                label='Choose snippet',
+                            ),
+                        ),
+                    ]
+                ),
+            ),
+        ],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
+
+    def get_context(self, request):
+        context = super(DomesticGrowthChildGuidePage, self).get_context(request)
+
+        postcode = request.GET.get('postcode')
+        sector = request.GET.get('sector')
+
+        if postcode and request.GET.get('sector'):
+            context['qs'] = f'?postcode={postcode}&sector={sector}'
+
+        if postcode:
+            context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
+
+        return context
+
+
+@register_snippet
+class DomesticGrowthContent(index.Indexed, models.Model):
+    content_id = models.CharField()
+    title = models.CharField()
+    description = RichTextField(blank=True)
+    url = models.CharField(blank=True)
+    region = models.CharField(blank=True)
+    sector = models.CharField(blank=True)
+    is_dynamic = models.BooleanField(default=False)
+    show_image = models.BooleanField(default=False)
+
+    panels = [
+        FieldPanel('content_id'),
+        FieldPanel('title'),
+        FieldPanel('description'),
+        FieldPanel('url'),
+        FieldPanel('region'),
+        FieldPanel('sector'),
+        FieldPanel('is_dynamic'),
+        FieldPanel('show_image'),
+    ]
+
+    search_fields = [
+        index.AutocompleteField('title'),
+    ]
+
+    class Meta:
+        ordering = ('title',)
+
+    def __str__(self):
+        if self.is_dynamic:
+            return self.title + ' (***** Dynamic *****)'
+
+        return self.title
