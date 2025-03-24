@@ -25,7 +25,7 @@ asn1crypto==1.5.1
     #   pyhanko-certvalidator
 async-timeout==5.0.1
     # via redis
-attrs==25.1.0
+attrs==25.3.0
     # via jsonschema
 babel==2.12.1
     # via
@@ -36,7 +36,7 @@ backoff==2.2.1
     #   opentelemetry-exporter-otlp-proto-common
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
-beautifulsoup4==4.11.2
+beautifulsoup4==4.12.3
     # via
     #   directory-components
     #   great-components
@@ -93,9 +93,9 @@ cryptography==43.0.1
     #   -r requirements.in
     #   pyhanko
     #   pyhanko-certvalidator
-cssselect==1.2.0
+cssselect==1.3.0
     # via pyquery
-cssselect2==0.7.0
+cssselect2==0.8.0
     # via svglib
 dateparser==0.7.2
     # via -r requirements.in
@@ -108,7 +108,7 @@ deprecated==1.2.18
     #   opentelemetry-api
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
-directory-api-client==26.12.0
+directory-api-client==26.14.0
     # via -r requirements.in
 directory-ch-client==4.0.2
     # via -r requirements.in
@@ -169,6 +169,7 @@ django==4.2.19
     #   djangorestframework
     #   drf-spectacular
     #   great-components
+    #   laces
     #   sigauth
     #   wagtail
     #   wagtail-localize
@@ -183,7 +184,7 @@ django-environ==0.11.2
     # via -r requirements.in
 django-extensions==3.2.3
     # via -r requirements.in
-django-filter==23.5
+django-filter==24.3
     # via wagtail
 django-formtools==2.3
     # via -r requirements.in
@@ -207,7 +208,7 @@ django-storages[boto3]==1.13.2
     # via
     #   -r requirements.in
     #   django-storages
-django-taggit==4.0.0
+django-taggit==6.1.0
     # via wagtail
 django-timezone-field==7.1
     # via django-celery-beat
@@ -223,7 +224,7 @@ djangorestframework==3.15.2
     #   wagtail
 docutils==0.21.2
     # via sphinx
-draftjs-exporter==2.1.7
+draftjs-exporter==5.1.0
     # via wagtail
 drf-spectacular==0.26.2
     # via -r requirements.in
@@ -239,33 +240,31 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==36.1.1
+faker==37.0.2
     # via factory-boy
-filelock==3.17.0
+filelock==3.18.0
     # via virtualenv
 filetype==1.2.0
     # via willow
 geoip2==2.9.0
     # via -r requirements.in
-googleapis-common-protos==1.67.0
+googleapis-common-protos==1.69.2
     # via
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
 great-components==2.7.2
     # via -r requirements.in
-grpcio==1.70.0
+grpcio==1.71.0
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==22.0.0
     # via -r requirements.in
 hashids==0.8.4
     # via -r requirements.in
 html5lib==1.1
-    # via
-    #   wagtail
-    #   xhtml2pdf
+    # via xhtml2pdf
 icalendar==5.0.11
     # via -r requirements.in
-identify==2.6.7
+identify==2.6.9
     # via pre-commit
 idna==3.10
     # via requests
@@ -279,7 +278,7 @@ inflection==0.5.1
     # via drf-spectacular
 iso3166==1.0.1
     # via -r requirements.in
-jinja2==3.1.5
+jinja2==3.1.6
     # via sphinx
 jmespath==1.0.1
     # via
@@ -290,9 +289,11 @@ jsonschema==3.2.0
     #   directory-components
     #   drf-spectacular
     #   great-components
-kombu==5.4.2
+kombu==5.5.0
     # via celery
 l18n==2021.3
+    # via wagtail
+laces==0.1.2
     # via wagtail
 lxml==5.1.0
     # via
@@ -397,9 +398,9 @@ pillow==10.3.0
     #   reportlab
     #   wagtail
     #   xhtml2pdf
-pillow-heif==0.21.0
+pillow-heif==0.22.0
     # via willow
-platformdirs==4.3.6
+platformdirs==4.3.7
     # via virtualenv
 polib==1.2.0
     # via wagtail-localize
@@ -427,11 +428,11 @@ pygments==2.19.1
     # via sphinx
 pyhanko==0.25.1
     # via xhtml2pdf
-pyhanko-certvalidator==0.26.5
+pyhanko-certvalidator==0.26.8
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==5.3.0
+pypdf==5.4.0
     # via xhtml2pdf
 pyquery==2.0.1
     # via readtime
@@ -503,7 +504,7 @@ requests-oauthlib==2.0.0
     # via django-staff-sso-client
 s3transfer==0.6.2
     # via boto3
-sentry-sdk==2.22.0
+sentry-sdk==2.24.0
     # via -r requirements.in
 sigauth==5.3.0
     # via
@@ -570,7 +571,7 @@ tzdata==2025.1
     #   django-celery-beat
     #   faker
     #   kombu
-tzlocal==5.3
+tzlocal==5.3.1
     # via
     #   dateparser
     #   pyhanko
@@ -595,35 +596,40 @@ vine==5.1.0
     #   amqp
     #   celery
     #   kombu
-virtualenv==20.29.2
+virtualenv==20.29.3
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core
-wagtail==5.2.6
+wagtail==6.3
     # via
     #   -r requirements.in
     #   wagtail-cache
     #   wagtail-factories
     #   wagtail-localize
+    #   wagtail-modeladmin
     #   wagtail-seo
     #   wagtail-transfer
     #   wagtail-trash
     #   wagtailmedia
-wagtail-cache==2.3.0
+wagtail-cache==2.5.1
     # via -r requirements.in
-wagtail-factories==4.1.0
+wagtail-factories==4.2.1
     # via -r requirements.in
 wagtail-font-awesome-svg==0.0.3
     # via -r requirements.in
-wagtail-localize==1.7
+wagtail-localize==1.11.3
     # via -r requirements.in
-wagtail-seo==2.4.1
+wagtail-modeladmin==2.1.0
+    # via
+    #   -r requirements.in
+    #   wagtail-trash
+wagtail-seo==3.0.0
     # via -r requirements.in
-wagtail-transfer==0.9.2
+wagtail-transfer==0.9.4
     # via -r requirements.in
-wagtail-trash==1.0.1
+wagtail-trash==3.1.0
     # via -r requirements.in
-wagtailmedia==0.14.5
+wagtailmedia==0.15.2
     # via -r requirements.in
 wcwidth==0.2.13
     # via prompt-toolkit
@@ -634,7 +640,7 @@ webencodings==0.5.1
     #   tinycss2
 whitenoise==6.6.0
     # via -r requirements.in
-willow[heif]==1.6.3
+willow[heif]==1.9.0
     # via
     #   wagtail
     #   willow

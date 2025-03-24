@@ -17,15 +17,16 @@ django-log-formatter-asim==0.0.4
 
 # Wagtail
 # ------------
-wagtail==5.2.6
-wagtail-cache==2.3.0
-wagtail-factories==4.1.0
+wagtail==6.3
+wagtail-cache==2.5.1
+wagtail-factories==4.2.1
 wagtail-font-awesome-svg==0.0.3
-wagtail-localize==1.7
-wagtail-seo==2.4.1
-wagtail-transfer==0.9.2
-wagtail-trash==1.0.1
-wagtailmedia==0.14.5
+wagtail-localize==1.11.3
+wagtail-modeladmin==2.1.0
+wagtail-seo==3.0.0
+wagtail-transfer==0.9.4
+wagtail-trash==3.1.0
+wagtailmedia==0.15.2
 
 # Prod tools
 # ------------
@@ -35,7 +36,7 @@ sentry-sdk>=1.20.0.a,<3.0.0
 # DBT packages
 # ------------
 great-components==2.7.2
-directory-api-client==26.12.0
+directory-api-client==26.14.0
 directory-ch-client==4.0.2
 directory-client-core==7.2.13
 directory-components==40.2.3

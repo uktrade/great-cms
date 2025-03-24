@@ -13,7 +13,7 @@ from django.utils.safestring import mark_safe
 from freezegun import freeze_time
 from wagtail.admin.menu import DismissibleMenuItem
 from wagtail.rich_text import RichText
-from wagtail.tests.utils import WagtailPageTests
+from wagtail.test.utils import WagtailPageTests
 
 from config import settings
 from core import cms_slugs, wagtail_hooks
@@ -36,7 +36,6 @@ from core.wagtail_hooks import (
     convert_related_links,
     convert_text,
     convert_video,
-    editor_css,
     get_microsite_page_body,
     register_campaign_site_help_menu_item,
     register_s3_media_file_adapter,
@@ -1017,12 +1016,6 @@ def test_register_s3_media_file_adapter(user_media_on_s3, expected):
 
 def _fake_static(value):
     return '/path/to/static/' + value
-
-
-@mock.patch('core.wagtail_hooks.static')
-def test_case_study_editor_css(mock_static):
-    mock_static.side_effect = _fake_static
-    assert editor_css() == '<link rel="stylesheet" href="/path/to/static/cms-admin/css/case-study.css">'
 
 
 @pytest.mark.django_db

@@ -748,3 +748,17 @@ $great-design-system-mint-green: #8ce2d0;
     }
   }
 }
+
+.bgs-hero {
+  background-position: bottom;
+  background-repeat: no-repeat;
+
+  @include govuk-media-query($until: tablet) {
+    background-size: contain;
+  }
+}
+
+.bgs-guide-hero {
+  background-size: cover;
+  width: 100%;
+}

@@ -1,10 +1,12 @@
 {% extends 'domestic/base.html' %}
+{% load wagtailimages_tags %}
 {% block css_layout_class %}
     article-list-page
 {% endblock css_layout_class %}
 {% block content %}
     {% block hero %}
-        {% include 'components/hero.html' with image=page.hero_image hero_title=page.title hero_text=page.teaser %}
+        {% image page.hero_image original as rendition %}
+        {% include '_hero.html' with pngImagePath=rendition.url heading="Services" classes="great-ds-hero--large-image-cropping great-ds-hero--bg-white"%}
     {% endblock %}
     {% block intro_section %}{% endblock %}
     {% block child_pages %}
