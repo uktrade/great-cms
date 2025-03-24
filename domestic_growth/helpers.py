@@ -46,6 +46,5 @@ def get_triage_data(request: HttpRequest, model):
             parent_sector, _, _ = get_sectors_by_selected_id(dbt_sectors, triage_data.sector_id)
 
         return {'postcode': triage_data.postcode, 'sector': parent_sector}
-    except Exception as e:
-        print(e)
+    except Exception as e:  # NOQA: F841
         return {'postcode': '', 'sector': ''}

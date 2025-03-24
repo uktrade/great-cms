@@ -29,7 +29,7 @@ from domestic_growth.forms import (
             StartingABusinessSectorForm,
             {},
             False,
-            {'sector': "Enter your sector or industry and select the closest result, or select I don’t know yet"},
+            {'sector': 'Enter your sector or industry and select the closest result, or select I don’t know yet'},
         ),
         (
             StartingABusinessLocationForm,

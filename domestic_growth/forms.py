@@ -46,7 +46,7 @@ class StartingABusinessSectorForm(forms.Form):
     dont_know_sector_yet = BooleanField(
         required=False,
         initial=False,
-        label='I don\'t know yet',
+        label="I don't know yet",
         widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
     )
 
