@@ -1,6 +1,6 @@
 <form method="get"
       id="rent-data-location-select-form"
-      action="#ent-data-location-select-form">
+      action="#rent-data-location-select-form">
     {% csrf_token %}
     {% comment %} remove below hidden input which is just to ensure that the dynamic query parameter is persisted for dev  {% endcomment %}
     <input type="hidden" name="dynamic" id="dynamic" value="true" />
