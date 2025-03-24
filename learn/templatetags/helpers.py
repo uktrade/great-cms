@@ -20,10 +20,7 @@ def get_cta_attributes(cta: RelatedContentCTA):
     if result['link'] is None:
         result['link'] = ''
 
-    result['heading_class'] = f"govuk-body-s {'great-card__link--external' if 'http' in result['link'] else ''}"
-    result['is_external_link'] = True if 'http' in result['link'] else False
     result['tag_description'] = dict(RelatedContentCTA.type_choices)[cta.type]
-    result['tag_icon'] = '/static/icons/hand.svg' if 'service' in cta.type.lower() else '/static/icons/guidance.svg'
     return result
 
 
@@ -64,7 +61,6 @@ def get_article_cta_attributes(cta: UKEACTA) -> dict:
     # We want pass through the first available event to the CTA
     # The default result will be used if first_available_event is None
     first_available_event = get_first_available_event([link.event.id for link in links if link.event])
-
     if first_available_event:
         return {
             'title': first_available_event.name,

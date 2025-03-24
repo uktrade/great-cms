@@ -1,5 +1,6 @@
 {% extends './base.html' %}
 {% load static %}
+{% load get_attributes from content_tags %}
 {% block head_title %}Buy from the UK {{ block.super }}{% endblock %}
 {% block meta_title %}Buy from the UK {{ block.super }}{% endblock %}
 {% block head_css %}
@@ -63,14 +64,16 @@
 <section class="light-blue-background">
     <div class="great-container">
         <div class="govuk-grid-row great-card-row govuk-!-padding-top-8 govuk-!-padding-bottom-2">
-            <div class="govuk-grid-column-one-third-from-desktop govuk-!-margin-bottom-6">
-                {% include 'components/great/card.html' with data_attr_title='Get an introduction' heading_level='h2' image_src='buy_from_the_uk/includes/svg/Icon-MakeIntroductions.svg' is_svg_image=True data_attr_location='International buy from the UK homepage' title='Get an introduction' show_title_link=True url='/international/buy-from-the-uk/contact/' content='Tell us about your business. We will find your ideal trade partner and make an introduction to get you off to the best start.' content_class="govuk-body" classes="great-card--homepage great-international-card--cta" %}
-            </div>
-            <div class="govuk-grid-column-one-third-from-desktop govuk-!-margin-bottom-6">
-                {% include 'components/great/card.html' with data_attr_title='Get advice on buying from the UK' heading_level='h2' image_src='buy_from_the_uk/includes/svg/Icon-GetAdvice.svg' is_svg_image=True data_attr_location='International buy from the UK homepage' title='Get advice on buying from the UK' show_title_link=True url='/international/buy-from-the-uk/contact/' content='Get the latest information on markets and trends, and benefit from the local knowledge of our trade advisers from around the world.' content_class="govuk-body" classes="great-card--homepage great-international-card--cta" %}
-            </div>
-            <div class="govuk-grid-column-one-third-from-desktop govuk-!-margin-bottom-6">
-                {% include 'components/great/card.html' with data_attr_title='Finance imports' heading_level='h2' image_src='buy_from_the_uk/includes/svg/Icon-Finance.svg' is_svg_image=True data_attr_location='International buy from the UK homepage' title='Finance imports' show_title_link=True url='/project-finance/' content='Find competitive financing when buying from the UK. Explore a range of financing solutions through our initiative for foreign buyers, UK Export Finance (UKEF).' content_class="govuk-body" classes="great-card--homepage great-international-card--cta" %}
+            <div class="great-ds-card-container">
+                {% with attributes='Get an introduction'|get_attributes:'International buy from the UK homepage' %}
+                    {% include '_card.html' with href="/international/buy-from-the-uk/contact/" iconSvg="/static/icons/Icon-MakeIntroductions.svg" title="Get an introduction" description="Tell us about your business. We will find your ideal trade partner and make an introduction to get you off to the best start." id=page.slug classes="great-ds-card--3" %}
+                {% endwith %}
+                {% with attributes='Get advice on buying from the UK'|get_attributes:'International buy from the UK homepage' %}
+                    {% include '_card.html' with href="/international/buy-from-the-uk/contact/" iconSvg="/static/icons/Icon-GetAdvice.svg" title="Get advice on buying from the UK" description="Get the latest information on markets and trends, and benefit from the local knowledge of our trade advisers from around the world." id=page.slug classes="great-ds-card--3" %}
+                {% endwith %}
+                {% with attributes='Finance imports'|get_attributes:'International buy from the UK homepage' %}
+                    {% include '_card.html' with href="/project-finance/" iconSvg="/static/icons/Icon-Finance.svg" title="Finance imports" description="Find competitive financing when buying from the UK. Explore a range of financing solutions through our initiative for foreign buyers, UK Export Finance (UKEF)." id=page.slug classes="great-ds-card--3" %}
+                {% endwith %}
             </div>
         </div>
     </div>

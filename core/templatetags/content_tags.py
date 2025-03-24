@@ -437,7 +437,7 @@ def get_icon_path(url):
     if url:
         if url.endswith('/'):
             url = url[:-1]
-        return 'components/great/includes/' + url.split('/')[-1] + '.svg'
+        return '/static/icons/' + url.split('/')[-1] + '.svg'
     else:
         return ''
 
@@ -456,75 +456,19 @@ def get_international_icon_path(url):
     )
     for url_to_icon in url_to_icon_list:
         if url_to_icon[0] in url:
-            return 'international/includes/svg/' + url_to_icon[1] + '.svg'
+            return '/static/icons/' + url_to_icon[1] + '.svg'
     return ''
 
 
 @register.simple_tag
-def render_automated_list_page_card_content(page, request, module_completion_data):
-    if request.user.is_authenticated and module_completion_data:
-        completion_percentage = module_completion_data.get('completion_percentage', 0)
-        completion_count = module_completion_data.get('completion_count', 0)
-        total_pages = module_completion_data.get('total_pages', 0)
-        html_content = format_html(
-            f"""
-            <div class="learn-card-description">
-                { page.heading}
-            </div>
-            <div class="progess-container great-display-flex great-flex-wrap great-flex-column-until-tablet great-gap">
-            <div class="learn__category-progress-container">
-                <div class="learn__category-progress">
-                <span style="width: {completion_percentage}%"></span>
-                </div>
-                <span class="govuk-label">
-                    {completion_count}
-                    /
-                    {total_pages}
-                    marked as complete
-                 </span>
-                </div>
-                </div>
-        """
-        )
-    else:
-        html_content = format_html(
-            f"""
-            <div class="learn-card-description">
-            { page.heading}
-            </div>
-        """
-        )
-    return html_content
-
-
-@register.simple_tag
-def render_curated_topic_card_content(page, completed_lessons):
+def render_completed_tag(page, completed_lessons):
     if completed_lessons is None or not hasattr(completed_lessons, '__iter__'):
         completed_lessons = []
 
     if str(page.id) in map(str, completed_lessons):
-        html_content = f"""
-            <div class="great-display-flex great-gap-10-30 great-justify-space-between
-                  great-flex-column-until-desktop">
-                <h3 class="govuk-link great-font-bold govuk-!-margin-0 great-title-link
-                     great-card__link great-card__link--underline great-card__link--heading">
-                    <span>{page.title}</span>
-                </h3>
-                <span class="great-badge completed govuk-!-margin-top-2">Completed</span>
-            </div>
-            """
+        return 'true'
     else:
-        html_content = f"""
-            <div class="great-display-flex great-gap-10-30 great-justify-space-between">
-                <h3 class="govuk-link great-font-bold govuk-!-margin-0 great-title-link
-                     great-card__link great-card__link--underline great-card__link--heading">
-                    <span>{page.title}</span>
-                </h3>
-                <span role="img" class="fa fa-arrow-right govuk-!-margin-right-2 great-text-blue
-                     great-font-size-18 great-height-min-content govuk-!-margin-top-1"></span>
-            </div>
-            """
-    return html_content
+        return 'false'
 
 
 @register.simple_tag
@@ -741,6 +685,21 @@ def convert_anchor_identifier_a_to_span(input_html):
     return mark_safe(str(soup))
 
 
+@register.filter
+def get_attributes(title, location):
+    attributes = {'data_attr_title': title, 'data_attr_location': location}
+    return attributes
+
+
+@register.filter
+def convert_anchor_identifiers_to_span(value):
+    # Issue only occurs in content_modules where render_a method in core/rich_text.py does not fire, so return as-is
+    if value.block_type != 'content_module':
+        return value
+    rich_text_html = value.value.content
+    return convert_anchor_identifier_a_to_span(rich_text_html)
+
+
 @register.inclusion_tag('_cta-banner.html')
 def render_signup_cta(background=None, link=None):
     background_class = 'great-ds-cta-banner--bg-white'
@@ -783,3 +742,11 @@ def sector_based_image(sector):
             res = icon_name
 
     return res
+
+
+@register.filter
+def add_bullets(description, bullets):
+    if not bullets:
+        return description
+    bullet_list = '<ul>' + ''.join([f'<li>{bullet}</li>' for bullet in bullets]) + '</ul>'
+    return f'{description}<br><br>{bullet_list}'

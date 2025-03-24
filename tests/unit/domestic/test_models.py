@@ -2037,11 +2037,7 @@ def test_great_domestic_homepage_magna_ctas_labels(root_page, client, user):
 
         response = client.get(homepage.url)
 
-        assert b'<p class="govuk-body">Test test</p>' in response.content
-        assert (
-            b'<a href="/login/"><button class="primary-button small-button">Sign in required</button></a>'
-            not in response.content
-        )
+        assert b'<p>Test test</p>' in response.content
 
 
 @pytest.mark.django_db

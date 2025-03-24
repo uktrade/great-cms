@@ -9,78 +9,96 @@
             </h2>
         {% endif %}
         {% if data.dep_sub_title %}
-            <label class="great-max-width-575-from-tablet govuk-!-margin-top-2 govuk-!-margin-bottom-2 great-display-block" for="sic_description">
-                Enter your product or service and pick the best match from the list.
-            </label>
+            <label class="great-max-width-575-from-tablet govuk-!-margin-top-2 govuk-!-margin-bottom-2 great-display-block"
+                   for="sic_description">Enter your product or service and pick the best match from the list.</label>
         {% endif %}
-
-        <form action="{% url 'core:guided-journey-step-1' %}" method="post" autocomplete="off" data-make-or-do-form class="great-position-relative">
+        <form action="{% url 'core:guided-journey-step-1' %}"
+              method="post"
+              autocomplete="off"
+              data-make-or-do-form
+              class="great-position-relative">
             {% csrf_token %}
-            <input type="hidden" id="sector" name="sector" value="{{ session_data.sector }}" />
-            <input type="hidden" id="make_or_do_keyword" name="make_or_do_keyword" value="{{ session_data.make_or_do_keyword }}" />
-            <input type="hidden" id="exporter_type" name="exporter_type" value="{{ session_data.exporter_type }}" />
+            <input type="hidden"
+                   id="sector"
+                   name="sector"
+                   value="{{ session_data.sector }}" />
+            <input type="hidden"
+                   id="make_or_do_keyword"
+                   name="make_or_do_keyword"
+                   value="{{ session_data.make_or_do_keyword }}" />
+            <input type="hidden"
+                   id="exporter_type"
+                   name="exporter_type"
+                   value="{{ session_data.exporter_type }}" />
             {% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH %}
-            <input type="hidden" id="is_keyword_match" name="is_keyword_match" value="{{ session_data.is_keyword_match }}" />
+                <input type="hidden"
+                       id="is_keyword_match"
+                       name="is_keyword_match"
+                       value="{{ session_data.is_keyword_match }}" />
             {% endif %}
-        
             <div data-make-or-do-form-error>
                 {% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH %}
-                <p id="event-name-error" class="govuk-error-message">
-                    <span class="govuk-visually-hidden">Error:</span> <strong></strong>
-                </p>
+                    <p id="event-name-error" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span>
+                    </p>
                 {% endif %}
-                <input type="text" id="sic_description" name="sic_description" class="govuk-input great-text-input govuk-!-width-one-half" />
-                <div id="sic_description-container" class="great-ds-autocomplete-input__wrapper great-bg-white govuk-!-margin-bottom-4 great-max-width-575-from-tablet">
+                <input type="text"
+                       id="sic_description"
+                       name="sic_description"
+                       class="govuk-input great-text-input govuk-!-width-one-half" />
+                <div id="sic_description-container"
+                     class="great-ds-autocomplete-input__wrapper great-bg-white govuk-!-margin-bottom-4 great-max-width-575-from-tablet">
                     {% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH %}
-                    <button id="clear_search">
-                        <i class="fa fa-times" aria-hidden="true"></i>
-                        <span class="great-visually-hidden">clear</span>
-                    </button>
+                        <button id="clear_search">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                            <span class="great-visually-hidden">clear</span>
+                        </button>
                     {% endif %}
                 </div>
             </div>
-            
             <div class="govuk-!-margin-bottom-6">
-                {% include 'domestic/contact/export-support/includes/continue-save-button.html' with button_text='Continue'  %}
+                {% include 'domestic/contact/export-support/includes/continue-save-button.html' with button_text='Continue' %}
             </div>
-
-            <img src="{% static '/images/guided_journey_graphics.png' %}" alt="" class="great-ds-guided-journey-graphic " />
+            <img src="{% static '/images/guided_journey_graphics.png' %}"
+                 alt=""
+                 class="great-ds-guided-journey-graphic " />
         </form>
-
         <ul class="great-list-black-tick govuk-!-margin-top-7 govuk-!-margin-bottom-6">
-            <li><span>Results based on your market, sector, product or service</span></li>
-            <li><span>Content sourced from across government</span></li>
-            <li><span>Direct access to guidance and services on GOV.UK</span></li>
+            <li>
+                <span>Results based on your market, sector, product or service</span>
+            </li>
+            <li>
+                <span>Content sourced from across government</span>
+            </li>
+            <li>
+                <span>Direct access to guidance and services on GOV.UK</span>
+            </li>
         </ul>
-
         {% if features.FEATURE_HOMEPAGE_REDESIGN_V1 and data.dep_cards %}
-        <div class="great-ds-guided-journey-homepage__divider">
-            <h3 class="govuk-heading-m">Or browse our support topics to find your answers</h3>
-            {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
-            <div class="govuk-!-padding-bottom-9 great-ds-category-panels great-ds-category-panels--homepage">
-                {% for cards in data.dep_cards %}
-                    {% for card in cards.value %}
-                        {% with svg_path=card.value.link_url|get_icon_path %}
-                        <a href="{{ card.value.link_url }}" data-ga-digital-entry-point>
-                            {% include svg_path %} 
-                            <span data-title="{{ card.value.link_text|add:' - Homepage' }}" data-location="Homepage">{{ card.value.link_text  }}</span>
-                        </a>
-                        {% endwith %}
-                    {% endfor %}
-                {% endfor %}
+            <div class="great-ds-guided-journey-homepage__divider">
+                <h3 class="govuk-heading-m">Or browse our support topics to find your answers</h3>
+                {% if features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
+                    <div class="govuk-!-padding-bottom-9 great-ds-category-panels       great-ds-category-panels--homepage">
+                        {% for cards in data.dep_cards %}
+                            {% for card in cards.value %}
+                                {% with svg_path=card.value.link_url|get_icon_path %}
+                                    {% include '_card.html' with type="elevated" href=card.value.link_url iconSvg=svg_path title=card.value.link_text id=page.slug classes="great-ds-card--4" %}
+                                {% endwith %}
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="govuk-grid-row govuk-!-padding-bottom-0 great-card-row">
+                        {% for cards in data.dep_cards %}
+                            {% for card in cards.value %}
+                                <div class="govuk-grid-column-one-third great-card--homepage-container">
+                                    {% include '_card.html' with href=card.value.link_url iconSvg=card.value.link_url|get_icon_path title=card.value.link_text id=page.slug description=block.value.description classes="great-ds-card--4" %}
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
-            {% else %}
-            <div class="govuk-grid-row govuk-!-padding-bottom-0 great-card-row">
-                {% for cards in data.dep_cards %}
-                    {% for card in cards.value %}
-                        <div class="govuk-grid-column-one-third great-card--homepage-container">
-                            {% include 'components/great/card.html' with title=card.value.link_text url=card.value.link_url show_title_link=True image_src=card.value.link_url|get_icon_path is_svg_image=True classes="great-card--homepage" data_attr="data-ga-digital-entry-point" data_attr_title=card.value.link_text|add:"- Homepage" data_attr_location="Homepage" %}
-                        </div>
-                    {% endfor %}
-                {% endfor %}
-            </div>
-            {% endif %}
-        </div>
         {% else %}
             <div class="govuk-grid-row great-display-flex-desktop great-dep-homepage-row">
                 <div class="govuk-grid-column-two-thirds great-dep-card">
