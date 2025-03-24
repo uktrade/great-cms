@@ -110,7 +110,6 @@ def feature_flags(request):
     retval['features']['FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH'] = settings.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH
     retval['features']['FEATURE_UNGUIDED_JOURNEY'] = settings.FEATURE_UNGUIDED_JOURNEY
 
-    retval['features']['FEATURE_OPENSEARCH'] = settings.FEATURE_OPENSEARCH
     retval['features']['FEATURE_GREAT_MIGRATION_BANNER'] = settings.FEATURE_GREAT_MIGRATION_BANNER
 
     retval['features']['FEATURE_DOMESTIC_GROWTH'] = settings.FEATURE_DOMESTIC_GROWTH
