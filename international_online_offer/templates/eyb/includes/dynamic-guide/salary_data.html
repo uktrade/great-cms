@@ -1,0 +1,74 @@
+{% load static %}
+{% load humanize %}
+{% load eyb_tags %}
+<div class="figures" id="salary-data">
+    <form method="get"
+          id="salary-data-location-select-form"
+          action="#salary-data">
+        {% csrf_token %}
+        {% comment %} remove below hidden input which is just to ensure that the dynamic query parameter is persisted for dev  {% endcomment %}
+        <input type="hidden" name="dynamic" id="dynamic" value="true" />
+        {% include 'international/includes/form_field.html' with field=salary_data_location_select_form.salary_data_location %}
+        <div class="govuk-grid-column-one-quarter">
+            <button type="submit"
+                    id="change-salary-data-location"
+                    class="govuk-button govuk-button--secondary govuk-!-margin-top-6"
+                    data-module="govuk-button">Change</button>
+        </div>
+    </form>
+    <div class="figures__list" id="salary-data-figures">
+        {% if entry_salary or mid_salary or executive_salary %}
+            {% if entry_salary %}
+                <div class="figures__figure">
+                    <img class="dynamic-guide__icon figures__icon"
+                         alt=""
+                         src="{% static 'svg/icon-salary-entry.svg' %}" />
+                    <p class="figures__value govuk-heading-l">£{{ entry_salary|intcomma }}</p>
+                    {% if professions_by_sector.entry_level %}
+                        <p class="figures__description govuk-body">For professions like {{ professions_by_sector.entry_level|default:'-' }}</p>
+                    {% endif %}
+                </div>
+            {% endif %}
+            {% if mid_salary %}
+                <div class="figures__figure">
+                    <img class="dynamic-guide__icon figures__icon"
+                         alt=""
+                         src="{% static 'svg/icon-salary-mid.svg' %}" />
+                    <p class="figures__value govuk-heading-l">£{{ mid_salary|intcomma }}</p>
+                    {% if professions_by_sector.entry_level %}
+                        <p class="figures__description govuk-body">For professions like {{ professions_by_sector.mid_level|default:'-' }}</p>
+                    {% endif %}
+                </div>
+            {% endif %}
+            {% if executive_salary %}
+                <div class="figures__figure">
+                    <img class="dynamic-guide__icon figures__icon"
+                         alt=""
+                         src="{% static 'svg/icon-salary-executive.svg' %}" />
+                    <p class="figures__value govuk-heading-l">£{{ executive_salary|intcomma }}</p>
+                    {% if professions_by_sector.executive_level %}
+                        <p class="figures__description govuk-body">
+                            For professions like {{ professions_by_sector.executive_level|default:'-' }}
+                        </p>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% else %}
+            <span class="govuk-body body-text source-text">{{ salary_error_msg }}</span>
+        {% endif %}
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <p class="govuk-body govuk-hint govuk-!-font-size-16">
+                Figures reflect 2023 data. Source: <a class="govuk-link" href="https://www.statista.com/" target="_blank">Statista <i class="fa fa-sm fa-external-link-alt external-link__icon"
+                    aria-hidden="true"></i></a> 
+            </p>
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById("change-salary-data-location").style.display = "none";
+    function refreshSalaryDataSelectedRegion() {
+        document.getElementById('salary-data-location-select-form').submit();
+    }
+</script>

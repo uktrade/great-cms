@@ -103,6 +103,7 @@ INSTALLED_APPS = [
     'wagtail_localize',
     'wagtail_localize.locales',
     'domestic_growth.apps.DomesticGrowthConfig',
+    'wagtail.contrib.frontend_cache',
 ]
 
 MIDDLEWARE = [
@@ -158,7 +159,8 @@ TEMPLATES = [
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'input',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'label',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'title-arrow',
-            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'hero',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'select',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'tabs',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'tag',
             ROOT_DIR
             / 'node_modules'
@@ -1077,3 +1079,19 @@ COUNTRIES_ISO_CODE_UPDATE_MINUTE = env.countries_iso_code_update_minute
 COUNTRIES_ISO_CODE_UPDATE_API = 'https://restcountries.com/v3.1/all?fields=name,cca2'
 
 FEATURE_GREAT_MIGRATION_BANNER = env.feature_great_migration_banner
+
+FRONTEND_CACHE_DISTRIBUTION_ID = env.frontend_cache_distribution_id
+wagtail_cf = {}
+for cf_distribution in FRONTEND_CACHE_DISTRIBUTION_ID.split('|'):
+    if cf_distribution:
+        cf_hostnames = [hostname for hostname in cf_distribution.split(':')[1].split(',') if hostname]
+        cf_id = cf_distribution.split(':')[0]
+        cf_dist = {
+            'BACKEND': 'core.cache.GreatCloudfrontBackend',
+            'DISTRIBUTION_ID': cf_id,
+            'HOSTNAMES': cf_hostnames,
+        }
+        wagtail_cf[cf_id] = cf_dist
+
+WAGTAILFRONTENDCACHE = wagtail_cf
+CF_INVALIDATION_ROLE_ARN = env.cf_invalidation_role_arn
