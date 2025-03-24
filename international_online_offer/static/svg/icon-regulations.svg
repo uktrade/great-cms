@@ -1,0 +1,19 @@
+<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M16 55V47H10C7.79086 47 6 45.2091 6 43L6 19C6 16.7909 7.79086 15 10 15H43C45.2091 15 47 16.7909 47 19V43C47 45.2091 45.2091 47 43 47H25L16 55Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M16 55V47H10C7.79086 47 6 45.2091 6 43L6 16.0101C6 15.4522 6.45224 15 7.0101 15C20.2594 15 31 25.7406 31 38.9899V47H25L16 55Z" fill="#59CBE8"/>
+<path d="M47 30C47 30 47 36 47 37C47 39 47 43 47 43C47 45.2091 45.2091 47 43 47H25L16 55V47H10C7.79086 47 6 45.2091 6 43L6 19C6 16.7909 7.79086 15 10 15L28 15" stroke="#222222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M26 30H28" stroke="#222222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M33 30H34" stroke="#222222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M37 35H42" stroke="#222222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M26 35H33" stroke="#222222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M26 40H37" stroke="#222222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<mask id="path-9-inside-1_10713_30770" fill="white">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M26 52C26 51.4477 26.4477 51 27 51H46C46.5523 51 47 51.4477 47 52C47 52.5523 46.5523 53 46 53H27C26.4477 53 26 52.5523 26 52ZM49 52C49 51.4477 49.4477 51 50 51H52C52.5523 51 53 51.4477 53 52C53 52.5523 52.5523 53 52 53H50C49.4477 53 49 52.5523 49 52Z"/>
+</mask>
+<path d="M27 49C25.3431 49 24 50.3431 24 52H28C28 52.5523 27.5523 53 27 53V49ZM46 49H27V53H46V49ZM49 52C49 50.3431 47.6569 49 46 49V53C45.4477 53 45 52.5523 45 52H49ZM46 55C47.6569 55 49 53.6569 49 52H45C45 51.4477 45.4477 51 46 51V55ZM27 55H46V51H27V55ZM24 52C24 53.6569 25.3431 55 27 55V51C27.5523 51 28 51.4477 28 52H24ZM50 49C48.3431 49 47 50.3431 47 52H51C51 52.5523 50.5523 53 50 53V49ZM52 49H50V53H52V49ZM55 52C55 50.3431 53.6569 49 52 49V53C51.4477 53 51 52.5523 51 52H55ZM52 55C53.6569 55 55 53.6569 55 52H51C51 51.4477 51.4477 51 52 51V55ZM50 55H52V51H50V55ZM47 52C47 53.6569 48.3431 55 50 55V51C50.5523 51 51 51.4477 51 52H47Z" fill="#222222" mask="url(#path-9-inside-1_10713_30770)"/>
+<rect x="10" y="19" width="11" height="14" rx="1" fill="white" stroke="#222222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="43" cy="15" r="10" fill="white" stroke="#222222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<ellipse cx="43" cy="15" rx="5" ry="10" fill="white" stroke="#222222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M43 5V25" stroke="#222222" stroke-width="2" stroke-linecap="round"/>
+<path d="M53 15H33" stroke="#222222" stroke-width="2" stroke-linecap="round"/>
+</svg>

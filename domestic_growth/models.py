@@ -12,6 +12,10 @@ from wagtailseo.models import SeoMixin
 
 from core.models import TimeStampedModel
 from domestic_growth import cms_panels, helpers
+
+from international_online_offer.models import TradeAssociation
+from international_online_offer.core.helpers import get_hero_image_by_sector
+
 from domestic_growth.blocks import DomesticGrowthCardBlock
 from domestic_growth.helpers import get_triage_data
 from international_online_offer.models import TradeAssociation
@@ -204,6 +208,7 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
 
         if sector:
             context['trade_associations'] = TradeAssociation.objects.filter(sector__icontains=sector)
+            context['hero_image_url'] = get_hero_image_by_sector(sector)
         else:
             context['trade_associations'] = TradeAssociation.objects.all()
 
@@ -271,6 +276,9 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
         if postcode:
             context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
 
+        if sector:
+            context['hero_image_url'] = get_hero_image_by_sector(sector)
+
         return context
 
 
@@ -280,12 +288,20 @@ class DomesticGrowthContent(index.Indexed, models.Model):
     title = models.CharField()
     description = RichTextField(blank=True)
     url = models.CharField(blank=True)
+    region = models.CharField(blank=True)
+    sector = models.CharField(blank=True)
+    is_dynamic = models.BooleanField(default=False)
+    show_image = models.BooleanField(default=False)
 
     panels = [
         FieldPanel('content_id'),
         FieldPanel('title'),
         FieldPanel('description'),
         FieldPanel('url'),
+        FieldPanel('region'),
+        FieldPanel('sector'),
+        FieldPanel('is_dynamic'),
+        FieldPanel('show_image'),
     ]
 
     search_fields = [
@@ -296,6 +312,9 @@ class DomesticGrowthContent(index.Indexed, models.Model):
         ordering = ('title',)
 
     def __str__(self):
+        if self.is_dynamic:
+            return self.title + ' (***** Dynamic *****)'
+
         return self.title
 
 
