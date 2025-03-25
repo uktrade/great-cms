@@ -8,10 +8,10 @@
             {% with products_and_services_text=products_and_services|highlighted_text %}
                 {% if markets %}
                     {% with markets_text=markets|highlighted_text %}
-                        {% include '_inset-text.html' with label='You have told us that '|add:business_name_text|add:' is exporting '|add:products_and_services_text|add:' to '|add:markets_text|add:'.' %}
+                        {% include '_inset-text.html' with html='You have told us that '|add:business_name_text|add:' is exporting '|add:products_and_services_text|add:' to '|add:markets_text|add:'.' %}
                     {% endwith %}
                 {% else %}
-                    {% include '_inset-text.html' with label='You have told us that '|add:business_name_text|add:' is exporting '|add:products_and_services_text|add:'.' %}
+                    {% include '_inset-text.html' with html='You have told us that '|add:business_name_text|add:' is exporting '|add:products_and_services_text|add:'.' %}
                 {% endif %}
             {% endwith %}
         {% endwith %}
