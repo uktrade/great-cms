@@ -3,12 +3,18 @@
 {% load static %}
 {% block body_js %}{{ block.super }}{% endblock %}
 {% block form_fields %}
-    <div class="govuk-!-padding-5 govuk-!-margin-bottom-7 great-border-left-blue">
-        <p class="govuk-heading-m govuk-!-margin-bottom-0">
-            You have told us that {{ business_name|highlighted_text }} is exporting {{ products_and_services|highlighted_text }}
-            {% if markets %}to {{ markets|highlighted_text }}{% endif %}
-            .
-        </p>
+    <div class="container">
+        {% with business_name_text=business_name|highlighted_text %}
+            {% with products_and_services_text=products_and_services|highlighted_text %}
+                {% if markets %}
+                    {% with markets_text=markets|highlighted_text %}
+                        {% include '_inset-text.html' with label='You have told us that '|add:business_name_text|add:' is exporting '|add:products_and_services_text|add:' to '|add:markets_text|add:'.' %}
+                    {% endwith %}
+                {% else %}
+                    {% include '_inset-text.html' with label='You have told us that '|add:business_name_text|add:' is exporting '|add:products_and_services_text|add:'.' %}
+                {% endif %}
+            {% endwith %}
+        {% endwith %}
     </div>
     {% for field in form.visible_fields %}
         {% if field.name == 'enquiry' %}
@@ -18,9 +24,7 @@
             {% include '_details.html' with id=details.id summaryText=details.summaryText detailsHtml=details.detailsHtml %}
         {% elif field.name == 'about_your_experience' %}
             <fieldset class="govuk-fieldset">
-                <legend class="govuk-label great-font-bold">
-                    About your export experience
-                </legend>
+                <legend class="govuk-label great-font-bold">About your export experience</legend>
                 <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
                     {% include 'domestic/contact/includes/govuk-form-field.html' with field=field hide_label=True %}
                 </div>
