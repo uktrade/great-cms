@@ -118,3 +118,22 @@ class DomesticGrowthChildGuidePagePanels:
     ]
 
     settings_panels = [FieldPanel('title'), FieldPanel('slug')]
+
+
+class DomesticGrowthAboutPagePanels:
+    content_panels = [
+        MultiFieldPanel(
+            heading='Heading',
+            children=[
+                FieldPanel('heading'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='Body section',
+            children=[
+                FieldPanel('body'),
+            ],
+        ),
+    ]
+
+    settings_panels = [FieldPanel('title'), FieldPanel('slug')]

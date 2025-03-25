@@ -763,6 +763,13 @@ $great-design-system-mint-green: #8ce2d0;
   width: 100%;
 }
 
+.bgs-about--image {
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
 .great-ds-address {
   font-style: normal;
 
