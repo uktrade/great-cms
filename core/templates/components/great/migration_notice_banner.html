@@ -1,13 +1,15 @@
-{% if features.FEATURE_GREAT_MIGRATION_BANNER %}
+{% load bgs_tags %}
+{% load wagtailcore_tags %}
+{% wagtail_site as current_site %}
+{% is_bgs_site current_site.root_url as bgs_site %}
+{% if features.FEATURE_GREAT_MIGRATION_BANNER and bgs_site %}
     <div class="great-width-100 great-min-height-50 great-bg-button-blue govuk-!-padding-top-2 govuk-!-padding-bottom-2">
         <div class="great-container great-display-flex great-flex-row">
             <div role="img"
                  alt="alert icon"
                  class="fa fa-exclamation-circle great-text-white govuk-!-padding-right-2 govuk-!-padding-top-1"></div>
             <div>
-                <p class="great-inline great-text-white">
-                    Great.gov.uk will be unavailable on Wednesday 12 March 2025 between 7:00-9:00am UK time whilst we carry out essential maintenance.
-                </p>
+                <p class="great-inline great-text-white">You are viewing the site business.gov.uk</p>
             </div>
         </div>
     </div>
