@@ -6,5 +6,5 @@ register = template.Library()
 
 
 @register.simple_tag
-def is_bgs_site(path):
-    return bgs_site(path)
+def is_bgs_site(root_url):
+    return bgs_site(root_url)
