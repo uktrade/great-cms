@@ -1,4 +1,5 @@
 from django.db import models
+
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
 from wagtail.blocks.stream_block import StreamBlock
@@ -11,7 +12,7 @@ from wagtailcache.cache import WagtailCacheMixin
 from wagtailseo.models import SeoMixin
 
 from core.models import TimeStampedModel
-from domestic_growth import cms_panels, helpers
+from domestic_growth import cms_panels, helpers, constants
 from domestic_growth.blocks import DomesticGrowthCardBlock
 from domestic_growth.helpers import get_triage_data
 from international_online_offer.core.helpers import get_hero_image_by_sector
@@ -189,7 +190,6 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
     def get_context(self, request):
         context = super(DomesticGrowthGuidePage, self).get_context(request)
 
-        # wip
         triage_data = get_triage_data(request, StartingABusinessTriage)
 
         postcode = triage_data['postcode']
@@ -198,14 +198,13 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
         if postcode and sector:
             context['qs'] = f'?postcode={postcode}&sector={sector}'
 
-        ###
-
         if postcode:
             context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
 
         if sector:
             context['trade_associations'] = TradeAssociation.objects.filter(sector__icontains=sector)
             context['hero_image_url'] = get_hero_image_by_sector(sector)
+            context['sector'] = sector
         else:
             context['trade_associations'] = TradeAssociation.objects.all()
 
@@ -259,7 +258,6 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
     def get_context(self, request):
         context = super(DomesticGrowthChildGuidePage, self).get_context(request)
 
-        # wip
         triage_data = get_triage_data(request, StartingABusinessTriage)
 
         postcode = triage_data['postcode']
@@ -268,13 +266,14 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
         if postcode and sector:
             context['qs'] = f'?postcode={postcode}&sector={sector}'
 
-        ###
-
         if postcode:
             context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
 
         if sector:
             context['hero_image_url'] = get_hero_image_by_sector(sector)
+            context['sector'] = sector
+
+        context['dynamic_snippet_names'] = constants.DYNAMIC_SNIPPET_NAMES
 
         return context
 

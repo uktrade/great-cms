@@ -13,6 +13,8 @@ from domestic.helpers import (
     get_sector_widget_data_helper,
 )
 
+from domestic_growth.models import DomesticGrowthContent
+
 register = template.Library()
 
 META_DESCRIPTION_TEXT_LENGTH = 150
@@ -532,3 +534,31 @@ def get_lte_hero_image_path_from_class(title):
         return str(title_to_image_path_map[title])
     else:
         return ''
+
+
+@register.filter
+def regional_snippet(snippet, region):
+    content_snippets = DomesticGrowthContent.objects.all()
+
+    filtered_snippets = list(
+        content_snippets.filter(content_id__contains=str(snippet.content_id), region__contains=str(region))
+    )
+
+    if len(filtered_snippets) >= 1:
+        return filtered_snippets[0]
+
+    return None
+
+
+@register.filter
+def sector_snippet(snippet, sector):
+    content_snippets = DomesticGrowthContent.objects.all()
+
+    filtered_snippets = list(
+        content_snippets.filter(content_id__contains=str(snippet.content_id), sector__contains=str(sector))
+    )
+
+    if len(filtered_snippets) >= 1:
+        return filtered_snippets[0]
+
+    return None
