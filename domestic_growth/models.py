@@ -2,8 +2,10 @@ from django.db import models
 
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
+from wagtail.blocks.field_block import RichTextBlock
 from wagtail.blocks.stream_block import StreamBlock
 from wagtail.fields import RichTextField, StreamField
+from wagtail.images.blocks import ImageChooserBlock
 from wagtail.models import Page
 from wagtail.search import index
 from wagtail.snippets.blocks import SnippetChooserBlock
@@ -320,6 +322,33 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
         context['dynamic_snippet_names'] = constants.DYNAMIC_SNIPPET_NAMES
 
         return context
+
+
+class DomesticGrowthAboutPage(SeoMixin, cms_panels.DomesticGrowthAboutPagePanels, Page):
+    template = 'domestic-growth-about.html'
+
+    class Meta:
+        verbose_name = 'Domestic Growth About page'
+
+    heading = models.TextField(
+        null=True,
+    )
+
+    body = StreamField(
+        [
+            (
+                'text',
+                RichTextBlock(
+                    template='includes/about/_text.html',
+                    label='Text',
+                ),
+            ),
+            ('image', ImageChooserBlock(required=False, template='includes/about/_image.html', label='Image')),
+        ],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
 
 
 @register_snippet
