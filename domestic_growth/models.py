@@ -187,6 +187,50 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
         null=True,
     )
 
+    primary_regional_support_title_england = models.TextField(
+        null=True,
+    )
+
+    primary_regional_support_intro_england = models.TextField(
+        null=True,
+    )
+
+    primary_regional_support_title_scotland = models.TextField(
+        null=True,
+    )
+
+    primary_regional_support_intro_scotland = models.TextField(
+        null=True,
+    )
+
+    primary_regional_support_title_ni = models.TextField(
+        null=True,
+    )
+
+    primary_regional_support_intro_ni = models.TextField(
+        null=True,
+    )
+
+    primary_regional_support_title_wales = models.TextField(
+        null=True,
+    )
+
+    primary_regional_support_intro_wales = models.TextField(
+        null=True,
+    )
+
+    chamber_of_commerce_intro = models.TextField(
+        null=True,
+    )
+
+    trade_associations_title = models.TextField(
+        null=True,
+    )
+
+    trade_associations_intro = models.TextField(
+        null=True,
+    )
+
     def get_context(self, request):
         context = super(DomesticGrowthGuidePage, self).get_context(request)
 
