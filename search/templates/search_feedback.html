@@ -19,7 +19,7 @@
 </section>
 <div class="results-wrapper">
     <div class="container search-results-container">
-        <form action="{% url 'search:feedback' %}?{{ request.GET.urlencode }}"
+        <form novalidate action="{% url 'search:feedback' %}?{{ request.GET.urlencode }}"
               method="post">
             {% csrf_token %}
             {{ form }}
