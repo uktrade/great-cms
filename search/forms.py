@@ -8,7 +8,6 @@ class FeedbackForm(SaveOnlyInDatabaseAPIForm, forms.Form):
         label='Did you find what you were looking for on the site today?',
         widget=forms.RadioSelect(),
         choices=[('yes', 'Yes'), ('no', 'No')],
-        error_messages={'required': 'This field is blah', 'invalid': 'Enter a valid value'},
     )
     search_target = forms.CharField(
         label='Whether yes or no, please let us know what you were searching for',
