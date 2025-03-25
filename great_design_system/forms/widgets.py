@@ -97,6 +97,43 @@ class CreateOptionMixin:
                     help_dict.update({'help_text': help_text_choice_text, 'help_text_css': self.help_text_class_name})
         return help_dict
 
+    def optgroups(self, name, value, attrs=None):
+        """Return a list of optgroups for this widget."""
+        groups = []
+        has_selected = False
+
+        for index, (option_value, *option_label) in enumerate(self.choices):
+
+            # patch to pass through checked options and pass through to optgroup widget attrs
+            if len(option_label) > 1:
+                if option_label[1]:
+                    value = [option_value]
+
+            option_label = option_label[0]
+
+            if option_value is None:
+                option_value = ""
+
+            subgroup = []
+            if isinstance(option_label, (list, tuple)):
+                group_name = option_value
+                subindex = 0
+                choices = option_label
+            else:
+                group_name = None
+                subindex = None
+                choices = [(option_value, option_label)]
+            groups.append((group_name, subgroup, index))
+            for subvalue, sublabel in choices:
+                selected = (not has_selected or self.allow_multiple_selected) and str(subvalue) in value
+                has_selected |= selected
+                subgroup.append(
+                    self.create_option(name, subvalue, sublabel, selected, index, subindex=subindex, attrs=attrs)
+                )
+                if subindex is not None:
+                    subindex += 1
+        return groups
+
     def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
         """Patch to use nicer ids and add conditional reveal fields to ChoiceFields."""
         index = str(index) if subindex is None else '%s%s%s' % (index, self.id_separator, subindex)
@@ -178,6 +215,12 @@ class SelectOne(ChoiceWidget):
     template_name = '_select.html'
     option_template_name = '_select_option.html'
     help_text_class_name = 'govuk-radios__hint'
+    template_class_name = 'select'
+
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
+        context['widget']['template_class_name'] = self.template_class_name
+        return context
 
 
 class Textarea(Textarea):
@@ -237,6 +280,23 @@ class CheckboxSelectMultiple(ChoiceWidget, CheckboxSelectMultiple):
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)
         context['widget']['template_class_name'] = self.template_class_name
+        return context
+
+
+class CheckboxSelectMultipleSmall(CheckboxSelectMultiple):
+
+    input_type = 'checkbox'
+    template_class_name = 'checkboxes'
+    is_small = True
+    template_name = '_multiple_input.html'
+    option_template_name = '_option.html'
+    use_fieldset = True
+    help_text_class_name = 'govuk-radios__hint'
+
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
+        context['widget']['template_class_name'] = self.template_class_name
+        context['widget']['is_small'] = self.is_small
         return context
 
 

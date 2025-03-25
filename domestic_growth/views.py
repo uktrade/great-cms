@@ -1,9 +1,8 @@
 import pickle
 
-from wagtailcache.cache import nocache_page
-
-from django.views.generic import FormView
 from django.utils.decorators import method_decorator
+from django.views.generic import FormView
+from wagtailcache.cache import nocache_page
 
 from domestic_growth.forms import ScalingABusinessForm, StartingABusinessForm
 from domestic_growth.mixins import TriageMixin

@@ -1,3 +1,5 @@
+from itertools import chain
+
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV3
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
@@ -8,7 +10,6 @@ from great_components import forms
 
 from contact.forms import TERMS_LABEL
 from core.forms import ConsentFieldMixin
-from core.models import IndustryTag
 from directory_constants import choices
 from directory_constants.choices import COUNTRY_CHOICES
 from great_design_system import forms as gds_forms
@@ -17,11 +18,47 @@ COUNTRIES = COUNTRY_CHOICES.copy()
 COUNTRIES.insert(0, ('', 'Select a country'))
 
 
-class MarketsForm(gds_forms.Form):
+class MarketsSortForm(gds_forms.Form):
     sort_by = gds_forms.ChoiceField(
         label='Sort by',
         widget=gds_forms.SelectOne(),
         choices=[('title', 'Market A-Z'), ('last_published_at', 'Recently updated')],
+    )
+
+
+class MarketsFilterForm(gds_forms.Form):
+
+    def create_choices(self, tag_choices, selected_choices):
+        choices = []
+        for tag in tag_choices:
+            name = tag.name
+            checked = True if name in selected_choices else False
+            choices.append((name, name, checked))
+        return choices
+
+    def __init__(self, init_data={}, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['sector'].choices = self.create_choices(init_data['sector_list'], init_data['selected_sectors'])
+        self.fields['region'].choices = self.create_choices(init_data['region_list'], init_data['selected_regions'])
+        self.fields['trading_bloc'].choices = self.create_choices(
+            init_data['trading_bloc_list'], init_data['selected_trading_blocs']
+        )
+
+    sector = gds_forms.ChoiceField(
+        label='Sector',
+        widget=gds_forms.CheckboxSelectMultipleSmall,
+        choices=[],
+    )
+    region = gds_forms.ChoiceField(
+        label='Region',
+        widget=gds_forms.CheckboxSelectMultipleSmall,
+        choices=[],
+    )
+    trading_bloc = gds_forms.ChoiceField(
+        label='Trading bloc',
+        widget=gds_forms.CheckboxSelectMultipleSmall,
+        choices=[],
     )
 
 

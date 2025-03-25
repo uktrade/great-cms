@@ -2,13 +2,14 @@ from django.db import models
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
 from wagtail.blocks.stream_block import StreamBlock
-from wagtailcache.cache import WagtailCacheMixin
-from wagtail.fields import StreamField, RichTextField
+from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
 from wagtail.search import index
 from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtail.snippets.models import register_snippet
+from wagtailcache.cache import WagtailCacheMixin
 from wagtailseo.models import SeoMixin
+
 from domestic_growth import cms_panels, helpers
 from domestic_growth.blocks import DomesticGrowthCardBlock
 from international_online_offer.core.helpers import get_hero_image_by_sector

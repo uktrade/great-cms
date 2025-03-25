@@ -24,18 +24,19 @@ from great_design_system.forms.fields import (
 )
 from great_design_system.forms.forms import Form
 from great_design_system.forms.widgets import (  # noqa
+    CheckboxSelectMultiple,
+    CheckboxSelectMultipleSmall,
     ChoiceWidget,
     CreateOptionMixin,
     EmailInput,
     HiddenInput,
+    PasswordInput,
     RadioSelect,
     RadioSelectConditionalReveal,
     ReCaptchaV3,
     SelectOne,
     Textarea,
     TextInput,
-    PasswordInput,
-    CheckboxSelectMultiple,
 )
 
 __all__ = [
@@ -74,4 +75,5 @@ __all__ = [
     'SelectOne',
     'PasswordInput',
     'CheckboxSelectMultiple',
+    'CheckboxSelectMultipleSmall',
 ]
