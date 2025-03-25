@@ -1,0 +1,6 @@
+{% load add_govuk_classes from content_tags %}
+<div>
+    {% filter add_govuk_classes %}
+        {{ value }}
+    {% endfilter %}
+</div>

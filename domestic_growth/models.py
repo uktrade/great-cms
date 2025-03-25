@@ -3,6 +3,14 @@ from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
 from wagtail.blocks.stream_block import StreamBlock
 from wagtail.fields import RichTextField, StreamField
+
+from wagtail import blocks
+from wagtail.admin.panels import FieldPanel
+from wagtail.blocks.field_block import RichTextBlock
+from wagtail.blocks.stream_block import StreamBlock
+from wagtail.fields import RichTextField, StreamField
+from wagtail.images.blocks import ImageChooserBlock
+
 from wagtail.models import Page
 from wagtail.search import index
 from wagtail.snippets.blocks import SnippetChooserBlock
@@ -12,6 +20,10 @@ from wagtailseo.models import SeoMixin
 
 from domestic_growth import cms_panels, helpers
 from domestic_growth.blocks import DomesticGrowthCardBlock
+from core.models import TimeStampedModel
+from domestic_growth import cms_panels, helpers, constants
+from domestic_growth.blocks import DomesticGrowthCardBlock
+from domestic_growth.helpers import get_triage_data
 from international_online_offer.core.helpers import get_hero_image_by_sector
 from international_online_offer.models import TradeAssociation
 
@@ -154,6 +166,7 @@ class DomesticGrowthHomePage(SeoMixin, cms_panels.DomesticGrowthHomePagePanels, 
     def get_context(self, request):
         context = super(DomesticGrowthHomePage, self).get_context(request)
         context['news'] = helpers.get_dbt_news_articles()
+        context['trade_associations'] = TradeAssociation.objects.all()
         return context
 
 
@@ -183,13 +196,59 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
         null=True,
     )
 
+    primary_regional_support_title_england = models.TextField(
+        null=True,
+    )
+
+    primary_regional_support_intro_england = models.TextField(
+        null=True,
+    )
+
+    primary_regional_support_title_scotland = models.TextField(
+        null=True,
+    )
+
+    primary_regional_support_intro_scotland = models.TextField(
+        null=True,
+    )
+
+    primary_regional_support_title_ni = models.TextField(
+        null=True,
+    )
+
+    primary_regional_support_intro_ni = models.TextField(
+        null=True,
+    )
+
+    primary_regional_support_title_wales = models.TextField(
+        null=True,
+    )
+
+    primary_regional_support_intro_wales = models.TextField(
+        null=True,
+    )
+
+    chamber_of_commerce_intro = models.TextField(
+        null=True,
+    )
+
+    trade_associations_title = models.TextField(
+        null=True,
+    )
+
+    trade_associations_intro = models.TextField(
+        null=True,
+    )
+
     def get_context(self, request):
         context = super(DomesticGrowthGuidePage, self).get_context(request)
 
-        postcode = request.GET.get('postcode')
-        sector = request.GET.get('sector')
+        triage_data = get_triage_data(request, StartingABusinessTriage)
 
-        if postcode and request.GET.get('sector'):
+        postcode = triage_data['postcode']
+        sector = triage_data['sector']
+
+        if postcode and sector:
             context['qs'] = f'?postcode={postcode}&sector={sector}'
 
         if postcode:
@@ -198,6 +257,7 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
         if sector:
             context['trade_associations'] = TradeAssociation.objects.filter(sector__icontains=sector)
             context['hero_image_url'] = get_hero_image_by_sector(sector)
+            context['sector'] = sector
         else:
             context['trade_associations'] = TradeAssociation.objects.all()
 
@@ -251,10 +311,12 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
     def get_context(self, request):
         context = super(DomesticGrowthChildGuidePage, self).get_context(request)
 
-        postcode = request.GET.get('postcode')
-        sector = request.GET.get('sector')
+        triage_data = get_triage_data(request, StartingABusinessTriage)
 
-        if postcode and request.GET.get('sector'):
+        postcode = triage_data['postcode']
+        sector = triage_data['sector']
+
+        if postcode and sector:
             context['qs'] = f'?postcode={postcode}&sector={sector}'
 
         if postcode:
@@ -262,8 +324,38 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
 
         if sector:
             context['hero_image_url'] = get_hero_image_by_sector(sector)
+            context['sector'] = sector
+
+        context['dynamic_snippet_names'] = constants.DYNAMIC_SNIPPET_NAMES
 
         return context
+
+
+class DomesticGrowthAboutPage(SeoMixin, cms_panels.DomesticGrowthAboutPagePanels, Page):
+    template = 'domestic-growth-about.html'
+
+    class Meta:
+        verbose_name = 'Domestic Growth About page'
+
+    heading = models.TextField(
+        null=True,
+    )
+
+    body = StreamField(
+        [
+            (
+                'text',
+                RichTextBlock(
+                    template='includes/about/_text.html',
+                    label='Text',
+                ),
+            ),
+            ('image', ImageChooserBlock(required=False, template='includes/about/_image.html', label='Image')),
+        ],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
 
 
 @register_snippet
@@ -300,3 +392,15 @@ class DomesticGrowthContent(index.Indexed, models.Model):
             return self.title + ' (***** Dynamic *****)'
 
         return self.title
+
+
+class StartingABusinessTriage(TimeStampedModel):
+    # never assume email is unique in this table as users can complete the triage in different
+    # browsers / incognito mode
+    email = models.CharField(max_length=255, null=True, blank=True)
+    # the session_id is either a django session id from request.session.session_key or
+    # in the case where a user has not accepted cookies a UUIDV4
+    session_id = models.CharField(max_length=40, unique=True)
+    sector_id = models.CharField(max_length=10, null=True, blank=True)
+    dont_know_sector = models.BooleanField(default=False, null=True, blank=True)
+    postcode = models.CharField(max_length=8, null=True, blank=True)

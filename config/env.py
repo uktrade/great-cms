@@ -381,6 +381,8 @@ class BaseSettings(PydanticBaseSettings):
     frontend_cache_distribution_id: str = ''
     cf_invalidation_role_arn: str = ''
 
+    bgs_site: str = 'www.hotfix.bgs.uktrade.digital'
+
 
 class CIEnvironment(BaseSettings):
     database_url: str

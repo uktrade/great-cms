@@ -762,3 +762,25 @@ $great-design-system-mint-green: #8ce2d0;
   background-size: cover;
   width: 100%;
 }
+
+.bgs-about--image {
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+.great-ds-address {
+  font-style: normal;
+
+  .great-ds-address__row {
+    display: flex;
+    align-items: anchor-center;
+    padding-bottom: 10px;
+
+    > *:first-child {
+      font-weight: bold;
+      min-width: 105px;
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{% load is_a_dynamic_snippet from content_tags %}
+{% load regional_snippet sector_snippet from component_tags %}
+
+{% if content.content_id|is_a_dynamic_snippet %}
+    {% for snippet_id, snippet_name in dynamic_snippet_names %}
+        {% if content.content_id == snippet_id %}
+            {% if snippet_name == 'Finance and support for your business' %}
+                {% include 'includes/dynamic-snippets/_finance-and-support.html' with content=content region='london' %}
+            {% elif snippet_name == 'Talk to an International Trade Adviser' %}
+                {% include "includes/dynamic-snippets/_ita.html" with content=content turnover='>500k' %}
+            {% elif snippet_name == 'Find a grant' %}
+                {% include 'includes/dynamic-snippets/_find-a-grant.html' with content=content region='3' %}
+            {% elif snippet_name == 'British Business Bank Regional funds' or snippet_name == 'Apprenticeships placeholder' or snippet_name == 'Contracts finder' %}
+                {% with snippet_content=content|regional_snippet:"london" %}
+                    {% if snippet_content %}
+                        {% include 'includes/dynamic-snippets/_placeholder-snippet.html' with content=snippet_content %}
+                    {% endif %}
+                {% endwith %}
+            {% elif snippet_name == 'Innovate UK Catapult Network' and sector %}
+                {% with snippet_content=content|sector_snippet:sector %}
+                    {% if snippet_content %}
+                        {% include 'includes/dynamic-snippets/_placeholder-snippet.html' with content=snippet_content %}
+                    {% endif %}
+                {% endwith %}
+            {% elif snippet_name == 'Innovate UK Business Connect' and sector  %}
+                {% with snippet_content=content|sector_snippet:sector %}
+                    {% if snippet_content %}
+                        {% include 'includes/dynamic-snippets/_placeholder-snippet.html' with content=snippet_content %}
+                    {% else %}
+                        {% include 'includes/dynamic-snippets/_placeholder-snippet.html' with content=content %}
+                    {% endif %}
+                {% endwith %}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% else %}
+    {% include "_card.html" with classes="great-ds-card--full" type="unmounted" title=content.title href=content.url description=content.description|safe id=content.content_id %}
+{% endif %}

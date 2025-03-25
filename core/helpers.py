@@ -918,3 +918,7 @@ def send_hcsat_feedback(data: HCSAT) -> None:
     )
     response = action.save(data)
     response.raise_for_status()
+
+
+def is_bgs_site(root_url):
+    return settings.BGS_SITE in root_url
