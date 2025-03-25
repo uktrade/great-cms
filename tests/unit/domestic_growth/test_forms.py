@@ -1,77 +1,62 @@
 import pytest
 
-from domestic_growth.forms import StartingABusinessForm, ScalingABusinessForm
+from domestic_growth.forms import (
+    StartingABusinessLocationForm,
+    StartingABusinessSectorForm,
+)
 
 
 @pytest.mark.parametrize(
     'form, form_data, form_is_valid, error_messages',
     (
         (
-            StartingABusinessForm,
+            StartingABusinessSectorForm,
             {
-                'sector': 'Aerospace',
-                'postcode': 'SW1A 1AA',  # /PS-IGNORE
+                'sector': 'SL0003',
             },
             True,
             {},
         ),
         (
-            StartingABusinessForm,
+            StartingABusinessSectorForm,
             {
-                'sector': '',
-                'postcode': '',
-            },
-            False,
-            {
-                'sector': 'Select your sector',
-                'postcode': 'Enter your postcode',
-            },
-        ),
-    ),
-)
-@pytest.mark.django_db
-def test_starting_a_business_form_validation(form, form_data, form_is_valid, error_messages):
-    form = form(form_data)
-    assert form.is_valid() is form_is_valid
-    if not form_is_valid:
-        for key in error_messages:
-            assert error_messages[key] in form.errors[key]
-
-
-@pytest.mark.parametrize(
-    'form, form_data, form_is_valid, error_messages',
-    (
-        (
-            ScalingABusinessForm,
-            {
-                'country': 'uk',
-                'sector': 'Aerospace',
-                'business_stage': 'startup',
-                'postcode': 'SW1A 1AA',  # /PS-IGNORE
+                'dont_know_sector_yet': True,
             },
             True,
             {},
         ),
         (
-            ScalingABusinessForm,
+            StartingABusinessSectorForm,
+            {},
+            False,
+            {'sector': 'Enter your sector or industry and select the closest result, or select I don’t know yet'},
+        ),
+        (
+            StartingABusinessLocationForm,
             {
-                'country': '',
-                'sector': '',
-                'business_stage': '',
-                'postcode': '',
+                'postcode': 'BT809AQ',  # /PS-IGNORE
+            },
+            True,
+            {},
+        ),
+        (
+            StartingABusinessLocationForm,
+            {
+                'postcode': 'BT80',  # /PS-IGNORE
             },
             False,
-            {
-                'country': 'Select your country',
-                'sector': 'Select your sector',
-                'business_stage': 'Select your stage of business',
-                'postcode': 'Enter your postcode',
-            },
+            {'postcode': 'Enter a valid UK postcode'},
+        ),
+        (
+            StartingABusinessLocationForm,
+            {},
+            False,
+            {'postcode': 'Enter a full UK postcode'},
         ),
     ),
 )
 @pytest.mark.django_db
-def test_scaling_a_business_form_validation(form, form_data, form_is_valid, error_messages):
+def test_starting_a_business_form_validation(mock_get_dbt_sectors, form, form_data, form_is_valid, error_messages):
     form = form(form_data)
     assert form.is_valid() is form_is_valid
     if not form_is_valid:

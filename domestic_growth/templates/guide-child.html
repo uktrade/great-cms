@@ -1,7 +1,5 @@
 {% extends 'includes/base.html' %}
-
 {% block head_title %}Domestic Growth - Guide child page{% endblock %}
-
 {% block content %}
     <section class="great-ds-bg-blue govuk-!-padding-bottom-9 bgs-guide-hero" style="background-image: url({{ hero_image_url }});">
         <div class="great-ds-container govuk-!-padding-top-8">
@@ -9,25 +7,17 @@
                 <div class="govuk-grid-column-two-thirds">
                     <div class="great-ds-bg-white govuk-!-padding-6">
                         {% if page.get_parent.hero_title %}
-                        <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">
-                            {{ page.get_parent.hero_title }}
-                        </h1>
+                            <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">{{ page.get_parent.hero_title }}</h1>
                         {% endif %}
-
                         {% if page.get_parent.hero_intro %}
-                        <p class="govuk-body govuk-!-margin-bottom-6">
-                            {{ page.get_parent.hero_intro }}
-                        </p>
+                            <p class="govuk-body govuk-!-margin-bottom-6">{{ page.get_parent.hero_intro }}</p>
                         {% endif %}
-
                         {% if local_support_data.postcode_data.country %}
                             {% include "_tag.html" with text=local_support_data.postcode_data.country type="error" %}
                         {% endif %}
-
                         {% if local_support_data.postcode_data.region %}
                             {% include "_tag.html" with text=local_support_data.postcode_data.region type="information" %}
                         {% endif %}
-
                         {% if local_support_data.postcode_data.admin_district %}
                             {% include "_tag.html" with text=local_support_data.postcode_data.admin_district type="success" %}
                         {% endif %}
@@ -36,70 +26,58 @@
             </div>
         </div>
     </section>
-
-    <div class="govuk-service-navigation" data-module="govuk-service-navigation">
+    <div class="govuk-service-navigation"
+         data-module="govuk-service-navigation">
         <div class="great-container">
             <div class="govuk-service-navigation__container">
-            <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
-                <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle" aria-controls="navigation" hidden>
-                Menu
-                </button>
-                <ul class="govuk-service-navigation__list" id="navigation">
-                    <li class="govuk-service-navigation__item">
-                        <a class="govuk-service-navigation__link" href="{{ page.get_parent.get_url}}{{ qs }}">
-                            {{ page.get_parent.hero_title }}
-                        </a>
-                    </li>
-
-                    {% for child_page in page.get_parent.get_children %}
-                        {% with page=child_page.specific parent_page_title=page.page_title %}
-                            {% if page.slug in request.path %}
-                            <li class="govuk-service-navigation__item govuk-service-navigation__item--active">
-                                <a class="govuk-service-navigation__link" href="{{ page.get_url }}{{ qs }}" aria-current="true">
-                                    <strong class="govuk-service-navigation__active-fallback">{{ page.title }}</strong>
-                                </a>
-                            </li>
-                            {% else %}
-                            <li class="govuk-service-navigation__item">
-                                <a class="govuk-service-navigation__link" href="{{ page.get_url }}{{ qs }}">
-                                    {{ page.title }}
-                                </a>
-                            </li>
-                            {% endif %}
-                        {% endwith %}
-                    {% endfor %}
-                </ul>
-            </nav>
+                <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
+                    <button type="button"
+                            class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle"
+                            aria-controls="navigation"
+                            hidden>Menu</button>
+                    <ul class="govuk-service-navigation__list" id="navigation">
+                        <li class="govuk-service-navigation__item">
+                            <a class="govuk-service-navigation__link"
+                               href="{{ page.get_parent.get_url }}{{ qs }}">{{ page.get_parent.hero_title }}</a>
+                        </li>
+                        {% for child_page in page.get_parent.get_children %}
+                            {% with page=child_page.specific parent_page_title=page.page_title %}
+                                {% if page.slug in request.path %}
+                                    <li class="govuk-service-navigation__item govuk-service-navigation__item--active">
+                                        <a class="govuk-service-navigation__link"
+                                           href="{{ page.get_url }}{{ qs }}"
+                                           aria-current="true">
+                                            <strong class="govuk-service-navigation__active-fallback">{{ page.title }}</strong>
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li class="govuk-service-navigation__item">
+                                        <a class="govuk-service-navigation__link"
+                                           href="{{ page.get_url }}{{ qs }}">{{ page.title }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endwith %}
+                        {% endfor %}
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>
-
     <section class="great great-ds-bg-light-blue govuk-!-padding-bottom-6">
         <div class="great-ds-container govuk-!-padding-top-7">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
-                    {% if page.body_title %}
-                    <h2 class="govuk-heading-l govuk-!-margin-bottom-3">
-                        {{ page.body_title }}
-                    </h2>
-                    {% endif %}
-
-                    {% if page.body_intro %}
-                    <p class="govuk-caption-l govuk-!-margin-bottom-3">
-                        {{ page.body_intro }}
-                    </p>
-                    {% endif %}
-
+                    {% if page.body_title %}<h2 class="govuk-heading-l govuk-!-margin-bottom-3">{{ page.body_title }}</h2>{% endif %}
+                    {% if page.body_intro %}<p class="govuk-caption-l govuk-!-margin-bottom-3">{{ page.body_intro }}</p>{% endif %}
                     {% if page.body_sections %}
                         {% for section in page.body_sections %}
-                        <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-ds-bg-white great-ds-border-top-grey-3">
-                            <h3 class="govuk-heading-m govuk-!-margin-bottom-3">{{ section.value.title }}</h3>
-                            <p class="govuk-caption">{{ section.value.intro }}</p>
-
-                            {% for content in section.value.content %}
-                                {% include "_card.html" with classes="great-ds-card--full" type="unmounted" title=content.title href=content.url description=content.description|safe id=content.content_id %}
-                            {% endfor %}
-                        </div>
+                            <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-ds-bg-white great-ds-border-top-grey-3">
+                                <h3 class="govuk-heading-m govuk-!-margin-bottom-3">{{ section.value.title }}</h3>
+                                <p class="govuk-caption">{{ section.value.intro }}</p>
+                                {% for content in section.value.content %}
+                                    {% include "_card.html" with classes="great-ds-card--full" type="unmounted" title=content.title href=content.url description=content.description|safe id=content.content_id %}
+                                {% endfor %}
+                            </div>
                         {% endfor %}
                     {% endif %}
                 </div>
@@ -107,7 +85,7 @@
         </div>
     </section>
 {% endblock %}
-
 {% block body_js %}
     {{ block.super }}
 {% endblock %}
+

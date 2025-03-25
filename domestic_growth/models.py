@@ -1,26 +1,21 @@
 from django.db import models
-
-from domestic_growth import (
-    cms_panels,
-    helpers,
-)
 from wagtail import blocks
+from wagtail.admin.panels import FieldPanel
 from wagtail.blocks.stream_block import StreamBlock
-from wagtailcache.cache import WagtailCacheMixin
-from wagtail.fields import StreamField, RichTextField
+from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
-from wagtailseo.models import SeoMixin
 from wagtail.search import index
 from wagtail.snippets.blocks import SnippetChooserBlock
-from wagtail.admin.panels import (
-    FieldPanel,
-)
 from wagtail.snippets.models import register_snippet
+from wagtailcache.cache import WagtailCacheMixin
+from wagtailseo.models import SeoMixin
 
-from international_online_offer.models import TradeAssociation
-from international_online_offer.core.helpers import get_hero_image_by_sector
-
+from core.models import TimeStampedModel
+from domestic_growth import cms_panels, helpers
 from domestic_growth.blocks import DomesticGrowthCardBlock
+from domestic_growth.helpers import get_triage_data
+from international_online_offer.core.helpers import get_hero_image_by_sector
+from international_online_offer.models import TradeAssociation
 
 
 class DomesticGrowthHomePage(SeoMixin, cms_panels.DomesticGrowthHomePagePanels, Page):
@@ -161,6 +156,7 @@ class DomesticGrowthHomePage(SeoMixin, cms_panels.DomesticGrowthHomePagePanels, 
     def get_context(self, request):
         context = super(DomesticGrowthHomePage, self).get_context(request)
         context['news'] = helpers.get_dbt_news_articles()
+        context['trade_associations'] = TradeAssociation.objects.all()
         return context
 
 
@@ -193,11 +189,16 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
     def get_context(self, request):
         context = super(DomesticGrowthGuidePage, self).get_context(request)
 
-        postcode = request.GET.get('postcode')
-        sector = request.GET.get('sector')
+        # wip
+        triage_data = get_triage_data(request, StartingABusinessTriage)
 
-        if postcode and request.GET.get('sector'):
+        postcode = triage_data['postcode']
+        sector = triage_data['sector']
+
+        if postcode and sector:
             context['qs'] = f'?postcode={postcode}&sector={sector}'
+
+        ###
 
         if postcode:
             context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
@@ -258,11 +259,16 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
     def get_context(self, request):
         context = super(DomesticGrowthChildGuidePage, self).get_context(request)
 
-        postcode = request.GET.get('postcode')
-        sector = request.GET.get('sector')
+        # wip
+        triage_data = get_triage_data(request, StartingABusinessTriage)
 
-        if postcode and request.GET.get('sector'):
+        postcode = triage_data['postcode']
+        sector = triage_data['sector']
+
+        if postcode and sector:
             context['qs'] = f'?postcode={postcode}&sector={sector}'
+
+        ###
 
         if postcode:
             context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
@@ -307,3 +313,15 @@ class DomesticGrowthContent(index.Indexed, models.Model):
             return self.title + ' (***** Dynamic *****)'
 
         return self.title
+
+
+class StartingABusinessTriage(TimeStampedModel):
+    # never assume email is unique in this table as users can complete the triage in different
+    # browsers / incognito mode
+    email = models.CharField(max_length=255, null=True, blank=True)
+    # the session_id is either a django session id from request.session.session_key or
+    # in the case where a user has not accepted cookies a UUIDV4
+    session_id = models.CharField(max_length=40, unique=True)
+    sector_id = models.CharField(max_length=10, null=True, blank=True)
+    dont_know_sector = models.BooleanField(default=False, null=True, blank=True)
+    postcode = models.CharField(max_length=8, null=True, blank=True)

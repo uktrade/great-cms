@@ -1,10 +1,65 @@
 from django.forms import (
+    BooleanField,
     CharField,
+    CheckboxInput,
     ChoiceField,
+    Select,
     widgets,
 )
-from core.validators import is_valid_uk_postcode
 from great_components import forms
+
+from core.validators import is_valid_uk_postcode
+from international_online_offer.core import region_sector_helpers
+from international_online_offer.services import get_dbt_sectors
+
+
+class StartingABusinessLocationForm(forms.Form):
+    postcode = CharField(
+        label='Postcode',
+        widget=widgets.TextInput(attrs={'class': 'govuk-input great-text-input govuk-!-width-one-half'}),
+        max_length=10,
+        error_messages={'required': 'Enter a full UK postcode', 'invalid': 'Enter a full UK postcode'},
+        validators=[is_valid_uk_postcode],
+    )
+
+
+class StartingABusinessSectorForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        sector_data_json = get_dbt_sectors()
+        self.sector_choices = region_sector_helpers.get_sectors_as_choices(sector_data_json)
+        self.fields['sector'].choices = (('', 'Choose a sector or industry'),) + self.sector_choices
+
+    # sector sub choices are set in form constructor to avoid side effects when importing module
+    sector = ChoiceField(
+        label=False,
+        help_text='Enter your sector or industry and select the closest result',
+        required=False,
+        widget=Select(
+            attrs={'id': 'js-sector-select', 'class': 'govuk-select', 'aria-describedby': 'help_for_id_sector_sub'}
+        ),
+        choices=(('', ''),),
+        error_messages={
+            'required': 'Enter your sector or industry and select the closest result',
+        },
+    )
+    dont_know_sector_yet = BooleanField(
+        required=False,
+        initial=False,
+        label="I don't know yet",
+        widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
+    )
+
+    def clean(self):
+        # require either sector or explicit, I don't know yet
+        cleaned_data = super().clean()
+        sector = cleaned_data['sector']
+        dont_know_sector_yet = cleaned_data['dont_know_sector_yet']
+
+        if not (sector or dont_know_sector_yet):
+            self.add_error(
+                'sector', 'Enter your sector or industry and select the closest result, or select I don’t know yet'
+            )
 
 
 class StartingABusinessForm(forms.Form):
