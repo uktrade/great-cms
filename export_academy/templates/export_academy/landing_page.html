@@ -20,7 +20,9 @@
             {% endif %}
     {% if page.banner_label %}
         <div class="govuk-!-static-padding-top-6 govuk-!-static-padding-bottom-6">
-            {% include 'components/informative_banner.html' with banner_label=page.banner_label banner_content=page.banner_content %}
+            <div class="container">
+                {% include '_inset-text.html' with label=page.banner_label insetText=page.banner_content|richtext %}
+            </div>
         </div>
     {% endif %}
     <section class="great great-bg-white govuk-!-static-padding-bottom-3 govuk-!-static-padding-top-6">
@@ -60,7 +62,7 @@
                             <div class="govuk-grid-column-one-third govuk-!-padding-bottom-6">
                                 {% image panel.value.image fill-640x360 as thumbnail %}
                                 {% include 'components/great/card.html' with heading_level=contentSection.value.panel_section_title|h3_if:'h2' url=panel.value.link title=panel.value.title show_title_link=True image_src=thumbnail.url image_alt=panel.value.image.alt_text content=panel.value.description %}
-                            </div>  
+                            </div>
                         {% endfor %}
                     </div>
                 </div>
@@ -72,7 +74,7 @@
                     <div class="great-container  govuk-!-padding-bottom-0">
                         {% if contentSection.value.series_section_title %}
                             <h2 class="govuk-heading-l govuk-!-static-margin-bottom-2">{{ contentSection.value.series_section_title }}</h2>
-                            <p>{{contentSection.value.series_section_description }}</p>
+                            <p>{{ contentSection.value.series_section_description }}</p>
                         {% endif %}
                         <div class="govuk-grid-row great-flex-grid great-bg-light-blue">
                             {% for series in contentSection.value.series_list %}
@@ -82,7 +84,7 @@
                                         <div class="great-bg-white great-display-flex-from-desktop">
                                             <div class="courses-container__text great-dep-homepage-title__text">
                                                 <{{ contentSection.value.series_section_title|h3_if:'h2' }} class="govuk-heading-m govuk-!-static-margin-bottom-4">
-                                                    {{ series.value.course_name }}
+                                                {{ series.value.course_name }}
                                                 </{{ contentSection.value.series_section_title|h3_if:'h2' }}>
                                                 <p class="govuk-!-static-margin-bottom-3">{{ series.value.course_description }}</p>
                                                 <ul>

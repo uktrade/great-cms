@@ -9,9 +9,7 @@
     <link href="{% static 'fab_styles.css' %}" rel="stylesheet" type="text/css" />
     {{ block.super }}
 {% endblock %}
-{% block content %}
-{{ block.super }}
-{% endblock %}
+{% block content %}{{ block.super }}{% endblock %}
 {% block formarea %}
     <div id="ed-company-edit-address-tickbox-container">{{ block.super }}</div>
 {% endblock formarea %}
@@ -23,15 +21,7 @@
             {% include 'domestic/contact/includes/govuk-form-field.html' with label_classes="govuk-!-margin-bottom-2" inputWrapperClass="govuk-!-width-three-quarters" field=form.postal_full_name %}
         </fieldset>
     </div>
-    <div class="inset-text-gray-thickest-border govuk-!-margin-bottom-6">
-        <li>
-            <div>
-                <p class="govuk-heading-s">{{ company_name }}</p>
-                <p>
-                    Company number: <strong>{{ company_number }}</strong>
-                </p>
-                <p>Address: {{ company_address }}</p>
-            </div>
-        </li>
+    <div class="container">
+        {% include '_inset-text.html' with label=company_name html="Company number : <strong>"|add:company_number|add:"</strong><br>Address : "|add:company_address labelLevel="4" %}
     </div>
 {% endblock %}
