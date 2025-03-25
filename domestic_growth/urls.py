@@ -11,13 +11,13 @@ urlpatterns = []
 if settings.FEATURE_DOMESTIC_GROWTH:
     urlpatterns += [
         path(
-            'domestic-growth/starting-a-new-business',
-            skip_ga360(views.StartingABusinessView.as_view()),
-            name='domestic-growth-starting-a-business',
+            'pre-start/location/',
+            skip_ga360(views.StartingABusinessLocationFormView.as_view()),
+            name='domestic-growth-pre-start-location',
         ),
         path(
-            'domestic-growth/scaling-an-existing-business',
-            skip_ga360(views.ScalingABusinessView.as_view()),
-            name='domestic-growth-scaling-a-business',
+            'pre-start/sector/',
+            skip_ga360(views.StartingABusinessSectorFormView.as_view()),
+            name='domestic-growth-pre-start-sector',
         ),
     ]

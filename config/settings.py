@@ -1095,3 +1095,5 @@ for cf_distribution in FRONTEND_CACHE_DISTRIBUTION_ID.split('|'):
 
 WAGTAILFRONTENDCACHE = wagtail_cf
 CF_INVALIDATION_ROLE_ARN = env.cf_invalidation_role_arn
+
+BGS_SITE = env.bgs_site
