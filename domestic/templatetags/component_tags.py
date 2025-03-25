@@ -12,7 +12,6 @@ from domestic.helpers import (
     get_sector_and_market_promo_data_helper,
     get_sector_widget_data_helper,
 )
-
 from domestic_growth.models import DomesticGrowthContent
 
 register = template.Library()
@@ -427,12 +426,11 @@ def render_event_details_hero(
     event_dates,
 ):
 
-    # event string should read '4:05pm' instead of '04:05pm', so remove leading '0'
-    event_date_hour = event_dates.strftime('%I')
-    if int(event_date_hour) < 10:
-        event_date_hour = event_date_hour[1]
+    # Convert to local timezone to ensure correct time display
+    local_event_date = timezone.localtime(event_dates)
 
-    event_date_string = event_dates.strftime('%A %d %B at ') + event_date_hour + event_dates.strftime(':%M%p')
+    # Use %-I to get hour without leading zero in 12-hour format ('4:05pm' instead of '04:05pm')
+    event_date_string = local_event_date.strftime('%A %d %B at %-I:%M%p')
 
     if event_type:
         caption = event_type.capitalize() + ' event'
