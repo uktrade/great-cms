@@ -56,7 +56,6 @@ class StartingABusinessLocationFormView(BaseTriageFormView):
     template_name = 'starting-a-business/triage-location.html'
     form_class = StartingABusinessLocationForm
 
-
     def form_valid(self, form):
         if form.is_valid():
             StartingABusinessTriage.objects.update_or_create(

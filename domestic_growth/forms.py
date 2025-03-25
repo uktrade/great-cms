@@ -62,7 +62,6 @@ class StartingABusinessSectorForm(forms.Form):
             )
 
 
-
 class StartingABusinessForm(forms.Form):
     sector = ChoiceField(
         label='Sector',

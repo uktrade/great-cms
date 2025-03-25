@@ -97,6 +97,17 @@ class CreateOptionMixin:
                     help_dict.update({'help_text': help_text_choice_text, 'help_text_css': self.help_text_class_name})
         return help_dict
 
+    def format_groups(self, option_label, option_value):
+        if isinstance(option_label, (list, tuple)):
+            group_name = option_value
+            subindex = 0
+            choices = option_label
+        else:
+            group_name = None
+            subindex = None
+            choices = [(option_value, option_label)]
+        return group_name, subindex, choices
+
     def optgroups(self, name, value, attrs=None):
         """Return a list of optgroups for this widget."""
         groups = []
@@ -112,17 +123,10 @@ class CreateOptionMixin:
             option_label = option_label[0]
 
             if option_value is None:
-                option_value = ""
+                option_value = ''
 
             subgroup = []
-            if isinstance(option_label, (list, tuple)):
-                group_name = option_value
-                subindex = 0
-                choices = option_label
-            else:
-                group_name = None
-                subindex = None
-                choices = [(option_value, option_label)]
+            group_name, subindex, choices = self.format_groups(option_label, option_value)
             groups.append((group_name, subgroup, index))
             for subvalue, sublabel in choices:
                 selected = (not has_selected or self.allow_multiple_selected) and str(subvalue) in value

@@ -1,16 +1,10 @@
 from django.db import models
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
-from wagtail.blocks.stream_block import StreamBlock
-from wagtail.fields import RichTextField, StreamField
-
-from wagtail import blocks
-from wagtail.admin.panels import FieldPanel
 from wagtail.blocks.field_block import RichTextBlock
 from wagtail.blocks.stream_block import StreamBlock
 from wagtail.fields import RichTextField, StreamField
 from wagtail.images.blocks import ImageChooserBlock
-
 from wagtail.models import Page
 from wagtail.search import index
 from wagtail.snippets.blocks import SnippetChooserBlock
@@ -18,10 +12,8 @@ from wagtail.snippets.models import register_snippet
 from wagtailcache.cache import WagtailCacheMixin
 from wagtailseo.models import SeoMixin
 
-from domestic_growth import cms_panels, helpers
-from domestic_growth.blocks import DomesticGrowthCardBlock
 from core.models import TimeStampedModel
-from domestic_growth import cms_panels, helpers, constants
+from domestic_growth import cms_panels, constants, helpers
 from domestic_growth.blocks import DomesticGrowthCardBlock
 from domestic_growth.helpers import get_triage_data
 from international_online_offer.core.helpers import get_hero_image_by_sector

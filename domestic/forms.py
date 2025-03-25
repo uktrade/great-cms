@@ -1,5 +1,3 @@
-from itertools import chain
-
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV3
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
@@ -10,6 +8,7 @@ from great_components import forms
 
 from contact.forms import TERMS_LABEL
 from core.forms import ConsentFieldMixin
+from core.models import IndustryTag
 from directory_constants import choices
 from directory_constants.choices import COUNTRY_CHOICES
 from great_design_system import forms as gds_forms
