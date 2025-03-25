@@ -1261,4 +1261,4 @@ def test_is_bgs_site_false():
 
 def test_is_bgs_site_true():
     path = 'https://www.hotfix.bgs.uktrade.digital/'
-    assert is_bgs_site(path) is False
+    assert is_bgs_site(path) is True
