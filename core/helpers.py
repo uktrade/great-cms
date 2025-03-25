@@ -32,6 +32,7 @@ from geoip2.errors import GeoIP2Error
 from hashids import Hashids
 
 from core.constants import (
+    BGS_SITE,
     EXPORT_SUPPORT_CATEGORIES,
     TRADE_BARRIERS_BY_MARKET,
     TRADE_BARRIERS_BY_SECTOR,
@@ -918,3 +919,7 @@ def send_hcsat_feedback(data: HCSAT) -> None:
     )
     response = action.save(data)
     response.raise_for_status()
+
+
+def is_bgs_site(path):
+    return BGS_SITE in path

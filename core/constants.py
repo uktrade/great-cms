@@ -1478,3 +1478,5 @@ EU_TRAVEL_ADVICE_URLS = (
     ('Sweden', 'https://www.gov.uk/guidance/travel-to-sweden-for-work'),
     ('Switzerland', 'https://www.gov.uk/guidance/travel-to-switzerland-for-work'),
 )
+
+BGS_SITE = 'hotfix.bgs.uktrade.digital'
