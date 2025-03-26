@@ -1,6 +1,6 @@
 from wagtail.test.utils import WagtailPageTests
 
-from domestic_growth.models import DomesticGrowthContent
+from domestic_growth.models import DomesticGrowthContent, DomesticGrowthCard
 from tests.helpers import SetUpLocaleMixin
 from .factories import (
     DomesticGrowthChildGuidePageFactory,
@@ -121,3 +121,15 @@ class DomesticGrowthContentTests(SetUpLocaleMixin, WagtailPageTests):
         self.assertEqual(snippet.sector, 'Aerospace')
         self.assertEqual(snippet.is_dynamic, False)
         self.assertEqual(snippet.show_image, False)
+
+
+class DomesticGrowthCardTests(SetUpLocaleMixin, WagtailPageTests):
+    def test_can_create_snippet(self):
+        snippet = DomesticGrowthCard.objects.create(
+            title='Test title', description='Test description', url='www.url.com', meta_text='Test meta text'
+        )
+
+        self.assertEqual(snippet.title, 'Test title')
+        self.assertEqual(snippet.description, 'Test description')
+        self.assertEqual(snippet.url, 'www.url.com')
+        self.assertEqual(snippet.meta_text, 'Test meta text')

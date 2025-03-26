@@ -115,6 +115,12 @@ class DomesticGrowthChildGuidePagePanels:
                 FieldPanel('body_sections'),
             ],
         ),
+        MultiFieldPanel(
+            heading='Related content',
+            children=[
+                FieldPanel('related_cta'),
+            ],
+        ),
     ]
 
     settings_panels = [FieldPanel('title'), FieldPanel('slug')]
