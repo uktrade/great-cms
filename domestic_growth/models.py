@@ -1,5 +1,4 @@
 from django.db import models
-
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
 from wagtail.blocks.field_block import RichTextBlock
@@ -14,7 +13,7 @@ from wagtailcache.cache import WagtailCacheMixin
 from wagtailseo.models import SeoMixin
 
 from core.models import TimeStampedModel
-from domestic_growth import cms_panels, helpers, constants
+from domestic_growth import cms_panels, constants, helpers
 from domestic_growth.blocks import DomesticGrowthCardBlock
 from domestic_growth.helpers import get_triage_data
 from international_online_offer.core.helpers import get_hero_image_by_sector

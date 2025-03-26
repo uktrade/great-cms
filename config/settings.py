@@ -103,6 +103,7 @@ INSTALLED_APPS = [
     'wagtail_localize',
     'wagtail_localize.locales',
     'domestic_growth.apps.DomesticGrowthConfig',
+    'great_design_system',
     'wagtail.contrib.frontend_cache',
 ]
 
@@ -158,6 +159,12 @@ TEMPLATES = [
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'pagination',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'input',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'label',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'hint',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'error-message',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'error-summary',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'textarea',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'forms',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'widgets',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'title-arrow',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'select',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'tabs',
@@ -205,6 +212,8 @@ TEMPLATES = [
         },
     },
 ]
+
+FORM_RENDERER = 'great_design_system.forms.renderers.GDSDivFormRenderer'
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
