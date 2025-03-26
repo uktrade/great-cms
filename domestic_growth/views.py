@@ -76,6 +76,11 @@ class StartingABusinessLocationFormView(BaseTriageFormView):
     def get_success_url(self):
         return super().get_success_url(reverse_lazy('domestic_growth:domestic-growth-pre-start-sector'))
 
+    def get_context_data(self, **kwargs):
+        ctx_data = super().get_context_data(**kwargs)
+
+        return {'back_url': '/', **ctx_data}
+
 
 class StartingABusinessSectorFormView(BaseTriageFormView):
     template_name = 'starting-a-business/triage-sector.html'

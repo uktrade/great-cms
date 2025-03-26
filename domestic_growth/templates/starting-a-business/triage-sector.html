@@ -1,52 +1,30 @@
-{% extends 'includes/base.html' %}
+{% extends 'includes/base_triage.html' %}
 {% load static %}
-{% block head_title %}
-    {% if form.errors %}Error:{% endif %}
-    Domestic Growth - Tell us a little more
-{% endblock %}
-{% block head_css %}
-    <link href="{% static 'core/css/accessible-autocomplete.min.css' %}"
-          rel="stylesheet"
-          type="text/css">
-    {{ block.super }}
-{% endblock %}
-{% block content %}
-    <div class="great great-bg-dark-blue">
-        <div class="great-container govuk-!-padding-top-4">
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds govuk-!-padding-bottom-9 govuk-!-padding-top-9">
-                    <div class="great-bg-white govuk-!-padding-6">
-                        <form method="post" autocomplete="off" data-target-market-form>
-                            {% csrf_token %}
-                            <div class="govuk-form-group {% if form.errors %}govuk-form-group--error{% endif %}">
-                                <h2 class="govuk-caption-l">
-                                    <span class="govuk-visually-hidden">This section is</span>Tell us about your business idea
-                                </h2>
-                                <h1 class="govuk-label-wrapper govuk-!-margin-bottom-4">
-                                    <label class="govuk-heading--xl">What is your sector or industry?</label>
-                                </h1>
-                                <p class="govuk-body govuk-!-margin-bottom-4">Some placeholder content</p>
-                                <div class="govuk-!-margin-bottom-2">
-                                    {% include 'international/includes/form_field.html' with field=form.sector inputWrapperClass='prepend-search-icon' help_class='govuk-hint govuk-!-margin-bottom-3 js-enabled-only' %}
-                                </div>
-                                <p class="govuk-body govuk-!-margin-bottom-2">Or</p>
-                                <div class="govuk-checkboxes  govuk-!-margin-bottom-6">
-                                    <div class="govuk-checkboxes__item">
-                                        {{ form.dont_know_sector_yet }}
-                                        <label class="govuk-label govuk-checkboxes__label"
-                                               for="id_dont_know_sector_yet">
-                                            {{ form.dont_know_sector_yet.label }}
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            {% include 'domestic/contact/export-support/includes/continue-save-button.html' with button_text='Show support and information' %}
-                        </form>
-                    </div>
+{% block form %}
+    <form method="post" autocomplete="off" data-target-market-form>
+        {% csrf_token %}
+        <div class="govuk-form-group {% if form.errors %}govuk-form-group--error{% endif %}">
+            <h2 class="govuk-caption-l">
+                <span class="govuk-visually-hidden">This section is</span>Tell us about your business idea
+            </h2>
+            <h1 class="govuk-label-wrapper govuk-!-margin-bottom-4">
+                <label class="govuk-heading--xl">What is your sector or industry?</label>
+            </h1>
+            <p class="govuk-body govuk-!-margin-bottom-4">Some placeholder content</p>
+            <div class="govuk-!-margin-bottom-2">
+                {% include 'international/includes/form_field.html' with field=form.sector inputWrapperClass='prepend-search-icon' help_class='govuk-hint govuk-!-margin-bottom-3 js-enabled-only' %}
+            </div>
+            <p class="govuk-body govuk-!-margin-bottom-2">Or</p>
+            <div class="govuk-checkboxes  govuk-!-margin-bottom-6">
+                <div class="govuk-checkboxes__item">
+                    {{ form.dont_know_sector_yet }}
+                    <label class="govuk-label govuk-checkboxes__label"
+                           for="id_dont_know_sector_yet">{{ form.dont_know_sector_yet.label }}</label>
                 </div>
             </div>
         </div>
-    </div>
+        {% include 'domestic/contact/export-support/includes/continue-save-button.html' with button_text='Show support and information' %}
+    </form>
 {% endblock %}
 {% block body_js %}
     {% comment %} JS ported directly from EYB implementation for BGS MVP{% endcomment %}
