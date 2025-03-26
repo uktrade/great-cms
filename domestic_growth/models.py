@@ -466,10 +466,11 @@ class DomesticGrowthDynamicChildGuidePage(
     def get_context(self, request):
         context = super(DomesticGrowthDynamicChildGuidePage, self).get_context(request)
 
-        triage_data = get_triage_data(request, StartingABusinessTriage)
+        triage_data = get_triage_data(request, ExistingBusinessTriage)
 
         postcode = triage_data['postcode']
         sector = triage_data['sector']
+        currently_export = triage_data.get('currently_export', False)
 
         if postcode and sector:
             context['qs'] = f'?postcode={postcode}&sector={sector}'
@@ -481,7 +482,7 @@ class DomesticGrowthDynamicChildGuidePage(
             context['hero_image_url'] = get_hero_image_by_sector(sector)
             context['sector'] = sector
 
-        context['is_interested_in_exporting'] = False
+        context['is_interested_in_exporting'] = currently_export
         context['events'] = get_events()
 
         context['dynamic_snippet_names'] = constants.DYNAMIC_SNIPPET_NAMES
