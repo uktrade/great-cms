@@ -66,7 +66,6 @@ class BaseSettings(PydanticBaseSettings):
     aws_s3_host: str = 's3-eu-west-2.amazonaws.com'
     aws_s3_signature_version: str = 's3v4'
     aws_querystring_auth: bool = False
-    aws_cloudfront_distribution_id: str = None
     s3_use_sigv4: bool = True
 
     service_name: str = 'great-cms'
