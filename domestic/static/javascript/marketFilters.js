@@ -12,8 +12,8 @@ var marketFilters = function() {
     function setVars() {
       form = document.querySelector('#sectors-form');
       filters = document.querySelectorAll('#sectors-form .filters')[0];
-      checks = document.querySelectorAll('.filters li.multiple-choice input[type=checkbox]');
-      sortby = document.querySelector('#sortby');
+      checks = document.querySelectorAll('.filters input[type=checkbox]');
+      sortby = document.querySelector('#id_sort_by');
       cards = document.querySelectorAll('.markets-grid .card');
       stickyFooter = document.querySelectorAll('.filters-sticky-footer')[0];
       body = document.querySelector('body');

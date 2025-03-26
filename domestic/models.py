@@ -584,13 +584,14 @@ class MarketsTopicLandingPage(
 
     MAX_PER_PAGE = 18
 
-    SORTBY_QUERYSTRING_NAME = 'sortby'
+    SORTBY_QUERYSTRING_NAME = 'sort_by'
     REGION_QUERYSTRING_NAME = 'region'
     TRADING_BLOC_QUERYSTRING_NAME = 'trading_bloc'
     SECTOR_QUERYSTRING_NAME = 'sector'
 
     SORTBY_OPTION_TITLE = 'title'
     SORTBY_OPTION_LAST_PUBLISHED = 'last_published_at'
+    SORTBY_CHOICES = [(SORTBY_OPTION_TITLE, 'Market A-Z'), (SORTBY_OPTION_LAST_PUBLISHED, 'Recently updated')]
 
     template = 'domestic/topic_landing_pages/markets.html'
 
@@ -610,11 +611,11 @@ class MarketsTopicLandingPage(
         return options
 
     def _get_sortby(self, request):
-        default_sort_option = self.sortby_options[0]['value']
-        sort_option = request.GET.get('sortby', default_sort_option)
+        default_sort_option = self.SORTBY_CHOICES[0][0]
+        sort_option = request.GET.get(self.SORTBY_QUERYSTRING_NAME, default_sort_option)
 
         # Only use an expected/allowed sort option
-        if sort_option not in [x['value'] for x in self.sortby_options]:
+        if sort_option not in [x[0] for x in self.SORTBY_CHOICES]:
             sort_option = default_sort_option
 
         return sort_option
@@ -715,7 +716,7 @@ class MarketsTopicLandingPage(
         paginated_results = self.paginate_data(request, relevant_markets)
 
         context['sortby_options'] = self.sortby_options
-        context['sortby'] = self._get_sortby(request)
+        context[self.SORTBY_QUERYSTRING_NAME] = self._get_sortby(request)
 
         context['sector_list'] = self.get_sector_list(request)
         context['region_list'] = self.get_regions_list(request)
@@ -741,6 +742,8 @@ class MarketsTopicLandingPage(
                 'selected_regions': self.get_selected_regions(request),
                 'trading_bloc_list': self.get_trading_bloc_list(request),
                 'selected_trading_blocs': self.get_selected_trading_blocs(request),
+                'sort_by_list': self.SORTBY_CHOICES,
+                'selected_sort_by': [self._get_sortby(request)],
             }
         )
 

@@ -220,6 +220,7 @@ class SelectOne(ChoiceWidget):
     option_template_name = '_select_option.html'
     help_text_class_name = 'govuk-radios__hint'
     template_class_name = 'select'
+    checked_attribute = {'selected': True}
 
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)

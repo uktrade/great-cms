@@ -18,7 +18,7 @@ COUNTRIES.insert(0, ('', 'Select a country'))
 
 
 class MarketsSortForm(gds_forms.Form):
-    sort_by = gds_forms.ChoiceField(
+    sortby = gds_forms.ChoiceField(
         label='Sort by',
         widget=gds_forms.SelectOne(),
         choices=[('title', 'Market A-Z'), ('last_published_at', 'Recently updated')],
@@ -30,9 +30,14 @@ class MarketsFilterForm(gds_forms.Form):
     def create_choices(self, tag_choices, selected_choices):
         choices = []
         for tag in tag_choices:
-            name = tag.name
+            if hasattr(tag, 'name'):
+                name = tag.name
+                display_name = name
+            else:
+                name = tag[0]
+                display_name = tag[1]
             checked = True if name in selected_choices else False
-            choices.append((name, name, checked))
+            choices.append((name, display_name, checked))
         return choices
 
     def __init__(self, init_data={}, *args, **kwargs):
@@ -43,6 +48,13 @@ class MarketsFilterForm(gds_forms.Form):
         self.fields['trading_bloc'].choices = self.create_choices(
             init_data['trading_bloc_list'], init_data['selected_trading_blocs']
         )
+        self.fields['sort_by'].choices = self.create_choices(init_data['sort_by_list'], init_data['selected_sort_by'])
+
+    sort_by = gds_forms.ChoiceField(
+        label='Sort by',
+        widget=gds_forms.SelectOne(),
+        choices=[],
+    )
 
     sector = gds_forms.ChoiceField(
         label='Sector',

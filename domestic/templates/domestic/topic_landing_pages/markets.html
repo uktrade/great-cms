@@ -12,26 +12,13 @@
         {% image page.hero_image original as rendition %}
         {% include '_hero.html' with pngImagePath=rendition.url heading="Market Guides" aboveCtaText="Find the answers you need on your target export market, including doing business, tax rates and import regulations. Filter by sector to see the markets best suited to your product or service." classes="great-ds-hero--bg-white"%}
     {% endblock %}
-    {% comment %} {% if page.teaser %}
-<section id="markets-banner-section" class="topic-list-section padding-bottom-60-m padding-top-15-m">
-    <div class="container">
-      <div class="grid-row margin-top-30 margin-top-45-m">
-        <div class="column-full column-two-thirds-l">
-          {{ page.teaser }}
-        </div>
-      </div>
-    </div>
-</section>
-    {% endif %}  {% endcomment %}
     {% block child_pages %}
         <section id="{{ page.slug }}-list-section"
                  class="topic-list-section markets-landing govuk-!-margin-top-6 govuk-!-padding-bottom-0">
             <div class="container">
-                <form id="sectors-form" action="" method="get">
-
+                <form novalidate id="sectors-form" action="" method="get">
                     <div class="grid-row">
                         <div class="column-third column-quarter-xl govuk-!-padding-left-2">
-
                             <div class="filters">
                                 <a id="skip-link"
                                    class="accessibility-skip-to-section"
@@ -39,62 +26,13 @@
                                 <h4 class="margin-top-0 margin-bottom-30 margin-bottom-15-m margin-top-15 govuk-!-padding-left-1"
                                     id="filters-heading">Filter market guides</h4>
                                 <span class="verbose">Selecting a filter with Javascript enabled will refresh the page.</span>
+                                
                                 <ul>
-                                    
-                                    <li class="filter-section govuk-!-padding-top-0">
-                                        <input type="checkbox" id="sectors" checked />
-                                        <label for="sectors" role="button">Sector</label>
-                                        <div class="options checkbox-small">
-                                            <ul>
-                                                {% for sector in sector_list %}
-                                                    <li class="multiple-choice margin-bottom-0">
-                                                        <input type="checkbox"
-                                                               value="{{ sector.name }}"
-                                                               id="sector_{{ sector.id }}"
-                                                               name="sector"
-                                                               {% if sector.name in selected_sectors %}checked{% endif %} />
-                                                        <label class="market-filters-label"for="sector_{{ sector.id }}">{{ sector.name }}</label>
-                                                    </li>
-                                                {% endfor %}
-                                            </ul>
-                                        </div>
+                                    {% for field in markets_filters_form.visible_fields %}
+                                    <li class="filter-section {% if forloop.first %}govuk-!-padding-top-0{% endif %}">
+                                        {% include '_field.html' with field=field error=field.errors %}
                                     </li>
-                                    <li class="filter-section">
-                                        <input type="checkbox" id="regions" checked />
-                                        <label for="regions" role="button">Region</label>
-                                        <div class="options checkbox-small full-height">
-                                            <ul>
-                                                {% for region in region_list %}
-                                                    <li class="multiple-choice margin-bottom-0">
-                                                        <input type="checkbox"
-                                                               value="{{ region.name }}"
-                                                               id="region_{{ region.id }}"
-                                                               name="region"
-                                                               {% if region.name in selected_regions %}checked{% endif %} />
-                                                        <label class="market-filters-label" for="region_{{ region.id }}">{{ region.name|title }}</label>
-                                                    </li>
-                                                {% endfor %}
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li class="filter-section">
-                                        <input type="checkbox" id="trading_blocs" checked />
-                                        <label for="trading_blocs" role="button">Trading bloc</label>
-                                        <div class="options checkbox-small full-height">
-                                            <ul>
-                                                {% for trading_bloc in trading_bloc_list %}
-                                                    <li class="multiple-choice margin-bottom-0">
-                                                        <input type="checkbox"
-                                                               value="{{ trading_bloc.name }}"
-                                                               id="trading_bloc_{{ trading_bloc.id }}"
-                                                               name="trading_bloc"
-                                                               {% if trading_bloc.name in selected_trading_blocs %}checked{% endif %} />
-                                                        <label class="market-filters-label" for="trading_bloc_{{ trading_bloc.id }}">{{ trading_bloc.name|title }}</label>
-                                                    </li>
-                                                {% endfor %}
-                                            </ul>
-                                        </div>
-                                    </li>
+                                    {% endfor %}
                                 </ul>
                                 <div class="filters-sticky-footer" id="filters-sticky-footer">
                                     <a href="#" class="cancel link">Cancel</a>
@@ -211,22 +149,12 @@
                                            class="button mobile-filter-toggle"
                                            id="mobile-filter-toggle">Filter</a>
                                         {% if number_of_results %}
-                                            <label for="sortby" class="margin-right-15 margin-left-15">Sort by</label>
-                                            <span class="verbose">Selecting a sort option, with Javascript enabled, will refresh the page.</span>
-                                            <select name="sortby" class="sort-control form-control" id="sortby">
-                                                {% for option in sortby_options %}
-                                                    <option value="{{ option.value }}"
-                                                            {% if sortby == option.value %}selected{% endif %}>
-                                                        {{ option.label }}
-                                                    </option>
-                                                {% endfor %}
-                                            </select>
                                             {% if features.FEATURE_PRODUCT_EXPERIMENT_LINKS %}
                                                 <a href="{% url 'core:compare-countries' %}"
                                                    class="govuk-link govuk-!-margin-left-6">Find information about your product</a>
                                             {% endif %}
-                                        </div>
-                                    {% endif %}
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
                             <div class="flex-grid markets-grid">
