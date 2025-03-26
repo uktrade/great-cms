@@ -10,6 +10,7 @@ from freezegun import freeze_time
 from core.tasks import (
     delete_inactive_admin_users_after_sixty_days,
     enact_page_schedule,
+    obsfucate_personal_details,
     submit_hcsat_feedback_to_forms_api,
     update_geoip_data,
 )
@@ -19,6 +20,8 @@ from tests.unit.core.factories import (
     MicrositePageFactory,
     SuperUserFactory,
 )
+from tests.unit.export_academy.factories import RegistrationFactory
+from tests.unit.international_online_offer.factories import UserDataFactory
 
 
 @mock.patch('core.management.commands.download_geolocation_data.GeolocationRemoteFileArchive.retrieve_file')
@@ -160,3 +163,14 @@ def test_submit_hcsat_feedback_to_forms_api_task(mock_hcsat_action):
         )
 
         assert mock_hcsat_action().save.call_args == expected
+
+
+@mock.patch('core.management.commands.obsfucate_personal_details.Command.mask_ukea_registration')
+@mock.patch('core.management.commands.obsfucate_personal_details.Command.mask_ioo_user_data')
+@pytest.mark.django_db
+def test_obsfucate_personal_details(mock_mask_ioo_user_data, mock_mask_ukea_registration):
+    RegistrationFactory()
+    UserDataFactory()
+    obsfucate_personal_details()
+    assert mock_mask_ukea_registration.call_count == 1
+    assert mock_mask_ioo_user_data.call_count == 1
