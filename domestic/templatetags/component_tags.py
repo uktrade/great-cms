@@ -197,7 +197,7 @@ def get_pagination_url(request, page_param_name):
 
 
 @register.inclusion_tag('_numbered_pagination.html', takes_context=True)
-def pagination(context, page_obj, page_param_name='page', elided_page_range=None):
+def pagination(context, page_obj, page_param_name='page', elided_page_range=None, hover_classes=None):
     current_url = get_pagination_url(request=context['request'], page_param_name=page_param_name)
 
     context = {
@@ -205,6 +205,7 @@ def pagination(context, page_obj, page_param_name='page', elided_page_range=None
         'elidedPageRange': elided_page_range,
         'elidedPageStr': '…',  # Copied from django pagination output
         'pageParamName': page_param_name,
+        'hoverClasses': hover_classes,
     }
 
     context['previousPageNumber'] = page_obj.previous_page_number() if page_obj.has_previous() else None
